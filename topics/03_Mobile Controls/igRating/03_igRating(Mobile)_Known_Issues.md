@@ -87,11 +87,11 @@ $("#selector").igRating("option", "value", 0);
 
 このトピックについては、以下のサンプルも参照してください。すべてのサンプルは、レーティングにゼロの値を設定するためのさまざまな方法を示しています。
 
-- [基本的な使用方法](%%SamplesUrl%%/mobile-rating/basic-usage): `igRating` Mobile の初期化方法を示すサンプル。
+- [基本的な使用方法](%%SamplesUrl%%/mobile-rating/basic-usage): `igRating` モバイルの初期化方法を示すサンプル。
 
-- [カスタム項目](%%SamplesUrl%%/mobile-rating/custom-items): `igRating` Mobile にユーザー設定の画像を設定する方法を示すサンプルです。
+- [カスタム項目](%%SamplesUrl%%/mobile-rating/custom-items): `igRating` モバイルにユーザー設定の画像を設定する方法を示すサンプルです。
 
-- [ASP.NET MVC ヘルパー](%%SamplesUrl%%/mobile-rating/aspnet-mvc-helper): `igRating` Mobile を ASP.NET MVC ヘルパーでの初期化方法を示すサンプルです。
+- [ASP.NET MVC ヘルパー](%%SamplesUrl%%/mobile-rating/aspnet-mvc-helper): `igRating` モバイルを ASP.NET MVC ヘルパーでの初期化方法を示すサンプルです。
 
 
 

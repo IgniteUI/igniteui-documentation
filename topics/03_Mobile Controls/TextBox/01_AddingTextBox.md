@@ -16,7 +16,7 @@
 
 1. ビュー ページにリソースを追加します。
 
-	`Infragistics.Web.Mvc.Mobile.dll` と Infragistics Mobile Loader の参照情報を設定します。以下の例では、必要な JavaScript ファイルと CSS ファイルは `ig_mobileui` という名前の仮想ディレクトリにあります。このステップを完了するため、アプリケーションにおける JavaScript リソースと CSS リソースのロケーションに応じてこのフォルダーの名前を変更してください。
+	`Infragistics.Web.Mvc.Mobile.dll` と Infragistics モバイル Loader の参照情報を設定します。以下の例では、必要な JavaScript ファイルと CSS ファイルは `ig_mobileui` という名前の仮想ディレクトリにあります。このステップを完了するため、アプリケーションにおける JavaScript リソースと CSS リソースのロケーションに応じてこのフォルダーの名前を変更してください。
 	
 	**Razor の場合:**
 	

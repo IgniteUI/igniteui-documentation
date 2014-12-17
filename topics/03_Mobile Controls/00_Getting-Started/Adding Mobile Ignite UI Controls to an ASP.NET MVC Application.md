@@ -62,7 +62,7 @@ CSS ファイル|%%InstallPath%%\mobile\css\
 
 **関連トピック:**
 
-[Ignite UI での Mobile リソースの参照](Referencing-Mobile-Resources-in-NetAdvantage-for-jQuery.html)
+[Ignite UI でのモバイル リソースの参照](Referencing-Mobile-Resources-in-NetAdvantage-for-jQuery.html)
 
 ### MVC 3
 
@@ -147,7 +147,7 @@ return View(list);
 
 ## <a id="listview-example"></a> モバイル igListView を使用するASP.NET MVC アプリケーションの開発
 
-この手順では、必要なすべてのアセンブリおよびリソース (CSS および JavaScript ファイル) を追加して、ASP.NET MVC で Ignite UI mobile igListView を使用して作業する方法を示します。
+この手順では、必要なすべてのアセンブリおよびリソース (CSS および JavaScript ファイル) を追加して、ASP.NET MVC で Ignite UI モバイル igListView を使用して作業する方法を示します。
 
 ### 要件
 
@@ -220,7 +220,7 @@ return View(list);
 
 	Ignite UI ASP.NET MVC ラッパーを使用して、コントロールを描画するとき、`igLoader`™ ラッパーのコードではなく Control ラッパーのコードがコントロール リソースを要求します。したがって、ページに `igLoader` コンポーネントの 2 つのインスタンスが作られます。最初のものは、ローダー ラッパーが描画し、 2 つ目はコントロールのラッパーが描画します。これらはスクリプトを個別に非同期的にロードします。したがって、ページのライフサイクルの異なる段階でスクリプトをロードします。したがって、`igLoader` コンポーネントを使用する際には以下を考慮してください。
 
-	1.  Ignite UI Mobile コントロールをアクセスする JavaScript コードは、コントロールの MVC ラッパーの後に定義する必要があります。これにより、ローダーが最初に処理され、ページがページ上のコントロールを使い始める前に依存リソースをロードすることができます。以下のコードにローダーとコントロール スクリプトの推奨する順番を示します。
+	1.  Ignite UI モバイル コントロールをアクセスする JavaScript コードは、コントロールの MVC ラッパーの後に定義する必要があります。これにより、ローダーが最初に処理され、ページがページ上のコントロールを使い始める前に依存リソースをロードすることができます。以下のコードにローダーとコントロール スクリプトの推奨する順番を示します。
 		
 		**ASPX の場合:**
 	
@@ -253,7 +253,7 @@ return View(list);
 	
 	    これによりページ サイクルのどの段階で作成された要素でもセレクターが必ず組み込むことができます。 
 	
-		> **注:** jQuery バージョン 1.7.1 以降を使用している場合、`bind` または `live` ハンドラーの代わりに `on` ハンドラーを使用できます。Ignite UI Mobile コントロールの %%ProductVersion%% リリースはデフォルトで jQuery バージョン 1.6.4 を使用します。
+		> **注:** jQuery バージョン 1.7.1 以降を使用している場合、`bind` または `live` ハンドラーの代わりに `on` ハンドラーを使用できます。Ignite UI モバイル コントロールの %%ProductVersion%% リリースはデフォルトで jQuery バージョン 1.6.4 を使用します。
 
 
 
@@ -263,7 +263,7 @@ return View(list);
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [Ignite UI での Mobile リソースの参照](Referencing-Mobile-Resources-in-NetAdvantage-for-jQuery.html): 本トピックでは、Ignite UI コントロールに必要なモバイル リソースの管理方法について説明します。
+- [Ignite UI でのモバイル リソースの参照](Referencing-Mobile-Resources-in-NetAdvantage-for-jQuery.html): 本トピックでは、Ignite UI コントロールに必要なモバイル リソースの管理方法について説明します。
 
 - [igListView の Web ページへの追加](igListView-Adding-igListView-to-a-Web-Page.html): このトピックでは、`igListView` モバイル・コントロールをウェブ ページに追加する方法を説明します。
 

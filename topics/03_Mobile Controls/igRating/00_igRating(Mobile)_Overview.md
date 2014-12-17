@@ -104,9 +104,9 @@
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [igRating モバイルの追加](Adding-igRating%28Mobile%29-to-a-Web-Page.html): このトピックでは、`igRating`™ Mobile コントロールを web ページに追加する方法を説明します。
+- [igRating モバイルの追加](Adding-igRating%28Mobile%29-to-a-Web-Page.html): このトピックでは、`igRating`™ モバイル コントロールを web ページに追加する方法を説明します。
 
-- [API リファレンス](igRating-API-Reference.html): このトピックでは、`igRating`™ Mobile API のカテゴリーを紹介します。コントロール プロパティ、メソッド、イベントおよび CSS クラスへのすべての参照に加え、API 使用時のいくつかの具体例が含まれています。
+- [API リファレンス](igRating-API-Reference.html): このトピックでは、`igRating`™ モバイル API のカテゴリーを紹介します。コントロール プロパティ、メソッド、イベントおよび CSS クラスへのすべての参照に加え、API 使用時のいくつかの具体例が含まれています。
 
 - [CSS クラス リファレンス](igRating-Classes-Reference.html): このトピックでは、`igRating` コントロールの CSS クラスを紹介します。
 
@@ -122,6 +122,6 @@
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [基本的な使用方法](%%SamplesUrl%%/mobile-rating/basic-usage): `igRating` Mobile の初期化方法を示すサンプル。
+- [基本的な使用方法](%%SamplesUrl%%/mobile-rating/basic-usage): `igRating` モバイルの初期化方法を示すサンプル。
 
-- [カスタム項目](%%SamplesUrl%%/mobile-rating/custom-items): `igRating` Mobile にユーザー設定の画像を設定する方法を示すサンプルです。
+- [カスタム項目](%%SamplesUrl%%/mobile-rating/custom-items): `igRating` モバイルにユーザー設定の画像を設定する方法を示すサンプルです。

@@ -70,7 +70,7 @@ CSS クラス|説明
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [カスタム項目](%%SamplesUrl%%/mobile-rating/custom-items): `igRating` Mobile にユーザー設定の画像を設定する方法を示すサンプルです。
+- [カスタム項目](%%SamplesUrl%%/mobile-rating/custom-items): `igRating` モバイルにユーザー設定の画像を設定する方法を示すサンプルです。
 
 
 

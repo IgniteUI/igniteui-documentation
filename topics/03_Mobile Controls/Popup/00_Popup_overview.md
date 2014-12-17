@@ -105,7 +105,7 @@ MVC Page ラッパーは、クライアント側で表示される一連の HTML
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [基本的な使用方法](%%SamplesUrl%%/mobile-popup/basic-usage): このサンプルでは、`Popup` ASP.NET MVC ヘルパーを初期化し、ボタン クリックで開く方法を紹介します。注: `Popup` Mobile ウィジェットは、jQuery モバイル 1.2.0 で初めて導入された機能です。
+- [基本的な使用方法](%%SamplesUrl%%/mobile-popup/basic-usage): このサンプルでは、`Popup` ASP.NET MVC ヘルパーを初期化し、ボタン クリックで開く方法を紹介します。注: `Popup` モバイル ウィジェットは、jQuery モバイル 1.2.0 で初めて導入された機能です。
 
 
 

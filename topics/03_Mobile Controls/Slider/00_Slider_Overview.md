@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# スライダーの概要
+# Slider の概要
 
 ## トピックの概要
 
@@ -20,7 +20,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
-- [Ignite UI での Mobile リソースの参照](Referencing-Mobile-Resources-in-NetAdvantage-for-jQuery.html): 本トピックでは、Ignite UI コントロールに必要なモバイル リソースの管理方法について説明します。
+- [Ignite UI でのモバイル リソースの参照](Referencing-Mobile-Resources-in-NetAdvantage-for-jQuery.html): 本トピックでは、Ignite UI コントロールに必要なモバイル リソースの管理方法について説明します。
 
 
 ### このトピックの内容
@@ -115,7 +115,7 @@
 
 - [Slider の追加](Slider-Adding.html): このトピックでは、Infragistics ASP.NET MVC ヘルパーを使用して jQuery Mobile `slider` を追加する方法を説明しています。
 
-- [スライダーの構成](Slider-Configuring.html): このトピックでは、ASP.NET MVC ヘルパーを使用して `Slider` を構成するために必要な情報とリファレンスを提供します。
+- [Slider の構成](Slider-Configuring.html): このトピックでは、ASP.NET MVC ヘルパーを使用して `Slider` を構成するために必要な情報とリファレンスを提供します。
 
 - [Slider プロパティ参照](Slider-Property-Reference.html): このトピックでは、`Slider` ASP.NET MVC ヘルパーのプロパティに関する参照情報を提供しています。
 

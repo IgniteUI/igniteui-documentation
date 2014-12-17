@@ -35,7 +35,7 @@
 
 ## <a id="adding"></a> Toggle Switch の追加
 
-この手順は、MVC ラッパーを使用して、MVC ソリューションの View ページに `Toggle Switch` ウィジェットを追加する方法を示します。Infragistics Mobile Loader への参照に加え、*Infragistics.Web.Mvc.Mobile.dll* への参照を追加する必要があります。
+この手順は、MVC ラッパーを使用して、MVC ソリューションの View ページに `Toggle Switch` ウィジェットを追加する方法を示します。Infragistics モバイル Loader への参照に加え、*Infragistics.Web.Mvc.Mobile.dll* への参照を追加する必要があります。
 
 サンプル  コードは、*Lights* という左揃えのラベルが付いた、120 ピクセル幅の `Toggle Switch` を構成する手順を示します。
 
@@ -49,7 +49,7 @@
 
 この手順を実行するには、以下のリソースが必要です。
 
--   MVC Mobile アプリケーション
+-   MVC モバイル アプリケーション
 -   MVC reassurance ラッパーに必要なリソースへの参照
 
 ### 概要

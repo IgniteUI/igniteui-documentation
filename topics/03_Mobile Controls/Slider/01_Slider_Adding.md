@@ -70,7 +70,7 @@ Slider ASP.NET MVC ヘルパーは、jQuery モバイルの `slider` を ASP.NET
 
 1. ビュー ページにリソースを追加します。
 
-	*Infragistics.Web.Mvc.Mobile.dll* アセンブリと Infragistics Mobile Loader を参照します。次の例では、JavaScript および CSS ファイルのすべてが *ig_mobileui* という仮想ディレクトリーに置かれています。この手順の完了させるためには、このパスを　JavaScript および CSS ファイルの実際の格納場所に合わせて変更する必要があります。
+	*Infragistics.Web.Mvc.Mobile.dll* アセンブリと Infragistics モバイル Loader を参照します。次の例では、JavaScript および CSS ファイルのすべてが *ig_mobileui* という仮想ディレクトリーに置かれています。この手順の完了させるためには、このパスを　JavaScript および CSS ファイルの実際の格納場所に合わせて変更する必要があります。
 	
 	**Razor の場合:**
 	

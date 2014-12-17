@@ -69,7 +69,7 @@
 
 この手順を実行するには、以下のリソースが必要です。
 
--   MVC Mobile アプリケーションを作成します。
+-   MVC モバイル アプリケーションを作成します。
 -   MVC リアシュアランス ラッパーに必要なリソースへの参照をプロジェクトに追加します。
 
 ### <a id="overview"></a> 概要 
@@ -87,7 +87,7 @@
 
 1. ビュー ページにリソースを追加します。
 
-	Infragistics.Web.Mvc.Mobile.dll への参照と、Infragistics Mobile Loader への参照が必要です。次の例では、js および css ファイルのすべてが `ig_mobileui` という仮想ディレクトリーに置かれています。この手順を完了させるためには、このフォルダーの名前を、js および css ファイルの実際の格納場所に合わせて変更する必要があります。
+	Infragistics.Web.Mvc.Mobile.dll への参照と、Infragistics モバイル Loader への参照が必要です。次の例では、js および css ファイルのすべてが `ig_mobileui` という仮想ディレクトリーに置かれています。この手順を完了させるためには、このフォルダーの名前を、js および css ファイルの実際の格納場所に合わせて変更する必要があります。
 	
 	**Razor の場合:**
 	
@@ -180,7 +180,7 @@
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [基本的な使用方法](%%SamplesUrl%%/mobile-popup/basic-usage): このサンプルでは、`Popup` ASP.NET MVC ヘルパーを初期化し、ボタン クリックで開く方法を紹介します。注: `Popup` Mobile ウィジェットは、jQuery モバイル 1.2.0 で初めて導入された機能です。
+- [基本的な使用方法](%%SamplesUrl%%/mobile-popup/basic-usage): このサンプルでは、`Popup` ASP.NET MVC ヘルパーを初期化し、ボタン クリックで開く方法を紹介します。注: `Popup` モバイル ウィジェットは、jQuery モバイル 1.2.0 で初めて導入された機能です。
 
 
 

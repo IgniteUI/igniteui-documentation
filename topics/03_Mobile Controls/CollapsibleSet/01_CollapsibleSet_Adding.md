@@ -42,7 +42,7 @@
 
 ## <a id="adding"></a> CollapsibleSet の追加
 
-この手順では、MVC ラッパーを使用して、MVC ソリューション内の View ページに `CollapsibleSet` ウィジェットを追加する方法を説明します。Infragistics Mobile Loader への参照に加え、*Infragistics.Web.Mvc.Mobile.dll* への参照を追加する必要があります。
+この手順では、MVC ラッパーを使用して、MVC ソリューション内の View ページに `CollapsibleSet` ウィジェットを追加する方法を説明します。Infragistics モバイル Loader への参照に加え、*Infragistics.Web.Mvc.Mobile.dll* への参照を追加する必要があります。
 
 手順を説明するサンプル コードは `CollapsibleSet` を構成して、2 つの collapsible コントロールを含むようにしています。コントロールには、「First Collapsible」 と 「Second `Collapsible`」 というヘッダー、および 「This is the first `Collapsible`’s content」 と 「This is the second `Collapsible`’s content」 という collapsible テキストが含まれます。
 
@@ -56,9 +56,9 @@
 
 この手順を実行するには、以下のリソースが必要です。
 
--   MVC Mobile アプリケーション
+-   MVC モバイル アプリケーション
 -   *Infragistics.Web.Mvc.Mobile.dll* への参照
--   Infragistics Mobile Loader への参照
+-   Infragistics モバイル Loader への参照
 -   MVC reassurance ラッパーに必要なリソースへの参照
 
 以下のサンプルコードでは、すべての JavaScript および CSS ファイルが *ig_mobileui* という名前の仮想ディレクトリの下に置かれています。この手順を完了するには、マシン上の正しい JavaScript および CSS の保管場所に従ってこのフォルダーの名前を変更する必要があります。

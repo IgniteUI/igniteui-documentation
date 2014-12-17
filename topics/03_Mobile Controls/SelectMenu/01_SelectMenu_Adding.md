@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# 選択メニューの追加
+# SelectMenu の追加
 
 ## トピックの概要
 ### 目的
@@ -35,7 +35,7 @@
 ## <a id="adding-menu"></a>SelectMenu の追加
 ### 概要
 
-この手順は、ASP.NET MVC ヘルパーを使用して、ASP.NET MVC ソリューションのビューに `selectmenu` ウィジェットを追加する方法を示します。Infragistics Mobile Loader への参照に加え、`Infragistics.Web.Mvc.Mobile.dll` への参照を追加する必要があります。
+この手順は、ASP.NET MVC ヘルパーを使用して、ASP.NET MVC ソリューションのビューに `selectmenu` ウィジェットを追加する方法を示します。Infragistics モバイル Loader への参照に加え、`Infragistics.Web.Mvc.Mobile.dll` への参照を追加する必要があります。
 
 サンプル コードは、3 つのメニュー項目（「Apples」、「Oranges」、「Bananas」） および Products を表示する上揃えのラベルと共に、`SelectMenu` を初期化する方法を示しています。
 

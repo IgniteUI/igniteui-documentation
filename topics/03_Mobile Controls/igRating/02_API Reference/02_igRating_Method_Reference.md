@@ -20,7 +20,7 @@
 
 ## <a id="method-reference"></a> メソッド リファレンス
 
-以下の表に、`igRating` Mobile コントロールの主なメソッドの目的と機能の概要を示します。
+以下の表に、`igRating` モバイル コントロールの主なメソッドの目的と機能の概要を示します。
 
 メソッド|説明
 ---|---
@@ -46,9 +46,9 @@
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [基本的な使用方法](%%SamplesUrl%%/mobile-rating/basic-usage): `igRating` Mobile の初期化方法を示すサンプル。
+- [基本的な使用方法](%%SamplesUrl%%/mobile-rating/basic-usage): `igRating` モバイルの初期化方法を示すサンプル。
 
-- [カスタム項目](%%SamplesUrl%%/mobile-rating/custom-items): `igRating` Mobile にユーザー設定の画像を設定する方法を示すサンプルです。
+- [カスタム項目](%%SamplesUrl%%/mobile-rating/custom-items): `igRating` モバイルにユーザー設定の画像を設定する方法を示すサンプルです。
 
 - [API およびイベント](%%SamplesUrl%%/mobile-rating/api-and-events): このサンプルでは、モバイル レーティングの一般的なメソッドおよびイベントを紹介します。
 

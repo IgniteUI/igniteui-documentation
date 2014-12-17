@@ -195,7 +195,7 @@
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [基本的な使用方法](%%SamplesUrl%%/mobile-rating/basic-usage): `igRating` Mobile の初期化方法を示すサンプル。
+- [基本的な使用方法](%%SamplesUrl%%/mobile-rating/basic-usage): `igRating` モバイルの初期化方法を示すサンプル。
 
 
 
