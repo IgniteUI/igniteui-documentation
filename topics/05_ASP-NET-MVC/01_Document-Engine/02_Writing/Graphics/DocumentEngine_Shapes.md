@@ -30,7 +30,7 @@ Site 要素は、オブジェクトを回転するだけでなく、バインデ
 *   **Pie** -- パイは開始角度と終了角度を提供する必要がある点で円弧に似ています。パイと円弧の違いは、円弧は曲線を作成するだけなのに対して、パイはパイ全体またはパイ スライスを作成します。
 *   **Polygon** -- [Polygon](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPolygon.html) 形状で必要な数の辺を使用して、多角形を作成することができます。ポリゴンを定義するために、[Points](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPolygon~Points.html) プロパティを [Point](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Point.html) オブジェクトの配列に設定します。ポリゴンは点を提供する順序で描画されます。したがって、アウトラインをトレースする場合と同じように点を提供する時には注意して、連続して描画してください。
 *   **Polyline** -- ポリラインは、辿る線の Point オブジェクトの配列も提供する点で多角形と非常に似ています。
-*   **矩形** -- サイズと位置を決定するために ｘ 座標と y 座標だけでなく境界矩形の高さと幅を提供します。矩形を塗りつぶすためにブラシを、アウトラインを描画するためにペンを指定することもできます。[Radius](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IRectangle~Radius.html) プロパティによって、矩形の角を丸めることができます。
+*   **Rectangle** -- サイズと位置を決定するために ｘ 座標と y 座標だけでなく境界矩形の高さと幅を提供します。矩形を塗りつぶすためにブラシを、アウトラインを描画するためにペンを指定することもできます。[Radius](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IRectangle~Radius.html) プロパティによって、矩形の角を丸めることができます。
 
 ![](images/DocumentEngine_Shapes_01.png)
 
