@@ -29,7 +29,7 @@
 
     ![](images/dswcf_webapp.jpg)
 
-2.  製品に付いている結合され縮小されたスクリプト ファイル infragistics.core.js である Ignite UI への参照を追加します。加えて、サンプルを実行するには jQuery コア、jQuery UI、jQuery テンプレート スクリプトが必要です。この[ヘルプ トピック](Deployment-Guide-JavaScript-Resources.html)では、必要なスクリプトへの参照やアプリケーションに追加する統合および縮小されたスクリプトがどこにあるかについて説明します。**注:**: 製品版とトライアル版は[こちら](http://jp.infragistics.com/products/jquery#Downloads)からダウンロードできます。jQuery テンプレート スクリプトは、[こちら](http://plugins.jquery.com/tag/templates/)から入手できます。
+2.  製品に付いている結合され縮小されたスクリプト ファイル infragistics.core.js である Ignite UI への参照を追加します。加えて、サンプルを実行するには jQuery コア、jQuery UI、jQuery テンプレート スクリプトが必要です。この[ヘルプ トピック](Deployment-Guide-JavaScript-Resources.html)では、必要なスクリプトへの参照やアプリケーションに追加する統合および縮小されたスクリプトがどこにあるかについて説明します。**注:** 製品版とトライアル版は[こちら](http://jp.infragistics.com/products/jquery#Downloads)からダウンロードできます。jQuery テンプレート スクリプトは、[こちら](http://plugins.jquery.com/tag/templates/)から入手できます。
 
 3.  プロジェクト内にスクリプト ディレクトリを作成し、そのフォルダーに JavaScript ファイルをコピーしてください。
 

@@ -27,7 +27,7 @@
 ## Fixed Options MVC ラッパー (プロパティ) 参照
 下の表は、Fixed Options MVC ラッパーのプロパティについて説明し、デフォルト値および推奨値を示しています。
 
-> **注:**: プロパティがデフォルトの null 値のとき、ウィジェットはjQuery モバイル デフォルト設定でレンダリングされます。詳細は、[固定位置](http://jquerymobile.com/test/docs/toolbars/bars-fixed-options.html)をご覧ください。
+> **注:** プロパティがデフォルトの null 値のとき、ウィジェットはjQuery モバイル デフォルト設定でレンダリングされます。詳細は、[固定位置](http://jquerymobile.com/test/docs/toolbars/bars-fixed-options.html)をご覧ください。
 
 プロパティ|タイプ|説明|値（**デフォルト値**）
 ---|---|---|---
