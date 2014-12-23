@@ -26,12 +26,12 @@
 
 プロパティ|タイプ|説明|値（**デフォルト値**）
 ---|---|---|---
-[ID](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxGroupWrapper~ID.html)|文字列||CheckBoxGroupID
-[Text](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxGroupWrapper~Text.html)|文字列|`CheckBoxGroup` のテキストを取得または設定します。|Group
+[ID](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxGroupWrapper~ID.html)|string||CheckBoxGroupID
+[Text](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxGroupWrapper~Text.html)|string|`CheckBoxGroup` のテキストを取得または設定します。|Group
 [Items](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxGroupWrapper~Items.html) |ラムダ式|グループの部分であるすべてのチェックボックスを定義します。|item => { item.CheckBox().ID("chk1").Text("Text"); }
 [Horizontal](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxGroupWrapper~Horizontal.html)|bool|Horizontal `CheckBoxGroup` を有効または無効にします。|**false**
 [Mini](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxGroupWrapper~Mini.html)|bool?|`CheckBox` グループのサイズ状態を有効または無効にします。|**null**
-[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxGroupWrapper~Theme.html)|文字列|`CheckBox` のテーマを取得または設定します。|**null** “a” “b” “c” “d” “e”
+[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxGroupWrapper~Theme.html)|string|`CheckBox` のテーマを取得または設定します。|**null** “a” “b” “c” “d” “e”
 
 
 

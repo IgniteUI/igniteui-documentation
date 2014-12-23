@@ -24,8 +24,8 @@
 
 プロパティ|タイプ|説明|値（**デフォルト値**）
 ---|---|---|---
-[ID](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.PageHeaderWrapper~ID.html)|文字列|PageHeader の ID を取得または設定します。|“**PageContentID**”
-[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.PageHeaderWrapper~Theme.html)|文字列|PageHeader のテーマを取得または設定します。|**“a”** “b” “c” “d” “e”
+[ID](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.PageHeaderWrapper~ID.html)|string|PageHeader の ID を取得または設定します。|“**PageContentID**”
+[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.PageHeaderWrapper~Theme.html)|string|PageHeader のテーマを取得または設定します。|**“a”** “b” “c” “d” “e”
 [FixedOptions](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.PageHeaderWrapper~FixedOptions.html)|Action<[FixedToolBarOptionsWrapper](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.FixedToolBarOptionsWrapper.html)>|ヘッダーの配置および構成を可能にするメソッドのセット。詳細は、[Fixed Options](#_Fixed_Options) クラスのメソッドを説明した以下の表をご覧ください。|option => { option.DisablePageZoom(true).Fixed(true); }
 [HtmlAttributes](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.PageHeaderWrapper~HtmlAttributes.html)|IDictionary<string,object>|HTML の追加属性を設定します。|new Dictionary<string, object>() { {"disabled", "disabled"} }
 
@@ -156,7 +156,7 @@
                                 </td>
 
                                 <td>
-                                    <p>文字列</p>
+                                    <p>string</p>
                                 </td>
 
                                 <td>
@@ -172,7 +172,7 @@
                                 </td>
 
                                 <td>
-                                    <p>文字列</p>
+                                    <p>string</p>
                                 </td>
 
                                 <td>
@@ -188,7 +188,7 @@
                                 </td>
 
                                 <td>
-                                    <p>文字列</p>
+                                    <p>string</p>
                                 </td>
 
                                 <td>
@@ -232,7 +232,7 @@
 
                             <tr>
                                 <td>
-                                    <p class="ig-api-link"><span class="ig-api-link"><a href="Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.FixedToolBarOptionsWrapper~VisibleOnPageShow.html">VisilbeOnPageShow</a></span></p>
+                                    <p class="ig-api-link"><span class="ig-api-link"><a href="Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.FixedToolBarOptionsWrapper~VisibleOnPageShow.html">VisibleOnPageShow</a></span></p>
                                 </td>
 
                                 <td>

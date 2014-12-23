@@ -78,7 +78,7 @@ data-role
 `igRating` コントロールの識別子
 			</td>
             <td>
-文字列
+string
 			</td>
             <td>
 `igrating`
@@ -166,7 +166,7 @@ data-input-name
 MVC で使用された非表示の入力の名前を取得または設定し、値をサーバーに送信します。
 			</td>
             <td>
-文字列
+string
 			</td>
             <td>
 string(null)

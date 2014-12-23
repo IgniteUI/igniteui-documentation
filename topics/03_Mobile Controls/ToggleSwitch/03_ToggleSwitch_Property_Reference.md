@@ -46,7 +46,7 @@
 [OnText](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ToggleSwitchWrapper~OnText.html)
             </td>
             <td>
-文字列
+string
             </td>
             <td>
 スイッチが有効な状態でユーザーに表示されるテキスト。
@@ -60,7 +60,7 @@
 [OffText](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ToggleSwitchWrapper~OffText.html)
             </td>
             <td>
-文字列
+string
             </td>
             <td>
 スイッチが無効な状態でユーザーに表示されるテキスト。
@@ -74,7 +74,7 @@
 [Width](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ToggleSwitchWrapper~Width.html)
             </td>
             <td>
-文字列
+string
             </td>
             <td>
 `Toggle Switch` の幅 (ピクセル数)(このプロパティを変更すると、`Toggle Switch` を保持する div の幅が再定義されます)。
@@ -102,7 +102,7 @@ bool?
 [Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ToggleSwitchWrapper~Theme.html)
             </td>
             <td>
-文字列
+string
             </td>
             <td>
 `Toggle Switch` の主要テーマ。主要テーマによって、トラック (スイッチを表す円) を除き、ウィジェットに関するあらゆるスタイルが設定されます。
@@ -116,7 +116,7 @@ bool?
 [TrackTheme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ToggleSwitchWrapper~TrackTheme.html)
             </td>
             <td>
-文字列
+string
             </td>
             <td>
 `Toggle Switch` のトラック テーマ。トラック テーマによって、ウィジェットのトラック (スイッチを表す円) のスタイルが設定されます。
@@ -146,7 +146,7 @@ bool?
             </td>
 
             <td>
-文字列
+string
             </td>
             <td>
 `Toggle Switch` のラベルのテキスト(コード内では、フォーム要素の前に示されます)。デフォルトでは、`Toggle Switch` にはラベルは表示されません。

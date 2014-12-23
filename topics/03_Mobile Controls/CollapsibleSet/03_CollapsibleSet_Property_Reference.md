@@ -56,7 +56,7 @@
 			</td>
 
             <td>
-文字列
+string
 			</td>
 
             <td>
@@ -74,7 +74,7 @@ null
 			</td>
 
             <td>
-文字列
+string
 			</td>
 
             <td>
@@ -92,7 +92,7 @@ null
 			</td>
 
             <td>
-文字列
+string
 			</td>
 
             <td>
@@ -110,7 +110,7 @@ null
 			</td>
 
             <td>
-文字列
+string
 			</td>
 
             <td>
@@ -184,7 +184,7 @@ null
 			</td>
 
             <td>
-文字列
+string
 			</td>
 
             <td>

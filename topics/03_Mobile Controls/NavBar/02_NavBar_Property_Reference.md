@@ -47,10 +47,10 @@
 
 プロパティ|タイプ|説明|値（**デフォルト値**）
 ---|---|---|---
-[ID](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarWrapper~ID.html)|文字列|`NavBar` ID を取得または設定します。|navbar1
+[ID](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarWrapper~ID.html)|string|`NavBar` ID を取得または設定します。|navbar1
 [Items](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarWrapper~Items.html)|ラムダ式|すべての `NavBar` 項目を定義します。個々の NavBar 項目の構成方法については、次のパラグラフの表を参照してください。|item => { item.NavBarItem().Text(“Home”); }
-[IconPosition](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarWrapper~IconPosition.html)|文字列|[icon](http://api.jquerymobile.com/icons/) を取得または設定します。|**“right”** <br />“left” <br />“top” <br />“bottom”
-[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarWrapper~Theme.html)|文字列|`NavBar` テーマを取得または設定します。|**null** <br />“a”<br />“b”<br />“c”<br />“d”<br />“e”
+[IconPosition](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarWrapper~IconPosition.html)|string|[icon](http://api.jquerymobile.com/icons/) を取得または設定します。|**“right”** <br />“left” <br />“top” <br />“bottom”
+[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarWrapper~Theme.html)|string|`NavBar` テーマを取得または設定します。|**null** <br />“a”<br />“b”<br />“c”<br />“d”<br />“e”
 [HtmlAttributes](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarWrapper~HtmlAttributes.html)|IDictionary<string,object>|HTML の追加属性を設定します。|new Dictionary<string, object>() { {"disabled", "disabled"} }
 
 
@@ -74,11 +74,11 @@
 
 プロパティ|タイプ|説明|値（**デフォルト値**）
 ---|---|---|---
-[Text](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~Text.html)|文字列|`NavBar` 項目テキストを取得または設定します。|Home
-[NavigateUrl](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~NavigateUrl.html)|文字列|`NavBar` 項目参照を取得または設定します。|"http://www.infragistics.com"
+[Text](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~Text.html)|string|`NavBar` 項目テキストを取得または設定します。|Home
+[NavigateUrl](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~NavigateUrl.html)|string|`NavBar` 項目参照を取得または設定します。|"http://www.infragistics.com"
 [Items](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~NavBarItem.html)|ラムダ式|すべての子 `NavBar` 項目を定義します。|item => { item.NavBarItem().Text(“Home”); }
-[Icon](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~Icon.html)|文字列|[icon](http://api.jquerymobile.com/icons/) を取得または設定します。|“arrow-l” <br />“delete” <br />“plus” <br />“minus” <br />“check” <br />“gear”
-[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~Theme.html)|文字列|`NavBar` 項目テーマを取得または設定します。テーマが項目別に設定されていない場合、`NavBar` ラッパーに定義された総合的テーマを使用します。|**null**<br />“a”<br />“b”<br />“c”<br />“d”<br />“e”
+[Icon](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~Icon.html)|string|[icon](http://api.jquerymobile.com/icons/) を取得または設定します。|“arrow-l” <br />“delete” <br />“plus” <br />“minus” <br />“check” <br />“gear”
+[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~Theme.html)|string|`NavBar` 項目テーマを取得または設定します。テーマが項目別に設定されていない場合、`NavBar` ラッパーに定義された総合的テーマを使用します。|**null**<br />“a”<br />“b”<br />“c”<br />“d”<br />“e”
 [HtmlAttributes](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~HtmlAttributes.html)|IDictionary<string,object>|その他の HTML 属性を `NavBar` 項目に設定します。|new Dictionary<string, object>() { {"disabled", "disabled"} }
 
 

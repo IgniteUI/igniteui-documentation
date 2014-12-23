@@ -22,7 +22,7 @@
 
 - [*Collapsible* の概要](Collapsible-Overview.html): このトピックは、`Collapsible` ウィジェットおよびその機能の概要を説明します。
 
-- [*Collapsible の追加*](Collapsible-Adding.html): このトピックでは、Infragistics® Model-View-Controller (MVC) ラッパーを使用して `Collapsible` ウィジェットを有効にする方法をコード例を用いて説明します。
+- [*Collapsible* の追加](Collapsible-Adding.html): このトピックでは、Infragistics® Model-View-Controller (MVC) ラッパーを使用して `Collapsible` ウィジェットを有効にする方法をコード例を用いて説明します。
 
 
 ### このトピックの内容

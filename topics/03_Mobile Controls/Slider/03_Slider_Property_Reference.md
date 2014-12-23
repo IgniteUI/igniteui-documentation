@@ -31,11 +31,11 @@
 [MinValue](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~MinValue.html)|double|*slider* の見込まれる最小値|*0.0*
 [MaxValue](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~MaxValue.html)|double|*slider* の見込まれる最大値|*100.0*
 [Step](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~Step.html)|double|2 つの *slider* 値の間の手順。|*10.0*
-[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~Theme.html)|文字列|*slider* のメイン テーマ|*null*
-[TrackTheme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~TrackTheme.html) |文字列|*slider* のトラック テーマ。TrackTheme はハンドルが移動するトラックに適用されます。|*null*
+[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~Theme.html)|string|*slider* のメイン テーマ|*null*
+[TrackTheme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~TrackTheme.html) |string|*slider* のトラック テーマ。TrackTheme はハンドルが移動するトラックに適用されます。|*null*
 [NumericInputDisplayMode](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~NumericInputDisplayMode.html)|[Infragistics.Web. Mvc.Mobile.DisplayMode](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.DisplayMode.html) |Slider の隣の type='number' の入力上の表示属性を取得または設定します。|*Inline*
 [Disabled](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~Disabled.html)|bool?|*true* の場合、*Slider* は無効です（読み取り専用）。|*null*
-[Label](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~Label.html)|文字列|フォーム要素の前に表示されるテキストを取得または設定します。|*null*
+[Label](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~Label.html)|string|フォーム要素の前に表示されるテキストを取得または設定します。|*null*
 [LabelAlignment](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~LabelAlignment.html)|[Infragistics.Web.Mvc. Mobile.Alignment](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.Alignment.html) |ラベルの配置 (ラベルが表示されている場合)。有効な値：<br/>• Left <br/>• Right <br/>• Bottom <br/>• Top |*Top*
 [HideLabel](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~HideLabel.html)|bool|ラベルが非表示の場合|*false*
 [Mini](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SliderWrapper~Mini.html)|bool?|mini スタイルを持つウィジェットを描画するかどうかを取得または設定します。|*null*

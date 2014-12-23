@@ -22,7 +22,7 @@
 
 - [*CheckBox* の概要](CheckBox-Overview.html): このトピックには、`CheckBox` MVC ラッパーに関連する情報が収められています。
 
-- [*CheckBox の追加*](Adding-CheckBox.html): このトピックには、Infragistics MVC ラッパーを使用して `CheckBox` を有効にするために必要な情報が含まれています。
+- [*CheckBox* の追加](Adding-CheckBox.html): このトピックには、Infragistics MVC ラッパーを使用して `CheckBox` を有効にするために必要な情報が含まれています。
 
 - [*CheckBox* の構成](CheckBox-Configuring.html): このトピックでは、MVC ラッパーを使用した `CheckBox` を構成する際に必要な情報とリファレンスを提供します。
 

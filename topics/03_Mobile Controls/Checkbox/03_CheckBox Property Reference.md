@@ -28,12 +28,12 @@
 
 プロパティ|タイプ|説明|値（**デフォルト値**）
 ---|---|---|---
-[ID](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxWrapper~ID.html)|文字列|CheckBox ID を取得または設定します。|CheckBoxID
-[Text](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxWrapper~Text.html)|文字列|CheckBox テキストを取得または設定します|CheckBoxID
+[ID](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxWrapper~ID.html)|string|CheckBox ID を取得または設定します。|CheckBoxID
+[Text](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxWrapper~Text.html)|string|CheckBox テキストを取得または設定します|CheckBoxID
 [Checked](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxWrapper~Checked.html) |bool|CheckBox のチェックを付けるまたは外します。|**false**
 [UseNative](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxWrapper~UseNative.html)|bool|CheckBox のネイティブ HTML の外観を有効または無効にします。|**false**
 [Mini](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxWrapper~Mini.html)|bool?|CheckBox のサイズ状態を有効または無効にします。|**null**
-[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxWrapper~Theme.html)|文字列|CheckBox テーマを取得または設定します。|**null** “a” “b” “c” “d”“e”
+[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxWrapper~Theme.html)|string|CheckBox テーマを取得または設定します。|**null** “a” “b” “c” “d”“e”
 [HtmlAttributes](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.CheckBoxWrapper~HtmlAttributes.html)|IDictionary<string,object>|HTML の追加属性を設定します。|new Dictionary<string, object>() { {"disabled", "disabled"} }
 
 
@@ -49,7 +49,7 @@
 
 - [*CheckBoxGroup* の概要](CheckBoxGroup-Overview.html): このトピックでは、`CheckBoxGroup` MVC ラッパーに関する情報を紹介します。
 
-- [*CheckBoxGroup の追加*](Adding-CheckBoxGroup.html): このトピックでは、Infragistics MVC ラッパーを使用して `CheckBoxGroup` を有効にするために必要な情報を提供します。
+- [*CheckBoxGroup* の追加](Adding-CheckBoxGroup.html): このトピックでは、Infragistics MVC ラッパーを使用して `CheckBoxGroup` を有効にするために必要な情報を提供します。
 
 - [*CheckBoxGroup* の構成](CheckBoxGroup-Configuring.html): このトピックでは、MVC ラッパーで `CheckBoxGroup` を構成するために必要な情報とリファレンス情報を紹介します。
 

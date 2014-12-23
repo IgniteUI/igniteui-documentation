@@ -26,16 +26,16 @@
 
 プロパティ|タイプ|説明|値（**デフォルト値**）
 ---|---|---|---
-[ID](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~ID.html) |文字列|Button ID を取得または設定します。|buttonID
-[Text](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~Text.html)|文字列|Button テキストを取得または設定します。|Button
+[ID](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~ID.html) |string|Button ID を取得または設定します。|buttonID
+[Text](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~Text.html)|string|Button テキストを取得または設定します。|Button
 [Mini](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~Mini.html)|bool?|Button サイズ状態を有効または無効にします。|**null**
 [Inline](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~Inline.html)|bool?|Button インライン表示状態を有効または無効にします。|**null**
 [IsSubmitButton](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~IsSubmitButton.html)|bool|Button をフォームの送信ボタンとして機能するようにします。|**false**
 [Corners](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~Corners.html)|bool?|丸みのある Button コーナーを有効または無効にします。|**null**
 [Shadow](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~Shadow.html)|bool?|Button シャドウを有効または無効にします。|**null**
-[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~Theme.html)|文字列|Button テーマを取得または設定します。|**null** “a” “b” “c” “d” “e”
-[Icon](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~Icon.html)|文字列|[Button アイコン](http://api.jquerymobile.com/icons/)を取得または設定します。|“arrow-l” “delete” “plus” “minus” “check” “gear”
-[IconPosition](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~IconPosition.html)|文字列|[アイコン](http://api.jquerymobile.com/icons/)位置を取得または設定します。|**“right”** “left” “top” “bottom”
+[Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~Theme.html)|string|Button テーマを取得または設定します。|**null** “a” “b” “c” “d” “e”
+[Icon](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~Icon.html)|string|[Button アイコン](http://api.jquerymobile.com/icons/)を取得または設定します。|“arrow-l” “delete” “plus” “minus” “check” “gear”
+[IconPosition](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~IconPosition.html)|string|[アイコン](http://api.jquerymobile.com/icons/)位置を取得または設定します。|**“right”** “left” “top” “bottom”
 [IconShadow](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~IconShadow.html)|bool?|アイコン シャドウを有効または無効にします。|**null**
 [HtmlAttributes](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ButtonWrapper~HtmlAttributes.html) |IDictionary<string,object>|HTML の追加属性を設定します。|new Dictionary<string, object>() { {"disabled", "disabled"} }
 
