@@ -43,7 +43,7 @@
 
 構成可能な点|詳細|プロパティ
 ---|---|---
-水平方向の `RadioButtonGroup`|このサンプルでは、horizontal `RadioButtonGroup` を作成する方法を紹介します。|<ul><li>[水平方向](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.RadioButtonGroupWrapper~Horizontal.html)</li></ul>
+水平方向の `RadioButtonGroup`|このサンプルでは、水平方向 `RadioButtonGroup` を作成する方法を紹介します。|<ul><li>[Horizontal](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.RadioButtonGroupWrapper~Horizontal.html)</li></ul>
 
 
 ## <a id="horizontal-group"></a>水平方向の RadioButtonGroup
