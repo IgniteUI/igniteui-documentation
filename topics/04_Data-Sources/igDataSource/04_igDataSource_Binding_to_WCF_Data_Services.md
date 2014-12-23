@@ -23,7 +23,7 @@
 以下は Microsoft Visual Studio® 2010 でサンプルを構築する方法です。
 
 
- >**注:**: [こちらからサンプルをダウンロードできます](http://dl.infragistics.com/community/jquery/codesamples/aaronm/2011-07-28/igDataSourceWCFService.zip)。
+ >**注:** [こちらからサンプルをダウンロードできます](http://dl.infragistics.com/community/jquery/codesamples/aaronm/2011-07-28/igDataSourceWCFService.zip)。
 
 1.  Visual Studio を開き、新しい ASP.NET 空の Web アプリケーション ‘igDataSourceWCFService’ を作成します。**注**: `igDataSource` はサーバー依存がありません。従って、この演習では、Ignite UI がアウト オブ ボックスで ASP.NET WCF をサポートするのに対して、ASP.NET WebForms でサポートされる OData の実装方法について説明します。
 
@@ -261,7 +261,7 @@
 
 11. アプリケーションを実行すると、Microsoft の株式情報が表示されます。最初にデータが定義されているのは 1 社のみです。その完全なフォームでのサンプルと同時に全企業のデータを見るには、[すべてのサンプル](http://dl.infragistics.com/community/jquery/codesamples/aaronm/2011-07-28/igDataSourceWCFService.zip)をダウンロードしてください。
 
->**注:**: Ignite UI スクリプト ファイルはこのダウンロードには含まれていません。Ignite UI のコピーと一緒にインストールされるファイルを利用するか、[こちら](http://jp.infragistics.com/products/jquery#Downloads)からコピーをダウンロードしてください。
+>**注:** Ignite UI スクリプト ファイルはこのダウンロードには含まれていません。Ignite UI のコピーと一緒にインストールされるファイルを利用するか、[こちら](http://jp.infragistics.com/products/jquery#Downloads)からコピーをダウンロードしてください。
 
 ## 関連トピック
 以下は、その他の役立つトピックです。
