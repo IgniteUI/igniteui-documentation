@@ -14,7 +14,7 @@
 ## PageFooter MVC ラッパー (プロパティ) 参照
 下の表は、PageFooter MVC ラッパーのプロパティについて説明し、デフォルト値および推奨値を示しています。
 
-> **注:**: 詳細は、<a href="http://jquerymobile.com/demos/1.1.1/docs/toolbars/docs-footers.html">jQuery Mobile</a> をご覧ください。
+> **注:** 詳細は、<a href="http://jquerymobile.com/demos/1.1.1/docs/toolbars/docs-footers.html">jQuery Mobile</a> をご覧ください。
 
 プロパティ|タイプ|説明|値（**デフォルト値**）
 ---|---|---|---
