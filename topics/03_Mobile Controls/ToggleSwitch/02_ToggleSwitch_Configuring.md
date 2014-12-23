@@ -384,7 +384,7 @@ false – ラベルを表示する
 
 目的:|使用するプロパティ:|設定の選択肢:
 ---|---|---
-`Toggle Switch` の幅を設定する|[幅](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ToggleSwitchWrapper~Width.html)|目的の値は 「200px」 などピクセル単位
+`Toggle Switch` の幅を設定する|[Width](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ToggleSwitchWrapper~Width.html)|目的の値は 「200px」 などピクセル単位
 `Toggle Switch` を縮小する|[Mini](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ToggleSwitchWrapper~Mini.html)|true
 
 
