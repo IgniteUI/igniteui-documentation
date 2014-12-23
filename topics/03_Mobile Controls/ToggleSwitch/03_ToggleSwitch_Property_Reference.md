@@ -71,7 +71,7 @@
         </tr>
         <tr>
             <td>
-[幅](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ToggleSwitchWrapper~Width.html)
+[Width](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ToggleSwitchWrapper~Width.html)
             </td>
             <td>
 文字列
