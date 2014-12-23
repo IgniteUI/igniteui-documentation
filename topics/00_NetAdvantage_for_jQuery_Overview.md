@@ -146,7 +146,7 @@ Infragistics Web サイトからパッケージをダウンロードできます
 ## 外部参照
 
 -   [jQuery UI](http://jqueryui.com/)
--   [jQuery ウィジェットの活用](http://jqueryui.com/docs/Getting_Started#After_downloading:_Intro_to_using_jQuery_UI)
+-   [jQuery ウィジェットの活用](http://jqueryui.com/widget/)
 -   [jQuery Themeroller](http://jqueryui.com/themeroller/)
 -   [jQuery UI のテーマ設定](http://docs.jquery.com/UI/Theming)
 -   [jQuery UI CSS Framework](http://docs.jquery.com/UI/Theming/API)
