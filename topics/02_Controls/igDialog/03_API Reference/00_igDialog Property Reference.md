@@ -109,7 +109,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -315,7 +315,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -335,7 +335,7 @@
 			</td>
 
 			<td>
-				<p>文字列/ブール</p>
+				<p>string/boolean</p>
 			</td>
 
 			<td>
@@ -598,7 +598,7 @@
 			</td>
 
 			<td>
-				<p>文字列/数字</p>
+				<p>string/number</p>
 			</td>
 
 			<td>
@@ -622,7 +622,7 @@
 			</td>
 
 			<td>
-				<p>文字列/数字</p>
+				<p>string/number</p>
 			</td>
 
 			<td>
@@ -646,7 +646,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -666,7 +666,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -686,7 +686,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -746,7 +746,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -766,7 +766,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -786,7 +786,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -806,7 +806,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -826,7 +826,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -846,7 +846,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -866,7 +866,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -916,7 +916,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -936,7 +936,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -956,7 +956,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -974,7 +974,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -992,7 +992,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1012,7 +1012,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1234,7 +1234,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1258,7 +1258,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1282,7 +1282,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1306,7 +1306,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1330,7 +1330,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1354,7 +1354,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1478,7 +1478,7 @@
 			</td>
 
 			<td>
-				<p>文字列/整数</p>
+				<p>string/integer</p>
 			</td>
 
 			<td>
@@ -1500,7 +1500,7 @@
 			</td>
 
 			<td>
-				<p>文字列/整数</p>
+				<p>string/integer</p>
 			</td>
 
 			<td>
@@ -1522,7 +1522,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1540,7 +1540,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1558,7 +1558,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1616,7 +1616,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1634,7 +1634,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1652,7 +1652,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1670,7 +1670,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1688,7 +1688,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1706,7 +1706,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>
@@ -1724,7 +1724,7 @@
 			</td>
 
 			<td>
-				<p>文字列</p>
+				<p>string</p>
 			</td>
 
 			<td>

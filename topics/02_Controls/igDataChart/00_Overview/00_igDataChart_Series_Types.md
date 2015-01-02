@@ -82,7 +82,7 @@
 			</th>
 
             <th>
-`Series.type` property setting
+`Series.type` プロパティの設定 
 			</th>
 
             <th>

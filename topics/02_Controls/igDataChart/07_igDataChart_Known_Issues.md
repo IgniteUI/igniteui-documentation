@@ -42,8 +42,7 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td>財務シリーズ チャートでは先頭の項目と最後の項目が半分切れた状態で表示される
-			charts](#first-last-items-half-cut)</td>
+			<td>[財務シリーズ チャートでは先頭の項目と最後の項目が半分切れた状態で表示される](#first-last-items-half-cut)</td>
 			<td>財務シリーズにおいて、先頭と最後の項目はチャートのビュー上にすべてが表示されず、半分にカットされた状態でプロットされます。</td>
 			<td>![](images/igDataChart_Known_Issues_and_Limitaions_3.png)</td>
 		</tr>

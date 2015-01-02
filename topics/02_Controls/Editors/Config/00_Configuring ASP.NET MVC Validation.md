@@ -188,7 +188,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 	この例では、ASP.NET MVC アプリケーションでローカルに参照される、結合された JavaScript および CSS ファイルを使用します。
 
 	**ASPX の場合:**
-
+	
 	```
 	<link href="/Content/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" type="text/css" />
 	<link href="/Content/css/structure/infragistics.css" rel="stylesheet" type="text/css" />
@@ -198,46 +198,46 @@ Ignite UI エディター コントロールからなるフォームから始ま
 	<script src="/Scripts/js/infragistics.lob.js" type="text/javascript"></script>
 	```
 
-​5. Person オブジェクト用のフォームを作成します。
+5. Person オブジェクト用のフォームを作成します。
 
 	aspx マークアップで、Person クラスの各メンバー用のラベルを作成します。さらに、コード例で示すように、各メンバー用の適切なエディターのインスタンスを作成します。コンボが Model.Group プロパティと Model.AvailableGroups プロパティの両方を使用する点に注意してください。ビューは以下のようになります。
 
 	**ASPX の場合:**
 
-    ```
-    <% using (Html.BeginForm()) %>
-    <% { %>
-        <p>
-            <%= Html.LabelFor(m => m.Name) %>
-            <%= Html.Infragistics()
-                .TextEditorFor(m => m.Name)
-                .Render() %>
-        </p>
-        <p>
-            <%= Html.LabelFor(m => m.Age) %>
-            <%= Html.Infragistics()
-                .NumericEditorFor(m => m.Age)
-                .Render() %>
-        </p>
-        <p>
-            <%= Html.LabelFor(m => m.Email) %>
-            <%= Html.Infragistics()
-                .TextEditorFor(m => m.Email)
-                .Render() %>
-        </p>
-        <p>
-            <%= Html.LabelFor(m => m.Group) %>
-            <%= Html.Infragistics()
-                .ComboFor(m => m.Group)
-                .DataSource(Model.AvailableGroups)
-                .DataBind()
-                .Render() %>
-        </p>
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    <% } %>
-    ```
+		```
+		<% using (Html.BeginForm()) %>
+		<% { %>
+			<p>
+				<%= Html.LabelFor(m => m.Name) %>
+				<%= Html.Infragistics()
+					.TextEditorFor(m => m.Name)
+					.Render() %>
+			</p>
+			<p>
+				<%= Html.LabelFor(m => m.Age) %>
+				<%= Html.Infragistics()
+					.NumericEditorFor(m => m.Age)
+					.Render() %>
+			</p>
+			<p>
+				<%= Html.LabelFor(m => m.Email) %>
+				<%= Html.Infragistics()
+					.TextEditorFor(m => m.Email)
+					.Render() %>
+			</p>
+			<p>
+				<%= Html.LabelFor(m => m.Group) %>
+				<%= Html.Infragistics()
+					.ComboFor(m => m.Group)
+					.DataSource(Model.AvailableGroups)
+					.DataBind()
+					.Render() %>
+			</p>
+			<p>
+				<input type="submit" value="Create" />
+			</p>
+		<% } %>
+		```
 
 6. サンプルを実行します。
 
@@ -308,7 +308,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 	using System.ComponentModel.DataAnnotations;
 	```
 
-​2. 必須フィールド検証を追加します。
+2. 必須フィールド検証を追加します。
 
 	Person クラスで、必須フィールド バリデーターとエラーメッセージを各メンバーに追加します。これらのバリデーターは、属性が設定された各メンバーが確実にフォームに入力されるようにします。
 
@@ -325,7 +325,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 	public string Group { get; set; }
 	```
 
-​3. Name フィールドに長さバリデーターを追加します。
+3. Name フィールドに長さバリデーターを追加します。
 
 	必須バリデーターと同様に、長さバリデーターを Name フィールドに追加して、入力できる文字数を制限する必要があります。
 
@@ -337,7 +337,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 	public string Name { get; set; }
 	```
 
-​4. 範囲バリデーターを Age フィールドに追加します。
+4. 範囲バリデーターを Age フィールドに追加します。
 
 	範囲バリデーターを追加し、数値フィールドの最小値と最大値を制限します。
 
@@ -349,7 +349,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 	public int Age { get; set; }
 	```
 
-​5. 正規表現バリデーターを Email フィールドに追加します。
+5. 正規表現バリデーターを Email フィールドに追加します。
 
 	この正規表現は、入力が正常な電子メール アドレスのパターンを満たしていることを確認します。
 
@@ -401,7 +401,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 ​**4. 検証メッセージの構成 (オプション)**
 
-​1. 検証メッセージを View に追加します。
+1. 検証メッセージを View に追加します。
 
 	外観が雑然としないように、ASP.NET 検証メッセージを使用できます。検証メッセージは、入力フィールドのすぐ右横ではなく、それらのメッセージ中に表示されます。View の各メンバーに対して検証メッセージを追加します。
 

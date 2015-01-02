@@ -49,7 +49,7 @@
 
 **トピック**
 
-トピック[igCombo の概要](igCombo-Overview.html)および [igCombo の追加](igCombo-Getting-Started.html)トピックをお読みください。
+[igCombo の概要](igCombo-Overview.html)および [igCombo の追加](igCombo-Getting-Started.html)トピックをお読みください。
 
 **外部リソース**
 
@@ -133,7 +133,7 @@
 		<tr>
 			<td>複数選択</td>
 			<td>[**multiSelection**](%%jQueryApiUrl%%/ui.igCombo#options:multiSelection)</td>
-			<td>“on” or true</td>
+			<td>“on” または true</td>
 		</tr>
 		<tr>
 			<td>チェックボックスの表示</td>

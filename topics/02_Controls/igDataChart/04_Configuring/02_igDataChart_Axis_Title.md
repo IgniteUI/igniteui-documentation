@@ -70,12 +70,12 @@
 	<tbody>
 		<tr>
 			<td>title</td>
-			<td>文字列</td>
+			<td>string</td>
 			<td>軸のタイトルを定義します。</td>
 		</tr>
 		<tr>
 			<td>titlePosition</td>
-			<td>文字列</td>
+			<td>string</td>
 			<td>ラベルの位置に応じて、タイトルの位置を定義します。<br>このプロパティはデフォルトで Auto に設定されています。これは、軸タイトルが常に軸ストロークおよび軸ラベルの反対側になることを意味します。つまり、軸ラベルは位置を変更しても、常に軸タイトルと軸ストロークの間になります。たとえば、軸ラベルの位置を outsideRight に変更すると、軸タイトルの位置は自動的に軸ラベルの右側になります。</td>
 		</tr>
 		<tr>
@@ -85,22 +85,22 @@
 		</tr>
 		<tr>
 			<td>titleTextColor</td>
-			<td>文字列</td>
+			<td>string</td>
 			<td>タイトルのテキストの色を定義します。</td>
 		</tr>
 		<tr>
 			<td>titleTextStyle</td>
-			<td>文字列</td>
+			<td>string</td>
 			<td>タイトルのテキストのフォント名とサイズを定義します。</td>
 		</tr>
 		<tr>
 			<td>titleVerticalAlignment</td>
-			<td>文字列</td>
+			<td>string</td>
 			<td>タイトルの垂直方向の配置を定義します。このプロパティは y 軸のみに適用されます。</td>
 		</tr>
 		<tr>
 			<td>titleHorizontalAlignment</td>
-			<td>文字列</td>
+			<td>string</td>
 			<td>軸情報パネル上の軸タイトルの水平方向の配列を定義します。このプロパティは、x 軸のタイトルのみに適用されます。</td>
 		</tr>
 		<tr>

@@ -124,7 +124,7 @@ igDataChart は、さまざまな種類のチャートを HTML5 Web アプリケ
 			</td>
 
 			<td>
-				<p>棒
+				<p>bar
 			</td>
 
 			<td>
@@ -144,7 +144,7 @@ igDataChart は、さまざまな種類のチャートを HTML5 Web アプリケ
 			</td>
 
 			<td>
-				列
+				column
 			</td>
 
 			<td>
@@ -166,7 +166,7 @@ igDataChart は、さまざまな種類のチャートを HTML5 Web アプリケ
 			</td>
 
 			<td>
-				線グラフ
+				line
 			</td>
 
 			<td>
@@ -186,7 +186,7 @@ igDataChart は、さまざまな種類のチャートを HTML5 Web アプリケ
 			</td>
 
 			<td>
-				面チャート
+				area
 			</td>
 
 			<td>
@@ -206,7 +206,7 @@ igDataChart は、さまざまな種類のチャートを HTML5 Web アプリケ
 			</td>
 
 			<td>
-				スプライン
+				spline
 			</td>
 
 			<td>
@@ -246,7 +246,7 @@ igDataChart は、さまざまな種類のチャートを HTML5 Web アプリケ
 			</td>
 
 			<td>
-				ウォーターフォール
+				waterfall
 			</td>
 
 			<td>
@@ -268,7 +268,7 @@ igDataChart は、さまざまな種類のチャートを HTML5 Web アプリケ
 			</td>
 
 			<td>
-				ローソク足グラフ
+				candlestick
 			</td>
 
 			<td>
@@ -512,7 +512,7 @@ igDataChart は、さまざまな種類のチャートを HTML5 Web アプリケ
 			</td>
 
 			<td>
-				バブル
+				bubble
 			</td>
 
 			<td>
@@ -544,7 +544,7 @@ igDataChart は、さまざまな種類のチャートを HTML5 Web アプリケ
 			</td>
 
 			<td>
-				散布図
+				scatter
 			</td>
 
 			<td>

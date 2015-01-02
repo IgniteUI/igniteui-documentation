@@ -143,7 +143,7 @@
 **主目盛**
             </th>
             <th rowspan="5" colspan="2">
-スケール内の**位置****、スペースおよび長さ**
+スケール内の位置、スペースおよび長さ
             </th>
             <td>
 [interval](%%jQueryApiUrl%%/ui.igBulletGraph#options:interval)
@@ -307,7 +307,7 @@
         </tr>
         <tr>
             <th rowspan="2" colspan="2">
-**ルック アンド フィール**
+ルック アンド フィール
             </th>
             <th>
 色
@@ -378,7 +378,7 @@
 開始位置
             </th>
             <td>
-水平方向で[グラフ領域](igBulletGraph-Overview.html#logical-areas)の左端からの**スケール****の開始位置**、または垂直方向でグラフ領域の下端からのスケールの開始位置。
+水平方向で[グラフ領域](igBulletGraph-Overview.html#logical-areas)の左端からのスケールの開始位置、または垂直方向でグラフ領域の下端からのスケールの開始位置。
                 (スケールの方向が反転した場合、水平方向で右端、垂直方向で上端となります。詳細は、[向きと方向の構成 (*igBulletGraph*)](igBulletGraph-Configuring-the-Orientation-and-Direction.html) を参照してください。)
             </td>
             <td>
@@ -393,7 +393,7 @@
 終了位置
             </th>
             <td>
-**水平方向でコントロールの左端に対するグラフ領域の左端からのスケール**の終了位置、または垂直方向ではグラフ領域の下端からのスケールの終了位置。(スケールの方向が反転した場合、水平方向で右端、垂直方向で上端となります。
+水平方向でコントロールの左端に対するグラフ領域の左端からのスケールの終了位置、または垂直方向ではグラフ領域の下端からのスケールの終了位置。(スケールの方向が反転した場合、水平方向で右端、垂直方向で上端となります。
                 詳細は、[向きと方向の構成 (*igBulletGraph*)](igBulletGraph-Configuring-the-Orientation-and-Direction.html) を参照してください。)
             </td>
             <td>
@@ -604,7 +604,7 @@ $('#igBulletGraph').igBulletGraph({
         </tr>
         <tr>
             <th>
-Interval
+間隔
 			</th>
             <td>
 主目盛を配置する間隔 (間隔は、スケールのメジャーにおける隣接する 2 つの主目盛間の距離です。)
@@ -1095,7 +1095,7 @@ Interval
         </tr>
         <tr>
             <th>
-Interval
+間隔
 			</th>
             <td>
 ラベルを配置する間隔 (間隔は、スケールのメジャーにおける隣接する 2 つのラベルの距離です。)

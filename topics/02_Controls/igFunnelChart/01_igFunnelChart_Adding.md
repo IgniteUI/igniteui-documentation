@@ -460,9 +460,9 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 
 	ビュー を追加して構成するには
 	
-	​1. Create the View corresponding to the controller action method.
+	​1. コントローラーのアクション メソッドに対応する View を作成します。
 	
-	​2. Make the View strongly-typed and point to the data model class created above in step 3.1.
+	​2. View を厳密に型指定し、上記のステップ 3.1 で作成されたデータ モデル クラスをポイントします。
 	
 	**ASPX の場合:**
 	

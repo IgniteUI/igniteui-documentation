@@ -66,7 +66,7 @@
 Opened|*この状態では、igDialog は開いています。これがコントロールのデフォルト状態です。*|[表示と非表示](igDialog-Show-and-Hide.html)
 Closed |*この状態では、igDialog は閉じています。*|[表示と非表示](igDialog-Show-and-Hide.html)
 Minimized |*この状態では、igDialog は最小化されています。*|[最大化と最小化ウィンドウ](igDialog-Maximize-and-Minimize.html)
-最大化|*この状態では、igDialog は最大化されています。*|[最大化と最小化ウィンドウ](igDialog-Maximize-and-Minimize.html)
+Maximized|*この状態では、igDialog は最大化されています。*|[最大化と最小化ウィンドウ](igDialog-Maximize-and-Minimize.html)
 
 ### <a id="example"></a> 例
 

@@ -81,7 +81,7 @@
 		<tr>
 			<td>サブタイトルの水平方向の配置</td>
 			<td>subtitleHorizontalAlignment</td>
-			<td>文字列</td>
+			<td>string</td>
 		</tr>
 		<tr>
 			<td>サブタイトルの左の余白の設定</td>
@@ -96,12 +96,12 @@
 		<tr>
 			<td>サブタイトルのテキスト色の設定</td>
 			<td>subtitleTextColor</td>
-			<td>文字列</td>
+			<td>string</td>
 		</tr>
 		<tr>
 			<td>サブタイトルのフォント スタイルとテキスト サイズの設定</td>
 			<td>subtitleTextStyle</td>
-			<td>文字列</td>
+			<td>string</td>
 		</tr>
 		<tr>
 			<td>サブタイトルの左の余白の設定</td>
@@ -116,7 +116,7 @@
 		<tr>
 			<td>タイトルのの水平方向の配置</td>
 			<td>titleHorizontalAlignment</td>
-			<td>文字列</td>
+			<td>string</td>
 		</tr>
 		<tr>
 			<td>タイトルの左の余白の設定</td>
@@ -131,12 +131,12 @@
 		<tr>
 			<td>タイトルのテキスト色の設定</td>
 			<td>titleTextColor</td>
-			<td>文字列</td>
+			<td>string</td>
 		</tr>
 		<tr>
 			<td>タイトルのフォント スタイルとテキスト サイズの設定</td>
 			<td>titleTextStyle</td>
-			<td>文字列</td>
+			<td>string</td>
 		</tr>
 		<tr>
 			<td>タイトルの左の余白の設定</td>

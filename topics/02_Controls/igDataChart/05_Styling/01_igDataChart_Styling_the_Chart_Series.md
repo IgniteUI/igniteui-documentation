@@ -445,9 +445,7 @@ series: [
 
 -	[igDataChart のスタイル設定](igDataChart-Styling-Themes.html): このトピックは、`igDataChart` コントロールにスタイルおよびテーマを適用する方法を紹介します。
 
--	[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
-
-Ignite UI™ ライブラリのスタイルとテーマの更新に関する概要とその手順を説明します。
+-	[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html): Ignite UI™ ライブラリのスタイルとテーマの更新に関する概要とその手順を説明します。
 
 
 ### <a id="samples"></a>サンプル

@@ -60,7 +60,7 @@ $('#dateEditor').igDateEditor('option', 'theme', 'customTheme');
 
 サポートされるカスタマイズ可能な CSS クラスの完全なリストについてはこちらをご覧ください:
 
-[**[API ドキュメント CSS クラス リスト]**](%%jQueryApiUrl%%/ui.igdateeditor#theming)
+[**API ドキュメント CSS クラス リスト**](%%jQueryApiUrl%%/ui.igdateeditor#theming)
 
 ## ThemeRoller の使用
 

@@ -349,9 +349,7 @@ $('#textEditor').igEditor(
 
 クラス名|適用される要素:
 ---|---
-ui-igedit-negative
-
-エディターのタイプが数値で負の値の場合の入力フィールド。
+ui-igedit-negative|エディターのタイプが数値で負の値の場合の入力フィールド。
 
 
 

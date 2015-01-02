@@ -34,7 +34,7 @@ igMaskEditor には以下の特徴があります。
 1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
 2.  ご自分の HTML ページまたは ASP.NET MVC View で、必要な JavaScript ファイル、CSS ファイル、および ASP.NET MVC アセンブリを参照してください。
 
-**HTML の場合:**
+	**HTML の場合:**
     ```
     <link type="text/css" href="/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
     <link type="text/css" href="/css/structure/infragistics.css" rel="stylesheet" />
@@ -65,12 +65,13 @@ igMaskEditor には以下の特徴があります。
 	<script type="text/javascript" src="@Url.Content("~/Scripts/Samples/infragistics.lob.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Samples/modules/i18n/regional/infragistics.ui.regional-en.js")"></script>
     ```
-3.  jQuery の実装では、HTML 内のターゲット要素として INPUT、TD、DIV、または SPAN を作成します。ASP.NET MVC の実装の場合、含める要素を MVC ラッパーが作成してくれるので、この手順はオプションです。
+3.	jQuery の実装では、HTML 内のターゲット要素として INPUT、TD、DIV、または SPAN を作成します。ASP.NET MVC の実装の場合、含める要素を MVC ラッパーが作成してくれるので、この手順はオプションです。
 
-**HTML の場合:**
+	**HTML の場合:**
     ```
     <input id="maskEditor" type="text" />
     ```
+	
 ​4. 上のセットアップが完了したら、マスク エディターを初期化し、`width`、`nullText`、`mask` などの必要なオプションを設定します。
 
     >**注:** ASP.NET MVC View では、その他のオプションをすべて設定した後で `Render` メソッドを呼び出す必要があります。
@@ -107,7 +108,7 @@ igMaskEditor には以下の特徴があります。
                  .Render())
     ```
 
-5.  Web ページを実行し、`igMaskEditor` コントロールの基本セットアップを表示します。
+5.	Web ページを実行し、`igMaskEditor` コントロールの基本セットアップを表示します。
 
 ##関連リンク
 

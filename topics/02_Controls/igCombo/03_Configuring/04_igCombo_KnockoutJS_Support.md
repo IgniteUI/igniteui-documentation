@@ -105,7 +105,7 @@ Knockout マネージのデータ構造にバインドされる `igCombo` をイ
 			<td>コンボ ボックスのドロップダウン リストにデータ ソースを指定する</td>
 			<td>必須</td>
 			<td>ドロップダウン リストのデータ ソースを構成するためのプロパティは dataSource です。ただし、子 igCombo がカスケード データ ソースを持つカスケード コンボは例外です。後者の場合は cascadingDataSource プロパティが使用されます。<br>**注:** dataSource プロパティおよび cascadingDataSource プロパティは相互に排他的であり、いずれか片方しか設定できません。</td>
-			<td><ul><li> [dataSource](%%jQueryApiUrl%%/ui.igcombo)</li><li>[cascadingDataSource](%%jQueryApiUrl%%/ui.igcombo)</li></ul><br>**Note:** The [cascadingDataSource](%%jQueryApiUrl%%/ui.igcombo) property can be configured only on initialization.</td>
+			<td><ul><li> [dataSource](%%jQueryApiUrl%%/ui.igcombo)</li><li>[cascadingDataSource](%%jQueryApiUrl%%/ui.igcombo)</li></ul><br>**注:** [cascadingDataSource](%%jQueryApiUrl%%/ui.igcombo) プロパティは初期化時にのみ構成できます。</td>
 		</tr>
 		<tr>
 			<td>ドロップダウン データ ソースで表示テキスト フィールドの名前を構成する</td>
