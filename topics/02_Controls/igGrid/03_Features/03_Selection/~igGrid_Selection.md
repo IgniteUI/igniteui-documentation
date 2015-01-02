@@ -1,0 +1,23 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "iggrid-selection",
+    "controlName": "igGrid",
+    "tags": []
+}
+|metadata|
+-->
+
+# 選択 (igGrid)
+
+
+以下のリンクをクリックすると、`igGrid` 選択機能を素早く起動して実行する方法に関する情報を参照できます。
+
+-   [選択の概要](igGrid-Selection-Overview.html)
+-   [セルの複数選択](igGrid-Multiple-Cell-Selection.html)
+
+ 
+
+ 
+
+

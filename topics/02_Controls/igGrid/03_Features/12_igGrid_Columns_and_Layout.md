@@ -1,0 +1,288 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "iggrid-columns-and-layout",
+    "controlName": "igGrid",
+    "tags": ["Grids","Layouts"]
+}
+|metadata|
+-->
+
+# 列とレイアウト (igGrid)
+
+
+## 概要
+
+このドキュメントでは、`igGrid` レイアウトおよび列設定について解説します。
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [幅と高さの定義](#width-height)
+-   [列の定義](#defining-columns)
+-   [AutoGenerateColumns](#autoGenerateColumns)
+-   [スタイル設定](#styling)
+-   [列のチェックボックスのレンダリング](#checkboxes)
+-   [関連コンテンツ](#related-content)
+
+
+
+
+## <a id="width-height"></a> 幅と高さの定義
+
+コントロールの幅と高さを定義することによって、グリッド レイアウトを処理する方法をコントロールできます。幅または高さとして定義可能な値は以下のとおりです。
+
+表 1: 幅および高さの値の形式
+
+値の形式|可能な値
+---|---
+文字列|"500" と "500px" のどちらも有効です。
+数値|500 (500px に変換します)。
+パーセンテージ文字列|"50%"、"100%" など。
+
+
+幅と高さを定義した場合、グリッドはスクロール可能な DIV 要素内でラップされます。高さを設定し、`fixedHeaders` を true (デフォルト) に設定すると、ユーザーがスクロールするときにグリッド ヘッダーは固定されたままになります。
+
+> **注:** サンプルに示したように、個々の列の幅を指定することもできます。
+
+幅と高さを設定した場合、グリッドのレンダリングに影響する複数のシナリオがあります。
+
+表 2: ヘッダーおよびスクロールの固定を有効または無効にする効果
+
+固定ヘッダー|スクローリング|詳細
+---|---|---
+いいえ|いいえ|列の幅を定義する場合、グリッドは幅に応じて伸縮します。列の幅を定義しない場合、グリッドはデータに応じて伸縮します。
+はい|はい|ヘッダーは、DIV の中の独立したテーブル内に描画されます (そのため、グリッドに幅が設定され、水平スクロールバーがある場合、スクロール時にヘッダー テーブルはコンテンツと同期します)。
+いいえ|はい|ヘッダーの要素は、データがホストされる単一のテーブルの中に描画されます。独立した TABLE または DIV はありません。
+
+
+## <a id="defining-columns"></a> 列の定義
+
+グリッド列を定義するには、リスト 1 に示すように、列グリッド オプションにオブジェクトを 追加します。
+
+リスト 1: グリッドのオプションとしての列の定義
+
+**JavaScript の場合:**
+
+```
+$("#grid1").igGrid({
+       autoGenerateColumns: false, columns: [
+            { 
+                headerText: "Country Code", 
+                key: "Code", 
+                width: "100px", 
+                dataType: "string", 
+                formatter: <formatter function>, 
+                format: "" 
+            },
+            { 
+                headerText: "Date", 
+                key: "Date", 
+                width: "100px", 
+                dataType: "date", 
+                format: "dateLong"
+            },
+            { 
+                headerText: "Country Name", 
+                key: "Name", 
+                width: "80px", 
+                dataType: "string"
+            }
+        ],
+    responseDataKey: 'records',
+    dataSource: remoteService,
+    height: '400px'
+});
+```
+
+
+
+列の定義は、キー プロパティを 1 つ以上含む JavaScript オブジェクトです。以下を含めることも可能です。
+
+-   ヘッダー テキスト: `headerText` オプションを使用。
+-   幅: `width` オプションを使用 (数値または文字列、px または %)。
+-   データ型: `dataType` オプションを使用。
+
+format および `dataType` オプションは様々な方法で構成できます。
+
+-   `dataType` は文字列、数値、日付、または ブール値を設定可能です。
+-   dataType=”date” (Date オブジェクト) に対応する `format` 列プロパティは、“date”、“dateLong”、“dateLong”、“dateTime”、“timeLong”、または “MM-dd-yyyy h:mm:ss tt” などの明示的なパターンが可能です。
+-   dateType=”number” (数値オブジェクト) または dataType=”string” に対応する `format` 列プロパティは、“number”、“double”、“int”、“currency”、または “percent” が可能です。
+-   また、`dataType`=”number” の場合、対応する書式設定は “0.0###”、“#.##”、“0.000” などが可能です。ここで、小数点の後にくるゼロの数は、小数点以下の最小桁数を定義し、小数点の後の合計文字数は、小数点以下の最大桁数を定義します。
+-   `dataType` が “date” または “number” 以外の場合、対応する書式設定に“{0}” フラグを含めることができます。この場合、このフラグはセルの値に置換されます。たとえば、format=”Name: {0}” で、セルの値が “Bob” の場合、セルには “Name: Bob” が描画されます。
+
+
+## <a id="autoGenerateColumns"></a> AutoGenerateColumns
+
+`autoGenerateColumns` が *false* の場合は、列配列に列を必ず手動で定義する必要があります。`autoGenerateColumns` が *true* (デフォルト) の場合は、列を指定する必要はありません。その場合、グリッドはデータ ソースから自動的に列を推測し、それを列コレクションに追加します。ヘッダー テキストも自動的に生成され、データ ソース内のキーと等しくなります。リモート データ バインドを使用するときは、クライアントのバックエンドからデータを使用可能なときのみ、ヘッダー テキストは自動的に生成されます。ただし、大部分の実環境のシナリオでは、列を明示的に定義するのが最も良い方法です。
+
+`autoGenerateColumns` を true に設定し、列を手動で定義した場合、列をユーザーに描画する方法として、いくつかのシナリオが可能です。
+
+-   データ ソース内の列数に一致する列カウントを定義した場合、グリッドは列コレクションに定義した順に列を描画します。また、グリッドは、ユーザーが指定したヘッダー テキスト、*dataType*、幅、および書式設定 (もしあれば) を受け入れます。
+-   データ ソース内の列数に一致しない列カウントを定義した場合、定義した列が最初に描画され、そのあとに、データ ソースの残りのすべての列が自動的に生成され、定義した列の後に追加されます。
+
+> **注:** `autoGenerateColumns` が true の場合は、データ ソース内のすべての列が常に描画されます。特定の列を描画したくない場合は、`autoGenerateColumns` を false に設定してから、列配列に必要な列を指定する必要があります。
+
+また、すべての列の幅を個別に指定することも可能です。列の幅を指定した場合にグリッドにも幅が定義されていて、それが、自分で定義したすべての列幅の合計より小さい場合は、水平スクロールバーがグリッドに描画されます。
+
+> **注:** 数個の列にだけ幅を指定し、それと同時にグリッドの幅を定義することは推奨しません。一部の列の幅が狭くなってしまいます。この問題を改善するには、`defaultColumnWidth` グリッド オプションを設定します。
+
+> **注:** 更新機能を使用するには、`autoGenerateColumns` が false に設定される場合、`dataType` プロパティを設定する必要があります。更新機能は、グリッドおよび基本データ ソースの間でレコードを同期するためにプライマリ キーを使用します。プライマリ キーは値およびタイプによって比較されます。
+
+
+
+## <a id="styling"></a> スタイル設定
+
+jQuery グリッドは、jQuery UI Theme Roller と完全に互換性があります。そのため、Theme Roller Web アプリケーションを使用して、カスタム テーマを生成したり、既存のテーマを使用して、それをグリッドに適用できます。
+
+最適な縮小および結合されたスタイルを使用するには、リスト 2 にある CSS 定義をインクルードする必要があります。
+
+リスト 2: 必須のスタイルシート定義
+
+**JavaScript の場合:**
+
+```
+<link type="text/css" href="infragistics.theme.css" rel="stylesheet" />
+<link type="text/css" href="infragistics.css" rel="stylesheet" />
+```
+
+最初の CSS、*jquery.ui.custom.css* は実際のテーマ (つまり、カラー関連のスタイル設定) を表します。これを Theme Roller から生成された CSS ファイルと置換できます。
+
+2 番目の CSS は、Infragistics Ignite UI 用のカスタマイズで、Theme Roller / jQuery UI では使用できないレイアウト関連のルールを含みます。そのため、コントロールが正常に機能することを保証することが必要です。
+
+結合されていない CSS (開発シナリオで使用される) を参照する場合は、リスト 3 に示すようにして参照を追加できます。
+
+リスト 3: 結合または縮小されていない CSS ファイルの参照
+
+**JavaScript の場合:**
+
+```
+<link type="text/css" href="css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+<link type="text/css" href="css/structure/modules/infragistics.ui.grid.css" rel="stylesheet" />    
+<link type="text/css" href="css/structure/modules/infragistics.ui.shared.css" rel="stylesheet" />    
+```
+
+要素の外観を変更したい場合には、custom.css ファイルを編集できます。または、あらかじめ定義されているクラス名に対しカスタム CSS ルールを定義します。
+
+グリッドの最上位のコンテナー DIV は、クラス `ui-iggrid` でプレフィックスされるので、これをセレクターとして使用して、グリッドだけを対象にできます。あるいは、カスタム CSS を特定のグリッドにのみ適用したい場合は、グリッドの ID をセレクターとして使用できます。
+
+
+## <a id="checkboxes"></a> 列のチェックボックスのレンダリング
+
+ブール データ型を含む列の場合、デフォルトでは `igGrid` は true または false の文字列を示します。ただし、`igGrid` 列がブール データを表示するかどうかを選択するチェックボックスのオプションがあり、チェックの有無に応じて、それぞれ true または false になります。`renderCheckboxes` プロパティを true に設定すると、列のチェックボックスがレンダリングされます。チェックボックスをレンダリングするには、列の `dataType` プロパティをブール値に設定する必要があります。
+
+右の図では、次のコード例が Make Flag 列のチェックボックスをレンダリングする様子を示しています。
+
+<table class="table">
+	<tbody>
+        <tr>
+            <td>
+![](images/igGrid_Columns_and_Layout_01.png)
+			</td>
+            <td>
+![](images/igGrid_Columns_and_Layout_02.png)
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+図1: ブール値を示す列 チェックボックスがレンダリングされている場合 (右) とされていない場合 (左)
+
+**JavaScript の場合:**
+
+```
+$("#grid1").igGrid({
+    autoGenerateColumns: false,
+    primaryKey: "ProductID",
+    // enabling render checkboxes on a column
+    renderCheckboxes: true,
+    columns: [ {
+            // note: if primaryKey is set and data in primary column contains numbers,
+            // then the dataType: "number" is required, otherwise, dataSource may misbehave
+            headerText: "(Grid_CheckboxColumn_ColumnHeader_ProductID)", 
+            key(Grid_CheckboxColumn_ColumnHeader_ProductNumber)", 
+            key: "ProductNumber",
+            dataType: "string"
+        }, {
+            headerText: "(Grid_CheckboxColumn_ColumnHeader_MakeFlag)", 
+            key(Grid_CheckboxColumn_ColumnHeader_ModifiedDate)", 
+            key: "ModifiedDate",  
+            dataType: "date"
+        }
+    ],
+    features: [ {
+        name: "Selection",
+        mode: "row"
+    }, {
+        name: "Updating",
+        enableAddRow: false,
+        editMode: "row",
+        // event raised after end row editing but before dataSource was updated
+        editCellEnding: function (evt, ui) {
+            // get cell’s checkbox value when it is changed
+            if (ui.update) {
+                if (ui.columnKey === 'MakeFlag' ) {
+                    logEvent("editCellEnded (Grid_EventFired) (Grid_ColumnKey) = " + 
+                    ui.columnKey + "; (Grid_RowIndex) = " + 
+                    ui.rowID + "; (Grid_CellValue) = " + 
+                    ui.value + "; $(Grid_Update) = " + 
+                    ui.update);
+                }
+            }
+        },
+        enableDeleteRow: false,
+        columnSettings: [ {
+            columnKey: "ProductID",
+            readOnly: true
+        }, {
+            columnKey: "ProductNumber"
+        }, {
+            columnKey: "MakeFlag"
+        }, {
+            columnKey: "OrderDate",
+            editorType: "datepicker",
+            validation: true
+        } ]
+    } ],
+    dataSource: gridData,
+    height: "300px"
+});
+```
+
+**ASPX の場合:**
+
+```
+<%= Html.Infragistics().Grid(Model).ID("grid1").AutoGenerateColumns(false).PrimaryKey("ProductID").RenderCheckboxes(true).Columns(column =>
+    {
+        column.For(x => x.ProductID).HeaderText(this.GetGlobalResourceObject("Grid", "PRODUCT_ID").ToString()).DataType("number");
+        column.For(x => x.ProductNumber).HeaderText(this.GetGlobalResourceObject("Grid", "PRODUCT_NUMBER").ToString()).DataType("string");
+        column.For(x => x.MakeFlag).HeaderText(this.GetGlobalResourceObject("Grid", "MAKE_FLAG").ToString()).DataType("bool");
+        column.For(x => x.ModifiedDate).HeaderText(this.GetGlobalResourceObject("Grid", "MODIFIED_DATE").ToString()).DataType("date");
+        }).Features(features => {
+            features.Selection().Mode(SelectionMode.Row);
+            features.Updating().EnableAddRow(false).EditMode(GridEditMode.Row).EnableDeleteRow(false).ColumnSettings(columnSettings => {
+                columnSettings.ColumnSetting().ColumnKey("ProductID").ReadOnly(true);
+                columnSettings.ColumnSetting().ColumnKey("ProductNumber");
+                columnSettings.ColumnSetting().ColumnKey("MakeFlag");
+                columnSettings.ColumnSetting().ColumnKey("ModifiedDate").EditorType(ColumnEditorType.DatePicker).Validation(true);
+        });
+    }).DataBind().Height("300px").Render()
+%>
+```
+
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### サンプル
+
+-   [列の自動生成](%%SamplesUrl%%/grid/auto-generate-columns)
+
+### トピック
+-   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
+
+ 
+
+ 
+
+

@@ -1,0 +1,203 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "iggrid-enabling--column-summaries",
+    "controlName": "igGrid",
+    "tags": ["Getting Started","Grids","Summaries"]
+}
+|metadata|
+-->
+
+# 列集計の有効化 (igGrid)
+
+## トピックの概要
+
+### 目的
+これは、`igGrid`™ コントロールの列集計ウィジェットをプログラム的に有効にする方法を示しています。
+
+### このトピックの構成
+このトピックは、以下のセクションで構成されます。
+
+-   [**概要**](#introduction)
+-   [**プレビュー**](#preview)
+-   [**要件**](#requirements)
+    -   [全般的な要件](#general-requirements)
+    -   [スクリプト要件](#scrip-requirements)
+    -   [データベース要件](#database-requirements)
+-   [**JQuery で列集計を有効にする**](#enabling-js)
+-   [**MVC で列集計を有効にする**](#enabling-mvc)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+## <a id="introduction"></a> 概要
+列集計ウィジェットにより、`igGrid` はグリッドの列にあるデータの集計行を表示できます。事前に設定された集計関数がありますが、カスタム関数を作成してカスタム集計を計算できます。
+
+`igGrid` コントロールの列集計機能はデフォルトで無効のため、明示的に有効にする必要があります。
+
+以下の例では、集計機能を有効にした `igGrid` が構成されています。
+
+## <a id="preview"></a> プレビュー
+以下は最終結果のプレビューです。
+
+![](images/Enabling_Column_Summaries_01.png)
+
+## <a id="requirements"></a> 要件
+
+### <a id="general-requirements"></a> 全般的な要件 
+-   jQuery の要件
+
+    -   グリッドがデータ ソースに接続されている HTML 形式の Web ページであること
+    -   グリッドのコンテナとして機能するテーブル タグが HTML ページの本文に含まれていること
+
+    **HTML の場合:**
+
+    ```
+    <table id="grid">
+    </table>
+    ```
+
+-   MVC 固有の要件
+    -   グリッドがデータ ソースに接続されている MS Visual Studio® の MVC 2 または MVC 3 プロジェクトであること
+    -   (MVC IG ラッパーが納められた) Infragistics MVC dll への参照があること
+
+### <a id="scrip-requirements"></a> スクリプト要件 
+
+-   MVC ラッパーは最終的に jQuery ウィジェットを再描画するため、jQuery と MVC 両方のサンプルに必要なスクリプトは同じです。次が必要になります。
+
+    1.  jQuery ライブラリ スクリプト
+    2.  jQuery UI ライブラリ
+    3.  コントロールの難解なコードである IG ライブラリ スクリプト
+
+次のコード サンプルは、HTML ファイルのヘッダー コードに追加されるスクリプトです。
+
+**HTML の場合:**
+
+```
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="jquery-ui.min.js"></script>
+<script type="text/javascript" src="infragistics.core.js"></script>
+<script type="text/javascript" src="infragistics.lob.js"></script>
+```
+
+### <a id="database-requirements"></a> データベース要件 
+ただし、このサンプルでは以下のものが使用されています。
+
+-   MVC – Adventure Works データベース
+
+## <a id="enabling-js"></a> JQuery で列集計を有効にする
+
+1.  データ ソースを設定します。
+
+    以下のコード スニペットで使用されているデータ ソースは、あくまでこの例のために使用されているだけです。
+
+    **HTML の場合:**
+
+    ```
+    <script type="text/javascript">
+    source = [
+             { "ProductID": 1, "Name": "Adjustable Race", "SafetyStockLevel": 1000, "ReorderPoint": 750, "StandardCost": 0.0000 }, 
+             { "ProductID": 2, "Name": "Bearing Ball", "SafetyStockLevel": 1000, "ReorderPoint": 750, "StandardCost": 0.0000 }, 
+             { "ProductID": 3, "Name": "BB Ball Bearing", "SafetyStockLevel": 800, "ReorderPoint": 600, "StandardCost": 0.0000 },
+             { "ProductID": 4, "Name": "Headset Ball Bearings", "SafetyStockLevel": 800, "ReorderPoint": 600, "StandardCost": 0.0000 }]
+
+    </script>
+    ```
+
+2.  igGrid を作成し、集計機能を有効にします。
+
+    `$(document).ready()` イベント ハンドラーの中で、igGrid を作成し、グリッドの集計機能を構成します。
+
+    **JavaScript の場合:**
+
+    ```
+    $("#grid").igGrid({
+        autoGenerateColumns: true,
+        dataSource: source,
+        features: [
+                   {
+                     name: 'Summaries'
+                   }
+              ]
+    });
+    ```
+
+3.  ファイルを保存します。
+4.  (オプション) 結果を確認します。
+
+    結果を検証するために、ファイルを開きます。上記のプレビューに示すような結果になっているはずです。
+
+## <a id="enabling-mvc"></a> MVC で列集計を有効にする
+
+1.  MVC Controller メソッドを作成します。
+
+    MVC Controller メソッドを作成し、Model からデータを取得して View を呼び出します。
+
+    **MVC の場合:**
+
+    ```
+    public ActionResult Default()
+    {
+        var ds = this.DataRepository.GetDataContext().Products.Take(4);
+        return View(ds);
+    }
+    ```
+
+2.  igGrid をインスタンス化します。
+
+    columnSummaries 機能を有効にした igGrid をインスタンス化します。
+
+    **ASPX の場合:**
+
+    ```
+    <%= Html.Infragistics().Grid(Model)
+            .AutoGenerateColumns(true)
+            .Features(feature =>{
+                feature.Summaries();
+                }).DataBind()
+            .Render()
+    %>
+    ```
+
+    **Razor の場合:**
+
+    ```
+    @( Html.Infragistics().Grid(Model)
+            .AutoGenerateColumns(true)
+            .Features(feature =>{
+                feature.Summaries();
+                }).DataBind()
+            .Render()
+        )
+    ```
+
+3.  ファイルを保存します。
+4.  (オプション) 結果を確認します。
+
+    結果を検証するために、MVC プロジェクトを実行して、ファイルを開きます。上記のプレビューに示すような結果になっているはずです。
+
+
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+
+以下は、その他の役立つトピックです。
+
+- [列集計の構成 (igGrid)](igGrid-Configuring-Column-Summaries.html)
+
+- [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+
+- [Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
+
+### <a id="samples"></a> サンプル
+
+-   [列の集計](%%SamplesUrl%%/grid/summaries)
+-   [集計 (リモート計算)](%%SamplesUrl%%/grid/summaries-remote)
+-   [カスタム集計](%%SamplesUrl%%/grid/summaries-custom)
+
+ 
+
+ 
+
+
