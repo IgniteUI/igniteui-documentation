@@ -1,0 +1,252 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "configuring-knockout-support-(editors)",
+    "controlName": "igEditors",
+    "tags": ["Data Binding","Data Presentation","Editing"]
+}
+|metadata|
+-->
+
+# Knockout サポートの構成
+
+
+
+##トピックの概要
+
+
+### 目的
+
+このトピックは、Knockout ライブラリを使用して View-Model のオブジェクトをバインドするために Ignite UI® エディター コントロールを構成する方法について説明します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックと外部リソースの一覧です。
+
+
+**トピック**
+
+
+-	[igTextEditor の概要](igTextEditor-Overview.html): このトピックは、`igTextEditor` コントロールを紹介し、基本的なインスタンス化の例を示します。
+
+-	[igNumericEditor の概要](igNumericEditor-Overview.html): このトピックは、`igNumericEditor`™ コントロールを紹介し、基本のインスタンス化例を提供します。
+
+-	[igDateEditor の概要](igDateEditor-Overview.html): このトピックは、`igDateEditor`™ コントロールを紹介し、基本的なインスタンス化の例を示します。
+
+
+**外部リソース**
+
+-   [Knockout インタラクティブ チュートリアル](http://learn.knockoutjs.com/)
+
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [概要](#_Introduction)
+-   [コード例](#_Code_Examples)
+-   [コード例: Editor コントロール用に値のバインディングを構成する](#_Configuring_Value_Binding_for_Editor_Controls)
+-   [コード例: 入力マスクを構成する (igMaskEditor)](#_Configuring_an_Input_Mask)
+-   [コード例: スケール ファクターを構成する (igPercentEditor)](#_Configuring_a_Scaling_Factor)
+-   [コード例: 即時更新モードを構成する (igTextEditor)](#_Configuring_Immediate_Update_Mode)
+-   [関連コンテンツ](#_Related_Content)
+    -   [トピック](#_Topics)
+    -   [サンプル](#_Samples)
+    -   [リソース](#_Resources)
+
+
+
+##<a id="_Introduction"></a>概要
+
+
+### Knockout サポートの概要
+
+Ignite UI エディター コントロールにおける Knockout ライブラリのサポートは、開発者が Knockout ライブラリとその宣言構文を使用して Ignite UI エディターを初期化し構成するための簡単な手段を提供することを目的としています。
+
+Knockout のサポートは、Knockout バインディングがページに適用されるときに最初に呼び出される Knockout 拡張機能として、View-Model への外部更新が起こったときにページの存続期間中に実装されます。また、data-bind 属性においてビジネス案件に対して関連度を有するいずれかのエディター コントロール オプションを指定できます。
+
+
+##<a id="_Code_Examples"></a>コード例
+
+
+### コード例の概要
+
+以下の表は、このトピックで使用したコード例をまとめたものです。
+
+
+-	 [Editor コントロール用に値のバインディングを構成する](#_Configuring_Value_Binding_for_Editor_Controls) : この例は、Knockout 宣言構文を使用して Ignite UI エディター コントロールの値オプションを View-Model オブジェクトにバインドする方法を示します。
+
+-	[入力マスクを構成する (igMaskEditor)](#_Configuring_an_Input_Mask) : この例は、Knockout 宣言構文を使用して `igMaskEditor`™ を View-Model オブジェクトにバインドする方法を示します。
+
+-	[スケール ファクターを構成する (igPercentEditor)](#_Configuring_a_Scaling_Factor): この例は、Knockout 宣言構文を使用して `igPercentEditor`™ を View-Model オブジェクトにバインドする方法を示します。
+
+-	[コード例: 即時更新モードを構成する (igTextEditor)](#_Configuring_Immediate_Update_Mode): この例は、`igTextEditor` コントロールをインスタンス化し、各キー ストロークについて更新を構成する方法を示します。
+
+
+
+
+
+##<a id="_Configuring_Value_Binding_for_Editor_Controls"></a>コード例: Editor コントロール用に値のバインディングを構成する
+
+
+### 説明
+
+この例は、Knockout により管理される View-Model オブジェクトに Ignite UI エディター コントロールの値オプションをバインドする方法を示します。`igTextEditor`、`igNumericEditor`、`igCurrencyEditor`™ および `igDateEditor` のコントロールのコンテキストで示されます。Knockout の宣言構文を使用して、コントロールが入力要素のデータ バインド属性からインスタンス化され View-Model 監視可能プロパティにバインドされます。
+
+### コード
+
+以下のコード スニペットは、Knockout により管理される監視可能プロパティを宣言する View-Model オブジェクトを示します。
+
+**JavaScript の場合:**
+
+```
+var viewModel = {
+    orderDate: ko.observable("2012/10/24"),
+    dueInDays: ko.observable(7),
+    customerName: ko.observable("Peter Sanders"),
+    contactPhone: ko.observable("(318) 555-6879"),
+    advancePayment: ko.observable(516.89),
+    discountPercent: ko.observable(8)
+};
+```
+
+以下のコード スニペットは、宣言されたKnockout バインディングをページに適用する方法を示します。`ko.applyBindings()` 呼び出しは、Loader の即時コールバック内で出される点にご注意ください。これは、Knockout の Ignite UI エディター拡張機能はバインディングが適用される前にページにロードしなければならないため必要です。
+
+**JavaScript の場合:**
+
+```
+$.ig.loader({
+    scriptPath: "http://localhost/ig_ui/js/",
+    cssPath: "http://localhost/ig_ui/css/",
+    resources: "igEditors,extensions/infragistics.ui.editors.knockout-extensions.js",
+    ready: function () {
+        ko.applyBindings(viewModel);
+    }
+});
+```
+
+以下のコード スニペットは、ビュー内でエディター コントロールのバインディング オプションを宣言する方法を示します。最も重要なのは、対応する input 要素の data-bind 属性におけるインスタンス化オプションの宣言部分です。
+
+**HTML の場合:**
+
+```
+<!-- date editor -->
+<input data-bind="igDateEditor: { value: orderDate }"/>
+<!-- numeric editor -->
+<input data-bind="igNumericEditor: { value: dueInDays }"/>
+<!-- text editor -->
+<input data-bind="igTextEditor: { value: customerName }"/>
+<!-- currency editor -->
+<input data-bind="igCurrencyEditor: { value: advancePayment }"/>
+```
+
+
+
+##<a id="_Configuring_an_Input_Mask"></a>コード例: 入力マスクを構成する (igMaskEditor)
+
+
+### 説明
+
+この例は、Knockout により管理される View-Model オブジェクトに `igMaskEditor` コントロールをバインドする方法を示します。Knockout の宣言構文を使用して、input 要素の data-bind 属性から `igMaskEditor` をインスタンス化し View-Model 監視可能プロパティにバインドします。エディターの `inputMask` オプションは、特定のパターンに従ってユーザー入力を制限するようにも構成されます。
+
+### コード
+
+以下のコード スニペットは、`igMaskEditor` コントロールをインスタンス化します。コントロールは、View-Model オブジェクトの `contactPhone` 監視可能プロパティにバインドされます。また、マスクの `inputMask` に加えて、エディターは電話番号を示すマスクに設定されます。
+
+**HTML の場合:**
+
+```
+<!-- mask editor -->
+<input id="contactPhoneIG" class="row-control" data-bind="igMaskEditor: { 
+        value: contactPhone,
+        inputMask: '(000) 000-0000'
+    }"/>
+```
+
+
+
+##<a id="_Configuring_a_Scaling_Factor"></a>コード例: スケール ファクターを構成する (igPercentEditor)
+
+
+### 説明
+
+この例は、Knockout により管理される View-Model オブジェクトに `igPercentEditor` コントロールをバインドする方法を示します。Knockout の宣言構文を使用して、`igPercentEditor` は入力要素のデータ バインドからインスタンス化され View-Model 監視可能プロパティにバインドされます。エディターの `displayFactor` オプションは、基本の View-Model 値を適切なパーセンテージ入力まで拡大縮小するようにも構成されます。
+
+### コード
+
+以下のコード スニペットは、`igPercentEditor` コントロールをインスタンス化します。コントロールは、View-Model オブジェクトの `discountPercent` 監視可能プロパティにバインドされます。さらに、`discountPercent` で数値を適切に拡大縮小するため、エディターの `displayFactor` オプションを 1 に設定します。
+
+**HTML の場合:**
+
+```
+<!-- percent editor -->
+<input id="discountPercentIG" class="row-control" data-bind="igPercentEditor: { 
+        value: discountPercent, 
+        displayFactor : 1 
+    }"/>
+```
+
+
+
+##<a id="_Configuring_Immediate_Update_Mode"></a>コード例: 即時更新モードを構成する (igTextEditor)
+
+
+### 説明
+
+この例は、Ignite UI エディター コントロールの値オプションをKnockout により管理される View-Model にバインドし、各キーストロークで View-Model を更新するようコントロールを構成する方法を示します。デフォルトでは、Ignite UI コントロール内の編集は、コントロールがフォーカスを失った場合、たとえば `onBlur` が発生した場合などに View-Model に送られます。以下のコードは、`updateMode` オプションを immediate に設定することにより、`igTextEditor` コントロールの更新モードをイミディエイトに構成します。
+
+### コード
+
+以下のコードはこの例を実装します。
+
+**HTML の場合:**
+
+```
+<div data-bind="igTextEditor: { 
+        value: customerName, 
+        updateMode: 'immediate' 
+    }"></div>
+```
+
+>**注:** 更新モード オプションは、初期化時にのみ構成できます。実行時は変更できません。
+
+
+
+##<a id="_Related_Content"></a>関連コンテンツ
+
+
+###<a id="_Topics"></a> トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+
+-	[Knockout サポートの構成 (igCombo)](igCombo-KnockoutJS-Support.html) : このトピックは、[Knockout ライブラリ](http://knockoutjs.com/)により管理される View-Model オブジェクトをバインドするために  `igCombo`™ コントロールを構成する方法について説明します。
+
+
+
+###<a id="_Samples"></a> サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+
+-	[KnockoutJS のバインド](%%SamplesUrl%%/editors/bind-editors-with-ko): このサンプルは、Knockout データ バインディングにより管理されるデータに Ignite UI Editor コントロールをバインドする操作を示します。
+
+
+
+###<a id="_Resources"></a> リソース
+
+以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
+
+
+-	[Knockout](http://knockoutjs.com/): これは、Knockout ライブラリのホーム ページです。ライブラリには、完全なドキュメントとサンプルが含まれます。
+
+
+
+
+
+ 
+
+ 
+
+
