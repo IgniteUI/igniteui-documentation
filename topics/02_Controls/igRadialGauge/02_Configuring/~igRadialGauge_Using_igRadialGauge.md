@@ -1,0 +1,42 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igradialgauge-using-igradialgauge",
+    "controlName": "igRadialGauge",
+    "tags": ["Getting Started","How Do I"]
+}
+|metadata|
+-->
+
+# igRadialGauge の構成
+
+
+
+## このグループのトピックについて
+### 概要
+
+このトピック グループは、向きや方向および視覚要素を含む `igRadialGauge`™ コントロールのさまざまな要素を構成する方法を説明します。
+
+### トピック
+
+- [スケールの構成 (igRadialGauge)](igRadialGauge-Configuring-the-Scales.html): このトピックでは、`igRadialGauge`™ コントロールのスケールの概念的な概要を提供します。スケールのプロパティについて説明し、スケールの実装方法の例も示します。
+
+- [目盛の構成 (igRadialGauge)](igRadialGauge-Configuring-Tick-Marks.html): このトピックでは、`igRadialGauge`™ コントロールを使用した目盛の概念的な概要を提供します。目盛のプロパティについて説明し、目盛の実装方法の例を示します。
+
+- [針の構成 (igRadialGauge)](igRadialGauge-Configuring-Needles.html): このトピックでは、`igRadialGauge`™ コントロールを使用した針の概念的な概要を提供します。針のプロパティについて説明し、針の構成方法の例も示します。
+
+- [範囲の構成 (igRadialGauge)](igRadialGauge-Configuring-Ranges.html): このトピックでは、`igRadialGauge`™ コントロールの範囲の概念的な概要を提供します。範囲のプロパティについて説明し、範囲をラジアル ゲージに追加する方法の例も示します。
+
+- [ラベルの構成 (igRadialGauge)](igRadialGauge-Configuring-Labels.html): このトピックでは、`igRadialGauge`™ コントロールを使用したラベルの概念的な概要を提供します。ラベルのプロパティについて説明し、ラベルの構成方法の例も示します。
+
+- [背景の構成 (igRadialGauge)](igRadialGauge-Configuring-the-Backing.html): このトピックでは、`igRadialGauge`™ コントロールの背景機能の概念的な概要を提供します。背景領域のプロパティについて説明し、実装例を提供します。
+
+
+
+
+
+ 
+
+ 
+
+

@@ -1,0 +1,86 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igradialmenu-configuration-overview",
+    "controlName": "igRadialMenu",
+    "tags": ["How Do I","Layouts"]
+}
+|metadata|
+-->
+
+# igRadialMenu の構成の概要
+
+
+
+## トピックの概要
+### 目的
+
+このトピックでは、[`igRadialMenu`](%%jQueryApiUrl%%/ui.igRadialMenu#options)™ コントロールを構成する方法を説明します。
+
+### 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+- [igRadialMenu の機能](igRadialMenu-Features.html): このトピックでは、このコントロールでサポートする機能を開発者の観点から説明します。
+
+- [igRadialMenu の視覚要素](igRadialMenu-Visual-Elements.html): このトピックでは、コントロールの視覚要素についての概要を紹介します。
+
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [概要](#introduction)
+-   [igRadialMenu 構成の概要](#config-summary)
+-   [関連コンテンツ](#related-content)
+
+
+
+## <a id="introduction"></a>概要
+### igRadialMenu の概要
+
+`igRadialMenu` コントロールは項目領域を同じ大きさのウェッジに分割し、項目領域で円形に配置された特定のレベルのすべてのメニュー項目を表示します。各メニュー項目は 1 つ以上のウェッジを使用することができます。すべてのメニュー項目のウェッジの合計がウェッジの数より大きい場合、すべてのメニュー項目が項目領域に入るようにウェッジのサイズが再計算されます。すべてのメニュー項目のウェッジの合計がウェッジの数より小さい場合、最後のメニュー項目の後に空白のスペースが追加されます。
+
+
+
+## <a id="config-summary"></a>igRadialMenu 構成の概要
+
+以下の表は、`igRadialMenu` コントロールで構成できる主要な要素を簡単に説明し、それらを構成するプロパティにマップします。
+
+構成可能な項目|詳細|オプション
+---|---|---
+オープン/クローズ|`igRadialMenu` の状態を設定または取得します。|`isOpen`
+ウェッジの最小数|ウェッジの最小数を設定または取得します。|`minWedgeCount`
+項目の開始角度|項目の開始角度を度数で設定または取得します。|`rotationInDegrees`
+ウェッジのパーセンテージで示された項目の開始角度|ウェッジの幅の項目の開始角度をパーセンテージで設定または取得します。|`rotationAsPercentageOfWedge`
+ウェッジのパディング|各メニュー項目の周囲の余白を度数で設定または取得します。|`wedgePaddingInDegrees`
+非バインド項目|非バインドのルート レベルの項目コレクションを編集します。|`items`
+
+
+## <a id="related-content"></a>関連コンテンツ
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [項目 / サブ項目の構成 - 概要](igRadialMenu-Items-Sub-Items-Configuration-Overview.html)|このトピックでは、メニュー項目およびその共通構成プロパティの概要を説明します。
+
+- [中央ボタンの構成](igRadialMenu-Configuring-Center-Button.html)|このトピックでは、中央ボタンを構成する方法を説明します。
+
+- [ツールチップの構成](igRadialMenu-Configuring-Tooltips.html)|このトピックでは、項目のツールチップを構成する方法を説明します。
+
+### サンプル
+
+以下のサンプルでは、このトピックに関連する情報を提供しています。
+
+- [項目の構成](%%SamplesUrl%%/radial-menu/configure-items): このサンプルは、`igRadialMenu` 項目のパラメーターを構成する方法を紹介します。
+
+
+
+
+
+ 
+
+ 
+
+
