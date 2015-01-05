@@ -23,7 +23,7 @@
 
 -   [**モバイル MVC ヘルパーの使用方法**](#mvc-helper)
 -   [**チェーン構文**](#chaining)
--   [**モバイル igListView™ を使用する ASP.NET MVC アプリケーションの開発**](#listview-example)****
+-   [**モバイル igListView™ を使用する ASP.NET MVC アプリケーションの開発**](#listview-example)
 -   [**関連コンテンツ**](#related-content)
 
 

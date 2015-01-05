@@ -173,7 +173,7 @@ POST
 
         <tr>
             <td>
-**Access-Control-Allow-Credentials** ((認証済みアクセスのみ))
+<b>Access-Control-Allow-Credentials</b> (認証済みアクセスのみ)
 			</td>
 
             <td>
@@ -303,7 +303,7 @@ HTTP ハンドラー名|必要なアクセス レベル|詳細
 		
 		ヘッダーを構成します。
 		
-		**Name** フィールドに、**HTTP ****応答ヘッダーの名前** (たとえば `Access-Control-Allow-Headers`) を入力します。Value フィールドに **HTTP 応答ヘッダーの値を入力します** (たとえば `Origin`, `Content-Type`, `Accept`)。
+		**Name** フィールドに、**HTTP 応答ヘッダーの名前** (たとえば `Access-Control-Allow-Headers`) を入力します。Value フィールドに **HTTP 応答ヘッダーの値を入力します** (たとえば `Origin`, `Content-Type`, `Accept`)。
 		
 		Ｃ. OK をクリックします。
 		
