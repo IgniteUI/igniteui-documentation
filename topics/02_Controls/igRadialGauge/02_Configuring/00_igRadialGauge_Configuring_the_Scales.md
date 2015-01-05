@@ -254,11 +254,12 @@ auto
 以下のコードはこの例を実装します。
 
  **JavaScript の場合:**  
+ 
 ```                                                                                                                                   $("#gauge").igRadialGauge({                                                  
 	width: "400px",
 	height: "400px",
 	scaleStartExtent: 0.5,
-	scaleEndExtent  : 0.4, 
+	scaleEndExtent: 0.4, 
 	scaleOversweep: 15,
 	scaleSweepDirection: "counterclockwise"     
  });                                                                  

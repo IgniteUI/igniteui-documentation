@@ -89,6 +89,7 @@
 以下のコードはこの例を実装します。
 
  **JavaScript の場合:**  
+ 
 ```                                                                                                                                  $("#gauge").igRadialGauge({             
 	width: "400px",
 	height: "400px",
@@ -97,7 +98,7 @@
 		brush: "rgba(164, 189, 41, 1)",  
 		startValue: 70,
 		endValue: 100,
-		outerStartExtent:  0.55,   
+		outerStartExtent: 0.55,   
 		outerEndExtent: 0.65    
 	}]                                      
 });                                                                  

@@ -152,10 +152,9 @@ String
 			</td>
 
             <td>
-“コピー先” 上のヒント マークアップ。このヒントは、コピーしたノードを、現在ハイライトしているノード (マウス ポインターを合わせたノード) の上にドラッグしようとすると表示されます。In this case, the copied node
-                    この場合、移動したノードはターゲット (ハイライト表示) ノードの子ノードになります。
+“コピー先” 上のヒント マークアップ。このヒントは、コピーしたノードを、現在ハイライトしているノード (マウス ポインターを合わせたノード) の上にドラッグしようとすると表示されます。この場合、移動したノードはターゲット (ハイライト表示) ノードの子ノードになります。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:DragAndDropSettings) プロパティ内部に設定します。
+このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:DragAndDropSettings) プロパティ内部に設定します。
 			</td>
 
             <td>
@@ -193,9 +192,9 @@ String
             <td>
 カスタム ドロップ検証のエントリ ポイントを提供します。カスタム検証には、ブール返り値が必要です。false が返るとドロップ ポイントが無効になります。
 
-                カスタム ドロップ検証関数は、内部ツリー検証機能がオーバーライドします。したがって、ドラッグ アンド ドロップ アクションを無効にできる位置はドロップ ポイントだけです。
+カスタム ドロップ検証関数は、内部ツリー検証機能がオーバーライドします。したがって、ドラッグ アンド ドロップ アクションを無効にできる位置はドロップ ポイントだけです。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:DragAndDropSettings) プロパティ内部に設定します。
+このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:DragAndDropSettings) プロパティ内部に設定します。
 			</td>
 
             <td>
@@ -267,9 +266,9 @@ String
 					</li>
                 </ul>
 
-                いずれも、個々のドラッグ アンド ドロップ モードを設定します。
+いずれも、個々のドラッグ アンド ドロップ モードを設定します。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:DragAndDropSettings) プロパティ内部に設定します。
+このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:DragAndDropSettings) プロパティ内部に設定します。
             </td>
 
             <td>
@@ -289,7 +288,7 @@ Float
             <td>
 ドラッグしたノードの不透明度/透明度のレベルとドラッグ中のヒント有効値の範囲は 0 から 1 です。1 でヒントは完全に不透明になり、0 で完全に透明になります。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:DragAndDropSettings) プロパティ内部に設定します。
+このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:DragAndDropSettings) プロパティ内部に設定します。
 			</td>
 
             <td>
@@ -307,9 +306,9 @@ Number
 			</td>
 
             <td>
-`マウスを押す`イベントから、ドラッグが実行されるまでの待ち時間 (単位ミリ秒)これは、要素をクリックするときに不必要なドラッグが発生するのを防ぐためのオプションです。
+`mousedown` イベントから、ドラッグが実行されるまでの待ち時間 (単位ミリ秒)これは、要素をクリックするときに不必要なドラッグが発生するのを防ぐためのオプションです。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:DragAndDropSettings) プロパティ内部に設定します。
+このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:DragAndDropSettings) プロパティ内部に設定します。
 			</td>
 
             <td>
@@ -329,7 +328,7 @@ Number
             <td>
 `mousedown` イベントの後、ドラッグでマウス ポインターを合わせてからノードが展開するまでの待ち時間 (ミリ秒)
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:DragAndDropSettings) プロパティ内部に設定します。
+このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:DragAndDropSettings) プロパティ内部に設定します。
 			</td>
 
             <td>

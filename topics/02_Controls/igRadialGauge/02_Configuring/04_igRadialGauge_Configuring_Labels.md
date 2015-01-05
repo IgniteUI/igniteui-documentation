@@ -89,7 +89,8 @@ labelExtent|0.44
 
 以下のコードはこの例を実装します。
 
- **JavaScript の場合:**                                                                                                                                     
+ **JavaScript の場合:**   
+ 
 ``` 
 $("#gauge").igRadialGauge({                                                
 	width: "400px",

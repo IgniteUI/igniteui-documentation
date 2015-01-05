@@ -239,11 +239,11 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 設定|説明|デフォルト値
 ---|---|---
 FileUploadPath |ファイルにアップロードされるパスを構成します。|"~/Uploads"
-CustomDictionaryProvider |サード パーティのディクショナリ プロバイダー (アップロードされているファイルのメタデータを含む構造) を構成します。この設定は、共有のファイル メタデータが複数のコンピューター/プロセルの間に共有される Web ファーム/Web ガーデンなどのシナリオのために実装されます。この設定は、ISafeDictionary\<string, UploadInfo\> インターフェイスを実装するタイプ名です。|-
+CustomDictionaryProvider |サード パーティのディクショナリ プロバイダー (アップロードされているファイルのメタデータを含む構造) を構成します。この設定は、共有のファイル メタデータが複数のコンピューター/プロセルの間に共有される Web ファーム/Web ガーデンなどのシナリオのために実装されます。この設定は、`ISafeDictionary<string, UploadInfo>` インターフェイスを実装するタイプ名です。|-
 FileSaveType |アップロードの処理ライフサイクルを構成します。「filestream」または「memorystream」に設定できます。「filestream」モードの場合、HTTP モジュールはファイルを自動的に処理し、FileUploadPath ディレクトリに保存されます。「memorystream」モードの場合、ファイルはサーバー RAM にアップロードされます。FileUploading または UploadFinishing のサーバー側イベントを処理すると、ディスクまたはデータベースに手動的に保存する必要があります。「memorystream」モードの詳細については、「[ファイルをストリームとして保存](igUpload-Saving-Files-as-Stream.html)」トピックを参照してください。|"filestream"
 maxFileSizeLimit |アップロード可能な最大のファイル サイズの制限を構成します。|"4194304"
 bufferSize |サーバーにアップロードされるデータの部分のサイズを構成します。|"16384"
-allowedMIMEType |アップロード可能な MIME の種類を構成します。MIME の種類を分割するには、「|」文字を使用します。例: <add key="allowedMIMEType" value="image/jpeg/image/gif"/>|"*"
+allowedMIMEType |アップロード可能な MIME の種類を構成します。MIME の種類を分割するには、「|」文字を使用します。例: `<add key="allowedMIMEType" value="image/jpeg/image/gif"/>`|"*"
 
 
 ## 関連リンク

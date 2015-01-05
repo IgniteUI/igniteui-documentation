@@ -150,8 +150,8 @@ IG テーマ|このテーマには、Ignite UI 向けに作成されたカスタ
 
 要件のカテゴリ|要件の一覧
 ---|---
-データ構造|以下のいずれかの形態を使用できます。ローカルまたは Web サーバーから提供される適格な JSON または XML入れ子になった UL HTML 要素OData サービスJSONPASP.NET MVC における IQueryable
-データ型|String Number Boolean 画像 URL
+データ構造|以下のいずれかの形態を使用できます。<br>ローカルまたは Web サーバーから提供される適格な JSON または XML <br> 入れ子になった UL HTML 要素 <br> OData サービス <br> JSONP <br> ASP.NET MVC における IQueryable
+データ型|String <br> Number <br> Boolean <br> 画像 URL
 
 
 ## <a id="supported-data-sources"></a>サポートされるデータ ソース 

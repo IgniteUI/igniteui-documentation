@@ -330,6 +330,7 @@ circleUnderlayWithHole
 以下のコードはこの例を実装します。
 
  **JavaScript の場合:**
+ 
 ```                                                                                                                           $("#gauge").igRadialGauge({                                                   
 	width: "400px",
 	height: "400px",        

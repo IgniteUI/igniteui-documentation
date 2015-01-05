@@ -22,11 +22,11 @@
 -   [概要](#introduction)
 -   [ドラッグ アンド ドロップ機能を有効にする (概要)](#feature-summary)
 -   [igTree  コントロール内でドラッグ アンド ドロップ機能を有効にする](#drag-drop-within-tree)
--   -   [概要](#within-tree-overview)
+    -   [概要](#within-tree-overview)
     -   [プロパティ設定](#within-tree-settings)
     -   [コード例](#within-tree-code-example)
 -   [igTree  コントロール内でドラッグ アンド ドロップ機能を有効にする](#between-different-trees)
--   -   [概要](#between-trees-overview)
+    -   [概要](#between-trees-overview)
     -   [プロパティ設定](#between-trees-settings)
     -   [コード例](#between-trees-code-example)
 -   [関連コンテンツ](#related-content)
@@ -208,24 +208,24 @@ $("#secondTree").igTree({
 
 ```
 @(Html.Infragistics()
-.Tree()
-.ID("firstTree")
-.DragAndDrop(true)
-.DragAndDropSettings(settings =>{
-	settings.AllowDrop(true);
-})
-.DataBind()
-.Render())  
+	.Tree()
+	.ID("firstTree")
+	.DragAndDrop(true)
+	.DragAndDropSettings(settings =>{
+		settings.AllowDrop(true);
+	})
+	.DataBind()
+	.Render())  
                                                                        
 @(Html.Infragistics()
-.Tree()
-.ID("secondTree")
-.DragAndDrop(true)
-.DragAndDropSettings(settings =>{
-	settings.AllowDrop(true);
-})
-.DataBind()
-.Render())
+	.Tree()
+	.ID("secondTree")
+	.DragAndDrop(true)
+	.DragAndDropSettings(settings =>{
+		settings.AllowDrop(true);
+	})
+	.DataBind()
+	.Render())
 ```
 
 ## <a id="related-content"></a>関連コンテンツ

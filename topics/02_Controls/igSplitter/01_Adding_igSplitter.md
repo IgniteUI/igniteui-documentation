@@ -295,7 +295,7 @@ igSplitter 構造
 		<script  type="text/javascript" src="Scripts/modernizr.js"></script>
 		```
 	
-	3. igLoader への参照を追加します。ページ内に igLoader スクリプトを含めます。
+	3. `igLoader` への参照を追加します。ページ内に `igLoader` スクリプトを含めます。
 	
 		**HTML の場合:**
 		
@@ -319,7 +319,7 @@ igSplitter 構造
 		<script>
 		```
 
-2. igSplitter コントロールを追加します。
+2. `igSplitter` コントロールを追加します。
 
 	1. HTML 要素を `igSplitter` をホストするために追加します。
 	
@@ -334,7 +334,7 @@ igSplitter 構造
 		</div>
 		```
 
-	2. igSplitter をインスタンス化します。
+	2. `igSplitter` をインスタンス化します。
 
 		HTML ページのスクリプト要素に初期化コードを追加します。初期化コードは、以前に追加された div 要素で `igSplitter` インスタンスを作成します。
 		
@@ -399,7 +399,7 @@ igSplitter 構造
 		<script  type="text/javascript" src="Scripts/modernizr.js"></script>
 		```
 	
-	3. igLoader への参照を追加します。ページ内に igLoader スクリプトを含めます。
+	3. `igLoader` への参照を追加します。ページ内に `igLoader` スクリプトを含めます。
 	
 		**HTML の場合:**
 		
@@ -407,7 +407,7 @@ igSplitter 構造
 		<script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
 		```
 
-	4. igSplitter 用の Loader MVC ヘルパー構成を追加する
+	4. `igSplitter` 用の Loader MVC ヘルパー構成を追加する
 	
 		ASP.NET MVC ビューへ以下のコードを追加します。
 		
@@ -422,7 +422,7 @@ igSplitter 構造
 		)
 		```
 
-2. igSplitter コントロールを追加します。
+2. `igSplitter` コントロールを追加します。
 
 	1. HTML 要素を `igSplitter` をホストするために追加します。
 	
@@ -437,7 +437,7 @@ igSplitter 構造
 		</div>
 		```
 	
-	2. `igSplitter` をインスタンス化します。以下のコードは、コンテナーのサイズを指定することなく igSplitter コントロールのインスタンスを作成します。
+	2. `igSplitter` をインスタンス化します。以下のコードは、コンテナーのサイズを指定することなく `igSplitter` コントロールのインスタンスを作成します。
 	
 		```
 		@(Html.Infragistics()
@@ -445,7 +445,6 @@ igSplitter 構造
 		    .Render()
 		)
 		```
-		
 		
 		 多くの場合、インスタンスのサイズを指定することになります。以下のコードでは、`igSplitter` コンテナーを 400 x 600 ピクセル (幅 x 高さ) になるよう構成します。
 		
