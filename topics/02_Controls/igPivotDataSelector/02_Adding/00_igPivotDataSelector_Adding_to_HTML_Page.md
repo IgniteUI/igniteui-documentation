@@ -278,7 +278,7 @@
 
 		<tr>
 			<td>
-				`igPivotDataSelector` CSS resources file
+				`igPivotDataSelector` CSS リソース ファイル
 			</td>
 
 			<td>

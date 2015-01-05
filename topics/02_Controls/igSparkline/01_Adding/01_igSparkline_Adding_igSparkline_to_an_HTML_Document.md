@@ -109,7 +109,7 @@ IG テーマ
 
         <tr>
             <td>
-`igSparkline` CSS resource files
+`igSparkline` CSS リソース ファイル
 			</td>
 
             <td>

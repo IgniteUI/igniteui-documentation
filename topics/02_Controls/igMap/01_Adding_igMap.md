@@ -90,7 +90,7 @@
 <script type="text/javascript" src="/Scripts/ig/js/infragistics.loader.js"></script>
 ```
 
-…and then instantiate the Loader for HTML views:
+さらに HTML ビュー向けにローダーをインスタンス化します。
 
 **HTML の場合:**
 

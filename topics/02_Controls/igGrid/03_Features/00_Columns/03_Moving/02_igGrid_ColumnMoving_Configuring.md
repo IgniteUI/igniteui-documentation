@@ -77,7 +77,7 @@
 
         <tr>
             <td colspan="2">
-[Mode](#_Configuring_the_Column)
+[モード](#_Configuring_the_Column)
 			</td>
 
             <td>
@@ -95,7 +95,7 @@
 
         <tr>
             <td colspan="2">
-[Type](igGrid-ColumnMoving-Configuring.html#type)
+[タイプ](igGrid-ColumnMoving-Configuring.html#type)
 			</td>
 
             <td>
@@ -115,7 +115,7 @@
 
         <tr>
             <td colspan="2">
-[Columns](igGrid-ColumnMoving-Configuring.html#disable)
+[列](igGrid-ColumnMoving-Configuring.html#disable)
 			</td>
 
             <td>
@@ -141,7 +141,7 @@
 
         <tr>
             <td>
-[Interface](igGrid-ColumnMoving-Configuring.html#disable-interface)
+[インターフェイス](igGrid-ColumnMoving-Configuring.html#disable-interface)
 			</td>
 
             <td>

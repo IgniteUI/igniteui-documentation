@@ -56,7 +56,7 @@ DOM では、複数列ヘッダー機能は THEAD 要素を変更します。THE
 > **注:**
 > API `$(“.selector”).igGrid(“option”, “columns”)` を使用してグリッド列を取得しようとすると、実際のデータ列が平面で表示されます。複数列ヘッダーの実際の列階層を取得する場合、`getMultiColumnHeaders` メソッドを使用する必要があります。
 > 
-> 例: `var columnDefinitions = $(".selector ").igGridMultiColumnHeaders("getMultiColumnHeaders");`
+> 例: `var columnDefinitions = $(".selector").igGridMultiColumnHeaders("getMultiColumnHeaders");`
 
 以下のスクリーンショットでは、複数列ヘッダーが Northwind データベースの Customers テーブルの `CompanyName`、`ContactName` および `ContactTitle` の各列に構成されているのがわかります。
 

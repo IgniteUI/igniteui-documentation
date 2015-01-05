@@ -239,7 +239,7 @@
 
 	ここで:
 
-	-	<*customDefinedIdentifier*\> は API 操作に使用するカスタム文字列リテラルです。
+	-	\<*customDefinedIdentifier*\> は API 操作に使用するカスタム文字列リテラルです。
 
 	-	<*predefinedActionHandler*\> はハンドラーの名前であり、以下のいずれかにします。
 

@@ -220,7 +220,7 @@
 
         <tr>
             <td>
-列
+Column
 			</td>
 
             <td>

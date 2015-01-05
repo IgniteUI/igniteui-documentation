@@ -155,7 +155,7 @@ HTML コンテンツを描画する jQuery コード
 
         <tr>
             <td colspan="2">
-Target
+ターゲット
 			</td>
 
             <td>
@@ -347,7 +347,7 @@ ui-igpopover-close-button
 プロパティ|値
 ---|---
 [headerTemplate.closeButton](%%jQueryApiUrl%%/ui.igpopover#options:headerTemplate.closeButton)|true
-[headerTemplate.title](%%jQueryApiUrl%%/ui.igpopover#options:headerTemplate.title)|“We’re social”
+[headerTemplate.title](%%jQueryApiUrl%%/ui.igpopover#options:headerTemplate.title)|“We're social”
 
 
 ![](images/Configuring_igPopover_1.png)

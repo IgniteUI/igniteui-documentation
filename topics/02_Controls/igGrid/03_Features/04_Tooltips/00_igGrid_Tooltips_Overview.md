@@ -165,7 +165,7 @@ hidden  <br />
 
         <tr>
             <td>
-Appearance
+外観
 			</td>
             <td>
 jQuery UI CSS Framework クラスを変更する場合にカスタマイズ可能な外観。

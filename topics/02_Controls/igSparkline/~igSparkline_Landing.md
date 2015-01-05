@@ -52,7 +52,7 @@ WinLoss
 
 - [igSparkline の追加](igSparkline-Adding-igSparkline.html): このグループのトピックは、`igSparkline` をアプリケーションに追加できるさまざまな方法を説明します。
 
-- [igSparkline をデータにバインド](igSparkline-Binding-to-Data.html): 本トピックでは、`igSparkline` コントロールを各種データ ソース (JavaScript 配列、IQueryable\<T\>、Web サービス) にバインドする方法について説明します。
+- [igSparkline をデータにバインド](igSparkline-Binding-to-Data.html): 本トピックでは、`igSparkline` コントロールを各種データ ソース (JavaScript 配列、`IQueryable<T>`、Web サービス) にバインドする方法について説明します。
 
 - [igSparkline の構成](igSparkline-Configuring.html): このトピックでは、`igSparkline` コントロールを構成する方法を紹介し、関連 API メンバーへのリンクを提供します。
 

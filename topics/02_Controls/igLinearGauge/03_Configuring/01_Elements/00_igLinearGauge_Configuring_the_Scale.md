@@ -615,7 +615,7 @@ $('#igLinearGauge').igLinearGauge({
 
 		<tr>
 			<th>
-				Interval
+				間隔
 			</th>
 
 			<td>

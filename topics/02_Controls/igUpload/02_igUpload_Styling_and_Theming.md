@@ -127,7 +127,7 @@ summaryProgressBarSecondaryLabel|ui-igupload-summaryprogress-label ui-igupload-s
 containerFUS|ui-widget-content ui-igupload-progress-container ui-corner-all ui-helper-clearfix |個々のファイルのコンテナーのクラス。プログレス バー、ファイル情報、キャンセル ボタンなどを含みます
 
 
->**注:** すべてのクラスが upload コントロール用のカスタムということではありません。一部は、jQuery UI CSS Framewor から再利用されます。
+>**注:** すべてのクラスが upload コントロール用のカスタムということではありません。一部は、jQuery UI CSS Framework から再利用されます。
 
 ## ファイル拡張子のアイコン
 Upload プロパティ `showFileExtensionIcon` を True に設定すると、コントロールは、アップロードされるファイルの種類を示すアイコンをファイル名の左に表示します。

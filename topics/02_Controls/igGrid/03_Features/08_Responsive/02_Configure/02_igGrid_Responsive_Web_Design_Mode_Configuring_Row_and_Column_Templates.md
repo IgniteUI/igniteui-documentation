@@ -133,11 +133,11 @@ columnSettings.configuration.&lt;custom_mode&gt;.template
 目的:|使用するプロパティ:|設定の選択肢:
 -------------|--------------------|---------------
 デスクトップ RWD モード プロファイルに対して列テンプレートを構成します。|[columnSettings.columnKey](%%jQueryApiUrl%%/ui.iggridresponsive#options)|列のキー
- | [columnSettings.configuration.desktop.template](%%jQueryApiUrl%%/ui.iggridresponsive#options) | a template string
+ | [columnSettings.configuration.desktop.template](%%jQueryApiUrl%%/ui.iggridresponsive#options) | テンプレート文字列
 タブレット RWD プロファイルに対して列テンプレートを構成します。|[columnSettings.columnKey](%%jQueryApiUrl%%/ui.iggridresponsive#options)|列のキー
- | [columnSettings.configuration.tablet.template](%%jQueryApiUrl%%/ui.iggridresponsive#options) | a template string
+ | [columnSettings.configuration.tablet.template](%%jQueryApiUrl%%/ui.iggridresponsive#options) | テンプレート文字列
 電話 RWD プロファイルに対して列テンプレートを構成します。|[columnSettings.columnKey](%%jQueryApiUrl%%/ui.iggridresponsive#options)|列のキー
- | [columnSettings.configuration.phone.template](%%jQueryApiUrl%%/ui.iggridresponsive#options) | a template string
+ | [columnSettings.configuration.phone.template](%%jQueryApiUrl%%/ui.iggridresponsive#options) | テンプレート文字列
 
 
 

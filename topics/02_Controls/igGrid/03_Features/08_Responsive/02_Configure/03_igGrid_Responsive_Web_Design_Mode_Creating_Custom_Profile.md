@@ -203,10 +203,7 @@ RWD モードのカスタム プロファイルのインライン定義がプロ
     responsiveConfig: {    <custom_mode_name>: “<custom_class_name>” }
     ```
     
-	```
-	Where <custom_mode_name> is the name of the profile which you
-	will use to configure column hiding and template switching.
-	```
+	`<custom_mode_name>` はプロファイルの名前であり、列の非表示やテンプレートに切り替えに使用します。
 
 3.  カスタムプロファイルを使用して、列の非表示やテンプレートの切り替えを構成します。
 
@@ -216,11 +213,10 @@ RWD モードのカスタム プロファイルのインライン定義がプロ
 ### <a id="extending-property-settings"></a> プロパティ設定
 
 以下の表では、目的のタスクをプロパティ設定にマップしています。
-related to it.
 
 目的:|使用するプロパティ:|設定の選択肢:
 -------------|--------------------|----------------
-`$.ig.ResponsiveMode` クラスを拡張することにより、カスタム RWD モード プロファイルを作成します。|**responsiveModes.<custom_name>**|$.ig.ResponsiveMode を拡張し名前のサフィックス Mode を持つ `$.ig` 名前空間におけるクラス名。
+`$.ig.ResponsiveMode` クラスを拡張することにより、カスタム RWD モード プロファイルを作成します。|**responsiveModes.\<custom_name\>**|$.ig.ResponsiveMode を拡張し名前のサフィックス Mode を持つ `$.ig` 名前空間におけるクラス名。
 
 
 ### <a id="extending-example"></a> 例

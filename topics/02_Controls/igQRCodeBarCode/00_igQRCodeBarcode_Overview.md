@@ -84,8 +84,7 @@
 			</td>
 
             <td>
-If the [width](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options:width) and [height](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options:height) properties have
-                    [width](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options:width) および [height](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options:height) プロパティが `igQRCodeBarcode` コントロールに設定されていない場合、コンテナーのサイズ (定義されている場合) に基づきサイズが設定されます。高さと幅を設定すると、QR バーコード マトリックスが表示される長方形領域が作成されます。
+[width](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options:width) および [height](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options:height) プロパティが `igQRCodeBarcode` コントロールに設定されていない場合、コンテナーのサイズ (定義されている場合) に基づきサイズが設定されます。高さと幅を設定すると、QR バーコード マトリックスが表示される長方形領域が作成されます。
 			</td>
         </tr>
 

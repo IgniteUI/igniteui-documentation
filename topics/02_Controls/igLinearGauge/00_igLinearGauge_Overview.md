@@ -562,7 +562,7 @@
 
 			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:needleShape" target="_blank">needleShape</a></td>
 
-			<td>針</td>
+			<td>Needle</td>
 		</tr>
 	</tbody>
 </table>
@@ -866,7 +866,7 @@
 
 		<tr>
 			<th>
-				Delay
+				遅延時間
 			</th>
 
 			<td colspan="2">

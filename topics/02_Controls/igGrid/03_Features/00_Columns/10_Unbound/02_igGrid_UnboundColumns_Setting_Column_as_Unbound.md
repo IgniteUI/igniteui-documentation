@@ -121,7 +121,7 @@ namespace UnboundColumns.Models
 }
 ```
 
-これは、`FistName` と `LastName` という 2 つのフィールドを含む非常にシンプルな Employee モデルです。
+これは、`FirstName` と `LastName` という 2 つのフィールドを含む非常にシンプルな Employee モデルです。
 
 ビュー:
 

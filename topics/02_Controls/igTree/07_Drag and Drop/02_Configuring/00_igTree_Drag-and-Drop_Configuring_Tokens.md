@@ -87,12 +87,12 @@
 
 操作|位置|ビジュアル トークンを変更する状況:|使用するプロパティ:
 ---|---|---|---
-copy|後|別のノードの後にノードをコピーしています。|copyAfterMarkup
-copy|前|別のノードの前にノードをコピーしていします。|copyBeforeMarkup
+copy|after|別のノードの後にノードをコピーしています。|copyAfterMarkup
+copy|before|別のノードの前にノードをコピーしていします。|copyBeforeMarkup
 copy|between|別のノードの間にノードをコピーしています。|copyBetweenMarkup
 copy|onto|別のノードの上にノードをコピーしています。|copyToMarkup
-move|後|別のノードの後にノードを移動しています。|moveAfterMarkup
-move|前|別のノードの前にノードを移動しています。|moveBeforeMarkup
+move|after|別のノードの後にノードを移動しています。|moveAfterMarkup
+move|before|別のノードの前にノードを移動しています。|moveBeforeMarkup
 move|between|別のノードの間にノードを移動しています。|moveBetweenMarkup
 move|onto|別のノードの上にノードを移動しています。|moveToMarkup
 copy /move|invalid|不正領域にノードを移動しています。|invalidMoveToMarkup

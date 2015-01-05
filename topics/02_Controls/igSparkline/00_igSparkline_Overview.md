@@ -298,7 +298,7 @@ WinLoss|このタイプは、外観は柱状チャートに似ています。各
 			</th>
 
             <th>
-`trendLineType`  **option setting**
+`trendLineType`  **オプションの設定**
 			</th>
         </tr>
 	</thead>

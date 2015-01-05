@@ -124,7 +124,7 @@
 モジュール行列のサイズを指定する方法:|使用するプロパティ:|設定の選択肢:
 ---|---|---
 データを格納する最も小さいバージョン|[sizeVersion](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)|<ul><li>“undefined”</li></ul>
-21x21 module matrix|sizeVersion|<ul><li>“version1”</li></ul>
+21x21 モジュール行列|sizeVersion|<ul><li>“version1”</li></ul>
 
 
 

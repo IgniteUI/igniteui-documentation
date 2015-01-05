@@ -45,7 +45,7 @@
 
 前提条件タイプ|コンテンツ
 ---|---
-トピック|まず以下のトピックを読む必要があります。 [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html) <br>[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)<br>[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)<br>[igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html)、Data Source Control セクション
+トピック|まず以下のトピックを読む必要があります。 [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html) <br>[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)<br>[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)<br>[igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html)、データ ソース コントロール セクション
 外部リソース|あらかじめ [jQuery ウィジェットの使用](http://wiki.jqueryui.com/w/page/12137708/How%20to%20use%20jQuery%20UI%20widgets) を読んでおくことをお勧めします。
 
 

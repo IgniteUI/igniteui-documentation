@@ -253,7 +253,7 @@ AddFinishedUploadEventHandler |UploadFinished |`UploadProgressManager .Instance.
 
 **注:** その他の JSON プロパティ (`size`、`serverMessage`、`bytesUploaded` など) は、エラーや状態のようにサーバー上の列挙型として作成する必要はありません。これらは動的に変更できる文字列または数値です。
 
-**Table 3:** UploadStatus タイプの列挙体
+**表 3:** UploadStatus タイプの列挙体
 
 値|説明
 ---|---
@@ -268,7 +268,7 @@ AddFinishedUploadEventHandler |UploadFinished |`UploadProgressManager .Instance.
 8 | クライアント接続を切断することによってファイルのアップロードをキャンセルします。
 9 | すべてのコンテンツがアップロードされていて、ファイル名が一時的なファイル名である場合のファイルの状態。
 
-**Table 4:** FileError タイプの列挙体
+**表 4:** FileError タイプの列挙体
 
 値|説明
 ---|---

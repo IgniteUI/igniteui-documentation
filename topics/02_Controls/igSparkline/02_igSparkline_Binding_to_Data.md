@@ -85,7 +85,7 @@ JavaScript 配列
 					</li>
 
                     <li>
-ASP.NET MVC の IEnumerable\<T\>
+ASP.NET MVC の `IEnumerable<T>`
 					</li>
                 </ul>
             </td>
@@ -123,7 +123,7 @@ ASP.NET MVC の IEnumerable\<T\>
 データ構造|関連トピック/サンプル:
 ---|---
 JavaScript 配列へのデータ バインド|**関連トピック**<br>[igSparkline を HTML ドキュメントに追加](igSparkline-Adding-igSparkline-to-an-HTML-Document.html)
-IEnumerable\<T\> にデータ バインド|**関連トピック**<br>[igSparkline を ASP.NET MVC ビューに追加](igSparkline-Adding-igSparkline-to-an-ASPNET-MVC-View.html)
+`IEnumerable<T>` にデータ バインド|**関連トピック**<br>[igSparkline を ASP.NET MVC ビューに追加](igSparkline-Adding-igSparkline-to-an-ASPNET-MVC-View.html)
 リモート URL へのデータ バインド|**関連サンプル**<br>[リモート データにバインド](%%SamplesUrl%%/sparkline/bind-to-remote-data)
 
 

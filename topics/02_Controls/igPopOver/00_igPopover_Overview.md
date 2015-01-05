@@ -282,7 +282,7 @@ HTML コンテンツを描画する jQuery コード
 
         <tr>
             <td width="70" colspan="2">
-Target
+ターゲット
 			</td>
 
             <td>

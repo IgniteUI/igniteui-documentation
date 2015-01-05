@@ -155,7 +155,7 @@
 
 - [列チューザーの構成 (igGrid)](igGrid-Hiding-Column-Chooser.html): このトピックは、列選択の非表示を使用する方法を紹介します。
 
-- [igGrid 複数並べ替えモーダル](igGrid-Multiple-Sorting-Dialog.html): このトピックは、`igHierarchicalGrid` グループ化のモーダル ダイアログを示します。
+- [igGrid 複数並べ替えモーダル](igGrid-Multiple-Sorting-Dialog.html): このトピックは、`igGrid` グループ化のモーダル ダイアログを示します。
 
 - [igGrid フィルタリング](igGrid-Filtering.html): 詳細モードの `igGrid` フィルタリングを示します。
 

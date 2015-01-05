@@ -185,7 +185,7 @@ object
 			</td>
 
             <td>
-文字列
+string
 			</td>
 
             <td>
@@ -201,7 +201,7 @@ null
 [restSettings.create.template](%%jQueryApiUrl%%/ui.iggrid#options:restSettings.create.template)
 			</td>
             <td>
-文字列
+string
 			</td>
             <td>
 このオプションはリモート URL テンプレートを指定します。${id} プレースホルダーは、リソース ID の代わりに使用します。
@@ -250,7 +250,7 @@ object
 [restSettings.update.url](%%jQueryApiUrl%%/ui.iggrid#options:restSettings.update.url)
 			</td>
             <td>
-文字列
+string
 			</td>
             <td>
 このオプションは、更新要求を送信するリモート URL を指定します。
@@ -264,7 +264,7 @@ null
 [restSettings.update.template](%%jQueryApiUrl%%/ui.iggrid#options:restSettings.update.template)
 			</td>
             <td>
-文字列
+string
 			</td>
             <td>
 このオプションはリモート URL テンプレートを指定します。${id} プレースホルダーは、リソース ID の代わりに使用します。
@@ -313,7 +313,7 @@ object
 [restSettings.remove.url](%%jQueryApiUrl%%/ui.iggrid#options:restSettings.remove.url)
 			</td>
             <td>
-文字列
+string
 			</td>
             <td>
 このオプションは、削除要求の送信先のリモート URL を指定します。
@@ -329,7 +329,7 @@ null
 			</td>
 
             <td>
-文字列
+string
 			</td>
             <td>
 このオプションはリモート URL テンプレートを指定します。${id} プレースホルダーは、リソース ID の代わりに使用します。
@@ -380,7 +380,7 @@ true
 [restSettings.contentSerializer](%%jQueryApiUrl%%/ui.iggrid#options:restSettings.contentSerializer)
 			</td>
             <td>
-関数
+function
 			</td>
             <td>
 サーバーに送信したコンテンツをシリアル化するカスタム関数を指定します。
@@ -394,7 +394,7 @@ null
 [restSettings.contentType](%%jQueryApiUrl%%/ui.iggrid#options:restSettings.contentType)
 			</td>
             <td>
-文字列
+string
 			</td>
             <td>
 要求のコンテンツタイプを指定します。
@@ -413,9 +413,9 @@ null
 <table class="table table-striped">
 	<thead>
 		<tr>
-            <th> Configurable aspects </th>
-            <th> Details </th>
-            <th> Options </th>
+            <th>構成可能な要素</th>
+            <th>詳細</th>
+            <th>オプション</th>
         </tr>
 	</thead>
 	<tbody>
@@ -528,8 +528,8 @@ $.ig.RESTDataSource は、そのままで JSON シリアル化をサポートし
 
 目的:|使用するオプション|設定の選択肢:
 ---|---|---
-PUT 要求のカスタム URL テンプレートを設定します。|[restSettings.update.template](%%jQueryApiUrl%%/ui.iggrid#options:restSettings.update.template)|Custom URL template string.たとえば: “/api/products/Update(${id})”
-DELETE 要求のカスタム URL テンプレートを設定します。|[restSettings.remove.template](%%jQueryApiUrl%%/ui.iggrid#options:restSettings.remove.template)|Custom URL template string.たとえば: “/api/products/Remove(${id})”
+PUT 要求のカスタム URL テンプレートを設定します。|[restSettings.update.template](%%jQueryApiUrl%%/ui.iggrid#options:restSettings.update.template)|カスタム URL テンプレート文字列。たとえば: “/api/products/Update(${id})”
+DELETE 要求のカスタム URL テンプレートを設定します。|[restSettings.remove.template](%%jQueryApiUrl%%/ui.iggrid#options:restSettings.remove.template)|カスタム URL テンプレート文字列。たとえば: “/api/products/Remove(${id})”
 
 
 

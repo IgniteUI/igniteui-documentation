@@ -377,7 +377,7 @@
 
         <tr>
             <td>
-Columns
+列
 			</td>
 
             <td>

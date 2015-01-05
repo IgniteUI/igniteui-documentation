@@ -186,7 +186,7 @@ String
 			</td>
 
             <td>
-関数
+Function
 			</td>
 
             <td>

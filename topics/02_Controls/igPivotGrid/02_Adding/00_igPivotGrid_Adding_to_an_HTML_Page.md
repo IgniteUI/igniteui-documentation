@@ -437,7 +437,9 @@
 	**JavaScript の場合:**
 
 	```
-	$.ig.loader(function () {    // add data source declaration here     $("#pivotGrid").igPivotGrid({
+	$.ig.loader(function () {
+		// add data source declaration here
+		$("#pivotGrid").igPivotGrid({
 	        dataSource: dataSource
 	    });
 	});

@@ -253,7 +253,7 @@ enableRowNumbering|“true”
 		
 		jQuery では、これはウィジェットがインスタンス化されるときに行うことができます。
 		
-		ASP.NET MVC では、jQuery delgate() または bind() API を使用してイベントを添付する必要があります。このイベントの型は iggridrowselectorscheckboxstatechanging です。 
+		ASP.NET MVC では、jQuery delegate() または bind() API を使用してイベントを添付する必要があります。このイベントの型は iggridrowselectorscheckboxstatechanging です。 
 		
 		**JavaScript の場合:**
 		
