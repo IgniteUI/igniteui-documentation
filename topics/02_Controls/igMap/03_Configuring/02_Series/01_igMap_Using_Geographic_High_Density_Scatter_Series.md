@@ -40,7 +40,7 @@
 -   [**熱色スケールの構成**](#config-heat-color-scale)
 -   [**解像度の構成**](#config-resolution)
 -   [**ローディング モードの構成**](#config-loading-mode)
--   [**マウス オーバー ビヘイビアーの構成**](#config-mouse-over-behavior)
+-   [**マウス オーバー ビヘイビアの構成**](#config-mouse-over-behavior)
 -   [**レンダリング モードの構成**](#config-rendering-mode)
 -   [**最小ポイントサイズの構成**](#config-min-points)
 -   [**関連コンテンツ**](#related-content)
@@ -318,8 +318,8 @@ latitudeMemberPath|string|緯度値が割り当てられた項目上の位置を
 [熱色スケールの構成](#config-heat-color-scale)|このコード例は、熱色スケールを構成する方法を詳細します。
 [解像度の構成](#config-resolution)|このコード例は、解像度を構成する方法を詳細します。
 [ローディング モードの構成](#config-loading-mode)|このコード例は、ローディング モードを構成する方法を詳細します。
-[マウス オーバー ビヘイビアーの構成 ](#config-mouse-over-behavior)|
-このコード例は、マウス オーバー ビヘイビアーを構成する方法を詳細します。[レンダリング モードの構成](#config-rendering-mode)|このコード例は、レンダリング モードを構成する方法を詳細します。[最小ポイントサイズの構成](#config-min-points)|このコード例は、最小ポイントサイズを構成する方法を詳細します。
+[マウス オーバー ビヘイビアの構成 ](#config-mouse-over-behavior)|
+このコード例は、マウス オーバー ビヘイビアを構成する方法を詳細します。[レンダリング モードの構成](#config-rendering-mode)|このコード例は、レンダリング モードを構成する方法を詳細します。[最小ポイントサイズの構成](#config-min-points)|このコード例は、最小ポイントサイズを構成する方法を詳細します。
 
 
 ##<a id="config-series-js"></a>コード例: JavaScript における地理高密度散布シリーズの構成
@@ -455,7 +455,7 @@ $("#map").igMap({
 
 ### 説明
 
-`igMap` コントロールは、`igMap` をロードする間、継続して UI の応答性を保つようデータをばらばらに読み込む `geographichHighDensityScatterSeries` シリーズを段階的に描画します。デフォルトで、progressiveLoad プロパティは true に設定されています。`geographichHighDensityScatterSeries` シリーズは、`igMap` のレンダリング中に、ローディング状態を表示できる以下の 2 通りの方法を提供します。
+`igMap` コントロールは、`igMap` をロードする間、継続して UI の応答性を保つようデータを分割して読み込む `geographichHighDensityScatterSeries` シリーズを段階的に描画します。デフォルトで、progressiveLoad プロパティは true に設定されています。`geographichHighDensityScatterSeries` シリーズは、`igMap` のレンダリング中に、ローディング状態を表示できる以下の 2 通りの方法を提供します。
 
 -   ローディング状態を表示できる progressiveLoadStatusChanged イベントをリッスンします。
 -   progressiveStatus プロパティは、値が 0 から 100 まで (完全なロードは 100) のプログレッシブ ロード シリーズの状態を表します。このプロパティは、プログレスバーなどのローディング状態を示すコントロールにバインドします。
@@ -482,7 +482,7 @@ $("#map").igMap({    ...
 
 
 
-##<a id="config-mouse-over-behavior"></a>コード例: マウス オーバー ビヘイビアーの構成
+##<a id="config-mouse-over-behavior"></a>コード例: マウス オーバー ビヘイビアの構成
 
 ### 説明
 
