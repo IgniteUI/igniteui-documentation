@@ -176,7 +176,7 @@
 
 - [Ignite UI コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックでは、Ignite UI™ コントロールのタッチ サポート インタラクションの更新内容を紹介します。
 
-- [igGrid 機能セレクター](igGrid-Feature-Chooser.html): このトピックでは、`igGrid`™ 機能セレクター] メニューとそのそのセクションについて説明します。
+- [igGrid 機能セレクター](igGrid-Feature-Chooser.html): このトピックでは、`igGrid`™ 機能セレクター メニューとそのそのセクションについて説明します。
 
 - [igGrid 並べ替えの概要](igGrid-Sorting-Overview.html): このサンプルでは、`igGrid` 並べ替え機能を有効にして、使用する方法を示します。
 
