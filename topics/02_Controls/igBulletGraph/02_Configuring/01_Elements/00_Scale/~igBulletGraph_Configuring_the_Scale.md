@@ -1164,7 +1164,7 @@ $('#igBulletGraph').igBulletGraph({
 
 プロパティ|値
 ---|---
-[orientation](%%jQueryApiUrl%%/ui.igBulletGraph#options:orientation)|垂直方向
+[orientation](%%jQueryApiUrl%%/ui.igBulletGraph#options:orientation)|'vertical'
 [labelExtent](%%jQueryApiUrl%%/ui.igBulletGraph#options:labelExtent)|0.5
 [labelInterval](%%jQueryApiUrl%%/ui.igBulletGraph#options:labelInterval)|30
 [labelsPostInitial](%%jQueryApiUrl%%/ui.igBulletGraph#options:labelsPostInitial)|20
