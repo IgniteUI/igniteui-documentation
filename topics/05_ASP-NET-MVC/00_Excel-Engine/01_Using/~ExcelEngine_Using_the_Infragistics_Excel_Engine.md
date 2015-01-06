@@ -12,7 +12,7 @@
 
 このセクションには、Infragistics Excel Engine™ を使用する際の一般的なシナリオを説明するチュートリアルが掲載されています。
 
--   [Reference Strings による Cells および Regions のアクセス](ExcelEngine-Accessing-Cells-and-Regions-by-their-Reference-Strings.html)
+-   [参照文字列による Cells および Regions のアクセス](ExcelEngine-Accessing-Cells-and-Regions-by-their-Reference-Strings.html)
 -   [画像をワークシートに追加](ExcelEngine-Add-an-Image-to-a-Worksheet.html)
 -   [ドキュメント プロパティをワークブックに追加](ExcelEngine-Add-Document-Properties-to-a-Workbook.html)
 -   [形状をワークシートに追加](ExcelEngine-Adding-Shapes-to-a-Worksheet.html)
