@@ -146,9 +146,11 @@
 
  静的なリソースのロードを望む場合、「[igDataChart の概要: 最小要件](igDataChart-Overview.html#_Minimum_Requirements)」を参照してチャートを使用するためにリンクする必要があるリソース ファイルを確認してください。
 
-2. `igDataChart` が必要とする HTML マークアップの追加<a id="add-html-markup"></a>**HTML の例**
+2. `igDataChart` が必要とする HTML マークアップの追加<a id="add-html-markup"></a>
 
- グラフの DIV 要素とグラフ インスタンス コードで参照される凡例を追加します。
+ **HTML の例**
+
+ チャートの DIV 要素とチャート インスタンス コードで参照される凡例を追加します。
 
  **HTML の場合:**
 
