@@ -176,8 +176,6 @@
     XmlElement GetStockQuoteGET(string symbol);
     ```
 
-    
-
 9.  データを返すための `StockQuoteService` でメソッドを実装します。以下のコードは GetStockQuoteGET を実装します。 **注**: ここには一社のデータのみ表示されていますが、このトピック最後からダウンロードできるサンプルに全社のサンプルデータが含まれます。
 
     **C# の場合:**

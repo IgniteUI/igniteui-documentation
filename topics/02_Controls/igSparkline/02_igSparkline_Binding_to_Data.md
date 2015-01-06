@@ -13,7 +13,7 @@
 ## トピックの概要
 ### 目的
 
-本トピックでは、`igSparkline`™ コントロールを各種データ ソース (JavaScript 配列、IQueryable\<T\>、Web サービス) にバインドする方法について説明します。
+本トピックでは、`igSparkline`™ コントロールを各種データ ソース (JavaScript 配列、`IQueryable<T>`、Web サービス) にバインドする方法について説明します。
 
 ### 前提条件
 

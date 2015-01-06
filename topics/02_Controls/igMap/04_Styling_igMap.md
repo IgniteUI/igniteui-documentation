@@ -542,106 +542,106 @@ ASP.NET MVC による以下のコードでは、`igMap` コントロールの MV
 
 1.  カラー選択ロジック
 
-例のカスタム カラー選択ロジックは、カラーのパレットと値の範囲に基づいて機能します。範囲のサイズとパレットで使用できるカラーの数に基づいて値の間隔を計算します。その後、ロジックがマップ図形の具体的な値で呼び出されると必ず、値が属する間隔が計算され、パレットから対応するカラーが返されます。
+	例のカスタム カラー選択ロジックは、カラーのパレットと値の範囲に基づいて機能します。範囲のサイズとパレットで使用できるカラーの数に基づいて値の間隔を計算します。その後、ロジックがマップ図形の具体的な値で呼び出されると必ず、値が属する間隔が計算され、パレットから対応するカラーが返されます。
 
-以下のコードは変数 `colorPicker` を定義し、それを最小値と最大値がそれぞれ 100 000 と 500 000 000 で初期化された `ColorPickerByIndex` オブジェクトに割り当てます。
+	以下のコードは変数 `colorPicker` を定義し、それを最小値と最大値がそれぞれ 100 000 と 500 000 000 で初期化された `ColorPickerByIndex` オブジェクトに割り当てます。
 
-**JavaScript の場合:**
+	**JavaScript の場合:**
 
-```
-var colorPicker = new ColorPickerByIndex(100000, 500000000);
-function ColorPickerByIndex(min, max) {
-    //  Initialize internal state
-    var brushes = ["DeepSkyBlue", "blue", "DarkCyan", "coral", "orange", "Darkorange" ];
-    var min = min;
-    var max = max;
-    var interval = (max - min) / (brushes.length - 1)
-    this.getColorByIndex = function (val) {
-        var index = Math.round(val / interval);
-        if (index < 0) {
-            index = 0;
-        }
-        else if (index > (brushes.length - 1)) {
-            index = brushes.length - 1;
-        }
-        return brushes[index];
-    }
-}
-```
+	```
+	var colorPicker = new ColorPickerByIndex(100000, 500000000);
+	function ColorPickerByIndex(min, max) {
+		//  Initialize internal state
+		var brushes = ["DeepSkyBlue", "blue", "DarkCyan", "coral", "orange", "Darkorange" ];
+		var min = min;
+		var max = max;
+		var interval = (max - min) / (brushes.length - 1)
+		this.getColorByIndex = function (val) {
+			var index = Math.round(val / interval);
+			if (index < 0) {
+				index = 0;
+			}
+			else if (index > (brushes.length - 1)) {
+				index = brushes.length - 1;
+			}
+			return brushes[index];
+		}
+	}
+	```
 
 2.  マップのインスタンス作成
 
-JavaScript による以下のコードでは、`populationStyleSelector` という変数を定義し、カラー選択オブジェクトをそれに割り当てています。カラー選択オブジェクトの `selectStyle` メンバーは、すべてのデータが図形にバインドされた shape という引数を受信する匿名の関数をポイントしています。匿名の関数はデータから POP_COUNTRY フィールドを取得し、国の人口を使用して `colorPicker` オブジェクトの `getColorByIndex()` メソッドを呼び出し、図形に適切な塗りつぶしカラーを取得します。
+	JavaScript による以下のコードでは、`populationStyleSelector` という変数を定義し、カラー選択オブジェクトをそれに割り当てています。カラー選択オブジェクトの `selectStyle` メンバーは、すべてのデータが図形にバインドされた shape という引数を受信する匿名の関数をポイントしています。匿名の関数はデータから POP_COUNTRY フィールドを取得し、国の人口を使用して `colorPicker` オブジェクトの `getColorByIndex()` メソッドを呼び出し、図形に適切な塗りつぶしカラーを取得します。
 
-**JavaScript の場合:**
+	**JavaScript の場合:**
 
-```
-var populationStyleSelector = {
-    selectStyle: function (shape) {
-        var pop = shape.fields.item("POP_CNTRY");
-        var popInt = parseInt(pop);
-        var colString = colorPicker.getColorByIndex(popInt);
-        return {
-            fill: colString,
-            stroke: "gray"
-        };
-    }
-}
-```
+	```
+	var populationStyleSelector = {
+		selectStyle: function (shape) {
+			var pop = shape.fields.item("POP_CNTRY");
+			var popInt = parseInt(pop);
+			var colString = colorPicker.getColorByIndex(popInt);
+			return {
+				fill: colString,
+				stroke: "gray"
+			};
+		}
+	}
+	```
 
-JavaScript による以下のコードでは、地理図形シリーズで `igMap` コントロールのインスタンスを作成し、変数 `populationStyleSelector` からのカラー選択オブジェクトをシリーズ オブジェクトの `shapeStyleSelector` オプションに割り当てています。
+	JavaScript による以下のコードでは、地理図形シリーズで `igMap` コントロールのインスタンスを作成し、変数 `populationStyleSelector` からのカラー選択オブジェクトをシリーズ オブジェクトの `shapeStyleSelector` オプションに割り当てています。
 
-**JavaScript の場合:**
+	**JavaScript の場合:**
 
-```
-$("#map").igMap({
-    width: "700px",
-    height: "500px",
-    backgroundContent: {
-        type: "openStreet"
-    },
-    series: [{
-        type: "geographicShape",
-        name: "worldCountries",
-        markerType: "none",
-        shapeMemberPath: "points",
-        shapeDataSource: "/Data/world.shp",
-        databaseSource: "/Data/world.dbf",
-        shapeStyleSelector: populationStyleSelector
-    }],
-    windowRect: {
-        left: 0.27,
-        top: 0.2,
-        height: 0.5,
-        width: 0.5
-    }
-});
-```
+	```
+	$("#map").igMap({
+		width: "700px",
+		height: "500px",
+		backgroundContent: {
+			type: "openStreet"
+		},
+		series: [{
+			type: "geographicShape",
+			name: "worldCountries",
+			markerType: "none",
+			shapeMemberPath: "points",
+			shapeDataSource: "/Data/world.shp",
+			databaseSource: "/Data/world.dbf",
+			shapeStyleSelector: populationStyleSelector
+		}],
+		windowRect: {
+			left: 0.27,
+			top: 0.2,
+			height: 0.5,
+			width: 0.5
+		}
+	});
+	```
 
-以下に ASP.NET MVC における、同じマップ インスタンス作成コードを示します。この場合、マップを作成した後に図形スタイル セレクターを構成する必要があります。
+	以下に ASP.NET MVC における、同じマップ インスタンス作成コードを示します。この場合、マップを作成した後に図形スタイル セレクターを構成する必要があります。
 
-**ASPX の場合:**
+	**ASPX の場合:**
 
-```
-<%= Html.Infragistics().Map()
-        .ID("map")
-        .Width("700px")
-        .Height("500px")
-        .BackgroundContent(bgr => bgr.OpenStreetMaps())
-        .Series(series =>
-        {
-            series.GeographicShape("worldCountries")
-                .ShapeMemberPath("points")
-                .ShapeDataSource(Url.Content("~/Data/world.shp"))
-                .DatabaseSource(Url.Content("~/Data/world.dbf"))
-                .ShapeStyleSelector("populationStyleSelector")
-                .MarkerType(MarkerType.None);
-        })
-        .WindowRect(0.27, 0.20, 0.5, 0.5)
-        .DataBind()
-        .Render()
-%>
-```
+	```
+	<%= Html.Infragistics().Map()
+			.ID("map")
+			.Width("700px")
+			.Height("500px")
+			.BackgroundContent(bgr => bgr.OpenStreetMaps())
+			.Series(series =>
+			{
+				series.GeographicShape("worldCountries")
+					.ShapeMemberPath("points")
+					.ShapeDataSource(Url.Content("~/Data/world.shp"))
+					.DatabaseSource(Url.Content("~/Data/world.dbf"))
+					.ShapeStyleSelector("populationStyleSelector")
+					.MarkerType(MarkerType.None);
+			})
+			.WindowRect(0.27, 0.20, 0.5, 0.5)
+			.DataBind()
+			.Render()
+	%>
+	```
 
 
 

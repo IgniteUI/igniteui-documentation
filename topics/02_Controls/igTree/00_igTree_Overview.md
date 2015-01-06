@@ -161,7 +161,7 @@ IG テーマ|このテーマには、Ignite UI 向けに作成されたカスタ
 ---|---
 [igDataSource](igDataSource-igDataSource-Overview.html)|`igDataSource` コンポーネントは、コントロールのデータ操作を管理するために `igTree` コントロールによって内部的に使用されます。このデータ ソースは、さまざまなタイプのローカル データやリモート データを受け入れます。 
 入れ子になった HTML UL 要素|`igTree` コントロールは既存の非順序リスト (UL) または入れ子になっている UL 要素でインスタンス化できます。
-[IQueryable<T>](http://msdn.microsoft.com/ja-jp/library/bb351562.aspx)|ASP.NET MVC では、`igTree` コントロールのデータ ソースとして IQueryable を指定します。そのコレクションは、ブラウザーでの使用に合わせて JSON にシリアル化されて View と共に返されます。
+[`IQueryable<T>`](http://msdn.microsoft.com/ja-jp/library/bb351562.aspx)|ASP.NET MVC では、`igTree` コントロールのデータ ソースとして IQueryable を指定します。そのコレクションは、ブラウザーでの使用に合わせて JSON にシリアル化されて View と共に返されます。
 
 ## <a id="binding-to-data-sources-overview"></a>データ ソースへのバインドに関する概要 
 ほとんどの場合、`igTree` コントロールの `dataSource` オプションまたは `dataSourceUrl` オプションを使用してデータのバインドを行うことになります。このアプローチは、サポートされるさまざまなデータ形式を処理できる `igDataSource` コンポーネントへデータを提供します。ただし、UL 要素を使用して `igTree` コントロールをインスタンス化する場合は例外で、このオプションは使用しません。`igTree` コントロールはそのベース UL 要素のデータとオプションを継承します。ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.NET MVC ヘルパーに提供すると、サーバーからデータがシリアル化され、View に渡されます。そのページがブラウザーで受信されると、`igTree` コントロールの `dataSource` オプションが設定され、クライアント側での操作に使用されます。

@@ -44,7 +44,7 @@
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
 
--	[](igDataChart-DataBinding.html)[igDataChart をデータにバインド](igDataChart-DataBinding.html): このトピックは、`igDataChart` コントロールを各種のデータ ソース (JavaScript 配列、IQueryable<T>、Web サービス) にバインドする方法を説明します。
+-	[](igDataChart-DataBinding.html)[igDataChart をデータにバインド](igDataChart-DataBinding.html): このトピックは、`igDataChart` コントロールを各種のデータ ソース (JavaScript 配列、`IQueryable<T>`、Web サービス) にバインドする方法を説明します。
 
 
 

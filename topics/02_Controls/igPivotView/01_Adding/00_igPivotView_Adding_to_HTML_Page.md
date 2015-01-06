@@ -109,7 +109,7 @@
 			</td>
 
 			<td>
-				ページの &lt;head&gt; セクションでライブラリにスクリプト参照を追加します。
+				ページの `<head>` セクションでライブラリにスクリプト参照を追加します。
 			</td>
 		</tr>
 
@@ -359,7 +359,7 @@
 
 
 
->**注意:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。その方法の詳細については、オンラインの Ignite UI [サンプル ブラウザー](http://jp.igniteui.com/pivot-grid) を参照してください。`igPivotView` コンポーネントで igLoader を使用する方法について特殊な例が表示されます。
+>**注意:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。その方法の詳細については、オンラインの Ignite UI [サンプル ブラウザー](http://jp.igniteui.com/pivot-grid) を参照してください。`igPivotView` コンポーネントで `igLoader` を使用する方法について特殊な例が表示されます。
 
 ### <a id="steps-summary"></a>手順
 

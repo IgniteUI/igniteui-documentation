@@ -358,7 +358,9 @@
 
 		C. **Ignite UI JavaScript ファイルを Web サイト　またはアプリケーション内の Scripts/ig という名前のフォルダーに追加します (詳細は 「[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)」 トピックを参照)。**
 
-	2. 必要な JavaScript ライブラリへの参照を追加します。**jQuery、jQuery UI および Modernizr ライブラリの参照をページの `<head>` セクションに追加します。**
+	2. 必要な JavaScript ライブラリへの参照を追加します。
+	
+		**jQuery、jQuery UI および Modernizr ライブラリの参照をページの `<head>` セクションに追加します。**
 
 		**HTML の場合:**
 

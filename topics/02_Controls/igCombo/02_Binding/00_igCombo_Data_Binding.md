@@ -58,7 +58,7 @@
 -   SELECT 要素
 -   OData サービス
 -   JSONP
--   IQueryable<T> in ASP.NET MVC
+-   ASP.NET MVC での `IQueryable<T>`
 
 ***データ型***
 
@@ -76,12 +76,12 @@
 
 -	**HTML SELECT 要素**: この要素は `igCombo` コントロールに固有です。`igCombo` の jQuery セレクターからこの要素を選択すると、SELECT 要素が自動的に `igCombo` コントロールに換され、ベース要素のオプションが継承されます。
 
--	**IQueryable<T>**: ASP.NET MVC では、igCombo のデータ ソースとして IQueryable<T> を指定します。そのコレクションは、ブラウザーでの使用に合わせて JSON にシリアル化されて View と共に返されます。
+-	**`IQueryable<T>`**: ASP.NET MVC では、igCombo のデータ ソースとして `IQueryable<T>` を指定します。そのコレクションは、ブラウザーでの使用に合わせて JSON にシリアル化されて View と共に返されます。
 
 ##<a id="binding-to-data-sources"></a>データ ソースへのバインドに関する概要
 
 
-ほとんどの場合、`igCombo` の `dataSource` または `dataSourceUrl` オプションを使用してデータのバインドを行います。このオプションは、サポートされるさまざまなデータ形式を処理できる `igDataSource` へデータを提供します。ただし、SELECT 要素を使用して `igCombo` のインスタンスを作成する場合は例外で、このオプションは使用しません。この場合、`igCombo` はそのベース SELECT 要素のデータおよびオプションを継承します。ASP.NET MVC では、ASP.NET MVC ヘルパーに IQueryable<T> を供給すると、サーバーからのデータを簡単にシリアル化して、View と共にクライアントへ渡せるようになります。そのページがブラウザーに渡されると、`igCombo` の `dataSource` オプションが設定されてクライアント側での操作に使用されます。
+ほとんどの場合、`igCombo` の `dataSource` または `dataSourceUrl` オプションを使用してデータのバインドを行います。このオプションは、サポートされるさまざまなデータ形式を処理できる `igDataSource` へデータを提供します。ただし、SELECT 要素を使用して `igCombo` のインスタンスを作成する場合は例外で、このオプションは使用しません。この場合、`igCombo` はそのベース SELECT 要素のデータおよびオプションを継承します。ASP.NET MVC では、ASP.NET MVC ヘルパーに `IQueryable<T>` を供給すると、サーバーからのデータを簡単にシリアル化して、View と共にクライアントへ渡せるようになります。そのページがブラウザーに渡されると、`igCombo` の `dataSource` オプションが設定されてクライアント側での操作に使用されます。
 
 ###データ ソースへのバインドに関するクラス図
 
