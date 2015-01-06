@@ -12,7 +12,13 @@
 
 ##igMaskEditor の概要
 
-Ignite UI™ のマスク エディターまたは `igMaskEditor` は、指定の入力マスクによって決定される入力制限を強制する入力フィールドを描画するコントロールです。`igMaskEditor` コントロールは、ブラウザーから公開される異なる地域のオプションを認識することにより、ローカライズをサポートします。`igMaskEditor` コントロールは、任意のサーバー技術を使用する作業を構成できる豊富なクライアント側 API を公開します。Ignite UI™ のコントロールはサーバー非依存ですが、コントロールは Microsoft® ASP.NET MVC Framework 専用のラッパーを備えており、希望の .NET 言語を使用してコントロールを構成できます。`igMaskEditor` コントロールは、大幅にスタイル変更できるため、デフォルトのスタイルとまったく異なるルック アンド フィールのコントロールを実現できます。スタイル設定オプションでは、独自のスタイルも jQuery UI の ThemeRoller のスタイルも使用できます。図 1: `igMaskEditor` コントロールの電話番号マスクの適用 ![](images/igMaskEditor_Overview_Pic1.png) [検証サンプル](%%SamplesUrl%%/editors/validation)
+Ignite UI™ のマスク エディターまたは `igMaskEditor` は、指定の入力マスクによって決定される入力制限を強制する入力フィールドを描画するコントロールです。`igMaskEditor` コントロールは、ブラウザーから公開される異なる地域のオプションを認識することにより、ローカライズをサポートします。`igMaskEditor` コントロールは、任意のサーバー技術を使用する作業を構成できる豊富なクライアント側 API を公開します。Ignite UI™ のコントロールはサーバー非依存ですが、コントロールは Microsoft® ASP.NET MVC Framework 専用のラッパーを備えており、希望の .NET 言語を使用してコントロールを構成できます。`igMaskEditor` コントロールは、大幅にスタイル変更できるため、デフォルトのスタイルとまったく異なるルック アンド フィールのコントロールを実現できます。スタイル設定オプションでは、独自のスタイルも jQuery UI の ThemeRoller のスタイルも使用できます。
+
+図 1: `igMaskEditor` コントロールの電話番号マスクの適用 
+
+![](images/igMaskEditor_Overview_Pic1.png) 
+
+[検証サンプル](%%SamplesUrl%%/editors/validation)
 
 ##機能
 
