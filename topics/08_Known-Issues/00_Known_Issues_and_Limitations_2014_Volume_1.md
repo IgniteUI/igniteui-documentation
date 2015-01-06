@@ -69,9 +69,9 @@
 
 凡例: | 
 -------|--------
-![](images/positive.png) | Workaround available
-![](images/negative.png) | No known workaround
-![](images/tobeUpdated.png) | Fix planned
+![](images/positive.png) | 回避策
+![](images/negative.png) | 既知の回避策はありません
+![](images/tobeUpdated.png) | 修正予定です
 
 ### <a id="editors"></a> [エディターの一般的な既知の問題点](igCurrencyEditor-igEditor-Known-Issues.html)
 

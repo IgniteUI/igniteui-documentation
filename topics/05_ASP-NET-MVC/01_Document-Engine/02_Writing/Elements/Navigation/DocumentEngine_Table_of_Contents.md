@@ -42,7 +42,6 @@ Text 要素は、[Heading](Infragistics.Web.Mvc.Documents.Reports~Infragistics.D
 
 2.  **目次を配置するために新しいセクションを作成します。**
 
-
 	**C# の場合:**
 
 	```
@@ -88,6 +87,7 @@ Text 要素は、[Heading](Infragistics.Web.Mvc.Documents.Reports~Infragistics.D
 4.  **目次をコンテンツと分離するために、Gap 要素を追加します。**
 
 	**C# の場合:**
+	
 	```
     Infragistics.Documents.Reports.Report.IGap tocGap = tocSection.AddGap();
     tocGap.Height = new FixedHeight(50);

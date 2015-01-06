@@ -118,8 +118,6 @@ Ignite UI
 
             <td>
 ホバー操作機能を使用して、チャートのシリーズにアノテーションを表示することができます。これらのアノテーションは、カーソルに依存せず、構成可能なホバー操作レイヤーを介して実装されます。
-                    interaction layers  that are depend
-                    ent on the cursor position.
 			</td>
         </tr>
 
@@ -222,7 +220,6 @@ igDataSource
 
             <td>
 以前は CTP として配布されていた列固定機能が製品版としてリリースされ、マニュアルも完備しています。この機能はグリッドの右または左の列を固定して、水平方向にスクロールしたときにビューの外に出ないようにします。
-                    horizontally.
 			</td>
         </tr>
 
@@ -243,7 +240,6 @@ igDataSource
 
             <td>
 垂直柱レンダリング機能は、ブラウザーのビューポートの幅を変更するレスポンシブ Web デザイン (RWD) として、2 つの列でグリッドを描画します。最初の列は列のキャプションを表示し、2 番目の列はデータを表示します。
-                    data.
 			</td>
         </tr>
 
@@ -361,7 +357,7 @@ igLayoutManager はすでに製品版 (RTM) です。
 			</td>
 
             <td>
-`igRadialGauge` is a data visualization control for displaying a gauge containing a number of visual elements, such as a scale with tick marks and labels, a needle, and a number of ranges.
+`igRadialGauge` は、ゲージを表示するデータ ビジュアライゼーション ツールです。スケール、目盛、ラベル、針、および範囲の数などの複数の視覚要素を含むことができます。
 			</td>
         </tr>
 
@@ -389,7 +385,7 @@ igLayoutManager はすでに製品版 (RTM) です。
 			</td>
 
             <td>
-`igZoombar` control adds zooming functionality to range enabled controls like `igDataChart`.
+`igZoombar` コントロールは、`igDataChart` と同様に、範囲対応コントロールにズーム機能を提供します
 			</td>
         </tr>
     </tbody>
@@ -448,7 +444,6 @@ igLayoutManager はすでに製品版 (RTM) です。
 ### <a id="series-highting"></a>シリーズの強調表示
 
 シリーズ全体を強調表示、またはシリーズ内の特定の項目を強調表示することもできます。
-the series.
 
 強調表示は、シリーズ固有の機能です。Line シリーズなどの単一図形シリーズでは、折れ線全体が強調表示されます。Column シリーズなどの複数の図形から構成されるシリーズは、各図形 (柱状) が強調表示されます。サポートされるすべてのシリーズで、各マーカーを強調表示できます。
 
@@ -639,7 +634,6 @@ the series.
 ### <a id="feature-chooser-new-design"></a>機能セレクターの新しいデザイン
 
 機能セレクターは、デザインを一新し、タッチ対応デバイスのサポートを強化しました。
-for touch-enabled devices.
 
 ![](images/Whats_New_In_Ignite_UI_2013_Volume_2_14.png)
 
@@ -689,7 +683,6 @@ for touch-enabled devices.
 
 `igLinearGauge` コントロールはリニア ゲージでデータを視覚化します。
 スケールおよび 1 つ以上の比較範囲と比較したパフォーマンス値をシンプルで簡潔に表示します。
-against a scale and one or more comparative ranges.
 
 ![](images/igLinearGauge.png)
 
@@ -707,8 +700,6 @@ against a scale and one or more comparative ranges.
 ### <a id="high-density-scatter-series"></a>高密度散布シリーズ
 
 新しいグラフィック高密度シリーズを使用すると、数百から数百万のデータ ポイントから広がる散布図データを最短の読み込み時間でバインドして表示できます。
-show scatter data ranging from hundreds to millions of data points
-requiring exceedingly little loading time.
 
 シリーズではデータ ポイントが非常に多いため、散布データを通常のマーカーではなく、小さなドットで表示します。最もデータが集約した領域は、データ ポイントのクラスターを高濃度の色で表します。
 
@@ -777,7 +768,7 @@ requiring exceedingly little loading time.
 ## <a id="igradialgauge"></a>igRadialGauge
 ### <a id="igradialgauge-new-control"></a>新規コントロール
 
-`igRadialGauge` is a data visualization control for displaying a gauge containing a number of visual elements, such as a scale with tick marks and labels, a needle, and a number of ranges. The control also supports ranges, which provides visual cues for the scale.
+`igRadialGauge` は、ゲージを表示するデータ ビジュアライゼーション ツールです。スケール、目盛、ラベル、針、および範囲の数などの複数の視覚要素を含むことができます。このコントロールは、スケールの視覚的な合図である範囲もサポートします。
 
 ![](images/Whats_New_In_Ignite_UI_2013_Volume_2_22.png)
 
@@ -795,7 +786,6 @@ requiring exceedingly little loading time.
 ### <a id="igtilemanager-new-control"></a>新規コントロール
 
 以前は CTP として配布されていた `igTileManager` が製品版としてリリースされ、マニュアルも完備しています。
-market and is fully documented.
 
 `igTileManager` は、データをタイルに描画して管理できるレイアウト コントロールです。タイルは、レスポンシブ グリッド レイアウト (グリッド、チャート、マップなどの異なるコンポーネントを持つダッシュボードなど) で表示されます。
 

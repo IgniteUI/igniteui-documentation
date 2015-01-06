@@ -178,7 +178,6 @@ Android 4.* を使用したタッチ デバイスでは、階層グリッドで 
 ## <a id="limitation-remote-grouping-hierarchical-grid"></a>階層グリッドでリモート グループ化が制限される - ソリューション
 
 リモート GroupBy では、複数のレイアウト (またはルート グリッド) の列のグループ化が機能しません。
-work with remote group-by.
 
 2 つの解決方法があります。
 
@@ -280,7 +279,7 @@ $("#grid1").igGrid("widget").igGridPaging("option", "pageSize", 10)
 
 `igGrid` をバージョン 4.0.2 の Android で実行しているときに、`igGrid` で垂直スクロールを行った場合、すべてのポップアップ/ダイアログはレコードの背後に表示されます。これは、インデックスまたは CSS 規則として設定したものに関係なく、別のスクロール可能な div に配置されたすべての HTML div 要素は実際、スクロール可能な div の背後に描画されるという事実によるものです。
 
-この問題を修復するには、Mdernizr JavaScript ライブラリの最新の安定バージョンを参照するとともにインフラジスティクス `igScroll`™ ウィジェットを組み込む必要があります。
+この問題を修復するには、Modernizr JavaScript ライブラリの最新の安定バージョンを参照するとともにインフラジスティクス `igScroll`™ ウィジェットを組み込む必要があります。
 
 ## <a id="firefox-columns-resized-correctly"></a>Firefox で、列幅が設定されていないと、igGrid 列を適切にサイズ変更できない
 
