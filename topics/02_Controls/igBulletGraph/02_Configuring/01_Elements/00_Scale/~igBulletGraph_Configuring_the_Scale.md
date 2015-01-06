@@ -691,7 +691,7 @@ $('#igBulletGraph').igBulletGraph({
 プロパティ|値
 ---------|------
 [interval](%%jQueryApiUrl%%/ui.igBulletGraph#options:interval)|30
-[tickBrush](%%jQueryApiUrl%%/ui.igBulletGraph#options:tickBrush)|"lime"
+[tickBrush](%%jQueryApiUrl%%/ui.igBulletGraph#options:tickBrush)|'lime'
 [tickEndExtent](%%jQueryApiUrl%%/ui.igBulletGraph#options:tickEndExtent)|0.9
 [ticksPostInitial](%%jQueryApiUrl%%/ui.igBulletGraph#options:ticksPostInitial)|30
 [ticksPreTerminal](%%jQueryApiUrl%%/ui.igBulletGraph#options:ticksPreTerminal)|10
