@@ -143,7 +143,7 @@
 	    )
 		```
 
-> **注:**: MVC ダイアログ ラッパーの ID を設定したいという場合には、3 つの選択肢があります。詳細については、[プロパティ リファレンス](igDialog-Property-Reference.html)のトピックを参照してください。定義済みの HTML プレースホルダーに上記のサンプルと同じ ID (`igDialog1`) が設定されている場合、次のいずれかのメソッドを使用できます。
+> **注:** MVC ダイアログ ラッパーの ID を設定したいという場合には、3 つの選択肢があります。詳細については、[プロパティ リファレンス](igDialog-Property-Reference.html)のトピックを参照してください。定義済みの HTML プレースホルダーに上記のサンプルと同じ ID (`igDialog1`) が設定されている場合、次のいずれかのメソッドを使用できます。
 
 > `Dialog.ContentJquerySelector(“#igDialog1”)`– jQuery の場合と同じ形でセレクターを定義します。
 
@@ -151,7 +151,7 @@
 
 > `Dialog.ID(“igDialog1”)` – `ContentID(“igDialog1”)` と同じです。
 
-> **注:**: MVC ラッパーを使用して HTML DIV プレースホルダー コードを定義したい場合は、ダイアログ ヘルパーで示される次のメソッドを使用することができます。DIV HTML プレースホルダーの定義と同じ効果を実現したい場合は、次のメソッドを使用してください。 `Dialog.ContentHTML("<div id="igDialog1"> igDialog Content </div>")`
+> **注:** MVC ラッパーを使用して HTML DIV プレースホルダー コードを定義したい場合は、ダイアログ ヘルパーで示される次のメソッドを使用することができます。DIV HTML プレースホルダーの定義と同じ効果を実現したい場合は、次のメソッドを使用してください。 `Dialog.ContentHTML("<div id="igDialog1"> igDialog Content </div>")`
 
 ## igDialog の破棄
 
