@@ -34,13 +34,13 @@
 ## <a id="introduction"></a> 概要
 ### igHierarchicalGrid 選択について
 
-選択機能によって igHierarchicalGrid コントロールの行とセルの選択が可能になります。
+選択機能によって `igHierarchicalGrid` コントロールの行とセルの選択が可能になります。
 
 ![](images/Enabling_igHierarchicalGrid_Selection_1.png)
 
 ## <a id="jquery"></a> JQuery での選択の有効化
 ### 概要
-この手順では、JavaScript データ オブジェクトを作成し、jQuery で選択機能を有効にして igHierarchicalGrid のインスタンスを作成する方法を示します。
+この手順では、JavaScript データ オブジェクトを作成し、jQuery で選択機能を有効にして `igHierarchicalGrid` のインスタンスを作成する方法を示します。
 
 ### プレビュー
 以下のスクリーンショットは最終結果のプレビューです。
@@ -49,104 +49,104 @@
 
 #### 手順
 
-以下の手順では、igHierarchicalGrid で選択を有効にする方法を紹介します。
+以下の手順では、`igHierarchicalGrid` で選択を有効にする方法を紹介します。
 
 1. スクリプトとスタイル参照の追加
 
-igHierarchicalGrid を使用するには、結合した `infragistics.lob.js` ファイルにあるそのコード、`infragistics.css` ファイルにあるそのスタイルシート定義、`infragistics.theme.css` にあるテーマ情報を追加する必要があります。また、インフラジスティックス コントロールが依存する jQuery フレームワーク、jQuery UI フレームワーク、および Modernizr も追加する必要があります。そのためには以下のコードを使用します。
+	igHierarchicalGrid を使用するには、結合した `infragistics.lob.js` ファイルにあるそのコード、`infragistics.css` ファイルにあるそのスタイルシート定義、`infragistics.theme.css` にあるテーマ情報を追加する必要があります。また、インフラジスティックス コントロールが依存する jQuery フレームワーク、jQuery UI フレームワーク、および Modernizr も追加する必要があります。そのためには以下のコードを使用します。
 
-**HTML の場合:**
+	**HTML の場合:**
 
-```
-<link rel="stylesheet" href="infragistics.css" />
-<link rel="Stylesheet" href="infragistics.theme.css" />
-<link rel="Stylesheet" href="jquery.ui.all.css" />
-<script src="modernizr-1.7.min.js"></script>
-<script src="jquery.min.js"></script>
-<script src="jquery-ui.min.js"></script>
-<script src="infragistics.core.js"></script><script src="infragistics.lob.js"></script>
-```
+	```
+	<link rel="stylesheet" href="infragistics.css" />
+	<link rel="Stylesheet" href="infragistics.theme.css" />
+	<link rel="Stylesheet" href="jquery.ui.all.css" />
+	<script src="modernizr-1.7.min.js"></script>
+	<script src="jquery.min.js"></script>
+	<script src="jquery-ui.min.js"></script>
+	<script src="infragistics.core.js"></script><script src="infragistics.lob.js"></script>
+	```
 
 2. データ ソースの設定
 
-この例で使用するデータ ソースは Java Script オブジェクトです。このオブジェクトには、配列型の 1 つの Records プロパティがあります。プロパティ名として Records を使用することは必須ではありません。プロパティ名は、igHierarchicalGrid で、`responseDataKey` プロパティを通じて構成します。階層を作成するために、サブ オブジェクト中に同じ名前のプロパティを持つオブジェクトを定義する必要があります。以下の例で、data 変数はオブジェクトであり、配列型の 1 つのプロパティ Records を持ちます。オブジェクトの階層を定義するために、Records 配列には、それ自身がオブジェクトである `ProductInventories` プロパティと、Records プロパティがあります。
+	この例で使用するデータ ソースは Java Script オブジェクトです。このオブジェクトには、配列型の 1 つの Records プロパティがあります。プロパティ名として Records を使用することは必須ではありません。プロパティ名は、igHierarchicalGrid で、`responseDataKey` プロパティを通じて構成します。階層を作成するために、サブ オブジェクト中に同じ名前のプロパティを持つオブジェクトを定義する必要があります。以下の例で、data 変数はオブジェクトであり、配列型の 1 つのプロパティ Records を持ちます。オブジェクトの階層を定義するために、Records 配列には、それ自身がオブジェクトである `ProductInventories` プロパティと、Records プロパティがあります。
 
-**JavaScript の場合:**
+	**JavaScript の場合:**
 
-```
-<script type="text/javascript">
-    var data = {
-        "Records": [{
-            "ProductID": 1,
-            "Name": "Adjustable Race",
-            "ProductNumber": "AR-5381",
-            "Color": null,
-            "ProductInventories": {
-                "Records": [
-                    { "ProductID": 1, "LocationID": 1, "Shelf": "A", "Bin": 1, "Quantity": 408 },
-                    { "ProductID": 1, "LocationID": 6, "Shelf": "B", "Bin": 5, "Quantity": 324 },
-                    { "ProductID": 1, "LocationID": 50, "Shelf": "A", "Bin": 5, "Quantity": 353 }
-                ],
-                "TotalRecordsCount": 0,
-                "Metadata": {}
-            }
-        }, {
-            "ProductID": 2,
-            "Name": "Bearing Ball",
-            "ProductNumber": "BA-8327",
-            "Color": null,
-            "ProductInventories": {
-                "Records": [
-                    { "ProductID": 2, "LocationID": 1, "Shelf": "A", "Bin": 2, "Quantity": 427 },
-                    { "ProductID": 2, "LocationID": 6, "Shelf": "B", "Bin": 1, "Quantity": 318 },
-                    { "ProductID": 2, "LocationID": 50, "Shelf": "A", "Bin": 6, "Quantity": 364 }
-                ],
-                "TotalRecordsCount": 0,
-                "Metadata": {}
-            }
-        }]
-    };
-</script>
-```
+	```
+	<script type="text/javascript">
+		var data = {
+			"Records": [{
+				"ProductID": 1,
+				"Name": "Adjustable Race",
+				"ProductNumber": "AR-5381",
+				"Color": null,
+				"ProductInventories": {
+					"Records": [
+						{ "ProductID": 1, "LocationID": 1, "Shelf": "A", "Bin": 1, "Quantity": 408 },
+						{ "ProductID": 1, "LocationID": 6, "Shelf": "B", "Bin": 5, "Quantity": 324 },
+						{ "ProductID": 1, "LocationID": 50, "Shelf": "A", "Bin": 5, "Quantity": 353 }
+					],
+					"TotalRecordsCount": 0,
+					"Metadata": {}
+				}
+			}, {
+				"ProductID": 2,
+				"Name": "Bearing Ball",
+				"ProductNumber": "BA-8327",
+				"Color": null,
+				"ProductInventories": {
+					"Records": [
+						{ "ProductID": 2, "LocationID": 1, "Shelf": "A", "Bin": 2, "Quantity": 427 },
+						{ "ProductID": 2, "LocationID": 6, "Shelf": "B", "Bin": 1, "Quantity": 318 },
+						{ "ProductID": 2, "LocationID": 50, "Shelf": "A", "Bin": 6, "Quantity": 364 }
+					],
+					"TotalRecordsCount": 0,
+					"Metadata": {}
+				}
+			}]
+		};
+	</script>
+	```
 
 3. HTML プレースホルダーの定義
 
-igHierarchicalGrid を保持するために使用する HTML の TABLE 要素を定義します。
+	igHierarchicalGrid を保持するために使用する HTML の TABLE 要素を定義します。
 
-**HTML の場合:**
+	**HTML の場合:**
 
-```
-<table id="grid"></table>
-```      
+	```
+	<table id="grid"></table>
+	```      
 
 4. 選択機能を有効にした igHierarchicalGrid の作成
 
-`$(document).ready()` イベント ハンドラーの中で、igHierarchicalGrid のインスタンスを作成し、features 配列中に `Selection` 機能オブジェクトを定義します。階層を担うプロパティ名は、`responseDataKey` で定義されます。
+	`$(document).ready()` イベント ハンドラーの中で、igHierarchicalGrid のインスタンスを作成し、features 配列中に `Selection` 機能オブジェクトを定義します。階層を担うプロパティ名は、`responseDataKey` で定義されます。
 
-**JavaScript の場合:**
+	**JavaScript の場合:**
 
-```
-<script type="text/javascript">
-$(function () {
-    $("#grid").igHierarchicalGrid({
-        initialDataBindDepth: 1,
-        dataSource: data,
-        dataSourceType: "json",
-        responseDataKey: "Records",
-        autoGenerateColumns: true,
-        autoGenerateLayouts: true,
-        primaryKey: "ProductID",
-        features: [
-            {
-                name: 'Selection',
-                multipleSelection: true,
-                mode: 'row'
-            }
-        ]
-    });
-});
-</script>
-```
+	```
+	<script type="text/javascript">
+	$(function () {
+		$("#grid").igHierarchicalGrid({
+			initialDataBindDepth: 1,
+			dataSource: data,
+			dataSourceType: "json",
+			responseDataKey: "Records",
+			autoGenerateColumns: true,
+			autoGenerateLayouts: true,
+			primaryKey: "ProductID",
+			features: [
+				{
+					name: 'Selection',
+					multipleSelection: true,
+					mode: 'row'
+				}
+			]
+		});
+	});
+	</script>
+	```
 
 ## <a id="mvc"></a> ASP.NET MVC での選択の有効化
 ### 概要

@@ -239,21 +239,21 @@
 
 	ここで:
 
-	-	\<*customDefinedIdentifier*\> は API 操作に使用するカスタム文字列リテラルです。
+	-	`<customDefinedIdentifier>` は API 操作に使用するカスタム文字列リテラルです。
 
-	-	<*predefinedActionHandler*\> はハンドラーの名前であり、以下のいずれかにします。
+	-	`<predefinedActionHandler>` はハンドラーの名前であり、以下のいずれかにします。
 
 		-   "_tooltipAction" – ツールチップ文字列を受け付けます。
 		-   "_isSelectedAction" – ブール型値を受け付けます。
 		-   "_buttonIconAction" – ボタンに適用した CSS クラス名と一致する文字列を受け付けます。
 
-	-	\<valueToBePassedToTheActionHandler\> は、アクション ハンドラーに渡す値です。
+	-	`<valueToBePassedToTheActionHandler>` は、アクション ハンドラーに渡す値です。
 
 	**JavaScript の場合:**
-
-	    	items: [{
-	        ```
-	        name: "appendSignature",
+	```	
+	    items: [{
+	        
+			name: "appendSignature",
        		type: "button",
         	handler: appendSignature,
         	scope: this,
@@ -271,8 +271,8 @@
                 	action: '_buttonIconAction'
             	}
         	}
-	        ```
-	    	}]
+	    }]
+	```	
 
 6. <a id="define-the-click-handler"></a>ボタン クリック ハンドラーを定義
 

@@ -91,7 +91,7 @@ igHtmlEditor コントロールにはカスタム ツールバーを追加する
 	</tr>
 	<tr>
 		<td>[カスタム ツールバーを非表示にする](#hide-custom-toolbar)</td>
-		<td>show\<customToolbarName\> の自動作成したプロパティを使用します。 </td>
+		<td>`show<customToolbarName>` の自動作成したプロパティを使用します。 </td>
 		<td><ul><li>show</li></ul></td>
 	</tr>
 	<tr>

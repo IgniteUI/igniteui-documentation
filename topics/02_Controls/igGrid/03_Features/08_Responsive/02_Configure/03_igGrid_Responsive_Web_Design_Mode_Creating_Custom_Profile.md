@@ -108,7 +108,7 @@
 
 目的:|使用するプロパティ:|設定の選択肢:
 -------------|--------------------|----------------
-カスタム RWD モード プロファイル インラインの作成|**responsiveModes.<custom_name>** |カスタム応答モードの名前として使用される識別子<br />例: `responsiveModes.galaxyNexusPhone`。このとき、<custom_name> = *galaxyNexusPhone*
+カスタム RWD モード プロファイル インラインの作成|`responsiveModes.<custom_name>` |カスタム応答モードの名前として使用される識別子<br />例: `responsiveModes.galaxyNexusPhone`。このとき、`<custom_name>` = *galaxyNexusPhone*
 
 
 
@@ -207,8 +207,8 @@ RWD モードのカスタム プロファイルのインライン定義がプロ
 
 3.  カスタムプロファイルを使用して、列の非表示やテンプレートの切り替えを構成します。
 
--   列の非表示を構成します。列に対して列の非表示を構成するには、`columnSettings.configuration.<custom_mode_name>` プロパティを使用します。
--   テンプレート切り替えを構成します。プロファイルの行テンプレートを構成するには、`columnSettings.configuration` を使用します。
+	-   列の非表示を構成します。列に対して列の非表示を構成するには、`columnSettings.configuration.<custom_mode_name>` プロパティを使用します。
+	-   テンプレート切り替えを構成します。プロファイルの行テンプレートを構成するには、`columnSettings.configuration` を使用します。
 
 ### <a id="extending-property-settings"></a> プロパティ設定
 
@@ -216,7 +216,7 @@ RWD モードのカスタム プロファイルのインライン定義がプロ
 
 目的:|使用するプロパティ:|設定の選択肢:
 -------------|--------------------|----------------
-`$.ig.ResponsiveMode` クラスを拡張することにより、カスタム RWD モード プロファイルを作成します。|**responsiveModes.\<custom_name\>**|$.ig.ResponsiveMode を拡張し名前のサフィックス Mode を持つ `$.ig` 名前空間におけるクラス名。
+`$.ig.ResponsiveMode` クラスを拡張することにより、カスタム RWD モード プロファイルを作成します。|`responsiveModes.\<custom_name\>`|$.ig.ResponsiveMode を拡張し名前のサフィックス Mode を持つ `$.ig` 名前空間におけるクラス名。
 
 
 ### <a id="extending-example"></a> 例

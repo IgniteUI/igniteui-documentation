@@ -21,7 +21,7 @@
 
 - [igPopover の概要](igPopover-Overview.html): このトピックでは、主要機能、最小要件、ユーザー機能性など、`igPopover` コントロールに関する概念的な情報を提供します。
 
-- [igPopover の追加](Adding-igPopover.html): このトピックでは、コード例を使用して、JavaScript または ASP.NET MVC で `igPopover` コントロールをHTML ページに追加する方法を説明します。このトピックには、HTML マークアップでの *igPopover* の初期化が含まれています。
+- [igPopover の追加](Adding-igPopover.html): このトピックでは、コード例を使用して、JavaScript または ASP.NET MVC で `igPopover` コントロールをHTML ページに追加する方法を説明します。このトピックには、HTML マークアップでの `igPopover` の初期化が含まれています。
 
 
 

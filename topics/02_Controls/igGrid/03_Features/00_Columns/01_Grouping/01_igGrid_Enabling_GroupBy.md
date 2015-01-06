@@ -122,52 +122,52 @@ $("#grid1").igGrid({
 
 ## <a id="enabling-grouping-mvc"></a> MVC におけるグループ化の有効化
 
-**1.SQL モデルへの LINQ を作成します。**
+1.SQL モデルへの LINQ を作成します。
 
-![](images/igGrid_GroupBy_Getting_Started_02.png)
+	![](images/igGrid_GroupBy_Getting_Started_02.png)
 
-**2.MVC Controller メソッドを作成します。**
+2.MVC Controller メソッドを作成します。
 
-SQL Model からデータを取得して View を呼び出すための MVC Controller メソッドを作成します。
+	SQL Model からデータを取得して View を呼び出すための MVC Controller メソッドを作成します。
 
-**MVC の場合:**
+	**MVC の場合:**
 
-```
-public ActionResult Default()
-{
-    var ctx = new AdventureWorksDataContext("ConnString");
-    var ds = ctx.Products;
+	```
+	public ActionResult Default()
+	{
+		var ctx = new AdventureWorksDataContext("ConnString");
+		var ds = ctx.Products;
 
-    return View("Events", ds);
-}
-```
+		return View("Events", ds);
+	}
+	```
 
-**3.グリッドを作成します。**
+3.グリッドを作成します。
 
-グリッド自体を定義すると同時に、Group By 機能とその構成値をすべて定義します。
+	グリッド自体を定義すると同時に、Group By 機能とその構成値をすべて定義します。
 
-**ASPX の場合:**
+	**ASPX の場合:**
 
-```
-<%= Html.Infragistics()
-.Grid(Model)
-.ID("grid1")
-.Features(feature => {
-    feature.GroupBy().ColumnSettings(groupedGolumn =>
-    {
-        groupedGolumn.ColumnSetting().ColumnKey("Color").IsGroupBy(true);
-    });
-})
-.AutoGenerateColumns(true)
-.PrimaryKey("ProductID")
-.Width("750px")
-.DataBind()
-.Render()%>
-```
+	```
+	<%= Html.Infragistics()
+	.Grid(Model)
+	.ID("grid1")
+	.Features(feature => {
+		feature.GroupBy().ColumnSettings(groupedGolumn =>
+		{
+			groupedGolumn.ColumnSetting().ColumnKey("Color").IsGroupBy(true);
+		});
+	})
+	.AutoGenerateColumns(true)
+	.PrimaryKey("ProductID")
+	.Width("750px")
+	.DataBind()
+	.Render()%>
+	```
 
-**4.プロジェクトを保存します。**
+4.プロジェクトを保存します。
 
-**5.(オプション) 結果を確認します。**
+5.(オプション) 結果を確認します。
 
 結果を検証するために、アプリケーションを実行します。(上のプレビュー REF に示すように) デフォルトのグループ化基準列に基づいてグループ化されたグリッドが表示され、他の列によってグループ化することも現在のグループ化を取り消すこともできるようになります。
 

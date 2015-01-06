@@ -33,7 +33,7 @@
 
 -	[igDataChart の追加](igDataChart-Adding.html): このトピックでは、`igDataChart` コントロールをページに追加し、データにバインドする方法を紹介します。
 
--	[igDataChart をデータにバインド](igDataChart-DataBinding.html): このトピックは、`igDataChart` コントロールを各種のデータ ソース (JavaScript 配列、IQueryable<T>、Web サービス) にバインドする方法を説明します。
+-	[igDataChart をデータにバインド](igDataChart-DataBinding.html): このトピックは、`igDataChart` コントロールを各種のデータ ソース (JavaScript 配列、`IQueryable<T>`、Web サービス) にバインドする方法を説明します。
 
 -	[シリーズ要件](igDataChart-Series-Requirements.html): このトピックでは、各シリーズの指定要件を説明します。
 
