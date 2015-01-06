@@ -24,7 +24,7 @@
 
 ![API ヘルプ](images/landing-api-docs.png "API ヘルプ")
 <h2>API リファレンス</h2>
-<p>特定の動作のイベントを参照しますか?メソッドの説明を検索しますか?</p>
+<p>特定の動作のイベントを参照しますか? メソッドの説明を検索しますか?</p>
 <a href="%%jQueryApiUrl%%" class="landing-btn" target="_blank">API を参照</a>
 </div>
 </div>
