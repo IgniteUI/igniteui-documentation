@@ -34,7 +34,8 @@
 	**HTML の場合:**
 	
 	```
-	<script type="text/javascript" src="jquery-1.4.4.min.js"></script><script type="text/javascript" src="jquery-ui.min.js"></script>
+	<script type="text/javascript" src="jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="jquery-ui.min.js"></script>
 	<script type="text/javascript" src="infragistics.core.js"></script>
 	
 	```

@@ -207,5 +207,3 @@ $(function() {
 
 - [リモート XMLA プロバイダー](%%SamplesUrl%%/pivot-grid/remote-xmla-provider): このサンプルは、`igOlapXmlaDataSource` のネットワーク トラフィックのより少ないリモート プロバイダー機能を使用するメリットのいずれかを示します。すべての要求は、クロス ドメインの問題を防止するためにサーバー アプリケーションを介してプロキシーされます。また、応答のサイズを小さくなるために、データが JSON に変換されます。
 
-本トピックのフィードバックは [E-mail](mailto:helpfeedback@infragistics.com?subject=jQuery:-igOlapXmlaDataSource-Adding-to-an-HTML-Page.html) でお願いします。
-

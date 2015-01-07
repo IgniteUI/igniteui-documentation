@@ -44,8 +44,9 @@
     ```
     <head>
         <title>igDataSource Bound to WCF Service</title>
-        <script src="scripts/jquery.min.js" type="text/javascript"></script>   <script src="scripts/jquery-ui.min.js" type="text/javascript"></script>
-       <script src="scripts/infragistics.core.js" type="text/javascript"></script>
+        <script src="scripts/jquery.min.js" type="text/javascript"></script>
+		<script src="scripts/jquery-ui.min.js" type="text/javascript"></script>
+		<script src="scripts/infragistics.core.js" type="text/javascript"></script>
     </head>
     ```
 

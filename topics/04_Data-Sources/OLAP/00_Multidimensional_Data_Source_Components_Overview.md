@@ -41,7 +41,7 @@ Ignite UI の 多次元データ ソース コンポーネント ([`igOlapFlatDa
 
 機能|コントロール
 --------------|--------
-Microsoft Analysis Servces Server (MASS) のデータを使用します。|[igOlapXmlaDataSource](igOlapXmlaDataSource.html)
+Microsoft Analysis Services Server (MASS) のデータを使用します。|[igOlapXmlaDataSource](igOlapXmlaDataSource.html)
 フラット データ コレクションなどのピボット テーブル スタイルの解析を有効化|[igOlapFlatDataSource](igOlapFlatDataSource.html)
 
 
