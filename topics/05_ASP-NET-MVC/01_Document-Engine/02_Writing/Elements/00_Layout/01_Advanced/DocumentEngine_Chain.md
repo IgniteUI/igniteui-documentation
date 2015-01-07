@@ -26,123 +26,123 @@ Chain 要素は、1 ページにすべてを表示するための十分なスペ
 
 1.  **レポートを定義して、Section 要素を追加します。**
 
-**Visual Basic の場合:**
+	**Visual Basic の場合:**
 
-```
-'
-' Create the report and add a Section element.
-'
-Dim report As Infragistics.Documents.Reports.Report.Report = _
-  New Infragistics.Documents.Reports.Report.Report()
+	```
+	'
+	' Create the report and add a Section element.
+	'
+	Dim report As Infragistics.Documents.Reports.Report.Report = _
+	  New Infragistics.Documents.Reports.Report.Report()
 
-Dim section1 As Infragistics.Documents.Reports.Report.Section.ISection = _
-  report.AddSection()
+	Dim section1 As Infragistics.Documents.Reports.Report.Section.ISection = _
+	  report.AddSection()
 
-section1.PageMargins = _
-  New Infragistics.Documents.Reports.Report.Margins(50)
-```
+	section1.PageMargins = _
+	  New Infragistics.Documents.Reports.Report.Margins(50)
+	```
 
-**C# の場合:**
+	**C# の場合:**
 
-```
-//
-// Create the report and add a section.
-//
-Infragistics.Documents.Reports.Report.Report report =
-  new Infragistics.Documents.Reports.Report.Report();
+	```
+	//
+	// Create the report and add a section.
+	//
+	Infragistics.Documents.Reports.Report.Report report =
+	  new Infragistics.Documents.Reports.Report.Report();
 
-Infragistics.Documents.Reports.Report.Section.ISection section1 =
-  report.AddSection();
+	Infragistics.Documents.Reports.Report.Section.ISection section1 =
+	  report.AddSection();
 
-section1.PageMargins = 
-  new Infragistics.Documents.Reports.Report.Margins(50);
-```
+	section1.PageMargins = 
+	  new Infragistics.Documents.Reports.Report.Margins(50);
+	```
 
 2.  **分割できないコンテンツを Section 要素に追加します。**
 
-以下のテキストを使用して、`string1` 変数を設定します。
+	以下のテキストを使用して、`string1` 変数を設定します。
 
-> Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Donec imperdiet mattis sem.Nunc ornare elit at justo.In quam nulla, lobortis non, commodo eu, eleifend in, elit.Nulla eleifend.Nulla convallis.Sed eleifend auctor purus.Donec velit diam, congue quis, eleifend et, pretium id, tortor.Nulla semper condimentum justo.Etiam interdum odio ut ligula.Vivamus egestas scelerisque est. Donec accumsan.In est urna, vehicula non, nonummy sed, malesuada nec, purus.Vestibulum erat.Vivamus lacus enim, rhoncus nec, ornare sed, scelerisque varius, felis.Nam eu libero vel massa lobortis accumsan.Vivamus id orci.Sed sed lacus sit amet nibh pretium sollicitudin.Morbi urna.
+	> Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Donec imperdiet mattis sem.Nunc ornare elit at justo.In quam nulla, lobortis non, commodo eu, eleifend in, elit.Nulla eleifend.Nulla convallis.Sed eleifend auctor purus.Donec velit diam, congue quis, eleifend et, pretium id, tortor.Nulla semper condimentum justo.Etiam interdum odio ut ligula.Vivamus egestas scelerisque est. Donec accumsan.In est urna, vehicula non, nonummy sed, malesuada nec, purus.Vestibulum erat.Vivamus lacus enim, rhoncus nec, ornare sed, scelerisque varius, felis.Nam eu libero vel massa lobortis accumsan.Vivamus id orci.Sed sed lacus sit amet nibh pretium sollicitudin.Morbi urna.
 
-**Visual Basic の場合:**
+	**Visual Basic の場合:**
 
-```
-'
-' Add a Chain element and a Text element to the chain.
-' This content will be unbreakable.
-'
+	```
+	'
+	' Add a Chain element and a Text element to the chain.
+	' This content will be unbreakable.
+	'
 
-Dim string1 As String = "Lorem ipsum..."
+	Dim string1 As String = "Lorem ipsum..."
 
-For i As Integer = 0 To 7
-  ' Add a Chain element to the Band element.
-  Dim chain1 As Infragistics.Documents.Reports.Report.IChain = _
-    section1.AddChain()
+	For i As Integer = 0 To 7
+	  ' Add a Chain element to the Band element.
+	  Dim chain1 As Infragistics.Documents.Reports.Report.IChain = _
+		section1.AddChain()
 
-  ' Add a Text element to the Chain element.
-  Dim chainText As Infragistics.Documents.Reports.Report.Text.IText = _
-    chain1.AddText()
+	  ' Add a Text element to the Chain element.
+	  Dim chainText As Infragistics.Documents.Reports.Report.Text.IText = _
+		chain1.AddText()
 
-  ' Set some styles on the text so we can see where the 
-  ' element begins and ends. This way, we can be sure
-  ' that the content is not being separated.
-  chainText.Background = _
-    New Infragistics.Documents.Reports.Report.Background _
-    (Infragistics.Documents.Reports.Graphics.Brushes.SteelBlue)
-  chainText.Borders = _
-    New Infragistics.Documents.Reports.Report.Borders _
-    (Infragistics.Documents.Reports.Graphics.Pens.Black)
-  chainText.Paddings = _
-    New Infragistics.Documents.Reports.Report.Paddings(5)
-  chainText.Margins = _
-    New Infragistics.Documents.Reports.Report.Margins(5)
+	  ' Set some styles on the text so we can see where the 
+	  ' element begins and ends. This way, we can be sure
+	  ' that the content is not being separated.
+	  chainText.Background = _
+		New Infragistics.Documents.Reports.Report.Background _
+		(Infragistics.Documents.Reports.Graphics.Brushes.SteelBlue)
+	  chainText.Borders = _
+		New Infragistics.Documents.Reports.Report.Borders _
+		(Infragistics.Documents.Reports.Graphics.Pens.Black)
+	  chainText.Paddings = _
+		New Infragistics.Documents.Reports.Report.Paddings(5)
+	  chainText.Margins = _
+		New Infragistics.Documents.Reports.Report.Margins(5)
 
-  ' Add content to the Text element.
-  chainText.AddContent(string1)
-  chainText.AddLineBreak()
-  chainText.AddLineBreak()
-  chainText.AddContent(string1)
-Next i
-```
+	  ' Add content to the Text element.
+	  chainText.AddContent(string1)
+	  chainText.AddLineBreak()
+	  chainText.AddLineBreak()
+	  chainText.AddContent(string1)
+	Next i
+	```
 
-**C# の場合:**
+	**C# の場合:**
 
-```
-//
-// Add a Chain element and a Text element to the chain.
-// This content will be unbreakable.
-//
+	```
+	//
+	// Add a Chain element and a Text element to the chain.
+	// This content will be unbreakable.
+	//
 
-string string1 = "Lorem ipsum...";
+	string string1 = "Lorem ipsum...";
 
-for (int i = 0; i < 8; i++)
-{
-    // Add a Chain element to the Band element.
-    Infragistics.Documents.Reports.Report.IChain chain1 =
-            section1.AddChain();
+	for (int i = 0; i < 8; i++)
+	{
+		// Add a Chain element to the Band element.
+		Infragistics.Documents.Reports.Report.IChain chain1 =
+				section1.AddChain();
 
-    // Add a Text element to the Chain element.
-    Infragistics.Documents.Reports.Report.Text.IText chainText = 
-            chain1.AddText();
+		// Add a Text element to the Chain element.
+		Infragistics.Documents.Reports.Report.Text.IText chainText = 
+				chain1.AddText();
 
-    // Set some styles on the text so we can see where the 
-    // element begins and ends. This way, we can be sure
-    // that the content is not being separated.
-    chainText.Background = 
-            new Infragistics.Documents.Reports.Report.Background
-            (Infragistics.Documents.Reports.Graphics.Brushes.SteelBlue);
-    chainText.Borders = 
-            new Infragistics.Documents.Reports.Report.Borders
-            (Infragistics.Documents.Reports.Graphics.Pens.Black);
-    chainText.Paddings = 
-            new Infragistics.Documents.Reports.Report.Paddings(5);
-    chainText.Margins = 
-            new Infragistics.Documents.Reports.Report.Margins(5);
+		// Set some styles on the text so we can see where the 
+		// element begins and ends. This way, we can be sure
+		// that the content is not being separated.
+		chainText.Background = 
+				new Infragistics.Documents.Reports.Report.Background
+				(Infragistics.Documents.Reports.Graphics.Brushes.SteelBlue);
+		chainText.Borders = 
+				new Infragistics.Documents.Reports.Report.Borders
+				(Infragistics.Documents.Reports.Graphics.Pens.Black);
+		chainText.Paddings = 
+				new Infragistics.Documents.Reports.Report.Paddings(5);
+		chainText.Margins = 
+				new Infragistics.Documents.Reports.Report.Margins(5);
 
-    // Add content to the Text element.
-    chainText.AddContent(string1);
-    chainText.AddLineBreak();
-    chainText.AddLineBreak();
-    chainText.AddContent(string1);
-}
-```
+		// Add content to the Text element.
+		chainText.AddContent(string1);
+		chainText.AddLineBreak();
+		chainText.AddLineBreak();
+		chainText.AddContent(string1);
+	}
+	```

@@ -91,27 +91,27 @@
 
 1. 必要なリソースへの参照を追加します。<a id="add-references-to-required-resources"></a> 
 
- <a id="preparation"></a>**準備**
+	<a id="preparation"></a>**準備**
 
- Web サイトまたは Web アプリケーションの `Scripts` という名のフォルダーに jQuery、 jQueryUI および Modernizr JavaScript リソースを追加します。
+	Web サイトまたは Web アプリケーションの `Scripts` という名のフォルダーに jQuery、 jQueryUI および Modernizr JavaScript リソースを追加します。
 
- Web サイトまたは Web アプリケーションの `Content/ig` という名前のフォルダーへの Ignite UI CSS ファイルの追加 (詳細は、[Ignite UI のスタイルとテーマの設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください)。
+	Web サイトまたは Web アプリケーションの `Content/ig` という名前のフォルダーへの Ignite UI CSS ファイルの追加 (詳細は、[Ignite UI のスタイルとテーマの設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください)。
 
- Web サイトまたは Web アプリケーションの `Scripts/ig` という名前のフォルダーへの Ignite UI JavaScript ファイルの追加 (詳細は、[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください)。
+	Web サイトまたは Web アプリケーションの `Scripts/ig` という名前のフォルダーへの Ignite UI JavaScript ファイルの追加 (詳細は、[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください)。
 
- <a id="use-igLoader-in-js"></a>**JavaScript での igLoader の使用**
+	<a id="use-igLoader-in-js"></a>**JavaScript での igLoader の使用**
 
- `igLoader`™ コントロールは、Ignite UI ライブラリのコントロールで必要な JavaScript および CSS リソースをロードするための推奨される方法です。最初に、`igLoader` スクリプトをページに追加します。
+	`igLoader`™ コントロールは、Ignite UI ライブラリのコントロールで必要な JavaScript および CSS リソースをロードするための推奨される方法です。最初に、`igLoader` スクリプトをページに追加します。
 
- **HTML の場合:**
+	**HTML の場合:**
 
 	```
 	<script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
 	```
 
- HTML ビューでは、以下のように `igLoader` のインスタンスを作成する必要があります。
+	HTML ビューでは、以下のように `igLoader` のインスタンスを作成する必要があります。
 
- **HTML の場合:**
+	**HTML の場合:**
 
 	```
 	<script type="text/javascript">
@@ -123,13 +123,13 @@
     <script>
 	```
 
- `resources` オプションは、描画する特定のチャート シリーズを指定します。複数のデータ シリーズをコンマで区切ったリストで指定できます。`igLoader` で各種のシリーズ タイプを参照する方法の詳細は、本書の最後の参照セクション「[チャート参照用リソース](#charts-reference)」を参照してください。
+	`resources` オプションは、描画する特定のチャート シリーズを指定します。複数のデータ シリーズをコンマで区切ったリストで指定できます。`igLoader` で各種のシリーズ タイプを参照する方法の詳細は、本書の最後の参照セクション「[チャート参照用リソース](#charts-reference)」を参照してください。
 
- <a id="use-mvc-loader"></a>**MVC Loader の使用**
+	<a id="use-mvc-loader"></a>**MVC Loader の使用**
 
- `Infragistics.Web.Mvc` アセンブリを ASP.NET MVC プロジェクトで参照し、対応する名前空間をビューで参照する必要があります。詳細については、[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)をご覧ください。ただし、明確にするため、名前空間を参照するコードはここに記載します。
+	`Infragistics.Web.Mvc` アセンブリを ASP.NET MVC プロジェクトで参照し、対応する名前空間をビューで参照する必要があります。詳細については、[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)をご覧ください。ただし、明確にするため、名前空間を参照するコードはここに記載します。
 
- **ASPX の場合:**
+	**ASPX の場合:**
 
 	```
 	<%@ Import Namespace="Infragistics.Web.Mvc" %>
@@ -140,38 +140,38 @@
     %>
 	```
 
- `igLoader` の MVC ヘルパーは必要なリソースを自動的に検出するため、リソースを指定する必要はありません。
+	`igLoader` の MVC ヘルパーは必要なリソースを自動的に検出するため、リソースを指定する必要はありません。
 
- <a id="load-resources-staticallty"></a>**リソースの静的なロード**
+	<a id="load-resources-staticallty"></a>**リソースの静的なロード**
 
- 静的なリソースのロードを望む場合、「[igDataChart の概要: 最小要件](igDataChart-Overview.html#_Minimum_Requirements)」を参照してチャートを使用するためにリンクする必要があるリソース ファイルを確認してください。
+	静的なリソースのロードを望む場合、「[igDataChart の概要: 最小要件](igDataChart-Overview.html#_Minimum_Requirements)」を参照してチャートを使用するためにリンクする必要があるリソース ファイルを確認してください。
 
 2. `igDataChart` が必要とする HTML マークアップの追加<a id="add-html-markup"></a>
 
- **HTML の例**
+	**HTML の例**
 
- チャートの DIV 要素とチャート インスタンス コードで参照される凡例を追加します。
+	チャートの DIV 要素とチャート インスタンス コードで参照される凡例を追加します。
 
- **HTML の場合:**
+	**HTML の場合:**
 
 	```
 	<div id="chart" class="chartContainer"></div>
     <div id="legend" class="chartContainer"></div>
 	```
 
- **ASP.NET の例**
+	**ASP.NET の例**
 
- ASP.NET MVC では、MVC ヘルパーが必要なマークアップを自動的に追加するためコンテナ要素は不要です。
+	ASP.NET MVC では、MVC ヘルパーが必要なマークアップを自動的に追加するためコンテナ要素は不要です。
 
 3. データ ソースを追加します。 <a id="add-data-array"></a> 
 
- **HTML の例**
+	**HTML の例**
 
- HTML の例では、財務データの複数のデータ レコードを含む配列を定義するいくつかの JavaScript コードを追加する必要があります。他のデータ ソースへのバインドに関する情報を取得するには、[igDataChart をデータにバインド](igDataChart-DataBinding.html)のトピックを参照してください。 
+	HTML の例では、財務データの複数のデータ レコードを含む配列を定義するいくつかの JavaScript コードを追加する必要があります。他のデータ ソースへのバインドに関する情報を取得するには、[igDataChart をデータにバインド](igDataChart-DataBinding.html)のトピックを参照してください。 
 
- 以下のコードを HTML 文書の巻頭に組み込みます。
+	以下のコードを HTML 文書の巻頭に組み込みます。
 
- **HTML の場合:**
+	**HTML の場合:**
 
 	```
 	<script type="text/javascript">
@@ -186,11 +186,11 @@
 	</script>
 	```
 
- **ASP.NET の例**
+	**ASP.NET の例**
 
- ASP.NET MVC ビューのデータは、Controller メソッドと適切なデータ モデル定義により提供されます。データ モデル部分を以下に示します。新しい空のクラスを ASP.NET MVC アプリケーションの Models フォルダーに作成し、以下のコードを追加します。
+	ASP.NET MVC ビューのデータは、Controller メソッドと適切なデータ モデル定義により提供されます。データ モデル部分を以下に示します。新しい空のクラスを ASP.NET MVC アプリケーションの Models フォルダーに作成し、以下のコードを追加します。
 
- **C# の場合:**
+	**C# の場合:**
 
 	```
 	public class StockMarketDataPoint
@@ -205,9 +205,9 @@
     }
 	```
 
- Controllers フォルダーに空のコントローラー クラスを追加し、Index (または、ビューに付けられた任意の名前) メソッドの以下のコードを追加します。
+	Controllers フォルダーに空のコントローラー クラスを追加し、Index (または、ビューに付けられた任意の名前) メソッドの以下のコードを追加します。
 
- **C# の場合:**
+	**C# の場合:**
 
 	```
 	public ActionResult Index()
@@ -226,9 +226,9 @@
     }
 	```
 
- ASP.NET MVC ビューに次ぎのコードを追加して厳密に型指定し、上記で作成したデータ モデル クラスを指すようにします。
+	ASP.NET MVC ビューに次ぎのコードを追加して厳密に型指定し、上記で作成したデータ モデル クラスを指すようにします。
 
- **ASPX の場合:**
+	**ASPX の場合:**
 
     ```
     <%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<IQueryable<DataChartSample.Models.StockMarketDataPoint>>" %>
@@ -236,11 +236,11 @@
 
 4. 基本チャート オプションを設定します。 <a id="configure-basic"></a> 
 
- **HTML の例**
+	**HTML の例**
 
- チャートと凡例 div タグをラップしてチャートを描くには、`igDataChart` コントロールをインスタンス化してそのメイン オプションを設定する必要があります。以下のコードを、データ配列定義について上記で使用された `<script>` タグの既存のコードに追加します。
+	チャートと凡例 div タグをラップしてチャートを描くには、`igDataChart` コントロールをインスタンス化してそのメイン オプションを設定する必要があります。以下のコードを、データ配列定義について上記で使用された `<script>` タグの既存のコードに追加します。
 
- **JavaScript の場合:**
+	**JavaScript の場合:**
 
 	```
 	$(function () {
@@ -253,13 +253,13 @@
     });
 	```
 
- 以前定義した配列 data がどのようにチャート コントロールの `dataSource` オプションに割り当てられているか、およびその値を “visible” に設定するとチャートでクロスヘアが有効になる `crosshairVisibility` を確認してください。
+	以前定義した配列 data がどのようにチャート コントロールの `dataSource` オプションに割り当てられているか、およびその値を “visible” に設定するとチャートでクロスヘアが有効になる `crosshairVisibility` を確認してください。
 
- **ASP.NET の例**
+	**ASP.NET の例**
 
- 以下のコードは、`Infragistics.Web.Mvc` アセンブリで提供されているチャートの MVC ヘルパーを使用して `igDataChart` の主な機能をインスタンス化して設定します。データ モデル は、DataChart(Model) 呼び出しでコントロールに関連付けられ、残りの呼び出しは HTML の例と似た振る舞いをします。
+	以下のコードは、`Infragistics.Web.Mvc` アセンブリで提供されているチャートの MVC ヘルパーを使用して `igDataChart` の主な機能をインスタンス化して設定します。データ モデル は、DataChart(Model) 呼び出しでコントロールに関連付けられ、残りの呼び出しは HTML の例と似た振る舞いをします。
 
- **ASPX の場合:**
+	**ASPX の場合:**
 
 	```
 	<%= Html.Infragistics().DataChart(Model)
@@ -274,11 +274,11 @@
 
 5. チャート軸オプションを設定します。 <a id="configure-axis"></a> 
 
- **HTML の例**
+	**HTML の例**
 
- 前のステップのコードは、意味あるチャートを表示するには不十分でインスタンス化時に軸設定も行う必要があります。`crosshairVisibility` オプションのあとに以下のコードを追加する必要があります。
+	前のステップのコードは、意味あるチャートを表示するには不十分でインスタンス化時に軸設定も行う必要があります。`crosshairVisibility` オプションのあとに以下のコードを追加する必要があります。
 
- **JavaScript の場合:**
+	**JavaScript の場合:**
 
 	```
 	axes: [{
@@ -303,13 +303,13 @@
     }]
 	```
 
- 上記のコードは、軸プロパティにブラシを割り当てるために使用する定数に値を設定します。その後 `igDataChart` インスタンス化コードが軸の基本オプションを設定します。軸の type は、これがカテゴリ X 軸か数値 (値) Y 軸かを決定し、軸の names はデータ シリーズ構成で使用され、特定のデータ シリーズをマップする軸を参照します。stroke に割り当てられたブラシは、ページに軸をプロットする方法を設定します。ブラシを strip オプションに設定すると、軸ストリップが `priceAxis` にプロットされます。
+	上記のコードは、軸プロパティにブラシを割り当てるために使用する定数に値を設定します。その後 `igDataChart` インスタンス化コードが軸の基本オプションを設定します。軸の type は、これがカテゴリ X 軸か数値 (値) Y 軸かを決定し、軸の names はデータ シリーズ構成で使用され、特定のデータ シリーズをマップする軸を参照します。stroke に割り当てられたブラシは、ページに軸をプロットする方法を設定します。ブラシを strip オプションに設定すると、軸ストリップが `priceAxis` にプロットされます。
 
- **ASP.NET の例**
+	**ASP.NET の例**
 
- 簡便性のため、手順のこの時点での全 ASP.NET ビュー コードを以下に示します。
+	簡便性のため、手順のこの時点での全 ASP.NET ビュー コードを以下に示します。
 
- **ASPX の場合:**
+	**ASPX の場合:**
 
 	```
 	<%= Html.Infragistics().DataChart(Model)
@@ -340,15 +340,15 @@
     %>
 	```
 
- このコードは、HTML 例と同様 3 つの軸を定義します。違いは、カテゴリ X 軸が各データ項目の日付プロパティにマップされる方法で、`Label()` 関数呼び出しで `item.DataString` を割り当てることによって行っています。
+	このコードは、HTML 例と同様 3 つの軸を定義します。違いは、カテゴリ X 軸が各データ項目の日付プロパティにマップされる方法で、`Label()` 関数呼び出しで `item.DataString` を割り当てることによって行っています。
 
 6. データ シリーズ オプション<a id="configure-dataSeries"></a> 
 
- **HTML の例**
+	**HTML の例**
 
- チャートを機能的にする最後のステップではデータ シリーズ オプションを設定します。以下のコードを `igDataChart` インスタンス化コードに追加します。
+	チャートを機能的にする最後のステップではデータ シリーズ オプションを設定します。以下のコードを `igDataChart` インスタンス化コードに追加します。
 
- **JavaScript の場合:**
+	**JavaScript の場合:**
 
 	```
 	series: [{
@@ -384,17 +384,17 @@
     }]
 	```
 
- このコードは、チャートにプロットする 2 つのデータ シリーズを定義します。2 つのデータ シリーズは対応する Y 軸にマップされます。なぜなら、2 つのデータ シリーズの値は異なる値範囲にあり、それらを違う方法で表示したいからです。
+	このコードは、チャートにプロットする 2 つのデータ シリーズを定義します。2 つのデータ シリーズは対応する Y 軸にマップされます。なぜなら、2 つのデータ シリーズの値は異なる値範囲にあり、それらを違う方法で表示したいからです。
 
- 1 番目は財務または「ロウソク」タイプで、そのタイトルは「価格変動」に設定されます。これは、チャートの凡例に表示されます。凡例自体 legend オプションで割り当てられます。これは、単に以前ページに入れた div 要素を指します。`openMemberPath`、`lowMemberPath`、`highMemberPath` および `closeMemberPath` オプションは、財務データ シリーズ プロットの対応するパラメーターにデータ配列のオブジェクトのどのメンバーを使用するかを決定します。
+	1 番目は財務または「ロウソク」タイプで、そのタイトルは「価格変動」に設定されます。これは、チャートの凡例に表示されます。凡例自体 legend オプションで割り当てられます。これは、単に以前ページに入れた div 要素を指します。`openMemberPath`、`lowMemberPath`、`highMemberPath` および `closeMemberPath` オプションは、財務データ シリーズ プロットの対応するパラメーターにデータ配列のオブジェクトのどのメンバーを使用するかを決定します。
 
- 2 番目のデータ シリーズは線タイプで、これは、個々の点をプロットし、それらを直線で結びます。これは「販売量」とうタイトルで、`markerType` オプションで各データ ポイントのマーカーとして円をプロットするよう設定されています。ここでは、`valueMemberPath` オプションの機能に注目することが重要です。これは、個々のデータ ポイントを得るためデータ配列のオブジェクトのどのメンバーを使用するかを決定します。さらに、`trendlineType` オプションを `modifiedAverage` に設定すると `volumeSeries` の傾向線が計算されチャートにプロットされます。
+	2 番目のデータ シリーズは線タイプで、これは、個々の点をプロットし、それらを直線で結びます。これは「販売量」とうタイトルで、`markerType` オプションで各データ ポイントのマーカーとして円をプロットするよう設定されています。ここでは、`valueMemberPath` オプションの機能に注目することが重要です。これは、個々のデータ ポイントを得るためデータ配列のオブジェクトのどのメンバーを使用するかを決定します。さらに、`trendlineType` オプションを `modifiedAverage` に設定すると `volumeSeries` の傾向線が計算されチャートにプロットされます。
 
- **ASP.NET の例**
+	**ASP.NET の例**
 
- HTML ヘルパー コードの `.DataBind()` 文の直前に以下のコードを追加します。このコードは、ASPX と Razor の両方に有効です。
+	HTML ヘルパー コードの `.DataBind()` 文の直前に以下のコードを追加します。このコードは、ASPX と Razor の両方に有効です。
 
- **ASPX の場合:**
+	**ASPX の場合:**
 
 	```
 	.Series(series =>
@@ -427,20 +427,20 @@
     )
 	```
 
- コードの意味は、上記の JavaScript コードと同じです。
+	コードの意味は、上記の JavaScript コードと同じです。
 
 7. (オプション) 最終結果を観察。<a id="view-results"></a> 
 
- 上記のステップをすべて完了したらページを保存して最終結果を Web ブラウザーで表示できます。それは、この手順の最初に示した図のようになるはずです。
+	上記のステップをすべて完了したらページを保存して最終結果を Web ブラウザーで表示できます。それは、この手順の最初に示した図のようになるはずです。
 
 ##<a id="charts-reference"></a>チャート参照のリソース
 
 
-#### 概要
+### 概要
 
 このセクションは、`igDataChart` コントロールがサポートする各種のシリーズ タイプの Infragistics® Loader™ リソース名の参照です。
 
-#### igLoader リソース参照
+### igLoader リソース参照
 
 以下の表は、各種 `igDataChart` シリーズ タイプの `igLoader`™ で使用するリソース名を指定します。
 

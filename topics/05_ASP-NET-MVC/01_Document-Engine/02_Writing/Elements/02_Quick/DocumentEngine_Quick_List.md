@@ -14,7 +14,7 @@ Quick List 要素を使用することは、シンプルな黒丸または番号
 
 以下のコードは、7 項目からなるリストを作成します。リストには番号が付けられ、各項目間のスペースは 10 ピクセルに設定されます。このトピックは、Report 要素が定義済みで、この要素に少なくともひとつの Section 要素が追加されていることを前提としています。詳細は、[Report](DocumentEngine-Report.html) および[Section](DocumentEngine-Section.html) を参照してください。
 
-![](DocumentEngine_Quick_List_01.png)
+![](images/DocumentEngine_Quick_List_01.png)
 
 **C# の場合:**
 

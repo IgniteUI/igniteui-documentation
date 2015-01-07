@@ -33,121 +33,121 @@ Segment 要素の最も優れた機能は、ヘッダーとフッターを使用
 
 1.  **セグメントを定義します。**
 
-**C# の場合:**
+	**C# の場合:**
 
-```
-using Infragistics.Documents.Reports.Report;
-.
-.
-.
-// Add a Segment to the Section.
-Infragistics.Documents.Reports.Report.Segment.ISegment segment =   section1.AddSegment();
-segment.Background = new Background(Brushes.WhiteSmoke);
-segment.Stretch = true;
-```
+	```
+	using Infragistics.Documents.Reports.Report;
+	.
+	.
+	.
+	// Add a Segment to the Section.
+	Infragistics.Documents.Reports.Report.Segment.ISegment segment =   section1.AddSegment();
+	segment.Background = new Background(Brushes.WhiteSmoke);
+	segment.Stretch = true;
+	```
 
 2.  **2 つのセグメント ヘッダーを定義します。**
 
-**C# の場合:**
+	**C# の場合:**
 
-```
-// Add the first Header to the Segment.
-Infragistics.Documents.Reports.Report.Segment.ISegmentHeader segmentHeader1 =   segment.AddHeader();
-segmentHeader1.Background = new Background(Brushes.LightBlue);
-segmentHeader1.Height = new FixedHeight(40);
-segmentHeader1.Paddings = new Paddings(10);
+	```
+	// Add the first Header to the Segment.
+	Infragistics.Documents.Reports.Report.Segment.ISegmentHeader segmentHeader1 =   segment.AddHeader();
+	segmentHeader1.Background = new Background(Brushes.LightBlue);
+	segmentHeader1.Height = new FixedHeight(40);
+	segmentHeader1.Paddings = new Paddings(10);
 
-Infragistics.Documents.Reports.Report.Text.IText segmentHeaderText =   segmentHeader1.AddText();
-segmentHeaderText.Style = mainStyle1;
+	Infragistics.Documents.Reports.Report.Text.IText segmentHeaderText =   segmentHeader1.AddText();
+	segmentHeaderText.Style = mainStyle1;
 
-segmentHeaderText.AddContent("Header 1, Page #");
-segmentHeaderText.AddPageNumber(PageNumberFormat.Decimal);
+	segmentHeaderText.AddContent("Header 1, Page #");
+	segmentHeaderText.AddPageNumber(PageNumberFormat.Decimal);
 
-// Add the second Header to the Segment.
-Infragistics.Documents.Reports.Report.Segment.ISegmentHeader segmentHeader2 =   segment.AddHeader();
-segmentHeader2.Background = new Background(Brushes.LightGreen);
-segmentHeader2.Height = new FixedHeight(40);
-segmentHeader2.Paddings = new Paddings(10);
+	// Add the second Header to the Segment.
+	Infragistics.Documents.Reports.Report.Segment.ISegmentHeader segmentHeader2 =   segment.AddHeader();
+	segmentHeader2.Background = new Background(Brushes.LightGreen);
+	segmentHeader2.Height = new FixedHeight(40);
+	segmentHeader2.Paddings = new Paddings(10);
 
-segmentHeaderText = segmentHeader2.AddText();
-segmentHeaderText.Style = mainStyle1;
-segmentHeaderText.AddContent("Header 2, Page #");
-segmentHeaderText.AddPageNumber(PageNumberFormat.Decimal);
-```
+	segmentHeaderText = segmentHeader2.AddText();
+	segmentHeaderText.Style = mainStyle1;
+	segmentHeaderText.AddContent("Header 2, Page #");
+	segmentHeaderText.AddPageNumber(PageNumberFormat.Decimal);
+	```
 
 3.  **2 つのセグメント フッターを定義します。**
 
-**C# の場合:**
+	**C# の場合:**
 
-```
-// Add the first Footer to the Segment.
-Infragistics.Documents.Reports.Report.Segment.ISegmentFooter segmentFooter1 =   segment.AddFooter();
-segmentFooter1.Background = new Background(Brushes.LightBlue);
-segmentFooter1.Height = new FixedHeight(40);
-segmentFooter1.Paddings = new Paddings(10);
+	```
+	// Add the first Footer to the Segment.
+	Infragistics.Documents.Reports.Report.Segment.ISegmentFooter segmentFooter1 =   segment.AddFooter();
+	segmentFooter1.Background = new Background(Brushes.LightBlue);
+	segmentFooter1.Height = new FixedHeight(40);
+	segmentFooter1.Paddings = new Paddings(10);
 
-Infragistics.Documents.Reports.Report.Text.IText segmentFooterText =   segmentFooter1.AddText();
-segmentFooterText.Style = mainStyle1;
+	Infragistics.Documents.Reports.Report.Text.IText segmentFooterText =   segmentFooter1.AddText();
+	segmentFooterText.Style = mainStyle1;
 
-segmentFooterText.AddContent("Footer 1, Page #");
-segmentFooterText.AddPageNumber(PageNumberFormat.Decimal);
+	segmentFooterText.AddContent("Footer 1, Page #");
+	segmentFooterText.AddPageNumber(PageNumberFormat.Decimal);
 
-// Add the second Footer to the Segment.
-Infragistics.Documents.Reports.Report.Segment.ISegmentFooter segmentFooter2 =   segment.AddFooter();
-segmentFooter2.Background = new Background(Brushes.LightGreen);
-segmentFooter2.Height = new FixedHeight(40);
-segmentFooter2.Paddings = new Paddings(10);
+	// Add the second Footer to the Segment.
+	Infragistics.Documents.Reports.Report.Segment.ISegmentFooter segmentFooter2 =   segment.AddFooter();
+	segmentFooter2.Background = new Background(Brushes.LightGreen);
+	segmentFooter2.Height = new FixedHeight(40);
+	segmentFooter2.Paddings = new Paddings(10);
 
-segmentFooterText = segmentFooter2.AddText();
-segmentFooterText.Style = mainStyle1;
+	segmentFooterText = segmentFooter2.AddText();
+	segmentFooterText.Style = mainStyle1;
 
-segmentFooterText.AddContent("Footer 2, Page #");
-segmentFooterText.AddPageNumber(PageNumberFormat.Decimal);
-```
+	segmentFooterText.AddContent("Footer 2, Page #");
+	segmentFooterText.AddPageNumber(PageNumberFormat.Decimal);
+	```
 
 4.  **最初のページにテキストを追加して、次ページとのページ区切りを追加します。**
 
-以下のテキストを使用して、`string1` 変数を設定します。
+	以下のテキストを使用して、`string1` 変数を設定します。
 
-> Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Donec imperdiet mattis sem.Nunc ornare elit at justo.In quam nulla, lobortis non, commodo eu, eleifend in, elit.Nulla eleifend.Nulla convallis.Sed eleifend auctor purus.Donec velit diam, congue quis, eleifend et, pretium id, tortor.Nulla semper condimentum justo.Etiam interdum odio ut ligula.Vivamus egestas scelerisque est. Donec accumsan.In est urna, vehicula non, nonummy sed, malesuada nec, purus.Vestibulum erat.Vivamus lacus enim, rhoncus nec, ornare sed, scelerisque varius, felis.Nam eu libero vel massa lobortis accumsan.Vivamus id orci.Sed sed lacus sit amet nibh pretium sollicitudin.Morbi urna.
+	> Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Donec imperdiet mattis sem.Nunc ornare elit at justo.In quam nulla, lobortis non, commodo eu, eleifend in, elit.Nulla eleifend.Nulla convallis.Sed eleifend auctor purus.Donec velit diam, congue quis, eleifend et, pretium id, tortor.Nulla semper condimentum justo.Etiam interdum odio ut ligula.Vivamus egestas scelerisque est. Donec accumsan.In est urna, vehicula non, nonummy sed, malesuada nec, purus.Vestibulum erat.Vivamus lacus enim, rhoncus nec, ornare sed, scelerisque varius, felis.Nam eu libero vel massa lobortis accumsan.Vivamus id orci.Sed sed lacus sit amet nibh pretium sollicitudin.Morbi urna.
 
-**C# の場合:**
+	**C# の場合:**
 
-```
-// Add text to the Segment. The first page of the
-// Segment will use the first Header and Footer.
-Infragistics.Documents.Reports.Report.Text.IText segmentText1 = segment.AddText();
-string string1 = "Lorem ipsum...";
-segmentText1.AddContent(string1);
-segmentText1.Paddings.All = 5;
+	```
+	// Add text to the Segment. The first page of the
+	// Segment will use the first Header and Footer.
+	Infragistics.Documents.Reports.Report.Text.IText segmentText1 = segment.AddText();
+	string string1 = "Lorem ipsum...";
+	segmentText1.AddContent(string1);
+	segmentText1.Paddings.All = 5;
 
-// Break to the next page.
-segment.AddPageBreak();
-```
+	// Break to the next page.
+	segment.AddPageBreak();
+	```
 
 5.  **テキストを 2 番目のページに追加して、次ページとのページ区切りを追加します。**
 
-**C# の場合:**
+	**C# の場合:**
 
-```
-// Add more text to the Segment. The second page of
-// the Segment will use the second Header and Footer.
-segmentText1 = segment.AddText();
-segmentText1.AddContent(string2);
-segmentText1.Paddings.All = 5;
+	```
+	// Add more text to the Segment. The second page of
+	// the Segment will use the second Header and Footer.
+	segmentText1 = segment.AddText();
+	segmentText1.AddContent(string2);
+	segmentText1.Paddings.All = 5;
 
-// Break to the third page.
-segment.AddPageBreak();
-```
+	// Break to the third page.
+	segment.AddPageBreak();
+	```
 
 6.  **テキストを 3 ページ目に追加します。**
 
-**C# の場合:**
+	**C# の場合:**
 
-```
-// Add more text to the Segment. The third page of
-// the Segment will use the first Header and Footer.
-segmentText1 = segment.AddText();
-segmentText1.AddContent(string1);
-segmentText1.Paddings.All = 5;
-```
+	```
+	// Add more text to the Segment. The third page of
+	// the Segment will use the first Header and Footer.
+	segmentText1 = segment.AddText();
+	segmentText1.AddContent(string1);
+	segmentText1.Paddings.All = 5;
+	```
