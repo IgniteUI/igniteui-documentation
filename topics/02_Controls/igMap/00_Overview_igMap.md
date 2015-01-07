@@ -115,7 +115,9 @@
 			<td>
 				地理座標に基づいて、マップ上のマーカーを視覚化します。
 
-				<img alt="" src="images/Overview_(igMap)_2.png" width="319" height="230">関連トピック:
+				<img alt="" src="images/Overview_(igMap)_2.png" width="319" height="230">
+				
+				関連トピック:
 
 				<ul>
 					<li><a class="ig-topic-link" href="igMap-Configuring-Geographic-Symbol-Series.html">地理シンボル シリーズの構成</a></li>
@@ -141,7 +143,9 @@
 			<td>
 				シェープ (SHP) ファイルまたはカスタム形状データ ソースが提供する形状データに基づいて、国や地域などの、マップ上の囲まれた領域を視覚化します。
 
-				<img alt="" src="images/Overview_(igMap)_3.png" width="319" height="230">関連トピック:
+				<img alt="" src="images/Overview_(igMap)_3.png" width="319" height="230">
+				
+				関連トピック:
 
 				<ul>
 					<li><a class="ig-topic-link" href="igMap-Configuring-Geographic-Shapes.html">地理図形シリーズの構成</a></li>
@@ -169,7 +173,9 @@
 			<td>
 				シェープ (SHP) ファイルまたはカスタム形状データ ソースが提供する形状データに基づいて、道路、川、または毎日の供給路などの、マップ上の開いたパスを視覚化します。
 
-				<img alt="" src="images/Overview_(igMap)_4.png" width="319" height="230">関連トピック:
+				<img alt="" src="images/Overview_(igMap)_4.png" width="319" height="230">
+				
+				関連トピック:
 
 				<ul>
 					<li><a class="ig-topic-link" href="igMap-Configuring-Geographic-Polyline-Series.html">地理ポリライン シリーズの構成</a></li>
@@ -197,7 +203,9 @@
 			<td>
 				三角測量 (ITF) ファイルまたはその他のカスタム三角測量データ ソースで定義される不規則三角網 (TIN) に基づいて、色分けされた地理領域を表示します。地理座標および値メンバーも必要です。これは地形高度、人口密度、平均/現在の気温などを示すために使用されます。
 
-				<img alt="" src="images/Overview_(igMap)_5.png" width="319" height="230">関連トピック:
+				<img alt="" src="images/Overview_(igMap)_5.png" width="319" height="230">
+				
+				関連トピック:
 
 				<ul>
 					<li><a class="ig-topic-link" href="igMap-Configuring-Geographic-Scatter-Area-Series.html">地理散布エリア シリーズの構成</a></li>
@@ -235,7 +243,9 @@
 			<td>
 				三角測量 (ITF) ファイルまたはその他のカスタム三角測量データ ソースで定義される不規則三角網 (TIN) に基づいて、色付けされた閉じたパスを視覚化します。地理座標および値メンバーも必要です。これは地形高度、人口密度、平均/現在の気温などを示すために使用されます。
 
-				<img alt="" src="images/Overview_(igMap)_6.png" width="319" height="230">関連トピック:
+				<img alt="" src="images/Overview_(igMap)_6.png" width="319" height="230">
+				
+				関連トピック:
 
 				<ul>
 					<li><a class="ig-topic-link" href="igMap-Configuring-Geographic-Contour-Line-Series.html">地理等高線シリーズの構成</a></li>
