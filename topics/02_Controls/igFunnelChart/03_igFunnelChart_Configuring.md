@@ -46,7 +46,7 @@
 
 ## <a id="configuration-overview"></a> *igFunnelChart* 構成の概要
 
-### <a id="features-summar"></a> *igFunnelChart* 機能の概要
+### <a id="features-summary"></a> *igFunnelChart* 機能の概要
 
 `igFunnelChart` コントロールの目的は、同じ側面を示すカテゴリーのセットに対し値を表示することにあります (製品のカテゴリに対する総在庫またはある国の年齢グループの人口など)。
 

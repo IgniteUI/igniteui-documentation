@@ -121,7 +121,7 @@ Required CSS resources code: MVC
 
 
 
-##  <a id="styles-referenc"></a>ファンネル チャート スタイルの参照
+##  <a id="styles-reference"></a>ファンネル チャート スタイルの参照
 
 以下の表は、`igFunnelChart` コントロールで使用するスタイル クラスの目的と機能を説明します。
 

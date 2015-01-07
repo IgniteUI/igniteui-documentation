@@ -34,7 +34,7 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [**列固定の構成の概要**](#configuration-summary*)
+-   [**列固定の構成の概要**](#configuration-summary)
 -   [**列固定方向の構成**](#direction)
     -   [プロパティ設定](#direction-property-settings)
     -   [例: 右側の固定方向の構成](#direction-example)

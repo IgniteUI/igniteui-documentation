@@ -50,8 +50,8 @@ Ignite UI™ グリッド、つまり `igGrid`™ は JavaScript、HTML、およ
 #### データ ソース コントロールでは次のデータ形式がサポートされています。
 
 -   サーバー データ (Web サービス)
-    -   [REST GET](http://en.wikipedia.org/wiki/Representational_State_Transfer#RESTful_web_services)
-    -   [WCF REST (JSON & XML)](http://en.wikipedia.org/wiki/Windows_Communication_Foundation)
+    -   [REST GET](http://ja.wikipedia.org/wiki/REST)
+    -   [WCF REST (JSON & XML)](http://ja.wikipedia.org/wiki/Windows_Communication_Foundation)
     -   JSONP サービス
     -   任意の REST サービス
 -   ローカル データ
@@ -69,11 +69,11 @@ Ignite UI™ グリッド、つまり `igGrid`™ は JavaScript、HTML、およ
 -   ***$.ig.MashupDataSource***
     -   `dataSource` プロパティは、基点がローカルまたはリモートのサポートされているデータ形式の配列を受け取ります。これらのデータ形式を組み合わせて、プライマリ キーと外部キーの関係を使用してマッシュアップ シナリオを実現しています。
 -   ***$.ig.JSONDataSource***
-    -   このクラスは特に [JSON](http://en.wikipedia.org/wiki/JSON) データを処理するようあらかじめ構成されています。
+    -   このクラスは特に [JSON](http://ja.wikipedia.org/wiki/JavaScript_Object_Notation) データを処理するようあらかじめ構成されています。
 -   ***$.ig.XMLDataSource***
-    -   このクラスは特に [XML](http://en.wikipedia.org/wiki/XML) データを処理するようあらかじめ構成されています。
+    -   このクラスは特に [XML](http://ja.wikipedia.org/wiki/Extensible_Markup_Language) データを処理するようあらかじめ構成されています。
 -   ***$.ig.WebSocketsDataSource***
-    -   このクラスは特に [Web ソケット](http://en.wikipedia.org/wiki/WebSockets)を処理するようあらかじめ構成されています。
+    -   このクラスは特に [Web ソケット](http://ja.wikipedia.org/wiki/WebSocket)を処理するようあらかじめ構成されています。
 
 > **注:** 上記に一覧されたコントロールは、Ignite UI データ ソース JavaScript ライブラリに組み込まれています。
 
