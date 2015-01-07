@@ -96,9 +96,9 @@
 
 以下はプロセスの概念的概要です。
 
-1.  [Markets ページの作成](#prepare-markets-page)
-2.  [Home ページの作成](#prepare-home-page)
-3.  [結果の検証](#verify-results)
+1.  Markets ページの作成
+2.  Home ページの作成
+3.  結果の検証
 
 ### 手順
 
