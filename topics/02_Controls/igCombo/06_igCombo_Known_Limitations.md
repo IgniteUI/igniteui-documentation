@@ -45,7 +45,7 @@
 
 ###<a id="parentComboKey"></a> コンボのカスケード用に親コンボのキーを使用すると、子コンボのフィルタリングができない
 
-カスケード igCombo で [parentComboKey](%%jQueryApiUrl%%/ui.igcombo#options:parentComboKey) を使用する場合、子 `igCombo` をフィルターすることができません。子 igCombo でフィルタリング機能が必要の場合、parentComboKey を使用する代わりにカスケード データ ソースの実装を使用します。詳細については、[データ ソース スケードへの `igCombo` コントロール スケードのバインド](igCombo-Binding-Cascading-igCombo-Controls-to-Cascading-Data-Sources.html)というトピックを参照してください。
+カスケード igCombo で [parentComboKey](%%jQueryApiUrl%%/ui.igcombo#options:parentComboKey) を使用する場合、子 `igCombo` をフィルターすることができません。子 igCombo でフィルタリング機能が必要の場合、parentComboKey を使用する代わりにカスケード データ ソースの実装を使用します。詳細については、[カスケード igCombo コントロールをカスケード データ ソースへバインド](igCombo-Binding-Cascading-igCombo-Controls-to-Cascading-Data-Sources.html)というトピックを参照してください。
 
 ###<a id="Load_on_demand"></a> igCombo の子のカスケードに対し、ロード オン デマンドがサポートされない
 
