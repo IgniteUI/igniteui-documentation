@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# 仮想化を有効にし、構成する (igHierarchicalGrid)
+# 仮想化の有効化と構成 (igHierarchicalGrid)
 
 ## トピックの概要
 
