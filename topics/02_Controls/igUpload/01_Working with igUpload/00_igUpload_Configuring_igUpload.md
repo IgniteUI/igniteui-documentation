@@ -537,7 +537,7 @@ $("#upload1").igUpload({
 
 目的:|使用するプロパティ:|設定の選択肢:
 ---|---|---
-最大アップロード ファイル数を設定|[maxUploadedFiles](%%jQueryApiUrl%%/ui.igupload#options:maxUploadedFiles)|望ましい整数値
+最大アップロード ファイル数を設定|[maxUploadedFiles](%%jQueryApiUrl%%/ui.igupload#options:maxUploadedFiles)|必要な整数値
 
 
 
