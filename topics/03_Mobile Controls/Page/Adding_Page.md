@@ -61,50 +61,50 @@
 
 ​1. ビュー ページにリソースを追加します。
 
-`Infragistics.Web.Mvc.Mobile.dll` への参照と、Infragistics モバイル Loader への参照が必要です。以下の例では、すべての js および css ファイルが `ig_mobileui` という名前の仮想ディレクトリの下に置かれています。この手順を完了させるためには、このフォルダーの名前を、`js` および `css` ファイルの実際の格納場所に合わせて変更する必要があります。
+	`Infragistics.Web.Mvc.Mobile.dll` への参照と、Infragistics モバイル Loader への参照が必要です。以下の例では、すべての js および css ファイルが `ig_mobileui` という名前の仮想ディレクトリの下に置かれています。この手順を完了させるためには、このフォルダーの名前を、`js` および `css` ファイルの実際の格納場所に合わせて変更する必要があります。
 
-**Razor の場合:**
+	**Razor の場合:**
 
-```
-@using Infragistics.Web.Mvc.Mobile
-<script type="text/javascript" src="http://code.jquery.com/mobile/jquery.min.js"></script>
- <script type="text/javascript" src="http://code.jquery.com/mobile/1.1.1/jquery.mobile.min.js"></script>
-<script type="text/javascript" src="http://localhost/ig_mobileui/js/infragistics.mobile.loader.js"></script>
-@(Html.InfragisticsMobile().
-    Loader().
-    ScriptPath("http://localhost/ig_mobileui/js/").
-    CssPath("http://localhost/ig_mobileui/css/").
-    Render())
-```
+	```
+	@using Infragistics.Web.Mvc.Mobile
+	<script type="text/javascript" src="http://code.jquery.com/mobile/jquery.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/mobile/1.1.1/jquery.mobile.min.js"></script>
+	<script type="text/javascript" src="http://localhost/ig_mobileui/js/infragistics.mobile.loader.js"></script>
+	@(Html.InfragisticsMobile().
+		Loader().
+		ScriptPath("http://localhost/ig_mobileui/js/").
+		CssPath("http://localhost/ig_mobileui/css/").
+		Render())
+	```
 
 ​2. ビュー ページに Page を追加
 
-ページの開始をマークするには、以下のコードを追加します。
+	ページの開始をマークするには、以下のコードを追加します。
 
-**Razor の場合:**
+	**Razor の場合:**
 
-```
-@(Html.InfragisticsMobile()
-    .Page()
-    .ID("pg1")
-    .Title("Page")
-    .BeginRender())
-```
+	```
+	@(Html.InfragisticsMobile()
+		.Page()
+		.ID("pg1")
+		.Title("Page")
+		.BeginRender())
+	```
 
-ページ コンテンツの追加が終わったら、描画されるコンテンツの終わりをマークするために以下のコードを追加する必要があります。
+	ページ コンテンツの追加が終わったら、描画されるコンテンツの終わりをマークするために以下のコードを追加する必要があります。
 
-**Razor の場合:**
+	**Razor の場合:**
 
-```
-@(Html.InfragisticsMobile()
-    .Page()
-    .ID("pg1")
-    .EndRender())
-```
+	```
+	@(Html.InfragisticsMobile()
+		.Page()
+		.ID("pg1")
+		.EndRender())
+	```
 
 ​3. 結果を確認します。
 
-ビューを保存し、アプリケーションをビルドし直して実行し、その結果を確認します。
+	ビューを保存し、アプリケーションをビルドし直して実行し、その結果を確認します。
 
 
 ## <a id="related-content"></a>関連コンテンツ
