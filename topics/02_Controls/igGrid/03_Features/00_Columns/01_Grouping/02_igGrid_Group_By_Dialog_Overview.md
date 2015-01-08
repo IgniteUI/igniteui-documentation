@@ -154,7 +154,7 @@ igGrid|igHierarchicalGrid
 [modalDialogWidth](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogWidth) |ダイアログの幅を指定します
 [modalDialogHeight](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogHeight) |ダイアログの高さを指定します
 [modalDialogAnimationDuration](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogAnimationDuration) |ダイアログを表示/非表示にするための、アニメーションの時間を指定します (ミリ秒)
-[modalDialogDropDownWidth](%%jQueryApiUrl%%/ ui.iggridgroupby#options:modalDialogDropDownWidth) |グリッド レイアウトを表示する Modal Dialog のドロップダウンの幅を指定します
+[modalDialogDropDownWidth](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogDropDownWidth) |グリッド レイアウトを表示する Modal Dialog のドロップダウンの幅を指定します
 [modalDialogDropDownAreaWidth](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogDropDownAreaWidth) |ダイアログのレイアウト ドロップダウンの高さを指定します
 [modalDialogGroupByButtonText](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogGroupByButtonText) |ダイアログの Group By ボタンのテキストを指定します
 [modalDialogCaptionButtonDesc](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogCaptionButtonDesc) |ダイアログ内の降順に並べ替えられた各列のキャプションを指定します
