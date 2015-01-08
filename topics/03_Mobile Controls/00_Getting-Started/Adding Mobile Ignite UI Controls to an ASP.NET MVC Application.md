@@ -190,8 +190,8 @@ return View(list);
 	```
 	<%= Html.Infragistics()
 	        .Loader()
-	        .ScriptPath(“http://cdn-na.infragistics.com/jquery/%%ProductVersionCondensed%%/latest/mobile/js/”)
-	        .CssPath(“http://cdn-na.infragistics.com/jquery/%%ProductVersionCondensed%%/latest/mobile/css/”)
+	        .ScriptPath(“http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/mobile/js/”)
+	        .CssPath(“http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/mobile/css/”)
 	        .Render() %>
 	```
 
