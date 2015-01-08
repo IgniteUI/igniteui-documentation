@@ -40,6 +40,7 @@
 -   [igSparkline](igSparkline-Landing.html)
 -   [igSplitter](igSplitter.html)
 -   [igTree](igTree-igTree.html)
+-	[igTreeGrid](igTreeGrid-Landing-Page.html)
 -   [igTileManager](igTileManager-Landing-Page.html)
 -   [igUpload](igUpload-igUpload.html)
 -   [igVideoPlayer](VideoPlayer.html)

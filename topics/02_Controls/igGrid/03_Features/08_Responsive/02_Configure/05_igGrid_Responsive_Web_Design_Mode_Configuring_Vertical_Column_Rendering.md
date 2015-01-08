@@ -192,8 +192,8 @@ $("#grid1").igGrid({
 -   [並べ替え](igGrid-Sorting.html)
 -   [非表示](igGrid-Column-Hiding.html)
 
--   [選択](igGrid-Selection.html)機能は UI により動作しますが、イベント引数、selectedCells/selectedRows プロパティ、および API は誤った結果を返します。
--   グリッドが垂直に描画されるとき、[GroupBy](igGrid-GroupBy.html) や、[RowSelectors](igGrid-Row-Selectors.html)、[集計](igGrid-Column-Summaries.html)、[仮想化](igGrid-Virtualization-Overview.html)機能、および[階層](igHierarchicalGrid-igHierarchicalGrid.html)モードはサポートされません。
+-   [選択](igGrid-Selection.html)機能は、選択が行識別のためにインデックスを使用する場合のみに UI により動作します。[primaryKey](%%jQueryApiUrl%%/ui.iggrid#options:primaryKey) を指定しなく、選択の永続化を無効にします。イベント引数、selectedCells/selectedRows プロパティ、および API は誤った結果を返します。
+-   グリッドが垂直に描画されるとき、[GroupBy](igGrid-GroupBy.html) や、[RowSelectors](igGrid-Row-Selectors.html)、[集計](igGrid-Column-Summaries.html)、[更新](igGrid-Updating.html)、[仮想化](igGrid-Virtualization-Overview.html)機能、および[階層](igHierarchicalGrid-igHierarchicalGrid.html)モードはサポートされません。
 
 
 

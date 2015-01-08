@@ -19,7 +19,7 @@
 
 既知の問題点および制限事項に関する詳細情報については、以下のトピックを参照してください。
 
-- [2014.1 の既知の問題点](Known-Issues-and-Limitations-2014-Volume-1.html): このトピックでは、Ignite UI™ ライブラリの 2014 Volume 1 リリースの既知の問題点と制限事項について説明します。
+- [2014.2 の既知の問題点](Known-Issues-and-Limitations-2014-Volume-2.html): このトピックでは、Ignite UI™ ライブラリの 2014 Volume 2 リリースの既知の問題点と制限事項について説明します。
 
 - [既知の問題点の改訂履歴](Known-Issues-Revision-History.html): このトピックは、Ignite UI™ ライブラリの以前のバージョンの既知の問題点と制限事項へのリンクを提供します。
 

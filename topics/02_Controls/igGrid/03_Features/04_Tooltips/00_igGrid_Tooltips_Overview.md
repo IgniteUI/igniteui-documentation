@@ -168,13 +168,19 @@ hidden  <br />
 外観
 			</td>
             <td>
-jQuery UI CSS Framework クラスを変更する場合にカスタマイズ可能な外観。
+ツールチップのスタイルや位置を設定します。「tooltip」と「popover」の 2 つのモードがあります。
+                <br />
+「tooltip」スタイルでは、マウス カーソルに応じてツールチップの位置を決めます (ツールチップがマウス カーソルの隣に表示されます)。ツールチップの内容はプレーンテキストとして表示されます。
+                <br />
+「popover」スタイルは、igPopover コントロールのインスタンスを初期化します。矢印で示すターゲット TD 要素に応じてツールチップの位置を決めます。ツールチップの内容は HTML として表示されます。
+                <br />
+jQuery UI CSS Framework クラスを変更するすると、外観をカスタマイズできます。
 			</td>
             <td>
--
+[style](%%jQueryApiUrl%%/ui.iggridtooltips#options:style)
 			</td>
             <td>
--
+[Style](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridTooltips~Style.html)
 			</td>
         </tr>
     </tbody>

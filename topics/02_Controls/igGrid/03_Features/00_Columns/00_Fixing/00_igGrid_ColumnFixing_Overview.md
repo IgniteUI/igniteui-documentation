@@ -49,6 +49,7 @@
     -   [更新機能](#updating-feature)
     -   [複数列ヘッダー機能](#multi-column-headers)
     -   [行セレクター機能](#row-selectors)
+	-   [仮想化](#virtualization)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
     -   [サンプル](#samples)
@@ -69,11 +70,9 @@
 
 ![](images/igGrid_ColumnFixing_Overview_1.png)
 
-列固定機能では、グリッドの幅を定義する必要があります。
+列固定機能では、グリッドおよびそのグリッドの列の幅をピクセル単位で定義する必要があります (明示的に定義または [defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) オプションを使用して定義)。
 
-列固定は列ごとに適用しますが、グリッド全体の外観に影響を与えます。
-
-> **デフォルトで、列固定は無効に設定されています。**
+>**注:** ピクセル単位の幅のみがサポートされます。
 
 `igGrid`™ コントロールでの固定および固定解除領域は、2 つの異なるテーブル DOM 要素として実装されます。そのため、固定列領域に対してすべてのグリッド DOM 操作メソッドを複製することが必要です。通常、固定列領域の API は固定を示す接頭辞が付けられます。
 
@@ -275,7 +274,6 @@
 -   [Groupby](igGrid-GroupBy.html)
 -   [非表示](igGrid-Column-Hiding.html)
 -   [レスポンシブ Web デザイン (RWD) モード](igGrid-Responsive-Web-Design-Mode-LandingPage.html)
--   [仮想化](igGrid-Virtualization.html)
 -   [非バインド列](igGrid-UnboundColumns-Landing-Page.html) 
 
 サポートされていない機能を列固定と一緒に有効にすると、例外が発生します。
@@ -300,7 +298,11 @@
 
 ![](images/igGrid_ColumnFixing_Overview_10.png)
 
+### 仮想化
 
+igGrid の列固定機能は、igGrid の[仮想化(igGrid-Virtualization.html)機能 (固定仮想化と連続仮想化の両方) に統合されています。仮想化を有効にすると、すべての列に適用され、固定列と固定解除列およびグリッドの 2 つの領域間のスクロール位置は同期します。
+
+>**注:** 列の仮想化はサポートされないことに注意してください。
 
 ## <a id="related-content"></a> 関連コンテンツ
 

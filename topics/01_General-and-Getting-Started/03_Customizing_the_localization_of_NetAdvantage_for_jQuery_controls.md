@@ -251,7 +251,7 @@ HTML ファイルを作成して結果を検証します。以下のスクリー
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [配備ガイド](Deployment-Guide.html): Ignite UI コントロールの配備方法を説明します。
+- [はじめに](Deployment-Guide.html): Ignite UI コントロールの配備方法を説明します。
 
 - [Ignite UI の JavaScript ファイル](Deployment-Guide-JavaScript-Files.html) : Ignite UI のすべての JavaScript ファイルを示します。
 

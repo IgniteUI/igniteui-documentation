@@ -205,7 +205,17 @@ $("#grid1").igGrid({
 $('#grid1').igGridSorting('sortColumn', 'ProductID', 'asc');
 ```
 
-リスト 6: `columnSettings` オブジェクトの取得
+適用された並べ替え式はグリッドのデータ ソースから取得できます。コードで取得するには、以下のコードを使用します。
+
+リスト 6: 適用された並べ替え設定の取得
+
+**Javascript の場合:**
+
+```
+var expressions = $('#grid1').data('igGrid').dataSource.settings.sorting.expressions;
+```
+
+リスト 7: `columnSettings` オブジェクトの取得
 
 
 **JavaScript の場合:**
@@ -217,9 +227,9 @@ var settings = sorting.options.columnSettings;
 
 ## <a id="client-side-events"></a> クライアント側イベント
 
-2 種類の方法で並べ替え機能へのクライアント側イベントにバインドできます。これはそれぞれ、リスト 7 とリスト 8 に記載します。
+2 種類の方法で並べ替え機能へのクライアント側イベントにバインドできます。これはそれぞれ、リスト 8 とリスト 9 に記載します。
 
-リスト 7: アプリケーションの任意の場所からのクライアント側イベントへのバインド
+リスト 8: アプリケーションの任意の場所からのクライアント側イベントへのバインド
 
 **JavaScript の場合:**
 
@@ -227,9 +237,9 @@ var settings = sorting.options.columnSettings;
 $("#grid1").bind("iggridsortingcolumnsorted", handler);
 ```
 
-> **注:** リスト 7 に記載したアプローチでバインドを行い、並べ替えがまだインスタンス化されていない場合、バインドではなく jQuery delegate() メソッドを使用する必要があります。
+> **注:** リスト 8 に記載したアプローチでバインドを行い、並べ替えがまだインスタンス化されていない場合、バインドではなく jQuery delegate() メソッドを使用する必要があります。
 
-リスト 8: 並べ替え機能を初期化する場合にイベント名をオプション指定した、クライアント側イベントへのバインド (大文字と小文字を区別)
+リスト 9: 並べ替え機能を初期化する場合にイベント名をオプション指定した、クライアント側イベントへのバインド (大文字と小文字を区別)
 
 
 **JavaScript の場合:**

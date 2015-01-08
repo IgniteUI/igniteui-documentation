@@ -12,7 +12,7 @@
 
 
 
--   [配備ガイド](Deployment-Guide-Mobile.html)
+-   [はじめに](Deployment-Guide-Mobile.html)
 -   [Button](Button.html)
 -   [CheckBox](CheckBox.html)
 -   [CheckBoxGroup](CheckBoxGroup.html)

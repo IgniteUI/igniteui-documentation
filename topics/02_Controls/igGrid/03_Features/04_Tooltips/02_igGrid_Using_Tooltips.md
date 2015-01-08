@@ -69,6 +69,7 @@
 [fadeTimespan](%%jQueryApiUrl%%/ui.iggridtooltips#options:fadeTimespan)|150
 [cursorLeftOffset](%%jQueryApiUrl%%/ui.iggridtooltips#options:cursorLeftOffset)|10
 [cursorTopOffset](%%jQueryApiUrl%%/ui.iggridtooltips#options:cursorTopOffset)|15
+[style](%%jQueryApiUrl%%/ui.iggridtooltips#options:style)|"tooltip"
 
 
 ### <a id="default-code"></a> コード例 
