@@ -48,7 +48,7 @@
 
 `igPopover` コントロールのスタイル設定は、CSS クラスに完全に依存します。ポップオーバーのルック アンド フィールを変更するには、ポップオーバー要素が依存するクラスをオーバーライドする必要があります。以下の図は、`igPopover` コントロールのスタイル設定のサンプルを示します (メイン ポップオーバー コンテナーの丸みを付けた角、変更された背景色)
 
-![](images/Styling-igPopover_1.png)
+![](images/Styling_igPopover_1.png)
 
 ### <a id="summary-chart"></a>igPopover のスタイル設定の概要表
 

@@ -62,8 +62,7 @@
 
 水平方向での反転方向|垂直方向での反転方向
 ---|---
-![](images/igLinearGauge_Configuring_the_Orientation_and_Direction_2.png)|
-![](images/igLinearGauge_Configuring_the_Orientation_and_Direction_3.png)
+![](images/igLinearGauge_Configuring_the_Orientation_and_Direction_2.png)|![](images/igLinearGauge_Configuring_the_Orientation_and_Direction_3.png)
 
 
 スケールの方向は、コントロールの [isScaleInverted](%%jQueryApiUrl%%/ui.igLinearGauge#options:isScaleInverted) プロパティで定義されます。デフォルトの方向は、標準です。

@@ -299,7 +299,7 @@ $("#grid").igGrid({
 
 目的:|使用するプロパティ:|設定の選択肢:
 ---- | ----- | -----
-初期の列固定|[columnSettings.columnKey](%%jQueryApiUrl%%/ ui.iggridcolumnfixing#options:columnSettings.columnKey)<br />または<br />[columnSettings.columnIndex](%%jQueryApiUrl%%/ui.iggridcolumnfixing#options:columnSettings.columnIndex)|列のキー<br />または<br />列のインデックス番号
+初期の列固定|[columnSettings.columnKey](%%jQueryApiUrl%%/ui.iggridcolumnfixing#options:columnSettings.columnKey)<br />または<br />[columnSettings.columnIndex](%%jQueryApiUrl%%/ui.iggridcolumnfixing#options:columnSettings.columnIndex)|列のキー<br />または<br />列のインデックス番号
  | [columnSettings.allowFixing](%%jQueryApiUrl%%/ui.iggridcolumnfixing#options:columnSettings.allowFixing) | false
 
 

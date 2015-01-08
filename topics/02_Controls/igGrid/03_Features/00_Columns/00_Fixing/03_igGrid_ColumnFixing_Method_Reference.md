@@ -28,7 +28,7 @@
 [fixedFootersTable](%%jQueryApiUrl%%/ui.iggrid#methods:fixedFootersTable) |固定列領域にあるフッターのテーブルを取得します。固定列領域にあるフッターの DOM テーブル要素を返します。
 [fixedHeaderContainer](%%jQueryApiUrl%%/ui.iggrid#methods:fixedHeaderContainer) |固定列領域にあるヘッダーのコンテナーを取得します。固定列領域にあるヘッダーの DOM コンテナー要素を返します。
 [fixedRowAt](%%jQueryApiUrl%%/ui.iggrid#methods:fixedRowAt) |固定列領域から特定の行を取得します。指定したインデックスに行の DOM 要素を返します。
-[fixedRows](%%jQueryApiUrl%%/ui.iggrid#methods:fixedRows) |固定行を取得します。すべての DOM の <tr> 要素の配列を返します。
+[fixedRows](%%jQueryApiUrl%%/ui.iggrid#methods:fixedRows) |固定行を取得します。すべての DOM の `<tr>` 要素の配列を返します。
 [fixedTable](%%jQueryApiUrl%%/ui.iggrid#methods:fixedTable) |固定テーブルを取得します。固定テーブルの DOM 要素を返します。
 [hasFixedColumns](%%jQueryApiUrl%%/ui.iggrid#methods:hasFixedColumns) |グリッドに固定列があるか確認します。true または false を返します。
 [isFixedColumn](%%jQueryApiUrl%%/ui.iggrid#methods:isFixedColumn) |列キーまたはインデックスで列が固定されているか確認します。true または false を返します。
