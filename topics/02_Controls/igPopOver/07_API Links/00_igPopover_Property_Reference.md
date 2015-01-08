@@ -106,7 +106,7 @@ null
             </td>
 
             <td>
-string|関数
+string|function
             </td>
 
             <td>
