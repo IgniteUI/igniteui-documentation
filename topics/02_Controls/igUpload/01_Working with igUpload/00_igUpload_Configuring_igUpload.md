@@ -591,7 +591,7 @@ $('#upload1').igUpload({
 
 目的:|使用するプロパティ:|設定の選択肢:
 ---|---|---
-同時ファイル アップロードの最大数を設定します。|[maxSimultaneousFilesUploads](%%jQueryApiUrl%%/ui.igupload#options:maxSimultaneousFilesUploads)|望ましい整数値
+同時ファイル アップロードの最大数を設定します。|[maxSimultaneousFilesUploads](%%jQueryApiUrl%%/ui.igupload#options:maxSimultaneousFilesUploads)|必要な整数値
 
 
 ### <a id="simultaneously-uploaded-files-example"></a>例
