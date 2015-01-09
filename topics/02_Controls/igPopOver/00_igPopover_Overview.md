@@ -193,7 +193,7 @@
 
 以下の表は、`igPopover` コントロールの構成可能な要素を簡単に説明し、それらを構成するプロパティにマップします。表の緑色で強調表示された要素は、このヘルプのコード例で詳細に紹介しています。
 
-<table class="table">
+<table class="table table-bordered">
 	<thead>
 		<tr>
             <th width="70" colspan="2">

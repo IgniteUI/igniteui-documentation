@@ -158,7 +158,7 @@
 	dataSource: 'AdventureWorksDataService.svc/Products?$format=json',
 	```
 
-    > **注:** 値 [d.results](#RepresentingCollectionsOfEntries) は ‘V2’ OData サービスからくる JSON データに対する標準の応答キーです。
+    > **注:** 値 d.results は ‘V2’ OData サービスからくる JSON データに対する標準の応答キーです。
 
 20.  最後に、リモートで動作ができるようにするオプションを含むグリッドの機能を有効化します。
 	
