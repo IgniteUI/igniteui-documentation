@@ -117,6 +117,14 @@ JS リソース
 						</tr>
 						<tr>
 							<td>
+*infragistics.templating.js*
+							</td>
+							<td>
+Infragistics テンプレート エンジン
+							</td>
+						</tr>
+						<tr>
+							<td>
 *infragistics.util.js*
 							</td>
 							<td>
