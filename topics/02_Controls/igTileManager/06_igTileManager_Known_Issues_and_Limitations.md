@@ -8,12 +8,12 @@
 |metadata|
 -->
 
-# 既知の問題点と制限事項 (igTileManager)
+# 既知の問題と制限 (igTileManager)
 
 ## 既知の問題と制限
 ### 既知の問題点と制約の概要表
 
-以下の表に、Ignite UI® %%ProductVersion%% リリースでの `igTileManager`™ コントロールの既知の問題点と制限事項について簡単に説明します。以下の表は、すべての問題の詳細な説明とその回避策を示します。
+以下の表に、Ignite UI® %%ProductVersion%% リリースでの `igTileManager`™ コントロールの既知の問題と制限について簡単に説明します。以下の表は、すべての問題の詳細な説明とその回避策を示します。
 
 ### 凡例:
 

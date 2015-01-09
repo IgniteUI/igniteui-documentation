@@ -33,7 +33,7 @@
 
 - [アクセシビリティの遵守 (igQRCodeBarcode)](igQRCodeBarcode-Accessibility-Compliance.html): このトピックは、`igQRCodeBarcode` コントロールのアクセシビリティ機能を説明し、バーコードを含むページのアクセシビリティ遵守を実現する方法を説明します。
 
-- [既知の問題点と制限事項 (igQRCodeBarcode)](igQRCodeBarcode-Known-Issues-and-Limitations.html): このトピックでは、`igQRCodeBarcode` コントロールの既知の問題点および制限事項に関する情報を提供します。
+- [既知の問題と制限 (igQRCodeBarcode)](igQRCodeBarcode-Known-Issues-and-Limitations.html): このトピックでは、`igQRCodeBarcode` コントロールの既知の問題と制限に関する情報を提供します。
 
 - [jQuery と ASP.NET MVC ヘルパー API へのリンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): このトピックでは、`igQRCodeBarcode` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 

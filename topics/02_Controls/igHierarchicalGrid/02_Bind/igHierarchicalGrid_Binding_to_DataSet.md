@@ -31,7 +31,7 @@
 -   [概要](#introduction)
     -   [DataSet とのバインディング](#binding)
     -   [ロード オン デマンド](#load-on-demand)
--   [既知の問題と制約](#known-issues)
+-   [既知の問題と制限](#known-issues)
 -   [関連コンテンツ](#related-content)
 
 
@@ -154,7 +154,7 @@ public JsonResult NewBindChild(string path, string layout)
 }
 ```
 
-## <a id="known-issues"></a> 既知の問題と制約
+## <a id="known-issues"></a> 既知の問題と制限
 
 ### DataMember を設定せず、AutogenerateLayouts の設定を false で DataSet にバインドすると、igHierarchicalGrid は DataSet テーブル コレクションの最初のテーブルにだけバインドされます。
 

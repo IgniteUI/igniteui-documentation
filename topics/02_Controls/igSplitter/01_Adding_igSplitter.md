@@ -468,7 +468,7 @@ igSplitter 構造
 
 - [アクセシビリティの遵守 (igSplitter)](igSplitter-Accessibility-Compliance.html): このトピックは、`igSplitter` コントロールのアクセシビリティ機能を説明し、このコントロールを含むページに対してアクセシビリティ準拠を実現させる方法に関するアドバイスを提供します。
 
-- [既知の問題点および制限事項 (igSplitter)](igSplitter-Known-Issues-and-Limitations.html): このトピックでは、`igSplitter` コントロールの既知の問題点および制限事項に関する情報を提供します。
+- [既知の問題と制限 (igSplitter)](igSplitter-Known-Issues-and-Limitations.html): このトピックでは、`igSplitter` コントロールの既知の問題と制限に関する情報を提供します。
 
 - [jQuery と ASP.NET MVC ヘルパー API リンク (igSplitter)](igSplitter-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックでは、`igSplitter` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
 

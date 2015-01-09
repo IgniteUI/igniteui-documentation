@@ -29,7 +29,7 @@
     
 - [イベントの処理 (igTileManager)](igTileManager-Handling-Events.html): このトピックではコード例を使用して、イベント ハンドラーを `igTileManager` に添付する方法を説明します。
 
-- [既知の問題点と制限事項 (igTileManager)](igTileManager-Known-Issues-and-Limitations.html): このトピックでは、`igTileManager` コントロールの既知の問題点および制限事項に関する情報を提供します。
+- [既知の問題と制限 (igTileManager)](igTileManager-Known-Issues-and-Limitations.html): このトピックでは、`igTileManager` コントロールの既知の問題と制限に関する情報を提供します。
 
 - [jQuery と ASP.NET MVC ヘルパー API へのリンク (igTileManager)](igTileManager-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックでは、`igTileManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
     

@@ -30,7 +30,7 @@
 
 - [アクセシビリティ準拠 (igPivotGrid)](igPivotGrid-Accessibility-Compliance.html): このトピックは、`igPivotGrid` のアクセシビリティ機能について説明し、コントロールを含むページのアクセスビリティ準拠を実現する方法ついての助言を提供します。
 
-- [既知の問題点および制限事項 (igPivotGrid)](igPivotGrid-Known-Issues-and-Limitations.html): このトピックでは、`igPivotGrid` コントロールの既知の問題点および制限事項に関する情報を提供します。
+- [既知の問題と制限 (igPivotGrid)](igPivotGrid-Known-Issues-and-Limitations.html): このトピックでは、`igPivotGrid` コントロールの既知の問題と制限に関する情報を提供します。
 
 - [jQuery と ASP.NET MVC ヘルパー API リンク (igPivotGrid)](igPivotGrid-API-Links.html): このトピックでは、`igPivotGrid` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクの一覧を示します。
 

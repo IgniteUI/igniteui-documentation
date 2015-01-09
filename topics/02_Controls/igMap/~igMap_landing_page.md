@@ -43,7 +43,7 @@
 
 -	[アクセシビリティの遵守 (igMap)](igMap-Accessibility-Compliance.html): このトピックでは、`igMap` コントロールのアクセシビリティ機能について説明し、マップを含むページのアクセシビリティ準拠を実現する方法についての助言を示します。
 
--	[既知の問題点と制限事項 (igMap)](igMap-Known-Issues-Limitations.html): このトピックでは、`igMap` コントロールのすべての既知の問題と制限事項を示します。
+-	[既知の問題と制限 (igMap)](igMap-Known-Issues-Limitations.html): このトピックでは、`igMap` コントロールのすべての既知の問題と制限事項を示します。
 
 
 

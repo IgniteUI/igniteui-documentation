@@ -8,14 +8,14 @@
 |metadata|
 -->
 
-# 既知の問題点と制限事項 (igQRCodeBarcode)
+# 既知の問題と制限 (igQRCodeBarcode)
 
 
 
-## 既知の問題点と制限事項 (igQRCodeBarcode)
+## 既知の問題と制限 (igQRCodeBarcode)
 ### 既知の問題点と制約の概要表
 
-以下の表で、`igQRCodeBarcode`™ コントロールの既知の問題点と制限事項を簡単に説明します。
+以下の表で、`igQRCodeBarcode`™ コントロールの既知の問題と制限を簡単に説明します。
 
 ### 凡例:
 

@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# 既知の問題点および制限事項 (igOlapXmlaDataSource)
+# 既知の問題と制限 (igOlapXmlaDataSource)
 
 ## 関連コンテンツ
 ### 概要

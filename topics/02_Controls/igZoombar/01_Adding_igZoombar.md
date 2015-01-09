@@ -169,7 +169,7 @@ Code
 
 - [アクセシビリティの遵守 (igZoombar)](igZoombar-Accessibility-Compliance.html): このトピックは、`igZoombar` コントロールのアクセシビリティ機能を説明し、このコントロールを含むページのアクセシビリティ遵守を実現する方法に関する情報を提供します。
 
-- [既知の問題点と制限事項 (igZoombar)](igZoombar-Known-Issues-And-Limitations.html): このトピックでは、`igZoombar` コントロールの既知の問題点および制限事項、その回避策について説明します。
+- [既知の問題と制限 (igZoombar)](igZoombar-Known-Issues-And-Limitations.html): このトピックでは、`igZoombar` コントロールの既知の問題と制限、その回避策について説明します。
 
 - [jQuery と ASP.NET MVC ヘルパー API へのリンク (igZoombar)](igZoombar-ASP-NET-MVC-Helper-API.html): このトピックでは、`igZoombar` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 

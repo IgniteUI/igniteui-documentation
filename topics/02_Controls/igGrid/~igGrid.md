@@ -27,7 +27,7 @@
 -   [igGrid のスタイル設定](igGrid-Styling-and-Theming.html)
 -   [jQuery と ASP.NET MVC ヘルパー API リンク (igGrid)](igGrid-jQuery-API.html)
 -   [アクセシビリティ準拠 (igGrid)](igGrid-Accessibility-Compliance.html)
--   [既知の問題点と制限事項 (igGrid)](igGrid-Known-Issues.html)
+-   [既知の問題と制限 (igGrid)](igGrid-Known-Issues.html)
 
  
 

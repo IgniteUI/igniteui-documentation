@@ -30,7 +30,7 @@
 
 - [*igDialog* のスタイル設定とテーマ設定](igDialog-Styling-and-Theming.html): このトピックでは、`igDialog` のさまざまなスタイル設定方法を紹介します。
 
-- [既知の問題と制約 (*igDialog*)](igDialog-Known-Issues.html): このトピックでは、`igDialog` コントロールに関する既知の問題を明らかにします。
+- [既知の問題と制限 (*igDialog*)](igDialog-Known-Issues.html): このトピックでは、`igDialog` コントロールに関する既知の問題を明らかにします。
 
 - [アクセシビリティ準拠 (*igDialog*)](igDialog-Accessibility-Compliance.html): このトピックでは、`igDialog` のアクセシビリティ機能について説明し、ダイアログ ウィンドウがるページのアクセシビリティ準拠を達成する方法についてヒントを紹介します。
 

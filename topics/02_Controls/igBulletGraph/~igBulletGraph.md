@@ -28,7 +28,7 @@
 
 - [**jQuery と ASP.NET MVC ヘルパー API へのリンク (*igBulletGraph*)**](igBulletGraph-API-Links.html): このトピックでは、`igBulletGraph` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 
-- [**既知の問題点および制限事項 (*igBulletGraph*)**](igBulletGraph-Known-Issues-and-Limitations.html): このトピックでは、`igBulletGraph` コントロールの既知の問題点および制限に関する情報を提供します。
+- [**既知の問題と制限 (*igBulletGraph*)**](igBulletGraph-Known-Issues-and-Limitations.html): このトピックでは、`igBulletGraph` コントロールの既知の問題点および制限に関する情報を提供します。
  
 
 

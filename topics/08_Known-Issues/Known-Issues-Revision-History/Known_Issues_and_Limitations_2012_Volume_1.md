@@ -8,18 +8,18 @@
 |metadata|
 -->
 
-# 2012 Volume 1 の既知の問題点と制限事項
+# 2012 Volume 1 の既知の問題と制限
 
 ## トピックの概要
 ### 目的
 
-このトピックでは、Ignite UI™ ライブラリの既知の問題点と制限事項の一覧を示し、個々のコントロールの既知の問題点に関する参照先トピックを示します。
+このトピックでは、Ignite UI™ ライブラリの既知の問題と制限の一覧を示し、個々のコントロールの既知の問題点に関する参照先トピックを示します。
 
 ### このトピックの内容
 
 このトピックは、以下のセクションで構成されます。
 
--   [2012 Volume 1 の既知の問題点と制限事項](#known-issues-limitations)
+-   [2012 Volume 1 の既知の問題と制限](#known-issues-limitations)
     -   [概要](#overview)
     -   [igLoader で igEditor のロケールを動的に変更できない](#changing-lacale-dynamically)
     -   [JavaScript および CSS リソースの名称と構造が変更された](#js-css-resources-restructured)
@@ -49,7 +49,7 @@
 
 
 
-## <a id="known-issues-limitations"></a>2012 Volume 1 の既知の問題点と制限事項
+## <a id="known-issues-limitations"></a>2012 Volume 1 の既知の問題と制限
 ### <a id="overview"></a>概要
 
 以下の表に、Ignite UI 2012 Volume 1 リリースの既知の問題と制限事項の概要を示します。各コントロールの既知の問題のトピックに、既知の問題および考えられる回避策の詳細が説明されています。

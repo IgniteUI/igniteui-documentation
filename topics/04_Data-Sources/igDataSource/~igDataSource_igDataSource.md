@@ -33,7 +33,7 @@
 
 - [DataSchema を使用したデータ変換の実行 (igDataSource)](igDataSource-Using-DataSchema.html): このトピックでは、DataSchema オブジェクトを使用して `igDataSource` コンポーネントに渡されたデータを変換する方法を紹介します。
 
-- [既知の問題点および制限事項 (igDataSource)](igDataSource-igDataSource-Known-Issues.html): このトピックでは、`igDataSource` コンポーネントの既知の問題点と制限事項について説明します。
+- [既知の問題と制限 (igDataSource)](igDataSource-igDataSource-Known-Issues.html): このトピックでは、`igDataSource` コンポーネントの既知の問題と制限について説明します。
 
 - [API リファレンス (igDataSource)](igDataSource-igDataSource-JavaScript-API.html): このトピックは、`igDataSource` の JavaScript API ページへのリンクを適用します。
 

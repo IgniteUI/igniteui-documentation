@@ -418,7 +418,7 @@ widgets use:
 
 - [アクセシビリティ準拠 (igCombo)](igCombo-Accessibility-Compliance.html)
 
-- [既知の問題点と制限事項 (igCombo)](igCombo-Known-Limitations.html)
+- [既知の問題と制限 (igCombo)](igCombo-Known-Limitations.html)
 
 - [jQuery と ASP.NET MVC ヘルパー API へのリンク (igCombo)](igCombo-jQuery-And-ASP-NET-MVC-Helper-API-Links.html)
 

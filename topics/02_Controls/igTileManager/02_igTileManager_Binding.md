@@ -299,7 +299,7 @@ $("#dashboard").igTileManager ({
 
 - [アクセシビリティの遵守 (igTileManager)](igTileManager-Accessibility-Compliance.html): このトピックでは、`igTileManager` コントロールのアクセシビリティ機能を説明し、このコントロールを含むページのアクセシビリティ遵守を実現する方法を説明します。
 
-- [既知の問題点と制限事項 (igTileManager)](igTileManager-Known-Issues-and-Limitations.html): このトピックでは、`igTileManager` コントロールの既知の問題点および制限事項、その回避策に関する情報を提供します。
+- [既知の問題と制限 (igTileManager)](igTileManager-Known-Issues-and-Limitations.html): このトピックでは、`igTileManager` コントロールの既知の問題と制限、その回避策に関する情報を提供します。
 
 - [jQuery と ASP.NET MVC ヘルパー API へのリンク (igTileManager)](igTileManager-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックでは、`igTileManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
 

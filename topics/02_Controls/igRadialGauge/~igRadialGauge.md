@@ -33,7 +33,7 @@
 
 - [アクセシビリティ準拠](igRadialGauge-Accessibility-Compliance.html): このトピックでは、`igRadialGauge` コントロールのアクセシビリティ遵守に関する情報を提供します。
 
-- [既知の問題点と制限事項 (igRadialGauge)](igRadialGauge-Known-Issues-and-Limitations.html): このトピックでは、`igRadialGauge` コントロールの既知の問題点および制限に関する情報を提供します。
+- [既知の問題と制限 (igRadialGauge)](igRadialGauge-Known-Issues-and-Limitations.html): このトピックでは、`igRadialGauge` コントロールの既知の問題点および制限に関する情報を提供します。
 
 
 

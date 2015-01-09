@@ -8,18 +8,18 @@
 |metadata|
 -->
 
-# 2012 Volume 2 の既知の問題点と制限事項
+# 2012 Volume 2 の既知の問題と制限
 
 ## トピックの概要
 ### 目的
 
-このトピックでは、Ignite UI™ ライブラリの既知の問題点と制限事項の一覧を示し、個々のコントロールの既知の問題点に関する参照先トピックを示します。
+このトピックでは、Ignite UI™ ライブラリの既知の問題と制限の一覧を示し、個々のコントロールの既知の問題点に関する参照先トピックを示します。
 
 ### このトピックの内容
 
 このトピックは、以下のセクションで構成されます。
 
--   [2012 Volume 2 の既知の問題点と制限事項](#known-issues)
+-   [2012 Volume 2 の既知の問題と制限](#known-issues)
     -   [概要](#overview)
     -   [Infragistics Loader で igEditor のロケールを動的に変更できない](#changing-lacale-dynamically)
     -   [Infragistics テンプレート機能に関する制限事項](#templating-limitations)
@@ -67,7 +67,7 @@
 
 
 
-## <a id="known-issues"></a>2012 Volume 2 の既知の問題点と制限事項
+## <a id="known-issues"></a>2012 Volume 2 の既知の問題と制限
 ### <a id="overview"></a>概要
 
 以下の表に、Ignite UI 2012 Volume 2 リリースの既知の問題と制限事項の概要を示します。各コントロールの既知の問題点に関するトピックでは、それぞれの既知の問題点と考えられる回避策について詳しく説明します。
@@ -458,11 +458,11 @@ rendered: function (event, ui) {
 
 - [*igVideoPlayer* の既知の問題点](igVideoPlayer-Known-Issues.html): このトピックでは、`igVideoPlayer`™ コントロールに固有の既知の問題に関する情報を提供します。
 
-- [既知の問題点と制限事項 (*igDataChart*)](igDataChart-Known-Issues.html): このトピックでは、`igDataChart`™ コントロールに固有の既知の問題に関する情報を提供します。
+- [既知の問題と制限 (*igDataChart*)](igDataChart-Known-Issues.html): このトピックでは、`igDataChart`™ コントロールに固有の既知の問題に関する情報を提供します。
 
-- [既知の問題点と制限事項 (*igMap*)](igMap-Known-Issues-Limitations.html): このトピックでは、`igMap` コントロールにおける既知の問題点と制限事項をまとめます。
+- [既知の問題と制限 (*igMap*)](igMap-Known-Issues-Limitations.html): このトピックでは、`igMap` コントロールにおける既知の問題と制限をまとめます。
 
-- [既知の問題点と制限事項 (igCombo)](igCombo-Known-Limitations.html): このトピックでは、`igCombo`™ コントロールにおける既知の問題点と制限事項をまとめます。
+- [既知の問題と制限 (igCombo)](igCombo-Known-Limitations.html): このトピックでは、`igCombo`™ コントロールにおける既知の問題と制限をまとめます。
 
 
 

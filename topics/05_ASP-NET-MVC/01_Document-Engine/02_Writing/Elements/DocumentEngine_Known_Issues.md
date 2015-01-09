@@ -8,10 +8,10 @@
 |metadata|
 -->
 
-# 既知の問題点および制限事項 (Infragistics Document Engine)
+# 既知の問題と制限 (Infragistics Document Engine)
 
 ## 既知の問題点と制限の概要
-以下の表に、Infragistics Document Engine のコンポーネントの既知の問題点と制限事項を簡単に説明します。
+以下の表に、Infragistics Document Engine のコンポーネントの既知の問題と制限を簡単に説明します。
 
 **凡例:**
 

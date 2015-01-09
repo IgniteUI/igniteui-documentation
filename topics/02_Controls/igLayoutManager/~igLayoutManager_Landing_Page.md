@@ -35,7 +35,7 @@
 
 -	[igLayoutManager アクセシビリティの遵守](igLayoutManager-Accessibility-Compliance.html): このトピックでは、`igLayoutManager` コントロールのアクセシビリティ機能を説明し、このコントロールを含むページのアクセシビリティ遵守を実現する方法を説明します。
 
--	[既知の問題点と制限事項 (igLayoutManager)](igLayoutManager-Known-Issues-and-Limitations.html): このトピックでは、`igLayoutManager` コントロールの既知の問題点および制限事項に関する情報を提供します。
+-	[既知の問題と制限 (igLayoutManager)](igLayoutManager-Known-Issues-and-Limitations.html): このトピックでは、`igLayoutManager` コントロールの既知の問題と制限に関する情報を提供します。
 
 -	[jQuery と ASP.NET MVC ヘルパー API へのリンク (igLayoutManager)](igLayoutManager-jQuery-and-ASP.NET-MVC-Helper-API-Links-e.html): このトピックでは、`igLayoutManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
 

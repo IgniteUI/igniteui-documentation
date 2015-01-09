@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# 2013 Volume 1 の既知の問題点と制限事項
+# 2013 Volume 1 の既知の問題と制限
 
 ## 概要
 
@@ -1493,21 +1493,21 @@ Android オペレーティング システム用のブラウザーでは、`igPi
 
 - [igVideoPlayer の既知の問題点](igVideoPlayer-Known-Issues.html): このトピックでは、`igVideoPlayer`™ コントロールに固有の既知の問題に関する情報を提供します。
 
-- [既知の問題点と制限事項 (igDataChart)](igDataChart-Known-Issues.html): このトピックでは、`igDataChart`™ コントロールに固有の既知の問題に関する情報を提供します。
+- [既知の問題と制限 (igDataChart)](igDataChart-Known-Issues.html): このトピックでは、`igDataChart`™ コントロールに固有の既知の問題に関する情報を提供します。
 
-- [既知の問題点と制限事項 (igMap)](igMap-Known-Issues-Limitations.html): このトピックでは、`igMap` コントロールにおける既知の問題点と制限事項をまとめます。
+- [既知の問題と制限 (igMap)](igMap-Known-Issues-Limitations.html): このトピックでは、`igMap` コントロールにおける既知の問題と制限をまとめます。
 
-- [既知の問題点および制限事項 (igPivotGrid)](igPivotGrid-Known-Issues-and-Limitations.html): このトピックでは、`igPivotGrid`™ コントロールにおける既知の問題点と制限事項をまとめます。
+- [既知の問題と制限 (igPivotGrid)](igPivotGrid-Known-Issues-and-Limitations.html): このトピックでは、`igPivotGrid`™ コントロールにおける既知の問題と制限をまとめます。
 
-- [既知の問題点および制限事項 (igPivotView)](igPivotView-Known-Issues-and-Limitations.html): このトピックでは、`igPivotView`™ コントロールにおける既知の問題点と制限事項をまとめます。
+- [既知の問題と制限 (igPivotView)](igPivotView-Known-Issues-and-Limitations.html): このトピックでは、`igPivotView`™ コントロールにおける既知の問題と制限をまとめます。
 
-- [既知の問題点および制限事項 (igPivotDataSelector)](igPivotDataSelector-Known-Issues-and-Limitations.html): このトピックでは、`igPivotDataSelector`™ コントロールにおける既知の問題点と制限事項をまとめます。
+- [既知の問題と制限 (igPivotDataSelector)](igPivotDataSelector-Known-Issues-and-Limitations.html): このトピックでは、`igPivotDataSelector`™ コントロールにおける既知の問題と制限をまとめます。
 
-- [igSplitter の既知の問題と制限事項](igSplitter-Known-Issues-and-Limitations.html): このトピックでは、`igSplitter`™ コントロールにおける既知の問題点と制限事項をまとめます。
+- [igSplitter の既知の問題と制限事項](igSplitter-Known-Issues-and-Limitations.html): このトピックでは、`igSplitter`™ コントロールにおける既知の問題と制限をまとめます。
 
-- [既知の問題点および制限事項 (igFunnelChart)](igFunnelChart-Known-Issues-and-Limitations.html): このトピックでは、`igFunnelChart`™ コントロールにおける既知の問題点と制限事項をまとめます。
+- [既知の問題と制限 (igFunnelChart)](igFunnelChart-Known-Issues-and-Limitations.html): このトピックでは、`igFunnelChart`™ コントロールにおける既知の問題と制限をまとめます。
 
-- [既知の問題点および制限事項 (igOlapXmlaDataSource)](igOlapXmlaDataSource-Known-Issues-and-Limitations.html): このトピックでは、`igFunnelChart`™ コントロールにおける既知の問題点と制限事項をまとめます。
+- [既知の問題と制限 (igOlapXmlaDataSource)](igOlapXmlaDataSource-Known-Issues-and-Limitations.html): このトピックでは、`igFunnelChart`™ コントロールにおける既知の問題と制限をまとめます。
 
 
 

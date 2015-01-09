@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# Mobile ラッパーの既知の問題点と制限事項 (Ignite UI ASP.NET MVC)
+# Mobile ラッパーの既知の問題と制限 (Ignite UI ASP.NET MVC)
 
 
 
 ## 既知の問題点と制限の概要
 
-以下の表は、Ignite U™ ASP.NET MVC モバイル ラッパーの既知の問題点と制限事項の概要を示します。
+以下の表は、Ignite U™ ASP.NET MVC モバイル ラッパーの既知の問題と制限の概要を示します。
 
 凡例: | 
 --------|---------

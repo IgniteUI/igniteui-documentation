@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# 既知の問題点および制限事項 (igSplitter)
+# 既知の問題と制限 (igSplitter)
 
 ## 既知の問題と制限
 ### 概要

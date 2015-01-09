@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# 既知の問題点および制限事項 (igFunnelChart)
+# 既知の問題と制限 (igFunnelChart)
 
 ### 概要
 

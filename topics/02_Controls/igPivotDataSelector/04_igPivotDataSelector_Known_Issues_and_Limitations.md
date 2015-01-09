@@ -8,9 +8,9 @@
 |metadata|
 -->
 
-# 既知の問題点および制限事項 (igPivotDataSelector)
+# 既知の問題と制限 (igPivotDataSelector)
 
-##既知の問題点および制限事項 (igPivotDataSelector)
+##既知の問題と制限 (igPivotDataSelector)
 
 ### 概要
 

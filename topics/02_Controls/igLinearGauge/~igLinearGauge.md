@@ -33,7 +33,7 @@
 
 -	[jQuery と ASP.NET MVC ヘルパー API へのリンク (igLinearGauge)](igLinearGauge-API-Links.html): このトピックでは、`igLinearGauge` コントロールに関連するキー クラスやプロパティに関する参考情報を提供します。
 
--	[既知の問題点と制限事項 (igLinearGauge)](igLinearGauge-Known-Issues-and-Limitations.html): このトピックでは、`igLinearGauge` コントロールの既知の問題点および制限に関する情報を提供します。
+-	[既知の問題と制限 (igLinearGauge)](igLinearGauge-Known-Issues-and-Limitations.html): このトピックでは、`igLinearGauge` コントロールの既知の問題点および制限に関する情報を提供します。
 
 
 

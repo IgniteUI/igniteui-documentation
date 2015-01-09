@@ -310,7 +310,7 @@ igPivotDataSelector をサイズ変更します/折りたたみます。|`igSpli
 
 - [アクセシビリティ準拠 (igPivotView)](igPivotView-Accessibility-Compliance.html): このトピックは、igPivotView コントロールのユーザー補助機能を説明し、このコントロールを含むページに対してアクセシビリティ準拠を実現させる方法に関するアドバイスを提供します。
 
-- [既知の問題点および制限事項 (igPivotView)](igPivotView-Known-Issues-and-Limitations.html): このトピックでは、`igPivotView` コントロールの既知の問題点および制限に関する情報を提供します。
+- [既知の問題と制限 (igPivotView)](igPivotView-Known-Issues-and-Limitations.html): このトピックでは、`igPivotView` コントロールの既知の問題点および制限に関する情報を提供します。
 
 - [jQuery と ASP.NET MVC ヘルパー API リンク (igPivotView)](igPivotView-API-Links.html): このトピックでは、`igPivotView` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクの一覧を示します。
 

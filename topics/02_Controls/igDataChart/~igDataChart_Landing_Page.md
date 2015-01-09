@@ -51,7 +51,7 @@
 
 -	[jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク (igDataChart)](igDataChart-API-Links.html): このトピックでは、 `igDataChart` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
 
--	[既知の問題点と制限事項 (igDataChart)](igDataChart-Known-Issues.html): このトピックでは、`igDataChart` コントロールのすべての既知の問題と制限を示します。
+-	[既知の問題と制限 (igDataChart)](igDataChart-Known-Issues.html): このトピックでは、`igDataChart` コントロールのすべての既知の問題と制限を示します。
 
 
 

@@ -8,9 +8,9 @@
 |metadata|
 -->
 
-# 既知の問題点および制限事項 (igPivotGrid)
+# 既知の問題と制限 (igPivotGrid)
 
-##既知の問題点および制限事項 (igPivotGrid)
+##既知の問題と制限 (igPivotGrid)
 
 ### 概要
 

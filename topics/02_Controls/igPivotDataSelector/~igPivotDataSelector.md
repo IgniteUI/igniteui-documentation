@@ -30,7 +30,7 @@
 
 - [アクセシビリティ準拠 (igPivotDataSelector)](igPivotDataSelector-Accessibility-Compliance.html): このトピックは、`igPivotDataSelector` のアクセシビリティ機能について説明し、コントロールを含むページのアクセスビリティ準拠を実現する方法ついての助言を提供します。
 
-- [既知の問題点および制限事項 (igPivotDataSelector)](igPivotDataSelector-Known-Issues-and-Limitations.html): このトピックでは、`igPivotDataSelector` コントロールの既知の問題点および制限に関する情報を提供します。
+- [既知の問題と制限 (igPivotDataSelector)](igPivotDataSelector-Known-Issues-and-Limitations.html): このトピックでは、`igPivotDataSelector` コントロールの既知の問題点および制限に関する情報を提供します。
 
 - [jQuery と ASP.NET MVC ヘルパー API リンク (igPivotDataSelector)](igPivotDataSelector-API-Links.html): このトピックでは、`igPivotDataSelector` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクの一覧を示します。
 

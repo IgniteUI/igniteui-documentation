@@ -37,7 +37,7 @@
 -   [概要](#introduction)
     -   [DataTable へのバインド](#dataTable)
     -   [DataSet にバインド](#dataSet)
--   [既知の問題と制約](#known-issues)
+-   [既知の問題と制限](#known-issues)
 -   [Json.NET シリアライザーによるグリッドの更新](#json-net) 
     -   [前提条件](#json-net-prerequisites)
     -   [概要](#json-net-overview)
@@ -100,7 +100,7 @@ public ActionResult UpdateDataTableGrid()
 
 
 
-## <a id="known-issues"></a> 既知の問題と制約
+## <a id="known-issues"></a> 既知の問題と制限
 
 ### フィルタリング、グルーピング、ソーティングの各機能にサポートしているのはローカル構成だけで、サマリーはサポートしていません。
 

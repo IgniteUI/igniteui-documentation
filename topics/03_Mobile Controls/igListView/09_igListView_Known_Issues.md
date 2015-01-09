@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# 既知の問題点と制限事項 (igListView)
+# 既知の問題と制限 (igListView)
 
 ## トピックの概要
 
@@ -20,12 +20,12 @@
 
 以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
 
-- [既知の問題](Known-Issues-Revision-History.html): すべての Ignite UI コントロールの既知の問題点と制限事項に関する参考情報を提供します。
+- [既知の問題](Known-Issues-Revision-History.html): すべての Ignite UI コントロールの既知の問題と制限に関する参考情報を提供します。
 
 
 ## 既知の問題と制限
 
-次の表は、Ignite UI %%ProductVersionShort%% リリースの `igListView`™ に対する既知の問題点と制限事項を簡単に説明しています。いくつかの問題については、この概要表の後に、既知の問題点に関する詳しい説明と、考えられる回避策を示します。
+次の表は、Ignite UI %%ProductVersionShort%% リリースの `igListView`™ に対する既知の問題と制限を簡単に説明しています。いくつかの問題については、この概要表の後に、既知の問題点に関する詳しい説明と、考えられる回避策を示します。
 
 ### 凡例:
 <table class="table">
