@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# はじめに
+# はじめに (モバイル)
 
 -   [Ignite UI でのモバイル リソースの参照](Referencing-Mobile-Resources-in-NetAdvantage-for-jQuery.html)
 

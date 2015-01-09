@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "deployment-guide",
+    "fileName": "getting-started",
     "controlName": "",
     "tags": []
 }
