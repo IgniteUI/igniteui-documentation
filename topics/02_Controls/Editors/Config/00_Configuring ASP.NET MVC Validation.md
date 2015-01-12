@@ -204,40 +204,40 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**ASPX の場合:**
 
-		```
-		<% using (Html.BeginForm()) %>
-		<% { %>
-			<p>
-				<%= Html.LabelFor(m => m.Name) %>
-				<%= Html.Infragistics()
-					.TextEditorFor(m => m.Name)
-					.Render() %>
-			</p>
-			<p>
-				<%= Html.LabelFor(m => m.Age) %>
-				<%= Html.Infragistics()
-					.NumericEditorFor(m => m.Age)
-					.Render() %>
-			</p>
-			<p>
-				<%= Html.LabelFor(m => m.Email) %>
-				<%= Html.Infragistics()
-					.TextEditorFor(m => m.Email)
-					.Render() %>
-			</p>
-			<p>
-				<%= Html.LabelFor(m => m.Group) %>
-				<%= Html.Infragistics()
-					.ComboFor(m => m.Group)
-					.DataSource(Model.AvailableGroups)
-					.DataBind()
-					.Render() %>
-			</p>
-			<p>
-				<input type="submit" value="Create" />
-			</p>
-		<% } %>
-		```
+	```
+	<% using (Html.BeginForm()) %>
+	<% { %>
+		<p>
+			<%= Html.LabelFor(m => m.Name) %>
+			<%= Html.Infragistics()
+				.TextEditorFor(m => m.Name)
+				.Render() %>
+		</p>
+		<p>
+			<%= Html.LabelFor(m => m.Age) %>
+			<%= Html.Infragistics()
+				.NumericEditorFor(m => m.Age)
+				.Render() %>
+		</p>
+		<p>
+			<%= Html.LabelFor(m => m.Email) %>
+			<%= Html.Infragistics()
+				.TextEditorFor(m => m.Email)
+				.Render() %>
+		</p>
+		<p>
+			<%= Html.LabelFor(m => m.Group) %>
+			<%= Html.Infragistics()
+				.ComboFor(m => m.Group)
+				.DataSource(Model.AvailableGroups)
+				.DataBind()
+				.Render() %>
+		</p>
+		<p>
+			<input type="submit" value="Create" />
+		</p>
+	<% } %>
+	```
 
 6. サンプルを実行します。
 
