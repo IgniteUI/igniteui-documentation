@@ -310,7 +310,6 @@
 		 $("#comboTarget").bind("igcomboselectionchanging", comboSelectionChanging);
 		```
 
-
 2.  false を返すことでイベントをキャンセルします。
 
     **HTML と ASPX の場合:**

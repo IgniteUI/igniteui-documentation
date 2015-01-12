@@ -144,7 +144,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_3.png)
 
-​2. ActionMethods を作成します
+2. ActionMethods を作成します
 
 	Person を作成するため、2 つの ActionMethods を Controller に追加します。1 つは初期要求用、1 つは POST 用です。
 
@@ -183,7 +183,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 	<%@ Import Namespace="Infragistics.Web.Mvc" %>
 	```
 
-​4. JavaScript と CSS の参照を追加します。
+4. JavaScript と CSS の参照を追加します。
 
 	この例では、ASP.NET MVC アプリケーションでローカルに参照される、結合された JavaScript および CSS ファイルを使用します。
 
@@ -440,7 +440,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 	</p>
 	```
 
-​2. サンプルを実行します。
+2. サンプルを実行します。
 
 	これで、検証メッセージは各入力フィールドの右に表示されます。
 

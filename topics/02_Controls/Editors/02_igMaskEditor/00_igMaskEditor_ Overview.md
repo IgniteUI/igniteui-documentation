@@ -78,7 +78,7 @@ igMaskEditor には以下の特徴があります。
     <input id="maskEditor" type="text" />
     ```
 	
-​4. 上のセットアップが完了したら、マスク エディターを初期化し、`width`、`nullText`、`mask` などの必要なオプションを設定します。
+4. 上のセットアップが完了したら、マスク エディターを初期化し、`width`、`nullText`、`mask` などの必要なオプションを設定します。
 
     >**注:** ASP.NET MVC View では、その他のオプションをすべて設定した後で `Render` メソッドを呼び出す必要があります。
 
