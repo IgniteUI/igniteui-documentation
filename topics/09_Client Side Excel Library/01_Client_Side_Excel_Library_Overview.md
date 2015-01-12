@@ -68,9 +68,7 @@ workbook.setCurrentFormat($.ig.excel.WorkbookFormat.strictOpenXml);
 ```
 このコードは指定された書式を使用せずにワークブックを作成しますが、デフォルトの Excel 97-2003 または .xls ファイル書式を使用します。ワークブックを別の書式で作成するには、コンストラクターに対して書式を指定、または実行時に `setCurrentFormat` 関数で書式を変更することができます。
 
-ワークブックの書式は、ワークブックを保存する時に書き出すデータのタイプを制御し、実行時の各オブジェクトの容量や制限値も制御します。excel9 などを使用する場合
-
-7To2003 or excel97To2003Template formats, worksheets can only have 65,536 rows and 256 columns, whereas in all other formats, worksheets can have 1,048,576 rows and 16,384 columns.
+ワークブックの書式は、ワークブックを保存する時に書き出すデータのタイプを制御し、実行時の各オブジェクトの容量や制限値も制御します。excel97To2003 または excel97To2003Template 書式を使用している場合、ワークシートが持つことができる領域は 65,536 行 ｘ 256 列に限定されますが、その他のすべての書式では、ワークシートは 1,048,576 行 ｘ 16,384 列の領域を持つことができます。
 
 ## ワークシートの追加
 

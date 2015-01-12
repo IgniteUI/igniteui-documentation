@@ -8,7 +8,8 @@
 |metadata|
 -->
 
-#igTreeGrid
+#igTreeGrid の概要
+
 ## トピックの概要
 
 このトピックでは、`igTreeGrid` [CTP] コントロールの概要を説明します。
