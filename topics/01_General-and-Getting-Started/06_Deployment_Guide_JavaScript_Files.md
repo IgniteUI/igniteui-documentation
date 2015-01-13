@@ -40,7 +40,7 @@
 
 ファイルは js フォルダー (Ignite UI プログラム インストール パス内の JavaScript ファイルのルート フォルダー) にあります。
 
-ブルガリア語、ロシア語、日本語、ドイツ語、スペイン語、およびフランス語の、結合スクリプト バージョンのローカライズ リソースもあります。ファイル名は `infragistics-bg.js`, `infragistics-ja.js`、`infragistics-ru.js`、 `infragistics-de.js`、`infragistics-es.js`、および `infragistics-fr.js`であり、これらは `../js/i18n` フォルダーにあります。
+ブルガリア語、ロシア語、英語、ドイツ語、スペイン語、およびフランス語の、結合スクリプト バージョンのローカライズ リソースもあります。ファイル名は `infragistics-bg.js`, `infragistics-en.js`、`infragistics-ru.js`、 `infragistics-de.js`、`infragistics-es.js`、および `infragistics-fr.js`であり、これらは `../js/i18n` フォルダーにあります。
 
 **JavaScript 縮小ファイル**
 
@@ -54,7 +54,7 @@
 
 以下の 2 種類のインターナショナリゼーションがあります。1 つ目は、コントロール内のローカライズ リソースです。2 つ目は、コントロール内の地域設定です。
 
-コントロールのローカライズ リソースは、ブルガリア語、ロシア語、日本語、ドイツ語、スペイン語、およびフランス語です。これらは、js/modules/i18n (*js* は、Ignite UI プログラムのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
+コントロールのローカライズ リソースは、ブルガリア語、ロシア語、英語、ドイツ語、スペイン語、およびフランス語です。これらは、js/modules/i18n (*js* は、Ignite UI プログラムのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
 
 地域設定 - igRegional JavaScript ファイルは、jQuery エディター用の日付、数字、通貨記号などのローカライズ フォーマットを提供します。これらは、`../js/modules/i18n/regional` (`js` は、Ignite UI プログラムのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
 
