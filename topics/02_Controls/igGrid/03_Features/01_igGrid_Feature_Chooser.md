@@ -35,6 +35,7 @@
     -   [機能セレクターの複数並べ替え](#multiple-sorting)
     -   [機能セレクターの詳細フィルタリング](#advanced-filtering)
     -   [機能セレクターの列移動](#column-moving)
+	-   [Remove a feature from the Feature Chooser](#remove-feature)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
     -   [サンプル](#samples)
@@ -147,7 +148,30 @@
 
 -   [igGrid の列移動](igGrid-ColumnMoving-LandingPage.html)
 
+#### <a id="remove-feature"></a> 		Remove a feature from the Feature Chooser
+Each feature that renders in the feature chooser has an option renderInFeatureChooser. This option is not documented in the API and setting it directly in the feature's definition will have no effect.
 
+It must be set via the widget’s prototype before the widget is created on the page.
+
+**In JavaScript:**
+
+```
+$.ui.igGridHiding.prototype.renderInFeatureChooser = false;
+```
+Since it’s set via the prototype this option will be applied to all widgets of that type. In case you have multiple grids and need to set different values for this property you can do so before the related igGrid is instantiated on the page.
+
+**In JavaScript:**
+
+```
+$.ui.igGridHiding.prototype.renderInFeatureChooser = false; 
+$("#grid1").igGrid({
+//grid options and features
+});
+$.ui.igGridHiding.prototype.renderInFeatureChooser = false; 
+$("#grid2").igGrid({
+//grid options and features
+});   
+```
 
 ## <a id="related-content"></a> 関連コンテンツ
 
