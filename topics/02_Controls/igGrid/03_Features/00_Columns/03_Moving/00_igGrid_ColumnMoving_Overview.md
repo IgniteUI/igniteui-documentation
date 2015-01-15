@@ -46,6 +46,7 @@
 -   [**列移動の構成**](#configuring)
     -   [列移動のデフォルト構成](#default-configuration)
 -   [**関連コンテンツ**](#related-content)
+-   [**キーボード操作**](#keyboard-interaction)   
     -   [トピック](#topics)
     -   [サンプル](#samples)
 
@@ -433,7 +434,22 @@
 [moveType](igGrid-ColumnMoving-PropertyReference.html#moveType)|string|“dom“ |デフォルトの[列移動タイプ](#type)は DOM 操作に設定されています。
 [addMovingDropdown](igGrid-ColumnMoving-PropertyReference.html#addMovingDropdown)|bool|true|列移動インターフェイスはユーザーに対して表示され操作可能です。
 
+## <a id="keyboard-interaction"></a> キーボード操作
 
+以下のキーボード操作が可能です。
+
+グリッドにフォーカスがある場合:
+
+-	TAB: 列移動 UI のフォーカス可能な要素間でフォーカスを移動: 列ヘッダーの列移動インジケーター
+
+列移動インジケーターにフォーカスがある場合:
+
+-	ENTER/SPACE: 列移動ドロップダウンを開く/閉じる。
+-	UP/DOWN: 列移動ドロップダウン項目の移動を許可。
+
+項目がアクティブな場合:
+
+-	ENTER/SPACE: 指定した操作を適用。列移動ボタンにフォーカスがある場合、列移動ダイアログが開きます。
 
 
 ## <a id="related-content"></a> 関連コンテンツ
