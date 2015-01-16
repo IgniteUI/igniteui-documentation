@@ -2,11 +2,12 @@
 |metadata|
 {
     "fileName": "excelengine-understanding-the-infragistics-excel-engine",
-    "controlName": "ExcelEngine",
-    "tags": []
+    "controlName": "Infragistics Excel Library",
+    "tags": ["Exporting","Getting Started"]
 }
 |metadata|
 -->
+
 # Infragistics Excel Engine の理解
 
 Infragistics Excel Engine、ならびにその主要な機能と機能性について解説しています。このセクションのトピックを読むと、アプリケーションで Excel Engine を使用することの利点を理解できます。
