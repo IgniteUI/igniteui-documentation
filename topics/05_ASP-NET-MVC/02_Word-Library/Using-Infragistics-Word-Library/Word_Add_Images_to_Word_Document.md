@@ -36,6 +36,19 @@ AnchoredPicture anchPic = docWriter.CreateAnchoredPicture(img);
 docWriter.AddAnchoredPicture(anchPic);
 ```
 
+**Visual Basic の場合:**
+
+```
+'  Create a new instance of the WordDocumentWriter class using the
+'  static 'Create' method.
+Dim docWriter As WordDocumentWriter = WordDocumentWriter.Create("C:\TestWordDoc.docx")
+' Get Image
+Dim img As Image = Image.FromFile("..\..\Ballon_New_Year.jpg")
+' Create an Anchored Image
+Dim anchPic As AnchoredPicture = docWriter.CreateAnchoredPicture(img)
+docWriter.AddAnchoredPicture(anchPic)
+```
+
 ## インライン画像の追加
 インライン画像を段落に追加するには、WordDocumentWriter オブジェクトの [AddInlinePicture](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~AddInlinePicture.html) メソッドを使用します。
 
@@ -52,6 +65,16 @@ docWriter.AddInlinePicture(img);
 ```
 
 **Visual Basic の場合:**
+
+```
+'  Create a new instance of the WordDocumentWriter class using the
+'  static 'Create' method.
+Dim docWriter As WordDocumentWriter = WordDocumentWriter.Create("C:\TestWordDoc.docx")
+' Get Image
+Dim img As Image = Image.FromFile("..\..\Ballon_New_Year.jpg")
+' Add an Inline picture
+docWriter.AddInlinePicture(img)
+```
 
 > **注:**  AddAnchoredPicture メソッドまたは AddInlinePicture メソッドが使用される前に、StartParagraph メソッドを使用して段落を開始する必要があります。そうしないと例外がスローされます。
 
@@ -73,6 +96,25 @@ anchPic.AlternateTextDescription = "Word Image";
 anchPic.Outline.Color = picOutlineProps.Color;
 anchPic.Outline.Style = picOutlineProps.Style;
 anchPic.Outline.LineWidth = picOutlineProps.LineWidth;
+```
+
+**Visual Basic の場合:**
+
+```
+' Define the picture outline properties
+Dim picOutlineProps As PictureOutlineProperties = docWriter.CreatePictureOutlineProperties()
+picOutlineProps.Color = Color.Violet
+picOutlineProps.Style = PictureOutlineStyle.[Single]
+picOutlineProps.LineWidth = 1
+' Get Image
+Dim img As Image = Image.FromFile("..\..\Ballon_New_Year.jpg")
+' Create an Anchored Image
+Dim anchPic As AnchoredPicture = docWriter.CreateAnchoredPicture(img)
+' Assign the picture outline properties for anchored image
+anchPic.AlternateTextDescription = "Word Image"
+anchPic.Outline.Color = picOutlineProps.Color
+anchPic.Outline.Style = picOutlineProps.Style
+anchPic.Outline.LineWidth = picOutlineProps.LineWidth
 ```
 
 ## アンカー固定した画像とインライン画像をミックス
@@ -110,6 +152,41 @@ docWriter.AddInlinePicture(img);
 docWriter.EndParagraph();
 docWriter.EndDocument();
 docWriter.Close();
+```
+
+**Visual Basic の場合:**
+
+```
+'  Create a new instance of the WordDocumentWriter class using the
+'  static 'Create' method.
+Dim docWriter As WordDocumentWriter = WordDocumentWriter.Create("C:\TestWordDoc.docx")
+docWriter.StartDocument()
+docWriter.StartParagraph()
+docWriter.AddTextRun("A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs.")
+
+' Define the picture outline properties
+Dim picOutlineProps As PictureOutlineProperties = docWriter.CreatePictureOutlineProperties()
+picOutlineProps.Color = Color.Violet
+picOutlineProps.Style = PictureOutlineStyle.[Single]
+picOutlineProps.LineWidth =1
+' Get Image
+Dim img As Image = Image.FromFile("..\..\Ballon_New_Year.jpg")
+
+' Create an Anchored Image
+Dim anchPic As AnchoredPicture = docWriter.CreateAnchoredPicture(img)
+' Assign the picture outline properties for anchored image
+anchPic.AlternateTextDescription = "Word Image"
+anchPic.Outline.Color = picOutlineProps.Color
+anchPic.Outline.Style = picOutlineProps.Style
+anchPic.Outline.LineWidth = picOutlineProps.LineWidth
+docWriter.AddAnchoredPicture(anchPic)
+
+' Add an Inline picture
+docWriter.AddInlinePicture(img)
+
+docWriter.EndParagraph()
+docWriter.EndDocument()
+docWriter.Close()
 ```
 
 ## 関連トピック
