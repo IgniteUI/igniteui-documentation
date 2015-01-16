@@ -43,6 +43,7 @@
 -   [**クライアント側イベント**](#client-events)
 -   [**カスタマイズの更新**](#customization)
     -   [初期化後の更新機能オプションの設定](#setting-option)
+-   [**キーボード操作**](#keyboard-interaction)
 -   [**関連トピック**](#topics)
 
 
@@ -610,6 +611,47 @@ function onEditCellStarted(event, args) {
 $('#grid1').igGridUpdating('option', 'editMode', 'cell');
 ```
 
+## <a id="keyboard-interaction"></a> キーボード操作
+
+###### 編集時に以下のキーボード操作が可能です。:
+ > 注: このセクションは、デフォルト プロパティ設定でのキーボード操作について説明します。これらの動作を変更する関連オプション:
+ >
+-	[horizontalMoveOnEnter](%%jQueryApiUrl%%/ui.igGridUpdating#options:horizontalMoveOnEnter) -  デフォルト: false
+-	[startEditTriggers](%%jQueryApiUrl%%/ui.igGridUpdating#options:startEditTriggers) - デフォルト: click,F2,enter
+- 	[excelNavigationMode](%%jQueryApiUrl%%/ui.igGridUpdating#options:excelNavigationMode) - デフォルト: false
+
+セル/行が選択されている場合 (選択機能が有効):
+ 
+ -	ENTER/F2 – 選択セル/行で編集モードに入る。([startEditTriggers](%%QueryApiUrl%%/ui.igGridUpdating#options:startEditTriggers) 参照)
+
+editMode が行で行が編集モードの場合、以下のキー操作が有効です。:
+
+-	TAB: 行の次のエディターへフォーカスを移動。最後のエディターに達すると、[完了/キャンセル] ボタン (利用可能な場合) へ移動します。
+-	ENTER: 変更が受け付けられて、次の行が編集モードに入ります。現在の行がグリッドの最後の行の場合、最初の行が編集モードに入ります。
+-	ESCAPE: 変更がある場合は、元に戻されます。保留中の変更がない場合、行は編集モードを終了します。
+
+editMode がセルでセルが編集モードの場合、以下のキー操作が利用できます。
+
+-	TAB: 行の次のセルが編集モードに入ります。現在のセルが行の最後の場合、次の行の最初セルが編集モードに入ります。現在のセルがグリッド最終行の最後のセルの場合、最初の行の最初のセルが編集モードに入ります。
+-	ENTER: 変更が受け付けられて、次の行の同じ列のセルが編集モードに入ります。現在のセルがグリッドの最後の行にある場合、最初の行の関連するセルが編集モードに入ります。( [horizontalMoveOnEnter](%%jQueryApiUrl%%/ui.igGridUpdating#options:horizontalMoveOnEnter) 参照).
+-	ESCAPE: 現在のセルがグリッドの最後の行にある場合、最初の行の関連するセルが編集モードに入ります。保留中の変更がない場合、セルは編集モードを終了します。
+-	UP/DOWN/LEFT/RIGHT: 矢印で編集セル内のカーソルを移動します (See [excelNavigationMode](%%jQueryApiUrl%%/ui.igGridUpdating#options:excelNavigationMode)) 参照。
+
+editMode が rowEditTemplate でセルが編集モードの場合、以下のキー操作が利用できます。:
+行編集テンプレート ダイアログが開いている場合:
+
+-	ESCAPE: 変更は無視され、ダイアログを閉じます。
+
+###### 行の追加が有効な場合、以下のキーボード操作が可能です。
+行の追加が編集モードの場合:
+
+-	ENTER: 現在の値の行をグリッドに追加。
+-	TAB: 行の次のエディターへフォーカスを移動。最後のエディターに達すると、[完了/キャンセル] ボタン (利用可能な場合) へ移動します。
+
+###### 行削除が有効な場合、以下のキーボード操作が可能です。
+行が選択されている場合 (選択機能が有効でモードが行の場合):
+
+-	DELETE: 選択行した行を削除します。
 
 ## <a id="topics"></a> 関連トピック 
 以下は、その他の役立つトピックです。

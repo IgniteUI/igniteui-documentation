@@ -73,7 +73,11 @@
 
 -   [仮想化を有効にし、構成する](igGrid-Enabling-and-Configuring-Virtualization.html)
 
+### キーボード操作
 
+仮想化が有効でマウスがが仮想テーブル上にある場合、以下のキー操作が可能です。
+
+- UP/DOWN: コンテナーを上または下へスクロール。
 
 ## <a id="related-content"></a> 関連コンテンツ
 
