@@ -73,85 +73,80 @@
 以下の表は、ツールチップに関する `igLinearGauge` コントロールで構成できる項目と管理に使用するプロパティをマップしています。
 
 <table cellspacing="0" cellpadding="0" class="table">
+	<thead>
+		<tr>
+            <th>
+構成可能な項目
+			</th>
+            <th colspan="2">
+詳細
+			</th>
+            <th>
+プロパティ/イベント
+			</th>
+            <th>
+デフォルト値
+			</th>
+        </tr>
+	</thead>
 	<tbody>
-		<tr>
-			<th>
-				構成可能な項目
+        <tr>
+            <th>
+[可視性](#enable-disable-tooltips)
 			</th>
-
-			<th colspan="2">
-				詳細
+            <td colspan="2">
+igLinearGauge コントロールのツールチップを有効または無効にできます。
+			</td>
+            <td>
+[showToolTip](%%jQueryApiUrl%%/ui.igLinearGauge#options:showToolTip)
+			</td>
+            <td>
+False
+			</td>
+        </tr>
+        <tr>
+            <th>
+[Delay](#config-tooltip-delay)
 			</th>
-
-			<th>
-				プロパティ/イベント
+            <td colspan="2">
+視覚要素にマウスを合わせたときにツールチップが表示されるまでのタイムアウトを、ミリ秒数単位で設定します。
+			</td>
+            <td>
+[showToolTipTimeout](%%jQueryApiUrl%%/ui.igLinearGauge#options:showToolTipTimeout)
+			</td>
+            <td>
+500
+			</td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+値
 			</th>
-
-			<th>
-				デフォルト値
-			</th>
-		</tr>
-
-		<tr>
-			<th>
-				<a class="ig-topic-link" href="#enable-disable-tooltips">可視性</a>
-			</th>
-
-			<td colspan="2">
-				igLinearGauge コントロールのツールチップを有効または無効にできます。
+            <td rowspan="3">
+ツールチップ テンプレートのそれぞれのプロパティにカスタム値を設定できます。
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:showToolTip" target="_blank">showToolTip</a></td>
-
-			<td>False</td>
-		</tr>
-
-		<tr>
-			<th>
-				<a class="ig-topic-link" href="#config-tooltip-delay">Delay</a>
-			</th>
-
-			<td colspan="2">
-				視覚要素にマウスを合わせたときにツールチップが表示されるまでのタイムアウトを、ミリ秒数単位で設定します。
+            <td>
+[針](#config-custom-tooltip)
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:showToolTipTimeout" target="_blank">showToolTipTimeout</a></td>
-
-			<td>500</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">
-				値
-			</th>
-
-			<td rowspan="3">
-				ツールチップ テンプレートのそれぞれのプロパティにカスタム値を設定できます。
+            <td>
+[needleToolTipTemplate](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleToolTipTemplate)
 			</td>
-
-			<td>
-				<a class="ig-topic-link" href="#config-custom-tooltip">針</a>
+            <td>
+[needleName](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleName) の初期化状態による ([針のカスタム ツールチップの構成](#config-custom-tooltip)を参照)
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:needleToolTipTemplate" target="_blank">needleToolTipTemplate</a></td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:needleName" target="_blank">needleName</a> の初期化状態による (<a class="ig-topic-link" href="#config-custom-tooltip">針のカスタム ツールチップの構成</a>を参照)
+        </tr>
+        <tr>
+            <td>
+[比較範囲](#comparative-ranges)
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<a class="ig-topic-link" href="#comparative-ranges">比較範囲</a>
+            <td>
+[rangeToolTipTemplate](%%jQueryApiUrl%%/ui.igLinearGauge#options:rangeToolTipTemplate)
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:rangeToolTipTemplate" target="_blank">rangeToolTipTemplate</a></td>
-
-			<td>
-				ハイフン (-) で区切られた範囲の開始値と終了値です。
+            <td>
+ハイフン (-) で区切られた範囲の開始値と終了値です。
 			</td>
-		</tr>
-	</tbody>
+        </tr>
+    </tbody>
 </table>
 
 
