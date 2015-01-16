@@ -12,23 +12,1133 @@
 
 以下の表は、`igGrid` の機能を同時に有効にした場合の機能間の互換性を示しています。各機能間の制限についての詳細は、既知の問題と制限事項 (`igGrid`) のトピックを参照してください。
 
-機能|igGrid フレームワーク (仮想化、非バインド列)|列移動|フィルタリング|グループ化|非表示|セルの結合|レコードのロード オン デマンド|複数列ヘッダー|ページング|レスポンシブ|サイズ変更|行セレクター|選択|並べ替え|集計|列の固定|ツールチップ|更新
----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
-igGrid フレームワーク (仮想化、非バインド列) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_16.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-列移動 | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_16.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_16.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-フィルタリング | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-グループ化 | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_61.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_61.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-非表示 | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-セルの結合 | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-レコードのロード オン デマンド | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_61.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_61.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-複数列ヘッダー | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-ページング | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_61.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-レスポンシブ | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_61.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-サイズ変更 | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-行セレクター | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-選択 | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-並べ替え | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-集計 | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-列の固定 | ![](images/igGrid_Feature_compatibility_matrix_16.png) | ![](images/igGrid_Feature_compatibility_matrix_61.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_61.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_61.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-ツールチップ | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
-更新 | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png) | ![](images/igGrid_Feature_compatibility_matrix_1.png)
+<div class="document-table-container">
+<table class="table">
+	<thead>
+		<tr>
+            <th>
+機能
+			</th>
+            <th>
+igGrid フレームワーク (仮想化、非バインド列)
+			</th>
+            <th>
+列移動
+			</th>
+            <th>
+フィルタリング
+			</th>
+            <th>
+グループ化
+			</th>
+            <th>
+非表示
+			</th>
+            <th>
+セルの結合
+			</th>
+            <th>
+レコードのロード オン デマンド
+			</th>
+            <th>
+複数列ヘッダー
+			</th>
+            <th>
+ページング
+			</th>
+            <th>
+レスポンシブ
+			</th>
+            <th>
+サイズ変更
+			</th>
+            <th>
+行セレクター
+			</th>
+            <th>
+選択
+			</th>
+            <th>
+並べ替え
+			</th>
+            <th>
+集計
+			</th>
+            <th>
+列の固定
+			</th>
+            <th>
+ツールチップ
+			</th>
+            <th>
+更新
+			</th>
+        </tr>
+	</thead>
+	<tbody>
+        <tr>
+            <td>
+igGrid フレームワーク (仮想化、非バインド列)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_16.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+列移動
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_16.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_16.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+フィルタリング
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+グループ化
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_61.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_61.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+非表示
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+セルの結合
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+レコードのロード オン デマンド
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_61.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_61.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+複数列ヘッダー
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+ページング
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_61.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+レスポンシブ
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_61.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+サイズ変更
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+行セレクター
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+選択
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+並べ替え
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+集計
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+列の固定
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_16.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_61.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_61.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_61.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+ツールチップ
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+更新
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+            <td>
+![](images/igGrid_Feature_compatibility_matrix_1.png)
+			</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
