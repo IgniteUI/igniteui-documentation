@@ -45,8 +45,8 @@
     -   [列移動モード](#mode)
 -   [**列移動の構成**](#configuring)
     -   [列移動のデフォルト構成](#default-configuration)
--   [**関連コンテンツ**](#related-content)
 -   [**キーボード操作**](#keyboard-interaction)   
+-   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
     -   [サンプル](#samples)
 
