@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "newtopic",
+    "fileName": "igdatachart-configuring",
     "controlName": "",
     "tags": []
 }
