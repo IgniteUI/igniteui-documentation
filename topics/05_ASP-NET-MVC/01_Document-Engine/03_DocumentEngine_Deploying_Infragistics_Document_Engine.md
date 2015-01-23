@@ -17,7 +17,7 @@
 アプリケーションを配備するためには、以下のファイルを再配布する必要があります。
 
 
-    Infragistics.WebUI.Documents.Reports.dll
+    Infragistics.Web.Mvc.Documents.Reports.dll
 
 これは Infragistics Document Engine™ コード ライブラリを含む .NET アセンブリ。
 
