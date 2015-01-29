@@ -267,7 +267,7 @@ IE 8 では、フィルタリング行領域が不正になる|IE 8 でグルー
 [列内の値はグループ化されるが、正しく表示されない](#groupby-incorrect-values)|[`autoGenerateColumns`](%%jQueryApiUrl%%/ui.iggrid#options:autoGenerateColumns) が true に設定され、列が初期化でグループ化されている場合、列の値はグループ化されますが、正しく表示されません。 | ![](images/positive.png)
 [*groupedColumnsChanged* イベントの入力引数の *ui.groupedColumns* が空き状態である](#groupedColumnsChanged)|列をグループ化領域にドラッグしてグループ化した場合、[`groupedColumnsChanged`](%%jQueryApiUrl%%/ui.iggridgroupby#events:groupedColumnsChanged) イベントの `ui.groupedColumns` 入力の引数が空き状態になる場合があります。 | ![](images/positive.png)
 [グループ化のモーダル ダイアログ内の igTree のタップが正しく機能しない](#groupby-dialog-tree)|Android 4.0 で、グループ化のモーダル ダイアログ内のドロップダウンをタップすると、レイアウトの問題が発生する場合があります。この問題は、ツリーが部分的に表示されており、垂直または水平スクロールを行った場合に発生します。 | ![](images/positive.png)
-GroupBy 機能および連続的仮想化の使用時の制限|`igGrid` の連続的仮想化を使用して、グループ化機能を有効にしている場合、垂直スクロールにより、折り畳まれたグループが展開されます。 | ![](images/negative.png)
+GroupBy 機能および連続的仮想化の使用時の制限|`igGrid` の連続的仮想化を使用してグループ化機能を有効にしている場合、垂直スクロールにより、グループが初期状態 ([`initialExpand`](%%jQueryApiUrl%%/ui.iggridgroupby#options:initialExpand) オプションに基づいて展開状態または縮小状態) に戻ります。 | ![](images/negative.png)
 グループ化が固定仮想化を使用しても機能しない|`igGrid` の GroupBy 機能は、固定仮想化を使用しても機能しません。 | ![](images/negative.png)
 [列を非表示にすると Firefox のグリッドが縮小する](#groupby-hide-firefox)|GroupBy 機能が有効で `igGrid` が定義された列幅を持たない場合、列を非表示にすると Firefox ブラウザーのグリッドが縮小します。 | ![](images/positive.png)
 
