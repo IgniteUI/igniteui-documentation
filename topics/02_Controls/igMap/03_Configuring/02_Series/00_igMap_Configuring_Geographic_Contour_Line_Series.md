@@ -461,7 +461,7 @@ $("#map").igMap({
 });
 ```
 
-画面を描画する前に、data 配列で定義されたデータ ポイントは、すべての等高線の正しい位置が見つかるよう三角形化されます。三角測量のプロセスの詳細については、リンクに続いて[関連内容: 外部リソース](igMap-Configuring-Geographic-Contour-Line- Series.html#external-resources)のセクションに記載されています。
+画面を描画する前に、data 配列で定義されたデータ ポイントは、すべての等高線の正しい位置が見つかるよう三角形化されます。三角測量のプロセスの詳細については、リンクに続いて[関連内容: 外部リソース](igMap-Configuring-Geographic-Contour-Line-Series.html#external-resources)のセクションに記載されています。
 
 ##<a id="related-content"></a>関連コンテンツ
 
