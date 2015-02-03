@@ -117,7 +117,7 @@ igDatePicker によって、ドロップダウン カレンダー付きの入力
          .ID("datePicker")
          .ButtonType(TextEditorButtonType.DropDown)
          .NullText("Enter date")
-         .Render()%%>
+         .Render()%>
      ```
 
     **Razor の場合:**

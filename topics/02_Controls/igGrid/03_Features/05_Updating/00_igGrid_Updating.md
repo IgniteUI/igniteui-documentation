@@ -622,7 +622,7 @@ $('#grid1').igGridUpdating('option', 'editMode', 'cell');
 
 セル/行が選択されている場合 (選択機能が有効):
  
- -	ENTER/F2 – 選択セル/行で編集モードに入る。([startEditTriggers](%%QueryApiUrl%%/ui.igGridUpdating#options:startEditTriggers) 参照)
+ -	ENTER/F2 – 選択セル/行で編集モードに入る。([startEditTriggers](%%jQueryApiUrl%%/ui.igGridUpdating#options:startEditTriggers) 参照)
 
 editMode が行で行が編集モードの場合、以下のキー操作が有効です。:
 
