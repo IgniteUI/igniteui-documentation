@@ -38,7 +38,7 @@
 
 仮想化は [`virtualization`](%%jQueryApiUrl%%/ui.iggrid#options:virtualization) プロパティを true に設定することで有効になります。仮想化のタイプは、[`virtualizationMode`](%%jQueryApiUrl%%/ui.iggrid#options:virtualizationMode) プロパティを fixed または continuous に設定して指定します。
 
-仮想化をタイプの指定をせずに有効化すると、Continuous (仮想化タイプのデフォルト) に設定されます。
+仮想化をタイプの指定をせずに有効化すると、Fixed (仮想化タイプのデフォルト) に設定されます。
 
 仮想化機能はグリッドで高さが定義されていなければ動作しません。
 
@@ -215,6 +215,7 @@ $("#grid1").igGrid({
 ## <a id="continuous"></a> 連続仮想化の有効化と構成
 
 igGrid コントロールの仮想化オプションを true に設定し、仮想化モードを continuous にすることで、仮想化が継続的になります。グリッドの高さは構成可能です。
+> **注:** 列仮想化は連続仮想化でサポートされていません。
 
 ### <a id="continuous-property-settings"></a> プロパティ設定
 

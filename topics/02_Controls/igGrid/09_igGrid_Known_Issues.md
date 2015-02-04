@@ -147,6 +147,7 @@ contextMenu イベントは cellRightClick に名前変更しました|イベン
 仮想化を有効にすると、autofitLastColumn が無効になる|仮想化を有効にすると、[autofitLastColumn](%%jQueryApiUrl%%/ui.iggrid#options:autofitLastColumn) は無効になり、列幅の合計がグリッド幅よりも小さい場合、列は拡張されグリッド全体を占有することになります (autofitLastColumn が true に設定された場合と同じように動作します)。|![](images/negative.png)
 グリッドの幅がパーセンテージで定義されている場合、列の仮想化が機能しない|グリッドの幅がパーセンテージで定義され、列の仮想化が有効な場合 ([columnVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:columnVirtualization) = true)、水平スクロールバーが表示されません。|![](images/negative.png)
 [固定仮想化は RWD モードでサポートされていません](#fixed-virtualization)|固定仮想化は、行の高さが定数であることが必要です。行の高さが変更する場合、固定仮想化は正しく操作しません。RWD モードは、画面サイズによって行の高さを変更するため、固定仮想化は正しく動作しません。|![](images/positive.png)
+列仮想化は連続仮想化でサポートされていません。 | 列仮想化は固定仮想化のみでサポートされています。列仮想化が有効 ([columnVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:columnVirtualization) = true) な場合、仮想化モードを "fixed" ([virtualizationMode](%%jQueryApiUrl%%/ui.iggrid#options:virtualizationMode) = "fixed") に設定する必要があります。 | ![](images/negative.png)
 
 ## [igGrid - レスポンス Web デザイン モード](#grid-responsive)
 問題|説明|状態
