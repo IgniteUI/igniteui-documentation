@@ -189,7 +189,7 @@
 以下の手順は、x コントロールのローカライズ方法を示します。
 
 
-​1. `infragistics.ui.grid-ru.js` のコピーを作成し、`infragistics.ui.grid-es.js` に名前を変更します。
+​1. <a id="copy_localization_file"></a> `infragistics.ui.grid-ru.js` のコピーを作成し、`infragistics.ui.grid-es.js` に名前を変更します。
 
 `%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-ru.js` を `%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-es.js` にコピーします。
 
@@ -197,7 +197,7 @@
 
 ![](images/Customizing_the_Localization_of_NetAdvantage_for_jQuery_Controls_2.png)
 
-​2. infragistics.ui.grid-es.js のローカライズ
+​2. <a id="localize_file"></a> infragistics.ui.grid-es.js のローカライズ
 
 `%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-es.js` をテキスト エディターで開き、`igGridPaging` セクションの文字列を自分の言語に翻訳します。この場合はスペイン語です。
 
@@ -231,7 +231,7 @@ $.ig.GridPaging = $.ig.GridPaging || {};
 ```
               
 
-​3. ローカライズされたファイルをスクリプト参照と共にプロジェクトに追加
+​3. <a id="include_localized_file"></a> ローカライズされたファイルをスクリプト参照と共にプロジェクトに追加
 
 HTML ファイルを作成して結果を検証します。以下のスクリーンショットに示すように、HTML ファイルに、`igGridPaging` に必要なファイルを含めます。
 

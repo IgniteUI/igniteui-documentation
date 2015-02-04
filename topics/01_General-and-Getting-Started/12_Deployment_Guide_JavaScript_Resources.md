@@ -286,7 +286,7 @@ $.ig.loader({
 
 
 
-##Infragistics コンテンツ配信ネットワーク (CDN)
+## <a id="infragistics_cdn"></a>Infragistics コンテンツ配信ネットワーク (CDN)
 
 
 ### Infragistics コンテンツ配信ネットワーク (CDN) の概要
