@@ -50,7 +50,7 @@
     -   [プレビュー](#html-preview)
     -   [前提条件](#html-prerequisites)
     -   [概要](#html-overview)
-    -   [手順](#html-overview)
+    -   [手順](#html-steps)
 -   [ASP.NET MVC ビューへの igMap の追加](#adding-igMap-mvc)
     -   [概要](#mvc-introduction)
     -   [要件](#mvc-requirements)
@@ -151,7 +151,7 @@
 2.  [マップのインスタンス化](#html-instantiating-igMap)
 3.  [(オプション) 結果の検証](#html-verifying-result)
 
-### <a id="html-overview"></a>手順
+### <a id="html-steps"></a>手順
 
 以下の手順は、基本的な `igMap` コントロール インスタンスを Web ページに追加する方法を示します。
 
@@ -167,7 +167,7 @@
 
 2. <a id="html-instantiating-igMap"></a>マップをインスタンス化します。
 
-	`igMap` コントロールは、HTML ページのスクリプト タグ内でインスタンス化され、手順 [1.](Adding-igMap.html#HTML_Step1) で作成した div 要素をラップできるようにする必要があります。[igMap コントロールで必要な HTML マークアップの追加](Adding-igMap.html#HTML_Step1).このコードはマップをインスタンス化します。コード スニペットに続いて追加情報が提供されます。
+	`igMap` コントロールは、HTML ページのスクリプト タグ内でインスタンス化され、手順 [1.](Adding-igMap.html#html-adding-igMap) で作成した div 要素をラップできるようにする必要があります。[igMap コントロールで必要な HTML マークアップの追加](Adding-igMap.html#html-adding-igMap).このコードはマップをインスタンス化します。コード スニペットに続いて追加情報が提供されます。
 
 	**HTML の場合:**
 
@@ -209,7 +209,7 @@
 
 3. <a id="html-verifying-result"></a>(オプション) 結果を確認します。
 
-	結果を検証するには、ページを保存し、Web ブラウザーで最終結果を確認します。手順を正しく実行した場合、マップは[](#OLE_LINK77)[プレビュー](Adding-igMap.html#html-preview)のように表示されます。
+	結果を検証するには、ページを保存し、Web ブラウザーで最終結果を確認します。手順を正しく実行した場合、マップは[プレビュー](Adding-igMap.html#html-preview)のように表示されます。
 
 
 ##<a id="adding-igMap-mvc"></a>ASP.NET MVC ビューへの igMap の追加
@@ -362,7 +362,7 @@
 	    MasterPageFile="~/Views/Shared/MvcSite.Master" %>
 	```
 
-4. <a id="instantiating"></a>`igMap` コントロールをインスタンス化します。
+4. <a id="mvc-instantiating-igMap"></a>`igMap` コントロールをインスタンス化します。
 
 	ここに示すコードを使用してマップをインスタンス化します。以下のコード スニペットを使用することで、追加情報が得られます。
 
