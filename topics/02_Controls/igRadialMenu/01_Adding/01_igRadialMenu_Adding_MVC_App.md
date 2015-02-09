@@ -297,7 +297,7 @@ Html.Infragistics().RadialMenu()
 
 
 
-## <a id="related-topics"></a>関連コンテンツ
+## <a id="related-content"></a>関連コンテンツ
 ### トピック
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。

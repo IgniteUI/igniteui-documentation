@@ -37,7 +37,7 @@
     -   [ストリームの概要としてファイルを保存](#file-stream-summary)
     -   [手順](#file-stream-steps)
 -   [ファイル処理の概要](#file-processing-overview)
-    -   [ファイル処理の要約](##file-processing-summary)
+    -   [ファイル処理の要約](#file-processing-summary)
     -   [ファイル ストリーム処理](#file-stream-processing)
     -   [メモリ ストリーム処理](#memory-stream-processing)
 -   [アップロード済みの各ファイルの一部を処理してメモリ ストリームとしてファイルを保存](#procedure)
@@ -84,7 +84,7 @@ View では、`igUpload` のクライアント側エラー処理と同様に、`
 3.  [(オプション)  igUpload MVC ラッパーのアプリケーション設定を構成する](#application-settings)
 4.  [ファイル キャッシュ機能の実装](#caching-functionality)
 5.  [View で igUpload MVC ラッパーを構成する](#mvc-wrapper-view)
-6.  [コントローラーでの igUpload MVC ラッパーを構成する](#mvc-wrapper--controller)
+6.  [コントローラーでの igUpload MVC ラッパーを構成する](#mvc-wrapper-controller)
 7.  [ igUpload サーバー側イベントを登録する](#server-side-events)
 
 
@@ -183,7 +183,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 3.  [(オプション)  igUpload MVC ラッパーのアプリケーション設定を構成する](#application-settings)
 4.  [ファイル キャッシュ機能の実装](#caching-functionality)
 5.  [View で igUpload MVC ラッパーを構成する](#mvc-wrapper-view)
-6.  [コントローラーでの igUpload MVC ラッパーを構成する](#mvc-wrapper--controller)
+6.  [コントローラーでの igUpload MVC ラッパーを構成する](#mvc-wrapper-controller)
 7.  [ igUpload サーバー側イベントを登録する](#server-side-events)
 8.  [(オプション) 結果の検証](#verifying-the-result)
 
@@ -420,7 +420,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**G.** メソッドを構成して キャッシュからストリームを取得します。
 		
-		GetStreamFromCache 静的メソッドを定義します。この静的メソッドは、指定したキーで MemoryStream を返します。これを行うには、`Dictionary<string, MemoryStream>` オブジェクトを ASP.NET キャッシュに管理します。ディクショナリは、現在アップロードしているファイルのデータを保留します。「[コントローラーで `igUpload` MVC ラッパーを構成する](#Step6)」セクションを参照すると、ファイル全体をキャッシュに保持しなくてもよくなります。代わりに、UploadUtils.BufferSize プロパティでサイズが定義されたデータ群をディスクのファイルに書き込みます。
+		GetStreamFromCache 静的メソッドを定義します。この静的メソッドは、指定したキーで MemoryStream を返します。これを行うには、`Dictionary<string, MemoryStream>` オブジェクトを ASP.NET キャッシュに管理します。ディクショナリは、現在アップロードしているファイルのデータを保留します。「[コントローラーで `igUpload` MVC ラッパーを構成する](#mvc-wrapper-controller)」セクションを参照すると、ファイル全体をキャッシュに保持しなくてもよくなります。代わりに、UploadUtils.BufferSize プロパティでサイズが定義されたデータ群をディスクのファイルに書き込みます。
 		
 		**C# の場合:**
 		
@@ -527,7 +527,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 	<div id="uploadErrors" style="color: red;"></div>
 	```
 
-6. <a id="mvc-wrapper--controller"></a>コントローラーで  `igUpload` MVC ラッパーを構成します。
+6. <a id="mvc-wrapper-controller"></a>コントローラーで  `igUpload` MVC ラッパーを構成します。
 
 	コントローラーを構成するには
 

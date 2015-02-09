@@ -621,7 +621,7 @@ ASP.NET MVC プロパティ
 
         <tr>
             <td rowspan="2">
-[アニメーション化されたトランジションの期間](#_Configuring_animated_transitions)
+[アニメーション化されたトランジションの期間](#config-animation-duration)
 			</td>
 
             <td>
@@ -713,7 +713,7 @@ ASP.NET MVC プロパティ
 
 #### 関係するコード例:
 
--   [**特定の行数と列数の構成**](#_Code_Example:_Configuring) [](#_Configuring_the_number)
+-   [**特定の行数と列数の構成**](#config-rows-columns)
 
 ### <a id="config-column-dimention"></a>各列の構成
 
@@ -736,7 +736,7 @@ ASP.NET MVC プロパティ
 
 #### 関係するコード例:
 
--   [**各列の構成**](#_Code_Example:_Configuring_2)
+-   [**各列の構成**](#config-rows-columns)
 
 ### <a id="config-positions-span"></a>項目の位置とスパンの構成
 
@@ -757,7 +757,7 @@ ASP.NET MVC プロパティ
 
 #### 関係するコード例:
 
--   [タイルの任意の位置とスパンの構成](#_Code_Example:_Configuring_1)
+-   [タイルの任意の位置とスパンの構成](#config-tiles-states)
 
 ### <a id="config-tiles-states"></a>タイルの状態の構成
 
@@ -784,7 +784,7 @@ ASP.NET MVC プロパティ
 
 #### 関係するコード例:
 
--   [最小化されたタイル パネルの構成](#_Code_Example:_Configuring_4)
+-   [最小化されたタイル パネルの構成](#config-minimized-tile-panel)
 
 ### <a id="config-animation-duration"></a>アニメーション化されたトランジションの期間の構成
 
@@ -792,7 +792,7 @@ ASP.NET MVC プロパティ
 
 #### 関係するコード例:
 
--   [**アニメーション化されたトランジションの期間の構成**](#_Code_Example:_Configuring_5)
+-   [**アニメーション化されたトランジションの期間の構成**](#config-animation-duration)
 
 
 
@@ -811,12 +811,12 @@ ASP.NET MVC プロパティ
 
 例|説明
 ---|---
-[特定の行数と列数の構成](#_Code_Example:_Configuring)|この例は、HTML マークアップから指定された列数、行数、余白を持つタイル グリッドを描画するために `igTileManager` コントロールを構成する方法を示します。
-[各列の構成](#_Code_Example:_Configuring_2)|この例は、HTML マークアップから指定された列のディメンションと余白を持つタイル グリッドを描画するために `igTileManager` コントロールを構成する方法を示します。
-[タイルの任意の位置とスパンの構成](#_Code_Example:_Configuring_1)|この例は、個別に位置指定された項目を持つタイル グリッドを描画するために `igTileManager` コントロールを構成する方法を示します。
-[カスタム タイルの構成](#_Code_Example:_Configuring_3)|この例は、最小化されたタイル状態と最大化されたタイル状態を持つタイル グリッドを描画するために `igTileManager` コントロールを構成する方法を示します。
-[最小化されたタイル パネルの構成](#_Code_Example:_Configuring_4)|この例は、カスタム レイアウトで最小化されたタイル パネルを構成する方法を示します。
-[アニメーション化されたトランジションの期間の構成](#_Code_Example:_Configuring_5)|この例は、コンテナーのサイズを変更しタイルを最小化または最大化するために `igTileManager` のアニメーション化されたトランジションを構成する方法を示します。
+[特定の行数と列数の構成](#config-rows-columns)|この例は、HTML マークアップから指定された列数、行数、余白を持つタイル グリッドを描画するために `igTileManager` コントロールを構成する方法を示します。
+[各列の構成](#config-column-dimention)|この例は、HTML マークアップから指定された列のディメンションと余白を持つタイル グリッドを描画するために `igTileManager` コントロールを構成する方法を示します。
+[タイルの任意の位置とスパンの構成](#config-positions-span)|この例は、個別に位置指定された項目を持つタイル グリッドを描画するために `igTileManager` コントロールを構成する方法を示します。
+[カスタム タイルの構成](#config-tiles-states)|この例は、最小化されたタイル状態と最大化されたタイル状態を持つタイル グリッドを描画するために `igTileManager` コントロールを構成する方法を示します。
+[最小化されたタイル パネルの構成](#config-minimized-tile-panel)|この例は、カスタム レイアウトで最小化されたタイル パネルを構成する方法を示します。
+[アニメーション化されたトランジションの期間の構成](#config-animation-duration)|この例は、コンテナーのサイズを変更しタイルを最小化または最大化するために `igTileManager` のアニメーション化されたトランジションを構成する方法を示します。
 
 
 ## <a id="config-specific-number"></a>コード例: 特定の行数と列数の構成

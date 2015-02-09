@@ -98,7 +98,7 @@ loadOnDemand|true
 </script>
 ```
 
-### <a id="enable_load_on_demand_property_reference"></a>ロード オン デマンド プロパティの参照 
+### <a id="enable-load-on-demand-property-reference"></a>ロード オン デマンド プロパティの参照 
 これらのプロパティの詳細情報は、プロパティ参照セクションのリストを参照してください。
 
 -   `igTree` オプション

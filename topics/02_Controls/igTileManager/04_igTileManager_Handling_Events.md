@@ -187,8 +187,8 @@ jQuery および ASP.NET MVC で実行時にイベントを処理
 
 例|説明
 ---|---
-[jQuery での初期化時の Rendered イベントの処理](#_Code_Example:_Handling)|この例は、初期化時に [rendered](%%jQueryApiUrl%%/ui.igtilemanager#options:Handling the Rendered Event Upon Initialization in jQuery) イベントにイベント処理関数を割り当てます。
-[ASP.NET MVC での実行時の Rendered イベントの処理](#_Code_Example:_Handling_1)|この例は、実行時に [rendered](%%jQueryApiUrl%%/ui.igtilemanager#options:Handling the Rendered Event at Run-Time in ASP.NET MVC) イベントにイベント ハンドラーを割り当てます。
+[jQuery での初期化時の Rendered イベントの処理](#init-jquery)|この例は、初期化時に [rendered](%%jQueryApiUrl%%/ui.igtilemanager#options:Handling the Rendered Event Upon Initialization in jQuery) イベントにイベント処理関数を割り当てます。
+[ASP.NET MVC での実行時の Rendered イベントの処理](#render-run-time-mvc)|この例は、実行時に [rendered](%%jQueryApiUrl%%/ui.igtilemanager#options:Handling the Rendered Event at Run-Time in ASP.NET MVC) イベントにイベント ハンドラーを割り当てます。
 
 
 ## <a id="init-jquery"></a>コード例: jQuery での初期化時の Rendered イベントの処理

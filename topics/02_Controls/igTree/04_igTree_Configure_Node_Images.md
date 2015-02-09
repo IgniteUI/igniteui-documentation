@@ -108,7 +108,7 @@
 [バインディングにより個々のデータ項目のノード イメージを構成する](#example_configure_through_binding)|[imageUrlKey](%%jQueryApiUrl%%/ui.igTree#options:imageUrlKey)<br>(XML の場合)<br>[imageUrlXPath](%%jQueryApiUrl%%/ui.igTree#options:imageUrlXPath)|画像への URL がある string 型データ メンバー `<br>` XML にバインドされた場合の画像 URL への string 型 XPath
 
 
-### 例: URL を使用して構成された親ノードおよびリーフ ノードの画像を構成する 
+### <a id="example_configure_using_url"></a> 例: URL を使用して構成された親ノードおよびリーフ ノードの画像を構成する 
 
 親ノードおよびリーフ ノードの画像を構成するには、URL を既存の画像の位置に指定する必要があります。以下の画像は、以下の設定を行った後のノード イメージを構成する方法を示しています。
 
@@ -157,7 +157,7 @@
     </tbody>
 </table>
 
-### 例: CSS を使用して構成された親ノードおよびリーフ ノードの画像を構成する 
+### <a id="example_configure_using_css"></a> 例: CSS を使用して構成された親ノードおよびリーフ ノードの画像を構成する 
 
 画像スプライトを使用して、CSS から画像を構成している場合、ツリー ノード イメージを含む CSS クラスを指定できます。以下のコードは、以下の設定を行った後のノード イメージを構成する方法を示しています。
 
@@ -245,7 +245,7 @@
 %>
 ```
 
-### 例: バインディングを使用して構成された親ノードおよびリーフ ノードの画像を構成する 
+### <a id="example_configure_through_binding"></a> 例: バインディングを使用して構成された親ノードおよびリーフ ノードの画像を構成する 
 
 この例は XML へのバインディングを示し、`imageUrlXPath` に必要な設定を組み込んでいます。この設定は JSON データにバインディングしている場合は必要ありません。以下の例は、バインディングによるノード イメージの構成方法を示しています。
 
