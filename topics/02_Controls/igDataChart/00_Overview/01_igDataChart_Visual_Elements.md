@@ -33,7 +33,7 @@
 
 ### 構成可能な視覚要素の概要
 
-次の図は、`igDataChart` コントロールの構成可能な視覚要素を説明したものです。それらを管理するプロパティのリストは、以下の [構成可能な視覚要素と関連プロパティ](#_Configurable_visual_elements_properties) ブロックにあります。
+次の図は、`igDataChart` コントロールの構成可能な視覚要素を説明したものです。それらを管理するプロパティのリストは、以下の [構成可能な視覚要素と関連プロパティ](#configuring-visual-elements-properties) ブロックにあります。
 
 ![](images/igDataChart_Visual_Elements_1.png)
 
@@ -59,159 +59,138 @@
 
 ​10) ツールチップ
 
-### 構成可能な視覚要素および関連プロパティ
+### <a id="configuring-visual-elements-properties"></a> 構成可能な視覚要素および関連プロパティ
 
 次の表では、`igDataChart` コントロールの視覚要素とそれらを構成するプロパティをマップします。
 
 <table class="table table-striped">
+	<thead>
+		<tr>
+            <th>
+視覚要素
+			</th>
+            <th>
+プロパティ
+			</th>
+        </tr>
+	</thead>
 	<tbody>
-		<tr>
-			<th>
-				視覚要素
-			</th>
-
-			<th>
-				プロパティ
-			</th>
-		</tr>
-
-		<tr>
-			<td>
-				データ シリーズ
+        <tr>
+            <td>
+データ シリーズ
 			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:series" target="_blank">series[]</a>
+            <td>
+[series[]](%%jQueryApiUrl%%/ui.igDataChart#options:series)
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				凡例
+        </tr>
+        <tr>
+            <td>
+凡例
 			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:series.legend" target="_blank">series["key"].legend</a>
+            <td>
+[series["key"].legend](%%jQueryApiUrl%%/ui.igDataChart#options:series.legend)
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				軸ラベル
+        </tr>
+        <tr>
+            <td>
+軸ラベル
 			</td>
-
-			<td>
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelVisibility" target="_blank">axes["key"].labelVisibility</a></p>
-
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelLocation" target="_blank">axes["key"].labelLocation</a></p>
-
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelExtent" target="_blank">axes["key"].labelExtent</a></p>
-
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options.labelHorizontalAlignment" target="_blank">axes["key"].labelHorizontalAlignment</a></p>
-
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelVerticalAlignment" target="_blank">axes["key"].labelVerticalAlignment</a></p>
-
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelTopMargin" target="_blank">axes["key"].labelTopMargin</a></p>
-
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelRightMargin" target="_blank">axes["key"].labelRightMargin</a></p>
-
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelBottomMargin" target="_blank">axes["key"].labelBottomMargin</a></p>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelLeftMargin" target="_blank">axes["key"].labelLeftMargin</a>
+            <td>
+[axes["key"].labelVisibility](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelVisibility)
+                <br />
+[axes["key"].labelLocation](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelLocation)
+                <br />
+[axes["key"].labelExtent](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelExtent)
+                <br />
+[axes["key"].labelHorizontalAlignment](%%jQueryApiUrl%%/ui.igDataChart#options.labelHorizontalAlignment)
+                <br />
+[axes["key"].labelVerticalAlignment](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelVerticalAlignment)
+                <br />
+[axes["key"].labelTopMargin](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelTopMargin)
+                <br />
+[axes["key"].labelRightMargin](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelRightMargin)
+                <br />
+[axes["key"].labelBottomMargin](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelBottomMargin)
+                <br />
+[axes["key"].labelLeftMargin](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelLeftMargin)
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				軸線
+        </tr>
+        <tr>
+            <td>
+軸線
 			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.stroke" target="_blank">axes["key"].stroke</a>
+            <td>
+[axes["key"].stroke](%%jQueryApiUrl%%/ui.igDataChart#options:axes.stroke)
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				軸の主線
+        </tr>
+        <tr>
+            <td>
+軸の主線
 			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.majorStroke" target="_blank">axes["key"].majorStroke</a>
+            <td>
+[axes["key"].majorStroke](%%jQueryApiUrl%%/ui.igDataChart#options:axes.majorStroke)
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				軸の副線
+        </tr>
+        <tr>
+            <td>
+軸の副線
 			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.minorStroke" target="_blank">axes["key"].minorStroke</a>
+            <td>
+[axes["key"].minorStroke](%%jQueryApiUrl%%/ui.igDataChart#options:axes.minorStroke)
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				軸のストライプ
+        </tr>
+        <tr>
+            <td>
+軸のストライプ
 			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.strip" target="_blank">axes["key"].strip</a>
+            <td>
+[axes["key"].strip](%%jQueryApiUrl%%/ui.igDataChart#options:axes.strip)
 			</td>
-		</tr>
-
-		<tr>
-			<td>軸目盛り</td>
-
-			<td>
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.tickLength" target="_blank">axes["key"].tickLength</a></p>
-
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.tickStroke" target="_blank">axes["key"].tickStroke</a></p>
-
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.tickStrokeThickness" target="_blank">axes["key"].tickStrokeThickness</a></p>
-
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:axes.tickStrokeDashArray" target="_blank">axes["key"].tickStrokeDashArray</a>
+        </tr>
+        <tr>
+            <td>
+軸目盛り
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				概要と詳細ウィンドウ
+            <td>
+[axes["key"].tickLength](%%jQueryApiUrl%%/ui.igDataChart#options:axes.tickLength)
+                <br />
+[axes["key"].tickStroke](%%jQueryApiUrl%%/ui.igDataChart#options:axes.tickStroke)
+                <br />
+[axes["key"].tickStrokeThickness](%%jQueryApiUrl%%/ui.igDataChart#options:axes.tickStrokeThickness)
+                <br />
+[axes["key"].tickStrokeDashArray](%%jQueryApiUrl%%/ui.igDataChart#options:axes.tickStrokeDashArray)
 			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:overviewPlusDetailPaneVisibility" target="_blank">overviewPlusDetailPaneVisibility</a>
+        </tr>
+        <tr>
+            <td>
+概要と詳細ウィンドウ
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				十字線
+            <td>
+[overviewPlusDetailPaneVisibility](%%jQueryApiUrl%%/ui.igDataChart#options:overviewPlusDetailPaneVisibility)
 			</td>
-
-			<td>
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options:crosshairVisibility" target="_blank">crosshairVisibility</a></p>
-
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:crosshairPoint" target="_blank">crosshairPoint</a>
+        </tr>
+        <tr>
+            <td>
+十字線
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				ツールチップ
+            <td>
+[crosshairVisibility](%%jQueryApiUrl%%/ui.igDataChart#options:crosshairVisibility)
+                <br />
+[crosshairPoint](%%jQueryApiUrl%%/ui.igDataChart#options:crosshairPoint)
 			</td>
-
-			<td>
-				<p><a href="%%jQueryApiUrl%%/ui.igDataChart#options:series.showTooltip" target="_blank">series["key"].showTooltip</a></p>
-
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:series.tooltipTemplate" target="_blank">series["key"].tooltipTemplate</a>
+        </tr>
+        <tr>
+            <td>
+ツールチップ
 			</td>
-		</tr>
-	</tbody>
+            <td>
+[series["key"].showTooltip](%%jQueryApiUrl%%/ui.igDataChart#options:series.showTooltip)
+                <br />
+[series["key"].tooltipTemplate](%%jQueryApiUrl%%/ui.igDataChart#options:series.tooltipTemplate)
+			</td>
+        </tr>
+    </tbody>
 </table>
-
-
-
 
 
 ##関連コンテンツ

@@ -88,7 +88,7 @@
 
 1. 空の HTML ビューを作成します。
 
- 「[igDataChart の追加](igDataChart-Adding.html)」トピックの手順に従って、チャートを埋め込むスケルトンの HTML/MVC ビューを作成します。このサンプルで必要な作業は、最初の　２ つ、つまり、[必要なリソースへの参照の追加](igDataChart-Adding.html#_AddReferencesToRequiredResources)と[igDataChart に必要な HTML マークアップの追加](igDataChart-Adding.html#_AddHTMLMarkupForChart)だけです。
+ 「[igDataChart の追加](igDataChart-Adding.html)」トピックの手順に従って、チャートを埋め込むスケルトンの HTML/MVC ビューを作成します。このサンプルで必要な作業は、最初の　２ つ、つまり、[必要なリソースへの参照の追加](igDataChart-Adding.html#add-references-to-required-resources)と[igDataChart に必要な HTML マークアップの追加](igDataChart-Adding.html#add-html-markup)だけです。
 
 2. 初期データ ソースを追加します。
 

@@ -103,75 +103,120 @@
 以下の表は、新しいデフォルト スタイル設定の構成可能な属性の概要を提供し、プロパティ設定にマップします。
 
 <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th colspan="2">
+構成の目的:
+            </th>
+            <th>
+使用するプロパティ:
+            </th>
+            <th>
+設定する値のタイプ:
+            </th>
+        </tr>
+    </thead>
     <tbody>
         <tr>
-            <th colspan="2">構成の目的:</th>
-            <th>使用するプロパティ:</th>
-            <th>設定する値のタイプ:</th>
-        </tr>
-        <tr>
-            <td rowspan="2">軸線</td>
-            <td>軸ストローク線</td>
-            <td><a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">axes[0].stroke</a></td>
-            <td rowspan="2">color</td>
-        </tr>
-
-        <tr>
-            <td>軸の主線</td>
-            <td><a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">axes[0].majorStroke</a></td>
-        </tr>
-
-        <tr>
-            <td colspan="2">軸線の配置</td>
-            <td><a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">alignsGridLinesToPixels</a></td>
-            <td>value</td>
-        </tr>
-
-        <tr>
-            <td>軸目盛り</td>
-            <td>目盛の長さ</td>
-            <td><a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">axes[0].tickLength</a></td>
-            <td>length</td>
-        </tr>
-
-        <tr>
-            <td colspan="2">軸ラベルの余白</td>
-            <td><a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">axes[0].labelMargin</a><br><a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">axes[0].labelTopMargin</a><br>
-
-                <a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">axes[0].labelRightMargin</a><br>
-
-                <a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">axes[0].labelBottomMargin</a><br>
-
-                <a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">axes[0].labelLeftMargin</a>
+            <td rowspan="2">
+軸線
             </td>
-            <td>margin</td>
-        </tr>
-
-        <tr>
-            <td colspan="2">エリア シリーズの不透明度</td>
-            <td><a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">series[0].areaFillOpacity</a></td>
-            <td>opacity</td>
-        </tr>
-
-        <tr>
-            <td rowspan="2">チャートの色</td>
-
-            <td>シリーズ</td>
-
-            <td><a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">brushes</a><br>
-
-                <a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">outlines</a>
+            <td>
+軸ストローク線
             </td>
-
-            <td rowspan="2">color</p></td>
+            <td>
+[axes[0].stroke](%%jQueryApiUrl%%/ui.igDataChart#options:axes.stroke)
+            </td>
+            <td rowspan="2">
+color
+            </td>
         </tr>
-
         <tr>
             <td>
-                <p>ラベル フォントの色</p>
+軸の主線
+            </td>
+            <td>
+[axes[0].majorStroke](%%jQueryApiUrl%%/ui.igDataChart#options:axes.majorStroke)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+軸線の配置
+            </td>
+            <td>
+[alignsGridLinesToPixels](%%jQueryApiUrl%%/ui.igDataChart#options:alignsGridLinesToPixels)
+            </td>
+            <td>
+value
+            </td>
+        </tr>
+        <tr>
+            <td>
+軸目盛り
+            </td>
+            <td>
+目盛の長さ
+            </td>
+            <td>
+[axes[0].tickLength](%%jQueryApiUrl%%/ui.igDataChart#options:axes.tickLength)
+            </td>
+            <td>
+length
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+軸ラベルの余白
+            </td>
+            <td>
+[axes[0].labelMargin](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelMargin)
+                <br />
+[axes[0].labelTopMargin](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelTopMargin)
+                <br />
+[axes[0].labelRightMargin](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelRightMargin)
+                <br />
+[axes[0].labelBottomMargin](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelBottomMargin)
+                <br />
+[axes[0].labelLeftMargin](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelLeftMargin)
+            </td>
+            <td>
+margin
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+エリア シリーズの不透明度
+            </td>
+            <td>
+[series[0].areaFillOpacity](%%jQueryApiUrl%%/ui.igDataChart#options:series.areaFillOpacity)
+            </td>
+            <td>
+opacity
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2">
+チャートの色
+            </td>
+            <td>
+シリーズ
+            </td>
+            <td>
+[brushes](%%jQueryApiUrl%%/ui.igDataChart#options:brushes)
+                <br />
+[outlines](%%jQueryApiUrl%%/ui.igDataChart#options:outlines)
             </td>
 
-            <td><a href="%%jQueryApiUrl%%/ui.igDataChart#options" target="_blank">axes[0].labelTextColor</a>
+            <td rowspan="2">
+color
+            </td>
+        </tr>
+        <tr>
+            <td>
+ラベル フォントの色
+            </td>
+            <td>
+[axes[0].labelTextColor](%%jQueryApiUrl%%/ui.igDataChart#options:axes.labelTextColor)
             </td>
         </tr>
     </tbody>

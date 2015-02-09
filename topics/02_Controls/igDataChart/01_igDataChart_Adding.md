@@ -144,7 +144,7 @@
 
 	<a id="load-resources-staticallty"></a>**リソースの静的なロード**
 
-	静的なリソースのロードを望む場合、「[igDataChart の概要: 最小要件](igDataChart-Overview.html#_Minimum_Requirements)」を参照してチャートを使用するためにリンクする必要があるリソース ファイルを確認してください。
+	静的なリソースのロードを望む場合、「[igDataChart の概要: 最小要件](igDataChart-Overview.html#min-requirements)」を参照してチャートを使用するためにリンクする必要があるリソース ファイルを確認してください。
 
 2. `igDataChart` が必要とする HTML マークアップの追加<a id="add-html-markup"></a>
 

@@ -33,7 +33,7 @@
 -   [概要](#overview)
 -   [共通のプロパティ](#common-properties)
 -   [十字線レイヤーで継承されたプロパティを設定](#inherited-properties-crosshair-layer)
--   [関連コンテンツ](#RelatedContent)
+-   [関連コンテンツ](#related-content)
 
 
 

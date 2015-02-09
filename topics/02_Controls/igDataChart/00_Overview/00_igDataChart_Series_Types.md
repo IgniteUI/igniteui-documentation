@@ -93,7 +93,7 @@
 	<tbody>
         <tr>
             <td>
-[棒と柱状](igDataChart-Series-Types.html#bar-column)
+[棒と柱状](#bars-and-columns)
 			</td>
 
             <td>
@@ -225,7 +225,7 @@
 
         <tr>
             <td>
-[バブル](igDataChart-Series-Types.html#bubble)
+[バブル](#bubble)
 			</td>
 
             <td>
@@ -267,7 +267,7 @@
 
         <tr>
             <td>
-[カテゴリ](igDataChart-Series-Types.html#category-series)
+[カテゴリ](#category-series)
 			</td>
 
             <td>
@@ -575,7 +575,7 @@
 
         <tr>
             <td>
-[財務](igDataChart-Series-Types.html#financial)
+[財務](#financial-series)
 			</td>
 
             <td>
@@ -651,7 +651,7 @@ Open、High、Low、Close の略開始と終わりの値のマーキングをも
 
         <tr>
             <td>
-[極座標](igDataChart-Series-Types.html#polar)
+[極座標](#polar-series)
 			</td>
 
             <td>
@@ -801,7 +801,7 @@ Open、High、Low、Close の略開始と終わりの値のマーキングをも
 
         <tr>
             <td>
-[ラジアル](igDataChart-Series-Types.html#radial-series)
+[ラジアル](#radial-series)
 			</td>
 
             <td>
@@ -889,7 +889,7 @@ Open、High、Low、Close の略開始と終わりの値のマーキングをも
 
         <tr>
             <td>
-[範囲カテゴリ](igDataChart-Series-Types.html#range-category)
+[範囲カテゴリ](#range-series)
 			</td>
 
             <td>
@@ -949,7 +949,7 @@ Open、High、Low、Close の略開始と終わりの値のマーキングをも
 
         <tr>
             <td>
-[散布図](igDataChart-Series-Types.html#scatter)
+[散布図](#scatter-series)
 			</td>
 
             <td>

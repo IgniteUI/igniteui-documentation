@@ -78,7 +78,7 @@ igDataChart は、さまざまな種類のチャートを HTML5 Web アプリケ
 
 `igDataChart` コントロールは、さまざまな可視化の目的に対して導入されるいろいろなシリーズ タイプを可能にします。
 
-サポートされるチャート タイプの詳細と基本的な構成情報については、[サポートされるチャート タイプの表](#_supportedTable12)のブロックを参照してください。
+サポートされるチャート タイプの詳細と基本的な構成情報については、[サポートされるチャート タイプの表](#supported-chart-types)のブロックを参照してください。
 
 >**注:** 円グラフは別のコントロール `igPieChart`™ で作成されます。詳細は [igPieChart の概要](igPieChart-Overview.html)をご覧ください。
 
@@ -87,499 +87,463 @@ igDataChart は、さまざまな種類のチャートを HTML5 Web アプリケ
 以下の表はサポートされているチャート タイプを示します。
 
 <table class="table">
+	<thead>
+		<tr>
+            <th>
+チャート タイプ
+			</th>
+            <th>
+シリーズ タイプ
+			</th>
+            <th>
+説明
+			</th>
+            <th>
+Series.type プロパティの設定
+			</th>
+            <th>
+データ バインディング プロパティ
+			</th>
+        </tr>
+	</thead>
 	<tbody>
-		<tr>
-			<th>
-				チャート タイプ
-			</th>
-
-			<th>
-				シリーズ タイプ
-			</th>
-
-			<th>
-				説明
-			</th>
-
-			<th>
-				Series.type プロパティの設定
-			</th>
-
-			<th>
-				データ バインディング プロパティ
-			</th>
-		</tr>
-
-		<tr>
-			<td>
-				棒と柱状
-			</td>
-
-			<td>
-				棒
-			</td>
-
-			<td>
-				分類されたデータを水平の棒で可視化します。
-			</td>
-
-			<td>
-				<p>bar
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath" target="_blank">valueMemberPath</a>
-			</td>
-		</tr>
-
-		<tr>
-			<td></td>
-
-			<td>
-				列
-			</td>
-
-			<td>
-				分類されたデータを垂直の柱で可視化します。
-			</td>
-
-			<td>
-				column
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath" target="_blank">valueMemberPath</a>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				カテゴリ
-			</td>
-
-			<td>
-				線
-			</td>
-
-			<td>
-				分類されたデータをデータ ポイントに鋭い角をもつ線で可視化します。
-			</td>
-
-			<td>
-				line
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath" target="_blank">valueMemberPath</a>
-			</td>
-		</tr>
-
-		<tr>
-			<td></td>
-
-			<td>
-				エリア チャート
-			</td>
-
-			<td>
-				分類されたデータをデータ ポイントに鋭い角をもつ線の下の色づけされた領域で可視化します。
-			</td>
-
-			<td>
-				area
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath" target="_blank">valueMemberPath</a>
-			</td>
-		</tr>
-
-		<tr>
-			<td></td>
-
-			<td>
-				スプライン
-			</td>
-
-			<td>
-				分類されたデータをデータ ポイント上のなめらかな角をもつ線で可視化します。
-			</td>
-
-			<td>
-				spline
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath" target="_blank">valueMemberPath</a>
-			</td>
-		</tr>
-
-		<tr>
-			<td></td>
-
-			<td>
-				スプライン エリア チャート
-			</td>
-
-			<td>
-				分類されたデータをデータ ポイントになめらかな角をもつ線の下の色づけされた領域で可視化します。
-			</td>
-
-			<td>
-				splineArea
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath" target="_blank">valueMemberPath</a>
-			</td>
-		</tr>
-
-		<tr>
-			<td></td>
-
-			<td>
-				ウォーターフォール
-			</td>
-
-			<td>
-				分類されたデータを垂直の柱で可視化し、先頭のカテゴリーに対応する先頭の柱は x 軸から始まり、続くカテゴリーはそれぞれ前のカテゴリーが終わったとこから始まります。
-			</td>
-
-			<td>
-				waterfall
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath" target="_blank">valueMemberPath</a>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				財務
-			</td>
-
-			<td>
-				ロウソク足チャート
-			</td>
-
-			<td>
-				ロウソク足の形で財務 (投資) 指標の始値、終値、安値、高値を表示します。
-			</td>
-
-			<td>
-				candlestick
-			</td>
-
-			<td>
-				<ul>
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:openMemberPath" target="_blank">openMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:closeMemberPath" target="_blank">closeMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:highMemberPath" target="_blank">highMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:lowMemberPath" target="_blank">lowMemberPath</a></li>
-				</ul>
-			</td>
-		</tr>
-
-		<tr>
-			<td></td>
-
-			<td>
-				OHLC チャート
-			</td>
-
-			<td>
-				Open、High、Low、Close の略開始と終わりの値のマーキングをもつ垂直線の形で財務 (投資) 指標の始値、終値、安値、高値を表示します。
-			</td>
-
-			<td>
-				ohlc
-			</td>
-
-			<td>
-				<ul>
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:openMemberPath" target="_blank">openMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:closeMemberPath" target="_blank">closeMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:highMemberPath" target="_blank">highMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:lowMemberPath" target="_blank">lowMemberPath</a></li>
-				</ul>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				極座標
-			</td>
-
-			<td>
-				極座標散布図
-			</td>
-
-			<td>
-				極座標系でドット (またはその他のマーカー) によるデータの可視化を行います。
-			</td>
-
-			<td>
-				polarScatter
-			</td>
-
-			<td>
-				<ul>
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:angleMemberPath" target="_blank">angleMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:radiusMemberPath" target="_blank">radiusMemberPath</a></li>
-				</ul>
-			</td>
-		</tr>
-
-		<tr>
-			<td></td>
-
-			<td>
-				極座標折れ線チャート
-			</td>
-
-			<td>
-				極座標系でデータ ポイントを直線で結んだ線によりデータを可視化します。
-			</td>
-
-			<td>
-				polarLine
-			</td>
-
-			<td>
-				<ul>
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:angleMemberPath" target="_blank">angleMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:radiusMemberPath" target="_blank">radiusMemberPath</a></li>
-				</ul>
-			</td>
-		</tr>
-
-		<tr>
-			<td></td>
-
-			<td>
-				極座標エリア チャート
-			</td>
-
-			<td>
-				極座標系でデータ ポイントを直線で結んだ線の下の色づけされた領域でデータを可視化します。
-			</td>
-
-			<td>
-				polarArea
-			</td>
-
-			<td>
-				<ul>
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:angleMemberPath" target="_blank">angleMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:radiusMemberPath" target="_blank">radiusMemberPath</a></li>
-				</ul>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				レーダー
-			</td>
-
-			<td>
-				ラジアル折れ線チャート
-			</td>
-
-			<td>
-				カテゴリー化されたデータをデータ ポイントを直線で結んだ線により可視化し、すべてのカテゴリーを円内に配置します。
-			</td>
-
-			<td>
-				radialLine
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath" target="_blank">valueMemberPath</a>
-			</td>
-		</tr>
-
-		<tr>
-			<td></td>
-
-			<td>
-				ラジアル柱状チャート
+        <tr>
+            <td>
+棒と柱状
 			</td>
-
-			<td>
-				カテゴリー化されたデータを共通の中心から異なる角度で伸ばした柱で可視化します。
+            <td>
+棒
 			</td>
-
-			<td>
-				radialColumn
+            <td>
+分類されたデータを水平の棒で可視化します。
 			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath" target="_blank">valueMemberPath</a>
+            <td>
+bar
 			</td>
-		</tr>
-
-		<tr>
-			<td></td>
-
-			<td>
-				ラジアル円チャート
+            <td>
+[valueMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath)
 			</td>
-
-			<td>
-				カテゴリー化されたデータを共通の中心から異なる角度で伸ばしたパイのスライス型要素で可視化します。
+        </tr>
+        <tr>
+            <td>
 			</td>
-
-			<td>
-				radialPie
+            <td>
+列
 			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath" target="_blank">valueMemberPath</a>
+            <td>
+分類されたデータを垂直の柱で可視化します。
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				範囲カテゴリ
+            <td>
+column
 			</td>
-
-			<td>
-				範囲エリア チャート
+            <td>
+[valueMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath)
 			</td>
-
-			<td>
-				2 つの値の間の範囲内にある分類されたデータをデータ ポイントを 2 本の直線で結び、間の領域を色づけして可視化します。
+        </tr>
+        <tr>
+            <td>
+カテゴリ
 			</td>
-
-			<td>
-				rangeArea
+            <td>
+線
 			</td>
-
-			<td>
-				<ul>
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:lowMemberPath" target="_blank">lowMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:highMemberPath" target="_blank">highMemberPath</a></li>
-				</ul>
+            <td>
+分類されたデータをデータ ポイントに鋭い角をもつ線で可視化します。
 			</td>
-		</tr>
-
-		<tr>
-			<td></td>
-
-			<td>
-				範囲柱状チャート
+            <td>
+line
 			</td>
-
-			<td>
-				2 つの値の間の範囲内にある分類されたデータを柱で可視化します。
+            <td>
+[valueMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath)
 			</td>
-
-			<td>
-				rangeColumn
+        </tr>
+        <tr>
+            <td>
 			</td>
-
-			<td>
-				<ul>
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:lowMemberPath" target="_blank">lowMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:highMemberPath" target="_blank">highMemberPath</a></li>
-				</ul>
+            <td>
+エリア チャート
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				バブル
+            <td>
+分類されたデータをデータ ポイントに鋭い角をもつ線の下の色づけされた領域で可視化します。
 			</td>
-
-			<td>
-				バブル
+            <td>
+area
 			</td>
-
-			<td>
-				複数のパラメータで記述されたデータを異なる直径の色づけされた円で可視化します。
+            <td>
+[valueMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath)
 			</td>
-
-			<td>
-				bubble
+        </tr>
+        <tr>
+            <td>
 			</td>
-
-			<td>
-				<ul>
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:xMemberPath" target="_blank">xMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:yMemberPath" target="_blank">yMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:radiusMemberPath" target="_blank">radiusMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:fillMemberPath" target="_blank">fillMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:labelMemberPath" target="_blank">labelMemberPath</a></li>
-				</ul>
+            <td>
+スプライン
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				散布図
+            <td>
+分類されたデータをデータ ポイント上のなめらかな角をもつ線で可視化します。
 			</td>
-
-			<td>
-				散布図
+            <td>
+spline
 			</td>
-
-			<td>
-				データをデカルト座標系上のドットで可視化します。
+            <td>
+[valueMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath)
 			</td>
-
-			<td>
-				scatter
+        </tr>
+        <tr>
+            <td>
 			</td>
-
-			<td>
-				<ul>
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:xMemberPath" target="_blank">xMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:yMemberPath" target="_blank">yMemberPath</a></li>
-				</ul>
+            <td>
+スプライン エリア チャート
 			</td>
-		</tr>
-
-		<tr>
-			<td></td>
-
-			<td>
-				散布図 - 折れ線
+            <td>
+分類されたデータをデータ ポイントになめらかな角をもつ線の下の色づけされた領域で可視化します。
 			</td>
-
-			<td>
-				デカルト座標系でデータ ポイントを直線で結んだ線によりデータを可視化します。
+            <td>
+splineArea
 			</td>
-
-			<td>
-				scatterLine
+            <td>
+[valueMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath)
 			</td>
-
-			<td>
-				<ul>
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:yMemberPath" target="_blank">xMemberPath</a></li>
-
-					<li><a href="%%jQueryApiUrl%%/ui.igDataChart#options:yMemberPath" target="_blank">yMemberPath</a></li>
-				</ul>
+        </tr>
+        <tr>
+            <td>
 			</td>
-		</tr>
-	</tbody>
+            <td>
+ウォーターフォール
+			</td>
+            <td>
+分類されたデータを垂直の柱で可視化し、先頭のカテゴリーに対応する先頭の柱は x 軸から始まり、続くカテゴリーはそれぞれ前のカテゴリーが終わったとこから始まります。
+			</td>
+            <td>
+waterfall
+			</td>
+            <td>
+[valueMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath)
+			</td>
+        </tr>
+        <tr>
+            <td>
+財務
+			</td>
+            <td>
+ロウソク足チャート
+			</td>
+            <td>
+ロウソク足の形で財務 (投資) 指標の始値、終値、安値、高値を表示します。
+			</td>
+            <td>
+candlestick
+			</td>
+            <td>
+                <ul>
+                    <li>
+[openMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:openMemberPath)
+					</li>
+
+                    <li>
+[closeMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:closeMemberPath)
+					</li>
+
+                    <li>
+[highMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:highMemberPath)
+					</li>
+
+                    <li>
+[lowMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:lowMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+			</td>
+            <td>
+OHLC チャート
+			</td>
+            <td>
+Open、High、Low、Close の略開始と終わりの値のマーキングをもつ垂直線の形で財務 (投資) 指標の始値、終値、安値、高値を表示します。
+			</td>
+            <td>
+ohlc
+			</td>
+            <td>
+                <ul>
+                    <li>
+[openMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:openMemberPath)
+					</li>
+
+                    <li>
+[closeMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:closeMemberPath)
+					</li>
+
+                    <li>
+[highMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:highMemberPath)
+					</li>
+
+                    <li>
+[lowMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:lowMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+極座標
+			</td>
+            <td>
+極座標散布図
+			</td>
+            <td>
+極座標系でドット (またはその他のマーカー) によるデータの可視化を行います。
+			</td>
+            <td>
+polarScatter
+			</td>
+            <td>
+                <ul>
+                    <li>
+[angleMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:angleMemberPath)
+					</li>
+
+                    <li>
+[radiusMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:radiusMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+			</td>
+            <td>
+極座標折れ線チャート
+			</td>
+            <td>
+極座標系でデータ ポイントを直線で結んだ線によりデータを可視化します。
+			</td>
+            <td>
+polarLine
+			</td>
+            <td>
+                <ul>
+                    <li>
+[angleMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:angleMemberPath)
+					</li>
+
+                    <li>
+[radiusMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:radiusMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+			</td>
+            <td>
+極座標エリア チャート
+			</td>
+            <td>
+極座標系でデータ ポイントを直線で結んだ線の下の色づけされた領域でデータを可視化します。
+			</td>
+            <td>
+polarArea
+			</td>
+            <td>
+                <ul>
+                    <li>
+[angleMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:angleMemberPath)
+					</li>
+
+                    <li>
+[radiusMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:radiusMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+レーダー
+			</td>
+            <td>
+ラジアル折れ線チャート
+			</td>
+            <td>
+カテゴリー化されたデータをデータ ポイントを直線で結んだ線により可視化し、すべてのカテゴリーを円内に配置します。
+			</td>
+            <td>
+radialLine
+			</td>
+            <td>
+[valueMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath)
+			</td>
+        </tr>
+        <tr>
+            <td>
+			</td>
+            <td>
+ラジアル柱状チャート
+			</td>
+            <td>
+カテゴリー化されたデータを共通の中心から異なる角度で伸ばした柱で可視化します。
+			</td>
+            <td>
+radialColumn
+			</td>
+            <td>
+[valueMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath)
+			</td>
+        </tr>
+        <tr>
+            <td>
+			</td>
+            <td>
+ラジアル円チャート
+			</td>
+            <td>
+カテゴリー化されたデータを共通の中心から異なる角度で伸ばしたパイのスライス型要素で可視化します。
+			</td>
+            <td>
+radialPie
+			</td>
+            <td>
+[valueMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:valueMemberPath)
+			</td>
+        </tr>
+        <tr>
+            <td>
+範囲カテゴリ
+			</td>
+            <td>
+範囲エリア チャート
+			</td>
+            <td>
+2 つの値の間の範囲内にある分類されたデータをデータ ポイントを 2 本の直線で結び、間の領域を色づけして可視化します。
+			</td>
+            <td>
+rangeArea
+			</td>
+            <td>
+                <ul>
+                    <li>
+[lowMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:lowMemberPath)
+					</li>
+
+                    <li>
+[highMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:highMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+			</td>
+            <td>
+範囲柱状チャート
+			</td>
+            <td>
+2 つの値の間の範囲内にある分類されたデータを柱で可視化します。
+			</td>
+            <td>
+rangeColumn
+			</td>
+            <td>
+                <ul>
+                    <li>
+[lowMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:lowMemberPath)
+					</li>
+
+                    <li>
+[highMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:highMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+バブル
+			</td>
+            <td>
+バブル
+			</td>
+            <td>
+複数のパラメータで記述されたデータを異なる直径の色づけされた円で可視化します。
+			</td>
+            <td>
+bubble
+			</td>
+            <td>
+                <ul>
+                    <li>
+[xMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:xMemberPath)
+					</li>
+
+                    <li>
+[yMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:yMemberPath)
+					</li>
+
+                    <li>
+[radiusMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:radiusMemberPath)
+					</li>
+
+                    <li>
+[fillMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:fillMemberPath)
+					</li>
+
+                    <li>
+[labelMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:labelMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+散布図
+			</td>
+            <td>
+散布図
+			</td>
+            <td>
+データをデカルト座標系上のドットで可視化します。
+			</td>
+            <td>
+scatter
+			</td>
+            <td>
+                <ul>
+                    <li>
+[xMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:xMemberPath)
+					</li>
+
+                    <li>
+[yMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:yMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+			</td>
+            <td>
+散布図 - 折れ線
+			</td>
+            <td>
+デカルト座標系でデータ ポイントを直線で結んだ線によりデータを可視化します。
+			</td>
+            <td>
+scatterLine
+			</td>
+            <td>
+                <ul>
+                    <li>
+[xMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:yMemberPath)
+					</li>
+
+                    <li>
+[yMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:yMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 
