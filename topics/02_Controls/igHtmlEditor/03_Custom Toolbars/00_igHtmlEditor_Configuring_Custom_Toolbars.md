@@ -137,7 +137,7 @@ expandButtonIcon|"ui-igbutton-expand"
 
 ![](images/Configuring_custom_toolbars_in_igHtmlEditor_2.png)
 
->**注:** ツールバーにはコントロールがありません。定義されるコントロールはありません。[カスタム ツールバーへのボタンの追加](#adding_button)および[カスタム ツールバーにコンボ ボックスの追加](#adding_combo)セクションを参照してください。
+>**注:** ツールバーにはコントロールがありません。定義されるコントロールはありません。[カスタム ツールバーへのボタンの追加](igHtmlEditor-Adding-Combo-to-Custom-Toolbar.html#adding_button)および[カスタム ツールバーにコンボ ボックスの追加](igHtmlEditor-Adding-Combo-to-Custom-Toolbar.html#adding_combo)セクションを参照してください。
 
 以下のコードは、項目を含まない customToolbar の名前付きのカスタム ツールバーを定義します。
 
