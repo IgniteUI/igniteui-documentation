@@ -29,7 +29,7 @@
     -   [主要機能の概要](#main-features-summary)
     -   [主要な機能の概要表](#main-features-chart)
 -   [論理領域と構成可能な視覚要素の概要](#config-visual-elements-summary)
-    -   [論理領域](#lLogical-areas)
+    -   [論理領域](#logical-areas)
     -   [構成可能な視覚要素](#config-visual-elements)
 -   [構成可能な視覚要素および関連プロパティ](#config-visual-elements-related-prop)
     -   [構成可能な視覚要素および関連プロパティの概要](#config-visual-elements-related-prop-summary)
@@ -101,9 +101,9 @@
 
 予約領域の主な目的は、スケールの番号ラベルに対して、水平方向にも垂直方向にも十分なスペースを与えることにあります。(方向が変化した場合、番号ラベルを表示するための各方向へのスペース要求に対応するために、予約領域はサイズを自動的に調整します。水平方向ではラベルの高さ、垂直方向では最大幅に合わせます。)これは、必ずしも番号ラベルを予約領域に配置する必要があることを意味しません。実際、ラベル行はスケール全域で、[グラフ領域](#graph-area)内のどこにでも配置できます。しかし、ラベル行を予約領域の外に配置しても、予約領域自体のスプレッドおよび位置にはまったく影響はありません。予約領域は変化せず、番号ラベルの高さと幅により (方向に従い) 決定されます。
 
-さらに予約領域が重要なのは、内側の端がスケール全体のディメンションにおいて[グラフ領域](#graph-area)の最初の端を特定する点です。この端が、スケール全域に[](#config-visual-elements)[視覚要素](#config-visual-elements)の一部を配置する範囲関連プロパティの参照マークの役割を果たします。(最も一般的な場合、これらのプロパティの正の値は視覚要素を[グラフ領域](#graph-area)の内部に置き、負の値は視覚要素を予約領域の内部に配置します。)
+さらに予約領域が重要なのは、内側の端がスケール全体のディメンションにおいて[グラフ領域](#graph-area)の最初の端を特定する点です。この端が、スケール全域に[視覚要素](#config-visual-elements)の一部を配置する範囲関連プロパティの参照マークの役割を果たします。(最も一般的な場合、これらのプロパティの正の値は視覚要素を[グラフ領域](#graph-area)の内部に置き、負の値は視覚要素を予約領域の内部に配置します。)
 
--   グラフ領域 (2) - リニア ゲージの針、目盛、範囲、およびオプションで番号ラベルを表示する領域です。ラベルを除く視覚要素の範囲関連のプロパティはすべて、その端に対して測定されます。グラフ領域は、プレースホルダーではなくコントロール内部にスケールを配置する (正確には、スケールの[視覚要素](#config-visual-elements-related-prop)を配置する) 参照フレームとして役割を果たします。
+-  <a id="graph-area"></a>グラフ領域 (2) - リニア ゲージの針、目盛、範囲、およびオプションで番号ラベルを表示する領域です。ラベルを除く視覚要素の範囲関連のプロパティはすべて、その端に対して測定されます。グラフ領域は、プレースホルダーではなくコントロール内部にスケールを配置する (正確には、スケールの[視覚要素](#config-visual-elements-related-prop)を配置する) 参照フレームとして役割を果たします。
 
 グラフ領域のスプレッド:
 
@@ -255,220 +255,279 @@
 
 以下の表は、リニア ゲージのスケールで構成できる項目を示し、管理に使用する `igLinearGauge` プロパティにマップします。
 
-<table cellspacing="0" cellpadding="0" class="table">
-	<tbody>
-		<tr>
-			<th colspan="4">構成可能な要素</th>
-
-			<th>
-				プロパティ
-			</th>
-
-			<th>デフォルト値</th>
-		</tr>
-
-		<tr>
-			<th rowspan="2" colspan="4">位置</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:scaleStartExtent" target="_blank">scaleStartExtent</a></td>
-
-			<td>0.05</td>
-		</tr>
-
-		<tr>
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:scaleEndExtent" target="_blank">scaleEndExtent</a></td>
-
-			<td>0.95</td>
-		</tr>
-
-		<tr>
-			<th rowspan="2" colspan="2">範囲と値</th>
-
-			<th colspan="2">最大値</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:minimumValue" target="_blank">minimumValue</a></td>
-
-			<td>0</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">最小値</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:maximumValue" target="_blank">maximumValue</a></td>
-
-			<td>100</td>
-		</tr>
-
-		<tr>
-			<th rowspan="12">目盛</th>
-
-			<th rowspan="7">主目盛</th>
-
-			<th rowspan="5" colspan="2">
-				スケール内の位置、スペースおよび長さ
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:interval" target="_blank">interval</a></td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:ticksPostInitial" target="_blank">ticksPostInitial</a></td>
-
-			<td>0</td>
-		</tr>
-
-		<tr>
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:ticksPreTerminal" target="_blank">ticksPreTerminal</a></td>
-
-			<td>0</td>
-		</tr>
-
-		<tr>
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:tickStartExtent" target="_blank">tickStartExtent</a></td>
-
-			<td>0.02</td>
-		</tr>
-
-		<tr>
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:tickEndExtent" target="_blank">tickEndExtent</a></td>
-
-			<td>0.2</td>
-		</tr>
-
-		<tr>
-			<th rowspan="2">ルック アンド フィール</th>
-
-			<th>
-				色
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:tickBrush" target="_blank">tickBrush</a></td>
-
-			<td>デフォルトのテーマで定義済み</td>
-		</tr>
-
-		<tr>
-			<th>
-				幅
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#optionstickStrokeThickness" target="_blank">tickStrokeThickness</a></td>
-
-		<td>2.0</a></td>
-		</tr>
-
-		<tr>
-			<th rowspan="5">補助目盛</th>
-
-			<th colspan="2">
-				隣接する 2 つの主目盛間の数値
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:minorTickCount" target="_blank">minorTickCount</a></td>
-
-			<td>
-				3.0
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="2" colspan="2">位置</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:minorTickStartExtent" target="_blank">minorTickStartExtent</a></td>
-
-			<td>0.06</td>
-		</tr>
-
-		<tr>
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:minorTickEndExtent" target="_blank">minorTickEndExtent</a></td>
-
-			<td>0.2</td>
-		</tr>
-
-		<tr>
-			<th rowspan="2">ルック アンド フィール</th>
-
-			<th>
-				色
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:minorTickBrush" target="_blank">minorTickBrush</a></td>
-
-			<td>デフォルトのテーマで定義済み</td>
-		</tr>
-
-		<tr>
-			<th>
-				幅
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:minorTickStrokeThickness" target="_blank">minorTickStrokeThickness</a></td>
-
-			<td>1.0</td>
-		</tr>
-
-		<tr>
-			<th rowspan="6">ラベル</th>
-
-			<th rowspan="4" colspan="3">
-				位置とスペース
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:labelExtent" target="_blank">labelExtent</a>
-			</td>
-
-			<td>0</td>
-		</tr>
-
-		<tr>
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#optionslabelInterval" target="_blank">labelInterval</a></td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:labelsPostInitial" target="_blank">labelsPostInitial</a></td>
-
-			<td>0</td>
-		</tr>
-
-		<tr>
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:labelsPreTerminal" target="_blank">labelsPreTerminal</a></td>
-
-			<td>0</td>
-		</tr>
-
-		<tr>
-			<th colspan="3">数値書式</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:labelFormat" target="_blank">labelFormat</a></td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">ルック アンド フィール</th>
-
-			<th>
-				色
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:fontBrush" target="_blank">fontBrush</a></td>
-
-			<td>
-				デフォルトのテーマで定義済み
-			</td>
-		</tr>
-	</tbody>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th colspan="4">
+構成可能な要素
+            </th>
+            <th>
+プロパティ
+            </th>
+            <th>
+デフォルト値
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th rowspan="2" colspan="4">
+位置
+            </th>
+
+            <td>
+[scaleStartExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:scaleStartExtent)
+            </td>
+            <td>
+0.05
+            </td>
+        </tr>
+        <tr>
+            <td>
+[scaleEndExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:scaleEndExtent)
+            </td>
+            <td>
+0.95
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="2" colspan="2">
+範囲と値
+            </th>
+
+            <th colspan="2">
+最大値
+            </th>
+
+            <td>
+[minimumValue](%%jQueryApiUrl%%/ui.igLinearGauge#options:minimumValue)
+            </td>
+            <td>
+0
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">
+最小値
+            </th>
+
+            <td>
+[maximumValue](%%jQueryApiUrl%%/ui.igLinearGauge#options:maximumValue)
+            </td>
+            <td>
+100
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="12">
+目盛
+            </th>
+
+            <th rowspan="7">
+主目盛
+            </th>
+
+            <th rowspan="5" colspan="2">
+スケール内の位置、スペースおよび長さ
+            </th>
+
+            <td>
+[interval](%%jQueryApiUrl%%/ui.igLinearGauge#options:interval)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <td>
+[ticksPostInitial](%%jQueryApiUrl%%/ui.igLinearGauge#options:ticksPostInitial)
+            </td>
+            <td>
+0
+            </td>
+        </tr>
+        <tr>
+            <td>
+[ticksPreTerminal](%%jQueryApiUrl%%/ui.igLinearGauge#options:ticksPreTerminal)
+            </td>
+            <td>
+0
+            </td>
+        </tr>
+        <tr>
+            <td>
+[tickStartExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:tickStartExtent)
+            </td>
+            <td>
+0.02
+            </td>
+        </tr>
+        <tr>
+            <td>
+[tickEndExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:tickEndExtent)
+            </td>
+            <td>
+0.2
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="2">
+ルック アンド フィール
+            </th>
+            <th>
+色
+            </th>
+
+            <td>
+[tickBrush](%%jQueryApiUrl%%/ui.igLinearGauge#options:tickBrush)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+        <tr>
+            <th>
+幅
+            </th>
+
+            <td>
+[tickStrokeThickness](%%jQueryApiUrl%%/ui.igLinearGauge#optionstickStrokeThickness)
+            </td>
+            <td>
+2.0
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="5">
+補助目盛
+            </th>
+
+            <th colspan="2">
+隣接する 2 つの主目盛間の数値
+            </th>
+
+            <td>
+[minorTickCount](%%jQueryApiUrl%%/ui.igLinearGauge#options:minorTickCount)
+            </td>
+            <td>
+3.0
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="2" colspan="2">
+位置
+            </th>
+
+            <td>
+[minorTickStartExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:minorTickStartExtent)
+            </td>
+            <td>
+0.06
+            </td>
+        </tr>
+        <tr>
+            <td>
+[minorTickEndExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:minorTickEndExtent)
+            </td>
+            <td>
+0.2
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="2">
+ルック アンド フィール
+            </th>
+            <th>
+色
+            </th>
+
+            <td>
+[minorTickBrush](%%jQueryApiUrl%%/ui.igLinearGauge#options:minorTickBrush)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+        <tr>
+            <th>
+幅
+            </th>
+
+            <td>
+[minorTickStrokeThickness](%%jQueryApiUrl%%/ui.igLinearGauge#options:minorTickStrokeThickness)
+            </td>
+            <td>
+1.0
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="6">
+ラベル
+            </th>
+
+            <th rowspan="4" colspan="3">
+位置とスペース
+            </th>
+
+            <td>
+[labelExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:labelExtent)
+            </td>
+            <td>
+0
+            </td>
+        </tr>
+        <tr>
+            <td>
+[labelInterval](%%jQueryApiUrl%%/ui.igLinearGauge#optionslabelInterval)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <td>
+[labelsPostInitial](%%jQueryApiUrl%%/ui.igLinearGauge#options:labelsPostInitial)
+            </td>
+            <td>
+0
+            </td>
+        </tr>
+        <tr>
+            <td>
+[labelsPreTerminal](%%jQueryApiUrl%%/ui.igLinearGauge#options:labelsPreTerminal)
+            </td>
+            <td>
+0
+            </td>
+        </tr>
+        <tr>
+            <th colspan="3">
+数値書式
+            </th>
+
+            <td>
+[labelFormat](%%jQueryApiUrl%%/ui.igLinearGauge#options:labelFormat)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">
+ルック アンド フィール
+            </th>
+            <th>
+色
+            </th>
+
+            <td>
+[fontBrush](%%jQueryApiUrl%%/ui.igLinearGauge#options:fontBrush)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 
@@ -485,86 +544,91 @@
 
 以下の表は、リニア ゲージの針の構成できる基本項目を示し、管理に使用する `igLinearGauge` プロパティにマップします。
 
-<table cellspacing="0" cellpadding="0" class="table">
-	<tbody>
-		<tr>
-			<th colspan="2">
-				構成可能な要素
-			</th>
-
-			<th>
-				プロパティ
-			</th>
-
-			<th>
-				デフォルト値
-			</th>
-		</tr>
-
-		<tr>
-			<th colspan="2">表示値</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:value" target="_blank">value</a></td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">幅</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:needleBreadth" target="_blank">needleBreadth</a></td>
-
-			<td>10.0</td>
-		</tr>
-
-		<tr>
-			<th rowspan="4">ルック アンド フィール</th>
-
-			<th>
-				塗りつぶし色
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:needleBrush" target="_blank">needleBrush</a></td>
-
-			<td>
-				デフォルトのテーマで定義済み
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の色
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:needleOutline" target="_blank">needleOutline</a></td>
-
-			<td>
-				デフォルトのテーマで定義済み
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の線幅
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:needleStrokeThickness" target="_blank">needleStrokeThickness</a></td>
-
-			<td>1.0</td>
-		</tr>
-
-		<tr>
-			<th>
-				図形
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:needleShape" target="_blank">needleShape</a></td>
-
-			<td>Needle</td>
-		</tr>
-	</tbody>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th colspan="2">
+構成可能な要素
+            </th>
+            <th>
+プロパティ
+            </th>
+            <th>
+デフォルト値
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th colspan="2">
+表示値
+            </th>
+            <td>
+[value](%%jQueryApiUrl%%/ui.igLinearGauge#options:value)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">
+幅
+            </th>
+            <td>
+[needleBreadth](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleBreadth)
+            </td>
+            <td>
+10.0
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="4">
+ルック アンド フィール
+            </th>
+            <th>
+塗りつぶし色
+            </th>
+            <td>
+[needleBrush](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleBrush)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の色
+            </th>
+            <td>
+[needleOutline](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleOutline)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の線幅
+            </th>
+            <td>
+[needleStrokeThickness](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleStrokeThickness)
+            </td>
+            <td>
+1.0
+            </td>
+        </tr>
+        <tr>
+            <th>
+図形
+            </th>
+            <td>
+[needleShape](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleShape)
+            </td>
+            <td>
+Needle
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 
@@ -581,158 +645,133 @@
 
 以下の表は、リニア ゲージの比較範囲の構成できる項目を示し、管理に使用する `igLinearGauge` プロパティにマップします。
 
-<table cellspacing="0" cellpadding="0" class="table">
-	<tbody>
-		<tr>
-			<th colspan="2">
-				構成可能な要素
-			</th>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th colspan="2">
+構成可能な要素
+            </th>
+            <th>
+プロパティ
+            </th>
+            <th>
+デフォルト値
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        
 
-			<th>
-				プロパティ
-			</th>
-
-			<th>
-				デフォルト値
-			</th>
-		</tr>
-
-		<tr>
-			<th colspan="2">
-				ゲージに表示する範囲の数値
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:ranges" target="_blank">ranges</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="6" colspan="2">
-				長さ、幅、位置
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">startValue</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">endValue</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">innerStartExtent</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">innerEndExtent</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">outerStartExtent</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">outerEndExtent</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">ルック アンド フィール</th>
-
-			<th>
-				塗りつぶし色
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:brush" target="_blank">brush</a>
-			</td>
-
-			<td>
-				デフォルトのテーマで定義済み
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の色
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:outline" target="_blank">outline</a>
-			</td>
-
-			<td>
-				デフォルトのテーマで定義済み
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の線幅
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:strokeThickness" target="_blank">strokeThickness</a>
-			</td>
-
-			<td>
-				1.0
-			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">
-				ツールチップ
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:rangeToolTip" target="_blank">rangeToolTip</a>
-			</td>
-
-			<td>
-				ハイフン (-) で区切られた範囲の開始値と終了値です。
-			</td>
-		</tr>
-	</tbody>
+        <tr>
+            <th colspan="2">
+ゲージに表示する範囲の数値
+            </th>
+            <td>
+[ranges](%%jQueryApiUrl%%/ui.igLinearGauge#options:ranges)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="6" colspan="2">
+長さ、幅、位置
+            </th>
+            <td>
+[startValue](%%jQueryApiUrl%%/ui.igLinearGauge#options:startValue)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <td>
+[endValue](%%jQueryApiUrl%%/ui.igLinearGauge#options:endValue)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <td>
+[innerStartExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:innerStartExtent)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <td>
+[innerEndExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:innerEndExtent)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <td>
+[outerStartExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:outerStartExtent)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <td>
+[outerEndExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:outerEndExtent)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+ルック アンド フィール
+            </th>
+            <th>
+塗りつぶし色
+            </th>
+            <td>
+[brush](%%jQueryApiUrl%%/ui.igLinearGauge#options:brush)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の色
+            </th>
+            <td>
+[outline](%%jQueryApiUrl%%/ui.igLinearGauge#options:outline)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の線幅
+            </th>
+            <td>
+[strokeThickness](%%jQueryApiUrl%%/ui.igLinearGauge#options:strokeThickness)
+            </td>
+            <td>
+1.0
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">
+ツールチップ
+            </th>
+            <td>
+[rangeToolTip](%%jQueryApiUrl%%/ui.igLinearGauge#options:rangeToolTip)
+            </td>
+            <td>
+ハイフン (-) で区切られた範囲の開始値と終了値です。
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 
@@ -749,72 +788,77 @@
 
 以下の表は、リニア ゲージの背景の構成できる項目を示し、管理に使用する `igLinearGauge` プロパティにマップします。
 
-<table cellspacing="0" cellpadding="0" class="table">
-	<tbody>
-		<tr>
-			<th colspan="2">構成可能な要素</th>
-
-			<th>
-				プロパティ
-			</th>
-
-			<th>デフォルト値</th>
-		</tr>
-
-		<tr>
-			<th rowspan="2" colspan="2">スケール全域のスプレッドおよび位置</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingInnerExtent" target="_blank">backingInnerExtent</a></td>
-
-			<td>
-				0
-			</td>
-		</tr>
-
-		<tr>
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingOuterExtent" target="_blank">backingOuterExtent</a></td>
-
-			<td>
-				1.0
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">ルック アンド フィール</th>
-
-			<th>
-				色
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingBrush" target="_blank">backingBrush</a></td>
-
-			<td>
-				デフォルトのテーマで定義済み
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の色
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingOutline" target="_blank">backingOutline</a></td>
-
-			<td>
-				デフォルトのテーマで定義済み
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の線幅
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingStrokeThickness" target="_blank">backingStrokeThickness</a></td>
-
-			<td>2.0</td>
-		</tr>
-	</tbody>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th colspan="2">
+構成可能な要素
+            </th>
+            <th>
+プロパティ
+            </th>
+            <th>
+デフォルト値
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th rowspan="2" colspan="2">
+スケール全域のスプレッドおよび位置
+            </th>
+            <td>
+[backingInnerExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingInnerExtent)
+            </td>
+            <td>
+0
+            </td>
+        </tr>
+        <tr>
+            <td>
+[backingOuterExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingOuterExtent)
+            </td>
+            <td>
+1.0
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+ルック アンド フィール
+            </th>
+            <th>
+色
+            </th>
+            <td>
+[backingBrush](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingBrush)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の色
+            </th>
+            <td>
+[backingOutline](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingOutline)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の線幅
+            </th>
+            <td>
+[backingStrokeThickness](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingStrokeThickness)
+            </td>
+            <td>
+2.0
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 
@@ -826,98 +870,82 @@
 
 以下の表は、ツールチップに関する `igLinearGauge` コントロールで構成できる項目と管理に使用するプロパティをマップしています。
 
-<table cellspacing="0" cellpadding="0" class="table">
-	<tbody>
-		<tr>
-			<th>
-				構成可能な項目
-			</th>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+構成可能な項目
+            </th>
 
-			<th colspan="2">
-				詳細
-			</th>
-
-			<th>
-				プロパティ/イベント
-			</th>
-
-			<th>
-				デフォルト値
-			</th>
-		</tr>
-
-		<tr>
-			<th>
-				可視性
-			</th>
-
-			<td colspan="2">
-				igLinearGauge コントロールのツールチップを有効または無効にできます。
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:showToolTip" target="_blank">showToolTip</a>
-			</td>
-
-			<td>
-				*False*
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				遅延時間
-			</th>
-
-			<td colspan="2">
-				視覚要素にマウスを合わせたときにツールチップが表示されるまでのタイムアウトを、ミリ秒数単位で設定します。
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:showToolTipTimeout" target="_blank">showToolTipTimeout</a>
-			</td>
-
-			<td>
-				*500*
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">
-				値
-			</th>
-
-			<td rowspan="3">
-				ツールチップのプロパティでカスタムに値を設定できます。
-			</td>
-
-			<td>
-				<a href="igLinearGauge-Configuring-the-Needle.html">針</a>
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:needleToolTip" target="_blank">needleToolTip</a>
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:needleName" target="_blank">needleName</a> の初期化状態による (<a href="igLinearGauge-Configuring-the-Tooltips.html#config-custom-tooltip">針のカスタム ツールチップの構成</a>を参照)
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<a href="igLinearGauge-Configuring-Comparative-Ranges.html">比較範囲</a>
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:rangeToolTip" target="_blank">rangeToolTip</a>
-			</td>
-
-			<td>
-				ハイフン (-) で区切られた範囲の開始値と終了値です。
-			</td>
-		</tr>
-	</tbody>
+            <th colspan="2">
+詳細
+            </th>
+            <th>
+プロパティ/イベント
+            </th>
+            <th>
+デフォルト値
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+可視性
+            </th>
+            <td colspan="2">
+igLinearGauge コントロールのツールチップを有効または無効にできます。
+            </td>
+            <td>
+[showToolTip](%%jQueryApiUrl%%/ui.igLinearGauge#options:showToolTip)
+            </td>
+            <td>
+*False*
+            </td>
+        </tr>
+        <tr>
+            <th>
+遅延時間
+            </th>
+            <td colspan="2">
+視覚要素にマウスを合わせたときにツールチップが表示されるまでのタイムアウトを、ミリ秒数単位で設定します。
+            </td>
+            <td>
+[showToolTipTimeout](%%jQueryApiUrl%%/ui.igLinearGauge#options:showToolTipTimeout)
+            </td>
+            <td>
+*500*
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+値
+            </th>
+            <td rowspan="3">
+ツールチップのプロパティでカスタムに値を設定できます。
+            </td>
+            <td>
+[針](igLinearGauge-Configuring-the-Needle.html)
+            </td>
+            <td>
+[needleToolTip](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleToolTip)
+            </td>
+            <td>
+[needleName](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleName) の初期化状態による ([針のカスタム ツールチップの構成](igLinearGauge-Configuring-the-Tooltips.html#config-custom-tooltip)を参照)
+            </td>
+        </tr>
+        <tr>
+            <td>
+[比較範囲](igLinearGauge-Configuring-Comparative-Ranges.html)
+            </td>
+            <td>
+[rangeToolTip](%%jQueryApiUrl%%/ui.igLinearGauge#options:rangeToolTip)
+            </td>
+            <td>
+ハイフン (-) で区切られた範囲の開始値と終了値です。
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 

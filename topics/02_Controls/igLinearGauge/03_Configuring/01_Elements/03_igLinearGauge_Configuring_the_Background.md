@@ -56,73 +56,80 @@
 
 以下の表で、`igLinearGauge` コントロールの背景で構成できる要素を簡単に説明し、構成に使用するプロパティにマップします。
 
-<table cellspacing="0" cellpadding="0" class="table">
-	<tbody>
-		<tr>
-			<th colspan="2">構成可能な要素</th>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th colspan="2">
+構成可能な要素
+            </th>
+            <th>
+プロパティ
+            </th>
+            <th>
+デフォルト値
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th rowspan="2" colspan="2">
+スプレッドおよび位置
+                <br />
+(スケール全域)
+            </th>
+            <td>
+[backingInnerExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingInnerExtent)
+            </td>
+            <td>
+0
+            </td>
+        </tr>
+        <tr>
+            <td>
+[backingOuterExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingOuterExtent)
+            </td>
+            <td>
+1.0
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+ルック アンド フィール
+            </th>
 
-			<th>
-				プロパティ
-			</th>
-
-			<th>
-				デフォルト値
-			</th>
-		</tr>
-
-		<tr>
-			<th rowspan="2" colspan="2">スプレッドおよび位置<br>
-			(スケール全域)</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingInnerExtent" target="_blank">backingInnerExtent</a>
-			</td>
-
-			<td>0</td>
-		</tr>
-
-		<tr>
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingOuterExtent" target="_blank">backingOuterExtent</a></td>
-
-			<td>1.0</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">ルック アンド フィール</th>
-
-			<th>
-				塗りつぶし色
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingBrush" target="_blank">backingBrush</a></td>
-
-			<td>
-				デフォルトのテーマで定義済み
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の色
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingOutline" target="_blank">backingOutline</a></td>
-
-			<td>
-				デフォルトのテーマで定義済み
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の線幅
-			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingStrokeThickness" target="_blank">backingStrokeThickness</a></td>
-
-			<td>2.0</td>
-		</tr>
-	</tbody>
+            <th>
+塗りつぶし色
+            </th>
+            <td>
+[backingBrush](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingBrush)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の色
+            </th>
+            <td>
+[backingOutline](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingOutline)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の線幅
+            </th>
+            <td>
+[backingStrokeThickness](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingStrokeThickness)
+            </td>
+            <td>
+2.0
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 
@@ -131,119 +138,106 @@
 
 以下の表では、任意の動作と各プロパティ設定のマップを示します。
 
-<table cellspacing="0" cellpadding="0" class="table">
-	<tbody>
-		<tr>
-			<th colspan="3">
-				構成の目的:
-			</th>
-
-			<th rowspan="2">
-				使用するプロパティ:
-			</th>
-
-			<th rowspan="2">
-				設定の選択肢:
-			</th>
-		</tr>
-
-		<tr>
-			<th colspan="2">要素</th>
-
-			<th>詳細</th>
-		</tr>
-
-		<tr>
-			<th rowspan="2">
-				スプレッドおよび位置<br>
-				(スケール全域)
-			</th>
-
-			<th>
-				下端 / 左端の位置
-			</th>
-
-			<td>
-				水平方向で<a class="ig-topic-link" href="igLinearGauge-Overview.html#graph-area">グラフ領域</a>の下端または垂直方向でグラフ領域の左端に対する背景の下端 (水平方向) または左端 (垂直方向) の位置。
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingInnerExtent" target="_blank">backingInnerExtent</a>
-			</td>
-
-			<td>
-				方向に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.2)
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				上端 / 左端の位置
-			</th>
-
-			<td>
-				水平方向でグラフ領域の下端または垂直方向でグラフ領域の左端に対する背景の上端 (水平方向) または右端 (垂直方向) の位置。
-			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingOuterExtent" target="_blank">backingOuterExtent</a></td>
-
-			<td>
-				方向に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.2)
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">
-				ルック アンド フィール
-			</th>
-
-			<th>
-				塗りつぶし色
-			</th>
-
-			<td>
-				背景の塗りつぶし色
-			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingBrush" target="_blank">backingBrush</a></td>
-
-			<td>
-				任意の色
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の線幅
-			</th>
-
-			<td>
-				背景の境界線幅
-			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingStrokeThickness" target="_blank">backingStrokeThickness</a></td>
-
-			<td>
-				任意の値 (ピクセル)
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の色
-			</th>
-
-			<td>
-				背景の境界線色
-			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:backingOutline" target="_blank">backingOutline</a></td>
-
-			<td>
-				任意の色
-			</td>
-		</tr>
-	</tbody>
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <th colspan="3">
+構成の目的:
+            </th>
+            <th rowspan="2">
+使用するプロパティ:
+            </th>
+            <th rowspan="2">
+設定の選択肢:
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">
+要素
+            </th>
+            <th>
+詳細
+            </th>
+        </tr>
+        <tr>
+            <th rowspan="2">
+スプレッドおよび位置
+                <br />
+(スケール全域)
+            </th>
+            <th>
+下端 / 左端の位置
+            </th>
+            <td>
+水平方向で[グラフ領域](igLinearGauge-Overview.html#graph-area)の下端または垂直方向でグラフ領域の左端に対する背景の下端 (水平方向) または左端 (垂直方向) の位置。
+            </td>
+            <td>
+[backingInnerExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingInnerExtent)
+            </td>
+            <td>
+方向に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.2)
+            </td>
+        </tr>
+        <tr>
+            <th>
+上端 / 左端の位置
+            </th>
+            <td>
+水平方向でグラフ領域の下端または垂直方向でグラフ領域の左端に対する背景の上端 (水平方向) または右端 (垂直方向) の位置。
+            </td>
+            <td>
+[backingOuterExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingOuterExtent)
+            </td>
+            <td>
+方向に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.2)
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+ルック アンド フィール
+            </th>
+            <th>
+塗りつぶし色
+            </th>
+            <td>
+背景の塗りつぶし色
+            </td>
+            <td>
+[backingBrush](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingBrush)
+            </td>
+            <td>
+任意の色
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の線幅
+            </th>
+            <td>
+背景の境界線幅
+            </td>
+            <td>
+[backingStrokeThickness](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingStrokeThickness)
+            </td>
+            <td>
+任意の値 (ピクセル)
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の色
+            </th>
+            <td>
+背景の境界線色
+            </td>
+            <td>
+[backingOutline](%%jQueryApiUrl%%/ui.igLinearGauge#options:backingOutline)
+            </td>
+            <td>
+任意の色
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 

@@ -204,7 +204,7 @@
 ##<a id="adding-to-html-page"></a>igLinearGauge の HTML ページへの追加 - 手順
 
 
-### <a id="#introduction"></a>概要
+### <a id="introduction"></a>概要
 
 この手順では、`igLinearGauge` のインスタンスを HTML ページに追加し、寸法およびスケールを設定して針と 3 つの比較範囲をインスタンスに追加します。
 

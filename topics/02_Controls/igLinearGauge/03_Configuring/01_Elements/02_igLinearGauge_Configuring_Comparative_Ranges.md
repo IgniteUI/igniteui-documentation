@@ -56,158 +56,132 @@
 
 以下の表で、`igLinearGauge` コントロールの比較範囲で構成できる要素を簡単に説明し、構成に使用するプロパティにマップします。
 
-<table cellspacing="0" cellpadding="0" class="table">
-	<tbody>
-		<tr>
-			<th colspan="2">
-				構成可能な要素
-			</th>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th colspan="2">
+構成可能な要素
+            </th>
+            <th>
+プロパティ
+            </th>
+            <th>
+デフォルト値
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th colspan="2">
+グラフに表示する範囲の数値
+            </th>
+            <td>
+[ranges](%%jQueryApiUrl%%/ui.igLinearGauge#options:ranges)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="6" colspan="2">
+長さ、幅、位置
+            </th>
+            <td>
+[startValue](%%jQueryApiUrl%%/ui.igLinearGauge#options:startValue)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <td>
+[endValue](%%jQueryApiUrl%%/ui.igLinearGauge#options:endValue)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <td>
+[innerStartExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:innerStartExtent)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <td>
+[innerEndExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:innerEndExtent)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <td>
+[outerStartExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:outerStartExtent)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <td>
+[outerEndExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:outerEndExtent)
+            </td>
+            <td>
+設定されていません
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+ルック アンド フィール
+            </th>
 
-			<th>
-				プロパティ
-			</th>
-
-			<th>
-				デフォルト値
-			</th>
-		</tr>
-
-		<tr>
-			<th colspan="2">
-				グラフに表示する範囲の数値
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:ranges" target="_blank">ranges</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="6" colspan="2">
-				長さ、幅、位置
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">startValue</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">endValue</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">innerStartExtent</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">innerEndExtent</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">outerStartExtent</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">outerEndExtent</a>
-			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">ルック アンド フィール</th>
-
-			<th>
-				塗りつぶし色
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:ranges.brush" target="_blank">brush</a>
-			</td>
-
-			<td>
-				デフォルトのテーマで定義済み
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の色
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:ranges.outline" target="_blank">outline</a>
-			</td>
-
-			<td>
-				デフォルトのテーマで定義済み
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の線幅
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:ranges.strokeThickness" target="_blank">strokeThickness</a>
-			</td>
-
-			<td>
-				1.0
-			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">
-				ツールチップ
-			</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:rangeToolTipTemplate" target="_blank">rangeToolTipTemplate</a>
-			</td>
-
-			<td>
-				ハイフン (-) で区切られた範囲の開始値と終了値です。
-			</td>
-		</tr>
-	</tbody>
+            <th>
+塗りつぶし色
+            </th>
+            <td>
+[brush](%%jQueryApiUrl%%/ui.igLinearGauge#options:ranges.brush)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の色
+            </th>
+            <td>
+[outline](%%jQueryApiUrl%%/ui.igLinearGauge#options:ranges.outline)
+            </td>
+            <td>
+デフォルトのテーマで定義済み
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の線幅
+            </th>
+            <td>
+[strokeThickness](%%jQueryApiUrl%%/ui.igLinearGauge#options:ranges.strokeThickness)
+            </td>
+            <td>
+1.0
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">
+ツールチップ
+            </th>
+            <td>
+[rangeToolTipTemplate](%%jQueryApiUrl%%/ui.igLinearGauge#options:rangeToolTipTemplate)
+            </td>
+            <td>
+ハイフン (-) で区切られた範囲の開始値と終了値です。
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 
@@ -218,247 +192,199 @@
 
 以下の表では、任意の動作と各プロパティ設定のマップを示します。
 
-<table cellspacing="0" cellpadding="0" class="table">
-	<tbody>
-		<tr>
-			<th colspan="3">
-				構成の目的:
-			</th>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th colspan="3">
+構成の目的:
+            </th>
+            <th rowspan="2">
+使用するプロパティ:
+            </th>
+            <th rowspan="2">
+設定の選択肢:
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th colspan="2">
+要素
+            </th>
+            <th>
+詳細
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">
+名前
+            </th>
+            <td>
+範囲の名前。 ツールチップで表示するために使用。
+            </td>
+            <td>
+[caption](%%jQueryApiUrl%%/ui.igLinearGauge#options:caption)
+            </td>
+            <td>
+範囲の名前を表す文字列
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="2">
+[]()スケールに沿った位置
+            </th>
 
-			<th rowspan="2">
-				使用するプロパティ:
-			</th>
+            <th>
+範囲開始
+            </th>
+            <td>
+スケールで範囲を開始する位置
+            </td>
+            <td>
+[startValue](%%jQueryApiUrl%%/ui.igLinearGauge#options:startValue)
+            </td>
+            <td>
+スケールのメジャーにおける任意の値
+            </td>
+        </tr>
+        <tr>
+            <th>
+範囲終了
+            </th>
+            <td>
+スケールで範囲を終了する位置
+            </td>
+            <td>
+[endValue](%%jQueryApiUrl%%/ui.igLinearGauge#options:endValue)
+            </td>
+            <td>
+スケールのメジャーにおける任意の値
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="4">
+幅と位置
+                <br />
+(スケール全域)
+            </th>
 
-			<th rowspan="2">
-				設定の選択肢:
-			</th>
-		</tr>
+            <th>
+範囲の始点側の端の内側の頂点
+            </th>
+            <td>
+[予約領域](igLinearGauge-Overview.html#graph-area)の端からのスケール全域における始点側の端の内側の頂点位置。 (内側の頂点は、予約領域の端に最も近い始点側の端の地点です。)
+            </td>
+            <td>
+[innerStartExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:innerStartExtent)
+            </td>
+            <td>
+方向 (水平 / 垂直) に応じた、[グラフ領域](igLinearGauge-Overview.html#graph-area)の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.2)
+            </td>
+        </tr>
+        <tr>
+            <th>
+範囲の終点側の端の内側の頂点
+            </th>
+            <td>
+予約領域の端からのスケール全域における終点側の端の内側の頂点位置。
+            </td>
+            <td>
+[innerEndExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:innerEndExtent)
+            </td>
+            <td>
+方向 (水平 / 垂直) に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.3)
+            </td>
+        </tr>
+        <tr>
+            <th>
+範囲の始点側の端の外側の頂点
+            </th>
+            <td>
+予約領域の端からのスケール全域における始点側の端の外側の頂点位置。 (外側の頂点は、予約領域の端に最も近い始点側の端の地点です。)
+            </td>
+            <td>
+[outerStartExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:outerStartExtent)
+            </td>
+            <td>
+方向 (水平 / 垂直) に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.7)
+            </td>
+        </tr>
+        <tr>
+            <th>
+範囲の終点側の端の外側の頂点
+            </th>
+            <td>
+予約領域の端からのスケール全域における終点側の端の外側の頂点位置。
+            </td>
+            <td>
+[outerEndExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:outerEndExtent)
+            </td>
+            <td>
+方向 (水平 / 垂直) に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.8)
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+ルック アンド フィール
+            </th>
 
-		<tr>
-			<th colspan="2">要素</th>
-
-			<th>詳細</th>
-		</tr>
-
-		<tr>
-			<th colspan="2">
-				名前
-			</th>
-
-			<td>
-				範囲の名前。
-
-				ツールチップで表示するために使用。
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">caption</a>
-			</td>
-
-			<td>
-				範囲の名前を表す文字列
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="2">
-				<a name="_Hlk363234548"></a>スケールに沿った位置
-			</th>
-
-			<th>
-				範囲開始
-			</th>
-
-			<td>
-				スケールで範囲を開始する位置
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">startValue</a>
-			</td>
-
-			<td>
-				スケールのメジャーにおける任意の値
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				範囲終了
-			</th>
-
-			<td>
-				スケールで範囲を終了する位置
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">endValue</a>
-			</td>
-
-			<td>
-				スケールのメジャーにおける任意の値
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="4">
-				幅と位置<br>
-				(スケール全域)
-			</th>
-
-			<th>
-				範囲の始点側の端の内側の頂点
-			</th>
-
-			<td>
-				<a class="ig-topic-link" href="igLinearGauge-Overview.html#graph-area">予約領域</a>の端からのスケール全域における始点側の端の内側の頂点位置。
-
-				(内側の頂点は、予約領域の端に最も近い始点側の端の地点です。)
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">innerStartExtent</a>
-			</td>
-
-			<td>
-				方向 (水平 / 垂直) に応じた、<a class="ig-topic-link" href="igLinearGauge-Overview.html#graph-area">グラフ領域</a>の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.2)
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				範囲の終点側の端の内側の頂点
-			</th>
-
-			<td>
-				予約領域の端からのスケール全域における終点側の端の内側の頂点位置。
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">innerEndExtent</a>
-			</td>
-
-			<td>
-				方向 (水平 / 垂直) に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.3)
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				範囲の始点側の端の外側の頂点
-			</th>
-
-			<td>
-				予約領域の端からのスケール全域における始点側の端の外側の頂点位置。
-
-				(外側の頂点は、予約領域の端に最も近い始点側の端の地点です。)
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">outerStartExtent</a>
-			</td>
-
-			<td>
-				方向 (水平 / 垂直) に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.7)
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				範囲の終点側の端の外側の頂点
-			</th>
-
-			<td>
-				予約領域の端からのスケール全域における終点側の端の外側の頂点位置。
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">outerEndExtent</a>
-			</td>
-
-			<td>
-				方向 (水平 / 垂直) に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.8)
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">
-				ルック アンド フィール
-			</th>
-
-			<th>
-				塗りつぶし色
-			</th>
-
-			<td>
-				範囲の塗りつぶし色
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">brush</a>
-			</td>
-
-			<td>
-				任意の色
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の線幅
-			</th>
-
-			<td>
-				範囲の境界線の幅
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options" target="_blank">strokeThickness</a>
-			</td>
-
-			<td>
-				任意の値 (ピクセル)
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の色
-			</th>
-
-			<td>
-				範囲の境界線の色
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:ranges.outline" target="_blank">outline</a>
-			</td>
-
-			<td>
-				任意の色
-			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">
-				ツールチップ
-			</th>
-
-			<td>
-				比較範囲のツールチップの内容
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:rangeToolTipTemplate" target="_blank">rangeToolTipTemplate</a>
-			</td>
-
-			<td>
-				任意のテンプレート (詳細は、<a class="ig-topic-link" href="igLinearGauge-Configuring-the-Tooltips.html" data-auto-update-caption="true">ツールチップの構成 (LinearGauge)</a> を参照)
-			</td>
-		</tr>
-	</tbody>
+            <th>
+塗りつぶし色
+            </th>
+            <td>
+範囲の塗りつぶし色
+            </td>
+            <td>
+[brush](%%jQueryApiUrl%%/ui.igLinearGauge#options:brush)
+            </td>
+            <td>
+任意の色
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の線幅
+            </th>
+            <td>
+範囲の境界線の幅
+            </td>
+            <td>
+[strokeThickness](%%jQueryApiUrl%%/ui.igLinearGauge#options:strokeThickness)
+            </td>
+            <td>
+任意の値 (ピクセル)
+            </td>
+        </tr>
+        <tr>
+            <th>
+境界線の色
+            </th>
+            <td>
+範囲の境界線の色
+            </td>
+            <td>
+[outline](%%jQueryApiUrl%%/ui.igLinearGauge#options:ranges.outline)
+            </td>
+            <td>
+任意の色
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">
+ツールチップ
+            </th>
+            <td>
+比較範囲のツールチップの内容
+            </td>
+            <td>
+[rangeToolTipTemplate](%%jQueryApiUrl%%/ui.igLinearGauge#options:rangeToolTipTemplate)
+            </td>
+            <td>
+任意のテンプレート (詳細は、[ツールチップの構成 (LinearGauge)](igLinearGauge-Configuring-the-Tooltips.html) を参照)
+            </td>
+        </tr>
+    </tbody>
 </table>
-
 
 
 ### <a id="example"></a>例

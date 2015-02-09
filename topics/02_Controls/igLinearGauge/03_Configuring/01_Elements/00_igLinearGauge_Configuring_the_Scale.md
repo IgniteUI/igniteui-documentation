@@ -355,7 +355,7 @@
 			</th>
 
 			<td>
-				<a id="ScaleStartExten" name="ScaleStartExten"></a>水平方向で<a class="ig-topic-link" href="igLinearGauge-Overview.html#graph-area">グラフ領域</a>の左端からのスケールの開始位置、または垂直方向でグラフ領域の下端からのスケールの開始位置。
+				<a id="ScaleStartExten" name="ScaleStartExten"></a>水平方向で[グラフ領域](igLinearGauge-Overview.html#graph-area)の左端からのスケールの開始位置、または垂直方向でグラフ領域の下端からのスケールの開始位置。
 
 				(スケールの方向が反転した場合、水平方向で右端、垂直方向で上端となります。詳細は、<a class="ig-topic-link" href="igLinearGauge-Configuring-the-Orientation-and-Direction.html" data-auto-update-caption="true">向きと方向の構成 (*igLinearGauge*)</a> を参照してください。)
 			</td>
@@ -822,7 +822,7 @@ $('#igLinearGauge').igLinearGauge({
 			<td>
 				補助目盛を形成する線分の開始点。
 
-				(開始点は、水平方向で<a class="ig-topic-link" href="igLinearGauge-Overview.html#graph-area">グラフ領域</a>の下部に対して定義され、垂直方向でグラフ領域の左端に対して定義されます。)
+				(開始点は、水平方向で[グラフ領域](igLinearGauge-Overview.html#graph-area)の下部に対して定義され、垂直方向でグラフ領域の左端に対して定義されます。)
 
 				負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。
 			</td>

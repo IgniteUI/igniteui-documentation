@@ -121,7 +121,7 @@
 			<td colspan="2">名前</td>
 
 			<td>
-				針の名前 (<a href="igLinearGauge-Configuring-the-Tooltips.html#config-custom-tooltip">ツールチップ</a>の表示用)
+				針の名前 ([ツールチップ](igLinearGauge-Configuring-the-Tooltips.html#config-custom-tooltip)の表示用)
 			</td>
 
 			<td><a href="%%jQueryApiUrl%%/ui.igLinearGauge#options:needleName">needleName</a></td>
@@ -305,7 +305,7 @@
 			</td>
 
 			<td>
-				方向に応じた<a href="igLinearGauge-Overview.html#graph-area">グラフ領域</a>の高さと幅の相対部分として定義した針の内部端の位置。小数で指定されます (例: 0.2)。
+				方向に応じた[グラフ領域](igLinearGauge-Overview.html#graph-area)の高さと幅の相対部分として定義した針の内部端の位置。小数で指定されます (例: 0.2)。
 			</td>
 		</tr>
 
@@ -315,7 +315,7 @@
 			</td>
 
 			<td>
-				方向に応じた<a href="igLinearGauge-Overview.html#graph-area">チャート領域</a>の高さと幅の相対部分として定義した針の外部端の位置。小数で指定されます (例: 0.2)。
+				方向に応じた[チャート領域](igLinearGauge-Overview.html#graph-area)の高さと幅の相対部分として定義した針の外部端の位置。小数で指定されます (例: 0.2)。
 			</td>
 		</tr>
 
@@ -630,7 +630,7 @@
 			</td>
 
 			<td>
-				方向に応じた<a href="igLinearGauge-Overview.html#graph-area">チャート領域</a>の高さと幅の相対部分として定義した内部基本セグメントの内部端の位置。小数で指定されます (例: 0.2)。
+				方向に応じた[]チャート領域(igLinearGauge-Overview.html#graph-area)の高さと幅の相対部分として定義した内部基本セグメントの内部端の位置。小数で指定されます (例: 0.2)。
 
 				needleInnerPointExtent プロパティと内部分のスケールの範囲および位置を指定します。
 			</td>
