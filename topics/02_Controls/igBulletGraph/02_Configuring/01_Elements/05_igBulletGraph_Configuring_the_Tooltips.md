@@ -70,97 +70,91 @@
 以下の表は、ツールチップに関する `igBulletGraph` コントロールで構成できる項目と管理に使用するプロパティをマップしています。
 
 <table class="table table-bordered">
+	<thead>
+		<tr>
+            <th>
+構成可能な項目
+			</th>
+            <th colspan="2">
+詳細
+			</th>
+            <th>
+プロパティ/イベント
+			</th>
+            <th>
+デフォルト値
+			</th>
+        </tr>
+	</thead>
 	<tbody>
-		<tr>
-			<th>
-				構成可能な項目
+        <tr>
+            <th>
+[**可視性**](#enabling-disabling)
 			</th>
-
-			<th colspan="2">
-				詳細
+            <td colspan="2">
+*igBulletGraph* コントロールのツールチップを有効または無効にできます。
+			</td>
+            <td>
+[showToolTip](%%jQueryApiUrl%%/ui.igBulletGraph#options:showToolTip)
+			</td>
+            <td>
+*False*
+			</td>
+        </tr>
+        <tr>
+            <th>
+[**遅延時間**](#delay)
 			</th>
-
-			<th>
-				プロパティ/イベント
+            <td colspan="2">
+視覚要素にマウスを合わせたときにツールチップが表示されるまでのタイムアウトを、ミリ秒数単位で設定します。
+			</td>
+            <td>
+[showToolTipTimeout](%%jQueryApiUrl%%/ui.igBulletGraph#options:showToolTipTimeout)
+			</td>
+            <td>
+*500*
+			</td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+値
 			</th>
-
-			<th>
-				デフォルト値
-			</th>
-		</tr>
-
-		<tr>
-			<th>
-				[**可視性**](#enabling-disabling)
-			</th>
-
-			<td colspan="2">
-				*igBulletGraph* コントロールのツールチップを有効または無効にできます。
+            <td rowspan="3">
+ツールチップ テンプレートのそれぞれのプロパティにカスタム値を設定できます。
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:showToolTip" target="_blank">showToolTip</a></td>
-
-			<td>*False*</td>
-		</tr>
-
-		<tr>
-			<th>
-				[**遅延時間**](#delay)
-			</th>
-
-			<td colspan="2">
-				視覚要素にマウスを合わせたときにツールチップが表示されるまでのタイムアウトを、ミリ秒数単位で設定します。
+            <td>
+[**パフォーマンス バー**](#performance-bar)
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:showToolTipTimeout" target="_blank">showToolTipTimeout</a></td>
-
-			<td>*500*</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">
-				値
-			</th>
-
-			<td rowspan="3">
-				ツールチップ テンプレートのそれぞれのプロパティにカスタム値を設定できます。
+            <td>
+[valueToolTipTemplate](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueToolTipTemplate)
 			</td>
-
-			<td>
-				[**パフォーマンス バー**](#performance-bar)
+            <td>
+[valueName](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueName) の初期化状態による ([**パフォーマンス バーのカスタム ツールチップの構成**](#performance-bar)を参照)
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueToolTipTemplate" target="_blank">valueToolTipTemplate</a></td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueName" target="_blank">valueName</a> の初期化状態による ([**パフォーマンス バーのカスタム ツールチップの構成**](#performance-bar)を参照)
+        </tr>
+        <tr>
+            <td>
+[**比較マーカー**](#comparative-marker)
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				[**比較マーカー**](#comparative-marker)
+            <td>
+[targetValueToolTipTemplate](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueToolTipTemplate)
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueToolTipTemplate" target="_blank">targetValueToolTipTemplate</a></td>
-
-			<td>
-				比較マーカーで示された値
+            <td>
+比較マーカーで示された値
 			</td>
-		</tr>
-
-		<tr>
-			<td>
-				[**比較範囲**](#comparative-ranges)
+        </tr>
+        <tr>
+            <td>
+[**比較範囲**](#comparative-ranges)
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:rangeToolTipTemplate" target="_blank">rangeToolTipTemplate</a></td>
-
-			<td>
-				ハイフン (-) で区切られた範囲の開始値と終了値です。
+            <td>
+[rangeToolTipTemplate](%%jQueryApiUrl%%/ui.igBulletGraph#options:rangeToolTipTemplate)
 			</td>
-		</tr>
-	</tbody>
+            <td>
+ハイフン (-) で区切られた範囲の開始値と終了値です。
+			</td>
+        </tr>
+    </tbody>
 </table>
 
 

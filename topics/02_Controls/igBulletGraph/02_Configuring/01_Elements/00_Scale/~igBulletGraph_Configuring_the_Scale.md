@@ -502,7 +502,7 @@ $('#igBulletGraph').igBulletGraph({
     </tbody>
 </table>
 
-### <a id="range-properties"></a> 例
+### <a id="range-example"></a> 例
 
 以下のスクリーンショットは、以下の設定の結果、`igBulletGraph` の外観がどのようになるか示しています。
 
@@ -732,7 +732,7 @@ $('#igBulletGraph').igBulletGraph({
 
 ### <a id="minor-tick-marks-segments"></a>  スケール全域での位置およびセグメントの長さの構成
 
-スケール全域のディメンションでは、補助目盛の長さと位置は[グラフ領域](igBulletGraph-Overview.html#logical-area)の端に対して構成されます。
+スケール全域のディメンションでは、補助目盛の長さと位置は[グラフ領域](igBulletGraph-Overview.html#logical-areas)の端に対して構成されます。
 
 ![](images/igBulletGraph_Configuring_the_Scale_8.png)
 
@@ -742,124 +742,108 @@ $('#igBulletGraph').igBulletGraph({
 
 <table class="table table-bordered">
 	<tbody>
-		<tr>
-			<th colspan="4">
-				構成の目的:
+    	<tr>
+            <th colspan="4">
+構成の目的:
 			</th>
-
-			<th rowspan="2">
-				使用するプロパティ:
+            <th rowspan="2">
+使用するプロパティ:
 			</th>
-
-			<th rowspan="2">
-				設定の選択肢:
+            <th rowspan="2">
+設定の選択肢:
 			</th>
-		</tr>
-
-		<tr>
-			<th colspan="3">**要素**</th>
-
-			<th>**詳細**</th>
-		</tr>
-
-		<tr>
-			<th colspan="3">**番号とスペース**</th>
-
-			<td>
-				隣接する 2 つの主目盛間の補助目盛の数
-			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:minorTickCount" target="_blank">minorTickCount</a></td>
-
-			<td>
-				任意の数。*0* を設定すると補助目盛を非表示。
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="4">**線分**</th>
-
-			<th rowspan="2">**長さと位置**</th>
-
-			<th>開始点</th>
-
-			<td>
-				補助目盛を形成する線分の開始点。
-
-				(開始点は、水平方向で<a class="ig-topic-link" href="igBulletGraph-Overview.html#logical-areas">グラフ領域</a>の下部に対して定義され、垂直方向でグラフ領域の左端に対して定義されます。)
-
-				負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:minorTickStartExtent" target="_blank">minorTickStartExtent</a>
-			</td>
-
-			<td>
-				方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: *0.2)*
-			</td>
-		</tr>
-
-		<tr>
-			<th>**終了点**</th>
-
-			<td>
-				水平方向ではグラフ領域の下部から補助目盛を形成する線分の終了点、または垂直方向でグラフ領域の左の境界線からの補助目盛の線分の終了点。
-
-				負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。
-
-				(開始点と終了点間の差が目盛の線分の長さになります。)
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:minorTickEndExtent" target="_blank">minorTickEndExtent</a>
-			</td>
-
-			<td>
-				方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: *0.25*)
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="2">**ルック アンド フィール**</th>
-
-			<th>
-				幅
+        </tr>
+        <tr>
+            <th colspan="3">
+**要素**
 			</th>
-
-			<td>
-				補助目盛の線分の幅
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:minorTickStrokeThickness" target="_blank">minorTickStrokeThickness</a>
-			</td>
-
-			<td>
-				任意の値 (ピクセル)
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				色
+            <th>
+**詳細**
 			</th>
-
-			<td>
-				補助目盛の色
+        </tr>
+        <tr>
+            <th colspan="3">
+**番号とスペース**
+			</th>
+            <td>
+隣接する 2 つの主目盛間の補助目盛の数
+			</td>
+            <td>
+[minorTickCount](%%jQueryApiUrl%%/ui.igBulletGraph#options:minorTickCount)
+			</td>
+            <td>
+任意の数。*0* を設定すると補助目盛を非表示。
+			</td>
+        </tr>
+        <tr>
+            <th rowspan="4">
+**線分**
+			</th>
+            <th rowspan="2">
+**長さと位置**
+			</th>
+            <th>
+開始点
+			</th>
+            <td>
+補助目盛を形成する線分の開始点。 (開始点は、水平方向で[グラフ領域](igBulletGraph-Overview.html#logical-areas)の下部に対して定義され、垂直方向でグラフ領域の左端に対して定義されます。) 負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。
+			</td>
+            <td>
+[minorTickStartExtent](%%jQueryApiUrl%%/ui.igBulletGraph#options:minorTickStartExtent)
+			</td>
+            <td>
+方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: *0.2)*
+			</td>
+        </tr>
+        <tr>
+            <th>
+**終了点**
+			</th>
+            <td>
+水平方向ではグラフ領域の下部から補助目盛を形成する線分の終了点、または垂直方向でグラフ領域の左の境界線からの補助目盛の線分の終了点。 負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。 (開始点と終了点間の差が目盛の線分の長さになります。)
+			</td>
+            <td>
+[minorTickEndExtent](%%jQueryApiUrl%%/ui.igBulletGraph#options:minorTickEndExtent)
 			</td>
 
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:minorTickBrush" target="_blank">minorTickBrush</a>
+            <td>
+方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: *0.25*)
+			</td>
+        </tr>
+        <tr>
+            <th rowspan="2">
+**ルック アンド フィール**
+			</th>
+            <th>
+幅
+			</th>
+            <td>
+補助目盛の線分の幅
+			</td>
+            <td>
+[minorTickStrokeThickness](%%jQueryApiUrl%%/ui.igBulletGraph#options:minorTickStrokeThickness)
+			</td>
+            <td>
+任意の値 (ピクセル)
+			</td>
+        </tr>
+        <tr>
+            <th>
+色
+			</th>
+            <td>
+補助目盛の色
+			</td>
+            <td>
+[minorTickBrush](%%jQueryApiUrl%%/ui.igBulletGraph#options:minorTickBrush)
 			</td>
 
-			<td>
-				任意の色
+            <td>
+任意の色
 			</td>
-		</tr>
-	</tbody>
+        </tr>
+    </tbody>
 </table>
-
 
 
 ### <a id="minor-tick-marks-example"></a> 例

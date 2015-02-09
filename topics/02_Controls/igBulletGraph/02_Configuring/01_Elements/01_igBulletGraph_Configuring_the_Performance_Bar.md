@@ -58,104 +58,111 @@
 以下の表で、`igBulletGraph` コントロールのバーで構成できる要素を簡単に説明し、構成に使用するプロパティにマップします。
 
 <table class="table table-bordered">
+	<thead>
+		<tr>
+            <th colspan="2">
+構成可能な要素
+			</th>
+            <th>
+プロパティ
+			</th>
+            <th>
+デフォルト値
+			</th>
+        </tr>
+	</thead>
 	<tbody>
-		<tr>
-			<th colspan="2">構成可能な要素</th>
-
-			<th>
-				プロパティ
+        <tr>
+            <th colspan="2">
+**名前**
 			</th>
-
-			<th>
-				デフォルト値
+            <td>
+[valueName](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueName)
+			</td>
+            <td>
+設定されていません
+			</td>
+        </tr>
+        <tr>
+            <th colspan="2">
+**表示する値**
 			</th>
-		</tr>
-
-		<tr>
-			<th colspan="2"><a name="_Hlk363234743"></a>**名前**</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueName" target="_blank">valueName</a></td>
-
-			<td>
-				設定されていません
+            <td>
+[value](%%jQueryApiUrl%%/ui.igBulletGraph#options:value)
 			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">**表示する値**</th>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:value" target="_blank">value</a>
+            <td>
+設定されていません
 			</td>
-
-			<td>
-				設定されていません
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="2" colspan="2">**幅と位置**<br>
-			(スケール全域)</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueInnerExtent" target="_blank">valueInnerExtent</a></td>
-
-			<td>*0.5*</td>
-		</tr>
-
-		<tr>
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueOuterExtent" target="_blank">valueOuterExtent</a></td>
-
-			<td>*0.65*</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">**ルック アンド フィール**</th>
-
-			<th>
-				塗りつぶし色
+        </tr>
+        <tr>
+            <th rowspan="2" colspan="2">
+**幅と位置**
+				<br />
+(スケール全域)
 			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueBrush" target="_blank">valueBrush</a></td>
-
-			<td>
-				デフォルトのテーマで定義済み
+            <td>
+[valueInnerExtent](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueInnerExtent)
 			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の線幅
+            <td>
+*0.5*
+			</td>
+        </tr>
+        <tr>
+            <td>
+[valueOuterExtent](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueOuterExtent)
+			</td>
+            <td>
+*0.65*
+			</td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+**ルック アンド フィール**
 			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueStrokeThickness" target="_blank">valueStrokeThickness</a></td>
-
-			<td>
-				*1.0*
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の色
+            <th>
+塗りつぶし色
 			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueOutline" target="_blank">valueOutline</a></td>
-
-			<td>
-				デフォルトのテーマで定義済み
+            <td>
+[valueBrush](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueBrush)
 			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">
+            <td>
+デフォルトのテーマで定義済み
+			</td>
+        </tr>
+        <tr>
+            <th>
+境界線の線幅
+			</th>
+            <td>
+[valueStrokeThickness](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueStrokeThickness)
+			</td>
+            <td>
+*1.0*
+			</td>
+        </tr>
+        <tr>
+            <th>
+境界線の色
+			</th>
+            <td>
+[valueOutline](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueOutline)
+			</td>
+            <td>
+デフォルトのテーマで定義済み
+			</td>
+        </tr>
+        <tr>
+            <th colspan="2">
 ツールチップ
 			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueToolTipTemplate" target="_blank">valueToolTipTemplate</a></td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueName" target="_blank">valueName</a> の初期化状態による</td>
-		</tr>
-	</tbody>
+            <td>
+[valueToolTipTemplate](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueToolTipTemplate)
+			</td>
+            <td>
+[valueName](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueName) の初期化状態による
+			</td>
+        </tr>
+    </tbody>
 </table>
 
 > **注:** ツールチップの構成の詳細は、[ツールチップの構成 (*igBulletGraph*)](igBulletGraph-Configuring-the-Tooltips.html) トピックの[パフォーマンス バーのカスタム ツールチップの構成](igBulletGraph-Configuring-the-Tooltips.html#performance-bar)を参照してください。
@@ -167,163 +174,145 @@
 <table class="table table-bordered">
 	<tbody>
 		<tr>
-			<th colspan="3">
-				構成の目的:
+            <th colspan="3">
+構成の目的:
 			</th>
-
-			<th rowspan="2">
-				使用するプロパティ:
+            <th rowspan="2">
+使用するプロパティ:
 			</th>
-
-			<th rowspan="2">
-				設定の選択肢:
+            <th rowspan="2">
+設定の選択肢:
 			</th>
-		</tr>
-
-		<tr>
-			<th colspan="2">**要素**</th>
-
-			<th>**詳細**</th>
-		</tr>
-
-		<tr>
-			<th colspan="2">
-				**名前**
+        </tr>
+        <tr>
+            <th colspan="2">
+**要素**
 			</th>
-
-			<td>
-				パフォーマンス バーの名前 (<a href="igBulletGraph-Configuring-the-Tooltips.html#performance-bar">ツールチップ</a>の表示用)
-			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueName" target="_blank">valueName</a></td>
-
-			<td>
-				パフォーマンス バーの名前を表す文字列
-			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">
-				**表示する値**
+            <th>
+**詳細**
 			</th>
-
-			<td>
-				パフォーマンス バーで示された値
-			</td>
-
-			<td>
-				<a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:value" target="_blank">value</a>
-			</td>
-
-			<td>
-				スケールのメジャーにおける任意の値
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="2">
-				**幅と位置**<br>(スケール全域)
+        </tr>
+        <tr>
+            <th colspan="2">
+**名前**
 			</th>
-
-			<th>
-				下端 / 右端の位置
+            <td>
+パフォーマンス バーの名前 ([ツールチップ](igBulletGraph-Configuring-the-Tooltips.html#performance-bar)の表示用)
+			</td>
+            <td>
+[valueName](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueName)
+			</td>
+            <td>
+パフォーマンス バーの名前を表す文字列
+			</td>
+        </tr>
+        <tr>
+            <th colspan="2">
+**表示する値**
 			</th>
-
-			<td>
-				水平方向でパフォーマンス バーが位置する下端または垂直方向で位置する右端
+            <td>
+パフォーマンス バーで示された値
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueInnerExtent" target="_blank">valueInnerExtent</a></td>
-
-			<td>
-				方向に応じた、<a class="ig-topic-link" href="igBulletGraph-Overview.html#logical-areas">グラフ領域</a>の高さと幅の相対部分として必要な値。小数で指定 (例:  *0.2*)
+            <td>
+[value](%%jQueryApiUrl%%/ui.igBulletGraph#options:value)
 			</td>
-		</tr>
-
-		<tr>
-			<th>
-				上端 / 左端の位置
+            <td>
+スケールのメジャーにおける任意の値
+			</td>
+        </tr>
+        <tr>
+            <th rowspan="2">
+**幅と位置**
+				<br />
+(スケール全域)
 			</th>
-
-			<td>
-				水平方向でパフォーマンス バーが位置する上端または垂直方向で位置する左端
-
-				(開始点と終了点間の差が目盛の線分の長さになります。)
-			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueOuterExtent" target="_blank">valueOuterExtent</a></td>
-
-			<td>
-				方向に応じた、グラフ領域の高さと幅の相対部分として必要な値。小数で指定 (例:  *0.2*)
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">
-				**ルック アンド フィール**
+            <th>
+下端 / 右端の位置
 			</th>
-
-			<th>
-				塗りつぶし色
+            <td>
+水平方向でパフォーマンス バーが位置する下端または垂直方向で位置する右端
+			</td>
+            <td>
+[valueInnerExtent](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueInnerExtent)
+			</td>
+            <td>
+方向に応じた、[グラフ領域](igBulletGraph-Overview.html#logical-areas)の高さと幅の相対部分として必要な値。小数で指定 (例: *0.2*)
+			</td>
+        </tr>
+        <tr>
+            <th>
+上端 / 左端の位置
 			</th>
-
-			<td>
-				バーの塗りつぶし色
+            <td>
+水平方向でパフォーマンス バーが位置する上端または垂直方向で位置する左端 (開始点と終了点間の差が目盛の線分の長さになります。)
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueBrush" target="_blank">valueBrush</a></td>
-
-			<td>
-				任意の色
+            <td>
+[valueOuterExtent](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueOuterExtent)
 			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の線幅
+            <td>
+方向に応じた、グラフ領域の高さと幅の相対部分として必要な値。小数で指定 (例: *0.2*)
+			</td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+**ルック アンド フィール**
 			</th>
-
-			<td>
-				パフォーマンス バー境界線の太さ
-			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueStrokeThickness" target="_blank">valueStrokeThickness</a></td>
-
-			<td>
-				任意の値 (ピクセル)
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の色
+            <th>
+塗りつぶし色
 			</th>
-
-			<td>
-				パフォーマンス バー境界線の色
+            <td>
+バーの塗りつぶし色
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueOutline" target="_blank">valueOutline</a></td>
-
-			<td>
-				任意の色
+            <td>
+[valueBrush](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueBrush)
 			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">**ツールチップ**</th>
-
-			<td>
-				パフォーマンス バーのツールチップの内容
+            <td>
+任意の色
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:valueToolTipTemplate" target="_blank">valueToolTipTemplate</a></td>
-
-			<td>
-				任意のテンプレート (詳細は、<a class="ig-topic-link" href="igBulletGraph-Configuring-the-Tooltips.html" data-auto-update-caption="true">ツールチップの構成 (*igBulletGraph*)</a> を参照)
+        </tr>
+        <tr>
+            <th>
+境界線の線幅
+			</th>
+            <td>
+パフォーマンス バー境界線の太さ
 			</td>
-		</tr>
-	</tbody>
+            <td>
+[valueStrokeThickness](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueStrokeThickness)
+			</td>
+            <td>
+任意の値 (ピクセル)
+			</td>
+        </tr>
+        <tr>
+            <th>
+境界線の色
+			</th>
+            <td>
+パフォーマンス バー境界線の色
+			</td>
+            <td>
+[valueOutline](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueOutline)
+			</td>
+            <td>
+任意の色
+			</td>
+        </tr>
+        <tr>
+            <th colspan="2">
+**ツールチップ**
+			</th>
+            <td>
+パフォーマンス バーのツールチップの内容
+			</td>
+            <td>
+[valueToolTipTemplate](%%jQueryApiUrl%%/ui.igBulletGraph#options:valueToolTipTemplate)
+			</td>
+            <td>
+任意のテンプレート (詳細は、[ツールチップの構成 (*igBulletGraph*)](igBulletGraph-Configuring-the-Tooltips.html) を参照)
+			</td>
+        </tr>
+    </tbody>
 </table>
 
 ### <a id="example"></a> 例

@@ -56,113 +56,126 @@
 以下の表で、`igBulletGraph` コントロールの比較マーカーで構成できる要素を簡単に説明し、構成に使用するプロパティにマップします。
 
 <table class="table table-bordered">
+	<thead>
+		<tr>
+            <th colspan="2">
+構成可能な要素
+			</th>
+            <th>
+プロパティ
+			</th>
+            <th>
+デフォルト値
+			</th>
+        </tr>
+	</thead>
 	<tbody>
-		<tr>
-			<th colspan="2">
-				構成可能な要素
+        <tr>
+            <th colspan="2">
+**名前**
 			</th>
-
-			<th>
-				プロパティ
-			</th>
-
-			<th>
-				デフォルト値
-			</th>
-		</tr>
-
-		<tr>
-			<th colspan="2">**名前**</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueName" target="_blank">targetValueName</a></td>
-
-			<td>
-				設定されていません
+            <td>
+[targetValueName](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueName)
 			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">**表示値**</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValue" target="_blank">targetValue</a></td>
-
-			<td>
-				設定されていません
+            <td>
+設定されていません
 			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">**幅**</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueBreadth" target="_blank">targetValueBreadth</a></td>
-
-			<td>*3.0*</td>
-		</tr>
-
-		<tr>
-			<th rowspan="2">**スケール全域の位置**</th>
-
-			<th>**内側の端**</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueInnerExtent" target="_blank">targetValueInnerExtent</a></td>
-
-			<td>*0.3*</td>
-		</tr>
-
-		<tr>
-			<th>**外側の端**</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueOuterExtent" target="_blank">targetValueOuterExtent</a></td>
-
-			<td>*0.85*</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">**ルック アンド フィール**</th>
-
-			<th>
-				塗りつぶし色
+        </tr>
+        <tr>
+            <th colspan="2">
+**表示値**
 			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueBrush" target="_blank">targetValueBrush</a></td>
-
-			<td>
-				デフォルトのテーマで定義済み
+            <td>
+[targetValue](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValue)
 			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の線幅
+            <td>
+設定されていません
+			</td>
+        </tr>
+        <tr>
+            <th colspan="2">
+**幅**
 			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueStrokeThickness" target="_blank">targetValueStrokeThickness</a></td>
-
-			<td>
-				*1.0*
+            <td>
+[targetValueBreadth](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueBreadth)
 			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の色
+            <td>
+*3.0*
+			</td>
+        </tr>
+        <tr>
+            <th rowspan="2">
+**スケール全域の位置**
 			</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueOutline" target="_blank">targetValueOutline</a></td>
-
-			<td>
-				デフォルトのテーマで定義済み
+            <th>
+**内側の端**
+			</th>
+            <td>
+[targetValueInnerExtent](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueInnerExtent)
 			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">**ツールチップ**</th>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueToolTipTemplate" target="_blank">targetValueToolTipTemplate</a></td>
-
-			<td>比較マーカーで示された値</td>
-		</tr>
-	</tbody>
+            <td>
+*0.3*
+			</td>
+        </tr>
+        <tr>
+            <th>
+**外側の端**
+			</th>
+            <td>
+[targetValueOuterExtent](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueOuterExtent)
+			</td>
+            <td>
+*0.85*
+			</td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+**ルック アンド フィール**
+			</th>
+            <th>
+塗りつぶし色
+			</th>
+            <td>
+[targetValueBrush](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueBrush)
+			</td>
+            <td>
+デフォルトのテーマで定義済み
+			</td>
+        </tr>
+        <tr>
+            <th>
+境界線の線幅
+			</th>
+            <td>
+[targetValueStrokeThickness](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueStrokeThickness)
+			</td>
+            <td>
+*1.0*
+			</td>
+        </tr>
+        <tr>
+            <th>
+境界線の色
+			</th>
+            <td>
+[targetValueOutline](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueOutline)
+			</td>
+            <td>
+デフォルトのテーマで定義済み
+			</td>
+        </tr>
+        <tr>
+            <th colspan="2">
+**ツールチップ**
+			</th>
+            <td>
+[targetValueToolTipTemplate](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueToolTipTemplate)
+			</td>
+            <td>
+比較マーカーで示された値
+			</td>
+        </tr>
+    </tbody>
 </table>
 
 
@@ -173,173 +186,157 @@
 <table class="table table-bordered">
 	<tbody>
 		<tr>
-			<th colspan="3">
-				構成の目的:
+            <th colspan="3">
+構成の目的:
 			</th>
-
-			<th rowspan="2">
-				使用するプロパティ:
+            <th rowspan="2">
+使用するプロパティ:
 			</th>
-
-			<th rowspan="2">
-				設定の選択肢:
+            <th rowspan="2">
+設定の選択肢:
 			</th>
-		</tr>
-
-		<tr>
-			<th colspan="2">**要素**</th>
-
-			<th>**詳細**</th>
-		</tr>
-
-		<tr>
-			<th colspan="2">
-				**名前**
+        </tr>
+        <tr>
+            <th colspan="2">
+**要素**
 			</th>
-
-			<td>
-				比較マーカーの名前 (<a href="igBulletGraph-Configuring-the-Tooltips.html#comparative-marker">ツールチップ</a>の表示用)
-			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueName" target="_blank">targetValueName</a></td>
-
-			<td>
-				比較マーカーの名前を表す文字列
-			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">
-				<a name="_Hlk363234548"></a>**表示する値**
+            <th>
+**詳細**
 			</th>
-
-			<td>
-				表示する値
-			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValue" target="_blank">targetValue</a></td>
-
-			<td>
-				スケールのメジャーにおける任意の値
-			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">**幅**</th>
-
-			<td>
-				マーカーの幅
-			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueBreadth" target="_blank">targetValueBreadth</a></td>
-
-			<td>
-				任意の値 (ピクセル)
-			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="2">**スケール全域の位置**</th>
-
-			<th>
-				**内側の端**
+        </tr>
+        <tr>
+            <th colspan="2">
+**名前**
 			</th>
-
-			<td>
-				水平方向で比較マーカーが位置する下端、または垂直方向で位置する左端
+            <td>
+比較マーカーの名前 ([ツールチップ](igBulletGraph-Configuring-the-Tooltips.html#comparative-marker)の表示用)
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueInnerExtent" target="_blank">targetValueInnerExtent</a></td>
-
-			<td>
-				方向に応じた、<a class="ig-topic-link" href="igBulletGraph-Overview.html#logical-areas">グラフ領域</a>の高さと幅の相対部分として必要な値。小数で指定 (例:  *0.2*)
+            <td>
+[targetValueName](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueName)
 			</td>
-		</tr>
-
-		<tr>
-			<th>
-				**外側の端**
+            <td>
+比較マーカーの名前を表す文字列
+			</td>
+        </tr>
+        <tr>
+            <th colspan="2">
+**表示する値**
 			</th>
-
-			<td>
-				水平方向で比較マーカーが位置する上端、または垂直方向で位置する右端
+            <td>
+表示する値
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueOuterExtent" target="_blank">targetValueOuterExtent</a></td>
-
-			<td>
-				方向に応じた、グラフ領域の高さと幅の相対部分として必要な値。小数で指定 (例:  *0.2*)
+            <td>
+[targetValue](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValue)
 			</td>
-		</tr>
-
-		<tr>
-			<th rowspan="3">
-				**ルック アンド フィール**
+            <td>
+スケールのメジャーにおける任意の値
+			</td>
+        </tr>
+        <tr>
+            <th colspan="2">
+**幅**
 			</th>
-
-			<th>
-				塗りつぶし色
+            <td>
+マーカーの幅
+			</td>
+            <td>
+[targetValueBreadth](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueBreadth)
+			</td>
+            <td>
+任意の値 (ピクセル)
+			</td>
+        </tr>
+        <tr>
+            <th rowspan="2">
+**スケール全域の位置**
 			</th>
-
-			<td>
-				マーカーの塗りつぶし色
-			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueBrush" target="_blank">targetValueBrush</a></td>
-
-			<td>
-				任意の色
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の線幅
+            <th>
+**内側の端**
 			</th>
-
-			<td>
-				マーカーの境界線の幅
+            <td>
+水平方向で比較マーカーが位置する下端、または垂直方向で位置する左端
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueStrokeThickness" target="_blank">targetValueStrokeThickness</a></td>
-
-			<td>
-				任意の値 (ピクセル)
+            <td>
+[targetValueInnerExtent](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueInnerExtent)
 			</td>
-		</tr>
-
-		<tr>
-			<th>
-				境界線の色
+            <td>
+方向に応じた、[グラフ領域](igBulletGraph-Overview.html#logical-areas)の高さと幅の相対部分として必要な値。小数で指定 (例: *0.2*)
+			</td>
+        </tr>
+        <tr>
+            <th>
+**外側の端**
 			</th>
-
-			<td>
-				マーカーの境界線の色を構成
+            <td>
+水平方向で比較マーカーが位置する上端、または垂直方向で位置する右端
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueOutline" target="_blank">targetValueOutline</a></td>
-
-			<td>
-				任意の色
+            <td>
+[targetValueOuterExtent](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueOuterExtent)
 			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">
-				ツールチップ
+            <td>
+方向に応じた、グラフ領域の高さと幅の相対部分として必要な値。小数で指定 (例: *0.2*)
+			</td>
+        </tr>
+        <tr>
+            <th rowspan="3">
+**ルック アンド フィール**
 			</th>
-
-			<td>
-				比較マーカーの境界線のコンテンツ
+            <th>
+塗りつぶし色
+			</th>
+            <td>
+マーカーの塗りつぶし色
 			</td>
-
-			<td><a href="%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueToolTipTemplate" target="_blank">targetValueToolTipTemplate</a></td>
-
-			<td>
-				任意のテンプレート (詳細は、<a class="ig-topic-link" href="igBulletGraph-Configuring-the-Tooltips.html" data-auto-update-caption="true">ツールチップの構成 (*igBulletGraph*)</a> トピックを参照)
+            <td>
+[targetValueBrush](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueBrush)
 			</td>
-		</tr>
-	</tbody>
+            <td>
+任意の色
+			</td>
+        </tr>
+        <tr>
+            <th>
+境界線の線幅
+			</th>
+            <td>
+マーカーの境界線の幅
+			</td>
+            <td>
+[targetValueStrokeThickness](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueStrokeThickness)
+			</td>
+            <td>
+任意の値 (ピクセル)
+			</td>
+        </tr>
+        <tr>
+            <th>
+境界線の色
+			</th>
+            <td>
+マーカーの境界線の色を構成
+			</td>
+            <td>
+[targetValueOutline](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueOutline)
+			</td>
+            <td>
+任意の色
+			</td>
+        </tr>
+        <tr>
+            <th colspan="2">
+ツールチップ
+			</th>
+            <td>
+比較マーカーの境界線のコンテンツ
+			</td>
+            <td>
+[targetValueToolTipTemplate](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueToolTipTemplate)
+			</td>
+            <td>
+任意のテンプレート (詳細は、[ツールチップの構成 (*igBulletGraph*)](igBulletGraph-Configuring-the-Tooltips.html) トピックを参照)
+			</td>
+        </tr>
+    </tbody>
 </table>
 
 #### <a id="related-content"></a>例
