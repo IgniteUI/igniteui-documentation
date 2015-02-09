@@ -10,8 +10,6 @@
 
 # igMap の追加
 
-
-
 ##トピックの概要
 
 
@@ -167,7 +165,7 @@
 
 2. <a id="html-instantiating-igMap"></a>マップをインスタンス化します。
 
-	`igMap` コントロールは、HTML ページのスクリプト タグ内でインスタンス化され、手順 [1.](Adding-igMap.html#html-adding-igMap) で作成した div 要素をラップできるようにする必要があります。[igMap コントロールで必要な HTML マークアップの追加](Adding-igMap.html#html-adding-igMap).このコードはマップをインスタンス化します。コード スニペットに続いて追加情報が提供されます。
+	`igMap` コントロールは、HTML ページのスクリプト タグ内でインスタンス化され、手順 [1. igMap コントロールが必要とする HTML マークアップを追加します](Adding-igMap.html#html-adding-igMap) で作成した div 要素をラップできるようにする必要があります。このコードはマップをインスタンス化します。コード スニペットに続いて追加情報が提供されます。
 
 	**HTML の場合:**
 
