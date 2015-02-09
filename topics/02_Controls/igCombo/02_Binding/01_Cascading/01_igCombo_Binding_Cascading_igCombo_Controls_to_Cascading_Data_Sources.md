@@ -100,7 +100,7 @@ http://odata.netflix.com/Catalog/Titles?$filter=Name%20eq%20%27The%20Name%20of%2
 
 
 
-##<a id="code-example-binding "></a>カスケード igCombo コントロールをカスケード データ ソースへバインド – コード例
+##<a id="code-example-binding"></a>カスケード igCombo コントロールをカスケード データ ソースへバインド – コード例
 
 
 ####<a id="introduction"></a> 概要
