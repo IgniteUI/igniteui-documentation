@@ -190,7 +190,7 @@ $('#igDialog).igDialog("open");
 - [*igDialog* の追加](Adding-igDialog.html): このトピックでは、`igDialog` コントロールを Web ページに追加する方法について説明します。
 
 
-### サンプル
+### <a id="samples"></a> サンプル
 
 このトピックについては、以下のサンプルも参照してください。
 

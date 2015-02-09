@@ -86,7 +86,7 @@ $("#igDialog1").live({ igdialogstatechanging: function (e, args) {
 
 
 
-#### サンプル
+### <a id="samples"></a> サンプル
 
 このトピックについては、以下のサンプルも参照してください。
 

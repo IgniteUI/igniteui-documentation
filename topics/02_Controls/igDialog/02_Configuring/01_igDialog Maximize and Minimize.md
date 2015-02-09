@@ -198,7 +198,7 @@
 最小化ボタンを表示|[showMinimizeButton ](%%jQueryApiUrl%%/ui.igDialog#options:showMinimizeButton) |true
 
 
-### <a id="replace"></a> 例
+### <a id="minimize-maximize-example"></a> 例
 
 下のスクリーンショットは、上記の設定を行った場合に表示される `igDialog` です。
 
