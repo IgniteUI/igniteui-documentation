@@ -29,13 +29,13 @@
 
 
 
-## 概要
+## <a id="introduction"></a> 概要
 
 `CollapsibleSet` MVC ラッパーでは、 内部の `Collapsible` コントロールからなる、折り畳み可能なコンテンツ ブロックを作成します。このラッパーは Collapsible コントロールをグループ分けします。同時に展開できる Collapsible コントロール グループは 1 つだけです。折り畳み可能な項目を展開すると、それまで展開されていた項目は自動的に折り畳まれます。
 
 
 
-## CollapsibleSet の機能
+## <a id="features"></a> CollapsibleSet の機能
 
 `CollapsibleSet` は多くの `Collapsible` コントロールをグループ分けするため、ほとんどの機能は個々の折り畳み可能なコントロール内に構成されたままになります。コントロールのテキストのヘッダーを構成するプロパティ以外に、論理状態 (展開/折り畳み) アイコンの位置と状態を構成するプロパティがあります。`Collapsible` のウィジェット機能の構成方法の詳細については、[*CollapsibleSet *](CollapsibleSet-Adding.html)の追加と[*CollapsibleSet*の構成](CollapsibleSet-Configuring.html)を参照してください。
 

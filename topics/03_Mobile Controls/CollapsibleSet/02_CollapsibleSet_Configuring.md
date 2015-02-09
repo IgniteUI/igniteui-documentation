@@ -29,7 +29,7 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [**CollapsibleSet 構成の要点**](#summary )
+-   [**CollapsibleSet 構成の要点**](#summary)
 -   [**状態アイコンの構成**](#state-icon)
     -   [プロパティ設定](#property-settings)
     -   [コード例](#example)
@@ -39,7 +39,7 @@
 
 
 
-## <a id="summary "></a> Collapsible 構成の要点
+## <a id="summary"></a> Collapsible 構成の要点
 
 以下の表では、折り畳み可能 MVC ラッパーの構成可能な要素を紹介します。
 

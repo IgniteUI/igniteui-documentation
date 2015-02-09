@@ -16,9 +16,8 @@
 このトピックは、以下のセクションで構成されます。
 
 -   [**PageContent を有効にする**](#enabling-pagecontent)
-    -   [プレビュー](#preiew)
+    -   [プレビュー](#preview)
     -   [前提条件](#prerequisites)
-    -   [概要](#overview)
     -   [手順](#steps)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
@@ -29,7 +28,7 @@
 ## <a id="enabling-pagecontent"></a>PageContent を有効にする
 ここでは、MVC ラッパーを使用して MVCソリューションのビュー ページに `PageContent` を追加する手順について説明します。`PageContent` は、ページ中の実際のコンテンツとは意味的に異なります。`PageContent` ラッパーは、親 MVC Page ラッパーが必要です。各 Page は `PageContent` 領域を 1 つだけ含みます。
 
-## <a id="preiew"></a>プレビュー
+## <a id="preview"></a>プレビュー
 
 以下のコードは、PageContent を構成した後に描画されるコードを示しています。
 

@@ -31,7 +31,7 @@
 
 
 
-## NavBar MVC ラッパー (プロパティ) のリファレンス
+## <a id="reference"></a> NavBar MVC ラッパー (プロパティ) のリファレンス
 
 このトピックでは、`NavBar` MVC ラッパーのプロパティに関するリファレンス情報を紹介します。
 
@@ -58,7 +58,7 @@
 
 
 
-## NavBar 項目 MVC ラッパー (プロパティ) のリファレンス
+## <a id="item-reference"></a> NavBar 項目 MVC ラッパー (プロパティ) のリファレンス
 このトピックでは、`NavBar` MVC ラッパー から取得するプロパティに関する参照情報を紹介します。
 
 
@@ -80,13 +80,3 @@
 [Icon](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~Icon.html)|string|[icon](http://api.jquerymobile.com/icons/) を取得または設定します。|“arrow-l” <br />“delete” <br />“plus” <br />“minus” <br />“check” <br />“gear”
 [Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~Theme.html)|string|`NavBar` 項目テーマを取得または設定します。テーマが項目別に設定されていない場合、`NavBar` ラッパーに定義された総合的テーマを使用します。|**null**<br />“a”<br />“b”<br />“c”<br />“d”<br />“e”
 [HtmlAttributes](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.NavBarItemWrapper~HtmlAttributes.html)|IDictionary<string,object>|その他の HTML 属性を `NavBar` 項目に設定します。|new Dictionary<string, object>() { {"disabled", "disabled"} }
-
-
-
-
-
- 
-
- 
-
-

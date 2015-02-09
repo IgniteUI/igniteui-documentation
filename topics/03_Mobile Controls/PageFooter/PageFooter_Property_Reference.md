@@ -20,11 +20,11 @@
 ---|---|---|---
 [ID](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.PageFooterWrapper~ID.html)|string|PageFooter の ID を取得または設定します。|“**PageContentID**”
 [Theme](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.PageFooterWrapper~Theme.html)|string|PageFooter のテーマを取得または設定します。|**“a”** “b” “c” “d” “e”
-[FixedOptions](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.PageFooterWrapper~FixedOptions.html) |Action<[FixedToolBarOptionsWrapper](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.FixedToolBarOptionsWrapper.html)>|フッターを配置し、構成できるメソッドのセット。詳細は、[Fixed Options](#_Fixed_Options) クラスのメソッドを説明した以下の表をご覧ください。|option => { option.DisablePageZoom(true).Fixed(true); }
+[FixedOptions](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.PageFooterWrapper~FixedOptions.html) |Action<[FixedToolBarOptionsWrapper](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.FixedToolBarOptionsWrapper.html)>|フッターを配置し、構成できるメソッドのセット。詳細は、[Fixed Options](#fixed-options) クラスのメソッドを説明した以下の表をご覧ください。|option => { option.DisablePageZoom(true).Fixed(true); }
 [HtmlAttributes](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.PageFooterWrapper~HtmlAttributes.html)|IDictionary<string,object>|HTML の追加属性を設定します。|new Dictionary<string, object>() { {"disabled", "disabled"} }
 
 
-## Fixed Options MVC ラッパー (プロパティ) 参照
+## <a id="fixed-options"></a> Fixed Options MVC ラッパー (プロパティ) 参照
 下の表は、Fixed Options MVC ラッパーのプロパティについて説明し、デフォルト値および推奨値を示しています。
 
 > **注:** プロパティがデフォルトの null 値のとき、ウィジェットはjQuery モバイル デフォルト設定でレンダリングされます。詳細は、[固定位置](http://jquerymobile.com/test/docs/toolbars/bars-fixed-options.html)をご覧ください。

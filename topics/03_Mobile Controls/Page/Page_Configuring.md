@@ -27,15 +27,15 @@
 
 -   [**コントロールの構成の概要**](#control-config)
 -   [**Page ボタンの追加**](#add-page-buttons)
--   -   [概要](#overview)
+	-   [概要](#overview)
     -   [プロパティ設定](#property-settings)
     -   [コード例](#code-example)
 -   [**Page のキャッシュ**](#cache-page)
--   -   [概要](#cache-page-overview)
+	-   [概要](#cache-page-overview)
     -   [プロパティ設定](#cache-page-settings)
     -   [コード例](#cache-page-example)
 -   [**関連コンテンツ**](#related-content)
--   -   [トピック](#topics)
+	-   [トピック](#topics)
     -   [サンプル](#samples)
 
 

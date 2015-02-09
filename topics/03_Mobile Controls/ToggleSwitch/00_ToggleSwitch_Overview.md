@@ -31,7 +31,7 @@
 
 
 
-## 概要
+## <a id="introduction"></a> 概要
 
 `Toggle Switch` MVC ラッパーは、オン/オフまたは true/false のデータ入力に使用される 2 値の「フリップ スイッチ」を生成します。こうした仮想スイッチはモバイル デバイスの一般的なユーザー インターフェイス (UI)　要素です。`Toggle Switch` は、「スイッチ」の　2 つの状態 (つまり、有効状態と無効状態) を表す択一的な 2 つの位置 (左側と右側の位置) を備えたトラック スイッチです。現在の状態を示し、状態によって配色の変わるラベルもあります。
 
@@ -47,9 +47,7 @@
 
 
 
-## ToggleSwitch の主な機能の概要
-
-### ToggleSwitch の主な機能に関する要点チャート
+## <a id="features"></a> ToggleSwitch の主な機能の概要
 
 次の表は、`Toggle Switch` MVC ラッパーの主な機能をまとめたものです。いくつかの機能については、表のあとの本文部分で詳しく説明します。`Toggle Switch`の機能構成に関する詳細については、[ToggleSwitch の構成](ToggleSwitch-Configuring.html)を参照してください。
 
@@ -63,7 +61,7 @@
 [構成可能なスイッチ ラベル表示位置](#label-position)|オプションのスイッチ ラベルは、「スイッチ」の上下左右いずれかの位置に表示できます。
 
 
-### オプションのスイッチ ラベル
+### <a id="label"></a> オプションのスイッチ ラベル
 
 `Toggle Switch` には、スイッチ全体についてのラベルを付けることができます。このラベルは、そのスイッチの用途をユーザーに知らせるためのラベルです。
 
@@ -71,7 +69,7 @@
 
 スイッチ ラベルを表示するには、ラベルのテキストを [`Label`](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ToggleSwitchWrapper~Label.html) プロパティとして入力し、[`HideLabel`](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.ToggleSwitchWrapper~HideLabel.html) プロパティを未設定のままにするか、もしくは *false* に設定します。
 
-### 構成可能なスイッチ ラベル表示位置
+### <a id="label-position"></a> 構成可能なスイッチ ラベル表示位置
 
 オプションのスイッチ ラベルは、「スイッチ」の上下左右いずれかの位置に表示できます。
 
