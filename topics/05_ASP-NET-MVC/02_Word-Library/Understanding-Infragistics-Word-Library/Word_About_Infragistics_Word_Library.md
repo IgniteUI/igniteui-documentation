@@ -14,17 +14,17 @@
 
 トピックは以下のとおりです。
 
--   [Word 文書を生成するためのアプローチ](#Approaches)
-    -   [フォーワードのみのストリーマー アプローチの実装](#Streamer)
-    -   [オブジェクト モデル アプローチの実装](#DOM)
--   [関連トピック](#RelatedTopics)
+-   [Word 文書を生成するためのアプローチ](#approaches)
+    -   [フォーワードのみのストリーマー アプローチの実装](#streamer)
+    -   [オブジェクト モデル アプローチの実装](#dom)
+-   [関連トピック](#related-content)
 
-## <a id="Approaches"></a> Word 文書を生成するためのアプローチ
+## <a id="approaches"></a> Word 文書を生成するためのアプローチ
 Word ライブラリによって、Microsoft® Word® ドキュメントを作成できます。Word 文書は、フォーワードのみのストリーマー アプローチまたはオブジェクト モデル アプローチのいずれかを適用することで作成できます。それぞれのアプローチの長所と短所を以下に説明します。
 
 フォーワードのみのストリーマー アプローチでは、パフォーマンスが向上しますが、使いやすさが劣ります。これは、ひとつのメソッドへの呼び出しと別のメソッドの呼び出しのバランスを取らなければならないためです。このエラーの結果は通常、実行を再開できない例外となります。もう一方のオブジェクト指向のアプローチは使いやすいのですが、データ量が多い場合大量のシステム メモリを使用します。
 
-### <a id="Streamer"></a> フォーワードのみのストリーマー アプローチの実装
+### <a id="streamer"></a> フォーワードのみのストリーマー アプローチの実装
 
 [WordDocumentWriter](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter.html) は、ワード プロセッシング データを含むストリームやファイルを生成する、高速で、キャッシュを使用しないフォーワードのみの方法を提供するストリーマー オブジェクトです。このオプションは Infragistics.Documents.IO アセンブリで利用できます。WordDocumentWriter オブジェクトによって、フォーワードのみのストリーマー アプローチを使用して、Word 文書を優れたパフォーマンスで作成できます。
 
@@ -100,7 +100,7 @@ private void WriteParagraph(
 }
 ```
 
-### <a id="DOM"></a> オブジェクト モデル アプローチの実装
+### <a id="dom"></a> オブジェクト モデル アプローチの実装
 
 ##### Document クラスの紹介
 
@@ -155,7 +155,7 @@ p.ContentRuns.AddTextRun("Hello World");
 doc.Save(filename);
  ```
 
-## 関連トピック
+## <a id="related-content"> 関連トピック
 -   [Infragistics Word ライブラリの使用](Word-Using-the-Infragistics-Word-Library.html)
 -   [Word 文書生成の参照と依存関係](Word-Word-Document-Generation-References-and-Dependencies.html)
 
