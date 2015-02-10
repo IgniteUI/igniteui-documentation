@@ -77,7 +77,7 @@
 
         <tr>
             <td colspan="2">
-[モード](#_Configuring_the_Column)
+[モード](#mode)
 			</td>
 
             <td>

@@ -49,7 +49,7 @@
 
 
 
-## 概要
+## <a id="introduction"></a> 概要
 #### igGrid REST の要点
 
 REST フレームワークは、HTTP/1.1 プロトコルの上に作成します。その主な目的は、HTTP/1.1 動詞の GET、POST、PUT、DELETE を助けて、要求の操作のタイプを識別することです。
@@ -127,7 +127,7 @@ restSettings: {
 ![](images/igGrid_REST_Support_1.png)
 
 
-## igGrid REST オプション
+## <a id="properties"></a> igGrid REST オプション
 
 以下の表は、`igGrid` REST 設定のオプション、およびデフォルト値と推奨値です。
 
@@ -409,7 +409,7 @@ string
 
 
 
-## コントロールの構成の概要
+## <a id="configuration-summary"></a> コントロールの構成の概要
 <table class="table table-striped">
 	<thead>
 		<tr>
@@ -483,7 +483,7 @@ $.ig.RESTDataSource は、そのままで JSON シリアル化をサポートし
 </table>
 
 
-## バッチ REST 要求の送信
+## <a id="batch"></a> バッチ REST 要求の送信
 
 `$.ig.RESTDataSource` は 2 つのタイプのテンプレートをサポートしています。
 
@@ -516,7 +516,7 @@ $.ig.RESTDataSource は、そのままで JSON シリアル化をサポートし
 
 
 
-## カスタム スタイル URL
+## <a id="custom-url"></a> カスタム スタイル URL
 
 デフォルトで、このトピックで前述したように `$.ig.RESTDataSource` は宛先 URL を作成します。サーバーに別のロジックがある場合、URL テンプレートで URL を定義できます。また、その URL テンプレートで OData 互換 URL も作成できます。
 
@@ -546,7 +546,7 @@ DELETE 要求のカスタム URL テンプレートを設定します。|[restSe
 
 
 
-## カスタム REST シリアライザーの作成
+## <a id="custom-serializer"></a> カスタム REST シリアライザーの作成
 
 `$.ig.RESTDataSource` は、そのままで JSON シリアル化をサポートしています。ただし、カスタムシリアライザーも実装できます。
 

@@ -88,7 +88,7 @@
 
 12. Ignite UI 製品に付随する結合および縮小済みのスクリプト ファイル infragistics.core.js および infragistics.lob.js が必要です。加えて、サンプルを実行するには jQuery コア および jQuery UI スクリプトが必要です。[このヘルプ トピック](Deployment-Guide-JavaScript-Resources.html)では、必要なスクリプトへの参照やアプリケーションに追加する統合および縮小されたスクリプトがどこにあるかについて説明します。
 
-    > **注:** 製品版とトライアル版は[こちら](http://jp.infragistics.com/products/jquery)からダウンロードできます。jQuery テンプレート スクリプトは、[ここ](http://api.jquery.com/category/plugins/templates/)から入手できます。
+    > **注:** 製品版とトライアル版は[こちら](http://jp.infragistics.com/products/jquery)からダウンロードできます。jQuery テンプレート スクリプトは、[ここ](http://plugins.jquery.com/tag/templates/)から入手できます。
 
 13. プロジェクト内にスクリプト ディレクトリを作成し、そのフォルダーに JavaScript ファイルをコピーしてください。
 

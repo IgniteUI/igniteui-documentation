@@ -83,8 +83,8 @@
 
 列は以下の方法で固定および固定解除できます。
 
--   列ヘッダーの[ピン固定ボタン](#_Pin_button_summary)
--   [機能セレクター ドロップダウン メニュー](#_Feature_Chooser)
+-   列ヘッダーの[ピン固定ボタン](#pin-button-summary)
+-   [機能セレクター ドロップダウン メニュー](#feature-chooser-menu)
 
 ### <a id="usability-summary"></a> ユーザー インタラクションの概要表
 

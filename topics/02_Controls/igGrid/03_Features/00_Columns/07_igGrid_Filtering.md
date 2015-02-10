@@ -588,7 +588,7 @@ filterDropDownAnimations (“linear”)|承認済みの値は「linear」と「n
 filterDropDownAnimationDuration (500)|filterDropDownAnimations が「linear」に設定されている場合のアニメーションの期間
 filterDropDownWidth (0)|フィルター ドロップダウン幅のデフォルト幅。0 に設定されている場合、幅はコンテンツにしたがって自動的に大きくなります
 filterDropDownHeight (0)|filterDropDownWidth と同じですが、高さに使用します
-filterExprUrlKey (null)|リモート フィルタリングを実行している場合に URL にエンコードする式キー。デフォルト値の null は oData URI 規則を使用することを前提としています ([documentation/odata-version-2-0/uri-conventions/](http://www.odata.org/developers/protocols/uri-conventions))
+filterExprUrlKey (null)|リモート フィルタリングを実行している場合に URL にエンコードする式キー。デフォルト値の null は oData URI 規則を使用することを前提としています ([documentation/odata-version-2-0/uri-conventions/](http://www.odata.org/documentation/odata-version-2-0/uri-conventions/))
 filterDropDownItemIcons (true)|フィルター条件の小さな画像アイコンは、このオプションが有効な場合にあらゆるドロップダウン項目の前に描画されます。このオプションはデフォルトで有効になっています。
 columnSettings ([])|フィルタリング条件のカスタム列設定のリスト。リスト中の列設定オブジェクトそれぞれのフォーマットを以下に示します。
 type (“remote”)|フィルタリング操作のタイプ。リモートまたはローカルです。ローカル設定は、データ ソースに現在バインドされているデータでフィルタリングを実行することを示します。

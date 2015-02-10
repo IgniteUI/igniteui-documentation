@@ -36,15 +36,15 @@
     -   [複数列を一度に非表示](#hide-multiple-columns)
     -   [クリックで列を非表示](#hide-on-click)
 -   [**プロパティ リファレンス**](#property-reference)
--   [**メソッド リファレンス**](#property-reference)
--   [**イベント リファレンス**](#property-reference)
+-   [**メソッド リファレンス**](#method-reference)
+-   [**イベント リファレンス**](#event-reference)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
     -   [サンプル](#samples)
 
 
 
-## 概要
+## <a id="introduction"></a> 概要
 
 #### igGridHiding 列チューザーの紹介
 
@@ -54,7 +54,7 @@
 
 
 
-## ダイアログ ウィンドウの状態
+## <a id="dialog-window-states"></a> ダイアログ ウィンドウの状態
 
 以下の表は、列チューザー ウィンドウの状態を簡単に説明しています。ウィンドウには、[`columnChooserHideOnClick`](%%jQueryApiUrl%%/ui.iggridhiding#options:columnChooserHideOnClick) オプションの値によって定義された 2 つの状態が含まれています (デフォルト値は `false`)。`true` に設定した場合、列チューザーで列名をクリックするとすぐにその列は非表示になります。
 
@@ -66,7 +66,7 @@
 [クリックで列を非表示](#hide-on-click)|true|列チューザー ウィンドウから列を選択することによって、列は即座に非表示になります。
 
 
-### 複数列を一度に非表示
+### <a id="hide-multiple-columns"></a> 複数列を一度に非表示
 
 デフォルトで、[`columnChooserHideOnClick`](%%jQueryApiUrl%%/ui.iggridhiding#options:columnChooserHideOnClick) プロパティは `false` に設定されています。つまり、表示/非表示にする列を選択してから、変更をグリッドに適用する必要があります。
 
@@ -81,7 +81,7 @@
 5.  リセット – すべての列のデフォルト状態に戻ります (モーダル ダイアログが開いたときのような状態)
 6.  ESC (キー) – モーダル ダイアログを閉じます
 
-### クリックで列を非表示
+### <a id="hide-on-click"></a> クリックで列を非表示
 
 [`columnChooserHideOnClick`](%%jQueryApiUrl%%/ui.iggridhiding#options:columnChooserHideOnClick) プロパティを `true` に設定してから、**表示**または**非表示**ボタンをクリックすると、選択したアクションが、列に対して即座に有効になります。
 
@@ -98,7 +98,7 @@
 
 
 
-## プロパティ リファレンス
+## <a id="property-reference"></a> プロパティ リファレンス
 
 このセクションでは、列チューザーに影響を及ぼす、`igGrid` コントロールの非表示プロパティについて説明します。
 
@@ -121,7 +121,7 @@
 [columnChooserButtonCancelText](%%jQueryApiUrl%%/ui.iggridhiding#options:columnChooserButtonCancelText) |モーダル ダイアログで変更をキャンセルするボタンのテキストを指定します。
 
 
-## メソッド リファレンス
+## <a id="method-reference"></a> メソッド リファレンス
 
 このセクションでは、列チューザーに影響を及ぼす、`igGrid` コントロールの非表示メソッドについて説明します。
 
@@ -136,7 +136,7 @@
 
 
 
-## イベント リファレンス
+## <a id="event-reference"></a> イベント リファレンス
 
 このセクションでは、モーダル ウィンドウが起動する、`igGrid` コントロールの非表示イベントについて説明します。
 

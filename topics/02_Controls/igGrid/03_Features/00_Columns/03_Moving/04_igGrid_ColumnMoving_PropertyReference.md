@@ -76,7 +76,7 @@ null
         </tr>
 
         <tr>
-            <td>
+            <td><a id="allowMoving" name="allowMoving"></a>
 [columnSettings.allowMoving](%%jQueryApiUrl%%/ui.iggridcolumnmoving#options:columnSettings.allowMoving)
 			</td>
 
