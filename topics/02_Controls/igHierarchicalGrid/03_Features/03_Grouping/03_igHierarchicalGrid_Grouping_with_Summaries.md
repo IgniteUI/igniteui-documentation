@@ -35,7 +35,7 @@
 
 -   [集計を使用したグループ化の構成 - 概要](#configuring)
 -   [コード例: デリミター、値フォーマット、および定義済みカスタム関数を使用した集計の構成](#code_example)
--   [関連コンテンツ](i#related_content)
+-   [関連コンテンツ](#related_content)
 
 
 ## <a id="configuring"></a> 集計を使用したグループ化の構成 - 概要

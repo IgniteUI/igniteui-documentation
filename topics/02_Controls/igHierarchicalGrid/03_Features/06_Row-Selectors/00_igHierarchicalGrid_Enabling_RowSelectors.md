@@ -24,14 +24,14 @@
 [igHierarchicalGrid の初期化](igHierarchicalGrid-Initializing.html)|jQuery と MVC による igHierarchicalGrid の初期化方法を示します。
 
 ### このトピックの内容
--   [概要](#_Introduction)
+-   [概要](#introduction)
 -   [コード例: JQuery における RowSelectors の有効化](#enabling-rowselectors-in-jquery)
 -   [コード例: MVC における RowSelectors の有効化](#enabling-rowselectors-in-mvc)
 -   [関連コンテンツ**](#related-content)
 
 ## <a id="introduction"></a> 概要
 
-#### 行セレクターの紹介
+### 行セレクターの紹介
 igRowSelectors™ ウィジットは、別の行選択列を表示してユーザーの行選択を簡単にします。ルートおよび子ビューで最初のデータ列の右に表示される特殊行選択列は、チェックボックス (複数選択を簡単にするため) または／および連続行番号を含むよう構成できます。行セレクターは、ユーザー インターフェイスおよびユーザーのグリッドとの相互作用の点でユーザー エクスペリエンスに関する機能です。実際の選択動作は `igGridRowSelectors` 機能で行います。行セレクター機能は、通常、選択機能と一緒に使用しますが、行の番号付け機能のために単独で使用することもできます。構成すると、選択機能がアクティブになり、ユーザーが行選択セルをクリックするか行選択チェックボックスをチェックすると対応する行を選択します。
 
 以下のスクリーンショットは、行選択が有効なとき *igHierarchicalGrid* コントロールがデータ グリッドを描画する方法を示しています。以下に示すように 行セレクター列は強調のため赤い楕円で囲まれています。

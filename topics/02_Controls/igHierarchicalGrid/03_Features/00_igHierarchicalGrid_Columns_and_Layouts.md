@@ -21,11 +21,11 @@
 このトピックは、以下のセクションで構成されます。
 
 -   [機能の概要](#overview)
--   [列の定義](#definingColumns)
+-   [列の定義](#defining-columns)
 -   [レイアウトの定義](#layouts)
 -   [の列とレイアウトを自動生成する](#auto)
--   [列をチェックします](#checkboxColumn)
--   [関連トピック](#relTopics)
+-   [列をチェックします](#checkbox-column)
+-   [関連トピック](#related-topics)
 
 ## <a id="overview"></a> 機能の概要
 
@@ -34,7 +34,7 @@
 - [Columns](%%jQueryApiUrl%%/ui.ighierarchicalgrid#options): グリッドの列を定義します。
 - [Layouts](%%jQueryApiUrl%%/ui.ighierarchicalgrid#options): グリッドのレイアウトを定義します。
 
-## <a id="definingColumns"></a> 列の定義
+## <a id="defining-columns"></a> 列の定義
 
 列を定義する場合、データ バインディング、ヘッダー テキスト、列の幅など列設定を個々に構成できます。使用できるオプションの詳細については、Columns プロパティを参照してください。以下のコードは、列を定義する際のいくつかの基本的なオプション設定を示しています。
 
@@ -169,7 +169,7 @@ $("#grid1").igHierarchicalGrid({
 
 **注:** 更新機能を使用するには、`autoGenerateColumns` が false に設定される場合、`dataType` プロパティを設定する必要があります。更新機能は、グリッドおよび基本データ ソースの間でレコードを同期するためにプライマリ キーを使用します。プライマリ キーは値およびタイプによって比較されます。
 
-## 列のチェックボックスのレンダリング
+## <a id="checkbox-column"></a> 列のチェックボックスのレンダリング
 ブール データ型を含む列の場合、デフォルトでは igHierarchicalGrid は true または false の文字列を示します。ただし、igHierarchicalGrid 列がブール データを表示するかどうかを選択するチェックボックスのオプションがあり、チェックの有無に応じて、それぞれ true または false になります。`renderCheckboxes` プロパティを true に設定すると、列のチェックボックスがレンダリングされます。チェックボックスをレンダリングするには、列の `dataType` プロパティをブール値に設定する必要があります。
 
 右の図では、次のコード例が Current Flag 列のチェックボックスをレンダリングする様子を示しています。
@@ -278,7 +278,7 @@ $("#hierarchicalGrid1").igHierarchicalGrid({
             %>
 ```
 
-## <a id="relTopics"></a> 関連トピック
+## <a id="related-topics"></a> 関連トピック
 
 以下は、その他の役立つトピックです。
 

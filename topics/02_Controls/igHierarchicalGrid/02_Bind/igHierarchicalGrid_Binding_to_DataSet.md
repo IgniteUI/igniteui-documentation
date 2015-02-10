@@ -36,7 +36,7 @@
 
 
 
-## <a id="features"></a> 概要
+## <a id="introduction"></a> 概要
 
 ### <a id="binding"></a> DataSet とのバインディング
 

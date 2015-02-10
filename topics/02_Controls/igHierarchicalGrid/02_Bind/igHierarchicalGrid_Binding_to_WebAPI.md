@@ -598,7 +598,7 @@ public HttpResponseMessage DeleteOrder(int id)
 受注データは、その `OrderID` によって `Orders` エンティティから抽出され、`DeleteObject` メソッドに渡されます。最後に、`その受注データが SaveChanges` メソッドによって削除され、正しい状態コードがクライアントへ送られます。
 
 
-##関連コンテンツ
+## <a id="related-content"></a> 関連コンテンツ
 
 ### トピック
 
