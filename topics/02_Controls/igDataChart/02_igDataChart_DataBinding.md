@@ -187,12 +187,12 @@
 	```
 	<script type="text/javascript">
         var data = [
-                { "DateString": "2.1.2010", "Open": 1000, "High": 1028.75, "Low": 985.25,                 "Close": 1020, "Volume": 1995 },
-                { "DateString": "3.1.2010", "Open": 1020, "High": 1032.5, "Low": 999.5,                 "Close": 1021, "Volume": 1964.5 },
-                { "DateString": "4.1.2010", "Open": 1021, "High": 1033.5, "Low": 996,                 "Close": 1033, "Volume": 1974.75 },
-                { "DateString": "5.1.2010", "Open": 1033, "High": 1062, "Low": 1018.75,                 "Close": 1042, "Volume": 1978.5 },
-                { "DateString": "6.1.2010", "Open": 1042, "High": 1058.5, "Low": 1019.75,                 "Close": 1029, "Volume": 1979 },
-                { "DateString": "7.1.2010", "Open": 1029, "High": 1050.75, "Low": 1006,                 "Close": 1042, "Volume": 1990 }
+                { "DateString": "2.1.2010", "Open": 1000, "High": 1028.75, "Low": 985.25, "Close": 1020, "Volume": 1995 },
+                { "DateString": "3.1.2010", "Open": 1020, "High": 1032.5, "Low": 999.5, "Close": 1021, "Volume": 1964.5 },
+                { "DateString": "4.1.2010", "Open": 1021, "High": 1033.5, "Low": 996, "Close": 1033, "Volume": 1974.75 },
+                { "DateString": "5.1.2010", "Open": 1033, "High": 1062, "Low": 1018.75, "Close": 1042, "Volume": 1978.5 },
+                { "DateString": "6.1.2010", "Open": 1042, "High": 1058.5, "Low": 1019.75, "Close": 1029, "Volume": 1979 },
+                { "DateString": "7.1.2010", "Open": 1029, "High": 1050.75, "Low": 1006, "Close": 1042, "Volume": 1990 }
             ];
     </script>
 	```
@@ -306,12 +306,12 @@
     {
         List<StockMarketDataPoint> stockMarketData = new List<StockMarketDataPoint>
         {
-            new StockMarketDataPoint { Date = DateTime.Parse("2.1.2010"), Open = 1000,             High = 1028.75, Low = 985.25, Close = 1020, Volume = 1995 },
-            new StockMarketDataPoint { Date = DateTime.Parse("3.1.2010"), Open = 1020,             High = 1032.5, Low = 999.5, Close = 1021, Volume = 1964.5 },
-            new StockMarketDataPoint { Date = DateTime.Parse("4.1.2010"), Open = 1021,             High = 1033.5, Low = 996, Close = 1033, Volume = 1974.75 },
-            new StockMarketDataPoint { Date = DateTime.Parse("5.1.2010"), Open = 1033,             High = 1062, Low = 1018.75, Close = 1042, Volume = 1978.5 },
-            new StockMarketDataPoint { Date = DateTime.Parse("6.1.2010"), Open = 1042,             High = 1058.5, Low = 1019.75, Close = 1029, Volume = 1979 },
-            new StockMarketDataPoint { Date = DateTime.Parse("7.1.2010"), Open = 1029,             High = 1050.75, Low = 1006, Close = 1042, Volume = 1990 }
+            new StockMarketDataPoint { Date = DateTime.Parse("2.1.2010"), Open = 1000, High = 1028.75, Low = 985.25, Close = 1020, Volume = 1995 },
+            new StockMarketDataPoint { Date = DateTime.Parse("3.1.2010"), Open = 1020, High = 1032.5, Low = 999.5, Close = 1021, Volume = 1964.5 },
+            new StockMarketDataPoint { Date = DateTime.Parse("4.1.2010"), Open = 1021, High = 1033.5, Low = 996, Close = 1033, Volume = 1974.75 },
+            new StockMarketDataPoint { Date = DateTime.Parse("5.1.2010"), Open = 1033, High = 1062, Low = 1018.75, Close = 1042, Volume = 1978.5 },
+            new StockMarketDataPoint { Date = DateTime.Parse("6.1.2010"), Open = 1042, High = 1058.5, Low = 1019.75, Close = 1029, Volume = 1979 },
+            new StockMarketDataPoint { Date = DateTime.Parse("7.1.2010"), Open = 1029, High = 1050.75, Low = 1006, Close = 1042, Volume = 1990 }
         };
         return View(stockMarketData.AsQueryable());
     }
@@ -338,7 +338,14 @@
             )
             .Series(series =>
                 {
-                    series.Financial("finSeries").XAxis("xAxis").YAxis("priceAxis")                    .OpenMemberPath(item => item.Open)                    .CloseMemberPath(item => item.Close)                    .LowMemberPath(item => item.Low)                    .HighMemberPath(item => item.High);            }
+                    series.Financial("finSeries")
+						.XAxis("xAxis")
+						.YAxis("priceAxis")
+						.OpenMemberPath(item => item.Open)
+						.CloseMemberPath(item => item.Close)
+						.LowMemberPath(item => item.Low)
+						.HighMemberPath(item => item.High);
+				}
             )
             .DataBind()
             .Render()
@@ -461,7 +468,8 @@
                     .LowMemberPath("Low")
                     .HighMemberPath("High")
                     .VolumeMemberPath("Volume")
-                })        .DataSourceUrl("http://www.example.com/Services/StockMarket.svc/GetStockData")
+                })
+			.DataSourceUrl("http://www.example.com/Services/StockMarket.svc/GetStockData")
             .DataBind()
             .Render()
     %>
