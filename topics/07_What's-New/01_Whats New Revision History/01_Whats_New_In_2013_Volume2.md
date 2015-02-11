@@ -656,7 +656,7 @@ igLayoutManager はすでに製品版 (RTM) です。
 
 #### 関連サンプル
 
--   [ロード オン デマンド](%%SamplesUrl%%/grid/load-on-demand)
+-   [ロード オン デマンド](%%SamplesUrl%%/grid/append-rows-on-demand)
 
 
 

@@ -24,7 +24,7 @@
 	- [igListView の概要](igListView-Overview.html): このトピックでは、`igListView` の機能について説明します。
 	- [igListView の Web ページへの追加](igListView-Adding-igListView-to-a-Web-Page.html): このトピックでは、`igListView` モバイル・コントロールをウェブ ページに追加する方法を説明します。
 - 外部リソース
-	- [HTML 5 データ-* 属性](http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#embedding-custom-non-visible-data-with-the-data-*-attributes)
+	- [HTML 5 データ-* 属性](https://html.spec.whatwg.org/multipage/dom.html#embedding-custom-non-visible-data-with-the-data-*-attributes)
 
 
 

@@ -191,7 +191,7 @@ $("#grid1").igGrid({
 
 `sortUrlKey` オプションを設定して並べ替えを行うときに、URL のエンコード方法を管理できます。`sortUrlKey` のデフォルト値は null であるため、エンコードは次に記載された URI フォーマットの oData 規格に従っています。
 
-[**http://www.odata.org/documentation/uri-conventions**](http://www.odata.org/documentation/uri-conventions)
+[**http://www.odata.org/documentation/odata-version-2-0/uri-conventions/**](http://www.odata.org/documentation/odata-version-2-0/uri-conventions/)
 
 ## <a id="api"></a> API の使用
 

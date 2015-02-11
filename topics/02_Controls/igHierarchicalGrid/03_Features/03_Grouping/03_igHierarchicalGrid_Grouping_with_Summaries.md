@@ -34,8 +34,8 @@
 このトピックは、以下のセクションで構成されます。
 
 -   [集計を使用したグループ化の構成 - 概要](#configuring)
--   [コード例: デリミター、値フォーマット、および定義済みカスタム関数を使用した集計の構成](#code_example)
--   [関連コンテンツ](#related_content)
+-   [コード例: デリミター、値フォーマット、および定義済みカスタム関数を使用した集計の構成](#code-example)
+-   [関連コンテンツ](#related-content)
 
 
 ## <a id="configuring"></a> 集計を使用したグループ化の構成 - 概要
@@ -165,7 +165,7 @@ MVC (カスタム): [**GroupBySummaryWrapper.CustomSummary**](Infragistics.Web.M
 
 
 
-## <a id="code_example"></a> コード例: デリミター、値フォーマット、および定義済みカスタム関数を使用した集計の構成
+## <a id="code-example"></a> コード例: デリミター、値フォーマット、および定義済みカスタム関数を使用した集計の構成
 #### 説明
 
 以下のコードは、igHierarchicalGrid のレイアウトの Grouping 機能を起動し、集計値計算および表示に関する以下の設定を適用します。
@@ -238,7 +238,7 @@ Code: ASP.NET MVC
 
 
 
-## 関連コンテンツ
+## <a id="related-content"></a> 関連コンテンツ
 
 - [グループ化の有効化と設定 (igHierarchicalGrid)](igHierarchicalGrid-Grouping-Enabling-and-Configuring.html): jQuery と MVC 両方で igHierarchicalGrid™ コントロールにグループ化機能を追加する方法を示します。
 

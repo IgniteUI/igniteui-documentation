@@ -127,7 +127,7 @@ Infragistics `igDialog` は jQuery UI 方式のウィジェットです。ダイ
 
 ## <a id="drag-drop-tree"></a>igTree のドラッグ アンド ドロップ
 
-ドラッグ アンド ドロップは、同じ `igTree` コントロール内だけでなく、2 つの `igTree` コントロール間で操作できます。2 つの igTree コントロール間で動作するよう設定できます。ドラッグ アンド ドロップ機能の操作方法を指定できます。サポートされる[ドラッグ アンド ドロップ モード](igTree-Drag-and-Drop-Overview.html#_Drag-and-Drop_modes) に設定する必要があります。
+ドラッグ アンド ドロップは、同じ `igTree` コントロール内だけでなく、2 つの `igTree` コントロール間で操作できます。2 つの igTree コントロール間で動作するよう設定できます。ドラッグ アンド ドロップ機能の操作方法を指定できます。サポートされる[ドラッグ アンド ドロップ モード](igTree-Drag-and-Drop-Overview.html#drag-drop-modes) に設定する必要があります。
 
 ![](images/Whats_New_in_2012_Volume_2_Latest2_6.png)
 

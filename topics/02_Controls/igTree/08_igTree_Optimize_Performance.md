@@ -64,7 +64,7 @@
 ---|---|---
 [ロードオンデマンドを有効にする](#enable-load-on-demand)|ロード オン デマンドを有効にすると、ノードが展開された時に必要な HTML 要素のみを作成するようツリーは指示されます。|[loadOnDemand](%%jQueryApiUrl%%/ui.igTree#options:loadOnDemand) <br> 
 [ASP.NET MVC のロード オン デマンドの構成](#configure-load-on-demand-for-mvc)|ASP.NET MVC コントローラーで JSON を返すようにアクション メソッドを設定することによって、ノードが展開した時に新しいデータをリモートでフェッチすることができます。|[loadOnDemand](%%jQueryApiUrl%%/ui.igTree#options:loadOnDemand)<br>[dataSourceUrl](%%jQueryApiUrl%%/ui.igTree#options:dataSourceUrl)
-[OData のロード オン デマンドの構成](#configure-load-on-demand-odata")|`igTree` コントロールに OData データ ソースを提供する際、ロード オン デマンドを有効にすると、サービスを呼び出して次のレベルのデータを取得するよう、`igTree` は指示されます。|[loadOnDemand](%%jQueryApiUrl%%/ui.igTree#options:loadOnDemand)<br>[dataSourceUrl](%%jQueryApiUrl%%/ui.igTree#options:dataSourceUrl)<br>[responseDataKey](%%jQueryApiUrl%%/ui.igTree#options:responseDataKey) <br>[responseDataType](%%jQueryApiUrl%%/ui.igTree#options:responseDataType)
+[OData のロード オン デマンドの構成](#configure-load-on-demand-odata)|`igTree` コントロールに OData データ ソースを提供する際、ロード オン デマンドを有効にすると、サービスを呼び出して次のレベルのデータを取得するよう、`igTree` は指示されます。|[loadOnDemand](%%jQueryApiUrl%%/ui.igTree#options:loadOnDemand)<br>[dataSourceUrl](%%jQueryApiUrl%%/ui.igTree#options:dataSourceUrl)<br>[responseDataKey](%%jQueryApiUrl%%/ui.igTree#options:responseDataKey) <br>[responseDataType](%%jQueryApiUrl%%/ui.igTree#options:responseDataType)
 
 
 ## <a id="enable-load-on-demand"></a>ロードオンデマンドを有効にする 

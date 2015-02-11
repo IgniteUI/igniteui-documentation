@@ -22,7 +22,6 @@
 
 -   [**概要**](#introduction)
 -   [**ToggleSwitch の主な機能の概要**](#features)
-	-   [ToggleSwitch の主な機能に関する要点チャート](#summary)
     -   [オプションのスイッチ ラベル](#label)
     -   [構成可能なスイッチ ラベル表示位置](#label-position)
 -   [**関連コンテンツ**](#related-content)
