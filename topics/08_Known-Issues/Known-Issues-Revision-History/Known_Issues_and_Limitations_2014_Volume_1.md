@@ -77,6 +77,7 @@
 ![](images/negative.png) | 既知の回避策はありません
 ![](images/tobeUpdated.png) | 修正予定です
 
+<a id="general-known-issues"></a>
 <table class="table table-bordered">
 	<thead>
 		<tr>
