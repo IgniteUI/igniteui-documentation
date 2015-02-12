@@ -94,11 +94,13 @@
 
 以下の画像は、行に使用される階層のメンバーの展開状態と折りたたみ状態を比較しています。
 
-展開状態|折りたたみ状態
----|---
-![](images/igPivotGrid_Overview_3.png)|![](images/igPivotGrid_Overview_4.png)
+#### 展開状態 
 
+![](images/igPivotGrid_Overview_3.png)
 
+#### 折りたたみ状態
+
+![](images/igPivotGrid_Overview_4.png)
 
 ### フィルタリング
 
@@ -119,10 +121,13 @@
 
 右側の画像は、キャプション ベースの並べ替えを示したもので、この場合、全製品メンバーの子メンバーは左から右へアルファベット順 (昇順) に配置されます。
 
-列用の値ベースの並べ替え|キャプション ベースの並べ替え
----|---
-![](images/igPivotGrid_Overview_6.png)|![](images/igPivotGrid_Overview_7.png)
+#### 列用の値ベースの並べ替え  
 
+![](images/igPivotGrid_Overview_6.png) 
+
+#### キャプション ベースの並べ替え
+
+![](images/igPivotGrid_Overview_7.png)
 
 ### 複数のレイアウト
 

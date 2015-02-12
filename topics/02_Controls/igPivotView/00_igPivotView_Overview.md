@@ -119,10 +119,13 @@
 
 以下の画像は、行に使用される階層のメンバーの展開状態と折りたたみ状態を比較しています。
 
-展開状態|折りたたみ状態
----|---
-![](images/igPivotGrid_Overview_3.png)|![](images/igPivotGrid_Overview_4.png)
+#### 展開状態 
 
+![](images/igPivotGrid_Overview_3.png)
+
+#### 折りたたみ状態
+
+![](images/igPivotGrid_Overview_4.png)
 
 #### フィルタリング
 
@@ -143,11 +146,13 @@
 
 右側の画像は、キャプション ベースの並べ替えを示したもので、この場合、*全製品*メンバーの子メンバーは左から右へアルファベット順 (昇順) に配置されます。
 
-列用の値ベースの並べ替え|キャプション ベースの並べ替え
----|---
-![](images/igPivotGrid_Overview_6.png)|![](images/igPivotGrid_Overview_7.png)
+#### 列用の値ベースの並べ替え 
 
+![](images/igPivotGrid_Overview_6.png) 
 
+#### キャプション ベースの並べ替え
+
+![](images/igPivotGrid_Overview_7.png)
 
 #### 複数のレイアウト
 
@@ -226,9 +231,13 @@
 
 以下の画像は、左のパネルの展開状態と折りたたみ状態を比較しています。
 
-展開状態の左のパネル|折りたたみ状態の右のパネル
----|---
-![](images/igSplitter_Overview_7.png)|![](images/igSplitter_Overview_8.png)
+#### 展開状態の左のパネル 
+
+![](images/igSplitter_Overview_7.png)
+
+#### 折りたたみ状態の右のパネル
+
+![](images/igSplitter_Overview_8.png)
 
 パネルは、ユーザーによって、または API メソッドを介してプログラムから折り畳む、または展開できます。展開/折りたたみが有効でない場合、展開/折りたたみボタンはスプリッターに表示されません。デフォルトでは、パネルは展開/折りたたみできません。
 
@@ -259,9 +268,13 @@
 
 デフォルトのパネルの互いの相対的な位置は、左側にピボット グリッド、右側にセレクターです。`igPivotView` の [dataSelectorPanel](%%jQueryApiUrl%%/ui.igPivotView#options:dataSelectorPanel) プロパティを使用してピボット グリッドとセレクターをスワップできます。
 
-右|左
----|---
-![](images/igPivotView_Overview_2.png)|![](images/igPivotView_Overview_3.png)
+#### 右 
+
+![](images/igPivotView_Overview_2.png) 
+
+#### 左
+
+![](images/igPivotView_Overview_3.png)
 
 #### パネルのサイズ変更
 

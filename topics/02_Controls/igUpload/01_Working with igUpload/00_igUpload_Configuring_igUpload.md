@@ -225,9 +225,13 @@
 
 以下の画像は、2 通りのファイルを選択する方法を示します。開く ダイアログから複数のファイルを選択して開く (左)、あるいは Windows エクスプローラーから `igUpload` コントロールパネル へドラッグ アンド ドロップしてそれらのファイルを開きます (右)。
 
-ファイルを開くダイアログで複数のファイルの選択する|選択したファイルを Windows エクスプローラーから `igUpload` へドロップする
----|---
-![](images/Configuring_igUpload_1.png)|![](images/Configuring_igUpload_2.png)
+#### ファイルを開くダイアログで複数のファイルの選択する 
+
+![](images/Configuring_igUpload_1.png)
+
+#### 選択したファイルを Windows エクスプローラーから `igUpload` へドロップする
+
+![](images/Configuring_igUpload_2.png)
 
 デフォルトのファイル選択モードは、単一ファイルです。
 
@@ -635,10 +639,13 @@ $('#upload1').igUpload({
 
 以下の画像は、単一ファイル モードと複数ファイル モードを比較します。
 
-単一ファイル モード|複数ファイル モード
+#### 単一ファイル モード 
 ---|---
-![](images/Configuring_igUpload_7.png)|![](images/Configuring_igUpload_8.png)
+![](images/Configuring_igUpload_7.png) 
 
+#### 複数ファイル モード
+
+![](images/Configuring_igUpload_8.png)
 
 デフォルトのファイル選択モードは、単一ファイルです。
 
