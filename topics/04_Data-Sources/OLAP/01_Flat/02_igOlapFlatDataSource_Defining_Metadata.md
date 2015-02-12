@@ -224,7 +224,7 @@
 
         <tr>
             <td>
-[ディメンション](config-dimentions)
+[ディメンション](#config-dimentions)
 			</td>
 
             <td>
