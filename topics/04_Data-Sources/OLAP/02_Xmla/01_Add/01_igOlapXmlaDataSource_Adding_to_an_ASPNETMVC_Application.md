@@ -33,30 +33,30 @@
     -   [要件](#requirements)
     -   [手順](#steps)
 -   [igOlapXmlaDataSource の ASP.NET MVC アプリケーションへの追加 - 例](#example)
-    -   [概要](#introduction)
-    -   [前提条件](#prerequisites)
-    -   [手順](#steps)
-    -   [完全なコード](#full-code)
+    -   [概要](#example-introduction)
+    -   [前提条件](#example-prerequisites)
+    -   [手順](#example-steps)
+    -   [完全なコード](#example-code)
 -   [関連コンテンツ](#related-content)
     -   [トピック](#topics)
     -   [サンプル](#sample)
 
 
-## igOlapXmlaDataSource の ASP.NET MVC アプリケーションへの追加 - 概要
-### igOlapXmlaDataSource の ASP.NET MVC アプリケーションへの追加の概要
+## <a id="conceptual-overview"></a> igOlapXmlaDataSource の ASP.NET MVC アプリケーションへの追加 - 概要
+### <a id="summary"></a> igOlapXmlaDataSource の ASP.NET MVC アプリケーションへの追加の概要
 
 `igOlapXmlaDataSource` は、MVC View の CS/VB コードでコンポーネントの使用を可能にする ASP.NET MVC ヘルパーが付随する、クライアント側コンポーネントです。ASP.NET MVC ヘルパーは `igOlapXmlaDataSource` と `igOlapFlatDataSource` コンポーネントに共通で、設定するオプションによって各データ ソースのインスタンスがクライアント上で作成されます。ヘルパーを使用する場合、データを視覚化する機能のある1 つ以上のコンポーネントにおける使用を可能にする識別子を提供します (`igPivotDataSelector`™、`igPivotGrid`™、`igPivotView`™)。
 
 `igOlapXmlaDataSource` を View で定義するには、それらを呼び出す同じオブジェクトを常に返すメソッドを使用して必要なプロパティを設定します。これにより、必要なすべてのプロパティを設定するために使用する構文をチェーンできます。DataSourceOptions などの複雑なオブジェクトの場合、この種の構文を実現するためにラムダ式ビルダーを使用します。
 
-### 要件
+### <a id="requirements"></a> 要件
 
 以下は、`igOlapXmlaDataSource` を ASP.NET MVC アプリケーションへ追加するための全般的な要件です。
 
 -   Infragistics® 名前空間への参照
 -   アプリケーションへ追加する必要のある JavaScript ファイル (完全なリストについては、「[**igOlapXmlaDataSource の HTML ページへの追加**](igOlapXmlaDataSource-Adding-to-an-HTML-Page.html)」を参照)
 
-### 手順
+### <a id="steps"></a> 手順
 
 `igOlapXmlaDataSource` を ASP.NET MVC アプリケーションへ追加するための一般的な手順をおおまかに示すと、次のようになります。
 
@@ -67,12 +67,12 @@
 3. ` igOlapXmlaDataSource` を追加する
 
 
-## igOlapXmlaDataSource の ASP.NET MVC アプリケーションへの追加 - 例
-### 概要
+## <a id="example"></a> igOlapXmlaDataSource の ASP.NET MVC アプリケーションへの追加 - 例
+### <a id="example-introduction"></a> 概要
 
 以下の手順は、`igOlapXmlaDataSource` コンポーネントを ASP.NET MVC アプリケーションに追加する方法について説明します。この例で必要なリソースは、自動的に *Infragistics Loader* に参照されます。
 
-### 前提条件
+### <a id="example-prerequisites"></a> 前提条件
 
 この手順を実行するには、以下のリソースが必要です。
 
@@ -80,7 +80,7 @@
 -   アプリケーション プロジェクトに追加された `Infragistics.Web.Mvc.dll` アセンブリへの参照
 -   SQL サーバーで展開された Adventure Works サンプルのデータベース (この例では http://sampledata.infragistics.com を使用)
 
-### 手順
+### <a id="example-steps"></a> 手順
 
 以下の手順は、`igOlapXmlaDataSource` を ASP.NET MVC アプリケーションに追加する方法を示します。
 
@@ -185,7 +185,7 @@
 		この時点では、igPivotDataSelector、igPivotGrid および igPivotView などのピボット グリッド関連のコントロールにおいてデータ ソース コンポーネント インスタンスを使用するために、OlapDataSource 定義を設定する ID を使用できます。
 
 
-### 完全なコード
+### <a id="example-code"></a> 完全なコード
 
 以下は、このプロシージャの完全なコードです。
 
@@ -206,8 +206,8 @@
 %>
 ```
 
-## 関連コンテンツ
-### トピック
+## <a id="related-content"></a> 関連コンテンツ
+### <a id="topics"></a> トピック
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
@@ -218,7 +218,7 @@
 - [igPivotView の ASP.NET MVC アプリケーションへの追加](igPivotView-Adding-Using-the-MVC-Helper.html): このトピックは、 ASP.NET MVC ヘルパーを使用して ASP.NET MVC View へ `igPivotView` コントロールを追加する方法についての概念と詳しい手順を説明します。
 
 
-### サンプル
+### <a id="samples"></a> サンプル
 
 このトピックについては、以下のサンプルも参照してください。
 

@@ -154,7 +154,7 @@ $.ig.loader({
 
 
 
-##<a id="_Infragistics_CDN"></a>Infragistics CDN
+##<a id="infragistics-cdn"></a>Infragistics CDN
 
 
 #### Infragistics CDN - 概要

@@ -339,7 +339,7 @@
     </tbody>
 </table>
 
-#### <a id="related-content"></a>例
+#### <a id="example"></a>例
 
 以下のスクリーンショットは、以下の設定の結果 `igBulletGraph` の外観がどのようになるか示しています。
 
