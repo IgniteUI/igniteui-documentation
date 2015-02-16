@@ -736,7 +736,7 @@ ASP.NET MVC プロパティ
 
 #### 関係するコード例:
 
--   [**各列の構成**](#config-rows-columns)
+-   [**各列の構成**](#column-dimentions)
 
 ### <a id="config-positions-span"></a>項目の位置とスパンの構成
 
@@ -757,7 +757,7 @@ ASP.NET MVC プロパティ
 
 #### 関係するコード例:
 
--   [タイルの任意の位置とスパンの構成](#config-tiles-states)
+-   [タイルの任意の位置とスパンの構成](#config-tiles-custom-position)
 
 ### <a id="config-tiles-states"></a>タイルの状態の構成
 
@@ -768,7 +768,7 @@ ASP.NET MVC プロパティ
 
 #### 関係するコード例:
 
--   [カスタム タイルの構成](#_Code_Example:_Configuring_3)
+-   [カスタム タイルの構成](#config-tile-states)
 
 ### <a id="config-tiles-margin"></a>タイルの余白の構成
 
@@ -784,7 +784,7 @@ ASP.NET MVC プロパティ
 
 #### 関係するコード例:
 
--   [最小化されたタイル パネルの構成](#config-minimized-tile-panel)
+-   [最小化されたタイル パネルの構成](#config-minimized-tiles-panels)
 
 ### <a id="config-animation-duration"></a>アニメーション化されたトランジションの期間の構成
 
