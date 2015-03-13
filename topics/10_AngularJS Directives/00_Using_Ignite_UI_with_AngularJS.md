@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "usig-ignite-ui-with-angularjs",
+    "fileName": "using-ignite-ui-with-angularjs",
     "controlName": [],
     "tags": []
 }
