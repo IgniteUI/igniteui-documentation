@@ -185,7 +185,7 @@ igGrid フレームワーク (仮想化、非バインド列)
 ![](images/igGrid_Feature_compatibility_matrix_1.png)
 			</td>
             <td>
-![](images/igGrid_Feature_compatibility_matrix_16.png)
+![](images/igGrid_Feature_compatibility_matrix_1.png)
 			</td>
             <td>
 ![](images/igGrid_Feature_compatibility_matrix_1.png)
@@ -969,7 +969,7 @@ igGrid フレームワーク (仮想化、非バインド列)
 ![](images/igGrid_Feature_compatibility_matrix_16.png)
 			</td>
             <td>
-![](images/igGrid_Feature_compatibility_matrix_61.png)
+![](images/igGrid_Feature_compatibility_matrix_1.png)
 			</td>
             <td>
 ![](images/igGrid_Feature_compatibility_matrix_1.png)

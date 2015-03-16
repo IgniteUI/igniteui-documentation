@@ -271,7 +271,6 @@
 
 列固定は、以下の `igGrid` 機能に対応していません。
 
--   [列移動](igGrid-ColumnMoving-LandingPage.html)
 -   [Groupby](igGrid-GroupBy.html)
 -   [非表示](igGrid-Column-Hiding.html)
 -   [レスポンシブ Web デザイン (RWD) モード](igGrid-Responsive-Web-Design-Mode-LandingPage.html)
