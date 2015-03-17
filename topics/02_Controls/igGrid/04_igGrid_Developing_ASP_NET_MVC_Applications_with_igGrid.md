@@ -1,4 +1,4 @@
-﻿<!--
+﻿﻿<!--
 |metadata|
 {
     "fileName": "iggrid-developing-asp-net-mvc-applications-with-iggrid",
@@ -9,206 +9,309 @@
 -->
 
 # igGrid を使用する ASP.NET MVC アプリケーションの開発
+Ignite UI は、JavaScript ベースの機能豊かなインタラクティブ web アプリケーションを作成するための [jQuery UI](http://jqueryui.com/) コントロール セットです。Ignite UI を ASP.NET MVC と使用する場合、直接 JavaScript を使用または MVC ヘルパーを使用するオプションがあります。
 
-## 概要
+MVC ヘルパーは、Ignite UI コントロールで必要な HTML マークアップおよび JavaScript コードを生成する .NET クラスおよび拡張機能メソッドのコレクションです。ページに描画された後、手動的に JavaScript で作成したコードと Ignite UI MVC ヘルパーによって生成されたコードの違いはほとんどありませんが、以下の場合はヘルパーが役立ちます。
 
-Ignite UI® のグリッド用の ASP.NET MVC ラッパーまたは `igGrid` は、既存のクライアント専用グリッドを MVC Extensions のサーバー側セットにラップします。これによって、次のようにしてグリッドを定義および使用できるようになります。
+* リモート ロードオンデマンド、リモート ページング、リモート フィルタリングなどのリモート機能を実装する場合。
 
-```
-<%= Html.Infragistics().Grid(Model); %>
-```
+* HTML および JavaScript より MVC ビュー エンジンの構文またはマネージ コードでの操作を望む場合。
 
-ASP.NET に依存しませんし、MVC 以外のフレームワークにも依存しません。MVC ラッパーのすべてのコードは、*Infragistics.Web.Mvc* アセンブリに含まれています。これは、MVC2 と MVC3 の両方対してコンパイル済みです。
+このトピックでは、igGrid MVC ヘルパーについて説明します。ビューの構築で利用可能な構文オプションについて、またグリッドにデータを提供するためのサーバーとの操作方法も説明します。
 
-すべての機能 (オプション、API、など) を単純にラッピングするだけでなく、MVC ラッパーは、ページング、並べ替え、フィルタリングを簡単にするデータ バインドに関連するロジックの多くをカプセル化します。これらの機能を処理するカスタム コードを書く必要ありません。`DataSource` を `IQueryable` オブジェクトのインスタンスにポイントするだけです。
+> **注:** このトピックは Razor ビュー エンジンおよび C# でサンプル コードを表示します。
 
-## チェーン構文
 
-使用可能な MVC アプリケーションにグリッドを定義するための 2 つの異なるオプションがあります。その 1 つは、`GridModel` クラスを構成して、グリッド拡張メソッドに引数としてそれを渡す方法です。もう 1 つは、チェーンの手法を使用して View にすべて構成する方法です。
+### このトピックの内容
+- [**はじめに**](#getting-started)
+	- [Ignite UI MVC アセンブリの参照](#referencing-igniteui-mvc-assembly)
+	- [スタイルおよびスクリプトの参照](#referencing-styles-and-scripts)
+- [**構文方法**](#syntax-variations)
+ 	- [グリッド モデル](#syntax-grid-model)
+ 	- [チェーン](#syntax-chaining)
+- [**データ ソースの定義方法**](#data-source-variations)
+	- [シリアル化されたデータ](#data-source-serialized-data)
+	- [非同期データ](#data-source-asynchronous-data)
+- [**関連コンテンツ**](#related-content)
+	- [関連トピック](#related-topics)
 
-## GridModel を使用したグリッドの構成
+## <a id="getting-started"></a> はじめに
+igGrid MVC ヘルパーを使用する前に、`Infragistics.Web.Mvc` アセンブリへの参照を作成し、ページで関連するスクリプトおよびスタイル シートを参照します。
 
-グリッド モデル クラスを使用する場合、コントローラーに依存してグリッドを構成します。これは、要求 (ページの変更やフィルタリングなど) の後に、グリッドの構成に使用した設定/プロパティを取得する必要があるシナリオで有効です。チェーンを使用して View にすべてを構成する場合は、こうした設定/プロパティは使用できません。
-
-リスト 1: `GridModel` を使用した MVC アプリケーション内のグリッドの宣言
-
-**C# の場合: モデル コード (ASP.NET MVC)**
-
-```
-public class GridFilteringModel
-{
-        public GridFilteringModel()
-    {
-           //The GridModel class holds all the properties for the MVC grid.
-           GridFiltering = new Infragistics.Web.Mvc.GridModel();
-    }
-
-public Infragistics.Web.Mvc.GridModel GridFiltering { get; set; }
-}
-```
-
-> **注:** `GridModel` ベース クラスを使用すると、すべての MVC Grid プロパティおよびメソッドにアクセスできます。
-
-**C# の場合: コントローラー コード (ASP.NET MVC)**
+### <a id="referencing-igniteui-mvc-assembly"></a>Ignite UI MVC アセンブリの参照
+ASP.NET アプリケーションで、以下の場所にある Ignite UI MVC アセンブリへの参照を作成します。
 
 ```
-[ActionName("Filtering")]
-public ActionResult GridFiltering()
-{
-   GridFilteringModel model = new GridFilteringModel();
-   model.GridFiltering.DataSourceUrl = Url.Action("BindGridFiltering");
-   this.InitializeSortingGridOptions(model.GridFiltering);
-   return View(model);
-}
-private void InitializeSortingGridOptions(GridModel model)
-{
-   model.Height = "500px";
-   model.Columns.Add(new GridColumn("Product ID", "ProductID", "number", "100px"));
-   model.Columns.Add(new GridColumn("Product Name", "Name", "string", "300px"));
-   model.Columns.Add(new GridColumn("Product Number", "ProductNumber", "string", "205px"));
-   model.Columns.Add(new GridColumn("Standard Cost", "StandardCost", "number", "110px"));
-   GridFiltering filtering = new GridFiltering();
-   model.Features.Add(filtering);
-}
+%%InstallPath%%\MVC\<MVC_VERSION_NUMBER>\Bin\Infragistics.Web.Mvc.dll
 ```
 
-**ASPX/CSHTML の場合:**
+### <a id="referencing-styles-and-scripts"></a>スタイルおよびスクリプトの参照
+次に、必要なスタイル シートおよびスクリプト ファイルをページで参照します。
 
-  ```
-  <%= Html.Infragistics().Grid("grid1", Model.GridFiltering)%>
-  ```
-
-## チェーンを使用したグリッドの構成
-
-チェーン構文を使用しグリッドを初期化すると、すべての作成および構成のロジックがビューに移動します。これによって、コントローラー コードが非常に簡潔で明快になります。ビューにグリッドを定義するには、呼び出したものと同じオブジェクトを常に返すラッパー メソッドを介して、必要なプロパティとメソッドをグリッドに公開します。`ColumnSettings` または Columns などの複合オブジェクトの場合は、ラムダ式ビルダーを使用して、リスト 2 に示すような構文を実現します。
-
-リスト 2: チェーンを使用した MVC アプリケーション内のグリッドの宣言
-
-**C# の場合: モデル コード (ASP.NET MVC)**
-
-```
-N/A
-```
-
-**C# の場合: コントローラー コード (ASP.NET MVC)**
-
-```
-[ActionName("cell-selection")]
-    public ActionResult GridSelection()
-    {
-        var ds = this.DataRepository.GetDataContext().MyComplexProducts;
-        return View("CellSelection", ds);
-    }
-```
-
-**ASPX/CSHTML の場合:**
-
-```
-<%= Html.Infragistics().Grid(Model).ID("grid1").Columns(column =>
-    {
-        column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
-        column.For(x => x.Name).HeaderText("Product Name").Width("250px");
-        column.For(x => x.ModifiedDate).HeaderText("Modified Date").Width("200px");
-        column.For(x => x.ListPrice).HeaderText("List Price").Width("130px");
-        }).Features(features => {
-            features.Selection().Mode(SelectionMode.Cell).MultipleSelection(true);
-        }).Height("500px").DataSourceUrl(Url.Action("PagingGetData")).DataBind().Render()%>
-```
-
-## データ バインディング
-
-MVC グリッド ラッパーのすべてのデータ バインディングは、LINQ を使用して実行します。そのため、`DataSource` プロパティは `IQueryable` のインスタンスのみを受け付けます。
-
-グリッドのデータ バインディングでは、2 つの重要なプロパティ `DataSource` および `DataSourceUrl` が考慮されます。ページを初めて描画するとき、`DataSource` を最初に指定する場合、グリッドは、グリッド初期化 JavaScript コードの一部としてデータをインラインで自動的に送信します。そのため、1 つの要求だけで、グリッドを描画し、データ バインドを行います。
-
-`DataSourceUrl` を指定して、`DataSource` を指定しない場合は、グリッドの描画は空となり、2 つ目の要求で `DataSourceUrl` がデータをフェッチします。これは、MVC アプリケーションからグリッドをロードして、同じアプリケーションでホストされている WCF Web サービスにバインドする場合に特に有用です。
-
-ページング、フィルタリング、並べ替えの機能を使用するには、`DataSourceUrl` プロパティを指定する必要があります。これは、コントローラー アクションにマップされる URL で、ある機能がサーバーに要求を送る場合に必ず呼び出されます。コントローラー アクションをマークして純粋な JSON を返す方法をリスト 3 に示します。
-
-リスト 3: `GridDataSourceAction` 属性を使用したコントローラー アクションのマーキング
-
-**C# の場合: コントローラー コード (ASP.NET MVC)**
-
-```
-[GridDataSourceAction]
-[ActionName("PagingGetData")]
-public ActionResult PagingGetData()
-{
-   var ds = this.DataRepository.GetDataContext().MyComplexProducts;
-   return View("RowSelection", ds);
-}
-```
-
-**ASPX/CSHTML の場合:**
-
- ```
- <%= Html.Infragistics().Grid(Model).ID("grid1").Columns(column =>
-    {
-        column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
-        column.For(x => x.Name).HeaderText("Product Name").Width("250px");
-        column.For(x => x.ModifiedDate).HeaderText("Modified Date").Width("200px");
-        column.For(x => x.ListPrice).HeaderText("List Price").Width("130px");
-        }).Features(features => {
-            features.Selection().Mode(SelectionMode.Cell).MultipleSelection(true);
-        }).Height("500px").DataSourceUrl(Url.Action("PagingGetData")).DataBind().Render()%>
- ```
-
-すでに説明したように、MVC グリッドは URL パラメーターを LINQ 式および句に変換するので、すべてのページング、並べ替え、フィルタリングをそのまま使えます。
-
-## MVC アプリケーションでのグリッドの使用
-
-ASP.NET MVC アプリケーションで `igGrid` を開始するには、最初に、該当するスクリプト参照をビューに含める必要があります。これについてはリスト 4 で説明します。
-
-リスト 4: CSS とスクリプト参照
-
-**HTML の場合:**
-```
-
+```html
 <link type="text/css" href="css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
 <link type="text/css" href="css/structure/infragistics.css" rel="stylesheet" />
+
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="jquery-ui.js"></script>
 <script type="text/javascript" src="infragistics.core.js"></script>
 <script type="text/javascript" src="infragistics.lob.js"></script>
 ```
+> **注**: Ignite UI MVC ヘルパーを使用するには、jQuery、jQuery UI、および Ignite UI への参照をページの上に含む必要があります。
 
-グリッド列を定義する方法がいくつかあります。デフォルトで、`AutoGenerateColumns` が有効です。そのため、手動で列を指定しない場合は、データ ソースの基本ビジネス オブジェクトから列が推定され、プログラムによってクライアント上に作成されます。
+## <a id="syntax-variations"></a>構文方法
+Ignite UI MVC ヘルパーを使用すると、igGrid の使用でページを構成するパーツがいくつかあります。ページが要求されたときに Ignite UI MVC ヘルパーがページでコントロールを描画するために、Model データが Controller で収集され、View に渡されます。Controller でビューに `IQueryable<T>` コレクションとしてデータを直接に渡すか、`Infragistics.Web.Mvc.GridModel` クラスのインスタンスを渡すことができます。
 
-列を定義する別の方法は、チェーンを使用することで、最後の方法は、`GridModel` クラスのインスタンスを使用して列を定義することです。
+> **注**: igGrid MVC ヘルパーのデータ ソースは LINQ を使用するため、`IQueryable<T>` のインスタンスのみを受け入れます。`GridModel` を使用した場合も、`IQueryable<T>` のインスタンスが必要な `DataSource` プロパティを明示的に設定します。
+
+したがって、igGrid MVC ヘルパーの使用で、以下のような構文パターンを使用します。
+
+```html
+@(Html.Infragistics().Grid(/* collection or grid model here */)...
+```
+`Grid` メソッドは、MVC ヘルパーで使用する構文方法を選択するためのオーバーロードをサポートします。構文方法は、データ コレクション (`IQueryable<T>`) またはグリッド モデルの使用で利用可能です。以下の表は、MVC ヘルパーの返却型がヘルパーの `Grid` メソッドに渡された引数によって影響される方法を表示します。
+
+構文方法|プライマリ引数|戻り値の型
+--- | --- | --- |
+グリッド モデル|IGridModel|MvcHtmlString
+チェーン|IQueryable&lt;T&gt; |IGrid&lt;T&gt;
+
+> **注**: 以上の表は、描画された TABLE 要素の HTML 属性を制御する機能を含むオーバーロードを複数含みますが、`IQueryable<T>` または `Infragistics.Web.Mvc.GridModel` インスタンスの使用は主な違いであるため「プライマリ引数」を使用します。
+
+### <a id="syntax-grid-model"></a>グリッド モデル
+igGrid の構成で最初のオプションは、グリッドのすべてのオプション (データ ソースも含む) をコントローラーで定義し、`GridModel` インスタンスをヘルパーに渡します。たとえば、コントローラーが `GridModel` クラスのインスタンスを作成し、`DataSource` プロパティを `IQueryable<T>` コレクションのインスタンスに設定します。
+```csharp
+using Infragistics.Web.Mvc;
+
+...
+
+public class GridModelController : Controller
+{
+    public ActionResult Index()
+    {
+        PersonRepository repository = new PersonRepository();
+
+        GridModel model = new GridModel();
+        model.DataSource = repository.GetAll();
+
+        return View(model);
+    }
+}
+```
+グリッド モデルがビューに送信し、コントロールを描画するために MVC ヘルパーにビューのモデルが渡されます。
+
+```html
+@using Infragistics.Web.Mvc
+@model Infragistics.Web.Mvc.GridModel
+
+...
+
+@(Html.Infragistics().Grid(Model))
+```
+ビューで API を利用可能にするには、ページの上に `Infragistics.Web.Mvc` をインポートするための `using` 命令が必要です。`model` の宣言された型は `Infragistics.Web.Mvc.GridModel` で、コントローラーによってビューに渡されたことと一致します。この場合、`Grid` メソッドの返却型が `MvcHtmlString` (ページの HTML および JavaScript の描画された文字列) のため、コントロールを描画するための追加の呼び出しがありません。
+
+<a id="grid-model-source"></a>この例の結果で描画されたページのソースを表示すると、以下のようなコードが表示されます。
+
+```html
+<table id="Grid1"></table>
+
+<script type="text/javascript">$(function () {$('#Grid1').igGrid({ dataSource: {"Records":[{"Name":"John Smith","Age":45},{"Name":"Mary Johnson","Age":32}],"TotalRecordsCount":0,"Metadata":{"timezoneOffset":-25200000}},dataSourceType: 'json',autoGenerateColumns: false,autoGenerateLayouts: false,mergeUnboundColumns: false, responseDataKey: 'Records', generateCompactJSONResponse: false, enableUTCDates: true, columns: [ { key: 'Name', headerText: 'Name', width: null, dataType: 'string' }, { key: 'Age', headerText: 'Age', width: null, dataType: 'number' } ], features: [ { sortUrlKey: 'sort', sortUrlKeyAscValue: 'asc', sortUrlKeyDescValue: 'desc', name: 'Sorting' } ], localSchemaTransform: false });});</script>
+```
+このコードをすべて理解する必要はありませんが、MVC ヘルパーを使用して描画されるコードについて説明するために本トピックに含まれます。`Grid1` の `ID` を持つ HTML `TABLE` 要素が生成されます。jQuery `ready` の匿名関数の後にある `SCRIPT` 要素で、データおよびオプションを宣言された `TABLE` 要素に関連する `$('#Grid1')` の jQuery セレクターがあります。
+
+#### 設定、列、および機能
+グリッドの設定および機能を制御するには、グリッドのオブジェクト モデルを適切に構成できます。以下のコードは以下を行う方法を示します。
+
+* 列の自動生成を無効にする
+* 明示的に列を構成する
+* グリッドで複数並べ替えを有効にする
+* 特定の列で並べ替えを無効にする
+
+<a id="grid-model-features-source"></a>グリッド モデルを初期化するコントローラー コード:
+
+```csharp
+public ActionResult Index()
+{
+    PersonRepository repository = new PersonRepository();
+    GridModel model = new GridModel();
+    model.AutoGenerateColumns = false;
+
+    GridColumn nameColumn = new GridColumn();
+    nameColumn.Key = "Name";
+    nameColumn.HeaderText = "Name";
+    nameColumn.DataType = "string";
+
+    GridColumn ageColumn = new GridColumn();
+    ageColumn.Key = "Age";
+    ageColumn.HeaderText = "Age";
+    ageColumn.DataType = "number";
+
+    model.Columns.Add(nameColumn);
+    model.Columns.Add(ageColumn);
+
+    GridSorting sorting = new GridSorting();
+    sorting.Mode = SortingMode.Multiple;
+
+    ColumnSortingSetting colSetting = new ColumnSortingSetting();
+    colSetting.ColumnKey = "Name";
+    colSetting.AllowSorting = false;
+
+    sorting.ColumnSettings.Add(colSetting);
+
+    model.Features.Add(sorting);
+
+    model.DataSource = repository.GetAll();
+
+    return View(model);
+}
+```
+
+### <a id="syntax-chaining"></a>チェーン
+コントローラーでグリッド モデルを定義する代わりに、チェーン構文を使用できます。MVC ヘルパーにデータのコレクションを渡すと、`Grid` メソッドは、ページでコントロールを定義するためにメソッド呼び出しをチェーンする可能な fluent インターフェイスを公開する `IGrid` インスタンスを返します。
+
+データが `IQueryable<T>` コレクションとしてビューに渡された Controller の場合:
+
+```csharp
+using Infragistics.Web.Mvc;
+
+...
+
+public class ChainedController : Controller
+{
+    public ActionResult Index()
+    {
+        PersonRepository repository = new PersonRepository();
+        IQueryable<Person> people = repository.GetAll();
+        return View(people);
+    }
+}
+```
+
+igGrid の MVC ヘルパーがページの `Model` によりコレクションを渡されます。
+
+```html
+@using Infragistics.Web.Mvc
+@model System.Linq.IQueryable<HelloMVC.Models.Person>
+
+...
+
+@(Html.Infragistics()
+      .Grid(Model)
+      .DataBind()
+      .Render())
+```
+ビューで `Infragistics.Web.Mvc` API を利用可能にするには、ページに `using` 命令が必要です。`model` は、コントローラーがビューに渡されたことに基づいて受信した型と一致するために定義されます。この場合、型は `System.Linq.IQueryable<HelloMVC.Models.Person>` です。
+
+グリッドの宣言で、`Grid` メソッドが呼び出され、`Model` がプライマリ引数として渡されます。データをサーバーからクライアントへシリアル化するには、 `DataBind` を呼び出します。コントロールをページに描画するために必要な HTML 要素および JavaScript を描画するには、`Render` を呼び出します。
+
+結果の HTML および JavaScript は以前の [グリッド モデル](#grid-model-source) セクションと同じです。
+
+#### 設定、列、および機能
+チェーン方法を使用する場合、グリッドの機能を制御する方法はグリッド モデルの方法と同じようにします。コントローラーでオブジェクト グラフを作成する代わりに、fluent インターフェイスを使用してグリッドの設定を宣言的に定義します。
+
+以下のコードは以下を行う方法を示します。
+
+* 列の自動生成を無効にする
+* 明示的に列を構成する
+* グリッドで複数並べ替えを有効にする
+* 特定の列で並べ替えを無効にする
+
+<a id="chaining-features-source"></a>この設定をチェーン方法で実装するには以下のようになります。
+
+```html
+@(Html.Infragistics()
+      .Grid(Model)
+      .AutoGenerateColumns(false)
+      .Columns(column =>
+      {
+          column.For(x => x.Name).HeaderText("Full Name");
+          column.For(x => x.Age).HeaderText("Age");
+      })
+      .Features(f => f.Sorting()
+                      .Mode(SortingMode.Multiple)
+                      .ColumnSettings(settings => {
+                        settings.ColumnSetting()
+                                .ColumnKey("Name")
+                                .AllowSorting(false);
+      }))
+      .DataBind()
+      .Render())
+```
+ヘルパーは、C# のコントローラーと同じように Razor でオブジェクト グラフを作成するためにラムダ式を使用します。ラムダの使用以外、プロパティ値 (`AutoGenerateColumns` を `false` に設定するなど) を設定しても、すべての宣言が括弧で開始されます。
 
 > **注:** チェーンを使用して列を定義するとき、列の推定データ型を自動的にオーバーライドする場合を除き、基本データのデータ型を指定する必要はありません。
 
-リスト 5 に示した (該当するコードは太字) 次のチェーン構文を使用すると、View 内の機能を簡単に有効にして直接構成できます。
+## <a id="data-source-variations"></a>データ ソースの定義方法
+グリッドにデータへのバインドで複数の方法を使用できます。`DataSource` を明示的に設定すると、グリッドをシリアル化されたデータと描画、または `DataSourceUrl` 値を提供するとグリッドが最初に空として描画され、グリッドのデータが要求で取得されます。
 
-> **注:** 必ず、ご自分のプロジェクトの *Infragistics.Web.Mvc* アセンブリに参照を追加してください。
+> **注:**: このセクションではシリアル化されたデータと非同期データについて別々に説明しますが、アプリケーションでは両方を一緒に使用できます。
 
-リスト 5: View でのグリッド機能の有効化
+### <a id="data-source-serialized-data"></a>シリアル化されたデータ
+このトピックで使用したコードがグリッドの `DataSource` にデータを提供しました。この方法はデータを HTML ページに JSON としてシリアル化します。([シリアル化されたデータの例を表示するにはここをクリックします。](#grid-model-source)) この例をレビューするには、[グリッド モデル](#grid-model-features-source)および[チェーン](#chaining-features-source) セクションを参照してください。
 
-**ASPX/CSHTML の場合:**
+### <a id="data-source-asynchronous-data"></a>非同期データ
+アプリケーションが複数のデータ サービス (Web API、WCF など) を含む場合、データを取得するために非同期要求をサポートするためのグリッドを設定することを推薦します。以下のコードは、データを別の場所から読み込むグリッドを最初に描画するチェーン方法を使用する方法を示します。
 
-```
-<%= Html.Infragistics().Grid(Model).ID("grid1").Height("400px").Columns(column =>
+> **注:**: 非同期データをサポートするには、`AutoGenerateColumns` を `false` に設定し、明示的にグリッド列を定義する必要があります。
+
+以下のコントローラーは、`GridModel` の `DataSourceUrl` プロパティを JSON データを返すアクション メソッドに設定します。`Data` メソッドも `GridModel` を返しますが、`DataSource` に関連するデータと送信します。
+
+```csharp
+using Infragistics.Web.Mvc;
+
+...
+
+public class AsyncController : Controller
+{
+    private GridModel GetModel()
     {
-        column.For(x => x.ProductID).HeaderText("Product ID");
-        column.For(x => x.Name).HeaderText("Product Name");
-        column.For(x => x.ModifiedDate).HeaderText("Modified Date");
-        column.For(x => x.ListPrice).HeaderText("List Price");
-        }).Features(features => {
-            features.Filtering().Mode(FilterMode.Advanced).ColumnSettings(settings =>
-            {
-                settings.ColumnSetting().ColumnKey("ProductID").AllowFiltering(false);
-            });
-        }).DataSourceUrl(Url.Action("GridGetData")).DataBind().Render()%>
+        GridModel model = new GridModel();
+        model.AutoGenerateColumns = false;
+
+        GridColumn nameColumn = new GridColumn();
+        nameColumn.Key = "Name";
+        nameColumn.HeaderText = "Name";
+        nameColumn.DataType = "string";
+
+        GridColumn ageColumn = new GridColumn();
+        ageColumn.Key = "Age";
+        ageColumn.HeaderText = "Age";
+        ageColumn.DataType = "number";
+
+        model.Columns.Add(nameColumn);
+        model.Columns.Add(ageColumn);
+
+        model.DataSourceUrl = "/async/data";
+        return model;
+    }
+
+    public ActionResult Index()
+    {
+        GridModel model = this.GetModel();
+
+        return View(model);
+    }
+
+    public JsonResult Data()
+    {
+        PersonRepository repository = new PersonRepository();
+        GridModel model = GetModel();
+        model.DataSource = repository.GetAll();
+        return model.GetData();
+    }
+}
+```
+このコントローラーと関連付けられた View は以下です。
+
+```html
+@using Infragistics.Web.Mvc
+
+@model Infragistics.Web.Mvc.GridModel
+
+@(Html.Infragistics().Grid(Model))
 ```
 
-## 関連コンテンツ
-
-### トピック
-
--   [igGrid の概要](igGrid-Overview.html)
-
- 
-
- 
-
-
+## <a id="related-content"></a>関連コンテンツ
+### <a id="related-topics"></a>トピック
+* [igGrid の概要](iggrid-overview.html)
+* [コントロールを MVC プロジェクトに追加](adding-netadvantage-controls-to-an-mvc-project.html)
