@@ -119,7 +119,7 @@ $.ig.loader({
 このセクションでは、書式設定する方法によって異なる結果となる式をレビューします。これらの方法は統合でき、相互に排他的ではありません。
 
 ### 機能の読み込み
-igGrid、igHierarchicalGrid、または igDataChart などのコントロールはモジュラーで、コントロールのコア ファイル以外のコードをダウンロードする必要がある「機能」をサポートします。リソース式のドット (`.`) は、ルート コントロールに関連する機能を含むことを指定します。たとえば、ページで igGrid およびグリッドの並べ替え機能を読み込むには、以下のようなリソース式を使用します。
+igGrid、igHierarchicalGrid、igTreeGrid、または igDataChart などのコントロールはモジュラーで、コントロールのコア ファイル以外のコードをダウンロードする必要がある「機能」をサポートします。リソース式のドット (`.`) は、ルート コントロールに関連する機能を含むことを指定します。たとえば、ページで igGrid およびグリッドの並べ替え機能を読み込むには、以下のようなリソース式を使用します。
 
 ```javascript
 igGrid.Sorting
@@ -216,14 +216,16 @@ $.ig.loader({
 ```
 
 #### igGrid
+- AppendRowsOnDemand
+- CellMerging
 - ColumnMoving
-- FeatureChooser
+- ColumnFixing
 - Filtering
 - GroupBy
 - Hiding
-- MergedCells
 - Paging
 - Resizing
+- Responsive
 - RowSelectors
 - Selection
 - Sorting
@@ -238,19 +240,19 @@ $.ig.loader({
 $.ig.loader({
     scriptPath: 'http://localhost/igniteui/js/',
     cssPath: 'http://localhost/igniteui/css/',
-    resources: 'igGrid.FeatureChooser.ColumnMoving.MergedCells'
+    resources: 'igGrid.Sorting.Filtering.Paging'
 });
 ```
 
 #### igHierarchicalGrid
 - ColumnMoving
-- FeatureChooser
 - Filtering
 - GroupBy
 - Hiding
-- MergedCells
+- CellMerging
 - Paging
 - Resizing
+- Responsive
 - RowSelectors
 - Selection
 - Sorting
@@ -266,6 +268,27 @@ $.ig.loader({
     scriptPath: 'http://localhost/igniteui/js/',
     cssPath: 'http://localhost/igniteui/css/',
     resources: 'igHierarchicalGrid.ColumnMoving.RowSelectors.MultiColumnHeaders'
+});
+```
+
+#### igTreeGrid
+- Filtering
+- Hiding
+- Paging
+- Selection
+- Sorting
+- MultiColumnHeaders
+- ColumnFixing
+- Tooltips
+- Updating
+
+次に例を示します。
+
+```javascript
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igTreeGrid.Paging.Sorting.Filtering'
 });
 ```
 
