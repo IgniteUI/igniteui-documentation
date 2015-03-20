@@ -473,12 +473,12 @@ sortIndicatorDescending|sortIndicatorAscending と同じですが、降順の場
 
 ## <a id="related-content"></a> 関連コンテンツ
 
-### <a id="topics"></a> トピック
+### <a id="samples"></a> サンプル
 
 -   [並べ替え](%%SamplesUrl%%/grid/sorting-local)
 -   [リモートで並べ替え](%%SamplesUrl%%/grid/sorting-remote)
 
-### <a id="samples"></a> サンプル
+### <a id="topics"></a> トピック
 
 -   [igGrid の概要](igGrid-Overview.html)
 
