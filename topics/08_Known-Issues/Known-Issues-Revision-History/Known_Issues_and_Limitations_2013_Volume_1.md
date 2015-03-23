@@ -1014,7 +1014,7 @@ Android オペレーティング システム用のブラウザーでは、`igPi
 ## <a id="igCombo"></a>igCombo
 ### <a id="cascading-combos"></a>igCombo のカスケードに parentComboKey を使用しても、子 igCombo をフィルターできない
 
-子の `igCombo` にフィルター処理をかける必要がある場合には、`parentComboKey` ではなく、この `cascadingDataSources` 方式を使用してください。詳細については、[データ ソース スケードへの igCombo コントロール スケードのバインド](igCombo-Binding-Cascading-igCombo-Controls-to-Cascading-Data-Sources.html)というトピックを参照してください。
+子の `igCombo` にフィルター処理をかける必要がある場合には、`parentComboKey` ではなく、この `cascadingDataSources` 方式を使用してください。詳細については、データ ソース スケードへの igCombo コントロール スケードのバインドというトピックを参照してください。
 
 ### <a id="enabling-load-on-demand"></a>igCombo の子のカスケードに対し、ロード オン デマンドがサポートされない
 

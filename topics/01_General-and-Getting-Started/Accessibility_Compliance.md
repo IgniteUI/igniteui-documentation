@@ -173,6 +173,72 @@
         </tr>
         <tr>
             <td>
+[igGrid](igGrid-Accessibility-Compliance.html)
+            </td>
+            <td>
+![](images/greenCheck.png)
+            </td>
+            <td>
+![](images/greenCheck.png)
+            </td>
+            <td></td>
+            <td>
+![](images/greenCheck.png)
+            </td>
+            <td></td>
+            <td></td>
+            <td>
+![](images/greenCheck.png)
+            </td>
+            <td>
+![](images/greenCheck.png)
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+![](images/greenCheck.png)
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+[igTreeGrid](igTreeGrid-Accessibility-Compliance.html)
+            </td>
+            <td>
+![](images/greenCheck.png)
+            </td>
+            <td>
+![](images/greenCheck.png)
+            </td>
+            <td></td>
+            <td>
+![](images/greenCheck.png)
+            </td>
+            <td></td>
+            <td></td>
+            <td>
+![](images/greenCheck.png)
+            </td>
+            <td>
+![](images/greenCheck.png)
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+![](images/greenCheck.png)
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
 [igHierarchicalGrid](igHierarchicalGrid-Accessibility-Compliance.html)
             </td>
             <td>
@@ -199,7 +265,7 @@
             <td></td>
             <td></td>
             <td>
-![](images/redX.png)
+![](images/greenCheck.png)
             </td>
             <td></td>
             <td></td>

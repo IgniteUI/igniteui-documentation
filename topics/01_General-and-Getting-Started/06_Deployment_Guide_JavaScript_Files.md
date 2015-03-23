@@ -96,6 +96,7 @@
 -   [igTemplating](#igTemplating)
 -   [igTileManager](#igTileManager)
 -   [igTree](#igTree)
+-   [igTreeGrid](#igTreeGrid)
 -   [igUpload](#igUpload)
 -   [igVideoPlayer](#igVideoPlayer)
 -   [igZoombar](#igZoombar)
@@ -365,7 +366,7 @@
 			    <br>infragistics.ui.grid.columnmoving.js
 			    <br>infragistics.ui.grid.columnfixing.js
 				<br>infragistics.ui.grid.responsive.js
-			    <br>infragistics.ui.grid.loadondemand.js
+			    <br>infragistics.ui.grid.appendrowsondemand.js
 			</td>
 		</tr>
 	</tbody>
@@ -988,6 +989,63 @@
 			<td>スクリプト</td>
 			<td>infragistics.ui.tree-en.js
     			<br>infragistics.ui.tree.js</td>
+		</tr>
+	</tbody>
+</table>
+
+
+>**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
+
+#### <a id="igTreeGrid"></a>igTreeGrid 
+<table class="table">
+	<thead>
+		<tr>
+			<th>スクリプトの種類</th>
+			<th>スクリプト ファイル名</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>依存スクリプト</td>
+			<td>
+			    infragistics.util.js
+			    <br>infragistics.datasource-en.js
+			    <br>infragistics.dataSource.js
+			    <br>infragistics.templating-en.js
+			    <br>infragistics.templating.js
+			    <br>infragistics.ui.shared.js
+			    <br>infragistics.ui.scroll.js
+				<br>infragistics.ui.grid-en.js
+				<br>infragistics.ui.grid.framework.js
+			</td>
+		</tr>
+		<tr>
+			<td>スクリプト</td>
+			<td>
+				infragistics.ui.treegrid-en.js
+			    <br>infragistics.ui.treegrid.js
+			
+				<h5>機能:</h5>
+			    infragistics.ui.grid.featurechooser.js
+			    <br>infragistics.ui.grid.filtering.js
+				<br>infragistics.ui.treegrid.filtering.js
+			    <br>infragistics.ui.grid.hiding.js
+				<br>infragistics.ui.treegrid.hiding.js
+			    <br>infragistics.ui.grid.paging.js
+				<br>infragistics.ui.treegrid.paging.js
+			    <br>infragistics.ui.grid.selection.js
+				<br>infragistics.ui.treegrid.selection.js
+			    <br>infragistics.ui.grid.sorting.js
+				<br>infragistics.ui.treegrid.sorting.js
+			    <br>infragistics.ui.grid.tooltips.js
+				<br>infragistics.ui.treegrid.tooltips.js
+			    <br>infragistics.ui.grid.updating.js
+				<br>infragistics.ui.treegrid.updating.js
+			    <br>infragistics.ui.grid.multicolumnheaders.js
+				<br>infragistics.ui.treegrid.multicolumnheaders.js
+			    <br>infragistics.ui.grid.columnfixing.js
+				<br>infragistics.ui.treegrid.columnfixing.js
+			</td>
 		</tr>
 	</tbody>
 </table>
