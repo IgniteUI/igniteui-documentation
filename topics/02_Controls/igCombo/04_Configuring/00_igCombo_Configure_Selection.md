@@ -83,7 +83,7 @@
 		<tr>
 			<td>選択のクリア</td>
 			<td>igCombo コントロールから選択をプログラム的にクリアします。</td>
-			<td>[selectedIndex](%%jQueryApiUrl%%/ui.igCombo#methods:selectedIndex)</td>
+			<td>[deselectAll](%%jQueryApiUrl%%/ui.igCombo#methods:deselectAll)</td>
 		</tr>
 		<tr>
 			<td>選択イベントの処理</td>
@@ -110,7 +110,7 @@
 ###<a id="multiple_selection_details"></a>複数選択の詳細
 
 
-複数選択が有効になっている場合、ユーザーは Ctrl キーを押したままにして、ドロップダウン リストから複数項目を選択できます。また、テキスト ボックスに複数の値を入力し、コンマで区切って対応する値を選択することもできます。
+複数選択が有効になっている場合、ユーザーはマウスまたはキーボードによってドロップダウン リストから複数項目を選択できます。また、テキスト ボックスに複数の値を入力し、`itemSeparator` で区切って対応する値を選択することもできます。`itemSeparator` のデフォルト値は `', '` です。
 
 最後に、複数選択が簡単にできるようチェックボックスを有効にできます。
 
@@ -125,20 +125,20 @@
 	<thead>
 		<tr>
 			<th>構成の目的:</th>
-			<th>このイベントの使用:</th>
+			<th>このオプションの使用:</th>
 			<th>プロパティ値</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td>複数選択</td>
-			<td>[**multiSelection**](%%jQueryApiUrl%%/ui.igCombo#options:multiSelection)</td>
-			<td>“on” または true</td>
+			<td>[**multiSelection.enabled**](%%jQueryApiUrl%%/ui.igCombo#options:multiSelection.enabled)</td>
+			<td>true</td>
 		</tr>
 		<tr>
 			<td>チェックボックスの表示</td>
-			<td>[**multiSelection**](%%jQueryApiUrl%%/ui.igCombo#options:multiSelection)</td>
-			<td>onWithCheckboxes</td>
+			<td>[**multiSelection.showCheckboxes**](%%jQueryApiUrl%%/ui.igCombo#options:multiSelection.showCheckboxes)</td>
+			<td>true</td>
 		</tr>
 	</tbody>
 </table>
@@ -157,7 +157,10 @@
     $(function () {
         $("#comboTarget").igCombo({
             dataSource: colors,
-            multiSelection: "onWithCheckboxes"
+            multiSelection: {
+				enabled: true,
+				showCheckboxes: true
+			}
         });
     });
 </script>
@@ -172,7 +175,10 @@
     Infragistics().
     Combo().
     DataSource(this.Model as IQueryable<System.Drawing.Color>).
-    MultiSelection("onWithCheckboxes").   
+    MultiSelectionSettings(ms => {
+		ms.Enabled(true);
+		ms.ShowCheckBoxes(true);
+	}).    
     Render()
 %>
 ```
@@ -190,7 +196,7 @@
 ######<a id="clear_selection_details"></a>選択の詳細のクリア 
 
 
-`igCombo` コントロールの選択をプログラム的にクリアするには、選択されたインデックスを -1 に設定します。
+`igCombo` コントロールの選択をプログラム的にクリアするには、deselectAll メソッドを使用します。
 
 ![](images/Configure_Selection_in_the_igCombo__02.png)
 
@@ -203,20 +209,17 @@
 	<thead>
 		<tr>
 			<th>目的:</th>
-			<th>このイベントの使用:</th>
-			<th>プロパティ値</th>
+			<th>このメソッドおよびイベントの使用:</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td>選択のクリア</td>
-			<td>[**selectedIndex**](%%jQueryApiUrl%%/ui.igCombo#methods:selectedIndex)</td>
-			<td>`function()`</td>
+			<td>[**deselectAll**](%%jQueryApiUrl%%/ui.igCombo#methods:deselectAll)</td>
 		</tr>
 		<tr>
 			<td>選択が変更された後でイベントを処理します</td>
 			<td>[**selectionChanged**](%%jQueryApiUrl%%/ui.igCombo#events:selectionChanged)</td>
-			<td>-1</td>
 		</tr>
 	</tbody>
 </table>
@@ -288,7 +291,7 @@
         <script type="text/javascript">        
             function comboSelectionChanging(evt, ui) {
 
-             };   
+            };   
         </script>
         ```
 

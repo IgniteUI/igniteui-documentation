@@ -120,6 +120,8 @@
                 filteringType<br>
 
                 responseDataKey<br>
+				
+				valueKey<br>
 
                 textKey
             </td>
@@ -130,6 +132,8 @@
                 remote<br>
 
                 d.results<br>
+				
+				string - unique key for item in list<br>
 
                 string - リストに表示するフィールド
             </td>
@@ -161,7 +165,8 @@
 1.  リモート フィルタリングを有効にする
 2.  データ ソースの構成
 3.  応答データ キーの構成
-4.  テキスト キーの構成
+4.  Configuring the value key
+5.  テキスト キーの構成
 
 #### 手順
 
@@ -183,23 +188,23 @@
 
 2.  データ ソースの構成
 
-    OData サービスの URL に dataSource オプションを設定します。Netflix OData サービスの場合、ブラウザーのクロスドメインの制限を回避するには JSONP を使用します。これは、OData 要求 URI でコールバック パラメーターを渡すことで要求される形式です。
+    OData サービスの URL に dataSource オプションを設定します。Ignite UI OData サービスの場合、ブラウザーのクロスドメインの制限を回避するには JSONP を使用します。これは、OData 要求 URI でコールバック パラメーターを渡すことで要求される形式です。
 
     **HTML の場合:**
 
     ```
-    dataSource: "http://odata.netflix.com/Catalog/People?$format=json&$callback=?"
+    dataSource: "http://igniteui.com/api/products?callback=?"
     ```
 
     **ASPX の場合:**
 
     ```
-    DataSource("http://odata.netflix.com/Catalog/People?$format=json&$callback=?")
+    DataSource("http://igniteui.com/api/products?callback=?")
     ```
 
 3.  応答データ キーの構成
 
-    データは特定のスキーマ内の OData から返されます。OData v1 サービスにアクセスしている場合、このキーは通常「d」です。Netflix サービスは OData v2 で応答キーは「d.results」です。
+    データは特定のスキーマ内の OData から返されます。OData v1 サービスにアクセスしている場合、このキーは通常「d」です。Ignite UI サービスは OData v2 で応答キーは「d.results」です。
 
     **HTML の場合:**
 
@@ -213,20 +218,36 @@
     ResponseDataKey("d.results")
     ```
 
-4.  テキスト キーを構成します。
+4.  Configure the value key.
+
+	Setting the value key tells the `igCombo` control which field provides unique value for each dropdown item. This value varies and is dependent upon the fields of data to which the `igCombo` control is bound.
+	
+    **HTML の場合:**
+
+    ```
+    valueKey: "ID"
+    ```
+
+    **ASPX の場合:**
+
+    ```
+    ValueKey("ID")
+    ```
+
+5.  テキスト キーを構成します。
 
     テキスト キーを設定すると、`igCombo` コントロールはどのフィールドが各ドロップダウン項目のテキストを提供するか指示されます。この値は変化し、`igCombo` コントロールがバインドされるデータのフィールドに依存しています。
 
     **HTML の場合:**
 
     ```
-    textKey: "Name"
+    textKey: "ProductName"
     ```
 
     **ASPX の場合:**
 
     ```
-    TextKey("Name")
+    TextKey("ProductName")
     ```
 
 #### コード例
@@ -239,8 +260,9 @@
 $("#comboTarget").igCombo({
     filteringType: "remote",
     responseDataKey: "d.results",
-    textKey: "Name",
-    dataSource: "http://odata.netflix.com/Catalog/People?$format=json&$callback=?"
+    valueKey: "ID",
+	textKey: "ProductName",
+    dataSource: "http://igniteui.com/api/products?callback=?"
 });
 ```
 
@@ -252,9 +274,10 @@ $("#comboTarget").igCombo({
     Combo().
     ID("comboTarget").   
     FilteringType(ComboFilteringType.Remote).  
-    DataSource("http://odata.netflix.com/Catalog/People?$format=json&$callback=?").
+    DataSource("http://igniteui.com/api/products?callback=?").
     ResponseDataKey("d.results").
-    TextKey("Name").
+	ValueKey("ID").
+    TextKey("ProductName").
     Render()
 %>
 ```

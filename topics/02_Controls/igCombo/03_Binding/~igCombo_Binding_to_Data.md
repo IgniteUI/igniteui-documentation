@@ -24,7 +24,7 @@
 
 -	[igCombo データにバインドについての概要](igCombo-Data-Binding.html): このトピックでは、`igCombo` コントロールでの各種データ バインド方式について説明し、データ バインディングに関するその他の詳細情報を示します。
 
--	[カスケード igCombo コントロールをデータにバインド](igCombo-Cascading-Binding-to-Data.html): このグループのトピックでは、カスケード Ignite UI コンボ コントロールのデータへのバインド方法について説明します。
+-	[カスケード igCombo コントロールをデータにバインド](igCombo-Cascading.html): このグループのトピックでは、カスケード Ignite UI コンボ コントロールのデータへのバインド方法について説明します。
 
 
 

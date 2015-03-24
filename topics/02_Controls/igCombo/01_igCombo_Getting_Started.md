@@ -60,7 +60,6 @@
 1.  `igCombo` のインスタンス化
 2.  データへのバインド
 3.  (オプション) 幅の構成
-4.  (オプション) オートコンプリートの有効化
 
 ###手順
 
@@ -73,7 +72,7 @@
 	**HTML の場合:**
 	
 	```
-	<select id="comboTarget"></select>
+	<div id="comboTarget"></div>
 	```
 	
 	`igCombo` をインスタンス化します。jQuery では、document ready JavaScript イベントを使用してコンボをインスタンス化できます。ASP.NET MVC では、ASP.NET MVC ヘルパーを使用して、`IQueryable` データ ソースにバインドします。
@@ -151,7 +150,7 @@
 	
 	**c. text フィールドおよび value フィールドを構成します。**
 	
-	`igCombo` の `textKey` オプションおよび `valueKey` オプションを設定します。この単純な例では、`textKey` と `valueKey` は両方とも「Name」という同じオブジェクト値に設定されています。ただし、`textKey` および `valueKey` は 2 つの異なるフィールドとして設定できます。たとえば、`valueKey` は各 Color オブジェクトの ID フィールドをポイントします。`textKey` は、どのフィールドを使用してドロップダウン リストでバインドされたアイテムを表すテキストを表示するかを決定します。
+	`igCombo` の `textKey` オプションおよび `valueKey` オプションを設定します。この単純な例では、`textKey` と `valueKey` は両方とも「Name」という同じオブジェクト値に設定されています。ただし、`textKey` および `valueKey` は 2 つの異なるフィールドとして設定できます。項目を正しく選択するには、`valueKey` を一意の値に設定する必要があります。たとえば、`valueKey` は各 Color オブジェクトの ID フィールドをポイントします。`textKey` は、どのフィールドを使用してドロップダウン リストでバインドされたアイテムを表すテキストを表示するかを決定します。
 	
 	>**注:** 「key」プロパティは、コンボのデータ ソースのどのプロパティを、コンボの選択された値および選択されたテキストとして使用するかを指定します。
 	
@@ -193,20 +192,6 @@
 
     ```
     Width("200px")
-    ```
-
-4.  **(オプション) オートコンプリートを有効にします。**autoComplete オプションを使用して、`igCombo` でオートコンプリートを有効にします。
-
-    **HTML の場合:**
-
-    ```
-    autoComplete: true
-    ```
-
-    **ASPX の場合:**
-
-    ```
-    AutoComplete(true)
     ```
 
 ##コード例
@@ -264,14 +249,6 @@
 			<td>幅</td>
 			<td>200px</td>
 		</tr>
-		<tr>
-			<td>AutoComplete</td>
-			<td>true</td>
-		</tr>
-		<tr>
-			<td>AutoComplete</td>
-			<td>On</td>
-		</tr>
 	</tbody>
 </table>
 
@@ -296,8 +273,7 @@
             dataSource: colors,
             textKey: "Name",
             valueKey: "Name",
-            width: "200px",
-            autoComplete: true
+            width: "200px"
         });
     });
 </script>
@@ -332,10 +308,6 @@
 			<td>幅</td>
 			<td>300px</td>
 		</tr>
-		<tr>
-			<td>AutoComplete</td>
-			<td>On</td>
-		</tr>
 	</tbody>
 </table>
 
@@ -351,7 +323,6 @@
     ValueKey("Name").
     TextKey("Name").
     Width("300px").
-    AutoComplete(true).   
     Render()
 %>
 ```

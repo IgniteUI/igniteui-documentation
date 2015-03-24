@@ -27,7 +27,7 @@
 
 -	[リモート フィルタリングの構成 (igCombo)](igCombo-Configure-Remote-Filtering.html): このトピックでは、`igCombo` コントロールで自動補完および各種フィルタリング オプションを構成する方法を説明します。
 
--	[ロード オン デマンドを構成する (igCombo)](igCombo-Load-on-Demand.html): このトピックでは、`igCombo` コントロールのロード オン デマンド機能を紹介し、コード例を示して、その構成および使用方法について説明します。また、付随するドロップダウン リストのページング機能についても説明します。
+-	[ロード オン デマンドを構成する (igCombo)](igCombo-Load-on-Demand.html): このトピックでは、`igCombo` コントロールのロード オン デマンド機能を紹介し、コード例を示して、その構成および使用方法について説明します。
 
 -	[Knockout サポートの構成 (igCombo)](igCombo-KnockoutJS-Support.html): このトピックは、Knockout ライブラリ により管理されるView-Model のオブジェクトをバインドするために `igCombo` コントロールを構成する方法について説明します。
 

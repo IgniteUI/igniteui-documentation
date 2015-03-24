@@ -28,7 +28,6 @@
     -   [自動補完のプロパティ設定](#configure_auto_suggest_property_settings)
     -   [例: ローカル フィルタリングを使用した自動補完](#auto_suggest_example)
     -   [例: ローカル フィルタリングを使用した大文字と小文字を区別する自動補完](#auto_suggest_case_sensitive_example)
-    -   [例: 自動補完とオートコンプリートおよびローカル フィルタリング](#auto_suggest_auto_complete)
     -   [自動補完プロパティ参照](#auto_suggest_property_reference)
 -   [関連トピック](#related_topics)
 
@@ -66,7 +65,7 @@
 
 - [filteringType](%%jQueryApiUrl%%/ui.igCombo#options:filteringType)
 
-- [renderMatchItems](%%jQueryApiUrl%%/ui.igCombo#options:renderMatchItems)
+- [highlightMatchesMode](%%jQueryApiUrl%%/ui.igCombo#options:highlightMatchesMode)
 
 - [caseSensitive](%%jQueryApiUrl%%/ui.igCombo#options:caseSensitive)
 
@@ -78,15 +77,13 @@
 ###<a id="configure_auto_suggest_details"></a>自動補完の詳細 
 
 
-`igCombo` auto-Suggest 機能は、ドロップダウン リストのフィルタリングと一致の強調表示を組み合わせたもので、考えられる選択肢をユーザーに提案します。filteringType を「local」に設定するとリスト フィルタリングが有効になり、renderMatchItems を設定するとドロップダウンの一致テキストを強調表示できます。
+`igCombo` auto-suggest 機能は、ドロップダウン リストのフィルタリングと一致の強調表示を組み合わせたもので、考えられる選択肢をユーザーに提案します。filteringType を「local」に設定するとリスト フィルタリングが有効になり、highlightMatchesMode を設定するとドロップダウンの一致テキストを強調表示できます。
 
 `igCombo` コントロールがクライアントにバインドされていても、サーバーにバインドされていても、リスト上のフィルタリングはローカルで行われ、フィルターされたデータのサーバー要求量を減らします。ローカル フィルタリング タイプを使用するには、`igCombo` コントロールのすべてのデータをクライアントに提供する必要があります。
 
 >**注:** 1 つの要求にとって選択肢の数が大きすぎる場合は、リモート フィルタリングの使用を検討します。
 
-また、フィルタリング ビヘイビアーと強調表示ビヘイビアーをカスタマイズして、どの条件が一致をトリガーするか変更できます。最も一般的な設定は、プロパティ設定表に示しています。条件は `filteringCondition` オプションを使用したフィルタリングをカスタマイズでき、同様のビヘイビアーは `renderMatchItems` オプションを使用した強調表示についてカスタマイズできます。`caseSensitive` オプションを true に設定してフィルタリングの大文字と小文字を区別できます。
-
->**注:** オートコンプリートを使用している場合、オートコンプリートと自動補完がユーザーに一貫性がある提案を行うよう `filteringCondition` は「`startsWith`」に制限されます。
+また、フィルタリング ビヘイビアーと強調表示ビヘイビアーをカスタマイズして、どの条件が一致をトリガーするか変更できます。最も一般的な設定は、プロパティ設定表に示しています。条件は `filteringCondition` オプションを使用したフィルタリングをカスタマイズでき、同様のビヘイビアーは `highlightMatchesMode` オプションを使用した強調表示についてカスタマイズできます。`caseSensitive` オプションを true に設定してフィルタリングの大文字と小文字を区別できます。
 
 ![](images/igCombo_AutoSuggest_01.png)
 
@@ -111,7 +108,7 @@
 		</tr>
 		<tr>
 			<td>単一の項目内のすべてのインスタンスの一致の強調表示を有効にする</td>
-			<td>[renderMatchItems](%%jQueryApiUrl%%/ui.igCombo#options:renderMatchItems)</td>
+			<td>[highlightMatchesMode](%%jQueryApiUrl%%/ui.igCombo#options:highlightMatchesMode)</td>
 			<td>multi</td>
 		</tr>
 		<tr>
@@ -126,22 +123,17 @@
 		</tr>
 		<tr>
 			<td>入力されたテキストから始まる項目のみ照合するよう一致の強調表示を構成する</td>
-			<td>[renderMatchItems](%%jQueryApiUrl%%/ui.igCombo#options:renderMatchItems)</td>
+			<td>[highlightMatchesMode](%%jQueryApiUrl%%/ui.igCombo#options:highlightMatchesMode)</td>
 			<td>startsWith</td>
 		</tr>
 		<tr>
 			<td>各項目内で入力されたテキストのインスタンス 1 つだけ照合するよう一致の強調表示を構成する</td>
-			<td>[renderMatchItems](%%jQueryApiUrl%%/ui.igCombo#options:renderMatchItems)</td>
+			<td>[highlightMatchesMode](%%jQueryApiUrl%%/ui.igCombo#options:highlightMatchesMode)</td>
 			<td>contains</td>
 		</tr>
 		<tr>
 			<td>フィルタリングの大文字と小文字を区別する</td>
 			<td>[caseSensitive](%%jQueryApiUrl%%/ui.igCombo#options:caseSensitive)</td>
-			<td>true</td>
-		</tr>
-		<tr>
-			<td>オートコンプリートを有効にする</td>
-			<td>[autoComplete](%%jQueryApiUrl%%/ui.igCombo#options:autoComplete)</td>
 			<td>true</td>
 		</tr>
 	</tbody>
@@ -169,7 +161,7 @@
 			<td rowspan="4">![](images/igCombo_AutoSuggest_02.png)</td>
 		</tr>
 		<tr>
-			<td>[renderMatchItems](%%jQueryApiUrl%%/ui.igCombo#options:renderMatchItems)</td>
+			<td>[highlightMatchesMode](%%jQueryApiUrl%%/ui.igCombo#options:highlightMatchesMode)</td>
 			<td>multi</td>
 		</tr>
 		<tr>
@@ -198,7 +190,7 @@
 			<td rowspan="4">![](images/igCombo_AutoSuggest_03.png)</td>
 		</tr>
 		<tr>
-			<td>[renderMatchItems](%%jQueryApiUrl%%/ui.igCombo#options:renderMatchItems)</td>
+			<td>[highlightMatchesMode](%%jQueryApiUrl%%/ui.igCombo#options:highlightMatchesMode)</td>
 			<td>contains</td>
 		</tr>
 		<tr>
@@ -211,41 +203,6 @@
 		</tr>
 	</tbody>
 </table>
-
-
-
-###<a id="auto_suggest_auto_complete"></a>例: 自動補完とオートコンプリートおよびローカル フィルタリング 
-<table class="table">
-	<thead>
-		<tr>
-			<th>プロパティ</th>
-			<th>設定</th>
-			<th>プレビュー</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>[filteringType](%%jQueryApiUrl%%/ui.igcombo#options:filteringType)</td>
-			<td>local</td>
-			<td rowspan="4">![](images/igCombo_AutoSuggest_04.png)</td>
-		</tr>
-		<tr>
-			<td>[renderMatchItems](%%jQueryApiUrl%%/ui.igcombo#options:renderMatchItems)</td>
-			<td>startsWith</td>
-		</tr>
-		<tr>
-			<td>[filteringCondition](%%jQueryApiUrl%%/ui.igCombo#options:filteringCondition)</td>
-			<td>startsWith</td>
-		</tr>
-		<tr>
-			<td>[autoComplete](%%jQueryApiUrl%%/ui.igCombo#options:autoComplete)</td>
-			<td>true</td>
-		</tr>
-	</tbody>
-</table>
-
-以下の画像は、以下の設定を行った後の自動補完とオートコンプリートを示しています。
-
 
 ###<a id="auto_suggest_property_reference"></a>自動補完プロパティ参照 
 

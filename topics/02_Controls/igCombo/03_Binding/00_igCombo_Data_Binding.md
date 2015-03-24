@@ -273,7 +273,7 @@
 以下は、その他の役立つトピックです。
 
 -   [igCombo データにバインドについての概要](igCombo-Binding-to-Data.html) 
--   [カスケード igCombo コントロールをデータにバインド](igCombo-Cascading-Binding-to-Data.html) 
+-   [カスケード igCombo コントロールをデータにバインド](igCombo-Cascading.html) 
 
  
 

@@ -3,7 +3,7 @@
 {
     "fileName": "igcombo-load-on-demand",
     "controlName": "igCombo",
-    "tags": ["Filtering","How Do I","Paging","Performance"]
+    "tags": ["Filtering","How Do I","Performance"]
 }
 |metadata|
 -->
@@ -17,7 +17,7 @@
 
 ### 目的
 
-このトピックでは、`igCombo`™ コントロールのロード オン デマンド機能を紹介し、コード例を示して、その構成および使用方法について説明します。また、付随するドロップダウン リストのページング機能についても説明します。
+このトピックでは、`igCombo`™ コントロールのロード オン デマンド機能を紹介し、コード例を示して、その構成および使用方法について説明します。
 
 ### 前提条件
 
@@ -44,9 +44,8 @@
 -   [概要](#introduction)
 -   [ロード オン デマンドの有効化](#enabling-loadOnDemand)
 -   [ロード オン デマンドの構成](#configuring-LoadOnDemand)
--   [コード例: ロード オン デマンド、ページングとヘッダーおよびフッター テンプレート](#code-example-load)
+-   [コード例: ロード オン デマンド](#code-example-load)
    -   [説明](#description)
-    -   [フッター テンプレート変数](#footer-template)
     -   [コード](#code)
 -   [関連コンテンツ](#related-content)
     -   [トピック](#topics)
@@ -61,7 +60,7 @@
 
 `igCombo` コントロールは、ロード オン デマンド機能をサポートしています。ロード オン デマンドを有効にすると、サーバーとクライアントの両方で帯域幅と処理のオーバーヘッドが大幅に削減されます。
 
-ロード オン デマンドを有効にすると、まずドロップダウン コンテナーにスクロールバーが表示され、リスト項目の最初のページが表示されます。リストの最後にスクロールすると、非同期コールバックを通じて次の項目ページが取得され、リストの一番下に追加されます。現在表示されているレコード数、ドロップダウン リスト内の現在の位置、総レコード数は、以降のセクションで説明するフッター テンプレートの形で表示できます。
+ロード オン デマンドを有効にすると、まずドロップダウン コンテナーにスクロールバーが表示され、リスト項目の最初のページが表示されます。リストの最後にスクロールすると、非同期コールバックを通じて次の項目ページが取得され、リストの一番下に追加されます。
 
 
 
@@ -86,7 +85,7 @@ loadOnDemandSettings: { enabled: true }
 Html.Infragistics().Combo().LoadOnDemandSettings(load => load.Enabled(true))
 ```
 
-データをデータ ソースからロードしている間、ドロップダウン リストは、無効であるかのようにグレーアウトされます。データのロードとページ上の表示が完了すると、リストは通常の表示に戻ります。
+データをデータ ソースからロードしている間、ドロップダウン リストに読み込みインジケーターが表示されます。データのロードとページ上の表示が完了すると、読み込みインジケーターは削除されます。
 
 
 
@@ -111,68 +110,18 @@ Html.Infragistics().Combo().LoadOnDemandSettings(load => load.Enabled(true))
 			<td>ドロップダウン リストのページ サイズを設定します。</td>
 			<td>[loadOnDemandSettings.pageSize](%%jQueryApiUrl%%/ui.igcombo#options:loadOnDemandSettings.pageSize)</td>
 		</tr>
-		<tr>
-			<td>ドロップダウン リストのヘッダー</td>
-			<td>ヘッダー テンプレートを通じてドロップダウン リストの見出しラベルを設定します。</td>
-			<td>[headerTemplate](%%jQueryApiUrl%%/ui.igcombo#options:headerTemplate)</td>
-		</tr>
-		<tr>
-			<td>ドロップダウン リストのフッター</td>
-			<td>ヘッダー テンプレートを通じてドロップダウン リストの見出しラベルを設定します。</td>
-			<td>[footerTemplate](%%jQueryApiUrl%%/ui.igcombo#options:footerTemplate)</td>
-		</tr>
 	</tbody>
 </table>
 
 
-##<a id="code-example-load"></a>コード例: ロード オン デマンド、ページングとヘッダーおよびフッター テンプレート
+##<a id="code-example-load"></a>コード例: ロード オン デマンド
 
 
 ###<a id="description"></a> 説明
 
-この例では、特定のページ サイズを使用してリモート OData データ ソースに対するロード オン デマンド機能を構成する方法を紹介します。また、ドロップダウン リストのヘッダーとフッターを設定する方法も示します。
-
-コードでは、id が "combo" の作成済みの HTML 入力タグ上に `igCombo` コントロールのインスタンスを作成しています。このコードでは、ドロップダウン リストのページ サイズ初期値が 25 項目に設定されます (pageSize: 25)。`responseDataKey` オプションと `dataSource` オプションは、指定した URL にクエリを実行し、返された JSON オブジェクトの d.results メンバーを使用してドロップダウン リストをロードするようコンボに指示する、割り当てられた値です。
-
-`headerTemplate` オプションには、HTML コードを表す文字列が割り当てられ、ドロップダウン リストの先頭に表示されます。通常これは、例のように `CSS` クラスで書式設定された単一のタグですが (class=”boxed”)、より複雑な HTML コードの場合もあります。
-
-`footerTemplate` オプションには、HTML コードを表す文字列が割り当てられ、いくつかの定義済みの変数を実行時に置換できます。これにより、テンプレートのように動作します。そのオプションに割り当てられた文字列が処理されて変数が置換され、ドロップダウン リストの一番下に表示されます。
-
-###<a id="footer-template"></a> フッター テンプレート変数
-
-以下の表に、使用可能なフッター テンプレート変数の一覧を示します。
-<table class="table">
-	<thead>
-		<tr>
-			<th>説明</th>
-			<th>短い名前</th>
-			<th>代替 ASP.NET MVC ヘルパー構文</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>igCombo (dataSource のビュー) 内のレコード数</td>
-			<td>{0}</td>
-			<td>ComboModel.RECORDS_VIEW</td>
-		</tr>
-		<tr>
-			<td>dataSource 内のレコードの数</td>
-			<td>{1}</td>
-			<td>ComboModel.RECORDS_DATA</td>
-		</tr>
-		<tr>
-			<td>サーバー上の (フィルター済み) レコードの数</td>
-			<td>{2}</td>
-			<td>ComboModel.RECORDS_SERVER</td>
-		</tr>
-		<tr>
-			<td>サーバー上のすべてのレコードの数</td>
-			<td>{3}</td>
-			<td>ComboModel.RECORDS_SERVER_TOTAL</td>
-		</tr>
-	</tbody>
-</table>
-
+This example demonstrates how to configure the Load-on-Demand feature for a remote OData data source with a specific page size.
+ 
+The code instantiates an `igCombo` control over an already created HTML input tag with id equal to “combo”. On initialization the code sets page size of 25 items for the drop-down list (pageSize: 25). The `responseDataKey`, `responseTotalRecCountKey` and `dataSource` options are assigned values that direct the combo to load the drop-down list by making a query to the specified URL and use d.results.Results and d.results.Count members of the returned JSON object.
 
 ###<a id="code"></a> コード
 
@@ -184,13 +133,11 @@ $("#combo").igCombo({
         enabled: true,
         pageSize: 25
     },
-    responseDataKey: "d.results",
-    dataSource: 'http://odata.netflix.com/Catalog/Titles?$format=json&$callback=?',
-    textKey: "Name",
-    valueKey: "Id",
-    headerTemplate: '<div class="boxed">Available Movies</div>',
-    footerTemplate: '<div class="boxed">Movie Count: {0} of {3}</div>',
-    nullText: 'Please, select a movie'
+    responseDataKey: "d.results.Results",
+	responseTotalRecCountKey : "d.results.Count",
+    dataSource: 'http://igniteui.com/api/products?&callback=?',
+    textKey: "ProductName",
+    valueKey: "ID"
 });
 ```
 
@@ -200,14 +147,12 @@ $("#combo").igCombo({
 <%=
     Html.Infragistics().Combo()
         .ID("combo")
-        .DataSource("http://odata.netflix.com/Catalog/Titles?$format=json&$callback=?")
+        .DataSource("http://igniteui.com/api/products?&callback=?")
         .ResponseDataKey("d.results")
-        .TextKey("Name")
-        .ValueKey("Id")
+		.ResponseTotalRecCountKey("d.results.Count")
+        .TextKey("ProductName")
+        .ValueKey("ID")
         .LoadOnDemandSettings(load => load.Enabled(true).PageSize(25))
-        .HeaderTemplate("<div class='boxed'>Available Movies</div>")
-        .FooterTemplate("<div class='boxed'>Movie Count: {0} of {3}</div>")
-        .NullText("Please, select a movie")
         .Render()
 %>
 ```
