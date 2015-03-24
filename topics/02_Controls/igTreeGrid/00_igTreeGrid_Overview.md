@@ -3,301 +3,329 @@
 {
     "fileName": "igtreegrid-overview",
     "controlName": ["igTreeGrid"],
-    "tags": ["Grids"]
+    "tags": ["Grids", "Data Binding", "Getting Started"]
 }
 |metadata|
 -->
 
-#igTreeGrid の概要
+# Overview (igTreeGrid)
 
-## トピックの概要
+The `igTreeGrid`™ presents hierarchical data by combining the principles of a tree and tabular data into a single control. Inside the `igTreeGrid` hierarchical data is rendered using the same columns for each row while providing a way for users to expand and collapse child data.
 
-このトピックでは、`igTreeGrid` [CTP] コントロールの概要を説明します。
+![igTreeGrid](images/igtreegrid-overview.png "igTreeGrid")
 
-### 前提条件
+As the `igTreeGrid` inherits the `igGrid` control, it is able to enjoy many of the same features and functionality. Some features differ in function and implementation to best suit the needs of hierarchical data (e.g. filtering, paging, etc.).
 
-以下の表は、このトピックを理解するための前提条件として必要な概念、トピック、および記事の一覧です。
+In order to maintain flexibility the tree grid features a configurable expansion indicator, which can be rendered inline in the first data column or in a standalone column. The expansion indicator can also be customized with a different look-and-feel to achieve custom visualizations (see the [File Explorer sample](%%SamplesUrl%%/tree-grid/file-explorer "File Explorer Sample - File Explorer with Tree Grid Control - Ignite UI™")).
 
-### トピック
+### In this topic:
 
--   [igDataSource の概要](igDataSource-igDataSource-Overview.html)
--   [igGrid の概要](igGrid-Overview.html)
--   [igHierarchicalGrid の概要](igHierarchicalGrid-Overview.html)
+- [**Architectural Overview**](#architectural-overview)
+- [**Supported Data Sources**](#supported-data-sources)
+	- [Flat Data Source](#flat-data)
+	- [Hierarchical Data Source](#hierarchical-data)
+- [**Feature differences from igGrid**](#feature-differences-iggrid)
+- [**igTreeGrid vs. igHierarchicalGrid**](#tree-vs-hierarchical-grids)
+- [**Performance**](#performance)
+- [**Getting Started**](#getting-started)
+	- [Full Page Sample](#full-page-sample)
+-  [**Keyboard navigation**](#keyboard-navigation)
+-   [**Related Content**](#related-content)
+    -   [Topics](#topics)
+    -   [Samples](#samples)
 
-### このトピックの内容
+### Vocabulary
 
--   [**概要**](#introduction)
--   [**データ バインディング**](#data-binding)
-    -   [フラット データ ソース](#flat-data-source)
-    -   [階層データ ソース](#hierarchical-data-source)
--   [**igHierarchicalGrid との比較**](#comparison-hierarchical-grid)
-    -   [類似点](#similarities)
-    -   [相違点](#differences)
--   [**igTreeGrid の Web ページへの追加**](#adding-igTreeGrid)
-    -   [必要なリソース](#required-resources)
-    -   [初期化](#initialization)
--   [**サポートされる機能**](#suppored-features)
--   [**関連コンテンツ**](#related-content)
-    -   [サンプル](#samples)
+As you become acquainted with the `igTreeGrid` you'll need to be comfortable with a few terms which have specific meaning in the grid's [API](%%jQueryApiUrl%%/ui.igtreegrid) and documentation.
 
-## <a id="introduction"></a>概要
+| Term | Definition |
+| --- | --- |
+| Level | Applies to all data items/rows with equal number of parents in their respective hierarchy |
+| Root level | The topmost rows that have no parent of their own |
+| Non-leaf level | Rows that have BOTH at least one child AND a parent |
+| Leaf level | Items at the lowest level of a hierarchical relationship with NO children AND a parent |
 
-`igTreeGrid` [CTP] はグリッドのコントロールで、階層データを一組の列に表示します (階層データは共通データ スキーマを共有する必要があります)。これは、子レイアウトがルート レイアウトと再帰的に同じ列の定義を持つ `igHierarchicalGrid` と比較できます。
 
-`igTreeGrid` には設定可能な展開インジケータがあります。このインジケータは既存の左端の列内にインラインで描画することができます([renderExpandColumn](%%jQueryApiUrl%%/ui.igTreeGrid#options:renderExpandColumn) API を参照)。展開は、別のルックアンドフィールでもカスタマイズできます([ファイル エクスプローラー](%%NewSamplesUrl%%/tree-grid/file-explorer) のサンプルを参照)。
+## <a id="architectural-overview"></a> Architectural Overview
 
-`igTreeGrid` は、`igGrid`/`igHierarchicalGrid` のいくつかの機能をサポートします。詳細は、[サポートされている機能](#suppored-features) のセクションを参照してください。
+The `igTreeGrid` inherits the [`igGrid`](igGrid-Overview.html "igGrid Overview") control and therefore shares many of the same APIs and end-user interactions. In some areas (like filtering, paging, etc.) the tree grid's implementation is different from what is found in the `igGrid` to better accommodate hierarchical data rendered in a tabular format. For details on how certain features are different between the `igGrid` and `igTreeGrid` make sure to read [how igTreeGrid features differ from igGrid](#feature-differences-iggrid).
 
->**注:** `igTreeGrid` はスタンドアローンのコントロールで、`igGrid` コントロールの単なるエクステンションではありませんが、`igGrid` API は `igTreeGrid` にも適用できます。サポートされる各 `igGrid` API を実行時に使用するには、`$(“.selector”).igGrid()` 構文を使用、または [gridInstance](%%jQueryApiUrl%%/ui.igTreeGrid#methods:gridInstance) API のメソッドを使用できます。
+Much like the flat grid control, the `igTreeGrid` uses a `TABLE` or `DIV` element as the basis for its structure in the DOM. As data is revealed by clicking/tapping on the expansion indicator in the parent's row, the table row and cell elements needed to render child rows are created on-the-fly. For more detailed information on performance considerations for the `igTreeGrid`, please see the [Performance section](#performance).
 
-![](images/igTreeGrid_Overview_1.png)
+The tree grid enjoys a disconnected architecture in the same manner as other Ignite UI grids. Under the surface the `igTreeGrid` is powered by the `igTreeHierarchialDataSource` component. The data source component is responsible for implementing logic for features that directly affect the tree grid's source data before its ready to be presented to the user. For details about this specialized data source, see [igTreeHierarchicalDataSource](%%jQueryApiUrl%%/ig.treehierarchicaldatasource).
 
-## <a id="data-binding"></a>データ バインディング
+## <a id="supported-data-sources"></a> Supported Data Sources
 
-`igTreeGrid` は、フラットと階層構造の 2 つの型のデータソースをサポートします。フラットと階層データ ソースの違いは、以下の各セクションで説明します。データ ソースの型は、[hierarchicalDataSource](%%jQueryApiUrl%%/ui.igTreeGrid#options:hierarchicalDataSource) オプションで設定されます。デフォルトで true に設定されています。
+The `igTreeGrid` supports two different types of data sources: flat and hierarchical data.
 
-### <a id="flat-data-source"></a>フラット データ ソース
+> **Note**: Having a **uniform schema in all data objects** is essential in rendering data in the tree grid. While both the flat and hierarchical data source types use slightly different approaches to maintaining a hierarchical relationship in the data, the rest of the data members are identical in the objects.
 
-フラット データ ソースは、オブジェクトの配列で構成されます。各オブジェクトは、プライマリー キー/外部キーの関係で、親オブジェクトとリンクされます。
+### <a id="flat-data"></a> Flat Data Source
 
-**JavaScript の場合:**
+Flat data, or self-referencing data, consists of a simple object array where a primary key/foreign key relationship exists in the schema of the data.
 
-```
-var flatDS = [
-      { "employeeID": 0, "PID": -1, "firstName": "Andrew", "lastName": "Fuller", "reportsTo": "-" },
-      { "employeeID": 1, "PID": -1, "firstName": "Jonathan", "lastName": "Smith", "reportsTo": "-" },
-      { "employeeID": 2, "PID": -1, "firstName": "Nancy", "lastName": "Davolio", "reportsTo": "-" },
-      { "employeeID": 3, "PID": -1, "firstName": "Steven", "lastName": "Buchanan", "reportsTo": "-" },
-      // sub of ID 1
-      { "employeeID": 4, "PID": 0, "firstName": "Janet", "lastName": "Leverling", "reportsTo": "0" },
-      { "employeeID": 5, "PID": 0, "firstName": "Laura", "lastName": "Callahan", "reportsTo": "0" },
-      { "employeeID": 6, "PID": 0, "firstName": "Margaret", "lastName": "Peacock", "reportsTo": "0" },
-      { "employeeID": 7, "PID": 0, "firstName": "Michael", "lastName": "Suyama", "reportsTo": "0" },
-      // sub of ID 4
-      { "employeeID": 8, "PID": 4, "firstName": "Anne", "lastName": "Dodsworth", "reportsTo": "4" },
-      { "employeeID": 9, "PID": 4, "firstName": "Danielle", "lastName": "Davis", "reportsTo": "4" },
-      { "employeeID": 10, "PID": 4, "firstName": "Robert", "lastName": "King", "reportsTo": "4" }
+An example of a flat data source looks like the following:
+
+```javascript
+var data = [
+  { id: 1, supervisorId: 0, firstName: "John", lastName: "Smith", title: "CEO" },
+  { id: 2, supervisorId: 1, firstName: "Mary", lastName: "Edwards", title: "Manager" },
+  { id: 3, supervisorId: 2, firstName: "Matthew", lastName: "Jones", title: "Clerk" }
 ];
 ```
 
-以下のサンプルでは、`employeeID` がプライマリー キーを表し、`PID` プロパティが外部キーの関係を示しています。
+Here the `supervisorId` relates back to the `id` value of the data in the array. In order to configure the relationship in the grid you must provide values for both the [`primaryKey`](%%jQueryApiUrl%%/ui.igtreegrid#options:primaryKey) and [`foreignKey`](%%jQueryApiUrl%%/ui.igtreegrid#options:foreignKey) options. The following code snippet demonstrates how to initialize the tree grid with a flat data source:
 
-2 つのキーの関係は、ツリー グリッドをインスタンス化する際に各オプションで確立されます。
-
-**JavaScript の場合:**
+```javascript
+$('#treegrid').igTreeGrid({
+  dataSource: data,
+  primaryKey: 'id',
+  foreignKey: 'supervisorId',
+  ...
+});
 ```
+
+### <a id="hierarchical-data"></a> Hierarchical Data Source
+
+Hierarchical data sources have a nested relationship where child data exists as an array member of the parent data object. An example of a hierarchical data source looks like this:
+
+```javscript
+var data = [{
+  id : 1,
+  firstName : "John",
+  lastName : "Smith",
+  title : "CEO",
+  employees : [{
+    id : 2,
+    firstName : "Mary",
+    lastName : "Edwards",
+    title : "Manager",
+    employees : [{
+      id : 3,
+      firstName : "Matthew",
+      lastName : "Jones",
+      title : "Clerk"
+    }]
+  }]
+}];
+```
+
+The hierarchical data's relationship is managed by using an array of objects in the `employees` member. To initialize the tree grid with hierarchical data you need to use the [`childDataKey`](%%jQueryApiUrl%%/ui.igtreegrid#options:childDataKey) option to establish the relationship:
+
+```javascript
+$('#treegrid').igTreeGrid({
+  dataSource: data,
+  primaryKey: 'id',
+  childDataKey: 'employees',
+  ...
+});
+```
+
+## <a id="feature-differences-iggrid"></a> Feature differences from igGrid
+
+
+As stated earlier, the `igTreeGrid` inherits the `igGrid` and provides custom implementations for some features of the grid. The following table highlights some of the differences between the features found in each grid.
+
+| Feature | igTreeGrid | igGrid |
+| --- | --- | --- |
+| Sorting | Recursively sorts rows by column within the hierarchical structure of the data | Sorts rows by all data in a column |
+| Paging | Creates pages from only root records OR based on all data | Creates pages from all bound data |
+| Filtering | Renders matches to filter criteria in context of its hierarchy | Renders only exact matches to filter criteria |
+
+> **Note**: Unlike the igGrid, the igTreeGrid expects a flat data source if there is a value set for `foreignKey`.
+
+
+## <a id="tree-vs-hierarchical-grids"></a> igTreeGrid vs. igHierarchicalGrid
+
+While the `igTreeGrid` and [`igHierarchicalGrid`](igHierarchicalGrid-Overview.html "igHierarchicalGrid Overview") are both created to present hierarchical data, there are distinctions when you may want to select one over the other. The biggest distinguishing factor among the two grids is that the `igTreeGrid` displays each row using the same columns, while the `igHierarchicalGrid` supports the ability render data with varying schemas among different hierarchical levels. The following lists detail other ways in which the controls differentiate among each other.
+
+The `igTreeGrid`:
+- can render the expansion indicator inside an existing column or in its own column
+- applies enabled features across the entire tree grid
+- supports the Column Fixing feature
+- does not support the Group By feature (grouping is inherent to the tree grid)
+- has a lighter DOM footprint than the hierarchical grid; the tree grid is rendered with a single `igGrid` instance
+
+The `igHierarchicalGrid`:
+- can render only a hierarchical data source; flat data sources are not supported
+- supports child data with a different data schema from the parent
+- creates separate `igGrid` instance (with its full DOM) for each child layout as well as for the root data
+- features can work on individual layouts independently
+- supports the Group By feature
+
+So while there are many similarities between the `igTreeGrid` and the `igHierarchicalGrid`, they each serve a specialized purpose.
+
+## <a id="performance"></a> Performance
+
+Beyond the minimal overhead design of the Tree Grid there are also built-in features that can drastically improve performance with large data sets. [Virtualization](igGrid-Virtualization-Overview.html) helps boost performance by  allowing the number of actual rendered rows (DOM elements) remain constant in the grid while being dynamically reused to render the new data.
+
+> **Note:** Currently the `igTreeGrid` supports only **continuous** flavor of Virtualization, therefore the [`virtualizationMode`](%%jQueryApiUrl%%/ui.igtreegrid#options:virtualizationMode) must always be set to the appropriate value:
+
+```js
 $("#treegrid").igTreeGrid({
-      dataSource: flatDS,
-      key: "employeeID",
-      foreignKey: "PID",
-      hierarchicalDataSource: false,
-      dataValueForRootLayout: -1 // This is the default
-});
-```
-プライマリー キーの関係は、[key](%%jQueryApiUrl%%/ui.igTreeGrid#options:key) オプション (`igGrid` で定義) により設定されます。外部キーの関係は、[foreignKey](%%jQueryApiUrl%%/ui.igTreeGrid#options:foreignKey) オプションにより設定されます。[hierachicalDataSource](%%jQueryApiUrl%%/ui.igTreeGrid#options:hierachicalDataSource) オプションは、false に設定する必要があります。[dataValueForRootLayout](%%jQueryApiUrl%%/ui.igTreeGrid#options:dataValueForRootLayout) オプションはフラット データ ソースに固有で、対象のレコードをルート レコードとして識別する外部キーの値を示します。
-
-## <a id="hierarchical-data-source"></a>階層データ ソース
-
-階層データ ソースもオブジェクトの配列ですが、各オブジェクトは子データを含むプロパティ (配列) を持ちます。以下のコードは、階層データ ソースを示します。
-
-**JavaScript の場合:**
-```
-var filesList = [
-	{
-		"name": "Documents", "dateModified": "9/12/2013", "type": "File Folder", "size": 4480, "files": [
-			{ "name": "To do list.txt", "dateModified": "11/5/2013", "type": "TXT File", "size": 4448 },
-			{ "name": "Work.txt", "dateModified": "9/12/2013", "type": "TXT File", "size": 32 }
-		]
-	},
-	{
-		"name": "Music", "dateModified": "6/10/2014", "type": "File Folder", "size": 5594, "files": [
-		{
-			"name": "AC/DC", "dateModified": "6/10/2014", "type": "File Folder", "size":2726, "files": [
-				{ "name": "Stand Up.mp3", "dateModified": "6/10/2014", "type": "MP3 File", "size": 456 },
-				{ "name": "T.N.T.mp3", "dateModified": "6/10/2014", "type": "MP3 File", "size": 1155 },
-				{ "name": "The Jack.mp3", "dateModified": "6/10/2014", "type": "MP3 File", "size": 1115 }
-			]
-		},
-		{
-			"name": "WhiteSnake", "dateModified": "6/11/2014", "type": "File Folder", "size": 2868, "files": [
-				{ "name": "Trouble.mp3", "dateModified": "6/11/2014", "type": "MP3 File", "size": 1234 },
-				{ "name": "Bad Boys.mp3", "dateModified": "6/11/2014", "type": "MP3 File", "size": 522 },
-				{ "name": "Is This Love.mp3", "dateModified": "6/11/2014", "type": "MP3 File", "size": 1112 }
-			]
-		}
-		]
-	}
-];
-```
-ここで、files プロパティは子レイアウトのデータを示します。親データと子データ間の関係は、ツリー グリッドをインスタンス化する際に各オプションによって確立されます。
-
-子レイアウトのデータは、[dataSourceLayoutKey](%%jQueryApiUrl%%/ui.igTreeGrid#options:dataSourceLayoutKey) オプションにより設定されます。
-
-**JavaScript の場合:**
-```
-$("#treegrid").igTreeGrid({
-      dataSource: filesList,
-      dataSourceLayoutKey: "files"
+	//...
+	rowVirtualization: true,
+	virtualizationMode: "continuous"
 });
 ```
 
-## <a id="comparison-hierarchical-grid"></a>igHierarchicalGrid との比較
+Other features that help increase performance include [Load on Demand](igTreeGrid-Load-On-Demand.html) and the opportunity to take local operations to the server with [Remote Features](%%SamplesUrl%%/tree-grid/remote-features).
 
-このセクションでは、`igTreeGrid` や `igHierarchicalGrid` をどのような時に使用するかアドバイスします。
+> **Note**: The performance enhancements suggested here are best realized when using very large sets of data with the tree grid.
 
->**注:** この比較では、2 つのコントロールがデータを同じデータ ソースにバインドできることを前提としています。
+**Related topic:** [Performance Guide (igGrid)](igGrid-Performance-Guide.html)
 
-### <a id="similarities"></a>類似点
+## <a id="getting-started"></a> Getting Started with the igTreeGrid
 
-どちらも階層データの表示に使用します。
+Initializing the `igTreeGrid` requires that you pass an [`options`](%%jQueryApiUrl%%/ui.igtreegrid#options) object that defines the characteristics of the grid. The following code snippet demonstrates how to create a grid bound to a flat data source that includes filtering, sorting and paging.
 
-### <a id="differences"></a>相違点
-
-`igTreeGrid` の場合:
-
--   データ列の 1 つで、展開されたセルをインラインで描画できます。
--   Column Fixing 機能をサポートします。
--   Group By 機能はサポートしません (グループ化はツリー グリッドに固有です)
--   より軽い DOM フットプリント。コントロールは 1 つの TABLE DOM エレメント内で描画されます (また、`igGrid` のインスタンスは 1 つのみが存在されます)。それだけでなく、`igHierarchicalGrid` は各子レイアウトに対して個別の TABLE DOM を描画します。TABLE エレメントには、1つの `igGrid` インスタンスが存在します。
--   行を拡張する場合は、アニメーションを使用しません (最初に、拡張されたすべての子レイアウトが遅延なく表示されます)。
-
-`igHierarchicalGrid` の場合:
-
--   階層データ ソースのみが描画可能で、フラット データ ソースは描画できません。
--   仮想化 (連続のみ) をサポートします。
--   ルート レイアウトからの異なるデータ スキーマで、列レイアウトを描画できます。
--   各レイアウト ノードに対し、個別の `igGrid` インスタンスを作成します。`igTreeGrid` 内には 1 つの `igGrid` インスタンスがあり、すべてのレイアウトに対する `igGrid` API での動作に使用されます
--   各機能は、個別のレイアウトで動作します。
--   GroupBy 機能をサポートします。
--   行を拡張する場合は、アニメーションを使用します。
-
-## <a id="adding-igTreeGrid"></a>igTreeGrid の Web ページへの追加
-
-### <a id="required-resources"></a>必要なリソース
-
-Infragistics Loaderを使用せずに、`igTreeGrid` を使用する場合は、以下の各ソースを参照する必要があります。
-
-CSS ファイル
-
--   css\structure\infragistics.css
--   css\themes\infragistics\infragistics.theme.css
-
-JavaScript ファイル
-
--   jquery.js
--   jqueryui.js
--   js\modules\infragistics.util.js
--   js\modules\infragistics.ui.shared.js
--   js\modules\infragistics.datasource.js
--   js\modules\infragistics.ui.grid.framework.js
--   js\modules\infragistics.ui.treegrid.js
-
-#### <a id="initialization"></a>初期化
-
-以下のコードは、スタンドアローンの展開された列で階層データ ソースを使用して、`igTreeGrid` を初期化します。
-
-**JavaScript の場合:**
-```
-$(function () {
-var filesList = [
-	{
-		  "name": "Documents", "dateModified": "9/12/2013", "type": "File Folder", "size": 4480, "files": [
-				{ "name": "To do list.txt", "dateModified": "11/5/2013", "type": "TXT File", "size": 4448 },
-				{ "name": "Work.txt", "dateModified": "9/12/2013", "type": "TXT File", "size": 32 }
-		  ]
-	},
-	{
-		  "name": "Music", "dateModified": "6/10/2014", "type": "File Folder", "size": 5594, "files": [
-				{
-					  "name": "AC/DC", "dateModified": "6/10/2014", "type": "File Folder", "size":2726, "files": [
-							{ "name": "Stand Up.mp3", "dateModified": "6/10/2014", "type": "MP3 File", "size": 456 },
-							{ "name": "T.N.T.mp3", "dateModified": "6/10/2014", "type": "MP3 File", "size": 1155 },
-							{ "name": "The Jack.mp3", "dateModified": "6/10/2014", "type": "MP3 File", "size": 1115 }
-					  ]
-				},
-				{
-					  "name": "WhiteSnake", "dateModified": "6/11/2014", "type": "File Folder", "size": 2868, "files": [
-							{ "name": "Trouble.mp3", "dateModified": "6/11/2014", "type": "MP3 File", "size": 1234 },
-							{ "name": "Bad Boys.mp3", "dateModified": "6/11/2014", "type": "MP3 File", "size": 522 },
-							{ "name": "Is This Love.mp3", "dateModified": "6/11/2014", "type": "MP3 File", "size": 1112 }
-					  ]
-				}
-		  ]
-	}
-];
-$("#treegrid").igTreeGrid({
-	dataSource: filesList,
-	autoGenerateColumns: false,
-	columns: [
-		  { headerText: "Name", key: "name", width: "250px", dataType: "string" },
-		  { headerText: "Date Modified", key: "dateModified", width: "130px", dataType: "date"},
-		  { headerText: "Type", key: "type", width: "230px", dataType: "string" },
-		  { headerText: "Size in KB", key: "size", width: "130px", dataType: "number" }
-	],
-	dataSourceLayoutKey: "files",
-	renderExpandColumn: true
-});
+```javascript
+$('#treegrid').igTreeGrid({
+  dataSource: employees,
+  width: '500px',
+  height: '375px',
+  primaryKey: 'employeeId',
+  foreignKey: 'supervisorId',
+  autoGenerateColumns: false,
+  columns: [
+      { headerText: 'ID', key: 'employeeId', width: '150px', dataType: 'number' },
+      { headerText: 'First', key: 'firstName', width: '150px', dataType: 'string' },
+      { headerText: 'Last', key: 'lastName', width: '150px', dataType: 'string' }
+    ],
+  features: [
+    {
+      name: 'Filtering',
+      displayMode: 'showWithAncestorsAndDescendants'
+      //displayMode: 'showWithAncestors'
+    },
+    {
+      name: 'Sorting'
+    },
+    {
+      name: 'Paging',
+      mode: 'allLevels',
+      //mode: 'rootLevelOnly',
+      pageSize: 5
+    }
+  ]
 });
 ```
-### <a id="suppored-features"></a>サポートされる機能
+Notice that in this case values for both `primaryKey` and `foreignKey` are present in order to establish a relationship among data records.
 
-`igTreeGrid` は、`igGrid` や `igHierarchicaGrid` と複数の同じ機能を共有します。他のグリッドと同様に、機能は [features](%%jQueryApiUrl%%/ui.iggrid_tg#options:features) オプション内で設定されます。以下のサンプルは、グリッド機能の設定方法を示します。
+The Filtering and Paging features are shown to include commented out option values that are available for these features. For more information you can read about how Sorting, Filtering and Paging are implemented specifically for the tree grid.
 
-**JavaScript の場合:**
+### <a id="full-page-sample"></a> Full Page Sample
+
+```html
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8" />
+	<title>igTreeGrid</title>
+</head>
+<body>
+	<table id="treegrid"></table>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://localhost/ig_ui15.1/js/infragistics.loader.js"></script>
+	<script type="text/javascript">
+
+        $.ig.loader({
+            scriptPath: 'http://localhost/ig_ui15.1/js/',
+            cssPath: 'http://localhost/ig_ui15.1/css/',
+            resources: 'igTreeGrid.Filtering.Paging.Sorting',
+            ready: function () {
+
+                var employees = [
+                    { "employeeId": 0, "supervisorId": -1, "firstName": "Andrew", "lastName": "Fuller" },
+                    { "employeeId": 1, "supervisorId": -1, "firstName": "Jonathan", "lastName": "Smith" },
+                    { "employeeId": 2, "supervisorId": -1, "firstName": "Nancy", "lastName": "Davolio" },
+                    { "employeeId": 3, "supervisorId": -1, "firstName": "Steven", "lastName": "Buchanan" },
+
+                    // Andrew Fuller's direct reports
+                    { "employeeId": 4, "supervisorId": 0, "firstName": "Janet", "lastName": "Leverling" },
+                    { "employeeId": 5, "supervisorId": 0, "firstName": "Laura", "lastName": "Callahan" },
+                    { "employeeId": 6, "supervisorId": 0, "firstName": "Margaret", "lastName": "Peacock" },
+                    { "employeeId": 7, "supervisorId": 0, "firstName": "Michael", "lastName": "Suyama" },
+
+                    // Janet Leverling's direct reports
+                    { "employeeId": 8, "supervisorId": 4, "firstName": "Anne", "lastName": "Dodsworth" },
+                    { "employeeId": 9, "supervisorId": 4, "firstName": "Danielle", "lastName": "Davis" },
+                    { "employeeId": 10, "supervisorId": 4, "firstName": "Robert", "lastName": "King" },
+
+                    // Nancy Davolio's direct reports
+                    { "employeeId": 11, "supervisorId": 2, "firstName": "Peter", "lastName": "Lewis" },
+                    { "employeeId": 12, "supervisorId": 2, "firstName": "Ryder", "lastName": "Zenaida" },
+                    { "employeeId": 13, "supervisorId": 2, "firstName": "Wang", "lastName": "Mercedes" },
+
+                    // Steve Buchanan's direct reports
+                    { "employeeId": 14, "supervisorId": 3, "firstName": "Theodore", "lastName": "Zia" },
+                    { "employeeId": 15, "supervisorId": 3, "firstName": "Lacota", "lastName": "Mufutau" },
+
+                    // Lacota Mufutau's direct reports
+                    { "employeeId": 16, "supervisorId": 15, "firstName": "Jin", "lastName": "Elliott" },
+                    { "employeeId": 17, "supervisorId": 15, "firstName": "Armand", "lastName": "Ross" },
+                    { "employeeId": 18, "supervisorId": 15, "firstName": "Dane", "lastName": "Rodriquez" },
+
+                    // Dane Rodriquez's direct reports
+                    { "employeeId": 19, "supervisorId": 18, "firstName": "Declan", "lastName": "Lester" },
+                    { "employeeId": 20, "supervisorId": 18, "firstName": "Bernard", "lastName": "Jarvis" },
+
+                    // Bernard Jarvis' direct report
+                    { "employeeId": 21, "supervisorId": 20, "firstName": "Jeremy", "lastName": "Donaldson" }
+                ];
+
+                $('#treegrid').igTreeGrid({
+                    dataSource: employees,
+                    width: '500px',
+                    height: '375px',
+                    primaryKey: 'employeeId',
+                    foreignKey: 'supervisorId',
+                    autoGenerateColumns: false,
+                    columns: [
+                        { headerText: 'ID', key: 'employeeId', width: '150px', dataType: 'number' },
+                        { headerText: 'First', key: 'firstName', width: '150px', dataType: 'string' },
+                        { headerText: 'Last', key: 'lastName', width: '150px', dataType: 'string' }
+                    ],
+                    features: [
+					    {
+					        name: 'Filtering',
+					        displayMode: 'showWithAncestorsAndDescendants'
+					        //displayMode: 'showWithAncestors'
+					    },
+                        {
+                            name: 'Sorting'
+                        },
+                        {
+                            name: 'Paging',
+                            mode: 'allLevels',
+                            //mode: 'rootLevelOnly',
+                            pageSize: 5
+                        }
+                    ]
+                });
+
+            }
+        });
+	</script>
+</body>
+</html>
 ```
-$("#treegrid").igTreeGrid({
-      width: "800px",
-      height:"400px",
-      dataSource: filesList,
-      autoGenerateColumns: true,
-      
-      dataSourceLayoutKey: "files",
-      features: [
-      {
-            name: "Sorting"
-      },
-      {
-            name: "Filtering"
-      }]
-});
-```
-`igTreeGrid` は、以下の各機能をサポートします。
 
-- 列の固定
+## <a id="keyboard-navigation"></a> Keyboard navigation 
 
-- 非表示
+For supported features, specific keyboard interactions available are also inherited. Navigation with the [Selection (igGrid)](igGrid-Selection-Overview.html#keyboard-interaction) actually funtions the same way as it would for the `igHierarchicalGrid` where if the currently selected active cell is the one containing the expand/collapse, `SPACE/ENTER` buttons this will also expand/collapse the child level of the row.
 
-- フィルタリング – 一度にすべてのレイアウトで動作します。[dataSourceSettings.filtering](%%jQueryApiUrl%%/ui.igtreegrid#options:dataSourceSettings.filtering) オプションで、サブレベルのフィルタリングを設定できます。
 
-- 並べ替え – 一度にすべてのレイアウトで動作します。[dataSourceSettings.sorting](%%jQueryApiUrl%%/ui.igtreegrid#options:dataSourceSettings.sorting) オプションで、サブレベルのフィルタリングを設定できます。
+## <a id="related-content"></a> Related Content
 
-- 更新 - 新しい行の追加は、ルート レイアウトに対してのみ動作します。
+### <a id="topics"></a> Topics
+-   [Features Overview (igTreeGrid)](igTreeGrid-Features-Overview.html): This topic covers the basics around the modular features available for the `igTreeGrid` control.
+-   [Updating (igTreeGrid)](igTreeGrid-Updating.html): This topic contains an overview of the Updating functionality specific to the `igTreeGrid` control.
+-   [Load on Demand (igTreeGrid)](igTreeGrid-Load-On-Demand.html): This topic explains the benefits of the `igTreeGrid` Load on Demand functionality and how it can be implemented.
 
-- ページング – 許容範囲でのみ動作します
-
-- サイズ変更
-
-- 選択
-
-- ツールチップ
-
-- 複数列ヘッダー
-
->**注:** 列関連の機能 (列の固定、非表示および サイズ変更) は、すべてのレイアウトが同じ列を共有するため、すべてのレイアウトに対して機能的に影響を与えます。
-
->**注:** 各機能 API を使用する場合は、機能名はフルネームを使用する必要があります。例: `igGridFiltering`、`igGridSorting` など
-
-## <a id="related-content"></a>関連コンテンツ
-
-### <a id="samples"></a>サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [JSON のバインド](%%NewSamplesUrl%%/tree-grid/json-binding)
-
-- [ファイル エクスプローラー](%%NewSamplesUrl%%/tree-grid/file-explorer)
-
-- [貸借対照表](%%NewSamplesUrl%%/tree-grid/balance-sheet)
-
-- [ASP.NET MVC ヘルパー](%%NewSamplesUrl%%/tree-grid/aspnet-mvc-helper)
-                    
+### <a id="samples"></a> Samples
+- [igTreeGrid Overview](%%SamplesUrl%%/tree-grid/overview)
+- [igTreeGrid Filtering](%%SamplesUrl%%/tree-grid/file-explorer)
+- [igTreeGrid Sorting](%%SamplesUrl%%/tree-grid/remote-features)
+- [igTreeGrid Paging](%%SamplesUrl%%/tree-grid/file-explorer)

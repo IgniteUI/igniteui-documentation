@@ -46,7 +46,9 @@ This topic contains the following sections:
     -   [igGridSummaries](#grid-summaries)
     -   [igGridTooltips](#grid-tooltips)
     -   [igGridUpdating](#grid-updating)
-	-   [Feature Chooser](#feature-chooser)
+    -   [igGridExcelExporter](#grid-exporter)
+    -   [Feature Chooser](#feature-chooser)
+    -   [igTreeGrid](#tree-grid)
     -   [igHierarchicalGrid](#hierarchical-grid)
     -   [igHierarchicalGrid GroupBy](#hierarchical-grid-grouping)
     -   [igHierarchicalGrid RowSelectors](#hierarchical-grid-row-selectors)
@@ -599,9 +601,8 @@ Go up to [Known Issues and Limitations Summary](#summary)
 
 Issue | Description | Status
 ---|---|---
-Multiple selection and custom values cannot be used together | `AllowCustomValue = true` is together with either with `multiSelection = “on”` or `multiSelection = “onWithCheckBoxes”` is not supported. | ![](images/positive.png)
-Using the key of the parent combo for cascading combos prevents filtering the child combo | For the workaround, see the [Binding Cascading igCombo Controls to a Cascading Data Sources](igCombo-Binding-Cascading-igCombo-Controls-to-Cascading-Data-Sources.html) topic. | ![](images/positive.png)
-Load-on-demand not supported for cascading `igCombo` child | Configuring a cascading child `igCombo`™ to have load-on-demand enabled together with defining its parent combo key is not supported. | ![](images/negative.png)
+In IE9 and lower versions placeHolder text is not previewed | Input placeholders are simply ignored in IE9 and below|![](images/negative.png)
+When virtualization is enabled, all ItemTemplate elements should have equal heights | Misalignment issues may occur with the scrollbar | ![](images/positive.png)
 
 
 Go up to [Known Issues and Limitations Summary](#summary)
@@ -1170,6 +1171,15 @@ Tooltips display issues when moving pointer too fast over the cells | If the use
 Go up to [Known Issues and Limitations Summary](#summary)
 
 
+### <a id="grid-exporter"></a> [igGridExcelExporter](igGridExcelExporter-Overview.html)
+
+Issue | Description | Status
+---|---|---
+igGridExcelExporter does not work in Microsoft Internet Explorer 8 | The issue is that 'export' is a reserved word and thus Internet Explorer 8 is not allowing its use. This will be fixed for the upcoming volume release 15.2 | ![](images/negative.png)
+
+Go up to [Known Issues and Limitations Summary](#summary)
+
+
 ### <a id="grid-updating"></a> [igGridUpdating](igGrid-Known-Issues.html#updating)
 
 Issue | Description | Status
@@ -1188,6 +1198,15 @@ Go up to [Known Issues and Limitations Summary](#summary)
 Issue | Description | Status
 ------|-------------|-------
 If any of the features or their options are changed after initialization the changes won't be reflected in the Feature Chooser.|The feature chooser is rendered only once on initialization and won't be affected if any of the features are modified after this.|![](images/negative.png)
+
+Go up to [Known Issues and Limitations Summary](#summary)
+
+### <a id="tree-grid"></a>[igTreeGrid](igTreeGrid-Known-Issues-And-Limitations.html)
+
+Issue | Description | Status
+------|-------------|-------
+Expansion indicators can be cropped/hidden with remote features|Expansion indicators on lower levels in the hierarchy can be cropped/hidden when rendered in the separate indicators non-data column in remote scenarios|![](images/positive.png)
+Misaligned first cells' data on lower levels|Padding on lower levels can push displayed data beyond the available width of the cell and cause the text to wrap around to the initial position, breaking visual hierarchy|![](images/positive.png)
 
 Go up to [Known Issues and Limitations Summary](#summary)
 

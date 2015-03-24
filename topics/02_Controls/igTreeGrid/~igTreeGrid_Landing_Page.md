@@ -11,16 +11,16 @@
 # igTreeGrid
 
 
-### 概要
+### Introduction
 
-`igTreeGrid` コントロールはデータをツリーのような表構造に表示する jQuery ウィジェットです。
-このコントロールは、`igHierarchicalGrid` コントロールと同様に階層データを示します。
-`igTreeGrid` 内の子レイアウトは、ルート レイアウトと同じ列の定義を持ちます。
-同じ列で階層データをすべて描画すると、ツリー グリッドの描画速度が速くなり、メモリおよび DOM フットプリントが低くなります。
-また `igTreeGrid` は、`igGrid` と同様の方法で動作する高度なインタラクティブ機能もサポートしています。
+The `igTreeGrid` control is a jQuery widget that displays data in a tree-like tabular structure. The control presents hierarchical data similar to the `igHierarchicalGrid` control. Child layouts in `igTreeGrid` have the same column definition as the root layout. Rendering hierarchical data all with the same columns allows the tree grid to have superior render speeds while maintaining low memory and low DOM footprints. Further, the `igTreeGrid` also supports advanced interactive features that operate in the same way as the `igGrid`.
 
-### トピック
+### Topics
 
--   [igTreeGrid の概要](igTreeGrid-Overview.html) - このトピックでは、`igTreeGrid` コントロールの概要を説明します。
-
+-   [igTreeGrid Overview](igTreeGrid-Overview.html)- This topic contains an overview of the `igTreeGrid` control.
+-   [Features Overview (igTreeGrid)](igTreeGrid-Features-Overview.html): This topic covers the basics around the modular features available for the `igTreeGrid` control. 
+-   [Filtering (igTreeGrid)](igTreeGrid-Filtering.html): This topic explains how the `igTreeGridFiltering` operates on hierarchical data.
+-   [Updating (igTreeGrid)](igTreeGrid-Updating.html): This topic contains an overview of the Updating functionality specific to the `igTreeGrid` control.
+-   [Load on Demand (igTreeGrid)](igTreeGrid-Load-On-Demand.html): This topic explains the benefits of the `igTreeGrid` Load on Demand functionality and how it can be implemented.
+-	[Remote Features (igTreeGrid)](igTreeGrid-Remote-Features.html): This topic contains an overview and implementation details on performing remote operations with `igTreeGrid` features.
   
