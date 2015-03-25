@@ -69,6 +69,8 @@
 
 ![](images/igGrid_Virtualization_Overview_2.png)
 
+> **注**: 連続仮想化は、ほとんどの Ignite UI コントロールでポートされますので、仮想化モードとしての選択が推薦されます。列仮想化の実装で固定仮想化が必要な場合がありますが、その他の場合は連続仮想化を使用してください。
+
 **関連トピック:**
 
 -   [仮想化を有効にし、構成する](igGrid-Enabling-and-Configuring-Virtualization.html)

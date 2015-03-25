@@ -133,7 +133,7 @@
 
                 d.results<br>
 				
-				string - unique key for item in list<br>
+				string - リストの項目の一意のキー<br>
 
                 string - リストに表示するフィールド
             </td>
@@ -165,7 +165,7 @@
 1.  リモート フィルタリングを有効にする
 2.  データ ソースの構成
 3.  応答データ キーの構成
-4.  Configuring the value key
+4.  値キーの構成
 5.  テキスト キーの構成
 
 #### 手順
@@ -218,9 +218,9 @@
     ResponseDataKey("d.results")
     ```
 
-4.  Configure the value key.
+4.  値キーを構成します。
 
-	Setting the value key tells the `igCombo` control which field provides unique value for each dropdown item. This value varies and is dependent upon the fields of data to which the `igCombo` control is bound.
+	値キーを設定すると、`igCombo` コントロールはどのフィールドが各ドロップダウン項目の一意の値を提供するか指示されます。この値は変化し、`igCombo` コントロールがバインドされるデータのフィールドに依存しています。
 	
     **HTML の場合:**
 

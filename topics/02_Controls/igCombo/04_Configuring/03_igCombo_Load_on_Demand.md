@@ -85,7 +85,7 @@ loadOnDemandSettings: { enabled: true }
 Html.Infragistics().Combo().LoadOnDemandSettings(load => load.Enabled(true))
 ```
 
-データをデータ ソースからロードしている間、ドロップダウン リストに読み込みインジケーターが表示されます。データのロードとページ上の表示が完了すると、読み込みインジケーターは削除されます。
+データをデータ ソースから読み込む間、ドロップダウン リストに読み込みインジケーターが表示されます。データのロードとページ上の表示が完了すると、読み込みインジケーターは削除されます。
 
 
 
@@ -119,9 +119,9 @@ Html.Infragistics().Combo().LoadOnDemandSettings(load => load.Enabled(true))
 
 ###<a id="description"></a> 説明
 
-This example demonstrates how to configure the Load-on-Demand feature for a remote OData data source with a specific page size.
+この例では、特定のページ サイズを使用してリモート OData データ ソースに対するロード オン デマンド機能を構成する方法を紹介します。
  
-The code instantiates an `igCombo` control over an already created HTML input tag with id equal to “combo”. On initialization the code sets page size of 25 items for the drop-down list (pageSize: 25). The `responseDataKey`, `responseTotalRecCountKey` and `dataSource` options are assigned values that direct the combo to load the drop-down list by making a query to the specified URL and use d.results.Results and d.results.Count members of the returned JSON object.
+コードでは、id が "combo" の作成済みの HTML 入力タグ上に `igCombo` コントロールのインスタンスを作成しています。このコードでは、ドロップダウン リストのページ サイズ初期値が 25 項目に設定されます (pageSize: 25)。`responseDataKey`、`responseTotalRecCountKey`、および `dataSource` オプションは、指定した URL にクエリを実行し、返された JSON オブジェクトの d.results.Results および d.results.Count メンバーを使用してドロップダウン リストを読み込むようコンボに指示する、割り当てられた値です。
 
 ###<a id="code"></a> コード
 
