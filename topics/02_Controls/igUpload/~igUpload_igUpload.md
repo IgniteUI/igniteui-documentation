@@ -17,6 +17,7 @@
     -   [igUpload の構成](igUpload-Configuring-igUpload.html)
     -   [HTTP ハンドラーおよびモジュールの使用 (igUpload)](igUpload-Using-HTTP-Handler-and-Modules.html)
     -   [クライアント側イベントの使用 (igUpload)](igUpload-Using-Client-Side-Events.html) 
+	-   [ASP.NET MVC でサーバー側イベントの使用 (igUpload)](igUpload-Using-Server-Side-Events.html) 
     -   [ファイルをストリームとして保存 (igUpload)](igUpload-Saving-Files-as-Stream.html)
 -   [igUpload のスタイル設定](igUpload-Styling-and-Theming.html)
 -   [アクセシビリティの遵守 (igUpload)](igUpload-Accessibility-Compliance.html)

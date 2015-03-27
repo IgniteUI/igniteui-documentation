@@ -252,6 +252,7 @@ allowedMIMEType |アップロード可能な MIME の種類を構成します。
 -   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 -   [igUpload HTTP ハンドラーおよびモジュール](igUpload-Using-HTTP-Handler-and-Modules.html)
 -   [igUpload クライアント側イベント](igUpload-Using-Client-Side-Events.html)
+-   [ASP.NET MVC での igUpload サーバー側イベント](igUpload-Using-Server-Side-Events.html)
 
  
 

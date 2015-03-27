@@ -1,0 +1,268 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igupload-using-server-side-events",
+    "controlName": "igUpload",
+    "tags": ["Events"]
+}
+|metadata|
+-->
+
+# ASP.NET MVC でサーバー側イベントの使用 (igUpload)
+
+## トピックの概要
+このトピックでは、*igUpload* コントロールのサーバー側イベントをリストし、目的および引数を説明し、Infragistics.Web.Mvc.dll の ** UploadProgressManager** クラスによってイベントの処理の例を表示します。サーバー側の検証を実装するためにファイル アップロード プロセスを処理する例もあります。
+
+## 前提条件
+以下の表は、このトピックを理解するための前提条件として必要な概念、トピック、および記事の一覧です。
+
+-   [igUpload の概要](igUpload-Overview.html)
+-   [HTTP ハンドラーおよびモジュールの使用 (igUpload)](igUpload-Using-HTTP-Handler-and-Modules.html)
+
+## このトピックの内容
+
+-	UploadProgressManager とサーバー イベント
+-	チュートリアル: MVC でのサーバー側検証
+
+## UploadProgressManager とサーバー イベント
+
+`igUpload` コントロールは、ASP.NET を使用してアップロードしたデータを処理して保存するために Infragistics.Web.Mvc.dll でサーバー側実装を含みます。アップロードしたデータを受け取るサーバー イベントを処理する HTTP モジュールと HTTP ハンドラーによって実装されます。[HTTP ハンドラーおよび Module の使用 (igUpload)](igUpload-Using-HTTP-Handler-and-Modules.html) トピックでイベントの構成についての詳細および例があります。
+
+[UploadProgressManager](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadProgressManager.html) は、ハンドラーとモジュールがプロキシ クラスを使用して通信するよう設計されたサーバー アーキテクチャです。このクラスは単一のオブジェクトとして実装されます。インスタンスは [UploadProgressManager.Instance](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadProgressManager~Instance.html) プロパティによってアクセスできます。このクラスは、サーバー イベントをアタッチし、トリガーする役割もします。これらのイベントでは、ファイル アップロード処理に対して、アップロード済みファイルの削除や移動、アップロードのキャンセル、状態情報の修正などの操作を実行できます。**表 1** は利用可能なサーバー側イベントをリストします:
+
+**表 1:** サーバー側イベント
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+            <th>
+イベント
+			</th>
+
+            <th>
+説明
+			</th>
+
+            <th>
+引数
+			</th>
+
+            <th>
+キャンセル可能
+			</th>
+        </tr>
+	</thead>
+	<tbody>
+        
+
+        <tr>
+            <td>
+UploadStarting
+			</td>
+
+            <td>
+ファイルのアップロードが開始しているときにトリガーされます。この段階では、ファイルがアップロードされていません。要求ヘッダーからの情報は `UploadStartingEventArgs` 引数に利用可能です。この情報を使用した場合、検証ルールを実装しアップロードをキャンセルするかどうかを決定できます。
+			</td>
+
+            <td>
+                <ul>
+                    <li>
+object - イベントをトリガーした UploadProgressManager インスタンスを含みます。
+					</li>
+
+                    <li>
+[UploadStartingEventArgs](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadStartingEventArgs.html) - アップロードするファイルの情報を含みます。
+					</li>
+                </ul>
+            </td>
+
+            <td>
+true
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+FileUploading
+			</td>
+
+            <td>
+ファイルの各部分がサーバーにアップロードされたときにトリガーされます。このイベントで、FileUploadingEventArgs.FileChunk プロパティから現在の部分を読み込み、ファイルを手動的に処理できます。
+
+                注: このイベントは[ファイルをストリームとして保存](igUpload-Saving-Files-as-Stream.html)シナリオで使用されます。このイベントは FileSaveType="memorystream" の場合のみにトリガーされます。
+			</td>
+
+            <td>
+                <ul>
+                    <li>
+object - イベントをトリガーした UploadProgressManager インスタンスを含みます。
+					</li>
+
+                    <li>
+[FileUploadingEventArgs](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FileUploadingEventArgs.html) - アップロードされているファイルの現在のデータ部分を含みます。
+					</li>
+                </ul>
+            </td>
+
+            <td>
+true
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+UploadFinishing
+			</td>
+
+            <td>
+ファイルのアップロードが完了しているときにトリガーされます。この段階では、ファイルはすでにアップロードされていますが、一時的な名前のままです。`igUpload` はファイルをリリースしているので、自由に変更できます。
+			</td>
+
+            <td>
+                <ul>
+                    <li>
+object - イベントをトリガーした UploadProgressManager インスタンスを含みます。
+					</li>
+
+                    <li>
+[UploadFinishingEventArgs](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadFinishingEventArgs.html) - アップロードされたファイルの情報を含みます。
+					</li>
+                </ul>
+            </td>
+
+            <td>
+true
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+UploadFinished
+			</td>
+
+            <td>
+ファイルのアップロードが完了したときにトリガーされます。この段階では、ファイルはアップロードされており、オリジナルの名前で変更されています。古いファイル名と同じ名前のファイルがある場合は上書きされ、最後のファイルのみが使用可能になります。
+			</td>
+
+            <td>
+                <ul>
+                    <li>
+object - イベントをトリガーした UploadProgressManager インスタンスを含みます。
+					</li>
+
+                    <li>
+[UploadFinishedEventArgs](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadFinishedEventArgs.html) - アップロードされたファイルの情報を含みます。
+					</li>
+                </ul>
+            </td>
+
+            <td>
+false
+			</td>
+        </tr>
+    </tbody>
+</table>
+
+ASP.NET MVC の場合、`igUpload` コントロールのサーバー側イベントにアタッチ/デタッチするには、UploadProgressManager メソッドを使用します。各メソッドの最初パラメーターは、イベントにアタッチするコントロールの ID ([UploadModel.ControlId](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadModel~ControlId.html)) です。**表 2** は、UploadProgressManager メソッドおよびイベント ハンドラーにあった地する相対イベントをリストします。
+
+**表 2:** サーバー側イベントにアタッチするために使用される UploadProgressManager メソッド。
+
+UploadProgressManager メソッド|イベント|例
+---|---|---
+AddStartingUploadEventHandler|UploadStarting|`UploadProgressManager .Instance.AddStartingUploadEventHandler("upload1" , startingUploadHandler);`
+AddFileUploadingEventHandler |FileUploading |`UploadProgressManager .Instance.AddFileUploadingEventHandler("upload1" , fileUploadingHandler);`
+AddFinishingUploadEventHandler |UploadFinishing |`UploadProgressManager .Instance.AddFinishingUploadEventHandler("upload1" , fileFinishingHandler);`
+AddFinishedUploadEventHandler |UploadFinished |`UploadProgressManager .Instance.AddFinishedUploadEventHandler("upload1" , fileFinishedHandler);`
+
+
+**注:** コントローラー アクションで `igUpload` サーバー側イベントにアタッチしないでください。コントローラー アクションがアプリケーション ライフサイクルで複数回起動する可能性があるため、単一のイベント ハンドラーが複数回にアタッチする結果が可能です。サーバー側イベントに一回のみアタッチします。MVC プロジェクトの Global.asax ファイルのアプリケーション開始ロジックでサーバー側イベントを処理してください。
+
+##チュートリアル: MVC でのサーバー側検証
+
+###概要
+この手順は、`igUpload` のカスタム検証をサーバー側で実装する方法を説明します。
+
+###要件
+この手順を実行する前に、[igUpload の概要](igUpload-Overview.html) トピックの手順を完了してください。
+
+
+1.	jQuery アップロードの Web ページへの追加
+2.	ASP.NET の HTTP ハンドラーとモジュールの構成
+
+その手順を実行した後、MVC アプリケーションで基本のアップロード コントロールがあります。
+
+###手順
+
+**手順 1**`igUpload` の UploadStarting イベントのサーバー側イベント ハンドラーを登録します。
+
+`UploadStarting` イベント ハンドラーを `Global.asax` の ` Application_Start()` メソッドで登録します。[AddStartingUploadEventHandler](Infragistics.Infragistics.Web.Mvc~AddStartingUploadEventHandler.html) メソッドは 2 つのパラメーターを受けます: コントロール ID およびイベント ハンドラー。コントロール ID の値が関連する `igUpload` コントロールで定義された `ControlId` プロパティと一致する必要があります。イベントが関連する `ControlId` を持つ各 `igUpload` コントロールで発生されます。定義されるビュー/コントローラーに関係がありません。このイベント ハンドラーを登録する必要な別の `ControlId` 値を持つその他の igUpload コントロールがある場合、 
+[AddStartingUploadEventHandler](Infragistics.Infragistics.Web.Mvc~AddStartingUploadEventHandler.html) メソッドを各のコントロールのために呼び出します。最初のパラメーターが関連する `igUpload` コントロールで定義される `ControlId` オプションと一致する必要があります。 
+
+**C# の場合**
+
+```
+protected void Application_Start()
+{
+            //configurations for  Area Registration, WebApi, Filte and Route 
+            AreaRegistration.RegisterAllAreas();
+
+            WebApiConfig.Register(GlobalConfiguration.Configuration);
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            //registed UploadStarting event via the UploadProgressManager
+            UploadProgressManager.Instance.AddStartingUploadEventHandler("upload1",
+           new EventHandler<UploadStartingEventArgs>(igUpload_UploadStarting));
+} 
+public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e)
+{
+            // implement logic here. See next step for details.
+} 
+
+```
+
+**手順 2**イベント ハンドラーでカスタム検証ロジックを追加します。条件と一致しない場合、カスタム [ServerMessage](Infragistics.Infragistics.Web.Mvc~ServerMessage.html) を設定し、イベントをキャンセルします。
+
+**C# の場合**
+
+```
+public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e){
+            //Custom Validation logic		
+            e.ServerMessage = "Custom error";
+            e.Cancel = true;
+        }
+
+```
+
+**手順 3**クライアント側エラー イベントでカスタム サーバー メッセージをクライアント側で表示します。
+
+**JavaScript の場合**
+
+```
+$(function(){
+        $("#upload1").on("iguploadonerror", function (evt, ui) {
+            // This property can be set during the 
+            // server event UploadStarting. If not set it’s 
+            // an empty string. (You can use it to display custom error messages.)
+            alert(ui.serverMessage);
+        });
+    });
+
+```
+
+**手順 4**結果を検証します。
+
+条件と一致しないファイルをアップロードした後、カスタム エラー メッセージが表示されます。
+
+![](images/igUpload_CustomErrrorMessage.png)
+
+## 関連リンク
+-   [igUpload の API およびイベントのサンプル](%%SamplesUrl%%/file-upload/api-events)
+-   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+
+ 
+
+ 
+
+
