@@ -254,7 +254,7 @@ $(function(){
 
 条件と一致しないファイルをアップロードした後、カスタム エラー メッセージが表示されます。
 
-![](images/igUpload_CustomErrrorMessage.png)
+![](images/igUpload_CustomErrorMessage.png)
 
 ## 関連リンク
 -   [igUpload の API およびイベントのサンプル](%%SamplesUrl%%/file-upload/api-events)
