@@ -8,253 +8,253 @@
 |metadata|
 -->
 
-#What's New in 2015 Volume 1
+#2015 Volume 1 の新機能
 
-This topic presents the controls and the new and enhanced features for the Ignite UI™ 2015 Volume 1 release.
+このトピックでは、Ignite UI™ 2015 Volume 1 リリースのコントロールと新機能および拡張機能を紹介します。
 
 
-##What’s New Summary
+##新機能の概要
 
-The following summarizes what’s new in 2015 Volume 1. Additional details follow.
+以下の表に 2015 Volume 1 の新機能の概要を示します。追加の詳細は以下のとおりです。
 
-### General
+### 全般
 
-Feature | Description
+機能|説明
 ---|---
-[New Ignite UI Help Viewer](#help-viewer) | We have a brand new, modernized help viewer for Ignite UI.
+[新しい Ignite UI ヘルプ ビューアー](#help-viewer)|Ignite UI の新しいヘルプ ビューアーを公開しました。
 
-### Ignite UI Page Designer
+### Ignite UI ページのデザイナー
 
-Feature | Description
+機能|説明
 ---|---
-[Out-of-the-Box Theming Support](#page-designer-theming-support) | Added support for other Ignite UI themes and common Bootstrap-based themes that you can easily select with the built-in theme picker.
-[Improved Data Sources Experience](#page-designer-datasource-expirience) | Added explicit support for JSONP data source and local data source as well as a new data source editor.
-[Intellisense support for Ace](#page-designer-intellisense-support)  | Added support for showing intellisense when the designer is in code view and the user starts typing
-[Remote data source – user friendly errors](#page-designer-remote-dataSource) | Web designer now has user interface for showing detailed information for the possible problem, while connecting to the remote data source
+[設定不要のテーマ サポート](#page-designer-theming-support) |その他の Ignite UI テーマおよび定義済みのテーマ ピッカーで選択可能な Bootstrap テーマのサポートを追加しました。
+[改良されたデータ ソース エクスペリエンス](#page-designer-datasource-expirience) |JSONP データ ソースおよびローカル データ ソースの明示的サポートと、新しいデータ ソース エディターを追加しました。
+[Ace に対する IntelliSense サポート](#page-designer-intellisense-support) |デザイナーがコード ビューであるときに、ユーザーが入力を開始すると、IntelliSense を表示するサポートが追加されました。
+[リモート データ ソース – ユーザー フレンドリなエラー](#page-designer-remote-dataSource) |リモート データ ソースへの接続中にWeb デザイナーで、発生する可能性のある問題に関する詳細な情報を表示する、ユーザー インターフェイスが利用できるようになりました
 
 
-### Infragistics JavaScript Excel Library
+### Infragistics JavaScript Excel ライブラリ
 
-Feature | Description
+機能|説明
 ---|---
-[New Library (RTM)](#new-javascript-excel-library)|100% pure JavaScript client-side Excel library that can be used for creating, loading, and editing Excel documents in the browser.
+[新しいライブラリ (RTM)](#new-javascript-excel-library)|ブラウザーでの Excel 文書の作成、読み込み、編集に使用できる純粋な JavaScript ベースのクライアント サイドの Excel ライブラリです。
 
 ### igGrid
 
-Feature | Description
+機能|説明
 ---|---
-[JavaScript-based Excel Grid Exporter (CTP)](#grid-excel-exporter) | You can export what users are looking at into an Excel file without any round-tripping to the server.
-Column Fixing works with Column Moving | Now you can enable both Column Fixing and Column Moving in the grid.
-Improved Column Fixing API | Now you can fix a column at specific position in the grid by supplying the target key of the column to its destination position in the grid.
-More Flexibility in the Selection Feature | Multiple region selection is now possible with the Ctrl + Mouse Drag action. Selection regions may be non-contiguous.
-Paging Persistence | The persist option is now added to the Paging feature.
-[Responsive Feature Improvements](#grid-responsive-feature-improvements) | A new single column template mode  is added.
-[Column Styling](#grid-column-styling) | We’ve added a new settings so that you can specify custom header and column CSS classes for igGrid columns configuration.
+[JavaScript Excel グリッド エクスポーター (CTP)](#grid-excel-exporter)|サーバーとの送信なしで表示されるデータを Excel ファイルにエクスポートできます。
+列固定と列移動との互換性|グリッドで列固定と列移動の両方を有効にすることができるようになりました。
+向上された列固定 API|グリッドで列を特定の位置に固定するには、グリッドで列のターゲット キーを移動先に提供します。
+選択機能の向上|複数の領域選択は、Ctrl + マウス ドラッグを使用して実行できます。非連続の選択領域は可能です。
+ページングの永続化|persist オプションは Paging 機能に追加されました。
+[レスポンシブ機能の向上](#grid-responsive-feature-improvements)|新しい単一列テンプレート モードが追加されました。
+[列のスタイル設定](#grid-column-styling)|igGrid の列構成でカスタム ヘッダーおよび列 CSS クラスを指定するための新しい設定を追加しました。
 
 
 
 ### igTreeGrid
 
-Feature | Description
+機能|説明
 ---|---
-[New Control (RTM)](#tree-grid) | The igTreeGrid™ control is now RTM. The igTreeGrid™ control allows you to visualize hierarchical data with common data schema into a single set of columns.
-[Tree-Specific Filtering](#tree-grid-filtering) | The igTreeGrid features a specialized filtering visualization that clearly shows context in filter results in the grid.
-Tree-Specific Paging | When paging data in the grid, you have the option to page either visible data at just the root level or all visible levels.
-Enhanced Expansion Options | In order to maintain flexibility, the tree grid features a configurable expansion indicator, which can be rendered inline in the first data column or in a standalone column. The expansion indicator can also be customized with a different look-and-feel to achieve custom visualizations.
-Virtualization | The igTreeGrid includes continuous virtualization which allows you to bind the grid to large sets of hierarchical data while maintaining a high-performance experience.
-[Remote Load on Demand](#tree-grid-remote-load-on-demand) | Sometimes large sets of data are rendered in the grid and you only want to supply the page with small sets of data at a time. By using remote load on demand, the igTreeGrid is able to add portions of the overall data to the grid as requested by the user.
-Local Load on Demand | To further maintain a high-performance grid, the igTreeGrid features local load on demand which ensures that only expanded nodes are rendered in the browser. As a user expands a parent node, then new elements are created on-the-fly in the page to support new data shown to the user.
+[新しいコントロール (RTM)](#tree-grid)|igTreeGrid™ コントロールは RTM になりました。igTreeGrid™ コントロールでは、一般的なデータ スキーマを使用して階層データを一連の列に入れ見えるようにすることができます。
+[ツリー固有のフィルター](#tree-grid-filtering)|igTreeGrid は、グリッドでフィルター結果のコンテキストを表示する特別なフィルター視覚化があります。
+ツリー固有のページング|グリッドでデータをページングするとき、ルート レベルまたはすべての表示可能なレベルで表示可能なデータをページングするオプションがります。
+拡張された展開オプション|ツリー グリッドは構成可能な展開インジケーターを提供します。最初のデータ列または単独列に描画できます。展開インジケーターは、カスタム視覚化のために別のルック アンド フィールでもカスタマイズできます。
+仮想化|igTreeGrid は連続仮想化を含みます。これにより、高いパフォーマンスのエクスペリエンスを維持しながら、グリッドを階層データの大きなセットにバインドできます。
+[リモート ロード オン デマンド](#tree-grid-remote-load-on-demand)|グリッドにデータの大きなセットが描画される場合に、一度にデータの小さなセットの入ったページのみを提供したいことがあります。リモート ロード オン デマンドを使用すると、igTreeGrid でユーザーの要求に応じて全データの一部分のみをグリッドに追加できます。
+ローカル ロード オン デマンド|グリッドの高いパフォーマンスをさらに維持するために、igTreeGrid には展開されたノードのみをブラウザーに描画することを保証するローカル ロード オン デマンドがあります。ユーザーが親ノードを展開すると、ページで新しい要素がその場で作成され、ユーザーに表示する新しいデータをサポートします。
 
 
 
 ### igCombo
 
-Feature | Description
+機能|説明
 ---|---
-[Rewritten Control](#combo)| In 15.1, we are shipping a brand new combo that is built with great UX and reliability as top priority.
-Improved Styling| The new combo does not use inline CSS styling for positioning and sizing, which means it can rely on browser rendering optimizations more.
-Improved Defaults| In some areas we have changed the defaults to provide a better UX out of the box, which also reduces the code necessary on your part to get to those optimal experiences for your end users.
-New Keyboard Interactions| The old combo had the basics, but we have dramatically expanded what you can do with the keyboard, which makes it more efficient and natural for end users to navigate, select, expand, etc. without having to switch back and forth between the mouse and keys.
-Improved Reliability| We've stripped down the size of the Combo with 44% reducing the code complexity as well as increasing the automation code coverage much higher.
-API Improvements| We also took this opportunity to revisit some less-than-optimal API choices to improve discoverability and understandability of the API.
-[Knockout Extension Improvements](#combo_ko)| Now the igCombo has a fully functional Knockout Extension which supports two-way data binding between a Knockout observable collection and the igCombo list, as well as two-way data binding for selected items in the combo.
+[書き換えられたコントロール](#combo)|15.1 では、優れた UX と信頼性を最優先に構築した新しいコンボを発表されました。
+スタイリングの改善|新しいコンボは、配置とサイズ設定にインライン CSS スタイリングを使用しないため、ブラウザーの描画最適化機能を一層活用できます。
+デフォルトの改善|設定なしでよりよい UX を提供できるように、一部の領域でデフォルトを変更しました。これは、エンド ユーザーに最適なエクスペリエンスを提供するためにプログラムが必要なコードも削減します。
+新しいキーボード操作|古いコンボも基本的な操作を備えていましたが、キーボードでできる操作を大幅に拡張しました。マウスとキーの間を交互に行き来せずに、ナビゲート、選択、展開などをエンド ユーザーは一層効率的に自然に実行することができます。
+改善された信頼性|コンボのサイズを 44% 削減したため、コードの複雑性が減少し、オートメーション コード カバレッジが一層高くなりました。
+API 改善|また、この機会に、改善の余地のある API 選択を再考し、API の発見可能性と分かりやすさを改善しました。
+[Knockout 拡張機能の改善](#combo_ko)|現在、igCombo は完全な Knockout 拡張機能を備え、Knockout 監視可能コレクションと igCombo リストの間の TwoWay データ バインディング、ならびにコンボで選択した項目の TwoWay データ バインディングをサポートします。
 
-### Mobile Controls
+### モバイル コントロール
 
-Feature | Description
+機能|説明
 ---|---
-jQuery Mobile 1.4+ Support | Ignite UI mobile controls are now compatible with the most recent version of jQuery Mobile, 1.4+.
+jQuery Mobile 1.4+ サポート |Ignite UI モバイル コントロールは、jQuery Mobile 1.4+ の最新バージョンと互換性があります。
 
 
-##General
+##全般
 
-### <a id="help-viewer"></a>New Ignite UI Help Viewer
+### <a id="help-viewer"></a>新しい Ignite UI ヘルプ ビューアー
 
-We have a brand new, modernized help viewer for Ignite UI. This makes it much easier to navigate through and share individual topics, and you can also easily switch between product versions (for version 14.1 and up) directly in a topic.
-Beyond making the experience easier to use, the actual topics themselves are now available on GitHub in Markdown. This means that you can easily report issues on topics or perhaps even submit additions or changes to a topic via a GitHub pull request.
+Ignite UI の新しいヘルプ ビューアーを公開しました。これにより、各トピックのナビゲートと共有が一層容易になり、製品バージョン（14.1 以降）をトピック内で直接容易に切り替えることもできるようになりました。
+一層使いやすいエクスペリエンスだけでなく、実際のトピック自体も Markdown の GitHub で使用可能になりました。GitHub のプル要求によって、トピックに関する問題を容易にレポートでき、トピックに対して追加や変更を送信することもできます。
 
-#### Related Content
+#### 関連コンテンツ
 
--   [Ignite UI Help Topics on GitHub](https://github.com/IgniteUI/help-topics)
+-   [GitHub の Ignite UI ヘルプ トピック](https://github.com/IgniteUI/help-topics)
 
-##Ignite UI Page Designer
+##Ignite UI ページのデザイナー
 
-### <a id="page-designer-theming-support"></a>Out-of-the-Box Theming Support
-Selecting a theme from the list changes the theme for all the components already dropped on the design surface. 
+### <a id="page-designer-theming-support"></a>テーマ サポート
+リストからテーマを選択すると、デザイン表面にすでにドロップされているすべてのコンポーネントのテーマが変更されます。 
 
 ![](images/Whats_New_In_Ignite_UI_2015_Volume_1_2.png)
-### <a id="page-designer-datasource-expirience"></a>Improved Data Sources Experience
-Page designer contains three predefined data source types - local, remote and Northwind. Both local and remote types provide different adorners for configuration settings. The NorthWind data source is a remote data source with predefined configuration pointing to the Northwind odata service requesting Customers with specific columns. 
+### <a id="page-designer-datasource-expirience"></a>データ ソース エクスペリエンスの改善
+ページ デザイナーには、ローカル、リモート、Northwind の 3 つの事前定義されたデータ ソース型があります。ローカル型とリモート型はいずれも構成設定のための異なるガイドを提供します。NorthWind データ ソースは、特定の列を持つ Customers を要求する Northwind odata サービスをポイントするように事前定義された構成を持つリモート データ ソースです。 
 
-####Local data source
+####ローカル データ ソース
 ![](images/Whats_New_In_Ignite_UI_2015_Volume_1_local_dataSource.png)
-####Remote data source
+####リモート データ ソース
 ![](images/Whats_New_In_Ignite_UI_2015_Volume_1_remote_dataSource.png)
-####NorthWind data source
+####NorthWind データ ソース
 ![](images/Whats_New_In_Ignite_UI_2015_Volume_1_northwind_dataSource.png)
 
-### <a id="page-designer-intellisense-support"></a>Intellisense support for Ace
-The web designer now supports intellisense when the designer is in code mode and the cursor is inside a component. When the user starts typing the suggestions based on predefined options related to the widget
+### <a id="page-designer-intellisense-support"></a>Ace に対する IntelliSense サポート
+Web デザイナーは、デザイナーがコードモードでカーソルがコンポーネントの内部にあるときに、IntelliSense をサポートするようになりました。ユーザーが入力を開始すると、ウィジェットに関係する事前定義されたオプションに基づく示唆が提供されます。
 
 ![](images/Whats_New_In_Ignite_UI_2015_Volume_1_intellisense.png)
-### <a id="page-designer-remote-dataSource"></a>Remote data source - user friendly errors
-When data source is bound to a remote data, an error coming from the remote request may occur. Web designer now has user interface for showing detailed information for the possible problem, while connecting to the remote data source. The user can find important information for the response status, error, data type and content, without the need to investigate the problem using the browser tools.
+### <a id="page-designer-remote-dataSource"></a>リモート データ ソース - ユーザー フレンドリーなエラー
+データ ソースをリモート データにバインドする場合、リモート要求からのエラーが発生することがあります。リモート データ ソースへの接続中にWeb デザイナーでは、発生する可能性のある問題に関する詳細な情報を表示するユーザー インターフェイスを利用できるようになりました。ユーザーは、応答状態、エラー、データ型、コンテンツに関する重要な情報を得ることができます。ブラウザー ツールを使用して問題を調査する必要はありません。
 
-##Infragistics JavaScript Excel Library
+##Infragistics JavaScript Excel ライブラリ
 
 
-### <a id="new-javascript-excel-library"></a>New Library (RTM)
+### <a id="new-javascript-excel-library"></a>新しいライブラリ (RTM)
 
-In 14.2, we CTP’d the first version of the "Client-Side Excel Library" which is now named "Infragistics JavaScript Excel Library". The RTM version includes smaller file size as well as enhanced browsers compatibility.
+14.2では、「クライアント サイド Excel ライブラリ」の最初のバージョンを CTP しました。現在は「Infragistics JavaScript Excel ライブラリ」という名前に変更されています。RTM バージョンではファイル サイズが小さくなり、ブラウザー互換性が強化されました。
 
-#### Related Topics
+#### 関連トピック
 
--   [Understanding the Infragistics JavaScript Excel Library](understanding-the-infragistics-javascript-excel-library.html)
--   [Using the Ignite UI JavaScript Excel Library](Using-The-JavaScript-Excel-Library.html)
+-   [Infragistics JavaScript Excel ライブラリの理解](understanding-the-infragistics-javascript-excel-library.html)
+-   [Ignite UI JavaScript Excel ライブラリの使用](Using-The-JavaScript-Excel-Library.html)
 
-#### Related Samples
+#### 関連サンプル
 
--   [Excel Table](%%NewSamplesUrl%%/javascript-excel-library/excel-table)
--   [Excel Formatting](%%NewSamplesUrl%%/javascript-excel-library/excel-formatting)
--   [Excel Formulas](%%NewSamplesUrl%%/javascript-excel-library/excel-formulas)
+-   [Excel の表](%%NewSamplesUrl%%/javascript-excel-library/excel-table)
+-   [Excel の書式設定](%%NewSamplesUrl%%/javascript-excel-library/excel-formatting)
+-   [Excel の数式](%%NewSamplesUrl%%/javascript-excel-library/excel-formulas)
 
 
 ## igGrid
 
-### <a id="grid-excel-exporter"></a>JavaScript-based Excel Grid Exporter (CTP)
+### <a id="grid-excel-exporter"></a>JavaScript Excel グリッド エクスポーター (CTP)
 
-The igGridExcelExporter component allows you to export data from the igGrid into a Microsoft Excel document. The export can support themes and workbook customization while reflecting data manipulated in the grid through features sorting, filtering, paging, etc. The following screenshot demonstrates what an exported igGrid looks like in Excel.
+igGridExcelExporter コンポーネントにより、igGrid から Microsoft Excel ドキュメントにデータをエクスポートできます。エクスポートは、テーマとワークブックのカスタマイズをサポートし、並べ替え、フィルタリング、ページングなどの機能によりグリッドで操作されたデータを反映します。以下のスクリーンショットは、エクスポートされた igGrid の Excel での実際の表示を示しています。
 
-#### Related Topics
+#### 関連トピック
 
--   [Grid Excel Exporter Overview](igGridExcelExporter-Overview.html)
+-   [Grid Excel エクスポーターの概要](igGridExcelExporter-Overview.html)
 
-#### Related Samples
+#### 関連サンプル
 
--   [Export Basic Grid to Excel](%%NewSamplesUrl%%/grid/export-basic-grid)
--   [Exporting Grid to Excel with Features](%%NewSamplesUrl%%/grid/export-feature-rich-grid)
--   [Customizing Grid Excel Export](%%NewSamplesUrl%%/grid/export-client-events)
--   [Exporting Grid to Excel with Progress Indicator](%%NewSamplesUrl%%/grid/export-grid-loading-indicator)
+-   [基本グリッドを Excel にエクスポート](%%NewSamplesUrl%%/grid/export-basic-grid)
+-   [機能とグリッドを Excel にエクスポート](%%NewSamplesUrl%%/grid/export-feature-rich-grid)
+-   [グリッド Excel エクスポートのカスタマイズ](%%NewSamplesUrl%%/grid/export-client-events)
+-   [進行状況インジケーターとグリッドを Excel にエクスポート](%%NewSamplesUrl%%/grid/export-grid-loading-indicator)
 
 
-### <a id="grid-responsive-feature-improvements"></a>Responsive Feature Improvements
+### <a id="grid-responsive-feature-improvements"></a>レスポンシブ機能の向上
 
 А new option [`singleColumnTemplate`](%%jQueryApiUrl%%/ui.iggridresponsive#options:singleColumnTemplate) is added to the Responsive Web Design Mode enabling you to define a single column template for a specific profile.
 
 ![](images/Whats_New_In_Ignite_UI_2015_Volume_1_3.png)
 
-#### Related Samples
+#### 関連サンプル
 
--   [Responsive Single Column Template](%%NewSamplesUrl%%/grid/responsive-single-column-template)
+-   [レスポンシブ単一列テンプレート](%%NewSamplesUrl%%/grid/responsive-single-column-template)
 
-### <a id="grid-column-styling"></a>Column Styling
-With the new [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) and [`headerCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerCssClass) column settings you can apply CSS classes to both the header and the column data cells as shown in the screenshot below.
+### <a id="grid-column-styling"></a>列のスタイル設定
+新しい [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) および [`headerCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerCssClass) 列設定を使用して、以下のスクリーンショットに示すように CSS クラスをヘッダーと列データ セルの両方に適用できます。
 ![](images/Whats_New_In_Ignite_UI_2015_Volume_1_column_styling.png)
 
 
 ##igTreeGrid
 
-### <a id="tree-grid"></a>New Control (RTM)
+### <a id="tree-grid"></a>新しいコントロール (RTM)
 
-The `igTreeGrid`™ control allows you to visualize a hierarchical data with common data schema into a single set of columns.
+`igTreeGrid`™ コントロールでは、一般的なデータ スキーマを使用して、一連の列で階層データを見えるようにすることができます。
 
-Supported features in the RTM are:
+RTM でサポートされる機能
 
--   Column Fixing
--   Hiding
--   Filtering
--   Sorting
--   Updating
--   Paging
--   Selection
--   Tooltips
--   Multi-Column Headers
+-   列の固定
+-   非表示
+-   フィルタリング
+-   並べ替え
+-   更新
+-   ページング
+-   選択
+-   ツールチップ
+-   複数列ヘッダー
 
 ![](images/Whats_New_In_Ignite_UI_2015_Volume_1_TreeGrid.png)
 
-#### Related Topics
+#### 関連トピック
 
--   [Overview (igTreeGrid)](igTreeGrid-Overview.html)
+-   [概要 (igTreeGrid)](igTreeGrid-Overview.html)
 
-#### Related Samples
+#### 関連サンプル
 
--   [JSON Binding](%%NewSamplesUrl%%/tree-grid/json-binding)
--   [Balance Sheet](%%NewSamplesUrl%%/tree-grid/balance-sheet)
+-   [JSON のバインド](%%NewSamplesUrl%%/tree-grid/json-binding)
+-   [貸借対照表](%%NewSamplesUrl%%/tree-grid/balance-sheet)
 
-### <a id="tree-grid-filtering"></a>Tree-Specific Filtering
+### <a id="tree-grid-filtering"></a>ツリー固有のフィルタリング
 
-The igTreeGrid specific filtering gives you fine control on how the matching results are presented to the user. The  new [`displayMode`](%%jQueryApiUrl%%/ui.igtreegridfiltering#options:displayMode) property controls how filtered results appear in the grid. The default is `"showWithAncestors"` which renders matches in full opacity along with their parent nodes with lower opacity (See image below). 
-The other available mode is `"showWithAncestorsAndDescendants"` which in addition to the default also renders child records, even if child records don't match the filtering conditions.
+igTreeGrid 固有のフィルタリングにより、一致する結果をユーザーに表示する方法を細かく制御できます。新しい [`displayMode`](%%jQueryApiUrl%%/ui.igtreegridfiltering#options:displayMode) プロパティは、フィルター処理された結果のグリッドで表示される状態を制御します。デフォルトは `"showWithAncestors"` で、一致を完全な不透明で描画し、その親ノードをそれより低い不透明度で描画します (以下の画像参照)。 
+使用可能なその他のモードに `showWithAncestorsAndDescendants` があります。これはデフォルトに加えて、子レコードがフィルタリング条件に一致しない場合でも、子レコードも描画します。
 
 ![](images/Whats_New_In_Ignite_UI_2015_Volume_1_TreeGrid_Filtering.png)
 
-#### Related Topics
+#### 関連トピック
 
--   [Filtering (igTreeGrid)](igTreeGrid-Filtering.html)
+-   [フィルタリング (igTreeGrid)](igTreeGrid-Filtering.html)
 
-#### Related Samples
+#### 関連サンプル
 
--   [File Explorer](%%NewSamplesUrl%%/tree-grid/file-explorer)
+-   [ファイル エクスプローラー](%%NewSamplesUrl%%/tree-grid/file-explorer)
 
-### <a id="tree-grid-remote-load-on-demand"></a>Remote Load on Demand
+### <a id="tree-grid-remote-load-on-demand"></a>リモート ロード オン デマンド
 
-The Load on Demand functionality enables the tree grid to request the data for the child nodes from the server as the user interacts with the grid (expands a node). This type of interaction allows for a faster page load, faster Tree Grid binding, a lighter initial footprint and potential for presenting the the most up-to-date data.
+ロード オン デマンド機能は、ユーザーがツリー グリッドのノードを展開するときにサーバーから子ノードのデータを要求します。このタイプの操作により、ページの読み込みやツリー グリッド バインディングがより速くなり、初期フットプリントが軽くなります。結果として最新のデータを提供できる可能性が広がります。
 
 ![](images/Whats_New_In_Ignite_UI_2015_Volume_1_TreeGrid_Load_on_Demand.png)
 
-#### Related Topics
+#### 関連トピック
 
--   [Load on Demand (igTreeGrid)](igTreeGrid-Load-On-Demand.html)
+-   [ロード オン デマンド (igTreeGrid)](igTreeGrid-Load-On-Demand.html)
 
-#### Related Samples
+#### 関連サンプル
 
--   [Load on Demand](%%NewSamplesUrl%%/tree-grid/load-on-demand)
+-   [ロード オン デマンド](%%NewSamplesUrl%%/tree-grid/load-on-demand)
 
 ##igCombo
 
-### <a id="combo"></a>Rewritten Control
+### <a id="combo"></a>書き換えられたコントロール
 
-Our original jQuery-based combo that we shipped almost four years ago was very functional, but over the years we’ve seen that it started showing its age. In 15.1, we are shipping a brand new combo that is built with great UX and reliability as top priority. While it has much improved, we’ve also minimized API changes so that you can drop and replace with minimal effort to start benefitting from the new combo.
+約 4 年前に出荷されたオリジナルの jQuery ベースのコンボはすぐれた機能を持っていましたが、年月の経過につれて、古さも目につき始めました。15.1 では、優れた UX と信頼性を最優先に構築した新しいコンボを発表しました。コンボを大きく改善する一方で、API 変更は最小限にとどめたため、最小限の削除と置換で新しいコンボのメリットを活用することができます。
 
 ![](images/Whats_New_In_Ignite_UI_2015_Volume_1_Combo.png)
 
-#### Related Topics
+#### 関連トピック
 
--   [igCombo Overview](igCombo-Overview.html)
--   [Migrating to the new combo](igCombo-Migrating-to-the-new-combo.html)
+-   [igCombo の概要](igCombo-Overview.html)
+-   [新しいコンボへの移行](igCombo-Migrating-to-the-new-combo.html)
 
-#### Related Samples
+#### 関連サンプル
 
--   [JSON Binding](%%NewSamplesUrl%%/combo/json-binding)
--   [Selection and Checkboxes](%%NewSamplesUrl%%/combo/selection-and-checkboxes)
--   [Filtering](%%NewSamplesUrl%%/combo/filtering)
--   [Load-On-Demand](%%NewSamplesUrl%%/combo/load-on-demand)
--   [Keyboard Navigation](%%NewSamplesUrl%%/combo/keyboard-navigation)
+-   [JSON のバインド](%%NewSamplesUrl%%/combo/json-binding)
+-   [選択およびチェックボックス](%%NewSamplesUrl%%/combo/selection-and-checkboxes)
+-   [フィルタリング](%%NewSamplesUrl%%/combo/filtering)
+-   [ロード オン デマンド](%%NewSamplesUrl%%/combo/load-on-demand)
+-   [キーボード ナビゲーション](%%NewSamplesUrl%%/combo/keyboard-navigation)
 
-### <a id="combo_ko"></a>Rewritten Knockout Extension
+### <a id="combo_ko"></a>書き換えられた Knockout 拡張機能
 
-The Knockout extension for the igCombo was adapted to meet the requirements of the new igCombo. This means that some of the options were removed and other were introduced. All the changes help the user to easily configure the igCombo, when it is bound to Knockout View-Model.  
+igCombo の Knockout 拡張機能は、新しい igCombo の要件に応じて調整されました。オプションの一部が削除され、新しいオプションが導入されました。すべての変更は、igCombo が Knockout View-Model にバインドされる際に、ユーザーが igCombo を容易に構成できることを目的にしています。  
 
-#### Related Samples
+#### 関連サンプル
 
--   [KnockoutJS Binding](%%NewSamplesUrl%%/combo/bind-combo-with-ko)
+-   [KnockoutJS のバインド](%%NewSamplesUrl%%/combo/bind-combo-with-ko)

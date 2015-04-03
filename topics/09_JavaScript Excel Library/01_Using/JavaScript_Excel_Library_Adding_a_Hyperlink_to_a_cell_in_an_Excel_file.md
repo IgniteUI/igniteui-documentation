@@ -8,11 +8,11 @@
 |metadata|
 -->
 
-# Adding a Hyperlink to a cell in an Excel file
+# Excel ファイルのセルへのハイパーリンクの追加
 
-This topic shows you how to add a hyperlink to a cell in a Microsoft® Excel™ file using the [`WorksheetCell`](%%jQueryApiUrl%%/ig.excel.WorksheetCell "Link to the API Reference Guide to the worksheetCell member.") object’s [applyFormula](%%jQueryApiUrl%%/ig.excel.WorksheetCell#methods:applyFormula "Link to the API Reference Guide to the applyFormula member.") function. The following code creates an Excel file with a hyperlink in cell 0 of the worksheet by using the Microsoft Excel `HYPERLINK` formula.
+このトピックは、[`WorksheetCell`](%%jQueryApiUrl%%/ig.excel.WorksheetCell) オブジェクトの [applyFormula](%%jQueryApiUrl%%/ig.excel.WorksheetCell#methods:applyFormula) 関数を使用して、Microsoft® Excel™ ファイルのセルにハイパーリンクを追加する方法を示します。以下のコードは、Microsoft Excel の数式 `HYPERLINK` を使用してワークシートのセル 0 にハイパーリンクのある Excel ファイルを作成します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```
 // Create a Workbook

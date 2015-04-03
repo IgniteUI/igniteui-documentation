@@ -8,51 +8,51 @@
 |metadata|
 -->
 
-# Load on Demand (igTreeGrid)
+# ロード オン デマンド (igTreeGrid)
 
-The `igTreeGrid` Load on Demand feature allows for binding to a remote data source and only initially loading the visible data into the grid. Additional data is available by  making remote requests for child records "on demand" as the parents are expanded. This type of interaction allows for a faster page load, faster Tree Grid binding, a lighter initial footprint and potential for presenting the the most up-to-date data.
+`igTreeGrid` ロード オン デマンド機能により、リモート データ ソースにバインドし、最初に表示されるデータのみをグリッドにロードできます。追加のデータは、親が展開される際に「オン デマンド」で子レコードに対するリモート要求を行うことにより使用可能になります。このタイプの操作により、ページの読み込みやツリー グリッド バインディングがより速くなり、初期フットプリントが軽くなります。結果として最新のデータを提供できる可能性が広がります。
 
-This feature can be combined with additional remote features to achieve complete data virtualization.
-
-
-### Required Background
-
-The following lists the concepts, topics, and articles required as a prerequisite to understanding this topic.
-
-- [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): This topic explains how to get started with Ignite UI™ components in an ASP.NET MVC application.
+この機能を他のリモート機能と組み合わせることで、完全なデータ仮想化を実現できます。
 
 
-## Introduction
+### 前提条件
 
-The Load on Demand functionality enables the tree grid to request the data for the child nodes from the server as the user interacts with the grid (expands a node). This approach significantly reduces the data being transferred between the browser and the server.
+以下の表は、このトピックを理解するための前提条件として必要な概念、トピック、および記事の一覧です。
 
-As Load on Demand is a remote operation it does require server support and well as specific data format - the back end must be able to handle [requests](#request-format) and reply with the appropriate level of data. Currently the `igTreeGrid` feature supports loading **hierarchical data only** from the server. This is because responses for each request include `null` set to the object property configured as `ChildDataKey` for leaf-level rows and an empty array/collection otherwise to prompt the `igTreeGrid` to render an indicator and request the data when the user expands.
+- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで Ignite UI™ コンポーネントを使用した作業の開始方法を説明します。
 
-When a row is expanded, the data for the child records is requested with an Ajax call to the server. The feature uses the same [`dataSourceUrl`](%%jQueryApiUrl%%/ui.igtreegrid#options:dataSourceUrl) address shared by other [remote features](igTreeGrid-Remote-Features.html). This means back-end implementations for multiple remote features need to be able to handle more than one style of request.
 
-Rendering expansion indicators in their own column also requires providing the [`initialIndentationLevel`](%%jQueryApiUrl%%/ui.igtreegrid#options:initialIndentationLevel) which determines how many indentations should be reserved as width for that column. This is done to ensure there will be enough space to render the most indented indicator for the leaf levels. Normally this would be determined from the bound data, but in a remote scenario it must be explicitly set up front.
+## 概要
 
-## <a id="request-format"></a> Request Format
+ロード オン デマンド機能は、ユーザーがツリー グリッドのノードを展開する際にサーバーから子ノードのデータを要求します。この方法は、ブラウザーとサーバー間で送信されるデータの量を減らします。
 
-With the Ajax call to the remote data source, the `igTreeGrid` will provide a number of parameters - a **path** based on the bound hierarchy to the parent, **depth** and the name of the **primary key** property. Depending on the scenario and data one or more can be used to identify the specific piece of data/layout needed.
+ロード オン デマンドは、サーバー サポートならびに特別なデータ フォーマットを必要とするリモート操作です。バックエンドは[要求](#request-format)を処理し、適切なレベルのデータで応答できなければなりません。現時点では、`igTreeGrid` 機能はサーバーから**階層データのみ**のロードをサポートしています。その理由は、各要求の応答がリーフ レベル行の `ChildDataKey` として構成されるオブジェクト プロパティに設定された `null` を含むためです。空の配列 / コレクションは、ユーザーが展開する場合にインジケーターを描画し、データを要求することを `igTreeGrid` にプロンプトします。
 
-For example in the Grid described in the [walkthrough](#walkthrough) below:
+行が展開されると、子レコードのデータがAJAX 呼び出しによりサーバーに要求されます。この機能は、他の[リモート機能](igTreeGrid-Remote-Features.html)により共有される同じ [`dataSourceUrl`](%%jQueryApiUrl%%/ui.igtreegrid#options:dataSourceUrl) アドレスを使用します。すなわち、複数の要求のスタイルを処理できるように、複数のリモート機能のバックエンド実装が必要です。
+
+固有の列での展開インジケーターの描画には、その列の幅としてインデントのサイズを予約する必要があるかを決定する [`initialIndentationLevel`](%%jQueryApiUrl%%/ui.igtreegrid#options:initialIndentationLevel) を提供する必要もあります。これは、リーフ レベルで最もインデントされたインジケーターを描画する十分なスペースを確保するためです。通常はバインドされたデータから決定されますが、リモート シナリオでは、あらかじめ明示的に設定する必要があります。
+
+## <a id="request-format"></a> 要求フォーマット
+
+リモート データ ソースに対する AJAX 呼び出しでは、`igTreeGrid` は多数のパラメーターを提供しています。バインドされた階層に基づく親への**パス**、**デプス**、**プライマリ キー** プロパティの名前などがあります。シナリオとデータに応じて、必要なデータ / レイアウトの特定の部分を識別する 1 つまたは複数のパラメーターを使用できます。
+
+以下の[チュートリアル](#walkthrough)で説明するグリッドで例を示します。
 
 ![](images/igtreegrid-load-on-demand.png "igTreeGrid with Load on Demand")
 
-produces the following two requests, where the single root row has an primary key value of "2":
+以下の 2 つの要求を生成します。ここで、単一ルート行は「2」というプライマリ キー値を持ちます。
 
 ![](images/igtreegrid-load-on-demand-requests.png "igTreeGrid with Load on Demand requests")  
 
-and as visible, the child record's key value is "5", producing a path of `2/5` for its data request.
+また、子レコードのキー値は「5」で、そのデータ要求に `2/5` のパスが生成されます。
 
-> **Note:** While Ignite UI comes with ASP.NET MVC helper models to help developers, this feature in not dependent on the platform. Rather, Load on demand can be enabled through the [`enableRemoteLoadOnDemand`](%%jQueryApiUrl%%/ui.igtreegrid#options:enableRemoteLoadOnDemand) option and implemented with any server-side platform that can provide an endpoint to handle the incoming request and return the processed data as JSON.
+> **注:** Ignite UI には、デベロッパーを支援する ASP.NET MVC ヘルパー モデルが付属しています。この機能はプラットフォームに依存しません。ロード オン デマンドは、[`enableRemoteLoadOnDemand`](%%jQueryApiUrl%%/ui.igtreegrid#options:enableRemoteLoadOnDemand) オプションを通じて使用できます。受け取った要求を処理し、JSON として処理済みのデータを返すエンドポイントを提供できるどのようなサーバー側プラットフォームでも実装できます。
 
-## <a id="walkthrough"></a> Walkthrough
+## <a id="walkthrough"></a> チュートリアル
 
-To quickly get enable the Load on demand functionality of the Tree Grid follow the steps.
+ツリー グリッドのロード オン デマンド機能を即座に有効にするには、以下の手順に従ってください。
 
-1. Configure the `TreeGridModel` model. Set [`LoadOnDemand`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeGridModel~LoadOnDemand.html) to `true` and [`DataSourceUrl`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~DataSourceUrl.html) to the endpoint URL that will handle the requests:
+1. `TreeGridModel` モデルを構成します。[`LoadOnDemand`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeGridModel~LoadOnDemand.html) を `true` に設定し、[`DataSourceUrl`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~DataSourceUrl.html) を要求を処理するエンドポイント URL に設定します。
 
 	```csharp
 	private TreeGridModel GetTreeGridModel()
@@ -76,7 +76,7 @@ To quickly get enable the Load on demand functionality of the Tree Grid follow t
 		return gridModel;
 	}
 	```
-2. Assign the appropriate source and pass the model to the view:
+2. 適切なソースを割り当て、ビューにモデルを渡します。
 
 	```csharp
 	public ActionResult LoadOnDemand()
@@ -87,7 +87,7 @@ To quickly get enable the Load on demand functionality of the Tree Grid follow t
 		return View(gridModel);
 	}
 	```
-3. Crate a controller action to handle the data requests. Use the `path` parameter by splitting it into separate identifiers that correspond to the record key values and use those to navigate to the target level. Return the level data with empty collections for child data:
+3. データ要求を処理するコントローラー アクションを作成します。`path` パラメーターを使用し、レコード キー値に対応する個別の識別子に切り離して、ターゲット レベルへのナビゲートに使用します。子データのための空のコレクションを持つレベル データを返します。
 
 	```csharp
 	public JsonResult ChildEmployeesOnDemand(string path, int? depth)
@@ -117,22 +117,22 @@ To quickly get enable the Load on demand functionality of the Tree Grid follow t
         return model.GetData();
     }
 	```
-	> Note: The `igTreeGrid` will provide as much information as possbile to determine the requested data and using it entirely depends on the level of funtionality required. For example if the underlying data has a unique **primary keys** the last identifier (or `identifiers[depth]`) can be used to access the expanded record directly. Also the provided key name parameter can be used to either assign Routing rules for separate data views or in the creation of a predicate string used for querying the source.
+	> 注: `igTreeGrid` は、要求されたデータの決定に十分な情報を提供します。その使用は、必要な機能のレベルに完全に依存します。たとえば、基になるデータが一意の**プライマリ キー**を持つ場合、最後の識別子 (すなわち `identifiers[depth]`) を使用して、展開されたレコードに直接アクセスできます。また、提供されたキー名パラメーターは、各データ ビューのルーティング ルールの割り当てや、ソースの問い合わせに使用する述語文字列の作成で使用できます。
 
-4. Create a view and instantiate the `TreeGrid` wrapper with the configured model.
+4. ビューを作成し、構成されたモデルで `TreeGrid` ラッパーのインスタンスを作成します。
 
-	**In CSHTML:**
+	**CSHTML の場合:**
 	```csharp
 	@using Infragistics.Web.Mvc
 	// ..
 	@(Html.Infragistics().TreeGrid(Model))
 	```
 
-## <a id="related-content"></a> Related Content
+## <a id="related-content"></a> 関連コンテンツ
 
-### <a id="topics"></a> Topics
--   [Features Overview (igTreeGrid)](igTreeGrid-Features-Overview.html): This topic covers the basics around the modular features available for the `igTreeGrid` control.
+### <a id="topics"></a> トピック
+-   [機能の概要 (igTreeGrid)](igTreeGrid-Features-Overview.html): このトピックでは、`igTreeGrid` コントロールで使用可能なモジュラー機能の基本について説明します。
 
-### <a id="samples"></a> Samples
-- [Load on Demand](%%SamplesUrl%%/tree-grid/load-on-demand)
-- [igTreeGrid Remote Features](%%SamplesUrl%%/tree-grid/overview)
+### <a id="samples"></a> サンプル
+- [ロード オン デマンド](%%SamplesUrl%%/tree-grid/load-on-demand)
+- [igTreeGrid リモート機能](%%SamplesUrl%%/tree-grid/overview)

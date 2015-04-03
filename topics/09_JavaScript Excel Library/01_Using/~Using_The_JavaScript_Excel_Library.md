@@ -8,17 +8,17 @@
 |metadata|
 -->
 
-#Using the Infragistics JavaScript Excel Library:
+#Infragistics JavaScript Excel ライブラリの使用
 
-This section contains topics covering the use of the JavaScript Excel Library.
+このセクションには、Infragistics JavaScript Excel ライブラリの使用に関するトピックが含まれています。
 
-This particular topic demonstrates how to export the contents of an Ignite UI `igGrid` to an Excel workbook using the new JavaScript Excel Library. Which can give you a general insight of how powerful the Infragistics JavaScript Excel Library is.
+このトピックは、新しい JavaScript Excel ライブラリを使用して、Ignite UI `igGrid` のコンテンツを Excel ワークブックにエクスポートする方法を紹介します。Infragistics JavaScript Excel ライブラリが強力であることを理解することができます。
 
-## Initial Setup 
+## 初期設定 
 
-The following topic uses an `igGrid` that is setup with the loader widget using the following code:
+以下のトピックでは、次のコードを使用してローダーのウィジェットで設定される `igGrid` を使用します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 $.ig.loader({
     scriptPath: "js/",
@@ -26,11 +26,11 @@ $.ig.loader({
     resources: "igGrid.Summaries"
 });
 ```
-Here, the loader is configured to load JavaScript files from the js folder, load the Ignite UI styles from the Infragistics CDN and load the grid Summaries feature.
+ここでは、js フォルダーから JavaScript ファイル、Infragistics CDN から Ignite UI スタイルをそれぞれ読み込み、グリッドの集計機能を読み込むようにローダーを構成します。
 
-Once the scripts are loaded then the grid is constructed as shown in the following code:
+スクリプトが読み込まれると、次のコードに示すように、グリッドが作成されます。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```
 $.ig.loader(function () {
@@ -57,11 +57,11 @@ $.ig.loader(function () {
     });
 });
 ```
->**Note:** The `adventureWorks` data source is an excerpt of the [Adventure Works database](http://msftdbprodsamples.codeplex.com/) as a JavaScript array and is available in the related sample linked below.
+>**注: **`adventureWorks` データ ソースは、JavaScript 配列としての [Adventure Works データベース](http://msftdbprodsamples.codeplex.com/)の抜粋で、下記にリンクされた関連サンプルで使用できます。
 
-The body of the HTML looks like this:
+HTML の本文は以下のようになります。
 
-**In HTML:**
+**HTML の場合:**
 ```
 <body>
     <button id="export" onclick="exportWorkbook()">Export to Excel (.xlsx)</button>
@@ -69,44 +69,44 @@ The body of the HTML looks like this:
     <table id="grid1"></table>
 </body>
 ```
-The body of this document consists of a button, which when clicked invokes the `exportWorkbook` function. This topic demonstrates how to construct this function to export the grid data to an Excel workbook. The related sample also contains a table into which the `igGrid` is placed by the initialization code above.
+この文書の本文はボタンですが、このボタンをクリックと、`exportWorkbook` 関数が呼び出されます。このトピックでは、グリッド データを Excel ワークブックにエクスポートするために、この関数を構築する方法を紹介します。前述した初期化コードにより `igGrid` が配置されるテーブルは、関連サンプルにもあります。
 
->**Note:** The button's onclick event handler is used in this topic for illustration purposes only. The sample code uses jQuery to handle the click event.
+>**注:** このトピックでは、ボタンの onclick イベント ハンドラーは説明の目的でのみ使用しています。サンプル コードでは、クリック イベントの処理に jQuery を使用します。
 
-With this initial setup, the page looks something like this:
+この初期設定では、次のようなページが表示されます。
 
 ![](images/Using_the_Client-Side_Excel_Library_1.png)
 
-## Creating a Workbook and Worksheet
+## ワークブックとワークシートの作成
 
-The first step in exporting to an Excel workbook is to create a workbook instance. This is done by invoking the Workbook constructor function, like so:
+Excel ワークブックへのエクスポート処理の最初のステップでは、ワークブックのインスタンスを作成します。次のようにワークブックのコンストラクター関数を呼び出します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```
 var workbook = new $.ig.excel.Workbook($.ig.excel.WorkbookFormat.excel2007);
 ```
-The format is specified here to indicate that the workbook will eventually be saved in the 2007 (.xlsx) file format. The next step is to add a worksheet to hold the exported data. Unlike workbooks, worksheets are not created via the Worksheet constructor function. Instead the workbook manages the creation of worksheets when one is added. The code only needs to supply the name of the new worksheet:
+最終的にワークブックを 2007 (.xlsx) ファイル形式で保存するために、ここで形式を指定します。次に、エクスポートされたデータを保持するワークシートを追加します。ワークブックとは異なり、ワークシートの作成にはワークシートのコンストラクター関数は使用しません。ワークシートが追加されると、ワークシートの作成はワークブックにより管理されます。コードの指定が必要なのは、新しいワークシートの名前のみです。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var worksheet = workbook.worksheets().add('Sheet1');
 ```
-This code adds a worksheet with the name of “Sheet1” to the worksheets collection and obtains a reference, returned from the add function, to the newly created worksheet instance.
+このコードは、「Sheet1」という名前のワークシートをワークシートの集合に追加し、add 関数から新しく作成されたワークシートのインスタンスに返された参照を取得します。
 
-## Exporting Headers
+## ヘッダーのエクスポート
 
-In the `igGrid`, headers and data are separated into different sections, but on the worksheet, they must all exist in the same area of cells. Therefore, the code that exports the grid must keep track of the current row index where cells can safely be exported to ensure that headers and data do not overlap. Since the concepts of row, column, and cell exist for both the grid and Excel worksheet, the code adopts the convention of prefixing these ambiguous Excel related entities with "xl", for example:
+`igGrid` では、ヘッダーとデータは、それぞれ異なるセクションに割り当てますが、ワークシートでは、ヘッダーとデータは、セルの同じ領域に存在する必要があります。そのため、グリッドをエクスポートするコードにより、現在の行インデックスを追跡する必要があります。このインデックスにより、ヘッダーとデータが重ならないように、セルが確実にエクスポートされます。行、列、セルの概念は、グリッドと Excel ワークシートの両方に存在するため、このコードでは、これらのあいまいな Excel 関連エンティティに、たとえば「xl」などのプレフィックスを付加する規則を採用しています。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var xlRowIndex = 0;
 ```
-The row indexes are 0-based in the Excel library, so this code indicates that the next available row for export is the first row in the worksheet.
+行インデックスは、Excel ライブラリの 0 ベースであるため、このコードは、ワークシートの最初の行がエクスポートで次に使用可能な行であることを示しています。
 
-Next, you need to obtain a reference to the table of cells representing the header in the grid and iterate over the rows in that table:
+次に、グリッドのヘッダーを表すセルのテーブルへの参照を取得し、そのテーブル内の行を繰り返す必要があります。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var headersTable = $("#grid1").igGrid("headersTable")[0];
 for (var headerRowIndex = 0;
@@ -116,29 +116,29 @@ for (var headerRowIndex = 0;
     // TODO: Export the header row
 }
 ```
-Notice how the increment portion of the for loop increments both `headerRowIndex` and `xlRowIndex`. This ensures that after exporting each header row, the code will move down to the next header row and the next worksheet row. Since there is only one header row in this example, the interior of this loop runs only one time, but it will leave the `xlRowIndex` value pointing to the next worksheet row.
+ループのインクレメント部分が `headerRowIndex` と `xlRowIndex` の両方をどのようにインクレメントするかに注意してください。これにより、各ヘッダー行をエクスポートするたびに、コードは次のヘッダー行と次のワークシート行に移動します。この例では、ヘッダー行は 1 つのみであるため、このループの内部は 1 回のみ実行されます。ただし、`xlRowIndex` の値は次のワークシート行を指した状態です。
 
-To export each header row in the loop body, you must first obtain a reference to associated row in the worksheet:
+ループ本体の各ヘッダー行をエクスポートするには、最初にワークシート内の関連付けられた行への参照を取得する必要があります。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var xlHeaderRow = worksheet.rows(xlRowIndex);
 ```
-Since rows are lazily created the first time they are requested, you don’t need to construct and add a row to a worksheet. Just asking for a row will ensure it is created.
+行は初めて要求されたときに遅延作成されるため、行を作成しワークシートに追加する必要はありません。行は、要求するのみで作成されます。
 
-Then you can copy over the appropriate formatting applied to the header row. In this case, only the font color should be exported, so that can be set like so:
+その後、ヘッダー行に適用された書式設定を上書きすることができます。この場合、エクスポートが必要なのはフォントの色のみです。次のように設定します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var computedStyle = window.getComputedStyle(headerRow);
 var xlColorInfo = new $.ig.excel.WorkbookColorInfo(computedStyle.color);
 xlHeaderRow.cellFormat().font().colorInfo(xlColorInfo);
 ```
-This code takes the foreground color computed for the header row in the browser, and uses it to set the font’s color, first wrapping it in a `WorkbookColorInfo` instance. Font color and other colors in Excel support more complex color information than just RGB, such as themed colors and tints, and this color information is represented in the `WorkbookColorInfo` instances.
+このコードは、ブラウザーのヘッダー行用に算出された前景色を取得し、それを使用してフォントの色を設定します。その場合、最初にこの前景色が `WorkbookColorInfo` のインスタンスでラップされます。Excel のフォントの色やその他の色は単なる RGB だけではなく、テーマ化された色や濃淡など、より複雑な色情報をサポートします。この色情報は、`WorkbookColorInfo` のインスタンスで表現します。
 
-After initializing the header row on the worksheet, you can export each header cell for that row:
+ワークシートでヘッダー行を初期化した後、その行の各ヘッダー セルをエクスポートします。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 for (var headerCellIndex = 0;
     headerCellIndex < headerRow.cells.length;
@@ -154,17 +154,17 @@ for (var headerCellIndex = 0;
     xlHeaderCell.value($(headerCell).text());
 }
 ```
-There are a few things going on here. First, the code iterates over each cell in the current header row and obtains a reference to it in `headerCell`. Next, it uses the calculated width of that cell to initialize the width of the associated column on the worksheet, using pixels as the width unit.
+ここでは、同時にいくつかの処理がされています。最初に、現在のヘッダー行の各セルに対してコードが繰り返され、`headerCell` にあるセルへの参照を取得します。次に、そのセルの算出された幅を使用して、ワークシートの関連付けられた列の幅を初期化します。この場合、幅の単位はピクセルです。
 
-Then, it obtains a reference to the worksheet cell where the header data will be exported. Since the cells have a background color which should be preserved when exporting, it gets the computed style’s background color from the header cell, converts it into a solid `CellFill` instance and applies it as the fill of the cell’s format.
+さらに、ヘッダー データのエクスポート先となるワークシートのセルへの参照を取得します。セルの背景色はエクスポート時に保持する必要があるため、算出されたスタイルの背景色をヘッダー セルから取得し、ベタ一色の `CellFill` インスタンスに変換し、セル書式の塗りつぶし色として使用します。
 
-And finally, it uses the text displayed in the browser as the value for the cell. It does this by passing the text to the value function of the cell to set the value.
+最後に、ブラウザーに表示されるテキストをセルの値として使用します。値を設定するためにテキストをセルの value 関数に渡すことにより、この処理は実行されます。
 
-## Exporting Data
+## データのエクスポート
 
-Exporting the data cells is very similar to exporting header cells. Once again, the loop over the rows should iterate both the grid row index and the worksheet row index so no exported rows overlap in the worksheet. In this case, the code does not need to export the format of the cells and can just export their values:
+データ セルのエクスポートは、ヘッダー セルのエクスポートとほとんど同じです。ここでも、エクスポートされた行がワークシートで重ならないように行のループによって、グリッド行のインデックスとワークシート行のインデックスの両方を繰り返し処理する必要があります。この場合、コードでセルの書式をエクスポートする必要はありません。セルの値をエクスポートするのみです。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```
 var rows = $("#grid1").igGrid("rows");
@@ -181,15 +181,15 @@ for (var dataRowIndex = 0;
     }
 }
 ```
-However, there is something slightly different here. With the header cells, performance is not a big concern since there are only three of them in this case. However, when exporting data, you have to consider performance and use the fastest possible code since there could be many rows. As stated in the “JavaScript Excel Library Overview” topic, as a memory optimization, the rows actually contain all cell data and formatting information. So it is not actually necessary to use cell instances for many operations. For setting formatting and cell values, all operations can be performed via the row instances. In this case, the code uses `setCellValue`, passing in the current column index and the new value to set the value of the cell in that row at the specified column index. Not requesting the cell prevents a transient cell instance from getting created and reduces the amount of memory pressure during the export, which will make the code more performant.
+ただし、ここでは少し異なることが発生しています。この例では存在するヘッダー セルが 3 つのみのため、パフォーマンスは重要ではありませんが、データのエクスポート時には、多数の行が存在する可能性があるため、パフォーマンスを検討して可能な限り最速のコードを使用する必要があります。「JavaScript Excel ライブラリの概要」トピックに説明するように、メモリの最適化として、行にはすべてのセル データと書式設定情報が実際に含まれています。したがって、実際には、各種の操作にセルのインスタンスを使用する必要はありません。書式およびセル値を設定する場合、すべての操作は行のインスタンスを介して実行することができます。この場合、コードは `setCellValue` を使用し、現在の列インデックスと新しい値を渡して、その行の指定された列インデックスの位置にセルの値を設定します。セルを要求しないとセルの一時インスタンスが作成されないため、エクスポート時のメモリの負荷が減ります。その結果、コードの効率がさらに向上します。
 
-## Saving the Workbook
+## ワークブックの保存
 
-After the data is copied from the grid to the workbook, the last step is to save the workbook. In the case of the Excel library, this means converting the workbook from an object model representation to a binary representation containing the file contents Microsoft Excel would recognize. This is done using the save function of the workbook. In this case, the format used during saving is Excel 2007, since that format was specified when the code first created the workbook instance.
+グリッドからワークブックへのデータのコピー完了後、最後に、ワークブックを保存します。Excel ライブラリの場合、これは、ワークブックのオブジェクト モデル表現から Microsoft Excel が認識するファイル コンテンツを含むバイナリ表記への変換を意味します。この処理には、ワークブックの save 関数を使用します。この場合、保存時に使用するファイル形式はExcel 2007 です。この形式は、ワークブックのインスタンスを最初に作成したときに指定しました。
 
->**Note:** In order to provide full browser support the following code relies on two 3rd party libraries: [Blob.js](https://github.com/eligrey/Blob.js/) and [FileSaver.js](https://github.com/eligrey/FileSaver.js/). Referencing these libraries on the page defines a saveAs function which allows a file generated on the client to be saved locally. If you cannot include these libraries on your page, one alternative is to construct a [data URI](http://en.wikipedia.org/wiki/Data_URI_scheme) by converting the data array to a Base64 encoded string with the [window.btoa](https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64.btoa) function and using a mime type of "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", then you can use that URI as the href attribute of an anchor tag. However, this approach does not work in IE due to security reasons, but does work in Chrome and Firefox. Another alternative is to post the data to the server and have the server provide an URL with which the user can download the saved file.
+>**注:**ブラウザーを完全にサポートするために、以下のコードはサードパーティの 2 つのライブラリ、[Blob.js](https://github.com/eligrey/Blob.js/) と [FileSaver.js](https://github.com/eligrey/FileSaver.js/) に依存します。ページでこれらのライブラリを参照すると、クライアント側で生成されたファイルをローカルで保存できる saveAs 関数が定義されます。これらのライブラリをページに含めることができない場合は、[window.btoa](http://en.wikipedia.org/wiki/Data_URI_scheme) 関数を使用し、データ配列を Base64 でエンコードされた文字列に変換して、[データ URI](https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64.btoa) を作成し、"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" の MIME の種類を使用します。この URI は、アンカー タグの href 属性として使用します。ただし、この方法はセキュリティ上の理由により IE では機能しませんが、Chrome と Firefox では機能します。もう 1 つの方法は、データをサーバーに送信し、保存されたファイルのダウンロード先の URL をサーバーからユーザーに提供するようにします。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 workbook.save(function (err, data) {
     if (err) {
@@ -203,15 +203,15 @@ workbook.save(function (err, data) {
     }
 });
 ```
-The save function accepts a callback with two parameters: an error instance and a Uint8Array instance, only one of which will be non-null when the callback is invoked. When the save operation completes successfully, this code saves the data to a file named grid.xlsx. When opened in Microsoft Excel, which that file should look something like this:
+save 関数は、以下の 2 つのパラメーターを持つコールバックを受け付けます。1 つはエラー インスタンスで、もう 1 つは Uint8Array のインスタンスです。コールバックが呼び出されるとき、どちらかのインスタンスは null 以外の値になります。保存操作が正常に完了すると、grid.xlsx という名前のファイルにデータが保存されます。以下に、Microsoft Excel で表示させたファイル grid.xlsx を示します。
 
 ![](images/Using_the_Client-Side_Excel_Library_2.png)
 
-## Putting it All Together
+## まとめ
 
-Here is the full `exportWorkbook` function. For a more detailed solution on exporting a grid, including exporting summary formulas and all formatting properties, see the “Related Samples” section below.
+以下に、`exportWorkbook` 関数のコードの全文を示します。集計式およびすべての書式設定プロパティを含むグリッドのエクスポートに関する詳細なソリューションは、以下の「関連サンプル」を参照してください。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 function exportWorkbook() {
     var workbook = new $.ig.excel.Workbook($.ig.excel.WorkbookFormat.excel2007);
@@ -265,13 +265,13 @@ function exportWorkbook() {
     });
 }
 ```
-### Related Topics
+### 関連トピック
 
-- [JavaScript Excel Library Overview](JavaScript-Excel-Library-Overview.html)
+- [JavaScript Excel ライブラリの概要](JavaScript-Excel-Library-Overview.html)
 
-### Related Samples
+### 関連サンプル
 
-- [Excel Table](%%NewSamplesUrl%%/javascript-excel-library/excel-table)
-- [Excel Formatting](%%NewSamplesUrl%%/javascript-excel-library/excel-formatting)
-- [Excel Formulas](%%NewSamplesUrl%%/javascript-excel-library/excel-formulas)
+- [Excel の表](%%NewSamplesUrl%%/javascript-excel-library/excel-table)
+- [Excel の書式設定](%%NewSamplesUrl%%/javascript-excel-library/excel-formatting)
+- [Excel の数式](%%NewSamplesUrl%%/javascript-excel-library/excel-formulas)
                     

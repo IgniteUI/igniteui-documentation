@@ -8,31 +8,31 @@
 |metadata|
 -->
 
-# Updating (igTreeGrid)
+# 更新 (igTreeGrid)
 
-With the `igTreeGrid` Updating feature, you can edit bound data directly from the grid. The updating features of the grid provide a wide array of adding and editing values of the underling set of data bound to the grid.
+`igTreeGrid` 更新機能により、バインドされたデータをグリッドから直接編集できます。グリッドの更新機能は、グリッドにバインドされたデータの基となるセットの値を追加および編集する多様な機能を提供します。
 
-> **Note:** While the `igTreeGrid` currently does not support full "add new row" functionality from the UI, you can achieve this behavior by using the add row method.
-
-
-### Required Background
-
-The following lists the concepts, topics, and articles required as a prerequisite to understanding this topic.
-
-- [Updating Overview (igGrid)](igGrid-Updating.html): This topic explains how to use the Updating feature of the `igGrid`™ control.
+> **注:** 現時点で、`igTreeGrid` は UI からの完全な「新しい行の追加」機能をサポートしていませんが、行追加メソッドを使用してこの操作ができます。
 
 
-## Introduction
+### 前提条件
 
-As with other features, Updating also extends the equivalent flat data control to add support for hierarchy within a single grid. This is made possible via the underlying instance of the `igTreeHierarchicalDataSource`. While most additions are under-the-hood support for available functionality such as inline editing experience or row edit template, one change is that the "Add new row" user interface is disabled by default. This is because Updating UI and [`addRow`](%%jQueryApiUrl%%/ui.igtreegridupdating#methods:addRow) API method currently only support directly adding new records **only to the root level**. The  [`enableAddRow`](%%jQueryApiUrl%%/ui.igtreegridupdating#options:enableAddRow) option can still be set to `true` to enable this functionality.
+以下の表は、このトピックを理解するための前提条件として必要な概念、トピック、および記事の一覧です。
 
-Note also that using the UI or the matching add row methods on both the `igTreeGridUpdating` or the data source will also default to adding the new data directly to the root level even in the cases where the control is bound to a flat data source and the foreign key is provided for the new record.
+- [更新の概要 (igGrid)](igGrid-Updating.html): このトピックでは、`igGrid`™ コントロールの更新機能の使用方法を説明します。
 
-## Adding a New Row to a Specific Level
 
-To add a new row programmatically to the Tree Grid you can use the Tree Hierarchical DataSource's [`insertRow`](%%jQueryApiUrl%%/ui.igtreegridupdating#methods:insertRow) API method. The parameters for this method allow you to specify both parent as well as the specific index at which the new records should be inserted. To apply changes you must call `dataBind` to render the latest changes in the grid.
+## 概要
 
-For example with the following grid definition:
+他の機能と同様、更新機能も同等のフラット データ コントロールを拡張して、単一グリッド内の階層構造に対するサポートを追加しています。これは、`igTreeHierarchicalDataSource` の基となるインスタンスにより可能になります。大部分の追加は、インライン編集エクスペリエンスや行編集テンプレートのような使用可能な機能に対する内容のサポートですが、「新しい行の追加」ユーザー インターフェイスがデフォルトで無効にされる点が変更されています。その理由は、UI の更新と [`addRow`](%%jQueryApiUrl%%/ui.igtreegridupdating#methods:addRow) API メソッドが、現時点では**ルート レベルのみに対する**新しいレコードの直接追加のみをサポートしているためです。この機能を有効にするために、[`enableAddRow`](%%jQueryApiUrl%%/ui.igtreegridupdating#options:enableAddRow) オプションを `true` に設定した状態にします。
+
+また、UI または一致を使用すると、`igTreeGridUpdating` またはデータ ソースの行追加メソッドは、コントロールがフラット データ ソースにバインドされ、外部キーが新しいレコードに対して提供されている場合でも、デフォルトで新しいデータを直接ルート レベルに追加することにも注意してください。
+
+## 特定のレベルに対する新しい行の追加
+
+ツリー グリッドにプログラムにより新しい行を追加するには、Tree Hierarchical DataSource の [`insertRow`](%%jQueryApiUrl%%/ui.igtreegridupdating#methods:insertRow) API メソッドを使用できます。このメソッドのパラメーターで、親ならびに新しいレコードを挿入する特定のインデックスの両方を指定できます。変更を適用するには、 `dataBind` を呼び出し、最新の変更をグリッドに描画する必要があります。
+
+たとえば、以下のグリッド定義があるとします。
 ```js
 $("#treegrid").igTreeGrid({
 	width: '700px',
@@ -51,7 +51,7 @@ $("#treegrid").igTreeGrid({
 });
 ```
 
-Adding a child to the first record looks like so:
+子を最初のレコードに追加する方法は以下のようになります。
 
 ```js
 var ds = $('#treegrid').data("igTreeGrid").dataSource;
@@ -60,12 +60,12 @@ ds.insertRow(22, newRow, 1, true, 0);
 
 $('#treegrid').data("igTreeGrid").dataBind();
 ```
-The very last parameter of the `insertRow` method is the desired parent ID (primary key value).
+`insertRow` メソッドの最後のパラメーターは、希望する親 ID (プライマリキー値) です。
 
-## <a id="related-content"></a> Related Content
+## <a id="related-content"></a> 関連コンテンツ
 
-### <a id="topics"></a> Topics
--   [Load on Demand (igTreeGrid)](igTreeGrid-Load-On-Demand.html): This topic explains the benefits of the `igTreeGrid` Load on Demand functionality and how it can be implemented.
+### <a id="topics"></a> トピック
+-   [ロード オン デマンド (igTreeGrid)](igTreeGrid-Load-On-Demand.html): このトピックでは、`igTreeGrid` ロード オン デマンドのメリットと実装方法を説明します。
 
-### <a id="samples"></a> Samples
-- [igTreeGrid Updating](%%SamplesUrl%%/tree-grid/overview)
+### <a id="samples"></a> サンプル
+- [igTreeGrid 更新](%%SamplesUrl%%/tree-grid/overview)

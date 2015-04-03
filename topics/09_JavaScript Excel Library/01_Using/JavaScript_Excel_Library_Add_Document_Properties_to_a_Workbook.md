@@ -8,25 +8,25 @@
 |metadata|
 -->
 
-# Add Document Properties to a Workbook
+# ドキュメント プロパティをワークブックに追加
 
 
 
-Associated with each workbook file are various properties that provide information about its content. These properties include the following pieces of information:
+ワークブックの内容に関する情報を提供する各種のプロパティが、それぞれのワークブック ファイルに関連付けられています。それらのプロパティには、以下のような情報が含まれています。
 
--   Author
--   Title
--   Subject
--   Keywords
--   Category
--   Status
--   Comments
+-   作成者
+-   タイトル
+-   件名
+-   キーワード
+-   カテゴリ
+-   状態
+-   コメント
 
-This information can be accessed through the Microsoft® Excel® interface as well as the Properties dialog box for the workbook file. You can edit this information in a workbook before serializing it by using its [`DocumentProperties`](%%jQueryApiUrl%%/ig.excel.DocumentProperties "Link to the Web API Reference Guide to the documentProperties member.") property.
+この情報には、Microsoft® Excel® インターフェイスおよびワークブック ファイルの Properties ダイアログ ボックスを介してアクセスできます。その [`DocumentProperties`](%%jQueryApiUrl%%/ig.excel.DocumentProperties) プロパティを使って、シリアル化する前に、この情報をワークブック内で編集できます。
 
-The following code demonstrates how to create a workbook and set its [`title`](%%jQueryApiUrl%%/ig.excel.DocumentProperties#methods:title "Link to the Web API Reference Guide to the title member.") and [`status`](%%jQueryApiUrl%%/ig.excel.DocumentProperties#methods:status "Link to the Web API Reference Guide to the status member.") document properties.
+以下のコードは、ワークブックを作成し、 [`title`](%%jQueryApiUrl%%/ig.excel.DocumentProperties#methods:title) および [`status`](%%jQueryApiUrl%%/ig.excel.DocumentProperties#methods:status) ドキュメント プロパティを設定する方法を示します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```
 var workbook = new $.ig.excel.Workbook();

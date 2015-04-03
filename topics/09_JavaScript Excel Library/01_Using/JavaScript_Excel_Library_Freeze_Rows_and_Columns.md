@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# Freeze Rows and Columns
+# 行と列をフリーズ
 
-Certain data on a worksheet should always remain in view (e.g., column headers and the primary field in a row). For this data, you can freeze rows at the top or columns at the left of a worksheet. When you freeze rows in a worksheet and scroll the worksheet vertically, those rows remain fixed at the top of the worksheet. Similarly, frozen columns remain at the left of the worksheet, regardless of the horizontal scroll position. The unfrozen rows and columns exist in the bottom-right pane of the worksheet. You can also specify which row or column is first visible in this pane; doing so sets the vertical and horizontal scroll position of the worksheet.
+ワークシート上の特定のデータは常に表示されています（例: 列ヘッダーや行の主要なフィールド）。このデータでは、ワークシートの上部の行と左側の列をフリーズできます。ワークシートで行をフリーズすると、垂直方向にワークシートをスクロールしても、これらの行はワークシートの上部に固定された状態になります。同様に、水平方向のスクロールの位置にかかわらず、フリーズされた列はワークシートの左側に固定されます。フリーズされていない行と列は、ワークシートの右下のペインに存在します。このペインに最初に表示する行または列を指定することもできます。これにより、ワークシートの垂直および水平方向のスクロールの位置を設定します。
 
-The following code demonstrates how to freeze rows and columns in a worksheet:
+以下のコードは、ワークシートで行と列をフリーズする方法を示します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```
 var workbook = new $.ig.excel.Workbook();

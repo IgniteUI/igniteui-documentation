@@ -8,6 +8,6 @@
 |metadata|
 -->
 
-# API Overview
+# API の概要
 
-- [API Overview](%%jQueryApiUrl%%/ig.excel.AnyValueDataValidationRule "api overview for javascript excel library"): This API Documentation lists the namespaces and classes that you will be working with, while programming with the Infragistics JavaScript Excel Library. The namespaces and classes listed in this topic link conveniently into the "API Reference Guide" section of the Ignite UI help.
+- [API の概要](%%jQueryApiUrl%%/ig.excel.AnyValueDataValidationRule): この API ヘルプは、Infragistics JavaScript Excel ライブラリでプログラミング中に作業する名前空間とクラスをリストします。このトピックの名前空間とクラスの一覧は、Ignite UI ヘルプの API 参照ガイドにリンクします。

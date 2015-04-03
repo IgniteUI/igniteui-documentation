@@ -8,14 +8,14 @@
 |metadata|
 -->
 
-# Infragistics JavaScript Excel Library
+# Infragistics JavaScript Excel ライブラリ
 
-The Infragistics JavaScript Excel Library is capable of creating entire Microsoft® Excel® Workbooks, including Worksheets. Use this object model to load Excel workbooks, modify them, and then save them again.
+Infragistics JavaScript Excel ライブラリは、Worksheet を含む、Microsoft® Excel® Workbook 全体を作成する機能があります。このオブジェクト モデルを使用して、Excel ワークブックをロードおよび変更し、再度保存します。
 
-Click the links below to access important information about the Infragistics JavaScript Excel Library.
+Infragistics JavaScript Excel ライブラリについての重要な情報にアクセスするには、以下のリンクをクリックしてください。
 
-- [Understanding the Infragistics JavaScript Excel Library](Understanding-the-Infragistics-JavaScript-Excel-Library.html "understanding the infragistics javascript excel library"): In this section you'll find any information that will help you to better understand the functionalities of the Infragistics JavaScript Excel Library, as well as why you would want to use it as part of building your applications.
+- [Infragistics JavaScript Excel ライブラリの理解](Understanding-the-Infragistics-JavaScript-Excel-Library.html): このセクションでは、Infragistics JavaScript Excel ライブラリの機能をより良く理解するための助けとなるあらゆる情報や、アプリケーション構築の一環にこのコントロールの機能を活用する理由が説明されています。
 
-- [Using the Infragistics JavaScript Excel Library](Using-the-JavaScript-Excel-Library.html "using the infragistics javascript excel library"): This section contains detailed, step-by-step procedures that guide you through common scenarios that you may need to perform when using the Infragistics JavaScript Excel Library.
+- [Infragistics JavaScript Excel ライブラリの使用](Using-the-JavaScript-Excel-Library.html): このセクションでは、Infragistics JavaScript Excel ライブラリを使用する際に実行が必要な一般的なシナリオを、詳細に手順を追って紹介しています。
 
-- [API Overview](%%jQueryApiUrl%%/ig.excel.AnyValueDataValidationRule "api overview for javascript excel library"): This topic lists the namespaces and classes that you will be working with while programming with the Infragistics JavaScript Excel Library. The namespaces and classes listed in this topic link conveniently into the "API Reference Guide" section of the Ignite UI help.
+- [API の概要](%%jQueryApiUrl%%/ig.excel.AnyValueDataValidationRule): このトピックは、Infragistics JavaScript Excel ライブラリでプログラミング中に作業する名前空間とクラスをリストします。このトピックの名前空間とクラスの一覧は、Ignite UI ヘルプの API 参照ガイドとリンクしています。

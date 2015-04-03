@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# Creating a Workbook in office 2007 XLSX format
+# Office 2007 XLSX 形式でワークブックを作成
 
-Infragistics® Excel® object library enables you to create Excel files with the new `xlsx` format (Excel2007).
+Infragistics® Excel® オブジェクト ライブラリにより、新しい `xlsx` フォーマット（Excel2007）で Excel ファイルを作成できます。
 
-The example code below shows you how to set the new xlsx format for the Excel Workbook.
+以下のコード例は、Excel ワークブック用に新しい xlsx フォーマットを設定する方法を示します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```
 var workbook = new $.ig.excel.Workbook();

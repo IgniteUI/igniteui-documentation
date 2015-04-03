@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# Create a Workbook
+# ワークブックを作成
 
-Before you can take advantage of the features in the JavaScript Excel Library, you will need to create a [Workbook](%%jQueryApiUrl%%/ig.excel.Workbook "Link to the Web API Reference Guide to the Workbook member.") object. You can do this by either reading an existing Microsoft® Excel® file, as explained in the How Do I... topic: [Read an Excel File into a Workbook](JavaScript-Excel-Library-Read-an-Excel-2007-XLSX-File-Into-a-Workbook.html "Explains how to read and excel file into a workbook.") or you can create a blank workbook. When you create a blank workbook, before writing it to a file, you must add at least one worksheet. You can also set various display and print options on the workbook and worksheets.
+JavaScript Excel ライブラリの機能を活用するには、最初に [Workbook](%%jQueryApiUrl%%/ig.excel.Workbook) オブジェクトを作成する必要があります。そのためには、操作方法のトピック [Excel ファイルをブックに読み込む](JavaScript-Excel-Library-Read-an-Excel-2007-XLSX-File-Into-a-Workbook.html)で説明するように既存の Microsoft® Excel® ファイルを読み込む、またはブランクのワークブックを作成します。ブランクのワークブックを作成する場合は、それをファイルに書き込む前に、ワークシートを少なくとも 1 つ追加する必要があります。また、様々な表示および印刷のオプションをワークブックとワークシートに設定できます。
 
-The following code demonstrates how to create a blank workbook, set a few properties, and add some worksheets.
+以下のコードは、ブランクのワークブックの作成、いくつかのプロパティの設定、およびワークシートの追加のそれぞれの方法を示します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```
 // Create a new workbook
@@ -37,4 +37,4 @@ worksheet2.displayOptions().magnificationInNormalView(200);
 // Make Sheet2 the selected worksheet
 workbook.windowOptions().selectedWorksheet(worksheet2);
 ```
-![Displays the results of using the code listed above.](images/ExcelEngine_Create_a_Workbook_01.png)
+![](images/ExcelEngine_Create_a_Workbook_01.png)

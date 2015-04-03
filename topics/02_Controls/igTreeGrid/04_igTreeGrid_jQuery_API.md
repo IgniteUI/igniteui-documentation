@@ -8,14 +8,14 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Links (igTreeGrid)
+# jQuery と ASP.NET MVC ヘルパー API へのリンク (igTreeGrid)
 
 
 
-The `igTreeGrid` is built as a jQuery UI widget with an accompanying ASP.NET MVC Helper. For more information about each API, see the following API documentation:
+`igTreeGrid` は、ASP.NET MVC ヘルパーを含む jQuery UI ウィジェットとして構築されます。各 API の詳細については、以下の API ドキュメントを参照してください。
 
 -   [igTreeGrid jQuery API](%%jQueryApiUrl%%/ui.igTreeGrid)
--   [igTreeGrid ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeGridModel.html)
+-   [igTreeGrid ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeGridModel.html)
 
  
 

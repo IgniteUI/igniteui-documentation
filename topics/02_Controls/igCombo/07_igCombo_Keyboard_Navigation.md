@@ -8,67 +8,67 @@
 |metadata|
 -->
 
-#Keyboard Navigation (igCombo)
+#キーボード ナビゲーション (igCombo)
 
-##Topic overview
-This topic explains how to use keyboard navigation so that end-users can easily and quickly navigate through items or change the selected/highlighted items.
+##トピックの概要
+このトピックでは、エンドユーザーが容易に迅速に項目を移動したり、選択や強調表示する項目を変更できるように、キーボード ナビゲーションの使用方法を説明します。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
--   [Keyboard interactions](#kbInteraction)
+-   [キーボード操作](#kbInteraction)
 -   [Multiselection](#multiselection)
-	-   [Shift interaction](#shiftInteraction)
-	-   [Ctrl interaction](#ctrlInteraction)
--   [From browser](#fromBrowser)
+	-   [Shift 操作](#shiftInteraction)
+	-   [Ctrl 操作](#ctrlInteraction)
+-   [ブラウザーから](#fromBrowser)
 
-## <a id="kbInteraction"></a> Keyboard interactions
-### Overview
+## <a id="kbInteraction"></a> キーボード操作
+### 概要
 
 
-Press| To| When
+押す|結果|使用する状況
 ---|---|---
-<kbd>Alt</kbd> + <kbd>Down arrow</kbd>|Open drop down| Drop down is closed
-<kbd>Alt</kbd> + <kbd>Up arrow</kbd>|Close drop down| Drop down is opened
-<kbd>Ctrl</kbd> + <kbd>Home</kbd>|Move to very first item in drop down| Drop down is opened
-<kbd>Ctrl</kbd> + <kbd>End</kbd>|Move to very last item| Drop down is opened
-<kbd>Page Up</kbd>|Move to first visible item| Drop down is opened
-<kbd>Page Down</kbd>|Move to last visible item| Drop down is opened
-<kbd>Up arrow</kbd>|Move to prev item; Close drop down if opened | Drop down is opened or closed
-<kbd>Down arrow</kbd>|Move to next item; Open drop down if closed| Drop down is opened or closed
-<kbd>Esc key</kbd>|Clear content when there isn’t selected item | There is content in the input
-<kbd>Esc key</kbd>|Close the drop down| The drop down is opened
-<kbd>Enter key</kbd>|Select the active item| There is active item
+<kbd>Alt</kbd> + <kbd>下矢印</kbd>|ドロップダウンを開く|ドロップダウンが閉じているとき
+<kbd>Alt</kbd> + <kbd>上矢印</kbd>|ドロップダウンを閉じる|ドロップダウンが開いているとき
+<kbd>Ctrl</kbd> + <kbd>Home</kbd>|ドロップダウンの一番最初の項目に移動|ドロップダウンが開いているとき
+<kbd>Ctrl</kbd> + <kbd>End</kbd>|一番最後の項目に移動|ドロップダウンが開いているとき
+<kbd>Page Up</kbd>|表示されている最初の項目に移動|ドロップダウンが開いているとき
+<kbd>Page Down</kbd>|表示されている最後の項目に移動|ドロップダウンが開いているとき
+<kbd>上矢印</kbd>|前の項目に移動。ドロップダウンが開いている場合は閉じる|ドロップダウンが開いているとき、または閉じているとき
+<kbd>下矢印</kbd>|次の項目に移動。ドロップダウンが閉じている場合は開く|ドロップダウンが開いているとき、または閉じているとき
+<kbd>Esc キー</kbd>|選択された項目がない場合はコンテンツを消去|入力にコンテンツがあるとき
+<kbd>Esc キー</kbd>|ドロップダウンを閉じる|ドロップダウンが開いているとき
+<kbd>Enter キー</kbd>|アクティブ項目を選択|アクティブ項目があるとき
 
 ##<a id="multiselection"></a>Multiselection
-###<a id="shiftInteraction"></a>Shift interactions
+###<a id="shiftInteraction"></a>Shift 操作
 
-When press|Then
+押した場合|結果
 ---|---
-<kbd>Shift</kbd>|The item is highlighted to active state
-<kbd>Shift</kbd>|If you don’t select more than one item nothing happens, the item stays in active state.
-<kbd>Shift</kbd> + <kbd>Up/Down arrows</kbd> |will change the active (highlighted) items and if you release <kbd>Shift key</kbd> the active items will be selected.
-<kbd>Shift</kbd> + <kbd>Enter</kbd>|**Scenario**: If you select item (with the mouse) and move the active item with up/down arrow key on <kbd>Shift</kbd> + <kbd>Enter</kbd> the items state, between the first and last selected items, will be changed to Selected.
+<kbd>Shift</kbd>|項目がアクティブ状態に強調表示される
+<kbd>Shift</kbd>|複数の項目が選択されていない場合は何も起こらず、項目はアクティブ状態のまま。
+<kbd>Shift</kbd> + <kbd>上矢印 / 下矢印</kbd> |アクティブ (強調表示された) 項目を変更し、<kbd>Shift キーを離した場合、</kbd> アクティブ項目が選択される。
+<kbd>Shift</kbd> + <kbd>Enter</kbd>|**シナリオ**: 項目がマウスで選択され、<kbd>Shift と上矢印 / 下矢印キーでアクティブ項目を移動した場合</kbd> + <kbd>Enter</kbd> the items state, between the first and last selected items, will be changed to Selected.
 
-> **Note:** <kbd>Shift key</kbd> only select items
+> **注:** <kbd>Shift キー</kbd> のみは項目を選択します
 
-###<a id="ctrlInteraction"></a>Ctrl interaction (addWithKeyModifier option set to true)
-By default if MultiSelection is enabled the end user can select multiple items by simply clicking with left mouse button. In order to select multiple items with <kbd>Ctrl</kbd> `addWithKeyModifier` option must be set to `true`.
+###<a id="ctrlInteraction"></a>Ctrl 操作 (addWithKeyModifier オプションを true に設定)
+デフォルトでは、MultiSelection が有効な場合、エンドユーザーは左マウス ボタンをクリックするのみで複数の項目を選択できます。<kbd>Ctrl</kbd> で複数の項目を選択するには、`addWithKeyModifier` オプションを `true` に設定する必要があります。
 
 
-##<a id="fromBrowser"></a> From browser
+##<a id="fromBrowser"></a> ブラウザーから
 
-Press| To
+押す|結果
 ---|---
-<kbd>Left arrow</kbd>|Move cursor one char left
-<kbd>Right arrow</kbd>|Move cursor one char right
-<kbd>Ctr + Left</kbd>|Move cursor one word to the left
-<kbd>Ctr + Right</kbd>|Move cursor one word to the right
-<kbd>Shift</kbd>|Seletion of the text when moving cursor
-<kbd>Delete</kbd>, <kbd>Backspace</kbd>|Clear only the selected text
-<kbd>Delete</kbd>, <kbd>Backspace</kbd>|Clear char by char
-<kbd>Enter key</kbd>|Select item
-<kbd>Home key</kbd>|Move cursor to input text start
-<kbd>End key</kbd>|Move cursor to input text end
-<kbd>Backspace key</kbd>|Clear all the contents of the combo box (Hold the key; <kbd>Ctrl+A</kbd>)
+<kbd>左矢印</kbd>|カーソルを 1 文字左に移動
+<kbd>右矢印</kbd>|カーソルを 1 文字右に移動
+<kbd>Ctr + 左矢印</kbd>|カーソルを 1 単語左に移動
+<kbd>Ctr + 右矢印</kbd>|カーソルを 1 単語右に移動
+<kbd>Shift</kbd>|カーソル移動時のテキストの選択
+<kbd>Delete</kbd>、<kbd>Backspace</kbd>|選択されたテキストのみを消去
+<kbd>Delete</kbd>、<kbd>Backspace</kbd>|1文字ずつ消去
+<kbd>Enter キー</kbd>|項目を選択
+<kbd>Home キー</kbd>|入力テキストの先頭にカーソルを移動
+<kbd>End キー</kbd>|入力テキストの末尾にカーソルを移動
+<kbd>Backspace キー</kbd>|コンボ ボックスのコンテンツをすべて消去 (キーを押した状態で、<kbd>Ctrl+A</kbd>)

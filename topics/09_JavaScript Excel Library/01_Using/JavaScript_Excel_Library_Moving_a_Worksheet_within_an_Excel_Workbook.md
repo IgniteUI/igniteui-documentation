@@ -8,14 +8,14 @@
 |metadata|
 -->
 
-# Moving a Worksheet within an Excel Workbook
-In certain cases you might need to move a worksheet to a particular index position in the owning Excel® workbook’s worksheets collection.
+# Excel ワークブック内でのワークシートの移動
+特定のケースで、所有する Excel® ワークブックのワークシート コレクションの特定のインデックス位置にワークシートを移動しなければならない場合があります。
 
-Considering, you have three worksheets in an Excel Workbook, you can place worksheet3 in the first position, using the [`moveToIndex`](%%jQueryApiUrl%%/ig.excel.Worksheet#methods:moveToIndex "Link to the Web API Reference Guide to the MoveToIndex method.") method of the  [`Worksheet`](%%jQueryApiUrl%%/ig.excel.Worksheet "Link to the Web API Reference Guide to the Worksheet class.") class.
+Excel Workbook に 3 つのワークシートがある場合、[`Worksheet`](%%jQueryApiUrl%%/ig.excel.Worksheet) クラスの [`moveToIndex`](%%jQueryApiUrl%%/ig.excel.Worksheet#methods:moveToIndex) メソッドを使用して worksheet3 を先頭の位置に配置できます。
 
-The following example code demonstrates how to implement this.
+以下の例のコードはこれを実装する方法を示します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var workbook = new $.ig.excel.Workbook();
 var worksheet1 = workbook.worksheets().add("Sheet1");

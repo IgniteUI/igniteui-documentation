@@ -8,86 +8,86 @@
 |metadata|
 -->
 
-# JavaScript Excel Library Overview
+# JavaScript Excel ライブラリの概要
 
-The Excel library is a JavaScript-only client-side library which can be used to load and save Microsoft Excel documents in the 2003 (.xls) and later file formats. The library supports getting and setting data and various format properties on rows, columns and cells. Further, the library also gives you the ability to control:
+Excel ライブラリは JavaScript クライアント サイド ライブラリです。Microsoft Excel 文書を 2003 (.xls) 以降のファイル形式で読み込み、保存できます。このライブラリはデータの取得や設定をサポートし、また行、列、およびセルの各種フォーマット プロパティをサポートします。また、ライブラリはユーザーに対して以下のコントロールを可能にします。
 
--   cell styles
--   merged cells
--   tables (with sorting and filtering)
--   data validations
--   formula solving
--   named references
--   cell values with mixed formatting
--   and more…
+-   セル スタイル
+-   セルの結合
+-   テーブル (並べ替えとフィルター処理が可能)
+-   データ検証
+-   数式の解決
+-   名前付き参照
+-   書式が混在するセル値
+-   その他 ...
 
-The Excel library can be used to export a grid or table to a workbook document on the client machine or read an Excel document and display its data in the browser. The library can even be used to solve formulas in the browser just as they would be calculated in Excel, all without sending anything to the server.
+Excel ライブラリは、クライアント マシン上のワークブック ドキュメントにグリッドやテーブルをエクスポートするために使用でき、また Excel のドキュメントの読み取りやデータをブラウザに表示するために使用できます。ライブラリは Excel での計算と同様に、ブラウザで数式の解を得るために使用することもできます。その際にサーバーへの送信は行われません。
 
-## Setting up the Environment
+## 環境のセットアップ
 
-To use the Excel library, you must reference the following JavaScript files from the Ignite UI product:
+Excel ライブラリを使用するには、Ignite UI 製品から以下の各 JavaScript ファイルを参照する必要があります。
 
 -   infragistics.util.js
--   infragistics.xml.js [new in 14.2]
--   infragistics.documents.core.js [new in 14.2]
--   infragistics.excel.js [new in 14.2]
+-   infragistics.xml.js [14.2 で新規]
+-   infragistics.documents.core.js [14.2 で新規]
+-   infragistics.excel.js [14.2 で新規]
 
-In addition, if you are working in Visual Studio, you can include the following IntelliSense annotation files to get better statement completion support and descriptions while coding:
+また、Visual Studio での作業では、コーティング中により良いステートメント完了についてのサポートと記述を提供する、以下の IntelliSense アノテーション ファイルを含めることができます。
 
--   infragistics.documents.core.intellisense.js [new in 14.2]
--   infragistics.excel.intellisense.js [new in 14.2]
+-   infragistics.documents.core.intellisense.js [14.2 で新規]
+-   infragistics.excel.intellisense.js [14.2 で新規]
 
-Once these references are included, you need to add the following code to the top of your `.js` files which has code using the Excel library:
+これらのリファレンスを含めた場合は、Excel ライブラリを使用して `.js` ファイルのコードの一番上に以下のコードを追加する必要があります。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 /// <reference path="infragistics.util.js" />
 /// <reference path="infragistics.documents.core.js" />
 /// <reference path="infragistics.excel.js" />
 ```
-With this code in place, you will start to see the Excel library types in the `$.ig.excel` namespace:
+このコードを追加すると、Excel ライブラリの型が `$.ig.excel` 名前空間に表示されるようになります。
 
 ![](images/Client-Side_Excel_Library_Overview_1.png)
 
-Having IntelliSense like this in place will greatly improve your productivity when working with the Excel library because you have access to important information about how to call each function and what they return.
+このような IntelliSense を設定すると、各関数の呼出し方法や返却値などの重要な情報にアクセス可能になり、Excel ライブラリでの作業の生産性が大きく向上します。
 
-## Creating a Workbook
+## ワークブックの作成
 
-You can easily create a new workbook instance using the Workbook constructor, which optionally accepts a format type.
+フォーマット タイプをオプションで受け取るワークブック コンストラクターを使用して、新しいワークブック インスタンスを簡単に作成できます。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
  var workbook = new $.ig.excel.Workbook();
 // workbook.currentFormat() === $.ig.excel.WorkbookFormat.excel97To2003
 ```
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var workbook = new $.ig.excel.Workbook($.ig.excel.WorkbookFormat.excel2007);
 // Change the format to the ISO/IEC 29500 Strict Open XML format
 workbook.setCurrentFormat($.ig.excel.WorkbookFormat.strictOpenXml);
 ```
-This code creates a workbook without the format being specified, which uses the default format of Excel 97-2003, or the .xls file format. To create a workbook with a different format, you can provide the format in the constructor or change it at runtime with the `setCurrentFormat` function:
+このコードは指定された書式を使用せずにワークブックを作成しますが、デフォルトの Excel 97-2003 または .xls ファイル書式を使用します。ワークブックを別の書式で作成するには、コンストラクターに対して書式を指定、または実行時に `setCurrentFormat` 関数で書式を変更することができます。
 
-The workbook format controls the type of data written out when the workbook is saved as well as the capabilities and limits of the objects at runtime. For example, when using the `excel97To2003` or `excel97To2003Template` formats, worksheets can only have 65,536 rows and 256 columns, whereas in all other formats, worksheets can have 1,048,576 rows and 16,384 columns.
+ワークブックの書式は、ワークブックを保存する時に書き出すデータのタイプを制御し、実行時の各オブジェクトの容量や制限値も制御します。たとえば、 `excel97To2003` 書式または `excel97To2003Template` 書式を使用している場合、ワークシートが持つことができる領域は 65,536 行 ｘ 256 列に限定されますが、その他のすべての書式では、ワークシートは 1,048,576 行 ｘ 16,384 列の領域を持つことができます。
 
-## Adding a Worksheet
+## ワークシートの追加
 
-Every workbook needs at least one worksheet to be in a valid state. However, when a workbook instance is first created, it has no worksheets. Trying to save a newly created workbook will result in an error. To add a worksheet, use the add function of the workbook’s collection of worksheets.
+各ワークブックは、1 つ以上のワークシートを有効な状態にする必要があります。ただし、ワークブック インスタンスが最初に作成されると、ワークシートを持つことができません。新たに作成されたワークブックを保存する際に、エラーが発生します。ワークシートを追加するには、ワークブックのワークシート コレクションの add 関数を使用します。
 
->**Note:** The Worksheet function should never be used to construct an instance directly. In fact, many of the objects in the Excel library should never be created via constructors as they must be managed by the owning workbook and it should control their creation.
+>**注:** ワークシートの関数を、インスタンスの作成に直接使用することはできません。実際に、Excel ライブラリ内の複数のオブジェクトをコンストラクターにより作成することはできません。それらは独自のワークブックで管理し、作成を制御する必要があります。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var workbook = new $.ig.excel.Workbook();
 var worksheet = workbook.worksheets().add('Sheet1');
 ```
-Notice how the add function accepts a string: the name of the worksheet to be created, and returns the newly created worksheet instance. Many collections in the Excel library follow a similar pattern, where the add function accepts the information required to create the instance, and returns the newly created instance.
+add 関数が文字列を受け取る方法に注意してください。作成するワークシートの名前、および新たに作成したワークシートのインスタンスを返します。Excel ライブラリ内の複数のコレクションは同一パターンに従いますが、add 関数はインスタンス化の作成に必要な情報を受け取り、新たに作成されたインスタンスを返します。
 
-## Adding Data to a Cell
+## セルへのデータの追加
 
-Once you have created a worksheet, the next step is most likely to populate it with data. There are a few ways to do this depending on your needs: more readable code or faster code. To add data to a cell using the most readable code, you can use the `getCell` function on the worksheet to obtain a reference to a cell instance and then set its value or apply a formula.
+ワークシートの作成後に実行する次の手順は、通常データの追加です。要求に応じて、読みやすさ重視のコードの使用または高速を重視したコードの使用のいくつかの方法があります。最も読みやすいコードを使用してデータをセルに追加するには、ワークシートの `getCell` 関数を使用してセル インスタンスへの参照を取得します。次に値を設定、または式を適用します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var workbook = new $.ig.excel.Workbook();
 var worksheet = workbook.worksheets().add('Sheet1');
@@ -97,15 +97,15 @@ cell = worksheet.getCell('R2C1', $.ig.excel.CellReferenceMode.r1C1);
 cell.applyFormula('=A1*2');
 var x = cell.value(); // x === 14.708
 ```
-This code snippet shows a few things. First of all, it shows the `getCell` function being used with an A1 style cell address. This is the default cell reference mode of the workbook when it is created (you can get or set the cell reference mode using the workbook’s `cellReferenceMode` function) and by default, `getCell` will use the workbook’s cell reference mode to parse the reference string and get the cell. This code also demonstrates the ability to override this cell reference mode and use the R1C1 mode to parse the reference instead. The `getCell` function can also accept the name of a named reference which refers to a cell. The call can optionally accept another cell instance as an origin cell if the reference string represents a relative reference with offsets, such as ‘R[-3]C’.
+このコードは、いくつかの注意すべき点を示しています。最初に、A1 スタイルのセル アドレスで使用された `getCell` 関数を示しています。これは作成時のワークブックのデフォルトのセル参照モードで (セル参照モードは、ワークブックの `cellReferenceMode` 関数で取得または設定できます)、デフォルト設定では、`getCell` はワークブックのセル参照モードで参照文字列を解析し、セルを取得します。またこのコード例は、セル参照モードをオーバーライドできることを示しています。代わりに R1C1 モードを使用して参照を解析します。また、`getCell` 関数はセルを参照する名前付き参照の名前を受け入れることもできます。参照文字列が 'R[-3]C' のようなオフセット付きの相対的な参照を表す場合、セルはオプションで他のセル インスタンスを元のセルとして受け入れることができます。
 
-In addition to getting cell instances, this code also shows how to set a cell value with the value function. This function allows you to specify a Boolean, Number, String, Date (**Note**: Dates are not yet fully supported in the CTP, and may cause exceptions when setting them on cells or loading/saving a workbook with them as cell values), `ErrorValue` instance to represent an error literal and a `FormattedString` instance to represent text with mixed formatting. As you can also see at the end of the code, the value function can be specified with no arguments to get a cell’s value. Many functions in the Excel library representing read-write entities follow this pattern: if they are supplied an argument, they set the value and if they are invoked without arguments, they retrieve the value.
+このコードは、セル インスタンスの取得に加え、値の関数でセルの値を設定する方法も示しています。この関数は、ブール値、番号、文字列、日付 (**注**: 現時点で日付は CTP で完全にサポートされていないため、日付のセルへの設定や日付を セルの値とした ワークブックの読出し/保存で例外が発生する可能性があります)、エラー リテラルを示す `ErrorValue` インスタンス、および複数の書式を持つテキストを示す `FormattedString` インスタンスを指定することができます。またコードの末尾に示すように、値の関数を引数なしで指定し、セルの値を取得することができます。読み書きのエンティティを表す Excel ライブラリ内の多くの関数は、以下のパターンに従っています。関数は引数が提供された場合に値を設定します。関数が引数なしで呼び出された場合は値を読み出します。
 
-This code also demonstrates how to set formulas on a cell with the `applyFormula` function. The function accepts the formula string in the cell reference mode currently being used by the workbook (A1 by default). This code also shows that the formula’s calculated value can be obtained immediately by getting the value of the cell owning the formula.
+またこのコード例は、`applyFormula` 関数でセルに式を設定する方法を示します。この関数は、ワークブックで現在使用されているセル参照モードの内で、式の文字列を受け入れます (デフォルトは、A1)。またこのコードでは、式を持つセルの値を取得することにより、式の計算済の値を直ちに取得できることを示しています。
 
-So as stated before, that code is very readable, but could be slow if you have a loop that needs to set the values of thousands of cells. Each cell access requires parsing an address string. Also, the cells are actually owned by the row, so setting the values of multiple cells in the same row could require looking up the same row from the address over and over again. Instead, the row instance can be cached and then cells on the row can be accessed much faster:
+前述したように、非常に読みやすいコードは、何千ものセルの値の設定が必要なループがあるために処理が遅くなります。各セルのアクセスには、アドレス文字列の解析が必要です。また、セルは実際には行が保有しているため、同じ行で複数のセルの値を設定するには、同じ行をアドレスから繰り返し検索する必要があります。一方、行のインスタンスはキャッシュすることができ、行の各セルにより高速でアクセスできます。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var workbook = new $.ig.excel.Workbook();
 var worksheet = workbook.worksheets().add('Sheet1');
@@ -117,23 +117,23 @@ for (var rIndex = 0; rIndex < 100; rIndex++) {
     }
 }
 ```
-This code snippet demonstrates a few key concepts about the Excel library. First of all, rows and columns are lazily allocated the first time they are requested (*cells are always reallocated each time they are requested; this is explained more below*). This code asks for the first 100 rows without ever creating or adding them to the worksheet because each row instance will be created and added automatically the first time it is accessed. Another important concept demonstrated here is the usage of combination collection and indexer functions. One way to get and access a collection is to get the collection using the get accessor function and then index into it with the collection’s item function, but as you can see, this can get quite verbose:
+このコード例は、Excel ライブラリに関するいくつかの重要な概念を示します。第一に、行と列は最初に要求されると大まかに割り当てられます (*各セルは要求されるたびに、常に再割当てされます。詳細は後述します*)。各行のインスタンスは、最初のアクセスで自動的に作成され追加されるため、このコードはワークシートにインスタンスを作成も追加もせずに最初の 100 行を要求します。ここで紹介するその他の重要な概念は、combination collection 関数と indexer 関数の使用についてです。コレクションを取得してアクセスする一つの方法は、get accessor 関数を使用してコレクションを取得し、次にコレクションの item 関数でインデックスを挿入しますが、これは非常に冗長な作業です。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var cell = workbook.worksheets().item('Sheet1').rows().item(0).cells().item(1);
 ```
-So in cases where a collection is read-only, the function that would normally return the collection can optionally accept arguments to indicate which element to get from the collection instead. With these combination collection and indexer functions, you can shorten the above line to this:
+したがって、コレクションが読取り専用の場合は、通常コレクションを返却する関数によりコレクションから取得するエレメントを示す引数をオプションで代わりに受け取ることができます。combination collection 関数と indexer 関数を使用すると、前述のプログラム行を以下のように短くすることができます。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var cell = workbook.worksheets('Sheet1').rows(0).cells(1);
 ```
-And this code is much more readable, although the longer line of code above can still be used.
+前述の長いコードも使用することができますが、新しいコードの方か明らかに簡潔になっています。
 
-The code above which sets values on 3,200 cells (100 rows with 32 columns) is slightly less readable than the original code snippet because you cannot see actual cell addresses as they would appear in Excel. However, since each row is only retrieved once and no address parsing is required, this code runs faster than similar code which accesses all cells with string addresses. Beyond this optimization the code can be made to run even faster. Internally, cell instances are not retained because they do not store their data. Each row instance actually stores all data and format information for the cells it logically contains. This allows the Excel library to provide huge memory savings because it requires fewer instances to be held in memory by the object hierarchy rooted by the workbook. However, the Excel library still aims to expose an API which allows you to work with a cell as an entity. So when a cell is requested in either of the two mechanisms described so far, a transient cell instance is returned to represent a cell. Once your code no longer references the cell, it becomes free for garbage collection. The cell instance knows how to get and set information from the associated row when accessed, since the row actually owns that cell’s data. Keep in mind, however, that the cell instance is really just a wrapper around the row, and in many cases, doesn’t need to be created at all. There are many functions exposed off the row to get and set information for the cell at a particular column index. Here is the above code snippet modified to not use cell instances:
+3,200 (100 行 x 32 列) のセルに値を設定する前述のコードは、Excel に表示される実際のセル アドレスが記述されないため、元のコードよりも若干読みやすさが低減します。しかし、各行が読み出されるのは一度のみでアドレスの解析が不要なため、文字列のアドレスですべてのセルにアクセスする同様のコードよりも、このコードは実行速度がより速くなります。コードの実行速度を、ここに示した最適化以上に高速にすることができます。セル インスタンスはデータを保存しないため、内部でも保持されません。各行のインスタンスは、論理的なセルのすべてのデータと書式情報を実際に保存します。これにより、ワークブックによるオブジェクト階層のルートによってメモリーに保持するインスタンスが少なくなるため、Excel ライブラリではメモリーが大幅に節約されます。しかし、Excel ライブラリーはセルをエンティティとして作業可能にする API の公開も、その目的としています。したがって、前述の 2 つのメカニズムのいずれかでセルが要求された場合は、セルを表すために過渡的なセル インスタンスが返されます。コードでセルが参照されなくなると、ガーベッジ コレクションで解放されます。行は実際にセルのデータを保有しているため、セル インスタンスはアクセス時に関連する行から情報を取得し、設定されます。しかし、セル インスタンスは実際には行の周りのラッパーで、ほとんどの場合作成する必要がないことに注意してください。特定の列インデックスでセルに関する情報を所得し設定するために、行を公開する複数の関数があります。以下は、前述のコードを変更し、セル インスタンスを使用しないようにしています。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var workbook = new $.ig.excel.Workbook();
 var worksheet = workbook.worksheets().add('Sheet1');
@@ -144,13 +144,13 @@ for (var rIndex = 0; rIndex < 100; rIndex++) {
     }
 }
 ```
-This change results in the least readable way to set cell values, (which is only slightly less readable than the previous example) however, this approach is much more performant since it prevents the creation of 3,200 cell instances and therefore reduces a lot of memory pressure.
+この変更の結果、セルの値を設定するには前述の例より若干読みにくくなりますが、3,200 個のセル インスタンスが作成されないためメモリーの負荷が大きく低減します。このアプローチは高いパフォーマンスを発揮します。
 
-### Formatting a Cell
+### セルの書式設定
 
-To change the format of a cell, you can get the format instance from a cell using its `cellFormat` function and then set formatting values:
+セルの書式を変更するには、以下のように、`cellFormat` 関数でセルからフォーマット インスタンスを取得し、書式設定の値を設定します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var workbook = new $.ig.excel.Workbook();
 var worksheet = workbook.worksheets().add('Sheet1');
@@ -162,13 +162,13 @@ var worksheet = workbook.worksheets().add('Sheet1');
 var format = worksheet.rows(0).getCellFormat(0);
 format.fill($.ig.excel.CellFill.createLinearGradientFill(45, '#FF0000', '#00FFFF'));
 ```
-Either of these two snippets create a workbook that, when saved and opened in Microsoft Excel, looks like this:
+これら 2 つのコードのいずれかを使用してワークブックを作成します。Microsoft の Excel で保存したワークブックを開くと、以下のようになります。
 
 ![](images/Client-Side_Excel_Library_Overview_2.png)
 
-Through the format object, you can change the appearance of the cell as well as the font used to display any text. All font related properties are exposed off a font sub-object returned by the font function of the format. The following code shows the various format and font properties which can be set on a cell, row, or column:
+フォーマット オブジェクトを使用すると、セルの外観の変更やテキストの表示に使用するフォントを変更できます。プロパティと関係があるすべてのフォントは、フォーマットの font 関数で返されるフォント サブオブジェクトで公開されます。以下のコードは、セル、行、または列で設定可能な各種の書式とフォントのプロパティを示します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var workbook = new $.ig.excel.Workbook();
 var worksheet = workbook.worksheets().add('Sheet1');
@@ -194,13 +194,13 @@ format.font().strikeout($.ig.excel.ExcelDefaultableBoolean.true);
 format.font().superscriptSubscriptStyle($.ig.excel.FontSuperscriptSubscriptStyle.subscript);
 format.font().underlineStyle($.ig.excel.FontUnderlineStyle.single);
 ```
->**Note**: The JavaScript Excel library has been ported from the Infragistics C# Excel library provided on various platforms. At the time of that code’s creation, representing a Boolean with an additional default value required an enumeration type, which in this case was called `ExcelDefaultableBoolean`. Newer versions of C# now allow for a nullable Boolean, which removes the need for `ExcelDefaultableBoolean`, but removing the enumeration and using a nullable Boolean would constitute a breaking change we are not willing to make. In the porting process, the enumeration was brought over as well despite it being unnecessary in JavaScript, as the functions such as bold on the font would be able to accept true, false, or null. However, there was not sufficient time to safely make a change like this before for the CTP. For the RTM version of the JavaScript Excel library, this change will be made and `ExcelDefaultableBoolean` will no longer exist.
+>**注:**: JavaScript の Excel ライブラリは、各種のプラットフォームで提供される Infragistics C# Excel ライブラリから移植されています。コードの作成時に追加のデフォルト値でブール値を表現するには列挙型、ここでは `ExcelDefaultableBoolean` と呼ばれる列挙型が必要です。現在、新しいバージョンの C# では、`ExcelDefaultableBoolean` の必要性がない null 可能なブール値を使用できますが、列挙型ではなく null 可能なブール値を使用すると、予期せぬ重大な変更が実行される場合があります。移植のプロセスで、列挙は JavaScript では不必要であるにもかかわらず、列挙がフォントの太字などの関数として渡され、true、false、または null を受け取ることができます。しかし、CTP に対して安全な変更を実装するには時間が十分ではありませんでした。RTM 版の JavaScript Excel ライブラリの場合、変更されると `ExcelDefaultableBoolean` はもはや存在しません。
 
->**Note**: Another change which could not be made in time for the CTP was the ability to pass colors where `WorkbookColorInfo` instances are required. `WorkbookColorInfo` can represent accent and tinted colors, but in many cases, a normal RGB color with no tinting will be specified. In these cases, the color string should be sufficient and it should get wrapped in a `WorkbookColorInfo` automatically. This will be done for the RTM, but for the CTP, any place accepting a `WorkbookColorInfo` will need to have one passed in manually as shown in the snippet above.
+>**注**: 今回の リリースで、`WorkbookColorInfo` インスタンスが必要な色を渡す能力についても、CTP への変更が実現しませんでした。`WorkbookColorInfo` インスタンスは、アクセント カラーと淡い色付けができますが、多くの場合、通常の RGB 色が指定され微妙な淡い色付けが表現できません。これらの場合は色の文字列で十分であり、それは `WorkbookColorInfo` インスタンスに自動的にラップされます。これは RTM に対して行われますが、CTP の場合、`WorkbookColorInfo` を受け入れるすべての場所で、前述のコードに示したように、手動で渡される 1 の値を持つ必要があります。
 
-You can also create a cell value that has mixed formatting:
+また以下のように、書式が混在するセル値を作成することもできます。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var workbook = new $.ig.excel.Workbook();
 var worksheet = workbook.worksheets().add('Sheet1');
@@ -213,15 +213,15 @@ font.bold($.ig.excel.ExcelDefaultableBoolean.true);
 font = formattedString.getFont(22);
 font.italic($.ig.excel.ExcelDefaultableBoolean.true);
 ```
-This code creates a `FormattedString` instance, sets it on a cell, and then applies font formatting to it in specific ranges of text. The `getFont` function returns fonts that apply to ranges based on a start index and optional length parameter. If the length is not specified, the returned font will control from the start index to the end of the string. These font objects are the same font sub-objects exposed by the font function of a cell format. Note that the `FormattedString` must be set on a cell before formatting can be applied because common font information is shared internally on the workbook and a standalone `FormattedString` instance has no workbook with which to share font information. This code creates the following workbook when saved and opened in Microsoft Excel:
+このコードは作成した `FormattedString` インスタンスをセルに設定し、次にテキストの特定の範囲にフォントの書式を適用します。`getFont` 関数はフォントを返し、開始のインデックスとオプションの長さパラメータに基づいた特定の範囲にそれらのフォントを適用します。長さが指定されていない場合、返却されたフォントが、開始インデックスから文字列の終りまでをコントロールします。これらのフォント オブジェクトは、セル書式の font 関数で示されたフォント サブオブジェクトと同じです。一般的なフォントの情報はワークブックの内部で共有されます。スタンドアローンの `FormattedString` インスタンスはフォント情報を共有するワークブックを持たないため、書式化を適用する前に `FormattedString` をセルで設定する必要があることに注意してください。このコードは、以下に示すMicrosoft の Excel で保存し開いた状態のワークブックを作成します。
 
 ![](images/Client-Side_Excel_Library_Overview_3.png)
 
-### Saving a Workbook
+### ワークブックの保存
 
-To save a workbook, simply use the save function exposed off the workbook instance:
+ワークブックを保存する場合は、ワークブックのインスタンスで公開された save 関数を使用するだけです。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var workbook = new $.ig.excel.Workbook();
 var worksheet = workbook.worksheets().add('Sheet1');
@@ -230,32 +230,32 @@ workbook.save(function (err, data) {
         
 });
 ```
-This function accepts a single callback function which will either be passed an error that happened during saving or the final data saved. This data is a Uint8Array containing the saved bytes in a representation that Microsoft Excel is able to recognize. This saved data can sent back to the server to prepare it for download or converted to a Base64 encoded string to be stored for later.
+この関数は 1 つの callback 関数を受け取り、保存時または最終データの保存時に発生したエラーを渡します。このデータは、保存したバイト数を含む Uint8Array タイプで、Microsoft Excel はその表記を認識します。保存されたデータはダウンロードの準備のためにサーバーに返送される、またはBase64 のエンコード文字列に変換され保存されます。
 
->**Note**: Currently, the save operation and callback occur synchronously, but this may change in the future if support for asynchronous saving is added.
+>**注:**: 現在、save オペレーションと callback は同期して発生しますが、将来的に非同期保存の追加とサポートにより、変更される可能性があります。
 
->**Note:** *See the* **Using the JavaScript Excel Library** topic for more information on how to use the result of the result of the save function to allow a user to download a saved workbook directly from the browser (without requiring a trip back to the server).
+>**注:** ユーザーが保存済のワークブックをブラウザから (サーバーに戻らずに) 直接ダウンロード可能にする save 関数の結果の使用方法の詳細は、****JavaScript Excel ライブラリの使用** のトピックを参照してください。
 
-### Loading a Workbook
+### ワークブックのロード
 
-To load a workbook, you do not use the Workbook constructor. Instead, Workbook has a function which loads a workbook from a Uint8Array or Base64 encoded string which will create and return the newly loaded workbook instance:
+ワークブックをロードするには、Workbook コンストラクターを使用しません。Workbook には代わりに、新しくロードされたワークブック インスタンスを作成し戻す、Unit8Array または Base64 のエンコード文字列からワークブックをロードする関数があります。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 $.ig.excel.Workbook.load(data, function (err, workbook) {
 });
 ```
-Similar to the save method, the callback function will either be passed an error that happened during loading or the newly loaded workbook instance.
+save メソッドと同様に、callback 関数はロード時に発生したエラーを渡す、または新たにロードされたワークブックのインスタンスを渡します。
 
->**Note**: Currently, the load operation and callback occur synchronously, but this may change in the future if support for asynchronous loading is added.
+>**注:**: 現在、load オペレーションと callback は同期的に発生しますが、将来的に非同期のロードの追加とサポートにより、変更される可能性があります。
 
-After loading, you can access the worksheets and cell data as described above.
+ロード後、前述したように、ワークシートやセルのデータにアクセスできます。
 
-### Getting Data from a Cell
+### セルからのデータの取得
 
-To access the worksheets, you can use the combination collection and indexer functions mentioned above to index into the worksheets collection of the workbook. You can specify the 0-based index of the worksheet in the collection or its name. When looping over the worksheets, you would probably use the index:
+ワークシートにアクセスする場合、前述の combination collection 関数と indexer 関数を使用して、ワークブックのワークシート コレクションにインデックスを挿入することができます。ワークシートの 0 ベースのインデックスを、コレクションまたはその名前に指定できます。インデックスは、ワークシートをループする際に使用します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 $.ig.excel.Workbook.load(data, function (err, workbook) {
     // (Error checking logic)
@@ -265,18 +265,18 @@ $.ig.excel.Workbook.load(data, function (err, workbook) {
     }
 });
 ```
-However, if you know the case-insensitive name of a specific worksheet, you can get the worksheet with that name instead:
+ただし、ユーザーが特定のワークシートの名前 (大文字と小文字を区別) を知っている場合、ユーザーは名前でワークシートを取得できます。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 $.ig.excel.Workbook.load(data, function (err, workbook) {
     // (Error checking logic)
     var worksheet = workbook.worksheets('Sheet1');
 });
 ```
-Once a reference to a worksheet is obtained, you can get a cell’s value by getting a cell instance and calling its value function without any arguments, which retrieves the value instead of setting it:
+ワークシートへの参照を一度取得すると、ユーザーはセル インスタンスを取得し、その値の関数を (設定ではなく、値を読み出す) 引数を指定せずに呼び出してセルの値を取得できます。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 $.ig.excel.Workbook.load(data, function (err, workbook) {
     // (Error checking logic)
@@ -284,9 +284,9 @@ $.ig.excel.Workbook.load(data, function (err, workbook) {
     var value = worksheet.getCell('A1').value();
 });
 ```
-Alternatively, if you need to obtain the cell’s value in a performance critical area of code, you can bypass the address parsing and cell instance creation, as described above, by using functions exposed directly off the row:
+別の方法として、コードのパフォーマンスが重要な領域でセルの値を取得する必要がある場合、ユーザーは前述したように、行に直接示された関数を使用して、アドレスの解析とセル インスタンスの作成をバイパスすることができます。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 $.ig.excel.Workbook.load(data, function (err, workbook) {
     // (Error checking logic)
@@ -294,9 +294,9 @@ $.ig.excel.Workbook.load(data, function (err, workbook) {
     var value = worksheet.rows(0).getCellValue(0);
 });
 ```
-In addition to getting a cell’s value, you can also get the display text that is used when displaying the value to a user in Microsoft Excel:
+セルの値を取得する他に、Microsoft Excel で値の表示に使用する表示テキストを取得することも可能です。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var workbook = new $.ig.excel.Workbook();
 var worksheet = workbook.worksheets().add('Sheet1');
@@ -305,5 +305,5 @@ cell.cellFormat().formatString('0.00%');
 cell.value(5.12638);
 var text = cell.getText(); // text === '512.64%'
 ```
-This code uses the `getText` function on the cell instance to get the value as it would be formatted in the display. You can also obtain this text without going through a cell instance by using the `getCellText` function on a row instance instead.
+このコードは、セル インスタンスで `getText` 関数を使用して、表示で書式化された通りの値を取得します。また別な方法として、行のインスタンスで `getCellText` 関数を使用し、セル インスタンスを経由せずにテキストを取得することもできます。
                     

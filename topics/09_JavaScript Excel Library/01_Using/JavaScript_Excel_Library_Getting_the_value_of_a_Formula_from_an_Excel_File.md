@@ -8,18 +8,18 @@
 |metadata|
 -->
 
-# Getting the Value of a Formula from an Excel File
+# Excel ファイルから数式の値を取得
 
-In order to get the evaluated value of an Excel Cell that is represented by a Formula, you simply access the [`value`](%%jQueryApiUrl%%/ig.excel.WorksheetCell#methods:value "Link to the API Reference Guide to the value member.") property of the [WorksheetCell](%%jQueryApiUrl%%/ig.excel.WorksheetCell "Link to the API Reference Guide to the worksheetcell member.").
+Formula で表現された Excel の Cell の評価した値を取得するには、単純に [WorksheetCell](%%jQueryApiUrl%%/ig.excel.WorksheetCell) の [`value`](%%jQueryApiUrl%%/ig.excel.WorksheetCell#methods:value) プロパティにアクセスします。
 
-The example code below shows you how to access a particular Excel Worksheet Cell that is populated by an Excel Formula.
+以下のコード例は、Excel 数式によって移植される特定の Excel ワークシート セルのアクセス方法を示します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 ```
 var calculatedValue = theWorksheet.rows(1).cells(4).value();
 ```
-## Related Topics
-- [Read an Excel File into a Workbook](JavaScript-Excel-Library-Read-an-Excel-2007-XLSX-File-Into-a-Workbook.html "Explains how to read and excel file into a workbook.")
+## 関連トピック
+- [Excel ファイルをワークブックに読み取る](JavaScript-Excel-Library-Read-an-Excel-2007-XLSX-File-Into-a-Workbook.html)
 
  
 

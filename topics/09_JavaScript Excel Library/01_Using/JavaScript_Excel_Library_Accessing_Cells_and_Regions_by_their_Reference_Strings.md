@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# Accessing Cells and Regions by their Reference Strings
+# 参照文字列による Cells および Regions のアクセス
 
-This topic will familiarize you on how to access cells and ranges within a worksheet in an Excel® Workbook. The [`getCell`](%%jQueryApiUrl%%/ig.excel.Worksheet#methods:getCell "Link to the Web API Reference Guide to the getCell member.") and [`getRegion`](%%jQueryApiUrl%%/ig.excel.Worksheet#methods:getRegion "Link to the Web API Reference Guide to the getRegion member.") function of the Worksheet class accepts cell reference strings as a parameter.
+このトピックでは、Excel® ワークブックのワークシート内でセルと範囲にアクセスする方法をわかりやすく紹介します。Worksheet クラスの [`getCell`](%%jQueryApiUrl%%/ig.excel.Worksheet#methods:getCell) メソッドと [`getRegion`](%%jQueryApiUrl%%/ig.excel.Worksheet#methods:getRegion) メソッドは、パラメーターとしてセル参照文字列を受け取ります。
 
-In the following example code a Worksheet cell is accessed by the getCell method and an Excel formula is applied to it. Similarly an Excel formula is applied to a range of cells within the worksheet.
+以下のコード例では、Worksheet セルに getCell メソッドでアクセスして、Excel 数式を適用します。同様に Excel 数式がワークシート内のセルの範囲に適用されます。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 
 ```

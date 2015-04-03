@@ -8,12 +8,12 @@
 |metadata|
 -->
 
-# Merge Cells
-Aside from setting the value or format of cells, you can also merge cells to make two or more cells appear as one. If you merge cells, they must be in a rectangular region. When part of a merged region, each cell in the region will have the same value and cell format; also, they will all be associated with the same [`WorksheetMergedCellsRegion`](%%jQueryApiUrl%%/ig.excel.WorksheetMergedCellsRegion "Link to the Web API Reference Guide to the WorksheetMergedCellsRegion member.") object, accessible from their [`associatedMergedCellsRegion`](%%jQueryApiUrl%%/ig.excel.WorksheetCell#methods:associatedMergedCellsRegion "Link to the Web API Reference Guide to the WorksheetMergedCellsRegion member.") property. The `WorksheetMergedCellsRegion` object will also have the same value and cell format as the cells. Setting the value (or cell format) of the region or any cell in the region will change the value of all cells and the region. If you unmerge cells, because the merged region was removed from the worksheet, all of the previously merged cells will retain the shared cell format they had before they were unmerged. However, only the top-left cell of the region will retain the shared value.
+# セルの結合
+セルの値またはフォーマットの設定以外に、2 つ以上のセルをひとつのセルとして表示するためにセルをマージすることができます。セルをマージする場合、長方形の領域内にセルがなければなりません。マージされた領域の一部である場合、領域内の各セルは同じ値とセル フォーマットを持つことになります。さらに、これらのセルはすべて、[`associatedMergedCellsRegion`](%%jQueryApiUrl%%/ig.excel.WorksheetMergedCellsRegion) プロパティからアクセス可能な、同じ [`WorksheetMergedCellsRegion`](%%jQueryApiUrl%%/ig.excel.WorksheetCell#methods:associatedMergedCellsRegion) オブジェクトと関連付けられます。`WorksheetMergedCellsRegion` オブジェクトもセルと同じ値とセル フォーマットを持ちます。領域または領域内の任意のセルの値（またはセル フォーマット）を設定すると、すべてのセルおよび領域の値を変更します。セルをマージしない場合、マージされた領域がワークシートから削除されたために、以前マージされたセルすべてはマージされる以前に指定された共有のセル フォーマットを保持します。ただし、領域の左上のセルのみが共有値を保持します。
 
-The following code demonstrates how to merge some cells and set the value and format of the merged cells region.
+以下のコードは、いくつかのセルをマージして、マージされたセル領域の値とフォーマットを設定する方法を示します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```
 Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
@@ -42,7 +42,7 @@ mergedRegion1.cellFormat().fill($.ig.excel.CellFill.createSolidFill("skyblue"));
 // ultimately set the format of the merged region
 worksheet.rows(0).cells(2).cellFormat().alignment($.ig.excel.HorizontalCellAlignment.center);
 ```
-![Displays the results of using the code listed above.](images/ExcelEngine_Merge_Cells_01.png)
+![](images/ExcelEngine_Merge_Cells_01.png)
 
 
 

@@ -8,15 +8,15 @@
 |metadata|
 -->
 
-# Comments in a Worksheet Cell
+# Worksheet セル内のコメント
 
-Cell Comments are used to explain or remind the content of a cell or range of cells. For example, they may be used to explain the formulas that reside in the cells they are attached to. As in Microsoft® Excel®, it is possible to add cell comments to your Excel Worksheet using the [`WorksheetCellComment`](%%jQueryApiUrl%%/ig.excel.WorksheetCellComment "Link to the Web API Reference Guide to the WorksheetCellComment member.") WorksheetCellComment member of the JavaScript Excel Library.
+セル コメントは、セルまたはセルの範囲のコンテンツを説明または記録するために使用されます。たとえば、関連付けられるセル内の数式を説明するために使用することができます。Microsoft® Excel® のように、JavaScript Excel ライブラリの WorksheetCellComment メンバー [`WorksheetCellComment`](%%jQueryApiUrl%%/ig.excel.WorksheetCellComment) を使用して、セル コメントを Excel Worksheet に追加することができます。
 
-Cells with comments have a red triangle in the upper right corner. To see the comment, place the pointer in the cell. The comment disappears when you move the pointer off the cell.
+コメントを持つセルは右上隅に赤い三角形が付きます。コメントを見るには、セルにポインタを置きます。セルからポインタを移動すると、コメントが非表示になります。
 
-The example code below shows you how to add a comment to a cell.
+以下の例のコードはコメントをセルに追加する方法を表示します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```
 var comment = new $.ig.excel.WorksheetCellComment();

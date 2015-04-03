@@ -17,57 +17,50 @@
 
 ### 既知の問題点と制約の概要表
 
-以下の表で、`igCombo` コントロールの既知の問題と制限を簡単に説明します。以下の表は、一部の問題の詳細な説明とその回避策を示します。
+以下の表で、`igCombo` コントロールの既知の問題点と制限事項を簡単に説明します。以下の表は、一部の問題の詳細な説明とその回避策を示します。
 
 凡例 | 
 -------|------
 ![](images/positive.png) | 回避策
 ![](images/negative.png) | 既知の回避策はありません
-![](images/tobeUpdated.png) | 既知の回避策はありません。修正予定です
+![](images/tobeUpdated.png) | 修正予定です
 
 問題|説明|状態
 ---|---|---
-[複数の選択とカスタム値を同時に使用できない](#multiSelection)|`AllowCustomValue = true` および `multiSelection = "on"` または `multiSelection = "onWithCheckBoxes"` との組合わせはサポートされていません。 | ![](images/positive.png)
-[コンボのカスケード用に親コンボのキーを使用すると、子コンボのフィルタリングができない](#parentComboKey)|回避策については、[データ ソース カスケードへの igCombo コントロール カスケードのバインド](igCombo-Binding-Cascading-igCombo-Controls-to-Cascading-Data-Sources.html) のトピックを参照してください。 | ![](images/positive.png)
-[igCombo の子のカスケードに対し、ロード オン デマンドがサポートされない](#Load_on_demand)|親コンボのキーの定義とともに、子の `igCombo` のカスケードにロード オン デマンドを有効にするように構成することはサポートされていません。 | ![](images/negative.png)
+[IE9 以前のバージョンで placeHolder テキストがプレビューされない](#IE9PlaceHolder)|入力プレースホルダーは、IE9 以前では単に無視されます。|![](images/negative.png)
+[仮想化が有効な場合、すべての ItemTemplate 要素は同じ高さでなければならない](#virtualizationAndItemTemplate)|スクロールバーでずれの問題が発生することがあります。 | ![](images/positive.png)
 
 
 ##既知の問題点と制限の詳細
 
 
-###<a id="multiSelection"></a>複数の選択とカスタム値を同時に使用できない
+###<a id="IE9PlaceHolder"></a>IE9 以前のバージョンで placeHolder テキストがプレビューされない
 
-複数選択およびカスタム値の両方を使用することはサポートされていません。 (`AllowCustomValue = true` を `multiSelection =` “on” または `multiSelection = “onWithCheckBoxes”` と共に使用することはサポートされていません。)
+HTML5 は `input` 要素に `placeholder` 属性を導入し、デフォルトのテキストをグレーで表示できるようにしましたが、入力プレースホルダーは IE9 以前では単に無視されます。理由は、IE がそれをサポートしていないからです。
+
+###<a id="virtualizationAndItemTemplate"></a> 仮想化が有効な場合、すべての ItemTemplate 要素は同じ高さでなければならない
+
+`virtualization` で `itemTemplate` が有効な場合、スクロールバーでずれの問題が発生することがあります。たとえば、最後に表示される項目が一部表示されないことがあります。
 
 **回避方法**
-
-この問題で考えられる回避方法は、外部選択した `igCombo` コントロールのリストに値を追加するオプションをユーザーに提供することです。これにより、新しい値の入力が `igCombo` コントロールで提供された複数選択ビヘイビアーと分離されます。
-
-###<a id="parentComboKey"></a> コンボのカスケード用に親コンボのキーを使用すると、子コンボのフィルタリングができない
-
-カスケード igCombo で [parentComboKey](%%jQueryApiUrl%%/ui.igcombo#options:parentComboKey) を使用する場合、子 `igCombo` をフィルターすることができません。子 igCombo でフィルタリング機能が必要の場合、parentComboKey を使用する代わりにカスケード データ ソースの実装を使用します。詳細については、[カスケード igCombo コントロールをカスケード データ ソースへバインド](igCombo-Binding-Cascading-igCombo-Controls-to-Cascading-Data-Sources.html)というトピックを参照してください。
-
-###<a id="Load_on_demand"></a> igCombo の子のカスケードに対し、ロード オン デマンドがサポートされない
-
-親コンボのキーの定義とともに、子の `igCombo` のカスケードにロード オン デマンドを有効にするように構成することはサポートされていません。これは、カスケード コンボ用のデータ ソースが、最初の読み込み時に一度だけしか取得できないという事実によるものです。親コンボにおける選択済み項目の変更は、データ ソース内で既存のレコードをフィルタリングするのみです。
-
-
-
-##関連コンテンツ
-
-
-### トピック
-
-このトピックの追加情報については、以下のトピックも合わせてご参照ください。
-
--	[カスケード igCombo コントロールをカスケード データ ソースへバインド](igCombo-Binding-Cascading-igCombo-Controls-to-Cascading-Data-Sources.html): このトピックでは、親と子 `igCombo` コントロールを カスケード データ ソースにバインドする方法について説明します。カスケードに含まれる個々の `igCombo` コントロールを別個のデータ ソースにバインドする方法については、[個々のデータ ソースへ igCombo コントロール カスケードのバインド](igCombo-Binding-Cascading-igCombo-Controls-to-Individual-Data-Sources.html)というトピックを参照してください。
-
-
-
-
-
- 
-
- 
-
-
+項目テンプレートに対して以下のように `height` を設定すると、この問題を回避できる可能性があります。
+```
+<script type="text/javascript">
+	$('#combo1').igCombo({
+		filteringType: "remote",
+		responseDataKey:"d.results",
+		dataSource: "http://igniteui.com/api/employees?callback=?",
+		valueKey: "ID",
+		textKey: "Name",
+		visibleItemsCount: 5,
+		virtualization: true,
+		itemTemplate: "<div class='comboItemContainer' style='height:100px'>" + 
+							"<div class='empInfo'>" + 
+								"<span class='empName'>${Name}</span>" + 
+								"<p>${BirthDate}</p>" + 
+								"<div>${Address}</div>" + 
+							"</div>" + 
+						"</div>"
+	});
+</script>
+```

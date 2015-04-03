@@ -8,15 +8,15 @@
 |metadata|
 -->
 
-# Save and Load Files in Excel Template Format
+# Excel テンプレート フォーマットでファイルを保存および読み込み
 
-The Infragistics JavaScript Excel Library enables you to define template files in three file formats. The three template formats are the Excel Template format (with extension XLTX), the Excel Macro-Enabled Template format (with extension XLTM), and the Excel 97-2003 Template format (with extension XLT). You can save and load files in these formats.
+Infragistics JavaScript Excel ライブラリは、テンプレート ファイルを定義できる 3 つのファイル形式があります。テンプレートの形式には、Excel テンプレート フォーマット（拡張子は XLTX）、Excel マクロに対応したテンプレート フォーマット（拡張子は XLTM）、および Excel 97-2003 テンプレート フォーマット（拡張子は XLT）があり、これらの形式で保存および読み込みが可能です。
 
-The [`WorkbookFormat`](%%jQueryApiUrl%%/ig.excel.WorkbookFormat "Link to the Web API Reference Guide to the WorkbookFormat member.") enumeration has the values excel2007Template, excel2007MacroEnabledTemplate, and excel97To2003Template that correspond to the XLTX, XLTM, and XLT formats. The [`currentFormat`](%%jQueryApiUrl%%/ig.excel.Workbook#methods:currentFormat "Link to the Web API Reference Guide to the CurrentFormat member.") property can be used to get the current format of the file. When loading a file if the extension is unknown, the contents of the file will be parsed to dynamically determine the correct format.
+[`WorkbookFormat`](%%jQueryApiUrl%%/ig.excel.WorkbookFormat) 列挙体は、XLTX、XLTM、および XLT に対応する値 excel2007Template、excel2007MacroEnabledTemplate、および excel97To2003Template を含みます。[`currentFormat`](%%jQueryApiUrl%%/ig.excel.Workbook#methods:currentFormat) プロパティは、ファイルの現在の形式を取得するために使用できます。拡張子が不明なファイルを読み込む場合、ファイル コンテンツは適切な形式を動的に決定するために解析されます。
 
-The following code illustrates saving an Excel file in the excel2007Template format using the [`save`](%%jQueryApiUrl%%/ig.excel.Workbook#methods:save "Link to the Web API Reference Guide to the save member.") function.
+以下のコードは、Excel ファイルを [`save`](%%jQueryApiUrl%%/ig.excel.Workbook#methods:save) 関数を使用して excel2007Template 形式で保存します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```
 // Create a workbook and set its format to Excel2007Template

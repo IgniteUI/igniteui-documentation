@@ -8,35 +8,35 @@
 |metadata|
 -->
 
-# Overview (igTreeGrid)
+# 概要 (igTreeGrid)
 
-The `igTreeGrid`™ presents hierarchical data by combining the principles of a tree and tabular data into a single control. Inside the `igTreeGrid` hierarchical data is rendered using the same columns for each row while providing a way for users to expand and collapse child data.
+`igTreeGrid`™ は、ツリーおよび表形式データの原則を単一のコントロールに結合することにより、階層データを表示します。`igTreeGrid` 内部で、階層データは各行の同じ列を使用して描画され、ユーザーには子データを展開および縮小する方法が提供されます。
 
 ![igTreeGrid](images/igtreegrid-overview.png "igTreeGrid")
 
-As the `igTreeGrid` inherits the `igGrid` control, it is able to enjoy many of the same features and functionality. Some features differ in function and implementation to best suit the needs of hierarchical data (e.g. filtering, paging, etc.).
+`igTreeGrid` は `igGrid` コントロールを継承しているため、同じ機能と機能性を多数使用できます。一部の機能は、階層データの最適なニーズに応じて機能と実装が異なります (フィルタリング、ページングなど)。
 
-In order to maintain flexibility the tree grid features a configurable expansion indicator, which can be rendered inline in the first data column or in a standalone column. The expansion indicator can also be customized with a different look-and-feel to achieve custom visualizations (see the [File Explorer sample](%%SamplesUrl%%/tree-grid/file-explorer "File Explorer Sample - File Explorer with Tree Grid Control - Ignite UI™")).
+柔軟性を維持するために、ツリー グリッドには構成可能な展開インジケーターが用意され、最初のデータ列またはスタンドアロン列にインラインで描画できます。展開インジケーターは、カスタムな視覚化を実現するために、別のルック アンド フィールにカスタマイズすることもできます ([ファイル エクスプローラーのサンプル](%%SamplesUrl%%/tree-grid/file-explorer "File Explorer Sample - File Explorer with Tree Grid Control - Ignite UI™") を参照)。
 
-### In this topic:
+### このトピックの内容
 
-- [**Architectural Overview**](#architectural-overview)
-- [**Supported Data Sources**](#supported-data-sources)
-	- [Flat Data Source](#flat-data)
-	- [Hierarchical Data Source](#hierarchical-data)
-- [**Feature differences from igGrid**](#feature-differences-iggrid)
-- [**igTreeGrid vs. igHierarchicalGrid**](#tree-vs-hierarchical-grids)
-- [**Performance**](#performance)
-- [**Getting Started**](#getting-started)
-	- [Full Page Sample](#full-page-sample)
--  [**Keyboard navigation**](#keyboard-navigation)
--   [**Related Content**](#related-content)
-    -   [Topics](#topics)
-    -   [Samples](#samples)
+- [**アーキテクチャの概要**](#architectural-overview)
+- [**サポートされるデータ ソース**](#supported-data-sources)
+	- [フラット データ ソース](#flat-data)
+	- [階層データ ソース](#hierarchical-data)
+- [**igGrid との機能の違い**](#feature-differences-iggrid)
+- [**igTreeGrid と igHierarchicalGrid の比較**](#tree-vs-hierarchical-grids)
+- [**パフォーマンス**](#performance)
+- [**はじめに**](#getting-started)
+	- [完全なページ サンプル](#full-page-sample)
+-  [**キーボード ナビゲーション**](#keyboard-navigation)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
 
-### Vocabulary
+### ボキャブラリ
 
-As you become acquainted with the `igTreeGrid` you'll need to be comfortable with a few terms which have specific meaning in the grid's [API](%%jQueryApiUrl%%/ui.igtreegrid) and documentation.
+`igTreeGrid` をより活用するには、グリッドの [API](%%jQueryApiUrl%%/ui.igtreegrid) とドキュメントで特別な意味を持ついくつかの用語を十分に理解する必要があります。
 
 | Term | Definition |
 | --- | --- |
@@ -46,25 +46,25 @@ As you become acquainted with the `igTreeGrid` you'll need to be comfortable wit
 | Leaf level | Items at the lowest level of a hierarchical relationship with NO children AND a parent |
 
 
-## <a id="architectural-overview"></a> Architectural Overview
+## <a id="architectural-overview"></a> アーキテクチャの概要
 
-The `igTreeGrid` inherits the [`igGrid`](igGrid-Overview.html "igGrid Overview") control and therefore shares many of the same APIs and end-user interactions. In some areas (like filtering, paging, etc.) the tree grid's implementation is different from what is found in the `igGrid` to better accommodate hierarchical data rendered in a tabular format. For details on how certain features are different between the `igGrid` and `igTreeGrid` make sure to read [how igTreeGrid features differ from igGrid](#feature-differences-iggrid).
+`igTreeGrid` は [`igGrid`](igGrid-Overview.html "igGrid Overview") コントロールを継承しているため、同じ API とエンドユーザー操作の多くを共有しています。一部の領域 (フィルタリングやページングなど) では、ツリー グリッドの実装が `igGrid` の場合とは異なります。これは、表形式で描画される階層データをよりよく操作できるようにするためです。`igGrid` と `igTreeGrid` の機能の違いの詳細は、「[igTreeGrid とigGrid の機能の違い](#feature-differences-iggrid)」を参照してください。
 
-Much like the flat grid control, the `igTreeGrid` uses a `TABLE` or `DIV` element as the basis for its structure in the DOM. As data is revealed by clicking/tapping on the expansion indicator in the parent's row, the table row and cell elements needed to render child rows are created on-the-fly. For more detailed information on performance considerations for the `igTreeGrid`, please see the [Performance section](#performance).
+ファイル グリッド コントロールと同様に、`igTreeGrid` は DOM で構造の基礎として `TABLE` 要素または `DIV` 要素を使用します。データは親行の展開インジケーターをクリック/タップすることにより表示されます。そのため、子行の描画に必要な表の行とセルの要素はその場で作成されます。`igTreeGrid` のパフォーマンスに関する詳細は、[パフォーマンス セクション](#performance)を参照してください。
 
-The tree grid enjoys a disconnected architecture in the same manner as other Ignite UI grids. Under the surface the `igTreeGrid` is powered by the `igTreeHierarchialDataSource` component. The data source component is responsible for implementing logic for features that directly affect the tree grid's source data before its ready to be presented to the user. For details about this specialized data source, see [igTreeHierarchicalDataSource](%%jQueryApiUrl%%/ig.treehierarchicaldatasource).
+ツリー グリッドは、他の Ignite UI グリッドと同様に、切り離されたアーキテクチャを使用できます。表面下で、`igTreeGrid` は `igTreeHierarchialDataSource` コンポーネントにより支えられています。このデータ ソース コンポーネントは、ツリー グリッドのソース データをユーザーに表示する前に、それに直接影響する機能のロジックを実装します。この特殊なデータ ソースの詳細は、[igTreeHierarchicalDataSource](%%jQueryApiUrl%%/ig.treehierarchicaldatasource) を参照してください。
 
-## <a id="supported-data-sources"></a> Supported Data Sources
+## <a id="supported-data-sources"></a> サポートされるデータ ソース
 
-The `igTreeGrid` supports two different types of data sources: flat and hierarchical data.
+`igTreeGrid` は、フラット データと階層データの 2 種類のデータ ソースをサポートします。
 
-> **Note**: Having a **uniform schema in all data objects** is essential in rendering data in the tree grid. While both the flat and hierarchical data source types use slightly different approaches to maintaining a hierarchical relationship in the data, the rest of the data members are identical in the objects.
+> **注:**: **すべてのデータ オブジェクトが一様なスキーマ**を持つことは、ツリー グリッドでのデータの描画における基本です。フラット データ ソース型と階層データ ソース型は、データの階層関係の維持にやや異なるアプローチを使用していますが、残りのデータ メンバーはオブジェクトで同一です。
 
-### <a id="flat-data"></a> Flat Data Source
+### <a id="flat-data"></a> フラット データ ソース
 
-Flat data, or self-referencing data, consists of a simple object array where a primary key/foreign key relationship exists in the schema of the data.
+フラット データ、すなわち自己参照データは、データのスキーマにプライマリ キー / 外部キーのリレーションシップが存在するシンプルなオブジェクト配列で構成されています。
 
-An example of a flat data source looks like the following:
+フラット データ ソースの例を以下に示します。
 
 ```javascript
 var data = [
@@ -74,7 +74,7 @@ var data = [
 ];
 ```
 
-Here the `supervisorId` relates back to the `id` value of the data in the array. In order to configure the relationship in the grid you must provide values for both the [`primaryKey`](%%jQueryApiUrl%%/ui.igtreegrid#options:primaryKey) and [`foreignKey`](%%jQueryApiUrl%%/ui.igtreegrid#options:foreignKey) options. The following code snippet demonstrates how to initialize the tree grid with a flat data source:
+ここで、`supervisorId` は配列のデータの `id` 値とリレーションシップを持ちます。グリッドでリレーションシップを構成するには、[`primaryKey`](%%jQueryApiUrl%%/ui.igtreegrid#options:primaryKey) オプションと [`foreignKey`](%%jQueryApiUrl%%/ui.igtreegrid#options:foreignKey) オプションの両方に値を提供する必要があります。以下のコード スニペットは、フラット データ ソースでツリー グリッドを初期化する方法を示しています。
 
 ```javascript
 $('#treegrid').igTreeGrid({
@@ -85,9 +85,9 @@ $('#treegrid').igTreeGrid({
 });
 ```
 
-### <a id="hierarchical-data"></a> Hierarchical Data Source
+### <a id="hierarchical-data"></a> 階層データ ソース
 
-Hierarchical data sources have a nested relationship where child data exists as an array member of the parent data object. An example of a hierarchical data source looks like this:
+階層データ ソースは、親データ オブジェクトの配列メンバーとして子データが存在するネストされたリレーションシップを持ちます。以下に階層データ ソースの例を示します。
 
 ```javscript
 var data = [{
@@ -110,7 +110,7 @@ var data = [{
 }];
 ```
 
-The hierarchical data's relationship is managed by using an array of objects in the `employees` member. To initialize the tree grid with hierarchical data you need to use the [`childDataKey`](%%jQueryApiUrl%%/ui.igtreegrid#options:childDataKey) option to establish the relationship:
+階層データのリレーションシップは、`employees` メンバーのオブジェクトの配列を使用してマネージされます。階層データでツリー グリッドを初期化するには、[`childDataKey`](%%jQueryApiUrl%%/ui.igtreegrid#options:childDataKey) オプションを使用してリレーションシップを確立する必要があります:
 
 ```javascript
 $('#treegrid').igTreeGrid({
@@ -121,10 +121,10 @@ $('#treegrid').igTreeGrid({
 });
 ```
 
-## <a id="feature-differences-iggrid"></a> Feature differences from igGrid
+## <a id="feature-differences-iggrid"></a> igGrid との機能の違い
 
 
-As stated earlier, the `igTreeGrid` inherits the `igGrid` and provides custom implementations for some features of the grid. The following table highlights some of the differences between the features found in each grid.
+前述のように、`igTreeGrid` は `igGrid` を継承し、グリッドの一部機能に対してカスタム実装を提供しています。以下の表に、各グリッド機能の違いの一部を強調して示します。
 
 | Feature | igTreeGrid | igGrid |
 | --- | --- | --- |
@@ -132,34 +132,34 @@ As stated earlier, the `igTreeGrid` inherits the `igGrid` and provides custom im
 | Paging | Creates pages from only root records OR based on all data | Creates pages from all bound data |
 | Filtering | Renders matches to filter criteria in context of its hierarchy | Renders only exact matches to filter criteria |
 
-> **Note**: Unlike the igGrid, the igTreeGrid expects a flat data source if there is a value set for `foreignKey`.
+> **注:**: igGrid と異なり、igTreeGrid は `foreignKey` に対して値が設定されている場合、フラット データ ソースを期待します。
 
 
-## <a id="tree-vs-hierarchical-grids"></a> igTreeGrid vs. igHierarchicalGrid
+## <a id="tree-vs-hierarchical-grids"></a> igTreeGrid と igHierarchicalGrid の比較
 
-While the `igTreeGrid` and [`igHierarchicalGrid`](igHierarchicalGrid-Overview.html "igHierarchicalGrid Overview") are both created to present hierarchical data, there are distinctions when you may want to select one over the other. The biggest distinguishing factor among the two grids is that the `igTreeGrid` displays each row using the same columns, while the `igHierarchicalGrid` supports the ability render data with varying schemas among different hierarchical levels. The following lists detail other ways in which the controls differentiate among each other.
+`igTreeGrid` と [`igHierarchicalGrid`](igHierarchicalGrid-Overview.html "igHierarchicalGrid Overview") は、いずれも階層データを表示するために作成されていますが、選択する際に注意が必要な違いがあります。2 つのグリッドの最も大きな違いは、`igTreeGrid` は同じ列に各行を表示しますが、`igHierarchicalGrid` は階層レベルごとに異なるスキーマでデータを描画できる点です。以下に、コントロールの違いを詳細にリストします。
 
-The `igTreeGrid`:
-- can render the expansion indicator inside an existing column or in its own column
-- applies enabled features across the entire tree grid
-- supports the Column Fixing feature
-- does not support the Group By feature (grouping is inherent to the tree grid)
-- has a lighter DOM footprint than the hierarchical grid; the tree grid is rendered with a single `igGrid` instance
+`igTreeGrid` の場合:
+- 既存の列の内部または固有の列に展開インジケーターを描画できる
+- 有効な機能をツリー グリッド全体に適用する
+- Column Fixing 機能をサポートする
+- Group By 機能はサポートしない (グループ化はツリー グリッドに固有)
+- DOM フットプリントは階層グリッドより軽量。ツリー グリッドは単一 `igGrid` インスタンスを使用して描画される
 
-The `igHierarchicalGrid`:
-- can render only a hierarchical data source; flat data sources are not supported
-- supports child data with a different data schema from the parent
-- creates separate `igGrid` instance (with its full DOM) for each child layout as well as for the root data
-- features can work on individual layouts independently
-- supports the Group By feature
+`igHierarchicalGrid` の場合:
+- 階層データ ソースのみを描画できる。フラット データ ソースはサポートしない
+- 親と異なるデータ スキーマで子データをサポートする
+- 各子レイアウトとルート データに対して独立した `igGrid` インスタンス (その完全な DOM を使用して) を作成する
+- 各機能は各レイアウトで独立して動作する
+- Group By 機能をサポートする
 
-So while there are many similarities between the `igTreeGrid` and the `igHierarchicalGrid`, they each serve a specialized purpose.
+`igTreeGrid` と `igHierarchicalGrid` の間には多くの類似点がありますが、それぞれ独自の目的に使用します。
 
-## <a id="performance"></a> Performance
+## <a id="performance"></a> パフォーマンス
 
-Beyond the minimal overhead design of the Tree Grid there are also built-in features that can drastically improve performance with large data sets. [Virtualization](igGrid-Virtualization-Overview.html) helps boost performance by  allowing the number of actual rendered rows (DOM elements) remain constant in the grid while being dynamically reused to render the new data.
+ツリー グリッドのオーバーヘッドを最小にする設計だけでなく、大きなデータ セットでパフォーマンスを劇的に向上させる組み込み機能もあります。[仮想化](igGrid-Virtualization-Overview.html) は、実際に描画される行 (DOM 要素) の数をグリッド内で一定に保ちながら、新しいデータの描画のために動的に再使用させることにより、パフォーマンスを向上させます。
 
-> **Note:** Currently the `igTreeGrid` supports only **continuous** flavor of Virtualization, therefore the [`virtualizationMode`](%%jQueryApiUrl%%/ui.igtreegrid#options:virtualizationMode) must always be set to the appropriate value:
+> **注:** 現時点では `igTreeGrid` は仮想化の **連続**フレーバーのみをサポートするため、[`virtualizationMode`](%%jQueryApiUrl%%/ui.igtreegrid#options:virtualizationMode) を常に該当する値に設定する必要があります。
 
 ```js
 $("#treegrid").igTreeGrid({
@@ -169,15 +169,15 @@ $("#treegrid").igTreeGrid({
 });
 ```
 
-Other features that help increase performance include [Load on Demand](igTreeGrid-Load-On-Demand.html) and the opportunity to take local operations to the server with [Remote Features](%%SamplesUrl%%/tree-grid/remote-features).
+パフォーマンスの向上に役立つその他の機能には、[ロード オン デマンド](igTreeGrid-Load-On-Demand.html)や、[リモート機能](%%SamplesUrl%%/tree-grid/remote-features)を使用してサーバーをローカルに操作する方法などがあります。
 
-> **Note**: The performance enhancements suggested here are best realized when using very large sets of data with the tree grid.
+> **注:**: ここで説明したパフォーマンス強化は、ツリー グリッドで非常に大きなデータのセットを使用する場合に最高の効果を発揮します。
 
-**Related topic:** [Performance Guide (igGrid)](igGrid-Performance-Guide.html)
+**関連トピック:** [パフォーマンス ガイド (igGrid)](igGrid-Performance-Guide.html)
 
-## <a id="getting-started"></a> Getting Started with the igTreeGrid
+## <a id="getting-started"></a> igTreeGrid を使用した作業の開始
 
-Initializing the `igTreeGrid` requires that you pass an [`options`](%%jQueryApiUrl%%/ui.igtreegrid#options) object that defines the characteristics of the grid. The following code snippet demonstrates how to create a grid bound to a flat data source that includes filtering, sorting and paging.
+`igTreeGrid` の初期化には、グリッドの特性を定義する [`options`](%%jQueryApiUrl%%/ui.igtreegrid#options) オブジェクトを渡す必要があります。以下のコード スニペットは、フィルタリング、並べ替え、ページングを含む、フラット データ ソースにバインドされたグリッドを作成する方法を示しています。
 
 ```javascript
 $('#treegrid').igTreeGrid({
@@ -210,11 +210,11 @@ $('#treegrid').igTreeGrid({
   ]
 });
 ```
-Notice that in this case values for both `primaryKey` and `foreignKey` are present in order to establish a relationship among data records.
+この場合、データ レコード間のリレーションシップを確立するために、`primaryKey` と `foreignKey` の両方の値が存在することに注意してください。
 
-The Filtering and Paging features are shown to include commented out option values that are available for these features. For more information you can read about how Sorting, Filtering and Paging are implemented specifically for the tree grid.
+フィルタリング機能とページング機能は、これらの機能に対して使用できるオプション値をコメントとして含めるために示されています。並べ替え、フィルタリング、およびページングを特にツリー グリッドに対して実装する方法について詳細に知ることができます。
 
-### <a id="full-page-sample"></a> Full Page Sample
+### <a id="full-page-sample"></a> 完全なページ サンプル
 
 ```html
 <!DOCTYPE html>
@@ -312,20 +312,20 @@ The Filtering and Paging features are shown to include commented out option valu
 </html>
 ```
 
-## <a id="keyboard-navigation"></a> Keyboard navigation 
+## <a id="keyboard-navigation"></a> キーボード ナビゲーション 
 
-For supported features, specific keyboard interactions available are also inherited. Navigation with the [Selection (igGrid)](igGrid-Selection-Overview.html#keyboard-interaction) actually funtions the same way as it would for the `igHierarchicalGrid` where if the currently selected active cell is the one containing the expand/collapse, `SPACE/ENTER` buttons this will also expand/collapse the child level of the row.
+サポートされる機能については、使用可能な特別なキーボード操作も継承されています。[Selection (igGrid)](igGrid-Selection-Overview.html#keyboard-interaction) でのナビゲーションは、実際に `igHierarchicalGrid` の場合と同様に機能します。つまり、現在選択されているアクティブなセルが、展開 / 縮小、`SPACE / ENTER` ボタンを含む場合、行の子レベルも展開 / 縮小します。
 
 
-## <a id="related-content"></a> Related Content
+## <a id="related-content"></a> 関連コンテンツ
 
-### <a id="topics"></a> Topics
--   [Features Overview (igTreeGrid)](igTreeGrid-Features-Overview.html): This topic covers the basics around the modular features available for the `igTreeGrid` control.
--   [Updating (igTreeGrid)](igTreeGrid-Updating.html): This topic contains an overview of the Updating functionality specific to the `igTreeGrid` control.
--   [Load on Demand (igTreeGrid)](igTreeGrid-Load-On-Demand.html): This topic explains the benefits of the `igTreeGrid` Load on Demand functionality and how it can be implemented.
+### <a id="topics"></a> トピック
+-   [機能の概要 (igTreeGrid)](igTreeGrid-Features-Overview.html): このトピックでは、`igTreeGrid` コントロールで使用可能なモジュラー機能の基本について説明します。
+-   [更新 (igTreeGrid)](igTreeGrid-Updating.html): このトピックでは、`igTreeGrid` コントロールに固有の更新機能の概要を説明します。
+-   [ロード オン デマンド (igTreeGrid)](igTreeGrid-Load-On-Demand.html): このトピックでは、`igTreeGrid` ロード オン デマンドのメリットと実装方法を説明します。
 
-### <a id="samples"></a> Samples
-- [igTreeGrid Overview](%%SamplesUrl%%/tree-grid/overview)
-- [igTreeGrid Filtering](%%SamplesUrl%%/tree-grid/file-explorer)
-- [igTreeGrid Sorting](%%SamplesUrl%%/tree-grid/remote-features)
-- [igTreeGrid Paging](%%SamplesUrl%%/tree-grid/file-explorer)
+### <a id="samples"></a> サンプル
+- [igTreeGrid の概要](%%SamplesUrl%%/tree-grid/overview)
+- [igTreeGrid のフィルタリング](%%SamplesUrl%%/tree-grid/file-explorer)
+- [igTreeGrid の並べ替え](%%SamplesUrl%%/tree-grid/remote-features)
+- [igTreeGrid のページング](%%SamplesUrl%%/tree-grid/file-explorer)

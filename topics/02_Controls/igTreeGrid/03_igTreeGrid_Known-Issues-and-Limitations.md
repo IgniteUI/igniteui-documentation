@@ -8,33 +8,33 @@
 |metadata|
 -->
 
-# Known Issues and Limitations (igTreeGrid)
+# 既知の問題と制限 (igTreeGrid)
 
-The following table summarizes the known issues and limitations of the `igTreeGrid`™ control. Detailed explanations of some of the issues and the existing workarounds are provided after the summary table.
+以下の表で、`igTreeGrid`™ コントロールの既知の問題と制限を簡単に説明します。以下の表は、一部の問題の詳細な説明とその回避策を示します。
 
-Legend | 
+凡例 | 
 -------|--------
-![](images/positive.png) | Workaround available
-![](images/negative.png) | No known workaround
-![](images/tobeUpdated.png) | Fix planned
+![](images/positive.png) | 回避策
+![](images/negative.png) | 既知の回避策はありません
+![](images/tobeUpdated.png) | 修正予定です
 
 
-Issue | Description | Status
+問題|説明|状態
 ------|-------------|-------
-[Expansion indicators can be cropped/hidden with remote features](#expand-indicator-crop) | Expansion indicators on lower levels in the hierarchy can be cropped/hidden when rendered in the separate indicators non-data column in remote scenarios | ![](images/positive.png)
-[Misaligned first cells' data on lower levels](#misaligned-data) | Padding on lower levels can push displayed data beyond the available width of the cell and cause the text to wrap around to the initial position, breaking visual hierarchy | ![](images/positive.png) 
+[リモート機能により展開インジケーターを部分表示 / 非表示にできる](#expand-indicator-crop)|リモートシナリオで非データ列に個別のインジケーターを描画する場合、階層の下位レベルの展開インジケーターは部分表示 / 非表示にできます。 | ![](images/positive.png)
+[下位レベルの最初のセルのデータがずれる](#misaligned-data)|下位レベルのパディングにより、表示されるデータがセルの使用可能な幅を超えてプッシュされ、テキストが最初の位置で折り返されるため、階層の表示が壊れます。 | ![](images/positive.png) 
 
-## <a id="expand-indicator-crop"></a> Expansion indicators can be cropped/hidden when rendered on lower levels
-Expansion indicators can become cropped or hidden when the expansion indicator column's width is not bid enough. Normally it is determined from the bound data, but in a remote scenario it should instead be provided from the back-end through the [`initialIndentationLevel`](%%jQueryApiUrl%%/ui.igtreegrid#options:initialIndentationLevel) setting which determines how many indentations should be reserved as width for that column.
+## <a id="expand-indicator-crop"></a> 下位レベルで描画する場合、展開インジケーターを部分表示 / 非表示にできます。
+展開インジケーターは、展開インジケーター列の幅が十分にない場合、部分表示または非表示にできます。通常はバインドされたデータから決定されますが、リモート シナリオでは、その列の幅としてインデントのサイズを予約する必要があるかを決定する [`initialIndentationLevel`](%%jQueryApiUrl%%/ui.igtreegrid#options:initialIndentationLevel) 設定により、あらかじめバックエンドから提供する必要があります。
 
-Besides the number of indentations the actual step width can also be reduced by setting the row [`indentation`](%%jQueryApiUrl%%/ui.igtreegrid#options:indentation) option to lower value.
+インデントの数だけでなく、実際のステップ幅も行の [`indentation`](%%jQueryApiUrl%%/ui.igtreegrid#options:indentation) オプションを低い値に設定するで減らすことができます。
 
 
-## <a id="misaligned-data"></a> Misaligned first cell data on lower levels
+## <a id="misaligned-data"></a> 下位レベルの最初のセルのデータがずれる
 
-Deeply nested levels of hierarchy can add a large amount of padding and cause the text to wrap around to the initial position, breaking visual hierarchy. To overcome this analysis of the data structure is required - the very basic options is to modify either the number of columns or the [`columns.width`](%%jQueryApiUrl%%/ui.igtreegrid#options:columns.width) where possible to fit in more content.
+階層の深くネストされたレベルにより、大量のパディングが追加され、テキストが最初の位置に折り返されて、階層の表示が壊れることがあります。これに対処するには、データ構造の分析が必要です。非常に基本的な方法は、内容に応じて列の数または [`columns.width`](%%jQueryApiUrl%%/ui.igtreegrid#options:columns.width) のいずれかを変更することです。
 
-The other option available is to reduce the overall padding by setting the row [`indentation`](%%jQueryApiUrl%%/ui.igtreegrid#options:indentation) option to lower value. For example:
+行の [`indentation`](%%jQueryApiUrl%%/ui.igtreegrid#options:indentation) オプションをより低い値に設定するで、パディング全体を減少させる方法もあります。例：
 
 ```js
 $(".selector").igTreeGrid({
@@ -42,10 +42,10 @@ $(".selector").igTreeGrid({
 });
 ```
 
-## <a id="related-content"></a> Related Content
+## <a id="related-content"></a> 関連コンテンツ
 
-### <a id="topics"></a> Topics
--   [Features Overview (igTreeGrid)](igTreeGrid-Features-Overview.html): This topic covers the basics around the modular features available for the `igTreeGrid` control.
+### <a id="topics"></a> トピック
+-   [機能の概要 (igTreeGrid)](igTreeGrid-Features-Overview.html): このトピックでは、`igTreeGrid` コントロールで使用可能なモジュラー機能の基本について説明します。
 
-### <a id="samples"></a> Samples
-- [igTreeGrid Overview](%%SamplesUrl%%/tree-grid/overview)
+### <a id="samples"></a> サンプル
+- [igTreeGrid の概要](%%SamplesUrl%%/tree-grid/overview)

@@ -8,77 +8,77 @@
 |metadata|
 -->
 
-# Creating Cascading igCombos
+# カスケード igCombos の作成
 
 
 
-##Topic Overview
+##トピックの概要
 
 
-### Purpose
+### 目的
 
-This topic explains how to implement igCombos in a cascading manner where the selection of one combo filters the data that is availble for selection in the next combo.
+このトピックでは、あるコンボの選択が次のコンボでの選択に利用できるデータをフィルター処理するカスケード方式で igCombos を実装する方法を説明します。
 
-### Required background
+### 前提条件
 
-The following topics are prerequisites to understanding this topic:
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
 
--	[igCombo Overview](igCombo-Overview.html): This topic provides an overview of the `igCombo` control including its features, binding to data sources, requirements, and templates.
+-	[igCombo の概要](igCombo-Overview.html): このトピックでは、機能、データ ソースへのバインド、要件、テンプレートなどの、`igCombo` コントロールの概要について説明します。
 
--	[Binding igCombo to Data](igCombo-Data-Binding.html): This topic discusses the different ways to data bind the `igCombo` control, as well as some other details related to data binding.
+-	[igCombo をデータにバインド](igCombo-Data-Binding.html): このトピックでは、`igCombo` コントロールでの各種データ バインド方式について説明し、データ バインディングに関するその他の詳細情報を示します。
 
--   [Configuring Selection](igCombo-Configure-Selection.html): This topic discusses how to implement selection, including information on how to handle selection events.
+-   [選択の構成](igCombo-Configure-Selection.html): このトピックでは、選択イベントの処理方法に関する情報も含め、選択を実装する方法を説明します。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
--   [Creating Cascading Combos](#creating-cascading-combos)
-  -   [Introduction](#introduction)
-  -   [Preview](#preview)
-  -   [Prerequisites](#prerequisites)
-  -   [Steps](#steps)
-  -   [Finished Example](#finished-example)
--   [Related Content](#related-content)
+-   [コンボのカスケードの作成](#creating-cascading-combos)
+  -   [概要](#introduction)
+  -   [プレビュー](#preview)
+  -   [前提条件](#prerequisites)
+  -   [手順](#steps)
+  -   [完成した例](#finished-example)
+-   [関連コンテンツ](#related-content)
 
-##<a id="creating-cascading-combos"></a>Creating Cascading Combos
-### <a id="introduction"></a>Introduction
+##<a id="creating-cascading-combos"></a>コンボのカスケードの作成
+### <a id="introduction"></a>概要
 
-In this example two igCombos are created and bound to different data sources. Then, the selection of the first igCombo will filter the data that is available in the second igCombo.
+この例では、2 つの igCombos が作成され、異なるデータ ソースにバインドされます。次に、最初の igCombo の選択が 2 番目の igCombo で利用できるデータをフィルター処理します。
 
-### <a id="preview"></a>Preview
+### <a id="preview"></a>プレビュー
 
-The following screenshot is a preview of the final result.
+以下のスクリーンショットは最終結果のプレビューです。
 
 ![](images/01_Cascading_Combo_with_Individaul_Data_Source_1.png)
 
-### <a id="prerequisites"></a>Prerequisites
+### <a id="prerequisites"></a>前提条件
 
-To comple the procedure you need the following:
+この手順を実行するには、以下が必要です。
 
-- A standard HTML page opened for editing. 
+- 編集用に開かれた標準的な HTML ページ 
 
-### <a id="steps"></a>Steps
+### <a id="steps"></a>手順
 
-The following steps demonstrate how to bind the parent and child `igCombo` controls to different data sources.
+以下の手順では、親と子の `igCombo` コントロールを異なるデータ ソースにバインドする方法を示します。
 
-1. Add the HTML placeholders for parent and child `igCombo` controls.
+1. `igCombo` コントロール親子の HTML プレースホルダーを追加します。
 
-	For this procedure, define the SPAN element to store the drop-downs. The HTML placeholder can be a DIV element, but in this procedure we use SPAN because we want the both combo boxes on the same row.
+	この例では、ドロップダウンを格納するための SPAN 要素を定義します。HTML プレースホルダーとして div 要素を使用することもできますが、ここでは、両方のコンボ ボックスが同じ行に表示されるようにしたいため、SPAN 要素を使用します。
 	
-	**In HTML:**
+	**HTML の場合:**
 	
 	```
 	<span id="comboCountry"></span>
 	<span id="comboDistrict"></span>
 	```
 
-2. Add the data source for the parent `igCombo` control.
+2. 親 `igCombo` コントロールにデータ ソースを追加します。
 
-	For this procedure, define the parent `igCombo` data source as an array of objects.
+	この手順では、親 `igCombo` データ ソースをオブジェクト配列として定義します。
 	
-	**In JavaScript:**
+	**JavaScript の場合:**
 	
 	```
 	var dsCountry = [
@@ -87,11 +87,11 @@ The following steps demonstrate how to bind the parent and child `igCombo` contr
 	];
 	```
 
-3. Add the parent `igCombo` control.
+3. 親 `igCombo` コントロールを追加します。
 
-	Add the parent `igCombo` defining the required properties.
+	親 `igCombo` を追加して、必要なプロパティを定義します。
 	
-	**In JavaScript:**
+	**JavaScript の場合:**
 	
 	```
 	$("#comboCountry").igCombo({
@@ -101,11 +101,11 @@ The following steps demonstrate how to bind the parent and child `igCombo` contr
 	});
 	```
 
-4. Add the data source for the child `igCombo` control.
+4. 子 `igCombo` コントロールにデータ ソースを追加します。
 
-	For this procedure, define the child `igCombo` data source as an array of objects. Note the additional key (`keyCountry`) holding the relation to the parent.
+	この手順では、子 `igCombo` データ ソースをオブジェクト配列として定義します。親との関係を持つ追加のキー (`keyCountry`) に注意してください。
 	
-	**In JavaScript:**
+	**JavaScript の場合:**
 	
 	```
 	var dsCascDistrict = [
@@ -121,11 +121,11 @@ The following steps demonstrate how to bind the parent and child `igCombo` contr
 	];
 	```
 
-5. Add the child `igCombo` control.
+5. 子 `igCombo` コントロールを追加します。
 
-	Add the child `igCombo` control. Do not set the dataSource property yet.
+	子 `igCombo` コントロールを追加します。ここでは、dataSource プロパティを設定しません。
 	
-	**In JavaScript:**
+	**JavaScript の場合:**
 	
 	```
 	$("#comboDistrict").igCombo({
@@ -134,11 +134,11 @@ The following steps demonstrate how to bind the parent and child `igCombo` contr
 	});
 	```
 
-6. Add the selectionChanged event handler to the parent `igCombo`. 
+6. selectionChanged イベント ハンドラーを親 `igCombo` に追加します。 
 
-	Add the selectionChanged event handler to to parent `igCombo`. Create an empty array and then use the selected value of the parent `igCombo` to filter the data source for the child `igCombo`, storing the filtered results in the empty array.
+	selectionChanged イベント ハンドラーを親 `igCombo` に追加します。空の配列を作成し、親 `igCombo` の選択された値を使用して、子 `igCombo` のデータ ソースをフィルター処理し、フィルター処理された結果を空の配列で並べ替えます。
 
-	**In JavaScript:**
+	**JavaScript の場合:**
 
 	```
 	selectionChanged: function (evt, ui) {
@@ -153,11 +153,11 @@ The following steps demonstrate how to bind the parent and child `igCombo` contr
     }
     ```
 
-7. Bind the child `igCombo`.
+7. 子 `igCombo` をバインドします。
 
-	In the parent `igCombo` selectionChanged event bind the child `igCombo` to the filtered data. Take note of the call to deselectAll here; this is needed to clear the previous selection of the child `igCombo`, if any, in the instance that the new filtered set of data does not contain the previous selected values.
+	親 `igCombo` で、selectionChanged イベントが子 `igCombo` をフィルター処理されたデータにバインドします。ここで deselectAll に対する呼び出しに注意してください。これは、子 `igCombo` の以前の選択のクリアに必要で、新しくフィルター処理されたデータのセットに以前に選択された値が入らないようにするためです。
 
-	**In JavaScript:**
+	**JavaScript の場合:**
 	```
 	var $comboDistrict = $("#comboDistrict");
     $comboDistrict.igCombo("deselectAll", {}, true);
@@ -165,15 +165,15 @@ The following steps demonstrate how to bind the parent and child `igCombo` contr
     $comboDistrict.igCombo("dataBind");
     ```
 
-8. (Optional) Verify the result.
+8. (オプション) 結果を確認します。
 
-	Open the HTML page in your browser to view the result. If you have completed the procedure correctly, you will have two functional drop-downs aligned horizontally as shown in the [Preview](#preview).
+	この HTML ページをブラウザーで開き、結果を確認します。上記の手順が完了すると、[プレビュー](#preview)に示すとおり、2 つの機能ドロップダウンが水平方向に並べて配置されます。
 
-### <a id="finished-example"></a>Finished Example
+### <a id="finished-example"></a>完成した例
 
-The following is the full code that was created for this sample to demonstrate what your page should look like when complete:
+以下は、完了時のページの表示を実際に示すために作成されたサンプル用の完全なコードです。
 
-	**In HTML and JavaScript:**
+	**HTML と JavaScript の場合:**
 	```
 	<span id="comboCountry"></span>
 	<span id="comboDistrict"></span>
@@ -225,13 +225,13 @@ The following is the full code that was created for this sample to demonstrate w
 	</script>
 	```
 
-##<a id="related-content"></a>Related Content
+##<a id="related-content"></a>関連コンテンツ
 
-### <a id="samples"></a> Samples
+### <a id="samples"></a> サンプル
 
-The following samples provide additional information related to this topic.
+このトピックについては、以下のサンプルも参照してください。
 
--	[Cascading Combo](%%SamplesUrl%%/combo/cascading-combos): This sample demonstrates three cascading `igCombo` controls.
+-	[コンボのカスケード](%%SamplesUrl%%/combo/cascading-combos): このサンプルでは、3 つの `igCombo` コントロールのカスケードを示します。
 
 
 

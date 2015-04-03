@@ -8,15 +8,15 @@
 |metadata|
 -->
 
-# Supported Versions of Microsoft Excel
+# サポートされるバージョンの Microsoft Excel
 
-The Infragistics JavaScript Excel Library™ is capable of saving and reading Microsoft® Excel® .xls files. These .xls files are saved in a BIFF8 format, and are therefore compatible only with specific versions of Excel. The following table lists the supported versions of Excel and any restrictions or limitations associated with that version.
+Infragistics JavaScript Excel ライブラリ™ は Microsoft® Excel®.xls ファイルを保存および読み込むことができます。これらの .xls ファイルは BIFF8 フォーマットで保存されるため、特定のバージョンの Excel に限り互換性があります。以下の表はサポートされるバージョンの Excel と、そのバージョンに関連付けられた制約または制限をリストしています。
 
-Excel version | Description
+Excel のバージョン|説明
 ---|---
-Microsoft Excel 97 | Uses the BIFF8 format.
-Microsoft Excel 2000 | Uses the BIFF8 format.
-Microsoft Excel 2002 | A member of the Microsoft Office® XP family of products. Uses the BIFF8 format.
-Microsoft Excel 2003 | Uses the BIFF8 format.
-Microsoft Excel 2007 | When using the [Save](%%jQueryApiUrl%%/ig.excel.Workbook) function off the [Workbook](%%jQueryApiUrl%%/ig.excel.Workbook#methods:save) object, the .xlsx file is written in XML file format. <br/> **Note:** The Excel Engine does not support the Excel Binary Workbook (.xlsb) format at this time.
+Microsoft Excel 97|BIFF8 フォーマットを使用。
+Microsoft Excel 2000|BIFF8 フォーマットを使用。
+Microsoft Excel 2002|Microsoft Office® XP ファミリー製品のメンバー。BIFF8 フォーマットを使用。
+Microsoft Excel 2003|BIFF8 フォーマットを使用。
+Microsoft Excel 2007|[Workbook](%%jQueryApiUrl%%/ig.excel.Workbook#methods:save) オブジェクトの [Save](%%jQueryApiUrl%%/ig.excel.Workbook) 関数を使用する場合、.xlsx ファイルは XML ファイル形式で書き出されます。<br/>**注:** Excel Engine は Excel Binary Workbook (.xlsb) フォーマットを現時点ではサポートしていません。
 

@@ -8,75 +8,75 @@
 |metadata|
 -->
 
-# Resizing Rows and Columns
+# 行と列のサイズを変更
 
-## Before You Begin
-In a worksheet, you may have a large amount of text in a cell or a large image that you want to appear in a cell. If the default cell size cannot fit the cell's contents, you can easily increase the height and width of all cells in a row, column, or the entire worksheet.
+## 始める前に
+ワークシートでは、セルに大量のテキストが含まれている場合もありますし、セルに大きな画像を表示させたい場合もあります。デフォルトのセル サイズではセルのコンテンツが入りきらない場合は、行、列、またはワークシート全体にあるすべてのセルの高さと幅を簡単に増やすことができます。
 
-However, in some situations the row height will automatically be increased so all content is visible. For example, if you rotate or wrap text in a cell, and the height of the row containing the cell is the default value, the row height will automatically increase to show all content. The column width is never managed automatically, and always remains constant, regardless of the content of its cells.
+ただし、状況によっては、行の高さが自動的に増えるので、すべてのコンテンツが表示されます。たとえば、セル内のテキストを回転または折り返し、そのセルを含む行の高さが既定値の場合、すべてのコンテンツが表示されるように行の高さが自動的に増加します。列の幅は自動的に管理されないので、セルのコンテンツに関係なく常に一定のままです。
 
-In addition to resizing individual rows and columns, you can resize all rows and columns by setting the Worksheet's [`defaultRowHeight`](%%jQueryApiUrl%%/ig.excel.Worksheet#methods:defaultRowHeight "Link to the Web API Reference Guide to the DefaultRowHeight member et class.") and  [`defaultColumnWidth`](%%jQueryApiUrl%%/ig.excel.Worksheet#methods:defaultColumnHeight "Link to the Web API Reference Guide to the DefaultColumnWidth member .") properties.
+個々の行と列のサイズを変更することに加えて、ワークシートの [`defaultRowHeight`](%%jQueryApiUrl%%/ig.excel.Worksheet#methods:defaultRowHeight) プロパティと [`defaultColumnWidth`](%%jQueryApiUrl%%/ig.excel.Worksheet#methods:defaultColumnHeight) プロパティを設定することによって、すべての行と列のサイズを変更できます。
 
-## What You Will Accomplish
-This walkthrough will show you a few ways to auto-size rows. In addition, you will learn how it manually size rows and columns so a cell can completely contain its contents.
+## 達成すること
+この詳細なガイドでは、行を自動サイズ設定する方法をいくつか示します。さらに、セルがそのコンテンツを完全に含むように行と列を手動でサイズ調整する方法も紹介します。
 
-## Follow these Steps
-1.  **Create a workbook with a worksheet.**
- 	1.  Create an HTML page.
-    2.  Add a Button to it.
-    3.  Create a function for its click event.
-    4.  Create a Workbook with one Worksheet:
+## 次の手順を実行します
+1.  **ワークシートを使用してワークブックを作成します。**
+ 	1.  HTML ページを作成します。
+    2.  それにボタンを追加します。
+    3.  そのボタンのクリック イベントの機能を作成します。
+    4.  ひとつのワークシートを使用してワークブックを作成します。
     5.  
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
 		var workbook = new $.ig.excel.Workbook();
 		var worksheet = workbook.worksheets().add( "Sheet1" );
 		```
 
-2.  **Auto-size the height of rows.**
-    1.  Rotate the text in a cell whose row still has the default height. The row will auto-size to fit the cell's contents.
+2.  **行の高さを自動的に変更します。**
+    1.  行の高さがデフォルトのままのセル内のテキストを回転させます。行は、セルのコンテンツがちょうど収まるように自動サイズ設定されます。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
 		worksheet.rows(0).cells(0).value("Rotated Text");
 		worksheet.rows(0).cells(0).cellFormat().rotation(70);
         ```
-	![Displays the results of using the code listed above.](images/ExcelEngine_Resizing_Rows_and_Columns_01.png)
-	2.  Wrap the text in a cell whose row still has the default height. The row will auto-size to fit the cell's contents.
+	![](images/ExcelEngine_Resizing_Rows_and_Columns_01.png)
+	2.  行の高さがデフォルトのままのセル内のテキストを折り返します。行は、セルのコンテンツがちょうど収まるように自動サイズ設定されます。
 	
-	    **In JavaScript:**
+	    **JavaScript の場合:**
 	
 		```
 	   	worksheet.rows(1).cells(1).value("This text will be wrapped in the cell so all text is visible");
 		worksheet.rows(1).cells(1).cellFormat().wrapText(true);
 		```
-	![Displays the results of using the code listed above.](images/ExcelEngine_Resizing_Rows_and_Columns_02.png)
+	![](images/ExcelEngine_Resizing_Rows_and_Columns_02.png)
 
-3.  **Resize a column so text does not go outside its cell.**
-    1.  Place enough text in a cell so the text goes outside the boundaries of its cell:
+3.  **テキストがセルの外側に出ないように列のサイズを変更します。**
+    1.  テキストがセルの境界線の外側に出ないようにセルに十分なテキストを配置します。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
 		worksheet.rows(2).cells(2).value("This text will not be wrapped");
         ```
-	![Displays the results of using the code listed above.](images/ExcelEngine_Resizing_Rows_and_Columns_03.png)
+	![](images/ExcelEngine_Resizing_Rows_and_Columns_03.png)
 
-	2.  Although all text is visible, if a value is set in cell D3, the long text will be cut off. To increase the cell's width, increase the width of the WorksheetColumn, which is accessible from the Worksheet's columns collection.
+	2.  すべてのテキストが表示されますが、値をセル D3 に設定すると、長いテキストは切り落とされます。セルの幅を増やすには、Worksheet の columns コレクションからアクセス可能な WorksheetColumn の幅を増やします。
 	
-	    **In JavaScript:**
+	    **JavaScript の場合:**
 	
 		```
 		worksheet.columns(2).width(6100);
 		```
-		![Displays the results of using the code listed above.](images/ExcelEngine_Resizing_Rows_and_Columns_04.png)
+		![](images/ExcelEngine_Resizing_Rows_and_Columns_04.png)
 
-4.  **Place an image in a cell and resize the cell so the image is not distorted.**
-    1.  Create an image and make it occupy an entire cell:
+4.  **セルに画像を配置して、画像が歪まないようにセルのサイズを変更します。**
+    1.  画像を作成して、セル全体に収まるようにします。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
         var shape = new $.ig.excel.RectangleShape();
@@ -87,24 +87,24 @@ This walkthrough will show you a few ways to auto-size rows. In addition, you wi
 		
 		worksheet.shapes().add(shape);
         ```
-	![Displays the results of using the code listed above.](images/ExcelEngine_Resizing_Rows_and_Columns_05.png)
+	![](images/ExcelEngine_Resizing_Rows_and_Columns_05.png)
 
-	2.  Increase the height and width of the cell's row and column so the image is not distorted:
+	2.  画像が歪まないようにセルの行と列の幅と高さを増やします。
 	
-	    **In JavaScript:**
+	    **JavaScript の場合:**
 	
 		```
 		worksheet.rows(3).height(600);
 		worksheet.columns[3].width(10000);
 		```
 	
-		![Displays the results of using the code listed above.](images/ExcelEngine_Resizing_Rows_and_Columns_06.png)
+		![](images/ExcelEngine_Resizing_Rows_and_Columns_06.png)
 
-5.  **Save the workbook.**
+5.  **ワークブックを保存します。**
 
-    Write the workbook to a file:
+    ワークブックをファイルに書き出します。
 
-    **In JavaScript:**
+    **JavaScript の場合:**
 
     ```
 	workbook.save(function(data) { 

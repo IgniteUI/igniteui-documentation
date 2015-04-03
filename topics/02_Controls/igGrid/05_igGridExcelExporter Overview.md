@@ -8,33 +8,33 @@
 |metadata|
 -->
 
-# Grid Excel Exporter Overview
-The `igGridExcelExporter` component allows you to export data from the igGrid into a Microsoft Excel document. The export can support themes and workbook customization while reflecting data manipulated in the grid through features sorting, filtering, paging, etc. The following screenshot demonstrates what an exported igGrid looks like in Excel.
+# Grid Excel エクスポーターの概要
+`igGridExcelExporter` コンポーネントにより、igGrid から Microsoft Excel ドキュメントにデータをエクスポートできます。エクスポートは、テーマとワークブックのカスタマイズをサポートし、並べ替え、フィルタリング、ページングなどの機能によりグリッドで操作されたデータを反映します。以下のスクリーンショットは、エクスポートされた igGrid が Excel でどのように表示されるかを示しています。
 
 ![igGridExcelExporter](images/igGridExcelExporter.jpg "igGridExcelExporter") 
 
-The `igGridExcelExporter` includes the following characteristics:  
+`igGridExcelExporter` には以下の特徴があります。  
 
- - Overall theme support
- - Supports defining file name and worksheet name
- - Supports defining table style in Excel
- - Supports exporting of the `igGrid`’s `Filtering`, `Hiding`, `Paging`, `Sorting`, `Summaries`, `Column Fixing` and `Virtualization` features
- - Supports `igGrid`’s Header and Alternate Row Styles
- - Supports defining `igGrid` columns to be skipped
- - Provides callbacks (events) throughout the export process.
+ - 全体のテーマのサポート
+ - ファイル名とワークシート名の定義をサポート
+ - Excel での表スタイルの定義をサポート
+ - `igGrid` の`フィルタリング`、`非表示`、`ページング`、`並べ替え`、`集計`、`列固定` および `仮想化` の機能のエクスポートをサポート
+ - `igGrid` のヘッダーと代替行スタイルをサポート
+ - スキップする `igGrid` 列の定義をサポート
+ - エクスポート処理全体でコールバック (イベント) を提供
 
-## Required Background
-- [Ignite UI Overview](NetAdvantage-for-jQuery-Overview.html "Ignite UI Overview") - General information on the Ignite UI™ library.  
-- [igGrid Overview](igGrid-Overview.html "igGrid Overview") - General information on the `igGrid` control.
+## 前提条件
+- [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html) - Ignite UI™ ライブラリについての一般的情報。  
+- [igGrid の概要](igGrid-Overview.html) - `igGrid` コントロールについての一般的情報。
 
-## Dependencies
-The igGridExcelExporter is dependent upon the following open source libraries:
+## 依存関係
+igGridExcelExporter は以下のオープン ソース ライブラリに依存しています。
 
-- [FileSaver.js](https://github.com/eligrey/FileSaver.js/): A polyfill of the W3C `saveAs` specification
-- [Blob.js](https://github.com/eligrey/Blob.js/): A polyfill of the W3C [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob) interface
+- [FileSaver.js](https://github.com/eligrey/FileSaver.js/): W3C `saveAs` 仕様の polyfill
+- [Blob.js](https://github.com/eligrey/Blob.js/): W3C [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob) インターフェイスの polyfill
   
-## Using igGridExcelExporter with an igGrid
-You can export the entire contents of a grid by passing the instance of the grid to the exporter's `export` static method. 
+## igGrid での igGridExcelExporter の使用
+エクスポーターの `export` 静的メソッドにグリッドのインスタンスを渡すことにより、グリッドのコンテンツ全体をエクスポートできます。 
 
 ```javascript
 $.ig.GridExcelExporter.export($('#grid'), { 	
@@ -43,13 +43,13 @@ $.ig.GridExcelExporter.export($('#grid'), {
 	tableStyle: 'tableStyleLight13';
 });
 ```
-As you run the export you can specify the file name (in this case the final name is `igGrid.xlsx`), the work sheet name and table style. Table styles follow the [ECMA specification for Office Open XML](http://www.ecma-international.org/news/TC45_current_work/TC45_available_docs.htm) (see section on Table Style Definitions).
+エクスポートを実行するときに、ファイル名 (この場合、最終名は `igGrid.xlsx`)、ワークシート名および表スタイルを指定できます。表スタイルは [Office オープン XML の ECMA 仕様](http://www.ecma-international.org/news/TC45_current_work/TC45_available_docs.htm) に従います (表スタイル定義のセクション参照)。
 
-> **Note**: The only  required argument for the exporter is the instance of the grid. All other properties will fall back to defaults if you do not explicitly provide values.
+> **注:**: エクスポーターに対する唯一の必須引数はグリッドのインスタンスです。他のプロパティはすべて、明示的に値が提供されていない場合、デフォルトが使用されます。
 
-For more information on all the available properties of the exporter you can explore the [API documentation](%%jQueryApiUrl%%/ig.gridexcelexporter#overview).
+エクスポーターで使用可能なすべてのプロパティの詳細は、 [API ヘルプ](%%jQueryApiUrl%%/ig.gridexcelexporter#overview) を参照してください。
 
-### Full Page Sample
+### 完全なページ サンプル
 ```html
 <!doctype html>
 <html>
@@ -110,15 +110,15 @@ For more information on all the available properties of the exporter you can exp
 </html>
 ```
 
-## Related Content
+## 関連コンテンツ
 
-### Topics
-- [Using the JavaScript Excel Library](Using-the-JavaScript-Excel-Library.html)
-- [JavaScript Excel Library Overview](JavaScript-Excel-Library-Overview.html)
+### トピック
+- [JavaScript Excel ライブラリの使用](Using-the-JavaScript-Excel-Library.html)
+- [JavaScript Excel ライブラリの概要](JavaScript-Excel-Library-Overview.html)
 
-### <a id="samples"></a> Samples
+### <a id="samples"></a> サンプル
 
--   [Export Basic Grid to Excel](%%SamplesUrl%%/grid/export-basic-grid)
--   [Exporting Grid to Excel with Features](%%SamplesUrl%%/grid/export-feature-rich-grid)
--   [Customizing Grid Excel Export](%%SamplesUrl%%/grid/export-client-events)
--   [Exporting Grid to Excel with Progress Indicator](%%SamplesUrl%%/grid/export-grid-loading-indicator)
+-   [基本グリッドを Excel にエクスポート](%%SamplesUrl%%/grid/export-basic-grid)
+-   [機能とグリッドを Excel へエクスポート](%%SamplesUrl%%/grid/export-feature-rich-grid)
+-   [グリッド Excel エクスポートのカスタマイズ](%%SamplesUrl%%/grid/export-client-events)
+-   [進行状況インジケーターとグリッドを Excel へエクスポート](%%SamplesUrl%%/grid/export-grid-loading-indicator)

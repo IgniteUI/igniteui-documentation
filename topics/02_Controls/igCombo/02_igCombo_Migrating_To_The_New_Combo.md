@@ -8,178 +8,178 @@
 |metadata|
 -->
 
-# Migrating to the new combo
+# 新しいコンボへの移行
 
-## Topic overview
-This topic aims to help with migration from old combo to the new one. Different scenarios are viewed and how they were done before and how they can be done now.
+## トピックの概要
+このトピックは、古いコンボから新しいコンボへの移行を支援することを目的としています。以前に行っていたシナリオと現在行うことのできるシナリオを示します。
 
-### In this topic
-This topic contains the following sections:
+### このトピックの内容
+このトピックは、以下のセクションで構成されます。
 
-1. [General changes](#general_changes)
-2. [Options changes](#options_changes)
-3. [New options](#new_options)
-4. [API Methods changes](#methods_changes)
-5. [New API methods](#new_methods)
-6. [Event changes](#event_changes)
-7. [New events](#new_events)
-8. [Knockout Integration changes](#ko_changes)
-9. [Requirements](#requirements)
+1. [一般的な変更点](#general_changes)
+2. [オプションの変更点](#options_changes)
+3. [新しいオプション](#new_options)
+4. [API メソッドの変更点](#methods_changes)
+5. [新しい API メソッド](#new_methods)
+6. [イベントの変更点](#event_changes)
+7. [新しいイベント](#new_events)
+8. [Knockout 統合の変更点](#ko_changes)
+9. [要件](#requirements)
 
 <a name='general_changes'></a>
-### General changes
+### 一般的な変更点
 
-Option|Description
+オプション|説明
 ---|---
-Item|<a name='item'></a>Item is how we call the new structure that we use for representing the list items in the drop down list. It is an object with two properties - `element` and `data`. The `element` is the jQuery reference to the list item, while the `data` is the corresponding data from the data source behind this element. The `data` is a reference to the corresponding data item in the data source, it includes the `text` and `value` fields and if their property name is known they can be accessed by `item.data.textPropertyName` or `item.data.valuePropertyName`. In case where their property name is unknown or might change the same can be accessed by getting the property name directly from the combo : `item.data[$("#combo").igCombo("option", "valueKey")]` for value field and `item.data[$("#combo").igCombo("option", "textKey")]` for text field.
+項目|<a name='item'></a>項目は、ドロップダウン リストのリスト項目を表すために使用する新しい構造の呼び方です。項目は、`element` と `data` という 2 つのプロパティを持つオブジェクトです。`element` はリスト項目に対する jQuery 参照です。`data` はこの要素の背後にあるデータ ソースからの対応データです。`data` は、データ ソース内の対応するデータ項目に対する参照です。`text` フィールドと `value` フィールドを含み、そのプロパティ名が既知である場合、`item.data.textPropertyName` または `item.data.valuePropertyName` によりアクセスできます。プロパティ名が不明の場合や変更された可能性がある場合は、コンボから直接プロパティ名を取得することでアクセスできます。つまり、value フィールドについては `item.data[$("#combo").igCombo("option", "valueKey")]`、text フィールドについては `item.data[$("#combo").igCombo("option", "textKey")]` です。
 
 <a name='options_changes'></a>
-### Options changes
+### オプションの変更点
 
-Option| Previously| Now
+オプション|以前|現在
 ---|---|---
-width|$(‘#combo’).igCombo({ width: 300 })| The default width is set through css. The recommended way to set new combo width is `<style>.ui-igcombo-wrapper { width: 300px } </style>`. Old way is also supported.
-height|$(‘#combo’).igCombo({ height: 300 })| The default height  is set through css. The recommended way to set new combo height is `<style>.ui-igcombo-wrapper { height: 300px } </style>`. Old way is also supported.
-enableDisplayBlock|$(‘#combo’).igCombo({ enableDisplayBlock: true})|This option is removed. Now this can be controlled through css: `<style>.ui-igcombo-wrapper { display: block }</style>`
-mode| Previously supported values: `editable, dropdown, readonlylist, readonly, 0, 1, 2, 3`.| Now supported values are: `editable, dropdown, readonlylist, readonly`. Drop down mode now closely mimics the html select element behavior, this means that when selection is single there will be always a selected item and clear button will be disabled by default.
-renderMatchItems|-|This option is renamed to `highlightMatchesMode` to better communicate what it does.
-filteringType|`filteringType` default is `'none'`| Now `filteringType` default is `'local'`, so local filtering will be enabled by default. To disable filtering when initializing combo: `$('#combo').igCombo({ filteringType: 'none' })` or if combo is already created use `$('#combo').igCombo('option', 'filteringType', 'none' })`.
-selectedItems| Used to specify initial selected items and to set/get selected items after combo is created. | This option is removed. Initial selected items can be set using new option [initialSelectedItems](#initialSelectedItems). Setting selection is done through combo API methods: [value](#value), [select](#select) or [index](#index). Getting selected items can be done through API method [selectedItems](#selectedItems).
-multiSelection|Previously supported values: `null, false, 0, off, true, 1, on, 2, onWithCheckboxes'`|<a name='multiSelection'></a>Now this option is used to setup all multiple selection settings. Object with following settings can be provided: `enabled, addWithKeyModifier, showCheckboxes, itemSeparator`. Set `enabled` to `true` to enable multiple selection. Set addWithKeyModifier to `true` to require holding `ctrl` key to add the item to already selected items, by default all selections are additive without holding `ctrl`. Set `showCheckboxes` to `true` to render check-boxes in front of each list item. Set `itemSeparator` to change what string is rendered between the selected items, the default string is ', '. Example with all settings: `$('#combo').igCombo({ multiSelection: { enabled: true, addWithKeyModifier: true, showCheckboxes: true, itemSeparator: ', ' } })`
-itemSeparator|Used to change what string is rendered between the selected items.|This option is removed and added as setting of [multiSelection](#multiSelection) option
-enableActiveItem|Used to enable/disable the active item when navigating with keyboard.| This option is removed. The active item is removed when selection is single and navigating with keyboard will change the selection. The active item is always enabled when multiple selection is enabled. 
-dropDownMaxHeight dropDownMinHeight|Used to set drop down list max and min height.|These options are removed. New option [visibleItemsCount](#visibleItemsCount) is added to control the drop down height.
-dropDownAsChild|Used to render the drop down list as child of the combo element.| Renamed to `dropDownAttachedToBody`. Default value is `true`. Set to `false` to render the drop down as a child: `$('#combo').igCombo({ dropDownAttachedToBody: false })`
-showDropDownButton|Used to control the visibility of the drop down button|This option is removed. The visibility of the drop down button can be controlled through css. To disable the drop down button: `<style>.ui-igcombo-button { display: none; }</style>`
-nullText|Used to specify what text is shown in text input when it is empty.| Renamed to `placeHolder`. It is a known issue that this option does not work for IE8/9.
-closeDropDownOnSelect|Used to specify whether the drop down should close when selection is made.|Changed to specify whether to close the drop down list when single item in the list is selected with mouse click or enter press. Default is `false` for single selection and `true` for multiple selection. This option will not close the drop down when multiple selection is enabled and additive selection is performed. `$('#combo').igCombo({ closeDropDownOnSelect: false })`
-autoComplete|Used to automatically complete the text in input field to the first matching item from the drop down list. |Option is not yet supported*.
-headerTemplate footerTemplate|Used to specify header/footer templates.|Options are not yet supported*.
-allowCustomValues|Used to allow custom values in combo's text input.|This option is not supported.
-dataBindOnOpen|Used to delay data binding to when the drop down is opened.|This option is not supported. The same functionality can be achieved by canceling the data binding event and data bind when the drop down list is first opened.
-text|Used to set custom text in combo input on initialization|This option is not supported. To set initial selection use option [initialSelectedItems](#initialSelectedItems).
-clearSelectionOnBlur|Used to preserve selected items on blur when the text input didn't match the selected items text. Was used mainly with `allowCustomValues` option.| This option is not supported, because `allowCustomValues` is also not supported.
-valueKeyType textKeyType|Used to specify the data type behind the value/text data|These options are not supported. The type of value and text fields from the data source will be used.
-parentCombo cascadingDataSources parentComboKey|Used to setup cascading functionality|These options are not supported. Internal cascading functionality is no longer supported. It can be achieved through changing related combo data sources on current combo's selection changed event. [See sample](%%SamplesUrl%%/combo/cascading-combos)
+width|$(‘#combo’).igCombo({ width: 300 })|デフォルトの幅は css により設定されます。新しいコンボ幅を設定する推奨方法は、`<style>.ui-igcombo-wrapper { width: 300px } </style>` です。古い方法もサポートされます。
+height|$(‘#combo’).igCombo({ height: 300 })|デフォルトの高さは css により設定されます。新しいコンボの高さを設定する推奨方法は、`<style>.ui-igcombo-wrapper { height: 300px } </style>` です。古い方法もサポートされます。
+enableDisplayBlock|$(‘#combo’).igCombo({ enableDisplayBlock: true})|このオプションは削除されました。現在、これは css により制御できます: `<style>.ui-igcombo-wrapper { display: block }</style>`
+mode|以前にサポートされていた値: `editable, dropdown, readonlylist, readonly, 0, 1, 2, 3`。|現在サポートされる値: `editable, dropdown, readonlylist, readonly`。ドロップダウン モードは、現在、html の要素選択動作に非常に似ています。選択が単一である場合、常に選択された項目が存在し、クリア ボタンはデフォルトで無効になります。
+renderMatchItems|-|このオプションの名前は、その動作そのものを表すために、`highlightMatchesMode` に変更されました。
+filteringType|`filteringType` のデフォルトは `'none'`|現在、`filteringType` のデフォルトは`'local'` であるため、デフォルトでローカル フィルタリングが有効にされます。コンボの初期化時にフィルタリングを無効にするには `$('#combo').igCombo({ filteringType: 'none' })`、またはコンボがすでに作成されている場合には `$('#combo').igCombo('option', 'filteringType', 'none' })` を使用します。
+selectedItems|最初に選択される項目の指定、およびコンボが作成された後に選択された項目の設定または取得のために使用されていました。|このオプションは削除されました。最初に選択される項目は、新しいオプション [initialSelectedItems](#initialSelectedItems) を使用して設定できます。設定の選択は、コンボ API メソッド [value](#value)、 [select](#select) または [index](#index) により行われます。選択された項目の取得は、API メソッド [selectedItems](#selectedItems) により行うことができます。
+multiSelection|以前にサポートされていた値: `null、false、0、off、true、1、on、2、onWithCheckboxes'`|<a name='multiSelection'></a>現在、このオプションはすべての複数選択設定をセットアップするために使用されます。以下の設定を持つオブジェクトを提供できます: `enabled、addWithKeyModifier、showCheckboxes、itemSeparator`。複数選択を有効にするには、`enabled` を `true` に設定します。すでに選択された項目に項目を追加する場合に、`ctrl` キーを押し続けるようにするには、addWithKeyModifier を `true` に設定します。デフォルトでは、すべての選択は `ctrl` キーを押さなずに追加できます。各リスト項目の前にチェックボックスを描画するには、`showCheckboxes` を `true` に設定します。選択された項目の間に描画する文字を変更するには、`itemSeparator` を設定します。デフォルトの文字は「,」です。すべてを設定した例: `$('#combo').igCombo({ multiSelection: { enabled: true, addWithKeyModifier: true, showCheckboxes: true, itemSeparator: ', ' } })`
+itemSeparator|選択された項目の間に描画する文字を変更するために使用されていました。|このオプションは削除され、[multiSelection](#multiSelection) オプションの設定として追加されました。
+enableActiveItem|キーボードによるナビゲーション時にアクティブな項目を有効または無効にするために使用されていました。|このオプションは削除されました。選択が単一である場合、アクティブ項目は削除され、キーボードによるナビゲーションで選択を変更します。アクティブ項目は、複数選択が有効な場合は常に有効です。 
+dropDownMaxHeight dropDownMinHeight|ドロップダウン リストの最大と最初の高さを設定するために使用されていました。|これらのオプションは削除されました。新しいオプション [visibleItemsCount](#visibleItemsCount) がドロップダウンの高さを制御するために追加されています。
+dropDownAsChild|コンボ要素の子としてドロップダウン リストを描画するために使用されていました。|`dropDownAttachedToBody` に名前変更されました。デフォルト値は `true` です。ドロップダウンを子として描画するには `false` に設定します: `$('#combo').igCombo({ dropDownAttachedToBody: false })`
+showDropDownButton|ドロップダウン ボタンの表示状態を制御するために使用されていました。|このオプションは削除されました。ドロップダウン ボタンの表示状態は、css により制御できます。ドロップダウン ボタンを無効にするには: `<style>.ui-igcombo-button { display: none; }</style>`
+nullText|テキスト入力が空の場合に表示するテキストを指定するために使用されていました。|`placeHolder` に名前変更されました。既知の問題ですが、このオプションは IE8/9 では機能しません。
+closeDropDownOnSelect|選択されたときにドロップダウンを閉じるかどうかを指定するために使用されていました。|マウス クリックで、またはエンター キーを押して、リストで単一項目が選択された場合に、ドロップダウン リストを閉じるかどうかを指定するように変更されました。デフォルトは、単一選択に対しては `false`、複数選択に対しては `true` です。このオプションは、複数選択が有効で、追加選択が実行された場合、ドロップダウンを閉じません。`$('#combo').igCombo({ closeDropDownOnSelect: false })`
+autoComplete|入力フィールドのテキストをドロップダウン リストの最初に一致する項目でオートコンプリートするために使用されていました。|このオプションはまだサポートされていません*。
+headerTemplate footerTemplate|ヘッダー / フッター テンプレートを指定するために使用されていました。|このオプションはまだサポートされていません*。
+allowCustomValues|コンボのテキスト入力でカスタム値を許可するために使用されていました。|このオプションはサポートされていません。
+dataBindOnOpen|ドロップダウンが開かれる際にデータ バインディングを延期するために使用されていました。|このオプションはサポートされていません。同じ機能性は、ドロップダウン リストが最初に開かれる際に、データ バインディング イベントとデータ バインドをキャンセルすることにより実現できます。
+text|初期化時にコンボ入力にカスタム テキストを設定するために使用されていました。|このオプションはサポートされていません。初期選択を設定するには、オプション [initialSelectedItems](#initialSelectedItems) を使用します。
+clearSelectionOnBlur|テキスト入力が選択された項目テキストと一致しなかった場合に、選択された項目をぼかして保持するために使用されていました。主に `allowCustomValues` オプションとともに使用されていました。|`allowCustomValues` がサポートされなくなったため、このオプションもサポートされません。
+valueKeyType textKeyType|value / text データの背後のデータ型を指定するために使用されていました。|これらのオプションはサポートされていません。データ ソースからの value フィールドと text フィールドの型が使用されます。
+parentCombo cascadingDataSources parentComboKey|カスケード機能をセットアップするために使用されていました。|これらのオプションはサポートされていません。内部カスケード機能はサポートされなくなりました。これは、現在のコンボの選択変更イベントで関係するコンボ データ ソースを変更することで実現できます。[サンプル参照](%%SamplesUrl%%/combo/cascading-combos)
 
-*We tried hard to ensure behavioral parity between the old and new combo, but some things we could not complete for 15.1. If these behaviors are crucial to your solution, and you want to upgrade to 15.1, please contact us. We can provide a 15.1 build of the current combo to customers who cannot yet use the new combo. 
+*古いコンボと新しいコンボ間での動作の等価性の保証は、15.1 で一部が達成されていません。これらの動作はお客様のソリューションにとって重要です。15.1 へのアップグレードを希望する場合は、弊社にお問い合わせください。まだ新しいコンボを使用できないお客様には、現在のコンボの 15.1 ビルドを提供できます。 
 
 <a name='new_options'></a>
-### New options
+### 新しいオプション
 
-Option| Description
+オプション|説明
 ---|---
-initialSelectedItems|<a name='initialSelectedItems'></a>Use to set what items should be selected when combo is initially created, by specifying the selected item index or value: `$('#combo').igCombo({ initialSelectedItems: [{ index: 2 }, { index: 5 }, { value: 'items_value' }] })`.
-visibleItemsCount|<a name='visibleItemsCount'></a>This option can be used to control the maximum number of items that can be visible at a time. When it is set to 10 and there are 20 items in the list, only 10 will be shown at a time. When there are 5 items in the list only the 5 will be shown and drop down height will be as much as required for the 5 items. Default value is 15. `$('#combo').igCombo({ visibleItemsCount: 10 })`
-autoSelectFirstMatch|Specifies whether the first list item starting with the entered in the input text should be automatically selected. When multiple selection is enabled this option will instead put the active item on the matching element. When disabled only full matches will be automatically selected. By default it is set to true. To disable it: `$('#combo').igCombo({ autoSelectFirstMatch: false })`
-delayFilteringOnKeyUp|Specifies the delay duration before triggering next filtering operation. Useful to boost performance by lowering the filtering operations count. Default is 250 ms. To change it: `$('#combo').igCombo({ delayFilteringOnKeyUp: 1000 })`
-preventSubmitOnEnter|Specifies whether to prevent default form submitting on enter key press. Default is true. To disable it: `$('#combo').igCombo({ preventSubmitOnEnter: false })`
+initialSelectedItems|<a name='initialSelectedItems'></a>選択される項目のインデックスまたは値を指定することで、最初にコンボを作成する際に選択が必要な項目の設定に使用: `$('#combo').igCombo({ initialSelectedItems: [{ index: 2 }, { index: 5 }, { value: 'items_value' }] })`。
+visibleItemsCount|<a name='visibleItemsCount'></a>このオプションは、一度に表示できる項目の最大数を制御するために使用できます。これが 10 に設定され、リストに 20 項目ある場合、一度に 10 項目のみが表示されます。5 項目のみがリストにある場合は 5 項目のみが表示され、ドロップダウンの高さは 5 項目分の高さになります。デフォルト値は 15 です。`$('#combo').igCombo({ visibleItemsCount: 10 })`
+autoSelectFirstMatch|入力されたテキストで始まる最初のリスト項目を自動的に選択するかどうかを指定します。複数選択が有効な場合、このオプションは一致する要素にアクティブ項目を置きます。無効な場合、完全一致のみが自動的に選択されます。デフォルトでは true に設定されています。無効にするには: `$('#combo').igCombo({ autoSelectFirstMatch: false })`
+delayFilteringOnKeyUp|次のフィルタリング操作をトリガーするまでの遅延時間を指定します。フィルタリング操作回数を少なくすることで、パフォーマンス向上に役立ちます。デフォルトは 250 ミリ秒です。変更するには: `$('#combo').igCombo({ delayFilteringOnKeyUp: 1000 })`
+preventSubmitOnEnter|エンター キーが押された場合にデフォルト フォームの送信を行わないかどうかを指定します。デフォルトは true です。無効にするには: `$('#combo').igCombo({ preventSubmitOnEnter: false })`
 
-[See all options](%%jQueryApiUrl%%/ui.igcombo#options)
+[すべてのオプションを参照](%%jQueryApiUrl%%/ui.igcombo#options)
 
 <a name='methods_changes'></a>
-### API Methods changes
+### API メソッドの変更点
 
-Method| Previously| Now
+メソッド|以前|現在
 ---|---|---
-dropDownVisible|Used to control visibility of the drop down list|This API method is removed. Use [openDropDown](#openDropDown) to open the drop down list and [closeDropDown](#closeDropDown) to close the drop down list
-setFocus|Used to set focus to combo text input.|This API method is removed. Focus on the text input can be set by calling  jQuery `focus` method on the input: `$("#combo").igCombo("textInput").focus()`
-hasFocus|Used to check whether combo text input has focus.|This API method is removed. To check whether the text input has focus jQuery `is(":focus")` can be used: `$("#combo").igCombo("textInput").is(':focus').`
-isSelected|Used to check whether list item at specified index is selected.|There are three API methods that check whether an item is selected: [isSelected](#isSelected) by jQuery reference, [isIndexSelected](#isIndexSelected) by index and [isValueSelected](#isValueSelected) by value.
-selectedIndex|Used to get index of the first selected item or set the selection by index.|This API method was renamed to [index](#index). This method also accepts array of indexes to select multiple items at once. When multiple items are selected it will return array with all selected indexes. The rest of the functionality is the same.
-value|Used to get value of the first selected item or set the selection by value.|This method also accepts array of values to select multiple items at once. When multiple items are selected this method will return array with all selected values. The rest of the functionality is the same.
-values|Used to get values of all selected items or set the selection by values.|This API method is removed. Its functionality was merged into `value` method. 
-itemByIndex|Used to get object with members relative to the list item at specific index. Used to return object with `{ element, index, value, text }`.|This API method is renamed to `itemFromIndex`. The object returned is [item](#item).
-itemByValue|Used to get object with members relative to the list item with specific value. Used to return object with `{ element, index, value, text }`.|This API method is renamed to `itemFromValue`. The object returned is [item](#item).
-getDataSource|Used to get reference to data source used by combo.|This API method is removed. Reference to the data source can be get through `$("#combo").igCombo("option", "dataSource")`
-getData|Used to get reference to current data used by combo.|This API method is removed. Reference to the current data can be get through `$("#combo").igCombo("option", "dataSource").dataView()`
-getRecordsCount|Used to get records count in dataSource, dataView or total server data.|This API method is removed. To get records count in dataSource use: `$("#combo").igCombo("option", "dataSource").data().length`. To get records count in dataView use: `$("#combo").igCombo("option", "dataSource").dataView().length`. To get records count in total server data use: `$('#combo').igCombo('option', 'dataSource').totalRecordsCount()`
-filter|Method parameters used to be `event, filterText, noFilter` | Method parameters changed to `filterText, event`
-remove|Used to remove the combo from its parent element while keeping rest of the functionality.|This API method is not supported.
-getFooter|Used to get reference to combo footer.|This API method is not supported, as there is no footer yet.
+dropDownVisible|ドロップダウン リストの表示状態を制御するために使用されていました。|この API メソッドは削除されました。ドロップダウン リストを開くには [openDropDown](#openDropDown)、ドロップダウン リストを閉じるには [closeDropDown](#closeDropDown) を使用してください。
+setFocus|コンボ テキスト入力にフォーカスを設定するために使用されていました。|この API メソッドは削除されました。テキスト入力にフォーカスを設定するには、入力で jQuery `focus` メソッドを呼び出します: `$("#combo").igCombo("textInput").focus()`
+hasFocus|コンボ テキスト入力にフォーカスがあるかどうかをチェックするために使用されていました。|この API メソッドは削除されました。テキスト入力にフォーカスがあるかどうかチェックするには、jQuery `is(":focus")` を使用します: `$("#combo").igCombo("textInput").is(':focus').`
+isSelected|指定されたインデックスのリスト項目が選択されているかどうかをチェックするために使用されていました。|項目の選択をチェックする API メソッドは 3 つあります。jQuery 参照による[isSelected](#isSelected)、インデックスによる [isIndexSelected](#isIndexSelected)、値による [isValueSelected](#isValueSelected) です。
+selectedIndex|最初に選択された項目のインデックスを取得するため、またはインデックスによる選択を設定するために使用されていました。|この API メソッドは [index](#index) に名前変更されました。このメソッドは、インデックスの配列も受け入れ、一度に複数の項目を選択できます。複数の項目が選択された場合、選択されたすべてのインデックスを持つ配列を返します。その他の機能は同じです。
+value|最初に選択された項目の値を取得するため、または値による選択を設定するために使用されていました。|このメソッドは値の配列も受け入れ、一度に複数の項目を選択できます。複数の項目が選択された場合、このメソッドは選択されたすべての値を持つ配列を返します。その他の機能は同じです。
+values|選択されたすべての項目の値を取得するため、または値による選択を設定するために使用されていました。|この API メソッドは削除されました。この機能は `value` メソッドに統合されました。 
+itemByIndex|特定のインデックスのリスト項目に関係するメンバーを持つオブジェクトを取得するために使用されていました。`{ element, index, value, text }` のオブジェクトを返すために使用されていました。|この API メソッドは `itemFromIndex` に名前変更されました。返されるオブジェクトは [item](#item) です。
+itemByValue|特定の値のリスト項目に関係するメンバーを持つオブジェクトを取得するために使用されていました。`{ element, index, value, text }` のオブジェクトを返すために使用されていました。|この API メソッドは `itemFromValue` に名前変更されました。返されるオブジェクトは [item](#item) です。
+getDataSource|コンボにより使用されるデータ ソースへの参照を取得するために使用されていました。|この API メソッドは削除されました。データ ソースへの参照は、`$("#combo").igCombo("option", "dataSource")` により取得できます。
+getData|コンボにより使用される現在のデータへの参照を取得するために使用されていました。|この API メソッドは削除されました。現在のデータへの参照は、 `$("#combo").igCombo("option", "dataSource").dataView()` により取得できます。
+getRecordsCount|dataSource、dataView、または全サーバー データのレコード数を取得するために使用されていました。|この API メソッドは削除されました。dataSource のレコード数を取得するには: `$("#combo").igCombo("option", "dataSource").data().length`。dataView のレコード数を取得するには: `$("#combo").igCombo("option", "dataSource").dataView().length`。全サーバー データのレコード数を取得するには: `$('#combo').igCombo('option', 'dataSource').totalRecordsCount()`。
+filter|`event, filterText, noFilter` のメソッド パラメーターが使用されていました。|メソッド パラメーターは `filterText, event` に変更されました。
+remove|他の機能は残しながら、親要素からコンボを削除するために使用されていました。|この API メソッドはサポートされていません。
+getFooter|コンボ フッターへの参照を取得するために使用されていました。|まだフッターがないため、この API メソッドはサポートされていません。
 
 <a name='new_methods'></a>
-### New API Methods
+### 新しい API メソッド
 
-Method|Description
+メソッド|説明
 ---|---
-openDropDown|<a name='openDropDown'></a>Use this method to open the drop down list.
-closeDropDown|<a name='closeDropDown'></a>Use this method to close the drop down list.
-select|<a name='select'></a>Use to select one or more list items by passing the items jQuery reference: `$('#combo').igCombo('select', $('.itemSelector'))`
-value|<a name='value'></a>Use to select one or more list items by value: `$('#combo').igCombo('value', 'itemValue')` to select single item or `$('#combo').igCombo('value', ['itemValue_1', 'itemValue_2', 'itemValue_3'])` to select multiple items at once. Calling this method without parameters will return the selected values.
-index|<a name='index'></a>Use to select one or more list items by their index in the data source: `$('#combo').igCombo('index', 5)` to select single item or `$('#combo').igCombo('index', [3, 5, 8, 10])` to select multiple items. Calling this method without parameters will return the selected indexes.
-isSelected|<a name='isSelected'></a>Use to check whether specific jQuery element is selected. `$('#combo').igCombo('isSelected', $('.selector'))`
-isIndexSelected|<a name='isIndexSelected'></a>Use to check whether item at specific index is selected. `$('#combo').igCombo('isIndexSelected', 5)`
-isValueSelected|<a name='isValueSelected'></a>Use to check whether item with specific value is selected. $('#combo').igCombo('isValueSelected', 'itemValue')
-dataForValue|Gets the associated data source data of an list item by value matching it's valueKey property. `$('#combo').igCombo('dataForValue', 'itemValue')`
-dataForElement|Gets the associated data source data of list item in the combo by its jQuery reference. `$('#combo').igCombo('dataForElement', $('.listItemSelector'))`
-itemsFromElement|Gets [item](#item) represening li element in the combo by its jQuery element. When multiple elements are given the method will return array with items. `$('#combo').igCombo('itemsFromElement', $('.listItemSelector'))`
-itemsFromValue|Gets [item](#item) representing li element in the combo by its value. When array of values are given the method will return array with items. `$('#combo').igCombo('itemsFromValue', 'itemValue')`
-itemsFromIndex|Gets <a href='#item'>item</a> representing li element in the combo by its index. When array of indexes are given the method will return array with items. `$('#combo').igCombo('itemsFromIndex', 3)`
-items|Gets array with all <a href='#item'>items</a> in the combo.
-filteredItems|Gets array with all filtered [items](#item) in the combo.
-selectedItems|<a name='selectedItems'></a> Gets the selected [item](#item). When multiple items are selected will return array with the selected [items](#item).
-listItems|Gets jQuery reference to all rendered list items in the combo drop down lsit
-clearFiltering|Clears the filtering
-clearInput|Clears text input value and removes all selection, filtering and highlighting.
-selectAll|Selects all list items
-deselect|Deselects list item by jQuery reference
-deselectByValue|Deselects list item with specific value
-deselectByIndex|Deselects list item at specific index
-deselectAll|Deselects all selected list items
-comboWrapper|Gets jQuery reference to the outer element of the combo
-dropDown|Gets jQuery reference to the drop down list of the combo
-textInput|Gets jQuery reference to the text input of the combo
-valueInput|Gets jQuery reference to the value input of the combo
-dropDownOpened|Checks whether the drop down is opened
+openDropDown|<a name='openDropDown'></a>ドロップダウン リストを開くには、このメソッドを使用します。
+closeDropDown|<a name='closeDropDown'></a>ドロップダウン リストを閉じるには、このメソッドを使用します。
+select|<a name='select'></a>項目の jQuery 参照に渡すことにより、1 つまたは複数のリスト項目を選択するために使用します。`$('#combo').igCombo('select', $('.itemSelector'))`
+value|<a name='value'></a>値により、1 つまたは複数のリスト項目を選択するために使用します。単一項目を選択するには `$('#combo').igCombo('value', 'itemValue')`、一度に複数項目を選択するには `$('#combo').igCombo('value', ['itemValue_1', 'itemValue_2', 'itemValue_3'])`。パラメーターを指定せずにこのメソッドを呼び出すと、選択された値が返されます。
+index|<a name='index'></a>データ ソースのインデックスにより、1 つまたは複数のリスト項目を選択するために使用します。単一項目を選択するには `$('#combo').igCombo('index', 5)`、複数の項目を選択するには `$('#combo').igCombo('index', [3, 5, 8, 10])`。パラメーターを指定せずにこのメソッドを呼び出すと、選択されたインデックスが返されます。
+isSelected|<a name='isSelected'></a>特定の jQuery 要素が選択されているかどうかをチェックするために使用します。`$('#combo').igCombo('isSelected', $('.selector'))`
+isIndexSelected|<a name='isIndexSelected'></a>特定のインデックスの項目が選択されているかどうかをチェックするために使用します。`$('#combo').igCombo('isIndexSelected', 5)`
+isValueSelected|<a name='isValueSelected'></a>特定の値を持つ項目が選択されているかどうかをチェックするために使用します。$('#combo').igCombo('isValueSelected', 'itemValue')
+dataForValue|valueKey プロパティと一致する値により、リスト項目の関連付けられたデータ ソース データを取得します。`$('#combo').igCombo('dataForValue', 'itemValue')`
+dataForElement|jQuery 参照により、リスト項目の関連付けられたデータ ソース データを取得します。`$('#combo').igCombo('dataForElement', $('.listItemSelector'))`
+itemsFromElement|jQuery 要素により、コンボのリスト項目要素を表す[項目](#item)を取得します。メソッドに複数の要素が与えられた場合、項目を持つ配列が返されます。`$('#combo').igCombo('itemsFromElement', $('.listItemSelector'))`
+itemsFromValue|値により、コンボのリスト項目要素を表す[項目](#item)を取得します。メソッドに値の配列が与えられた場合、項目を持つ配列が返されます。`$('#combo').igCombo('itemsFromValue', 'itemValue')`
+itemsFromIndex|インデックスより、コンボのリスト項目要素を表す<a href='#item'>項目</a>を取得します。メソッドにインデックスの配列が与えられた場合、項目を持つ配列が返されます。`$('#combo').igCombo('itemsFromIndex', 3)`
+items|コンボのすべての<a href='#item'>項目</a>を持つ配列を取得します。
+filteredItems|コンボでフィルター処理されたすべての[項目](#item)を持つ配列を取得します。
+selectedItems|<a name='selectedItems'></a>選択された[項目](#item)を取得します。複数の項目が選択されている場合、選択された[項目](#item)を持つ配列が返されます。
+listItems|コンボ ドロップダウン リストで描画されたすべてのリスト項目に対する jQuery 参照を取得します。
+clearFiltering|フィルタリングをクリアします。
+clearInput|テキスト入力値を消去し、すべての選択、フィルタリング、強調表示を削除します。
+selectAll|すべてのリスト項目を選択します。
+deselect|jQuery 参照によりリスト項目を選択解除します。
+deselectByValue|特定の値のリスト項目を選択解除します。
+deselectByIndex|特定のインデックスのリスト項目を選択解除します。
+deselectAll|選択されたすべてのリスト項目を選択解除します。
+comboWrapper|コンボのアウター要素に対する jQuery 参照を取得します。
+dropDown|コンボのドロップダウン リストに対する jQuery 参照を取得します。
+textInput|コンボのテキスト入力に対する jQuery 参照を取得します。
+valueInput|コンボの値入力に対する jQuery 参照を取得します。
+dropDownOpened|ドロップダウンが開いているかどうかをチェックします。
 
-[See all API methods](%%jQueryApiUrl%%/ui.igcombo#methods)
+[すべての API メソッドを参照](%%jQueryApiUrl%%/ui.igcombo#methods)
 
 <a name='event_changes'></a>
-### Event changes
+### イベントの変更点
 
-Event|Changes
+イベント|変更点
 ---|---
-selectionChanging|Event argument ui.oldItems renamed to ui.currentItems to better communicate that these items are still the current selected as the selection change hasn't still happened. Items are in [item](#item) format.
-selectionChanged|Items are in [item](#item) format.
-dropDownOpening dropDownOpened dropDownClosing dropDownClosed|Event argument ui.element renamed to ui.list to communicate better that this is the drop down list.
-textChanged|This event was removed. To check when the text has changed bind to combo text input keydown event.
-noMatchFound|This event was removed as the `autoComplete` feature is not yet supported.
-activeItemChanging activeItemChanged|These events were removed.
+selectionChanging|イベント引数 ui.oldItems は ui.currentItems に名前変更され、選択変更がされずに、現在その項目の選択が継続していることをより明確に表すようになりました。項目は [item](#item) 形式です。
+selectionChanged|項目は [item](#item) 形式です。
+dropDownOpening dropDownOpened dropDownClosing dropDownClosed|イベント引数 ui.element は ui.list に名前変更され、これがドロップダウン リストであることをより明確に表すようになりました。
+textChanged|このイベントは削除されました。テキストの変更時点をチェックするには、コンボをテキスト入力キーダウン イベントにバインドします。
+noMatchFound|`autoComplete` 機能がまだサポートされていないため、このイベントは削除されました。
+activeItemChanging activeItemChanged|これらのイベントは削除されました。
 
 <a name='new_events'></a>
-### New events
+### 新しいイベント
 
-Event|Description
+イベント|説明
 ---|---
-rendered|Event raised when rendering of combo is completed.
-itemsRendering|Event which is raised before rendering of the combo items is performed.
-itemsRendered|Event which is raised after rendering of the combo items completes. Function callback is passed argument `ui.items` that is array of [items](#item) representing the rendered list item elements.
+rendered|コンボのレンダリングが完了したときに発生するイベント。
+itemsRendering|コンボ項目のレンダリングが実行される前に発生するイベント。
+itemsRendered|コンボ項目のレンダリングが完了した後に発生するイベント。関数 callback は、描画されたリスト項目要素を表す[項目](#item)の配列である引数 `ui.items` に渡されます。
 
-[See all events](%%jQueryApiUrl%%/ui.igcombo#events)
+[すべてのイベントを参照](%%jQueryApiUrl%%/ui.igcombo#events)
 
 <a name='ko_changes'></a>
-###Knockout Integration changes
-One of the changes, introduced with the new `igCombo` control, is the one that the combo is considered as control that accepts values only from its list. There isn't an option to allow custom values in the `igCombo`, as it was in the old one, which leads to a need for a different work process in the Knockout extension. This means that the only time, when the `igCombo` can notify the View-Model about a change, is when an item is selected/deselected and the selected items collection is changed. In such cases, some of the old Knockout extension options are not necessary anymore and some other need to be introduced. The following changes have been made to integrate the `igCombo` with its Knockout extension.
+###Knockout 統合の変更点
+コンボをリストからのみ値を受け入れるコントロールと考えることが、新しい `igCombo` コントロールに導入された変更点の 1 つです。`igCombo` にはカスタム値を許可するオプションはありません。以前は、Knockout 拡張機能での異なる作業プロセスのためにカスタム値が必要でした。すなわち、`igCombo` が変更について View-Model に通知できるのは、項目が選択 / 選択解除されるとき、および選択された項目コレクションが変更されるときのみです。したがって、古い Knockout 拡張オプションの一部が必要なくなり、必要ないくつかのオプションが導入されました。`igCombo` を Knockout 拡張機能と統合するために、以下の変更が行われました。 
 
-####New options
+####新しいオプション
 
-Option| Description 
+オプション|説明 
 ---|---
-selectedItems| Array of the selected items in the `igCombo`. When configured in the View-model, this ensures that there is a data exchange between the combo selected items and the View-Model.
-selectedItemType| Allows configuring the type of the selected items in the array, either to be "primitive" or "object". 
+selectedItems|`igCombo` で選択された項目の配列。View-Model でこのオプションが構成されている場合、コンボで選択された項目と View-Model との間のデータ交換があることを保証します。
+selectedItemType|配列での選択項目の型を "primitive" または "object" として構成できます。 
 
-####Removed options
+####削除されたオプション
 
-Option| Description 
+オプション|説明 
 ---|---
-text| The combo cannot anymore update the View-model, when a change in its input occurs. <br> If, with the old `igCombo`, you had a View-model property that holds the combo value and it got updated and notified other subscribers, then because such an option doesn't exist in the `igCombo` Knockout extension anymore, the `selectionChanged` event handler can be used to take current combo value and notify the subscribers. The code snippets below the table, demonstrate how the old functionality can be simulated. 
-value| This option is not needed, because the newly introduced `selectedItems` option is used, when you want to select item by its value.
-enableTextChangedUpdate| The `igCombo` doesn't have `textChanged` event, and therefore we cannot have such a functionality.
-enableSelectionChangedUpdate| With the new changes, the update always happens on selection change of the combo, that's why such an option is not necessary.
-cascadingDataSource| The `igCombo` control doesn't contain such an option, that's why it also cannot be used in the Knockout extension.
+text|入力の変更が発生した場合、コンボは View-Model を更新できません。<br>古い `igCombo` では、コンボ値を保持する View-Model プロパティがあり、更新されると他のサブスクライバーに通知されていました。`igCombo` の Knockout 拡張機能にはそのようなオプションは存在しなくなったため、`selectionChanged` イベント ハンドラーを使用して現在のコンボ値を取得し、サブスクライバーに通知できます。以下の表のコード スニペットで、古い機能をシミュレートする方法を示します。 
+value|値により項目を選択する場合、新たに導入された `selectedItems` オプションが使用されるため、このオプションは必要なくなりました。
+enableTextChangedUpdate|`igCombo` には `textChanged` イベントがないため、このような機能を持つことはできません。
+enableSelectionChangedUpdate|新しい変更では、更新は常にコンボの選択変更時に発生します。それがこのようなオプションが不要になった理由です。
+cascadingDataSource|`igCombo` コントロールにはこのようなオプションはありません。それが Knockout 拡張機能でも使用できない理由です。
 
-**Before**
+**前**
 ```html
 <script type="text/javascript">
 var model = [
@@ -199,7 +199,7 @@ var viewModel = new ViewModel(model);
 }"></span>
 ```
 
-**Now**
+**現在**
 ```html
 <script type="text/javascript">
 var model = [
@@ -224,12 +224,12 @@ var viewModel = new ViewModel(model);
 }"></span>
 ```
 
->**Note:** This will only work, when there is a change from the `igCombo` to the View-Model. 
+>**注:** これは、`igCombo` から View-Model への変更がある場合のみ機能します。 
 
 <a name='requirements'></a>
-### jQuery requirements
+### jQuery の要件
 
-Lib| Prev required version| New required version
+Lib|以前の必要バージョン|新しい必要バージョン
 ---|---|---
-jQuery core|1.4.4|1.8.3
+jQuery コア|1.4.4|1.8.3
 jQuery UI|1.7|1.9.2

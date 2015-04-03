@@ -8,35 +8,35 @@
 |metadata|
 -->
 
-# Known Issues and Limitations in 2015 Volume 1
+# 2015 Volume 1 の既知の問題と制限
 
-## Topic Overview
+## トピックの概要
 
-### Purpose
+### 目的
 
-This summarizes the known issues and limitations of the Ignite UI™ 2015 Volume 1 release. Information about previous releases can be found [here](Known-Issues-Revision-History.html).
+以下に、Ignite UI™ 2015 Volume 1 リリースの既知の問題と制限事項の概要を示します。旧リリースに関する情報は、[こちら](Known-Issues-Revision-History.html)です。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
--   [**Known Issues and Limitations Summary**](#summary)
-    -   [Legend](#legend)
-    -   [General Known Issues](#general-known-issues)
-    -   [Editors Common Known Issues](#editors)
+-   [**既知の問題点と制限の概要**](#summary)
+    -   [凡例:](#legend)
+    -   [全般的な既知の問題](#general-known-issues)
+    -   [エディターの一般的な既知の問題点](#editors)
     -   [igBulletGraph](#bullet-graph)
     -   [igCombo](#combo)
     -   [igDataChart](#data-chart)
     -   [igDialog](#dialog)
 	-   [igUpload](#upload)
-    -   [igGrid – General](#grid)
-    -   [igGrid – Data Binding](#grid-data-binding)
-    -   [igGrid – Unbound Columns](#grid-unbound-columns)
-    -   [igGrid – Virtualization](#grid-virtualization)
-	-   [igGrid – Responsive Web Design Mode](#grid-responsive)
+    -   [igGrid – 全般](#grid)
+    -   [igGrid – データ バインディング](#grid-data-binding)
+    -   [igGrid – 非バインド列](#grid-unbound-columns)
+    -   [igGrid – 仮想化](#grid-virtualization)
+	-   [igGrid - レスポンシブ Web デザイン モード](#grid-responsive)
     -   [igGridColumnFixing](#grid-column-fixing)
     -   [igGridColumnMoving](#grid-column-moving)
-    -   [igGrid - Multi-Column Headers](#grid-multi-column-headers)
+    -   [igGrid - 複数列ヘッダー](#grid-multi-column-headers)
     -   [igGridFiltering](#grid-filtering)
     -   [igGridGroupBy](#grid-grouping)
     -   [igGridPaging](#grid-paging)
@@ -47,14 +47,14 @@ This topic contains the following sections:
     -   [igGridTooltips](#grid-tooltips)
     -   [igGridUpdating](#grid-updating)
     -   [igGridExcelExporter](#grid-exporter)
-    -   [Feature Chooser](#feature-chooser)
+    -   [機能セレクター](#feature-chooser)
     -   [igTreeGrid](#tree-grid)
     -   [igHierarchicalGrid](#hierarchical-grid)
     -   [igHierarchicalGrid GroupBy](#hierarchical-grid-grouping)
     -   [igHierarchicalGrid RowSelectors](#hierarchical-grid-row-selectors)
     -   [igLinearGauge](#linear-gauge)
-    -   [Ignite UI ASP.NET MVC Wrappers](#mvc)
-    -   [Ignite UI ASP.NET MVC Wrappers (mobile)](#mvc-mobile)
+    -   [Ignite UI ASP.NET MVC ラッパー](#mvc)
+    -   [Ignite UI ASP.NET MVC ラッパー (モバイル)](#mvc-mobile)
     -   [igMap](#map)
     -   [igOlapXmlaDataSource](#olap-xmla-data-source)
     -   [igPivotDataSelector](#pivot-data-selector)
@@ -63,38 +63,38 @@ This topic contains the following sections:
     -   [igQRCodeBarcode](#qr-barcode)
     -   [igZoombar](#zoombar)
     -   [Infragistics Document Engine](#infragistics-documents)
-    -   [Infragistics Templating Engine](#templating-engine)
-    -   [Popup (mobile)](#popup-mobile)
-    -   [SelectMenu (mobile)](#selectmenu-mobile)
-    -   [Slider (mobile)](#slider-mobile)
+    -   [Infragistics テンプレート エンジン](#templating-engine)
+    -   [Popup (モバイル)](#popup-mobile)
+    -   [SelectMenu (モバイル)](#selectmenu-mobile)
+    -   [Slider (モバイル)](#slider-mobile)
 
 
 
-## <a id="summary"></a> Known Issues and Limitations Summary
+## <a id="summary"></a> 既知の問題点と制限の概要
 
-The following table summarizes the known issues and limitations of the Ignite UI 2015 Volume 1 release. Detailed explanations of known issues and the possible workarounds are provided in the known issues topics for each control.
+以下の表に、Ignite UI 2015 Volume 1 リリースの既知の問題と制限事項の概要を示します。各コントロールの既知の問題点に関するトピックでは、それぞれの既知の問題点と考えられる回避策について詳しく説明します。
 <a id="legend"></a>
 
-Legend | 
+凡例: | 
 -------|--------
-![](images/positive.png) | Workaround available
-![](images/negative.png) | No known workaround
-![](images/Known_Issues_and_Limitations_FixPlanned.png) | Fix planned
+![](images/positive.png) | 回避策
+![](images/negative.png) | 既知の回避策はありません
+![](images/Known_Issues_and_Limitations_FixPlanned.png) | 修正予定です
 
-###<a id="general-known-issues"></a> General Known Issue
+###<a id="general-known-issues"></a> 全般的な既知の問題
 <table class="table table-bordered">
 	<thead>
 		<tr>
             <th>
-Issue
+問題
 			</th>
 
             <th>
-Description
+説明
 			</th>
 
             <th>
-Status
+状態
 			</th>
         </tr>
 	</thead>
@@ -103,15 +103,15 @@ Status
 
         <tr>
             <td>
-On Internet Explorer 7 and 8 Array.prototype is extended with some helper functions
+Internet Explorer 7 および 8 で、Array.prototype が一部のヘルパー関数で拡張される
 			</td>
 
             <td>
-                On Internet Explorer 7 and 8 Array.prototype is extended with the following functions (by the infragistics.util.js file):
+                Internet Explorer 7 および 8 では、Array.prototype が (infragistics.util.js ファイルによって) 以下のヘルパー関数で拡張されます。
 
                 <ul>
                     <li>
-add
+追加
 					</li>
 
                     <li>
@@ -131,7 +131,7 @@ insert
 					</li>
 
                     <li>
-removeAt
+RemoveAt
 					</li>
 
                     <li>
@@ -177,7 +177,7 @@ insertRange1
                     <li>
 clone
 					</li>
-                </ul>This affects iteration over an array with a for…in loop, as those functions also will be iterated.
+                </ul>これらの関数も繰り返されるため、for-in ループを含む配列の繰り返しに影響を与えます。
             </td>
 
             <td>
@@ -187,21 +187,21 @@ clone
     </tbody>
 </table>
 
-### <a id="editors"></a> [Editors Common Known Issues](igCurrencyEditor-igEditor-Known-Issues.html)
+### <a id="editors"></a> [エディターの一般的な既知の問題点](igCurrencyEditor-igEditor-Known-Issues.html)
 
 <table class="table table-striped">
 	<thead>
 		<tr>
             <th>
-Issue
+問題
 			</th>
 
             <th>
-Description
+説明
 			</th>
 
             <th>
-Status
+状態
 			</th>
         </tr>
 	</thead>
@@ -210,11 +210,11 @@ Status
 
         <tr>
             <td>
-Placeholder behavior when element is `<input>` or `<textarea>`
+要素が `<input>` または `<textarea>` の時のプレースホルダーのビヘイビアー
 			</td>
 
             <td>
-If the editor’s base element is an `<input>` or `<textarea>` element and `buttons`, `theme`, or [`renderInContainer`](%%jQueryApiUrl%%/ui.igeditor#options:renderInContainer) options are enabled, then the editor’s base element is removed from its parent and wrapped in a `<span>` element.
+エディター ベースの要素が、`<input>` または `<textarea>` 要素で、`buttons`、`theme`、または[`renderInContainer`](%%jQueryApiUrl%%/ui.igeditor#options:renderInContainer) オプションが有効の場合、エディター ベースの要素がその親から削除され、`<span>` 要素でラップされます。
 			</td>
 
             <td>
@@ -224,16 +224,16 @@ If the editor’s base element is an `<input>` or `<textarea>` element and `butt
 
         <tr>
             <td>
-Editor not rendering correctly in some browsers when in a `<td>` base element
+`<td>` ベース要素の場合、一部のブラウザーではエディターが正しく描画されない
 			</td>
 
             <td>
-If the base element for the editor is a `<td>` element (or some other special container different from the `<span>` or `<div>` elements), then some browsers may not render the control. For example, rendering fails in the Safari® browser when using a `<td>` as the base element for the `igCurrencyEditor`™ control.
+エディターのベース要素が `<td>` 要素 (または、`<span>` または `<div>` 要素とは異なる他の特定のコンテナー) である場合、ブラウザーによってはコントロールを描画しない場合があります。たとえば、`igCurrencyEditor`™ コントロールのベース要素として `<td>` を使用する場合、Safari® ブラウザーでは描画できません。
 
                 <blockquote>
-**Workaround**
+**回避方法**
                 <br />
-                    Change the default value of the `display` option from inline-block to block.
+                    `display` オプションのデフォルトの値を inline-block から block に変更します。
                 </blockquote>
             </td>
 
@@ -244,25 +244,11 @@ If the base element for the editor is a `<td>` element (or some other special co
 
         <tr>
             <td>
-Changing theme after initialization not supported under certain conditions
+初期設定の後のテーマの変更が、一定の条件下でサポートされない
 			</td>
 
             <td>
-Changing the `theme` option is not supported after initialization when the base element is either `<input>` or `<textarea>`and if the `button`, [`renderInContainer`](%%jQueryApiUrl%%/ui.igeditor#options:renderInContainer), and `theme` options are disabled.
-			</td>
-
-            <td>
-![](images/negative.png)
-			</td>
-        </tr>
-
-        <tr>
-            <td>
-Multi-line text mode not supported in an `<input>` base element
-			</td>
-
-            <td>
-If the base element is `<input>`, setting the [`textMode`](%%jQueryApiUrl%%/ui.igtexteditor#options:textMode) option to *multiline* is not supported.
+ベース要素が `<input>` または `<textarea>` で、`button`、[`renderInContainer`](%%jQueryApiUrl%%/ui.igeditor#options:renderInContainer)、および `theme` オプションが無効の場合、初期化後の` theme` オプションの変更はサポートされません。
 			</td>
 
             <td>
@@ -272,25 +258,11 @@ If the base element is `<input>`, setting the [`textMode`](%%jQueryApiUrl%%/ui.i
 
         <tr>
             <td>
-Forced multi-line text mode in a `<textarea>` base element
+複数行のテキスト モードが、`<input>` ベース要素でサポートされない
 			</td>
 
             <td>
-If the base element is `<textarea>`, the [`textMode`](%%jQueryApiUrl%%/ui.igtexteditor#options:textMode) option is set to *multiline* and cannot be changed.
-			</td>
-
-            <td>
-![](images/negative.png)
-			</td>
-        </tr>
-
-        <tr>
-            <td>
-Base `<select>` element auto-replaced with `<input>` element
-			</td>
-
-            <td>
-If the base element is a `<select>` element, it is replaced with an `<input>` element. The drop-down button and list Items are created programmatically and the content is filled with the options of the original `<select>` element.
+ベース要素が `<input>` の場合、[`textMode`](%%jQueryApiUrl%%/ui.igtexteditor#options:textMode) オプションの *multiline* の設定はサポートされていません。
 			</td>
 
             <td>
@@ -300,16 +272,44 @@ If the base element is a `<select>` element, it is replaced with an `<input>` el
 
         <tr>
             <td>
-Width and height options can be set only absolutely (in pixels) under certain conditions
+`<textarea>` ベース要素で、強制的に複数行のテキスト モードになる
 			</td>
 
             <td>
-If the editor’s base element is not an `<input>` or `<textarea>` element and `buttons`, `theme`, or [`renderInContainer`](%%jQueryApiUrl%%/ui.igeditor#options:renderInContainer) options are enabled, then the width and height options can be set only absolutely (in pixels).
+ベース要素が `<textarea>` の場合、[`textMode`](%%jQueryApiUrl%%/ui.igtexteditor#options:textMode) オプションは *multiline* に設定され変更できません。
+			</td>
+
+            <td>
+![](images/negative.png)
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+ベースの `<select>` 要素が、`<input>` 要素と自動的に置き換えられる
+			</td>
+
+            <td>
+ベース要素が `<select>` 要素の場合、`<input>` 要素で置き換えられます。ドロップダウン ボタンとリスト項目はプログラムによって作成され、元の `<select>` 要素のオプションでコンテンツに埋め込まれます。
+			</td>
+
+            <td>
+![](images/negative.png)
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+幅と高さのオプションの設定では、一定の条件下で使用できるのは絶対値 (ピクセル数) のみ
+			</td>
+
+            <td>
+エディターのベース要素が `<input>` または `<textarea>` 要素でなく、`buttons`、`theme`、または [`renderInContainer`](%%jQueryApiUrl%%/ui.igeditor#options:renderInContainer) オプションが有効な場合、幅と高さのオプションは絶対値 (ピクセル数) でのみ設定できます。
 
                 <blockquote>
-**Workaround**
+**回避方法**
                 <br />
-If the editor is rendered as an `<input>` or `<textarea>` element without a `<span>`element wrapper, then the width and height can be set to a string with percent and other HTML units.
+エディターが `<span>` 要素ラッパーなしで `<input>` または `<textarea>` 要素として描画される場合、パーセントやその他の HTML 単位を含む文字列に幅と高さを設定できます。
                 </blockquote>
             </td>
 
@@ -320,11 +320,11 @@ If the editor is rendered as an `<input>` or `<textarea>` element without a `<sp
 
         <tr>
             <td>
-Some options cannot change values after initialization
+初期化後に一部のオプションの値を変更できない
 			</td>
 
             <td>
-Changing value after initialization for `button`, [`textMode`](%%jQueryApiUrl%%/ui.igeditor#options:textMode), and [`renderInContainer`](%%jQueryApiUrl%%/ui.igeditor#options:renderInContainer) options is not supported.
+`button`、[`textMode`](%%jQueryApiUrl%%/ui.igeditor#options:textMode)、および [`renderInContainer`](%%jQueryApiUrl%%/ui.igeditor#options:renderInContainer) オプションの初期化後に値を変更することはサポートされていません。
 			</td>
 
             <td>
@@ -334,25 +334,11 @@ Changing value after initialization for `button`, [`textMode`](%%jQueryApiUrl%%/
 
         <tr>
             <td>
-Limitations to filtering an entry by list
+リストによるエントリのフィルタリングに制限がある
 			</td>
 
             <td>
-Options related to filtering an entry by list, such as [`listMatchIgnoreCase`](%%jQueryApiUrl%%/ui.igeditor#options:listMatchIgnoreCase), [`listMatchOnly`](%%jQueryApiUrl%%/ui.igeditor#options:listMatchOnly), [`listMatchContains`](%%jQueryApiUrl%%/ui.igeditor#options:listMatchContains)and [`listAutoComplete`](%%jQueryApiUrl%%/ui.igeditor#options:listAutoComplete), have effect only for an editor with `type` set to either text or `igTextEditor`.
-			</td>
-
-            <td>
-![](images/negative.png)
-			</td>
-        </tr>
-
-        <tr>
-            <td>
-Specifics about disabling all triggers for a drop-down
-			</td>
-
-            <td>
-To disable all triggers for a drop-down, the [`dropDownTriggers`](%%jQueryApiUrl%%/ui.igeditor#options:dropDownTriggers) option should be set to either an empty string or null.
+[`listMatchIgnoreCase`](%%jQueryApiUrl%%/ui.igeditor#options:listMatchIgnoreCase)、[`listMatchOnly`](%%jQueryApiUrl%%/ui.igeditor#options:listMatchOnly)、[`listMatchContains`](%%jQueryApiUrl%%/ui.igeditor#options:listMatchContains)、および [`listAutoComplete`](%%jQueryApiUrl%%/ui.igeditor#options:listAutoComplete) などのリストによるエントリのフィルタリングに関連したオプションは、`type` が text または `igTextEditor` に設定されたエディターのみに影響を与えます。
 			</td>
 
             <td>
@@ -362,23 +348,37 @@ To disable all triggers for a drop-down, the [`dropDownTriggers`](%%jQueryApiUrl
 
         <tr>
             <td>
-Erroneous behavior when user input exceeds the length of the input field
+ドロップダウンですべてのトリガーを無効にする方法について
 			</td>
 
             <td>
-If the user enters text longer than the width of the edit field:
+ドロップダウンのすべてのトリガーを無効にするには、[`dropDownTriggers`](%%jQueryApiUrl%%/ui.igeditor#options:dropDownTriggers) オプションを空の文字列または null に設定する必要があります。
+			</td>
+
+            <td>
+![](images/negative.png)
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+ユーザー入力が入力フィールドの長さを超えた場合に、ビヘイビアーに誤動作
+			</td>
+
+            <td>
+ユーザーが編集フィールドの幅よりも長いテキストを入力した場合:
 
                 <ul>
                     <li>
-Caret in some browsers may go out of view. (The editor control’s has logic designed to minimize this occurrence, but it does not cover 100% of the cases).
+カレットが、一部のブラウザーで表示されない可能性があります。(エディターのコントロールは、この発生を最小限にするように設計されたロジックがありますが、この事例を 100% カバーするものではありません。)
 					</li>
 
                     <li>
-Some browsers may fail to instantly adjust the caret position while characters are entered. The caret may also briefly (for a split-second) jump to the end of the text and back. Although the actual entry point for the next key and the actual location of caret should be correct.
+一部のブラウザーは、文字の入力時にカレットの位置をすぐに調整できない可能性があります。カレットが一時的に (一瞬) テキストの末尾にジャンプして戻ってくる場合もあります。入力を開始する前に、入力ポイントとカレットの実際の位置を必ず一致させる必要があります。
 					</li>
 
                     <li>
-In some browsers, particularly Firefox®, text may jump/shake horizontally on every keypress.
+一部のブラウザー、特に Firefox® では、キーを押すたびにテキストが水平にジャンプまたは揺れる場合があります。
 					</li>
                 </ul>
             </td>
@@ -390,19 +390,19 @@ In some browsers, particularly Firefox®, text may jump/shake horizontally on ev
 
         <tr>
             <td>
-Erroneous behavior when under certain conditions
+一定の条件下でコードを間違う危険がある
 			</td>
 
             <td>
-If the base element is `<textarea>` (`textMode=”multiline”`) and multiple lines are entered, that make the field scroll:
+ベース要素が `<textarea>` (`textMode=”multiline”`) で、複数行の入力によってフィールドがスクロールする場合:
 
                 <ul>
                     <li>
-Vertical scroll may fail and the caret may go out of view after multiple keyboard entries, when Shift+Enter (new line) is entered. This may happen if the caret has been located in the middle of text.
+複数回のキーボード入力後、Shift + Enter (改行) を入力すると、垂直方向のスクロールに失敗し、カレットが非表示になる場合があります。これは、カレットがテキストの中段にある場合に、起こる可能性があります。
 					</li>
 
                     <li>
-In some browsers, particularly Firefox, text may jump vertically and horizontally on every keypress.
+ブラウザーの中でも特に Firefox では、キーを押すたびにテキストが垂直または水平方向に移動する場合があります。
 					</li>
                 </ul>
             </td>
@@ -414,25 +414,11 @@ In some browsers, particularly Firefox, text may jump vertically and horizontall
 
         <tr>
             <td>
-Specific referencing requirements for the date picker
+日付ピッカーに固有の参照要件がある
 			</td>
 
             <td>
-If an editor has a type set to either *datepicker* or `igDatePicker`™, then it is dependent on jquery-datepicker and requires reference to either `jquery.ui.datepicker.js` or to combined library such as `jqueryui/1.8.7/jquery-ui.js`.
-			</td>
-
-            <td>
-![](images/negative.png)
-			</td>
-        </tr>
-
-        <tr>
-            <td>
-Date picker not supporting multi-line mode
-			</td>
-
-            <td>
-If an editor has a type set to either *datepicker* or `igDatePicker`, it does not support *multiline*  [`textMode`](%%jQueryApiUrl%%/ui.igeditor#options:textMode) option.
+エディターが *datepicker* または `igDatePicker`™ に設定されたタイプを持つ場合、エディターはjquery-datepicker に依存し、`jquery.ui.datepicker.js` への参照または `jqueryui/1.8.7/jquery-ui.js` などの結合ライブラリへの参照が必要です。.
 			</td>
 
             <td>
@@ -442,25 +428,11 @@ If an editor has a type set to either *datepicker* or `igDatePicker`, it does no
 
         <tr>
             <td>
-Date picker not supporting `<textarea>` base element
+日付ピッカーは、複数行モードをサポートしていない
 			</td>
 
             <td>
-If an editor has a type set to either *datepicker* or `igDatePicker`, it does not support `<textarea>` as a base element.
-			</td>
-
-            <td>
-![](images/negative.png)
-			</td>
-        </tr>
-
-        <tr>
-            <td>
-Numeric editors limitations in Edit mode
-			</td>
-
-            <td>
-Numeric editors do not support group, or thousand separators and symbols, in Edit mode.
+エディターが *datepicker* または `igDatePicker` に設定されたタイプを持つ場合、*multiline* [`textMode`](%%jQueryApiUrl%%/ui.igeditor#options:textMode) オプションをサポートしません。
 			</td>
 
             <td>
@@ -470,11 +442,11 @@ Numeric editors do not support group, or thousand separators and symbols, in Edi
 
         <tr>
             <td>
-Specific referencing requirements for the numeric and date editors
+日付ピッカーが `<textarea>` ベース要素をサポートしていない
 			</td>
 
             <td>
-Numeric and Date editors depend on `$.ig._regional`, therefore, that object should be available in a reference to `ig.util.js` or to a combined `ig-js` file.
+エディターが *datepicker* または `igDatePicker` に設定されたタイプを持つ場合は、ベース要素として `<textarea>` をサポートしません。
 			</td>
 
             <td>
@@ -484,18 +456,46 @@ Numeric and Date editors depend on `$.ig._regional`, therefore, that object shou
 
         <tr>
             <td>
-Changing locale dynamically for an editor not possible with Infragistics Loader
+数値エディターが編集モードの場合の制限
 			</td>
 
             <td>
-Regional settings of editors cannot be changed programmatically when using the Infragistics® Loader.
+数値エディターは編集モードでは、グループ、または 1000 のセパレーターおよび記号をサポートしません。
+			</td>
+
+            <td>
+![](images/negative.png)
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+数値および日付エディターに固有の参照要件がある
+			</td>
+
+            <td>
+数値および日付エディターは、`$.ig._regional` に依存します。そのため、そのオブジェクトは `ig.util.js` への参照または結合した `ig-js` ファイルへの参照で使用可能である必要があります。
+			</td>
+
+            <td>
+![](images/negative.png)
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+エディターに対するロケールの動的な変更が、Infragistics Loader でできない
+			</td>
+
+            <td>
+Infragistics Loader を使用している場合は、プログラムを使用してエディターのロケール設定を動的に変更することはできません。
 
                 
 
                 <blockquote>
-**Workaround**
+**回避方法**
                 <br />
-A post-back is necessary in order to change the `regional` option. Another workaround is to destroy the editor control, call the Loader to load with a different locale, and then re-create the control itself.
+`regional` オプションを変更するには、ポストバックが必要です。別の回避策として、コントロールを作り直す方法があります。現在のエディター コントロールを破棄して、ローダーを呼び出して別のロケールでロードします。
                 </blockquote>
             </td>
 
@@ -506,16 +506,16 @@ A post-back is necessary in order to change the `regional` option. Another worka
 
         <tr>
             <td>
-Change in styling
+スタイルの変更
 			</td>
 
             <td>
-The layout of HTML elements has modified and rounded corners are rendered around the whole editor, not only around buttons.
+HTML 要素のレイアウトが変更され、ボタンだけでなくエディター本体の四隅も丸みの付いたコーナーで描画されます。
 
                 <blockquote>
-**Workaround**
+**回避方法**
                 <br />
-Applications can disable rounded corners by providing custom CSS or overriding default `igEditor` CSS classes.
+アプリケーションは、カスタム CSS を提供することによって、またはデフォルトの `igEditor` CSS クラスをオーバーライドすることによって、丸みの付いたコーナーを無効にすることができます。
                 </blockquote>
             </td>
 
@@ -526,11 +526,11 @@ Applications can disable rounded corners by providing custom CSS or overriding d
 
         <tr>
             <td>
-Spin buttons issue
+スピン ボタンの問題
 			</td>
 
             <td>
-Spin buttons are rendered horizontally.
+スピン ボタンは水平方向に描画されます。
 			</td>
 
             <td>
@@ -540,16 +540,16 @@ Spin buttons are rendered horizontally.
 
         <tr>
             <td>
-Editors rendering failure
+エディターの描画不良
 			</td>
 
             <td>
-Rendering may fail if the base element is `<td>`.
+基本要素が `<td>` の場合、描画が失敗する場合があります。
 
                 <blockquote>
-**Workaround**
+**回避方法**
                 <br />
-Applications should not restrict the width of a parent element if the base element is `<td>` or it should ensure that the actual width of the `<td>` element is no less than the width of the editor control. The parent element is not only the parent table but the whole upchain of parents in the DOM hierarchy.
+ベース要素が `<td>` である場合は、アプリケーションで親要素の幅を制限しない、または `<td>` 要素の実際の幅をエディターのコントロールの幅よりも大きく設定する必要があります。親要素は、親テーブルであるだけでなく、DOM 階層の親のアップチェーン全体でもあります。
                 </blockquote>
             </td>
 
@@ -560,18 +560,18 @@ Applications should not restrict the width of a parent element if the base eleme
 
         <tr>
             <td>
-`igDateEditor` and `igDatePicker` Knockout extensions have limitation in Immediate update mode
+`igDateEditor` と `igDatePicker` の Knockout 拡張機能には、即時更新モードによる制限がある
 			</td>
 
             <td>
-`igDateEditor`™ and `igDatePicker` Knockout extensions have a limitation when the `updateMode` property is set to immediate. The Immediate mode is not supported when date format is different than en-US.
+`igDateEditor`™ と `igDatePicker` Knockout 拡張機能は、`updateMode` プロパティが immediate に設定された場合、制限が発生します。日付のフォーマットが en-US と異なる場合、immediate モードはサポートされません。 
 <br />
-When non en-US format is used, Immediate mode, works correct only if the date is selected from the date picker, or a valid date is pasted inside the editor. If the value is typed, character by character, the wrong date is populated. The limitation is due to limitation of the JavaScript Date object constructor.
+en-US フォーマット以外が使用されている場合、immediate モードは、日付を日付ピッカーから選択した場合または有効な日付をエディター内部にペーストした場合のみ正常に動作します。文字の入力で値が入力された場合は、間違った日付が設定されます。これは、JavaScript の日付のオブジェクト コンストラクターによる制限です。
 
                 <blockquote>
-**Workaround**
+**回避方法**
                 <br />
-Either use the default update mode – On Change – or force the user to select the date from the `igDatePicker` component and not to enter it manually.
+デフォルトの更新モード – On Change – を使用する、または日付を手動入力ではなく `igDatePicker` コンポーネントから選択するようにします。
                 </blockquote>
             </td>
 
@@ -583,29 +583,29 @@ Either use the default update mode – On Change – or force the user to select
 </table>
 
 
- Go up to [Known Issues and Limitations Summary](#summary)
+ [既知の問題点と制限の概要](#summary)を参照してください。
 
 ### <a id="bullet-graph"></a> [igBulletGraph](igBulletGraph-Known-Issues-and-Limitations.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Only one performance bar and one comparative marker supported | The `igBulletGraph`™ control supports only one performance bar and one comparative marker. | ![](images/positive.png)
-No label collisions detection | The `igBulletGraph`  control does not provide means for  detecting label collisions. As a result, when the space to visualize the labels is not sufficient, label collisions may occur. | ![](images/positive.png)
-Performance bar can be drawn only from the minimum scale position | The starting position of the performance bar can only be at the minimum value of the scale, i.e. the performance bar cannot originate from an arbitrary position. | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
+1 つのパフォーマンス バーと、1 つの比較マーカーのみがサポートされています|`igBulletGraph` コントロールは、1 つのパフォーマンス バーと 1 つの比較マーカーのみをサポートします。 | ![](images/positive.png)
+ラベル競合の検出なし|`igBulletGraph` コントロールは、ラベル競合を検出する手段を提供していません。その結果、ラベルを表示するスペースが十分にない場合は、ラベル競合が発生する可能性があります。 | ![](images/positive.png)
+パフォーマンス バーは、最小スケールの位置からのみ描画することができます。|パフォーマンス バーの開始位置は、スケールの最小値の位置のみです。パフォーマンス バーを任意の場所から始めることはできません。 | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
 
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題点と制限の概要](#summary)を参照してください。
 
 
 ### <a id="combo"></a> [igCombo](igCombo-Known-Limitations.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-In IE9 and lower versions placeHolder text is not previewed | Input placeholders are simply ignored in IE9 and below|![](images/negative.png)
-When virtualization is enabled, all ItemTemplate elements should have equal heights | Misalignment issues may occur with the scrollbar | ![](images/positive.png)
+IE9 以前のバージョンで placeHolder テキストがプレビューされない|入力プレースホルダーは、IE9 以前では単に無視されます。|![](images/negative.png)
+仮想化が有効な場合、すべての ItemTemplate 要素は同じ高さでなければならない|スクロールバーでずれの問題が発生する場合があります。 | ![](images/positive.png)
 
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="data-chart"></a> [igDataChart](igDataChart-Known-Issues.html)
@@ -614,15 +614,15 @@ Go up to [Known Issues and Limitations Summary](#summary)
 	<thead>
 		<tr>
             <th>
-Issue
+問題
 			</th>
 
             <th>
-Description
+説明
 			</th>
 
             <th>
-Status
+状態
 			</th>
         </tr>
 	</thead>
@@ -631,11 +631,11 @@ Status
 
         <tr>
             <td>
-First and last items appear half cut in financial series charts
+財務シリーズ チャートでは先頭の項目と最後の項目が半分切れた状態で表示される
 			</td>
 
             <td>
-In a financial series, the first and the last data items do not appear entirely on the chart view but are plotted as if they are cut in half.
+財務シリーズにおいて、先頭と最後の項目はチャートのビュー上にすべてが表示されず、半分にカットされた状態でプロットされます。
 			</td>
 
             <td>
@@ -647,11 +647,11 @@ In a financial series, the first and the last data items do not appear entirely 
 
         <tr>
             <td>
-Chart animations are disabled when the axis range changes
+軸範囲を変更するとチャート アニメーションが無効になる
 			</td>
 
             <td>
-If you use the Motion Framework for charts and updated data causes the y-axis range to change, then all chart animation is disabled and new data appears immediately without any motion effect.
+チャートの Motion Framework を使用していてデータの更新により Y 軸範囲が変更された場合、すべてのチャート アニメーションは無効になり新しいデータがモーション効果なしで直ちに表示されます。
 			</td>
 
             <td>
@@ -661,15 +661,15 @@ If you use the Motion Framework for charts and updated data causes the y-axis ra
 
         <tr>
             <td>
-Monolith shadows do not allow for the blur effect to be applied to them
+モノリス シャドウは、ぼかし効果を許可しません。
 			</td>
 
             <td>
-When the [`useSingleShadow`](%%jQueryApiUrl%%/ui.igDataChart#options:useSingleShadow) property of the series is set to “true”, the [`shadowBlur`](%%jQueryApiUrl%%/ui.igDataChart#options:shadowBlur) setting is disregarded and no blur is applied to the shadow. This is a deliberate limitation due to a [Google® Chrome™ bug](https://code.google.com/p/chromium/issues/detail?id=100703) and extended to all major browsers thus ensuring consistent behavior across all of them. This behavior is subject to change once the aforementioned Chrome issue is resolved.
+シリーズの [`useSingleShadow`](%%jQueryApiUrl%%/ui.igDataChart#options:useSingleShadow) プロパティを true に設定した場合、[`shadowBlur`](%%jQueryApiUrl%%/ui.igDataChart#options:shadowBlur) 設定は無視され、ぼかしはシャドウに適用されません。これは、[Google® Chrome™ のバグ](https://code.google.com/p/chromium/issues/detail?id=100703)に対応するための制限です。すべての主要なブラウザーで同じ動作効果を保証することが目的です。上記の Chrome のバグが解消され次第、この効果はアップデートの対象となる予定です。
                 
 
->**Workaround:**
-If you need to apply blur to the shadow, use the Compound type of shadow (`useSingleShadow = “true”`).
+>**回避策:**
+影をぼかす必要がある場合、コンパウンド シャドウを使用してください (`useSingleShadow = "true"`)。
                 
             </td>
 
@@ -679,11 +679,11 @@ If you need to apply blur to the shadow, use the Compound type of shadow (`useSi
         </tr>
 	<tr>
 		<td>
-		    <p>Line series sometimes appear as filled shapes in Chromium browsers</p>
+		    <p>Chromium ブラウザーでは、折れ線シリーズが塗りつぶされた図形のように見える場合がある</p>
 		</td>
 		
 		<td>
-		    <p>This is caused by a <a href="https://code.google.com/p/chromium/issues/detail?id=412640" target="_blank">canvas rendering issue in Chromium</a> (affecting browsers such as Google® Chrome™ and Opera).</p>
+		    <p>これは、<a href="https://code.google.com/p/chromium/issues/detail?id=412640" target="_blank">Chromium のキャンバスのレンダリングの問題</a> (Google® Chrome™ や Opera などのブラウザーに影響を与える) が原因です。</p>
 		</td>
 		
 		<td>
@@ -694,99 +694,88 @@ If you need to apply blur to the shadow, use the Compound type of shadow (`useSi
 </table>
 
 
- Go up to [Known Issues and Limitations Summary](#summary)
+ [既知の問題点と制限の概要](#summary)を参照してください。
 
 #### <a id="dialog"></a> [igDialog](igDialog-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ------|-------------|-------
-Controls sized incorrectly when inside an `igDialog` and their width/ height is relative | Controls inside an `igDialog`™ do not have correct dimensions if their width/height is relative. This is because any embedded controls are instantiated before rendering `igDialog` so their dimensions cannot be calculated correctly. | ![](images/positive.png)
+`igDialog` の内部情報と幅や高さの情報に関連性がある場合、コントロールのサイズが正しく設定されない|`igDialog` 内部のコントロールは、表示される幅や高さの情報と相対的であると正しいディメンションにはなりません。これは、`igDialog` が表示される前に、埋め込まれたコントロールのインスタンスが作成されるため、コントロールのディメンションを正しく計算できないことが原因です。 | ![](images/positive.png)
 
 
- Go up to [Known Issues and Limitations Summary](#summary)
+ [既知の問題点と制限の概要](#summary)を参照してください。
  
 #### <a id="upload"></a> [igUpload](igUpload-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ------|-------------|-------
-Uploading of large files (50kb and above) fails when PipelineMode is Classic and Trace is enabled | This is a third party issue and has been logged to Microsoft, for further reference you can check the state of the issue [here](https://connect.microsoft.com/VisualStudio/feedback/details/1008381/readentitybody-returns-0-bytes-in-iis-7-5-when-pipelinemode-is-classic-and-trace-is-enabled). | ![](images/positive.png)
+PipelineMode が Classic で、トレースが有効な場合、大きなファイル (50kb 以上) のアップロードが失敗する|これはサードパーティ問題で、Microsoft に記録されています。詳細は、 [ここ](https://connect.microsoft.com/VisualStudio/feedback/details/1008381/readentitybody-returns-0-bytes-in-iis-7-5-when-pipelinemode-is-classic-and-trace-is-enabled)で問題の状態をチェックできます。 | ![](images/positive.png)
 
- Go up to [Known Issues and Limitations Summary](#summary)
+ [既知の問題と制限の概要](#summary)を参照してください。
 
 
-### <a id="grid"></a> [igGrid – General](igGrid-Known-Issues.html#grid-general)
+### <a id="grid"></a> [igGrid – 全般](igGrid-Known-Issues.html#grid-general)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-rowTemplate option is deprecated | As of 14.1 release, the [`rowTemplate`](%%jQueryApiUrl%%/ui.iggrid#options:rowTemplate) option has been deprecated. This is a breaking change from the previous versions’ functionality. The `igGrid`™ now uses column templates for individual column templating. | ![](images/negative.png)
-Column captions not wrapping onto multiple lines | Column captions ([`igGrid.headerText`](%%jQueryApiUrl%%/ui.iggrid#options:headerText)) do not wrap onto multiple lines. This is a breaking change from the previous versions’ functionality. | ![](images/positive.png)
-Inconsistent behavior when the touch point is sliding over certain UI elements | The grid and its features may have inconsistent behavior when the touch point is sliding over particular UI elements. | ![](images/positive.png)
-Mixed/partial column width settings not supported | The scenario in which some column widths are set in percentages while others are set in pixels (or not specified at all) is not supported. | ![](images/positive.png)
-Grid header and footer not rendering correctly in IE 7 | When a grid width is not specified, the header and footer elements are rendered shorter than the grid in Microsoft® Internet Explorer® 7. | ![](images/positive.png)
-Incorrect grid features API calls’ behavior with `<div>` elements | If a grid is instantiated on a `<div>` element, the API calls to the grid's features do not work. | ![](images/positive.png)
-Dialogs/pop-ups appear behind the records on Android 4.0.2 | When the `igGrid` is running on Android 4.0.2 and has vertical scrolling enabled, all the popups/dialogs appear behind the records. | ![](images/positive.png)
-`igGrid` re-initializes when the combined height of header, footer and content exceeds the height set in the options | When the sum of the height of header, footer and content of the `igGrid` is more than the height set in the options, the `igGrid` widget re-initialize itself with new height enough to have visible header, footer and content. | ![](images/positive.png)
-The showHeader option not working correctly | When the [`showHeader`](%%jQueryApiUrl%%/ui.iggrid#options:showHeader) option is set to *false* on grid initialization, setting it to *true* run-time using the API will not show the header. | ![](images/positive.png)
-Horizontal scrollbar visibility issues on Mac OS | The grid’s horizontal scrollbar is not visible on Mac OS® when its *Show scrollbars only when scrolling* option is set to *true*. This is because the grid’s horizontal scrollbar has an `overflow` set to *hidden*. | ![](images/positive.png)
-With auto-generated columns, the source must contain key/value pairs | When the grid’s columns are auto-generated (i.e. [autoGenerateColumns](%%jQueryApiUrl%%/ui.iggrid#options:autoGenerateColumns) is enabled), the source should always contain key/value pairs, otherwise the grid might not render correctly. | ![](images/positive.png)
-Defining a feature more than once not possible | **In JavaScript:** <br /> In both `igGrid` and `igHierarchicalGrid`™, defining a feature more than once throws an error. <br /> **In MVC:** <br /> In both `igGrid` and `igHierarchicalGrid`, defining a feature more than once in the MVC Wrapper, causes only the last definition to be taken into account. | ![](images/negative.png)
-Checkbox rendering not compatible with templates (row and column) | When using templating and the `renderCheckboxes` option is set to true, the Boolean columns do not render checkboxes because it is not possible to examine if the Boolean column has a template defined. | ![](images/positive.png)
-Setting attributes to table rows with a row template not possible | In both `igGrid` and `igHierarchicalGrid`, setting attributes to table rows cannot be done possible using a row template. | ![](images/positive.png)
-Events not triggered | By design, events only trigger on user interaction. Events do not trigger when the public API is used. | ![](images/negative.png)
-KnockoutJS observable array functions’ limitations | The use of `unshift`, `reverse` and `sort` observable array functions results in incorrect visual appearance of the grid. | ![](images/positive.png)
-The id attribute is mandatory for the DOM control placeholder| The id attribute should be set on the DOM element on which the grid is initialized. Grid use jQuery ID selector internally for faster selection.| ![](images/negative.png)
-Column keys which contain spaces are not supported|Column keys are used for generating some DOM elements IDs. Having spaces in an HTML id attribute is not allowed according to the <a href="http://www.w3.org/TR/html5/dom.html#the-id-attribute" target="_blank">HTML 5 specification</a>.| ![](images/negative.png)
-The contextMenu event is renamed to cellRightClick|The event is renamed to be more self-explanatory.|![](images/negative.png)
+rowTemplate オプションは非推奨です。|14.1 リリースより [`rowTemplate`](%%jQueryApiUrl%%/ui.iggrid#options:rowTemplate) オプションは非推奨となります。これは以前のバージョンの機能の重大な変更です。`igGrid`™ は、現在、列テンプレートを個別の列テンプレートに対して使用します。 | ![](images/negative.png)
+列のキャプションが、複数の行にラップされない|列キャプション ([`igGrid.headerText`](%%jQueryApiUrl%%/ui.iggrid#options:headerText)) は、複数の行にラップされません。これは以前のバージョンの機能の最新の変更です。 | ![](images/positive.png)
+タッチ ポイントを特定の UI 要素の上をスライドする時に、動作が一致しない|タッチ ポイントが特定の UI 要素の上をスライドする時に、グリッドと機能の動作が一致しない場合があります。 | ![](images/positive.png)
+混在 / 部分の列幅の設定がサポートされない|一部の列幅をパーセント値で定義し、その他の列幅をピクセルで定義する (または列幅を定義しない) という状態はサポートされません。 | ![](images/positive.png)
+IE 7 で、グリッドのヘッダーとフッターが正しく描画されない|グリッド幅が指定されていない場合、表示されるヘッダー要素とフッター要素の幅は、Microsoft® Internet Explorer® 7 のグリッドの幅より短くなります。 | ![](images/positive.png)
+`<div>` 要素で、グリッド機能の API 呼び出しが正しく動作しない|グリッドのインスタンスを `<div>` 要素で作成した場合、グリッドの機能に対する API 呼び出しは機能しません。 | ![](images/positive.png)
+Android 4.0.2 で、レコードの背後にダイアログ / ポップアップが表示される|igGrid の垂直スクロールを有効にして、`igGrid` を Android のバージョン 4.0.2 で実行している場合、ポップアップ / ダイアログはすべてレコードの背後に表示されます。 | ![](images/positive.png)
+ヘッダー、フッター、およびコンテンツを結合した高さがオプションの高さ設定以上の場合に、`igGrid` が再初期化される | `igGrid` のヘッダー、フッター、およびコンテンツの高さの合計が、オプションで設定された高さよりも大きい場合、`igGrid` ウィジェットは、ヘッダー、フッター、およびコンテンツが表示できる高さになるように、新しい高さで自身を再初期化します。 | ![](images/positive.png)
+showHeader オプションが正しく動作しない|グリッドの初期化で [`showHeader`](%%jQueryApiUrl%%/ui.iggrid#options:showHeader) オプションが *false* に設定されている場合、API を使用してそれを *true* のランタイムに設定すると、ヘッダーが表示されません。 | ![](images/positive.png)
+Mac OS での水平スクロールバーの表示の問題|Mac OS® で、*Show scrollbars only when scrolling* オプションを *true* に設定した場合、グリッドの水平スクロールバーは表示されません。これは、グリッドの水平スクロールバーで、`overflow` が *hidden* に設定されているためです。 | ![](images/positive.png)
+自動生成の列で、ソースはキー / 値ペアが含まれている必要がある|グリッドの列が自動生成の場合 (たとえば、[autoGenerateColumns](%%jQueryApiUrl%%/ui.iggrid#options:autoGenerateColumns) が有効な場合)、ソースは常にキー / 値のペアを含む必要があります。含まれていない場合は、グリッドが正しく描画されない可能性があります。 | ![](images/positive.png)
+機能を複数回定義できない|**JavaScript の場合:**<br />`igGrid` と `igHierarchicalGrid`™ のいずれの場合も、1 つの機能を複数回定義するとエラーがスローします。<br />**MVC の場合:**<br />`igGrid` と `igHierarchicalGrid` のいずれの場合も、MVC ラッパーで機能を複数回定義すると、最後の定義のみが取り入れられます。 | ![](images/negative.png)
+チェックボックスの表示が、テンプレート (行および列) と一致しない|テンプレート機能を使用し、`renderCheckboxes` オプションを true に設定した場合、ブール値の列にテンプレートが定義されているかどうかをチェックできないため、ブール値の列にはチェックボックスが表示されません。 | ![](images/positive.png)
+行テンプレートで、テーブルの行に属性を設定できない|`igGrid` と `igHierarchicalGrid` のいずれの場合も、行テンプレートを使用してテーブルの行に属性を設定することはできません。 | ![](images/positive.png)
+イベントでトリガーしない|設計により、各イベントはユーザー インタラクションでのみトリガーします。公開 API を使用している時に、イベントでトリガーしません。 | ![](images/negative.png)
+KnockoutJS の監視可能な配列機能が制限される|`unshift`、`reverse`、および `sort` の監視可能な配列機能を使用すると、グリッドのビジュアル外観が誤って表示されます。 | ![](images/positive.png)
+id 属性は、DOM コントロール プレースホルダーで必須|id 属性は、グリッドが初期化される DOM 要素に設定する必要があります。グリッドは、jQuery セレクターを内部で使用して選択を高速化します。| ![](images/negative.png)
+スペースを含む列のキーはサポートされない|列のキーは、一部の DOM 要素の ID の生成に使用されます。<a href="http://www.w3.org/TR/html5/dom.html#the-id-attribute" target="_blank">HTML 5 仕様</a>により、HTML id 属性にスペースを入れることはできません。| ![](images/negative.png)
+contextMenu イベントは cellRightClick に名前変更しました|イベント名は発生する操作を説明します。|![](images/negative.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
-### <a id="grid-data-binding"></a> [igGrid – Data Binding](igGrid-Known-Issues.html#data-binding)
+### <a id="grid-data-binding"></a> [igGrid – データ バインディング](igGrid-Known-Issues.html#data-binding)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-The [LoadTransaction](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~LoadTransactions.html) method must be overridden by the `GridModel` when binding to a `DataTable`/`DataSet` is used together with the Updating feature | When binding `igGrid` to a `DataTable` or a `DataSet` and the Updating feature is used, the `GridModel` must override the `LoadTransaction()` method using a serializer which supports de-serializing `Dictionary<string, string>` to JSON. | ![](images/positive.png)
-Remote filtering, sorting, summaries, and grouping not supported with binding to a data table/set | When binding grids to a `DataTable` or a `DataSet`, local configuration for the Sorting, Filtering, and Group By features is supposed be used, but a workaround for remote configuration is available, for Sorting and Filtering. | ![](images/positive.png)
+`DataTable`/`DataSet` へのバインドを、更新機能と同時に使用する場合は、[LoadTransaction](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~LoadTransactions.html) メソッドを `GridModel` でオーバーライドする必要がある|`igGrid` を `DataTable` または `DataSet` にバインドすると同時に、更新機能を使用する場合、`GridModel` は、JSON に対する `Dictionary<string, string>` の逆シリアル化をサポートするシリアライザーを使用して、`LoadTransaction()` メソッドをオーバーライドする必要があります。 | ![](images/positive.png)
+データ テーブル / セットへのバインドで、リモートのフィルタリング、並べ替え、集計、およびグループ化がサポートされない|グリッドを `DataTable` または `DataSet` にバインドしている場合、並び替え、フィルタリング、および Group By 機能のローカル構成を使用する可能性がありますが、並び替えとフィルタリングでは、リモート構成の回避策が利用できます。 | ![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題点と制限の概要](#summary)を参照してください。
 
 
-### <a id="grid-unbound-columns"></a> [igGrid – Unbound Columns](igGrid-Known-Issues.html#unbound-columns)
+### <a id="grid-unbound-columns"></a> [igGrid – 非バインド列](igGrid-Known-Issues.html#unbound-columns)
 
 <table class="table table-striped">
 	<thead>
 		<tr>
             <th>
-Issue
+問題
 			</th>
 
             <th>
-Description
+説明
 			</th>
 
             <th>
-Status
+状態
 			</th>
         </tr>
 	</thead>
 	<tbody>
         <tr>
             <td>
-Remote filtering, sorting and grouping not supported for unbound columns
+非バインド列ではリモートのフィルタリング、並べ替え、およびグループ化がサポートされない
 			</td>
             <td>
-The Sorting, Filtering, and Group By features do not work with unbound columns. These features are disabled for the unbound columns in the [Columns](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~Columns.html) collection.
-			</td>
-            <td>
-![](images/positive.png)
-			</td>
-        </tr>
-        <tr>
-            <td>
-The grid SetUnboundValues([Column key], [Dictionary of values]) method overload of the grid MVC helpers requires a primary key
-			</td>
-            <td>
-Using the `SetUnboundValues([Column key], [Dictionary of values])` method overload requires setting a primary key.
+非バインド列列では、並び替え、フィルタリング、および Group By 機能をサポートしていません。[Columns](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~Columns.html) コレクションに含まれる非バインド列では、上記の機能は無効です。
 			</td>
             <td>
 ![](images/positive.png)
@@ -794,10 +783,21 @@ Using the `SetUnboundValues([Column key], [Dictionary of values])` method overlo
         </tr>
         <tr>
             <td>
-Limitations to using the grid helper in the View
+グリッド MVC ヘルパーのグリッド SetUnboundValues([列キー], [値のディクショナリ]) メソッド オーバーロードにはプライマリ キーが必要とされる
 			</td>
             <td>
-Using the grid helper in an ASP.NET MVC View is not a valid scenario when the data source is remote and the [`MergeUnboundColumns`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~MergeUnboundColumns.html) property is set to *true*.
+`SetUnboundValues([列キー], [値のディクショナリー])` メソッド オーバーロードを使用するには、プライマリ キーを設定する必要があります。
+			</td>
+            <td>
+![](images/positive.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+ビュー内でのグリッド ヘルパーの使用に制限がある
+			</td>
+            <td>
+データ ソースがリモートにあり、[`MergeUnboundColumns`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~MergeUnboundColumns.html) プロパティが *true* に設定されている場合、ASP.NET MVC ビューの内部ではグリッド ヘルパーが使用できないようになっています。
 			</td>
             <td>
 ![](images/negative.png)
@@ -805,43 +805,10 @@ Using the grid helper in an ASP.NET MVC View is not a valid scenario when the da
         </tr>
         <tr>
             <td>
-Unbound column values not updated when remote paging and `unboundValues` is used
+リモート ページングと `unboundValues` が使用されている場合、非バインド列の値は更新されません。
 			</td>
             <td>
-The grid displays same values for the unbound column when [`unboundValues`](%%jQueryApiUrl%%/ui.iggrid#options:columns.unboundValues) is set on the client with remote paging enabled.
-			</td>
-            <td>
-![](images/negative.png)
-			</td>
-        </tr>
-        <tr>
-            <td>
-Limitations to using formulas in unbound columns
-			</td>
-            <td>
-Formulas cannot be used in the `igGrid`’s unbound columns when the [`MergeUnboundColumns`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~MergeUnboundColumns.html) option is set to *true*.
-			</td>
-            <td>
-![](images/positive.png)
-			</td>
-        </tr>
-        <tr>
-            <td>
-Unbound data values not persisted automatically in the grid’s controls
-			</td>
-            <td>
-If a row with unbound values is edited and committed, and the grid is rebound after that, the changes are not persisted.
-			</td>
-            <td>
-![](images/positive.png)
-			</td>
-        </tr>
-        <tr>
-            <td>
-Erroneous scrolling of the grid to top when virtualization is used
-			</td>
-            <td>
-A grid is scrolled to the top before any unbound column values are rendered when virtualization of any form of (fixed or continuous) is used and the [`setUnboundValues`](%%jQueryApiUrl%%/ui.iggrid#methods:setUnboundValues) client API method is called.
+グリッドは、リモートのページングを有効にしたクライアント上で [`unboundValues`](%%jQueryApiUrl%%/ui.iggrid#options:columns.unboundValues) を設定している場合に、非バインド列に対して同じ値を表示します。
 			</td>
             <td>
 ![](images/negative.png)
@@ -849,10 +816,10 @@ A grid is scrolled to the top before any unbound column values are rendered when
         </tr>
         <tr>
             <td>
-Boolean unbound columns populated incorrectly when remote data is used
+非バインド列の中で数式の使用に制限がある
 			</td>
             <td>
-When the [`MergeUnboundColumns`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~MergeUnboundColumns.html) property is set to *false* and remote data is used, then any Boolean unbound columns are populated with *false*.
+[`MergeUnboundColumns`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~MergeUnboundColumns.html) オプションが *true* に設定されている場合、`igGrid` の非バインド列で数式を使用することはできません。
 			</td>
             <td>
 ![](images/positive.png)
@@ -860,10 +827,21 @@ When the [`MergeUnboundColumns`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridM
         </tr>
         <tr>
             <td>
-`igGrid`’s [`getUnboundValues`](%%jQueryApiUrl%%/ui.iggrid#methods:getUnboundValues) method of grids does not return unbound values in certain situations
+グリッド コントロールで非バインド データ値が自動的に保持されない
 			</td>
             <td>
-Using the `getUnboundValues()` client API method does not return unbound values if they are set through the `dataBound` client-side event.
+非バインド値の含まれる行を編集してコミットし、そのあとでグリッドをバインドし直した場合、変更内容は保持されません。
+			</td>
+            <td>
+![](images/positive.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+仮想化を使用している場合、一番上にグリッドが誤ってスクロールする
+			</td>
+            <td>
+いずれかの形式 (固定式または連続式) の仮想化を使用し、[`setUnboundValues`](%%jQueryApiUrl%%/ui.iggrid#methods:setUnboundValues) クライアント API メソッドを呼び出した場合、非バインド列の値が表示される前にグリッドが一番上にスクロールします。
 			</td>
             <td>
 ![](images/negative.png)
@@ -871,24 +849,46 @@ Using the `getUnboundValues()` client API method does not return unbound values 
         </tr>
         <tr>
             <td>
-Sorting, Filtering, and Group By not persisting state
+リモート データを使用している時、ブール値の非バインド列が間違って生成される
 			</td>
             <td>
-Sorting, Filtering, and GroupBy do not persist their state when they are applied to unbound columns.
+[`MergeUnboundColumns`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~MergeUnboundColumns.html) プロパティを *false* に設定した状態で、リモート データを使用すると、ブール値の非バインド列には *false* が入力されます。
+			</td>
+            <td>
+![](images/positive.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+特定の状況で、グリッドの `igGrid` の [`getUnboundValues`](%%jQueryApiUrl%%/ui.iggrid#methods:getUnboundValues) メソッドが非バインド値を返さない
+			</td>
+            <td>
+非バインド値が `dataBound` クライアント側イベントを介して設定される場合、`getUnboundValues()` クライアント API メソッドを使用しても非バインド値は返されません。
+			</td>
+            <td>
+![](images/negative.png)
+			</td>
+        </tr>
+        <tr>
+            <td>
+並べ替え、フィルタリング、グループ化の状態は永続化されません
+			</td>
+            <td>
+並べ替え、フィルタリング、および GroupBy は、非バインド列に適用すると、その状態を保持しません。
 
-If the feature persistence is enabled (by default) and an unbound column is grouped/sorted/filtered, after invoking `dataBind()` of `igGrid`:
+機能の永続化が有効 (デフォルト) で、非バインド列がグループ化/並べ替え/フィルターされた場合、`igGrid` の `dataBind()` を起動した後:
 
                 <ul>
                     <li>
-**For GroupBy** - the column will be ungrouped
+**GroupBy** - 列はグループ化されません
 					</li>
 
                     <li>
-**For Filtering** - the filtering expressions of the unbound column will be cleared
+**Filtering** - 非バインド列のフィルタリング式がクリアされます
 					</li>
 
                     <li>
-**For Sorting** - the sorting style applied to the unbound column will be removed
+**Sorting** - 非バインド列に適用された並べ替えが削除されます
 					</li>
                 </ul>
             </td>
@@ -901,50 +901,50 @@ If the feature persistence is enabled (by default) and an unbound column is grou
 </table>
 
 
- Go up to [Known Issues and Limitations Summary](#summary)
+ [既知の問題と制限の概要](#summary)を参照してください。
 
-### <a id="grid-virtualization"></a> [igGrid – Virtualization](igGrid-Known-Issues.html)
+### <a id="grid-virtualization"></a> [igGrid – 仮想化](igGrid-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Fixed headers always enabled (limitation) | When virtualization is enabled, there is a limitation in the form of the [fixedHeaders](%%jQueryApiUrl%%/ui.iggrid#options:fixedHeaders) option being unchangeable and always set to true. | ![](images/negative.png)
-Grid height settings limitation | The height of the igGrid must always be exactly divisible by the average row height. (The remainder of the division must be 0.) | ![](images/negative.png)
-Rows’ height settings limitation | In an igGrid with only a few data rows, all igGrid rows receive expanded height. This is because the sum of the rows’ heights has to match the grid’s height. | ![](images/negative.png)
-Columns visible width settings limitation | The columns visible width must be equal to the igGrid’s width (for horizontal virtualization) | ![](images/negative.png)
-Keyboard navigation not supported for horizontal virtualization (limitation) | Keyboard navigation is not supported for horizontal virtualization. | ![](images/negative.png)
-Limitation to applying cell classes | Applying a specific cell class to every cell that is in a sorted column is not supported, i.e. [applySortedColumnCss](%%jQueryApiUrl%%/ui.iggridsorting#options:applySortedColumnCss) is automatically set to false. | ![](images/negative.png)
-When virtualization is enabled the autofitLastColumn is not effective | When virtualization is enabled the [autofitLastColumn](%%jQueryApiUrl%%/ui.iggrid#options:autofitLastColumn) has no effect, which will result in columns expanding to take up the whole grid width when the sum of the columns widths is less than the width of the grid (it will act as autofitLastColumn = true). | ![](images/negative.png)
-Column virtualization will not work when grid width is defined in percentage units | When grid width is defined in percentage units and column virtualization is enabled ([columnVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:columnVirtualization) = true) horizontal scrollbar will not render. | ![](images/negative.png)
-Fixed virtualization is not supported with RWD Mode | Fixed virtualization depends on the row's height being constant. If the row's height changes the fixed virtualization will not work as expected. RWD Mode changes the row's height as it adopts to the screen size so fixed virtualization will not work as expected with it. | ![](images/positive.png)
-Column virtualization is not supported with continuous virtualization | Column virtualization is supported only with fixed virtualization. When column virtualization is enabled([columnVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:columnVirtualization) = true) then the virtualization mode must be set to "fixed"([virtualizationMode](%%jQueryApiUrl%%/ui.iggrid#options:virtualizationMode) = "fixed"). | ![](images/negative.png)
+固定ヘッダーが常に有効になる (制限)|仮想化が有効な場合、変更できない [fixedHeaders](%%jQueryApiUrl%%/ui.iggrid#options:fixedHeaders) オプションのフォームに制限があり、常に true に設定されます。 | ![](images/negative.png)
+グリッドの高さ設定に制限がある|igGrid の高さは、常に行の平均の高さで割り切れる値でなければなりません。(割り算の剰余はゼロでなければなりません。) | ![](images/negative.png)
+行の高さ設定に制限がある|データ行が数行のみの igGrid では、すべての igGrid 行は展開された高さとなります。これは、行の高さの合計がグリッドの高さと一致する必要があるためです。 | ![](images/negative.png)
+列の可視の幅の設定に制限がある|列の可視の幅は、igGrid の幅と等しくなければなりません (水平方向の仮想化の場合)。 | ![](images/negative.png)
+水平方向の仮想化に対して、キーボード ナビゲーションがサポートされない (制限)|水平方向の仮想化に対して、キーボード ナビゲーションはサポートされていません。 | ![](images/negative.png)
+セル クラス適用の制限|特定のセルのクラスをソートされた列のすべてのセルに適用する操作はサポートされていません。たとえば、[applySortedColumnCss](%%jQueryApiUrl%%/ui.iggridsorting#options:applySortedColumnCss) は自動的に false に設定されます。 | ![](images/negative.png)
+仮想化を有効にすると、autofitLastColumn が無効になる|仮想化を有効にすると、[autofitLastColumn](%%jQueryApiUrl%%/ui.iggrid#options:autofitLastColumn) は無効になり、列幅の合計がグリッド幅よりも小さい場合、列は拡張されグリッド全体を占有することになります (autofitLastColumn が true に設定された場合と同じように動作します)。 | ![](images/negative.png)
+グリッドの幅がパーセンテージで定義されている場合、列の仮想化が機能しない|グリッドの幅がパーセンテージで定義され、列の仮想化が有効な場合 ([columnVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:columnVirtualization) = true)、水平スクロールバーが表示されません。 | ![](images/negative.png)
+固定仮想化は RWD モードでサポートされていない|固定仮想化は、行の高さが定数であることが必要です。行の高さが変更する場合、固定仮想化は正しく操作しません。RWD モードは、画面サイズによって行の高さを変更するため、固定仮想化は正しく動作しません。 | ![](images/positive.png)
+列仮想化は連続仮想化でサポートされていない|列仮想化は固定仮想化のみでサポートされています。列仮想化が有効 ([columnVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:columnVirtualization) = true) な場合、仮想化モードを "fixed" ([virtualizationMode](%%jQueryApiUrl%%/ui.iggrid#options:virtualizationMode) = "fixed") に設定する必要があります。 | ![](images/negative.png)
 
-### <a id="grid-responsive"></a> [igGrid – Responsive Web Design Mode](igGrid-Known-Issues.html)
+### <a id="grid-responsive"></a> [igGrid - レスポンス Web デザイン モード](igGrid-Known-Issues.html)
 <table class="table table-striped">
 	<thead>
 		<tr>
             <th>
-Issue
+問題
 			</th>
 
             <th>
-Description
+説明
 			</th>
 
             <th>
-Status
+状態
 			</th>
         </tr>
 	</thead>
 	<tbody>   
         <tr>
-        <td>RWD mode is not supported in IE8</td>
-        <td>RWD is unable to determine the mode in IE8. This feature is mainly targeted at mobile compatibility so it is not supported under IE8.</td>
+        <td>RWD モードは IE8 でサポートされない</td>
+        <td>RWD は IE8 でモードを決定できません。この機能はモバイル互換性を対象するため、IE8 でサポートされません。</td>
         <td>![](images/negative.png)</td>
         </tr>     
     </tbody>
 </table>
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 ### <a id="grid-column-fixing"></a> [igGridColumnFixing](igGrid-Known-Issues.html)
 
@@ -952,15 +952,15 @@ Go up to [Known Issues and Limitations Summary](#summary)
 	<thead>
 		<tr>
             <th>
-Issue
+問題
 			</th>
 
             <th>
-Description
+説明
 			</th>
 
             <th>
-Status
+状態
 			</th>
         </tr>
 	</thead>
@@ -969,32 +969,32 @@ Status
 
         <tr>
             <td>
-Column fixing not supported for some igGrid features
+一部の igGrid 機能で、列固定がサポートされない
 			</td>
 
             <td>
-                The Column Fixing feature of igGrid does not work with the following features:
+                igGrid の列固定機能は、以下の機能では動作しません。
 
                 <ul>
 
                     <li>
-Grouping (aka. Group By)
+グループ化 (別名:グループ化)
 					</li>
 
                     <li>
-(Responsive Web Design (RWD) Mode (aka. Responsive)
+(レスポンシブ Web デザイン (RWD) モード (別名:レスポンシブ)
 					</li>
 
                     <li>
-Knockout library (KnockoutJS) integration
+Knockout ライブラリ (KnockoutJS) の結合
 					</li>
 
                     <li>
-Unbound Columns
+非バインド列
 					</li>
                 </ul>
 
-                Integration of Column Fixing with these features will be implemented in a future volume release.
+                これらの機能と列固定機能の統合は、次期ボリューム リリースで実装される予定です。
             </td>
 
             <td>
@@ -1008,12 +1008,12 @@ Unbound Columns
 
         <tr>
             <td>
-Misalignment of fixed and unfixed parts of the rows in IE9+
+IE9+ での行の固定部分と固定解除部分との不整合
 			</td>
 
             <td>
-In Internet Explorer 9 or higher, if you fix a column in an igGrid and scroll down to the middle of the grid, you will see misalignment between the fixed and unfixed parts of the rows. This issue is caused
-                    by the IE9 engine.
+Internet Explorer 9 以降で、igGrid で列を固定してグリッドの中央へスクロールすると、行の固定部分と固定されていない部分との間にずれが発生します。この問題の原因は
+                    IE9 エンジンにあります。
 			</td>
 
             <td>
@@ -1023,12 +1023,12 @@ In Internet Explorer 9 or higher, if you fix a column in an igGrid and scroll do
 
         <tr>
             <td>
-Grid and its columns widths are mandatory and should be defined in pixels units
+グリッドおよびその列の幅は必須で、ピクセル単位で定義する必要がある
 			</td>
 
             <td>
-Grid and its columns (either explicitly or using the [defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) option) widths are mandatory
-                    and should be defined in pixels units.
+グリッドの幅とその列の幅 (明示的または [defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) オプションを使用) は必須で、
+                    ピクセル単位で定義する必要があります。
 			</td>
 
             <td>
@@ -1038,11 +1038,11 @@ Grid and its columns (either explicitly or using the [defaultColumnWidth](%%jQue
 
         <tr>
             <td>
-The grid scrolls to the top, when a column is unfixed and continuous virtualization is enabled
+列の固定を解除し、連続仮想化を有効にすると、グリッドが最上部までスクロールする
 			</td>
 
             <td>
-When you have continuous virtualization enabled and you unfix a column, the grid scrolls to the top.
+連続仮想化を有効にし、列の固定を解除すると、グリッドは最上部までスクロールします。
 			</td>
 
             <td>
@@ -1052,340 +1052,340 @@ When you have continuous virtualization enabled and you unfix a column, the grid
     </tbody>
 </table>
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題点と制限の概要](#summary)を参照してください。
 
 
 ### <a id="grid-column-moving"></a> [igGridColumnMoving](igGrid-Known-Issues.html#column-moving)
 
-Issue | Description | Status
+問題|説明|状態
 ------|-------------|-------
-Column Moving not working in IE 9 | Column Moving does not work in Internet Explorer 9. This is caused by a bug in the jQuery UI draggable introduced in version 1.7.2 and resolved in 1.8.6. For more information on the bug, see [jQuery UI Bug 5370](http://bugs.jqueryui.com/ticket/5370). | ![](images/positive.png)
-Erroneous Column Moving behavior of in Google Chrome | When the Column Moving feature is used with a jQuery UI version lower than 1.8.6, it causes the grid to be selected in Google Chrome. | ![](images/positive.png)
+IE 9 で列移動が機能しない|Internet Explorer 9 では、列移動は機能しません。これは、バージョン 1.7.2 で導入されたドラッグ可能な jQuery UI のバグが原因ですが、バージョン 1.8.6 で解決されています。バグの詳細は、[jQuery UI Bug 5370](http://bugs.jqueryui.com/ticket/5370) を参照してください。 | ![](images/positive.png)
+Google Chrome で列移動が正常に動作しない|バージョン 1.8.6 よりも前の jQuery UI で列移動機能を使用している場合、Google Chrome ではグリッドが選択されることになります。 | ![](images/positive.png)
 
 
- Go up to [Known Issues and Limitations Summary](#summary)
+ [既知の問題と制限の概要](#summary)を参照してください。
 
-### <a id="grid-multi-column-headers"></a> [igGrid - Multi-column headers](igGrid-Known-Issues.html)
+### <a id="grid-multi-column-headers"></a> [igGrid - 複数列ヘッダー](igGrid-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ------|-------------|-------
-Multi-column headers feature is not supported with `columnVirtualization` | When virtualization and multi-column headers features are enabled, only `rowVirtualization` is integrated. Column virtualization is not supported in this scenario. | ![](images/negative.png)
+複数列ヘッダー機能は `columnVirtualization` ではサポートされない|仮想化および複数列ヘッダー機能が有効の場合、`rowVirtualization` のみが統合されます。列仮想化はこのシナリオではサポートしていません。 | ![](images/negative.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="grid-filtering"></a> [igGridFiltering](igGrid-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ------|-------------|-------
-Advanced filtering not working with OR filtering expressions | The oData protocol does not support OR filtering expressions, therefore, advanced filtering can be used with AND filtering expressions only. | ![](images/negative.png)
+詳細フィルタリングが、OR フィルタリング式と一緒に機能しない|oData プロトコルは OR フィルタリング式をサポートせず、詳細フィルタリングは AND フィルタリング式と一緒の場合のみ使用できます。 | ![](images/negative.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="grid-grouping"></a> [igGridGroupBy](igGrid-Known-Issues.html#groupby)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Inconsistent date format in the group row and the rest of the rows | When grouping by column that has data in date format, the format of the date at the top of the group (this format is automatically displayed when grouping), is different from the column format. | ![](images/positive.png)
-Grouping not working in IE 9 | The Group By feature does not work in Internet Explorer 9. This is caused by a bug in the jQuery UI draggable introduced in version 1.7.2 and resolved in 1.8.6. For more information on the bug, see [jQuery UI Bug 5370](http://bugs.jqueryui.com/ticket/5370) . | ![](images/positive.png)
-Misaligned rows in IE 9 when grouping by column and collapsing all rows | When grouping by column and collapsing all rows, the rows are misaligned in IE9 due to the specific way the browser handles collapsed elements. | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
-Erroneous grouping when defining paging before grouping in MVC | When using an MVC Solution and defining the Paging and Group By features together, the groups will be incorrect if Paging is defined before the Group By feature. | ![](images/positive.png)
-Incorrect filtering row area style in IE 8 | The filtering row area gets the wrong style when Group By and Filtering are enabled together in Internet Explorer 8. This due to issues specific to the Internet Explorer 8 browser. | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
-Row count for a group stays unchanged when the grid is filtered | When Filtering is enabled together with the Group By feature, the group row count stays unchanged by design, even if the grid is filtered and the count of rows – reduced. | ![](images/negative.png)
-Incorrect row count for the second group when more than two groups are grouped together with remote paging enabled | When more than two groups are grouped with the Group By feature together with remote Paging, enabled the second group gets the wrong row count. | ![](images/negative.png)
-Incorrect record count with remote paging and summaries | When grid Paging and grid Summaries are remote and there are records with null values, the count of the records in the group is incorrect because the value is send as a null string from the server. | ![](images/negative.png)
-Exception thrown when the Group By feature defines column settings together with enabling inheritance | If you enable the Group By feature and, in it, attempt to both define column settings and enable inheritance, a page exception will be thrown. | ![](images/positive.png)
-Values in a column grouped but not displayed correctly | When [`autoGenerateColumns`](%%jQueryApiUrl%%/ui.iggrid#options:autoGenerateColumns) is set to *true* and a column is set to be grouped at initialization, the values in the column are grouped but not displayed correctly. | ![](images/positive.png)
-The `groupedColumnsChanged` event input argument `ui.groupedColumns` may be empty | The `ui.groupedColumns` input argument of the [`groupedColumnsChanged`](%%jQueryApiUrl%%/ui.iggridgroupby#events:groupedColumnsChanged) event may be empty when a column has been grouped by dragging it into the Group By area. | ![](images/positive.png)
-Tapping the `igTree` inside the Group By modal dialog not working properly | Tapping the drop-down inside the Group By modal dialog may lead to some layout problems on Android 4.0. The issue appears when the tree is shown partially, having a vertical or horizontal scroll. | ![](images/positive.png)
-Limitation when using GroupBy feature and continuous virtualization | When `igGrid`’s continuous virtualization is in use and the Group By feature is enabled, scrolling vertically causes the groups to revert to their initial state (expanded or collapsed depending on the [`initialExpand`](%%jQueryApiUrl%%/ui.iggridgroupby#options:initialExpand) option). | ![](images/negative.png)
-Grouping not working with fixed virtualization | The GroupBy feature of the `igGrid` doesn’t work with fixed virtualization. | ![](images/negative.png)
-Hiding a column shrinks the grid in Firefox | When the GroupBy feature is enabled and `igGrid` doesn’t have column widths defined, hiding a column shrinks the grid in Firefox browser. | ![](images/positive.png)
+グループ行の日付形式が他の行の形式と異なる|日付形式のデータを持つ列をグループ化する場合、グループの上部にある日付の形式 (この形式はグループ化するときに自動的に表示されます) は、列の形式と異なります。 | ![](images/positive.png)
+IE 9 でグループ化が機能しない|Internet Explorer 9 では、グループ化機能は動作しません。これは、バージョン 1.7.2 で導入されたドラッグ可能な jQuery UI のバグが原因ですが、バージョン 1.8.6 で解決されています。バグの詳細は、[jQuery UI Bug 5370](http://bugs.jqueryui.com/ticket/5370) を参照してください。 | ![](images/positive.png)
+列をグループ化し、すべての行を折り畳んだ時に、IE 9 で行が正しく配置されない|列をグループ化し、すべての行を折り畳むと、IE 9 では行が正しく配置されません。これはブラウザーが折り畳まれた要素を固有の方法で処理するためです。 | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
+MVC でグループ化を実行する前にページング機能を定義すると、グループが不正となる|MVC ソリューションを使用して、ページングおよびグループ化機能をともに定義する場合、グループ化機能の実行前にページングが定義されるとグループが不正になります。 | ![](images/positive.png)
+IE 8 では、フィルタリング行領域が不正になる|IE 8 でグループ化とフィルタリングがともに有効な場合、フィルタリング行領域は誤ったスタイルを取得します。これは、Internet Explorer 8 のブラウザーの固有の問題です。 | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
+グリッドがフィルターされていると、グループの行カウントが変更されない|グループ化機能でフィルタリングが有効な場合、グリッドをフィルタリングして行カウントが減っても、グループの行カウントは設計上、変更されません。 | ![](images/negative.png)
+リモート ページングを有効にして 3 つ以上のグループをグループ化すると、2 番目のグループの行カウントが不正になる|リモートのページングが有効な状態で、グループ化機能を使用して 3 つ以上のグループをグループ化すると、2 番目のグループは不正な行カウントを取得します。 | ![](images/negative.png)
+リモートのページングおよび集計で、レコード カウントが不正になる|グリッドのページングおよびグリッドの集計がリモートで、null 値が含まれるレコードがある場合、グループのレコード カウントが不正になります。これは値がサーバーから null 文字列として送信されるためです。 | ![](images/negative.png)
+グループ化機能で列設定を定義し、同時に継承を有効にすると、例外がスローされる|グループ化機能を有効にし、その中で列設定を定義し継承を有効にすると、ページ例外がスローされます。 | ![](images/positive.png)
+列内の値はグループ化されるが、正しく表示されない|[`autoGenerateColumns`](%%jQueryApiUrl%%/ui.iggrid#options:autoGenerateColumns) が *true* に設定され、列が初期化でグループ化されている場合、列の値はグループ化されますが、正しく表示されません。 | ![](images/positive.png)
+`groupedColumnsChanged` イベントの入力引数の `ui.groupedColumns` が空き状態である|列をグループ化領域にドラッグしてグループ化した場合、[`groupedColumnsChanged`](%%jQueryApiUrl%%/ui.iggridgroupby#events:groupedColumnsChanged) イベントの `ui.groupedColumns` 入力の引数が空き状態になる場合があります。 | ![](images/positive.png)
+グループ化のモーダル ダイアログ内の `igTree` のタップが正しく機能しない|Android 4.0 で、グループ化のモーダル ダイアログ内のドロップダウンをタップすると、レイアウトの問題が発生する場合があります。この問題は、ツリーが部分的に表示されており、垂直または水平スクロールを行った場合に発生します。 | ![](images/positive.png)
+GroupBy 機能および連続的仮想化の使用時の制限|`igGrid` の連続仮想化を使用してグループ化機能を有効にしている場合、垂直スクロールにより、グループが初期状態 ([`initialExpand`](%%jQueryApiUrl%%/ui.iggridgroupby#options:initialExpand) オプションに基づいて展開状態または縮小状態) に戻ります。 | ![](images/negative.png)
+グループ化が固定仮想化を使用しても機能しない|`igGrid` の GroupBy 機能は、固定仮想化を使用しても機能しません。 | ![](images/negative.png)
+列を非表示にすると Firefox のグリッドが縮小する|GroupBy 機能が有効で `igGrid` が定義された列幅を持たない場合、列を非表示にすると Firefox ブラウザーのグリッドが縮小します。 | ![](images/positive.png)
 
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 ### <a id="grid-paging"></a> [igGridPaging](igGrid-Known-Issues.html#paging)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Paging events not firing at run-time | The `igGrid` Paging events only fire when the UI is triggers a paging operation. They do not fire when paging options are set at run-time. | ![](images/positive.png)
+実行時にページング イベントが発生しない|`igGrid` のページング イベントは、UI がページング操作をトリガーした場合のみ発生します。ページング オプションをランタイムで設定した場合は発生しません。 | ![](images/positive.png)
 
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="grid-resizing"></a> [igGridResizing](igGrid-Known-Issues.html#resizing)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Resizing not working with some jQuery versions | `igGrid` Resizing does not support jQuery versions 1.8.0 ÷ 1.8.5. | ![](images/positive.png)
-Resizing not working with fixed virtualization |The column resizing feature does not work when fixed virtualization is enabled.| ![](images/positive.png)
-Columns not resizing correctly, when column widths are not set (in Firefox) | Due to a bug in Firefox, the `igGrid` columns cannot be resized correctly when the column widths are not set. | ![](images/negative.png)
-Columns not resizing correctly when column widths are set relatively (in Firefox) | Due to a bug in Firefox, the `igGrid` columns cannot be resized correctly when the column widths are set relatively (in percentages). | ![](images/positive.png)
-Resizing a column occurs at an accelerated speed when the grid is scrolled to the far right.|The resizing speed is accelerated when the grid is scrolled to the far right and a column is resized by dragging from its right edge to the left. This specific behavior is caused by the browser’s layout engine.|![](images/negative.png)
+サイズ変更が、古い jQuery バージョンで機能しない|`igGrid` のサイズ変更は、jQuery のバージョン 1.8.0 ～ 1.8.5 ではサポートされていません。 | ![](images/positive.png)
+サイズ変更が固定仮想化を使用しても機能しない|固定仮想化が有効になっていると、列のサイズ変更機能は動作しません。| ![](images/positive.png)
+Firefox で列幅が設定されていないと、列のサイズ変更が正しく実行されない|Firefox のバグにより、列幅が設定されていない場合 `igGrid` 列を適切にサイズ変更できません。 | ![](images/negative.png)
+Firefox で適切な列幅が設定されていないと、列のサイズ変更が正しく実行されない|列幅を適切なパーセント値で設定していない場合、Firefox のバグにより、`igGrid` 列のサイズを正しく変更できません。 | ![](images/positive.png)
+グリッドが右側にスクロールされた場合、列のサイズ変更はより速いスピードで行います。|グリッドが右側にスクロールされ、列が右端から左へドラッグしてサイズ変更される場合、サイズ変更スピードはより速くなります。この動作はブラウザーのレイアウト エンジンによるものです。|![](images/negative.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 ### <a id="grid-row-selectors"></a> [igGridRowSelectors](igGrid-Known-Issues.html#row-selectors)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Row Selectors not working with column virtualization | Row Selectors are not supported in the context of column virtualization. This will be implemented in future releases. | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
-The `igGridRowSelectors` widget requires the Selection feature enabled | The [`requireSelection`](%%jQueryApiUrl%%/ui.iggridrowselectors#options:requireSelection) option of the `igGridRowSelectors` widget is set to *true* by default and will throw an exception indicating that the Selection feature is required for using row selectors. | ![](images/positive.png)
-Selecting not working correctly in IE 9 | In Internet Explorer 9, selecting using `RowSelectors` with or without checkboxes does not work correctly when the table is large enough to cause the page to have a vertical scrollbar and the user scrolls down. When the grid receives focus, Internet Explorer 9 scrolls the page back up and the selecting is either applied to the wrong row or not applied at all. | ![](images/negative.png)
-The Selection feature cannot be enabled automatically | Automatically Enabling of the Selection feature does not work. The Selection widget is required for the `RowSelectors` to have full functionality. | ![](images/positive.png)
+列仮想化で行セレクターが操作しない|列仮想化のコンテキストでは、列セレクターはサポートされません。これは今後のリリースで実装される予定です。 | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
+`igGridRowSelectors` ウィジェットでは、選択機能を有効にする必要がある|`igGridRowSelectors` ウィジェットの [`requireSelection`](%%jQueryApiUrl%%/ui.iggridrowselectors#options:requireSelection) オプションは、デフォルトで *true* に設定されています。また行セレクターの使用に選択機能が必要なことを示す例外をスローします。 | ![](images/positive.png)
+IE 9 で選択機能が正しく動作しない|Internet Explorer 9 では、テーブルが大き過ぎるとページに垂直スクロールバーが表示されますが、バーを下にスクロールすると、チェックボックスの有無に関係なく、`RowSelectors` を使用した選択が正しく動作しません。グリッドがフォーカスを得ると、Internet Explorer 9 がページを上方にスクロールして戻すため、選択は誤った行に適用される、または全く適用されません。 | ![](images/negative.png)
+選択機能を自動的に有効にできない|選択機能の自動有効化は機能しません。選択ウィジェットでは、`RowSelectors` に全機能を持たせる必要があります。 | ![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="grid-selection"></a> [igGridSelection](igGrid-Known-Issues.html#selection)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Cell selection in iOS does not work properly | In iOS, when wanting to scroll the `igGrid`, the user should first tap on a cell and then swipe in the desired direction. There is a difference when scrolling the `igGrid` under iOS and Android due to the way jQuery Mobile handles the events. | ![](images/negative.png)
-Selection works only with visible rows when virtualization is enabled | This limitation is due to the fact that invisible rows/cells do not exist in the DOM tree when virtualization is enabled. | ![](images/negative.png)
-Incorrect selection when selecting row/cell with continuous virtualization enabled | When selecting row/cell of the `igGrid` while continuous virtualization is enabled, the grid scrolls down and a different row/cell is selected due to a bug in jQuery version 1.6.4. This problem appears only in this version of the jQuery library. | ![](images/positive.png)
+iOS でのセル選択が適切に動作しない|iOS で`igGrid` をスクロールする場合は、最初にセルをタップし、スクロールしたい方向にスワイプする必要があります。iOS と Android では jQuery モバイルによるスクロール イベントの処理方法が異なるため、`igGrid` のスクロール動作には違いがあります。 | ![](images/negative.png)
+仮想化を有効にした場合、表示されている行以外選択できない|これは、仮想化を有効にすると非表示の行やセルは DOM ツリー内に存在しないとみなされるための制限です。 | ![](images/negative.png)
+連続的仮想化が有効になっている場合、行 / セルを選択すると選択が不正になる|連続的仮想化が有効な場合に `igGrid` の行 / セルを選択すると、jQuery バージョン 1.6.4 のバグによりグリッドがスクロール ダウンし、異なる行 / セルが選択されます。この問題は、このバージョンの jQuery ライブラリのみで発生します。 | ![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="grid-summaries"></a> [igGridSummaries](igGrid-Known-Issues.html#summaries)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Limitation when using custom summary with remote data | ASP.NET MVC helper wrapper doesn’t handle the custom summaries by default. Therefore, a custom summary should be created and calculated separately. | ![](images/positive.png)
-Only basic numeric formats supported | The [`summaryFormat`](%%jQueryApiUrl%%/ui.iggridgroupby#options:summarySettings.summaryFormat) property supports only the basic numeric formats. For example, formats like $ .00 will not be able to display the $ sign. | ![](images/negative.png)
-Limitation when setting custom methods | When setting custom methods, it is highly recommended to set the order and [`summaryCalculator`](%%jQueryApiUrl%%/ui.iggridsummaries#options:columnSettings.summaryOperands.summaryCalculator) options of the summary operands. | ![](images/positive.png)
+リモート データを使用したカスタム集計の使用時の制限|ASP.NET MVC ヘルパー ラッパーは、デフォルトでカスタム サマリーを処理できません。したがって、カスタム サマリーを別に作成して、計算する必要があります。 | ![](images/positive.png)
+基本の数値フォーマットのみのサポート|[`summaryFormat`](%%jQueryApiUrl%%/ui.iggridgroupby#options:summarySettings.summaryFormat) プロパティは基本の数値フォーマットのみをサポートします。たとえば、$ 0.00 のような形式は「$」記号を表示することはできません。 | ![](images/negative.png)
+カスタム メソッド設定時の制限|カスタム メソッドを設定する場合は、順序および集計オペランドの [`summaryCalculator`](%%jQueryApiUrl%%/ui.iggridsummaries#options:columnSettings.summaryOperands.summaryCalculator) オプションの設定を強く推奨します。 | ![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="grid-tooltips"></a> [igGridTooltips](igGrid-Known-Issues.html#tooltips)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Tooltips display issues when moving pointer too fast over the cells | If the user moves the mouse quickly through the control, the tooltip fade animation slows down the process of showing and hiding tooltips and can create display issues when the values are very small. | ![](images/positive.png)
+ポインターをセル上で移動する速度が速すぎる場合のツールチップの表示の問題|ユーザーがコントロールでマウスを素早く動かすと、ツールチップのフェード アニメーションがツールチップを表示 / 非表示する処理速度が遅くなり、値が非常に小さい場合は表示の問題が発生することがあります。 | ![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="grid-exporter"></a> [igGridExcelExporter](igGridExcelExporter-Overview.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-igGridExcelExporter does not work in Microsoft Internet Explorer 8 | The issue is that 'export' is a reserved word and thus Internet Explorer 8 is not allowing its use. This will be fixed for the upcoming volume release 15.2 | ![](images/negative.png)
+Microsoft Internet Explorer 8 で igGridExcelExporter が機能しない|問題は、「export」が予約語であるため、Internet Explorer 8 がその使用を許可していないためです。これは、今後のボリューム リリース 15.2 で修正される予定です。 | ![](images/negative.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="grid-updating"></a> [igGridUpdating](igGrid-Known-Issues.html#updating)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Adding a new row with Updating and Virtualization enabled requires immediate committing | Adding a new row is not supported when the Updating and Virtualization features are enabled while [`autoCommit`](%%jQueryApiUrl%%/ui.iggrid#options:autoCommit) is disabled. Virtualization is not aware of the newly added row when `autoCommit` is *false*. | ![](images/positive.png)
-Excel Navigation mode supported only for Cell Edit and Row Edit modes. | When [excelNavigationMode](%%jQueryApiUrl%%/ui.iggridupdating#options:excelNavigationMode) is enabled, navigating with the arrows is only possible with *"cell"* or *"row"* [`editMode`](%%jQueryApiUrl%%/ui.iggridupdating#options:editMode). Other Edit modes (*“rowedittemplate”*, *none*, *null*) are not supported with [`excelNavigationMode`](%%jQueryApiUrl%%/ui.iggridupdating#options:excelNavigationMode). | ![](images/negative.png)
-Adding and updating a virtual grid doesn’t work if it is grouped | When using GroupBy and Updating in a virtual grid, updating or adding rows will not work when the grid is grouped. If you ungroup you will see the newly added record at the bottom of the grid records. | ![](images/negative.png)
-`rowEditDialogMaxHeight` property renamed to [rowEditDialogContentHeight](%%jQueryApiUrl%%/ui.iggridupdating#options:rowEditDialogContentHeight) | This property is related to the Row Edit Template ([`editMode`](%%jQueryApiUrl%%/ui.iggridupdating#options:editMode)=*“rowedittemplate”*). It is used to set the height of the row edit dialog content. This is a breaking change from the previous versions’ functionality. | ![](images/negative.png)
-Column template including `<td>` tag attributes is ignored when updating rows | When updating rows, the `igGrid` correctly changes only the content of the `<td>` tags so that styles and/or attributes applied internally to the `<td>` elements are not lost. | ![](images/positive.png)
+更新と仮想化の機能を有効にして新しい行を追加するには、即時コミットが必要である|[`autoCommit`](%%jQueryApiUrl%%/ui.iggrid#options:autoCommit) を無効にして、更新と仮想化の機能を有効にした場合、新しい行の追加はサポートされません。`autoCommit` が *false* の場合、新たに追加された行は仮想化されません。 | ![](images/positive.png)
+Excel ナビゲーション モードは、セル編集および行編集のみをサポートします。|[excelNavigationMode](%%jQueryApiUrl%%/ui.iggridupdating#options:excelNavigationMode) を有効にした場合、矢印を使用したナビゲーションは、*"cell"* または *"row"* [`editMode`](%%jQueryApiUrl%%/ui.iggridupdating#options:editMode) でのみ実行できます。その他の編集モード (*"rowedittemplate"*、*none*、*null*) は [`excelNavigationMode`](%%jQueryApiUrl%%/ui.iggridupdating#options:excelNavigationMode) でサポートされません。 | ![](images/negative.png)
+グループ化されている場合に、仮想グリッドの追加および更新が機能しない|仮想グリッドの GroupBy および更新の使用で、グリッドがグループ化されている場合、行の更新または追加は機能しなくなります。グループ化を解除すると、グリッド レコードの最下部に新しいレコードが追加されます。 | ![](images/negative.png)
+`rowEditDialogMaxHeight` プロパティの名前が [rowEditDialogContentHeight](%%jQueryApiUrl%%/ui.iggridupdating#options:rowEditDialogContentHeight) に変更される | このプロパティは、行編集テンプレート ([`editMode`](%%jQueryApiUrl%%/ui.iggridupdating#options:editMode)=*“rowedittemplate”*) に関連しています。行編集ダイアログ コンテンツの高さを設定するために使用します。これは以前のバージョンの機能の最新の変更です。 | ![](images/negative.png)
+`<td>` タグ属性を含む列テンプレートが、行の更新で無視される|行を更新すると、`igGrid` は、`<td>` 要素に内部で適用されたスタイル / 属性が失われないように、`<td>` タグのコンテンツのみを正確に変更します。 | ![](images/positive.png)
 
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
-### <a id="feature-chooser"></a>[Feature Chooser](igGrid-Known-Issues.html#feature-chooser)
+### <a id="feature-chooser"></a>[機能セレクター](igGrid-Known-Issues.html#feature-chooser)
 
-Issue | Description | Status
+問題|説明|状態
 ------|-------------|-------
-If any of the features or their options are changed after initialization the changes won't be reflected in the Feature Chooser.|The feature chooser is rendered only once on initialization and won't be affected if any of the features are modified after this.|![](images/negative.png)
+機能またはそのオプションのいずれかが初期化の後に変更された場合、変更は機能セレクターで表示されません。|機能セレクターは初期化で一度に描画され、後に機能が変更されても、影響されません。|![](images/negative.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 ### <a id="tree-grid"></a>[igTreeGrid](igTreeGrid-Known-Issues-And-Limitations.html)
 
-Issue | Description | Status
+問題|説明|状態
 ------|-------------|-------
-Expansion indicators can be cropped/hidden with remote features|Expansion indicators on lower levels in the hierarchy can be cropped/hidden when rendered in the separate indicators non-data column in remote scenarios|![](images/positive.png)
-Misaligned first cells' data on lower levels|Padding on lower levels can push displayed data beyond the available width of the cell and cause the text to wrap around to the initial position, breaking visual hierarchy|![](images/positive.png)
+リモート機能により展開インジケーターを部分表示 / 非表示にできる|リモートシナリオで非データ列に個別のインジケーターを描画する場合、階層の下位レベルの展開インジケーターは部分表示 / 非表示にできます。|![](images/positive.png)
+下位レベルの最初のセルのデータがずれる|下位レベルのパディングにより、表示されるデータがセルの使用可能な幅を超えてプッシュされます。そのためテキストが最初の位置で折り返され、階層の表示が壊れます。|![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 ### <a id="hierarchical-grid"></a> [igHierarchicalGrid](igHierarchicalGrid-Known-Issues.html#general)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Screen taps misinterpreted on Android 4.* devices | On Android 4.*-powered touch devices tapping on the drop-down in the Group By modal dialog in a hierarchical grid will often act on the grid cell behind the modal dialog. | ![](images/positive.png)
-Rendering issues in the hierarchical grid when features are referenced in a particular order | The igHierarchicalGrid’s child layouts may have rendering issues if the Row Selectors feature is added after the Group By feature to the feature list. | ![](images/positive.png)
-Limitation for the primary key values | igHierarchicalGrid uses primary key value of the parent layout to create child layout <div> element with unique id attribute (according to the [HTML5 specification](http://www.w3.org/TR/html5/dom.html#the-id-attribute) [space characters](http://www.w3.org/TR/html5/infrastructure.html#space-character)must not be used in the id attribute value). When the primary key values contain invalid characters the DIV element cannot be selected with the [jQuery ID selector](http://api.jquery.com/id-selector/).As a result features on the child grid may not work as expected. Example: Opening filter dropdown on child grid causes an exception. | ![](images/negative.png)
-Self-reference not working in MVC | If you want to bind an igHierarchicalGrid to self-referencing data, the MVC pattern will not allow you to do this because of limitation in serializing. | ![](images/negative.png)
-Load-on-Demand not working with chaining | It is not possible to enable Load-on-Demand in the View page of your MVC project. | ![](images/positive.png)
-Load-on-Demand without primary keys for the layouts throws an exception | If you enable the Load-on-Demand feature and do not define primary keys for all child layouts, an exception will be thrown. | ![](images/positive.png)
-Some child layout columns are hidden or cut out | When an igHierarchicalGrid has no width defined and the child layout has width that exceeds the width grid, some of the child’s columns will be cut or hidden. | ![](images/positive.png)
-Defining a feature more than once not possible | **In JavaScript:** In both igGrid and igHierarchicalGrid, defining a feature more than once throws an error.**In MVC:** In both igGrid and igHierarchicalGrid, defining a feature more than once in the MVC Wrapper, causes only the last definition to be taken into account. | ![](images/negative.png)
-Client-side binding to XML | Binding to XML is supported only for recursive schemas. | ![](images/negative.png) ![](images/tobeUpdated.png)
-When Load-on-Demand is false persistence is not working for the child layouts | When Load-on-Demand is false remote Filtering, Sorting or GroupBy are not persisted for the child layout. The persist option is automatically set to false for those features in this scenario. | ![](images/negative.png)
-The id attribute is mandatory for the DOM control placeholder | The id attribute should be set on the DOM element on which the grid is initialized. Grid use jQuery ID selector internally for faster selection. | ![](images/negative.png)
-Column keys which contain spaces are not supported | Column keys are used for generating some DOM elements IDs. Having spaces in an HTML id attribute is not allowed according to the [HTML 5 specification](http://www.w3.org/TR/html5/dom.html#the-id-attribute). | ![](images/negative.png)
-Using virtualization with initialExpandDepth is not supported|Currently when virtualization is enabled all rows are fetched as collapsed. Setting initialExpandDepth will have no effect.| ![](images/negative.png)
+Android 4.* デバイスで、スクリーン タップが誤って解釈される|Android 4.* を使用したタッチ デバイスでは、階層グリッドで Group By モーダル ダイアログのドロップダウンのタップは、多くの場合モーダル ダイアログの背後のグリッド セルに作用します。 | ![](images/positive.png)
+階層グリッドにおいて特定の順序で機能を参照した場合に発生するレンダリング問題|Group By 機能を機能リストに追加した後に行セレクターを追加した場合、igHierarchicalGrid の子のレイアウトが正しく描画されないことがあります。 | ![](images/positive.png)
+プライマリ キー値の制限|igHierarchicalGrid は親レイアウトのプライマリー キー値を使用して、固有の id 属性を持つ子レイアウトの <div> 要素を作成します。[HTML5 仕様](http://www.w3.org/TR/html5/dom.html#the-id-attribute)のとおり、id 属性値で[スペース文字](http://www.w3.org/TR/html5/infrastructure.html#space-character)を使用することはできません。プライマリー キーの値に無効な文字が含まれる場合は、[jQuery ID セレクター](http://api.jquery.com/id-selector/)で DIV 要素を選択することはできません。結果として子グリッドの機能は正しく操作しない可能性があります。例: 子グリッドでフィルター ドロップダウンを開くと、例外が発生されます。 | ![](images/negative.png)
+MVC で自己参照が機能しない|igHierarchicalGrid を自己参照データにバインドしたい場合、シリアル化制限のために、MVC パターンによりバインドすることができません。 | ![](images/negative.png)
+チェーンでロード オン デマンドが機能しない|MVC プロジェクトのビュー ページで、ロード オン デマンドを有効にすることはできません。 | ![](images/positive.png)
+レイアウトでプライマリー キーを使用せずにロード オン デマンドを実行すると、例外がスローされる|ロード オン デマンド機能を有効にし、すべての子レイアウトに対してプライマリー キーを定義しなかった場合、例外がスローされます。 | ![](images/positive.png)
+子レイアウトの一部の列が表示されない、または切り取られる|igHierarchicalGrid で幅が定義されず、また子レイアウトに列幅が width グリッドを越える列がある場合、子の列の一部は切り取りまたは非表示になります。 | ![](images/positive.png)
+機能を複数回定義できない|**JavaScript の場合 :** igGrid と igHierarchicalGrid のいずれの場合も、1 つの機能を複数回、定義するとエラーがスローされます。**MVC の場合 :** igGrid と igHierarchicalGrid のいずれの場合も、MVC ラッパーで機能を複数回定義すると、最後の定義のみが取り入れられます。 | ![](images/negative.png)
+XML へのクライアント側のバインディング|XML へのバインディングは再帰的スキーマのみをサポートします。 | ![](images/negative.png) ![](images/tobeUpdated.png)
+ロード オン デマンドが false の場合、永続化は子レイアウトに対して機能しない|ロード オン デマンドが false の場合、フィルタリング、並べ替えまたは GroupBy は子レイアウトに対して永続化されません。このシナリオでは、これらの機能に対してpersist オプションが自動的に false に設定されます。 | ![](images/negative.png)
+id 属性は、DOM コントロール プレースホルダーで必須|id 属性は、グリッドが初期化される DOM 要素に設定する必要があります。グリッドは、jQuery セレクターを内部で使用して選択を高速化します。 | ![](images/negative.png)
+スペースを含む列のキーはサポートされない|列のキーは、一部の DOM 要素の ID の生成に使用されます。[HTML 5 仕様](http://www.w3.org/TR/html5/dom.html#the-id-attribute)により、HTML id 属性にスペースを入れることはできません。 | ![](images/negative.png)
+initialExpandDepth と仮想化の使用がサポートされない|仮想化が有効な場合、すべての取得された行は縮小状態です。initialExpandDepth の設定は無視されます。| ![](images/negative.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="hierarchical-grid-grouping"></a> [igHierarchicalGrid GroupBy](igHierarchicalGrid-Known-Issues.html#grouping)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Limitation of remote grouping in hierarchical grid | Grouping columns from more than one layout (or from the root grid) does not work with remote grouping. | ![](images/positive.png)
-Erroneous remote grouping with Load-on-Demand | If remote Group By is enabled with Load-on-Demand for the entire grid, the groups are incorrect unless you modify the action that returns the data that is being loaded on demand. | ![](images/positive.png)
-Exception thrown when the Group By feature defines column settings together with enabling inheritance | If you enable the Group By feature and, in it, attempt to both define column settings and enable inheritance, a page exception will be thrown. | ![](images/positive.png)
-Limitation of remote grouping from different child layouts | When Load-on-Demand is disabled grouping columns from different child layouts with remote group by will invoke the parent's DataSourceUrl instead of the DataSourceUrl of the child. | ![](images/positive.png)
+階層グリッドにおけるリモート グループ化の制限事項|リモート グループ化では、複数のレイアウト (またはルート グリッド) の列のグループ化は機能しません。 | ![](images/positive.png)
+ロード オン デマンドでのリモート グループ化が不正になる|グリッド全体のロード オン デマンドでリモートの Group By を有効にした場合、オン デマンドでロードしているデータを返すアクションを修正しない限り、グループは不正になります。 | ![](images/positive.png)
+グループ化機能で列設定を定義し、同時に継承を有効にすると、例外がスローされる|グループ化機能を有効にし、その中で列設定を定義し継承を有効にすると、ページ例外がスローされます。 | ![](images/positive.png)
+異なる子レイアウトからのリモート グループ化の制限|ロード オン デマンドが無効な場合は、リモート Group By を使用して異なる子レイアウトから列をグループ化すると、子の DataSourceUrl ではなく親の DataSourceUrl が呼び出されます。 | ![](images/positive.png)
 
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題点と制限の概要](#summary)を参照してください。
 
 
 ### <a id="hierarchical-grid-row-selectors"></a> [igHierarchicalGrid RowSelectors](igHierarchicalGrid-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Row Selectors works on only one layout at a time | The Row Selectors’ feature checkboxes selected in one layout become deselected when user checks the checkboxes in another layout. | ![](images/negative.png)
+行セレクターの動作は、一度に 1 つのレイアウトに限られる|行セレクターの機能のチェックボックスで選択されたレイアウトは、別のレイアウトのチェックボックスがチェックされると選択が解除されます。 | ![](images/negative.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="linear-gauge"></a> [igLinearGauge](igLinearGauge-Known-Issues-and-Limitations.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Only one needle supported | The `igLinearGauge`™ control supports only one needle. | ![](images/positive.png)
-No label collisions detection | The `igLinearGauge` control does not provide means for detecting label collisions. As a result, when the space to visualize the labels is not sufficient, label collisions may occur. | ![](images/positive.png)
+1 つの針のみをサポート|`igLinearGauge` コントロールは、1 つの針のみをサポートします。 | ![](images/positive.png)
+ラベル競合の検出なし|`igLinearGauge` コントロールには、ラベル競合を検出する手段はありません。その結果、ラベルを表示するスペースが十分にない場合は、ラベル競合が発生する可能性があります。 | ![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
-### <a id="mvc"></a> [Ignite UI ASP.NET MVC Wrappers](ASPNET-MVC-Wrappers-Known-Issues.html)
+### <a id="mvc"></a> [Ignite UI ASP.NET MVC ラッパー](ASPNET-MVC-Wrappers-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-MVC helper-generated code in conjunction with the MVC Loader executes after any custom JavaScript code on a page | When the MVC Loader and an MVC helper for any control is used in an ASP.NET MVC View, the JavaScript code they generate is executed after any custom page set-up code from the [`document.ready()`](http://api.jquery.com/ready/) or [`window.load()`](http://api.jquery.com/load-event/) events. | ![](images/positive.png)
-Default value for `AutoGenerateLayouts` changed | In the ASP.NET MVC Helper for grids, the default value of the `AutoGenerateLayouts` property has changed to *false* in order to avoid an additional remote data request for flat grids. | ![](images/negative.png)
-MVC Loader not functioning correctly in an MVC Razor Layout View | The ASP.NET MVC Loader cannot initialize before the controls in an actual View when it is included in an ASP.NET MVC Razor Layout View. | ![](images/positive.png)
+MVC ヘルパー生成コードと MVC ローダーがカスタムの JavaScript ページ設定コードの後に実行される|ASP.NET MVC ビューにおいてコントロールの MVC ローダーや MVC ヘルパーを使用した場合、生成される JavaScript コードは、[`document.ready()`](http://api.jquery.com/ready/) や [`window.load()`](http://api.jquery.com/load-event/) イベントで渡されたカスタムのページ設定コードの後に実行されます。 | ![](images/positive.png)
+`AutoGenerateLayouts` の既定値が変更される|グリッドの ASP.NET MVC ヘルパーでは、フラット グリッドに対して別のリモート データ要求が発行されることを防ぐために、`AutoGenerateLayouts` プロパティの既定値が *false* に変更されます。 | ![](images/negative.png)
+MVC Razor レイアウト ビューで MVC Loader が正常に機能しない|ASP.NET MVC Loader を MVC Razor のレイアウト ビューに表示した場合、実際のビューにあるコントロールよりも前にローカルを初期化することはできません。 | ![](images/positive.png)
 
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
-### <a id="mvc-mobile"></a> [Ignite UI ASP.NET MVC Wrappers (mobile)](ASPNET-MVC-Mobile-Wrappers-Known-Issues.html)
+### <a id="mvc-mobile"></a> [Ignite UI ASP.NET MVC ラッパー (モバイル)](ASPNET-MVC-Mobile-Wrappers-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Mobile control helpers’ location changed | In 2013.1, the mobile control helpers were part of the *Infragistics.Web.MVC.dll* assembly. In 2013.2, they reside in *Infragistics.Web.MVC.Mobile dll*. | ![](images/positive.png)
+モバイル コントロール ヘルパーの位置が変更された|2013.1 でモバイル コントロール ヘルパーは *Infragistics.Web.MVC.dll* アセンブリの一部でした。2013.2 では、これらのヘルパーは *Infragistics.Web.MVC.Mobile dll* 内に常駐しています。 | ![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="map"></a> [igMap](igMap-Known-Issues-Limitations.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Tooltips are shown for the Geographic Contour Line series | Currently tooltips are not supported for the Geographic Contour Line series. | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
-Tooltips are rendered for the Geographic Symbol series on an iPad device | No tooltips appear on an iPad device when Geographic Symbol series are rendered. | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
+地理等高線シリーズにツールチップが表示される|現在のところ、地理等高線シリーズではツールチップはサポートされません。 | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
+iPad デバイスの地理記号シリーズにツールチップが表示される|iPad デバイスでは、地理記号シリーズが表示される場合、ツールチップは表示されません。 | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
 
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="olap-xmla-data-source"></a> [igOlapXmlaDataSource](igOlapXmlaDataSource-Known-Issues-and-Limitations.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-`igOlapXmlaDataSource` not supported on Android-based browsers | The `igOlapXmlaDataSource`™ component is not supported on browsers for the Android operating system. | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
-Authenticated data access not working correctly with Mozilla Firefox for `igOlapXmlaDataSource` | When using the Firefox browser with authenticated access, additional configuration of the [Internet Information Services](http://encyclopedia2.thefreedictionary.com/Internet+Information+Services) (IIS) is necessary. | ![](images/positive.png)
-Authenticated data access not working correctly with Internet Explorer 8.0 and 9.0 for non-trusted domains for `igOlapXmlaDataSource` | The `igOlapXmlaDataSource` component cannot retrieve OLAP data on non-trusted domains with the Internet Explorer browser, versions 8 and 9. | ![](images/positive.png)
-Chrome does not display authentication popup for cross-domain requests when using `igOlapXmlaDataSource` | In the Chrome browser, versions 13 or higher, the authentication popup dialog is not displayed for cross-domain requests. | ![](images/positive.png)
+`igOlapXmlaDataSource` が Android ベースのブラウザーでサポートされない | `igOlapXmlaDataSource`™ コンポーネントは、Android オペレーティング システム用ブラウザーでサポートされていません。 | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
+認証済みデータ アクセスが、`igOlapXmlaDataSource` で Mozilla Firefox と正しく連携しない|Firefox ブラウザーを認証済みアクセスで使用する場合は、[インターネット インフォメーション サービス](http://encyclopedia2.thefreedictionary.com/Internet+Information+Services) (IIS) の追加構成が必要です。 | ![](images/positive.png)
+`igOlapXmlaDataSource` 用の信頼されていないドメインに対して、Internet Explorer 8.0 および 9.0 で認証済みデータ アクセスが正しく機能しない|`igOlapXmlaDataSource` コンポーネントは Internet Explorer ブラウザーのバージョン 8 および 9 で信頼されないドメインの OLAP データを取得できません。 | ![](images/positive.png)
+`igOlapXmlaDataSource` を使用している場合に、Chrome がクロスドメイン要求の認証ポップアップを表示しない|Chrome ブラウザーのバージョン 13 以降では、認証ポップアップ ダイアログはクロスドメイン要求に対して表示されません。 | ![](images/positive.png)
 
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="pivot-data-selector"></a> [igPivotDataSelector](igPivotDataSelector-Known-Issues-and-Limitations.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Drop label remains after drop between `igPivotDataSelector` areas using old jQuery UI versions | This is caused by a bug in the jQuery UI draggable introduced in version 1.8.19.  For more information, see [jQuery UI Bug 8269](http://bugs.jqueryui.com/ticket/8269). | ![](images/positive.png)
+古い jQuery UI バージョンを使用して、`igPivotDataSelector` のエリア間でドロップした後、ドロップ ラベルが残る|これは、バージョン 1.8.19 で導入されるドラッグ可能な jQuery UI バグにより引き起こされます。詳細は、[jQuery UI バグ 8269](http://bugs.jqueryui.com/ticket/8269)を参照してください。 | ![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="pivot-grid"></a> [igPivotGrid](igPivotGrid-Known-Issues-and-Limitations.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Captions-based sorting in `igPivotGrid` always alphabetical | No custom captions sorting behaviors are currently supported by the `igPivotGrid`™ control. Only alphabetical sorting is available. | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
-Expanding or collapsing a member in `igPivotGrid` re-renders the grid | When a member in the rows or columns of the `igPivotGrid` is expanded or collapsed, the whole grid is re-rendered. | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
-`igPivotGrid` not always rendered correctly in browsers for the Android operating system | In browsers for the Android operating system, sometimes only the first column of the `igPivotGrid` is displayed. | ![](images/positive.png)
-*Drop label remains after drag-and-drop between drop areas in jQuery UI 1.8.19* | When drag-and-dropping an item between areas of the `igPivotGrid` and/or the `igPivotDataSelector`™, the drop label remains. | ![](images/positive.png)
-Horizontal scrollbar not visible on Mac OS under certain conditions | Horizontal scrollbar not visible on Mac OS when its "Show scrollbars only when scrolling" option is set to *true*. The grid horizontal scrollbar has overflow set to *hidden*. | ![](images/positive.png)
+`igPivotGrid` におけるキャプション ベースの並べ替えは、常にアルファベット順になる|現在、`igPivotGrid`™ コントロールでは、カスタム キャプションの並べ替えビヘイビアーはサポートされていません。アルファベット順の並べ替えのみを使用できます。 | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
+`igPivotGrid` でメンバーを展開または折りたたむと、グリッドを再レンダリングする|`igPivotGrid` の行または列のメンバーを展開または折りたたむと、グリッド全体が再レンダリングされます。 | ![](images/negative.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
+`igPivotGrid` が、Android オペレーティング システム用のブラウザー内で必ずしも正しく表示されない | Android オペレーティング システム用のブラウザーでは、`igPivotGrid` の最初の列のみが表示されます。 | ![](images/positive.png)
+*jQuery UI 1.8.19 におけるドロップ エリア間でドラッグ アンド ドロップ後に ドロップ ラベルが残っている。*|`igPivotGrid` および / または `igPivotDataSelector`™ のエリア間で項目をドラッグ アンド ドロップする場合、ドロップ ラベルが残ります。 | ![](images/positive.png)
+一定の条件下のMac OS で、水平スクロールバーが表示されない|Mac OS で、「Show scrollbars only when scrolling」オプションを *true* に設定した場合、水平スクロールバーは表示されません。グリッドの水平スクロールバーはオーバーフロー時に *hidden* に設定されます。 | ![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="popover"></a> [igPopover](igPopover-Known-Issues-And-Limitations.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-The pointer mispositioned in Chrome on page loading | If the `igPopover` is shown when initially loading the page, the arrow is not positioned properly according to the content frame. | ![](images/positive.png)
-**show** method requiring target parameter with **selectors** option is used, | When the selectors option is set and multiple targets are available, the show method needs DOM element to be passed as parameter, otherwise an error is thrown. | ![](images/negative.png)
+ポインターはページのロード時に Chrome で正しい位置をポイントしない|ページの最初のロード時に `igPopover` が表示されている場合、矢印がコンテンツ フレームに対して正しい位置に置かれません。 | ![](images/positive.png)
+**selectors** オプションでターゲット パラメーターを必要とする **show** メソッドが使用されています。|selectors オプションが設定され、複数のターゲットが使用可能な場合、show メソッドにパラメーターとして DOM 要素を渡す必要があります。渡さなかった場合、エラーがスローされます。 | ![](images/negative.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="qr-barcode"></a> [igQRCodeBarcode](igQRCodeBarcode-Known-Issues-and-Limitations.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Platform-specific characters not supported | The current version of the `igQRCodeBarcode`™ control does not support encoding symbols with 4 bytes. | ![](images/negative.png)
-Micro QR Code format not supported | The control currently does not support the Micro QR Code standard. | ![](images/negative.png)
-Structured Append mode not supported | The `igQRCodeBarcode` control currently does not provide support for Structured Append mode. | ![](images/negative.png)
+プラットフォーム固有の文字がサポートされない|現在のバージョンの `igQRCodeBarcode`™ コントロールは、4 バイトでエンコードする記号をサポートしません。 | ![](images/negative.png)
+Micro QR Code フォーマットがサポートされない|このコントロールは現在 Micro QR Code 標準をサポートしていません。 | ![](images/negative.png)
+Structured Append モードがサポートされない|`igQRCodeBarcode` コントロールは現在、 Structured Append モードに対するサポートを提供していません。 | ![](images/negative.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="zoombar"></a> [igZoombar](igZoombar-Known-Issues-And-Limitations.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-`igDataChart` Radial Series not supported | `igZoombar`™ supports only horizontal zooming while Radial Series zooming makes sense only when done on both axes. Because of this, zooming Radial Series with `igZoombar` does not work properly. | ![](images/negative.png)
-`igZoombar` thumbnail not rendered when used with `igDataChart` | `igZoombar` creates its thumbnail by using the options of the `igDataChart` control (which is referenced in `igZoombar`‘s [`target`](%%jQueryApiUrl%%/ui.igzoombar#options:target) option). `igZoombar` trims off some of these options in an attempt to remove the clutter from the thumbnail. This can make the new option set invalid. | ![](images/positive.png)
-The clone and the target widget of `igZoombar` doesn’t synchronize automatically | Changing the widget being zoomed by the `igZoombar` control does not update the clone automatically. | ![](images/positive.png)
+`igDataChart` ラジアル シリーズがサポートされない | `igZoombar`™ では、ズームは水平方向のみサポートされますが、ラジアル シリーズでは両方の軸でズームした場合のみサポートされます。そのため、ラジアル シリーズの `igZoombar` によるズームは正しく機能しません。 | ![](images/negative.png)
+`igDataChart`　で使用した場合、`igZoombar` のサムネイルが描画されない| `igZoombar` は `igDataChart` コントロールのオプション (`igZoombar` の [`target`](%%jQueryApiUrl%%/ui.igzoombar#options:target) オプションで参照されます)を使用してサムネイルを作成します。`igZoombar` は、サムネイルの乱雑さを回避するためにこれらのオプションの一部を削除します。その結果、新しいオプション セットが無効になることがあります。 | ![](images/positive.png)
+`igZoombar` のクローンとターゲット ウィジェットが自動的に同期しない|`igZoombar` コントロールによりズームされたウィジェットを変更しても、クローンが自動的に更新されません。 | ![](images/positive.png)
 `igZoombar` does not work  with igDataCharts with Stacked Series.| The `igZoombar` creates a clone of the original `igDataChart` that it targets. By default the `igZoombar` infers the clone‘s options from the original chart object (refer to the [`clone`](%%jQueryApiUrl%%/ui.igzoombar#options:clone) option of the `igZoombar`). In the case of the stacked series, which have a more complex structure, the original chart modifies the series that the user provides internally. Due to this the `igZoombar` cannot obtain the original series and cannot recreate the clone automatically.| ![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 ### <a id="infragistics-documents"></a> [Infragistics Document Engine](DocumentEngine-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Namespace conflict | Using the NetAdvantage® for ASP.NET and Ignite UI documents’ assemblies together causes namespace conflict exceptions. | ![](images/positive.png)
+名前空間の競合|Infragistics ASP.NET と Ignite UI のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/positive.png)
 
 
- Go up to [Known Issues and Limitations Summary](#summary)
+ [既知の問題と制限の概要](#summary)を参照してください。
 
-### <a id="templating-engine"></a> Infragistics Templating Engine
+### <a id="templating-engine"></a> Infragistics テンプレート エンジン
 
 <table class="table table-striped">
 	<thead>
 		<tr>
             <th>
-Issue
+問題
 			</th>
 
             <th>
-Description
+説明
 			</th>
 
             <th>
-Status
+状態
 			</th>
         </tr>
 	</thead>
@@ -1394,11 +1394,11 @@ Status
 
         <tr>
             <td>
-Infragistics Templating limitations
+Infragistics テンプレート機能に関する制限事項
 			</td>
 
             <td>
-Nested `{{each}}` templates are not supported.
+入れ子になった `{{each}}` テンプレートはサポートされません。
 			</td>
 
             <td>
@@ -1408,15 +1408,15 @@ Nested `{{each}}` templates are not supported.
 
         <tr>
             <td>
-Characters different from A-Z, a-z, 0-9, "_" are not substituted/recognized.
+A-Z、a-z、0-9、_ 以外の文字は置換されず、認識されません。
 			</td>
 
             <td>
-                Substitution expressions cannot contain written signs different from alphanumeric characters, numeric characters and underscore.
+                置換の式には、英数字、数字、アンダースコア以外の記号を入れることはできません。
 
                 
 
->**Workaround:** If you need to use characters different from the allowed ones you can customize the following `$.ig.regExp` options `$.ig.regExp.sub:/\$\{(([\w\$]+(\.|\s)?[\w\$]*)+)\}/`which matches any substitution element in the template that is to be encoded before rendering or the `$.ig.regExp.nonEncodeSub: /\{\{html\s+([\w\$]+(\.|\s)?[\w\$]*)+\}\}/` option, that matches any substitution element in the template                     that is to be rendered as it is. **For example** if you need to use a dash "-" change the expression like this: `$.ig.regExp.sub:/\$\{(([\w\$-]+(\.|\s)?[\w\$-]*)+)\}/` and accordingly `$.ig.regExp.nonEncodeSub: /\{\{html\s+([\w\$-]+(\.|\s)?[\w\$-]*)+\}\}/`.
+>**回避策:** 許可されない文字の使用が必要な場合は、以下の `$.ig.regExp` オプションをカスタマイズできます。`$.ig.regExp.sub:/\$\{(([\w\$]+(\.|\s)?[\w\$]*)+)\}/` は、レンダリング前にエンコードされるテンプレート内のどの置換要素とも一致します。あるいは、`$.ig.regExp.nonEncodeSub: /\{\{html\s+([\w\$]+(\.|\s)?[\w\$]*)+\}\}/` オプションは、そのままにレンダリングされるテンプレート内のどの置換要素とも一致します。**たとえば**、ダッシュ (-) を使用する場合は、`$.ig.regExp.sub:/\$\{(([\w\$-]+(\.|\s)?[\w\$-]*)+)\}/`、`$.ig.regExp.nonEncodeSub: /\{\{html\s+([\w\$-]+(\.|\s)?[\w\$-]*)+\}\}/` のように変更します。
             </td>
 
             <td>
@@ -1427,34 +1427,34 @@ Characters different from A-Z, a-z, 0-9, "_" are not substituted/recognized.
 </table>
 
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
-### <a id="popup-mobile"></a> [Popup (mobile)](Popup-Known-Issues.html)
+### <a id="popup-mobile"></a> [Popup (モバイル)](Popup-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-The MVC `Popup` mobile control requires jQuery Mobile version 1.2 | The `Popup` widget was introduced in jQuery mobile 1.2. | ![](images/negative.png)
+MVC `Popup` モバイル コントロールにはバージョン 1.2 の jQuery モバイルが必要|`Popup` ウィジェットは、jQuery モバイル 1.2 で初めて導入された機能です。 | ![](images/negative.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
-### <a id="selectmenu-mobile"></a> [SelectMenu (mobile)](SelectMenu-Known-Issues.html)
+### <a id="selectmenu-mobile"></a> [SelectMenu (モバイル)](SelectMenu-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-The [`CloseText`](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SelectMenuModel~CloseText.html) property of mobile `SelectMenu` not applied when the menus are in custom dialog-based containers | If you set a text for the close button tooltip using the `CloseText` property of the `SelectMenu` control in dialog-based containers, your custom tooltip will not appear and the default one will be shown instead. <br /> This is due to jQuery Mobile not injecting the custom close text which cannot be accessed later. | ![](images/negative.png)
+メニューがカスタム ダイアログ ベースのコンテナーに収められている場合、モバイル `SelectMenu` の [`CloseText`](Infragistics.Web.Mvc.Mobile~Infragistics.Web.Mvc.Mobile.SelectMenuModel~CloseText.html) プロパティが適用されない|ダイアログ ベースのコンテナーで、`SelectMenu` コントロールの `CloseText` プロパティを使用して閉じるボタン ツールチップのテキストを設定しても、カスタムのツールチップは表示されず、代わりにデフォルトのツールチップが表示されます。<br />これは、jQuery モバイルが、あとでアクセスできなくなるカスタムの閉じるテキストを挿入しないためです。 | ![](images/negative.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
-###  <a id="slider-mobile"></a>  [Slider (mobile)](Slider-Known-Issues.html)
+###  <a id="slider-mobile"></a>  [Slider (モバイル)](Slider-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Mobile Slider does not slide on Windows Phone 7 | Because Windows® Phone 7 does not support standard touch events, the slider is read-only. | ![](images/positive.png)
+Mobile Slider が Windows Phone 7 上でスライドしない|Windows® Phone 7 は標準のタッチ イベントをサポートしないため、スライダーは読み取り専用です。 | ![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題と制限の概要](#summary)を参照してください。
 
 
 

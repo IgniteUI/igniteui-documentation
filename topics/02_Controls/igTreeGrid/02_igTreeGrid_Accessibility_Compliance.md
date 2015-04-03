@@ -8,60 +8,60 @@
 |metadata|
 -->
 
-# Accessibility Compliance (igTreeGrid)
+# アクセシビリティの遵守 (igTreeGrid)
 
-## igTreeGrid Accessibility Compliance
+## igTreeGrid アクセシビリティの遵守
 
-All of the Ignite UI™ controls and components comply with Section 508, Subpart 1194.22 of the Rehabilitation Act of 1973. Table 1 contains the specific rules of Subpart 1194.22 that pertain to the control. Also detailed is how the grid control complies with each rule.
+すべての Ignite UI™ コントロールおよびコンポーネントは、1973 年リハビリテーション法第 508 条第 1194 部 22 条を遵守しています。表 1 には、コントロールに関連する第 1194 部 22 条の特定の規則が記載されています。また、グリッド コントロールが各規則を遵守するための詳しい方法も含んでいます。
 
-To meet the requirements each accessibility rule, in some cases, you may need to interact with the control by to setting a specific property, but in other cases the control does the work for you.
+各アクセシビリティ規則の要件を満たすために、場合によっては、コントロールを操作して特定のプロパティを設定する必要がありますが、それ以外の場合は、コントロール自身がこの作業を行います。
 
-> **Note:** As jQuery controls are client-only, some of the rules are not supported and are marked as limitations.
+> **注:** jQuery コントロールはクライアント専用のため、一部の規則はサポートされておらず、制限として扱います。
  
-Table 1: Section 508 compliance description
+表 1: 第 508 条遵守の説明
 
 <table class="table table-striped">
 	<tbody>
 		<tr>
-			<th>Rules</th>
-			<th>How We Comply with Rules</th>
+			<th>規則</th>
+			<th>規則を遵守する方法</th>
 		</tr>
 		<tr>
 			<td>(a)</td>
-			<td>A text equivalent for every non-text element shall be provided (e.g., via "alt", "longdesc", or in element content).</td>
+			<td>あらゆる非テキスト要素に対してテキスト相当物を提供するものとします（つまり、「alt」、「longdesc」を介して、または要素コンテンツで)。</td>
 		</tr>
 		<tr>
 			<td>(b)</td>
-			<td>Equivalent alternatives for any multimedia presentation shall be synchronized with the presentation.</td>
+			<td>マルチメディア プレゼンテーションに相当する代替物をプレゼンテーションと同期するものとします。</td>
 		</tr>
 		<tr>
 			<td>(d)*</td>
-			<td>The control's markup is not readable without the associated style sheet because it's a client-side control and depends on the CSS rules.</td>
+			<td>コントロールのマークアップは、クライアント側コントロールであり CSS のルールに依存するため関連づけられるスタイル シートなしでは読み取ることはできません。</td>
 		</tr>
 		<tr>
 			<td>(g)</td>
-			<td>Row and column headers shall be identified for data tables.</td>
+			<td>行と列のヘッダーはデータ テーブルで識別しなければなりません。</td>
 		</tr>
 		<tr>
 			<td>(h)</td>
-			<td>Markup shall be used to associate data cells and header cells for data tables that have two or more logical levels of row or column headers.</td>
+			<td>マークアップは、行または列のヘッダーの 2 つ以上の論理レベルを有するデータ テーブル用にデータ セルとヘッダー セルを関連づけるために使用します。</td>
 		</tr>
 		<tr>
 			<td>(n)*</td>
-			<td>The igTreeGrid control participates in the tab sequence of the page and receives focus including via a mouse click. Selection must be enabled in order keyboard navigation to work.<ul>
-					<li>LEFT ARROW: When a cell is selected, this command makes the previous cell selected.</li>
-					<li>RIGHT ARROW: When a cell is selected, this command makes the next cell selected.</li>
-					<li>UP ARROW: Makes the row/cell in the previous row selected</li>
-					<li>DOWN ARROW: Makes the row/cell in the next row selected</li>
-					<li>SHIFT+UP (or DOWN) ARROW: Includes the above (or below) row/cell in a multiple selection</li>
-					<li>CTRL+UP (or DOWN) ARROW: Changes the currently active row/cell</li>
-					<li>SHIFT+ENTER: Deselects the currently selected row/cell</li>
-				</ul>* Descriptive label (for) is not provided for the editor input elements as part of the igTreeGridUpdating feature. This makes sense only if the grid's element is a form which is not supported.</td>
+			<td>igTreeGrid コントロールは、ページのタブ列に加えられ、マウス クリックなどによってフォーカスを獲得します。キーボードでナビゲートできるように、選択が有効になっている必要があります。<ul>
+					<li>左矢印 -- セルを選択するとき、このコマンドは前のセルを選択された状態にします。</li>
+					<li>右矢印 -- セルを選択するとき、このコマンドは次のセルを選択された状態にします。</li>
+					<li>上矢印 -- 前の行にある行/セルを選択された状態にします。</li>
+					<li>下矢印 -- 次の行にある行/セルを選択された状態にします。</li>
+					<li>SHIFT+上 (または下) 矢印 -- 複数セクションの上 (または下) の行/列を含みます。</li>
+					<li>CTRL+ 上 (または下) 矢印: 現在アクティブな行/列を変更します。</li>
+					<li>SHIFT+ENTER -- 現在選択されている行/セルを選択解除します。</li>
+				</ul>* 説明ラベルは igTreeGridUpdating 機能の一部なので、エディター入力要素には提供されません。グリッドの要素はサポートされないフォームのみの場合に便利です。</td>
 		</tr>
 	</tbody>
 </table>
 
-\* - control limitations
+\* - コントロールの制限
  
 
  

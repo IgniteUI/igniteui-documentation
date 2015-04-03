@@ -8,32 +8,32 @@
 |metadata|
 -->
 
-# Calculating Order Totals
+# 注文合計を計算
 
-## Before You Begin
-A common task in a Microsoft® Excel® workbook is to store a column or row of numerical data and have a cell containing the total of these numbers. The nice thing about this total is it can automatically update when one of the numbers changes. You can create a total cell in a worksheet by applying a formula as the cell's value.
+## 始める前に
+Microsoft® Excel® ワークブックで頻繁に使用するのは、1 列または 1 行の数値データを格納し、新しいセルにこれらの合計値を計算するタスクです。この合計の良い点は、いずれかの数値を変更すると合計が自動的に更新されることです。セルの値として数式を適用することにより、ワークシートに合計セルを作成できます。
 
-## What You Will Accomplish
-Using this topic, you will learn how to create cells contains totals of data in the worksheet.
+## 達成すること
+このトピックでは、データの合計を含むセルをワークシートに作成する方法を学習します。
 
-## Follow these Steps
-1.  **Create a workbook with a worksheet.**
-    1.  Create an HTML page.
-    2.  Add a Button to it.
-    3.  Create a function for its click event.
-    4.  Create a Workbook with one Worksheet:
+## 次の手順を実行します
+1.  **ワークシートを使用してワークブックを作成します。**
+    1.  HTML ページを作成します。
+    2.  ボタンを追加します。
+    3.  そのボタンのクリック イベントの機能を作成します。
+    4.  ひとつのワークシートを使用してワークブックを作成します。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
 		var workbook = new $.ig.excel.Workbook();
 		var worksheet = workbook.worksheets().add("Sheet1");
         ```
 
-2.  **Define the columns for the worksheet data.**
-    1.  Make column headers so the data is easily identified:
+2.  **ワークシート データの列を定義します。**
+    1.  データを簡単に識別できるように列ヘッダーを作成します。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
 		var headersRow = worksheet.rows(0);
@@ -45,9 +45,9 @@ Using this topic, you will learn how to create cells contains totals of data in 
 		headersRow.cells(5).value("Order Total");
         ```
 
-    2.  Set special formatting for any columns which require it:
+    2.  特別なフォーマットを必要とする任意の列に特別なフォーマットを設定します。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
         // The "Unit Price" column should display its values as dollars
@@ -62,10 +62,10 @@ Using this topic, you will learn how to create cells contains totals of data in 
 		worksheet.columns(5).width(3000);
         ```
 
-3.  **Populate the cells with data.**
-    1.  Populate the cells with data (not the cells that will contain totals; those will be calculated by formulas later):
+3.  **セルにデータを格納します。**
+    1.  セルにデータを格納します（合計を含むセルではありません。これらは後で数式で計算されます）。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
 		var currentRow = worksheet.rows(1);
@@ -97,77 +97,77 @@ Using this topic, you will learn how to create cells contains totals of data in 
 		currentRow.cells(4).value(0.1);
         ```
 
-4.  **Create a Grand Total label under the data.**
-    1.  Create a merged cell, update the data, and apply a label:
+4.  **データの下に Grand Total のラベルを作成します。**
+    1.  マージしたセルを作成し、データを更新して、ラベルを適用します。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
 		var mergedCell = worksheet.mergedCellsRegions().add( 5, 0, 5, 4 );
 		mergedCell.value("Grand Total");
         ```
 
-    2.  Adjust the text alignment so the label appears closer to where the Grand Total cell will be:
+    2.  Grand Total セルが配置される近くにラベルが表示されるように、テキストの配置を調整します。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
 		mergedCell.cellFormat().alignment($.ig.excel.HorizontalCellAlignment.right);
         ```
 
-	![Displays the results of using the code listed above.](images/ExcelEngine_Calculating_Order_Totals_01.png)
+	![](images/ExcelEngine_Calculating_Order_Totals_01.png)
 
-5.  **Apply a formula to calculate the sub total of each order record.**
-    1.  Create a formula that calculates the order total. The formula will multiply the unit price by the quantity, and remove the discount from the total: =[UnitPrice]*[Quantity]*(1-[Discount]). The formula will be created as if it were calculating the order total for the first order (the total in cell F2). However, the formula will be created using relative cell references, so when it is applied to the other order total cells, the cell references will be correctly shifted downwards:
+5.  **各注文記録の小計を計算するために数式を適用します。**
+    1.  注文合計を計算する数式を作成します。数式は、次のように単価に数量を掛けて、合計から値引きを引きます。 =[UnitPrice]*[Quantity]*(1-[Discount])。最初の発注の注文合計を計算するように、数式を作成します（セル F2 の合計）。ただし、相対的なセルの参照を使用して数式は作成されます。したがって、その他の発注合計セルに適用されると、セル参照は正しく下に移動します。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
 		var orderTotalFormula = $.ig.excel.Formula.parse("=C2*D2*(1-E2)", $.ig.excel.CellReferenceMode.a1);
         ```
 
-    2.  Create a cell region that defines the cells to which the formula will be applied:
+    2.  数式が適用されるセルを定義するセル領域を作成します。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
 		var region = new $.ig.excel.WorksheetRegion(worksheet, 1, 5, 4, 5);
         ```
 
-    3.  Apply the formula to the region of order total cells:
+    3.  注文合計セルの領域に数式を適用します。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
         orderTotalFormula.applyTo( region );
         ```
 
-	![Displays the results of using the code listed above.](images/ExcelEngine_Calculating_Order_Totals_02.png)
+	![](images/ExcelEngine_Calculating_Order_Totals_02.png)
 
-6.  **Apply a formula to determine the grand total.**
-    1.  Create a formula to total all "Order Total" cells for a grand total. This formula will use absolute references by prefacing row and column identifiers with a dollar sign ($), but relative references can be used as well:
+6.  **総計を決定するために数式を適用します。**
+    1.  総計を出すためにすべての「Order Total」セルを合計する数式を作成します。この数式は、ドル記号（$）を行および列の識別子の前に置くことで絶対参照を使用しますが、相対参照も同様に使用できます。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
 		var grandTotalFormula = $.ig.excel.Formula.parse("=SUM($F$2:$F$5)", $.ig.excel.CellReferenceMode.a1);
         ```
 
-    2.  Apply the formula to the grand total cell:
+    2.  数式を総計セルに適用します。
 
-        **In JavaScript:**
+        **JavaScript の場合:**
 
         ```
         grandTotalFormula.applyTo(worksheet.rows(5).cells(5));
         ```
 
-	![Displays the results of using the code listed above.](images/ExcelEngine_Calculating_Order_Totals_03.png)
+	![](images/ExcelEngine_Calculating_Order_Totals_03.png)
 
-7.  **Save the workbook**
+7.  **ワークブックを保存します。**
 
-    Save the workbook:
+    ワークブックを保存します。
 
-    **In JavaScript:**
+    **JavaScript の場合:**
 
     ```
 	workbook.save(function(data) { 

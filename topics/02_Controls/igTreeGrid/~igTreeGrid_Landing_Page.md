@@ -11,16 +11,16 @@
 # igTreeGrid
 
 
-### Introduction
+### 概要
 
-The `igTreeGrid` control is a jQuery widget that displays data in a tree-like tabular structure. The control presents hierarchical data similar to the `igHierarchicalGrid` control. Child layouts in `igTreeGrid` have the same column definition as the root layout. Rendering hierarchical data all with the same columns allows the tree grid to have superior render speeds while maintaining low memory and low DOM footprints. Further, the `igTreeGrid` also supports advanced interactive features that operate in the same way as the `igGrid`.
+`igTreeGrid` コントロールはデータをツリーのような表構造で表示する jQuery ウィジェットです。このコントロールは、`igHierarchicalGrid` コントロールと同様に階層データを示します。`igTreeGrid` 内の子レイアウトは、ルート レイアウトと同じ列の定義を持ちます。同じ列で階層データをすべて描画すると、ツリー グリッドの描画速度が速くなり、メモリおよび DOM フットプリントが低くなります。また `igTreeGrid` は、`igGrid` と同様の方法で動作する高度なインタラクティブ機能もサポートしています。
 
-### Topics
+### トピック
 
--   [igTreeGrid Overview](igTreeGrid-Overview.html)- This topic contains an overview of the `igTreeGrid` control.
--   [Features Overview (igTreeGrid)](igTreeGrid-Features-Overview.html): This topic covers the basics around the modular features available for the `igTreeGrid` control. 
--   [Filtering (igTreeGrid)](igTreeGrid-Filtering.html): This topic explains how the `igTreeGridFiltering` operates on hierarchical data.
--   [Updating (igTreeGrid)](igTreeGrid-Updating.html): This topic contains an overview of the Updating functionality specific to the `igTreeGrid` control.
--   [Load on Demand (igTreeGrid)](igTreeGrid-Load-On-Demand.html): This topic explains the benefits of the `igTreeGrid` Load on Demand functionality and how it can be implemented.
--	[Remote Features (igTreeGrid)](igTreeGrid-Remote-Features.html): This topic contains an overview and implementation details on performing remote operations with `igTreeGrid` features.
+-   [igTreeGrid の概要](igTreeGrid-Overview.html) - このトピックでは、`igTreeGrid` コントロールの概要を説明します。
+-   [機能の概要 (igTreeGrid)](igTreeGrid-Features-Overview.html): このトピックでは、`igTreeGrid` コントロールで使用可能なモジュラー機能の基本について説明します。 
+-   [フィルタリング (igTreeGrid)](igTreeGrid-Filtering.html): このトピックでは、`igTreeGridFiltering` による階層データの操作方法を説明します。
+-   [更新 (igTreeGrid)](igTreeGrid-Updating.html): このトピックでは、`igTreeGrid` コントロールに固有の更新機能の概要を説明します。
+-   [ロード オン デマンド (igTreeGrid)](igTreeGrid-Load-On-Demand.html): このトピックでは、`igTreeGrid` ロード オン デマンドのメリットと実装方法を説明します。
+-	[リモート機能 (igTreeGrid)](igTreeGrid-Remote-Features.html): このトピックでは、`igTreeGrid` 機能を使用してリモート操作を実行するための概要と実装の詳細を説明します。
   

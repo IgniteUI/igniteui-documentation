@@ -8,11 +8,11 @@
 |metadata|
 -->
 
-# Understanding the Infragistics JavaScript Excel Library
+# Infragistics JavaScript Excel ライブラリの理解
 
-This is a great place for you to start learning about the Infragistics JavaScript Excel Library, and its key features and functionalities. The topics in this section will give you a better idea of why you would want to use the JavaScript Excel Library in your applications.
+Infragistics JavaScript Excel ライブラリ、およびその主要な機能と機能性について解説します。このセクションのトピックを読むと、アプリケーションで JavaScript Excel ライブラリを使用することの利点を理解できます。
 
-Click the links below to gain an overview of the JavaScript Excel Library.
+JavaScript Excel ライブラリの概要については、以下のリンクをクリックしてください。
 
-- [Supported Versions of Microsoft Excel](JavaScript-Excel-Library-Supported-Versions-of-Microsoft-Excel.html)
-- [Infragistics JavaScript Excel Library Overview](JavaScript-Excel-Library-Overview.html)
+- [サポートされるバージョンの Microsoft Excel](JavaScript-Excel-Library-Supported-Versions-of-Microsoft-Excel.html)
+- [Infragistics JavaScript Excel ライブラリの概要](JavaScript-Excel-Library-Overview.html)
