@@ -62,15 +62,19 @@ initialExpandDepth と仮想化の使用がサポートされない|仮想化が
 [異なる子レイアウトからのリモート グループ化の制限](#different-child-layouts)|ロード オン デマンドが無効な場合は、リモート Group By を使用して異なる子レイアウトから列をグループ化すると、子の `DataSourceUrl` ではなく親の `DataSourceUrl` が呼び出されます。 | ![](images/positive.png)
 
 
-#### igHierarchicalGrid RowSelectors
+### igHierarchicalGrid RowSelectors
 
 問題|説明|状態
 ---|---|---
 行セレクターの動作は、一度に 1 つのレイアウトに限られる|行セレクターの機能のチェックボックスで選択されたレイアウトは、別のレイアウトのチェックボックスがチェックされると選択が解除されます。 | ![](images/negative.png)
 
+### igHierarchicalGrid ツールチップ
 
+問題 | 説明 | 状態
+---|---|---
+ツールチップのオプションが子およびルートの定義で異なる場合、ツールチップは子レイアウトで表示されません。 | 階層グリッドのすべてのツールチップ インスタンスで同じ DOM 要素を使用するようになったため、このシナリオはサポートされません。 | ![](images/negative.png)
 
-## <a id="general"></a> igHierarchicalGrid
+### <a id="general"></a> igHierarchicalGrid
 
 <table class="table table-striped">
 	<thead>

@@ -52,6 +52,7 @@
     -   [igHierarchicalGrid](#hierarchical-grid)
     -   [igHierarchicalGrid GroupBy](#hierarchical-grid-grouping)
     -   [igHierarchicalGrid RowSelectors](#hierarchical-grid-row-selectors)
+	-   [igHierarchicalGrid ツールチップ](#hierarchical-grid-tooltips)
     -   [igLinearGauge](#linear-gauge)
     -   [Ignite UI ASP.NET MVC ラッパー](#mvc)
     -   [Ignite UI ASP.NET MVC ラッパー (モバイル)](#mvc-mobile)
@@ -710,6 +711,7 @@ IE9 以前のバージョンで placeHolder テキストがプレビューされ
 問題|説明|状態
 ------|-------------|-------
 PipelineMode が Classic で、トレースが有効な場合、大きなファイル (50kb 以上) のアップロードが失敗する|これはサードパーティ問題で、Microsoft に記録されています。詳細は、 [ここ](https://connect.microsoft.com/VisualStudio/feedback/details/1008381/readentitybody-returns-0-bytes-in-iis-7-5-when-pipelinemode-is-classic-and-trace-is-enabled)で問題の状態をチェックできます。 | ![](images/positive.png)
+Internet Explorer 10/11 で Windows 認証モードが有効で、IE の HTTP keep-alive タイムアウトが切れた場合、ファイルのアップロードは失敗します。| これは IE のサード パーティ問題で、詳細については[ここ](https://connect.microsoft.com/IE/feedback/details/819941/file-upload-stop-working-on-ie-with-windows-authentication)を参照してください。回避策として、接続を保持するには特定の期間にサーバーへ POST 要求を送信できます。たとえば、keep-alive を 120 秒に設定した場合、最初のアップロードの後に要求を 90 秒毎にトリガーします。| ![](images/positive.png)
 
  [既知の問題と制限の概要](#summary)を参照してください。
 
@@ -1249,6 +1251,15 @@ initialExpandDepth と仮想化の使用がサポートされない|仮想化が
 問題|説明|状態
 ---|---|---
 行セレクターの動作は、一度に 1 つのレイアウトに限られる|行セレクターの機能のチェックボックスで選択されたレイアウトは、別のレイアウトのチェックボックスがチェックされると選択が解除されます。 | ![](images/negative.png)
+
+[既知の問題と制限の概要](#summary)を参照してください。
+
+
+### <a id="hierarchical-grid-tooltips"></a> [igHierarchicalGrid ツールチップ](igHierarchicalGrid-Known-Issues.html)
+
+問題 | 説明 | 状態
+---|---|---
+ツールチップのオプションが子およびルートの定義で異なる場合、ツールチップは子レイアウトで表示されません。 | 階層グリッドのすべてのツールチップ インスタンスで同じ DOM 要素を使用するようになったため、このシナリオはサポートされません。  | ![](images/negative.png)
 
 [既知の問題と制限の概要](#summary)を参照してください。
 
