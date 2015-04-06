@@ -405,7 +405,7 @@
 	            return View("RowEditTemplate", ds);
 	        }
 	```
-​
+
 6. `rowEditDialogOpening` クライアント側イベントを処理します。 <a id="mvc-event"></a>
 
 	次のコードは、`rowEditDialogOpening` クライアント側イベントを処理し、`igGridUpdating` ウィジェットおよび行編集ダイアログ DOM 要素への参照を提供します。

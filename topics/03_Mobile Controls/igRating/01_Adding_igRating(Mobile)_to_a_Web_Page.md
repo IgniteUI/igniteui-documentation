@@ -126,7 +126,7 @@
 
 	2. JavaScript におけるインスタンス化
 	
-		​i. DIV HTML プレースホルダーを定義します。
+		i. DIV HTML プレースホルダーを定義します。
 		
 		**HTML の場合:**
 		
@@ -134,7 +134,7 @@
 		<div id="igRating"></div>
 		```
 		
-		​ii. JavaScript 初期化コード
+		ii. JavaScript 初期化コード
 		
 		Infragistics ローダー コンポーネントを使用している場合、以下のコードをローダーのコールバック関数内に入れることができます。
 		

@@ -292,7 +292,7 @@ Ignite UI ユーティリティ
 	
 	![](images/igBulletGraph_Adding_igBulletGraph_to_an_HTML_Page_2.png)
 
-5. ​**パフォーマンス バーを追加します。**
+5. **パフォーマンス バーを追加します。**
 
 	`igBulletGraph` の主要なメジャーはそのパフォーマンス バーにより視覚化されます。値は [`value`](%%jQueryApiUrl%%/ui.igBulletGraph#options:value) プロパティ設定で制御します。この例では、value を 35 に設定します。
 	

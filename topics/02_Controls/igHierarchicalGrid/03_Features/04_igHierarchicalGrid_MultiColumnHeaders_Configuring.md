@@ -263,7 +263,7 @@
 
 以下の手順は、igHierarchicalGrid で複数列ヘッダーの構成方法を示します。
 
-​1. 必要な JavaScript および CSS ファイルを参照する。
+1. 必要な JavaScript および CSS ファイルを参照する。
 
 `Index.cshtml` ビューで、必要な JavaScript 参照を追加して、Infragistics ローダーのインスタンスを作成します。
 
@@ -288,13 +288,13 @@
 .Render()
 ```
 
-​2. モデルを定義する。
+2. モデルを定義する。
 
 Nortwind Database に Employees テーブルと Orders テーブルの ADO.NET Entity Data Model を追加して `NorthwindModel` という名前を付けます。
 
 ![](images/igHierarchicalGrid_Configure_MultiColumnHeaders_4.png)
 
-​3. ビューを定義する。
+3. ビューを定義する。
 
 `Index.cshtml` ビューを開き、以下のコードを追加します。
 
@@ -364,7 +364,7 @@ Orders レイアウトでは、複数列ヘッダー グループは 1 つです
 .Render()
 ```
 
-​4. コントローラーを定義する。
+4. コントローラーを定義する。
 
 Home コントローラーの `Index` アクション メソッドで、Northwind データベースから Employees および Orders データを抽出し、それをビューで返します。
 

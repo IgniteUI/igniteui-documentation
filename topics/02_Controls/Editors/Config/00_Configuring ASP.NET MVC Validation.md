@@ -89,7 +89,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 
 
-​**1. Person クラスを作成します**
+**1. Person クラスを作成します**
 
 1. Person クラスを追加します
 
@@ -136,7 +136,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 	}
 	```
 
-​**2. コントローラーとビューの追加**
+**2. コントローラーとビューの追加**
 
 1. PersonController を作成します
 
@@ -296,7 +296,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 	</asp:content>
 	```
 
-​**3**. **データ注釈バリデーターの追加**
+**3**. **データ注釈バリデーターの追加**
 
 1. System.ComponentModel.DataAnnotations 名前空間をインポートします。
 
@@ -399,7 +399,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_6.png)
 
-​**4. 検証メッセージの構成 (オプション)**
+**4. 検証メッセージの構成 (オプション)**
 
 1. 検証メッセージを View に追加します。
 

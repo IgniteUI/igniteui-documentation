@@ -81,9 +81,9 @@
 
 以下はプロセスの概念的概要です。
 
-​1. `CollapsibleSet` を  View ページに追加
+1. `CollapsibleSet` を  View ページに追加
 
-​2. (オプション) 結果の検証
+2. (オプション) 結果の検証
 
 ### <a id="steps"></a> 手順
 

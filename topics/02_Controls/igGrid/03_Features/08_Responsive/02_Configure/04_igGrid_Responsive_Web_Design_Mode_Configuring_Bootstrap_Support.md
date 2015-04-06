@@ -46,9 +46,9 @@ RWD モードのプロファイルに使用される Twitter Bootstrap を構成
 
 以下はプロセスの概念的概要です。
 
-​1. プロファイルのアクティブ化に Bootstrap の JavaScript ユーティリティ クラスを使用するための RWD モード機能を構成する
+1. プロファイルのアクティブ化に Bootstrap の JavaScript ユーティリティ クラスを使用するための RWD モード機能を構成する
 
-​2. Twitter Bootstrap を使用することにより、RWD モードの列の非表示、行および列の テンプレートを構成する
+2. Twitter Bootstrap を使用することにより、RWD モードの列の非表示、行および列の テンプレートを構成する
 
 ### 手順
 

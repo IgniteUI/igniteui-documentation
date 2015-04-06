@@ -600,7 +600,7 @@ $("#grid1").live("iggriddatabound", function (event, ui) {
 > 
 > 1.すべての非バインド列の場合、`dataBind()` を起動する前にフィルター式、グループ化された列、並べ替えた列を保存します。
 
-​2. `dataBound` イベントの後 (`dataRendered` イベントなどで) 機能の API メソッドで列設定/式を適用します。
+2. `dataBound` イベントの後 (`dataRendered` イベントなどで) 機能の API メソッドで列設定/式を適用します。
 
 
 ## <a id="virtualization"></a> igGridVirtualization

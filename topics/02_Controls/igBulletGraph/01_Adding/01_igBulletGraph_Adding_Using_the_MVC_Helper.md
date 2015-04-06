@@ -139,7 +139,7 @@
 
 以下の手順では、ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに `igBulletGraph` のインスタンスを作成する方法を示します。
 
-​ **1. ASP.NET MVC ヘルパーを追加します**。
+**1. ASP.NET MVC ヘルパーを追加します**。
 
 ASP.NET MVC ヘルパーを ASP.NET ページの本文に追加します。
 
@@ -152,7 +152,7 @@ ASP.NET MVC ヘルパーを ASP.NET ページの本文に追加します。
 </body>
 ```
 
-​**2. 基本的な描画オプションを構成する *igBulletGraph* コントロールのインスタンスを作成します**。
+**2. 基本的な描画オプションを構成する *igBulletGraph* コントロールのインスタンスを作成します**。
 
 `igBulletGraph` のインスタンスの作成すべての Ignite UI ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
 
@@ -166,7 +166,7 @@ ASP.NET MVC ヘルパーを ASP.NET ページの本文に追加します。
 </body>
 ```
 
-​**3. スケールを構成します。**
+**3. スケールを構成します。**
 
 スケールの値をカスタマイズするには、 [`MinimumValue()`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.BulletGraphModel_members.html) および [`MaximumValue()`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.BulletGraphModel_members.html) メソッドに値を渡す必要があります。この例では、スケールは 5 から開始され 55 で終了します。
 
@@ -184,7 +184,7 @@ ASP.NET MVC ヘルパーを ASP.NET ページの本文に追加します。
 
 **![](images/igBulletGraph_Adding_igBulletGraph_to_an_ASP.NET_MVC_Application_2.png)**
 
-​**4. パフォーマンス バーを追加します。**
+**4. パフォーマンス バーを追加します。**
 
 igBulletGraph の `Value()` メソッドを設定して、パフォーマンス バーを追加します。この例では、値を 35 に設定しています。
 
@@ -197,7 +197,7 @@ igBulletGraph の `Value()` メソッドを設定して、パフォーマンス 
                 .Render()%>
 ```
 
-​**5. 比較マーカーを構成します。**
+**5. 比較マーカーを構成します。**
 
 比較目盛マーカーのスケールへの配置は、`TargetValue()` メソッドの値を設定します。この例では、値を 43 に設定しています。
 
@@ -214,7 +214,7 @@ igBulletGraph の `Value()` メソッドを設定して、パフォーマンス 
 
 ![](images/igBulletGraph_Adding_igBulletGraph_to_an_ASP.NET_MVC_Application_3.png)
 
-​**6. 比較範囲を追加します。**
+**6. 比較範囲を追加します。**
 
 `Ranges()` メソッドの中に、各比較範囲を定義します。開始値および終了値は、各範囲 (`StartValue()` や `EndValue()` のパラメーター) およびカラー (`Brush()`) で個別に設定できます。
 
