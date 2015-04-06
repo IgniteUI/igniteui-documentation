@@ -40,10 +40,10 @@
 
 | Term | Definition |
 | --- | --- |
-| Level | Applies to all data items/rows with equal number of parents in their respective hierarchy |
-| Root level | The topmost rows that have no parent of their own |
-| Non-leaf level | Rows that have BOTH at least one child AND a parent |
-| Leaf level | Items at the lowest level of a hierarchical relationship with NO children AND a parent |
+| レベル | 各階層のすべてのデータ項目/行および同じ数の親を適用します。 |
+| ルート レベル | 自身に親のない最上位の行。 |
+| リーフなしレベル | 少なくとも親と子が 1 づつある行。 |
+| リーフ　レベル | 親と子がない階層関係の最下位レベルの項目 |
 
 
 ## <a id="architectural-overview"></a> アーキテクチャの概要

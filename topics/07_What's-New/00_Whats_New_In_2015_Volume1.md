@@ -159,7 +159,7 @@ igGridExcelExporter コンポーネントにより、igGrid から Microsoft Exc
 
 ### <a id="grid-responsive-feature-improvements"></a>レスポンシブ機能の向上
 
-А new option [`singleColumnTemplate`](%%jQueryApiUrl%%/ui.iggridresponsive#options:singleColumnTemplate) is added to the Responsive Web Design Mode enabling you to define a single column template for a specific profile.
+新しいオプション [`singleColumnTemplate`](%%jQueryApiUrl%%/ui.iggridresponsive#options:singleColumnTemplate) はレスポンシブ ウェブ デザイン モードに追加され、特定のプロファイルに単一列テンプレートを定義できます。
 
 ![](images/Whats_New_In_Ignite_UI_2015_Volume_1_3.png)
 

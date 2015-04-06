@@ -92,13 +92,13 @@ Knockout マネージのデータ構造にバインドされる `igCombo` をイ
 			<td>View-Model オブジェクトのフィールドを igCombo コントロールの選択項目にバインドする</td>
 			<td>必須</td>
 			<td>igCombo の選択項目の配列。Knockout を使用してデータにバインドする場合、最小要件は selectedItems プロパティを構成することです。これにより、コンボ選択項目と View-Model 間でデータを交換できます。</td>
-			<td><ul><li> `selectedItems` </li></ul><br>Possible values:<ul><li>array of primitives</li><li>array of objects</li></ul><br>**Note:** The value property is not available for the igCombo, but only for its Knockout extension.</td>
+			<td><ul><li> `selectedItems` </li></ul><br>利用可能な値:<ul><li>プリミティブの配列</li><li>オブジェクトの配列</li></ul><br>**注:** value プロパティは igCombo で利用可能ではありません。Knockout 拡張機能のみに利用可能です。</td>
 		</tr>
 		<tr>
 			<td>選択項目の型の定義</td>
 			<td>オプション</td>
 			<td>配列での選択項目の型を "primitive" または "object" として構成する。拡張機能自体が自動的に選択項目の型を定義するため、このオプションは必要ありません。ただし、`selectedItems` プロパティがオブジェクトの配列である場合や、選択項目がない特定の状態にある場合、拡張機能は選択項目の型を定義できません。そのような状況では、`selectedItemType` オプションを使用できます。 </td>
-			<td><ul><li>`selectedItemType`</li></ul><br>Possible values:<ul><li>"primitive"</li><li>"object"</li></ul> <br>**Note:** The value property is not available for the igCombo, but only for its Knockout extension.</td>
+			<td><ul><li>`selectedItemType`</li></ul><br>利用可能な値:<ul><li>"primitive"</li><li>"object"</li></ul> <br>**注:** value プロパティは igCombo で利用可能ではありません。Knockout 拡張機能のみに利用可能です。</td>
 		</tr>
 		<tr>
 			<td>コンボ ボックスのドロップダウン リストにデータ ソースを指定する</td>
