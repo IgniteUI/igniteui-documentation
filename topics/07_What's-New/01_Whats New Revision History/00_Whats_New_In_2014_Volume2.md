@@ -26,11 +26,11 @@
 
 
 
-### Ignite UI ページのデザイナー
+### Ignite UI ページ デザイナー
 
 機能|説明
 ---|---
-[HTML5 に対応する WYSIWYG](#wysiwyg)|Ignite UI コントロールを使用する最新 Web 用 Drag-n-Drop UI デザイン領域。
+[HTML5 に対応する WYSIWYG](#wysiwyg)|Ignite UI コントロールを使用する最新 Web 用ドラッグ アンド ドロップ UI デザイン領域。
 レスポンシブな Web デザイン (RWD)|レスポンシブなデザインを簡単に作成するために、ブレークポイントを可視化し管理します。
 クリーンなコード エディター|プロジェクトに組み込むための、クリーンなコードを確認、編集、コピーします。
 簡単なデータ アクセス|コントロールをデータに接続するための、Ignite UI のデータ ソースのコンポーネントが簡単に構成できます。
@@ -107,7 +107,7 @@ Infragistics の GitHub リポジトリで、最新版の AngularJS ディレク
 
 
 
-##Ignite UI ページのデザイナー
+##Ignite UI ページ デザイナー
 
 
 ### <a id="wysiwyg"></a>HTML5 に対応する WYSIWYG
