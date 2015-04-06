@@ -422,9 +422,9 @@
 		
 		B. モジュールの名前およびタイプを入力します。
 		
-		​a. Name は RequestsModule です。
+		a. Name は RequestsModule です。
 		
-		​b. Type のために、以前の手順で追加したカスタム HTTP モジュールを選択します (CrossOriginRequestModule.RequestsModule)。
+		b. Type のために、以前の手順で追加したカスタム HTTP モジュールを選択します (CrossOriginRequestModule.RequestsModule)。
 		
 		![](images/igXmlaDataSource_Configuring_IIS_for_Firefox_3.png)
 

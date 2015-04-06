@@ -209,7 +209,7 @@ function ($scope) {
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 	```
 
-3.  Ignite UI とディレクティブ モジュールを含めます。必要に応じてカスタム ダウンロードを使用しますが、[いずれかの方法で Ignite UI を含めることもできます。](Deployment-Guide-JavaScript-Resources.html)。
+3.  Ignite UI とディレクティブ モジュールを含めます。必要に応じてカスタム ダウンロードを使用しますが、[いずれかの方法で Ignite UI を含めることもできます](Deployment-Guide-JavaScript-Resources.html)。
 
     **HTML の場合:**
 	```

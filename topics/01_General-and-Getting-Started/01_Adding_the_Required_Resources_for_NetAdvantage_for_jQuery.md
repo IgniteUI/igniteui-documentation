@@ -70,9 +70,9 @@
 
 ![](images/Adding_the_Required_Resources_for_NetAdvantage_for_jQuery_2.png)
 
-​2. `css` フォルダーを Web アプリケーションの `Styles` フォルダーにコピーします。
+2. `css` フォルダーを Web アプリケーションの `Styles` フォルダーにコピーします。
 
-​3. scripts フォルダーを `js` から Web アプリケーションの Scripts フォルダーにコピーします。
+3. scripts フォルダーを `js` から Web アプリケーションの Scripts フォルダーにコピーします。
 
 > **注**: この手順は、CSS および JavaScript ファイルそれぞれが保存されている styles および scripts ディレクトリが Web アプリケーションにあることを前提としています。
 
@@ -82,9 +82,9 @@
 
 Modernizr JavaScript ファイルをコピーします。
 
-​1. JavaScript ライブラリをダウンロードします。 
+1. JavaScript ライブラリをダウンロードします。 
 
-​2. ダウンロードした JavaScript ファイルを Web アプリケーションの Scripts フォルダーにコピーします。
+2. ダウンロードした JavaScript ファイルを Web アプリケーションの Scripts フォルダーにコピーします。
 
 > **注**: Modernizr JavaScript ライブラリは現在のブラウザ機能を検出するために使用され、その他のすべてのリソース (`css` および `js`) の前に追加する必要があります。
 
@@ -98,9 +98,9 @@ Modernizr のデフォルトのパッケージには含まれていない、`css
 
 #### JQuery JavaScript ファイルをコピーします。
 
-​1. JavaScript ライブラリをダウンロードします。
+1. JavaScript ライブラリをダウンロードします。
 
-​2. ダウンロードした JavaScript ファイルを Web アプリケーションの `Scripts` フォルダーにコピーします。
+2. ダウンロードした JavaScript ファイルを Web アプリケーションの `Scripts` フォルダーにコピーします。
 
 #### JQuery UI JavaScript ファイルおよび JQuery UI 基本テーマをコピーします。
 
