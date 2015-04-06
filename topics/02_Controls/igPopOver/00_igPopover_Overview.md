@@ -78,13 +78,13 @@
 
 ![](images/igPopover_Overview_3.png)
 
-1 – 本文
+1 - 本文
 
-2 – ヘッダー
+2 - ヘッダー
 
-3 – 閉じるボタン
+3 - 閉じるボタン
 
-4 – ポインター
+4 - ポインター
 
 ### <a id="related-properties"></a>視覚要素と関連プロパティ
 

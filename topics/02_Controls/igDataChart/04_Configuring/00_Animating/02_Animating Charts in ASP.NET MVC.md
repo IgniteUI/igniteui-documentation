@@ -42,7 +42,7 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [MVC でのチャートのアニメーション化 – コード例](#animating-charts)
+-   [MVC でのチャートのアニメーション化 - コード例](#animating-charts)
    -   [概要](#introduction)
     -   [プレビュー](#preview)
     -   [要件](#requirements)

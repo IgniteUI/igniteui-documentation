@@ -31,11 +31,11 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [igPivotView の追加 – 概要](#overview)
+-   [igPivotView の追加 - 概要](#overview)
     -   [igPivotView 追加の概要](#summary)
     -   [要件](#requirements-summary)
     -   [手順](#steps-summary)
--   [igPivotView の追加 – 手順](#procedure)
+-   [igPivotView の追加 - 手順](#procedure)
     -   [概要](#procedure-introduction)
     -   [プレビュー](#procedure-preview)
     -   [前提条件](#procedure-prerequisites)
@@ -47,7 +47,7 @@
 
 
 
-##<a id="overview"></a>igPivotView の追加 – 概要
+##<a id="overview"></a>igPivotView の追加 - 概要
 
 ### <a id="summary"></a>igPivotView 追加の概要
 
@@ -375,7 +375,7 @@
 
 
 
-##<a id="procedure"></a>igPivotView の追加 – 手順
+##<a id="procedure"></a>igPivotView の追加 - 手順
 
 ### <a id="procedure-introduction"></a>概要
 

@@ -331,7 +331,7 @@ OData のロード オン デマンドの構成|[dataSourceUrl](%%jQueryApiUrl%%
 
 -   Northwind OData サービスへの Web アクセス
 -   様々な OData サービスへの OR アクセス
--   オプション – ASP.NET MVC アプリケーション
+-   オプション - ASP.NET MVC アプリケーション
 -   必要な `igTree` JavaScript ファイルおよび CSS
 
 #### 概要

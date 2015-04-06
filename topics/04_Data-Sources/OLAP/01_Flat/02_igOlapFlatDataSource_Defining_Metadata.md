@@ -571,11 +571,11 @@ function
 
                 <ul>
                     <li>
-`items` – セルの値の計算に使用されるデータ ソース オブジェクトの配列。
+`items` - セルの値の計算に使用されるデータ ソース オブジェクトの配列。
 					</li>
 
                     <li>
-`cellMetadata` – セルについての情報を含む `CellMetadata` オブジェクト。
+`cellMetadata` - セルについての情報を含む `CellMetadata` オブジェクト。
 					</li>
                 </ul>
 

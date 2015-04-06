@@ -59,7 +59,7 @@ Ignite UI モバイル コントロールの使用には、[jQuery](http://jquer
 
 **JQuery Mobile の基本構成 CSS ファイル**を参照する必要もあります。**これは各コントロールに必要な基本構成 CSS ファイルです。**
 
--   jQuery Mobile – jquery.mobile.structure.css ([jQuery Mobile のダウンロード](http://jquerymobile.com/download/))
+-   jQuery Mobile - jquery.mobile.structure.css ([jQuery Mobile のダウンロード](http://jquerymobile.com/download/))
 
 > **注:** 既定の Modernizr パッケージには含まれていない *css-boxsizing* には一定の要件があります。Moderznir コードを生成する場合には、(コミュニティのアドオンから) *css-boxsizing* にチェックを入れておく必要があります。
 

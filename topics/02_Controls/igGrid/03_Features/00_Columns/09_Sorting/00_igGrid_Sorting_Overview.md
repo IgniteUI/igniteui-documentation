@@ -88,7 +88,7 @@ features: [
 <script type="text/javascript" src="infragistics.lob.js"></script>
 ```
 
-リスト 2: 縮小し組み合わせていない CSS 参照および JavaScript 参照の最小セット – 並べ替えにのみ必要
+リスト 2: 縮小し組み合わせていない CSS 参照および JavaScript 参照の最小セット - 並べ替えにのみ必要
 
 
 

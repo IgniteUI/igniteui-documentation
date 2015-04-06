@@ -87,10 +87,10 @@
 この手順を実行するには、以下のリソースが必要です。
 
 -   必要な JavaScript ファイル (インフラジスティックス JavaScript ファイルは、デフォルトで Ignite UI™ インストール パス下の JavaScript モジュール フォルダーに配置されます)
-    -   Jquery-[versionNumber].js (query-1.9.0.js など) – jQuery ライブラリ (jQuery サイトで使用可能)
-    -   infragistics.util.js – 一部の Ignite UI™ コンポーネントで使用される共有非 UI ロジックを含む JavaScript ファイル
-    -   `infragistics.olapxmladatasource.js` – igOlapXmlaDataSource コンポーネントを含む JavaScript ファイル
-    -   (条件付き – Infragistics ローダー が使用されます) `infragistics.loader.js` – コンポーネントにより必要なすべてのインフラジスティックス JavaScript および CSS のファイルを自動で読み込むために使用可能なインフラジスティックス ローダー コンポーネント
+    -   Jquery-[versionNumber].js (query-1.9.0.js など) - jQuery ライブラリ (jQuery サイトで使用可能)
+    -   infragistics.util.js - 一部の Ignite UI™ コンポーネントで使用される共有非 UI ロジックを含む JavaScript ファイル
+    -   `infragistics.olapxmladatasource.js` - igOlapXmlaDataSource コンポーネントを含む JavaScript ファイル
+    -   (条件付き - Infragistics ローダー が使用されます) `infragistics.loader.js` - コンポーネントにより必要なすべてのインフラジスティックス JavaScript および CSS のファイルを自動で読み込むために使用可能なインフラジスティックス ローダー コンポーネント
 -   Adventure Works DW 標準エディション データベース `msmdpump.dll` を介して HTTP アクセスで構成される SSAS サーバー インスタンスで配置されます。
 
 ### <a id="steps"></a>手順

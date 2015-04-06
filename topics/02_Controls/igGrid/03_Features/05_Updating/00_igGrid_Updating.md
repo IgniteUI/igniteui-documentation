@@ -23,7 +23,7 @@
     -   [構成と検討事項](#configuration-considerations)
 -   [**更新を有効にする**](#enable)
     -   [JavaScript で igLoader を使用して必要な CSS および JavaScript 参照の追加](#required)
-    -   [CSS および JavaScript 参照を静的に読み込む – 更新のみに必要](#minimal-required)
+    -   [CSS および JavaScript 参照を静的に読み込む - 更新のみに必要](#minimal-required)
 -   [**行の追加、更新、削除を無効にする**](#disable-row-add-delete)
 -   [**列の設定およびエディター**](#column-settings-editors)
     -   [columnSettings オブジェクトの取得](#retrieving-columnsettings)
@@ -75,7 +75,7 @@
 ### <a id="configuration-considerations"></a> 構成と検討事項 
 
 -   以下のエディターがサポートされています。
-    -   基本入力エディター – 文字列
+    -   基本入力エディター - 文字列
     -   数値エディター
     -   日付/時刻エディター
     -   日付ピッカー
@@ -86,12 +86,12 @@
     -   コンボ
     -   レーティング
 -   定義済みの検証
--   編集アクションの構成をサポート – クリック、ダブル クリック時、F2、ENTER キーの押下時
--   バッチ更新 – 構成可能な様々な状況において、変更がデータ ソースにコミットされます。
+-   編集アクションの構成をサポート - クリック、ダブル クリック時、F2、ENTER キーの押下時
+-   バッチ更新 - 構成可能な様々な状況において、変更がデータ ソースにコミットされます。
     -   セルがフォーカスを失った直後
     -   行が変更された時
     -   列が変更された時
-    -   手動 – ユーザーが、ボタンの押下によって更新が完了したことを指定した時
+    -   手動 - ユーザーが、ボタンの押下によって更新が完了したことを指定した時
 
 > **注:**
 > 
@@ -128,7 +128,7 @@ $.ig.loader({
 </script>
 ```
 
-### <a id="minimal-required"></a> CSS および JavaScript参照を静的に読み込む – 更新のみに必要 
+### <a id="minimal-required"></a> CSS および JavaScript参照を静的に読み込む - 更新のみに必要 
 
 **HTML の場合:**
 
@@ -622,7 +622,7 @@ $('#grid1').igGridUpdating('option', 'editMode', 'cell');
 
 セル/行が選択されている場合 (選択機能が有効):
  
- -	ENTER/F2 – 選択セル/行で編集モードに入る。([startEditTriggers](%%jQueryApiUrl%%/ui.igGridUpdating#options:startEditTriggers) 参照)
+ -	ENTER/F2 - 選択セル/行で編集モードに入る。([startEditTriggers](%%jQueryApiUrl%%/ui.igGridUpdating#options:startEditTriggers) 参照)
 
 editMode が行で行が編集モードの場合、以下のキー操作が有効です。:
 

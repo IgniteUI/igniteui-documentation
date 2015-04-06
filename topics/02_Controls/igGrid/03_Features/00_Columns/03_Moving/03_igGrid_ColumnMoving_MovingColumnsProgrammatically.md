@@ -61,8 +61,8 @@
 
 列移動 API は、以下の公開用メソッドから構成されます。
 
--   [`moveColumn`](%%jQueryApiUrl%%/ui.iggridcolumnmoving#methods:moveColumn) – グリッド内の列を、グリッド内の別の列と相対的に定義された指定位置に移動します。
--   [`destroy`](%%jQueryApiUrl%%/ui.iggridcolumnmoving#methods:destroy) – 機能を破壊します。
+-   [`moveColumn`](%%jQueryApiUrl%%/ui.iggridcolumnmoving#methods:moveColumn) - グリッド内の列を、グリッド内の別の列と相対的に定義された指定位置に移動します。
+-   [`destroy`](%%jQueryApiUrl%%/ui.iggridcolumnmoving#methods:destroy) - 機能を破壊します。
 
 
 
@@ -102,7 +102,7 @@ $(“#grid1”).igGrid(“moveColumn”, “Name”, “ProductID”, false);
 sourceColumn|number/string|キーまたはインデックスで識別される移動対象列|null | ![](images/igGrid_Moving_Columns_Programmatically_1.png)
 targetColumn|number/string|移動中の列が配置される位置の隣の参照列キーまたはインデックスで識別される参照列このパラメーターは、insertAfterTargetColumn とともに移動中の列の移動先の位置を識別します。|null | ![](images/igGrid_Moving_Columns_Programmatically_1.png)
 insertAfterTargetColumn|bool|true の場合、移動中の列は参照列の前 (左側) に挿入され、そうでない場合は後ろ (右側) に挿入されます。このパラメーターは、targetColumn と共に移動している列の移動先の位置を識別します。|true | ![](images/igGrid_Moving_Columns_Programmatically_3.png)
-inDOM|bool|列移動操作の[列移動タイプ](igGrid-ColumnMoving-Overview.html#type)を指定します。<br />**true** – 列は DOM 操作を用いて移動されます (列 DOM をデタッチして DOM ツリーに再度アタッチして戻す)。<br />**false** – 列はグリッドの再レンダリング (グリッドを最初に破壊して再作成する) を使用して移動します。|true | ![](images/igGrid_Moving_Columns_Programmatically_3.png)
+inDOM|bool|列移動操作の[列移動タイプ](igGrid-ColumnMoving-Overview.html#type)を指定します。<br />**true** - 列は DOM 操作を用いて移動されます (列 DOM をデタッチして DOM ツリーに再度アタッチして戻す)。<br />**false** - 列はグリッドの再レンダリング (グリッドを最初に破壊して再作成する) を使用して移動します。|true | ![](images/igGrid_Moving_Columns_Programmatically_3.png)
 
 
 ### <a id="moveColumn-multi-column-headers"></a> 複数の列ヘッダーでの moveColumn メソッドの使用

@@ -72,7 +72,7 @@
 
 列の非表示は、以下の２つの選択可能な方法で構成できます。
 
--   **[CSS メディア クエリー](http://www.w3.org/TR/css3-mediaqueries/)に基づいて**、 CSS クラス を使用– デフォルトでは、 CSS クラスは [**CCS 3 メディア クエリ**](http://www.w3.org/TR/css3-mediaqueries/)を使用します。
+-   **[CSS メディア クエリー](http://www.w3.org/TR/css3-mediaqueries/)に基づいて**、 CSS クラス を使用- デフォルトでは、 CSS クラスは [**CCS 3 メディア クエリ**](http://www.w3.org/TR/css3-mediaqueries/)を使用します。
 -   **指定する列単位では**、各個別のプロファイルにおいて各列について非表示か表示かを指定します。
 
 列単位の構成は、[インライン カスタム RWD モード](igGrid-Responsive-Web-Design-Mode-Creating-Custom-Profile.html) を定義した場合、または CSS メディア クエリーに依存しないカスタム RWD モード構成を実装した場合に列の非表示を構成するために唯一使用可能な方法です。

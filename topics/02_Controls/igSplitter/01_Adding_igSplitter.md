@@ -30,11 +30,11 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [igSplitter の追加 – 概要](#overview)
+-   [igSplitter の追加 - 概要](#overview)
     -   [igSplitter の追加の概要](#summary)
     -   [要件](#requirements)
     -   [手順](#steps)
--   [JavaScript での igSplitter の追加 – 手順](#procedure-js)
+-   [JavaScript での igSplitter の追加 - 手順](#procedure-js)
     -   [概要](#js-introduction)
     -   [プレビュー](#js-preview)
     -   [手順](#js-steps)
@@ -48,7 +48,7 @@
 
 
 
-## <a id="overview"></a>igSplitter の追加 – 概要
+## <a id="overview"></a>igSplitter の追加 - 概要
 ### <a id="summary"></a>igSplitter の追加の概要
 
 `igSplitter` は、何らかのコンテンツのある 2 つの子 DIV を持つ DIV 要素上で初期化するコントロールです。オプションを構成することなくコントロールをセットアップできます。ただし、この場合 `igSplitter` は、ブラウザ ー ウィンドウ全体を占めます。このため、まさにこれが望んでいる通りの状態である場合を除いて、コンテナーの幅と高さを設定して `igSplitter` を任意のサイズに構成しなければなりません。
@@ -258,7 +258,7 @@ igSplitter 構造
 
 2. `igSplitter` コントロールを追加する
 
-## <a id="procedure-js"></a>JavaScript での igSplitter の追加 – 手順
+## <a id="procedure-js"></a>JavaScript での igSplitter の追加 - 手順
 ### <a id="js-introduction"></a>概要
 
 この手順は、実際の HTML/JavaScript 実装を使用して基本機能を持つ `igSplitter` コントロールを HTML ページへ追加するステップを説明します。`igSplitter` コントロールによって必要とされるすべての Ignite UI リソースを読み込むための Infragistics Loader コンポーネントを使用します。

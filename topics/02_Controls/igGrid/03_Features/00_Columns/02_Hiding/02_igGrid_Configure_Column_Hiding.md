@@ -264,8 +264,8 @@ $(function () {
 
 この例では、列チューザーが以下の設定で構成されています。
 
--   width – 300 ピクセル
--   height – 300 ピクセル
+-   width - 300 ピクセル
+-   height - 300 ピクセル
 -   caption - New Caption Text
 -   列選択ボタン - New Chooser Text
 

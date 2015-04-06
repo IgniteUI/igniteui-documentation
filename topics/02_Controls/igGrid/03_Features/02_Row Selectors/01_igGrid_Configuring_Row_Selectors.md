@@ -55,10 +55,10 @@
 
 構成可能なビヘイビア/機能|構成の詳細|構成プロパティ
 ---|---|---
-複数行の選択|デフォルトで RowSelectors ウィジェットの行の番号付けが有効になっています。|–
+複数行の選択|デフォルトで RowSelectors ウィジェットの行の番号付けが有効になっています。|-
 選択チェックボックス|行セレクター列にチェックボックスを含むかどうかを判断します|[enableCheckBoxes](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableCheckBoxes)
 行の番号付け|プロパティが有効な場合、行セレクター列には行番号が入っています。|[enableRowNumbering](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableRowNumbering)
-チェックボックス状態変更イベントをキャンセルする|`checkBoxStateChanging` イベントにフックし、ある状態にあるそのイベントをキャンセルします。|–
+チェックボックス状態変更イベントをキャンセルする|`checkBoxStateChanging` イベントにフックし、ある状態にあるそのイベントをキャンセルします。|-
 行の番号付けシード|シードがデフォルト番号付けに追加されます。|[rowNumberingSeed](%%jQueryApiUrl%%/ui.iggridrowselectors#options:rowNumberingSeed)
 行セレクター列の幅。|行セレクター列の幅はプロパティを設定することで構成できます。|[rowSelectorColumnWidth](%%jQueryApiUrl%%/ui.iggridrowselectors#options:rowSelectorColumnWidth)
 構成可能イベント|これらのイベントの詳細情報は、プロパティ参照セクションのリストを参照してください。 [igGridRowSelectors イベント](igGrid-RowSelectors-Events.html) | 

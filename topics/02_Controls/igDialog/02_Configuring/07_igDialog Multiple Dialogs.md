@@ -86,9 +86,9 @@
 
 目的:|このメソッドを使用:|パラメーター|戻り型
 --- | --- | --- | ---
-最上位モーダル ダイアログとの参照情報を取得します。|[getTopModal()](%%jQueryApiUrl%%/ui.igDialog#methods:getTopModal) |なし|object – `igDialog` への参照情報
+最上位モーダル ダイアログとの参照情報を取得します。|[getTopModal()](%%jQueryApiUrl%%/ui.igDialog#methods:getTopModal) |なし|object - `igDialog` への参照情報
 ダイアログがモーダルで、現在アクティブかどうかを確認します。|[isTopModal()](%%jQueryApiUrl%%/ui.igDialog#methods:isTopModal) |なし|boolean
-モーダルでないダイアログを先頭に移動する|[moveToTop(e)](%%jQueryApiUrl%%/ui.igDialog#methods:moveToTop) |*e* – ブラウザー イベント|object – 移動した `igDialog` への参照情報
+モーダルでないダイアログを先頭に移動する|[moveToTop(e)](%%jQueryApiUrl%%/ui.igDialog#methods:moveToTop) |*e* - ブラウザー イベント|object - 移動した `igDialog` への参照情報
 
 
 ### <a id="api-code"></a> コード

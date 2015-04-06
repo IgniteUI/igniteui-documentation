@@ -31,21 +31,21 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [igLayoutManager の追加 – 概要](#conceptual-overview)
+-   [igLayoutManager の追加 - 概要](#conceptual-overview)
     -   [igLayoutManager の追加の概要](#summary)
     -   [要件](#requirements)
     -   [手順](#steps)
--   [igLayoutManager の HTML マークアップへの追加 – 手順](#adding-igLayoutManager)
+-   [igLayoutManager の HTML マークアップへの追加 - 手順](#adding-igLayoutManager)
     -   [概要](#introduction)
     -   [プレビュー](#preview)
     -   [前提条件](#prerequisites)
     -   [手順](#html-markup-steps)
--   [igLayoutManager の HTML マークアップへの追加 – JavaScript を使用する場合 – 手順](#js-procedure)
+-   [igLayoutManager の HTML マークアップへの追加 - JavaScript を使用する場合 - 手順](#js-procedure)
     -   [概要](#js-introduction)
     -   [プレビュー](#js-preview)
     -   [前提条件](#js-prerequisites)
     -   [手順](#js-steps)
--   [ASP.NET MVC での igLayoutManager の追加 – 手順](#mvc-procedure)
+-   [ASP.NET MVC での igLayoutManager の追加 - 手順](#mvc-procedure)
     -   [概要](#mvc-introduction)
     -   [プレビュー](#mvc-preview)
     -   [前提条件](#mvc-prerequisites)
@@ -56,7 +56,7 @@
 
 
 
-##<a id="conceptual-overview"></a>igLayoutManager の追加 – 概要
+##<a id="conceptual-overview"></a>igLayoutManager の追加 - 概要
 
 
 ### <a id="summary"></a>igLayoutManager の追加の概要
@@ -207,7 +207,7 @@
 2. `igLayoutManager` のインスタンスの作成、およびレイアウトの指定
 
 
-##<a id="adding-igLayoutManager"></a>igLayoutManager の HTML マークアップへの追加 – 手順
+##<a id="adding-igLayoutManager"></a>igLayoutManager の HTML マークアップへの追加 - 手順
 
 
 ### <a id="introduction"></a>概要
@@ -306,7 +306,7 @@
 
 
 
-##<a id="js-procedure"></a>igLayoutManager を、JavaScript を使用して HTML マークアップに追加する – 手順
+##<a id="js-procedure"></a>igLayoutManager を、JavaScript を使用して HTML マークアップに追加する - 手順
 
 
 ### <a id="js-introduction"></a>概要
@@ -393,7 +393,7 @@
 	```
 
 
-##<a id="mvc-procedure"></a>ASP.NET MVC での igLayoutManager の追加 – 手順 
+##<a id="mvc-procedure"></a>ASP.NET MVC での igLayoutManager の追加 - 手順 
 
 ### <a id="mvc-introduction"></a>概要
 

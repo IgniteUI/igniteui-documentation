@@ -84,7 +84,7 @@
 ### <a id="database-requirements"></a> データベース要件 
 ただし、このサンプルでは以下のものが使用されています。
 
--   MVC – Adventure Works データベース
+-   MVC - Adventure Works データベース
 
 ## <a id="enabling-js"></a> JQuery で列集計を有効にする
 

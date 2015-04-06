@@ -213,7 +213,7 @@ model.Features.Add(filtering);
 以下の機能はグリッドではリモートで動作します。
 
 -   ページング
--   更新 – `LoadTransactions` メソッドで機能するように変更してください。
+-   更新 - `LoadTransactions` メソッドで機能するように変更してください。
 
 #### 更新時は、Dictionary&lt;string, string&gt; をサポートするシリアライザーを使用してください。
 

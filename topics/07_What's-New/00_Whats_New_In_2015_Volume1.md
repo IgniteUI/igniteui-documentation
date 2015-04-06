@@ -30,7 +30,7 @@
 [設定不要のテーマ サポート](#page-designer-theming-support) |その他の Ignite UI テーマおよび定義済みのテーマ ピッカーで選択可能な Bootstrap テーマのサポートを追加しました。
 [改良されたデータ ソース エクスペリエンス](#page-designer-datasource-expirience) |JSONP データ ソースおよびローカル データ ソースの明示的サポートと、新しいデータ ソース エディターを追加しました。
 [Ace に対する IntelliSense サポート](#page-designer-intellisense-support) |デザイナーがコード ビューであるときに、ユーザーが入力を開始すると、IntelliSense を表示するサポートが追加されました。
-[リモート データ ソース – ユーザー フレンドリなエラー](#page-designer-remote-dataSource) |リモート データ ソースへの接続中にWeb デザイナーで、発生する可能性のある問題に関する詳細な情報を表示する、ユーザー インターフェイスが利用できるようになりました
+[リモート データ ソース - ユーザー フレンドリなエラー](#page-designer-remote-dataSource) |リモート データ ソースへの接続中にWeb デザイナーで、発生する可能性のある問題に関する詳細な情報を表示する、ユーザー インターフェイスが利用できるようになりました
 
 
 ### Infragistics JavaScript Excel ライブラリ

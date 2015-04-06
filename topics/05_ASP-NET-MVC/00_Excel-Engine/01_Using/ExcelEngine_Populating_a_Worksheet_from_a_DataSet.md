@@ -120,7 +120,7 @@ Microsoft® Excel® ワークシートの主な使用の目的はデータの表
                 ' Create the worksheet to represent this data table
                 Dim worksheet As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add(table.TableName)
                 ' Create column headers for each column
-                For columnIndex As Integer = 0 To table.Columns.Count – 1
+                For columnIndex As Integer = 0 To table.Columns.Count - 1
                         worksheet.Rows.Item(0).Cells.Item(columnIndex).Value = table.Columns.Item(columnIndex).ColumnName
                 Next
                 ' Starting at row index 1, copy all data rows in
@@ -130,7 +130,7 @@ Microsoft® Excel® ワークシートの主な使用の目的はデータの表
                         Dim row As Infragistics.Documents.Excel.WorksheetRow = _
                           worksheet.Rows.Item(rowIndex)
                         rowIndex = rowIndex + 1
-                        For columnIndex As Integer = 0 To dataRow.ItemArray.Length – 1
+                        For columnIndex As Integer = 0 To dataRow.ItemArray.Length - 1
                                 row.Cells.Item(columnIndex).Value = dataRow.ItemArray(columnIndex)
                         Next
                 Next

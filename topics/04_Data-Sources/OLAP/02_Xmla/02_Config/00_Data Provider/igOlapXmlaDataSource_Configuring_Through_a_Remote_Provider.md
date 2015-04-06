@@ -39,7 +39,7 @@
 このトピックは、以下のセクションで構成されます。
 
 -   [**概要**](#introduction)
--   [**リモート データ プロバイダーの構成 – 概念的な概要**](#conceptual-overview)
+-   [**リモート データ プロバイダーの構成 - 概念的な概要**](#conceptual-overview)
     -   [リモート データ プロバイダーの構成の概要](#remote-data-provider-summary)
     -   [要件](#requirements)
     -   [手順](#steps)
@@ -49,7 +49,7 @@
     -   [前提条件](#prerequisites)
     -   [概要](#overview)
     -   [手順](#example-steps)
-    -   [全コード – コントローラー](#code-controller)
+    -   [全コード - コントローラー](#code-controller)
     -   [全コード - ビュー](#code-view)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
@@ -66,7 +66,7 @@
 
 
 
-## <a id="conceptual-overview"></a>リモート データ プロバイダーの構成 – 概念的な概要
+## <a id="conceptual-overview"></a>リモート データ プロバイダーの構成 - 概念的な概要
 ### <a id="remote-data-provider-summary"></a>リモート データ プロバイダーの構成の概要
 
 以下の表は、`igOlapXmlaDataSource` コンポーネントでサポートされるリモート データ プロバイダーのタイプを示し、各タイプを簡単に説明します。
@@ -82,11 +82,11 @@ ADOMD.NET|Microsoft® ADOMD.NET を使用して SSAS インスタンスに直接
 以下に示すのは、リモート データ プロバイダーから `igOlapXmlaDataSource` を構成するための全般的な要件です。
 
 -   少なくとも 1 つのデータベースを持つ Microsoft SSAS サーバー
--   (条件付き – ADOMD プロバイダーのみ) [ADOMD.NET Client](http://www.microsoft.com/ja-jp/download/confirmation.aspx?id=16978) (`Microsoft.AnalysisServices.AdomdClient.dll` アセンブリ バージョン 10.0.0.0) がサーバーにインストールされていること
--   (条件付き – XMLA プロバイダーのみ) HTTP サーバーが MS SQL Server インスタンスへの読取りアクセス権を持つこと
+-   (条件付き - ADOMD プロバイダーのみ) [ADOMD.NET Client](http://www.microsoft.com/ja-jp/download/confirmation.aspx?id=16978) (`Microsoft.AnalysisServices.AdomdClient.dll` アセンブリ バージョン 10.0.0.0) がサーバーにインストールされていること
+-   (条件付き - XMLA プロバイダーのみ) HTTP サーバーが MS SQL Server インスタンスへの読取りアクセス権を持つこと
 -   以下のアセンブリへの参照を持つ ASP.NET MVC アプリケーション:
     -   `Infragistics.Web.Mvc.dll`
-    -   (条件付き – ADOMD プロバイダーのみ) `Infragistics.Olap.DataProvider.Adomd.Mvc.dll`
+    -   (条件付き - ADOMD プロバイダーのみ) `Infragistics.Olap.DataProvider.Adomd.Mvc.dll`
 
 ### <a id="steps"></a>手順
 
@@ -96,7 +96,7 @@ ADOMD.NET|Microsoft® ADOMD.NET を使用して SSAS インスタンスに直接
 
 2. `igOlapXmlaDataSource` の構成
 
-この手順の具体的な例は、[リモート データ プロバイダーの構成 – 例](#remote-data-provider-example)を参照してください。
+この手順の具体的な例は、[リモート データ プロバイダーの構成 - 例](#remote-data-provider-example)を参照してください。
 
 
 
@@ -208,7 +208,7 @@ ADOMD.NET|Microsoft® ADOMD.NET を使用して SSAS インスタンスに直接
 
 
 
-### <a id="code-controller"></a>全コード – コントローラー
+### <a id="code-controller"></a>全コード - コントローラー
 
 以下は、PivotGridController の完全なコードです。
 

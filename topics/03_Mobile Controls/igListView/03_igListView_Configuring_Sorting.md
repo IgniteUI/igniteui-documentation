@@ -125,19 +125,19 @@
             <td>
                 <ul>
                     <li>
-fields – フィールド定義の配列
+fields - フィールド定義の配列
 					</li>
                     <li>
-defaultDirection – 並べ替え方向 (asc または desc)
+defaultDirection - 並べ替え方向 (asc または desc)
 					</li>
                     <li>
-trayText – トレイ エリアのテキスト
+trayText - トレイ エリアのテキスト
 					</li>
                     <li>
-groupFx – グループ関数
+groupFx - グループ関数
 					</li>
                     <li>
-groupNameFx – グループ名関数
+groupNameFx - グループ名関数
 					</li>
                 </ul>
             </td>
@@ -152,13 +152,13 @@ groupNameFx – グループ名関数
             <td>
                 <ul>
                     <li>
-fields – フィールド定義の配列
+fields - フィールド定義の配列
 					</li>
                     <li>
-defaultDirection – 並べ替え方向 (asc または desc)
+defaultDirection - 並べ替え方向 (asc または desc)
 					</li>
                     <li>
-trayText – トレイ エリアのテキスト
+trayText - トレイ エリアのテキスト
 					</li>
                 </ul>
             </td>

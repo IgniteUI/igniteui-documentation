@@ -144,7 +144,7 @@ public ActionResult UpdateDataTableGrid()
 以下の機能は `DataTable` や `DataSet` にバインドするときリモートで機能します。
 
 -   ページング
--   更新 – `LoadTransactions` が機能するように変更してください。
+-   更新 - `LoadTransactions` が機能するように変更してください。
 
 ### DataTable や DataSet に PrimaryKey が設定されていない場合、Grid に明示的に設定してください。
 

@@ -77,38 +77,38 @@
 -   `fromZero` - シリーズが数値軸の参照値からトランジションします。
 -   アコーディオン型のトランジション:
     -   側面から:
-        -   `accordionFromLeft` – シリーズは左側からアコーディオンします。
-        -   `accordionFromRight` – シリーズは右側からアコーディオンします。
-        -   `accordionFromTop` – シリーズは上側からアコーディオンします。
-        -   `accordionFromBottom` – シリーズは下側からアコーディオンします。
+        -   `accordionFromLeft` - シリーズは左側からアコーディオンします。
+        -   `accordionFromRight` - シリーズは右側からアコーディオンします。
+        -   `accordionFromTop` - シリーズは上側からアコーディオンします。
+        -   `accordionFromBottom` - シリーズは下側からアコーディオンします。
     -   軸から:
-        -   `accordionFromCategoryAxisMinimum` – シリーズはカテゴリ軸の最小値からアコーディオンします。
-        -   `accordionFromCategoryAxisMaximum` – シリーズはカテゴリ軸の最大値からアコーディオンします。
-        -   `accordionFromValueAxisMaximum` – シリーズは値軸の最大値からアコーディオンします。
-        -   `accordionFromValueAxisMinimum` – シリーズは値軸の最小値からアコーディオンします。
--   `expand` – シリーズは値の中点から展開します。
+        -   `accordionFromCategoryAxisMinimum` - シリーズはカテゴリ軸の最小値からアコーディオンします。
+        -   `accordionFromCategoryAxisMaximum` - シリーズはカテゴリ軸の最大値からアコーディオンします。
+        -   `accordionFromValueAxisMaximum` - シリーズは値軸の最大値からアコーディオンします。
+        -   `accordionFromValueAxisMinimum` - シリーズは値軸の最小値からアコーディオンします。
+-   `expand` - シリーズは値の中点から展開します。
 -   スイープ型のトランジション:
     -   側面から:
-        -   `sweepFromLeft` – シリーズは左側からスイープします。
-        -   `sweepFromRight` – シリーズは右側からスイープします。
-        -   `sweepFromTop` – シリーズは上側からスイープします。
-        -   `sweepFromBottom` – シリーズは下側からスイープします。
-        -   `sweepFromCenter` – シリーズは中央からスイープします。
+        -   `sweepFromLeft` - シリーズは左側からスイープします。
+        -   `sweepFromRight` - シリーズは右側からスイープします。
+        -   `sweepFromTop` - シリーズは上側からスイープします。
+        -   `sweepFromBottom` - シリーズは下側からスイープします。
+        -   `sweepFromCenter` - シリーズは中央からスイープします。
     -   軸から:
-        -   `sweepFromCategoryAxisMaximum` – シリーズはカテゴリ軸の最大値からスイープします。
-        -   `sweepFromCategoryAxisMinimum` – シリーズはカテゴリ軸の最小値からスイープします。
-        -   `sweepFromValueAxisMaximum` – シリーズは値軸の最大値からスイープします。
-        -   `sweepFromValueAxisMinimum` – シリーズは値軸の最小値からスイープします。
+        -   `sweepFromCategoryAxisMaximum` - シリーズはカテゴリ軸の最大値からスイープします。
+        -   `sweepFromCategoryAxisMinimum` - シリーズはカテゴリ軸の最小値からスイープします。
+        -   `sweepFromValueAxisMaximum` - シリーズは値軸の最大値からスイープします。
+        -   `sweepFromValueAxisMinimum` - シリーズは値軸の最小値からスイープします。
 
 ###<a id="supported-transition-speed-types"></a> サポートされるトランジションのスピード タイプ
 
 トランジションのスピード タイプは、アニメーション化されたトランジションが再生されているときに、現在シリーズの項目に相対するスピードを決定します。以下のはスピード タイプです:
 
--   `auto` – 自動的にスピード タイプを選択します。
--   `indexScaled` – データ ポイントのインデックスが軸基点から離れるほど、ポイントへの到着は遅くなります。
--   `normal` – すべてのスピードは標準です。データ ポイントが同時に表示されます。
--   `random` – データ ポイントは時間的にランダムに表示されます。
--   `valueScaled` – データ ポイントの値が開始ポイントから離れるほど、ポイントへの到着が遅くなります。
+-   `auto` - 自動的にスピード タイプを選択します。
+-   `indexScaled` - データ ポイントのインデックスが軸基点から離れるほど、ポイントへの到着は遅くなります。
+-   `normal` - すべてのスピードは標準です。データ ポイントが同時に表示されます。
+-   `random` - データ ポイントは時間的にランダムに表示されます。
+-   `valueScaled` - データ ポイントの値が開始ポイントから離れるほど、ポイントへの到着が遅くなります。
 
 ###<a id="supported-easing-function-types"></a> サポートされるイージング関数のタイプ
 

@@ -45,7 +45,7 @@
 -   [***igBulletGraph* の ASP.NET MVC アプリケーションへの追加 - 概念的な概要**](#overview)
     -   [要件](#requirements)
     -   [手順](#steps)
--   [***igBulletGraph* の ASP.NET MVC アプリケーションへの追加 – 手順**](#procedure)
+-   [***igBulletGraph* の ASP.NET MVC アプリケーションへの追加 - 手順**](#procedure)
     -   [概要](#procedure-introduction)
     -   [プレビュー](#preview)
     -   [前提条件](#prerequisites)
@@ -119,7 +119,7 @@
 5. 比較マーカーの構成
 6. 比較範囲の追加
 
-## <a id="procedure"></a>igBulletGraph の ASP.NET MVC アプリケーションへの追加 – 手順
+## <a id="procedure"></a>igBulletGraph の ASP.NET MVC アプリケーションへの追加 - 手順
 
 #### <a id="procedure-introduction"></a> 概要
 

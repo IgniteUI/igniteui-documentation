@@ -43,7 +43,7 @@
     -   [igLinearGauge の追加の概要](#adding-igLeanearGauge)
     -   [要件](#requirements)
     -   [手順](#steps)
--   [igLinearGauge の ASP.NET MVC アプリケーションへの追加 – 手順](#procedure)
+-   [igLinearGauge の ASP.NET MVC アプリケーションへの追加 - 手順](#procedure)
     -   [概要](#mvc-introduction)
     -   [プレビュー](#mvc-preview)
     -   [前提条件](#mvc-prerequisites)
@@ -117,7 +117,7 @@
 
 
 
-##<a id="procedure"></a>igLinearGauge の ASP.NET MVC アプリケーションへの追加 – 手順
+##<a id="procedure"></a>igLinearGauge の ASP.NET MVC アプリケーションへの追加 - 手順
 
 ### <a id="mvc-introduction"></a>概要
 

@@ -80,7 +80,7 @@
 指定するレイアウト:|layoutMode プロパティに設定する値:
 ---|---
 [Border](%%jQueryApiUrl%%/ui.iglayoutmanager#options)|"border"
-[Column](%%jQueryApiUrl%%/ui.iglayoutmanager#options)|–
+[Column](%%jQueryApiUrl%%/ui.iglayoutmanager#options)|-
 [Flow](%%jQueryApiUrl%%/ui.iglayoutmanager#options)|"flow"
 [Grid](%%jQueryApiUrl%%/ui.iglayoutmanager#options)|"grid"
 [Vertical](%%jQueryApiUrl%%/ui.iglayoutmanager#options)|"vertical"

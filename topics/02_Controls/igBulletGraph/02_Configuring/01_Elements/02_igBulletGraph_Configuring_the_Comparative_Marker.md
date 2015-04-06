@@ -47,7 +47,7 @@
 
 比較マーカーは、パフォーマンス バーが示す値と比較された値をスケールに表示します。比較値は、目標売上高などの目標値または値の超過限度を示す制限値 (体温計の37℃の発熱の目安) にすることができます。
 
-比較目盛マーカーが示す値およびスケール上の位置は、[`targetValue`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValue) プロパティで設定します。比較マーカーは、そのスケール全域で位置やサイズ ([`targetValueInnerExtent`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueInnerExtent) および [`targetValueOuterExtent`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueOuterExtent))、幅 ([`targetValueBreadth`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueBreadth)) およびルック アンド フィール (塗りつぶし色 - [`targetValueBrush`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueBrush)、境界線の線幅 - [`targetValueStrokeThickness`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueStrokeThickness)、境界線の色 – [`targetValueOutline`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueOutline)) に関して各プロパティでカスタマイズできます。
+比較目盛マーカーが示す値およびスケール上の位置は、[`targetValue`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValue) プロパティで設定します。比較マーカーは、そのスケール全域で位置やサイズ ([`targetValueInnerExtent`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueInnerExtent) および [`targetValueOuterExtent`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueOuterExtent))、幅 ([`targetValueBreadth`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueBreadth)) およびルック アンド フィール (塗りつぶし色 - [`targetValueBrush`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueBrush)、境界線の線幅 - [`targetValueStrokeThickness`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueStrokeThickness)、境界線の色 - [`targetValueOutline`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValueOutline)) に関して各プロパティでカスタマイズできます。
 
 ![](images/igBulletGraph_Configuring_the_Comparative_Marker_1.png)
 

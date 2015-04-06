@@ -26,10 +26,10 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [**igZoombar の追加 – 概要**](#conceptual-overview)
+-   [**igZoombar の追加 - 概要**](#conceptual-overview)
     -   [igZoombar の概要](#summary)
     -   [igZoombar の概要表](#summary-chart)
--   [**igZoombar の追加 – コード例**](#code-example)
+-   [**igZoombar の追加 - コード例**](#code-example)
 -   [**コード例: JavaScript での igZoombar の追加**](#add-in-js)
     -   [説明](#js-description)
     -   [コード](#js-code)
@@ -42,14 +42,14 @@
 
 
 
-## <a id="conceptual-overview"></a>igZoombar の追加 – 概要
+## <a id="conceptual-overview"></a>igZoombar の追加 - 概要
 ### <a id="summary"></a>igZoombar の概要
 
 `igZoombar` は、スタンドアロン コントロールとしては機能しません。`igDataChart`™ のような範囲対応コントロールに対する拡張機能として使用するように設計されています。これは他のコントロールとの組み合わせのみで機能します。`igZoombar` は追加設定なしで、`igDataChart` をサポートします。
 
 ### <a id="summary-chart"></a>igZoombar の概要表
 
-以下の表で、`igZoombar` コントロールを HTML ページおよび ASP.NET MVC アプリケーションに追加する方法について簡単に説明します。詳細は、[igZoombar の追加 – コード例](Adding-igZoombar.html#code-example)を参照してください。
+以下の表で、`igZoombar` コントロールを HTML ページおよび ASP.NET MVC アプリケーションに追加する方法について簡単に説明します。詳細は、[igZoombar の追加 - コード例](Adding-igZoombar.html#code-example)を参照してください。
 
 <table class="table table-bordered">
 	<thead>
@@ -101,7 +101,7 @@ ASP.NET MVC
 
 
 
-## <a id="code-example"></a>igZoombar の追加 – コード例
+## <a id="code-example"></a>igZoombar の追加 - コード例
 ### コード例の概要
 
 以下の表は、このトピックで使用したコード例をまとめたものです。

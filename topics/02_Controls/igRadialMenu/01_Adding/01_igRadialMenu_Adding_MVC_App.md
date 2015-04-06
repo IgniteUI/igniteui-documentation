@@ -42,7 +42,7 @@
 このトピックは、以下のセクションで構成されます。 
 
 -   [ASP.NET MVC アプリケーションへの igRadialMenu の追加 - 概念的な概要](#overview)
--   [ASP.NET MVC アプリケーションへの igRadialMenu の追加 – 手順](#procedure)
+-   [ASP.NET MVC アプリケーションへの igRadialMenu の追加 - 手順](#procedure)
 -   [関連コンテンツ](#related-content)
 
 
@@ -116,7 +116,7 @@
 
 
 
-## <a id="procedure"></a>ASP.NET MVC アプリケーションへの igRadialMenu の追加 – 手順
+## <a id="procedure"></a>ASP.NET MVC アプリケーションへの igRadialMenu の追加 - 手順
 ### 概要
 
 この手順は、ASP.NET MVC ヘルパーを使用して、`igRadialMenu` のインスタンスを ASP.NET MVC アプリケーションに追加し、ディメンションの管理と構成を行い、いくつかのメニュー項目を含めます。

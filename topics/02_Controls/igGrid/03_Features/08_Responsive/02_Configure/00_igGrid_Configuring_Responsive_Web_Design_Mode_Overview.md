@@ -54,9 +54,9 @@
 
 レスポンス Web デザイン (RWD) モードは、以下の機能を取り扱うよう構成できます。
 
--   [列の非表示](igGrid-Responsive-Web-Design-Mode-Configuring-Column-Hiding.html) – この機能は、アクティブな RWD のプロファイルによって列を表示/非表示にします。
--   [テンプレートの切り替え](igGrid-Responsive-Web-Design-Mode-Configuring-Row-and-Column-Templates.html) – この機能は、アクティブな RWD のプロファイルによって列のテンプレートを適用します。
--   [カスタム RWD モードの構成](igGrid-Responsive-Web-Design-Mode-Creating-Custom-Profile.html) – この機能により、カスタム RWD プロファイルを作成できます。
+-   [列の非表示](igGrid-Responsive-Web-Design-Mode-Configuring-Column-Hiding.html) - この機能は、アクティブな RWD のプロファイルによって列を表示/非表示にします。
+-   [テンプレートの切り替え](igGrid-Responsive-Web-Design-Mode-Configuring-Row-and-Column-Templates.html) - この機能は、アクティブな RWD のプロファイルによって列のテンプレートを適用します。
+-   [カスタム RWD モードの構成](igGrid-Responsive-Web-Design-Mode-Creating-Custom-Profile.html) - この機能により、カスタム RWD プロファイルを作成できます。
 
 列の非表示とテンプレートに基づいた構成の機能は、Twitter Bootstrap RWD クラスで使用するよう構成できます。(詳細は、「[ブートストラップのサポートの構成](igGrid-Responsive-Web-Design-Mode-Configuring-Bootstrap-Support.html) 」トピックを参照)
 
@@ -64,12 +64,12 @@
 ### <a id="column-hiding"></a> 列の非表示の構成
 列の 表示は、以下の方法で構成できます。    
 
--   **CSS クラスを利用する** –  [CCS 3 メディア クエリ](http://www.w3.org/TR/css3-mediaqueries/)を使用各クラス コレクションは、igGrid API を通して列を表示または非表示するために使用される表示要素を作成するかどうかがテストされます。         
+-   **CSS クラスを利用する** -  [CCS 3 メディア クエリ](http://www.w3.org/TR/css3-mediaqueries/)を使用各クラス コレクションは、igGrid API を通して列を表示または非表示するために使用される表示要素を作成するかどうかがテストされます。         
 	> **注:** CSS メディア クエリは、古いブラウザはサポートしません。詳細は、「 [CSS メディア クエリ ブラウザのサポート](http://caniuse.com/css-mediaqueries)」を参照してください。 
 
 	CSS クラスは、 `columnSettings.classes` プロパティで構成されます。
 
--   **設定を構成する** – 構成の設定は、定義済み RWD モードのプロファイルおよび認識されたアクティブなプロファイルを使用して、列の表示を決定します。  デフォルトでは、構成設定は CSS 3 メディア クエリも使用して RWD モードのプロファイルを決定します。しかし、CSS 3 に依存することを望まない場合は、`$.ig.ResponsiveMode` クラスを拡張すればウィンドウのサイズ変更イベントを使用できます。     
+-   **設定を構成する** - 構成の設定は、定義済み RWD モードのプロファイルおよび認識されたアクティブなプロファイルを使用して、列の表示を決定します。  デフォルトでは、構成設定は CSS 3 メディア クエリも使用して RWD モードのプロファイルを決定します。しかし、CSS 3 に依存することを望まない場合は、`$.ig.ResponsiveMode` クラスを拡張すればウィンドウのサイズ変更イベントを使用できます。     
 
 **関連トピック**
 

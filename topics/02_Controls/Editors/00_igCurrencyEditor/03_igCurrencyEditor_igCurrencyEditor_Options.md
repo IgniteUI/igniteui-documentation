@@ -74,7 +74,7 @@ HTML の場合:
 
 **リスト 5:** 初期化中の地域設定
 
-jQueryUI – 初期化後に **currencySymbol** オプションを設定します。
+jQueryUI - 初期化後に **currencySymbol** オプションを設定します。
 
 ```
 $('#customCurrencySymbolEditor').igCurrencyEditor(
@@ -87,7 +87,7 @@ $('#customCurrencySymbolEditor').igCurrencyEditor(
 
 **リスト 6:** 初期化後の地域設定
 
-jQueryUI – 初期化後に **currencySymbol** オプションを設定します。
+jQueryUI - 初期化後に **currencySymbol** オプションを設定します。
 
 ```
 $('#customCurrencySymbolEditor').igCurrencyEditor('option', 'currencySymbol', "$");

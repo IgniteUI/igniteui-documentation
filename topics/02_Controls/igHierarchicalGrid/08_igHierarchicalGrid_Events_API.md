@@ -73,12 +73,12 @@ $("#grid1").live({ ighierarchicalgridrowexpanding: function (e, args) {
 
 イベント|説明|キャンセル可能|引数
 ----- | ----------- | ---------- | ----------
-[rowExpanding](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events)|階層行が展開される直前に発生します。|True|`e` – イベント固有情報を保持するオブジェクト<br><br>`args` – 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.owner`, `args.parentrow`
-[rowExpanded](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events)|階層行が展開された後に発生します。|False|`e` – イベント固有情報を保持するオブジェクト<br><br>`args` – 親行の情報を含むオブジェクト。<br><br>プロパティは次のとおりです。`args.owner`, `args.parentrow`
-[rowCollapsing](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events) |階層行が縮小される直前に発生します。|True|`e` – イベント固有情報を保持するオブジェクト<br><br>`args` – 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.owner`, `args.parentrow`
-[rowCollapsed](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events) |階層行が縮小されたときに発生します。|False|`e` – イベント固有情報を保持するオブジェクト<br><br>`args` – 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.owner`, `args.parentrow`
-[childrenPopulating](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events) |子が事前に設定される直前に発生します。igHierarchicalGrid がロード オン デマンドを有効にする場合に呼び出されます。|True|`e` – イベント固有情報を保持するオブジェクト<br><br>`args` – 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.id`, `args.owner`, `args.parentrow`
-[childrenPopulated](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events) |子が事前に設定された場合に発生します。igHierarchicalGrid がロード オン デマンドを有効にする場合に呼び出されます。|False|`e` – イベント固有情報を保持するオブジェクト<br><br>`args` – 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.id`, `args.owner`, `args.parentrow`
+[rowExpanding](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events)|階層行が展開される直前に発生します。|True|`e` - イベント固有情報を保持するオブジェクト<br><br>`args` - 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.owner`, `args.parentrow`
+[rowExpanded](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events)|階層行が展開された後に発生します。|False|`e` - イベント固有情報を保持するオブジェクト<br><br>`args` - 親行の情報を含むオブジェクト。<br><br>プロパティは次のとおりです。`args.owner`, `args.parentrow`
+[rowCollapsing](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events) |階層行が縮小される直前に発生します。|True|`e` - イベント固有情報を保持するオブジェクト<br><br>`args` - 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.owner`, `args.parentrow`
+[rowCollapsed](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events) |階層行が縮小されたときに発生します。|False|`e` - イベント固有情報を保持するオブジェクト<br><br>`args` - 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.owner`, `args.parentrow`
+[childrenPopulating](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events) |子が事前に設定される直前に発生します。igHierarchicalGrid がロード オン デマンドを有効にする場合に呼び出されます。|True|`e` - イベント固有情報を保持するオブジェクト<br><br>`args` - 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.id`, `args.owner`, `args.parentrow`
+[childrenPopulated](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events) |子が事前に設定された場合に発生します。igHierarchicalGrid がロード オン デマンドを有効にする場合に呼び出されます。|False|`e` - イベント固有情報を保持するオブジェクト<br><br>`args` - 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.id`, `args.owner`, `args.parentrow`
 
 ## <a id="related-topics"></a> 関連トピック
 以下は、その他の役立つトピックです。

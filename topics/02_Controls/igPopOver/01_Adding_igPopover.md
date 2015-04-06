@@ -25,7 +25,7 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [igPopover の追加 – 概念的な概要](#overview)
+-   [igPopover の追加 - 概念的な概要](#overview)
     -   [igPopover の追加の概要](#summary)
     -   [要件](#overview-requirements)
     -   [手順](#overview-steps)
@@ -47,7 +47,7 @@
 
 
 
-## <a id="overview"></a>igPopover の追加 – 概念的な概要
+## <a id="overview"></a>igPopover の追加 - 概念的な概要
 ### <a id="summary"></a>igPopover の追加の概要
 
 `igPopover` コントロールは、任意の DOM 要素 (「ターゲット要素」と呼ばれる) で初期化できます。`igPopover` は、ネスト化された DIV 要素にコンテンツを描画します。コンテンツは、デフォルトでターゲット要素のタイトルですが、ハードコーディングされた 文字列、HTML コンテンツ、 または HTML 文字列を返す JavaScript 関数.のいずれかにすることもできます。

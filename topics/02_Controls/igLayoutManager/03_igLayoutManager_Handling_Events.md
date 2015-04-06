@@ -35,7 +35,7 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [**イベントの処理 – 概要**](#overview)
+-   [**イベントの処理 - 概要**](#overview)
     -   [イベント処理の概要](#summary)
     -   [イベント処理ケースの概要表](#event-handaling)
 -   [**コード例**](#code-examples)
@@ -57,7 +57,7 @@
 
 
 
-##<a id="overview"></a>イベントの処理 – 概要
+##<a id="overview"></a>イベントの処理 - 概要
 
 
 ### <a id="summary"></a>イベント処理の概要
@@ -75,9 +75,9 @@ jQuery はイベント ハンドラーの割り当てるための以下のメソ
 
 `igLayoutManager` は、以下のイベントをサポートします。
 
--   [`itemRendering`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendering) – コンテナーで 1 つの項目が描画された後に発生します。
--   [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) – すべての項目が描画された後に発生します。
--   [`rendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:rendered) – 項目がコンテナーの幅または高さに完全に対応しようとする前に発生します。
+-   [`itemRendering`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendering) - コンテナーで 1 つの項目が描画された後に発生します。
+-   [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) - すべての項目が描画された後に発生します。
+-   [`rendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:rendered) - 項目がコンテナーの幅または高さに完全に対応しようとする前に発生します。
 
 イベントを処理する方法の詳細は、[Ignite UI でのイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html)のトピックを参照してください。
 

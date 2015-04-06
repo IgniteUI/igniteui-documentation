@@ -50,7 +50,7 @@
 
 `igOlapFlatDataSource` コンポーネントにより、JavaScript クライアント環境で Ignite UI™ ピボット グリッド コントロールにフラット データ収集を送ることができるようになります。これによりそのようなデータ セット上で多次元 (OLAP) 解析が可能になります。
 
-`igOlapFlatDataSource` コンポーネントを正しく機能させるには、その [dataSource](%%jQueryApiUrl%%/ig.OlapFlatDataSource#options) と metadata のプロパティを指定しなければなりません。`igOlapFlatDataSource` の初期化は、`igPivotDataSelector` ™、`igPivotGrid` ™ および `igPivotView`™ といった Ignite UI ピボットグリッド関連コントロールのいずれかとともに使用される場合には必要ありません (ほとんどの場合が当てはまります)–  (`igOlapFlatDataSource` の初期化は、コンポーネントが独自に使用される場合にのみ必要です)。
+`igOlapFlatDataSource` コンポーネントを正しく機能させるには、その [dataSource](%%jQueryApiUrl%%/ig.OlapFlatDataSource#options) と metadata のプロパティを指定しなければなりません。`igOlapFlatDataSource` の初期化は、`igPivotDataSelector` ™、`igPivotGrid` ™ および `igPivotView`™ といった Ignite UI ピボットグリッド関連コントロールのいずれかとともに使用される場合には必要ありません (ほとんどの場合が当てはまります)-  (`igOlapFlatDataSource` の初期化は、コンポーネントが独自に使用される場合にのみ必要です)。
 
 `igOlapFlatDataSource` コンポーネントをインスタンス化する場合、`dataSource` と metadata の2 つのパラメータが必要です。`dataSource` パラメータは使用すべき入力データを指定し、metadata パラメータは、入力データをどのように OLAP データとして処理するかを指定します。つまり、ディメンション、階層、メジャー等をどのように生成するか、です。内部では、`igOlapFlatDataSource` は `igDataSource`™ インスタンスを使用します。dataSource プロパティを指定すると、`igDataSource` インスタンスを指定するか、`igDataSource` によりサポートされるデータ ソースに設定できます。
 
@@ -65,10 +65,10 @@
 
 Infragistics® JavaScript ファイルは、デフォルトで Ignite UI インストール パス下の JavaScript モジュール フォルダーに配置されます。
 
--   Jquery-[versionNumber].js (query-1.9.0.js など) – jQuery ライブラリ (jQuery サイトで使用可能)
--   `infragistics.util.js` – 一部の Ignite UI™ コンポーネントで使用される共有非 UI ロジックを含む JavaScript ファイル
--   `infragistics.olapxmladatasource.js` – igOlapFlatDataSource コンポーネントを含む JavaScript ファイル
--   (条件付き – Infragistics ローダー が使用されます) `infragistics.loader.js` – コンポーネントにより必要なすべてのインフラジスティックス JavaScript および CSS のファイルを自動で読み込むために使用可能なインフラジスティックス ローダー コンポーネント
+-   Jquery-[versionNumber].js (query-1.9.0.js など) - jQuery ライブラリ (jQuery サイトで使用可能)
+-   `infragistics.util.js` - 一部の Ignite UI™ コンポーネントで使用される共有非 UI ロジックを含む JavaScript ファイル
+-   `infragistics.olapxmladatasource.js` - igOlapFlatDataSource コンポーネントを含む JavaScript ファイル
+-   (条件付き - Infragistics ローダー が使用されます) `infragistics.loader.js` - コンポーネントにより必要なすべてのインフラジスティックス JavaScript および CSS のファイルを自動で読み込むために使用可能なインフラジスティックス ローダー コンポーネント
 
 ### <a id="steps"></a>手順
 

@@ -39,15 +39,15 @@
 
 -   列のサイズ変更の有効化/無効化この機能は [`allowResizing`](%%jQueryApiUrl%%/ui.igGridResizing#options:columnSettings.allowResizing) プロパティから管理されます。
 
--   ダブルクリックでサイズ変更を有効にする – 有効になると、列は現在表示されている最も幅が広いセルの幅にサイズ変更されます。この機能は [`allowDoubleClickToResize`](%%jQueryApiUrl%%/ui.igGridResizing#options:allowDoubleClickToResize) オプションから管理されます。
+-   ダブルクリックでサイズ変更を有効にする - 有効になると、列は現在表示されている最も幅が広いセルの幅にサイズ変更されます。この機能は [`allowDoubleClickToResize`](%%jQueryApiUrl%%/ui.igGridResizing#options:allowDoubleClickToResize) オプションから管理されます。
 
--   列幅の最大値/最小値 – サイズ変更をする場合に、ユーザーが列の幅を変更できる最小/最大幅。この機能はそれぞれ [`minimumWidth`](%%jQueryApiUrl%%/ui.igGridResizing#options:columnSettings.minimumWidth)/[`maximumWidth`](%%jQueryApiUrl%%/ui.igGridResizing#options:columnSettings.maximumWidth) プロパティから管理されます。
+-   列幅の最大値/最小値 - サイズ変更をする場合に、ユーザーが列の幅を変更できる最小/最大幅。この機能はそれぞれ [`minimumWidth`](%%jQueryApiUrl%%/ui.igGridResizing#options:columnSettings.minimumWidth)/[`maximumWidth`](%%jQueryApiUrl%%/ui.igGridResizing#options:columnSettings.maximumWidth) プロパティから管理されます。
 
 -   遅延サイズ変更 - ユーザーがサイズ変更を終了するか、直ちに適用するまでサイズ変更は保留されます。この機能は [`deferredResizing`](%%jQueryApiUrl%%/ui.igGridResizing#options:deferredResizing.) オプションから管理されます。
 
--   構成可能なサイズ変更ハンドル – サイズ変更可能な列ヘッダーそれぞれの右側にあるサイズ変更ハンドルの幅 (ピクセル単位) がカスタマイズできます。この機能は [`handleTreshold`](%%jQueryApiUrl%%/ui.igGridResizing#options:handleTreshold) オプションから管理されます。
+-   構成可能なサイズ変更ハンドル - サイズ変更可能な列ヘッダーそれぞれの右側にあるサイズ変更ハンドルの幅 (ピクセル単位) がカスタマイズできます。この機能は [`handleTreshold`](%%jQueryApiUrl%%/ui.igGridResizing#options:handleTreshold) オプションから管理されます。
 
--   列キー – 指定された列設定を適用する列を指定します。この機能は [`columnKey`](%%jQueryApiUrl%%/ui.igGridResizing#options:columnSettings.columnKey) オプションから管理されます。
+-   列キー - 指定された列設定を適用する列を指定します。この機能は [`columnKey`](%%jQueryApiUrl%%/ui.igGridResizing#options:columnSettings.columnKey) オプションから管理されます。
 
 -   列インデックス - 指定された列設定を適用する列を指定します。この機能は [`columnIndex`](%%jQueryApiUrl%%/ui.igGridResizing#options:columnSettings.columnIndex) オプションから管理されます。
 
@@ -72,7 +72,7 @@
 <script type="text/javascript" src="infragistics.lob.js"></script>
 ```
 
-リスト 2: 縮小も結合もしていない CSS 参照および JavaScript 参照の最小セット – サイズ変更にのみ必要
+リスト 2: 縮小も結合もしていない CSS 参照および JavaScript 参照の最小セット - サイズ変更にのみ必要
 
 **HTML の場合:**
 

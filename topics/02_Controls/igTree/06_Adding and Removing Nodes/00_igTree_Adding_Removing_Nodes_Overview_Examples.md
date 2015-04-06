@@ -63,8 +63,8 @@
 
 ノードは以下のいずれかの方法で削除できます。
 
--   パス – ノードは [removeAt](igTree-Adding-Removing-Node-Method-API-Reference.html) で削除します。
--   値 – ノードは [removeNodesByValue](igTree-Adding-Removing-Node-Method-API-Reference.html) で削除します。
+-   パス - ノードは [removeAt](igTree-Adding-Removing-Node-Method-API-Reference.html) で削除します。
+-   値 - ノードは [removeNodesByValue](igTree-Adding-Removing-Node-Method-API-Reference.html) で削除します。
 
 
 

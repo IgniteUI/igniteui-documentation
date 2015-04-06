@@ -89,9 +89,9 @@ Ignite UI は、`igFunnelChart` コントロールを使用して以下のテー
 
 ファンネル チャートを正しく描画するためには以下の CSSリソースが必要です。
 
--   **infragistics.theme.css** – IG テーマが含まれています。
+-   **infragistics.theme.css** - IG テーマが含まれています。
 
--   **infragistics.ui.chart.css** – チャート構造が含まれています。
+-   **infragistics.ui.chart.css** - チャート構造が含まれています。
 
 以下のコード スニペットでは、CSS リソースが Web サイトまたはアプリケーション ルート下の `Content/ig` フォルダーに置かれていることを前提としています。
 

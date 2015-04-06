@@ -85,7 +85,7 @@ colKey (string) - 非バインド列のキー
             <td>
 colKey (string) - 非バインド列のキー
 
-                values (array) – 非バインド値の配列
+                values (array) - 非バインド値の配列
 			</td>
         </tr>
 

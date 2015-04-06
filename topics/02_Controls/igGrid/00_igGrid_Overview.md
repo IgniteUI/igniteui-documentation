@@ -88,12 +88,12 @@
 
 4. 上記のセットアップが完了したら、*ID*、*columns*、*dataSource* などの**オプションを設定**します。
 
-    1.  [columns](%%jQueryApiUrl%%/ui.iggrid#options:columns) – `igGrid` の列オブジェクト定義。
-        -   `headerText` – 列のヘッダーのテキスト。
-        -   `key` – データ ソースのキー フィールドの名前。
-        -   `dataType` – 列のデータ型。「string」、「number」または「date」を指定できます。
+    1.  [columns](%%jQueryApiUrl%%/ui.iggrid#options:columns) - `igGrid` の列オブジェクト定義。
+        -   `headerText` - 列のヘッダーのテキスト。
+        -   `key` - データ ソースのキー フィールドの名前。
+        -   `dataType` - 列のデータ型。「string」、「number」または「date」を指定できます。
 
-    2.  [dataSource](%%jQueryApiUrl%%/ui.iggrid#options:dataSource) – `igGrid` がデータを表示しているデータ。次のようなオプションがあります。
+    2.  [dataSource](%%jQueryApiUrl%%/ui.iggrid#options:dataSource) - `igGrid` がデータを表示しているデータ。次のようなオプションがあります。
 	    -   JSON オブジェクト
 	    -   JavaScript 配列
 	    -   XML

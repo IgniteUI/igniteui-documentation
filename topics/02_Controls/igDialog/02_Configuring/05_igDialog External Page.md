@@ -61,7 +61,7 @@
 
 目的:|使用するプロパティ:|設定の選択肢:
 --- | --- | ---
-サイトのヘッダー テキスト – タイトルを表示する|[headerText](%%jQueryApiUrl%%/ui.igDialog#options:headerText)|Infragistics
+サイトのヘッダー テキスト - タイトルを表示する|[headerText](%%jQueryApiUrl%%/ui.igDialog#options:headerText)|Infragistics
 `igDialog` を最大化できるようにする|[showMaximizeButton](%%jQueryApiUrl%%/ui.igDialog#options:showMaximizeButton) |true
 一時 `IFRAME` URL ソースを設定する|[temporaryUrl](%%jQueryApiUrl%%/ui.igDialog#options:temporaryUrl) |Infragistics.com
 

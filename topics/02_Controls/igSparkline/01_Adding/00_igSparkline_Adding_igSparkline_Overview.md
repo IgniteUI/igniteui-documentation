@@ -22,7 +22,7 @@
 - [igSparkline の概要](igSparkline-Overview.html): このトピックは、`igSparkline` コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
 
 
-## igSparkline の追加 – 概念的概要
+## igSparkline の追加 - 概念的概要
 ### igSparkline 追加の概要
 
 根本的に、`igSparkline` は標準の HTML、JavaScript および CSS で構築される jQuery UI ウィジェットです。使用サーバーのフレームワークに関係なく標準の HTML ドキュメントに追加できます。

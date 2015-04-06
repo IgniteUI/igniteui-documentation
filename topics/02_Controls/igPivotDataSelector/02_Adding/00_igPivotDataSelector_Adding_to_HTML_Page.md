@@ -30,11 +30,11 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [igPivotDataSelector の追加 – 概要](#overview)
+-   [igPivotDataSelector の追加 - 概要](#overview)
     -   [igPivotDataSelector 追加の概要](#adding-control-summary)
     -   [要件](#summary-requirements)
     -   [手順](#summary-steps)
--   [igPivotDataSelector の追加 – 手順](#procedure)
+-   [igPivotDataSelector の追加 - 手順](#procedure)
     -   [概要](#procedure-introduction)
     -   [プレビュー](#procedure-preview)
     -   [前提条件](#procedure-prerequisites)
@@ -46,7 +46,7 @@
 
 
 
-##<a id="overview"></a>igPivotDataSelector の追加 – 概要
+##<a id="overview"></a>igPivotDataSelector の追加 - 概要
 
 ### <a id="adding-control-summary"></a>igPivotDataSelector 追加の概要
 
@@ -318,7 +318,7 @@
 
 
 
-##<a id="procedure"></a>igPivotDataSelector の追加 – 手順
+##<a id="procedure"></a>igPivotDataSelector の追加 - 手順
 
 ### <a id="procedure-introduction"></a>概要
 

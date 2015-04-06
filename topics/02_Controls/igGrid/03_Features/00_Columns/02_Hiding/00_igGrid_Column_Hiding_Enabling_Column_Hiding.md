@@ -88,7 +88,7 @@
 
 ただし、このサンプルでは以下のものが使用されています。
 
--   MVC – Adventure Works データベース
+-   MVC - Adventure Works データベース
 
 ## <a id="enabling-column-hiding-jquery"></a> JQuery で列の非表示を有効にする
 

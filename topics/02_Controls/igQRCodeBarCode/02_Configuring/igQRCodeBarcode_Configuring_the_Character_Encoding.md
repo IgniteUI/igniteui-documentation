@@ -95,7 +95,7 @@
 ---|---|---
 各種データ シーケンスの最適なエンコード モードの自動認識 (該当する場合)|[encodingMode](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options:encodingMode)|undefined
 10 進数セット (0-9) のデータ エンコード|encodingMode|numeric
-45 文字セットのデータ エンコード – 桁 (0-9)、大文字 (A-Z)、その他の文字 (space $ % * + _ ./ : )。|encodingMode|alphanumeric
+45 文字セットのデータ エンコード - 桁 (0-9)、大文字 (A-Z)、その他の文字 (space $ % * + _ ./ : )。|encodingMode|alphanumeric
 8 ビット データ (各文字ごとに 8 ビット) の encodingMode バイトのエンコード。Shift JIS システムに基づく漢字のエンコード|encodingMode|kanji
 
 

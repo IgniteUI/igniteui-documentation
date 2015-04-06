@@ -65,7 +65,7 @@
 `$.ig.ResponsiveMode` クラスを拡張すると、以下のルールが適用されます。
 
 -   クラス名の慣例 - クラスは `$.ig.<custom_class_name>Mode` と名前をつけなければなりません。このとき *<custom_class_name>* はクラスの名前です。
--   クラスを RWD モード プロファイルとして登録する – RWD モード機能の  `responsiveConfig` プロパティでカスタム モードを宣言します。以下のコードでは、`<custom_mode_name>` は、RWD モード プロファイルの実際の名前を表します。
+-   クラスを RWD モード プロファイルとして登録する - RWD モード機能の  `responsiveConfig` プロパティでカスタム モードを宣言します。以下のコードでは、`<custom_mode_name>` は、RWD モード プロファイルの実際の名前を表します。
 
     **JavaScript の場合:**
 

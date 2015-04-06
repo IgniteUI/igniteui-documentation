@@ -66,7 +66,7 @@ $('#numericEditor').igNumericEditor({
 
 ###リスト 3: 初期化後のエディター テーマの設定
 
-jQueryUI – 初期化後にテーマ オプションを設定します。
+jQueryUI - 初期化後にテーマ オプションを設定します。
 ```
 $('#numericEditor').igNumericEditor ('option', 'theme', 'customTheme');
 ```

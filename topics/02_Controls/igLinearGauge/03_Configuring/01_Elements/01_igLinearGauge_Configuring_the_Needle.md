@@ -30,7 +30,7 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [針を構成 – 概念的概要](#overview)
+-   [針を構成 - 概念的概要](#overview)
     -   [針構成の概要](#needle-config-summary)
     -   [針構成の概要表](#needle-config-chart)
     -   [プロパティ設定](#property-setting)
@@ -52,7 +52,7 @@
 
 
 
-##<a id="overview"></a>針を構成 – 概念的概要
+##<a id="overview"></a>針を構成 - 概念的概要
 
 ### <a id="needle-config-summary"></a>針構成の概要
 
@@ -384,9 +384,9 @@
 
 針図形を構成するには、幅と範囲を制御するプロパティを設定します。このプロパティは、針図形の 3 つの基本部分を定義します。基本部分 (垂直方向に上から下) は:
 
--   Outer 部分 – 針のスケールから一番遠い部分。
--   Middle 部分 – 外部分および 内部分の間にある部分。[幅に関連するプロパティ](#config-needle-shape)は 2 つのセグメントと共有されます。
--   Inner 部分 – 針のスケールに一番近い部分。
+-   Outer 部分 - 針のスケールから一番遠い部分。
+-   Middle 部分 - 外部分および 内部分の間にある部分。[幅に関連するプロパティ](#config-needle-shape)は 2 つのセグメントと共有されます。
+-   Inner 部分 - 針のスケールに一番近い部分。
 
 以下の画像は、水平方向が使用される場合、針図形に関連するプロパティを表示します。プロパティの詳細については、[プロパティ リファレンス](#property-reference)を参照してください。
 
@@ -412,18 +412,18 @@
 
 -   Outer 部分のプロパティ:
     -   [needleOuterExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleOuterExtent)
-    -   [needleOuterPointExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleOuterPointExtent) – Outer および Middle の基本部分の共有設定
+    -   [needleOuterPointExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleOuterPointExtent) - Outer および Middle の基本部分の共有設定
     -   [needleOuterBaseWidth](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleOuterBaseWidth)
-    -   [needleOuterPointWidth](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleOuterPointWidth) – Outer および Middle の基本部分の共有設定
+    -   [needleOuterPointWidth](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleOuterPointWidth) - Outer および Middle の基本部分の共有設定
 -   Middle 部分のプロパティ:
-    -   [needleOuterPointExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleOuterPointExtent) – Outer および Middle の基本部分の共有設定
-    -   [needleInnerPointExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleInnerPointExtent) – Inner および Middle の基本部分の共有設定
-    -   [needleOuterPointWidth](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleOuterPointWidth) – Outer および Middle の基本部分の共有設定
-    -   [needleInnerPointWidth](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleInnerPointWidth) – Inner および Middle の基本部分の共有設定
+    -   [needleOuterPointExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleOuterPointExtent) - Outer および Middle の基本部分の共有設定
+    -   [needleInnerPointExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleInnerPointExtent) - Inner および Middle の基本部分の共有設定
+    -   [needleOuterPointWidth](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleOuterPointWidth) - Outer および Middle の基本部分の共有設定
+    -   [needleInnerPointWidth](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleInnerPointWidth) - Inner および Middle の基本部分の共有設定
 -   Inner 部分のプロパティ:
-    -   [needleInnerPointExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleInnerPointExtent) – Inner および Middle の基本部分の共有設定
+    -   [needleInnerPointExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleInnerPointExtent) - Inner および Middle の基本部分の共有設定
     -   [needleInnerExtent](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleInnerExtent)
-    -   [needleInnerPointWidth](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleInnerPointWidth) – Inner および Middle の基本部分の共有設定
+    -   [needleInnerPointWidth](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleInnerPointWidth) - Inner および Middle の基本部分の共有設定
     -   [needleInnerBaseWidth](%%jQueryApiUrl%%/ui.igLinearGauge#options:needleInnerBaseWidth)
 
 ### <a id="needle-shape-type"></a>針図形タイプのプロパティ サブセット

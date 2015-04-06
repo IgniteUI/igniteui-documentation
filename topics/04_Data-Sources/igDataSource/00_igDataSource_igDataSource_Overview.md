@@ -14,7 +14,7 @@
 `igDataSource` は、`igGrid` コントロールなどのデータ バインドされたコントロールと実際のデータ ソース間の仲介レイヤーとしての役割を果たす jQuery に基づくコンポーネントです。コンポーネントのデータのソースには、次のものがあります。
 
 -   Web サービス (REST GET、WCF などから接続)
--   ローカル データ – JSON、XML、HTML Table、JavaScript 配列 (JSON および XML の文字列を含む)
+-   ローカル データ - JSON、XML、HTML Table、JavaScript 配列 (JSON および XML の文字列を含む)
 -   関数が戻すデータ
 
 >**注:** `igGrid` コントロールと違い、`igDataSource` コンポーネントはプレーン JavaScript クラスとして実装され、基本 jQuery ウィジェットは拡張しません。

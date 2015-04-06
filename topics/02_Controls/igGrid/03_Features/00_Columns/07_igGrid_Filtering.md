@@ -113,7 +113,7 @@ features: [
 <script type="text/javascript" src="infragistics.lob.js"></script>
 ```
 
-リスト 2: 縮小も結合もしていない CSS 参照および JavaScript 参照の最小セット – フィルタリングにのみ必要
+リスト 2: 縮小も結合もしていない CSS 参照および JavaScript 参照の最小セット - フィルタリングにのみ必要
 
 
 

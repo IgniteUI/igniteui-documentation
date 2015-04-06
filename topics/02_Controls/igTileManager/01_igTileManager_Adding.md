@@ -25,16 +25,16 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [igTileManager の追加 – 概要](#overview)
+-   [igTileManager の追加 - 概要](#overview)
     -   [igTileManager の追加の概要](#summary)
     -   [要件](#requirements)
     -   [手順](#steps)
--   [igTileManager の HTML マークアップへの追加 – **手順**](#html-markup-preocedure)
+-   [igTileManager の HTML マークアップへの追加 - **手順**](#html-markup-preocedure)
     -   [概要](#html-introduction)
     -   [プレビュー](#html-preview)
     -   [前提条件](#html-prerequisites)
     -   [手順](#html-steps)
--   [**ASP.NET MVC ビューへの igTileManager の追加 – 手順**](#mvc-procedure)
+-   [**ASP.NET MVC ビューへの igTileManager の追加 - 手順**](#mvc-procedure)
     -   [概要](#mvc-introduction)
     -   [プレビュー](#mvc-preview)
     -   [前提条件](#mvc-prerequisites)
@@ -45,7 +45,7 @@
 
 
 
-## <a id="overview"></a>igTileManager の追加 – 概要
+## <a id="overview"></a>igTileManager の追加 - 概要
 ### <a id="summary"></a>igTileManager の追加の概要
 
 `igTileManager` は、DIV 要素で初期化するコントロールです。DIV に追加されたマークアップやデータ ソースから、`igTileManager` を作成できます ([igTileManager とデータのバインド](igTileManager-Binding.html)を参照してください)。このトピックは、マークアップでの初期化を説明します。
@@ -266,7 +266,7 @@ IG テーマ (オプション)
 
 
 
-## <a id="html-markup-preocedure"></a>igTileManager の HTML マークアップへの追加 – 手順
+## <a id="html-markup-preocedure"></a>igTileManager の HTML マークアップへの追加 - 手順
 ### <a id="html-introduction"></a>概要
 
 この手順は、実際の HTML/JavaScript 実装を使用して、基本機能を持つ `igTileManager` コントロールを HTML ページへ追加するステップを説明します。`igTileManager` コントロールによって必要とされるすべての Ignite UI リソースを読み込むために、Infragistics Loader コンポーネント (`igLoader`) を使用します。マークアップについても、HTML ページに定義されています。
@@ -405,7 +405,7 @@ IG テーマ (オプション)
 
 
 
-## <a id="mvc-procedure"></a>ASP.NET MVC ビューへの igTileManager の追加 – 手順
+## <a id="mvc-procedure"></a>ASP.NET MVC ビューへの igTileManager の追加 - 手順
 ### <a id="mvc-introduction"></a>概要
 
 この手順は、基本的な機能を備えた `igTileManager` を ASP.NET MVC View に追加する方法を示します。この例では、必要なローダーの構成とともに ASP.NET MVC 構文を使用します。

@@ -39,7 +39,7 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [**igTileManager とデータ ソースのバインド – 概要**](#overview)
+-   [**igTileManager とデータ ソースのバインド - 概要**](#overview)
     -   [データ ソースの要約](#data-source)
     -   [サポートされるデータ ソース](#suppoted-data-source)
     -   [サポートされるテンプレート エンジン](#supported-templating-engines)
@@ -62,7 +62,7 @@
 
 
 
-## <a id="overview"></a>igTileManager とデータ ソースのバインド – 概要
+## <a id="overview"></a>igTileManager とデータ ソースのバインド - 概要
 ### <a id="data-source"></a>データ ソースの要約
 
 `igTileManager` は、Ignite UI® ライブラリの他のコントロールと同様にデータにバインドされます。データのバインドは、[dataSource](%%jQueryApiUrl%%/ui.igtilemanager#options:dataSource) オプションにデータ ソースを割り当てる方法、またはデータが Web サービスまたは Windows Communication Foundation (WCF) サービスにより提供される場合は [dataSourceUrl](%%jQueryApiUrl%%/ui.igtilemanager#options:dataSourceUrl) で URL を指定する方法で行います。`igTileManager` コントロールは [igDataSource](%%jQueryApiUrl%%/ig.datasource) オブジェクトを作成および使用してデータを処理します。
@@ -124,8 +124,8 @@ var data = [
 ```
 $("#dashboard").igTileManager({
     dataSource: data,
-    minimizedState: '<h3>${name} – Minimized State</h3>',
-    maximizedState:  '<h3>${name} – Maximized State</h3>'
+    minimizedState: '<h3>${name} - Minimized State</h3>',
+    maximizedState:  '<h3>${name} - Maximized State</h3>'
 });
 ```
 
@@ -186,8 +186,8 @@ var data = new $.ig.DataSource({
 ```
 $("#dashboard").igTileManager({
     dataSource: data,
-    minimizedState: '<h3>${name} – Minimized State</h3>',
-    maximizedState: '<h3>${name} – Maximized State</h3>'
+    minimizedState: '<h3>${name} - Minimized State</h3>',
+    maximizedState: '<h3>${name} - Maximized State</h3>'
 });
 ```
 
@@ -223,8 +223,8 @@ public class TileData
     Infragistics().
     TileManager(Model).
     ID("dashboard").
-    minimizedState(“<h3>${name} – Minimized State</h3>”).
-    maximizedState(“<h3>${name} – Maximized State</h3>”).
+    minimizedState(“<h3>${name} - Minimized State</h3>”).
+    maximizedState(“<h3>${name} - Maximized State</h3>”).
     Render()
 )
 ```
@@ -277,8 +277,8 @@ public JsonResult GetDashboard()
 ```
 $("#dashboard").igTileManager ({
     dataSourceUrl: "/businessLogic/getDashboard",
-    minimizedState: '<h3>${name} – Minimized State</h3>',
-    maximizedState: '<h3>${name} – Maximized State</h3>'
+    minimizedState: '<h3>${name} - Minimized State</h3>',
+    maximizedState: '<h3>${name} - Maximized State</h3>'
 });
 ```
 
