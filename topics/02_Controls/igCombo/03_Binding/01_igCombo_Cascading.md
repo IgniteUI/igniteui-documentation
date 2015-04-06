@@ -45,7 +45,7 @@
 ##<a id="creating-cascading-combos"></a>コンボのカスケードの作成
 ### <a id="introduction"></a>概要
 
-この例では、2 つの igCombos が作成され、異なるデータ ソースにバインドされます。次に、最初の igCombo の選択が 2 番目の igCombo で利用できるデータをフィルター処理します。
+この例では、2 つの igCombo が作成され、異なるデータ ソースにバインドされます。次に、最初の igCombo の選択が 2 番目の igCombo で利用できるデータをフィルター処理します。
 
 ### <a id="preview"></a>プレビュー
 
@@ -173,8 +173,9 @@
 
 以下は、完了時のページの表示を実際に示すために作成されたサンプル用の完全なコードです。
 
-	**HTML と JavaScript の場合:**
-	```
+**HTML と JavaScript の場合:**
+
+```
 	<span id="comboCountry"></span>
 	<span id="comboDistrict"></span>
 
@@ -223,7 +224,7 @@
             });
 		});
 	</script>
-	```
+```
 
 ##<a id="related-content"></a>関連コンテンツ
 

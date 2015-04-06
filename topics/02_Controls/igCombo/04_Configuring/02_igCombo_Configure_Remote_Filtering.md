@@ -81,7 +81,7 @@
 		<tr>
 			<td>ASP.NET MVC ヘルパーによるリモート フィルタリング</td>
 			<td>igCombo ASP.NET MVC ヘルパーは、ビジネス オブジェクトのコレクションにバインドする場合にサーバー側フィルタリングを設定する API を提供します。</td>
-			<td><ul><li>[filteringType](%%jQueryApiUrl%%/ui.igCombo#options:filteringType)</li>ComboDataSourceAction<li>[filterExprUrlKey](%%jQueryApiUrl%%/ui.igCombo#options:filterExprUrlKey)</li></ul></td>
+			<td><ul><li>[filteringType](%%jQueryApiUrl%%/ui.igCombo#options:filteringType)</li><li>comboDataSourceAction</li><li>[filterExprUrlKey](%%jQueryApiUrl%%/ui.igCombo#options:filterExprUrlKey)</li></ul></td>
 		</tr>
 	</tbody>
 </table>

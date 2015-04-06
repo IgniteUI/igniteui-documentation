@@ -988,7 +988,7 @@
 
 		<tr>
 			<td>
-				<p><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~Container.html">コンテナー</a></p>
+				<p><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~Container.html">Container</a></p>
 			</td>
 
 			<td>
@@ -1008,7 +1008,7 @@
 
 		<tr>
 			<td>
-				<p><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~State.html">状態</a></p>
+				<p><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~State.html">State</a></p>
 			</td>
 
 			<td>
@@ -1032,7 +1032,7 @@
 
 		<tr>
 			<td>
-				<p><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~Pinned.html">ピン固定</a></p>
+				<p><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~Pinned.html">Pinned</a></p>
 			</td>
 
 			<td>
@@ -1052,7 +1052,7 @@
 
 		<tr>
 			<td>
-				<p><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~Position.html">位置</a></p>
+				<p><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~Position.html">Position</a></p>
 			</td>
 
 			<td>
@@ -1230,7 +1230,7 @@
 
 		<tr>
 			<td>
-				<p><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~Height.html">高さ</a></p>
+				<p><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~Height.html">Height</a></p>
 			</td>
 
 			<td>

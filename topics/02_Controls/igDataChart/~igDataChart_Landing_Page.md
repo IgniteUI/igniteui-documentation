@@ -16,7 +16,7 @@
 
 ### 概要
 
-`igListView`™ コントロールは、HTML5 Canvas 要素に基づいて Web アプリケーションで各種のチャートを表示する機能を提供します。
+`igDataChart`™ コントロールは、HTML5 Canvas 要素に基づいて Web アプリケーションで各種のチャートを表示する機能を提供します。
 
 ![](images/igDataChart_%28Landing_Page%29_1.png)
 
