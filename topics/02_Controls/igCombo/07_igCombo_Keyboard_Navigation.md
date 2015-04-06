@@ -46,12 +46,12 @@
 
 押した場合|結果
 ---|---
-<kbd>Shift</kbd>|項目がアクティブ状態に強調表示される
-<kbd>Shift</kbd>|複数の項目が選択されていない場合は何も起こらず、項目はアクティブ状態のまま。
-<kbd>Shift</kbd> + <kbd>上矢印 / 下矢印</kbd> |アクティブ (強調表示された) 項目を変更し、<kbd>Shift キーを離した場合、</kbd> アクティブ項目が選択される。
-<kbd>Shift</kbd> + <kbd>Enter</kbd>|**シナリオ**: 項目がマウスで選択され、<kbd>Shift と上矢印 / 下矢印キーでアクティブ項目を移動した場合</kbd> + <kbd>Enter</kbd> 項目の状態、最初と最後の選択項目が Selected に変更されます。
+<kbd>Shift</kbd>|項目がアクティブ状態で強調表示
+<kbd>Shift</kbd>|複数の項目が選択されていない場合は何も起こらず、項目はアクティブ状態を保持
+<kbd>Shift</kbd> + <kbd>上矢印 / 下矢印</kbd> |アクティブ (強調表示された) 項目を変更し、<kbd>Shift キーを離した場合、</kbd> アクティブ項目を選択
+<kbd>Shift</kbd> + <kbd>Enter</kbd>|**シナリオ**: 項目がマウスで選択され、<kbd>Shift と上矢印 / 下矢印キーでアクティブ項目を移動した場合</kbd> + <kbd>Enter</kbd> 項目の状態、最初と最後の選択項目が Selected に変更
 
-> **注:** <kbd>Shift キー</kbd> のみは項目を選択します
+> **注:** <kbd>Shift キー</kbd> のみは項目を選択
 
 ###<a id="ctrlInteraction"></a>Ctrl 操作 (addWithKeyModifier オプションを true に設定)
 デフォルトでは、MultiSelection が有効な場合、エンドユーザーは左マウス ボタンをクリックするのみで複数の項目を選択できます。<kbd>Ctrl</kbd> で複数の項目を選択するには、`addWithKeyModifier` オプションを `true` に設定する必要があります。
