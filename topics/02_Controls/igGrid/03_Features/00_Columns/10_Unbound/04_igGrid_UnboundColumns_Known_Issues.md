@@ -24,7 +24,7 @@
 	<tbody>
 		<tr>
 			<td>
-![](images/UnboundColumns_Known_Issues_1.png)
+![](images/positive.png)
 			</td>
 			<td>
 				回避策
@@ -33,7 +33,7 @@
 
 		<tr>
 			<td>
-![](images/UnboundColumns_Known_Issues_2.png)
+![](images/negative.png)
 			</td>
 			<td>
 				既知の回避策はありません
@@ -42,7 +42,7 @@
 
 		<tr>
 			<td>
-![](images/UnboundColumns_Known_Issues_3.png)
+![](images/plannedFix.png)
 			</td>
 			<td>
 				修正予定です
@@ -54,15 +54,15 @@
 
 問題|説明|状態
 ---|---|---
-[リモートフィルタリング、並べ替えおよび GroupBy 機能](#remote-filtering-sorting)|非バインド列機能は、リモート フィルタリング、並べ替えおよび GroupBy 機能はサポートしていません。 | ![](images/UnboundColumns_Known_Issues_2.png)
-[GridModel.SetUnboundValues (&lt;列キー&gt;, &lt;値のディクショナリ&gt;) を使用するには、GridModel.PrimaryKey プロパティを設定する必要があります。](#using-SetUnboundValues-primary)|`GridModel.SetUnboundValues(<列キー>, <値のディクショナリ>)` オーバーロード メソッドには、グリッドに対し設定するプライマリ キーが必要です。理由は、このメソッドの 2 つめのパラメータは、そのキーがグリッドのプライマリ キーに設定されるディクショナリであるためです。 | ![](images/UnboundColumns_Known_Issues_1.png)
-[非バインド列とリモート URLでのチェーン](#chaining-remote-url)|`MergeUnboundColumns` が true に設定されている場合に非バインド列をチェーンで使用するのは無効なシナリオです。 | ![](images/UnboundColumns_Known_Issues_2.png)
-[リモート データ ソース、ページングおよび初期 unboundValues](#remote-source-initial-values)|グリッドは、リモートのページングを有効にしたクライアント上で `unboundValues` を設定している場合に非バインド列に対して同じ値を表示します。 | ![](images/UnboundColumns_Known_Issues_2.png)
-[MergeUnboundColumns=true の場合、非バインド列の値の設定に数式は使用できません。](#MergeUnboundColumns-formula)|MergeUnboundColums=TRUE の MVC シナリオの場合、クライアント側で非バインド値はすでにデータ ソースの一部であり、列は「バインド」列として解釈されます。データ バインドがグリッドである場合に数式を考慮します。列に関数式が設定されている場合、これらの非バインド列の値が評価され、データ ソースのデータビューに設定されます。数式がクライアント側で実行されると、「非バインド」列の値は計算されず (「バインドされている」とみなされるため) グリッドは空のままです。 | ![](images/UnboundColumns_Known_Issues_1.png)
-[更新と非バインド列](#updating)|非バインド列の値はグリッドの再バインド間では存続しません。 | ![](images/UnboundColumns_Known_Issues_2.png)
-仮想化と igGrid.setUnboundValues クライアント API|仮想化を使用して igGrid.setUnboundValues メソッドを呼び出す場合、非バインド列で値をレンダリングする前にグリッドは一番上までスクロールします。 | ![](images/UnboundColumns_Known_Issues_2.png)
-[MergeUnboundColumns = false およびブール値の非バインド列](#MergeUnboundColumns-boolean)|非バインドブール値列に対して値がサーバー上で構成される場合、サーバー上で明示的に設定されない列内のセルはクライアント上でレンダリングされる際に自動的に false に設定されます。 | ![](images/UnboundColumns_Known_Issues_1.png)
-getUnboundValues クライアント API および dataBound クライアント イベントにおける非バインド値の設定|クライアント上で igGrid.getUnboundValues メソッドを使用すると、`dataBound()` クライアント側イベントを介して設定される場合に非バインド値は返されません。 | ![](images/UnboundColumns_Known_Issues_2.png)
+[リモートフィルタリング、並べ替えおよび GroupBy 機能](#remote-filtering-sorting)|非バインド列機能は、リモート フィルタリング、並べ替えおよび GroupBy 機能はサポートしていません。 | ![](images/negative.png)
+[GridModel.SetUnboundValues (&lt;列キー&gt;, &lt;値のディクショナリ&gt;) を使用するには、GridModel.PrimaryKey プロパティを設定する必要があります。](#using-SetUnboundValues-primary)|`GridModel.SetUnboundValues(<列キー>, <値のディクショナリ>)` オーバーロード メソッドには、グリッドに対し設定するプライマリ キーが必要です。理由は、このメソッドの 2 つめのパラメータは、そのキーがグリッドのプライマリ キーに設定されるディクショナリであるためです。 | ![](images/positive.png)
+[非バインド列とリモート URLでのチェーン](#chaining-remote-url)|`MergeUnboundColumns` が true に設定されている場合に非バインド列をチェーンで使用するのは無効なシナリオです。 | ![](images/negative.png)
+[リモート データ ソース、ページングおよび初期 unboundValues](#remote-source-initial-values)|グリッドは、リモートのページングを有効にしたクライアント上で `unboundValues` を設定している場合に非バインド列に対して同じ値を表示します。 | ![](images/negative.png)
+[MergeUnboundColumns=true の場合、非バインド列の値の設定に数式は使用できません。](#MergeUnboundColumns-formula)|MergeUnboundColums=TRUE の MVC シナリオの場合、クライアント側で非バインド値はすでにデータ ソースの一部であり、列は「バインド」列として解釈されます。データ バインドがグリッドである場合に数式を考慮します。列に関数式が設定されている場合、これらの非バインド列の値が評価され、データ ソースのデータビューに設定されます。数式がクライアント側で実行されると、「非バインド」列の値は計算されず (「バインドされている」とみなされるため) グリッドは空のままです。 | ![](images/positive.png)
+[更新と非バインド列](#updating)|非バインド列の値はグリッドの再バインド間では存続しません。 | ![](images/negative.png)
+仮想化と igGrid.setUnboundValues クライアント API|仮想化を使用して igGrid.setUnboundValues メソッドを呼び出す場合、非バインド列で値をレンダリングする前にグリッドは一番上までスクロールします。 | ![](images/negative.png)
+[MergeUnboundColumns = false およびブール値の非バインド列](#MergeUnboundColumns-boolean)|非バインドブール値列に対して値がサーバー上で構成される場合、サーバー上で明示的に設定されない列内のセルはクライアント上でレンダリングされる際に自動的に false に設定されます。 | ![](images/positive.png)
+getUnboundValues クライアント API および dataBound クライアント イベントにおける非バインド値の設定|クライアント上で igGrid.getUnboundValues メソッドを使用すると、`dataBound()` クライアント側イベントを介して設定される場合に非バインド値は返されません。 | ![](images/negative.png)
 
 
 

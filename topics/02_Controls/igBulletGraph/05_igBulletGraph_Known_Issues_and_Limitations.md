@@ -20,15 +20,15 @@
 <table class="table">
 	<tbody>
 		<tr>
-			<td>![](images/Known_Issues_and_Limitations_Solution.png)</td>
+			<td>![](images/positive.png)</td>
 			<td>回避策</td>
 		</tr>
 		<tr>
-			<td>![](images/Known_Issues_and_Limitations_NoSolution.png)</td>
+			<td>![](images/negative.png)</td>
 			<td>既知の回避策はありません</td>
 		</tr>
 		<tr>
-			<td>![](images/Known_Issues_and_Limitations_FixPlanned.png)</td>
+			<td>![](images/plannedFix.png)</td>
 			<td>修正予定です</td>
 		</tr>
 	</tbody>
@@ -39,9 +39,9 @@
 
 問題|説明|状態
 ---|---|---
-[1 つのパフォーマンス バーと、1 つの比較マーカーのみがサポートされています](#_SingleCMAndPB)|`igBulletGraph` コントロールは、1 つのパフォーマンス バーと 1 つの比較マーカーのみをサポートします。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[ラベル競合の検出なし](#_NoLabelsCollision)|`igBulletGraph` コントロールは、ラベル競合を検出する手段を提供していません。その結果、ラベルを表示するスペースが十分にない場合は、ラベル競合が発生する可能性があります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-パフォーマンス バーは、最小スケールの位置からのみ描画することができます。|パフォーマンス バーの開始位置は、スケールの最小値の位置のみです。パフォーマンス バーを任意の場所から始めることはできません。 | ![](images/Known_Issues_and_Limitations_NoSolution.png) ![](images/Known_Issues_and_Limitations_FixPlanned.png)
+[1 つのパフォーマンス バーと、1 つの比較マーカーのみがサポートされています](#_SingleCMAndPB)|`igBulletGraph` コントロールは、1 つのパフォーマンス バーと 1 つの比較マーカーのみをサポートします。 | ![](images/positive.png)
+[ラベル競合の検出なし](#_NoLabelsCollision)|`igBulletGraph` コントロールは、ラベル競合を検出する手段を提供していません。その結果、ラベルを表示するスペースが十分にない場合は、ラベル競合が発生する可能性があります。 | ![](images/positive.png)
+パフォーマンス バーは、最小スケールの位置からのみ描画することができます。|パフォーマンス バーの開始位置は、スケールの最小値の位置のみです。パフォーマンス バーを任意の場所から始めることはできません。 | ![](images/negative.png) ![](images/plannedFix.png)
 
 
 ## <a id="igBulletGraph"></a> igBulletGraph

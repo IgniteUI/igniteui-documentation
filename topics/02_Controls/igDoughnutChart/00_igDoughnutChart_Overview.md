@@ -62,7 +62,7 @@
 
 目的|方法|詳細|クライアント/サーバー設定
 --------------|--------|---------|-------------
-スライスのクリック|マウス クリック|`igDoughnutChart` は、スライス上でクリックすると起動する [`sliceClick`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:sliceClick) イベントを公開します。<br />スライスの選択または公開を有効にすると、スライスの選択および公開の状態をクリックにより修正できます。|![](images/Known_Issues_and_Limitations_Solution.png) [選択と展開の構成 (*igDoughnutChart*)](igDoughnutChart-Configuring-Selection-and-Explosion.html)
+スライスのクリック|マウス クリック|`igDoughnutChart` は、スライス上でクリックすると起動する [`sliceClick`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:sliceClick) イベントを公開します。<br />スライスの選択または公開を有効にすると、スライスの選択および公開の状態をクリックにより修正できます。|![](images/positive.png) [選択と展開の構成 (*igDoughnutChart*)](igDoughnutChart-Configuring-Selection-and-Explosion.html)
 
 
 ## <a id="related-content"></a> 関連コンテンツ

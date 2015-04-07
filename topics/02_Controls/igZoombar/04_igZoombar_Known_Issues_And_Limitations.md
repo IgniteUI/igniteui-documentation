@@ -20,15 +20,15 @@
 <table class="table">
     <tbody>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_Solution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/positive.png" alt="" class="img-responsive"></td>
             <td>回避策</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_NoSolution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/negative.png" alt="" class="img-responsive"></td>
             <td>既知の回避策はありません</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_FixPlanned.png" alt="" class="img-responsive"></td>
+            <td><img src="images/plannedFix.png" alt="" class="img-responsive"></td>
             <td>修正予定です</td>
         </tr>
     </tbody>
@@ -38,9 +38,9 @@
 
 問題|説明|状態
 ---|---|---
-`igDataChart` ラジアル シリーズがサポートされない| `igZoombar` は水平方向のみのズームをサポートしますが、ラジアル シリーズでは両方の軸で行った場合のみサポートされます。そのため、ラジアル シリーズの `igZoombar` によるズームは正しく機能しません。 |![](images/igZoombar_Known_issues_and_limitations_2.png)
-[igDataChart で使用した場合、igZoombar のサムネイルが描画されない](igZoombar-Known-Issues-And-Limitations.html#thumbnail)|`igZoombar` は `igDataChart` コントロールのオプション (`igZoombar` の [target](%%jQueryApiUrl%%/ui.igzoombar#options) オプションで参照されます) を使用してサムネイルを作成します。`igZoombar` は、サムネイルの乱雑さを回避するためにこれらのオプションの一部を削除します。その結果、新しいオプション セットが無効になることがあります。| ![](images/igZoombar_Known_issues_and_limitations_1.png)
-[igZoombar のクローンとターゲット ウィジェットが自動的に同期しない](igZoombar-Known-Issues-And-Limitations.html#synchronize)|`igZoombar` コントロールによりズームされたウィジェットを変更しても、クローンが自動的に更新されません。|![](images/igZoombar_Known_issues_and_limitations_1.png)
+`igDataChart` ラジアル シリーズがサポートされない| `igZoombar` は水平方向のみのズームをサポートしますが、ラジアル シリーズでは両方の軸で行った場合のみサポートされます。そのため、ラジアル シリーズの `igZoombar` によるズームは正しく機能しません。 |![](images/negative.png)
+[igDataChart で使用した場合、igZoombar のサムネイルが描画されない](igZoombar-Known-Issues-And-Limitations.html#thumbnail)|`igZoombar` は `igDataChart` コントロールのオプション (`igZoombar` の [target](%%jQueryApiUrl%%/ui.igzoombar#options) オプションで参照されます) を使用してサムネイルを作成します。`igZoombar` は、サムネイルの乱雑さを回避するためにこれらのオプションの一部を削除します。その結果、新しいオプション セットが無効になることがあります。| ![](images/positive.png)
+[igZoombar のクローンとターゲット ウィジェットが自動的に同期しない](igZoombar-Known-Issues-And-Limitations.html#synchronize)|`igZoombar` コントロールによりズームされたウィジェットを変更しても、クローンが自動的に更新されません。|![](images/positive.png)
 
 
 ## igZoombar

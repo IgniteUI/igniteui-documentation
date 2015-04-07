@@ -27,7 +27,7 @@
             <td>既知の回避策はありません</td>
         </tr>
         <tr>
-            <td><img src="images/tobeUpdated.png" alt="" class="img-responsive"></td>
+            <td><img src="images/plannedFix.png" alt="" class="img-responsive"></td>
             <td>修正予定です</td>
         </tr>
     </tbody>
@@ -45,7 +45,7 @@ MVC で自己参照が機能しない|`igHierarchicalGrid` を自己参照デー
 [レイアウトでプライマリー キーを使用せずにロード オン デマンドを実行すると、例外がスローされる](#load-on-demand-primary)|ロード オン デマンド機能を有効にし、すべての子レイアウトに対してプライマリー キーを定義しなかった場合、例外がスローされます。 | ![](images/positive.png)
 [子レイアウトの一部の列が表示されない、または切り取られる](#hidden-child-columns)|`igHierarchicalGrid` で幅が定義されず、また子レイアウトに列幅が width グリッドを越える列がある場合、子の列の一部は切り取りまたは非表示になります。 | ![](images/positive.png)
 機能を複数回定義できない|**JavaScript の場合:** `igGrid` と `igHierarchicalGrid` のいずれの場合も、1 つの機能を複数回、定義するとエラーがスローされます。**MVC の場合:** `igGrid` と `igHierarchicalGrid` のいずれの場合も、MVC ラッパーで機能を複数回定義すると、最後の定義のみが取り入れられます。 | ![](images/negative.png)
-XML へのクライアント側のバインディング|XML へのバインディングは再帰的スキーマのみサポートします。 | ![](images/tobeUpdated.png)
+XML へのクライアント側のバインディング|XML へのバインディングは再帰的スキーマのみサポートします。 | ![](images/plannedFix.png)
 ロード オン デマンドが false の場合、永続化は子レイアウトに対して機能しない|ロード オン デマンドが false の場合、フィルタリング、並べ替えまたは GroupBy は子レイアウトに対して永続化されません。このシナリオでは、これらの機能に対してpersist オプションが自動的に false に設定されます。 | ![](images/negative.png)
 id 属性は、DOM コントロール プレースホルダーで必須|id 属性は、グリッドが初期化される DOM 要素に設定する必要があります。グリッドは、jQuery セレクターを内部で使用して選択を高速化します。 | ![](images/negative.png)
 スペースを含む列のキーはサポートされない|列のキーは、一部の DOM 要素の ID の生成に使用されます。[HTML 5 仕様](http://www.w3.org/TR/html5/dom.html#the-id-attribute)により、HTML id 属性にスペースを入れることはできません。 | ![](images/negative.png)

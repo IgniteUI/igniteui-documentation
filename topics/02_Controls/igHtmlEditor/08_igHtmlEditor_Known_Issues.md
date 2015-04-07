@@ -35,15 +35,15 @@
 <table class="table">
     <tbody>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_Solution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/positive.png" alt="" class="img-responsive"></td>
             <td>回避策</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_NoSolution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/negative.png" alt="" class="img-responsive"></td>
             <td>既知の回避策はありません</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_FixPlanned.png" alt="" class="img-responsive"></td>
+            <td><img src="images/plannedFix.png" alt="" class="img-responsive"></td>
             <td>修正予定です</td>
         </tr>
     </tbody>
@@ -53,16 +53,16 @@
 
 機能|説明|状態
 ---|---|---
-表および画像は WebKit ベースのブラウザ (Chrome、Safari など) ではサイズ変更できません。|IFRAME BODY の contenteditable 属性が true に設定されている場合は、表のサイズ変更ハンドルはありません。[こちら](http://code.google.com/p/chromium/issues/detail?id=52800)より、Chromium トラッカーのバグの詳細を確認できます。|![](images/Known_Issues_and_Limitations_NoSolution.png)
-[切り取り、コピーおよび貼り付けのツールバー機能が Internet Explorer でしか動作しない](#cut-copy-paste)|Internet Explorer には、切り取り、コピーおよび貼り付け機能用の API がありますが、他のブラウザではこれらの機能のサポートは制限されているか、または未サポートです。|![](images/Known_Issues_and_Limitations_Solution.png)
-Internet Explorer では、PRE 要素がエディターのビューポートから外に出ても、PRE 要素のボーダーは可視のままになります。|デザイン ビューで 選択されたPRE 要素で Internet Explorer の igHtmlEditor コンテンツをスクロールすると、PRE 要素がエディターのビューポートの外にスクロールされた後も、その要素のサイズ変更ボーダーは可視のままになります。|![](images/Known_Issues_and_Limitations_NoSolution.png)
-[Firefox では、Symbol、Webdings、および Wingdings フォントが他のブラウザとは異なる方法で描画される。](#style-difference)|Firefox では、Symbol、Webdings、および Wingdings フォントが他のブラウザとは異なる方法で描画されます。|![](images/Known_Issues_and_Limitations_Solution.png)
-[Firefox では、入力フィールドがその後にある HTML フォームで igHtmlEditor を使用した場合に F5 を押すと、その入力フィールドはコンボ ボックスからのテキストで埋まります。](#html-forms)|Firefox では、*name* 属性が定義されていない入力フィールドがその後にある HTML フォームで igHtmlEditor を使用した場合に F5 を押すと、その入力フィールドは、フォント名、フォント サイズ、および見出しのコンボ ボックスからのテキストで埋まります。|![](images/Known_Issues_and_Limitations_Solution.png)
-[igHtmlEditor を igDialog 内で使用したときにエディターのサイズが正しく変更されない。](#igDialog)|igHtmlEditor の幅や高さがパーセンテージ値として指定されているときに igHtmlEditor を igDialog 内で使用した場合、まだダイアログが作成されていない状態で、igHtmlEditor の寸法を正しく計算することができないため、エディターのサイズは正しく変更されません。|![](images/Known_Issues_and_Limitations_Solution.png)
-ハイパーリンクを Internet Explorer で開くことができない。|IE で右クリックしても、開くオプションのリストが表示されません。CTRL を押しながらクリックしても開きません。|![](images/Known_Issues_and_Limitations_NoSolution.png)
-Internet Explorer 6-10 の場合、元に戻す/やり直し機能に一貫性がありません。|元に戻す/やり直し機能はネイティブなブラウザーの実装で実行されます。IE で要素がコードで挿入または削除された場合、元に戻す/やり直しバッファーはリセットされます。「Dom パス ツールバー」などの機能は要素の挿入と削除に基づきます。つまり、操作が元に戻す/やり直しバッファーをリセットする可能性があります。|![](images/Known_Issues_and_Limitations_NoSolution.png)
-Internet Explorer で、ソース表示モードで追加された表は新しい行を含むはずがありません。|表要素の新しい行は、IE 選択および範囲 API を使用する場合に例外を発生します。|![](images/Known_Issues_and_Limitations_NoSolution.png)
-Internet Explorer で複数のドロップダウン スタイル設定の選択|Internet Explorer で範囲が縮小されている (選択がない) ときに、エディター ドロップダウンから複数のスタイル設定を選択した場合、以前選択したスタイル設定は保持されません。|![](images/Known_Issues_and_Limitations_NoSolution.png)
+表および画像は WebKit ベースのブラウザ (Chrome、Safari など) ではサイズ変更できません。|IFRAME BODY の contenteditable 属性が true に設定されている場合は、表のサイズ変更ハンドルはありません。[こちら](http://code.google.com/p/chromium/issues/detail?id=52800)より、Chromium トラッカーのバグの詳細を確認できます。|![](images/negative.png)
+[切り取り、コピーおよび貼り付けのツールバー機能が Internet Explorer でしか動作しない](#cut-copy-paste)|Internet Explorer には、切り取り、コピーおよび貼り付け機能用の API がありますが、他のブラウザではこれらの機能のサポートは制限されているか、または未サポートです。|![](images/positive.png)
+Internet Explorer では、PRE 要素がエディターのビューポートから外に出ても、PRE 要素のボーダーは可視のままになります。|デザイン ビューで 選択されたPRE 要素で Internet Explorer の igHtmlEditor コンテンツをスクロールすると、PRE 要素がエディターのビューポートの外にスクロールされた後も、その要素のサイズ変更ボーダーは可視のままになります。|![](images/negative.png)
+[Firefox では、Symbol、Webdings、および Wingdings フォントが他のブラウザとは異なる方法で描画される。](#style-difference)|Firefox では、Symbol、Webdings、および Wingdings フォントが他のブラウザとは異なる方法で描画されます。|![](images/positive.png)
+[Firefox では、入力フィールドがその後にある HTML フォームで igHtmlEditor を使用した場合に F5 を押すと、その入力フィールドはコンボ ボックスからのテキストで埋まります。](#html-forms)|Firefox では、*name* 属性が定義されていない入力フィールドがその後にある HTML フォームで igHtmlEditor を使用した場合に F5 を押すと、その入力フィールドは、フォント名、フォント サイズ、および見出しのコンボ ボックスからのテキストで埋まります。|![](images/positive.png)
+[igHtmlEditor を igDialog 内で使用したときにエディターのサイズが正しく変更されない。](#igDialog)|igHtmlEditor の幅や高さがパーセンテージ値として指定されているときに igHtmlEditor を igDialog 内で使用した場合、まだダイアログが作成されていない状態で、igHtmlEditor の寸法を正しく計算することができないため、エディターのサイズは正しく変更されません。|![](images/positive.png)
+ハイパーリンクを Internet Explorer で開くことができない。|IE で右クリックしても、開くオプションのリストが表示されません。CTRL を押しながらクリックしても開きません。|![](images/negative.png)
+Internet Explorer 6-10 の場合、元に戻す/やり直し機能に一貫性がありません。|元に戻す/やり直し機能はネイティブなブラウザーの実装で実行されます。IE で要素がコードで挿入または削除された場合、元に戻す/やり直しバッファーはリセットされます。「Dom パス ツールバー」などの機能は要素の挿入と削除に基づきます。つまり、操作が元に戻す/やり直しバッファーをリセットする可能性があります。|![](images/negative.png)
+Internet Explorer で、ソース表示モードで追加された表は新しい行を含むはずがありません。|表要素の新しい行は、IE 選択および範囲 API を使用する場合に例外を発生します。|![](images/negative.png)
+Internet Explorer で複数のドロップダウン スタイル設定の選択|Internet Explorer で範囲が縮小されている (選択がない) ときに、エディター ドロップダウンから複数のスタイル設定を選択した場合、以前選択したスタイル設定は保持されません。|![](images/negative.png)
 
 
 

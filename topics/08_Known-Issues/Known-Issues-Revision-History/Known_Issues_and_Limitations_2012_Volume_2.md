@@ -77,15 +77,15 @@
 <table class="table">
     <tbody>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_Solution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/positive.png" alt="" class="img-responsive"></td>
             <td>回避策</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_NoSolution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/negative.png" alt="" class="img-responsive"></td>
             <td>既知の回避策はありません</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_FixPlanned.png" alt="" class="img-responsive"></td>
+            <td><img src="images/plannedFix.png" alt="" class="img-responsive"></td>
             <td>修正予定です</td>
         </tr>
     </tbody>
@@ -95,54 +95,54 @@
 
 機能|説明|状態
 ---|---|---
-[Infragistics Loader で igEditor のロケールを動的に変更できない](#changing-lacale-dynamically)|Infragistics Loader を使用している場合は、プログラムを使用してエディターのロケール設定を動的に変更することはできません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[Infragistics テンプレート機能に関する制限事項](#templating-limitations)|入れ子になった `{{each}}` テンプレートはサポートされません。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[グリッドとタッチのサポート](#grids-touch-support)|タッチ ポイントが特定の UI 要素上をスライドするときグリッドとその機能の動作が一致しないことがあります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[特定の状況で入力引数 ui.groupedColumns が空になることがある](#grouped-columns-input-argument)|列を GroupBy 領域にドラッグしてグループ化すると `groupedColumnsChanged` イベントの `ui.groupedColumns` 入力引数が空になります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[Android 4.* デバイスでグリッドの group-by モーダル ダイアログでスクリーン タップが誤って解釈される](#screen-taps-misinterpreted)|Android 4.* を使用したタッチ デバイスでは、階層グリッドで Group By モーダル ダイアログのドロップダウンのタップは、多くの場合モーダル ダイアログの背後のグリッド セルに作用します。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[階層グリッドにおけるリモート グループ化の制限事項](#limitation-remote-grouping-hierarchical-grid)|リモート GroupBy では、複数のレイアウト (またはルート グリッド) の列のグループ化が機能しません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[財務シリーズ チャートでは先頭の項目と最後の項目が半分切れた状態で表示される](#first-last-items-half-cut)|財務シリーズにおいて、先頭と最後の項目はチャートのビュー上にすべてが表示されず、半分にカットされた状態でプロットされます。 | ![](images/Known_Issues_and_Limitations_FixPlanned.png)
-[軸範囲を変更するとチャート アニメーションが無効になる](#chart-animation-disabled)|チャートの Motion Framework を使用していてデータの更新により Y 軸範囲が変更された場合、すべてのチャート アニメーションは無効になり新しいデータがモーション効果なしで直ちに表示されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[MVC ヘルパー生成コードと MVC ローダーがカスタムの JavaScript ページ設定コードのあとに実行される](#mvc-heper-issue)|ASP.NET MVC ビューにおいてコントロールの MVC ローダーや MVC ヘルパーを使用した場合、それらが生成する JavaScript コードは、`document.ready()` や `window.load()` イベントで渡されたカスタムのページ設定コードのあとに実行されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[Infragistics ASP.NET と Ignite UI のドキュメント エンジンの併用時に発生する問題 - 回避策](#document-engines-workaround)|Infragistics ASP.NET と Ignite UI のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[igEditor のスタイル設定](#igEditor-styling)|HTML 要素のレイアウトが変更され、ボタンだけでなくエディター本体の四隅も丸みの付いたコーナーで描画されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-igEditor のスピン ボタン|スピン ボタンは水平方向に描画されます。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[igEditor のレンダリングの失敗](#igEditor-rendering-failure)|ベース要素が TD である場合、レンダリングに失敗することがあります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-行テンプレートなしで igGridHiding™ を使用できない|`igGridHiding`™ は、行テンプレートを使用している場合は列を非表示にできません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[igGridGroupBy と autoGenerateColumns を True に設定すると、他の列をグループ化できなくなる](#autoGenerateColumns-prevents-columns-grouped)|グリッド コントロールにいくつかの列が明示的に定義されており、`autoGenerateColumns` が `true` に設定されていると、初期化時に列をグループ化すると、ランタイムに他の列のグループ化が妨げられます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[グリッドの列幅](#grid-column-widths)|一部の列の幅をパーセンテージで定義し、その他をピクセルで定義する (またはまったく定義しない) ことはできません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[Microsoft Internet Explorer® 7 におけるヘッダーおよびフッター要素のグリッド レイアウトの問題](#grid-layout-problems)|グリッド幅が指定されていない場合、表示されるヘッダー要素とフッター要素の幅は、Microsoft Internet Explorer® 7 のグリッドの幅よりも短くなります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[グリッド API コールが、DIV 要素と共に予想通りに機能しない](#grid-api-calls-not-working)|グリッドのインスタンスを div 要素から作成した場合、グリッドの機能に対する API 呼び出しが期待どおりに機能しません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[垂直スクロールによって、ダイアログがレコードの背後に表示される](#vertical-scroll-dialog-appear-behind-records)|`igGrid` をバージョン 4.0.2 の Android で実行しているときに、`igGrid` で垂直スクロールを行った場合、すべてのポップアップ/ダイアログはレコードの背後に表示されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[Firefox では、列幅を設定していない場合、列のサイズ変更が正常に実行されない](#firefox-columns-resized-correctly)|Firefox のバグにより、列幅が設定されていない場合 `igGrid` 列を適切にサイズ変更できません。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[Firefox では、列幅がパーセンテージ値で設定されている場合、igGrid 列のサイズ変更が正常に実行されない](#firefox-column-cannot-resize)|列幅がパーセンテージ値で設定されている場合、Firefox のバグにより、列のサイズを正しく変更できません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[MVC ローダーが MVC レイザーのレイアウト ビューで正常に機能しない](#mvc-loader-not-working-properly)|ASP.NET MVC ローダーを MVC レイザーのレイアウト ビューに表示した場合、実際のビューにあるコントロールよりも前にローカルを初期化することできません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[列仮想化で行セレクターが機能しない](#row-selectors-not-working-column-virtualization)|列仮想化のコンテキストでは、列セレクターはサポートされません。これは今後のリリースで実装される予定です。 | ![](images/Known_Issues_and_Limitations_FixPlanned.png)
-仮想化を有効にした場合、igGridSelection は、表示されている行でのみ使用できます。|この制限は、仮想化を有効にすると非表示の行やセルは存在しないものとみなされるという事情によるものです。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[階層グリッドにおいて特定の順序で機能を参照した場合に発生するレンダリング問題](#rendering-issue)|`igHierarchicalGrid` では、機能リストにグループ化機能を入れてから行セレクター機能を追加した場合、子レイアウトが正しく表示されないことがあります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[renderCheckboxes オプションがテンプレート処理 (行および列) で有効にならない](#rendercheckbox-option-not-compatible-templating)|テンプレート機能を使用している場合、`renderCheckboxes` オプションを true に設定していても、ブール値の列にテンプレートが定義されているかどうかをチェックできないため、ブール値の列にはチェックボックスが表示されません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-現時点で地理等高線リーズにツールチップが表示されない|今のところ、地理等高線シリーズではツールチップはサポートされません。 | ![](images/Known_Issues_and_Limitations_FixPlanned.png)
-iPad デバイスで地理記号シリーズにツールチップが表示されない|iPad デバイスでは、地理記号シリーズが表示される場合、ツールチップは表示されません。 | ![](images/Known_Issues_and_Limitations_FixPlanned.png)
-[グリッドの ASP.NET MVC ヘルパーで、AutoGenerateLayouts の既定値が true から false に変更される](#default-value-changed)|フラット グリッドに対して別のリモート データ要求が発行されることを防ぐために、`AutoGenerateLayouts` プロパティの既定値は `true` から `false` に変更されます。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[フィルター処理、グループ化、および並べ替え機能ではローカル構成のみがサポートされ、グリッドが DataTable/DataSet にバインドされている場合には集計がサポートされない](#only-local-config-supported)|フィルター処理、グループ化、および並べ替え機能にはローカル構成を使用する必要があります。リモートの並べ替えおよびフィルター処理は、要求を処理してから、データを返す前に DataSet/DataTable レベルでデータをフィルターすることによって実現できます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-グリッドが DataTable/DataSet にバインドされているときに更新機能を使用する場合、GridModel の LoadTransaction() メソッドをオーバーライドしなければならない|グリッドを DataTable または DataSet にバインドしていて、かつ更新機能を使用する場合、`GridModel` は、`Dictionary` から JSON 形式へのデシリアライズに対応したシリアライザーを使用して、`LoadTransaction()` メソッドをオーバーライドする必要があります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[autoCommit を無効にして、更新と仮想化の機能を有効にした場合、新しい行の追加はサポートされません。](#adding-new-row-not-supported)|autoCommit が false の場合、新たに追加された行は仮想化されません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-非バインド列領域では、グリッドのリモート並べ替え、フィルター処理、およびグループ化機能が使用できない|非バインド列グリッドではリモートの並べ替え、フィルター処理、およびグループ化機能がサポートされません。Columns コレクションに含まれる非バインド列では上記の機能は無効です。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[コントロールが igDialog の内部にあり、その幅または高さが相対値で指定されている場合、コントロールが正しく表示されない](#control-doesnot-have-proper-dimentions)|これは、`igDialog` が表示される前にコントロールのインスタンスが作成されるため、コントロールの寸法を正しく計算できないことが原因です。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[MVC ポップアップ モバイル コントロールにはバージョン 1.2 の jQuery モバイルが必要とされる](#popup-mobile-requirements)|ポップアップ ウィジェットは、jQuery モバイル 1.2 で初めて導入された機能です。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[モバイル コントロールのヘルパーが Infragistics.Web.MVC.Mobile dll の中に収められている](#mobile-control-helpers-mobile-dll)|リリース 2012.1 では、モバイル コントロール ヘルパーが `Infragistics.Web.MVC.dll` アセンブリに収められていました。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[jQuery UI のバージョンが古い Google Chrome では列移動機能が正常に動作しない](#inappropriate-behavior-column-moving)|バージョン 1.8.6 よりも前の jQuery UI で列移動機能を使用している場合、Google Chrome ではグリッドが選択されることになります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[非バインド列ではリモートの並べ替え、フィルター処理、およびグループ化はサポートされません。](#remote-features-not-supported-unbound-columns)|非バインド列ではリモートの並べ替え、フィルター処理、およびグループ化はサポートされません。`Columns` コレクションに含まれる非バインド列では上記の機能は無効です。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[グリッド MVC ヘルパーのグリッド SetUnboundValues メソッド オーバーロードにはプライマリ キーが必要とされる](#method-overload-require-primary-key)|`SetUnboundValues(<列キー>], [<値のディクショナリー>])` メソッド オーバーロードを使用するには、プライマリ キーを設定する必要があります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[データ ソースがリモートにあり、MergeUnboundColumns が true に設定されている場合、ビューでグリッド ヘルパーを使用できない](#grid-helper-cannot-work-remote-data)|データ ソースがリモートにあり、`MergeUnboundColumns` プロパティが `true` に設定されている場合、ASP.NET MVC ビューの内部ではグリッド ヘルパーが使用できないようになっています。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[MergeUnboundColumns オプションを true に設定している場合はグリッドの非バインド列に数式を使用できない](#cannot-use-formulae-unbound-columns)|`MergeUnboundColumns` オプションが true に設定されている場合は、数式を使用して非バインド列の値を設定することはできません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[グリッド コントロールでは非バインド データ値が自動的に保持されない](#unbound-data-values-not-persisted)|非バインド値の含まれる行を編集してコミットし、そのあとでグリッドをバインドし直した場合、変更内容は保持されません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[非バインド列を表示するときに仮想化のレンダリングを使用しているとグリッドの一番上にスクロール移動する](#grid-scrolled-to-top)|いずれかの形式 (固定式または連続式) の仮想化を使用しているときに `setUnboundValues()` クライアント API メソッドを呼び出した場合、非バインド列の値が表示される前にグリッドが一番上にスクロールします。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[MergeUnboundColumns が false に設定されていると非バインド列に false が入力される](#unbound-columns-populated-false)|`MergeUnboundColumns` プロパティを `false` に設定しているときにリモート データを使用すると、ブール値の非バインド列には `false` が入力されます。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[特定の状況ではグリッドの getUnboundValues() メソッドが非バインド値を返さない](#grid-method-doesnot-return-unbound-values)|非バインド値が `dataBound` クライアント側イベントを介して設定される場合、`getUnboundValues()` クライアント API メソッドを使用しても非バインド値は返されません。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[メニューがカスタム ダイアログ ベースのコンテナーに収められている場合、モバイルの SelectMenu CloseText プロパティが適用されない](#mobile-select-menu-issue)|ダイアログ ベースのコンテナーを使用している SelectMenu では、CloseText プロパティを使用して閉じるボタンのテキストを設定しようとした場合や、閉じるボタンの上にポインターを置いた場合、所定のカスタム値ではなく [閉じる] というテキストが表示されることになります。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[igCombo のカスケードに parentComboKey を使用しても、子 igCombo をフィルターできない](#cascading-combo-issue)|`igCombo` のカスケードに `parentComboKey` を使用しても、子 `igCombo` をフィルターできない | ![](images/Known_Issues_and_Limitations_Solution.png)
-[igGrid または igHirerarchcalGrid でテーブル行に属性を設定するために行テンプレートを使用できない](#cannot-use-row-template-set-attributes)|行テンプレートが繰り返す列テンプレートとして実装されたため、tr 要素に属性 (class など) を設定できません。回避策があります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
+[Infragistics Loader で igEditor のロケールを動的に変更できない](#changing-lacale-dynamically)|Infragistics Loader を使用している場合は、プログラムを使用してエディターのロケール設定を動的に変更することはできません。 | ![](images/positive.png)
+[Infragistics テンプレート機能に関する制限事項](#templating-limitations)|入れ子になった `{{each}}` テンプレートはサポートされません。 | ![](images/negative.png)
+[グリッドとタッチのサポート](#grids-touch-support)|タッチ ポイントが特定の UI 要素上をスライドするときグリッドとその機能の動作が一致しないことがあります。 | ![](images/positive.png)
+[特定の状況で入力引数 ui.groupedColumns が空になることがある](#grouped-columns-input-argument)|列を GroupBy 領域にドラッグしてグループ化すると `groupedColumnsChanged` イベントの `ui.groupedColumns` 入力引数が空になります。 | ![](images/positive.png)
+[Android 4.* デバイスでグリッドの group-by モーダル ダイアログでスクリーン タップが誤って解釈される](#screen-taps-misinterpreted)|Android 4.* を使用したタッチ デバイスでは、階層グリッドで Group By モーダル ダイアログのドロップダウンのタップは、多くの場合モーダル ダイアログの背後のグリッド セルに作用します。 | ![](images/positive.png)
+[階層グリッドにおけるリモート グループ化の制限事項](#limitation-remote-grouping-hierarchical-grid)|リモート GroupBy では、複数のレイアウト (またはルート グリッド) の列のグループ化が機能しません。 | ![](images/positive.png)
+[財務シリーズ チャートでは先頭の項目と最後の項目が半分切れた状態で表示される](#first-last-items-half-cut)|財務シリーズにおいて、先頭と最後の項目はチャートのビュー上にすべてが表示されず、半分にカットされた状態でプロットされます。 | ![](images/plannedFix.png)
+[軸範囲を変更するとチャート アニメーションが無効になる](#chart-animation-disabled)|チャートの Motion Framework を使用していてデータの更新により Y 軸範囲が変更された場合、すべてのチャート アニメーションは無効になり新しいデータがモーション効果なしで直ちに表示されます。 | ![](images/positive.png)
+[MVC ヘルパー生成コードと MVC ローダーがカスタムの JavaScript ページ設定コードのあとに実行される](#mvc-heper-issue)|ASP.NET MVC ビューにおいてコントロールの MVC ローダーや MVC ヘルパーを使用した場合、それらが生成する JavaScript コードは、`document.ready()` や `window.load()` イベントで渡されたカスタムのページ設定コードのあとに実行されます。 | ![](images/positive.png)
+[Infragistics ASP.NET と Ignite UI のドキュメント エンジンの併用時に発生する問題 - 回避策](#document-engines-workaround)|Infragistics ASP.NET と Ignite UI のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/positive.png)
+[igEditor のスタイル設定](#igEditor-styling)|HTML 要素のレイアウトが変更され、ボタンだけでなくエディター本体の四隅も丸みの付いたコーナーで描画されます。 | ![](images/positive.png)
+igEditor のスピン ボタン|スピン ボタンは水平方向に描画されます。 | ![](images/negative.png)
+[igEditor のレンダリングの失敗](#igEditor-rendering-failure)|ベース要素が TD である場合、レンダリングに失敗することがあります。 | ![](images/positive.png)
+行テンプレートなしで igGridHiding™ を使用できない|`igGridHiding`™ は、行テンプレートを使用している場合は列を非表示にできません。 | ![](images/positive.png)
+[igGridGroupBy と autoGenerateColumns を True に設定すると、他の列をグループ化できなくなる](#autoGenerateColumns-prevents-columns-grouped)|グリッド コントロールにいくつかの列が明示的に定義されており、`autoGenerateColumns` が `true` に設定されていると、初期化時に列をグループ化すると、ランタイムに他の列のグループ化が妨げられます。 | ![](images/positive.png)
+[グリッドの列幅](#grid-column-widths)|一部の列の幅をパーセンテージで定義し、その他をピクセルで定義する (またはまったく定義しない) ことはできません。 | ![](images/positive.png)
+[Microsoft Internet Explorer® 7 におけるヘッダーおよびフッター要素のグリッド レイアウトの問題](#grid-layout-problems)|グリッド幅が指定されていない場合、表示されるヘッダー要素とフッター要素の幅は、Microsoft Internet Explorer® 7 のグリッドの幅よりも短くなります。 | ![](images/positive.png)
+[グリッド API コールが、DIV 要素と共に予想通りに機能しない](#grid-api-calls-not-working)|グリッドのインスタンスを div 要素から作成した場合、グリッドの機能に対する API 呼び出しが期待どおりに機能しません。 | ![](images/positive.png)
+[垂直スクロールによって、ダイアログがレコードの背後に表示される](#vertical-scroll-dialog-appear-behind-records)|`igGrid` をバージョン 4.0.2 の Android で実行しているときに、`igGrid` で垂直スクロールを行った場合、すべてのポップアップ/ダイアログはレコードの背後に表示されます。 | ![](images/positive.png)
+[Firefox では、列幅を設定していない場合、列のサイズ変更が正常に実行されない](#firefox-columns-resized-correctly)|Firefox のバグにより、列幅が設定されていない場合 `igGrid` 列を適切にサイズ変更できません。 | ![](images/negative.png)
+[Firefox では、列幅がパーセンテージ値で設定されている場合、igGrid 列のサイズ変更が正常に実行されない](#firefox-column-cannot-resize)|列幅がパーセンテージ値で設定されている場合、Firefox のバグにより、列のサイズを正しく変更できません。 | ![](images/positive.png)
+[MVC ローダーが MVC レイザーのレイアウト ビューで正常に機能しない](#mvc-loader-not-working-properly)|ASP.NET MVC ローダーを MVC レイザーのレイアウト ビューに表示した場合、実際のビューにあるコントロールよりも前にローカルを初期化することできません。 | ![](images/positive.png)
+[列仮想化で行セレクターが機能しない](#row-selectors-not-working-column-virtualization)|列仮想化のコンテキストでは、列セレクターはサポートされません。これは今後のリリースで実装される予定です。 | ![](images/plannedFix.png)
+仮想化を有効にした場合、igGridSelection は、表示されている行でのみ使用できます。|この制限は、仮想化を有効にすると非表示の行やセルは存在しないものとみなされるという事情によるものです。 | ![](images/negative.png)
+[階層グリッドにおいて特定の順序で機能を参照した場合に発生するレンダリング問題](#rendering-issue)|`igHierarchicalGrid` では、機能リストにグループ化機能を入れてから行セレクター機能を追加した場合、子レイアウトが正しく表示されないことがあります。 | ![](images/positive.png)
+[renderCheckboxes オプションがテンプレート処理 (行および列) で有効にならない](#rendercheckbox-option-not-compatible-templating)|テンプレート機能を使用している場合、`renderCheckboxes` オプションを true に設定していても、ブール値の列にテンプレートが定義されているかどうかをチェックできないため、ブール値の列にはチェックボックスが表示されません。 | ![](images/positive.png)
+現時点で地理等高線リーズにツールチップが表示されない|今のところ、地理等高線シリーズではツールチップはサポートされません。 | ![](images/plannedFix.png)
+iPad デバイスで地理記号シリーズにツールチップが表示されない|iPad デバイスでは、地理記号シリーズが表示される場合、ツールチップは表示されません。 | ![](images/plannedFix.png)
+[グリッドの ASP.NET MVC ヘルパーで、AutoGenerateLayouts の既定値が true から false に変更される](#default-value-changed)|フラット グリッドに対して別のリモート データ要求が発行されることを防ぐために、`AutoGenerateLayouts` プロパティの既定値は `true` から `false` に変更されます。 | ![](images/negative.png)
+[フィルター処理、グループ化、および並べ替え機能ではローカル構成のみがサポートされ、グリッドが DataTable/DataSet にバインドされている場合には集計がサポートされない](#only-local-config-supported)|フィルター処理、グループ化、および並べ替え機能にはローカル構成を使用する必要があります。リモートの並べ替えおよびフィルター処理は、要求を処理してから、データを返す前に DataSet/DataTable レベルでデータをフィルターすることによって実現できます。 | ![](images/positive.png)
+グリッドが DataTable/DataSet にバインドされているときに更新機能を使用する場合、GridModel の LoadTransaction() メソッドをオーバーライドしなければならない|グリッドを DataTable または DataSet にバインドしていて、かつ更新機能を使用する場合、`GridModel` は、`Dictionary` から JSON 形式へのデシリアライズに対応したシリアライザーを使用して、`LoadTransaction()` メソッドをオーバーライドする必要があります。 | ![](images/positive.png)
+[autoCommit を無効にして、更新と仮想化の機能を有効にした場合、新しい行の追加はサポートされません。](#adding-new-row-not-supported)|autoCommit が false の場合、新たに追加された行は仮想化されません。 | ![](images/positive.png)
+非バインド列領域では、グリッドのリモート並べ替え、フィルター処理、およびグループ化機能が使用できない|非バインド列グリッドではリモートの並べ替え、フィルター処理、およびグループ化機能がサポートされません。Columns コレクションに含まれる非バインド列では上記の機能は無効です。 | ![](images/negative.png)
+[コントロールが igDialog の内部にあり、その幅または高さが相対値で指定されている場合、コントロールが正しく表示されない](#control-doesnot-have-proper-dimentions)|これは、`igDialog` が表示される前にコントロールのインスタンスが作成されるため、コントロールの寸法を正しく計算できないことが原因です。 | ![](images/positive.png)
+[MVC ポップアップ モバイル コントロールにはバージョン 1.2 の jQuery モバイルが必要とされる](#popup-mobile-requirements)|ポップアップ ウィジェットは、jQuery モバイル 1.2 で初めて導入された機能です。 | ![](images/positive.png)
+[モバイル コントロールのヘルパーが Infragistics.Web.MVC.Mobile dll の中に収められている](#mobile-control-helpers-mobile-dll)|リリース 2012.1 では、モバイル コントロール ヘルパーが `Infragistics.Web.MVC.dll` アセンブリに収められていました。 | ![](images/positive.png)
+[jQuery UI のバージョンが古い Google Chrome では列移動機能が正常に動作しない](#inappropriate-behavior-column-moving)|バージョン 1.8.6 よりも前の jQuery UI で列移動機能を使用している場合、Google Chrome ではグリッドが選択されることになります。 | ![](images/positive.png)
+[非バインド列ではリモートの並べ替え、フィルター処理、およびグループ化はサポートされません。](#remote-features-not-supported-unbound-columns)|非バインド列ではリモートの並べ替え、フィルター処理、およびグループ化はサポートされません。`Columns` コレクションに含まれる非バインド列では上記の機能は無効です。 | ![](images/positive.png)
+[グリッド MVC ヘルパーのグリッド SetUnboundValues メソッド オーバーロードにはプライマリ キーが必要とされる](#method-overload-require-primary-key)|`SetUnboundValues(<列キー>], [<値のディクショナリー>])` メソッド オーバーロードを使用するには、プライマリ キーを設定する必要があります。 | ![](images/positive.png)
+[データ ソースがリモートにあり、MergeUnboundColumns が true に設定されている場合、ビューでグリッド ヘルパーを使用できない](#grid-helper-cannot-work-remote-data)|データ ソースがリモートにあり、`MergeUnboundColumns` プロパティが `true` に設定されている場合、ASP.NET MVC ビューの内部ではグリッド ヘルパーが使用できないようになっています。 | ![](images/positive.png)
+[MergeUnboundColumns オプションを true に設定している場合はグリッドの非バインド列に数式を使用できない](#cannot-use-formulae-unbound-columns)|`MergeUnboundColumns` オプションが true に設定されている場合は、数式を使用して非バインド列の値を設定することはできません。 | ![](images/positive.png)
+[グリッド コントロールでは非バインド データ値が自動的に保持されない](#unbound-data-values-not-persisted)|非バインド値の含まれる行を編集してコミットし、そのあとでグリッドをバインドし直した場合、変更内容は保持されません。 | ![](images/positive.png)
+[非バインド列を表示するときに仮想化のレンダリングを使用しているとグリッドの一番上にスクロール移動する](#grid-scrolled-to-top)|いずれかの形式 (固定式または連続式) の仮想化を使用しているときに `setUnboundValues()` クライアント API メソッドを呼び出した場合、非バインド列の値が表示される前にグリッドが一番上にスクロールします。 | ![](images/positive.png)
+[MergeUnboundColumns が false に設定されていると非バインド列に false が入力される](#unbound-columns-populated-false)|`MergeUnboundColumns` プロパティを `false` に設定しているときにリモート データを使用すると、ブール値の非バインド列には `false` が入力されます。 | ![](images/negative.png)
+[特定の状況ではグリッドの getUnboundValues() メソッドが非バインド値を返さない](#grid-method-doesnot-return-unbound-values)|非バインド値が `dataBound` クライアント側イベントを介して設定される場合、`getUnboundValues()` クライアント API メソッドを使用しても非バインド値は返されません。 | ![](images/negative.png)
+[メニューがカスタム ダイアログ ベースのコンテナーに収められている場合、モバイルの SelectMenu CloseText プロパティが適用されない](#mobile-select-menu-issue)|ダイアログ ベースのコンテナーを使用している SelectMenu では、CloseText プロパティを使用して閉じるボタンのテキストを設定しようとした場合や、閉じるボタンの上にポインターを置いた場合、所定のカスタム値ではなく [閉じる] というテキストが表示されることになります。 | ![](images/negative.png)
+[igCombo のカスケードに parentComboKey を使用しても、子 igCombo をフィルターできない](#cascading-combo-issue)|`igCombo` のカスケードに `parentComboKey` を使用しても、子 `igCombo` をフィルターできない | ![](images/positive.png)
+[igGrid または igHirerarchcalGrid でテーブル行に属性を設定するために行テンプレートを使用できない](#cannot-use-row-template-set-attributes)|行テンプレートが繰り返す列テンプレートとして実装されたため、tr 要素に属性 (class など) を設定できません。回避策があります。 | ![](images/positive.png)
 
 
 

@@ -35,7 +35,7 @@
 	<tbody>
         <tr>
             <td>
-![](images/igGrid_CellMerging_Event_Reference_1.png)
+![](images/positive.png)
 			</td>
             <td colspan="2">
 Yes (= イベントを停止**できます**。)
@@ -44,7 +44,7 @@ Yes (= イベントを停止**できます**。)
 
         <tr>
             <td>
-![](images/igGrid_CellMerging_Event_Reference_2.png)
+![](images/negative.png)
 			</td>
             <td  colspan="2">
 No (= イベントを停止**できません**。)
@@ -141,7 +141,7 @@ No (= イベントを停止**できません**。)
                 <br>
             </td>
             <td>
-![](images/igGrid_CellMerging_Event_Reference_1.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -232,7 +232,7 @@ No (= イベントを停止**できません**。)
             </td>
 
             <td>
-![](images/igGrid_CellMerging_Event_Reference_2.png)
+![](images/negative.png)
 			</td>
         </tr>
     </tbody>

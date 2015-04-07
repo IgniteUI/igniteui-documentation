@@ -19,7 +19,7 @@
 
 ![](images/negative.png)  -  既知の回避策はありません
 
-![](images/tobeUpdated.png)  - 既知の回避策はありません。修正予定です
+![](images/plannedFix.png)  - 既知の回避策はありません。修正予定です
 
 ## Infragistics Document Engine
 問題|説明|状態

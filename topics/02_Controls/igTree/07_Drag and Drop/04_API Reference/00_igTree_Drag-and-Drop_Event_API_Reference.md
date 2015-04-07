@@ -23,11 +23,11 @@
 <table class="table">
     <tbody>
         <tr>
-            <td><img alt="" src="images/igTree_Drag-and-Drop_Events_API_Reference_1.png" width="19" height="18"></td>
+            <td><img alt="" src="images/positive.png" width="19" height="18"></td>
             <td>はい (= イベントは停止できます。)</td>
         </tr>
         <tr>
-            <td><img alt="" src="images/igTree_Drag-and-Drop_Events_API_Reference_2.png" width="18" height="19"></td>
+            <td><img alt="" src="images/negative.png" width="18" height="19"></td>
             <td>いいえ (= イベントは停止できません。)</td>
         </tr>
     </tbody>
@@ -158,7 +158,7 @@ originalPosition プロパティの参照を取得します。
             </td>
 
             <td>
-![](images/igTree_Drag-and-Drop_Events_API_Reference_1.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -269,7 +269,7 @@ originalPosition プロパティの参照を取得します。
             </td>
 
             <td>
-![](images/igTree_Drag-and-Drop_Events_API_Reference_1.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -453,7 +453,7 @@ originalPosition プロパティの参照を取得します。
             </td>
 
             <td>
-![](images/igTree_Drag-and-Drop_Events_API_Reference_2.png)
+![](images/negative.png)
 			</td>
         </tr>
 
@@ -565,7 +565,7 @@ originalPosition プロパティの参照を取得します。
             </td>
 
             <td>
-![](images/igTree_Drag-and-Drop_Events_API_Reference_1.png)
+![](images/positive.png)
 			</td>
         </tr>
     </tbody>

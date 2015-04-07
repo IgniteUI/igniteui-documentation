@@ -59,15 +59,15 @@
 <table class="table">
     <tbody>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_Solution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/positive.png" alt="" class="img-responsive"></td>
             <td>回避策</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_NoSolution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/negative.png" alt="" class="img-responsive"></td>
             <td>既知の回避策はありません</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_FixPlanned.png" alt="" class="img-responsive"></td>
+            <td><img src="images/plannedFix.png" alt="" class="img-responsive"></td>
             <td>修正予定です</td>
         </tr>
     </tbody>
@@ -76,31 +76,31 @@
 
 機能|説明|状態
 ---|---|---
-[igLoader で igEditor のロケールを動的に変更できない](#changing-lacale-dynamically)|`igLodaer` を使用する場合にエディターの地域設定をオンザフライで変更できません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[JavaScript および CSS リソースの名称と構造が変更された](#js-css-resources-restructured)|ライブラリの構造と多くのファイルの名前が変更されました。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[igTemplate の制約](#template-limitations)|入れ子になった `{{each}}` テンプレートはサポートされません。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[グリッドとタッチのサポート](#grid-touch-support)|タッチ ポイントが特定の UI 要素上をスライドするときグリッドとその機能の動作が一致しないことがあります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[特定の状況で入力引数 ui.groupedColumns が空になることがある](#empty-groupedcolumns-option)|列を GroupBy 領域にドラッグしてグループ化すると `groupedColumnsChanged` イベントの `ui.groupedColumns` 入力引数が空になります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[Android 4.* デバイスでグリッドの group-by モーダル ダイアログでスクリーン タップが誤って解釈される](#screen-taps-misinterpreted-android4)|Android 4.* を使用したタッチ デバイスでは、階層グリッドで Group By モーダル ダイアログのドロップダウンのタップは、多くの場合モーダル ダイアログの背後のグリッド セルに作用します。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[階層グリッドにおけるリモート グループ化の制限事項](#limitation-remote-grouping)|リモート GroupBy では、複数のレイアウト (またはルート グリッド) の列のグループ化が機能しません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[財務シリーズ チャートでは先頭の項目と最後の項目が半分切れた状態で表示される](#half-cut-first-last-item)|財務シリーズにおいて、先頭と最後の項目はチャートのビュー上にすべてが表示されず、半分にカットされた状態でプロットされます。 | ![](images/Known_Issues_and_Limitations_FixPlanned.png)
-[軸範囲を変更するとチャート アニメーションが無効になる](#chart-animation-disabled-axis-range-changed)|チャートの Motion Framework を使用しデータを更新した場合、Y 軸の範囲が変更され、チャート アニメーションはすべて無効となり、新しいデータはモーションのエフェクトがまったくない形で即座に表示されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[ページ上のカスタム JavaScript コードのあとに MVC Loader と MVC ヘルパー生成コードが実行する](#mvc-helper-executes-after-custom-js-code)|どのコントロールの MVC Loader と MVC ヘルパーでも MVC ビューで使用した場合、それらが生成する JavaScript コードは通常 `document.ready()` または `window.ready()` イベントからのカスタム ページ設定コードのあとに実行されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[Infragistics ASP.NET と Ignite UI のドキュメント エンジンの併用時に発生する問題 - 回避策](#document-engines-workaround)|Infragistics ASP.NET と Ignite UI のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[igEditor のスタイル設定](#igEditor-styling)|HTML 要素のレイアウトは修正され、丸みのある角が、ボタンだけでなくエディター全体で描画されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-`igEditor` のスピン ボタン | スピン ボタンは水平方向に描画されます。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[igEditor のレンダリングの失敗](#igEditor-rendering-failure)|基本要素が TD の場合、レンダリングは失敗することがあります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[行テンプレートなしで igGridHiding を使用できない](#grid-hiding-cannot-use-row-templates)|`igGridHiding`™ は、行テンプレートを使用している場合は列を非表示にできません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[igGridGroupBy および autoGenerateColumns を True に設定すると、他の列のグループ化が妨げられる](#autoGenerateColumns-prevents-columns-grouped)|グリッド コントロールにいくつかの列が明示的に定義されており、`autoGenerateColumns` が `true` に設定されていると、初期化時に列をグループ化すると、ランタイムに他の列のグループ化が妨げられます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[フラット グリッドの MVC ヘルパー構成](#mvc-helper-config-flat-grids)|すべてのグリッドは、グリッドの MVC ヘルパーによって、`igHierarchicalGrid`™ として生成されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[グリッドの列幅](#grid-column-widths)|一部の列の幅をパーセンテージで定義し、その他をピクセルで定義する (またはまったく定義しない) ことはできません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[Microsoft Internet Explorer® 7 におけるヘッダーおよびフッター要素のグリッド レイアウトの問題](#grid-layout-problems)|グリッド幅が指定されていないと、ヘッダーおよびフッター要素は、Microsoft Internet Explorer® 7 のグリッドよりも短く描画されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[グリッド API コールが、DIV 要素と共に予想通りに機能しない](#grid-api-calls-not-working)|グリッドが DIV 要素からインスタンス化されている場合、そのグリッドの機能に対する API コールは予想通りに機能しません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
+[igLoader で igEditor のロケールを動的に変更できない](#changing-lacale-dynamically)|`igLodaer` を使用する場合にエディターの地域設定をオンザフライで変更できません。 | ![](images/positive.png)
+[JavaScript および CSS リソースの名称と構造が変更された](#js-css-resources-restructured)|ライブラリの構造と多くのファイルの名前が変更されました。 | ![](images/positive.png)
+[igTemplate の制約](#template-limitations)|入れ子になった `{{each}}` テンプレートはサポートされません。 | ![](images/negative.png)
+[グリッドとタッチのサポート](#grid-touch-support)|タッチ ポイントが特定の UI 要素上をスライドするときグリッドとその機能の動作が一致しないことがあります。 | ![](images/positive.png)
+[特定の状況で入力引数 ui.groupedColumns が空になることがある](#empty-groupedcolumns-option)|列を GroupBy 領域にドラッグしてグループ化すると `groupedColumnsChanged` イベントの `ui.groupedColumns` 入力引数が空になります。 | ![](images/positive.png)
+[Android 4.* デバイスでグリッドの group-by モーダル ダイアログでスクリーン タップが誤って解釈される](#screen-taps-misinterpreted-android4)|Android 4.* を使用したタッチ デバイスでは、階層グリッドで Group By モーダル ダイアログのドロップダウンのタップは、多くの場合モーダル ダイアログの背後のグリッド セルに作用します。 | ![](images/positive.png)
+[階層グリッドにおけるリモート グループ化の制限事項](#limitation-remote-grouping)|リモート GroupBy では、複数のレイアウト (またはルート グリッド) の列のグループ化が機能しません。 | ![](images/positive.png)
+[財務シリーズ チャートでは先頭の項目と最後の項目が半分切れた状態で表示される](#half-cut-first-last-item)|財務シリーズにおいて、先頭と最後の項目はチャートのビュー上にすべてが表示されず、半分にカットされた状態でプロットされます。 | ![](images/plannedFix.png)
+[軸範囲を変更するとチャート アニメーションが無効になる](#chart-animation-disabled-axis-range-changed)|チャートの Motion Framework を使用しデータを更新した場合、Y 軸の範囲が変更され、チャート アニメーションはすべて無効となり、新しいデータはモーションのエフェクトがまったくない形で即座に表示されます。 | ![](images/positive.png)
+[ページ上のカスタム JavaScript コードのあとに MVC Loader と MVC ヘルパー生成コードが実行する](#mvc-helper-executes-after-custom-js-code)|どのコントロールの MVC Loader と MVC ヘルパーでも MVC ビューで使用した場合、それらが生成する JavaScript コードは通常 `document.ready()` または `window.ready()` イベントからのカスタム ページ設定コードのあとに実行されます。 | ![](images/positive.png)
+[Infragistics ASP.NET と Ignite UI のドキュメント エンジンの併用時に発生する問題 - 回避策](#document-engines-workaround)|Infragistics ASP.NET と Ignite UI のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/positive.png)
+[igEditor のスタイル設定](#igEditor-styling)|HTML 要素のレイアウトは修正され、丸みのある角が、ボタンだけでなくエディター全体で描画されます。 | ![](images/positive.png)
+`igEditor` のスピン ボタン | スピン ボタンは水平方向に描画されます。 | ![](images/negative.png)
+[igEditor のレンダリングの失敗](#igEditor-rendering-failure)|基本要素が TD の場合、レンダリングは失敗することがあります。 | ![](images/positive.png)
+[行テンプレートなしで igGridHiding を使用できない](#grid-hiding-cannot-use-row-templates)|`igGridHiding`™ は、行テンプレートを使用している場合は列を非表示にできません。 | ![](images/positive.png)
+[igGridGroupBy および autoGenerateColumns を True に設定すると、他の列のグループ化が妨げられる](#autoGenerateColumns-prevents-columns-grouped)|グリッド コントロールにいくつかの列が明示的に定義されており、`autoGenerateColumns` が `true` に設定されていると、初期化時に列をグループ化すると、ランタイムに他の列のグループ化が妨げられます。 | ![](images/positive.png)
+[フラット グリッドの MVC ヘルパー構成](#mvc-helper-config-flat-grids)|すべてのグリッドは、グリッドの MVC ヘルパーによって、`igHierarchicalGrid`™ として生成されます。 | ![](images/positive.png)
+[グリッドの列幅](#grid-column-widths)|一部の列の幅をパーセンテージで定義し、その他をピクセルで定義する (またはまったく定義しない) ことはできません。 | ![](images/positive.png)
+[Microsoft Internet Explorer® 7 におけるヘッダーおよびフッター要素のグリッド レイアウトの問題](#grid-layout-problems)|グリッド幅が指定されていないと、ヘッダーおよびフッター要素は、Microsoft Internet Explorer® 7 のグリッドよりも短く描画されます。 | ![](images/positive.png)
+[グリッド API コールが、DIV 要素と共に予想通りに機能しない](#grid-api-calls-not-working)|グリッドが DIV 要素からインスタンス化されている場合、そのグリッドの機能に対する API コールは予想通りに機能しません。 | ![](images/positive.png)
 [iOS でのセル選択が適切に動作しない](#cell-selection-not-working)|`igGrid` をスクロールしたい場合、まずセルをタップしてから、特定の方向にスワイプします。jQuery mobile がイベントを提示する方法によって、iOS および Android で `igGrid` のスクロールには違いがあります。 | 
-[垂直スクロールによって、ダイアログがレコードの背後に表示される](#vertical-scroll-appear-behind-records)|`igGrid` を Android のバージョン 4.0.2 で実行しており、`igGrid` に垂直スクロールがある場合、ポップアップ/ダイアログはすべてレコードの背後に表示されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[Firefox では列幅を設定していないと igGrid 列のサイズを正しく変更できない。](#firefox-columns-resized-correctly)|Firefox のバグにより、列幅が設定されていないと、`igGrid` 列を適切にサイズ変更できません。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[Firefox では列幅をパーセンテージで設定していると igGrid 列のサイズを正しく変更できない](#firefox-column-cannot-resize)|Firefox のバグにより、列幅をパーセンテージで設定すると、列を適切にサイズ変更できません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[MVC Razor レイアウト ビューでは、 MVC Loader が正常に機能しない](#mvc-loader-not-working-properly)|MVC Loader は、MVC Razor レイアウト ビューに含まれるとき実際のビューのコントロールより先に初期化できません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
+[垂直スクロールによって、ダイアログがレコードの背後に表示される](#vertical-scroll-appear-behind-records)|`igGrid` を Android のバージョン 4.0.2 で実行しており、`igGrid` に垂直スクロールがある場合、ポップアップ/ダイアログはすべてレコードの背後に表示されます。 | ![](images/positive.png)
+[Firefox では列幅を設定していないと igGrid 列のサイズを正しく変更できない。](#firefox-columns-resized-correctly)|Firefox のバグにより、列幅が設定されていないと、`igGrid` 列を適切にサイズ変更できません。 | ![](images/negative.png)
+[Firefox では列幅をパーセンテージで設定していると igGrid 列のサイズを正しく変更できない](#firefox-column-cannot-resize)|Firefox のバグにより、列幅をパーセンテージで設定すると、列を適切にサイズ変更できません。 | ![](images/positive.png)
+[MVC Razor レイアウト ビューでは、 MVC Loader が正常に機能しない](#mvc-loader-not-working-properly)|MVC Loader は、MVC Razor レイアウト ビューに含まれるとき実際のビューのコントロールより先に初期化できません。 | ![](images/positive.png)
 
 
 

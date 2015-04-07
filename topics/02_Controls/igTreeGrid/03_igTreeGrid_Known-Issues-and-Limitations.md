@@ -16,7 +16,7 @@
 -------|--------
 ![](images/positive.png) | 回避策
 ![](images/negative.png) | 既知の回避策はありません
-![](images/tobeUpdated.png) | 修正予定です
+![](images/plannedFix.png) | 修正予定です
 
 
 問題|説明|状態

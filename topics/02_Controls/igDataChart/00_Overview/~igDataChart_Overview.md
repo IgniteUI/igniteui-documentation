@@ -1054,7 +1054,7 @@ OPD ウィンドウはデフォルトで表示したり、API メソッドで起
             </td>
 
             <td>
-![](images/igDataChart_Overview_10.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -1073,7 +1073,7 @@ Ctrl/Alt/Shift キー + ドラッグ
                 </ul>
             </td>
             <td>
-![](images/igDataChart_Overview_10.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -1085,7 +1085,7 @@ Ctrl/Alt/Shift キー + ドラッグ
 OPD ウィンドウ
 			</td>
             <td>
-![](images/igDataChart_Overview_10.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -1097,7 +1097,7 @@ OPD ウィンドウ
 マウス ホバー
 			</td>
             <td>
-![](images/igDataChart_Overview_10.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -1109,7 +1109,7 @@ OPD ウィンドウ
 外部チェック ボックス
 			</td>
             <td>
-![](images/igDataChart_Overview_10.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -1121,7 +1121,7 @@ OPD ウィンドウ
 外部チェック ボックス
 			</td>
             <td>
-![](images/igDataChart_Overview_10.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -1133,7 +1133,7 @@ OPD ウィンドウ
 外部チェック ボックス
 			</td>
             <td>
-![](images/igDataChart_Overview_10.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -1145,7 +1145,7 @@ OPD ウィンドウ
 外部チェック ボックス
 			</td>
             <td>
-![](images/igDataChart_Overview_10.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -1157,7 +1157,7 @@ OPD ウィンドウ
 外部チェック ボックス
 			</td>
             <td>
-![](images/igDataChart_Overview_10.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -1169,7 +1169,7 @@ OPD ウィンドウ
 外部チェック ボックス
 			</td>
             <td>
-![](images/igDataChart_Overview_10.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -1181,7 +1181,7 @@ OPD ウィンドウ
 外部チェック ボックス
 			</td>
             <td>
-![](images/igDataChart_Overview_10.png)
+![](images/positive.png)
 			</td>
         </tr>
     </tbody>

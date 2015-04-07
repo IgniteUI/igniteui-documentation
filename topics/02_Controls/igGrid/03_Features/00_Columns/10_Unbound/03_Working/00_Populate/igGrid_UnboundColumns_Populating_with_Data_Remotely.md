@@ -148,7 +148,7 @@
 	<tbody>
 		<tr>
 			<td>
-![](images/UnboundColumns_Known_Issues_1.png)
+![](images/positive.png)
 			</td>
 			<td>
 				回避策
@@ -157,7 +157,7 @@
 
 		<tr>
 			<td>
-![](images/UnboundColumns_Known_Issues_2.png)
+![](images/negative.png)
 			</td>
 			<td>
 				既知の回避策はありません
@@ -166,7 +166,7 @@
 
 		<tr>
 			<td>
-![](images/UnboundColumns_Known_Issues_3.png)
+![](images/plannedFix.png)
 			</td>
 			<td>
 				修正予定です
@@ -177,21 +177,21 @@
 
  | リモート データ (DataSourceUrl が設定されています) | MergeUnboundColumns オプション値 | ローカル機能 | リモート機能
 ---|---|---|---|---
-View で `SetUnboundValues(` `string columnKey, List unboundValues)` の使用|いいえ|true|![](images/UnboundColumns_Known_Issues_1.png)|![](images/UnboundColumns_Known_Issues_2.png) リモート機能は、DataSourceUrl が設定されていないため適用できません。
+View で `SetUnboundValues(` `string columnKey, List unboundValues)` の使用|いいえ|true|![](images/positive.png)|![](images/negative.png) リモート機能は、DataSourceUrl が設定されていないため適用できません。
  |  | false |  | 
- | はい - 非バインド列にデータは追加されません。ビューのグリッド構成が持続しないためです。これは、グリッド構成がすべての設定においてデフォルト値で復元され、MergeUnboundColumns はデフォルトで false であるということです。 | true | ![](images/UnboundColumns_Known_Issues_2.png) | ![](images/UnboundColumns_Known_Issues_2.png) igGrid は、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、非バインド列に対してリモート機能を無効にします。
+ | はい - 非バインド列にデータは追加されません。ビューのグリッド構成が持続しないためです。これは、グリッド構成がすべての設定においてデフォルト値で復元され、MergeUnboundColumns はデフォルトで false であるということです。 | true | ![](images/negative.png) | ![](images/negative.png) igGrid は、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、非バインド列に対してリモート機能を無効にします。
  |  | false |  | 
-View で `SetUnboundValues( string columnKey, Dictionary unboundValues)` の使用|いいえ|true|![](images/UnboundColumns_Known_Issues_1.png)|![](images/UnboundColumns_Known_Issues_2.png) リモート機能は、DataSourceUrl が設定されていないため適用できません。
+View で `SetUnboundValues( string columnKey, Dictionary unboundValues)` の使用|いいえ|true|![](images/positive.png)|![](images/negative.png) リモート機能は、DataSourceUrl が設定されていないため適用できません。
  |  | false |  | 
- | はい - 非バインド列にデータは追加されません。ビューのグリッド構成が持続せず MergeUnboundColumns が false になるためです。 | true | ![](images/UnboundColumns_Known_Issues_2.png) | ![](images/UnboundColumns_Known_Issues_2.png) リモート機能は、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、非バインド列に対して無効です。 
+ | はい - 非バインド列にデータは追加されません。ビューのグリッド構成が持続せず MergeUnboundColumns が false になるためです。 | true | ![](images/negative.png) | ![](images/negative.png) リモート機能は、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、非バインド列に対して無効です。 
  |  | false |  | 
-Model で `SetUnboundValues(` `string columnKey, List unboundValues)` の使用|いいえ|true|![](images/UnboundColumns_Known_Issues_1.png)|![](images/UnboundColumns_Known_Issues_2.png) リモート機能は、DataSourceUrl が設定されていないため適用できません。
+Model で `SetUnboundValues(` `string columnKey, List unboundValues)` の使用|いいえ|true|![](images/positive.png)|![](images/negative.png) リモート機能は、DataSourceUrl が設定されていないため適用できません。
  |  | false |  | 
- | はい - 非バインド列にデータは設定しませんが、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、リモートのページングを有効にするとデータは各ページで同じになります。 | true | ![](images/UnboundColumns_Known_Issues_1.png) | ![](images/UnboundColumns_Known_Issues_2.png) リモート機能は、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、非バインド列に対して無効です。
+ | はい - 非バインド列にデータは設定しませんが、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、リモートのページングを有効にするとデータは各ページで同じになります。 | true | ![](images/positive.png) | ![](images/negative.png) リモート機能は、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、非バインド列に対して無効です。
  |  | false |  | 
-Model で `SetUnboundValues(` `string columnKey, Dictionary unboundValues)` の使用|いいえ|true|![](images/UnboundColumns_Known_Issues_1.png)|![](images/UnboundColumns_Known_Issues_2.png) リモート機能は、DataSourceUrl が設定されていないため適用できません。
+Model で `SetUnboundValues(` `string columnKey, Dictionary unboundValues)` の使用|いいえ|true|![](images/positive.png)|![](images/negative.png) リモート機能は、DataSourceUrl が設定されていないため適用できません。
  |  | false |  | 
- | はい | true | ![](images/UnboundColumns_Known_Issues_1.png) | ![](images/UnboundColumns_Known_Issues_2.png) リモート機能は、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、非バインド列に対して無効です。 
+ | はい | true | ![](images/positive.png) | ![](images/negative.png) リモート機能は、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、非バインド列に対して無効です。 
  |  | false |  | 
 
 

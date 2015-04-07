@@ -26,15 +26,15 @@
 <table class="table">
     <tbody>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_Solution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/positive.png" alt="" class="img-responsive"></td>
             <td>回避策</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_NoSolution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/negative.png" alt="" class="img-responsive"></td>
             <td>既知の回避策はありません</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_FixPlanned.png" alt="" class="img-responsive"></td>
+            <td><img src="images/plannedFix.png" alt="" class="img-responsive"></td>
             <td>修正予定です</td>
         </tr>
     </tbody>
@@ -42,18 +42,18 @@
 
 機能|説明|状態
 ---|---|---
-[Infragistics ASP.NET と Ignite UI のドキュメント エンジンの併用時に発生する問題 - 回避策](#using-document-engine)|Infragistics ASP.NET と Ignite UI のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[igEditor のスタイル設定](#igEditor-styling)|HTML 要素のレイアウトは修正され、丸みのある角が、ボタンだけでなくエディター全体で描画されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-`igEditor` のスピン ボタン | スピン ボタンは水平方向に描画されます。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[igEditor のレンダリングの失敗](#rigEditor-rendering-failure)|基本要素が TD の場合、レンダリングは失敗することがあります。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[行テンプレートなしで igGridHiding を使用できない](#cannot-use-grid-hiding-roe-templates)|`igGridHiding`™ は、行テンプレートを使用している場合は列を非表示にできません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[igGridGroupBy および autoGenerateColumns を True に設定すると、他の列のグループ化が妨げられる](#grouping-issue)|グリッド コントロールにいくつかの列が明示的に定義されており、`autoGenerateColumns` が `true` に設定されていると、初期化時に列をグループ化すると、ランタイムに他の列のグループ化が妨げられます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[フラット グリッドの MVC ヘルパー構成](#mvc-helper-config)|すべてのグリッドは、グリッドの MVC ヘルパーによって、`igHierarchicalGrid`™ として生成されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[グリッドの列幅](#grid-column-widths)|一部の列の幅をパーセンテージで定義し、その他をピクセルで定義する (またはまったく定義しない) ことはできません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[Microsoft Internet Explorer® 7 におけるヘッダーおよびフッター要素のグリッド レイアウトの問題](#grid-layout-problems)|グリッド幅が指定されていないと、ヘッダーおよびフッター要素は、Microsoft Internet Explorer® 7 のグリッドよりも短く描画されます。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[グリッド API コールが、DIV 要素と共に予想通りに機能しない](#grid-api-calls-donot-work)|グリッドが DIV 要素からインスタンス化されている場合、そのグリッドの機能に対する API コールは予想通りに機能しません。 | ![](images/Known_Issues_and_Limitations_Solution.png)
-[仮想化が igGrid の GroupBy で機能しない](#virtualization-doesnot-work-groupby)|仮想化機能は、`igGrid` の GroupBy 機能ではサポートされていません。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
-[仮想化が igHierarchicalGrid に対して機能しない](#virtualization-doesnot-work-hierarchicalgrid)|仮想化機能は `igHierarchicalGrid` でサポートされていません。 | ![](images/Known_Issues_and_Limitations_NoSolution.png)
+[Infragistics ASP.NET と Ignite UI のドキュメント エンジンの併用時に発生する問題 - 回避策](#using-document-engine)|Infragistics ASP.NET と Ignite UI のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/positive.png)
+[igEditor のスタイル設定](#igEditor-styling)|HTML 要素のレイアウトは修正され、丸みのある角が、ボタンだけでなくエディター全体で描画されます。 | ![](images/positive.png)
+`igEditor` のスピン ボタン | スピン ボタンは水平方向に描画されます。 | ![](images/negative.png)
+[igEditor のレンダリングの失敗](#rigEditor-rendering-failure)|基本要素が TD の場合、レンダリングは失敗することがあります。 | ![](images/positive.png)
+[行テンプレートなしで igGridHiding を使用できない](#cannot-use-grid-hiding-roe-templates)|`igGridHiding`™ は、行テンプレートを使用している場合は列を非表示にできません。 | ![](images/positive.png)
+[igGridGroupBy および autoGenerateColumns を True に設定すると、他の列のグループ化が妨げられる](#grouping-issue)|グリッド コントロールにいくつかの列が明示的に定義されており、`autoGenerateColumns` が `true` に設定されていると、初期化時に列をグループ化すると、ランタイムに他の列のグループ化が妨げられます。 | ![](images/positive.png)
+[フラット グリッドの MVC ヘルパー構成](#mvc-helper-config)|すべてのグリッドは、グリッドの MVC ヘルパーによって、`igHierarchicalGrid`™ として生成されます。 | ![](images/positive.png)
+[グリッドの列幅](#grid-column-widths)|一部の列の幅をパーセンテージで定義し、その他をピクセルで定義する (またはまったく定義しない) ことはできません。 | ![](images/positive.png)
+[Microsoft Internet Explorer® 7 におけるヘッダーおよびフッター要素のグリッド レイアウトの問題](#grid-layout-problems)|グリッド幅が指定されていないと、ヘッダーおよびフッター要素は、Microsoft Internet Explorer® 7 のグリッドよりも短く描画されます。 | ![](images/positive.png)
+[グリッド API コールが、DIV 要素と共に予想通りに機能しない](#grid-api-calls-donot-work)|グリッドが DIV 要素からインスタンス化されている場合、そのグリッドの機能に対する API コールは予想通りに機能しません。 | ![](images/positive.png)
+[仮想化が igGrid の GroupBy で機能しない](#virtualization-doesnot-work-groupby)|仮想化機能は、`igGrid` の GroupBy 機能ではサポートされていません。 | ![](images/negative.png)
+[仮想化が igHierarchicalGrid に対して機能しない](#virtualization-doesnot-work-hierarchicalgrid)|仮想化機能は `igHierarchicalGrid` でサポートされていません。 | ![](images/negative.png)
 
 
 

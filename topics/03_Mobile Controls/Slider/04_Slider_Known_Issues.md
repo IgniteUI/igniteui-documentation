@@ -16,9 +16,9 @@
 
 凡例: | 
 ------------|-------
-![](images/Known_Issues_and_Limitations_Solution.png) | 回避策
-![](images/Known_Issues_and_Limitations_NoSolution.png) | 既知の回避策はありません
-![](images/Known_Issues_and_Limitations_FixPlanned.png) | 修正予定です
+![](images/positive.png) | 回避策
+![](images/negative.png) | 既知の回避策はありません
+![](images/plannedFix.png) | 修正予定です
 
 
 #### Slider (モバイル)

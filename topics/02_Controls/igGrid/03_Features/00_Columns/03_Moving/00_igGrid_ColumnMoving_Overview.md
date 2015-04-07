@@ -148,7 +148,7 @@
 			</td>
 
             <td>
-![](images/igGrid_ColumnMoving_Overview_1.png)
+![](images/negative.png)
 			</td>
 
             <td>
@@ -180,7 +180,7 @@
 			</td>
 
             <td>
-![](images/igGrid_ColumnMoving_Overview_2.png)
+![](images/positive.png)
 			</td>
 
             <td>
@@ -212,7 +212,7 @@
 			</td>
 
             <td>
-![](images/igGrid_ColumnMoving_Overview_2.png)
+![](images/positive.png)
 			</td>
 
             <td>

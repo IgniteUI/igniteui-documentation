@@ -32,7 +32,7 @@
 	<tbody>
         <tr>
             <td>
-![](images/igListView_Known_issues_and_limitations_1.png)
+![](images/positive.png)
 			</td>
             <td>
 回避策
@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td>
-![](images/igListView_Known_issues_and_limitations_2.png)
+![](images/negative.png)
 			</td>
             <td>
 既知の回避策はありません
@@ -48,7 +48,7 @@
         </tr>
         <tr>
             <td>
-![](images/igListView_Known_issues_and_limitations_3.png)
+![](images/plannedFix.png)
             </td>
             <td>
 修正予定です
@@ -60,11 +60,11 @@
 
 機能|説明|解決済み
 ---|---|---
-igListView は、`$.mobile.ajaxEnabled = false` の場合には期待通りの動作をしません|jQueryMobile が `$.mobile.ajaxEnabled = false` であるように設定されている場合、子ページはページ ロード内で作成されないため、リスト ビューは期待通りの動きをしません。 | ![](images/igListView_Known_issues_and_limitations_2.png)
-Netflix oData は Android 4 装置では動作しない可能性があります|要求が Android 4 ブラウザによってなされたものである場合、Netflix oData サービスで問題が生じます。 | ![](images/igListView_Known_issues_and_limitations_2.png)
-プリセット付の全フィールド フィルタリングは oData では動作しない可能性があります|それは、oData はブール ロジック (AND or OR) で動作するからです。その場合、プリセットにおいては AND ロジックに、**全フィールド** では OR となります。 | ![](images/igListView_Known_issues_and_limitations_2.png)
-[非文字列フィールドをもつ全フィールド フィルタリングは  Linq  クエリでは動作しません](#linq)|エントリへの Linq は `ToString()` メソッドをサポートしません。 | ![](images/igListView_Known_issues_and_limitations_1.png)
-[区分線はページ サイズで考慮されます](#dividers)|それにより、並べ替えやフィルタリング、オン デマンド ロードが期待通りの動きをしなくなる可能性があります。たとえば、ページサイズが 5 の中に 4 項目が表示される場合があります。これはデザイン上の問題で、特に対応されません。 | ![](images/igListView_Known_issues_and_limitations_1.png)
+igListView は、`$.mobile.ajaxEnabled = false` の場合には期待通りの動作をしません|jQueryMobile が `$.mobile.ajaxEnabled = false` であるように設定されている場合、子ページはページ ロード内で作成されないため、リスト ビューは期待通りの動きをしません。 | ![](images/negative.png)
+Netflix oData は Android 4 装置では動作しない可能性があります|要求が Android 4 ブラウザによってなされたものである場合、Netflix oData サービスで問題が生じます。 | ![](images/negative.png)
+プリセット付の全フィールド フィルタリングは oData では動作しない可能性があります|それは、oData はブール ロジック (AND or OR) で動作するからです。その場合、プリセットにおいては AND ロジックに、**全フィールド** では OR となります。 | ![](images/negative.png)
+[非文字列フィールドをもつ全フィールド フィルタリングは  Linq  クエリでは動作しません](#linq)|エントリへの Linq は `ToString()` メソッドをサポートしません。 | ![](images/positive.png)
+[区分線はページ サイズで考慮されます](#dividers)|それにより、並べ替えやフィルタリング、オン デマンド ロードが期待通りの動きをしなくなる可能性があります。たとえば、ページサイズが 5 の中に 4 項目が表示される場合があります。これはデザイン上の問題で、特に対応されません。 | ![](images/positive.png)
 
 
 

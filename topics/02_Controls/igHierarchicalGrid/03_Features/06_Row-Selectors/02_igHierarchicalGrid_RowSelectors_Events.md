@@ -155,7 +155,7 @@ igRowSelectors コントロールが初期化される igGrid への参照を取
             </td>
 
             <td>
-![](images/Row_Selector_Events_1.png)
+![](images/negative.png)
 			</td>
         </tr>
 
@@ -277,7 +277,7 @@ igRowSelectors コントロールが初期化される igGrid への参照を取
             </td>
 
             <td>
-![](images/Row_Selector_Events_2.png)
+![](images/positive.png)
 			</td>
         </tr>
 
@@ -389,7 +389,7 @@ igRowSelectors が初期化される igGrid への参照を取得します。
             </td>
 
             <td>
-![](images/Row_Selector_Events_1.png)
+![](images/negative.png)
 			</td>
         </tr>
     </tbody>

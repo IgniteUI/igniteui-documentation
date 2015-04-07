@@ -22,15 +22,15 @@
 <table class="table">
     <tbody>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_Solution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/positive.png" alt="" class="img-responsive"></td>
             <td>回避策</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_NoSolution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/negative.png" alt="" class="img-responsive"></td>
             <td>既知の回避策はありません</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_FixPlanned.png" alt="" class="img-responsive"></td>
+            <td><img src="images/plannedFix.png" alt="" class="img-responsive"></td>
             <td>修正予定です</td>
         </tr>
     </tbody>
@@ -40,9 +40,9 @@
 
 問題|説明|状態
 ---|---|---
-プラットフォーム固有の文字がサポートされない|現在のバージョンの `igQRCodeBarcode` コントロールは、4 バイトでエンコードする記号をサポートしません。|![](images/Known_Issues_and_Limitations_NoSolution.png)
-Micro QR Code フォーマットがサポートされない|このコントロールは現在 Micro QR Code 標準をサポートしていません。|![](images/Known_Issues_and_Limitations_NoSolution.png)
-Structured Append モードがサポートされない|`igQRCodeBarcode` コントロールは現在、 Structured Append モードに対するサポートを提供していません。|![](images/Known_Issues_and_Limitations_NoSolution.png)
+プラットフォーム固有の文字がサポートされない|現在のバージョンの `igQRCodeBarcode` コントロールは、4 バイトでエンコードする記号をサポートしません。|![](images/negative.png)
+Micro QR Code フォーマットがサポートされない|このコントロールは現在 Micro QR Code 標準をサポートしていません。|![](images/negative.png)
+Structured Append モードがサポートされない|`igQRCodeBarcode` コントロールは現在、 Structured Append モードに対するサポートを提供していません。|![](images/negative.png)
 
 
 

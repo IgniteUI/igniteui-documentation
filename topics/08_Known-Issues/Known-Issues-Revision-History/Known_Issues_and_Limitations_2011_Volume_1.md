@@ -27,15 +27,15 @@
 <table class="table">
     <tbody>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_Solution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/positive.png" alt="" class="img-responsive"></td>
             <td>回避策</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_NoSolution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/negative.png" alt="" class="img-responsive"></td>
             <td>既知の回避策はありません</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_FixPlanned.png" alt="" class="img-responsive"></td>
+            <td><img src="images/plannedFix.png" alt="" class="img-responsive"></td>
             <td>修正予定です</td>
         </tr>
     </tbody>
@@ -44,9 +44,9 @@
 
 機能|説明|状態
 ---|---|---
-[グリッドの列幅](#grid-column-widths)|一部の列の幅をパーセンテージで定義し、その他をピクセルで定義する (またはまったく定義しない) ことはできません。|![](images/Known_Issues_and_Limitations_Solution.png)
-[Microsoft Internet Explorer® 7 におけるヘッダーおよびフッター要素のグリッド レイアウトの問題](#grid-layout-problem-ie7)|グリッド幅が指定されていないと、ヘッダーおよびフッター要素は、Microsoft Internet Explorer® 7 のグリッドよりも短く描画されます。|![](images/Known_Issues_and_Limitations_Solution.png)
-[グリッド API コールが、DIV 要素と共に予想通りに機能しない](#grid-api-call-no-work)|グリッドが DIV 要素からインスタンス化されている場合、そのグリッドの機能に対する API コールは予想通りに機能しません。|![](images/Known_Issues_and_Limitations_Solution.png)
+[グリッドの列幅](#grid-column-widths)|一部の列の幅をパーセンテージで定義し、その他をピクセルで定義する (またはまったく定義しない) ことはできません。|![](images/positive.png)
+[Microsoft Internet Explorer® 7 におけるヘッダーおよびフッター要素のグリッド レイアウトの問題](#grid-layout-problem-ie7)|グリッド幅が指定されていないと、ヘッダーおよびフッター要素は、Microsoft Internet Explorer® 7 のグリッドよりも短く描画されます。|![](images/positive.png)
+[グリッド API コールが、DIV 要素と共に予想通りに機能しない](#grid-api-call-no-work)|グリッドが DIV 要素からインスタンス化されている場合、そのグリッドの機能に対する API コールは予想通りに機能しません。|![](images/positive.png)
 
 
 

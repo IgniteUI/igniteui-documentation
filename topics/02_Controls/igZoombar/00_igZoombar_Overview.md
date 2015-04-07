@@ -234,7 +234,7 @@
             <td>
                 
                     
-                        ![](images/igZoombar_Overview_3.png)
+                        ![](images/positive.png)
                     
                 
 
@@ -278,7 +278,7 @@
 			</td>
 
             <td>
-![](images/igZoombar_Overview_4.png)
+![](images/negative.png)
 			</td>
         </tr>
 
@@ -292,7 +292,7 @@
 			</td>
 
             <td>
-![](images/igZoombar_Overview_4.png)
+![](images/negative.png)
 			</td>
         </tr>
 
@@ -306,7 +306,7 @@
 			</td>
 
             <td>
-![](images/igZoombar_Overview_4.png)
+![](images/negative.png)
 			</td>
         </tr>
 
@@ -320,7 +320,7 @@
 			</td>
 
             <td>
-![](images/igZoombar_Overview_4.png)
+![](images/negative.png)
 			</td>
         </tr>
 
@@ -342,7 +342,7 @@
 			</td>
 
             <td>
-![](images/igZoombar_Overview_3.png)
+![](images/positive.png)
                 1 回のボタン操作でズーム範囲ウィンドウが移動する距離は、[zoomWindowMoveDistance](%%jQueryApiUrl%%/ui.igzoombar#options:zoomWindowMoveDistance) プロパティで構成できます。
 			</td>
         </tr>

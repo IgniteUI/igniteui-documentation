@@ -652,7 +652,7 @@ OpenStreetMap|Bing Maps|CloudMade Maps
 			</td>
 
 			<td>
-				<img alt="" src="images/igDataChart_Known_Issues_and_Limitaions_1.png" width="19" height="18">
+				<img alt="" src="images/positive.png" width="19" height="18">
 
 				<ul>
 					<li><a class="ig-topic-link" href="igMap-Configuring-Navigation-Features.html">ナビゲーション機能の構成</a></li>
@@ -682,7 +682,7 @@ OpenStreetMap|Bing Maps|CloudMade Maps
 			</td>
 
 			<td>
-				<img alt="" src="images/igDataChart_Known_Issues_and_Limitaions_1.png" width="19" height="18">
+				<img alt="" src="images/positive.png" width="19" height="18">
 
 				<ul>
 					<li><a class="ig-topic-link" href="igMap-Configuring-Navigation-Features.html">ナビゲーション機能の構成</a></li>
@@ -704,7 +704,7 @@ OpenStreetMap|Bing Maps|CloudMade Maps
 			</td>
 
 			<td>
-				<img alt="" src="images/igDataChart_Known_Issues_and_Limitaions_1.png" width="19" height="18">
+				<img alt="" src="images/positive.png" width="19" height="18">
 
 				<ul>
 					<li><a class="ig-topic-link" href="igMap-Configuring-Navigation-Features.html">ナビゲーション機能の構成</a></li>
@@ -730,7 +730,7 @@ OpenStreetMap|Bing Maps|CloudMade Maps
 			</td>
 
 			<td>
-				<img alt="" src="images/igDataChart_Known_Issues_and_Limitaions_1.png" width="19" height="18">
+				<img alt="" src="images/positive.png" width="19" height="18">
 
 				<ul>
 					<li><a class="ig-topic-link" href="igMap-Configuring-Visual-Features.html">ビジュアル機能の構成</a></li>

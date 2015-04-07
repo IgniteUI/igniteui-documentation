@@ -27,9 +27,9 @@
 
 凡例: | 
 --------|------
-![](images/igDataChart_Known_Issues_and_Limitaions_1.png) | 回避策              
-![](images/igDataChart_Known_Issues_and_Limitaions_2.png) | 既知の回避策はありません      
-![](images/igDataChart_Known_Issues_and_Limitaions_3.png) | 修正予定です                        
+![](images/positive.png) | 回避策              
+![](images/negative.png) | 既知の回避策はありません      
+![](images/plannedFix.png) | 修正予定です                        
                                                     
 
 <table class="table">
@@ -44,17 +44,17 @@
 		<tr>
 			<td>[財務シリーズ チャートでは先頭の項目と最後の項目が半分切れた状態で表示される](#first-last-items-half-cut)</td>
 			<td>財務シリーズにおいて、先頭と最後の項目はチャートのビュー上にすべてが表示されず、半分にカットされた状態でプロットされます。</td>
-			<td>![](images/igDataChart_Known_Issues_and_Limitaions_3.png)</td>
+			<td>![](images/plannedFix.png)</td>
 		</tr>
 		<tr>
 			<td>[軸範囲が変更された時にはチャート アニメーションは無効化されます](#chart-animation-issue)</td>
 			<td>チャートの Motion Framework を使用しデータを更新した場合、Y 軸の範囲が変更され、チャート アニメーションはすべて無効となり、新しいデータはモーションのエフェクトがまったくない形で即座に表示されます。</td>
-			<td>![](images/igDataChart_Known_Issues_and_Limitaions_1.png)</td>
+			<td>![](images/positive.png)</td>
 		</tr>
 		<tr>
 			<td>[モノリス シャドウは、ぼかし効果を許可しません。](#monolith_shadow)</td>
 			<td>シリーズの [useSingleShadow](%%jQueryApiUrl%%/ui.igDataChart#options:useSingleShadow) プロパティを true に設定した場合、[shadowBlur](%%jQueryApiUrl%%/ui.igDataChart#options:shadowBlur) 設定は無視され、ぼかしはシャドウに適用されません。</td>
-			<td>![](images/igDataChart_Known_Issues_and_Limitaions_1.png)</td>
+			<td>![](images/positive.png)</td>
 		</tr>
 	</tbody>
 </table>

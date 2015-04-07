@@ -22,15 +22,15 @@
 <table class="table">
     <tbody>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_Solution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/positive.png" alt="" class="img-responsive"></td>
             <td>回避策</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_NoSolution.png" alt="" class="img-responsive"></td>
+            <td><img src="images/negative.png" alt="" class="img-responsive"></td>
             <td>既知の回避策はありません</td>
         </tr>
         <tr>
-            <td><img src="images/Known_Issues_and_Limitations_FixPlanned.png" alt="" class="img-responsive"></td>
+            <td><img src="images/plannedFix.png" alt="" class="img-responsive"></td>
             <td>修正予定です</td>
         </tr>
     </tbody>
@@ -41,8 +41,8 @@
 
 問題|説明|状態
 ---|---|---
-[1 つの針のみをサポート](#single-needle-supported)|`igLinearGauge` コントロールは、1 つの針のみをサポートします。|![](images/Known_Issues_and_Limitations_Solution.png)
-[ラベル競合の検出なし](#no-collisions-detection)|`igLinearGauge` コントロールには、ラベル競合を検出する手段はありません。その結果、ラベルを表示するスペースが十分にない場合は、ラベル競合が発生する可能性があります。|![](images/Known_Issues_and_Limitations_Solution.png)
+[1 つの針のみをサポート](#single-needle-supported)|`igLinearGauge` コントロールは、1 つの針のみをサポートします。|![](images/positive.png)
+[ラベル競合の検出なし](#no-collisions-detection)|`igLinearGauge` コントロールには、ラベル競合を検出する手段はありません。その結果、ラベルを表示するスペースが十分にない場合は、ラベル競合が発生する可能性があります。|![](images/positive.png)
 
 
 ##igLinearGauge

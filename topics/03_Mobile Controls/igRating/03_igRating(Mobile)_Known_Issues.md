@@ -42,15 +42,15 @@
 
 凡例: | 
 --------|------
-![](images/04_igRatingKnownIssues_1.png) | 回避策
-![](images/04_igRatingKnownIssues_2.png) | 既知の回避策はありません
-![](images/04_igRatingKnownIssues_3.png) | 修正予定です
+![](images/positive.png) | 回避策
+![](images/negative.png) | 既知の回避策はありません
+![](images/plannedFix.png) | 修正予定です
 
 
 
 機能|説明|解決済み
 ---|---|---
-デスクトップ ブラウザーで、ゼロ値をモバイル `igRating` に選択できません。|デスクトップのブラウザーでこのコントロールの操作中は、レーティング値をゼロに戻すことはできません。 | ![](images/04_igRatingKnownIssues_1.png)
+デスクトップ ブラウザーで、ゼロ値をモバイル `igRating` に選択できません。|デスクトップのブラウザーでこのコントロールの操作中は、レーティング値をゼロに戻すことはできません。 | ![](images/positive.png)
 
 
 
