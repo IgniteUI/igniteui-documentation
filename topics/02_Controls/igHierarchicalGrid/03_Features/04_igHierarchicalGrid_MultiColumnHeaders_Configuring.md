@@ -265,119 +265,119 @@
 
 1. 必要な JavaScript および CSS ファイルを参照する。
 
-`Index.cshtml` ビューで、必要な JavaScript 参照を追加して、Infragistics ローダーのインスタンスを作成します。
+	`Index.cshtml` ビューで、必要な JavaScript 参照を追加して、Infragistics ローダーのインスタンスを作成します。
 
-次のコード スニペットは、Infragistics Loader を使用して複数列ヘッダー機能を参照しています。
+	次のコード スニペットは、Infragistics Loader を使用して複数列ヘッダー機能を参照しています。
 
-**HTML の場合:**
+	**HTML の場合:**
 
-```html
-<script src="jquery.min.js" type="text/javascript"></script>
-<script src="jquery-ui.min.js" type="text/javascript"></script> 
-<script src="infragistics.loader.js"></script>
-```
+	```html
+	<script src="jquery.min.js" type="text/javascript"></script>
+	<script src="jquery-ui.min.js" type="text/javascript"></script> 
+	<script src="infragistics.loader.js"></script>
+	```
 
-**C# の場合:**
+	**C# の場合:**
 
-```csharp
-@Html.Infragistics()
-.Loader()
-.ScriptPath("http://localhost/ig_ui/js/")
-.CssPath("http://localhost/ig_ui/css/")
-.Resources("igGrid.MultiColumnHeaders")
-.Render()
-```
+	```csharp
+	@Html.Infragistics()
+	.Loader()
+	.ScriptPath("http://localhost/ig_ui/js/")
+	.CssPath("http://localhost/ig_ui/css/")
+	.Resources("igGrid.MultiColumnHeaders")
+	.Render()
+	```
 
 2. モデルを定義する。
 
-Nortwind Database に Employees テーブルと Orders テーブルの ADO.NET Entity Data Model を追加して `NorthwindModel` という名前を付けます。
+	Northwind Database に Employees テーブルと Orders テーブルの ADO.NET Entity Data Model を追加して `NorthwindModel` という名前を付けます。
 
-![](images/igHierarchicalGrid_Configure_MultiColumnHeaders_4.png)
+	![](images/igHierarchicalGrid_Configure_MultiColumnHeaders_4.png)
 
 3. ビューを定義する。
 
-`Index.cshtml` ビューを開き、以下のコードを追加します。
+	`Index.cshtml` ビューを開き、以下のコードを追加します。
 
-コードでは、ルート レイアウトに 2 つのグループが定義されています。最初のグループは「**Employee Details**」という名前で、`LastName` 列と `FirstName` 列が入っています。
+	コードでは、ルート レイアウトに 2 つのグループが定義されています。最初のグループは「**Employee Details**」という名前で、`LastName` 列と `FirstName` 列が入っています。
 
-2 番目のグループは「**Address Information**」という名前で、`Country` 列と `Region` 列、さらに別のグループ列が入っています。インナー グループは「**Local Address**」というグループで、`Address`、`City`、および `PostalCode` という列が含まれています。
+	2 番目のグループは「**Address Information**」という名前で、`Country` 列と `Region` 列、さらに別のグループ列が入っています。インナー グループは「**Local Address**」というグループで、`Address`、`City`、および `PostalCode` という列が含まれています。
 
-Orders レイアウトでは、複数列ヘッダー グループは 1 つです。その名前は「**Ship Details**」で、`ShipName`、`ShipAddress`、`ShipCity`、および `ShipCountry` の各列が入っています。
+	Orders レイアウトでは、複数列ヘッダー グループは 1 つです。その名前は「**Ship Details**」で、`ShipName`、`ShipAddress`、`ShipCity`、および `ShipCountry` の各列が入っています。
 
-**C# の場合:**
+	**C# の場合:**
 
-```csharp
-@Html.Infragistics().Grid(Model)
-.ID("grid1")
-.LoadOnDemand(false)
-.AutoGenerateLayouts(false)
-.AutoGenerateColumns(false)
-.ColumnLayouts(layouts =>
-{
-    layouts.For(x => x.Orders)
-    .AutoGenerateColumns(false)
-    .AutoGenerateLayouts(false)
-    .Columns(cols =>
-    {
-        cols.For(x => x.OrderID).Width("100px").HeaderText("Order ID");
-        cols.MultiColumnHeader().HeaderText("Ship Details").Group(c =>
-        {
-            c.For(x => x.ShipName).Width("200px").HeaderText("Ship Name");
-            c.For(x => x.ShipAddress).Width("200px").HeaderText("Ship Address");
-            c.For(x => x.ShipCity).Width("100px").HeaderText("Ship City");
-            c.For(x => x.ShipCountry).Width("100px").HeaderText("Ship Country");
-        });
-        cols.For(x => x.Freight).Width("100px").HeaderText("Freight");
-    })
-    .Features(feature =>
-    {
-        feature.MultiColumnHeaders();
-    });
-})
-.Columns(cols =>
-{
-    cols.For(x => x.EmployeeID).Width("100px").HeaderText("Employee ID");
-    cols.MultiColumnHeader().HeaderText("Employee Details").Group(c =>
-    {
-        c.For(x => x.LastName).Width("100px").HeaderText("Last Name");
-        c.For(x => x.FirstName).Width("100px").HeaderText("FirstName");
-    });
-    cols.MultiColumnHeader().HeaderText("Address Information").Group(c =>
-    {
-        c.MultiColumnHeader().HeaderText("Local Address").Group(c2 =>
-        {
-            c2.For(x => x.Address).Width("150px").HeaderText("Address");
-            c2.For(x => x.City).Width("100px").HeaderText("City");
-            c2.For(x => x.PostalCode).Width("100px").HeaderText("Postal Code");
-        });
-        c.For(x => x.Region).Width("80px").HeaderText("Region");
-        c.For(x => x.Country).Width("100px").HeaderText("Country");
-    });
-})
-.Features(feature => 
-{ 
-    feature.MultiColumnHeaders(); 
-})
-.Height("500px")
-.Width("100%")
-.DataBind()
-.Render()
-```
+	```csharp
+	@Html.Infragistics().Grid(Model)
+	.ID("grid1")
+	.LoadOnDemand(false)
+	.AutoGenerateLayouts(false)
+	.AutoGenerateColumns(false)
+	.ColumnLayouts(layouts =>
+	{
+		layouts.For(x => x.Orders)
+		.AutoGenerateColumns(false)
+		.AutoGenerateLayouts(false)
+		.Columns(cols =>
+		{
+			cols.For(x => x.OrderID).Width("100px").HeaderText("Order ID");
+			cols.MultiColumnHeader().HeaderText("Ship Details").Group(c =>
+			{
+				c.For(x => x.ShipName).Width("200px").HeaderText("Ship Name");
+				c.For(x => x.ShipAddress).Width("200px").HeaderText("Ship Address");
+				c.For(x => x.ShipCity).Width("100px").HeaderText("Ship City");
+				c.For(x => x.ShipCountry).Width("100px").HeaderText("Ship Country");
+			});
+			cols.For(x => x.Freight).Width("100px").HeaderText("Freight");
+		})
+		.Features(feature =>
+		{
+			feature.MultiColumnHeaders();
+		});
+	})
+	.Columns(cols =>
+	{
+		cols.For(x => x.EmployeeID).Width("100px").HeaderText("Employee ID");
+		cols.MultiColumnHeader().HeaderText("Employee Details").Group(c =>
+		{
+			c.For(x => x.LastName).Width("100px").HeaderText("Last Name");
+			c.For(x => x.FirstName).Width("100px").HeaderText("FirstName");
+		});
+		cols.MultiColumnHeader().HeaderText("Address Information").Group(c =>
+		{
+			c.MultiColumnHeader().HeaderText("Local Address").Group(c2 =>
+			{
+				c2.For(x => x.Address).Width("150px").HeaderText("Address");
+				c2.For(x => x.City).Width("100px").HeaderText("City");
+				c2.For(x => x.PostalCode).Width("100px").HeaderText("Postal Code");
+			});
+			c.For(x => x.Region).Width("80px").HeaderText("Region");
+			c.For(x => x.Country).Width("100px").HeaderText("Country");
+		});
+	})
+	.Features(feature => 
+	{ 
+		feature.MultiColumnHeaders(); 
+	})
+	.Height("500px")
+	.Width("100%")
+	.DataBind()
+	.Render()
+	```
 
 4. コントローラーを定義する。
 
-Home コントローラーの `Index` アクション メソッドで、Northwind データベースから Employees および Orders データを抽出し、それをビューで返します。
+	Home コントローラーの `Index` アクション メソッドで、Northwind データベースから Employees および Orders データを抽出し、それをビューで返します。
 
-**C# の場合:**
+	**C# の場合:**
 
-```csharp
-public ActionResult Index()
-{
-    var dataContext = new NorthwindDataContext();
-    var employees = dataContext.Employees.AsQueryable();
-    return View(employees);
-}
-```
+	```csharp
+	public ActionResult Index()
+	{
+		var dataContext = new NorthwindDataContext();
+		var employees = dataContext.Employees.AsQueryable();
+		return View(employees);
+	}
+	```
 
 ## <a id="related-content"></a> 関連コンテンツ
 ### トピック

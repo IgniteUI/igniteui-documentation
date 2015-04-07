@@ -33,20 +33,20 @@
 
 1. HTML ページを準備
 
-HTML ページを準備するには、igLoader を追加し、igHierarchicalGrid リソースをロードするよう構成します。
+	HTML ページを準備するには、igLoader を追加し、igHierarchicalGrid リソースをロードするよう構成します。
 
-**JavaScript の場合:**
+	**JavaScript の場合:**
 
-```js
-<script src="http://localhost/ig_ui/js/infragistics.loader.js"></script>
-<script type="text/javascript">
-$.ig.loader({
-      scriptPath: "http://localhost/ig_ui/js/",
-      cssPath: "http://localhost/ig_ui/css/",
-      resources: "igHierarchicalGrid"
-});
-</script>
-```
+	```js
+	<script src="http://localhost/ig_ui/js/infragistics.loader.js"></script>
+	<script type="text/javascript">
+	$.ig.loader({
+		scriptPath: "http://localhost/ig_ui/js/",
+		cssPath: "http://localhost/ig_ui/css/",
+		resources: "igHierarchicalGrid"
+	});
+	</script>
+	```
 
 2. 列テンプレートを追加して適用
 

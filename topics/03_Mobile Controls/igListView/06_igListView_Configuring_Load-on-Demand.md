@@ -400,7 +400,7 @@
 ### <a id="mvc-remote-requirements"></a> 要件
 
 -   この手順を実行するには、以下が必要です。
--   -    Microsoft® Visual Studio 2010 またははそれ以降のバージョンのインストール
+    -   Microsoft® Visual Studio 2010 またははそれ以降のバージョンのインストール
     -   MVC 3 Framework のインストール
     -   Northwind データベースのインストール
     -   *Infragistics.Web.Mvc.Mobile.dll* の追加

@@ -35,7 +35,7 @@
 
 >**注:** jQuery コントロールはコントロールのみであり、したがっていくつかのルールはサポートされず制限としてマーク付けされます。
 
-### <a id="accessibility-compliance-summary-chart">igPivotGrid アクセシビリティ準拠の概要表
+### <a id="accessibility-compliance-summary-chart"></a>igPivotGrid アクセシビリティ準拠の概要表
 
 以下の表は、`igPivotGrid` コントロールのアクセシビリティ準拠機能をまとめたものです。
 

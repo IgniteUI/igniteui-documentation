@@ -189,7 +189,7 @@ MVC: [GroupedRowTextTemplate](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridGrou
 
         <tr>
             <td>
-Appearance
+外観
 			</td>
 
             <td>

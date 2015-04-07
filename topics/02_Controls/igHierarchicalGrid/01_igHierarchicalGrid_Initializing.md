@@ -207,8 +207,7 @@ $("#grid1").igHierarchicalGrid({
     .Width("750px")
     .DataBind()
     .Render()%>
-    ```
-         
+    ```    
 
 4.  プロジェクトを保存します。
 5.  (オプション) 結果を確認します。

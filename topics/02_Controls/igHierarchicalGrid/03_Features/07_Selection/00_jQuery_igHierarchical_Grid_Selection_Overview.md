@@ -31,7 +31,7 @@
     -   [行の選択](#row-selection)
     -   [セル選択](#cell-selection)
 -   [関連コンテンツ](#related-content)
--   
+  
 ## <a id="introduction"></a> 概要
 
 選択機能によって、igHierarchicalGrid™ コントロールの行およびセルの選択が可能になります。その機能は Microsoft® Windows Explorer™ および Microsoft® Excel™ の選択およびアクティブ化動作を厳密に踏襲したものです。

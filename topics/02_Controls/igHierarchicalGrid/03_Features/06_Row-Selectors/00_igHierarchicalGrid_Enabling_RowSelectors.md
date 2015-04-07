@@ -27,7 +27,7 @@
 -   [概要](#introduction)
 -   [コード例: JQuery における RowSelectors の有効化](#enabling-rowselectors-in-jquery)
 -   [コード例: MVC における RowSelectors の有効化](#enabling-rowselectors-in-mvc)
--   [関連コンテンツ**](#related-content)
+-   [関連コンテンツ](#related-content)
 
 ## <a id="introduction"></a> 概要
 

@@ -23,7 +23,7 @@
 -   [**概要**](#introduction)
 -   [**CheckBoxGroup MVC ラッパーの主な機能の概要**](#features-summary)
 -   [**CheckBoxGroup MVC ラッパーの機能**](#features)
--   -   [グループ名の設定](#name)
+    -   [グループ名の設定](#name)
     -   [項目の定義](#items)
     -   [方向](#orientation)
     -   [Mini](#mini)
