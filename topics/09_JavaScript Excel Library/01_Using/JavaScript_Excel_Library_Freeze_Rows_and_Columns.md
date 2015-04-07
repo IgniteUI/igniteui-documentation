@@ -16,7 +16,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 var workbook = new $.ig.excel.Workbook();
 var worksheet = workbook.worksheets().add("Sheet1");
 

@@ -239,7 +239,7 @@ Ignite UI ユーティリティ
 
 **HTML の場合:**
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -272,7 +272,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<body>
 	    <!-- Target element for the igQRCodeBarcode -->
 	    <div id="barcode"></div>
@@ -285,7 +285,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<script type="text/jscript">
 	    $(function () {                        
 	              $("#barcode").igQRCodeBarcode({
@@ -300,7 +300,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	$("#barcode").igQRCodeBarcode({
                 width: "200px",
                 height: "200px",
@@ -316,7 +316,7 @@ Ignite UI ユーティリティ
 
 **HTML の場合:**
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>

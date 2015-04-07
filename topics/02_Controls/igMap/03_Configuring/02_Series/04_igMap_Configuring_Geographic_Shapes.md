@@ -476,7 +476,7 @@ CSS スタイルまたはシリーズ オブジェクトのオプションを使
 
 **JavaScript の場合:**
 
-```
+```js
 Code
 $("#map").igMap({
     ...
@@ -508,7 +508,7 @@ $("#map").igMap({
 
 **ASPX の場合:**
 
-```
+```csharp
 Code
 <%= Html.Infragistics().Map()
         ...
@@ -543,7 +543,7 @@ Code
 
 **JavaScript の場合:**
 
-```
+```js
 var data = [
     {
         data: {
@@ -587,7 +587,7 @@ var data = [
 
 **JavaScript の場合:**
 
-```
+```js
 $("#map").igMap({
     ...
     series: [{

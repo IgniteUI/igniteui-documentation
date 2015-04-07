@@ -180,7 +180,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid").igGrid({
     dataSource: adventureWorks,
     autoGenerateColumns: true,
@@ -195,7 +195,7 @@ $("#grid").igGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 @(Html.Infragistics().Grid(Model)
 .AutoGenerateColumns(true)
 .ID("grid1")
@@ -247,7 +247,7 @@ $("#grid").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid").igGrid({
     dataSource: adventureWorks,
     autoGenerateColumns: true,
@@ -266,7 +266,7 @@ $("#grid").igGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 @(Html.Infragistics().Grid(Model)
 .AutoGenerateColumns(true)
 .ID("grid1")
@@ -320,7 +320,7 @@ $("#grid").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid").igGrid({
     dataSource: adventureWorks,
     autoGenerateColumns: true,
@@ -339,7 +339,7 @@ $("#grid").igGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 @(Html.Infragistics().Grid(Model)
 .AutoGenerateColumns(true)
 .ID("grid1")
@@ -380,7 +380,7 @@ $("#grid").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid").igGrid({
     dataSource: adventureWorks,
     autoGenerateColumns: true,
@@ -395,7 +395,7 @@ $("#grid").igGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 @(Html.Infragistics().Grid(Model)
 .AutoGenerateColumns(true)
 .ID("grid1")

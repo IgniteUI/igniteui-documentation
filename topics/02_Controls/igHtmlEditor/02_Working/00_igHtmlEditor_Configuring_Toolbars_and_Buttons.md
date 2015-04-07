@@ -215,7 +215,7 @@ show`<MyCustomToolbarName>`|false
 
 **JavaScript の場合:**
 
-```
+```js
 $('#htmlEditor').igHtmlEditor({
     showTextToolbar: false,
     showFormattingToolbar: false,
@@ -278,7 +278,7 @@ expanded|false
 
 **JavaScript の場合:**
 
-```
+```js
 $('#htmlEditor').igHtmlEditor({
     toolbarSettings: [
     {
@@ -361,7 +361,7 @@ isStrikethrough|true
 
 **JavaScript の場合:**
 
-```
+```js
 $('#htmlEditor').igHtmlEditor({
     toolbarSettings: [
     {
@@ -449,7 +449,7 @@ $('#htmlEditor').igHtmlEditor({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#htmlEditor').igHtmlEditor({
     toolbarSettings: [
     {
@@ -538,7 +538,7 @@ selectedFormat|"h2"
 
 **JavaScript の場合:**
 
-```
+```js
 $('#htmlEditor').igHtmlEditor({
     toolbarSettings: [
     {

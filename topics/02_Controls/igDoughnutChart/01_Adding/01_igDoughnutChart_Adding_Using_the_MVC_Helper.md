@@ -105,7 +105,7 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 	ASP.NET MVC ヘルパーを使用するには、Infragistics.Web.Mvc 名前空間をビューにインポートする必要があります。
 
 	**ASPX の場合:**
-	```
+	```csharp
 	<%@ Import Namespace="Infragistics.Web.Mvc" %>
 	```
 	
@@ -115,7 +115,7 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<link href="<%=Url.Content("~/Scripts/css/structure/modules/infragistics.ui.chart.css")%>" rel="stylesheet"></link>
     <link href="<%=Url.Content("~/Scripts/css/themes/infragistics/infragistics.theme.css")%>" rel="stylesheet"></link>
     <script src="<%=Url.Content("~/Scripts/jquery.min.js")%>" type="text/javascript"></script>
@@ -132,7 +132,7 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 	
 	**C# の場合:**
 	
-    ```
+    ```csharp
     public class ProductItem
     {
         public string ProductCategory { get; set; }
@@ -144,7 +144,7 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 		
 	**C# の場合:**
 	
-	```
+	```csharp
 	using System.Collections.Generic;
     namespace DoughnutChartMVC
     {
@@ -166,7 +166,7 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	using System.Web.Mvc;
     namespace DoughnutChartMVC.Controllers
     {
@@ -185,7 +185,7 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<DoughnutChartMVC.ProductItemCollection>" %>
 	```
 
@@ -237,7 +237,7 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<body>
         <%= Html.Infragistics().DoughnutChart()
                         .Width("300px")
@@ -255,7 +255,7 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 
 **ASPX の場合:**
 
-```
+```csharp
 <%@Page Language="C#" Inherits="System.Web.Mvc.ViewPage<DoughnutChartMVC.ProductItemCollection>" %>
 <%@ Import Namespace="Infragistics.Web.Mvc" %>
 <!DOCTYPE html>

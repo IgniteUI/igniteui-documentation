@@ -50,7 +50,7 @@ Ignite UI™ 数値エディター、つまり `igNumericEditor` は `dataMode` 
 
     **HTML の場合:**
 
-    ```
+    ```html
     <link type="text/css" href="/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
     <link type="text/css" href="/css/structure/infragistics.css" rel="stylesheet" />
     <script type="text/javascript" src="/Scripts/jquery.min.js"></script>
@@ -61,7 +61,7 @@ Ignite UI™ 数値エディター、つまり `igNumericEditor` は `dataMode` 
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%@ Import Namespace="Infragistics.Web.Mvc" %>
 
     <link type="text/css" href="<%= Url.Content("~/css/themes/infragistics/infragistics.theme.css") %>"rel="stylesheet" />
@@ -76,7 +76,7 @@ Ignite UI™ 数値エディター、つまり `igNumericEditor` は `dataMode` 
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @using Infragistics.Web.Mvc;
 
     <link type="text/css" href="@Url.Content("~/css/themes/infragistics/infragistics.theme.css")" rel="stylesheet" />
@@ -93,7 +93,7 @@ Ignite UI™ 数値エディター、つまり `igNumericEditor` は `dataMode` 
 
     **HTML の場合:**
 
-    ```
+    ```html
     <input id="numericEditor" type="text" />
     ```
 
@@ -103,7 +103,7 @@ Ignite UI™ 数値エディター、つまり `igNumericEditor` は `dataMode` 
 
     **JavaScript の場合:**
 
-    ```
+    ```js
     <script type="text/javascript">
     $('#numericEditor').igNumericEditor(
     {
@@ -118,7 +118,7 @@ Ignite UI™ 数値エディター、つまり `igNumericEditor` は `dataMode` 
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%= Html.Infragistics().NumericEditor()
          .ID("numericEditor")
          .DataMode(NumericEditorDataMode.Int)
@@ -131,7 +131,7 @@ Ignite UI™ 数値エディター、つまり `igNumericEditor` は `dataMode` 
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @(Html.Infragistics().NumericEditor()
          .ID("numericEditor")
          .DataMode(NumericEditorDataMode.Int)

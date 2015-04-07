@@ -199,7 +199,7 @@ checkedNodes|ノードの配列
 
 **HTML と ASPX の場合:**
 
-```
+```js
 var nodes = $("#tree").igTree("checkedNodes");
 ```
 
@@ -227,7 +227,7 @@ nodeCheckstateChanged|function(evt, ui){ }
 
 **HTML の場合:**
 
-```
+```html
 $("#tree").igTree({
     dataSource: data,
     checkboxMode: "triState",
@@ -249,7 +249,7 @@ $("#tree").igTree({
 
 **HTML の場合:**
 
-```
+```html
 $("#tree").bind("igtreeselectionchanging", function (evt, ui) {
  
 });
@@ -264,7 +264,7 @@ $("#tree").live("igtreenodecheckstatechanged", function (evt, ui) {
 
 **HTML の場合:**
 
-```
+```html
 $("#tree").live("igtreenodecheckstatechanging", function (evt, ui) {
     if (cancel == true)
         return false;         

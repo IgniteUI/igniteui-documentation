@@ -74,7 +74,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#currencyeditor").igCurrencyEditor({	
     blur: function (evt, ui) {	
         // Handle event
@@ -101,7 +101,7 @@ $("#currencyeditor").igCurrencyEditor({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#numericeditor").igNumericEditor({
     value: 20,
     maxValue: 100
@@ -152,7 +152,7 @@ $("#numericeditor").igNumericEditor({
 
 **HTML の場合:**
 
-```
+```html
 <%= Html.Infragistics().TextEditor()
      .ID("texteditor")
      .Width(200)
@@ -164,7 +164,7 @@ $("#numericeditor").igNumericEditor({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#texteditor").bind(‘igeditorfocus’, function (evt, ui) {
     // Handle event
 });
@@ -182,7 +182,7 @@ $("#texteditor").bind(‘igeditorfocus’, function (evt, ui) {
 
 **HTML の場合:**
 
-```
+```html
 <%= Html.Infragistics().DateEditor()
         .ID("dateeditor")
         .Width(200)
@@ -194,7 +194,7 @@ $("#texteditor").bind(‘igeditorfocus’, function (evt, ui) {
 
 **JavaScript の場合:**
 
-```
+```js
 $("#dateeditor").bind(‘igeditorfocus’, function (evt, ui) {
     // Handle event
 });
@@ -235,7 +235,7 @@ $(‘#inputFieldID’).igEditor (‘option’, <option name>,<option value>);
 
 **HTML の場合:**
 
-```
+```html
 <%= Html.Infragistics().MaskEditor()
       .ID("maskeditor")
       .Width(200)
@@ -247,7 +247,7 @@ $(‘#inputFieldID’).igEditor (‘option’, <option name>,<option value>);
 
 **JavaScript の場合:**
 
-```
+```js
 $("#maskeditor").igEditor('option', 'inputMask', ‘CCCCCCCCCC’);
 ```
 
@@ -264,7 +264,7 @@ $("#maskeditor").igEditor('option', 'inputMask', ‘CCCCCCCCCC’);
 
 **HTML の場合:**
 
-```
+```html
 <%= Html.Infragistics().PercentEditor()
        .ID("percenteditor")
        .Width(200)
@@ -276,7 +276,7 @@ $("#maskeditor").igEditor('option', 'inputMask', ‘CCCCCCCCCC’);
 
 **JavaScript の場合:**
 
-```
+```js
 $("#percenteditor").igEditor('option', 'maxDecimals', 10);
 ```
 

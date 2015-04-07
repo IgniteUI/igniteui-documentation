@@ -25,7 +25,7 @@ Microsoft® Excel® ワークシートの主な使用の目的はデータの表
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         Dim northWindDbConnection As New System.Data.SqlClient.SqlConnection( _
                 "Data Source=.SQLEXPRESS;AttachDbFilename=""C:Program FilesMicrosoft SQL ServerMSSQL.1MSSQLDataNorthwind.mdf"";Integrated Security=True;Connect Timeout=30;User Instance=True")
 
@@ -59,7 +59,7 @@ Microsoft® Excel® ワークシートの主な使用の目的はデータの表
 
         **C# の場合:**
 
-        ```
+        ```csharp
         System.Data.SqlClient.SqlConnection northWindDbConnection = new System.Data.SqlClient.SqlConnection(
           @"Data Source=.SQLEXPRESS;AttachDbFilename=""C:Program FilesMicrosoft SQL ServerMSSQL.1MSSQLDataNorthwind.mdf"";Integrated Security=True;Connect Timeout=30;User Instance=True");
 
@@ -101,13 +101,13 @@ Microsoft® Excel® ワークシートの主な使用の目的はデータの表
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         Dim workbook As New Infragistics.Documents.Excel.Workbook()
         ```
 
         **C# の場合:**
 
-        ```
+        ```csharp
         Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
         ```
 
@@ -115,7 +115,7 @@ Microsoft® Excel® ワークシートの主な使用の目的はデータの表
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         For Each table As DataTable In dataSet.Tables
                 ' Create the worksheet to represent this data table
                 Dim worksheet As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add(table.TableName)
@@ -139,7 +139,7 @@ Microsoft® Excel® ワークシートの主な使用の目的はデータの表
 
         **C# の場合:**
 
-        ```
+        ```csharp
         foreach (DataTable table in dataSet.Tables)
         {
                 // Create the worksheet to represent this data table
@@ -172,13 +172,13 @@ Microsoft® Excel® ワークシートの主な使用の目的はデータの表
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     workbook.Save("C:Data.xls")
     ```
 
     **C# の場合:**
 
-    ```
+    ```csharp
     workbook.Save( "C:Data.xls" );
     ```
 ![](images/ExcelEngine_Populating_a_Worksheet_from_a_DataSet_01.png)

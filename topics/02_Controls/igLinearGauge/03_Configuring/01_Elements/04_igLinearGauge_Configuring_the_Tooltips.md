@@ -178,7 +178,7 @@ False
 
 **JavaScript の場合:**
 
-```
+```js
 $("#lineargauge").igLinearGauge({
     …
     showToolTip: true
@@ -210,7 +210,7 @@ $("#lineargauge").igLinearGauge({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#lineargauge").igLinearGauge({
     …
     showToolTip: true,
@@ -257,7 +257,7 @@ $("#lineargauge").igLinearGauge({
 
 	**HTML の場合:**
 
-	```
+	```html
 	<script id="needleToolTipTemplate" type="text/x-jquery-tmpl">
 	    <span style="background: green; border:black solid 2px; color:white">Current: ${item.value}</span>
 	</script>
@@ -271,7 +271,7 @@ $("#lineargauge").igLinearGauge({
 
 **HTML の場合:**
 
-```
+```html
 <script id="needleToolTipTemplate" type="text/x-jquery-tmpl">
     <span style="background: green; border:black solid 2px; color:white">Current: ${item.value}</span>
 </script>
@@ -313,7 +313,7 @@ $("#lineargauge").igLinearGauge({
 
 	**HTML の場合:**
 	
-	```
+	```html
 	<script id="rangeToolTipTemplate" type="text/x-jquery-tmpl">
 	    <span style="padding:5px; background: grey;color: white">Range: ${item.startValue} to ${item.endValue}</span>
 	</script>
@@ -325,7 +325,7 @@ $("#lineargauge").igLinearGauge({
 
 **HTML の場合:**
 
-```
+```html
 <script id="rangeToolTipTemplate" type="text/x-jquery-tmpl">
     <span style="padding:5px; background: grey;color: white">Range: ${item.startValue} to ${item.endValue}</span>
 </script>

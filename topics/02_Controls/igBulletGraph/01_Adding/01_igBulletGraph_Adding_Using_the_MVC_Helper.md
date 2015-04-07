@@ -91,7 +91,7 @@
 
 	    **ASPX の場合:**
 	
-	    ```
+	    ```csharp
 	    <%@ Import Namespace="Infragistics.Web.Mvc" %>
 	    ```
 
@@ -99,7 +99,7 @@
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <link href="<%=Url.Content("~/Scripts/css/themes/infragistics/infragistics.theme.css")%>" rel="stylesheet"></link>
     <link href="<%=Url.Content("~/Scripts/css/structure/infragistics.css")%>" rel="stylesheet"></link>
     <script src="<%=Url.Content("~/Scripts/jquery.min.js")%>" type="text/javascript"></script>
@@ -145,7 +145,7 @@ ASP.NET MVC ヘルパーを ASP.NET ページの本文に追加します。
 
 **ASPX の場合:**
 
-```
+```csharp
 <body>
 <%=(Html.Infragistics().BulletGraph()
 .Render())%>
@@ -158,7 +158,7 @@ ASP.NET MVC ヘルパーを ASP.NET ページの本文に追加します。
 
 **ASPX の場合:**
 
-```
+```csharp
 <body>
     <%= Html.Infragistics().BulletGraph()
                     .Width("300px")
@@ -172,7 +172,7 @@ ASP.NET MVC ヘルパーを ASP.NET ページの本文に追加します。
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().BulletGraph()
                 .Width("300px")
                 .Height("70px")
@@ -190,7 +190,7 @@ igBulletGraph の `Value()` メソッドを設定して、パフォーマンス 
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().BulletGraph()
 				...
                 .Value(35)
@@ -203,7 +203,7 @@ igBulletGraph の `Value()` メソッドを設定して、パフォーマンス 
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().BulletGraph()
 				...
                 .TargetValue(43)
@@ -222,7 +222,7 @@ igBulletGraph の `Value()` メソッドを設定して、パフォーマンス 
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().BulletGraph()
 				...
                 .Ranges(range =>
@@ -246,7 +246,7 @@ igBulletGraph の `Value()` メソッドを設定して、パフォーマンス 
 
 **ASPX の場合:**
 
-```
+```csharp
 <%@ Import Namespace="Infragistics.Web.Mvc" %>
 <!DOCTYPE html>
 <html>

@@ -144,7 +144,7 @@ Knockout マネージのデータ構造にバインドされる `igCombo` をイ
 
 **JavaScript の場合:**
 
-```
+```js
 var model = [
     { name: "Adam Sandler", id: "1" },
     { name: "Brooke Shields", id: "2" },
@@ -172,7 +172,7 @@ function ViewModel(actorsList) {
 
 **JavaScript の場合:**
 
-```
+```js
 $.ig.loader({
     scriptPath: "http://localhost/ig_ui/js/",
     cssPath: "http://localhost/ig_ui/css/",
@@ -189,7 +189,7 @@ $.ig.loader({
 
 **HTML の場合:**
 
-```
+```html
 <span id="comboActors" data-bind="igCombo: { 
         dataSource: actors,
         textKey: 'name',
@@ -204,7 +204,7 @@ View-Model オブジェクトの `selectedItems` プロパティと `dataSource`
 
 **HTML の場合:**
 
-```
+```html
 <span id="comboActors" data-bind="igCombo: { ... }, igComboVisible: isVisible"></span>
 ```
 

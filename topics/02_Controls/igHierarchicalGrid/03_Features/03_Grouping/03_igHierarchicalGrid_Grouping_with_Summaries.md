@@ -180,7 +180,7 @@ MVC (カスタム): [**GroupBySummaryWrapper.CustomSummary**](Infragistics.Web.M
 
 **JavaScript の場合:**
 
-```
+```js
 Code: HTML and jQuery
 ...
 features: [{
@@ -212,7 +212,7 @@ features: [{
 
 **ASPX の場合:**
 
-```
+```csharp
 Code: ASP.NET MVC
 ...
 .Features(feature => {

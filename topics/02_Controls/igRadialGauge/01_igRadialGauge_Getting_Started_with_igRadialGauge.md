@@ -88,7 +88,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<script  type="text/javascript" src="Content/ig/infragistics.loader.js"></script>
 	```
 	
@@ -96,7 +96,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<script type="text/javascript">
 	    $.ig.loader({
 	        scriptPath: "Scripts/ig/",
@@ -116,7 +116,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<div id="gauge" class="gaugeContainer"></div>
 	```
 
@@ -128,7 +128,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$(function () {
 	    $("#gauge").igRadialGauge({
 	        width: "450px",

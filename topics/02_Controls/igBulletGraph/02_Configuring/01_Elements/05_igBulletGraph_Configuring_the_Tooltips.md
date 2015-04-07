@@ -182,7 +182,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#bulletgraph").igBulletGraph({
                 …
                 showToolTip: true
@@ -209,7 +209,7 @@ $("#bulletgraph").igBulletGraph({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#bulletgraph").igBulletGraph({
                 …
                 showToolTip: true,
@@ -259,7 +259,7 @@ $("#bulletgraph").igBulletGraph({
 
 **HTML の場合:**
 
-```
+```html
 <script id="valueToolTipTemplate" type="text/x-jquery-tmpl">
     <span style="background: green; border:black solid 2px; color:white">Current: ${item.value}</span>
 </script>
@@ -273,7 +273,7 @@ $("#bulletgraph").igBulletGraph({
 
 **HTML の場合:**
 
-```
+```html
 <script id="valueToolTipTemplate" type="text/x-jquery-tmpl">
     <span style="background: green; border:black solid 2px; color:white">Current: ${item.value}</span>
 </script>
@@ -315,7 +315,7 @@ $("#bulletgraph").igBulletGraph({
 
 **HTML の場合:**
 
-```
+```html
 <script id="targetValueToolTipTemplate" type="text/x-jquery-tmpl">
     <span style="background: darkred;color:white">Target: ${item.value}</span>
 </script>
@@ -329,7 +329,7 @@ $("#bulletgraph").igBulletGraph({
 
 **HTML の場合:**
 
-```
+```html
 <script id="targetValueToolTipTemplate" type="text/x-jquery-tmpl">
     <span style="background: darkred;color:white">Target: ${item.value}</span>
 </script>
@@ -373,7 +373,7 @@ $("#bulletgraph").igBulletGraph({
 
 **HTML の場合:**
 
-```
+```html
 <script id="rangeToolTipTemplate" type="text/x-jquery-tmpl">
     <span style="padding:5px; background: grey;color: white">Range: ${item.startValue} to ${item.endValue}</span>
 </script>
@@ -386,7 +386,7 @@ $("#bulletgraph").igBulletGraph({
 
 **HTML の場合:**
 
-```
+```html
 <script id="rangeToolTipTemplate" type="text/x-jquery-tmpl">
     <span style="padding:5px; background: grey;color: white">Range: ${item.startValue} to ${item.endValue}</span>
 </script>

@@ -58,7 +58,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <table id="grid">
     </table>
     ```
@@ -78,7 +78,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="jquery-ui.min.js"></script>
 <script type="text/javascript" src="infragistics.core.js"></script><script type="text/javascript" src="infragistics.lob.js"></script>
@@ -98,7 +98,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script type="text/javascript">
     source = [
              { "ProductID": 1, "Name": "Adjustable Race", "SafetyStockLevel": 1000, "ReorderPoint": 750, "StandardCost": 0.0000 }, 
@@ -115,7 +115,7 @@
 
     **JavaScript の場合:**
 
-    ```
+    ```js
     $("#grid").igGrid({
         autoGenerateColumns: true,
            dataSource: source,
@@ -145,7 +145,7 @@
 
     **MVC の場合:**
 
-    ```
+    ```csharp
     public ActionResult Default()
     {
         var ds = this.DataRepository.GetDataContext().Products.Take(4);
@@ -159,7 +159,7 @@
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%= Html.Infragistics().Grid(Model)
         .AutoGenerateColumns(true)
         .Features(feature =>{
@@ -171,7 +171,7 @@
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @( Html.Infragistics().Grid(Model)
         .AutoGenerateColumns(true)
         .Features(feature =>{

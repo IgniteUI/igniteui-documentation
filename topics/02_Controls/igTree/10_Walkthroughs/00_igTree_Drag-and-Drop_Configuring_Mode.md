@@ -112,7 +112,7 @@ Ctrl キーを使用してコピーと移動の間に切り替えることがで
 
 **JavaScript の場合:**
 
-```
+```js
 [{
       Text: "My Documents",
       Value: "Folder",
@@ -159,7 +159,7 @@ Ctrl キーを使用してコピーと移動の間に切り替えることがで
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<script src="../scripts/jquery.min.js"></script>
 	<script src="../scripts/jquery-ui.min.js"></script>
 	<script src="../js/infragistics.loader.js"></script>
@@ -176,7 +176,7 @@ Ctrl キーを使用してコピーと移動の間に切り替えることがで
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<!--igTree target element-->
 		<div id="tree">
 		</div>
@@ -186,7 +186,7 @@ Ctrl キーを使用してコピーと移動の間に切り替えることがで
 	
 		**JavaScript の場合:**
 		
-		```
+		```js
 		<script>
 		        $.ig.loader(function () {
 		            $("#tree").igTree({
@@ -254,7 +254,7 @@ Ctrl キーを使用してコピーと移動の間に切り替えることがで
 	
 	**XML の場合:**
 	
-	```
+	```xml
 	…
 	<Folder Text="Network" ImageUrl="../content/images/igTree/Common/door.png" Value="Folder">     
 	          <Folder Text="Archive" ImageUrl="../content/images/igTree/Common/door_in.png" Value="Folder"></Folder>
@@ -272,7 +272,7 @@ Ctrl キーを使用してコピーと移動の間に切り替えることがで
 	
 		**C# の場合:**
 		
-		```
+		```csharp
 		<script src="http://localhost/ig_ui/js/infragistics.loader.js" type="text/javascript"></script>
 		    @(Html.Infragistics()
 		        .Loader()
@@ -310,7 +310,7 @@ Ctrl キーを使用してコピーと移動の間に切り替えることがで
 
 	**C# の場合:**
 	
-	```
+	```csharp
 	public class SampleDataXMLController : Controller
 	    {
 	        public ActionResult DataBindingUsingMVC()

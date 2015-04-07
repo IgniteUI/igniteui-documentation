@@ -399,7 +399,7 @@ Ignite UI ユーティリティ
 	**HTML の場合:**
 	
 	
-	```
+	```html
 	<!DOCTYPE html>
 	<html>
 	<head>
@@ -425,7 +425,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<body>
 	    <!-- Target element for the igSparkline -->
 	    <div id="sparkline"></div>
@@ -438,7 +438,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<body>
 	<script>
 	var invoices = [
@@ -463,7 +463,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<script>
 	        $(function () {
 	            $("#sparkline").igSparkline({
@@ -478,7 +478,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	$("#sparkline").igSparkline({
 	    dataSource: invoices,
 	    height: "100px",
@@ -492,7 +492,7 @@ Ignite UI ユーティリティ
 
 **HTML の場合:**
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>

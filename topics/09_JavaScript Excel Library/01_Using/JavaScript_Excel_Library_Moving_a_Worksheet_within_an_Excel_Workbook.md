@@ -16,7 +16,7 @@ Excel Workbook に 3 つのワークシートがある場合、[`Worksheet`](%%j
 以下の例のコードはこれを実装する方法を示します。
 
 **JavaScript の場合:**
-```
+```js
 var workbook = new $.ig.excel.Workbook();
 var worksheet1 = workbook.worksheets().add("Sheet1");
 var worksheet2 = workbook.worksheets().add("Sheet2");

@@ -191,7 +191,7 @@
 
 **HTML の場合:**
 
-```
+```html
 $("#container").igDataChart({
 	…
     title: "Energy Use Per Country",

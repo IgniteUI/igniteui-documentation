@@ -84,7 +84,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript" src="/Scripts/ig/js/infragistics.loader.js"></script>
 ```
 
@@ -92,7 +92,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $.ig.loader({
         scriptPath: "/Scripts/ig/",
@@ -108,7 +108,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     var data = [
         { Name: "Warsaw", Country: "Poland", Latitude: 52.21, Longitude: 21 },
@@ -159,7 +159,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<div id="map"></div>
 	```
 
@@ -169,7 +169,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<script type="text/javascript">
 	    $.ig.loader(function () {
 	        $("#map").igMap({
@@ -232,7 +232,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript" src="/Scripts/ig/js/infragistics.loader.js"></script>
 ```
 
@@ -240,7 +240,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 <%@ Import Namespace="Infragistics.Web.Mvc" %>
 . . .
 <%= Html.Infragistics().Loader()
@@ -256,7 +256,7 @@
 
     **C# の場合:**
 
-    ```
+    ```csharp
     public ActionResult Index()
     {
         List<WorldCity> worldCities = new List<WorldCity>
@@ -328,7 +328,7 @@
 
 	**C# の場合:**
 
-	```
+	```csharp
 	namespace SampleMvcApp.Models
 	{
 	    public class WorldCity
@@ -355,7 +355,7 @@
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<%@ Page Language="C#" Inherits="IQueryable<SampleMvcApp.Models.WorldCity>"
 	    MasterPageFile="~/Views/Shared/MvcSite.Master" %>
 	```
@@ -366,7 +366,7 @@
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<%= Html.Infragistics().Map(Model)
 	        .ID("map")
 	        .Width("700px")

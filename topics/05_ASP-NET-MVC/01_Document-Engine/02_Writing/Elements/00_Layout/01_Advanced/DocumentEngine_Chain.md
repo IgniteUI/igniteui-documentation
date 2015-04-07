@@ -28,7 +28,7 @@ Chain 要素は、1 ページにすべてを表示するための十分なスペ
 
 	**Visual Basic の場合:**
 
-	```
+	```vb
 	'
 	' Create the report and add a Section element.
 	'
@@ -44,7 +44,7 @@ Chain 要素は、1 ページにすべてを表示するための十分なスペ
 
 	**C# の場合:**
 
-	```
+	```csharp
 	//
 	// Create the report and add a section.
 	//
@@ -66,7 +66,7 @@ Chain 要素は、1 ページにすべてを表示するための十分なスペ
 
 	**Visual Basic の場合:**
 
-	```
+	```vb
 	'
 	' Add a Chain element and a Text element to the chain.
 	' This content will be unbreakable.
@@ -107,7 +107,7 @@ Chain 要素は、1 ページにすべてを表示するための十分なスペ
 
 	**C# の場合:**
 
-	```
+	```csharp
 	//
 	// Add a Chain element and a Text element to the chain.
 	// This content will be unbreakable.

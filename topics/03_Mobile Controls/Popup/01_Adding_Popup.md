@@ -51,7 +51,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <div data-role="popup" id="popup1" type="Popup" 
      class="ui-popup ui-overlay-shadow ui-corner-all ui-body-c" 
      aria-disabled="false" data-disabled="false" 
@@ -91,7 +91,7 @@
 	
 	**Razor の場合:**
 	
-	```
+	```csharp
 	@using Infragistics.Web.Mvc.Mobile
 	<script src="http://code.jquery.com/jquery.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile.min.js"></script>
@@ -109,7 +109,7 @@
 	
 	**Razor の場合:**
 	
-	```
+	```csharp
 	@(Html.InfragisticsMobile()
 	    .Popup()
 	    .ID("popup1")
@@ -120,7 +120,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<img src="Content.png" alt="content"/>
 	```
 	
@@ -128,7 +128,7 @@
 	
 	**Razor の場合:**
 	
-	```
+	```csharp
 	@(Html.InfragisticsMobile()
 	    .Popup()
 	    .ID("popup1")
@@ -141,7 +141,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<a href="#popup1" data-rel="popup">Open Popup</a>
 	```
 	
@@ -149,7 +149,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	@(Html.InfragisticsMobile()
 	    .Link()
 	    .ID("lnk1")

@@ -49,7 +49,7 @@
 **HTML の場合:**
 
 
-```
+```html
 <iframe id="dialog" src="http://www.infragistics.com/” frameborder="0"></iframe>
 ```
 

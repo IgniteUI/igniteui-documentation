@@ -15,7 +15,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
 Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add( "Sheet1" );
 

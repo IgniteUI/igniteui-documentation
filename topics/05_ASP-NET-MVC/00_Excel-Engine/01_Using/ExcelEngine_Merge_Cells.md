@@ -15,7 +15,7 @@
 
 **Visual Basic の場合:**
 
-```
+```vb
 Dim workbook As New Infragistics.Documents.Excel.Workbook()
 Dim worksheet As Infragistics.Documents.Excel.Worksheet = _
   workbook.Worksheets.Add("Sheet1")
@@ -46,7 +46,7 @@ worksheet.Rows.Item(0).Cells.Item(2).CellFormat.Alignment = _
 
 **C# の場合:**
 
-```
+```csharp
 Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
 Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add( "Sheet1" );
 

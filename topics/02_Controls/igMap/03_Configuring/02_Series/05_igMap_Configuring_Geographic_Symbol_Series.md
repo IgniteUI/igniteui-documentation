@@ -449,7 +449,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#map").igMap({
     ...
     series: [{
@@ -482,7 +482,7 @@ $("#map").igMap({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Map<SampleApp.Models.GeoSymbols>()
         .ID("map")
         ...
@@ -505,7 +505,7 @@ $("#map").igMap({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Map(Model)
         .ID("map")
         ...

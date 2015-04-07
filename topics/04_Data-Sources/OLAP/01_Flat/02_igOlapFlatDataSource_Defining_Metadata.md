@@ -347,7 +347,7 @@
 - `measuresDimension` : 
 
 **JavaScript の場合:** 
-```measuresDimension 
+```jsmeasuresDimension 
    measuresDimension:{
   		measures [ { 
 			name: "Units Sold", 
@@ -364,7 +364,7 @@
 - `dimensions`
 
 **JavaScript の場合:**
-```
+```js
 dimensions
 dimensions: [ { 
 	name: "Seller", 
@@ -391,7 +391,7 @@ dimensions: [ {
 
 **JavaScript の場合:**
 
-```
+```js
 cube: {
     name: "Sales",
     measuresDimension: {
@@ -656,7 +656,7 @@ function
 
 **JavaScript の場合:**
 
-```
+```js
 Var dataSource = new $.ig.FlatDataSource({
                 dataOptions: {
                     dataSource:

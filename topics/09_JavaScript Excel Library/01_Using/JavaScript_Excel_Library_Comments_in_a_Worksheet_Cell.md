@@ -18,7 +18,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 var comment = new $.ig.excel.WorksheetCellComment();
 var formatted = new $.ig.excel.FormattedString("This is a comment");
 comment.Text = formatted;

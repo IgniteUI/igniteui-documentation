@@ -33,7 +33,7 @@
 
 	**HTML の場合:**
 	
-	```
+	```html
 	<script type="text/javascript" src="jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="jquery-ui.min.js"></script>
 	<script type="text/javascript" src="infragistics.core.js"></script>
@@ -44,7 +44,7 @@
 
 	**JavaScript の場合:**
 	
-	```
+	```js
 	var products = [];
 	products[0] = { "ProductID": 1, "Name": "Adjustable Race", "ProductNumber": "AR-5381" };
 	products[1] = { "ProductID": 2, "Name": "Bearing Ball", "ProductNumber": "BA-8327" };
@@ -62,7 +62,7 @@
     
 	**HTML の場合:**
 	
-	```
+	```html
 	<table id="table1">
 	</table>
 	```
@@ -71,7 +71,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	var rowTemplate = "<tr> <td> ${ProductID} </td> <td> ${Name} </td> <td> ${ProductNumber}</td></tr>"
 	```
 
@@ -79,7 +79,7 @@
 
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<script type="text/javascript">
 	    $(document).ready(function () {
 	        var ds = new $.ig.DataSource({ type: "json", dataSource: products });

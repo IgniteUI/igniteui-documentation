@@ -208,7 +208,7 @@ Ignite UI ユーティリティ
 
 **HTML の場合:**
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -238,7 +238,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<body>
 	    <!-- Target element for the igBulletGraph -->
 	      <div id="bulletGraph"></div>
@@ -251,7 +251,7 @@ Ignite UI ユーティリティ
 
 	**HTML の場合:**
 
-    ```
+    ```html
     <script type="text/jscript">
         $(function () {                        
                   $("#bulletGraph").igBulletGraph({
@@ -266,7 +266,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	$("#bulletGraph").igBulletGraph({
 	    width: "300px",
 	    height: "70px"
@@ -279,7 +279,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	$("#bulletGraph").igBulletGraph({
 	    width: "300px",
 	    height: "70px",
@@ -298,7 +298,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 
-    ```
+    ```html
     $("#bulletGraph").igBulletGraph({
 		…
         value:"35"
@@ -311,7 +311,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 
-    ```
+    ```html
     $("#bulletGraph").igBulletGraph({
 		…
         targetValue:"43"
@@ -330,7 +330,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 
-	```
+	```html
 	$("#bulletGraph").igBulletGraph({
 		…
 	    ranges: [{
@@ -367,7 +367,7 @@ Ignite UI ユーティリティ
 
 **HTML の場合:**
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>

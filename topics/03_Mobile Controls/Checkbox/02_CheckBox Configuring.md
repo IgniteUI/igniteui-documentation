@@ -69,7 +69,7 @@ jQuery Mobile テーマを設定する|[Theme](Infragistics.Web.Mvc.Mobile~Infra
 
 **Razor の場合:**
 
-```
+```csharp
 @(Html.InfragisticsMobile()
     .CheckBox()
     .ID("chkbx1")
@@ -103,7 +103,7 @@ jQuery Mobile テーマを設定する|[Theme](Infragistics.Web.Mvc.Mobile~Infra
 
 **Razor の場合:**
 
-```
+```csharp
 @(Html.InfragisticsMobile()
     .CheckBox()
     .ID("check1")

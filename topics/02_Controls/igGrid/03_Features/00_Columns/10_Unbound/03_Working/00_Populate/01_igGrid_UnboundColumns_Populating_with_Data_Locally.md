@@ -87,7 +87,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 var userAccounts = [
     {UserAccountId: 1, UserId: 1, UserName: "nancyd"},
     {UserAccountId: 2, UserId: 2, UserName: "andrewf"},
@@ -124,7 +124,7 @@ $("#grid").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 var userAccounts = [
     {UserAccountId: 1, UserId: 1, UserName: "nancyd"},
     {UserAccountId: 2, UserId: 2, UserName: "andrewf"},
@@ -159,7 +159,7 @@ $("#grid").igGrid("setUnboundValues", "AccountIsLocked", lockedUserAccounts);
 
 **JavaScript の場合:**
 
-```
+```js
 var employees = [
     {FirstName: "Nancy", LastName: "Davolio"},
     {FirstName: "Andrew", LastName: "Fuller"},
@@ -200,7 +200,7 @@ $("#grid").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 var products = [
     {ProductID: 1, UnitPrice: 4.1, VAT: 0.2}, 
     {ProductID: 2, UnitPrice: 4.1, VAT: 0.2}, 

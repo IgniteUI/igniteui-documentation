@@ -26,7 +26,7 @@ Gap 要素の相対的な高さを使用するには、Height プロパティを
 
 **Visual Basic の場合:**
 
-```
+```vb
 Imports Infragistics.Documents.Reports.Report
 ...
 
@@ -51,7 +51,7 @@ gapText.AddContent("Paragraph three text...")
 
 **C# の場合:**
 
-```
+```csharp
 using Infragistics.Documents.Reports.Report;
 ...
 

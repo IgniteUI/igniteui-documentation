@@ -25,7 +25,7 @@ Infragistics® Word ライブラリは、[WordDocumentWriter](Infragistics.Web.M
 
 **C# の場合:**
 
-```
+```csharp
 //  Create a new instance of the WordDocumentWriter class using the
 //  static 'Create' method.
 WordDocumentWriter docWriter = WordDocumentWriter.Create(@"C:TestWordDoc.docx");
@@ -38,7 +38,7 @@ docWriter.AddAnchoredPicture(anchPic);
 
 **Visual Basic の場合:**
 
-```
+```vb
 '  Create a new instance of the WordDocumentWriter class using the
 '  static 'Create' method.
 Dim docWriter As WordDocumentWriter = WordDocumentWriter.Create("C:\TestWordDoc.docx")
@@ -54,7 +54,7 @@ docWriter.AddAnchoredPicture(anchPic)
 
 **C# の場合:**
 
-```
+```csharp
 //  Create a new instance of the WordDocumentWriter class using the
 //  static 'Create' method.
 WordDocumentWriter docWriter = WordDocumentWriter.Create(@"C:TestWordDoc.docx");
@@ -66,7 +66,7 @@ docWriter.AddInlinePicture(img);
 
 **Visual Basic の場合:**
 
-```
+```vb
 '  Create a new instance of the WordDocumentWriter class using the
 '  static 'Create' method.
 Dim docWriter As WordDocumentWriter = WordDocumentWriter.Create("C:\TestWordDoc.docx")
@@ -82,7 +82,7 @@ docWriter.AddInlinePicture(img)
 
 **C# の場合:**
 
-```
+```csharp
 // Define the picture outline properties
 PictureOutlineProperties picOutlineProps = docWriter.CreatePictureOutlineProperties();
 picOutlineProps.Color = Color.Violet;
@@ -100,7 +100,7 @@ anchPic.Outline.LineWidth = picOutlineProps.LineWidth;
 
 **Visual Basic の場合:**
 
-```
+```vb
 ' Define the picture outline properties
 Dim picOutlineProps As PictureOutlineProperties = docWriter.CreatePictureOutlineProperties()
 picOutlineProps.Color = Color.Violet
@@ -120,7 +120,7 @@ anchPic.Outline.LineWidth = picOutlineProps.LineWidth
 ## アンカー固定した画像とインライン画像をミックス
 **C# の場合:**
 
-```
+```csharp
 //  Create a new instance of the WordDocumentWriter class using the
 //  static 'Create' method.
 WordDocumentWriter docWriter = WordDocumentWriter.Create(@"C:TestWordDoc.docx");
@@ -156,7 +156,7 @@ docWriter.Close();
 
 **Visual Basic の場合:**
 
-```
+```vb
 '  Create a new instance of the WordDocumentWriter class using the
 '  static 'Create' method.
 Dim docWriter As WordDocumentWriter = WordDocumentWriter.Create("C:\TestWordDoc.docx")

@@ -41,7 +41,7 @@ igMaskEditor には以下の特徴があります。
 2.  ご自分の HTML ページまたは ASP.NET MVC View で、必要な JavaScript ファイル、CSS ファイル、および ASP.NET MVC アセンブリを参照してください。
 
 	**HTML の場合:**
-    ```
+    ```html
     <link type="text/css" href="/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
     <link type="text/css" href="/css/structure/infragistics.css" rel="stylesheet" />
     <script type="text/javascript" src="/Scripts/jquery.min.js"></script>
@@ -50,7 +50,7 @@ igMaskEditor には以下の特徴があります。
 	<script type="text/javascript" src="/Scripts/Samples/infragistics.lob.js"></script>
     ```
     **ASPX の場合:**
-    ```
+    ```csharp
     <%@ Import Namespace="Infragistics.Web.Mvc" %>
     <link type="text/css" href="<%= Url.Content("~/css/themes/infragistics/infragistics.theme.css") %>"rel="stylesheet" />
     <link type="text/css" href="<%= Url.Content("~/css/structure/infragistics.css") %>"rel="stylesheet" />
@@ -61,7 +61,7 @@ igMaskEditor には以下の特徴があります。
     <script type="text/javascript" src="<%= Url.Content("~/Scripts/Samples/modules/i18n/regional/infragistics.ui.regional-en.js")%>"></script>
     ```
     **Razor の場合:**
-    ```
+    ```csharp
     @using Infragistics.Web.Mvc;
     <link type="text/css" href="@Url.Content("~/css/themes/infragistics/infragistics.theme.css")" rel="stylesheet" />
     <link type="text/css" href="@Url.Content("~/css/structure/infragistics.css")" rel="stylesheet" />
@@ -74,7 +74,7 @@ igMaskEditor には以下の特徴があります。
 3.	jQuery の実装では、HTML 内のターゲット要素として INPUT、TD、DIV、または SPAN を作成します。ASP.NET MVC の実装の場合、含める要素を MVC ラッパーが作成してくれるので、この手順はオプションです。
 
 	**HTML の場合:**
-    ```
+    ```html
     <input id="maskEditor" type="text" />
     ```
 	
@@ -84,7 +84,7 @@ igMaskEditor には以下の特徴があります。
 
     **JavaScript の場合:**
 
-    ```
+    ```js
     <script type="text/javascript">
            $('#maskEditor').igMaskEditor({
                width: 160,
@@ -96,7 +96,7 @@ igMaskEditor には以下の特徴があります。
 
     **ASPX の場合:**
 
-     ```
+     ```csharp
      <%= Html.Infragistics().MaskEditor()
          .ID("maskEditor")
          .InputMask("CCCCC")
@@ -106,7 +106,7 @@ igMaskEditor には以下の特徴があります。
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @(Html.Infragistics().MaskEditor()
                  .ID("maskEditor")
                  .InputMask("CCCCC")

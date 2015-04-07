@@ -170,7 +170,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
     .sprite-DocumentsFolder
     {
@@ -207,7 +207,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 <style type="text/css">
     .sprite-DocumentsFolder
     {
@@ -256,7 +256,7 @@
 
 **HTML の場合:**
 
-```
+```html
 $("#tree").igTree({
     checkboxMode: 'triState',
     singleBranchExpand: true,
@@ -280,7 +280,7 @@ $("#tree").igTree({
 
 **XML データ:**
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" ?>
 
 <Folder Text="Computer" ImageUrl="../content/images/igTree/Common/computer.png" Value="Folder">

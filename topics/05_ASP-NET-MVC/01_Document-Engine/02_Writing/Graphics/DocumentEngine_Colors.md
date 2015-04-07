@@ -22,7 +22,7 @@
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     Imports Infragistics.Documents.Reports.Report
     Imports Infragistics.Documents.Reports.Graphics
     .
@@ -38,7 +38,7 @@
 
     **C# の場合:**
 
-    ```
+    ```csharp
     using Infragistics.Documents.Reports.Report;
     using Infragistics.Documents.Reports.Graphics;
     .
@@ -56,7 +56,7 @@
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Create a new blend of colors
     Dim colorBlend As New ColorBlend()
 
@@ -74,7 +74,7 @@
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Create a new blend of colors
     ColorBlend colorBlend = new ColorBlend();
 
@@ -94,14 +94,14 @@
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Create a rectangle that will bind the linear gradient.
     Dim rect As New Rectangle(New Point(0, 100), New Size(600, 200))
     ```
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Create a rectangle that will bind the linear gradient.
     Rectangle rect = new Rectangle(new Point(0,100), new Size(600, 200));
     ```
@@ -110,7 +110,7 @@
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Create a direct linear gradient brush that uses the ColorBlend.
     Dim linearDirect As New LinearGradientDirectBrush( _
             colorBlend, rect, New Matrix())
@@ -118,7 +118,7 @@
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Create a direct linear gradient brush that uses the ColorBlend.
     LinearGradientDirectBrush linearDirect =
       new LinearGradientDirectBrush(colorBlend, rect, new Matrix());
@@ -128,7 +128,7 @@
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     Dim canvas As ICanvas = section1.AddCanvas()
 
     ' Set a few properties on the canvas to help is stand out more.
@@ -151,7 +151,7 @@
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Add a canvas to the section.
     ICanvas canvas = section1.AddCanvas();
 

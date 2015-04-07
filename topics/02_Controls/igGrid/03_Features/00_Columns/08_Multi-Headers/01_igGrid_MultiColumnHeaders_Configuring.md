@@ -81,7 +81,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<script src="jquery.min.js" type="text/javascript"></script>
 	<script src="jquery-ui.min.js" type="text/javascript"></script> 
 	<script src="infragistics.loader.js"></script>
@@ -89,7 +89,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<script type="text/javascript">
 	    $.ig.loader({
 	        scriptPath: "http://localhost/ig_ui/js/",
@@ -105,7 +105,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	var northwindCustomers = [
 	{
 	    "CustomerID": "ALFKI",
@@ -138,7 +138,7 @@
 
 	**HTML の場合:**
 	
-	```
+	```html
 	<table id="grid1"></table>
 	```
 
@@ -150,7 +150,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$.ig.loader(function () {
 	    $("#grid1").igGrid({
 	        autoGenerateColumns: false,
@@ -227,7 +227,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<script src="jquery.min.js" type="text/javascript"></script>
 	<script src="jquery-ui.min.js" type="text/javascript"></script> 
 	<script src="infragistics.loader.js"></script>
@@ -235,7 +235,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	@Html.Infragistics()
 	.Loader()
 	.ScriptPath("http://localhost/ig_ui/js/")
@@ -260,7 +260,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	@Html.Infragistics().Grid(Model)
 	.AutoGenerateColumns(false)
 	.ID("grid1")
@@ -300,7 +300,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	public ActionResult Index()
 	{
 	    var dataContext = new NorthwindDataContext();

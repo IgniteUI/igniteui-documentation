@@ -22,7 +22,7 @@
 
 **C# の場合:**
 
-```
+```csharp
 // define a string that contains the path to
 // the current user's My Documents folder.
 string myDocuments =

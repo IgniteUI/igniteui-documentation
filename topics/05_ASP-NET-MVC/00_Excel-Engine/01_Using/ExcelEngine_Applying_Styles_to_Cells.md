@@ -27,7 +27,7 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         Dim workbook As New Infragistics.Documents.Excel.Workbook()
         Dim worksheet As Infragistics.Documents.Excel.Worksheet = _
           workbook.Worksheets.Add("Sheet1")
@@ -35,7 +35,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
         Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add( "Sheet1" );
         ```
@@ -44,13 +44,13 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Columns.Item(0).Width = 6000
         ```
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Columns[0].Width = 6000;
         ```
 
@@ -59,7 +59,7 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Rows.Item(0).Cells.Item(0).Value = "Center"
         worksheet.Rows.Item(0).Cells.Item(0).CellFormat.Alignment = _
           Infragistics.Documents.Excel.HorizontalCellAlignment.Center
@@ -67,7 +67,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Rows[0].Cells[0].Value = "Center";
         worksheet.Rows[0].Cells[0].CellFormat.Alignment =
           Infragistics.Documents.Excel.HorizontalCellAlignment.Center;
@@ -77,7 +77,7 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Rows.Item(1).Cells.Item(0).CellFormat.BottomBorderColor = Color.Red
         worksheet.Rows.Item(1).Cells.Item(0).CellFormat.BottomBorderStyle = _
           Infragistics.Documents.Excel.CellBorderLineStyle.DashDot
@@ -94,7 +94,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Rows[1].Cells[0].CellFormat.BottomBorderColor = Color.Red;
         worksheet.Rows[1].Cells[0].CellFormat.BottomBorderStyle =
           Infragistics.Documents.Excel.CellBorderLineStyle.DashDot;
@@ -113,7 +113,7 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Rows.Item(2).Cells.Item(0).CellFormat.FillPattern = _
           Infragistics.Documents.Excel.FillPatternStyle.DiagonalCrosshatch
         worksheet.Rows.Item(2).Cells.Item(0).CellFormat.FillPatternBackgroundColor = _
@@ -124,7 +124,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Rows[2].Cells[0].CellFormat.FillPattern =
           Infragistics.Documents.Excel.FillPatternStyle.DiagonalCrosshatch;
         worksheet.Rows[2].Cells[0].CellFormat.FillPatternBackgroundColor =
@@ -137,7 +137,7 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Rows.Item(3).Cells.Item(0).Value = 57
         worksheet.Rows.Item(3).Cells.Item(0).CellFormat.Font.Bold = _
           Infragistics.Documents.Excel.ExcelDefaultableBoolean.True
@@ -147,7 +147,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Rows[3].Cells[0].Value = 57;
         worksheet.Rows[3].Cells[0].CellFormat.Font.Bold =
           Infragistics.Documents.Excel.ExcelDefaultableBoolean.True;
@@ -159,7 +159,7 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Rows.Item(4).Cells.Item(0).Value = -4357.059
         worksheet.Rows.Item(4).Cells.Item(0).CellFormat.FormatString = _
           """$""#,##0.00_);[Red](""$""#,##0.00)"
@@ -167,7 +167,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Rows[4].Cells[0].Value = -4357.059;
         worksheet.Rows[4].Cells[0].CellFormat.FormatString =
           ""$"#,##0.00_);[Red]("$"#,##0.00)";
@@ -177,14 +177,14 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Rows.Item(5).Cells.Item(0).Value = "Intented"
         worksheet.Rows.Item(5).Cells.Item(0).CellFormat.Indent = 2
         ```
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Rows[5].Cells[0].Value = "Intented";
         worksheet.Rows[5].Cells[0].CellFormat.Indent = 2;
         ```
@@ -193,14 +193,14 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Rows.Item(6).Cells.Item(0).Value = "Rotated"
         worksheet.Rows.Item(6).Cells.Item(0).CellFormat.Rotation = 45
         ```
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Rows[6].Cells[0].Value = "Rotated";
         worksheet.Rows[6].Cells[0].CellFormat.Rotation = 45;
         ```
@@ -209,7 +209,7 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Rows.Item(7).Cells.Item(0).Value = _
           "Shrink text so it is all visible in the cell"
         worksheet.Rows.Item(7).Cells.Item(0).CellFormat.ShrinkToFit = _
@@ -218,7 +218,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Rows[7].Cells[0].Value =
           "Shrink text so it is all visible in the cell";
         worksheet.Rows[7].Cells[0].CellFormat.ShrinkToFit =
@@ -229,7 +229,7 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Rows.Item(8).Height = 500
         worksheet.Rows.Item(8).Cells.Item(0).Value = "Top"
         worksheet.Rows.Item(8).Cells.Item(0).CellFormat.VerticalAlignment = _
@@ -238,7 +238,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Rows[8].Height = 500;
         worksheet.Rows[8].Cells[0].Value = "Top";
         worksheet.Rows[8].Cells[0].CellFormat.VerticalAlignment =
@@ -249,7 +249,7 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Rows.Item(9).Cells.Item(0).Value = _
           "This text has been wrapped."
         worksheet.Rows.Item(9).Cells.Item(0).CellFormat.WrapText = _
@@ -258,7 +258,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Rows[9].Cells[0].Value =
           "This text has been wrapped.";
         worksheet.Rows[9].Cells[0].CellFormat.WrapText =
@@ -269,7 +269,7 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         Dim formattedString As Infragistics.Documents.Excel.FormattedString = _
           New Infragistics.Documents.Excel.FormattedString("Formatted String")
         worksheet.Rows.Item(10).Cells.Item(0).Value = formattedString
@@ -289,7 +289,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         Infragistics.Documents.Excel.FormattedString formattedString =
           new Infragistics.Documents.Excel.FormattedString( "Formatted String" );
         worksheet.Rows[10].Cells[0].Value = formattedString;
@@ -311,13 +311,13 @@
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     workbook.Serialize("C:Styles.xls")
     ```
 
     **C# の場合:**
 
-    ```
+    ```csharp
     workbook.Serialize( "C:Styles.xls" );
     ```
 

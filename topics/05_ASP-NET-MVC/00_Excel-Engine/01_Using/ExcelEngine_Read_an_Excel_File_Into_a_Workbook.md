@@ -16,7 +16,7 @@ Microsoft® Excel® ファイルを書き出すだけでなく、Infragistics.Do
 
 **Visual Basic の場合:**
 
-```
+```vb
 Dim workbook As Infragistics.Documents.Excel.Workbook = _
   Infragistics.Documents.Excel.Workbook.Load("C:ExistingWorkbook.xls")
 
@@ -26,7 +26,7 @@ workbook.Save("C:ModifiedWorkbook.xls")
 
 **C# の場合:**
 
-```
+```csharp
 Infragistics.Documents.Excel.Workbook workbook = 
   Infragistics.Documents.Excel.Workbook.Load( "C:ExistingWorkbook.xls" );
 

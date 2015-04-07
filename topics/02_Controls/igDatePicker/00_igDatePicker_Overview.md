@@ -48,7 +48,7 @@ igDatePicker によって、ドロップダウン カレンダー付きの入力
 
     **HTML の場合:**
 
-    ```
+    ```html
     <link type="text/css" href="/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
     <link type="text/css" href="/css/structure/infragistics.css" rel="stylesheet" />
     <script type="text/javascript" src="/Scripts/jquery.min.js"></script>
@@ -59,7 +59,7 @@ igDatePicker によって、ドロップダウン カレンダー付きの入力
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%@ Import Namespace="Infragistics.Web.Mvc" %>
 
     <link type="text/css" href="<%= Url.Content("~/css/themes/infragistics/infragistics.theme.css") %>" rel="stylesheet" />
@@ -74,7 +74,7 @@ igDatePicker によって、ドロップダウン カレンダー付きの入力
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @using Infragistics.Web.Mvc;
 
     <link type="text/css" href="@Url.Content("~/css/themes/infragistics/infragistics.theme.css")" rel="stylesheet" />
@@ -91,7 +91,7 @@ igDatePicker によって、ドロップダウン カレンダー付きの入力
 
     **HTML の場合:**
 
-    ```
+    ```html
     <input id="datePicker" type="text" />
     ```
 
@@ -101,7 +101,7 @@ igDatePicker によって、ドロップダウン カレンダー付きの入力
 
     **JavaScript の場合:**
 
-    ```
+    ```js
     <script type="text/javascript">
           $("#datePicker").igDatePicker({
              button: "dropdown",         
@@ -112,7 +112,7 @@ igDatePicker によって、ドロップダウン カレンダー付きの入力
 
     **ASPX の場合:**
 
-     ```
+     ```csharp
      <%= Html.Infragistics().DatePicker()
          .ID("datePicker")
          .ButtonType(TextEditorButtonType.DropDown)
@@ -122,7 +122,7 @@ igDatePicker によって、ドロップダウン カレンダー付きの入力
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @(Html.Infragistics().DatePicker()
          .ID("datePicker")
          .ButtonType(TextEditorButtonType.DropDown)

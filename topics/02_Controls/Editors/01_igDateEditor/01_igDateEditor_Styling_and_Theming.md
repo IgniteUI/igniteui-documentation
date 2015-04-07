@@ -20,7 +20,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
      .customTheme .ui-igedit-hover
      { 
@@ -39,7 +39,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $('#dateEditor'). igDateEditor(
 {
     width: 160,
@@ -54,7 +54,7 @@ $('#dateEditor'). igDateEditor(
 
 **JavaScript の場合:**
 
-```
+```js
 $('#dateEditor').igDateEditor('option', 'theme', 'customTheme');
 ```
 
@@ -70,7 +70,7 @@ $('#dateEditor').igDateEditor('option', 'theme', 'customTheme');
 
 **HTML の場合:**
 
-```
+```html
 <body>
      <input type="text"  id="dateEditor"  />
      <div id="themeRoller"></div>
@@ -79,7 +79,7 @@ $('#dateEditor').igDateEditor('option', 'theme', 'customTheme');
 
 **JavaScript の場合:**
 
-```
+```js
 $('#dateEditor'). igDateEditor({
     width: 160,
     renderInContainer: true,

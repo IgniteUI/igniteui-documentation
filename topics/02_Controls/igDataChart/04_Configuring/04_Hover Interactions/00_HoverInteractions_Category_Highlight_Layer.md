@@ -85,7 +85,7 @@ bandHighlightWidth|50
 
 **JavaScript の場合:**
 
-```
+```js
 <script type="text/javascript">
     $(function () {
         $("#chart").igDataChart({

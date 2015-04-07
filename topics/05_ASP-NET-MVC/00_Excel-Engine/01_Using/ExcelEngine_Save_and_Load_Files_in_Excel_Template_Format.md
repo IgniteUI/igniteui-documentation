@@ -18,7 +18,7 @@ Infragistics Excel ライブラリは、テンプレート ファイルを定義
 
 **Visual Basic の場合:**
 
-```
+```vb
 ' Create a workbook and set its format to Excel2007Template 
 Dim newWorkBook As Infragistics.Documents.Excel.Workbook = New Workbook(WorkbookFormat.Excel2007Template)
 ' Add a worksheet to the workbook 
@@ -31,7 +31,7 @@ newWorkBook.Save("C:ExcelBookTemplate.xltx")
 
 **C# の場合:**
 
-```
+```csharp
 // Create a workbook and set its format to Excel2007Template
 Infragistics.Documents.Excel.Workbook newWorkBook = new Workbook(WorkbookFormat.Excel2007Template);
 // Add a worksheet to the workbook
@@ -46,7 +46,7 @@ newWorkBook.Save("C:ExcelBookTemplate.xltx");
 
 **Visual Basic の場合:**
 
-```
+```vb
 ' Load an Existing Excel file 
 Dim workbook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load("C:Book1.xlsx")
 ' Change the format to Excel2007Template 
@@ -57,7 +57,7 @@ workbook.Save("C:ModifiedBook1.xltx")
 
 **C# の場合:**
 
-```
+```csharp
 // Load an Existing Excel file
 Infragistics.Documents.Excel.Workbook workbook = Infragistics.Documents.Excel.Workbook.Load("C:Book1.xlsx");
 // Change the format to Excel2007Template

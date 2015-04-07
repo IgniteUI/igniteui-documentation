@@ -130,7 +130,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<link rel="stylesheet" href="jquery.mobile.structure.min.css" />
 	<script type="text/javascript" src="jquery.min.js"></script>
 	<script type="text/javascript" src="jquery.mobile.min.js"></script>
@@ -139,7 +139,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<script type="text/javascript">
 	    $.ig.loader({
 	        scriptPath: "../js/",
@@ -156,7 +156,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<script type="text/javascript">
 	    var northwindProducts = [
 	        { "ProductName": "Chai", "CategoryName": "Beverages", "ImageUrl": "../content/images/nw/categories/1.png", "InStock": 39 },
@@ -177,7 +177,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<ul id="loadOnDemandListView"
 	    data-role="iglistview" 
 	    data-image-mode="icon"
@@ -198,7 +198,7 @@
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<div id="loadOnDemandListView"></div>
 		```
 	
@@ -206,7 +206,7 @@
 	
 		**JavaScript の場合:**
 		
-		```
+		```js
 		$.ig.loader(function() {
 		    $("#loadOnDemandListView").igListView({
 		        dataSource: northwindProducts,
@@ -270,7 +270,7 @@
 	
 	    **C# の場合:**
 	
-	    ```
+	    ```csharp
 	    public class ProductViewModel
 	    {
 	        public string ProductName { get; set; }
@@ -284,7 +284,7 @@
 	
 	    **C# の場合:**
 	
-	    ```
+	    ```csharp
 	    public class CategoryViewModel
 	    {
 	        public string CategoryName { get; set; }
@@ -313,7 +313,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	@model IQueryable<CategoryViewModel>
 	<script type="text/javascript" src="infragistics.mobile.loader.js"></script>
 	@(Html.InfragisticsMobile().
@@ -356,7 +356,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	public class ListViewController : Controller
 	{
 	    public ActionResult igListViewLoadOnDemand()
@@ -429,7 +429,7 @@
 	
 	    **C# の場合:**
 	
-	    ```
+	    ```csharp
 	    public class ProductViewModel
 	    {
 	        public string ProductName { get; set; }
@@ -443,7 +443,7 @@
 	
 		**C# の場合:**
 	
-	    ```
+	    ```csharp
 	    public class CategoryViewModel
 	    {
 	        public string CategoryName { get; set; }
@@ -470,7 +470,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	@model IQueryable<CategoryViewModel>
 	<script type="text/javascript" src="infragistics.mobile.loader.js"></script>
 	@(Html.InfragisticsMobile().
@@ -515,7 +515,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	public class ListViewController : Controller
 	{
 	    public ActionResult igListViewLoadOnDemand()

@@ -18,12 +18,12 @@
 
 **Visual Basic の場合:**
 
-```
+```vb
 workbook.Save("C:Orders.xls")
 ```
 
 **C# の場合:**
 
-```
+```csharp
 workbook.Save( "C:Orders.xls" );
 ```

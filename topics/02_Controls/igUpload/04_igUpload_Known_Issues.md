@@ -26,7 +26,7 @@
 
 **Global.asax の場合:**
 
-```
+```csharp
 using Infragistics.Web.Mvc.Models;
 
 protected void Application_Start()

@@ -16,7 +16,7 @@ Excel アセンブリの機能を活用する前に、[Workbook](Infragistics.We
 
 **Visual Basic の場合:**
 
-```
+```vb
 ' Create a new workbook
 Dim workbook As New Infragistics.Documents.Excel.Workbook()
 
@@ -41,7 +41,7 @@ workbook.WindowOptions.SelectedWorksheet = worksheet2
 
 **C# の場合:**
 
-```
+```csharp
 // Create a new workbook
 Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
 

@@ -344,7 +344,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 Code
 $("#map").igMap({
     ...
@@ -383,7 +383,7 @@ $("#map").igMap({
 
 **ASPX の場合:**
 
-```
+```csharp
 Code
 <%= Html.Infragistics().Map()
         .ID("map")
@@ -427,7 +427,7 @@ Code
 
 **JavaScript の場合:**
 
-```
+```js
 var data = [
     { longitude: 0, latitude: 0, value: 1 },
     { longitude: 50, latitude: 0, value: 2 },
@@ -440,7 +440,7 @@ var data = [
 
 **JavaScript の場合:**
 
-```
+```js
 $("#map").igMap({
     ...
     series: [{

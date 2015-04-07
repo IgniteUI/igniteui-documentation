@@ -20,7 +20,7 @@
 
 **Visual Basic の場合:**
 
-```
+```vb
 ' Get a reference to the section's PageNumbering object.
 Dim pn As Infragistics.Documents.Reports.Report.Section.PageNumbering = _  section1.PageNumbering
 
@@ -58,7 +58,7 @@ pn.OffsetY = -18
 
 **C# の場合:**
 
-```
+```csharp
 // Get a reference to the section's PageNumbering object.
 Infragistics.Documents.Reports.Report.Section.PageNumbering pn = _  section1.PageNumbering;
 

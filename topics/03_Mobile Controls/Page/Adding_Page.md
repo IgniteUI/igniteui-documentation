@@ -38,7 +38,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <div data-role="page" 
      data-title="Page" 
      id="Page1" 
@@ -65,7 +65,7 @@
 
 	**Razor の場合:**
 
-	```
+	```csharp
 	@using Infragistics.Web.Mvc.Mobile
 	<script type="text/javascript" src="http://code.jquery.com/mobile/jquery.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/mobile/1.1.1/jquery.mobile.min.js"></script>
@@ -83,7 +83,7 @@
 
 	**Razor の場合:**
 
-	```
+	```csharp
 	@(Html.InfragisticsMobile()
 		.Page()
 		.ID("pg1")
@@ -95,7 +95,7 @@
 
 	**Razor の場合:**
 
-	```
+	```csharp
 	@(Html.InfragisticsMobile()
 		.Page()
 		.ID("pg1")

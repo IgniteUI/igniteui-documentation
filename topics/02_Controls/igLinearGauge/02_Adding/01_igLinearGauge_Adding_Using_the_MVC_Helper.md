@@ -84,7 +84,7 @@
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%@ Import Namespace="Infragistics.Web.Mvc" %>
     ```
 
@@ -92,7 +92,7 @@
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <link href="<%=Url.Content("~/Scripts/css/themes/infragistics/infragistics.theme.css")%>" rel="stylesheet"></link>
     <link href="<%=Url.Content("~/Scripts/css/structure/infragistics.css")%>" rel="stylesheet"></link>
     <script src="<%=Url.Content("~/Scripts/jquery.min.js")%>" type="text/javascript"></script>
@@ -143,7 +143,7 @@
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<body>
     <%=(Html.Infragistics().LinearGauge()
     .Render())%>
@@ -155,7 +155,7 @@
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<body>
         <%= Html.Infragistics().LinearGauge()
                         .Width("300px")
@@ -169,7 +169,7 @@
 
 	**ASPX の場合:**
 
-    ```
+    ```csharp
     <%= Html.Infragistics().LinearGauge()
         .Width("300px")
         .Height("70px")
@@ -188,7 +188,7 @@
 
 	**ASPX の場合:**
 
-    ```
+    ```csharp
     <%= Html.Infragistics().LinearGauge()
 		…
         .Value(35)
@@ -206,7 +206,7 @@
 
 	**ASPX の場合:**
 
-    ```
+    ```csharp
     <%= Html.Infragistics().LinearGauge()
 		…
     .Ranges(range =>
@@ -230,7 +230,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 <%@ Import Namespace="Infragistics.Web.Mvc" %>
 <!DOCTYPE html>
 <html>

@@ -47,7 +47,7 @@
 バックエンドで要求を処理する場合、操作の論理的順序を維持することが重要です。たとえば、フィルタリング データの変換を最初に適用して、次に必要に応じて並べ替えをし、要求されたページ サイズに結果を切り取ります。
 
 **C# の場合:**
-```csharp
+```csharpcsharp
 private IQueryable GetProcessedData(TreeGridModel gridModel)
 {
 	IQueryable queryableData = (IQueryable)gridModel.DataSource;

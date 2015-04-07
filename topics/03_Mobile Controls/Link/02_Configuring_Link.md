@@ -104,7 +104,7 @@ Link をボタンとして描画|[RenderMode](Infragistics.Web.Mvc.Mobile~Infrag
 
 **Razor の場合:**
 
-```
+```csharp
 @(Html.InfragisticsMobile()
     .Link()
     .ID("lnk2")

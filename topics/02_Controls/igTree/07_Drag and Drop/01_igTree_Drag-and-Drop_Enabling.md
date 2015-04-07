@@ -134,14 +134,14 @@ igTree でドラッグを有効にする|[dragAndDrop](igTree-Drag-and-Drop-Prop
 以下のコード例は、コードに実装した[](#within-tree-settings)のサンプルです。
 
 **JavaScript の場合:**                                                                                                                                                
-```
+```js
 $("#tree").igTree({                                                           
  dragAndDrop: true,                                                 
 });                                                      
 ```
 
 **Razor の場合:**                                                                                                                                            
-```
+```csharp
 @(Html.
    	Infragistics().
 	Tree().
@@ -186,7 +186,7 @@ igTree でドロップを有効にする|[allowDrop](igTree-Drag-and-Drop-Proper
 
  **JavaScript の場合:** 
 
-``` 
+```js 
 $("#firstTree").igTree({                                                      
 	dragAndDrop: true,
 	dragAndDropSettings: {                                                       
@@ -206,7 +206,7 @@ $("#secondTree").igTree({
 
 **Razor の場合:**
 
-```
+```csharp
 @(Html.Infragistics()
 	.Tree()
 	.ID("firstTree")

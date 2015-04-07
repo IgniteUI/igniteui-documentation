@@ -26,7 +26,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
     .customTheme .ui-igedit-hover
     {
@@ -54,7 +54,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $('#numericEditor').igNumericEditor({
     width: 160,
        dataMode: 'int',
@@ -80,7 +80,7 @@ $('#numericEditor').igNumericEditor ('option', 'theme', 'customTheme');
 
 **HTML の場合:**
 
-```
+```html
 <body>
      <input type="text"  id="numericEditor"  />
      <div id="themeRoller"></div>
@@ -89,7 +89,7 @@ $('#numericEditor').igNumericEditor ('option', 'theme', 'customTheme');
 
 **C# の場合:**
 
-```
+```csharp
 $('#numericEditor').igNumericEditor({
      width: 160,
      dataMode: 'int',

@@ -41,7 +41,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <head>
         <title>igDataSource Bound to WCF Service</title>
         <script src="scripts/jquery.min.js" type="text/javascript"></script>
@@ -54,7 +54,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <style type="text/css">
      #quoteContainer
      {
@@ -167,7 +167,7 @@
 
     **C# の場合:**
 
-    ```
+    ```csharp
     using System.ServiceModel;
     using System.ServiceModel.Web;
     using System.Xml;
@@ -181,7 +181,7 @@
 
     **C# の場合:**
 
-    ```
+    ```csharp
     using System.Xml;
 
     public XmlElement GetStockQuoteGET(string symbol)
@@ -235,7 +235,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <system.serviceModel>
             <behaviors>
                 <serviceBehaviors>

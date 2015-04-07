@@ -16,7 +16,7 @@ JavaScript Excel ライブラリの機能を活用するには、最初に [Work
 
 **JavaScript の場合:**
 
-```
+```js
 // Create a new workbook
 // Create a new workbook
 var workbook = new $.ig.excel.Workbook();

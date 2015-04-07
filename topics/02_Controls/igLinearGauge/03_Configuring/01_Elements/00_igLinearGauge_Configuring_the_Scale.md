@@ -410,7 +410,7 @@ scaleEndExtent|0.9
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igLinearGauge').igLinearGauge({
     width: 300,
     height: 70,
@@ -519,7 +519,7 @@ maximumValue|70
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igLinearGauge').igLinearGauge({
     width: 300,
     height: 70,
@@ -741,7 +741,7 @@ $('#igLinearGauge').igLinearGauge({
 
 **JavaScript の場合:**
 
-```
+```js
 ('#igLinearGauge').igLinearGauge({
     width: 300,
     height: 70,
@@ -920,7 +920,7 @@ result of the following settings:
 
 **JavaScript の場合:**
 
-```
+```js
 ('#igLinearGauge').igLinearGauge({
     width: 300,
     height: 70,
@@ -1118,7 +1118,7 @@ result of the following settings:
 
 **JavaScript の場合:**
 
-```
+```js
 ('#igLinearGauge').igLinearGauge({
     width: 300,
     height: 70,
@@ -1151,7 +1151,7 @@ result of the following settings:
 
 **JavaScript の場合:**
 
-```
+```js
 ('#igLinearGauge').igLinearGauge({
     height: 300,
     width: 70,

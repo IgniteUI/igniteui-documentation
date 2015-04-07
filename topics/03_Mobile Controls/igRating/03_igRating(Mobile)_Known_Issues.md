@@ -64,7 +64,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#selector").igRating("option", "value", 0);
 ```
 

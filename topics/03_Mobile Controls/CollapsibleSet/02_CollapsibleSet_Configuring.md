@@ -80,7 +80,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .CollapsibleSet()
@@ -161,7 +161,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .CollapsibleSet()

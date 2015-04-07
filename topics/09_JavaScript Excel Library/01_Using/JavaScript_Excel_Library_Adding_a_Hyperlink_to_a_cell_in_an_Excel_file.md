@@ -14,7 +14,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 // Create a Workbook
 var w = new $.ig.excel.Workbook();
 

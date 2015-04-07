@@ -92,7 +92,7 @@
 
  **JavaScript の場合:**
  
-```
+```js
 $("#gauge").igRadialGauge({        
 	width: "400px",
 	height: "400px",

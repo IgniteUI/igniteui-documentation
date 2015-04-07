@@ -30,7 +30,7 @@
 以下のサンプルコードでは、すべての JavaScript および CSS ファイルが *ig_mobileui* という名前の仮想ディレクトリの下に置かれています。この手順を完了するには、マシン上の正しい JavaScript および CSS の保管場所に従ってこのフォルダーの名前を変更する必要があります。
 
 **Razor の場合:**
-```
+```csharp
 @using Infragistics.Web.Mvc.Mobile
 
 <script src="http://code.jquery.com/jquery.min.js"></script>
@@ -64,7 +64,7 @@
 	
 	**Razor の場合:**
 	
-	```
+	```csharp
 	@(
 	    Html.InfragisticsMobile()
 	    .Collapsible()

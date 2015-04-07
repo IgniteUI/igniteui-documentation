@@ -91,7 +91,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<script src="jquery.min.js" type="text/javascript"></script>
 	<script src="jquery-ui.min.js" type="text/javascript"></script> 
 	<script src="infragistics.loader.js"></script>
@@ -112,7 +112,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	var namedData = new Array();
 	namedData[0] = { "ProductID": 1, "UnitsInStock": 100, "ProductDescription": "Laptop", "UnitPrice": "$1000", "DateCol": "24/7/2012" };
 	namedData[1] = { "ProductID": 2, "UnitsInStock": 15, "ProductDescription": "Hamburger" };
@@ -127,7 +127,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<style type="text/css">
 	        .tableBackGround
 	        {
@@ -154,7 +154,7 @@
 
 	**HTML の場合:**
 	
-	```
+	```html
 	<table id="grid1"></table>
 	```
 
@@ -172,7 +172,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$.ig.loader(function () {
 	$("#grid1").igGrid({
 	    height: "300px",
@@ -230,7 +230,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#grid1").live("iggridupdatingrowEditDialogOpening ", function (event, ui) {
 	           var gridUpdating = ui.owner;
 	           var gridID = ui.owner.element.context.id;
@@ -279,7 +279,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<script src="jquery.min.js" type="text/javascript"></script>
 	<script src="jquery-ui.min.js" type="text/javascript"></script> 
 	<script src="infragistics.loader.js"></script>
@@ -287,7 +287,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%= Html.Infragistics().Loader()
 	        .ScriptPath("http://localhost/ig_ui/js/")
 	        .CssPath("http://localhost/ig_ui/css/")
@@ -308,7 +308,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<style type="text/css">
 	        .tableBackGround
 	        {
@@ -348,7 +348,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	 <%= Html.Infragistics().Grid(Model).ID("grid1")
 	        .PrimaryKey("ProductID")
 	        .AutoGenerateColumns(false)
@@ -397,7 +397,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	  public ActionResult Editing()
 	        {
 	            var ctx = new AdventureWorksDataContext(this.DataRepository.GetDataContext().Connection);
@@ -414,7 +414,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#grid1").live("iggridupdatingrowEditDialogOpening ", function (event, ui) {
 	           var gridUpdating = ui.owner;
 	           var gridID = ui.owner.element.context.id;

@@ -122,7 +122,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <html>
 <head>
       <link rel="stylesheet" href="../../themes/smoothness/jquery-ui.css"/>      
@@ -229,7 +229,7 @@ ECI 番号|ISO 文字セット
 
 **HTML の場合:**
 
-```
+```html
 <html>
 <head>
       <link rel="stylesheet" href="../../themes/smoothness/jquery-ui.css"/>

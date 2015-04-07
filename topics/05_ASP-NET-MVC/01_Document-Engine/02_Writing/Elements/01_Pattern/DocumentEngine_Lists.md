@@ -24,7 +24,7 @@ List 要素の興味深い特徴は、パターンをリストに適用する機
 
     **C# の場合:**
 
-    ```
+    ```csharp
     using Infragistics.Documents.Reports.Report;
     .
     .
@@ -52,7 +52,7 @@ List 要素の興味深い特徴は、パターンをリストに適用する機
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Create a list and apply the first pattern to it.
     Infragistics.Documents.Reports.Report.List.IList sectionList1 = section1.AddList();
     sectionList1.ApplyPattern(listPattern1);
@@ -72,7 +72,7 @@ List 要素の興味深い特徴は、パターンをリストに適用する機
 
     **C# の場合:**
 
-    ```
+    ```csharp
     Infragistics.Documents.Reports.Report.List.IList sectionList2 = section1.AddList();
     listPattern2.Apply(sectionList2);
 
@@ -91,7 +91,7 @@ List 要素の興味深い特徴は、パターンをリストに適用する機
 
     **C# の場合:**
 
-    ```
+    ```csharp
     Infragistics.Documents.Reports.Report.List.IList sectionList3 = section1.AddList();
     listPattern1.Apply(sectionList3);
     // Override the Pattern's style for the Bullet property.

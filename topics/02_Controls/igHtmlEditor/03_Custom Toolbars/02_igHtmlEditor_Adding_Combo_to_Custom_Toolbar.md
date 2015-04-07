@@ -130,7 +130,7 @@
 
 		**HTML の場合:**
 
-		```
+		```html
 		<script type="text/javascript" src="jquery.min.js"></script>
 	    <script type="text/javascript" src="jquery-ui.min.js"></script>
 	    <script type="text/javascript" src="infragistics.loader.js"></script>
@@ -142,7 +142,7 @@
 	
 		**JavaScript の場合:**
 	
-		```
+		```js
 		<script type="text/javascript">
 	        $.ig.loader({
 	            scriptPath: "js",
@@ -158,7 +158,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	<script type="text/javascript">
         $.ig.loader(function () {
             $("#htmlEditor").igHtmlEditor({
@@ -175,7 +175,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	<script type="text/javascript">
         $.ig.loader(function () {
             $("#htmlEditor").igHtmlEditor({
@@ -230,7 +230,7 @@
 	
 		**JavaScript の場合:**
 	
-		```
+		```js
 	    items: [{
 	        name: "toggleViewSource",
 	        type: "combo",
@@ -266,7 +266,7 @@
 	
 	**JavaScript の場合:**
 
-	```
+	```js
 	<script type="text/javascript">
         function switchView(el, obj) {
             //find the toggle viewsource button and simulate click

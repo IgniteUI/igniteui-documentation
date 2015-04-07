@@ -24,7 +24,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <div data-role="page-footer" 
      id="pgftr1" >
 </div>
@@ -46,7 +46,7 @@
 `Infragistics.Web.Mvc.Mobile.dll` への参照と、Infragistics モバイル Loader への参照が必要です。次の例では、`js` および `css` ファイルのすべてが `ig_mobileui` という仮想ディレクトリーに置かれています。この手順を完了させるためには、このフォルダーの名前を、`js` および `css` ファイルの実際の格納場所に合わせて変更する必要があります。
 
 **Razor の場合:**
-```
+```csharp
 @using Infragistics.Web.Mvc.Mobile
 <script src="http://code.jquery.com/jquery.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile.min.js"></script>
@@ -63,7 +63,7 @@
 `PageFooter` の開始をマークするには、以下のコードを追加します。
 
 **Razor の場合:**
-```
+```csharp
 @(Html.InfragisticsMobile()
     .PageFooter()
     .ID("pgftr1")
@@ -75,7 +75,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @(Html.InfragisticsMobile()
     .PageFooter()
     .ID("pgftr1")

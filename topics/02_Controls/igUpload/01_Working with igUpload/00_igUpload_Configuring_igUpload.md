@@ -408,7 +408,7 @@ multipleFiles|true
 
 **JavaScript の場合:**
 
-```
+```js
 $('#upload1').igUpload({ 
     mode: 'multiple', 
     multipleFiles: true
@@ -417,7 +417,7 @@ $('#upload1').igUpload({
 
 **ASPX の場合:**
 
-```
+```csharp
 @(Html.Infragistics().Upload()
     .MultipleFiles(true)
     .Mode(UploadMode.Multiple)
@@ -458,7 +458,7 @@ $('#upload1').igUpload({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#upload1').igUpload({ 
     autostartupload: true
 });
@@ -466,7 +466,7 @@ $('#upload1').igUpload({
 
 **ASPX の場合:**
 
-```
+```csharp
 @(Html.Infragistics().Upload()
     .AutoStartUpload(true)
     .Render()
@@ -508,7 +508,7 @@ $('#upload1').igUpload({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#upload1").igUpload({
     allowedExtensions : ["xls","doc"]
 });
@@ -516,7 +516,7 @@ $("#upload1").igUpload({
 
 **ASPX の場合:**
 
-```
+```csharp
 @(Html.Infragistics().Upload()
     .AllowedExtensions(new List<string> { "xls", "doc"})
     .Render()
@@ -562,7 +562,7 @@ $("#upload1").igUpload({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#upload1').igUpload({ 
     maxUploadedFiles: 2
 });
@@ -570,7 +570,7 @@ $('#upload1').igUpload({
 
 **ASPX の場合:**
 
-```
+```csharp
 @(Html.Infragistics().Upload()
     .MaxUploadedFiles(2)
     .Render()
@@ -612,7 +612,7 @@ $('#upload1').igUpload({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#upload1').igUpload({ 
     maxSimultaneousFilesUploads: 2
 });
@@ -620,7 +620,7 @@ $('#upload1').igUpload({
 
 **ASPX の場合:**
 
-```
+```csharp
 @(Html.Infragistics().Upload()
     .MaxSimultaneousFilesUploads(2)
     .Render()
@@ -676,7 +676,7 @@ mode|"multiple"
 
 **JavaScript の場合:**
 
-```
+```js
 $('#upload1').igUpload({ 
     mode: 'multiple'
 });
@@ -684,7 +684,7 @@ $('#upload1').igUpload({
 
 **ASPX の場合:**
 
-```
+```csharp
 @(Html.Infragistics().Upload()
     .Mode(UploadMode.Multiple)
     .Render()

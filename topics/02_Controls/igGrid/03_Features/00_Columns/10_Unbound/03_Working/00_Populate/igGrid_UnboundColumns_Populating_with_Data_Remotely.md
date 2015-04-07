@@ -230,7 +230,7 @@ Model で `SetUnboundValues(` `string columnKey, Dictionary unboundValues)` の�
 
 **C# の場合:**
 
-```
+```csharp
 namespace UnboundColumns.Models
 {
     public class Product
@@ -249,7 +249,7 @@ namespace UnboundColumns.Models
 
 **C# の場合:**
 
-```
+```csharp
 @using Infragistics.Web.Mvc
 @model IQueryable<UnboundColumns.Models.Product>
 @(Html.Infragistics()
@@ -276,7 +276,7 @@ View は非常にシンプルです。厳密に型指定されたモデル `IQue
 
 **C# の場合:**
 
-```
+```csharp
 public class HomeController : Controller
 {
     public ActionResult Index()
@@ -328,7 +328,7 @@ public class HomeController : Controller
 
 **C# の場合:**
 
-```
+```csharp
 namespace UnboundColumns.Models
 {
     public class Product
@@ -347,7 +347,7 @@ namespace UnboundColumns.Models
 
 **C# の場合:**
 
-```
+```csharp
 public class HomeController : Controller
 {
     public ActionResult Index()
@@ -379,7 +379,7 @@ public class HomeController : Controller
 
 **C# の場合:**
 
-```
+```csharp
 @using Infragistics.Web.Mvc
 @model IQueryable<UnboundColumns.Models.Product>
 @(Html.Infragistics()
@@ -419,7 +419,7 @@ public class HomeController : Controller
 
 **C# の場合:**
 
-```
+```csharp
 namespace UnboundColumns.Models
 {
     public class Product
@@ -438,7 +438,7 @@ namespace UnboundColumns.Models
 
 **C# の場合:**
 
-```
+```csharp
 @using Infragistics.Web.Mvc
 @model GridModel
 @Html.Infragistics().Grid(Model)
@@ -450,7 +450,7 @@ namespace UnboundColumns.Models
 
 **C# の場合:**
 
-```
+```csharp
 public class HomeController : Controller
 {
     public ActionResult Index()
@@ -523,7 +523,7 @@ public class HomeController : Controller
 
 **C# の場合:**
 
-```
+```csharp
 namespace UnboundColumns.Models
 {
     public class Product
@@ -542,7 +542,7 @@ namespace UnboundColumns.Models
 
 **C# の場合:**
 
-```
+```csharp
 @using Infragistics.Web.Mvc
 @model GridModel
 @Html.Infragistics().Grid(Model)
@@ -554,7 +554,7 @@ namespace UnboundColumns.Models
 
 **C# の場合:**
 
-```
+```csharp
 public class HomeController : Controller
 {
     public ActionResult Index()

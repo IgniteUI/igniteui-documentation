@@ -101,7 +101,7 @@ Ignite UI は、`igFunnelChart` コントロールを使用して以下のテー
 
 **HTML の場合:**
 
-```
+```html
 Required CSS resources code: HTML
 <link href="Content/ig/themes/Infragistics/infragistics.theme.css" rel="Stylesheet" />
 <link href="Content/ig/structure/modules/infragistics.ui.chart.css" rel="Stylesheet" />
@@ -111,7 +111,7 @@ Required CSS resources code: HTML
 
 **ASPX の場合:**
 
-```
+```csharp
 Required CSS resources code: MVC
 <link href='@Url.Content("~/Content/ig/themes/Infragistics/infragistics.theme.css")'
       rel="stylesheet" type="text/css" />
@@ -191,7 +191,7 @@ Required CSS resources code: MVC
 
 **JavaScript の場合:**
 
-```
+```js
 $("#funnelChart").igFunnelChart({
     . . .
     formatInnerLabel: function (value, sliceNo, chart) {
@@ -227,7 +227,7 @@ $("#funnelChart").igFunnelChart({
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
     /* Redefine the styles from infragistics.theme.css that define fill and border colors for slices */
     .ui-chart-palette-1 { border-color: #00AADE; background-color: #00AADE }
@@ -256,7 +256,7 @@ $("#funnelChart").igFunnelChart({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#funnelChart").igFunnelChart({
     . . .
     brushes: ["#7DC3D9", "#3e5354", "#9EB5B4", "#5DD1C6", "#AFD1CE", "#2B768E"],

@@ -143,7 +143,7 @@ expandButtonIcon|"ui-igbutton-expand"
 
 **JavaScript の場合:**
 
-```
+```js
 <script type="text/javascript">
 $("#htmlEditor").igHtmlEditor({
     customToolbars: [
@@ -203,7 +203,7 @@ expandButtonIcon|"ui-igbutton-expand"
 
 **JavaScript の場合:**
 
-```
+```js
 <script type="text/javascript">
 $("#htmlEditor").igHtmlEditor({
     showMyCustomToolbar: false,
@@ -255,7 +255,7 @@ expandButtonIcon|"ui-igbutton-expand"
 
 **JavaScript の場合:**
 
-```
+```js
 <script type="text/javascript">
 $("#htmlEditor").igHtmlEditor({
     customToolbars: [

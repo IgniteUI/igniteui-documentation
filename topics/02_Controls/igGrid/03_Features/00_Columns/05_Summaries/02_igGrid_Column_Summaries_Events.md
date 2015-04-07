@@ -32,7 +32,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
    features: [
     {
@@ -54,7 +54,7 @@ $("#grid1").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
     features: [
         {
@@ -72,7 +72,7 @@ MVC でハンドラーを添付する場合、jQuery UI パターンを使用す
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").live("iggridsummariessummariescalculating", function (e, args) {
 	// Handle event  
 });

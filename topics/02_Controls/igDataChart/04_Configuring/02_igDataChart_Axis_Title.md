@@ -163,7 +163,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#container").igDataChart({
 	…
 	axes: [

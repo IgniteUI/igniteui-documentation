@@ -68,7 +68,7 @@
 	
 		**JavaScript の場合:**
 		
-		```
+		```js
 		<script type="text/javascript">
 		var employees = [
 		{ firstName: "Joseph", lastName: "Sommers", age: 17 },
@@ -79,7 +79,7 @@
 		
 		**HTML の場合:**
 		
-		```
+		```html
 		<body>
 		<table id="resultTable" style="border: 1px solid #000;"></table>
 		</body>
@@ -89,7 +89,7 @@
 	
 		**JavaScript の場合:**
 		
-		```
+		```js
 		<script type="text/javascript">
 		$(document).ready(function () {
 		      var result = $.ig.tmpl(template, employees);

@@ -56,7 +56,7 @@ Infragistics Document Engine™ がレポートを生成する時にすべての
 
 **Visual Basic の場合:**
 
-```
+```vb
 Imports Infragistics.Documents.Reports.Report
 Imports Infragistics.Documents.Reports.Graphics
 .
@@ -108,7 +108,7 @@ brushText.AddContent(string1)
 
 **C# の場合:**
 
-```
+```csharp
 using Infragistics.Documents.Reports.Report;
 using Infragistics.Documents.Reports.Graphics;
 .

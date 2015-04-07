@@ -158,7 +158,7 @@
 
 **HTML の場合:**
 
-```
+```html
 $("#chart").igDataChart({
    ...
    ...

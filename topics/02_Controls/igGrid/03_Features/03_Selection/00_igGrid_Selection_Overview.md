@@ -97,7 +97,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 features: [
   { 
      name: “Selection”, 
@@ -113,7 +113,7 @@ features: [
 
 **HTML の場合:**
 
-```
+```html
 <link type="text/css" href="infragistics.theme.css" rel="stylesheet" />
 <link type="text/css" href="infragistics.css" rel="stylesheet" />
 <script type="text/javascript" src="jquery.min.js"></script>
@@ -126,7 +126,7 @@ features: [
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript" src="infragistics.util.js"></script>
 <script type="text/javascript" src="infragistics.dataSource.js"></script>
 <script type="text/javascript" src="infragistics.ui.shared.js"></script>
@@ -140,7 +140,7 @@ features: [
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
    dataSource: products,
    responseDataKey: 'Records',
@@ -156,7 +156,7 @@ $("#grid1").igGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%=
    Html.
    Infragistics().
@@ -178,7 +178,7 @@ $("#grid1").igGrid({
 
 **Razor の場合:**
 
-```
+```csharp
 @{
    Html.
    Infragistics().
@@ -207,7 +207,7 @@ $("#grid1").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#grid1').igGridSelection('selectRow', indexOfRowToSelect);
 ```
 
@@ -215,7 +215,7 @@ $('#grid1').igGridSelection('selectRow', indexOfRowToSelect);
 
 **JavaScript の場合:**
 
-```
+```js
 $('#grid1').igGridSelection('deselectRow', indexOfRowToDeselect);
 ```
 
@@ -225,7 +225,7 @@ $('#grid1').igGridSelection('deselectRow', indexOfRowToDeselect);
 
 **JavaScript の場合:**
 
-```
+```js
 var rows = $('#grid1').igGridSelection('selectedRows');
 ```
 
@@ -233,7 +233,7 @@ var rows = $('#grid1').igGridSelection('selectedRows');
 
 **JavaScript の場合:**
 
-```
+```js
 $('#grid1').igGridSelection('selectCell', rowIndex, columnIndex);
 ```
 
@@ -241,7 +241,7 @@ $('#grid1').igGridSelection('selectCell', rowIndex, columnIndex);
 
 **JavaScript の場合:**
 
-```
+```js
 $('#grid1').igGridSelection('deselectCell', rowIndex, columnIndex);
 ```
 
@@ -250,7 +250,7 @@ $('#grid1').igGridSelection('deselectCell', rowIndex, columnIndex);
 
 **JavaScript の場合:**
 
-```
+```js
 var cells = $('#grid1').igGridSelection('selectedCells');
 ```
 
@@ -258,7 +258,7 @@ var cells = $('#grid1').igGridSelection('selectedCells');
 
 **JavaScript の場合:**
 
-```
+```js
 $('#grid1').igGridSelection('clearSelection');
 ```
 
@@ -304,7 +304,7 @@ $('#grid1').igGridSelection('clearSelection');
 
     **JavaScript の場合:**
 
-    ```
+    ```js
     $("#grid1").bind("iggridselectionrowselectionchanged", handler);
     ```
 
@@ -316,7 +316,7 @@ $('#grid1').igGridSelection('clearSelection');
 
     **JavaScript の場合:**
 
-    ```
+    ```js
     {
        name: 'Selection',
        mode: 'cell',
@@ -330,7 +330,7 @@ $('#grid1').igGridSelection('clearSelection');
 
 **JavaScript の場合:**
 
-```
+```js
 function handler(event, args) {
 
 }
@@ -340,7 +340,7 @@ function handler(event, args) {
 
 **グリッド行オブジェクト:**
 
-```
+```js
 {
 	element:<element of the grid row TR> ,	
 	id:<primaryKey value or null if undefined>,	
@@ -351,7 +351,7 @@ function handler(event, args) {
 
 **グリッド セル オブジェクト:**
 
-```
+```js
 {
 	element: <cell TD>,
 	row: <parent of the cell, that is the row TR>,

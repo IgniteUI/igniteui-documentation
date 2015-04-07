@@ -73,7 +73,7 @@
 
         **ASPX の場合:**
 
-        ```
+        ```csharp
         <%@ Import Namespace="Infragistics.Web.Mvc" %>
         ```
 
@@ -81,7 +81,7 @@
 
         **ASPX の場合:**
 
-        ```
+        ```csharp
         <%@ Import Namespace="Infragistics.Web.Mvc" %>
         <!DOCTYPE html>
         <html>
@@ -141,7 +141,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<body>
 	@(Html.Infragistics().RadialMenu()
 		.Render()
@@ -155,7 +155,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<body>
 	@(
 		Html.Infragistics().RadialMenu()
@@ -172,7 +172,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<body>
 	@(Html.Infragistics().RadialMenu()
 	…
@@ -195,7 +195,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<body>
 	@(Html.Infragistics().RadialMenu()
 		…
@@ -223,7 +223,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<body>
 	@(Html.Infragistics().RadialMenu()
 	…
@@ -246,7 +246,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 <%@ Import Namespace="Infragistics.Web.Mvc" %>
 <!DOCTYPE html>
 <html>

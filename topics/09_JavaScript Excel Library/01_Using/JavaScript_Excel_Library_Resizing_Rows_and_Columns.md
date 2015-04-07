@@ -29,7 +29,7 @@
     5.  
         **JavaScript の場合:**
 
-        ```
+        ```js
 		var workbook = new $.ig.excel.Workbook();
 		var worksheet = workbook.worksheets().add( "Sheet1" );
 		```
@@ -39,7 +39,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
 		worksheet.rows(0).cells(0).value("Rotated Text");
 		worksheet.rows(0).cells(0).cellFormat().rotation(70);
         ```
@@ -48,7 +48,7 @@
 	
 	    **JavaScript の場合:**
 	
-		```
+		```js
 	   	worksheet.rows(1).cells(1).value("This text will be wrapped in the cell so all text is visible");
 		worksheet.rows(1).cells(1).cellFormat().wrapText(true);
 		```
@@ -59,7 +59,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
 		worksheet.rows(2).cells(2).value("This text will not be wrapped");
         ```
 	![](images/ExcelEngine_Resizing_Rows_and_Columns_03.png)
@@ -68,7 +68,7 @@
 	
 	    **JavaScript の場合:**
 	
-		```
+		```js
 		worksheet.columns(2).width(6100);
 		```
 		![](images/ExcelEngine_Resizing_Rows_and_Columns_04.png)
@@ -78,7 +78,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
         var shape = new $.ig.excel.RectangleShape();
 
 		shape.topLeftCornerCell(worksheet.rows(3).cells(3));
@@ -93,7 +93,7 @@
 	
 	    **JavaScript の場合:**
 	
-		```
+		```js
 		worksheet.rows(3).height(600);
 		worksheet.columns[3].width(10000);
 		```
@@ -106,7 +106,7 @@
 
     **JavaScript の場合:**
 
-    ```
+    ```js
 	workbook.save(function(data) { 
 	  },
 	  function(error) {

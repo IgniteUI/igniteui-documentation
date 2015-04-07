@@ -238,7 +238,7 @@ igPopover の構造
 
 **HTML の場合:**
 
-```
+```html
 <script  type="text/javascript" src="Scripts/jquery.js"></script>
 <script  type="text/javascript" src="Scripts/jquery-ui.js"></script>
 ```
@@ -247,7 +247,7 @@ igPopover の構造
 
 **HTML の場合:**
 
-```
+```html
 <script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
 ```
 
@@ -255,7 +255,7 @@ igPopover の構造
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $.ig.loader({
         scriptPath: "Scripts/ig/",
@@ -285,7 +285,7 @@ igPopover の構造
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<input id=”firstName” type=”text” title=”Please enter your first name” value=””>
 	```
 
@@ -299,7 +299,7 @@ igPopover の構造
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$.ig.loader(function () {
 	    //  Create a basic igPopover control
 	    $("#firstName").igPopover();
@@ -336,7 +336,7 @@ igPopover の構造
 
 **HTML の場合:**
 
-```
+```html
 <script  type="text/javascript" src="Scripts/jquery.js"></script>
 <script  type="text/javascript" src="Scripts/jquery-ui.js"></script>
 ```
@@ -345,7 +345,7 @@ igPopover の構造
 
 **HTML の場合:**
 
-```
+```html
 <script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
 ```
 
@@ -353,7 +353,7 @@ igPopover の構造
 
 **HTML の場合:**
 
-```
+```html
 @(Html.Infragistics()
      .Loader()          .ScriptPath("http://localhost/ig_ui/js/")
      .CssPath("http://localhost/ig_ui/css/")
@@ -381,7 +381,7 @@ igPopover の構造
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<input id=”firstName” type=”text” title=”Please enter your first name” value=””>
 	```
 
@@ -393,7 +393,7 @@ igPopover の構造
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	@(Html.Infragistics().Popover()
 	        .ID(“firstName”)        
 	        .Render()

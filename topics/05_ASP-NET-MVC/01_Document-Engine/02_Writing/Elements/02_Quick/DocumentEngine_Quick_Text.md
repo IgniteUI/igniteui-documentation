@@ -22,7 +22,7 @@ Quick Text 要素は、要素のカスタマイズが全く必要ない点で、
 
 **C# の場合:**
 
-```
+```csharp
 section1.AddQuickText("This is the default Quick Text style.");
                         
 Infragistics.Documents.Reports.Report.QuickText.IQuickText quickText =   section1.AddQuickText("This is a modified Quick Text style.");

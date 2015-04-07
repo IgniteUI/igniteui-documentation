@@ -16,7 +16,7 @@ Excel Workbook に 3 つのワークシートがある場合、[`Worksheet`](Inf
 以下の例のコードはこれを実装する方法を示します。
 
 **Visual Basic の場合:**
-```
+```vb
 Dim workbook As New Infragistics.Documents.Excel.Workbook () 
 Dim worksheet1 As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add ("Sheet1") 
 Dim worksheet2 As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add ("Sheet2") 
@@ -26,7 +26,7 @@ worksheet3.MoveToIndex (0)
 ```
 
 **C# の場合:**
-```
+```csharp
  Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook ();
  Infragistics.Documents.Excel.Worksheet worksheet1 = workbook.Worksheets.Add ("Sheet1");
  Infragistics.Documents.Excel.Worksheet worksheet2 = workbook.Worksheets.Add ("Sheet2");

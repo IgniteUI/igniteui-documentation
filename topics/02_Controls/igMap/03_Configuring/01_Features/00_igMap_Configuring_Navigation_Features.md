@@ -114,7 +114,7 @@ OPD パネルの背景画像|OPD パネルの背景に使用する画像の URL 
 
 **JavaScript の場合:**
 
-```
+```js
 var relative = $("#map").igMap("option", "actualWindowRect");
 var geographic = $("#map").igMap("getGeographicFromZoom", relative);
 //  Assign coordinates to geographic area input elements
@@ -139,7 +139,7 @@ $("#heightGeo").val(geographic.height);
 
 **JavaScript の場合:**
 
-```
+```js
 $(document).on("igmapactualwindowrectchanged", "#map", function (evt, ui) {
     //  Convert from relative to geographic coordinates
     var geographic = $("#map").igMap("getGeographicFromZoom",
@@ -173,7 +173,7 @@ $(document).on("igmapactualwindowrectchanged", "#map", function (evt, ui) {
 
 **JavaScript の場合:**
 
-```
+```js
 //  Calculates the central point and radius of the specified rectangle in
 //  geographic coordinates
 function centeredFromGeographic(geographic) {
@@ -209,7 +209,7 @@ $("#centerRadius").val(centered.radius);
 
 **JavaScript の場合:**
 
-```
+```js
 //  Calculates the geographic coordinates of a square around a central point and radius
 function geographicFromCentered(centered) {
     var geographic =
@@ -246,7 +246,7 @@ $("#map").igMap("option", "windowRect", relative);
 
 **JavaScript の場合:**
 
-```
+```js
 var zoomScale = 0.05;   //  Zoom scale to be used for zoom in/out operations
 zoomIn("#map", zoomScale);
 //  Calculates and sets a new zoomed in window rectangle for the specified map 
@@ -268,7 +268,7 @@ function zoomIn(mapSelector, zoomFactor) {
 
 **JavaScript の場合:**
 
-```
+```js
 var zoomScale = 0.05;   //  Zoom scale to be used for zoom in/out operations
 zoomOut("#map", zoomScale);
 //  Calculates and sets a new zoomed out window rectangle for the specified map 
@@ -300,7 +300,7 @@ function zoomOut(mapSelector, zoomFactor) {
 
 **JavaScript の場合:**
 
-```
+```js
 //  Calculates and sets a new window rectangle for the specified map control with
 //  the specified amount of panning to the North
 function panNorth(mapSelector, panFactor) {

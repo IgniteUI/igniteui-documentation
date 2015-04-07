@@ -90,7 +90,7 @@ igGrid のデータ ソースと機能は、OData サービスでも直接使用
         
     **C# の場合:**   
     
-     ```
+     ```csharp
     public class Product
     {
      public int ProductID { get; set; }
@@ -107,7 +107,7 @@ igGrid のデータ ソースと機能は、OData サービスでも直接使用
           
     **C# の場合:**   
     
-     ```
+     ```csharp
      public class NorthwindContext : DbContext
     {
       	public DbSet<Product> Products { get; set; }
@@ -164,7 +164,7 @@ public static void Register(HttpConfiguration config)
         
          **HTML の場合:**
          
-         ```
+         ```html
         <script src="@Url.Content("Scripts/jquery-2.1.1.js")"></script>
         <script src="@Url.Content("Scripts/jquery-ui-1.10.4.js")"></script>
         <script src="@Url.Content("Scripts/modernizr-2.7.2.js")"></script>         
@@ -176,7 +176,7 @@ public static void Register(HttpConfiguration config)
          
          **HTML の場合:**
          
-         ```
+         ```html
 <link href="@Url.Content("Content/Infragistics/themes/infragistics/infragistics.theme.css")" rel="stylesheet" />
     <link href="@Url.Content("Content/Infragistics/structure/modules/infragistics.css")" rel="stylesheet" />
    		 ```

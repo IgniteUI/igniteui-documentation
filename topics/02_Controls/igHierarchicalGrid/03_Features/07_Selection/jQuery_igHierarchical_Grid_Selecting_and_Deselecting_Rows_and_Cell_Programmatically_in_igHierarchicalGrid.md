@@ -124,7 +124,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 function selectCellByProductId(productId, rowIndex, colIndex) {
     // get the parent grid
     var parentGrid = $("#grid1").igHierarchicalGrid("rootWidget");
@@ -156,7 +156,7 @@ function selectCellByProductId(productId, rowIndex, colIndex) {
 
 **JavaScript の場合:**
 
-```
+```js
 function selectAllRowsOfExpandedChildren() {
     // get all expanded child grids recursively
     var childGrids = $("#grid1").igHierarchicalGrid("allChildren");
@@ -181,7 +181,7 @@ function selectAllRowsOfExpandedChildren() {
 
 **JavaScript の場合:**
 
-```
+```js
 function deselectCellByProductId(productId, rowIndex, colIndex) {
     var data_id;
     // get the parent grid
@@ -216,7 +216,7 @@ function deselectCellByProductId(productId, rowIndex, colIndex) {
 
 **JavaScript の場合:**
 
-```
+```js
 function clearSelectionOfSecondLevelChildrenRecursively() {
     var expanded;
     // get the parent grid

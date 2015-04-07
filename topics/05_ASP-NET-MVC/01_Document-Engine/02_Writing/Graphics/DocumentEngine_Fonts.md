@@ -31,7 +31,7 @@
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     Imports Infragistics.Documents.Reports.Report
     Imports Infragistics.Documents.Reports.Graphics
     .
@@ -44,7 +44,7 @@
 
     **C# の場合:**
 
-    ```
+    ```csharp
     using Infragistics.Documents.Reports.Report;
     using Infragistics.Documents.Reports.Graphics;
     .
@@ -59,7 +59,7 @@
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Add a new Text element to the section and store the 
     ' reference fontText. Then set the style using the font
     ' created earlier and use a black brush.
@@ -88,7 +88,7 @@
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Add a new Text element to the section and store the 
     // reference fontText. Then set the style using the font
     // created earlier and use a black brush.

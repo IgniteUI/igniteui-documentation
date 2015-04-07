@@ -33,7 +33,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $(".selector").igTree({
 	dataSource: data,
 	dataSourceType: "xml",

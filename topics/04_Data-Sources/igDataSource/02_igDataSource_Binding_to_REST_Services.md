@@ -30,7 +30,7 @@
 
 **XML の場合:**
 
-```
+```xml
 <StockQuotes>
   <Stock>
     <Symbol>MSFT</Symbol>
@@ -60,7 +60,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 var url = "/SamplesBrowser/Services/StockQuoteService.svc/GetStockQuoteGET?symbol=MSFT";
 
 var quoteSchema = new $.ig.DataSchema("xml", { fields: [
@@ -98,7 +98,7 @@ ds = new $.ig.DataSource({ callback: render, dataSource: url, schema: quoteSchem
 
 **JavaScript の場合:**
 
-```
+```js
 var render = function (success, error) {
    if (success) {
       $("#quoteContainer").empty();

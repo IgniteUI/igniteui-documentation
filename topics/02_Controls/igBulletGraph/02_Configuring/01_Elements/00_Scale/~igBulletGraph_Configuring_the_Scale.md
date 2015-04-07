@@ -424,7 +424,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igBulletGraph').igBulletGraph({
     width: 300,
     height: 70,
@@ -518,7 +518,7 @@ $('#igBulletGraph').igBulletGraph({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igBulletGraph').igBulletGraph({
     width: 300,
     height: 70,
@@ -705,7 +705,7 @@ $('#igBulletGraph').igBulletGraph({
 
 **JavaScript の場合:**
 
-```
+```js
 ('#igBulletGraph').igBulletGraph({
     width: 300,
     height: 70,
@@ -961,7 +961,7 @@ $('#igBulletGraph').igBulletGraph({
 
 **JavaScript の場合:**
 
-```
+```js
 ('#igBulletGraph').igBulletGraph({
     width: 300,
     height: 70,
@@ -1131,7 +1131,7 @@ $('#igBulletGraph').igBulletGraph({
 
 **JavaScript の場合:**
 
-```
+```js
 ('#igBulletGraph').igBulletGraph({
     width: 300,
     height: 70,
@@ -1162,7 +1162,7 @@ $('#igBulletGraph').igBulletGraph({
 
 **JavaScript の場合:**
 
-```
+```js
 ('#igBulletGraph').igBulletGraph({
     height: 300,
     width: 70,

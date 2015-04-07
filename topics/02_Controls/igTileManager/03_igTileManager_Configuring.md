@@ -836,7 +836,7 @@ ASP.NET MVC プロパティ
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
         #dashboard {
             position: relative;
@@ -890,7 +890,7 @@ ASP.NET MVC プロパティ
 
 **JavaScript の場合:**
 
-```
+```js
 $("#dashboard").igTileManager({
    cols: 5, 
    rows: 4,
@@ -922,7 +922,7 @@ $("#dashboard").igTileManager({
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
         #dashboard {
             position: relative;
@@ -976,7 +976,7 @@ $("#dashboard").igTileManager({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#dashboard").igTileManager({
    columnWidth: 250,
    columnHeight: 250,
@@ -1002,7 +1002,7 @@ $("#dashboard").igTileManager({
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
         #dashboard {
             position: relative;
@@ -1067,7 +1067,7 @@ $("#dashboard").igTileManager({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#dashboard").igTileManager({
        items: [
           { rowIndex: 0, colIndex: 0, rowSpan: 1, colSpan: 2 },
@@ -1093,7 +1093,7 @@ $("#dashboard").igTileManager({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#dashboard").igTileManager({
     dataSource: dataSource,
     minimizedState: '<h3>${name} - Minimized</h3>',
@@ -1105,7 +1105,7 @@ $("#dashboard").igTileManager({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#dashboard").igTileManager({
     dataSource: ,
     minimizedState: '.minimized',
@@ -1128,7 +1128,7 @@ $("#dashboard").igTileManager({
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
 
         #dashboard {
@@ -1234,7 +1234,7 @@ $("#dashboard").igTileManager({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#dashboard").igTileManager({
     rightPanelCols: 2,
     rightPanelTilesWidth: 100,
@@ -1258,7 +1258,7 @@ $("#dashboard").igTileManager({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#dashboard").igTileManager({
     animationDuration: 2000, 
     columnWidth: 250,

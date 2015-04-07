@@ -19,7 +19,7 @@ Infragistics Excel Engine™ を使用して、既存の VBA マクロ コード
 **Visual Basic の場合:**
 
 
-```
+```vb
 Dim workbook As New Infragistics.Documents.Excel.Workbook(WorkbookFormat.Excel2007MacroEnabled)
 ```
 
@@ -28,6 +28,6 @@ Dim workbook As New Infragistics.Documents.Excel.Workbook(WorkbookFormat.Excel20
 **C# の場合:**
 
 
-```
+```csharp
 Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook (WorkbookFormat.Excel2007MacroEnabled);
 ```

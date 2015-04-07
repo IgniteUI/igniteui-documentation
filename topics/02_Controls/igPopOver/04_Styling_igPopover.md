@@ -197,7 +197,7 @@ ui-igpopover-arrow-left など)</li>
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
 .ui-igpopover > .ui-widget-content {
     background-color: #f9e6e7;
@@ -238,7 +238,7 @@ ui-igpopover-arrow-left など)</li>
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
 .ui-igpopover-arrow {
             border-width: 0px;

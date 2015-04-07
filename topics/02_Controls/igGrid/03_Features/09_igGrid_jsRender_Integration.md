@@ -91,7 +91,7 @@ ASP.NET MVC|`Grid` の構成で、`TemplatingEngine` メソッドのパラメー
 
 **JavaScript の場合:**
 
-```
+```js
 <script type="text/javascript" src="http://cdn.jsdelivr.net/jsrender/1.0pre35/jsrender.js"></script>
 ```
 
@@ -116,7 +116,7 @@ ASP.NET MVC|`Grid` の構成で、`TemplatingEngine` メソッドのパラメー
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#grid1").igGrid({
 	    width: "100%",
 	    height: "600px",
@@ -142,7 +142,7 @@ ASP.NET MVC|`Grid` の構成で、`TemplatingEngine` メソッドのパラメー
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$.views.helpers(
 	    {
 	        toDate: function (val) {
@@ -159,7 +159,7 @@ ASP.NET MVC|`Grid` の構成で、`TemplatingEngine` メソッドのパラメー
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<img width='20' height='15' src='{Images folder root}/ {{>Country}}.gif'></img>{{>Country}}
 	
 	<span style='color:{{if #view.hlp('toDate')(BirthDate) > #view.hlp('toDate')('1950-01-01T00:00:00.000')}} blue {{else}} red {{/if}};'>{{>BirthDate}}</span>
@@ -171,7 +171,7 @@ ASP.NET MVC|`Grid` の構成で、`TemplatingEngine` メソッドのパラメー
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#grid1").igGrid({
 	    width: "100%",
 	    height: "600px",    autoGenerateColumns: false,                    columns: [

@@ -114,7 +114,7 @@
 
 	**JavaScript の場合:**
 	
-	```
+	```js
 	{
 	    name: "Updating",
 	    enableAddRow: true,
@@ -151,7 +151,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%= (Html.Infragistics().Grid(Model).ID("grid1").Height("400px").Width("100%")”
 		// Grid Definition
 		.Features(features =>
@@ -169,7 +169,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	features: [
 	{ 
 		name: "Updating",
@@ -200,7 +200,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<style type="text/css">
 	        .tableBackGround
 	        {
@@ -280,7 +280,7 @@
 
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<tr>
 	    <td>${headerText}</td>
 	    <td data-key='${dataKey}'><input /></td>
@@ -289,7 +289,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	features: [
 	{ 
 		name: "Updating",
@@ -314,7 +314,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<style type="text/css">
         .tableBackGround
         {

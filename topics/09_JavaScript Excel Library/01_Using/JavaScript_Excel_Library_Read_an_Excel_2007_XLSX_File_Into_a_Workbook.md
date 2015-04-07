@@ -18,7 +18,7 @@ Microsoft® Excel® ファイルを書き出すだけでなく、JavaScript Exce
 
 **JavaScript の場合:**
 
-```
+```js
 var workbook = $.ig.excel.Workbook.load(fileData);
 
 workbook.worksheets(0).rows(0).cells(0).value(19);

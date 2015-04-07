@@ -122,7 +122,7 @@
 4. ビューを作成し、構成されたモデルで `TreeGrid` ラッパーのインスタンスを作成します。
 
 	**CSHTML の場合:**
-	```csharp
+	```csharpcsharp
 	@using Infragistics.Web.Mvc
 	// ..
 	@(Html.Infragistics().TreeGrid(Model))

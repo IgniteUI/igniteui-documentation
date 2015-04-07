@@ -17,7 +17,7 @@
 **Visual Basic の場合:**
 
 
-```
+```vb
 'Accessing a single cell
 worksheet.GetCell ("C5").ApplyFormula ("=A5*B5")
 'Accessing a range of cells
@@ -27,7 +27,7 @@ worksheet.GetCell ("C5").ApplyFormula ("=A5*B5")
 **C# の場合:**
 
 
-```
+```csharp
 //Accessing a single cell
 worksheet.GetCell ("C5").ApplyFormula ("=A5*B5");
 //Accessing a range of cells

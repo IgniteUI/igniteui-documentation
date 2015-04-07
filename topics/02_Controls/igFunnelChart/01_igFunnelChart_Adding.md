@@ -286,7 +286,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 		
 		**HTML の場合:**
 		
-		```
+		```html
 		<script src="/Scripts/ig/js/infragistics.loader.js"></script>
 		```
 
@@ -296,7 +296,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		$.ig.loader({
 	        scriptPath: "/Script/ig/",
 	        cssPath: "/Content/ig/",
@@ -310,7 +310,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	var data = [
         { Budget: 30, Department: "Administration" },
         { Budget: 50, Department: "Sales" },
@@ -329,7 +329,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 		
 		**HTML の場合:**
 		
-		```
+		```html
 		<div id="funnel"></div>
 		```
 
@@ -339,7 +339,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		$.ig.loader(function () {
 	        //  Create a basic funnel chart
 	        $("#funnel").igFunnelChart({
@@ -422,7 +422,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 	
 	**C# の場合:**
 	
-		```
+		```csharp
 		public class BudgetData
 	    {
 
@@ -440,7 +440,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	public ActionResult Index()
     {
         var data = new List<BudgetData>()
@@ -466,7 +466,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	@model IQueryable<MvcApp.Models.BudgetData>
 	```
 
@@ -477,7 +477,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 		
 		**HTML の場合:**
 		
-		```
+		```html
 		<script src="/Scripts/ig/js/infragistics.loader.js"></script>
 		```
 		
@@ -487,7 +487,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		@(Html.Infragistics()
 	        .Loader()
 	        .ScriptPath("http://localhost/ig_ui/js/")
@@ -502,7 +502,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	@(Html.Infragistics().FunnelChart(Model)
 		.ID("funnel")
 		.Height("450px")

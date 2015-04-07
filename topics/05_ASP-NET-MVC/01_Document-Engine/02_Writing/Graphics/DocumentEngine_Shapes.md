@@ -40,7 +40,7 @@ Site 要素は、オブジェクトを回転するだけでなく、バインデ
 
     **C# の場合:**
 
-    ```
+    ```csharp
     using Infragistics.Documents.Reports.Report;
     using Infragistics.Documents.Reports.Graphics;
     .
@@ -54,7 +54,7 @@ Site 要素は、オブジェクトを回転するだけでなく、バインデ
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Add a new Rectangle to the Site's shape factory.
     Infragistics.Documents.Reports.Report.Shapes.IRectangle rectangle =   shapesSite.Shapes.AddRectangle();
     // Fill the rectangle with the color green.
@@ -77,7 +77,7 @@ Site 要素は、オブジェクトを回転するだけでなく、バインデ
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Add a new Ellipse to the Site's shape factory.
     Infragistics.Documents.Reports.Report.Shapes.IEllipse ellipse =   shapesSite.Shapes.AddEllipse();
     // Fill the ellipse with the color red and color the 
@@ -97,7 +97,7 @@ Site 要素は、オブジェクトを回転するだけでなく、バインデ
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Add a new Polygon to the Site's shape factory.
     Infragistics.Documents.Reports.Report.Shapes.IPolygon polygon =   shapesSite.Shapes.AddPolygon();
     // Fill the polygon with the color blye and color the
@@ -123,7 +123,7 @@ Site 要素は、オブジェクトを回転するだけでなく、バインデ
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Add a new Pie to the Site's shape factory.
     Infragistics.Documents.Reports.Report.Shapes.IPie pie =   shapesSite.Shapes.AddPie();
     // Fill the pie with the color yellow and color the
@@ -155,7 +155,7 @@ Site 要素は、オブジェクトを回転するだけでなく、バインデ
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Add a path to the Site element.
     Infragistics.Documents.Reports.Report.Shapes.IPath path =   shapesSite.Shapes.AddPath();
     // The inside of the path will be pink while the

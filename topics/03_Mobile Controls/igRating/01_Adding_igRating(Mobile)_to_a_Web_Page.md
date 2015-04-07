@@ -70,7 +70,7 @@
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<link rel="stylesheet" href="jquery.mobile.structure.min.css" />
 		<link rel="Stylesheet" href="infragistics.mobile.theme.css" />
 		<link rel="Stylesheet" href="infragistics.mobile.rating.css" />
@@ -84,7 +84,7 @@
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<link rel="stylesheet" href="jquery.mobile.structure.min.css" />
 		<script type="text/javascript" src="jquery.min.js"></script>
 		<script type="text/javascript" src="jquery.mobile.min.js"></script>
@@ -93,7 +93,7 @@
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		<script type="text/javascript">
 		    $.ig.loader({
 		        scriptPath: "../js/",
@@ -115,7 +115,7 @@
 		
 		**HTML の場合:**
 		
-		```
+		```html
 		<div id="igRating1"
 		    data-role="igrating"
 		    data-value="2"
@@ -130,7 +130,7 @@
 		
 		**HTML の場合:**
 		
-		```
+		```html
 		<div id="igRating"></div>
 		```
 		
@@ -140,7 +140,7 @@
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		$.ig.loader(function () {
 		/*Initialization code here*/
 		});
@@ -150,7 +150,7 @@
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		$(document).bind({ pageinit: function () {
 		    $("#igRating1").igRating({
 		        value: 2,
@@ -164,7 +164,7 @@
 	
 		**C# の場合:**
 		
-		```
+		```csharp
 		@(Html
 		    .InfragisticsMobile()
 		    .Rating()

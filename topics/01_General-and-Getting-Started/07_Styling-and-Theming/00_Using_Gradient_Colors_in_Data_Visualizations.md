@@ -288,7 +288,7 @@ colorStops|[{ color: "#FFD800", offset: 0 }, { color: "#FF00DC", offset: 1}]
 
 **JavaScript の場合:**
 
-```
+```js
 …
 brush: {
     type: "linearGradient",
@@ -333,7 +333,7 @@ brush: {
 
 **CSS の場合:**
 
-```
+```css
 .ui-chart-fill-palette-1 {
     background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
 }

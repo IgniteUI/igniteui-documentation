@@ -76,7 +76,7 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 
     **HTML の場合:**
 
-    ```
+    ```html
     <link type="text/css" href="/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" /><link type="text/css" href="/css/structure/infragistics.css" rel="stylesheet" />
      <script type="text/javascript" src="/Scripts/jquery-1.4.4.min.js"></script>
     <script type="text/javascript" src="/Scripts/jquery-ui.min.js"></script>
@@ -85,7 +85,7 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%@ Import Namespace="Infragistics.Web.Mvc" %><link type="text/css" href="<%= Url.Content("~/css/themes/infragistics/infragistics.theme.css") %>" rel="stylesheet" />
     <link type="text/css" href="<%= Url.Content("~/css/structure/infragistics.css") %>" rel="stylesheet" />
     <script type="text/javascript" src="<%= Url.Content("~/Scripts/jquery-1.4.4.min.js") %>"></script>
@@ -95,7 +95,7 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @using Infragistics.Web.Mvc;
 
     <link type="text/css" href="@Url.Content("~/css/theme/infragistics/infragistics.theme.css")" rel="stylesheet" />
@@ -110,7 +110,7 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 
     **HTML の場合:**
 
-    ```
+    ```html
     <div id="igUpload1"></div>
     ```
 
@@ -118,7 +118,7 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 
     **jQuery の場合:**
 
-    ```
+    ```js
     <script type="text/javascript" language="javascript">
     $(window).load(function () {
         $("#igUpload1").igUpload({
@@ -131,7 +131,7 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%= Html.Infragistics().Upload()
         .ID("igUpload1")
         .AutoStartUpload(true)
@@ -142,7 +142,7 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @(  Html.Infragistics().Upload()
         .ID("igUpload1")
         .AutoStartUpload(true)
@@ -153,7 +153,7 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 	>**注:** MVC プロジェクトで igUpload を使用する場合、*Global.asax* ファイル内の HTTP ハンドラーの URL を無視する必要があります。
 	
 	**Global.asax の場合:**
-	```
+	```csharp
 	    protected static void RegisterRoutes(RouteCollection routes)
 	    {
 	        routes.IgnoreRoute("IGUploadStatusHandler.ashx");
@@ -170,7 +170,7 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 
     **Web.config の場合:**
 
-    ```
+    ```xml
     <appSettings>
         <add key="fileUploadPath" value="~/Uploads" />
         <add key="maxFileSizeLimit" value="100000000" />
@@ -186,7 +186,7 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 
     **Web.config の場合:**
 
-    ```
+    ```xml
     <system.web>
         <httpHandlers>
              <add verb="GET" type="Infragistics.Web.Mvc.UploadStatusHandler" 
@@ -207,7 +207,7 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 
     **Web.config の場合:**
 
-    ```
+    ```xml
     <system.webServer>
         <modules runAllManagedModulesForAllRequests="true">
             <add name="IGUploadModule" type="Infragistics.Web.Mvc.UploadModule" 

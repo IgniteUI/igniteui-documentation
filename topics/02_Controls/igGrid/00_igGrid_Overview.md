@@ -51,7 +51,7 @@
 
 1.  HTML ページに**必要な JavaScript および CSS ファイルを参照**してください。**HTML の場合:**
 
-    ```
+    ```html
     <script src="scripts/jquery.js" type="text/javascript"></script>
     <script src="scripts/jquery-ui.js" type="text/javascript"></script>
     <script src="scripts/infragistics.core.js" type="text/javascript"></script><script src="scripts/infragistics.lob.js" type="text/javascript"></script>
@@ -63,7 +63,7 @@
 
     **JavaScript の場合:**
 
-    ```
+    ```js
     var products = [  
 		{ "ProductID": 1, "Name": "Adjustable Race", "ProductNumber": "AR-5381" },  
 		{ "ProductID": 2, "Name": "Bearing Ball", "ProductNumber": "BA-8327" },  
@@ -82,7 +82,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <table id=”grid1”></table>
     ```
 
@@ -102,7 +102,7 @@
 	    
 	    **JavaScript の場合:**
 	
-	    ```
+	    ```js
 	    $(function () {
             $("#grid1").igGrid({
                 columns: [

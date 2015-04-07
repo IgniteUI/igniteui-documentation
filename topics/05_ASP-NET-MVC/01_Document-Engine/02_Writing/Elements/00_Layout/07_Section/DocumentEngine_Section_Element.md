@@ -26,7 +26,7 @@ Section 要素は、Report 要素に追加できる唯一のレイアウト要�
 
 	**C# の場合:**
 
-	```
+	```csharp
 	using Infragistics.Documents.Reports.Report;
 	.
 	.
@@ -44,7 +44,7 @@ Section 要素は、Report 要素に追加できる唯一のレイアウト要�
 
 	**C# の場合:**
 
-	```
+	```csharp
 	Infragistics.Documents.Reports.Report.Section.ISectionHeader sectionHeader =   section1.AddHeader();
 	sectionHeader.Repeat = true;
 	sectionHeader.Height = 50;
@@ -61,7 +61,7 @@ Section 要素は、Report 要素に追加できる唯一のレイアウト要�
 
 	**C# の場合:**
 
-	```
+	```csharp
 	// Add a stationery element to the report.
 	// This element will read "DRAFT" in large
 	// letters at an angle beneath the content
@@ -77,7 +77,7 @@ Section 要素は、Report 要素に追加できる唯一のレイアウト要�
 
 	**C# の場合:**
 
-	```
+	```csharp
 	// Add a decoration element to the report.
 	// This element will serve as a stamp that
 	// will say "REJECTED" in large letters
@@ -98,7 +98,7 @@ Section 要素は、Report 要素に追加できる唯一のレイアウト要�
 
 	**C# の場合:**
 
-	```
+	```csharp
 	Infragistics.Documents.Reports.Report.Section.ISectionFooter sectionFooter =   section1.AddFooter();
 	sectionFooter.Repeat = true;
 	sectionFooter.Height = 50;

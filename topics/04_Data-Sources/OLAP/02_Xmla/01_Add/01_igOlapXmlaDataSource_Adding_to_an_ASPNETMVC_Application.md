@@ -90,7 +90,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%=Import Namespace=”Infragistics.Web.Mvc” %>
 	```
 
@@ -102,7 +102,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<script src="[path to js folder]/infragistics.loader.js"></script>
 		```
 	
@@ -112,7 +112,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<%=Html.Infragistics()
 		        .Loader()
 		        .ScriptPath("[js path]")
@@ -129,7 +129,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<%=Html.Infragistics().OlapDataSource().ID("xmlaDataSource")
 		// remaining code goes here
 		%>
@@ -141,7 +141,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<%=Html.Infragistics().OlapDataSource().ID("xmlaDataSource")
 		  .DataSourceOptions(dataSourceOptions => dataSourceOptions
 		      .Columns("[Product].[Product Categories]")
@@ -156,7 +156,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<%=Html.Infragistics().OlapDataSource().ID("xmlaDataSource")
 		  .DataSourceOptions(dataSourceOptions => dataSourceOptions
 		      // common properties
@@ -175,7 +175,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<%= Html.Infragistics().OlapDataSource().ID("xmlaDataSource")
 		  // all options
 		          .Render()
@@ -191,7 +191,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().OlapDataSource().ID("xmlaDataSource")
   .DataSourceOptions(dataSourceOptions => dataSourceOptions
       .Columns("[Product].[Product Categories]")

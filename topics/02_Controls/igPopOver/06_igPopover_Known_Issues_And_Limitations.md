@@ -53,7 +53,7 @@ Google® Chrome™ ブラウザーでは、ページの最初のロード時に 
 
 **HTML の場合:**
 
-```
+```html
 style="width:160px;height:160px"
 ```
 
@@ -61,7 +61,7 @@ style="width:160px;height:160px"
 
 **JavaScript の場合:**
 
-```
+```js
 $(window).load(function () {
             $('#imgPopover').igPopover("show");
         });

@@ -69,7 +69,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 // parsing transaction log arguments to a string
 function parseData(data) {
                 var string = "", i;

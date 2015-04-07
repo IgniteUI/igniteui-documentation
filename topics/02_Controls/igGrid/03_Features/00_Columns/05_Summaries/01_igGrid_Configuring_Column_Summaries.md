@@ -95,7 +95,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
 $(function () {
     $("#grid1").igGrid({
@@ -115,7 +115,7 @@ $(function () {
 
 **MVC の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model)
         .AutoGenerateColumns(true)
         .Features(feature =>{ 
@@ -154,7 +154,7 @@ calculateRenderMode|*onselect*
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
 $(function () {
     $("#grid1").igGrid({
@@ -176,7 +176,7 @@ $(function () {
 
 **MVC の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model)
         .AutoGenerateColumns(true)
         .Features(feature => { feature.Summaries().CalculateRenderMode(SummaryCalculateRenderMode.OnSelect); }).DataBind().Render()
@@ -189,7 +189,7 @@ igGridSummaries オプションを使用してレンダリング モードを設
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $(function () {
       $("#grid1").igGridSummaries('option', 'calculateRenderMode', 'onselect');
@@ -235,7 +235,7 @@ igGridSummaries オプションを使用してレンダリング モードを設
 ### <a id="compacting-code"></a> コード 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
 $(function () {
     $("#grid1").igGrid({
@@ -268,7 +268,7 @@ $(function () {
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $(function () {
       $("#grid1").igGridSummaries('option', 'compactRenderingMode', true);
@@ -322,7 +322,7 @@ $(function () {
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model)
         .AutoGenerateColumns(true)
         .Features(feature =>{      
@@ -335,7 +335,7 @@ $(function () {
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $(function () {
       $("#grid1").igGridSummaries('option', 'showSummariesButton', true);
@@ -371,7 +371,7 @@ $(function () {
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
 $(function () {
     $("#grid1").igGrid({
@@ -391,7 +391,7 @@ $(function () {
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model)
         .AutoGenerateColumns(true)
         .Features(feature =>{      
@@ -404,7 +404,7 @@ $(function () {
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $(function () {
       $("#grid1").igGridSummaries('option', 'showDropDownButton', true);
@@ -433,7 +433,7 @@ $(function () {
 
 	    **HTML と ASPX の場合:**
 
-	    ```
+	    ```html
 	    <script type="text/javascript"> 
 	        function gridSummariesCalculating (evt, ui) { ... };   
 	    </script>
@@ -446,7 +446,7 @@ $(function () {
 		ASP.NET MVC では、jQuery live または bind API を使用してイベントを添付する必要があります。また live または bind API の使用は、純粋な jQuery 実装のイベントを添付するためのオプションです。このイベントの型は `iggridsummariessummariescalculating` です。
   
 		**HTML の場合:**
-	    ```
+	    ```html
 	    $(function () {
 	        $("#grid1").igGrid({
 	           autoGenerateColumns: true,
@@ -464,7 +464,7 @@ $(function () {
 	    ```
 	
 		**HTML と ASPX の場合:**
-	    ```
+	    ```js
 	    $("#grid1").live("iggridsummariessummariescalculating ", gridSummariesCalculating);
 	    ```
 
@@ -472,7 +472,7 @@ $(function () {
 
 	**HTML と ASPX の場合:**
 	
-	```
+	```html
 	<script type="text/javascript">       
 	    function gridSummariesCalculating (evt, ui) {
 	       if (conditionNotMet) 

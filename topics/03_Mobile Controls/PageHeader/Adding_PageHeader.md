@@ -17,7 +17,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <div data-role="page-header" 
      id="pghdr1" >
 </div>
@@ -38,7 +38,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @using Infragistics.Web.Mvc.Mobile
 <script src="http://code.jquery.com/jquery.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile.min.js"></script>
@@ -56,7 +56,7 @@ Page Header の開始をマークするには、以下のコードを追加し�
 
 **Razor の場合:**
 
-```
+```csharp
 @(Html.InfragisticsMobile()
     .PageHeader()
     .ID("pghdr1")
@@ -68,7 +68,7 @@ Page Header の開始をマークするには、以下のコードを追加し�
 
 **Razor の場合:**
 
-```
+```csharp
 @(Html.InfragisticsMobile()
     .PageHeader ()
     .ID("pgftr1")

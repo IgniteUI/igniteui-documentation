@@ -76,7 +76,7 @@ JavaScript ファイル
 以下のコードでは、新しいデータが要求された時に一度に 4 つのレコードをロードするオン デマンドによる行追加機能を使用し、`igGrid` を初期化します。
 
 **JavaScript の場合:**
-```
+```js
 $(function () {
       var products = [
             { "ProductID": 1, "Name": "Adjustable Race", "ProductNumber": "AR-5381" },

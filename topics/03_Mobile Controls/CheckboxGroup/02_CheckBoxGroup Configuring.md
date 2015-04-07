@@ -68,7 +68,7 @@ Horizontal `CheckBoxGroup`|[`Horizontal`](Infragistics.Web.Mvc.Mobile~Infragisti
 
 **Razor の場合:**
 
-```
+```csharp
 @(Html.InfragisticsMobile()
     .CheckBoxGroup()
     .ID("chkbxgrp1")

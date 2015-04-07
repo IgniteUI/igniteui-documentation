@@ -26,7 +26,7 @@ Index 要素は、階層を使用して作成されるという点で TOC 要素
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     Imports Infragistics.Documents.Reports.Report
     .
     .
@@ -41,7 +41,7 @@ Index 要素は、階層を使用して作成されるという点で TOC 要素
 
     **C# の場合:**
 
-    ```
+    ```csharp
     using Infragistics.Documents.Reports.Report;
     .
     .
@@ -58,14 +58,14 @@ Index 要素は、階層を使用して作成されるという点で TOC 要素
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     Dim indexSection As Infragistics.Documents.Reports.Report.Section.ISection = _  report.AddSection()
     indexSection.PageMargins = New Margins(50)
     ```
 
     **C# の場合:**
 
-    ```
+    ```csharp
     Infragistics.Documents.Reports.Report.Section.ISection indexSection =   report.AddSection();
     indexSection.PageMargins = new Margins(50);
     ```
@@ -74,7 +74,7 @@ Index 要素は、階層を使用して作成されるという点で TOC 要素
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     Dim indexText As Infragistics.Documents.Reports.Report.Text.IText = _  indexSection.AddText()
     indexText.Style = mainStyle1
 
@@ -95,7 +95,7 @@ Index 要素は、階層を使用して作成されるという点で TOC 要素
 
     **C# の場合:**
 
-    ```
+    ```csharp
     Infragistics.Documents.Reports.Report.Text.IText indexText =   indexSection.AddText();
     indexText.Style = mainStyle1;
 
@@ -118,14 +118,14 @@ Index 要素は、階層を使用して作成されるという点で TOC 要素
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     Dim indexGap As Infragistics.Documents.Reports.Report.IGap = indexSection.AddGap()
     indexGap.Height = New FixedHeight(50)
     ```
 
     **C# の場合:**
 
-    ```
+    ```csharp
     Infragistics.Documents.Reports.Report.IGap indexGap = indexSection.AddGap();
     indexGap.Height = new FixedHeight(50);
     ```
@@ -134,7 +134,7 @@ Index 要素は、階層を使用して作成されるという点で TOC 要素
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     Dim indexHeading As Infragistics.Documents.Reports.Report.Text.IText = _  indexSection.AddText()
     indexHeading.Style = mainStyle2
     indexHeading.AddContent("Index")
@@ -142,7 +142,7 @@ Index 要素は、階層を使用して作成されるという点で TOC 要素
 
     **C# の場合:**
 
-    ```
+    ```csharp
     Infragistics.Documents.Reports.Report.Text.IText indexHeading =   indexSection.AddText();
     indexHeading.Style = mainStyle2;
     indexHeading.AddContent("Index");
@@ -152,7 +152,7 @@ Index 要素は、階層を使用して作成されるという点で TOC 要素
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     Dim index As Infragistics.Documents.Reports.Report.Index.IIndex = _  indexSection.AddIndex()
     index.Alphabet.Style = mainStyle2
 
@@ -169,7 +169,7 @@ Index 要素は、階層を使用して作成されるという点で TOC 要素
 
     **C# の場合:**
 
-    ```
+    ```csharp
     Infragistics.Documents.Reports.Report.Index.IIndex index =   indexSection.AddIndex();
     index.Alphabet.Style = mainStyle2;
                             

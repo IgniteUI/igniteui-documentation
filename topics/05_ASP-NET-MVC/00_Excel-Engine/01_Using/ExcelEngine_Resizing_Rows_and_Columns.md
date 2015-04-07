@@ -29,7 +29,7 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         Dim workbook As New Infragistics.Documents.Excel.Workbook()
         Dim worksheet As Infragistics.Documents.Excel.Worksheet = _
           workbook.Worksheets.Add("Sheet1")
@@ -37,7 +37,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
         Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add( "Sheet1" );
         ```
@@ -47,14 +47,14 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Rows.Item(0).Cells.Item(0).Value = "Rotated Text"
         worksheet.Rows.Item(0).Cells.Item(0).CellFormat.Rotation = 70
         ```
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Rows[0].Cells[0].Value = "Rotated Text";
         worksheet.Rows[0].Cells[0].CellFormat.Rotation = 70;
         ```
@@ -63,7 +63,7 @@
 	
 	    **Visual Basic の場合:**
 	
-		```
+		```vb
 	    worksheet.Rows.Item(1).Cells.Item(1).Value = _
 	      "This text will be wrapped in the cell so all text is visible"
 	    worksheet.Rows.Item(1).Cells.Item(1).CellFormat.WrapText = _
@@ -72,7 +72,7 @@
 	
 	    **C# の場合:**
 	
-		```
+		```csharp
 	    worksheet.Rows[1].Cells[1].Value =
 	      "This text will be wrapped in the cell so all text is visible";
 	    worksheet.Rows[1].Cells[1].CellFormat.WrapText =
@@ -85,14 +85,14 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Rows.Item(2).Cells.Item(2).Value = _
           "This text will not be wrapped"
         ```
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Rows[2].Cells[2].Value = "This text will not be wrapped";
         ```
 	![](images/ExcelEngine_Resizing_Rows_and_Columns_03.png)
@@ -101,13 +101,13 @@
 	
 	    **Visual Basic の場合:**
 	
-		```
+		```vb
 	    worksheet.Columns.Item(2).Width = 6100
 		```
 	
 	    **C# の場合:**
 	
-		```
+		```csharp
 	    worksheet.Columns[2].Width = 6100;
 		```
 		![](images/ExcelEngine_Resizing_Rows_and_Columns_04.png)
@@ -117,7 +117,7 @@
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         Dim image As Image = image.FromFile("C:NA_Win_Forms.gif")
         Dim imageShape As New Infragistics.Documents.Excel.WorksheetImage(image)
 
@@ -130,7 +130,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         Image image = Image.FromFile( "C:NA_Win_Forms.gif" );
         Infragistics.Documents.Excel.WorksheetImage imageShape =
           new Infragistics.Documents.Excel.WorksheetImage( image );
@@ -147,14 +147,14 @@
 	
 	    **Visual Basic の場合:**
 	
-		```
+		```vb
 	    worksheet.Rows.Item(3).Height = 600
 	    worksheet.Columns.Item(3).Width = 10000
 		```
 	
 	    **C# の場合:**
 	
-		```
+		```csharp
 	        worksheet.Rows[3].Height = 600;
 	        worksheet.Columns[3].Width = 10000;
 		```
@@ -167,13 +167,13 @@
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     workbook.Save("C:Resize.xls")
     ```
 
     **C# の場合:**
 
-    ```
+    ```csharp
     workbook.Save( "C:Resize.xls" );
     ```
 

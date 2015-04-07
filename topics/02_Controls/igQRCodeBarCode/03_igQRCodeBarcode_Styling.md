@@ -90,7 +90,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <head>
 ...
     <script type="text/jscript">

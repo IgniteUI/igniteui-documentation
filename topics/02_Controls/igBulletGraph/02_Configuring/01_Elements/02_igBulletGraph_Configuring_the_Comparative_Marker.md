@@ -360,7 +360,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $(function () {             
 $("#bulletGraph").igBulletGraph({
     height: "70",                

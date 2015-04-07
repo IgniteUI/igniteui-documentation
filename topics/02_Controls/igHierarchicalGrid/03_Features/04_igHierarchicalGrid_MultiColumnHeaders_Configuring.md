@@ -65,7 +65,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<script src="jquery.min.js" type="text/javascript"></script>
 	<script src="jquery-ui.min.js" type="text/javascript"></script> 
 	<script src="infragistics.loader.js"></script>
@@ -73,7 +73,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<script type="text/javascript">
 	    $.ig.loader({
 	        scriptPath: "http://localhost/ig_ui/js/",
@@ -89,7 +89,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	var northwind = [{
 	      "EmployeeID": 1,
 	      "LastName": "Davolio",
@@ -165,7 +165,7 @@
 
 	**HTML の場合:**
 	
-	```
+	```html
 	<table id="grid1"></table>
 	```
 
@@ -179,7 +179,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$.ig.loader(function () {
 	    $("#grid1").igHierarchicalGrid({
 	        features: [
@@ -271,7 +271,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script src="jquery.min.js" type="text/javascript"></script>
 <script src="jquery-ui.min.js" type="text/javascript"></script> 
 <script src="infragistics.loader.js"></script>
@@ -279,7 +279,7 @@
 
 **C# の場合:**
 
-```
+```csharp
 @Html.Infragistics()
 .Loader()
 .ScriptPath("http://localhost/ig_ui/js/")
@@ -306,7 +306,7 @@ Orders レイアウトでは、複数列ヘッダー グループは 1 つです
 
 **C# の場合:**
 
-```
+```csharp
 @Html.Infragistics().Grid(Model)
 .ID("grid1")
 .LoadOnDemand(false)
@@ -370,7 +370,7 @@ Home コントローラーの `Index` アクション メソッドで、Northwin
 
 **C# の場合:**
 
-```
+```csharp
 public ActionResult Index()
 {
     var dataContext = new NorthwindDataContext();

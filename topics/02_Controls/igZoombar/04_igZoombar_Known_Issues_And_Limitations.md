@@ -52,7 +52,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#zoombar").igZoombar({
       target: "chart",
       clone: {
@@ -69,7 +69,7 @@ $("#zoombar").igZoombar({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#dataChart").igDataChart("addItem", {"Item1": "Value1", "Item2": 1000, "Item3": 1019.75}, "series1" );
 $("#zoombar").igZoombar("clone").igDataChart("addItem", {"Item1": "Value1", "Item2": 1000, "Item3": 1019.75}, "series1" );
 ```

@@ -107,7 +107,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%=Import Namespace=”Infragistics.Web.Mvc” %>
 	```
 
@@ -119,7 +119,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<script src="[path to js folder]/infragistics.loader.js"></script>
 		```
 
@@ -129,7 +129,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<%=Html.Infragistics()
 		        .Loader()
 		        .ScriptPath("[js path]")
@@ -144,7 +144,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%= Html.Infragistics().PivotGrid()
 	.DataSourceOptions(
 	    dataSourceOptions => dataSourceOptions
@@ -164,7 +164,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%= Html.Infragistics().PivotGrid()
 	.DataSourceID(“olapDataSource”)
 	.Render()

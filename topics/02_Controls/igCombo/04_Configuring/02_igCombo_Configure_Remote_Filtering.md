@@ -176,13 +176,13 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     filteringType: "remote"
     ```
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     FilteringType(ComboFilteringType.Remote)
     ```  
 
@@ -192,13 +192,13 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     dataSource: "http://igniteui.com/api/products?callback=?"
     ```
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     DataSource("http://igniteui.com/api/products?callback=?")
     ```
 
@@ -208,13 +208,13 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     responseDataKey: "d.results"
     ```
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     ResponseDataKey("d.results")
     ```
 
@@ -224,13 +224,13 @@
 	
     **HTML の場合:**
 
-    ```
+    ```html
     valueKey: "ID"
     ```
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     ValueKey("ID")
     ```
 
@@ -240,13 +240,13 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     textKey: "ProductName"
     ```
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     TextKey("ProductName")
     ```
 
@@ -256,7 +256,7 @@
 
 **HTML の場合:**
 
-```
+```html
 $("#comboTarget").igCombo({
     filteringType: "remote",
     responseDataKey: "d.results",
@@ -268,7 +268,7 @@ $("#comboTarget").igCombo({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.
     Infragistics().
     Combo().
@@ -374,7 +374,7 @@ $("#comboTarget").igCombo({
 
     **C# の場合:**
 
-    ```
+    ```csharp
     [ComboDataSourceAction]
     public ActionResult ComboData()
     {        
@@ -390,7 +390,7 @@ $("#comboTarget").igCombo({
 
     **C# の場合:**
 
-    ```
+    ```csharp
     comboViewModel.DataSourceUrl = Url.Action("combodata");
     comboViewModel.FilteringType = ComboFilteringType.Remote;
     comboViewModel.FilterExprUrlKey = "filter";

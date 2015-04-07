@@ -156,7 +156,7 @@ jQuery はイベント ハンドラーの割り当てるための以下のメソ
 
 **JavaScript の場合:**
 
-```
+```js
 $(".selector").igLayoutManager({
                         itemRendered: function(evt, ui) { 
                               // Handle event
@@ -178,7 +178,7 @@ $(".selector").igLayoutManager({
 **In ASPX (MVC):**
 
         
-```
+```csharp
 @(Html.Infragistics().LayoutManager()
         .AddClientEvent("iglayoutmanageritemrendered", "itemRenderedHandler")
         .Render());
@@ -197,7 +197,7 @@ $(".selector").igLayoutManager({
 
 **JavaScript の場合:**
 
-```
+```js
 $(document).delegate(".selector", "iglayoutmanageritemrendered", function(evt, ui) { 
    // Handle event
 });
@@ -216,7 +216,7 @@ $(document).delegate(".selector", "iglayoutmanageritemrendered", function(evt, u
 
 **JavaScript の場合:**
 
-```
+```js
 $(document).delegate(".selector", "iglayoutmanageritemrendered", function(evt, ui) { 
    // Handle event
 });

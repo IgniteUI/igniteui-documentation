@@ -61,7 +61,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 @model  System.Data.DataTable
 <%=(Html.Infragistics().Grid<System.Data.DataTable>().ID("grid1").Height("500px")
 		…
@@ -74,7 +74,7 @@
 
 **C# の場合:**
 
-```
+```csharp
 [GridDataSourceAction]
 [ActionName("UpdateDataTableGrid")]
 public ActionResult UpdateDataTableGrid()
@@ -110,7 +110,7 @@ public ActionResult UpdateDataTableGrid()
 
 **ASPX の場合:**
 
-```
+```csharp
 <%=(Html.Infragistics().Grid<dynamic>().ID("grid1").Height("500px")
 		.AutoGenerateColumns(true)       
 		.RenderCheckboxes(true)
@@ -152,7 +152,7 @@ public ActionResult UpdateDataTableGrid()
 
 **ASPX の場合:**
 
-```
+```csharp
 // The Model in the code snippet below is a DataTable
 <%=(Html.Infragistics().Grid<DataTable>(Model).ID("grid1").Height("500px")
         .PrimaryKey("ProductID")
@@ -178,7 +178,7 @@ public ActionResult UpdateDataTableGrid()
 
 **C# の場合:**
 
-```
+```csharp
 public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where T : class
 {
     List<Transaction<T>> transactions = JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
@@ -190,7 +190,7 @@ public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where
 
 **C# の場合:**
 
-```
+```csharp
 public class Employee
 {
     public int EmployeeID { get; set; }
@@ -252,7 +252,7 @@ public ActionResult EditingSaveChanges()
 
 **C# の場合:**
 
-```
+```csharp
 DataTable dtData = new DataTable("Employees");
 dtData.Columns.Add("EmployeeID", typeof(int));
 dtData.Columns.Add("Name", typeof(string));
@@ -265,7 +265,7 @@ dtData.Columns.Add("Site", typeof(string));
 **C# の場合:**
 
 
-```
+```csharp
 public class Employee
 {
     public int EmployeeID { get; set; }
@@ -281,7 +281,7 @@ public class Employee
 **ASPX の場合:**
 
 
-```
+```csharp
 <%=( Html.Infragistics().Grid<Employee>().ID("grid1").Height("500px").Width("1000px")
 		.Columns(column =>
 		{
@@ -333,7 +333,7 @@ public class Employee
 
  	**ASPX の場合:**
 		
-	```
+	```csharp
 	<%=(Html.Infragistics().Grid<DataTable>(Model).ID("grid1").Height("500px")
 	    .AutoGenerateColumns(true)       
 	    .RenderCheckboxes(true)
@@ -362,7 +362,7 @@ public class Employee
  
  	**C# の場合:**
 		
-	```
+	```csharp
 	public ActionResult DataTableInteractions()
 	{ 
 	
@@ -388,7 +388,7 @@ public class Employee
 
  	**C# の場合:**
 
-	```
+	```csharp
 	using Newtonsoft.Json;
 	public class NewtonSoftGridModel : GridModel
 	{
@@ -417,7 +417,7 @@ public class Employee
 
  	**C# の場合:**
 
-	```
+	```csharp
 	[ActionName("EditingSaveChanges")]
 	public ActionResult EditingSaveChanges()
 	{           DataTable dt = this.MyEmployees as DataTable;

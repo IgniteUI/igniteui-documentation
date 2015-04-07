@@ -35,7 +35,7 @@ Segment 要素の最も優れた機能は、ヘッダーとフッターを使用
 
 	**C# の場合:**
 
-	```
+	```csharp
 	using Infragistics.Documents.Reports.Report;
 	.
 	.
@@ -50,7 +50,7 @@ Segment 要素の最も優れた機能は、ヘッダーとフッターを使用
 
 	**C# の場合:**
 
-	```
+	```csharp
 	// Add the first Header to the Segment.
 	Infragistics.Documents.Reports.Report.Segment.ISegmentHeader segmentHeader1 =   segment.AddHeader();
 	segmentHeader1.Background = new Background(Brushes.LightBlue);
@@ -79,7 +79,7 @@ Segment 要素の最も優れた機能は、ヘッダーとフッターを使用
 
 	**C# の場合:**
 
-	```
+	```csharp
 	// Add the first Footer to the Segment.
 	Infragistics.Documents.Reports.Report.Segment.ISegmentFooter segmentFooter1 =   segment.AddFooter();
 	segmentFooter1.Background = new Background(Brushes.LightBlue);
@@ -113,7 +113,7 @@ Segment 要素の最も優れた機能は、ヘッダーとフッターを使用
 
 	**C# の場合:**
 
-	```
+	```csharp
 	// Add text to the Segment. The first page of the
 	// Segment will use the first Header and Footer.
 	Infragistics.Documents.Reports.Report.Text.IText segmentText1 = segment.AddText();
@@ -129,7 +129,7 @@ Segment 要素の最も優れた機能は、ヘッダーとフッターを使用
 
 	**C# の場合:**
 
-	```
+	```csharp
 	// Add more text to the Segment. The second page of
 	// the Segment will use the second Header and Footer.
 	segmentText1 = segment.AddText();
@@ -144,7 +144,7 @@ Segment 要素の最も優れた機能は、ヘッダーとフッターを使用
 
 	**C# の場合:**
 
-	```
+	```csharp
 	// Add more text to the Segment. The third page of
 	// the Segment will use the first Header and Footer.
 	segmentText1 = segment.AddText();

@@ -222,7 +222,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -253,7 +253,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <body>
         <!-- Target element for the igLinearGauge -->
           <div id="linearGauge"></div>
@@ -266,7 +266,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script type="text/jscript">
         $(function () {                        
                   $("#linearGauge").igLinearGauge({
@@ -281,7 +281,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     $("#linearGauge").igLinearGauge({
         width: "300px",
         height: "70px"
@@ -294,7 +294,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     $("#linearGauge").igLinearGauge({
         width: "300px",
         height: "70px",
@@ -313,7 +313,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     $("#linearGauge").igLinearGauge({
             …
         value:"35"
@@ -330,7 +330,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     $("#linearGauge").igLinearGauge({
         …
         ranges: [{
@@ -367,7 +367,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>

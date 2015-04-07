@@ -134,7 +134,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<select id="comboTarget"></select>
 	```
 	
@@ -142,7 +142,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<script type="text/javascript">
 	     $(function () {
 	          $("#comboTarget").igCombo({
@@ -154,7 +154,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%= Html.
 	    Infragistics().
 	    Combo().
@@ -170,7 +170,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	var colors = [
 	     { "Name": "Black" },
 	     { "Name": "Blue" },
@@ -183,7 +183,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	public class DefaultController : Controller
 	{
 	     public ActionResult Index()
@@ -207,14 +207,14 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	$("#comboTarget").igCombo({
 	    dataSource: colors});
 	```
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%= Html.
 	    Infragistics().
 	    Combo().
@@ -229,7 +229,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	$("#comboTarget").igCombo({
 	    dataSource: colors,    textKey: "Name",
 	    valueKey: "Name",
@@ -238,7 +238,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%= Html.
 	    Infragistics().
 	    Combo().
@@ -255,7 +255,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%= Html.
 	    Infragistics().
 	    Combo().

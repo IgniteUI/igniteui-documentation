@@ -80,7 +80,7 @@ expand|ノード
 
 **HTML と ASPX の場合:**
 
-```
+```js
 $("#tree").igTree("expand", node);
 ```
 
@@ -93,7 +93,7 @@ collapse|ノード
 
 **HTML と ASPX の場合:**
 
-```
+```js
 $("#tree").igTree("collapse", node);
 ```
 
@@ -106,7 +106,7 @@ expandToNode|ノード
 
 **HTML と ASPX の場合:**
 
-```
+```js
 $("#tree").igTree("expandToNode", node);
 ```
 
@@ -139,7 +139,7 @@ nodeExpanded|function(evt, ui)
 
 **HTML の場合:**
 
-```
+```html
 $(function () {
     $("#tree").igTree({
         nodeExpanding: function (evt, ui) {
@@ -162,7 +162,7 @@ live()|“igtreenodecollapsed” function(evt, ui) { }
 
 **HTML と ASPX の場合:**
 
-```
+```js
 $("#tree").bind("igtreenodecollapsing", function (evt, ui) {
  
 });

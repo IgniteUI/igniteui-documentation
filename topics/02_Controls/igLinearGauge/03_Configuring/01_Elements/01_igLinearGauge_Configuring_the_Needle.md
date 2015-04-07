@@ -884,7 +884,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#lineargauge").igLinearGauge({
     height:"70px",
     width:"300px",
@@ -926,7 +926,7 @@ $("#lineargauge").igLinearGauge({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#lineargauge").igLinearGauge({
     height:"70px",
     width:"300px",

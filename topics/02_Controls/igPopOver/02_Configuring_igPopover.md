@@ -356,7 +356,7 @@ ui-igpopover-close-button
 
 **JavaScript の場合:**
 
-```
+```js
 $( '#popoverTooltip' ).igPopover( {
     headerTemplate:{
         closeButton: true,
@@ -401,7 +401,7 @@ $( '#popoverTooltip' ).igPopover( {
 
 **JavaScript の場合:**
 
-```
+```js
 $( '#popoverTooltip' ).igPopover( {
     ..
     maxHeight: null,
@@ -452,7 +452,7 @@ $( '#popoverTooltip' ).igPopover( {
 
 **JavaScript の場合:**
 
-```
+```js
 $( '#popoverTooltip' ).igPopover( {                       
 	selectors: "[title]",
 	showOn: "focus"      
@@ -506,7 +506,7 @@ $( '#popoverTooltip' ).igPopover( {
 
 **JavaScript の場合:**
 
-```
+```js
 $( '#popoverTooltip' ).igPopover( {
     direction: "right",
     position: "start",
@@ -547,7 +547,7 @@ $( '#popoverTooltip' ).igPopover( {
 
 **JavaScript の場合:**
 
-```
+```js
 $( '#bodyParts' ).igPopover( {               
     direction: "auto",
     position: "auto",

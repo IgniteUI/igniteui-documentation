@@ -291,7 +291,7 @@ IG テーマ (オプション)
 
 **HTML の場合:**
 
-```
+```html
 <script  type="text/javascript" src="Scripts/jquery.js"></script>
 <script  type="text/javascript" src="Scripts/jquery-ui.js"></script>
 ```
@@ -300,7 +300,7 @@ IG テーマ (オプション)
 
 **HTML の場合:**
 
-```
+```html
 <script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
 ```
 
@@ -308,7 +308,7 @@ IG テーマ (オプション)
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $.ig.loader({
         scriptPath: "Scripts/ig/",
@@ -328,7 +328,7 @@ IG テーマ (オプション)
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<style type="text/css">
 	        #dashboard {
 	            position: relative;
@@ -389,7 +389,7 @@ IG テーマ (オプション)
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$.ig.loader(function () {
 	    //  Create a basic igTileManager control
 	    $("#dashboard").igTileManager({
@@ -429,7 +429,7 @@ IG テーマ (オプション)
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script  type="text/javascript" src="Scripts/jquery.js"></script>
     <script  type="text/javascript" src="Scripts/jquery-ui.js"></script>
     ```
@@ -438,7 +438,7 @@ IG テーマ (オプション)
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
     ```
 
@@ -446,7 +446,7 @@ IG テーマ (オプション)
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     @(Html.Infragistics()
         .Loader()
         .ScriptPath("http://localhost/ig_ui/js/")
@@ -465,7 +465,7 @@ IG テーマ (オプション)
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<style type="text/css">
 	        #dashboard {
 	            position: relative;
@@ -524,7 +524,7 @@ IG テーマ (オプション)
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	@(Html.
 	  Infragistics().
 	  ID("dashboard").

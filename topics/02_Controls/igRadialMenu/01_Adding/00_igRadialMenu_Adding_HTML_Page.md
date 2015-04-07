@@ -229,7 +229,7 @@ Ignite UI ユーティリティ
 
 **HTML の場合:**
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -260,7 +260,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<body>
 	    <!-- Target element for the igRadialMenu -->
 	    <div id="radialMenu"></div>
@@ -273,7 +273,7 @@ Ignite UI ユーティリティ
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<script type="text/jscript">
 	$(function () {                        
 	    $("#radialMenu").igRadialMenu({
@@ -288,7 +288,7 @@ Ignite UI ユーティリティ
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#radialMenu").igRadialMenu({
 	    width: "300px",
 	    height: "300px"
@@ -301,7 +301,7 @@ Ignite UI ユーティリティ
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#radialMenu").igRadialMenu({
 	    items:
 	        [
@@ -322,7 +322,7 @@ Ignite UI ユーティリティ
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#radialMenu").igRadialMenu({
 	    items:
 	        [
@@ -363,7 +363,7 @@ Ignite UI ユーティリティ
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#radialMenu").igRadialMenu({
 	    items:
 	        [
@@ -385,7 +385,7 @@ Ignite UI ユーティリティ
 
 **HTML の場合:**
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>

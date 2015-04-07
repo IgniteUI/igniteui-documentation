@@ -289,7 +289,7 @@ igSplitter 構造
 		
 		**HTML の場合:**
 		
-		```
+		```html
 		<script  type="text/javascript" src="Scripts/jquery.js"></script>
 		<script  type="text/javascript" src="Scripts/jquery-ui.js"></script>
 		<script  type="text/javascript" src="Scripts/modernizr.js"></script>
@@ -299,7 +299,7 @@ igSplitter 構造
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
 		```
 	
@@ -309,7 +309,7 @@ igSplitter 構造
 		
 		**HTML の場合:**
 		
-		```
+		```html
 		<script type="text/javascript">
 		    $.ig.loader({
 		        scriptPath: "Scripts/ig/",
@@ -327,7 +327,7 @@ igSplitter 構造
 		
 		**HTML の場合:**
 		
-		```
+		```html
 		<div id="splitter">
 		<div>Some content</div>
 		<div>Other content</div>
@@ -342,7 +342,7 @@ igSplitter 構造
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		$.ig.loader(function () {
 		// Create a basic igSplitter control
 		$("#splitter").igSplitter({
@@ -393,7 +393,7 @@ igSplitter 構造
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<script  type="text/javascript" src="Scripts/jquery.js"></script>
 		<script  type="text/javascript" src="Scripts/jquery-ui.js"></script>
 		<script  type="text/javascript" src="Scripts/modernizr.js"></script>
@@ -403,7 +403,7 @@ igSplitter 構造
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
 		```
 
@@ -413,7 +413,7 @@ igSplitter 構造
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		@(Html.Infragistics()
 		    .Loader()
 		    .ScriptPath("http://localhost/ig_ui/js/")
@@ -430,7 +430,7 @@ igSplitter 構造
 		
 		**HTML の場合:**
 		
-		```
+		```html
 		<div id="splitter">
 		<div>Some content</div>
 		<div>Other content</div>

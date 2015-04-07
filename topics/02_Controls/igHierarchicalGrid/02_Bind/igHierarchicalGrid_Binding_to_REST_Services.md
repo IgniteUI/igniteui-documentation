@@ -125,7 +125,7 @@ DELETE|空|/api/customers/{customerId}/orders/{orderId}|/api/customers/ALFKI/ord
 
 **HTML の場合:**
 
-```
+```html
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 <script src="js/infragistics.loader.js"></script>
@@ -137,7 +137,7 @@ DELETE|空|/api/customers/{customerId}/orders/{orderId}|/api/customers/ALFKI/ord
 
 **HTML の場合:**
 
-```
+```html
 <table id="grid1"></table>
 ```
 
@@ -145,7 +145,7 @@ DELETE|空|/api/customers/{customerId}/orders/{orderId}|/api/customers/ALFKI/ord
 
 **JavaScript の場合:**
 
-```
+```js
 $.ig.loader({
     scriptPath: 'js',
     cssPath: 'css',
@@ -161,7 +161,7 @@ $.ig.loader({
 
 **JavaScript の場合:**
 
-```
+```js
 $.ig.loader(function () {
     $("#grid1").igHierarchicalGrid({
         dataSource: "/api/customers/",
@@ -203,7 +203,7 @@ $.ig.loader(function () {
 
 **JavaScript の場合:**
 
-```
+```js
 restSettings: {
     create: {
         url: "/api/customers/"
@@ -227,7 +227,7 @@ restSettings: {
 
 **JavaScript の場合:**
 
-```
+```js
 restSettings: {
     create: {
         template: "/api/customers/"
@@ -251,7 +251,7 @@ restSettings: {
 
 **JavaScript の場合:**
 
-```
+```js
 columnLayouts: [
     {
         key: "Orders",
@@ -286,7 +286,7 @@ Orders 子レイアウトはまた、行更新機能と共に定義されます�
 
 **JavaScript の場合:**
 
-```
+```js
 restSettings: {
     create: {
         template: "orders/"

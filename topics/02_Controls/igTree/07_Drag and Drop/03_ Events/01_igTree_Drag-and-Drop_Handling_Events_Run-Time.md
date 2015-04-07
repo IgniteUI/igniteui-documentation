@@ -43,7 +43,7 @@ jQuery はイベント ハンドラーの割り当てるための以下のメソ
 
 **JavaScript の場合:**
 
-```
+```js
 $(document).delegate(".selector", "igtreedragstart", function(evt, ui) { 
     // Handle event
 });

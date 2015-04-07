@@ -108,7 +108,7 @@
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		var markets = [{
 		        "MarketID": 1,
 		        "Name": "GreenShop",
@@ -130,7 +130,7 @@
 		
 		**HTML の場合:**
 		
-		```
+		```html
 		<body>
 		    <div data-role="page">
 		            <div data-role="header">
@@ -169,7 +169,7 @@
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		var markets = [{
 		      "MarketID": 1,
 		      "Name": "GreenShop",
@@ -195,7 +195,7 @@
 
 		**HTML の場合:**
 		
-		```
+		```html
 		<body>
 		      <div data-role="page" id="myID">
 		            <div data-role="content">

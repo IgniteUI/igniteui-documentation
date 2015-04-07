@@ -205,7 +205,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $.ig.GridPaging = $.ig.GridPaging || {};
           $.extend( $.ig.GridPaging , {
           locale : {
@@ -237,7 +237,7 @@ HTML ファイルを作成して結果を検証します。以下のスクリー
 
 **HTML の場合:**
 
-```
+```html
 <script src="../scripts/modernizr.min.js"></script>
 <script src="../scripts/jquery.min.js"></script>
 <script src="../scripts/jquery-ui.min.js"></script>

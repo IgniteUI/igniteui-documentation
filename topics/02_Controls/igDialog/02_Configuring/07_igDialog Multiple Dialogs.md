@@ -59,7 +59,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <div id="dialogBottom”>
     Parent HTML markup
 </div>

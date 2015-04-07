@@ -28,7 +28,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 var workbook = new $.ig.excel.Workbook();
 workbook.documentProperties.title("Expense Report");
 workbook.documentProperties.status("Complete");

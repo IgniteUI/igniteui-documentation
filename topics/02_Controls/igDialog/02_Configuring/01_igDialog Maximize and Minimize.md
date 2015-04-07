@@ -231,7 +231,7 @@ false|`igDialog` はマウスのダブル クリックに反応しません。
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igDialog).igDialog("minimize");
 ```
 
@@ -253,7 +253,7 @@ $('#igDialog).igDialog("minimize");
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igDialog).igDialog("maximize");
 ```
 

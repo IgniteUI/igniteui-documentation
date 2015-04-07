@@ -27,7 +27,7 @@ Text 要素は、[Heading](Infragistics.Web.Mvc.Documents.Reports~Infragistics.D
 
     **C# の場合:**
 
-    ```
+    ```csharp
     using Infragistics.Documents.Reports.Report;
     .
     .
@@ -44,7 +44,7 @@ Text 要素は、[Heading](Infragistics.Web.Mvc.Documents.Reports~Infragistics.D
 
 	**C# の場合:**
 
-	```
+	```csharp
     // Create a new section and set the page size and margins.
     Infragistics.Documents.Reports.Report.Section.ISection tocSection = report.AddSection();
     tocSection.PageSize = PageSizes.Letter;
@@ -55,7 +55,7 @@ Text 要素は、[Heading](Infragistics.Web.Mvc.Documents.Reports~Infragistics.D
 
 	**C# の場合:**
 
-	```
+	```csharp
     // Create a title for the TOC.
     Infragistics.Documents.Reports.Report.Text.IText tocText = tocSection.AddText();
     tocText.Style = mainStyle2;
@@ -88,7 +88,7 @@ Text 要素は、[Heading](Infragistics.Web.Mvc.Documents.Reports~Infragistics.D
 
 	**C# の場合:**
 	
-	```
+	```csharp
     Infragistics.Documents.Reports.Report.IGap tocGap = tocSection.AddGap();
     tocGap.Height = new FixedHeight(50);
     ```
@@ -97,7 +97,7 @@ Text 要素は、[Heading](Infragistics.Web.Mvc.Documents.Reports~Infragistics.D
 
 	**C# の場合:**
 
-	```
+	```csharp
     // Create headings to demonstrate TOC.
 
     Infragistics.Documents.Reports.Report.Text.IText sampleHeading;

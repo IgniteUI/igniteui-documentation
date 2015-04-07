@@ -63,7 +63,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<script src="js/jquery.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
     <script src="js/infragistics.loader.js"></script>
@@ -77,7 +77,7 @@
 
 		**HTML の場合:**
 
-		```
+		```html
 		<div id="htmlEditor"></div>
 		```
 	
@@ -85,7 +85,7 @@
 
 		**JavaScript の場合:**
 
-		```
+		```js
 		$.ig.loader({
 	        scriptPath: 'js',
 	        cssPath: 'css',
@@ -99,7 +99,7 @@
 
 		**JavaScript の場合:**
 
-		```
+		```js
 		$.ig.loader(function () {
 	        $('#htmlEditor').igHtmlEditor({inputName: "Post"});
 	    });
@@ -113,7 +113,7 @@
 
 		**C# の場合:**
 	
-		 ```
+		 ```csharp
 		 @(Html.Infragistics().Loader().ScriptPath(Url.Content ("js")).CssPath(Url.Content("css")).Render())
 		 ```
 
@@ -123,7 +123,7 @@
 
 		**C# の場合:**
 
-		```
+		```csharp
 		@Html.Infragistics().HtmlEditor().ID("igHtmlEditor").Render()
 		```
 

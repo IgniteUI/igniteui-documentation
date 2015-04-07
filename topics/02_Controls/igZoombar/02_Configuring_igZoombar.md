@@ -213,7 +213,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#zoom").igZoombar({ 
 	defaultZoomWindow: {
 	        left: 70,
@@ -253,7 +253,7 @@ $("#zoom").igZoombar({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#zoom").igZoombar({ 
       zoomWindowMinWidth: 10
 });
@@ -293,7 +293,7 @@ $("#zoom").igZoombar({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#zoom").igZoombar({ 
       zoomAction: "deferred"
 });

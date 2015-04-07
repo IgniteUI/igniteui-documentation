@@ -150,7 +150,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igDialog).igDialog("close");
 ```
 
@@ -172,7 +172,7 @@ $('#igDialog).igDialog("close");
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igDialog).igDialog("open");
 ```
 

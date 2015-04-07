@@ -69,7 +69,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $(function () {
         $("#grid").igHierarchicalGrid({
@@ -98,7 +98,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics()
         .Grid(Model)
         .ID("grid")
@@ -133,7 +133,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $(function () {
         $("#grid").igHierarchicalGrid({
@@ -167,7 +167,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics()
     .Grid(Model)
     .ID("grid")
@@ -202,7 +202,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $(function () {
         $("#grid").igHierarchicalGrid({
@@ -232,7 +232,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics()
     .Grid(Model)
     .ID("grid")
@@ -267,7 +267,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $(function () {
         $("#grid").igHierarchicalGrid({
@@ -298,7 +298,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics()
     .Grid(Model)
     .ID("grid")
@@ -333,7 +333,7 @@ igGridRowSelectors ウィジェットの `rowSelectorColumnWidth` オプショ�
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $(function () {
         $("#grid").igHierarchicalGrid({
@@ -364,7 +364,7 @@ igGridRowSelectors ウィジェットの `rowSelectorColumnWidth` オプショ�
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics()
     .Grid(Model)
     .ID("grid")

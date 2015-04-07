@@ -192,7 +192,7 @@ igDialog の最小化|[state](%%jQueryApiUrl%%/ui.igDialog#options:state) |minim
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igDialog).igDialog("pin");
 ```
 
@@ -214,7 +214,7 @@ $('#igDialog).igDialog("pin");
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igDialog).igDialog("unpin");
 ```
 

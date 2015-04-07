@@ -20,7 +20,7 @@
 	
 	**Razor の場合:**
 	
-	```
+	```csharp
 	@using Infragistics.Web.Mvc.Mobile
 	<script src="http://code.jquery.com/jquery.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile.min.js"></script>
@@ -36,7 +36,7 @@
 
 	**Razor の場合:**
 	
-	```
+	```csharp
 	@(
 	    Html.InfragisticsMobile()
 	    .TextBox()

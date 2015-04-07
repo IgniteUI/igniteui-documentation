@@ -94,7 +94,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 var selectedNode = $("#tree").igTree("selectedNode").element;
 // This returns a JSON object with the following structure:
 // var newNode = {
@@ -123,7 +123,7 @@ if (selectedNode != null) {
 
 **JavaScript の場合:**
 
-```
+```js
 var selectedNode = $("#tree").igTree("selectedNode").element;
 if (selectedNode != null) {
     // Creating an array of new nodes
@@ -158,7 +158,7 @@ if (selectedNode != null) {
 
 **JavaScript の場合:**
 
-```
+```js
 var selectedPath = $("#tree").igTree("selectedNode").path;
 if (selectedPath != null) {
     // Removing the selected node by path
@@ -181,7 +181,7 @@ if (selectedPath != null) {
 
 **JavaScript の場合:**
 
-```
+```js
 var nodeValue = $("#nodeValue").val();
 if (nodeValue) {
     // Removing all nodes with the provided value

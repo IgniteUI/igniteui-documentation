@@ -22,7 +22,7 @@ xlsx フォーマットをロードおよび保存する時のプロジェクト
 
 **Visual Basic の場合:**
 
-```
+```vb
 Dim workbook As Infragistics.Documents.Excel.Workbook = _
   Infragistics.Documents.Excel.Workbook.Load("C:ExistingWorkbook.xlsx")
 
@@ -32,7 +32,7 @@ workbook.Save("C:ModifiedWorkbook.xlsx")
 
 **C# の場合:**
 
-```
+```csharp
 Infragistics.Documents.Excel.Workbook workbook = 
   Infragistics.Documents.Excel.Workbook.Load( "C:ExistingWorkbook.xlsx" );
 

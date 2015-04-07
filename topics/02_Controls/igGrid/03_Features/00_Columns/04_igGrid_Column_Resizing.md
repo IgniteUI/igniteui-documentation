@@ -63,7 +63,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <link type="text/css" href="infragistics.theme.css" rel="stylesheet" />
 <link type="text/css" href="infragistics.css" rel="stylesheet" />
 <script type="text/javascript" src="jquery.min.js"></script>
@@ -76,7 +76,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript" src="infragistics.util.js"></script>
 <script type="text/javascript" src="infragistics.dataSource.js"></script>
 <script type="text/javascript" src="infragistics.ui.shared.js"></script>
@@ -90,7 +90,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
     columns: [
         { headerText: "Product ID", key: "ProductID", dataType: "number" },
@@ -111,7 +111,7 @@ dataSource: adventureWorks,
 ```
 **ASPX(MVC) の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").Columns(column =>
 	{
 	    column.For(x => x.ProductID).HeaderText("Product ID");
@@ -127,7 +127,7 @@ dataSource: adventureWorks,
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
     columns: [
         { headerText: "Product ID", key: "ProductID", dataType: "number" },
@@ -151,7 +151,7 @@ $("#grid1").igGrid({
 
 **C# の場合:**
 
-```
+```csharp
 <%=Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID")
 	.Columns(column =>
 	    {
@@ -172,7 +172,7 @@ $("#grid1").igGrid({
 
 **ASPX(MVC) の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").Columns(column =>
     {
         column.For(x => x.ProductID).HeaderText("Product ID");
@@ -193,7 +193,7 @@ $("#grid1").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
     $("#grid1").bind("iggridresizingcolumnresizing", handler);
 ```
 
@@ -201,7 +201,7 @@ $("#grid1").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
     columns: [
         { headerText: "Product ID", key: "ProductID", dataType: "number" },

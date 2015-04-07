@@ -152,7 +152,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $(function () {
         $("#comboTarget").igCombo({
@@ -170,7 +170,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.
     Infragistics().
     Combo().
@@ -287,7 +287,7 @@
 
         **HTML と ASPX の場合:**
 
-        ```
+        ```html
         <script type="text/javascript">        
             function comboSelectionChanging(evt, ui) {
 
@@ -301,7 +301,7 @@
 
         **HTML の場合:**
 
-        ```
+        ```html
         $("#comboTarget").igCombo({
                     selectionChanging: comboSelectionChanging
         });
@@ -309,7 +309,7 @@
 
 		 **ASPX の場合:**
 
-		```
+		```csharp
 		 $("#comboTarget").bind("igcomboselectionchanging", comboSelectionChanging);
 		```
 
@@ -317,7 +317,7 @@
 
     **HTML と ASPX の場合:**
 
-    ```
+    ```html
     <script type="text/javascript">
             
         function comboSelectionChanging(evt, ui) {

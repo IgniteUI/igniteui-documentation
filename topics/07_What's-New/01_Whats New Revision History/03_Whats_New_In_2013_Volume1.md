@@ -773,7 +773,7 @@ ASP.NET MVC ヘルパーへ追加することにより Ignite UI コントロー
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Combo()
     .DataSource(Model)
     .TextKey("DisplayText")

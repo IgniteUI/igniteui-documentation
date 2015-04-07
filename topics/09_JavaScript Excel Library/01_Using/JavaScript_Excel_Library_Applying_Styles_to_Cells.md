@@ -27,7 +27,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
 		var workbook = new $.ig.excel.Workbook();
 		var worksheet = workbook.worksheets().add("Sheet1");
         ```
@@ -36,7 +36,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
 		worksheet.columns(0).width(6000);
         ```
 
@@ -45,7 +45,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
         worksheet.rows(0).cells(0).value("Center");
 		worksheet.rows(0].cells(0).cellFormat().alignment($.ig.excel.HorizontalCellAlignment.center);
         ```
@@ -54,7 +54,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
         worksheet.rows(1).cells(0).cellFormat().bottomBorderColor(new $.ig.excel.WorkbookColorInfo("red"));
 		worksheet.rows(1).cells(0).cellFormat().bottomBorderStyle($.ig.excel.CellBorderLineStyle.dashDot);
 		worksheet.rows(1).cells(0).cellFormat().leftBorderColor(new $.ig.excel.WorkbookColorInfo("yellow"));
@@ -69,7 +69,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
 		worksheet.rows(2).cells(0).cellFormat().fill($.ig.excel.CellFill.createPatternFill("lime", "gray", $.ig.excel.FillPatternStyle.diagonalCrosshatch);
         ```
 
@@ -77,7 +77,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
 		worksheet.rows(3).cells(0).value(57);
 		worksheet.rows(3).cells(0).cellFormat().font().bold(true);
 		worksheet.rows(3).cells(0).cellFormat().font().underlineStyle($.ig.excel.FontUnderlineStyle.double);
@@ -87,7 +87,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
 		worksheet.rows(4).cells(0).value(-4357.059);
 		worksheet.rows(4).cells(0).cellFormat().formatString("\"$\"#,##0.00_);[Red](\"$\"#,##0.00)");
         ```
@@ -96,7 +96,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
         worksheet.rows(5).cells(0).value("Intented");
 		worksheet.rows(5).cells(0).cellFormat().indent(2);
         ```
@@ -105,7 +105,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
         worksheet.rows(6).cells(0).value("Rotated");
 		worksheet.rows(6).cells(0].cellFormat().rotation(45);
         ```
@@ -114,7 +114,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
 		worksheet.rows(7).cells(0).value("Shrink text so it is all visible in the cell");
 		worksheet.rows(7).cells(0).cellFormat().ShrinkToFit(true);
         ```
@@ -123,7 +123,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
 		worksheet.rows(8).height(500);
 		worksheet.rows(8).cells(0).value("Top");
 		worksheet.rows(8).cells(0).cellFormat().verticalAlignment($.ig.excel.VerticalCellAlignment.top);
@@ -133,7 +133,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
 		worksheet.rows(9).cells(0).value("This text has been wrapped.");
 		worksheet.rows(9).cells(0).cellFormat().wrapText(true);
         ```
@@ -142,7 +142,7 @@
 
         **JavaScript の場合:**
 
-        ```
+        ```js
 		var formattedString = new $.ig.excel.FormattedString( "Formatted String" );
 		worksheet.rows(10).cells(0).value(formattedString);
 		
@@ -163,7 +163,7 @@
 
     **JavaScript の場合:**
 
-    ```
+    ```js
 	workbook.save(function(data) { 
 	  },
 	  function(error) {

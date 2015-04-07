@@ -34,7 +34,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <div id="igRatingViewMarkupInitializtion"
     data-role="igrating"
     data-value="2"

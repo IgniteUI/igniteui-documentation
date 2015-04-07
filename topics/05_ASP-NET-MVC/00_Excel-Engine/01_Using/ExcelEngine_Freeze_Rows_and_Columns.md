@@ -16,7 +16,7 @@
 
 **Visual Basic の場合:**
 
-```
+```vb
 Dim workbook As New Infragistics.Documents.Excel.Workbook()
 Dim worksheet As Infragistics.Documents.Excel.Worksheet = _
   workbook.Worksheets.Add("Sheet1")
@@ -32,7 +32,7 @@ worksheet.DisplayOptions.FrozenPaneSettings.FrozenColumns = 2
 
 **C# の場合:**
 
-```
+```csharp
 Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
 Infragistics.Documents.Excel.Worksheet worksheet =
   workbook.Worksheets.Add( "Sheet1" );

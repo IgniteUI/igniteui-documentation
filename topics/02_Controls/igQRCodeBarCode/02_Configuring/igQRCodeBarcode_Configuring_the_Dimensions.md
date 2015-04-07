@@ -105,7 +105,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <head>
 ...
     <script type="text/jscript">
@@ -172,7 +172,7 @@ uniformToFill|![](images/igQRCodeBarcode_Configuring_the_Dimensions_of_the_QR_Co
 
 **HTML の場合:**
 
-```
+```html
 <head>
 ...
     <script type="text/jscript">
@@ -230,7 +230,7 @@ uniformToFill|![](images/igQRCodeBarcode_Configuring_the_Dimensions_of_the_QR_Co
 
 **HTML の場合:**
 
-```
+```html
 <head>
 …
     <script type="text/jscript">

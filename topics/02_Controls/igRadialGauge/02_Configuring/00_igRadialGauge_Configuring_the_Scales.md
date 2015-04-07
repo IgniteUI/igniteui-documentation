@@ -255,7 +255,7 @@ auto
 
  **JavaScript の場合:**  
  
-```                                                                                                                                   $("#gauge").igRadialGauge({                                                  
+```js                                                                                                                                   $("#gauge").igRadialGauge({                                                  
 	width: "400px",
 	height: "400px",
 	scaleStartExtent: 0.5,

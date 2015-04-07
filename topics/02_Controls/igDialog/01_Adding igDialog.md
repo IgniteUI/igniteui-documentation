@@ -36,7 +36,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<script src="js/jquery.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
     <script src="js/modules/infragistics.ui.dialog.js"></script>
@@ -46,7 +46,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<script src="js/jquery.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
     <script src="js/infragistics.loader.js"></script>
@@ -54,7 +54,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	<script type="text/javascript">
         $.ig.loader({
             scriptPath: "../js/",
@@ -77,7 +77,7 @@
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<div id="igDialog1">
 		    igDialog Content
 		</div>
@@ -89,7 +89,7 @@
 
 		**JavaScript の場合:**
 
-		```
+		```js
 		$.ig.loader(function () {
 	    	/* Initialization code here */
 	    });
@@ -99,7 +99,7 @@
 
 		**JavaScript の場合:**
 
-		```
+		```js
 		$(function () {
 	        $("#igDialog1").igDialog({
 	            showMinimizeButton: true,
@@ -119,7 +119,7 @@
 
 		**HTML の場合:**
 		
-		```
+		```html
 		<div id="igDialog1">
 	        igDialog Content
 	    </div>
@@ -129,7 +129,7 @@
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		@(Html
 	        .Infragistics()
 	        .Dialog()
@@ -167,7 +167,7 @@ igDialog をブラウザー DOM ツリーに追加すると、ターゲット ig
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igDialog).igDialog("destroy");
 ```
 

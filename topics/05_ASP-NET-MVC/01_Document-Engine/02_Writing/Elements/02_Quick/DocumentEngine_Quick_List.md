@@ -18,7 +18,7 @@ Quick List 要素を使用することは、シンプルな黒丸または番号
 
 **C# の場合:**
 
-```
+```csharp
 // Add a quick list
 section1.AddQuickText("Quick List");
 Infragistics.Documents.Reports.Report.QuickList.IQuickList quickList =   section1.AddQuickList();

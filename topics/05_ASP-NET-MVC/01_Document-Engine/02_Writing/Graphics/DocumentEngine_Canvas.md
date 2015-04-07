@@ -155,7 +155,7 @@ Rounded Rectangle
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     Imports Infragistics.Documents.Reports.Report
     Imports Infragistics.Documents.Reports.Graphics
     .
@@ -171,7 +171,7 @@ Rounded Rectangle
 
     **C# の場合:**
 
-    ```
+    ```csharp
     using Infragistics.Documents.Reports.Report;
     using Infragistics.Documents.Reports.Graphics;
     .
@@ -189,7 +189,7 @@ Rounded Rectangle
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Create a System Graphics object and use it
     ' to draw a rectangle
     canvas1.CreateGraphics().DrawRectangle( _
@@ -199,7 +199,7 @@ Rounded Rectangle
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Create a System Graphics object and use it
     // to draw a rectangle
     canvas1.CreateGraphics().DrawRectangle
@@ -213,7 +213,7 @@ Rounded Rectangle
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Draw a Rectangle with a Hyperlink inside.
     canvas1.StartHyperlink(1, 0, 10)
     canvas1.Pen = New Pen(Colors.Red, 5)
@@ -230,7 +230,7 @@ Rounded Rectangle
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Draw a Rectangle with a Hyperlink inside.
     canvas1.StartHyperlink(1, 0, 10);
     canvas1.Pen = new Pen(Colors.Red, 5);
@@ -249,7 +249,7 @@ Rounded Rectangle
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Draw a green line 5px thick. 
     canvas1.Pen = New Pen(Colors.Green, 5)
     canvas1.DrawLine(220, 50, 320, 150)
@@ -257,7 +257,7 @@ Rounded Rectangle
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Draw a green line 5px thick. 
     canvas1.Pen = new Pen(Colors.Green, 5);
     canvas1.DrawLine(220, 50, 320, 150);
@@ -267,7 +267,7 @@ Rounded Rectangle
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Draw an ellipse and outline it with a blue, 5px line
     ' and fill it with a light blue color.
     canvas1.Pen = New Pen(Colors.Blue, 5)
@@ -277,7 +277,7 @@ Rounded Rectangle
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Draw an ellipse and outline it with a blue, 5px line
     // and fill it with a light blue color.
     canvas1.Pen = new Pen(Colors.Blue, 5);
@@ -289,7 +289,7 @@ Rounded Rectangle
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Change the Canvas' pen and brush.
     canvas1.Pen = New Pen(Colors.DarkBlue, 5, DashStyle.DashDot)
     canvas1.Brush = New LinearGradientBrush(Colors.Yellow, Colors.Green, 45.0F)
@@ -297,7 +297,7 @@ Rounded Rectangle
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Change the Canvas' pen and brush.
     canvas1.Pen = new Pen(Colors.DarkBlue, 5, DashStyle.DashDot);
     canvas1.Brush = new LinearGradientBrush(Colors.Yellow, Colors.Green, 45F);
@@ -307,7 +307,7 @@ Rounded Rectangle
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Because both shapes are being created as one (using
     ' StartShape and EndShape), the intersection of the 
     ' two shapes is considered not a part of the shape 
@@ -321,7 +321,7 @@ Rounded Rectangle
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Because both shapes are being created as one (using
     // StartShape and EndShape), the intersection of the 
     // two shapes is considered not to be a part of the shape 
@@ -337,7 +337,7 @@ Rounded Rectangle
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Draw another rectangle with a different pen and brush.
     canvas1.Pen = New Pen(Colors.Red, 5, DashStyle.DashDotDot)
     canvas1.Brush = New HatchBrush(HatchStyle.Cross, Colors.Red, Colors.White)
@@ -346,7 +346,7 @@ Rounded Rectangle
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Draw another rectangle with a different pen and brush.
     canvas1.Pen = new Pen(Colors.Red, 5, DashStyle.DashDotDot);
     canvas1.Brush = new HatchBrush(HatchStyle.Cross, Colors.Red, Colors.White);
@@ -357,7 +357,7 @@ Rounded Rectangle
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Draw another line, this time with a different dash style.
     canvas1.Pen = New Pen(Colors.Green, 5, DashStyle.DashDot)
     canvas1.DrawLine(220, 500, 320, 600)
@@ -365,7 +365,7 @@ Rounded Rectangle
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Draw another line, this time with a different dash style.
     canvas1.Pen = new Pen(Colors.Green, 5, DashStyle.DashDot);
     canvas1.DrawLine(220, 500, 320, 600);
@@ -375,7 +375,7 @@ Rounded Rectangle
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Draw another ellipse with a different pen and brush.
     canvas1.Pen = New Pen(Colors.Blue, 5, DashStyle.Dash)
     canvas1.Brush = _
@@ -385,7 +385,7 @@ Rounded Rectangle
 
     **C# の場合:**
 
-    ```
+    ```csharp
     // Draw another ellipse with a different pen and brush.
     canvas1.Pen = new Pen(Colors.Blue, 5, DashStyle.Dash);
     canvas1.Brush = 

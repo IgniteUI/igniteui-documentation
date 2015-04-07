@@ -16,7 +16,7 @@ Infragistics® Excel® オブジェクト ライブラリにより、新しい `
 
 **JavaScript の場合:**
 
-```
+```js
 var workbook = new $.ig.excel.Workbook();
 workbook.setCurrentFormat ($.ig.excel.WorkbookFormat.excel2007);
 ```

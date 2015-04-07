@@ -31,7 +31,7 @@ Flow 要素はレポートで列を定義するために非常に役に立ちま
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     Imports Infragistics.Documents.Reports.Report
     .
     .
@@ -47,7 +47,7 @@ Flow 要素はレポートで列を定義するために非常に役に立ちま
 
     **C# の場合:**
 
-    ```
+    ```csharp
     using Infragistics.Documents.Reports.Report;
     .
     .
@@ -67,7 +67,7 @@ Flow 要素はレポートで列を定義するために非常に役に立ちま
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     ' Add a Flow element to the main section
     Dim flow As Infragistics.Documents.Reports.Report.Flow.IFlow = section1.AddFlow()
 
@@ -96,7 +96,7 @@ Flow 要素はレポートで列を定義するために非常に役に立ちま
 
 	**C# の場合:**
 
-    ```
+    ```csharp
     // Add a Flow element to the main section
     Infragistics.Documents.Reports.Report.Flow.IFlow flow = section1.AddFlow();
                             
@@ -139,7 +139,7 @@ Flow 要素はレポートで列を定義するために非常に役に立ちま
 
     **Visual Basic の場合:**
 
-	```
+	```vb
     Dim string1 As String = "Lorem ipsum..."
 
     ' Create a Text element.
@@ -172,7 +172,7 @@ Flow 要素はレポートで列を定義するために非常に役に立ちま
 
 	**C# の場合:**
 
-	```
+	```csharp
     string string1 = "Lorem ipsum...";
 
     // Create a Text element.

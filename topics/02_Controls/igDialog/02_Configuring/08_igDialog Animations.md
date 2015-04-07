@@ -67,7 +67,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#dialog").igDialog({
     openAnimation: “slide”
     closeAnimation: "explode"
@@ -80,7 +80,7 @@ $("#dialog").igDialog({
 
 **C# の場合:**
 
-```
+```csharp
 <%= Html.Infragistics()
     .Dialog()
     .ContentID("dialog")

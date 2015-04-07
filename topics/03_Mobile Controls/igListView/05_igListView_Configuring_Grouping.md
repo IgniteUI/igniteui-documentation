@@ -97,7 +97,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<link rel="stylesheet" href="jquery.mobile.structure.min.css" />
 	<script type="text/javascript" src="jquery.min.js"></script>
 	<script type="text/javascript" src="jquery.mobile.min.js"></script>
@@ -106,7 +106,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<script type="text/javascript">
 	    $.ig.loader({
 	        scriptPath: "../js/",
@@ -123,7 +123,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<script type="text/javascript">
 	var northwindEmployees = [
 	    { "ID": 1, "Name": "Davolio, Nancy", "Title": "Sales Representative", "ImageUrl": "../content/images/nw/employees/1.png", "Phone": "(206) 555-9857", "PhoneUrl": "tel:(206) 555-9857" },
@@ -148,7 +148,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<ul id="igListViewGrouping"
 	    data-role="iglistview"
 	    data-icon-mode="thumbnail"
@@ -171,7 +171,7 @@
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<div id="igListViewGrouping"></div>
 		```
 	
@@ -179,7 +179,7 @@
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		<script type="text/javascript">
 		    $.ig.loader(function() {
 		        $("#igListViewGrouping").igListView({
@@ -257,7 +257,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	public class ProductViewModel
 	{
 	    public string ProductName { get; set; }
@@ -273,7 +273,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	@model IQueryable<ProductViewModel>
 	<script type="text/javascript" src="infragistics.mobile.loader.js"></script>
 	@(Html.InfragisticsMobile().
@@ -322,7 +322,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	public class SampleDataJsonController : Controller
 	{
 	    public JsonResult ProductJSON()
@@ -391,7 +391,7 @@ product.
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<link rel="stylesheet" href="jquery.mobile.structure.min.css" />
 	<script type="text/javascript" src="jquery.min.js"></script>
 	<script type="text/javascript" src="jquery.mobile.min.js"></script>
@@ -400,7 +400,7 @@ product.
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<script type="text/javascript">
 	    $.ig.loader({
 	        scriptPath: "../js/",
@@ -417,7 +417,7 @@ product.
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<script type="text/javascript">
 	    var northwindProducts = [
 	        { "ProductName": "Chai", "CategoryName": "Beverages", "ImageUrl": "../content/images/nw/categories/1.png", "InStock": 39 },
@@ -440,7 +440,7 @@ product.
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		//Logic to sort by first letter
 		function byFirstLetter(val1, val2) {
 		    if (val1 === null && val2 === null)
@@ -459,7 +459,7 @@ product.
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		//Logic determines group names
 		function returnFirstLetter(val) {
 		    if (!val || val.length === 0)
@@ -477,7 +477,7 @@ product.
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<ul id="igListViewGrouping"
 	    data-auto-generate-layouts="False" 
 	    data-image-mode="icon"
@@ -503,7 +503,7 @@ product.
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<div id="igListViewGrouping"></div>
 	```
 	
@@ -511,7 +511,7 @@ product.
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<script type="text/javascript">
 	    $.ig.loader(function() {
 	        $("#igListViewGrouping").igListView({

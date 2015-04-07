@@ -96,7 +96,7 @@
 
  **JavaScript の場合:**
 
-	```
+	```js
 	function createNewChartItem(label) {
         var val1 = Math.round(Math.random() * 100);
         var val2 = Math.round(Math.random() * 100);
@@ -111,7 +111,7 @@
 
  **JavaScript の場合:**
 
-	```
+	```js
 	var currData, currDataSource;
     currData = [];
     currData[0] = createNewChartItem();
@@ -127,7 +127,7 @@
 
  **JavaScript の場合:**
 
-	```
+	```js
 	$("#chart").igDataChart({
         width: "500px",
         height: "500px",
@@ -154,7 +154,7 @@
 
  **JavaScript の場合:**
 
-	```
+	```js
 	...
     series: [{
             name: "column",
@@ -194,7 +194,7 @@
 
 	**HTML の場合:**
 
-    	```
+    	```html
     	<input type="button" id="btnPlay" value="Add Data" />
     	```
 
@@ -202,7 +202,7 @@
 
  	**JavaScript の場合:**
 
-		```
+		```js
 		$.ig.loader(function () {
 	        $("#btnPlay").igButton({
 	            labelText: $("#btnPlay").val(),
@@ -219,7 +219,7 @@
 
  **JavaScript の場合:**
 
-	```
+	```js
 	function addNewItemToChart() {
         var dataSource = $("#chart").igDataChart("option", "dataSource");
         var data = dataSource.data();

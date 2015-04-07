@@ -28,7 +28,7 @@ Paragraph は揃えて配置またはインデントが可能なテキスト ブ
 
 **C# の場合:**
 
-```
+```csharp
 using Infragistics.Documents.Word;
 
 // Create a new instance of the WordDocumentWriter class

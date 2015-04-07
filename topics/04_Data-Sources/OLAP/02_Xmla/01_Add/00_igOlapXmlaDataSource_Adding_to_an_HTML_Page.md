@@ -139,7 +139,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $.ig.loader({
     scriptPath: '[path to js folder]',
     cssPath: '[path to css folder]',
@@ -168,7 +168,7 @@ $.ig.loader(function () {
 
 **JavaScript の場合:**
 
-```
+```js
 $(function() {
     var dataSource = new $.ig.OlapXmlaDataSource({
         serverUrl: 'http://sampledata.infragistics.com/olap/msmdpump.dll',

@@ -79,7 +79,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
     features: [
         {
@@ -118,7 +118,7 @@ $("#grid1").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
     features: [
         {
@@ -157,7 +157,7 @@ $("#grid1").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({    
     features: [
         {

@@ -364,7 +364,7 @@
 
 		**HTML の場合:**
 
-		```
+		```html
 		<script  type="text/javascript" src="Scripts/jquery.js"></script>
 		<script  type="text/javascript" src="Scripts/jquery-ui.js"></script>
 		<script  type="text/javascript" src="Scripts/modernizr.js"></script>
@@ -374,7 +374,7 @@
 
 		**HTML の場合:**
 
-		```
+		```html
 		<script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
 		```
 
@@ -384,7 +384,7 @@
 
 		**HTML の場合:**
 
-		```
+		```html
 		<script type="text/javascript">
 		    $.ig.loader({
 		        scriptPath: "Scripts/ig/",
@@ -400,7 +400,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<table id="pivotGrid"></table>
 	```
 
@@ -410,7 +410,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	$.ig.loader(function () {    
 			var dataSource = new $.ig.OlapXmlaDataSource({
 	        serverUrl: "http://sampledata.infragistics.com/olap/msmdpump.dll",
@@ -428,7 +428,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	$.support.cors = true;
 	```
 
@@ -438,7 +438,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	$.ig.loader(function () {
 		// add data source declaration here
 		$("#pivotGrid").igPivotGrid({
@@ -451,7 +451,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	$("#pivotGrid").igPivotGrid({
 	      dataSourceOptions: {
 	        xmlaOptions:{

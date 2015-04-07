@@ -46,7 +46,7 @@ Ignite UI™ のパーセント エディター、すなわち `igPercentEditor`
 
     **HTML の場合:**
 
-    ```
+    ```html
     <link type="text/css" href="/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
     <link type="text/css" href="/css/structure/infragistics.css" rel="stylesheet" />
     <script type="text/javascript" src="/Scripts/jquery.min.js"></script>
@@ -57,7 +57,7 @@ Ignite UI™ のパーセント エディター、すなわち `igPercentEditor`
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%@ Import Namespace="Infragistics.Web.Mvc" %>
 
     <link type="text/css" href="<%= Url.Content("~/css/themes/infragistics/infragistics.theme.css") %>"rel="stylesheet" />
@@ -72,7 +72,7 @@ Ignite UI™ のパーセント エディター、すなわち `igPercentEditor`
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @using Infragistics.Web.Mvc;
 
     <link type="text/css" href="@Url.Content("~/css/themes/infragistics/infragistics.theme.css")" rel="stylesheet" />
@@ -89,7 +89,7 @@ Ignite UI™ のパーセント エディター、すなわち `igPercentEditor`
 
     **HTML の場合:**
 
-    ```
+    ```html
     <input id="percentEditor" type="text" value="25.75"/>
     ```
 
@@ -99,7 +99,7 @@ Ignite UI™ のパーセント エディター、すなわち `igPercentEditor`
 
     **JavaScript の場合:**
 
-    ```
+    ```js
     <script type="text/javascript">
       $('#percentEditor').igPercentEditor({
           width: 160
@@ -109,7 +109,7 @@ Ignite UI™ のパーセント エディター、すなわち `igPercentEditor`
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%= Html.Infragistics().PercentEditor()
     .ID("percentEditor")
     .Value(0.0)
@@ -119,7 +119,7 @@ Ignite UI™ のパーセント エディター、すなわち `igPercentEditor`
 
     **Razor の場合:**
 
-	```
+	```csharp
 	@(Html.Infragistics().PercentEditor()
 		.ID("percentEditor")
 		.Value(0.0)

@@ -19,7 +19,7 @@
 **Visual Basic の場合:**
 
 
-```
+```vb
 Dim comment As Infragistics.Documents.Excel.WorksheetCellComment = New WorksheetCellComment () 
 Dim formatted As New FormattedString ("This is a comment") 
 comment.Text = formatted 
@@ -31,7 +31,7 @@ worksheet4.Rows (10).Cells (2).Comment = comment
 **C# の場合:**
 
 
-```
+```csharp
 Infragistics.Documents.Excel.WorksheetCellComment comment = new WorksheetCellComment ();
 FormattedString formatted = new FormattedString ("This is a comment");
 comment.Text = formatted;

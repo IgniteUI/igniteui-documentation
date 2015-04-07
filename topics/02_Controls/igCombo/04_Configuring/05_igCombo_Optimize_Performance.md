@@ -73,7 +73,7 @@
 
 **HTML の場合:**
 
-```
+```html
 $("#combo").igCombo({
     virtualization: true,
 });
@@ -81,7 +81,7 @@ $("#combo").igCombo({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.
     Infragistics().
     Combo().

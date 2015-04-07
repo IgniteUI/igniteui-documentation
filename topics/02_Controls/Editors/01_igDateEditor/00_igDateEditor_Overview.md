@@ -43,7 +43,7 @@ Ignite UI™ 日付エディター、つまり `igDateEditor` は日付に書式
 
     **HTML の場合:**
 
-    ```
+    ```html
     <link type="text/css" href="/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
     <link type="text/css" href="/css/structure/infragistics.css" rel="stylesheet" />
     <script type="text/javascript" src="/Scripts/jquery.min.js"></script>
@@ -54,7 +54,7 @@ Ignite UI™ 日付エディター、つまり `igDateEditor` は日付に書式
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%@ Import Namespace="Infragistics.Web.Mvc" %>
 
     <link type="text/css" href="<%= Url.Content("~/css/themes/infragistics/infragistics.theme.css") %>"rel="stylesheet" />
@@ -69,7 +69,7 @@ Ignite UI™ 日付エディター、つまり `igDateEditor` は日付に書式
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @using Infragistics.Web.Mvc;
 
     <link type="text/css" href="@Url.Content("~/css/themes/infragistics/infragistics.theme.css")" rel="stylesheet" />
@@ -86,7 +86,7 @@ Ignite UI™ 日付エディター、つまり `igDateEditor` は日付に書式
 
     **HTML の場合:**
 
-    ```
+    ```html
     <input id="dateEditor" type="text" />
     ```
 
@@ -96,7 +96,7 @@ Ignite UI™ 日付エディター、つまり `igDateEditor` は日付に書式
 
     **JavaScript の場合:**
 
-    ```
+    ```js
     <script type="text/javascript">
           $('#dateEditor').igDateEditor({
               button: 'spin',
@@ -110,7 +110,7 @@ Ignite UI™ 日付エディター、つまり `igDateEditor` は日付に書式
 
     **ASPX の場合:**
 
-     ```
+     ```csharp
      <%= Html.Infragistics().DateTimeEditor()
                   .ID("dateEditor")
                   .ButtonType(TextEditorButtonType.Spin)
@@ -122,7 +122,7 @@ Ignite UI™ 日付エディター、つまり `igDateEditor` は日付に書式
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @(Html.Infragistics().DateTimeEditor()
                  .ID("dateEditor")
                  .ButtonType(TextEditorButtonType.Spin)

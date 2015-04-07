@@ -93,7 +93,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
 $(function () {
     $("#grid1").igGrid({
@@ -115,7 +115,7 @@ $(function () {
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>{       
@@ -148,7 +148,7 @@ $(function () {
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
 $(function () {
     $("#grid1").igGrid({
@@ -170,7 +170,7 @@ $(function () {
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>{       
@@ -204,7 +204,7 @@ $(function () {
 
         **HTML の場合:**
 
-        ```
+        ```html
         <script type="text/javascript">     
         function gridColumnHiding (evt, ui) {
          
@@ -218,7 +218,7 @@ $(function () {
 
 		**HTML の場合:**
 		
-		```
+		```html
 		$(function () {
 			$("#grid1").igGrid({
 				autoGenerateColumns: true,
@@ -236,7 +236,7 @@ $(function () {
 		
 		**HTML と ASPX の場合:**
 		
-		```
+		```js
 		$("# grid1").live("iggridhidingcolumnhiding", comboSelectionChanging);
 		```
 
@@ -246,7 +246,7 @@ $(function () {
 
     **HTML と ASPX の場合:**
 
-    ```
+    ```html
     <script type="text/javascript">
             
         function gridColumnHiding (evt, ui) {
@@ -292,7 +292,7 @@ $(function () {
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
 $(function () {
     $("#grid").igGrid({
@@ -313,7 +313,7 @@ $(function () {
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>{       

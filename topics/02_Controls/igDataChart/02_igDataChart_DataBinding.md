@@ -184,7 +184,7 @@
 
  **JavaScript の場合:**
 
-	```
+	```js
 	<script type="text/javascript">
         var data = [
                 { "DateString": "2.1.2010", "Open": 1000, "High": 1028.75, "Low": 985.25, "Close": 1020, "Volume": 1995 },
@@ -205,7 +205,7 @@
 
  **HTML の場合:**
 
-	```
+	```html
 	<body>
         ...
         <div id="chart"></div>
@@ -219,7 +219,7 @@
 
  **JavaScript の場合:**
 
-	```
+	```js
 	<script type="text/javascript">
         $(function () {
             $("#chart").igDataChart({
@@ -280,7 +280,7 @@
 
  **C# の場合:**
 
-	```
+	```csharp
 	public class StockMarketDataPoint
     {
         public double Open { get; set; }
@@ -301,7 +301,7 @@
 
  **C# の場合:**
 
-	```
+	```csharp
 	public ActionResult Index()
     {
         List<StockMarketDataPoint> stockMarketData = new List<StockMarketDataPoint>
@@ -323,7 +323,7 @@
 
  **ASPX の場合:**
 
-	```
+	```csharp
 	<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<IQueryable<DataChartSample.Models.StockMarketDataPoint>>" %>
     <%@ Import Namespace="Infragistics.Web.Mvc" %>
     ...
@@ -386,7 +386,7 @@
 
  **C# の場合:**
 
-	```
+	```csharp
 	[ServiceContract]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class StockMarket
@@ -412,7 +412,7 @@
 
  **JavaScript の場合:**
 
-	```
+	```js
 	$(function () {
         $("#chart").igDataChart({
             dataSourceUrl: "http://www.example.com/Services/StockMarket.svc/GetStockData",
@@ -446,7 +446,7 @@
 
  **ASPX の場合:**
 
-	```
+	```csharp
 	<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
     <%@ Import Namespace="Infragistics.Web.Mvc" %>
     ...

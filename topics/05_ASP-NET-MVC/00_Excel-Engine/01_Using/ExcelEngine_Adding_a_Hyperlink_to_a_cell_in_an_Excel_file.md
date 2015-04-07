@@ -15,15 +15,15 @@
 コードの記述を開始する前にコード ビハインドに using/imports のディレクティブを配置します。そうすれば、メンバーは完全に記述された名前を常に入力する必要がなくなります。
 
 **Visual Basic の場合:**
-```
+```vb
 Imports Infragistics.Documents.Excel
 ```
 **C# の場合:**
-```
+```csharp
 using Infragistics.Documents.Excel;
 ```
 **Visual Basic の場合:**
- ```
+ ```vb
  'Create an Excel File 
  Dim s As String = "C:theFile.xls"
  'Create a Workbook 
@@ -37,7 +37,7 @@ using Infragistics.Documents.Excel;
  w.Save(s)
  ```
 **C# の場合:**
- ```
+ ```csharp
  //Create an Excel File
  string s = @" C:theFile.xls";
 

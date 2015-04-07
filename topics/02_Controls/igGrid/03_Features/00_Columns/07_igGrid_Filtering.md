@@ -49,7 +49,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 features: [
   { 
      name: “Filtering”, 
@@ -104,7 +104,7 @@ features: [
 
 **HTML の場合:**
 
-```
+```html
 <link type="text/css" href="infragistics.theme.css" rel="stylesheet" />
 <link type="text/css" href="infragistics.css" rel="stylesheet" />
 <script type="text/javascript" src="jquery.min.js"></script>
@@ -119,7 +119,7 @@ features: [
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript" src="infragistics.util.js"></script>
 <script type="text/javascript" src="infragistics.dataSource.js"></script>
 <script type="text/javascript" src="infragistics.ui.shared.js"></script>
@@ -134,7 +134,7 @@ features: [
 
 **JavaScript の場合:**
 
-```
+```js
 //Basic filtering on client
 $("#myGrid").igGrid({
     dataSource: "/GetCensusData/",
@@ -160,7 +160,7 @@ $("#myGrid").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 [
    {"AverageFamilySize":3.36, "AverageHouseholdSize":2.91, "CongressionalDistrict":"14", "StateName": "Illinois", "TotalPopulation":720663},
    {"AverageFamilySize":3.00, "AverageHouseholdSize":2.43, "CongressionalDistrict":"15", "StateName": "Illinois", "TotalPopulation":595833},
@@ -173,7 +173,7 @@ $("#myGrid").igGrid({
 
 **HTML の場合:**
 
-```
+```html
 <div id="myGrid"></div>
 ```
 
@@ -183,7 +183,7 @@ $("#myGrid").igGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").Height("400px").Columns(column =>
     {
         column.For(x => x.ProductID).HeaderText("Product ID").DataType("number");
@@ -526,7 +526,7 @@ expressions 引数は式オブジェクトの配列です。リスト 12 は、�
 
 **JavaScript の場合:**
 
-```
+```js
 {expr: <filter expression string>, cond: <filtering condition>, fieldName: <name of column key>}
 ```
 
@@ -536,14 +536,14 @@ expressions 引数は式オブジェクトの配列です。リスト 12 は、�
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGridFiltering('filter', ([{ fieldName: "ProductID", expr: 1, cond: "equals"}]));
 ```
 
 リスト 8: ProductID = 1 および ProductName startsWith “a” によるフィルター
 
 **JavaScript の場合:**
-```
+```js
 $("#grid1").igGridFiltering('filter', ([{ fieldName: "ProductID", expr: 1, cond: "equals"}, {fieldName: "ProductName", expr: "a", cond: "startsWith"} ]));
 ```
 

@@ -139,7 +139,7 @@ ADOMD.NET|Microsoft® ADOMD.NET を使用して SSAS インスタンスに直接
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	[AdomdDataSourceAction]
 	public ActionResult RemoteAdomdProviderEndpoint()
 	{
@@ -151,7 +151,7 @@ ADOMD.NET|Microsoft® ADOMD.NET を使用して SSAS インスタンスに直接
 	
 	**XML の場合:**
 	
-	```
+	```xml
 	<runtime>
 	  <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
 	    <dependentAssembly>
@@ -168,7 +168,7 @@ ADOMD.NET|Microsoft® ADOMD.NET を使用して SSAS インスタンスに直接
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	[XmlaDataSourceAction]
 	public ActionResult RemoteXmlaProviderEndpoint()
 	{
@@ -184,7 +184,7 @@ ADOMD.NET|Microsoft® ADOMD.NET を使用して SSAS インスタンスに直接
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$(function () {
 	    var remoteDataSource = new $.ig.OlapXmlaDataSource({
 	        isRemote: true,
@@ -214,7 +214,7 @@ ADOMD.NET|Microsoft® ADOMD.NET を使用して SSAS インスタンスに直接
 
 **C# の場合:**
 
-```
+```csharp
 using System.Web.Mvc;
 using Infragistics.Web.Mvc;
 namespace OlapAdomdMvc.Controllers
@@ -245,7 +245,7 @@ namespace OlapAdomdMvc.Controllers
 
 **HTML の場合:**
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>

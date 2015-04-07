@@ -241,7 +241,7 @@ color
 
 **JavaScript の場合:**
 
-```
+```js
 $.ig.loader({
     scriptPath: '{IG Resources root}/js/',
     cssPath: '{IG Resources root}/css/',

@@ -24,7 +24,7 @@
 
     **JavaScript の場合:**
 
-    ```
+    ```js
     <script src="scripts/jquery.js" type="text/javascript"></script>
     <script src="scripts/jquery-ui.js" type="text/javascript"></script>
     <script src="scripts/infragistics.core.js" type="text/javascript"></script>
@@ -39,7 +39,7 @@
 
 	    **JavaScript の場合:**
 	
-	    ```
+	    ```js
 	    products = [];
         products[0] = { "ProductID": 1, "Name": "Adjustable Race", "ProductNumber": "AR-5381" };
         products[1] = { "ProductID": 2, "Name": "Bearing Ball", "ProductNumber": "BA-8327" };
@@ -57,7 +57,7 @@
 
 	    **JavaScript の場合:**
 	
-	    ```
+	    ```js
 	    arrayOfArraysData = [
 			["AED", "Emirati Dirham", "Jun  1 1998 12:00AM"],
 			["AFA", "Afghani", "Jun  1 1998 12:00AM"],
@@ -77,7 +77,7 @@
 
 	    **HTML の場合:**
 	
-		```
+		```html
 		<table id="t1" cellpadding="5" cellspacing="0" border="1">
 			<thead>
 			    <tr>
@@ -113,13 +113,13 @@
         
 	    **HTML の場合:**
 
-        ```
+        ```html
         <table id=”grid1”></table>
         ```
 
 		**JavaScript の場合:**
 
-	    ```
+	    ```js
 	    $(function () {
             $("#grid1").igGrid({
                 columns: [
@@ -136,13 +136,13 @@
 
 	    **HTML の場合:**
 	
-	    ```
+	    ```html
 	    <table id=”grid1”></table>
 	    ```
 	
 	    **JavaScript の場合:**
 	
-	    ```
+	    ```js
 	    $(function () {
             $("#grid1").igGrid({
                autoGenerateColumns: false,
@@ -160,7 +160,7 @@
 
 		**JavaScript の場合:**
 
-        ```
+        ```js
         $("#grid1").igGrid({
            autoGenerateColumns: false,
             columns: [

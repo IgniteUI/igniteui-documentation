@@ -211,7 +211,7 @@ Slider ASP.NET MVC ヘルパーの [`MinValue`](Infragistics.Web.Mvc.Mobile~Infr
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .Slider()
@@ -254,7 +254,7 @@ Slider ASP.NET MVC ヘルパーの [`MinValue`](Infragistics.Web.Mvc.Mobile~Infr
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .Slider()
@@ -287,7 +287,7 @@ Slider ASP.NET MVC ヘルパーの [`MinValue`](Infragistics.Web.Mvc.Mobile~Infr
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .Slider()
@@ -323,7 +323,7 @@ Slider ASP.NET MVC ヘルパーの [`MinValue`](Infragistics.Web.Mvc.Mobile~Infr
 
 **Razor の場合:**
 
-```
+```csharp
 @(
     Html.InfragisticsMobile()
     .Slider()
@@ -372,7 +372,7 @@ Slider ASP.NET MVC ヘルパーの [`MinValue`](Infragistics.Web.Mvc.Mobile~Infr
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .Slider()
@@ -406,7 +406,7 @@ Slider ASP.NET MVC ヘルパーの [`MinValue`](Infragistics.Web.Mvc.Mobile~Infr
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .Slider()
@@ -439,7 +439,7 @@ Mini プロパティを有効にする|[Mini](Infragistics.Web.Mvc.Mobile~Infrag
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .Slider()
@@ -479,7 +479,7 @@ Step プロパティを 10 に設定する|[Step](Infragistics.Web.Mvc.Mobile~In
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .Slider()
@@ -511,7 +511,7 @@ Step プロパティを 10 に設定する|[Step](Infragistics.Web.Mvc.Mobile~In
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .Slider()

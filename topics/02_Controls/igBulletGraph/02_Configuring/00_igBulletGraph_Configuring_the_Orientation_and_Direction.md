@@ -105,7 +105,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igBulletGraph').igBulletGraph({
     width: ”70”,
     height: ”300”,
@@ -161,7 +161,7 @@ $('#igBulletGraph').igBulletGraph({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igBulletGraph').igBulletGraph({
     width: “70”,
     height: “300”,
@@ -184,7 +184,7 @@ $('#igBulletGraph').igBulletGraph({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igBulletGraph').igBulletGraph({
     width: '70',
     height: '400',

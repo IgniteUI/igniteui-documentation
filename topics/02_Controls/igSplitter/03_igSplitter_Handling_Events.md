@@ -170,7 +170,7 @@ jQuery および ASP.NET MVC で実行時にイベントを処理
 
 **JavaScript の場合:**
 
-```
+```js
 $(".selector").igSplitter({
     resizeStarted: function(evt, ui) { 
           // Handle event
@@ -189,7 +189,7 @@ $(".selector").igSplitter({
 
 **JavaScript の場合:**
 
-```
+```js
 $(document).delegate(".selector", "igsplitterresizestarted", function(evt, ui) { 
    // Handle event
 });

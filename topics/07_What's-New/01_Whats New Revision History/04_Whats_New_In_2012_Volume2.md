@@ -95,7 +95,7 @@ Infragistics `igDialog` は jQuery UI 方式のウィジェットです。ダイ
 
 **HTML の場合:**
 
-```
+```html
 <div id="dialog">
     igDialog Content
 </div>

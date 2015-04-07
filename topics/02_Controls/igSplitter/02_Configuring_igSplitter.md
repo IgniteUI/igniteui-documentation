@@ -364,7 +364,7 @@ collapsed|左/上パネル|true
 
 **JavaScript の場合:**
 
-```
+```js
 $("#splitter").igSplitter({
 	 width: 700,
 	 panels: [{ collapsed: true }] 
@@ -468,7 +468,7 @@ $("#splitter").igSplitter({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#splitter").igSplitter({    width: 700,    panels: [{ size: 100 }]                 });
 ```
 
@@ -587,7 +587,7 @@ max
 
 **JavaScript の場合:**
 
-```
+```js
 $("#splitter").igSplitter({     panels: [{ min: 100, max: 300 }]              });
 ```
 
@@ -625,7 +625,7 @@ $("#splitter").igSplitter({     panels: [{ min: 100, max: 300 }]              })
 
 **JavaScript の場合:**
 
-```
+```js
 $("#splitter").igSplitter({                     
 	orientation: "horizontal"
 });
@@ -842,7 +842,7 @@ resizable|左パネル|false
 
 **JavaScript の場合:**
 
-```
+```js
 $("#splitter").igSplitter({ 
      panels: [{          
 		resizable: false     

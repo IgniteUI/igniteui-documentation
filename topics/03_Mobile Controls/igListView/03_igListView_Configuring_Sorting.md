@@ -227,7 +227,7 @@ trayText - トレイ エリアのテキスト
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<link rel="stylesheet" href="jquery.mobile.structure.min.css" />
 	<script type="text/javascript" src="jquery.min.js"></script>
 	<script type="text/javascript" src="jquery.mobile.min.js"></script>
@@ -236,7 +236,7 @@ trayText - トレイ エリアのテキスト
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<script type="text/javascript">
 	    $.ig.loader({
 	        scriptPath: "../js/",
@@ -253,7 +253,7 @@ trayText - トレイ エリアのテキスト
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	var northwindProducts = [
 	
 	    { "ProductName": "Chai", "CategoryName": "Beverages", 
@@ -299,7 +299,7 @@ trayText - トレイ エリアのテキスト
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<ul id="igListViewSorting"
 	    data-role="iglistview" 
 	    data-data-source="northwindProducts"                 
@@ -323,7 +323,7 @@ trayText - トレイ エリアのテキスト
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<div id="igListViewSorting"></div>
 		```
 	
@@ -331,7 +331,7 @@ trayText - トレイ エリアのテキスト
 	
 		**JavaScript の場合:**
 		
-		```
+		```js
 		<script type="text/javascript">
 		    $(function () {
 		        $("#igListViewSorting").igListView({
@@ -417,7 +417,7 @@ trayText - トレイ エリアのテキスト
 	
 	    **C# の場合:**
 	
-	    ```
+	    ```csharp
 	    public class ProductViewModel
 	    {
 	        public string ProductName { get; set; }
@@ -433,7 +433,7 @@ trayText - トレイ エリアのテキスト
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	@(Html
 	    .InfragisticsMobile()
 	    .ListView(Model)
@@ -488,7 +488,7 @@ trayText - トレイ エリアのテキスト
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	public class SampleDataJsonController : Controller
 	{
 	    public JsonResult ProductJSON()
@@ -565,7 +565,7 @@ trayText - トレイ エリアのテキスト
 	
 		**C# の場合:**
 	
-	    ```
+	    ```csharp
 	    public class ProductViewModel
 	    {
 	        public string ProductName { get; set; }
@@ -581,7 +581,7 @@ trayText - トレイ エリアのテキスト
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	@model IQueryable<ProductViewModel>
 	@(Html
 	    .InfragisticsMobile()
@@ -629,7 +629,7 @@ trayText - トレイ エリアのテキスト
 
 	**C# の場合:**
 	
-	```
+	```csharp
 	public class ListViewController : Controller
 	{
 	    public ActionResult IgListViewRemoteSorting()

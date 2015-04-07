@@ -295,7 +295,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#chartInverted").igFunnelChart({
     width: "325px",
     height: "450px",
@@ -323,7 +323,7 @@ $("#chartInverted").igFunnelChart({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#chartWeighted").igFunnelChart({
     width: "325px",
     height: "450px",
@@ -353,7 +353,7 @@ $("#chartWeighted").igFunnelChart({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#chartBezier").igFunnelChart({
     width: "325px",
     height: "450px",
@@ -388,7 +388,7 @@ $("#chartBezier").igFunnelChart({
 
 **JavaScript の場合:**
 
-```
+```js
 var selectedSlices = [];
 $("#chart").igFunnelChart({
     width: "350px",

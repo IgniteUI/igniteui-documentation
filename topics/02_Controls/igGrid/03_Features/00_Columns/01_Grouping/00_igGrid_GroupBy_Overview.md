@@ -53,7 +53,7 @@ GroupBy の永続化は `igHierarchicalGrid` にも実装されています。
 
 **JavaScript の場合:**
 
-```
+```js
 features: [
   { 
      name: “GroupBy”, 

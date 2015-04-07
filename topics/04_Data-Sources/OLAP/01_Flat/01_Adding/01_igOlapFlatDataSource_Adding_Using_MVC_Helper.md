@@ -92,7 +92,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%=Import Namespace=”Infragistics.Web.Mvc” %>
 	```
 
@@ -102,7 +102,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	//…
 	var sales = new List<object>() { 
 	    new { ProductCategory = "Clothing", SellerName = "Stanley Brooker", UnitPrice = 12.814, UnitsSold = 282, SalesDate = DateTime.Today.ToShortDateString()},
@@ -120,7 +120,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<script src="[path to js folder]/infragistics.loader.js"></script>
 		```
 		
@@ -130,7 +130,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<%=Html.Infragistics()
 		        .Loader()
 		        .ScriptPath("[js path]")
@@ -147,7 +147,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<%=Html.Infragistics().OlapDataSource().ID("flatDataSource")
 		// remaining code goes here
 		%>
@@ -159,7 +159,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<%=Html.Infragistics().OlapDataSource().ID("flatDataSource")
 		  .DataSourceOptions(dataSourceOptions => dataSourceOptions
 		      .Columns("[SalesDate].[SalesDate]")
@@ -174,7 +174,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<%=Html.Infragistics().OlapDataSource().ID("flatDataSource")
 		  .DataSourceOptions(dataSourceOptions => dataSourceOptions
 		      // common properties
@@ -228,7 +228,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<%= Html.Infragistics().OlapDataSource().ID("flatDataSource").DataSourceOptions(
 		    dataSourceOptions => dataSourceOptions.FlatDataOptions(
 		        // flat data options
@@ -242,7 +242,7 @@
 		
 		**ASPX の場合:**
 		
-		```
+		```csharp
 		<%= Html.Infragistics().OlapDataSource().ID("flatDataSource")
 		  // all options
 		          .Render()
@@ -259,7 +259,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().OlapDataSource().ID("flatDataSource")
         .DataSourceOptions(
             dataSourceOptions => dataSourceOptions

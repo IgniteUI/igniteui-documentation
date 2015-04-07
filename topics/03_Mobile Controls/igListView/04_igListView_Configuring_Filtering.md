@@ -195,7 +195,7 @@
     
     **HTML の場合:**
     
-    ```
+    ```html
     <link rel="stylesheet" href="jquery.mobile.structure.min.css" />
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="jquery.mobile.min.js"></script>
@@ -204,7 +204,7 @@
     
     **JavaScript の場合:**
     
-    ```
+    ```js
     <script type="text/javascript">
         $.ig.loader({
             scriptPath: "../js/",
@@ -219,7 +219,7 @@
 
     **JavaScript の場合:**
     
-    ```
+    ```js
     var northwindProducts = [
         { "ProductName": "Chai", "CategoryName": "Beverages", 
             "ImageUrl": "../content/images/nw/categories/1.png", "InStock": 39 },
@@ -248,7 +248,7 @@
     
     **HTML の場合:**
     
-    ```
+    ```html
     <ul id="filterPresetsListView"
         data-role="iglistview" 
         data-auto-generate-layouts="False" 
@@ -271,7 +271,7 @@
         
         **HTML の場合:**
         
-        ```
+        ```html
         <div id="filterPresetsListView"></div>
         ```
     
@@ -279,7 +279,7 @@
     
         **JavaScript の場合:**
         
-        ```
+        ```js
         $(function () {
             $("#filterPresetsListView").igListView({
                 dataSource: northwindProducts,
@@ -364,7 +364,7 @@
     
     **HTML の場合:**
     
-    ```
+    ```html
     <link rel="stylesheet" href="jquery.mobile.structure.min.css" />
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="jquery.mobile.min.js"></script>
@@ -373,7 +373,7 @@
     
     **JavaScript の場合:**
     
-    ```
+    ```js
     <script type="text/javascript">
         $.ig.loader({
             scriptPath: "../js/",
@@ -388,7 +388,7 @@
     
     **JavaScript の場合:**
     
-    ```
+    ```js
     var northwindProducts = [
         { "ProductName": "Chai", "CategoryName": "Beverages", 
             "ImageUrl": "../content/images/nw/categories/1.png", "InStock": 39 },
@@ -415,7 +415,7 @@
     
     **HTML の場合:**
     
-    ```
+    ```html
     <ul id="filterListView"
         data-role="iglistview" 
         data-auto-generate-layouts="False" 
@@ -440,7 +440,7 @@
     
     **HTML の場合:**
     
-    ```
+    ```html
     <div id="filterPresetsListView"></div>
     ```
     
@@ -448,7 +448,7 @@
     
     **JavaScript の場合:**
     
-    ```
+    ```js
     <script type="text/javascript">
         $(function () {
             $("#filterListView").igListView({
@@ -519,7 +519,7 @@
     
         **C# の場合:**
     
-        ```
+        ```csharp
         public class ProductViewModel
         {
             public string ProductName { get; set; }
@@ -535,7 +535,7 @@
     
     **C# の場合:**
     
-    ```
+    ```csharp
     @model IQueryable<ProductViewModel>
     <script type="text/javascript" src="infragistics.mobile.loader.js"></script>
     @(Html.InfragisticsMobile().
@@ -577,7 +577,7 @@
     
     **C# の場合:**
     
-    ```
+    ```csharp
     public class ListViewController : Controller
     {
         public ActionResult IgListViewRemoteFiltering()
@@ -662,7 +662,7 @@
     
         **C# の場合:**
     
-        ```
+        ```csharp
         public class ProductViewModel
         {
             public string ProductName { get; set; }
@@ -678,7 +678,7 @@
     
     **C# の場合:**
     
-    ```
+    ```csharp
     @model IQueryable<ProductViewModel>
     <script type="text/javascript" src="infragistics.mobile.loader.js"></script>
     @(Html.InfragisticsMobile().
@@ -728,7 +728,7 @@
     
     **C# の場合:**
     
-    ```
+    ```csharp
     public class ListViewController : Controller
     {
         public ActionResult IgListViewRemoteFiltering()

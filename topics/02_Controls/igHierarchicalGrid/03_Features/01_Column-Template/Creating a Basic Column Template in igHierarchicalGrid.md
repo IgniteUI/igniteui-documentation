@@ -37,7 +37,7 @@ HTML ページを準備するには、igLoader を追加し、igHierarchicalGrid
 
 **JavaScript の場合:**
 
-```
+```js
 <script src="http://localhost/ig_ui/js/infragistics.loader.js"></script>
 <script type="text/javascript">
 $.ig.loader({
@@ -54,7 +54,7 @@ $.ig.loader({
 
 **JavaScript の場合:**
 
-```
+```js
 <script type="text/javascript">
  var productsInventories = [{
       "ProductID": 1,
@@ -79,7 +79,7 @@ $.ig.loader({
 
 **HTML の場合:**
 
-```
+```html
 <body>
 <table id="grid1"></table>
 </body>
@@ -89,7 +89,7 @@ $.ig.loader({
 
 **JavaScript の場合:**
 
-```
+```js
 <script type="text/javascript">
 $.ig.loader(function () {
       $("#grid1").igHierarchicalGrid({

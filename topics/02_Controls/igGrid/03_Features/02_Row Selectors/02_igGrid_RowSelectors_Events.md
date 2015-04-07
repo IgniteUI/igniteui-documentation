@@ -28,7 +28,7 @@ RowSelectors ウィジェットに固有なイベントは 3 つあります。(
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
 features: [
      {
@@ -53,7 +53,7 @@ features: [
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
      responseDataKey: 'Records',
      features: [
@@ -74,7 +74,7 @@ MVC でハンドラーを添付する場合、jQuery UI パターンを使用す
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").delegate("#iggridrowselectorsrowselectorclicked’": function (e, args) {
       // Handle event  
    }

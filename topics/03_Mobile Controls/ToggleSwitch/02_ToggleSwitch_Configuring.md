@@ -190,7 +190,7 @@ Toggle Switch 状態に設定する|[SwitchedState](Infragistics.Web.Mvc.Mobile~
 
 **Razor の場合:**
 
-```
+```csharp
 @(
     Html.InfragisticsMobile()
     .ToggleSwitch()
@@ -226,7 +226,7 @@ Toggle Switch 状態に設定する|[SwitchedState](Infragistics.Web.Mvc.Mobile~
 
 **Razor の場合:**
 
-```
+```csharp
 @(
     Html.InfragisticsMobile()
     .ToggleSwitch()
@@ -352,7 +352,7 @@ false - ラベルを表示する
 
 **Razor の場合:**
 
-```
+```csharp
 @(
     Html.InfragisticsMobile()
     .ToggleSwitch()
@@ -407,7 +407,7 @@ false - ラベルを表示する
 
 **Razor の場合:**
 
-```
+```csharp
 @(
     Html.InfragisticsMobile()
     .ToggleSwitch()
@@ -455,7 +455,7 @@ false - ラベルを表示する
 
 **Razor の場合:**
 
-```
+```csharp
 @(
     Html.InfragisticsMobile()
     .ToggleSwitch()

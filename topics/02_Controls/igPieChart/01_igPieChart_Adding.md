@@ -107,7 +107,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<script  type="text/javascript" src="Content/ig/infragistics.loader.js"></script>
 	```
 
@@ -115,7 +115,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<script type="text/javascript">
 	    $.ig.loader({
 	        scriptPath: "Scripts/ig/",
@@ -135,7 +135,7 @@
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<%@ Import Namespace="Infragistics.Web.Mvc" %>
 	<%= Html.Infragistics().Loader()
 	        .ScriptPath(Url.Content("~/Scripts/ig/"))
@@ -158,7 +158,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<div id="chart" class="chartContainer"></div>
 	<div id="legend" class="chartContainer"></div>
 	```
@@ -177,7 +177,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<script type="text/javascript">
 	    var data = [
 	            { "Budget": 950000, "Department": "Accounting" },
@@ -195,7 +195,7 @@
 
 	**C# の場合:**
 
-	```
+	```csharp
 	public class DepartmentSpending
 	{
 	    public string Department { get; set; }
@@ -207,7 +207,7 @@
 
 	**C# の場合:**
 
-	```
+	```csharp
 	public ActionResult Index()
 	{
 	    List<DepartmentSpending> companyBudget = new List<DepartmentSpending>
@@ -226,7 +226,7 @@
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<IQueryable<PieChartSample.Models.DepartmentSpending>>" %>
 	```
 
@@ -238,7 +238,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	$(function () {
 	    $("#chart").igPieChart({
 	        width: "450px",
@@ -267,7 +267,7 @@
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<%= Html.Infragistics().PieChart(Model)
 	        .ID("chart")
 	        .Height("450px")

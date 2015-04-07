@@ -96,7 +96,7 @@
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<IEnumerable<ShipMethod>>" %>
 	<%@ Import Namespace="Infragistics.Web.Mvc" %>
 	<!DOCTYPE html>
@@ -125,7 +125,7 @@
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	using System.Collections.Generic;
 	using System.Web.Mvc;
 	public class HomeController : Controller
@@ -151,7 +151,7 @@
 
 	**ASPX の場合:**
 
-    ```
+    ```csharp
     <script>
         function comboSelectionChanged(e, ui) {
             alert("Shipping Method: " + ui.items[0].text);
@@ -165,7 +165,7 @@
 
 	**ASPX の場合:**
 
-    ```
+    ```csharp
     <%= Html.Infragistics().Combo()
         .DataSource(Model)
         .TextKey("DisplayText")

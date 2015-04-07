@@ -70,7 +70,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#" + $("#grid1").igGrid("id")).igGridPaging("option", "pageSize", 2)
 ```
 
@@ -78,7 +78,7 @@ $("#" + $("#grid1").igGrid("id")).igGridPaging("option", "pageSize", 2)
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid("widget").igGridPaging("option", "pageSize", 10)
 ```
 

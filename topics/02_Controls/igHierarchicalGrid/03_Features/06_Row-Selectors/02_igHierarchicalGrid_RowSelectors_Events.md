@@ -406,7 +406,7 @@ igRowSelectors が初期化される igGrid への参照を取得します。
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid").igHierarchicalGrid({
     initialDataBindDepth: -1,
     dataSource: data,
@@ -450,7 +450,7 @@ MVC ヘルパー内ではイベント ハンドラーを定義できないため
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid").delegate("#iggridrowselectorsrowselectorclicked":
     function (e, args) {
         // Handle event  
@@ -470,7 +470,7 @@ $("#grid").delegate("#iggridrowselectorsrowselectorclicked":
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid").igHierarchicalGrid({
     initialDataBindDepth: -1,
     dataSource: data,

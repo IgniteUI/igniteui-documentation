@@ -121,7 +121,7 @@ ASP.NET MVC
 
 **HTML の場合:**
 
-```
+```html
 Code
 <!--Add a placeholders to the HTML page -->
 <div id="chart"></div>
@@ -147,7 +147,7 @@ $("#zoombar").igZoombar({
 
 **C# の場合:**
 
-```
+```csharp
 Code
 @(Html.Infragistics().DataChart(Model)
 .ID("chart")

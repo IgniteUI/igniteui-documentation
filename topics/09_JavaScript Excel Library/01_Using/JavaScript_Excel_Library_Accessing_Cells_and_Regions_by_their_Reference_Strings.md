@@ -17,7 +17,7 @@
 **JavaScript の場合:**
 
 
-```
+```js
 'Accessing a single cell
 worksheet.getCell("C5").applyFormula("=A5*B5");
 'Accessing a range of cells

@@ -48,7 +48,7 @@
 
         **HTML の場合:**
 
-        ```
+        ```html
         <div id="JSONTree"></div>
         ```
 
@@ -58,7 +58,7 @@
 
         **HTML の場合:**
 
-        ```
+        ```html
         <script type="text/javascript">
                 $(function () {
                     $("#JSONTree").igTree({
@@ -70,7 +70,7 @@
 
         **ASPX の場合:**
 
-        ```
+        ```csharp
         <%= Html.
             Infragistics().
             Tree().
@@ -85,7 +85,7 @@
 
         **HTML の場合:**
 
-        ```
+        ```html
         var data = [
             { Label: 'Food', Products: [
                 { Name: 'Tuna Sandwich' },  
@@ -100,7 +100,7 @@
 
         **C# の場合:**
 
-        ```
+        ```csharp
         public class SamplesController : Controller
         {
             //This class defines the object to which the nodes are bound
@@ -168,21 +168,21 @@
 
         **HTML の場合:**
 
-        ```
+        ```html
         dataSourceType: 'json',
         dataSource: data
         ```
 
         **ASPX の場合:**
 
-        ```
+        ```csharp
         DataSource(this.Model).
         DataBind()
         ```
 
         **C# の場合:**
 
-        ```
+        ```csharp
         //Send the data with the View
         public ActionResult Mvc()
         {
@@ -196,7 +196,7 @@
 
         **ASPX の場合:**
 
-        ```
+        ```csharp
         Render()
         ```
 
@@ -206,7 +206,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     bindings: {
         textKey: 'Label',
         childDataProperty: 'Products',
@@ -218,7 +218,7 @@
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     Bindings( bindings => {
         bindings.
         TextKey("Label").      
@@ -236,13 +236,13 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     singleBranchExpand: true,
     ```
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     SingleBranchExpand(true)
     ```      
 
@@ -264,7 +264,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     var data = [
     { Label: 'Food', Products: [
@@ -304,7 +304,7 @@
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.
     Infragistics().
     Tree().
@@ -327,7 +327,7 @@
 
 **C# の場合:**
 
-```
+```csharp
 public class SamplesController : Controller
 {
     //This class defines the object to which the nodes are bound

@@ -54,7 +54,7 @@
 
     **C# の場合:**
 
-	```
+	```csharp
 	public class AdventureWorksDataService : DataService<AdventureWorksLT2008_DataEntities>
 	```
 
@@ -62,7 +62,7 @@
 
     **C# の場合:**
 
-	```
+	```csharp
 	public static void InitializeService(DataServiceConfiguration config)
     {
 	
@@ -79,7 +79,7 @@
 
     **C# の場合:**
 
-	```
+	```csharp
 	[JSONPSupportBehavior]
     public class AdventureWorksDataService : DataService<AdventureWorksLT2008_DataEntities>
 	```
@@ -102,7 +102,7 @@
 
     **HTML の場合:**
 
-	```
+	```html
 	<head>
 	    <link href="css/themes/infragistics/infragistics.theme.css" rel="stylesheet" type="text/css" />
 	    <link href="css/structure/infragistics.css" rel="stylesheet" type="text/css" />
@@ -119,7 +119,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <body>
         <table id='tableProducts'></table>
     </body>
@@ -129,7 +129,7 @@
 
     **HTML の場合:**
 
-	```
+	```html
 	<script type="text/javascript">
 			
 		$(function () {
@@ -164,7 +164,7 @@
 	
 	**JavaScript の場合:**
 
-		```
+		```js
 		features : [{
 				name : 'Selection',
 				mode : 'row',

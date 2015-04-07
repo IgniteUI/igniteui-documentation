@@ -23,7 +23,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
     .customTheme .ui-igedit-hover
     { 
@@ -54,7 +54,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $('#datepicker').igDatePicker({
      width: 160,
      regional: 'en-US', 
@@ -70,7 +70,7 @@ $('#datepicker').igDatePicker({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#datepicker').igDatePicker('option', 'theme', 'customTheme');
 ```
 
@@ -86,7 +86,7 @@ $('#datepicker').igDatePicker('option', 'theme', 'customTheme');
 
 **HTML の場合:**
 
-```
+```html
 <body>
      <input type="text"  id="datepicker"  />
      <div id="themeRoller" />
@@ -97,7 +97,7 @@ $('#datepicker').igDatePicker('option', 'theme', 'customTheme');
 
 **JavaScript の場合 - igDatePicker の初期化:**
 
-```
+```js
 $('#datepicker').igDatePicker({
     width: 160,
     regional: 'en-US'

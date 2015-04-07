@@ -78,7 +78,7 @@ ASP.NET MVC|`GridColumnBuilder.Unbound(string key = null)` メソッドを使用
 
 **JavaScript の場合:**
 
-```
+```js
 var employees = [
     {FirstName: "Nancy", LastName: "Davolio"},
     {FirstName: "Andrew", LastName: "Fuller"},
@@ -118,7 +118,7 @@ $("#grid").igGrid({
 
 **C# の場合:**
 
-```
+```csharp
 namespace GridDataBinding.Models
 {
     public class Employee
@@ -135,7 +135,7 @@ namespace GridDataBinding.Models
 
 **ASPX の場合:**
 
-```
+```csharp
 @using Infragistics.Web.Mvc
 @model IQueryable<UnboundColumns.Models.Employee>
 <script type="text/javascript">
@@ -166,7 +166,7 @@ namespace GridDataBinding.Models
 
 **C# の場合:**
 
-```
+```csharp
 public class HomeController : Controller
 {
     public ActionResult Index()

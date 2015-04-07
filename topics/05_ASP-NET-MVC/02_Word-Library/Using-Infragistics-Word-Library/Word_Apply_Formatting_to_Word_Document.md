@@ -19,7 +19,7 @@
 
 **C# の場合:**
 
-```
+```csharp
 using Infragistics.Documents.Word;
 
 //  Create a font, which can be reused in content creation
@@ -36,7 +36,7 @@ font.Effects.Capitalization = Capitalization.CapsOn;
 
 **C# の場合:**
 
-```
+```csharp
 using Infragistics.Documents.Word;
 
 // Paragraph Properties
@@ -52,7 +52,7 @@ paraformat.Alignment = ParagraphAlignment.Right;
 
 **C# の場合:**
 
-```
+```csharp
 using Infragistics.Documents.Word;
 
 //  Create a new instance of the WordDocumentWriter class using the
@@ -70,7 +70,7 @@ docWriter.DefineSection(secProperties);
 
 **C# の場合:**
 
-```
+```csharp
 using Infragistics.Documents.Word;
 
 // Create a new instance of the WordDocumentWriter class using the

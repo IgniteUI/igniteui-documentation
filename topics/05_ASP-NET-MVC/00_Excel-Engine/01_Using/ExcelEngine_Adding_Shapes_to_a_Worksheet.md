@@ -29,7 +29,7 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         Dim workbook As New Infragistics.Documents.Excel.Workbook()
         Dim worksheet As Infragistics.Documents.Excel.Worksheet = _
           workbook.Worksheets.Add("Sheet1")
@@ -37,7 +37,7 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
         **C# の場合:**
 
-        ```
+        ```csharp
         Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
         Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add( "Sheet1" );
         ```
@@ -47,7 +47,7 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         Dim aspImage As Image = Image.FromFile("C:NA_AspNet.gif")
         Dim winImage As Image = Image.FromFile("C:NA_Win_Forms.gif")
         Dim wpfImage As Image = Image.FromFile("C:NA_WPF.gif")
@@ -55,7 +55,7 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
         **C# の場合:**
 
-        ```
+        ```csharp
         Image aspImage = Image.FromFile( "C:NA_AspNet.gif" );
         Image winImage = Image.FromFile( "C:NA_Win_Forms.gif" );
         Image wpfImage = Image.FromFile( "C:NA_WPF.gif" );
@@ -65,7 +65,7 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         Dim aspImageShape As Infragistics.Documents.Excel.WorksheetImage = _
           New Infragistics.Documents.Excel.WorksheetImage(aspImage)
         Dim winImageShape As Infragistics.Documents.Excel.WorksheetImage = _
@@ -76,7 +76,7 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
         **C# の場合:**
 
-        ```
+        ```csharp
         Infragistics.Documents.Excel.WorksheetImage aspImageShape =
           new Infragistics.Documents.Excel.WorksheetImage( aspImage );
         Infragistics.Documents.Excel.WorksheetImage winImageShape =
@@ -91,7 +91,7 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     aspImageShape.TopLeftCornerCell = worksheet.Rows.Item(3).Cells.Item(1)
     aspImageShape.BottomRightCornerCell = worksheet.Rows.Item(5).Cells.Item(6)
     ' The bottom-right corner of the shape should be close to the
@@ -116,7 +116,7 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
     **C# の場合:**
 
-    ```
+    ```csharp
     aspImageShape.TopLeftCornerCell = worksheet.Rows[3].Cells[1];
     aspImageShape.BottomRightCornerCell = worksheet.Rows[5].Cells[6];
     // The bottom-right corner of the shape should be close to the
@@ -144,14 +144,14 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         Dim group As Infragistics.Documents.Excel.WorksheetShapeGroup = _
           New Infragistics.Documents.Excel.WorksheetShapeGroup()
         ```
 
         **C# の場合:**
 
-        ```
+        ```csharp
         Infragistics.Documents.Excel.WorksheetShapeGroup group =
           new Infragistics.Documents.Excel.WorksheetShapeGroup();
         ```
@@ -160,7 +160,7 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         group.Shapes.Add(aspImageShape)
         group.Shapes.Add(winImageShape)
         group.Shapes.Add(wpfImageShape)
@@ -168,7 +168,7 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
         **C# の場合:**
 
-        ```
+        ```csharp
         group.Shapes.Add( aspImageShape );
         group.Shapes.Add( winImageShape );
         group.Shapes.Add( wpfImageShape );
@@ -178,13 +178,13 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         worksheet.Shapes.Add(group)
         ```
 
         **C# の場合:**
 
-        ```
+        ```csharp
         worksheet.Shapes.Add( group );
         ```
 
@@ -193,13 +193,13 @@ Infragistics.Documents.Excel アセンブリの優れた点の 1 つとして、
 
         **Visual Basic の場合:**
 
-        ```
+        ```vb
         workbook.Serialize("C:Shapes.xls")
         ```
 
         **C# の場合:**
 
-        ```
+        ```csharp
         workbook.Serialize( "C:Shapes.xls" );
         ```
 

@@ -137,7 +137,7 @@
 
 		**HTML の場合:**
 
-		```
+		```html
 		<script type="text/javascript" src="jquery.min.js"></script>
 	    <script type="text/javascript" src="jquery-ui.min.js"></script>
 	    <script type="text/javascript" src="infragistics.loader.js"></script>
@@ -149,7 +149,7 @@
 
 		**JavaScript の場合:**
 
-		```
+		```js
 		<script type="text/javascript">
 	        $.ig.loader({
 	            scriptPath: "js",
@@ -165,7 +165,7 @@
 
 	**CSS の場合:**
 
-	```
+	```css
 	<style type="text/css">
         span.ui-icon.ui-icon-contact
         {
@@ -181,7 +181,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	<script type="text/javascript">
         $.ig.loader(function () {
             $("#htmlEditor").igHtmlEditor({
@@ -198,7 +198,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	<script type="text/javascript">
         $.ig.loader(function () {
             $("#htmlEditor").igHtmlEditor({
@@ -250,7 +250,7 @@
 	-	`<valueToBePassedToTheActionHandler>` は、アクション ハンドラーに渡す値です。
 
 	**JavaScript の場合:**
-	```	
+	```js	
 	    items: [{
 	        
 			name: "appendSignature",
@@ -280,7 +280,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	<script type="text/javascript">
         function appendSignature(ui) {
             var currentContent = $("#htmlEditor").igHtmlEditor("getContent", "html");

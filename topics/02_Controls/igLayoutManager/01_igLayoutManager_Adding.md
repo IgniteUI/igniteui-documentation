@@ -234,7 +234,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script  type="text/javascript" src="Scripts/jquery.js"></script>
     <script  type="text/javascript" src="Scripts/jquery-ui.js"></script>
     ```
@@ -243,7 +243,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
     ```
 
@@ -251,7 +251,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script type="text/javascript">
         $.ig.loader({
             scriptPath: "Scripts/ig/",
@@ -271,7 +271,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<ul id="layout">
         <li></li>
         <li></li>
@@ -295,7 +295,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	$.ig.loader(function () {
         //  Create a basic igLayoutManager control
         $("#layout").igLayoutManager({
@@ -331,7 +331,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script  type="text/javascript" src="Scripts/jquery.js"></script>
     <script  type="text/javascript" src="Scripts/jquery-ui.js"></script>
     ```
@@ -340,7 +340,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
     ```
 
@@ -348,7 +348,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script type="text/javascript">
         $.ig.loader({
             scriptPath: "Scripts/ig/",
@@ -369,7 +369,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<ul id="layout">
     </ul>
 	```
@@ -382,7 +382,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	$.ig.loader(function () {
         //  Create a basic igLayoutManager control
         $("#layout").igLayoutManager({
@@ -417,7 +417,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script  type="text/javascript" src="Scripts/jquery.js"></script>
     <script  type="text/javascript" src="Scripts/jquery-ui.js"></script>
     ```
@@ -426,7 +426,7 @@
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
     ```
 
@@ -434,7 +434,7 @@
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     @(Html.Infragistics()
             .Loader()     
             .ScriptPath("http://localhost/ig_ui/js/")
@@ -454,7 +454,7 @@
 
 	**HTML の場合:**
 
-    ```
+    ```html
     <ul id="layout"></ul>
     ```
 
@@ -464,7 +464,7 @@
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	@(Html.Infragistics()
         .ID("layout")
         .LayoutMode("flow")

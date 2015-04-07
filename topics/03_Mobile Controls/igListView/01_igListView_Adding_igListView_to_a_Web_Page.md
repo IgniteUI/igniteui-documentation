@@ -133,7 +133,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <li>
     <div>
         <a href="${navigateUrlKey}">
@@ -207,7 +207,7 @@
 
 		**HTML の場合:**
 
-	    ```
+	    ```html
 	    <link rel="stylesheet" href="jquery.mobile.structure.min.css" />
 	    <link rel="Stylesheet" href="infragistics.mobile.list.css" />
 	    <link rel="Stylesheet" href="infragistics.mobile.theme.css" />
@@ -225,7 +225,7 @@
 
 		**HTML の場合:**
 		
-		```
+		```html
 		<link rel="stylesheet" href="jquery.mobile.structure.min.css" />
 		<script type="text/javascript" src="jquery.min.js"></script>
 		<script type="text/javascript" src="jquery.mobile.min.js"></script>
@@ -234,7 +234,7 @@
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		<script type="text/javascript">
 		    $.ig.loader({
 		        scriptPath: "../js/",
@@ -251,7 +251,7 @@
 
 	**JavaScript の場合:**
 	
-	```
+	```js
 	var northwindEmployees = [
 	    { "ID": 1, "Name": "Davolio, Nancy", "Title": "Sales Representative", 
 	        "ImageUrl": "../content/images/nw/employees/1.png",
@@ -279,7 +279,7 @@
 
 		**HTML の場合:**
 		
-		```
+		```html
 		<ul id="jsonListView"
 		    data-role="iglistview"
 		    data-data-source="northwindEmployees" 
@@ -297,7 +297,7 @@
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<div id="jsonListView"></div>
 		```
 		
@@ -308,7 +308,7 @@
 	
 		**JavaScript の場合:**
 		
-		```
+		```js
 		$("#jsonListView").igListView({
 		    dataSource: northwindEmployees,
 		    bindings: {
@@ -325,7 +325,7 @@
 
 		**C# の場合:**
 		
-		```
+		```csharp
 		@model IQueryable<EmployeeViewModel>
 		@(Html
 		    .InfragisticsMobile()

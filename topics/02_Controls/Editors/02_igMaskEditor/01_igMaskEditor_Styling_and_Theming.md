@@ -24,7 +24,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
     .customTheme .ui-igedit-hover
     { 
@@ -52,7 +52,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $('#maskEditor').igMaskEditor({
     width: 160,
     renderInContainer: true,
@@ -67,7 +67,7 @@ $('#maskEditor').igMaskEditor({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#maskEditor').igDateEditor('option', 'theme', 'customTheme');
 ```
 
@@ -81,7 +81,7 @@ $('#maskEditor').igDateEditor('option', 'theme', 'customTheme');
 
 **HTML の場合:**
 
-```
+```html
 <body>
      <input type="text"  id="maskEditor"  />
      <div id="themeRoller"></div>
@@ -90,7 +90,7 @@ $('#maskEditor').igDateEditor('option', 'theme', 'customTheme');
 
 **C# の場合:**
 
-```
+```csharp
 $('#maskEditor').igMaskEditor({
     width: 160,
     renderInContainer: true,

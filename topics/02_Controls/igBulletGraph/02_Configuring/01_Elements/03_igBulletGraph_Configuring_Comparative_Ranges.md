@@ -401,7 +401,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $(function () {
     $("#bulletgraph").igBulletGraph({
                 width: "300",

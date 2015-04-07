@@ -46,7 +46,7 @@
 
 **C# の場合:**
 
-```
+```csharp
 GridModel model = new GridModel();          
 DataSet ds = GetEmployDepartmentDataSet();
 model.DataSource = ds;
@@ -69,7 +69,7 @@ model.ColumnLayouts[0].ColumnLayouts[0].DataMember = "Employees";
 
 **ASPX の場合:**
 
-```
+```csharp
 <%=(Html.Infragistics().Grid<System.Data.DataSet>().ID("grid1").Height("500px")
     .AutoGenerateColumns(true)
     .AutoGenerateLayouts(true)     
@@ -99,7 +99,7 @@ model.ColumnLayouts[0].ColumnLayouts[0].DataMember = "Employees";
 
 **C# の場合:**
 
-```
+```csharp
 [GridDataSourceAction]
 [ActionName("dataset-interactions")]
 public ActionResult DataSetInteractions()
@@ -113,14 +113,14 @@ public ActionResult DataSetInteractions()
 
 **ASPX の場合:**
 
-```
+```csharp
 @model  Infragistics.Web.Mvc.GridModel
 @(Html.Infragistics().Grid(Model))
 ```
 
 **C# の場合:**
 
-```
+```csharp
 GridModel model = new GridModel();
 DataSet ds = GetEmployDepartmentDataSet();
 model.DataSource = ds;
@@ -138,7 +138,7 @@ return View("BindToDataSet", model);
 
 **C# の場合:**
 
-```
+```csharp
 GridModel grid = GridLoadOnDemandModel();            
 grid.DataSource = GetEmployDepartmentDataSet();
 grid.DataSourceUrl = this.Url.Action("NewBindParent");
@@ -175,7 +175,7 @@ public JsonResult NewBindChild(string path, string layout)
 
 **ASPX の場合:**
 
-```
+```csharp
 <%=(Html.Infragistics().Grid<System.Data.DataSet>().ID("grid1").Height("500px")
         .AutoGenerateColumns(true)       
         .RenderCheckboxes(true)
@@ -204,7 +204,7 @@ public JsonResult NewBindChild(string path, string layout)
 
 **C# の場合:**
 
-```
+```csharp
 GridFiltering filtering = new GridFiltering();
 filtering.Type = OpType.Local;
 model.Features.Add(filtering);
@@ -223,7 +223,7 @@ Microsoft JSON シリアライザーはJSON からのディクショナリのシ
 
 **C# の場合:**
 
-```
+```csharp
 public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where T : class
 {
     List<Transaction<T>> transactions = JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
@@ -241,7 +241,7 @@ public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where
 
 **C# の場合:**
 
-```
+```csharp
 GridModel grid = new GridModel();
 grid.PrimaryKey = "DepartmentID";
 ```
@@ -258,7 +258,7 @@ grid.PrimaryKey = "DepartmentID";
 
 **C# の場合:**
 
-```
+```csharp
 DataTable dtCustomers = new DataTable("Customers");
 dtCustomers.Columns.Add("CustomerID", typeof(int));
 dtCustomers.Columns.Add("CustomerName ", typeof(string));
@@ -270,7 +270,7 @@ dtData.Columns.Add("OrderQty", typeof(int));
 
 **C# の場合:**
 
-```
+```csharp
 public class Customer
 {
     public int CustomerID { get; set; }
@@ -287,7 +287,7 @@ public class Order
 
 **ASPX の場合:**
 
-```
+```csharp
 // class Customer copies the structure of the root DataTable 
 // additionally class Order is created
 // and has the same fields as table Orders columns 

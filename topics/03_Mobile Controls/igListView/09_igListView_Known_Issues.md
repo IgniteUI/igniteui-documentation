@@ -77,7 +77,7 @@ Netflix oData は Android 4 装置では動作しない可能性があります|
 
 **C# の場合:**
 
-```
+```csharp
 private ActionResult FilterData()
 {
     IQueryable<Person> queryable = this.GetDataFromLinqToEntities();
@@ -89,7 +89,7 @@ private ActionResult FilterData()
 
 **C# の場合:**
 
-```
+```csharp
 private ActionResult FilterData()
 {
     IQueryable<Person> queryable = this.GetDataFromLinqToEntities();

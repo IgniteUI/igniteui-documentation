@@ -109,7 +109,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igLinearGauge').igLinearGauge({
     width: ”70”,
     height: ”300”,
@@ -167,7 +167,7 @@ $('#igLinearGauge').igLinearGauge({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igLinearGauge').igLinearGauge({
     width: “70”,
     height: “300”,
@@ -192,7 +192,7 @@ $('#igLinearGauge').igLinearGauge({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#igLinearGauge').igLinearGauge({
     width: '70',
     height: '300',

@@ -22,7 +22,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 <script src="scripts/jquery-1.4.4.js" type="text/javascript"></script>
 <script src="scripts/jquery-ui.js" type="text/javascript"></script>
 <script src="scripts/infragistics.core.js" type="text/javascript"></script>
@@ -80,7 +80,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
  var template = "<tr> <td> ${CurrencyCode} </td> <td> ${Name} </td><td> ${ModifiedDate} </td></tr>" 
 ```
 
@@ -170,7 +170,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 var ds = new $.ig.DataSource({
   type: "json", 
   dataSource: products, 

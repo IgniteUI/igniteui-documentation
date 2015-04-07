@@ -185,7 +185,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
         virtualization: true,
         virtualizationMode: ‘fixed’,
@@ -195,7 +195,7 @@ $("#grid1").igGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%=Html.Infragistics().Grid(Model).ID("grid1").LoadOnDemand(false).AutoGenerateColumns(false).AutoGenerateLayouts(false).PrimaryKey("ProjectID").Columns(column => 
     {
         column.For(x => x.ProjectID)
@@ -246,7 +246,7 @@ igGrid コントロールの仮想化オプションを true に設定し、仮�
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
         virtualization: true,
         virtualizationMode: ‘continuous’,
@@ -256,7 +256,7 @@ $("#grid1").igGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%=Html.Infragistics().Grid(Model).ID("grid1").LoadOnDemand(false).AutoGenerateColumns(false).AutoGenerateLayouts(false).PrimaryKey("ProjectID").Columns(column => 
     {
         column.For(x => x.ProjectID)

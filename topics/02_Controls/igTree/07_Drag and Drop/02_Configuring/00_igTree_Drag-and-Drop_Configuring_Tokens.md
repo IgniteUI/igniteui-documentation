@@ -162,7 +162,7 @@ MVC|CopyAfterMarkup|`CopyAfterMarkup("<div class="message"><h3>Copy After</h3><p
 
 		**HTML の場合:**
 				
-		```
+		```html
 		<!--igTree target element--> 
 		<div id="tree"> 
 		</div> 
@@ -172,7 +172,7 @@ MVC|CopyAfterMarkup|`CopyAfterMarkup("<div class="message"><h3>Copy After</h3><p
 	
 		**JavaScript の場合:**
 		
-		```
+		```js
 		<script>
 		$.ig.loader(function () {
 		$("#tree").igTree({
@@ -218,7 +218,7 @@ MVC|CopyAfterMarkup|`CopyAfterMarkup("<div class="message"><h3>Copy After</h3><p
 	
 		**CSS の場合:**
 		
-		```
+		```css
 		<style>
 		.message
 		{
@@ -278,7 +278,7 @@ MVC|CopyAfterMarkup|`CopyAfterMarkup("<div class="message"><h3>Copy After</h3><p
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	Purpose
 	<script src="http://localhost/ig_ui/js/infragistics.loader.js" type="text/javascript"></script>
 	@(Html.Infragistics()
@@ -334,7 +334,7 @@ MVC|CopyAfterMarkup|`CopyAfterMarkup("<div class="message"><h3>Copy After</h3><p
 	
 		**CSS の場合:**
 		
-		```
+		```css
 		<style>
 		.message
 		{

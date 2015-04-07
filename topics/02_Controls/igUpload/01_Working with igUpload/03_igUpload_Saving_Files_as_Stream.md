@@ -157,7 +157,7 @@ View では、`igUpload` のクライアント側エラー処理と同様に、`
 
         **HTML の場合:**
 
-        ```
+        ```html
         <script src="@Url.Content("~/Scripts/jquery-1.5.1.min.js")" type="text/javascript"></script>
         <script src="@Url.Content("~/Scripts/jquery-ui-1.8.11.min.js")" type="text/javascript"></script>
         ```
@@ -170,7 +170,7 @@ RegisterRoutes メソッドの先頭に RegisterRoutes オプションを設定�
 **C# の場合:**
 
 
-```
+```csharp
 routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 ```
 
@@ -201,7 +201,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 	
 	**XML の場合:**
 	
-	```
+	```xml
 	<system.web>
 	    <httpModules>
 	        <add name="IGUploadModule" type="Infragistics.Web.Mvc.UploadModule" />
@@ -215,7 +215,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 	
 	**XML の場合:**
 	
-	```
+	```xml
 	<system.webServer>
 	    <modules runAllManagedModulesForAllRequests="true">
 	        <add name="IGUploadModule" type="Infragistics.Web.Mvc.UploadModule" 
@@ -234,7 +234,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 	
 	**XML の場合:**
 	
-	```
+	```xml
 	<system.web>
 	    <httpHandlers>
 	         <add verb="GET" type="Infragistics.Web.Mvc.UploadStatusHandler" 
@@ -249,7 +249,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 	
 	**XML の場合:**
 	
-	```
+	```xml
 	<system.webServer>
 	    <handlers>
 	        <add name="IGUploadStatusHandler" path="IGUploadStatusHandler.ashx" verb="*"
@@ -268,7 +268,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**XML の場合:**
 		
-		```
+		```xml
 		<appSettings>
 		    <add key="fileUploadPath" value="~/Uploads" />
 		</appSettings>
@@ -280,7 +280,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**XML の場合:**
 		
-		```
+		```xml
 		<appSettings>
 		    <!--100 Mb = 2097152 bytes-->
 		    <add key="maxFileSizeLimit" value="104857600" />
@@ -293,7 +293,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**XML の場合:**
 		
-		```
+		```xml
 		<appSettings>
 		    <add key="FileSaveType" value="memorystream"/>
 		</appSettings>
@@ -313,7 +313,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**XML の場合:**
 		
-		```
+		```xml
 		<appSettings>
 		    <!--2 Mb = 2097152 bytes-->
 		    <add key="uploadUtilsBufferSize" value="2097152" />
@@ -340,7 +340,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		public static class UploadUtils
 		{
 		    // Class definition here see steps 2 to 7
@@ -353,7 +353,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		using System.Configuration;
 		using System.IO;
 		```
@@ -364,7 +364,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		//4 Mb default buffer size
 		private const int DEFAULT_BUFFER_SIZE = 4 * 1024 * 1024; 
 		private const string DEFAULT_UPLOAD_PATH = "~/Uploads";
@@ -376,7 +376,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		public static int BufferSize
 		{
 		    get
@@ -395,7 +395,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		public static string UploadPath
 		{
 		    get
@@ -424,7 +424,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		public static MemoryStream GetStreamFromCache(string key)
 		{
 		    Dictionary<string, MemoryStream> uploadingFiles = HttpContext.Current.Cache["UploadingFiles"] as Dictionary<string, MemoryStream>;
@@ -453,7 +453,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		public static void RemoveStreamFromCache(string key)
 		{
 		    Dictionary<string, MemoryStream> uploadingFiles = HttpContext.Current.Cache["UploadingFiles"] as Dictionary<string, MemoryStream>;
@@ -470,7 +470,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		public static void AppendStreamToFile(string fileName, MemoryStream stream)
 		{
 		    using (FileStream fs = new FileStream(fileName, FileMode.Append))
@@ -500,7 +500,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	@using Infragistics.Web.Mvc
 	<script src=@Url.Content("~/Infragistics/js/infragistics.loader.js") type="text/javascript"></script>
 	<script type="text/javascript">
@@ -541,7 +541,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		using Infragistics.Web.Mvc;
 		using System.IO;
 		```
@@ -558,7 +558,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		internal static void igUpload_FileUploading(object sender, FileUploadingEventArgs e)
 		{
 		    MemoryStream stream = UploadUtils.GetStreamFromCache(e.TemporaryFileName);
@@ -586,7 +586,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		internal static void igUpload_FinishingUpload(object sender, UploadFinishingEventArgs e)
 		{
 		    string uploadFilePath = UploadUtils.UploadPath;
@@ -608,7 +608,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		internal static void igUpload_FinishedUpload(object sender, UploadFinishedEventArgs e)
 		{
 		    switch (e.FileStatus)
@@ -632,7 +632,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		using Infragistics.Web.Mvc;
 		```
 	
@@ -642,7 +642,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		UploadProgressManager.Instance.AddFileUploadingEventHandler("upload1",
 		    new EventHandler<FileUploadingEventArgs>(Controllers.HomeController.igUpload_FileUploading));
 		UploadProgressManager.Instance.AddFinishingUploadEventHandler("upload1",

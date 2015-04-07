@@ -118,7 +118,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#dialog").igDialog({
     position: { left: 100, top: 200 }
 });
@@ -126,7 +126,7 @@ $("#dialog").igDialog({
 
 **C# の場合:**
 
-```
+```csharp
 <%= Html.Infragistics()
     .Dialog()
     .Position(100,200)
@@ -140,7 +140,7 @@ $("#dialog").igDialog({
 
 **JavaScript の場合:**
 
-```
+```js
 var dialogPosition = {
     my: “left top”,
     at: “left top”,
@@ -164,7 +164,7 @@ $("#dialog").igDialog({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#dialog").igDialog({
     zIndex: 1001
 });
@@ -172,7 +172,7 @@ $("#dialog").igDialog({
 
 **C# の場合:**
 
-```
+```csharp
 <%= Html.Infragistics()
     .Dialog()
     .ZIndex(1001)

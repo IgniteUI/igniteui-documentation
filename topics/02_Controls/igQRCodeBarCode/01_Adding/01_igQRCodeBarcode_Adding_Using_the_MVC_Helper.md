@@ -76,13 +76,13 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%@ Import Namespace="Infragistics.Web.Mvc" %>
     ```
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @using Infragistics.Web.Mvc
     ```
 
@@ -90,7 +90,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <script src="<%=Url.Content("~/Scripts/jquery.min.js")%>" type="text/javascript"></script>
     <script src="<%=Url.Content("~/Scripts/jquery-ui.min.js")%>" type="text/javascript"></script>
     <script src="<%=Url.Content("~/Scripts/js/infragistics.core.js")%>" type="text/javascript"></script>
@@ -99,7 +99,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     <script src="@Url.Content("~/Scripts/jquery.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery-ui.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/js/infragistics.core.js")" type="text/javascript"></script>
@@ -140,14 +140,14 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%=(Html.Infragistics().QRCodeBarcode()
 	.Render())%>
 	```
 	
 	**Razor の場合:**
 	
-	```
+	```csharp
 	@(Html.Infragistics().QRCodeBarcode()
 	.Render())
 	```
@@ -158,7 +158,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 	
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%=(Html.Infragistics().QRCodeBarcode()
 		.Height("200px")
 		.Width("200px")
@@ -168,7 +168,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 	
 	**Razor の場合:**
 	
-	```
+	```csharp
 	@(Html.Infragistics().QRCodeBarcode()
 		.Height("200px")
 		.Width("200px")
@@ -183,7 +183,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 
 **ASPX の場合:**
 
-```
+```csharp
 <%@ Import Namespace="Infragistics.Web.Mvc" %>
 <!DOCTYPE html>
 <html>
@@ -205,7 +205,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 
 **Razor の場合:**
 
-```
+```csharp
 @using Infragistics.Web.Mvc
 <head>
 	<title>@ViewBag.Title</title>

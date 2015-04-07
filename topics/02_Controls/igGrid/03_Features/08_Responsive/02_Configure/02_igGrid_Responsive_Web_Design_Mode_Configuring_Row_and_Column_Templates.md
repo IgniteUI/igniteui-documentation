@@ -147,7 +147,7 @@ columnSettings.configuration.&lt;custom_mode&gt;.template
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
     height: "100%",
     width: "100%",
@@ -185,7 +185,7 @@ $("#grid1").igGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 @using Infragistics.Web.Mvc
 @model IQueryable<GridDataBinding.Models.Product>
 @(Html.Infragistics()

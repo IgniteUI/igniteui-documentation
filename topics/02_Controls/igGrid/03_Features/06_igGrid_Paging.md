@@ -71,7 +71,7 @@ Ignite UI™ グリッド、つまり `igGrid` のページング機能では、
 
 	**HTML の場合:**
 	
-	```
+	```html
 	<link type="text/css" href="infragistics.theme.css" rel="stylesheet" />
 	<link type="text/css" href="infragistics.css" rel="stylesheet" />
 	<script type="text/javascript" src="jquery.min.js"></script>
@@ -85,7 +85,7 @@ Ignite UI™ グリッド、つまり `igGrid` のページング機能では、
 
 	**HTML の場合:**
 	
-	```
+	```html
 	<script type="text/javascript" src="infragistics.util.js"></script><script type="text/javascript" src="infragistics.dataSource.js"></script>
 	<script type="text/javascript" src="infragistics.ui.shared.js"></script>
 	<script type="text/javascript" src="infragistics.ui.editors.js"></script>
@@ -97,7 +97,7 @@ Ignite UI™ グリッド、つまり `igGrid` のページング機能では、
 
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#grid1").igGrid({
 	    columns: [
 	        { headerText: "Product ID", key: "ProductID", dataType: "number" },
@@ -120,7 +120,7 @@ Ignite UI™ グリッド、つまり `igGrid` のページング機能では、
 
 	**HTML の場合:**
 	
-	```
+	```html
 	<table id="grid1"></table>
 	```
 
@@ -128,7 +128,7 @@ Ignite UI™ グリッド、つまり `igGrid` のページング機能では、
 
 	**応答:**
 	
-	```
+	```js
 	var adventureWorks = { "Records" : [ 
 	      { "Name" : "Adjustable Race",
 	        "ProductID" : 1,
@@ -152,7 +152,7 @@ Ignite UI™ グリッド、つまり `igGrid` のページング機能では、
 
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<%= Html.Infragistics().Grid(Model).ID("grid1").Columns(column =>
 	   {
 	      column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
@@ -171,7 +171,7 @@ Ignite UI™ グリッド、つまり `igGrid` のページング機能では、
 	
 	**C# の場合:**
 	
-	```
+	```csharp
 	public class HomeController : Controller
 	{
 	    public ActionResult Index()
@@ -219,7 +219,7 @@ http://<server>/grid/PagingGetData?page=2&pageSize=25
 
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$(“#grid1”).igGridPaging("option", "pageSize");
 	```
 
@@ -227,7 +227,7 @@ http://<server>/grid/PagingGetData?page=2&pageSize=25
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$(“#grid1”).igGridPaging("option", "currentPageIndex");
 	```
 
@@ -235,7 +235,7 @@ http://<server>/grid/PagingGetData?page=2&pageSize=25
 
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$(“#grid1”).igGridPaging(“pageIndex”, 2);
 	```
 
@@ -260,7 +260,7 @@ pageSizeList: [10, 44, 123, 5]
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#grid1").bind("iggridpagingpageindexchanged", handler);
 	```
 
@@ -274,7 +274,7 @@ pageSizeList: [10, 44, 123, 5]
 
 	**JavaScript の場合:**
 	
-	```
+	```js
 	{
 	    Name: “Paging”,
 	    pageIndexChanging: handler,
@@ -288,7 +288,7 @@ pageSizeList: [10, 44, 123, 5]
 
 	**JavaScript の場合:**
 	
-	```
+	```js
 	function handler(event, args) {
 	
 	}

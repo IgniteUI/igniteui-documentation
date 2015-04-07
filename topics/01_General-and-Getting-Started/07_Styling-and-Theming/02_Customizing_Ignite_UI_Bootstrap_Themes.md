@@ -40,7 +40,7 @@ Bootstrap テーマを Ignite UI のテーマに統合する場合は、Bootstra
 2.  次に、テーマの中で使用するスプライトの確認が必要になります、またはテーマのカラー パレットによって異なりますが、スプライト イメージで使用する色の調整が必要になる場合があります。スプライト イメージは、images フォルダーで確認できます。スプライトの確定後、テキスト エディタで `infragistics.theme.less` ファイルを開きます。テーマで使用可能な 3 つの基本的なスプライトのアイコンがあります。
 
     **CSS の場合:**
-	```
+	```css
 	// Icon sprites
 	@ui-icons-darker: url(images/ui-icons_222222_256x240.png);
 	@ui-icons-dark: url(images/ui-icons_888888_256x240.png);
@@ -50,7 +50,7 @@ Bootstrap テーマを Ignite UI のテーマに統合する場合は、Bootstra
 3.  ここで、さまざまな状態 (default、hover、active、 focused) のテーマの色に応じて、使用されているスプライトのアイコンが最も適切であることを確認する必要があります。`infragistics.theme.less` ファイル内で関連するスタイル ルールを確認するには、次のようにアイコンと状態の領域でファイルを検索します。
 
     **CSS の場合:**
-	```
+	```css
     /* Icons
     ----------------------------------*/
     /* states and images */
@@ -69,7 +69,7 @@ Bootstrap テーマを Ignite UI のテーマに統合する場合は、Bootstra
 2.  テキスト エディタで variables.less ファイルを開き、目的のデザインに応じて値を編集します。変数の名前は、すぐに識別が可能で、機能を表す名前を使用してください。たとえば、次のような変数セットがあります。
 
     **CSS の場合:**
-	```
+	```css
     //** Background color for `<body>`.
     @body-bg: #ffffff;
     //** Global text color on `<body>`.

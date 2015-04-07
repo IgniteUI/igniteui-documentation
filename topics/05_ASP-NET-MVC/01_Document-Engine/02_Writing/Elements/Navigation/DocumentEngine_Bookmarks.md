@@ -24,7 +24,7 @@ Bookmarks は、Adobe® Acrobat® Reader の機能で、印刷したメディア
 
 **Visual Basic の場合:**
 
-```
+```vb
 ' Assuming 'report' is your main Report element.
 ' Passing true as AddLevel's parameter displays
 ' the bookmark's second level, if it exists.
@@ -34,7 +34,7 @@ report.Bookmarks.AddLevel()
 
 **C# の場合:**
 
-```
+```csharp
 // Assuming 'report' is your main Report element.
 // Passing true as AddLevel's parameter displays
 // the bookmark's second level, if it exists.

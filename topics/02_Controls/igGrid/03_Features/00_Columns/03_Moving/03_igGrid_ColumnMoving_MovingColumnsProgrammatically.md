@@ -141,7 +141,7 @@ inDOM|bool|列移動操作の[列移動タイプ](igGrid-ColumnMoving-Overview.h
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGridColumnMoving("moveColumn", "ProductNumber", "Name", false, false);
 ```
 
@@ -151,7 +151,7 @@ $("#grid1").igGridColumnMoving("moveColumn", "ProductNumber", "Name", false, fal
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGridColumnMoving("moveColumn", "ProductNumber", "ProductID", true, false);
 ```
 
@@ -173,7 +173,7 @@ $("#grid1").igGridColumnMoving("moveColumn", "ProductNumber", "ProductID", true,
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGridColumnMoving("moveColumn", "ProductNumber", "Name", false, true);
 ```
 
@@ -183,7 +183,7 @@ $("#grid1").igGridColumnMoving("moveColumn", "ProductNumber", "Name", false, tru
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGridColumnMoving("moveColumn", "ProductNumber", "ProductID", true, true);
 ```
 
@@ -191,7 +191,7 @@ $("#grid1").igGridColumnMoving("moveColumn", "ProductNumber", "ProductID", true,
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGridColumnMoving("moveColumn", "ProductNumber", "ProductID");
 ```
 
@@ -215,7 +215,7 @@ $("#grid1").igGridColumnMoving("moveColumn", "ProductNumber", "ProductID");
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGridColumnMoving("moveColumn", "Name", "ProductID", false, true);
 ```
 
@@ -225,7 +225,7 @@ $("#grid1").igGridColumnMoving("moveColumn", "Name", "ProductID", false, true);
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGridColumnMoving("moveColumn", "Name", "ProductID", false);
 ```
 
@@ -248,7 +248,7 @@ $("#grid1").igGridColumnMoving("moveColumn", "Name", "ProductID", false);
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGridColumnMoving("moveColumn", "Name", "ProductNumber", true, true);
 ```
 
@@ -258,7 +258,7 @@ $("#grid1").igGridColumnMoving("moveColumn", "Name", "ProductNumber", true, true
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGridColumnMoving("moveColumn", "Name", "ProductNumber");
 ```
 

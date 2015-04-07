@@ -69,7 +69,7 @@
 
     **JavaScript の場合:**
 
-    ```
+    ```js
     responsiveConfig: {    <custom_mode_name>: “<custom_class_name>” }
     ```
 
@@ -120,7 +120,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid({
     width: "100%",
     columns: [
@@ -157,7 +157,7 @@ $("#grid1").igGrid({
 
 **C# の場合:**
 
-```
+```csharp
 @using Infragistics.Web.Mvc
 @model IQueryable<GridDataBinding.Models.Product>
 @(Html.Infragistics()
@@ -199,7 +199,7 @@ RWD モードのカスタム プロファイルのインライン定義がプロ
 
     **JavaScript の場合:**
 
-    ```
+    ```js
     responsiveConfig: {    <custom_mode_name>: “<custom_class_name>” }
     ```
     
@@ -227,7 +227,7 @@ RWD モードのカスタム プロファイルのインライン定義がプロ
 
 **JavaScript の場合:**
 
-```
+```js
 $.ig.loader(function () {
     $.ig.CustomPhoneMode = $.ig.CustomPhoneMode || $.ig.ResponsiveMode.extend({
         settings: {
@@ -252,7 +252,7 @@ $.ig.loader(function () {
 
 **JavaScript の場合:**
 
-```
+```js
 $.ig.loader(function () {
     $("#grid1").igGrid({
         width: "100%",
@@ -288,7 +288,7 @@ $.ig.loader(function () {
 
 **C# の場合:**
 
-```
+```csharp
 @using Infragistics.Web.Mvc
 @model IQueryable<GridDataBinding.Models.Product>
 @(Html.Infragistics()

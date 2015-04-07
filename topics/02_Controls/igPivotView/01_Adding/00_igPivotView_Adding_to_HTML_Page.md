@@ -422,7 +422,7 @@
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<script  type="text/javascript" src="Scripts/jquery.js"></script>
 		<script  type="text/javascript" src="Scripts/jquery-ui.js"></script>
 		<script  type="text/javascript" src="Scripts/modernizr.js"></script>
@@ -432,7 +432,7 @@
 	
 		**HTML の場合:**
 		
-		```
+		```html
 		<script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
 		```
 	
@@ -442,7 +442,7 @@
 		
 		**HTML の場合:**
 		
-		```
+		```html
 		<script type="text/javascript">
 		    $.ig.loader({
 		        scriptPath: "Scripts/ig/",
@@ -458,7 +458,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<div id="pivotView"></div>
 	```
 
@@ -468,7 +468,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	var dataSource = new $.ig.OlapXmlaDataSource({
         serverUrl: "http://sampledata.infragistics.com/olap/msmdpump.dll",
         catalog: "Adventure Works DW Standard Edition",
@@ -484,7 +484,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$.support.cors = true;
 	```
 
@@ -494,7 +494,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#pivotView").igPivotView({
 	dataSource: dataSource 
 	});
@@ -504,7 +504,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#dataSelector").igPivotView({
 	      dataSourceOptions: {
 	       xmlaOptions: {

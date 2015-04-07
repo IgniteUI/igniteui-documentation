@@ -87,7 +87,7 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 
         **HTML の場合:**
 
-        ```
+        ```html
         <div id="JSONTree"></div>
         ```
 
@@ -97,7 +97,7 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 
         **HTML の場合:**
 
-        ```
+        ```html
         <script type="text/javascript">
                 $(function () {
                     $("#JSONTree").igTree({
@@ -109,7 +109,7 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 
         **ASPX の場合:**
 
-        ```
+        ```csharp
         <%= Html.
             Infragistics().
             Tree().
@@ -124,7 +124,7 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 
         **HTML の場合:**
 
-        ```
+        ```html
         var data = [
             { Label: 'Food', Products: [
                 { Name: 'Tuna Sandwich' },  
@@ -139,7 +139,7 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 
         **C# の場合:**
 
-        ```
+        ```csharp
         public class SamplesController : Controller
         {
             //This class defines the object to which the nodes are bound
@@ -207,21 +207,21 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 
         **HTML の場合:**
 
-        ```
+        ```html
         dataSourceType: 'json',
         dataSource: data
         ```
 
         **ASPX の場合:**
 
-        ```
+        ```csharp
         DataSource(this.Model).
         DataBind()
         ```
 
         **C# の場合:**
 
-        ```
+        ```csharp
         //Send the data with the View
         public ActionResult Mvc()
         {
@@ -235,7 +235,7 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 
         **ASPX の場合:**
 
-        ```
+        ```csharp
         Render()
         ```
 
@@ -245,7 +245,7 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 
     **HTML の場合:**
 
-    ```
+    ```html
     <script type="text/javascript">
             $(function () {
                 $("#JSONTree").igTree({
@@ -265,7 +265,7 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%= Html.
         Infragistics().
         Tree().

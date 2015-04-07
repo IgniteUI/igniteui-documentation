@@ -131,7 +131,7 @@
 	
 		**C# の場合:**
 		
-		```
+		```csharp
 		using Microsoft.Web.Administration;
 		using System;
 		namespac CrossOriginRequestModule
@@ -195,7 +195,7 @@
 	
 		**Visual Basic の場合:**
 		
-		```
+		```vb
 		Imports Microsoft.Web.Administration
 		Namespace CrossOriginRequestModule
 		      Friend Class ConfigHelper
@@ -246,7 +246,7 @@
 		
 		**C# の場合:**
 		
-		```
+		```csharp
 		using System;
 		using System.Web;
 		namespace CrossOriginRequestModule
@@ -322,7 +322,7 @@
 		
 		**Visual Basic の場合:**
 		
-		```
+		```vb
 		Imports System.Web
 		Namespace CrossOriginRequestModule
 		      Public Class RequestsModule

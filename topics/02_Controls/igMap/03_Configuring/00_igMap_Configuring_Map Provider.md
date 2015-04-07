@@ -270,7 +270,7 @@ CloudMade Maps には多数のマップ スタイルが含まれ、カスタム 
 
 **JavaScript の場合:**
 
-```
+```js
 $("#map").igMap({
     ...
     backgroundContent: {
@@ -284,7 +284,7 @@ $("#map").igMap({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Map(Model)
         .ID("map")
         ...
@@ -309,7 +309,7 @@ $("#map").igMap({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#map").igMap({
     ...
     backgroundContent: {
@@ -325,7 +325,7 @@ $("#map").igMap({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Map(Model)
         .ID("map")
         ...
@@ -352,7 +352,7 @@ $("#map").igMap({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#map").igMap({
     ...
     backgroundContent: {
@@ -368,7 +368,7 @@ $("#map").igMap({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Map(Model)
         .ID("map")
         ...

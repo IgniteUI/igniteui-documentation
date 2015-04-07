@@ -73,7 +73,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 loadOnDemandSettings: { enabled: true }
 ```
 
@@ -81,7 +81,7 @@ loadOnDemandSettings: { enabled: true }
 
 **ASPX の場合:**
 
-```
+```csharp
 Html.Infragistics().Combo().LoadOnDemandSettings(load => load.Enabled(true))
 ```
 
@@ -127,7 +127,7 @@ Html.Infragistics().Combo().LoadOnDemandSettings(load => load.Enabled(true))
 
 **JavaScript の場合:**
 
-```
+```js
 $("#combo").igCombo({
     loadOnDemandSettings: {
         enabled: true,
@@ -143,7 +143,7 @@ $("#combo").igCombo({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%=
     Html.Infragistics().Combo()
         .ID("combo")

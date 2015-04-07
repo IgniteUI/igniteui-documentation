@@ -57,7 +57,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<link rel="stylesheet" href="infragistics.css" />
 	<link rel="Stylesheet" href="infragistics.theme.css" />
 	<link rel="Stylesheet" href="jquery.ui.all.css" />
@@ -73,7 +73,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	<script type="text/javascript">
 		var data = {
 			"Records": [{
@@ -115,7 +115,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<table id="grid"></table>
 	```      
 
@@ -125,7 +125,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	<script type="text/javascript">
 	$(function () {
 		$("#grid").igHierarchicalGrid({
@@ -179,7 +179,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <link rel="stylesheet" href="infragistics.css" />
 <link rel="Stylesheet" href="infragistics.theme.css" />
 <link rel="Stylesheet" href="jquery.ui.all.css" />
@@ -201,7 +201,7 @@ AdventureWorks データベースから LINQ to SQL モデルを作成します�
 
 **C# の場合:**
 
-```
+```csharp
 public ActionResult Default(){
     var ctx = new AdventureWorksDataContext("ConnString");
     var ds = ctx.Products;
@@ -215,7 +215,7 @@ public ActionResult Default(){
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics()
         .Grid(Model)
         .ID("grid")

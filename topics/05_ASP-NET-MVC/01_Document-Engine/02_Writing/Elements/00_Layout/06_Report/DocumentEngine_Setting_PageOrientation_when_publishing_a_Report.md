@@ -14,7 +14,7 @@ PDF または XPS ドキュメントを公開するとき、ページの Orienta
 
 **C# の場合:**
 
-```
+```csharp
 Infragistics.Documents.Reports.Report.Report r = new Report();
 
 //Adding a section to the Report

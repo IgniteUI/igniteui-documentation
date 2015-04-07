@@ -71,7 +71,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @(
     Html.InfragisticsMobile()
     .Collapsible()
@@ -109,7 +109,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @(
     Html.InfragisticsMobile()
     .Collapsible()
@@ -203,7 +203,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @(
     Html.InfragisticsMobile()
     .Collapsible()
@@ -240,7 +240,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @(
     Html.InfragisticsMobile()
     .Collapsible()

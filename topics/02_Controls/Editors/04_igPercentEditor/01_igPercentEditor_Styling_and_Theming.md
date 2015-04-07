@@ -24,7 +24,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <style type="text/css">
     .customTheme .ui-igedit-hover
     { 
@@ -54,7 +54,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $('#percentEditor').igPercentEditor({
      percentDisplayFactor: 100,
      width: 160, 
@@ -70,7 +70,7 @@ $('#percentEditor').igPercentEditor({
 
 **JavaScript の場合:**
 
-```
+```js
 $('#percentEditor').igPercentEditor ('option', 'theme', 'customTheme');
 ```
 
@@ -87,7 +87,7 @@ $('#percentEditor').igPercentEditor ('option', 'theme', 'customTheme');
 
 **HTML の場合:**
 
-```
+```html
 <body>
      <input type="text"  id="percentEditor"  />
      <div id="themeRoller"></div>
@@ -98,7 +98,7 @@ $('#percentEditor').igPercentEditor ('option', 'theme', 'customTheme');
 
 **JavaScript の場合:**
 
-```
+```js
 $('#numericEditor').igPercentEditor({
     listItems: [10, 25, 50, 75, 100],
     percentDisplayFactor: 100,

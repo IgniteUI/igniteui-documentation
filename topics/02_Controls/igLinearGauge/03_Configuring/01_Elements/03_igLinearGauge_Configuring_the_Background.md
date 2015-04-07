@@ -260,7 +260,7 @@
 
 **JavaScript の場合:**
 
- ```
+ ```js
  $(function () {             
     $("#linearGauge").igLinearGauge({
         width: "300px",

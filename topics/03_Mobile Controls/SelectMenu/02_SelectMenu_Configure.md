@@ -186,7 +186,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .SelectMenu()
@@ -225,7 +225,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .SelectMenu()
@@ -285,7 +285,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .SelectMenu()
@@ -324,7 +324,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .SelectMenu()
@@ -473,7 +473,7 @@ false - ラベルを表示する
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .SelectMenu()
@@ -514,7 +514,7 @@ false - ラベルを表示する
 
 **Razor の場合:**
 
-```
+```csharp
 @(
 
 	Html.InfragisticsMobile()
@@ -577,7 +577,7 @@ false - ラベルを表示する
 
 **Razor の場合:**
 
-```
+```csharp
 @(
  Html.InfragisticsMobile()
     .SelectMenu()

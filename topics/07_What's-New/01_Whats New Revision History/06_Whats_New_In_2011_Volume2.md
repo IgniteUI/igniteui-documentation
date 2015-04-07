@@ -118,7 +118,7 @@ Ignite UI 2011 Volume 2 リリースには、`DisplayName` 属性を認識する
 
 **MVC モデル:**
 
-```
+```csharp
 class Customer
     {
         [DisplayName("First Name")]
@@ -132,7 +132,7 @@ class Customer
 
 **MVC ASPX ビュー:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model).ID("grid").Columns(column => {
          column.For(c => c.FirstName);
          column.For(c => c.FamilyName);

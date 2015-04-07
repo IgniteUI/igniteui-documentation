@@ -40,7 +40,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 $("#hgrid1").igHierarchicalGrid({
        autogenerateColumns: false,
        columns: [
@@ -53,7 +53,7 @@ $("#hgrid1").igHierarchicalGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model)
         .ID("grid1")
         .AutoGenerateColumns(false)
@@ -96,7 +96,7 @@ $("#hgrid1").igHierarchicalGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igHierarchicalGrid({
     autoGenerateColumns: true,
     childrenDataProperty: "Orders",
@@ -113,7 +113,7 @@ $("#grid1").igHierarchicalGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics()
         .Grid(Model)
         .ID("grid1")
@@ -145,7 +145,7 @@ igHierarchicalGrid のデータをオン デマンドで読み込むには、す
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igHierarchicalGrid({
     autoGenerateColumns: true,
     autoGenerateLayouts: true,
@@ -154,7 +154,7 @@ $("#grid1").igHierarchicalGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics()
         .Grid(Model)
         .ID("grid1")
@@ -180,7 +180,7 @@ $("#grid1").igHierarchicalGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#hierarchicalGrid1").igHierarchicalGrid({
             // enabling render checkboxes on a column
             renderCheckboxes: true,
@@ -236,7 +236,7 @@ $("#hierarchicalGrid1").igHierarchicalGrid({
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model).ID("hierarchicalGrid1").LoadOnDemand(false).AutoGenerateColumns(false).AutoGenerateLayouts(false).PrimaryKey("EmployeeID").RenderCheckboxes(true).Columns(column => 
             {
                 column.For(x => x.EmployeeID).HeaderText(this.GetGlobalResourceObject("HierarchicalGrid", "EmployeeID").ToString()).DataType("number");

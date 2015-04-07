@@ -83,7 +83,7 @@ Ignite UI™ グリッド、つまり `igGrid`™ は JavaScript、HTML、およ
 
 **JavaScript の場合:**
 
-```
+```js
 $.ig.JSONDataSource = $.ig.DataSource.extend({
     init: function (options) {
         if (!options) {
@@ -103,7 +103,7 @@ $.ig.JSONDataSource = $.ig.DataSource.extend({
 
 **JavaScript の場合:**
 
-```
+```js
 (function ($) {
     $.ig.WebSocketsDataSource = $.ig.DataSource.extend({
         
@@ -157,7 +157,7 @@ $.ig.JSONDataSource = $.ig.DataSource.extend({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid2").igGrid({
 dataSource: "/server.php",
 columns: [ <columns definitions> ],
@@ -187,7 +187,7 @@ features: [
 
 **JavaScript の場合:**
 
-```
+```js
 var sortingObject = $("#grid1").data("igGridSorting");
 ``` 
 
@@ -197,7 +197,7 @@ var sortingObject = $("#grid1").data("igGridSorting");
 
 **JavaScript の場合:**
 
-```
+```js
 // changes the case sensitive option of the sorting feature. This options works only for local sorting.
 $("#grid1").igGridSorting("option", "caseSensitive", true);
 

@@ -287,7 +287,7 @@
 
 	**HTML の場合:**
 	
-	```
+	```html
 	<!DOCTYPE html>
     <html>
     <head>
@@ -320,7 +320,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<head>...    
         <script>      
 			var data = [
@@ -341,7 +341,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<body>
         <!-- Target element for the igDoughnutChart -->
         <div id="doughnutChart"></div>
@@ -355,7 +355,7 @@
 	
 	**HTML の場合:**
 	
-    ```
+    ```html
     <script type="text/jscript">
         $(function () {                        
                   $("#doughnutChart").igDoughnutChart ({
@@ -370,7 +370,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	$(function () {
                 var dc = $("#doughnutChart").igDoughnutChart({
                   width: 300,
@@ -390,7 +390,7 @@
 
 **HTML の場合:**
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>

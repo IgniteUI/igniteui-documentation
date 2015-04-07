@@ -77,7 +77,7 @@ RowSelectors でセルまたは行を選択するには、グリッドの Select
 ### <a id="multiple-code"></a> コード 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
 $(function () {
     $("#grid").igGrid({
@@ -99,7 +99,7 @@ $(function () {
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>        {       
@@ -135,7 +135,7 @@ $(function () {
 
 **HTML の場合:**
 
-```
+```html
 <script type="text/javascript">
     $(function () {
         $("#grid").igGrid({
@@ -158,7 +158,7 @@ $(function () {
 
 **ASPX の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>         { 
@@ -192,7 +192,7 @@ enableRowNumbering|“true”
 
 **JavaScript の場合:**
 
-```
+```js
 <script type="text/javascript">
  $ (function () {
   $("#grid").igGrid({
@@ -212,7 +212,7 @@ enableRowNumbering|“true”
 
 **C# の場合:**
 
-```
+```csharp
 <%= Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>        {
@@ -239,7 +239,7 @@ enableRowNumbering|“true”
 
         **JavaScript の場合:**
 
-		```
+		```js
         <script type="text/javascript">        
             function gridcheckboxStateChanging (evt, ui) {
          
@@ -257,7 +257,7 @@ enableRowNumbering|“true”
 		
 		**JavaScript の場合:**
 		
-		```
+		```js
 		$(function () {
 		  $("#grid1").igGrid({
 		       autoGenerateColumns: true,
@@ -283,7 +283,7 @@ enableRowNumbering|“true”
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	<script type="text/javascript">        
 	    function gridcheckboxStateChanging (evt, ui) {
 	       if (conditionNotMet)

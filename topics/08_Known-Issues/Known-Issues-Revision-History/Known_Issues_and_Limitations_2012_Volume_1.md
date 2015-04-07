@@ -171,7 +171,7 @@ Android 4.* を使用したタッチ デバイスでは、階層グリッドで 
 
 **JavaScript の場合:**
 
-```
+```js
 $.ig.loader(function () {
     customControlLogic();
 });
@@ -235,7 +235,7 @@ HTML 要素のレイアウトは修正され、丸みのある角が、ボタン
 
 **JavaScript の場合:**
 
-```
+```js
 $("#" + $("#grid1").igGrid("id")).igGridPaging("option", "pageSize", 2)
 ```
 
@@ -243,7 +243,7 @@ $("#" + $("#grid1").igGrid("id")).igGridPaging("option", "pageSize", 2)
 
 **JavaScript の場合:**
 
-```
+```js
 $("#grid1").igGrid("widget").igGridPaging("option", "pageSize", 10)
 ```
 

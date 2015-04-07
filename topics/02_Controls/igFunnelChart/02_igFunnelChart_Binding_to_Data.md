@@ -123,7 +123,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 var data = [
     { Budget: 30, Department: "Administration" },
     { Budget: 50, Department: "Sales" },
@@ -138,7 +138,7 @@ var data = [
 
 **JavaScript の場合:**
 
-```
+```js
 $("#funnel").igFunnelChart({
     . . .    
     dataSource: data,
@@ -162,7 +162,7 @@ $("#funnel").igFunnelChart({
 
 **JavaScript の場合:**
 
-```
+```js
 var xmlDoc = 
     '<CompanyBudget>' +
         '<BudgetEntry Department="Development" Budget="100" />' +
@@ -178,7 +178,7 @@ var xmlDoc =
 
 **JavaScript の場合:**
 
-```
+```js
 var xmlSchema = new $.ig.DataSchema("xml",
     {
         searchField: "//BudgetEntry",
@@ -194,7 +194,7 @@ var xmlSchema = new $.ig.DataSchema("xml",
 
 **JavaScript の場合:**
 
-```
+```js
 var ds = new $.ig.DataSource({
     type: "xml",
     dataSource: xmlDoc,
@@ -206,7 +206,7 @@ var ds = new $.ig.DataSource({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#chartNormal").igFunnelChart({
     . . .
     dataSource: ds,
@@ -230,7 +230,7 @@ MVC アプリケーションでは、通常、厳密に型指定されたビュ�
 
 **C# の場合:**
 
-```
+```csharp
 public class BudgetData
 {
     public decimal Budget { get; set; }
@@ -242,7 +242,7 @@ public class BudgetData
 
 **ASPX の場合:**
 
-```
+```csharp
 @model IQueryable<MvcApp.Models.BudgetData>
 . . .
 @(Html.Infragistics().FunnelChart(Model)
@@ -270,7 +270,7 @@ public class BudgetData
 
 **C# の場合:**
 
-```
+```csharp
 public class BudgetData
 {
     public decimal Budget { get; set; }
@@ -282,7 +282,7 @@ public class BudgetData
 
 **C# の場合:**
 
-```
+```csharp
 [ActionName("getBudget")]
 public JsonResult GetBudget()
 {
@@ -299,7 +299,7 @@ public JsonResult GetBudget()
 
 **JavaScript の場合:**
 
-```
+```js
 $("#chartRemote").igFunnelChart({
     . . .
     dataSourceUrl: "/businessLogic/getBudget",

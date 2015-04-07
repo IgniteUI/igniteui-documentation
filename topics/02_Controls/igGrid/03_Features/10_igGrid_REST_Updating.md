@@ -96,7 +96,7 @@ DELETE|空|/api/{controller}/?index={id0}&index={id1}|/api/products/?index=3070&
 
 **JavaScript の場合:**
 
-```
+```js
 restSettings: {
     create: {
         url: "/api/products/"
@@ -108,7 +108,7 @@ restSettings: {
 
 **JavaScript の場合:**
 
-```
+```js
 restSettings: {
     create: {
         url: "/api/products/"
@@ -568,7 +568,7 @@ XML としてデータをシリアル化|[contentType](%%jQueryApiUrl%%/ui.iggri
 	- “application/xml; charset=utf-8”
 - `contentSerializer` 
 	- **JavaScript の場合:**
-		```
+		```js
 		function (ds) {
 		    // if ds contains JavaScript object literal like this: {"ID":9,"Name":"Product","Price":90.0,"Quantity":2 } then you can serialize it in XML like this
 		    return "<Product><ID>" + ds.ID + "</ID><Name>" + ds.Name + "</Name><Price>" + ds.Price + "</Price><Quantity>" + ds.Quantity + "</Quantity></Product>";    

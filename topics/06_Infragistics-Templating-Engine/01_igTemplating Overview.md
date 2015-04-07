@@ -75,7 +75,7 @@
 
 **JavaScript の場合:**
 
-```
+```js
 data = [{prop: ‘Value’}] 
 $.ig.tmpl(‘${prop}’, data) 
 ```
@@ -94,7 +94,7 @@ $.ig.tmpl(‘${prop}’, data)
 
 **JavaScript の場合:**
 
-```
+```js
 var data = [{parent: {child1: 'Val', child2: 'Val2'}}];
 var result = $.ig.tmpl('${parent.child2}', data);
 ```
@@ -115,7 +115,7 @@ var result = $.ig.tmpl('${parent.child2}', data);
 
 **JavaScript の場合:**
 
-```
+```js
 var data = [{ Value: 1, Text:"Value1"},{ Value: 2, Text:"Value2"}];
 var result = $.ig.tmpl('{{if ${Value} === 2}} ${Text} {{/if}}', data);
 ```
@@ -134,7 +134,7 @@ var result = $.ig.tmpl('{{if ${Value} === 2}} ${Text} {{/if}}', data);
 
 **JavaScript の場合:**
 
-```
+```js
 var data = [{prop: 2}];
 var result = $.ig.tmpl('{{if ${prop} > 2}} ${prop}{{else}} "The minimum value is 2" {{/if}}', data);
 ```
@@ -153,7 +153,7 @@ var result = $.ig.tmpl('{{if ${prop} > 2}} ${prop}{{else}} "The minimum value is
 
 **JavaScript の場合:**
 
-```
+```js
 var data = [{value: 1}, {value: 2}, {value: 3},{value: 4}];
 var result = $.ig.tmpl('{{if ${value} == 1}} <b>${value}</b>{{elseif ${value} == 2 }} <i>${value}</i> {{else}} ${value} {{/if}}', data); 
 ```
@@ -172,7 +172,7 @@ var result = $.ig.tmpl('{{if ${value} == 1}} <b>${value}</b>{{elseif ${value} ==
 
 **JavaScript の場合:**
 
-```
+```js
 var movies = [
 {
       name: "movie1",
@@ -196,7 +196,7 @@ name2, 45
 
 **JavaScript の場合:**
 
-```
+```js
 var data =  [{value: 11}, {value: 22}];
 var result = $.ig.tmpl('$i: ${value} ', data);
 ```
@@ -211,7 +211,7 @@ var result = $.ig.tmpl('$i: ${value} ', data);
 
 **JavaScript の場合:**
 
-```
+```js
 var data = [{tagsList: ["Rock", "Alternative"]}, {tagsList: ["Pop", "Dance"]}]; var result = $.ig.tmpl('{{ each ${tagsList} }} $data {{/each}}', data);
 ```
 
@@ -225,14 +225,14 @@ var data = [{tagsList: ["Rock", "Alternative"]}, {tagsList: ["Pop", "Dance"]}]; 
 
 **JavaScript の場合:**
 
-```
+```js
 var data =  [{value: 1}, {value: 2}];
 var result = $.ig.tmpl('#This comment will be ignored#<p>$i</p>', data);
 ```
 
 **結果:** 
 
-```
+```html
 <p>0</p><p>1</p>
 ```
 

@@ -89,7 +89,7 @@ DOM では、複数列ヘッダー機能は THEAD 要素を変更します。THE
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<thead>
 	    <tr><th rowspan="2">Address Information</th><th>row 1</th></tr>
 	    <tr><th>row 2</th></tr>

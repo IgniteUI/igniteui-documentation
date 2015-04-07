@@ -38,7 +38,7 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     '
     ' Create the report and add a section.
     '
@@ -54,7 +54,7 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
     **C# の場合:**
 
-    ```
+    ```csharp
     //
     // Create the report and add a section.
     //
@@ -74,7 +74,7 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     '
     ' Add the band to the section. 
     '
@@ -88,7 +88,7 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
     **C# の場合:**
 
-    ```
+    ```csharp
     //
     // Add the band to the section. 
     //
@@ -106,7 +106,7 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     '
     ' Add a header to the band.
     '
@@ -154,7 +154,7 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
     **C# の場合:**
 
-    ```
+    ```csharp
     //
     // Add a header to the band.
     //
@@ -206,7 +206,7 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     '
     ' Add the band's divider. 
     '
@@ -235,7 +235,7 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
     **C# の場合:**
 
-    ```
+    ```csharp
     //
     // Add the band's divider. 
     //
@@ -268,7 +268,7 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     '
     ' Add the band's footer.
     '
@@ -315,7 +315,7 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
     **C# の場合:**
 
-    ```
+    ```csharp
     //
     // Add the band's footer.
     //
@@ -384,7 +384,7 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
     **Visual Basic の場合:**
 
-    ```
+    ```vb
     '
     ' Add content to the band.
     '
@@ -401,7 +401,7 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
     **C# の場合:**
 
-    ```
+    ```csharp
     //
     // Add content to the band.
     //

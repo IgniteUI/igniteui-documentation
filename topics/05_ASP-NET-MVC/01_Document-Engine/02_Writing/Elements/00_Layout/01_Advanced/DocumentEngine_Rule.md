@@ -21,7 +21,7 @@ Rule 要素の幅は線が水平にどこまで引かれるかを定義するも
 
 **C# の場合:**
 
-```
+```csharp
 using Infragistics.Documents.Reports.Report;
 .
 .

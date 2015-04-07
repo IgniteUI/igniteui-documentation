@@ -105,7 +105,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
 	```
 
@@ -113,7 +113,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<script type="text/javascript">
         $.ig.loader({
             scriptPath: "Scripts/ig/",
@@ -131,7 +131,7 @@
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<%@ Import Namespace="Infragistics.Web.Mvc" %>
     <%= Html.Infragistics().Loader()
             .ScriptPath(Url.Content("~/Scripts/ig/"))
@@ -154,7 +154,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<div id="chart" class="chartContainer"></div>
     <div id="legend" class="chartContainer"></div>
 	```
@@ -173,7 +173,7 @@
 
 	**HTML の場合:**
 
-	```
+	```html
 	<script type="text/javascript">
 	    var data = [
             { "DateString": "2.1.2010", "Open": 1000, "High": 1028.75, "Low": 985.25, "Close": 1020, "Volume": 1995 },            
@@ -192,7 +192,7 @@
 
 	**C# の場合:**
 
-	```
+	```csharp
 	public class StockMarketDataPoint
     {
         public double Open { get; set; }
@@ -209,7 +209,7 @@
 
 	**C# の場合:**
 
-	```
+	```csharp
 	public ActionResult Index()
     {
         List<StockMarketDataPoint> stockMarketData = new List<StockMarketDataPoint>
@@ -230,7 +230,7 @@
 
 	**ASPX の場合:**
 
-    ```
+    ```csharp
     <%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<IQueryable<DataChartSample.Models.StockMarketDataPoint>>" %>
     ```
 
@@ -242,7 +242,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	$(function () {
         $("#chart").igDataChart({
             width: "500px",
@@ -261,7 +261,7 @@
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<%= Html.Infragistics().DataChart(Model)
         .ID("chart")
         .Width("500px")
@@ -280,7 +280,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	axes: [{
         type: "categoryX",
         name: "xAxis",
@@ -311,7 +311,7 @@
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<%= Html.Infragistics().DataChart(Model)
             .ID("chart")
             .Width("500px")
@@ -350,7 +350,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	series: [{
         type: "financial",
         name: "finSeries",
@@ -396,7 +396,7 @@
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	.Series(series =>
         {
 			series.Financial("finSeries")

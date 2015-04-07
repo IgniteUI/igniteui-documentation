@@ -122,7 +122,7 @@
 ### コード
 **JavaScript の場合:**
 
-```
+```js
 function expandAllRowsOfGrid(grid) {
     // expand each row in grid
     $(grid.allRows()).each(function (index, element) {
@@ -148,7 +148,7 @@ function expandAllRowsOfRootGrid() {
 
 **JavaScript の場合:**
 
-```
+```js
 function collapseAllRowsOfGrid(grid) {
     // collapse each row
     $(grid.allRows()).each(function (index, element) {
@@ -174,7 +174,7 @@ function collapseAllRowsOfRootGrid() {
 
 ### コード
 **JavaScript の場合:**
-```
+```js
 function toggleCurrentRowOfGrid(grid) {
     // get reference to current selected row
     var row = $(grid).igGridSelection("selectedRow");

@@ -50,7 +50,7 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
 
     **HTML の場合:**
 
-    ```
+    ```html
     <link type="text/css" href="/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
     <link type="text/css" href="/css/structure/infragistics.css" rel="stylesheet" />
     <script type="text/javascript" src="/Scripts/jquery-1.4.4.min.js"></script>
@@ -63,7 +63,7 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%@ Import Namespace="Infragistics.Web.Mvc" %>
 
     <link type="text/css" href="<%= Url.Content("~/css/themes/infragistics/infragistics.theme.css") %>" rel="stylesheet" />
@@ -76,7 +76,7 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @using Infragistics.Web.Mvc;
 
     <link type="text/css" href="@Url.Content("~/css/theme/infragistics/infragistics.theme.css")" rel="stylesheet" />
@@ -94,7 +94,7 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
 
     **HTML の場合:**
 
-    ```
+    ```html
     <div id="igRating1"></div>
     ```
 
@@ -105,7 +105,7 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
 
     **jQuery の場合:**
 
-    ```
+    ```js
     <script type="text/javascript">
         $("#igRating1").igRating({
             voteCount: 10,
@@ -121,7 +121,7 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
 
     **ASPX の場合:**
 
-    ```
+    ```csharp
     <%= Html.Infragistics().Rating()
         .ID("igRating1")
         .VoteCount(10)
@@ -133,7 +133,7 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
 
     **Razor の場合:**
 
-    ```
+    ```csharp
     @(  Html.Infragistics().Rating()
         .ID("igRating1")
         .VoteCount(10)

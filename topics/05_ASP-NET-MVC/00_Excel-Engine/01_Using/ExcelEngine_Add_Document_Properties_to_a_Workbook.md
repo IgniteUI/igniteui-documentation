@@ -28,7 +28,7 @@
 
 **Visual Basic の場合:**
 
-```
+```vb
 Dim workbook As New Infragistics.Documents.Excel.Workbook()
 workbook.DocumentProperties.Title = "Expense Report"
 workbook.DocumentProperties.Status = "Complete"
@@ -36,7 +36,7 @@ workbook.DocumentProperties.Status = "Complete"
 
 **C# の場合:**
 
-```
+```csharp
 Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
 workbook.DocumentProperties.Title = "Expense Report";
 workbook.DocumentProperties.Status = "Complete";

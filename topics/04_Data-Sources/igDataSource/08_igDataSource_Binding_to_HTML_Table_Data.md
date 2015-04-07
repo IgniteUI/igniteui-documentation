@@ -22,7 +22,7 @@ Ignite UI™ グリッドまたは `igGrid` では、`igDataSource` コントロ
 
 **JavaScript の場合:**
 
-```
+```js
 dataSource: $(‘#myTable’)[0]
 ```
 
@@ -42,7 +42,7 @@ dataSource: $(‘#myTable’)[0]
 
 **JavaScript の場合:**
 
-```
+```js
 $("#t1").igGrid({          
     autoGenerateColumns: false,
     columns: [
@@ -64,7 +64,7 @@ $("#t1").igGrid({
 
 **HTML の場合:**
 
-  ```
+  ```html
   <table class="table table-bordered">
             <thead>
                 <tr>
@@ -101,7 +101,7 @@ $("#t1").igGrid({
 
 **JavaScript の場合:**
 
-```
+```js
 $("#t2").igGrid({
     columns: [
          {key: 1, width: "100px", dataType: "number", headerText: "[Custom Header]" }
@@ -121,7 +121,7 @@ $("#t2").igGrid({
 
 **HTML の場合:**
 
-  ```
+  ```html
   <table class="table table-bordered">
             <thead>
                 <tr>

@@ -103,7 +103,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**C# の場合:**
 
-	```
+	```csharp
 	public class Person
 	{
 		public string Name { get; set; }
@@ -119,7 +119,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**C# の場合:**
 
-	```
+	```csharp
 	public class Person
 	{
 		public string Name { get; set; }
@@ -150,7 +150,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**C# の場合:**
 
-	```
+	```csharp
 	public class PersonController : Controller
 	{
 		//
@@ -178,7 +178,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<DataAnnotationValidation.Models.Person>" %>
 	<%@ Import Namespace="Infragistics.Web.Mvc" %>
 	```
@@ -189,7 +189,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**ASPX の場合:**
 	
-	```
+	```csharp
 	<link href="/Content/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" type="text/css" />
 	<link href="/Content/css/structure/infragistics.css" rel="stylesheet" type="text/css" />
 	<script src="/Scripts/jquery.js" type="text/javascript"></script>
@@ -204,7 +204,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<% using (Html.BeginForm()) %>
 	<% { %>
 		<p>
@@ -249,7 +249,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DataAnnotationValidation.Models.Person>" %>
 	<%@ Import Namespace="Infragistics.Web.Mvc" %>
 	<asp:content id="Content2" contentplaceholderid="MainContent" runat="server">
@@ -304,7 +304,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**C# の場合:**
 
-	```
+	```csharp
 	using System.ComponentModel.DataAnnotations;
 	```
 
@@ -314,7 +314,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**C# の場合:**
 
-	```
+	```csharp
 	[Required(ErrorMessage="Name Required")]
 	public string Name { get; set; }
 	[Required(ErrorMessage = "Age Required")]
@@ -331,7 +331,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**C# の場合:**
 
-	```
+	```csharp
 	[Required(ErrorMessage = "Name Required")]
 	[StringLength(50, ErrorMessage = "Must be under 50 characters")]
 	public string Name { get; set; }
@@ -343,7 +343,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**C# の場合:**
 
-	```
+	```csharp
 	[Required(ErrorMessage = "Age Required")]
 	[Range(1, 120, ErrorMessage = "Age must be between 1 and 120")]
 	public int Age { get; set; }
@@ -355,7 +355,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**C# の場合:**
 
-	```
+	```csharp
 	[Required(ErrorMessage = "Email Required")]
 	[RegularExpression("^[a-z0-9_+-]+(.[a-z0-9_+-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*.([a-z]{2,4})$", ErrorMessage = "Not a valid email")]
 	public string Email { get; set; }
@@ -365,7 +365,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**C# の場合:**
 
-	```
+	```csharp
 	using System.ComponentModel.DataAnnotations;
 	namespace DataAnnotationValidation.Models
 	{
@@ -407,7 +407,7 @@ Ignite UI エディター コントロールからなるフォームから始ま
 
 	**ASPX の場合:**
 
-	```
+	```csharp
 	<p>
 		<%= Html.LabelFor(m => m.Name) %>
 		<%= Html.Infragistics()

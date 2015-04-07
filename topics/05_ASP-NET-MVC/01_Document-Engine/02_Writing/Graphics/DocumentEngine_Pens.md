@@ -30,7 +30,7 @@ Pens は線の特徴を定義するために使用されます。Borders、Shape
 
 **C# の場合:**
 
-```
+```csharp
 using Infragistics.Documents.Reports.Report;
 using Infragistics.Documents.Reports.Graphics;
 .

@@ -69,7 +69,7 @@
 	
 	**HTML の場合:**
 	
-	```
+	```html
 	<span id="comboCountry"></span>
 	<span id="comboDistrict"></span>
 	```
@@ -80,7 +80,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	var dsCountry = [
 	      { txtCountry: 'United States', valCountry: "US" },
 	      { txtCountry: 'Bulgaria', valCountry: "BG" }
@@ -93,7 +93,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#comboCountry").igCombo({
 	      textKey: "txtCountry",
 	      valueKey: "valCountry",
@@ -107,7 +107,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	var dsCascDistrict = [
 	      { keyCountry: "US", txtDistrict: "New Jersey", valDistrict: "NJ" },
 	      { keyCountry: "US", txtDistrict: "California", valDistrict: "CA" },
@@ -127,7 +127,7 @@
 	
 	**JavaScript の場合:**
 	
-	```
+	```js
 	$("#comboDistrict").igCombo({
 	      valueKey: "valDistrict",
 	      textKey: "txtDistrict"
@@ -140,7 +140,7 @@
 
 	**JavaScript の場合:**
 
-	```
+	```js
 	selectionChanged: function (evt, ui) {
         var filteredCascDistrict = [];
         if (ui.items && ui.items[0]) {
@@ -158,7 +158,7 @@
 	親 `igCombo` で、selectionChanged イベントが子 `igCombo` をフィルター処理されたデータにバインドします。ここで deselectAll に対する呼び出しに注意してください。これは、子 `igCombo` の以前の選択のクリアに必要で、新しくフィルター処理されたデータのセットに以前に選択された値が入らないようにするためです。
 
 	**JavaScript の場合:**
-	```
+	```js
 	var $comboDistrict = $("#comboDistrict");
     $comboDistrict.igCombo("deselectAll", {}, true);
     $comboDistrict.igCombo("option", "dataSource", filteredCascDistrict);
@@ -175,7 +175,7 @@
 
 **HTML と JavaScript の場合:**
 
-```
+```html
 	<span id="comboCountry"></span>
 	<span id="comboDistrict"></span>
 

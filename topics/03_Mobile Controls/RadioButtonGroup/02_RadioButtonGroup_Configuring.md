@@ -68,7 +68,7 @@
 
 **Razor の場合:**
 
-```
+```csharp
 @(
     Html.InfragisticsMobile()
     .RadioButtonGroup()
