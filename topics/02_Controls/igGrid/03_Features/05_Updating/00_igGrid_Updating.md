@@ -161,7 +161,7 @@ $("#grid1").igGrid({
 
 > **注:** 更新するには、プライマリ キー列の `primaryKey` オプションおよび `dataType` プロパティを設定する必要があります。設定されない場合、基本のデータ ソースは正しく操作しない可能性があります。
 
-**In ASPX (MVC):**
+**ASPX (MVC) の場合:**
 
 ```csharp
 <%= Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").UpdateUrl(Url.Action("UpdatingSaveChanges")).Columns(column =>
@@ -201,7 +201,7 @@ $("#grid1").igGrid({
 });
 ```
 
-**In ASPX (MVC):**
+**ASPX (MVC) の場合:**
 
 ```csharp
 <%=Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").UpdateUrl(Url.Action("UpdatingSaveChanges")).Columns(column =>

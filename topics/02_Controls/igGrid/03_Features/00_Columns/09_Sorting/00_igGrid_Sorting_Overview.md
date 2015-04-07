@@ -132,7 +132,7 @@ $("#grid1").igGrid({
 <table id="grid1"></table>
 ```
 
-**In ASPX (MVC):**
+**ASPX (MVC) の場合:**
 
 ```csharp
 <%= Html.Infragistics().Grid(Model).ID("grid1").Columns(column =>

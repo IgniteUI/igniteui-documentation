@@ -175,7 +175,7 @@ $(".selector").igLayoutManager({
 
 ### <a id="itemRender-mvc-code"></a>コード
 
-**In ASPX (MVC):**
+**ASPX (MVC) の場合:**
 
         
 ```csharp
