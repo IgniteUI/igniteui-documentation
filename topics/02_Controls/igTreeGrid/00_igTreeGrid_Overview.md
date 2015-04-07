@@ -38,7 +38,7 @@
 
 `igTreeGrid` をより活用するには、グリッドの [API](%%jQueryApiUrl%%/ui.igtreegrid) とドキュメントで特別な意味を持ついくつかの用語を十分に理解する必要があります。
 
-| Term | Definition |
+| 用語 | 定義 |
 | --- | --- |
 | レベル | 各階層のすべてのデータ項目/行および同じ数の親を適用します。 |
 | ルート レベル | 自身に親のない最上位の行。 |
@@ -126,11 +126,11 @@ $('#treegrid').igTreeGrid({
 
 前述のように、`igTreeGrid` は `igGrid` を継承し、グリッドの一部機能に対してカスタム実装を提供しています。以下の表に、各グリッド機能の違いの一部を強調して示します。
 
-| Feature | igTreeGrid | igGrid |
+| 機能 | igTreeGrid | igGrid |
 | --- | --- | --- |
-| Sorting | Recursively sorts rows by column within the hierarchical structure of the data | Sorts rows by all data in a column |
-| Paging | Creates pages from only root records OR based on all data | Creates pages from all bound data |
-| Filtering | Renders matches to filter criteria in context of its hierarchy | Renders only exact matches to filter criteria |
+| 並べ替え | 階層構造データで列によって行を再帰的に並べ替え | 列のすべてのデータで行を並べ替え |
+| ページング | ルート レコードのみ、またはすべてデータに基づいてページを作成 | すべてのバインド データからページを作成 |
+| フィルタリング | 階層コンテキストでフィルター条件に一致を描画 | フィルター条件に完全一致を描画 |
 
 > **注:**: igGrid と異なり、igTreeGrid は `foreignKey` に対して値が設定されている場合、フラット データ ソースを期待します。
 
