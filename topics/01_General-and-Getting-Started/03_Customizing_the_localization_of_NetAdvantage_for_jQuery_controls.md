@@ -191,59 +191,58 @@
 
 1. <a id="copy_localization_file"></a> `infragistics.ui.grid-ru.js` のコピーを作成し、`infragistics.ui.grid-es.js` に名前を変更します。
 
-`%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-ru.js` を `%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-es.js` にコピーします。
+	`%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-ru.js` を `%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-es.js` にコピーします。
 
-この結果は、以下のスクリーンショットに示されています。
+	この結果は、以下のスクリーンショットに示されています。
 
-![](images/Customizing_the_Localization_of_NetAdvantage_for_jQuery_Controls_2.png)
+	![](images/Customizing_the_Localization_of_NetAdvantage_for_jQuery_Controls_2.png)
 
 2. <a id="localize_file"></a> infragistics.ui.grid-es.js のローカライズ
 
-`%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-es.js` をテキスト エディターで開き、`igGridPaging` セクションの文字列を自分の言語に翻訳します。この場合はスペイン語です。
+	`%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-es.js` をテキスト エディターで開き、`igGridPaging` セクションの文字列を自分の言語に翻訳します。この場合はスペイン語です。
 
->**注:** `infragistics.ui.grid-es.js` にはすべての `igGrid` 機能のローカライズ文字列が含まれているため、すべての `igGrid` 機能を使用する必要がなければ、ファイル全体を翻訳する必要はありません。
+	>**注:** `infragistics.ui.grid-es.js` にはすべての `igGrid` 機能のローカライズ文字列が含まれているため、すべての `igGrid` 機能を使用する必要がなければ、ファイル全体を翻訳する必要はありません。
 
-**JavaScript の場合:**
+	**JavaScript の場合:**
 
-```js
-$.ig.GridPaging = $.ig.GridPaging || {};
-          $.extend( $.ig.GridPaging , {
-          locale : {
-              pageSizeDropDownLabel: "Muestreme los registros",
-              pageSizeDropDownTrailingLabel: "registros",
-              nextPageLabelText: "siguienta",
-              prevPageLabelText: "anterior",
-              firstPageLabelText: "",
-              lastPageLabelText: "",
-              currentPageDropDownLeadingLabel: "Pg",
-              currentPageDropDownTrailingLabel: "de ${count}",
-              currentPageDropDownTooltip: "Elija índice de página",
-              pageSizeDropDownTooltip: "Elija el número de registros por página",
-              pagerRecordsLabelTooltip: "Rango de registros actual",
-              prevPageTooltip: "Vaya a la página siguiente",
-              nextPageTooltip: "Vaya a la página anterior",
-              firstPageTooltip: "Vaya a la página primera",
-              lastPageTooltip: "Vaya a la página última",
-              pageTooltipFormat: "página ${index}",
-              pagerRecordsLabelTemplate: "${startRecord} - ${endRecord} de ${recordCount} registros"
-              }
-          });
-```
-              
+	```js
+	$.ig.GridPaging = $.ig.GridPaging || {};
+			$.extend( $.ig.GridPaging , {
+			locale : {
+				pageSizeDropDownLabel: "Muestreme los registros",
+				pageSizeDropDownTrailingLabel: "registros",
+				nextPageLabelText: "siguienta",
+				prevPageLabelText: "anterior",
+				firstPageLabelText: "",
+				lastPageLabelText: "",
+				currentPageDropDownLeadingLabel: "Pg",
+				currentPageDropDownTrailingLabel: "de ${count}",
+				currentPageDropDownTooltip: "Elija índice de página",
+				pageSizeDropDownTooltip: "Elija el número de registros por página",
+				pagerRecordsLabelTooltip: "Rango de registros actual",
+				prevPageTooltip: "Vaya a la página siguiente",
+				nextPageTooltip: "Vaya a la página anterior",
+				firstPageTooltip: "Vaya a la página primera",
+				lastPageTooltip: "Vaya a la página última",
+				pageTooltipFormat: "página ${index}",
+				pagerRecordsLabelTemplate: "${startRecord} - ${endRecord} de ${recordCount} registros"
+				}
+			});
+	```             
 
 3. <a id="include_localized_file"></a> ローカライズされたファイルをスクリプト参照と共にプロジェクトに追加
 
-HTML ファイルを作成して結果を検証します。以下のスクリーンショットに示すように、HTML ファイルに、`igGridPaging` に必要なファイルを含めます。
+	HTML ファイルを作成して結果を検証します。以下のスクリーンショットに示すように、HTML ファイルに、`igGridPaging` に必要なファイルを含めます。
 
-**HTML の場合:**
+	**HTML の場合:**
 
-```html
-<script src="../scripts/modernizr.min.js"></script>
-<script src="../scripts/jquery.min.js"></script>
-<script src="../scripts/jquery-ui.min.js"></script>
-<script src="../../js/modules/i18n/infragistics.ui.grid-es.js"></script>
-<script src="../../js/infragistics.loader.js"></script>
-```
+	```html
+	<script src="../scripts/modernizr.min.js"></script>
+	<script src="../scripts/jquery.min.js"></script>
+	<script src="../scripts/jquery-ui.min.js"></script>
+	<script src="../../js/modules/i18n/infragistics.ui.grid-es.js"></script>
+	<script src="../../js/infragistics.loader.js"></script>
+	```
               
 ##<a id="RelatedContent"></a>関連コンテンツ
 
