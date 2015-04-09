@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "configuring-asp.net-mvc-validation",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

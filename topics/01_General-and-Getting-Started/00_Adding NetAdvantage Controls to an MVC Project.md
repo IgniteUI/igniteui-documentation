@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "adding-netadvantage-controls-to-an-mvc-project",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

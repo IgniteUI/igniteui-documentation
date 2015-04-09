@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "jqueryuicomponents-landingpage",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

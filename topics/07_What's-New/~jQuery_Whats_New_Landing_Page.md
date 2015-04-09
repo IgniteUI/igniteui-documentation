@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "jquery-whats-new-landing-page",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "jquery-whats-new-revision-history",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

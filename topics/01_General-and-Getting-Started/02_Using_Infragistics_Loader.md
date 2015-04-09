@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "using-infragistics-loader",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

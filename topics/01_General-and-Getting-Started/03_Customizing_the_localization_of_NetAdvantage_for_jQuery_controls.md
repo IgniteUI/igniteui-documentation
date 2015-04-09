@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "customizing-the-localization-of-netadvantage-for-jquery-controls",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

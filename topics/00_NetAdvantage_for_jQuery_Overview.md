@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "netadvantage-for-jquery-overview",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

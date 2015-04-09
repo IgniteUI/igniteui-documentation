@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "deployment-guide-javascript-files",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

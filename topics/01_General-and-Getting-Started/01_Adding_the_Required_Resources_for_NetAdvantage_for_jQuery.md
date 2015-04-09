@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "adding-the-required-resources-for-netadvantage-for-jquery",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "known-issues-and-limitations-2013-volume-1",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

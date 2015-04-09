@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "data-source-components",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

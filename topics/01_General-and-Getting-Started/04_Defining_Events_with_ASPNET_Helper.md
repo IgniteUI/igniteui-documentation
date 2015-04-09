@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "defining-events-with-aspnet-helper",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

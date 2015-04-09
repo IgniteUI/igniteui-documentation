@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "accessibility-compliance",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

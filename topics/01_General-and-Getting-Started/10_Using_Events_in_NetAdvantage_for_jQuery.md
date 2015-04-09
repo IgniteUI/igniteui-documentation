@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "using-events-in-netadvantage-for-jquery",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "manually-updating-previous-versions",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

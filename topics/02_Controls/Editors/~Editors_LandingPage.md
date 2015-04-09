@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "editors-landingpage",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

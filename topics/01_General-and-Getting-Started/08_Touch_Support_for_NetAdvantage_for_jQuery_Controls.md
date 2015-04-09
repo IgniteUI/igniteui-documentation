@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "touch-support-for-netadvantage-for-jquery-controls",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "deployment-guide-using-netadvantage-for-jquery-in-browsers-that-dont-support-html5-or-css3",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

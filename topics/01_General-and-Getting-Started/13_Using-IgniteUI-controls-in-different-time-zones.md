@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "Using-IgniteUI-controls-in-different-time-zones",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

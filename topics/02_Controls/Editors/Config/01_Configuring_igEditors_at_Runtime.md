@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "configuring-igeditors-at-runtime",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

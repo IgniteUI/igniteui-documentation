@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "deployment-guide-infragistics-content-delivery-network(cdn)",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|

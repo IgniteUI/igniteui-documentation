@@ -2,7 +2,7 @@
 |metadata|
 {
     "fileName": "whats-new-in-2013-volume1",
-    "controlName": "1",
+    "controlName": [],
     "tags": []
 }
 |metadata|
