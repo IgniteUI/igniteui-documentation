@@ -78,7 +78,16 @@ features: [
 -   フィルタリングを使用する場合は、正しい列タイプを設定することが非常に重要です。列タイプが正しく構成されていないと、数値列を「string」型またはその逆に設定する場合など、予期しないエラーまたは動作が行われる可能性があります。
 -   `caseSensitive` オプションを true に設定すると、フィルタリングで大文字と小文字を区別することもできます。このオプションはローカル フィルタリングのみで動作します。
 
-フィルタリング ウィジェット オブジェクトで `_generateExpressions` 関数を呼び出すことで、UI から現在の式オブジェクトのリストを取得できます。
+`dataFiltering` イベント関数から現在の式オブジェクトのリストを取得できます。
+
+**JavaScript の場合:**
+
+```js
+$(document).delegate("#grid1", "iggridfilteringdatafiltering", function (evt, ui) {
+	var expressions = ui.expressions;
+}
+```
+
 
 ![](images/igGrid_Filtering_01.png)
 
@@ -335,7 +344,7 @@ dataFiltered
 dataFiltering と同じです
 
                 <blockquote>
-**注:** 式の配列は、ウィジェット オブジェクトで _generateExpressions() メソッドを呼び出して取得できます。
+**注:** 式の配列は、`dataFiltering` イベント関数 (ui.expressions) から取得できます。
 				</blockquote>
 			</td>
         </tr>

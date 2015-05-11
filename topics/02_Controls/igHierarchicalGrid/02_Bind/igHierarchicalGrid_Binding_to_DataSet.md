@@ -169,7 +169,11 @@ public JsonResult NewBindChild(string path, string layout)
 
 ### Filtering、GroupBy、Sorting 機能に設定できるタイプは、Local タイプのみです。Summaries 機能はサポートしていません。
 
-フィルタリング、並べ替え、グループ化の各機能が内部で使用する LINQ 式は、`DataTable` や `DataSet` では使用できません。リモート並べ替えとフィルタリングは、要求を手動処理し、`DataSet` のデータを処理し、 `JsonResult` として戻すことで実装します。
+フィルタリング、並べ替え、グループ化の各機能が内部で使用する LINQ 式は、`DataTable` や `DataSet` では使用できません。
+
+GroupBy の Type が Local に設定しても ColumnSettings オプションによって初期化でグループ化された列を設定することはサポートされていません。GridModel は、クライアントに送信する前にデータを並べ替えます。
+
+リモート並べ替えとフィルタリングは、要求を手動処理し、`DataSet` のデータを処理し、 `JsonResult` として戻すことで実装します。
 
 さらに、グリッドのデータ ソースとして `DataSet` を使用するとき、集計機能はサポートしていません。
 
