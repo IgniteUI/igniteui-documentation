@@ -390,20 +390,24 @@ private void InitializeSortingGridOptions(GridModel model)
 	        }).
 	```
 
+## 次の手順
+Ignite UI で ASP.NET MVC を使用して作業する方法を習得した後、コントロールを ASP.NET MVC で使用する方法については、「[igGrid を使用する ASP.NET MVC アプリケーションの開発](igGrid-Developing-ASP-NET-MVC-Applications-with-igGrid.html)」を参照してください。
+
 ## <a id="related"></a>関連コンテンツ
 
 ### トピック
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [Ignite UI での JavaScript ファイル](Deployment-Guide-JavaScript-Files.html): このトピックは、Ignite UI™ に含まれるコントロールを使用して作業するために必要な JavaScript ファイルへの参照です。
+- [igGrid を使用する ASP.NET MVC アプリケーションの開発](igGrid-Developing-ASP-NET-MVC-Applications-with-igGrid.html)
 
-- [Ignite UI で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、Ignite UI での JavaScript リソースの新しい編成および Infragistics Loader の使用方法を説明します。
+- [Ignite UI での JavaScript ファイル](Deployment-Guide-JavaScript-Files.html)
 
-- [Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html): アプリケーションの設計時間の設定に関する指示、生産で CSS を使用するためのオプション、およびテーマの作成またはカスタマイズに関する概要です。
+- [Ignite UI で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)
 
-- [Ignite UI 対応 Infragistics コンテンツ配信ネットワーク (CDN)](Deployment-Guide-Infragistics-Content-Delivery-Network%28CDN%29.html): Ignite UI 対応 Infragistics コンテンツ配信ネットワーク (CDN) の使用方法。
+- [Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
 
+- [Ignite UI 対応 Infragistics コンテンツ配信ネットワーク (CDN)](Deployment-Guide-Infragistics-Content-Delivery-Network%28CDN%29.html)
 
 
 
