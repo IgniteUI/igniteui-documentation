@@ -41,7 +41,7 @@
 
 以下は最終結果のプレビューです。
 
-![](images/Getting_Started_with_igCombo__01.png)
+![](images/igCombo_Auto_Complete.png)
 
 ###要件
 
@@ -60,6 +60,7 @@
 1.  `igCombo` のインスタンス化
 2.  データへのバインド
 3.  (オプション) 幅の構成
+4.  (オプション) オートコンプリートの有効化
 
 ###手順
 
@@ -194,6 +195,22 @@
     Width("200px")
     ```
 
+4.  **(オプション) オートコンプリートの有効化**
+
+    autoComplete オプションを使用して、`igCombo`　でオートコンプリートを有効にします。
+
+    **HTML の場合:**
+
+    ```html
+    autoComplete: true
+    ```
+
+    **ASPX の場合:**
+
+    ```csharp
+    AutoComplete(true)
+    ```
+
 ##コード例
 
 
@@ -249,6 +266,10 @@
 			<td>幅</td>
 			<td>200px</td>
 		</tr>
+		<tr>
+			<td>AutoComplete</td>
+			<td>true</td>
+		</tr>
 	</tbody>
 </table>
 
@@ -273,7 +294,8 @@
             dataSource: colors,
             textKey: "Name",
             valueKey: "Name",
-            width: "200px"
+            width: "200px",
+			autoComplete: true
         });
     });
 </script>
@@ -308,6 +330,10 @@
 			<td>幅</td>
 			<td>300px</td>
 		</tr>
+		<tr>
+			<td>AutoComplete</td>
+			<td>true</td>
+		</tr>
 	</tbody>
 </table>
 
@@ -323,6 +349,7 @@
     ValueKey("Name").
     TextKey("Name").
     Width("300px").
+	AutoComplete(true).  
     Render()
 %>
 ```

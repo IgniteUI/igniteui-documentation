@@ -136,6 +136,11 @@
 			<td>[caseSensitive](%%jQueryApiUrl%%/ui.igCombo#options:caseSensitive)</td>
 			<td>true</td>
 		</tr>
+		<tr>
+			<td>オートコンプリートを有効にする</td>
+			<td>[autoComplete](%%jQueryApiUrl%%/ui.igCombo#options:autoComplete)</td>
+			<td>true</td>
+		</tr>
 	</tbody>
 </table>
 
@@ -199,6 +204,37 @@
 		</tr>
 		<tr>
 			<td>[caseSensitive](%%jQueryApiUrl%%/ui.igCombo#options:caseSensitive)</td>
+			<td>true</td>
+		</tr>
+	</tbody>
+</table>
+
+### 例: 自動補完とオートコンプリートおよびローカル フィルタリング
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>プロパティ</th>
+			<th>設定</th>
+			<th>プレビュー</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>[filteringType](%%jQueryApiUrl%%/ui.igCombo#options:filteringType)</td>
+			<td>local</td>
+			<td rowspan="4">![](images/igCombo_Auto_Complete.png)</td>
+		</tr>
+		<tr>
+			<td>[highlightMatchesMode](%%jQueryApiUrl%%/ui.igCombo#options:highlightMatchesMode)</td>
+			<td>startsWith</td>
+		</tr>
+		<tr>
+			<td>[filteringCondition](%%jQueryApiUrl%%/ui.igCombo#options:filteringCondition)</td>
+			<td>startsWith</td>
+		</tr>
+		<tr>
+			<td>[autoComplete](%%jQueryApiUrl%%/ui.igCombo#options:autoComplete)</td>
 			<td>true</td>
 		</tr>
 	</tbody>

@@ -3,14 +3,21 @@
 {
     "fileName": "ighierarchicalgrid-accessibility-compliance",
     "controlName": "igHierarchicalGrid",
-    "tags": ["Grids","Section 508"]
+    "tags": ["Grids","Section 508", "WAI-ARIA"]
 }
 |metadata|
 -->
 
 # アクセシビリティ準拠 (igHierarchicalGrid)
 
-## igHierarchicalGrid アクセシビリティ要件遵守の概要
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+- [第 508 条の遵守](#section-508)
+- [WAI-ARIA サポート](#wai-aria)
+
+## <a id="section-508"></a>igHierarchicalGrid 第 508 条の遵守の概要
 
 すべての Ignite UI™ コントロールおよびコンポーネントは、1973 年リハビリテーション法第 508 条第 1194 部 22 条を遵守しています。「第 508 条の遵守内容」という項に示す表は、コントロールについて第 1194 項第 22 節に規定されている個々の規則を列挙し、グリッド コントロールにおける各規則の遵守方法の詳細をまとめたものです。
 
@@ -35,3 +42,25 @@
 <li>**Shift + 上矢印または下矢印** -- 複数選択時に上 (または下) の行/列を選択範囲に加えます。</li>
 <li>**Ctrl + 上矢印または下矢印** -- 現在アクティブな行/列を変更します。</li>
 <li>**Shift + Enter** -- 現在選択されている行/セルを選択解除します。</li></ul>
+
+## <a id="wai-aria"></a> WAI-ARIA サポート
+
+2014 年に W3C は [WAI-ARIA 仕様](http://www.w3.org/TR/wai-aria/) を完成しました。障害を持つユーザーに Web コンテンツおよび Web アプリケーションへのアクセシビリティを提供するデザインを定義したものです。igHierarchicalGrid のデザインはこのガイドラインに準拠します。
+
+以下のリストは、WAI-ARIA をサポートするための igHierarchicalGrid の変更点の詳細を提供します。この変更は、デフォルトですべて有効にされることに注意してください。
+
+<ul>
+<li>igHierarchicalGrid のすべての要素が igGrid の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。</li>
+<li>igHierarchicalGrid は <b>grid</b> role を使用します。</li>
+<li> The header elements are each decorated with an <b>aria-label</b> attribute with the column header text, which allows the header text to be read instead of the <b>title</b> attribute value when a <b>title</b> attribute is present.</li>
+<li> All column headers are decorated with the <b>columnheader</b> role.</li>
+<li> The thead, tbody, and tfoot elements are all decorated with a <b>rowgroup</b> role</li>
+<li> The rows are decorated with a <b>row</b> role.</li>
+<li> Row selector elements are decorated with a <b>rowheader</b> role.</li>
+<li> Table cell elements inside of the table body rows are decorated with a <b>gridcell</b> role. </li>
+<li> Table cell elements inside of the table body rows are decorated with <b>aria-describedby</b> attributes with a value set to the <b>id</b> of the corresponding columnheader element of the column the table cell belongs to. </li>
+<li> Table cell elements inside of the table body rows are decorated with <b>aria-selected</b> attributes when the selection feature is enabled. By default the value of the <b>aria-selected</b> will be <b>false</b> unless a row is selected initially in configuration.</li>
+<li> The table is decorated with an <b>aria-multiselectable</b> attribute when the selection feature is enabled. The value of this attribute depends on the value of the <b>multipleSelection</b> option of the selection feature.</li>
+<li> Checkboxes are decorated with the <b>checkbox</b> role and <b>aria-checked</b> attribute. In addition, checkboxes are decorated with the <b>aria-title</b> attribute which corresponds to the related column header.</li>
+<li> Expandable row cell elements in the table body are decorated with <b>aria-expanded</b> attributes with a value corresponding to the expanded state.</li>
+</ul>

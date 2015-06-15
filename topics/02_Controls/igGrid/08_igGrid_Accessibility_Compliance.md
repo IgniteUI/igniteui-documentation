@@ -3,14 +3,21 @@
 {
     "fileName": "iggrid-accessibility-compliance",
     "controlName": "igGrid",
-    "tags": ["Grids","Section 508"]
+    "tags": ["Grids","Section 508", "WAI-ARIA"]
 }
 |metadata|
 -->
 
 # アクセシビリティ準拠 (igGrid)
 
-## igGrid アクセシビリティの遵守
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-	[第 508 条の遵守](#section-508)
+-	[WAI-ARIA サポート](#wai-aria)
+
+## <a id="section-508"></a> igGrid 第 508 条の遵守
 
 すべての Ignite UI™ コントロールおよびコンポーネントは、1973 年リハビリテーション法第 508 条第 1194 部 22 条を遵守しています。表 1 には、コントロールに関連する第 1194 部 22 条の特定の規則が記載されています。また、グリッド コントロールが各規則を遵守するための詳しい方法も含んでいます。
 
@@ -63,7 +70,24 @@
 
 \* - コントロールの制限
  
-
+## <a id="wai-aria"></a> WAI-ARIA サポート
  
+2014 年に W3C は [WAI-ARIA 仕様](http://www.w3.org/TR/wai-aria/) を完成しました。障害を持つユーザーに Web コンテンツおよび Web アプリケーションへのアクセシビリティを提供するデザインを定義したものです。igGrid のデザインはこのガイドラインに準拠しています。
 
+以下のリストは、WAI-ARIA をサポートするための igGrid の変更点の詳細を提供します。この変更は、デフォルトですべて有効にされることに注意してください。
+
+<ul>
+<li>igGrid のすべての要素が igGrid の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。</li>
+<li>igGrid は <b>grid</b> role  を使用します。</li>
+<li> The header elements are each decorated with an <b>aria-label</b> attribute with the column header text, which allows the header text to be read instead of the <b>title</b> attribute value when a <b>title</b> attribute is present.</li>
+<li> All column headers are decorated with the <b>columnheader</b> role.</li>
+<li> The thead, tbody, and tfoot elements are all decorated with a <b>rowgroup</b> role</li>
+<li> The rows are decorated with a <b>row</b> role.</li>
+<li> Row selector elements are decorated with a <b>rowheader</b> role.</li>
+<li> Table cell elements inside of the table body rows are decorated with a <b>gridcell</b> role. </li>
+<li> Table cell elements inside of the table body rows are decorated with <b>aria-describedby</b> attributes with a value set to the <b>id</b> of the corresponding columnheader element of the column the table cell belongs to. </li>
+<li> Table cell elements inside of the table body rows are decorated with <b>aria-selected</b> attributes when the selection feature is enabled. By default the value of the <b>aria-selected</b> will be <b>false</b> unless a row is selected initially in configuration.</li>
+<li> The table is decorated with an <b>aria-multiselectable</b> attribute when the selection feature is enabled. The value of this attribute depends on the value of the <b>multipleSelection</b> option of the selection feature.</li>
+<li> Checkboxes are decorated with the <b>checkbox</b> role and <b>aria-checked</b> attribute. In addition, checkboxes are decorated with the <b>aria-title</b> attribute which corresponds to the related column header.</li>
+</ul>
 

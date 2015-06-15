@@ -3,12 +3,21 @@
 {
     "fileName": "accessibility-compliance",
     "controlName": [],
-    "tags": []
+    "tags": ["Accessibility", "Section 508", "WAI-ARIA"]
 }
 |metadata|
 -->
 
 # アクセシビリティ準拠
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-	[第 508 条の遵守](#section-508)
+-	[WAI-ARIA サポート](#wai-aria)
+
+## <a id="section-508"></a>第 508 条の遵守
 
 リハビリテーション法[第 508 条](http://www.section508.gov/)連邦議会によって 1998 年に改正され、すべての連邦政府機関は障害を持つ職員が電子情報技術にアクセスできるようにすることを義務付けました。それ以降、第 508 条の準拠は、連邦政府機関の要件であるだけでなく、ソフトウェア ソリューションを提供し、Web ページを設計する際にも重要です。
 
@@ -1223,3 +1232,12 @@
  - **o** - ユーザーが反復するナビゲーション リンクをスキップすることができる方法を提供します。
 
  - **p** - 一定の時間内での応答が要求される場合、ユーザーは警告を受け、追加時間が必要な旨を伝える十分な時間が与えられます。
+ 
+ ## <a id="wai-aria"></a>WAI-ARIA サポート
+
+2014 年に W3C は [WAI-ARIA 仕様](http://www.w3.org/TR/wai-aria/) を完成しました。障害を持つユーザーに Web コンテンツおよび Web アプリケーションへのアクセシビリティを提供するデザインを定義したものです。
+
+以下のリストは、WAI-ARIA サポートがグリッド コントロールで実装される詳細へのリンクを提供します。
+
+[igGrid](iggrid-accessibility-compliance.html#wai-aria)
+[igHierarchicalGrid](ighierarchicalgrid-accessibility-compliance#wai-aria)
