@@ -52,15 +52,15 @@
 <ul>
 <li>igHierarchicalGrid のすべての要素が igGrid の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。</li>
 <li>igHierarchicalGrid は <b>grid</b> role を使用します。</li>
-<li> The header elements are each decorated with an <b>aria-label</b> attribute with the column header text, which allows the header text to be read instead of the <b>title</b> attribute value when a <b>title</b> attribute is present.</li>
-<li> All column headers are decorated with the <b>columnheader</b> role.</li>
-<li> The thead, tbody, and tfoot elements are all decorated with a <b>rowgroup</b> role</li>
-<li> The rows are decorated with a <b>row</b> role.</li>
-<li> Row selector elements are decorated with a <b>rowheader</b> role.</li>
-<li> Table cell elements inside of the table body rows are decorated with a <b>gridcell</b> role. </li>
-<li> Table cell elements inside of the table body rows are decorated with <b>aria-describedby</b> attributes with a value set to the <b>id</b> of the corresponding columnheader element of the column the table cell belongs to. </li>
-<li> Table cell elements inside of the table body rows are decorated with <b>aria-selected</b> attributes when the selection feature is enabled. By default the value of the <b>aria-selected</b> will be <b>false</b> unless a row is selected initially in configuration.</li>
-<li> The table is decorated with an <b>aria-multiselectable</b> attribute when the selection feature is enabled. The value of this attribute depends on the value of the <b>multipleSelection</b> option of the selection feature.</li>
-<li> Checkboxes are decorated with the <b>checkbox</b> role and <b>aria-checked</b> attribute. In addition, checkboxes are decorated with the <b>aria-title</b> attribute which corresponds to the related column header.</li>
-<li> Expandable row cell elements in the table body are decorated with <b>aria-expanded</b> attributes with a value corresponding to the expanded state.</li>
+<li>各ヘッダー要素は、列のヘッダー テキストに設定された <b>aria-label</b> 属性を使用します。<b>title</b> 属性がある場合、<b>title</b> 属性の値の代わりにヘッダー テキストが読み込まれます。</li>
+<li>すべての列ヘッダーは <b>columnheader</b> role を使用します。</li>
+<li>thead、tbody、および tfoot 要素は <b>rowgroup</b> role を使用します。</li>
+<li>行は <b>row</b> role を使用します。</li>
+<li>行セレクター要素は <b>rowheader</b> role を使用します。</li>
+<li>表の本体の行内の表のセル要素は <b>gridcell</b> role を使用します。</li>
+<li>表の本体の行内の表のセル要素は <b>aria-describedby</b> 属性を使用します。その属性の値は、表のセルに属する列に対応する columnheader 要素の <b>id</b> に設定されます。</li>
+<li>表の本体の行での表セル要素は、選択機能が有効な場合、<b>aria-selected</b> 属性を使用します。構成で行が初期化で選択される場合以外、<b>aria-selected</b> のデフォルト値は <b>false</b> です。</li>
+<li>選択機能が有効な場合、表は <b>aria-multiselectable</b> 属性を使用します。この属性の値は、選択機能の <b>multipleSelection</b> オプションの値に基づいて設定されます。</li>
+<li>チェックボックスは <b>checkbox</b> role および <b>aria-checked</b> 属性を使用します。また、チェックボックスは <b>aria-title</b> 属性を使用します。この属性の値は関連する列ヘッダーに対応します。</li>
+<li>表の本体の展開可能な行セル要素は <b>aria-expanded</b> 属性を使用します。値は展開状態に対応します。</li>
 </ul>
