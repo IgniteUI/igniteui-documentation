@@ -1233,11 +1233,11 @@
 
  - **p** - 一定の時間内での応答が要求される場合、ユーザーは警告を受け、追加時間が必要な旨を伝える十分な時間が与えられます。
  
- ## <a id="wai-aria"></a>WAI-ARIA サポート
+## <a id="wai-aria"></a> WAI-ARIA サポート
 
 2014 年に W3C は [WAI-ARIA 仕様](http://www.w3.org/TR/wai-aria/) を完成しました。障害を持つユーザーに Web コンテンツおよび Web アプリケーションへのアクセシビリティを提供するデザインを定義したものです。
 
 以下のリストは、WAI-ARIA サポートがグリッド コントロールで実装される詳細へのリンクを提供します。
 
-[igGrid](iggrid-accessibility-compliance.html#wai-aria)
-[igHierarchicalGrid](ighierarchicalgrid-accessibility-compliance#wai-aria)
+- [igGrid](iggrid-accessibility-compliance.html#wai-aria)
+- [igHierarchicalGrid](ighierarchicalgrid-accessibility-compliance#wai-aria)
