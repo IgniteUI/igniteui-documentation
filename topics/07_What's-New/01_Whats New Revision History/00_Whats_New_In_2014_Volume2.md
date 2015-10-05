@@ -158,11 +158,6 @@ Infragistics の新しい Excel ライブラリは、純粋な JavaScript ベー
 -   [Ignite UI のクライアント サイド Excel ライブラリの概要](JavaScript-Excel-Library-Overview.html)
 -   [Ignite UI のクライアント サイド Excel ライブラリの使用](Using-the-JavaScript-Excel-Library.html)
 
-#### 関連サンプル
-
--   [ブラウザーで Excel ワークシートを作成](%%NewSamplesUrl%%/client-side-excel-library/create-excel-worksheet-in-browser)
-
-
 
 ## igGrid
 
