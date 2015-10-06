@@ -53,6 +53,7 @@
 id 属性は、DOM コントロール プレースホルダーで必須|id 属性は、グリッドが初期化される DOM 要素に設定する必要があります。グリッドは、jQuery セレクターを内部で使用して選択を高速化します。|![](images/negative.png)
 スペースを含む列のキーはサポートされない|列のキーは、一部の DOM 要素の ID の生成に使用されます。[HTML 5 仕様](http://www.w3.org/TR/html5/dom.html#the-id-attribute)により、HTML id 属性にスペースを入れることはできません。|![](images/negative.png)
 contextMenu イベントは cellRightClick に名前変更しました|イベント名は発生する操作を説明します。|![](images/negative.png)
+IE8 でヘッダー テキストと並べ替え/フィルタリング/ギア アイコンが整列しない|IE8 で css calc() がサポートされないブラウザーの制限によるものです。詳細は http://caniuse.com/#feat=calc を参照してください。| ![](images/negative.png)
 
 ## [igGrid - データ バインディング](#data-binding)
 
@@ -148,6 +149,7 @@ contextMenu イベントは cellRightClick に名前変更しました|イベン
 グリッドの幅がパーセンテージで定義されている場合、列の仮想化が機能しない|グリッドの幅がパーセンテージで定義され、列の仮想化が有効な場合 ([columnVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:columnVirtualization) = true)、水平スクロールバーが表示されません。|![](images/negative.png)
 [固定仮想化は RWD モードでサポートされていません](#fixed-virtualization)|固定仮想化は、行の高さが定数であることが必要です。行の高さが変更する場合、固定仮想化は正しく操作しません。RWD モードは、画面サイズによって行の高さを変更するため、固定仮想化は正しく動作しません。|![](images/positive.png)
 列仮想化は連続仮想化でサポートされていません。 | 列仮想化は固定仮想化のみでサポートされています。列仮想化が有効 ([columnVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:columnVirtualization) = true) な場合、仮想化モードを "fixed" ([virtualizationMode](%%jQueryApiUrl%%/ui.iggrid#options:virtualizationMode) = "fixed") に設定する必要があります。 | ![](images/negative.png)
+仮想化と列の自動サイズ変更はサポートされない|幅オプションを "*" に設定して列を自動サイズ変更する機能は、仮想化ではサポートされません。 | ![](images/negative.png)
 
 ## igGrid - レスポンス Web デザイン モード
 問題|説明|状態
