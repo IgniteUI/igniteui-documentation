@@ -206,7 +206,7 @@ public static void igUpload_UploadFinished(object sender, Infragistics.Web.Mvc.U
         }           
 ```
 
-This value can then be retrieved on the client-side on the related client-side events- [`fileUploading`](%%jQueryApiUrl%%/ui.igupload#events:fileUploading) and [`fileUploaded`](%%jQueryApiUrl%%/ui.igupload#events:fileUploaded). The  `uploadInfo` event argument contains the additional file information, including the serverMessage value send from the server.
+この値はクライアント側で、[`fileUploading`](%%jQueryApiUrl%%/ui.igupload#events:fileUploading) および [`fileUploaded`](%%jQueryApiUrl%%/ui.igupload#events:fileUploaded) の関連するクライアント側イベントから取得します。`uploadInfo` イベント引数は、サーバーから送信された serverMessage 値など、追加ファイル情報を含みます。
 
 **JavaScript の場合:**
 
