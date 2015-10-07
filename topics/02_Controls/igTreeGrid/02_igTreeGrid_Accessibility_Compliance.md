@@ -64,6 +64,36 @@
 \* - コントロールの制限
  
 
- 
+## <a id="wai-aria"></a> WAI-ARIA サポート
+
+
+igTreeGrid は [WAI-ARIA 仕様](http://www.w3.org/TR/wai-aria/) を実装します。障害を持つユーザーに Web コンテンツおよび Web アプリケーションへのアクセシビリティを提供するデザインを定義したものです。
+
+以下のリストは、igGrid から継承される ARIA 属性および igTreeGrid のみの ARIA 属性の詳細を提供します。
+
+igGrid ウィジェットから継承される ARIA 属性:
+<ul>
+<li>igGrid のすべての要素が igGrid の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。</li>
+<li> The header elements are each decorated with an <b>aria-label</b> attribute with the column header text, which allows the header text to be read instead of the <b>title</b> attribute value when a <b>title</b> attribute is present.</li>
+<li> All column headers are decorated with the <b>columnheader</b> role.</li>
+<li> The thead, tbody, and tfoot elements are all decorated with a <b>rowgroup</b> role</li>
+<li> The rows are decorated with a <b>row</b> role.</li>
+<li> Row selector elements are decorated with a <b>rowheader</b> role.</li>
+<li> Table cell elements inside of the table body rows are decorated with a <b>gridcell</b> role. </li>
+<li> Table cell elements inside of the table body rows are decorated with <b>aria-describedby</b> attributes with a value set to the <b>id</b> of the corresponding columnheader element of the column the table cell belongs to. </li>
+<li> Table cell elements inside of the table body rows are decorated with <b>aria-selected</b> attributes when the selection feature is enabled. By default the value of the <b>aria-selected</b> will be <b>false</b> unless a row is selected initially in configuration.</li>
+<li> The table is decorated with an <b>aria-multiselectable</b> attribute when the selection feature is enabled. The value of this attribute depends on the value of the <b>multipleSelection</b> option of the selection feature.</li>
+<li> Checkboxes are decorated with the <b>checkbox</b> role and <b>aria-checked</b> attribute. In addition, checkboxes are decorated with the <b>aria-title</b> attribute which corresponds to the related column header.</li>
+</ul>
+
+階層構造を定義する igTreeGrid に特有の追加の属性:
+<ul>
+<li>igTreeGrid は <b>treegrid</b> ロールを使用します。</li>
+<li>展開インジケーターはフォーカス可能で、Enter/Space キーを使用して現在の行を展開/縮小します。</li>
+<li>行は <b>aria-level</b> 属性を持ちます。構造で行の階層レベルを定義します。
+</li>
+<li>行は <b>aria-expanded</b> 属性を持ちます。行の現在の展開/縮小状態についての情報を保存します。</li>
+<li>各行は <b>id</b> 属性を持ちます。親行は <b>aria-owns</b> 属性を持ちます。関連の子行 ID への参照を保存します。</li>
+</ul>
 
 

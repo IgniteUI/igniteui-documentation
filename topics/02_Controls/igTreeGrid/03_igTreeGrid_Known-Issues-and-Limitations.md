@@ -24,6 +24,7 @@
 [リモート機能により展開インジケーターを部分表示 / 非表示にできる](#expand-indicator-crop)|リモートシナリオで非データ列に個別のインジケーターを描画する場合、階層の下位レベルの展開インジケーターは部分表示 / 非表示にできます。 | ![](images/positive.png)
 [下位レベルの最初のセルのデータがずれる](#misaligned-data)|下位レベルのパディングにより、表示されるデータがセルの使用可能な幅を超えてプッシュされ、テキストが最初の位置で折り返されるため、階層の表示が壊れます。 | ![](images/positive.png) 
 ページング (allLevels) の rowVirtualization モードで行を展開または縮小するときにスクロール位置が変更します。|rowVirtualization と [`mode`](%%jQueryApiUrl%%/ui.igtreegrid#options:mode) が `allLevels` に設定されたページングが有効な場合、スクロールの位置が行の展開/縮小によって変更されます。| ![](images/negative.png) 
+ページング コンテキスト行は列固定とサポートされません。|[contextRowMode](%%jQueryApiUrl%%/ui.igtreegridpaging#options:contextRowMode) が "parent" または "breadcrumb" で、列固定機能が有効な場合に例外は発生されます。| ![](images/negative.png)
 
 ## <a id="expand-indicator-crop"></a> 下位レベルで描画する場合、展開インジケーターを部分表示 / 非表示にできます。
 展開インジケーターは、展開インジケーター列の幅が十分にない場合、部分表示または非表示にできます。通常はバインドされたデータから決定されますが、リモート シナリオでは、その列の幅としてインデントのサイズを予約する必要があるかを決定する [`initialIndentationLevel`](%%jQueryApiUrl%%/ui.igtreegrid#options:initialIndentationLevel) 設定により、あらかじめバックエンドから提供する必要があります。

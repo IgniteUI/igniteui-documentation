@@ -227,12 +227,12 @@ $('#treegrid').igTreeGrid({
 	<table id="treegrid"></table>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="http://localhost/ig_ui15.1/js/infragistics.loader.js"></script>
+    <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.loader.js"></script>
 	<script type="text/javascript">
 
         $.ig.loader({
-            scriptPath: 'http://localhost/ig_ui15.1/js/',
-            cssPath: 'http://localhost/ig_ui15.1/css/',
+			scriptPath: 'http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/',
+            cssPath: 'http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/css/',
             resources: 'igTreeGrid.Filtering.Paging.Sorting',
             ready: function () {
 
@@ -314,8 +314,40 @@ $('#treegrid').igTreeGrid({
 
 ## <a id="keyboard-navigation"></a> キーボード ナビゲーション 
 
-サポートされる機能については、使用可能な特別なキーボード操作も継承されています。[Selection (igGrid)](igGrid-Selection-Overview.html#keyboard-interaction) でのナビゲーションは、実際に `igHierarchicalGrid` の場合と同様に機能します。つまり、現在選択されているアクティブなセルが、展開 / 縮小、`SPACE / ENTER` ボタンを含む場合、行の子レベルも展開 / 縮小します。
+### 全般
 
+押下|条件|目的
+---|---|---
+<kbd>Space キー</kbd> / <kbd>Enter キー</kbd>|フォーカスが展開インジケーター セルにある|行を展開/縮小します。
+
+
+### 行選択が有効な場合
+
+押下|条件|目的
+---|---|---
+<kbd>上矢印</kbd> または <kbd>Shift + Tab</kbd> |行が選択される|上の行へ移動します。
+<kbd>下矢印</kbd> または <kbd>Tab</kbd>|行が選択される|下の行へ移動します。
+<kbd>右矢印</kbd> |行が選択される|行を展開します。
+<kbd>左矢印</kbd>|行が選択される|行を縮小します。
+<kbd>Home</kbd> または <kbd>Ctrl+Home</kbd> |行が選択される|一番上行へ移動します。
+<kbd>End</kbd> または <kbd>Ctrl+End</kbd>|行が選択される|一番下行へ移動します。
+<kbd>右矢印</kbd>|展開される行またはリーフ行が選択されます。|左へスクロールします。
+<kbd>左矢印</kbd>|展開される行またはリーフ行が選択されます。|右へスクロールします。
+
+### セル選択が有効な場合
+
+押下|条件|終了
+---|---|---
+<kbd>上矢印</kbd>|セルが選択される|上のセルへ移動します。
+<kbd>下矢印</kbd>|セルが選択される|下のセルへ移動します。
+<kbd>右矢印</kbd>|セルが選択される|右のセルへ移動します。
+<kbd>左矢印</kbd>|セルが選択される|左のセルへ移動します。
+<kbd>Alt + 下矢印</kbd> または <kbd>Enter キー</kbd>|展開インジケーター セルが選択される|行を展開します。
+<kbd>Alt + 下矢印</kbd> または <kbd>Enter キー</kbd>|展開インジケーター セルが選択される|行を縮小します。
+<kbd>Home</kbd>|セルが選択される|行に一番左のセルへ移動します。
+<kbd>End</kbd>|セルが選択される|行に一番右のセルへ移動します。
+<kbd>Ctrl+Home</kbd>|セルが選択される|グリッドの左上セルへ移動します。
+<kbd>Ctrl+End</kbd>|セルが選択される|グリッドの右下セルへ移動します。
 
 ## <a id="related-content"></a> 関連コンテンツ
 

@@ -22,6 +22,7 @@
 ## このトピックの内容
 
 -	UploadProgressManager とサーバー イベント
+-	クライアントおよびサーバの間に追加データの送信
 -	チュートリアル: MVC でのサーバー側検証
 
 ## UploadProgressManager とサーバー イベント
@@ -177,12 +178,86 @@ AddFinishedUploadEventHandler |UploadFinished |`UploadProgressManager .Instance.
 
 **注:** コントローラー アクションで `igUpload` サーバー側イベントにアタッチしないでください。コントローラー アクションがアプリケーション ライフサイクルで複数回起動する可能性があるため、単一のイベント ハンドラーが複数回にアタッチする結果が可能です。サーバー側イベントに一回のみアタッチします。MVC プロジェクトの Global.asax ファイルのアプリケーション開始ロジックでサーバー側イベントを処理してください。
 
-##チュートリアル: MVC でのサーバー側検証
+##  ファイル アップロードでクライアントおよびサーバの間に追加データの送信
 
-###概要
+アップロードされたファイルに関連するカスタムのデータをさらにサーバーからクライアントへ、またはクライアントからサーバーへ送信する場合もあります。
+
+たとえば、サーバーでカスタムのファイル検証を適用し結果をクライアントで表示する、またはファイル アプロードが完了したときにカスタムのメッセージを表示することがあります。あるいは、クライアント側からアプロード中のファイルに関係のある追加的データ (セキュリティ GUID、クライアント側入力フィールドなど) を送信し、関連するサーバー側イベントでデータにアクセスするケースもあります。
+
+以下では、`igUpload` を使用してその詳細手順を説明します。
+
+### サーバーからクライアントへの追加的データの送信
+
+カスタム メッセージを追加するには、`UploadStarting`、`UploadFinishing` および `UploadFinished` イベント引数の `ServerMessage` を使用します。
+
+**C# の場合**
+
+```
+public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e){          
+              e.ServerMessage = "Upload of " + e.FileName + " started.";   
+        }
+        
+public static void igUpload_UploadFinishing(object sender, Infragistics.Web.Mvc.UploadFinishingEventArgs e){          
+             e.ServerMessage = "Upload of " + e.FileName + "is about to finish.";   
+        }
+        
+public static void igUpload_UploadFinished(object sender, Infragistics.Web.Mvc.UploadFinishedEventArgs e){          
+            	e.ServerMessage = "Upload of " + e.FileName + "is finished.";   
+        }           
+```
+
+This value can then be retrieved on the client-side on the related client-side events- [`fileUploading`](%%jQueryApiUrl%%/ui.igupload#events:fileUploading) and [`fileUploaded`](%%jQueryApiUrl%%/ui.igupload#events:fileUploaded). The  `uploadInfo` event argument contains the additional file information, including the serverMessage value send from the server.
+
+**JavaScript の場合:**
+
+```
+$(function(){
+        $("#upload1").on("iguploadfileuploading", function (evt, ui) {
+			alert(ui.fileInfo.serverMessage);
+        });  
+    
+        $("#upload1").on("iguploadfileuploaded", function (evt, ui) {
+			alert(ui.fileInfo.serverMessage);
+        });
+        
+     });
+
+```
+
+>**注:** 詳細なデータを渡す場合は、e.ServerMessage の一部として JSON 形式で渡し、クライアント側で逆シリアル化します。
+
+### クライアントからサーバーへの追加データの送信
+
+要求にデータを追加するには [`onFormDataSubmit`](%%jQueryApiUrl%%/ui.igupload#events:onFormDataSubmit) クライアント側イベントを使用します。[`addDataField`](%%jQueryApiUrl%%/ui.igupload#methods:addDataField) および [`addDataFields`](%%jQueryApiUrl%%/ui.igupload#methods:addDataFields) メソッドでパラメーターを追加します。
+
+**JavaScript の場合:**
+
+```
+ $("#upload1").on("iguploadonformdatasubmit", function (evt, ui) {
+            $("#upload1").igUpload("addDataField", ui.formData, { "name": "Parameter Name", "value": "Value" });
+        });
+```
+
+クライアント側のデータを取得するには、サーバーに渡されるフィールド名および値のコレクションを含む、`UploadStarting`、`UploadFinishing` および `UploadFinished` の `AdditionalDataFields` イベント引数を使用します。
+
+**C# の場合:**
+
+```
+public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e){          
+       foreach (var dataField in e.AdditionalDataFields)
+	   {
+		   string fieldName = dataField.Name;
+		   string fieldValue = dataField.Value;
+	   } 
+   }
+```
+
+##　チュートリアル: MVC でのサーバー側検証
+
+###　概要
 この手順は、`igUpload` のカスタム検証をサーバー側で実装する方法を説明します。
 
-###要件
+###　要件
 この手順を実行する前に、[igUpload の概要](igUpload-Overview.html) トピックの手順を完了してください。
 
 
@@ -191,7 +266,7 @@ AddFinishedUploadEventHandler |UploadFinished |`UploadProgressManager .Instance.
 
 その手順を実行した後、MVC アプリケーションで基本のアップロード コントロールがあります。
 
-###手順
+###　手順
 
 **手順 1**`igUpload` の UploadStarting イベントのサーバー側イベント ハンドラーを登録します。
 

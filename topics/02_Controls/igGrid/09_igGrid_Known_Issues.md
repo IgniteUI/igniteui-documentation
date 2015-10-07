@@ -141,7 +141,6 @@ IE8 でヘッダー テキストと並べ替え/フィルタリング/ギア ア
 ------|-------------|-------
 固定ヘッダーが常に有効になる (制限)|仮想化が有効な場合、変更できない [`fixedHeaders`](%%jQueryApiUrl%%/ui.iggrid#options:fixedHeaders) オプションのフォームに制限があり、常に true に設定されます。 | ![](images/negative.png)
 グリッドの高さ設定に制限がある|`igGrid` の高さは常に、行の平均の高さで割り切れる値でなければなりません。(割り算の剰余はゼロでなければなりません。) | ![](images/negative.png)
-行の高さ設定に制限がある|データ行が数行しかない `igGrid` では、すべての `igGrid` 行の高さは展開します。これは、行の高さの合計がグリッドの高さと一致する必要があるためです。 | ![](images/negative.png)
 列の可視の幅の設定に制限がある|列の可視幅は、`igGrid` の幅と等しくなければなりません (水平方向の仮想化の場合)。 | ![](images/negative.png)
 水平方向の仮想化に対して、キーボード ナビゲーションがサポートされない (制限)|水平方向の仮想化に対して、キーボード ナビゲーションはサポートされていません。 | ![](images/negative.png)
 セル クラス適用の制限|特定のセルのクラスをソートされた列のすべてのセルに適用する操作はサポートされていません。たとえば、[`applySortedColumnCss`](%%jQueryApiUrl%%/ui.iggridsorting#options:applySortedColumnCss) は自動的に false に設定されます。 | ![](images/negative.png)

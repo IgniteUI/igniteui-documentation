@@ -225,6 +225,37 @@ onError
                 
             </td>
         </tr>
+				<tr>
+		<td>onFormDataSubmit</td>
+		<td>
+			onFormDataSubmit イベントは、アプロードされるファイルおよび追加データ (がある場合) がサーバーに送信される前に発生されます。 
+			FormData オブジェクトに追加データ フィールドを追加するために使用します。
+			 <ul>
+                    <li>
+`fileId`:  Gets unique identifier of the file.
+					</li>
+
+                    <li>
+`fileInfo`: Gets reference to the fileInfo object - contains information for the fileName, fileSize, serverMessage, etc.
+					</li>
+
+                    <li>
+`xhr`:	Gets reference to the original XMLHttpRequest object(if the browser supports HTML 5 file API - if not it is undefined).
+					</li>
+
+                    <li>
+`formData`: Gets reference to FormData object(if the browser supports HTML5 file API) or reference to jQuery representation of <form>.
+					</li>
+                    <li>
+`owner`: Gets igUpload widget object.
+					</li>
+                </ul>
+		</td>
+		</tr>
+		<tr>
+		<td>onXHRLoad</td>
+		<td>onXHRLoad イベントは、XmlHttpRequest の onload イベントが発生されたときに発生されます。ブラウザーが HTML5 API をサポートする場合のみ、イベントが発生されます。</td>
+		</tr>
     </tbody>
 </table>
 

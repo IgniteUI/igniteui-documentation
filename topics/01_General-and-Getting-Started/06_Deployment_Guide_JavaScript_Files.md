@@ -339,6 +339,7 @@
 			    <br>infragistics.templating-en.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
+				<br>infragistics.ui.grid.shared.js
 			    <br>infragistics.ui.scroll.js
 			</td>
 		</tr>
@@ -393,6 +394,7 @@
 			    <br>infragistics.templating-en.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
+				<br>infragistics.ui.grid.shared.js
 			    <br>infragistics.ui.scroll.js
 			    <br>infragistics.ui.grid-en.js
 			    <br>infragistics.ui.grid.framework.js
@@ -1014,6 +1016,7 @@
 			    <br>infragistics.templating-en.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
+				<br>infragistics.ui.grid.shared.js
 			    <br>infragistics.ui.scroll.js
 				<br>infragistics.ui.grid-en.js
 				<br>infragistics.ui.grid.framework.js

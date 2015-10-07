@@ -23,58 +23,60 @@
 
 - [**概要**](#introduction)
 	- [要求フォーマット](#request-format)
+	- [フラット データへのバインド](#flat-data)
 - [**機能固有の詳細**](#features)
     - [リモート フィルタリング](#filtering)
     - [リモートで並べ替え](#sorting)
     - [リモート ページング](#paging)
+- [**パフォーマンスについての考慮**](#considerations)
 - [**関連コンテンツ**](#related-content)
     - [トピック](#topics)
     - [サンプル](#samples)
 
 ## <a id="introduction"></a> 概要
 
-リモート機能を使用してツリー グリッドをセットアップする場合、データ操作に AJAX 要求を使用します。ページングのようなリモート機能は、最初に `igTreeGrid` をデータ全体にバインドせずに非常に大きなセットを扱うことができるため、パフォーマンスが大きく向上します。また、中間状態でのサーバー側コントロールにより、操作の結果に対して完全なカスタム ロジックを適用できます。 
+リモート機能を使用してツリー グリッドをセットアップする場合、データ操作に AJAX 要求を使用します。ページングのようなリモート機能は、最初に `igTreeGrid` をデータ全体にバインドせずに非常に大きなセットを扱うことができるため、パフォーマンスが大きく向上します。また、データ セットがメモリで処理されます。また、処理中状態のサーバー側の制御があるため、操作の結果にカスタム ロジックを適用できます。 
 
 リモート操作を実行できる機能として、**並べ替え**、**フィルタリング**、**ページング**がサポートされています。
 
-> 注: 現時点でこれらのリモート操作は、グリッドのリモート AJAX 要求で送信されたパラメーターに基づき、サーバー側でデータを操作することにより手動で処理する必要があります。
+リモート機能を使用するには、並べ替え、フィルター、ページング機能を実行するコントローラー アクション メソッドが TreeGridDataSourceAction 属性を持つ必要があります。それだけを実装します。TreeGridDataSourceAction はその他の実装を処理します。その場合、要求は Ignite UI グリッドの MVC ラッパーによって処理されます。パラメーターを自動的に要求に追加し、適切な書式設定でデータを返します。 
+
+```csharp
+
+		[TreeGridDataSourceAction]
+		public ActionResult GetData()
+		{
+			List<MyEmployeeHierarchical> emp = GenerateEmployees();
+			return View("Index", emp.AsQueryable());
+		}
+```
+
+リモート機能のその他の利点は、展開状態がユーザー操作間で永続化されることです。たとえば、ユーザーが最初のページでノードを展開し、2 番目のページに移動し、最初のページに戻る場合、最初のページのノードの展開状態が永続化されます。フィルターまたは並べ替え機能と同じです。 
 
 
 ### <a id="request-format"></a> 要求フォーマット
 
-すべての機能は、追加データの要求に対して同じ [`dataSourceUrl`](%%jQueryApiUrl%%/ui.igtreegrid#options:dataSourceUrl) エンドポイント アドレス ([ロード オン デマンド](igTreeGrid-Load-On-Demand.html) でも使用) を共有します。すなわち、複数のリモート機能のバックエンド実装は、提供されたパラメーターを読み込むことにより要求の複数のスタイルを処理できる必要があります。
+すべての機能は、追加データの要求に対して同じ [`dataSourceUrl`](%%jQueryApiUrl%%/ui.igtreegrid#options:dataSourceUrl) エンドポイント アドレス ([ロード オン デマンド](igTreeGrid-Load-On-Demand.html) でも使用) を共有します。複数のリモート機能のカスタム バックエンド実装がある場合、提供されたパラメーターを読み込み、要求の複数のタイプを処理する必要があります。
 
-バックエンドで要求を処理する場合、操作の論理的順序を維持することが重要です。たとえば、フィルタリング データの変換を最初に適用して、次に必要に応じて並べ替えをし、要求されたページ サイズに結果を切り取ります。
+要求をバックエンドで動的に処理する場合、操作の論理順序を保存する必要があります。たとえば、フィルターのデータ変換を最初に適用して、次に並べ替えを実行して、ページ サイズの変更を最後に実行できます。
 
-**C# の場合:**
-```csharpcsharp
-private IQueryable GetProcessedData(TreeGridModel gridModel)
-{
-	IQueryable queryableData = (IQueryable)gridModel.DataSource;
-	NameValueCollection queryString = this.HttpContext.Request.QueryString;
-	TreeGridProcessDataHelper helper = new TreeGridProcessDataHelper();
-	
-	foreach (string key in queryString.Keys)
-	{
-		if (key.Contains("filter"))
-		{
-			// handle filtering
-			queryableData = helper.TransformFilterData(queryString, gridModel);
-		}
-		if (key.Contains("sort"))
-		{
-			// handle sorting
-			queryableData = helper.TransformSortData(queryString, gridModel);
-		}
-		if (key.Contains("pageSize"))
-		{
-			// handle paging
-			queryableData = helper.TransformPagingData(queryString, gridModel, queryableData);
-		}
-	}
-	return queryableData;
-}
+### <a id="flat-data"></a> MVC ラッパーでフラット データへのバインド
+
+igTreeGrid が MVC ラッパーによってフラット自己参照データにバインドできます。親子関係は PrimaryKey および ForeignKey オプションによって定義されます。フラット データは、クライアント側に送信される前に、PrimaryKey および ForeignKey の関係に基づいて内部に階層データに解析されます。データの自己参照表にバインドし、階層構造に変換しない場合に便利です。
+
+ただし、このデータ変換はパフォーマンスに影響します。特定の操作でデータ ソースへのリモート要求をトリガーするリモート機能と結合すると特にパフォーマンスに影響します。この場合にパフォーマンスを最適化するには、フラット データを階層データに一度変換できます。 TreeGridModel の公開用 TransformFlatToHierarchicalData メソッドを使用して、次の要求に使用するためにデータをキャッシュします。 
+
 ```
+		public ActionResult GetData()
+		{
+			TreeGridModel model = GetTreeGridModel();
+            IQueryable<Employee> empl = GetEmployeeData();
+			IList data = model.TransformFlatToHierarchicalData(empl);
+			...
+		}
+```
+> 注: このシナリオで、ChildDataKey オプションを現在のデータ モデルの ICollection 型の既存のオブジェクトに設定することが必要です。更に、ForeignKey 値に基づいてルート行として操作するデータ ソースの行を指定する ForeignKeyRootValue オプションを設定する必要があります。
+
 
 ## <a id="features"></a> 機能固有の詳細
 
@@ -82,52 +84,51 @@ private IQueryable GetProcessedData(TreeGridModel gridModel)
 
 ### <a id="filtering"></a> リモート フィルタリング
 
-[`type`](%%jQueryApiUrl%%/ui.igtreegridfiltering#options:type) 機能オプションを `'remote'` に設定することにより、リモート操作を有効にします。フィルタリングのためのデータ要求では、少なくとも 1 つの `filter(<property>)` スタイル パラメーターを指定します。Advanced [`mode`](%%jQueryApiUrl%%/ui.igtreegridfiltering#options:mode) が有効な場合、`filterLogic` 条件付き演算子は、基準がすべて一致する必要がある ("AND")、またはいずれか 1 つで充分である ("OR") の指定も送信します。コードは以下のようになります。
+[`type`](%%jQueryApiUrl%%/ui.igtreegridfiltering#options:type) 機能オプションを `'remote'` に設定することにより、リモート操作を有効にします。フィルタリングのためのデータ要求では、少なくとも 1 つの `filter(<property>)` スタイル パラメーターを指定します。Advanced [`mode`](%%jQueryApiUrl%%/ui.igtreegridfiltering#options:mode) が有効な場合、`filterLogic` 条件付き演算子は、基準がすべて一致する必要がある ("AND")、またはいずれか 1 つで充分である ("OR") の指定も送信します。要求の `fromLevel` および `toLevel` パラメーターは、`igTreeGrid` のフィルタリングの開始レベルおよび終了レベルを指定します。以下のようになります。
 
 ```
-http://<SERVER>/treegrid/GetTreeData?filter(LastName)=contains(ski)&filter(HireDate)=before(1425340800000)&filterLogic=AND
+http://<SERVER>/TreeGrid/GetData?filter(EmployeeID)=equals(3)&filterLogic=AND&filtering.fromLevel=0&filtering.toLevel=-1&__matchFiltering=__matchFiltering&filtering.displayMode=showWithAncestors&pk=EmployeeID&propertyDataLevel=__ig_options.dataLevel&propertyExpanded=__ig_options.expanded&childDataKey=Employees&initialExpandDepth=-1&_=1437122016866
 ```
+
 可能な条件の完全なリストは、[API の使用 (igGrid Filtering)](igGrid-Filtering.html#api) のトピックを参照してください。簡易モードでは、基準ロジックをユーザーが制御することはなく、静的であるため (通常、デフォルトは条件付き AND)、`filterLogic` パラメーターは省略されます。通常、サーバー側は初期ツリー グリッド モデルを確認するために、それに対してアクセスします。
 
 応答のためのデータを準備する場合、データのどの部分が実際に一致するかフィルタリングする際の処理を [`matchFiltering`](%%jQueryApiUrl%%/ui.igtreegridfiltering#options:matchFiltering) プロパティで設定しておく必要があります。また、初期モデルの定義済み表示モードとレベル制限にも従う必要があります。
+
+フィルター応答は以下のようになります。
+
+```js
+Metadata: {timezoneOffset: 10800000, filtering.countRecords: 1}
+filtering.countRecords: 1
+timezoneOffset: 10800000
+Records: [{EmployeeID: 2, FirstName: "Name 1", LastName: "Last Name 1", Level: "Level:0",…}]
+0: {EmployeeID: 2, FirstName: "Name 1", LastName: "Last Name 1", Level: "Level:0",…}
+TotalRecordsCount: 0
+```
 
 **関連トピック:** [リモート フィルタリング (igGrid)](igGrid-Filtering.html#remote)
 
 ### <a id="sorting"></a> リモートで並べ替え
 
-[`type`](%%jQueryApiUrl%%/ui.ui.igtreegridsorting#options:type) 機能オプションを `'remote'` に設定することにより、リモート操作を有効にします。AJAX 要求は少なくとも 1 つの `sort(<propertyName>)` スタイル パラメーターを持ち ([`mode`](%%jQueryApiUrl%%/ui.igtreegridsorting#options:mode) に応じて)、各オブジェクト プロパティの並べ替え方向を昇順または降順のいずれかに定義します。
+[`type`](%%jQueryApiUrl%%/ui.ui.igtreegridsorting#options:type) 機能オプションを `'remote'` に設定することにより、リモート操作を有効にします。AJAX 要求は少なくとも 1 つの `sort(<propertyName>)` スタイル パラメーターを持ち ([`mode`](%%jQueryApiUrl%%/ui.igtreegridsorting#options:mode) に応じて)、各オブジェクト プロパティの並べ替え方向を昇順または降順のいずれかに定義します。並べ替えを実行する開始レベル (fromLevel) および終了レベル (toLevel) を定義する 2 つのパラメーターがあります。
 
 ```
-http://<SERVER>/treegrid/GetTreeData?sort(Email)=asc&sort(Title)=desc
+http://<SERVER>/TreeGrid/GetData?sort(EmployeeID)=asc&sorting.fromLevel=0&sorting.toLevel=-1&pk=EmployeeID&propertyDataLevel=__ig_options.dataLevel&propertyExpanded=__ig_options.expanded&childDataKey=Employees&initialExpandDepth=-1&_=1437123084738
 ```
 
 **関連トピック:** [リモートで並べ替え (igGrid)](igGrid-Sorting-Overview.html#remote)
 
 ### <a id="paging"></a> リモート ページング
 
-[`type`](%%jQueryApiUrl%%/ui.igtreegridpaging#options:type) 機能オプションを `'remote'` に設定することにより、リモート操作を有効にします。リモート ページング操作は、2 つのメイン パラメーターを使用します。ユーザーが要求する `page` インデックスと、`pageSize` により設定されるページあたりの行数です。
+[`type`](%%jQueryApiUrl%%/ui.igtreegridpaging#options:type) 機能オプションを `'remote'` に設定することにより、リモート操作を有効にします。リモート操作を有効にするには、[`type`](%%jQueryApiUrl%%/ui.igtreegridpaging#options:type) 機能オプションを `'remote'` に設定します。リモート ページング操作は次のパラメーターを使用します。`page` はユーザーが要求されるページ インデックスです。`pageSize` はページの行数です。`listExpanisonStates[2]` は展開状態についての情報を保存します。ノードが展開/縮小される度にこのプロパティを更新し、ユーザー操作間で状態を永続化するための要求が送信されます。
 
 ```
-http://<SERVER>/treegrid/GetTreeData?page=1&pageSize=3
+http://<SERVER>/TreeGrid/GetData?page=1&pageSize=5&paging.mode=allLevels&paging.contextRowMode=none&pk=EmployeeID&listExpansionStates%5B2%5D=false&propertyDataLevel=__ig_options.dataLevel&propertyExpanded=__ig_options.expanded&childDataKey=Employees&initialExpandDepth=-1&_=1437129614152
 ```
-リモート ページングを伴うすべての要求で、クライアント側ウィジェットがユーザーのピックできるページ数を決定できるように、`"TotalRecordsCount"` フィールドを提供しなければなりません。
 
-```csharp
-public JsonResult GetTreeData()
-{
-	TreeGridModel gridModel = GetRemoteTreeGridModel();
-    IQueryable<EmployeeData> allData = RepositoryFactory.GetHierarchicalEmployeeData().AsQueryable();
-	gridModel.DataSource = allData.AsQueryable();
-	TreeGridPaging paging = (TreeGridPaging)gridModel.Features.Find(x => x.Name == "Paging");
+### <a id="considerations"></a> パフォーマンスについての考慮
 
-	IQueryable data = GetProcessedData(gridModel);
+アプリケーションで SQL エンドポイントがある場合、SQL への呼び出しの数を減らしてパフォーマンスを向上するには、データをキャッシュできます。
 
-	JsonResult result = new JsonResult();
-	result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-	result.Data = new ResultData() { Records = data, TotalRecordsCount = paging.TotalRecordsCount };
-	return result;
-}
-```
 **関連トピック:** [リモート ページング (igGrid)](igGrid-Paging.html#remote)
 
 ## <a id="related-content"></a> 関連コンテンツ

@@ -26,7 +26,7 @@
 
 ロード オン デマンド機能は、ユーザーがツリー グリッドのノードを展開する際にサーバーから子ノードのデータを要求します。この方法は、ブラウザーとサーバー間で送信されるデータの量を減らします。
 
-ロード オン デマンドは、サーバー サポートならびに特別なデータ フォーマットを必要とするリモート操作です。バックエンドは[要求](#request-format)を処理し、適切なレベルのデータで応答できなければなりません。現時点では、`igTreeGrid` 機能はサーバーから**階層データのみ**のロードをサポートしています。その理由は、各要求の応答がリーフ レベル行の `ChildDataKey` として構成されるオブジェクト プロパティに設定された `null` を含むためです。空の配列 / コレクションは、ユーザーが展開する場合にインジケーターを描画し、データを要求することを `igTreeGrid` にプロンプトします。
+リモート ロードオンデマンド機能を使用するには、要求を処理するコントローラー アクション メソッドが TreeGridDataSourceAction 属性を持つ必要があります。それだけを実装します。TreeGridDataSourceAction はその他の実装を処理します。このシナリオで、要求は Ignite UI グリッドの MVC ラッパーによって処理されます。パラメーターを自動的に要求に追加し、特定のレベルのみのデータを返します。  
 
 行が展開されると、子レコードのデータがAJAX 呼び出しによりサーバーに要求されます。この機能は、他の[リモート機能](igTreeGrid-Remote-Features.html)により共有される同じ [`dataSourceUrl`](%%jQueryApiUrl%%/ui.igtreegrid#options:dataSourceUrl) アドレスを使用します。すなわち、複数の要求のスタイルを処理できるように、複数のリモート機能のバックエンド実装が必要です。
 
@@ -34,7 +34,7 @@
 
 ## <a id="request-format"></a> 要求フォーマット
 
-リモート データ ソースに対する AJAX 呼び出しでは、`igTreeGrid` は多数のパラメーターを提供しています。バインドされた階層に基づく親への**パス**、**デプス**、**プライマリ キー** プロパティの名前などがあります。シナリオとデータに応じて、必要なデータ / レイアウトの特定の部分を識別する 1 つまたは複数のパラメーターを使用できます。
+リモート データ ソースへの AJAX 呼び出しで、`igTreeGrid` は複数のパレメーターを提供します。**path** は展開行のプライマリ キーです。**depth** は最後の展開された行の深さです。**プライマリ キー** プロパティの名前もパラメーターとして提供します。シナリオおよびデータによって、必要なデータ/レイアウトを識別するために 1 つ以上のパラメーターは使用されます。
 
 以下の[チュートリアル](#walkthrough)で説明するグリッドで例を示します。
 
@@ -52,81 +52,50 @@
 
 ツリー グリッドのロード オン デマンド機能を即座に有効にするには、以下の手順に従ってください。
 
-1. `TreeGridModel` モデルを構成します。[`LoadOnDemand`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeGridModel~LoadOnDemand.html) を `true` に設定し、[`DataSourceUrl`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~DataSourceUrl.html) を要求を処理するエンドポイント URL に設定します。
-
-	```csharp
-	private TreeGridModel GetTreeGridModel()
-	{
-		TreeGridModel gridModel = new TreeGridModel();
-		gridModel.LoadOnDemand = true;
-		gridModel.DataSourceUrl = Url.Action("ChildEmployeesOnDemand");
-
-		gridModel.Width = "100%";
-		gridModel.AutoGenerateColumns = false;
-		gridModel.Columns = new List<GridColumn>();
-		gridModel.Columns.Add(new GridColumn() { Key = "ID", HeaderText = "ID", DataType = "number", Width = "10%", Hidden = true });
-		gridModel.Columns.Add(new GridColumn() { Key = "FirstName", HeaderText = "First Name", DataType = "string", Width = "25%" });
-		gridModel.Columns.Add(new GridColumn() { Key = "LastName", HeaderText = "Last Name", DataType = "string", Width = "25%" });
-		gridModel.Columns.Add(new GridColumn() { Key = "Title", HeaderText = "Title", DataType = "string", Width = "30%" });
-		gridModel.Columns.Add(new GridColumn() { Key = "StartDate", HeaderText = "Start Date", DataType = "date", Width = "15%" });
-		gridModel.PrimaryKey = "ID";
-		gridModel.ChildDataKey = "Employees";
-		gridModel.RenderExpansionIndicatorColumn = true;
-		gridModel.InitialIndentationLevel = 4;
-		return gridModel;
-	}
-	```
-2. 適切なソースを割り当て、ビューにモデルを渡します。
-
-	```csharp
-	public ActionResult LoadOnDemand()
-	{
-		TreeGridModel gridModel = GetTreeGridModel();
-
-        gridModel.DataSource = RepositoryFactory.GetHierarchicalEmployeeData().AsQueryable();
-		return View(gridModel);
-	}
-	```
-3. データ要求を処理するコントローラー アクションを作成します。`path` パラメーターを使用し、レコード キー値に対応する個別の識別子に切り離して、ターゲット レベルへのナビゲートに使用します。子データのための空のコレクションを持つレベル データを返します。
-
-	```csharp
-	public JsonResult ChildEmployeesOnDemand(string path, int? depth)
-    {
-        TreeGridModel model = this.GetTreeGridModel();
-        IEnumerable<EmployeeData> result = new List<EmployeeData>().AsQueryable();
-
-        //The path represents the primary Keys of the expanded parent rows separated with a slash up to the currently expanded row.
-        string[] identifiers = path.Split('/');
-
-        if (identifiers.Length > 0)
-        {
-            IEnumerable<EmployeeData> data = RepositoryFactory.GetHierarchicalEmployeeData();
-            string whereExpr = "";
-            for (int i = 0; i < identifiers.Length; i++)
-            {
-                whereExpr = "ID = " + identifiers[i];
-                data = data.AsQueryable().Where(whereExpr).Select(x => x.Employees).FirstOrDefault();
-            }
-            result = data.Select(e =>
-            {
-                if (e.Employees != null) { e.Employees = new List<EmployeeData>(); } return e;
-            });
-        }
-
-        model.DataSource = result.AsQueryable();
-        return model.GetData();
-    }
-	```
-	> 注: `igTreeGrid` は、要求されたデータの決定に十分な情報を提供します。その使用は、必要な機能のレベルに完全に依存します。たとえば、基になるデータが一意の**プライマリ キー**を持つ場合、最後の識別子 (すなわち `identifiers[depth]`) を使用して、展開されたレコードに直接アクセスできます。また、提供されたキー名パラメーターは、各データ ビューのルーティング ルールの割り当てや、ソースの問い合わせに使用する述語文字列の作成で使用できます。
-
-4. ビューを作成し、構成されたモデルで `TreeGrid` ラッパーのインスタンスを作成します。
-
+1. View で `igTreeGridModel` を定義します。[`EnableRemoteLoadOnDemand`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeGridModel~EnableRemoteLoadOnDemand.html) を `true` に設定し、[`DataSourceUrl`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~DataSourceUrl.html) を要求を処理するエンドポイント URL に設定します。
 	**CSHTML の場合:**
-	```csharpcsharp
-	@using Infragistics.Web.Mvc
-	// ..
-	@(Html.Infragistics().TreeGrid(Model))
+
+	```csharp
+	     @(Html.Infragistics().TreeGrid<IgniteUI.SamplesBrowser.Models.EmployeeData>()
+        .DataSourceUrl(Url.Action("GetTreeData"))
+        .Width("100%")
+        .Height("600px")
+        .ID("TreeGrid")
+        .EnableRemoteLoadOnDemand(true)
+        .AutoGenerateColumns(false)
+        .Columns(column =>
+        {
+            column.For(x => x.ID).HeaderText("ID").DataType("number").Width("10%");
+            column.For(x => x.FirstName).HeaderText("First Name)").DataType("string").Width("25%");
+            column.For(x => x.LastName).HeaderText("Last Name)").DataType("string").Width("15%");
+            column.For(x => x.Email).HeaderText("Email)").DataType("string").Width("25%");
+            column.For(x => x.Title).HeaderText("Title)").DataType("string").Width("25%");
+            column.For(x => x.HireDate).HeaderText("Hire Date)").DataType("date").Width("10%");
+        })
+        .PrimaryKey("ID")
+        .ChildDataKey("Employees")
+        .Features(features =>
+        {
+            features.Paging().Type(OpType.Remote).Mode(TreeGridPagingMode.RootLevelOnly).PageSize(3);
+            features.Filtering().Type(OpType.Remote).DisplayMode(TreeGridFilteringDisplayMode.ShowWithAncestors);
+            features.Sorting().Type(OpType.Remote);
+        })
+        .DataBind()
+        .Render()
+    )
 	```
+2. データ要求を処理するコントローラー アクションを作成します。
+
+	```csharp
+	    [TreeGridDataSourceAction]
+        public ActionResult ChildEmployeesOnDemand()
+		{
+            IQueryable allData = RepositoryFactory.GetHierarchicalEmployeeData().AsQueryable();
+            return View("load-on-demand", allData);
+		}
+	```
+	
+> 注: `igTreeGrid` は、要求されたデータを決定するために可能に応じてデータの大量を提供します。必要な機能のレベルに基づいて使用されます。たとえば、基本のデータは一意の**プライマリ キー**がある場合、最後の識別子 (または `identifiers[depth]`) を使用して展開されるレコードを直接にアクセスできます。提供されたキー名パラメーターは、別のデータ ビューへのルーティング ルールを割り当てるか、ソースをクエリするための述語文字列の作成で使用できます。
 
 ## <a id="related-content"></a> 関連コンテンツ
 

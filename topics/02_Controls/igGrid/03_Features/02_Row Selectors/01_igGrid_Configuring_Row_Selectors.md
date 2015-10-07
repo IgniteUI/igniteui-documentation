@@ -24,6 +24,10 @@
 -   [**複数行選択を有効にする**](#multiple-row-selection)
     -   [プレビュー](#multiple-preview)
     -   [コード](#multiple-code)
+-   [**すべてのページで選択の有効化**](#select-all-pages)
+    -   [プレビュー](#selectall-preview)
+    -   [すべて選択機能を有効にするプロパティ設定](#selectall-enabling)
+    -   [コード](#selectall-code)
 -   [**選択チェックボックスを追加する**](#adding-selection-checkboxes)
     -   [プレビュー](#checkboxes-preview)
     -   [チェックボックスを有効にするプロパティ設定](#checkboxes-enabling)
@@ -105,6 +109,73 @@ $(function () {
     .Features(feature =>        {       
         feature.Selection().MultipleSelection(true);
         feature.RowSelectors();
+    })
+	.DataBind()
+	.Render()
+%>
+```
+
+## <a id="select-all-pages"></a> すべてのページで選択の有効化
+
+デフォルトで、複数選択モードに利用可能なヘッダー チェックボックスは現在のデータ ビューのすべての行をチェックします。グリッドの行セレクター機能およびページング機能は、"enableSelectAllForPaging" オプション (デフォルト値は true) を使用してすべてのページでレコードをすべて選択する機能を提供します。
+
+
+### <a id="selectall-preview"></a> プレビュー 
+以下の画面は「すべて選択」機能を表示します。
+
+![](images/gridPagingSelectAll.png)
+
+### <a id="selectall-enabling"></a> 「すべて選択」機能を有効にするプロパティ設定 
+
+以下の表は、プロパティ設定の推奨構成をマップしています。プロパティは igGridRowSelectors オプションを通じてアクセスされます。
+
+プロパティ|設定
+---|---
+[enableSelectAllForPaging](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableSelectAllForPaging) |“true”
+[enableCheckBoxes](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableCheckBoxes)|“true”
+[multipleSelection](%%jQueryApiUrl%%/ui.iggridselection#options:multipleSelection)|“true”
+
+### <a id="selectall-code"></a> コード 
+**HTML の場合:**
+
+```html
+<script type="text/javascript">
+  $(function () {
+      $("#grid").igGrid({
+                autoGenerateColumns: true,
+                dataSource: source,
+                features: [
+                  {
+                      name: 'RowSelectors',
+                      enableCheckBoxes: true,
+                      enableSelectAllForPaging: true
+                  },
+                  {
+                      name: 'Selection',
+                      multipleSelection: true
+                  },
+                  {
+                      name: 'Paging',
+                      type: "local",
+                      pageSize: 10
+                  }
+              ]
+       });    
+   });
+</script>
+```
+
+**ASPX の場合:**
+
+```csharp
+<%= Html.Infragistics().Grid(Model)
+    .AutoGenerateColumns(true)
+    .Features(feature =>        {       
+        feature.Selection().MultipleSelection(true);
+      	feature.RowSelectors()
+        	.EnableCheckBoxes(true)
+            .EnableSelectAllForPaging(true);
+        feature.Paging().PageSize(10);
     })
 	.DataBind()
 	.Render()

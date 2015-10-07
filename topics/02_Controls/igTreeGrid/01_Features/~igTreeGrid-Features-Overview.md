@@ -24,6 +24,9 @@
 	- [ページング](#paging)
 	- [フィルタリング](#filtering)
 	- [更新](#updating)
+	- [列移動](#columnMoving)
+	- [列の固定](#columnFixing)
+	- [列の非表示](#columnHiding)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
     -   [サンプル](#samples)
@@ -62,22 +65,16 @@ $(".selector").igTreeGridSorting( "option", "firstSortDirection", "ascending");
 ### <a id="inherited-features"></a> 継承された igGrid の機能
 `igGrid` から直接継承された (変更なしに拡張された) 機能は、`igTreeGrid` でも `igGrid` の場合と同様に動作します。以下が含まれます。
 
--	[列の固定](igGrid-ColumnFixing-Overview.html)
--	[列の非表示](igGrid-Column-Hiding.html)
+-   [列サイズの変更](igGrid-Column-Resizing.html)
 -	[複数列ヘッダー](igGrid-MultiColumnHeaders-MultiColumnHeaders.html)
 -	[レスポンシブ](igGrid-Responsive-Web-Design-Mode-LandingPage.html)
 -	[選択](igGrid-Selection-Overview.html)
 -	[ツールチップ](igGrid-Tooltips.html)
 
-> **注:** これらの機能の一部で唯一異なるのは、固有の列に描画されない限り、展開インジケーターが最初の列に常駐できることです。
-
 ### <a id="unsupported-features"></a> サポートされていない機能
 
 一部の機能は `igTreeGrid` で正常に使用できますが、一部期待どおりに動作しない機能があります。それらはまだサポートされていない機能と考えられます。以下が含まれます。
 
-- 列移動
-- 行セレクター
-- サイズ変更
 - 集計
 - 列のグループ化
 
@@ -92,40 +89,9 @@ $(".selector").igTreeGridSorting( "option", "firstSortDirection", "ascending");
 
 ### <a id="paging"></a> ページング
 
-データに追加の階層レベルが導入されるため、ページングにはデフォルトでルート レベル レコードを操作する [`mode`](%%jQueryApiUrl%%/ui.igtreegridpaging#options:mode) オプションが追加されています。グリッドのページあたりに描画される表示レコードは、ルート レコードの展開状態、子の数、階層のデプスに応じて大きく変化します。一方、ページ数は一定の状態です。
+igTreeGrid のページング機能は igGridPaging 機能から拡張され、階層データを表示するためにカスタマイズされます。igTreeGrid に特有のオプションおよびメソッドを含みます。 
 
-次の例では、配列の`flatDS` は **4 つのルートレベル ノード** のみを持ちます。
-
-```js
-$("#treegrid").igTreeGrid({
-	dataSource: flatDS,
-	primaryKey: "employeeID",
-	foreignKey: "PID", 
-	features: [{
-		name: 'Paging',
-		mode: 'rootLevelOnly'
-	}]
-});
-```
-
-![](images/igtreegrid-paging-rootlevelonly.png)
-
-表示されるすべてのレコードにページングを適用するには、 `mode` を `allLevels` に設定します。このモード設定は、データの位置にかかわらず、表示されるすべてのレコードに対してページングを適用します。`allLevels` モードは、ページングを動的に制御します。たとえば、行の展開や縮小に伴い、使用可能なページ数が変化します。
-
-```js
-$("#treegrid").igTreeGrid({
-	dataSource: flatDS,
-	primaryKey: "employeeID",
-	foreignKey: "PID", 
-	features: [{
-		name: 'Paging',
-		mode: 'allLevels'
-	}]
-});
-```
-
-![](images/igtreegrid-paging-alllevels.png)
-
+**関連トピック:** [ページング (igTreeGrid)](igTreeGrid-Paging.html)
 
 ### <a id="filtering"></a> フィルタリング
 
@@ -140,6 +106,19 @@ $("#treegrid").igTreeGrid({
 
 **関連トピック:** [更新 (igTreeGrid)](igTreeGrid-Updating.html)
 
+### <a id="columnMoving"></a> 列移動
+
+列移動機能は、ツリー グリッドのインターフェイスまたは TreeGridColumnMoving API によってツリー グリッドの列の順序変更を許可します。この機能は igGrid の ColumnMoving 機能を拡張します。
+
+### <a id="columnFixing"></a> 列の固定
+
+列固定機能は、ツリー グリッドのインターフェイスまたは TreeGridColumnFixing API によってツリー グリッドの列の固定を許可します。この機能は igGrid の ColumnFixing 機能を拡張します。
+
+### <a id="columnHiding"></a> 列の非表示
+
+列非表示機能は、ツリー グリッドのインターフェイスまたは TreeGridColumnHiding API によってツリー グリッドの列の非表示を許可します。この機能は igGrid の ColumnHiding 機能を拡張します。
+
+> **注:** igGrid および igTreeGrid コントロールの列移動、列固定、および列非表示機能の間の違いは、展開インジケーターが常に最初の表示可能な列で描画されることのみです。最初の表示可能な列が変更された場合、グリッドが再描画され、展開インジケーターは新しい最初の列に描画されます。
 
 ## <a id="related-content"></a> 関連コンテンツ
 
