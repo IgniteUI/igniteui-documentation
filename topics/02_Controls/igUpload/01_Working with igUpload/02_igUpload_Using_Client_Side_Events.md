@@ -232,22 +232,22 @@ onError
 			FormData オブジェクトに追加データ フィールドを追加するために使用します。
 			 <ul>
                     <li>
-`fileId`:  Gets unique identifier of the file.
+`fileId`:  ファイルの一意識別子を取得します。
 					</li>
 
                     <li>
-`fileInfo`: Gets reference to the fileInfo object - contains information for the fileName, fileSize, serverMessage, etc.
+`fileInfo`: fileName、fileSize、serverMessage などの情報を含む fileInfo オブジェクトへの参照を取得します。
 					</li>
 
                     <li>
-`xhr`:	Gets reference to the original XMLHttpRequest object(if the browser supports HTML 5 file API - if not it is undefined).
+`xhr`:	ブラウザーが HTML 5 ファイル API をサポートする場合、元の XMLHttpRequest オブジェクトへの参照を取得します。サポートしない場合、未定義です。
 					</li>
 
                     <li>
-`formData`: Gets reference to FormData object(if the browser supports HTML5 file API) or reference to jQuery representation of <form>.
+`formData`: ブラウザーが HTML 5 ファイル API をサポートする場合、FormData オブジェクトへの参照、または &lt;form&gt; の jQuery 表現への参照を取得します。
 					</li>
                     <li>
-`owner`: Gets igUpload widget object.
+`owner`: igUpload ウィジェット オブジェクトを取得します。
 					</li>
                 </ul>
 		</td>
