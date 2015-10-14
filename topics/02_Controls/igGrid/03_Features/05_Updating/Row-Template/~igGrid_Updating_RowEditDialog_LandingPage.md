@@ -1,0 +1,33 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "iggrid-updating-roweditdialog-landingpage",
+    "controlName": "igGrid",
+    "tags": ["Editing","Grids","Layouts","Templating"]
+}
+|metadata|
+-->
+
+# 行編集ダイアログ (igGrid)
+
+## このグループのトピックについて
+
+### 概要
+
+このグループのトピックでは、`igGrid`™ コントロールの更新機能との組み合わせで行編集ダイアログを使用する方法について説明します。
+
+### トピック
+
+- [行編集ダイアログの概要 (igGrid)](igGrid-Updating-RowEditDialog.html): このドキュメントでは、行編集ダイアログで使用される具体的なプロパティとメソッドについて説明します。
+
+- [行編集ダイアログの構成 (igGrid)](igGrid-Updating-RowEditDialog-Configuring.html): このトピックでは、`igGrid` の更新機能を構成して、行編集ダイアログを表示する方法を紹介します。
+
+
+
+
+
+ 
+
+ 
+
+
