@@ -82,7 +82,7 @@ $("#grid1").live("iggridhidingcolumnhiding ", function (e, args) {
 
 ## <a id="events-reference"></a> イベント参照チャート
 
-**注意:** 次の表において、[列選択の非表示](igGrid-Hiding-Column-Chooser.html)特有のイベントがリストされています。それらは [列選択の非表示](igGrid-Hiding-Column-Chooser.html)のトピックにもあります。
+**注:** 次の表において、[列選択の非表示](igGrid-Hiding-Column-Chooser.html)特有のイベントがリストされています。それらは [列選択の非表示](igGrid-Hiding-Column-Chooser.html)のトピックにもあります。
 
 イベント|説明|キャンセル可能
 ------|-------------|-----------

@@ -298,7 +298,7 @@
 </table>
 
 
->**注意:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。さらに、オンラインの Ignite UI [サンプル ブラウザー](http://jp.igniteui.com/pivot-grid) では、`igPivotGrid` コンポーネントで `igLoader` を使用する方法について特殊な例が表示されます。
+>**注:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。さらに、オンラインの Ignite UI [サンプル ブラウザー](http://jp.igniteui.com/pivot-grid) では、`igPivotGrid` コンポーネントで `igLoader` を使用する方法について特殊な例が表示されます。
 
 ### <a id="steps-summary"></a>手順
 

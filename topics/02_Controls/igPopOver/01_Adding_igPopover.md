@@ -201,7 +201,7 @@ igPopover の構造
 
 
 
->**注意:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。この方法の詳細は、[**Infragistics Loader による必要なリソースの自動追加**](Using-Infragistics-Loader.html)のトピックを参照してください。さらに、オンラインの [**Ignite UI サンプル ブラウザー**](%%SamplesUrl%%)には、`igPopover` コンポーネントで `igLoader` を使用する方法の具体的な例が記載されています。
+>**注:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。この方法の詳細は、[**Infragistics Loader による必要なリソースの自動追加**](Using-Infragistics-Loader.html)のトピックを参照してください。さらに、オンラインの [**Ignite UI サンプル ブラウザー**](%%SamplesUrl%%)には、`igPopover` コンポーネントで `igLoader` を使用する方法の具体的な例が記載されています。
 
 ### <a id="overview-steps"></a>手順
 

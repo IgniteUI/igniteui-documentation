@@ -66,7 +66,7 @@ features: [
 
 下の表は、主なグループ化機能と、各機能の管理に使用する Group By ウィジェットのプロパティをまとめたものです。
 
-> **注意:** 次の表において、[Group By ダイアログ](igGrid-Group-By-Dialog-Overview.html) 特有のプロパティとイベントはリストされていません。それらは [Group By ダイアログ](igGrid-Group-By-Dialog-Overview.html) のトピックにあります。
+> **注:** 次の表において、[Group By ダイアログ](igGrid-Group-By-Dialog-Overview.html) 特有のプロパティとイベントはリストされていません。それらは [Group By ダイアログ](igGrid-Group-By-Dialog-Overview.html) のトピックにあります。
 
 <table class="table table-bordered">
     <tbody>

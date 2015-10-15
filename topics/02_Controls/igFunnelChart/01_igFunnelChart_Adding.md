@@ -245,7 +245,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 </table>
 
 
-> **注意:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。その方法の詳細については、「[**Infragistics ローダーの使用**](Using-Infragistics-Loader.html)」トピックを参照してください。さらに、オンラインの Ignite UI [サンプル ブラウザー](%%SamplesUrl%%) では、`igFunnelChart` コンポーネントで `igLoader` を使用する方法について特有の例が示されています。
+> **注:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。その方法の詳細については、「[**Infragistics ローダーの使用**](Using-Infragistics-Loader.html)」トピックを参照してください。さらに、オンラインの Ignite UI [サンプル ブラウザー](%%SamplesUrl%%) では、`igFunnelChart` コンポーネントで `igLoader` を使用する方法について特有の例が示されています。
 
 
 

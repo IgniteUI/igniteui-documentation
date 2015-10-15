@@ -38,7 +38,7 @@
 
 階層グリッド選択は、堅牢なクライアント側イベント サポートに付属し、実行時にコントロール動作の管理に必要なツールを提供します。
 
-> **注意:** タッチ式装置でのドラッグ選択機能を有効にするには、自分のページに [jQuery Mobile](http://jquerymobile.com/) ライブラリを含める必要があります。
+> **注:** タッチ式装置でのドラッグ選択機能を有効にするには、自分のページに [jQuery Mobile](http://jquerymobile.com/) ライブラリを含める必要があります。
 
 ## <a id="features"></a> 機能
 
@@ -52,7 +52,7 @@
 
 #### 関連トピック:
 
--   [igHierarchicalGrid Selection の有効化](jQuery-igHierarchical-Grid-Features-Selection-Enabling-igHierarchical-Grid-Selection.html)
+-   [igHierarchicalGrid 選択の有効化](jQuery-igHierarchical-Grid-Features-Selection-Enabling-igHierarchical-Grid-Selection.html)
 
 ### <a id="cell-selection"></a> セル選択
 

@@ -62,7 +62,7 @@
 
 サポートされるシリーズ タイプと基本の構成情報に関する詳細な情報については次のブロックをご覧ください。
 
->**注意:** 円グラフは別の `igPieChart` コントロールで作成されます。詳細は [igPieChart の概要](igPieChart-Overview.html)をご覧ください。
+>**注:** 円グラフは別の `igPieChart` コントロールで作成されます。詳細は [igPieChart の概要](igPieChart-Overview.html)をご覧ください。
 
 ###<a id="supported-chart-types-table"></a> サポートされるチャート タイプの表
 
