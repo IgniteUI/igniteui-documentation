@@ -43,7 +43,7 @@
 
 -	[チャートのタイトル / サブタイトルの構成 (igDataChart)](igDataChart-Chart-Titles-and-Subtitles.html): このトピックでは、`igDataChart`™ コントロールのチャート タイトルとサブタイトル機能を使用する方法を説明します。
 
-- [軸間隔の構成 (igDataChart)](igdatachart-configuring-axis-intervals.html): このトピックでは、`igDataChart`™ コントロールの主軸および副軸の間隔機能を構成する方法を説明します。
+- [軸間隔の構成 (igDataChart)](igdatachart-axis-intervals.html): このトピックでは、`igDataChart`™ コントロールの主軸および副軸の間隔機能を構成する方法を説明します。
 
 -	[ホバー操作の構成 (igDataChart)](HoverInteractions-Hover-Interactions.html): このセクションは、利用可能な異なる型のホバー操作レイヤーなど、`igDataChart` コントロール上で利用できるホバー操作について情報を提供します。
 

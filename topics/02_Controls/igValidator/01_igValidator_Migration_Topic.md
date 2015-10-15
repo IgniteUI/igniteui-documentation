@@ -32,7 +32,7 @@ Ignite UI™ の 15.2 リリースでは、作り直された新しい `igValida
 
 オプション|旧|新
 ---|---|---
-配置|エラー ラベルの場所の決定に使用されます。|`igNotifier` `direction` プロパティを使用する必要があります。
+alignment|エラー ラベルの場所の決定に使用されます。|`igNotifier` `direction` プロパティを使用する必要があります。
 animationHide、animationShow |アニメーションの表示/非表示をミリ秒で設定します。|`igNotifier` `animationDuration` プロパティを使用する必要があります。
 bodyAsParent|エラー メッセージの親 / 場所を決定します。|`igNotifier` `appendTo`プロパティを使用する必要があります。
 checkboxesName|範囲を検証するために、チェックボックスの名前属性を使用します。|このオプションは削除されました。同じ名前のチェックボックスは、自動的に検出されます。

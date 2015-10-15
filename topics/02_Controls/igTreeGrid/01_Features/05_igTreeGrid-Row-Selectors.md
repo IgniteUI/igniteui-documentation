@@ -146,6 +146,7 @@ tri-state チェックボックス - チェックボックスの選択
 以下は、ページング機能の 2 つのチェックボックスモードの違いについての説明です。
 ### <a id="biState-paging"></a>Bi-state モード
 デフォルトの Bi-state モードで "enableSelectAllForPaging" オプションと共にすべてのグリッド ページを選択するには、複数選択も有効にする必要があります。
+
 ```js
 $("#treegrid").igTreeGrid({
 	dataSource: flatDS,
@@ -170,3 +171,4 @@ $("#treegrid").igTreeGrid({
     }
 	]
 });
+```
