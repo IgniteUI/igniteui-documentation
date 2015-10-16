@@ -20,7 +20,7 @@ Ignite UI パッケージには、いくつかの jQuery UI や Bootstrap テー
 
 UI Darkness テーマを使用する日付エディター:
 
-![](\images\igDateEditor_UI_Darkness.png)
+![](images/igDateEditor_UI_Darkness.png)
 
 ## カスタム スタイル
 
@@ -32,7 +32,7 @@ UI Darkness テーマを使用する日付エディター:
 }
 ```
 
-![](\images\igDateEditor_custom_style.png)
+![](images/igDateEditor_custom_style.png)
 
 ## 関連トピック
 

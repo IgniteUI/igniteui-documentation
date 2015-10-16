@@ -66,7 +66,7 @@
 ---|---
 <kbd>Alt</kbd> + <kbd>Down Arrow</kbd>|入力がフォーカスされている場合に、ドロップダウンを開きます
 <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>|入力がフォーカスされている場合に、ドロップダウンを閉じます
-<kbd>Down Arrow</kbd>||マウス インジケータの位置に従って、日付の現在の部分をスピン ダウンします
+<kbd>Down Arrow</kbd>|マウス インジケータの位置に従って、日付の現在の部分をスピン ダウンします
 <kbd>Up Arrow</kbd>|マウス インジケータの位置に従って、日付の現在の部分をスピン アップします
 <kbd>Ctrl</kbd> + <kbd>Right Arrow</kbd>|現在の日付の一部に関連し、カレンダーの次の項目に移動します。
 <kbd>Ctrl</kbd> + <kbd>Left Arrow</kbd>|現在の日付の一部に関連し、カレンダーの前の項目に移動します。
