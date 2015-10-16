@@ -26,7 +26,7 @@
 	- [フラット データへのバインド](#flat-data)
 - [**機能固有の詳細**](#features)
     - [リモート フィルタリング](#filtering)
-    - [リモートで並べ替え](#sorting)
+    - [リモート並べ替え](#sorting)
     - [リモート ページング](#paging)
 - [**パフォーマンスについての考慮**](#considerations)
 - [**関連コンテンツ**](#related-content)
@@ -107,7 +107,7 @@ TotalRecordsCount: 0
 
 **関連トピック:** [リモート フィルタリング (igGrid)](igGrid-Filtering.html#remote)
 
-### <a id="sorting"></a> リモートで並べ替え
+### <a id="sorting"></a> リモート並べ替え
 
 [`type`](%%jQueryApiUrl%%/ui.ui.igtreegridsorting#options:type) 機能オプションを `'remote'` に設定することにより、リモート操作を有効にします。AJAX 要求は少なくとも 1 つの `sort(<propertyName>)` スタイル パラメーターを持ち ([`mode`](%%jQueryApiUrl%%/ui.igtreegridsorting#options:mode) に応じて)、各オブジェクト プロパティの並べ替え方向を昇順または降順のいずれかに定義します。並べ替えを実行する開始レベル (fromLevel) および終了レベル (toLevel) を定義する 2 つのパラメーターがあります。
 
@@ -115,7 +115,7 @@ TotalRecordsCount: 0
 http://<SERVER>/TreeGrid/GetData?sort(EmployeeID)=asc&sorting.fromLevel=0&sorting.toLevel=-1&pk=EmployeeID&propertyDataLevel=__ig_options.dataLevel&propertyExpanded=__ig_options.expanded&childDataKey=Employees&initialExpandDepth=-1&_=1437123084738
 ```
 
-**関連トピック:** [リモートで並べ替え (igGrid)](igGrid-Sorting-Overview.html#remote)
+**関連トピック:** [リモート並べ替え (igGrid)](igGrid-Sorting-Overview.html#remote)
 
 ### <a id="paging"></a> リモート ページング
 
