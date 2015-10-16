@@ -10,7 +10,7 @@
 
 # 既知の問題と制限 (igPivotDataSelector)
 
-##既知の問題と制限 (igPivotDataSelector)
+## 既知の問題と制限
 
 ### 概要
 
