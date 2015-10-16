@@ -13,17 +13,17 @@
 ### このトピックの内容
 
 - [**概要**](#introduction)
-- [**行セレクター`の番号付けモード**](#numbering-modes)
+- [**行セレクターの番号付けモード**](#numbering-modes)
     - [連番付け](#sequential-numbering-mode)
     - [階層番号付け](#hierarachical-numbering-mode)
-- [**行セレクター`のチェックボックス モード**](#checkobox-modes)
+- [**行セレクターのチェックボックス モード**](#checkobox-modes)
     - [bi-state チェックボックス](#biState-checkobox-mode)
     - [tri-state チェックボックス](#triState-checkobox-mode)
 
 ## <a id="introduction"></a> 概要
 rowSelectors 機能ウィジェットでは、グリッドの最初の列の左側に配置された行セレクター列をクリックすると、セルまたは行全体を選択できます。さらに、このウィジェットは行の番号付け機能や行を選択するためのチェックボックスが提供されています。行セレクターのもう 1 つの利点は、チェックボックスを選択から分離することで、アプリケーションの「ツリー構造のような」ルック アンド フィールが簡単に構成できることです。
 
-## <a id="numbering-modes"></a> 行セレクター`の番号付けモード
+## <a id="numbering-modes"></a> 行セレクターの番号付けモード
 `igTreeGrid` では、行セレクターの番号付け [`モード`](%%jQueryApiUrl%%/ui.igtreegridrowselectors#options:rowSelectorNumberingMode) に連番付けと階層番号付けの 2 つのモードがあります。
 
 ### <a id="sequential-numbering-mode"></a> 連番付け
@@ -71,7 +71,7 @@ $("#treegrid ").igTreeGrid({
 ```
 ![igTreeGrid hierarachical numbering](images/igtree-grid-row-numbering-mode-hierarchical.png)
 
-## <a id="checkobox-modes"></a> 行セレクター`の番号付けモード
+## <a id="checkobox-modes"></a> 行セレクターの番号付けモード
 チェックボックスを選択に連結する、または選択から分離するのいずれかによって、描画できるチェック ボックスには、biState と triState の 2 つのタイプがあります。
 bi-state チェックボックス
 
