@@ -91,16 +91,16 @@
 
 |古い名前 | 新しい名前 | 追加情報|
 ---|---|---
-|rowEditDialogOpening|rowEditDialogBeforeOpen|This event is not cancelable. If editing for a row needs to be canceled the [editRowStarting](%%jQueryApiUrl%%/ui.igGridUpdating#events:editRowStarting) event should be used instead.|
+|rowEditDialogOpening|rowEditDialogBeforeOpen|このイベントはキャンセルできません。 行編集をキャンセルする必要がある場合、[editRowStarting](%%jQueryApiUrl%%/ui.igGridUpdating#events:editRowStarting) イベントを代わりに使用してください。|
 |rowEditDialogOpened|rowEditDialogAfterOpen||
-|rowEditDialogClosing|rowEditDialogBeforeClose|This event is not cancelable.|
+|rowEditDialogClosing|rowEditDialogBeforeClose|このイベントはキャンセルできません。|
 |rowEditDialogClosed|rowEditDialogAfterClose||
 
 #### 変更されたイベント引数
 
 |引数|影響されるイベント|追加情報|古い構文|新しい構文|
 ---|---|---|---|---|
-|keepEditing|editCellEnding,editRowEnding|The argument is removed. To prevent editing from exiting users can cancel the events by returning false|`$("#grid").bind("iggridupdatingeditrowending", function (evt, ui) { ui.keepEditing = true; });`|`$("#grid").bind("iggridupdatingeditrowending", function (evt, ui) { return false; });`|
+|keepEditing|editCellEnding,editRowEnding|属性は削除されます。既存ユーザーの編集を防止するために、false を返してイベントをキャンセルできます。|`$("#grid").bind("iggridupdatingeditrowending", function (evt, ui) { ui.keepEditing = true; });`|`$("#grid").bind("iggridupdatingeditrowending", function (evt, ui) { return false; });`|
 
 #### 使用されていないイベント
 - rowEditDialogContentsRendering
