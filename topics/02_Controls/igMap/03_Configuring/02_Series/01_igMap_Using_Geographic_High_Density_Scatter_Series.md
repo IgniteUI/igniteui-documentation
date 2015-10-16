@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 |metadata|
 {
     "fileName": "igmap-using-geographic-high-density-scatter-series",
@@ -315,11 +315,11 @@ latitudeMemberPath|string|緯度値が割り当てられた項目上の位置を
 ---|---
 [JavaScript における地理高密度散布シリーズの構成](#config-series-js)|このコード例は、`igMap` コントロールを構成して、地理高密度散布シリーズを JavaScript で表示する方法を示しています。
 [ASP.NET MVC における地理高密度散布シリーズの構成](#config-series-mvc)|このコード例は、igMap コントロールを構成して、地理高密度散布シリーズを ASP.NET MVC で表示する方法を示しています。
-[熱色スケールの構成](#config-heat-color-scale)|このコード例は、熱色スケールを構成する方法を詳細します。
-[解像度の構成](#config-resolution)|このコード例は、解像度を構成する方法を詳細します。
-[ローディング モードの構成](#config-loading-mode)|このコード例は、ローディング モードを構成する方法を詳細します。
+[熱色スケールの構成](#config-heat-color-scale)|このコード例は、熱色スケールを構成する方法を説明します。
+[解像度の構成](#config-resolution)|このコード例は、解像度を構成する方法を説明します。
+[ローディング モードの構成](#config-loading-mode)|このコード例は、ローディング モードを構成する方法を説明します。
 [マウス オーバー ビヘイビアの構成 ](#config-mouse-over-behavior)|
-このコード例は、マウス オーバー ビヘイビアを構成する方法を詳細します。[レンダリング モードの構成](#config-rendering-mode)|このコード例は、レンダリング モードを構成する方法を詳細します。[最小ポイントサイズの構成](#config-min-points)|このコード例は、最小ポイントサイズを構成する方法を詳細します。
+このコード例は、マウス オーバー ビヘイビアを構成する方法を説明します。[レンダリング モードの構成](#config-rendering-mode)|このコード例は、レンダリング モードを構成する方法を説明します。[最小ポイントサイズの構成](#config-min-points)|このコード例は、最小ポイントサイズを構成する方法を説明します。
 
 
 ##<a id="config-series-js"></a>コード例: JavaScript における地理高密度散布シリーズの構成
