@@ -33,7 +33,7 @@ UI Darkness テーマを使用する日付ピッカー:
 }
 ```
 
-![](\images\igDateEditor_custom_style.png)
+![](images/igDateEditor_custom_style.png)
 
 ## 関連トピック
 
