@@ -111,7 +111,7 @@ columns.template を設定した場合 (デフォルトでは null 値)、Infrag
 
 [`autoAdjustHeight`](%%jQueryApiUrl%%/ui.iggrid#options:autoAdjustHeight) が有効の場合 (デフォルト)、グリッド (ある場合) に設定している高さが最上位のグリッド コンテナー DIV に適用されます。さらに、ページングまたはフィルタリングなどの機能が有効の場合、その他のすべての内部コンテナーのサイズが計算され、すべてのデータ行を保持する要素のスクロール コンテナーの高さが計算されます。
 
-この計算により、ドキュメントの [reflow](http://code.google.com/speed/articles/reflow.html) が発生するので、これは最新のブラウザー (特に FireFox と Internet Explorer) にとって負荷の大きい操作です。DOM プロパティの `offsetHeight` は、アクセスするだけでリフローが発生します。そのため、`autoAdjustHeight` を False に設定すると、`igGrid` コントロールの初期描画時間が大幅に増加します。
+この計算により、ドキュメントの [reflow](http://code.google.com/speed/articles/reflow.html) が発生するので、これは最新のブラウザー (特に FireFox と Internet Explorer) にとって負荷の大きい操作です。DOM プロパティの `offsetHeight` は、アクセスするだけでリフローが発生します。そのため、`autoAdjustHeight` を False に設定すると、`igGrid` コントロールの初期描画時間が大幅に低下します。
 
 `autoAdjustHeight` を無効にすると、初期化中にオプションとして指定した高さがスクロール データ コンテナーに直接適用されます。高さの値が確定すると、その他のすべての要素が追加され、グリッドの最終的な高さが得られます。ページングまたはフィルタリングなどの機能が有効かどうか、[`fixedHeaders`](%%jQueryApiUrl%%/ui.iggrid#options:fixedHeaders) が有効かどうかなどによって、グリッドの最終的な高さが実際の高さ設定よりも大きくなる場合があります。
 
