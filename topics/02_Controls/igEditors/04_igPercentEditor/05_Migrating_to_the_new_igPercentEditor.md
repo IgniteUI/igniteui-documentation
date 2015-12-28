@@ -31,29 +31,31 @@ Ignite UI™ の 15.2 リリースから、新しいエディター コントロ
 
 オプション|旧|新
 ---|---|---
-animationHideDuration animationShowDuration|ドロップダウン リストの表示 / 非表示時のアニメーション時間の設定に使用されます。|これらのオプションは、ドロップダウン リストのアニメーション時間を制御する新しいオプションの `dropDownAnimationDuration` に置き換えられました。
-button|このオプションは、スピン ボタンとドロップダウン ボタンの表示 / 非表示の設定に使用されます。|このオプションは、機能を明確に表すために、`buttonType` という名前に変更されました。
+animationHideDuration animationShowDuration|ドロップダウン リストの表示 / 非表示時のアニメーション時間の設定に使用されます。<br>`$(".selector").igPercentEditor({`<br>`animationShowDuration: 500,`<br>`animationHideDuration: 500`<br>`});`|これらのオプションは、ドロップダウン リストのアニメーション時間を制御する新しいオプションの `dropDownAnimationDuration` に置き換えられました。<br>`$(".selector").igPercentEditor({`<br>`dropDownAnimationDuration: 500`<br>`});`
+button|このオプションは、スピン ボタンとドロップダウン ボタンの表示 / 非表示の設定に使用されます。<br>`$(".selector").igPercentEditor({`<br>`button : "dropdown"`<br>`});`|このオプションは、機能を明確に表すために、`buttonType` という名前に変更されました。<br>`$(".selector").igPercentEditor({`<br>`buttonType : "dropdown"`<br>`});`
 display|外部の HTML 要素の style.display を取得または設定します。|このオプションは削除されました。
-displayFactor|使用可能な値: 1、10、100、1000、10000、100000 など|使用可能な値: 1、100。他のオプションは、パーセント エディターの対象範囲外です。デフォルト値は 100 です。
-dropDownOnReadOnly|このオプションは、「readOnly」オプションのオーバーライドを可能にし、ドロップダウン リストの表示やリストによるエディター内の値の変更ができます。|このオプションは削除されました。`readOnly` を `true` に設定すると、ドロップダウン リストを表示することができません。
+displayFactor|使用可能な値: 1、10、100、1000、10000、100000 など<br>`$(".selector").igPercentEditor({`<br>    `displayFactor : 1000`<br>`});`|使用可能な値: 1、100。他のオプションは、パーセント エディターの対象範囲外です。デフォルト値は 100 です。<br>`$(".selector").igPercentEditor({`<br>    `displayFactor : 100`<br>`});`
+dropDownOnReadOnly|このオプションは、「readOnly」オプションのオーバーライドを可能にし、ドロップダウン リストの表示やリストによるエディター内の値の変更ができます。<br>`$(".selector").igPercentEditor({`<br>    `dropDownOnReadOnly : true`<br>`});`|このオプションは削除されました。`readOnly` を `true` に設定すると、ドロップダウン リストを表示することができません。<br>`$(".selector").igPercentEditor({`<br>`readOnly : true`<br>`});`
 dropDownTriggers|ドロップダウン リストまたはカレンダーの表示をトリガーするアクションのリストを設定または取得します。|このオプションは削除されました。新しいエディターでは、`Alt` + `下矢印` キーでドロップダウンが表示されます。
 focusOnSpin|このオプションが無効で、エディターがフォーカスされていない場合、スピン ボタンをマウスでリックすると、エディター内のテキストがフォーカスされていない形式で維持され、スピン アクションが実行されました。|このオプションは削除されました。新しいエディターでは、エディターがフォーカスされていない状態でスピン ボタンをマウスでクリックしても、エディターがフォーカスされません。
-height、width|以前にサポートされていた型: `number`。|現在サポートされている型: `number`、`string`、`null`。`string` 型を使用した場合、高さをピクセル (px) と パーセンテージ (%) で設定できます。
-hideEnterKey|ブラウザーで Enter キーを非表示にする機能を設定または取得できます。|このオプションは削除されました。Enter キーを押しても送信されないようにするには、[preventSubmitOnEnter](#preventSubmitOnEnter) オプションを使用できます。
+height、width|以前にサポートされていた型: `number`。<br>`$(".selector").igPercentEditor({`<br>`width : 200`<br>`});`|現在サポートされている型: `number`、`string`、`null`。`string` 型を使用した場合、高さをピクセル (px) と パーセンテージ (%) で設定できます。<br>`$(".selector").igPercentEditor({`<br>`width : "200px"`<br>`});`
+hideEnterKey|ブラウザーで Enter キーを非表示にする機能を設定または取得できます。<br>`$(".selector").igPercentEditor({`<br>    `hideEnterKey : false`<br>`});`|このオプションは削除されました。Enter キーを押しても送信されないようにするには、[preventSubmitOnEnter](#preventSubmitOnEnter) オプションを使用できます。<br>`$(".selector").igPercentEditor({`<br>`preventSubmitOnEnter : true`<br>`});`
 listColumns|ドロップダウン リストの列の数値を設定または取得します。|このオプションは削除されました。
-listDropDownAsChild|値 `true` は、HTML 要素のリストにメインの HTML 要素の子として作成します。値 `false` は、リストに本文の子として作成します。|名前が `dropDownAttachedToBody` に変更されました。値 `true` は、リストに本文の子として作成します。値 `false` は、HTML 要素のリストにメインの HTML 要素の子として作成します。
-listMaxHeight|ドロップダウン リストの最大の高さをピクセル単位で設定する場合に使用されます。|このオプションは削除されました。表示されるリスト項目の数を設定する場合は、新しいオプションの [visibleItemsCount](#visibleItemsCount) を使用できます。
-negativeSign|負の数値の表示に使用する文字の設定に使用されます。|このオプションは、地域の言語で使用可能な記号のみに使用できます。
-nullText|エディターにフォーカスがなく、エディターの「value」が null または空の文字列の場合に、エディターに表示されるテキストの設定に使用されます。|このオプションは、機能を明確に表すために、`placeHolder` という名前に変更されました。
+listDropDownAsChild|値 `true` は、HTML 要素のリストにメインの HTML 要素の子として作成します。値 `false` は、リストに本文の子として作成します。<br>`$(".selector").igPercentEditor({`<br>`listDropDownAsChild : true`<br>`});`|名前が `dropDownAttachedToBody` に変更されました。値 `true` は、リストに本文の子として作成します。値 `false` は、HTML 要素のリストにメインの HTML 要素の子として作成します。<br>`$(".selector").igPercentEditor({`<br>`dropDownAttachedToBody : true`<br>`});`
+listMaxHeight|ドロップダウン リストの最大の高さをピクセル単位で設定する場合に使用されます。<br>`$(".selector").igPercentEditor({`<br>    `listMaxHeight : 400`<br>`});`|このオプションは削除されました。表示されるリスト項目の数を設定する場合は、新しいオプションの [visibleItemsCount](#visibleItemsCount) を使用できます。<br>`$(".selector").igPercentEditor({`<br>    `visibleItemsCount : 5`<br>`});`
+negativeSign|負の数値の表示に使用する文字の設定に使用されます。<br>`$(".selector").igPercentEditor({`<br>`negativeSign : "--"`<br>`});`|このオプションは、地域の言語で使用可能な記号のみに使用できます。<br>`$(".selector").igPercentEditor({`<br>`negativeSign : "-"`<br>`});`
+nullText|エディターにフォーカスがなく、エディターの「value」が null または空の文字列の場合に、エディターに表示されるテキストの設定に使用されます。<br>`$(".selector").igPercentEditor({`<br>`nullText : "Enter Value"`<br>`});`|このオプションは、機能を明確に表すために、`placeHolder` という名前に変更されました。<br>`$(".selector").igPercentEditor({`<br>`placeHolder : "Enter Value"`<br>`});`
 renderInContainer|入力フィールドを SPAN にラップするオプションを設定または取得します。|このオプションは削除されました。
-required|エディター内の空の値の検証を設定または取得します。|このオプションは削除されました。必要に応じて、バリデーター オプションを使用して、フィールドを設定できます。
-selectionOnFocus|以前サポートされていたメンバー: `select`、`-1`、`start`、`0`、`end`、`1`、`default`、`2`。|現在サポートされているメンバー: `selectAll`、`atStart`、`atEnd`、`browserDefault`。デフォルト値は `selectAll` です。
-spinOnReadOnly|「readOnly」オプションのオーバーライドや、エディターまたはスピン イベントの「value」の変更を許可する場合に使用されます。|このオプションは削除されました。`readOnly` を `true` に設定すると、スピン ボタンが無効になります。
+rnullText|エディターにフォーカスがなく、エディターの「value」が null または空の文字列の場合に、エディターに表示されるテキストの設定に使用されます。<br>`$(".selector").igPercentEditor({`<br>`nullText : "Enter Value"`<br>`});`|このオプションは、機能を明確に表すために、`placeHolder` という名前に変更されました。<br>`$(".selector").igPercentEditor({`<br>    `placeHolder : "Enter Value"`<br>`});`
+renderInContainer|入力フィールドを SPAN にラップするオプションを設定または取得します。|このオプションは削除されました。
+required|エディター内の空の値の検証を設定または取得します。<br>`$(".selector").igPercentEditor({`<br>`required : true`<br>`});`|このオプションは削除されました。必要に応じて、バリデーター オプションを使用して、フィールドを設定できます。<br>`$(".selector").igPercentEditor({`<br>` validatorOptions : {`<br>`required: true`<br>`}`<br>`});`
+selectionOnFocus|以前サポートされていたメンバー: `select`、`-1`、`start`、`0`、`end`、`1`、`default`、`2`。<br>`$(".selector").igPercentEditor({`<br>`selectionOnFocus: 0`<br>`});`|現在サポートされているメンバー: `selectAll`、`atStart`、`atEnd`、`browserDefault`。デフォルト値は `selectAll` です。<br>`$(".selector").igPercentEditor({`<br>`selectionOnFocus: "atStart"`<br>`});`
+spinOnReadOnly|「readOnly」オプションのオーバーライドや、エディターまたはスピン イベントの「value」の変更を許可する場合に使用されます。<br>` $(".selector").igPercentEditor({`<br>`spinOnReadOnly : true`<br>`});` |このオプションは削除されました。`readOnly` を `true` に設定すると、スピン ボタンが無効になります。<br>`$(".selector").igPercentEditor({`<br>`readOnly : true`<br>`});`
 textAlign|以前のデフォルトは `null` でした。|現在のデフォルトは `left` です。
 theme|エディターが使用する CSS クラスのセレクターを設定または取得します。|このオプションは削除されました。
 type|エディターのタイプを設定します。|このオプションは削除されました。対応するコントロールを使用できます。
 maxLength|ユーザーが入力可能なテキストの最大長を設定または取得します。|このオプションは削除されました。
-symbol|表示 (フォーカスなし) 状態で使用されるパーセント記号の設定に使用されます。|このオプションは、機能を明確に表すために、`percentSymbol` という名前に変更されました。
+symbol|表示 (フォーカスなし) 状態で使用されるパーセント記号の設定に使用されます。<br>`$(".selector").igPercentEditor({`<br>`symbol: "*"`<br>`});`|このオプションは、機能を明確に表すために、`percentSymbol` という名前に変更されました。<br>`$(".selector").igPercentEditor({`<br>`percentSymbol: "*"`<br>`});`
 
 <a name='new_options'></a>
 ### 新しいオプション

@@ -21,7 +21,7 @@
 
 UI Darkness テーマを使用する日付ピッカー:
 
-
+![](images/igDatePicker_themeroller.png)
 
 ## カスタム スタイル
 

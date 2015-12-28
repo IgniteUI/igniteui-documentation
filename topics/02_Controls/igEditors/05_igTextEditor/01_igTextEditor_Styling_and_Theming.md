@@ -21,13 +21,9 @@ Ignite UI パッケージには、いくつかの jQuery UI や Bootstrap テー
 
 `igTextEditor` コントロールは jQuery UI CSS フレームワークを使用するため、[jQuery UI ThemeRoller](http://jqueryui.com/themeroller/) を使用してすべてのスタイルを設定することもできます。これにより、独自に作成したテーマのカスタマイズや使用可能なギャラリーからのテーマの選択ができます。これらのテーマは、Ignite UI のデフォルトのテーマと置き換えられます。
 
-ドロップ リストを使用するテキスト エディターで Dark Hive テーマを使用:
+ドロップ リストを使用するテキスト エディターで Darkness テーマを使用:
 
 ![](images/igTextEditor-theme-dark-hive.png)
-
-ドロップ リストを使用するテキスト エディターで UI Lightness テーマを使用:
-
-![](images/igTextEditor-theme-ui-lightness.png)
 
 
 ## カスタム スタイル

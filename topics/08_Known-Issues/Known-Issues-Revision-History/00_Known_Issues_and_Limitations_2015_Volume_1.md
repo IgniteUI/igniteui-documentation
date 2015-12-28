@@ -691,6 +691,19 @@ IE9 以前のバージョンで placeHolder テキストがプレビューされ
 		    <p><img alt="" src="images/negative.png"></p>
 		</td>
 	</tr>
+	<tr>
+		<td>
+		    <p>DataChart の ASP.NET MVC ヘルパーで AddClientEvent メソッドは利用可能ではありません。</p>
+		</td>
+		
+		<td>
+		    <p>DataChart の ASP.NET MVC ヘルパーで AddClientEvent メソッドは利用可能ではありません。</p>
+		</td>
+		
+		<td>
+		    <p><img alt="" src="images/negative.png"></p>
+		</td>
+	</tr>
     </tbody>
 </table>
 
@@ -702,6 +715,7 @@ IE9 以前のバージョンで placeHolder テキストがプレビューされ
 問題|説明|状態
 ------|-------------|-------
 `igDialog` の内部情報と幅や高さの情報に関連性がある場合、コントロールのサイズが正しく設定されない|`igDialog` 内部のコントロールは、表示される幅や高さの情報と相対的であると正しいディメンションにはなりません。これは、`igDialog` が表示される前に、埋め込まれたコントロールのインスタンスが作成されるため、コントロールのディメンションを正しく計算できないことが原因です。 | ![](images/positive.png)
+埋め込み iframe (`igHtmlEditor` などのコントロールも) が再読み込みされ、コンテンツを失う可能性があります。|`igDialog` の最大化、最小化がコンテンツのフレーム要素 (`igHtmlEditor` などのコントロールも) を再読み込むことを実行できます。ドキュメントの本体で配置することによりダイアログが DOM で移動されるためです。構成に基づいて、ピン固定操作も同様の動作になります。 | ![](images/positive.png)
 
 
  [既知の問題点と制限の概要](#summary)を参照してください。

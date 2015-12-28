@@ -210,7 +210,7 @@ OpenStreetMap|Bing Maps|CloudMade Maps
 
 ### <a id="bing-maps-imagery"></a>Bing Maps の画像セット
 
-以下の表は、`igMap` コントロールがサポートする **Bing Maps** の画像セットをまとめたものです。スタイル コードを [backgroundContent.imagerySet](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent.imagerySet) オプションに割り当てることによって、選択したスタイルを構成します。以下の表カタログは、**Bing Maps** スタイルから利用できます。
+以下の表は、`igMap` コントロールがサポートする **Bing Maps** の画像セットをまとめたものです。スタイル コードを [backgroundContent.imagerySet](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent.imagerySet) オプションに割り当てることによって、選択したスタイルを構成します。
 
 
 Aerial

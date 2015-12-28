@@ -31,25 +31,25 @@ Ignite UI™ の 15.2 リリースから、新しいエディター コントロ
 
 オプション|旧|新
 ---|---|---
-animationHideDuration animationShowDuration|ドロップダウン リストの表示 / 非表示時のアニメーション時間の設定に使用されます。|これらのオプションは、ドロップダウン リストのアニメーション時間を制御する新しいオプションの `dropDownAnimationDuration` に置き換えられました。
-button|このオプションは、スピン ボタンとドロップダウン ボタンの表示 / 非表示の設定に使用されます。|このオプションは、機能を明確に表すために、`buttonType` という名前に変更されました。
+animationHideDuration animationShowDuration|ドロップダウン リストの表示 / 非表示時のアニメーション時間の設定に使用されます。<br>`$(".selector").igTextEditor({`<br>`animationShowDuration: 500,`<br>`animationHideDuration: 500`<br>`});`|これらのオプションは、ドロップダウン リストのアニメーション時間を制御する新しいオプションの `dropDownAnimationDuration` に置き換えられました。<br>`$(".selector").igTextEditor({`<br>`dropDownAnimationDuration: 500`<br>`});`
+button|このオプションは、スピン ボタンとドロップダウン ボタンの表示 / 非表示の設定に使用されます。<br>`$(".selector").igTextEditor({`<br>`button : "dropdown"`<br>`});`|このオプションは、機能を明確に表すために、`buttonType` という名前に変更されました。<br>`$(".selector").igTextEditor({`<br>`buttonType : "dropdown"`<br>`});`
 display|外部の HTML 要素の style.display を取得または設定します。|このオプションは削除されました。
-dropDownOnReadOnly|このオプションは、「readOnly」オプションのオーバーライドを可能にし、ドロップダウン リストの表示やリストによるエディター内の値の変更ができます。|このオプションは削除されました。`readOnly` を `true` に設定すると、ドロップダウン リストを表示することができません。
+dropDownOnReadOnly|このオプションは、「readOnly」オプションのオーバーライドを可能にし、ドロップダウン リストの表示やリストによるエディター内の値の変更ができます。<br>`$(".selector").igTextEditor({`<br>    `dropDownOnReadOnly : true`<br>`});`|このオプションは削除されました。`readOnly` を `true` に設定すると、ドロップダウン リストを表示することができません。<br>`$(".selector").igTextEditor({`<br>`readOnly : true`<br>`});`
 dropDownTriggers|ドロップダウン リストまたはカレンダーの表示をトリガーするアクションのリストを設定または取得します。|このオプションは削除されました。新しいエディターでは、`Alt` + `下矢印` キーでドロップダウンが表示されます。
 focusOnSpin|このオプションが無効で、エディターがフォーカスされていない場合、スピン ボタンをマウスでリックすると、エディター内のテキストがフォーカスされていない形式で維持され、スピン アクションが実行されました。|このオプションは削除されました。新しいエディターでは、エディターがフォーカスされていない状態でスピン ボタンをマウスでクリックしても、エディターがフォーカスされません。
-height、width|以前にサポートされていた型: `number`。|現在サポートされている型: `number`、`string`、`null`。`string` 型を使用した場合、高さをピクセル (px) と パーセンテージ (%) で設定できます。
-hideEnterKey|ブラウザーで Enter キーを非表示にする機能を設定または取得できます。|このオプションは削除されました。Enter キーを押しても送信されないようにするには、[preventSubmitOnEnter](#preventSubmitOnEnter) オプションを使用できます。
+height、width|以前にサポートされていた型: `number`。<br>`$(".selector").igTextEditor({`<br>`width : 200`<br>`});`|現在サポートされている型: `number`、`string`、`null`。`string` 型を使用した場合、高さをピクセル (px) と パーセンテージ (%) で設定できます。<br>`$(".selector").igTextEditor({`<br>`width : "200px"`<br>`});`
+hideEnterKey|ブラウザーで Enter キーを非表示にする機能を設定または取得できます。<br>`$(".selector").igTextEditor({`<br>    `hideEnterKey : false`<br>`});`|このオプションは削除されました。Enter キーを押しても送信されないようにするには、[preventSubmitOnEnter](#preventSubmitOnEnter) オプションを使用できます。<br>`$(".selector").igTextEditor({`<br>`preventSubmitOnEnter : true`<br>`});`
 listAutoComplete|オートコンプリートを設定または取得します。|このオプションは削除されました。
 listColumns|ドロップダウン リストの列の数値を設定または取得します。|このオプションは削除されました。
-listDropDownAsChild|値 `true` は、HTML 要素のリストにメインの HTML 要素の子として作成します。値 `false` は、リストに本文の子として作成します。|名前が `dropDownAttachedToBody` に変更されました。値 `true` は、リストに本文の子として作成します。値 `false` は、HTML 要素のリストにメインの HTML 要素の子として作成します。
+listDropDownAsChild|値 `true` は、HTML 要素のリストにメインの HTML 要素の子として作成します。値 `false` は、リストに本文の子として作成します。<br>`$(".selector").igTextEditor({`<br>`listDropDownAsChild : true`<br>`});`|名前が `dropDownAttachedToBody` に変更されました。値 `true` は、リストに本文の子として作成します。値 `false` は、HTML 要素のリストにメインの HTML 要素の子として作成します。<br>`$(".selector").igTextEditor({`<br>`dropDownAttachedToBody : true`<br>`});`
 listMatchContains|リスト一致に含まれる項目を設定または取得します。|このオプションは削除されました。
 listMatchIgnoreCase|大文字と小文字の区別の検証を設定または取得します。|このオプションは削除されました。 
-listMaxHeight|ドロップダウン リストの最大の高さをピクセル単位で設定する場合に使用されます。|このオプションは削除されました。表示されるリスト項目の数を設定する場合は、新しいオプションの [visibleItemsCount](#visibleItemsCount) を使用できます。
-nullText|エディターにフォーカスがなく、エディターの「value」が null または空の文字列の場合に、エディターに表示されるテキストの設定に使用されます。|このオプションは、機能を明確に表すために、`placeHolder` という名前に変更されました。
+listMaxHeight|ドロップダウン リストの最大の高さをピクセル単位で設定する場合に使用されます。<br>`$(".selector").igTextEditor({`<br>    `listMaxHeight : 400`<br>`});`|このオプションは削除されました。表示されるリスト項目の数を設定する場合は、新しいオプションの [visibleItemsCount](#visibleItemsCount) を使用できます。<br>`$(".selector").igTextEditor({`<br>    `visibleItemsCount : 5`<br>`});`
+nullText|エディターにフォーカスがなく、エディターの「value」が null または空の文字列の場合に、エディターに表示されるテキストの設定に使用されます。<br>`$(".selector").igTextEditor({`<br>`nullText : "Enter Value"`<br>`});`|このオプションは、機能を明確に表すために、`placeHolder` という名前に変更されました。<br>`$(".selector").igTextEditor({`<br>`placeHolder : "Enter Value"`<br>`});
 renderInContainer|入力フィールドを SPAN にラップするオプションを設定または取得します。|このオプションは削除されました。
-required|エディター内の空の値の検証を設定または取得します。|このオプションは削除されました。必要に応じて、バリデーター オプションを使用して、フィールドを設定できます。
-selectionOnFocus|以前サポートされていたメンバー: `select`、`-1`、`start`、`0`、`end`、`1`、`default`、`2`。|現在サポートされているメンバー: `selectAll`、`atStart`、`atEnd`、`browserDefault`。デフォルト値は `selectAll` です。
-spinOnReadOnly|「readOnly」オプションのオーバーライドや、エディターまたはスピン イベントの「value」の変更を許可する場合に使用されます。|このオプションは削除されました。`readOnly` を `true` に設定すると、スピン ボタンが無効になります。
+required|エディター内の空の値の検証を設定または取得します。<br>`$(".selector").igTextEditor({`<br>`required : true`<br>`});`|このオプションは削除されました。必要に応じて、バリデーター オプションを使用して、フィールドを設定できます。<br>`$(".selector").igTextEditor({`<br>` validatorOptions : {`<br>`required: true`<br>`}`<br>`});`
+selectionOnFocus|以前サポートされていたメンバー: `select`、`-1`、`start`、`0`、`end`、`1`、`default`、`2`。<br>`$(".selector").igTextEditor({`<br>`selectionOnFocus: 0`<br>`});`|現在サポートされているメンバー: `selectAll`、`atStart`、`atEnd`、`browserDefault`。デフォルト値は `selectAll` です。<br>`$(".selector").igTextEditor({`<br>`selectionOnFocus: "atStart"`<br>`});`
+spinOnReadOnly|「readOnly」オプションのオーバーライドや、エディターまたはスピン イベントの「value」の変更を許可する場合に使用されます。<br>` $(".selector").igTextEditor({`<br>`spinOnReadOnly : true`<br>`});` |このオプションは削除されました。`readOnly` を `true` に設定すると、スピン ボタンが無効になります。<br>`$(".selector").igTextEditor({`<br>`readOnly : true`<br>`});`
 textAlign|以前のデフォルトは `null` でした。|現在のデフォルトは `left` です。
 theme|エディターが使用する CSS クラスのセレクターを設定または取得します。|このオプションは削除されました。
 type|エディターのタイプを設定します。|このオプションは削除されました。対応するコントロールを使用できます。

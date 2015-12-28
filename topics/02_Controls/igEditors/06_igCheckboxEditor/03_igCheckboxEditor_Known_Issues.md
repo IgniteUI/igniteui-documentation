@@ -10,4 +10,9 @@
 
 # igCheckboxEditor の既知の問題
 
-現在、`igCheckboxEditor` に関する既知の問題または制限はありません。
+## 既知の制約事項
+
+-   `igCheckboxEditor` を HTML `label` 要素によりラベル付きコントロールとして使用することは、ウィジェットが相対する IDを持つ `<input>` 要素で直接に初期化される場合のみにサポートされます。これは、ターゲット ID がフォーム コントロールの場合のデフォルト ブラウザー動作 (ラベルをクリックしてエディターをアクティブ化して切り替えること) のためです。 
+
+## 関連リンク
+- [igCheckboxEditor の概要](igCheckboxEditor-Overview.html)
