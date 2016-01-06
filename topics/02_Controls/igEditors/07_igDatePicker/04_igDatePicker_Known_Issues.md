@@ -14,7 +14,7 @@
 
 - [`dateInputFormat`](%%jQueryApiUrl%%/ui.igdatepicker#options:dateInputFormat)  オプションの初期化後に値を変更することはサポートされていません。
 - `igDatePicker`™ は jquery-datepicker に依存し、`jquery.ui.datepicker.js` への参照または `jqueryui/1.9.1/jquery-ui.js` などの結合ライブラリへの参照が必要です。
-- `minValue`、`maxValue` (`minDate` などの相対する datepicker オプションを含み)、および `value` オプションで `new Date()` の使用に問題の発生が可能です。時間部分があるため、制限の評価で使用されますが、デフォルトの入力形式から解析されなく、含まれません。固定日付を解析するか、時間部分を削除することを推薦します。
+- `minValue`、`maxValue` (`minDate` などの相対する datepicker オプションを含み)、および `value` オプションで `new Date()` を使用すると、問題が発生する可能性があります。 new Date() は時間コンポーネントをもつため、制限の評価で使用されますが、デフォルトの入力形式から解析されず、含まれません。固定日付を解析するか、時間コンポーネントを削除することを推薦します。
 	
 	** JavaScript の場合**
 	```js

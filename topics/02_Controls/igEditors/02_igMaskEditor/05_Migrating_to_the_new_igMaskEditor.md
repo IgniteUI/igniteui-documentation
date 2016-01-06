@@ -43,7 +43,7 @@ hideEnterKey|ブラウザーで Enter キーを非表示にする機能を設定
 hideMaskOnFocus|フォーカス状態のマスクを非表示にする機能を取得または設定します。|このオプションは削除されました。
 listAutoComplete|オートコンプリートを設定または取得します。|このオプションは削除されました。
 listColumns|ドロップダウン リストの列の数値を設定または取得します。|このオプションは削除されました。
-listDropDownAsChild|値 `true` は、HTML 要素のリストにメインの HTML 要素の子として作成します。値 `false` は、リストに本文の子として作成します。<br>`$(".selector").igMaskEditor({`<br>`listDropDownAsChild : true`<br>`});`|このオプションは igMaskEditor に利用できません。
+listDropDownAsChild|値 `true` は、HTML 要素のリストにメインの HTML 要素の子として作成します。値 `false` は、リストに本文の子として作成します。<br>`$(".selector").igMaskEditor({`<br>`listDropDownAsChild : true`<br>`});`|このオプションは igMaskEditor で利用できません。
 listMatchContains|リスト一致に含まれる項目を設定または取得します。|このオプションは削除されました。
 listMatchIgnoreCase|大文字と小文字の区別の検証を設定または取得します。|このオプションは削除されました。 
 listMaxHeight|ドロップダウン リストの最大の高さをピクセル単位で設定する場合に使用されます。<br>`$(".selector").igMaskEditor({`<br>    `listMaxHeight : 400`<br>`});`|このオプションは削除されました。 
