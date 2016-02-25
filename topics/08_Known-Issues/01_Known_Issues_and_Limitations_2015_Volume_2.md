@@ -472,6 +472,19 @@ IE9 以前のバージョンでは、プレースホルダー テキストはプ
 		    <p><img alt="" src="images/negative.png"></p>
 		</td>
 	</tr>
+	<tr>
+		<td>
+		    <p>DataChart の ASP.NET MVC ヘルパーで AddClientEvent メソッドは利用できません。</p>
+		</td>
+		
+		<td>
+		    <p>DataChart の ASP.NET MVC ヘルパーで AddClientEvent メソッドは利用できません。</p>
+		</td>
+		
+		<td>
+		    <p><img alt="" src="../images/images/negative.png"></p>
+		</td>
+	</tr>
     </tbody>
 </table>
 
