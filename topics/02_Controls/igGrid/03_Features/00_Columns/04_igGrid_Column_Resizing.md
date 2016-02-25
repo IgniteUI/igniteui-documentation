@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 |metadata|
 {
     "fileName": "iggrid-column-resizing",
