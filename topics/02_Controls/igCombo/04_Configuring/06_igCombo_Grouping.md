@@ -1,9 +1,9 @@
-﻿<!--
+<!--
 |metadata|
 {
     "fileName": "igCombo-grouping",
     "controlName": "igCombo",
-    "tags": ["Grouping", "How do I", "Unite", "Order"]
+    "tags": ["Grouping", "How Do I", "Unite", "Order"]
 }
 |metadata|
 -->

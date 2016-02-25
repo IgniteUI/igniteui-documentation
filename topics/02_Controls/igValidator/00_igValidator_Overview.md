@@ -1,8 +1,8 @@
-﻿<!--
+<!--
 |metadata|
 {
     "fileName": "igvalidator-overview",
-    "controlName": "igValidator",
+    "controlName": ["igValidator"],
     "tags": ["Getting Started"]
 }
 |metadata|

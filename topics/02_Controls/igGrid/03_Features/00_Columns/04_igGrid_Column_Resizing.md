@@ -1,9 +1,9 @@
-﻿<!--
+<!--
 |metadata|
 {
     "fileName": "iggrid-column-resizing",
     "controlName": "igGrid",
-    "tags": ["resizing"]
+    "tags": ["Resizing"]
 }
 |metadata|
 -->

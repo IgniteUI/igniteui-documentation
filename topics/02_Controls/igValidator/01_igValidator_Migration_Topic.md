@@ -1,8 +1,8 @@
-﻿<!--
+<!--
 |metadata|
 {
     "fileName": "igvalidator-migration-topic",
-    "controlName": "igEditors",
+    "controlName": ["igValidator"],
     "tags": ["Migration","Getting Started"]
 }
 |metadata|
