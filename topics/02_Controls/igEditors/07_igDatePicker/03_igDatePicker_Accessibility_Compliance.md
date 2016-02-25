@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 |metadata|
 {
     "fileName": "igdatepicker-accessibility-compliance",
@@ -54,3 +54,25 @@
     </tbody>
 </table>
 
+## <a id="wai-aria"></a> WAI-ARIA サポート
+
+2014 年に W3C は [WAI-ARIA 仕様](http://www.w3.org/TR/wai-aria/) を完成しました。障害を持つユーザーに Web コンテンツおよび Web アプリケーションへのアクセシビリティを提供するデザインを定義したものです。igDatePicker のデザインは、このガイドラインに準拠しています。
+
+以下のリストは、WAI-ARIA をサポートするための igDatePicker の変更点の詳細を提供します。この変更は、デフォルトですべて有効にされることに注意してください。
+
+<ul>
+<li>igDatePicker の入力要素が igDatePicker の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。 <br />
+>**注:** tabindex オプションは指定されていません。-1 と等しい tabindex は、入力要素の属性として描画されます。</li>
+
+<li>igDatePicker は <b>combobox</b> ロールで装飾されます。</b> ロール 
+>**注:** igDatePicker はカレンダーとして jQuery UI datepicker に依存します。カレンダー内のあらゆる ARIA 関連の描画は datepicker の描画に委ねられます。 </li>
+
+<li>igDatePicker は、ロケールに基づいた相対値の <b>aria-label</b> 属性で装飾されます。デフォルト値は 'Date Picker' です。 </li>
+
+<li>ボタンが描画される場合
+<ul>
+<li>描画される各ボタンは<b>button ロールで修飾されます。</b> 
+<li>描画される各ボタンに id (ウィジェットの id から生成) があります。 
+<li>描画される各ボタンには、読み込まれたロケールから抽出した値で描画される <b>aria-label</b> 属性があります。 </li>
+</ul>
+</li> 
