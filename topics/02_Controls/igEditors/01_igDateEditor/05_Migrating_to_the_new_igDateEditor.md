@@ -31,7 +31,7 @@ Ignite UI™ の 15.2 リリースから、新しいエディター コントロ
 
 オプション|旧|新
 ---|---|---
-animationHideDuration animationShowDuration|ドロップダウン リストの表示 / 非表示時のアニメーション時間の設定に使用されます。|As the igDateEditor doesn't support dropdown, these options are not supported for the control.
+animationHideDuration animationShowDuration|ドロップダウン リストの表示 / 非表示時のアニメーション時間の設定に使用されます。|igDateEditor はドロップダウンをサポートしないため、このオプションはコントロールでもサポートされていません。
 button|このオプションは、スピン ボタンとドロップダウン ボタンの表示 / 非表示の設定に使用されます。<br>`$(".selector").igDateEditor({`<br>`button : "dropdown"`<br>`});`|このオプションは、機能を明確に表すために、`buttonType` という名前に変更されました。日付エディターのサポートされる型は 'spin' および 'clear' です。<br>`$(".selector").igDateEditor({`<br>`buttonType : "spin"`<br>`});`
 dataMode|'string' 型と 'number' 型のメンバーがサポートされていました。<br>`$(".selector").igDateEditor({`<br>`dataMode: 0`<br>`});`|'number' 型のメンバーのサポートが廃止されました。<br>`$(".selector").igDateEditor({`<br>`dataMode: "editModeText"`<br>`});`
 display|外部の HTML 要素の style.display を取得または設定します。|このオプションは削除されました。

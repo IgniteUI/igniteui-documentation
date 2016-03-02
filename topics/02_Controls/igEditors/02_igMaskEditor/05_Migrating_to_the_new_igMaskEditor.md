@@ -31,7 +31,7 @@ Ignite UI™ の 15.2 リリースから、新しいエディター コントロ
 
 オプション|旧|新
 ---|---|---
-animationHideDuration animationShowDuration|ドロップダウン リストの表示 / 非表示時のアニメーション時間の設定に使用されます。<br>`$(".selector").igMaskEditor({`<br>`animationShowDuration: 500,`<br>`animationHideDuration: 500`<br>`});`|As the igMaskEditor doesn't support dropdown, these options are not supported for the control.
+animationHideDuration animationShowDuration|ドロップダウン リストの表示 / 非表示時のアニメーション時間の設定に使用されます。<br>`$(".selector").igMaskEditor({`<br>`animationShowDuration: 500,`<br>`animationHideDuration: 500`<br>`});`|igMaskEditor はドロップダウンをサポートしないため、このオプションはコントロールでもサポートされていません。
 button|このオプションは、スピン ボタンとドロップダウン ボタンの表示 / 非表示の設定に使用されます。<br>`$(".selector").igMaskEditor({`<br>`button : "dropdown"`<br>`});`|このオプションは、機能を明確に表すために、`buttonType` という名前に変更されました。日付エディターのサポートされる型は 'clear' です。<br>`$(".selector").igMaskEditor({`<br>`buttonType : "clear"`<br>`});`
 dataMode|'string' 型と 'number' 型のメンバーがサポートされていました。<br>`$(".selector").igMaskEditor({`<br>`dataMode: 0`<br>`});`|'number' 型のメンバーのサポートが廃止されました。<br>`$(".selector").igMaskEditor({`<br>`dataMode: "rawText"`<br>`});`
 display|外部の HTML 要素の style.display を取得または設定します。|このオプションは削除されました。

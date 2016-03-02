@@ -77,7 +77,7 @@ $(".selector").igTreeGridSorting( "option", "firstSortDirection", "ascending");
 
 - 集計
 - 列のグループ化
-- Unbound columns
+- 非バインド列
 
 ## <a id="specialized-features"></a> 固有な機能
 
