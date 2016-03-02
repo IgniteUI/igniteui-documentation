@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 |metadata|
 {
     "fileName": "iggrid-columns-and-layout",
@@ -142,6 +142,60 @@ Listing 1: Defining mapper function for column in igGrid
 });
 
 ```
+
+## <a id="defining-mapper"></a> 列にマッパー機能を定義
+
+マッパー関数は、複雑なデータオブジェクトから特定のプロパティを抽出する場合に使用でき、値の表示および列のデータ処理に使用される値を定義します。
+列 dataType は "object" として指定する必要があり、マッパー機能はレコードから必要なデータを抽出するために使用できます。 
+マッピングはデータソース レベルで完了し、すべてのデータ処理をマップ値に基づいて実行することができます。
+たとえば、以下のようにデータ ソースで各レコードに複合オブジェクトがある場合: 
+```js
+var data = [{ "ID": 0, "Name": "Bread", "Description": "Whole grain bread", "Category":  { "ID": 0, "Name": "Food", "Active": true }},
+{ "ID": 1, "Name": "Milk", "Description": "Low fat milk",  "Category":   { "ID": 1, "Name": "Beverages", "Active": true } },
+ ...
+ ];
+```
+特定のプロパティや 'Category' オブジェクトの複数プロパティから計算済みの値を表示する場合 (単一文字列に ID および Name サブフィールド値を含むための値のマッピングなど)、`mapper` 関数を使用できます。
+
+例:
+
+**JavaScript の場合:**
+```js
+	mapper: function(record){
+	//extracting data from complex object
+	return record.Category.ID + " : " + record.Category.Name;
+	}				
+
+```
+関数は 項目 2 で示すように [`mapper`](%%jQueryApiUrl%%/ui.iggrid#options:columns.mapper) 列オプションで定義されます。特定の列に関連するすべてのデータ操作でデータ レコード毎に値を指定できます。 
+この関数は、すべてのデータ レコードを含む単一パラメーターを受け入れ、レコード毎に単一のシンプルな値を返します。 
+
+> **注:** この機能は、グリッドがこの列のデータを抽出する必要がある度に呼び出されます。これには、列に関連するデータ レンダリングやデータ操作処理が含まれます。そのため、複雑なデータの抽出および (または) 計算ロジックがある場合、パフォーマンスに影響することに注意してください。
+
+項目 2: igGrid の列にマッパー機能を定義します。
+
+**JavaScript の場合:**
+
+```js
+  $("#grid").igGrid({
+  columns: [
+                    { headerText: "", key: "ID", dataType: "number", width: "200px" },
+                    { headerText: "Name", key: "Name", dataType: "string", width: "200px" },
+                    { headerText: "Description", key: "Description", dataType: "string", width: "200px" },
+                    { headerText: "Category", key: "Category", dataType: "object", width: "200px",
+						mapper: function(record){
+								//extracting data from complex object
+								return record.Category.Name;
+							}					
+					}
+                ],
+                autoGenerateColumns: false,
+                dataSource: northwindProductsJSON,         
+               ...
+});
+
+```
+
 
 ## <a id="autoGenerateColumns"></a> AutoGenerateColumns
 

@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 |metadata|
 {
     "fileName": "igdatasource-igdatasource-overview",
@@ -27,6 +27,77 @@
 -   並べ替え
 -   フィルタリング
 -   データ スキーマ サポート。多くのソースから一貫したフォーマットにデータを変換します。
+	- スキーマ フィールド マッパー 
+	
+###  スキーマ フィールド マッパー 
+
+スキーマ フィールドの定義は、dataType "object" の列にマッパー機能の設定が可能で、データソース レベルですべてのデータ処理に使用されます。 
+これは、複合オブジェクトの特定の値にデータ処理を適用する場合に便利です。以下のデータ ソース構造がある場合:
+
+**JavaScript の場合:**
+	
+```js
+var data = [
+{ "ID": 0, "Name": "Bread", "Description": "Whole grain bread", "Category":  { "ID": 0, "Name": "Food", , "Date": "\/Date(1159660800000)\/"  } },
+...
+];
+
+```
+既成のデータ ソースは、複合オブジェクト構造であるため Category フィールドにデータ処理を適用できません。 
+[フィールド](%%jQueryApiUrl%%/ig.datasource#options:settings.fields)のマッパー オプションでデータ抽出関数を定義でき、フィールドに使用されるデータを指定できるようになります。サブフィールドまたは複合データ
+たとえば、データ操作を ID サブフィールドに基づいて実行する場合、ID 値を返すマッパー関数を設定できます。リスト 1 の例を参照できます。 
+
+項目 1: igGrid の列にマッパー関数を定義します。
+
+**JavaScript の場合:**
+	
+```js
+var ds = new $.ig.DataSource({
+	type: "json", 
+	dataSource: data, 
+	 schema: {
+		fields: [{
+			name: "ID", type:"number"
+		}, {
+			name: "Name", type:"string"
+		}, {
+			name: "Category" , type:"object", mapper: function(record){							
+				return record.Category.ID;
+			}
+		}]         
+	}
+});
+```
+この関数は、データ レコードへの参照を保持する単一パラメーターを受け入れ、戻り値を返し、関連フィールドのすべてのデータ処理に使用されます。
+フィールドの dataType が "object" であるため、その他のフィールドのデータ変換が適用されずに戻り値が使用されることに注意してください。そのため、追加データ タイプ変換は関数で処理する必要があります。
+たとえば、クライアント データソースに文字列形式で保存されるデータ値は、マッパーに返される前に処理する必要があります。それ以外の場合、文字列値として見なされます。
+
+マッパー関数で文字列を日付へ変換
+
+**JavaScript の場合:**
+	
+```js
+var ds = new $.ig.DataSource({
+	type: "json", 
+	dataSource: data, 
+	 schema: {
+		fields: [{
+			name: "ID", type:"number"
+		}, {
+			name: "Name", type:"string"
+		}, {
+			name: "Category" , type:"object", mapper: function(record){							
+					var ticks = record.Category.Date.replace("Date(", "").replace(")", "");
+					return new Date( parseInt(ticks)) ;
+			}
+		}]         
+	}
+});
+
+```
+
+> **注:** この関数は、データ ソースが関連フィールドのデータを抽出する必要がある度に呼び出されます。これには、フィールドに関連するデータ操作処理が含まれます。
+ そのため、複雑なデータの抽出および (または) 計算ロジックがパフォーマンスに影響する場合があることに注意してください。
 
 ## データ ソースの Web ページへの追加
 1.  ご使用の HTML ページで、必要な JavaScript ライブラリを参照します。
