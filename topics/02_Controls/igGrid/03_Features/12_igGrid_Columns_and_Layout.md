@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 |metadata|
 {
     "fileName": "iggrid-columns-and-layout",
@@ -21,7 +21,7 @@
 
 -   [幅と高さの定義](#width-height)
 -   [列の定義](#defining-columns)
--   [Defining Mapper function for Column](#defining-mapper)
+-   [列にマッパー機能を定義](#defining-mapper)
 -   [AutoGenerateColumns](#autoGenerateColumns)
 -   [スタイル設定](#styling)
 -   [列のチェックボックスのレンダリング](#checkboxes)
