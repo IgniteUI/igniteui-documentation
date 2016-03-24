@@ -119,7 +119,9 @@
 				Ignite UI ライブラリの igPivotGrid 機能性は、複数のファイルに渡って配布されます。必要なリソースは以下の方法で読み込むことができます。
 
 				<ul>
-					<li>(推奨) Infragistics® Loader (`igLoader`™) を使用します。ページ上に `igLoader` へのスクリプト参照を含めるのみです。</li>
+					<li>**カスタム JavaScript ファイルを含む**: これは Ignite UI JavaScript ファイルを参照する方法です。Ignite UI コントロールの[カスタム ダウンロード](%%SamplesUrl%%/download)を作成できます。</li>
+                    
+					<li>**Infragistics Loader の使用**: *Infragistics Loader* は、すべての Infragistics リソース (スタイルおよびスクリプト) を解決するために使用されます。</li>
 
 					<li>必要なリソースを手動で読み込みます。以下の表にリストされる依存関係を使用する必要があります。</li>
 				</ul>
@@ -248,6 +250,8 @@
 				以下のいずれかを追加します。
 
 				<ul>
+					<li>カスタム JavaScript ファイルを への参照</li>
+                    
 					<li>`igLoader` への参照</li>
 
 					<li>すべての必要な JavaScript ファイルへの参照 (左側の表に一覧表示)</li>
@@ -298,7 +302,6 @@
 </table>
 
 
->**注:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。さらに、オンラインの Ignite UI [サンプル ブラウザー](http://jp.igniteui.com/pivot-grid) では、`igPivotGrid` コンポーネントで `igLoader` を使用する方法について特殊な例が表示されます。
 
 ### <a id="steps-summary"></a>手順
 
