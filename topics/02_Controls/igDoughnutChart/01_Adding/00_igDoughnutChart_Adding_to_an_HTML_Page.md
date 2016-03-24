@@ -77,9 +77,13 @@
 				Ignite UI™ は、以下のフレームワークの最上部にビルドされます。
 
 				<ul>
-					<li><a href="http://jquery.com/">jQuery</a></li>
+                    <li>
+                    [jQuery](http://jquery.com/)
+                    </li>
 
-					<li><a href="http://jqueryui.com/">JQueryUI</a></li>
+                    <li>
+                    [jQuery UI](http://jqueryui.com/)
+                    </li>
 				</ul>
 			</td>
 

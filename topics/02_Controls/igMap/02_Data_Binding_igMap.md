@@ -26,7 +26,7 @@
 
 -   JavaScript 配列
 -   [JSON](http://www.json.org/)
--   [Web サービス](http://www.w3schools.com/webservices/ws_intro.asp)
+-   [Web サービス](https://ja.wikipedia.org/wiki/Webサービス)
 -   [WCF サービス](http://msdn.microsoft.com/ja-jp/library/aa480190.aspx)
 -   [ASP.NET MVC](http://www.asp.net/mvc)
 -   [シェープ ファイル](http://wiki.openstreetmap.org/wiki/Shapefiles)
