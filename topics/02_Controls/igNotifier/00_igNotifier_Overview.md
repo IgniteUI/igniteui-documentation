@@ -51,7 +51,7 @@ $('#success').igNotifier({
 
 ### <a id="info"></a>Info
 
-info メッセージの通知は、中程度を表すためにどのテーマでもグレー色で表示されます。このタイプの通知は、階層で 2 番目のレベルです。メッセージは、システムの具体的な状態またはユーザーに要求するアクションなどの情報の通知を目的としています。そのため、デフォルトの設定はありません。[`messages`]((%%jQueryApiUrl%%/ui.igNotifier#options:messages) オプションを使用して設定できます。この状態でのテキストボックスの境界線は変化しません。
+info メッセージの通知は、中程度を表すためにどのテーマでもグレー色で表示されます。このタイプの通知は、階層で 2 番目のレベルです。メッセージは、システムの具体的な状態またはユーザーに要求するアクションなどの情報の通知を目的としています。そのため、デフォルトの設定はありません。[`messages`](%%jQueryApiUrl%%/ui.igNotifier#options:messages) オプションを使用して設定できます。この状態でのテキストボックスの境界線は変化しません。
 
 ```js
 $('#info').igNotifier({
@@ -124,7 +124,7 @@ $('#notifier').igNotifier({
 
 他のコントロールと同様に、`igNotifier` には、通知の外観をカスタマイズできる独自のプロパティがあります。たとえば、`direction` プロパティを使用して、メッセージの位置を指定できます。メッセージは、エディターの入力の左右いずれにも配置できます。
 
-もう 1 つの重要なオプションは、`mode` です。`ポップオーバー`または`インライン`表示モードのいずれかを選択できます。デフォルト値は auto です。これは info メッセージと warning メッセージに対してポップオーバー モードが設定され、success メッセージと error メッセージに対してインラインが設定されます。
+もう 1 つの重要なオプションは、[`mode`](%%jQueryApiUrl%%/ui.igNotifier#options:mode) です。`ポップオーバー`または`インライン`表示モードのいずれかを選択できます。デフォルト値は auto です。これは info メッセージと warning メッセージに対してポップオーバー モードが設定され、success メッセージと error メッセージに対してインラインが設定されます。
 
 `message` プロパティを使用すると、特定の状態で表示されるデフォルトのテキストをカスタマイズし、`notify` メソッドの最後パラメータとして表示できます。
 
@@ -134,5 +134,5 @@ $('#notifier').igNotifier({
 
 - [Notifier の基本的な使用方法サンプル](%%SamplesUrl%%/notifier/basic-usage)
 - [Notifier のインライン メッセージのサンプル](%%SamplesUrl%%/notifier/inline-messages)
-- [Notifier と igEditors のサンプル](%%SamplesUrl%%/notifier/with-igEditors)
+- [Notifier と igEditors のサンプル](%%SamplesUrl%%/editors/with-igEditors)
 -	[igNotifier jQuery API](%%jQueryApiUrl%%/ui.igNotifier)
