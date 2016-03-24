@@ -304,7 +304,7 @@
 				以下のいずれかを追加します。
 
 				<ul>
-					<li>カスタム JavaScript ファイルを への参照</li>
+					<li>カスタム JavaScript ファイルへの参照</li>
                     
 					<li>`igLoader` への参照</li>
 
