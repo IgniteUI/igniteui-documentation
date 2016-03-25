@@ -65,11 +65,11 @@ promptChar|使用可能な入力位置に、編集モードでプロンプトと
 ---|---
 unfilledCharsPrompt|<a name='unfilledCharsPrompt'></a>使用可能な入力位置に、編集モードでプロンプトとして使用される文字を設定します。
 allowNullValue|<a name='allowNullValue'></a>このオプションが false で、エディターの値がない場合、「value」は空の文字列に設定されます。
-disabled|<a name='disabled'></a>無効な属性の設定に使用されます。編集はできません。すべてのボタンが無効になり、インタラクションが適用されます。送信時に、現在の値が要求として送信されません。`$('#maskEditor').igMaskEditor({ disabled: true }] })`.
+disabled|<a name='disabled'></a>無効な属性の設定に使用されます。編集はできません。すべてのボタンが無効になり、インタラクションが適用されます。送信時に、現在の値が要求として送信されません。`$('#maskEditor').igMaskEditor({ disabled: true })`.
 buttonType|<a name='buttonType'></a>クリア ボタンを設定または取得します。
 placeHolder|<a name='placeHolder'></a>エディターにフォーカスがなく、エディターの「value」が null または空の文字列の場合に、エディターに表示されるテキストを取得または設定します。
 revertIfNotValid|<a name='revertIfNotValid'></a>ぼかし、または Enter キー使用時の値が無効な場合、エディターの値を前の値に戻すように設定します。
-preventSubmitOnEnter|<a name='preventSubmitOnEnter'></a>Enter キーが押されたときに送信しないように、エディターの機能を設定します。`$('#maskEditor').igMaskEditor({ preventSubmitOnEnter: true }] })`。
+preventSubmitOnEnter|<a name='preventSubmitOnEnter'></a>Enter キーが押されたときに送信しないように、エディターの機能を設定します。`$('#maskEditor').igMaskEditor({ preventSubmitOnEnter: true })`。
 suppressNotifications|<a name='suppressNotifications'></a>要求されたリストの選択または値のラッピングなど、エディターに組み込まれた基本の検証シナリオのデフォルト通知を無効にします。
 
 [すべてのオプションを参照](%%jQueryApiUrl%%/ui.igmaskeditor#options)
