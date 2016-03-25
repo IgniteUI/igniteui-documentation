@@ -73,15 +73,15 @@
 
 2014 年に W3C は [WAI-ARIA 仕様](http://www.w3.org/TR/wai-aria/) を完成しました。障害を持つユーザーに Web コンテンツおよび Web アプリケーションへのアクセシビリティを提供するデザインを定義したものです。igDateEditor のデザインは、このガイドラインに準拠しています。
 
-以下のリストは、WAI-ARIA をサポートするための igDateEditor の変更点の詳細を提供します。この変更は、デフォルトですべて有効にされることに注意してください。
+以下のリストは、WAI-ARIA をサポートするための `igDateEditor` の変更点の詳細を提供します。この変更は、デフォルトですべて有効にされることに注意してください。
 
 <ul>
-<li>igDateEditor の入力要素が igDateEditor の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。 <br />
+<li>`igDateEditor` の入力要素が `igDateEditor` の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。 <br />
 >**注:** tabindex オプションは指定されていません。-1 と等しい tabindex は、入力要素の属性として描画されます。</li>
 
-<li>igDateEditor は <b>textbox</b> ロールで装飾されます。</b>
+<li>`igDateEditor` は <b>textbox</b> ロールで装飾されます。</b>
 
-<li>igDateEditor は、ロケールに基づいた相対値の <b>aria-label</b> 属性で装飾されます。 デフォルト値は 'Date Editor' です。</li>
+<li>`igDateEditor` は、ロケールに基づいた相対値の <b>aria-label</b> 属性で装飾されます。 デフォルト値は 'Date Editor' です。</li>
 
 <li>ボタンが描画される場合
 <ul>

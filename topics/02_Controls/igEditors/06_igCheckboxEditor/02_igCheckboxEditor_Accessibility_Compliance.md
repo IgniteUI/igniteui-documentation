@@ -82,17 +82,17 @@
 
 ## <a id="wai-aria"></a> WAI-ARIA サポート
 
-2014 年に W3C は [WAI-ARIA 仕様](http://www.w3.org/TR/wai-aria/) を完成しました。障害を持つユーザーに Web コンテンツおよび Web アプリケーションへのアクセシビリティを提供するデザインを定義したものです。igCheckboxEditor のデザインは、このガイドラインに準拠しています。
+2014 年に W3C は [WAI-ARIA 仕様](http://www.w3.org/TR/wai-aria/) を完成しました。障害を持つユーザーに Web コンテンツおよび Web アプリケーションへのアクセシビリティを提供するデザインを定義したものです。`igCheckboxEditor` のデザインは、このガイドラインに準拠しています。
 
-以下のリストは、WAI-ARIA をサポートするための igCheckboxEditor の変更点の詳細を提供します。この変更は、デフォルトですべて有効にされることに注意してください。
+以下のリストは、WAI-ARIA をサポートするための `igCheckboxEditor` の変更点の詳細を提供します。この変更は、デフォルトですべて有効にされることに注意してください。
 
 <ul>
-<li>igCheckboxEditor の入力要素が igCheckboxEditor の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。 <br />
+<li>`igCheckboxEditor` の入力要素が `igCheckboxEditor` の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。 <br />
 >**注:** tabindex オプションは指定されていません。-1 と等しい tabindex は、入力要素の属性として描画されます。</li>
 
-<li>igCheckboxEditor は <b>checkbox</b> ロールで装飾されます。 </li>
+<li>`igCheckboxEditor` は <b>checkbox</b> ロールで装飾されます。 </li>
 
-<li>igCheckboxEditor は、チェック済み状態に基づいた相対値の <b>aria-label</b> 属性で装飾されます。</li>
+<li>`igCheckboxEditor` は、チェック済み状態に基づいた相対値の <b>aria-label</b> 属性で装飾されます。</li>
 
 
 
