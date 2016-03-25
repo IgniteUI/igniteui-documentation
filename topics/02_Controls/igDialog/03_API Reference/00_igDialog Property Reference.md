@@ -1518,7 +1518,9 @@
 
 		<tr>
 			<td>
-				<p>dialogClass</p>
+				<p>
+                [DialogClass](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~DialogClass.html)
+                </p>
 			</td>
 
 			<td>
