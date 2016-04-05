@@ -78,11 +78,11 @@
 					</li>
 
                     <li>
-[imageUrlKey](%%jQueryApiUrl%%/ui.igTree#options:imageUrlKey)
+[imageUrlKey](%%jQueryApiUrl%%/ui.igTree#options:bindings.imageUrlKey)
 					</li>
 
                     <li>
-[imageUrlXPath](%%jQueryApiUrl%%/ui.igTree#options:imageUrlXPath)
+[imageUrlXPath](%%jQueryApiUrl%%/ui.igTree#options:bindings.imageUrlXPath)
 					</li>
                 </ul>
             </td>
@@ -105,7 +105,7 @@
 ---|---|---
 [URL を使用して親ノードおよびリーフ ノードの画像を構成する](#example_configure_using_url)|[parentNodeImageUrl](%%jQueryApiUrl%%/ui.igTree#options:parentNodeImageUrl)<br>[leafNodeImageUrl](%%jQueryApiUrl%%/ui.igTree#options:leafNodeImageUrl)|string URL<br>string URL
 [CSS を使用して親ノードおよびリーフ ノードの画像を構成する](#example_configure_using_css)|[parentNodeImageClass](%%jQueryApiUrl%%/ui.igTree#options:parentNodeImageClass)<br>[leafNodeImageClass](%%jQueryApiUrl%%/ui.igTree#options:leafNodeImageClass)|string CSS クラス名<br>string CSS クラス名
-[バインディングにより個々のデータ項目のノード イメージを構成する](#example_configure_through_binding)|[imageUrlKey](%%jQueryApiUrl%%/ui.igTree#options:imageUrlKey)<br>(XML の場合)<br>[imageUrlXPath](%%jQueryApiUrl%%/ui.igTree#options:imageUrlXPath)|画像への URL がある string 型データ メンバー `<br>` XML にバインドされた場合の画像 URL への string 型 XPath
+[バインディングにより個々のデータ項目のノード イメージを構成する](#example_configure_through_binding)|[imageUrlKey](%%jQueryApiUrl%%/ui.igTree#options:bindings.imageUrlKey)<br>(XML の場合)<br>[imageUrlXPath](%%jQueryApiUrl%%/ui.igTree#options:bindings.imageUrlXPath)|画像への URL がある string 型データ メンバー `<br>` XML にバインドされた場合の画像 URL への string 型 XPath
 
 
 ### <a id="example_configure_using_url"></a> 例: URL を使用して構成された親ノードおよびリーフ ノードの画像を構成する 
@@ -251,8 +251,8 @@
 
 オプション|設定|プレビュー
 ---|---|---
-[imageUrlKey](%%jQueryApiUrl%%/ui.igTree#options:imageUrlKey)|ImageUrl|![](images/igTree_Configure_Node_Images_Pic03.png)
-[imageUrlXPath](%%jQueryApiUrl%%/ui.igTree#options)|@ImageUrl|-
+[imageUrlKey](%%jQueryApiUrl%%/ui.igTree#options:bindings.imageUrlKey) | ImageUrl|![](images/igTree_Configure_Node_Images_Pic03.png)
+[imageUrlXPath](%%jQueryApiUrl%%/ui.igTree#options:bindings.imageUrlXPath)|@ImageUrl|-
 
 **HTML の場合:**
 

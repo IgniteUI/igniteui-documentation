@@ -98,7 +98,7 @@ $.ig.GridExcelExporter.export($('#grid'), {
                 });
                 
                 $("#export-button").click(function(){
-                    $.ig.GridExcelExporter.export($("#grid"), { 	
+                    $.ig.GridExcelExporter.exportGrid($("#grid"), { 	
                         fileName: "igGrid",
                         worksheetName: "Sheet1",
                         tableStyle: "tableStyleLight13"

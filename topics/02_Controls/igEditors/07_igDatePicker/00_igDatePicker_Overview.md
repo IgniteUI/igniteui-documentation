@@ -25,7 +25,7 @@
 
 ![](images/igDatePicker_Overview_Pic1.png)
 
-[igDatePicker のサンプル](%%SamplesUrl%%/date-picker/basic-usage)
+-	[igDatePicker のサンプル](%%SamplesUrl%%/editors/date-picker-overview)
 
 ## 機能
 

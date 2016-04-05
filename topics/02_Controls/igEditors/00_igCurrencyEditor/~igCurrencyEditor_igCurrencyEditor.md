@@ -19,7 +19,7 @@
 -   [igCurrencyEditor 既知の問題](igCurrencyEditor-igCurrencyEditor-Known-Issues.html)
 -   [igCurrencyEditor への移行](Migrating-to-the-new-igCurrencyEditor.html)
 -   [igCurrencyEditor のキーボード ナビゲーション](igCurrencyEditor-Keyboard-Navigation.html)
--   [igCurrencyEditor 既知の問題](igCurrencyEditor-igEditor-Known-Issues.html)
+-   [igCurrencyEditor 既知の問題](igCurrencyEditor-igCurrencyEditor-Known-Issues.html)
 
  
 

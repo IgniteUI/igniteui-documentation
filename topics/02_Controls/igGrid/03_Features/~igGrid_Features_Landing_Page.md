@@ -37,6 +37,7 @@
 -   [Knockout のサポート](igGrid-Configuring-Knockout-Support.html)
 -   [列とレイアウト](igGrid-Columns-and-Layout.html)
 -   [仮想化](igGrid-Virtualization.html)
+-   [複数行レイアウト](igGrid-MultiRowLayout.html)
 
  
 

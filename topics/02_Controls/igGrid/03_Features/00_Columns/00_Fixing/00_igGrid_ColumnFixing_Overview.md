@@ -71,9 +71,9 @@
 
 ![](images/igGrid_ColumnFixing_Overview_1.png)
 
-列固定機能では、グリッドおよびそのグリッドの列の幅をピクセル単位で定義する必要があります (明示的に定義または [defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) オプションを使用して定義)。
+列固定機能では、列の幅をピクセル単位で定義する必要があります (明示的に定義または [defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) オプションを使用して定義)。
 
->**注:** ピクセル単位の幅のみがサポートされます。
+>**Note:** Only widths in pixel units is supported for the columns. The grid width can be set in either pixel or percentage units (cannot be omitted).
 
 `igGrid`™ コントロールでの固定および固定解除領域は、2 つの異なるテーブル DOM 要素として実装されます。そのため、固定列領域に対してすべてのグリッド DOM 操作メソッドを複製することが必要です。通常、固定列領域の API は固定を示す接頭辞が付けられます。
 
@@ -265,14 +265,14 @@
 -   [並べ替え](igGrid-Sorting.html)
 -   [集計](igGrid-Column-Summaries.html)
 -   [ツールチップ](igGrid-Tooltips.html)
--   [](igGrid-Updating.html)[更新](igGrid-Updating.html)
+-   [更新](igGrid-Updating.html)
+-   [非表示](igGrid-Column-Hiding.html)
 
 ### <a id="non-supported-features"></a> サポートされていない機能の概要
 
 列固定は、以下の `igGrid` 機能に対応していません。
 
 -   [Groupby](igGrid-GroupBy.html)
--   [非表示](igGrid-Column-Hiding.html)
 -   [レスポンシブ Web デザイン (RWD) モード](igGrid-Responsive-Web-Design-Mode-LandingPage.html)
 -   [非バインド列](igGrid-UnboundColumns-Landing-Page.html) 
 

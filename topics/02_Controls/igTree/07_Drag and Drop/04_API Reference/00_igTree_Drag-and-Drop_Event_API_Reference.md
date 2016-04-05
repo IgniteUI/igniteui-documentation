@@ -76,7 +76,7 @@
 
                         <tr>
                             <td>
-[ui.binding](%%jQueryApiUrl%%/ui.igtree#events:ui.binding)
+[ui.binding](%%jQueryApiUrl%%/ui.igtree#events:drag)
 			</td>
 
                             <td>
@@ -86,7 +86,7 @@
 
                         <tr>
                             <td>
-[ui.data](%%jQueryApiUrl%%/ui.igtree#events:ui.data)
+[ui.data](%%jQueryApiUrl%%/ui.igtree#events:drag)
 			</td>
 
                             <td>
@@ -96,7 +96,7 @@
 
                         <tr>
                             <td>
-[ui.element](%%jQueryApiUrl%%/ui.igtree#events:ui.element)
+[ui.element](%%jQueryApiUrl%%/ui.igtree#events:drag)
 			</td>
 
                             <td>
@@ -106,7 +106,7 @@
 
                         <tr>
                             <td>
-[ui.helper](%%jQueryApiUrl%%/ui.igtree#events:ui.helper)
+[ui.helper](%%jQueryApiUrl%%/ui.igtree#events:drag)
 			</td>
 
                             <td>
@@ -116,7 +116,7 @@
 
                         <tr>
                             <td>
-[ui.offset](%%jQueryApiUrl%%/ui.igtree#events:ui.offset)
+[ui.offset](%%jQueryApiUrl%%/ui.igtree#events:drag)
 			</td>
 
                             <td>
@@ -126,7 +126,7 @@
 
                         <tr>
                             <td>
-[ui.orginalPosition](%%jQueryApiUrl%%/ui.igtree#events:ui.orginalPosition)
+[ui.orginalPosition](%%jQueryApiUrl%%/ui.igtree#events:drag)
 			</td>
 
                             <td>
@@ -136,7 +136,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.path](%%jQueryApiUrl%%/ui.igtree#events:ui.path)
+[ui.path](%%jQueryApiUrl%%/ui.igtree#events:drag)
 			</td>
 
                             <td>
@@ -146,7 +146,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.position](%%jQueryApiUrl%%/ui.igtree#events:ui.position)
+[ui.position](%%jQueryApiUrl%%/ui.igtree#events:drag)
 			</td>
 
                             <td>
@@ -187,7 +187,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.binding](%%jQueryApiUrl%%/ui.igtree#events:ui.binding)
+[ui.binding](%%jQueryApiUrl%%/ui.igtree#events:dragStart)
 			</td>
 
                             <td>
@@ -197,7 +197,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.data](%%jQueryApiUrl%%/ui.igtree#events:ui.data)
+[ui.data](%%jQueryApiUrl%%/ui.igtree#events:dragStart)
 			</td>
 
                             <td>
@@ -207,7 +207,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.element](%%jQueryApiUrl%%/ui.igtree#events:ui.element)
+[ui.element](%%jQueryApiUrl%%/ui.igtree#events:dragStart)
 			</td>
 
                             <td>
@@ -217,7 +217,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.helper](%%jQueryApiUrl%%/ui.igtree#events:ui.helper)
+[ui.helper](%%jQueryApiUrl%%/ui.igtree#events:dragStart)
 			</td>
 
                             <td>
@@ -227,7 +227,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.offset](%%jQueryApiUrl%%/ui.igtree#events:ui.offset)
+[ui.offset](%%jQueryApiUrl%%/ui.igtree#events:dragStart)
 			</td>
 
                             <td>
@@ -237,7 +237,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.orginalPosition](%%jQueryApiUrl%%/ui.igtree#events:ui.orginalPosition)
+[ui.orginalPosition](%%jQueryApiUrl%%/ui.igtree#events:dragStart)
 			</td>
 
                             <td>
@@ -247,7 +247,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.path](%%jQueryApiUrl%%/ui.igtree#events:ui.path)
+[ui.path](%%jQueryApiUrl%%/ui.igtree#events:dragStart)
 			</td>
 
                             <td>
@@ -257,7 +257,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.position](%%jQueryApiUrl%%/ui.igtree#events:ui.position)
+[ui.position](%%jQueryApiUrl%%/ui.igtree#events:dragStart)
 			</td>
 
                             <td>
@@ -298,7 +298,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.helper](%%jQueryApiUrl%%/ui.igtree#events:ui.helper)
+[ui.helper](%%jQueryApiUrl%%/ui.igtree#events:dragStop)
 			</td>
 
                             <td>
@@ -308,7 +308,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.offset](%%jQueryApiUrl%%/ui.igtree#events:ui.offset)
+[ui.offset](%%jQueryApiUrl%%/ui.igtree#events:dragStop)
 			</td>
 
                             <td>
@@ -318,7 +318,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.orginalPosition](%%jQueryApiUrl%%/ui.igtree#events:ui.orginalPosition)
+[ui.orginalPosition](%%jQueryApiUrl%%/ui.igtree#events:dragStop)
 			</td>
 
                             <td>
@@ -328,7 +328,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.position](%%jQueryApiUrl%%/ui.igtree#events:ui.position)
+[ui.position](%%jQueryApiUrl%%/ui.igtree#events:dragStop)
 			</td>
 
                             <td>
@@ -370,7 +370,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.binding](%%jQueryApiUrl%%/ui.igtree#events:ui.binding)
+[ui.binding](%%jQueryApiUrl%%/ui.igtree#events:nodeDropped)
 			</td>
 
                             <td>
@@ -380,7 +380,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.data](%%jQueryApiUrl%%/ui.igtree#events:ui.data)
+[ui.data](%%jQueryApiUrl%%/ui.igtree#events:nodeDropped)
 			</td>
 
                             <td>
@@ -390,7 +390,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.draggable](%%jQueryApiUrl%%/ui.igtree#events:ui.draggable)
+[ui.draggable](%%jQueryApiUrl%%/ui.igtree#events:nodeDropped)
 			</td>
 
                             <td>
@@ -400,7 +400,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.element](%%jQueryApiUrl%%/ui.igtree#events:ui.element)
+[ui.element](%%jQueryApiUrl%%/ui.igtree#events:nodeDropped)
 			</td>
 
                             <td>
@@ -410,7 +410,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.helper](%%jQueryApiUrl%%/ui.igtree#events:ui.helper)
+[ui.helper](%%jQueryApiUrl%%/ui.igtree#events:nodeDropped)
 			</td>
 
                             <td>
@@ -420,7 +420,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.offset](%%jQueryApiUrl%%/ui.igtree#events:ui.offset)
+[ui.offset](%%jQueryApiUrl%%/ui.igtree#events:nodeDropped)
 			</td>
 
                             <td>
@@ -430,7 +430,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.path](%%jQueryApiUrl%%/ui.igtree#events:ui.path)
+[ui.path](%%jQueryApiUrl%%/ui.igtree#events:nodeDropped)
 			</td>
 
                             <td>
@@ -440,7 +440,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.position](%%jQueryApiUrl%%/ui.igtree#events:ui.position)
+[ui.position](%%jQueryApiUrl%%/ui.igtree#events:nodeDropped)
 			</td>
 
                             <td>
@@ -482,7 +482,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.binding](%%jQueryApiUrl%%/ui.igtree#events:ui.binding)
+[ui.binding](%%jQueryApiUrl%%/ui.igtree#events:nodeDropping)
 			</td>
 
                             <td>
@@ -492,7 +492,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.data](%%jQueryApiUrl%%/ui.igtree#events:ui.data)
+[ui.data](%%jQueryApiUrl%%/ui.igtree#events:nodeDropping)
 			</td>
 
                             <td>
@@ -502,7 +502,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.draggable](%%jQueryApiUrl%%/ui.igtree#events:ui.draggable)
+[ui.draggable](%%jQueryApiUrl%%/ui.igtree#events:nodeDropping)
 			</td>
 
                             <td>
@@ -512,7 +512,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.element](%%jQueryApiUrl%%/ui.igtree#events:ui.element)
+[ui.element](%%jQueryApiUrl%%/ui.igtree#events:nodeDropping)
 			</td>
 
                             <td>
@@ -522,7 +522,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.helper](%%jQueryApiUrl%%/ui.igtree#events:ui.helper)
+[ui.helper](%%jQueryApiUrl%%/ui.igtree#events:nodeDropping)
 			</td>
 
                             <td>
@@ -532,7 +532,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.offset](%%jQueryApiUrl%%/ui.igtree#events:ui.offset)
+[ui.offset](%%jQueryApiUrl%%/ui.igtree#events:nodeDropping)
 			</td>
 
                             <td>
@@ -542,7 +542,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.path](%%jQueryApiUrl%%/ui.igtree#events:ui.path)
+[ui.path](%%jQueryApiUrl%%/ui.igtree#events:nodeDropping)
 			</td>
 
                             <td>
@@ -552,7 +552,7 @@ originalPosition プロパティの参照を取得します。
 
                         <tr>
                             <td>
-[ui.position](%%jQueryApiUrl%%/ui.igtree#events:ui.position)
+[ui.position](%%jQueryApiUrl%%/ui.igtree#events:nodeDropping)
 			</td>
 
                             <td>

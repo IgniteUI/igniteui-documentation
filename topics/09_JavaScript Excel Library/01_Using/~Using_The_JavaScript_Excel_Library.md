@@ -274,4 +274,4 @@ function exportWorkbook() {
 - [Excel の表](%%NewSamplesUrl%%/javascript-excel-library/excel-table)
 - [Excel の書式設定](%%NewSamplesUrl%%/javascript-excel-library/excel-formatting)
 - [Excel の数式](%%NewSamplesUrl%%/javascript-excel-library/excel-formulas)
-                    
+- [Excel からデータをインポート](%%NewSamplesUrl%%/javascript-excel-library/excel-import-data)                 

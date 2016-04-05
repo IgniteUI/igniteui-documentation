@@ -169,7 +169,7 @@
 			</td>
 
 			<td>
-				<p>igDialog の初期位置を取得または設定します。位置は、左座標と上座標を表す 2 つの数値の配列で指定できます。もう 1 つのオプションは、jQuery <a href="http://jqueryui.com/demos/position/">`position()`</a> メソッドがサポートするオブジェクトです。</p>
+				<p>igDialog の初期位置を取得または設定します。位置は、左座標と上座標を表す 2 つの数値の配列で指定できます。もう 1 つのオプションは、jQuery <a href="http://jqueryui.com/demos/position/" target="_blank">`position()`</a> メソッドがサポートするオブジェクトです。</p>
 			</td>
 		</tr>
 

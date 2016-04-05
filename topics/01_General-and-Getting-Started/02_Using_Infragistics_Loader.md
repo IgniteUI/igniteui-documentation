@@ -275,12 +275,15 @@ $.ig.loader({
 - Filtering
 - Hiding
 - Paging
+- Resizing
 - Selection
+- RowSelectors
 - Sorting
 - MultiColumnHeaders
-- ColumnFixing
 - Tooltips
 - Updating
+- ColumnFixing
+- ColumnMoving
 
 次に例を示します。
 

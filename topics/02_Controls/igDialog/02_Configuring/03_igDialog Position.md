@@ -107,7 +107,7 @@
 
 			<td>{</span> my: “left top”,</span> at: “left top”,</span> of: window,</span> offset: “</span>10</span>0</span> 20</span>0”</span>}</span></td>
 
-			<td>object (jQuery UI</span> <a href="http://jqueryui.com/demos/position/">position()</a> メソッドでサポート)</span></td>
+			<td>object (jQuery UI</span> <a href="http://jqueryui.com/demos/position/" target="_blank">position()</a> メソッドでサポート)</span></td>
 		</tr>
 	</tbody>
 </table>
