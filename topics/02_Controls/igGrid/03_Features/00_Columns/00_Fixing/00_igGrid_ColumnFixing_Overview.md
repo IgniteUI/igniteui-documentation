@@ -73,7 +73,7 @@
 
 列固定機能では、列の幅をピクセル単位で定義する必要があります (明示的に定義または [defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) オプションを使用して定義)。
 
->**Note:** Only widths in pixel units is supported for the columns. The grid width can be set in either pixel or percentage units (cannot be omitted).
+>**注:** 列の幅はピクセル単位のみをサポートします。グリッド幅はピクセルまたはパーセンテージ単位で設定してください (設定が必要です)。
 
 `igGrid`™ コントロールでの固定および固定解除領域は、2 つの異なるテーブル DOM 要素として実装されます。そのため、固定列領域に対してすべてのグリッド DOM 操作メソッドを複製することが必要です。通常、固定列領域の API は固定を示す接頭辞が付けられます。
 

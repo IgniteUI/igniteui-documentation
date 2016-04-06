@@ -154,7 +154,7 @@ IE8 でヘッダー テキストと並べ替え/フィルタリング/ギア ア
 問題|説明|状態
 ---|---|---
 RWD モードは IE8 でサポートされない|RWD は IE8 でモードを決定できません。この機能はモバイル互換性を対象するので、IE8 でサポートされません。|![](images/negative.png)
-RWD single column template is not supported with any of the grid features, excepts Paging.| The RWD single column template feature is supported only with the Paging grid features. All other grid features are currently not supported with this mode.|![](images/negative.png) 
+RWD 単一列のテンプレートはページング以外のグリッド機能とサポートされません。|RWD 単一列のテンプレートはページングのグリッド機能のみとサポートされます。すべての他のグリッド機能は現在にこのモードとサポートされません。|![](images/negative.png) 
 
 ## [igGridColumnFixing](#column-fixing)
 
@@ -204,7 +204,7 @@ RWD single column template is not supported with any of the grid features, excep
 [IE9+ での行の固定部分と固定解除部分との不整合](#misalignment-ie9)
 			</td>
             <td>
-In Internet Explorer 9 or higher, if you fix a column in an `igGrid` with a large amount of records and scroll down to the middle of the grid, you will see misalignment between the fixed and unfixed parts of the rows. This issue is caused by the IE9 engine.
+Internet Explorer 9 以降で、列をレコードが大量の `igGrid` に固定してグリッドの中央へスクロールすると、行の固定部分と固定解除部分との間に不整合が発生します。この問題は IE9 のエンジンが原因です。
 			</td>
             <td>
 ![](images/positive.png)
@@ -212,10 +212,10 @@ In Internet Explorer 9 or higher, if you fix a column in an `igGrid` with a larg
         </tr>
         <tr>
             <td>
-The column widths are mandatory and should be defined in pixel units
+列の幅は必須で、ピクセル単位で定義する必要がある
 			</td>
             <td>
-The column widths are mandatory and should be defined in pixels units (either explicitly or using the [defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) option). The grid width should be set either in pixel or percentage units.
+列の幅は必須で、ピクセル単位で定義することが推薦されます。明示的に設定または[defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) オプションを使用できます。グリッド幅はピクセルまたはパーセンテージ単位で設定してください。
 			</td>
             <td>
 ![](images/negative.png)
@@ -223,10 +223,10 @@ The column widths are mandatory and should be defined in pixels units (either ex
         </tr>
         <tr>
             <td>
-The grid height cannot be set in percentage units.
+グリッドの高さはパーセンテージ単位で設定できません。
 			</td>
             <td>
-Setting grid height in percentage units is not supported.
+グリッドの高さをパーセンテージ単位での設定はサポートされていません。
 			</td>
             <td>
 ![](images/negative.png)
@@ -238,7 +238,7 @@ Setting grid height in percentage units is not supported.
 			</td>
 			
             <td>
-This is a third party issue in Chrome and Safari. In those browsers the thead element, which contains the fixed headers, stretches to the full width of the caption, which may lead to the unfix button going outside of the visible area of the header (in cases where the column width is smaller than the caption width). All other browsers retain the same column width in the fixed grid area and don't exhibit this behavior.	    </td>
+これは Chrome および Safari のサード パーティ問題です。このブラウザーで、固定ヘッダーを含む thead 要素は、キャプションの全体幅に引き伸ばします。このため、列幅がキャプション幅より小さい場合、固定の解除ボタンがヘッダーの表示領域以外に移動することは可能になります。その他のブラウザーは、固定グリッド領域に同じ列幅があるけど、この動作がありません。	    </td>
 
             <td>
 ![](images/negative.png)
@@ -246,10 +246,10 @@ This is a third party issue in Chrome and Safari. In those browsers the thead el
         </tr>
 		<tr>
             <td>
-Grid applies the focus to the unfixed part of the row when selecting is done through the row selectors.
+選択が行セレクターにより実行される場合、グリッドは行の固定されていない部分にフォーカスを適用します。
 			</td>
             <td>
-This is related to that the record is separated in two physical rows - for fixed and unfixed part. And only one element on the page can be focused.
+レコードが 2 つの行 (固定部分および固定されていない部分) に分割されることに関連付けられます。ページで単一の要素のみをフォーカスできます。
 			</td>
             <td>
 ![](images/negative.png)
@@ -257,10 +257,10 @@ This is related to that the record is separated in two physical rows - for fixed
         </tr>
 		<tr>
             <td>
-The [fixDataSkippedColumns](%%jQueryApiUrl%%/ui.iggrid#methods:fixDataSkippedColumns) and [unfixDataSkippedColumns](%%jQueryApiUrl%%/ui.iggrid#methods:unfixDataSkippedColumns) methods have been deprecated.
+[fixDataSkippedColumns](%%jQueryApiUrl%%/ui.iggrid#methods:fixDataSkippedColumns) および [unfixDataSkippedColumns](%%jQueryApiUrl%%/ui.iggrid#methods:unfixDataSkippedColumns) メソッドは非推奨になりました。
 			</td>
             <td>
-Use the [fixNonDataColumns](%%jQueryApiUrl%%/ui.iggrid#methods:fixNonDataColumns) and [unfixNonDataColumns](%%jQueryApiUrl%%/ui.iggrid#methods:unfixNonDataColumns) methods instead.
+その代わりに、[fixNonDataColumns](%%jQueryApiUrl%%/ui.iggrid#methods:fixNonDataColumns) および [unfixNonDataColumns](%%jQueryApiUrl%%/ui.iggrid#methods:unfixNonDataColumns) メソッドを使用します。
 			</td>
             <td>
 ![](images/negative.png)
