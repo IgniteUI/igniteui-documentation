@@ -8,137 +8,137 @@
 |metadata|
 -->
 
-#What's New in 2016 Volume 1
+#2016 Volume 1 の新機能
 
-This topic presents the controls and the new and enhanced features for the Ignite UI™ 2016 Volume 1 release.
+このトピックでは、Ignite UI™ 2016 Volume 1 リリースのコントロールと新機能および拡張機能を紹介します。
 
 
-##What’s New Summary
+##新機能:
 
-The following summarizes what’s new in 2016 Volume 1. Additional details follow.
+以下の表に 2016 Volume 1 の新機能の概要を示します。追加の詳細は以下のとおりです。
 
-### General
+### 全般
 
-Feature | Description
+機能|説明
 ---|---
-New Bootstrap 4 theme | A new Bootstrap 4 compatible theme is now shipped with Ignite UI - [view sample](%%SamplesUrl%%/themes/bootstrap4-default).
-Angular 2 Components (CTP) | Ignite UI widgets have component wrappers for Angular 2. For detailed information visit [Ignite UI Angular 2 GitHub](https://github.com/IgniteUI/igniteui-angular2) page.|
-New scalable font icons | The default Infragistics theme now uses [jQuery UI font icons](https://github.com/mkkeck/jquery-ui-iconfont) instead of image icons. |
-Modernizr 3.x support | Ignite UI uses Modernizr library to detect touch environments (see [Touch Support for Ignite UI Controls](08_Touch_Support_for_NetAdvantage_for_jQuery_Controls.html)). [Mordernizr 3.x](https://modernizr.com/) is now supported along with older Modernizr versions. |
+新しい Bootstrap 4 テーマ|新しい Bootstrap 4 互換性のあるテーマが Ignite UI に含まれます - [サンプルの表示](%%SamplesUrl%%/themes/bootstrap4-default)。
+Angular 2 コンポーネント (CTP) |Ignite UI ウィジェットは Angular 2 のコンポーネント ラッパーがあります。詳細については、[Ignite UI Angular 2 GitHub](https://github.com/IgniteUI/igniteui-angular2) ページを参照してください。|
+新しいスケール可能なフォント アイコン|デフォルトの Infragistics テーマは画像アイコンの代わりに [jQuery UI フォント アイコン](https://github.com/mkkeck/jquery-ui-iconfont) を使用します。 |
+Modernizr 3.x サポート|Ignite UI は、タッチ環境を検出するために Modernizr ライブラリを使用します。詳細については、[Ignite UI コントロールのタッチ サポート](08_Touch_Support_for_NetAdvantage_for_jQuery_Controls.html)を参照してください。[Mordernizr 3.x](https://modernizr.com/) は、以前の Modernizr バージョンもサポートされます。 |
 
 ### igTileManager
 
-Feature | Description
+機能|説明
 ---|---
-Splitter Options| `splitterOptions` now replaces the `showSplitter` option. Besides showing and hiding, additional functionalities are added. You can configure the splitter to be collapsible as well as attach to its collapsed/expanded events. Since `showSplitter` option will no longer be available, you can refer to the following sample to see how the new option can be used - [view sample](%%SamplesUrl%%/tile-manager/collapsible-splitter).
+スプリッター オプション|`splitterOptions` は `showSplitter` オプションを置き換えます。表示および非表示があり、およびその他のオプションが追加されました。スプリッターを縮小可能に構成でき、縮小した/展開したイベントにアタッチできます。`showSplitter` オプションは利用可能ではないため、次のサンプルを参照すると、新しいオプションの使用を参照できます - [サンプルの表示](%%SamplesUrl%%/tile-manager/collapsible-splitter)。
 
 ### igDataSource
 
-Feature | Description
+機能|説明
 ---|---
-New field option - `mapper`| For field with dataType="object" we now allow setting a [`mapper`](%%jQueryApiUrl%%/ui.iggrid#options:columns.mapper) function, which can be used for complex data extraction from complex objects, whose return value will be used for all data operations executed on the specific field.  </br> You can find more detailed information in the following topic: [igDataSource Overview](igDataSource-igDataSource-Overview.html#schema-fields-mapper)|
+新しいフィールド オプション - `mapper`|dataType="object" のフィールドの場合、[`mapper`](%%jQueryApiUrl%%/ui.iggrid#options:columns.mapper) 関数の設定を許可します。複雑なオブジェクトから複雑なデータ展開のために使用できます。戻り値は特定のフィールドに実行されるすべてのデータ操作に使用されます。</br> 詳細については、次のトピックを参照してください: [igDataSource 概要](igDataSource-igDataSource-Overview.html#schema-fields-mapper)|
 
 ### igGrid
 
-Feature | Description
+機能|説明
 ---|---
-New column option - mapper| For columns with dataType="object" we now allow setting a mapper function, which can be used for complex data extraction from complex objects, whose return value will be used for all data operations executed on the specific column.- [view sample](%%SamplesUrl%%/grid/handling-complex-objects). </br> You can find more detailed information in the following topic: [Columns and Layout](igGrid-Columns-and-Layout.html#defining-mapper)|
-The ColumnFixing feature now works with grid width set in percentage| The ColumnFixing feature now works when the grid width is set in percentage. <br/> **Note**: The column widths should still be defined in pixels units (either explicitly or using the [defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) option).|
-[Multi-Row Layout feature](#multi-row-layout)| The Multi-Row Layout feature enables you to create complex grid record layouts, that contain multiple rows with cells in them spanning multiple columns and rows. |
-[Checkbox Appearance](#checkbox-appearance)| Checkbox column visual appearance have changed to indicate that the checkmarks are not interactable in display mode. |
-Paste from Excel sample| A new sample is added that demonstrates pasting Excel clipboard data into igGrid - [view sample](%%SamplesUrl%%/grid/paste-from-excel). |
+新しい列オプション - mapper|dataType="object" の列の場合、mapper 関数の設定を許可します。複雑なオブジェクトから複雑なデータ展開のために使用できます。戻り値は特定の列に実行されるすべてのデータ操作に使用されます。[サンプルの表示](%%SamplesUrl%%/grid/handling-complex-objects)。</br> 詳細については、次のトピックを参照してください: [列およびレイアウト](igGrid-Columns-and-Layout.html#defining-mapper)|
+ColumnFixing 機能は、パーセンテージで設定されるグリッド幅と操作します。|ColumnFixing 機能は、グリッドの幅がパーセンテージで設定される場合に操作します。<br/>**注**: 列幅をピクセル単位で定義することが推薦されます。明示的に設定するか、[defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) オプションを使用できます。|
+[複数行レイアウト機能](#multi-row-layout)|複数行レイアウト機能を使用すると、セルが複数の列および行がまたがるセルを含む複数の業を含む複雑なグリッド レコード レイアウトを作成できます。 |
+[チェックボックスの外観](#checkbox-appearance)|チェックマークが表示モードで操作できないことを示すためにチェックボックス列の外観が変更されました。 |
+Excel からの貼り付けサンプル|Excel クリップボード データを igGrid に貼り付けることを紹介するサンプルが追加されました - [サンプルの表示](%%SamplesUrl%%/grid/paste-from-excel)。 |
 
 ### igTreeGrid
 
-Feature | Description
+機能|説明
 ---|---
-[Improved Updating feature](#treegrid-updating) | igTreeGrid Updating feature now adds the UI for adding root and child level rows.
+[向上された更新機能](#treegrid-updating) |igTreeGrid の更新機能にルートおよび子レベル行の追加の UI を追加しました。
 
-### TypeScript Support
+### TypeScript サポート
 
-Starting with 16.1 release Ignite UI the minimum supported TypeScript version is 1.4.
+16.1 リリースから Ignite UI の最小サポートされる TypeScript バージョンは 1.4 になります。
 
-Feature | Description
+機能|説明
 ---|---
-[Support for union types](#union-types) | widget members now support union types which greatly improves type checking.
-[Intellisense improvements](#intellisense-improvements) | Intellisense is improved for options and methods.
-[Member descriptions](#member-descriptions) | All members now have a description.
+[和集合型のサポート](#union-types) |タイプ チェックを向上するためにウィジェット メンバーは和集合型をサポートします。
+[Intellisense の向上](#intellisense-improvements) |Intellisense はオプションおよびメソッドで向上されました。
+[メンバーの説明](#member-descriptions) |すべてのメンバーが説明を持ちます。
 
 ## igGrid
 
-### <a id="multi-row-layout"></a> Multi-Row Layout feature
+### <a id="multi-row-layout"></a> 複数行レイアウト機能
 
-The Multi-Row Layout feature enables you to create complex grid record layouts, that contain multiple rows with cells in them spanning multiple columns and rows. Such structure allows for greater rendering flexibility for grids with many columns that would otherwise require a horizontal scrollbar or when the data shown is better presented in a non-tabular fashion.
-Initializing the Multi-Row Layout is done entirely through the igGrid's column collection. Four new properties are added to the column definition that specify the position and size of the column - [`rowIndex`](%%jQueryApiUrl%%/ui.iggrid#options:columns.rowIndex), [`columnIndex`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnIndex), [`rowSpan`](%%jQueryApiUrl%%/ui.iggrid#options:columns.rowSpan) and [`colSpan`](%%jQueryApiUrl%%/ui.iggrid#options:columns.colSpan).
+複数行レイアウト機能を使用すると、セルが複数の列および行がまたがるセルを含む複数の業を含む複雑なグリッド レコード レイアウトを作成できます。この構造は、列が多くあるため水平スクロールバーが必要なグリッド、または表以外の表示の方が必要なグリッドのその他の描画オプションを提供します。
+複数行レイアウトの初期化は、igGrid の列コレクションにより実行できます。列の位置およびサイズを指定する 4 つの新しいプロパティが列定義に追加されました - [`rowIndex`](%%jQueryApiUrl%%/ui.iggrid#options:columns.rowIndex)、[`columnIndex`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnIndex)、[`rowSpan`](%%jQueryApiUrl%%/ui.iggrid#options:columns.rowSpan) および [`colSpan`](%%jQueryApiUrl%%/ui.iggrid#options:columns.colSpan)。
 
 ![](images/iggrid-multi-row-layout.png)
  
-#### Related Topics
--   [Grid Multi-Row Layout](igGrid-MultiRowLayout.html)
+#### 関連トピック
+-   [グリッドの複数行レイアウト](igGrid-MultiRowLayout.html)
 
-#### Related Samples
--   [Multi-Row Layout](%%SamplesUrl%%/grid/multi-row-layout)
+#### 関連サンプル
+-   [複数行レイアウト](%%SamplesUrl%%/grid/multi-row-layout)
 
-### <a id="checkbox-appearance"></a> Checkbox Appearance
-Checkbox column visual appearance have changed and it's square box is not going to be rendered when the grid is in display mode. What would be provided is only a plain checkmark. This change is due to refinement of the experience for the end-users, who naturally perceived that this was an interactive element, which they can click to toggle.
+### <a id="checkbox-appearance"></a> チェックボックスの外観
+チェックボックス列の外観が変更されました。グリッドが表示モードにある場合、四角ボックスが描画されません。プレーン チェックマークのみは表示されます。この変更はユーザー エクスペリエンスの向上です。切り替えるためにクリックできないため、クリック可能として表示しません。
 
 ![](images/iggrid-checkbox.png)
 
-#### Related Topics
--   [Rendering Checkboxes on a Column](igGrid-Columns-and-Layout.html#checkboxes)
+#### 関連トピック
+-   [列のチェックボックスのレンダリング](igGrid-Columns-and-Layout.html#checkboxes)
 
-#### Related Samples
--   [Checkbox Column](%%SamplesUrl%%/grid/checkbox-column)
+#### 関連サンプル
+-   [チェックボックス列](%%SamplesUrl%%/grid/checkbox-column)
 
 ## igTreeGrid
 
-### <a id="treegrid-updating"></a> Improved Updating feature
+### <a id="treegrid-updating"></a> 向上された更新機能
 
-The "Add new row" user interface is now enabled and along with it TreeGrid Updating supports adding new records not only directly to the root level, but also adding a child records to a specified level as through the UI, as well through the API.
-The "Add child row" button is available next to the "Delete row" button when a row is hoovered with the mouse or swiped left or right when on touch enabled device.
+「新規行の追加」がユーザー インターフェイスで有効になりました。更に TreeGrid 更新機能の新しいレコードの追加はルート レベルおよび指定したレベルに子レコードをサポートします。行の追加は UI および API により実行できます。
+行がマウスでホバーされるか、タッチ デバイスで行がスワイプされたとき、[子行の追加] ボタンは [行の削除] ボタンの隣に表示されます。
 ![](images/igtreegrid-updating.png)
 
-The add new row UI is rendered inline next to its parent.
+「新規行の追加」UI は親の隣にインラインで描画されます。
 
 ![](images/igtreegrid-updating-add-child.png)
 
-#### Related Topics
--   [Updating (igTreeGrid)](igTreeGrid-Updating.html)
+#### 関連トピック
+-   [更新 (igTreeGrid)](igTreeGrid-Updating.html)
 
-#### Related Samples
--   [Updating](%%SamplesUrl%%/tree-grid/updating)
+#### 関連サンプル
+-   [更新](%%SamplesUrl%%/tree-grid/updating)
 
-## TypeScript Support
+## TypeScript サポート
 
-### <a id="union-types"></a> Support for union types
+### <a id="union-types"></a> 和集合型のサポート
 
-[Union types](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#3.4) introduced in TypeScript 1.4	allows for a variable or a member to have one of a set of several types. Previously members that were declared as type `any` now use union types to declare a more specific type. 
+TypeScript 1.4 で追加された[和集合型](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#3.4)は、変数またはメンバーが複数型のセットの 1 つの型に設定することは許可されます。`any` 型として宣言されたメンバーは、特定の型のセットを宣言するために和集合型を使用できます。 
 
 ![](images/union-types.png)
 
-### <a id="intellisense-improvements"></a> Intellisense improvements
+### <a id="intellisense-improvements"></a> Intellisense の向上
 
-Intellisense is improved for options and methods to suggest all widget`s overloads.
+オプションおよびメソッドの Intellisense がウィジェットのすべてのオーバーロードを推薦するために向上されました。
 
-#### Option overloads
+#### オプションのオーバーロード
 
-All possible options with getters and setters are now listed in the intellisense.
+getter および setter を含むすべての利用可能なオプションは Intellisense にリストされます。
 
 ![](images/option-overloads.png)
 
-#### Method overloads
+#### メソッドのオーバーロード
 
-All possible methods with their parameters are now listed in the intellisense.
+パラメーターを含むすべての利用可能なメソッドは Intellisense にリストされます。
 
 ![](images/method-overloads.png)
 
-#### Methods intellisense on the widget's `data`
-In jQuery UI syntax the widget methods can be invoked from the widget's data: $(".selector").data('widgetName'). This is now possible with the Ignite UI TypeScript directives.
+#### ウィジェットの `data` にメソッドは Intellisense があります
+jQuery UI 構文でウィジェットのメソッドをウィジェットの data から起動できます。: $(".selector").data('widgetName')。Ignite UI TypeScript 命令でも可能になりました。
 
 ![](images/method-data-overloads.png)
 
-### <a id="member-descriptions"></a> Member descriptions
+### <a id="member-descriptions"></a> メンバーの説明
 
-Widget options, events and methods now feature descriptions. The description can be seen in intellisense suggestions for improved usability of the widgets.
+ウィジェットのオプション、イベント、およびメソッドは機能説明があります。ウィジェットのユーザビリティを向上するために説明は Intellisense で表示されます。
 
 ![](images/member-descriptions.png)

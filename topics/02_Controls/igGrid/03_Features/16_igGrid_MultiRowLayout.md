@@ -8,35 +8,35 @@
 |metadata|
 -->
 
-# Grid Multi-Row Layout
+# グリッドの複数行レイアウト
 
-## In this topic
+## このトピックの内容
 
-- [Overview](#overview)
-- [Initialization](#initialization)
-- [API in a Multi-Row Layout Grid](#api)
-- [Supported Features](#features)
-- [Related Content](#related-content)
+- [概要](#overview)
+- [初期化](#initialization)
+- [複数行レイアウトのグリッドの API](#api)
+- [サポートされる機能](#features)
+- [関連コンテンツ](#related-content)
 
-## <a id="overview"></a> Overview
+## <a id="overview"></a> 概要
 
-Multi-Row Layout is a feature for the Ignite UI™ grid, or `igGrid`. It allows you to create a complex structure that repeats for each record and contains multiple physical rows with cells in them that can span multiple columns and rows. Such structure allows for greater rendering flexibility for grids with many columns that would otherwise require a horizontal scrollbar or when the data shown is better presented in a non-tabular fashion.
+複数行レイアウトは Ignite UI™ グリッド (`igGrid`) の機能です。各レコードで繰り返し、セルを含む複数の列および行をまたがる複数の行がある複雑な構造の作成を許可します。この構造は、列が多くあるため水平スクロールバーが必要なグリッド、または表以外の表示の方が必要なグリッドのその他の描画オプションを提供します。
 
-**Figure 1: Visual example of a Multi-Row Layout Grid**
+**図 1: 複数行レイアウトのグリッドの例**
 
 ![](images/igGrid_MultiRowLayout_01.png)
 
-> **Note:** The Multi-Row Layout feature is implemented as part of the igGrid widget, and therefore follows the standard igGrid lifecycle.
+> **注:** 複数行レイアウト機能は igGrid ウィジェットに実装されるため、標準の igGrid ライフサイクルに影響されます。
 
-## <a id="initialization"></a> Initialization
+## <a id="initialization"></a> 初期化
 
-Initializing the Multi-Row Layout is done entirely through the igGrid's column collection. Four new properties are added to the column definition that specify the position and size of the column - [rowIndex](%%jQueryApiUrl%%/ui.igGrid#options:columns.rowIndex), [columnIndex](%%jQueryApiUrl%%/ui.igGrid#options:columns.columnIndex), [rowSpan](%%jQueryApiUrl%%/ui.igGrid#options:columns.rowSpan) and [colSpan](%%jQueryApiUrl%%/ui.igGrid#options:columns.colSpan). HTML tables are rendered stricly based on rows and columns and the size of a cell in a Multi-Row Layout grid is based on how many rows and columns it spans. To enable the feature all columns definitions in the column's collection should have `rowIndex` and `columnIndex`. The `rowSpan` and `colSpan` properties can be omitted in which case they default to a value of 1. The columns definitions should create a matrix of cells that doesn't contain empty spaces and no two cells should occupy the same space. In case any of the two happen a user-friendly initialization exception will be thrown pointing to the issue's origin.
+複数行レイアウトの初期化は、igGrid の列コレクションにより実行できます。列の位置およびサイズを指定する 4 つの新しいプロパティが列定義に追加されました - [rowIndex](%%jQueryApiUrl%%/ui.igGrid#options:columns.rowIndex)、[columnIndex](%%jQueryApiUrl%%/ui.igGrid#options:columns.columnIndex)、[rowSpan](%%jQueryApiUrl%%/ui.igGrid#options:columns.rowSpan) および [colSpan](%%jQueryApiUrl%%/ui.igGrid#options:columns.colSpan)。HTML テーブルは、行および列により描画されます。複数行レイアウトグリッドのセルのサイズはまたがる行および列に基づいて設定されます。機能を有効にするには、列のコレクションのすべての列定義に `rowIndex` および `columnIndex` を設定する必要があります。`rowSpan` および `colSpan` プロパティが設定されない場合、値はデフォルト値 1 に設定されます。列定義は、空のスペースを含まなく、同じスペースに 2 つのセルがないセルの行列を作成します。その条件がない場合、問題を説明する初期化の例外が発生されます。
 
-In a Multi-Row Layout grid widths can be defined for only part of the columns. The grid will attempt to make the necessery calculations and fill widths for columns that depend on the width of others leaving those without such relation to be sized by the browser.
+複数行レイアウトのグリッドで幅を列の部分のみに定義できます。グリッドは、その他の列の幅に関係がある列の幅を計算して設定します。関係なしの列幅はブラウザーにより設定されます。
 
-To put the information so far into perspective, the Multi-Row Layout in Figure 1 is generated with the following code snippet: 
+図 1 の複数行レイアウトは以下のコード スニペットから生成されます。 
 
-**In Javascript:**
+**JavaScript の場合:**
 
 ```js
 columns: [
@@ -49,51 +49,51 @@ columns: [
 ]
 ```
 
-> **Note:** For cells that span one column the `colSpan` property is omitted and for those that span one row the `rowSpan` property is omitted. Widths are defined for two columns only.
+> **注:** 1 列にわたるセルの `colSpan` プロパティは設定されません。1 行にわたるセルの `rowSpan` プロパティも設定されません。幅は 2 列のみに定義されます。
 
-## <a id="api"></a> API in a Multi-Row Layout Grid
+## <a id="api"></a> 複数行レイアウトのグリッドの API
 
-Since Multi-Row Layout changes how cells are rendered and therefore breaks the corelation between the cell's index in a row and its overall position in the layout and because of the fact one record no longer corresponds to a single `TR` element, a number of changes and considerations were made on how API functions and events works in the context of such grids.
+複数行レイアウトがセルの行がを変更し、行に配置されるセルのインデックスおよびレイアウトの全般配置の関係を変更し、単一のレコードが単一の `TR` 要素に相対しないため、このようなグリッドの API 関数およびイベントも変更されました。
 
-* [rowById](%%jQueryApiUrl%%/ui.igGrid#methods:rowById)(rowId) - returns all `TR` elements that are rendered for the record with the specified `rowId`
-* [rowAt](%%jQueryApiUrl%%/ui.igGrid#methods:rowAt)(rowIndex) - returns the `TR` element at the specified `rowIndex`
-* [cellAt](%%jQueryApiUrl%%/ui.igGrid#methods:cellAt)(columnIndex, rowIndex) - returns the `TD` element at the specified coordinates based on the Multi-Row Layout matrix. This means that cells with row/col spans will be taken into account when determining the element to be returned.
-* [cellById](%%jQueryApiUrl%%/ui.igGrid#methods:cellById)(rowId, columnKey) - returns the `TD` element specified by the `rowId` and `columnKey`.
-* [getCellValue](%%jQueryApiUrl%%/ui.igGrid#methods:getCellValue)(rowId/recordIndex, columnKey) - returns the value associated with the `rowId` (if a primary key is specified) or `recordIndex` (if no primary key is specified) and the `columnKey`
-* [getCellText](%%jQueryApiUrl%%/ui.igGrid#methods:getCellText)(rowId/recordIndex, columnKey) - returns the text for the cell associated with the `rowId` (if a primary key is specified) or `recordIndex` (if no primary key is specified) and the `columnKey`
+* [rowById](%%jQueryApiUrl%%/ui.igGrid#methods:rowById)(rowId) - 指定した `rowId` を持つレコードに描画されるすべての `TR` 要素を返します。
+* [rowAt](%%jQueryApiUrl%%/ui.igGrid#methods:rowAt)(rowIndex) - 指定した `rowIndex` にある `TR` 要素を返します。
+* [cellAt](%%jQueryApiUrl%%/ui.igGrid#methods:cellAt)(columnIndex, rowIndex) - 複数行レイアウトの行列に基づいて指定した座標にある `TD` 要素を返します。返す要素の決定で行/列スパンを持つセルが計算されます。
+* [cellById](%%jQueryApiUrl%%/ui.igGrid#methods:cellById)(rowId, columnKey) - `rowId` および `columnKey` により指定された `TD` 要素を返します。
+* [getCellValue](%%jQueryApiUrl%%/ui.igGrid#methods:getCellValue)(rowId/recordIndex, columnKey) - `rowId` (プライマリ キーが指定される場合) または `recordIndex` (プライマリ キーが指定されない場合) および `columnKey` に関連付けられた値を返します。
+* [getCellText](%%jQueryApiUrl%%/ui.igGrid#methods:getCellText)(rowId/recordIndex, columnKey) - `rowId` (プライマリ キーが指定される場合) または `recordIndex` (プライマリ キーが指定されない場合) および `columnKey` に関連付けられたセルのテキストを返します。
 
-An additional function is added to the public API that accepts a DOM element and returns information about it in the context of the grid's layout.
+DOM 要素を取得し、グリッドのレイアウトのコンテキストで要素についての情報を返す関数が公開 API に追加されました。
 
-[getElementInfo](%%jQueryApiUrl%%/ui.iggrid#methods:getElementInfo) - accepts a DOM element and returns and object containing the following properties:
+[getElementInfo](%%jQueryApiUrl%%/ui.iggrid#methods:getElementInfo) - DOM 要素を取得し、以下のプロパティを含むオブジェクトを返します:
 
-* rowId - will be null if no primary key is specified
-* rowIndex - the index of the row (the element itself of its parent in case of `TD`/`TH`) in the DOM 
-* recordIndex - the index of the data record the element is rendered for in the data view
-* columnObject - only applicable if the parameter is a `TD` or `TH` - the column object in the column collection for that cell
+* rowId - プライマリ キーが指定されない場合に null 値
+* rowIndex - DOM に行のインデックス (要素または `TD`/`TH` の場合に親要素)  
+* recordIndex - データ ビューに要素が描画されるためのデータ レコードのインデックス
+* columnObject - パラメーターが `TD` または `TH` のみに適用可能 - そのセルの列コレクションにある列オブジェクト
 
-Finally, two arguments returned by two igGrid events received some clarification in the context of Multi-Row Layout.
+2 つの igGrid イベントから返される引数が複数行レイアウトのために更新されます。
 
 * [cellClick](%%jQueryApiUrl%%/ui.igGrid#events:cellClick)
-    * rowIndex - the DOM index of the parent `TR` element of the clicked cell
-    * colIndex - the index of the `COL` element in the `COLGROUP` the cell belongs to
+    * rowIndex - クリックされたセルの親 `TR` 要素の DOM インデックス
+    * colIndex - セルに属する `COLGROUP` にある `COL` 要素のインデックス
 * [cellRightClick](%%jQueryApiUrl%%/ui.igGrid#events:cellRightClick)
-    * rowIndex - the DOM index of the parent `TR` element of the clicked cell
-    * colIndex - the index of the `COL` element in the `COLGROUP` the cell belongs to
+    * rowIndex - クリックされたセルの親 `TR` 要素の DOM インデックス
+    * colIndex - セルに属する `COLGROUP` にある `COL` 要素のインデックス
 
-## <a id="features"></a> Supported Features
+## <a id="features"></a> サポートされる機能
 
-When igGrid is rendered in a multi-row layout mode the following features are supported: Sorting, Filtering, Paging and Updating, as well as virtualization in `continuous` mode. Enabling any of the other features native to igGrid will result in unexpected behavior or initialization exceptions. The supported features have certain limitations in this mode. They are listed below.
+igGrid が複数行レイアウト モードで描画される場合、並べ替え、フィルター、ページング、更新、`continuous` モードの仮想化の機能がサポートされます。igGrid のその他の機能の有効化は予期されていない動作または初期化例外が発生されます。サポートされる機能はこのモードに制限があります。以下のリストは制限を説明します。
 
-* Updating is supported only in `dialog` edit mode. Attempting to enable `row` or `cell` edit modes will result in an initialization exception.
-* Filtering is supported only in `advanced` mode. Attempting to use it in `simple` mode will result in an initialization exception.
+* 更新は `dialog` 編集モードのみにサポートされます。`row` または `cell` 編集モードの有効化は初期化例外を発生します。
+* フィルターは `advanced` モードのみにサポートされます。`simple` モードに使用する場合、初期化例外が発生されます。
 
-## <a id="related-content"></a> Related Content
+## <a id="related-content"></a> 関連コンテンツ
 
-### <a id="topics"></a> Topics
+### <a id="topics"></a> トピック
 
--   [igGrid Overview](igGrid-Overview.html)
+-   [igGrid の概要](igGrid-Overview.html)
 
-### <a id="samples"></a> Samples
+### <a id="samples"></a> サンプル
 
--   [Multi-Row Layout](%%SamplesUrl%%/grid/multi-row-layout)
+-   [複数行レイアウト](%%SamplesUrl%%/grid/multi-row-layout)
 
