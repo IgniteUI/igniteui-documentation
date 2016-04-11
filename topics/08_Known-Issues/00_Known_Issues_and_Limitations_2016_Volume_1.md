@@ -710,186 +710,26 @@ contextMenu イベントは cellRightClick に名前変更しました|イベン
 列の仮想化と自動サイズ変更がサポートされていない。|width オプションを「*」に設定することによる列の自動サイズ変更は、仮想化でサポートされていません。 | ![](images/negative.png)
 
 ### <a id="grid-responsive"></a> [igGrid - レスポンス Web デザイン モード](igGrid-Known-Issues.html)
-<table class="table table-striped">
-	<thead>
-		<tr>
-            <th>
-問題
-			</th>
 
-            <th>
-説明
-			</th>
-
-            <th>
-状態
-			</th>
-        </tr>
-	</thead>
-	<tbody>   
-        <tr>
-        <td>RWD モードは IE8 でサポートされない</td>
-        <td>RWD は IE8 でモードを決定できません。この機能はモバイル互換性を対象するので、IE8 でサポートされません。</td>
-        <td>![](images/negative.png)</td>
-        </tr>   
-	<tr>  
-	<td>RWD 単一列のテンプレートはページング以外のグリッド機能とサポートされません。</td>  
-      <td>RWD 単一列のテンプレートはページングのグリッド機能のみとサポートされます。その他のグリッド機能は現在このモードでサポートされません。</td>  
-      <td>![](images/negative.png)</td>  
-      </tr>    	
-    </tbody>
-</table>
+問題|説明|状態
+---|---|---
+RWD モードは IE8 でサポートされない | RWD は IE8 でモードを決定できません。この機能はモバイル互換性を対象するので、IE8 でサポートされません。 | ![](images/negative.png)
+RWD 単一列のテンプレートはページング以外のグリッド機能とサポートされません。 | RWD 単一列のテンプレートはページングのグリッド機能のみとサポートされます。その他のグリッド機能は現在このモードでサポートされません。 | ![](images/negative.png)
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
 ### <a id="grid-column-fixing"></a> [igGridColumnFixing](igGrid-Known-Issues.html)
 
-<table class="table table-striped">
-	<thead>
-		<tr>
-            <th>
-問題
-			</th>
-
-            <th>
-説明
-			</th>
-
-            <th>
-状態
-			</th>
-        </tr>
-	</thead>
-	<tbody>
-        
-
-        <tr>
-            <td>
-一部の igGrid 機能で、列固定がサポートされない
-			</td>
-
-            <td>
-                igGrid の列固定機能は、以下の機能では動作しません。
-
-                <ul>
-
-                    <li>
-グループ化 (別名:グループ化)
-					</li>
-
-                    <li>
-(レスポンシブ Web デザイン (RWD) モード (別名:レスポンシブ)
-					</li>
-
-                    <li>
-Knockout ライブラリ (KnockoutJS) の結合
-					</li>
-
-                    <li>
-非バインド列
-					</li>
-                </ul>
-
-                これらの機能と列固定機能の統合は、次期ボリューム リリースで実装される予定です。
-            </td>
-
-            <td>
-![](images/negative.png)
-                
-
-                
-                    ![](images/plannedFix.png)
-			</td>
-        </tr>
-
-        <tr>
-            <td>
-IE9+ での行の固定部分と固定解除部分との不整合
-			</td>
-
-            <td>
-Internet Explorer 9 以降で、列をレコードが大量の igGrid に固定してグリッドの中央へスクロールすると、行の固定部分と固定解除部分との間に不整合が発生します。この問題は、
-                    IE9 のエンジンが原因です。
-			</td>
-
-            <td>
-![](images/positive.png)
-			</td>
-        </tr>
-
-        <tr>
-            <td>
-列の幅は必須で、ピクセル単位で定義する必要がある
-			</td>
-
-            <td>
-列の幅は必須で、ピクセル単位で定義することは推薦されています。明示的に設定するか、[defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) オプションを使用できます。グリッド幅はピクセルまたはパーセンテージ単位で設定してください。			</td>
-
-            <td>
-![](images/negative.png)
-			</td>
-        </tr>
-
-        <tr>
-            <td>
-列の固定を解除し、連続仮想化を有効にすると、グリッドは最上部までスクロールしてしまう
-			</td>
-
-            <td>
-連続仮想化を有効にし、列の固定を解除すると、グリッドは最上部までスクロールします。
-			</td>
-
-            <td>
-![](images/negative.png)
-			</td>
-        </tr>
-	<tr>
-<tr>
-            <td>
-[fixDataSkippedColumns](%%jQueryApiUrl%%/ui.iggrid#methods:fixDataSkippedColumns) および [unfixDataSkippedColumns](%%jQueryApiUrl%%/ui.iggrid#methods:unfixDataSkippedColumns) メソッドは非推奨になりました。
-	</td>
-            <td>
-その代わりに、[fixNonDataColumns](%%jQueryApiUrl%%/ui.iggrid#methods:fixNonDataColumns) および [unfixNonDataColumns](%%jQueryApiUrl%%/ui.iggrid#methods:unfixNonDataColumns) メソッドを使用します。
-	</td>
-        <td>
-![](images/negative.png)
-	</td>
-</tr>
-            <td>
-Chrome および Safari でグリッドに長いテキストを持つキャプションが定義される場合、固定列のヘッダーの幅がキャプションの長さに引き伸ばし、列固定の解除ボタンが表示されないことは可能です。
-			</td>
-
-            <td>
-これは Chrome および Safari のサード パーティ問題です。これらのブラウザーでは、固定ヘッダーを含む thead 要素はキャプションの全体幅に引き伸ばされます。このため、列幅がキャプション幅より小さい場合、固定の解除ボタンがヘッダーの表示領域以外に移動する場合があります。その他のブラウザーは固定グリッド領域に同じ列幅を保持しますが、この動作はありません。	    </td>
-
-            <td>
-![](images/negative.png)
-			</td>
-        </tr>
-<tr>  
-<td>  
-グリッドの高さはパーセンテージ単位で設定できません。  
- </td>  
-        <td>  
-グリッドの高さをパーセンテージ単位での設定はサポートされていません。  
-			</td>  
-            <td>  
-![](images/negative.png)  
-	</td>  
-  </tr>   
-	<tr>
-		<td>
-選択が行セレクターにより実行される場合、グリッドは行の固定されていない部分にフォーカスを適用します。
-		</td>
-		<td>
-これは、レコードが 2 つの行 (固定部分および固定されていない部分) に分割されることに関連します。ページで単一の要素のみフォーカスできます。
-		</td>
-		<td>
-![](images/negative.png)
-		</td>
-	</tr>
-    </tbody>
-</table>
+問題|説明|状態
+---|---|---
+一部の igGrid 機能で、列固定がサポートされない | igGrid の列固定機能は、以下の機能では動作しません。 <ul><li>グループ化 (別名:グループ化)</li><li>レスポンシブ Web デザイン (RWD) モード (別名:レスポンシブ)</li><li>Knockout ライブラリ (KnockoutJS) の結合</li><li>非バインド列</li></ul>これらの機能と列固定機能の統合は、次期ボリューム リリースで実装される予定です。 | ![](images/negative.png) ![](images/plannedFix.png)
+IE9+ での行の固定部分と固定解除部分との不整合 | Internet Explorer 9 以降で、列をレコードが大量の igGrid に固定してグリッドの中央へスクロールすると、行の固定部分と固定解除部分との間に不整合が発生します。この問題は、IE9 のエンジンが原因です。 | ![](images/positive.png)
+列の幅は必須で、ピクセル単位で定義する必要がある | 列の幅は必須で、ピクセル単位で定義することは推薦されています。明示的に設定するか、[defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) オプションを使用できます。グリッド幅はピクセルまたはパーセンテージ単位で設定してください。 | ![](images/negative.png)
+列の固定を解除し、連続仮想化を有効にすると、グリッドは最上部までスクロールしてしまう | 連続仮想化を有効にし、列の固定を解除すると、グリッドは最上部までスクロールします。 | ![](images/negative.png)
+[fixDataSkippedColumns](%%jQueryApiUrl%%/ui.iggrid#methods:fixDataSkippedColumns) および [unfixDataSkippedColumns](%%jQueryApiUrl%%/ui.iggrid#methods:unfixDataSkippedColumns) メソッドは非推奨になりました。 | その代わりに、[fixNonDataColumns](%%jQueryApiUrl%%/ui.iggrid#methods:fixNonDataColumns) および [unfixNonDataColumns](%%jQueryApiUrl%%/ui.iggrid#methods:unfixNonDataColumns) メソッドを使用します。 | ![](images/negative.png)
+Chrome および Safari でグリッドに長いテキストを持つキャプションが定義される場合、固定列のヘッダーの幅がキャプションの長さに引き伸ばし、列固定の解除ボタンが表示されないことは可能です。 | これは Chrome および Safari のサード パーティ問題です。これらのブラウザーでは、固定ヘッダーを含む thead 要素はキャプションの全体幅に引き伸ばされます。このため、列幅がキャプション幅より小さい場合、固定の解除ボタンがヘッダーの表示領域以外に移動する場合があります。その他のブラウザーは固定グリッド領域に同じ列幅を保持しますが、この動作はありません。 | ![](images/negative.png)
+グリッドの高さはパーセンテージ単位で設定できません。 | グリッドの高さをパーセンテージ単位での設定はサポートされていません。 | ![](images/negative.png)  
+選択が行セレクターにより実行される場合、グリッドは行の固定されていない部分にフォーカスを適用します。 | これは、レコードが 2 つの行 (固定部分および固定されていない部分) に分割されることに関連します。ページで単一の要素のみフォーカスできます。 | ![](images/negative.png)
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
@@ -1169,8 +1009,8 @@ iPad デバイスの地理記号シリーズにツールチップが表示され
 `igPivotGrid` におけるキャプション ベースの並べ替えは、常にアルファベット順になる|現在、`igPivotGrid`™ コントロールでは、カスタム キャプションの並べ替えビヘイビアーはサポートされていません。アルファベット順の並べ替えのみを使用できます。 | ![](images/negative.png) ![](images/plannedFix.png)
 `igPivotGrid` でメンバーを展開または折りたたむと、グリッドを再レンダリングする|`igPivotGrid` の行または列のメンバーを展開または折りたたむと、グリッド全体が再レンダリングされます。 | ![](images/negative.png) ![](images/plannedFix.png)
 `igPivotGrid` が、Android オペレーティング システム用のブラウザー内で必ずしも正しく表示されない | Android オペレーティング システム用のブラウザーでは、`igPivotGrid` の最初の列のみが表示されます。 | ![](images/positive.png)
-*jQuery UI 1.8.19 におけるドロップ エリア間でドラッグ アンド ドロップ後に ドロップ ラベルが残っている。*|`igPivotGrid` および / または `igPivotDataSelector`™ のエリア間で項目をドラッグ アンド ドロップする場合、ドロップ ラベルが残ります。 | ![](images/positive.png)
-一定の条件下のMac OS で、水平スクロールバーが表示されない|Mac OS で、「Show scrollbars only when scrolling」オプションを *true* に設定した場合、水平スクロールバーは表示されません。グリッドの水平スクロールバーはオーバーフロー時に *hidden* に設定されます。 | ![](images/positive.png)
+jQuery UI 1.8.19 におけるドロップ エリア間でドラッグ アンド ドロップ後に ドロップ ラベルが残っている。|`igPivotGrid` および / または `igPivotDataSelector`™ のエリア間で項目をドラッグ アンド ドロップする場合、ドロップ ラベルが残ります。 | ![](images/positive.png)
+一定の条件下の Mac OS で、水平スクロールバーが表示されない|Mac OS で、「Show scrollbars only when scrolling」オプションを *true* に設定した場合、水平スクロールバーは表示されません。グリッドの水平スクロールバーはオーバーフロー時に *hidden* に設定されます。 | ![](images/positive.png)
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
