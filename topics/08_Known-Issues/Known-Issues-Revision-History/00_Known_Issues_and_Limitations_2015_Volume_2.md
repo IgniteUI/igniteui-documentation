@@ -451,7 +451,7 @@ IE9 以前のバージョンでは、プレースホルダー テキストはプ
                 
 
 >**回避策:**
-影をぼかす必要がある場合、コンパウンド シャドウを使用してください (`useSingleShadow = "true"`)。
+影をぼかす必要がある場合、コンパウンド シャドウを使用してください (`useSingleShadow = "false"`)。
                 
             </td>
 
@@ -1095,8 +1095,8 @@ MVC Razor レイアウト ビューで MVC Loader が正常に機能しない|AS
 
 問題|説明|状態
 ---|---|---
-地理等高線シリーズにツールチップが表示される|今のところ、地理等高線シリーズではツールチップはサポートされません。 | ![](images/negative.png) ![](images/plannedFix.png)
-iPad デバイスの地理記号シリーズにツールチップが表示される|iPad デバイスでは、地理記号シリーズが表示される場合、ツールチップは表示されません。 | ![](images/negative.png) ![](images/plannedFix.png)
+地理等高線シリーズにツールチップが表示されない|今のところ、地理等高線シリーズではツールチップはサポートされません。 | ![](images/negative.png) ![](images/plannedFix.png)
+iPad デバイスの地理記号シリーズにツールチップが表示されない|iPad デバイスでは、地理記号シリーズが表示される場合、ツールチップは表示されません。 | ![](images/negative.png) ![](images/plannedFix.png)
 
 
 [既知の問題点と制限の概要](#summary)を参照してください。
