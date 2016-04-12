@@ -23,8 +23,8 @@
 以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
 
 - 外部リソース
-	-   [ピボット表](http://en.wikipedia.org/wiki/Pivot_table)
-	-   [オンライン解析処理 (OLAP)](http://en.wikipedia.org/wiki/Online_analytical_processing)
+	-   [ピボット テーブル](https://ja.wikipedia.org/wiki/%E3%83%94%E3%83%9C%E3%83%83%E3%83%88%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB)
+	-   [オンライン解析処理 (OLAP)](https://ja.wikipedia.org/wiki/OLAP)
 	-   [Microsoft Analysis Services](http://en.wikipedia.org/wiki/Microsoft_Analysis_Services)
 
 
