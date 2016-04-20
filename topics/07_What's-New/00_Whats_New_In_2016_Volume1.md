@@ -42,7 +42,7 @@ Modernizr 3.x サポート|Ignite UI は、Modernizr ライブラリを使用し
 
 機能|説明
 ---|---
-新しい列オプション - mapper|dataType="object" の列の場合、複合オブジェクトから複合データ抽出で使用する、mapper 関数の設定を許可します。その戻り値は特定の列に実行されるすべてのデータ操作で使用されます - [サンプルの表示](%%SamplesUrl%%/grid/handling-complex-objects)。</br> 詳細については、次のトピックを参照してください: [列およびレイアウト](igGrid-Columns-and-Layout.html#defining-mapper)|
+新しい列オプション - mapper|dataType="object" の列の場合、複合オブジェクトから複合データ抽出で使用する、mapper 関数の設定を許可します。その戻り値は、その列に対するすべてのデータ操作（更新、フィルター、並べ替えなど）で使用されます - [サンプルの表示](%%SamplesUrl%%/grid/handling-complex-objects)。</br> 詳細については、次のトピックを参照してください: [列およびレイアウト](igGrid-Columns-and-Layout.html#defining-mapper)|
 ColumnFixing 機能は、パーセンテージで設定されるグリッド幅で使用できます。|ColumnFixing 機能は、グリッドの幅がパーセンテージで設定される場合に使用できるようになりました。<br/>**注**: 列幅は依然としてピクセル単位で定義します。明示的に設定するか、[defaultColumnWidth](%%jQueryApiUrl%%/ui.iggrid#options:defaultColumnWidth) オプションを使用できます。|
 [複数行レイアウト機能](#multi-row-layout)|複数行レイアウト機能は、複数の列および行にまたがるセルを含む多数の行で構成される複雑なグリッド レコード レイアウトを作成できます。 |
 [チェックボックスの外観](#checkbox-appearance)|チェックマークが表示モードで操作できないことを示すためにチェックボックス列の外観が変更されました。 |
@@ -56,7 +56,7 @@ Excel からの貼り付けサンプル|Excel クリップボード データを
 
 ### TypeScript サポート
 
-16.1 リリースから Ignite UI の最小サポートされる TypeScript バージョンは 1.4 になります。
+サポートされる TypeScript のバージョンは 1.4 およびそれ以降です。
 
 機能|説明
 ---|---
