@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 |metadata|
 {
     "fileName": "iggrid-updating-migrating-to-the-new-updating",
@@ -24,6 +24,7 @@
     -   [変更された動作](#behavioral-changes)
 - 	[**変更されたオプション**](#option-changes)
 - 	[**新しいオプション**](#options-new)
+- 	[**削除されたオプション**](#options-removed)
 - 	[**イベントの変更点**](#event-changes)
 - 	[**メソッドの変更点**](#method-changes)
 -   [**関連トピック**](#topics)
@@ -86,6 +87,13 @@
 |showEditorsForHiddenColumns*| エディターが非表示列に描画されるかどうかを制御します。|
 |wrapAround|キーボードを使用してナビゲーションする場合に、編集モードがグリッドをラップするかどうかを制御します。|
 ### <a id="event-changes"></a> イベントの変更点
+
+### <a id="options-removed"></a> 削除されたオプション
+|オプション| 追加の情報|
+---|---
+|rowEditDialogOkCancelButtonWidth| ボタンの幅が CSS で設定可能なため、このオプションは削除されます。例: .ui-igbutton{ width: 300px}|
+|rowEditDialogRowTemplate| リファクタリングされたダイアログ編集モードのため、このオプションは削除されます。同様な機能を持つ新しいテンプレート化オプションは [dialogTemplate](%%jQueryApiUrl%%/ui.igGridUpdating#options:dialogTemplate) および [editorsTemplate](%%jQueryApiUrl%%/ui.igGridUpdating#options:editorsTemplate) です。設定の詳細については、「[行編集ダイアログの構成 (igGrid)](iggrid-updating-roweditdialog-configuring.html)」トピックを参照してください。
+|rowEditDialogRowTemplateID | リファクタリングされたダイアログ編集モードのため、このオプションは削除されます。同様な機能を持つ新しいテンプレート化オプションは [dialogTemplateSelector](%%jQueryApiUrl%%/ui.igGridUpdating#options:dialogTemplateSelector) および [editorsTemplateSelector](%%jQueryApiUrl%%/ui.igGridUpdating#options:editorsTemplateSelector) です。設定の詳細については、「[行編集ダイアログの構成 (igGrid)](iggrid-updating-roweditdialog-configuring.html)」トピックを参照してください。
 
 #### 名前が変更されたイベント
 
