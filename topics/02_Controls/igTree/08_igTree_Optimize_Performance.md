@@ -22,7 +22,8 @@
     -   [ロード オン デマンドの詳細](#enable-load-on-demand-details)
     -   [ロード オン デマンドの構成設定](#load-on-demand-configuration-settings)
     -   [例: 基本的なロード オン デマンド](#load-on-demand-example)
-    -   [ロード オン デマンド プロパティの参照](#enable-load-on-demand-property-reference)
+    -   [ロード オン デマンド](#enable-load-on-demand)
+	-   [リモート ロードオンデマンド](#enable-remote-load-on-demand)
 -   [**ASP.NET MVC のロード オン デマンドの構成**](#configure-load-on-demand-for-mvc)
     -   [ASP.NET MVC のロード オン デマンドの詳細](#configure-load-on-demand-mvc-details)
     -   [ASP.NET MVC のロード オン デマンドのプロパティ設定](#load-on-demand-mvc-property-settings)
@@ -62,14 +63,14 @@
 
 構成可能な動作|構成の詳細|構成プロパティ
 ---|---|---
-[ロードオンデマンドを有効にする](#enable-load-on-demand)|ロード オン デマンドを有効にすると、ノードが展開された時に必要な HTML 要素のみを作成するようツリーは指示されます。|[loadOnDemand](%%jQueryApiUrl%%/ui.igTree#options:loadOnDemand) <br> 
+[ロードオンデマンドを有効にする](#enable-load-on-demand)|ロード オン デマンドを有効にすると、ノードが展開された時に必要な HTML 要素のみを作成するようツリーは指示されます。|[loadOnDemand](%%jQueryApiUrl%%/ui.igTree#options:loadOnDemand) <br>  [dataSourceUrl](%%jQueryApiUrl%%/ui.igTree#options:dataSourceUrl)(オプション)
 [ASP.NET MVC のロード オン デマンドの構成](#configure-load-on-demand-for-mvc)|ASP.NET MVC コントローラーで JSON を返すようにアクション メソッドを設定することによって、ノードが展開した時に新しいデータをリモートでフェッチすることができます。|[loadOnDemand](%%jQueryApiUrl%%/ui.igTree#options:loadOnDemand)<br>[dataSourceUrl](%%jQueryApiUrl%%/ui.igTree#options:dataSourceUrl)
 [OData のロード オン デマンドの構成](#configure-load-on-demand-odata)|`igTree` コントロールに OData データ ソースを提供する際、ロード オン デマンドを有効にすると、サービスを呼び出して次のレベルのデータを取得するよう、`igTree` は指示されます。|[loadOnDemand](%%jQueryApiUrl%%/ui.igTree#options:loadOnDemand)<br>[dataSourceUrl](%%jQueryApiUrl%%/ui.igTree#options:dataSourceUrl)<br>[responseDataKey](%%jQueryApiUrl%%/ui.igTree#options:responseDataKey) <br>[responseDataType](%%jQueryApiUrl%%/ui.igTree#options:responseDataType)
 
 
 ## <a id="enable-load-on-demand"></a>ロードオンデマンドを有効にする 
 ### <a id="enable-load-on-demand-details"></a>ロード オン デマンドの詳細 
-ロード オン デマンドは、`igTree` コントロールの動作に様々なパフォーマンス強化を提供します。クライアントでロード オン デマンドを有効にすることによって、データを表示する必要がある場合に、ツリーはオン デマンドで HTML 要素を作成します。最初にビューから非表示になったノードには HTML 要素が作成されません。ASP.NET MVC ヘルパーを使用してロード オン デマンドを有効にすると、オン デマンドでデータがサーバーから取得されます。
+ロード オン デマンドは、`igTree` コントロールの動作に様々なパフォーマンス強化を提供します。クライアントでロード オン デマンドを有効にすることによって、データを表示する必要がある場合に、ツリーはオン デマンドで HTML 要素を作成します。最初にビューから非表示になったノードには HTML 要素が作成されません。[`dataSourceUrl`](%%jQueryApiUrl%%/ui.igTree#options:dataSourceUrl) を使用してロード オン デマンドを有効にすると、オン デマンドでデータがサーバーから取得されます。
 
 ### <a id="load-on-demand-configuration-settings"></a>ロード オン デマンドの構成設定 
 以下の表は、プロパティ設定の推奨構成をマップしています。プロパティは `igTree` のオプション経由でアクセスされます。
@@ -77,6 +78,7 @@
 目的|使用するプロパティ:|それを次に設定...
 ---|---|---
 ロードオンデマンドを有効にする|[loadOnDemand](%%jQueryApiUrl%%/ui.igTree#options:loadOnDemand)|true
+|[dataSourceUrl](%%jQueryApiUrl%%/ui.igTree#options:dataSourceUrl) | カスタム アクション メソッドの文字列 Url (オプション)
 
 ### <a id="load-on-demand-example"></a>例: 基本的なロード オン デマンド 
 以下のコードでは、以下の設定の結果としてロード オン デマンドを有効にしています。
@@ -98,10 +100,35 @@ loadOnDemand|true
 </script>
 ```
 
-### <a id="enable-load-on-demand-property-reference"></a>ロード オン デマンド プロパティの参照 
-これらのプロパティの詳細情報は、プロパティ参照セクションのリストを参照してください。
+### <a id="enable-remote-load-on-demand"></a> リモート ロードオンデマンド
+[dataSourceUrl](%%jQueryApiUrl%%/ui.igTree#options:dataSourceUrl) オプションもリモート アドレスに設定できます。展開しているノードの子を生成するために、`igTree` はそのエンドポイントに非同期 GET 要求を実行します。
+ASP.NET MVC TreeModel を使用して、データ応答の準備を自動的に処理できます。「[例: ASP.NET MVC とのロードオンデマンド](#load-on-demand-mvc-example)」セクションを参照してください。
 
--   `igTree` オプション
+プラットフォームに関係なしで要求を手動的に処理するには、ウィジェットが送信する 3 つのパラメーターを処理する必要があります。 
+パラメーターは、`path` プロパティ、`binding` 情報、および階層の `depth` レベルです。以下のように書式されます。
+```
+<dataSourceUrl>?&path=CategoryID:8/@Products&binding=textKey:ProductName,primaryKey:ProductID,valueKey:ProductID,childDataProperty:Order_Details&depth=0
+```
+最初のパラメーターは、展開されているノードのプライマリ キーおよび要求されている子データ フィールドを含む `path` です。
+「/」によって分割され、プライマリ キーの名前と値を取得するために文字列の最初の部分が「:」によって分割されます。
+文字列の第 2 のっ分の `@Property` は、表で検索しているフィールド (ナビゲーション プロパティ) です。
+上の要求例は以下の基本クエリになります。
+```sql
+SELECT Products FROM Context WHERE CategoryID == 8
+```
+実際の 'Context' は `depth` パラメーターから決定されます。
+この例で、'0' 値は階層の最初の表 (Categories 表) です。
+子ノードが展開された場合:
+```
+<dataSourceUrl>?&path=ProductID:1/@Order_Details&binding=textKey:OrderID,valueKey:OrderID&depth=1`
+```
+`depth` は '1' で、クエリは Products 表に実行されます。
+
+> **注:** プライマリ キーの使用が推薦されます。使用しない場合、ロードオンデマンド要求はノード インデックスを path として使用します。データ ソースが変更可能、あるいはクライアントに送信する前に変更された場合は正しくない可能性があります。
+
+`binding` パラメーターは、コントロールに送信するオブジェクト プロパティの名前/値ペアを提供します。
+オブジェクト プロパティは「:」によって分割されます。最初の部分は相対する [`bindings`](%%jQueryApiUrl%%/ui.igTree#options:bindings) オプションの名前で、第 2 の値は割り当てられたフィールドと一致します。
+すべての予期されているプロパティがクライアントに送信されることを確認またはペイロード サイズを減らすために必須フィールドのみ応答を変換できます。
 
 ## <a id="configure-load-on-demand-for-mvc"></a>ASP.NET MVC のロード オン デマンドの構成 
 ### <a id="configure-load-on-demand-mvc-details"></a>ASP.NET MVC のロード オン デマンドの詳細 
