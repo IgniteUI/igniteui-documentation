@@ -363,13 +363,13 @@ Infragistics Loader を使用している場合は、プログラムを使用し
         </tr>
 		<tr>
             <td>
-Exceeding Minimum and maximum values
+最小値および最大値の範囲以外の値
 			</td>
 
             <td>
-When you use the minValue and maxValue options in the igEditors, you should be aware that if yoe exceed the maxValue the editor will automatically revert the value to be ecual to the maxValue property value. If you enter value that is prior to the minValue, the editor will automatically revert it to the minValue property value. In both cases you will recieve a visual warning that explaince why the editor changes the value. 
+igEditors で minValue および maxValue オプションを使用する場合、maxValue を超えると、エディターは値を自動的に maxValue プロパティ値に設定します。minValue より小さい値を入力すると、エディターは値を自動的に minValue プロパティ値に設定します。いずれの場合もエディターで値が変更されたことを説明するメッセージが表示されます。
          <blockquote>
-**Note**: This limitation is not valid for the igTextEditor, igCheckboxEditor and igMaskEditor.
+**注**: igTextEditor、igCheckboxEditor、および igMaskEditor には適用されません。
         </blockquote>
             </td>
 

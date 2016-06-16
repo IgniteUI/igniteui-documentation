@@ -357,15 +357,15 @@ Infragistics Loader を使用している場合は、プログラムを使用し
 		
 		<tr>
             <td>
-Android Web View (chrome mobile and android internet browser) doesn’t fire keypress event
+Android Web View (Chrome モバイルおよび Android インターネット ブラウザー) は keypress イベントを発生しない
 			</td>
 
             <td>
-           Some features of the editors rely on keypress event for character recognition – which makes those features unsupported on some Android browsers during auto complete/suggest (IME) input. The alternatives in the new DOM3 UI events specification needs to be finalized in order to commit to fully supporting those features on android devices.
+エディターの複数の機能は文字確認のために keypress イベントを使用します。その機能は、オートコンプリートおよび候補 (IME) 入力で Android ブラウザーにサポートされていません。新しい DOM3 UI イベントの仕様の代替が完了すると、それらの機能のサポートを Android デバイスで実装できます。
 
-Specific options affected in igTextEditor are excludeKeys, includeKeys, toLower and toUpper. 
-This also affects continuous character restriction functionality during typing in the igMaskEditor and the derived igDateEditor. Validation before the editor accepts the value (on enter or blur) should still work as expected.
-All the numeric type editors should work as expected on android devices.
+igTextEditor の関連するオプションは excludeKeys、includeKeys、toLower、および toUpper です。
+これにより igMaskedEditor および派生された igDateEditor に入力する場合、連続文字制限機能にも影響します。その場合もエディターが値を保存する前の検証 (Enter キーの押しまたはぼかし) は正しく操作します。
+すべての数値エディターは Android デバイスで正しく操作します。
  
 			</td>
 
@@ -376,13 +376,13 @@ All the numeric type editors should work as expected on android devices.
 		
 		<tr>
             <td>
-Exceeding Minimum and maximum values
+最小値および最大値の範囲以外の値
 			</td>
 
             <td>
-When you use the minValue and maxValue options in the igEditors, you should be aware that if yoe exceed the maxValue the editor will automatically revert the value to be ecual to the maxValue property value. If you enter value that is prior to the minValue, the editor will automatically revert it to the minValue property value. In both cases you will recieve a visual warning that explaince why the editor changes the value. 
+igEditors で minValue および maxValue オプションを使用する場合、maxValue を超えると、エディターは値を自動的に maxValue プロパティ値に設定します。minValue より小さい値を入力すると、エディターは値を自動的に minValue プロパティ値に設定します。いずれの場合もエディターで値が変更されたことを説明するメッセージが表示されます。
          <blockquote>
-**Note**: This limitation is not valid for the igTextEditor, igCheckboxEditor and igMaskEditor.
+**注**: igTextEditor、igCheckboxEditor、および igMaskEditor には適用されません。
         </blockquote>
             </td>
 
