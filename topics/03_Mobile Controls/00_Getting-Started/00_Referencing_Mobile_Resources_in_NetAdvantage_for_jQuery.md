@@ -378,7 +378,7 @@ $.ig.loader({
 
 - [Ignite UI でのリソースの参照](Deployment-Guide-JavaScript-Resources.html): 本トピックでは、Ignite UI コントロールに必要なリソースの管理方法について説明します。
 
-- [igList の概要](igListView-Overview.html): このトピックでは、`igListView` の機能について説明します。
+- [igListView の概要](igListView-Overview.html): このトピックでは、`igListView` の機能について説明します。
 
 - [igRating の概要](igRating%28Mobile%29-Overview.html): このトピックでは、`igRating` の主な特徴と機能が紹介されています。
 
