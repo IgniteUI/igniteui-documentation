@@ -22,6 +22,7 @@
 -   [幅と高さの定義](#width-height)
 -   [列の定義](#defining-columns)
 -   [列の書式設定](#column-formatting)
+-   [セル テキスト配置](#cell-text-alignment)
 -   [列にマッパー機能を定義](#defining-mapper)
 -   [AutoGenerateColumns](#autoGenerateColumns)
 -   [スタイル設定](#styling)
@@ -149,7 +150,7 @@ var formattedValue = $.ig.formatter(1000000); //formats the number according to 
 以下は、formatter が使用されている場合の列描画のフローです。
 ```
 Raw Value -> formatter -> (template)* -> Cell Value
-* - optional setting
+* - オプションの設定
 ```
 
 -  [`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) - 書式設定パターンを識別する文字列です。[`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) オプションは内部に `$.ig.formatter(rawValue, dataType, formatPattern)` 関数を使用します。設定される場合、[`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) は [`autoFormat`](%%jQueryApiUrl%%/ui.iggrid#options:autoFormat) オプションの設定およびデフォルトの地域設定をオーバーライドします。
@@ -170,87 +171,58 @@ Raw Value -> formatter -> (template)* -> Cell Value
  * - オプションの設定
  ```
 
-## <a id="defining-mapper"></a> 列にマッパー機能を定義
+  - [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) は、セルの TD 要素に適用される CSS クラスのスペース分割されたリストです。
+ [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) および [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) オプションの両方を適用できません。[`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) オプションが定義される場合、優先があり、[`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) は使用されません。
+ 以下は、[`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) が使用されている場合の列描画のフローです。
+ 
+ ```
+ Raw Value -> (autoFormat|format|formatter)* -> columnCssClass|template* -> Cell Value 
+ * - オプションの設定
+ ```
 
-マッパー関数は、複雑なデータオブジェクトから特定のプロパティを抽出する場合に使用でき、値の表示および列のデータ処理に使用される値を定義します。
-列 dataType は "object" として指定する必要があり、マッパー機能はレコードから必要なデータを抽出するために使用できます。 
-マッピングはデータソース レベルで完了し、すべてのデータ処理をマップ値に基づいて実行することができます。
-たとえば、以下のようにデータ ソースで各レコードに複合オブジェクトがある場合: 
-```js
-var data = [{ "ID": 0, "Name": "Bread", "Description": "Whole grain bread", "Category":  { "ID": 0, "Name": "Food", "Active": true }},
-{ "ID": 1, "Name": "Milk", "Description": "Low fat milk",  "Category":   { "ID": 1, "Name": "Beverages", "Active": true } },
- ...
- ];
+　- [`headerCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerCssClass) は、[`headerText`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerText) オプションによって構成される列ヘッダー テキストの TH 要素に適用される CSS クラスのスペース分割されたリストです。
+ 以下は、[`headerCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerCssClass) が使用されている場合の列描画のフローです。
+ 
+ ```
+ Raw `headerText` Value -> headerCssClass -> Header Text Value 
+ ```
+
+## <a id="cell-text-alignment"></a> セル テキスト配置
+
+igGrid のセル テキストはデフォルトで左揃えです。セルのテキスト配置をカスタマイズするには、[`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) オプションを使用します。テキストを配置するカスタム CSS クラスを作成し、`columnCssClass` を使用して列に適用します。
+
+**HTML の場合:**
+```html
+<style>
+    .align-right {
+        text-align: right;
+    }
+    .align-center {
+        text-align: center;
+    }
+</style>
 ```
-特定のプロパティや 'Category' オブジェクトの複数プロパティから計算済みの値を表示する場合 (単一文字列に ID および Name サブフィールド値を含むための値のマッピングなど)、`mapper` 関数を使用できます。
-
-例:
 
 **JavaScript の場合:**
-```js
-	mapper: function(record){
-	//extracting data from complex object
-	return record.Category.ID + " : " + record.Category.Name;
-	}				
-
-```
-関数は コード例 2 で示すように [`mapper`](%%jQueryApiUrl%%/ui.iggrid#options:columns.mapper) 列オプションで定義されます。特定の列に関連するすべてのデータ操作でデータ レコード毎に値を指定できます。 
-この関数は、すべてのデータ レコードを含む単一パラメーターを受け入れ、レコード毎に単一のシンプルな値を返します。 
-
-> **注:** この機能は、グリッドがこの列のデータを抽出する必要がある度に呼び出されます。これには、列に関連するデータ レンダリングやデータ操作処理が含まれます。そのため、複雑なデータの抽出および (または) 計算ロジックがある場合、パフォーマンスに影響することに注意してください。
-
-コード例 2: igGrid の列にマッパー機能を定義します。
-
-**JavaScript の場合:**
 
 ```js
-  $("#grid").igGrid({
-  columns: [
-                    { headerText: "", key: "ID", dataType: "number", width: "200px" },
-                    { headerText: "Name", key: "Name", dataType: "string", width: "200px" },
-                    { headerText: "Description", key: "Description", dataType: "string", width: "200px" },
-                    { headerText: "Category", key: "Category", dataType: "object", width: "200px",
-						mapper: function(record){
-								//extracting data from complex object
-								return record.Category.Name;
-							}					
-					}
-                ],
-                autoGenerateColumns: false,
-                dataSource: northwindProductsJSON,         
-               ...
+$("#grid1").igGrid({
+    autoGenerateColumns: false,
+    columns: [ {
+            headerText: "Product Number", 
+            key: "ProductNumber",
+            dataType: "number",
+            columnCssClass: "align-right"
+        }, {
+            headerText: "Modified Date",  
+            key: "ModifiedDate",  
+            dataType: "date",
+            columnCssClass: "align-center"
+        }
+    ]
 });
-
-```
-
-**JavaScript の場合:**
- ```js
- var formattedValue = $.ig.formatter(new Date()); //formats the date according to the current regional settings.
- var formattedValue = $.ig.formatter(1000000); //formats the number according to the current regional settings.
- ```
- [`formatter`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formatter) および [`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) オプションの両方を適用できません。[`formatter`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formatter) 関数が定義される場合、優先があり、[`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) は使用されません。ただし、[`formatter`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formatter) 関数からの値に [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) が適用されます。
-
- 以下は、formatter が使用されている場合の列描画のフローです。
- ```
- Raw Value -> formatter -> (template)* -> Cell Value
- * - オプションの設定
- ```
-
--  [`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) - 書式設定パターンを識別する文字列です。[`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) オプションは内部に `$.ig.formatter(rawValue, dataType, formatPattern)` 関数を使用します。設定される場合、[`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) は [`autoFormat`](%%jQueryApiUrl%%/ui.iggrid#options:autoFormat) オプションの設定およびデフォルトの地域設定をオーバーライドします。
-
- [`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) が使用されている場合、以下は列描画のフローです。
- ```
- Raw Value -> format -> (template)* -> Cell Value 
- * - オプションの設定
- ```
-- [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) - テンプレート化された文字列です。使用されるテンプレート エンジンは `templatingEngine` オプションで定義されます。  
+``` 
  
- 以下は、[`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) が使用されている場合の列描画のフローです。
-```
- Raw Value -> (autoFormat|formatter|format)* -> template -> Cell Value 
- * - オプションの設定
- ```
-
 ## <a id="autoGenerateColumns"></a> AutoGenerateColumns
 
 `autoGenerateColumns` が *false* の場合は、列配列に列を必ず手動で定義する必要があります。`autoGenerateColumns` が *true* (デフォルト) の場合は、列を指定する必要はありません。その場合、グリッドはデータ ソース (行が 1 つ以上の場合) から自動的に列を推測し、それを列コレクションに追加します。ヘッダー テキストも自動的に生成され、データ ソース内のキーと等しくなります。自動生成される列の列幅は `defaultColumnWidth` オプションで設定します。すべての生成された列に同じ列幅を適用します。リモート データ バインドを使用するときは、クライアントのバックエンドからデータを使用可能なときのみ、ヘッダー テキストは自動的に生成されます。ただし、大部分の実環境のシナリオでは、列を明示的に定義するのが最も良い方法です。
