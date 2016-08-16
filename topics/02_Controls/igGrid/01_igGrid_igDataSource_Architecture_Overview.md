@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 |metadata|
 {
     "fileName": "iggrid-igdatasource-architecture-overview",
@@ -13,7 +13,7 @@
 このトピックは、以下のセクションで構成されます。
 
 -   [概要](#overview)
--   [[データソース コントロール](#data-source-control)
+-   [データソース コントロール](#data-source-control)
 -   [グリッド コントロール](#grid-control)
 -   [構成](#configuration)
 -   [機能](#features)
