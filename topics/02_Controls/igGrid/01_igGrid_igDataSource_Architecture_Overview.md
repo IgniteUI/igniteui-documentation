@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 |metadata|
 {
     "fileName": "iggrid-igdatasource-architecture-overview",
@@ -8,9 +8,22 @@
 |metadata|
 -->
 
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [概要](#overview)
+-   [[データソース コントロール](#data-source-control)
+-   [グリッド コントロール](#grid-control)
+-   [構成](#configuration)
+-   [機能](#features)
+-   [依存関係](#dependencies)
+-   [外部参照](#external-references)
+-   [関連コンテンツ](#related-content)
+
 # igGrid/igDataSource アーキテクチャの概要
 
-## 概要
+## <a id="overview"></a>概要
 
 Ignite UI™ グリッド、つまり `igGrid`™ は JavaScript、HTML、および CSS で完全にビルドされたクライアント側グリッド コントロールです。このコントロールのクライアント特有の性質によりサーバー側の技術に関係なく、PHP、Ruby on Rails®、Java™、Python™、Microsoft® ASP.NET™ などでビルドされ、アプリケーションとシームレスに相互作用を行うことができます。
 
@@ -43,7 +56,7 @@ Ignite UI™ グリッド、つまり `igGrid`™ は JavaScript、HTML、およ
 > **注:** グリッドを取り巻くアーキテクチャが切断されているため、`igDataSource` コントロールを使用してデータ処理する独自のカスタム ウィジェットを開発することもできます。
 
 
-## データ ソース コントロール
+## <a id="data-source-control"></a>データ ソース コントロール
 
 すでに説明したように、クライアント側のデータ ソースは、グリッドなどクライアント側のデータ バインドされたコンポーネントと実際のデータ ソース間の仲介レイヤーとしての役割を果たします。`igGrid` コントロールと違い、データ ソース コントロールはウィジェットまたは jQuery プラグインではなく、単純な JavaScript クラスとして実装されています。コントロールをそれぞれクラスに構成するには [John Resig](http://ejohn.org/blog/simple-javascript-inheritance/) の単純な継承アプローチを使用します。
 
@@ -140,14 +153,14 @@ $.ig.JSONDataSource = $.ig.DataSource.extend({
 }(jQuery));
 ```
 
-## グリッド コントロール
+## <a id="grid-control"></a>グリッド コントロール
 データ ソース コントロールの目的がデータの処理と管理である場合、グリッド コントロールは主にデータのユーザー インターフェイス レイヤーとしての役割を果たします。データ ソース コントロールにより発行されたイベントに応答する際、グリッドはデータへバインドを行い、JavaScript の必要な DOM 要素を生成して UI を作成します。機能が追加されると、グリッドはそれらの機能で発行されたイベントを使用して、データ ソース アクションに対してさらに UI をカスタマイズします。
 
 ## 構成
 
 グリッドは、標準 jQuery プラクティスにしたがって JSON オブジェクトをパラメーターとして渡すことで構成されます。オプション パラメーターの扱い方についての詳細は、[「jQuery UI ウィジェットの処理」](http://wiki.jqueryui.com/w/page/12137708/How%20to%20use%20jQuery%20UI%20widgets)を参照して、jQuery UI ウィジェットの一般的な使用方法に慣れてください。
 
-## 機能
+## <a id="features"></a>機能
 
 グリッド機能は、リスト 3 で示すように、JSON オブジェクトをグリッド パラメーターとして提供することでグリッド初期化中に宣言されます。
 
@@ -206,7 +219,7 @@ $("#grid1").igGridSorting("sortColumn", … ) ;
 ```
 
 
-## 依存関係
+## <a id="dependencies"></a>依存関係
 
 `igGrid` コントロールは jQuery ウィジェットとしてビルドされているため、 jQuery UI だけでなく jQuery コア アライブラリに依存しています。特定のバージョンの jQuery UI はサポートされていませんが、最適な結果を得るために、次のバージョンを推奨します。 
 
@@ -217,7 +230,7 @@ $("#grid1").igGridSorting("sortColumn", … ) ;
     
     > **注:** jQueryTemplating を true に設定して jQuery テンプレートを有効にする場合、jquery-tmpl JavaScript ライブラリをアプリケーションに組み込む必要があります。このライブラリーは [https://github.com/jquery/jquery-tmpl](https://github.com/jquery/jquery-tmpl) からダウンロードできます。
 
-## 外部参照
+## <a id="external-references"></a>外部参照
 
 -   [jQuery UI](http://jqueryui.com/)
 -   [jQuery UI - はじめに](http://docs.jquery.com/UI/Getting_Started)
