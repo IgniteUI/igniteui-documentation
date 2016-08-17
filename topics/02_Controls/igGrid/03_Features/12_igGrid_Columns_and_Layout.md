@@ -171,7 +171,7 @@ Raw Value -> formatter -> (template)* -> Cell Value
  * - オプションの設定
  ```
 
-  - [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) は、セルの TD 要素に適用される CSS クラスのスペース分割されたリストです。
+- [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) は、セルの TD 要素に適用される CSS クラスのスペース分割されたリストです。
  [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) および [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) オプションの両方を適用できません。[`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) オプションが定義される場合、優先があり、[`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) は使用されません。
  以下は、[`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) が使用されている場合の列描画のフローです。
  
@@ -180,7 +180,7 @@ Raw Value -> formatter -> (template)* -> Cell Value
  * - オプションの設定
  ```
 
-　- [`headerCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerCssClass) は、[`headerText`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerText) オプションによって構成される列ヘッダー テキストの TH 要素に適用される CSS クラスのスペース分割されたリストです。
+- [`headerCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerCssClass) は、[`headerText`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerText) オプションによって構成される列ヘッダー テキストの TH 要素に適用される CSS クラスのスペース分割されたリストです。
  以下は、[`headerCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerCssClass) が使用されている場合の列描画のフローです。
  
  ```
