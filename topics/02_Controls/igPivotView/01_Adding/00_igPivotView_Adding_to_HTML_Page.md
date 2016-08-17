@@ -122,7 +122,7 @@
 				Ignite UI ライブラリの igPivotView 機能性は、複数のファイルに渡って配布されます。必要なリソースは以下の方法で読み込むことができます。
 
 				<ul>
-					<li>**カスタム JavaScript ファイルを含む**: これは Ignite UI JavaScript ファイルを参照する方法です。Ignite UI コントロールの[カスタム ダウンロード](%%SamplesUrl%%/download)を作成できます。</li>
+					<li>**カスタム JavaScript ファイルを含む**: 推薦される Ignite UI JavaScript ファイルの参照方法です。Ignite UI コントロールの[カスタム ダウンロード](%%SamplesUrl%%/download)を作成できます。</li>
                     
 					<li>**Infragistics Loader の使用**: *Infragistics Loader* は、すべての Infragistics リソース (スタイルおよびスクリプト) を解決するために使用されます。</li>
 
