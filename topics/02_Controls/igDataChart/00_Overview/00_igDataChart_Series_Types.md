@@ -1158,7 +1158,7 @@ Open、High、Low、Close の略開始と終わりの値のマーキングをも
 
 -	[散布図シリーズ](%%SamplesUrl%%/data-chart/scatter-series): このサンプルは散布部 (XY シリーズ) チャートの作成を例示します。
 
--	[積層型シリーズ](%%SamplesUrl%%/data-chart/stacked-series): このサンプルは積層型シリーズ チャート (XY チャート) の作成を例示します。
+-	[積層シリーズ](%%SamplesUrl%%/data-chart/stacked-series): このサンプルは積層シリーズ チャート (XY チャート) の作成を例示します。
 
 
 
