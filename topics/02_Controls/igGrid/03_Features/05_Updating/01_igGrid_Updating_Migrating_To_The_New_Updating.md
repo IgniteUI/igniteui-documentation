@@ -44,7 +44,7 @@
 
 宣言の例: 
 
-旧|新 | 
+|旧|新 | 
 ---|---
 |$("#grid ").igGrid({features : [{ name : "Updating", editMode: <b>"rowedittemplate"}</b>] });|$("#grid ").igGrid({features : [{ name : "Updating", editMode : <b>"dialog"</b> }] });|
 
@@ -76,7 +76,7 @@
 
 ### <a id="options-new"></a> 新しいオプション
 
-|オプション| 説明|
+|オプション| 追加情報|
 ---|---
 |animationDuration*|開くおよび閉じる操作の間のアニメーションを指定します。|
 |dialogTemplate*|現在編集したレコードに対して描画されるテンプレートを指定します。|
@@ -89,7 +89,7 @@
 ### <a id="event-changes"></a> イベントの変更点
 
 ### <a id="options-removed"></a> 削除されたオプション
-|オプション| 追加の情報|
+|オプション| 追加情報|
 ---|---
 |rowEditDialogOkCancelButtonWidth| ボタンの幅が CSS で設定可能なため、このオプションは削除されます。例: .ui-igbutton{ width: 300px}|
 |rowEditDialogRowTemplate| リファクタリングされたダイアログ編集モードのため、このオプションは削除されます。同様な機能を持つ新しいテンプレート化オプションは [dialogTemplate](%%jQueryApiUrl%%/ui.igGridUpdating#options:dialogTemplate) および [editorsTemplate](%%jQueryApiUrl%%/ui.igGridUpdating#options:editorsTemplate) です。設定の詳細については、「[行編集ダイアログの構成 (igGrid)](iggrid-updating-roweditdialog-configuring.html)」トピックを参照してください。

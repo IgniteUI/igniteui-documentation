@@ -45,7 +45,7 @@ listDropDownAsChild|値 `true` は、HTML 要素のリストにメインの HTML
 listMatchContains|リスト一致に含まれる項目を設定または取得します。|このオプションは削除されました。
 listMatchIgnoreCase|大文字と小文字の区別の検証を設定または取得します。|このオプションは削除されました。 
 listMaxHeight|ドロップダウン リストの最大の高さをピクセル単位で設定する場合に使用されます。<br>`$(".selector").igTextEditor({`<br>    `listMaxHeight : 400`<br>`});`|このオプションは削除されました。表示されるリスト項目の数を設定する場合は、新しいオプションの [visibleItemsCount](#visibleItemsCount) を使用できます。<br>`$(".selector").igTextEditor({`<br>    `visibleItemsCount : 5`<br>`});`
-nullText|エディターにフォーカスがなく、エディターの「value」が null または空の文字列の場合に、エディターに表示されるテキストの設定に使用されます。<br>`$(".selector").igTextEditor({`<br>`nullText : "Enter Value"`<br>`});`|このオプションは、機能を明確に表すために、`placeHolder` という名前に変更されました。<br>`$(".selector").igTextEditor({`<br>`placeHolder : "Enter Value"`<br>`});
+nullText|エディターにフォーカスがなく、エディターの「value」が null または空の文字列の場合に、エディターに表示されるテキストの設定に使用されます。<br>`$(".selector").igTextEditor({`<br>`nullText : "Enter Value"`<br>`});`|このオプションは、機能を明確に表すために、`placeHolder` という名前に変更されました。<br>`$(".selector").igTextEditor({`<br>`placeHolder : "Enter Value"`<br>`});`
 renderInContainer|入力フィールドを SPAN にラップするオプションを設定または取得します。|このオプションは削除されました。
 required|エディター内の空の値の検証を設定または取得します。<br>`$(".selector").igTextEditor({`<br>`required : true`<br>`});`|このオプションは削除されました。必要に応じて、バリデーター オプションを使用して、フィールドを設定できます。<br>`$(".selector").igTextEditor({`<br>` validatorOptions : {`<br>`required: true`<br>`}`<br>`});`
 selectionOnFocus|以前サポートされていたメンバー: `select`、`-1`、`start`、`0`、`end`、`1`、`default`、`2`。<br>`$(".selector").igTextEditor({`<br>`selectionOnFocus: 0`<br>`});`|現在サポートされているメンバー: `selectAll`、`atStart`、`atEnd`、`browserDefault`。デフォルト値は `selectAll` です。<br>`$(".selector").igTextEditor({`<br>`selectionOnFocus: "atStart"`<br>`});`
