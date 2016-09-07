@@ -8,6 +8,8 @@
 |metadata|
 -->
 
+# igGrid/igDataSource アーキテクチャの概要
+
 ### このトピックの内容
 
 このトピックは、以下のセクションで構成されます。
@@ -21,7 +23,6 @@
 -   [外部参照](#external-references)
 -   [関連コンテンツ](#related-content)
 
-# igGrid/igDataSource アーキテクチャの概要
 
 ## <a id="overview"></a>概要
 
