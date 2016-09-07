@@ -77,7 +77,7 @@ $("#zoombar").igZoombar("clone").igDataChart("addItem", {"Item1": "Value1", "Ite
 
 ### <a id="stackedseries"></a>igZoombar が積層シリーズを含む igDataChart と正しく動作しない
 
-`igZoombar` は、ターゲットとする元の `igDataChart` のクローンを作成します。デフォルトで `igZoombar` は元のチャート オブジェクトからクローンのオプションを暗示します (`igZoombar` の [`clone`](%%jQueryApiUrl%%/ui.igzoombar#options:clone) オプションを参照してください)。 より複雑な構造を持つ積層シリーズの場合、ユーザーが内部的に提供する元のチャート シリーズを変更します。これにより、`igZoombar` は元のシリーズを取得できず、クローンを自動で再作成することができません。
+`igZoombar` は、ターゲットとする元の `igDataChart` のクローンを作成します。デフォルトで `igZoombar` は元のチャート オブジェクトからクローンのオプションを推測します (`igZoombar` の [`clone`](%%jQueryApiUrl%%/ui.igzoombar#options:clone) オプションを参照してください)。 より複雑な構造を持つ積層シリーズの場合、ユーザーが内部的に提供する元のチャート シリーズを変更します。これにより、`igZoombar` は元のシリーズを取得できず、クローンを自動で再作成することができません。
 
 >**回避策:** igDataChart オプションを使用し、[clone](%%jQueryApiUrl%%/ui.igzoombar#methods:clone) オプションを構成して igZoombar を初期化します。
 

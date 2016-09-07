@@ -361,9 +361,9 @@ Android Web View (Chrome モバイルおよび Android インターネット ブ
 			</td>
 
             <td>
-エディターの複数の機能は文字確認のために keypress イベントを使用します。その機能は、オートコンプリートおよび候補 (IME) 入力で Android ブラウザーにサポートされていません。新しい DOM3 UI イベントの仕様の代替が完了すると、それらの機能のサポートを Android デバイスで実装できます。
+エディターの複数の機能は文字確認のために keypress イベントを使用します。その機能は、オートコンプリートおよび候補 (IME) 入力で Android ブラウザーでサポートされていません。新しい DOM3 UI イベントの仕様の代替が完了すると、それらの機能のサポートを Android デバイスで実装できます。
 
-igTextEditor の関連するオプションは excludeKeys、includeKeys、toLower、および toUpper です。
+igTextEditor に関連するオプションは excludeKeys、includeKeys、toLower、および toUpper です。
 これにより igMaskedEditor および派生された igDateEditor に入力する場合、連続文字制限機能にも影響します。その場合もエディターが値を保存する前の検証 (Enter キーの押しまたはぼかし) は正しく操作します。
 すべての数値エディターは Android デバイスで正しく操作します。
  

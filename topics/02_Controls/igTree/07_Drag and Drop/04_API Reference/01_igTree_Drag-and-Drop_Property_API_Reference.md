@@ -54,7 +54,7 @@ Boolean
             <td>
 コントロールが別のコントロールからドロップを受け付けるかどうかを指定します。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -74,7 +74,7 @@ Boolean/Selector/Element/String/Array
             <td>
 true に設定すると、ヘルパーを収容するその内部領域はドラッグの最中にスクロールできます。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -94,7 +94,7 @@ String
             <td>
 “後にコピーする” 上のヒント マークアップ。このヒントは、コピーしたノードを、現在ハイライトしているノード (マウス ポインターを合わせたノード) の後にドロップしようとすると表示されます。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -114,7 +114,7 @@ String
             <td>
 “前にコピーする” 上のヒント マークアップ。このヒントは、コピーしたノードを、現在ハイライトしているノード (マウス ポインターを合わせたノード) の前にドロップしようとすると表示されます。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -134,7 +134,7 @@ String
             <td>
 “間にコピーする” 上のヒント マークアップ。このヒントは、コピーしたノードを、現在ハイライトしている隣り合った 2 つのノード (両者の間にマウス ポインターを合わせたノード) の間にドロップしようとすると表示されます。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -154,7 +154,7 @@ String
             <td>
 “コピー先” 上のヒント マークアップ。このヒントは、コピーしたノードを、現在ハイライトしているノード (マウス ポインターを合わせたノード) の上にドラッグしようとすると表示されます。この場合、移動したノードはターゲット (ハイライト表示) ノードの子ノードになります。
 
-このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -194,7 +194,7 @@ Function
 
 カスタム ドロップ検証関数は、内部ツリー検証機能がオーバーライドします。したがって、ドラッグ アンド ドロップ アクションを無効にできる位置はドロップ ポイントだけです。
 
-このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -268,11 +268,11 @@ String
 
 いずれも、個々のドラッグ アンド ドロップ モードを設定します。
 
-このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
             </td>
 
             <td>
-デフォルト
+default
 			</td>
         </tr>
 
@@ -288,7 +288,7 @@ Float
             <td>
 ドラッグしたノードの不透明度/透明度のレベルとドラッグ中のヒント有効値の範囲は 0 から 1 です。1 でヒントは完全に不透明になり、0 で完全に透明になります。
 
-このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -308,7 +308,7 @@ Number
             <td>
 `mousedown` イベントから、ドラッグが実行されるまでの待ち時間 (単位ミリ秒)これは、要素をクリックするときに不必要なドラッグが発生するのを防ぐためのオプションです。
 
-このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -328,7 +328,7 @@ Number
             <td>
 `mousedown` イベントの後、ドラッグでマウス ポインターを合わせてからノードが展開するまでの待ち時間 (ミリ秒)
 
-このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -364,7 +364,7 @@ String
 
                 default 設定では、内部的に定義した関数をヘルパー要素が使用します。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
             </td>
 
             <td>
@@ -384,7 +384,7 @@ String
             <td>
 ドロップ場所が正しくない場合のヒント マークアップ。このヒントは、移動したノードを、間違った場所にドロップしようとすると表示されます。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -404,7 +404,7 @@ String
             <td>
 “後に移動する” 上のヒント マークアップ。このヒントは、移動したノードを、現在ハイライトしているノード (マウス ポインターを合わせたノード) の後にドロップしようとすると表示されます。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -424,7 +424,7 @@ String
             <td>
 “前に移動する” 上のヒント マークアップ。このヒントは、移動したノードを現在ハイライトしているノード (マウス ポイターを合わせたノード) の前にドロップしようとすると表示されます。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings property.) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -444,7 +444,7 @@ String
             <td>
 “間に移動する” 上のヒント マークアップ。このヒントは、移動したノードを、現在ハイライトしている隣り合った 2 つのノード (両者の間にマウス ポインターを合わせたノード) の間にドロップしようとすると表示されます。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings property.) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -462,10 +462,10 @@ String
 			</td>
 
             <td>
-“移動先” 上のヒント マークアップ。このヒントは、移動したノードを現在ハイライトしているノード (マウス ポインターを合わせたノード) の上にドラッグしようとすると表示されます。In this case, the moved node
+“移動先” 上のヒント マークアップ。このヒントは、移動したノードを現在ハイライトしているノード (マウス ポインターを合わせたノード) の上にドラッグしようとすると表示されます。
                     この場合、移動したノードはターゲット (ハイライト表示) ノードの子ノードになります。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -485,7 +485,7 @@ Boolean
             <td>
 true に設定すると、ドラッグしたノードはドラッグの停止時に元の位置に戻ります。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -509,7 +509,7 @@ Number
 
                 [revert](%%jQueryApiUrl%%/ui.igtree#options:revert) プロパティを false に設定すると、[revertDuration](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings.revertDuration) 設定を無視します。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
@@ -531,7 +531,7 @@ Number
 
                 z-index は、要素のスタックの順序を指定します。スタック インデックスが大きい要素の位置はスタックが下位の要素の前になります。
 
-                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内部に設定します。
+                このプロパティは、[DragAndDropSettings](%%jQueryApiUrl%%/ui.igtree#options:dragAndDropSettings) プロパティ内で設定します。
 			</td>
 
             <td>
