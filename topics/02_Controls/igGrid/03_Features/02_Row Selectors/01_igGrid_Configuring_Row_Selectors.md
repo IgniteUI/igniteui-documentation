@@ -119,6 +119,9 @@ $(function () {
 
 デフォルトで、複数選択モードに利用可能なヘッダー チェックボックスは現在のデータ ビューのすべての行をチェックします。グリッドの行セレクター機能およびページング機能は、"enableSelectAllForPaging" オプション (デフォルト値は true) を使用してすべてのページでレコードをすべて選択する機能を提供します。
 
+ローカル ページングの場合、ヘッダー チェックボックスをクリックすると、すべてのページからの行を選択/選択解除するオプションを表現するオーバーレイが表示されます (以下の画面参照)。
+
+> **注:** 「すべて選択」機能はリモート ページング機能をサポートしません。ヘッダー チェックボックスをクリックすると、現在のページのみの行が選択されます。
 
 ### <a id="selectall-preview"></a> プレビュー 
 以下の画面は「すべて選択」機能を表示します。
@@ -131,9 +134,9 @@ $(function () {
 
 プロパティ|設定
 ---|---
-[enableSelectAllForPaging](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableSelectAllForPaging) |“true”
-[enableCheckBoxes](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableCheckBoxes)|“true”
-[multipleSelection](%%jQueryApiUrl%%/ui.iggridselection#options:multipleSelection)|“true”
+[enableSelectAllForPaging](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableSelectAllForPaging) |true
+[enableCheckBoxes](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableCheckBoxes)|true
+[multipleSelection](%%jQueryApiUrl%%/ui.iggridselection#options:multipleSelection)|true
 
 ### <a id="selectall-code"></a> コード 
 **HTML の場合:**
@@ -186,6 +189,8 @@ $(function () {
 
 選択チェックボックスは、`enableCheckBoxes` プロパティを true に設定して追加されます。チェックボックス機能が有効になっている場合、複数行を選択するときに Ctrl キーを押していなくてもよいように、複数選択を使用することをお勧めします。
 
+When multiple-selection is enabled a checkbox will display in the row selectors column header. This checkbox enables selection/deselection of all the rows at once (in case when Paging feature is enabled selects/deselects only the rows from the current page).
+
 > **注: **チェックボックスを有効にする場合、`igGridSelection` は「row」選択モードを使用します。
 
 ### <a id="checkboxes-preview"></a> プレビュー 
@@ -200,7 +205,7 @@ $(function () {
 
 プロパティ|設定
 ---|---
-[enableCheckBoxes](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableCheckBoxes)|“true”
+[enableCheckBoxes](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableCheckBoxes)|true
 
 ### <a id="checkboxes-code"></a> コード 
 
@@ -243,11 +248,11 @@ $(function () {
 
 ## <a id="row-numbering"></a> 行の番号付けを有効にする 
 
-グリッドの行セレクター列は、行を連番で表示する場合に使用できます。これは `rowSelectors` ウィジェットの `rowNumbering` オプションで管理されます。
+グリッドの行セレクター列は、行を連番で表示する場合に使用できます。これは `RowSelectors` 機能の `enableRowNumbering` オプションで管理されます。
 
 ### <a id="row-numbering-preview"></a> プレビュー 
 
-図は、`rowNumbering` が有効なグリッドを示します。
+図は、行番号が有効なグリッドを示します。
 
 ![](images/RowSelectors_Configure_Pic3.png)
 
@@ -255,9 +260,12 @@ $(function () {
 
 以下の表は、プロパティ設定の推奨構成をマップしています。プロパティは `igGridRowSelectors` オプションを通じてアクセスされます。
 
+0 以外の開始値を設定するには、`rowNumberingSeed` オプションを使用します。
+
 プロパティ|設定
 ---|---
-enableRowNumbering|“true”
+enableRowNumbering|true
+rowNumberingSeed| 0
 
 ### <a id="row-numbering-code"></a> コード 
 

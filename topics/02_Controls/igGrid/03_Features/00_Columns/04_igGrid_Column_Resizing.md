@@ -39,7 +39,7 @@
 
 -   列のサイズ変更の有効化/無効化この機能は [`allowResizing`](%%jQueryApiUrl%%/ui.igGridResizing#options:columnSettings.allowResizing) プロパティから管理されます。
 
--   ダブルクリックでサイズ変更を有効にする - 有効になると、列は現在表示されている最も幅が広いセルの幅にサイズ変更されます。この機能は [`allowDoubleClickToResize`](%%jQueryApiUrl%%/ui.igGridResizing#options:allowDoubleClickToResize) オプションから管理されます。
+-   ダブルクリックで自動サイズ変更を有効にする – 有効になると、列は現在表示されている最も幅が広いセル コンテンツ (ヘッダーおよびフッター セルを含む) の幅にサイズ変更されます。この機能は [`allowDoubleClickToResize`](%%jQueryApiUrl%%/ui.igGridResizing#options:allowDoubleClickToResize) オプションから管理されます。
 
 -   列幅の最大値/最小値 - サイズ変更をする場合に、ユーザーが列の幅を変更できる最小/最大幅。この機能はそれぞれ [`minimumWidth`](%%jQueryApiUrl%%/ui.igGridResizing#options:columnSettings.minimumWidth)/[`maximumWidth`](%%jQueryApiUrl%%/ui.igGridResizing#options:columnSettings.maximumWidth) プロパティから管理されます。
 

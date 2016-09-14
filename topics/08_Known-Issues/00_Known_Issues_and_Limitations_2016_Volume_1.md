@@ -851,6 +851,7 @@ Firefox で相対的な列幅が設定されていないと、列のサイズ変
 `igGridRowSelectors` ウィジェットでは、選択機能を有効にする必要がある|`igGridRowSelectors` ウィジェットの [`requireSelection`](%%jQueryApiUrl%%/ui.iggridrowselectors#options:requireSelection) オプションは、デフォルトで *true* に設定されています。行セレクターの使用に選択機能が必要なことを示す例外がスローされます。 | ![](images/positive.png)
 IE 9 で選択機能が正しく動作しない|Internet Explorer 9 では、テーブルが大き過ぎるとページに垂直スクロールバーが表示されますが、バーを下にスクロールすると、チェックボックスの有無に関係なく、`RowSelectors` を使用した選択が正しく動作しません。グリッドがフォーカスを得ると、Internet Explorer 9 がページを上方にスクロールして戻すため、選択が誤った行に適用される、またはまったく適用されません。 | ![](images/negative.png)
 選択機能を自動的に有効にできない|選択機能の自動有効化は機能しません。選択ウィジェットでは、`RowSelectors` に全機能を持たせる必要があります。 | ![](images/positive.png)
+[「すべて選択」](igGrid-Configuring-Row-Selectors.html#select-all-pages)機能はリモート ページング機能をサポートしません。 | [`enableSelectAllForPaging`](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableSelectAllForPaging) オプションはリモート ページングと正しく動作しません。 | ![](images/negative.png)
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
@@ -861,6 +862,7 @@ IE 9 で選択機能が正しく動作しない|Internet Explorer 9 では、テ
 ---|---|---
 iOS でのセル選択が適切に動作しない|iOS で`igGrid` をスクロールする場合は、最初にセルをタップし、スクロールしたい方向にスワイプする必要があります。iOS と Android では jQuery モバイルによるスクロール イベントの処理方法が異なるため、`igGrid` のスクロール動作には違いがあります。 | ![](images/negative.png)
 連続的仮想化が有効になっている場合、行 / セルを選択すると選択が不正になる|連続的仮想化が有効な場合に `igGrid` の行 / セルを選択すると、jQuery バージョン 1.6.4 のバグによりグリッドがスクロール ダウンし、異なる行 / セルが選択されます。この問題は、このバージョンの jQuery ライブラリのみで発生します。 | ![](images/positive.png)
+選択機能が有効な場合にテキスト選択が正しく動作しません。 | 選択機能が selectStart イベントをキャンセルしてグリッド内のテキスト選択を無効にするため、セル テキストは選択できません。 | ![](images/positive.png)
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
