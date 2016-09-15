@@ -189,7 +189,7 @@ $(function () {
 
 選択チェックボックスは、`enableCheckBoxes` プロパティを true に設定して追加されます。チェックボックス機能が有効になっている場合、複数行を選択するときに Ctrl キーを押していなくてもよいように、複数選択を使用することをお勧めします。
 
-When multiple-selection is enabled a checkbox will display in the row selectors column header. This checkbox enables selection/deselection of all the rows at once (in case when Paging feature is enabled selects/deselects only the rows from the current page).
+複数選択が有効な場合、行セレクターの列ヘッダーにチェックボックスが表示されます。このチェックボックスはすべての行を一度に選択/選択解除します。ページング機能が有効な場合、現在のページのみの行を選択/選択解除します。
 
 > **注: **チェックボックスを有効にする場合、`igGridSelection` は「row」選択モードを使用します。
 
