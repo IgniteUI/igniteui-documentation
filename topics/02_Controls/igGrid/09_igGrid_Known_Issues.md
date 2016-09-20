@@ -149,6 +149,7 @@ IE8 でヘッダー テキストと並べ替え/フィルタリング/ギア ア
 [固定仮想化は RWD モードでサポートされていません](#fixed-virtualization)|固定仮想化は、行の高さが定数であることが必要です。行の高さが変更する場合、固定仮想化は正しく操作しません。RWD モードは、画面サイズによって行の高さを変更するため、固定仮想化は正しく動作しません。|![](images/positive.png)
 列仮想化は連続仮想化でサポートされていません。 | 列仮想化は固定仮想化のみでサポートされています。列仮想化が有効 ([columnVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:columnVirtualization) = true) な場合、仮想化モードを "fixed" ([virtualizationMode](%%jQueryApiUrl%%/ui.iggrid#options:virtualizationMode) = "fixed") に設定する必要があります。 | ![](images/negative.png)
 仮想化と列の自動サイズ変更はサポートされない|幅オプションを "*" に設定して列を自動サイズ変更する機能は、仮想化ではサポートされません。 | ![](images/negative.png)
+固定仮想化が有効な場合、グリッドのコンテンツ以外から行にタブすると、グリッドの実際の最初の行の代わりに最初の表示可能な行をフォーカスします。 | 固定仮想化が有効な場合、グリッドのコンテンツ以外から行内にタブすると、最初の表示可能な行がフォーカスされます。フォーカスがグリッドの後の要素にあって、Shift + Tab が押された場合、フォーカスは最後の表示可能なセルに設定されます。|![](images/negative.png)
 
 ## igGrid - レスポンス Web デザイン モード
 問題|説明|状態
