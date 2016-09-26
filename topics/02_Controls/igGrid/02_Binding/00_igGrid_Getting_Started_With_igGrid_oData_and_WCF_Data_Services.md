@@ -20,7 +20,7 @@
 
 ## 例
 
-1.  Microsoft Visual Studio® を開き、新しい ASP.NET 空の Web アプリケーション ‘igDataSourceWCFService’ を作成します。
+1.  Microsoft Visual Studio® を開き、新しい ASP.NET 空の Web アプリケーション 'igDataSourceWCFService' を作成します。
 
     > **注:** `igGrid` コントロールが使用する基になる `igDataSource` コンポーネントは、サーバーに依存しません。従って、この演習では、Ignite UI がアウト オブ ボックスで ASP.NET *OData* をサポートするのに対して、ASP.NET WebForms でサポートされる OData の実装方法について説明します。
 
@@ -42,7 +42,7 @@
 
     ![](images/Getting_Started_with_igGrid_oData_WCF_04.png)
 
-5.  次に、WCF データサービスを ‘AdventureWorksService.svc’ という名のプロジェクトに追加します。
+5.  次に、WCF データサービスを 'AdventureWorksService.svc' という名のプロジェクトに追加します。
 
     ![](images/Getting_Started_with_igGrid_oData_WCF_05.png)
 
@@ -50,7 +50,7 @@
 
     ![](images/Getting_Started_with_igGrid_oData_WCF_06.png)
 
-7.  次に、 ‘AdventureWorksDataService’ を開きます。このクラスは T がまだ定義されていない `DataService<T>` から派生します。エンティティ データ モデルのタイプをここで指定
+7.  次に、 'AdventureWorksDataService' を開きます。このクラスは T がまだ定義されていない `DataService<T>` から派生します。エンティティ データ モデルのタイプをここで指定
 
     **C# の場合:**
 
@@ -94,7 +94,7 @@
 
 14. スタイル ディレクトリを設定し、そのフォルダーに Infragistics テーマ ディレクトリを追加します。`igGrid` 用 jQuery テーマを使用して作業するための詳細については、[ヘルプ トピック](igGrid-Styling-and-Theming.html)を参照してください。
 
-15. 次に、サンプル ページを設定します。アプリケーションに対し新しい html ページを追加し、それを ‘default.htm’ と呼ぶことにします。それが終わると、プロジェクトは次のように表示されます。
+15. 次に、サンプル ページを設定します。アプリケーションに対し新しい html ページを追加し、それを 'default.htm' と呼ぶことにします。それが終わると、プロジェクトは次のように表示されます。
 
     ![](images/Getting_Started_with_igGrid_oData_WCF_07.png)
 
@@ -158,7 +158,7 @@
 	dataSource: 'AdventureWorksDataService.svc/Products?$format=json',
 	```
 
-    > **注:** 値 d.results は ‘V2’ OData サービスからくる JSON データに対する標準の応答キーです。
+    > **注:** 値 d.results は 'V2' OData サービスからくる JSON データに対する標準の応答キーです。
 
 20.  最後に、リモートで動作ができるようにするオプションを含むグリッドの機能を有効化します。
 	

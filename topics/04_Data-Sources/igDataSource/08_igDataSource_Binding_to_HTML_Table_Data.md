@@ -23,7 +23,7 @@ Ignite UI™ グリッドまたは `igGrid` では、`igDataSource` コントロ
 **JavaScript の場合:**
 
 ```js
-dataSource: $(‘#myTable’)[0]
+dataSource: $('#myTable')[0]
 ```
 
 >**注:** データを含む DOM 要素を選択するにはインデクサーが必要です。

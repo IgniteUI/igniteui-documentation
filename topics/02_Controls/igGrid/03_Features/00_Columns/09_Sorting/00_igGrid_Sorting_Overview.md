@@ -377,7 +377,7 @@ mode (“single”)
 
         <tr>
             <td>
-firstSortDirection (‘ascending’)
+firstSortDirection ('ascending')
 			</td>
 
             <td>

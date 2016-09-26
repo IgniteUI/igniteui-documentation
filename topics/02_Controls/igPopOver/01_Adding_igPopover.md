@@ -234,7 +234,7 @@ igPopover の構造
     -   ig という名前のフォルダーに追加された Ignite UI CSS ファイル (詳細は、[**Ignite UI のスタイル設定とテーマ設定**](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
 
     -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された Ignite UI JavaScript ファイル (詳細は、[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
--   ページの ‘<head>‘ セクションで参照される、必要な JavaScript リソース。
+-   ページの `<head>` セクションで参照される、必要な JavaScript リソース。
 
 **HTML の場合:**
 
@@ -332,7 +332,7 @@ igPopover の構造
     -   Content/ig という名前のフォルダーに追加された Ignite UI CSS ファイル (詳細は、Ignite UI のスタイル設定とテーマ設定のトピックを参照してください。)
 
     -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された Ignite UI JavaScript ファイル (詳細は、[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
--   ページの ‘<head>‘ セクションで参照される、必要な JavaScript リソース。
+-   ページの `<head>` セクションで参照される、必要な JavaScript リソース。
 
 **HTML の場合:**
 
