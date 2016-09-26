@@ -165,7 +165,7 @@ $("#numericeditor").igNumericEditor({
 **JavaScript の場合:**
 
 ```js
-$("#texteditor").bind(‘igeditorfocus’, function (evt, ui) {
+$("#texteditor").bind('igeditorfocus', function (evt, ui) {
     // Handle event
 });
 ```
@@ -195,7 +195,7 @@ $("#texteditor").bind(‘igeditorfocus’, function (evt, ui) {
 **JavaScript の場合:**
 
 ```js
-$("#dateeditor").bind(‘igeditorfocus’, function (evt, ui) {
+$("#dateeditor").bind('igeditorfocus', function (evt, ui) {
     // Handle event
 });
 ```
@@ -208,13 +208,13 @@ $("#dateeditor").bind(‘igeditorfocus’, function (evt, ui) {
 初期化後にオプションを処理する場合、初期化で作成されたコントロールへアクセスし、オプション値を変更します。以下の構文でオプションを変更します。
 
 ```
-$(‘#inputFieldID’).igTextEditor (‘option’, <option name>,<option  value>);
+$('#inputFieldID').igTextEditor ('option', <option name>,<option  value>);
 ```
 
 ASP.NET MVC ヘルパーは、`igEditor` コントロールを内部で描画します。コードは次のようになります。
 
 ```
-$(‘#inputFieldID’).igEditor (‘option’, <option name>,<option value>);
+$('#inputFieldID').igEditor ('option', <option name>,<option value>);
 ```
 
 ランタイムでクライアントでウィジェットを使用する場合、ウィジェットのメンバーへアクセスするには `igEditors` クライアント ウィジェットも使用してください。
@@ -248,7 +248,7 @@ $(‘#inputFieldID’).igEditor (‘option’, <option name>,<option value>);
 **JavaScript の場合:**
 
 ```js
-$("#maskeditor").igEditor('option', 'inputMask', ‘CCCCCCCCCC’);
+$("#maskeditor").igEditor('option', 'inputMask', 'CCCCCCCCCC');
 ```
 
 ##### igPercentEditor

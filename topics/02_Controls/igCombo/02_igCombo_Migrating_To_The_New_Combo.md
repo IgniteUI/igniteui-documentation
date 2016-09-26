@@ -41,9 +41,9 @@
 
 オプション|以前|現在
 ---|---|---
-width|$(‘#combo’).igCombo({ width: 300 })|デフォルトの幅は css により設定されます。新しいコンボ幅を設定する推奨方法は、`<style>.ui-igcombo-wrapper { width: 300px } </style>` です。古い方法もサポートされます。
-height|$(‘#combo’).igCombo({ height: 300 })|デフォルトの高さは css により設定されます。新しいコンボの高さを設定する推奨方法は、`<style>.ui-igcombo-wrapper { height: 300px } </style>` です。古い方法もサポートされます。
-enableDisplayBlock|$(‘#combo’).igCombo({ enableDisplayBlock: true})|このオプションは削除されました。現在、これは css により制御できます: `<style>.ui-igcombo-wrapper { display: block }</style>`
+width|$('#combo').igCombo({ width: 300 })|デフォルトの幅は css により設定されます。新しいコンボ幅を設定する推奨方法は、`<style>.ui-igcombo-wrapper { width: 300px } </style>` です。古い方法もサポートされます。
+height|$('#combo').igCombo({ height: 300 })|デフォルトの高さは css により設定されます。新しいコンボの高さを設定する推奨方法は、`<style>.ui-igcombo-wrapper { height: 300px } </style>` です。古い方法もサポートされます。
+enableDisplayBlock|$('#combo').igCombo({ enableDisplayBlock: true})|このオプションは削除されました。現在、これは css により制御できます: `<style>.ui-igcombo-wrapper { display: block }</style>`
 mode|以前にサポートされていた値: `editable, dropdown, readonlylist, readonly, 0, 1, 2, 3`。|現在サポートされる値: `editable, dropdown, readonlylist, readonly`。ドロップダウン モードは、現在、html の要素選択動作に非常に似ています。選択が単一である場合、常に選択された項目が存在し、クリア ボタンはデフォルトで無効になります。
 renderMatchItems|-|このオプションの名前は、その動作そのものを表すために、`highlightMatchesMode` に変更されました。
 filteringType|`filteringType` のデフォルトは `'none'`|現在、`filteringType` のデフォルトは`'local'` であるため、デフォルトでローカル フィルタリングが有効にされます。コンボの初期化時にフィルタリングを無効にするには `$('#combo').igCombo({ filteringType: 'none' })`、またはコンボがすでに作成されている場合には `$('#combo').igCombo('option', 'filteringType', 'none' })` を使用します。

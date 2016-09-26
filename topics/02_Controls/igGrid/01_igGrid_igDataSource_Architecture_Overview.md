@@ -103,7 +103,7 @@ $.ig.JSONDataSource = $.ig.DataSource.extend({
         if (!options) {
             options = {};
         }
-        // set the type to ‘json’ so you don’t have to explicitly set it later
+        // set the type to 'json' so you don’t have to explicitly set it later
         options.type = "json";
         this._super(options);
         return this;

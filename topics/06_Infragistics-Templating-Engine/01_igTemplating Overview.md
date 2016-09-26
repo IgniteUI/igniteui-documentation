@@ -76,8 +76,8 @@
 **JavaScript の場合:**
 
 ```js
-data = [{prop: ‘Value’}] 
-$.ig.tmpl(‘${prop}’, data) 
+data = [{prop: 'Value'}] 
+$.ig.tmpl('${prop}', data) 
 ```
 
 結果**:** Value

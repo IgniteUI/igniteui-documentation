@@ -25,7 +25,7 @@
 
  >**注:** [こちらからサンプルをダウンロードできます](http://dl.infragistics.com/community/jquery/codesamples/aaronm/2011-07-28/igDataSourceWCFService.zip)。
 
-1.  Visual Studio を開き、新しい ASP.NET 空の Web アプリケーション ‘igDataSourceWCFService’ を作成します。**注**: `igDataSource` はサーバー依存がありません。従って、この演習では、Ignite UI がアウト オブ ボックスで ASP.NET WCF をサポートするのに対して、ASP.NET WebForms でサポートされる OData の実装方法について説明します。
+1.  Visual Studio を開き、新しい ASP.NET 空の Web アプリケーション 'igDataSourceWCFService' を作成します。**注**: `igDataSource` はサーバー依存がありません。従って、この演習では、Ignite UI がアウト オブ ボックスで ASP.NET WCF をサポートするのに対して、ASP.NET WebForms でサポートされる OData の実装方法について説明します。
 
     ![](images/dswcf_webapp.jpg)
 
@@ -33,7 +33,7 @@
 
 3.  プロジェクト内にスクリプト ディレクトリを作成し、そのフォルダーに JavaScript ファイルをコピーしてください。
 
-4.  次に、サンプル ページを設定します。アプリケーションに対し新しい html ページを追加し、それを ‘default.htm’ と呼ぶことにします。それが終わると、プロジェクトは次のように表示されます。
+4.  次に、サンプル ページを設定します。アプリケーションに対し新しい html ページを追加し、それを 'default.htm' と呼ぶことにします。それが終わると、プロジェクトは次のように表示されます。
 
     ![](images/dswcf_proj.jpg)
 
@@ -161,9 +161,9 @@
     </div>
     ```
 
-7.  次のステップは、ウェブ サービスの設定です。`System.ServiceModel.Web` アセンブリへアセンブリ参照を追加します。また、‘StockQuoteService.svc’ というプロジェクトに新しい WCF サービスを追加します。これはサービス コントラクト、`IStockQuoteService` を設定するためにインターフェイスに加えて `.svc` ファイルを提供します。
+7.  次のステップは、ウェブ サービスの設定です。`System.ServiceModel.Web` アセンブリへアセンブリ参照を追加します。また、'StockQuoteService.svc' というプロジェクトに新しい WCF サービスを追加します。これはサービス コントラクト、`IStockQuoteService` を設定するためにインターフェイスに加えて `.svc` ファイルを提供します。
 
-8.  `IStockQuoteService.cs` ファイルを開き、‘GetStockQuoteGET’ メソッドを定義します。次に `WebGet` 属性を使用して GET アクセスを許可します。
+8.  `IStockQuoteService.cs` ファイルを開き、'GetStockQuoteGET' メソッドを定義します。次に `WebGet` 属性を使用して GET アクセスを許可します。
 
     **C# の場合:**
 
