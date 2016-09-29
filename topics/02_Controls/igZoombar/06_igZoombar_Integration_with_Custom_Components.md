@@ -50,7 +50,7 @@ igZoombar は、ズーム オプションを提供する各 JavaScript コンポ
 各メソッドの概要:
 
 - `init` - exit でプロバイダーインスタンスを返すコンストラクター。デフォルト実装は渡したオプションを設定プロパティに割り当てます。
-- `clean` - igZoombar がプロバイダー インスタンスを削除する直前に呼ばれるメソッド必要なクリーンアップの実行で使用できます。
+- `clean` - igZoombar がプロバイダー インスタンスを削除する直前に呼ばれるメソッド。必要なクリーンアップの実行をクローンまたはターゲット コンポーネントで使用できます。
 - `getBaseOpts` - igZoombar はコンポーネントがアタッチされる有効なオプション セットを取得するためにこれを呼び出します。ウィジェットは戻り値は使用しませんが、その後のプロバイダーへ戻る処理のために渡します。
 - `cleanOptsForZoom` - 基本オプションを取得した後に igZoombar がこのメソッドの変更を前提として呼び出すことにより、ズーム UI 内のクローン コンポーネントを描画するために使用できます。変更の例としてグリッド線、軸、ラベル、ツールチップ、ズーム操作の削除があります。クローン コンポーネントがフィットするコンテナーの幅と高さは、オプションオブジェクトの最上位のプロパティとして igZoombar によって追加されます。
 - `createClone` - クローン コンポーネントを初期化して描画します。igZoombar は 2 つのパラメーターでそれを呼び出し、クローンを初期化するためのコンテナーと `getBaseOpts` および `cleanOptsForZoom` 関数を介して最初に渡されるオプション。   
@@ -202,6 +202,5 @@ window.onload = function () {
 ### <a id="samples"></a>サンプル
 
 このトピックについては、以下のサンプルも参照してください。
-[//]: # (This sample is part of the GitHub repo demos and should link to github.io)
 
-- [igZoombar と ChartJS](%%SamplesUrl%%/): このサンプルは `igZoombar` を `ChartJS` コントロールに統合しています。
+- [igZoombar と ChartJS](https://github.com/IgniteUI/ignite-ui/blob/master/demos/zoombar/zoombar-chartjs.html): このサンプルは `igZoombar` を `ChartJS` コントロールに統合しています。
