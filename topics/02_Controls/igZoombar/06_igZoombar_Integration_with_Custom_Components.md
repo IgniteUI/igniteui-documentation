@@ -110,7 +110,8 @@ cleanOptsForZoom: function (options) {
 	return options;
 },
 ```
-`getBaseOpts` assumes that there will be a baseOptions setting passed to the constructor. `cleanOptsForZoom` basically cleans the clone chart from titles, legends and axes so that it shows a very basic representation of the target chart.
+
+`getBaseOpts` は baseOptions 設定がコンストラクターへ渡されることを前提とします。`cleanOptsForZoom` は、タイトル、凡例、軸からクローン チャートをクリーンし、シンプルなターゲット チャートを示します。
 
 **JavaScript の場合:**
 ```js
