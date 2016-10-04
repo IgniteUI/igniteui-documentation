@@ -10,10 +10,10 @@
 
 # igScroll
 
-Click on the links below to find information on how to get igScroll quickly up and running.
+以下のリンクをクリックして、igScroll をすばやく起動して実行する方法についての情報を参照できます。
 
--   [igScroll Overview](igScroll-Overview.html)
--   [Configuring igScroll](Configuring-igScroll.html)
--   [jQuery API Links (igScroll)](igScroll-jQuery-API.html)
--   [Accessibility Compliance](igScroll-Accessibility-Compliance.html)
--   [Known Issues and Limitations (igScroll)](igScroll-Known-Issues.html)
+-   [igScroll の概要](igScroll-Overview.html)
+-   [igScroll の構成](Configuring-igScroll.html)
+-   [jQuery API リンク (igScroll)](igScroll-jQuery-API.html)
+-   [アクセシビリティ準拠](igScroll-Accessibility-Compliance.html)
+-   [既知の問題と制限 (igScroll)](igScroll-Known-Issues.html)

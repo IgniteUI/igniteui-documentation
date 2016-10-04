@@ -8,28 +8,28 @@
 |metadata|
 -->
 
-# Accessibility Compliance (igScroll)
+# アクセシビリティの遵守 (igScroll)
 
 
 
-## Scroll Accessibility Compliance
-All of the Ignite UI™ controls and components comply with Section 508, Subpart 1194.22 of the Rehabilitation Act of 1973. **Table 1** contains the specific rules of Subpart 1194.22 that pertain to the control. Also detailed is how the control complies with each rule.
+## igScroll アクセシビリティの遵守
+すべての Ignite UI™ コントロールおよびコンポーネントは、1973 年リハビリテーション法第 508 条第 1194 部 22 条を遵守しています。**表 1** には、コントロールに関連する第 1194 部 22 条の特定の規則が記載されています。また、コントロールが各規則を遵守するための詳しい方法も含んでいます。
 
-To meet the requirements each accessibility rule, in some cases, you may need to interact with the control by to setting a specific property, but in other cases the control does the work for you.
+各アクセシビリティ規則の要件を満たすために、場合によっては、コントロールを操作して特定のプロパティを設定する必要がありますが、それ以外の場合は、コントロール自身がこの作業を行います。
 
->**Note:** As jQuery controls are client-only, some of the rules are not supported and are marked as limitations.
+>**注:** jQuery コントロールはクライアント専用のため、一部の規則はサポートされず、制限とされています。
 
-**Table 1: Section 508 compliance description**
+**表 1: 第 508 条遵守の説明**
 
 <table class="table table-striped">
 	<thead>
 		<tr>
             <th>
-Rules
+規則
 			</th>
 
             <th>
-How We Comply with Rules
+規則を遵守する方法
 			</th>
         </tr>
 	</thead>
@@ -42,7 +42,7 @@ How We Comply with Rules
 			</td>
 
             <td>
-Control doesn't depend on colors to convey important information. Sufficient contrast is used for the custom scrollbars.
+コントロールは、重要な情報の表示で色に依存しません。カスタム スクロールバーで適切なコントラストが使用されます。
 			</td>
         </tr>
 
@@ -52,7 +52,7 @@ Control doesn't depend on colors to convey important information. Sufficient con
 			</td>
 
             <td>
-The control will not work without associated style sheet, but the content will remain readable.
+コントロールは関連付けされたスタイル シートが必要ですが、ない場合もコンテンツを読み込めます。
 			</td>
         </tr>
 
@@ -62,7 +62,7 @@ The control will not work without associated style sheet, but the content will r
 			</td>
 
             <td>
-The control doesn't have any elements that flicker in frequency between 2 Hz and 55 Hz.
+コントロールに 2 Hz ~ 55 Hz の周波数で点滅する要素はありません。
 			</td>
         </tr>
         <tr>
@@ -71,16 +71,16 @@ The control doesn't have any elements that flicker in frequency between 2 Hz and
 			</td>
 
             <td>
-The control provides [keyboard support](igScroll-Overview.html#keyaboard-interactions) and the content is usable (readable) when scripting is disabled. 
+コントロールは[キーボード サポート](igScroll-Overview.html#keyaboard-interactions)を提供し、スクリプトが無効な場合にコンテンツが読み可能です。 
 			</td>
         </tr>
     </tbody>
 </table>
 
-\* - control limitations
+\* - コントロールの制限
 
-## Related Links
-- [igScroll Overview](igScroll-Overview.html)
+## 関連リンク
+- [igScroll の概要](igScroll-Overview.html)
 
  
 

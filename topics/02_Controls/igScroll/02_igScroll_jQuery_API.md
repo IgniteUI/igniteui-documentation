@@ -8,11 +8,11 @@
 |metadata|
 -->
 
-# jQuery API Links (igScroll)
+# jQuery API リンク (igScroll)
 
 
 
-The igScroll is built as a jQuery UI widget. For more information about each API, see the following API documentation:
+igScroll は jQuery UI ウィジェットとして作成されます。各 API の詳細は、以下の API ドキュメントを参照してください。
 
 -   [igScroll jQuery API](%%jQueryApiUrl%%/ui.igScroll)
 
