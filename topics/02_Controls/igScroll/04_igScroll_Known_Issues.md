@@ -8,51 +8,51 @@
 |metadata|
 -->
 
-# Known Issues and Limitations (igScroll)
+# 既知の問題と制限 (igScroll)
 
 
-The following table summarizes the known issues and limitations of the igScroll™ control. Detailed explanations of some of the issues and the existing workarounds are provided after the summary table.
+以下の表に、igScroll™ コントロールの既知の問題点と制限事項を簡単に説明します。以下の表は、一部の問題の詳細な説明とその回避策を示します。
 
-**Legend:**
+**凡例:**
 <table class="table">
 	<tbody>
 		<tr>
-			<td>![](../../images/images/positive.png)</td>
-			<td>Workaround available</td>
+			<td>![](images/positive.png)</td>
+			<td>回避策</td>
 		</tr>
 		<tr>
-			<td>![](../../images/images/negative.png)</td>
-			<td>No known workaround</td>
+			<td>![](images/negative.png)</td>
+			<td>既知の回避策はありません</td>
 		</tr>
 		<tr>
-			<td>![](../../images/images/plannedFix.png)</td>
-			<td>No known workaround, fix planned</td>
+			<td>![](images/plannedFix.png)</td>
+			<td>既知の回避策はありません。修正予定です</td>
 		</tr>
 	</tbody>
 </table>
 
-## [igScroll – General](#scroll-general)
+## [igScroll – 全般](#scroll-general)
 
-Issue | Description | Status
+問題|説明|状態
 ------|-------------|-------
-[When initializing igScroll on a initially hidden element scrolling does not work.](#initially-hidden) | When initializing the igScroll on a hidden element, after showing the element the scrollbars don't show and scrolling does not work| ![](../../images/images/positive.png)
-Keyboard Interaction don't work if the igScroll target element does not have `tabIndex` attribute set and is not focusable. | Keyboard interactions are only available when the igScroll element is focused. If the element is not focusable (has no `tabIndex` attribute) no keyboard interactions can be invoked. | ![](../../images/images/negative.png)
-When two elements with igScroll instances are synced, scrolling one of the elements won't show the scrollbars on the other element. | If two elements are synched via the [`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH)/[`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) properties and both have igScroll instances initialized on them, when one is scrolled the scrollbars of the other will not be displayed.| ![](../../images/images/negative.png)
+[igScroll が最初に非表示になる要素で初期化すると、スクロールが動作しない。](#initially-hidden)|igScroll を非表示の要素で初期化すると、要素が表示された後にスクロールバーが表示されず、スクロールが動作しません。| ![](images/positive.png)
+igScroll でターゲット要素の `tabIndex` 属性を設定せず、フォーカスできない場合、キーボード インタラクションが動作しない。|igScroll 要素がフォーカスされている場合のみキーボード インタラクションが可能です。要素のフォーカスが有効でない (`tabIndex` 属性がない) 場合、キーボード インタラクションを起動できません。 | ![](images/negative.png)
+igScroll インスタンスを持つ 2 つの要素が同期化される場合、1 つの要素をスクロールすると、その他の要素にスクロールバーを表示しない。|2 つの要素が [`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH)/[`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) プロパティによって同期化され、両方の要素で igScroll インスタンスが初期化される場合、1 つの要素がスクロールされると、その他の要素にスクロールバーが表示されません。| ![](images/negative.png)
 
-## <a id="scroll-general"></a> igScroll – General
+## <a id="scroll-general"></a> igScroll – 全般
 
-### <a id="initially-hidden"></a> When initializing igScroll on a initially hidden element scrolling does not work.
+### <a id="initially-hidden"></a> igScroll を初期設定で非表示の要素で初期化すると、スクロールが動作しない。
 
- When initializing the igScroll on a hidden element, after showing the element the scrollbars don't show and scrolling does not work.
+ igScroll を初期設定で非表示の要素で初期化すると、要素が表示された後にスクロールバーが表示されず、スクロールが動作しません。
  
-> **Workaround** 
+> **回避方法** 
 > 
-> The [`scrollHeight`](%%jQueryApiUrl%%/ui.igscroll#options:scrollHeight)/[`scrollWidth`](%%jQueryApiUrl%%/ui.igscroll#options:scrollWidth) options should be set to the related container height and width after the container is shown.
+> コンテナーが表示された後、[`scrollHeight`](%%jQueryApiUrl%%/ui.igscroll#options:scrollHeight)/[`scrollWidth`](%%jQueryApiUrl%%/ui.igscroll#options:scrollWidth) オプションを関連するコンテナーの高さおよび幅に設定します。
 
-## Related Content
+## 関連コンテンツ
 
-### Topics
+### トピック
 
-The following topics provide additional information related to this topic.
+このトピックに関連する追加情報については、以下のトピックを参照してください。
 
-- [igScroll](igScroll.html) - This is a group of topics containing the help content about the igScroll control.
+- [igScroll](igScroll.html) - このトピックのグループは、igScroll コントロールの機能について説明します。

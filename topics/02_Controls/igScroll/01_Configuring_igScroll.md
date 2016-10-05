@@ -8,62 +8,62 @@
 |metadata|
 -->
 
-# Configuring igScroll
+# igScroll の構成
 
-## Purpose
+## 目的
 
-This topic explains, with code examples, how to configure the igScroll.
+このトピックでは、igScroll の構成方法をコード例を用いて説明します。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [Default configuration](#defaults)
-- [Configuration Summary](#summary)
-	- [Scrolling multiple containers at once vertically](#syncVertically)
-	- [Scrolling multiple containers at once horizontally](#syncHorizontally)
-	- [Set custom horizontal scrollbar](#customHorizontalScr)
-	- [Set custom vertical scrollbar](#customVerticalScr)
-	- [Set custom vertical scrollbar](#customVerticalScr)
-- [Related Content](#related)
+- [デフォルトの構成](#defaults)
+- [構成の概要](#summary)
+	- [複数のコンテナーを一度に垂直スクロール](#syncVertically)
+	- [複数のコンテナーを一度に水平スクロール](#syncHorizontally)
+	- [カスタム水平スクロールバーを設定](#customHorizontalScr)
+	- [カスタム垂直スクロールバーを設定](#customVerticalScr)
+	- [カスタム垂直スクロールバーを設定](#customVerticalScr)
+- [関連コンテンツ](#related)
 
-## <a id="defaults"></a> Default configuration
+## <a id="defaults"></a> デフォルトの構成
 
-This section lists the default igScroll settings that affect its display and scrolling behavior.
+このセクションは、表示およびスクロール動作に関連するデフォルトの igScroll 設定をリストします。
 
-Property | Type | Default Value | Description
+プロパティ|タイプ|デフォルト値|説明
 ---|---|---|---
-[`scrollbarType`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarType)| string | "custom" | This option determines the type of scrollbars that will be displayed in the container. By default custom scrollbars are displayed. If you'd like to show the native scrollbars for the current environement set the option to "native".  If you'd like to hide the scrollbars set it to "none".
-[`alwaysVisible`](%%jQueryApiUrl%%/ui.igscroll#options:alwaysVisible)| bool | false | This option determines whether the custom thin scrollbars should be always visible, regardless of the environment. By default the scrollbars hide when the user does not interact with the scrollable content or scrollbar. If you'd like the scrollbars to always be visible set this option to true. * Applicable only when [`scrollbarType`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarType) is "custom". *
-[`wheelStep`](%%jQueryApiUrl%%/ui.igscroll#options:wheelStep)| number | 50 | This option determines how many pixels will be scrolled when using mouse wheel once. *Applicable only for scrolling with no smoothing - [smoothing](%%jQueryApiUrl%%/ui.igscroll#options:smoothing) option should be  set to "false".*
-[`inertiaStep`](%%jQueryApiUrl%%/ui.igscroll#options:inertiaStep) | number | 1 | This option determines the modifier how much the inertia will scroll on touch devices. If a negative value is set the scrolling will be inverted.
-[`inertiaDuration`](%%jQueryApiUrl%%/ui.igscroll#options:inertiaDuration) | number | 1 | This option determines the modifier for how long the inertia will scroll before stopping on touch devices. Setting the value to 0 will disable inertia for touch devices.
-[`swipeToleranceX`](%%jQueryApiUrl%%/ui.igscroll#options:swipeToleranceX) | number | 30 | This option determines how much pixels of left/right deviation will be tolerated when you're swiping up/down via touch actions. This ensures that when the user intends to scroll down/up but his gesture has a slight left/right deviation, the content will only scroll in the intended direction - up/down (without also scrolling left/right).
-[`inertiaDeltaY`](%%jQueryApiUrl%%/ui.igscroll#options:inertiaDeltaY) | number | 1.25 | This option determines how many times the vertical speed should be bigger than the horizontal one so the inertia proceeds only vertically without scrolling horizontally. 
-[`inertiaDeltaX`](%%jQueryApiUrl%%/ui.igscroll#options:inertiaDeltaX) | number | 2 | This option determines how many times the horizontal speed should be bigger than the vertical one so the inertia proceeds only horizontally without scrolling vertically. 
+[`scrollbarType`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarType)|string |"custom"|このオプションは、コンテナーに表示されるスクロールバーのタイプを決定します。デフォルトでカスタム スクロールバーが表示されます。現在の環境のネイティブなスクロールバーを表示するには、オプションを native に設定します。スクロールバーを非表示するには、none に設定します。
+[`alwaysVisible`](%%jQueryApiUrl%%/ui.igscroll#options:alwaysVisible)|bool|false|このオプションは、環境に関係なく幅の狭いカスタム スクロールバーが常に表示されるかどうかを決定します。デフォルトで、ユーザーがスクロール可能なコンテンツまたはスクロールバーを操作しない場合、スクロールバーは非表示になります。スクロールバーを常に表示するには、このオプションを true に設定します。*[`scrollbarType`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarType) が "custom" の場合のみ適用されます。 *
+[`wheelStep`](%%jQueryApiUrl%%/ui.igscroll#options:wheelStep)|number|50|このオプションは、マウス ホイールを一度使用すると、スクロールするピクセルを決定します。*スムージングがないスクロールのみに適用されます。[smoothing](%%jQueryApiUrl%%/ui.igscroll#options:smoothing) オプションを false に設定します。*
+[`inertiaStep`](%%jQueryApiUrl%%/ui.igscroll#options:inertiaStep)|number|1|このオプションは、タッチ デバイスで慣性がスクロールする修飾子を決定します。負の値が設定される場合、スクロールは反転されます。
+[`inertiaDuration`](%%jQueryApiUrl%%/ui.igscroll#options:inertiaDuration)|number|1 |このオプションは、タッチ デバイスで慣性が中止する前にスクロールする時間の修飾子を決定します。値を 0 に設定すると、タッチ デバイスで慣性を無効にします。
+[`swipeToleranceX`](%%jQueryApiUrl%%/ui.igscroll#options:swipeToleranceX)|number|30|このオプションは、タッチ操作で上下にスワイプした際に許可される左右移動のピクセル数を決定します。ユーザーが上下にスクロールする際にジェスチャに左右のブレがある場合、コンテンツが左右にはスクロールせずに上下のみにスクロールします。
+[`inertiaDeltaY`](%%jQueryApiUrl%%/ui.igscroll#options:inertiaDeltaY)|number|1.25|このオプションは、慣性が水平方向ではなく垂直方向へのみスクロールするために、垂直方向の速度が水平方向の速度の何倍になるかを決定します。 
+[`inertiaDeltaX`](%%jQueryApiUrl%%/ui.igscroll#options:inertiaDeltaX)|number|2|このオプションは、慣性が垂直方向ではなく水平方向へのみスクロールするために、水平方向の速度が垂直方向の速度の何倍になるかを決定します。 
 
-## <a id="summary"></a>Configuration Summary
-The following table lists the configurable aspects of `igScroll`.
+## <a id="summary"></a>構成の概要
+以下の表は、`igScroll` の構成可能な要素を示します。
 
-In order to configure: | Use these properties: | And set them to:
+構成の目的:|使用するプロパティ:|設定値:
 ---|---|---
-Smooth wheel scrolling - <br/> Behavior is similar to the scrolling behavior on Firefox when using mouse wheel.| [`smoothing`](%%jQueryApiUrl%%/ui.igscroll#options:smoothing) <br/> [`smoothingStep`](%%jQueryApiUrl%%/ui.igscroll#options:smoothingStep) <br/> [`smoothingDuration`](%%jQueryApiUrl%%/ui.igscroll#options:smoothingDuration)| true <br/> 1 <br/> 1
-[Scrolling multiple containers at once vertically](#syncVertically)| [`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) |Array of jQuery elements that you want to be vertically synched with the current igScroll.  
-[Scrolling multiple containers at once horizontally](#syncHorizontally)| [`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH) |Array of jQuery elements that you want to be horizontally synched with the current igScroll.
-[Set custom horizontal scrollbar](#customHorizontalScr) | [`scrollbarH`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarH)| Element that should act as the horizontal scrollbar. <br/> Could be an external element with `overflow-x: auto` and content with width in order to display horizontal scrollbar. 
-[Set custom vertical scrollbar](#customVerticalScr) | [`scrollbarV`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarV)| Element that should act as the vertical scrollbar.<br/> Could be an external element with `overflow-y: auto` and content with height in order to display vertical scrollbar. 
-When custom scrollbars are linked, allow scrolling to happen only via the linked scrollbars and disallow scrolling from the current ones. <br/> This is useful in case when there’s custom logic behind the linked vertical scrollbar that scrolls the main content up/down like updating how much is showed after certain scrolling position. <br/> For example when implementing virtualization. | [`scrollOnlyVBar`](%%jQueryApiUrl%%/ui.igscroll#options:scrollOnlyVBar)/[`scrollOnlyHBar`](%%jQueryApiUrl%%/ui.igscroll#options:scrollOnlyHBar) | true
-Set custom horizontal scrollbar parent for the horizontal/vertical scrollbars. <br/> Useful when you want to build a more custom DOM structure - for example in combination with the [`modifyDOM`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) option set to false. | [`scrollbarHParent`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarHParent)/ [`scrollbarVParent`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarHParent) | Element that will act as the parent element of the scroll.
+スムーズなホイール スクロール - <br/>Firefox でマウス ホイールを使用するスクロール動作と同様な動作。|[`smoothing`](%%jQueryApiUrl%%/ui.igscroll#options:smoothing) <br/>[`smoothingStep`](%%jQueryApiUrl%%/ui.igscroll#options:smoothingStep) <br/>[`smoothingDuration`](%%jQueryApiUrl%%/ui.igscroll#options:smoothingDuration)|true<br/>1<br/>1
+[複数のコンテナーを一度に垂直スクロール](#syncVertically)|[`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) |現在の igScroll と垂直方向に同期する jQuery 要素の配列。  
+[複数のコンテナーを一度に水平スクロール](#syncHorizontally)|[`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH) |現在の igScroll と水平方向に同期する jQuery 要素の配列。
+[カスタム水平スクロールバーを設定](#customHorizontalScr)|[`scrollbarH`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarH)|水平スクロールバーになる要素。<br/>水平スクロールバーを表示するために `overflow-x: auto` および幅が設定されるコンテンツを持つ外部の要素が可能です。 
+[カスタム垂直スクロールバーを設定](#customVerticalScr)|[`scrollbarV`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarV)|垂直スクロールバーになる要素。<br/>垂直スクロールバーを表示するために `overflow-y: auto` および高さが設定されるコンテンツを持つ外部の要素が可能です。 
+カスタム スクロールバーがリンクされている場合、リンクされているスクロールバーのみのスクロールを許可し、現在のスクロールバーのスクロールを無効にします。<br/>メイン コンテンツを上下にスクロールするリンクされた垂直スクロールバーで特定のスクロール位置の後に表示されるコンテンツの量を更新するなどのカスタム ロジックがある場合に便利です。<br/>たとえば、仮想化の実装などです。|[`scrollOnlyVBar`](%%jQueryApiUrl%%/ui.igscroll#options:scrollOnlyVBar)/[`scrollOnlyHBar`](%%jQueryApiUrl%%/ui.igscroll#options:scrollOnlyHBar) |true
+水平/垂直スクロールバーのカスタム水平スクロールバーの親を設定します。<br/>カスタム DOM 構造を構築する場合に便利です。たとえば、[`modifyDOM`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) オプションが false に設定される場合に使用できます。|[`scrollbarHParent`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarHParent)/ [`scrollbarVParent`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarHParent) |スクロールの親要素になる要素。
 
-## <a id="syncVertically"></a> Scrolling multiple containers at once vertically
+## <a id="syncVertically"></a> 複数のコンテナーを一度に垂直スクロール
 
-This section contains information on how to sync different containers vertically with a code example.
+このセクションは、別のコンテナーを垂直方向に同期化する方法を紹介し、コード例があります。
 
-### Example
+### 例
 
-1) Define the igScroll DOM element.
+1) igScroll DOM 要素を定義します。
 
-**In HTML:**
+**HTML の場合:**
 
 ```html
  <div style="width: 33%; float:left; position: relative;">
@@ -75,9 +75,9 @@ This section contains information on how to sync different containers vertically
 </div>
 ```
 
-2) Define the additional scrollable containers that will be synced to the igScroll.
+2) igScroll と同期される追加のスクロール可能なコンテナーを定義します。
 
-**In HTML:**
+**HTML の場合:**
 
 ```html
  <div style="width: 33%; float:left; position: relative;">
@@ -96,9 +96,9 @@ This section contains information on how to sync different containers vertically
 </div>
 ```
 
-3) Initialize an igScroll widget with the [`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) option pointing to the additional scrollable elements.
+3) 追加のスクロール可能な要素をポイントする [`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) オプションで igScroll ウィジェットを初期化します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```js
 $("#scrContainerLeft").igScroll({
@@ -106,31 +106,31 @@ $("#scrContainerLeft").igScroll({
 });
 ```
 	  
-## <a id="syncHorizontally"></a> Scrolling multiple containers at once horizontally
+## <a id="syncHorizontally"></a> 複数のコンテナーを一度に水平スクロール
 
-This section contains information on how to sync different containers horizontally with a code example.
+このセクションは、別のコンテナーを水平方向に同期化する方法を紹介し、コード例があります。
 
-### Example
+### 例
 
-Follow steps 1 and 2 for defining multiple scrollable containers in [Scrolling multiple containers at once vertically](#syncVertically).
-And initialize an igScroll widget with the [`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH) option pointing to the additional scrollable elements.
+[複数のコンテナーを一度に水平スクロール](#syncVertically)で複数のスクロール可能なコンテナーの定義の手順 1 および 2 を実行します。
+[`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH) オプションが追加のスクロール可能な要素に参照する igScroll ウィジェットを初期化します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```js
 $("#scrContainerLeft").igScroll({
 	syncedElemsH: [$("#scrContainerMiddle"), $("#scrContainerRight")]
 });
 ```
-## <a id="customHorizontalScr"></a> Set custom horizontal scrollbar
+## <a id="customHorizontalScr"></a> カスタム水平スクロールバーを設定
 
-This section contains information on how to set a custom element as the horizontal scrollbar of the igScroll with a code example.
+このセクションは、カスタム要素を igScroll の水平スクロールバーとして設定する方法を紹介し、コード例があります。
 
-### Example
+### 例
 
-1) Define the main target element.
+1) 主要なターゲット要素を定義します。
 
-**In HTML:**
+**HTML の場合:**
 
 ```html
 <div style="width: 200px;">
@@ -142,9 +142,9 @@ This section contains information on how to set a custom element as the horizont
 </div>
 ```
 
-2) Define the custom scrollbar element.
+2) カスタム スクロールバー要素を定義します。
 
-**In HTML:**
+**HTML の場合:**
 
 ```html
 <div id='customHScroll' style='width:200px; overflow-x:auto;'>
@@ -152,9 +152,9 @@ This section contains information on how to set a custom element as the horizont
 </div>
 ```
 
-3) Initialize an igScroll widget with the [`scrollbarH`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarH) option pointing to the custom scrollbar element.
+3) 追加のスクロール可能な要素をポイントする [`scrollbarH`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarH) オプションで igScroll ウィジェットを初期化します。
 	  
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```js
 $("#scrContainerLeft").igScroll({
@@ -162,14 +162,14 @@ $("#scrContainerLeft").igScroll({
 });
 ```
 
-## <a id="customVerticalScr"></a> Set custom vertical scrollbar
+## <a id="customVerticalScr"></a> カスタム垂直スクロールバーを設定
 
-This section contains information on how to set a custom element as the vertical scrollbar of the igScroll with a code example.
- ### Example
+このセクションは、カスタム要素を igScroll の垂直スクロールバーとして設定する方法を紹介し、コード例があります。
+ ### 例
 
-1) Define the main target element.
+1) 主要なターゲット要素を定義します。
 
-**In HTML:**
+**HTML の場合:**
 		
 
 ```html
@@ -182,9 +182,9 @@ This section contains information on how to set a custom element as the vertical
 </div>
 ```
 
-2) Define the custom scrollbar element.
+2) カスタム スクロールバー要素を定義します。
 
-**In HTML:**
+**HTML の場合:**
 		
 		
 ```html
@@ -193,9 +193,9 @@ This section contains information on how to set a custom element as the vertical
 </div>
 ```
 
-3) Initialize an igScroll widget with the [`scrollbarH`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarH) option pointing to the custom scrollbar element.
+3) 追加のスクロール可能な要素をポイントする [`scrollbarH`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarH) オプションで igScroll ウィジェットを初期化します。
 		  
-**In JavaScript:**
+**JavaScript の場合:**
 			  
 			  
 ```js
@@ -204,11 +204,11 @@ $("#scrContainerLeft").igScroll({
 });
 ```
 
-## <a id="related"></a> Related Content
+## <a id="related"></a> 関連コンテンツ
 
-### Topics
--   [Accessibility Compliance (igScroll)](igScroll-Accessibility-Compliance.html)
--   [Known Issues (igScroll)](igScroll-Known-Issues.html)
+### トピック
+-   [アクセシビリティの遵守 (igScroll)](igScroll-Accessibility-Compliance.html)
+-   [既知の問題 (igScroll)](igScroll-Known-Issues.html)
 
-### Samples
--   [Configuration Options](%%SamplesUrl%%/scroll/configuration-options)
+### サンプル
+-   [構成オプション](%%SamplesUrl%%/scroll/configuration-options)
