@@ -386,6 +386,7 @@ IE 9 で選択機能が正しく動作しない|Internet Explorer 9 では、テ
 Excel ナビゲーション モードは、セル編集モードのみをサポートします。|[`excelNavigationMode`](%%jQueryApiUrl%%/ui.iggridupdating#options:excelNavigationMode) を有効にした場合、矢印を使用したナビゲーションは、"cell" [`editMode`](%%jQueryApiUrl%%/ui.iggridupdating#options:editMode)でのみ実行できます。.その他の編集モード (*"rowedittemplate"*、*none*、*null*) は `excelNavigationMode` でサポートされません。 | ![](images/negative.png)
 グループ化されている場合に、仮想グリッドの追加および更新が機能しない|仮想グリッドの `GroupBy` および`更新`の使用で、グリッドがグループ化されている場合、行の更新または追加は機能しなくなります。グループ化を解除すると、グリッド レコードの最下部に新しいレコードが追加されます。 | ![](images/negative.png)
 [[`autoCommit`](%%jQueryApiUrl%%/ui.iggrid#options:autoCommit) を無効にして、更新と連続仮想化の機能を有効にした場合、行/セルの更新はサポートされません。](#updating-edit-virtualization)|[`autoCommit`](%%jQueryApiUrl%%/ui.iggrid#options:autoCommit) グリッド オプションが false で連続仮想化が有効な場合に、更新機能で行/セルを編集すると、例外が発生されます。 | ![](images/positive.png)
+仮想化が有効な場合、編集モードでキーボード ナビゲーションによる折り返しができない。 | 仮想化が有効な場合、編集モードが cell の場合に Tab/Shift+Tab および編集モードが row の場合、Enter/Shift+Enter のキーボード ナビゲーションで折り返ができません。最後の行/セルから次の行/セルに移動した際に、最初の行/セルが編集モードに入りません。最初の行/セルから以前の行/セルに移動した際に、最後の行/セルが編集モードに入りません。 | ![](images/negative.png)
 
 ##  <a id="feature-chooser"></a> 機能セレクター
 
