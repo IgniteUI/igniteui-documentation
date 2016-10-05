@@ -8,106 +8,106 @@
 |metadata|
 -->
 
-# igScroll Overview
+# igScroll の概要
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [About igScroll](#about-igScroll)
-- [Behavior and Visualization](#behavior-igScroll)
-- [DOM structure](#structure-igScroll)
-- [Adding igScroll to a Web Page](#adding-igScroll)
-- [Scrolling multiple containers at once](#multi-scrolling)
-- [Keyboard Interactions](#keyaboard-interactions)
-- [Related Content](#related)
+- [igScroll について](#about-igScroll)
+- [動作と可視化](#behavior-igScroll)
+- [DOM 構造](#structure-igScroll)
+- [igScroll を Web ページへ追加](#adding-igScroll)
+- [複数のコンテナーを一度にスクロール](#multi-scrolling)
+- [キーボード操作](#keyaboard-interactions)
+- [関連コンテンツ](#related)
 
 
-## <a id="about-igScroll"></a>  About igScroll
-The igScroll is a stand-alone jQuery UI widget that allows enabling custom scrollbars with fluid scrolling functionality for desktop, hybrid and mobile environments.
-It allows you to create a consistent scrolling experience across all scrolling containers on all devices. 
-The igScroll allows specifying two different display types - native or custom, depending on whether you want the native scrollbars to be displayed or the custom ones. The option for setting this is the [`scrollbarType`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarType) option.
+## <a id="about-igScroll"></a>  igScroll について
+igScroll は、デスクトップ、ハイブリッド、およびモバイル環境でカスタム スクロールバーを有効にするスタンドアロン jQuery UI ウィジェットです。
+すべてのデバイスですべてのスクロール コンテナーの間に一貫性があるスクロール エクスペリエンスを作成できます。 
+igScroll は、2 つの異なる表示タイプ (ネイティブとカスタム) を指定でき、ネイティブ スクロールバーまたはカスタムに作成するかによって選択できます。設定オプション。[`scrollbarType`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarType) オプション。
 
-For the custom scrollbars there are 3 possible states for the scrollbars:
+カスタム スクロールバーには 3 つの状態があります。
 
-1. Hidden - the scrollbars are hidden when the user is not interacting in any way with the containers or the scrollbar.
+1. 非表示 - ユーザーがコンテナーやスクロールバーを操作していない場合、スクロールバーは非表示です。 
 
 	![](images/igScroll_Hidden.png)
 
-2. Default (thin) scrollbars - the default (thin) scrollbars are displayed when the user is interacting with the scrollable content, for example when hovering the scrollable container or when using touch interactions. They have no horizontal or vertical arrows and are not interactable with mouse or touch.
+2. デフォルト (thin) スクロールバー - ユーザーがスクロール可能なコンテナーやタッチ インタラクション使用時など、スクロール可能なコンテンツ操作時にデフォルト (thin) スクロールバーが表示されます。水平または垂直の矢印はなく、マウスまたはタッチで操作できません。
    
 	![](images/igScroll_Thin.png)
 
-3. Desktop (big) scrollbars - the desktop (big) scrollbars are displayed when the user hovers over the thin scrollbars. They're bigger than the default ones and have arrows buttons and can be interacted with via the mouse.
+3. デスクトップ (big) スクロールバー - ユーザーがスクロールバーをホバーしたときに表示されます。デフォルトのスクロールバーより大きく、矢印ボタンがありマウスを使用して操作できます。
    
 	![](images/igScroll_Big.png)   
 	
-	When the native scrollbars are enabled the default scrollbars for the specific browser and environment are displayed.
+	ネイティブ スクロールバーが有効な場合、特定のブラウザーと環境でデフォルト スクロールバーが表示されます。
 	
 	![](images/igScroll_Native.png)
 		
-The scrolling is still handled manually by the igScroll and can be configured via the igScroll's options.
+スクロールはこの場合も igScroll で手動で処理され、igScroll のオプションで設定できます。
    
 	
-## <a id="behavior-igScroll"></a> Behavior and Visualization
+## <a id="behavior-igScroll"></a> 動作と可視化
 
-Different environments provide different visualizations and methods for scrolling. The igScroll supports all of the following types of environments:
+環境が違う場合、スクロールに異なる可視化およびメソッドを提供します。igScroll は、以下の環境をサポートします。
 
-1. Desktop – environment where can be scrolled by mouse moving a scrollbar, clicking on the arrows a scrollbar provides or by mouse scroll.
+1. デスクトップ - マウスでスクロールバーを移動、あるいはスクロールバーの矢印をクリックまたはマウス スクロールによってスクロールできます。
 
-2. Mobile – environment on which can be performed only touch input (smartphones, tablets)
+2. モバイル - タッチ入力でのみスクロールできます (スマートフォン、タブレット)。
 
-3. Hybrid – environment which supports both mouse input and touch input (desktop with touch monitor, Surface, laptop with touch monitor, etc.).
+3. ハイブリッド - マウス入力とタッチ入力の両方をサポート (タッチモニター サポート付きデスクトップおよびラップトップ、Surface など)。
 
-In this section we'll take a look at the environment specific visualizations and behaviors of the igScroll.
+このセクションでは、igScroll の環境に固有な可視化と動作について説明します。
 
-### igScroll on Mobile
+### モバイルでの igScroll
 
-For mobile devices the default (thin) scrollbars are used to visualize the scrollbars.
-The way to scroll on mobile is via touch interactions. You can swipe in a direction to scroll the content in that direction and the scrollbar will be synced accordingly. 
-There is inertia enabled by default, so the content will be scrolled initially fast and then the speed will gradually decrease and the scrolling will stop. This behavior can be further modified via the [`inertiaDuration`](%%jQueryApiUrl%%/ui.igscroll#options:inertiaDuration) option.
+モバイル デバイスでは、スクロールバーの表示にデフォルト スクロールバーが使用されます。
+モバイルではタッチ操作でスクロールします。スワイプによってコンテンツがスクロールされ、スクロールバーがそれに応じて同期されます。 
+デフォルトで慣性が有効なため、最初はコンテンツを速くスクロールし、その後徐々にスピードが遅くなり、最後には停止します。この動作を [`inertiaDuration`](%%jQueryApiUrl%%/ui.igscroll#options:inertiaDuration) オプションで変更できます。
 
-The scrollbars are displayed in the following scenarios:
-- When the page loads initially 
-	They'll be displayed for a short time to notify the users that the related areas are scrollable. After this, if the user does not further interact with them, they will hide.
-- When the user touches or swipes on the scrollable content area
-	They'll be displayed and will remain visible while the user interacts with the content. If the user stops interacting they will hide.
+スクロールバーは以下の場合に表示されます。
+- ページが初めて読み込まれるとき。 
+	ユーザーにスクロール可能な領域を知らせるためにスクロールバーが短い時間表示されます。その後ユーザーが操作しない限り非表示のままになります。
+- ユーザーがスクロール可能なコンテンツ領域をタッチまたはスワイプしたとき。
+	スクロールバーが表示されてユーザーがコンテンツを操作する間表示されたままになります。ユーザーが操作をやめると非表示になります。
 	
 	
 
-### igScroll on Desktop
+### igScroll デスクトップで使用
 
-For desktop both the thin and big scrollbars can be displayed. 
-If you're interacting with the scrollable content (hovering, scrolling via the mouse wheel) the thin scrollbars will be displayed.
+デスクトップには、幅の細いスクロールバーと大きなサイズのスクロールバーを表示できます。 
+スクロール可能なコンテンツを操作 (マウス ホイールによるホバー、スクロール) する場合、幅の細いスクロールバーが表示されます。
 
-If you hover the actual scrollbar area the big scrollbars will be displayed and will allow you to further interact with them. 
+実際のスクロールバー領域をホバーすると詳細な操作が可能な大きなスクロールバーが表示されます。 
 
-The following elements of the big scrollbars are interactable:
+大きなスクロールバーの操作可能な要素:
 
-- the arrow buttons 
+- 矢印ボタン 
 
-	You can click them to scroll with a small increment or click and hold to scroll continuously in a direction.
-- the track pad ( the areas between the thumb and arrow buttons).
+	クリックして小さくスクロール、または長押しで継続的に同じ方向へスクロールできます。
+- トラック パッド (つまみと矢印ボタンの間の領域)。
 
-	You can click on the track pad to scroll with a big increment in the related direction.
-- the scroll's thumb element
+	トラック パッドをクリックして関連する方向へ大きくスクロールできます。
+- スクロールのつまみ要素
 
-	You can drag and drop the thumb in order to scroll the content. 
+	コンテンツをスクロールするためにつまみをドラッグアンドドロップできます。 
 
-The big scrollbars will remain visible while you interact with them. Once you no longer interact, they will hide and only the thin scrollbars will be visible. While you're still hovering over the content the thin scrollbars will stay visible.
-Once you're no longer interacting or hovering over the scrollable area all scrollbars will hide.
+大きなスクロールバーは、操作中は表示されたままになります。操作を停止すると非表示になり、幅の細いスクロールバーのみ表示されます。コンテンツ上をホバーしている間は幅の細いスクロールバーは表示されたままになります。
+スクロール可能な領域で操作またはホバーを停止した場合、すべてのスクロールバーが非表示になります。
 
-### igScroll on Hybrid
+### ハイブリッドで igScroll を使用
 
-Since hybrid devices have both touch and mouse and keyboard support all interactions described for the above two sections (igScroll on Mobile and igScroll on Desktop) are valid for Hybrid devices as well.
+ハイブリッド デバイスではタッチとマウスの両方がサポートされるため、キーボード サポートも上記 2 セクションで説明されたすべての操作で有効です。
 
-## <a id="structure-igScroll"></a> DOM structure
+## <a id="structure-igScroll"></a> DOM 構造
 
-The igScroll by default changes the DOM structure and applies some additional CSS classes in order to style the scrollbars.
+igScroll はデフォルトで DOM 構造を変更し、その他の CSS クラスに適用してスクロールバーのスタイルを設定します。
 
-Initially if the DOM has the following structure:
+以下は DOM の初期構造です。
 
-**In HTML:**
+**HTML の場合:**
 
  ```html
 <body>
@@ -120,7 +120,7 @@ Initially if the DOM has the following structure:
 </body>
  ```
  
- After initializing an igScroll on the div element ( $("#scrollContent").igScroll() ) the resulting DOM will look like this:
+ div 要素 ( $("#scrollContent").igScroll() ) で igScroll を初期化した後に DOM は以下のようになります。
  
  ```html
 <body>
@@ -137,10 +137,10 @@ Initially if the DOM has the following structure:
 </body>
  ```
 
- The DOM manipulation done by the igScroll can be disabled by setting the [`modifyDOM`](%%jQueryApiUrl%%/ui.igscroll#options:modifyDOM) property to false. 
- In that case you should build a similar DOM hierarchy in order for the igScroll to work as expected and initialize it on the content element, for example:
+ igScroll による DOM 操作は [`modifyDOM`](%%jQueryApiUrl%%/ui.igscroll#options:modifyDOM) プロパティを false に設定して無効にできます。 
+ その場合、igScroll を正しく動作させるために同様の DOM 階層を作成し、コンテンツ要素で初期化してください。
 
-**In HTML:**
+**HTML の場合:**
 
  ```html
 <body>
@@ -158,9 +158,9 @@ Initially if the DOM has the following structure:
 </body>
  ```
  
- In this case the igScroll should be initialized on the "scrContainer" element, for example:
+ 以下は igScroll を scrContainer 要素で初期化する例です。
  
- **In JavaScript:**
+ **JavaScript の場合:**
 
 ```js
 $(function () {
@@ -170,15 +170,15 @@ $(function () {
 });
 ```
 
-## <a id="adding-igScroll"></a> Adding igScroll to a Web Page
+## <a id="adding-igScroll"></a> igScroll を Web ページへ追加
 
-The following steps demonstrate how to create a basic implementation of the igScroll widget on a web page using jQuery client code.
+次のステップは、いずれかの jQuery クライアント コードを使用して、ウェブページで igScroll ウィジェットを実装する基本的な方法を示します。
 
-To get started, include the required and localized resources for your application. Details on which resources to include can be found in the [Using JavaScript Resources in Ignite UI](Deployment-Guide-JavaScript-Resources.html) help topic.
+最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
 
-1.  On your HTML page, **reference the required JavaScript and CSS** files.
+1.  HTML ページに**必要な JavaScript および CSS ファイルを参照**してください。
 
-	**In HTML:**
+	**HTML の場合:**
 
 	```html
 	<script src="scripts/jquery.js" type="text/javascript"></script>
@@ -189,9 +189,9 @@ To get started, include the required and localized resources for your applicatio
 	<link href="css/structure/infragistics.css" rel="stylesheet" type="text/css" />
 	```
 
-2. Next, create a simple scrollable area. For this example we'll create a simple div DOM element with some long text inside to allow scrolling.
+2. 次に簡単なスクロール可能なりょいきを作成します。この例では、スクロール可能な長いテキストを含む div DOM 要素を作成します。
 
-	**In HTML:**
+	**HTML の場合:**
 
 	```html
 	<div id="scrollableContent" style="height:200px; width: 600px; overflow: hidden;">
@@ -223,9 +223,9 @@ To get started, include the required and localized resources for your applicatio
 	</div>
 	```
 
-3. Once the above setup is complete, you can initialize the igScroll widget on the scrollable area, with some options or with the default settings:
+3. 上記を設定後にオプションを使用またはデフォルト設定し、スクロール可能な領域で igScroll ウィジェットを初期化できます。
 	
-	**In JavaScript:**
+	**JavaScript の場合:**
 
 	```js
 	$(function () {
@@ -233,29 +233,29 @@ To get started, include the required and localized resources for your applicatio
 	});
 	```
 
-4. Run the web page. The igScroll is initialized and displays custom scrollbars.
+4. Web ページを実行します。igScroll が初期化されてカスタム スクロールバーを表示します。
 
      ![](images/igScroll_Overview_01.png)
 
-## <a id="multi-scrolling"></a> Scrolling multiple containers at once
+## <a id="multi-scrolling"></a> 複数のコンテナーを一度にスクロール
 
-The igScroll allows linking multiple containers so that when one is scrolled the others will also be scrolled accordingly.
-There are two options for specifying synced elements:
-- [`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) - Allows setting elements (could be html elements or jQuery elements) that will be linked to the main content container vertically. When the content is scrolled on the Y axis, the linked elements will scroll up/down.
+igScroll が複数コンテナーのリンクを許可し、1 つスクロールされた場合に他も合わせてスクロールされます。
+同期要素を指定する 2 つのオプションがあります。
+- [`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) - メイン コンテンツ コンテナーに垂直にリンクされる要素の設定を許可します。コンテンツが Y 軸でスクロールされる場合、それに応じてリンク要素が上下にスクロールします。
  
-- [`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH) - Allows setting elements (could be html elements or jQuery elements) that will be linked to the main content container horizontally. When the content is scrolled on the X axis, the linked elements will scroll left/right.
+- [`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH) - メイン コンテンツ コンテナーに水平にリンクされる要素の設定を許可します。コンテンツが X 軸でスクロールされる場合、それに応じてリンク要素が左右にスクロールします。
 
-The following steps demonstrate how to create a basic implementation of the igScroll widget  which allows scrolling multiple containers at once.
+以下の手順は、いずれかの jQuery クライアント コードを使用して、一度に複数のコンテナーをスクロール可能な igScroll ウィジェットを実装する基本的な方法を示します。
 
-Steps:
+手順:
 
-1. The same as the described in the [Adding igScroll to a Web Page](#adding-igScroll) section above. 
+1. 上記の [igScroll を Web ページへ追加](#adding-igScroll)セクションを説明します。 
 
-2. Add two scrollable containers.
+2. スクロール可能なコンテナーの追加
 
-	First one positioned on the left:
+	最初のコンテナーを左に配置します。
 
-	**In HTML:**
+	**HTML の場合:**
 
 	```html
 	<div style="width: 50%; float:left; position: relative;">
@@ -288,9 +288,9 @@ Steps:
 		</div>
 	</div>
 	```
-	And second positioned on the right:
+	2 つ目のコンテナーを右に配置します。
 
-	**In HTML:**
+	**HTML の場合:**
 
 	```html
 	<div style="width: 50%; float:right; position: relative;" >
@@ -329,9 +329,9 @@ Steps:
 	</div>
 	```
 
-3. Next initialize the two igScrolls (for each scrollable container) and set the [`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) and [`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH) properties for each of the scrolls as follows:
+3. 次に 2 つの igScrolls (各スクロール可能なコンテナー) を初期化し、[`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) および [`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH) プロパティを各スクロールに設定します。
 	
-	**In JavaScript:**
+	**JavaScript の場合:**
 
 	```js
 	$(function(){
@@ -347,40 +347,40 @@ Steps:
 	});
 	```
 
-	With this both containers will have synced scrolling. If one is scrolled the other will also be scrolled with the same amount and in the same direction.
+	両コンテナーで同期スクロールが有効になります。コンテナーの 1 つがスクロールされると他のコンテナーも同じ方向へ同じ量スクロールされます。
 
-4.  Observe the result in your browser.
+4.  ブラウザーで結果を確認します。
 
 	 ![](images/igScroll_Multiple_Containers.png)
      
-> **Note**: When implementing this with [`modifyDOM`](%%jQueryApiUrl%%/ui.igscroll#options:modifyDOM) set to false the target elements for the `syncedElemsV`/`syncedElemsH` options should be the container elements, not the container wrapper element. Refer to the example DOM structure with `modifyDOM`:false in the [DOM structure](#structure-igScroll) section of this topic.
+> **注**: [`modifyDOM`](%%jQueryApiUrl%%/ui.igscroll#options:modifyDOM) を false に設定して実装した場合、`syncedElemsV`/`syncedElemsH` オプションのターゲット要素は、コンテナーラッパー要素ではなくコンテナー要素である必要があります。このトピックの [DOM 構造](#structure-igScroll) セクションの `modifyDOM`:false の DOM 構造の例を参照してください。
 	
-## <a id="keyaboard-interactions"></a> Keyboard Interactions
+## <a id="keyaboard-interactions"></a> キーボード操作
 
-> **Note**: In order for the keyboard interactions to work the igScroll's main target element should have the `tabIndex` attribute set in order to be focusable.
+> **注**: キーボード インタラクションを動作させるには、メイン ターゲット要素に `tabIndex` 属性を設定しフォーカス可能にする必要があります。
 
-While focus is on the scrollbar element: 
+スクロール要素にフォーカスがある場合: 
 
-- Arrow UP/DOWN: Scrolls up/down.
+- 上/下矢印: 上下のスクロール
 
-- Arrow LEFT/RIGHT: Scrolls left/right. 
+- 右/左矢印: 右左のスクロール 
 
-- Hold Arrow UP/DOWN: Scrolls up/down continuously.
+- 上/下矢印: 上下の継続スクロール
 
-- Hold Arrow LEFT/RIGHT: Scrolls left/right continuously.
+- 右/左矢印: 左右の継続スクロール
 
-- SPACE: Scrolls up with a big increment.
+- スペース: 上方向へ大きくスクロール
 
-- SHIFT+SPACE: Scrolls down with a big increment.
+- SHIFT+スペース: 下方向へ大きくスクロール
 
-- PAGE UP/ PAGE DOWN: Scrolls up/down with a big increment. 
+- PAGE UP/ PAGE DOWN: 上下方向へ大きくスクロール 
 
-## <a id="related"></a> Related Content
+## <a id="related"></a> 関連コンテンツ
 
-### Topics
--   [Configuring igScroll](Configuring-igScroll.html)
+### トピック
+-   [igScroll の構成](Configuring-igScroll.html)
 
-### Samples
--   [Basic Usage](%%SamplesUrl%%/scroll/basic-usage)
--   [Configuration Options](%%SamplesUrl%%/scroll/configuration-options)
--   [Scrolling multiple containers at once](%%SamplesUrl%%/scroll/scrolling-multiple-containers)
+### サンプル
+-   [基本的な使用方法](%%SamplesUrl%%/scroll/basic-usage)
+-   [構成オプション](%%SamplesUrl%%/scroll/configuration-options)
+-   [複数のコンテナーを一度にスクロール](%%SamplesUrl%%/scroll/scrolling-multiple-containers)
