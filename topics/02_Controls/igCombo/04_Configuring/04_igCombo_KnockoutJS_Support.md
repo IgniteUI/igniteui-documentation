@@ -75,7 +75,7 @@ Knockout マネージのデータ構造にバインドされる `igCombo` をイ
 
 ### Knockout のサポートによる igCombo 構成の概要表
 
-以下の表は、これらのタスクを管理する各プロパティに対し Knockout 使用シナリオに関連する `igCombo` コントロールの構成タスクをマッピングします。いくつかの実際の実装コード例は、表の後ろにあります。
+以下の表は、これらのタスクを管理する各プロパティに対し Knockout 使用シナリオに関連する `igCombo` コントロールの構成タスクをマップします。いくつかの実際の実装コード例は、表の下に示します。
 
 
 <table class="table table-bordered">
@@ -89,34 +89,34 @@ Knockout マネージのデータ構造にバインドされる `igCombo` をイ
 	</thead>
 	<tbody>
 		<tr>
-			<td>View-Model オブジェクトのフィールドを igCombo コントロールの選択項目にバインドする</td>
+			<td>ビュー モデル オブジェクトのフィールドを igCombo の選択されている項目にバインド</td>
 			<td>必須</td>
-			<td>igCombo の選択項目の配列。Knockout を使用してデータにバインドする場合、最小要件は selectedItems プロパティを構成することです。これにより、コンボ選択項目と View-Model 間でデータを交換できます。</td>
+			<td>igCombo で選択されている項目の配列。selectedItems プロパティを構成すると、コンボの選択した項目およびビュー モデルの間のデータ交換を有効にします。</td>
 			<td><ul><li> `selectedItems` </li></ul><br>利用可能な値:<ul><li>プリミティブの配列</li><li>オブジェクトの配列</li></ul><br>**注:** value プロパティは igCombo で利用可能ではありません。Knockout 拡張機能のみに利用可能です。</td>
 		</tr>
 		<tr>
-			<td>選択項目の型の定義</td>
-			<td>オプション</td>
-			<td>配列での選択項目の型を "primitive" または "object" として構成する。拡張機能自体が自動的に選択項目の型を定義するため、このオプションは必要ありません。ただし、`selectedItems` プロパティがオブジェクトの配列である場合や、選択項目がない特定の状態にある場合、拡張機能は選択項目の型を定義できません。そのような状況では、`selectedItemType` オプションを使用できます。 </td>
-			<td><ul><li>`selectedItemType`</li></ul><br>利用可能な値:<ul><li>"primitive"</li><li>"object"</li></ul> <br>**注:** value プロパティは igCombo で利用可能ではありません。Knockout 拡張機能のみに利用可能です。</td>
-		</tr>
-		<tr>
-			<td>コンボ ボックスのドロップダウン リストにデータ ソースを指定する</td>
+			<td>igCombo のデータ ソースの構成</td>
 			<td>必須</td>
-			<td>ドロップダウン リストのデータ ソースを構成するためのプロパティは、dataSource です。 </td>
+			<td>$.ig.DataSource が受け入れる有効なデータ ソース、または $.ig.DataSource 自身のインスタンスを設定します。</td>
 			<td><ul><li> [`dataSource`](%%jQueryApiUrl%%/ui.igcombo#options:dataSource)</li></ul></td>
 		</tr>
 		<tr>
-			<td>ドロップダウン データ ソースで表示テキスト フィールドの名前を構成する</td>
+			<td>項目の表示テキストを含むデータ ソース フィールドを構成</td>
 			<td>必須</td>
-			<td>ドロップダウン リストのデータ ソースからの表示フィールド名が必要です。これにより、項目が選択される場合にコンボに正しいテキストを表示できます。同じテキストは text オプションにもストアされます。</td>
+			<td>項目の表示テキストを含むデータ ソース フィールドの名前を設定します。項目が選択されている場合、各項目のテキストがドロップダウン リストおよびコンボ ボックスで表示されます。同じテキストが text オプションにも保存されます。</td>
 			<td><ul><li>[`textKey`](%%jQueryApiUrl%%/ui.igcombo#options:textKey)</li></ul></td>
 		</tr>
 		<tr>
-			<td>ドロップダウン データ ソースで値フィールドの名前を設定する</td>
+			<td>項目の値を含むデータ ソース フィールドを構成</td>
 			<td>必須</td>
-			<td>ドロップダウン リストのデータ ソースからの値 (または ID) フィールド名が必要です。選択された項目の値をコンボが提供できます。</td>
+			<td>項目の値を含むデータ ソース フィールド (ID フィールド) の名前を設定します。igCombo 項目の値がこのフィールドにマップされます。</td>
 			<td><ul><li>[`valueKey`](%%jQueryApiUrl%%/ui.igcombo#options:valueKey)</li></ul></td>
+		</tr>
+		<tr>
+			<td>選択した項目のタイプを定義</td>
+			<td>オプション</td>
+			<td>配列の選択されている項目のタイプを primitive または object に設定します。拡張機能が選択した項目のタイプを自動的に定義するため、このオプションは必須ではありません。項目が選択されていないため、拡張機能が自動的にタイプを定義できない場合に `selectedItemType` オプションを使用できます。</td>
+			<td><ul><li>`selectedItemType`</li></ul><br>利用可能な値:<ul><li>"primitive"</li><li>"object"</li></ul> <br>**注:** value プロパティは igCombo で利用できません。Knockout 拡張機能でのみ利用可能です。</td>
 		</tr>
 	</tbody>
 </table>
