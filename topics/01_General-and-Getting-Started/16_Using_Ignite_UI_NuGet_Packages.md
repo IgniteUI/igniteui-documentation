@@ -1,4 +1,14 @@
-﻿# Ignite UI NuGet パッケージの使用
+﻿<!--
+|metadata|
+{
+    "fileName": "Using-Ignite-UI-NuGet-Packages",
+    "controlName": [],
+    "tags": ["NuGet"]
+}
+|metadata|
+-->
+
+# Ignite UI NuGet パッケージの使用
 
 NuGet はツールおよびサービスを提供するパッケージ マネージャーです。2010 年に .NET などの Microsoft 開発プラットフォームのオープンソース パッケージ マネージャーとして紹介しました。NuGet を使用して開発を向上して自動化できます。
 
