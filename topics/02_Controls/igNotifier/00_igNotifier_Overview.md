@@ -122,11 +122,11 @@ $('#notifier').igNotifier({
 
 ![](images/igNotifier_basic.png)
 
-他のコントロールと同様に、`igNotifier` には、通知の外観をカスタマイズできる独自のプロパティがあります。たとえば、`direction` プロパティを使用して、メッセージの位置を指定できます。メッセージは、エディターの入力の左右いずれにも配置できます。
+他のコントロールと同様に、`igNotifier` には、通知の外観をカスタマイズできる独自のプロパティがあります。たとえば、[`direction`](%%jQueryApiUrl%%/ui.ignotifier#options:direction) プロパティを使用して、メッセージの位置を指定できます。メッセージは、エディターの入力の左右いずれにも配置できます。
 
 もう 1 つの重要なオプションは、[`mode`](%%jQueryApiUrl%%/ui.igNotifier#options:mode) です。`ポップオーバー`または`インライン`表示モードのいずれかを選択できます。デフォルト値は auto です。これは info メッセージと warning メッセージに対してポップオーバー モードが設定され、success メッセージと error メッセージに対してインラインが設定されます。
 
-`message` プロパティを使用すると、特定の状態で表示されるデフォルトのテキストをカスタマイズし、`notify` メソッドの最後パラメータとして表示できます。
+[`messages`](%%jQueryApiUrl%%/ui.ignotifier#options:messages) プロパティを使用すると、特定の状態で表示されるデフォルトのテキストをカスタマイズし、[`notify`](%%jQueryApiUrl%%/ui.ignotifier#methods:notify) メソッドの最後パラメータとして表示できます。
 
 使用できるオプションや詳細な説明は、[igNotifier jQuery API](%%jQueryApiUrl%%/ui.igNotifier)の API マニュアルを参照してください。
 
@@ -135,4 +135,4 @@ $('#notifier').igNotifier({
 - [Notifier の基本的な使用方法サンプル](%%SamplesUrl%%/notifier/basic-usage)
 - [Notifier のインライン メッセージのサンプル](%%SamplesUrl%%/notifier/inline-messages)
 - [Notifier と igEditors のサンプル](%%SamplesUrl%%/editors/with-igEditors)
--	[igNotifier jQuery API](%%jQueryApiUrl%%/ui.igNotifier)
+- [igNotifier jQuery API](%%jQueryApiUrl%%/ui.igNotifier)
