@@ -156,6 +156,15 @@ JS リソース
 	</thead>
 	<tbody>
 						
+						<tr>
+							<td>
+`infragistics.util.js`
+			</td>
+
+							<td>
+Ignite UI ユーティリティ
+			</td>
+						</tr>					
 
 						<tr>
 							<td>
@@ -169,8 +178,12 @@ igDataSource™ コントロール
 
 						<tr>
 							<td>
-`infragistics.dv.core.js`
-			</td>
+						        `infragistics.ext_core.js`<br/>
+						        `infragistics.ext_collections.js`<br/>
+						        `infragistics.ext_ui.js`<br/>
+						        `infragistics.dv_core.js`<br/>
+						        `infragistics.dv_geometry.js`<br/>
+						    </td>
 
 							<td>
 データ可視化コア機能
@@ -199,17 +212,7 @@ igDataSource™ コントロール
 
 						<tr>
 							<td>
-`infragistics.util.js`
-			</td>
-
-							<td>
-Ignite UI ユーティリティ
-			</td>
-						</tr>
-
-						<tr>
-							<td>
-`infragistics.chart_piechart.js`
+`infragistics.piechart.js`
 			</td>
 
 							<td>

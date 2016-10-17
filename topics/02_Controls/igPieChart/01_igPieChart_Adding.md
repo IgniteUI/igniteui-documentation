@@ -244,8 +244,8 @@
 	        width: "450px",
 	        height: "450px",
 	        dataSource: data,
-	        valueMemberPath: "Budget",
-	        labelMemberPath: "Department",
+	        dataValue: "Budget",
+	        dataLabel: "Department",
 	        radiusFactor: 0.8,
 	        explodedSlices: '0 1 2',
 	        legend: { element: "legend", type: "item"}
@@ -257,7 +257,7 @@
 
 	`radiusFactor` オプションは、幅および高さで設定されたコンテナー要素のサイズに対する円のサイズを設定し、デフォルト値は 0.9 です。`explodedSlices` オプションは、スペースで区切られたスライスのインデックスの一覧で、主な円から切り離されたどのスライスを表示するか決定します。スライスは頭の中で思い描いた線を円の中央から右側に移動し、時計回りにカウントされます。
 
-	以前定義された配列 data がチャート コントロールの `dataSource` オプションにどのように割り当てられているか注意してください。入力データのどのメンバーがグラフに表示されるか構成するため、`valueMemberPath` オプションと `labelMemberPath` オプションは必須です。`valueMemberPath` オプションは、スライスという形で視覚化されています。たとえば、すべてのメンバーの合計に対するこのメンバーの相対値 (またはパーセンテージ) がスライスのサイズを決定します。`labelMemberPath` オプションは、各スライスを表すスライス ラベルという形、また凡例がある場合は凡例という形で視覚化されています。
+	以前定義された配列 data がチャート コントロールの `dataSource` オプションにどのように割り当てられているか注意してください。入力データのどのメンバーがグラフに表示されるか構成するため、`dataValue` オプションと `dataLabel` オプションは必須です。`dataValue` オプションは、スライスという形で視覚化されています。たとえば、すべてのメンバーの合計に対するこのメンバーの相対値 (またはパーセンテージ) がスライスのサイズを決定します。`dataLabel` オプションは、各スライスを表すスライス ラベルという形、また凡例がある場合は凡例という形で視覚化されています。
 
 	凡例について重要な設定は、legend オブジェクトの type オプションで指定された凡例の型です。item 型は円チャートを使用するときは必ず指定する必要があります。示したデータ ソースの各データ項目について凡例項目が作成されるためです。
 
@@ -272,8 +272,8 @@
 	        .ID("chart")
 	        .Height("450px")
 	        .Width("450px")
-	        .ValueMemberPath(item => item.Budget)
-	        .LabelMemberPath(item => item.Department)
+	        .DataValue(item => item.Budget)
+	        .DataLabel(item => item.Department)
 	        .RadiusFactor(0.8)
 	        .ExplodedSlices("0 1 2")
 	        .Legend(legend => legend.ID("legend").LegendType(LegendType.Item))
