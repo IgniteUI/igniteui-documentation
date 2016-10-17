@@ -274,21 +274,26 @@ Ignite UI ユーティリティ
 
                         <tr>
                             <td>
-`js/modules/infragistics.dv.simple.core.js`
-			</td>
-
-                            <td>
-すべてのデータ ビジュアライゼーション コンポーネント用の共有ライブラリ
-			</td>
-                        </tr>
-
-                        <tr>
-                            <td>
 `js/modules/infragistics.templating.js`
 			</td>
 
                             <td>
 `igTemplating` engine
+			</td>
+                        </tr>
+						
+						<tr>
+                            <td>
+`js/modules/infragistics.ext_core.js`<br>
+`js/modules/infragistics.ext_collections.js`<br>
+`js/modules/infragistics.ext_ui.js`<br>
+`js/modules/infragistics.dv_core.js`<br>
+`js/modules/infragistics.dv_geometry.js`<br>
+`js/modules/infragistics.dv.simple.core.js`
+			</td>
+
+                            <td>
+すべてのデータ ビジュアライゼーション コンポーネント用の共有ライブラリ
 			</td>
                         </tr>
 
@@ -302,6 +307,16 @@ Ignite UI ユーティリティ
 			</td>
                         </tr>
 
+						<tr>
+                            <td>
+`js/modules/infragistics.chart_sparkline.js`
+			</td>
+
+                            <td>
+`igSparkline` ウィジェットの内部コア ロジック
+			</td>
+                        </tr>
+						
                         <tr>
                             <td>
 `js/modules/infragistics.ui.sparkline.js`
@@ -309,16 +324,6 @@ Ignite UI ユーティリティ
 
                             <td>
 `igSparkline` ウィジェット
-			</td>
-                        </tr>
-
-                        <tr>
-                            <td>
-`js/modules/infragistics.chart_sparkline.js`
-			</td>
-
-                            <td>
-`igSparkline` ウィジェットの内部コア ロジック
 			</td>
                         </tr>
                     </tbody>
