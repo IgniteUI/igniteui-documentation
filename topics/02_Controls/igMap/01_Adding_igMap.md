@@ -199,7 +199,7 @@
 
 	width および height オプションは、ページ上のマップのサイズを設定します。マップ ウィンドウの位置と縦横比が緊密に連動しているため、ワールド マップの特定の領域を表示する場合には、(アプリケーションに適した) 縦横比を設定することが重要です。
 
-	`backgroundContent` オプションは、使用するマップ プロバイダーを設定します。この例では OpenStreetMap® プロバイダーを使用しています。これがデフォルトのプロバイダーです。backgroundContent オプションを省略する場合に使用します。Bing® Maps と CloudMade® マップの使用方法の詳細は、[マップ プロバイダーの構成](igMap-Configuring-Map-Provider.html)トピックを参照してください。
+	`backgroundContent` オプションは、使用するマップ プロバイダーを設定します。この例では OpenStreetMap® プロバイダーを使用しています。これがデフォルトのプロバイダーです。backgroundContent オプションを省略する場合に使用します。Bing® Maps と OpenStreetMap マップの使用方法の詳細は、[マップ プロバイダーの構成](igMap-Configuring-Map-Provider.html)トピックを参照してください。
 
 	geographicSymbol シリーズの定義は、 視覚エフェクトデータ シリーズ オプションを構成します。シリーズの name と、視覚エフェクト データが含まれた dataSource を指定する必要があります。さらに、`latitudeMemberPath` および `longitudeMemberPath` オプションを使用して、着信データのどの属性が地理座標であるかを指定する必要があります。最後に、`markerType` によって、地理ポイントを表示する場合に使用するマーカーが自動的に選択されるようにコントロールを構成します。他のシリーズ タイプの構成の詳細は、[各種のマップの作成](igMap-Creating-Different-Kinds-Maps.html)ランディング ページとリンク先のトピックを参照してください。
 
@@ -388,7 +388,7 @@
 
 	Width および Height  呼び出しによって、ページ上のマップのサイズが設定されます。マップ ウィンドウの位置と縦横比が緊密に連動しているため、ワールド マップの特定の領域を表示する場合には、(アプリケーションに適した) 縦横比を設定することが重要です。
 
-	BackgroundContent 呼び出しは、アプリケーションで使用するマップ プロバイダーを指定します。この例では OpenStreetMap プロバイダーを使用します。これが、`BackgroundContent()` 呼び出しを省略した場合に使用されるデフォルトのプロバイダーです。Bing Maps と CloudMade Maps の使用方法の詳細は、[マップ プロバイダーの構成](igMap-Configuring-Map-Provider.html)トピックを参照してください。
+	BackgroundContent 呼び出しは、アプリケーションで使用するマップ プロバイダーを指定します。この例では OpenStreetMap プロバイダーを使用します。これが、`BackgroundContent()` 呼び出しを省略した場合に使用されるデフォルトのプロバイダーです。Bing Maps と OpenStreetMap の使用方法の詳細は、[マップ プロバイダーの構成](igMap-Configuring-Map-Provider.html)トピックを参照してください。
 
 	Series 呼び出しは、 `GeographicSymbol` シリーズの定義を構成します。呼び出しでは、シリーズで使用する名前 「worldCities」 を指定します。`LatitudeMemberPath` および `LongitudeMemberPath` オプションを使用して、着信データのどの属性が地理座標であるかを指定する必要があります。最後に、`MarkerType` 呼び出しは、表示される地理ポイントに対して使用するマーカーを自動的に選択するコントロールを構成します。他のシリーズ タイプの構成の詳細は、[各種のマップの作成](igMap-Creating-Different-Kinds-Maps.html)ランディング ページとリンク先のトピックを参照してください。
 

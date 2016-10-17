@@ -69,8 +69,6 @@
 
 -	[Bing Maps](%%SamplesUrl%%/map/bing-maps): このサンプルでは、Bing® Maps を使用してマップ コントロールで地理シリーズをレンダリングする方法を紹介します。
 
--	[CloudMade Maps](%%SamplesUrl%%/map/cloudmade-maps): このサンプルでは、CloudMadeMap を使用してマップ コントロールで地理シリーズをレンダリングする方法を紹介します。
-
 
 
 

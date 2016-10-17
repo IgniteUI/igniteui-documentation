@@ -37,11 +37,9 @@
 -   [マップ画像の参照](#map-reference)
     -   [マップ 画像の概要](#map-imagery-summary)
     -   [Bing Maps の画像セット](#bing-maps-imagery)
-    -   [CloudMade の画像セット](#cloud-made-imagery)
 -   [コード例](#code-examples)
     -   [OpenStreetMaps 背景コンテンツの構成](#config-open-street-maps)
     -   [画像セットを使用した Bing Maps 背景コンテンツの構成](#config-bing-maps)
-    -   [画像セットを使用した CloudMade Maps 背景コンテンツの構成](#config-cloud-made-maps)
 -   [関連コンテンツ](#related-content)
     -   [トピック](#topics)
     -   [サンプル](#samples)
@@ -57,17 +55,16 @@
 
 -   [OpenStreetMap](http://www.openstreetmap.org/)
 -   [Bing® Maps](http://www.bing.com/maps/)
--   [CloudMade](http://cloudmade.com/solutions/portals/)
 
 マップ プロバイダーはマップ画像を提供し、マップ シリーズはこの背景コンテンツを介してオーバーレイとして描画されます。このコントロールは、任意の背景コンテンツの任意の地理シリーズの描画をサポートしています。マップ プロバイダーを選択できるだけでなく、プロバイダーが提供するさまざまな画像セットから選ぶことができます。画像セットは、衛星写真、名前ラベル付きの衛星写真または道路網などのテーマ化されたマップのセットです。
 
->**注:** Bing Maps および CloudMade Maps では、コンテンツにアクセスするには、カスタム アクセス キーを提供する必要があります。
+>**注:** Bing Maps では、コンテンツにアクセスするには、カスタム アクセス キーを提供する必要があります。
 
 以下の表は、利用可能な 3 つのマップ プロバイダーを使用して、同じマップ領域と地理シンボル シリーズを示しています。
 
-OpenStreetMap|Bing Maps|CloudMade Maps
+OpenStreetMap|Bing Maps
 ---|---
-![](images/Configuring_Map_Provider_1.png)|![](images/Configuring_Map_Provider_2.png)|![](images/Configuring_Map_Provider_3.png)
+![](images/Configuring_Map_Provider_1.png)|![](images/Configuring_Map_Provider_2.png)
 
 
 ##<a id="background-config"></a>背景コンテンツの構成
@@ -116,8 +113,6 @@ OpenStreetMap|Bing Maps|CloudMade Maps
 					<li><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.BackgroundContentBuilder~OpenStreetMaps.html">BackgroundContentBuilder.OpenStreetMaps()</a></li>
 
 					<li><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.BackgroundContentBuilder~BingMaps.html">BackgroundContentBuilder.BingMaps()</a></li>
-
-					<li><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.BackgroundContentBuilder~CloudMadeMaps.html">BackgroundContentBuilder.CloudMadeMaps()</a></li>
 				</ul>
 			</td>
 		</tr>
@@ -148,30 +143,6 @@ OpenStreetMap|Bing Maps|CloudMade Maps
 
 		<tr>
 			<td>
-				CloudMade の画像セット
-			</td>
-
-			<td width="376">
-				背景コンテンツ プロバイダーを CloudMade に設定した場合、画像セットは構成可能です。
-			</td>
-
-			<td>
-				JavaScript の場合
-
-				<ul>
-					<li><a href="%%jQueryApiUrl%%/ui.igMap#options:backgroundContent.parameter" target="_blank">backgroundContent.parameter</a></li>
-				</ul>
-
-				ASP.NET MVC の場合
-
-				<ul>
-					<li><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.CloudMadeMaps~Parameter.html">CloudMadeMaps.Parameter()</a></li>
-				</ul>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
 				マップ プロバイダー用の構成可能なキー
 			</td>
 
@@ -190,8 +161,6 @@ OpenStreetMap|Bing Maps|CloudMade Maps
 
 				<ul>
 					<li><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.BackgroundContentBuilder~BingMaps.html">BackgroundContentBuilder.BingMaps()</a></li>
-
-					<li><a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.BackgroundContentBuilder~CloudMadeMaps.html">BackgroundContentBuilder.CloudMadeMaps()</a></li>
 				</ul>
 			</td>
 		</tr>
@@ -230,20 +199,6 @@ collinsBart
 ![](images/Configuring_Map_Provider_7.png)
 
 
-
-### <a id="cloud-made-imagery"></a>CloudMade の画像セット
-
-CloudMade Maps には多数のマップ スタイルが含まれ、カスタム スタイルを開発することができます。スタイル コードを [backgroundContent.parameter](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent.parameter) に割り当てることによって、選択したスタイルを構成します。**CloudMade Maps** の使用要件は、 [backgroundContent.parameter](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent.parameter) の値を指定することです。
-
-以下の表は、多くの標準的な **CloudMade Maps** スタイルの一部を示しています。オンラインではより多くのテーマが利用できます。
-
-[parameter](%%jQueryApiUrl%%/ui.igMap#options:parameter)|名前|スクリーンショット
----|---|---
-1|The Original|![](images/Configuring_Map_Provider_8.png)
-2|Fine Line|![](images/Configuring_Map_Provider_9.png)
-7|Tourist|![](images/Configuring_Map_Provider_10.png)
-
-
 ##<a id="code-examples"></a>コード例
 
 ### コード例の概要
@@ -254,7 +209,6 @@ CloudMade Maps には多数のマップ スタイルが含まれ、カスタム 
 ---|---
 [](#config-open-street-maps)[OpenStreetMaps 背景コンテンツの構成](#config-open-street-maps)|この例では、OpenStreetMaps 背景を使用してマップ コントロールを構成する方法を示しています。
 [画像セットを使用した Bing Maps 背景コンテンツの構成](#config-bing-maps)|この例では、Bing Maps 背景および画像を使用してマップ コントロールを構成する方法を示しています。
-[画像セットを使用した CloudMade Maps 背景コンテンツの構成](#config-cloud-made-maps)|この例では、CloudMade Maps 背景および画像を使用してマップ コントロールを構成する方法を示しています。
 
 
 ##<a id="config-open-street-maps"></a>コード例: OpenStreetMaps 背景コンテンツの構成
@@ -339,49 +293,6 @@ $("#map").igMap({
 
 
 
-##<a id="config-cloud-made-maps"></a>コード例: 画像セットを使用した CloudMade Maps 背景コンテンツの構成
-
-
-### 説明
-
-この例では、CloudMade Maps 背景を使用してマップ コントロールを構成する方法を示しています。これはまた、マップ スタイルを構成して Tourist を表示します。
-
-### コード
-
-以下の JavaScript のコードでは、マップ コントロールを構成して CloudMade Maps を使用しています。`backgroundContent` オプションを、`type` および `key` に対して「**cloudMade**」が指定されたオブジェクトに割り当て、CloudMade Maps サービスへのアクセスを可能にします。`パラメーター` オプションを値 7 で構成して、「Tourist」マップ スタイルを選択します。
-
-**JavaScript の場合:**
-
-```js
-$("#map").igMap({
-    ...
-    backgroundContent: {
-        type: "cloudMade",
-        key: "123456789abcdef",
-        parameter: 7
-    },
-    ...
-});
-```
-
-以下の ASP.NET MVC のコードでは、マップ コントロールを構成して **CloudMade** Maps を使用しています。`BackgroundContent()` 関数が、`parameter` として渡された Bing Maps サービスのアクセス キーを使用して `BackgroundContentBuilder.CloudMadeMaps()` 静的メソッドを実行するラムダ式に渡されます。このアクションは、上記の例に似た JavaScript コードを生成するCloudMadeMaps クラス インスタンスを作成します。
-
-**ASPX の場合:**
-
-```csharp
-<%= Html.Infragistics().Map(Model)
-        .ID("map")
-        ...
-        .BackgroundContent(bgr => bgr.CloudMadeMaps("123456789abcdef")
-                .Parameter(2))
-        ...
-        .DataBind()
-        .Render()
-%>
-```
-
-
-
 ##<a id="related-content"></a>関連コンテンツ
 
 ### <a id="topics"></a>トピック
@@ -400,8 +311,6 @@ $("#map").igMap({
 
 -	[Bing Maps](%%SamplesUrl%%/map/bing-maps): このサンプルでは、Bing Maps を使用してマップ コントロールで地理シリーズを描画する方法を紹介します。
 
--	[CloudMade Maps](%%SamplesUrl%%/map/cloudmade-maps): このサンプルでは、CloudMade Maps を使用してマップ コントロールで地理シリーズを描画する方法を紹介します。
-
 
 ### <a id="resources"></a>リソース
 
@@ -410,8 +319,6 @@ $("#map").igMap({
 -	[OpenStreetMap](http://www.openstreetmap.org/): OpenStreetMap のホーム ページ。
 
 -	[Bing Maps](http://www.bing.com/maps/): Bing Maps のホーム ページ。
-
--	[CloudMade Maps](http://cloudmade.com/solutions/portals/): CloudMade のホーム ページ。
 
 
 
