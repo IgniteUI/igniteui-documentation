@@ -91,7 +91,7 @@
 目的:|使用するプロパティ:|設定の選択肢:
 ---|---|---
 水平方向を指定する|[orientation](%%jQueryApiUrl%%/ui.igLinearGauge#options:orientation)|"horizontal"
-垂直方向を指定する|orientation|"vertical"
+垂直方向を指定する|[orientation](%%jQueryApiUrl%%/ui.igLinearGauge#options:orientation)|"vertical"
 
 
 ### <a id="orientation-examples"></a>例

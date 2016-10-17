@@ -94,10 +94,10 @@
 各領域は `igLinearGauge` コントロールの一部の[視覚要素](#config-visual-elements)に関連して異なる目的があります。
 
 -  <a id="reserved-area"></a> 予約領域 (1) - この領域は以下のように展開します。
-    -   スケールに沿う － 予約領域はコントロールの端で開始され、コントロールの端で終了します。
+    -   スケールに沿う － the Reserved area begins at either edge of the control and ends at the opposing edge of the control.
     -   スケール全域 -
-        -   水平方向: 予約領域は、コントロールの下端から開始され、ラベルのフォントのサイズなどの書式設定に従い、番号ラベルと同じ高さまで上に広がります。
-        -   垂直方向: 予約領域は、コントロールの左端から開始され、スケール測定番号の大きさおよびラベルのフォントのサイズなどの書式設定に従い、番号ラベルと同じ幅まで右に広がります。
+        -   Horizontal Orientation: the Reserved area begins at the bottom edge of the control and extends upwards to the bottom margin of the gauge's scale.
+        -   Vertical Orientation: the Reserved area begins at the left edge of the control and extends to the right, up to the left margin of the gauge's scale.
 
 予約領域の主な目的は、スケールの番号ラベルに対して、水平方向にも垂直方向にも十分なスペースを与えることにあります。(方向が変化した場合、番号ラベルを表示するための各方向へのスペース要求に対応するために、予約領域はサイズを自動的に調整します。水平方向ではラベルの高さ、垂直方向では最大幅に合わせます。)これは、必ずしも番号ラベルを予約領域に配置する必要があることを意味しません。実際、ラベル行はスケール全域で、[グラフ領域](#graph-area)内のどこにでも配置できます。しかし、ラベル行を予約領域の外に配置しても、予約領域自体のスプレッドおよび位置にはまったく影響はありません。予約領域は変化せず、番号ラベルの高さと幅により (方向に従い) 決定されます。
 
@@ -107,8 +107,8 @@
 
 グラフ領域のスプレッド:
 
--   スケールに沿う － グラフ領域はコントロールの端で開始され、コントロールの端で終了します。スケールの開始位置および終了位置は両方とも、グラフ領域の始点側の端 (水平方向の左端または垂直方向の下端) に対して測定されます。
--   スケール全域 - グラフ領域は、[予約領域](#reserved-area)の端 (水平方向でグラフ領域の下端または垂直方向でグラフ領域の左端) から開始されます。予約領域の境界線で接しているグラフ領域の端は、スケールの一部の視覚要素の範囲関連プロパティに対する、スケール全域に視覚要素を配置するための参照点としての役割を果たします。
+-   Along the scale – the Graph area begins at either edge of the control and ends at the opposing edge of the control. Both the starting and ending positions of the scale are measured against the starting edge of the Graph area (the left edge at horizontal orientation or bottom edge at vertical orientation).
+-   Across the scale – the Graph area begins at the edge of the Reserved area (this is the bottom edge of the Graph area in the horizontal orientation or its left edge in the vertical orientation).  The edge of the Graph area that borders with the Reserved area serves as a reference point for the extent-related properties of some of the visual elements of the scale (for positioning these elements across the scale).
 
  
 
@@ -116,7 +116,7 @@
 
 `igLinearGauge` コントロールは、以下の視覚要素が特徴です(下の図を参照)。
 
--   針 (3) - コントロールにより表示される主要なメジャーで、バーとして視覚化されます。
+-   Needle (3) – This is the primary indicator displayed by the control and is visualized as a hovering bar element, which moves along the gauge's scale; its current position along the scale indicates the gauge's value.
 
 -   比較範囲 (4) - 範囲は、スケール上で指定した値の領域を強調表示する視覚的な要素です。その目的は、パフォーマンス バー メジャーの質的状態を視覚で伝えると同時に、その状態をレベルとして示すことにあります。
 -   目盛 (5) - 目盛は、リニア ゲージを読み取りやすくするために、目盛の間隔でスケールを分割して見せる役割を果たします。
