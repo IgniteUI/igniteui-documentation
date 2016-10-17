@@ -22,7 +22,9 @@
 -   [ドラッグ アンド ドロップ](igTree-Drag-and-Drop.html)
 -   [igTree のパフォーマンスを最適化します](igTree-Optimize-Performance.html)
 -   [igTree でのテーマの使用](igTree-Using-Themes.html)
+-   [詳細なガイド](igTree-Walkthroughs.html)
 -   [igTree jQuery および ASP.NET MVC ヘルパー API リンク](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html)
+-   [Knockout サポートの構成](igTree-Knockoutjs-Support.html)
 -   [igTree アクセシビリティの遵守](igTree-Accessibility-Compliance.html)
 -   [igTree の既知の制約事項](igTree-Known-Limitations.html)
 
