@@ -45,8 +45,7 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
 1.  最初に、プロジェクトまたは Web サイトに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
 2.  ご自分の HTML ページまたは ASP.NET MVC View で、必要な JavaScript ファイル、CSS ファイル、および ASP.NET MVC アセンブリを参照してください。
 
-    クライアント コード
-    ===========
+    ### クライアント コード
 
     **HTML の場合:**
 
@@ -58,8 +57,7 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
     <script type="text/javascript" src="/Scripts/Samples/infragistics.core.js"></script><script type="text/javascript" src="/Scripts/Samples/infragistics.lob.js"></script>
     ```
 
-    サーバー コード
-    ===========
+    ### サーバー コード
 
     **ASPX の場合:**
 
@@ -89,8 +87,7 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
 
 3.  jQuery の実装では、HTML 内のターゲット要素として div を定義します。ASP.NET MVC の実装では、この手順はオプションです。
 
-    クライアント コード
-    ===========
+    ### クライアント コード
 
     **HTML の場合:**
 
@@ -100,8 +97,7 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
 
 4.  上の手順が完了したら、ID、投票の高さ、値の表示などのオプションの設定を開始します。ASP.NET MVC View では、すべてのその他のオプションを設定した後で Render メソッドを呼び出す必要があります。
 
-    クライアント コード
-    ===========
+    ### クライアント コード
 
     **jQuery の場合:**
 
@@ -116,8 +112,7 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
     </script>
     ```
 
-    サーバー コード
-    ===========
+    ### サーバー コード
 
     **ASPX の場合:**
 
