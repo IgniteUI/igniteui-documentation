@@ -112,11 +112,11 @@ $("#grid1").igGrid({
 `format` および `dataType` オプションは様々な方法で構成できます。
 
 -   `dataType` は文字列、数値、日付、ブール値、またはオブジェクトを設定可能です。
--   dataType=”date” (Date オブジェクト) に対応する `format` 列プロパティは、“date”、“dateLong”、“dateLong”、“dateTime”、“timeLong”、または “MM-dd-yyyy h:mm:ss tt” などの明示的なパターンが可能です。
--   dataType=”number” (数値オブジェクト) または dataType=”string” に対応する `format` 列プロパティは、“number”、“double”、“int”、“currency”、または “percent” が可能です。
+-   dataType=”date” (Date オブジェクト) に対応する `format` 列プロパティは、“date”、“dateLong”、“dateLong”、“dateTime”、“timeLong”、または “MM-dd-yyyy h:mm:ss tt” などの明示的なパターンが可能です。See [Formatting Dates](Formatting-Dates-Numbers-and-Strings.html#formatting-dates) for details on the valid custom date format specifiers.
+-   dataType=”number” (数値オブジェクト) または dataType=”string” に対応する `format` 列プロパティは、“number”、“double”、“int”、“currency”、または “percent” が可能です。See [Formatting Numbers](Formatting-Dates-Numbers-and-Strings.html#formatting-numbers) for details on the valid custom number format specifiers.
 -   dataType="bool" (ブール オブジェクト) に相対する `format` 列プロパティを "checkbox" に設定できます。
--   また、`dataType`=”number” の場合、対応する書式設定は “0.0###”、“#.##”、“0.000” などが可能です。ここで、小数点の後にくるゼロの数は、小数点以下の最小桁数を定義し、小数点の後の合計文字数は、小数点以下の最大桁数を定義します。
--   `dataType` が “date” または “number” 以外の場合、対応する書式設定に“{0}” フラグを含めることができます。この場合、このフラグはセルの値に置換されます。たとえば、format=”Name: {0}” で、セルの値が “Bob” の場合、セルには “Name: Bob” が描画されます。
+-   また、`dataType`=”number” の場合、対応する書式設定は “0.0###”、“#.##”、“0.000” などが可能です。ここで、小数点の後にくるゼロの数は、小数点以下の最小桁数を定義し、小数点の後の合計文字数は、小数点以下の最大桁数を定義します。See [Formatting Numbers](Formatting-Dates-Numbers-and-Strings.html#formatting-numbers) for details on the valid custom number format specifiers.
+-   `dataType` が “date” または “number” 以外の場合、対応する書式設定に“{0}” フラグを含めることができます。この場合、このフラグはセルの値に置換されます。たとえば、format=”Name: {0}” で、セルの値が “Bob” の場合、セルには “Name: Bob” が描画されます (see [Formatting Strings](Formatting-Dates-Numbers-and-Strings.html#formatting-strings) for details)。
 
 ## <a id="column-formatting"></a> 列の書式設定
 
@@ -139,7 +139,7 @@ $("#grid1").igGrid({
 
 > **注:** 適用される列描画デコレータがなく、Raw 値が null 値、未定義、または空の文字列 ("") の場合、デフォルトで改行しないスペース (`&nbsp;`) がその代わりにセルに描画されます。
  
--  [`formatter`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formatter) - グローバル ウィンドウ オブジェクトにバインドされる関数または関数の文字列名です。データ ソース値の描画を制御します。formatter 関数の定義で値の書式設定および地域表記を制御できます。`$.ig.formatter(rawValue, dataType, formatPattern)` のユーティリティ関数は、地域設定またはカスタム書式設定パターンを使用して値を書式設定するために使用できます。
+-  [`formatter`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formatter) - グローバル ウィンドウ オブジェクトにバインドされる関数または関数の文字列名です。データ ソース値の描画を制御します。formatter 関数の定義で値の書式設定および地域表記を制御できます。[`$.ig.formatter(rawValue, dataType, formatPattern)`](Formatting-Dates-Numbers-and-Strings.html) のユーティリティ関数は、地域設定またはカスタム書式設定パターンを使用して値を書式設定するために使用できます。
 
 **JavaScript の場合:**
 ```js
@@ -164,7 +164,7 @@ Raw Value -> formatter -> (template)* -> Cell Value
  * - オプションの設定
  ```
 
-- [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) - テンプレート化された文字列です。使用されるテンプレート エンジンは `templatingEngine` オプションで定義されます。  
+- [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) - テンプレート化された文字列です。使用されるテンプレート エンジンは `templatingEngine` オプションで定義されます。   See [Templating Engine Overview](igTemplating-Overview.html) topic for details on template syntax. 
  
  以下は、[`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) が使用されている場合の列描画のフローです。
  
@@ -174,13 +174,36 @@ Raw Value -> formatter -> (template)* -> Cell Value
  ```
 
 - [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) は、セルの TD 要素に適用される CSS クラスのスペース分割されたリストです。
- [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) および [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) オプションの両方を適用できません。[`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) オプションが定義される場合、優先があり、[`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) は使用されません。
+  When the [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) option defines the rendering of the TD element the [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) option is ignored (see the example below). 
  以下は、[`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) が使用されている場合の列描画のフローです。
  
  ```
- Raw Value -> (autoFormat|format|formatter)* -> columnCssClass|template* -> Cell Value 
+ Raw Value -> (autoFormat|format|formatter)* -> columnCssClass -> template* -> Cell Value 
  * - オプションの設定
  ```
+ 
+例:
+```js
+$("#grid1").igGrid({
+    autoGenerateColumns: false,
+    columns: [ {
+            headerText: "Product Number", 
+            key: "ProductNumber",
+            dataType: "number",
+            // NOTE: columnCssClass will be applied
+            columnCssClass: "align-right",
+            template: "<a href='/product/${ProductNumber}'>${ProductNumber}</a>"
+        }, {
+            headerText: "Modified Date",  
+            key: "ModifiedDate",  
+            dataType: "date",
+            // NOTE: columnCssClass will NOT be applied
+            columnCssClass: "align-center",
+            template: "<td style='font-weight: bold'>${ModifiedDate}</td>"
+        }
+    ]
+});
+```
 
 - [`headerCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerCssClass) は、[`headerText`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerText) オプションによって構成される列ヘッダー テキストの TH 要素に適用される CSS クラスのスペース分割されたリストです。
  以下は、[`headerCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.headerCssClass) が使用されている場合の列描画のフローです。
@@ -482,7 +505,8 @@ $("#grid1").igGrid({
 
 ### トピック
 -   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
-
+-   [Formatting Dates, Numbers and Strings](Formatting-Dates-Numbers-and-Strings.html)
+-   [Templating Engine Overview](igTemplating-Overview.html)
  
 
  

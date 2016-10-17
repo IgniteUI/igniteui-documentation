@@ -224,7 +224,7 @@ $("#grid1").igGrid({
 プロパティ名 (括弧内はデフォルト値)|説明
 ---|---
 [columnKey](%%jQueryApiUrl%%/ui.igGridUpdating#options:columnSettings.columnKey) (null)|この列設定を適用する列のキー
-[editorProvider](%%jQueryApiUrl%%/ui.igGridUpdating#options:columnSettings.editorProvider) |$.ig.EditorProviderDefault を展開し、そのメンバー メソッドを実装するカスタム エディター プロバイダー。
+[editorProvider](%%jQueryApiUrl%%/ui.igGridUpdating#options:columnSettings.editorProvider) |$.ig.EditorProvider または　$.ig.EditorProviderBase を拡張し、そのメンバー メソッドを実装するカスタム エディター プロバイダー。
 [editorType](%%jQueryApiUrl%%/ui.igGridUpdating#options:columnSettings.editorType) (null)|igEditor のカスタム タイプ (「text」、「numeric」、「datepicker」、「combo」、「rating」など)。
 [editorOptions](%%jQueryApiUrl%%/ui.igGridUpdating#options:columnSettings.editorOptions) (null)|特定の igEditor がサポートするカスタム オプション。コンボおよびレーティングの場合、これは igCombo または igRating で利用できるオプションを提供します。
 [required](%%jQueryApiUrl%%/ui.igGridUpdating#options:columnSettings.required) (false)|必須の入力の検証を有効にします。
@@ -662,8 +662,14 @@ editMode が rowEditTemplate でセルが編集モードの場合、以下のキ
 以下は、その他の役立つトピックです。
 
 -   [igGridUpdating API マニュアル](%%jQueryApiUrl%%/ui.igGridUpdating)
+-   [行編集ダイアログの概要 (igGrid)](igGrid-Updating-RowEditDialog.html)
+-   [カスタム エディター プロバイダーの実装](Implementing-Custom-Editor-Provider.html)
 
- 
+## <a id="samples"></a> 関連サンプル
+
+以下は、その他の役立つサンプルです。
+-   [基本編集](%%SamplesUrl%%/grid/basic-editing)
+-   [リアルタイム データにバインド](%%SamplesUrl%%/grid/binding-real-time-data)
 
  
 

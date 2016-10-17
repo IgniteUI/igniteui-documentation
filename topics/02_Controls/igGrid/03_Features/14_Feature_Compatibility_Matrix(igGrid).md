@@ -187,7 +187,7 @@
 ![](images/positive.png "Continuous Virtualization/Filtering")
 			</td>
             <td class="continuous-virtualization groupby">
-![](images/plannedFix.png "Continuous Virtualization/GroupBy")
+![](images/positive.png "Continuous Virtualization/GroupBy")
 			</td>
             <td class="continuous-virtualization hiding">
 ![](images/positive.png "Continuous Virtualization/Hiding")
@@ -527,7 +527,7 @@
 ![](images/negative.png "GroupBy/Fixed Virtualization")
 			</td>
             <td class="groupby continuous-virtualization">
-![](images/plannedFix.png "GroupBy/Continuous Virtualization")
+![](images/positive.png "GroupBy/Continuous Virtualization")
 			</td>
             <td class="groupby column-virtualization">
 ![](images/negative.png "GroupBy/Column Virtualization")
@@ -1581,7 +1581,7 @@
 ![](images/positive.png "Updating/Updating")
 			</td>
             <td class="updating multi-row-layout">
-![](images/plannedFix.png "Updating/Multi-Row Layout")
+![](images/positive.png "Updating/Multi-Row Layout")
 			</td>
         </tr>
 		        <tr>
@@ -1649,7 +1649,7 @@
 ![](images/negative.png "Multi-Row Layout/Tooltips")
 			</td>
             <td class="multi-row-layout updating">
-![](images/plannedFix.png "Multi-Row Layout/Updating")
+![](images/positive.png "Multi-Row Layout/Updating")
 			</td>
             <td class="multi-row-layout multi-row-layout">
 ![](images/positive.png "Multi-Row Layout/Multi-Row Layout")
