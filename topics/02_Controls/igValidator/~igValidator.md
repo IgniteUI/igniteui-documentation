@@ -16,4 +16,5 @@
 ## トピック
 
 -   [igValidator の概要](igValidator-Overview.html)
+-   [検証ルール](igValidator-Validation-Rules.html)
 -   [新しい igValidator コントロールへの移行](igValidator-Migration-Topic.html)
