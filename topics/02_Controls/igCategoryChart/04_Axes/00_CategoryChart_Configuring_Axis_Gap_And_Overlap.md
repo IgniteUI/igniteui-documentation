@@ -8,44 +8,44 @@
 |metadata|
 -->
 
-# Configuring Axis Gap and Overlap on igCategoryChart
+# igCategoryChart の軸間隔と重複の構成
 
-## Topic Overview
+## トピックの概要
 
-### Purpose
+### 目的
 
-This topic provides information on configuring axis gap and axis overlap in the `igCategoryChart`™ control.
+このトピックでは、`igCategoryChart`™ コントロール軸間隔および軸の重なりを構成する方法を説明します。
 
-### Required background
+### 前提条件
 
-The following topic is a prerequisite to understanding this topic:
-- [Walkthrough](igcategorychart-adding.html)
+このトピックを理解するためには、以下のトピックを理解しておく必要があります。
+- [チュートリアル](igcategorychart-adding.html)
 
-This topic demonstrates how to add the `igCategoryChart`™ control to the page and bind it to data.
+このトピックでは、`igCategoryChart`™ コントロールをページに追加し、データにバインドする方法を紹介します。
 
-## Axis Gap
+## 軸間隔
 
-### Overview
+### 概要
 
-The Axis Gap feature of the `igCategoryChart`™ control allows setting the gap between series of the chart.
+`igCategoryChart`™ コントロールの軸間隔機能は、チャート シリーズ間の間隔を設定できます。
 
-### Property
+### プロパティ
 
-Property name: `xAxisGap`.
+プロパティ名: `xAxisGap`。
 
-Can be set either during the widget initialization, or as an option after the widget was initialized:
+ウィジェット初期化時またはウィジェット初期後にオプションとして設定できます。
 ```javascript
 $("#chart").igCategoryChart("option", "xAxisGap", 0.5);
 ```
 
-The property accepts a numeric float value between 0 and 1. The value represents a relative width of the gap out of the available number of pixels between series. 0 - no gap is rendered between series; 1 - maximum available gap is rendered between series.
+プロパティ値は、0 と 1 の間の float 値である必要があります。値は、シリーズ間で利用可能なピクセル数から間隔の相対幅を表します。0 - シリーズ間に間隔は描画されません。 1 - シリーズ間に利用可能な最大の間隔が描画されます。
 
-For the example, `xAxisGap` of 0.5 is a half of the available space is used to draw the gap:<br>
+たとえば、`xAxisGap` 0.5 は間隔を描画するための利用可能なスペースの半分です。<br>
 ![](images/categorychart-axis-gap-00.png) 
 
-### Example
+### 例
 
-To initialize `igCategoryChart` with `xAxisGap` of `0.5` the following code can be used:
+以下は、`igCategoryChart` を `xAxisGap` `0.5`で初期化するコードです。
 
 ```javascript
 $("#chart").igCategoryChart({
@@ -58,36 +58,36 @@ $("#chart").igCategoryChart({
 });
 ```
 
-## Axis Overlap
+## 軸の重複
 
-### Overview
+### 概要
 
-The Axis Overlap feature of the `igCategoryChart`™ control allows setting overlap of rendered categories.
+`igCategoryChart`™ コントロールの軸の重複機能は、描画されたカテゴリの重なりを設定できます。
 
-### Property
+### プロパティ
 
-Property name: `xAxisOverlap`.
+プロパティ名: `xAxisOverlap`。
 
-Can be set either during the widget initialization, or as an option after the widget was initialized:
+ウィジェット初期化時またはウィジェット初期後にオプションとして設定できます。
 ```javascript
 $("#chart").igCategoryChart("option", "xAxisOverlap", 0.5);
 ```
 
-The property accepts a numeric float value between -1 and 1. The value represents a relative overlap out of the available number of pixels dedicated to each series.
+プロパティ値は、-1 と 1 の間の float 値である必要があります。値は、各シリーズに利用可能なピクセル数から相対する重複を示します。
 
-Negative value (up to -1): the categories are pushed away from each other producing a gap between themselves.
+負の値 (-1 以上): カテゴリは互いに生成する間隔によって引き離されます。
 
-Positive value (up to 1): the categories are overlapping each other. Value of 1 directs the chart to render categories on top of each other.
+正の数 (1 以下): カテゴリが互いに重なります。値 1 は、互いのチャート上にカテゴリを描画します。 
 
-For the example, `xAxisOverlap` of 0.5 is a half of the available space is used to draw categories overlapping each other:<br>
+たとえば、`xAxisOverlap` 0.5 は間隔を描画するための利用可能なスペースの半分です。<br>
 ![](images/categorychart-axis-overlap-00.png) 
 
-`xAxisOverlap` of -1 pushes categories from each other as far as possible:<br>
+`xAxisOverlap` -1 はカテゴリが互いにできるだけ離されます。<br>
 ![](images/categorychart-axis-overlap-01.png)
 
-### Example
+### 例
 
-To initialize `igCategoryChart` with `xAxisOverlap` of `0.5` the following code can be used:
+以下は、`igCategoryChart` を `xAxisGap` `0.5`で初期化するコードです。
 
 ```javascript
 $("#chart").igCategoryChart({
@@ -100,8 +100,8 @@ $("#chart").igCategoryChart({
 });
 ```
 
-## Related Topics:
+## 関連トピック:
 
-- [Walkthrough](igcategorychart-adding.html)
+- [チュートリアル](igcategorychart-adding.html)
 
-- [Binding to Data](categorychart-binding-to-data.html)
+- [データ バインド](categorychart-binding-to-data.html)

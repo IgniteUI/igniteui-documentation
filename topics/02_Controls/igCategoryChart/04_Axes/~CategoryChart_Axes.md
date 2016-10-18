@@ -8,15 +8,15 @@
 |metadata|
 -->
 
-# Axes
+# 軸
 
 
-In the igCategoryChart control, an Axis provides base properties for specifying appearance of axis main lines, gridlines, tickmarks, titles, stripes, and axis labels. 
+igCategoryChart コントロールでは、軸は軸のラベル、主線、目盛り、グリッド線、ストリップやタイトルの外観を特定する基本プロパティを提供します。 
 
 
-- [Configuring Axis Gap and Overlap](configuring-axis-gap-and-overlap.html)
-- [Configuring Axis Labels](configuring-axis-labels.html)
-- [Configuring Axis Intervals](configuring-axis-intervals.html)
-- [Configuring Axis Range](configuring-axis-range.html)
-- [Configuring Axis Tickmarks](configuring-axis-tickmarks.html)
-- [Configuring Axis Titles](configuring-axis-titles.html)
+- [軸間隔と重複の構成](configuring-axis-gap-and-overlap.html)
+- [軸ラベルの構成](configuring-axis-labels.html)
+- [軸間隔の構成](configuring-axis-intervals.html)
+- [軸範囲の構成](configuring-axis-range.html)
+- [軸目盛りの構成](configuring-axis-tickmarks.html)
+- [軸タイトルの構成](configuring-axis-titles.html)

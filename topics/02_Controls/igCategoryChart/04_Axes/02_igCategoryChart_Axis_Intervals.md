@@ -8,38 +8,38 @@
 |metadata|
 -->
 
-# Axis Interval
+# 軸間隔
 
-### Purpose
-This topic demonstrates explains how to configure the major and minor intervals for chart axes of the igCategoryChart control. 
+### 目的
+このトピックでは、コード例を使用して igCategoryChart コントロールのチャート軸に主目盛と副目盛を構成する方法を示します。 
 
-In the igCategoryChart control, axis major interval specifies how frequent major gridlines and axis labels are rendered on an axis. Similarly, axis minor interval specifies how frequent minor gridlines are rendered on an axis.
+igCategoryChart コントロールで、軸の主間隔は主グリッド線および軸ラベルがどれくらいの頻度で軸に描画されるかを指定します。同様に、軸副間隔は副グリッド線が軸に描画される頻度を指定します。
 
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [Configuring XAxis and YAxis Major and Minor Intervals](#ConfiguringXAxis)
-- [Code Snippet](#codesnippet)
-- [Related Topics](#relatedcontent)
+- [X軸とY軸に主間隔と副間隔を構成](#ConfiguringXAxis)
+- [コード スニペット](#codesnippet)
+- [関連トピック](#relatedcontent)
 
-### <a id="ConfiguringXAxis"/>Configuring XAxis and YAxis Major and Minor Intervals
+### <a id="ConfiguringXAxis"/>X軸とY軸に主間隔と副間隔を構成
 
-In order to configure|Use this property|And set it to
+構成の目的:|使用するプロパティ|設定値
 ---|---|---
-The frequency of major interval gridlines | `xAxisInterval`,`yAxisInterval` | This value provides adequate spacing for axis labels and major gridlines, if used. Note that the interval for axis labels will also be set by this value, displaying one label at the point on the axis associated with the interval.<br/>On X axes, this value is represented as an index between the first and last category item. Generally, this value should equal to 10-20% of total numbers of category items so that all axis labels fit on axis so that they are not clipped by other axis labels.<br/>On date time axes, this value is represented as time span between axis minimum value and axis maximum value. <br/> On Y axes, this value is represented as double between axis minimum value and axis maximum value. By default, numeric axes will automatically calculate and find a nice and round interval based on axis minimum values and maximum value.
-The color of the major interval gridlines | `xAxisMajorStroke`,`yAxisMajorStroke` | A color of axis major gridlines.
-The thickness of the major interval gridlines | `xAxisMajorStrokeThickness`,`yAxisMajorStrokeThickness` | A thickness in pixels of the axis major gridlines set as a double value
-The frequency of minor interval gridlines | `xAxisMinorInterval`,`yAxisMinorInterval` | This value provides adequate spacing for minor gridlines, which are always rendered between major gridlines. As result, a value of XAxisMinorInterval property should always be much smaller (usually 2-5 time smaller) than the value of XAxisInterval property of an axis.<br/>On category axes, this value is represented as fraction of major Interval property. Generally, this value should equal to between 0.25 and 0.5 <br/> On numeric axes, this value is represented as double between axis minimum value and axis maximum value. By default, numeric axes will not automatically calculate minor interval based on axis minimum values and maximum value. <br/> On date time axes, this value is represented as time span between axis minimum value and axis maximum value.
-The color of the minor interval gridlines|`xAxisMinorStroke`, `yAxisMinorStroke` | A color of axis minor gridlines.
-The thickness of the  minor interval gridlines|`xAxisMajorStrokeThickness`, `yAxisMajorStrokeThickness`|A thickness in pixels of the axis major gridlines set as a double value
+主間隔グリッド線の頻度。|`xAxisInterval`,`yAxisInterval` |この値は、軸ラベルおよび主グリッド線 (使用する場合) に必要なスペースを提供します。軸ラベルの間隔も、この値によって設定され、間隔に関連付けられた軸のポイントにラベルが 1 つ表示されることに注意してください。<br/>X 軸では、この値が最初と最後のカテゴリ項目間のインデックスとして表されます。通常、この値は、カテゴリ項目の合計数の 10～20% に相当します。その結果、すべての軸ラベルは軸にフィットし、他の軸ラベルによって切り取られることはありません。<br/>日付/時刻軸では、この値は軸の最小値から最大値の範囲の時間間隔として表されます。<br/>Y 軸では、この値は軸の最小値から最大値の範囲の double 値として表されます。数値軸はデフォルトで、軸の最小値および最大値から四捨五入されたバランスの良い数値に、自動的に計算されます。
+主間隔グリッド線の色。|`xAxisMajorStroke`,`yAxisMajorStroke` |軸の主グリッド線の色。
+主間隔グリッド線の太さ。|`xAxisMajorStrokeThickness`,`yAxisMajorStrokeThickness` |double 値として設定された軸の主グリッド線の太さ
+副間隔グリッド線の頻度。|`xAxisMinorInterval`,`yAxisMinorInterval` |この値は、主グリッド線と主グリッド線の間に描画される副グリッド線に必要なスペースを提供します。その結果、XAxisMinorInterval プロパティの値は、常に XAxisInterval プロパティの値より小さい値 (通常、2 分の 1 から 5 分の 1) であることが必要です。<br/>カテゴリ軸では、この値が MajorInterval プロパティの小数として表されます。通常、この値は 0.25 から 0.5 の間です。<br/>数値軸でこの値は軸の最小値から最大値までの double として表示されます。デフォルトで数値軸は軸の最小値および最高値に基づいて自動的に適切な間隔を計算しません。<br/>日付/時刻軸では、この値は軸の最小値から最大値の範囲の時間間隔として表されます。
+副間隔グリッド線の色。|`xAxisMinorStroke`, `yAxisMinorStroke` |軸の副グリッド線の色。
+副間隔グリッド線の太さ。|`xAxisMajorStrokeThickness`, `yAxisMajorStrokeThickness`|double 値として設定された軸の主グリッド線の太さ
 
-### <a id="codesnippet"/> Code Snippet
+### <a id="codesnippet"/> コード スニペット
 
-The following code snippet demonstrates how to configure the interval on the x-axis.
+以下のコード スニペットは、x 軸の間隔を設定する方法を示します。
 
-*In HTML:*
+*HTML の場合:*
 
 ```html
 
@@ -57,18 +57,18 @@ $(function () {
 
 ![](images/categorychart-intervals-01.png)
 
-## <a id="relatedtopics"/>Related Topics:
+## <a id="relatedtopics"/>関連トピック:
 
-- [Walkthrough](igcategorychart-adding.html)
+- [チュートリアル](igcategorychart-adding.html)
 
-- [Binding to Data](categorychart-binding-to-data.html)
+- [データ バインド](categorychart-binding-to-data.html)
 
-- [Configuring Axis Gap and Overlap](configuring-axis-gap-and-overlap.html)
+- [軸間隔と重複の構成](configuring-axis-gap-and-overlap.html)
 
-- [Configuring Axis Labels](configuring-axis-labels.html)
+- [軸ラベルの構成](configuring-axis-labels.html)
 
-- [Configuring Axis Range](configuring-axis-range.html)
+- [軸範囲の構成](configuring-axis-range.html)
 
-- [Configuring Axis Tickmarks](configuring-axis-tickmarks.html)
+- [軸目盛りの構成](configuring-axis-tickmarks.html)
 
-- [Configuring Axis Titles](configuring-axis-titles.html)
+- [軸タイトルの構成](configuring-axis-titles.html)

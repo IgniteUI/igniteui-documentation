@@ -8,32 +8,32 @@
 |metadata|
 -->
 
-# Axis Tickmarks
+# 軸目盛
 
-Tick marks display points on the axes. They represent a certain numeric point on a scale or the value of the category in a category axis.
+目盛りは軸にポイントを表示します。スケールに特定の数値ポイント、またはカテゴリ軸にカテゴリ値を表します。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [Property Settings](#propertysettings)
-- [Code Snippet](#codesnippet)
-- [Related Topics](#relatedtopics)
+- [プロパティの設定](#propertysettings)
+- [コード スニペット](#codesnippet)
+- [関連トピック](#relatedtopics)
 
-### <a id="propertysettings"/>Property Settings
-In the igCategoryChart™ control, you can change the length, thickness and color of the x-axis and y-axis labels using the following properties:
+### <a id="propertysettings"/>プロパティの設定
+igCategoryChart™ コントロールでは、以下のプロパティで x 軸および y 軸のラベルの長さ、太さ、色を変更できます。
 
-Property Name|Property Type|Description
+プロパティ名|プロパティ タイプ|説明
 ---|---|---
-`xAxisTickLength`, `yAxisTickLength` | number |Determines the length of the tickmark along the x-axis or y-axis 
-`xAxisTickStroke`, `yAxisTickStroke` |string |Determines the color of the tickmark along the x-axis or y-axis  
-`xAxisTickStrokeThickness`, `yAxisTickStrokeThickness`|number|Determines the thickness of of the tickmark along the x-axis or y-axis 
+`xAxisTickLength`, `yAxisTickLength` | number |x 軸と y 軸の目盛りの長さを決定します。
+`xAxisTickStroke`, `yAxisTickStroke` |string |x 軸と y 軸の目盛りの色を決定します。
+`xAxisTickStrokeThickness`, `yAxisTickStrokeThickness`|number|x 軸と y 軸の目盛りの太さを決定します。
 
-### <a id="codesnippet"/>Code Snippet
+### <a id="codesnippet"/>コード スニペット
 
-The following code snippet demonstrates how to set the color, length and thickness of the tickmark on the x-axis
+以下のコードスニペットは、x 軸の色、長さ、太さを設定します。
 
-*In HTML:*
+*HTML の場合:*
 
 ```html
 $(function () {
@@ -48,18 +48,18 @@ $(function () {
 
 ![](images/categorychart-configuring-axis-tickmarks-01.png)
 
-## <a id="relatedtopics"/> Related Topics:
+## <a id="relatedtopics"/> 関連トピック:
 
-- [Walkthrough](igcategorychart-adding.html)
+- [チュートリアル](igcategorychart-adding.html)
 
-- [Binding to Data](categorychart-binding-to-data.html)
+- [データ バインド](categorychart-binding-to-data.html)
 
-- [Configuring Axis Gap and Overlap](configuring-axis-gap-and-overlap.html)
+- [軸間隔と重複の構成](configuring-axis-gap-and-overlap.html)
 
-- [Configuring Axis Labels](configuring-axis-labels.html)
+- [軸ラベルの構成](configuring-axis-labels.html)
 
-- [Configuring Axis Intervals](configuring-axis-intervals.html)
+- [軸間隔の構成](configuring-axis-intervals.html)
 
-- [Configuring Axis Range](configuring-axis-range.html)
+- [軸範囲の構成](configuring-axis-range.html)
 
-- [Configuring Axis Titles](configuring-axis-titles.html)
+- [軸タイトルの構成](configuring-axis-titles.html)

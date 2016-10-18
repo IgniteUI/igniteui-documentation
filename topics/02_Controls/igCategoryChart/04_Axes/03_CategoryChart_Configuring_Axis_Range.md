@@ -8,25 +8,25 @@
 |metadata|
 -->
 
-# Axis Range
+# 軸の範囲
 
-In the igCategoryChart™ control, the range on numeric axes is the difference in numeric values from the beginning of the axis to the end or from the smallest to largest values in the data. The range minimum is the lowest value of the axis. The range maximum is the highest value of the axis.
+igCategoryChart™ コントロールで、数値軸の範囲は軸の最初と終わり、つまりデータの最小値と最大値の数値の差です。範囲の最小値は、軸の最小値です。範囲の最大値は、軸の最大値です。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [Overview](#overview)
-- [Code Snippet](#codesnippet)
-- [Related Topics](#relatedtopics)
+- [概要](#overview)
+- [コード スニペット](#codesnippet)
+- [関連トピック](#relatedtopics)
 
-### <a id="overview"/>Overview
-By default, the igDataChart control will calculate the minimum and maximum values for the y-axis range based on the lowest and highest data points in order to maximize the chart plot area. The automatic calculation of an axis' minimum and maximum values may not be appropriate for your set of data points. For example, if your data has a minimum value of 850, you may want to set the minimum value of the axis using y-axis’s `yAxisMinimumValue` property to 800 so that there will be a space value of 50 between the axis minimum and the lowest value of data points. The same can be applied to the axis maximum value and the highest value of data points using y-axis’s `yAxisMaximumValue` property.
+### <a id="overview"/>概要
+デフォルトで、igDataChart コントロールは、チャート プロット領域を最大化するために、最小データ ポイントおよび最大データ ポイントに基づいて軸の範囲の最小値と最大値を計算します。軸の最小値と最大値の自動計算は、データ ポイントのセットに適切でない場合があります。たとえば、データの最小値が 850 の場合、軸の `yAxisMinimumValue` プロパティを使用して軸の最小値を 800 に設定したい場合があります。これにより、軸の最小値とデータ ポイントの最小値の間に 50 のスペース値ができることになります。軸の `yAxisMinimumValue` プロパティを使用すれば軸の最大値とデータ ポイントの最大値にも同様のことが適用できます。
 
-### <a id="codesnippet"/>Code Snippet
-The following sample code demonstrates how to change the axis range on the y-axis.
+### <a id="codesnippet"/>コード スニペット
+以下のサンプル コードは、y 軸で軸の範囲を変更する方法を示します。
 
-*In HTML:*
+*HTML の場合:*
 
 ```html
 $(function () {
@@ -40,18 +40,18 @@ $(function () {
 
 ![](images/categorychart-configuring-axis-ranges-01.png)
 
-### <a id="relatedtopics"/> Related Topics:
+### <a id="relatedtopics"/> 関連トピック:
 
-- [Adding igCategoryChart](igcategorychart-adding.html)
+- [igCategoryChart の追加](igcategorychart-adding.html)
 
-- [Binding to Data](categorychart-binding-to-data.html)
+- [データ バインド](categorychart-binding-to-data.html)
 
-- [Configuring Axis Gap and Overlap](configuring-axis-gap-and-overlap.html)
+- [軸間隔と重複の構成](configuring-axis-gap-and-overlap.html)
 
-- [Configuring Axis Labels](configuring-axis-labels.html)
+- [軸ラベルの構成](configuring-axis-labels.html)
 
-- [Configuring Axis Intervals](configuring-axis-intervals.html)
+- [軸間隔の構成](configuring-axis-intervals.html)
 
-- [Configuring Axis Tickmarks](configuring-axis-tickmarks.html)
+- [軸目盛りの構成](configuring-axis-tickmarks.html)
 
-- [Configuring Axis Titles](configuring-axis-titles.html)
+- [軸タイトルの構成](configuring-axis-titles.html)

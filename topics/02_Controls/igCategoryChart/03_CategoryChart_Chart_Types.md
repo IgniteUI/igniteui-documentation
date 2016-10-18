@@ -8,35 +8,35 @@
 |metadata|
 -->
 
-# Chart Types
+# チャート タイプ
 
-## Overview
+## 概要
 
-The Category Chart simplifies assignment of the type of rendering compared to the Data Chart.
-In order to select how data should be displayed it is enough to set the `chartType` property of this chart.
-Below listed all of the types that the Category Chart supports.
+カテゴリ チャートは、データ チャートと比べて描画タイプがよりシンプルです。
+データの表示方法については、チャートの `chartType` プロパティを設定します。
+以下は、カテゴリ チャートでサポートされるすべてのタイプです。
 
-Special case is the `auto` setting of that property. If `auto` is used the chart will analyze assigned data and will assign the most suitable chart type.
+特別なケースにプロパティの`auto` 設定があります。`auto` を使用した場合、チャートがデータを分析し、最も適したチャート タイプを割り当てます。
 
-Default value of that property is `line`.
+プロパティのデフォルト値は `line`。
 
-## Supported chart types
+## サポートされるチャート タイプ
 
-Property Value|Description|Example
+プロパティ値|説明|例
 ---|---|---
-`line`|Specifies category line series with markers at each data point|![](images/chart-type-line.png)
-`area`|Specifies category area series|![](images/chart-type-area.png)
-`column`|Specifies category column chart with vertical rectangles at each data point|![](images/chart-type-column.png)
-`point`|Specifies category point chart with markers at each data point|![](images/chart-type-point.png)
-`stepLine`|Specifies category step line chart|![](images/chart-type-stepline.png)
-`stepArea`|Specifies category step area chart|![](images/chart-type-steparea.png)
-`spline`|Specifies category spline line series with markers at each data point|![](images/chart-type-spline.png)
-`splineArea`|Specifies category spline area series|![](images/chart-type-splinearea.png)
-`waterfall`|Specifies category waterfall chart|![](images/chart-type-waterfall.png)
-`auto`|Specifies automatic selection of chart type based on suggestions from Data Adapter
+`line`|各データポイントでマーカーのカテゴリ折れ線シリーズを指定します。|![](images/chart-type-line.png)
+`area`|カテゴリ エリア シリーズを指定します。|![](images/chart-type-area.png)
+`column`|各データポイントで垂直の長方形のカテゴリ折れ線シリーズを指定します。|![](images/chart-type-column.png)
+`point`|各データポイントでマーカーのカテゴリ ポイント チャートを指定します。|![](images/chart-type-point.png)
+`stepLine`|ステップ折れ線チャートを指定します。|![](images/chart-type-stepline.png)
+`stepArea`|ステップ エリア チャートを指定します。|![](images/chart-type-steparea.png)
+`spline`|各データポイントでマーカーのカテゴリ スプライン シリーズを指定します。|![](images/chart-type-spline.png)
+`splineArea`|カテゴリ スプライン エリア シリーズを指定します。|![](images/chart-type-splinearea.png)
+`waterfall`|カテゴリ ウォーターフォール チャートを指定します。|![](images/chart-type-waterfall.png)
+`auto`|データ アダプターからの提案に基づいてチャート タイプの自動選択を指定します。
 
-## Related topics
+## 関連トピック
 
-- [Walkthrough](igcategorychart-adding.html)
+- [チュートリアル](igcategorychart-adding.html)
 
-- [Configuring Chart Types](categorychart-configuring-chart-types.html)
+- [チャート タイプの構成](categorychart-configuring-chart-types.html)

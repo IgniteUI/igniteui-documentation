@@ -8,20 +8,20 @@
 |metadata|
 -->
 
-# Chart Requirements
+# チャート要件
 
-## Overview
+## 概要
 
-While using the `igCategoryChart` it is important to remember a few rules that will make the data visualization better.
-This control will make an intelligent attempt to visualize any data that is assigned to it. However, there are still a few rules that need to be followed.
+`igCategoryChart` を使用中は、データ可視化を
+このコントロールは、割り当てられたデータを可視化するインテリジェントな機能があります。ただし、いくつかのルールがあります。
 
-This topics describes the rules that need to be applied to the data before it is assigned to the chart.
+このトピックは、チャートに前にデータを割り当てる前に適用する必要のあるルールについて説明します。
 
-## Data source requirements
+## データ ソース要件
 
-Generally, the chart will attempt to treat the `data` that is provided to it as a collection of objects.
+チャートは提供された `data` をオブジェクトのコレクションとして処理しようとします。
 
-Example of the `igCategoryChart` initialization code:
+`igCategoryChart` 初期化コードの例
 ```javascript
 $("#chart").igCategoryChart({
     title: "Countries population",
@@ -33,19 +33,19 @@ $("#chart").igCategoryChart({
 });
 ```
 
-### Array of objects
+### オブジェクトの配列
 
-The most commonly used data source that the `igCategoryChart` control recognizes and is able to work with is an array of objects.
-While analyzing such a data source during data binding routine the chart makes several attempt to extract the following attributes out of that data and show them in the chart automatically:
+`igCategoryChart` コントロールが認識し、オブジェクト配列と動作する最も一般的なデータソースはオブジェクト配列です。
+データ バインド ルーチン時にデータソースを分析する際に、チャートが以下の属性をデータから抽出を複数回試行して自動的にチャートに表示します。
 
-- *Series titles*. These are extracted from a distinct property of each object. If there are no distinct properties in the data objects, the first string property is assigned to be the series title. The distinct property types are analyzed in the following order:
+- *シリーズ タイトル*。各オブジェクトの個別プロパティから抽出されます。データ オブジェクトに個別のプロパティがない場合、最初の文字列プロパティはシリーズ タイトルに割り当てられます。個別プロパティ タイプは以下の順序で分析されます。
 1. string
 2. date
 3. number
  
-- *Category scale*. Numeric properties are assigned into a category and their values are used to select minimum and maximum value of the Y axis. 
+- *カテゴリ スケール*数値プロパティがカテゴリに割り当てられ、Y 軸の最大値および最小値を選択するために使用されます。 
 
-Example:
+例:
 ```javascript
 var data = [
     { "Label": "1995", "Brazil": 161, "Indonesia": 197, "United States": 266, "India": 920, "China": 1297 },
@@ -55,14 +55,14 @@ var data = [
 ];
 ```
 
-> **Note:** In some cases the chart will assign `yAxisMinimumValue` to be other than `0`. Setting this option to a value explicitly will prevent this behavior.
+> **注:** チャートは `yAxisMinimumValue` に `0` 以外を割り当てる場合があります。このオプションを明示的に値に設定した場合、この動作を防止します。
 
-### Array of arrays
+### 配列の配列
 
-The `igCategoryChart` control is also able to recognize objects in an array of arrays (multi-dimensional data).
-The rules of discovering data described above are also applicable in this scenario.
+`igCategoryChart` コントロールは、配列内の配列 (多次元データ) でオブジェクトを認識できます。
+上記のデータを検索する条件は、この場合にも当てはまります。
 
-Example:
+例:
 ```javascript
 var data = [
     [
@@ -89,11 +89,11 @@ var data = [
 ];
 ```
 
-### Data intents
+### データの目的
 
-To influence the logic of data recognition by the `igCategoryChart`, a sub-object with the name of `__dataIntents` can be assigned to the data with meta data that corresponds to the properties in the data objects and description of their roles.
+`igCategoryChart` によってデータ認識のロジックに影響を与えるには、`__dataIntents` というサブオブジェクトをデータ オブジェクトとそれらの役割の説明のプロパティに対応するメタデータのあるデータに割り当てることができます。
 
-Example:
+例:
 ```javascript
 var data = [
     {
@@ -121,34 +121,34 @@ data.__dataIntents = {
 };
 ```
 
-Full list of supported metadata values:
+サポートされる全メタデータ値の一覧:
 
-Metadata value|Application description
+メタデータ値|アプリケーション説明
 --|--
-PrimarySeriesValue|Indicates which value to use as the primary category series value
-SeriesX|Indicates which value should be used for scatter X values 
-SeriesY|Indicates which value should be used for scatter Y values  
-SeriesFill|Indicates which value should be used for bubble color values
-SeriesLabel|Indicates which value should be used for bubble label values
-SeriesRadius|Indicates which value should be used for bubble radius values
-SeriesAngle|Indicates which value should be used for polar angle values
-SeriesShape|Indicates which value should be used for shape geometry values
-SeriesValue|Indicates which value should be used for secondary series values
-SeriesTitle|Indicates which value should be used for series title values
-OpenSeriesValue|Indicates which value should be used for series open values
-HighSeriesValue|Indicates which value should be used for series high values
-LowSeriesValue|Indicates which value should be used for series low values
-CloseSeriesValue|Indicates which value should be used for series close values
-VolumeSeriesValue|Indicates which value should be used for volume values
-AxisLabelValue|Indicates which value should be used for axis label values
-AxisDateValue|Indicates which value should be used for axis date values
-DontPlot|Indicates that the value should not be considered when inferring data series
+PrimarySeriesValue|主なカテゴリ シリーズ値として使用する値を示します。
+SeriesX|散布 X 値に使用する値を示します。 
+SeriesY|散布 Y 値に使用する値を示します。  
+SeriesFill|バブル色値に使用する値を示します。
+SeriesLabel|バブル ラベル値に使用する値を示します。
+SeriesRadius|バブルの半径値に使用する値を示します。
+SeriesAngle|極座標の角度値に使用する値を示します。
+SeriesShape|図形の辺の値に使用する値を示します。
+SeriesValue|第二のシリーズ値に使用する値を示します。
+SeriesTitle|シリーズ タイトル値に使用する値を示します。
+OpenSeriesValue|シリーズ開始値に使用する値を示します。
+HighSeriesValue|シリーズ高値に使用する値を示します。
+LowSeriesValue|シリーズ安値に使用する値を示します。
+CloseSeriesValue|シリーズ終値に使用する値を示します。
+VolumeSeriesValue|出来高値に使用する値を示します。
+AxisLabelValue|軸ラベル値に使用する値を示します。
+AxisDateValue|軸データ値に使用する値を示します。
+DontPlot|データ シリーズをインファーするときに考慮しない値を示します。
 
-## Restrictions
+## 制限
 
-Plain JSON object, or a dictionary in a form of JSON sub-objects is not currently supported.
+プレーン JSON オブジェクトおよび JSON サブオブジェクトのフォームのディクショナリは現在サポートされていません。　
 
-Unsupported data examples:
+サポートされないデータの例:
 ```javascript
 var data = {
     "Shoes": 5,
@@ -176,7 +176,7 @@ var data = {
     }
 };
 ```
-Arrays (of any dimension) of values is also out of scope of the currently supported data sources in the `igCategoryChart`.
+値の配列 (すべてのディメンションで) も `igCategoryChart` で現在サポートされているデータソースの範囲外です。
 
 ```javascript
 var data = [[100, 200], [200, 300], [300, 400], [400, 500], [50, 100]];

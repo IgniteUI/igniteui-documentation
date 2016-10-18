@@ -8,45 +8,45 @@
 |metadata|
 -->
 
-# Chart Title and Subtitle
+# チャートのタイトルとサブタイトル
 
-The title and subtitle feature of the igCategoryChart control allows you to add information to the top section of the chart control.
+igCategoryChart コントロールのタイトルおよびサブタイトルの機能は、igChart コントロールの上セクションに情報を追加できます。
 
-When adding a title or subtitle to the chart control, the content of the chart automatically resizes allowing for the title and subtitle information.
-### In this topic
+チャート コントロールにタイトルまたはサブタイトルを追加すると、タイトルとサブタイトルの情報に応じて、チャートの内容が自動的にサイズ変更されます。
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [Property Settings](#propertysettings)
-- [Code Snippet](#codesnippet)
-- [Related Topics](#relatedtopics)
+- [プロパティの設定](#propertysettings)
+- [コード スニペット](#codesnippet)
+- [関連トピック](#relatedtopics)
 
-### <a id="propertysettings"/>Property Settings
-You can customize the look and feel of the category chart's subtitle and title in many different ways such as applying different font styles, margins, and alignment. This can be achieved through the following properties:
+### <a id="propertysettings"/>プロパティの設定
+カテゴリ チャートは、チャートのタイトルとサブタイトルのフォント スタイル、マージン、配置などを変更してルックアンドフィールをカスタマイズできます。以下のプロパティを使用します。
 
-Property Name|Property Type|Description
+プロパティ名|プロパティ タイプ|説明
 ---|---|---
-`title`|string|Determines the text to be used for the title
-`titleAlignment`|enumeration|Determines the alignment of the title 
-`titleBottomMargin`|number|Determines the margin to be applied to the bottom of the title
-`titleLeftMargin`|number|Determines the margin to be applied to the left of the title
-`titleRightMargin`|number|Determines the margin to be applied to the right of the title
-`titleTextColor`|string|Determines the color for the title
-`titleTextStyle`|string|Determines the font styles to be applied to the title
-`titleTopMargin`|number|Determines the margin to be applied to the top of title
-`subtitle`|string|Determines the text to be used for the subtitle
-`subtitleAlignment`|enumeration|Determines the alignment of the subtitle 
-`subtitleBottomMargin`|number|Determines the margin to be applied to the bottom of the subtitle
-`subtitleLeftMargin`|number|Determines the margin to be applied to the left of the subtitle
-`subtitleRightMargin`|number|Determines the margin to be applied to the right of the subtitle
-`subtitleTextColor`|string|Determines the color for the subtitle
-`subtitleTextStyle`|string|Determines the font styles to be applied to the subtitle
-`subtitleTopMargin`|number|Determines the margin to be applied to the top of subtitle
+`title`|string|タイトルに使用するテキストを決定します。
+`titleAlignment`|enumeration|タイトルの配置を決定します。
+`titleBottomMargin`|number|タイトルの下に適用するマージンを決定します。
+`titleLeftMargin`|number|タイトルの左に適用するマージンを決定します。
+`titleRightMargin`|number|タイトルの右に適用するマージンを決定します。
+`titleTextColor`|string|タイトルの色を決定します。
+`titleTextStyle`|string|タイトルに適用するフォント スタイルを決定します。
+`titleTopMargin`|number|タイトルの上に適用するマージンを決定します。
+`subtitle`|string|サブタイトルに使用するテキストを決定します。
+`subtitleAlignment`|enumeration|サブタイトルの配置を決定します。
+`subtitleBottomMargin`|number|サブタイトルの下に適用するマージンを決定します。
+`subtitleLeftMargin`|number|サブタイトルの左に適用するマージンを決定します。
+`subtitleRightMargin`|number|サブタイトルの右に適用するマージンを決定します。
+`subtitleTextColor`|string|サブタイトルの色を決定します。
+`subtitleTextStyle`|string|サブタイトルに適用するフォント スタイルを決定します。
+`subtitleTopMargin`|number|サブタイトルの上に適用するマージンを決定します。
 
-### <a id="codesnippet"/>Code Snippet
-The following code example shows how to customize the title and subtitle:
+### <a id="codesnippet"/>コード スニペット
+以下のコード例は、タイトルとサブタイトルをカスタマイズします。
 
-*In HTML:*
+*HTML の場合:*
 
 ```html
 $(function () {
@@ -67,8 +67,8 @@ $(function () {
 
 ![](images/categorychart-configuring-title-01.png)
 
-## <a id="relatedtopics"/>Related Topics:
+## <a id="relatedtopics"/>関連トピック:
 
-- [Adding igCategoryChart](igcategorychart-adding.html)
+- [igCategoryChart の追加](igcategorychart-adding.html)
 
-- [Binding to Data](categorychart-binding-to-data.html)
+- [データ バインド](categorychart-binding-to-data.html)

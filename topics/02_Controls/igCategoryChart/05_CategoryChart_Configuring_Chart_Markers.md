@@ -8,47 +8,47 @@
 |metadata|
 -->
 
-# Configuring Chart Markers
+# チャート マーカーの構成
 
-Markers are visual elements that display the values of data points in the igCategoryChart™ control's plot area. Markers help your end-users immediately identify a data point's value even if the value falls between major or minor grid lines.
-This section provides you with useful information about working with the igCategoryChart control's Markers.
+マーカーは、igCategoryChart™ コントロールのプロット領域のデータ ポイント値を表示する視覚的要素です。マーカーは、値が主グリッド線と副グリッド線の間にある場合に、指定したデータ ポイントの値をただちに識別できるようユーザーをサポートをします。
+このセクションは、igCategoryChart コントロールのマーカーでの作業に関するタスクベースの手順についての役立つ情報を提供します。
 
-- [Marker Appearance](#markerappearance)
-- [Marker Types](#markertypes)
-- [Marker Brushes and Outlines](#markerbrushesandoutlines)
+- [マーカーの外観](#markerappearance)
+- [マーカー タイプ](#markertypes)
+- [マーカー ブラシとアウトライン](#markerbrushesandoutlines)
 
-The appearance of chart markers is managed through the marker properties of the igCategoryChart class.
+チャート マーカーの外観は、igCategoryChart クラスのマーカー プロパティで管理できます。
 
-#### <a id="markerappearance"/> Marker Appearance
-The following table lists all marker appearance properties.
+#### <a id="markerappearance"/> マーカーの外観
+以下の表は、マーカーのすべての外観プロパティの一覧です。
 
 
-Property Name|Property Type|Description
+プロパティ名|プロパティ タイプ|説明
 ---|---|---
-`markerTypes`| MarkerType |Determines type of markers displayed by the all series in the chart
-`markerBrushes` |Brush |Determines fill color of markers
-`markerOutlines`|Brush|Determines outline color of markers
+`markerTypes`| MarkerType |チャートのすべてのシリーズで表示されるマーカーのタイプを決定します。
+`markerBrushes` |Brush |マーカーの塗りつぶし色を決定します。
+`markerOutlines`|Brush|マーカーのアウトライン色を決定します。
 
 
 
-#### <a id="markertypes"/> Marker Types
-Property Name|Property Type|Description
+#### <a id="markertypes"/> マーカー タイプ
+プロパティ名|プロパティ タイプ|説明
 ---|---|---
-`circleMarker`|MarkerType|Displays the Circle marker type.
-`diamondMarker`|MarkerType|Displays the Diamond marker type.
-`hexagonMarker`|MarkerType|Displays the Hexagon marker type.
-`hexagramMarker`|MarkerType|Displays the Hexagram marker type.
-`pentagramMarker`|MarkerType|Displays the Pentagram marker type.
-`pentagonMarker`|MarkerType|Displays the Pentagon marker type.
-`pyramidMarker`|MarkerType|Displays the Pyramid marker type.
-`squareMarker`|MarkerType|Displays the Square marker type.
-`tetragramMarker`|MarkerType|Displays the Tetragram marker type.
-`triangleMarker`|MarkerType|Displays the Triangle marker type.
+`circleMarker`|MarkerType|円マーカーのタイプを表示します。
+`diamondMarker`|MarkerType|ダイアモンド マーカーのタイプを表示します。
+`hexagonMarker`|MarkerType|六角形マーカーのタイプを表示します。
+`hexagramMarker`|MarkerType|六線星形マーカーのタイプを表示します。
+`pentagramMarker`|MarkerType|星形五角形マーカーのタイプを表示します。
+`pentagonMarker`|MarkerType|五角形マーカーのタイプを表示します。
+`pyramidMarker`|MarkerType|ピラミッドマーカーのタイプを表示します。
+`squareMarker`|MarkerType|四角形マーカーのタイプを表示します。
+`tetragramMarker`|MarkerType|テトラグラム マーカーのタイプを表示します。
+`triangleMarker`|MarkerType|三角形マーカーのタイプを表示します。
 
 
-The code snippets below demonstrate how to change the marker type for the igCategoryChart.
+以下のコードは、igCategoryChart のマーカー タイプの変更方法を示します。
 
-*In HTML:*
+*HTML の場合:*
 
 ```html
 $(function () {
@@ -58,16 +58,16 @@ $(function () {
 });
 ```
 
-The following screenshot displays the igCategoryChart control using the Line chart type with Diamond markers.
+以下のスクリーンショットは、折れ線チャート タイプでダイアモンド マーカーを使用した igCategoryChart コントロールを示します。
 
 ![](images/categorychart-chart-markers-01.png)
 
 
-#### <a id="markerbrushesandoutlines"/> Marker Brush and Outline
+#### <a id="markerbrushesandoutlines"/> マーカー ブラシとアウトライン
 
-The code snippets below demonstrate how to change the markerBrushes and markerOutlines for the igCategoryChart.
+以下のコード スニペットは、igCategoryChart の markerBrushes および markerOutlines の変更方法を示します。
 
-*In HTML:*
+*HTML の場合:*
 
 ```html
 $(function () {
@@ -78,12 +78,12 @@ $(function () {
 });
 ```
 
-The following screenshot displays the igCategoryChart control using the Line chart type with customized markers.
+以下のスクリーンショットは、折れ線チャート タイプでマーカーをカスタマイズした igCategoryChart コントロールを示します。
 
 ![](images/categorychart-chart-markers-02.png)
 
-## <a id="relatedtopics"/>Related Topics:
+## <a id="relatedtopics"/>関連トピック:
 
-- [Adding igCategoryChart](igcategorychart-adding.html)
+- [igCategoryChart の追加](igcategorychart-adding.html)
 
-- [Binding to Data](categorychart-binding-to-data.html)
+- [データ バインド](categorychart-binding-to-data.html)

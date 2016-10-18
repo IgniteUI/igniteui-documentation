@@ -8,72 +8,72 @@
 |metadata|
 -->
 
-# Transition In Animations
+# トランジション イン アニメーション
 
-This feature allows you to animate the series as it loads a new data source. The available animation differs depending on the type of series involved. For example, the column series animates by rising from the x-axis, a line series animates by drawing from the y-axis.
-resizes allowing for the title and subtitle information.
+この機能は、新しいデータ ソースを読み込むときにシリーズをアニメーション化することを許可します。利用可能なアニメーションは、シリーズのタイプに基づきます。たとえば、列シリーズは  x 軸を上に上昇させるとアニメーションを再生します。折れ線シリーズは y 軸から描画するとアニメーションを再生します。
+タイトルおよびサブタイトル情報はサイズ変更できます。
 
-### In this topic
+### このトピックの内容
 
-- [Overview](#overview)
-- [Supported Transition Types](#supportedtransitiontypes)
-- [Supported Transition Speed Types](#supportedtransitionspeedtypes)
-- [Supported Easing Function Types](#supportedeasingfunctiontypes)
-- [Configuring the Transition-In Animations](#configuringthetransitioninanimations)
-- [Related Topics](#relatedtopics)
+- [概要](#overview)
+- [サポートされるトランジションのタイプ](#supportedtransitiontypes)
+- [サポートされるトランジションのスピード タイプ](#supportedtransitionspeedtypes)
+- [サポートされるイージング関数のタイプ](#supportedeasingfunctiontypes)
+- [トランジションイン アニメーションを構成する](#configuringthetransitioninanimations)
+- [関連トピック](#relatedtopics)
 
-### <a id="overview"/>Overview
-By default, animated transitions are disabled and you can enable transition-in animations by setting the isTransitionInEnabled option to “True”.
+### <a id="overview"/>概要
+デフォルトでアニメーション トランジションは無効ですが、isTransitionInEnabled オプションを Ture に設定してトランジションイン アニメーションを有効にできます。
 
-Animated transitions can be configured in terms of transition type, speed of the individual data points relative to each other, and the easing transition (managed by an easing function).
+アニメーション化されたトランジションのトランジション タイプ、データ ポイントに相対するスピード、およびイージング関数によって管理されるイージング トランジションを構成できます。
 
-## <a id="supportedtransitiontypes"/>Supported transition types
+## <a id="supportedtransitiontypes"/>サポートされるトランジションのタイプ
 
-Many types of animated transitions are supported based on the nature of the movement and its direction:
-* FromZero – Series transitions in from the reference value of the value axis.
-* Accordion-type transitions: 
-  * From side: 
-       * AccordionFromLeft – Series accordions in from the left.
-       * AccordionFromRight – Series accordions in from the right.
-       * AccordionFromTop – Series accordions in from the top.
-       * AccordionFromBottom – Series accordions in from the bottom.
-  * From an axis: 
-       * AccordionFromCategoryAxisMinimum – Series accordions in from the category axis minimum.
-       * AccordionFromCategoryAxisMaximum – Series accordions in from the category axis maximum.
-       * AccordionFromValueAxisMaximum – Series accordions in from the value axis maximum.
-       * AccordionFromValueAxisMinimum – Series accordions in from the value axis minimum.
+移動および方向に基づいて複数のアニメーション トランジションのタイプがサポートされます。
+* FromZero - シリーズが数値軸の参照値からトランジションします。
+* アコーディオンタイプ トランジション: 
+  * 側面から: 
+       * AccordionFromLeft – シリーズは左側からアコーディオンします。
+       * AccordionFromRight – シリーズは右側からアコーディオンします。
+       * AccordionFromTop – シリーズは上側からアコーディオンします。
+       * AccordionFromBottom – シリーズは下側からアコーディオンします。
+  * 軸から: 
+       * AccordionFromCategoryAxisMinimum – シリーズはカテゴリ軸の最小値からアコーディオンします。
+       * AccordionFromCategoryAxisMaximum – シリーズはカテゴリ軸の最大値からアコーディオンします。
+       * AccordionFromValueAxisMaximum – シリーズは値軸の最大値からアコーディオンします。
+       * AccordionFromValueAxisMinimum – シリーズは値軸の最小値からアコーディオンします。
 
-* Expand – Series expands from the value midpoints.
+* Expand – シリーズは値の中点から展開します。
 * Sweep-type transitions: 
-   * From side: 
-       * SweepFromLeft – Series sweeps in from the left
-       * SweepFromRight – Series sweeps in from the right
-       * SweepFromTop – Series sweeps in from the top.
-       * SweepFromBottom – Series sweeps in from the bottom.
-       * SweepFromCenter – Series sweeps in from the center.
-   * From an axis: 
-       * SweepFromCategoryAxisMaximum – Series sweeps in from the category axis maximum.
-       * SweepFromCategoryAxisMinimum – Series sweeps in from the category axis minimum.
-       * SweepFromValueAxisMaximum – Series sweeps in from the value axis maximum.
-       * SweepFromValueAxisMinimum – Series sweeps in from the value axis minimum.
+   * 側面から: 
+       * SweepFromLeft – シリーズは左側からスイープします。
+       * SweepFromRight – シリーズは右側からスイープします。
+       * SweepFromTop – シリーズは上側からスイープします。
+       * SweepFromBottom – シリーズは下側からスイープします。
+       * SweepFromCenter – シリーズは中央からスイープします。
+   * 軸から: 
+       * SweepFromCategoryAxisMaximum – シリーズはカテゴリ軸の最大値からスイープします。
+       * SweepFromCategoryAxisMinimum – シリーズはカテゴリ軸の最小値からスイープします。
+       * SweepFromValueAxisMaximum – シリーズは値軸の最大値からスイープします。
+       * SweepFromValueAxisMinimum – シリーズは値軸の最小値からスイープします。
 
-## <a id="supportedtransitionspeedtypes"/>Supported transition speed types
-The transition’s speed type determines the speed of the individual items of the current series’s transition relative to each other as the animated transition is playing. The following are the different speed types:
-* Auto – Automatically selects a speed type.
-* IndexScaled – Data points arrive later if their index is further from the axis origin.
-* Normal – All speeds are normal, data points arrive at the same time.
-* Random – Data points arrive at random times.
-* ValueScaled - Data points arrive later if their value is further from the starting point.
+## <a id="supportedtransitionspeedtypes"/>サポートされるトランジションのスピード タイプ
+トランジションのスピード タイプは、アニメーション化されたトランジションが再生されているときに、現在シリーズの項目に相対するスピードを決定します。以下のはスピード タイプです:
+* Auto – 自動的にスピード タイプを選択します。
+* IndexScaled – データ ポイントのインデックスが軸基点から離れた場合、そのポイントのアニメーションは遅いです。
+* Normal – すべてのスピードは標準です。データ ポイントが同じ時間に表示されます。
+* Random – データ ポイントがランダム時間に表示されます。
+* ValueScaled – データ ポイントの値が開始ポイントから離れた場合、そのポイントのアニメーションは遅いです。
 
-## <a id="supportedeasingfunctiontypes"/>Supported easing function types
-The easing function determines what way the animation initially eases in. Apply any easing function. It is set to CubicEase by default.
+## <a id="supportedeasingfunctiontypes"/>サポートされるイージング関数のタイプ
+イージング関数は、アニメーションのイーズ インする方法を決定します。イージング関数を適用できます。デフォルト値は CubicEase です。
 
-## <a id="configuringthetransitioninanimations"/>Configuring the Transition-In Animations
-The transition type is configured by setting the transitionInMode option to the desired transition name. Automatic selection of the transition type based on the series type is possible, too, by setting the property to “Auto” (default).
+## <a id="configuringthetransitioninanimations"/>トランジションイン アニメーションを構成する
+トランジション タイプは、transitionInMode プロパティを任意のトランジション名に設定すると構成されます。プロパティを “Auto” (デフォルト値) に設定すると、シリーズ タイプに基づきトランジション タイプを自動的に選択することもできます。
 
-The following example demonstrates how to enable transition in animations and have the column series accordion in from the right.
+以下の例では、トランジション イン アニメーションが有効になり、シリーズ列を右側からアコーディオンできる方法を示します。
 
-*In HTML:*
+*HTML の場合:*
 
 ```html
 $(function () {
@@ -87,8 +87,8 @@ $(function () {
 });
 ```
 
-## <a id="relatedtopics"/>Related Topics:
+## <a id="relatedtopics"/>関連トピック:
 
-- [Adding igCategoryChart](igcategorychart-adding.html)
+- [igCategoryChart の追加](igcategorychart-adding.html)
 
-- [Binding to Data](categorychart-binding-to-data.html)
+- [データ バインド](categorychart-binding-to-data.html)

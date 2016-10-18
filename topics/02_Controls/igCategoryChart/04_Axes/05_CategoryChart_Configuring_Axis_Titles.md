@@ -8,38 +8,38 @@
 |metadata|
 -->
 
-# Axis Titles
-The axis title feature of the igCategoryChart control allows you to add contextual information to the x and y axes of the chart.
+# 軸タイトル
+igCategoryChart コントロールの軸タイトル機能は、チャートの x および y 軸に情報を追加できます。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [Property Settings](#propertysettings)
-- [Code Snippet](#codesnippet)
-- [Related Topics](#relatedtopics)
+- [プロパティの設定](#propertysettings)
+- [コード スニペット](#codesnippet)
+- [関連トピック](#relatedtopics)
 
-### <a id="propertysettings"/>Property Settings
-You can customize the look and feel of the category chart's x-axis and y-axis titles in many different ways such as applying different font styles, margins, and alignment. This can be achieved through the following properties:
+### <a id="propertysettings"/>プロパティの設定
+カテゴリ チャートは、x 軸および y 軸のタイトルのフォント スタイル、マージン、配置などを変更してルックアンドフィールをカスタマイズできます。以下のプロパティを使用します。
 
-Property Name|Property Type|Description
+プロパティ名|プロパティ タイプ|説明
 ---|---|---
-`xAxisTitle`,`yAxisTitle`|string|Determines the text to be used for the x-axis and y-axis title
-`xAxisTitleAlignment`, `yAxisTitleAlignment`|enumeration|Determines the horizontal alignment of the x-axis and the vertical alignment of the y-axis 
-`xAxisTitleAngle`,`yAxisTitleAngle`|number|Determines the angle rotation for the x-axis and y-axis titles
-`xAxisTitleBottomMargin`,`yAxisTitleBottomMargin`|number|Determines the margin to be applied to the bottom of the x-axis or y-axis title
-`xAxisTitleExtent`,`yAxisTitleExtent`|number|Determines the extent to be applied to the x-axis or y-axis title
-`xAxisTitleLeftMargin`,`yAxisTitleLeftMargin`|number|Determines the margin to be applied to the left of the x-axis or y-axis title
-`xAxisTitleMargin`,`yAxisTitleMargin`|number|Determines the margin to be applied to the x-axis or y-axis title
-`xAxisTitleRightMargin`,`yAxisTitleRightMargin`|number|Determines the margin to be applied to the right of the x-axis or y-axis title
-`xAxisTitleTextColor`, `yAxisTitleTextColor`|string|Determines the color for the x-axis or y-axis title
-`xAxisTitleTextStyle`,`yAxisTitleTextStyle`|string|Determines the font styles to be applied to the x-axis or y-axis title
-`xAxisTitleTopMargin`,`yAxisTitleTopMargin`|number|Determines the margin to be applied to the top of the x-axis or y-axis title
+`xAxisTitle`,`yAxisTitle`|string|x 軸と y 軸のタイトルに使用するテキストを決定します。
+`xAxisTitleAlignment`, `yAxisTitleAlignment`|enumeration|x 軸の水平方向の配置と y 軸の垂直報告の配置を決定します。 
+`xAxisTitleAngle`,`yAxisTitleAngle`|number|x 軸と y 軸のタイトルの回転角度を決定します。
+`xAxisTitleBottomMargin`,`yAxisTitleBottomMargin`|number|x 軸と y 軸のタイトルの下に適用するマージンを決定します。
+`xAxisTitleExtent`,`yAxisTitleExtent`|number|x 軸と y 軸のタイトルに適用する範囲を決定します。
+`xAxisTitleLeftMargin`,`yAxisTitleLeftMargin`|number|x 軸と y 軸のタイトルの左に適用するマージンを決定します。
+`xAxisTitleMargin`,`yAxisTitleMargin`|number|x 軸と y 軸のタイトルに適用するマージンを決定します。
+`xAxisTitleRightMargin`,`yAxisTitleRightMargin`|number|x 軸と y 軸のタイトルの右に適用するマージンを決定します。
+`xAxisTitleTextColor`, `yAxisTitleTextColor`|string|x 軸と y 軸のタイトルの色を決定します。
+`xAxisTitleTextStyle`,`yAxisTitleTextStyle`|string|x 軸と y 軸のタイトルに適用するフォント スタイルを決定します。
+`xAxisTitleTopMargin`,`yAxisTitleTopMargin`|number|x 軸と y 軸のタイトルの上に適用するマージンを決定します。
 
-### <a id="codesnippets"/>Code Snippet
-The following code example shows how to customize the titles on the x-axis and y-axis:
+### <a id="codesnippets"/>コード スニペット
+以下のコード例は、x 軸と y 軸のタイトルをカスタマイズします。
 
-*In HTML:*
+*HTML の場合:*
 
 ```html
 $(function () {
@@ -58,18 +58,18 @@ $(function () {
 
 ![](images/categorychart-configuring-axis-title-01.png)
 
-## <a id="relatedtopics"/>Related Topics:
+## <a id="relatedtopics"/>関連トピック:
 
-- [Walkthrough](igcategorychart-adding.html)
+- [チュートリアル](igcategorychart-adding.html)
 
-- [Binding to Data](categorychart-binding-to-data.html)
+- [データ バインド](categorychart-binding-to-data.html)
 
-- [Configuring Axis Gap and Overlap](configuring-axis-gap-and-overlap.html)
+- [軸間隔と重複の構成](configuring-axis-gap-and-overlap.html)
 
-- [Configuring Axis Labels](configuring-axis-labels.html)
+- [軸ラベルの構成](configuring-axis-labels.html)
 
-- [Configuring Axis Intervals](configuring-axis-intervals.html)
+- [軸間隔の構成](configuring-axis-intervals.html)
 
-- [Configuring Axis Range](configuring-axis-range.html)
+- [軸範囲の構成](configuring-axis-range.html)
 
-- [Configuring Axis Tickmarks](configuring-axis-tickmarks.html)
+- [軸目盛りの構成](configuring-axis-tickmarks.html)

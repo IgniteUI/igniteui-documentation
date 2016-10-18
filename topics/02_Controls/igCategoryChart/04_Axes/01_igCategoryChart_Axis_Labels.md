@@ -8,49 +8,49 @@
 |metadata|
 -->
 
-# Configuring Axis Label 
+# 軸ラベルの構成 
 
-The igCategoryChart control allows you full control over configuring, formatting and styling the labels displayed on your chart. By default, you do not need to explicitly set the labels. The Category Chart will use the first appropriate string property that it finds within the data you provided and will use that for the labels. 
+igCategoryChart は、チャートの構成、書式設定、ラベルのスタイル設定など詳細に制御することが可能です。デフォルトでは、ラベルを明示的に設定する必要はありません。カテゴリ チャートは、提供したデータ内で最初の適切な文字列プロパティを使用し、ラベルに使用します。 
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [Label Settings](#labelsettings)
-- [Label Styling](#labelstyling)
-- [Code Snippet](#codesnippet)
-- [Related Topics](#relatedtopics)
+- [ラベル設定](#labelsettings)
+- [ラベルのスタイル](#labelstyling)
+- [コード スニペット](#codesnippet)
+- [関連トピック](#relatedtopics)
 
-### <a id="labelsettings"/>Label Settings
+### <a id="labelsettings"/>ラベル設定
 
-In the igCategoryChart™ control, you can change the rotation angle, margin, horizontal/vertical alignment, opacity, padding and visibility, of the x-axis and y-axis labels using the following properties:
+igCategoryChart™ コントロールでは、以下のプロパティで x 軸および y 軸のラベルの回転角度、マージン、水平/垂直の配置、不透明度、パディングと表示を変更できます。
 
-Property Name|Property Type|Description
+プロパティ名|プロパティ タイプ|説明
 ---|---|---
-`xAxisLabelAngle`, `yAxisLabelAngle` | double |Determines angle rotation of x-axis or y-axis labels 
-`xAxisLabelHorizontalAlignment`, `yAxisLabelHorizontalAlignment` |HorizontalAlignment |Determines horizontal alignment of the x-axis or y-axis labels 
-`xAxisLabelVerticalAlignment`, `yAxisLabelVerticalAlignment`|VerticalAlignment|Determines vertical alignment of the x-axis or y-axis labels
-`xAxisLabelVisibility`, `yAxisLabelVisibility`|Visibility bool|Determines whether or not x-axis or y-axis labels are visible
-`xAxisLabelLeftMargin`, `yAxisLabelLeftMargin`, `xAxisLabelRightMargin`, `yAxisLabelRightMargin`|Number|Determines the margin applied to each x-axis or y-axis labels
+`xAxisLabelAngle`, `yAxisLabelAngle` | double |x 軸と y 軸のラベルの回転角度を決定します。
+`xAxisLabelHorizontalAlignment`, `yAxisLabelHorizontalAlignment` |HorizontalAlignment|x 軸と y 軸のラベルの水平方向の配置を決定します。
+`xAxisLabelVerticalAlignment`, `yAxisLabelVerticalAlignment`|VerticalAlignment|x 軸と y 軸のラベルの垂直方向の配置を決定します。
+`xAxisLabelVisibility`, `yAxisLabelVisibility`|Visibility bool|x 軸と y 軸のラベルを表示するかどうかを決定します。
+`xAxisLabelLeftMargin`, `yAxisLabelLeftMargin`, `xAxisLabelRightMargin`, `yAxisLabelRightMargin`|Number|x 軸と y 軸のラベルに適用するマージンを決定します。
 
 
-### <a id="labelstyling"/>Label Styling
-The look and feel of the category chart's x-axis and y-axis labels can be styled in many aspects, the main of which are applying different font styles such as font type, font size and font weight to the labels. This can be achieved through the following properties:
+### <a id="labelstyling"/>ラベルのスタイル
+カテゴリ チャートの x 軸および y 軸のラベルのルックアンドフィールをスタイル設定できます。主にフォントタイプ、フォント サイズ、フォントの幅など異なるフォント スタイルをラベルに適用できます。以下のプロパティを使用します。
 
-Property Name|Property Type|Description
+プロパティ名|プロパティ タイプ|説明
 ---|---|---
-`xAxisLabelTextStyle`,`yAxisLabelTextStyle`|object|Determines the font family, size, style to be used for the x-axis or y-axis labels
-`xAxisLabelFontSize`, `yAxisLabelFontSize`|double|Determines the size of the font for the x-axis or y-axis labels 
-`xAxisLabelFontStretch`,`yAxisLabelFontStretch`|FontStretch|Determines the font stretch to applied to the x-axis or y-axis labels
-`xAxisLabelFontStyle`,`yAxisLabelFontStyle`|Visibility bool|Determines the font style of the x-axis or y-axis labels
-`xAxisLabelFontWeight`,`yAxisLabelFontWeight`|FontWeight|Determines the font weight of the x-axis or y-axis labels
-`xAxisLabelTextColor`,`yAxisLabelTextColor`|Brush|Determines the text color of the x-axis or y-axis labels 
+`xAxisLabelTextStyle`,`yAxisLabelTextStyle`|object|x 軸と y 軸ラベルに使用するフォント ファミリ、サイズ、スタイルを決定します。
+`xAxisLabelFontSize`, `yAxisLabelFontSize`|double|x 軸と y 軸のラベルのフォントサイズを設定します。
+`xAxisLabelFontStretch`,`yAxisLabelFontStretch`|FontStretch|x 軸と y 軸のラベルに適用するフォント伸縮を決定します。
+`xAxisLabelFontStyle`,`yAxisLabelFontStyle`|Visibility bool|x 軸と y 軸のラベルのフォント スタイルを決定します
+`xAxisLabelFontWeight`,`yAxisLabelFontWeight`|FontWeight|x 軸と y 軸のラベルのフォント ウェイトを決定します。
+`xAxisLabelTextColor`,`yAxisLabelTextColor`|Brush|x 軸と y 軸のラベルのテキストの色を決定します。
 
 
-### <a id="codensnippet"/>Code Snippet
-The following code example shows how to style labels on the x-axis using style properties:
+### <a id="codensnippet"/>コード スニペット
+以下のコード例は、スタイル プロパティを使用して x 軸のラベルにスタイル設定します。
 
-*In HTML:*
+*HTML の場合:*
 
 ```html
 $(function () {
@@ -66,22 +66,22 @@ $(function () {
 
 
 
-The following screenshot demonstrates the igCategoryChart control with the x-axis label styled.
+以下のスクリーンショットは、x 軸ラベルをスタイル設定した igCategoryChart コントロールを示します。
 
 ![](images/categorychart-configuring-axis-labels-01.png)
 
-## <a id="relatedtopics"/>Related Topics:
+## <a id="relatedtopics"/>関連トピック:
 
-- [Walkthrough](igcategorychart-adding.html)
+- [チュートリアル](igcategorychart-adding.html)
 
-- [Binding to Data](categorychart-binding-to-data.html)
+- [データ バインド](categorychart-binding-to-data.html)
 
-- [Configuring Axis Gap and Overlap](configuring-axis-gap-and-overlap.html)
+- [軸間隔と重複の構成](configuring-axis-gap-and-overlap.html)
 
-- [Configuring Axis Intervals](configuring-axis-intervals.html)
+- [軸間隔の構成](configuring-axis-intervals.html)
 
-- [Configuring Axis Range](configuring-axis-range.html)
+- [軸範囲の構成](configuring-axis-range.html)
 
-- [Configuring Axis Tickmarks](configuring-axis-tickmarks.html)
+- [軸目盛りの構成](configuring-axis-tickmarks.html)
 
-- [Configuring Axis Titles](configuring-axis-titles.html)
+- [軸タイトルの構成](configuring-axis-titles.html)
