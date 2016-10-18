@@ -138,16 +138,6 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 
 						<tr>
 							<td>
-								infragistics.datasource.js
-							</td>
-
-							<td>
-								`igDataSource` コントロール
-							</td>
-						</tr>
-
-						<tr>
-							<td>
 								infragistics.util.js
 							</td>
 
@@ -158,11 +148,56 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 
 						<tr>
 							<td>
-								infragistics.dv.simple.core.js
+								infragistics.datasource.js
+							</td>
+
+							<td>
+								`igDataSource` コントロール
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								infragistics.templating.js
+							</td>
+
+							<td>
+								Ignite UI テンプレート エンジン
+							</td>
+						</tr>
+
+						
+						<tr>
+							<td>
+								infragistics.ext_core.js,<br>
+								infragistics.ext_collections.js,<br>
+								infragistics.ext_ui.js,<br>
+								infragistics.dv_core.js,<br>
+								infragistics.dv_geometry.js
 							</td>
 
 							<td>
 								コア データ ビジュアライゼーション ロジック
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								infragistics.datachart_core.js
+							</td>
+
+							<td>
+								すべてのチャート ウィジェットのコア ビジュアライゼーション ロジック
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								infragistics.dvcommonwidget.js
+							</td>
+
+							<td>
+								データ ビジュアライゼーション ウィジェットの共有 UI コード
 							</td>
 						</tr>
 
@@ -172,13 +207,13 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 							</td>
 
 							<td>
-								チャート ウィジェット用の共通コード
+								チャート ウィジェット用の共通 UI コード
 							</td>
 						</tr>
 
 						<tr>
 							<td>
-								infragistics.chart_funnelchart.js
+								infragistics.funnelchart.js
 							</td>
 
 							<td>
@@ -195,6 +230,16 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 								`igFunnelChart` コントロール
 							</td>
 						</tr>
+						
+						<tr>
+							<td>
+								infragistics.legend.js
+							</td>
+
+							<td>
+								チャート凡例の視覚化の共有コード
+							</td>
+						</tr>
 
 						<tr>
 							<td>
@@ -203,16 +248,6 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 
 							<td>
 								Ignite UI においてすべてのチャート コントロールで使用される `igChartLegend` コントロール
-							</td>
-						</tr>
-
-						<tr>
-							<td>
-								infragistics.templating.js
-							</td>
-
-							<td>
-								インフラジスティックス テンプレート エンジン
 							</td>
 						</tr>
 					</tbody>
@@ -300,7 +335,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 		$.ig.loader({
 	        scriptPath: "/Script/ig/",
 	        cssPath: "/Content/ig/",
-	        resources: "igFunnelChart"
+	        resources: "igFunnelChart,igChartLegend"
 	    });
 		```
 
