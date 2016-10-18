@@ -667,7 +667,12 @@ igDataSource コントロール
 
 						<tr>
 							<td>
-infragistics.dv.core.js
+infragistics.ext_core.js<br>
+infragistics.ext_collections.js<br>
+infragistics.ext_ui.js<br>
+infragistics.dv_core.js<br>
+infragistics.dv_geometry.js<br>
+infragistics.datachart_core.js
 			</td>
 
 							<td>
@@ -691,7 +696,27 @@ infragistics.ui.chart.js
 			</td>
 
 							<td>
-チャート基盤機能
+チャート UI ウィジェット
+			</td>
+						</tr>
+						<tr>
+							<td>
+infragistics.legend.js<br>
+infragistics.ui.chartlegend.js
+			</td>
+
+							<td>
+チャート凡例機能および UI ウィジェット
+			</td>
+						</tr>
+
+						<tr>
+							<td>
+infragistics.dv_opd.js
+			</td>
+
+							<td>
+チャートの概要と詳細ペイン機能
 			</td>
 						</tr>
 					</tbody>
@@ -720,7 +745,14 @@ JS リソース
 						</tr>
 	</thead>
 	<tbody>
-						
+						<tr>
+			<td>
+				共有のカテゴリ機能
+			</td>
+			<td>
+				infragistics.datachart_categorycore.js
+			</td>
+		</tr>
 
 						<tr>
 							<td>
@@ -728,9 +760,18 @@ JS リソース
 			</td>
 
 							<td>
-infragistics.chart_categorychart.js
+infragistics.datachart_category.js
 			</td>
 						</tr>
+						
+						<tr>
+			<td>
+				棒チャート
+			</td>
+			<td>
+				infragistics.datachart_verticalcategory.js
+			</td>
+		</tr>
 
 						<tr>
 							<td>
@@ -738,7 +779,8 @@ Financial、平均値インジケーター
 			</td>
 
 							<td>
-infragistics.chart_financialchart.js
+infragistics.datachart_financial.js<br>
+				infragistics.datachart_extendedfinancial.js
 			</td>
 						</tr>
 
@@ -748,7 +790,7 @@ infragistics.chart_financialchart.js
 			</td>
 
 							<td>
-infragistics.chart_polarchart.js
+infragistics.datachart_polar.js (依存関係: infragistics.datachart_extendedaxes.js)
 			</td>
 						</tr>
 
@@ -758,7 +800,7 @@ infragistics.chart_polarchart.js
 			</td>
 
 							<td>
-infragistics.chart_radialchart.js
+infragistics.datachart_radial.js (依存関係: infragistics.datachart_extendedaxes.js)
 			</td>
 						</tr>
 
@@ -768,7 +810,7 @@ infragistics.chart_radialchart.js
 			</td>
 
 							<td>
-infragistics.chart_rangecategorychart.js
+infragistics.datachart_rangecategory.js
 			</td>
 						</tr>
 
@@ -778,9 +820,38 @@ infragistics.chart_rangecategorychart.js
 			</td>
 
 							<td>
-infragistics.chart_scatterchart.js
+infragistics.datachart_scatter.js
 			</td>
 						</tr>
+						<tr>
+			<td>
+				すべての積層型チャート
+			</td>
+			<td>
+				infragistics.datachart_stacked.js (依存関係: infragistics.datachart_verticalcategory.js, infragistics.datachart_extendedaxes.js)
+
+			</td>
+		</tr>
+	
+		<tr>
+			<td>
+				ツールチップ、強調表示、注釈
+			</td>
+			<td>
+				infragistics.datachart_annotation.js
+
+			</td>
+		</tr>
+	
+		<tr>
+			<td>
+				DateTime 軸
+			</td>
+			<td>
+				infragistics.datachart_extendedaxes.js
+
+			</td>
+		</tr>
 					</tbody>
 </table>
 			</td>

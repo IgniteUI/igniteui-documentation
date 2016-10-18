@@ -137,7 +137,7 @@ var viewModel = {
 $.ig.loader({
     scriptPath: "http://localhost/ig_ui/js/",
     cssPath: "http://localhost/ig_ui/css/",
-    resources: "igDataChart,extensions/infragistics.ui.datachart.knockout-extensions.js",
+    resources: "igDataChart.Category,extensions/infragistics.ui.datachart.knockout-extensions.js",
     ready: function () {
         ko.applyBindings(viewModel);
     }

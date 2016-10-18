@@ -104,7 +104,7 @@
 		</tr>
 		<tr>
 			<td>MinorStroke</td>
-			<td>brush/td>
+			<td>brush</td>
 			<td>軸の副グリッド線の色。</td>
 		</tr>
 		<tr>
@@ -115,7 +115,7 @@
 	</tbody>
 </table>
 
-###<a id="numericxexample"></a> [NumericXExample]
+###<a id="numericxexample"></a> NumericXExample
 
 この表の下に示すスクリーンショットは、以下の設定の結果 (LineSeries を使用)、軸の主間隔と副間隔プロパティを NumericXAxis に設定した `igDataChart` コントロールの外観がどのようになるかを示します。
 
