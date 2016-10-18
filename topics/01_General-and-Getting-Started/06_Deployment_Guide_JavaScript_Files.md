@@ -60,7 +60,8 @@
 
 >**注:** 結合スクリプト ファイルを使用するときは、地域設定を常に参照する必要があります。これらは結合スクリプト ファイルの一部ではありません。
 
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
+>**Note:** English localization files are merged into minified JS files and are not required to be referenced explicitly.
+For other languages corresponding localization need to be referenced before the actual JavaScript files on the page code.
 
 ##コントロールによる JavaScript ファイルの参照
 
@@ -69,6 +70,7 @@
 特定のコントロールの必要な JavaScript ファイル リストをナビゲートするには、以下のリストのコントロール名をクリックします。
 
 -   [igBulletGraph](#igBulletGraph)
+-   [igCategoryChart](#igCategoryChart)
 -   [igCombo](#igCombo)
 -   [igDataSource](#igDataSource)
 -   [igDataChart](#igDataChart)
@@ -92,6 +94,7 @@
 -   [igRadialGauge](#igRadialGauge)
 -   [igRating](#igRating)
 -   [igReportViewer](#igReportViewer)
+-   [igScroll](#igScroll)
 -   [igSplitter](#igSplitter)
 -   [igTemplating](#igTemplating)
 -   [igTileManager](#igTileManager)
@@ -114,20 +117,96 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>
-				infragistics.util.js
-				<br>infragistics.dv.simple.core.js
+				infragistics.util.js<br>
+				infragistics.ext_core.js<br>
+				infragistics.ext_collections.js<br>
+				infragistics.ext_ui.js<br>
+				infragistics.dv_core.js<br>
+				infragistics.dv_geometry.js	
 			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
 			<td>
-			    infragistics.gauge_bulletgraph.js
+			    infragistics.bulletgraph.js
 			    <br>infragistics.ui.bulletgraph.js
 			</td>
 		</tr>
 	</tbody>
 </table>
 
+#### <a id="igCategoryChart"></a>igCategoryChart
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>スクリプトの種類</th>
+			<th>スクリプト ファイル名</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>依存スクリプト</td>
+			<td>
+				infragistics.util.js
+				<br>infragistics.datasource.js
+				<br>infragistics.templating.js
+				<br>infragistics.ext_core.js
+				<br>infragistics.ext_collections.js
+				<br>infragistics.ext_ui.js
+				<br>infragistics.dv_core.js
+				<br>infragistics.dv_datasource.js
+				<br>infragistics.dv_dataseriesadapter.js
+				<br>infragistics.dv_geometry.js
+				<br>infragistics.datachart_core.js
+				<br>infragistics.datachart_categorycore.js
+				<br>infragistics.dvcommonwidget.js
+				<br>infragistics.ui.basechart.js
+				<br>infragistics.datachart_category.js
+			</td>
+		</tr>
+		<tr>
+			<td>スクリプト</td>
+			<td>
+				infragistics.categorychart.js
+				<br>infragistics.ui.categorychart.js			
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+#### <a id="igChartLegend"></a>igChartLegend
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>スクリプトの種類</th>
+			<th>スクリプト ファイル名</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>依存スクリプト</td>
+			<td>
+				infragistics.util.js
+				<br>infragistics.ext_core.js
+				<br>infragistics.ext_collections.js
+				<br>infragistics.ext_ui.js
+				<br>infragistics.dv_core.js
+				<br>infragistics.dv_geometry.js
+				<br>infragistics.datachart_core.js
+				<br>infragistics.dvcommonwidget.js
+			</td>
+		</tr>
+		<tr>
+			<td>スクリプト</td>
+			<td>
+				infragistics.legend.js
+				<br>infragistics.ui.chartlegend.js
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 #### <a id="igCombo"></a>igCombo 
 
@@ -143,9 +222,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
 			    <br>infragistics.dataSource.js
-			    <br>infragistics.templating-en.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
 			</td>
@@ -153,14 +230,11 @@
 		<tr>
 			<td>スクリプト</td>
 			<td>
-				infragistics.ui.combo-en.js
-	    		<br>infragistics.ui.combo.js
+	    		infragistics.ui.combo.js
 			</td>
 		</tr>
 	</tbody>
 </table>
-  
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igDataSource"></a>igDataSource
 
@@ -181,14 +255,11 @@
 		<tr>
 			<td>スクリプト</td>
 			<td>
-			    infragistics.datasource-en.js
-			    <br>infragistics.dataSource.js
+			    infragistics.datasource.js
 			</td>
 		</tr>
 	</tbody>
 </table>
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igDataChart"></a>igDataChart
 
@@ -204,31 +275,71 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
-			    <br>infragistics.dataSource.js
+			    <br>infragistics.datasource.js
+			    <br>infragistics.templating.js
 			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
 			<td>
-			    infragistics.dv.core.js
-			    <br>infragistics.dvcommonwidget-en.js
-			    <br>infragistics.dvcommonwidget.js
-			    <br>infragistics.ui.chart.js
+			    infragistics.ext_core.js
+				<br>infragistics.ext_collections.js
+				<br>infragistics.ext_ui.js
+				<br>infragistics.dv_core.js
+				<br>infragistics.dv_geometry.js
+				<br>infragistics.datachart_core.js
+				<br>infragistics.dvcommonwidget.js
+				<br>infragistics.ui.chart.js
 			
 				<h5>機能:</h5>
-			    infragistics.chart_categorychart.js
-			    <br>infragistics.chart_financialchart.js
-			    <br>infragistics.chart_polarchart.js
-			    <br>infragistics.chart_radialchart.js
-			    <br>infragistics.chart_rangecategorychart.js
-			    <br>infragistics.chart_scatterchart.js
+			    infragistics.datachart_categorycore.js
+				<br>infragistics.datachart_category.js
+				<br>infragistics.datachart_rangecategory.js
+				<br>infragistics.datachart_verticalcategory.js
+				<br>infragistics.datachart_financial.js
+				<br>infragistics.datachart_extendedfinancial.js
+				<br>infragistics.datachart_extendedaxes.js
+				<br>infragistics.datachart_polar.js
+				<br>infragistics.datachart_radial.js
+				<br>infragistics.datachart_scatter.js
+				<br>infragistics.datachart_stacked.js
+				<br>infragistics.datachart_annotation.js
 			</td>
 		</tr>
 	</tbody>
 </table>
 
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
+#### <a id="igDateTimeAxis"></a>igDateTimeAxis
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>スクリプトの種類</th>
+			<th>スクリプト ファイル名</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>依存スクリプト</td>
+			<td>
+				infragistics.util.js<br>
+				infragistics.ext_core.js<br>
+				infragistics.ext_collections.js<br>
+				infragistics.ext_ui.js<br>
+				infragistics.dv_core.js<br>
+				infragistics.dv_geometry.js<br>
+				infragistics.datachart_core.js<br>
+				infragistics.datachart_categorycore.js			
+			</td>
+		</tr>
+		<tr>
+			<td>スクリプト</td>
+			<td>
+				infragistics.datachart_extendedaxes.js
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 #### <a id="igDialog"></a>igDialog
 
@@ -249,16 +360,13 @@
 		<tr>
 			<td>スクリプト</td>
 			<td>
-			    infragistics.ui.dialog-en.js
-			    <br>infragistics.ui.dialog.js
+			    infragistics.ui.dialog.js
 			</td>
 		</tr>
 	</tbody>
 </table>
 
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
-
-####<a id="igDoughnutChart"></a>igDoughnutChart 
+#### <a id="igDoughnutChart"></a>igDoughnutChart 
 <table class="table">
 	<thead>
 		<tr>
@@ -270,28 +378,30 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>
-			    infragistics.util.js
-			    <br>infragistics.datasource.js
-			    <br>infragistics.dv.core.js
-			    <br>infragistics.dvcommonwidget-en.js
-			    <br>infragistics.dvcommonwidget.js
-			    <br>infragistics.templating.js
-			    <br>infragistics.ui.chartlegend.js
-			    <br>infragistics.ui.basechart.js
-			    <br>infragistics.chart_piechart.js
+			    infragistics.util.js<br>
+				infragistics.datasource.js<br>
+				infragistics.templating.js<br>
+				infragistics.ext_core.js<br>
+				infragistics.ext_collections.js<br>
+				infragistics.ext_ui.js<br>
+				infragistics.dv_core.js<br>
+				infragistics.dv_geometry.js<br>
+				infragistics.datachart_core.js<br>
+				infragistics.dvcommonwidget.js<br>
+				infragistics.ui.chart.js<br>
+				infragistics.piechart.js<br>
+				infragistics.ui.basechart.js
 			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
 			<td>
-				infragistics.ui.doughnutchart-en.js
+				infragistics.ui.doughnutchart.js
 				<br>infragistics.ui.doughnutchart.js
 			</td>
 		</tr>
 	</tbody>
 </table>
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igEditors"></a>igEditors
 <table class="table">
@@ -311,15 +421,46 @@
 		<tr>
 			<td>スクリプト</td>
 			<td>
-    			infragistics.ui.regional-en.js
-			    <br>infragistics.ui.editors-en.js
-    			<br>infragistics.ui.editors.js
+    			infragistics.ui.editors.js
 			</td>
 		</tr>
 	</tbody>
 </table>
 
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
+#### <a id="igFunnelChart"></a>igFunnelChart
+<table class="table">
+	<thead>
+		<tr>
+			<th>スクリプトの種類</th>
+			<th>スクリプト ファイル名</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>依存スクリプト</td>
+			<td>
+				infragistics.util.js<br>
+				infragistics.datasource.js<br>
+				infragistics.templating.js<br>
+				infragistics.ext_core.js<br>
+				infragistics.ext_collections.js<br>
+				infragistics.ext_ui.js<br>
+				infragistics.dv_core.js<br>
+				infragistics.dv_geometry.js<br>
+				infragistics.datachart_core.js<br>
+				infragistics.dvcommonwidget.js<br>
+				infragistics.ui.basechart.js
+			</td>
+		</tr>
+		<tr>
+			<td>スクリプト</td>
+			<td>
+				infragistics.funnelchart.js<br>
+				infragistics.ui.funnelchart.js
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 #### <a id="igGrid"></a>igGrid 
 <table class="table">
@@ -334,9 +475,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
-			    <br>infragistics.dataSource.js
-			    <br>infragistics.templating-en.js
+			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
 				<br>infragistics.ui.grid.shared.js
@@ -346,8 +485,7 @@
 		<tr>
 			<td>スクリプト</td>
 			<td>
-			    infragistics.ui.grid-en.js
-			    <br>infragistics.ui.grid.framework.js
+			    infragistics.ui.grid.framework.js
 			
 				<h5>機能:</h5>
 			    infragistics.ui.grid.featurechooser.js
@@ -374,8 +512,6 @@
 </table>
 
 
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
-
 #### <a id="igHierarchicalGrid"></a>igHierarchicalGrid 
 <table class="table">
 	<thead>
@@ -389,14 +525,11 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
-			    <br>infragistics.dataSource.js
-			    <br>infragistics.templating-en.js
+			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
 				<br>infragistics.ui.grid.shared.js
 			    <br>infragistics.ui.scroll.js
-			    <br>infragistics.ui.grid-en.js
 			    <br>infragistics.ui.grid.framework.js
 			</td>
 		</tr>
@@ -426,8 +559,6 @@
 	</tbody>
 </table>
 
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
-
 #### <a id="igHtmlEditor"></a>igHtmlEditor 
 <table class="table">
 	<thead>
@@ -441,9 +572,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
-			    <br>infragistics.dataSource.js
-			    <br>infragistics.templating-en.js
+			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
 			    <br>infragistics.ui.toolbarbutton.js
@@ -451,25 +580,19 @@
 			    <br>infragistics.ui.colopicker.js
 			    <br>infragistics.ui.popover.js
 			    <br>infragistics.ui.colorpickersplitbutton.js
-			    <br>infragistics.ui.combo-en.js
 			    <br>infragistics.ui.combo.js
-			    <br>infragistics.ui.editors-en.js
 			    <br>infragistics.ui.editors.js
-			    <br>infragistics.ui.toolbar-en.js
 			    <br>infragistics.ui.toolbar.js
 			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
 			<td>
-			    infragistics.ui.htmleditor-en.js
 			    <br>infragistics.ui.htmleditor.js
 			</td>
 		</tr>
 	</tbody>
 </table>
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igLayoutManager"></a>igLayoutManager 
 <table class="table">
@@ -493,8 +616,6 @@
 	</tbody>
 </table>
 
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
-
 #### <a id="igLinearGauge"></a>igLinearGauge 
 <table class="table">
 	<thead>
@@ -507,14 +628,20 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>
-				infragistics.util.js
-				<br>infragistics.dv.simple.core.js
+				infragistics.util.js<br>
+				infragistics.ext_core.js<br>
+				infragistics.ext_collections.js<br>
+				infragistics.ext_ui.js<br>
+				infragistics.dv_core.js<br>
+				infragistics.dv_geometry.js
 			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
-			<td>infragistics.gauge_lineargauge.js
-				<br>infragistics.ui.lineargauge.js</td>
+			<td>
+				infragistics.lineargauge.js<br>
+				infragistics.ui.lineargauge.js
+			</td>
 		</tr>
 	</tbody>
 </table>
@@ -532,23 +659,62 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>
-			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
-			    <br>infragistics.dataSource.js
+			    infragistics.util.js<br>
+				infragistics.datasource.js<br>
+				infragistics.templating.js<br>
+				infragistics.ext_core.js<br>
+				infragistics.ext_collections.js<br>
+				infragistics.ext_ui.js<br>
+				infragistics.dv_core.js<br>
+				infragistics.dv_geometry.js<br>
+				infragistics.datachart_core.js<br>
+				infragistics.dvcommonwidget.js<br>
+				infragistics.ui.chart.js<br>
+				infragistics.datachart_scatter.js<br>
+				infragistics.ext_text.js<br>
+				infragistics.ext_io.js<br>
+				infragistics.ext_threading.js<br>
+				infragistics.ext_web.js<br>
+				infragistics.dv_geo.js
 			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
-			<td>infragistics.dv.core.js
-				<br>infragistics.geographicmap_core.js
-			    <br>infragistics.dvcommonwidget-en.js
-			    <br>infragistics.dvcommonwidget.js
-			    <br>infragistics.ui.map.js</td>
+			<td>
+				infragistics.geographicmap_core.js<br>
+				infragistics.ui.map.js
+			</td>
 		</tr>
 	</tbody>
 </table>
 
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
+#### <a id="igOverviewPlusDetailPane"></a>igOverviewPlusDetailPane 
+<table class="table">
+	<thead>
+		<tr>
+			<th>スクリプトの種類</th>
+			<th>スクリプト ファイル名</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>依存スクリプト</td>
+			<td>
+				infragistics.util.js<br>
+				infragistics.ext_core.js<br>
+				infragistics.ext_collections.js<br>
+				infragistics.ext_ui.js<br>
+				infragistics.dv_core.js
+			</td>
+		</tr>
+		<tr>
+			<td>スクリプト</td>
+			<td>
+				infragistics.dv_opd.js
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 #### <a id="igOlapFlatDataSource"></a>igOlapFlatDataSource 
 <table class="table">
@@ -602,25 +768,27 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>
-			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
-				<br>infragistics.dataSource.js
+				infragistics.util.js<br>
+				infragistics.datasource.js<br>
+				infragistics.templating.js<br>
+				infragistics.ext_core.js<br>
+				infragistics.ext_collections.js<br>
+				infragistics.ext_ui.js<br>
+				infragistics.dv_core.js<br>
+				infragistics.dv_geometry.js<br>
+				infragistics.datachart_core.js<br>
+				infragistics.dvcommonwidget.js
 			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
 			<td>
-    			infragistics.dv.core.js
-    			<br>infragistics.dvcommonwidget-en.js
-    			<br>infragistics.dvcommonwidget.js
-				<br>infragistics.ui.chart.js
-    			<br>infragistics.chart_piechart.js
+    			infragistics.piechart.js<br>
+				infragistics.ui.chart.js
 			</td>
 		</tr>
 	</tbody>
 </table>
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igPivotDataSelector"></a>igPivotDataSelector 
 <table class="table">
@@ -635,22 +803,17 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
-			    <br>infragistics.dataSource.js
+			    <br>infragistics.datasource.js
 			    <br>infragistics.olapflatdatasource.js
 			
 				<br>*または*
 			
 			    <br>infragistics.olapxmladatasource.js
-				<br>infragistics.templating-en.js
 				<br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
 			    <br>infragistics.ui.scroll.js
-			    <br>infragistics.ui.combo-en.js
 			    <br>infragistics.ui.combo.js
-			    <br>infragistics.ui.tree-en.js
 			    <br>infragistics.ui.tree.js
-			    <br>infragistics.ui.pivot.shared-en.js
 			    <br>infragistics.ui.pivot.shared.js
 			</td>
 		</tr>
@@ -661,8 +824,6 @@
 	</tbody>
 </table>
 
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igPivotGrid"></a>igPivotGrid 
 <table class="table">
@@ -677,21 +838,17 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
-			    <br>infragistics.dataSource.js
+			    <br>infragistics.datasource.js
 			    <br>infragistics.olapflatdatasource.js
 			
 				<br>*または*
 			
 			    <br>infragistics.olapxmladatasource.js
-			    <br>infragistics.templating-en.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
 			    <br>infragistics.ui.scroll.js
-			    <br>infragistics.ui.grid-en.js
 			    <br>infragistics.ui.grid.framework.js
 			    <br>infragistics.ui.grid.multicolumnheaders.js
-			    <br>infragistics.ui.pivot.shared-en.js
 			    <br>infragistics.ui.pivot.shared.js
 			</td>
 		</tr>
@@ -701,8 +858,6 @@
 		</tr>
 	</tbody>
 </table>
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igPivotView"></a>igPivotView 
 <table class="table">
@@ -718,29 +873,21 @@
 			<td>
 			    infragistics.util.js
 			    
-			    <br>infragistics.datasource-en.js
-			    <br>infragistics.dataSource.js
+			    <br>infragistics.datasource.js
 			    <br>infragistics.olapflatdatasource.js
 			
 				<br>*または*
 			
 			    <br>infragistics.olapxmladatasource.js
-			    <br>infragistics.templating-en.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
 			    <br>infragistics.ui.scroll.js
-			    <br>infragistics.ui.combo-en.js
 			    <br>infragistics.ui.combo.js
-			    <br>infragistics.ui.tree-en.js
 			    <br>infragistics.ui.tree.js
-			    <br>infragistics.ui.grid-en.js
 			    <br>infragistics.ui.grid.framework.js
 			    <br>infragistics.ui.grid.multicolumnheaders.js
-			    <br>infragistics.ui.pivot.shared-en.js
 			    <br>infragistics.ui.pivot.shared.js
-			    <br>infragistics.ui.pivotdataselector-en.js
 			    <br>infragistics.ui.pivotdataselector.js
-			    <br>infragistics.ui.pivotgrid-en.js
 			    <br>infragistics.ui.pivotgrid.js
 			</td>
 		</tr>
@@ -750,8 +897,6 @@
 		</tr>
 	</tbody>
 </table>
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igPopover"></a>igPopover
 <table class="table">
@@ -769,14 +914,11 @@
 		<tr>
 			<td>スクリプト</td>
 			<td>
-			    infragistics.ui.popover-en.js <br />
 			    infragistics.ui.popover.js
 			</td>
 		</tr>
 	</tbody>
 </table>
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igQRCodeBarcode"></a>igQRCodeBarcode
 <table class="table">
@@ -798,15 +940,12 @@
 			<td>スクリプト</td>
 			<td>infragistics.barcode_qrcodebarcode.js
     			<br>infragistics.encoding.js (オプション)
-    			<br>infragistics.ui.barcode-en.js
     			<br>infragistics.ui.barcode.js</td>
 		</tr>
 	</tbody>
 </table>
 
 
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igRadialGauge"></a>igRadialGauge 
 <table class="table">
@@ -820,13 +959,20 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>
-    			infragistics.util.js
-	    		<br>infragistics.dv.simple.core.js
+    			infragistics.util.js<br>
+				infragistics.ext_core.js<br>
+				infragistics.ext_collections.js<br>
+				infragistics.ext_ui.js<br>
+				infragistics.dv_core.js<br>
+				infragistics.dv_geometry.js
 			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
-			<td>infragistics.gauge_radialgauge.js</td>
+			<td>
+				infragistics.radialgauge.js<br>
+				infragistics.ui.radialgauge.js
+			</td>
 		</tr>
 	</tbody>
 </table>
@@ -864,10 +1010,8 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
 			    <br>infragistics.dataSource.js
 			    <br>infragistics.dv.core.js
-			    <br>infragistics.dvcommonwidget-en.js
 			    <br>infragistics.dvcommonwidget.js
 			    <br>infragistics.ui.chart.js
 			    <br>infragistics.chart_categorychart.js
@@ -877,13 +1021,69 @@
 		<tr>
 			<td>スクリプト</td>
 			<td>
-			    infragistics.ui.reportviewer-en.js
-				<br>infragistics.ui.reportviewer.js</td>
+				infragistics.ui.reportviewer.js</td>
 		</tr>
 	</tbody>
 </table>
 
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
+#### <a id="igScroll"></a>igScroll 
+<table class="table">
+	<thead>
+		<tr>
+			<th>スクリプトの種類</th>
+			<th>スクリプト ファイル名</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>依存スクリプト</td>
+			<td>
+				infragistics.util.js
+				<br>modernizr.js
+			</td>
+		</tr>
+		<tr>
+			<td>スクリプト</td>
+			<td>
+			    infragistics.ui.scroll.js
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+#### <a id="igSparkline"></a>igSparkline 
+<table class="table">
+	<thead>
+		<tr>
+			<th>スクリプトの種類</th>
+			<th>スクリプト ファイル名</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>依存スクリプト</td>
+			<td>
+				infragistics.util.js<br>
+				infragistics.datasource.js<br>
+				infragistics.templating.js<br>
+				infragistics.ext_core.js<br>
+				infragistics.ext_collections.js<br>
+				infragistics.ext_ui.js<br>
+				infragistics.dv_core.js<br>
+				infragistics.dv_geometry.js<br>
+				infragistics.dv.simple.core.js<br>
+				infragistics.ui.basechart.js
+			</td>
+		</tr>
+		<tr>
+			<td>スクリプト</td>
+			<td>
+				infragistics.chart_sparkline.js<br>
+				infragistics.ui.sparkline.js
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 #### <a id="igSplitter"></a>igSplitter 
 <table class="table">
@@ -900,14 +1100,12 @@
 		</tr>
 		<tr>
 			<td>スクリプト</td>
-			<td>infragistics.ui.splitter-en.js
-    			<br>infragistics.ui.splitter.js</td>
+			<td>
+    			infragistics.ui.splitter.js</td>
 		</tr>
 	</tbody>
 </table>
 
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igTemplating"></a>igTemplating 
 <table class="table">
@@ -924,13 +1122,11 @@
 		</tr>
 		<tr>
 			<td>スクリプト</td>
-			<td>infragistics.templating-en.js
-    		<br>infragistics.templating.js</td>
+			<td>
+    		infragistics.templating.js</td>
 		</tr>
 	</tbody>
 </table>
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igTileManager"></a>igTileManager 
 <table class="table">
@@ -945,9 +1141,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
-			    <br>infragistics.dataSource.js
-			    <br>infragistics.templating-en.js
+			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.splitter-en.js
 			    <br>infragistics.ui.splitter.js
@@ -958,14 +1152,11 @@
 		<tr>
 			<td>スクリプト</td>
 			<td>
-			    infragistics.ui.tilemanager-en.js
-    			<br>infragistics.ui.tilemanager.js
+    			infragistics.ui.tilemanager.js
 			</td>
 		</tr>
 	</tbody>
 </table>
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igTree"></a>igTree 
 <table class="table">
@@ -980,23 +1171,19 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
 			    <br>infragistics.dataSource.js
-			    <br>infragistics.templating-en.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
 			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
-			<td>infragistics.ui.tree-en.js
-    			<br>infragistics.ui.tree.js</td>
+			<td>
+    			infragistics.ui.tree.js</td>
 		</tr>
 	</tbody>
 </table>
 
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igTreeGrid"></a>igTreeGrid 
 <table class="table">
@@ -1011,22 +1198,18 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
-			    <br>infragistics.datasource-en.js
 			    <br>infragistics.dataSource.js
-			    <br>infragistics.templating-en.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
 				<br>infragistics.ui.grid.shared.js
 			    <br>infragistics.ui.scroll.js
-				<br>infragistics.ui.grid-en.js
 				<br>infragistics.ui.grid.framework.js
 			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
 			<td>
-				infragistics.ui.treegrid-en.js
-			    <br>infragistics.ui.treegrid.js
+			    infragistics.ui.treegrid.js
 			
 				<h5>機能:</h5>
 			    infragistics.ui.grid.featurechooser.js
@@ -1054,8 +1237,6 @@
 </table>
 
 
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
-
 #### <a id="igUpload"></a>igUpload 
 <table class="table">
 	<thead>
@@ -1074,14 +1255,11 @@
 		</tr>
 		<tr>
 			<td>スクリプト</td>
-			<td>infragistics.ui.upload-en.js
-    			<br>infragistics.ui.upload.js</td>
+			<td>infragistics.ui.upload.js</td>
 		</tr>
 	</tbody>
 </table>
 
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igValidator"></a>igValidator 
 <table class="table">
@@ -1098,14 +1276,12 @@
 		</tr>
 		<tr>
 			<td>スクリプト</td>
-			<td>infragistics.ui.validator-en.js
-    			<br>infragistics.ui.validator.js</td>
+			<td>
+    			infragistics.ui.validator.js</td>
 		</tr>
 	</tbody>
 </table>
 
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igVideoPlayer"></a>igVideoPlayer 
 <table class="table">
@@ -1126,16 +1302,12 @@
 		<tr>
 			<td>スクリプト</td>
 			<td>
-				infragistics.ui.videoplayer-en.js
-    			<br>infragistics.ui.videoplayer.js
+    			infragistics.ui.videoplayer.js
 			</td>
 		</tr>
 	</tbody>
 </table>
 
-
-
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
 #### <a id="igZoombar"></a>igZoombar 
 <table class="table">
@@ -1156,12 +1328,12 @@
 		<tr>
 			<td>スクリプト</td>
 			<td>
-			    infragistics.ui.zoombar-en.js
-			    <br>infragistics.ui.zoombar.js
+			    infragistics.ui.zoombar.js
 			</td>
 		</tr>
 	</tbody>
 </table>
 
->**注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
+>**Note:** English localization files are merged into minified JS files and are not required to be referenced explicitly.
+For other languages corresponding localization need to be referenced before the actual JavaScript files on the page code.
 

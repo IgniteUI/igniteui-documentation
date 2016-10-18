@@ -65,6 +65,27 @@ $.ig.loader(function () {
 
 igGrid のリソースはまだ即時に読み込まれますが、ファイルが読み込まれた後の通知処理を詳細に制御できます。
 
+Starting in version 2016.2 the loader is deferring notifications of the resources availability til jQuery's document ready. This allows for convenient event flow inline with jQuery standards. The following code snippet demonstrates this new capability:
+
+```javascript
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igCombo'
+});
+
+$(function () {
+    // Document is ready and igCombo resources are loaded
+    $("#combo").igCombo({
+        dataSource: data,         
+        valueKey: "ID",
+        textKey: "Name"
+    });
+});
+```
+> **Note:** Deferring of the document ready event is only available in jQuery version 1.6 and above therefore this or newer version of the library is required to be used with Ignite UI 2016.2 and above.
+
+
 ### ロード オン デマンド
 ローダーの初期化でリソースを読み込む場合、すべてのファイルは即時にダウンロードされます。その代わり、スクリプトをオンデマンドで読み込むことができます。ロード オン デマンドは、必要な場合までファイルの読み込みを遅延すると、ページのパフォーマンスを向上できます。以下のコードは、即時にファイルを読み込まずにローダーを初期化する方法を示します。
 
@@ -199,11 +220,15 @@ $.ig.loader({
 
 #### igDataChart
 - Category
+- RangeCategory
+- VerticalCategory
 - Financial
+- ExtendedFinancial
 - Polar
 - Radial
-- RangeCategory
 - Scatter
+- Stacked
+- Annotation
 
 次に例を示します。
 
