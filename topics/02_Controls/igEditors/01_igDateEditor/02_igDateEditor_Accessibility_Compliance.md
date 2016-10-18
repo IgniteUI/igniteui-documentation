@@ -75,18 +75,17 @@
 
 以下のリストは、WAI-ARIA をサポートするための `igDateEditor` の変更点の詳細を提供します。この変更は、デフォルトですべて有効にされることに注意してください。
 
-<ul>
-<li>`igDateEditor` の入力要素が `igDateEditor` の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。 <br />
->**注:** tabindex オプションは指定されていません。-1 と等しい tabindex は、入力要素の属性として描画されます。</li>
+- `igDateEditor` の入力要素が `igDateEditor` の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。 
 
-<li>`igDateEditor` は <b>textbox</b> ロールで装飾されます。</b>
+>**注:** tabindex オプションは指定されていません。-1 と等しい tabindex は、入力要素の属性として描画されます。
 
-<li>`igDateEditor` は、ロケールに基づいた相対値の <b>aria-label</b> 属性で装飾されます。 デフォルト値は 'Date Editor' です。</li>
+- `igDateEditor` は <b>textbox</b> ロールで装飾されます。</b>
 
-<li>ボタンが描画される場合
-<ul>
-<li>描画される各ボタンは <b>button</b> ロールで装飾されます。
-<li>描画される各ボタンに id (ウィジェットの id から生成) があります。
-<li>描画される各ボタンには、読み込まれたロケールから抽出した値で描画される <b>aria-label</b> 属性があります。</li> </li>
-</ul>
-</li> 
+- `igDateEditor` は、ロケールに基づいた相対値の <b>aria-label</b> 属性で装飾されます。 デフォルト値は 'Date Editor' です。
+
+- ボタンが描画される場合
+
+	- 描画される各ボタンは <b>button</b> ロールで装飾されます。
+	- 描画される各ボタンに id (ウィジェットの id から生成) があります。
+	- 描画される各ボタンには、読み込まれたロケールから抽出した値で描画される <b>aria-label</b> 属性があります。
+

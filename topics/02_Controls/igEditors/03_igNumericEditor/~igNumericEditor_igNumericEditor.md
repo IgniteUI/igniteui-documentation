@@ -18,7 +18,8 @@
 -   [igNumericEditor jQuery および ASP.NET MVC ヘルパー API リンク](igNumericEditor-jQuery-API.html)
 -   [igNumericEditor アクセシビリティの遵守](igNumericEditor-Accessibility-Compliance.html)
 -   [igNumericEditor の既知の問題](igNumericEditor-Known-Issues.html)
-
+-   [新しい igNumericEditor への移行](Migrating-To-The-New-igNumericEditor.html)
+-   [キーボード ナビゲーション](igNumericEditor-Keyboard-Navigation.html)
  
 
  

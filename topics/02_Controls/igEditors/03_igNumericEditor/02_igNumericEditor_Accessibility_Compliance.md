@@ -35,32 +35,28 @@
 
 以下のリストは、WAI-ARIA をサポートするための `igNumericEditor` の変更点の詳細を提供します。この変更は、デフォルトですべて有効にされることに注意してください。
 
-<ul>
-<li>`igNumericEditor` の入力要素が `igNumericEditor` の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。 <br />
->**注:** tabindex オプションは指定されていません。-1 と等しい tabindex は、入力要素の属性として描画されます。</li>
+- `igNumericEditor` の入力要素が `igNumericEditor` の <b>tabindex</b> オプションからの相対値を持つ <b>tabindex</b> 属性を描画します。TAB および SHIFT+TAB キーの使用で要素へアクセスできます。
 
-<li>`igNumericEditor` は <b>textbox</b> ロールで装飾されます。定義済みの listItems オプションがあり、リストが描画される場合、エディター入力は <b>combobox</b> ロールで装飾されます。</li>
+>**注:** tabindex オプションは指定されていません。-1 と等しい tabindex は、入力要素の属性として描画されます。
 
-<li>`igNumericEditor` は、ロケールに基づいた相対値の <b>aria-label</b> 属性で装飾されます。デフォルト値は 'Numeric Editor' です。 </li>
+- `igNumericEditor` は <b>textbox</b> ロールで装飾されます。定義済みの listItems オプションがあり、リストが描画される場合、エディター入力は <b>combobox</b> ロールで装飾されます。
 
-<li>ボタンが描画される場合
-<ul>
-<li>描画される各ボタンは <b>button</b> ロールで装飾されます。
-<li>描画される各ボタンに id (ウィジェットの id から生成) があります。
-<li>描画される各ボタンには、読み込まれたロケールから抽出した値で描画される <b>aria-label</b> 属性があります。</li>
-</ul>
-</li> 
+- `igNumericEditor` は、ロケールに基づいた相対値の <b>aria-label</b> 属性で装飾されます。デフォルト値は 'Numeric Editor' です。 
 
-<li>リスト項目が描画される場合
-<ul>
-<li>
-エディター入力は id と等しい <b>aria-owns</b> 属性で装飾されます。
-</li>
-<li>ドロップダウン リストは <b>listbox</b> ロールで描画されます。 </li>
-<li>各リスト項目要素は、生成された id を持ち、<b>option</b> ロールで装飾されます。 </li>
-<li>各リスト項目要素は、リストの対応する順番で描画された <b>aria-posinset</b> 要素を持ちます。</li>
-<li>各リスト項目要素にデフォルト false で描画される <b>aria-selected</b> 属性があります。
-<li>各リスト要素に項目テキスト値と等しい、描画される <b>title</b> 属性があります。
+- ボタンが描画される場合
+
+	- 描画される各ボタンは <b>button</b> ロールで装飾されます。
+	- 描画される各ボタンに id (ウィジェットの id から生成) があります。
+	- 描画される各ボタンには、読み込まれたロケールから抽出した値で描画される <b>aria-label</b> 属性があります。
+
+- リスト項目が描画される場合
+
+	- エディター入力は id と等しい <b>aria-owns</b> 属性で装飾されます。
+	- ドロップダウン リストは <b>listbox</b> ロールで描画されます。
+	- 各リスト項目要素は、生成された id を持ち、<b>option</b> ロールで装飾されます。
+	- 各リスト項目要素は、リストの対応する順番で描画された <b>aria-posinset</b> 要素を持ちます。
+	- 各リスト項目要素にデフォルト false で描画される <b>aria-selected</b> 属性があります。
+	- 各リスト要素に項目テキスト値と等しい、描画される <b>title</b> 属性があります。
 
  
 

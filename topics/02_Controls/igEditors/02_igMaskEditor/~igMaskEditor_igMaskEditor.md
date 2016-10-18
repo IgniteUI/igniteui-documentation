@@ -18,6 +18,8 @@
 -   [igMaskEditor jQuery および ASP.NET MVC ヘルパー API リンク](igMaskEditor-jQuery-API.html)
 -   [igMaskEditor アクセシビリティの遵守](igMaskEditor-Accessibility-Compliance.html)
 -   [igMaskEditor の既知の問題](igMaskEditor-Known-Issues.html)
+-   [新しい igMaskEditor への移行](Migrating-To-The-New-igMaskEditor.html)
+-   [キーボード ナビゲーション](igMaskEditor-Keyboard-Navigation.html)
 
  
 
