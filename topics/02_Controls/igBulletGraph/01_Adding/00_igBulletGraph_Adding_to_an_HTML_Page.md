@@ -117,14 +117,6 @@ JS リソース
 						</tr>
 						<tr>
 							<td>
-*infragistics.templating.js*
-							</td>
-							<td>
-Infragistics テンプレート エンジン
-							</td>
-						</tr>
-						<tr>
-							<td>
 *infragistics.util.js*
 							</td>
 							<td>
@@ -133,7 +125,11 @@ Ignite UI ユーティリティ
 						</tr>
 						<tr>
 							<td>
-*infragistics.dv.simple.core.js*
+*infragistics.ext_core.js*<br>
+*infragistics.ext_collections.js*<br>
+*infragistics.ext_ui.js*<br>
+*infragistics.dv_core.js*<br>
+*infragistics.dv_geometry.js*
                             </td>
 							<td>
 データ ビジュアライゼーション コンポーネント用の共有ライブラリ
@@ -141,7 +137,7 @@ Ignite UI ユーティリティ
 						</tr>
 						<tr>
 							<td>
-*infragistics.gauge_bulletgraph.js*
+*infragistics.bulletgraph.js*
                             </td>
 							<td>
 *igBulletGraph* コントロール
@@ -212,16 +208,20 @@ Ignite UI ユーティリティ
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Ignite UI Required Combined CSS Files -->
-    <link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-    <link href="../../igniteui/css/structure/infragistics.css" rel="stylesheet"/>
-    <script type="text/javascript" src="../../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../../js/jquery-ui.js"></script>
-    <!-- Bullet Graph Required JavaScript Files -->
-    <script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.dv.simple.core.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.gauge_bulletgraph.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.ui.bulletgraph.js" type="text/javascript"></script>
+	<!-- Ignite UI Required Combined CSS Files -->
+	<link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+	<link href="../../igniteui/css/structure/modules/infragistics.ui.bulletgraph.css" rel="stylesheet"/>
+	<script type="text/javascript" src="../../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui.js"></script>
+	<!-- Bullet Graph Required JavaScript Files -->
+	<script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ext_core.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ext_collections.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ext_ui.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.dv_core.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.dv_geometry.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.bulletgraph.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.bulletgraph.js" type="text/javascript"></script>
 </head>
 <body>
 </body>
@@ -371,16 +371,20 @@ Ignite UI ユーティリティ
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Ignite UI Required Combined CSS Files -->
-    <link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-    <link href="../../igniteui/css/structure/infragistics.css" rel="stylesheet"/>
-    <script type="text/javascript" src="../../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../../js/jquery-ui.js"></script>
-    <!-- Bullet Graph Required JavaScript Files -->
-    <script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.dv.simple.core.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.gauge_bulletgraph.js" type="text/javascript"></script>
-    <script src="../../Ignite UI /js/modules/infragistics.ui.bulletgraph.js" type="text/javascript"></script>
+	<!-- Ignite UI Required Combined CSS Files -->
+	<link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+	<link href="../../igniteui/css/structure/infragistics.css" rel="stylesheet"/>
+	<script type="text/javascript" src="../../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui.js"></script>
+	<!-- Bullet Graph Required JavaScript Files -->
+	<script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ext_core.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ext_collections.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ext_ui.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.dv_core.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.dv_geometry.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.bulletgraph.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.bulletgraph.js" type="text/javascript"></script>
         <script type="text/jscript">
         $(function () {             
             $("#bulletGraph").igBulletGraph({
