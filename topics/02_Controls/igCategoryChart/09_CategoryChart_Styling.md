@@ -8,148 +8,148 @@
 |metadata|
 -->
 
-# Styling igCategoryChart
+# igCategoryChart のスタイル設定
 
 
 
-## Topic Overview
+## トピックの概要
 
 
-### Purpose
+### 目的
 
-This topic demonstrates how to apply styles and themes to the `igCategoryChart`™ control.
+このトピックは、`igCategoryChart` コントロールにスタイルおよびテーマを適用する方法を紹介します。
 
-### Required Background
+### 前提条件
 
-**Concepts**
+**概念**
 
--   Cascading Style Sheets
--   Applying themes by changing linked CSS files
+-   カスケード スタイル シート
+-   リンクされた CCS ファイルの変更によるテーマの適用
 
-**Topics**
+**トピック**
 
--	[Styling and Theming in Ignite UI](Deployment-Guide-Styling-and-Theming.html): General information and a procedure for updating styles and themes in Ignite UI™ library.
+-	[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html): Ignite UI™ ライブラリのスタイルとテーマの更新に関する概要とその手順を説明します。
 
-**External Resources**
-
-
--	[jQuery UI](http://jqueryui.com/):  General information about the jQuery UI library.
-
--	[Theming jQuery UI](http://docs.jquery.com/UI/Theming):  Provides information on using themes with jQuery UI library.
-
--	[jQuery UI CSS Framework](http://docs.jquery.com/UI/Theming/API):  Provides information in the jQuery UI styling framework.
-
-### In This Topic
-
-This topic contains the following sections:
-
--   [Introduction](#topic-introduction)
--   [Themes Summary](#themes-summary)
--   [Required Cascading Style Sheets (CSS)](#required-css)
-  -   [Required CSS summary](#required-css-summary)
-    -   [Required CSS code: HTML](#required-css-html)
-    -   [Required CSS code: ASPX](#required-css-aspx)
--   [Chart Styles Reference](#chart-style-reference)
--   [Modifying the Chart-Specific Visual Elements Using Themes](#modify-chart-specific)
-   -   [Introduction](#modify-chart-introduction)
-    -   [Overview](#overview)
-    -   [Steps](#steps)
--   [Related Content](#related-content)
-   -   [Topics](#topics)
-    -   [Resources](#resources)
+**外部リソース**
 
 
+-	[jQuery UI](http://jqueryui.com/): jQuery UI ライブラリの概要
 
-## <a id="topic-introduction"></a>Introduction
+-	[jQuery UI のテーマ設定](http://docs.jquery.com/UI/Theming): jQuery UI ライブラリでのテーマの使用に関する情報を提供します。
 
+-	[jQuery UI CSS Framework](http://docs.jquery.com/UI/Theming/API): jQuery UI Styling Framework に関する情報を提供します。
 
-### Introduction to themes
+### このトピックの構成
 
-The `igCategoryChart` uses the jQuery UI CSS Framework for the purposes of applying styles and themes. By default, the `igCategoryChart` uses the IG Theme, which is a jQuery UI theme provided by Infragistics for use in your application. Additionally, the IG Theme has some additional chart specific styles. That means in order to customize the looks of charts a general jQuery UI theme is not sufficient. You will need to provide additional style classes that alter chart specific elements like data series and axes.
+このトピックは、以下のセクションで構成されます。
 
-To customize a theme, you can use the ThemeRoller tool. This jQuery UI tool facilitates the creation of custom themes that are compatible with the jQuery UI widgets. Many prebuilt themes are available for download and use in your website. The `igCategoryChart` control supports the use of ThemeRoller themes.
-
-Detailed information for using themes with Ignite UI library is available in the [Styling and Theming in Ignite UI](Deployment-Guide-Styling-and-Theming.html) topic.
-
-Note: The base theme of Ignite UI is not necessary for charts and you may safely omit it on pages only containing charts.
+-   [概要](#topic-introduction)
+-   [テーマの概要](#themes-summary)
+-   [必要なカスケード スタイル シート (CSS)](#required-css)
+  -   [必要な CSS の概要](#required-css-summary)
+    -   [必要な CSS コード: HTML](#required-css-html)
+    -   [必要な CSS コード: ASPX](#required-css-aspx)
+-   [チャート スタイル参照](#chart-style-reference)
+-   [テーマを使用したチャート固有の視覚要素の変更](#modify-chart-specific)
+   -   [概要](#modify-chart-introduction)
+    -   [概要](#overview)
+    -   [手順](#steps)
+-   [関連コンテンツ](#related-content)
+   -   [トピック](#topics)
+    -   [リソース](#resources)
 
 
 
-## <a id="themes-summary"></a>Themes Summary
+## <a id="topic-introduction"></a>概要
 
-A summary of the `igCategoryChart` control’s available themes.
+
+### テーマの紹介
+
+`igCategoryChart` は、スタイルおよびテーマを適用するために jQuery UI CSS Framework を使用します。特に指定しない限り、`igCategoryChart` は、デフォルトの jQuery UI テーマとして標準装備されている IG Theme を使用します。さらに、IG テーマにはその他のチャート固有のスタイルがいくつかあります。つまり、チャートの外観をカスタマイズするには、一般的な jQuery UI テーマでは十分ではありません。データ シリーズや軸などチャート固有の要素を変更するその他の style クラスを提供する必要があります。
+
+テーマのカスタマイズには、ThemeRoller ツールを使用できます。この jQuery UI ツールにより jQuery UI ウィジェットと互換性のあるカスタム テーマを簡単に作成できるようになります。数々のビルド済みテーマをご自分の Web サイトにダウンロードして使用できます。`igCategoryChart` コントロールは ThemeRoller テーマの使用をサポートしています。
+
+Ignite UI ライブラリでテーマを使用する方法の詳細については、「[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)」トピックをご覧ください。
+
+注: Ignite UI のベース テーマはチャートには不要で、チャートのみ表示されたページでは省略できます。
+
+
+
+## <a id="themes-summary"></a>テーマの概要
+
+`igCategoryChart` コントロールで使用できるテーマの概要です。
 
 <table class="table table-bordered">
     <tbody>
         <tr>
             <th colspan="2">
-                Theme
+                テーマ
             </th>
 
             <th>
-                Description
+                説明
             </th>
         </tr>
 
         <tr>
             <td>
-                IG Theme
+                IG テーマ
             </td>
 
             <td>
-                <p>Path: `{IG CSS root}/themes/Infragistics/`</p>
+                <p>パス: `{IG CSS root}/themes/Infragistics/`</p>
 
-                <p>File: `infragistics.theme.css`</p>
+                <p>ファイル: `infragistics.theme.css`</p>
             </td>
 
             <td>
-                This theme defines general visual features for all Ignite UI controls. Detailed information for using the IG theme is available in the <a class="ig-topic-link" href="Deployment-Guide-Styling-and-Theming.html" data-auto-update-caption="true">Styling and Theming in Ignite UI</a> topic.
+                このテーマは、すべての Ignite UI コントロールの一般的なビジュアル機能を定義します。IG テーマの使用方法の詳細については、「<a class="ig-topic-link" href="Deployment-Guide-Styling-and-Theming.html" data-auto-update-caption="true">Ignite UI のスタイル設定とテーマ設定</a>」トピックをご覧ください。
             </td>
         </tr>
 
         <tr>
             <td>
-                Chart Structure
+                チャート構造
             </td>
 
             <td>
-                <p>Path: `{IG CSS root}/structure/modules/`</p>
+                <p>パス: `{IG CSS root}/structure/modules/`</p>
 
-                <p>File: `infragistics.ui.chart.css`</p>
+                <p>ファイル: `infragistics.ui.chart.css`</p>
             </td>
 
             <td>
-                This theme defines visual elements specific for charts.
+                このテーマは、チャートに固有の視覚要素を定義します。
             </td>
         </tr>
     </tbody>
 </table>
 
-## <a id="required-css"></a>Required Cascading Style Sheets (CSS)
+## <a id="required-css"></a>必要なカスケード スタイル シート (CSS)
 
-### <a id="required-css-summary"></a>Required CSS summary
+### <a id="required-css-summary"></a>必要な CSS の概要
 
-The following CSS resources are necessary to correctly render charts:
+チャートを正しく描画するためには以下の CSSリソースが必要です。
 
--   `infragistics.theme.css` – Contains the IG Theme
--   `infragistics.ui.chart.css` – Contains the Chart Structure classes
+-   `infragistics.theme.css` – IG テーマが含まれています。
+-   `infragistics.ui.chart.css` – チャート構造が含まれています。
 
-In the code snippets that follow, it is assumed that the CSS resources are located in the `Content/ig` folder below the website or application root.
+以下のコード スニペットでは、CSS リソースが Web サイトまたはアプリケーション ルート下の `Content/ig` フォルダーに保存されていることを前提としています。
 
->**Note:** The following blocks provide information on manually including required CSS files but the recommended way to load these files into your page it to use the Infragistics Loader control.
+>**注:** 以下のブロックは、手動で必要な CSS ファイルを組み込む場合の情報を提供しています。ただし、Infragistics Loader コントロールを使用してこれらのファイルをページに読み込むことをお勧めします。
 
-### <a id="required-css-html"></a>Required CSS code: HTML
+### <a id="required-css-html"></a>必要な CSS コード: HTML
 
-**In HTML:**
+**HTML の場合:**
 
 ```html
 <link href="Content/ig/themes/Infragistics/infragistics.theme.css" rel="Stylesheet" />
 <link href="Content/ig/structure/modules/infragistics.ui.chart.css" rel="Stylesheet" />
 ```
 
-### <a id="required-css-aspx"></a>Required CSS code: ASPX
+### <a id="required-css-aspx"></a>必要な CSS コード: ASPX
 
-**In ASPX:**
+**ASPX の場合:**
 
 ```csharp
 <link href='<%= Url.Content("~/Content/ig/themes/Infragistics/infragistics.theme.css")%>' rel="stylesheet" type="text/css" />
@@ -158,22 +158,22 @@ In the code snippets that follow, it is assumed that the CSS resources are locat
 
 
 
-## <a id="chart-style-reference"></a>Chart Styles Reference
+## <a id="chart-style-reference"></a>チャート スタイル参照
 
 
-### Style reference summary
+### スタイル リファレンスの概要
 
-A summary of the `igCategoryChart` style’s purpose and functionality.
+`igCategoryChart` のスタイルの目的と機能の概要です。
 
 <table class="table table-striped">
 	<tbody>
 		<tr>
 			<th>
-				Property
+				プロパティ
 			</th>
 
 			<th>
-				Description
+				説明
 			</th>
 		</tr>
 
@@ -185,7 +185,7 @@ A summary of the `igCategoryChart` style’s purpose and functionality.
 			</td>
 
 			<td>
-				Sets border and background color for data series 1 to data series N. You can have as many ui-chart-palette classes as needed by your application.
+				データ シリーズ 1 の境界線と背景の色をデータ シリーズ N に設定します。アプリケーションで必要なだけ ui-chart-palette クラスを持つことができます。
 			</td>
 		</tr>
 
@@ -195,7 +195,7 @@ A summary of the `igCategoryChart` style’s purpose and functionality.
 			</td>
 
 			<td>
-				Sets border and background color for chart axes.
+				チャート軸の境界線と背景の色を設定します。
 			</td>
 		</tr>
 
@@ -205,7 +205,7 @@ A summary of the `igCategoryChart` style’s purpose and functionality.
 			</td>
 
 			<td>
-				Sets all styling options for chart legends.
+				チャートの凡例のすべてのスタイル設定オプションを設定します。
 			</td>
 		</tr>
 
@@ -215,7 +215,7 @@ A summary of the `igCategoryChart` style’s purpose and functionality.
 			</td>
 
 			<td>
-				Sets all styling options for legend item text.
+				凡例項目のテキストのすべてのスタイル設定オプションを設定します。
 			</td>
 		</tr>
 
@@ -225,7 +225,7 @@ A summary of the `igCategoryChart` style’s purpose and functionality.
 			</td>
 
 			<td>
-				Sets all styling options for legend item icon.
+				凡例項目のアイコンのすべてのスタイル設定オプションを設定します。
 			</td>
 		</tr>
 
@@ -235,7 +235,7 @@ A summary of the `igCategoryChart` style’s purpose and functionality.
 			</td>
 
 			<td>
-				Sets all styling options for chart tooltips.
+				チャートのツールチップのすべてのスタイル設定オプションを設定します。
 			</td>
 		</tr>
 	</tbody>
@@ -243,51 +243,51 @@ A summary of the `igCategoryChart` style’s purpose and functionality.
 
 
 
->**Note:** In all style classes, the border-color setting determines the outline of the corresponding element and the background-color settings determines the background or fill color of the element.
+>**注:** すべての style クラスで、境界線の色設定は対応する要素のアウトラインを決定し、背景色の設定は要素の背景または塗りつぶしの色を決定します。
 
 
-## <a id="modify-chart-specific"></a>Modifying the Chart-Specific Visual Elements Using Themes
+## <a id="modify-chart-specific"></a>テーマを使用したチャート固有の視覚要素の変更
 
 
-### <a id="modify-chart-introduction"></a>Introduction
+### <a id="modify-chart-introduction"></a>概要
 
-Demonstrates how to alter the default settings for various visual elements of the `igDataChart` control by changing the `infragistics.ui.chart.css` chart-specific styles.
+`infragistics.ui.chart.css` チャート固有スタイルを変更することで `igDataChart` コントロールのさまざまな視覚要素のデフォルト設定を変更する方法を説明します。
 
-Use an existing page with a chart, since the procedure for creating a chart is not included for this example. The example shows you how to modify the chart styles.
+この例ではチャートの作成手順を説明していないため、チャートのある既存のページをご覧ください。例では、チャート スタイルを変更する方法を示します。
 
-In this example, we will change the colors of the data series.
+この例では、データ シリーズの色を変更します。
 
 
-### Prerequisites
+### 前提条件
 
-To complete the procedure, you need the following:
+この手順を実行するには、以下が必要です。
 
--   An HTML5 web page with an existing `igCategoryChart` control
+-   既存の `igCategoryChart` コントロールがある HTML5 Web ページ
 
-### <a id="overview"></a>Overview
+### <a id="overview"></a>概要
 
-A high level overview of the process:
+プロセスの高度な概要は以下の通りです。
 
-1.  [Copy the default chart CSS file](#copy-default-css)
-2.  [Modify the styles for the chart visual elements](#modify-sryles)
-3.  [Change the link from the default chart CSS file to the modified file](#change-css-links)
-4.  [Verify the result](#final-result)
+1.  [デフォルト チャート CSS ファイルをコピーする](#copy-default-css)
+2.  [チャートの視覚要素のスタイルを変更する](#modify-sryles)
+3.  [デフォルト チャート CSS ファイルから変更されたファイルへのリンクを変更する](#change-css-links)
+4.  [結果を確認します。](#final-result)
 
-### <a id="steps"></a>Steps
+### <a id="steps"></a>手順
 
-Demonstrate how to modify the default IG Chart styles with your preferred settings.
+デフォルト IG Chart スタイルを好みの設定で変更する方法を紹介します。
 
-1.  <a id="copy-default-css"></a>Copy the default chart CSS file.
+1.  <a id="copy-default-css"></a>デフォルト チャート CSS ファイルをコピーする
 
- 	**Copy the CSS file, with the default chart styles (`infragistics.ui.chart.css`), from the Ignite UI installation folder to the themes folder of your web site or application.**
+ 	**チャート スタイルがデフォルトの CSS ファイル (`infragistics.ui.chart.css`) を Ignite UI インストール フォルダーから Web サイトまたはアプリケーションの themes フォルダーにコピーします。**
 
- 	For instance, if you have a folder `Content/themes` in your web site or application where keep the CSS files used by the application, then make a copy of the default chart CSS file mentioned above in `Content/themes/MyChartTheme/ig.ui.chart.custom.css`. 
+ 	たとえば、アプリケーションで使用する CSS ファイルを保存している Web サイトまたはアプリケーションに `Content/themes` フォルダーがある場合、上記のデフォルト チャート CSS ファイルを `Content/themes/MyChartTheme/ig.ui.chart.custom.css` にコピーします。 
 
-2. <a id="modify-sryles"></a>Modify the styles for chart visual elements
+2. <a id="modify-sryles"></a>チャートの視覚要素のスタイルを変更します
 
- 	Open the copy of the CSS file and make the desired changes to the styles. 
+ 	CSS ファイルのコピーを開き、スタイルを変更します。 
 
-	**In CSS:**
+	**CSS の場合:**
 
 	```css
 	.ui-chart-palette-1
@@ -351,40 +351,40 @@ Demonstrate how to modify the default IG Chart styles with your preferred settin
     }
 	```
 
-3. <a id="change-css-links"></a>Change the link from the default chart CSS file to the modified file.
+3. <a id="change-css-links"></a>デフォルト チャート CSS ファイルから変更されたファイルへのリンクを変更する
 
-	Update the link to the default chart CSS file to point to the CSS file modified in the previous step.
+	デフォルト チャート CSS ファイルへのリンクを更新し、前のステップで変更された CSS ファイルをポイントします。
 
-	**In HTML:**
+	**HTML の場合:**
 
     ```html
     <link href="/Content/themes/MyChartTheme/ig.ui.chart.custom.css" rel="Stylesheet" type="text/css" />
     ```
 
-	**In ASPX:**
+	**ASPX の場合:**
 
     ```csharp
     <link href='<%= Url.Content("~/Content/themes/MyChartTheme/ig.ui.chart.custom.css")%>' rel="stylesheet" type="text/css" />
     ```
 
-4. <a id="final-result"></a>Verify the result.
+4. <a id="final-result"></a>結果を検証します。
 
-	To verify that the chart colors and styles changed, save the web page and open it in your browser.
-
-
-## <a id="related-content"></a>Related Content
-
-### <a id="topics"></a>Topics
-
-The following topics provide additional information related to this topic.
+	チャートの色とスタイルが変更されたことを確認するには、Web ページを保存し、ブラウザーで開きます。
 
 
--	[igCategoryChart Overview](CategoryChart-Overview.html):  Conceptual information about the `igCategoryChart` control.
+## <a id="related-content"></a>関連コンテンツ
 
--	[Adding igCategoryChart](CategoryChart-walkthrough.html):  Demonstrates how to create the `igCategoryChart` control and bind it to data.
+### <a id="topics"></a>トピック
 
-###<a id="resources"></a>Resources
+このトピックに関連する追加情報については、以下のトピックを参照してください。
 
-The following third party material provides additional information related to this topic.
 
--	[jQuery Themeroller](http://jqueryui.com/themeroller/):  Provides jQuery UI themes for preview and download.
+-	[igCategoryChart の概要](CategoryChart-Overview.html): `igCategoryChart` コントロールについての概要。
+
+-	[igCategoryChart の追加](CategoryChart-walkthrough.html): `igCategoryChart` をコントロールを作成して、データにバインドする方法を紹介します。
+
+###<a id="resources"></a>リソース
+
+以下のサード パーティ資料には、このトピックに関連する追加情報を記載しています。
+
+-	[jQuery Themeroller](http://jqueryui.com/themeroller/): プレビューとダウンロードのため jQuery UI テーマを提供します。

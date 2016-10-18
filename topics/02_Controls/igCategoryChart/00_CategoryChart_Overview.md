@@ -8,36 +8,36 @@
 |metadata|
 -->
 
-# Overview 
+# 概要 
 
-### About igCategoryChartName
+### igCategoryChart について
 
-The igCategoryChart is a lightweight, highly performant chart. This chart can be easily configured to display category data using an extremely simple and intuitive API. All you need to do is bind your data (a collection or a collection of collections) and the chart takes care of everything else.
+igCategoryChart は軽量で高パフォーマンスなチャートです。このチャートは、シンプルで直感的な API を使用したカテゴリ データの表示を簡単に構成できます。データ (コレクションまたはコレクションのコレクション) をバインドするだけで後の作業はチャートがすべて行います。
 
-The following screenshot demonstrates the category chart displaying a column chart.
+以下のスクリーンショットは、列チャートを表示したカテゴリ チャートです。
 
 ![](images/categorychart-configuring-title-01.png)
 
-By using a smart Data Adapter, the data is analyzed and the appropriate visualization is rendered. For example, if the `chartType` is set to `Auto`, the control can determine that if it is provided a small data set then a column chart should be plotted, while a larger data set will draw a line chart.
+スマート データ アダプターを使用して、データは分析されて適切なビジュアライゼーションが描画されます。たとえば `chartType` を `Auto` に設定した場合、大きなデータセットで折れ線チャートを描画する間、コントロールは小さなデータセットを提供して列チャートがプロットされるかどうかを決定します。
 
-However, you can also explicitly specify the chart type by setting the `chartType` to:
+ただし、`chartType` を明示的に以下に設定してチャートタイプを指定することもできます。
     
-- Line
-- Area
-- Column
-- Point
-- Spline
+- 折れ線チャート
+- エリア チャート
+- 柱状チャート
+- ポイント
+- スプライン
 - SplineArea
 - StepArea
 - StepLine
-- Waterfall
+- ウォーターフォール
 
-Another example of the intuitive behavior of the Category Chart control is that you do not need to explicitly set the labels. The Category Chart will use the first appropriate string property that it finds within the data you provided and will use that for the labels.
+その他のカテゴリチャート コントロールの直感的な動作の例は、明示的にラベルを設定する必要がないことです。カテゴリ チャートは、提供したデータ内で最初の適切な文字列プロパティを使用し、ラベルに使用します。
 
-Built to be easily configurable, it uses the Data Chart control as its engine, which means that it benefits from the high performing and powerful Data Chart. You can also extend upon the category chart to avail of the powerful and extensive features of the data chart control. For more information, refer to the [Extending the Category Chart](categorychart-extending-category-chart.html) topic.
+コントロールは簡単に構成できるよう構築されており、エンジンとしてデータチャート コントロールを使用しています。つまり、高パフォーマンスでパワフルなデータ チャートの利点を備えています。カテゴリ チャートは、データチャート コントロールのパワフルで広範な機能を拡張できます。詳細については、[「カテゴリ チャートの拡張」](categorychart-extending-category-chart.html) のトピックを参照してください。
 
-*Related topics:* 
+*関連トピック:* 
 
-- [Walkthrough](igcategorychart-adding.html)
+- [チュートリアル](igcategorychart-adding.html)
 
-- [Binding to Data](categorychart-binding-to-data.html)
+- [データ バインド](categorychart-binding-to-data.html)

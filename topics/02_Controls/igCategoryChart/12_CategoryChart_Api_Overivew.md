@@ -8,38 +8,38 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Reference Links (igCategoryChart)
+# jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク  (igCategoryChart)
 
 
-## Topic Overview
-### Purpose
+## トピックの概要
+### 目的
 
-This topic provides links to the API documentation for jQuery and ASP.NET MVC helper class for `igCategoryChart`™ control.
+このトピックは、` igCategoryChart`™ の jQuery および ASP.NET MVC ヘルパー クラスのたえの API マニュアルへのリンクを提供します。
 
-### Required Background
+### 前提条件
 
-The following topics are prerequisite to understanding this topic:
-
-
--	[](categorychart-overview.html)[igCategoryChart Overview](categorychart-overview.html):  This topic provides conceptual information about the igCategoryChart control including its main features, minimum requirements for using charts and user functionality.
-
--	[](igcategorychart-adding.html)[Adding igCategoryChart](igcategorychart-adding.html): This topic demonstrates how to create add the `igCategoryChart` control and bind it to data.
-
-##igCategoryChart API Reference
-
-### Introduction
-
-The `igCategoryChart` is built as a jQuery UI widget with an accompanying ASP.NET MVC Helper. For more information about each API, follow the links to the API documentation given below.
-
-### API documents reference summary
-
--	[igCategoryChart jQuery API](%%jQueryApiUrl%%/ui.igCategoryChart): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
-
--	[igCategoryChart ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.categorychart`1.html) : The documentation contains the CategoryChart class description and a list of all of its members.
-
-## Related Content
-
-The following topic provide additional information related to this topic.
+このトピックを理解するためには、以下のトピックを理解しておく必要があります。
 
 
--	[](categorychart-binding-to-data.html)[Binding igCategoryChart to Data](categorychart-binding-to-data.html): This topic explains how to bind the `igCategoryChart` control to various data sources.
+-	[igCategoryChart の概要](categorychart-overview.html): このトピックでは、igCategoryChart コントロールについての概念情報を提供します。これには、その主な機能、チャートとユーザー機能を使用するための最低要件が含まれます。
+
+-	[igCategoryChart の追加](igcategorychart-adding.html): このトピックでは、`igCategoryChart` をコントロールを作成して追加し、データにバインドする方法を紹介します。
+
+##igCategoryChart API リファレンス
+
+### 概要
+
+`igCategoryChart` は、ASP.NET MVC ヘルパー 付きの jQuery UI ウィジェットとして設計されています。それぞれの API についての詳細は、以下に示された API マニュアルへのリンク先を参照してください。
+
+### API マニュアル参照の概要
+
+-	[igCategoryChart jQuery API](%%jQueryApiUrl%%/ui.igCategoryChart): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
+
+-	[igCategoryChart ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.categorychart`1.html) : マニュアルには、 CategoryChart クラス定義とそのメンバーの全リストが含まれています。
+
+## 関連コンテンツ
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+
+-	[igCategoryChart とデータのバインド](categorychart-binding-to-data.html): このトピックでは、`igCategoryChart` コントロールを各種データ ソースへバインドする方法を説明します。

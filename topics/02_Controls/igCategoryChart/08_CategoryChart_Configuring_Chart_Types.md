@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# Configuring Chart Types
+# チャート タイプの構成
 
-## Setting chart type
+## チャート タイプの設定
 
-As described in the [Chart Types](categorychart-chart-types.html) topic the chart can render different types of chart with a simple change of a property.
+[チャート タイプ](categorychart-chart-types.html)トピックに説明されているとおり、チャートはプロパティを変更するだけでさまざまなチャートタイプを描画できます。
 
-To assign chart type during initialization:
+初期化時にチャート タイプを割り当てる方法:
 
 ```javascript
 $("#theChart").igCategoryChart({
@@ -23,17 +23,17 @@ $("#theChart").igCategoryChart({
 });
 ```
 
-To change chart type after initialization:
+初期化後にチャート タイプを変更する方法:
 
 ```javascript
 $("#theChart").igCategoryChart("option", "chartType", "area");
 ```
 
-## Properties
+## プロパティ
 
-To further customize the look of the chart there is a number of properties available that allows doing just that.
+チャートの外観をカスタマイズには、多数のプロパティが用意されています。
 
-Property Name|Property Type|Default Value|Description
+プロパティ名|プロパティ タイプ|デフォルト値|説明
 ---|---|---|---
 `brushes`|object|null|Gets or sets the palette of brushes to use for coloring the chart series. The value provided should be an array of CSS color strings or JavaScript objects defining gradients. Optionally the first element can be a string reading "RGB" or "HSV" to specify the interpolation mode of the collection.
 `negativeBrushes`|object|null|Gets or sets the palette used for coloring negative items of Waterfall chart type. The value provided should be an array of CSS color strings or JavaScript objects defining gradients. Optionally the first element can be a string reading "RGB" or "HSV" to specify the interpolation mode of the collection.
@@ -45,10 +45,10 @@ Property Name|Property Type|Default Value|Description
 `xAxisInverted`|bool|null|Gets or sets whether the direction of the X-axis is inverted, placing the first data items on the right side instead of left side.
 `yAxisInverted`|bool|null|Gets or sets whether the direction of the Y-axis is inverted, placing minimum numeric value at the top of the axis instead of bottom.
 
-## Example
+## 例
 
-The following example exercises some of the properties mentioned above.
-To see more configuration options, follow the links at the bottom of this topic.
+以下の例では上記で説明したプロパティのいくつかを使用します。
+構成オプションの詳細については、このトピックの最後にあるリンクをご利用ください。
 
 ```javascript
 $("#theChart").igCategoryChart({
@@ -60,13 +60,13 @@ $("#theChart").igCategoryChart({
 	thickness: 5
 });
 ```
-And here is the result of running this code on a web page:
+ウェブページでコードを実行した結果です。
 ![](images/chart-types-configure.png)
 
-## Related topics
+## 関連トピック
 
-- [Walkthrough](igcategorychart-adding.html)
+- [チュートリアル](igcategorychart-adding.html)
 
-- [Chart Types](categorychart-chart-types.html)
+- [チャート タイプ](categorychart-chart-types.html)
 
-- [Axis Gap and Overlap](categorychart-configuring-axis-gap-and-overlap.html)
+- [軸の間隔と重複](categorychart-configuring-axis-gap-and-overlap.html)

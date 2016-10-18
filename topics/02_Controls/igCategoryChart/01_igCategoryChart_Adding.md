@@ -8,68 +8,68 @@
 |metadata|
 -->
 
-# Adding igCategoryChart
+# igCategoryChart の追加
 
-### Purpose
+### 目的
 
-This topic explains using a code example how to add the  igCategoryChart™ control to your applications.
+このトピックでは、コード例を使用して igCategoryChart™ コントロールをアプリケーションに追加する方法を説明します。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
--   [Adding Category Chart control to your application](#Adding)
-    -   [Introduction](#Introduction)
-    -   [Preview](#Preview)
-    -   [Requirements](#Prerequisites)
-    -   [Overview](#Overview)
-    -   [Steps](#Steps)
--   [**Related Content**](#RelatedContent)
+-   [カテゴリ チャート コントロールをアプリケーションに追加](#Adding)
+    -   [概要](#Introduction)
+    -   [プレビュー](#Preview)
+    -   [要件](#Prerequisites)
+    -   [概要](#Overview)
+    -   [手順](#Steps)
+-   [**関連コンテンツ**](#RelatedContent)
 
 <a id="Adding"/>
-## Adding  igCategoryChart control to your application
+## igCategoryChart コントロールをアプリケーションに追加
 
 <a id="Introduction"/>
 
-### Introduction
+### 概要
 
-The following procedure demonstrates adding the igCategoryChart to your applications.
+以下の手順は、igCategoryChart コントロールをアプリケーションに追加する方法を示します。
 
 <a id="Preview"/>
 
-### Preview
+### プレビュー
 
-The following is a screenshot of the igCategoryChart.
+以下は igCategoryChart の画像です。
 ![](images/igcategorychart-adding-01.png)
 
 <a id="Prerequisites"/>
-### Requirements
+### 要件
 
 
 
 <a id="Overview"/>
 
-### Overview
+### 概要
 
-Following is a conceptual overview of the process:
+以下はプロセスの概要です。
 
-1. Add a data source 
+1. データ ソースを追加します。 
 
-2. Adding the igCategoryChart control to your application
+2. igCategoryChart コントロールをアプリケーションに追加
 
-3. Verifying the results
+3. 結果の確認
 
 <a id="Steps"/>
 
-### Steps
+### 手順
 
-The following procedure takes you through the steps necessary for adding the igCategoryChart control to a page.
+以下では igCategoryChart コントロールをページに追加するために必要な手順を示します。
 
-**Add a data source**
+**データ ソースを追加します。**
 
-In order to create an igCategoryChart control, you must first have data to bind it to. The following code snippet demonstrates how to create a simple data source. For more information on binding to other data sources, please refer to the following topic, [Binding to Data](categorychart-binding-to-data.html).
+igCategoryChart コントロールを作成するには、はじめにデータをバインドする必要があります。以下のコード スニペットは、シンプルなデータソースを作成する方法を示します。その他のデータソースへのバインドについては、[データへバインド](categorychart-binding-to-data.html)を参照してください。
 
-**In HTML:**
+**HTML の場合:**
 ```
 var data = [
  { "CountryName": "China", "Pop1995": 1216, "Pop2005": 1297, "Pop2015": 1361, "Pop2025": 1394 },
@@ -81,13 +81,13 @@ var data = [
 
 ```
 
-**Add igCategoryChart**
+**igCategoryChart の追加**
 
-Add the igCategoryChart control to the page and bind it to the above data.
+igCategoryChart コントロールをページに追加し、上記データにバインドします。
 
-The following code demonstrates adding the igCategoryChart control with the minimum code and property settings required for display:
+以下のコードは、表示に必要な最小限のコードとプロパティ設定で igCategoryChart コントロールを追加します。
 
-**In HTML:**
+**HTML の場合:**
 
 ```html
  $(function () {
@@ -95,17 +95,17 @@ The following code demonstrates adding the igCategoryChart control with the mini
 });
 ```
 
-**Verify the results**
+**結果を確認する**
 
-Build and run your project to verify the result. If you have implemented the steps correctly, the displayed igCategoryChart should look like the one in the Preview section above.
+結果を確認するために、プロジェクトをビルドおよび実行します。手順を正しく実装した場合、igCategoryChart は上記のプレビュー セクションで示したように表示されます。
 
 
 <a id="RelatedContent"/>
 
-## Related Content
+## 関連コンテンツ
 
-### Topics
+### トピック
 
-- [Why Use the Category Chart instead of the Data Chart](categorychart-why-use.html)
+- [データ チャートではなくカテゴリ チャートを使用する理由](categorychart-why-use.html)
 
-- [Axes](categorychart-axes.html)
+- [軸](categorychart-axes.html)

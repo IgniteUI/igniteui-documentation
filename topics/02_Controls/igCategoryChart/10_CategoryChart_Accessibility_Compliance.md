@@ -8,84 +8,84 @@
 |metadata|
 -->
 
-# Accessibility Compliance (igCategoryChart)
+# アクセシビリティの遵守 (igCategoryChart)
 
 
 
-##Topic Overview
+##トピックの概要
 
 
-### Purpose
+### 目的
 
-This topic explains `igCategoryChart`™ accessibility features and provides advice how to achieve accessibility compliance for pages containing charts.
+このトピックでは、`igCategoryChart`™ のアクセシビリティ機能について説明し、チャートを含むページのアクセシビリティ準拠を実現する方法についての助言を示します。
 
-### Required background
+### 前提条件
 
-The following topics are prerequisite to understanding this topic:
-
-
--	[**igCategoryChart Overview**](categorychart-overview.html):  This topic provides conceptual information about the `igCategoryChart` control including its main features, minimum requirements for using charts and user functionality.
-
--	[**Adding igCategoryChart**](igcategorychart-adding.html): This topic demonstrates how to create add the `igCategoryChart` control and bind it to data.
+このトピックを理解するためには、以下のトピックを理解しておく必要があります。
 
 
+-	[**igCategoryChart の概要**](categorychart-overview.html): このトピックでは、`igCategoryChart` コントロールについての概念情報を提供します。これには、その主な機能、チャートとユーザー機能を使用するための最低要件が含まれます。
+
+-	[**igCategoryChart の追加**](igcategorychart-adding.html): このトピックでは、`igCategoryChart` をコントロールを作成して追加し、データにバインドする方法を紹介します。
 
 
 
-##Accessibility Compliance Reference
 
 
-### Introduction
+##アクセシビリティ準拠のリファレンス
 
-All of the Ignite UI™ controls and components comply with Section 508, Subpart 1194.22 of the Rehabilitation Act of 1973. Table 1 contains the specific rules of Subpart 1194.22 that pertain to the control. Also detailed is how the `igCategoryChart` control complies with each rule.
 
-To meet the requirements each accessibility rule, in some cases, you may need to interact with the control by to setting a specific property, but in other cases the control does the work for you.
+### 概要
 
->**Note:** As jQuery controls are client-only, some of the rules are not supported and are marked as limitations.
+すべての Ignite UI™ コントロールおよびコンポーネントは、1973 年リハビリテーション法第 508 条第 1194 部 22 条を遵守しています。表 1 には、コントロールに関連する第 1194 部 22 条の特定の規則が記載されています。また、`igCategoryChart` コントロールが各規則を遵守する方法の詳細も含まれています。
 
-#### Accessibility compliance reference summary
+各アクセシビリティ規則の要件を満たすために、場合によっては、コントロールを操作して特定のプロパティを設定する必要がありますが、それ以外の場合は、コントロール自身がこの作業を行います。
 
-The following table summarizes the accessibility compliance features of the igCategoryChart.
+>**注:** jQuery コントロールはクライアント専用のため、一部の規則はサポートされず、制限とされています。
+
+#### アクセシビリティ準拠のリファレンスの概要
+
+以下の表は、igCategoryChart のアクセシビリティ順守機能についてまとめたものです。
 
 <table class="table">
 	<thead>
 		<tr>
-			<th>Rules</th>
-			<th>Rule Text</th>
-			<th>How We Comply</th>
+			<th>規則</th>
+			<th>規則内容</th>
+			<th>準拠方法</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td>(a)</td>
-			<td>A text equivalent for every non-text element shall be provided (e.g., via "alt", "longdesc", or in element content).</td>
-			<td>Since igCategoryChart is exclusively a graphic control you may consider providing an alternative view for disabled people by converting the chart into a table or igGrid™ component with the chart data. That way screen readers may help users to get the information from the chart.</td>
+			<td>あらゆる非テキスト要素に対してテキスト相当物を提供するものとします (「alt」、「longdesc」などを介して、または要素コンテンツで)。</td>
+			<td>igCategoryChart はグラフィック専用のコントロールであるため、テーブルまたはチャート データを使用した igGrid™ コンポーネントにチャートを変換することで、障害を持っている人のために代替ビューを提供することが考えられます。そうすることで、読み上げソフトウェアにより、チャートから情報を得ることができます。</td>
 		</tr>
 		<tr>
 			<td>(b)</td>
-			<td>Equivalent alternatives for any multimedia presentation shall be synchronized with the presentation.</td>
-			<td>See the note for (a) for an alternative way to provide compliance to the rule.</td>
+			<td>マルチメディア プレゼンテーションに相当する代替物をプレゼンテーションと同期するものとします。</td>
+			<td>記録に準拠するための代替手段については、(a) の注を参照してください。</td>
 		</tr>
 		<tr>
 			<td>(c)</td>
-			<td>Web pages shall be designed so that all information conveyed with color is also available without color, for example from context or markup.</td>
-			<td>You can control coloring and provide suitable colors for charts using the styling and theming capabilities of igCategoryChart.</td>
+			<td>色によって伝達されるすべての情報が色を使用しなくても理解できるように (たとえば、コンテキストやマークアップ) Web ページを設計するものとします。</td>
+			<td>igCategoryChart のスタイルとテーマの設定機能を使用して、チャートの配色を制御し、適切な色を提供できます。</td>
 		</tr>
 		<tr>
 			<td>(d)*</td>
-			<td> Documents shall be organized so they are readable without requiring an associated style sheet.</td>
-			<td>The control's markup is not readable without the associated style sheet because it’s a client-side control and depends on the CSS rules. See the note for (a) for an alternative way to provide compliance to the rule.</td>
+			<td>関連付けられたスタイル シートがなくても読めるようにドキュメントを構成するものとします。</td>
+			<td>コントロールのマークアップは、クライアント側のコントロールであり、CSS の規則に依存するため、関連付けられたスタイル シートがないと読み取りできません。記録に準拠するための代替手段については、(a) の注を参照してください。</td>
 		</tr>
 	</tbody>
 </table>
 
-\* - control limitations
+\* - コントロールの制限
 
 
 
-## Related Content
+## 関連コンテンツ
 
 
-The following topic provide additional information related to this topic.
+このトピックに関連する追加情報については、以下のトピックを参照してください。
 
--	[**Accessibility Compliance**](Accessibility-Compliance.html):  Provides reference information for accessibility compliance of all Ignite UI controls.
+-	[**アクセシビリティ準拠**](Accessibility-Compliance.html): すべての Ignite UI コントロールのアクセシビリティ準拠のための参照情報を提供します。

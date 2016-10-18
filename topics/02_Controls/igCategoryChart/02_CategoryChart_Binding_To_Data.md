@@ -8,61 +8,61 @@
 |metadata|
 -->
 
-# Binding to Data
+# データ バインド
 
-### Topic Overview
+### トピックの概要
 
-This topic demonstrates how to bind both flat and hierarchical data to the igCategoryChart™ control. At the end of each section, a complete code sample is provided. 
+このトピックは、フラットと階層データを igCategoryChart™ コントロールにバインドする方法を説明します。各セクションの最後で、サンプルの全コードを提供します。 
 
-### Purpose
-The procedure below demonstrates how to bind the igCategoryChart control to a data collection. The igCategoryChart allows you to bind to JavaScript arrays. Nested collections are also supported. 
-In this topic you will define two sets of data collection (flat and hierarchical), add the Category Chart control to your application, and bind the control’s DataSource to an instance of the designated data collection. 
+### 目的
+以下の手順は、igCategoryChart コントロールをデータ コレクションにバインドする方法を示します。igCategoryChart は JavaScript 配列にバインドできます。ネスト コレクションもサポートされます。 
+このトピックでは 2 つのデータ コレクション (フラットおよび階層) を定義し、カテゴリ チャート コントロールをアプリケーションに追加し、そのコントロールのデータソースを指定データ コレクションのインスタンスにバインドします。 
 
 
-### In this topic
-This topic contains the following sections:
-This topic contains the following sections:
+### このトピックの内容
+このトピックは、以下のセクションで構成されます。
+このトピックは、以下のセクションで構成されます。
 
-- [Binding to Data Sources](#BindingtoDataSources)
-    - [Supported data sources](#Supporteddatasources)
-    -  [Requirements for binding](#Requirementsforbinding)
-- [Binding a JavaScript Array](#BindingaJavaScriptArray)
-    - [Introduction](#Introduction)
-    - [Prerequisites](#Prerequisites)
-    - [Preview](#Preview)
-    - [Steps](#Steps)
-- [Binding a Hierarchical JavaScript Array](#BindingaHierarchicalJavaScriptArray)
-    - [Introduction](#HIntroduction)
-    - [Prerequisites](#HPrerequisites)
-    - [Preview](#HPreview)
-    - [Steps](#HSteps)
-- [Related Topics](#relatedcontent)
+- [データ ソースにバインド](#BindingtoDataSources)
+    - [サポートされるデータ ソース](#Supporteddatasources)
+    -  [バインドの要件](#Requirementsforbinding)
+- [JavaScript 配列のバインド](#BindingaJavaScriptArray)
+    - [概要](#Introduction)
+    - [前提条件](#Prerequisites)
+    - [プレビュー](#Preview)
+    - [手順](#Steps)
+- [階層 JavaScript 配列のバインド](#BindingaHierarchicalJavaScriptArray)
+    - [概要](#HIntroduction)
+    - [前提条件](#HPrerequisites)
+    - [プレビュー](#HPreview)
+    - [手順](#HSteps)
+- [関連トピック](#relatedcontent)
 
-### <a id="BindingtoaJavaScriptArray"/> Binding to a JavaScript Array
+### <a id="BindingtoaJavaScriptArray"/> JavaScript 配列へのバインド
 
-#### <a id="Introduction"/> Introduction
-This procedure demonstrates how to bind the igCategoryChart control to a JavaScript data array.
+#### <a id="Introduction"/> 概要
+ここでは、igCategoryChart コントロールを JavaScript データ配列にバインドする際の手順を示します。
 
-#### <a id="Prerequisites"/> Prerequisites
-To complete the procedure, you need the following:
+#### <a id="Prerequisites"/> 前提条件
+この手順を実行するには、以下が必要です。
 
--	An HTML5 web page
--	All required JavaScript and CSS files added to your web site or web application project.
+-	HTML5 Web ページ
+-	Web サイトまたは Web アプリケーション プロジェクトに追加された、必要なすべての JavaScript および CSS ファイル。
 
-For detailed information on instantiation and configuration of an igCategoryChart see - - [Adding igCategoryChart](igcategorychart-adding.html). 
+[igCategoryChart の追加](igcategorychart-adding.html) インスタンスの作成および構成の詳細については、「igDataChart の追加」を参照してください。 
 
-#### <a id="Preview"/> Preview
+#### <a id="Preview"/> プレビュー
 
 
 ![](images/categorychart-data-binding-01.png)
 
 
-#### <a id="Steps"/> Steps 
-The following steps demonstrate how to bind the igCategoryChart control to a JavaScript data array.
+#### <a id="Steps"/> 手順 
+ここでは、igCategoryChart コントロールを JavaScript データ配列にバインドする際の手順を示します。
 
-**Define the data array**
+**データ配列の定義**
 
-*In Javascript*
+*JavaScript の場合:*
 ```
 <script type="text/javascript">
    var data = [
@@ -73,11 +73,11 @@ The following steps demonstrate how to bind the igCategoryChart control to a Jav
 </script>
 ```
 
-**Add and configure igCategoryChart control**
+**igCategoryChart コントロールを追加して構成します。**
 
-Add the chart div element to the web page. In the body of the web page, add a div element for the igCategoryChart control.
+チャートの div 要素を Web ページに追加します。Web ページの body 部分に igCategoryChart チャート コントロール用の div 要素を追加します。
 
-*In  HTML*
+*HTML の場合:*
 ```     
 <body>
    …
@@ -87,11 +87,11 @@ Add the chart div element to the web page. In the body of the web page, add a di
 </body>
 ```
 
-**Instantiate igCategoryChart control and configure the data source**
+**igCategoryChart コントロールのインスタンスを作成し、データ ソースを構成します。**
 
-To do this, assign the data array defined in the previous step to the dataSource options of the igCategoryChart control.
+これを行うには、1 つ前の手順で定義したデータ配列を igCategoryChart コントロールの dataSource オプションに割り当てます。
 
-*In  HTML*
+*HTML の場合:*
 ```  
 <script type="text/javascript">
 $(function() {
@@ -104,31 +104,31 @@ $(function() {
 </script>
 ```
 
-### <a id="BindingtoaHierarchicalJavaScriptArray"/> Binding to a Hierarchical JavaScript Array
+### <a id="BindingtoaHierarchicalJavaScriptArray"/> 階層 JavaScript 配列にバインド
 
-#### <a id="HIntroduction"/> Introduction
-This procedure demonstrates how to bind the igCategoryChart control to a “semi-nested” hierarchical JavaScript data array.
+#### <a id="HIntroduction"/> 概要
+ここでは、igCategoryChart コントロールをセミネスト階層 JavaScript データ配列にバインドする際の手順を示します。
 
-#### <a id="HPrerequisites"/> Prerequisites
+#### <a id="HPrerequisites"/> 前提条件
 
-To complete the procedure, you need the following:
-- An HTML5 web page
-- All required JavaScript and CSS files added to your web site or web application project.
+この手順を実行するには、以下が必要です。
+- HTML5 Web ページ
+- Web サイトまたは Web アプリケーション プロジェクトに追加された、必要なすべての JavaScript および CSS ファイル。
 
-For detailed information on instantiation and configuration of an igCategoryChart see [Adding igCategoryChart](igcategorychart-adding.html). 
+[igCategoryChart の追加](igcategorychart-adding.html) インスタンスの作成および構成の詳細については、「igDataChart の追加」を参照してください。 
 
-#### <a id="HPreview"/> Preview
+#### <a id="HPreview"/> プレビュー
 
 
 ![](images/categorychart-data-binding-02.png)
 
 
-#### <a id="Steps"/> Steps 
-The following steps demonstrate how to bind the igCategoryChart control to a JavaScript data array.
+#### <a id="Steps"/> 手順 
+ここでは、igCategoryChart コントロールを JavaScript データ配列にバインドする際の手順を示します。
 
-**Define the data array**
+**データ配列の定義**
 
-*In Javascript*
+*JavaScript の場合:*
 ```
 <script>
 var data = [
@@ -158,11 +158,11 @@ var data = [
 
 ```
 
-**Add and configure igCategoryChart control**
+**igCategoryChart コントロールを追加して構成します。**
 
-Add the chart div element to the web page. In the body of the web page, add a div element for the igCategoryChart control.
+チャートの div 要素を Web ページに追加します。Web ページの body 部分に igCategoryChart チャート コントロール用の div 要素を追加します。
 
-*In  HTML*
+*HTML の場合:*
 ```     
 <body>
    …
@@ -172,11 +172,11 @@ Add the chart div element to the web page. In the body of the web page, add a di
 </body>
 ```
 
-**Instantiate igCategoryChart control and configure the data source and xAxis labels**
+**igCategoryChart コントロールのインスタンスを作成し、データ ソースと xAxis ラベルを構成します。**
 
-To do this, assign the data array defined in the previous step to the dataSource options of the igCategoryChart control.
+これを行うには、1 つ前の手順で定義したデータ配列を igCategoryChart コントロールの dataSource オプションに割り当てます。
 
-*In  HTML*
+*HTML の場合:*
 ```  
 <script type="text/javascript">
   $(function() {
@@ -194,8 +194,8 @@ To do this, assign the data array defined in the previous step to the dataSource
 
 ```
 
-## <a id="relatedcontent"/>Related Topics:
+## <a id="relatedcontent"/>関連トピック:
 
-- [Walkthrough](igcategorychart-adding.html)
+- [チュートリアル](igcategorychart-adding.html)
 
-- [Axes](categorychart-axes.html)
+- [軸](categorychart-axes.html)
