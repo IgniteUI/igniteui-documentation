@@ -98,7 +98,10 @@
 			</td>
 
 			<td>
-				コントロールの各種の要素の描画には、以下の CSS ファイルからのスタイルを使用します。&lt;IG CSS root&gt;/structure/modules/infragistics.ui.chart.css
+				コントロールの各種の要素の描画には、以下の CSS ファイルからのスタイルを使用します。<br>
+				&lt;IG CSS root&gt;/structure/modules/infragistics.ui.html5.css<br>
+				&lt;IG CSS root&gt;/structure/modules/infragistics.ui.shared.css<br>
+				&lt;IG CSS root&gt;/structure/modules/infragistics.ui.chart.css
 			</td>
 
 			<td></td>
@@ -156,11 +159,63 @@
 
 						<tr>
 							<td>
-								infragistics.dv.core.js
+								infragistics.templating.js
+							</td>
+
+							<td>
+								テンプレート エンジン (igTemplate™)
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								infragistics.ext_core.js,<br>
+								infragistics.ext_collections.js,<br>
+								infragistics.ext_ui.js,<br>
+								infragistics.dv_core.js,<br>
+								infragistics.dv_geometry.js
 							</td>
 
 							<td>
 								データ可視化コア機能
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								infragistics.datachart_core.js
+							<td>
+								共有チャート ビジュアライゼーションの機能
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								infragistics.piechart.js
+							</td>
+
+							<td>
+								円チャート ビジュアライゼーション ロジック
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								infragistics.doughnutchart.js
+							</td>
+
+							<td>
+								ドーナツ型チャート ビジュアライゼーション ロジック
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								infragistics.legend.js
+							</td>
+
+							<td>
+								凡例機能の共有チャート コード
 							</td>
 						</tr>
 
@@ -171,16 +226,6 @@
 
 							<td>
 								チャートおよびマップの共通ウィジェット
-							</td>
-						</tr>
-
-						<tr>
-							<td>
-								infragistics.templating.js
-							</td>
-
-							<td>
-								テンプレート エンジン (igTemplate™)
 							</td>
 						</tr>
 
@@ -206,11 +251,11 @@
 
 						<tr>
 							<td>
-								infragistics.chart_piechart.js
+								infragistics.ui.chart.js
 							</td>
 
 							<td>
-								igPieChart™ コントロール
+								`igDataChart` ウィジェット UI コード
 							</td>
 						</tr>
 
@@ -220,7 +265,7 @@
 							</td>
 
 							<td>
-								igDoughnutChart ウィジェット
+								igDoughnutChart ウィジェット UI コード
 							</td>
 						</tr>
 					</tbody>
@@ -295,23 +340,33 @@
 	<!DOCTYPE html>
     <html>
     <head>
-    <!-- Ignite UI Required CSS File -->
-    <link href="../../igniteui/css/structure/modules/infragistics.ui.chart.css" rel="stylesheet" />
     <!-- Ignite UI IG Theme CSS File -->
-    <link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-    <!-- jQuery Files -->
-    <script src="../../js/jquery.min.js"></script>
-    <script src="../../js/jquery-ui.min.js"></script>
-    <!-- Ignite UI Required JavaScript Files -->
-    <script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.datasource.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.dv.core.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.dvcommonwidget.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.templating.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.ui.chartlegend.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.ui.basechart.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.chart_piechart.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.ui.doughnutchart.js" type="text/javascript"></script>
+	<link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+	<!-- Ignite UI Required CSS File -->
+	<link rel="stylesheet" type="text/css" href="../../igniteui/css/structure/modules/infragistics.ui.html5.css"/>
+	<link rel="stylesheet" type="text/css" href="../../igniteui/css/structure/modules/infragistics.ui.shared.css"/>
+	<link rel="stylesheet" type="text/css" href="../../igniteui/css/structure/modules/infragistics.ui.chart.css"/>
+	<!-- jQuery Files -->
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/jquery-ui.min.js"></script>
+	<!-- Ignite UI Required JavaScript Files -->
+	<script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.datasource.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.templating.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ext_core.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ext_collections.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ext_ui.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.dv_core.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.legend.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.dv_geometry.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.datachart_core.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.dvcommonwidget.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.chartlegend.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.chart.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.piechart.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.doughnutchart.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.basechart.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.doughnutchart.js" type="text/javascript"></script>
     </head>
     <body>
     </body>
@@ -399,25 +454,35 @@
 <html>
 <head>
 <title>DoughnutChart</title>
-<!-- Ignite UI Required CSS File -->    
-<link href="../../igniteui/css/structure/modules/infragistics.ui.chart.css" rel="stylesheet" />
 <!-- Ignite UI IG Theme CSS File -->
-<link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-<!-- jQuery Files -->
-<script src="../../js/jquery.min.js"></script>
-<script src="../../js/jquery-ui.min.js"></script>
-<!-- Ignite UI Required JavaScript Files -->
-<script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
-<script src="../../igniteui/js/modules/infragistics.datasource.js" type="text/javascript"></script>
-<script src="../../igniteui/js/modules/infragistics.dv.core.js" type="text/javascript"></script>
-<script src="../../igniteui/js/modules/infragistics.dvcommonwidget.js" type="text/javascript"></script>
-<script src="../../igniteui/js/modules/infragistics.templating.js" type="text/javascript"></script>
-<script src="../../igniteui/js/modules/infragistics.ui.chartlegend.js" type="text/javascript"></script>
-<script src="../../igniteui/js/modules/infragistics.ui.basechart.js" type="text/javascript"></script>
-<script src="../../igniteui/js/modules/infragistics.chart_piechart.js" type="text/javascript"></script>
-<script src="../../igniteui/js/modules/infragistics.ui.doughnutchart.js" type="text/javascript"></script>
-<script type="text/javascript">
-                  var data = [
+	<link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+	<!-- Ignite UI Required CSS File -->
+	<link rel="stylesheet" type="text/css" href="../../igniteui/css/structure/modules/infragistics.ui.html5.css"/>
+	<link rel="stylesheet" type="text/css" href="../../igniteui/css/structure/modules/infragistics.ui.shared.css"/>
+	<link rel="stylesheet" type="text/css" href="../../igniteui/css/structure/modules/infragistics.ui.chart.css"/>
+	<!-- jQuery Files -->
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/jquery-ui.min.js"></script>
+	<!-- Ignite UI Required JavaScript Files -->
+	<script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.datasource.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.templating.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ext_core.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ext_collections.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ext_ui.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.dv_core.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.legend.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.dv_geometry.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.datachart_core.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.dvcommonwidget.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.chartlegend.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.chart.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.piechart.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.doughnutchart.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.basechart.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.doughnutchart.js" type="text/javascript"></script>
+	<script type="text/javascript">
+            var data = [
             { "ProductCategory": ' Footwear', "Index": 1498 },
                 { "ProductCategory": ' Clothing', "Index": 1389 },
                 { "ProductCategory": ' Books', "Index": 352 },
