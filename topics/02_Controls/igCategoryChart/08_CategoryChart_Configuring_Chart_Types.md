@@ -35,15 +35,15 @@ $("#theChart").igCategoryChart("option", "chartType", "area");
 
 プロパティ名|プロパティ タイプ|デフォルト値|説明
 ---|---|---|---
-`brushes`|object|null|Gets or sets the palette of brushes to use for coloring the chart series. The value provided should be an array of CSS color strings or JavaScript objects defining gradients. Optionally the first element can be a string reading "RGB" or "HSV" to specify the interpolation mode of the collection.
-`negativeBrushes`|object|null|Gets or sets the palette used for coloring negative items of Waterfall chart type. The value provided should be an array of CSS color strings or JavaScript objects defining gradients. Optionally the first element can be a string reading "RGB" or "HSV" to specify the interpolation mode of the collection.
-`outlines`|object|null|Gets or sets the palette of brushes to use for outlines on the chart series. The value provided should be an array of CSS color strings or JavaScript objects defining gradients. Optionally the first element can be a string reading "RGB" or "HSV" to specify the interpolation mode of the collection.
-`resolution`|number|1|Gets or sets the rendering resolution for series in this chart. Where n = Resolution, for every n horizontal pixels, combine all items into a single datapoint.  When Resolution = 0, all datapoints will be rendered as graphical objects.  Charts with a higher resolution will have faster performance.
-`thickness`|number|1|Gets or sets the thickness of the chart series. Depending on the ChartType, this can be the main brush used, or just the outline.
-`xAxisGap`|number|0|Gets or sets the amount of space between adjacent categories for the X-axis. Gets or sets the gap is silently clamped to the range [0, inf] when used.
-`xAxisOverlap`|number|0|Gets or sets the amount of overlap between adjacent categories for the X-axis. Gets or sets the overlap is silently clamped to the range [-1, 1] when used.
-`xAxisInverted`|bool|null|Gets or sets whether the direction of the X-axis is inverted, placing the first data items on the right side instead of left side.
-`yAxisInverted`|bool|null|Gets or sets whether the direction of the Y-axis is inverted, placing minimum numeric value at the top of the axis instead of bottom.
+`brushes`|object|null|チャート シリーズの色設定に使用するブラシのパレットを取得または設定します。提供された値は、CSS 色文字列またはグラデーションを定義する JavaScript オブジェクトの配列である必要があります。最初の要素は、コレクションの補間モードを指定する RGB または HSV の文字列に設定するオプションがあります。
+`negativeBrushes`|object|null|チャート シリーズの色設定に使用するブラシのパレットを取得または設定します。提供された値は、CSS 色文字列またはグラデーションを定義する JavaScript オブジェクトの配列である必要があります。最初の要素は、コレクションの補間モードを指定する RGB または HSV の文字列に設定するオプションがあります。
+`outlines`|object|null|チャート シリーズのアウトラインに使用するブラシのパレットを取得または設定します。提供された値は、CSS 色文字列またはグラデーションを定義する JavaScript オブジェクトの配列である必要があります。最初の要素は、コレクションの補間モードを指定する RGB または HSV の文字列に設定するオプションがあります。
+`resolution`|number|1|このチャートのシリーズの描画解像度を取得または設定します。n = 解像度で、各 n 水平ピクセルのすべての項目を単一のデータポイントに結合します。解像度 = 0 の場合、すべてのデータポイントがグラフィッカル オブジェクトとして描画されます。チャートの解像度が高くなるとパフォーマンスが向上します。チャート シリーズの太さを取得または設定します。
+`thickness`|number|1|チャート シリーズの太さを取得または設定します。ChartType に基づいて、これは使用されるメイン ブラシ、またはアウトラインのみです。
+`xAxisGap`|number|0|X 軸の隣接カテゴリ間のスペースの量を取得または設定します。範囲 [0, inf] にサイレントで固定される間隔を取得または設定します。
+`xAxisOverlap`|number|0|X 軸の隣接カテゴリ間で重複する量を取得または設定します。範囲 [-1, inf] にサイレントで固定される重複を取得または設定します。
+`xAxisInverted`|bool|null|最初のデータ項目を左側ではなく右側に配置し、X 軸の方向を反転するかどうかを取得または設定します。
+`yAxisInverted`|bool|null|最小の数値を軸の下側ではなく上側に配置し、Y 軸の方向を反転を取得または設定します。
 
 ## 例
 
