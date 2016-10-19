@@ -25,18 +25,18 @@ igCategoryChart コントロールの軸タイトル機能は、チャートの 
 プロパティ名|プロパティ タイプ|説明
 ---|---|---
 `xAxisTitle`,`yAxisTitle`|string|x 軸と y 軸のタイトルに使用するテキストを決定します。
-`xAxisTitleAlignment`, `yAxisTitleAlignment`|enumeration|x 軸の水平方向の配置と y 軸の垂直報告の配置を決定します。 
-`xAxisTitleAngle`,`yAxisTitleAngle`|number|x 軸と y 軸のタイトルの回転角度を決定します。
-`xAxisTitleBottomMargin`,`yAxisTitleBottomMargin`|number|x 軸と y 軸のタイトルの下に適用するマージンを決定します。
-`xAxisTitleExtent`,`yAxisTitleExtent`|number|x 軸と y 軸のタイトルに適用する範囲を決定します。
-`xAxisTitleLeftMargin`,`yAxisTitleLeftMargin`|number|x 軸と y 軸のタイトルの左に適用するマージンを決定します。
-`xAxisTitleMargin`,`yAxisTitleMargin`|number|x 軸と y 軸のタイトルに適用するマージンを決定します。
-`xAxisTitleRightMargin`,`yAxisTitleRightMargin`|number|x 軸と y 軸のタイトルの右に適用するマージンを決定します。
 `xAxisTitleTextColor`, `yAxisTitleTextColor`|string|x 軸と y 軸のタイトルの色を決定します。
 `xAxisTitleTextStyle`,`yAxisTitleTextStyle`|string|x 軸と y 軸のタイトルに適用するフォント スタイルを決定します。
+`xAxisTitleAngle`,`yAxisTitleAngle`|number|x 軸と y 軸のタイトルの回転角度を決定します。
+`xAxisTitleAlignment`, `yAxisTitleAlignment`|enumeration|x 軸の水平方向の配置と y 軸の垂直報告の配置を決定します。 
+`xAxisTitleExtent`,`yAxisTitleExtent`|number|x 軸と y 軸のタイトルに適用する範囲を決定します。
+`xAxisTitleMargin`,`yAxisTitleMargin`|number|x 軸と y 軸のタイトルに適用するマージンを決定します。
 `xAxisTitleTopMargin`,`yAxisTitleTopMargin`|number|x 軸と y 軸のタイトルの上に適用するマージンを決定します。
+`xAxisTitleRightMargin`,`yAxisTitleRightMargin`|number|x 軸と y 軸のタイトルの右に適用するマージンを決定します。
+`xAxisTitleBottomMargin`,`yAxisTitleBottomMargin`|number|x 軸と y 軸のタイトルの下に適用するマージンを決定します。
+`xAxisTitleLeftMargin`,`yAxisTitleLeftMargin`|number|x 軸と y 軸のタイトルの左に適用するマージンを決定します。
 
-### <a id="codesnippets"/>コード スニペット
+### <a id="codesnippet"/>コード スニペット
 以下のコード例は、x 軸と y 軸のタイトルをカスタマイズします。
 
 *HTML の場合:*
@@ -64,12 +64,12 @@ $(function () {
 
 - [データ バインド](categorychart-binding-to-data.html)
 
-- [軸間隔と重複の構成](configuring-axis-gap-and-overlap.html)
+- [軸間隔と重複の構成](categorychart-configuring-axis-gap-and-overlap.html)
 
-- [軸ラベルの構成](configuring-axis-labels.html)
+- [軸ラベルの構成](igcategorychart-axis-labels.html)
 
-- [軸間隔の構成](configuring-axis-intervals.html)
+- [軸間隔の構成](igcategorychart-axis-intervals.html)
 
-- [軸範囲の構成](configuring-axis-range.html)
+- [軸範囲の構成](categorychart-configuring-axis-range.html)
 
-- [軸目盛りの構成](configuring-axis-tickmarks.html)
+- [軸目盛りの構成](igcategorychart-axis-tickmarks.html)
