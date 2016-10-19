@@ -23,9 +23,6 @@
 このトピックは、以下のセクションで構成されます。
 このトピックは、以下のセクションで構成されます。
 
-- [データ ソースにバインド](#BindingtoDataSources)
-    - [サポートされるデータ ソース](#Supporteddatasources)
-    -  [バインドの要件](#Requirementsforbinding)
 - [JavaScript 配列のバインド](#BindingaJavaScriptArray)
     - [概要](#Introduction)
     - [前提条件](#Prerequisites)
@@ -38,7 +35,7 @@
     - [手順](#HSteps)
 - [関連トピック](#relatedcontent)
 
-### <a id="BindingtoaJavaScriptArray"/> JavaScript 配列へのバインド
+### <a id="BindingaJavaScriptArray"/> JavaScript 配列へのバインド
 
 #### <a id="Introduction"/> 概要
 ここでは、igCategoryChart コントロールを JavaScript データ配列にバインドする際の手順を示します。
@@ -104,7 +101,7 @@ $(function() {
 </script>
 ```
 
-### <a id="BindingtoaHierarchicalJavaScriptArray"/> 階層 JavaScript 配列にバインド
+### <a id="BindingaHierarchicalJavaScriptArray"/> 階層 JavaScript 配列にバインド
 
 #### <a id="HIntroduction"/> 概要
 ここでは、igCategoryChart コントロールをセミネスト階層 JavaScript データ配列にバインドする際の手順を示します。
@@ -123,7 +120,7 @@ $(function() {
 ![](images/categorychart-data-binding-02.png)
 
 
-#### <a id="Steps"/> 手順 
+#### <a id="HSteps"/> 手順 
 ここでは、igCategoryChart コントロールを JavaScript データ配列にバインドする際の手順を示します。
 
 **データ配列の定義**
