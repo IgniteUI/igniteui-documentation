@@ -8,39 +8,39 @@
 |metadata|
 -->
 
-# Selection
+# 選択
 
-This topic provides information for enabling and using the selection feature in the igPieChartName™ control. 
+このトピックでは、igPieChartName™ コントロールの選択機能の有効化および使用方法について説明します。 
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
--   [Requirements](#Requirements)
--   [Overview](#Overview)
--   [Enabling Selection](#EnablingSelection)
--   [Selection Modes](#SelectionModes)
--   [Selecting the Others Slices](#SelectingOthers)
--   [Related Topics](#RelatedTopics)
+-   [要件](#Requirements)
+-   [概要](#Overview)
+-   [選択の有効化](#EnablingSelection)
+-   [選択モード](#SelectionModes)
+-   [「その他」スライスの選択](#SelectingOthers)
+-   [関連トピック](#RelatedTopics)
 
 
-### <a id="Requirements"></a> Requirements
+### <a id="Requirements"></a> 要件
 
-This article assumes you have already read the [Data Binding](igPieChart_DataBinding.html) topic, and uses the code therein as a starting point.
+このトピックは、ユーザーが[データ バインディング](igPieChart_DataBinding.html) トピックを既に読んでいることを前提とし、初めにそのコードを使用します。
 
-### <a id="Overview"></a> Overview
+### <a id="Overview"></a> 概要
 
-The Pie Chart supports slice selection by mouse click as the default behavior. You can determine the selected slices by using the 'selectedItem' option. The selected slice is highlighted as demonstrated in the following image:
+デフォルトで、円チャートはマウス クリックによるスライス選択をサポートします。選択されたスライスは、'selectedItem' プロパティで取得します。以下の画像にあるように、選択されたスライスは強調表示されます。
 
 ![](images/PieChart_SingleSelection_01.png)
 
-### <a id="EnablingSelection"></a> Enabling Selection
+### <a id="EnablingSelection"></a> 選択の有効化
 
-There is an option called `selectionMode` which is how you set what mode you want the pie chart to use.  The default is “Single”.  In order to disable selection, set the property to “Manual”.  
+円チャートのモードは `selectionMode` プロパティで設定します。デフォルトは Single です。選択機能を無効化するためにはプロパティを Manual に設定します。  
 
-The following code snippet demonstrates how to disable selection.
+以下のコード例では、選択機能を無効化する方法を示します。
 
-**In Javascript:**
+**JavaScript の場合:**
 
 ```
 $(function () {
@@ -54,9 +54,9 @@ $(function () {
 });
 ```
 
-### <a id="SelectionModes"></a> Selection Modes
+### <a id="SelectionModes"></a> 選択モード
 
-The pie chart supports three different selection modes.  
+円チャートは、選択モードを 3 つサポートします。  
 
 -  Single
 -  Multiple
@@ -64,32 +64,32 @@ The pie chart supports three different selection modes.
 
 ### Single
 
-When the mode is set to single, only one slice can be selected at a time.  When you select a new slice the previously selected slice will be deselected and the new one will become selected.
+Single モードに設定すると、一度に 1 つのスライスのみ選択します。他のスライスを選択すると、最初に選択したスライスは選択解除され、新しいスライスが選択されます。
 
 ![](images/PieChart_SingleSelection_01.png)
 
 ### Multiple
 
-when the mode is set to Multiple, many slices can be selected at once.  If you click on a slice, it will become selected and clicking on a different slice will also select that slice leaving the previous slice selected.
+Multiple モードに設定すると、一度に複数のスライスを選択します。スライスをクリックするとスライスが選択され、他のスライスをクリックすると、最初のスライスも、新しくクリックしたスライスも選択されます。
 
 ![](images/PieChart_MultipleSelection_01.png)
 
 ### Manual 
 
-When the mode is set to Manual, selection is disabled.
+Manual モードに設定すると、選択は無効化されます。
 
-### <a id="SelectionEvents"></a> Selection Events
+### <a id="SelectionEvents"></a> セル イベント
 
-The pie chart has 4 events associated with selection:
+円チャートには、選択機能に関連する 4 つのイベントがあります。
 
 - `selectedItemChanging`
 - `selectedItemChanged`
 - `selectedItemsChanging`
 - `selectedItemsChanged`
 
-The events that end in “Changing” are cancelable events which means you can stop the selection of a slice by setting the event argument property “Cancel” to true.  When set to true the associated property will not update and the slice will not become selected.  This is useful for scenarios where you want to keep users from being able to select certain slices based on the data inside it.
+「Changing」で終わるイベントはキャンセル可能なイベントです。すなわち、イベント引数プロパティ Cancel を true に設定することで、スライスの選択を停止します。True に設定すると、関連付けられたプロパティは更新されず、その結果スライスは選択されません。この設定はたとえば、スライスのデータによって一定のスライスの選択を無効化する場合に使用します。
 
-**In Javascript:**
+**JavaScript の場合:**
 
 ```
 $(function () {
@@ -106,14 +106,14 @@ $(function () {
 ```
 
 
-### <a id="SelectingOthers"></a> Selecting the Others Slice
+### <a id="SelectingOthers"></a> 「その他」スライスの選択
 
-For scenarios where you click on the Others slice, the pie chart will return an object called `pieSliceOthersContext`.  This object contains a list of the data items contained within the Others slice.
+「その他」スライスをクリックすると、 `pieSliceOthersContext` オブジェクトが返されます。オブジェクトは、「その他」スライスに含まれるデータ項目のリストがあります。
 
-### <a id="RelatedTopics"></a> Related Topics
+### <a id="RelatedTopics"></a> 関連トピック
 
-- [Data Binding (igPieChart)](igPieChart-DataBinding.html): This topic explains how to bind various data sources to the `igPieChart`™ control.
+- [データ バインディング (igPieChart)](igPieChart-DataBinding.html): このトピックでは、さまざまなデータ ソースを `igPieChart`™ コントロールにバインドする方法を説明します。
 
-- [jQuery and ASP.NET MVC Helper API Reference Links (igPieChart)](igPieChart-API-Links.html): This topic provides links to the API documentation for jQuery and ASP.NET MVC helper class for `igDataChart`™ control.
+- [jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク (igPieChart)](igPieChart-API-Links.html): このトピックは、`igDataChart`™ の jQuery および ASP.NET MVC ヘルパー クラスのたえの API マニュアルへのリンクを提供します。
 
-- [Styling igPieChart with Themes](igPieChart-Styling-Themes.html): Demonstrates using styles and applying themes with `igPieChart`™.
+- [igPieChart にテーマを設定する](igPieChart-Styling-Themes.html): スタイルを用い、`igPieChart`™ にテーマを適用する方法を説明します。
