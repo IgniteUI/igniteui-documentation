@@ -249,7 +249,7 @@ $("#container").igDataChart({
 	<tbody>
 		<tr>
 			<td>MinorInterval</td>
-			<td>2</td>
+			<td>0.25</td>
 		</tr>
 		<tr>
 			<td>MinorStroke</td>
@@ -291,7 +291,7 @@ $("#container").igDataChart({
                     label: "CountryName",
                     majorStroke: "Green",
                     minorStroke: 'Red',
-                    minorInterval: 2,
+                    minorInterval: 0.25,
                     interval: 2,
                     majorStrokeThickness: 2,
                 }, …
