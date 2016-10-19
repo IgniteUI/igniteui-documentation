@@ -120,7 +120,7 @@
 	    $.ig.loader({
 	        scriptPath: "Scripts/ig/",
 	        cssPath: "Content/ig/",
-	        resources: "igPieChart"
+	        resources: "igPieChart,igChartLegend"
 	    });
 	<script>
 	```
