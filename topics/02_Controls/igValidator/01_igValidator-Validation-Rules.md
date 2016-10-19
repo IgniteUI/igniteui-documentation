@@ -8,66 +8,66 @@
 |metadata|
 -->
 
-# Validation Rules
+# 検証ルール
 
-The `igValidator` provides a number of built-in validation rules that define a certain criteria values must conform to - including type checks, range limits, regular expression pattern and custom function.
+`igValidator` にはビルトイン検証ルールが含まれ、確認する必要のある特定の条件値 (タイプ チェック、範囲制限、正規表現パターン、カスタム関数) を定義します。
 
-### In this topic
- - [Introduction](#intro)
- - [Rules order of execution](#rules-order)
-    - [Required](#required)
-    - [Infragistics' editor (optional)](#igcontrols)
+### このトピックの内容
+ - [概要](#intro)
+ - [ルールの実行順序](#rules-order)
+    - [要件](#required)
+    - [Infragistics エディター (オプション)](#igcontrols)
     - [Number](#number)
     - [Date](#date)
-    - [Length Range](#length)
-    - [Value Range](#value)
+    - [長さの範囲](#length)
+    - [値の範囲](#value)
     - [EqualsTo](#equals)
-    - [Email](#email)
-    - [Credit Card](#card)
-    - [Pattern (regular expression)](#pattern)
-    - [Custom function](#custom)
- - [Rule Inheritance](#inherit)
- - [Validator Defaults object](#defaults-obejct)
- - [Related Content](#related-content)
+    - [メール](#email)
+    - [クレジットカード](#card)
+    - [パターン (正規表現)](#pattern)
+    - [カスタム関数](#custom)
+ - [ルール継承](#inherit)
+ - [検証デフォルト オブジェクト](#defaults-obejct)
+ - [関連コンテンツ](#related-content)
  
-### Required background
-You need to first read the following topics:
+### 前提条件
+まず以下のトピックを読む必要があります。
 
-- [igValidator Overview](igValidator-Overview.html)
+- [igValidator の概要](igValidator-Overview.html)
 
-## <a id="intro"></a> Introduction
+## <a id="intro"></a> 概要
 
-Rule checks are applied each time validation is performed on the target or field in their specified [order](#rules-order) to asses the validity of the current value. All rule configurations accept at least an `errorMessage` to allow setting a custom text just for that particular check, while some might include additional options. The `igValidator` locale also has a predefined set of appropriate rule messages, so in case setting one is not needed most rules support a shorthand configuration.
-
-
-## <a id="rules-order"></a> Rules order of execution
-
-In some scenarios the `igValidator` control or field options needs to use multiple validation rules in order to validate upon different criteria or supplement (for example required and number). In those cases it is important to mention that those are performed in a particular order to prevent unnecessary checks and also present the user correct information about what requirement the value did not meet. The simplest, more general validations pass with priority and then the more sophisticated, specialized conditions are performed.
-
-> **Note:** If one of the rules in the chain fails then the value is considered invalid and no further rules will be checked. This way if a value is empty, the error message will state the value is required, even though it would also technically not pass as valid email as well.
-
-By default, the validations priority is as follows:
-
-1.  [Required](#required)
-2.  [Infragistics' editor (optional)](#igcontrols)
-3.  [Number](#number)
-4.  [Date](#date)
-5.  [Length Range](#length)
-6.  [Value Range](#value)
-7.  [EqualsTo](#equals)
-8.  [Email](#email)
-9.  [Credit Card](#card)
-10. [Pattern (regular expression)](#pattern)
-11. [Custom function](#custom)
+ルールのチェックは、ターゲットの各時間検証、あるいは指定した [order](#rules-order) のフィールドに適用され、現在の値の有効性を評価します。すべてのルールは少なくとも `errorMessage` を使用でき、特定のチェックには追加オプションも可能なカスタムテキストの設定ができます。`igValidator` ロケールには、定義済みの一連のルール メッセージがあります。設定が必要ない場合はほとんどのルールで設定が省略できます。
 
 
-### <a id="required"></a> Required
+## <a id="rules-order"></a> ルールの実行順序
 
-The [`required`](%%jQueryApiUrl%%/ui.igValidator#options:required) rule validates that a value was entered. This applies to multiple scenarios - inputs and editors cannot have empty text as value, multiple choice targets (such as a checkbox group or an `igCombo`) are required to have at least one item selected. A single checkbox control will be required to be checked.
+`igValidator` コントロールまたはフィールド オプションに複数の検証ルールを使用し、さまざまな条件や補足 (数値など) を検証できます。特定の順序で実行することにより、不必要なチェックを防止でき、ユーザーに値が一致しなかった条件についての正しい情報を示すことができます。最初に最も一般的でシンプルな検証を実行し、次に条件を少しずつ詳細に設定していきます。
 
-> **Note:** As this rule is first in priority, no other rule should be concerned with or fail if the value is empty.
+> **注:** ルールの 1 つが失敗した場合、値は無効でより詳細なチェックは必要ないと考えられます。値が空の場合、有効なメールとしてパスしなかった場合も含め、エラーメッセージで値が必要であることを知らせます。
 
-Can be configured as both a boolean value or an object with message:
+以下は、デフォルトの検証の優先度です。
+
+1.  [必須](#required)
+2.  [Infragistics エディター (オプション)](#igcontrols)
+3.  [数値](#number)
+4.  [日付](#date)
+5.  [長さの範囲](#length)
+6.  [値の範囲](#value)
+7.  [等しい](#equals)
+8.  [メール](#email)
+9.  [クレジット カード](#card)
+10. [パターン (正規表現)](#pattern)
+11. [カスタム関数](#custom)
+
+
+### <a id="required"></a> 必須
+
+[`必須`](%%jQueryApiUrl%%/ui.igValidator#options:required)ルールは値が入力されたかどうかを検証します。多くの状況に適用 - 入力およびエディターが空テキストを値として持つことができない場合、複数選択 (チェックボックス グループ、または `igCombo`) に少なくとも項目が 1 つ選択されている必要があります。シングル チェックボックス コントロールはチェックする必要があります。
+
+> **注:** このルールは優先度が一番高いため、他のルールは使用しない、または値が空の場合は失敗します。 
+
+両方のブール値またはメッセージを含むオブジェクトとして構成できます。
 
 ```js
 $('#editor').igValidator({
@@ -81,15 +81,15 @@ $('#editor').igValidator({
 });
 ```
 
-### <a id="igcontrols"></a> Infragistics' editor (optional)
+### <a id="igcontrols"></a> Infragistics エディター (オプション)
 
-This step is optional and is fired only when you use an `igEditor`. The validator will call `isValid` on the editor to check if its specific requirements (selection, required mask fields, etc.) are fulfilled. The `igValidator` will attempt to use an error-specific message from the editor, but if no such is available will revert to the generic "default" locale one. There are no additional options related to this functionality.
+この手順はオプションで igEditor を使用する場合のみ発生されます。特定の条件 (選択、必須マスク フィールドなど) が満たされた場合、バリデーターは、チェックするためにエディターで isValid を呼び出します。`igValidator` は、エディターのエラー固有のメッセージを使用します。使用できない場合は、汎用デフォルト ロケールに戻されます。この機能に関連する追加オプションはありません。
 
-### <a id="number"></a> Number
+### <a id="number"></a> 数値
 
-The [`number`](%%jQueryApiUrl%%/ui.igValidator#options:number) rule checks if the value is a valid number. The rule allows to specify decimals and thousands separators, so number formats beyond the native JavaScript parsing can be validated. Globally defined in the [defaults obejct](#defaults-obejct) separators for decimals and thousands are '.' and ',' respectively. Can be used help guide the [ValueRange](#value) validation.
+[`number`](%%jQueryApiUrl%%/ui.igValidator#options:number) ルールは、値が有効な数値かどうかをチェックします。ルールには 10 進数および桁区切り記号を指定できます。そのためネイティブ JavaScript の解析以外の数値形式を検証できます。小数および千の位用に[デフォルト オブジェクト](#defaults-obejct)のセパレーターでグローバルに定義されているのは、'.' および ',' です。[ValueRange](#value) 検証で役立ちます。
 
-Number check can be configured as both a boolean shorthand or an object with settings:
+両方のブール値またはメッセージを含むオブジェクトとして構成できます。
 ```js
 $('#editor').igValidator({
   number: true
@@ -104,13 +104,13 @@ $('#editor').igValidator({
 });
 ```
 
-### <a id="date"></a> Date
+### <a id="date"></a> 日付
 
-The [`date`](%%jQueryApiUrl%%/ui.igValidator#options:date) checks if a value (usually sting-based) can be successfully parsed as a JavaScript Date object. Can be used help guide the [ValueRange](#value) validation.
+[`date`](%%jQueryApiUrl%%/ui.igValidator#options:date) は、値 (通常文字列ベース) が JavaScript Date オブジェクトとして正しく解析できるかどうかをチェックします。[ValueRange](#value) 検証で役立ちます。
 			
-> **Note:** Dependat on JavaScript Date parsing which will accept a wide range of formats, but also partial values.
+> **注:** JavaScript Date の解析に依存関係があり、広範な形式のみでなく部分的な値も受け付けます。
 
-Can be configured as both a boolean value or an object with message:
+両方のブール値またはメッセージを含むオブジェクトとして構成できます。
 
 ```js
 $('#editor').igValidator({
@@ -124,13 +124,13 @@ $('#editor').igValidator({
 });
 ```
 
-### <a id="length"></a> Length Range
+### <a id="length"></a> 長さの範囲
 
-The [`lengthRange`](%%jQueryApiUrl%%/ui.igValidator#options:lengthRange) rule checks if the value length falls between a certain minimum, maximum or both. This applies equally to string values length and array values length.
+[`lengthRange`](%%jQueryApiUrl%%/ui.igValidator#options:lengthRange) ルールは、値の長さが特定の最大、最小、または両方かどうかをチェックします。これは文字列値の長さおよび配列値の長さにも同様に適用されます。
 
-For error messages this rule can use a wide variety of locale entries based on the value type and options - `"minSelectMessage"` for array values (multi-selection targets), `"maxLengthMessage"` for string values exceeding the maximum or `"rangeLengthMessage"` that fully states the range when both ends are defined. All messages make use of placeholders such as "{0}" to replace min and max in case those change at runtime and can also be used in the `errorMessage` option.
+エラーメッセージでは、このルールが値タイプやオプションに基づいたローカル入力で幅広く使用できます。オプションには、配列値の `"minSelectMessage"` (複数選択ターゲット)、最大値を超過した文字列値の `"maxLengthMessage"` や 両方の最後が定義された場合の範囲を完全に示す `"rangeLengthMessage"` があります。すべてのメッセージは "{0}" などプレースホルダーを使用し、ランタイムの変更で最大および最小を置き換えます。また `errorMessage` に使用することもできます。
 
-Can be configured as array shorthand or an object with options:
+配列の省略または以下のオプションを含むオブジェクトとして構成できます。
 ```js
 $('#editor').igValidator({
   lengthRange: [ 1, 10]
@@ -145,16 +145,16 @@ $('#editor').igValidator({
 });
 ```
 
-> **Note:** Only one of the `min` and `max` range values can be set, so shorthand configurations such as `lengthRange: [ 1 ]` or `lengthRange: [, 10]` are also valid as falsy (undefined, null or 0) values are ignored.
+> **注:** `min` および `max` 範囲値のうち 1 つのみが設定できます。false (未定義、null、または 0) 値が無視されるため、`lengthRange: [ 1 ]` や `lengthRange: [, 10]` などの省略構成も有効です。
 
 
-### <a id="value"></a> Value Range
+### <a id="value"></a> 値の範囲
 
-The [`valueRange`](%%jQueryApiUrl%%/ui.igValidator#options:valueRange) rule checks if the value is between a certain minimum, maximum or both. This applies equally to comparable values - numbers and dates. Since dates can also have a numeric representation, setting the `number` or `date` rules can help guide the validation. When working with numbers, this rule inherits the `number` rule parsing capabilities reusing either its separator options or the defaults.
+[`valueRange`](%%jQueryApiUrl%%/ui.igValidator#options:valueRange) ルールは、値が特定の最大、最小、または両方かどうかをチェックします。これは比較値 (数値および日付) にも同様に適用されます。日付に数値表現があるため、`数値` または `日付` ルールの設定は検証に役立ちます。数値を使用する場合、このルールは区切りオプションまたはデフォルトを再利用する `number` 解析機能を継承します。
 
-Like the [LengthRange](#length) this rule uses different messages depending on which the range ends defined and those can also contain placeholders. Similarly, ranges can be defined with only one end, but 0 is an accepted value.
+[LengthRange](#length) のように、このルールはに範囲の終了に基づいてさまざまなメッセージを使用します。プレースホルダーも使用できます。同様に、範囲は 1 つの最後のみ定義できますが、0 は使用できます。
 
-Can be configured as array shorthand or an object with options:
+配列の省略または以下のオプションを含むオブジェクトとして構成できます。
 
 ```js
 $('#editor').igValidator({
@@ -172,9 +172,9 @@ $('#editor').igValidator({
 
 ### <a id="equals"></a> EqualsTo
 
-The [`equalTo`](%%jQueryApiUrl%%/ui.igValidator#options:equalTo) validation requires the value of the target and another field to be the same. The selector for the other field can point to different types of input and including elements on which other supported Ignite UI editor controls are initialized. This check is performed based on the `igValidator` triggers where the rule is defined.
+[`equalTo`](%%jQueryApiUrl%%/ui.igValidator#options:equalTo) 検証は、ターゲット値およびもう一つのフィールドが同じである必要があります。他のフィールドのセレクターは、入力のさまざまなタイプおよびその他のサポートされる Ignite UI エディター コントロールが初期化される要素へポイントできます。このチェックは、ルールが定義される `igValidator` トリガーに基づいて実行されます。
 
-Can be configured with a valid jQuery selector/reference or and object with `selector` option additional message:
+有効な jQuery セレクター/参照または`selector` オプション追加メッセージのあるオブジェクトで構成できます。
 
 ```js
 $('#editor').igValidator({
@@ -189,11 +189,11 @@ $('#editor').igValidator({
 });
 ```
 
-### <a id="email"></a> Email
+### <a id="email"></a> メール
 
-The [`email`](%%jQueryApiUrl%%/ui.igValidator#options:email) rule checks if the value is a valid email address. Note that the full email address specification allows for a very wide range of characters and format and is considered mostly impossible to fit in a rule and rarely applied, so the [default regular expression](#defaults-obejct) used for email validation closely follows the one defined in the [HTML5 specification for email input](https://www.w3.org/TR/html5/forms.html#e-mail-state-(type=email).
+[`email`](%%jQueryApiUrl%%/ui.igValidator#options:email) ルールは、値が有効なメールアドレスかどうかをチェックします。広範な文字範囲と形式のための完全なメール アドレスの指定は、ほとんどの場合ルールに収まらないだけでなく、適用できません。メール検証に仕様される[デフォルト正規表現](#defaults-obejct)は、[メール入力のための HTML5 仕様](https://www.w3.org/TR/html5/forms.html#e-mail-state-(type=email) で定義されたものに準拠しています。
 
-Can be configured as both a boolean value or an object with message:
+両方のブール値またはメッセージを含むオブジェクトとして構成できます。
 
 ```js
 $('#editor').igValidator({
@@ -207,13 +207,13 @@ $('#editor').igValidator({
 });
 ```
 
-### <a id="card"></a> Credit Card
+### <a id="card"></a> クレジットカード
 
-The [`creditCard`](%%jQueryApiUrl%%/ui.igValidator#options:creditCard) verifies the given value is a valid payment card (often commonly referred to as credit card) number. This check does not depend or check on the card type as it uses the Luhn algorithm that can validate [all of the active issuers](https://en.wikipedia.org/wiki/Payment_card_number#Issuer_identification_number_.28IIN.29). Values can contain spaces and dashes and any number of digits. In case of specific type length and format requirements, those can be validated using the [Length Range](#length) in advance and [Pattern (regular expression)](#pattern) rule, which will pass after this one.
+[`creditCard`](%%jQueryApiUrl%%/ui.igValidator#options:creditCard) は指定した値が有効な支払いカード (通常クレジットカード) の番号かどうかを検証します。このチェックは、[現在のすべての問題](https://en.wikipedia.org/wiki/Payment_card_number#Issuer_identification_number_.28IIN.29) を検証できる Luhn アルゴリズムを使用しているためカード タイプには依存せず、また確認もしません。値にはスペースやダッシュ、および桁数も制限がありません。特定のタイプの長さや形式が必要な場合、前もって[長さの範囲](#length) を使用して検証できます。その後に [Pattern (regular expression)](#pattern) ルールをパスします。
 
-> **Note:** Keep in mind this validation only confirms the card number conforms to the algorithm and not that such card actually exists, as such numbers can be easily generated. 
+> **注:** この検証は、実際にそのようなカードが存在するかの確認はしません。カード番号のみアルゴリズムで確認することに注意してください。 
 
-Can be configured as both a boolean value or an object with message:
+両方のブール値またはメッセージを含むオブジェクトとして構成できます。
 
 ```js
 $('#editor').igValidator({
@@ -227,11 +227,11 @@ $('#editor').igValidator({
 });
 ```
 
-### <a id="pattern"></a> Pattern (regular expression)
+### <a id="pattern"></a> パターン (正規表現)
 
-The [`pattern`](%%jQueryApiUrl%%/ui.igValidator#options:pattern) matches the value against a JavaScript regular expression. Accepts either a RegExp object or a valid string that can be passed to the `new RegExp()` constructor.
+[`pattern`](%%jQueryApiUrl%%/ui.igValidator#options:pattern) がJavaScript の正規表現値に一致します。RegExp オブジェクトまたは`new RegExp()` コンストラクターへ渡すことができる有効な値を受け付けます。
 
-Can be configured with both a RegExp value or an object with expression and message:
+RegExp 値、あるいは式を含むオブジェクトおよびメッセージとして構成できます。
 
 ```js
 $('#editor').igValidator({
@@ -246,11 +246,11 @@ $('#editor').igValidator({
 });
 ```
 
-### <a id="custom"></a> Custom function
+### <a id="custom"></a> カスタム関数
 
-The [`custom`](%%jQueryApiUrl%%/ui.igValidator#options:custom) rule allows to execute an external function to determine the validity of the value. The function can be provided as direct reference or by name as long as it's visible in the global scope (i.e. `window["name"]`). The function will be executed in the context of the control, so 'this' can be used as a reference the calling `igValidator` widget. Should accept value and optional field settings arguments to determine and return the state of the field as a boolean.
+[`custom`](%%jQueryApiUrl%%/ui.igValidator#options:custom) ルールは、値の有効性を決定するための外部機能を実行できます。関数は、直接的な参照として、あるいはグローバル スコープに存在する場合は名前によって提供できます。関数はコントロールのコンテキストで実行されるため、'this' は `igValidator` ウィジェットを呼び出す参照として使用できます。値およびオプション フィールド設定引数を受け付け、ブール値としてフィールドの状態を決定および返します。
 
-Can be configured with both a RegExp value or an object with expression and message:
+RegExp 値、あるいは式を含むオブジェクトおよびメッセージとして構成できます。
 
 ```js
 $('#editor').igValidator({
@@ -269,9 +269,9 @@ $('#editor').igValidator({
 });
 ```
 
-## <a id="inherit"></a> Rule Inheritance
+## <a id="inherit"></a> ルール継承
 
-Like other options when the `igValidator` is configured with a fields collection, some rule settings can also be set globally in the options and be inherited by all fields. All type-based rules and range rules can be inherited, leaving out only the field-specific `equalTo` and `pattern`. Each field can also define its own rules to override the globals.
+その他のオプションのようにがフィールドコレクションで構成された場合、オプションでグローバルに設定できるルール設定もあり、すべてのフィールドで継承できます。すべてのタイプ ベースのルールおよび範囲ルールは継承できます (フィールド固有の `equalTo` および `pattern` 以外)。各フィールドでもグローバルをオーバーライドするルールを定義できます。
 
 ```js
 $('#validationForm').igValidator({
@@ -286,23 +286,23 @@ $('#validationForm').igValidator({
 });
 ```
 
-## <a id="defaults-obejct"></a> Validator Defaults object
+## <a id="defaults-obejct"></a> 検証デフォルト オブジェクト
 
-The `$.ui.igValidator.defaults` holds the global defaults used by all instances of the `igValidator`. Those include the following properties:
+`$.ui.igValidator.defaults` は、`igValidator` のすべてのインスタンスで使用されるグローバル デフォルトを保持できます。以下のプロパティが含まれます。
 
-- `showAllErrorsOnSubmit` Boolean option to show all errors on submit.  Value false will show error message only for the first failed target. Default value is true.
-- `decimalSeparator` Default decimal separator (".") to use when no explicit number option property is defined
-- `thousandsSeparator` Default decimal thousands (",") to use when no explicit number option property is defined
-- `emailRegEx` Default email checking RegExp object matching the [HTML5 specification for email input](https://www.w3.org/TR/html5/forms.html#e-mail-state-(type=email).
+- サブミットですべてのエラーを示す `showAllErrorsOnSubmit` ブール値オプション。値 false は最初に失敗したターゲットにのみエラー メッセージを表示します。 デフォルト値は true です。
+- `decimalSeparator` 数値オプションのプロパティが明示的に定義されていない場合に使用するデフォルトの小数点 (".")。 
+- `thousandsSeparator` 数値オプションのプロパティが明示的に定義されていない場合に使用するデフォルトの桁区切り記号 (",")。
+- `emailRegEx`  [メール入力のための HTML5 仕様] に一致する RegExp オブジェクトをチェックするデフォルトのメールチェック。 
 
-To globally override one of those settings set the property after loading the required Ignite UI resources and before initializing the `igValidator` control.
+これらの設定をグローバルにオーバーライドするために、`igValidator` を初期化する前に必要な Ignite UI リソースを読み込んだ後にプロパティを設定します。
 
 ```js
 // override default thousands separator:
 $.ui.igValidator.defaults.thousandsSeparator = "";
 ```
 
-## <a id="related-content"></a> Related Content
+## <a id="related-content"></a> 関連コンテンツ
 
-- [Validator Overview Sample](%%SamplesUrl%%/validator/overview)
+- [バリデーターの概要のサンプル](%%SamplesUrl%%/validator/overview)
 -	[igValidator jQuery API](%%jQueryApiUrl%%/ui.igValidator)
