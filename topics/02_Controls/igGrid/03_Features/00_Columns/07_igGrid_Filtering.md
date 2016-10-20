@@ -573,6 +573,7 @@ $("#grid1").igGridFiltering('filter', ([{ fieldName: "ProductID", expr: 1, cond:
 
 ```js
 var expressions = $('#grid1').data('igGrid').dataSource.settings.filtering.expressions;
+```
 
 ## <a id="default-conditions-list"></a> デフォルトの条件一覧
 

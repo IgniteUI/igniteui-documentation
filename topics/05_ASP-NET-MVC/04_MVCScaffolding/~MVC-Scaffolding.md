@@ -7,12 +7,12 @@
 }
 |metadata|
 -->
-# Ignite UI Scaffolder　の Visual Studio 拡張機能
+# Ignite UI Scaffolder の Visual Studio 拡張機能
 
 ### 概要
 
 
-With the 2015.2 リリースでは、拡張機能 **Ignite UI** Scaffolder が導入されました。
+2015.2 リリースでは、拡張機能 **Ignite UI** Scaffolder が導入されました。
 
 開発者はこの機能により、MVC ラッパーを使用したウィジェットの宣言や関連するコントローラのアクション メソッドを簡単に生成することができます。
 また、手動によるセットアップ、参照、コーディングに必要な時間を大幅に短縮することができます。

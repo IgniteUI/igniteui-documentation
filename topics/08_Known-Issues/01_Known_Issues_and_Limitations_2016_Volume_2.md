@@ -738,44 +738,16 @@ igGrid では特殊記号 ([、]、\、(、) など) を含む列キーがサポ
 固定仮想化は RWD モードでサポートされていません|固定仮想化は、行の高さが定数であることが必要です。行の高さが変更する場合、固定仮想化は正しく操作しません。RWD モードは、画面サイズによって行の高さが変更するため、固定仮想化は正しく動作しません。 | ![](images/positive.png)
 列仮想化は連続仮想化でサポートされていません。|列仮想化は固定仮想化のみでサポートされています。列仮想化が有効 ([columnVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:columnVirtualization) = true) な場合、仮想化モードを "fixed" ([virtualizationMode](%%jQueryApiUrl%%/ui.iggrid#options:virtualizationMode) = "fixed") に設定する必要があります。 | ![](images/negative.png)
 列の仮想化と自動サイズ変更がサポートされていない。|width オプションを「*」に設定することによる列の自動サイズ変更は、仮想化でサポートされていません。 | ![](images/negative.png)
-列仮想化で列セッターが機能しない|列セッター  ($(".selector").igGrid("option", "columns", [/*columns definition*/]);) を使用すると水平方向のスクロールバーが非表示されます。 | ![](../images/negative.png)
+列仮想化で列セッターが機能しない|列セッター  ($(".selector").igGrid("option", "columns", [/*columns definition*/]);) を使用すると水平方向のスクロールバーが非表示されます。 | ![](images/negative.png)
 固定仮想化が有効な場合、グリッドのコンテンツ以外から行にタブすると、グリッドの実際の最初の行の代わりに最初の表示可能な行をフォーカスします。|固定仮想化が有効な場合、グリッドのコンテンツ以外から行内にタブすると、最初の表示可能な行がフォーカスされます。フォーカスがグリッドの後の要素にあって、Shift + Tab が押された場合、フォーカスは最後の表示可能なセルに設定されます。|![](../images/negative.png)
 
 ### <a id="grid-responsive"></a> [igGrid - レスポンス Web デザイン モード](igGrid-Known-Issues.html)
-<table class="table table-striped">
-	<thead>
-		<tr>
-            <th>
-問題
-			</th>
 
-            <th>
-説明
-			</th>
-
-            <th>
-状態
-			</th>
-        </tr>
-	</thead>
-	<tbody>   
-        <tr>
-        <td>RWD モードは IE8 でサポートされない</td>
-        <td>RWD は IE8 でモードを決定できません。この機能はモバイル互換性を対象するので、IE8 でサポートされません。</td>
-        <td>![](images/negative.png)</td>
-        </tr>     
-	<tr>
-        <td>RWD 単一列のテンプレートはページング以外のグリッド機能でサポートされない</td>  
-	<td>RWD 単一列のテンプレートはページングのグリッド機能でのみサポートされます。その他のグリッド機能は現在このモードでサポートされません。</td> 
-        <td>![](images/negative.png)</td>
-        </tr>
-		<tr>
-        <td>モバイル タッチ デバイスで、レスポンス機能が有効化された場合、デバイスを回転すると igGrid のカスタム スクロールバーが更新されない</td>  
-	<td>レスポンス機能が有効化された場合、デバイスを回転するとカスタム スクロールバーの高さ及び幅が正しくが更新されません。</td> 
-        <td>![](images/plannedFix.png)</td>
-        </tr>
-    </tbody>
-</table>
+問題|説明|状態
+---|---|---
+RWD モードは IE8 でサポートされない | RWD は IE8 でモードを決定できません。この機能はモバイル互換性を対象するので、IE8 でサポートされません。 | ![](images/negative.png)
+RWD 単一列のテンプレートはページング以外のグリッド機能でサポートされない | RWD 単一列のテンプレートはページングのグリッド機能でのみサポートされます。その他のグリッド機能は現在このモードでサポートされません。 | ![](images/negative.png)
+モバイル タッチ デバイスで、レスポンス機能が有効化された場合、デバイスを回転すると igGrid のカスタム スクロールバーが更新されない | レスポンス機能が有効化された場合、デバイスを回転するとカスタム スクロールバーの高さ及び幅が正しくが更新されません。 | ![](images/plannedFix.png)
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
@@ -783,7 +755,7 @@ igGrid では特殊記号 ([、]、\、(、) など) を含む列キーがサポ
 
 問題|説明|状態
 ------|-------------|-------
-モバイル タッチ オンリー環境で AppendRowsOnDemand が機能しない|タッチ オンリー環境でロードされたチャンクの終わりに到達すると (loadTrigger: "auto")、新しいデータがロードされない タッチ環境で、loadTrigger オプションを button に設定すると、Load more data ボタンにスクロールできない | ![](../images/plannedFix.png)
+モバイル タッチ オンリー環境で AppendRowsOnDemand が機能しない|タッチ オンリー環境でロードされたチャンクの終わりに到達すると (loadTrigger: "auto")、新しいデータがロードされない タッチ環境で、loadTrigger オプションを button に設定すると、Load more data ボタンにスクロールできない | ![](images/plannedFix.png)
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
@@ -806,9 +778,7 @@ igGrid では特殊記号 ([、]、\、(、) など) を含む列キーがサポ
         </tr>
 	</thead>
 	<tbody>
-        
-
-        <tr>
+ <tr>
             <td>
 一部の igGrid 機能で、列固定がサポートされない
 			</td>
