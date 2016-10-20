@@ -16,9 +16,9 @@
 
 - [概要](#introduction)
 - [igValidator のセットアップ](#setting-up)
-- [Validation triggers](#triggers)
-- [Validation rules](#validation-priority)
-- [ASP.NET MVC and Data Annotations](#mvc-annotations)
+- [検証トリガー](#triggers)
+- [入力規則](#validation-priority)
+- [ASP.NET MVC でのデータ注釈](#mvc-annotations)
 - [関連コンテンツ](#related-content)
 
 ## <a id="introduction"></a> 概要
@@ -133,56 +133,56 @@ $("#rating").igRating({
 
 > **注**: 前述の 2 つのスタンドアロン構成ではどちらも、Ignite UI エディター コントロールで強化されたフィールドをサポートしますが、バリデーターがそれらのフィールドを検出し、正しく処理するためには、事前に初期化する必要があります。他のコントロールより先にバリデーターを初期化できない場合は、[`updateField`](%%jQueryApiUrl%%/ui.igvalidator#methods:updateField) メソッドを使用して、バリデーターのフィールドを更新できます。
 
-## <a id="triggers"></a> Validation triggers
+## <a id="triggers"></a> 検証トリガー
 
-Triggers allow specifying when validation should be performed and include three settings - [`onchange`](%%jQueryApiUrl%%/ui.igValidator#options:onchange), [`onblur`](%%jQueryApiUrl%%/ui.igValidator#options:onblur)  and [`onsubmit`](%%jQueryApiUrl%%/ui.igValidator#options:onsubmit). These options resemble the native DOM events that they relay to and allow to control how often should the value be checked based on standard user interactions. By default only `onchange` is disabled to accommodate most common scenarios. Note that the `onsubmit` trigger will have no effect unless there's a parent form for the target input or the validator is initialized on the form itself.
+トリガーは、検証が実行される段階を指定できます。使用可能なオプションは [`onchange`](%%jQueryApiUrl%%/ui.igValidator#options:onchange)、[`onblur`](%%jQueryApiUrl%%/ui.igValidator#options:onblur) および [`onsubmit`](%%jQueryApiUrl%%/ui.igValidator#options:onsubmit) です。このオプションは関連するネイティブの DOM イベントに似ており、通常のユーザー インタラクションに基づいて、値が検証される頻度を制御します。通常のシナリオで必要とされるオプションはデフォルトで有効になり、`onchange` のみが無効化さています。対象の入力の親フォームがない場合、または検証コントロールがフォーム自体で初期化されない場合は、`onsubmit` トリガーが有効にならないことにご注意ください。
 
-### <a id="threshold"></a> Threshold
-While the [`threshold`](%%jQueryApiUrl%%/ui.igValidator#options:threshold) option is not technically a validation trigger, it is still an integral part of the validation cycle. When set, if the **length** of the value is less than the threshold then none of the validation rules will be run. This is most useful in scenarios where there's no value in showing an error message too early (for example when `onchange` is enabled) as the value cannot realistically fulfil the requirements under a certain length.
+### <a id="threshold"></a> しきい値
+[`threshold`](%%jQueryApiUrl%%/ui.igValidator#options:threshold) オプションは検証トリガーではないが、検証サイクルにおいて中心的な役割を果たします。しきい値が設定されているとき、値の**長さ**がしきい値より小さい場合、すべての入力規則は実行されません。 値が一定の長さより小さい場合に条件を満たさないため、エラー メッセージを即時に表示する価値がないというシナリオ、たとえば `onchange` が有効化された場合に便利です。
 
-> **Note:** Using the [`isValid`](%%jQueryApiUrl%%/ui.igvalidator#methods:isValid) and [`validate`](%%jQueryApiUrl%%/ui.igvalidator#methods:validate) methods or validation on submit will ignore the threshold option. This allows required fields to properly prevent submitting for example. API methods will also ignore trigger conditions.
+> **注:** [`isValid`](%%jQueryApiUrl%%/ui.igvalidator#methods:isValid) を [`validate`](%%jQueryApiUrl%%/ui.igvalidator#methods:validate) メソッド、または onsubmit 検証と一緒に使用する場合、しきい値が無視されます。このように、必須フィールドの送信が阻止されます。API メソッドもトリガー条件を無視します。
 
 
-## <a id="validation-priority"></a> Validation rules
+## <a id="validation-priority"></a> 入力規則
 
-The `igValidator` rules define a number of conditions for a value to be accepted and in some scenarios you might need to use multiple rules on a single input in order to validate upon different criteria. On a single input the rules are executed per validation and in a particular order. 
+`igValidator` ルールは、値が検証される複数の条件を定義します。シナリオによって、異なる条件で検証を行うために、単一の入力に複数のルールを設定する場合があります。単一入力へのルールは、一定の順序で検証ごとに実行されます。
 
-Default validation rules include (by priority):
+デフォルトの入力規則には以下のものが含まれます (優先順):
 
-1.	Required
-2.	Infragistics' editor (optional)
-3.	Number
-4.	Date
+1.	必須
+2.	Infragistics エディタ (オプション)
+3.	数値
+4.	日付
 5.	LengthRange
 6.	ValueRange
 7.	EqualsTo
-8.	Email
-9.  Credit Card
-10.	Pattern (regular expression)
-11.	Custom function
+8.	メール
+9.  クレジットカード
+10.	パターン (正規表現)
+11.	カスタム関数
 
-For detailed information for each rule, refer to the [**Validation Rules topic**](igValidator-Validation-Rules.html).
+各ルールの詳細は、[**「入力規則」**](igValidator-Validation-Rules.html)トピックを参照してください。
 
 
-## <a id="mvc-annotations"></a> ASP.NET MVC and Data Annotations
+## <a id="mvc-annotations"></a> ASP.NET MVC でのデータ注釈
 
-To setup a validator in ASP.NET MVC the Infragistics HTML Helper [Validator()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.InfragisticsSuite`1~Validator().html) extension can be used:
+ASP.NET MVC で検証コントロールを構成するために、Infragistics HTML Helper [Validator()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.InfragisticsSuite`1~Validator().html) 拡張機能を使用します。
 
-**In Razor:**
+**Razor の場合:**
 ```csharp
 	@(Html.Infragistics().Validator()
 		.ID("firstName")
 		.Required(true)
 		.Render())
 ```
-The helper can also be initialized with an [ValidatorModel](Infragistics.Web.Mvc~Infragistics.Web.Mvc.ValidatorModel.html). Model properties and helper methods follow the jQuery API of the control as closely as possible.  
+ヘルパーは [ValidatorModel](Infragistics.Web.Mvc~Infragistics.Web.Mvc.ValidatorModel.html) でも初期化できます。 Model プロパティおよびヘルパー メソッドは、できるだけコントロールの jQuery API に従い設定します。
 
-Besides configuring the validator through the dedicated wrapper, when using strongly-typed editors the Model will be automatically inspected for Data Annotations and the appropriate validation rules and their messages will be added to the control configuration. Additionally, the [ValidatorOptions()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.BaseEditorWrapper`2~ValidatorOptions.html) helper method can still be used to add or override rules.
+検証コントロールを固有のラッパーで構成するほか、厳密に型指定されたエディターを使用する場合、Model のデータ注釈が自動的に検出され、適切な入力規則とそのメッセージがコントロールの設定に追加されます。一方、[ValidatorOptions()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.BaseEditorWrapper`2~ValidatorOptions.html) ヘルパー メソッドも使用してルールを追加しオーバーライドできます。
 
-For a step-by-step guide please refer to the [Configuring ASP.NET MVC Validation (Editors)](Configuring-ASP.NET-MVC-Validation.html) topic.
+設定の手順は、[ASP.NET MVC 検証の構成 (エディター)](Configuring-ASP.NET-MVC-Validation.html) トピックを参照してください。
 
 ## <a id="related-content"></a> 関連コンテンツ
 
 - [バリデーターの概要のサンプル](%%SamplesUrl%%/validator/overview)
-- [Data Annotation Validation Sample](%%SamplesUrl%%/editors/data-annotation-validation)
+- [データ注釈の検証サンプル](%%SamplesUrl%%/editors/data-annotation-validation)
 - [igValidator jQuery API](%%jQueryApiUrl%%/ui.igValidator)
