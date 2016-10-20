@@ -8,22 +8,22 @@
 |metadata|
 -->
 
-# Extending igGrid Modal Dialog
+# igGrid モーダル ダイアログの拡張
 
-## In this topic
+## このトピックの内容
 
-- [Overview](#overview)
-- [Using Custom Dialogs](#using-custom-dialogs)
-- [Requirements](#requirements)
-- [Related Content](#related-content)
-    -   [Samples](#samples)
-    -   [Topics](#topics)
+- [概要](#overview)
+- [カスタム ダイアログの使用](#using-custom-dialogs)
+- [要件](#requirements)
+- [関連コンテンツ](#related-content)
+    -   [サンプル](#samples)
+    -   [トピック](#topics)
 
-## <a id="overview"></a> Overview
+## <a id="overview"></a> 概要
 `igGridModalDialog` is a widget which comes with igGrid's scripts and builds all dialog-based UI for igGrid's features. These include the `dialog` edit mode for igGridUpdating, the advanced filter dialog for igGridFiltering, the column chooser for igGridHiding, etc. The main features of the widget include the ability to block user interaction on the grid while it is opened, drag & resize constrained by containment options and visualization settings. Each grid feature using the widget exposes a certain amount of options that are then passed to the dialog on initialization, however, these options are often limited to what would make most sense and not break the dialog's functionality for the specific purpose it is serving. Further customization of the dialog is possible through extensions.
 
-## <a id="using-custom-dialogs"></a> Using Custom Dialogs
-Each feature using `igGridModalDialog` exposes a `dialogWidget` option for the name of the widget to initialize when attempting to create the dialog. The following list contains links to these options' API descriptions:
+## <a id="using-custom-dialogs"></a> カスタム ダイアログの使用
+`igGridModalDialog` を使用する各機能は、`dialogWidget` オプションを公開します。以下のリストは API のオプションの説明へのリンクを含みます。
 
 - [ColumnMoving](%%jQueryApiUrl%%/ui.iggridcolumnmoving#options:dialogWidget)
 - [Filtering](%%jQueryApiUrl%%/ui.iggridfiltering#options:dialogWidget)
@@ -32,7 +32,7 @@ Each feature using `igGridModalDialog` exposes a `dialogWidget` option for the n
 - [Sorting](%%jQueryApiUrl%%/ui.iggridsorting#options:dialogWidget)
 - [Updating](%%jQueryApiUrl%%/ui.iggridupdating#options:dialogWidget)
 
-Your custom dialog should be a jQuery UI widget and you should pass its name as the option's value. In JavaScript this will look similar to the following:
+カスタム ダイアログは jQuery UI ウィジェットで名前をオプションの値として渡す必要があります。JavaScript では以下のようになります。
 
 ```js
 $.widget("ui.CustomDialog", $.ui.igGridModalDialog, {
@@ -51,41 +51,41 @@ grid.igGrid({
 	dataSource: data
 });
 ```
-**Note:** While extending `igGridModalDialog` is not necessary it is highly advisable as it will ensure all functions and options required by igGrid's features are available out of the box. The following section covers the required API in details.
+**注:** `igGridModalDialog` の拡張は必要ありませんが、igGrid に必要なすべての機能とオプションがすぐに使用できることを確認してください。以下のセクションは必要な API の詳細について説明します。
 
-## <a id="requirements"></a> Requirements
+## <a id="requirements"></a> 要件
 
-The custom dialog widget should include certain functions and fire certain events igGrid's features subscribe to during their lifecycle. All of these will be available if you choose to extend the existing `igGridModalDialog`, however, this section will also provide information which is useful if you need to use them as hooks for your custom logic safely.
+カスタム ダイアログ ウィジェットは特定の機能を含み、igGrid 機能がライフサイクルでサブスクライブした特定のイベントを発生します。すべての機能は、既存の `igGridModalDialog` を拡張して使用できます。ただし、このセクションにはカスタム ロジックを安全に使用する場合に便利な情報も含まれます。
 
-- Required methods
-  - `openModalDialog` - called when the dialog should open. No parameters will be passed to this method.
-  - `closeModalDialog` - called when the dialog should close because of an user interaction specific to the feature or a method from the feature's API is executed. User interactions specific to the dialog should be implemented seperately. The method should accept two parameters.
-    1. `accepted` - if the feature recognizes between confirmed and declined state of the dialog it will send this parameter showing if the end-user wants to apply the changes he made through the dialog's UI or not. Features that don't distinguish between the two apply changes as the user interacts with the dialog. This value should be available in the event arguments as explained later down the section.
-    2. `fromUI` - some features add UI to the dialog that contains logic to close it based on end-user interaction. This parameter is a boolean flag that tells the dialog if the close call comes from such interaction or from the feature's API. The value should be available in the event arguments to allow features handling the closing of the dialog to decide if feature specific events should be fired or not.
-  - `getCaptionButtonContainer` - should return a jQuery object containing the element which represents the caption of the custom dialog. Features use this container to place an additional close button. The function may return a detached element to prevent features from adding this button, however, it's advisable to cache it for later removal reducing the possibility for memory leaks.
-  - `getContent` - should return a jQuery object containing the element which represents the main content area of the dialog where features will render the main dialog UI. Features usually render the UI each time the dialog opens instead of using existing one.
-- Required events
-  - `modalDialogOpening`, `modalDialogOpened` - both events should be fired regardless of whether the dialog opens because of an API call or end-user interaction. This is required because the process is asyncronous with the -ed event firing after the showing animation completes. The event arguments object should contain the property `owner` assigned with the dialog's instance.
-  - `modalDialogClosing`, `modalDialogClosed` - both events should be fired regardless of whether the dialog closes because of an API call or end-user interaction. As with the events fired on opening this is caused by the asyncronous nature of the process causing the features to not be able to execute code after the dialog is closed as a continuation of the close call they send. Both events should contain the properties `owner`, `accepted` and `raiseEvents`(the latter two based on the parameters availability in the `closeModalDialog` call).
-  - `modalDialogMoving` - fired when the dialog is dragged (if this functionality is available). Features don't use this event apart from propagating it through events of their own.
-  - `modalDialogContentsRendering`, `modalDialogContentsRendered` - fired during dialog rendering - as with the previous event these are used only to be propagated by the features.
-  - `buttonOKClick`, `buttonCancelClick` - events fired when the respective button is clicked. These should contain the property `toClose` in the event arguments. Features will change the value of the property to `true` if the dialog's state allows the dialog to be closed. Otherwise the dialog should not be closed.
+- 必須メソッド
+  - `openModalDialog` - ダイアログが開くときに呼び出されます。このメソッドに渡されるパラメターはありません。
+  - `closeModalDialog` - ユーザーが特定の機能を使用したとき、または その機能の API のメソッドが実行されたときにダイアログが閉まるときに呼び出されます。ダイアログ固有のユーザー インタラクションは個別に実装する必要があります。このメソッドは以下の 2 つのパラメーターを受け取ります。
+    1. `accepted` - この機能はダイアログの確定と拒否の状態を認識します。ユーザーがダイアログの UI で加えた変更を適用するかどうかを示すこのパラメーターを送信します。この 2 つを識別しない機能は、ユーザーのダイアログ操作として変更を適用します。この値は、このセクションの後半に説明のあるイベント引数で使用できます。
+    2. `fromUI` - エンドユーザーの操作に基づいてダイアログを閉じるロジックを含むダイアログに UI を追加します、このパラメーターは、そのような操作から閉じるの呼び出し、または機能 API からダイアログに通知するブール値フラグです。この値は、機能固有のイベントが発生するかどうかを決定するダイアログを閉じるための機能を処理をするイベント引数で使用できます。
+  - `getCaptionButtonContainer` - カスタム ダイアログのキャプションを表す要素を含む jQuery オブジェクトを返します。機能は、追加の閉じるボタンを配置するためにこのコンテナーを使用します。この関数は、このボタンの追加機能を防止するためにデタッチ要素返すことがあります。ただし、後で削除するためにキャッシュすることをお勧めします。メモリリークの可能性を軽減できます。
+  - `getContent` - 機能がメイン ダイアログ UI を描画するダイアログのコンテンツ領域を表す要素を含む jQuey オブジェクトを返します。機能は、通常既存の UI は使用せずにダイアログを開くたびに UI を描画します。
+- 必須イベント
+  - `modalDialogOpening`、`modalDialogOpened` - 両イベントは、API 呼び出しまたはエンドユーザー操作によってダイアログが開くかどうかに関係なく発生します。これは、プロセスが -ed イベントによる非同期がアニメーションが終了したあとに発生するため必要です。イベント引数オブジェクトは、ダイアログ インスタンスで割り当てられたプロパティ `owner` を含みます。
+  - `modalDialogClosing`、`modalDialogClosed` - 両イベントは、API 呼び出しまたはエンドユーザー操作によってダイアログが閉じるかどうかに関係なく発生します。開くときに発生するイベント同様、送信した閉じるの連続の呼び出しの結果、機能がコードを実行できない非同期固有のプロセスによるものです。両イベントはプロパティ `owner`、`accepted`、`raiseEvents` (最後の 2 つは `closeModalDialog` 呼び出しで利用できるパラメーターに基づきます) を含みます。
+  - `modalDialogMoving` - ダイアログがドラッグされるときに発生します (この機能が利用できる場合)。機能は、自身のイベントを介した伝達以外このイベントを使用しません。
+  - `modalDialogContentsRendering`、`modalDialogContentsRendered` - 前のイベントで機能による伝達のみで使用されるためダイアログ描画時に発生します。 
+  - `buttonOKClick`、`buttonCancelClick` - 各ボタンがクリックされたときにイベントが発生します。 イベント属性の `toClose` プロパティを含みます。機能は、ダイアログの状態がダイアログを閉じることを許可する場合、プロパティの値を `true` に変更します。そうでない場合、ダイアログは閉じません。
 
-**Note:** Since jQuery UI allows for any number of options to be passed on widgets' initialization without being available in the widget's `options` property, none of the options passed by igGrid's features is required. For custom dialogs most of them will not be applicable either. There is no mechanism that will allow for features to pass custom options.
+**注:** jQuery は、ウィジェットの `options` プロパティで使用できないウィジェットの初期化を渡すオプション数に制限はありません。igGrid 機能によって渡される必須オプションはありません。カスタム ダイアログでもほとんど利用できません。機能がカスタム オプションを渡すためのメカニズムはありません。
 
-## <a id="related-content"></a> Related Content
+## <a id="related-content"></a> 関連コンテンツ
 
-### <a id="samples"></a>Samples
+### <a id="samples"></a>サンプル
 
-The following sample shows a custom dialog being used to edit the grid.
+以下のサンプルは、カスタム ダイアログをグリッドの編集で使用しています。
 
-- [Custom Modal Dialog](%%SamplesUrl%%/grid/custom-modal-dialog)
+- [カスタム モーダル ダイアログ](%%SamplesUrl%%/grid/custom-modal-dialog)
 
-### <a id="topics"></a> Topics
+### <a id="topics"></a> トピック
 
--   [Row Edit Dialog (igGrid)](igGrid-Updating-RowEditDialog-LandingPage.html)
--   [Configuring the Column Chooser (igGrid)](igGrid-Hiding-Column-Chooser.html)
--   [Group By Dialog Overview (igGrid)](igGrid-Group-By-Dialog-Overview.html)
--   [Column Moving Overview (igGrid)](igGrid-ColumnMoving-Overview.html)
--   [Filtering (igGrid)](igGrid-Filtering.html)
--   [Multiple Sorting Dialog (igGrid)](igGrid-Multiple-Sorting-Dialog.html)
+-   [行編集ダイアログ (igGrid)](igGrid-Updating-RowEditDialog-LandingPage.html)
+-   [列チューザーの構成 (igGrid)](igGrid-Hiding-Column-Chooser.html)
+-   [グループ化ダイアログの概要 (igGrid)](igGrid-Group-By-Dialog-Overview.html)
+-   [列移動の概要 (igGrid)](igGrid-ColumnMoving-Overview.html)
+-   [フィルタリング (igGrid)](igGrid-Filtering.html)
+-   [複数並べ替えダイアログ (igGrid)](igGrid-Multiple-Sorting-Dialog.html)
