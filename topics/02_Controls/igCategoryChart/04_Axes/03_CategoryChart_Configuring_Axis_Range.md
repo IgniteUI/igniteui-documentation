@@ -46,12 +46,12 @@ $(function () {
 
 - [データ バインド](categorychart-binding-to-data.html)
 
-- [軸間隔と重複の構成](configuring-axis-gap-and-overlap.html)
+- [軸間隔と重複の構成](categorychart-configuring-axis-gap-and-overlap.html)
 
-- [軸ラベルの構成](configuring-axis-labels.html)
+- [軸ラベルの構成](igcategorychart-axis-labels.html)
 
-- [軸間隔の構成](configuring-axis-intervals.html)
+- [軸間隔の構成](igcategorychart-axis-intervals.html)
 
-- [軸目盛りの構成](configuring-axis-tickmarks.html)
+- [軸目盛りの構成](igcategorychart-axis-tickmarks.html)
 
-- [軸タイトルの構成](configuring-axis-titles.html)
+- [軸タイトルの構成](categorychart-configuring-axis-titles.html)
