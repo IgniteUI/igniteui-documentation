@@ -25,7 +25,7 @@
 
 `igValidator` コントロールの主な目的は、デフォルトで、合格した検証と失敗した検証について直ちにエンドユーザーに通知することです。ユーザーがエディターの入力をぼかした場合、フィードバック メッセージが即座に表示され、エディターの状態に関する有益な情報を提供します。たとえば、現在のフィールドの必要の有無、要求されたデータの入力の有無などの詳細を示すメッセージを表示できます。
 
-`igValidator` は、success と error のメッセージを使用して、異なる[構成](#setting-up)や複数の[検証ルール](#validation-priority)をサポートします。メッセージは、定義済みの [`messageTarget`](%%jQueryApiUrl%%/ui.igValidator#options:messageTarget) に配置、または `igNotifier` ウィジェットに渡すことができます。ウィジェットの場合は、入力されたデータが検証ルールに適合しないと特定の入力が赤色で表示され、現在の操作に問題があることを通知します。
+`igValidator` は、success と error のメッセージを使用して、異なる[構成](#setting-up)や複数の[入力規則](#validation-priority)をサポートします。メッセージは、定義済みの [`messageTarget`](%%jQueryApiUrl%%/ui.igValidator#options:messageTarget) に配置、または `igNotifier` ウィジェットに渡すことができます。ウィジェットの場合は、入力されたデータが入力規則に適合しないと特定の入力が赤色で表示され、現在の操作に問題があることを通知します。
 
 `requiredIndication` プロパティを使用すると、オプションで必要なフォーム要素を事前にアドバイスできます。また、`optionalIndication` プロパティで特定のフィールドがオプションであることを示すこともできます。
 
@@ -75,7 +75,7 @@ $('#validator').igValidator({
 ```
 
 ### 複数のフィールドによるスタンドアロンの igValidator
-このコントロールは、複数の検証オプションと 1 つのセレクターを持つ各フィールドが記述された、[`フィールド`](%%jQueryApiUrl%%/ui.igvalidator#options:fields)のコレクションをサポートします。有効な jQuery [`selector`](%%jQueryApiUrl%%/ui.igvalidator#options:fields.selector) を提供する必要があるフィールドは、すべての検証ルールとトリガーを含むことができますが、その他のフィールドまたはイベント ハンドラーは含まれません。主要なオプションのレベルのルールは、そのようなオプションが提供されない場合、フィールドにより継承されます。
+このコントロールは、複数の検証オプションと 1 つのセレクターを持つ各フィールドが記述された、[`フィールド`](%%jQueryApiUrl%%/ui.igvalidator#options:fields)のコレクションをサポートします。有効な jQuery [`selector`](%%jQueryApiUrl%%/ui.igvalidator#options:fields.selector) を提供する必要があるフィールドは、すべての入力規則とトリガーを含むことができますが、その他のフィールドまたはイベント ハンドラーは含まれません。主要なオプションのレベルのルールは、そのようなオプションが提供されない場合、フィールドにより継承されます。
 
 ```html
 <form id="validationForm">
