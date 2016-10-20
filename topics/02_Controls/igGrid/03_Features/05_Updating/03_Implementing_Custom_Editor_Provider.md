@@ -8,42 +8,42 @@
 |metadata|
 -->
 
-# Implementing Custom Editor Provider
+# カスタム エディター プロバイダーの実装
 
-## Topic Overview
+## トピックの概要
 
-### Purpose
-This topic will guide you through the process of implementing a custom editor provider that extends the igEditorProvider class.
-Implementing your own editor provider allows you to fully customize the editing experience, from the type of editor used to the visualization and validation logic for the editor.
+### 目的
+このトピックは、igEditorProvider クラスを拡張するカスタム エディター プロバイダーを実装プロセスについて説明します。
+ビジュアライゼーションに使用するエディター タイプやエディターの検証ロジックをカスタマイズしたエディター プロバイダーを実装することにより、編集エクスペリエンスを完全にカスタマイズできます。
 
 
-### In this topic
-This topic contains the following sections:
+### このトピックの内容
+このトピックは、以下のセクションで構成されます。
 
--   [**Overview**](#overview)
--   [**Built-in Editor types**](#editors)
-- 	[**Implementing custom editor providers**](#customProviders)
-	- [**Example on how to wrap HTML 5 number INPUT into an editor provider**](#example)
-- 	[**Related Topics**](#topics)
-- 	[**Related Samples**](#samples)
+-   [**概要**](#overview)
+-   [**ビルトイン エディター タイプ**](#editors)
+- 	[**カスタム エディター プロバイダーの実装**](#customProviders)
+	- [**HTML 5 number INPUT をエディター プロバイダーへラップする方法の例**](#example)
+- 	[**関連トピック**](#topics)
+- 	[**関連サンプル**](#samples)
 
-## <a id="overview"></a>Overview
+## <a id="overview"></a>概要
 
-The Updating feature when in edit mode displays editors for the row or cell being edited. Those editors are implemented by an editor providers abstraction which provides a common editing communication interface with the Updating feature.
+編集モード エディターで行またはセルが編集されているときのアップロード機能これらのエディターは、更新機能で共通の編集コミュニケーション インターフェイスを提供するエディター プロバイダー抽象化によって実装されています。
 
-Updating comes with a set of editor providers that wrap the [Ignite UI Editors](igEditors-LandingPage.html) to provide feature rich experience for the end user.
+更新機能は、エンドユーザーに高度なエクスペリエンスを提供する [Ignite UI エディター](igEditors-LandingPage.html) をラップするエディター プロバイダーのセットとともに提供されます。
 
-## <a id="editors"></a> Built-in editor types
+## <a id="editors"></a> ビルトイン エディター タイプ
 
-The following types of the editor providers are supported out of the box: text, numeric, date/time, date picker, mask-editor, boolean, percentage, currency, combo and rating.
+エディター プロバーダーのタイプは、テキスト、数値、火付/時間、日付の選択、マスク エディター、ブール値、パーセンテージ、通貨、コンボ、評価が含まれます。
 
-> **Note**: All editor providers are defined in the infragistics.ui.grid.shared.js file.
+> **注**: すべてのエディター プロバイダーは infragistics.ui.grid.shared.js ファイルで定義されます。
 
-All editor types inherit from one of the following common classes "$.ig.EditorProvider" or "$.ig.EditorProviderBase" (which in turn inherits from the $.ig.EditorProvider class).
-The EditorProvider class inherits from a base Class implementation where the "extend" method allows creating a new Classes that inherits from this class.
-The prototypes of the two main classes look as follows:
+すべてのタイプが以下の共通クラス "$.ig.EditorProvider" または "$.ig.EditorProviderBase" ($.ig.EditorProvider クラスから順番に継承) の 1 つから継承されます。
+ EditorProvider クラスは、このクラスから継承する新しい Classes を作成する extend メソッド基本クラス実装から継承します。
+2 つの主要クラスのプロパティ:
 
-**In JavaScript**
+**JavaScript の場合**
 ```
 $.ig.EditorProvider = $.ig.EditorProvider || Class.extend({
 		createEditor: function (callbacks, key, editorOptions, tabIndex, format, element) { ... },
@@ -76,31 +76,31 @@ $.ig.EditorProviderBase = $.ig.EditorProviderBase || $.ig.EditorProvider.extend(
 	});
 ```
 
-Each of the specific editor types inherits from one of the base class and add new specific methods or overwrite existing ones as neccessary.
-You can find the full list of editor types, their classes and what they inherit from below:
+基本クラスの 1 つから特定の各エディター タイプを継承し、新しい特定のメソッドを追加、または既存のメソッドを上書きします。
+以下は、すべてのエディター タイプ、クラス、継承元です。
 
-Editor type | Class Name | Inherits from
+エディター タイプ|クラス名|派生元:
 ------------|------------|--------------
-Text editor provider | $.ig.EditorProviderText |  $.ig.EditorProviderBase
-Numeric editor provider | $.ig.EditorProviderNumeric | $.ig.EditorProviderBase
-Currency editor provider | $.ig.EditorProviderCurrency | $.ig.EditorProviderBase
-Percent editor provider | $.ig.EditorProviderPercent | $.ig.EditorProviderBase
-Mask editor provider | $.ig.EditorProviderMask | $.ig.EditorProviderBase
-Date editor provider | $.ig.EditorProviderDate | $.ig.EditorProviderBase
-Datepicker editor provider | $.ig.EditorProviderDatePicker | $.ig.EditorProviderBase
-Boolean editor provider |  $.ig.EditorProviderBoolean |  $.ig.EditorProviderBase
-Combo editor provider | $.ig.EditorProviderCombo | $.ig.EditorProvider
-Rating editor provider | $.ig.EditorProviderRating | $.ig.EditorProvider
+テキスト エディター プロバイダー|$.ig.EditorProviderText |$.ig.EditorProviderBase
+数値エディター プロバイダー|$.ig.EditorProviderNumeric |$.ig.EditorProviderBase
+通貨エディター プロバイダー|$.ig.EditorProviderCurrency |$.ig.EditorProviderBase
+パーセント エディター プロバイダー|$.ig.EditorProviderPercent |$.ig.EditorProviderBase
+マスク エディター プロバイダー|$.ig.EditorProviderMask |$.ig.EditorProviderBase
+日付エディター プロバイダー|$.ig.EditorProviderDate |$.ig.EditorProviderBase
+日付ピッカー プロバイダー|$.ig.EditorProviderDatePicker |$.ig.EditorProviderBase
+ブール値エディター プロバイダー|$.ig.EditorProviderBoolean |$.ig.EditorProviderBase
+コンボ エディター プロバイダー|$.ig.EditorProviderCombo |$.ig.EditorProvider
+レーティング エディター プロバイダー|$.ig.EditorProviderRating |$.ig.EditorProvider
 
-> **Note**: Notice that the  $.ig.EditorProviderBase class defines an additional method textChanges, which is mainly applicable to editors which display text. It's not applicable in some cases like the rating editor provider.
-	Hence editors that don't display text should inherit the $.ig.EditorProvider class instead.
+> **注**: $.ig.EditorProviderBase クラスが追加メソッドを定義することに注意してください。これは主にテキストを表示するエディターに当てはまります。レーティング エディター プロバイダーなどには当てはまりません。
+	そのためテキストを表示しないエディターは $.ig.EditorProvider クラスを継承する必要があります。
 
-## <a id="customProviders"></a> Implementing custom editor providers
+## <a id="customProviders"></a> カスタム エディター プロバイダーの実装
 
 
-The custom editor provider instance should either extend $.ig.EditorProvider/$.ig.EditorProviderBase or it should have definitions for the following public methods:
+カスタム エディター プロバイダー インスタンスは、$.ig.EditorProvider/$.ig.EditorProviderBase を拡張、または以下のパブリック メソッドを定義する必要があります。
 
-**In JavaScript**
+**JavaScript の場合**
 
 ```
 createEditor: function (callbacks, key, editorOptions, tabIndex, format, element) {
@@ -156,7 +156,7 @@ keyDown: function(evt) {
 	//Should notify Updating that a key has been pressed, so that DOM elements (like the Done/Cancel buttons) can be updated accordingly.
 }
 ```
-When extending the existing igEditorProvider or the igEditorProviderBase the following methods should be override on the prototype object by specifying a method with the same name for the custom editor provider:
+既存の igEditorProvider または igEditorProviderBase を拡張する場合、以下のメソッドをプロトタイプ オブジェクトでカスタムエディタープロバイダーの同じ名前でメソッドを指定し、オーバーライドする必要があります。 
 
 ```
 createEditor: function (callbacks, key, editorOptions, tabIndex, format, element) {},
@@ -166,10 +166,10 @@ keyDown: function(evt) {},
 destroy: function() {}
 ```
     
-The createEditor method	allows you to create a new DOM element and assign it as the element to be used as an editor for the specific column. 
-The getValue and setValue methods allow you to specify how the value should be retrieved from the cell and applied to the editor and vice versa.
-The keyDown event should be used to notify the Updating feature that a change has been applied - this would allow the Updating feature's UI (like the Done/Cancel buttons) to update their state.
-The related callbacks should be invoked in order to notify the Updating feature for the change, for example:
+createEditor メソッドは、新しい DOM 要素を作成し、特定の列でエディターとして使用される要素として割り当てます。 
+getValue および setValue メソッドは、値をセルから取得してエディターに適用 (またはエディターから取得してセルに適用) する方法を指定します。
+keyDown は、変更が適用されていることを更新機能に通知するために使用されます。更新機能の UI (完了/キャンセル ボタン) の状態を更新できます。
+関連コールバックは、更新機能に変更を通知するために呼び出されます。
 
 ```
 keyDown: function(evt) {
@@ -184,13 +184,13 @@ keyDown: function(evt) {
 
 
 
-### <a id="example"></a> Example on how to wrap HTML 5 number INPUT into an editor provider
+### <a id="example"></a> HTML 5 number INPUT をエディター プロバイダーへラップする方法の例
 
-This procedure demonstrates how to wrap a simple HTML 5 number INPUT into an editor provider.
+この手順では、シンプルな HTML 5 number INPUT をエディター プロバイダーへラップする方法を示します。
 
-1.  Instantiate an igGrid and define a custom editor in the igGrid Updating’s column settings for a specific column.
+1.  特定の列に対するigGrid 更新の列設定で、igGrid のインスタンスの作成とカスタム エディターの定義
 
-	**In JavaScript**
+	**JavaScript の場合**
 
 	```
 	var northwindEmployees = [
@@ -230,9 +230,9 @@ This procedure demonstrates how to wrap a simple HTML 5 number INPUT into an edi
     
 	```
 
-2. Create a custom editor provider that extends the default EditorProvider and overwrite its default methods.
+2. デフォルトの EditorProvider を拡張したカスタム エディター プロバイダーの作成、およびデフォルトメソッドを上書きします。
 
-	**In JavaScript**
+	**JavaScript の場合**
 	```
     $.ig.EditorProviderInput = $.ig.EditorProviderInput || $.ig.EditorProvider.extend({
 		createEditor: function (callbacks, key, editorOptions, tabIndex, format, element) {
@@ -279,20 +279,20 @@ This procedure demonstrates how to wrap a simple HTML 5 number INPUT into an edi
     });
 	```
 
-3. Observe the result.
+3. 結果の検証
 
 	![](images/igGrid_Custom_Editor_Provider.png)
 	
-	The displayed editor is HTML 5 number INPUT which gets and sets the value to and from the cell.
+	表示エディターは、値をセルから (またはセルに) 取得または設定する HTML 5 number INPUT です。
 	
-## <a id="topics"></a> Related Topics 
-Following are some other topics you may find useful.
+## <a id="topics"></a> 関連トピック 
+以下は、その他の役立つトピックです。
 
-- 	[Updating Overview (igGrid)](igGrid-Updating.html)
+- 	[更新の概要 (igGrid)](igGrid-Updating.html)
 - 	[igEditors](igEditors-LandingPage.html)
--   [igGridUpdating API documentation](%%jQueryApiUrl%%/ui.igGridUpdating)
+-   [igGridUpdating API マニュアル](%%jQueryApiUrl%%/ui.igGridUpdating)
  
-## <a id="samples"></a> Related Samples 
+## <a id="samples"></a> 関連サンプル 
 
--	[Basic Editing](%%NewSamplesUrl%%/grid/basic-editing)
--	[Editing: Custom Editor Provider](%%NewSamplesUrl%%/grid/editing-custom-editor-provider)
+-	[基本編集](%%NewSamplesUrl%%/grid/basic-editing)
+-	[編集 - カスタム エディター プロバイダー](%%NewSamplesUrl%%/grid/editing-custom-editor-provider)
