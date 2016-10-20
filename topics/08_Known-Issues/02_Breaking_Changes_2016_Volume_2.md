@@ -8,64 +8,64 @@
 |metadata|
 -->
 
-# Breaking Changes 2016 Volume 2
+# 2016 Volume 2 の重大な変更
 
-The following table summarizes the breaking changes of the 2016 Volume 2 release. Detailed explantations of the issues are provided after the summary table.
+以下の表は、2016 Volume 2 リリースの重大な変更点の概要を示します。問題の詳細な説明は、概要表の後に記載されています。
 
-Legend | 
+凡例 |
 -------|--------
-![](../images/images/positive.png) | Workaround available
-![](../images/images/negative.png) | No known workaround
-![](../images/images/plannedFix.png) | Fix planned
+![](../images/images/positive.png) | 回避策
+![](../images/images/negative.png) | 既知の回避策はありません。
+![](../images/images/plannedFix.png) | 修正予定です
 
-## [Modularization](#modularization)
+## [モジュール分割法](#modularization)
 
-Feature | Description | Status
+機能 | 説明 | 状態
 ---|---|---
-Large js files are broken into smaller files |In order to reduce the file size of your application, we have modularized large files into smaller files | ![](../images/images/positive.png)
+サイズの大きい js ファイルは小さなサイズに分割されます。 |アプリケーションのファイル サイズを小さくするために、サイズの大きいファイルを小さなファイルへモジュール化しました。 | ![](images/positive.png)
 
 
-## [Redesigned Chart Defaults](#redesignedchartdefaults)
-Feature | Description | Status
+## [チャート デフォルト値のデザイン更新](#redesignedchartdefaults)
+機能 | 説明 | 状態
 ---|---|---
-The default values of the igDataChart control are updated |The chart features mulitple visual changes and new property settings improving the overall look and feel of the control.| ![](../images/images/positive.png)
+igDataChart コントロールのデフォルト値は更新されます。|チャート機能では、多数のビジュアル変更および新しいプロパティ設定によるチャートの全体的なルック アンド フィールが向上しています。| ![](images/positive.png)
 
-## [igChartLegend, igOPDPane now have to be explicitly requested if using the loader](#igChartLegendigOPDPane)
-Feature | Description | Status
+## [igChartLegend および igOPDPane は、ローダーを使用する場合明示的に要求される必要があります](#igChartLegendigOPDPane)
+機能 | 説明 | 状態
 ---|---|---
-The legend and the OPD pane must be explicitly loaded as a separate module if used in any of the charts on the page.|Previously, the legend and the OPD were dependencies of the chart in the module structure. Since the structure is updated in this release, they have to be explicitly loaded.|![](../images/images/negative.png)
+凡例および OPD ペインはがページのチャートで使用されている場合、別々のモジュールとして明示的に読み込む必要があります。|以前は凡例と OPD がモジュール構造のチャートに依存していました。このリリースで構造が更新されたため、明示的に読み込む必要があります。|![](images/negative.png)
 
 
-## [Bar Series requires VerticalCategory module when using the loader](#barseries)
-Feature | Description | Status
+## [ローダー使用時にバー シリーズに必要な VerticalCategory モジュール](#barseries)
+機能 | 説明 | 状態
 ---|---|---
-The VerticalCategory must be explicitly loaded as a separate module if it is used in any of the charts or maps on the page. |Previously, the bar series and associated axes were integrated into the chart. Since the structure is updated in this release, the VerticalCategory has to be explicitly loaded. |![](../images/images/negative.png)
+VerticalCategory はがページのチャートまたはマップで使用されている場合、別々のモジュールとして明示的に読み込む必要があります。 |以前はバー シリーズと関連軸はチャートに統合されていました。このリリースで構造が更新されたため、明示的に VerticalCategory を読み込む必要があります。 |![](images/negative.png)
 
-## [New default value for selection in igPieChart](#selection)
-Feature | Description | Status
+## [igPieChart の選択の新しいデフォルト値](#selection)
+機能 | 説明 | 状態
 ---|---|---
-The pie chart default selection is now single select.|With updates made to the selection feature of the pie chart, the default value has been updated.|![](../images/images/negative.png)
+円チャートのデフォルト選択が単一選択になりました。|円チャートの選択機能の変更によりデフォルト値が更新されました。|![](images/negative.png)
 
 
-## <a id="Modularization"></a>Modularization
+## <a id="Modularization"></a>モジュール分割法
 
-The following table lists the original files, and the smaller files that they are broken into.
+以下の表は、元のファイルおよび分割された小さなファイルを示します。
 
-Original File Name  | Broken into..
+前のファイル名  | 分割後
 ---                 | ---
-infragistics.ext.js | infragistics.ext\_core.js <br><br> infragistics.ext\_collections.js <br>      depends on infragistics.ext\_core.js <br> <br> infragistics.ext\_collectionsextended.js <br> depends on infragistics.ext\_core.js <br> depends on infragistics.ext\_collections.js <br><br> infragistics.ext\_text.js <br> depends on infragistics.ext\_core.js <br><br> infragistics.ext\_io.js <br> depends on infragistics.ext\_core.js <br> depends on infragistics.ext\_text.js <br><br> infragistics.ext\_threading.js <br> depends on infragistics.ext\_core.js <br><br> infragistics.ext\_ui.js <br> depends on infragistics.ext\_core.js depends on infragistics.ext\_collections.js <br><br> infragistics.ext\_web.js <br>depends on infragistics.ext\_core.js <br>depends on infragistics.ext\_collections.js <br>depends on infragistics.ext\_text.js <br>depends on infragistics.ext\_io.js <br>depends on infragistics.ext\_threading.js <br><br>_Recommended order for combined file:_ <br> _infragistics.ext\_core.js_ <br>_infragistics.ext\_collections.js_<br>_infragistics.ext\_collectionsextended.js_<br> _infragistics.ext\_text.js_<br>_infragistics.ext\_io.js_<br>_infragistics.ext\_threading.js_ <br>_infragiatics.ext\_ui.js_ <br>_infragistics.ext\_web.js_
-infragistics.dv.shared.js|infragistics.dv\_core.js <br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br><br>infragistics.dv\_geo.js <br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_text.js<br>depends on infragistics.ext\_io.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br><br>infragistics.dv\_geometry.js<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.dv\_core.js<br><br>infragistics.dv\_opd.js<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.dv\_core.js<br><br>_Recommended order for the combined file:_<br> _infragistics.dv\_core.js_<br>_infragistics.dv\_geometry.js_<br>_infragistics.dv\_geo.js_ <br>_infragistics.dv\_opd.js_
-infragistics.datachart.js| infragistics.legend.js  (required to display a legend) <br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br> depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js <br><br>infragistics.datachart\_core.js<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br><br>infragistics.datachart\_categorycore.js<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.datachart\_core.js<br><br> infragistics.datachart\_category.js (required to display category series. E.g. line, area, etc)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.datachart\_core.js<br>depends on infragistics.datachart\_categorycore.js<br><br>infragistics.datachart\_rangecategory.js (required to display range category series. E.g. rangeArea, rangeColumn)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.datachart\_core.js<br>depends on infragistics.datachart\_categorycore.js<br><br>infragistics.datachart\_verticalcategory.js (required to display bar series)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.datachart\_core.js<br>depends on infragistics.datachart\_categorycore.js<br><br>infragistics.datachart\_financial.js (required to display financial series)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.datachart\_core.js<br>depends on infragistics.datachart\_categorycore.js<br><br>infragistics.datachart\_extendedfinancial.js (required to display financial overlays or indicators)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.datachart\_core.js<br>depends on infragistics.datachart\_categoryCore.js<br>depends on infragistics.datachart\_financial.js<br><br><br>infragistics.datachart\_extendedaxes.js<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.datachart\_core.js<br>depends on infragistics.datachart\_categorycore.js<br><br>infragistics.datachart\_polar.js (required to display polar series)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.datachart\_core.js<br>depends on infragistics.datachart\_categorycore.js <br>depends on infragistics.datachart\_extendedaxes.js<br><br>infragistics.datachart\_radial.js (required to display radial series)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.datachart\_core.js<br>depends on infragistics.datachart\_categorycore.js<br>depends on infragistics.datachart\_extendedaxes.js<br><br>infragistics.datachart\_scatter.js (required to display scatter series)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.datachart\_core.js<br><br>infragistics.datachart\_stacked.js (required to display stacked series)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.datachart\_core.js<br>depends on infragistics.datachart\_categorycore.js<br>depends on infragistics.datachart\_category.js<br><br>infragistics.piechart.js (required to display piechart)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br><br>infragistics.funnelchart.js (required to display funnel chart)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br><br>infragistics.doughnutchart.js (required to display doughnut chart) <br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.piechart.js<br><br>infragistics.datachart\_annotation.js (required to display annotation layers e.g. itemTooltipLayer, categoryToolTipLayer)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.datachart\_core.js<br><br>infragistics.geographicmap\_core.js (required to display geographic map)<br>depends on infragistics.ext\_core.js<br>depends on infragistics.ext\_collections.js<br>depends on infragistics.ext\_ui.js<br>depends on infragistics.ext\_text.js<br>depends on infragistics.ext\_io.js<br>depends on infragistics.ext\_web.js<br>depends on infragistics.dv\_core.js<br>depends on infragistics.dv\_geometry.js<br>depends on infragistics.dv\_geo.js<br>depends on infragistics.datachart\_core.js<br>depends on infragistics.datachart\_scatter.js<br><br>_Recommended order for combined file:_ <br>infragistics.legend.js<br>infragistics.datachart\_core.js<br>infragistics.extendedaxes.js<br>infragistics.datachart\_categorycore.js<br>infragistics.datachart\_category.js<br>infragistics.datachart\_verticalcategory.js<br>infragistics.datachart\_rangecategory.js<br>infragistics.datachart\_financial.js<br>infragistics.datachart\_extendedfinancial.js<br>infragistics.datachart\_scatter.js<br>infragistics.datachart\_polar.js<br>infragistics.datachart\_radial.js<br>infragistics.datachart\_stacked.js<br>infragistics.datachart\_annotation.js<br>infragistics.piechart.js<br>infragistics.dougnutchart.js<br>infragistics.funnelchart.js<br>infragistics.geographicmap.js         
+infragistics.ext.js | infragistics.ext\_core.js <br><br> infragistics.ext\_collections.js <br>      依存関係: infragistics.ext\_core.js <br> <br> infragistics.ext\_collectionsextended.js <br> 依存関係: infragistics.ext\_core.js <br> 依存関係: infragistics.ext\_collections.js <br><br> infragistics.ext\_text.js <br> 依存関係: infragistics.ext\_core.js <br><br> infragistics.ext\_io.js <br> 依存関係: infragistics.ext\_core.js <br> 依存関係: infragistics.ext\_text.js <br><br> infragistics.ext\_threading.js <br> 依存関係: infragistics.ext\_core.js <br><br> infragistics.ext\_ui.js <br> 依存関係: infragistics.ext\_core.js 依存関係: infragistics.ext\_collections.js <br><br> infragistics.ext\_web.js <br>依存関係: infragistics.ext\_core.js <br>依存関係: infragistics.ext\_collections.js <br>依存関係: infragistics.ext\_text.js <br>依存関係: infragistics.ext\_io.js <br>依存関係: infragistics.ext\_threading.js <br><br>結合したファイルの推薦順序: <br> _infragistics.ext\_core.js_ <br>_infragistics.ext\_collections.js_<br>_infragistics.ext\_collectionsextended.js_<br> _infragistics.ext\_text.js_<br>_infragistics.ext\_io.js_<br>_infragistics.ext\_threading.js_ <br>_infragiatics.ext\_ui.js_ <br>_infragistics.ext\_web.js_
+infragistics.dv.shared.js|infragistics.dv\_core.js <br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br><br>infragistics.dv\_geo.js <br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_text.js<br>依存関係: infragistics.ext\_io.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br><br>infragistics.dv\_geometry.js<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.dv\_core.js<br><br>infragistics.dv\_opd.js<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.dv\_core.js<br><br>結合したファイルの推薦順序:<br> _infragistics.dv\_core.js_<br>_infragistics.dv\_geometry.js_<br>_infragistics.dv\_geo.js_ <br>_infragistics.dv\_opd.js_
+infragistics.datachart.js| infragistics.legend.js  (凡例の表示に必要) <br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br> 依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js <br><br>infragistics.datachart\_core.js<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br><br>infragistics.datachart\_categorycore.js<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.datachart\_core.js<br><br> infragistics.datachart\_category.js (カテゴリチャートシリーズの表示に必要。 折れ線、エリアなど )<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.datachart\_core.js<br>依存関係: infragistics.datachart\_categorycore.js<br><br>infragistics.datachart\_rangecategory.js (範囲カテゴリ シリーズの表示に必要。rangeArea, rangeColumn など)<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.datachart\_core.js<br>依存関係: infragistics.datachart\_categorycore.js<br><br>infragistics.datachart\_verticalcategory.js (棒シリーズの表示に必要)<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.datachart\_core.js<br>依存関係: infragistics.datachart\_categorycore.js<br><br>infragistics.datachart\_financial.js (財務シリーズの表示に必要)<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.datachart\_core.js<br>依存関係: infragistics.datachart\_categorycore.js<br><br>infragistics.datachart\_extendedfinancial.js (財務オーバレイまたは財務指標の表示に必要)<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.datachart\_core.js<br>依存関係: infragistics.datachart\_categoryCore.js<br>依存関係: infragistics.datachart\_financial.js<br><br><br>infragistics.datachart\_extendedaxes.js<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.datachart\_core.js<br>依存関係: infragistics.datachart\_categorycore.js<br><br>infragistics.datachart\_polar.js (極座標シリーズの表示に必要)<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.datachart\_core.js<br>依存関係: infragistics.datachart\_categorycore.js <br>依存関係: infragistics.datachart\_extendedaxes.js<br><br>infragistics.datachart\_radial.js (ラジアル シリーズの表示に必要)<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.datachart\_core.js<br>依存関係: infragistics.datachart\_categorycore.js<br>依存関係: infragistics.datachart\_extendedaxes.js<br><br>infragistics.datachart\_scatter.js (散布シリーズの表示に必要)<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.datachart\_core.js<br><br>infragistics.datachart\_stacked.js (積層シリーズの表示に必要)<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.datachart\_core.js<br>依存関係: infragistics.datachart\_categorycore.js<br>依存関係: infragistics.datachart\_category.js<br><br>infragistics.piechart.js (円チャートの表示に必要)<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br><br>infragistics.funnelchart.js (ファンネル チャートの表示に必要)<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br><br>infragistics.doughnutchart.js (ドーナツ チャートの表示に必要) <br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.piechart.js<br><br>infragistics.datachart\_annotation.js (注釈レイヤーの表示に必要。itemTooltipLayer、categoryToolTipLayer など)<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.datachart\_core.js<br><br>infragistics.geographicmap\_core.js (地図マップの表示に必要)<br>依存関係: infragistics.ext\_core.js<br>依存関係: infragistics.ext\_collections.js<br>依存関係: infragistics.ext\_ui.js<br>依存関係: infragistics.ext\_text.js<br>依存関係: infragistics.ext\_io.js<br>依存関係: infragistics.ext\_web.js<br>依存関係: infragistics.dv\_core.js<br>依存関係: infragistics.dv\_geometry.js<br>依存関係: infragistics.dv\_geo.js<br>依存関係: infragistics.datachart\_core.js<br>依存関係: infragistics.datachart\_scatter.js<br><br>結合したファイルの推薦順序: <br>infragistics.legend.js<br>infragistics.datachart\_core.js<br>infragistics.extendedaxes.js<br>infragistics.datachart\_categorycore.js<br>infragistics.datachart\_category.js<br>infragistics.datachart\_verticalcategory.js<br>infragistics.datachart\_rangecategory.js<br>infragistics.datachart\_financial.js<br>infragistics.datachart\_extendedfinancial.js<br>infragistics.datachart\_scatter.js<br>infragistics.datachart\_polar.js<br>infragistics.datachart\_radial.js<br>infragistics.datachart\_stacked.js<br>infragistics.datachart\_annotation.js<br>infragistics.piechart.js<br>infragistics.dougnutchart.js<br>infragistics.funnelchart.js<br>infragistics.geographicmap.js         
 
 
 
-## <a id="redesignedchartdefaults"></a>Redesigned Chart Defaults
-The chart defaults were redesigned in this release.
+## <a id="redesignedchartdefaults"></a>チャート デフォルト値のデザイン更新
+チャート デフォルトをこのリリースでデザイン変更しました。
 
-Element | CSS Property | Previous | Now
+要素 | CSS プロパティ | 以前 | 現在
 ---|---|---|---
-Chart axis | background | #d6d6d6 |#d0d0d0
-Chart axis|border-color|#d6d6d6|#d0d0d0
+チャート軸 | background | #d6d6d6 |#d0d0d0
+チャート軸|border-color|#d6d6d6|#d0d0d0
 Sparkline negatives park path|background|#F44336|#C62828
  Sparkline trendline|background|#E68A24 |#7f7f7f
 Sparkline first marker |background | #237FA7 |#2E9CA6
@@ -151,11 +151,11 @@ ui chart outerlabels|	color	|	|	#666
 ui chart innerlabels|	color	|	|	#fff	
 Doughnut Tooltip|	padding	|3px	|	5px 8px																						
 
-## <a id="igChartLegendigOPDPane"></a>igChartLegend, igOPDPane now have to be explicitly requested if using the loader
-The legend used to be a dependency of the chart in the old module structure. 
-With the new structure of modules the legend has to be explicitly loaded as a module if it is used in any of the charts on the page. 
+## <a id="igChartLegendigOPDPane"></a>igChartLegend および igOPDPane は、ローダーを使用する場合明示的に要求される必要があります
+凡例は以前のモジュール構造ではチャートに依存していました。
+新しいモジュール構造では、ページのチャートで使用されている場合、凡例をモジュールとして明示的に読み込む必要があります。
 
-**In Javascript:**
+**JavaScript の場合:**
 
 ```js
 $.ig.loader({ 
@@ -166,11 +166,11 @@ $.ig.loader({
 ```
 
 
-## <a id="barseries"></a>Bar Series requires VerticalCategory module when using the loader
-The bar series and associated axes used to be integrated into the chart in the old module structure. 
-With the new structure of modules the bar series and associated axes have to be explicitly loaded as a module when used in any of the charts or maps on the page. 
+## <a id="barseries"></a>ローダー使用時にバー シリーズに必要な VerticalCategory モジュール
+バー シリーズと関連軸は依然のモジュール構造でチャートに統合されていました。
+新しいモジュール構造では、ページのチャートやマップで使用される場合、バーシリーズと関連軸は明示的にモジュールとして読み込む必要があります。
 
-**In Javascript:**
+**JavaScript の場合:**
 
 ```js
 $.ig.loader({ 
@@ -180,7 +180,7 @@ $.ig.loader({
 }); 
 ```
 
-## <a id="selection"></a>New default value for selection in igPieChart
-The new default selection value for the Pie Chart control is now SingleSelect. 
+## <a id="selection"></a>igPieChart の選択の新しいデフォルト値
+円チャート コントロールの新しいデフォルト選択値は SingleSelect に変更しました。
 
-In order for developers to retain their existing pie chart selection logic without interfering with the new selection feature, they will need to change the sliceSelectionMode option to “Manual”.
+新しい選択機能に干渉せずに既存の円チャート選択ロジックを保つには、SliceSelectionMode オプションを Manual に設定します。
