@@ -112,11 +112,11 @@ $("#grid1").igGrid({
 `format` および `dataType` オプションは様々な方法で構成できます。
 
 -   `dataType` は文字列、数値、日付、ブール値、またはオブジェクトを設定可能です。
--   dataType=”date” (Date オブジェクト) に対応する `format` 列プロパティは、“date”、“dateLong”、“dateLong”、“dateTime”、“timeLong”、または “MM-dd-yyyy h:mm:ss tt” などの明示的なパターンが可能です。See [Formatting Dates](Formatting-Dates-Numbers-and-Strings.html#formatting-dates) for details on the valid custom date format specifiers.
--   dataType=”number” (数値オブジェクト) または dataType=”string” に対応する `format` 列プロパティは、“number”、“double”、“int”、“currency”、または “percent” が可能です。See [Formatting Numbers](Formatting-Dates-Numbers-and-Strings.html#formatting-numbers) for details on the valid custom number format specifiers.
+-   dataType=”date” (Date オブジェクト) に対応する `format` 列プロパティは、“date”、“dateLong”、“dateLong”、“dateTime”、“timeLong”、または “MM-dd-yyyy h:mm:ss tt” などの明示的なパターンが可能です。有効なカスタムの日付の書式指定子の詳細は[「日付の書式設定」](Formatting-Dates-Numbers-and-Strings.html#formatting-dates)を参照してください。
+-   dataType=”number” (数値オブジェクト) または dataType=”string” に対応する `format` 列プロパティは、“number”、“double”、“int”、“currency”、または “percent” が可能です。有効なカスタムの数値の書式指定子の詳細は[「数値の書式設定」](Formatting-Dates-Numbers-and-Strings.html#formatting-numbers)を参照してください。
 -   dataType="bool" (ブール オブジェクト) に相対する `format` 列プロパティを "checkbox" に設定できます。
--   また、`dataType`=”number” の場合、対応する書式設定は “0.0###”、“#.##”、“0.000” などが可能です。ここで、小数点の後にくるゼロの数は、小数点以下の最小桁数を定義し、小数点の後の合計文字数は、小数点以下の最大桁数を定義します。See [Formatting Numbers](Formatting-Dates-Numbers-and-Strings.html#formatting-numbers) for details on the valid custom number format specifiers.
--   `dataType` が “date” または “number” 以外の場合、対応する書式設定に“{0}” フラグを含めることができます。この場合、このフラグはセルの値に置換されます。たとえば、format=”Name: {0}” で、セルの値が “Bob” の場合、セルには “Name: Bob” が描画されます (see [Formatting Strings](Formatting-Dates-Numbers-and-Strings.html#formatting-strings) for details)。
+-   また、`dataType`=”number” の場合、対応する書式設定は “0.0###”、“#.##”、“0.000” などが可能です。ここで、小数点の後にくるゼロの数は、小数点以下の最小桁数を定義し、小数点の後の合計文字数は、小数点以下の最大桁数を定義します。有効なカスタムの数値の書式指定子の詳細は[「数値の書式設定」](Formatting-Dates-Numbers-and-Strings.html#formatting-numbers)を参照してください。
+-   `dataType` が “date” または “number” 以外の場合、対応する書式設定に“{0}” フラグを含めることができます。この場合、このフラグはセルの値に置換されます。たとえば、format=”Name: {0}” で、セルの値が “Bob” の場合、セルには “Name: Bob” が描画されます (詳細は、[文字列の書式設定](Formatting-Dates-Numbers-and-Strings.html#formatting-strings)を参照してください)。
 
 ## <a id="column-formatting"></a> 列の書式設定
 
@@ -164,7 +164,7 @@ Raw Value -> formatter -> (template)* -> Cell Value
  * - オプションの設定
  ```
 
-- [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) - テンプレート化された文字列です。使用されるテンプレート エンジンは `templatingEngine` オプションで定義されます。   See [Templating Engine Overview](igTemplating-Overview.html) topic for details on template syntax. 
+- [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) - テンプレート化された文字列です。使用されるテンプレート エンジンは `templatingEngine` オプションで定義されます。 テンプレートの構文の詳細は[「テンプレート化エンジン概要」](igTemplating-Overview.html)を参照してください。
  
  以下は、[`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) が使用されている場合の列描画のフローです。
  
@@ -174,7 +174,7 @@ Raw Value -> formatter -> (template)* -> Cell Value
  ```
 
 - [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) は、セルの TD 要素に適用される CSS クラスのスペース分割されたリストです。
-  When the [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) option defines the rendering of the TD element the [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) option is ignored (see the example below). 
+  [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) オプションが TD 要素の描画を定義する場合、列の [`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) オプションが無視されます (下記例を参照)。
  以下は、[`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) が使用されている場合の列描画のフローです。
  
  ```
@@ -505,8 +505,8 @@ $("#grid1").igGrid({
 
 ### トピック
 -   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
--   [Formatting Dates, Numbers and Strings](Formatting-Dates-Numbers-and-Strings.html)
--   [Templating Engine Overview](igTemplating-Overview.html)
+-   [日付、数値、および文字列の書式設定](Formatting-Dates-Numbers-and-Strings.html)
+-   [テンプレート エンジンの概要](igTemplating-Overview.html)
  
 
  

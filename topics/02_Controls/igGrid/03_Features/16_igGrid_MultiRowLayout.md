@@ -16,7 +16,7 @@
 - [初期化](#initialization)
 - [複数行レイアウトのグリッドの API](#api)
 - [サポートされる機能](#features)
-- [Features Integration](#features-integration)
+- [機能の統合](#features-integration)
 - [関連コンテンツ](#related-content)
 
 ## <a id="overview"></a> 概要
@@ -87,13 +87,13 @@ igGrid が複数行レイアウト モードで描画される場合、並べ替
 
 * フィルターは `advanced` モードのみにサポートされます。`simple` モードに使用する場合、初期化例外が発生されます。
 
-## <a id="features-integration"></a> Features Integration
+## <a id="features-integration"></a> 機能の統合
 
-The following table summarizes the integration between Grid Multi-Row Layout and other `igGrid` features.
+以下の表で、Grid Multi-Row レイアウトと他の `igGrid` 機能との統合についてのまとめを提供します。
 
-Feature | Description
+機能 | 説明
 -------|-------------
-Updating | In inline editing (`editMode` is `row` or `cell` ) use [`navigationIndex`](%%jQueryApiUrl%%/ui.iggrid#options:columns.navigationIndex) option to configure the tab order of the editors. Note that the option has no effect when not in edit mode and the default browser tab navigation will be applied in this case. 
+更新 | インライン編集 (`editMode` が `row` または `cell`) の場合、エディタのタブ オーダーを構成するために [`navigationIndex`](%%jQueryApiUrl%%/ui.iggrid#options:columns.navigationIndex) オプションを使用します。 編集モードにない場合、このオプションは無効になり、ブラウザーのデフォルトのタブ ナビゲーションが適用されます。
 
 ## <a id="related-content"></a> 関連コンテンツ
 
