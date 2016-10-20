@@ -60,8 +60,8 @@
 
 >**注:** 結合スクリプト ファイルを使用するときは、地域設定を常に参照する必要があります。これらは結合スクリプト ファイルの一部ではありません。
 
->**Note:** English localization files are merged into minified JS files and are not required to be referenced explicitly.
-For other languages corresponding localization need to be referenced before the actual JavaScript files on the page code.
+>**注:** 英語のローカライズ ファイルは縮小された JS ファイルに統合され、明示的に参照する必要はありません。
+その他の言語の場合は、該当するローカライズ スクリプトを実際のページ コードの JavaScript ファイルの前に参照する必要があります。
 
 ##コントロールによる JavaScript ファイルの参照
 
@@ -1334,6 +1334,6 @@ For other languages corresponding localization need to be referenced before the 
 	</tbody>
 </table>
 
->**Note:** English localization files are merged into minified JS files and are not required to be referenced explicitly.
-For other languages corresponding localization need to be referenced before the actual JavaScript files on the page code.
+>**注:** 英語のローカライズ ファイルは縮小された JS ファイルに統合され、明示的に参照する必要はありません。
+その他の言語の場合は、該当するローカライズ スクリプトを実際のページ コードの JavaScript ファイルの前に参照する必要があります。
 

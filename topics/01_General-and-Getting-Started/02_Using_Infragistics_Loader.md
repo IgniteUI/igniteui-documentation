@@ -65,7 +65,7 @@ $.ig.loader(function () {
 
 igGrid のリソースはまだ即時に読み込まれますが、ファイルが読み込まれた後の通知処理を詳細に制御できます。
 
-Starting in version 2016.2 the loader is deferring notifications of the resources availability til jQuery's document ready. This allows for convenient event flow inline with jQuery standards. The following code snippet demonstrates this new capability:
+2016.2 バージョン以降で、ローダーは jQuery の $(document).ready までに利用可能なリソースの通知を遅延します。この変更では、jQuery の基準に従ってイベント フローの利便性を向上します。以下はこの新機能のコードスニペットです。
 
 ```javascript
 $.ig.loader({
@@ -83,7 +83,7 @@ $(function () {
     });
 });
 ```
-> **Note:** Deferring of the document ready event is only available in jQuery version 1.6 and above therefore this or newer version of the library is required to be used with Ignite UI 2016.2 and above.
+> **注:** $(document).ready イベントの遅延が jQuery バージョン 1.6 で使用可能なため、Ignite UI 2016.2 以降でライブラリのこのバージョン以上を使用する必要があります。
 
 
 ### ロード オン デマンド
