@@ -8,118 +8,118 @@
 |metadata|
 -->
 
-#What's New in 2016 Volume 2
+#2016 Volume 2 の新機能
 
-This topic presents the controls and the new and enhanced features for the Ignite UI™ 2016 Volume 2 release.
+このトピックでは、Ignite UI™ 2016 Volume 2 リリースのコントロールと新機能および拡張機能を紹介します。
 
 
-##What’s New Summary
+##新機能
 
-The following summarizes what’s new in 2016 Volume 2. Additional details follow.
+以下の表に 2016 Volume 2 の新機能の概要を示します。追加の詳細は以下のとおりです。
 
-### General
+### 全般
 
-Feature | Description
+機能 | 説明
 ---|---
-Ignite UI OSS | A big part of the Ignite UI toolset is now open source. Checkout the repository on [GitHub](https://github.com/IgniteUI/ignite-ui)|
-Ignite UI directives for Angular 2 (RTM) | Ignite UI widgets have component wrappers for Angular 2. For detailed information visit [Ignite UI Angular 2 GitHub](https://github.com/IgniteUI/igniteui-angular2) page.|
-Ignite UI Components for React (CTP) | Ignite UI widgets have component wrappers for [React](https://facebook.github.io/react/). For detailed information visit [Ignite UI Components for React](https://github.com/IgniteUI/igniteui-react) page.|
-ASP.NET Core 1.0 MVC Helpers | Ignite UI MVC Helpers now support ASP.NET Core 1.0. Checkout the [Using Ignite UI controls in ASP.NET Core 1.0](Using-IgniteUI-Controls-in-ASP.NET-Core-1.0-project.html) topic.|
-ASP.NET Core 1.0 MVC Tag Helpers | Ignite UI now provides Tag Helpers for ASP.NET Core 1.0. Checkout the [Using Ignite UI Tag Helpers](Using-Ignite-UI-Tag-Helpers.html) topic.|
-[New Javascript file breakdown](#javascript-file-breakdown) | The goal is to reduce the amount of code required in order to load a specific feature. |
-DPI Scaling | High DPI Scaling is enabled by default now which makes the components look much sharper and crisper than before. Components that have the DPI Scaling by default now are - igDataChart, igPieChart, igFunnelChart, igDoughnutChart, igRadialGauge, igLinearGauge, igBulletGraph, igSparkline, igRadialMenu. |
-Standard moduling support | All of IgniteUI JavaScript files contain AMD module definitions. Therefore these files can be loaded using standard module loaders such as Require.JS, System.JS etc.|
-[Ignite UI NuGet packages](#ignite-ui-nuget-packages) | New Ignite UI NuGet packages are available, including a package for creating .NET Core applications. |
+Ignite UI OSS | Ignite UI ツールセットの一部がオープンソースになりました。 [GitHub](https://github.com/IgniteUI/ignite-ui) でリポジトリを参照してください。|
+Angular 2 (RTM) 用の Ignite UI ディレクティブ | Ignite UI ウィジェットは Angular 2 のコンポーネント ラッパーがあります。詳細については、 [Ignite UI Angular 2 GitHub](https://github.com/IgniteUI/igniteui-angular2) ページを参照してください。|
+React (CTP)用の Ignite UI コンポーネント | Ignite UI ウィジェットは [React](https://facebook.github.io/react/)のコンポーネント ラッパーがあります。詳細については、[Ignite UI Components for React](https://github.com/IgniteUI/igniteui-react) ページを参照してください。|
+ASP.NET Core 1.0 MVC ヘルパー | Ignite UI MVC ヘルパーで ASP.NET Core 1.0 がサポートされるようになりました。[Using Ignite UI controls in ASP.NET Core 1.0](Using-IgniteUI-Controls-in-ASP.NET-Core-1.0-project.html) トピックを参照してください。|
+ASP.NET Core 1.0 MVC タグ ヘルパー | Ignite UI ASP.NET Core 1.0 MVC タグ ヘルパーを提供します。[Ignite UI タグ ヘルパーの使用](Using-Ignite-UI-Tag-Helpers.html) トピックを参照してください。|
+[新しい Javascript ファイル分割](#javascript-file-breakdown) | 変更の主要な目的は、特定の機能をロードするときに必要なコードの量を縮小することです。 |
+DPI スケール | デフォルトで 高DPI スケールを有効にすることにより、コンポーネントに鮮明でクリアな外観を実現できます。デフォルトで 高DPI スケールを有効にしたコンポーネントは、gDataChart、igPieChart、igFunnelChart、igDoughnutChart、igRadialGauge、igLinearGauge、igBulletGraph、igSparkline、igRadialMenu です。 |
+標準モジュール サポート | すべての IgniteUI JavaScript ファイルは AMD モジュール定義が含まれます。したがって、ファイルは Require.JS、System.JS など、標準モジュール ローダーを使用してロードできます。|
+[Ignite UI NuGet パッケージ](#ignite-ui-nuget-packages) | .NET Core アプリケーションを作成するためのパッケージをはじめとして、新しい Ignite UI NuGet パッケージを提供します。|
 
 
 ### igCategoryChart
 
-Feature | Description
+機能 | 説明
 ---|---
-[New Control](#igcategorychart)| With a simplified API this control can be easily configured to display category data. |
+[新しいコントロール](#igcategorychart)| 簡易な API を使用して簡単にカテゴリ データ表示を構成します。 |
 
 ### igDataChart
 
-Feature | Description
+機能 | 説明
 ---|---
-[New property](#new-chart-property) | A new property ConsolidatedColumnVerticalPosition is added, which determines the positioning logic to use for columns which have been consolidated into a single visual element. | 
-[Performance Enhancements](#performance-enhancements)| In the Infragistics 2016 volume 2 release, we significantly improved the performance of the igDataChart control. |
-[Design Changes](#design-changes) | We redesigned the defaults of the igDataChart, igPieChart, igFunnelChart, igDoughnutChart, igRadialGauge, igLinearGauge, igBulletGraph, and igSparkline control.|
-[File Size Reduction](#file-size-reduction) | The size has been reduced for loading a category chart, and we also modularized the igDataChart control.|
+[新しいプロパティ](#new-chart-property) | 単一視覚要素に統合ざれた列の配置ロジックを決定するための、新しい ConsolidatedColumnVerticalPosition プロパティを提供しています。| 
+[機能向上](#performance-enhancements)| Infragistics 2016 volume 2 リリースでは、igDataChart コントロールのパフォーマンスを改善しました。 |
+[デザインの更新](#design-changes) | igDataChart、igPieChart、igFunnelChart、igDoughnutChart、igRadialGauge、igLinearGauge、igBulletGraph および igSparkline コントロールのデフォルト値を更新しました。|
+[ファイル サイズの縮小](#file-size-reduction) | カテゴリ チャートの読み込みに必要なサイズを縮小しました。また、igDataChart コントロールをモジュール化しました。|
 
 ### igDataSource
 
-Feature | Description
+機能 | 説明
 ---|---
-New grouping functionality| The igDataSource now handles grouping and persists the grouping expand and collapse state. |
-Sorting performance optimizations | Local sorting is now up to 10x faster. |
+新しいグループ化機能| igDataSource はグループ化をサポートしグループ化の展開および縮小状態を保持します。 |
+並べ替えパフォーマンスの最適化 | ローカルの並べ替えが 10 倍まで高速化されています。 |
 
 ### igFunnelChart
 
-Feature | Description
+機能 | 説明
 ---|---
-[Label Styling](#funnel-styling) | You can now specify the color of the funnel chart's inner and outer labels.
+[ラベルのスタイル設定](#funnel-styling) | ファンネル チャートの内部ラベル及び外部ラベルの色を指定できるようになりました。
 
 ### igGrid
 
-Feature | Description
+機能 | 説明
 ---|---
-[Group By Improvements](#groupby-improvements) | Group By now features improved Virtualization support and APIs to expand/collapse rows. |
-Sorting performance optimizations | Local sorting is now up to 10x faster. |
-[Inline editing for Multi-Row Layout](#mrl-inline-editing)| The Multi-Row Layout feature now supports inline row and cell editing. |
-Multi-Column Headers collapsible column groups | Collapsible Column Groups is a feature that provides an option to collapse/expand a Multi-Column Header to a smaller set of data. |
-Column setter | Column collection now can be changed at runtime. |
-igGrid Modal Dialog extensibility| Grid features that include dialogs (Updating, Filtering, Sorting, Hiding, GroupBy, Column Moving) now add a new `dialogWidget` option allowing for custom dialog implementations - [view sample](%%SamplesUrl%%/grid/custom-modal-dialog) and [topic](Extending_igGrid_Modal_Dialog.html). |
-Binding Real-Time Data sample| A new sample is added that demonstrates binding igGrid to real-time data - [view sample](%%SamplesUrl%%/grid/binding-real-time-data). |
-Performance Options sample| A new sample is added that demonstrates the performance options provided by the igGrid - [view sample](%%SamplesUrl%%/grid/grid-performance). |
+[Group By の向上](#groupby-improvements) | Group By には仮想化サポートおよび行の展開/縮小のための API を追加しました。 |
+並べ替えパフォーマンスの最適化 | ローカルの並べ替えが 10 倍まで高速化されています。 |
+[複数行レイアウトでのインライン編集](#mrl-inline-editing)| 複数行レイアウト機能が行およびセルのインライン編集をサポートします。 |
+複数列ヘッダーの縮小可能な列グループ | 縮小可能な列グループは、複数列ヘッダーをより小さいデータ セットに縮小/展開する方法を提供します。 |
+列セッター | 列のコレクションをランタイムで変更できるようになりました。 |
+igGrid モーダル ダイアログの拡張性| ダイアログを含むグリッド機能 (更新、フィルター、並べ替え、非表示、GroupBy、列移動) に、カスタムのダイアログ実装を可能にする、新しい `dialogWidget` オプションを追加しました。 - [サンプル](%%SamplesUrl%%/grid/custom-modal-dialog) または [topic](Extending_igGrid_Modal_Dialog.html)を参照してください。 |
+リアルタイム データにバインド サンプル| igGrid をリアルタイム データにバインドすることを紹介するサンプルが追加されました - [サンプルの表示](%%SamplesUrl%%/grid/binding-real-time-data) |
+パフォーマンス オプション サンプル| igGrid のパフォーマンス オプションを紹介するサンプルが追加されました - [サンプルの表示](%%SamplesUrl%%/grid/grid-performance). |
 
 
 ### igPieChart
 
-Feature | Description
+機能 | 説明
 ---|---
-[Slice Selection](#slice-selection) | You can now select a pie slice on the igPieChart control.| 
-[New Event](#pie-event)| New event that fires when a label is clicked. |
-[Label Coloring](#pie-label-coloring) | You can now specify the color of the pie's inner and outer labels.|
-[Data Path Options Renamed](#pie-data-path-renaming) | The valueMemberPath and labelMemberPath options are renamed.|
+[スライスの選択](#slice-selection) | igPieChart コントロールでスライスの選択が可能になりました。| 
+[新しいイベント](#pie-event)| ラベルをクリックすると発生する新しいイベント。 |
+[ラベルの色付け](#pie-label-coloring) | 円チャートの内部ラベル及び外部ラベルの色を指定できるようになりました。|
+[データ パス オプション名の変更](#pie-data-path-renaming) | valueMemberPath および labelMemberPath オプションの名前を変更しました。|
 
 ### igScroll
 
-Feature | Description
+機能 | 説明
 ---|---
-[New Control](#igscroll)| The igScroll™ control unifies scrolling experience between browsers and devices. |
+[新しいコントロール](#igscroll)| igScroll™ コントロールがさまざまなブラウザーとデバイスで一貫性のあるエクスペリエンスを提供します。 |
 
 ### igZoombar
 
-Feature | Description
+機能 | 説明
 ---|---
-Integration with Custom Components| The igZoombar now exposes a pluggable integration mechanism for third-party custom components. Checkout the [igZoombar Integration with Custom Components](igZoombar-Integration-with-Custom-Components.html) topic.|
+カスタム コンポーネントとの統合| igZoombar は、サードパーティーのカスタム コンポーネント用のプラッグ可能な統合機能を公開します。[igZoombar のカスタム コンポーネントとの統合](igZoombar-Integration-with-Custom-Components.html) トピックを参照してください。|
 
 ## igCategoryChart
 
-### <a id="igcategorychart"></a> New Control
+### <a id="igcategorychart"></a> 新しいコントロール
 
-A new control, the Category Chart, is added in this 2016 volume 2 release. This chart can be easily configured to display category data using a simple API. All you need to do is bind your data (a collection or a collection of collections).
+Infragistics 2016 Volume 2 リリースでは、カテゴリ チャートという新しいコントロールを提供します。簡易な API を使用して、チャートにカテゴリ データの表示を簡単に構成できます。データ (コレクションまたはコレクションのコレクション) をバインドするのみで作業を開始します。
 
-By using a smart Data Adapter, the data is analyzed and the appropriate visualization is rendered. For example, if the chartType is set to "Auto", the control can determine that if it is provided a small data set then a column chart should be plotted, while a larger data set will draw a line chart.
+スマート データ アダプターを使用して、データは分析されて適切なビジュアライゼーションが描画されます。たとえば ｃhartType を Auto に設定した場合、大きなデータセットで折れ線チャートを描画する間、コントロールは小さなデータセットを提供して列チャートがプロットされるかどうかを決定します。
 
-However, you can also explicitly specify the chart type by setting the chartType to line, area, column, point, spline, splineArea, stepArea, stepLine, or waterfall.
+一方、 chartType を line、area、column、point、spline、splineArea、stepArea、stepLine または waterfall に設定して、チャート タイプを明示的に指定することも可能です。
 
-Another example of the intuitive behavior of the Category Chart control is that you do not need to explicitly set the labels. The Category Chart will use the first appropriate string property that it finds and will use that for the labels.
+その他のカテゴリチャート コントロールの直感的な動作の例は、明示的にラベルを設定する必要がないことです。カテゴリ チャートは、最初の適切な文字列プロパティを使用し、ラベルに使用します。
 
-Built to be easily configurable, it uses the igDataChart control as its engine, which means that it benefits from the high performing and powerful Data Chart features.
+コントロールは簡単に構成できるよう構築されており、エンジンとして igDataChart コントロールを使用しています。つまり、高パフォーマンスでパワフルなデータ チャートの利点を備えています。
 
-#### Related Topic:
--   [igCategoryChart Overview](categorychart-overview.html)
+#### 関連トピック:
+-   [igCategoryChart の概要](categorychart-overview.html)
 
 
-### <a id="javascript-file-breakdown"></a>New Javascript File Breakdown
+### <a id="javascript-file-breakdown"></a>新しい JavaScript ファイルの分割
 
-The igDataChart, igPieChart, igFunnelChart, igDoughnutChart, igRadialGauge, igLinearGauge, igBulletGraph and igMap controls all have breaking changes in terms of the js files required. The goal is to reduce the amount of code required in order to load a specific feature. The script combiner has been updated to help you download a combined file with only the files you need and in the correct order depending on required features. The igLoader has also been updated to load the correct files depending on the features requested.
+igDataChart、igPieChart、igFunnelChart、igDoughnutChart、igRadialGauge、igLinearGauge、igBulletGraph および igMap コントロールのすべては、必要とする js ファイルで重要な変更が導入されました。変更の主要な目的は、特定の機能をロードするときに必要なコードの量を縮小することです。機能によって正確な順序で必要なファイルのみを含む、結合されたファイルをダウンロードするために、スクリプト コンバイナーを更新しました。必要な機能に基づいて適切なファイルの読み込みが可能な igLoader も更新しました。
 
-The following lists the files required if you want to load the files manually:
+手動でファイルを読み込む場合、以下のファイルが必要になります。
 
-igDataChart, igCategoryChart, igPieChart, igFunnelChart, igDoughnutChart, igRadialGauge, igLinearGauge, igBulletGraph and igMap you first need:
+igDataChart、igCategoryChart、igPieChart、igFunnelChart、igDoughnutChart、igRadialGauge、igLinearGauge、igBulletGraph および igMap の場合は最初に次のファイルを追加します。
 
 * infragistics.util.js
 
@@ -131,29 +131,29 @@ igDataChart, igCategoryChart, igPieChart, igFunnelChart, igDoughnutChart, igRadi
 
 * infragistics.dv_core.js
 
-igDataChart, igCategoryChart, igPieChart, igDoughnutChart, igRadialGauge, igLinearGauge, igBulletGraph and igMap you then need:
+igDataChart、igCategoryChart、igPieChart、igDoughnutChart、igRadialGauge、igLinearGauge、igBulletGraph および igMap の場合は次のファイルを追加します。
 
 * infragistics.dv_geometry.js
 
-If you want to load igRadialGauge you need:
+igRadialGauge を読み込む場合:
 
 * infragistics.radialgauge.js
 
 * infragistics.ui.radialgauge.js
 
-If you want to load igLinearGauge you need:
+igLinearGauge を読み込む場合:
 
 * infragistics.lineargauge.js
 
 * infragistics.ui.lineargauge.js
 
-If you want to load igBulletGraph you need:
+igBulletGraph を読み込む場合:
 
 * infragistics.bulletgraph.js
 
 * infragistics.ui.bulletgraph.js
 
-If you want to load igPieChart you need:
+igPieChart を読み込む場合:
 
 * infragistics.piechart.js
 
@@ -161,23 +161,23 @@ If you want to load igPieChart you need:
 
 * infragistics.ui.piechart.js
 
-If you want to load igDoughnutChart you need everything for pie chart and in addition:
+igDoughnutChart を読み込む場合、円チャートに必要なファイルに加えて次のファイルも追加します。
 
 * infragistics.doughnutchart.js
 
 * infragistics.ui.doughnutchart.js
 
-If you want to load igFunnelChart you need:
+igFunnelChart を読み込む場合:
 
 * infragistics.funnelchart.js
 
 * infragistics.ui.funnelchart.js
 
-If you want to load any igDataChart or igMap features, you need:
+igDataChart または igMap の機能を読み込む場合:
 
 * infragistics.datachart_core.js
 
-If you want to load igMap you need:
+igMap を読み込む場合:
 
 * infragistics.ext_text.js
 
@@ -195,19 +195,19 @@ If you want to load igMap you need:
 
 * infragistics.ui.geographicmap.js
 
-If you want to load the igDataChart, after loading the appropriate chart features, you need:
+igDataChart を読み込む場合、必要なチャート機能を読み込んでから次のファイルを追加します:
 
 * infragistics.datachart.js
 
 * infragistics.ui.chart.js
 
-If you want to load any category series (column, area, line, spline, splineArea, stepLine, stepArea, point, waterfall) into the chart you need:
+チャートに任意のカテゴリ シリーズ (柱状、エリア、折れ線、スプラいン、splineArea、stepLine、stepArea、ポイント、ウォーターフォール) を読み込む場合:
 
 * infragistics.datachart_categorycore.js
 
 * infragistics.datachart_category.js
 
-If you want to load vertical category series (bar) into the chart you need:
+垂直カテゴリシリーズ (棒) を読み込む場合:
 
 * infragistics.datachart_categorycore.js
 
@@ -215,7 +215,7 @@ If you want to load vertical category series (bar) into the chart you need:
 
 * infragistics.datachart_verticalcategory.js
 
-If you want to load scatter series (scatter, scatterLine, scatterSpline, highDensityScatter, bubble) into the chart you need:
+チャートに散布シリーズ ( 散布、scatterLine、scatterSpline、highDensityScatter、バブル) を読み込む場合:
 
 * infragistics.datachart_scatter.js
 
@@ -225,19 +225,19 @@ If you want to load range category series (rangeColumn, rangeArea) you need:
 
 * infragistics.datachart_rangecategory.js
 
-If you want polar series (polarLine, polarArea, polarScatter, polarSpline, polarSplineArea) you need:
+範囲カテゴリシリーズ (rangeColumn、rangeArea) を読み込む場合:
 
 * infragistics.datachart_extendedaxes.js
 
 * infragistics.datachart_polar.js
 
-If you want radial series (radialColumn, radialLine, radialPie, radialArea) you need:
+極座標シリーズ (radialColumn, radialLine, radialPie, radialArea) の場合:
 
 * infragistics.datachart_extendedaxes.js
 
 * infragistics.datachart_radial.js
 
-If you want stacked series you need:
+積層シリーズの場合:
 
 * infragistics.datachart_categorycore.js
 
@@ -245,17 +245,17 @@ If you want stacked series you need:
 
 * infragistics.datachart_stacked.js
 
-If you want annotation layers (crosshairLayer, itemToolTipLayer, categoryToolTipLayer, categoryHighlightLayer) you need:
+注釈レイヤー (crosshairLayer, itemToolTipLayer, categoryToolTipLayer, categoryHighlightLayer)  の場合:
 
 * infragistics.datachart_annotation.js
 
-If you want to use the chart legend you need:
+チャート凡例の場合:
 
 * infragistics.legend.js
 
 * infragistics.ui.chartlegend.js
 
-If you want to load the new igCategoryChart control you need everything you need for loading category series in the data chart and in addition:
+新しい igCategoryChart コントロールを読み込む場合、データ チャートにカテゴリ シリーズをロードするのに必要なファイルに加えて以下のファイルも追加します。
 
 * infragistics.dv_dataseriesadapter.js
 
@@ -267,45 +267,45 @@ If you want to load the new igCategoryChart control you need everything you need
 
 * infragistics.ui.categorychart.js
 
-### <a id="ignite-ui-nuget-packages"></a>Ignite UI NuGet packages
+### <a id="ignite-ui-nuget-packages"></a>Ignite UI NuGet パッケージ
 
-Three new Ignite UI NuGet packages are added in this 2016 volume 2 release. Those packages can boost your productivity allowing you to setup your application faster. They will automatically include the Ignite UI files and references you need to your project.
+2016 volume 2 リリースより、3 つの Ignite UI NuGet パッケージが新規追加されました。これらのパッケージでアプリケーションをより速くセットアップできるため、生産性の向上につながります。パッケージは、プロジェクトに必要な Ignite UI ファイルおよび参照を自動的に追加します。
 
-With the new ASP.NET most modules are now wrapped as NuGet packages. Having this in mind our new MVC wrappers built on top of ASP.NET Core are also available as a NuGet package.
+新しい ASP.NET では、ほとんどのモジュールが NuGet パッケージとしてラップされています。そのため、ASP.NET Core 上に構築されている新しい  MVC ラッパーも NuGet パッケージとして提供されます。
 
-The NuGet packages are installed with the product`s installer and during the installation a new local feed is created, meaning that you don`t need to setup your NuGet Package Manager. You will find the local NuGet feed Infragistics (Local) the next time you run your Visual Studio.
+NuGet パッケージが製品インストーラーでインストールされる際、新しいローカル フィードが作成されます。そのため、NuGet パッケージ マネージャーを設定する必要はありません。次回 Visual Studio を実行した際にローカル NuGet フィード Infragistics (ローカル) が表示されます。
 
-#### Related Topic:
-- [Using Ignite UI NuGet packages](using-ignite-ui-nuget-packages.html)
+#### 関連トピック:
+- [Using Ignite UI パッケージの使用](using-ignite-ui-nuget-packages.html)
 
 ## igDataChart
 
-### <a id="new-chart-property"></a> New Chart Option
+### <a id="new-chart-property"></a> 新しいチャート オプション
 
-A new option, consolidatedColumnVerticalPosition, is introduced in this release in order to determine the positioning logic to use for columns which have been consolidated into a single visual element.
+本リリースでは、単一視覚要素に統合ざれた列の配置ロジックを決定するための、新しい consolidatedColumnVerticalPosition オプションを提供します。
 
-It accepts the following values:
+プロパティは以下の値を含みます。
 
-*Minimum* - Consolidated Items should be positioned using their minimum value. 
+*Minimum* - 統合された項目は最小値を使用して配置されます。
 
-*Maximum* - Consolidated Items should be positioned using their maximum value.
+*Maximum* - 統合された項目は最大値を使用して配置されます。
 
-*Median* - Consolidated Items should be positioned using their median value. 
+*Median* - 統合された項目は中央値を使用して配置します。
 
-*RelativeMinimum* - Consolidated Items should be positioned using the value nearest to the reference value of the corresponding axis. 
+*RelativeMinimum* - 統合された項目が相対する軸の参照値に一番近い値を使用して配置します。
 
-*RelativeMaximum* - Consolidated Items should be positioned using the value farthest from the reference value of the corresponding axis.
+*RelativeMaximum* - 連結された項目が相対する軸の参照値に一番遠い値を使用して配置します。
 
-#### Related Topic:
-- [Series Types](igdatachart-series-types.html)
+#### 関連トピック:
+- [シリーズ タイプ](igdatachart-series-types.html)
 
-### <a id="performance-enhancements"></a> Performance Enhancements
-Performance of the igDataChart control has been significantly enhanced this release.
-When testing the igDataChart in a live updating scenario, with a data set of 50,000 points, where points are added to the end of the bound data set and removed from the beginning every 10ms, these differences can be observed between 16.1 and 16.2:
+### <a id="performance-enhancements"></a> 機能向上
+igDataChart コントロールのパフォーマンスを著しく向上しました。
+igDataChart の 16.1 と 16.2 の違いは、データセットが 5 万ポイントを含み、バインドされたデータの最後に 10 ミリ秒ごとに新しいデータ ポイントを追加してからデータの初めからポイントを取り除く、というライブ更新において明確です。
 
 **Chrome:**
 
-16.1: 70fps (frames per second)
+16.1: 70fps (1 秒あたりのフレーム数)
 
 16.2: 144fps
 
@@ -321,36 +321,36 @@ When testing the igDataChart in a live updating scenario, with a data set of 50,
 
 16.2: 100fps
 
-Based on these numbers you can see that the igDataChart in 16.2 is approximately twice as fast for this raw throughput scenario than in 16.1.
+上記のデータから、この raw インプット シナリオでは、16.2 の igDataChart が 16.1 と比べておおよそ 2 倍速くなっていることが明らかになっています。
 
-### <a id="design-changes"></a> Design Changes
-In the Infragistics 2016 volume 2 release, we redesigned the defaults of the igDataChart, igPieChart, igFunnelChart, igSparkline, igRadialGauge, igLinearGauge, igBulletGraph  controls.
+### <a id="design-changes"></a> デザインの更新
+Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFunnelChart、igSparkline、igRadialGauge、igLinearGauge、igBulletGraph コントロールのデフォルト値を更新しました。 
 
-The following screenshots are some examples comparing the new and previous defaults:
+以下のスクリーンショットで新しいデフォルト値と以前のデフォルト値を比較します。
 
-#### Column Chart
+#### 柱状チャート
 
-**New**  
+**新規**  
 
 
 ![](images/chart_design_column_new.png)
 
 
-**Previous**
+**以前**
 
 
 ![](images/chart_design_column_previous.png)
 
 
-#### Legend
+#### 凡例
 
-**New**
+**新規**
 
 
 ![](images/chart_design_legend_new.png)
 
 
-**Previous**
+**以前**
 
 
 ![](images/chart_design_legend_previous.png)
@@ -358,93 +358,93 @@ The following screenshots are some examples comparing the new and previous defau
 
 #### Stacked Area
 
-**New**
+**新規**
 
 ![](images/chart_design_gallery_new.png)
 
-**Previous**
+**以前**
 
 
 ![](images/chart_design_gallery_previous.png)
 
 #### Financial Charts
 
-**New**
+**新規**
 
 ![](images/chart_design_financial_new.png)
 
-**Previous**
+**以前**
 
 ![](images/chart_design_financial_previous.png)
 
 #### Pie Chart
 
-**New**
+**新規**
 
 ![](images/chart_design_pie_new.png)
 
-**Previous**
+**以前**
 
 ![](images/chart_design_pie_previous.png)
 
 #### Funnel Chart
 
-**New**
+**新規**
 
 ![](images/chart_design_funnel_new.png)
 
-**Previous**
+**以前**
 
 ![](images/chart_design_funnel_previous.png)
 
 #### Doughnut Chart
 
-**New**
+**新規**
 
 ![](images/chart_design_doughnut_new.png)
 
-**Previous**
+**以前**
 
 ![](images/chart_design_doughnut_previous.png)
 
 
 #### Radial Gauge
 
-**New**
+**新規**
 
 ![](images/chart_design_radial_gauge_new.png)
 
-**Previous**
+**以前**
 
 ![](images/chart_design_radial_gauge_previous.png)
 
 #### Linear Gauge
 
-**New**
+**新規**
 
 ![](images/chart_design_linear_gauge_new.png)
 
-**Previous**
+**以前**
 
 ![](images/chart_design_linear_gauge_previous.png)
 
 #### Bullet Graph
 
-**New**
+**新規**
 
 ![](images/chart_design_bullet_graph_new.png)
 
-**Previous**
+**以前**
 
 ![](images/chart_design_bullet_graph_previous.png)
 
 #### Sparkline
 
-**New**
+**新規**
 
 ![](images/chart_design_sparkline_new.png)
 
-**Previous**
+**以前**
 
 ![](images/chart_design_sparkline_previous.png)
 
@@ -454,14 +454,14 @@ The size of files required for loading a category series in igDataChart (column,
 Additionally, the features in igDataChart are broken into more individual modules than they were before, so it is possible to have finer grained control over exactly which features are loaded to reduce payload size. Chart feature modules no longer have any overlap between them, further conserving payload size when loading multiple feature sets.
 
 ## igFunnelChart
-### <a id="funnel-styling"></a> New Styling Properties Added 
+### <a id="funnel-styling"></a> 新しいスタイル設定のプロパティ 
 
-You can now specify the color of the labels depending on whether they are rendered inside or outside of the funnel chart using the [`textColor`](%%jQueryApiUrl%%/ui.igfunnelchart#options:textColor) and [`outerLabelTextColor`](%%jQueryApiUrl%%/ui.igfunnelchart#options:outerLabelTextColor) options. You can also style the text of both the inner and outer labels using the [`textStyle`](%%jQueryApiUrl%%/ui.igfunnelchart#options:textStyle)   and [`outerLabelTextStyle`](%%jQueryApiUrl%%/ui.igfunnelchart#options:outerLabelTextStyle) options. 
-The following screenshot demostrates how to change the text color and style of the inner and outer labels.
+[`textColor`](%%jQueryApiUrl%%/ui.igfunnelchart#options:textColor) および [`outerLabelTextColor`](%%jQueryApiUrl%%/ui.igfunnelchart#options:outerLabelTextColor) オプションを使用して、ラベルがスライスの内、または外に表示されることにとって、異なる色を設定できます。さらに、[`textStyle`](%%jQueryApiUrl%%/ui.igfunnelchart#options:textStyle)   および [`outerLabelTextStyle`](%%jQueryApiUrl%%/ui.igfunnelchart#options:outerLabelTextStyle) オプションを使用して、内部ラベルと外部ラベルのテキストをスタイル設定できます。
+以下のスクリーンショットでは、内部ラベルと外部ラベルのテキストおよびスタイルを変更する方法を示します。
 
 ![](images/funnelchart_text_style.png)
 
-**Related topics:** 
+**関連トピック:** 
 
 - [`textColor`](%%jQueryApiUrl%%/ui.igfunnelchart#options:textColor) 
 
@@ -473,111 +473,112 @@ The following screenshot demostrates how to change the text color and style of t
 
 ## igGrid
 
-### <a id="groupby-improvements"></a> Group By Improvements
+### <a id="groupby-improvements"></a> Group By の向上
 
-Group By has improved integration with Virtualization feature. Now it persist the grouped rows expand state between virtualization frames improving the end user experience.
-Also two new API methods are added to [`expand`](%%jQueryApiUrl%%/ui.iggridgroupby#methods:expand) and [`collapse`](%%jQueryApiUrl%%/ui.iggridgroupby#methods:collapse) group rows.
-Local grouping performance is optimized and now can be up to 10x faster.
+Group By の仮想化の統合機能が向上しました。
+仮想化フレーム間でグループ化された行展開状態を保持し、エンドユーザー エクスペリエンスを向上します。
+グループの行を [`expand`](%%jQueryApiUrl%%/ui.iggridgroupby#methods:expand) し [`collapse`](%%jQueryApiUrl%%/ui.iggridgroupby#methods:collapse) するための API メソッドが 2 つ追加されました。
+ローカル グループ化パフォーマンスを最適化し 10 倍まで高速化しています。
 
-#### Related Topics
--   [Column Grouping Overview (igGrid)](igGrid-GroupBy-Overview.html#api-usage)
+#### 関連トピック
+-   [列のグループ化の概要 (igGrid)](igGrid-GroupBy-Overview.html#api-usage)
 
-#### Related Samples
+#### 関連サンプル
 -   [Continuous Virtualization](%%SamplesUrl%%/grid/virtualization-continuous)
 -   [Grouping API](%%SamplesUrl%%/grid/grouping-api)
 
-### <a id="mrl-inline-editing"></a> Inline editing for Multi-Row Layout
+### <a id="mrl-inline-editing"></a> 複数行レイアウトでのインライン編集
 
-Updating feature now works in row and cell edit mode when Multi-Row Layout is configured. Use [`navigationIndex`](%%jQueryApiUrl%%/ui.iggrid#options:columns.navigationIndex) option to configure the tab order of the editors when in edit mode.
+複数行レイアウトが構成されている場合、更新機能が行およびセルの編集モードで機能します。[`navigationIndex`](%%jQueryApiUrl%%/ui.iggrid#options:columns.navigationIndex) オプションを使用して編集モードのエディターの順序を構成します。
 
 ![](images/mrl-inline-editing.png)
 
-#### Related Topics
--   [Grid Multi-Row Layout](igGrid-MultiRowLayout.html#features-integration)
+#### 関連トピック
+-   [グリッドの複数行レイアウト](igGrid-MultiRowLayout.html#features-integration)
 
-#### Related Samples
--   [Multi-Row Layout Inline Editing](%%SamplesUrl%%/grid/multi-row-layout-inline-editing)
+#### 関連サンプル
+-   [複数行レイアウトのインライン編集](%%SamplesUrl%%/grid/multi-row-layout-inline-editing)
 
 
 ## igPieChart
 
-### <a id="slice-selection"></a> Slice Selection 
+### <a id="slice-selection"></a> スライスの選択
 
-You can now select a pie slice on the igPieChart control. This feature is enabled by default. You can set the [`selectionMode`](%%jQueryApiUrl%%/ui.igPieChart#options:selectionMode) option in order to support single or multiple slice selection and then check the [`selectedItem`](%%jQueryApiUrl%%/ui.igPieChart#options:selectedItem)  or [`selectedItems`](%%jQueryApiUrl%%/ui.igPieChart#options:selectedItems) options in order to see what data items are associated with those selected slices.
+igPieChart コントロールでスライスの選択が可能になりました。この機能はデフォルトで有効です。オプションを設定して単一および複数選択をサポートします。また、 [`selectionMode`](%%jQueryApiUrl%%/ui.igPieChart#options:selectionMode) オプションを設定して単一および複数選択をサポートします。また、 [`selectedItem`](%%jQueryApiUrl%%/ui.igPieChart#options:selectedItem) または [`selectedItems`](%%jQueryApiUrl%%/ui.igPieChart#options:selectedItems) オプションを使用して選択されたスライスに関連付けられたデータ項目を取得します。
 
-We also added new selection events, some of which are cancelable, so you can stop selection of particular slices from occurring. These events are:
+選択イベントも追加しました。一部はキャンセル可能なもので、特定のスライス選択の無効化が可能です。イベントは以下の通りです。
 
 * [`selectedItemChanging`](%%jQueryApiUrl%%/ui.igPieChart#events:selectedItemChanging)
 * [`selectedItemChanged`](%%jQueryApiUrl%%/ui.igPieChart#events:selectedItemChanged)
 * [`selectedItemsChanging`](%%jQueryApiUrl%%/ui.igPieChart#events:selectedItemsChanging)
 * [`selectedItemsChanged`](%%jQueryApiUrl%%/ui.igPieChart#events:selectedItemsChanged)
 
-You can see which pie slice is selected as it has a different style. The following screenshot shows the Marketing slice selected.
+選択されたスライスは異なるスタイルで表示されるため特定しやすくなっています。以下のスクリーンショットでは、Marketing スライスが選択されています。
 
 ![](images/piechart_slice_selection.png)
 
-#### Related topics:
+#### 関連トピック:
 [igPieChart](igpiechart.html)
 
-### <a id="pie-event"></a> New Event for the Pie Chart
+### <a id="pie-event"></a> 円チャートの新しいイベント
 
-The igPieChart control now has a [`labelClick`](%%jQueryApiUrl%%/ui.igPieChart#events:labelClick) that fires when the labels of the pie slices are clicked.
+igPieChart コントロールには、スライスをクリックすると発生する [`labelClick`](%%jQueryApiUrl%%/ui.igPieChart#events:labelClick) があります。
 
-#### Related topics:
+#### 関連トピック:
 [igPieChart Overview](igpiechart-overview.html)
 
-### <a id="pie-label-coloring"></a> Label Coloring
+### <a id="pie-label-coloring"></a> ラベルの色付け
 
-You can now specify the color of the labels depending on whether they are rendered inside or outside of a pie slice, by setting the following options:
+次のオプションを設定して、ラベルをスライス内または外のどちらに表示するかに基づいて異なる色を指定できます。
 - [`labelInnerColor`](%%jQueryApiUrl%%/ui.igPieChart#options:labelInnerColor)
 - [`labelOuterColor`](%%jQueryApiUrl%%/ui.igPieChart#options:labelOuterColor)
 
 ![](images/piechart_inner_outer_label_color.png)
 
-#### Related topics:
+#### 関連トピック:
 
 - [`labelInnerColor`](%%jQueryApiUrl%%/ui.igPieChart#options:labelInnerColor)
 - [`labelOuterColor`](%%jQueryApiUrl%%/ui.igPieChart#options:labelOuterColor)
 
 
-### <a id="pie-data-path-renaming"></a> Data Path Options Renamed
-Two new options are added to the igPieChart control, these are intended to replace the existing [`valueMemberPath`](%%jQueryApiUrl%%/ui.igPieChart#options:valueMemberPath)  and [`labelMemberPath`](%%jQueryApiUrl%%/ui.igPieChart#options:labelMemberPath) options. The new options are [`dataValue`](%%jQueryApiUrl%%/ui.igPieChart#options:dataValue) and [`dataLabel`](%%jQueryApiUrl%%/ui.igPieChart#options:dataLabel). With the addition of these options, [`valueMemberPath`](%%jQueryApiUrl%%/ui.igPieChart#options:valueMemberPath)  and [`labelMemberPath`](%%jQueryApiUrl%%/ui.igPieChart#options:labelMemberPath) are now deprecated.
+### <a id="pie-data-path-renaming"></a> データ パス オプション名の変更
+ [`valueMemberPath`](%%jQueryApiUrl%%/ui.igPieChart#options:valueMemberPath)  および [`labelMemberPath`](%%jQueryApiUrl%%/ui.igPieChart#options:labelMemberPath) オプションに代わって、igPieChart コントロールに新しいオプションを追加しました。 新規のオプションは [`dataValue`](%%jQueryApiUrl%%/ui.igPieChart#options:dataValue) および [`dataLabel`](%%jQueryApiUrl%%/ui.igPieChart#options:dataLabel) です。 新しいオプションの追加により、 [`valueMemberPath`](%%jQueryApiUrl%%/ui.igPieChart#options:valueMemberPath)  および [`labelMemberPath`](%%jQueryApiUrl%%/ui.igPieChart#options:labelMemberPath) は非推奨となります。
 
 ## igScroll
 
-### <a id="igscroll"></a> New Control
+### <a id="igscroll"></a> 新しいコントロール
 
-The igScroll is a stand-alone JQueryUI widget that allows enabling custom scrollbars with fluid scrolling functionality for desktop, hybrid and mobile environments.
-It allows you to create a consistent scrolling experience across all scrolling containers on all devices.
+igScroll は、デスクトップ、ハイブリッド、およびモバイル環境でカスタム スクロールバーを有効にするスタンドアロン jQueryUI ウィジェットです。
+すべてのデバイスのスクロール コンテナー間で一貫性のあるスクロール エクスペリエンスを作成できます。
 
 ![](images/igscroll-basic.png)
 
 
-#### Related Topics
+#### 関連トピック
 -   [igScroll Overview](igScroll-Overview.html)
 -   [Configuring igScroll](Configuring-igScroll.html)
 
-#### Related Samples
--   [Basic Usage](%%SamplesUrl%%/scroll/basic-usage)
--   [Scrolling multiple containers at once](%%SamplesUrl%%/scroll/scrolling-multiple-containers)
--   [Configuration Options](%%SamplesUrl%%/scroll/configuration-options)
+#### 関連サンプル
+-   [基本的な使用方法](%%SamplesUrl%%/scroll/basic-usage)
+-   [複数のコンテナーを一度にスクロール](%%SamplesUrl%%/scroll/scrolling-multiple-containers)
+-   [構成オプション](%%SamplesUrl%%/scroll/configuration-options)
 
 
 ## igValidator
 
-### <a id="credit-card"></a> Adding Credit Card check
+### <a id="credit-card"></a> クレジット カードの検証を追加
 
-Adding [`creditCard`](%%jQueryApiUrl%%/ui.igValidator#options:creditCard) option and validation rule.
+[`creditCard`](%%jQueryApiUrl%%/ui.igValidator#options:creditCard) オプションおよび入力規則を追加しました。
 
-#### Related topics:
+#### 関連トピック:
 [Validation Rules](igvalidator-validation-rules.html)
 
 
 ## igEditors
 
-### <a id="editors"></a> Adding EmailAddress and Compare Data Annotation Validation Attributes
+### <a id="editors"></a> EmailAddress および Compare Data Annotation 検証属性の追加
 
-Feature | Description
+機能 | 説明
 ---|---
-EmailAddress | Validate text editor against a standard MVC email pattern.|
-Compare | Use for comparison between linked editors. Often used in a password fields matching scenario.|
+EmailAddress | テキスト エディターを標準の MVC 電子メールパターンで検証します。|
+Compare | 関連付けられたエディターを比較する場合に使用します。たとえば、パスワード フィールドのパスワードが一致するかどうかという場面で使用されます。|
