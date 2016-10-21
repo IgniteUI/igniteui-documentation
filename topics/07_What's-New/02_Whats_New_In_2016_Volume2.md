@@ -330,7 +330,7 @@ Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFun
 
 #### 柱状チャート
 
-**新規**  
+**現在**  
 
 
 ![](images/chart_design_column_new.png)
@@ -344,7 +344,7 @@ Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFun
 
 #### 凡例
 
-**新規**
+**現在**
 
 
 ![](images/chart_design_legend_new.png)
@@ -358,7 +358,7 @@ Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFun
 
 #### Stacked Area
 
-**新規**
+**現在**
 
 ![](images/chart_design_gallery_new.png)
 
@@ -369,7 +369,7 @@ Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFun
 
 #### Financial Charts
 
-**新規**
+**現在**
 
 ![](images/chart_design_financial_new.png)
 
@@ -379,7 +379,7 @@ Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFun
 
 #### Pie Chart
 
-**新規**
+**現在**
 
 ![](images/chart_design_pie_new.png)
 
@@ -389,7 +389,7 @@ Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFun
 
 #### Funnel Chart
 
-**新規**
+**現在**
 
 ![](images/chart_design_funnel_new.png)
 
@@ -399,7 +399,7 @@ Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFun
 
 #### Doughnut Chart
 
-**新規**
+**現在**
 
 ![](images/chart_design_doughnut_new.png)
 
@@ -410,7 +410,7 @@ Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFun
 
 #### Radial Gauge
 
-**新規**
+**現在**
 
 ![](images/chart_design_radial_gauge_new.png)
 
@@ -420,7 +420,7 @@ Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFun
 
 #### Linear Gauge
 
-**新規**
+**現在**
 
 ![](images/chart_design_linear_gauge_new.png)
 
@@ -430,7 +430,7 @@ Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFun
 
 #### Bullet Graph
 
-**新規**
+**現在**
 
 ![](images/chart_design_bullet_graph_new.png)
 
@@ -440,7 +440,7 @@ Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFun
 
 #### Sparkline
 
-**新規**
+**現在**
 
 ![](images/chart_design_sparkline_new.png)
 
@@ -448,10 +448,10 @@ Infragistics 2016 volume 2 リリースでは、igDataChart、igPieChart、igFun
 
 ![](images/chart_design_sparkline_previous.png)
 
-### <a id="file-size-reduction"></a> File Size Reduction
-The size of files required for loading a category series in igDataChart (column, area, line, spline, splineArea, stepLine, stepArea, waterfall) has dropped 24% between 16.1 and 16.2. 
+### <a id="file-size-reduction"></a> ファイル サイズの縮小
+16.2 と 16.1 を比べて、カテゴリ シリーズを igDataChart (柱状、アリア、折れ線、スプライン、splineArea、stepLine、stepArea、ウォーターフォール) にロードするために必要なファイルのサイズは 24% 縮小されました。
 
-Additionally, the features in igDataChart are broken into more individual modules than they were before, so it is possible to have finer grained control over exactly which features are loaded to reduce payload size. Chart feature modules no longer have any overlap between them, further conserving payload size when loading multiple feature sets.
+さらに、igDataChart の機能を個別のモジュールに分割し必要な機能のみをロードできる詳細な制御が可能になりました。したがって、ペイロード サイズも縮小されます。チャート機能モジュールが重複しなくなったため、複数の機能セットをロードするときのペイロード サイズを抑えることができます。
 
 ## igFunnelChart
 ### <a id="funnel-styling"></a> 新しいスタイル設定のプロパティ 
