@@ -64,8 +64,8 @@ infragistics.datachart.js| infragistics.legend.js  (凡例の表示に必要) <b
 
 要素 | CSS プロパティ | 以前 | 現在
 ---|---|---|---
-チャート軸 | background | #d6d6d6 |#d0d0d0
-チャート軸|border-color|#d6d6d6|#d0d0d0
+Chart axis| background | #d6d6d6 |#d0d0d0
+Chart axis|border-color|#d6d6d6|#d0d0d0
 Sparkline negatives park path|background|#F44336|#C62828
  Sparkline trendline|background|#E68A24 |#7f7f7f
 Sparkline first marker |background | #237FA7 |#2E9CA6
