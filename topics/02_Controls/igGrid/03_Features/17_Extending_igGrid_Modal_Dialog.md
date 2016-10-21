@@ -20,7 +20,7 @@
     -   [トピック](#topics)
 
 ## <a id="overview"></a> 概要
-`igGridModalDialog` is a widget which comes with igGrid's scripts and builds all dialog-based UI for igGrid's features. These include the `dialog` edit mode for igGridUpdating, the advanced filter dialog for igGridFiltering, the column chooser for igGridHiding, etc. The main features of the widget include the ability to block user interaction on the grid while it is opened, drag & resize constrained by containment options and visualization settings. Each grid feature using the widget exposes a certain amount of options that are then passed to the dialog on initialization, however, these options are often limited to what would make most sense and not break the dialog's functionality for the specific purpose it is serving. Further customization of the dialog is possible through extensions.
+`igGridModalDialog` は igGrid のスクリプトが含まれるウィジェットです。igGrid の機能のすべてのダイアログ ベースの UI をビルドします。igGridModalDialog のダイアログ編集モード、igGridFiltering の高度なフィルタリング ダイアログ、igGridHiding 列選択などが含まれます。ウィジェットの主な機能には、開いるときにコンテインメント オプションおよび可視設定によって制約されるドラッグ & サイズ変更する際にグリッドのユーザー操作をブロックする機能が含まれます。ウィジェットを使用した各グリッド機能は、特定のオプションを公開して初期化のダイアログへ渡されます。ただし、これらのオプションは最も有用である機能に制限され、特定の目的で使用しているダイアログ機能に影響しません。ダイアログの詳細なカスタマイズは拡張を機能で行うことができます。
 
 ## <a id="using-custom-dialogs"></a> カスタム ダイアログの使用
 `igGridModalDialog` を使用する各機能は、`dialogWidget` オプションを公開します。以下のリストは API のオプションの説明へのリンクを含みます。
