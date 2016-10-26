@@ -64,59 +64,59 @@ infragistics.datachart.js| infragistics.legend.js  (凡例の表示に必要) <b
 
 要素 | CSS プロパティ | 以前 | 現在
 ---|---|---|---
-Chart axis| background | #d6d6d6 |#d0d0d0
-Chart axis|border-color|#d6d6d6|#d0d0d0
-Sparkline negatives park path|background|#F44336|#C62828
- Sparkline trendline|background|#E68A24 |#7f7f7f
-Sparkline first marker |background | #237FA7 |#2E9CA6
- Sparkline last marker| background|#FBC139 |#FF9800
-Sparkline low marker |background | #AF39FF|#7446B9
-Sparkline high marker |background | #A3B929|#9FB328
- Sparkline negative markers|background |#F44336 |#C62828
-Sparkline axis x |border | #989EA3|#666
-Sparkline axis y |border |#989EA3 |#666
-Sparkline axis x |text-transform | Lowercase	|Uppercase	
-Sparkline axis y |text-transform | Lowercase	|Uppercase	
-Sparkline axis x |color|#406090 |#777
-Sparkline axis y |color |#406090 |#777
-Sparkline tooltip |box-shadow |0 0 2px #555555	 |0 0 2px rgba(0,0,0,0.6)	
-Sparkline tooltip |box-shadow | 3px 3px 5px rgba(0, 0, 0, 0.25)	|box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);	
-Sparkline tooltip |box-shadow |0 0 2px #555555 |0 0 2px rgba(0,0,0,0.6)	
-Sparkline tooltip |box-shadow |3px 3px 5px rgba(0, 0, 0, 0.25)| box-shadow: 0 0 2px rgba(0, 0, 0, 0.6)
-Sparkline tooltip|	padding	|3px	|	5px 8px	
-Sparkline tooltip|	font-size|		|	12px	
-Sparkline tooltip|	font-family	|		|"Segoe UI", Arial, sans-serif		
-Sparkline tooltip |	background-color |	#ffffff	|	rgba(255,255,255 .95)
-Sparkline sparkpath |	background |	#43ABD5	|	#439C47	
-Sparkline negativesparkpath	| background |	#B9242E	|	#C62828	
-RadialGauge Chart needle|	background-color|	#888888	|	#9a9a9a	
-RadialGauge Chart label	| background-color|	#333	|	#666	
-RadialGauge Chart range-palette-1 |	background-color |	#71b1c1	|	#439c47	
-RadialGauge Chart range-palette-2 |	background-color |	#408090	|	#ff9800	
-RadialGauge Chart range-palette-3 |	background-color |	#307080	|	#c62828	
-RadialGauge Chart range-palette-4 |	background-color |	#206070	|	#f96232	
-RadialGauge Chart range-palette-5 |	background-color |	#105060	 |	#9fb328
-RadialGauge Chart range-palette-6 |	background-color |	#014151	|	#7446b9	
-RadialGauge Chart |	font-size |	16px |		12px
-Bulletgraph label |	background-color |	#333 |		#666		
-Bulletgraph range palette 1	| background-color	| #14151	|	#439c47	
-Bulletgraph range palette 2	| background-color	| #206070	|	#ff9800	
-Bulletgraph range palette 3 | background-color	| #408090	|	#c62828	
-Bulletgraph range palette 4	 | background-color	|#71b1c1|		#3f51b5	
-Bulletgraph range palette 5	| background-color |	#a2e2f2	 |	#795548
-ig charts axis labels |	font-family	 | Verdana, Arial, Helvetica, sans-serif; |"Segoe UI",Arial,sans-serif;															
-ig charts tooltip |	box-shadow |	0 0 2px #555555	 |	0 0 2px rgba(0,0,0,0.6)	
-ig charts tooltip |	font-family	 | Verdana, Arial, Helvetica, sans-serif; |		"Segoe UI",Arial,sans-serif;					
-ig charts tooltip	| background-color	| rgba(255, 255, 255, 0.85)	|	rgba(255, 255, 255, 0.95)							
-ig charts tooltip|	border		|	| 1px solid #888	
-ig charts title	| color	| #696969	|	#666	
-ig charts subtitle |	color |	#696969	|	#666	
-ig charts horizontal-axis-title | color	| #696969|		#666
-ig charts vertical-axis-title |	color |	#696969	|	#666	
-ig charts horizontal-axis-labels |	color |	#9B9B9B	|	#777	
-ig charts vertical-axis-labels |	color|	#9B9B9B	 |	#777	
-ig charts angular-axis-labels |	color|	#9B9B9B	|	#777
-ig charts radial-axis-labels|	color|	#9B9B9B	|	#777	
+チャート軸| background | #d6d6d6 |#d0d0d0
+チャート軸|border-color|#d6d6d6|#d0d0d0
+スパークライン negativesparkpath|background|#F44336|#C62828
+スパークライン トレンドライン|background|#E68A24 |#7f7f7f
+スパークラインの始値マーカー |background | #237FA7 |#2E9CA6
+スパークラインの終値マーカー| background|#FBC139 |#FF9800
+スパークラインの安値マーカー |background | #AF39FF|#7446B9
+スパークラインの高値マーカー |background | #A3B929|#9FB328
+スパークラインの負値マーカー|background |#F44336 |#C62828
+スパークライン軸 X |border | #989EA3|#666
+スパークライン軸 Y |border |#989EA3 |#666
+スパークライン軸 X |text-transform | Lowercase	|Uppercase	
+スパークライン軸 Y |text-transform | Lowercase	|Uppercase	
+スパークライン軸 X |color|#406090 |#777
+スパークライン軸 Y |color |#406090 |#777
+スパークライン ツールチップ |box-shadow |0 0 2px #555555	 |0 0 2px rgba(0,0,0,0.6)	
+スパークライン ツールチップ |box-shadow | 3px 3px 5px rgba(0, 0, 0, 0.25)	|box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);	
+スパークライン ツールチップ |box-shadow |0 0 2px #555555 |0 0 2px rgba(0,0,0,0.6)	
+スパークライン ツールチップ |box-shadow |3px 3px 5px rgba(0, 0, 0, 0.25)| box-shadow: 0 0 2px rgba(0, 0, 0, 0.6)
+スパークライン ツールチップ|	padding	|3px	|	5px 8px	
+スパークライン ツールチップ|	font-size|		|	12px	
+スパークライン ツールチップ|	font-family	|		|"Segoe UI", Arial, sans-serif		
+スパークライン ツールチップ |	background-color |	#ffffff	|	rgba(255,255,255 .95)
+スパークライン sparkpath |	background |	#43ABD5	|	#439C47	
+スパークライン negativesparkpath	| background |	#B9242E	|	#C62828	
+RadialGauge チャート針|	background-color|	#888888	|	#9a9a9a	
+RadialGauge チャート ラベル	| background-color|	#333	|	#666	
+RadialGauge チャート range-palette-1 |	background-color |	#71b1c1	|	#439c47	
+RadialGauge チャート range-palette-2 |	background-color |	#408090	|	#ff9800	
+RadialGauge チャート range-palette-3 |	background-color |	#307080	|	#c62828	
+RadialGauge チャート range-palette-4 |	background-color |	#206070	|	#f96232	
+RadialGauge チャート range-palette-5 |	background-color |	#105060	 |	#9fb328
+RadialGauge チャート range-palette-6 |	background-color |	#014151	|	#7446b9	
+RadialGauge チャート |	font-size |	16px |		12px
+Bulletgraph ラベル |	background-color |	#333 |		#666		
+Bulletgraph 範囲パレット 1	| background-color	| #14151	|	#439c47	
+Bulletgraph 範囲パレット 2	| background-color	| #206070	|	#ff9800	
+Bulletgraph 範囲パレット 3 | background-color	| #408090	|	#c62828	
+Bulletgraph 範囲パレット 4	 | background-color	|#71b1c1|		#3f51b5	
+Bulletgraph 範囲パレット 5	| background-color |	#a2e2f2	 |	#795548
+IG チャート軸ラベル |	font-family	 | Verdana, Arial, Helvetica, sans-serif; |"Segoe UI",Arial,sans-serif;															
+IG チャート ツールチップ |	box-shadow |	0 0 2px #555555	 |	0 0 2px rgba(0,0,0,0.6)	
+IG チャート ツールチップ |	font-family	 | Verdana, Arial, Helvetica, sans-serif; |		"Segoe UI",Arial,sans-serif;					
+IG チャート ツールチップ	| background-color	| rgba(255, 255, 255, 0.85)	|	rgba(255, 255, 255, 0.95)							
+IG チャート ツールチップ|	border		|	| 1px solid #888	
+IG チャートのタイトル	| color	| #696969	|	#666	
+IG チャートのサブタイトル |	color |	#696969	|	#666	
+IG チャート horizontal-axis-title | color	| #696969|		#666
+IG チャート vertical-axis-title |	color |	#696969	|	#666	
+IG チャート horizontal-axis-labels |	color |	#9B9B9B	|	#777	
+IG チャート vertical-axis-labels |	color|	#9B9B9B	 |	#777	
+IG チャート angular-axis-labels |	color|	#9B9B9B	|	#777
+IG チャート radial-axis-labels|	color|	#9B9B9B	|	#777	
 chartPalette1|	background-color|	#77B5C5	|	#7446B9		
 chartPalette1|	border|	#3d7d8d	|	#ffffff	
 chartPalette2|	background-color|	#C0C0C0	|	#9FB328
@@ -141,15 +141,15 @@ chartPalette11|	background-color|	#7e7bc1	|	#C62828
 chartPalette11|	border|	#545794	|	#ffffff		
 ui-chart-legend	|border|1px solid #bcbcbc|	none	
 ui-chart-piechart-container	|border|1px solid #bcbcbc|none	
-Funnel chart|	font-size|	14px	|	12px
-Funnel chart|	color|	#555555	|	#666	
-Funnel chart Tooltip|	box-shadow	|3px 3px 5px rgba(0, 0, 0, 0.25)|0 0 2px rgba(0, 0, 0, 0.6)
-Funnel chart Tootip|	|#ffffff|rgba(255,255,255 .95)
-Funnel chart Tootip|padding	|3px|5px 8px
-Doughnut Chart|	color	|	|	#fff
-ui chart outerlabels|	color	|	|	#666	
-ui chart innerlabels|	color	|	|	#fff	
-Doughnut Tooltip|	padding	|3px	|	5px 8px																						
+ファンネル チャート|	font-size|	14px	|	12px
+ファンネル チャート|	color|	#555555	|	#666	
+ファンネル チャートのツールチップ|	box-shadow	|3px 3px 5px rgba(0, 0, 0, 0.25)|0 0 2px rgba(0, 0, 0, 0.6)
+ファンネル チャートのツールチップ|	|#ffffff|rgba(255,255,255 .95)
+ファンネル チャートのツールチップ|padding	|3px|5px 8px
+ドーナツ型チャート|	color	|	|	#fff
+UI チャート outerlabels|	color	|	|	#666	
+UI チャート innerlabels|	color	|	|	#fff	
+ドーナツ型チャートのツールチップ|	padding	|3px	|	5px 8px																						
 
 ## <a id="igChartLegendigOPDPane"></a>igChartLegend および igOPDPane は、ローダーを使用する場合明示的に要求される必要があります
 凡例は以前のモジュール構造ではチャートに依存していました。
