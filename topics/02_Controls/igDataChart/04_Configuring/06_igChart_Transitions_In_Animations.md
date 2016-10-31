@@ -140,7 +140,7 @@
 			<td>“true”</td>
 		</tr>
 		<tr>
-			<td>transitionInSpeedType</td>
+			<td>transitionInSpeed</td>
 			<td>“indexScaled”</td>
 		</tr>
 		<tr>
@@ -171,7 +171,9 @@ $("#chart").igDataChart({
          yAxis: "PopulationAxis",
          valueMemberPath: "Pop2005",
          isTransitionInEnabled: true,
-         transitionInSpeed: "indexSpeed"
+         transitionInSpeed: "indexSpeed",
+         transitionInEasingFunction: "cubicEase",
+         transitionInMode: "accordionFromRight
       }
    ]
 });
