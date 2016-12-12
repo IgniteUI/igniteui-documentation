@@ -374,7 +374,7 @@ circleUnderlayWithHole
 
 - [ラベル設定](%%SamplesUrl%%/radial-gauge/label-settings): このサンプルは、ラジアル ゲージ コントロールのラベル設定の方法を紹介します。スライダーを使用して、`labelInterval` および `labelExtent` プロパティのラベルへの影響を確認できます。
 
-- [針のドラッグ](%%SamplesUrl%%/radial-gauge/drag-needle): このサンプルは、Mouse イベントを使用してラジアル ゲージ コントロールの針をドラッグする方法を紹介します。
+- [針のドラッグ](%%SamplesUrl%%/radial-gauge/drag-needle): このサンプルは、isNeedleDraggingEnabled プロパティを使用してラジアル ゲージ コントロールの針をドラッグする方法を紹介します。
 
 - [範囲](%%SamplesUrl%%/radial-gauge/range): 範囲は、スケールで値の指定した領域を強調表示する視覚的な要素です。オプション ペインを使用してラジアルゲージコントロールの Range プロパティを設定できます。
 
