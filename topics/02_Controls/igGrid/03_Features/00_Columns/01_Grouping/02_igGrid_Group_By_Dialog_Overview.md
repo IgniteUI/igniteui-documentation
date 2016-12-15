@@ -14,7 +14,7 @@
 
 ### 目的
 
-このトピックでは、`igGrid`™ コントロールの 並べ替えダイアログについて説明します。
+このトピックでは、`igGrid`™ コントロールのグループ化ダイアログについて説明します。
 
 ### 前提条件
 
@@ -50,23 +50,23 @@
 
 ## <a id="introduction"></a> 概要
 
-### 並べ替えダイアログの概要
+### グループ化ダイアログの概要
 
-`igGrid` Group のモーダル ダイアログは、任意の列によるグリッドのグループ化を可能にするウィンドウです。並べ替えモーダル ダイアログによって、グループ化された列を順序を選択でき、またすべての列に変更を即座に適用、あるいは複数の列に変更を一度に適用することができます。これは、タッチ プラットフォーム デバイスで、`igGrid` ごとにグループ化する必要がある場合に非常に役立ちます。並べ替えダイアログ ウィンドウは、特にタッチ プラットフォーム デバイス向けに設計されています。
+`igGrid` グループ化のモーダル ダイアログは、任意の列によるグリッドのグループ化を可能にするウィンドウです。グループ化モーダル ダイアログによって、グループ化された列を順序を選択でき、またすべての列に変更を即座に適用、あるいは複数の列に変更を一度に適用することができます。これは、タッチ プラットフォーム デバイスで、`igGrid` ごとにグループ化する必要がある場合に非常に役立ちます。グループ化ダイアログ ウィンドウは、特にタッチ プラットフォーム デバイス向けに設計されています。
 
 ![](images/07_igGrid_GroupBy_ModalDialog_1.png)
 
 モーダル ダイアログ ウィンドウは、グリッド内でグループ化される順序で、グループ化された列を表示します。
 
-### 並べ替えダイアログへのアクセス
+### グループ化ダイアログへのアクセス
 
-並べ替えモーダル ダイアログ ウィンドウを開くには、並べ替え領域の列選択のラベルをクリックします。
+グループ化モーダル ダイアログ ウィンドウを開くには、グループ化領域の「列を選択」のラベルをクリックします。
 
-*Group By* ダイアログを表示するには、デフォルトではグリッドの上部にある `igGrid` 並べ替え領域の*列選択*リンクをクリックします。
+*Group By* ダイアログを表示するには、デフォルトではグリッドの上部にある `igGrid` グループ化領域の*列を選択*リンクをクリックします。
 
 ![](images/07_igGrid_GroupBy_ModalDialog_2.png)
 
-### igGrid および igHierarchicalGrid 並べ替えダイアログの違い
+### igGrid および igHierarchicalGrid グループ化ダイアログの違い
 
 `igGrid` および `igHierarchicalGrid` のダイアログの違いは、`igHierarchicalGrid` には追加のドロップ ダウンがあり、階層から列レイアウトを選択できることです。ドロップダウンからレイアウトを選択することによって、モーダル ダイアログは、現在のグリッド レイアウトのすべての列を表示します。表示された列のいくつかを選択することによって、グリッドをグループ化できます。新しいグリッド レイアウトを選択してから同じレイアウトに再び戻ると、グループ化された列の順序は保持されています。モーダル ダイアログの*すべてクリア* ボタンを押すことによって、すべてのグループ化をクリアできます。
 
@@ -84,7 +84,7 @@ igGrid|igHierarchicalGrid
 
 ### igGrid の構成可能な動作チャート
 
-以下の表は、並べ替えダイアログの構成可能な動作を示しています。このメソッドについては、表の下にある解説も参照してください。
+以下の表は、グループ化ダイアログの構成可能な動作を示しています。このメソッドについては、表の下にある解説も参照してください。
 
 動作|説明|*modalDialogGroupByOnClick* 値
 -------  | ----------- | ------------ 
@@ -114,7 +114,7 @@ igGrid|igHierarchicalGrid
 
 以下のボタンを使用します。
 
-1.  並べ替え - 現在の列を昇順にグループ化します (行全体がクリック可能です)。
+1.  グループ化 - 現在の列を昇順にグループ化します (行全体がクリック可能です)。
 2.  上矢印 - 列は昇順でグループ化されます。ボタンを押すと、降順でグループ化されます (行全体がクリック可能です)。
 3.  下矢印 - 列は降順でグループ化されます。ボタンを押すと、昇順でグループ化されます (行全体がクリック可能です)。
 4.  グループの解除 - 現在の列によるグループ化を解除します。
@@ -129,11 +129,11 @@ igGrid|igHierarchicalGrid
 
 以下のボタンを使用します。
 
-1.  並べ替え - 現在の列を昇順にグループ化します (行全体がクリック可能です)。
+1.  グループ化 - 現在の列を昇順にグループ化します (行全体がクリック可能です)。
 2.  上矢印 - 列は昇順でグループ化されます。ボタンを押すと、降順でグループ化されます (行全体がクリック可能です)。
 3.  下矢印 - 列は降順でグループ化されます。ボタンを押すと、昇順でグループ化されます (行全体がクリック可能です)。
 4.  グループの解除 - 現在の列によるグループ化を解除します。
-5.  適用 - 目的の順序で列を並べ替え、それを適用します。
+5.  適用 - 目的の順序で列をグループ化、それを適用します。
 6.  キャンセル - モーダル ダイアログを閉じ、変更を適用しません。
 7.  すべてクリア - すべてのレイアウト内のグループ化された列をすべて削除します。
 8.  ESC (キー) - モーダル ダイアログを閉じます。
@@ -159,7 +159,7 @@ igGrid|igHierarchicalGrid
 [modalDialogGroupByButtonText](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogGroupByButtonText) |ダイアログの Group By ボタンのテキストを指定します
 [modalDialogCaptionButtonDesc](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogCaptionButtonDesc) |ダイアログ内の降順に並べ替えられた各列のキャプションを指定します
 [modalDialogCaptionButtonAsc](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogCaptionButtonAsc) |ダイアログ内の昇順に並べ替えられた各列のキャプションを指定します
-[modalDialogCaptionButtonUngroup](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogCaptionButtonUngroup) |並べ替えダイアログ内のキャプション ボタンのグループ解除を指定します
+[modalDialogCaptionButtonUngroup](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogCaptionButtonUngroup) |グループ化ダイアログ内のキャプション ボタンのグループ解除を指定します
 [modalDialogCaptionText](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogCaptionText) |ダイアログのキャプション テキストを指定します
 [modalDialogDropDownLabel](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogDropDownLabel) |グリッド レイアウトを表示するモーダル ダイアログのドロップダウンのラベルを指定します。
 [modalDialogRootLevelHierarchicalGrid](%%jQueryApiUrl%%/ui.iggridgroupby#options:modalDialogRootLevelHierarchicalGrid) |レイアウトのツリー ダイアログを示す root レイアウトの名前を指定します
@@ -175,20 +175,20 @@ igGrid|igHierarchicalGrid
 
 このセクションでは、モーダル ダイアログに影響を及ぼす、`igGrid` の Group By メソッドについて説明します。
 
-以下の表は、モーダル ダイアログ API で定義される `igGrid` 並べ替えメソッドを示しています。
+以下の表は、モーダル ダイアログ API で定義される `igGrid` グループ化メソッドを示しています。
 
 メソッド|説明
 ------ | -----------
 [openGroupByDialog](%%jQueryApiUrl%%/ui.iggridgroupby#methods:openGroupByDialog) |ダイアログを表示します。表示されている場合、メソッドは何も行いません。
 [closeGroupByDialog](%%jQueryApiUrl%%/ui.iggridgroupby#methods:closeGroupByDialog) |ダイアログを非表示にします。非表示の場合、メソッドは何も行いません。
-[renderGroupByModalDialog](%%jQueryApiUrl%%/ui.iggridgroupby#methods:renderGroupByModalDialog) |並べ替えモーダル ダイアログのマークアップを描画します。マークアップがすでに描画されている場合、`openGroupByDialog` および `closeGroupByDialog` プロパティを使用して、モーダル ダイアログをオープン/クローズします。
+[renderGroupByModalDialog](%%jQueryApiUrl%%/ui.iggridgroupby#methods:renderGroupByModalDialog) |グループ化モーダル ダイアログのマークアップを描画します。マークアップがすでに描画されている場合、`openGroupByDialog` および `closeGroupByDialog` プロパティを使用して、モーダル ダイアログをオープン/クローズします。
 [openDropDown](%%jQueryApiUrl%%/ui.iggridgroupby#methods:openDropDown) |レイアウト ドロップダウンを開きます (`igHierarchicalGrid` の場合のみ)。
 [closeDropDown](%%jQueryApiUrl%%/ui.iggridgroupby#methods:closeDropDown) |レイアウト ドロップダウンを閉じます (`igHierarchicalGrid` の場合のみ)。
 
 
 ## <a id="event-reference"></a> イベント リファレンス
 
-このセクションでは、モーダル ウィンドウに関連付けられた、`igGrid` の並べ替えイベントについて説明します。
+このセクションでは、モーダル ウィンドウに関連付けられた、`igGrid` のグループ化イベントについて説明します。
 
 以下の表は、 モーダル ダイアログの操作中に発生する、`igGrid` の Sorting イベントを示しています。
 
