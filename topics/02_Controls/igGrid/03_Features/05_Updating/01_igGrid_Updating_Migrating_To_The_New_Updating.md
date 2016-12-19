@@ -92,8 +92,8 @@
 |オプション| 追加情報|
 ---|---
 |rowEditDialogOkCancelButtonWidth| ボタンの幅が CSS で設定可能なため、このオプションは削除されます。例: .ui-igbutton{ width: 300px}|
-|rowEditDialogRowTemplate| リファクタリングされたダイアログ編集モードのため、このオプションは削除されます。同様な機能を持つ新しいテンプレート化オプションは [dialogTemplate](%%jQueryApiUrl%%/ui.igGridUpdating#options:dialogTemplate) および [editorsTemplate](%%jQueryApiUrl%%/ui.igGridUpdating#options:editorsTemplate) です。設定の詳細については、「[行編集ダイアログの構成 (igGrid)](iggrid-updating-roweditdialog-configuring.html)」トピックを参照してください。
-|rowEditDialogRowTemplateID | リファクタリングされたダイアログ編集モードのため、このオプションは削除されます。同様な機能を持つ新しいテンプレート化オプションは [dialogTemplateSelector](%%jQueryApiUrl%%/ui.igGridUpdating#options:dialogTemplateSelector) および [editorsTemplateSelector](%%jQueryApiUrl%%/ui.igGridUpdating#options:editorsTemplateSelector) です。設定の詳細については、「[行編集ダイアログの構成 (igGrid)](iggrid-updating-roweditdialog-configuring.html)」トピックを参照してください。
+|rowEditDialogRowTemplate| リファクタリングされたダイアログ編集モードのため、このオプションは削除されます。同様な機能を持つ新しいテンプレート化オプションは [dialogTemplate](%%jQueryApiUrl%%/ui.igGridUpdating#options:rowEditDialogOptions.dialogTemplate) および [editorsTemplate](%%jQueryApiUrl%%/ui.igGridUpdating#options:rowEditDialogOptions.editorsTemplate) です。設定の詳細については、「[行編集ダイアログの構成 (igGrid)](iggrid-updating-roweditdialog-configuring.html)」トピックを参照してください。
+|rowEditDialogRowTemplateID | リファクタリングされたダイアログ編集モードのため、このオプションは削除されます。同様な機能を持つ新しいテンプレート化オプションは [dialogTemplateSelector](%%jQueryApiUrl%%/ui.igGridUpdating#options:rowEditDialogOptions.dialogTemplateSelector) および [editorsTemplateSelector](%%jQueryApiUrl%%/ui.igGridUpdating#options:rowEditDialogOptions.editorsTemplateSelector) です。設定の詳細については、「[行編集ダイアログの構成 (igGrid)](iggrid-updating-roweditdialog-configuring.html)」トピックを参照してください。
 
 #### 名前が変更されたイベント
 
