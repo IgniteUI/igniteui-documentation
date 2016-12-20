@@ -22,7 +22,7 @@
 
 - [Ignite UI コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックでは、Ignite UI™ コントロールのタッチ サポート インタラクションの更新内容を紹介します。
 
-- [機能セレクター](igGrid-Feature-Chooser.html): このトピックでは、`igGrid`™ 機能セレクター] メニューとそのそのセクションについて説明します。 
+- [機能セレクター](igGrid-Feature-Chooser.html): このトピックでは、`igGrid`™ 機能セレクター  メニューとそのそのセクションについて説明します。 
 
 - [igGrid Group By の概要](igGrid-GroupBy-Overview.html): このトピックでは、`igGrid` におけるグループ化を示します。
 
@@ -221,7 +221,7 @@ igGrid|igHierarchicalGrid
 
 - [Ignite UI コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックでは、Ignite UI™ コントロールのタッチ サポート インタラクションの更新内容を紹介します。
 
-- [機能セレクター](igGrid-Feature-Chooser.html): このトピックでは、`igGrid`™ 機能セレクター] メニューとそのそのセクションについて説明します。 
+- [機能セレクター](igGrid-Feature-Chooser.html): このトピックでは、`igGrid`™ 機能セレクター メニューとそのそのセクションについて説明します。 
 
 - [igGrid Group By の概要](igGrid-GroupBy-Overview.html): このトピックでは、`igGrid` におけるグループ化を示します。
  
@@ -233,11 +233,3 @@ igGrid|igHierarchicalGrid
 このトピックについては、以下のサンプルも参照してください。
 
 - [集計とグループ化](%%SamplesUrl%%/grid/grouping): igGrid グループ化のモーダル ダイアログ ウィンドウの操作を示すサンプル。
-
-
-
- 
-
- 
-
-
