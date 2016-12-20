@@ -8,148 +8,122 @@
 |metadata|
 -->
 
-# Styling igScroll
+# igScroll を使用したスタイル設定
 
-## Purpose
+## 目的
 
-This topic explains, with code examples, how to style the igScroll scrollbars to deliver different end-user experiences.
+このトピックでは、コード例を使用して igScroll スクロールバーのスタイルを設定し、さまざまなエンド ユーザー エクスペリエンスを提供する方法について説明します。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [Styling Summary](#summary)
-    - [Styling the scrollbar container](#container)
-    - [Styling the track area](#track)
-    - [Styling the scroll thumb](#thumbDrag)
-    - [Styling the arrows](#arrows)
-- [Styling example](#example)
-- [Related Content](#related)
+- [スタイル設定の概要](#summary)
+    - [スクロールバー コンテナーのスタイル設定](#container)
+    - [トラック エリアのスタイル設定](#track)
+    - [スクロールつまみのスタイル設定](#thumbDrag)
+    - [矢印のスタイル設定](#arrows)
+- [スタイル設定の例](#example)
+- [関連コンテンツ](#related)
 
-## <a id="summary"></a>Styling Summary
-The Ignite UI™ Scroll (or `igScroll`), like other jQuery widgets, provides different CSS classes that apply to
-specific UI elements. Each CSS class defines the look and feel of a DOM element that the igScroll renders.
+## <a id="summary"></a>スタイル設定の概要
+Ignite UI™ Scroll (または `igScroll`) は、他の jQuery ウィジェットと同様に、特定の UI 要素に適用される複数の CSS クラスを提供します。各 CSS クラスは、igScroll が描画する DOM 要素のルックアンドフィールを定義します。
 
-The list of the CSS classes that specifically apply to all elements regarding the vertical only custom scrollbars are:
+以下は、垂直方向のカスタム スクロールバーに関連する CSS クラスの一覧です。
 
-* Most outer container wrapping all others: `igscroll-vcontainer`
-* Track area: `igscroll-vtrack`
-* General vertical arrow: `igscroll-varrow`
-* Up arrow: `igscroll-uparrow`
-* Up arrow when active: `igscroll-uparrow-active`
-* Down arrow: `igscroll-downarrow`
-* Down arrow when active: `igscroll-downarrow-active`
-* General scroll thumb style: `igscroll-vdrag`
-* Scroll thumb in thin state: `igscroll-vdrag-thin`
-* Scroll thumb in big state: `igscroll-vdrag-big`
+* その他すべてをラップする 1 番外側のコンテナー: `igscroll-vcontainer`
+* トラック エリア: `igscroll-vtrack`
+* 一般の垂直方向の矢印: `igscroll-varrow`
+* 上方向の矢印: `igscroll-uparrow`
+* アクティブ状態の上方向の矢印: `igscroll-uparrow-active`
+* 下方向の矢印: `igscroll-downarrow`
+* アクティブ状態の下方向の矢印: `igscroll-downarrow-active`
+* 一般のスクロールつまみのスタイル: `igscroll-vdrag`
+* 細い状態のスクロールのつまみ: `igscroll-vdrag-thin`
+* 拡大状態のスクロールのつまみ: `igscroll-vdrag-big`
 
 
-To visualize which class for which element is being used refer to the following picture.
-It displays four different scenarios that the default custom scrollbar has and shows each class applied:
+使用されている要素ごとの CSS クラスは、次の図を参照してください。
+デフォルトのカスタム スクロールバーに含まれる 4 つの異なるシナリオ、およびシナリオで適用される各クラスが表示されます。
 
-![](images/igScroll-style-default.jpg)
+![](./images/igScroll-style-default.jpg)
 
-### <a id="container"></a> Styling the scrollbar container
+### <a id="container"></a> スクロールバー コンテナーのスタイル設定
 
-In order to style the container, position it differently and etc. only the `igscroll-vcontainer` class
-needs to be changed. On the image above can be seen that the container wraps all elements composing the vertical custom scrollbar.
-Setting the background color of that element for example will mean that all elements will have the new background 
-and will be positioned on top of it.
+コンテナーのスタイルを変更し、位置の変更などには、`igscroll-vcontainer` クラスのみ変更します。上記の図では、コンテナーが垂直カスタムス クロールバーを構成するすべての要素をラップすることを示します。
+たとえば、その要素の背景色を設定すると、すべての要素が新しい背景色を持ち、要素の上に配置されます。
 
-### <a id="track"></a>Styling the track area
+### <a id="track"></a>トラック エリアのスタイル設定
 
-To style the track area only the `igscroll-vtrack` class needs to be modified. The track area is container of the scroll thumb
-and that is the area where the scroll thumb is moving along. This area can also be seen in the screenshots above. It is position between the Up and Down arrows.
+トラック エリアをスタイル設定するには、`igscroll-vtrack` クラスのみを変更する必要があります。トラック エリアは、スクロールつまみのコンテナーで、スクロールつまみがそこへ移動します。エリアは上記のスクリーンショットにも表示されています。上方向と下方向の矢印の間にあります。
 
-### <a id="thumbDrag"></a>Styling the scroll thumb
+### <a id="thumbDrag"></a>スクロールつまみのスタイル設定
 
-1. Initial state
+1. 初期状態
 
-    The screenshot displays that initially by default only the scroll thumb is shown and it is visible in its thin state. 
-    The classes applied are `igscroll-vdrag` and `igscroll-vdrag-thin`.
+    スクリーンショットでは、デフォルトで細い状態のスクロールつまみのみが表示されることが分かります。 
+    適用されているクラスは `igscroll-vdrag` および `igscroll-vdrag-thin` です。
 
-    The first class is responsible for the overall look of the scroll thumb like background color, border styles and etc. The second class
-    is responsible for how it will look when the scroll thumb is its thin state. In general this class is used to
-    set the width and the left offset of the thumb relative to the parent element.
+    最初のクラスでは、背景色、境界線のスタイルなどのスクロールつまみの全体的な外観を設定します。2 つめのクラスでは、スクロールつまみが細い状態である場合の外観を設定します。一般的にこのクラスは、親要素に対するつまみの幅と左オフセットを設定するために使用されます。
 
-2. Hovering over the scrollbar area
+2. スクロールバー エリアのホバー
 
-    In the second scenario, because the scrollbar area is hovered, the scroll thumb is in its big state.
-    This is reflected in the classes that are being applied on it as well.
+    2 番目のシナリオでは、スクロールバーのエリアがホバーされているため、スクロールつまみは大きい状態にあります。
+    適用されているクラスも多少変わっています。
     
-    The first class `igscroll-vdrag` is the same as in the previous state. The `igscroll-vdrag-thin` is now removed and 
-    `igscroll-vdrag-big` is applied. The difference in this case is that now the width is higher and the left offset is 
-    smaller in order to compensate for the difference in the size.
+    最初のクラス、 `igscroll-vdrag` は、前の状態と同じです。今では、`igscroll-vdrag-thin` は使用されず、代わりに `igscroll-vdrag-big` が適用されています。この場合は、サイズの差を補うために、幅がより大きく、左のオフセットがより小さくなります。
 
-3. Hovering over the scroll thumb
+3. スクロールつまみのスクロール
 
-    When hovering the scroll thumb the `:hover` pseudo-selector is used on top of the `igscroll-vdrag` to change the color of the scrollbar.
-    That way it indicates that the scroll thumb is being hovered. Everything else stays the same as without the `:hover` state. 
-    This can be seen in the third scenario.
+    スクロールつまみをホバーすると、`igscroll-vdrag` の上に `：hover` 擬似セレクターが使用され、スクロールバーの色が変更されます。
+    これは、スクロールつまみがホバーされていることを示します。それ以外は、 `:hover` 状態と同じです。 
+    これは 3 番目のシナリオで示しています。
 
-4. Clicking on the scroll thumb
+4. スクロールつまみのクリック
 
-    Clicking on the scroll thumb will apply the `:active` pseudo-selector to it. Every other class still stays the same 
-    as when the scroll thumb is show and it is not being hovered. The active selector for the `igscroll-vdrag` is 
-    responsible for changing the look of the thumb when it is being clicked. Every other class still stays 
-    the same as when the big thumb is shown and it is not being hovered.
+    スクロールつまみをクリックすると、 `:active` 疑似セレクターがアクティブになります。それ以外のクラスは、スクロールつまみが表示され、ホバーされていない状態と同じです。`igscroll-vdrag` のアクティブ セレクターでは、つまみがクリックされた時の外観を設定します。それ以外のクラスは、大きいスクロールつまみが表示され、ホバーされていない状態と同じです。
 
-### <a id="arrow"></a>Styling the arrows
+### <a id="arrows"></a>矢印のスタイル設定
 
-1. Initial state
+1. 初期状態
 
-    The first example displays that the thin scroll thumb is shown and the arrows are not visible. 
-    If you want to set the arrows to be always visible, you simply need to change `igscroll-varrow` and set the opacity to 1.
+    最初の例は、細いスクロールつまみが表示され、矢印が表示されない状態を示しています。 
+    矢印を常に表示するためには、`igscroll-varrow` を変更して不透明度を 1 に設定する必要があります。
 
-2. Hovering over the scrollbar area
+2. スクロールバー エリアのホバー
 
-    When you are not interacting with an arrow, but the area of the scrollbar is being hovered with the mouse
-    the `igscroll-varrow`, `igscroll-varrow:before`, `igscroll-downarrow` and `igscroll-downarrow:before` classes are used.
+    矢印に動作を加えないが、マウスでスクロールバーのエリアをホバーしする場合、 `igscroll-varrow`、`igscroll-varrow:before`、`igscroll-downarrow` および `igscroll-downarrow:before` が使用されます。
     
-    The `igscroll-varrow` defines the background color, while the second class defines the background image that will be on top 
-    of the background color. In this case the background color is not set and it is transparent and only the image
-    is visible. The `:before` pseudo-selector is responsible only for the rotation of the background image and other transformations
-    regarding the background image.
+    `igscroll-varrow` は背景色を定義し、2 つ目のクラスは背景色の上に配置される背景画像を定義します。この場合、背景色は設定されず透明になります。画像のみが表示されます。`:before` 擬似セレクターでは、背景画像の回転および背景画像に関連するその他の変換のみを設定します。
 
-3. Hovering over an arrow
+3. 矢印のホバー
 
-    When hovering over an arrow  all classes stay unchanged. Only the `:hover` pseudo-selector is being applied on top of the `igscroll-varrow` class. 
-    This way the arrow can be styled additionally. For example if the background color needs to be 
-    different when hovering, the `:hover` pseudo-selector needs to have the new background color that will be used.
+    矢印をホバーする場合、適用されるクラスに変更はありません。`igscroll-varrow` クラスの上に `:hover` 疑似セレクターが適用されるのみです。 
+    このように矢印をさらにスタイル設定できます。例えば、ホバー時に背景色を変更する必要がある場合、`:hover` 疑似セレクターに、使用される新しい背景色を含ませる必要があります。
 
-4. Clicking on an arrow
+4. 矢印のクリック
 
-    When clicking the down arrow, the classes applied to that elements are `igscroll-varrow`,
-    `igscroll-varrow:active`, `igscroll-varrow:before`, `igscroll-downarrow-active` and `igscroll-downarrow-active:before`.
-    This scenario can be seen as the second one on the screenshot above. 
+    下方向の矢印をホバーする場合、`igscroll-varrow`、`igscroll-varrow:active`、`igscroll-varrow:before`、`igscroll-downarrow-active` および `igscroll-downarrow-active:before` のクラスが適用されます。
+    上記の 2 つめのスクリーンショットでこのシナリオを示しています。 
 
-    The first class is used to define overall default properties applied to both Up and Down arrows.
-    The `:active` pseudo-selector is used to define the background color that an arrow would have when it is being clicked on.
-    The `:before` pseudo-selector is used to specify the background image and set its properties. The background image will be
-    places on top of the background color. The before selector is used to properly position the background image,
-    set its size, position and etc.
+    最初のクラスは、上方向の矢印および下方向の矢印の両方に適用される、全体のデフォルト プロパティを定義するために使用されます。
+    `:Active` 疑似セレクターは、クリックしたときの矢印の背景色を定義するために使用します。
+    `:Before` 疑似セレクターは背景画像を指定し、そのプロパティを設定するために使用します。背景画像は背景色の上に配置されます。セレクターが背景画像を正しく配置するために使用される前にサイズや位置などを設定します。
 
-    The classes `igscroll-downarrow-active` and its `:before` pseudo-selector are used to specify exactly how
-    the down arrows should be styled which being active. The class is used for general properties regarding the down arrow.
-    The `:before` pseudo-selector is used like the `igscroll-varrow:before` and
-    in it the background image is changed. In the default custom scrollbars it is used as well to rotate
-    the background image so the arrow points down.
+    クラス `igscroll-downarrow-active` および `:before` 疑似セレクターは下矢印がアクティブなときのスタイルを指定するために使用します。クラスは下矢印に関して全般プロパティに使用されます。
+    `:Before` 疑似セレクターは `igscroll-varrow:before` のように使用されて背景画像が変更されます。デフォルトのカスタム スクロールバーも矢印が下を向くように背景画像を回転するために使用されます。
 
-**Note:** Similar classes are used for the horizontal scrollbar. Their naming can be seen in the [igScroll API](%%jQueryApiUrl%%/ui.igscroll#theming).
+> **注**: 同じようなクラスが水平スクロールバーに使用されます。名前については [igScroll API](%%jQueryApiUrl%%/ui.igscroll#theming) を参照してください。
 
-## <a id="example"></a>Styling example
+## <a id="example"></a>スタイル設定の例
 
-In this example we will describe how to style the vertical scrollbar so it will look like on the image bellow. It
-will not hide when we do not hover the content area and it will not change its size. It will also have the 
-arrows hidden to provide more minimalistic look: 
+この例では、以下のような画像の垂直スクロールバーのスタイルを設定する方法について説明します。コンテンツ領域をホバーしないときに非表示にせず、サイズも変更しません。最小限にするために矢印を非表示にすることもできます。 
 
-![](images/igScroll_style1.jpg)
+![](./images/igScroll_style1.jpg)
 
-1. Initializing the igScroll
+1. igScroll の初期化
 
-    The igScroll is initialized on a `div` element that has a couple of paragraphs. We have styled that `div` to
-    have a border that is displayed above. The scrollbar that we are gonna style will be always visible, that's why
-    the alwaysVisible option of the igScroll should be set to true. The whole initialization would look like:
+    igScroll は、数段落を持つ要素 `div` で初期化されます。`Div` で上に境界線を表示するよう設定しました。スタイル設定するスクロールバーを常に表示するために、igScroll  の alwaysVisible オプションを true に設定します。初期化は全体として次のようになります:
 
     ```javascript
     $("#loremText").igScroll({
@@ -158,7 +132,7 @@ arrows hidden to provide more minimalistic look:
     });
     ```
 
-    The actual body of that html sample looks like:
+    実際の html の body のサンプルは次のようになります:
 
     ```html
     <div id="loremText" tabindex="1">
@@ -169,7 +143,7 @@ arrows hidden to provide more minimalistic look:
     </div>
     ```
 
-    The div element has the following style applied to it:
+    div 要素が以下のスタイルを適用します。
 
     ```css
     #loremText {
@@ -183,22 +157,20 @@ arrows hidden to provide more minimalistic look:
     }
     ```
 
-    We have added some padding as well to make sure that the scrollbars do not cover the text area on the right side. The width and the height
-    of it specifies the general visible area for the text that will be displayed.
+    パディングを追加し、スクロールバーが右側のテキスト領域を覆わないように注意します。幅と高さは、表示されるテキストの表示領域を指定します。
 
-    Now that we have initialized the igScroll we can proceed with the styling of the actual scrollbars.
-    The classes that we will be using and where are they applied is displayed in the next screenshot:
+    ここまでで igScroll を初期化が完了しました。次は実際のスクロールバーのスタイル設定します。
+    使用するクラスと適用する場所は次のスクリーンショットを確認してください。
 
-    ![](images/igScroll_style1_info.jpg)
+    ![](./images/igScroll_style1_info.jpg)
 
-2. Styling the arrows for the vertical scrollbar
+2. 垂直スクロール バーの矢印のスタイル設定
 
-    In order to always hide the Up and Down arrow the `igscroll-varrow` class is used, which is set 
-    to "visibility: hidden". This way both arrows will not be visible.
+    上矢印と下矢印を常に非表示にするには、`igscroll-varrow`クラスを使用し、"visibility: hidden に設定します。これで両方の矢印が非表示になります。
 
-3. Styling the track area
+3. トラック エリアのスタイル設定
 
-    To style the track area only the `igscroll-vtrack` class is used. The css for it is:
+    トラックエリアのスタイル設定は、`Igscroll-vtrack` クラスを使用します。使用する CSS:
 
     ```css
     .igscroll-vtrack {
@@ -209,18 +181,14 @@ arrows hidden to provide more minimalistic look:
     }
     ```
 
-    In that class we set the background color to be grey, round the edges using `border-radius` and add a box shadow.
-    The width is set to 12px in order to be the same size like the scroll thumb.
+    このクラスで背景色をグレーに設定し、`border-radius` で角丸にして、更にボックス シャドーを追加しました。
+    幅は、スクロールつまみと同じ 12px に設定します。
 
+4. スクロールつまみのスタイル設定
 
-4. Styling the scroll thumb
+    垂直スクロールつまみのスタイル設定は、クラスをいくつか変更します。最初のクラスは main クラスの `igscroll-vdrag` です。主にスクロールバーのスタイル設定に使用します。このクラスでは初期の背景色を指定し、`border-radius` を設定してトラックエリアと統一します。更に `box-shadow` と `border` を追加してより際立たせます。
 
-    Styling the vertical scroll thumb requires editing a few of the classes that are applied to it. The first class
-    that we will look into is the main class `igscroll-vdrag`. It is mainly used to style the scrollbar. In that class
-    we specify the initial background color, set `border-radius` so that it matches the track area,
-    add `box-shadow` and `border` to make it more distinguished.
-
-    The css for that class would look like:
+    クラスの CSSは 次のようになります:
 
     ```css
     .igscroll-vdrag {
@@ -231,10 +199,7 @@ arrows hidden to provide more minimalistic look:
     }
     ```
 
-    Now that we have set the basic style we will need to specify the width so it matches the track area. We will
-    need to set the left offset as well, so that the scrollbar is positioned properly. To do that we will need
-    to set both `igscroll-vdrag-thin` and `igscroll-vdrag-big`. This way we make sure the scrollbar will
-    stay the same size and will not change its width when we are no longer hovering the scrollbar area. 
+    基本スタイルを設定しました。次に幅を設定してトラックエリアと統一させます。スクロールバーを正しく配置するために左オフセットを設定する必要があります。それには `igscroll-vdrag-thin` および `igscroll-vdrag-big` を両方設定する必要があります。これにより、スクロールバー領域をホバーしていないときもスクロールバーが幅を変更せずに同じサイズのままとなります。 
 
     ```css
     .igscroll-vdrag-thin {
@@ -248,10 +213,7 @@ arrows hidden to provide more minimalistic look:
     }
     ```
 
-    To add a final touch to our scrollbar and make it so that the scroll thumb changes its color when we
-     hover or when we click on it we will change the `hover` and `active` selectors for the main class
-     `igscroll-vdrag`. Example for achieving that is by changing the background color to darker tones of
-     the same color:
+    スクロールバーの仕上げとして、main クラス `igscroll-vdrag` の `hover` および `active` セレクターを変更して、ホバーまたはクリック時にスクロールつまみの色を変更します。次のように背景色を同じ色のより暗い色に変更します:
 
      ```css
     .igscroll-vdrag:hover {
@@ -263,13 +225,12 @@ arrows hidden to provide more minimalistic look:
     }
      ```
 
-## <a id="related"></a> Related Content
+## <a id="related"></a> 関連コンテンツ
 
-### Topics
--   [igScroll Overview](igScroll_Overview.html)
--   [Configuring igScroll](Configuring-igScroll.html)
+### トピック
+-   [igScroll の概要](igScroll-Overview.html)
+-   [igScroll の構成](Configuring-igScroll.html)
 
-### Samples
--   [Styling static scrollbars](%%SamplesUrl%%/scroll/styling-static)
--   [Styling dynamic scrollbars](%%SamplesUrl%%/scroll/styling-dynamic)
-
+### サンプル
+-   [静的スクロールバーをスタイル設定](%%SamplesUrl%%/scroll/styling-static)
+-   [動的スクロールバーのスタイル設定](%%SamplesUrl%%/scroll/styling-dynamic)
