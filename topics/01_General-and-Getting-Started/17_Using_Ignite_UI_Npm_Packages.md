@@ -29,31 +29,34 @@ npm install ignite-ui
 
 Ignite UI の最新向上を使用するには、npm を構成する必要があります。 
 
-npm が使用しているレジストリを変更します。以下のコマンドを実行します。
+最初にプライベート レジストリを設定します。Infragistics アカウントにログインするユーザー名およびパスワードを入力する必要があります。Infragistics プロファイルに登録されるメールも入力してください。この手順では次のことに注意してください。npm はユーザー名で「@」の使用を許可しません。ユーザー名が Infragistics アカウントのメール アドレスであるため、「@」記号を含みます。この制限を回避するには、「@」記号の代わりに「!!」(2 つの感嘆符) を使用します。 たとえば、ユーザー名が username@infragistics.com の場合、username!!infragistics.com と入力します。
+
+```bash
+npm adduser --registry=https://packages.infragistics.com/npm/js-licensed --always-auth
+```
+
+その後、レジストリを設定します。以下のコマンドを実行します。
 
 ```bash
 npm config set registry https://packages.infragistics.com/npm/js-licensed
 ```
 
-その後、npm がレジストリにアクセスする際の認証を構成します。
+上記コマンドの代わりに、ローカル [.npmrc](https://docs.npmjs.com/files/npmrc) ファイルを作成し、そのファイルでレジストリを設定できます。 この方法でレジストリはグローバルに設定されません。このプロジェクトのみに設定されます。
+
+完了した後、ログイン済みで、プロジェクトで Ignite UI の最新バージョンをインストールできます。
 
 ```bash
-npm config set always-auth true
+npm install ignite-ui-full
 ```
 
-最後に、npm を使用して ProGet にログインするために adduser コマンドを実行します。
+npm にレジストリの制限があるため、プライベート レジストリを使用し、ローカル .npmrc ファイルを作成しなかった場合、npmjs.com からパッケージをインストールするには、レジストリを変更する必要があります。T単一のコマンドで、追加の構成は必要ありません。
+以下のコマンドを実行します。
 
 ```bash
-npm adduser
+npm config set registry https://registry.npmjs.org/
 ```
 
-Infragistics アカウントにログインするユーザー名およびパスワードを提供する必要があります。Infragistics プロファイルに登録されるメールも提供します。完了した後、ログイン済みで、プロジェクトで Ignite UI の最新バージョンをインストールできます。
-
-```bash
-npm install ignite-ui
-```
-
-このプライベート レジストリを使用しても、追加の構成なしで npmjs.com からのパッケージをすべてインストールできます。 
+同じコマンドでプライベート フィードに戻ります。.npmrc ファイルをローカルに作成した場合、レジストリを変更する必要はありません。
 
 npm を既に使用していて、Ignite UI ライセンスがある場合、Infragistics プライベート フィードを構成してください。 
 
