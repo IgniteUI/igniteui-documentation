@@ -315,6 +315,7 @@ IE 8 では、フィルタリング行領域が不正になる|IE 8 でグルー
 GroupBy 機能および連続的仮想化の使用時の制限|`igGrid` の連続的仮想化を使用してグループ化機能を有効にしている場合、垂直スクロールにより、グループが初期状態 ([`initialExpand`](%%jQueryApiUrl%%/ui.iggridgroupby#options:initialExpand) オプションに基づいて展開状態または縮小状態) に戻ります。 | ![](images/negative.png)
 グループ化が固定仮想化を使用しても機能しない|`igGrid` の GroupBy 機能は、固定仮想化を使用しても機能しません。 | ![](images/negative.png)
 [列を非表示にすると Firefox のグリッドが縮小する](#groupby-hide-firefox)|GroupBy 機能が有効で `igGrid` が定義された列幅を持たない場合、列を非表示にすると Firefox ブラウザーのグリッドが縮小します。 | ![](images/positive.png)
+リモート グループ化がリモート ページングと正しく動作しません。 | リモート ページングおよびリモート グループ化が有効な場合、ページ カウントおよびページ サイズが正しくなくなります。| ![](images/negative.png)
 
 
 
