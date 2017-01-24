@@ -81,7 +81,8 @@
 
 以下の図では、タイプは *local* (左側の画像)、また *remote* (右側の画像) に設定されています
 
-![](images/igGrid_Configuration_Column_Summaries_01.png)   ![](images/igGrid_Configuration_Column_Summaries_02.png)
+<img style="float:left" src="images/igGrid_Configuration_Column_Summaries_01.png" />
+<img src="images/igGrid_Configuration_Column_Summaries_02.png" />
 
 ## <a id="type-property-settings"></a> プロパティ設定 
 以下の表は、プロパティ設定の推奨構成をマップしています。プロパティは *igGridSummaries* オプションからアクセスされます。
@@ -138,7 +139,10 @@ $(function () {
 以下の図では、オプション calculateRenderMode は okcancelbuttons (左側の画像) および「onselect」(右側の画像) に設定されています。
  
 
-![](images/igGrid_Configuration_Column_Summaries_03.png)  ![](images/igGrid_Configuration_Column_Summaries_04.png)  
+<p style="display:inline-block">
+<img style="float:left" src="images/igGrid_Configuration_Column_Summaries_03.png" />
+<img src="images/igGrid_Configuration_Column_Summaries_04.png" />
+</p>
 
 ### <a id="calculation-property-settings"></a> 計算モードを構成するプロパティ設定 
 
