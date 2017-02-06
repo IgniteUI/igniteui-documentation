@@ -165,10 +165,10 @@ var ds = new $.ig.DataSource({
 	
 	![](images/igDataSource_Overview_01.png)
 
- ###  <a id="filter-by-text"></a>Filter by Text 
-The `igDataSource` component provides a way to search for a specific words or phrases in all of its fields. This is done by the [filterByText](%%jQueryApiUrl%%/ig.datasource#options:methods.filterByText) method.
+ ###  <a id="filter-by-text"></a>テキストでフィルターする
+`igDataSource` コンポーネントは、すべてのフィールドで特定の単語または句を検索する方法を提供します。検索には [filterByText](%%jQueryApiUrl%%/ig.datasource#options:methods.filterByText) メソッドを使用します。
 
-**In Javascript:**
+**Javascript の場合:**
 	
 ```js
 var ds = new $.ig.DataSource({
@@ -191,9 +191,9 @@ fd = ds.dataView();
 // }]
 ```   
  
-If a field has a formatter function the method will take it into account and it will find the records that has the corresponding value. 
+フィールドに formatter 関数がある場合、メソッドはそれを使用し、対応する値を持つレコードを検索します。
 
-**In Javascript:**
+**Javascript の場合:**
 
 ```js
 var ds = new $.ig.DataSource({
@@ -218,37 +218,37 @@ fd = ds.dataView();
 // }]
 ```
 
-There are a few specific cases that are worth pointing out:
+いくつかのケースを以下に説明します。
 
-1.  Search for several words at a time - if the expression consists of 2 or more words separated by space the method will search for a value that contains all of the words regardless of the order.
+1.  複数の単語を一度に検索 - 式はスペースによって分割される 2 つ以上の単語がある場合、メソッドはすべての単語 (順序を無視) を含む値を検索します。
 
-**In Javascript:**
+**Javascript の場合:**
 
 ```js
 ds.filterByText("bread tasty");
 ```
 
-2.  Search for a phrase - surrounding the text with double quotes will make the method search for the words in the order they were passed. This also includes the formatted values.
+2.  フレーズを検索 - テキストを二重引用符で囲むと、メソッドは渡される順序で単語を検索します。書式付きの値も含みます。
 
-**In Javascript:**
+**Javascript の場合:**
 
 ```js
 ds.filterByText('"tasty bread"');
 ```
 
-3.  Filter a set of fields - the method provides a way to search for text only in specific fields. They are passed as a parameter in the form of an array.
+3.  フィールドのセットをフィルター - メソッドは特定のフィールドのみでテキストを検索する方法を提供します。配列としてパラメーターによって渡されます。
 
-**In Javascript:**
+**Javascript の場合:**
 
 ```js
 ds.filterByText("bread", [{name: "Name", type: "string"}]);
 ```
  
-4. If some of the words in the expression are a substring of another word they will be ignored. For example if the expression looks like this: "1 2 12", the method will filter by "12" only.
+4. 式の単語がその他の単語の部分文字列である場合は、無視されます。たとえば、式が "1 2 12" の場合、メソッドは "12" のみでフィルターします。
 
-Example of how this functionality works could be found below :
+以下は本機能の例です。
 
-**In Javascript:**
+**Javascript の場合:**
 
 <div style="700px; overflow-y: scroll">
 <div >
