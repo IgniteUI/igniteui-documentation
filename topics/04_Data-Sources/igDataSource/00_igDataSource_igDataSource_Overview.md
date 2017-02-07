@@ -165,7 +165,7 @@ var ds = new $.ig.DataSource({
 	
 	![](images/igDataSource_Overview_01.png)
 
- ###  <a id="filter-by-text"></a>テキストでフィルターする
+###  <a id="filter-by-text"></a>テキストでフィルターする
 `igDataSource` コンポーネントは、すべてのフィールドで特定の単語または句を検索する方法を提供します。検索には [filterByText](%%jQueryApiUrl%%/ig.datasource#options:methods.filterByText) メソッドを使用します。
 
 **Javascript の場合:**
@@ -222,38 +222,35 @@ fd = ds.dataView();
 
 1.  複数の単語を一度に検索 - 式はスペースによって分割される 2 つ以上の単語がある場合、メソッドはすべての単語 (順序を無視) を含む値を検索します。
 
-**Javascript の場合:**
+ **Javascript の場合:**
 
-```js
-ds.filterByText("bread tasty");
-```
+ ```js
+ ds.filterByText("bread tasty");
+ ```
 
 2.  フレーズを検索 - テキストを二重引用符で囲むと、メソッドは渡される順序で単語を検索します。書式付きの値も含みます。
 
-**Javascript の場合:**
+ **Javascript の場合:**
 
-```js
-ds.filterByText('"tasty bread"');
-```
+ ```js
+ ds.filterByText('"tasty bread"');
+ ```
 
 3.  フィールドのセットをフィルター - メソッドは特定のフィールドのみでテキストを検索する方法を提供します。配列としてパラメーターによって渡されます。
 
-**Javascript の場合:**
+ **Javascript の場合:**
 
-```js
-ds.filterByText("bread", [{name: "Name", type: "string"}]);
-```
- 
+ ```js
+ ds.filterByText("bread", [{name: "Name", type: "string"}]);
+ ```
+
 4. 式の単語がその他の単語の部分文字列である場合は、無視されます。たとえば、式が "1 2 12" の場合、メソッドは "12" のみでフィルターします。
 
-以下は本機能の例です。
+ 以下は本機能の例です。
 
-**Javascript の場合:**
+ **Javascript の場合:**
 
-<div style="700px; overflow-y: scroll">
-<div >
-
-```js
+ ```js
 <!DOCTYPE html>
 <html>
 	<head>
@@ -334,16 +331,8 @@ ds.filterByText("bread", [{name: "Name", type: "string"}]);
 	</body>
 </html>
 ```
-</div>
-</div>
 
-##関連トピック
+## 関連トピック
 
 -   [igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html)
 -   [DataSchema を使用したデータ変換の実行 (igDataSource)](igDataSource-Using-DataSchema.html)
-
- 
-
- 
-
-
