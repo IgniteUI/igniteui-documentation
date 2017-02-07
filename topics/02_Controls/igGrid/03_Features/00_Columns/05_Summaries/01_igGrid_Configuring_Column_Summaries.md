@@ -81,8 +81,10 @@
 
 以下の図では、タイプは *local* (左側の画像)、また *remote* (右側の画像) に設定されています
 
+<p style="display:inline-block">
 <img style="float:left" src="images/igGrid_Configuration_Column_Summaries_01.png" />
 <img src="images/igGrid_Configuration_Column_Summaries_02.png" />
+</p>
 
 ## <a id="type-property-settings"></a> プロパティ設定 
 以下の表は、プロパティ設定の推奨構成をマップしています。プロパティは *igGridSummaries* オプションからアクセスされます。
