@@ -29,7 +29,7 @@ npm install ignite-ui
 
 Ignite UI の最新向上を使用するには、npm を構成する必要があります。 
 
-First you need to setup the private registry and to associate this registry with the Infragistics scope. This will allow you to seamlessly use a mix of packages from the public npm registry and the Infragistics private registry. You will be asked to provide the username and the password that you use for logging into your Infragistics account. You should also provide the email that is registered to your Infragistics profile. There is an important note that you must have in mind during this step! npm is disallowing the use of the "@" symbol inside your username as it is considered as being "not safe for the net". Because your username is actually the email that you use for your Infragistics account it always contains the symbol "@". That's why you must escape this limitation by replacing the "@" symbol by "!!" (two exclamation marks). For example, if your username is "username@infragistics.com" when asked about your username you should provide the following input: "username!!infragistics.com".
+最初にプライベート レジストリを構成し、レジストリを Infragistics スコープと関連付けます。これにより公開用の npm レジストリおよびプライベート Infragistics レジストリからのパッケージを同時に使用できます。Infragistics アカウントにログインするユーザー名およびパスワードを入力する必要があります。Infragistics プロファイルに登録されるメールも入力してください。この手順では次のことに注意してください。npm はユーザー名で「@」の使用を許可しません。ユーザー名が Infragistics アカウントのメール アドレスであるため、「@」記号を含みます。この制限を回避するには、「@」記号の代わりに「!!」(2 つの感嘆符) を使用します。たとえば、ユーザー名が username@infragistics.com の場合、username!!infragistics.com と入力します。
 
 ```js
 npm adduser --registry=https://packages.infragistics.com/npm/js-licensed --scope=@infragistics --always-auth
@@ -49,7 +49,7 @@ npm config set @infragistics:registry https://packages.infragistics.com/npm/js-l
 npm install @infragistics\ignite-ui-full
 ```
 
-Have in mind that we have set the Ignite UI package to be scoped, meaning that no changing the registries is needed if you want to install packages from our private feed and from npmjs.org simultaneously.
+Ignite UI パッケージをスコープに設定したため、プライベート フィードおよび npmjs.org からのパッケージを同時にインストールするためにレジストリを変更する必要はありません。
 
 npm を既に使用していて、Ignite UI ライセンスがある場合、Infragistics プライベート フィードを構成してください。 
 
