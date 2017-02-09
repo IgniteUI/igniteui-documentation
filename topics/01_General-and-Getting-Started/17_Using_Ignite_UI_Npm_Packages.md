@@ -11,7 +11,7 @@
 
 npm は Node.js ランタイム環境で使用する一般的なデフォルト パッケージ マネージャーです。プロジェクトに依存するパッケージをすばやく簡単に処理できます。npm の使用方法の詳細については、[npm ヘルプ](https://docs.npmjs.com)を参照してください。
 
-Infragistics Ignite UI は npm パッケージで提供されるため、プロジェクトの依存関係として追加できます。Ignite UI npm パッケージを使用する 2 通りの方法があります。[https://packages.infragistics.com/npm/js-licensed](https://packages.infragistics.com/npm/js-licensed) にホストされるプライベート (非公開) npm フィードを使用することを推薦します。最新の機能および機能向上を含む Ignite UI パッケージの最新バージョンはフィードに提供されます。有効な Ignite UI ライセンスがある場合、Ignite UI の製品版をプライベート フィードによりアクセスできます。 
+Infragistics Ignite UI は npm パッケージで提供されるため、プロジェクトの依存関係として追加できます。Ignite UI npm パッケージを使用する 2 通りの方法があります。[https://packages.infragistics.com/npm/js-licensed](https://packages.infragistics.com/npm/js-licensed) にホストされるプライベート (非公開) npm フィードを使用することを推薦します。最新の機能および機能改善を含む Ignite UI パッケージの最新バージョンはフィードに提供されます。有効な Ignite UI ライセンスがある場合、Ignite UI の製品版をプライベート フィードによりアクセスできます。 
 
 または、[https://www.npmjs.com](https://www.npmjs.com/package/ignite-ui) のオフィシャル npm フィードを使用できます。この方法により npm を構成する必要はありませんが、パッケージの Ignite UI OSS バージョンが提供されます。[パッケージのページ](https://www.npmjs.com/package/ignite-ui)で OSS バージョンに含まれる Ignite UI コントロールを確認できます。
 
@@ -27,7 +27,7 @@ npm install ignite-ui
 
 ## Infragistics プライベート フィードから Ignite UI npm パッケージをインストール
 
-Ignite UI の最新向上を使用するには、npm を構成する必要があります。 
+Ignite UI の最新版を使用するには、npm を構成する必要があります。 
 
 最初にプライベート レジストリを構成し、レジストリを Infragistics スコープと関連付けます。これにより公開用の npm レジストリおよびプライベート Infragistics レジストリからのパッケージを同時に使用できます。Infragistics アカウントにログインするユーザー名およびパスワードを入力する必要があります。Infragistics プロファイルに登録されるメールも入力してください。この手順では次のことに注意してください。npm はユーザー名で「@」の使用を許可しません。ユーザー名が Infragistics アカウントのメール アドレスであるため、「@」記号を含みます。この制限を回避するには、「@」記号の代わりに「!!」(2 つの感嘆符) を使用します。たとえば、ユーザー名が username@infragistics.com の場合、username!!infragistics.com と入力します。
 
@@ -41,12 +41,10 @@ npm adduser --registry=https://packages.infragistics.com/npm/js-licensed --scope
 npm config set @infragistics:registry https://packages.infragistics.com/npm/js-licensed
 ```
 
-上記コマンドの代わりに、ローカル [.npmrc](https://docs.npmjs.com/files/npmrc) ファイルを作成し、そのファイルでレジストリを設定できます。 この方法でレジストリはグローバルに設定されません。このプロジェクトのみに設定されます。
-
 完了した後、ログイン済みで、プロジェクトで Ignite UI の最新バージョンをインストールできます。
 
 ```js
-npm install @infragistics\ignite-ui-full
+npm install @infragistics/ignite-ui-full
 ```
 
 Ignite UI パッケージをスコープに設定したため、プライベート フィードおよび npmjs.org からのパッケージを同時にインストールするためにレジストリを変更する必要はありません。
