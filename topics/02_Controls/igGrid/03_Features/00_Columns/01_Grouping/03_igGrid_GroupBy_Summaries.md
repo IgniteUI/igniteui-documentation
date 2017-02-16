@@ -8,40 +8,40 @@
 |metadata|
 -->
 
-# GroupBy Summary Feature Overview (igGrid)
+# グループ化集計の機能概要 (igGrid)
 
-## Topic Overview
+## トピックの概要
 
-### Purpose
+### 目的
 
-This topic introduces the Group Summaries functionality of the `igGrid`™.
-
-
-### In this topic
-
-This topic contains the following sections:
-
--   [GroupBy Summmaries Feature Overview](#summaries-overview)
--   [Enabling GroupBy Summmaries](#enable-summaries)
-	- [Basic settings](#summaries-basic)
-	- [Advanced settings](#summaries-advanced)
-    - [Custom Summaries](#summaries-custom)
--   [Related Content](#related-content)
+このトピックでは、`igGrid`™ のグループ集計機能を紹介します。
 
 
-## <a id="summaries-overview"></a> GroupBy Summmaries Feature Overview
+### このトピックの内容
 
-The GroupBy Summaries feature allows an additional summary row to be displayed below each group data island that displays summary information for the data columns in that island. The below image demonstrates a grid with grouped columns where below each group the total sum of the "Price" column is displayed in a summary row:
+このトピックは、以下のセクションで構成されます。
+
+-   [グループ化集計の機能概要](#summaries-overview)
+-   [グループ化集計機能の有効化](#enable-summaries)
+	- [基本設定](#summaries-basic)
+	- [詳細設定](#summaries-advanced)
+    - [カスタム集計](#summaries-custom)
+-   [関連コンテンツ](#related-content)
+
+
+## <a id="summaries-overview"></a> グループ化集計の機能概要
+
+グループ化集計機能は、そのアイランドにあるデータ列の集計情報を表示するグループ データ アイランドの下に追加の集計行を表示します。以下の画像は、グループ化された列を持つグリッドで各グループの下に「Price」列の合計数が集計行に表示されます。
 
 ![](images/igGrid_GroupBy_Summaries_Overview_01.png)
     
-This feature allows the user to display the result for either a default summary function (Sum, Min, Max, Avg etc.) or a custom one in order to provide a meaningful summary for the data group.
+この機能は、データ グループの意味のある集計を提供するためにデフォルトの集計関数 (合計、最小値、最大値、平均値など) の結果、またはカスタム集計の結果を表示できます。
 
-## <a id="enable-summaries"></a> Enabling GroupBy Summmaries
+## <a id="enable-summaries"></a> グループ化集計機能の有効化
 
-### <a id='summaries-basic'></a> Basic settings
+### <a id='summaries-basic'></a> 基本設定
 
-In order to enable the group summaries feature the [`groupSummaries`](%%jQueryApiUrl%%/ui.iggridgroupby#options:groupSummaries) option should be enabled:
+グループ集計機能を有効にするには、[`groupSummaries`](%%jQueryApiUrl%%/ui.iggridgroupby#options:groupSummaries) オプションを有効にします。
 
 ```js
 $("#grid1").igGrid({
@@ -56,33 +56,33 @@ $("#grid1").igGrid({
 ```
 
 
-When enabled the grid will render the default summaries for the related column type. 
-The default column summaries per column type are:
+有効な場合、グリッドは関連の列タイプにデフォルト集計を描画します。 
+以下は列タイプに基づいたデフォルト列集計です。
 
-Summary | Applicable for column of type |
+集計|適用する列型 |
 -------  | ------- |
-Count | All column types
-Min | number, date
-Max | number, date
-Sum | number
-Avg | number
+カウント|すべての列タイプ
+最小値|数値、日付
+最大値|数値、日付
+合計値|数値
+平均|数値
 
-Below you can see an example result with the default settings:
+以下にデフォルト設定の結果の例を示します。
 
 ![](images/igGrid_GroupBy_Summaries_Overview_02.png)
 
-The applicabe column types as well as other default summaries related options can be modified via the `$.ig.util.defaultSummaryMethods` collection.
+適用可能な列タイプおよびデフォルト集計に関連するその他のオプションを `$.ig.util.defaultSummaryMethods` で変更できます。
 
-### <a id='summaries-advanced'></a>Advanced settings
+### <a id='summaries-advanced'></a>詳細設定
 
-The following list contains information on the main summaries related options.
+以下のリストはメイン集計に関連するオプションについての情報を含みます。
 
 | Option | Description | Default values | Valid Values|
 |--------|-------------|----------------|-------------|
-[groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:groupSummaries) |Controls the default summary methods that will be applied to each column. <br/> When **true** - default summaries are enabled for all columns.  <br/> When **false** - default summaries are disabled  for all columns.  <br/>When **array** - the specified in the array summaries are applied for all columns.  See [groupSummariesObject](#groupSummariesObject) for summary object format. <br/>| false | true, false, array|
-[columnSettings.groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:columnSettings.groupSummaries)| Array of objects setting the summaries for the column the columnSettings responds to. Takes precedent over the main groupSummaries option.<br/> When **true** - default summaries are enabled for specific column.  <br/> When **false** - default summaries are disabled for specific column.  <br/>When **array** - the specified in the array summaries are applied for specific column. See [groupSummariesObject](#groupSummariesObject) for summary object format.<br/> | null | true, false, array, null|
+[groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:groupSummaries) |各列に適用されるデフォルト集計メソッドを制御します。<br/>**true** の場合 - デフォルト集計はすべての列で有効されます。<br/>**false** の場合 - デフォルト集計はすべての列で無効されます。<br/>**array** の場合 - 配列に指定された集計はすべての列で適用されます。集計オブジェクトの形式については [groupSummariesObject](#groupSummariesObject) を参照してください。<br/>|false |true, false, array|
+[columnSettings.groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:columnSettings.groupSummaries)|columnSettings の列の集計を設定するオブジェクトの配列。メイン groupSummaries オプションより優先があります。<br/>**true** の場合 - デフォルト集計は指定した列で有効されます。<br/>**false** の場合 - デフォルト集計は指定した列で無効されます。<br/>**array** の場合 - 配列に指定された集計は指定した列で適用されます。集計オブジェクトの形式については [groupSummariesObject](#groupSummariesObject) を参照してください。<br/>|null |true, false, array, null|
 
-The groupSummaries option allows enabling/disabling the summaries by setting true/false or specifying an array of the default summary methods that will be applied for all columns that allow that summary type. The below example demonstrates specifying a single default summary of type "Sum":
+groupSummaries オプションは、true/false に設定して集計を有効/無効にできます。また、その集計タイプを許可するすべての列で適用されるデフォルトの集計メソッドを配列で指定できます。以下の例は「合計」の単一のデフォルト集計の設定を指定することを紹介します。
 
 ```js
 $("#grid1").igGrid({
@@ -101,29 +101,29 @@ $("#grid1").igGrid({
 });
 ```
 
-This summary will be applied for all columns whose data type allows applying it. 
-In this example since the "Sum" summary is only applicable for numeric columns all of the numeric columns in the grid will have a "Sum" summary displayed in the summary row.
+この集計は、データ型が適用を許可するすべての列に適用されます。 
+この例で、「合計」は数値列のみに適用可能ため、グリッドのすべての数値列は集計行で「合計」集計が表示されます。
 
-The columnSettings.groupSummaries option allows specifying a summary per column, which takes higher priority than the groupSummaries main level option. When this option is set for a particular column any settings related to this column from the main groupSummaries option are disregarded.
+columnSettings.groupSummaries オプションは列で集計の指定を許可します。これは groupSummaries メイン レベル オプションより高い優先があります。特定の列でこのオプションが設定される場合、この列に関連するメイン groupSummaries オプションからの設定は無視されます。
 
-The <a id="groupSummariesObject"></a>**groupSummariesObject** used for specifying the summary options has the following properties:
-Name| Description | Type | Default value |
+集計オプションの指定のために使用される <a id="groupSummariesObject"></a>**groupSummariesObject** は以下のプロパティを持ちます:
+名前|説明|タイプ|デフォルト値 |
 ----|-------------|------|---------------|
-summaryFunction|Name or custom function specifying the summary.| string or function |
-label | Sets the label that will be used when displaying the summary value.| string |
-summaryTemplate| Sets the template for each summary result. |string | "{label}{value}"
-format | Applies format for the summary value. | string | The grid’s column.format value.
+summaryFunction|集計を指定する名前またはカスタム関数。|string または function |
+label |集計値の表示で使用されるラベルを設定します。|string |
+summaryTemplate|各集計結果のテンプレートを設定します。|string |"{label}{value}"
+format |集計値の書式設定を適用します。|string |グリッドの column.format 値。
 
-They allow futher customization of the look of the summary when it gets displayed in the grid summary row.
+グリッドの集計行に表示される集計の外観をカスタマイズできます。
 
-### <a id='summaries-custom'></a> Custom summaries
+### <a id='summaries-custom'></a> カスタム集計
 
-Custom summaries allow specifying a custom function for aggregating the data from the data islands.
-In order to set a custom summary you can set a function to the `summaryFunction` property of the group summaries object.
-Depending on whether you want to apply the custom summary to all columns or just for a specific one you can define the group summaries object either in the top level GroupBy groupSummaries array or the one in the columnSettings for a particular columns. 
-The function accepsts the data island data and should return the summary result for that data.
+カスタム集計は、データ アイランドからのデータの集計に使用するカスタム関数を指定します。
+カスタム集計を設定するには、グループの summaries オブジェクトの `summaryFunction` プロパティに関数を設定します。
+カスタム集計をすべての列または特定の列に適用することに基づいて、グループ集計オブジェクトを最上位 GroupBy groupSummaries 配列または特定の列の columnSettings で定義します。 
+関数はデータ アイランドのデータを受け、そのデータの集計結果を返します。
 
-Custom Summary Example:
+カスタム集計の例:
 
 ```js
 $("#grid1").igGrid({
@@ -158,12 +158,12 @@ function existingCount(data) {
  ```
 
 
-## <a id="related-content"></a> Related Content
+## <a id="related-content"></a> 関連コンテンツ
 
-### <a id="topics"></a> Topics
+### <a id="topics"></a> トピック
 
-The following topics provide additional information related to this topic.
+このトピックに関連する追加情報については、以下のトピックを参照してください。
 
-- [Grid Outlook Group By Getting Started](igGrid-Enabling-GroupBy.html)
+- [グリッド Outlook Group By のセットアップ](igGrid-Enabling-GroupBy.html)
 
-- [Grid Outlook Group By Properties Reference](%%jQueryApiUrl%%/ui.iggridgroupby#options)
+- [グリッド Outlook Group By プロパティ リファレンス](%%jQueryApiUrl%%/ui.iggridgroupby#options)
