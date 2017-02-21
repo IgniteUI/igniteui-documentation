@@ -148,7 +148,7 @@
 
 ###<a id="example"></a> 例
 
-以下のスクリーンショットは、以下の設定の結果、チャートのタイトルとサブタイトルの外観がどのようになるか示しています。
+以下は、チャート タイトルの設定表およびこの構成を実装する実例です。
 
 <table class="table">
 	<thead>
@@ -160,48 +160,35 @@
 	<tbody>
 		<tr>
 			<td>title</td>
-			<td>“Energy Use Per Country”</td>
+			<td>"国別エネルギー生産量"</td>
 		</tr>
 		<tr>
 			<td>titleTextColor</td>
-			<td>“Red”</td>
+			<td>"#2e9ca6"</td>
 		</tr>
 		<tr>
 			<td>titleTextStyle</td>
-			<td>“24pt Verdona”</td>
+			<td>"20pt Arial"</td>
 		</tr>
 		<tr>
-			<td>Subtitle</td>
-			<td>“Results over a two year period”</td>
+			<td>subtitle</td>
+			<td>"総一次エネルギー生産国トップ 5"</td>
 		</tr>
 		<tr>
 			<td>subtitleTextColor</td>
-			<td>“Blue”</td>
+			<td>"#2e9ca6"</td>
 		</tr>
 		<tr>
 			<td>subtitleTextStyle</td>
-			<td>“16pt Verdona”</td>
+			<td>"14pt Arial"</td>
 		</tr>
 	</tbody>
 </table>
 
-![](images/igDataChart_Chart_Title_02.png)
-
-以下のコードはこの例を実装します。
-
-**HTML の場合:**
-
-```html
-$("#container").igDataChart({
-	…
-    title: "Energy Use Per Country",
-    titleTextColor: "red",
-    titleTextStyle: "24pt Verdona",
-    subtitle:"Results over a two year period",
-    subtitleTextColor: "blue",
-    subtitleTextStyle: "16pt Verdona",
-});
-```
+<div class="embed-sample">
+   [チャートのタイトルおよびサブタイトル](%%SamplesEmbedUrl%%/data-chart/chart-title)
+   ![](images/igDataChart_Chart_Title_02.png)
+</div>
 
 ##<a id="related-content"></a>関連コンテンツ
 
@@ -213,13 +200,6 @@ $("#container").igDataChart({
 
 -	[igDataChart の追加](igDataChart-Adding.html): このトピックでは、`igDataChart` コントロールをページに追加し、データにバインドする方法を紹介します。
 
-
-
-### <a id="samples"></a>サンプル
-
-以下のサンプルでは、このトピックに関連する情報を提供しています。
-
--	[チャートのタイトルとサブタイトル](%%SamplesUrl%%/data-chart/chart-title): `igDataChart` コントロールのタイトルとサブタイトル機能により、`igDataChart` コントロールの一番上のセクションに情報を追加できます。
 
 
 
