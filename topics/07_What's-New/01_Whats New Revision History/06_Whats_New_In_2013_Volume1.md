@@ -556,9 +556,9 @@ Ignite UI `igGrid` エディター コントロールにおけるKnockout ライ
 
 Knockout のサポートは、Knockout バインディングがページに適用されるときに最初に呼び出される Knockout 拡張機能として、View-Model への外部更新が起こったときにページの存続期間中に実装されます。また、data-bind 属性においてビジネス案件に対して関連度を有するいずれかのエディター コントロール オプションを指定できます。
 
-#### 関連サンプル
+#### 関連トピック
 
-[**グリッド Knockoutjs の結合**](%%SamplesUrl%%/grid/bind-grid-with-ko)
+[**グリッド Knockoutjs の結合**](igGrid-Configuring-Knockout-Support.html)
 
 ### <a id="column-fixing-ctp"></a>列の固定化 (CTP)
 
