@@ -12,15 +12,15 @@
 
 
 
-##トピックの概要
+## トピックの概要
 
 
-###目的
+### 目的
 
 
 このトピックでは、`igCombo` コントロールでの各種データ バインド方式について説明し、データ バインディングに関するその他の詳細情報を示します。
 
-###このトピックの内容
+### このトピックの内容
 
 
 このトピックは、以下のセクションで構成されます。
@@ -31,9 +31,12 @@
 -   データ ソースへのバインドに関する概要
 -   データ ソースへのバインドに関するクラス図
 -   [igCombo をデータにバインド - 手順](#basicig-combo-data-binding)
+-	[サンプル](#demos)
+	-	[HTML のバインド](#html-binding)
+	-	[XML のバインド](#xml-binding)
 -   [関連トピック](#related-topics)
 
-###前提条件
+###　前提条件
 
 
 まず以下のトピックを読む必要があります。
@@ -41,10 +44,10 @@
 -   [igCombo の概要](igCombo-Overview.html)
 -   [igCombo のセットアップ](igCombo-Getting-Started.html)
 
-##<a id="BindingtoDataSources"></a>igCombo をデータにバインド - 概要 
+##　<a id="BindingtoDataSources"></a>igCombo をデータにバインド - 概要
 
 
-###バインドの要件
+###　バインドの要件
 
 
 次は、`igCombo` コントロールとデータ ソースとのバインドに関する要件をカテゴリ別にまとめたものです。
@@ -67,7 +70,7 @@
 -   Boolean
 -   Date
 
-###サポートされるデータ ソース
+###　サポートされるデータ ソース
 
 
 以下は、サポートされているデータ ソース、および各データ ソースのバインドに関する基本情報を示します。
@@ -78,34 +81,34 @@
 
 -	**`IQueryable<T>`**: ASP.NET MVC では、igCombo のデータ ソースとして `IQueryable<T>` を指定します。そのコレクションは、ブラウザーでの使用に合わせて JSON にシリアル化されて View と共に返されます。
 
-##<a id="binding-to-data-sources"></a>データ ソースへのバインドに関する概要
+##　<a id="binding-to-data-sources"></a>データ ソースへのバインドに関する概要
 
 
 ほとんどの場合、`igCombo` の `dataSource` または `dataSourceUrl` オプションを使用してデータのバインドを行います。このオプションは、サポートされるさまざまなデータ形式を処理できる `igDataSource` へデータを提供します。ただし、SELECT 要素を使用して `igCombo` のインスタンスを作成する場合は例外で、このオプションは使用しません。この場合、`igCombo` はそのベース SELECT 要素のデータおよびオプションを継承します。ASP.NET MVC では、ASP.NET MVC ヘルパーに `IQueryable<T>` を供給すると、サーバーからのデータを簡単にシリアル化して、View と共にクライアントへ渡せるようになります。そのページがブラウザーに渡されると、`igCombo` の `dataSource` オプションが設定されてクライアント側での操作に使用されます。
 
-###データ ソースへのバインドに関するクラス図
+###　データ ソースへのバインドに関するクラス図
 
 
 次のクラス図はデータ バインドの仕組みを示したものです。
 
 ![](images/igCombo_DataBinding_01.png)
 
-##<a id="basicig-combo-data-binding"></a>igCombo をデータにバインド - 手順 
+##　<a id="basicig-combo-data-binding"></a>igCombo をデータにバインド - 手順
 
 
-###概要
+###　概要
 
 
 以下の手順は基本オプションの構成方法と、jQuery および ASP.NET MVC ヘルパーの両方を使用したデータへのバインド方法を示しています。
 
-###プレビュー
+###　プレビュー
 
 
 以下は最終結果のプレビューです。
 
 ![](images/igCombo_DataBinding_02.png)
 
-###要件
+###　要件
 
 
 この手順を実行するには、以下が必要です。
@@ -115,7 +118,7 @@
 -   Web ページ上の必要な JavaScript ファイルと CSS ファイルへの参照
 -   (ASP.NET MVC) `Infragistics.Web.Mvc.dll` アセンブリへの参照
 
-###概要
+###　概要
 
 
 以下はプロセスの概念的概要です。
@@ -124,36 +127,36 @@
 
 **2.データへのバインド**
 
-###手順
+###　手順
 
 1. **`igCombo` をインスタンス化します。**
 
 	**a. ターゲット要素を定義します。**
-	
+
 	Web ページで、`igCombo` のベース オブジェクトとしての役割を果たすターゲットの HTML 要素を定義し、その ID を設定します。これは ASP.NET MVC のオプション手順です。
-	
+
 	**HTML の場合:**
-	
+
 	```html
 	<select id="comboTarget"></select>
 	```
-	
+
 	**b. `igCombo` をインスタンス化します。**jQuery では、document ready JavaScript イベントを使用してコンボをインスタンス化できます。ASP.NET MVC では、ASP.NET MVC ヘルパーを使用して、`IQueryable` データ ソースにバインドします。
-	
+
 	**HTML の場合:**
-	
+
 	```html
 	<script type="text/javascript">
 	     $(function () {
 	          $("#comboTarget").igCombo({
-	 
+
 	          });
 	      });
 	</script>
 	```
-	
+
 	**ASPX の場合:**
-	
+
 	```csharp
 	<%= Html.
 	    Infragistics().
@@ -165,11 +168,11 @@
 2. **データへバインドします。**
 
 	**a. データを定義します。**
-	
+
 	jQuery では、この例は単純な JSON 配列にバインドします。このデータはページ要求の一部分として渡すか、Web サービスから返すことができます。ASP.NET MVC では、この例はサーバーの Controller クラスで定義され、View でモデルとして返される、Color オブジェクトのコレクションにバインドします。
-	
+
 	**HTML の場合:**
-	
+
 	```html
 	var colors = [
 	     { "Name": "Black" },
@@ -180,9 +183,9 @@
 	     { "Name": "Yellow" }
 	];
 	```
-	
+
 	**C# の場合:**
-	
+
 	```csharp
 	public class DefaultController : Controller
 	{
@@ -195,25 +198,25 @@
 	        colors.Add(Color.Red);
 	        colors.Add(Color.White);
 	        colors.Add(Color.Yellow);
-	 
+
 	        return View("default", colors.AsQueryable());
 	     }
 	}
 	```
-	
+
 	**b. データ ソースを設定します。**
-	
+
 	`dataSource` オプションを使用してデータをコンボに提供します。ASP.NET MVC では、ヘルパーの DataSource メソッドを使用して、Model の一部として渡されるデータにバインドします。
-	
+
 	**HTML の場合:**
-	
+
 	```html
 	$("#comboTarget").igCombo({
 	    dataSource: colors});
 	```
-	
+
 	**ASPX の場合:**
-	
+
 	```csharp
 	<%= Html.
 	    Infragistics().
@@ -222,61 +225,75 @@
 	    DataSource(this.Model as IQueryable<System.Drawing.Color>)
 	%>
 	```
-	
+
 	**c. text フィールドおよび value フィールドを構成します。**
-	
+
 	`igCombo` の `textKey` オプションおよび `valueKey` オプションを設定します。この単純な例では、`textKey` と `valueKey` は両方とも「Name」という同じオブジェクト値に設定されています。ただし、`textKey` および `valueKey` は 2 つの異なるフィールドとして設定できます。たとえば、`valueKey` は各 Color オブジェクトの ID フィールドをポイントする場合があります。
-	
+
 	**HTML の場合:**
-	
+
 	```html
 	$("#comboTarget").igCombo({
 	    dataSource: colors,    textKey: "Name",
 	    valueKey: "Name",
 	});
 	```
-	
+
 	**ASPX の場合:**
-	
+
 	```csharp
 	<%= Html.
 	    Infragistics().
 	    Combo().
 	    ID("comboTarget").
 	    TextKey("Name").
-	    ValueKey("Name").  
+	    ValueKey("Name").
 	    DataSource(this.Model as IQueryable<System.Drawing.Color>)
 	%>
 	```
-	
+
 	**d. (ASP.NET MVC) DataBind() および Render() を呼び出します。**
-	
+
 	ASP.NET MVC ヘルパーで `igCombo` をインスタンス化する場合、他のオプションの構成がすべて終了した後、DataBind メソッドを呼び出してデータにバインドし、最後にレンダリング メソッドを呼び出します。これは、クライアントで `igCombo` をインスタンス化するのに必要な HTML および JavaScript を描画するメソッドです。
-	
+
 	**ASPX の場合:**
-	
+
 	```csharp
 	<%= Html.
 	    Infragistics().
 	    Combo().
 	    ID("comboTarget").
 	    TextKey("Name").
-	    ValueKey("Name").  
+	    ValueKey("Name").
 	    DataSource(this.Model as IQueryable<System.Drawing.Color>).
 	    DataBind().
 	    Render() %>
 	```
 
-##<a id="related-topics"></a>関連トピック
+## <a id="demos"></a>サンプル
+オンライン コンボへのバインディングの実例
+### <a id="html-binding"></a>HTML のバインド
 
+igCombo は HTML SELECT 要素に直接バインドできます。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/combo/html-binding](%%SamplesEmbedUrl%%/combo/html-binding)
+</div>
+  
+### <a id="xml-binding"></a>XML のバインド
+igCombo は XML データへのバインドをサポートします。このサンプルは、XML 文字列への基本バインドを表示します。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/combo/xml-binding](%%SamplesEmbedUrl%%/combo/xml-binding)
+</div>
+	
+##<a id="related-topics"></a>関連トピック
 
 以下は、その他の役立つトピックです。
 
 -   [igCombo データにバインドについての概要](igCombo-Binding-to-Data.html) 
 -   [カスケード igCombo コントロールをデータにバインド](igCombo-Cascading.html) 
 
- 
 
- 
 
 
