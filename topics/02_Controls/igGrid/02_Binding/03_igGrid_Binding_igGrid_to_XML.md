@@ -112,9 +112,9 @@ var xmldoc = loadXMLDoc("http://myurl.com/XML100.Pretty.Printed.xml")
 ![](images/Binding_to_XML_01.png)
 
 
-## 関連サンプル
-
--   [XML のバインド](%%SamplesUrl%%/grid/xml-binding)
+<div class="embed-sample">
+   [XML のバインド](%%SamplesEmbedUrl%%/grid/xml-binding)
+</div>
 
 ## 関連トピック
 
