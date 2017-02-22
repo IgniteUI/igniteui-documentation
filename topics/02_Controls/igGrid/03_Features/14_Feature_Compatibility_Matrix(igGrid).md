@@ -134,7 +134,7 @@
 ![](images/positive.png "Fixed Virtualization/Paging")
 			</td>
             <td class="fixed-virtualization responsive">
-![](images/positive.png "Fixed Virtualization/Responsive")
+![](images/negative.png "Fixed Virtualization/Responsive")
 			</td>
             <td class="fixed-virtualization resizing">
 ![](images/negative.png "Fixed Virtualization/Resizing")
@@ -252,10 +252,10 @@
 ![](images/positive.png "Column Virtualization/Unbound Columns")
 			</td>
             <td class="column-virtualization column-moving">
-![](images/positive.png "Column Virtualization/Column Moving")
+![](images/negative.png "Column Virtualization/Column Moving")
 			</td>
             <td class="column-virtualization filtering">
-![](images/positive.png "Column Virtualization/Filtering")
+![](images/plannedFix.png "Column Virtualization/Filtering")
 			</td>
             <td class="column-virtualization groupby">
 ![](images/negative.png "Column Virtualization/GroupBy")
@@ -276,7 +276,7 @@
 ![](images/positive.png "Column Virtualization/Paging")
 			</td>
             <td class="column-virtualization responsive">
-![](images/positive.png "Column Virtualization/Responsive")
+![](images/negative.png "Column Virtualization/Responsive")
 			</td>
             <td class="column-virtualization resizing">
 ![](images/negative.png "Column Virtualization/Resizing")
@@ -388,7 +388,7 @@
 ![](images/positive.png "Column Moving/Continuous Virtualization")
 			</td>
             <td class="column-moving column-virtualization">
-![](images/positive.png "Column Moving/Column Virtualization")
+![](images/negative.png "Column Moving/Column Virtualization")
 			</td>
             <td class="column-moving unbound-columns">
 ![](images/positive.png "Column Moving/Unbound Columns")
@@ -459,7 +459,7 @@
 ![](images/positive.png "Filtering/Continuous Virtualization")
 			</td>
             <td class="filtering column-virtualization">
-![](images/positive.png "Filtering/Column Virtualization")
+![](images/plannedFix.png "Filtering/Column Virtualization")
 			</td>
             <td class="filtering unbound-columns">
 ![](images/plannedFix.png "Filtering/Unbound Columns")
@@ -950,13 +950,13 @@
 レスポンシブ
 			</td>
             <td class="responsive fixed-virtualization">
-![](images/positive.png "Responsive/Fixed Virtualization")
+![](images/negative.png "Responsive/Fixed Virtualization")
 			</td>
             <td class="responsive continuous-virtualization">
 ![](images/positive.png "Responsive/Continuous Virtualization")
 			</td>
             <td class="responsive column-virtualization">
-![](images/positive.png "Responsive/Column Virtualization")
+![](images/negative.png "Responsive/Column Virtualization")
 			</td>
             <td class="responsive unbound-columns">
 ![](images/positive.png "Responsive/Unbound Columns")

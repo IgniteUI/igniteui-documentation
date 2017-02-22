@@ -475,7 +475,7 @@ igLayoutManager はすでに製品版 (RTM) です。
 #### 関連サンプル
 
 -   [トランジション アニメーション](%%SamplesUrl%%/data-chart/transition-animation)
--   [トランジション アニメーション (財務)](%%SamplesUrl%%/data-chart/transition-animation-financial)
+-   [トランジション アニメーション (財務)](igchart-transitions-in-animations.html#transition-example)
 
 ### <a id="hover-interactions"></a>ホバー操作
 
