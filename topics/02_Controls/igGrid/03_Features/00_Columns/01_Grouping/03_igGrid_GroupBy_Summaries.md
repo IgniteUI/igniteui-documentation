@@ -77,8 +77,8 @@ $("#grid1").igGrid({
 
 以下のリストはメイン集計に関連するオプションについての情報を含みます。
 
-| Option | Description | Default values | Valid Values|
-|--------|-------------|----------------|-------------|
+オプション | 説明 | デフォルト値 | 有効な値 |
+--------|-------------|----------------|-------------
 [groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:groupSummaries) |各列に適用されるデフォルト集計メソッドを制御します。<br/>**true** の場合 - デフォルト集計はすべての列で有効されます。<br/>**false** の場合 - デフォルト集計はすべての列で無効されます。<br/>**array** の場合 - 配列に指定された集計はすべての列で適用されます。集計オブジェクトの形式については [groupSummariesObject](#groupSummariesObject) を参照してください。<br/>|false |true, false, array|
 [columnSettings.groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:columnSettings.groupSummaries)|columnSettings の列の集計を設定するオブジェクトの配列。メイン groupSummaries オプションより優先があります。<br/>**true** の場合 - デフォルト集計は指定した列で有効されます。<br/>**false** の場合 - デフォルト集計は指定した列で無効されます。<br/>**array** の場合 - 配列に指定された集計は指定した列で適用されます。集計オブジェクトの形式については [groupSummariesObject](#groupSummariesObject) を参照してください。<br/>|null |true, false, array, null|
 
@@ -107,6 +107,7 @@ $("#grid1").igGrid({
 columnSettings.groupSummaries オプションは列で集計の指定を許可します。これは groupSummaries メイン レベル オプションより高い優先があります。特定の列でこのオプションが設定される場合、この列に関連するメイン groupSummaries オプションからの設定は無視されます。
 
 集計オプションの指定のために使用される <a id="groupSummariesObject"></a>**groupSummariesObject** は以下のプロパティを持ちます:
+
 名前|説明|タイプ|デフォルト値 |
 ----|-------------|------|---------------|
 summaryFunction|集計を指定する名前またはカスタム関数。|string または function |
