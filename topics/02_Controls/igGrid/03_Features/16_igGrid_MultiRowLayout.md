@@ -41,16 +41,26 @@
 
 ```js
 columns: [
-	{ headerText: "ID", key: "ProductID", dataType: "number", rowIndex: 0, columnIndex: 0 },
-	{ headerText: "Units in Stock", key: "UnitsInStock", dataType: "number", rowIndex: 1, columnIndex: 0 },
-	{ headerText: "Product Description", key: "ProductDescription", dataType: "string", rowIndex: 1, columnIndex: 1, colSpan: 2, width: "300px" },
-	{ headerText: "Unit Price", key: "UnitPrice", dataType: "number", format: "#.##", rowIndex: 0, columnIndex: 1, width: "100px" },
-	{ headerText: "Date Added", key: "DateAdded", dataType: "date", rowIndex: 0, columnIndex: 2 },
-	{ headerText: "In Stock", key: "InStock", dataType: "bool", rowIndex: 0, columnIndex: 3, rowSpan: 2 }
+		{ headerText: "Company", key: "company", dataType: "string", rowIndex: 0, columnIndex: 0, colSpan: 2 },
+		{ headerText: "Lifetime Sales", key: "sales_lifetimeSales", dataType: "number", rowIndex: 0, columnIndex: 2, colSpan: 2, rowSpan: 2 },
+		{ headerText: "Market Potential", key: "sales_marketPotential", dataType: "number", rowIndex: 0, columnIndex: 4, rowSpan: 3, width: "10%" },
+		{ headerText: "Assets Cash", key: "assets_cash", dataType: "number", rowIndex: 0, columnIndex: 5, width: "10%" },
+		{ headerText: "Accounts Receivable", key: "assets_accRec", dataType: "number", rowIndex: 0, columnIndex: 6, width: "20%" },
+		{ headerText: "Country", key: "country", dataType: "string", rowIndex: 1, columnIndex: 0, width: "10%" },
+		{ headerText: "City", key: "city", dataType: "string", rowIndex: 1, columnIndex: 1, width: "10%" },
+		{ headerText: "Assets Books", key: "assets_books", dataType: "number", rowIndex: 1, columnIndex: 5, colSpan: 2, rowSpan: 2 },
+		{ headerText: "Address", key: "address", dataType: "string", rowIndex: 2, columnIndex: 0, colSpan: 2 },
+		{ headerText: "Quarterly", key: "sales_quarterlySales", dataType: "number", rowIndex: 2, columnIndex: 2, width: "10%" },
+		{ headerText: "Yearly", key: "sales_yearlySales", dataType: "number", rowIndex: 2, columnIndex: 3, width: "10%" }
 ]
 ```
 
 > **注:** 1 列にわたるセルの `colSpan` プロパティは設定されません。1 行にわたるセルの `rowSpan` プロパティも設定されません。幅は 2 列のみに定義されます。
+
+以下のサンプルは、複数行レイアウトを持つ igGrid を構成する方法を紹介します。
+<div class="embed-sample">
+   [igGrid 複数行レイアウト サンプル](%%SamplesEmbedUrl%%/grid/multi-row-layout)
+</div>
 
 ## <a id="api"></a> 複数行レイアウトのグリッドの API
 
@@ -101,7 +111,4 @@ igGrid が複数行レイアウト モードで描画される場合、並べ替
 
 -   [igGrid の概要](igGrid-Overview.html)
 
-### <a id="samples"></a> サンプル
-
--   [複数行レイアウト](%%SamplesUrl%%/grid/multi-row-layout)
 
