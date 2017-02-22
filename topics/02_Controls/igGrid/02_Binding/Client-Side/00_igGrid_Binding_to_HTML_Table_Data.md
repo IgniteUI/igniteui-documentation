@@ -116,8 +116,6 @@ $("#t2").igGrid({
 }); 
 ```
 
-
-
 **HTML の場合:**
 
 ```html
@@ -152,13 +150,18 @@ $("#t2").igGrid({
 <table id="t2"></table>
 ```
 
+**サンプル**
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/grid/html-binding](%%SamplesEmbedUrl%%/grid/html-binding)
+</div>
+
 ## 既知の問題と制限
 
 `igGrid` には、考慮が必要な[既知の制限](igGrid-Known-Issues.html)があります。
 
 ## 関連トピック
 
--   [igGrid の概要](igGrid-Overview.html)
+[igGrid の概要](igGrid-Overview.html)
 
  
 
