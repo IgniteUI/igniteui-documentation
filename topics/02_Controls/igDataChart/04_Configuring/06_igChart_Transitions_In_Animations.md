@@ -53,7 +53,7 @@
 
 ###<a id="overview"></a> 概要
 
-この機能は、新しいデータ ソースを読み込むときにシリーズをアニメーション化することを許可します。利用可能なアニメーションは、シリーズのタイプに基づきます。たとえば、`columnSeries` は x 軸を上に上昇させるとアニメーションを再生します。`lineSeries` は y 軸から描画するとアニメーションを再生します。シリーズのアニメーションについて、[トランジション アニメーション](%%SamplesUrl%%/data-chart/transition-animation)および[トランジション アニメーション (財務)](%%SamplesUrl%%/data-chart/transition-animation-financial) サンプルを参照してください。
+この機能は、新しいデータ ソースを読み込むときにシリーズをアニメーション化することを許可します。利用可能なアニメーションは、シリーズのタイプに基づきます。たとえば、`columnSeries` は x 軸を上に上昇させるとアニメーションを再生します。`lineSeries` は y 軸から描画するとアニメーションを再生します。シリーズのアニメーションについて、[トランジション アニメーション](%%SamplesUrl%%/data-chart/transition-animation) サンプルおよび[トランジション アニメーション (財務)](igChart-transitions-in-animations.html#transition-example) を参照してください。
 
 `isTransitionInEnabled` プロパティを `true` に設定すると、アニメーション化されたトランジションを有効にします。
 
@@ -125,63 +125,11 @@
 
 ###<a id="transition-example"></a> 例
 
-以下の例では、以下の設定の結果、トランジション イン アニメーションが有効になり、シリーズ列を右側からアコーディオンできる方法を示します。
+以下の例は、財務チャートでトランジション イン アニメーションを有効にして変更する方法を紹介します。
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>プロパティ</th>
-			<th>値</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>isTransitionInEnabled</td>
-			<td>“true”</td>
-		</tr>
-		<tr>
-			<td>transitionInSpeed</td>
-			<td>“indexScaled”</td>
-		</tr>
-		<tr>
-			<td>transitionInEasingFunction</td>
-			<td>“cubicEase”</td>
-		</tr>
-		<tr>
-			<td>transitionInMode</td>
-			<td>“accordionFromRight”</td>
-		</tr>
-	</tbody>
-</table>
-
-以下のコードはこの例を実装します。
-
-**HTML の場合:**
-
-```html
-$("#chart").igDataChart({
-   ...
-   ...
-   series: [
-      {
-         name: "2005Population",
-         type: "column",
-         title: "2005",
-         xAxis: "NameAxis",
-         yAxis: "PopulationAxis",
-         valueMemberPath: "Pop2005",
-         isTransitionInEnabled: true,
-         transitionInSpeed: "indexSpeed",
-         transitionInEasingFunction: "cubicEase",
-         transitionInMode: "accordionFromRight
-      }
-   ]
-});
-```
-
- 
-
-
+<div class="embed-sample">
+   [トランジション アニメーション (財務)](%%SamplesEmbedUrl%%/data-chart/transition-animation-financial)
+</div>
 
 ##<a id="related-content"></a>関連コンテンツ
 
@@ -202,8 +150,6 @@ and bind it to data.
 
 
 -	[トランジション アニメーション](%%SamplesUrl%%/data-chart/transition-animation): このサンプルは、チャートの初期化で再生するアニメーション機能を紹介します。
-
--	[トランジション アニメーション (財務)](%%SamplesUrl%%/data-chart/transition-animation-financial): このサンプルは、財務チャートの初期化で表示されるアニメーション機能を紹介します。
 
 
 
