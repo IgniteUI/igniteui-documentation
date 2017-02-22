@@ -192,6 +192,14 @@
     </tbody>
 </table>
 
+### サンプル
+  
+このサンプルでは、`igDataChart` コントロールのさまざまな要素を構成します。
+軸、ラベル、グリッド線、ストライプ、ズームバー、シリーズ、トレンドライン、インジケーター、十字線などのチャート要素をコントロールに使用し、高度なデータ視覚化を実現します。
+  
+<div class="embed-sample">
+   [チャート要素](%%SamplesEmbedUrl%%/data-chart/chart-elements)
+</div>
 
 ##関連コンテンツ
 
@@ -203,14 +211,6 @@
 -	[igDataChart の追加](igDataChart-Adding.html): このトピックは、`igDataChart`™ コントロールの追加とそれへデータをバインドする方法を説明します。
 
 -	[](igDataChart-API-Links.html)[jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク (igDataChart)](igDataChart-API-Links.html): このトピックは、`igDataChart`™ の jQuery および ASP.NET MVC ヘルパー クラスのたえの API マニュアルへのリンクを提供します。
-
-
-
-### サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
--	[シリーズのツールチップ](%%SamplesUrl%%/data-chart/series-tooltips): このサンプルでは、`igDataChart` のシリーズでデフォルト ツールチップを有効にし、コントロールでカスタム ツールチップ テンプレートを構成する方法を紹介します。
 
 
 

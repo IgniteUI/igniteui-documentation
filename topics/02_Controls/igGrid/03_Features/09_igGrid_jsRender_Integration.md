@@ -117,21 +117,25 @@ ASP.NET MVC|`Grid` の構成で、`TemplatingEngine` メソッドのパラメー
 	**JavaScript の場合:**
 	
 	```js
-	$("#grid1").igGrid({
-	    width: "100%",
-	    height: "600px",
-	    autoGenerateColumns: false,
-	    columns: [
-	    { headerText: "ID", key: "ID", dataType: "number", width: "40px" },
-	    { headerText: "Name", key: "Name", dataType: "string", width: "100px" },
-	    { headerText: "Country", key: "Country", dataType: "string", width: "80px" },
-	    { headerText: "Birth Date", key: "BirthDate", dataType: "date", width: "100px" }
-	    ],
-	    dataSource: northwindEmployees,
-	    dataSourceType: 'json',
-	    primaryKey: "ID",
-	    templatingEngine: "jsrender”
-	});
+	$("#grid12").igGrid({
+                width: "100%",
+                height: "600px",
+                autoGenerateColumns: false,
+                autoCommit:true,
+                columns: [
+                        { headerText: "Employee ID", key: "ID", dataType: "number" },
+                        { headerText: "Name", key: "Name", dataType: "string" },
+                        { headerText: "Image", key: "ImageUrl", dataType: "object" },
+                        { headerText: "Title", key: "Title", dataType: "string" },
+						{ headerText: "Languages", key: "Languages", dataType: "object" },
+                        { headerText: "Phone", key: "Phone", dataType: "string" },
+                        { headerText: "Country", key: "Country", dataType: "string" },
+                        { headerText: "Birth Date", key: "BirthDate", dataType: "date" }
+                    ],
+                dataSource: northwindEmployees,
+                primaryKey: "ID",
+                templatingEngine: "jsrender"
+        });
 	```
 
 2. **テンプレート固有のヘルパー関数の宣言**
@@ -144,11 +148,19 @@ ASP.NET MVC|`Grid` の構成で、`TemplatingEngine` メソッドのパラメー
 	
 	```js
 	$.views.helpers(
-	    {
-	        toDate: function (val) {
-	            return new Date(val);
-	        }
-	    });
+            {
+                toDate: function (val) {
+                    return new Date(val);
+                }
+           });
+
+            $.views.helpers(
+            {
+                toFullName: function (val) {
+                    var name = val.split(',').reverse().join(" ");
+                    return name;
+                }
+            });
 	```
 
 3. **文字列列テンプレートの作成**
@@ -160,6 +172,8 @@ ASP.NET MVC|`Grid` の構成で、`TemplatingEngine` メソッドのパラメー
 	**JavaScript の場合:**
 	
 	```js
+	<img width='100' height='90' src={{>ImageUrl}}></img>
+	
 	<img width='20' height='15' src='{Images folder root}/ {{>Country}}.gif'></img>{{>Country}}
 	
 	<span style='color:{{if #view.hlp('toDate')(BirthDate) > #view.hlp('toDate')('1950-01-01T00:00:00.000')}} blue {{else}} red {{/if}};'>{{>BirthDate}}</span>
@@ -172,23 +186,43 @@ ASP.NET MVC|`Grid` の構成で、`TemplatingEngine` メソッドのパラメー
 	**JavaScript の場合:**
 	
 	```js
-	$("#grid1").igGrid({
-	    width: "100%",
-	    height: "600px",    autoGenerateColumns: false,                    columns: [
-	       { headerText: "ID", key: "ID", dataType: "number", width: "40px" },
-	       { headerText: "Name", key: "Name", dataType: "string", width: "100px" },
-	       { headerText: "Country", key: "Country", dataType: "string", width: "80px" ,
-			 template: "<img width='20' height='15' src='{Images folder root}/ {{>Country}}.gif'></img>{{>Country}}" },
-	       { headerText: "Birth Date", key: "BirthDate", dataType: "date", width: "100px" ,
-			 template:  "<span style='color:{{if #view.hlp('toDate')(BirthDate) > #view.hlp('toDate')('1950-01-01T00:00:00.000')}} blue {{else}} red {{/if}};'>{{>BirthDate}}</span>" }
-	    ],
-	    dataSource: northwindEmployees,
-	    dataSourceType: 'json',
-	    primaryKey: "ID",
-	    templatingEngine: "jsrender
-	});
+	$("#grid12").igGrid({
+                width: "100%",
+                height: "600px",
+                autoGenerateColumns: false,
+                autoCommit:true,
+                columns: [
+                        { headerText: "Employee ID", key: "ID", dataType: "number" },
+                        { headerText: "Name", key: "Name", dataType: "string", template: "{{>#view.hlp('toFullName')(Name)}}" },
+                        {
+                            headerText: "Image", key: "ImageUrl", dataType: "object",
+                            template: "<img width='100' height='90' src={{>ImageUrl}}></img>"
+                        },
+                        { headerText: "Title", key: "Title", dataType: "string" },
+                        {
+                            headerText: "Languages", key: "Languages", dataType: "object",
+                            template: "{{for Languages}}<div>{{:name}}</div>{{/for}}"
+                        },
+                        { headerText: "Phone", key: "Phone", dataType: "string" },
+                        {
+                            headerText: "Country", key: "Country", dataType: "string",
+                            template: "<img width='26' height='15' src='http://www.igniteui.com/images/samples/nw/countries/{{>Country}}.gif'></img> <span style='display: table-cell;vertical-align: middle;'>{{>Country}}</span>"
+                        },
+                        {
+                            headerText: "Birth Date", key: "BirthDate", dataType: "date",
+                            template: "<span style='color:{{if #view.hlp('toDate')(BirthDate) > #view.hlp('toDate')('1980-01-01T00:00:00.000')}}#4573D6{{else}}#F75F4F{{/if}};'>{{>BirthDate}}</span>"
+                        }
+                    ],
+                dataSource: northwindEmployees,
+                primaryKey: "ID",
+                templatingEngine: "jsrender"
+        });
 	```
 
+5. **サンプル**
+<div class="embed-sample">
+   [igGrid JsRender の結合](%%SamplesEmbedUrl%%/grid/jsrender-integration)
+</div>
 
 ## <a id="row-edit-filter"></a> 行編集テンプレートと詳細フィルタリングとの統合
 
@@ -208,12 +242,6 @@ ASP.NET MVC|`Grid` の構成で、`TemplatingEngine` メソッドのパラメー
 
 - [列テンプレートの構成 (igGrid、RWD モード)](igGrid-Responsive-Web-Design-Mode-Configuring-Row-and-Column-Templates.html): このトピックは、コード例を用いて `igGrid`™ コントロールの各 Responsive Web Design (RWD) モード 構成に対して列テンプレートを定義する方法、およびアクティブな RWD モード構成の切り替え時のテンプレートの自動変更を構成する方法について説明します。
 
-
-### <a id="samples"></a> サンプル
-
-以下のサンプルでは、このトピックに関連する情報を提供しています。
-
-- [jsRender の結合](%%SamplesUrl%%/grid/jsRender-integration): このサンプルは、`igGrid`™ コントロールで jsRender テンプレート エンジンを使用する方法を紹介します。
 
 
 
