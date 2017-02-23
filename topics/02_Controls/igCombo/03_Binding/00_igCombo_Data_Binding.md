@@ -32,6 +32,7 @@
 -   データ ソースへのバインドに関するクラス図
 -   [igCombo をデータにバインド - 手順](#basicig-combo-data-binding)
 -	[サンプル](#demos)
+	-	[JSON のバインド](#json-binding)
 	-	[HTML のバインド](#html-binding)
 	-	[XML のバインド](#xml-binding)
 -   [関連トピック](#related-topics)
@@ -272,6 +273,14 @@
 
 ## <a id="demos"></a>サンプル
 オンライン コンボへのバインディングの実例
+
+### <a id="json-binding"></a>JSON のバインド
+コンボを JSON データまたは JavaScript 配列にバインドできます。このサンプルはクライアント側バインディングの基本実例を含みます。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/combo/json-binding](%%SamplesEmbedUrl%%/combo/json-binding)
+</div>
+
 ### <a id="html-binding"></a>HTML のバインド
 
 igCombo は HTML SELECT 要素に直接バインドできます。
