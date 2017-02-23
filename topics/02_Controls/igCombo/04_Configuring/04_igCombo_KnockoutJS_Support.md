@@ -12,7 +12,7 @@
 
 
 
-##トピックの概要
+## トピックの概要
 
 
 ### 目的
@@ -53,7 +53,7 @@
 
 
 
-##<a id="introduction"></a>概要
+## <a id="introduction"></a>概要
 
 
 ### Knockout サポートの概要
@@ -122,7 +122,7 @@ Knockout マネージのデータ構造にバインドされる `igCombo` をイ
 </table>
 
 
-##<a id="code-examples"></a>コード例
+## <a id="code-examples"></a>コード例
 
 
 ### コード例の概要
@@ -132,7 +132,7 @@ Knockout マネージのデータ構造にバインドされる `igCombo` をイ
 
 -	[Knockout ビューモデル オブジェクトにバインドされる基本的なコンボ ボックス](#basic-combo-box-bound): この例は、Knockout 監視可能 View-Model オブジェクトにバインドされる `igCombo` コントロールの基本構成を示します。
 
-##<a id="basic-combo-box-bound"></a>コード例: Knockout ビューモデル オブジェクトにバインドされる基本的なコンボ ボックス
+## <a id="basic-combo-box-bound"></a>コード例: Knockout ビューモデル オブジェクトにバインドされる基本的なコンボ ボックス
 
 
 この例は、Knockout 監視可能 View-Model オブジェクトにバインドされる `igCombo` コントロールの基本構成を示します。Knockout の宣言構文を使用して、span 要素の data-bind 属性からコンボをインスタンス化し View-Model 監視可能プロパティにバインドします。
@@ -160,7 +160,7 @@ function ViewModel(actorsList) {
     //  Select the first actor, using his id.
     this.selectedActor = ko.observableArray([self.actors()[0].id]);
     // Alternative way to select an actor, using the whole object, containing value and text
-    // this.selectedActor = ko.observableArray([self.actors()[0]]);    
+    // this.selectedActor = ko.observableArray([self.actors()[0]]);
     this.isVisible = true;
 }
 ```
@@ -190,7 +190,7 @@ $.ig.loader({
 **HTML の場合:**
 
 ```html
-<span id="comboActors" data-bind="igCombo: { 
+<span id="comboActors" data-bind="igCombo: {
         dataSource: actors,
         textKey: 'name',
         valueKey: 'id',
@@ -210,30 +210,34 @@ View-Model オブジェクトの `selectedItems` プロパティと `dataSource`
 
 `igCombo` コントロールは inline-block プロパティを持つ HTML 要素に表示されます。Knockout の visible バインディングが要素の表示を block に設定するため、`igCombo` の外観が崩れます。カスタム `igComboVisible` バインディングを使用すると、正しく `igCombo` を表示し、Knockout の visible バインディングの機能を提供します。
 
-##<a id="related-content"></a>関連コンテンツ
+## <a id="related-content"></a>関連コンテンツ
 
 
-###<a id="topics"></a> トピック
+### <a id="topics"></a> トピック
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
 -	[Knockout サポート (エディター)](Configuring-Knockout-Support-%28Editors%29.html): このトピックは、[Knockout ライブラリ](http://knockoutjs.com/)により管理されるビューモデル オブジェクトをバインドするために Ignite UI エディター コントロールを構成する方法について説明します。
+-	[新しいコンボへの移行](igCombo-Migrating-To-The-New-Combo.html#ko_changes): このトピックは、古いコンボから新しいコンボへの移行を支援することを目的としています。ドキュメントには、igCombo の Knockout 統合での変更点が含まれます。
 
-###<a id="samples"></a> サンプル
+### <a id="samples"></a> サンプル
 
 このトピックについては、以下のサンプルも参照してください。
 
--	[KnockoutJS のバインド](%%SamplesUrl%%/combo/bind-combo-with-ko): このサンプルでは、KnockoutJS データ バインディングによって処理されるデータを `igCombo` にバインドする方法を紹介します。
--	[新しいコンボへの移行](igCombo-Migrating-To-The-New-Combo.html#ko_changes): このトピックは、古いコンボから新しいコンボへの移行を支援することを目的としています。ドキュメントには、igCombo の Knockout 統合での変更点が含まれます。
+以下のサンプルでは、KnockoutJS データ バインディングによって処理されるデータを igCombo にバインドする方法を紹介します。コンボのドロップダウンに配列をバインドし、model プロパティをコンボの選択項目にバインドします。
 
-###<a id="resources"></a> リソース
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/combo/bind-combo-with-ko](%%SamplesEmbedUrl%%/combo/bind-combo-with-ko)
+</div>
+
+>**注:**  Knockout 拡張子が ASP.NET MVC ヘルパーとの互換性がありません。
+
+### <a id="resources"></a> リソース
 
 以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
 
 -	[Knockout](http://knockoutjs.com/): これは、Knockout ライブラリのホーム ページです。ライブラリには、完全なドキュメントとサンプルが含まれます。
 
- 
 
- 
 
 

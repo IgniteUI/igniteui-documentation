@@ -41,7 +41,7 @@
 ## <a id="preview"></a> プレビュー
 以下は最終結果のプレビューです。
 
-![](images/Enabling_Column_Summaries_01.png)
+![](images/summaries.png)
 
 ## <a id="requirements"></a> 要件
 
@@ -96,11 +96,12 @@
 
     ```html
     <script type="text/javascript">
-    source = [
-             { "ProductID": 1, "Name": "Adjustable Race", "SafetyStockLevel": 1000, "ReorderPoint": 750, "StandardCost": 0.0000 }, 
-             { "ProductID": 2, "Name": "Bearing Ball", "SafetyStockLevel": 1000, "ReorderPoint": 750, "StandardCost": 0.0000 }, 
-             { "ProductID": 3, "Name": "BB Ball Bearing", "SafetyStockLevel": 800, "ReorderPoint": 600, "StandardCost": 0.0000 },
-             { "ProductID": 4, "Name": "Headset Ball Bearings", "SafetyStockLevel": 800, "ReorderPoint": 600, "StandardCost": 0.0000 }]
+    var adventureWorks = [
+{ "ProductID": 1, "Name": "Adjustable Race", "ProductNumber": "AR-5381", "StandardCost": 0.0000, "ListPrice": 0.0000 }, 
+{ "ProductID": 2, "Name": "Bearing Ball", "ProductNumber": "BA-8327", "StandardCost": 0.0000, "ListPrice": 0.0000 }, 
+{ "ProductID": 3, "Name": "BB Ball Bearing", "ProductNumber": "BE-2349", "StandardCost": 0.0000, "ListPrice": 0.0000 },
+    ...
+    ]
 
     </script>
     ```
@@ -113,8 +114,14 @@
 
     ```js
     $("#grid").igGrid({
-        autoGenerateColumns: true,
-        dataSource: source,
+        autoGenerateColumns: false,
+		dataSource: adventureWorks,
+        columns: [
+                    { headerText: "Product Name", key: "Name", dataType: "string", width: "40%" },
+                    { headerText: "Product Number", key: "ProductNumber", dataType: "string", width: "20%" },
+                    { headerText: "List Price", key: "ListPrice", dataType: "number", width: "20%" },
+                    { headerText: "Standard Cost", key: "StandardCost", dataType: "number", width: "20%" }
+        ],
         features: [
                    {
                      name: 'Summaries'
@@ -127,6 +134,11 @@
 4.  (オプション) 結果を確認します。
 
     結果を検証するために、ファイルを開きます。上記のプレビューに示すような結果になっているはずです。
+	
+5. サンプル
+    <div class="embed-sample">
+        [igGrid 集計](%%SamplesEmbedUrl%%/grid/summaries)
+    </div>
 
 ## <a id="enabling-mvc"></a> MVC で列集計を有効にする
 

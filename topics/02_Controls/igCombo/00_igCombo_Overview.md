@@ -369,7 +369,7 @@ ASP.NET MVC では、igCombo のデータソースとして IQueryable を指定
         </tr>
         <tr>
             <td>
-[KnockoutJS](%%SamplesUrl%%/combo/bind-combo-with-ko)
+[KnockoutJS](igcombo-knockoutjs-support.html)
 			</td>
             <td>
 `igCombo` コントロールにおける Knockout ライブラリのサポートは、開発者が Knockout ライブラリとその宣言構文を使用してツリー コントロールを初期化し構成するための簡単な方法を提供することを目的としています。

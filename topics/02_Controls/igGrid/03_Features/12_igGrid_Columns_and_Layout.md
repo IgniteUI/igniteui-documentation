@@ -318,7 +318,10 @@ var data = [{ "ID": 0, "Name": "Bread", "Description": "Whole grain bread", "Cat
 
 > **注:** 更新機能を使用するには、`autoGenerateColumns` が false に設定される場合、`dataType` プロパティを設定する必要があります。更新機能は、グリッドおよび基本データ ソースの間でレコードを同期するためにプライマリ キーを使用します。プライマリ キーは値およびタイプによって比較されます。
 
-
+以下のサンプルは、igGrid の列の自動生成機能を紹介します。列が自動生成された場合、ヘッダー キャプションはデータ ソースのフィールド名から設定されます。`autoGenerateColumns` オプションは `defaultColumnWidth` オプションと使用されます。
+<div class="embed-sample">
+   [igGrid 列の自動生成](%%SamplesEmbedUrl%%/grid/auto-generate-columns)
+</div>
 
 ## <a id="styling"></a> スタイル設定
 
@@ -435,44 +438,15 @@ $("#grid1").igGrid({
             dataType: "date"
         }
     ],
-    features: [ {
-        name: "Selection",
-        mode: "row"
-    }, {
-        name: "Updating",
-        enableAddRow: false,
-        editMode: "row",
-        // event raised after end row editing but before dataSource was updated
-        editCellEnding: function (evt, ui) {
-            // get cell’s checkbox value when it is changed
-            if (ui.update) {
-                if (ui.columnKey === 'MakeFlag' ) {
-                    logEvent("editCellEnded (Grid_EventFired) (Grid_ColumnKey) = " + 
-                    ui.columnKey + "; (Grid_RowIndex) = " + 
-                    ui.rowID + "; (Grid_CellValue) = " + 
-                    ui.value + "; $(Grid_Update) = " + 
-                    ui.update);
-                }
-            }
-        },
-        enableDeleteRow: false,
-        columnSettings: [ {
-            columnKey: "ProductID",
-            readOnly: true
-        }, {
-            columnKey: "ProductNumber"
-        }, {
-            columnKey: "MakeFlag"
-        }, {
-            columnKey: "OrderDate",
-            editorType: "datepicker",
-            validation: true
-        } ]
-    } ],
     dataSource: gridData,
     height: "300px"
 });
 ```
+
+以下のサンプルでは、ブール値列で true/false 値を表示する代わりにチェックボックスを有効にする方法を紹介します。
+<div class="embed-sample">
+   [igGrid チェックボックス列](%%SamplesEmbedUrl%%/grid/checkbox-column)
+</div>
 
 **ASPX の場合:**
 
@@ -483,25 +457,12 @@ $("#grid1").igGrid({
         column.For(x => x.ProductNumber).HeaderText(this.GetGlobalResourceObject("Grid", "PRODUCT_NUMBER").ToString()).DataType("string");
         column.For(x => x.MakeFlag).HeaderText(this.GetGlobalResourceObject("Grid", "MAKE_FLAG").ToString()).DataType("bool");
         column.For(x => x.ModifiedDate).HeaderText(this.GetGlobalResourceObject("Grid", "MODIFIED_DATE").ToString()).DataType("date");
-        }).Features(features => {
-            features.Selection().Mode(SelectionMode.Row);
-            features.Updating().EnableAddRow(false).EditMode(GridEditMode.Row).EnableDeleteRow(false).ColumnSettings(columnSettings => {
-                columnSettings.ColumnSetting().ColumnKey("ProductID").ReadOnly(true);
-                columnSettings.ColumnSetting().ColumnKey("ProductNumber");
-                columnSettings.ColumnSetting().ColumnKey("MakeFlag");
-                columnSettings.ColumnSetting().ColumnKey("ModifiedDate").EditorType(ColumnEditorType.DatePicker).Validation(true);
-        });
-    }).DataBind().Height("300px").Render()
+        })
+		.DataBind().Height("300px").Render()
 %>
 ```
 
-
 ## <a id="related-content"></a> 関連コンテンツ
-
-### サンプル
-
--   [列の自動生成](%%SamplesUrl%%/grid/auto-generate-columns)
--   [複合オブジェクトの処理](%%SamplesUrl%%/grid/handling-complex-objects)
 
 ### トピック
 -   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
