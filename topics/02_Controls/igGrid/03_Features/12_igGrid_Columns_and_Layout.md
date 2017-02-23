@@ -318,7 +318,10 @@ var data = [{ "ID": 0, "Name": "Bread", "Description": "Whole grain bread", "Cat
 
 > **注:** 更新機能を使用するには、`autoGenerateColumns` が false に設定される場合、`dataType` プロパティを設定する必要があります。更新機能は、グリッドおよび基本データ ソースの間でレコードを同期するためにプライマリ キーを使用します。プライマリ キーは値およびタイプによって比較されます。
 
-
+以下のサンプルは、igGrid の列の自動生成機能を紹介します。列が自動生成された場合、ヘッダー キャプションはデータ ソースのフィールド名から設定されます。`autoGenerateColumns` オプションは `defaultColumnWidth` オプションと使用されます。
+<div class="embed-sample">
+   [igGrid 列の自動生成](%%SamplesEmbedUrl%%/grid/auto-generate-columns)
+</div>
 
 ## <a id="styling"></a> スタイル設定
 
@@ -497,11 +500,6 @@ $("#grid1").igGrid({
 
 
 ## <a id="related-content"></a> 関連コンテンツ
-
-### サンプル
-
--   [列の自動生成](%%SamplesUrl%%/grid/auto-generate-columns)
--   [複合オブジェクトの処理](%%SamplesUrl%%/grid/handling-complex-objects)
 
 ### トピック
 -   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
