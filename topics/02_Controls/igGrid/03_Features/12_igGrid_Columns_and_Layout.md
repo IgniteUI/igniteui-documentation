@@ -438,44 +438,15 @@ $("#grid1").igGrid({
             dataType: "date"
         }
     ],
-    features: [ {
-        name: "Selection",
-        mode: "row"
-    }, {
-        name: "Updating",
-        enableAddRow: false,
-        editMode: "row",
-        // event raised after end row editing but before dataSource was updated
-        editCellEnding: function (evt, ui) {
-            // get cell’s checkbox value when it is changed
-            if (ui.update) {
-                if (ui.columnKey === 'MakeFlag' ) {
-                    logEvent("editCellEnded (Grid_EventFired) (Grid_ColumnKey) = " + 
-                    ui.columnKey + "; (Grid_RowIndex) = " + 
-                    ui.rowID + "; (Grid_CellValue) = " + 
-                    ui.value + "; $(Grid_Update) = " + 
-                    ui.update);
-                }
-            }
-        },
-        enableDeleteRow: false,
-        columnSettings: [ {
-            columnKey: "ProductID",
-            readOnly: true
-        }, {
-            columnKey: "ProductNumber"
-        }, {
-            columnKey: "MakeFlag"
-        }, {
-            columnKey: "OrderDate",
-            editorType: "datepicker",
-            validation: true
-        } ]
-    } ],
     dataSource: gridData,
     height: "300px"
 });
 ```
+
+以下のサンプルでは、ブール値列で true/false 値を表示する代わりにチェックボックスを有効にする方法を紹介します。
+<div class="embed-sample">
+   [igGrid チェックボックス列](%%SamplesEmbedUrl%%/grid/checkbox-column)
+</div>
 
 **ASPX の場合:**
 
@@ -486,18 +457,10 @@ $("#grid1").igGrid({
         column.For(x => x.ProductNumber).HeaderText(this.GetGlobalResourceObject("Grid", "PRODUCT_NUMBER").ToString()).DataType("string");
         column.For(x => x.MakeFlag).HeaderText(this.GetGlobalResourceObject("Grid", "MAKE_FLAG").ToString()).DataType("bool");
         column.For(x => x.ModifiedDate).HeaderText(this.GetGlobalResourceObject("Grid", "MODIFIED_DATE").ToString()).DataType("date");
-        }).Features(features => {
-            features.Selection().Mode(SelectionMode.Row);
-            features.Updating().EnableAddRow(false).EditMode(GridEditMode.Row).EnableDeleteRow(false).ColumnSettings(columnSettings => {
-                columnSettings.ColumnSetting().ColumnKey("ProductID").ReadOnly(true);
-                columnSettings.ColumnSetting().ColumnKey("ProductNumber");
-                columnSettings.ColumnSetting().ColumnKey("MakeFlag");
-                columnSettings.ColumnSetting().ColumnKey("ModifiedDate").EditorType(ColumnEditorType.DatePicker).Validation(true);
-        });
-    }).DataBind().Height("300px").Render()
+        })
+		.DataBind().Height("300px").Render()
 %>
 ```
-
 
 ## <a id="related-content"></a> 関連コンテンツ
 
