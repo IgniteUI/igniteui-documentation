@@ -63,6 +63,11 @@ DOM では、複数列ヘッダー機能は THEAD 要素を変更します。THE
 
 ![](images/igGrid_MultiColumnHeaders_1.png)
 
+以下のサンプルは、複数列ヘッダーの構成方法を示します。
+
+<div class="embed-sample">
+   [複数列ヘッダー](%%SamplesEmbedUrl%%/grid/multi-column-headers)
+</div
 
 ## <a id="collapsible-column-groups"></a> 縮小可能な列グループ
 
@@ -232,7 +237,7 @@ ColumnMoving
 このトピックについては、以下のサンプルも参照してください。
 
 - [複数列ヘッダー](%%SamplesUrl%%/grid/multi-column-headers): このサンプルには、複数列ヘッダーの構成方法が示されています。
-
+- [縮小可能な複数列ヘッダー](%%SamplesUrl%%/grid/collapsible-column-groups): このサンプルには、縮小可能な複数列ヘッダーの構成方法が示されています。
 
 
 

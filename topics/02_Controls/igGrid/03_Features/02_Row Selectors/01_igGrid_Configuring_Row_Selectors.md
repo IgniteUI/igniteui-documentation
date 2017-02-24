@@ -97,7 +97,8 @@ $(function () {
                     multipleSelection: true
                 }
             ]
-     });    });
+     });
+});
 </script>
 ```
 
@@ -379,7 +380,13 @@ rowNumberingSeed| 0
 -   [行セレクターのイベント](igGrid-RowSelectors-Events.html)
 
  
+### <a id="samples"></a> サンプル
 
+このサンプルでは、`igGrid` における行セレクターの構成方法を紹介します。
+
+<div class="embed-sample">
+   [行セレクターの構成](%%SamplesEmbedUrl%%/grid/iggrid-configuring-row-selectors)
+</div>
  
 
 

@@ -433,14 +433,6 @@
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [行編集ダイアログ](%%SamplesUrl%%/grid/row-edit-dialog): このサンプルでは、`igGrid` における行編集ダイアログの構成方法を紹介します。
-
-- [階層グリッド行編集ダイアログ](%%SamplesUrl%%/hierarchical-grid/row-edit-dialog): このサンプルでは、`igHierarchicalGrid` における行編集ダイアログの構成方法を紹介します。
-
-
-
- 
-
- 
-
-
+<div class="embed-sample">
+   [行編集ダイアログ](%%SamplesEmbedUrl%%/grid/row-edit-dialog)
+</div>

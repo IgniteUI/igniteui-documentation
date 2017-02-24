@@ -38,7 +38,6 @@
 -   [**非バインド列を構成する**](#configure)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
 
 
 
@@ -48,8 +47,6 @@
 
 非バインド列には標準の列 (データ ソースにバインドされる) と同じプロパティがあります。非バインド列機能は、並べ替え、フィルタリングなどすべてのグリッド機能で機能します。これには、列テンプレートやフォーマッタなど標準の列機能拡張も含まれます。
 
-
-
 ## <a id="set-unbound"></a> 列を非バインドとして設定
 
 列は、`igGrid` の [`unbound`](%%jQueryApiUrl%%/ui.iggrid#options:columns.unbound) 列プロパティを true に設定することにより非バインドとして構成されます。(このプロパティの設定により、バインド列と非バインド列を区別します: true = 非バインド列、false = バインドされる列)。このプロパティを true に設定すると、データ ソースへのバインディング時に特定の列が省略され、基本的にデータ モデルと関係のない空の列が得られます。
@@ -58,7 +55,11 @@
 
 非バインド列値はさまざまな方法で生成できます。列値が事前に定義されている場合、列の [`unboundValues`](%%jQueryApiUrl%%/ui.iggrid#options:columns.unboundValues) プロパティまたはグリッドの [`setUnboundValues`](%%jQueryApiUrl%%/ui.iggrid#methods:setUnboundValues) メソッドを使用します。列値が計算される場合、列の [`formula`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formula) プロパティまたは [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) プロパティを使用します。
 
+以下のサンプルは、`igGrid` コントロールの非バインド列の構成について説明します。
 
+<div class="embed-sample">
+   [非バインド列](%%SamplesEmbedUrl%%/grid/unbound-column)
+</div>
 
 ## <a id="configure"></a> 非バインド列を構成する
 
@@ -269,20 +270,4 @@ template
 - [API リファレンス (igGrid,、非バインド列)](igGrid-UnboundColumns-API-Reference-LandingPage.html): このグループのトピックは、`igGrid` コントロールの非バインド列機能関連のプロパティおよびメソッドに関する参照情報を提供します。
 
 - [列集計 (igGrid)](igGrid-Column-Summaries.html): このグループのトピックは、`igGrid` で列サマリーを作成する方法を説明します。
-
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [非バインド列](%%SamplesUrl%%/grid/unbound-column): このサンプルは、`igGrid` コントロールの非バインド列の追加および構成について説明します。
-
-- [igHierarchicalGrid の非バインド列](%%SamplesUrl%%/hierarchical-grid/unbound-column): このサンプルは、`igHierarchicalGrid` コントロールの非バインド列の追加および構成について説明します。
-
-
-
- 
-
- 
-
 
