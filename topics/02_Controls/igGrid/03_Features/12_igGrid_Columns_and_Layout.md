@@ -226,37 +226,11 @@ $("#grid1").igGrid({
 
 igGrid のセル テキストはデフォルトで左揃えです。セルのテキスト配置をカスタマイズするには、[`columnCssClass`](%%jQueryApiUrl%%/ui.iggrid#options:columns.columnCssClass) オプションを使用します。テキストを配置するカスタム CSS クラスを作成し、`columnCssClass` を使用して列に適用します。
 
-**HTML の場合:**
-```html
-<style>
-    .align-right {
-        text-align: right;
-    }
-    .align-center {
-        text-align: center;
-    }
-</style>
-```
+以下のサンプルでは、グリッド セルのテキスト配置をカスタマイズする方法を紹介します。グリッドの「製品 ID」および「再注文」の数値列のテキストが右側に配置されます。列のセルにカスタム CSS クラスが適用されています。CSS クラスはグリッド列の `columnCssClass` プロパティに設定されます。
 
-**JavaScript の場合:**
-
-```js
-$("#grid1").igGrid({
-    autoGenerateColumns: false,
-    columns: [ {
-            headerText: "Product Number", 
-            key: "ProductNumber",
-            dataType: "number",
-            columnCssClass: "align-right"
-        }, {
-            headerText: "Modified Date",  
-            key: "ModifiedDate",  
-            dataType: "date",
-            columnCssClass: "align-center"
-        }
-    ]
-});
-``` 
+<div class="embed-sample">
+   [igGrid テキスト配置の構成](%%SamplesEmbedUrl%%/grid/configure-text-alignment)
+</div>
 
 ## <a id="defining-mapper"></a> 列にマッパー関数を定義
 
