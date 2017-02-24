@@ -98,18 +98,17 @@ Ignite UI™ 数値エディター、つまり `igNumericEditor` は `dataMode` 
          .DataMode(NumericEditorDataMode.Int)
          .MinValue(0)
          .Value(0)
-         .ButtonType(TextEditorButtonType.Spin)
          .Width(120)
          .Render())
     ```
 
 5.  Web ページを実行し、`igNumericEditor` コントロールの基本セットアップを表示します。
 
-##固有のオプション
+## 固有のオプション
 
-`igNumericEditor` は、多くのプロパティを他のエディターと共有していますが、多くの独自なプロパティがあります。最初に、`dataMode` プロパティを見てみましょう。このプロパティは、エディターの入力値の型を設定または取得するために使用できます。デフォルト値は "double" ですが、int、float、byte および other も選択できます。すべての値については、[igNumericEditor jQuery API](%%jQueryApiUrl%%/ui.igNumericEditor) を参照してください。 
+`igNumericEditor` は、数値入力を処理するためのオプションのセットがあります。はじめにエディター値が規格のデータ型に基づいて承諾する範囲を定義する `dataMode` プロパティを説明します。デフォルト値は "double" ですが、"int"、"float"、"byte" およびその他も選択できます。すべての値については、[igNumericEditor jQuery API](%%jQueryApiUrl%%/ui.igNumericEditor#options) を参照してください。 
 
-他にも固有のオプションとして、`decimalSeparator` があり、小数点記号として表示する文字を選択できます。`groupSeparator` にも同様の機能がありますが、このオプションでは、千以上の大きな数値の桁区切りとして使用する文字を選択できます。これらの使用例は後述しますが、その前にもう 1 つプロパティを見てみましょう。`groups` は配列を値として取得します。このプロパティは、セパレーターを使用する桁数の決定に使用できます。グループは、左から右にカウントされます。また、このオプションは表示モードでのみ有効であることに注意してください。
+他にも固有のオプションとして、`decimalSeparator` があり、小数点記号として表示する文字を選択できます。`groupSeparator` にも同様の機能がありますが、このオプションでは、千以上の大きな数値のグループの桁区切りとして使用する文字を選択できます。これらの使用例は後述しますが、その前にもう 1 つプロパティを見てみましょう。`groups` は配列を値として取得します。このプロパティは、セパレーターを使用する桁数の決定に使用できます。グループは、左から右にカウントされます。また、このオプションは表示モードでのみ有効であることに注意してください。
 
 ```js
 $('#divEditor').igNumericEditor({
@@ -121,7 +120,75 @@ $('#divEditor').igNumericEditor({
 
 ![](images/igNumericEditor_numericGroups.png)
 
- 
+### ドロップダウン リストの構成
+
+定義済みの値を持つドロップダウン リストを作成するには、`listItems` オプションによって数値の配列を提供できます。igNumericEditor が許可する値を項目リストに含まれる項目のみに制限できます。`isLimitedToListValues` オプションを設定します。
+
+**HTML:**
+
+```html
+<input id="federalTax"/>
+```
+
+**Javascript:**
+
+```js
+<script type="text/javascript">
+    $("#federalTax").igNumericEditor({
+        listItems: [10, 15, 25, 28, 33, 35],
+        value:10,
+        isLimitedToListValues: true
+    });
+</script>
+```
+
+**Razor の場合:**
+
+```csharp
+@(Html.Infragistics().NumericEditor()
+    .ID("federalTax")
+    .Value(10)
+    .ListItems(new List<object>() { 10, 15, 25, 28, 33, 35 })
+    .IsLimitedToListValues(true)
+    .Render())
+```
+
+### スピン機能の構成
+
+スピン機能は常に[キーボード操作](igNumericEditor-Keyboard-Navigation.html)により利用可能ですが、追加のオプションで構成できます。エディターは、`buttonType` オプションにより複数のボタンをサポートします。スピン ボタン、クリア ボタン、およびドロップダウン ボタンがあります。注: このオプションは、初期化時のみ設定できます。`'dropdown, spin'` または `'spin, clear'` などの組み合わせもサポートされます。`spinDelta` オプションは、値がスピン アクションにより編集される場合に使用される増加/減少ステップを指定します。注: `spinDelta` 値は負の数に設定できません。整数値以外の値は "double" および "float" の `dataMode` のみにサポートされます。
+
+**HTML:**
+
+```html
+<input id="stateTax"/>
+```
+
+**Javascript:**
+
+```js
+<script type="text/javascript">
+    $("#stateTax").igNumericEditor({
+        buttonType: 'spin',
+        spinDelta:0.01,
+        minValue:-5.53,
+        maxValue:5.52,
+        value:-5.00
+});
+</script>
+```
+
+**Razor の場合:**
+
+```csharp
+@(Html.Infragistics().NumericEditor()
+    .ID("stateTax")
+    .ButtonType(TextEditorButtonType.Spin)
+    .SpinDelta(0.01)
+    .MinValue(-5.53)
+    .MaxValue(5.53)
+    .Value(-5.00)
+    .Render())
+```
 
 >**注:** すべてのプロパティについては、[API ドキュメント](%%jQueryApiUrl%%/ui.igNumericEditor)を参照してください。
 
