@@ -28,6 +28,7 @@
 
 -   データ バインディング
 -   JSON
+-	XML
 -   Web サービス
 -   WCF サービス
 -   ASP.NET MVC
@@ -57,6 +58,9 @@
     -   [前提条件](#js-array-prerequisites)
     -   [プレビュー](#js_preview)
     -   [手順](#js_steps)
+-	[XML 文字列にバインド](#binding-to-xml)
+	-   [概要](#xml-introduction)
+	-	[例](#xml-example)
 -   [ASP.NET MVC での IQueryable&lt;T&gt; へのバインド](#binding-to-iqueryable)
    -   [概要](#mvc-introduction)
     -   [前提条件](#mvc_prerequisites)
@@ -248,7 +252,23 @@
     </script>
 	```
 
+このサンプルは、JSON データにバインドされたデータ チャートを表示します。
 
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/data-chart/json-binding](%%SamplesEmbedUrl%%/data-chart/json-binding)
+</div>
+
+##<a id="binding-to-xml"></a> XML 文字列にバインド
+
+###<a id="xml-introduction"></a> 概要
+
+この例では、`igDataChart` コントロールを XML 文字列にバインドする方法を示します。
+
+###<a id="xml-example"></a> 例
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/data-chart/xml-binding](%%SamplesEmbedUrl%%/data-chart/xml-binding)
+</div>
 
 ##<a id="binding-to-iqueryable"></a>ASP.NET MVC での IQueryable&lt;T&gt; へのバインド
 
