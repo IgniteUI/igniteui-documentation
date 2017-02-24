@@ -38,8 +38,6 @@
     -   [例](#initial-example)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
-
 
 
 ## <a id="introduction"></a> 概要
@@ -136,31 +134,17 @@ Code
 
 ### <a id="initial-example"></a> 例
 
-以下のスクリーンショットは、以下の設定の結果として `igGrid` がどのように見えるかを示しています。
-
 プロパティ|値
 ---------|------
 initialState|"merged"
 
-
-![](images/igGrid_CellMerging_Overview.png)
-
-以下のコード スニペットは、セル結合の初期状態をコードで設定する方法を示します。
+以下のサンプルは、セル結合の初期状態をコードで設定する方法を示します。
 
 **JavaScript の場合:**
 
-```js
-$("#grid").igGrid({
-    dataSource: adventureWorks,
-    autoGenerateColumns: true,
-    features: [
-        {
-            name: "CellMerging",
-            initialState: "merged"
-        }
-    ]
-});
-```
+<div class="embed-sample">
+   [セル結合](%%SamplesEmbedUrl%%/grid/cell-merging)
+</div>
 
 **ASPX の場合:**
 
@@ -186,20 +170,4 @@ $("#grid").igGrid({
 - [イベント リファレンス (セル結合、igGrid)](igGrid-CellMerging-Event-Reference.html): このトピックでは、`igGrid` コントロールのセル結合機能のイベントに関する参照情報を提供します。
 
 - [CSS クラス リファレンス (セル結合、igGrid)](igGrid-CellMerging-CSS-Classes-Reference.html): このトピックでは、`igGrid` コントロールのセル結合機能の CSS クラスに関する参照情報を提供します。
-
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [セルの結合](%%SamplesUrl%%/grid/cell-merging): このサンプルでは、`igGrid` でセル結合を構成する方法を紹介します。
-
-- [HierarchicalGrid セル結合](%%SamplesUrl%%/hierarchical-grid/cell-merging): このサンプルでは、`igHierarchicalGrid` 結合を構成する方法を紹介します。
-
-
-
- 
-
- 
-
 

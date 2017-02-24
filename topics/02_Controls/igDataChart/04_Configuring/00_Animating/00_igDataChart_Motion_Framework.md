@@ -109,6 +109,13 @@ Infragistics Motion Network 対応の構成可能なチャート アニメーシ
 	</tbody>
 </table>
 
+###<a id="motion-framework-sample"></a> サンプル
+
+以下のサンプルでは、igDataChart で Motion Framework™ を使用し、データの推移を効果的に視覚化しています。
+
+<div class="embed-sample">
+   [Motion Framework](%%SamplesEmbedUrl%%/data-chart/motion-framework)
+</div>
 
 ##関連コンテンツ
 
@@ -125,16 +132,6 @@ Infragistics Motion Network 対応の構成可能なチャート アニメーシ
 
 このトピックでは、コード例を使用して、AJAX POST 要求を使用してデータを動的に追加しているMVC で、簡単なアニメーション化された柱状チャートを追加する方法を示します。
 
-
-
-### サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-
--	[Motion Framework](%%SamplesUrl%%/data-chart/motion-framework)
-
-このサンプルでは、jQuery チャートで Motion Framework を使用し、データの推移を効果的に視覚化しています。
 
 
 

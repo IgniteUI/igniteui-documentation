@@ -50,8 +50,6 @@
     -   [例](#extending-example)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
-
 
 
 ## <a id="overview"></a> カスタム RWD モード プロファイル作成の概要
@@ -114,46 +112,15 @@
 
 ### <a id="inline-example"></a> 例
 
-以下のコードは、`custom_phone` という名前のインライン カスタム RWD モード プロファイルの定義方法をデモします。`custom_phone` 設定は、`minWidth` プロパティと `maxWidth` プロパティで幅の範囲を定義するオブジェクトで、画面の幅に基づいてモードをアクティブ化します (それぞれの高さの範囲のプロパティは `minHeight` および `maxHeight` で、高さのモード ベースの変更はこの例の範囲を超えているため、定義されません).`custom_phone` で定義されるオプションは  `$.ig.ResponsiveMode` クラスを初期化するために使用されます。
+以下のコードは、`customPhone` という名前のインライン カスタム RWD モード プロファイルの定義方法をデモします。`customPhone` 設定は、`minWidth` プロパティと `maxWidth` プロパティで幅の範囲を定義するオブジェクトで、画面の幅に基づいてモードをアクティブ化します (それぞれの高さの範囲のプロパティは `minHeight` および `maxHeight` で、高さのモード ベースの変更はこの例の範囲を超えているため、定義されません).`customPhone` で定義されるオプションは  `$.ig.ResponsiveMode` クラスを初期化するために使用されます。
 
-これらの設定で、Name 列は `custom_phone` モードで非表示として構成されます。
+これらの設定で、Name 列は `customPhone` モードで非表示として構成されます。
 
 **JavaScript の場合:**
 
-```js
-$("#grid1").igGrid({
-    width: "100%",
-    columns: [
-        { headerText: "Product ID", key: "ProductID", dataType: "number"},
-        { headerText: "Product Name", key: "Name", dataType: "string" },
-        { headerText: "Product Number", key: "ProductNumber", dataType: "string" }
-    ],
-    autoGenerateColumns: false,
-    dataSource: adventureWorks,
-    responseDataKey: "Records",
-    features: [
-    {
-        name: "Responsive",
-        columnSettings: [
-            {
-                columnKey: "Name",
-                configuration: {
-                    custom_phone: {
-                        hidden: true
-                    }
-                }
-            }
-        ],
-        responsiveModes: {
-            custom_phone: {
-                minWidth: 0,
-                maxWidth: 767
-            }
-        }
-    }
-]
-});
-```
+<div class="embed-sample">
+   [レスポンス Web デザイン モード](%%SamplesEmbedUrl%%/grid/responsive-web-design-mode)
+</div>
 
 **C# の場合:**
 
@@ -172,11 +139,11 @@ $("#grid1").igGrid({
 	})
 	.Features(feature =>
 	{
-	    feature.Responsive().ResponsiveConfig(config => config.AddExplicitMode("custom_phone", m => m.MinWidth(0).MaxHeight(767)))
+	    feature.Responsive().ResponsiveConfig(config => config.AddExplicitMode("customPhone", m => m.MinWidth(0).MaxHeight(767)))
 	    .ColumnSettings(cs =>
 	    {
 	        cs.ColumnSetting().ColumnKey("Name").Configuration(conf => {
-	            conf.AddColumnModeConfiguration("custom_phone", c => c.Hidden(true));
+	            conf.AddColumnModeConfiguration("customPhone", c => c.Hidden(true));
 	        });
 	    });
 	})
@@ -326,18 +293,4 @@ $.ig.loader(function () {
 - [列非表示の構成 (igGrid、RWD モード)](igGrid-Responsive-Web-Design-Mode-Configuring-Column-Hiding.html): このトピックでは、コード例を用いて、レスポンス Web デザイン (RWD) モードで `igGrid` コントロール用に列を非表示にする方法について説明します。
 
 - [列テンプレートの構成 (igGrid、RWD モード)](igGrid-Responsive-Web-Design-Mode-Configuring-Row-and-Column-Templates.html): このトピックは、コード例を用いて `igGrid` コントロールの各レスポンス Web デザイン (RWD) モード プロファイルに対して列テンプレートを定義する方法、およびアクティブな RWD モードの切り替え時のテンプレートの自動変更を構成する方法について説明します。
-
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [レスポンス Web デザイン モード](%%SamplesUrl%%/grid/responsive-web-design-mode): このサンプルでは、`igGrid` のレスポンス Web デザイン モードを紹介しています。レスポンス Web デザイン モードにより、複数の画面サイズおよびフォーム要素を単一のコード ベースおよび設計でサポートできます。
-
-- [レスポンシブ垂直レンダリング](%%SamplesUrl%%/grid/responsive-vertical-rendering): このサンプルでは、`igGrid` の垂直方向モードのレスポンス Web デザイン機能を紹介しています。レスポンシブ垂直レンダリング モードは、グリッド データを 2 つの列で描画します。左の列は、列のキャプションを含み、右の列はデータを含みます。
-
-
-
-
-
 

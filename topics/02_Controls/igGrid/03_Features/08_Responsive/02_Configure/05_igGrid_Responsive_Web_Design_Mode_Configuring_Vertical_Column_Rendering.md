@@ -47,8 +47,6 @@
 -   [**CSS クラス リファレンス**](#css-reference)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
-
 
 
 ## <a id="overview"></a> 垂直列レンダリングの概要
@@ -71,6 +69,11 @@
 
 ヘッダーおよび値行の幅は、`propertiesColumnWidth` および `valuesColumnWidth` プロパティによって制御できます。
 
+以下のサンプルでは、`igGrid` の垂直方向モードのレスポンス Web デザイン機能を紹介しています。レスポンシブ垂直レンダリング モードは、グリッド データを 2 つの列で描画します。左の列は、列のキャプションを含み、右の列はデータを含みます。
+
+<div class="embed-sample">
+   [レスポンシブ垂直レンダリング](%%SamplesEmbedUrl%%/grid/responsive-vertical-rendering)
+</div>
 
 ### <a id="summary"></a> 垂直列レンダリング構成の概要
 
@@ -332,20 +335,3 @@ object: 150
 - [カスタム レスポンス Web デザイン (RWD) プロファイルの作成 (igGrid)](igGrid-Responsive-Web-Design-Mode-Creating-Custom-Profile.html): このトピックは、コード例を使用して、`igGrid` コントロールのカスタム レスポンシブ Web デザイン (RWD) モード プロファイルを作成する方法について説明します。
 
 - [ブートストラップ サポートの構成 (igGrid、RWD モード)](igGrid-Responsive-Web-Design-Mode-Configuring-Bootstrap-Support.html): このトピックは、Twitter Bootstrap の RWD クラスを用いて `igGrid` コントロールの レスポンス Web デザイン (RWD) モードを構成する方法について説明します。
-
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [レスポンシブ垂直レンダリング](%%SamplesUrl%%/grid/responsive-vertical-rendering): このサンプルでは、`igGrid` の垂直方向モードのレスポンス Web デザイン機能を紹介しています。レスポンシブ垂直レンダリング モードは、グリッド データを 2 つの列で描画します。左の列は、列のキャプションを含み、右の列はデータを含みます。
-
-
-
-
-
- 
-
- 
-
-
