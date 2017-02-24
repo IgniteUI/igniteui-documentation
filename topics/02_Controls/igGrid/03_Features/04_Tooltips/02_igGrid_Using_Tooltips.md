@@ -31,6 +31,7 @@
 -   [**カスタム ツールチップ位置を構成する**](#custom)
     -   [プロパティ設定](#custom-settings)
     -   [コード例](#custom-code)
+-   [**サンプル**](#demo)
 -   [**関連トピック**](#topics)
 
 
@@ -171,6 +172,10 @@ $("#grid1").igGrid({
 
 > **注:** MVC で同様の操作を行う方法については、「[igGrid のツールチップを有効にする](igGrid-Enabling-Tooltips.html)」トピックを参照してください。
 
+## <a id="demo"></a> サンプル
+ +<div class="embed-sample">
+ +   [igGrid ツールチップ](%%SamplesEmbedUrl%%/grid/tooltips)
+ +</div>
 
 ## <a id="topics"></a> 関連トピック 
 以下は、その他の役立つトピックです。
