@@ -254,7 +254,7 @@ HTML ビューの作成を終えれば、[項目の追加] ボタンをクリッ
 
 このトピックについては、以下のサンプルも参照してください。
 
--	[Motion Framework](%%SamplesUrl%%/data-chart/motion-framework): このサンプルでは、jQuery チャートで Motion Framework を使用し、データの推移を効果的に視覚化しています。
+-	[Motion Framework](igDataChart-Motion-Framework.html#motion-framework-sample): このサンプルでは、jQuery チャートで Motion Framework を使用し、データの推移を効果的に視覚化しています。
 
 
 
