@@ -165,7 +165,7 @@
 
 -	[カスタム ツールバーおよびボタン](%%SamplesUrl%%/html-editor/custom-toolbars-and-buttons): このサンプルでは、HtmlEditor コントロールを電子メール クライアントとして実装します。署名をメッセージに追加するカスタム ツールバーがあります。
 
--	[API およびイベント](%%SamplesUrl%%/html-editor/api-and-events): このサンプルでは、HTML エディター コントロールのイベントを処理する方法を紹介し、API を使用する方法を紹介します。
+-	[API およびイベント](ightmleditor-modifying-contents-programmatically#api-and-events-demo): このサンプルでは、HTML エディター コントロールのイベントを処理する方法を紹介し、API を使用する方法を紹介します。
 
 
 

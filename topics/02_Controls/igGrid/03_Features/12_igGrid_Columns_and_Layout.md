@@ -160,10 +160,16 @@ var formattedValue = $.ig.formatter(1000000); //formats the number according to 
 [`formatter`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formatter) および [`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) オプションの両方を適用できません。[`formatter`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formatter) 関数が定義される場合、優先があり、[`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) は使用されません。ただし、[`formatter`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formatter) 関数からの値に [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) が適用されます。
 
 以下は、formatter が使用されている場合の列描画のフローです。
+
 ```
 Raw Value -> formatter -> (template)* -> Cell Value
 * - オプションの設定
 ```
+
+以下のサンプルでは、グリッドに表示する前に列値を書式設定する方法を紹介します。「メーカー フラグ」のブール列に true/false 値を Yes/No 値に変換する `formatter` 関数があります。
+<div class="embed-sample">
+   [列の書式関数](%%SamplesEmbedUrl%%/grid/column-format-function)
+</div>
 
 -  [`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) - 書式設定パターンを識別する文字列です。[`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) オプションは内部に `$.ig.formatter(rawValue, dataType, formatPattern)` 関数を使用します。設定される場合、[`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) は [`autoFormat`](%%jQueryApiUrl%%/ui.iggrid#options:autoFormat) オプションの設定およびデフォルトの地域設定をオーバーライドします。
 
@@ -173,6 +179,12 @@ Raw Value -> formatter -> (template)* -> Cell Value
  Raw Value -> format -> (template)* -> Cell Value 
  * - オプションの設定
  ```
+
+以下のサンプルはグリッドの列書式設定の機能を紹介します。「販売の開始日付」および「変更日付」列は別の日付書式設定を使用します。「価格」の数値列は通貨の書式設定を使用します。
+
+<div class="embed-sample">
+   [igGrid の列書式設定](%%SamplesEmbedUrl%%/grid/column-formats)
+</div>
 
 - [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) - テンプレート化された文字列です。使用されるテンプレート エンジンは `templatingEngine` オプションで定義されます。 テンプレートの構文の詳細は[「テンプレート化エンジン概要」](igTemplating-Overview.html)を参照してください。
  
@@ -284,7 +296,13 @@ var data = [{ "ID": 0, "Name": "Bread", "Description": "Whole grain bread", "Cat
 });
 
 ```
- 
+
+以下のサンプルは、列の mapper 関数により複合データ オブジェクトを処理する方法を紹介します。サンプルで、並べ替えおよびフィルターは mapper 関数から返された値に基づいて実行されます。コンボ エディター プロバイダーの更新は複合オブジェクトを選択したコンボ項目のレコード データとの更新を許可します。
+
+<div class="embed-sample">
+   [複合オブジェクトの処理](%%SamplesEmbedUrl%%/grid/handling-complex-objects)
+</div>
+
 ## <a id="autoGenerateColumns"></a> AutoGenerateColumns
 
 `autoGenerateColumns` が *false* の場合は、列配列に列を必ず手動で定義する必要があります。`autoGenerateColumns` が *true* (デフォルト) の場合は、列を指定する必要はありません。その場合、グリッドはデータ ソース (行が 1 つ以上の場合) から自動的に列を推測し、それを列コレクションに追加します。ヘッダー テキストも自動的に生成され、データ ソース内のキーと等しくなります。自動生成される列の列幅は `defaultColumnWidth` オプションで設定します。すべての生成された列に同じ列幅を適用します。リモート データ バインドを使用するときは、クライアントのバックエンドからデータを使用可能なときのみ、ヘッダー テキストは自動的に生成されます。ただし、大部分の実環境のシナリオでは、列を明示的に定義するのが最も良い方法です。

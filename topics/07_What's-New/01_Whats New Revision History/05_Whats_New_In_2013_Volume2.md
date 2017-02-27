@@ -462,7 +462,7 @@ igLayoutManager はすでに製品版 (RTM) です。
 
 #### 関連サンプル
 
--   [シリーズの強調表示](%%SamplesUrl%%/data-chart/series-highlighting)
+-   [シリーズの強調表示](igDataChart-Series-Highlighting.html#series-highlighting-examples)
 
 ### <a id="animation-transition"></a>アニメーション化されたトランジション
 
@@ -491,11 +491,11 @@ igLayoutManager はすでに製品版 (RTM) です。
 
 #### 関連サンプル
 
--   [**カテゴリ強調表示レイヤー**](%%SamplesUrl%%/data-chart/category-highlight-layer)
--   [**カテゴリ項目強調表示レイヤー**](%%SamplesUrl%%/data-chart/category-item-highlight-layer)
--   [**カテゴリ ツールチップ レイヤー**](%%SamplesUrl%%/data-chart/category-tooltip-layer)
--   [**十字線レイヤー**](%%SamplesUrl%%/data-chart/crosshair-layer)
--   [**項目ツールチップ レイヤー**](%%SamplesUrl%%/data-chart/item-tooltip-layer)
+-   [**カテゴリ強調表示レイヤー**](HoverInteractions-Category-Highlight-Layer.html#example)
+-   [**カテゴリ項目強調表示レイヤー**](HoverInteractions-Category-Item-Highlight-Layer.html#example)
+-   [**カテゴリ ツールチップ レイヤー**](HoverInteractions-Category-Tooltip-Layer.html#example)
+-   [**十字線レイヤー**](HoverInteractions-Crosshair-Layer.html#example)
+-   [**項目ツールチップ レイヤー**](HoverInteractions-Item-Tooltip-Layer.html#example)
 
 ### <a id="axis-ticks"></a>軸目盛り
 
@@ -533,7 +533,7 @@ igLayoutManager はすでに製品版 (RTM) です。
 
 #### 関連サンプル
 
--   [シリーズのツールチップ](%%SamplesUrl%%/data-chart/series-tooltips)
+-   [シリーズのツールチップ](igDataChart-Visual-Elements.html#samples)
 
 ### <a id="drop-shadow"></a>ドロップ シャドウ
 

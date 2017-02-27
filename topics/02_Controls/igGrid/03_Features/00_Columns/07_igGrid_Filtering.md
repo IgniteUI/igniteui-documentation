@@ -48,6 +48,12 @@
 
 フィルタリングの永続化は `igHierarchicalGrid` にも実装されています。
 
+以下のサンプルは、フィルター機能の永続化機能を紹介します。
+
+<div class="embed-sample">
+   [機能の永続化](%%SamplesEmbedUrl%%/grid/feature-persistence)
+</div>
+
 ユーザーが *igGrid* を再バインドした後にフィルターをクリアする以前の動作に戻るには、[`persist`](%%jQueryApiUrl%%/ui.iggridfiltering#options:persist) オプションで機能を無効できます。以下はコード スニペットです。
 
 **JavaScript の場合:**

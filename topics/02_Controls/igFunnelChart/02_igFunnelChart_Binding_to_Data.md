@@ -38,6 +38,7 @@
 -   [**コード例の概要**](#examples-summary)
 -   [**コード例: *igFunnelChart* の JavaScript 配列へのバインド**](#javascript-array)
 -   [**コード例: *igFunnelChart* の XML データへのバインド**](#xml)
+	-   [**XML バインドを紹介するサンプル**](#full-sample)
 -   [**コード例: *igFunnelChart* の厳密に型指定された MVC ビューへのバインド**](#mvc-model)
 -   [**コード例: *igFunnelChart* のリモート サービスからの JSON へのバインド**](#remote-service-json)
 -   [**関連コンテンツ**](#related-content)
@@ -216,7 +217,13 @@ $("#chartNormal").igFunnelChart({
 });
 ```
 
+### <a id="full-sample"></a> XML バインドを紹介するサンプル
+  
+このサンプルは、`igFunnelChart` を XML 構造のデータにバインドする方法を紹介します。そのために、XML データはデータをファンネル チャートに提供する `igDataSource` に渡されます。
 
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/funnel-chart/xml-binding](%%SamplesEmbedUrl%%/funnel-chart/xml-binding)
+</div>
 
 ## <a id="mvc-model"></a> コード例: *igFunnelChart* の厳密に型指定された MVC ビューへのバインド
 
@@ -337,8 +344,6 @@ $("#chartRemote").igFunnelChart({
 
 
 
- 
 
- 
 
 

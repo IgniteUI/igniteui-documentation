@@ -78,6 +78,12 @@
 
 選択の永続化は `igHierarchicalGrid` にも実装されています。
 
+以下のサンプルは、選択機能の永続化機能を紹介します。
+
+<div class="embed-sample">
+   [機能の永続化](%%SamplesEmbedUrl%%/grid/feature-persistence)
+</div>
+
 永続化は、行および列を識別する機能に依存します。
 
 行インデックスは変更可能なため、この機能には使用できません。`igGridSelection` はグリッドのユーザー定義のプライマリ キーを使用するか、レコードのプロパティ値に基づく行の一意識別子を生成します。

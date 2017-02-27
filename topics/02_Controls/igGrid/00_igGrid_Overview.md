@@ -59,31 +59,18 @@
     <link href="css/structure/infragistics.css" rel="stylesheet" type="text/css" />
     ```
 
-2. 次に、グリッドのデータ ソースとしての役割を果たす **JSON 配列を作成**します。
-
-    **JavaScript の場合:**
-
-    ```js
-    var products = [  
-		{ "ProductID": 1, "Name": "Adjustable Race", "ProductNumber": "AR-5381" },  
-		{ "ProductID": 2, "Name": "Bearing Ball", "ProductNumber": "BA-8327" },  
-		{ "ProductID": 3, "Name": "BB Ball Bearing", "ProductNumber": "BE-2349" },  
-		{ "ProductID": 4, "Name": "Headset Ball Bearings", "ProductNumber": "BE-2908" },  
-		{ "ProductID": 316, "Name": "Blade", "ProductNumber": "BL-2036" },  
-		{ "ProductID": 317, "Name": "LL Crankarm", "ProductNumber": "CA-5965" },  
-		{ "ProductID": 318, "Name": "ML Crankarm", "ProductNumber": "CA-6738" },  
-		{ "ProductID": 319, "Name": "HL Crankarm", "ProductNumber": "CA-7457" },  
-		{ "ProductID": 320, "Name": "Chainring Bolts", "ProductNumber": "CB-2903" },  
-		{ "ProductID": 321, "Name": "Chainring Nut", "ProductNumber": "CN-6137" }
-	];
-    ```
+2. 次に、グリッドのデータ ソースとしての役割を果たす **JSON 配列**を参照して追加します。
+    ```html
+    <!--Sample JSON Data-->
+    <script src="http://www.igniteui.com/data-files/northwind.js"></script>
+     ```
 
 3. 与えられたデータを描画するために *igGrid* が使用する**テーブル DOM 要素を定義**します。
 
     **HTML の場合:**
 
     ```html
-    <table id=”grid1”></table>
+    <table id="grid"></table>
     ```
 
 4. 上記のセットアップが完了したら、*ID*、*columns*、*dataSource* などの**オプションを設定**します。
@@ -104,14 +91,54 @@
 	
 	    ```js
 	    $(function () {
-            $("#grid1").igGrid({
-                columns: [
-                    { headerText: "Product ID", key: "ProductID", dataType: "number" },
-                    { headerText: "Product Name", key: "Name", dataType: "string" },
-                    { headerText: "Product Number", key: "ProductNumber", dataType: "string" },
+            $("#grid").igGrid({
+                autoGenerateColumns: false,
+                renderCheckboxes: true,
+                primaryKey: "EmployeeID",
+                columns: [{
+                    // note: if primaryKey is set and data in primary column contains numbers,
+                    // then the dataType: "number" is required, otherwise, dataSource may misbehave
+                    headerText: "Employee ID", key: "EmployeeID", dataType: "number"
+                },
+                {
+                    headerText: "First Name", key: "FirstName", dataType: "string"
+                },
+                {
+                    headerText: "Last Name", key: "LastName", dataType: "string"
+                },
+                {
+                    headerText: "Title", key: "Title", dataType: "string"
+                },
+                {
+                    headerText: "Birth Date", key: "BirthDate", dataType: "date"
+                },
+                {
+                    headerText: "Postal Code", key: "PostalCode", dataType: "string"
+                },
+                {
+                    headerText: "Country", key: "Country", dataType: "string"
+                }
                 ],
-                width: '500px',
-                dataSource: products
+                dataSource: northwind,
+                dataSourceType: "json",
+                responseDataKey: "results",
+                height: "100%",
+                width: "100%",
+                tabIndex: 1,
+                features: [
+                    {
+                        name: "Selection",
+                        mode: "row",
+                        multipleSelection: true
+                    },
+                    {
+                        name: "Paging",
+                        pageSize: 5
+                    },
+                    {
+                        name: "Filtering"
+                    }
+                ]
             });
         });
 	    ```
@@ -119,6 +146,11 @@
 5.  Web ページを実行します。`igGrid` は JSON 配列にバインドし、データを表示します。
 
      ![](images/igGrid_Overview_02.png)
+
+6. サンプル
+    <div class="embed-sample">
+        [igGrid グリッド API およびイベント](%%SamplesEmbedUrl%%/grid/grid-api-events)
+    </div>
 
 ## 関連コンテンツ
 
@@ -128,11 +160,6 @@
 -   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html) 
 -   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
-### サンプル
-
--   [igGrid の概要のサンプル](%%SamplesUrl%%/grid/overview) 
-
- 
 
  
 

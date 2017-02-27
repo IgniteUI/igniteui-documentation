@@ -76,59 +76,13 @@ useInterpolation|bool|このプロパティは、垂直の十字線がデータ 
 
 ## <a id="example"></a> 例
 
-以下のスクリーンショットは、以下の設定を使用して構成される `crosshairLayer` オブジェクトの `thickness` プロパティを持つ `igDataChart` コントロールの外観がどのようになるか示しています。
+このサンプルは、ターゲットとする実際の値に一致する十字線を提供する十字線レイヤーを紹介します。
+このサンプル オプション ペインでは、十字線の太さの変更など、レイヤー プロパティを編集できます。
 
-プロパティ|値
----|---
-thickness|10
-
-
-![](images/jQuery_Crosshair_Layer_02.png)
-
-以下のコードはこの実装で使用されます。
-
-**JavaScript の場合:**
-
-```js
-<script type="text/javascript">
-    $(function () {
-        $("#chart").igDataChart({
-            dataSource: data,
-            axes: [{
-                type: "categoryX",
-                name: "NameAxis",
-                label: "CountryName",
-            }, {
-                type: "numericY",
-                name: "PopulationAxis",
-            }],
-            series: [            
-			{
-                type: "column",
-                name: "2005Population",
-                xAxis: "NameAxis",
-                yAxis: "PopulationAxis",
-                valueMemberPath: "Pop2005"
-            },            
-			{
-                type: "line",
-                name: "1995Population",
-                xAxis: "NameAxis",
-                yAxis: "PopulationAxis",
-                valueMemberPath: "Pop1995"
-            },            
-			{
-                type: "crosshairLayer",
-                name: "crosshairLayer",
-                title: "crosshair",
-                useInterpolation: false,
-                transitionDuration: 500,                
-				thickness: 10
-            }]
-        });
-    });
-</script>
-```
+<div class="embed-sample">
+   [十字線レイヤー](%%SamplesEmbedUrl%%/data-chart/crosshair-layer)
+   ![](images/jQuery_Crosshair_Layer_01.png)
+</div>
 
 
 ## <a id="related-content"></a>関連コンテンツ
@@ -138,8 +92,6 @@ thickness|10
 - [ホバー操作の概要 (igDataChart)](HoverInteractions-Hover-Interactions-Overview.html): このトピックは、利用可能な異なる型のホバー操作レイヤーなど、`igDataChart` コントロール上で利用できるホバー操作について概念的な情報を提供します。
 
 - [ホバー操作プロパティ参照 (igDataChart)](HoverInteractions-Common-Properties.html): このトピックは、ホバー操作機能が、`series` クラスから継承したツールチップの相互作用を強調表示、ホバリングおよび相互作用するために使用するプロパティおよびメソッドについての情報を提供します。
-
-- [十字線レイヤーの構成 (igDataChart)](HoverInteractions-Crosshair-Layer.html): このトピックは、ホバー操作に使用される十字線レイヤーについての情報を提供します。十字線のプロパティについて説明し、実装例を示します。
 
 - [カテゴリ強調表示レイヤーの構成 (igDataChart)](HoverInteractions-Category-Highlight-Layer.html): このトピックは、ホバー操作に使用されるカテゴリ強調表示レイヤーについての情報を提供します。カテゴリ強調表示レイヤーのプロパティについて説明し、実装例を示します。
 
@@ -154,15 +106,13 @@ thickness|10
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [ホバー操作 - カテゴリ強調表示レイヤー](%%SamplesUrl%%/data-chart/category-highlight-layer): このサンプルは、`igDataChart`™ コントロールで 1 つまたはすべてのカテゴリ軸を対象としたカテゴリ強調表示レイヤーを紹介します。このサンプル オプション ペインでは、カテゴリ強調表示レイヤーのプロパティを変更できます。強調表示の色、アウトライン、太さなどの変更が可能です。
+- [ホバー操作 - カテゴリ強調表示レイヤー](HoverInteractions-Category-Highlight-Layer.html#example): このサンプルは、`igDataChart`™ コントロールで 1 つまたはすべてのカテゴリ軸を対象としたカテゴリ強調表示レイヤーを紹介します。このサンプル オプション ペインでは、カテゴリ強調表示レイヤーのプロパティを変更できます。強調表示の色、アウトライン、太さなどの変更が可能です。
 
-- [ホバー操作 - カテゴリ項目強調表示レイヤー](%%SamplesUrl%%/data-chart/category-item-highlight-layer): このサンプルは、カテゴリ項目強調表示レイヤーでカテゴリ軸を使用、その場でバンド図形またはマーカーを描画してシリーズの項目を強調表示します。このサンプル オプション ペインでは、カテゴリ強調表示レイヤーのプロパティを変更できます。強調表示の色、アウトライン、太さなどの変更が可能です。
+- [ホバー操作 - カテゴリ項目強調表示レイヤー](HoverInteractions-Category-Item-Highlight-Layer.html#example): このサンプルは、カテゴリ項目強調表示レイヤーでカテゴリ軸を使用、その場でバンド図形またはマーカーを描画してシリーズの項目を強調表示します。このサンプル オプション ペインでは、カテゴリ強調表示レイヤーのプロパティを変更できます。強調表示の色、アウトライン、太さなどの変更が可能です。
 
-- [ホバー操作 - カテゴリ ツールチップ レイヤー](%%SamplesUrl%%/data-chart/category-tooltip-layer): このサンプルは、カテゴリ軸を使用してグループ化されたツールチップを表示するカテゴリ ツール チップ レイヤーを紹介します。このサンプル オプション ペインでは、ツールチップの位置の変更など、レイヤーのプロパティを編集できます。
+- [ホバー操作 - カテゴリ ツールチップ レイヤー](HoverInteractions-Category-Tooltip-Layer.html#example): このサンプルは、カテゴリ軸を使用してグループ化されたツールチップを表示するカテゴリ ツール チップ レイヤーを紹介します。このサンプル オプション ペインでは、ツールチップの位置の変更など、レイヤーのプロパティを編集できます。
 
-- [ホバー操作 - 十字線レイヤー](%%SamplesUrl%%/data-chart/crosshair-layer): このサンプルは、ターゲットとする実際の値に一致する十字線を提供する十字線レイヤーを紹介します。このサンプル オプション ペインでは、十字線の太さの変更など、レイヤー プロパティを編集できます。
-
-- [ホバー操作 - 項目ツールチップ レイヤー](%%SamplesUrl%%/data-chart/item-tooltip-layer): このサンプルは、すべてのターゲット シリーズに項目ツールチップ レイヤーを表示するツールチップ レイヤーを紹介します。このサンプル オプション ペインでは、トランジション期間の変更など、レイヤー プロパティを編集できます。
+- [ホバー操作 - 項目ツールチップ レイヤー](HoverInteractions-Item-Tooltip-Layer.html#example): このサンプルは、すべてのターゲット シリーズに項目ツールチップ レイヤーを表示するツールチップ レイヤーを紹介します。このサンプル オプション ペインでは、トランジション期間の変更など、レイヤー プロパティを編集できます。
 
 - [ホバー操作 - 複数レイヤー](%%SamplesUrl%%/data-chart/multiple-layers): このサンプルは、`igDataChart` コントロール内での複数レイヤーの相互作用を紹介します。このサンプルでは、項目ツールチップ レイヤー、十字線レイヤー、およびカテゴリ強調表示レイヤーを表示します。
 

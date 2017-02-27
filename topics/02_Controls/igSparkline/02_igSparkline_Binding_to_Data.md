@@ -115,7 +115,6 @@ ASP.NET MVC の `IEnumerable<T>`
     </tbody>
 </table>
 
-
 #### データ ソースの要約
 
 `igSparkline` コントロールのデータ バインドは、Ignite UI ライブラリの他のコントロールと同じです。データのバインドは、`dataSource` オプションにデータ ソースを割り当てるという方法で行い、データが Web または WCF サービスによって提供される場合は `dataSourceUrl` に URL を指定するという方法で行います。
@@ -124,8 +123,12 @@ ASP.NET MVC の `IEnumerable<T>`
 ---|---
 JavaScript 配列へのデータ バインド|**関連トピック**<br>[igSparkline を HTML ドキュメントに追加](igSparkline-Adding-igSparkline-to-an-HTML-Document.html)
 `IEnumerable<T>` にデータ バインド|**関連トピック**<br>[igSparkline を ASP.NET MVC ビューに追加](igSparkline-Adding-igSparkline-to-an-ASPNET-MVC-View.html)
-リモート URL へのデータ バインド|**関連サンプル**<br>[リモート データにバインド](%%SamplesUrl%%/sparkline/bind-to-remote-data)
+リモート データへのデータ バインド|**以下のサンプルを参照してください**<br>
 
+#### リモート データにバインド
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/sparkline/bind-to-remote-data](%%SamplesEmbedUrl%%/sparkline/bind-to-remote-data)
+</div>
 
 ## 関連コンテンツ
 ### トピック
@@ -145,8 +148,6 @@ JavaScript 配列へのデータ バインド|**関連トピック**<br>[igSpark
 
 
 
- 
 
- 
 
 

@@ -552,8 +552,13 @@ $('#grid1').igGridUpdating('deleteRow', 1, $('#grid1').igGrid("rowAt", 0));
 **JavaScript の場合:**
 
 ```js
-$('#grid1').igGridUpdating('updateRow', 1, { 'Name': 'Alex' });
+$('#grid1').igGridUpdating('updateRow', 1, { 'FirstName': 'Alex' });
 ```
+
+以下のサンプルは更新 API およびイベントを紹介します。
+<div class="embed-sample">
+   [igGrid 編集 API およびイベント](%%SamplesEmbedUrl%%/grid/editing-api-events)
+</div>
 
 ## <a id="client-events"></a> クライアント側イベント 
 クライアント側の更新機能に対するイベントは、以下に説明される 2 種類の方法で処理することができます。

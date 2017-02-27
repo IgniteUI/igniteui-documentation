@@ -59,6 +59,7 @@
 -   [コード例の概要](#code-example-summary)
 -   [コード例: 地理シンボル シリーズの JavaScript 配列へのバインド](#example-js-array)
 -   [コード例: 地理シンボル シリーズの ASP.NET MVC の Model オブジェクトへのバインド](#example-mvc-model-object)
+-   [コード例: 地理シンボル シリーズの JSON データベースへのバインド](#example-json-local)
 -   [コード例: 地理シンボル シリーズのリモート サービスからの JSON データベースへのバインド](#example-json-database)
 -   [コード例: 地理図形シリーズのシェープ/DBF ファイルのペアへのバインド](#example-bdf-file-pair)
 -   [コード例: 地理散布エリア シリーズの三角測量ファイルへのバインド](#example-triangulation-file)
@@ -77,7 +78,7 @@
 データ ソース|バインディング
 ---|---
 [JavaScript 配列](#binding-js-array)|地理シンボル シリーズ マップは、ポイントの地理座標を視覚化するデータのローカル JavaScript 配列にバインドできます。
-[JSON](#binding-json)|igMap コントロールは、リモート データを要求し、JSON 応答を受信するよう構成できます。次にこの応答は、地理シンボル シリーズ インスタンスにバインドできます。
+[JSON](#binding-json)|igMap コントロールは、ローカル JSON を使用するか、リモート データを要求し、JSON 応答を受信するよう構成できます。次にこの応答は、地理シンボル シリーズ インスタンスにバインドできます。
 [シェープ ファイル](#binding-shape-datasource)|地理図形シリーズと地理ポリライン シリーズでは、視覚化のためシェープ ファイル ([DBF ファイル](#binding-shape-database)) またはカスタム データ ソースを提供する必要があります。
 [DBF ファイル](#binding-shape-database)|地理図形シリーズと地理ポリライン シリーズでは、DBF データベース ファイルまたはカスタム データ ソースを提供し、データ属性を図形およびポリラインに追加でバインドする必要があります。
 [三角測量 (ITF) ファイル](#binding-triangulation-datasource)|地理散布エリア シリーズと地理等高線シリーズでは、視覚化のため三角測量 (ITF) ファイルまたはカスタム三角測量データ ソースが必要です。
@@ -203,6 +204,8 @@
 `igMap` コントロールは、リモート データを要求し、JSON 応答を受信するよう構成できます。この応答は、地理シンボル シリーズ インスタンスにバインドできます。JSON 応答は、視覚化するポイントの地理座標を提供する必要があり、属性を追加で含むことができます。その他の属性は、地理座標とともにマップ上の対応するポイントにバインドされます。それらの属性は、ツールチップ テンプレートおよびコールバック関数に使用できます。
 
 `igMap` コントロールを JSON データにバインドする実装サンプルについては、[コード例: 地理シンボル シリーズのリモート サービスからの JSON データベースへのバインド](#example-json-database)を参照してください。
+
+`igMap` もローカル JSON データを使用するために構成できます。サンプルについては、[「コード例: 地理シンボル シリーズの JSON データベースへのバインド」](#example-json-local)を参照してください。
 
 ### <a id="binding-shape-datasource"></a>図形データ ソースへのバインド
 
@@ -397,7 +400,17 @@ $("#map").igMap({
 
 	両方の例で、`LatitudeMemberPath()` コールと `LongitudeMemberPath()` コールは、地理的な緯度と経度を含むデータ モデルのオブジェクトのプロパティの名前で構成されています。
 
+##<a id="example-json-local"></a> コード例: 地理シンボル シリーズの JSON データベースへのバインド
 
+### 説明
+
+このサンプルでは地理シンボル シリーズを使用し、世界の国の位置データを含む JSON データを、igMap コントロールにバインドする方法を示します。
+
+### 例
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/map/json-binding](%%SamplesEmbedUrl%%/map/json-binding)
+</div>
 
 ##<a id="example-json-database"></a>コード例: 地理シンボル シリーズのリモート サービスからの JSON データベースへのバインド
 

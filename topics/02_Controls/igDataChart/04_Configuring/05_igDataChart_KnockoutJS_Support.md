@@ -187,7 +187,15 @@ $.ig.loader({
 
 コントロールを監視不可能な配列にバインドすることもできますが、更新機能が使用できず、KnockoutJS のコンテキストで使用する意味がなくなります。
 
+##<a id="Live_Example_igDataChart"></a> サンプル: KnockoutJS でチャート項目の編集
+  
+このサンプルは、Knockout ビュー モデルのデータ ソースの変更を処理する igDataChart コントロールを紹介します。コントロールを再バインドせずにチャートが更新されます。デフォルトで、サンプルは月の最初の 10 日の売上および経費を表示します。チャートに日を追加/削除するか、項目を移動し、チャートを更新します。
 
+>**注:** Knockout 拡張子が ASP.NET MVC ヘルパーとの互換性がありません。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/data-chart/edit-chart-items-with-knockout](%%SamplesEmbedUrl%%/data-chart/edit-chart-items-with-knockout)
+</div>
 
 ##関連コンテンツ
 
@@ -215,8 +223,6 @@ $.ig.loader({
 このトピックについては、以下のサンプルも参照してください。
 
 -	[KnockoutJS で igDataChart をバインド](%%SamplesUrl%%/data-chart/bind-data-chart-with-ko): このサンプルでは、コントロールの Infragistics Knockout 拡張機能を使用して `igDataChart` を Knockout ビューモデルとバインドする方法を紹介します。
-
--	[KnockoutJS によるチャート項目の追加、削除、移動 (igDataChart)](%%SamplesUrl%%/data-chart/edit-chart-items-with-knockout): このサンプルは、Knockout ビューモデルのデータ ソースの変更を処理する `igDataChart` コントロールを紹介します。
 
 
 
