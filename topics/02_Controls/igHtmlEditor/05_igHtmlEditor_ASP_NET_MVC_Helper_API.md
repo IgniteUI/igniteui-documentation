@@ -55,7 +55,7 @@
 
 このトピックについては、以下のサンプルも参照してください。
 
--	[API およびイベント](%%SamplesUrl%%/html-editor/api-and-events): このサンプルでは、 `igHtmlEditor` コントロールのイベントを処理する方法を紹介し、API を使用する方法を紹介します。
+-	[API およびイベント](ightmleditor-modifying-contents-programmatically#api-and-events-demo): このサンプルでは、 `igHtmlEditor` コントロールのイベントを処理する方法を紹介し、API を使用する方法を紹介します。
 
 
 
