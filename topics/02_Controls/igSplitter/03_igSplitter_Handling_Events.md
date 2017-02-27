@@ -40,6 +40,7 @@
 -   [コード例: ASP.NET MVCで実行時に resizeStarted イベントを処理する](#run-time-mvc)
     -   [説明](#mvc-description)
     -   [コード](#mvc-code)
+-   [スプリッター API およびイベント サンプル](#demo)
 -   [関連コンテンツ](#related-content)
 
 
@@ -80,60 +81,46 @@ jQuery はイベント ハンドラーの割り当てるための以下のメソ
             <th>
 イベント処理ケース
 			</th>
-
             <th>
 詳細
 			</th>
         </tr>
 	</thead>
 	<tbody>
-        
-
         <tr>
             <td>
 jQuery における初期化時のイベント処理
 			</td>
-
             <td>
                 ウィジェット初期化時にイベントへバインドすると、以下の形式でオプションを使用してイベントをサブスクライブします。
-
                 `eventName`: <handler>
                 </handler>
-
                 `eventName` オプションの有効な設定
-
                 <ul>
                     <li>
 collapsed
 					</li>
-
                     <li>
 expanded
 					</li>
-
                     <li>
 resizeStarted
 					</li>
-
                     <li>
 resizing
 					</li>
-
                     <li>
 resizeEnded
 					</li>
-
                     <li>
 layoutRefreshed
 					</li>
-
                     <li>
 layoutRefreshing
 					</li>
                 </ul>
             </td>
         </tr>
-
         <tr>
             <td>
 jQuery および ASP.NET MVC で実行時にイベントを処理
@@ -145,8 +132,6 @@ jQuery および ASP.NET MVC で実行時にイベントを処理
         </tr>
     </tbody>
 </table>
-
-
 
 
 
@@ -172,7 +157,7 @@ jQuery および ASP.NET MVC で実行時にイベントを処理
 
 ```js
 $(".selector").igSplitter({
-    resizeStarted: function(evt, ui) { 
+    resizeStarted: function(evt, ui) {
           // Handle event
     }
 });
@@ -190,12 +175,17 @@ $(".selector").igSplitter({
 **JavaScript の場合:**
 
 ```js
-$(document).delegate(".selector", "igsplitterresizestarted", function(evt, ui) { 
+$(document).delegate(".selector", "igsplitterresizestarted", function(evt, ui) {
    // Handle event
 });
 ```
 
+## <a id="demo"></a>スプリッター API およびイベント サンプル
+#### 以下のサンプルでは、スプリッター コントロールのイベントを処理する方法を紹介し、API を使用する方法を紹介します。
 
+<div class="embed-sample">
+	   [%%SamplesEmbedUrl%%/splitter/api-events-splitter](%%SamplesEmbedUrl%%/splitter/api-events-splitter)
+</div>
 
 ## <a id="related-content"></a>関連コンテンツ
 ### サンプル
@@ -216,8 +206,6 @@ $(document).delegate(".selector", "igsplitterresizestarted", function(evt, ui) {
 
 
 
- 
 
- 
 
 
