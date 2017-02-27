@@ -533,7 +533,7 @@ igLayoutManager はすでに製品版 (RTM) です。
 
 #### 関連サンプル
 
--   [シリーズのツールチップ](%%SamplesUrl%%/data-chart/series-tooltips)
+-   [シリーズのツールチップ](igDataChart-Visual-Elements.html#samples)
 
 ### <a id="drop-shadow"></a>ドロップ シャドウ
 
