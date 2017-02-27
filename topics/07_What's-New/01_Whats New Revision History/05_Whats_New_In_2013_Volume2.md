@@ -462,7 +462,7 @@ igLayoutManager はすでに製品版 (RTM) です。
 
 #### 関連サンプル
 
--   [シリーズの強調表示](%%SamplesUrl%%/data-chart/series-highlighting)
+-   [シリーズの強調表示](igDataChart-Series-Highlighting.html#series-highlighting-examples)
 
 ### <a id="animation-transition"></a>アニメーション化されたトランジション
 

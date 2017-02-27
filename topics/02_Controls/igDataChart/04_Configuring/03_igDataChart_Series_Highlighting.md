@@ -110,76 +110,19 @@
 	</tbody>
 </table>
 
+### <a id="series-highlighting-examples"></a>コード例
+このサンプルは、`isHighlightingEnabled` および `highlightingTransitionDuration` シリーズ プロパティを構成すると、複数のシリーズ タイプでシリーズの強調表示機能を紹介します。
+  
+<div class="embed-sample">
+   [シリーズの強調表示](%%SamplesEmbedUrl%%/data-chart/series-highlighting)
+   ![](images/jQuery_Series_Highlighting_01.png)
+</div>
+  
+以下の実例は同じ機能をファイナンシャル チャートに適用します。
+<div class="embed-sample">
+   [シリーズの強調表示 (財務)](%%SamplesEmbedUrl%%/data-chart/series-highlighting-financial)
+</div>
 
-
-### <a id="example"></a>例
-
-表の下のスクリーンショットは、以下の設定の結果、`columnSeries` の `isHighlightingEnabled` と `highlightingTransitionDuration` プロパティで設定されたチャートの外観がどのようになるか示しています。
-
-<table class="table">
-	<tbody>
-		<tr>
-			<th>
-				プロパティ
-			</th>
-
-			<th>
-				値
-			</th>
-		</tr>
-
-		<tr>
-			<td>isHighlightingEnabled</td>
-
-			<td>
-				True
-			</td>
-		</tr>
-
-		<tr>
-			<td>highlightingTransitionDuration</td>
-
-			<td>
-				00:00:10
-			</td>
-		</tr>
-	</tbody>
-</table>
-
-
-
-![](images/jQuery_Series_Highlighting_01.png)
-
-以下のコードはこの例を実装します。
-
-```
-$("#chart").igDataChart({
-   ...
-   ...
-   series: [
-      {
-         name: "2005Population",
-         type: "line",
-         title: "2005",
-         xAxis: "NameAxis",
-         yAxis: "PopulationAxis",
-         valueMemberPath: "Pop2005",
-         isHighlightingEnabled: true,
-         thickness: 5
-      },
-      {
-         name: "1995Population",
-         type: "line",
-         title: "1995",
-         xAxis: "NameAxis",
-         yAxis: "PopulationAxis",
-         valueMemberPath: "Pop1995",
-         isHighlightingEnabled: true,
-         thickness: 5
-      }
-   ]
-});
-```
 ## <a id="events"></a>イベント
 
 
@@ -427,44 +370,12 @@ $("#chart").igDataChart({
 
 ### <a id="event-example"></a>例
 
-以下のスクリーンショットは、強調表示された列を変更する代わりに、強調表示されていない列をフェードするために、`assigningCategoryStyle` イベントを使用して強調表示機能を変更する例を示しています。
+以下の実例は、強調表示された列を変更する代わりに、強調表示されていない列をフェードするために、`assigningCategoryStyle` イベントを使用して強調表示機能を変更する使用を示しています。
 
-![](images/jQuery_Series_Highlighting_02.png)
-
-以下はこの例における実装コードです。
-
-```
-$("#chart").igDataChart({
-   ...
-   series: [{
-      name: "2005Population",
-      type: "column",
-      title: "2005 Population",  
-      isHighlightingEnabled: true,
-      isTransitionInEnabled: true,
-      xAxis: "NameAxis",
-      yAxis: "PopulationAxis",
-      valueMemberPath: "Pop2005",
-      showTooltip: true,
-      isCustomCategoryStyleAllowed: true,
-      isAssigningCategoryStyleAssigned: true
-   }],
-   assigningCategoryStyle: function (e, ui) {
-      var minOpacity = .3, opacity = 1.0, curr;
-      if (ui.sumAllSeriesHighlightingProgress > 0.0) {
-         var progress = 0;
-         if (ui.highlightingInfo !== null) {
-            progress = ui.highlightingInfo.progress;
-         }
-
-         progress = progress - ui.sumAllSeriesHighlightingProgress;
-         opacity = minOpacity + (1.0 + progress) * (1.0 - minOpacity);
-         ui.opacity = opacity;
-         ui.highlightingHandled = true;         
-      }
-   }
-});
-```
+<div class="embed-sample">
+   [カスタム シリーズの強調表示](%%SamplesEmbedUrl%%/data-chart/custom-series-highlighting)
+   ![](images/jQuery_Series_Highlighting_02.png)
+</div>
 
 ## <a id="related-content"></a>関連コンテンツ
 
@@ -475,18 +386,6 @@ $("#chart").igDataChart({
 
 
 -	[igDataChart の追加](igDataChart-Adding.html): このトピックでは、`igDataChart` コントロールをページに追加し、データにバインドする方法を紹介します。
-
-
-### サンプル
-
-以下のサンプルでは、このトピックに関連する情報を提供しています。
-
--	[シリーズの強調表示](%%SamplesUrl%%/data-chart/series-highlighting): このサンプルはシリーズの強調表示機能を紹介します。シリーズ全体またはシリーズの項目を強調表示できます。
-
--	[シリーズの強調表示 (財務)](%%SamplesUrl%%/data-chart/series-highlighting-financial): このサンプルでは、財務シリーズでシリーズの強調表示機能を紹介します。
-
--	[カスタム シリーズの強調表示](%%SamplesUrl%%/data-chart/custom-series-highlighting): このサンプルでは、`assigningCategoryStyle` イベントを使用して、強調表示された列を変更する代わりに、強調表示されていない列をフェードするために強調機能を変更する方法を紹介します。
-
 
 
 
