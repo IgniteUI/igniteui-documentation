@@ -166,6 +166,11 @@ Raw Value -> formatter -> (template)* -> Cell Value
 * - オプションの設定
 ```
 
+以下のサンプルでは、グリッドに表示する前に列値を書式設定する方法を紹介します。「メーカー フラグ」のブール列に true/false 値を Yes/No 値に変換する `formatter` 関数があります。
+<div class="embed-sample">
+   [列の書式関数](%%SamplesEmbedUrl%%/grid/column-format-function)
+</div>
+
 -  [`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) - 書式設定パターンを識別する文字列です。[`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) オプションは内部に `$.ig.formatter(rawValue, dataType, formatPattern)` 関数を使用します。設定される場合、[`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) は [`autoFormat`](%%jQueryApiUrl%%/ui.iggrid#options:autoFormat) オプションの設定およびデフォルトの地域設定をオーバーライドします。
 
  [`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) が使用されている場合、以下は列描画のフローです。
