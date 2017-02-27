@@ -201,7 +201,7 @@ igSplitter 構造
 
 以下のスクリーンショットは最終結果のプレビューです。
 
-![](images/Adding_igSplitter_2.png)
+![](images/Adding_igSplitter_JS.png)
 
 ### <a id="js-steps"></a>手順
 
@@ -263,8 +263,14 @@ igSplitter 構造
 
 		```html
 		<div id="splitter">
-		<div>Some content</div>
-		<div>Other content</div>
+			<div>
+				First panel with grid example: <br />
+				<div id="grid"></div>
+			</div>
+			<div>
+				Second panel with html editor example: <br />
+				<div id="htmlEditor"></div>
+			</div>
 		</div>
 		```
 
@@ -366,8 +372,14 @@ igSplitter 構造
 
 		```html
 		<div id="splitter">
-			<div>Some content</div>
-			<div>Other content</div>
+			<div>
+				First panel with grid example: <br />
+				<div id="grid"></div>
+			</div>
+			<div>
+				Second panel with html editor example: <br />
+				<div id="htmlEditor"></div>
+			</div>
 		</div>
 		```
 
@@ -376,12 +388,13 @@ igSplitter 構造
 		```csharp
 		@(Html.Infragistics()
 			.Splitter()
-        	.ID("splitter")
-			.Height("100px")
+			.ID("splitter")
+			.Height("300px")
+			.Width("900px")
 			.SplitterPanelSettings(p =>
 			{
-				p.AddPanel().Size("150px").Min("30px").Max("280px");
-				p.AddPanel().Size("150px").Collapsible(true);
+				p.AddPanel().Size("300px").Min("30px").Max("300px");
+				p.AddPanel().Size("500px").Collapsible(true);
 			})
 			.Render()
     	)
