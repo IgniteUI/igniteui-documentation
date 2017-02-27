@@ -51,9 +51,12 @@
 
 ###<a id="preview"></a> プレビュー
 
-次のスクリーンショットは、NumericX 軸および NumericY 軸を使用する `igDataChart` コントロールのプレビューです。Y 軸は、緑色の MajorStoroke で間隔が 10000、赤色の MinorStorke で MinorInterval が 5000に設定されています。一方X 軸は、緑色の MajorStroke で間隔が 10、赤色の MinorStroke で MinorInterval が 2 に設定されています。
+以下の実例は NumericX および NumericY 軸を使用する構成可能な `igDataChart` コントロールを紹介します。Interval、MinorInterval、MajorStroke、および MinorStroke オプションを設定できます。
 
-![](images/jQuery_AxisIntervals_NumericXY_01.png)
+<div class="embed-sample">
+   [NumericXAxis の間隔](%%SamplesEmbedUrl%%/data-chart/numeric-xaxis-intervals)
+   ![](images/jQuery_AxisIntervals_NumericXY_01.png)
+</div>
 
 軸の主間隔および副間隔は、軸の Interval プロパティおよび MinorInterval プロパティに、0 より大きい値を設定することで実装されます。副間隔に対応する副グリッド線を表示するには、軸の MinorStroke および MinorStrokeThickness プロパティを設定する必要があります (副グリッド線は色または太さがデフォルトで設定されていません。副グリッド線を表示するには、最初にこれらの値を設定します)。
 
@@ -237,65 +240,12 @@ $("#container").igDataChart({
 
 ###<a id="categoryxexample"></a> CategoryXExample
 
-この表の下に示すスクリーンショットは、以下の設定の結果 (ColumnSeries を使用)、軸の主間隔と副間隔のプロパティを CategoryXAxis に設定した `igDataChart` コントロールの外観がどのようになるかを示します。
+このサンプルは、軸の主間隔と副間隔のプロパティを CategoryXAxis に設定して、以下の設定の結果 (MinorInterval、MinorStroke、MinorStrokeThickness、Interval、MajorStroke、および MajorStrokeThickness) として表示した `igDataChart` コントロールを紹介します。
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>プロパティ</th>
-			<th>値</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>MinorInterval</td>
-			<td>0.25</td>
-		</tr>
-		<tr>
-			<td>MinorStroke</td>
-			<td>“Red”</td>
-		</tr>
-		<tr>
-			<td>MinorStrokeThickness</td>
-			<td>1</td>
-		</tr>
-		<tr>
-			<td>Interval</td>
-			<td>2</td>
-		</tr>
-		<tr>
-			<td>MajorStroke</td>
-			<td>“Green”</td>
-		</tr>
-		<tr>
-			<td>MajorStrokeThickness</td>
-			<td>2</td>
-		</tr>
-		
-	</tbody>
-</table>
-
-![](images/jQuery_AxisIntervals_CategoryX_01.png)
-
-以下のコードはこの例を実装します。
-
-**JavaScript の場合:**
-
-```js
-$("#container").igDataChart({
-	…
-	axes: [{
-                    name: "xAxis",
-                    type: "categoryX",
-                    title: "Country",
-                    label: "CountryName",
-                    majorStroke: "Green",
-                    minorStroke: 'Red',
-                    minorInterval: 0.25,
-                    interval: 2,
-                    majorStrokeThickness: 2,
-                }, …
-```
+<div class="embed-sample">
+   [CategoryXAxis の間隔](%%SamplesEmbedUrl%%/data-chart/category-xaxis-intervals)
+   ![](images/jquery_axisintervals_categoryx_01.png)
+</div>
 
 ##<a id="related-content"></a>関連コンテンツ
 
@@ -305,17 +255,6 @@ $("#container").igDataChart({
 以下のトピックでは、このトピックに関連する追加情報を提供しています。
 
 -	[igDataChart](igDataChart-Adding.html) の追加: このトピックでは、`igDataChart` コントロールをページに追加し、データにバインドする方法を紹介します。
-
-
-### サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
--	[NumericAxesIntervals](%%SamplesUrl%%/data-chart/numeric-xaxis-intervals) : このサンプルでは、NumericX 軸および NumericY 軸を使用して ScatterLineSeries の主軸および副軸の間隔の使用を紹介します。
--	[CategoryXAxisIntervals](%%SamplesUrl%%/data-chart/category-xaxis-intervals) : このサンプルでは、CategoryXAxis を使用して ColumnSeries の主軸および副軸の間隔の使用を紹介します。
-
-
-
 
 
  
