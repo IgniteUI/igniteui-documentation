@@ -139,7 +139,7 @@ $("#gauge").igRadialGauge({
 
 - [ゲージ針](%%SamplesUrl%%/radial-gauge/gauge-needle): ポインターとして表示される針は、スケールで単一の値を示します。以下のオプション ペインでラジアル ゲージコントロールの針を操作できます。
 
-- [ラベル設定](%%SamplesUrl%%/radial-gauge/label-settings): このサンプルは、ラジアル ゲージ コントロールのラベル設定の方法を紹介します。スライダーを使用して、`labelInterval` および `labelExtent` プロパティのラベルへの影響を確認できます。
+- [ラベル設定](igradialgauge-configuring-labels.html#lable-example): このサンプルは、ラジアル ゲージ コントロールのラベル設定の方法を紹介します。スライダーを使用して、`labelInterval` および `labelExtent` プロパティのラベルへの影響を確認できます。
 
 - [針のドラッグ](%%SamplesUrl%%/radial-gauge/drag-needle): このサンプルは、Mouse イベントを使用してラジアル ゲージ コントロールの針をドラッグする方法を紹介します。
 

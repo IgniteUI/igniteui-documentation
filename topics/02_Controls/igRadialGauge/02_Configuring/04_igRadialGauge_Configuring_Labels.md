@@ -35,6 +35,7 @@
 -   [プレビュー](#preview)
 -   [ラベルのプロパティとイベント](#lable-properties)
 -   [ラベルの構成](#config-lable)
+-	[例](#lable-example)
 -   [関連コンテンツ](#related-content)
 
 
@@ -100,7 +101,13 @@ $("#gauge").igRadialGauge({
  });                                                                  
 ```
 
+## <a id="lable-example"></a>例
 
+以下のサンプルでは、ラジアル ゲージ コントロールのラベルを設定する方法を紹介します。スライダーは、labelExtent および labelInterval プロパティの Label への影響を確認できます。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/radial-gauge/label-settings](%%SamplesEmbedUrl%%/radial-gauge/label-settings)
+</div>
 
 
 ## <a id="related-content"></a>関連コンテンツ
@@ -131,8 +138,6 @@ $("#gauge").igRadialGauge({
 - [ゲージのアニメーション](%%SamplesUrl%%/radial-gauge/motion-framework): このサンプルは、`transitionDuration` プロパティを設定してラジアル ゲージを簡単にアニメーション化する方法を紹介します。
 
 - [ゲージ針](%%SamplesUrl%%/radial-gauge/gauge-needle): ポインターとして表示される針は、スケールで単一の値を示します。以下のオプション ペインでラジアル ゲージコントロールの針を操作できます。
-
-- [ラベル設定](%%SamplesUrl%%/radial-gauge/label-settings): このサンプルは、ラジアル ゲージ コントロールのラベル設定の方法を紹介します。スライダーを使用して、`labelInterval` および `labelExtent` プロパティのラベルへの影響を確認できます。
 
 - [針のドラッグ](%%SamplesUrl%%/radial-gauge/drag-needle): このサンプルは、Mouse イベントを使用してラジアル ゲージ コントロールの針をドラッグする方法を紹介します。
 
