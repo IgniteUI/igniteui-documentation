@@ -160,6 +160,7 @@ var formattedValue = $.ig.formatter(1000000); //formats the number according to 
 [`formatter`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formatter) および [`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) オプションの両方を適用できません。[`formatter`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formatter) 関数が定義される場合、優先があり、[`format`](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) は使用されません。ただし、[`formatter`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formatter) 関数からの値に [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) が適用されます。
 
 以下は、formatter が使用されている場合の列描画のフローです。
+
 ```
 Raw Value -> formatter -> (template)* -> Cell Value
 * - オプションの設定
@@ -173,6 +174,12 @@ Raw Value -> formatter -> (template)* -> Cell Value
  Raw Value -> format -> (template)* -> Cell Value 
  * - オプションの設定
  ```
+
+以下のサンプルはグリッドの列書式設定の機能を紹介します。「販売の開始日付」および「変更日付」列は別の日付書式設定を使用します。「価格」の数値列は通貨の書式設定を使用します。
+
+<div class="embed-sample">
+   [igGrid の列書式設定](%%SamplesEmbedUrl%%/grid/column-formats)
+</div>
 
 - [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) - テンプレート化された文字列です。使用されるテンプレート エンジンは `templatingEngine` オプションで定義されます。 テンプレートの構文の詳細は[「テンプレート化エンジン概要」](igTemplating-Overview.html)を参照してください。
  
