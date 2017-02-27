@@ -35,6 +35,7 @@
 ### <a id="Requirements"></a>要件
 このサンプルを実行するために以下が必要です。
 -   必要となる Ignite UI の JavaScript と CSS ファイル
+-   必須な Ignite UI TypeScript 定義
 
 ### <a id="Overview"></a>概要
 このトピックでは、TypeScript クラスの作成、データソース、および `igCombo` について順を追って説明します。
@@ -68,6 +69,9 @@
 
 **TypeScript の場合:**
 ```typescript
+/// <reference path="http://www.igniteui.com/js/typings/jquery.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/jqueryui.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/igniteui.d.ts" />
 class MountainTop {
     id: number;
     mountainName: string;
