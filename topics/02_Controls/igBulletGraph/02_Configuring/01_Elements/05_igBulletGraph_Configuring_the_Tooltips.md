@@ -14,7 +14,7 @@
 
 #### 目的
 
-このトピックではコード例を使用して、`igBulletGraph`™ コントロールのツールチップを有効にする方法および表示する遅延時間を設定する方法を説明します。
+このトピックではコード例を使用して、`igBulletGraph`™ コントロールのツールチップを有効にする方法および表示する遅延時間を設定する方法、カスタム ツールチップ テンプレートの作成方法、およびコード サンプルを説明します。
 
 ### 前提条件
 
@@ -49,9 +49,9 @@
 -   [**比較範囲のカスタム ツールチップの構成**](#comparative-ranges)
     -   [プロパティ設定](#comparative-ranges-property)
     -   [例](#comparative-ranges-example)
+-   [**ツールチップの構成のサンプル**](#configuring-tooltips-sample)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
 
 
 
@@ -289,7 +289,6 @@ $("#bulletgraph").igBulletGraph({
 ```
 
 
-
 ## <a id="comparative-marker"></a> 比較マーカーのカスタム ツールチップの構成
 
 比較マーカーのツールチップは、値についてはデフォルトのシステム フォントを使用し、またコントロールの外観についてはデフォルトのスタイル設定で表示されます。カスタム設定の場合、ツールチップの値をカスタム テンプレートで設定します。
@@ -398,7 +397,7 @@ $("#bulletgraph").igBulletGraph({
             valueToolTipTemplate: "valueToolTipTemplate",
             rangeToolTipTemplate: 'rangeToolTipTemplate',
             value: 26,
-            targetValue: 82,
+            targetValue: 73,
             height: "70px",
             width: "300px",
             ranges: [
@@ -422,7 +421,16 @@ $("#bulletgraph").igBulletGraph({
 </script>
 ```
 
+## <a id="configuring-tooltips-sample"></a> ツールチップの構成のサンプル
 
+このサンプルは、以上に説明したカスタム ツールチップをすべて結合する方法を紹介します。[パフォーマンス バー](%%jQueryApiUrl%%/ui.igbulletgraph#options:valueToolTipTemplate)、[比較マーカー](%%jQueryApiUrl%%/ui.igbulletgraph#options:targetValueToolTipTemplate)、および[範囲](%%jQueryApiUrl%%/ui.igbulletgraph#options:rangeToolTipTemplate)のツールチップが可能なすべての構成領域にテンプレートを含みます。 
+最初の `igBulletGraph` が開発タスクの視覚化のために使用され、デフォルト ツールチップが options API によって有効にして構成されます。品質保証タスクを視覚化する第 2 のグラフはカスタム ツールチップ テンプレートを使用し、主な領域にホバーすると、外観がカスタマイズされます。
+
+サンプルで、このタスクは 3 週間で同時に実行されますが、開発に他のタスク以上の時間が費やされました。進行状況バーは、タスク完了の可能性を表す状態範囲 (「高」、「中」、「低」) を表します。
+  
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/bullet-graph/tooltip-settings](%%SamplesEmbedUrl%%/bullet-graph/tooltip-settings)
+</div>
 
 ## <a id="related-content"></a> 関連コンテンツ
 
@@ -439,14 +447,6 @@ $("#bulletgraph").igBulletGraph({
 - [比較範囲の構成 (*igBulletGraph*)](igBulletGraph-Configuring-Comparative-Ranges.html): このトピックではコード例を使用して、`igBulletGraph` コントロールの範囲を構成する方法を説明します。説明には、範囲の数、位置、長さ、幅、および書式設定が含まれます。
 
 - [背景の構成 (*igBulletGraph*)](igBulletGraph-Configuring-the-Background.html): このトピックではコード例を使用して、ブレット グラフの背景を構成する方法を説明します。説明には、背景のサイズ、位置、色、および境界線の設定が含まれます。
-
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
--  [ツールチップ設定](%%SamplesUrl%%/bullet-graph/tooltip-settings): このサンプルでは、`igBulletGraph` コントロールでデフォルトまたはテンプレート付きのツールチップの構成を紹介します。
-
 
 
 
