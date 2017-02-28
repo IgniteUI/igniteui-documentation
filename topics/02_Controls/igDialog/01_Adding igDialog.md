@@ -3,7 +3,7 @@
 {
     "fileName": "adding-igdialog",
     "controlName": "igDialog",
-    "tags": ["Getting Started"]
+    "tags": ["Getting Started", "TypeScript", "AngularJS"]
 }
 |metadata|
 -->
@@ -111,6 +111,19 @@
 	    });
 		```
 
+`igDialog` を TypeScript で使用するには、以上のコードを使用してインスタンス化できます。TypeScript 用の Ignite UI と jQuery の型定義への参照パスを含めます。
+
+    **TypeScript の場合:**
+    ```typescript
+    /// <reference path="jqueryui.d.ts" />
+    /// <reference path="jquery.d.ts" />
+    /// <reference path="igniteui.d.ts" />
+    ```
+    
+>**注:** TypeScript の 1.5 以前のバージョンでは、コンパイラがコンパイル中にプログラムに依存関係を組み込むため、型定義への参照パスは必須です。1.5 以降のバージョンでは、単独の tsconfig.json ファイルで定義することができます。詳細は、[tsconfig.json wiki のページ](https://github.com/Microsoft/TypeScript/wiki/tsconfig.json)を参照してください。
+		
+> TypeScript の Ignite UI 定義を使用する詳細については、[「TypeScript で Ignite UI を使用」](using-ignite-ui-with-typescript.html)トピックを参照してください。
+
 - **Razor の初期化**
 	
 	ダイアログ MVC ラッパーは、HTML を表示すると同時に、コントロールを初期化する JavaScript コードを表示するものであるという点で他の MVC ラッパーとは異なります。この点を理解しておくことは非常に重要です。`igDialog` のコンテンツには任意の HTML マークアップを使用することができるため、このマークアップを最初に定義しておく必要があります。コードを定義しておけば、あとは、コントロールのすべての構成が MVC ラッパーによって自動的に定義されることになります。
@@ -152,6 +165,16 @@
 > `Dialog.ID(“igDialog1”)` - `ContentID(“igDialog1”)` と同じです。
 
 > **注:** MVC ラッパーを使用して HTML DIV プレースホルダー コードを定義したい場合は、ダイアログ ヘルパーで示される次のメソッドを使用することができます。DIV HTML プレースホルダーの定義と同じ効果を実現したい場合は、次のメソッドを使用してください。 `Dialog.ContentHTML("<div id="igDialog1"> igDialog Content </div>")`
+
+- **AngularJS でのインスタンス化**
+
+以下のサンプルは、AngularJS ディレクティブを使用してダイアログ ウィンドウを宣言する方法を紹介します。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/dialog-window/angular](%%SamplesEmbedUrl%%/dialog-window/angular)
+</div>
+
+> AngularJS の Ignite UI 命令を使用する詳細については、[「AngularJS で Ignite UI を使用」](using-ignite-ui-with-angularjs.html)トピックを参照してください。
 
 ## igDialog の破棄
 
