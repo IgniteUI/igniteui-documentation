@@ -167,7 +167,7 @@
 
 4. JavaScript と CSS の参照の追加
 
-	この例では、ASP.NET MVC アプリケーションでローカルに参照される、結合された JavaScript および CSS ファイルを使用します。
+	この例では、ASP.NET MVC アプリケーションでローカルで参照される、結合された JavaScript および CSS ファイルを使用します。
 
 	**ASPX の場合:**
 
