@@ -159,9 +159,20 @@
 
 `igPivotGrid` コントロールは `igPivotDataSelector` コントロールと統合します。この統合により、ピボット グリッドへ/から階層およびメジャーを追加/削除することが可能になります。
 
+### igGrid の機能
 
+`igPivotGrid` コントロールのコンテンツが `igGrid` コントロールにより描画されます。グリッドのオプションが [gridOptions](%%jQueryApiUrl%%/ui.igPivotGrid#options:gridOptions) で設定できます。
+igGrid の以下の機能は gridOptions.[features](%%jQueryApiUrl%%/ui.igPivotGrid#options:gridOptions.features) オプションで有効にできます:
+- サイズ変更
+- ツールチップ
 
-##<a id="user-interaction"></a>ユーザー インタラクションと操作性
+以下のサンプルは、igPivotGrid でサポートされるすべての igGrid 機能を有効にする方法を紹介します。
+
+<div class="embed-sample">
+   [すべてのグリッド機能](%%SamplesEmbedUrl%%/pivot-grid/all-grid-features)
+</div>
+
+## <a id="user-interaction"></a>ユーザー インタラクションと操作性
 
 ### ユーザー インタラクションの概要表
 
