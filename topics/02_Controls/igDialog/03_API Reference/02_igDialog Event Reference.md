@@ -26,7 +26,6 @@
     -   [MVC でイベント ハンドラーを添付する](#attaching-handlers-mvc)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
 
 
 
@@ -60,6 +59,12 @@ $("#igDialog1").igDialog({
 });
 ```
 
+以下のサンプルは、使用する方法を紹介し、イベント ハンドラーを指定した要素にアタッチするには jQuery の [`on`](http://api.jquery.com/on/) メソッドの使用も紹介します。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/dialog-window/api-and-events](%%SamplesEmbedUrl%%/dialog-window/api-and-events)
+</div>
+
 ### <a id="attaching-handlers-mvc"></a> MVC でイベント ハンドラーを添付する
 
 MVC でハンドラーを添付する場合、ハンドラーをウィジェット イベントに添付する jQuery User Interface (UI) パターンを使用します。つまり、jQuery の [`on`](http://api.jquery.com/on/)、[`bind`](http://api.jquery.com/bind/)、または [`live`](http://api.jquery.com/live/) 関数を使用して、イベントの名前をそれらに渡す必要があります。イベント名は、コントロールおよびイベントの名前を連結した小文字の文字列でなければなりません。jQuery ウィジェットでも同様のことができますが、コントロールを初期化するときにイベント ハンドラーを直接添付できるため、これは必要ありません。詳細は、[jQuery ウィジェット ファクトリ](http://wiki.jqueryui.com/w/page/12138135/Widget%20factory)を参照してください。以下のコードは、MVC ソリューションを実装する場合にハンドラーを igDialog イベントに添付する方法を示しています。
@@ -83,17 +88,6 @@ $("#igDialog1").live({ igdialogstatechanging: function (e, args) {
 - [プロパティ リファレンス (*igDialog*)](igDialog-Property-Reference.html): このトピックでは、`igDialog` コントロールのプロパティを紹介します。
 - [メソッドのリファレンス (*igDialog*)](igDialog-Method-Reference.html): このトピックでは `igRating` コントロールのメソッドを紹介します。
 - [CSS クラス リファレンス (*igDialog*)](igDialog-Css-Classes-Reference.html): このトピックでは、`igDialog` コントロールの CSS クラスを紹介します。
-
-
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [API およびイベント](%%SamplesUrl%%/dialog-window/api-and-events): このサンプルでは、ダイアログ ウィンドウ コントロールのイベントを処理および API を使用する方法を紹介します。
-
-
-
 
 
  

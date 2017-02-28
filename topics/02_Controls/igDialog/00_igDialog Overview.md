@@ -160,7 +160,7 @@ Maximized|*この状態では、igDialog は最大化されています。*|[最
 
 **関連サンプル:**
 
--   [API およびイベント](%%SamplesUrl%%/dialog-window/api-and-events)
+-   [API およびイベント](igdialog-event-reference.html#attaching-handlers-jquery)
 
 ### <a id="header-footer"></a> ヘッダーとフッター
 

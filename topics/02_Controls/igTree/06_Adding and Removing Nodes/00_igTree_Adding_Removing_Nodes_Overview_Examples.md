@@ -205,7 +205,7 @@ if (nodeValue) {
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [API およびイベント](%%SamplesUrl%%/tree/api-and-events): このサンプルは `igTree` API を使用する方法を紹介します。
+- [API およびイベント](igtree-event-reference.html#attaching-handlers-jquery): このサンプルは `igTree` API を使用する方法を紹介します。
 
 
 

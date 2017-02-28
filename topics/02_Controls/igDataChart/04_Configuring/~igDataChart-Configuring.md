@@ -26,6 +26,10 @@
 
 Infragistics® Motion Framework™ は、Ignite UI™ チャート コントロールのデータ変更をアニメーション化するためのフレームワークです。
 
+-   [ナビゲーション機能の構成 (igDataChart)](igDataChart-Configuring-Navigation-Features.html)
+
+このトピックでは、コード例を使用して、`igDataChart`™ コントロールのナビゲーション機能の構成方法、およびその API を使用してチャートの表示部分の位置とサイズを定義する方法を説明します。
+
 -	[チャートのタイトル / サブタイトルの構成 (igDataChart)](igDataChart-Chart-Titles-and-Subtitles.html)
 
 このトピックでは、`igDataChart`™ コントロールのチャート タイトルとサブタイトル機能を使用する方法を説明します。

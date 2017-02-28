@@ -116,7 +116,7 @@ $(“#dialog”).igDialog(“moveToTop”, e);
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [API およびイベント](%%SamplesUrl%%/dialog-window/api-and-events) : このサンプルでは、ダイアログ ウィンドウ コントロールのイベントを処理および API を使用する方法を紹介します。
+- [API およびイベント](igdialog-event-reference.html#attaching-handlers-jquery) : このサンプルでは、ダイアログ ウィンドウ コントロールのイベントを処理および API を使用する方法を紹介します。
 
 
 

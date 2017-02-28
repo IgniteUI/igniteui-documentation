@@ -26,6 +26,8 @@
 
 -	[ASP.NET MVC 検証の構成 (エディター)](Configuring-ASP.NET-MVC-Validation.html): このトピックでは、Ignite UI エディター コントロールで構成されるフォームの最初のステップとして、フォームの作成とデータ注釈付きでフォームを検証する方法を紹介します。また、ASP.NET MVC ValidationMessage を構成し、検証テキストをさらにカスタマイズする方法も説明します。
 
+-	[エディターのローカリゼーション](Localizing-igEditors.html): このトピックは、エディターのローカライズ リソースおよび地域設定を使用する方法を紹介します。
+
 -	[Knockout サポートの構成 (エディター)](Configuring-Knockout-Support-%28Editors%29.html): このトピックは、Knockout ライブラリを使用したビューモード オブジェクトのバインドで、Ignite UI エディター コントロールを構成する方法を説明します。
 
 

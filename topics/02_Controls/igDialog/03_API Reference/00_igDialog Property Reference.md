@@ -1760,7 +1760,7 @@
 
 - [基本的な使用方法](%%SamplesUrl%%/dialog-window/basic-usage): このサンプルでは、`igDialog` の高さ、幅、状態を設定する方法を紹介します。
 
-- [API およびイベント](%%SamplesUrl%%/dialog-window/api-and-events): このサンプルでは、ダイアログ ウィンドウ コントロールのイベントを処理および API を使用する方法を紹介します。
+- [API およびイベント](igdialog-event-reference.html#attaching-handlers-jquery): このサンプルでは、ダイアログ ウィンドウ コントロールのイベントを処理および API を使用する方法を紹介します。
 
 - [ASP.NET MVC の基本的な使用方法](%%SamplesUrl%%/dialog-window/aspnet-mvc-helper): このサンプルでは、ダイアログ ウィンドウの ASP.NET MVC ヘルパーを使用する方法を紹介します。
 
