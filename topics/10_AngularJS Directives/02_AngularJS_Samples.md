@@ -66,7 +66,7 @@
 以下は最終結果のプレビューです。
 
 <div class="embed-sample">
-   [%%SamplesEmbedUrl%%/tree/angular](%%SamplesEmbedUrl%%/tree/angular)
+   [%%SamplesEmbedUrl%%/tree-control/angular](%%SamplesEmbedUrl%%/tree-control/angular)
 </div>
 
 #### <a id="tree_sample_details"></a>詳細
