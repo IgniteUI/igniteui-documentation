@@ -26,6 +26,9 @@
 -   [円チャート サンプル](#pie_chart_sample)
     -   [プレビュー](#pie_chart_preview)
     -   [詳細](#pie_chart_details)
+-   [バーコード サンプル](#barcode_sample)
+    -   [プレビュー](#barcode_preview)
+    -   [詳細](#barcode_details)
 -   [関連コンテンツ](#related_content)
 
 ### <a id="requirements"></a>要件
@@ -351,6 +354,135 @@ $(function () {
         selectionChanged: function (evt, ui) {
             if ($.isArray(ui.items) && ui.items[0] != undefined) {
                 $("#pieChart").igPieChart("option", "leaderLineType", ui.items[0].data.value);
+            }
+        }
+    });
+});
+```
+
+### <a id="barcode_sample"></a>バーコード サンプル
+このサンプルでは、バーコードの作成で TypeScript の使用方法を紹介し、設定の構成を紹介します。
+#### <a id="barcode_preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/igBarcode_TypeScript.png)
+
+#### <a id="barcode_details"></a></a>詳細
+
+HTML を作成 - Infragistics サイトへのハイパーリンクを含むデータに基づいてバーコードを作成します。バーコード モードを変更するには、`エンコード モード`および `ECI ヘッダーの表示モード`を使用します。
+
+**HTML の場合**
+```html
+<table class="options">
+    <tr>
+        <td style="text-align:left;">
+            <div id="barcode"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>Data:</td>
+        <td>
+            <input id='combo' dir="ltr"></input>
+        </td>
+        <td>
+            <input id="setButton" type="button" value="Set" style="width:50px; float: left;" />
+        </td>
+    </tr>
+    <tr>
+        <td>Encoding Mode:</td>
+        <td>
+            <div class="comboContainer">
+                <select id="encodingMode">
+                    <option value="undefined">Undefined</option>
+                    <option value="numeric">Numeric</option>
+                    <option value="alphanumeric">Alphanumeric</option>
+                    <option value="byte" selected="selected">Byte</option>
+                    <option value="anji">Kanji</option>
+                </select>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>Eci Header Display Mode:</td>
+        <td>
+            <div class="comboContainer">
+                <select id="eciHeaderDisplayMode">
+                    <option value="hide" selected="selected">Hide</option>
+                    <option value="show">Show</option>
+                </select>
+            </div>
+        </td>
+    </tr>
+</table>
+```
+データ ソースを作成 - `IGProducts` クラスを追加し、 Infragistics 製品データを初期化します。`igProductsData` 配列で保存されます。
+
+**TypeScript の場合**
+```typescript
+/// <reference path="../../js/typings/jquery.d.ts" />
+/// <reference path="../../js/typings/jqueryui.d.ts" />
+/// <reference path="../../js/typings/igniteui.d.ts" />
+
+class IGProducts {
+    id: number;
+    name: string;
+    constructor(productId: number, productName: string) {
+        this.id = productId;
+        this.name = productName;
+    }
+}
+
+var igProductsData: IGProducts[] = [];
+igProductsData.push(new IGProducts(1, "http://www.infragistics.com/products/ultimate"));
+igProductsData.push(new IGProducts(2, "http://www.infragistics.com/products/professional"));
+igProductsData.push(new IGProducts(3, "http://www.infragistics.com/products/jquery"));
+
+```
+igBarcode を作成 - レイアウトを構成するには、`igCombo` などのコントロールを作成し、`igBarcode` を作成します。
+
+```typescript
+$(function () {
+    $("#barcode").igQRCodeBarcode({
+        height: "300px",
+        width: "100%",
+        data: "http://www.infragistics.com/products/jquery/samples",
+    });
+
+    $("#dataInput").igTextEditor({
+        width: "300px",
+        value: "http://www.infragistics.com/products/jquery/help"
+    });
+
+   $("#setButton").click(function () {
+        $("#barcode").igQRCodeBarcode("option", "data", $("#dataInput").igTextEditor("value"));
+    });
+
+	$('#combo').igCombo({
+		dataSource: igProductsData,
+		textKey: 'Name',
+		valueKey: 'ID',
+		width: "500px",
+		initialSelectedItems: [{
+			index: 0
+		}]
+	});
+
+    $("#encodingMode").igCombo({
+        enableClearButton: false,
+        mode: "dropdown",
+        selectionChanged: function (evt, ui) {
+            if ($.isArray(ui.items) && ui.items[0] != undefined) {
+                $("#barcode").igQRCodeBarcode("option", "encodingMode", ui.items[0].data.value);
+            }
+        }
+    });
+
+    $("#eciHeaderDisplayMode").igCombo({
+        enableClearButton: false,
+        mode: "dropdown",
+        selectionChanged: function (evt, ui) {
+            if ($.isArray(ui.items) && ui.items[0] != undefined) {
+                $("#barcode").igQRCodeBarcode("option", "eciHeaderDisplayMode", ui.items[0].data.value);
             }
         }
     });
