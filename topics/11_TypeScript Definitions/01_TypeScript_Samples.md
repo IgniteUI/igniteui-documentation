@@ -20,6 +20,9 @@
 -   [タイル マネージャー サンプル](#tile_manager_sample)
     -   [プレビュー](#tile_manager_sample_preview)
     -   [詳細](#tile_manager_steps_html)
+-   [ダイアログ ウィンドウ サンプル](#dialog_window_sample)
+	  -   [プレビュー](#dialog_window_sample_preview)
+	  -   [詳細](#dialog_window_steps_html)
 -   [円チャート サンプル](#pie_chart_sample)
     -   [プレビュー](#pie_chart_preview)
     -   [詳細](#pie_chart_details)
@@ -159,6 +162,54 @@ $(function () {
     }
 
     $('#car-tabs').tabs(tabOptions);
+});
+```
+
+### <a id="dialog_window_sample"></a>ダイアログ ウィンドウ サンプル
+このサンプルは、`igDialog` を TypeScript で使用する方法を紹介します。
+
+#### <a id="dialog_window_sample_preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/igDialog_TypeScript.png)
+
+#### <a id="dialog_window_steps_html"></a>詳細
+HTML を作成 - `igDialog` で Infragistics サイトを表示します。
+
+**HTML の場合:**
+```html
+<button id="openDialog"></button>
+
+    <div id="dialog">
+            <iframe src="http://www.infragistics.com" frameborder="0" width= "100%" height="100%"></iframe>
+    </div>
+```
+
+<a id="dialog_window_steps_ts"></a>igDialog を作成 - `igDialog` を閉じた状態で作成します。ボタンの `click` イベントにイベント ハンドラーをアタッチすると、ボタンがクリックしたときにモーダル ダイアログは表示されます。
+
+**TypeScript の場合:**
+```typescript
+$(function () {
+
+    // Initialize the open button with igButton
+    $("#openDialog").igButton({ labelText: "Open Dialog" });
+
+    // Initialize the igDialog
+    $("#dialog").igDialog({
+        state: "closed",
+        modal: true,
+        draggable: false,
+        resizable: false,
+        height: 500,
+        width: 400
+    });
+
+    $("#openDialog").on({
+        click: function (e) {
+            // Open the igDialog
+            $("#dialog").igDialog("open");
+        }
+    });
 });
 ```
 
