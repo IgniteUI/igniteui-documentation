@@ -370,7 +370,7 @@
 
 ### <a id="event-example"></a>例
 
-以下の実例は、強調表示された列を変更する代わりに、強調表示されていない列をフェードするために、`assigningCategoryStyle` イベントを使用して強調表示機能を変更する使用を示しています。
+以下の実例は、強調表示列を変更する代わりに、非強調表示列をフェードするために、`assigningCategoryStyle` イベントを使用して強調表示機能を変更する使用を示しています。
 
 <div class="embed-sample">
    [カスタム シリーズの強調表示](%%SamplesEmbedUrl%%/data-chart/custom-series-highlighting)
