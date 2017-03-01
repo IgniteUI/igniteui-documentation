@@ -33,7 +33,7 @@
 
 -	[パフォーマンスの最適化 (igCombo)](igCombo-Optimize-Performance.html): このトピックでは、項目の仮想化機能を有効にして `igCombo` コントロールのスクロール時のパフォーマンスを最大限に高めるための手順を説明します。
 
--	[ASP.NET MVC 構成 (igCombo)](configuring-asp.net-mvc-example.html): このトピックは、`igCombo` を基本の ASP.NET MVC シナリオで使用する方法を紹介します。
+-	[ASP.NET MVC 構成 (igCombo)](configuring-asp-net-mvc.html): このトピックは、`igCombo` を基本の ASP.NET MVC シナリオで使用する方法を紹介します。
 
 
 
