@@ -33,7 +33,7 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [概要](#introduction)
+-   [はじめに](#introduction)
     -   [概要](#overview)
     -   [サポートされるシリーズ](#supported-series)
     -   [サポートされるトランジションのタイプ](#supported-transition-types)
@@ -48,12 +48,12 @@
 
 
 
-##<a id="introduction"></a>概要
+##<a id="introduction"></a>はじめに
 
 
 ###<a id="overview"></a> 概要
 
-この機能は、新しいデータ ソースを読み込むときにシリーズをアニメーション化することを許可します。利用可能なアニメーションは、シリーズのタイプに基づきます。たとえば、`columnSeries` は x 軸を上に上昇させるとアニメーションを再生します。`lineSeries` は y 軸から描画するとアニメーションを再生します。シリーズのアニメーションについて、[トランジション アニメーション](%%SamplesUrl%%/data-chart/transition-animation) サンプルおよび[トランジション アニメーション (財務)](igChart-transitions-in-animations.html#transition-example) を参照してください。
+この機能は、新しいデータ ソースを読み込むときのシリーズのアニメーション化を可能にします。利用可能なアニメーションは、シリーズのタイプに基づきます。たとえば、`columnSeries` は x 軸から上昇するアニメーション、`lineSeries` は y 軸から描画するとアニメーションを再生します。シリーズのアニメーションについて、[トランジション アニメーション](%%SamplesUrl%%/data-chart/transition-animation) サンプルおよび[トランジション アニメーション (財務)](igChart-transitions-in-animations.html#transition-example) を参照してください。
 
 `isTransitionInEnabled` プロパティを `true` に設定すると、アニメーション化されたトランジションを有効にします。
 
@@ -121,7 +121,7 @@
 
 ###<a id="transition-overview"></a> 概要
 
-トランジション タイプは、`transitionInMode` プロパティを任意のトランジション名に設定すると構成されます。プロパティを "auto" (デフォルト値) に設定すると、シリーズ タイプに基づきトランジション タイプを自動的に選択することもできます。
+トランジション タイプは、`transitionInMode` プロパティを任意のトランジション名に設定して構成します。プロパティを "auto" (デフォルト値) に設定すると、シリーズ タイプに基づきトランジション タイプを自動的に選択することもできます。
 
 ###<a id="transition-example"></a> 例
 
