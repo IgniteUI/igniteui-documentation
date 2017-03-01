@@ -19,9 +19,10 @@
 -   [要件](#requirements)
 -   [タイル マネージャー サンプル](#tile_manager_sample)
     -   [プレビュー](#tile_manager_sample_preview)
-    -   [HTML を作成します。](#tile_manager_steps_html)
-    -   [データ ソースを作成します。](#tile_manager_steps_ds)
-    -   [igTileManager を作成します。](#tile_manager_steps_tm)
+    -   [詳細](#tile_manager_steps_html)
+-   [円チャート サンプル](#pie_chart_sample)
+    -   [プレビュー](#pie_chart_preview)
+    -   [詳細](#pie_chart_details)
 -   [関連コンテンツ](#related_content)
 
 ### <a id="requirements"></a>要件
@@ -37,7 +38,9 @@
 
 ![](images/igTileManager_TypeScript.png)
 
-<a id="tile_manager_steps_html"></a>HTML の作成 - 車メーカーを持つ 3 つのタブ、そして選択されたメーカーの写真を読み込む igTileManager があります。
+#### <a id="tile_manager_steps_html"></a>詳細
+
+HTML を作成 - 車メーカーを持つ 3 つのタブがあり、選択した車の写真を読み込む `igTileManager` があります。
 
 **HTML の場合:**
 ```html
@@ -156,6 +159,150 @@ $(function () {
     }
 
     $('#car-tabs').tabs(tabOptions);
+});
+```
+
+### <a id="pie_chart_sample"></a>円チャート サンプル
+このサンプルでは、凡例および複数のレイアウト オプションを持つ円チャート コントロールを TypeScript で作成する方法を紹介します。
+#### <a id="pie_chart_preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/igPieChart_TypeScript.png)
+
+#### <a id="pie_chart_details"></a></a>詳細
+
+HTML を作成 - ラベル位置、線、角度、半径、および凡例を含む複数のオプションを設定する可能な円チャートを作成します。
+
+**HTML の場合:**
+```html
+<div id="pieChart"></div>
+    <div id="legend"></div>
+
+    <table class="options">
+        <tr>
+            <td>Start Angle:</td>
+            <td>
+                <div id="angle" class="slider"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>Radius:</td>
+            <td>
+                <div id="radius" class="slider"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>Label Position:</td>
+            <td>
+                <div class="comboContainer">
+                    <select id="labelPosition">
+                      <option value="none">None</option>
+                        <option value="center">Center</option>
+                        <option value="insideEnd">Inside End</option>
+                        <option value="outsideEnd" selected="selected">Outside End</option>
+                        <option value="bestFit">Best Fit</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Leader Line:</td>
+            <td>
+                <div class="comboContainer">
+                    <select id="leaderLine">
+                        <option value="straight" selected="selected">Straight</option>
+                        <option value="arc">Arc</option>
+                        <option value="spline">Spline</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+    </table>
+```
+
+データ ソースを作成 - `PieChartCountryPopulation` クラスを追加し、国人口データを初期化します。`PieChartCountryPopulation` 配列に保存されます。
+
+**TypeScript の場合:**
+```typescript
+/// <reference path="../../js/typings/jquery.d.ts" />
+/// <reference path="../../js/typings/jqueryui.d.ts" />
+/// <reference path="../../js/typings/igniteui.d.ts" />
+
+class PieChartCountryPopulation {
+    countryName: string;
+    population2008: number;
+    constructor(inName: string, populationIn2008: number) {
+        this.countryName = inName;
+        this.population2008 = populationIn2008;
+    }
+}
+
+var pieChartSample: PieChartCountryPopulation[] = [];
+pieChartSample.push(new PieChartCountryPopulation("China", 1333));
+pieChartSample.push(new PieChartCountryPopulation("India", 1140));
+pieChartSample.push(new PieChartCountryPopulation("United States", 304));
+pieChartSample.push(new PieChartCountryPopulation("Indonesia", 228));
+pieChartSample.push(new PieChartCountryPopulation("Brazil", 192));
+```
+
+igPieChart を作成 - レイアウトを構成するには、`igCombo`、および `slider` を作成し、`igPieChart` を作成します。
+
+```typescript
+$(function () {
+    $('#pieChart').igPieChart({
+        dataSource: pieChartSample,
+        width: "430px",
+        height: "430px",
+        dataLabel: 'countryName',
+        dataValue: 'population2008',
+        explodedSlices: [2, 3, 4],
+        radiusFactor: .6,
+        startAngle: -30,
+        labelsPosition: "outsideEnd",
+        leaderLineType: "straight",
+        labelExtent: 40,
+        legend: { element: 'legend', type: "item" }
+    });
+
+    $("#angle").slider({
+        slide: function (event, ui) {
+            $("#pieChart").igPieChart("option", "startAngle", ui.value);
+        },
+        min: 0,
+        max: 360
+    });
+
+    $("#radius").slider({
+        slide: function (event, ui) {
+            $("#pieChart").igPieChart("option", "radiusFactor", ui.value / 1000.0);
+        },
+        min: 0,
+        max: 1000,
+        value: 600
+    });
+
+    $("#labelPosition").igCombo({
+        enableClearButton: false,
+        mode: "dropdown",
+        selectionChanged: function (evt, ui) {
+            if ($.isArray(ui.items) && ui.items[0] != undefined) {
+                $("#pieChart").igPieChart("option", "labelsPosition", ui.items[0].data.value);
+
+                $("#labelExtent").slider("option", "disabled", ui.items[0].data.value != "outsideEnd");
+                $("#leaderLine").igCombo("option", "disabled", ui.items[0].data.value != "outsideEnd" ? true : false);
+            }
+        }
+    });
+
+    $("#leaderLine").igCombo({
+        enableClearButton: false,
+        mode: "dropdown",
+        selectionChanged: function (evt, ui) {
+            if ($.isArray(ui.items) && ui.items[0] != undefined) {
+                $("#pieChart").igPieChart("option", "leaderLineType", ui.items[0].data.value);
+            }
+        }
+    });
 });
 ```
 
