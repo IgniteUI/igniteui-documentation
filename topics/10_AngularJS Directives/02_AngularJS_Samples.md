@@ -29,6 +29,9 @@
 -   [ツリー サンプル](#tree_sample)
     -   [プレビュー](#tree_sample_preview)
     -   [詳細](#tree_sample_details)
+-   [レイアウト マネージャー サンプル](#lm_sample)
+    -   [プレビュー](#lm_preview)
+    -   [詳細](#lm_details)
 -   [関連コンテンツ](#related_content)
 
 ### <a id="requirements"></a>要件
@@ -87,6 +90,19 @@
 
 #### <a id="tree_sample_details"></a>詳細
 このサンプルでは、`igTree` AngularJS ディレクティブを使用します。データソースを保持するコントローラーの `data` 変数について説明します。`igTree` AngularJS ディレクティブを宣言し、`data` 変数にバインドします。
+
+### <a id="lm_sample"></a>レイアウト マネージャー サンプル
+このサンプルは、`igLayoutManager` をインスタンス化するために `AngularJS` ディレクティブを使用する方法を紹介します。
+
+#### <a id="lm_preview"></a>プレビュー
+以下は最終結果のプレビューです。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/layout-manager/angular](%%SamplesEmbedUrl%%/layout-manager/angular)
+</div>
+
+#### <a id="lm_details"></a>詳細
+このサンプルでは、`igLayoutManager` AngularJS ディレクティブを使用します。
 
 ### <a id="related_content"></a>関連コンテンツ
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
