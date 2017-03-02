@@ -17,6 +17,9 @@
 
 このトピックは、以下のセクションで構成されます。
 -   [要件](#requirements)
+-   [エディター サンプル](#editors_sample)
+    -   [プレビュー](#editors_sample_preview)
+    -   [詳細](#editors_sample_details)
 -   [タイル マネージャー サンプル](#tile_manager_sample)
     -   [プレビュー](#tile_manager_sample_preview)
     -   [詳細](#tile_manager_sample_details)
@@ -32,6 +35,19 @@
 このサンプルを実行するために以下が必要です。
 -   必要となる Ignite UI の JavaScript と CSS ファイル
 -   Ignite UI AngularJS ディレクティブ
+
+### <a id="editors_sample"></a>エディター サンプル
+このサンプルは、`igEditors` を AngularJS で使用する方法を示します。
+
+#### <a id="editors_sample_preview"></a>プレビュー
+以下は最終結果のプレビューです。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/editors/angular](%%SamplesEmbedUrl%%/editors/angular)
+</div>
+
+#### <a id="editors_sample_details"></a>詳細
+このサンプルは、AngularJS ディレクティブを使用して複数のエディターを作成する方法を紹介します。
 
 ### <a id="tile_manager_sample"></a>タイル マネージャー サンプル
 このサンプルは、`igTileManager` を AngularJS で使用する方法を示します。
