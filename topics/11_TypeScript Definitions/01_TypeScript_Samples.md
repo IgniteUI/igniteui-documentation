@@ -32,15 +32,18 @@
 -   [円チャート サンプル](#pie_chart_sample)
     -   [プレビュー](#pie_chart_preview)
     -   [詳細](#pie_chart_details)
+-   [ツリー サンプル](#tree_sample)
+    -   [プレビュー](#tree_sample_preview)
+    -   [詳細](#tree_sample_details)
 -   [バーコード サンプル](#barcode_sample)
     -   [プレビュー](#barcode_preview)
     -   [詳細](#barcode_details)
 -   [レイアウト マネージャー サンプル](#layout_manager_sample)
     -   [プレビュー](#layout_manager_preview)
     -   [詳細](#layout_manager_details)
--   [ツリー サンプル](#tree_sample)
-    -   [プレビュー](#tree_sample_preview)
-    -   [詳細](#tree_sample_details)
+-   [ピボット ビュー サンプル](#pivot_view_sample)
+    -   [プレビュー](#pivot_view_preview)
+    -   [詳細](#pivot_view_details)
 -   [関連コンテンツ](#related_content)
 
 ### <a id="requirements"></a>要件
@@ -437,7 +440,7 @@ $(function () {
     $("#resultGrid").igGrid({
         dataSource: actors,
         width: "100%",
-        autoGenerateColumns: false, 
+        autoGenerateColumns: false,
         columns: [
             { headerText: "First Name", key: "firstName", width: 100 },
             { headerText: "Last Name", key: "lastName", width: 200 },
@@ -460,7 +463,7 @@ $(function () {
                 }
             }
         ]
-    }); 
+    });
 
     function initializeInnerControls() {
         $(".tree").igTree({ hotTracking: false });
@@ -485,7 +488,7 @@ $(function () {
 
 ![](images/igPieChart_TypeScript.png)
 
-#### <a id="pie_chart_details"></a></a>詳細
+#### <a id="pie_chart_details"></a>詳細
 
 HTML を作成 - ラベル位置、線、角度、半径、および凡例を含む複数のオプションを設定する可能な円チャートを作成します。
 
@@ -735,7 +738,7 @@ $(function () {
 
 ![](images/igBarcode_TypeScript.png)
 
-#### <a id="barcode_details"></a></a>詳細
+#### <a id="barcode_details"></a>詳細
 
 HTML を作成 - Infragistics サイトへのハイパーリンクを含むデータに基づいてバーコードを作成します。バーコード モードを変更するには、`エンコード モード`および `ECI ヘッダーの表示モード`を使用します。
 
@@ -940,6 +943,158 @@ $(function () {
 	};
 
     $('#layout').igLayoutManager(options);
+});
+
+```
+
+### <a id="pivot_view_sample"></a>ピボット ビュー サンプル
+このサンプルでは、TypeScript を使用してigPivotView を作成する方法を紹介します。クラス ベースの方法を使用した場合にデータを割り当てる方法も紹介します。
+#### <a id="pivot_view_preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/igPivotView_TypeScript.png)
+
+#### <a id="pivot_view_details"></a>詳細
+
+HTML を作成 - `igPivotGrid`、`igPivotDataSelector`、および `igSplitter` の 3 つのコンポーネントを含むピボット グリッド ビューを作成します。
+
+**HTML の場合:**
+```html
+<div id="pivotView"></div>
+```
+`igPivotView` を作成 - ピボット グリッドで多次元 (OLAP) データを操作するツールを提供します。
+
+**TypeScript の場合:**
+```typescript
+/// <reference path="../../js/typings/jquery.d.ts" />
+/// <reference path="../../js/typings/jqueryui.d.ts" />
+/// <reference path="../../js/typings/igniteui.d.ts" />
+
+class SelectorProduct {
+    ProductCategory: string;
+    SellerName: string;
+    Country: string;
+    City: string;
+    Date: string;
+    UnitPrice: number;
+    UnitsSold: number;
+    constructor(public category, public sellerName, public country, public city,
+        public date, public unitPrice, public unitsSold) {
+        this.ProductCategory = category;
+        this.SellerName = sellerName;
+        this.Country = country;
+        this.City = city;
+        this.Date = date;
+        this.UnitPrice = unitPrice;
+        this.UnitsSold = unitsSold;
+    }
+}
+
+var dataView: SelectorProduct[] = [];
+dataView.push(new SelectorProduct("Clothing", "Stanley Brooker", "Bulgaria", "Plovdiv", "01/01/2012", 12.81, 282));
+dataView.push(new SelectorProduct("Clothing", "Elisa Longbottom", "US", "New York", "01/05/2013", 49.57, 296));
+dataView.push(new SelectorProduct("Bikes", "Lydia Burson", "Uruguay", "Ciudad de la Costa", "01/06/2011", 3.56, 68));
+dataView.push(new SelectorProduct("Accessories", "David Haley", "UK", "London", "04/07/2012", 85.58, 293));
+dataView.push(new SelectorProduct("Components", "John Smith", "Japan", "Yokohama", "12/08/2012", 18.13, 240));
+dataView.push(new SelectorProduct("Clothing", "Larry Lieb", "Uruguay", "Ciudad de la Costa", "05/12/2011", 68.33, 456));
+dataView.push(new SelectorProduct("Components", "Walter Pang", "Bulgaria", "Sofia", "02/19/2013", 16.05, 492));
+
+function saleValueCalculator(items, cellMetadata) {
+        var sum = 0;
+        $.each(items, function (index, item) {
+            sum += item.UnitPrice * item.UnitsSold;
+        });
+        return (Math.round(sum * 10) / 10).toFixed(2);
+};
+
+dataSource = new $.ig.OlapFlatDataSource({
+    dataSource: dataView,
+    metadata: {
+        cube: {
+            name: "Sales",
+            caption: "Sales",
+            measuresDimension: {
+                caption: "Measures",
+                measures: [ //for each measure, name and aggregator are required
+                    {
+                        caption: "Units Sold", name: "UnitsSold",
+                        aggregator: $.ig.OlapUtilities.prototype.sumAggregator('UnitsSold')
+                    },
+                    {
+                        caption: "Unit Price", name: "UnitPrice",
+                        aggregator: $.ig.OlapUtilities.prototype.sumAggregator('UnitPrice')
+                    },
+                    {
+                        caption: "Sale Value", name: "SaleValue", aggregator: saleValueCalculator
+                    }]
+            },
+            dimensions: [ // for each dimension
+                {
+                    caption: "Date", name: "Date", /*displayFolder: "Folder1\\Folder2",*/ hierarchies: [
+                        $.ig.OlapUtilities.prototype.getDateHierarchy(
+                            "Date", // the source property name
+                            ["year", "quarter", "month", "date"], // the date parts for which levels will be generated (optional)
+                            "Dates", // The name for the hierarchy (optional)
+                            "Date", // The caption for the hierarchy (optional)
+                            ["Year", "Quarter", "Month", "Day"], // the captions for the levels (optional)
+                            "All Periods") // the root level caption (optional)
+                    ]
+                },
+                {
+                    caption: "Location", name: "Location", hierarchies: [{
+                        caption: "Location", name: "Location", levels: [
+                            {
+                                name: "AllLocations", caption: "All Locations",
+                                memberProvider: function (item) { return "All Locations"; }
+                            },
+                            {
+                                name: "Country", caption: "Country",
+                                memberProvider: function (item) { return item.Country; }
+                            },
+                            {
+                                name: "City", caption: "City",
+                                memberProvider: function (item) { return item.City; }
+                            }]
+                    }]
+                },
+                {
+                    caption: "Product", name: "Product", hierarchies: [{
+                        caption: "Product", name: "Product", levels: [
+                            {
+                                name: "AllProducts", caption: "All Products",
+                                memberProvider: function (item) { return "All Products"; }
+                            },
+                            {
+                                name: "ProductCategory", caption: "Category",
+                                memberProvider: function (item) { return item.ProductCategory; }
+                            }]
+                    }]
+                },
+                {
+                    caption: "Seller", name: "Seller", hierarchies: [{
+                        caption: "Seller", name: "Seller", levels: [
+                            {
+                                name: "AllSellers", caption: "All Sellers",
+                                memberProvider: function (item) { return "All Sellers"; }
+                            },
+                            {
+                                name: "SellerName", caption: "Seller",
+                                memberProvider: function (item) { return item.SellerName; }
+                            }]
+                    }]
+                }]
+        }
+    },
+
+    rows: "[Date].[Dates]",
+    columns: "[Product].[Product]",
+    measures: "[Measures].[UnitsSold]"
+});
+
+$(function () {
+    $("#pivotView").igPivotView({
+        dataSource: dataSource
+    });
 });
 
 ```
