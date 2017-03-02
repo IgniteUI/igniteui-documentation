@@ -19,10 +19,10 @@
 -   [要件](#requirements)
 -   [タイル マネージャー サンプル](#tile_manager_sample)
     -   [プレビュー](#tile_manager_sample_preview)
-    -   [詳細](#tile_manager_steps_html)
+    -   [詳細](#tile_manager_sample_details)
 -   [ダイアログ ウィンドウ サンプル](#dialog_window_sample)
 	  -   [プレビュー](#dialog_window_sample_preview)
-	  -   [詳細](#dialog_window_steps_html)
+	  -   [詳細](#dialog_window_sample_details)
 -   [テンプレート エンジンのサンプル](#templating_engine_sample)
       -   [プレビュー](#templating_engine_preview)
       -   [詳細](#templating_engine_steps)
@@ -32,6 +32,9 @@
 -   [バーコード サンプル](#barcode_sample)
     -   [プレビュー](#barcode_preview)
     -   [詳細](#barcode_details)
+-   [ツリー サンプル](#tree_sample)
+    -   [プレビュー](#tree_sample_preview)
+    -   [詳細](#tree_sample_details)
 -   [関連コンテンツ](#related_content)
 
 ### <a id="requirements"></a>要件
@@ -47,7 +50,7 @@
 
 ![](images/igTileManager_TypeScript.png)
 
-#### <a id="tile_manager_steps_html"></a>詳細
+#### <a id="tile_manager_sample_details"></a>詳細
 
 HTML を作成 - 車メーカーを持つ 3 つのタブがあり、選択した車の写真を読み込む `igTileManager` があります。
 
@@ -179,7 +182,7 @@ $(function () {
 
 ![](images/igDialog_TypeScript.png)
 
-#### <a id="dialog_window_steps_html"></a>詳細
+#### <a id="dialog_window_sample_details"></a>詳細
 HTML を作成 - `igDialog` で Infragistics サイトを表示します。
 
 **HTML の場合:**
@@ -508,6 +511,112 @@ $(function () {
             }
         }
     });
+});
+```
+
+### <a id="tree_sample"></a>ツリー サンプル
+このサンプルは、`igTree` を TypeScript で使用する方法を紹介します。
+
+#### <a id="tree_sample_preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/igTree_TypeScript.png)
+
+#### <a id="tree_sample_details"></a>詳細
+HTML を作成 - フォルダーおよびファイルを含むファイル エクスプローラーを表す `igTree` を作成します。
+
+**HTML の場合:**
+```html
+<div id="tree"></div>
+```
+
+データ ソースを作成 - フォルダー、サブフォルダー、およびファイルを含む階層構造を作成します。
+
+**TypeScript の場合:**
+```typescript
+/// <reference path="../../js/typings/jquery.d.ts" />
+/// <reference path="../../js/typings/jqueryui.d.ts" />
+/// <reference path="../../js/typings/igniteui.d.ts" />
+
+class FileType {
+    name: string;
+    type: string;
+    imageUrl: string;
+    folder: FileType[];
+    constructor(inName: string, inType: string, inImageUrl: string, inFolder: FileType[]) {
+        this.name = inName;
+        this.type = inType;
+        this.imageUrl = inImageUrl;
+        this.folder = inFolder;
+    }
+}
+
+function createSubfolderFiles(parentFolder: FileType, subFolders: string[], files: string[][],
+    folderPicture: string, filePicture: string) {
+    var fileIndex, subFolderIndex;
+    for (subFolderIndex = 0; subFolderIndex < subFolders.length; subFolderIndex++) {
+        parentFolder.folder.push(new FileType(subFolders[subFolderIndex], "Folder", folderPicture, []));
+
+        for (fileIndex = 0; fileIndex < files[subFolderIndex].length; fileIndex++) {
+            parentFolder.folder[subFolderIndex].folder.push(new FileType(files[subFolderIndex][fileIndex], "File", filePicture, []));
+        }
+    }
+}
+
+var folderMusic = new FileType("Music", "Folder", "../../images/samples/tree/book.png", []);
+var musicSubFolders = ["Y.Malmsteen", "WhiteSnake", "AC/DC", "Rock"];
+var musicFiles = [["Making Love", "Rising Force", "Fire and Ice"], ["Trouble", "Bad Boys", "Is This Love"],
+    ["ThunderStruck", "T.N.T.", "The Jack"], ["Bon Jovi - Always"]];
+createSubfolderFiles(folderMusic, musicSubFolders, musicFiles, "../../images/samples/tree/book.png", "../../images/samples/tree/music.png");
+
+...
+
+var folderDeleted = new FileType("Deleted", "Folder", "../../images/samples/tree/bin_empty.png", []);
+var folderComputer = new FileType("Computer", "Folder", "../../images/samples/tree/computer.png", []);
+folderComputer.folder.push(folderMusic);
+folderComputer.folder.push(folderDocuments);
+folderComputer.folder.push(folderPictures);
+folderComputer.folder.push(folderNetwork);
+folderComputer.folder.push(folderDeleted);
+
+var files = [folderComputer];
+```
+
+`igTree` を作成 - `igTree` を作成し、生成されたデータ ソースにバインドします。
+
+**TypeScript の場合:**
+```typescript
+$(function () {
+    var options: IgTree = {
+        checkboxMode: 'triState',
+        singleBranchExpand: true,
+        dataSource: $.extend(true, [], files),
+        initialExpandDepth: 0,
+        pathSeparator: '.',
+        bindings: {
+            textKey: 'name',
+            valueKey: 'type',
+            imageUrlKey: 'imageUrl',
+            childDataProperty: 'folder'
+        },
+        dragAndDrop: true,
+        dragAndDropSettings: {
+            allowDrop: true,
+            customDropValidation: function (element) {
+                // Validates the drop target
+                var valid = true,
+                    droppableNode = $(this);
+
+                if (droppableNode.is('a') && droppableNode.closest('li[data-role=node]').attr('data-value') === 'File') {
+                    valid = false;
+                }
+
+                return valid;
+            }
+        }
+    }
+
+    $("#tree").igTree(options);
 });
 ```
 
