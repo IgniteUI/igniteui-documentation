@@ -196,21 +196,32 @@ $("#grid1").igGrid({
 **ASPX の場合:**
 
 ```csharp
-<%=Html.Infragistics().Grid(Model).ID("grid1").LoadOnDemand(false).AutoGenerateColumns(false).AutoGenerateLayouts(false).PrimaryKey("ProjectID").Columns(column => 
+<%=Html.Infragistics().Grid(Model).ID("grid1")
+    .LoadOnDemand(false)
+    .AutoGenerateColumns(false)
+    .AutoGenerateLayouts(false)
+    .PrimaryKey("ProductID")
+    .Columns(column => 
     {
-        column.For(x => x.ProjectID)
-			.HeaderText(this.GetGlobalResourceObject("Grid", "ProjectID").ToString());
+        column.For(x => x.ProductID)
+			.HeaderText(this.GetGlobalResourceObject("Grid", "ProductID").ToString());
         column.For(x => x.Name)
 			.HeaderText(this.GetGlobalResourceObject("Grid", "Name").ToString());
-        column.For(x => x.StartDate)
-			.HeaderText(this.GetGlobalResourceObject("Grid", "StartDate").ToString());
-        column.For(x => x.EndDate)\
-			.HeaderText(this.GetGlobalResourceObject("Grid", "EndDate").ToString());
+        column.For(x => x.ProductNumber)
+			.HeaderText(this.GetGlobalResourceObject("Grid", "ProductNumber").ToString());
+        column.For(x => x.MakeFlag)\
+			.HeaderText(this.GetGlobalResourceObject("Grid", "MakeFlag").ToString());
     })
 	.Virtualization(true)
 	.VirtualizationMode(VirtualizationMode.Fixed)
 }).DataBind().Height("400px").Render() %>
 ```
+
+以下のサンプルは固定仮想化を紹介します。
+
+<div class="embed-sample">
+   [仮想化 (固定)](%%SamplesEmbedUrl%%/grid/virtualization-fixed)
+</div>
 
 ## <a id="continuous"></a> 連続仮想化の有効化と構成
 
@@ -257,23 +268,32 @@ $("#grid1").igGrid({
 **ASPX の場合:**
 
 ```csharp
-<%=Html.Infragistics().Grid(Model).ID("grid1").LoadOnDemand(false).AutoGenerateColumns(false).AutoGenerateLayouts(false).PrimaryKey("ProjectID").Columns(column => 
+<%=Html.Infragistics().Grid(Model).ID("grid1")
+    .LoadOnDemand(false)
+    .AutoGenerateColumns(false)
+    .AutoGenerateLayouts(false)
+    .PrimaryKey("ProductID")
+    .Columns(column => 
     {
-        column.For(x => x.ProjectID)
-			.HeaderText(this.GetGlobalResourceObject("Grid", "ProjectID").ToString());
+        column.For(x => x.ProductID)
+			.HeaderText(this.GetGlobalResourceObject("Grid", "ProductID").ToString());
         column.For(x => x.Name)
 			.HeaderText(this.GetGlobalResourceObject("Grid", "Name").ToString());
-        column.For(x => x.StartDate)
-			.HeaderText(this.GetGlobalResourceObject("Grid", "StartDate").ToString());
-        column.For(x => x.EndDate)\
-			.HeaderText(this.GetGlobalResourceObject("Grid", "EndDate").ToString());
+        column.For(x => x.ProductNumber)
+			.HeaderText(this.GetGlobalResourceObject("Grid", "ProductNumber").ToString());
+        column.For(x => x.MakeFlag)
+			.HeaderText(this.GetGlobalResourceObject("Grid", "MakeFlag").ToString());
     })
 	.Virtualization(true)
 	.VirtualizationMode(VirtualizationMode.Continuous)
 }).DataBind().Height("400px").Render() %>
 ```
 
+以下のサンプルは連続仮想化を紹介します。
 
+<div class="embed-sample">
+   [仮想化 (連続)](%%SamplesEmbedUrl%%/grid/virtualization-continuous)
+</div>
 
 ## <a id="related-content"></a> 関連コンテンツ
 
@@ -282,18 +302,6 @@ $("#grid1").igGrid({
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
 - [仮想化の概要](igGrid-Virtualization-Overview.html): このトピックは、`igGrid` コントロールの仮想化機能を紹介します。
-
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [仮想化 (固定)](%%SamplesUrl%%/grid/virtualization-fixed): この例では、固定数の行を用いた `igGrid` のHTML 仮想化機能を説明します。
-
-- [連続仮想化](%%SamplesUrl%%/grid/virtualization-continuous): このサンプルでは、`igGrid` コントロールの連続仮想化機能を紹介します。
-
-
-
 
 
  

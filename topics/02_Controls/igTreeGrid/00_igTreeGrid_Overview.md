@@ -85,6 +85,12 @@ $('#treegrid').igTreeGrid({
 });
 ```
 
+以下のツリー グリッドがフラット データ ソースにはバインドされています。
+
+<div class="embed-sample">
+   [JSON のバインド](%%SamplesEmbedUrl%%/tree-grid/json-binding)
+</div>
+
 ### <a id="hierarchical-data"></a> 階層データ ソース
 
 階層データ ソースは、親データ オブジェクトの配列メンバーとして子データが存在するネストされたリレーションシップを持ちます。以下に階層データ ソースの例を示します。
@@ -120,6 +126,12 @@ $('#treegrid').igTreeGrid({
   ...
 });
 ```
+
+以下のツリー グリッドが階層データ ソースにはバインドされています。
+
+<div class="embed-sample">
+   [ファイル エクスプローラー](%%SamplesEmbedUrl%%/tree-grid/file-explorer)
+</div>
 
 ## <a id="feature-differences-iggrid"></a> igGrid との機能の違い
 

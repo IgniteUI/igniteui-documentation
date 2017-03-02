@@ -26,13 +26,12 @@
     -   [手順](#steps)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
 
 
 
 ## <a id="basic-tempalte"></a> igGrid での基本的な列テンプレートの作成
 
-この例では、基本的な列テンプレートをグリッドに適用します。最初の 2 列には意図的に空白のままにしたヘッダー テキスト フィールドがありますが、これらはセルに各値を入れる前に移動されます。最後の列にはデータ ソースからの各値の前に `Price: $` が挿入されます。
+この例では、基本的な列テンプレートをグリッドに適用します。追加の非バインド列がグリッドに追加されます。セルにボタンを描画するテンプレートを持ちます。
 
 ### <a id="preview"></a> プレビュー
 
@@ -50,7 +49,7 @@
 
 1. HTML ページを準備
 
-	HTML ページを準備するには、`igLoader` を追加し、`igHierarchicalGrid` リソースをロードするよう構成します。
+	HTML ページを準備するには、`igLoader` を追加し、`igGrid` リソースをロードするよう構成します。
 	
 	**JavaScript の場合:**
 	
@@ -72,28 +71,16 @@
 		**JavaScript の場合:**
 		
 		```js
-		<script type="text/javascript">
-		var northwindProducts = [{
-			"ProductID": 1,
-			"ProductName": "Chai",
-			"QuantityPerUnit": "10 boxes x 20 bags",
-			"UnitPrice": "18.0000"
-		}, {
-			"ProductID": 2,
-			"ProductName": "Chang",
-			"QuantityPerUnit": "24 - 12 oz bottles",
-			"UnitPrice": "19.0000"
-		}];
-		</script>
-		```
+        <script src="http://www.igniteui.com/data-files/adventureworks.min.js"></script>
+        ```
 		
 		**HTML の場合:**
 		
 		```html
-		<body>
-			<table id="grid1"></table>
-		</body>
-		```
+        <body>
+            <table id="grid1"></table>
+        </body>
+        ```
 	
 	2. 列テンプレートを設定した igGrid を追加します。
 	
@@ -101,27 +88,52 @@
 		
 		```js
 		<script type="text/javascript">
-		$.ig.loader(function () {
-	        $("#grid1").igGrid({
-				width: 700,
-				columns: [
-					{ headerText: " ", key: "ProductID", dataType: "number", template: "ID: ${ProductID}", width: 50},
-					{ headerText: " ", key: "ProductName", dataType: "string", template: "Product Name: ${ProductName}", width: 250 },
-					{ headerText: "Quantity ", key: "QuantityPerUnit", dataType: "string", width: 200 },
-					{ headerText: "Unit Price", key: "UnitPrice", dataType: "number", template: "Price: ${UnitPrice}", width: 100 }
-				],
-				autoGenerateColumns: false,
-				dataSource: northwindProducts                  
-	        })
-		});
-		</script>
+            $.ig.loader(function () {
+                $("#grid").igGrid({
+                    autoGenerateColumns: false,
+                    width: "100%",
+                    height: "500px",
+                    columns: [
+                        { headerText: "Product ID", key: "ProductID", dataType: "number", width: "15%" },
+                        { headerText: "Product Name", key: "Name", dataType: "string", width: "25%" },
+                        { headerText: "Product Number", key: "ProductNumber", dataType: "string", width: "25%" },
+                        { headerText: "Make Flag", key: "MakeFlag", dataType: "bool", width: "15%" },
+                        {
+                            headerText: "", 
+                            key: "Delete", 
+                            dataType: "string", 
+                            width: "20%", 
+                            unbound: true, 
+                            template: "<input type='button' onclick='deleteRow(${ProductID})' value='Delete row' class='delete-button'/>"
+                        }
+                    ],
+                    primaryKey: "ProductID",
+                    dataSource: adventureWorks
+                });
+            });
+            </script>
 		```
 
-3. (オプション) 結果を確認します。
+	3. 行を削除する関数を作成します。
+	
+	**JavaScript の場合:**
+	```js
+            <script type="text/javascript">
+                function deleteRow(rowId) {
+                    var grid = $("#grid").data("igGrid");
+                    grid.dataSource.deleteRow(rowId);
+                    grid.commit();
+                }
+            </script>
+        ```
+		
+	4. 結果を確認します。
 
-	ファイルを保存し、開いて結果をプレビューします。
+	以下のサンプルは結果のプレビューです。
 
-
+<div class="embed-sample">
+   [列テンプレート](%%SamplesEmbedUrl%%/grid/column-template)
+</div>
 
 ## <a id="related-content"></a> 関連コンテンツ
 
@@ -130,14 +142,6 @@
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
 - [Infragistics テンプレート エンジン](igTemplating-Overview.html): このセクションには、Infragistics® テンプレート エンジンの使用に関するトピックが含まれています。
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [列テンプレート](%%SamplesUrl%%/grid/column-template): このサンプルは、igGrid の列テンプレート機能を使用して列にボタンを挿入する方法を紹介します。
-
-
 
 
 
