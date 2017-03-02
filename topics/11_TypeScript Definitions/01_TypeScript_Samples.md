@@ -32,6 +32,9 @@
 -   [バーコード サンプル](#barcode_sample)
     -   [プレビュー](#barcode_preview)
     -   [詳細](#barcode_details)
+-   [レイアウト マネージャー サンプル](#layout_manager_sample)
+    -   [プレビュー](#layout_manager_preview)
+    -   [詳細](#layout_manager_details)
 -   [ツリー サンプル](#tree_sample)
     -   [プレビュー](#tree_sample_preview)
     -   [詳細](#tree_sample_details)
@@ -747,6 +750,93 @@ $(function () {
         }
     });
 });
+```
+
+### <a id="layout_manager_sample"></a>レイアウト マネージャー サンプル
+このサンプルでは、レイアウト マネージャーのグリッド レイアウトを構成する方法を紹介します。定義済みサイズのグリッドで項目を任意の位置に配置する機能も紹介します。
+#### <a id="layout_manager_preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/igLayoutManager_TypeScript.png)
+
+#### <a id="layout_manager_details"></a>詳細
+
+HTML を作成 - コンテンツを体系化し、別のコンテナー レイアウトを設定する可能なグリッド レイアウトのレイアウト マネージャーを作成します。
+
+**HTML の場合:**
+```html
+..
+<style type="text/css">
+        ul {
+            list-style-type: none;
+            font-family: Verdana;
+        }
+
+        #layout {
+            position: relative;
+        }
+
+        .ig-layout-item {
+            font-size: 20px;
+        }
+
+        @media all and (max-width: 480px) {
+            .ig-layout-item {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="layout"></div>
+</body>
+..
+```
+`igLayoutManager` を作成 - レイアウトの構造を構成するには、`items` および `gridLayout` オプションを変更します。
+
+**TypeScript の場合:**
+```typescript
+/// <reference path="../../js/typings/jquery.d.ts" />
+/// <reference path="../../js/typings/jqueryui.d.ts" />
+/// <reference path="../../js/typings/igniteui.d.ts" />
+
+$(function () {
+	options: IgLayoutManager = {
+		layoutMode: "grid",
+        width: "100%",
+        height: "600px",
+        gridLayout: { cols: 3, rows: 3 },
+        items: [
+            { rowSpan: 2, colSpan: 2, colIndex: 0, rowIndex: 0 },
+            { rowSpan: 1, colSpan: 1, rowIndex: 0, colIndex: 2 },
+            { rowSpan: 1, colSpan: 1, rowIndex: 1, colIndex: 2 },
+            { rowSpan: 1, colSpan: 3, colIndex: 0, rowIndex: 2 }
+        ],
+		itemRendered: function(evt, ui){
+			args.item.append("<ul><li>colspan: " + args.itemData.colSpan + "</li><li>rowspan: " + args.itemData.rowSpan + "</li></ul></span>");
+
+			// get the element
+			if (args.itemData.colSpan == 2 && args.itemData.rowSpan == 2) {
+				args.item.css("background-color", "#eee");
+				args.item.css("color", "#555");
+			} else if (args.itemData.rowSpan == 1 && args.itemData.colSpan == 1) {
+				if (args.itemData.rowIndex == 0) {
+					args.item.css("background-color", "#2CBDF9");
+					args.item.css("color", "#FFF");
+				} else {
+					args.item.css("background-color", "#FFA72D");
+					args.item.css("color", "#FFF");
+				}
+			} else {
+				args.item.css("background-color", "#2CBDF9");
+				args.item.css("color", "#FFF");
+			}
+		}
+	};
+
+    $('#layout').igLayoutManager(options);
+});
+
 ```
 
 ### <a id="related_content"></a>関連コンテンツ
