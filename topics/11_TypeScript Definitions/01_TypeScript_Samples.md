@@ -17,6 +17,9 @@
 
 このトピックは、以下のセクションで構成されます。
 -   [要件](#requirements)
+-   [エディター サンプル](#editors_sample)
+    -   [プレビュー](#editors_sample_preview)
+    -   [詳細](#editors_sample_details)
 -   [タイル マネージャー サンプル](#tile_manager_sample)
     -   [プレビュー](#tile_manager_sample_preview)
     -   [詳細](#tile_manager_sample_details)
@@ -44,6 +47,108 @@
 これらのサンプルを実行するには、以下が必要となります。
 -   必要な Ignite UI の JavaScript と CSS ファイル
 -   必要な Ignite UI TypeScript の定義
+
+### <a id="editors_sample"></a>エディター サンプル
+このサンプルは、`igEditors` を TypeScript で使用する方法を紹介します。
+
+#### <a id="editors_sample_preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/igEditors_TypeScript.png)
+
+#### <a id="editors_sample_details"></a>詳細
+HTML を作成 - テキスト エディター、日付エディター、ローカライズ可能な日付ピッカー、マスク エディター、通貨エディター、およびパーセンテージ エディターを作成する方法を紹介します。
+
+**HTML の場合:**
+```html
+<div id="editors">
+	<div>
+		<h4>
+			Text Editor
+		</h4>
+		<div id="textEditor"></div>
+	</div>
+	<div>
+		<h4>
+			Date Picker with Japan localization
+		</h4>
+		<div id="jaDatePicker"></div>
+	</div>
+	<div>
+		<h4>
+			Date and Time editor
+		</h4>
+		<div id="dateTimeEditor"></div>
+	</div>
+	<div>
+		<h4>
+			Mask editor
+		</h4>
+		<div id="maskEditor"></div>
+	</div>
+	<div>
+		<h4>
+			Currency editor
+		</h4>
+		<div id="currencyEditor"></div>
+	</div>
+	<div>
+		<h4>
+			Percent editor
+		</h4>
+		<div id="percentEditor"></div>
+	</div> 
+</div>
+```
+エディターを TypeScript で初期化します。
+**TypeScript の場合:**
+```typescript
+/// <reference path="http://www.igniteui.com/js/typings/jquery.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/jqueryui.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/igniteui.d.ts" />
+
+$(function () {
+    $("#textEditor").igTextEditor({
+        width: "200",
+        value: "John"
+    });
+
+    $("#dateTimeEditor").igDateEditor({
+        width: "200",
+        dateInputFormat: "dateTime",
+        value: new Date()
+    });
+
+    $("#jaDatePicker").igDatePicker({
+        width: "200",
+        value: new Date(),
+        readOnly: true,
+        dropDownOnReadOnly: true,
+        dateDisplayFormat: "dateLong",
+        regional: "ja"
+    });
+
+    $("#currencyEditor").igCurrencyEditor({
+        width: "200",
+        value: -8709.98,
+        negativePattern: "$ -n",
+        positivePattern: "$ n",
+        regional: "en-US"
+    });
+
+    $("#maskEditor").igMaskEditor({
+        width: "200",
+        inputMask: 'AaaL/aa',
+        dataMode: 'rawTextWithRequiredPromptsAndLiterals'
+    });
+
+    $("#percentEditor").igPercentEditor({
+        width: "200",
+        value: "42",
+        displayFactor: 1
+    });
+});
+```
 
 ### <a id="tile_manager_sample"></a>タイル マネージャー サンプル
 このサンプルは、`igTileManager` を TypeScript で使用する方法を示します。
