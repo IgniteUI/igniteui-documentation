@@ -243,7 +243,7 @@ $(document).delegate(".selector", "iglayoutmanageritemrendered", function(evt, u
 
 -	[HTML マークアップからの境界線のレイアウト](%%SamplesUrl%%/layout-manager/border-layout-markup): このサンプルでは、「*center*」/「*left*」/「*right*」/「*header*」/「*footer*」 の各 CSS クラスを割り当て、HTML マークアップから `igLayoutManager` コントロールの境界線レイアウトを初期化する方法を紹介します。
 
--	[境界線のレイアウト - JavaScript による初期化](%%SamplesUrl%%/layout-manager/border-layout): このサンプルでは、`itemrendered` イベントの処理や作成した領域へのコンテンツの割り当てによって、`igLayoutManager` コントロールの境界線レイアウトを JavaScript から初期化する方法を紹介します。
+-	[境界線のレイアウト - JavaScript による初期化](iglayoutmanager-adding.html#js-steps): このサンプルでは、[`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) イベントの処理や作成した領域へのコンテンツの割り当てによって、`igLayoutManager` コントロールの境界線レイアウトを JavaScript から初期化する方法を紹介します。
 
 -	[レスポンシブ列レイアウト](%%SamplesUrl%%/layout-manager/column-layout-markup): このサンプルでは、項目にクラスを割り当て、その内容がまたがる領域を指定して、`igLayoutManager` コントロールの列レイアウトを使用する方法を紹介します。このサンプルは JavaScript の初期化コードを使用しません。CSS および HTML のみで実装されています。
 

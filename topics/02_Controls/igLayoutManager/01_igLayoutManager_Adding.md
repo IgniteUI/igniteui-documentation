@@ -256,9 +256,9 @@
         $.ig.loader({
             scriptPath: "Scripts/ig/",
             cssPath: "Content/ig/",
-            resources: “igLayoutManager"
+            resources: "igLayoutManager"
         });
-    <script>
+    </script>
     ```
 
 ### <a id="html-markup-steps"></a>手順
@@ -353,9 +353,9 @@
         $.ig.loader({
             scriptPath: "Scripts/ig/",
             cssPath: "Content/ig/",
-            resources: “igLayoutManager"
+            resources: "igLayoutManager"
         });
-    <script>
+    </script>
     ```
 
 ### <a id="js-steps"></a>手順
@@ -392,6 +392,13 @@
     });
 	```
 
+#### itemRendered イベントの使用時に代替方法するサンプル:
+
+以下のサンプルでは、[`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) イベントの処理や作成した領域へのコンテンツの割り当てによって、レイアウト マネージャー コントロールの境界線レイアウトを JavaScript から初期化する方法を紹介します。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/layout-manager/border-layout](%%SamplesEmbedUrl%%/layout-manager/border-layout)
+</div>
 
 ##<a id="mvc-procedure"></a>ASP.NET MVC での igLayoutManager の追加 - 手順 
 
@@ -500,8 +507,6 @@
 -	[ASP.NET MVC の基本的な使用方法](%%SamplesUrl%%/layout-manager/aspnet-mvc-helper): このサンプルでは、レイアウト マネージャー コントロールの ASP.NET MVC ヘルパーを使用する方法を紹介します。
 
 -	[HTML マークアップからの境界線のレイアウト](%%SamplesUrl%%/layout-manager/border-layout-markup): このサンプルでは、「*center*」/「*left*」/「*right*」/「*header*」/「*footer*」 の各 CSS クラスを割り当て、HTML マークアップから `igLayoutManager` コントロールの境界線レイアウトを初期化する方法を紹介します。
-
--	[境界線のレイアウト - JavaScript による初期化](%%SamplesUrl%%/layout-manager/border-layout): このサンプルでは、`itemrendered` イベントの処理や作成した領域へのコンテンツの割り当てによって、`igLayoutManager` コントロールの境界線レイアウトを JavaScript から初期化する方法を紹介します。
 
 -	[レスポンシブ列レイアウト](%%SamplesUrl%%/layout-manager/column-layout-markup): このサンプルでは、項目にクラスを割り当て、その内容がまたがる領域を指定して、`igLayoutManager` コントロールの列レイアウトを使用する方法を紹介します。このサンプルは JavaScript の初期化コードを使用しません。CSS および HTML のみで実装されています。
 
