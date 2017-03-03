@@ -24,11 +24,14 @@
     -   [プレビュー](#tile_manager_sample_preview)
     -   [詳細](#tile_manager_sample_details)
 -   [ダイアログ ウィンドウ サンプル](#dialog_window_sample)
-	  -   [プレビュー](#dialog_window_sample_preview)
-	  -   [詳細](#dialog_window_sample_details)
+	-   [プレビュー](#dialog_window_sample_preview)
+	-   [詳細](#dialog_window_sample_details)
 -   [テンプレート エンジンのサンプル](#templating_engine_sample)
-      -   [プレビュー](#templating_engine_preview)
-      -   [詳細](#templating_engine_steps)
+    -   [プレビュー](#templating_engine_preview)
+    -   [詳細](#templating_engine_steps)
+-   [データ チャート サンプル](#data_chart_sample)
+	-   [プレビュー](#data_chart_preview)
+    -   [詳細](#data_chart_details)
 -   [円チャート サンプル](#pie_chart_sample)
     -   [プレビュー](#pie_chart_preview)
     -   [詳細](#pie_chart_details)
@@ -44,6 +47,12 @@
 -   [ピボット ビュー サンプル](#pivot_view_sample)
     -   [プレビュー](#pivot_view_preview)
     -   [詳細](#pivot_view_details)
+-   [マップ サンプル](#map_sample)
+    -   [プレビュー](#map_sample_preview)
+    -   [詳細](#map_sample_details)
+-   [ローダー サンプル](#loader_sample)
+    -   [プレビュー](#loader_sample_preview)
+    -   [詳細](#loader_sample_details)
 -   [関連コンテンツ](#related_content)
 
 ### <a id="requirements"></a>要件
@@ -479,6 +488,120 @@ $(function () {
         }
     }
 });
+```
+
+### <a id="data_chart_sample"></a>データ チャート サンプル
+このサンプルでは、データ構成のクラス ベースの方法を使用して TypeScript でデータ チャートを作成する方法を紹介します。
+#### <a id="data_chart_preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/igDataChart_TypeScript.png)
+
+#### <a id="data_chart_details"></a>詳細
+
+HTML を作成します。
+**HTML の場合:**
+```html
+<div id="data-chart"></div>
+
+<div class="USCensus-attribution">
+	Population data from:<br>
+	<a href="http://www.census.gov/" target="_blank">U.S. Census Bureau</a>
+</div>
+```
+
+TypeScript でデータ ソースおよび `igDataChart` を作成します。
+**TypeScript の場合:**
+```typescript
+/// <reference path="http://www.igniteui.com/js/typings/jquery.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/jqueryui.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/igniteui.d.ts" />
+
+class CountryPopulation {
+    countryName: string;
+    population2005: number;
+    population1995: number;
+    constructor(inName: string, populationIn1995: number, populationIn2005: number) {
+        this.countryName = inName;
+        this.population2005 = populationIn2005;
+        this.population1995 = populationIn1995;
+    }
+
+}
+
+var samplePopulation: CountryPopulation[] = [];
+samplePopulation.push(new CountryPopulation("China", 1216,  1297));
+samplePopulation.push(new CountryPopulation("India", 920, 1090));
+samplePopulation.push(new CountryPopulation("United States", 266, 295));
+samplePopulation.push(new CountryPopulation("Indonesia", 197, 229));
+samplePopulation.push(new CountryPopulation("Brazil", 161, 186));
+
+$(function () {
+    $("#data-chart").igDataChart({
+        width: "80%",
+        height: "400px",
+        title: "Population per Country",
+        subtitle: "Five largest projected populations for 1995 and 2005",
+        dataSource: samplePopulation,
+        axes: [
+            {
+                name: "NameAxis",
+                type: "categoryX",
+                title: "Country",
+                label: "countryName"
+            },
+            {
+                name: "PopulationAxis",
+                type: "numericY",
+                minimumValue: 0,
+                title: "Millions of People",
+            }
+        ],
+        series: [
+            {
+                name: "1995Population",
+                title: "1995",
+                type: "column",
+                isDropShadowEnabled: true,
+                useSingleShadow: false,
+                shadowColor: "#666666",
+                isHighlightingEnabled: true,
+                isTransitionInEnabled: true,
+                xAxis: "NameAxis",
+                yAxis: "PopulationAxis",
+                valueMemberPath: "population1995",
+                showTooltip: true
+            },
+            {
+                name: "2005Population",
+                title: "2005",
+                type: "column",
+                isDropShadowEnabled: true,
+                useSingleShadow: false,
+                shadowColor: "#666666",
+                isHighlightingEnabled: true,
+                isTransitionInEnabled: true,
+                xAxis: "NameAxis",
+                yAxis: "PopulationAxis",
+                valueMemberPath: "population2005",
+                showTooltip: true
+            },
+            {
+                name: "categorySeries",
+                type: "categoryToolTipLayer",
+                useInterpolation: false,
+                transitionDuration: 150
+            },
+            {
+                name: "crosshairLayer",
+                title: "crosshair",
+                type: "crosshairLayer",
+                useInterpolation: false,
+                transitionDuration: 500
+            }
+        ]
+    });
+})
 ```
 
 ### <a id="pie_chart_sample"></a>円チャート サンプル
@@ -1097,6 +1220,237 @@ $(function () {
     });
 });
 
+```
+
+### <a id="map_sample"></a>マップ サンプル
+このサンプルでは、世界の国を持つデータベースおよびシェープ ファイルを TypeScript を使用してマップ コントロールに地理シェイプ シリーズでバインドする方法を示します。
+
+#### <a id="map_sample_preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/igMap_TypeScript.png)
+
+#### <a id="map_sample_details"></a>詳細
+
+HTML を作成 - 国がホバーしたときにツールチップを表示するマップを作成します。
+
+**HTML の場合:**
+```html
+<script id="geoShapeTooltip" type="text/x-jquery-tmpl">
+	<table id="tooltipTable">
+		<tr>
+			<th colspan="2">
+				${item.fieldValues.NAME}, ${item.fieldValues.REGION}
+			</th>
+		</tr>
+		<tr>
+			<td>Population:</td>
+			<td>${item.fieldValues.POP2005}</td>
+		</tr>
+	</table>
+</script>
+
+<div id="map"></div>
+```
+`igMap` を初期化して地理図形シリーズを定義します。
+
+**TypeScript の場合:**
+```typescript
+/// <reference path="http://www.igniteui.com/js/typings/jquery.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/jqueryui.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/igniteui.d.ts" />
+
+class ColorPicker {
+    brushes: string[];
+    interval: number;
+    constructor(_min: number, _max: number) {
+        this.brushes = ["#d9c616", "#d96f17", "#d1150c"];
+        this.interval = (_max - _min) / (this.brushes.length - 1);
+    }
+
+    getColorByIndex(val) {
+        var index = Math.round(val / this.interval);
+        if (index < 0) {
+            index = 0;
+        } else if (index > (this.brushes.length - 1)) {
+            index = this.brushes.length - 1;
+        }
+        return this.brushes[index];
+    }
+}
+
+var colorPicker = new ColorPicker(100000, 500000000);
+
+$(function () {
+    $("#map").igMap({
+        width: "700px",
+        height: "500px",
+        windowRect: { left: 0.1, top: 0.1, height: 0.7, width: 0.7 },
+        overviewPlusDetailPaneVisibility: "visible",
+        overviewPlusDetailPaneBackgroundImageUri: "http://www.igniteui.com/images/samples/maps/world.png",
+        series: [{
+            type: "geographicShape",
+            name: "worldCountries",
+            markerType: "none",
+            shapeMemberPath: "points",
+            shapeDataSource: 'http://www.igniteui.com/data-files/shapes/world_countries_reg.shp',
+            databaseSource: 'http://www.igniteui.com/data-files/shapes/world_countries_reg.dbf',
+            opacity: 0.8,
+            outlineThickness: 1,
+            showTooltip: true,
+            tooltipTemplate: "geoShapeTooltip",
+            shapeStyleSelector: {
+                selectStyle: function (s, o) {
+                    var pop = s.fields.item("POP2005");
+                    var popInt = parseInt(pop);
+                    var colString = colorPicker.getColorByIndex(popInt); //getColorValue(popInt);
+                    return {
+                        fill: colString,
+                        stroke: "gray"
+                    };
+                }
+            }
+        }]
+    });
+    $("#map").find(".ui-widget-content").append("<span class='copyright-notice'><a href='http://www.openstreetmap.org/copyright'>© OpenStreetMap contributors</a></span>");
+});
+```
+
+### <a id="loader_sample"></a>ローダー サンプル
+このサンプルでは、TypeScript で Infragistics ローダーを使用して複数のコンポーネントと機能の読み込みを紹介します。表示されるデータ チャートの型がコンボ ボックスから選択されます。データ チャートの凡例も含まれています。
+
+#### <a id="loader_sample_preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/igLoader_TypeScript.png)
+
+#### <a id="loader_sample_details"></a>詳細
+
+HTML を作成します。
+
+**HTML の場合:**
+```html
+<div class="selectionOptions">
+	<select id="seriesType">
+		<option value="radialLine" selected="selected">Radial Line</option>
+		<option value="radialColumn">Radial Column</option>
+		<option value="radialPie">Radial Pie</option>
+	</select>
+</div>
+
+<div id="chart"></div>
+<div id="legend"></div>
+```
+
+TypeScript でデータ、`igLoader`、`igDataChart`、および `igCombo` を作成します。
+**TypeScript の場合:**
+```typescript
+/// <reference path="http://www.igniteui.com/js/typings/jquery.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/jqueryui.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/igniteui.d.ts" />
+
+class DepartmentData {
+    label: string;
+    budget: number;
+    spending: number;
+    constructor(_label: string, _budget: number, _spending: number) {
+        this.label = _label;
+        this.budget = _budget;
+        this.spending = _spending;
+    }
+}
+
+var companyData: DepartmentData[] = [];
+companyData.push(new DepartmentData("Administration", 75, 35));
+companyData.push(new DepartmentData("Sales", 30, 80));
+companyData.push(new DepartmentData("IT", 60, 20));
+companyData.push(new DepartmentData("Marketing", 50, 70));
+companyData.push(new DepartmentData("Development", 80, 40));
+companyData.push(new DepartmentData("Support", 20, 45));
+
+$.ig.loader({
+    scriptPath: "http://www.igniteui.com/igniteui/js/",
+    cssPath: "http://www.igniteui.com/igniteui/css/",
+    resources: "igDataChart.Radial,igCombo, igChartLegend"
+});
+
+// jQuery's ready event can be used with the loader.
+// The loader calls holdReady until all JS and CSS files are loaded.
+$(function () {
+
+    $("#chart").igDataChart({
+        width: "500px",
+        height: "500px",
+        dataSource: companyData,
+        legend: { element: "legend" },
+        axes: [{
+            name: "angleAxis",
+            type: "categoryAngle",
+            label: "label",
+            interval: 1
+        }, {
+                name: "radiusAxis",
+                type: "numericRadius",
+                innerRadiusExtentScale: .1,
+                maximumValue: 100,
+                minimumValue: 0,
+                interval: 25,
+                radiusExtentScale: .6
+            }],
+        series: [{
+            name: "series1",
+            title: 'Budget',
+            type: "radialLine",
+            angleAxis: "angleAxis",
+            valueAxis: "radiusAxis",
+            valueMemberPath: "budget",
+            thickness: 5,
+            markerType: "circle"
+        }, {
+                name: "series2",
+                title: 'Spending',
+                type: "radialLine",
+                angleAxis: "angleAxis",
+                valueAxis: "radiusAxis",
+            valueMemberPath: "spending",
+                thickness: 5,
+                markerType: "circle"
+            }],
+        horizontalZoomable: true,
+        verticalZoomable: true,
+        windowResponse: "immediate"
+    });
+
+    $("#seriesType").igCombo({
+        selectionChanged: function (evt, ui) {
+            if (ui.items[0].data.value != undefined) {
+                $("#chart").igDataChart("option", "series", [{
+                    name: "series1", remove: true
+                }, {
+					name: "series2", remove: true
+				}, {
+					name: "series1",
+					title: "Budget",
+					type: ui.items[0].data.value,
+					angleAxis: "angleAxis",
+					valueAxis: "radiusAxis",
+					valueMemberPath: "budget",
+					thickness: 5,
+					markerType: "circle"
+				}, {
+					name: "series2",
+					title: 'Spending',
+					type: ui.items[0].data.value,
+					angleAxis: "angleAxis",
+					valueAxis: "radiusAxis",
+					valueMemberPath: "spending",
+					thickness: 5,
+					markerType: "circle"
+				}]);
+            }
+        }
+    });
+});
 ```
 
 ### <a id="related_content"></a>関連コンテンツ

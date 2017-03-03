@@ -778,7 +778,7 @@ OpenStreetMap|Bing Maps
 
 このトピックについては、以下のサンプルも参照してください。
 
--	[マップのツールチップ](%%SamplesUrl%%/map/map-tooltips): このサンプルでは、`igMap` コントロールのマップ ツールチップを設定する方法を紹介します。
+-	[マップのツールチップ](igmap-configuring-visual-features.html#map-tooltips-sample): このサンプルでは、`igMap` コントロールのマップ ツールチップを設定する方法を紹介します。
 
 
 
