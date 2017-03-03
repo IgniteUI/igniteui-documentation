@@ -29,6 +29,9 @@
 -   [ツリー サンプル](#tree_sample)
     -   [プレビュー](#tree_sample_preview)
     -   [詳細](#tree_sample_details)
+-   [マップ サンプル](#map_sample)
+    -   [プレビュー](#map_sample_preview)
+    -   [詳細](#map_sample_details)
 -   [レイアウト マネージャー サンプル](#lm_sample)
     -   [プレビュー](#lm_preview)
     -   [詳細](#lm_details)
@@ -90,6 +93,19 @@
 
 #### <a id="tree_sample_details"></a>詳細
 このサンプルでは、`igTree` AngularJS ディレクティブを使用します。データソースを保持するコントローラーの `data` 変数について説明します。`igTree` AngularJS ディレクティブを宣言し、`data` 変数にバインドします。
+
+### <a id="map_sample"></a>マップ サンプル
+このサンプルは、`igMap` を AngularJS で使用する方法を示します。
+
+#### <a id="map_sample_preview"></a>プレビュー
+以下は最終結果のプレビューです。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/map/angular](%%SamplesEmbedUrl%%/map/angular)
+</div>
+
+#### <a id="map_sample_details"></a>詳細
+以上のサンプルでは、AngularJS ディレクティブを使用してズーム可能なマップを初期化する方法を紹介します。
 
 ### <a id="lm_sample"></a>レイアウト マネージャー サンプル
 このサンプルは、`igLayoutManager` をインスタンス化するために `AngularJS` ディレクティブを使用する方法を紹介します。
