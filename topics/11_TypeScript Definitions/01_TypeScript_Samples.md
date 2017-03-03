@@ -44,6 +44,9 @@
 -   [ピボット ビュー サンプル](#pivot_view_sample)
     -   [プレビュー](#pivot_view_preview)
     -   [詳細](#pivot_view_details)
+-   [マップ サンプル](#map_sample)
+    -   [プレビュー](#map_sample_preview)
+    -   [詳細](#map_sample_details)
 -   [関連コンテンツ](#related_content)
 
 ### <a id="requirements"></a>要件
@@ -1097,6 +1100,100 @@ $(function () {
     });
 });
 
+```
+
+### <a id="map_sample"></a>マップ サンプル
+このサンプルでは、世界の国を持つデータベースおよびシェープ ファイルを TypeScript を使用してマップ コントロールに地理シェイプ シリーズでバインドする方法を示します。
+
+#### <a id="map_sample_preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/igMap_TypeScript.png)
+
+#### <a id="map_sample_details"></a>詳細
+
+HTML を作成 - 国がホバーしたときにツールチップを表示するマップを作成します。
+
+**HTML の場合:**
+```html
+<script id="geoShapeTooltip" type="text/x-jquery-tmpl">
+	<table id="tooltipTable">
+		<tr>
+			<th colspan="2">
+				${item.fieldValues.NAME}, ${item.fieldValues.REGION}
+			</th>
+		</tr>
+		<tr>
+			<td>Population:</td>
+			<td>${item.fieldValues.POP2005}</td>
+		</tr>
+	</table>
+</script>
+
+<div id="map"></div>
+```
+`igMap` を初期化して地理図形シリーズを定義します。
+
+**TypeScript の場合:**
+```typescript
+/// <reference path="http://www.igniteui.com/js/typings/jquery.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/jqueryui.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/igniteui.d.ts" />
+
+class ColorPicker {
+    brushes: string[];
+    interval: number;
+    constructor(_min: number, _max: number) {
+        this.brushes = ["#d9c616", "#d96f17", "#d1150c"];
+        this.interval = (_max - _min) / (this.brushes.length - 1);
+    }
+
+    getColorByIndex(val) {
+        var index = Math.round(val / this.interval);
+        if (index < 0) {
+            index = 0;
+        } else if (index > (this.brushes.length - 1)) {
+            index = this.brushes.length - 1;
+        }
+        return this.brushes[index];
+    }
+}
+
+var colorPicker = new ColorPicker(100000, 500000000);
+
+$(function () {
+    $("#map").igMap({
+        width: "700px",
+        height: "500px",
+        windowRect: { left: 0.1, top: 0.1, height: 0.7, width: 0.7 },
+        overviewPlusDetailPaneVisibility: "visible",
+        overviewPlusDetailPaneBackgroundImageUri: "http://www.igniteui.com/images/samples/maps/world.png",
+        series: [{
+            type: "geographicShape",
+            name: "worldCountries",
+            markerType: "none",
+            shapeMemberPath: "points",
+            shapeDataSource: 'http://www.igniteui.com/data-files/shapes/world_countries_reg.shp',
+            databaseSource: 'http://www.igniteui.com/data-files/shapes/world_countries_reg.dbf',
+            opacity: 0.8,
+            outlineThickness: 1,
+            showTooltip: true,
+            tooltipTemplate: "geoShapeTooltip",
+            shapeStyleSelector: {
+                selectStyle: function (s, o) {
+                    var pop = s.fields.item("POP2005");
+                    var popInt = parseInt(pop);
+                    var colString = colorPicker.getColorByIndex(popInt); //getColorValue(popInt);
+                    return {
+                        fill: colString,
+                        stroke: "gray"
+                    };
+                }
+            }
+        }]
+    });
+    $("#map").find(".ui-widget-content").append("<span class='copyright-notice'><a href='http://www.openstreetmap.org/copyright'>© OpenStreetMap contributors</a></span>");
+});
 ```
 
 ### <a id="related_content"></a>関連コンテンツ
