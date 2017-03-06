@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# TypeScript での Ignite UI の使用
+# TypeScript で Ignite UI を使用
 
 ## トピックの概要
 
