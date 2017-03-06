@@ -143,4 +143,4 @@ $(function () {
 
 ### <a id="Related_Content"></a>関連コンテンツ
 以下のトピックでは、このトピックに関連する追加情報を提供しています。
--   [TypeScript での Ignite UI の使用](Using-Ignite-UI-with-TypeScript.html) - このトピックでは、Ignite UI の型定義を TypeScript で使用する方法の概要を説明します。
+-   [TypeScript で Ignite UI を使用](Using-Ignite-UI-with-TypeScript.html) - このトピックでは、Ignite UI の型定義を TypeScript で使用する方法の概要を説明します。

@@ -17,5 +17,5 @@ Ignite UI® は、強い型付け、コンパイル時間のチェック、intel
 
 ### トピック
 
--   [TypeScript での Ignite UI の使用](Using-Ignite-UI-with-TypeScript.html) - このトピックでは、Ignite UI の型定義を TypeScript で使用する方法の概要を説明します。
+-   [TypeScript で Ignite UI を使用](Using-Ignite-UI-with-TypeScript.html) - このトピックでは、Ignite UI の型定義を TypeScript で使用する方法の概要を説明します。
                     
