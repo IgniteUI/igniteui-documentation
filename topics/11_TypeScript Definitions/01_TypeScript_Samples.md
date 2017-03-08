@@ -17,6 +17,9 @@
 
 このトピックは、以下のセクションで構成されます。
 -   [要件](#requirements)
+-   [グリッド サンプル](#grid_sample)
+    -   [プレビュー](#grid_sample_preview)
+    -   [詳細](#grid_sample_details)
 -   [エディター サンプル](#editors_sample)
     -   [プレビュー](#editors_sample_preview)
     -   [詳細](#editors_sample_details)
@@ -59,6 +62,63 @@
 これらのサンプルを実行するには、以下が必要となります。
 -   必要な Ignite UI の JavaScript と CSS ファイル
 -   必要な Ignite UI TypeScript の定義
+
+### <a id="grid_sample"></a>グリッド サンプル
+このサンプルは、`igGrid` を TypeScript で使用する方法を紹介します。
+
+#### <a id="grid_sample_preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/igGrid_TypeScript.PNG)
+
+#### <a id="grid_sample_details"></a>詳細
+このサンプルでは、ページング、フィルター、並べ替えなどの機能を持つ igGrid を TypeScript で作成する方法を紹介します。
+
+**HTML の場合:**
+```html
+	<table id="grid1"></table>
+```
+igGrid を生成するために adventureWorks データソースを使用します。
+
+```js
+var adventureWorks = [
+    { "ProductID": 1, "Name": "Adjustable Race", "ProductNumber": "AR-5381", "MakeFlag": false, "FinishedGoodsFlag": false, "Color": null, "SafetyStockLevel": 1000, "ReorderPoint": 750, "StandardCost": 0.0000, "ListPrice": 0.0000, "Size": null, "SizeUnitMeasureCode": null, "WeightUnitMeasureCode": null, "Weight": null, "DaysToManufacture": 0, "ProductLine": null, "Class": null, "Style": null, "ProductSubcategoryID": null, "ProductModelID": null, "SellStartDate": "\/Date(896648400000)\/", "SellEndDate": null, "DiscontinuedDate": null, "rowguid": "694215b7-08f7-4c0d-acb1-d734ba44c0c8", "ModifiedDate": "\/Date(1078992096827)\/" }, 
+    { "ProductID": 2, "Name": "Bearing Ball", "ProductNumber": "BA-8327", "MakeFlag": false, "FinishedGoodsFlag": false, "Color": null, "SafetyStockLevel": 1000, "ReorderPoint": 750, "StandardCost": 0.0000, "ListPrice": 0.0000, "Size": null, "SizeUnitMeasureCode": null, "WeightUnitMeasureCode": null, "Weight": null, "DaysToManufacture": 0, "ProductLine": null, "Class": null, "Style": null, "ProductSubcategoryID": null, "ProductModelID": null, "SellStartDate": "\/Date(896648400000)\/", "SellEndDate": null, "DiscontinuedDate": null, "rowguid": "58ae3c20-4f3a-4749-a7d4-d568806cc537", "ModifiedDate": "\/Date(1078992096827)\/" } ...
+]
+```
+
+グリッドを TypeScript で初期化します。
+
+**TypeScript の場合:**
+```typescript
+/// <reference path="http://www.igniteui.com/js/typings/jqueryui.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/jquery.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/igniteui.d.ts" />
+declare var adventureWorks: any;
+$(function () {
+    $("#grid1").igGrid({
+        width: "100%",
+        columns: [
+            { headerText: "Product ID", key: "ProductID", dataType: "number", width: "15%" },
+            { headerText: "Product Name", key: "Name", dataType: "string", width: "40%" },
+            { headerText: "Product Number", key: "ProductNumber", dataType: "string", width: "30%" },
+            { headerText: "Make Flag", key: "MakeFlag", dataType: "bool", width: "15%" }
+        ],
+        dataSource: adventureWorks,
+        features: [
+            {
+                name: "Paging"
+            },
+            {
+                name: "Sorting"
+            },
+            {
+                name: "Filtering"
+            }
+        ],
+	});
+});
+```
 
 ### <a id="editors_sample"></a>エディター サンプル
 このサンプルは、`igEditors` を TypeScript で使用する方法を紹介します。
