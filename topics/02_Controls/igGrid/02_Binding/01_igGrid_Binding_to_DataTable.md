@@ -44,7 +44,6 @@
     -   [手順](#json-net-steps)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
     -   [リソース](#resources)
 
 
@@ -87,6 +86,10 @@ public ActionResult UpdateDataTableGrid()
 `AutoGenerateColumns` プロパティが true に設定される場合、グリッドの列定義は `DataTable` 定義から取得されます。
 
 > **注:** 1 つ以上の列を定義して `AutoGenerateColumns` を *true* に設定することは**無効**です。すべての列を定義するか、すべての列を自動的に生成する必要があります。
+
+<a id="dataTable_example"></a><div class="embed-sample">
+   [DataTable へのバインド](%%SamplesEmbedUrl%%/grid/datatable-binding)
+</div>
 
 ### <a id="dataSet"></a> *DataSet* にバインド
 
@@ -139,7 +142,7 @@ public ActionResult UpdateDataTableGrid()
 
 *リモートの並べ替えおよびフィルター*処理は、要求を処理してから、データを返す前に `DataSet`/`DataTable` レベルでデータをフィルターするか、並べ替えることによって実現できます。
 
-要求を処理し、データを返す前に `DataTable` レベルでデータの並べ替え、およびリモート*並べ替え*を実装する方法の詳細については、「[DataTable のバインド](%%SamplesUrl%%/grid/datatable-binding)」サンプルを参照してください。 
+要求を処理し、データを返す前に `DataTable` レベルでデータの並べ替え、およびリモート*並べ替え*を実装する方法の詳細については、「[DataTable のバインド](#dataTable_example)」サンプルを参照してください。 
 
 以下の機能は `DataTable` や `DataSet` にバインドするときリモートで機能します。
 
@@ -475,16 +478,6 @@ public class Employee
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
 - [igHierarchicalGrid を DataSet にバインド](igHierarchicalGrid-Binding-to-DataSet.html): このトピックでは、`igHierarchicalGrid` ™ コントロールを構成して `DataSet` にバインドする方法を紹介します。
-
-
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [DataTable のバインド](%%SamplesUrl%%/grid/datatable-binding): このサンプルでは、ビューで `igGrid` を `DataTable` にバインドしてグリッドを構成する方法を紹介します。
-
-
 
 ### <a id="resources"></a> リソース
 

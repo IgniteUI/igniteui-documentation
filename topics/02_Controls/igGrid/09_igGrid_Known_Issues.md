@@ -584,7 +584,7 @@ Mac OS で、**Show scrollbars only when scrolling** オプションを true に
 > 
 > リモートの並べ替えおよびフィルター処理は、要求を処理してから、データを返す前にサーバーでフィルタリングまたは並べ替えを実行すると実装できます。
 
-要求を処理し、データを返す前に `DataTable` レベルでデータの並べ替え、およびリモート*並べ替え*を実装する方法の詳細については、「[`DataTable のバインド`](%%SamplesUrl%%/grid/datatable-binding)」サンプルを参照してください。
+要求を処理し、データを返す前に `DataTable` レベルでデータの並べ替え、およびリモート*並べ替え*を実装する方法の詳細については、「[`DataTable のバインド`](iggrid-binding-to-datatable.html#dataTable_example)」サンプルを参照してください。
 
 
 

@@ -17,6 +17,9 @@
 
 このトピックは、以下のセクションで構成されます。
 -   [要件](#requirements)
+-   [グリッド サンプル](#grid_sample)
+    -   [プレビュー](#grid_sample_preview)
+    -   [詳細](#grid_sample_details)
 -   [エディター サンプル](#editors_sample)
     -   [プレビュー](#editors_sample_preview)
     -   [詳細](#editors_sample_details)
@@ -41,6 +44,19 @@
 このサンプルを実行するために以下が必要です。
 -   必要となる Ignite UI の JavaScript と CSS ファイル
 -   Ignite UI AngularJS ディレクティブ
+
+### <a id="grid_sample"></a>グリッド サンプル
+このサンプルは、`igGrid` を AngularJS で使用する方法を示します。
+
+#### <a id="grid_sample_preview"></a>プレビュー
+以下は最終結果のプレビューです。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/grid/angular](%%SamplesEmbedUrl%%/grid/angular)
+</div>
+
+#### <a id="grid_sample_details"></a>詳細
+このサンプルでは、更新、ページング、並べ替え機能が有効な場合に igGrid の AngularJS ディレクティブを使用する方法を紹介します。
 
 ### <a id="editors_sample"></a>エディター サンプル
 このサンプルは、`igEditors` を AngularJS で使用する方法を示します。
