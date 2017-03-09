@@ -32,15 +32,16 @@
 次の表に、ピボット表にデータを表示するために定義する必要のある基本オプションを示します。
 
 igPivotGrid の場合:
-|オプション| 説明 | 
-|------|-------------|
-| [dataSource](%%jQueryApiUrl%%/ui.igPivotGrid#options:dataSource)| $.ig.OlapXmlaDataSource または $.ig.OlapFlatDataSource のインスタンス。
+
+オプション| 説明 | 
+------|-------------|
+[dataSource](%%jQueryApiUrl%%/ui.igPivotGrid#options:dataSource)| $.ig.OlapXmlaDataSource または $.ig.OlapFlatDataSource のインスタンス。
 
 **$.ig.OlapXmlaDataSource** コンポーネントは、msmdpump.dll HTTP データ プロバイダーで構成された Microsoft® SQL Server Analysis Services (SSAS) サーバーとのコミュニケーションを処理します。 
 関連する基本設定は次のとおりです。
 
-|オプション| 説明 | 
-|------|-------------|
+オプション| 説明 | 
+------|-------------|
 [serverUrl](%%jQueryApiUrl%%/ig.OlapXmlaDataSource#options:options.serverUrl)|XMLA  サーバーの URL。
 [catalog](%%jQueryApiUrl%%/ig.OlapXmlaDataSource#options:options.catalog)|カタログ名。
 [cube](%%jQueryApiUrl%%/ig.OlapXmlaDataSource#options:options.cube)|データ ソース内のキューブの名前。
@@ -56,8 +57,9 @@ igPivotGrid の場合:
 
 
 OlapFlatDataSource の場合:
-|オプション| 説明 | 
-|------|-------------|
+
+オプション| 説明 | 
+------|-------------|
 [dataSource](%%jQueryApiUrl%%/ig.OlapFlatDataSource#options:options.dataSource)|$.ig.DataSource が受け入れる有効なデータ ソース、または $.ig.DataSource 自体のインスタンスを指定します。|
 [metadata](%%jQueryApiUrl%%/ig.OlapFlatDataSource#options:options.metadata)|$ .ig.DataSource データの処理命令を含むオブジェクト。
 [metadata.cube](%%jQueryApiUrl%%/ig.OlapFlatDataSource#options:options.cube)|キューブの作成に使用されるメタデータ。
