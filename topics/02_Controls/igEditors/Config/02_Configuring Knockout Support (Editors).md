@@ -97,7 +97,7 @@ Knockout のサポートは、View-Model への外部更新が発生した場合
 
 ```js
 var viewModel = {
-    orderDate: ko.observable(new Date(2017, 10, 21)),
+    orderDate: ko.observable(new Date(2017, 0, 21)),
     dueInDays: ko.observable(7),
     customerName: ko.observable("Peter Sanders"),
     contactPhone: ko.observable("(318) 555-6879"),
