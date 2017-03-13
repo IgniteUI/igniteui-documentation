@@ -745,6 +745,7 @@ contextMenu イベントは cellRightClick に名前変更している|イベン
 列仮想化は連続仮想化でサポートされない|列仮想化は固定仮想化のみでサポートされています。列仮想化が有効 ([columnVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:columnVirtualization) = true) な場合、仮想化モードを "fixed" ([virtualizationMode](%%jQueryApiUrl%%/ui.iggrid#options:virtualizationMode) = "fixed") に設定する必要があります。 | ![](images/negative.png)
 列の仮想化と自動サイズ変更がサポートされない|width オプションを「*」に設定することによる列の自動サイズ変更は、仮想化でサポートされていません。 | ![](images/negative.png)
 固定仮想化が有効な場合、グリッドのコンテンツ以外から行にタブすると、グリッドの実際の最初の行の代わりに最初の表示可能な行をフォーカスします。 | 固定仮想化が有効な場合、グリッドのコンテンツ以外から行内にタブすると、最初の表示可能な行がフォーカスされます。フォーカスがグリッドの後の要素にあって、Shift + Tab が押された場合、フォーカスは最後の表示可能なセルに設定されます。|![](images/negative.png)
+列仮想化の場合、列幅の設定が使用されていません。 | 水平方向のスクロールでコンテンツが列間で移動されますが、表示可能な列幅は変更されないため、列幅の設定を変更してもほとんど影響しません。 |![](images/negative.png)
 
 ### <a id="grid-responsive"></a> [igGrid - レスポンス Web デザイン モード](igGrid-Known-Issues.html)
 
