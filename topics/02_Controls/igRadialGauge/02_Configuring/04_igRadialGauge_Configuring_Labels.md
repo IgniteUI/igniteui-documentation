@@ -103,7 +103,7 @@ $("#gauge").igRadialGauge({
 
 ## <a id="lable-example"></a>例
 
-以下のサンプルでは、ラジアル ゲージ コントロールのラベルを設定する方法を紹介します。スライダーは、labelExtent および labelInterval プロパティの Label への影響を確認できます。
+以下のサンプルでは、ラジアル ゲージ コントロールのラベルを設定する方法を紹介します。スライダーを使用して、labelExtent および labelInterval プロパティの Label への影響を確認します。
 
 <div class="embed-sample">
    [%%SamplesEmbedUrl%%/radial-gauge/label-settings](%%SamplesEmbedUrl%%/radial-gauge/label-settings)

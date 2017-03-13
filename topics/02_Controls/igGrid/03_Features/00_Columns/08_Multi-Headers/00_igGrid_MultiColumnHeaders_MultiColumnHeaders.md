@@ -67,7 +67,7 @@ DOM では、複数列ヘッダー機能は THEAD 要素を変更します。THE
 
 <div class="embed-sample">
    [複数列ヘッダー](%%SamplesEmbedUrl%%/grid/multi-column-headers)
-</div
+</div>
 
 ## <a id="collapsible-column-groups"></a> 縮小可能な列グループ
 
