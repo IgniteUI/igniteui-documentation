@@ -386,7 +386,7 @@ $("#comboTarget").igCombo({
 
 2.  **リモート フィルタリングを構成します。**
 
-    最後に、`ComboDataSourceAction` にプロパティをいくつか設定する必要があります。`DataSourceUrl` は `ActionResult` メソッド名をポイントします。また、`FilterExprUrlKey` を ComboDataSourceAction で必要な URL パラメーターである「filter」に設定する必要があります。`FilterExprUrlKey` オプションは任意の文字列に設定できます。この文字列は要求 URL でトークンとして渡され、サーバーへのフィルタリング式を識別します。ASP.NET MVC ヘルパーを使用する場合に `FilterExprUrlKey` を「filter」に設定する理由は、`ComboDataSourceAction` のロジックが特に要求 URL クエリ パラメーターの「filter」を検索し、フィルタリング式情報を抽出するためです。
+    最後に、`ComboDataSourceAction` にプロパティをいくつか設定する必要があります。`DataSourceUrl` は `ActionResult` メソッド名をポイントします。また、`FilterExprUrlKey` を `ComboDataSourceAction` で必要な URL パラメーターである「filter」に設定する必要があります。この文字列は要求 URL でトークンとして渡され、サーバーへのフィルタリング式を識別します。ASP.NET MVC ヘルパーを使用する場合に `FilterExprUrlKey` を「filter」に設定する理由は、`ComboDataSourceAction` のロジックが特に要求 URL クエリ パラメーターの「filter」を検索し、フィルタリング式情報を抽出するためです。
 
     **C# の場合:**
 
