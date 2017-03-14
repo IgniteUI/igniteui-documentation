@@ -493,9 +493,9 @@ $(function () {
 カスタム summaryOperands オブジェクト (*custom* タイプの `summaryOperands`) を定義すると、集計機能をカスタム機能へポイントして行集計を計算します。`compactRenderingMode` が false に設定されている場合、両方の結果が定義され、カスタム メソッドは並べ替え順序に従って集計行に配置されます。以下のサンプルは 2 つのカスタム集計関数 (*countTrueValues*、*countFalseValues*) を含みます。ブール値列の *true* または *false* 値の数を計算します。その集計関数は「メーカー フラグ」列で使用されます。
 
 ### <a id="demo"></a> サンプル
-    <div class="embed-sample">
-        [igGrid カスタム集計](%%SamplesEmbedUrl%%/grid/summaries-custom)
-    </div>
+<div class="embed-sample">
+    [igGrid カスタム集計](%%SamplesEmbedUrl%%/grid/summaries-custom)
+</div>
 	
 ### <a id="topics"></a> 関連トピック
 

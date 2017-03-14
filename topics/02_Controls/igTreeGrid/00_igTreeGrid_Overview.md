@@ -28,7 +28,10 @@
 - [**igTreeGrid と igHierarchicalGrid の比較**](#tree-vs-hierarchical-grids)
 - [**パフォーマンス**](#performance)
 - [**はじめに**](#getting-started)
-	- [完全なページ サンプル](#full-page-sample)
+	- [JavaScript で igTreeGrid の初期化](#jq-treegrid)
+	  - [サンプル](#full-page-sample)
+	- [MVC igTreeGrid の初期化](#mvc-treegrid)
+	- [展開および縮小アイコンのカスタマイズ化](#customize-icon)
 -  [**キーボード ナビゲーション**](#keyboard-navigation)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
@@ -189,6 +192,8 @@ $("#treegrid").igTreeGrid({
 
 ## <a id="getting-started"></a> igTreeGrid を使用した作業の開始
 
+### <a id='jq-treegrid'></a> JavaScript で igTreeGrid の初期化
+
 `igTreeGrid` の初期化には、グリッドの特性を定義する [`options`](%%jQueryApiUrl%%/ui.igtreegrid#options) オブジェクトを渡す必要があります。以下のコード スニペットは、フィルタリング、並べ替え、ページングを含む、フラット データ ソースにバインドされたグリッドを作成する方法を示しています。
 
 ```javascript
@@ -226,7 +231,7 @@ $('#treegrid').igTreeGrid({
 
 フィルタリング機能とページング機能は、これらの機能に対して使用できるオプション値をコメントとして含めるために示されています。並べ替え、フィルタリング、およびページングを特にツリー グリッドに対して実装する方法について詳細に知ることができます。
 
-### <a id="full-page-sample"></a> 完全なページ サンプル
+#### <a id="full-page-sample"></a> 完全なページ サンプル
 
 ```html
 <!DOCTYPE html>
@@ -323,6 +328,188 @@ $('#treegrid').igTreeGrid({
 </body>
 </html>
 ```
+
+### <a id='mvc-treegrid'></a> MVC igTreeGrid の初期化
+
+以下の手順は、MVC igTreeGrid の初期化を実行します。
+
+手順:
+
+	1. 新しい MVC アプリケーションを作成します。
+	2. Infragistics.Web.Mvc アセンブリへの参照を追加します。
+	3. モデル クラスを作成します。
+
+```csharp
+    public class FileExplorer
+    {
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public DateTime DateModified { get; set; }
+        public string Type { get; set; }
+        public int Size { get; set; }
+        public List<FileExplorer> Files { get; set; }
+    }
+```
+
+	4. データの List を生成し、View にデータを返す MVC Controller メソッドを作成します。
+
+```csharp
+public ActionResult AspMvcHelper()
+		{
+			var files = new List<FileExplorer>();
+			files.Add(new FileExplorer
+			{
+				ID = "1",
+				Name = "Documents",
+				DateModified = new DateTime(2013, 9, 12),
+				Type = "File Folder",
+				Size = 4480,
+				Files = new List<FileExplorer> { 
+                    new FileExplorer { ID = "4", Name = "To do list.txt", DateModified = new DateTime(2013,11,30), Type = "TXT File", Size = 4448 },
+                    new FileExplorer { ID = "5", Name = "To do list.txt", DateModified = new DateTime(11/30/2013), Type = "TXT File", Size = 4448 }
+                }
+			});
+			files.Add(new FileExplorer
+			{
+				ID = "2",
+				Name = "Music",
+				DateModified = new DateTime(2014, 6, 10),
+				Type = "File Folder",
+				Size = 5594,
+				Files = new List<FileExplorer> { 
+                new FileExplorer { ID = "6", Name = "AC/DC", DateModified =new DateTime(2014,6,10), Type = "File Folder", Size = 2726 , 
+                    Files = new List<FileExplorer> { 
+                        new FileExplorer { ID = "8", Name = "Stand Up.mp3", DateModified = new DateTime(2014,6,10), Type = "MP3 File", Size = 456 },
+                        new FileExplorer { ID = "9", Name = "T.N.T.mp3", DateModified = new DateTime(2014,6,10), Type = "MP3 File", Size = 1155 },
+                        new FileExplorer { ID = "10", Name = "The Jack.mp3", DateModified = new DateTime(2014,6,10), Type = "MP3 File", Size = 1115 }
+                    }
+                },
+                new FileExplorer { ID = "7", Name = "WhiteSnake", DateModified = new DateTime(2014,6,11), Type = "File Folder", Size = 2868, 
+                    Files = new List<FileExplorer> { 
+                        new FileExplorer { ID = "11", Name = "Trouble.mp3", DateModified =  new DateTime(2014,6,11), Type = "MP3 File", Size = 1234 },
+                        new FileExplorer { ID = "12", Name = "Bad Boys.mp3", DateModified =  new DateTime(2014,6,11), Type = "MP3 File", Size = 522 },
+                        new FileExplorer { ID = "13", Name = "Is This Love.mp3", DateModified =  new DateTime(2014,6,11), Type = "MP3 File", Size = 1112 }
+                    } 
+                }
+             }
+			});
+			files.Add(new FileExplorer
+			{
+				ID = "3",
+				Name = "Pictures",
+				DateModified = new DateTime(2014, 1, 20),
+				Type = "File Folder",
+				Size = 1825,
+				Files = new List<FileExplorer> { 
+                    new FileExplorer { ID = "14", Name = "Jack's Birthday", DateModified =  new DateTime(2014,6,21), Type = "File Folder", Size = 631, 
+                        Files = new List<FileExplorer> { 
+                            new FileExplorer { ID = "16", Name = "Picture1.png", DateModified = new DateTime(2014,6,21), Type = "PNG image", Size = 493 },
+                            new FileExplorer { ID = "17", Name = "Picture2.png", DateModified = new DateTime(2014,6,21), Type = "PNG image", Size = 88 },
+                            new FileExplorer { ID = "18", Name = "Picture3.gif", DateModified = new DateTime(2014,6,21), Type = "GIF File", Size = 50 }
+                        }  
+                    },
+                    new FileExplorer { ID = "15", Name = "Trip to London", DateModified = new DateTime(2014,3,11), Type = "File Folder", Size = 1194, 
+                        Files = new List<FileExplorer> { 
+                            new FileExplorer { ID = "19", Name = "Picture1.png", DateModified = new DateTime(2014,3,11), Type = "PNG image", Size = 974 },
+                            new FileExplorer { ID = "20", Name = "Picture2.png", DateModified = new DateTime(2014,3,11), Type = "PNG image", Size = 142 },
+                            new FileExplorer { ID = "21", Name = "Picture3.png", DateModified = new DateTime(2014,3,11), Type = "PNG image", Size = 41 },
+                            new FileExplorer { ID = "22", Name = "Picture4.png", DateModified = new DateTime(2014,3,11), Type = "PNG image", Size = 25 },
+                            new FileExplorer { ID = "23", Name = "Picture5.png", DateModified = new DateTime(2014,3,11), Type = "PNG image", Size = 12 }
+                        }  
+                    }
+                }
+			});
+
+			return View("aspnet-mvc-helper", files.AsQueryable());
+		}
+```
+
+	5. "aspnet-mvc-helper" と呼ばれる View を作成します。
+
+Infragistics.Web.Mvc.dll アセンブリを参照し、View の Model を定義します。
+
+**C# の場合:**
+
+```
+@using Infragistics.Web.Mvc
+@model IQueryable<FileExplorer>
+```
+
+jQuery、jQueryUI、および Ignite　UI スクリプトおよび css クラスへの参照を追加します。
+
+```js
+    <!-- Ignite UI Required Combined CSS Files -->
+    <link href="http://cdn-na.infragistics.com/igniteui/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+    <link href="http://cdn-na.infragistics.com/igniteui/latest/css/structure/infragistics.css" rel="stylesheet" />
+
+    <script src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+
+    <!-- Ignite UI Required Combined JavaScript Files -->
+    <script src="http://cdn-na.infragistics.com/igniteui/latest/js/infragistics.core.js"></script>
+    <script src="http://cdn-na.infragistics.com/igniteui/latest/js/infragistics.lob.js"></script>
+
+```
+
+	6. View で igTreeGrid を定義します。
+
+**C# の場合:**
+
+```
+@(Html.Infragistics().TreeGrid(Model)
+        .ID("treegrid1")
+        .Width("100%")
+        .AutoGenerateColumns(false)
+        .PrimaryKey("ID")
+        .ChildDataKey("Files")
+        .RenderExpansionIndicatorColumn(true)
+        .InitialExpandDepth(1)
+        .Columns(column =>
+            {
+                column.For(x => x.ID).Hidden(true);
+                column.For(x => x.Name).HeaderText("Name").Width("30%");
+                column.For(x => x.DateModified).HeaderText("Date Modified").Width("20%");
+                column.For(x => x.Type).HeaderText("Type").Width("20%");
+                column.For(x => x.Size).HeaderText("Size in KB").Width("20%");
+            })
+        .DataBind()
+        .Render()
+    )
+```
+
+以下の画像は結果を示します。
+
+![igTreeGrid](images/igtreegrid-overview-mvc.png)
+
+### <a id='customize-icon'></a> 展開および縮小アイコンのカスタマイズ化
+
+展開および縮小アイコンが以下の CSS クラスによってカスタマイズできます。
+- 展開インジケーター - ui-icon ui-igtreegrid-expansion-indicator ui-icon-plus
+- 縮小インジケーター - ui-icon ui-igtreegrid-expansion-indicator ui-icon-minus
+
+以下の例は、カスタム画像を設定するためにデフォルト クラスをカスタマイズする方法を紹介します。
+
+```
+.ui-icon.ui-igtreegrid-expansion-indicator.ui-icon-minus {
+            background: url(../../images/samples/tree-grid/opened_folder.png) !important;
+            background-repeat: no-repeat;
+}
+.ui-icon.ui-igtreegrid-expansion-indicator.ui-icon-plus {
+            background: url(../../images/samples/tree-grid/folder.png) !important;
+            background-repeat: no-repeat;
+}
+.ui-icon-plus:before {
+		    content: '' !important;
+}
+.ui-icon-minus:before{
+		    content: '' !important;
+}
+```
+
+以下の画像は結果を示します。
+
+![igTreeGrid](images/igtreegrid-overview-css.png)
 
 ## <a id="keyboard-navigation"></a> キーボード ナビゲーション 
 

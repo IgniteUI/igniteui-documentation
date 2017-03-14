@@ -181,7 +181,8 @@ $(document).delegate(".selector", "igsplitterresizestarted", function(evt, ui) {
 ```
 
 ## <a id="demo"></a>スプリッター API およびイベント サンプル
-#### 以下のサンプルでは、スプリッター コントロールのイベントを処理する方法を紹介し、API を使用する方法を紹介します。
+
+以下のサンプルでは、スプリッター コントロールのイベントを処理する方法を紹介し、API を使用する方法を紹介します。
 
 <div class="embed-sample">
 	   [%%SamplesEmbedUrl%%/splitter/api-events-splitter](%%SamplesEmbedUrl%%/splitter/api-events-splitter)
