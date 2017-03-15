@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# Breaking Changes Revision History
+# 重大な変更の改訂履歴
 
-### Introduction
+### 概要
 
-This topic provides links to the Breaking Changes documents for earlier versions of the Ignite UI™ library.
+このトピックは、Ignite UI™ ライブラリの以前のバージョンの重大な変更にてついてのドキュメントへのリンクを提供します。
 
-### Topics
+### トピック
 
-Detailed information regarding the Breaking Changes of each release is covered in the following topics:
-- [Breaking Changes in 2016 Volume 2](Breaking-Changes-2016-Volume-2.html): This topic summarizes the breaking changes in the Ignite UI library for the 2016 Volume 2 release.
+各リリースの重大な変更に関する詳細情報は、次のトピックで扱います。
+- [2016 Volume 2 の重大な変更](Breaking-Changes-2016-Volume-2.html): このトピックでは、2016 Volume 2 リリースの Ignite UI ライブラリの重大な変更について示します。
