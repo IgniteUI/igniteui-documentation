@@ -38,8 +38,8 @@
 
 次の表は、仮想化機能の構成可能な設定をリストして、設定を管理するためのプロパティにマップします。
 
-|設定 | プロパティ | 設定
-| -------------------| ------------------- |----------- 
+設定 | プロパティ | 設定
+-------------------| ------------------- |----------- 
 行仮想化|[rowVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:rowVirtualization)|行のみで仮想化を有効/無効にします。
 列仮想化|[columnVirtualization](%%jQueryApiUrl%%/ui.iggrid#options:columnVirtualization)|列仮想化を有効/無効にします。列仮想化は固定行仮想化に依存関係があり、明示的に有効されていない場合、暗示的に有効されます。
 行仮想化および列仮想化|[virtualization](%%jQueryApiUrl%%/ui.iggrid#options:virtualization)|単一のオプションにより `rowVirtualization` および `columnVirtualization` を設定します。

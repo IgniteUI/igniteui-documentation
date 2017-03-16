@@ -118,7 +118,7 @@
    ![](images/jQuery_Series_Highlighting_01.png)
 </div>
   
-以下の実例は同じ機能をファイナンシャル チャートに適用します。
+以下の実例は同じ機能を財務チャートに適用します。
 <div class="embed-sample">
    [シリーズの強調表示 (財務)](%%SamplesEmbedUrl%%/data-chart/series-highlighting-financial)
 </div>
