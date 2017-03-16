@@ -14,9 +14,9 @@
 
 凡例 |
 -------|--------
-![](../images/images/positive.png) | 回避策
-![](../images/images/negative.png) | 既知の回避策はありません。
-![](../images/images/plannedFix.png) | 修正予定です
+![](images/positive.png) | 回避策
+![](images/negative.png) | 既知の回避策はありません。
+![](images/plannedFix.png) | 修正予定です
 
 ## [モジュール分割法](#modularization)
 

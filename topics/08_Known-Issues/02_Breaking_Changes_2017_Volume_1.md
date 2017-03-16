@@ -8,22 +8,22 @@
 |metadata|
 -->
 
-# Breaking Changes 2017 Volume 1
+# 2017 Volume 1 の重大な変更
 
-The following table summarizes the breaking changes of the 2017 Volume 1 release. Detailed explantations of the issues are provided after the summary table.
+以下の表は、2017 Volume 1 新機能の概要を示します。問題の詳細な説明は、概要表の後に記載されています。
 
-Legend | 
+凡例 | 
 -------|--------
-![](../images/images/positive.png) | Workaround available
-![](../images/images/negative.png) | No known workaround
-![](../images/images/plannedFix.png) | Fix planned
+![](images/positive.png) | 回避策
+![](images/negative.png) | 既知の回避策はありません。
+![](images/plannedFix.png) | 修正予定です
 
-## [Options changes in igGrid Summaries](#summaries)
-The options [*isGridFormatter*](http://www.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:isGridFormatter) and [*defaultDecimalDisplay*](http://www.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:defaultDecimalDisplay) in the igGrid Summaries main level options have been removed.
-The [*isGridFormatter*](http://www.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:columnSettings.summaryOperands.isGridFormatter) and [*decimalDisplay*](http://www.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:columnSettings.summaryOperands.decimalDisplay) options under [columnSettings.summaryOperands](http://www.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:columnSettings.summaryOperands) have been removed as well.
+## [igGrid Summaries のオプション変更](#summaries)
+igGrid 集計のメイン レベル オプションである [*isGridFormatter*](http://jp.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:isGridFormatter) および [*defaultDecimalDisplay*](http://jp.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:defaultDecimalDisplay) は削除されました。
+[columnSettings.summaryOperands](http://jp.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:columnSettings.summaryOperands) の [*isGridFormatter*](http://jp.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:columnSettings.summaryOperands.isGridFormatter) および [*decimalDisplay*](http://jp.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:columnSettings.summaryOperands.decimalDisplay) オプションは削除されました。
 
-The new [*format*](%%jQueryApiUrl%%/ui.iggridsummaries#options:columnSettings.summaryOperands.format) option in the igGrid Summaries can be used now in conjuction with the column [*format*](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) and [*autoFormat*](%%jQueryApiUrl%%/ui.iggrid#options:autoFormat) options to determine how the summary would be formatted.
+igGrid 集計の新しい [*format*](%%jQueryApiUrl%%/ui.iggridsummaries#options:columnSettings.summaryOperands.format) オプションは、[*format*](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) および [*autoFormat*](%%jQueryApiUrl%%/ui.iggrid#options:autoFormat) オプションと組み合わせて使用して、集計の書式を設定できるようになりました。
 
-With this option can be set how many decimals after the floating point will be displayed similar to the deleted *decimalDisplay* option. If the [*format*](%%jQueryApiUrl%%/ui.iggridsummaries#options:columnSettings.summaryOperands.format) option for the summaryOperand is not set the format for the summary will be taken based on the column it is displaying for, meaning if that column has set [*format*](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) - that format will be taken into account.
+このオプションでは、削除された *decimalDisplay* と同様に浮動小数点の後に表示する桁数を設定できます。summaryOperand の [*format*](%%jQueryApiUrl%%/ui.iggridsummaries#options:columnSettings.summaryOperands.format) オプションが設定されていない場合、集計の書式は表示先の列に基づいて決定されます。つまり、列に [*format*](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) が設定されている場合、その書式が使用されます。
 
-If no format is set for the summary and the current column the regional settings for the column type will be applied to that summary. Since due to [*autoFormat*](%%jQueryApiUrl%%/ui.iggrid#options:autoFormat) being default to 'date', the regional settings will be applied only to summaries in that type of column and in other type of columns won't receive any formatting. Meaning that if regional settings need to be applied for other type of columns when the *format* option is not set for both summary and column the [*autoFormat*](%%jQueryApiUrl%%/ui.iggrid#options:autoFormat) option needs to be set. It will specify which summaries will receive the regional auto formatting depending the column they are in.
+集計と現在の列に書式が設定されていない場合、列タイプの地域の設定が集計に適用されます。[*autoFormat*](%%jQueryApiUrl%%/ui.iggrid#options:autoFormat) が 'date' のデフォルトのため、地域の設定はその列タイプの集計のみに適用されます。その他の列タイプは書式設定が適用されません。集計と列に *format* オプションを設定せずに地域の設定を他の列タイプに適用する必要がある場合、[*autoFormat*](%%jQueryApiUrl%%/ui.iggrid#options:autoFormat) を設定します。地域自動書式設定の適用を集計がどの列にあるかに基づいて指定します。
