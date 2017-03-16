@@ -59,7 +59,7 @@ $("#igDialog1").igDialog({
 });
 ```
 
-以下のサンプルは、使用する方法を紹介し、イベント ハンドラーを指定した要素にアタッチするには jQuery の [`on`](http://api.jquery.com/on/) メソッドの使用も紹介します。
+以下のサンプルは、使用する方法を紹介し、イベント ハンドラーを指定した要素にアタッチするための jQuery の [`on`](http://api.jquery.com/on/) メソッドの使用も紹介します。
 
 <div class="embed-sample">
    [%%SamplesEmbedUrl%%/dialog-window/api-and-events](%%SamplesEmbedUrl%%/dialog-window/api-and-events)
