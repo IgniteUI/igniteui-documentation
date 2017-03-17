@@ -87,10 +87,6 @@ public ActionResult UpdateDataTableGrid()
 
 > **注:** 1 つ以上の列を定義して `AutoGenerateColumns` を *true* に設定することは**無効**です。すべての列を定義するか、すべての列を自動的に生成する必要があります。
 
-<a id="dataTable_example"></a><div class="embed-sample">
-   [DataTable へのバインド](%%SamplesEmbedUrl%%/grid/datatable-binding)
-</div>
-
 ### <a id="dataSet"></a> *DataSet* にバインド
 
 `igGrid` ASP.NET MVC ヘルパーには新しいプロパティ **`DataMember`** を導入しました。
@@ -142,7 +138,61 @@ public ActionResult UpdateDataTableGrid()
 
 *リモートの並べ替えおよびフィルター*処理は、要求を処理してから、データを返す前に `DataSet`/`DataTable` レベルでデータをフィルターするか、並べ替えることによって実現できます。
 
-要求を処理し、データを返す前に `DataTable` レベルでデータの並べ替え、およびリモート*並べ替え*を実装する方法の詳細については、「[DataTable のバインド](#dataTable_example)」サンプルを参照してください。 
+以下の例は、要求を処理し、データを返す前に `DataTable` レベルでデータの並べ替え、およびリモート*並べ替え*を実装する方法を紹介します。 
+
+**C# の場合:**
+
+```csharp
+[GridDataSourceAction]
+[ActionName("UpdateDataTableGrid")]
+public ActionResult UpdateDataTableGrid()
+{
+    DataTable dt = this.MyEmployees;
+	NameValueCollection queryString = HttpUtility.ParseQueryString(Request.QueryString.ToString());
+	// check the query string for sorting expressions
+	List<SortExpression> sortExpressions = BuildSortExpressions(queryString, "sort", true);
+	DataView dv = customers.DefaultView;
+	if (sortExpressions.Count > 0)
+	{
+		String sortExpression = "";
+		foreach (SortExpression expr in sortExpressions)
+		{
+			sortExpression += expr.Key + " " + (expr.Mode == SortMode.Ascending ? "asc" : "desc") + ",";
+		}
+		dv.Sort = sortExpression.Substring(0, sortExpression.Length - 1);
+	}
+	return View("UpdateDataTableGrid", dv.ToTable());
+}
+
+public List<SortExpression> BuildSortExpressions(NameValueCollection queryString, string sortKey, bool isTable)
+{
+	List<SortExpression> expressions = new List<SortExpression>();
+	List<string> sortKeys = new List<string>();
+	foreach (string key in queryString.Keys)
+	{
+		if (!string.IsNullOrEmpty(key) && key.StartsWith(sortKey))
+		{
+			SortExpression e = new SortExpression();
+			e.Key = key.Substring(key.IndexOf("(")).Replace("(", "").Replace(")", "");
+			e.Logic = "AND";
+			e.Mode = queryString[key].ToLower().StartsWith("asc") ? SortMode.Ascending : SortMode.Descending;
+			expressions.Add(e);
+			sortKeys.Add(key);
+		}
+	}
+	if (sortKeys.Count > 0 && isTable)
+	{
+		foreach (string sortedKey in sortKeys)
+		{
+			queryString.Remove(sortedKey);
+		}
+		string url = Request.Url.AbsolutePath;
+		string updatedQueryString = "?" + queryString.ToString();
+		Response.Redirect(url + updatedQueryString);
+	}
+	return expressions;
+}
+```
 
 以下の機能は `DataTable` や `DataSet` にバインドするときリモートで機能します。
 
