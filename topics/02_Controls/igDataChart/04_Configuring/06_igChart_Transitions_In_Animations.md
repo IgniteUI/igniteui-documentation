@@ -53,7 +53,7 @@
 
 ###<a id="overview"></a> 概要
 
-この機能は、新しいデータ ソースを読み込むときのシリーズのアニメーション化を可能にします。利用可能なアニメーションは、シリーズのタイプに基づきます。たとえば、`columnSeries` は x 軸から上昇するアニメーション、`lineSeries` は y 軸から描画するとアニメーションを再生します。シリーズのアニメーションについて、[トランジション アニメーション](%%SamplesUrl%%/data-chart/transition-animation) サンプルおよび[トランジション アニメーション (財務)](igChart-transitions-in-animations.html#transition-example) を参照してください。
+この機能は、新しいデータ ソースを読み込むときのシリーズのアニメーション化を可能にします。利用可能なアニメーションは、シリーズのタイプに基づきます。たとえば、`columnSeries` は x 軸から上昇するアニメーション、`lineSeries` は y 軸から描画するアニメーションを再生します。シリーズのアニメーションについて、[トランジション アニメーション](%%SamplesUrl%%/data-chart/transition-animation) サンプルおよび[トランジション アニメーション (財務)](igChart-transitions-in-animations.html#transition-example) を参照してください。
 
 `isTransitionInEnabled` プロパティを `true` に設定すると、アニメーション化されたトランジションを有効にします。
 

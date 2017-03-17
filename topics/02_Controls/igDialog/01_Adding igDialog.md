@@ -111,7 +111,7 @@
 	    });
 		```
 
-`igDialog` を TypeScript で使用するには、以上のコードを使用してインスタンス化できます。TypeScript 用の Ignite UI と jQuery の型定義への参照パスを含めます。
+`igDialog` を TypeScript で使用するには、以上のコードを使用してインスタンス化できます。そのためには TypeScript 用の Ignite UI と jQuery の型定義への参照パスを指定する必要があります。
 
     **TypeScript の場合:**
     ```typescript
