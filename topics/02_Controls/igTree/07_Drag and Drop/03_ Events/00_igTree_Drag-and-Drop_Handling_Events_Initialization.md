@@ -63,7 +63,7 @@ $(".selector").igTree({
 
 - [ドラッグ アンド ドロップ - 複数のツリー](%%SamplesUrl%%/tree/drag-and-drop-multiple-trees): このサンプルでは、2 つの `igTree` の間にノードをドラッグ アンド ドロップする方法を紹介します。
 
-- [API およびイベント](igtree-event-reference.html#attaching-handlers-jquery: このサンプルは `igTree` API を使用する方法を紹介します。
+- [API およびイベント](igtree-event-reference.html#attaching-handlers-jquery): このサンプルは `igTree` API を使用する方法を紹介します。
 
 
 
