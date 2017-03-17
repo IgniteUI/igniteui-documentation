@@ -44,7 +44,7 @@ Automatic モードの場合、グリッドをスクロール ダウンしてロ
 
 Button モードの場合、グリッドの下のボタンをクリックまたはタップすると、追加の行がロードされます。
 
-機能は [$.ig.DataSource](%%jQueryApiUrl%%/ig.datasource) のページング機能の一番上に構築されるため、`$.ig.DataSource` でサポートされるすべての範囲のデータ ソースをサポートします。しかし、この機能はページング機能自体と互換性がありません。統合シナリオのサポートについては、｢[機能マトリックス (igGrid)](Feature-Compatibility-Matrix(igGrid).html)｣のトピックを参照してください。
+機能は [$.ig.DataSource](%%jQueryApiUrl%%/ig.datasource) のページング機能の一番上に構築されるため、`$.ig.DataSource` でサポートされるすべての範囲のデータ ソースをサポートします。しかし、この機能はページング機能自体と互換性がありません。統合シナリオのサポートについては、｢[機能マトリックス (igGrid)](Feature-Compatibility-Matrix%28igGrid%29.html)｣のトピックを参照してください。
 
 ![](images/igGrid_Append_Rows_on_Demand_Overview_1.png)
 

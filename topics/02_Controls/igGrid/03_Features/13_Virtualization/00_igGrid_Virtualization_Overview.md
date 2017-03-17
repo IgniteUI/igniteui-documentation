@@ -53,7 +53,7 @@
 
 連続行仮想化と違い、固定行仮想化が列仮想化をサポートします。
 
-固定行仮想化との組み合わせで動作するグリッド機能のリストについては、[機能互換性マトリックス (igGrid)](Feature-Compatibility-Matrix(igGrid).html) を参照してください。
+固定行仮想化との組み合わせで動作するグリッド機能のリストについては、[機能互換性マトリックス (igGrid)](Feature-Compatibility-Matrix%28igGrid%29.html) を参照してください。
 
 左に示した図は、500 レコードが読み込まれたグリッドを示します。右に示した図は、仮想化されたグリッドをサポートするために DOM 内に存在する実際の HTML 表要素を示します。
 
@@ -72,7 +72,7 @@
 
 水平方向のスクロールでコンテンツが列間で移動されますが、表示可能な列幅が変更されないため、列幅を設定してもほとんど効果がありません。
 
-列仮想化との組み合わせで動作するグリッド機能のリストについては、[機能互換性マトリックス (igGrid)](Feature-Compatibility-Matrix(igGrid).html) を参照してください。
+列仮想化との組み合わせで動作するグリッド機能のリストについては、[機能互換性マトリックス (igGrid)](Feature-Compatibility-Matrix%28igGrid%29.html) を参照してください。
 
 左に示した図は、クライアントで 25 列、500 レコードがロードされたグリッドを示します。右に示した図は、仮想化されたグリッドをサポートするために DOM 内に存在する実際の HTML 表要素を示します。
 
@@ -88,7 +88,7 @@
 
 固定行仮想化と比べて、連続行仮想化はグリッド機能との統合が優れており、構成しやすく、さまざまな行の高さをよりよく処理します。
 
-連続行仮想化と操作するグリッド機能のリストについては、[機能互換性マトリックス (igGrid)](Feature-Compatibility-Matrix(igGrid).html) を参照してください。
+連続行仮想化と操作するグリッド機能のリストについては、[機能互換性マトリックス (igGrid)](Feature-Compatibility-Matrix%28igGrid%29.html) を参照してください。
 
 左に示した図は、1 クライアントに関して 500 レコードがロードされたグリッドを示します。右に示した図は、仮想化されたグリッドをサポートするために DOM 内に存在する実際の HTML 表要素を示します。
 
@@ -114,7 +114,7 @@
 
 - [仮想化を有効にし、構成する](igGrid-Enabling-and-Configuring-Virtualization.html): このトピックでは、コード例と共に、`igGrid` 内の仮想化機能を有効化し構成する方法について説明します。
 - [パフォーマンス ガイド](iggrid-performance-guide.html): このトピックは、パフォーマンスを向上するグリッド設定の詳細を説明します。
-- [機能互換性マトリックス (igGrid)](Feature-Compatibility-Matrix(igGrid).html):このトピックは、`igGrid` の互換性のある機能組み合わせを表示します。
+- [機能互換性マトリックス (igGrid)](Feature-Compatibility-Matrix%28igGrid%29.html):このトピックは、`igGrid` の互換性のある機能組み合わせを表示します。
 - [IIS HTTP 圧縮](https://www.iis.net/configreference/system.webserver/httpcompression?showTreeNavigation=true)
 - [Apache で圧縮を有効にする](http://httpd.apache.org/docs/current/mod/mod_deflate.html#enable)
 
