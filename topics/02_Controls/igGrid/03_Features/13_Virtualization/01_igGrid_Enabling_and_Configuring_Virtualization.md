@@ -280,4 +280,4 @@ $("#grid1").igGrid({
 このトピックに関連する追加情報については、以下のトピックを参照してください。
 
 - [仮想化の概要](igGrid-Virtualization-Overview.html): このトピックは、`igGrid` コントロールの仮想化機能を紹介します。
-- [機能互換性マトリックス (igGrid)](Feature-Compatibility-Matrix(igGrid).html):このトピックは、`igGrid` の機能を同時に有効にした場合の機能間の互換性を示しています。
+- [機能互換性マトリックス (igGrid)](Feature-Compatibility-Matrix%28igGrid%29.html):このトピックは、`igGrid` の機能を同時に有効にした場合の機能間の互換性を示しています。

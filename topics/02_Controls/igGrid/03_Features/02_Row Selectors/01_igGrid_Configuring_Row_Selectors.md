@@ -385,7 +385,7 @@ rowNumberingSeed| 0
 このサンプルでは、`igGrid` における行セレクターの構成方法を紹介します。
 
 <div class="embed-sample">
-   [行セレクターの構成](%%SamplesEmbedUrl%%/grid/iggrid-configuring-row-selectors)
+   [行セレクターの構成](%%SamplesEmbedUrl%%/grid/row-selectors)
 </div>
  
 
