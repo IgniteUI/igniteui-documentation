@@ -102,7 +102,7 @@ $("#grid1").igGrid({
 ```
 
 この集計は、データ型の適用が許可されるすべての列に適用されます。 
-この例で、「合計」は数値列のみに適用可能ため、グリッドのすべての数値列は集計行で「合計」集計が表示されます。
+この例で、「合計」は数値列のみに適用可能ため、グリッドの数値列のみは集計行で「合計」集計が表示されます。
 
 columnSettings.groupSummaries オプションは列で集計の指定を許可します。これは groupSummaries メイン レベル オプションより優先されます。特定の列でこのオプションが設定される場合、この列に関連するメイン groupSummaries オプションからの設定は無視されます。
 
@@ -121,7 +121,15 @@ format |集計値の書式設定を適用します。|string |グリッドの co
 
 カスタム集計は、データ アイランドからのデータの集計に使用するカスタム関数を指定します。
 カスタム集計を設定するには、グループの summaries オブジェクトの `summaryFunction` プロパティに関数を設定します。
-カスタム集計をすべての列または特定の列に適用することにより、グループ集計オブジェクトを最上位 GroupBy groupSummaries 配列または特定の列の columnSettings で定義します。 
+
+The group summaries object can be added to one of the following collections, which will determine which columns the custom summary will be applied to as follows:
+
+When set in: | Custom summary is applied to: 
+---|---
+[columnSettings.groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:columnSettings.groupSummaries) | 特定の列のみ。
+[groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:groupSummaries) | すべての列。
+$.ig.util.defaultSummaryMethods | すべての列。
+
 関数はデータ アイランドのデータを受け、そのデータの集計結果を返します。
 
 カスタム集計の例:
