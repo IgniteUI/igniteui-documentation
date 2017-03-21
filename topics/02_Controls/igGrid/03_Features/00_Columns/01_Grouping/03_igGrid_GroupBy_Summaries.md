@@ -122,9 +122,9 @@ format |集計値の書式設定を適用します。|string |グリッドの co
 カスタム集計は、データ アイランドからのデータの集計に使用するカスタム関数を指定します。
 カスタム集計を設定するには、グループの summaries オブジェクトの `summaryFunction` プロパティに関数を設定します。
 
-The group summaries object can be added to one of the following collections, which will determine which columns the custom summary will be applied to as follows:
+以下のコレクションのいずれかにグループ集計オブジェクトを追加し、カスタム集計に適用する列を決定します。
 
-When set in: | Custom summary is applied to: 
+設定: | カスタム集計の適用先:
 ---|---
 [columnSettings.groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:columnSettings.groupSummaries) | 特定の列のみ。
 [groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:groupSummaries) | すべての列。
