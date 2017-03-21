@@ -88,7 +88,7 @@ $('#treegrid').igTreeGrid({
 });
 ```
 
-以下のツリー グリッドがフラット データ ソースにはバインドされています。
+以下のツリー グリッドはフラット データ ソースにバインドされています。
 
 <div class="embed-sample">
    [JSON のバインド](%%SamplesEmbedUrl%%/tree-grid/json-binding)
@@ -130,7 +130,7 @@ $('#treegrid').igTreeGrid({
 });
 ```
 
-以下のツリー グリッドが階層データ ソースにはバインドされています。
+以下のツリー グリッドは階層データ ソースにバインドされています。
 
 <div class="embed-sample">
    [ファイル エクスプローラー](%%SamplesEmbedUrl%%/tree-grid/file-explorer)
@@ -484,7 +484,7 @@ jQuery、jQueryUI、および Ignite　UI スクリプトおよび css クラス
 
 ### <a id='customize-icon'></a> 展開および縮小アイコンのカスタマイズ化
 
-展開および縮小アイコンが以下の CSS クラスによってカスタマイズできます。
+展開および縮小アイコンは以下の CSS クラスによってカスタマイズできます。
 - 展開インジケーター - ui-icon ui-igtreegrid-expansion-indicator ui-icon-plus
 - 縮小インジケーター - ui-icon ui-igtreegrid-expansion-indicator ui-icon-minus
 

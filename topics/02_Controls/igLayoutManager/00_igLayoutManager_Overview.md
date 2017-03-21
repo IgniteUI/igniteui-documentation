@@ -52,7 +52,7 @@
 
 `igLayoutManager` は、テーブルの使用または `<DIV>` 要素による手動レイアウトの簡単で効果的な代替になります。標準的なアプローチを使用して短時間に、最も人気のある Web ページを数限りないバリエーションで配置できます。
 
-`igLayoutManager` により複数のレイアウトがサポート ([**サポートされるレイアウト**](#supported-layouts-summary-chart)を参照.) され、各レイアウトはそれぞれ異なるレベルにカスタマイズできます。たとえば、[境界線レイアウト](#border-layout)では各要素の相対幅の他に表示状態も管理できます。また、[グリッド レイアウト](#grid-layout)では列数や行数、項目間の空白、複数行または複数列にまたがる項目の広がり (スパン)、項目自体とその他の配置とユーザーアクセス権などが構成可能です。構造上、[**列レイアウト**](#column-layout)は定義済みの CSS クラスのセットです。そのため、どのような効果でも任意で事前定義できます。
+`igLayoutManager` により複数のレイアウトがサポート ([**サポートされるレイアウト**](#supported-layouts-summary-chart)を参照) され、各レイアウトはそれぞれ異なるレベルにカスタマイズできます。たとえば、[境界線レイアウト](#border-layout)では各要素の相対幅の他に表示状態も管理できます。また、[グリッド レイアウト](#grid-layout)では列数や行数、項目間の空白、複数行または複数列にまたがる項目の広がり (スパン)、項目自体とその他の配置とユーザーアクセス権などが構成可能です。構造上、[**列レイアウト**](#column-layout)は定義済みの CSS クラスのセットです。そのため、どのような効果でも任意で事前定義できます。
 
 任意のレイアウトを選択するには、`igLayoutManager` コントロールの [layoutMode](%%jQueryApiUrl%%/ui.iglayoutmanager#options) プロパティを設定します。デフォルトのレイアウトは、[**列レイアウト**](#column-layout)です。レイアウトの構成やカスタマイズの詳細は、[igLayoutManager の追加](igLayoutManager-Adding.html)および[igLayoutManager の構成](igLayoutManager-Configuring-layouts.html)のトピックを参照してください。
 
