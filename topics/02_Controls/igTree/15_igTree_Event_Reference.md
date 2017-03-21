@@ -74,7 +74,7 @@ $("#igTree1").igTree({
 });
 ```
 
-以下のサンプルは、使用する方法を紹介し、イベント ハンドラーを指定した要素にアタッチするには jQuery の on メソッドの使用も紹介します。
+以下のサンプルは、構成方法、そしてイベント ハンドラーを指定した要素にアタッチするために必要な jQuery の on メソッドの使用を紹介します。
 
 <div class="embed-sample">
    [%%SamplesEmbedUrl%%/tree-control/api-and-events](%%SamplesEmbedUrl%%/tree-control/api-and-events)

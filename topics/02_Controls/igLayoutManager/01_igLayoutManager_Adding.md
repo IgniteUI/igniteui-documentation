@@ -392,7 +392,7 @@
     });
 	```
 
-#### itemRendered イベントの使用時に代替方法するサンプル:
+#### itemRendered イベントを使用する際の代替方法を示すサンプル:
 
 以下のサンプルでは、[`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) イベントの処理や作成した領域へのコンテンツの割り当てによって、レイアウト マネージャー コントロールの境界線レイアウトを JavaScript から初期化する方法を紹介します。
 
