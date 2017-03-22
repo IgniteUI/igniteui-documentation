@@ -8,91 +8,91 @@
 |metadata|
 -->
 
-# History.js Integration with Ignite UI controls
+# History.js と Ignite UI コントロールの統合
 
-## Topic Overview
+## トピックの概要
 
-### Purpose
+### 目的
 
-Ignite UI controls are fully integrated with history.js – a popular framework for browser history support. This topic describes the requirements to achieve that and demonstrates how the igGrid control can be integrated with history.js framework.
+Ignite UI コントロールはブラウザーの履歴機能を提供する history.js をサポートします。このトピックは、統合に必要な要件の説明および gGrid コントロールを history.js に統合する方法について示します。
 
-### Required background
+### 前提条件
 
-The following table lists the concepts, topics, and articles required as a prerequisite to understanding this topic.
+以下の表は、このトピックを理解するための前提条件として必要な概念、トピック、および記事の一覧です。
 
-- Topics
-    - [Paging](igGrid-Paging.html) Paging feature allows you to divide your data in pages so that you can achieve better performance by fetching only a predefined number of records from your original data source.
-    - [Filtering](igGrid-Filtering.html) The Filtering feature of the `igGrid` allows users to do Excel-style filtering of data.
-    - [Sorting Overview](igGrid-Sorting-Overview.html) The igGrid control sorting feature enables single or multiple column sorting in an ascending or descending order.
-    - [Column Resizing](igGrid-Column-Resizing.html) This topic explains the column resizing functionality of the `igGrid`™ control.
-- External Resources
-    - [Manipulating the browser history](https://developer.mozilla.org/en-US/docs/Web/API/History_API)
-    - [History.js library](https://github.com/browserstate/history.js/)
-	- [Getting Started with the History API](http://blog.teamtreehouse.com/getting-started-with-the-history-api)
-
-
-### In this topic
-
-This topic contains the following sections:
-
--   [**History.js Overview**](#overview)
--   [**igGrid and History.js Integration**](#grid)
--   [**Sample**](#historyjs-sample)
--   [**Related Content**](#related-content)
-    -   [Topics](#topics)
+- トピック
+    - [ページング](igGrid-Paging.html) ページング機能では、オリジナル データ ソースから事前に定義された数のレコードだけフェッチすることで、パフォーマンスが改善できるよう、ページ中のデータを分割できます。
+    - [フィルタリング](igGrid-Filtering.html) フィルタリング機能によりユーザーがデータを Excel 形式でフィルターすることができます。
+    - [並べ替えの概要](igGrid-Sorting-Overview.html) igGrid コントロールの並べ替え機能では、1 つまたは複数の列を昇順または降順に並べ替えることができます。
+    - [列のサイズ変更](igGrid-Column-Resizing.html) このトピックでは、`igGrid`™ コントロールの列サイズ変更機能について説明します。
+- 外部リソース
+    - [ブラウザー履歴の操作](https://developer.mozilla.org/en-US/docs/Web/API/History_API)
+    - [History.js ライブラリ](https://github.com/browserstate/history.js/)
+	- [履歴 API を使用した作業の開始](http://blog.teamtreehouse.com/getting-started-with-the-history-api)
 
 
+### このトピックの内容
 
-## <a id="overview"></a> History.js Overview
+このトピックは、以下のセクションで構成されます。
 
-HTML5 has History/State APIs that allows manipulating the browser history. With the expanding usage of Single Page Applications, where all the page manipulations happen asynchronously, the need to change the page URL accordingly, when having dynamic page change, grows. This is also required, in order to have a unique entry point to each page section. HTML5 History/State APIs allows saving a page states and creating corresponding URL's for each of them, and while navigating back and forward across the page to restore that page's states.
-Not all the browsers still fully support that functionality, but the [History.js](https://github.com/browserstate/history.js/) framework polyfills the problems that may occur across the browsers.
-
-When using the browser History API, a current page is defined with three main parameters:
-
--   **state** - object that is holding current page information.
--   **title** - title of the current page.
--   **url** - the entry point that is associated with the current page in its state.
-
-Defining the current page state, using the parameters above, then the page can be added to the history stack, replaced or restored from there and it will be available, when navigating through the browser history.
-
-Ignite UI controls can be fully integrated with history.js. When we want to save the state of IgniteUI control, we use the client-side event API of the latter. Those events carry the current state of the IgniteUI control - a state we can use the push it to the browser history stack. Follow the next paragraph for more information of how to integrate igGrid with the HistotyJS framework.
-
-The following are the browser History and History.js API methods that are needed to enable that functionality for the IgniteUI controls. Follow that [topic](https://developer.mozilla.org/en-US/docs/Web/API/History_API), for detailed information about the full browser History API and [History.js](https://github.com/browserstate/history.js/) framework overview in GitHub.
+-   [**History.js 概要**](#overview)
+-   [**igGrid と History.js の統合**](#grid)
+-   [**サンプル**](#historyjs-sample)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
 
 
- - **pushState()** - add an entry to the history stack.
+
+## <a id="overview"></a> History.js 概要
+
+HTML5 には履歴/状態 API がありブラウザー履歴を操作できます。すべてのページ操作が非同期で発生するシングル ページ アプリケーションの使用が多くなると、動的なページがある場合にページ URL を合わせて変更する必要があります。これもまた各ページ セクションへの一意のエントリ ポイントを持つために必要になります。HTML5 History/State API は、ページ ステートを保存して対応する URL をそれぞれに作成できます。次のページや前のページに移動する際にページのステートを復元します。
+この機能が完全にサポートされていないブラウザーもありますが、[History.js](https://github.com/browserstate/history.js/) フレームワークがブラウザーで発生する問題をポリフィルします。
+
+ブラウザー履歴 API を使用する場合、現在のページは 3 つのパラメーターで定義されます。
+
+-   **state** - 現在のページ情報を保持するオブジェクト。
+-   **title** - 現在のページのタイトル。
+-   **url** - そのステートの現在のページと関連付けされるエントリ ポイント。
+
+現在のページのステートを定義して上記パラメーターを使用した場合、ページを履歴スタックに追加し、そこから置き換えまたは復元が可能となりブラウザー履歴を移動する際に使用できます。
+
+Ignite UI コントロールは 完全に history.js と統合できます。Ignite UI コントロールのステートを保存する場合、後者のクライアント側イベント API を使用します。これらのイベントは Ignite UI コントロールの現在のステートを持ちます。使用できるステートはブラウザー履歴スタックにプッシュします。以下に igGrid を HistotyJS フレームワークと統合する方法の詳細を示します。
+
+以下は、IgniteUI の機能を有効にするために必要なブラウザー履歴と History.js API メソッドです。[トピック](https://developer.mozilla.org/en-US/docs/Web/API/History_API)ではブラウザーの全履歴 API と [History.js](https://github.com/browserstate/history.js/) フレームワークについての詳細な情報を示します。
+
+
+ - **pushState()** - 履歴スタックにエントリを追加します。
 
 ```
 window.History.pushState(state, title, url);
 ```
 
 
-- **getState()** - get current entry from the history stack.
+- **getState()** - 履歴スタックに現在のエントリを取得します。
 
 ```
 window.History.getState();
 ```
 
 
- - **replaceState()** - update an entry to the history stack.
+ - **replaceState()** - 履歴スタックにエントリを更新します。
 
 ```
 window.History.replaceState(currState.data);
 ```
 
 
- - **statechange** - History.js event fired when navigation through the browser history appears.
+ - **statechange** - History.js イベントがブラウザー履歴の表示を移動する際に発生します。
 
 ```
 window.History.Adapter.bind(window, 'statechange', function (e, args) { }
 ```
 
-## <a id="grid"></a> igGrid and History.js Integration
-In this section igGrid control is used to show how IgniteUI control can be integrated with the History.js framework. The following grid features are used, for the need of the sample: paging, filtering, sorting and resizing. For each one of them we will define a state that is required to properly save it. We will save that state and then will ensure when the _statechange_ history event is fired, to properly restore the grid state.
+## <a id="grid"></a> igGrid と History.js の統合
+このセクションでは igGrid コントロールを使用して IgniteUI を History.js フレームワークに統合する方法について説明します。サンプルでは、ページング、フィルタリング、並べ替え、サイズ変更などのグリッド機能が使用されます。各機能に正しく保存するために必要なステートを定義します。ステートを保存し、グリッドを正しく復元するために _statechange_ history イベントがいつ発生するかを確かにします。
 
-The state object contains all the information needed to restore the page at the desired point and it is associated with a URL to describe it.
-Let's start by adding a paging state to the browse history. After that will see what's the difference when adding the same functionality for the sorting feature:
+ステート オブジェクトは、必要なポイントで復元するために必要なすべての情報を含み、説明するための URL と関連付けされます。
+ブラウザー履歴にページング ステートを追加します。同じ機能を並べ替え機能に追加した場合の違いを確認します。
 
 
 ```
@@ -102,10 +102,10 @@ pageIndexChanged: function (e, args) {
     window.History.pushState(state, null, formURL("page", pageIndex));
 }
 ```
-We choose our state to have the name of the feature and the pageIndex. This is all we need to have the proper paging state and restore it lately.
-Note: In the sample code below you can see what the _formURL()_ method is doing to create an proper URL. In this case with paging, it builds the following string: "?page=2" and associate it with the current paging state, while for other features it is more complicated.
+ステートには機能名と pageIndex が使用されます。以上がページング ステートとその復元に必要となる手順のすべてです。
+注: 以下のサンプル コードで _formURL()_ メソッドが適切な URL を作成する方法を確認できます。この場合ページングで文字列 "?page=2" を作成し、それを現在のページ ステートと関連付けします。他の機能ではより複雑な手順となります。
 
-Then the state can be recovered inside the statechange event handler:
+ステートは statechange イベント ハンドラー内で復元できます。
 
 
 ```
@@ -115,17 +115,17 @@ window.History.Adapter.bind(window, 'statechange', function (e, args) {
 }
 ```
 
-This is enough for a feature like paging, where we always have a selected page and also have only one method to change paging state - _pageIndex()_.
-The procedure above will not work for a feature like sorting. It's because in sorting, we can have several sorted columns, which state we need to save and restore separately, and when restoring we may need to unsort a column, instead of sorting it, which is achieved with two different API methods. We will look in details, with the next case. Let imagine we have the following case:
+常に選択したページがあり、ページング ステート _pageIndex()_ を変更するメソッドが 1 つのみのページングなどの機能には十分です。
+上記の方法は並べ替えなどの機能には使用できません。これは並べ替えに複数の並べ替え列があり、ステートが保存および別々に復元する必要があるとともに、復元時には列を並べ替えする代わりに並べ替えを解除する必要がある場合があり、2 つの API メソッドが必要となるためです。次の例で詳細を示します。以下の場合を想定します。
 
-1. The grid is not sorted.
-2. Change paging from first to second page.
-3. Sort a column in ascending order.
-4. Sort the same column in descending order.
-5. Go back in browser history.
-6. Go back in browser history again.
+1. グリッドが並べ替えされていません。
+2. 最初のページから 2 ページ目へページングを変更します。
+3. 列を昇順に並べ替えます。
+4. 同じ列を降順に並べ替えます。
+5. ブラウザー履歴に戻ります。
+6. ブラウザー履歴に再度戻ります。
 
-When the first back is hit, then what we want to do is to change last sorted column state, from descending to ascending. If we have added previously a sorting state, the same way as paging:
+最初に戻るが押されたとき、最後の並べ替え列のステートを降順から昇順へ変更する必要があります。並べ替えステートを前に追加した場合、ページングと同じ方法になります。
 
 
 ```
@@ -139,7 +139,7 @@ columnSorted: function (e, args) {
 }
 ```
 
-then we can restore last column sorting state correctly using the code below.
+その場合以下のコードで最後の列並べ替えステートを正しく復元できます。
 
 
 ```
@@ -153,7 +153,7 @@ window.History.Adapter.bind(window, 'statechange', function (e, args) {
 }
 ```
 
-But when the second back is hit, and we go from state 3 to 2 (in the list above), then the code above will not work, cause what we really want is unsort the last sorted column. That's why the following code will be needed instead:
+ただし戻るボタンが 2 回目に押された場合、ステート 3 から 2 になるため、前回の列並べ替えを解除する必要があり、上記コードは使用できません。この場合、以下のコードが必要になります。
 
 
 ```
@@ -166,9 +166,9 @@ window.History.Adapter.bind(window, 'statechange', function (e, args) {
 }
 ```
 
-The problem here is how to distinguish, which is the correct method you need, when going back in the history? This is not possible, unless you have some additional information for the current history state. What we really need, in this case is, before we add new state for the sorted column (in 3.), is to modify the previous paging state and add an undo state for the sorted column. This will help, not only restore the previous paging state, but in addition to undo and unsort the current sorted one.
+ここでの問題は、履歴に戻る際にどちらのメソッドが必要であるかをどのように識別するかです。それには現在の履歴ステートの追加情報が必要になります。新しいステートを並べ替え列に追加する前に (3.)、以前のページングステートを変更して元に戻すステーを並べ替え列に追加します。この方法は、前のページング ステートを復元するだけでなく、現在の並べ替えされている列の元に戻すおよび並べ替え解除で使用できます。
 
-For each feature state, before we add it to the history stack, we want to save its undo state. This can happen in an IgniteUI control's _-ing_ event, where we still have the old state information. For sorting, it is the columnSorting event:
+各機能のステートには履歴スタックに追加する前に元に戻すステートを追加します。これは古いステート情報を持つ IgniteUI コントロールの  _-ing_ イベントで可能です。並べ替えは columnSorting イベントです。
 
 
 ```
@@ -182,8 +182,8 @@ columnSorting: function (e, args) {
 }
 ```
 
-We take the previous state, add and undo information to it, and replace it in the history stack. 
-The code above defines an object _undoData_ similar to the _data_ one, having in addition a flag that says the state needs to be undone.
+前のステートを取得し、情報を追加または元に戻します。次に履歴スタックでそれを置き換えます。 
+上記コードは _data_ と同様の _undoData_ オブジェクトを定義し、ステートを元に戻す必要があることを示すフラグがあります。
 
 
 ```
@@ -202,25 +202,25 @@ window.History.Adapter.bind(window, 'statechange', function (e, args) {
 }
 ```
 
-## <a id="historyjs-sample"></a> Sample
-This sample demonstrates how the igGrid control can be integrated with history.js. Filter, sort, resize the list of footballers or change the grid page, to create a new view and send it using the generated browser URL.
-In addition, the sample have some code that apply a sorting, when the grid is initially rendered. It also shows how the saving, replacing and restoring happens for the other grid features and how to form an URL for the different grid feature states.
+## <a id="historyjs-sample"></a> サンプル
+このサンプルでは、igGrid コントロールを history.js と統合する方法を紹介します。フットボール プレーヤーのリストをフィルター、並べ替え、サイズ変更またはグリッドページを変更し、新しいビューを作成し、生成されたブラウザー URL を使用してリストを送信します。
+加えてサンプルにはグリッドが初期描画されるときに並べ替えを適用するコードがあります。他のグリッド機能で保存、置き換え、復元する方法、および 他のグリッド機能ステートに URL を構成する方法を示します。
 
 
 <div class="embed-sample">
    [HistoryJS](%%SamplesEmbedUrl%%/grid/history)
 </div>
 
-## <a id="related-content"></a> Related Content
+## <a id="related-content"></a> 関連コンテンツ
 
-### <a id="topics"></a> Topics
+### <a id="topics"></a> トピック
 
-The following topics provide additional information related to this topic.
+このトピックに関連する追加情報については、以下のトピックを参照してください。
 
-- [Manipulating the browser history](https://developer.mozilla.org/en-US/docs/Web/API/History_API)
-- [History.js library](https://github.com/browserstate/history.js/)
-- [Getting Started with the History API](http://blog.teamtreehouse.com/getting-started-with-the-history-api)
-- [Paging](igGrid-Paging.html) Paging feature allows you to divide your data in pages so that you can achieve better performance by fetching only a predefined number of records from your original data source.
-- [Filtering](igGrid-Filtering.html) The Filtering feature of the `igGrid` allows users to do Excel-style filtering of data.
-- [Sorting Overview](igGrid-Sorting-Overview.html) The igGrid control sorting feature enables single or multiple column sorting in an ascending or descending order.
-- [Column Resizing](igGrid-Column-Resizing.html) This topic explains the column resizing functionality of the `igGrid`™ control.
+- [ブラウザー履歴の操作](https://developer.mozilla.org/en-US/docs/Web/API/History_API)
+- [History.js ライブラリ](https://github.com/browserstate/history.js/)
+- [履歴 API を使用した作業の開始](http://blog.teamtreehouse.com/getting-started-with-the-history-api)
+- [ページング](igGrid-Paging.html) ページング機能では、オリジナル データ ソースから事前に定義された数のレコードだけフェッチすることで、パフォーマンスが改善できるよう、ページ中のデータを分割できます。
+- [フィルタリング](igGrid-Filtering.html) フィルタリング機能によりユーザーがデータを Excel 形式でフィルターすることができます。
+- [並べ替えの概要](igGrid-Sorting-Overview.html) igGrid コントロールの並べ替え機能では、1 つまたは複数の列を昇順または降順に並べ替えることができます。
+- [列のサイズ変更](igGrid-Column-Resizing.html) このトピックでは、`igGrid`™ コントロールの列サイズ変更機能について説明します。
