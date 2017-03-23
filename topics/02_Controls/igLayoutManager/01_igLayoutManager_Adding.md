@@ -124,29 +124,15 @@
 					<li>必要なリソースを手動で読み込みます。以下の表にリストされる依存関係を使用する必要があります。</li>
 				</ul>
 
-				以下の表は、igLayoutManager コントロール関連の Ignite UI ライブラリの依存関係を示します。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。
+				<div>以下の表は、igLayoutManager コントロール関連の Ignite UI ライブラリの依存関係を示します。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。</div><br/>
 
-				<table cellspacing="0" cellpadding="0">
-					<tbody>
-						<tr>
-							<th>
-								JS リソース
-							</th>
-
-							<th>
-								説明
-							</th>
-						</tr>
-
-						<tr>
-							<td>infragistics.ui.layoutmanager.js</td>
-
-							<td>
-								igLayoutManager コントロール
-							</td>
-						</tr>
-					</tbody>
-				</table><br>
+				<div>
+                    <b>JS リソース</b> - infragistics.ui.layoutmanager.js
+				</div>
+                <div>
+                    <b>説明</b> - igLayoutManager コントロール
+                </div>
+                <br />
 			</td>
 
 			<td>

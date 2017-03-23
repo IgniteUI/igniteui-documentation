@@ -232,4 +232,4 @@ igGrid|igHierarchicalGrid
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [集計とグループ化](%%SamplesUrl%%/grid/grouping): igGrid グループ化のモーダル ダイアログ ウィンドウの操作を示すサンプル。
+- [グループ化](%%SamplesUrl%%/grid/grouping): igGrid グループ化のモーダル ダイアログ ウィンドウの操作を示すサンプル。

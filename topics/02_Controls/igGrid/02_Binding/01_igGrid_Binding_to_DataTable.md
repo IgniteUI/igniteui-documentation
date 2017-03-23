@@ -58,17 +58,17 @@
 
 以下のシナリオのモデルは `DataTable` です (タイプは .NET dynamic に設定できます)。この場合、`GridDataSourceAction` `ActionMethod` から `DataTable` が返ります。このメソッドはモデル (`DataTable`) を JSON にシリアル化し、クライアントで消費するためそれをサーバーから返します。
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
 @model  System.Data.DataTable
-<%=(Html.Infragistics().Grid<System.Data.DataTable>().ID("grid1").Height("500px")
+@(Html.Infragistics().Grid<System.Data.DataTable>().ID("grid1").Height("500px")
 		…
         .DataSource(Model)
         .DataSourceUrl(Url.Action("UpdateDataTableGrid"))        
         .DataBind()        
-        .Render())
-%>
+        .Render()
+)
 ```
 
 **C# の場合:**
@@ -107,10 +107,10 @@ public ActionResult UpdateDataTableGrid()
 
 同じく、`DataTable`/`DataSet` をデータ ソースとして使用するとき、集計機能はサポートしていません。
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
-<%=(Html.Infragistics().Grid<dynamic>().ID("grid1").Height("500px")
+@(Html.Infragistics().Grid<dynamic>().ID("grid1").Height("500px")
 		.AutoGenerateColumns(true)       
 		.RenderCheckboxes(true)
 		.AutoCommit(false)       
@@ -133,7 +133,8 @@ public ActionResult UpdateDataTableGrid()
 		.DataBind()
 		.Width("100%")
 		.Height("100%")
-		.Render()) %>
+		.Render()
+)
 ```
 
 *リモートの並べ替えおよびフィルター*処理は、要求を処理してから、データを返す前に `DataSet`/`DataTable` レベルでデータをフィルターするか、並べ替えることによって実現できます。
@@ -203,11 +204,11 @@ public List<SortExpression> BuildSortExpressions(NameValueCollection queryString
 
 `DataTable` や `DataSet` に `PrimaryKey` を定義しておくると、`igGrid` がそれを自動的に使用します。あるいは ASP.NET MVC ヘルパーで手動設定することもできます。更新機能を有効にしたとき、以上の設定が必要です。
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
 // The Model in the code snippet below is a DataTable
-<%=(Html.Infragistics().Grid<DataTable>(Model).ID("grid1").Height("500px")
+@(Html.Infragistics().Grid<DataTable>(Model).ID("grid1").Height("500px")
         .PrimaryKey("ProductID")
         .AutoGenerateLayouts(true)
         .AutoGenerateColumns(true)       
@@ -220,14 +221,15 @@ public List<SortExpression> BuildSortExpressions(NameValueCollection queryString
         .DataBind()
         .Width("100%")
         .Height("100%")
-        .Render()) %>
+        .Render()
+)
 ```
 
 ### 更新時は、Dictionary&lt;string, string&gt; をサポートするシリアライザーを使用してください。
 
 更新時は、`Dictionary<string, string>` をサポートするシリアライザーを使用してください。ちなみに、Microsoft JSON シリアライザーでは Dictionary を JSON にシリアル化解除できないという問題があります。更新機能を使用するとき、`GridModel` で、`LoadTransactions` メソッドをオーバーライドしてください。これには、Json.NET シリアライザーで対応できます。このシリアライザーは以下のページでダウンロードできます。また ASP.NET MVC 4 にはデフォルト シリアライザーとして組み込まれています。
 
-[http://james.newtonking.com/projects/json-net.aspx](http://james.newtonking.com/projects/json-net.aspx)
+[http://www.newtonsoft.com/json](http://www.newtonsoft.com/json)
 
 **C# の場合:**
 
@@ -331,11 +333,11 @@ public class Employee
 ```
 
 
-**ASPX の場合:**
+**Razor の場合:**
 
 
 ```csharp
-<%=( Html.Infragistics().Grid<Employee>().ID("grid1").Height("500px").Width("1000px")
+@( Html.Infragistics().Grid<Employee>().ID("grid1").Height("500px").Width("1000px")
 		.Columns(column =>
 		{
 		    column.For(x => x.EmployeeID).DataType("number").HeaderText("Employee ID");
@@ -346,7 +348,8 @@ public class Employee
 		    column.For(x => x.OnSite).DataType("bool").HeaderText("On site");
 		})   
 		.DataBind()
-		.Render())%> 
+		.Render()
+)
 ```
 
 
@@ -364,7 +367,7 @@ public class Employee
 -   *Infragistics.Web.Mvc.dll* アセンブリへの参照
 -   Json.NET シリアライザー - Newtonsoft.Json.dll
 
-これは、[http://james.newtonking.com/projects/json-net.aspx](http://james.newtonking.com/projects/json-net.aspx) からダウンロードできます。
+これは、[http://www.newtonsoft.com/json](http://www.newtonsoft.com/json) からダウンロードできます。
 
 ### <a id="json-net-overview"></a> 概要
 
@@ -384,10 +387,10 @@ public class Employee
 	1.  `DataTable` を `DataSourceUrl` アクションで渡し、`DataTable` をグリッドのモデルとして設定します。
 	2.  また、`UpdateUrl` を `EditingSaveChanges` コントローラー アクションに設定します。このアクションは、LINQ の間、変更結果をデータベースで維持します。
 
- 	**ASPX の場合:**
+ 	**Razor の場合:**
 		
 	```csharp
-	<%=(Html.Infragistics().Grid<DataTable>(Model).ID("grid1").Height("500px")
+	@(Html.Infragistics().Grid<DataTable>(Model).ID("grid1").Height("500px")
 	    .AutoGenerateColumns(true)       
 	    .RenderCheckboxes(true)
 	    .AutoCommit(false)       
@@ -410,7 +413,8 @@ public class Employee
 	    .DataBind()
 	    .Width("100%")
 	    .Height("100%")
-	    .Render()) %>
+	    .Render()
+	)
 	```
  
  	**C# の場合:**
@@ -428,7 +432,7 @@ public class Employee
 
 	1.  *Newtonsoft.Json.dll* をダウンロードする
 	
-		[http://james.newtonking.com/projects/json-net.aspx](http://james.newtonking.com/projects/json-net.aspx)
+		[http://www.newtonsoft.com/json](http://www.newtonsoft.com/json)
 
 		この dll は ASP.NET MVC 3 以下に必要ですが、デフォルトの ASP.NET MVC 4 テンプレートに組み込まれています。この JSON ライブラリは NuGet でも取得できます。
 	2.  プロジェクトの参照としてアセンブリー ファイルを追加
@@ -533,7 +537,7 @@ public class Employee
 
 以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
 
-- [Newtonsoft シリアライザー](http://james.newtonking.com/projects/json-net.aspx): Json.NET シリアライザーのホーム ページ。
+- [Newtonsoft シリアライザー](http://www.newtonsoft.com/json): Json.NET シリアライザーのホーム ページ。
 
 
 
