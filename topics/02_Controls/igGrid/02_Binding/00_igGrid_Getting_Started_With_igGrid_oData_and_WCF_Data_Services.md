@@ -73,7 +73,7 @@
     }
 	```
 
-9.  WCF Data Service は、Atom および JSON 書式をネイティブにサポートします。JSONP 形式にされたデータを有効化するために、[JSONPSupportBehavior](http://archive.msdn.microsoft.com/DataServicesJSONP) コードファイルをダウンロードし、アプリケーションに含めます。
+9.  WCF Data Service は、Atom および JSON 書式をネイティブにサポートします。JSONP 形式にされたデータを有効化するために、[JSONPSupportBehavior](https://github.com/schotime/NerdDinner-PetaPoco/blob/master/NerdDinner/Services/JSONPSupportBehavior.cs) コードファイルをダウンロードし、アプリケーションに含めます。
 
 10. アプリケーションに *JSONPSupportBehavior.cs* ファイルが入れられた時点で、必ずアプリケーションで使用されている名前空間に一致するよう名前空間を変更してください。また、`JSONPSupportBehavior` 属性を `AdventureWorksDataService` クラスに追加してください。
 
@@ -88,7 +88,7 @@
 
 12. Ignite UI 製品に付随する結合および縮小済みのスクリプト ファイル infragistics.core.js および infragistics.lob.js が必要です。加えて、サンプルを実行するには jQuery コア および jQuery UI スクリプトが必要です。[このヘルプ トピック](Deployment-Guide-JavaScript-Resources.html)では、必要なスクリプトへの参照やアプリケーションに追加する統合および縮小されたスクリプトがどこにあるかについて説明します。
 
-    > **注:** 製品版とトライアル版は[こちら](http://jp.infragistics.com/products/jquery)からダウンロードできます。jQuery テンプレート スクリプトは、[ここ](http://plugins.jquery.com/tag/templates/)から入手できます。
+    > **注:** 製品版とトライアル版は[こちら](http://jp.infragistics.com/products/jquery)からダウンロードできます。
 
 13. プロジェクト内にスクリプト ディレクトリを作成し、そのフォルダーに JavaScript ファイルをコピーしてください。
 
@@ -109,7 +109,6 @@
 	 
 	    <script src="scripts/jquery.min.js" type="text/javascript"></script>
 		<script src="scripts/jquery-ui.min.js" type="text/javascript"></script>
-		<script src="scripts/jquery.tmpl.min.js" type="text/javascript"></script>
 		<script src="scripts/infragistics.core.js" type="text/javascript"></script>
 		<script src="scripts/infragistics.lob.js" type="text/javascript"></script>
 	</head>

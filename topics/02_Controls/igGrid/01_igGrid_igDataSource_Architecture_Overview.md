@@ -86,8 +86,6 @@ Ignite UI™ グリッド、つまり `igGrid`™ は JavaScript、HTML、およ
     -   このクラスは特に [JSON](http://ja.wikipedia.org/wiki/JavaScript_Object_Notation) データを処理するようあらかじめ構成されています。
 -   ***$.ig.XMLDataSource***
     -   このクラスは特に [XML](http://ja.wikipedia.org/wiki/Extensible_Markup_Language) データを処理するようあらかじめ構成されています。
--   ***$.ig.WebSocketsDataSource***
-    -   このクラスは特に [Web ソケット](http://ja.wikipedia.org/wiki/WebSocket)を処理するようあらかじめ構成されています。
 
 > **注:** 上記に一覧されたコントロールは、Ignite UI データ ソース JavaScript ライブラリに組み込まれています。
 
@@ -111,7 +109,7 @@ $.ig.JSONDataSource = $.ig.DataSource.extend({
 });
 ```
 
-リスト 2 は、Ajax ではなく Web ソケットを使用するようカスタマイズされたデータ ソースを実装する多少複雑な例を示し、データ ソース アーキテクチャの柔軟性を示してます。
+リスト 2 は、Ajax ではなく [Web Sockets](http://en.wikipedia.org/wiki/WebSockets) を使用するようカスタマイズされたデータ ソースを実装する多少複雑な例を示し、データ ソース アーキテクチャの柔軟性を示してます。
 
 **リスト 2**: Web ソケットと相互作用するための `igDataSource` の拡張
 
@@ -178,7 +176,7 @@ var igDs = $('#grid1').data('igGrid').dataSource;
 ```js
 $("#grid2").igGrid({
 dataSource: "/server.php",
-columns: [ <columns definitions> ],
+columns: [ "<columns definitions>" ],
 features: [
     {
         name: "Paging",
@@ -226,12 +224,12 @@ $("#grid1").igGridSorting("sortColumn", … ) ;
 
 ## <a id="dependencies"></a>依存関係
 
-`igGrid` コントロールは jQuery ウィジェットとしてビルドされているため、 jQuery UI だけでなく jQuery コア アライブラリに依存しています。特定のバージョンの jQuery UI はサポートされていませんが、最適な結果を得るために、次のバージョンを推奨します。 
+`igGrid` コントロールは jQuery ウィジェットとしてビルドされているため、 jQuery UI だけでなく jQuery コア アライブラリに依存しています。特定のバージョンの jQuery UI は必要ではないですが、最適な結果を得るために、次のバージョンを推奨します。 
 
 ### 依存しているスクリプトのバージョン
 
--   jQuery 1.4.4
--   jQuery UI 1.8.*
+-   jQuery 3.1.1
+-   jQuery UI 1.12.*
     
     > **注:** jQueryTemplating を true に設定して jQuery テンプレートを有効にする場合、jquery-tmpl JavaScript ライブラリをアプリケーションに組み込む必要があります。このライブラリーは [https://github.com/jquery/jquery-tmpl](https://github.com/jquery/jquery-tmpl) からダウンロードできます。
 

@@ -47,8 +47,7 @@
 	- まず[列の非表示を有効にする](igGrid-Column-Hiding-Enabling-Column-Hiding.html)トピックを読む必要があります。
 - 外部リソース
 	- まず以下のセクションを読む必要があります。
-	- [jQuery bind() API](http://api.jquery.com/bind/)
-	- [jQuery live() API](http://api.jquery.com/live/)
+	- [jQuery on() API](http://api.jquery.com/on/)
 
 ## <a id="column-configuration-overview"></a> 列構成の概要
 
@@ -91,9 +90,9 @@
 
 ### <a id="example-hiding-column-by-default-code"></a> コード
 
-**HTML の場合:**
+**JavaScript の場合:**
 
-```html
+```javascript
 <script type="text/javascript">
 $(function () {
     $("#grid1").igGrid({
@@ -113,10 +112,10 @@ $(function () {
 ```
 
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
-<%= Html.Infragistics().Grid(Model)
+@Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>{       
         feature.Hiding().ColumnSettings(settings =>    settings.ColumnSetting()
@@ -124,7 +123,7 @@ $(function () {
         .AllowHiding(true)
         .Hidden(true));
     }).DataBind().Render()
-%>
+)
 ```
 
 ## <a id="example-hiding-column-completely"></a> 例: 列の完全な非表示
@@ -146,9 +145,9 @@ $(function () {
 
 ### <a id="example-hiding-column-completely-code"></a> コード
 
-**HTML の場合:**
+**JavaScript の場合:**
 
-```html
+```javascript
 <script type="text/javascript">
 $(function () {
     $("#grid1").igGrid({
@@ -168,10 +167,10 @@ $(function () {
 </script>
 ```
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
-<%= Html.Infragistics().Grid(Model)
+@Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>{       
         feature.Hiding().
@@ -181,7 +180,7 @@ $(function () {
             settings.ColumnSetting().ColumnKey("BirthDate").Hidden(true).AllowHiding(false);
         })
     ).DataBind().Render()
-%>
+)
 ```
 
 ### <a id="example-canceling-column-hiding"></a> 列の非表示のキャンセル
@@ -202,9 +201,9 @@ $(function () {
 
         columnHiding イベントが発生した場合に呼び出される関数を定義します。
 
-        **HTML の場合:**
+        **JavaScript の場合:**
 
-        ```html
+        ```javascript
         <script type="text/javascript">     
         function gridColumnHiding (evt, ui) {
          
@@ -214,11 +213,11 @@ $(function () {
 
 	2. ハンドラーを `igGrid` の `columnHiding` イベントに設定します。
 		
-		いったんハンドラーを定義したら、`columnHiding` イベントのハンドラーとして設定する必要があります。jQuery では、これはウィジェットがインスタンス化されるときに行うことができます。ASP.NET MVC では、jQuery `live` または `bind` API を使用してイベントを添付する必要があります。また live または bind API の使用は、純粋な jQuery 実装のイベントを添付するためのオプションです。このイベントの型は `iggridhidingcolumnhiding` です。
+		いったんハンドラーを定義したら、`columnHiding` イベントのハンドラーとして設定する必要があります。jQuery では、これはウィジェットがインスタンス化されるときに行うことができます。ASP.NET MVC では、jQuery `on` または `bind` API を使用してイベントを添付する必要があります。また on API の使用は、純粋な jQuery 実装のイベントを添付するためのオプションです。このイベントの型は `iggridhidingcolumnhiding` です。
 
-		**HTML の場合:**
+		**JavaScript の場合:**
 		
-		```html
+		```javascript
 		$(function () {
 			$("#grid1").igGrid({
 				autoGenerateColumns: true,
@@ -237,16 +236,16 @@ $(function () {
 		**HTML と ASPX の場合:**
 		
 		```js
-		$("# grid1").live("iggridhidingcolumnhiding", comboSelectionChanging);
+		$("# grid1").on("iggridhidingcolumnhiding", comboSelectionChanging);
 		```
 
 2.  イベントをキャンセルします。
 
     イベントをキャンセルするには、false を返します。
 
-    **HTML と ASPX の場合:**
+    **HTML と JavaScript の場合:**
 
-    ```html
+    ```javascript
     <script type="text/javascript">
             
         function gridColumnHiding (evt, ui) {
@@ -290,9 +289,9 @@ $(function () {
 
 ### <a id="example-configuring-column-chooser-code"></a> コード
 
-**HTML の場合:**
+**JavaScript の場合:**
 
-```html
+```javascript
 <script type="text/javascript">
 $(function () {
     $("#grid").igGrid({
@@ -311,10 +310,10 @@ $(function () {
 </script>
 ```
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
-<%= Html.Infragistics().Grid(Model)
+@Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>{       
             feature.Hiding()
@@ -323,7 +322,7 @@ $(function () {
             .ColumnChooserCaptionText("New Caption Text")
             .ColumnChooserDisplayText("New Chooser Text");
         }).DataBind().Render()
-%>
+)
 ```
 
 ## <a id="related-content"></a> 関連コンテンツ

@@ -148,9 +148,9 @@
      ![](images/igGrid_Overview_02.png)
 
 6. サンプル
-    <div class="embed-sample">
-        [igGrid グリッド API およびイベント](%%SamplesEmbedUrl%%/grid/grid-api-events)
-    </div>
+<div class="embed-sample">
+    [igGrid グリッド API およびイベント](%%SamplesEmbedUrl%%/grid/grid-api-events)
+</div>
 
 ## 関連コンテンツ
 
