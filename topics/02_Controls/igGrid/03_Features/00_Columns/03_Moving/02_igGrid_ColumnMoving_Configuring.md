@@ -230,7 +230,7 @@ $("#grid").igGrid({
 });
 ```
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
 @(Html.Infragistics().Grid(Model)
@@ -279,7 +279,7 @@ $("#grid").igGrid({
 });
 ```
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
 @(Html.Infragistics().Grid(Model)
@@ -362,7 +362,7 @@ $("#grid").igGrid({
     ]});
 ```
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
 @(Html.Infragistics().Grid(Model)
@@ -427,7 +427,7 @@ $("#grid").igGrid({
 });
 ```
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
 @(Html.Infragistics().Grid(Model)

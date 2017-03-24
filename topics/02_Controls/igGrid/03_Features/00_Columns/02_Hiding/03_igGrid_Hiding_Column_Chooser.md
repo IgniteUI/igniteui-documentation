@@ -60,10 +60,10 @@
 
 詳細は、概要表の後に記載されています。
 
-状態|`columnChooserHideOnClick` 値|説明
+状態|[`columnChooserHideOnClick`](%%jQueryApiUrl%%/ui.iggridhiding#options:columnChooserHideOnClick) 値|説明
 ------|----------------------------------|------------
-[複数列を一度に非表示](#hide-multiple-columns)|false|複数列を列チューザー ウィンドウから選択し、ウィンドウで変更が適用されると列は非表示になります。
-[クリックで列を非表示](#hide-on-click)|true|列チューザー ウィンドウから列を選択することによって、列は即座に非表示になります。
+[複数列を一度に非表示](#hide-multiple-columns)|`false`|複数列を列チューザー ウィンドウから選択し、ウィンドウで変更が適用されると列は非表示になります。
+[クリックで列を非表示](#hide-on-click)|`true`|列チューザー ウィンドウから列を選択することによって、列は即座に非表示になります。
 
 
 ### <a id="hide-multiple-columns"></a> 複数列を一度に非表示
