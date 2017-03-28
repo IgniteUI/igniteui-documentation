@@ -31,11 +31,13 @@
 
 ## <a id="summaries-overview"></a> グループ化集計の機能概要
 
-グループ化集計機能は、そのアイランドにあるデータ列の集計情報を表示するグループ データ アイランドの下に追加の集計行を表示します。以下の画像は、グループ化された列を持つグリッドで各グループの下に「Price」列の合計数が集計行に表示されます。
+グループ化集計機能は、そのアイランドにあるデータ列の集計情報を表示するグループ データ アイランドの下に追加の集計行を表示します。The summary row is visible only when the related group is expanded. 以下の画像は、グループ化された列を持つグリッドで各グループの下に「Price」列の合計数が集計行に表示されます。
 
 ![](images/igGrid_GroupBy_Summaries_Overview_01.png)
     
 この機能は、データ グループの意味のある集計を提供するためにデフォルトの集計関数 (合計、最小値、最大値、平均値など) の結果、またはカスタム集計の結果を表示できます。
+
+This feature can also be combined with the igGrid Summaries feature in order to display summary information for the whole data in the grid footer. 
 
 ## <a id="enable-summaries"></a> グループ化集計機能の有効化
 
@@ -71,7 +73,18 @@ $("#grid1").igGrid({
 
 ![](images/igGrid_GroupBy_Summaries_Overview_02.png)
 
-適用可能な列タイプおよびデフォルト集計に関連するその他のオプションを `$.ig.util.defaultSummaryMethods` で変更できます。
+適用可能な列タイプおよびデフォルト集計に関連するその他のオプションを `$.ig.util.defaultSummaryMethods` 配列で変更できます。
+
+The summary method object in the `$.ig.util.defaultSummaryMethods` array has the following options:
+Name | Description | Type 
+-----| ------------| -----
+label | Label that will be applied to the result of the summary function. | string
+name | Name of the summary function. Ex: {summaryFunction: “count”} | string
+summaryFunction | Speficies the function that will be used when calculating the summary. | function
+dataType | Speficies to which type of column this summary is applicable. Setting it to 'any' will apply this summary to all column types. | 'any' or array 
+active | Sets if the summary should be applied. | boolean | true
+order | Speficies the order in which this summary will be placed when there are multiple summaries. order: 0 means that it will be displayed on top of all summaries. |  number 
+applyFormat | Sets whether formatting will be applicable for the summary value. | boolean
 
 ### <a id='summaries-advanced'></a>詳細設定
 
@@ -104,7 +117,7 @@ $("#grid1").igGrid({
 この集計は、データ型の適用が許可されるすべての列に適用されます。 
 この例で、「合計」は数値列のみに適用可能ため、グリッドの数値列のみは集計行で「合計」集計が表示されます。
 
-columnSettings.groupSummaries オプションは列で集計の指定を許可します。これは groupSummaries メイン レベル オプションより優先されます。特定の列でこのオプションが設定される場合、この列に関連するメイン groupSummaries オプションからの設定は無視されます。
+`columnSettings.groupSummaries` オプションは列で集計の指定を許可します。これは groupSummaries メイン レベル オプションより優先されます。特定の列でこのオプションが設定される場合、この列に関連するメイン `groupSummaries` オプションからの設定は無視されます。
 
 集計オプションの指定のために使用される <a id="groupSummariesObject"></a>**groupSummariesObject** は以下のプロパティを持ちます:
 
@@ -168,6 +181,12 @@ function existingCount(data) {
 
 
 ## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="samples"></a> Related Samples
+
+The following sample provides additional information related to this topic.
+
+- [Grouping with summaries](%%SamplesUrl%%/grid/grouping)
 
 ### <a id="topics"></a> トピック
 

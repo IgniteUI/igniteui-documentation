@@ -36,7 +36,7 @@
 
 `igGrid` のグループ化機能の使い方は、Microsoft® Office Outlook® のグループ化機能と同じです。グループ化の基準として使用したい列をグリッドの上にある特別なグループ化領域にドラッグしてください。すると、選択したグリッド列のデータ件数と同じ数のグループでグリッドが再編成されます。また、各グループの内部でもレコードの並び替えが行われます。さらに列をドラッグして追加していくと、既存のグループ内のデータがさらに細かくグループ化されていきます。
 
-グループ化メソッドは自身で定義することできます。カスタムのグループ化メソッドの詳細については、「Grid Outlook Group By の概要」というトピックをご覧ください。
+グループ化メソッドは自身で定義することできます。カスタムのグループ化メソッドの詳細については、「Grid Group By の概要」というトピックをご覧ください。
 
 グループ化は、Group By ウィジェットによって実行/管理されます。
 
@@ -96,10 +96,16 @@ features: [
             <td>[ColumnSettings](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridGroupBy~ColumnSettings.html)</td>
         </tr>
         <tr>
-            <td>グループの集計</td>
+            <td>グループ行でのグループ集計</td>
             <td>グループの集計には、個々のグループに固有な情報 (たとえば、そのグループに含まれる列の数といった情報) が表示されます。グループの集計は、グループごとに個別に構成されます。</td>
             <td>[summarySettings](%%jQueryApiUrl%%/ui.iggridgroupby#options:summarySettings)</td>
             <td>[SummarySettings](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridGroupBy~SummarySettings.html)</td>
+        </tr>
+		<tr>
+            <td>GroupBy Summaries per data-island</td>
+            <td> Allows an additional summary row to be displayed below each group data island that displays summary information for the data columns in that island.</td>
+            <td>[groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:groupSummaries)</td>
+            <td>[SummarySettings](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridGroupBy~GroupSummaries.html)</td>
         </tr>
         <tr>
             <td>グループ化される行テキストのテンプレート</td>
@@ -259,9 +265,9 @@ API 使用については、以下のサンプルも参照してください。
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [グリッド Outlook Group By のセットアップ](igGrid-Enabling-GroupBy.html)
+- [Enabling Column Grouping (igGrid)](igGrid-Enabling-GroupBy.html)
 
-- [グリッド Outlook Group By プロパティ リファレンス](%%jQueryApiUrl%%/ui.iggridgroupby#options)
+- [グリッド Group By プロパティ リファレンス](%%jQueryApiUrl%%/ui.iggridgroupby#options)
 
 - [グリッドの既知の問題と重要な変更](igGrid-Known-Issues.html)
 
