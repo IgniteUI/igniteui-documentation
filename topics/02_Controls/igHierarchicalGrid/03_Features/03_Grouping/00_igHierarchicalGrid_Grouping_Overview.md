@@ -299,8 +299,3 @@ MVC: [GroupedRowTextTemplate](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridGrou
 - [グループ化の有効化と構成](igHierarchicalGrid-Grouping-Enabling-and-Configuring.html): このトピックでは、コード例を使用して、 jQuery および MVC の両方で igHierarchicalGrid™ コントロールのグループ化機能を有効にして構成する方法を示します。
 - [igGridGroupBy jQuery リファレンス](%%jQueryApiUrl%%/ui.iggridselection_hg): igGridGroupBy コントロールに関する jQuery オプション、メソッド、イベント、およびスタイル クラスのリファレンスです。
 
-### サンプル
-このトピックについては、以下のサンプルも参照してください。
-
-- [グループ化のカスタマイズ](%%SamplesUrl%%/grid/grouping-customization): このサンプルでは、カスタムのグループ化機能の構成方法を示します。
-- [集計とグループ化](%%SamplesUrl%%/grid/grouping): このサンプルでは、igHierarchicalGrid コントロールのグループ化機能を紹介します。

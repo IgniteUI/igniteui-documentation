@@ -390,8 +390,3 @@
 - [選択](jQuery-igHierarchical-Grid-Selection-Landing-Page.html): igHierarchicalGrid 選択機能に関連するトピックのランディング ページです。
 - [グループ化の概要](igHierarchicalGrid-Grouping-Overview.html): igHierarchicalGrid コントロールのグループ化機能を紹介し、この機能の設定項目に関する概要を示します。
 
-#### サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [複数列ヘッダー](%%SamplesUrl%%/grid/multi-column-headers): このサンプルでは、igGrid で複数列ヘッダーを構成する方法を示します。

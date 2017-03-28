@@ -40,7 +40,6 @@
     -   [コード](#mvc-code)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
 
 
 
@@ -200,13 +199,6 @@ public class HomeController : Controller
 - [非バインド列をリモートに生成 (igGrid)](igGrid-UnboundColumns-Populating-with-Data-Remotely.html): このトピックでは、サーバー上で非バインド列の値を設定する方法をコード例を用いて示します。
 
 - [非バインド列の使用時にグリッドのパフォーマンスを最適化](igGrid-UnboundColumns-Optimize-Performance.html): このトピックでは、クライアントベースとサーバーベースの非バインド列の統合とそれぞれの最適化について説明します。また、統合が行われる場合に開発者がプログラム的に制御する方法を示します。
-
-
-### <a id="samples"></a> サンプル
-
-以下のサンプルでは、このトピックに関連する情報を提供しています。
-
-- [非バインド列](%%SamplesUrl%%/grid/unbound-column): このサンプルでは、`igGrid` で非バインド列を追加して構成する方法を紹介します。
 
 
 

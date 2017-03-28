@@ -49,7 +49,6 @@
     -   [例](#profile-objects-example)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
 
 
 
@@ -162,7 +161,7 @@ CSS クラスで定義された列の非表示は、CSS 3 メディア クエリ
 
 以下の表では、目的の構成をプロパティ設定にマップしています。
 
-I<table class="table table-striped">
+<table class="table table-striped">
 	<thead>
 		<tr>
             <th>
@@ -662,14 +661,6 @@ $("#grid1").igGrid({
 - [行および列テンプレートの構成 (igGrid、RWD モード)](igGrid-Responsive-Web-Design-Mode-Configuring-Row-and-Column-Templates.html): このトピックは、コード例を用いて `igGrid` コントロールの各 レスポンス Web デザイン (RWD) モード プロファイルに対して行と列を定義する方法、およびアクティブな RWD モードの切り替え時のテンプレートの自動変更を構成する方法について説明します。
 
 - [カスタム レスポンス Web デザイン (RWD) プロファイルの作成 (igGrid)](igGrid-Responsive-Web-Design-Mode-Creating-Custom-Profile.html): このトピックは、コード例を使用して、`igGrid` コントロールのカスタム レスポンシブ Web デザイン (RWD) モード プロファイルを作成する方法について説明します。
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [レスポンス Web デザイン モード](%%SamplesUrl%%/grid/responsive-web-design-mode): このサンプルでは、`igGrid` のレスポンス Web デザイン モードを紹介しています。レスポンス Web デザイン モードにより、複数の画面サイズおよびフォーム要素を単一のコード ベースおよび設計でサポートできます。
-
-- [レスポンシブ垂直レンダリング](%%SamplesUrl%%/grid/responsive-vertical-rendering): このサンプルでは、`igGrid` の垂直方向モードのレスポンス Web デザイン機能を紹介しています。レスポンシブ垂直レンダリング モードは、グリッド データを 2 つの列で描画します。左の列は、列のキャプションを含み、右の列はデータを含みます。
 
 
 

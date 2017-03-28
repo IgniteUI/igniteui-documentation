@@ -220,8 +220,7 @@
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [列の非表示](%%SamplesUrl%%/grid/column-hiding)
-- [機能セレクター](%%SamplesUrl%%/grid/feature-chooser)
+- [列の管理](%%SamplesUrl%%/grid/column-management)
 
  
 

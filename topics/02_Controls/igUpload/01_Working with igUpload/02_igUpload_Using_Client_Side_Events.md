@@ -316,7 +316,6 @@ onError
 8 |ファイルがキャンセルされたかどうか、および `maxSimultaneousFilesUploads` が 0 以下かどうかを確認しようとしたときにエラーがスローされました。
 
 ## 関連リンク
--   [igUpload の API およびイベントのサンプル](%%SamplesUrl%%/file-upload/api-events)
 -   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
 -   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 

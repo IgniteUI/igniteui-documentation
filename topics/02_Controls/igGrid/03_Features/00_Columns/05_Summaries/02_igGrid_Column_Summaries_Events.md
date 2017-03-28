@@ -24,7 +24,6 @@
 -   [jQuery および MVC でハンドラーをイベントに添付する](#attach-handlers)
 -   [イベント参照チャート](#reference-chart)
 -   [関連トピック](#topics)
--   [関連サンプル](#samples)
 
 ## <a id="overview"></a> イベントの概要 
 
@@ -104,11 +103,7 @@ $("#grid1").live("iggridsummariessummariescalculating", function (e, args) {
 
 [igGrid 構成: 列集計](igGrid-Configuring-Column-Summaries.html)
 
-## <a id="samples"></a> 関連サンプル 
 
--   [API およびイベント](%%SamplesUrl%%/grid/grid-api-events)
-
- 
 
  
 

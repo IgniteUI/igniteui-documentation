@@ -590,14 +590,6 @@ XML としてデータをシリアル化|[contentType](%%jQueryApiUrl%%/ui.iggri
 - [igGrid、OData、WCF の各データサービスの導入](igGrid-Getting-Started-With-igGrid-oData-and-WCF-Data-Services.html): このトピックでは、ASP.NET Web アプリケーションに WCF データ サービスをセットアップし、`igGrid` の 2 つのオプションを設定して、リモート ページング、フィルタリング、ソーティングとともにクライアント側の jQuery グリッドをセットアップする方法を紹介します。
 
 
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [REST 編集](%%SamplesUrl%%/grid/rest-editing): このサンプルでは、REST サービスで更新機能を使用するときの構成方法を紹介します。
-
-
-
 
 
  

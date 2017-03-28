@@ -23,7 +23,6 @@
 -   [**キーボード操作**](#keyboard-interactions)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-	-   [サンプル](#samples)
 
 ## <a id="introduction"></a> 概要
 
@@ -117,15 +116,6 @@
 - [機能互換性マトリックス (igGrid)](Feature-Compatibility-Matrix%28igGrid%29.html):このトピックは、`igGrid` の互換性のある機能組み合わせを表示します。
 - [IIS HTTP 圧縮](https://www.iis.net/configreference/system.webserver/httpcompression?showTreeNavigation=true)
 - [Apache で圧縮を有効にする](http://httpd.apache.org/docs/current/mod/mod_deflate.html#enable)
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [仮想化 (固定)](%%SamplesUrl%%/grid/virtualization-fixed): この例では、固定数の行を用いた `igGrid` のHTML 仮想化機能を説明します。
-
-- [仮想化 (連続)](%%SamplesUrl%%/grid/virtualization-continuous): このサンプルでは、`igGrid` コントロールの連続仮想化機能を紹介します。
-
 
 
 

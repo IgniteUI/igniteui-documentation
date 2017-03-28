@@ -45,7 +45,6 @@
     -   [例](#column-template-example)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
 
 
 
@@ -222,15 +221,6 @@ $("#grid1").igGrid({
 - [列非表示の構成 (igGrid、RWD モード)](igGrid-Responsive-Web-Design-Mode-Configuring-Column-Hiding.html): このトピックでは、コード例を用いて、レスポンス Web デザイン (RWD) モードで `igGrid` コントロール用に列を非表示にする方法について説明します。
 
 - [カスタム レスポンス Web デザイン (RWD) プロファイルの作成 (igGrid)](igGrid-Responsive-Web-Design-Mode-Creating-Custom-Profile.html): このトピックは、コード例を使用して、`igGrid` コントロールのカスタム レスポンシブ Web デザイン (RWD) モード プロファイルを作成する方法について説明します。
-
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [レスポンス Web デザイン モード](%%SamplesUrl%%/grid/responsive-web-design-mode): このサンプルでは、`igGrid` のレスポンス Web デザイン モードを紹介しています。レスポンス Web デザイン モードにより、複数の画面サイズおよびフォーム要素を単一のコード ベースおよび設計でサポートできます。
-
-- [レスポンシブ垂直レンダリング](%%SamplesUrl%%/grid/responsive-vertical-rendering): このサンプルでは、`igGrid` の垂直方向モードのレスポンス Web デザイン機能を紹介しています。レスポンシブ垂直レンダリング モードは、グリッド データを 2 つの列で描画します。左の列は、列のキャプションを含み、右の列はデータを含みます。
 
 
 

@@ -174,5 +174,5 @@
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [機能セレクター](%%SamplesUrl%%/grid/feature-chooser): 機能セレクターを紹介するサンプル。
+- [機能セレクター](%%SamplesUrl%%/grid/column-management): 機能セレクターを紹介するサンプル。
 

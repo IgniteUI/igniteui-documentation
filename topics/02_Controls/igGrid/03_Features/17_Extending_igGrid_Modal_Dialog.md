@@ -79,7 +79,7 @@ grid.igGrid({
 
 以下のサンプルは、カスタム ダイアログをグリッドの編集で使用しています。
 
-- [カスタム モーダル ダイアログ](%%SamplesUrl%%/grid/custom-modal-dialog)
+- [カスタム モーダル ダイアログ](%%SamplesUrl%%/grid/customize-updating)
 
 ### <a id="topics"></a> トピック
 
