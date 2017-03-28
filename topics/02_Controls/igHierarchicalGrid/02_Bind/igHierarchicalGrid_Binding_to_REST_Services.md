@@ -313,12 +313,6 @@ restSettings: {
 - [REST の更新 (igGrid)](igGrid-REST-Updating.html): このトピックでは、REST サービスでの *igGrid* サポートについて説明します。
 - [ASP.NET MVC Web API へのバインド (igHierarchicalGrid)](igHierarchicalGrid-Binding-to-WebAPI.html): このトピックでは、igHierarchicalGrid を Web API サービスにバインドする方法を説明します。
 
-### サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [igGrid REST の編集](%%SamplesUrl%%/grid/rest-editing): このサンプルでは、*igGrid*  を構成して、REST サービスを操作する方法を説明します。
-
 ### リソース
 
 以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。

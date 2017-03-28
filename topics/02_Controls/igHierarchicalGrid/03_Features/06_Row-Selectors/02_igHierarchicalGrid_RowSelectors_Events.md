@@ -509,7 +509,7 @@ $("#grid").igHierarchicalGrid({
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [**行セレクター**](%%SamplesUrl%%/hierarchical-grid/row-selectors): igHierarchicalGrid で RowSelectors を使用する用法について説明します。
+- [**行セレクター**](%%SamplesUrl%%/hierarchical-grid/selection-rowselectors): igHierarchicalGrid で RowSelectors を使用する用法について説明します。
 
 
 

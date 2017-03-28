@@ -269,7 +269,7 @@ API 使用については、以下のサンプルも参照してください。
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [集計とグループ化](%%SamplesUrl%%/grid/grouping)
+- [グループ化](%%SamplesUrl%%/grid/grouping)
  
 
 

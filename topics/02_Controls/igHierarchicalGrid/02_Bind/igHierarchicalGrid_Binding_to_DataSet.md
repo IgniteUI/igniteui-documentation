@@ -319,9 +319,8 @@ public class Order
 
 ### サンプル
 
-- [DataSet のバインド](%%SamplesUrl%%/hierarchical-grid/dataset-binding): このサンプルでは、igHierarchicalGrid を DataSet にバインドする方法を紹介します。
-- [DataSet の編集](%%SamplesUrl%%/hierarchical-grid/editing-dataset): このサンプルでは、DataTable にバインドするときの更新機能の使用方法を紹介します。
-- [ロード オン デマンド](%%SamplesUrl%%/hierarchical-grid/load-on-demand): このサンプルでは、DataTable にバインドするときのロード オン デマンド機能の使用方法を紹介します。
+- [編集 - 編集ダイアログ](%%SamplesUrl%%/hierarchical-grid/row-edit-dialog): このサンプルでは、編集ダイアログと更新機能の使用方法を紹介します。
+- [ロード オン デマンド](%%SamplesUrl%%/hierarchical-grid/load-on-demand): このサンプルでは、ロード オン デマンド機能の使用方法を紹介します。
 
 
 

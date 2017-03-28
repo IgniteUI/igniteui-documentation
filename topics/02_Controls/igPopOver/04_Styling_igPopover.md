@@ -259,7 +259,7 @@ ui-igpopover-arrow-left など)</li>
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [基本的な使用方法](%%SamplesUrl%%/popover/basic-popover): このサンプルは、ASP.NET MVC シナリオでの `igPopover` コントロールを紹介します。コントロールは、チェーン構文を使用して View で初期化されます。
+- [基本的な使用方法](%%SamplesUrl%%/popover/overview): このサンプルは、ASP.NET MVC シナリオでの `igPopover` コントロールを紹介します。コントロールは、チェーン構文を使用して View で初期化されます。
 
 - [ASP.NET MVC の使用方法](%%SamplesUrl%%/popover/aspnet-mvc-helper): このサンプルは、JavaScript による `igPopover` の基本的な初期化シナリオ (単一のターゲット要素および複数のターゲット要素) を紹介します。
 

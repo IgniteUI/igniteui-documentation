@@ -26,7 +26,6 @@
 -   [イベント参照チャート](#events-reference)
 -   [関連コンテンツ](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
 
 ## <a id="events-overview"></a> イベントの概要
 
@@ -108,10 +107,4 @@ $("#grid1").on("iggridhidingcolumnhiding ", function (e, args) {
 
 -   [列の非表示を有効にする](igGrid-Column-Hiding-Enabling-Column-Hiding.html)
 -   [igGrid 列の非表示を構成する](igGrid-Configure-Column-Hiding.html)
-
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
--   [API およびイベント](%%SamplesUrl%%/grid/grid-api-events)
 

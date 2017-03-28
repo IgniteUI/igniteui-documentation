@@ -33,7 +33,6 @@
 -   [ASP.NET MVC で非バインドとして列を設定 (コード例)](#mvc)
 -   [関連コンテンツ](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
 
 
 
@@ -186,13 +185,6 @@ public class HomeController : Controller
 
 - [非バインド列での作業 (igGrid)](igGrid-UnboundColumns-Working-with-LandingPage.html): このトピックのグループは、クライアント上とサーバー上で非バインド列にデータを生成する方法について説明します。
 
-### <a id="samples"></a> サンプル
-
-このトピックについては、以下のサンプルも参照してください。
-
-- [非バインド列](%%SamplesUrl%%/grid/unbound-column): このサンプルは、`igGrid` コントロールの非バインド列の追加および構成について説明します。
-
- 
 
  
 

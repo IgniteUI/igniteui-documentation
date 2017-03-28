@@ -43,7 +43,6 @@
     -   [サーバー上での非バインド列のマージのパフォーマンス](#server-performance)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
-    -   [サンプル](#samples)
 
 
 
@@ -190,12 +189,6 @@ $.ig.loader('igGrid', function() {
 以下のトピックでは、このトピックに関連する追加情報を提供しています。
 
 - [既知の問題と制限](igGrid-UnboundColumns-Known-Issues.html): このトピックは、`igGrid` 非バインド列機能の既知問題と制限事項について説明します。
-
-### <a id="samples"></a> サンプル
-
-以下のサンプルでは、このトピックに関連する情報を提供しています。
-
-- [非バインド列](%%SamplesUrl%%/grid/unbound-column): このサンプルでは、`igGrid` で非バインド列を追加して構成する方法を紹介します。
 
 
  

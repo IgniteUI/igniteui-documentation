@@ -143,12 +143,6 @@ igHierarchicalGrid コントロールを構成してカスタム グループ化
 
 - [グループ化の有効化と構成](igHierarchicalGrid-Grouping-Enabling-and-Configuring.html): このトピックでは、igHierarchicalGrid コントロールにグループ化機能を追加する方法を説明します。
 
-#### サンプル
-
-以下のサンプルでは、このトピックに関連する情報を提供しています。
-
-- [グループ化のカスタマイズ](%%SamplesUrl%%/grid/grouping-customization): このサンプルは、カスタム グループ化ロジックを実装する関数を割り当ててカスタム グループ化を定義する方法を示します。
-
 
 
 

@@ -557,6 +557,4 @@ jQuery、jQueryUI、および Ignite　UI スクリプトおよび css クラス
 
 ### <a id="samples"></a> サンプル
 - [igTreeGrid の概要](%%SamplesUrl%%/tree-grid/overview)
-- [igTreeGrid のフィルタリング](%%SamplesUrl%%/tree-grid/file-explorer)
-- [igTreeGrid の並べ替え](%%SamplesUrl%%/tree-grid/remote-features)
-- [igTreeGrid のページング](%%SamplesUrl%%/tree-grid/file-explorer)
+- [igTreeGrid のページング](%%SamplesUrl%%/tree-grid/paging)

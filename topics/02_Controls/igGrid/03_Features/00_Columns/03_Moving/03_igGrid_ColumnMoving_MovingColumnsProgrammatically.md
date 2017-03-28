@@ -280,7 +280,7 @@ $("#grid1").igGridColumnMoving("moveColumn", "Name", "ProductNumber");
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [列移動](%%SamplesUrl%%/grid/column-moving): このサンプルは、`igGrid` の列移動の構成を示します。
+- [列移動](%%SamplesUrl%%/grid/column-management): このサンプルは、`igGrid` の列移動の構成を示します。
 
 
 
