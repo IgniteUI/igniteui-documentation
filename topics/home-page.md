@@ -16,8 +16,8 @@
 ![はじめに](images/landing-start.png "はじめに")
 
 <h2>はじめに</h2>
-<p>Ignite UI で作業を開始するには、このページのツリーで製品ヘルプを参照、[サンプルを実行](%%SamplesUrl%%)、または [Ignite UI ページ デザイナー](%%DesignerUrl%%)でコントロールを使用できます。</p>
-<a href="%%SamplesUrl%%/getting-started" class="landing-btn landing-btn-primary" target="_blank">開始</a>
+<p>Ignite UI で作業を開始するには、このページのツリーで製品ヘルプを参照、[サンプルを実行](%%SamplesUrl%%/grid/overview)、または [Ignite UI ページ デザイナー](%%DesignerUrl%%)でコントロールを使用できます。</p>
+<a href="Getting_Started.html" class="landing-btn landing-btn-primary" target="_blank">開始</a>
 </div>
 
 <div class="col-sm-6 landing-col landing-api">

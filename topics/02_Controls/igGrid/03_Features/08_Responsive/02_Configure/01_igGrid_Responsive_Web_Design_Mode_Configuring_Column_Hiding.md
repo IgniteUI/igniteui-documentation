@@ -162,7 +162,7 @@ CSS クラスで定義された列の非表示は、CSS 3 メディア クエリ
 
 以下の表では、目的の構成をプロパティ設定にマップしています。
 
-I<table class="table table-striped">
+<table class="table table-striped">
 	<thead>
 		<tr>
             <th>

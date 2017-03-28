@@ -244,4 +244,4 @@ public ActionResult Default(){
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [選択](%%SamplesUrl%%/hierarchical-grid/selection): このサンプルでは、igHierarchicalGrid の選択の構成について紹介します。
+- [選択](%%SamplesUrl%%/hierarchical-grid/selection-rowselectors): このサンプルでは、igHierarchicalGrid の選択の構成について紹介します。

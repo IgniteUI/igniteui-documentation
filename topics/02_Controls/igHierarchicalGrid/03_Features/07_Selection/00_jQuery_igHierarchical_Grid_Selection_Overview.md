@@ -79,7 +79,7 @@
 
 以下のサンプルでは、このトピックに関連する情報を提供しています。
 
-- [選択](%%SamplesUrl%%/hierarchical-grid/selection): このサンプルでは、igHierarchicalGrid の選択機能の構成について紹介します。
+- [選択](%%SamplesUrl%%/hierarchical-grid/selection-rowselectors): このサンプルでは、igHierarchicalGrid の選択機能の構成について紹介します。
 
 ### リソース
 

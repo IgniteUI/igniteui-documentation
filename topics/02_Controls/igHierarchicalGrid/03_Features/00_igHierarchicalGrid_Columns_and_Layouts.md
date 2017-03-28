@@ -46,7 +46,7 @@ $("#hgrid1").igHierarchicalGrid({
        columns: [
            { key: "OrderID", headerText: "OrderID", dataType: "number"},
            { key: "Name", headerText: "MovieName", type: "string"},
-           { key: "Date", headerText: "Date"", type: "date"}
+           { key: "Date", headerText: "Date", type: "date"}
        ]
 });
 ```
