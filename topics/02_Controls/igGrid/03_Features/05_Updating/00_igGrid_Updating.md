@@ -108,7 +108,7 @@
 
 Ignite UI ライブラリのコントロールで必要な JavaScript および CSS リソースの読み込みには、`igLoader`™ コントロールを使用することをお勧めします。最初に、`igLoader` スクリプトをページに追加します。
 
-**JavaScript の場合:**
+**HTML の場合:**
 
 ```js
 <script type="text/javascript" src="ig_ui/js/infragistics.loader.js"></script>
@@ -135,6 +135,8 @@ $.ig.loader({
 ```html
 <script src="scripts/jquery.min.js" type="text/javascript"></script>
 <script src="scripts/ig_ui/js/modules/infragistics.ui.grid.updating.js" type="text/javascript"></script>
+<script src="scripts/ig_ui/js/modules/infragistics.ui.grid.shared.js" type="text/javascript"></script>
+<script src="scripts/ig_ui/js/modules/infragistics.ui.editors.js" type="text/javascript"></script>
 ```
 
 以下に、`igGrid` を構成して更新をサポートする方法が示されています。
@@ -161,18 +163,26 @@ $("#grid1").igGrid({
 
 > **注:** 更新するには、プライマリ キー列の `primaryKey` オプションおよび `dataType` プロパティを設定する必要があります。設定されない場合、基本のデータ ソースは正しく操作しない可能性があります。
 
-**ASPX (MVC) の場合:**
+**Razor の場合:**
 
 ```csharp
-<%= Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").UpdateUrl(Url.Action("UpdatingSaveChanges")).Columns(column =>
+<%= Html.Infragistics().Grid(Model)
+.ID("grid1")
+.PrimaryKey("ProductID")
+.UpdateUrl(Url.Action("UpdatingSaveChanges"))
+.Columns(column =>
     {
         column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
         column.For(x => x.Name).HeaderText("Product Name").Width("200px");
         column.For(x => x.ProductNumber).HeaderText("Product Number").Width("200px");
-    }).Features(features => {
+    })
+.Features(features => {
         features.Updating();
-    }).Height("500").DataSourceUrl(Url.Action("UpdatingGetData"))
-	.DataBind().Render()%>
+    })
+.Height("500")
+.DataSourceUrl(Url.Action("UpdatingGetData"))
+.DataBind()
+.Render()%>
 ```
 
 ## <a id="disable-row-add-delete"></a> 行の追加、更新、削除を無効にする 
@@ -191,17 +201,15 @@ $("#grid1").igGrid({
     features: [
         {
             name : 'Updating',
-                     enableAddRow: true,
-                     enableDeleteRow: true,
-                     editMode: 'none'
-            columnSettings: [
-            ]
+            enableAddRow: true,
+            enableDeleteRow: true,
+            editMode: 'none'
         }
     ]
 });
 ```
 
-**ASPX (MVC) の場合:**
+**Razor の場合:**
 
 ```csharp
 <%=Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").UpdateUrl(Url.Action("UpdatingSaveChanges")).Columns(column =>
@@ -234,13 +242,32 @@ $("#grid1").igGrid({
 
 
 
-### <a id="retrieving-columnsettings"></a> columnSettings オブジェクトの取得 
+### <a id="retrieving-columnsettings"></a> columnSettings の更新 
 
 **JavaScript の場合:**
 
 ```js
-var grid = $('#grid1').data('igGridUpdating');
-var updating = grid.options.columnSettings;
+$("#grid").igGrid({
+    features: [
+        {
+            name: "Updating",
+            columnSettings: [
+                {
+                    columnKey : "Name",
+                    defaultValue: "Infragistics",
+                    editorType: "text",
+                    editorOptions: {
+                        buttonType: "dropdown",
+                        listItems: names,
+                        readOnly: true
+                    },
+                    required: true,
+                    validation: true
+                }
+            ]
+        }
+    ]
+});
 ```
 
 ### <a id="columnsettings-example"></a> columnSettings の使用例およびエディターの追加 
@@ -250,64 +277,93 @@ var updating = grid.options.columnSettings;
 ```js
 $("#grid1").igGrid({
     columns: [
-	    {headerText:"Product ID", key:"ProductID", width: "100px" , dataType:"number"},
-	    {headerText:"Product Name", key:"Name", width: "180px" , dataType:"string"},
-	    {headerText:"ProductNumber", key:"ProductNumber", width: "100px", dataType:"string" },
-	    {headerText:"Color", key:"Color", width: "100px", dataType:"string" },
-	    {headerText:"SafetyStockLevel", key:"SafetyStockLevel", width: "100px", dataType:"string" },
-	    {headerText:"ReorderPoint", key:"ReorderPoint", width: "100px", dataType:"number" },
-	    {headerText:"ListPrice", key:"ListPrice", width: "100px", dataType:"number" },
+	    { headerText:"Product ID", key:"ProductID", width: "100px" , dataType:"number" },
+	    { headerText:"Product Name", key:"Name", width: "180px" , dataType:"string" },
+	    { headerText:"ProductNumber", key:"ProductNumber", width: "100px", dataType:"string" },
+	    { headerText:"Color", key:"Color", width: "100px", dataType:"string" },
+	    { headerText:"SafetyStockLevel", key:"SafetyStockLevel", width: "100px", dataType:"string" },
+	    { headerText:"ReorderPoint", key:"ReorderPoint", width: "100px", dataType:"number" },
+	    { headerText:"ListPrice", key:"ListPrice", width: "100px", dataType:"number" },
 	],
 	dataSource: adventureWorks,
     features: [
         {
             name: 'Updating',
-               columnSettings: [ {
-            columnKey: "ProductID",
-            editorOptions: {readOnly: true}
-         }, {
-            columnKey: "Name",
-            editorType: 'string',
-            validation: true,
-            editorOptions: {required: true}
-         }, {
-            columnKey: "ProductNumber",
-            editorType: 'string',
-            validation: true,
-            editorOptions: {required: true}
-         }, {
-            columnKey: "Color",
-            editorType: 'string',
-            validation: false,
-            editorOptions: {required: false}
-         }, {
-            columnKey: "SafetyStockLevel",
-            editorType: 'numeric',
-            validation: true,
-            editorOptions: {required: true}
-         }, {
-            columnKey: "ReorderPoint",
-            editorType: 'numeric',
-            validation: true,
-            editorOptions: {required: true}
-         }, {
-            columnKey: "ListPrice",
-            editorType: 'numeric',
-            validation: true,
-            editorOptions: {button: 'spin', minValue: 0, maxValue: 99, required: true}
-         }, {
-            columnKey: "StandardCost",
-            editorType: 'currency',
-            validation: true,
-            editorOptions: {button: 'spin', required: true}
-         } ]
+			columnSettings: [ 
+            {
+                columnKey: "ProductID",
+                editorOptions: {
+                    readOnly: true
+                }
+            }, 
+            {
+                columnKey: "Name",
+                editorType: 'string',
+                validation: true,
+                editorOptions: {
+                    required: true
+                }
+            },
+            {
+                columnKey: "ProductNumber",
+                editorType: 'string',
+                validation: true,
+                editorOptions: {
+                    required: true
+                }
+             },
+            {
+                columnKey: "Color",
+                editorType: 'string',
+                validation: false,
+                editorOptions: {
+                    required: false
+                }
+            },
+            {
+                columnKey: "SafetyStockLevel",
+                editorType: 'numeric',
+                validation: true,
+                editorOptions: {
+                    required: true
+                }
+            }, 
+            {
+                columnKey: "ReorderPoint",
+                editorType: 'numeric',
+                validation: true,
+                editorOptions: {
+                    required: true
+                }
+            },
+            {
+                columnKey: "ListPrice",
+                editorType: 'numeric',
+                validation: true,
+                editorOptions: {
+                    button: 'spin', 
+                    minValue: 0, 
+                    maxValue: 99, 
+                    required: true
+                }
+            }, 
+            {
+                columnKey: "StandardCost",
+                editorType: 'currency',
+                validation: true,
+                editorOptions: {
+                    button: 'spin', 
+                    required: true
+                }
+            } 
+            ]
           
         }
     ]
 });
 ```
 
-**ASPX (MVC) の場合:**
+**Razor の場合:**
 
 ```csharp
 <%= Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").UpdateUrl(Url.Action("UpdatingSaveChanges")).Columns(column =>
@@ -343,21 +399,28 @@ function getTempKey(){
 
 $("#grid1").igGrid({
     columns: [
-      {headerText:"Product ID", key:"ProductID", width: "100px" , dataType:"number"},
-      {headerText:"Product Name", key:"Name", width: "180px" , dataType:"string"}
+      { headerText:"Product ID", key:"ProductID", width: "100px" , dataType:"number" },
+      { headerText:"Product Name", key:"Name", width: "180px" , dataType:"string" }
     ],
-    dataSource: adventureWorks,        primaryKey: 'ProductID',
-    features: [ {
+    dataSource: adventureWorks,
+	primaryKey: 'ProductID',
+    features: [
+	{
        name: 'Updating',
        generatePrimaryKeyValue: function (evt, ui) {
           // setting a temporary key for the new row          
           ui.value = getTempKey();
        },
-       columnSettings: [ {
+       columnSettings: [
+	   {
          columnKey: "ProductID",
-         editorOptions: {readOnly: true}
-       } ]
-    } ]
+         editorOptions: {
+			readOnly: true
+		 }
+       }
+     ]
+    }
+  ]
 });
 ```
 
@@ -368,9 +431,9 @@ $("#grid1").igGrid({
 ### <a id="persist-changes"></a> サーバーに対する変更を保持 
 バッチ更新をインスタンス化されたグリッドに追加する場合は、バインドの代わりにライブ メソッドを使用して、バッチ更新を既存のグリッドに追加する必要があります。
 
-**C# の場合:**
+**JavaScript の場合:**
 
-```csharp
+```js
 <script type="text/javascript">  $("#saveChanges").bind({
             click: function (e) {
                 $("#grid1").igGrid("saveChanges");
@@ -378,6 +441,8 @@ $("#grid1").igGrid({
         });
 </script> 
 ```
+
+**Razor の場合:**
 
 ```
 	<%= Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").UpdateUrl(Url.Action("UpdatingSaveChanges")).Columns(column =>
@@ -409,7 +474,7 @@ $("#grid1").igGrid({
 
 [GridModel.LoadTransactions](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~LoadTransactions.html) メソッドを使用すると、ポスト データを [Transaction](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Transaction`1.html) オブジェクトに変換します。行データは [Transaction.row](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Transaction`1~row.html) フィールドで保存されます。
 
-**ASPX(MVC) の場合:**
+**Razor の場合:**
 
 ```csharp
 public ActionResult UpdatingSaveChanges()
@@ -452,7 +517,7 @@ public ActionResult UpdatingSaveChanges()
 
 > **注:** DateTime フィールドのセル値を [GridModel.JsonStringToDateTime](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~JsonStringToDateTime.html) メソッドを使用して解析します。Microsoft の日付のシリアル化の書式設定によってシリアル化されます (例: /Date(1356991200000)/)。
 
-**ASPX(MVC) の場合:**
+**Razor の場合:**
 
 ```csharp
 public ActionResult UpdatingSaveChanges()
@@ -673,8 +738,8 @@ editMode が rowEditTemplate でセルが編集モードの場合、以下のキ
 ## <a id="samples"></a> 関連サンプル
 
 以下は、その他の役立つサンプルです。
--   [基本編集](%%SamplesUrl%%/grid/basic-editing)
--   [リアルタイム データにバインド](%%SamplesUrl%%/grid/binding-real-time-data)
+-   [編集](%%SamplesUrl%%/grid/basic-editing)
+-   [ライブ更新](%%SamplesUrl%%/grid/binding-real-time-data)
 
  
 
