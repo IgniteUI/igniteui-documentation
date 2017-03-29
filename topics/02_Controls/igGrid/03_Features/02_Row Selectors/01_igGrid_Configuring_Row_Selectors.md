@@ -47,9 +47,7 @@
 - トピック
 	- まず「[行セレクターを有効にする](igGrid-Enabling-Row-Selectors.html)」トピックを読む必要があります。
 - 外部リソース 
-	- まず以下のセクションを読む必要があります。
-	- [jQuery bind() API](http://api.jquery.com/bind/)
-	- j[Query delegate() API](http://api.jquery.com/delegate/)
+	- まず [jQuery on() API](http://api.jquery.com/on/) を読む必要があります。
 
 
 ## <a id="overview"></a> RowSelectors 構成の概要 
@@ -102,10 +100,10 @@ $(function () {
 </script>
 ```
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
-<%= Html.Infragistics().Grid(Model)
+@Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>        {       
         feature.Selection().MultipleSelection(true);
@@ -113,7 +111,7 @@ $(function () {
     })
 	.DataBind()
 	.Render()
-%>
+)
 ```
 
 ## <a id="select-all-pages"></a> すべてのページで選択の有効化
@@ -169,10 +167,10 @@ $(function () {
 </script>
 ```
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
-<%= Html.Infragistics().Grid(Model)
+@Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>        {       
         feature.Selection().MultipleSelection(true);
@@ -183,7 +181,7 @@ $(function () {
     })
 	.DataBind()
 	.Render()
-%>
+)
 ```
 
 ## <a id="adding-selection-checkboxes"></a> 選択チェックボックスを追加する 
@@ -233,10 +231,10 @@ $(function () {
 </script>
 ```
 
-**ASPX の場合:**
+**Razor の場合:**
 
 ```csharp
-<%= Html.Infragistics().Grid(Model)
+@Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>         { 
         feature.Selection().MultipleSelection(true);
@@ -244,7 +242,7 @@ $(function () {
      })
 	.DataBind()
 	.Render()
-    %>
+)
 ```
 
 ## <a id="row-numbering"></a> 行の番号付けを有効にする 
@@ -274,7 +272,7 @@ rowNumberingSeed| 0
 
 ```js
 <script type="text/javascript">
- $ (function () {
+$(function () {
   $("#grid").igGrid({
          autoGenerateColumns: true,
          dataSource: source,
@@ -290,10 +288,10 @@ rowNumberingSeed| 0
 ```
  
 
-**C# の場合:**
+**Razor の場合:**
 
 ```csharp
-<%= Html.Infragistics().Grid(Model)
+@Html.Infragistics().Grid(Model)
     .AutoGenerateColumns(true)
     .Features(feature =>        {
 		feature.Selection().MultipleSelection(true);
@@ -301,7 +299,7 @@ rowNumberingSeed| 0
     })
 	.DataBind()
 	.Render()
-%>
+)
 ```
 
 ## <a id="cancel-checkbox"></a> チェックボックス状態変更イベントをキャンセルする 
@@ -319,12 +317,10 @@ rowNumberingSeed| 0
 
         **JavaScript の場合:**
 
-		```js
-        <script type="text/javascript">        
-            function gridcheckboxStateChanging (evt, ui) {
+		```js   
+        function gridcheckboxStateChanging (evt, ui) {
          
-            };   
-        </script>
+        };   
 		```
 
     2.  ハンドラーを `igGrid` の `rowSelectorClicked` イベントに設定します。
@@ -363,13 +359,11 @@ rowNumberingSeed| 0
 	
 	**JavaScript の場合:**
 	
-	```js
-	<script type="text/javascript">        
-	    function gridcheckboxStateChanging (evt, ui) {
-	       if (conditionNotMet)
-	          return false;
-	     };   
-	</script>
+	```js     
+	function gridcheckboxStateChanging (evt, ui) {
+	   if (conditionNotMet)
+	      return false;
+	};   
 	```
 
 ##  <a id="topics"></a> 関連トピック 
