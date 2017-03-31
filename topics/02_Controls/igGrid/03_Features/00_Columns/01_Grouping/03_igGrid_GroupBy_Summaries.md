@@ -31,13 +31,13 @@
 
 ## <a id="summaries-overview"></a> グループ化集計の機能概要
 
-グループ化集計機能は、そのアイランドにあるデータ列の集計情報を表示するグループ データ アイランドの下に追加の集計行を表示します。The summary row is visible only when the related group is expanded. 以下の画像は、グループ化された列を持つグリッドで各グループの下に「Price」列の合計数が集計行に表示されます。
+グループ化集計機能は、そのアイランドにあるデータ列の集計情報を表示するグループ データ アイランドの下に追加の集計行を表示します。集計行は、関連するグループが展開された場合のみ表示されます。以下の画像は、グループ化された列を持つグリッドで各グループの下に「Price」列の合計数が集計行に表示されます。
 
 ![](images/igGrid_GroupBy_Summaries_Overview_01.png)
     
 この機能は、データ グループの意味のある集計を提供するためにデフォルトの集計関数 (合計、最小値、最大値、平均値など) の結果、またはカスタム集計の結果を表示できます。
 
-This feature can also be combined with the igGrid Summaries feature in order to display summary information for the whole data in the grid footer. 
+この機能は igGrid 集計機能と組み合わせることが可能でグリッド フッターに全データの集計情報を表示できます。
 
 ## <a id="enable-summaries"></a> グループ化集計機能の有効化
 
@@ -75,16 +75,16 @@ $("#grid1").igGrid({
 
 適用可能な列タイプおよびデフォルト集計に関連するその他のオプションを `$.ig.util.defaultSummaryMethods` 配列で変更できます。
 
-The summary method object in the `$.ig.util.defaultSummaryMethods` array has the following options:
-Name | Description | Type 
+以下は `$.ig.util.defaultSummaryMethods` 配列の集計メソッド オブジェクトのオプションです。
+名前 | 説明 | タイプ 
 -----| ------------| -----
-label | Label that will be applied to the result of the summary function. | string
-name | Name of the summary function. Ex: {summaryFunction: “count”} | string
-summaryFunction | Speficies the function that will be used when calculating the summary. | function
-dataType | Speficies to which type of column this summary is applicable. Setting it to 'any' will apply this summary to all column types. | 'any' or array 
-active | Sets if the summary should be applied. | boolean | true
-order | Speficies the order in which this summary will be placed when there are multiple summaries. order: 0 means that it will be displayed on top of all summaries. |  number 
-applyFormat | Sets whether formatting will be applicable for the summary value. | boolean
+label | 集計関数の結果に適用されるラベル。 | string
+name | 集計関数の名前。例: {summaryFunction: “count”} | string
+summaryFunction | 集計の計算に使用する関数を指定します。 | function
+dataType | この集計が適用できる列タイプを指定します。'any' に設定するとこの集計をすべての列タイプに適用します。 | 'any' または配列。
+active | 集計を適用するかどうかを設定します。 | boolean | true
+order | 複数の集計がある場合にこの集計が配置される順序を指定します。order: 0 の場合にすべての集計の一番上に表示されます。 |  number 
+applyFormat | 書式を集計値に適用できるかどうかを設定します。 | boolean
 
 ### <a id='summaries-advanced'></a>詳細設定
 
@@ -182,11 +182,11 @@ function existingCount(data) {
 
 ## <a id="related-content"></a> 関連コンテンツ
 
-### <a id="samples"></a> Related Samples
+### <a id="samples"></a> 関連サンプル
 
-The following sample provides additional information related to this topic.
+以下のサンプルでは、このトピックに関連する情報を提供しています。
 
-- [Grouping with summaries](%%SamplesUrl%%/grid/grouping)
+- [集計とグループ化](%%SamplesUrl%%/grid/grouping)
 
 ### <a id="topics"></a> トピック
 

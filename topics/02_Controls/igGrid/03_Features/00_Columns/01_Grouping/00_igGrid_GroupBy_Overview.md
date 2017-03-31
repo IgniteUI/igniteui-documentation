@@ -102,8 +102,8 @@ features: [
             <td>[SummarySettings](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridGroupBy~SummarySettings.html)</td>
         </tr>
 		<tr>
-            <td>GroupBy Summaries per data-island</td>
-            <td> Allows an additional summary row to be displayed below each group data island that displays summary information for the data columns in that island.</td>
+            <td>データ アイランド別の GroupBy 集計</td>
+            <td>アイランドにあるデータ列の集計情報を表示するグループ データ アイランドの下に追加の集計行を表示できます。</td>
             <td>[groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:groupSummaries)</td>
             <td>[SummarySettings](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridGroupBy~GroupSummaries.html)</td>
         </tr>
@@ -265,7 +265,7 @@ API 使用については、以下のサンプルも参照してください。
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [Enabling Column Grouping (igGrid)](igGrid-Enabling-GroupBy.html)
+- [列のグループ化の有効化 (igGrid)](igGrid-Enabling-GroupBy.html)
 
 - [グリッド Group By プロパティ リファレンス](%%jQueryApiUrl%%/ui.iggridgroupby#options)
 
