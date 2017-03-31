@@ -81,7 +81,7 @@ $("#grid1").delegate("#iggridrowselectorsrowselectorclicked’": function (e, ar
 );
 ```
 
-> **注:** 詳細については、[Ignite UI でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html)を参照してください。
+> **注:** 詳細については、[%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html)を参照してください。
 
 ## <a id="reference-chart"></a> イベント参照チャート 
 

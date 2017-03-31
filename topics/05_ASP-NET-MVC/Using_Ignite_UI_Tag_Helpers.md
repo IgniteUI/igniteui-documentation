@@ -8,11 +8,11 @@
 |metadata|
 -->
 
-# Ignite UI タグ ヘルパーの使用
+# %%ProductName%% タグ ヘルパーの使用
 
 ## トピックの概要
 
-このトピックは、新しい ASP.NET Core 1.0 で追加されるタグ ヘルパー構文を使用して Ignite UI™ コンポーネントを構成する方法を紹介します。
+このトピックは、新しい ASP.NET Core 1.0 で追加されるタグ ヘルパー構文を使用して %%ProductName%%™ コンポーネントを構成する方法を紹介します。
 
 ### このトピックの内容
 
@@ -24,7 +24,7 @@
 
 ## <a id="addtaghelper"></a> ビューのスコープにタグ ヘルパーを追加
 
-すべての Ignite UI タグ ヘルパーを現在のビュー スコープに追加するには、@addTagHelper 命令が使用されます:
+すべての %%ProductName%% タグ ヘルパーを現在のビュー スコープに追加するには、@addTagHelper 命令が使用されます:
 
 ```csharp
 @using Infragistics.Web.Mvc
@@ -148,5 +148,5 @@ igGrid で更新機能を構成し、エディターを追加します:
 ```
 
 ## <a id="related"></a> 関連コンテンツ
-- [Ignite UI コントロールを ASP.NET Core 1.0 で使用](Using-IgniteUI-Controls-in-ASP.NET-Core-1.0-project.html)
+- [%%ProductName%% コントロールを ASP.NET Core 1.0 で使用](Using-IgniteUI-Controls-in-ASP.NET-Core-1.0-project.html)
 - [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html)

@@ -12,11 +12,11 @@
 
 `igDateEditor` コントロールは、`igEditor` を拡張する jQuery ベースのウィジェットで、多くのスタイル設定オプションを公開します。日付エディターのスタイルをカスタマイズするには、テーマ オプションを使用して、カスタム CSS ルールのセットをコントロールに適用する必要があります。
 
-Ignite UI パッケージには、いくつかの jQuery UI や Bootstrap テーマが用意されています。また Bootstrap は、独自のブートストラップのテーマの生成やカスタマイズをサポートしています。詳細は、[スタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)を参照してください。エディターを含めたページ上のすべてのコントロールのスタイルは、どのテーマでも設定できます。
+%%ProductName%% パッケージには、いくつかの jQuery UI や Bootstrap テーマが用意されています。また Bootstrap は、独自のブートストラップのテーマの生成やカスタマイズをサポートしています。詳細は、[スタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)を参照してください。エディターを含めたページ上のすべてのコントロールのスタイルは、どのテーマでも設定できます。
 
 ## ThemeRoller の使用
 
-`igDateEditor` コントロールは jQuery UI CSS フレームワークを使用するため、[jQuery UI ThemeRoller](http://jqueryui.com/themeroller/) を使用してすべてのスタイルを設定することもできます。これにより、独自に作成したテーマのカスタマイズや使用可能なギャラリーからのテーマの選択ができます。これらのテーマは、Ignite UI のデフォルトのテーマと置き換えられます。
+`igDateEditor` コントロールは jQuery UI CSS フレームワークを使用するため、[jQuery UI ThemeRoller](http://jqueryui.com/themeroller/) を使用してすべてのスタイルを設定することもできます。これにより、独自に作成したテーマのカスタマイズや使用可能なギャラリーからのテーマの選択ができます。これらのテーマは、%%ProductName%% のデフォルトのテーマと置き換えられます。
 
 UI Darkness テーマを使用する日付エディター:
 

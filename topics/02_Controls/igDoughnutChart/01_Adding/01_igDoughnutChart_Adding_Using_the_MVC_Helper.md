@@ -26,7 +26,7 @@
 	- ASP.NET MVC
 	- ASP.NET MVC HTML ヘルパー
 - **トピック**
-	- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで Ignite UI™ コンポーネントを使用した作業の開始方法を説明します。
+	- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
 
  
 
@@ -233,7 +233,7 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 		</tbody>
 	</table>
 	
-	最終的に、すべての Ignite UI ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
+	最終的に、すべての %%ProductName%% ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
 	
 	**ASPX の場合:**
 	

@@ -29,7 +29,7 @@
 	-   ASP.NET MVC HTML ヘルパー
 
 - トピック
-	- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで Ignite UI™ コンポーネントを使用した作業の開始方法を説明します。
+	- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
 	- [*igBulletGraph* の概要](igBulletGraph-Overview.html): このトピックは、主要機能、最小要件およびユーザー機能性など、`igBulletGraph` コントロールの概念的な情報を提供します。
 
 
@@ -154,7 +154,7 @@ ASP.NET MVC ヘルパーを ASP.NET ページの本文に追加します。
 
 **2. 基本的な描画オプションを構成する *igBulletGraph* コントロールのインスタンスを作成します**。
 
-`igBulletGraph` のインスタンスの作成すべての Ignite UI ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
+`igBulletGraph` のインスタンスの作成すべての %%ProductName%% ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
 
 **ASPX の場合:**
 

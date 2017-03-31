@@ -81,7 +81,7 @@ jQuery および jQuery UI JavaScript リソース
 			</td>
 
             <td width="417">
-                Ignite UI™ は、これらのフレームワークの最上位にビルドされます。
+                %%ProductName%%™ は、これらのフレームワークの最上位にビルドされます。
 
                 <ul>
                     <li>
@@ -105,7 +105,7 @@ igPopover JavaScript リソース
 			</td>
 
             <td height="300" width="417">
-                Ignite UI ライブラリの igPopover の機能性は、複数のファイル間に配布されます。必要なリソースは以下の方法で読み込むことができます。
+                %%ProductName%% ライブラリの igPopover の機能性は、複数のファイル間に配布されます。必要なリソースは以下の方法で読み込むことができます。
 
                 <ul>
                     <li>
@@ -117,7 +117,7 @@ igPopover JavaScript リソース
 					</li>
                 </ul>
 
-                以下の表は、igPopover コントロール関連の Ignite UI ライブラリの依存関係を示します。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。
+                以下の表は、igPopover コントロール関連の %%ProductName%% ライブラリの依存関係を示します。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。
 
                 <table class="table">
 	<thead>
@@ -171,7 +171,7 @@ IG テーマ
 			</td>
 
             <td width="417">
-このテーマには、Ignite UI ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
+このテーマには、%%ProductName%% ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
 
                 {IG CSS root}/themes/Infragistics/infragistics.theme.css
 			</td>
@@ -201,7 +201,7 @@ igPopover の構造
 
 
 
->**注:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。この方法の詳細は、[**Infragistics Loader による必要なリソースの自動追加**](Using-Infragistics-Loader.html)のトピックを参照してください。さらに、オンラインの [**Ignite UI サンプル ブラウザー**](%%SamplesUrl%%)には、`igPopover` コンポーネントで `igLoader` を使用する方法の具体的な例が記載されています。
+>**注:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。この方法の詳細は、[**Infragistics Loader による必要なリソースの自動追加**](Using-Infragistics-Loader.html)のトピックを参照してください。さらに、オンラインの [**%%ProductName%% サンプル ブラウザー**](%%SamplesUrl%%)には、`igPopover` コンポーネントで `igLoader` を使用する方法の具体的な例が記載されています。
 
 ### <a id="overview-steps"></a>手順
 
@@ -214,7 +214,7 @@ igPopover の構造
 ## <a id="procedure-js"></a>JavaScript による igPopover の追加 - 手順
 ### <a id="js-introduction"></a>概要
 
-この手順は、実際の HTML/JavaScript の実装を使用して、基本機能を持つ `igPopover` を HTML ページに追加するステップを説明します。`igPopover` コントロールで必要なすべての Ignite UI リソースを読み込むには、Infragistics Loader コンポーネントを使用します。
+この手順は、実際の HTML/JavaScript の実装を使用して、基本機能を持つ `igPopover` を HTML ページに追加するステップを説明します。`igPopover` コントロールで必要なすべての %%ProductName%% リソースを読み込むには、Infragistics Loader コンポーネントを使用します。
 
 この手順は、デフォルト構成の基本的な `igPopover` コントロールを input HTML 要素に追加します。ポップオーバーは入力のタイトルを含み、マウスを要素の上にホバーすると表示されます。
 
@@ -231,9 +231,9 @@ igPopover の構造
 -   適切な場所に追加された必要なファイル:
 
    -   Web ページと同じディレクトリにある Scripts という名前のフォルダーに追加された必要な jQuery および jQueryUI JavaScript リソース
-    -   ig という名前のフォルダーに追加された Ignite UI CSS ファイル (詳細は、[**Ignite UI のスタイル設定とテーマ設定**](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
+    -   ig という名前のフォルダーに追加された %%ProductName%% CSS ファイル (詳細は、[**%%ProductName%% のスタイル設定とテーマ設定**](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
 
-    -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された Ignite UI JavaScript ファイル (詳細は、[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
+    -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された %%ProductName%% JavaScript ファイル (詳細は、[%%ProductName%% での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
 -   ページの `<head>` セクションで参照される、必要な JavaScript リソース。
 
 **HTML の場合:**
@@ -329,9 +329,9 @@ igPopover の構造
 -   適切な場所に追加された必要なファイル:
 
    -   Web ページと同じディレクトリにある Scripts という名前のフォルダーに追加された必要な jQuery および jQueryUI JavaScript リソース
-    -   Content/ig という名前のフォルダーに追加された Ignite UI CSS ファイル (詳細は、Ignite UI のスタイル設定とテーマ設定のトピックを参照してください。)
+    -   Content/ig という名前のフォルダーに追加された %%ProductName%% CSS ファイル (詳細は、%%ProductName%% のスタイル設定とテーマ設定のトピックを参照してください。)
 
-    -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された Ignite UI JavaScript ファイル (詳細は、[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
+    -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された %%ProductName%% JavaScript ファイル (詳細は、[%%ProductName%% での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
 -   ページの `<head>` セクションで参照される、必要な JavaScript リソース。
 
 **HTML の場合:**

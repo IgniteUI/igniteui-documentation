@@ -10,7 +10,7 @@
 
 # igDataSource を WCF データ サービスへバインド
 
-`igDataSource` は、XML、JSON、Atom、JavaScript 配列、さらには HTML テーブルなどをも含むさまざまなフォーマットのデータとバインドできるクライアント側の JavaScript データ ソース コンポーネントです。Ignite UI で使用されているいろいろなフォーマットは[サンプル ブラウザー](%%SamplesUrl%%/data-source/mashup)で見ることができます。
+`igDataSource` は、XML、JSON、Atom、JavaScript 配列、さらには HTML テーブルなどをも含むさまざまなフォーマットのデータとバインドできるクライアント側の JavaScript データ ソース コンポーネントです。%%ProductName%% で使用されているいろいろなフォーマットは[サンプル ブラウザー](%%SamplesUrl%%/data-source/mashup)で見ることができます。
 
 `igDataSource` はサーバーに依存性がなく、特定のサーバー側ソフトウェア アーキテクチャに依存しません。そのため、.NET フレームワークを利用する開発者はしばしば、自分の RIA アプリケーション内のデータを提供するのに WCF を利用しようとします。このトピックでは、サンプル ブラウザーから WCF サンプルのひとつを分析して独自の WCF サービスを設定するプロセスを解説し、XML データを ASP.NET アプリケーションの `igDataSource` に提供します。
 
@@ -25,11 +25,11 @@
 
  >**注:** [こちらからサンプルをダウンロードできます](http://dl.infragistics.com/community/jquery/codesamples/aaronm/2011-07-28/igDataSourceWCFService.zip)。
 
-1.  Visual Studio を開き、新しい ASP.NET 空の Web アプリケーション 'igDataSourceWCFService' を作成します。**注**: `igDataSource` はサーバー依存がありません。従って、この演習では、Ignite UI がアウト オブ ボックスで ASP.NET WCF をサポートするのに対して、ASP.NET WebForms でサポートされる OData の実装方法について説明します。
+1.  Visual Studio を開き、新しい ASP.NET 空の Web アプリケーション 'igDataSourceWCFService' を作成します。**注**: `igDataSource` はサーバー依存がありません。従って、この演習では、%%ProductName%% がアウト オブ ボックスで ASP.NET WCF をサポートするのに対して、ASP.NET WebForms でサポートされる OData の実装方法について説明します。
 
     ![](images/dswcf_webapp.jpg)
 
-2.  製品に付いている結合され縮小されたスクリプト ファイル infragistics.core.js である Ignite UI への参照を追加します。加えて、サンプルを実行するには jQuery コア、jQuery UI、jQuery テンプレート スクリプトが必要です。この[ヘルプ トピック](Deployment-Guide-JavaScript-Resources.html)では、必要なスクリプトへの参照やアプリケーションに追加する統合および縮小されたスクリプトがどこにあるかについて説明します。**注:** 製品版とトライアル版は[こちら](http://jp.infragistics.com/products/jquery#Downloads)からダウンロードできます。jQuery テンプレート スクリプトは、[こちら](http://plugins.jquery.com/tag/templates/)から入手できます。
+2.  製品に付いている結合され縮小されたスクリプト ファイル infragistics.core.js である %%ProductName%% への参照を追加します。加えて、サンプルを実行するには jQuery コア、jQuery UI、jQuery テンプレート スクリプトが必要です。この[ヘルプ トピック](Deployment-Guide-JavaScript-Resources.html)では、必要なスクリプトへの参照やアプリケーションに追加する統合および縮小されたスクリプトがどこにあるかについて説明します。**注:** 製品版とトライアル版は[こちら](http://jp.infragistics.com/products/jquery#Downloads)からダウンロードできます。jQuery テンプレート スクリプトは、[こちら](http://plugins.jquery.com/tag/templates/)から入手できます。
 
 3.  プロジェクト内にスクリプト ディレクトリを作成し、そのフォルダーに JavaScript ファイルをコピーしてください。
 
@@ -260,7 +260,7 @@
 
 11. アプリケーションを実行すると、Microsoft の株式情報が表示されます。最初にデータが定義されているのは 1 社のみです。その完全なフォームでのサンプルと同時に全企業のデータを見るには、[すべてのサンプル](http://dl.infragistics.com/community/jquery/codesamples/aaronm/2011-07-28/igDataSourceWCFService.zip)をダウンロードしてください。
 
->**注:** Ignite UI スクリプト ファイルはこのダウンロードには含まれていません。Ignite UI のコピーと一緒にインストールされるファイルを利用するか、[こちら](http://jp.infragistics.com/products/jquery#Downloads)からコピーをダウンロードしてください。
+>**注:** %%ProductName%% スクリプト ファイルはこのダウンロードには含まれていません。%%ProductName%% のコピーと一緒にインストールされるファイルを利用するか、[こちら](http://jp.infragistics.com/products/jquery#Downloads)からコピーをダウンロードしてください。
 
 ## 関連トピック
 以下は、その他の役立つトピックです。

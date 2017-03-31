@@ -9,9 +9,9 @@
 -->
 
 # igGrid を使用する ASP.NET MVC アプリケーションの開発
-Ignite UI は、JavaScript ベースの機能豊かなインタラクティブ web アプリケーションを作成するための [jQuery UI](http://jqueryui.com/) コントロール セットです。Ignite UI を ASP.NET MVC と使用する場合、直接 JavaScript を使用または MVC ヘルパーを使用するオプションがあります。
+%%ProductName%% は、JavaScript ベースの機能豊かなインタラクティブ web アプリケーションを作成するための [jQuery UI](http://jqueryui.com/) コントロール セットです。%%ProductName%% を ASP.NET MVC と使用する場合、直接 JavaScript を使用または MVC ヘルパーを使用するオプションがあります。
 
-MVC ヘルパーは、Ignite UI コントロールで必要な HTML マークアップおよび JavaScript コードを生成する .NET クラスおよび拡張機能メソッドのコレクションです。ページに描画された後、手動的に JavaScript で作成したコードと Ignite UI MVC ヘルパーによって生成されたコードの違いはほとんどありませんが、以下の場合はヘルパーが役立ちます。
+MVC ヘルパーは、%%ProductName%% コントロールで必要な HTML マークアップおよび JavaScript コードを生成する .NET クラスおよび拡張機能メソッドのコレクションです。ページに描画された後、手動的に JavaScript で作成したコードと %%ProductName%% MVC ヘルパーによって生成されたコードの違いはほとんどありませんが、以下の場合はヘルパーが役立ちます。
 
 * リモート ロードオンデマンド、リモート ページング、リモート フィルタリングなどのリモート機能を実装する場合。
 
@@ -24,7 +24,7 @@ MVC ヘルパーは、Ignite UI コントロールで必要な HTML マークア
 
 ### このトピックの内容
 - [**はじめに**](#getting-started)
-	- [Ignite UI MVC アセンブリの参照](#referencing-igniteui-mvc-assembly)
+	- [%%ProductName%% MVC アセンブリの参照](#referencing-igniteui-mvc-assembly)
 	- [スタイルおよびスクリプトの参照](#referencing-styles-and-scripts)
 - [**構文方法**](#syntax-variations)
  	- [グリッド モデル](#syntax-grid-model)
@@ -38,8 +38,8 @@ MVC ヘルパーは、Ignite UI コントロールで必要な HTML マークア
 ## <a id="getting-started"></a> はじめに
 igGrid MVC ヘルパーを使用する前に、`Infragistics.Web.Mvc` アセンブリへの参照を作成し、ページで関連するスクリプトおよびスタイル シートを参照します。
 
-### <a id="referencing-igniteui-mvc-assembly"></a>Ignite UI MVC アセンブリの参照
-ASP.NET アプリケーションで、以下の場所にある Ignite UI MVC アセンブリへの参照を作成します。
+### <a id="referencing-igniteui-mvc-assembly"></a>%%ProductName%% MVC アセンブリの参照
+ASP.NET アプリケーションで、以下の場所にある %%ProductName%% MVC アセンブリへの参照を作成します。
 
 ```
 %%InstallPath%%\MVC\<MVC_VERSION_NUMBER>\Bin\Infragistics.Web.Mvc.dll
@@ -57,10 +57,10 @@ ASP.NET アプリケーションで、以下の場所にある Ignite UI MVC ア
 <script type="text/javascript" src="infragistics.core.js"></script>
 <script type="text/javascript" src="infragistics.lob.js"></script>
 ```
-> **注**: Ignite UI MVC ヘルパーを使用するには、jQuery、jQuery UI、および Ignite UI への参照をページの上に含む必要があります。
+> **注**: %%ProductName%% MVC ヘルパーを使用するには、jQuery、jQuery UI、および %%ProductName%% への参照をページの上に含む必要があります。
 
 ## <a id="syntax-variations"></a>構文方法
-Ignite UI MVC ヘルパーを使用すると、igGrid の使用でページを構成するパーツがいくつかあります。ページが要求されたときに Ignite UI MVC ヘルパーがページでコントロールを描画するために、Model データが Controller で収集され、View に渡されます。Controller でビューに `IQueryable<T>` コレクションとしてデータを直接に渡すか、`Infragistics.Web.Mvc.GridModel` クラスのインスタンスを渡すことができます。
+%%ProductName%% MVC ヘルパーを使用すると、igGrid の使用でページを構成するパーツがいくつかあります。ページが要求されたときに %%ProductName%% MVC ヘルパーがページでコントロールを描画するために、Model データが Controller で収集され、View に渡されます。Controller でビューに `IQueryable<T>` コレクションとしてデータを直接に渡すか、`Infragistics.Web.Mvc.GridModel` クラスのインスタンスを渡すことができます。
 
 > **注**: igGrid MVC ヘルパーのデータ ソースは LINQ を使用するため、`IQueryable<T>` のインスタンスのみを受け入れます。`GridModel` を使用した場合も、`IQueryable<T>` のインスタンスが必要な `DataSource` プロパティを明示的に設定します。
 

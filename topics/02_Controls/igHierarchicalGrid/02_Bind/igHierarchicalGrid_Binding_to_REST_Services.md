@@ -113,7 +113,7 @@ DELETE|空|/api/customers/{customerId}/orders/{orderId}|/api/customers/ALFKI/ord
 
 この手順を実行するには、以下のリソースが必要です。
 
--   Ignite UI JavaScript とテーマ ファイル
+-   %%ProductName%% JavaScript とテーマ ファイル
 
 ## 手順
 
@@ -153,7 +153,7 @@ $.ig.loader({
 });
 ```
 
-> **注:** Infragistics Loader は、必要なファイルを素早く効果的に参照するための方法です。ただし、ファイルは手動で参照することができます。詳細については、[関連コンテンツ](#related-content)セクションの「[Ignite UI の JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)」トピック を参照してください。
+> **注:** Infragistics Loader は、必要なファイルを素早く効果的に参照するための方法です。ただし、ファイルは手動で参照することができます。詳細については、[関連コンテンツ](#related-content)セクションの「[%%ProductName%% の JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)」トピック を参照してください。
 
 ### 手順 4:*igHierarchicalGrid* を初期化します。
 

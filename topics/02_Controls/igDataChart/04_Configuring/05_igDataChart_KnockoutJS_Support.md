@@ -212,7 +212,7 @@ $.ig.loader({
 
 -	[Knockout サポートの構成 (igCombo)](igCombo-Configuring.html): このトピックは、Knockout ライブラリにより管理されるビューモードのオブジェクトをバインドするために `igCombo` コントロールを構成する方法について説明します。
 
--	[Knockout サポートの構成 (igEditors)](Configuring-Knockout-Support-%28Editors%29.html): このトピックは、Knockout ライブラリを使用してビューモード オブジェクトをバインドするために Ignite UI エディター コントロールを構成する方法について説明します。
+-	[Knockout サポートの構成 (igEditors)](Configuring-Knockout-Support-%28Editors%29.html): このトピックは、Knockout ライブラリを使用してビューモード オブジェクトをバインドするために %%ProductName%% エディター コントロールを構成する方法について説明します。
 
 -	[Knockout サポートの構成 (igTree)](igTree-KnockoutJS-Support.html): このトピックは、Knockout ライブラリにより管理される View-Model オブジェクトをバインドするために `igTree` コントロールを構成する方法について説明します。
 

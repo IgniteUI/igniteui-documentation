@@ -332,8 +332,8 @@ $(function(){
 ![](images/igUpload_CustomErrorMessage.png)
 
 ## 関連リンク
--   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
--   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
  
 

@@ -40,7 +40,7 @@
 -   jQuery JavaScript フレームワーク
 -   jQuery UI JavaScript UI フレームワーク
 -   タッチ操作をサポートするための Modernizr JavaScript ライブラリ
--   Infragistics Ignite UI JavaScript および CSS リソース
+-   Infragistics %%ProductName%% JavaScript および CSS リソース
 -   数値データまたは日付データを含む 1 次元データ ソース
 -   ASP.NET MVC ヘルパーを使用する場合、`Infragistics.Web.Mvc.dll` アセンブリも必要です。
 

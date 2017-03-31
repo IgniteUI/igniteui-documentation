@@ -54,7 +54,7 @@ protected void OnFileFinishing(object sender, UploadFinishingEventArgs e)
 >**注:** クラスおよびイベントの使用方法に関する詳細は、[HTTP ハンドラーおよびモジュールの使用](igUpload-Using-HTTP-Handler-and-Modules.html)トピックに従い、API ヘルプをお読みください。
 
 ## 依存関係
-`igUpload` コントロールは、次の Ignite UI ウィジェットである `igButton`、`igBrowseButton`、`igProgressBar`、および ajaxQueue プラグインにそれぞれ依存しています。これらのウィジェットは、デフォルトで使用できるよう `igUpload` コントロールに組み込まれています。
+`igUpload` コントロールは、次の %%ProductName%% ウィジェットである `igButton`、`igBrowseButton`、`igProgressBar`、および ajaxQueue プラグインにそれぞれ依存しています。これらのウィジェットは、デフォルトで使用できるよう `igUpload` コントロールに組み込まれています。
 
 また、ウィジェットは外部 JavaScript ファイル ig.ui.fileupload-en.js から定義された文字列を使用します。その他の言語ロケールは、適切な 2 文字の言語サフィックスが付いた他の類似ファイルを作成することで追加できます。
 

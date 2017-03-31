@@ -19,7 +19,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
-- [Ignite UI でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックは、Ignite UI® コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
+- [%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックは、%%ProductName%%® コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
 
 - [igTileManager の概要](igTileManager-Overview.html): このトピックでは、主要機能、最小要件およびユーザー機能性など、`igTileManager` コントロールについて概念的な情報を提供します。
 

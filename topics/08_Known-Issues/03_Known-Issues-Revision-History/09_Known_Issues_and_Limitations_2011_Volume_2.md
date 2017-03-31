@@ -13,13 +13,13 @@
 ## トピックの概要
 ### 目的
 
-このトピックでは、Ignite UI™ ライブラリの 2011 Volume 2 リリースの既知の問題および制限について説明します。
+このトピックでは、%%ProductName%%™ ライブラリの 2011 Volume 2 リリースの既知の問題および制限について説明します。
 
 
 ## 2011 Volume 2 の既知の問題と制限
 ### 概要
 
-以下の表に、Ignite UI 2011 Volume 2 リリースの既知の問題と制限事項の概要を示します。各コントロールの既知の問題のトピックに、既知の問題および考えられる回避策の詳細が説明されています。
+以下の表に、%%ProductName%% 2011 Volume 2 リリースの既知の問題と制限事項の概要を示します。各コントロールの既知の問題のトピックに、既知の問題および考えられる回避策の詳細が説明されています。
 
 ### 凡例:
 
@@ -42,7 +42,7 @@
 
 機能|説明|状態
 ---|---|---
-[Infragistics ASP.NET と Ignite UI のドキュメント エンジンの併用時に発生する問題 - 回避策](#using-document-engine)|Infragistics ASP.NET と Ignite UI のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/positive.png)
+[Infragistics ASP.NET と %%ProductName%% のドキュメント エンジンの併用時に発生する問題 - 回避策](#using-document-engine)|Infragistics ASP.NET と %%ProductName%% のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/positive.png)
 [igEditor のスタイル設定](#igEditor-styling)|HTML 要素のレイアウトは修正され、丸みのある角が、ボタンだけでなくエディター全体で描画されます。 | ![](images/positive.png)
 `igEditor` のスピン ボタン | スピン ボタンは水平方向に描画されます。 | ![](images/negative.png)
 [igEditor のレンダリングの失敗](#rigEditor-rendering-failure)|基本要素が TD の場合、レンダリングは失敗することがあります。 | ![](images/positive.png)
@@ -57,11 +57,11 @@
 
 
 
-## <a id="using-document-engine"></a>Infragistics ASP.NET と Ignite UI のドキュメント エンジンの併用時に発生する問題 - 回避策
+## <a id="using-document-engine"></a>Infragistics ASP.NET と %%ProductName%% のドキュメント エンジンの併用時に発生する問題 - 回避策
 
-Infragistics ASP.NET と Ignite UI のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。
+Infragistics ASP.NET と %%ProductName%% のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。
 
-この問題を解決するには、アプリケーションで Infragistics ASP.NET のドキュメント アセンブリと Ignite UI のドキュメント アセンブリのいずれか一方を参照します。これらのアセンブリ内のドキュメント ライブラリは同じで、どちらを使用してもかまいません。
+この問題を解決するには、アプリケーションで Infragistics ASP.NET のドキュメント アセンブリと %%ProductName%% のドキュメント アセンブリのいずれか一方を参照します。これらのアセンブリ内のドキュメント ライブラリは同じで、どちらを使用してもかまいません。
 
 ## <a id="igEditor-styling"></a>igEditor のスタイル設定
 

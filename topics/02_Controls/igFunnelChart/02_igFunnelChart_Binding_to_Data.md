@@ -51,7 +51,7 @@
 
 ### データ ソースの要約
 
-その他のコントロールを Ignite UI® ライブラリへバインドするのと同じやり方で `igFunnelChart` へデータをバインドします。データのバインドは、dataSource オプションにデータ ソースを割り当てるという形で行い、Web または Windows Communication Foundation (WCF) サービスによって提供されるデータについては `dataSourceUrl` に URL を指定するという形で行います。`igFunnelChart` コントロールは `igDataSource` オブジェクトを作成および使用してデータを処理します。
+その他のコントロールを %%ProductName%%® ライブラリへバインドするのと同じやり方で `igFunnelChart` へデータをバインドします。データのバインドは、dataSource オプションにデータ ソースを割り当てるという形で行い、Web または Windows Communication Foundation (WCF) サービスによって提供されるデータについては `dataSourceUrl` に URL を指定するという形で行います。`igFunnelChart` コントロールは `igDataSource` オブジェクトを作成および使用してデータを処理します。
 
 ### サポートされるデータ ソースのリスト
 

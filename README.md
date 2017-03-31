@@ -1,8 +1,8 @@
-# Ignite UI Help Topics - Japanese
+# %%ProductName%% Help Topics - Japanese
 
 ### Overview
 
-This is the repository for help topics associated with [Ignite UI](http://jp.igniteui.com).  The help is available [online](http://jp.igniteui.com/help).
+This is the repository for help topics associated with [%%ProductName%%](http://jp.igniteui.com).  The help is available [online](http://jp.igniteui.com/help).
 
 The online repository is called [help-topics-ja](https://github.com/IgniteUI/help-topics-ja).  You must login to GitHub to access this page.
 

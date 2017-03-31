@@ -106,7 +106,7 @@
 
 ### <a id="required"></a> JavaScript で igLoader を使用して必要な CSS および JavaScript 参照の追加 
 
-Ignite UI ライブラリのコントロールで必要な JavaScript および CSS リソースの読み込みには、`igLoader`™ コントロールを使用することをお勧めします。最初に、`igLoader` スクリプトをページに追加します。
+%%ProductName%% ライブラリのコントロールで必要な JavaScript および CSS リソースの読み込みには、`igLoader`™ コントロールを使用することをお勧めします。最初に、`igLoader` スクリプトをページに追加します。
 
 **HTML の場合:**
 

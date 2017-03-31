@@ -20,4 +20,4 @@ Infragistics Document Engine は、Portable Document Format（PDF）と XML Pape
 - [Infragistics Document Engine を使用した作業の開始](DocumentEngine-Getting-Started-with-Infragistics-Document-Engine.html): Infragistics Document Engine を基本的に理解すると、このトピックはコード ライブラリの使用を開始する際に役に立ちます。このトピックは、フル レポートを作成するために作成する必要があるオブジェクトの簡単なガイドです。
 - [レポートの記述](DocumentEngine-Writing-Reports.html): このセクションは、Infragistics Document Engine のヘルプ重要な部分です。各レポートおよびグラフィックス要素の詳細を示します。このトピックは概念的なガイドの形になっています。ほとんどの要素は膨大で多くの機能を含んでいるからです。
 - [Infragistics Document Engine の配備](DocumentEngine-Deploying-Infragistics-Document-Engine.html): アプリケーションが Infragistics Document Engine を使用する場合、アプリケーションの一部として再配布する必要がある Infragistics .NET アセンブリのリストのトピックを参照してください。
-- [API の概要](DocumentEngine-API-Overview.html): このトピックは、Infragistics Excel Engine でプログラミング中に作業する名前空間とクラスをリストします。このトピックの名前空間とクラスの一覧は、Ignite UI ヘルプの API 参照ガイドへリンクします。
+- [API の概要](DocumentEngine-API-Overview.html): このトピックは、Infragistics Excel Engine でプログラミング中に作業する名前空間とクラスをリストします。このトピックの名前空間とクラスの一覧は、%%ProductName%% ヘルプの API 参照ガイドへリンクします。

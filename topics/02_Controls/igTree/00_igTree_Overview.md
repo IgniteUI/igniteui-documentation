@@ -45,7 +45,7 @@
 
 前提条件タイプ|コンテンツ
 ---|---
-トピック|まず以下のトピックを読む必要があります。 [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html) <br>[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)<br>[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)<br>[igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html)、データ ソース コントロール セクション
+トピック|まず以下のトピックを読む必要があります。 [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html) <br>[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)<br>[%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)<br>[igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html)、データ ソース コントロール セクション
 外部リソース|あらかじめ [jQuery ウィジェットの使用](http://wiki.jqueryui.com/w/page/12137708/How%20to%20use%20jQuery%20UI%20widgets) を読んでおくことをお勧めします。
 
 
@@ -129,18 +129,18 @@ ASP.NET MVC ヘルパーを使用して、マネージ コード言語で `igTre
 
 ## <a id="requirements"></a>要件
 ### <a id="requirements-introduction"></a>概要 
-`igTree` コントロールは jQuery UI ウィジェットの 1 つであるため、jQuery ライブラリと jQuery UI JavaScript ライブラリに依存します。また、`igTree` コントロールが機能の共有やデータのバインドを行うために使用する Ignite UI™ JavaScript リソースもいくつかあります。`igTree` コントロールを純粋に JavaScript コンテキストで使用する場合でも、ASP.NET MVC で使用する場合でも、こうした JavaScript の参照が必要になります。`igTree` コントロールを ASP.NET MVC で使用する場合、`igTree` コントロールを .NET 言語で構成するために Infragistics.Web.Mvc アセンブリが必要です。
+`igTree` コントロールは jQuery UI ウィジェットの 1 つであるため、jQuery ライブラリと jQuery UI JavaScript ライブラリに依存します。また、`igTree` コントロールが機能の共有やデータのバインドを行うために使用する %%ProductName%%™ JavaScript リソースもいくつかあります。`igTree` コントロールを純粋に JavaScript コンテキストで使用する場合でも、ASP.NET MVC で使用する場合でも、こうした JavaScript の参照が必要になります。`igTree` コントロールを ASP.NET MVC で使用する場合、`igTree` コントロールを .NET 言語で構成するために Infragistics.Web.Mvc アセンブリが必要です。
 
 ### <a id="requirements-chart"></a>要件の表 
 下の表は、`igTree` コントロールの要件をまとめたものです。
 
 要件|説明
 ---|---
-jQuery および jQuery UI JavaScript リソース|Ignite UI は、これらのフレームワークの最上位にビルドされます。[jQuery](http://jquery.com/) [jQuery UI](http://jqueryui.com/) [テンプレート エンジンの概要](igTemplating-Overview.html) (ノード テンプレート用)
-Ignite UI の共用 JavaScript リソース|Ignite UI には、ほとんどのウィジェットが使用する共用 JavaScript リソースがいくつかあります。`infragistics.util.js` infragistics.ui.shared.js
+jQuery および jQuery UI JavaScript リソース|%%ProductName%% は、これらのフレームワークの最上位にビルドされます。[jQuery](http://jquery.com/) [jQuery UI](http://jqueryui.com/) [テンプレート エンジンの概要](igTemplating-Overview.html) (ノード テンプレート用)
+%%ProductName%% の共用 JavaScript リソース|%%ProductName%% には、ほとんどのウィジェットが使用する共用 JavaScript リソースがいくつかあります。`infragistics.util.js` infragistics.ui.shared.js
 `igDataSource` JavaScript リソース | `igTree` は `igDataSource` を内部的に使用してデータ操作を行います。 `infragistics.dataSource.js`
 `igTree` JavaScript リソース | `igTree` コントロールの JavaScript ファイル: `infragistics.ui.tree.js`
-IG テーマ|このテーマには、Ignite UI 向けに作成されたカスタム ビジュアル スタイルが含まれます。
+IG テーマ|このテーマには、%%ProductName%% 向けに作成されたカスタム ビジュアル スタイルが含まれます。
 ベース テーマ|基本テーマには、主に各コントロールのフォームと機能を定義するスタイルが含まれています。
 
 
@@ -197,9 +197,9 @@ IG テーマ|このテーマには、Ignite UI 向けに作成されたカスタ
 ## <a id="related-topics"></a>関連トピック 
 以下は、その他の役立つトピックです。
 
--   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
--   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
--   [Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
+-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
 -   [igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html)
 -   [igTree のパフォーマンスを最適化します](igTree-Optimize-Performance.html)
 -   [igTree のチェックボックスと選択を構成する](igTree-Configure-Checkboxes-And-Selection.html)

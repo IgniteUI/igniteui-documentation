@@ -26,7 +26,7 @@
 
 -	[igHtmlEditor の概要](igHtmlEditor-Overview.html): このトピックは、`igHtmlEditor` およびその機能の概要を説明します。
 
--	[Infragistics Loader の使用](Using-Infragistics-Loader.html): このトピックでは、Infragistics Loader を使用して、Ignite UI で作業するために必要なリソースを管理する方法について説明します。
+-	[Infragistics Loader の使用](Using-Infragistics-Loader.html): このトピックでは、Infragistics Loader を使用して、%%ProductName%% で作業するために必要なリソースを管理する方法について説明します。
 
 
 ##igHtmlEditor を Web ページに追加
@@ -93,7 +93,7 @@
 	    });
 		```
 
-		>**注:** Infragistics Loader は、必要なファイルを素早く効果的に参照するための方法です。ただし、ファイルは手動で参照することができます。詳細については、[関連コンテンツ](#related-content)セクションの「[Ignite UI の JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)」トピック を参照してください。
+		>**注:** Infragistics Loader は、必要なファイルを素早く効果的に参照するための方法です。ただし、ファイルは手動で参照することができます。詳細については、[関連コンテンツ](#related-content)セクションの「[%%ProductName%% の JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)」トピック を参照してください。
 
 	3. igHtmlEditor を初期化します
 
@@ -117,7 +117,7 @@
 		 @(Html.Infragistics().Loader().ScriptPath(Url.Content ("js")).CssPath(Url.Content("css")).Render())
 		 ```
 
-		Infragistics Loader ASP.NET MVC ヘルパーを使用している場合、Resources メソッドの呼び出しは必要ありません。これは、ローダーは、特定のビューで使用される他の Infragistics ヘルパーに基づいて、含めるリソースを推測するためです。これは、Ignite UI コントロールも ASP.NET MVC ヘルパーを使用してインスタンス化された場合にのみ有効です。
+		Infragistics Loader ASP.NET MVC ヘルパーを使用している場合、Resources メソッドの呼び出しは必要ありません。これは、ローダーは、特定のビューで使用される他の Infragistics ヘルパーに基づいて、含めるリソースを推測するためです。これは、%%ProductName%% コントロールも ASP.NET MVC ヘルパーを使用してインスタンス化された場合にのみ有効です。
 
 	2. igHtmlEditor を初期化します
 
@@ -139,7 +139,7 @@
 
 -	[スタイル設定およびテーマ設定 (igHtmlEditor)](igHtmlEditor-Styling-and-Theming.html): このトピックは、`igHtmlEditor` のルック アンド フィールをカスタマイズする方法をコード例を用いて説明しています。
 
--	[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、Web アプリケーションで Ignite UI を操作して、必要なリソースを管理する方法について説明します。
+-	[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、Web アプリケーションで %%ProductName%% を操作して、必要なリソースを管理する方法について説明します。
 
 
 

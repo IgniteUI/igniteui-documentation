@@ -118,7 +118,7 @@ $.ig.loader({
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [Knockout でエディターをバインド](Configuring-Knockout-Support-%28Editors%29.html): このトピックは、Knockout ライブラリを使用してビューモード オブジェクトをバインドするために Ignite UI エディター コントロールを構成する方法について説明します。
+- [Knockout でエディターをバインド](Configuring-Knockout-Support-%28Editors%29.html): このトピックは、Knockout ライブラリを使用してビューモード オブジェクトをバインドするために %%ProductName%% エディター コントロールを構成する方法について説明します。
 
 - [Knockout サポートの構成 (igCombo)](igCombo-KnockoutJS-Support.html): このトピックは、Knockout ライブラリにより管理されるビューモードのオブジェクトをバインドするために `igCombo` コントロールを構成する方法について説明します。
 

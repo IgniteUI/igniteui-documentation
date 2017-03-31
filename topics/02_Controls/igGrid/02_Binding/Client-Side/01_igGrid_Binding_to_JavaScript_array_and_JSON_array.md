@@ -17,7 +17,7 @@
 
 以下の手順は、`igGrid` コントロールをクライアント側データにバインドする方法を示しています。
 
-1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
+1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
 2.  HTML ページに必要な JavaScript および CSS ファイルを参照してください。
 
     **JavaScript の場合:**
@@ -165,8 +165,8 @@
 ## 関連リンク
 
 -   [DataSource 用テーブルのサンプル](iggrid-binding-to-datatable.html)
--   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
--   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
  
 

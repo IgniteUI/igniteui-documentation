@@ -24,7 +24,7 @@
 
 - [igPivotDataSelector の概要](igPivotDataSelector-Overview.html): このトピックは、主な機能、最小要件およびユーザー機能性など、`igPivotDataSelector` コントロールに関する概念的な情報を提供します。
 
-- [KPI (キー パフォーマンス インジケーター) のサポート (igPivotGrid、igPivotDataSelector、igOlapXmlaDataSource)](igPivotGrid-KPI-Support.html): このトピックは、多次元 (OLAP) データ セットからの KPI データが Ignite UI™ で視覚化される状態を概念的に説明します。KPI を視覚化する Ignite UI コントロールは `igPivotDataSelector` および `igPivotGrid` です。
+- [KPI (キー パフォーマンス インジケーター) のサポート (igPivotGrid、igPivotDataSelector、igOlapXmlaDataSource)](igPivotGrid-KPI-Support.html): このトピックは、多次元 (OLAP) データ セットからの KPI データが %%ProductName%%™ で視覚化される状態を概念的に説明します。KPI を視覚化する %%ProductName%% コントロールは `igPivotDataSelector` および `igPivotGrid` です。
 
 - [igPivotDataSelector の追加](igPivotDataSelector-Adding.html): このトピック グループでは、`igPivotDataSelector` コントロールを HTML ページと ASP.NET MVC アプリケーションに追加する方法を示します。
 

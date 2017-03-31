@@ -20,7 +20,7 @@
 
 以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
 
-- [Ignite UI コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックでは、Ignite UI™ コントロールのタッチ サポート インタラクションの更新内容を紹介します。
+- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックでは、%%ProductName%%™ コントロールのタッチ サポート インタラクションの更新内容を紹介します。
 
 - [igGrid 機能セレクター](igGrid-Feature-Chooser.html): このトピックでは、`igGrid`™ 機能セレクター] メニューとそのそのセクションについて説明します。
 
@@ -121,7 +121,7 @@
 [modalDialogCaptionButtonDesc](%%jQueryApiUrl%%/ui.iggridsorting#options:modalDialogCaptionButtonDesc)|[複数並べ替え] ダイアログの降順に並べ替えられた項目ごとにキャプションを指定します。
 [modalDialogCaptionButtonAsc](%%jQueryApiUrl%%/ui.iggridsorting#options:modalDialogCaptionButtonAsc)|[複数並べ替え] ダイアログの昇順に並べ替えられた項目ごとにキャプションを指定します。
 [modalDialogCaptionButtonUnsort](%%jQueryApiUrl%%/ui.iggridsorting#options:modalDialogCaptionButtonUnsort) |[複数並べ替え] ダイアログの [並べ替えなし]ボタンのキャプションを指定します。
-[unsortedColumnTooltip](%%jQueryApiUrl%%/ui.iggridsorting#options:unsortedColumnTooltip) |並べ替えされていない列の Ignite UI テンプレート化形式のカスタム ツールチップ。
+[unsortedColumnTooltip](%%jQueryApiUrl%%/ui.iggridsorting#options:unsortedColumnTooltip) |並べ替えされていない列の %%ProductName%% テンプレート化形式のカスタム ツールチップ。
 [modalDialogCaptionText](%%jQueryApiUrl%%/ui.iggridsorting#options:modalDialogCaptionText)|[複数並べ替え] ダイアログのキャプションのテキストを指定します。
 [modalDialogButtonApplyText](%%jQueryApiUrl%%/ui.iggridsorting#options:modalDialogButtonApplyText)|モーダル ダイアログで変更を適用するボタンのテキストを指定します。
 [modalDialogButtonCancelText](%%jQueryApiUrl%%/ui.iggridsorting#options:modalDialogButtonCancelText)|モーダル ダイアログで変更を取り消すボタンのテキストを指定します。
@@ -174,7 +174,7 @@
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [Ignite UI コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックでは、Ignite UI™ コントロールのタッチ サポート インタラクションの更新内容を紹介します。
+- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックでは、%%ProductName%%™ コントロールのタッチ サポート インタラクションの更新内容を紹介します。
 
 - [igGrid 機能セレクター](igGrid-Feature-Chooser.html): このトピックでは、`igGrid`™ 機能セレクター メニューとそのそのセクションについて説明します。
 

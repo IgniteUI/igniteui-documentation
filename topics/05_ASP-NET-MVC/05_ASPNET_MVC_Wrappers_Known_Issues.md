@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# ラッパーの既知の問題と制限 (Ignite UI ASP.NET MVC)
+# ラッパーの既知の問題と制限 (%%ProductName%% ASP.NET MVC)
 
 
 
 ## 既知の問題点と制限の概要
 
-以下の表は、Ignite UI™ ASP.NET MVC ラッパーの既知の問題と制限の概要を示します。以下の表は、一部の問題の詳細な説明とその回避策を示します。
+以下の表は、%%ProductName%%™ ASP.NET MVC ラッパーの既知の問題と制限の概要を示します。以下の表は、一部の問題の詳細な説明とその回避策を示します。
 
 
 凡例: | 
@@ -23,7 +23,7 @@
 ![](images/negative.png) | 既知の回避策はありません
 ![](images/plannedFix.png) | 既知の回避策はありません。修正予定です。
 
-### Ignite UI ASP.NET MVC ラッパー
+### %%ProductName%% ASP.NET MVC ラッパー
 
 
 問題|説明|状態

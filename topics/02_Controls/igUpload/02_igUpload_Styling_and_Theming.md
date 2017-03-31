@@ -14,7 +14,7 @@
 
 ## 必要な CSS とテーマ
 
-Ignite UI™ `igUpload` は、ほかの jQuery ウィジェットのように、スタイリングに jQuery UI CSS Framework を使用します。Ignite UI には、Infragistics および Metro と呼ばれるカスタム jQuery UI テーマが含まれています。これらのテーマによって、Infragistics ウィジェットおよび標準の jQuery UI ウィジェットが、プロフェッショナルで魅力的な外観になります。
+%%ProductName%%™ `igUpload` は、ほかの jQuery ウィジェットのように、スタイリングに jQuery UI CSS Framework を使用します。%%ProductName%% には、Infragistics および Metro と呼ばれるカスタム jQuery UI テーマが含まれています。これらのテーマによって、Infragistics ウィジェットおよび標準の jQuery UI ウィジェットが、プロフェッショナルで魅力的な外観になります。
 
 Infragistics および Metro テーマに加えて、Infragistics ウィジェットの基本 CSS レイアウトに必要な structure ディレクトリがあります。
 
@@ -194,8 +194,8 @@ fileExtensionIcons: [
 -   [jQuery UI CSS Framework](http://docs.jquery.com/UI/Theming/API)
 
 ## 関連リンク
--   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
--   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
  
 

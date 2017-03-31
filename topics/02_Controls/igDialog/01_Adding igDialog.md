@@ -111,7 +111,7 @@
 	    });
 		```
 
-`igDialog` を TypeScript で使用するには、以上のコードを使用してインスタンス化できます。そのためには TypeScript 用の Ignite UI と jQuery の型定義への参照パスを指定する必要があります。
+`igDialog` を TypeScript で使用するには、以上のコードを使用してインスタンス化できます。そのためには TypeScript 用の %%ProductName%% と jQuery の型定義への参照パスを指定する必要があります。
 
     **TypeScript の場合:**
     ```typescript
@@ -122,7 +122,7 @@
     
 >**注:** TypeScript の 1.5 以前のバージョンでは、コンパイラがコンパイル中にプログラムに依存関係を組み込むため、型定義への参照パスは必須です。1.5 以降のバージョンでは、単独の tsconfig.json ファイルで定義することができます。詳細は、[tsconfig.json wiki のページ](https://github.com/Microsoft/TypeScript/wiki/tsconfig.json)を参照してください。
 		
-> TypeScript の Ignite UI 定義を使用する詳細については、[「TypeScript で Ignite UI を使用」](using-ignite-ui-with-typescript.html)トピックを参照してください。
+> TypeScript の %%ProductName%% 定義を使用する詳細については、[「TypeScript で %%ProductName%% を使用」](using-ignite-ui-with-typescript.html)トピックを参照してください。
 
 - **Razor の初期化**
 	
@@ -174,7 +174,7 @@
    [%%SamplesEmbedUrl%%/dialog-window/angular](%%SamplesEmbedUrl%%/dialog-window/angular)
 </div>
 
-> AngularJS の Ignite UI 命令を使用する詳細については、[「AngularJS で Ignite UI を使用」](using-ignite-ui-with-angularjs.html)トピックを参照してください。
+> AngularJS の %%ProductName%% 命令を使用する詳細については、[「AngularJS で %%ProductName%% を使用」](using-ignite-ui-with-angularjs.html)トピックを参照してください。
 
 ## igDialog の破棄
 

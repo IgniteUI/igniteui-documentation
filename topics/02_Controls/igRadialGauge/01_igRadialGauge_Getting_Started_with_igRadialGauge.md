@@ -23,9 +23,9 @@
 
 **トピック**
 
-- [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html): Ignite UI™ ライブラリにつぃての一般的情報
+- [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
 
-- [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して Ignite UI ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
+- [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
 
 - [igRadialGauge の概要](igRadialGauge-igRadialGauge-Overview.html): このトピックは、主要機能、チャート使用の最小要件およびユーザー機能性など、`igRadialGauge` コントロールについての概念的な情報を提供します。
 
@@ -77,14 +77,14 @@
 	必要なリソースを参照します。リソースの参照には以下のものがあります。
 	
 	-   jQuery、jQueryUI、Modernizr JavaScript リソースの Web サイトまたは Web アプリケーションの Scripts という名前のフォルダーへの追加。
-	-   Web サイトまたは Web アプリケーションの Content/ig という名前のフォルダーへの Ignite UI CSS ファイルの追加 (詳細は、[Ignite UI のスタイルとテーマの設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください)。
-	-   Web サイトまたは Web アプリケーションの Scripts/ig という名前のフォルダーへの Ignite UI JavaScript ファイルの追加 (詳細は、[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください)。
+	-   Web サイトまたは Web アプリケーションの Content/ig という名前のフォルダーへの %%ProductName%% CSS ファイルの追加 (詳細は、[%%ProductName%% のスタイルとテーマの設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください)。
+	-   Web サイトまたは Web アプリケーションの Scripts/ig という名前のフォルダーへの %%ProductName%% JavaScript ファイルの追加 (詳細は、[%%ProductName%% での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください)。
 	
 	**リソースは手動またはローダー (推奨) を使用して追加できます。**
 	
 	igLoader を使用した JavaScript のリソースの参照
 	
-	Ignite UI ライブラリのコントロールで必要な JavaScript および CSS リソースの読み込みには、`igLoader`™ コントロールを使用することをお勧めします。最初に、igLoader スクリプトをページに追加します。
+	%%ProductName%% ライブラリのコントロールで必要な JavaScript および CSS リソースの読み込みには、`igLoader`™ コントロールを使用することをお勧めします。最初に、igLoader スクリプトをページに追加します。
 	
 	**HTML の場合:**
 	

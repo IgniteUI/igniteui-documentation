@@ -22,7 +22,7 @@
 
 - [igGrid を DataTable にバインディング (*igGrid*)](igGrid-Binding-to-DataTable.html): このトピックでは、この機能を紹介し、Grid ASP.NET MVC ヘルパーと `DataTable` を構成し、使用する方法を説明します。
 
-- [igGrid を Web サービスにバインディング (*igGrid*)](igGrid-Binding-to-Web-Services.html): このドキュメントでは、Ignite UI® グリッドまたは `igGrid` を *oData* プロトコルの Web ベース データ ソースにバインドする方法を説明します。
+- [igGrid を Web サービスにバインディング (*igGrid*)](igGrid-Binding-to-Web-Services.html): このドキュメントでは、%%ProductName%%® グリッドまたは `igGrid` を *oData* プロトコルの Web ベース データ ソースにバインドする方法を説明します。
 
 - [クライアント側のデータ バインディング (*igGrid*)](igGrid-Client-Side-Binding.html): このドキュメントは、`igGrid` コントロールを JSON 配列、JavaScript 配列、および HTML テーブル要素にバインドする方法を説明します。
 

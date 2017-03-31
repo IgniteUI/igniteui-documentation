@@ -142,7 +142,7 @@ View では、`igUpload` のクライアント側エラー処理と同様に、`
 
 -   Microsoft® Visual Studio 2010 またははそれ以降
 -   ASP.NET MVC 2 またはそれ以降
--   Infragistics Ignite UI® 13.1 またはそれ以降
+-   Infragistics %%ProductName%%® 13.1 またはそれ以降
 
 ### <a id="procedure-prerequisites"></a>前提条件
 
@@ -151,7 +151,7 @@ View では、`igUpload` のクライアント側エラー処理と同様に、`
 -   `<project folder>/Views/Shared/_Layout.cshtml` ファイルへ追加された以下のスクリプト
     -   `<project folder>/Scripts/jquery-1.5.1.min.js`
     -   `<project folder>/Scripts/jquery-ui-1.8.11.min.js`
--   プロジェクトに含まれ適切に参照された Infragistics Ignite UI エージェント
+-   プロジェクトに含まれ適切に参照された Infragistics %%ProductName%% エージェント
     -   スクリプトは、`<project folder>`\Infragistics フォルダーに置かれます。
     -   `<project folder>/Views/Shared/_Layout.cshtml` ファイル (ファイルはプロジェクトの一部として使用可能) のヘッド タグで参照しなければなりません。
 

@@ -24,7 +24,7 @@
 
 -	[チャートのアニメーション化 (チャートの Motion Framework)](igDataChart-Animating-Charts.html)
 
-Infragistics® Motion Framework™ は、Ignite UI™ チャート コントロールのデータ変更をアニメーション化するためのフレームワークです。
+Infragistics® Motion Framework™ は、%%ProductName%%™ チャート コントロールのデータ変更をアニメーション化するためのフレームワークです。
 
 -   [ナビゲーション機能の構成 (igDataChart)](igDataChart-Configuring-Navigation-Features.html)
 

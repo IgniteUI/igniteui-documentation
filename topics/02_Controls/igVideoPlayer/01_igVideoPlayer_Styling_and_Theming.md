@@ -12,13 +12,13 @@
 
 
 ## 必要な CSS とテーマ
-Web アプリケーションで jQuery Video Player コントロールを使用するときに、アプリケーションのスタイルに応じて Video Player コントロールのルック アンド フィールを作ることがよく問題になります。これを実現するには、特にビデオ プレーヤーの、そしてより広範には、Ignite UI™ で使用可能なクライアント UI コントロールのスタイル設定とテーマ設定に関する以下の情報を使用します。
+Web アプリケーションで jQuery Video Player コントロールを使用するときに、アプリケーションのスタイルに応じて Video Player コントロールのルック アンド フィールを作ることがよく問題になります。これを実現するには、特にビデオ プレーヤーの、そしてより広範には、%%ProductName%%™ で使用可能なクライアント UI コントロールのスタイル設定とテーマ設定に関する以下の情報を使用します。
 
-`igVideoPlayer` コントロールは、ほかの jQuery ウィジェットのように、スタイリングに jQuery UI CSS Framework を使用します。Ignite UI には、「IG テーマ」と呼ばれるカスタム jQuery UI テーマが含まれています。このテーマは、すべての Infragistics ウィジェットおよび標準の jQuery UI ウィジェットにプロフェッショナルで魅力的なデザインを提供します。
+`igVideoPlayer` コントロールは、ほかの jQuery ウィジェットのように、スタイリングに jQuery UI CSS Framework を使用します。%%ProductName%% には、「IG テーマ」と呼ばれるカスタム jQuery UI テーマが含まれています。このテーマは、すべての Infragistics ウィジェットおよび標準の jQuery UI ウィジェットにプロフェッショナルで魅力的なデザインを提供します。
 
 ### 必要な CSS とテーマ
 
-Ignite UI™ ビデオ プレーヤーは、ほかの jQuery ウィジェットのように、スタイリングに jQuery UI CSS Framework を使用します。Ignite UI には、Infragistics および Metro と呼ばれるカスタム jQuery UI テーマが含まれています。これらのテーマによって、Infragistics ウィジェットおよび標準の jQuery UI ウィジェットが、プロフェッショナルで魅力的な外観になります。
+%%ProductName%%™ ビデオ プレーヤーは、ほかの jQuery ウィジェットのように、スタイリングに jQuery UI CSS Framework を使用します。%%ProductName%% には、Infragistics および Metro と呼ばれるカスタム jQuery UI テーマが含まれています。これらのテーマによって、Infragistics ウィジェットおよび標準の jQuery UI ウィジェットが、プロフェッショナルで魅力的な外観になります。
 
 Infragistics および Metro テーマに加えて、Infragistics ウィジェットの基本 CSS レイアウトに必要な structure ディレクトリがあります。
 

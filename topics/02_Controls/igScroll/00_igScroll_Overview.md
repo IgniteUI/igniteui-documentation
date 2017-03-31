@@ -174,7 +174,7 @@ $(function () {
 
 次のステップは、いずれかの jQuery クライアント コードを使用して、ウェブページで igScroll ウィジェットを実装する基本的な方法を示します。
 
-最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
+最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
 
 1.  HTML ページに**必要な JavaScript および CSS ファイルを参照**してください。
 

@@ -363,7 +363,7 @@ public class Employee
 
 この手順を実行するには、以下のリソースが必要です。
 
--   必要な Ignite UI の JavaScript と CSS ファイル
+-   必要な %%ProductName%% の JavaScript と CSS ファイル
 -   *Infragistics.Web.Mvc.dll* アセンブリへの参照
 -   Json.NET シリアライザー - Newtonsoft.Json.dll
 

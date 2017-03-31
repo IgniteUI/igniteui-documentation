@@ -13,12 +13,12 @@
 ## トピックの概要
 ### 目的
 
-このトピックは、Ignite UI™ 2013 Volume 2 リリースの新機能の概要について紹介します。
+このトピックは、%%ProductName%%™ 2013 Volume 2 リリースの新機能の概要について紹介します。
 
 ## 新機能
 ### 新機能の概要表
 
-以下の表に、Ignite UI 2013 Volume 2 リリースの新機能を簡単に説明します。詳細は、概要表の後に記載されています。
+以下の表に、%%ProductName%% 2013 Volume 2 リリースの新機能を簡単に説明します。詳細は、概要表の後に記載されています。
 
 <table class="table table-bordered">
 	<thead>
@@ -41,7 +41,7 @@
 
         <tr>
             <td>
-Ignite UI
+%%ProductName%%
 			</td>
 
             <td>

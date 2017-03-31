@@ -260,7 +260,7 @@ var result = $.ig.tmpl('#This comment will be ignored#<p>$i</p>', data);
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [基本的な使用方法](%%SamplesUrl%%/templating-engine/basic-usage): Infragistics テンプレート エンジンは、すべての Ignite UI コントロールの一貫性のあるテンプレート構文を提供します。このサンプルでは、`igCombo` コントロールのヘッダー、項目、およびフッターをカスタマイズするテンプレート化構文を紹介します。
+- [基本的な使用方法](%%SamplesUrl%%/templating-engine/basic-usage): Infragistics テンプレート エンジンは、すべての %%ProductName%% コントロールの一貫性のあるテンプレート構文を提供します。このサンプルでは、`igCombo` コントロールのヘッダー、項目、およびフッターをカスタマイズするテンプレート化構文を紹介します。
 
 - [グリッドの列テンプレート](%%SamplesUrl%%/templating-engine/grid-column-template): このサンプルは、igGrid の列テンプレート機能を使用して列にボタンを挿入する方法を紹介します。各行の右の列にボタンがあります。ボタンを押すと、含まれる行を削除します。
 

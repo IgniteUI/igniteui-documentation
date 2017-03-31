@@ -26,7 +26,7 @@
 
 `igCombo` に合わせて jQuery UI テーマをカスタマイズするために必要な情報は以下の各トピックに収められています。
 
--	[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
+-	[%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
 
 ##関連トピック
 

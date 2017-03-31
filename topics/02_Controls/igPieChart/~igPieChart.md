@@ -44,7 +44,7 @@
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html): このトピックでは、Ignite UI™ ライブラリの一般情報を提供します。
+- [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): このトピックでは、%%ProductName%%™ ライブラリの一般情報を提供します。
 
 - [igDataChart の概要](igDataChart-Overview.html): このトピックでは、`igDataChart` コントロールについての概念情報を提供します。これには、その主な機能、チャートとユーザー機能を使用するための最低要件が含まれます。
 

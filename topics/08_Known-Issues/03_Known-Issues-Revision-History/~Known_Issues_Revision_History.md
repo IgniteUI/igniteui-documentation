@@ -12,33 +12,33 @@
 
 ### 概要
 
-このトピックは、Ignite UI™ ライブラリの以前のバージョンの既知の問題と制限へのリンクを提供します。
+このトピックは、%%ProductName%%™ ライブラリの以前のバージョンの既知の問題と制限へのリンクを提供します。
 
 ### トピック
 
 各リリースの既知の問題と制限に関する詳細情報は、次のトピックで扱います。
 
-- [2016 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2016-Volume-1.html): このトピックでは、 2016 Volume 1 リリースの Ignite UI ライブラリの既知の問題と制限を示します。
+- [2016 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2016-Volume-1.html): このトピックでは、 2016 Volume 1 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
 
-- [2015 Volume 2 の既知の問題と制限](Known-Issues-and-Limitations-2015-Volume-2.html): このトピックでは、 2015 Volume 2 リリースの Ignite UI ライブラリの既知の問題と制限を示します。
+- [2015 Volume 2 の既知の問題と制限](Known-Issues-and-Limitations-2015-Volume-2.html): このトピックでは、 2015 Volume 2 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
 
-- [2015 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2015-Volume-1.html): このトピックでは、 2015 Volume 1 リリースの Ignite UI ライブラリの既知の問題と制限を示します。
+- [2015 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2015-Volume-1.html): このトピックでは、 2015 Volume 1 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
 
-- [2014 Volume 2 の既知の問題と制限](Known-Issues-and-Limitations-2014-Volume-2.html): このトピックでは、 2014 Volume 2 リリースの Ignite UI ライブラリの既知の問題と制限を示します。
+- [2014 Volume 2 の既知の問題と制限](Known-Issues-and-Limitations-2014-Volume-2.html): このトピックでは、 2014 Volume 2 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
 
-- [2014 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2014-Volume-1.html): このトピックでは、 2014 Volume 1 リリースの Ignite UI ライブラリの既知の問題と制限を示します。
+- [2014 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2014-Volume-1.html): このトピックでは、 2014 Volume 1 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
 
-- [2013 Volume 2 の既知の問題と制限](Known-Issues-and-Limitations-2013-Volume-2.html): このトピックでは、 2013 Volume 2 リリースの Ignite UI ライブラリの既知の問題と制限を示します。
+- [2013 Volume 2 の既知の問題と制限](Known-Issues-and-Limitations-2013-Volume-2.html): このトピックでは、 2013 Volume 2 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
 
-- [2013 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2013-Volume-1.html): このトピックでは、 2013 Volume 1 リリースの Ignite UI ライブラリの既知の問題と制限を示します。
+- [2013 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2013-Volume-1.html): このトピックでは、 2013 Volume 1 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
 
-- [2012 Volume 2 の既知の問題と制限](Known-Issues-and-Limitations-2012-Volume-2.html): このトピックでは、 2012 Volume 2 リリースの Ignite UI ライブラリの既知の問題と制限を示します。
+- [2012 Volume 2 の既知の問題と制限](Known-Issues-and-Limitations-2012-Volume-2.html): このトピックでは、 2012 Volume 2 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
 
-- [2012 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2012-Volume-1.html): このトピックでは、 2012 Volume 1 リリースの Ignite UI ライブラリの既知の問題と制限を示します。
+- [2012 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2012-Volume-1.html): このトピックでは、 2012 Volume 1 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
 
-- [2011 Volume 2 の既知の問題と制限](Known-Issues-and-Limitations-2011-Volume-2.html): このトピックでは、 2011 Volume 2 リリースの Ignite UI ライブラリの既知の問題と制限を示します。
+- [2011 Volume 2 の既知の問題と制限](Known-Issues-and-Limitations-2011-Volume-2.html): このトピックでは、 2011 Volume 2 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
 
-- [2011 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2011-Volume-1.html): このトピックでは、 2011 Volume 2 リリースより前の Ignite UI ライブラリの既知の問題と制限を示します。
+- [2011 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2011-Volume-1.html): このトピックでは、 2011 Volume 2 リリースより前の %%ProductName%% ライブラリの既知の問題と制限を示します。
 
 
 

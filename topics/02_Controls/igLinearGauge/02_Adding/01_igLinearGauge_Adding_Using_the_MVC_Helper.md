@@ -30,7 +30,7 @@
 
 **トピック**
 
--	[コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで Ignite UI™ コンポーネントを使用した作業の開始方法を説明します。
+-	[コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
 
 -	[igLinearGauge の概要](igLinearGauge-Overview.html): このトピックは、主要機能、最小要件およびユーザー機能性など、`igLinearGauge` コントロールの概念的な情報を提供します。
 
@@ -151,7 +151,7 @@
 	```
 
 2. 基本的な描画オプションを構成する `igLinearGauge` コントロールのインスタンスを作成します。 
-	igLinearGauge のインスタンスを作成します。すべての Ignite UI ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
+	igLinearGauge のインスタンスを作成します。すべての %%ProductName%% ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
 
 	**ASPX の場合:**
 

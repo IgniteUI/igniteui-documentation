@@ -11,7 +11,7 @@
 # TypeScript サンプル
 
 ## トピックの概要
-このトピックでは、Ignite UI コントロールと TypeScript のサンプルについて説明します。
+このトピックでは、%%ProductName%% コントロールと TypeScript のサンプルについて説明します。
 
 ### このトピックの内容
 
@@ -60,8 +60,8 @@
 
 ### <a id="requirements"></a>要件
 これらのサンプルを実行するには、以下が必要となります。
--   必要な Ignite UI の JavaScript と CSS ファイル
--   必要な Ignite UI TypeScript の定義
+-   必要な %%ProductName%% の JavaScript と CSS ファイル
+-   必要な %%ProductName%% TypeScript の定義
 
 ### <a id="grid_sample"></a>グリッド サンプル
 このサンプルは、`igGrid` を TypeScript で使用する方法を紹介します。
@@ -1520,4 +1520,4 @@ $(function () {
 ### <a id="related_content"></a>関連コンテンツ
 以下のトピックでは、このトピックに関連する追加情報を提供しています。
 
-[TypeScript で Ignite UI を使用](Using-Ignite-UI-with-TypeScript.html) - このトピックでは、Ignite UI の型定義を TypeScript で使用する方法の概要を説明します。
+[TypeScript で %%ProductName%% を使用](Using-Ignite-UI-with-TypeScript.html) - このトピックでは、%%ProductName%% の型定義を TypeScript で使用する方法の概要を説明します。

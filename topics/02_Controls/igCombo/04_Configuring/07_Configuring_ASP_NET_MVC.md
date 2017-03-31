@@ -46,7 +46,7 @@
 
 手順を完了するには、ASP.NET MVC プロジェクトの他に次が必要になります。
 
--   必要な Ignite UI の JavaScript と CSS ファイル
+-   必要な %%ProductName%% の JavaScript と CSS ファイル
 -   参照されている Infragistics.Web.Mvc.dll アセンブリ
 
 ### <a id="_Requirements_Overview"></a> 概要

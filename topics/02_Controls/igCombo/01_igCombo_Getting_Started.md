@@ -25,8 +25,8 @@
 
 まず以下のトピックを読む必要があります。
 
--   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
--   [Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
 
 ##基本的な igCombo 実装を作成する
 
@@ -375,8 +375,8 @@ public class DefaultController : Controller{
 
 以下は、その他の役立つトピックです。
 
--   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
--   [Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
 
  
 

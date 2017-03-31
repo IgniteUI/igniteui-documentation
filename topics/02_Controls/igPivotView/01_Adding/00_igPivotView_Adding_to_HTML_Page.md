@@ -22,7 +22,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
-- [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、必要な JavaScript リソースを追加して Ignite UI ライブラリからコントロールを使用する場合の全般的な説明をします。
+- [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的な説明をします。
 
 - [igPivotView 概要](igPivotView-Overview.html): このトピックは、主要機能、最小要件およびユーザー機能性など、`igPivotView` コントロールに関する概念的な情報を提供します。
 
@@ -81,7 +81,7 @@
 			</td>
 
 			<td>
-				Ignite UI™ は、これらのフレームワークの最上位にビルドされます。
+				%%ProductName%%™ は、これらのフレームワークの最上位にビルドされます。
 
 				<ul>
 					<li><a href="http://jquery.com/" target="_blank">jQuery</a></li>
@@ -119,17 +119,17 @@
 			</td>
 
 			<td>
-				Ignite UI ライブラリの igPivotView 機能性は、複数のファイルに渡って配布されます。必要なリソースは以下の方法で読み込むことができます。
+				%%ProductName%% ライブラリの igPivotView 機能性は、複数のファイルに渡って配布されます。必要なリソースは以下の方法で読み込むことができます。
 
 				<ul>
-					<li>**カスタム JavaScript ファイルを含む**: 推薦される Ignite UI JavaScript ファイルの参照方法です。Ignite UI コントロールの[カスタム ダウンロード](%%SamplesUrl%%/download)を作成できます。</li>
+					<li>**カスタム JavaScript ファイルを含む**: 推薦される %%ProductName%% JavaScript ファイルの参照方法です。%%ProductName%% コントロールの[カスタム ダウンロード](%%SamplesUrl%%/download)を作成できます。</li>
                     
 					<li>**Infragistics Loader の使用**: *Infragistics Loader* は、すべての Infragistics リソース (スタイルおよびスクリプト) を解決するために使用されます。</li>
 
 					<li>必要なリソースを手動で読み込みます。以下の表にリストされる依存関係を使用する必要があります。</li>
 				</ul>
 
-				以下の表は、igPivotView コントロール関連の Ignite UI ライブラリの依存関係をリストします。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。
+				以下の表は、igPivotView コントロール関連の %%ProductName%% ライブラリの依存関係をリストします。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。
 
 				<table cellspacing="0" cellpadding="0" class="table table-bordered">
 					<tbody>
@@ -149,7 +149,7 @@
 							</td>
 
 							<td>
-								Ignite UI ユーティリティ
+								%%ProductName%% ユーティリティ
 							</td>
 						</tr>
 
@@ -193,7 +193,7 @@
 							</td>
 
 							<td>
-								Ignite UI 共有コード
+								%%ProductName%% 共有コード
 							</td>
 						</tr>
 
@@ -263,7 +263,7 @@
 							</td>
 
 							<td height="22">
-								ピボット コンポーネント用の Ignite UI 共有コード
+								ピボット コンポーネント用の %%ProductName%% 共有コード
 							</td>
 						</tr>
 
@@ -321,7 +321,7 @@
 			</td>
 
 			<td>
-				このテーマには、Ignite UI ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
+				このテーマには、%%ProductName%% ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
 
 				<ul>
 					<li>`<IG CSS root>/themes/Infragistics/infragistics.theme.css`</li>
@@ -416,9 +416,9 @@
 
 		A. **jQuery、jQueryUI および Modernizr JavaScript のリソースを Web ページが置かれているディレクトリ内に Scripts  という名前のフォルダーに追加します。**
 
-		B. **Content/ig という名前のフォルダーに Ignite UI CSS ファイルを追加します (詳細は、[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください)。**
+		B. **Content/ig という名前のフォルダーに %%ProductName%% CSS ファイルを追加します (詳細は、[%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください)。**
 
-		C. **Ignite UI JavaScript ファイルを Web サイト　またはアプリケーション内の Scripts/ig という名前のフォルダーに追加します (詳細は 「[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)」 トピックを参照)。**
+		C. **%%ProductName%% JavaScript ファイルを Web サイト　またはアプリケーション内の Scripts/ig という名前のフォルダーに追加します (詳細は 「[%%ProductName%% での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)」 トピックを参照)。**
 
 	2. 必要な JavaScript ライブラリへの参照を追加します。**jQuery、jQuery UI および Modernizr ライブラリの参照**をページの `<head>` セクションに追加します。
 	

@@ -19,7 +19,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
-- [Ignite UI® の概要](NetAdvantage-for-jQuery-Overview.html): このトピックは、Ignite UI 製品の主な機能とメリットを説明します。
+- [%%ProductName%%® の概要](NetAdvantage-for-jQuery-Overview.html): このトピックは、%%ProductName%% 製品の主な機能とメリットを説明します。
 
 
 ### このトピックの内容

@@ -13,7 +13,7 @@
 ## トピックの概要
 
 ### 目的
-このトピックでは、*Infragistics*®  *Loader* を使用せずに Ignite UI™ の必要な JavaScript リソースを追加する方法について説明します。
+このトピックでは、*Infragistics*®  *Loader* を使用せずに %%ProductName%%™ の必要な JavaScript リソースを追加する方法について説明します。
 
 ### このトピックの内容
 
@@ -25,9 +25,9 @@
 - [関連コンテンツ](#related-content)
 
 ### <a id="introduction"></a> 概要
-この手順では、必要なすべてのリソース (CSS および JavaScript ファイル) を手動で追加して、Ignite UI を使用して作業する方法を示します。この手順に従うと、縮小された CSS および JavaScript ファイルが追加されます。これは、Web 全体で共有するデータ量を減らす必要があるときに推奨されます。
+この手順では、必要なすべてのリソース (CSS および JavaScript ファイル) を手動で追加して、%%ProductName%% を使用して作業する方法を示します。この手順に従うと、縮小された CSS および JavaScript ファイルが追加されます。これは、Web 全体で共有するデータ量を減らす必要があるときに推奨されます。
 
-すべての Ignite UI の結合スクリプトを含む JavaScript ファイルの名前は以下のリストです:
+すべての %%ProductName%% の結合スクリプトを含む JavaScript ファイルの名前は以下のリストです:
 
 -  ` infragistics.core.js`: 共有依存関係 (必須)
 
@@ -35,7 +35,7 @@
 
 -   `infragistics.dv.js`: すべてのデータ ビジュアライゼーション コントロール
 
-すべての JavaScript の結合スクリプトを含むファイルは `js` フォルダー (Ignite UI プログラム インストール内の JavaScript ファイルの root フォルダー) にあります。結合スクリプト バージョンの名前付きのローカライズ リソースもあり、これは `i18n` フォルダーにあります。
+すべての JavaScript の結合スクリプトを含むファイルは `js` フォルダー (%%ProductName%% プログラム インストール内の JavaScript ファイルの root フォルダー) にあります。結合スクリプト バージョンの名前付きのローカライズ リソースもあり、これは `i18n` フォルダーにあります。
 
 デバッグ バージョンの例外を除き、すべての JavaScript ファイルは縮小されています。デバッグには、縮小されていないファイルを使用します。これらのファイルは縮小されたファイルと同じファイル構造を持ち、ファイル名も同じです。縮小されていないファイルは、.zip アーカイブで提供されます (`infragistics.IgniteUI.debug.zip`)。
 
@@ -44,7 +44,7 @@
 - `infragistics.ui.CONTROL_NAME.js`
 - `infragistics.ui.CONTROL_NAME.CONTROL_FEATURE.js`
 
-各コントロールに必要なすべてのスクリプトに関する参考文献については、[Ignite UI 内の JavaScript ファイル](Deployment-Guide-JavaScript-Files.html)トピックを参照してください。
+各コントロールに必要なすべてのスクリプトに関する参考文献については、[%%ProductName%% 内の JavaScript ファイル](Deployment-Guide-JavaScript-Files.html)トピックを参照してください。
 
 > **注:** ローカライズ スクリプトは、ページ コード内の実際の JavaScript ファイルの前に参照する必要があります。
 
@@ -53,12 +53,12 @@
 この手順を実行するには、以下が必要です。
 
 -   Web アプリケーションが含まれるプロジェクト
--   Ignite UI がインストール済み
+-   %%ProductName%% がインストール済み
 -   [jQuery](http://jquery.com/) コア ライブラリ バージョン 1.4.4 またはそれ以降
 -   [jQuery UI](http://jqueryui.com/) ライブラリ 1.8.11 以降
 -   [Modernizr](http://modernizr.com/) オープン ソース JavaScript ライブラリ 2.5.2 以降
 
-> **注:** Ignite UI のサポートされるフレームワーク バージョンの詳細について、[http://jp.infragistics.com/help/supported-environments](http://jp.infragistics.com/help/supported-environments) を参照してください。
+> **注:** %%ProductName%% のサポートされるフレームワーク バージョンの詳細について、[http://jp.infragistics.com/help/supported-environments](http://jp.infragistics.com/help/supported-environments) を参照してください。
 
 ## <a id="steps"></a> 手順
 
@@ -66,7 +66,7 @@
 
 インストール ディレクトリからリソースをコピーします。
 
-1. Ignite UI™ リソースは、`js` および `css` フォルダー内のインストール ディレクトリに置かれています。
+1. %%ProductName%%™ リソースは、`js` および `css` フォルダー内のインストール ディレクトリに置かれています。
 
 ![](images/Adding_the_Required_Resources_for_NetAdvantage_for_jQuery_2.png)
 
@@ -117,10 +117,10 @@ Modernizr のデフォルトのパッケージには含まれていない、`css
 ### トピック
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [Ignite UI の JavaScript ファイル](Deployment-Guide-JavaScript-Files.html): このトピックは、Ignite UI™ に含まれるコントロールを使用して作業するために必要な JavaScript ファイルへの参照です。
-- [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、Web アプリケーションで Ignite UI を操作して、必要なリソースを管理する方法について説明します。
-- [Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html): アプリケーションの設計時間の設定に関する指示、生産で CSS を使用するためのオプション、およびテーマの作成またはカスタマイズに関する概要です。
-- [Ignite UI 向けのインフラジスティックス コンテンツ配信ネットワーク (CDN)](Deployment-Guide-Infragistics-Content-Delivery-Network%28CDN%29.html): このトピックでは、Infragistics Loader を使用して Ignite UI を使用して作業するために必要なリソースを管理する方法について説明します。
+- [%%ProductName%% の JavaScript ファイル](Deployment-Guide-JavaScript-Files.html): このトピックは、%%ProductName%%™ に含まれるコントロールを使用して作業するために必要な JavaScript ファイルへの参照です。
+- [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、Web アプリケーションで %%ProductName%% を操作して、必要なリソースを管理する方法について説明します。
+- [%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html): アプリケーションの設計時間の設定に関する指示、生産で CSS を使用するためのオプション、およびテーマの作成またはカスタマイズに関する概要です。
+- [%%ProductName%% 向けのインフラジスティックス コンテンツ配信ネットワーク (CDN)](Deployment-Guide-Infragistics-Content-Delivery-Network%28CDN%29.html): このトピックでは、Infragistics Loader を使用して %%ProductName%% を使用して作業するために必要なリソースを管理する方法について説明します。
 
 ### リソース
 以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。

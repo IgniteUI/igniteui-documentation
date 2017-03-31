@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# Mobile ラッパーの既知の問題と制限 (Ignite UI ASP.NET MVC)
+# Mobile ラッパーの既知の問題と制限 (%%ProductName%% ASP.NET MVC)
 
 
 
@@ -23,7 +23,7 @@
 ![](images/plannedFix.png) | 既知の回避策はありません。修正予定です。
 
 
-### Ignite UI ASP.NET MVC Mobile ラッパー (モバイル)
+### %%ProductName%% ASP.NET MVC Mobile ラッパー (モバイル)
 
 問題|説明|状態
 ------|-------------|--------

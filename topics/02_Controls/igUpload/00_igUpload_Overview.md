@@ -11,7 +11,7 @@
 # igUpload の概要
 
 ## igUpload について
-Ignite UI™ アップロード コントロール、つまり `igUpload` は、あらゆるタイプのファイルをアップロードし、クライアントのブラウザーからサーバーへファイルを送信できるようにするコントロールです。アップロードされたファイルのサイズは、サーバー側の制限にのみ制限されるため、デフォルトの 10MB を超えるサイズの大規模ファイルをアップロードできます。
+%%ProductName%%™ アップロード コントロール、つまり `igUpload` は、あらゆるタイプのファイルをアップロードし、クライアントのブラウザーからサーバーへファイルを送信できるようにするコントロールです。アップロードされたファイルのサイズは、サーバー側の制限にのみ制限されるため、デフォルトの 10MB を超えるサイズの大規模ファイルをアップロードできます。
 
 アップロード コントロールは、シングル アップロード (デフォルト) または同時に複数のファイルのアップロード操作を行うことができます。複数ファイルのアップロードを簡単に行うため、コントロールは HTML iframe 要素を使用してバックグラウンドでファイルをアップロードします。ファイルがアップロードされると、iframe は HTML として削除されます。
 
@@ -71,7 +71,7 @@ Ignite UI™ アップロード コントロール、つまり `igUpload` は、
 
 [igUpload シングル アップロードのサンプル](%%SamplesUrl%%/file-upload/basic-usage)
 
-1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
+1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
 2.  ご自分の HTML ページまたは ASP.NET MVC View で、必要な JavaScript ファイル、CSS ファイル、および ASP.NET MVC アセンブリを参照してください。
 
     **HTML の場合:**
@@ -248,8 +248,8 @@ allowedMIMEType |アップロード可能な MIME の種類を構成します。
 
 ## 関連リンク
 -   [igUpload シングル アップロードのサンプル](%%SamplesUrl%%/file-upload/basic-usage)
--   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
--   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 -   [igUpload HTTP ハンドラーおよびモジュール](igUpload-Using-HTTP-Handler-and-Modules.html)
 -   [igUpload クライアント側イベント](igUpload-Using-Client-Side-Events.html)
 -   [ASP.NET MVC での igUpload サーバー側イベント](igUpload-Using-Server-Side-Events.html)

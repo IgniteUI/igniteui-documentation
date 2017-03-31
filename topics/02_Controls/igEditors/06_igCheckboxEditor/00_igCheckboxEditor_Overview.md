@@ -10,7 +10,7 @@
 
 # igCheckboxEditor の概要
 
-Ignite UI のチェック ボックス エディター、つまり `igCheckboxEditor` は、チェック ボックス フィールドを描画するコントロールです。1 つまたは複数の相互に排他的なオプションのどちらか一方の選択をユーザーに許可するほか、チェック ボックスの値をサーバーに送信できるようにします。
+%%ProductName%% のチェック ボックス エディター、つまり `igCheckboxEditor` は、チェック ボックス フィールドを描画するコントロールです。1 つまたは複数の相互に排他的なオプションのどちらか一方の選択をユーザーに許可するほか、チェック ボックスの値をサーバーに送信できるようにします。
 
 ユーザーがコントロールを操作すると、外観が更新されて、ただちにフィードバックが返されます。エディターには 2 つの状態があり、チェック ボックスは 2 つの状態のトグルとして機能します。1 つは、オンの状態を反映し、もう 1 つはオフの状態を反映します。
 
@@ -19,7 +19,7 @@ Ignite UI のチェック ボックス エディター、つまり `igCheckboxEd
 
 ## igCheckboxEditor の Web ページへの追加
 
-1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
+1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
 
 2.  ご自分の HTML ページまたは ASP.NET MVC View で、必要な JavaScript ファイル、CSS ファイル、および ASP.NET MVC アセンブリを参照してください。
 
@@ -109,6 +109,6 @@ $('#checkInput').igCheckboxEditor({
 
 ## 関連リンク
 
--   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
--   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 

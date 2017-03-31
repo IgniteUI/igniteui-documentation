@@ -15,7 +15,7 @@
 ## jQuery Rating コントロールについて
 jQuery Rating コントロールまたは igRating を使用すると、指定された値の範囲から項目を選択し評価できます。簡単なコントロールに見えますが、igRating は非常に柔軟です。外観と動作を変更する豊富な API を備えていて、クライアント操作に応じてコントロールを動的に変更できます。このトピックでは、すべての機能をリストし、簡単な igRating コントロールを作成する方法を説明します。
 
-jQuery Rating コントロールは、クライアント側専用のコントロールを含む Ignite UI パッケージの一部です。これによって、デベロッパーは、jQuery Rating を使用して開発の際に複数の実装オプションを柔軟に選択できます。レーティング コントロールは、特定のサーバー バックエンドを使用せずに構成できる豊富な jQuery API を公開します。また、Microsoft® ASP.NET MVC フレームワークを使用するデベロッパーは、レーティングのサーバー側ラッパーを活用して、好きな .NET™ 言語を使ってコントロールを構成できます。
+jQuery Rating コントロールは、クライアント側専用のコントロールを含む %%ProductName%% パッケージの一部です。これによって、デベロッパーは、jQuery Rating を使用して開発の際に複数の実装オプションを柔軟に選択できます。レーティング コントロールは、特定のサーバー バックエンドを使用せずに構成できる豊富な jQuery API を公開します。また、Microsoft® ASP.NET MVC フレームワークを使用するデベロッパーは、レーティングのサーバー側ラッパーを活用して、好きな .NET™ 言語を使ってコントロールを構成できます。
 
 jQuery Rating はそれ自体をスタイルできるので、コントロールのルック アンド フィールを変更できます。jQuery Rating をスタイリングすることによって、すべてのサポート対象のブラウザーに一貫性のある外観を提供できます。jQuery Rating は、既存のスタイル シートを活用でき、さらに jQuery UI の ThemeRoller を使用してスタイルすることもできます。
 
@@ -36,13 +36,13 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
 ## jQuery Rating の Web ページへの追加
 以下の手順は、jQuery クライアント コードまたは ASP.NET MVC サーバー コードを使用して Web ページに jQuery Rating の基本的な実装を作成する方法を示しています。
 
-どの実装を選択するかについて詳細は、[「Ignite UI の概要」](NetAdvantage-for-jQuery-Overview.html)を参照してください。次のスクリーンショットはデフォルトの Rating ビューを示しています。
+どの実装を選択するかについて詳細は、[「%%ProductName%% の概要」](NetAdvantage-for-jQuery-Overview.html)を参照してください。次のスクリーンショットはデフォルトの Rating ビューを示しています。
 
 ![](images/Rating_Overview_02.png)
 
 [基本的な使用方法](%%SamplesUrl%%/rating/basic-usage)
 
-1.  最初に、プロジェクトまたは Web サイトに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
+1.  最初に、プロジェクトまたは Web サイトに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
 2.  ご自分の HTML ページまたは ASP.NET MVC View で、必要な JavaScript ファイル、CSS ファイル、および ASP.NET MVC アセンブリを参照してください。
 
     ### クライアント コード
@@ -143,8 +143,8 @@ jQuery Rating はそれ自体をスタイルできるので、コントロール
 
 ## 関連リンク
 -   [基本的な使用方法](%%SamplesUrl%%/rating/basic-usage)
--   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
--   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
  
 

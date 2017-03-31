@@ -27,7 +27,7 @@
 - [関連コンテンツ](#related)
 
 ## <a id="summary"></a>スタイル設定の概要
-Ignite UI™ Scroll (または `igScroll`) は、他の jQuery ウィジェットと同様に、特定の UI 要素に適用される複数の CSS クラスを提供します。各 CSS クラスは、igScroll が描画する DOM 要素のルックアンドフィールを定義します。
+%%ProductName%%™ Scroll (または `igScroll`) は、他の jQuery ウィジェットと同様に、特定の UI 要素に適用される複数の CSS クラスを提供します。各 CSS クラスは、igScroll が描画する DOM 要素のルックアンドフィールを定義します。
 
 以下は、垂直方向のカスタム スクロールバーに関連する CSS クラスの一覧です。
 

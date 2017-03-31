@@ -8,19 +8,19 @@
 |metadata|
 -->
 
-# Ignite UI コントロールのローカライズのカスタマイズ
+# %%ProductName%% コントロールのローカライズのカスタマイズ
 
 ##トピックの概要
 
 #### 目的
 
-このトピックでは、必要な言語での Ignite UI™ コントロールのローカライズ方法について説明します。
+このトピックでは、必要な言語での %%ProductName%%™ コントロールのローカライズ方法について説明します。
 
 #### 必要な背景
 
 以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
 
-[Ignite UI で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html) : このトピックでは、Ignite UI のフォルダー構造、Infragistics ローダーの使用方法、およびコントロールの手動での参照方法について説明します。
+[%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html) : このトピックでは、%%ProductName%% のフォルダー構造、Infragistics ローダーの使用方法、およびコントロールの手動での参照方法について説明します。
 
 #### このトピックの内容
 
@@ -42,7 +42,7 @@
 ##<a id="Introduction"></a>概要
 
 
-#### Ignite UI コントロールのローカライズの紹介
+#### %%ProductName%% コントロールのローカライズの紹介
 
 現在、jQuery コントロールは以下の言語で提供されています。
 
@@ -85,11 +85,11 @@
 
 ### <a id="subIntroduction"></a>概要
 
-このセクションでは、Ignite UI コントロールの利用可能なローカライズ ファイルについて説明します。これらのファイルは <IgniteUI_Install_Folder>\js\modules\i18n フォルダーにあり、ここで <IgniteUI_Install_Folder> は、Ignite UI をインストールしたディレクトリを指します。
+このセクションでは、%%ProductName%% コントロールの利用可能なローカライズ ファイルについて説明します。これらのファイルは <IgniteUI_Install_Folder>\js\modules\i18n フォルダーにあり、ここで <IgniteUI_Install_Folder> は、%%ProductName%% をインストールしたディレクトリを指します。
 
 ####<a id="LocalizationSummary"></a> コントロールのローカライズ参照の概要
 
-以下の表は、Ignite UI コントロールのローカライズ ファイルの概要を示しています。
+以下の表は、%%ProductName%% コントロールのローカライズ ファイルの概要を示しています。
 
 <table class="table">
 	<thead>
@@ -170,7 +170,7 @@
 
 #### <a id="Requirements"></a>要件
 
-手順を実行するには、Ignite UI %%ProductVersionShort%% (英語版再配布可能パッケージ) のインストールが必要です。
+手順を実行するには、%%ProductName%% %%ProductVersionShort%% (英語版再配布可能パッケージ) のインストールが必要です。
 
 >**注**: インストール パスは `%%InstallPath%%` として仮定します。
 
@@ -250,9 +250,9 @@
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [はじめに](Deployment-Guide.html): Ignite UI コントロールの配備方法を説明します。
+- [はじめに](Deployment-Guide.html): %%ProductName%% コントロールの配備方法を説明します。
 
-- [Ignite UI の JavaScript ファイル](Deployment-Guide-JavaScript-Files.html) : Ignite UI のすべての JavaScript ファイルを示します。
+- [%%ProductName%% の JavaScript ファイル](Deployment-Guide-JavaScript-Files.html) : %%ProductName%% のすべての JavaScript ファイルを示します。
 
 
 

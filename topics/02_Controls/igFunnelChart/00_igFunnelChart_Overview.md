@@ -25,7 +25,7 @@
 	-   ファンネル チャート
 	-   データのビジュアル化
 -   トピック
-	-   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html): Ignite UI® ライブラリにつぃての一般的情報
+	-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): %%ProductName%%® ライブラリにつぃての一般的情報
 
 
 ### このトピックの内容
@@ -57,7 +57,7 @@
 
 ## <a id="minimum-requirements"></a> 最低必要条件
 
-`igFunnelChart` コントロールは jQuery UI ウィジェットであるため、jQuery と jQuery の UI ライブラリに依存します。Modernizr ライブラリは、ブラウザーとデバイス機能を検出するために 内部使用されます。コントロールは、機能とデータのバインド用の Ignite UI の共有リソースのいくつかを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、*Infragistics.Web.Mvc* アセンブリが必要です。
+`igFunnelChart` コントロールは jQuery UI ウィジェットであるため、jQuery と jQuery の UI ライブラリに依存します。Modernizr ライブラリは、ブラウザーとデバイス機能を検出するために 内部使用されます。コントロールは、機能とデータのバインド用の %%ProductName%% の共有リソースのいくつかを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、*Infragistics.Web.Mvc* アセンブリが必要です。
 
 
 

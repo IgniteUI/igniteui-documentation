@@ -23,7 +23,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
--	[Ignite UI でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックでは、Web アプリケーションで Ignite UI® を操作して、必要なリソースを管理する方法について説明します。
+-	[%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックでは、Web アプリケーションで %%ProductName%%® を操作して、必要なリソースを管理する方法について説明します。
 
 -	[igLayoutManager の概要](igLayoutManager-Overview.html): このトピックでは、`igLayoutManager` コントロールの概念について説明し、サポートされているレイアウトやその使用についての情報を提供します。
 
@@ -79,7 +79,7 @@ jQuery はイベント ハンドラーの割り当てるための以下のメソ
 -   [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) - すべての項目が描画された後に発生します。
 -   [`rendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:rendered) - 項目がコンテナーの幅または高さに完全に対応しようとする前に発生します。
 
-イベントを処理する方法の詳細は、[Ignite UI でのイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html)のトピックを参照してください。
+イベントを処理する方法の詳細は、[%%ProductName%% でのイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html)のトピックを参照してください。
 
 ### <a id="event-handaling"></a>イベント処理ケースの概要表
 

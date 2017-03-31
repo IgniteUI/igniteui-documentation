@@ -30,9 +30,9 @@
 **トピック**
 
 
--	[Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
+-	[%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
 
-Ignite UI™ ライブラリにつぃての一般的情報
+%%ProductName%%™ ライブラリにつぃての一般的情報
 
 ### このトピックの構成
 
@@ -553,7 +553,7 @@ scatterLine
 
 ### 最低要件の概要
 
-`igDataChart` コントロールは jQuery UI ウィジェットの 1 つであるため、jQuery ライブラリと jQuery UI ライブラリに依存します。Modernzr ライブラリは、内部的にブラウザーと装置の機能を検出するためにも使用されています。コントロールは、機能とデータのバインド用の Ignite UI™ の共有リソースのいくつかを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
+`igDataChart` コントロールは jQuery UI ウィジェットの 1 つであるため、jQuery ライブラリと jQuery UI ライブラリに依存します。Modernzr ライブラリは、内部的にブラウザーと装置の機能を検出するためにも使用されています。コントロールは、機能とデータのバインド用の %%ProductName%%™ の共有リソースのいくつかを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
 
 ### 最低要件の概要表
 
@@ -590,7 +590,7 @@ jQuery および jQuery UI JavaScript リソース
 			</td>
 
 			<td>
-				Ignite UI は、これらのフレームワークの最上位にビルドされます。
+				%%ProductName%% は、これらのフレームワークの最上位にビルドされます。
 
 				<ul>
 					<li>
@@ -626,7 +626,7 @@ Modernizr
 			</td>
 
 			<td>
-				Ignite UI ライブラリのチャート表示機能は、シリーズ タイプに応じて複数のファイルに渡って配布されます。
+				%%ProductName%% ライブラリのチャート表示機能は、シリーズ タイプに応じて複数のファイルに渡って配布されます。
 
 				手動でリソースを組み込む場合は、以下の表に示す依存関係を使用する必要があります。
 
@@ -651,7 +651,7 @@ infragistics.util.js
 			</td>
 
 							<td>
-Ignite UI ユーティリティ
+%%ProductName%% ユーティリティ
 			</td>
 						</tr>
 
@@ -863,7 +863,7 @@ IG テーマ
 			</td>
 
 			<td>
-				このテーマには、Ignite UI ライブラリ向けに作成されたカスタム ビジュアル スタイルが含まれます。これは次のファイルに含まれます。
+				このテーマには、%%ProductName%% ライブラリ向けに作成されたカスタム ビジュアル スタイルが含まれます。これは次のファイルに含まれます。
 
 				<ul>
 					<li>
@@ -892,7 +892,7 @@ IG テーマ
 </table>
 
 
->**注:** 詳細については、[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックをご覧ください。
+>**注:** 詳細については、[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックをご覧ください。
 
 
 
@@ -1009,7 +1009,7 @@ IG テーマ
 
 ![](images/igDataChart_Overview_2.png)
 
-凡例は `igChartLegend` という Ignite UI ライブラリとは異なるコントロールで実装されており、ページに異なる div 要素が必要です。div 要素は、凡例に含まれるよう各 series オブジェクトで参照されます。`igChartLegend` は、以下で記述するトピックでカバーされる非常にシンプルなコントロールです。
+凡例は `igChartLegend` という %%ProductName%% ライブラリとは異なるコントロールで実装されており、ページに異なる div 要素が必要です。div 要素は、凡例に含まれるよう各 series オブジェクトで参照されます。`igChartLegend` は、以下で記述するトピックでカバーされる非常にシンプルなコントロールです。
 
 ###<a id="composite-charts"></a> 複合チャート
 

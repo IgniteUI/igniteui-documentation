@@ -24,15 +24,15 @@
 ## Infragistics Document Engine
 問題|説明|状態
 ---|---|---
-名前空間の競合|Infragistics ASP.NET と Ignite UI™ のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/positive.png)
+名前空間の競合|Infragistics ASP.NET と %%ProductName%%™ のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/positive.png)
 
 
 
 ## 既知の問題点と制限の詳細
-Infragistics ASP.NET と Ignite UI のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。
+Infragistics ASP.NET と %%ProductName%% のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。
 
 ### 回避方法
-アプリケーションで Infragistics ASP.NET のドキュメント アセンブリと Ignite UI のドキュメント アセンブリのいずれか一方を参照します。これらのアセンブリ内のドキュメント ライブラリは同じで、どちらを使用してもかまいません。
+アプリケーションで Infragistics ASP.NET のドキュメント アセンブリと %%ProductName%% のドキュメント アセンブリのいずれか一方を参照します。これらのアセンブリ内のドキュメント ライブラリは同じで、どちらを使用してもかまいません。
 
 
 

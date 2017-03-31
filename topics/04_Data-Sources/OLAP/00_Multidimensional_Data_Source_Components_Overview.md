@@ -16,7 +16,7 @@
 
 ### 目的
 
-このトピックは、Ignite UI® の多次元データ ソース コンポーネントの概要とその機能を示します。
+このトピックは、%%ProductName%%® の多次元データ ソース コンポーネントの概要とその機能を示します。
 
 ### 前提条件
 
@@ -33,7 +33,7 @@
 
 ### コンポーネントの概要
 
-Ignite UI の 多次元データ ソース コンポーネント ([`igOlapFlatDataSource`](igOlapFlatDataSource.html)™ および [`igOlapXmlaDataSource`](igOlapXmlaDataSource.html)™) は、データ ([`igPivotView`](igPivotView.html)™、[`igPivotGrid`](igPivotGrid.html)™、[`igPivotDataSelector`](igPivotDataSelector.html)™ など) を表示するために実データ (OLAP キューブまたはフラット データ コレクション) およびビジュアル コントロール間の媒介として動作します。[`igOlapFlatDataSource`](igOlapFlatDataSource.html) および [`igOlapXmlaDataSource`](igOlapXmlaDataSource.html) の両方は、すべての要素 (行、列、フィルター、メジャー、フィルター メカニズムなど) でピボット テーブルの要約を提供し、これらの要素とのインタラクションによる結果のデータの取得に使用できます。
+%%ProductName%% の 多次元データ ソース コンポーネント ([`igOlapFlatDataSource`](igOlapFlatDataSource.html)™ および [`igOlapXmlaDataSource`](igOlapXmlaDataSource.html)™) は、データ ([`igPivotView`](igPivotView.html)™、[`igPivotGrid`](igPivotGrid.html)™、[`igPivotDataSelector`](igPivotDataSelector.html)™ など) を表示するために実データ (OLAP キューブまたはフラット データ コレクション) およびビジュアル コントロール間の媒介として動作します。[`igOlapFlatDataSource`](igOlapFlatDataSource.html) および [`igOlapXmlaDataSource`](igOlapXmlaDataSource.html) の両方は、すべての要素 (行、列、フィルター、メジャー、フィルター メカニズムなど) でピボット テーブルの要約を提供し、これらの要素とのインタラクションによる結果のデータの取得に使用できます。
 
 ### コンポーネントを介して実装される機能
 

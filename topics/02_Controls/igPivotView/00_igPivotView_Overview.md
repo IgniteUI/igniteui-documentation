@@ -23,7 +23,7 @@
 
 **トピック**
 
-- [多次元 (OLAP) データ ソース コンポーネント](Multidimensional-Data-Source-Components.html): このトピック グループでは、Ignite UI™ スイートの多次元 (OLAP) データ ソース コンポーネントを説明します。
+- [多次元 (OLAP) データ ソース コンポーネント](Multidimensional-Data-Source-Components.html): このトピック グループでは、%%ProductName%%™ スイートの多次元 (OLAP) データ ソース コンポーネントを説明します。
 
 - [igPivotGrid の概要](igPivotGrid-Overview.html): このトピックは、主要機能、最小要件、ユーザー機能性など、`igPivotGrid`™ コントロールに関する概念的な情報を提供します。
 
@@ -309,7 +309,7 @@ igPivotDataSelector をサイズ変更します/折りたたみます。|`igSpli
 
 ### 要件の概要
 
-`igPivotView` コントロールは jQuery UI ウィジェットであるため、jQuery と jQuery の UI ライブラリに依存します。Modernizr ライブラリは、ブラウザーとデバイス機能を検出するために 内部使用されます。コントロールは、その機能のために通常いくつかの Ignite UI 共有リソースを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
+`igPivotView` コントロールは jQuery UI ウィジェットであるため、jQuery と jQuery の UI ライブラリに依存します。Modernizr ライブラリは、ブラウザーとデバイス機能を検出するために 内部使用されます。コントロールは、その機能のために通常いくつかの %%ProductName%% 共有リソースを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
 
 `igPivotView` コントロールを使用した必要なリソースの詳細なリストについては、「[igPivotView の追加](igPivotView-Adding.html)」を参照してください。
 

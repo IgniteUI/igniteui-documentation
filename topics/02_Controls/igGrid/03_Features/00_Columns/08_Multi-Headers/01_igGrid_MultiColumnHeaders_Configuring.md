@@ -431,7 +431,7 @@
 -   バージョン 3 以降の ASP.NET MVC Framework のインストール
 -   Northwind データベースのインストール
 -   Infragistics.Web.Mvc.dll アセンブリへの参照
--   Ignite UI JavaScript とテーマ リソース
+-   %%ProductName%% JavaScript とテーマ リソース
 
 ### <a id="mvc-overview"></a> 概要
 
@@ -555,7 +555,7 @@
 -   バージョン 3 以降の ASP.NET MVC Framework のインストール
 -   Northwind データベースのインストール
 -   Infragistics.Web.Mvc.dll アセンブリへの参照
--   Ignite UI JavaScript とテーマ リソース
+-   %%ProductName%% JavaScript とテーマ リソース
 
 ### <a id="ccg-mvc-overview"></a> 概要
 

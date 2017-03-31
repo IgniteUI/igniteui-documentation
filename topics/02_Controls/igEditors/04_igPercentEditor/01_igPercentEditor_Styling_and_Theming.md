@@ -13,11 +13,11 @@
 
 `igPercentEditor` コントロールは、`igNumericEditor` を拡張する jQuery ベースのコントロールで、多くのスタイル設定オプションを公開します。パーセント エディターのスタイルをカスタマイズするには、さまざまなテーマを使用する、またはカスタム CSS ルールをコントロールに直接適用します。 
 
-Ignite UI パッケージには、いくつかの jQuery UI や Bootstrap テーマが用意されています。また Bootstrap は、独自のブートストラップのテーマの生成やカスタマイズをサポートしています。詳細は、[スタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)を参照してください。エディターを含めたページ上のすべてのコントロールのスタイルは、どのテーマでも設定できます。
+%%ProductName%% パッケージには、いくつかの jQuery UI や Bootstrap テーマが用意されています。また Bootstrap は、独自のブートストラップのテーマの生成やカスタマイズをサポートしています。詳細は、[スタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)を参照してください。エディターを含めたページ上のすべてのコントロールのスタイルは、どのテーマでも設定できます。
 
 ## ThemeRoller の使用
 
-`igPercentEditor` コントロールは jQuery UI CSS フレームワークを使用するため、[jQuery UI ThemeRoller](http://jqueryui.com/themeroller/) を使用してすべてのスタイルを設定することもできます。これにより、独自に作成したテーマのカスタマイズや使用可能なギャラリーからのテーマの選択ができます。これらのテーマは、Ignite UI のデフォルトのテーマと置き換えられます。
+`igPercentEditor` コントロールは jQuery UI CSS フレームワークを使用するため、[jQuery UI ThemeRoller](http://jqueryui.com/themeroller/) を使用してすべてのスタイルを設定することもできます。これにより、独自に作成したテーマのカスタマイズや使用可能なギャラリーからのテーマの選択ができます。これらのテーマは、%%ProductName%% のデフォルトのテーマと置き換えられます。
 
 UI Darkness テーマを使用するパーセント エディター:
 

@@ -27,7 +27,7 @@
 - トピック
 	- [igGrid の概要](igGrid-Overview.html): `igGrid` は、表形式データの表示および操作に使用される jQuery ベースのクライアント側グリッドです。そのライフサイクルはすべてクライアント側で完結しており、サーバー側のテクノロジとは無関係です。
 	- [igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html): このドキュメントでは、`igDataSource` のアーキテクチャについて解説します。
-	- [REST サービスへのバインド (igDataSource)](igDataSource-Binding-to-REST-Services.html): このドキュメントでは、Ignite UI™ データ ソースや `igDataSource` のコントロールに REST サービスをバインドする方法を紹介します。
+	- [REST サービスへのバインド (igDataSource)](igDataSource-Binding-to-REST-Services.html): このドキュメントでは、%%ProductName%%™ データ ソースや `igDataSource` のコントロールに REST サービスをバインドする方法を紹介します。
 - 外部リソース
 	-   Representational State Transfer (REST)
 	-   Open Data Protocol
@@ -585,7 +585,7 @@ XML としてデータをシリアル化|[contentType](%%jQueryApiUrl%%/ui.iggri
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [Web サービスへのバインド](igGrid-Binding-to-Web-Services.html): このドキュメントでは、Ignite UI™ グリッドまたは `igGrid` を oData プロトコルの Web ベース データ ソースにバインドする方法を説明します。
+- [Web サービスへのバインド](igGrid-Binding-to-Web-Services.html): このドキュメントでは、%%ProductName%%™ グリッドまたは `igGrid` を oData プロトコルの Web ベース データ ソースにバインドする方法を説明します。
 
 - [igGrid、OData、WCF の各データサービスの導入](igGrid-Getting-Started-With-igGrid-oData-and-WCF-Data-Services.html): このトピックでは、ASP.NET Web アプリケーションに WCF データ サービスをセットアップし、`igGrid` の 2 つのオプションを設定して、リモート ページング、フィルタリング、ソーティングとともにクライアント側の jQuery グリッドをセットアップする方法を紹介します。
 
