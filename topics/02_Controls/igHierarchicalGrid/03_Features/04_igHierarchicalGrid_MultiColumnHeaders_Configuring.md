@@ -257,7 +257,7 @@
 -   MVC 3 Framework 以降のインストール
 -   Northwind データベースのインストール
 -   ASP.NET MVC プロジェクトに追加された Infragistics.Web.Mvc.dll
--   ASP.NET MVC プロジェクトに追加された Ignite UI JavaScript およびテーマ ファイル
+-   ASP.NET MVC プロジェクトに追加された %%ProductName%% JavaScript およびテーマ ファイル
 
 ### 手順
 

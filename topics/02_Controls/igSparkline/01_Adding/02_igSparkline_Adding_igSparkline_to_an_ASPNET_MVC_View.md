@@ -26,7 +26,7 @@
 
 トピック
 
-- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで Ignite UI® コンポーネントを使用した作業の開始方法を説明します。
+- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%® コンポーネントを使用した作業の開始方法を説明します。
 
  
 #### このトピックの内容
@@ -193,7 +193,7 @@ Width()|`igSparkline` の文字列幅を設定します。
 ValueMemberPath()|`igSparkline` が各項目に対して垂直軸上に描画する値を示す Invoice メンバーにこのヘルパー メソッドを設定します。
 LabelMemberPath()|水平軸値を表す Invoice メンバーにこのヘルパー メソッドを設定します。
 
-最終的に、すべての Ignite UI ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
+最終的に、すべての %%ProductName%% ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
 
 **ASPX の場合:**
 

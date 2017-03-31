@@ -24,7 +24,7 @@
 	-   jQuery、jQuery UI
 	-   ASP.NET MVC
 -   トピック
-	-   [Ignite UI で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、Ignite UI ライブラリからコントロールを使用するために必要な JavaScript リソースを追加する方法についての概要を説明します。
+	-   [%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、%%ProductName%% ライブラリからコントロールを使用するために必要な JavaScript リソースを追加する方法についての概要を説明します。
 	-   [*igFunnelChart* の概要](igFunnelChart-Overview.html): このトピックでは、主要機能、最小要件、ユーザー機能性など、`igFunnelChart` コントロールに関する概念的な情報を提供します。
 
 
@@ -90,7 +90,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 			</td>
 
 			<td>
-				Ignite UI は、これらのフレームワークの最上位にビルドされます。
+				%%ProductName%% は、これらのフレームワークの最上位にビルドされます。
 
 				<ul>
 					<li><a class="ig-topic-link" href="http://jquery.com/" target="_blank">jQuery</a></li>
@@ -120,7 +120,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 			</td>
 
 			<td>
-				Ignite UI ライブラリのチャート表示機能は、シリーズ タイプに応じて複数のファイルに渡って配布されます。また、HTML または MVC のビューにリンクする必要のある別個のファンネル チャート JavaScript ファイルもあります。
+				%%ProductName%% ライブラリのチャート表示機能は、シリーズ タイプに応じて複数のファイルに渡って配布されます。また、HTML または MVC のビューにリンクする必要のある別個のファンネル チャート JavaScript ファイルもあります。
 
 				手動でリソースを含めたい場合には、次の表に示された依存関係を使用する必要があります。
 
@@ -142,7 +142,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 							</td>
 
 							<td>
-								Ignite UI ユーティリティ
+								%%ProductName%% ユーティリティ
 							</td>
 						</tr>
 
@@ -162,7 +162,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 							</td>
 
 							<td>
-								Ignite UI テンプレート エンジン
+								%%ProductName%% テンプレート エンジン
 							</td>
 						</tr>
 
@@ -247,7 +247,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 							</td>
 
 							<td>
-								Ignite UI においてすべてのチャート コントロールで使用される `igChartLegend` コントロール
+								%%ProductName%% においてすべてのチャート コントロールで使用される `igChartLegend` コントロール
 							</td>
 						</tr>
 					</tbody>
@@ -261,7 +261,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 			</td>
 
 			<td>
-				このテーマには、Ignite UI ライブラリ向けに作成されたカスタム ビジュアル スタイルが含まれます。これは次のファイルに含まれます。
+				このテーマには、%%ProductName%% ライブラリ向けに作成されたカスタム ビジュアル スタイルが含まれます。これは次のファイルに含まれます。
 				*&lt;IG CSS ルート&gt;/themes/Infragistics/infragistics.theme.css*
 			</td>
 		</tr>
@@ -280,7 +280,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 </table>
 
 
-> **注:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。その方法の詳細については、「[**Infragistics ローダーの使用**](Using-Infragistics-Loader.html)」トピックを参照してください。さらに、オンラインの Ignite UI [サンプル ブラウザー](%%SamplesUrl%%) では、`igFunnelChart` コンポーネントで `igLoader` を使用する方法について特有の例が示されています。
+> **注:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。その方法の詳細については、「[**Infragistics ローダーの使用**](Using-Infragistics-Loader.html)」トピックを参照してください。さらに、オンラインの %%ProductName%% [サンプル ブラウザー](%%SamplesUrl%%) では、`igFunnelChart` コンポーネントで `igLoader` を使用する方法について特有の例が示されています。
 
 
 
@@ -288,7 +288,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 
 ### <a id="javascript-introduction"></a> 概要
 
-この手順は、基本的な機能を持つファンネル チャートを Web ページに追加する手順を示します。例は、実際の HTML/JavaScript の実装を示します。`igFunnelChart` コントロールによって必要とされるすべての Ignite UI リソースをロードするための適切な Loader 構成が含まれます。
+この手順は、基本的な機能を持つファンネル チャートを Web ページに追加する手順を示します。例は、実際の HTML/JavaScript の実装を示します。`igFunnelChart` コントロールによって必要とされるすべての %%ProductName%% リソースをロードするための適切な Loader 構成が含まれます。
 
 プロシージャにより、325x450 ピクセルのファンネル チャートをインスタンス化し構成します。並べ替え順序はデフォルト (一番高い値が一番上) で、加重スライスおよび利得曲線で会社の部門の予算を表します。データは JSON 配列の形式で `igFunnelChart` コントロールに供給されます (プロシージャでも構成されます)。基本的な調整に加え、パスおよび `igFunnelChart` ラベルのビジュアル ステートは、表示されるデータに関し記述的な情報を有するために構成されます。
 
@@ -518,7 +518,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 		
 	2. ` igFunnelChart` 用 `igLoader` の MVC ヘルパー構成 を追加します。
 	
-		ASP.NET MVC ビュー に追加された以下のコードは、`igLoader` のラッパーを Ignite UI リソースへのパスで構成します。
+		ASP.NET MVC ビュー に追加された以下のコードは、`igLoader` のラッパーを %%ProductName%% リソースへのパスで構成します。
 		
 		**ASPX の場合:**
 		

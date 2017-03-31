@@ -28,7 +28,7 @@
 
 トピック
 
-- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで Ignite UI™ コンポーネントを使用した作業の開始方法を説明します。
+- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
 
 - [igQRCodeBarcode の概要](igQRCodeBarcode-Overview.html): このトピックでは、主要機能、最小要件など、`igQRCodeBarcode` コントロールの概念的情報を提供します。
 
@@ -154,7 +154,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 
 2. `igQRCodeBarcode` コントロールのインスタンスを作成します。
 
-	`igQRCodeBarcode` コントロールのインスタンスを作成します。すべての Ignite UI ASP.NET MVC ヘルパーと同様に、[Render](Infragistics.Web.Mvc~Infragistics.Web.Mvc.QRCodeBarcodeRenderer~Render.html) メソッドを呼び出して HTML と JavaScript をビューに描画します。
+	`igQRCodeBarcode` コントロールのインスタンスを作成します。すべての %%ProductName%% ASP.NET MVC ヘルパーと同様に、[Render](Infragistics.Web.Mvc~Infragistics.Web.Mvc.QRCodeBarcodeRenderer~Render.html) メソッドを呼び出して HTML と JavaScript をビューに描画します。
 	
 	**ASPX の場合:**
 	

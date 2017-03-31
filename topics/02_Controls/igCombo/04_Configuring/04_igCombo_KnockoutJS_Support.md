@@ -217,7 +217,7 @@ View-Model オブジェクトの `selectedItems` プロパティと `dataSource`
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
--	[Knockout サポート (エディター)](Configuring-Knockout-Support-%28Editors%29.html): このトピックは、[Knockout ライブラリ](http://knockoutjs.com/)により管理されるビューモデル オブジェクトをバインドするために Ignite UI エディター コントロールを構成する方法について説明します。
+-	[Knockout サポート (エディター)](Configuring-Knockout-Support-%28Editors%29.html): このトピックは、[Knockout ライブラリ](http://knockoutjs.com/)により管理されるビューモデル オブジェクトをバインドするために %%ProductName%% エディター コントロールを構成する方法について説明します。
 -	[新しいコンボへの移行](igCombo-Migrating-To-The-New-Combo.html#ko_changes): このトピックは、古いコンボから新しいコンボへの移行を支援することを目的としています。ドキュメントには、igCombo の Knockout 統合での変更点が含まれます。
 
 ### <a id="samples"></a> サンプル

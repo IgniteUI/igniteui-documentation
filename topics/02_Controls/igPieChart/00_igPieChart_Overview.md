@@ -30,7 +30,7 @@
 
 **トピック**
 
-- [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html): Ignite UI™ ライブラリにつぃての一般的情報
+- [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
 
 
 ### このトピックの内容
@@ -65,7 +65,7 @@
 
 ### <a id="min-requirements-introduction"></a>概要
 
-igPieChart コントロールは jQuery UI ウィジェットであるため、jQuery ライブラリと jQuery UI ライブラリに依存します。Modernzr ライブラリは、内部的にブラウザーと装置の機能を検出するためにも使用されています。コントロールは、機能とデータのバインド用の Ignite UI™ の共有リソースのいくつかを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
+igPieChart コントロールは jQuery UI ウィジェットであるため、jQuery ライブラリと jQuery UI ライブラリに依存します。Modernzr ライブラリは、内部的にブラウザーと装置の機能を検出するためにも使用されています。コントロールは、機能とデータのバインド用の %%ProductName%%™ の共有リソースのいくつかを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
 
 ### <a id="requirements-summary-chart"></a>要件の概要表
 
@@ -102,7 +102,7 @@ jQuery および jQuery UI JavaScript リソース
 			</td>
 
 			<td>
-				Ignite UI は、これらのフレームワークの最上位にビルドされます。
+				%%ProductName%% は、これらのフレームワークの最上位にビルドされます。
 
 				<ul>
 					<li>
@@ -138,7 +138,7 @@ JavaScript リソースのチャート表示
 			</td>
 
 			<td>
-				Ignite UI ライブラリのチャート表示機能は、シリーズ タイプに応じて複数のファイルに渡って配布されます。また、HTML または MVC ビューにリンクされる必要のある別個の円グラフ JavaScript もあります。
+				%%ProductName%% ライブラリのチャート表示機能は、シリーズ タイプに応じて複数のファイルに渡って配布されます。また、HTML または MVC ビューにリンクされる必要のある別個の円グラフ JavaScript もあります。
 
 				手動でリソースを含めたい場合には、次の表に示された依存関係を使用する必要があります。
 
@@ -162,7 +162,7 @@ JS リソース
 			</td>
 
 							<td>
-Ignite UI ユーティリティ
+%%ProductName%% ユーティリティ
 			</td>
 						</tr>					
 
@@ -230,7 +230,7 @@ IG テーマ
 			</td>
 
 			<td>
-このテーマには、Ignite UI ライブラリ向けに作成されたカスタム ビジュアル スタイルが含まれます。これは次のファイルに含まれます。
+このテーマには、%%ProductName%% ライブラリ向けに作成されたカスタム ビジュアル スタイルが含まれます。これは次のファイルに含まれます。
 
 				`{IG CSS root}/themes/Infragistics/infragistics.theme.css`
 			</td>
@@ -278,7 +278,7 @@ IG テーマ
 
 ![](images/igPieChart_Overview_2.png)
 
-凡例は `igChartLegend`™ という Ignite UI ライブラリとは異なるコントロールで実装されており、ページに異なる div 要素が必要です。この div 要素は、円グラフから参照され、 `labelMemberPath` オプションで指定される各データ項目に対するラベルを表示します。`igChartLegend` は、以下で記述するトピックでカバーされる非常にシンプルなコントロールです。
+凡例は `igChartLegend`™ という %%ProductName%% ライブラリとは異なるコントロールで実装されており、ページに異なる div 要素が必要です。この div 要素は、円グラフから参照され、 `labelMemberPath` オプションで指定される各データ項目に対するラベルを表示します。`igChartLegend` は、以下で記述するトピックでカバーされる非常にシンプルなコントロールです。
 
 デフォルトでは、円グラフの legend オプションは null で、凡例は描画されません。
 

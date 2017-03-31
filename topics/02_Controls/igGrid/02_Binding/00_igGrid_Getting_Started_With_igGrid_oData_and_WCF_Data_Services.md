@@ -22,7 +22,7 @@
 
 1.  Microsoft Visual Studio® を開き、新しい ASP.NET 空の Web アプリケーション 'igDataSourceWCFService' を作成します。
 
-    > **注:** `igGrid` コントロールが使用する基になる `igDataSource` コンポーネントは、サーバーに依存しません。従って、この演習では、Ignite UI がアウト オブ ボックスで ASP.NET *OData* をサポートするのに対して、ASP.NET WebForms でサポートされる OData の実装方法について説明します。
+    > **注:** `igGrid` コントロールが使用する基になる `igDataSource` コンポーネントは、サーバーに依存しません。従って、この演習では、%%ProductName%% がアウト オブ ボックスで ASP.NET *OData* をサポートするのに対して、ASP.NET WebForms でサポートされる OData の実装方法について説明します。
 
     ![](images/Getting_Started_with_igGrid_oData_WCF_01.png)
 
@@ -86,7 +86,7 @@
 
 11. この時点で、Web アプリケーションが実行でき、サービスのデータにアクセスできますので、`igGrid` コントロールを設定することができるようになります。
 
-12. Ignite UI 製品に付随する結合および縮小済みのスクリプト ファイル infragistics.core.js および infragistics.lob.js が必要です。加えて、サンプルを実行するには jQuery コア および jQuery UI スクリプトが必要です。[このヘルプ トピック](Deployment-Guide-JavaScript-Resources.html)では、必要なスクリプトへの参照やアプリケーションに追加する統合および縮小されたスクリプトがどこにあるかについて説明します。
+12. %%ProductName%% 製品に付随する結合および縮小済みのスクリプト ファイル infragistics.core.js および infragistics.lob.js が必要です。加えて、サンプルを実行するには jQuery コア および jQuery UI スクリプトが必要です。[このヘルプ トピック](Deployment-Guide-JavaScript-Resources.html)では、必要なスクリプトへの参照やアプリケーションに追加する統合および縮小されたスクリプトがどこにあるかについて説明します。
 
     > **注:** 製品版とトライアル版は[こちら](http://jp.infragistics.com/products/jquery)からダウンロードできます。
 
@@ -190,11 +190,11 @@
 
 [**サンプルをダウンロードする**](http://dl.infragistics.com/community/jquery/codesamples/aaronm/2011-07-28/igGridOData.zip)
 
-> **注:** AdventureWorks データベースと Ignite UI リソースはサンプル内にありません。以下のリンクからソフトウェアを入手できます。
+> **注:** AdventureWorks データベースと %%ProductName%% リソースはサンプル内にありません。以下のリンクからソフトウェアを入手できます。
 > 
 > * [AdventureWorks データベース](http://msftdbprodsamples.codeplex.com/releases/view/37109)
 > 
-> * [Ignite UI](http://jp.infragistics.com/products/jquery)
+> * [%%ProductName%%](http://jp.infragistics.com/products/jquery)
 
 
 

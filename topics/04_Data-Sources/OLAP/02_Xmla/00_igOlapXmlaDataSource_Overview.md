@@ -20,7 +20,7 @@
 
 **トピック**
 
-- [多言語 (OLAP) データ ソース コンポーネント概要](Multidimensional-Data-Source-Components-Overview.html): このトピック グループでは、Ignite UI™ スイートの多次元 (OLAP) データ ソース コンポーネントを説明します。
+- [多言語 (OLAP) データ ソース コンポーネント概要](Multidimensional-Data-Source-Components-Overview.html): このトピック グループでは、%%ProductName%%™ スイートの多次元 (OLAP) データ ソース コンポーネントを説明します。
 
 
 **外部リソース**
@@ -40,7 +40,7 @@
     -   [認証サポート](#authentication-support)
     -   [OLAP メタデータ プリセットのサポート](#support-metadata)
     -   [データ スライス生成](#data-slice-generation)
-    -   [Ignite UI コントロールとの統合](#integration-with-igniteui)
+    -   [%%ProductName%% コントロールとの統合](#integration-with-igniteui)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
     -   [サンプル](#samples)
@@ -49,7 +49,7 @@
 
 ## <a id="introduction"></a>概要
 
-`igOlapXmlaDataSource` コンポーネントは、JavaScript クライアント アプリケーションと `msmdpump.dll` HTTP データ プロバイダで構成された Microsoft® SQL Server Analysis Services (SSAS) サーバーの間のコミュニケーションを取り扱います。Microsoft SQL Server Analysis Services (MS SASS) のデータを簡単に取得できる方法を提供します。SSAS サーバーからデータを取得するために Multidimensional Expressions (MDX) や XML for Analysis (XMLA) に関する特別な知識は必要ありません。`igOlapXmlaDataSource` は、指定したコマンドに基づいて必要な MDX クエリを生成します。`igOlapXmlaDataSource` は、OLAP データを視覚化および対話が可能な 1 つ以上の Ignite UI ウィジェットと通常使用されます (`igPivotView`™ または `igPivotGrid`)。
+`igOlapXmlaDataSource` コンポーネントは、JavaScript クライアント アプリケーションと `msmdpump.dll` HTTP データ プロバイダで構成された Microsoft® SQL Server Analysis Services (SSAS) サーバーの間のコミュニケーションを取り扱います。Microsoft SQL Server Analysis Services (MS SASS) のデータを簡単に取得できる方法を提供します。SSAS サーバーからデータを取得するために Multidimensional Expressions (MDX) や XML for Analysis (XMLA) に関する特別な知識は必要ありません。`igOlapXmlaDataSource` は、指定したコマンドに基づいて必要な MDX クエリを生成します。`igOlapXmlaDataSource` は、OLAP データを視覚化および対話が可能な 1 つ以上の %%ProductName%% ウィジェットと通常使用されます (`igPivotView`™ または `igPivotGrid`)。
 
 
 
@@ -64,7 +64,7 @@
 [認証サポート](#authentication-support)|`igOlapXmlaDataSource` は基本認証 (ユーザー名とパスワード) をサポートします。
 [OLAP メタデータ プリセットのサポート](#support-metadata)|初期化された場合、`igOlapXmlaDataSource` はサーバーから利用可能なデータベース、キューブ、メジャー グループ、ディメンションなどの OLAP メタデータをダウンロードします。
 [データ スライス生成](#data-slice-generation)|行と列に階層を割り当てた後に、`igOlapXmlaDataSource` は、相対する階層のメンバーのタプルを含む結果軸を 1 つ以上生成します。メジャーが選択された場合、`igOlapXmlaDataSource` は値セルオブジェクトの2 次元配列を生成します。
-[Ignite UI コントロールとの統合](#integration-with-igniteui)|`igOlapXmlaDataSource` コンポーネントは、OLAP データを表示する Ignite UI のデータ ビジュアライゼーション コントロールにデータを提供できます。
+[%%ProductName%% コントロールとの統合](#integration-with-igniteui)|`igOlapXmlaDataSource` コンポーネントは、OLAP データを表示する %%ProductName%% のデータ ビジュアライゼーション コントロールにデータを提供できます。
 
 
 
@@ -103,9 +103,9 @@
 
 -   [ピボット グリッドの列、行、フィルター、メジャーの配列による結果セットの表形式ビューを構成します (igOlapFlatDataSource、 igOlapXmlaDataSource、igPivotDataSelector、igPivotGrid, igPivotView)。](Configuring-the-Tabular-View.html)
 
-### <a id="integration-with-igniteui"></a>Ignite UI コントロールとの統合
+### <a id="integration-with-igniteui"></a>%%ProductName%% コントロールとの統合
 
-`igOlapXmlaDataSource` コンポーネントは、OLAP データを表示する Ignite UI のデータ ビジュアライゼーション コントロールにデータを提供できます。サポートされるコントロールは `igPivotDataSelector`、`igPivotGrid`、および `igPivotView` です。
+`igOlapXmlaDataSource` コンポーネントは、OLAP データを表示する %%ProductName%% のデータ ビジュアライゼーション コントロールにデータを提供できます。サポートされるコントロールは `igPivotDataSelector`、`igPivotGrid`、および `igPivotView` です。
 
 #### 関連トピック:
 
@@ -128,7 +128,7 @@
 
 - [ピボット グリッドの列、行、フィルター、メジャーの配列による結果セットの表形式ビューを構成します (igOlapFlatDataSource、 igOlapXmlaDataSource、igPivotDataSelector、igPivotGrid, igPivotView)](Configuring-the-Tabular-View.html): このトピックは、グリッドのインターフェイスまたはコードを使用し、ピボット グリッド列、行、フィルター、およびメジャーの階層を配置して設定される OLAP キューブ結果の表形式ビューを構成する方法を説明します。
 
-- [KPI (キー パフォーマンス インジケーター) のサポート (igPivotGrid、igPivotDataSelector、igOlapXmlaDataSource)](igPivotGrid-KPI-Support.html): このトピックは、多次元 (OLAP) データ セットからの KPI データが Ignite UI™ で視覚化される状態を概念的に説明します。KPI を視覚化する Ignite UI コントロールは `igPivotDataSelector` および `igPivotGrid` です。
+- [KPI (キー パフォーマンス インジケーター) のサポート (igPivotGrid、igPivotDataSelector、igOlapXmlaDataSource)](igPivotGrid-KPI-Support.html): このトピックは、多次元 (OLAP) データ セットからの KPI データが %%ProductName%%™ で視覚化される状態を概念的に説明します。KPI を視覚化する %%ProductName%% コントロールは `igPivotDataSelector` および `igPivotGrid` です。
 
 - [既知の問題と制限 (igOlapXmlaDataSource)](igOlapXmlaDataSource-Known-Issues-and-Limitations.html): このトピックでは、`igOlapXmlaDataSource` コンポーネントに固有の既知の問題と制限に関する情報を提供します。
 

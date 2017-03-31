@@ -13,7 +13,7 @@
 ##igPercentEditor の概要
 
 
-Ignite UI™ のパーセント エディター、すなわち `igPercentEditor` は、パーセント形式に書式設定された数値のみを受け付ける入力フィールドを描画するコントロールです。`igPercentEditor` コントロールは、ブラウザーから公開される異なる地域のオプションを認識することにより、ローカライズをサポートします。
+%%ProductName%%™ のパーセント エディター、すなわち `igPercentEditor` は、パーセント形式に書式設定された数値のみを受け付ける入力フィールドを描画するコントロールです。`igPercentEditor` コントロールは、ブラウザーから公開される異なる地域のオプションを認識することにより、ローカライズをサポートします。
 
 `igPercentEditor` コントロールは大幅にスタイル変更ができるため、デフォルトのスタイルとまったく異なるルック アンド フィールのコントロールを実現できます。スタイル設定オプションでは、独自のスタイルも jQuery UI の `ThemeRoller` のスタイルも使用できます。
 
@@ -35,7 +35,7 @@ Ignite UI™ のパーセント エディター、すなわち `igPercentEditor`
 ##igPercentEditor の Web ページへの追加
 
 
-1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
+1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
 2.  ご自分の HTML ページまたは ASP.NET MVC View で、必要な JavaScript ファイル、CSS ファイル、および ASP.NET MVC アセンブリを参照してください。
 
     **HTML の場合:**
@@ -97,8 +97,8 @@ Ignite UI™ のパーセント エディター、すなわち `igPercentEditor`
 ##関連リンク
 
 -   [基本的な使用方法サンプル](%%SamplesUrl%%/editors/basic-usage)
--   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
--   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
  
 

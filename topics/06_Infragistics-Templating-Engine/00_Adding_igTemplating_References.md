@@ -26,8 +26,8 @@
 
 **トピック**
 
--   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
--   [Ignite UI で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)
 
 
 
@@ -54,7 +54,7 @@
 次のブロックの例では、参照が正しく動作するために必要な以下のファイル構造を使用しています。
 
 -   jQuery リソースは、Web サイトまたは Web アプリケーションの Scripts という名前のフォルダーに追加されています。
--   Ignite UI の JavaScript ファイルは、Web サイトまたは Web アプリケーションの Scripts/ig という名前のフォルダーに追加されています (詳細については、[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックを参照してください)。
+-   %%ProductName%% の JavaScript ファイルは、Web サイトまたは Web アプリケーションの Scripts/ig という名前のフォルダーに追加されています (詳細については、[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックを参照してください)。
 
 独自の構造を使用する場合は、*Scripts/*ig を独自のフォルダー構造で置き換える必要があります。
 
@@ -71,7 +71,7 @@
 
 ### <a id="javasript"></a>JavaScript での igLoader の使用
 
-Ignite UI ライブラリのコントロールで必要な JavaScript および CSS リソースの読み込みには、`igLoader`™ コントロールを使用することをお勧めします。最初に、`igLoader` スクリプトをページに追加します。
+%%ProductName%% ライブラリのコントロールで必要な JavaScript および CSS リソースの読み込みには、`igLoader`™ コントロールを使用することをお勧めします。最初に、`igLoader` スクリプトをページに追加します。
 
 **JavaScript の場合:**
 
@@ -100,7 +100,7 @@ HTML ビューでは、以下のように `igLoader` のインスタンスを作
 
 Infragistics.Web.Mvc アセンブリを ASP.NET MVC プロジェクトで参照し、対応する名前空間をビューで参照する必要があります。
 
-詳細については、[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックを参照してください。
+詳細については、[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックを参照してください。
 
 名前空間を参照するためのコードを以下に示します。
 

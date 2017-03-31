@@ -17,7 +17,7 @@
 
 ## ThemeRoller の使用
 
-`igDatePicker` コントロールは jQuery UI CSS フレームワークを使用するため、[jQuery UI ThemeRoller](http://jqueryui.com/themeroller/) を使用してすべてのスタイルを設定することもできます。これにより、独自に作成したテーマのカスタマイズや使用可能なギャラリーからのテーマの選択ができます。これらのテーマは、Ignite UI のデフォルトのテーマと置き換えられます。
+`igDatePicker` コントロールは jQuery UI CSS フレームワークを使用するため、[jQuery UI ThemeRoller](http://jqueryui.com/themeroller/) を使用してすべてのスタイルを設定することもできます。これにより、独自に作成したテーマのカスタマイズや使用可能なギャラリーからのテーマの選択ができます。これらのテーマは、%%ProductName%% のデフォルトのテーマと置き換えられます。
 
 UI Darkness テーマを使用する日付ピッカー:
 

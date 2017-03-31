@@ -20,7 +20,7 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [Ignite UI のスタイル設定とテーマ設定](#_Styling_and_Theming_IgniteUI)
+-   [%%ProductName%% のスタイル設定とテーマ設定](#_Styling_and_Theming_IgniteUI)
 -   [必要なテーマのアプリケーションへの追加](#_Adding_Required_Themes_in_Your_Application)
 -   [Infragistics テーマ](#Infragistics_Themes)
 -   [Infragistics Loader を使用したテーマのアプリケーションへの追加](#_Using_Infragistics_Loader_for_Adding_a_Theme_in_Your_Application)
@@ -31,16 +31,16 @@
 
 
 
-##<a id="_Styling_and_Theming_IgniteUI"></a>Ignite UI のスタイル設定とテーマ設定
+##<a id="_Styling_and_Theming_IgniteUI"></a>%%ProductName%% のスタイル設定とテーマ設定
 
 
 #### 概要
 
-Ignite UI™ はスタイルやテーマの設定に jQuery UI CSS フレームワークを利用します。*Infragistics*、*Infragistics 2012*、*metro*、および *iOS* は、Infragistics が提供するアプリケーションで使用するための  jQuery UI テーマです。jQuery UI および Ignite UI コントロールにおいてコンパイルされるデフォルト Twitter Bootstrap テーマ、および *Yeti*、*Superhero*、および *Flatly* の 3 つのカスタム テーマを提供します。このドキュメントはデザイン タイムのアプリケーションの設定方法を示し、テーマの作成またはカスタマイズの方法の概要を説明して、実稼動環境で Ignite UI CSS を使用するオプションを紹介します。
+%%ProductName%%™ はスタイルやテーマの設定に jQuery UI CSS フレームワークを利用します。*Infragistics*、*Infragistics 2012*、*metro*、および *iOS* は、Infragistics が提供するアプリケーションで使用するための  jQuery UI テーマです。jQuery UI および %%ProductName%% コントロールにおいてコンパイルされるデフォルト Twitter Bootstrap テーマ、および *Yeti*、*Superhero*、および *Flatly* の 3 つのカスタム テーマを提供します。このドキュメントはデザイン タイムのアプリケーションの設定方法を示し、テーマの作成またはカスタマイズの方法の概要を説明して、実稼動環境で %%ProductName%% CSS を使用するオプションを紹介します。
 
 #### CSS リソースの編成
 
-Ignite UI には、実稼働環境で使用するための結合および縮小したテーマのセットが同梱されています。これらの縮小バージョンによって、CSS の可読性は下がるものの、実稼働環境ではネットワーク経由でリソースをより高速にダウンロードできます。
+%%ProductName%% には、実稼働環境で使用するための結合および縮小したテーマのセットが同梱されています。これらの縮小バージョンによって、CSS の可読性は下がるものの、実稼働環境ではネットワーク経由でリソースをより高速にダウンロードできます。
 
 CSS ファイルは以下に示す構造に再編成されています。
 
@@ -87,7 +87,7 @@ images/IMAGE_NAME.gif
 
 すべてのテーマは、`css` フォルダー内のインストール ディレクトリに配置されています。
 
-Ignite UI %%ProductVersionShort%% のインストール時に一般的なフォルダー構成を選択した場合、各リソースは次のパスに置かれています。
+%%ProductName%% %%ProductVersionShort%% のインストール時に一般的なフォルダー構成を選択した場合、各リソースは次のパスに置かれています。
 
 ```
 %%InstallPath%%\css
@@ -184,7 +184,7 @@ Infragistics テーマは、jQuery UI テーマに通常存在するすべての
 
 #### Bootstrap 用のテーマ
 
-jQuery UI および Ignite UI の Bootstrap 用のテーマは、人気のある Bootstrap 用テーマと同じ名前で生成されます。jQuery UI の CSS フレームワークの規約に従い、テーマに対してそのルックアンドフィールを利用するプロセスは、Bootstrap 用のテーマ ジェネレーターの Web アプリケーションで自動化されています。エクスポートする機能では、Ignite UI や jQuery UI ウィジェットのスタイル用に LESS で利用できる、ほとんどすべての Bootstrap 用のテーマがエクスポートできます。`{IG Resources root}\css\structure\infragistics.css` ファイルの参照が必要です。
+jQuery UI および %%ProductName%% の Bootstrap 用のテーマは、人気のある Bootstrap 用テーマと同じ名前で生成されます。jQuery UI の CSS フレームワークの規約に従い、テーマに対してそのルックアンドフィールを利用するプロセスは、Bootstrap 用のテーマ ジェネレーターの Web アプリケーションで自動化されています。エクスポートする機能では、%%ProductName%% や jQuery UI ウィジェットのスタイル用に LESS で利用できる、ほとんどすべての Bootstrap 用のテーマがエクスポートできます。`{IG Resources root}\css\structure\infragistics.css` ファイルの参照が必要です。
 
 ##<a  id="_Using_Infragistics_Loader_for_Adding_a_Theme_in_Your_Application"></a>Infragistics Loader を使用したテーマのアプリケーションへの追加
 
@@ -215,7 +215,7 @@ $.ig.loader({
       });
 ```
 
-Infragistics Loader の詳細は、「[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」のトピックを参照してください。
+Infragistics Loader の詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」のトピックを参照してください。
 
 > **注:**カスタム テーマの場合は、テーマのディレクトリ名を使用してください。
 
@@ -287,7 +287,7 @@ ThemeRoller は jQuery UI が提供するツールで。これを使用すると
 
 ##<a id="Using_Bootstrap_Theme_Generator"></a>Bootstrap テーマ ジェネレーターを使用
 
-Bootstrap 用のテーマ ジェネレーターは Infragistics が提供する Web ツールの一つで、これを使用すると、ブートストラップ用 CSS フレームワーク用に作成したテーマを、Ignite UI や jQuery UI ウィジェットで使用可能なテーマにエクスポートできるようになります。また、テーマの各プロパティをカスタマイズすることができ、終了結果のプレビューを表示することができます。
+Bootstrap 用のテーマ ジェネレーターは Infragistics が提供する Web ツールの一つで、これを使用すると、ブートストラップ用 CSS フレームワーク用に作成したテーマを、%%ProductName%% や jQuery UI ウィジェットで使用可能なテーマにエクスポートできるようになります。また、テーマの各プロパティをカスタマイズすることができ、終了結果のプレビューを表示することができます。
 
 ### 概要
 このトピックでは、Bootstrap 用のテーマ ジェネレーターを使用してエクスポートしたブートストラップ用のテーマを、ユーザーの Web サイトに追加する方法をステップごとに示します。以下はプロセスの概念的概要です。
@@ -352,7 +352,7 @@ Bootstrap 用のテーマ ジェネレーターは Infragistics が提供する 
 
 リストされたすべてのテーマは、Infragistics CDN でホストされています。
 
-CDN の使用には多くの利点があります。詳細は、専用ヘルプ トピック｢インフラジスティックス コンテンツ配信ネットワーク (CDN)」を参照してください。CDN からのファイル参照の詳細は、「[Ignite UI のインフラジスティックス コンテンツ配信ネットワーク (CDN)](Deployment-Guide-Infragistics-Content-Delivery-Network%28CDN%29.html)」のトピックを参照してください。
+CDN の使用には多くの利点があります。詳細は、専用ヘルプ トピック｢インフラジスティックス コンテンツ配信ネットワーク (CDN)」を参照してください。CDN からのファイル参照の詳細は、「[%%ProductName%% のインフラジスティックス コンテンツ配信ネットワーク (CDN)](Deployment-Guide-Infragistics-Content-Delivery-Network%28CDN%29.html)」のトピックを参照してください。
 
 **HTML の場合:**
 
@@ -372,17 +372,17 @@ CDN の使用には多くの利点があります。詳細は、専用ヘルプ 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
 
-- [Ignite UI での JavaScript ファイル](Deployment-Guide-JavaScript-Files.html): このトピックは、Ignite UI™ に含まれるコントロールを使用して作業するために必要な JavaScript ファイルへの参照です。
+- [%%ProductName%% での JavaScript ファイル](Deployment-Guide-JavaScript-Files.html): このトピックは、%%ProductName%%™ に含まれるコントロールを使用して作業するために必要な JavaScript ファイルへの参照です。
 
-- [Ignite UI で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、Web アプリケーションで Ignite UI を操作して、必要なリソースを管理する方法について説明します。
+- [%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、Web アプリケーションで %%ProductName%% を操作して、必要なリソースを管理する方法について説明します。
 
-- [Ignite UI 対応 Infragistics コンテンツ配信ネットワーク (CDN)](Deployment-Guide-Infragistics-Content-Delivery-Network%28CDN%29.html): Ignite UI 対応 Infragistics コンテンツ配信ネットワーク (CDN) の使用方法。
+- [%%ProductName%% 対応 Infragistics コンテンツ配信ネットワーク (CDN)](Deployment-Guide-Infragistics-Content-Delivery-Network%28CDN%29.html): %%ProductName%% 対応 Infragistics コンテンツ配信ネットワーク (CDN) の使用方法。
 
-- [データのビジュアル化でのグラデーション カラーの使用](Using-Gradient-Colors-in-Data-Visualizations.html): このトピックは、Ignite UI™ コントロールのビジュアル データにグラデーション カラーを適用する方法を説明します。
+- [データのビジュアル化でのグラデーション カラーの使用](Using-Gradient-Colors-in-Data-Visualizations.html): このトピックは、%%ProductName%%™ コントロールのビジュアル データにグラデーション カラーを適用する方法を説明します。
 
 - [新しいスタイルの適用 (*igDataChart*)](igDataChart-New-Default-Style.html): このトピックでは、新しいチャート スタイルを適用する方法を説明し、チャートの外観変更の概要について紹介します。
 
-- [Bootstrap と Ignite UI の使用](Using-Ignite-UI-with-Bootstrap.html) : このトピックでは、Ignite UI と Bootstrap を一緒に動作させる方法について説明します。
+- [Bootstrap と %%ProductName%% の使用](Using-Ignite-UI-with-Bootstrap.html) : このトピックでは、%%ProductName%% と Bootstrap を一緒に動作させる方法について説明します。
 
 
 

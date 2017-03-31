@@ -21,7 +21,7 @@
 
 **トピック**
 
-- [Ignite UI で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、Web アプリケーションで Ignite UI® を操作して、必要なリソースを管理する方法について説明します。
+- [%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、Web アプリケーションで %%ProductName%%® を操作して、必要なリソースを管理する方法について説明します。
 
 - [igSplitter の概要](igSplitter-Overview.html): このトピックは、主要機能、最小要件およびユーザー機能性など、`igSplitter` コントロールに関する概念的な情報を提供します。
 
@@ -76,7 +76,7 @@
 	<tbody>
         <tr>
 			<td> jQuery および jQuery UI JavaScript リソース </td>
-            <td> Ignite UI は、これらのフレームワークの最上位にビルドされます。
+            <td> %%ProductName%% は、これらのフレームワークの最上位にビルドされます。
                 <ul>
 					<li> jQuery </li>
                     <li> jQuery UI </li>
@@ -99,7 +99,7 @@
 igSplitter JavaScript リソース
 			</td>
             <td>
-                Ignite UI ライブラリの igSplitter 機能は、いくつかのファイルにて配布されます。必要なリソースは以下の方法で読み込むことができます。
+                %%ProductName%% ライブラリの igSplitter 機能は、いくつかのファイルにて配布されます。必要なリソースは以下の方法で読み込むことができます。
                 <ul>
                     <li>
 (推奨) [Infragistics® Loader](Using-Infragistics-Loader.html) (igLoader™)を使用します。ページ上に igLoader へのスクリプト参照を含めるのみです。
@@ -108,7 +108,7 @@ igSplitter JavaScript リソース
 必要なリソースを手動で読み込みます。以下の表にリストされる依存関係を使用する必要があります。
 					</li>
                 </ul>
-                以下の表は、igSplitter コントロール関連の Ignite UI ライブラリの依存関係を示します。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。
+                以下の表は、igSplitter コントロール関連の %%ProductName%% ライブラリの依存関係を示します。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。
                 <table class="table">
 				<thead>
 						<tr>
@@ -130,7 +130,7 @@ igSplitter JavaScript リソース
 				infragistics.util.js
 							</td>
 							<td>
-				Ignite UI ユーティリティ
+				%%ProductName%% ユーティリティ
 							</td>
 						</tr>
 						<tr>
@@ -161,7 +161,7 @@ igLoader への参照
 IG テーマ (オプション)
 			</td>
             <td>
-このテーマには、Ignite UI ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
+このテーマには、%%ProductName%% ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
                 {IG CSS root}/themes/Infragistics/infragistics.theme.css
 			</td>
             <td>
@@ -182,7 +182,7 @@ igSplitter 構造
     </tbody>
 </table>
 
->**注:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。この方法の詳細については、「[Infragistics Loader の使用](Using-Infragistics-Loader.html)」トピックを参照してください。さらに、オンラインの [Ignite UI サンプル ブラウザー](%%SamplesUrl%%) では、igSplitter コンポーネントで igLoader を使用する方法について特有の例が示されています。
+>**注:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。この方法の詳細については、「[Infragistics Loader の使用](Using-Infragistics-Loader.html)」トピックを参照してください。さらに、オンラインの [%%ProductName%% サンプル ブラウザー](%%SamplesUrl%%) では、igSplitter コンポーネントで igLoader を使用する方法について特有の例が示されています。
 
 ### <a id="steps"></a>手順
 
@@ -195,7 +195,7 @@ igSplitter 構造
 ## <a id="procedure-js"></a>JavaScript での igSplitter の追加 - 手順
 ### <a id="js-introduction"></a>概要
 
-この手順は、実際の HTML/JavaScript 実装を使用して基本機能を持つ `igSplitter` コントロールを HTML ページへ追加するステップを説明します。`igSplitter` コントロールによって必要とされるすべての Ignite UI リソースを読み込むための Infragistics Loader コンポーネントを使用します。
+この手順は、実際の HTML/JavaScript 実装を使用して基本機能を持つ `igSplitter` コントロールを HTML ページへ追加するステップを説明します。`igSplitter` コントロールによって必要とされるすべての %%ProductName%% リソースを読み込むための Infragistics Loader コンポーネントを使用します。
 
 ### <a id="js-preview"></a>プレビュー
 
@@ -213,9 +213,9 @@ igSplitter 構造
 	
 		A. jQuery、jQueryUI および Modernizr JavaScript のリソースを Web ページが置かれているディレクトリ内に Scripts  という名前のフォルダーに追加します。
 		
-		B. Content/ig という名前のフォルダーに Ignite UI CSS ファイルを追加します (詳細は、[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください)。
+		B. Content/ig という名前のフォルダーに %%ProductName%% CSS ファイルを追加します (詳細は、[%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください)。
 		
-		C. Ignite UI JavaScript ファイルを Web サイト　またはアプリケーション内の Scripts/ig という名前のフォルダーに追加します (詳細は 「[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)」 トピックを参照)。
+		C. %%ProductName%% JavaScript ファイルを Web サイト　またはアプリケーション内の Scripts/ig という名前のフォルダーに追加します (詳細は 「[%%ProductName%% での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)」 トピックを参照)。
 
 	2. 必要な JavaScript ライブラリへの参照を追加します。
 	
@@ -325,9 +325,9 @@ igSplitter 構造
 
 		 A. jQuery、jQueryUI および Modernizr JavaScript のリソースを Web ページが置かれているディレクトリ内に Scripts  という名前のフォルダーに追加します。
 		
-		 B. Content/ig という名前のフォルダーに Ignite UI CSS ファイルを追加します (詳細は、[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください)。
+		 B. Content/ig という名前のフォルダーに %%ProductName%% CSS ファイルを追加します (詳細は、[%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください)。
 		
-		 C. Ignite UI JavaScript ファイルを Web サイト　またはアプリケーション内の Scripts/ig という名前のフォルダーに追加します (詳細は 「[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)」 トピックを参照)。
+		 C. %%ProductName%% JavaScript ファイルを Web サイト　またはアプリケーション内の Scripts/ig という名前のフォルダーに追加します (詳細は 「[%%ProductName%% での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)」 トピックを参照)。
 
 	2. 必要な JavaScript ライブラリへの参照を追加します。jQuery、jQuery UI および Modernizr ライブラリの参照をページの `head` セクションに追加します。
 	
@@ -431,11 +431,11 @@ igSplitter 構造
 
 1. 必要なリソースへの参照を追加します。
 
-	1. Ignite UI のテーマと構造ファイルを含めます。
+	1. %%ProductName%% のテーマと構造ファイルを含めます。
 
 		**HTML の場合:**
 		```html
-		<!-- Ignite UI Required Combined CSS Files -->
+		<!-- %%ProductName%% Required Combined CSS Files -->
 		<link href="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
 		<link href="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/css/structure/infragistics.css" rel="stylesheet" />
 		```
@@ -449,11 +449,11 @@ igSplitter 構造
 		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 		```
 
-	3. Ignite UI スクリプトを含めます。カスタム ダウンロードを使用できますが、その他の方法については[「Ignite UI で JavaScript リソースを使用」](Deployment-Guide-JavaScript-Resources.html)を参照できます。
+	3. %%ProductName%% スクリプトを含めます。カスタム ダウンロードを使用できますが、その他の方法については[「%%ProductName%% で JavaScript リソースを使用」](Deployment-Guide-JavaScript-Resources.html)を参照できます。
 
 		**HTML の場合:**
 		```html
-		<!-- Ignite UI Required Combined JavaScript Files -->
+		<!-- %%ProductName%% Required Combined JavaScript Files -->
 		<script src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.core.js"></script>
 		<script src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.lob.js"></script>
 		```
@@ -502,7 +502,7 @@ igSplitter 構造
 			"Countries": [{ "Text": "United States", "Description": "The United States.." }]
 		}];
 		```
-	3. TypeScript 実装コードを追加し、TypeScript 用の Ignite UI と jQuery の型定義への参照パスを含めます。
+	3. TypeScript 実装コードを追加し、TypeScript 用の %%ProductName%% と jQuery の型定義への参照パスを含めます。
 
 		**TypeScript の場合:**
 		```typescript

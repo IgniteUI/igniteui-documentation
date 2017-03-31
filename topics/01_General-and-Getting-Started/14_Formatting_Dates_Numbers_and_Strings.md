@@ -28,7 +28,7 @@
 
 ## <a id="introduction"></a> 概要
 
-`infragistics.util.js` ファイルは、Ignite UI コントロールで日付、数値、文字列を書式設定するための `$.ig.formatter` のユーティリティ関数を含みます。たとえば、igGrid の [format](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) オプションで使用されます。
+`infragistics.util.js` ファイルは、%%ProductName%% コントロールで日付、数値、文字列を書式設定するための `$.ig.formatter` のユーティリティ関数を含みます。たとえば、igGrid の [format](%%jQueryApiUrl%%/ui.iggrid#options:columns.format) オプションで使用されます。
 関数定義: `$.ig.formatter = function (val, type, format, notTemplate, enableUTCDates, displayStyle, labelText, tabIndex)`。結果は `string` 型です。
 
 このトピックは関数の最初の 3 つのパラメーターを説明します。

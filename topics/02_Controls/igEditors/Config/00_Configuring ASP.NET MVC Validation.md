@@ -17,7 +17,7 @@
 
 ### 目的
 
-このトピックでは、Ignite UI エディター コントロールで構成されるフォームの最初のステップとして、フォームの作成とデータ注釈付きでフォームを検証する方法を紹介します。また、ASP.NET MVC ValidationMessage を構成し、検証テキストをさらにカスタマイズする方法も説明します。
+このトピックでは、%%ProductName%% エディター コントロールで構成されるフォームの最初のステップとして、フォームの作成とデータ注釈付きでフォームを検証する方法を紹介します。また、ASP.NET MVC ValidationMessage を構成し、検証テキストをさらにカスタマイズする方法も説明します。
 
 ### 前提条件
 
@@ -28,7 +28,7 @@
 
 ####トピック
 
--	[コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): Ignite UI スクリプト、CSS、およびアセンブリを使用した ASP.NET MVC アプリケーションの設定の基本事項の習得
+-	[コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): %%ProductName%% スクリプト、CSS、およびアセンブリを使用した ASP.NET MVC アプリケーションの設定の基本事項の習得
 
 -	[igTextEditor の概要](igTextEditor-Overview.html) : ASP.NET MVCでの igTextEditor 使用の基本事項の習熟
 
@@ -59,7 +59,7 @@
 
 ### <a id="_Introduction"></a>概要
 
-この手順では、Ignite UI コントロールを使用した ASP.NET MVC データ注釈検証の Person モデルを作成し構成します。
+この手順では、%%ProductName%% コントロールを使用した ASP.NET MVC データ注釈検証の Person モデルを作成し構成します。
 
 ### <a id="_Preview"></a>プレビュー
 
@@ -71,7 +71,7 @@
 
 手順を完了するには、ASP.NET MVC プロジェクトの他に次が必要になります。
 
--   必要な Ignite UI の JavaScript と CSS ファイル
+-   必要な %%ProductName%% の JavaScript と CSS ファイル
 -   参照されている Infragistics.Web.Mvc.dll アセンブリ
 
 ###<a id="_Requirements_Overview"></a> 概要
@@ -85,7 +85,7 @@
 
 ### <a id="_Steps"></a>手順
 
-以下の手順は、Ignite UI コントロールのデータ注釈検証を構成する方法を示します。
+以下の手順は、%%ProductName%% コントロールのデータ注釈検証を構成する方法を示します。
 
 
 

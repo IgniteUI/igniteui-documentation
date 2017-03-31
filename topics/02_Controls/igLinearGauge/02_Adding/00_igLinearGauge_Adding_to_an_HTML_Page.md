@@ -79,7 +79,7 @@
             </td>
 
             <td>
-                Ignite UI™ は、以下のフレームワークをもとにビルドされます。
+                %%ProductName%%™ は、以下のフレームワークをもとにビルドされます。
 
                 <ul>
                     <li>
@@ -103,17 +103,17 @@
             </td>
 
             <td>
-                igLinearGauge コントロールは、Ignite UI ライブラリ内の複数のファイルで配布される機能に依存します。必要なリソースは以下の方法で読み込むことができます。
+                igLinearGauge コントロールは、%%ProductName%% ライブラリ内の複数のファイルで配布される機能に依存します。必要なリソースは以下の方法で読み込むことができます。
 
                 <ul>
                     <li>Infragistics® Loader (igLoader™) を使用します。ページ上に igLoader へのスクリプト参照を含めるのみです。</li>
 
                     <li>必要なリソースを手動で読み込みます。以下の表にリストされる依存関係を使用する必要があります。</li>
 
-                    <li>Ignite UI パッケージのすべてのデータ ビジュアライゼーション コントロールのロジックを含む、2 つの結合ファイル (infragistics.core.js、infragistics.dv.js および infragistics.encoding.js (オプション)) を読み込みます。</li>
+                    <li>%%ProductName%% パッケージのすべてのデータ ビジュアライゼーション コントロールのロジックを含む、2 つの結合ファイル (infragistics.core.js、infragistics.dv.js および infragistics.encoding.js (オプション)) を読み込みます。</li>
                 </ul>
 
-                以下の表は、igLinearGauge コントロール関連の Ignite UI ライブラリの依存関係を示します。igLoader または結合ファイルを使用しない選択をした場合、これらのリソースを明示的に参照する必要があります。
+                以下の表は、igLinearGauge コントロール関連の %%ProductName%% ライブラリの依存関係を示します。igLoader または結合ファイルを使用しない選択をした場合、これらのリソースを明示的に参照する必要があります。
 
                 <table class="table">
                     <tbody>
@@ -131,7 +131,7 @@
                             <td>`infragistics.util.js`</td>
 
                             <td>
-                                Ignite UI ユーティリティ
+                                %%ProductName%% ユーティリティ
                             </td>
                         </tr>
 
@@ -228,7 +228,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Ignite UI Required Combined CSS Files -->
+    <!-- %%ProductName%% Required Combined CSS Files -->
     <link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
     <link href="../../igniteui/css/structure/infragistics.css" rel="stylesheet"/>
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
@@ -377,7 +377,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Ignite UI Required Combined CSS Files -->
+    <!-- %%ProductName%% Required Combined CSS Files -->
     <link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
     <link href="../../igniteui/css/structure/infragistics.css" rel="stylesheet"/>
     <script type="text/javascript" src="../../js/jquery.min.js"></script>

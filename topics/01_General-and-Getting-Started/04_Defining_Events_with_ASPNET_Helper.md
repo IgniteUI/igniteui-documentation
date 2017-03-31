@@ -25,9 +25,9 @@
 
 
 
-- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションに追加し、Ignite UI コンポーネントを使用して作業を開始する方法を説明します。
+- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションに追加し、%%ProductName%% コンポーネントを使用して作業を開始する方法を説明します。
 
-- [Ignite UI でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックは、Ignite UI コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
+- [%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックは、%%ProductName%% コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
 
 
 
@@ -72,7 +72,7 @@
 
 この手順を実行するには、以下のリソースが必要です。
 
--   必要な Ignite UI リソースと構成された ASP.NET MVC アプリケーション
+-   必要な %%ProductName%% リソースと構成された ASP.NET MVC アプリケーション
 -   ビューを返すために構成されたコントローラーおよびアクション メソッド
 
 ### 概要
@@ -183,7 +183,7 @@
 
 以下のトピックでは、このトピックに関連する追加情報を提供しています。
 
-- [Ignite UI でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックは、Ignite UI コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
+- [%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックは、%%ProductName%% コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
 
 
 

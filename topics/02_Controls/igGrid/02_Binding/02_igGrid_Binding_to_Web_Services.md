@@ -52,7 +52,7 @@ igGrid のデータ ソースと機能は、OData サービスでも直接使用
 この手順では、Entity Framework を使用して SQL データベースからデータを取得する OData サービスとともに MVC アプリケーションで igGrid を作成するプロセスを手順を追って示します。
 
 ###要件
-この手順を完了するには、コンピューター に Ignite UI 製品がインストールされ、SQL サーバーに Northwind Database がインストールされている必要があります。
+この手順を完了するには、コンピューター に %%ProductName%% 製品がインストールされ、SQL サーバーに Northwind Database がインストールされている必要があります。
 この手順では、Visual Studio 2013 および MVC5 を使用することも仮定しています。 
 
 ###概要
@@ -80,8 +80,8 @@ igGrid のデータ ソースと機能は、OData サービスでも直接使用
 
 	- *System.Runtime.Serialization* への参照を追加します。
     - *Infragistics.Web.Mvc* への参照を追加し、*Copy Local* オプションが *true* に設定されていることを確認します。 
-    - Ignite UI スクリプト ファイルを **Scripts** フォルダーに追加します。
-    - Ignite UI CSS ファイルと画像を **Content** フォルダーに追加します。
+    - %%ProductName%% スクリプト ファイルを **Scripts** フォルダーに追加します。
+    - %%ProductName%% CSS ファイルと画像を **Content** フォルダーに追加します。
     - ソリューションをビルドし、すべてがコンパイルされたことを確認します。
     
 2. モデルの作成
@@ -160,7 +160,7 @@ public static void Register(HttpConfiguration config)
         
     - *Index.cshtml* の先頭に、*Infragistics.Web.Mvc* の using ステートメントを追加します。(IntelliSense がこの作業を支援します) Infragistics アセンブリが認識されない場合、ビューを閉じ、アプリケーションをコンパイルして、*Infragistics.Web.Mvc* アセンブリが bin フォルダーにコピーされていることを確認してください。ビュー ファイルを再度オープンすると、今度は Infragistics 参照が認識されるはずです。
         
-    - Index.cshtml で、jQuery、jQuery UI、Modernizr、および Ignite UI コントロール用の JavaScript 参照を追加します。  
+    - Index.cshtml で、jQuery、jQuery UI、Modernizr、および %%ProductName%% コントロール用の JavaScript 参照を追加します。  
         
          **HTML の場合:**
          
@@ -180,7 +180,7 @@ public static void Register(HttpConfiguration config)
 <link href="@Url.Content("Content/Infragistics/themes/infragistics/infragistics.theme.css")" rel="stylesheet" />
     <link href="@Url.Content("Content/Infragistics/structure/modules/infragistics.css")" rel="stylesheet" />
    		 ```
-- ページで Ignite UI グリッドを作成します。
+- ページで %%ProductName%% グリッドを作成します。
         
      レコード型として Product クラスを使用する igGrid の宣言を追加します。DataSourceUrl プロパティは、サービスの Products エンドポイントをポイントしている必要があります。ResponseDataKey プロパティは、応答でデータを入れるプロパティの名前に設定する必要があります。この例では value です。DataBind メソッドと Render メソッドを追加して、コントロールが DataSource にバインドされ、マークアップに対して描画されるようにします。
         

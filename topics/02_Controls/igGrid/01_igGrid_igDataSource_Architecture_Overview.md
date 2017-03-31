@@ -26,7 +26,7 @@
 
 ## <a id="overview"></a>概要
 
-Ignite UI™ グリッド、つまり `igGrid`™ は JavaScript、HTML、および CSS で完全にビルドされたクライアント側グリッド コントロールです。このコントロールのクライアント特有の性質によりサーバー側の技術に関係なく、PHP、Ruby on Rails®、Java™、Python™、Microsoft® ASP.NET™ などでビルドされ、アプリケーションとシームレスに相互作用を行うことができます。
+%%ProductName%%™ グリッド、つまり `igGrid`™ は JavaScript、HTML、および CSS で完全にビルドされたクライアント側グリッド コントロールです。このコントロールのクライアント特有の性質によりサーバー側の技術に関係なく、PHP、Ruby on Rails®、Java™、Python™、Microsoft® ASP.NET™ などでビルドされ、アプリケーションとシームレスに相互作用を行うことができます。
 
 グリッドはモジュール アーキテクチャを使用して構築されており、データ ソースとオプション機能は論理的にグリッド コントロールとは分離しています。プレゼンテーションのロジックが分離していることで、関連付けられたデータ ソース コントロールがページング、並べ替え、フィルタリングなどの機能の処理を引き受けることができます。一方、グリッド自体はプレゼンテーションの詳細にのみ関係します。グリッドがこのモジュール構造でビルドされている一方、まずデータ ソース、次にグリッドを設定する必要はありません。グリッド コントロールのパブリック インターフェイスを介してデータ ソースを簡単に構成できます。
 
@@ -87,7 +87,7 @@ Ignite UI™ グリッド、つまり `igGrid`™ は JavaScript、HTML、およ
 -   ***$.ig.XMLDataSource***
     -   このクラスは特に [XML](http://ja.wikipedia.org/wiki/Extensible_Markup_Language) データを処理するようあらかじめ構成されています。
 
-> **注:** 上記に一覧されたコントロールは、Ignite UI データ ソース JavaScript ライブラリに組み込まれています。
+> **注:** 上記に一覧されたコントロールは、%%ProductName%% データ ソース JavaScript ライブラリに組み込まれています。
 
 また、高度にカスタマイズされたデータ バインド機能を実現するため、データ ソース コントロールを拡張してそのいずれかの実装をオーバーライドできます。リスト 1 は基本データ ソースを拡張して、JSON データを処理するオプションをあらかじめ構成する方法を示しています。
 
@@ -247,7 +247,7 @@ $("#grid1").igGridSorting("sortColumn", … ) ;
 
 -   [パフォーマンス ガイド (igGrid)](igGrid-Performance-Guide.html)
 -   [igGrid のスタイル設定](igGrid-Styling-and-Theming.html)
--   [Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
+-   [%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
 
  
 

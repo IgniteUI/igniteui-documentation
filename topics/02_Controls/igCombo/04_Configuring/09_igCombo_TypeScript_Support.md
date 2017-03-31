@@ -34,8 +34,8 @@
 
 ### <a id="Requirements"></a>要件
 このサンプルを実行するために以下が必要です。
--   必要となる Ignite UI の JavaScript と CSS ファイル
--   必須な Ignite UI TypeScript 定義
+-   必要となる %%ProductName%% の JavaScript と CSS ファイル
+-   必須な %%ProductName%% TypeScript 定義
 
 ### <a id="Overview"></a>概要
 このトピックでは、TypeScript クラスの作成、データソース、および `igCombo` について順を追って説明します。
@@ -143,4 +143,4 @@ $(function () {
 
 ### <a id="Related_Content"></a>関連コンテンツ
 以下のトピックでは、このトピックに関連する追加情報を提供しています。
--   [TypeScript で Ignite UI を使用](Using-Ignite-UI-with-TypeScript.html) - このトピックでは、Ignite UI の型定義を TypeScript で使用する方法の概要を説明します。
+-   [TypeScript で %%ProductName%% を使用](Using-Ignite-UI-with-TypeScript.html) - このトピックでは、%%ProductName%% の型定義を TypeScript で使用する方法の概要を説明します。

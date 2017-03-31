@@ -25,7 +25,7 @@ Excel ライブラリは、クライアント マシン上のワークブック 
 
 ## 環境のセットアップ
 
-Excel ライブラリを使用するには、Ignite UI 製品から以下の各 JavaScript ファイルを参照する必要があります。
+Excel ライブラリを使用するには、%%ProductName%% 製品から以下の各 JavaScript ファイルを参照する必要があります。
 
 -   infragistics.util.js
 -   infragistics.xml.js [14.2 で新規]

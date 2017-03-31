@@ -13,7 +13,7 @@
 ## トピックの概要
 ### 目的
 
-このトピックでは、Ignite UI™ ライブラリの既知の問題と制限の一覧を示し、個々のコントロールの既知の問題点に関する参照先トピックを示します。
+このトピックでは、%%ProductName%%™ ライブラリの既知の問題と制限の一覧を示し、個々のコントロールの既知の問題点に関する参照先トピックを示します。
 
 ### このトピックの内容
 
@@ -30,7 +30,7 @@
     -   [財務シリーズ チャートでは先頭の項目と最後の項目が半分切れた状態で表示される](#first-last-items-half-cut)
     -   [軸範囲が変更された時にはチャート アニメーションは無効化されます](#chart-animation-disabled)
     -   [ASP.NET MVC ヘルパー生成コードと ASP.NET MVC ローダーがカスタムの JavaScript ページ設定コードのあとに実行される](#mvc-heper-issue)
-    -   [Infragistics ASP.NET と Ignite UI のドキュメント エンジンの併用時に発生する問題 - 回避策](#document-engines-workaround)
+    -   [Infragistics ASP.NET と %%ProductName%% のドキュメント エンジンの併用時に発生する問題 - 回避策](#document-engines-workaround)
     -   [igEditor のスタイル設定](#igEditor-styling)
     -   [igEditor のレンダリングの失敗](#igEditor-rendering-failure)
     -   [行テンプレートなしで igGridHiding を使用できない](#igGridHiding-cannot-use-row-templates)
@@ -70,7 +70,7 @@
 ## <a id="known-issues"></a>2012 Volume 2 の既知の問題と制限
 ### <a id="overview"></a>概要
 
-以下の表に、Ignite UI 2012 Volume 2 リリースの既知の問題と制限事項の概要を示します。各コントロールの既知の問題点に関するトピックでは、それぞれの既知の問題点と考えられる回避策について詳しく説明します。
+以下の表に、%%ProductName%% 2012 Volume 2 リリースの既知の問題と制限事項の概要を示します。各コントロールの既知の問題点に関するトピックでは、それぞれの既知の問題点と考えられる回避策について詳しく説明します。
 
 ### 凡例:
 
@@ -104,7 +104,7 @@
 [財務シリーズ チャートでは先頭の項目と最後の項目が半分切れた状態で表示される](#first-last-items-half-cut)|財務シリーズにおいて、先頭と最後の項目はチャートのビュー上にすべてが表示されず、半分にカットされた状態でプロットされます。 | ![](images/plannedFix.png)
 [軸範囲を変更するとチャート アニメーションが無効になる](#chart-animation-disabled)|チャートの Motion Framework を使用していてデータの更新により Y 軸範囲が変更された場合、すべてのチャート アニメーションは無効になり新しいデータがモーション効果なしで直ちに表示されます。 | ![](images/positive.png)
 [MVC ヘルパー生成コードと MVC ローダーがカスタムの JavaScript ページ設定コードのあとに実行される](#mvc-heper-issue)|ASP.NET MVC ビューにおいてコントロールの MVC ローダーや MVC ヘルパーを使用した場合、それらが生成する JavaScript コードは、`document.ready()` や `window.load()` イベントで渡されたカスタムのページ設定コードのあとに実行されます。 | ![](images/positive.png)
-[Infragistics ASP.NET と Ignite UI のドキュメント エンジンの併用時に発生する問題 - 回避策](#document-engines-workaround)|Infragistics ASP.NET と Ignite UI のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/positive.png)
+[Infragistics ASP.NET と %%ProductName%% のドキュメント エンジンの併用時に発生する問題 - 回避策](#document-engines-workaround)|Infragistics ASP.NET と %%ProductName%% のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。 | ![](images/positive.png)
 [igEditor のスタイル設定](#igEditor-styling)|HTML 要素のレイアウトが変更され、ボタンだけでなくエディター本体の四隅も丸みの付いたコーナーで描画されます。 | ![](images/positive.png)
 igEditor のスピン ボタン|スピン ボタンは水平方向に描画されます。 | ![](images/negative.png)
 [igEditor のレンダリングの失敗](#igEditor-rendering-failure)|ベース要素が TD である場合、レンダリングに失敗することがあります。 | ![](images/positive.png)
@@ -213,11 +213,11 @@ $.ig.loader(function () {
 
 この例では、すべてのカスタム コードが `customControlLogic()` 関数によって処理されています。このため、コントロールに影響を与えるコードは、コントロールのインスタンスが作成化されたあとに実行されるようになっています。
 
-## <a id="document-engines-workaround"></a>Infragistics ASP.NET と Ignite UI のドキュメント エンジンの併用時に発生する問題 - 回避策
+## <a id="document-engines-workaround"></a>Infragistics ASP.NET と %%ProductName%% のドキュメント エンジンの併用時に発生する問題 - 回避策
 
-Infragistics ASP.NET と Ignite UI のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。
+Infragistics ASP.NET と %%ProductName%% のドキュメント アセンブリを併用すると、名前空間の競合による例外が発生します。
 
-この問題を解決するには、アプリケーションで Infragistics ASP.NET のドキュメント アセンブリと Ignite UI のドキュメント アセンブリのいずれか一方を参照します。これらのアセンブリ内のドキュメント ライブラリは同じで、どちらを使用してもかまいません。
+この問題を解決するには、アプリケーションで Infragistics ASP.NET のドキュメント アセンブリと %%ProductName%% のドキュメント アセンブリのいずれか一方を参照します。これらのアセンブリ内のドキュメント ライブラリは同じで、どちらを使用してもかまいません。
 
 ## <a id="igEditor-styling"></a>igEditor のスタイル設定 - 回避策
 

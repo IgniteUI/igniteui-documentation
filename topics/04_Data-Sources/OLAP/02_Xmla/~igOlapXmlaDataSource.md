@@ -27,7 +27,7 @@
 
 - [igOlapXmlaDataSource の構成](igOlapXmlaDataSource-Configuring.html): このトピック グループは、`igOlapXmlaDataSource` コントロールのさまざまな要素および関連するサーバー側コンポーネントを構成する方法を説明します。
 
-- [KPI (キー パフォーマンス インジケーター) のサポート (igPivotGrid、igPivotDataSelector、igOlapXmlaDataSource)](igPivotGrid-KPI-Support.html): このトピックは、多次元 (OLAP) データ セットからの KPI データが Ignite UI™ で視覚化される状態を概念的に説明します。KPI を視覚化する Ignite UI コントロールは、`igPivotDataSelector`™ および `igPivotGrid`™ にあります。
+- [KPI (キー パフォーマンス インジケーター) のサポート (igPivotGrid、igPivotDataSelector、igOlapXmlaDataSource)](igPivotGrid-KPI-Support.html): このトピックは、多次元 (OLAP) データ セットからの KPI データが %%ProductName%%™ で視覚化される状態を概念的に説明します。KPI を視覚化する %%ProductName%% コントロールは、`igPivotDataSelector`™ および `igPivotGrid`™ にあります。
 
 - [既知の問題と制限 (igOlapXmlaDataSource)](igOlapXmlaDataSource-Known-Issues-and-Limitations.html): このトピックでは、`igOlapXmlaDataSource` コンポーネントに固有の既知の問題と制限に関する情報を提供します。
 

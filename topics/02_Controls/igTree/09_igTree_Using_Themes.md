@@ -19,7 +19,7 @@
 ### トピック
 `igTree` コントロールに合わせて jQuery UI テーマをカスタマイズするために必要な情報は以下の各トピックに収められています。
 
--   [Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
+-   [%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
 -   [igTree テーマ設定 API ドキュメント](%%jQueryApiUrl%%/ui.igtree#!theming)
 
 ## 関連トピック

@@ -8,12 +8,12 @@
 |metadata|
 -->
 
-# Ignite UI コントロールで System.JS を使用
+# %%ProductName%% コントロールで System.JS を使用
 
 ## 概要
 
-Ignite UI コントロールは規格のモジュール ローダーで読み込むことができます。各モジュールは AMD 定義を含み、依存関係モジュールを参照します。
-[System.JS](https://github.com/systemjs/systemjs) は JSPM パッケージ マネージャーで使用される人気のあるモジュール ローダーです。このトピックは、Ignite UI コントロールを使用するために System.JS を構成する方法を説明します。
+%%ProductName%% コントロールは規格のモジュール ローダーで読み込むことができます。各モジュールは AMD 定義を含み、依存関係モジュールを参照します。
+[System.JS](https://github.com/systemjs/systemjs) は JSPM パッケージ マネージャーで使用される人気のあるモジュール ローダーです。このトピックは、%%ProductName%% コントロールを使用するために System.JS を構成する方法を説明します。
 
 以下の例で、Windows のコマンド プロンプトが使用されます。同様のコマンドを MacOS のターミナルでも実行できます。[Visual Studio コード](https://code.visualstudio.com/) の使用が推薦されますが、必須ではありません。
 
@@ -44,18 +44,18 @@ jspm install jquery-ui
 jspm install css
 ```
 
-## GitHub を使用した Ignite UI パッケージの追加
+## GitHub を使用した %%ProductName%% パッケージの追加
 
-オープンソースの Ignite UI のコンポーネント セットは、GitHub でソース コードが[ホスト](https://github.com/IgniteUI/ignite-ui)されています。アプリケーションがオープンソース Ignite UI コントロールのみを使用する場合、このパッケージをアプリケーションに追加するには、以下のコマンドを使用します:
+オープンソースの %%ProductName%% のコンポーネント セットは、GitHub でソース コードが[ホスト](https://github.com/IgniteUI/ignite-ui)されています。アプリケーションがオープンソース %%ProductName%% コントロールのみを使用する場合、このパッケージをアプリケーションに追加するには、以下のコマンドを使用します:
 ```
 jspm install github:igniteui/ignite-ui
 ```
 
-## 非公開の NPM レジストリを使用して Ignite UI パッケージを追加
+## 非公開の NPM レジストリを使用して %%ProductName%% パッケージを追加
 
-すべてのコントロールを含む Ignite UI の製品版も JSPM で使用できます。ただし現時点では、 Infragistics ウェブサイトからダウンロードした Ignite UI パッケージを非公開の NPM レジストリに公開する必要があります。
+すべてのコントロールを含む %%ProductName%% の製品版も JSPM で使用できます。ただし現時点では、 Infragistics ウェブサイトからダウンロードした %%ProductName%% パッケージを非公開の NPM レジストリに公開する必要があります。
 
-所属する組織に非公開の NPM レジストリ セットアップがある場合、Ignite UI パッケージをそこへ公開後、以下のコマンドでアプリケーションに追加します:
+所属する組織に非公開の NPM レジストリ セットアップがある場合、%%ProductName%% パッケージをそこへ公開後、以下のコマンドでアプリケーションに追加します:
 ```
 jspm install npm:igniteui/ignite-ui
 ```
@@ -137,4 +137,4 @@ http-server
 ```
 ブラウザーを開いて、`http://localhost:8080` に移動すると、実行中のアプリケーションが表示されます。
 
-このトピックでは、Ignite UI コントロールを JSPM および System.JS ローダーと使用する方法を紹介しました。
+このトピックでは、%%ProductName%% コントロールを JSPM および System.JS ローダーと使用する方法を紹介しました。

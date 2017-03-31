@@ -28,9 +28,9 @@
 
 **トピック**
 
--	[Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html): Ignite UI™ ライブラリにつぃての一般的情報
+-	[%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
 
--	[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して Ignite UI ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
+-	[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
 
 -	[igDataChart 概要](igDataChart-Overview.html): このトピックは、`igDataChart`™ コントロールについて、その主要機能、最低必須事項、ユーザー機能といった事項の概念的情報を提供します。
 
@@ -95,13 +95,13 @@
 
 	Web サイトまたは Web アプリケーションの `Scripts` という名のフォルダーに jQuery、 jQueryUI および Modernizr JavaScript リソースを追加します。
 
-	Web サイトまたは Web アプリケーションの `Content/ig` という名前のフォルダーへの Ignite UI CSS ファイルの追加 (詳細は、[Ignite UI のスタイルとテーマの設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください)。
+	Web サイトまたは Web アプリケーションの `Content/ig` という名前のフォルダーへの %%ProductName%% CSS ファイルの追加 (詳細は、[%%ProductName%% のスタイルとテーマの設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください)。
 
-	Web サイトまたは Web アプリケーションの `Scripts/ig` という名前のフォルダーへの Ignite UI JavaScript ファイルの追加 (詳細は、[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください)。
+	Web サイトまたは Web アプリケーションの `Scripts/ig` という名前のフォルダーへの %%ProductName%% JavaScript ファイルの追加 (詳細は、[%%ProductName%% での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください)。
 
 	<a id="use-igLoader-in-js"></a>**JavaScript での igLoader の使用**
 
-	`igLoader`™ コントロールは、Ignite UI ライブラリのコントロールで必要な JavaScript および CSS リソースをロードするための推奨される方法です。最初に、`igLoader` スクリプトをページに追加します。
+	`igLoader`™ コントロールは、%%ProductName%% ライブラリのコントロールで必要な JavaScript および CSS リソースをロードするための推奨される方法です。最初に、`igLoader` スクリプトをページに追加します。
 
 	**HTML の場合:**
 
@@ -127,7 +127,7 @@
 
 	<a id="use-mvc-loader"></a>**MVC Loader の使用**
 
-	`Infragistics.Web.Mvc` アセンブリを ASP.NET MVC プロジェクトで参照し、対応する名前空間をビューで参照する必要があります。詳細については、[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)をご覧ください。ただし、明確にするため、名前空間を参照するコードはここに記載します。
+	`Infragistics.Web.Mvc` アセンブリを ASP.NET MVC プロジェクトで参照し、対応する名前空間をビューで参照する必要があります。詳細については、[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)をご覧ください。ただし、明確にするため、名前空間を参照するコードはここに記載します。
 
 	**ASPX の場合:**
 

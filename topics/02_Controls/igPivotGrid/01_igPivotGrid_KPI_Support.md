@@ -14,7 +14,7 @@
 
 #### 目的
 
-このトピックは、多次元 (OLAP) データ セットからの KPI データが Ignite UI™ で視覚化される状態を概念的に説明します。KPI を視覚化する Ignite UI コントロールは、`igPivotDataSelector`™ および `igPivotGrid`™ にあります。
+このトピックは、多次元 (OLAP) データ セットからの KPI データが %%ProductName%%™ で視覚化される状態を概念的に説明します。KPI を視覚化する %%ProductName%% コントロールは、`igPivotDataSelector`™ および `igPivotGrid`™ にあります。
 
 ### 前提条件
 

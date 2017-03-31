@@ -43,11 +43,11 @@
 
 ## igGrid の Web ページへの追加
 
-次のステップは、いずれかの jQuery クライアント コードを使用して、Web ページに jQuery グリッドの基本的な実装を作成する方法を示します。どの実装を選択するかについて詳細は、[「Ignite UI の概要」](NetAdvantage-for-jQuery-Overview.html)を参照してください。
+次のステップは、いずれかの jQuery クライアント コードを使用して、Web ページに jQuery グリッドの基本的な実装を作成する方法を示します。どの実装を選択するかについて詳細は、[「%%ProductName%% の概要」](NetAdvantage-for-jQuery-Overview.html)を参照してください。
 
 [igGrid の概要のサンプル](%%SamplesUrl%%/grid/overview)
 
-最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
+最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
 
 1.  HTML ページに**必要な JavaScript および CSS ファイルを参照**してください。**HTML の場合:**
 
@@ -157,8 +157,8 @@
 ### トピック
 
 -   [igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html)
--   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html) 
--   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html) 
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
 
  

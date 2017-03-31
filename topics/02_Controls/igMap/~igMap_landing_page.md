@@ -16,7 +16,7 @@
 
 ### 概要
 
-このグループのトピックでは、Ignite UI™ の `igMap`™ コントロールについて説明します。
+このグループのトピックでは、%%ProductName%%™ の `igMap`™ コントロールについて説明します。
 
 `igMap` コントロールは、HTML5 キャンバス要素に基づいて多様なマップを視覚化し、すべてのレンダリングをクライアント側で実行するための機能を提供します。
 
@@ -57,7 +57,7 @@
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
 
--	[Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html): このトピックでは、Ignite UI ライブラリの一般情報を提供します。
+-	[%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): このトピックでは、%%ProductName%% ライブラリの一般情報を提供します。
 
 ### サンプル
 

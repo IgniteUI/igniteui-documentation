@@ -17,7 +17,7 @@
 
 ### 既知の問題点と制約の概要表
 
-以下の表に、Ignite UI® %%ProductVersion%% リリースでの `igLayoutManager`™ コントロールの既知の問題と制限について簡単に説明します。
+以下の表に、%%ProductName%%® %%ProductVersion%% リリースでの `igLayoutManager`™ コントロールの既知の問題と制限について簡単に説明します。
 
 ### 凡例:
 

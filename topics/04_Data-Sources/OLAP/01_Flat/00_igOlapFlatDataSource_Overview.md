@@ -21,7 +21,7 @@
 
 **トピック**
 
-- [多次元 (OLAP) データ ソース コンポーネント](Multidimensional-Data-Source-Components.html): このトピック グループでは、Ignite UI™ スイートの多次元 (OLAP) データ ソース コンポーネントを説明します。
+- [多次元 (OLAP) データ ソース コンポーネント](Multidimensional-Data-Source-Components.html): このトピック グループでは、%%ProductName%%™ スイートの多次元 (OLAP) データ ソース コンポーネントを説明します。
 
 外部リソース
 
@@ -40,7 +40,7 @@
     -   [複数データ タイプ サポート](#multiple-data-types)
     -   [OLAP メタデータ生成](#olap-metadata-generation)
     -   [データ スライス生成](#data-slice-generation)
-    -   [Ignite UI コントロールとの統合](#integration-with-igniteui)
+    -   [%%ProductName%% コントロールとの統合](#integration-with-igniteui)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
     -   [サンプル](#samples)
@@ -49,7 +49,7 @@
 
 ## <a id="introduction"></a>概要
 
-`igOlapFlatDataSource` コンポーネントは、フラットなデータ コレクション上で多次元の (OLAP のような) 解析を実施できます。データ収集または [igDataSource](igDataSource-igDataSource.html)™ インスタンスが与えられユーザー構成に基づく場合、階層およびメジャーの分析コードを作成するため必要なメタデータを抽出します。`igOlapFlatDataSource` コンポーネントは、コンポーネントの API を直接使用、または OLAP データの視覚化および対話が可能な 1 つ以上の Ignite UI ウィジェットを介して、要求に応じてデータの計算および集計を実行します (`igPivotView`™ または `igPivotGrid`™ など)。
+`igOlapFlatDataSource` コンポーネントは、フラットなデータ コレクション上で多次元の (OLAP のような) 解析を実施できます。データ収集または [igDataSource](igDataSource-igDataSource.html)™ インスタンスが与えられユーザー構成に基づく場合、階層およびメジャーの分析コードを作成するため必要なメタデータを抽出します。`igOlapFlatDataSource` コンポーネントは、コンポーネントの API を直接使用、または OLAP データの視覚化および対話が可能な 1 つ以上の %%ProductName%% ウィジェットを介して、要求に応じてデータの計算および集計を実行します (`igPivotView`™ または `igPivotGrid`™ など)。
 
 
 ## <a id="main-features"></a>主要な機能の概要
@@ -63,7 +63,7 @@
 
 - [データ スライス生成](#data-slice-generation): 行と列に階層を割り当てた後に、`igOlapFlatDataSource` は、相対する階層のメンバーのタプルを含む結果軸を 1 つ以上生成します。メジャーが選択された場合、`igOlapFlatDataSource` は値セルオブジェクトの2 次元配列を生成します。
 
-- [Ignite UI コントロールとの統合](#integration-with-igniteui): `igOlapFlatDataSource` コンポーネントは、OLAP データを表示する Ignite UI のデータ ビジュアライゼーション コントロールにデータを提供できます。
+- [%%ProductName%% コントロールとの統合](#integration-with-igniteui): `igOlapFlatDataSource` コンポーネントは、OLAP データを表示する %%ProductName%% のデータ ビジュアライゼーション コントロールにデータを提供できます。
 
 
 
@@ -91,9 +91,9 @@
 
 -   [**ピボット グリッドの列、行、フィルターおよびメジャーを配置することによる結果セットの表ビューの構成 (igOlapFlatDataSource、igOlapXmlaDataSource、igPivotDataSelector、igPivotGrid、igPivotView)**](Configuring-the-Tabular-View.html)
 
-### <a id="integration-with-igniteui"></a>Ignite UI コントロールとの統合
+### <a id="integration-with-igniteui"></a>%%ProductName%% コントロールとの統合
 
-`igOlapFlatDataSource` コンポーネントは、OLAP データを表示する Ignite UI のデータ ビジュアライゼーション コントロールにデータを提供できます。サポートされるコントロールは `igPivotDataSelector`、`igPivotGrid`、および `igPivotView` です。
+`igOlapFlatDataSource` コンポーネントは、OLAP データを表示する %%ProductName%% のデータ ビジュアライゼーション コントロールにデータを提供できます。サポートされるコントロールは `igPivotDataSelector`、`igPivotGrid`、および `igPivotView` です。
 
 #### 関連トピック:
 

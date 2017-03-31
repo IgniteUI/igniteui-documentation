@@ -13,15 +13,15 @@
 
 ## 概要
 
-このグループのトピックでは、Ignite UI™ コントロールのライブラリの既知の問題と制限に関する情報を提供します。
+このグループのトピックでは、%%ProductName%%™ コントロールのライブラリの既知の問題と制限に関する情報を提供します。
 
 ## トピック
 
 既知の問題と制限に関する詳細情報については、以下のトピックを参照してください。
 
-- [2016.2 の既知の問題点](Known-Issues-and-Limitations-2016-Volume-2.html): このトピックでは、Ignite UI™ ライブラリの 2016 Volume 2 リリースの既知の問題と制限について説明します。
+- [2016.2 の既知の問題点](Known-Issues-and-Limitations-2016-Volume-2.html): このトピックでは、%%ProductName%%™ ライブラリの 2016 Volume 2 リリースの既知の問題と制限について説明します。
 
-- [既知の問題点の改訂履歴](Known-Issues-Revision-History.html): このトピックは、Ignite UI™ ライブラリの以前のバージョンの既知の問題と制限へのリンクを提供します。
+- [既知の問題点の改訂履歴](Known-Issues-Revision-History.html): このトピックは、%%ProductName%%™ ライブラリの以前のバージョンの既知の問題と制限へのリンクを提供します。
 
 
 

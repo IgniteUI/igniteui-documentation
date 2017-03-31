@@ -11,7 +11,7 @@
 # igCurrencyEditor の概要
 
 
-Ignite UI™ の通貨エディター、つまり `igCurrencyEditor` は、さまざまな通貨タイプに書式設定された数値のみを受け付ける入力フィールドを描画するコントロールです。`igCurrencyEditor` コントロールは、ブラウザーが公開するさまざまな地域のオプションを認識することにより、ローカライズをサポートします。
+%%ProductName%%™ の通貨エディター、つまり `igCurrencyEditor` は、さまざまな通貨タイプに書式設定された数値のみを受け付ける入力フィールドを描画するコントロールです。`igCurrencyEditor` コントロールは、ブラウザーが公開するさまざまな地域のオプションを認識することにより、ローカライズをサポートします。
 
 ユーザーがコントロールを操作すると、変更が反映されて、ただちに外観が更新されます。エディターがフォーカスを失うと、値に依存した正または負のパターンがコントロールに適用され、適切な通貨記号が追加されます。
 
@@ -50,7 +50,7 @@ $('#currencyEditor').igCurrencyEditor({
 
 ## igCurrencyEditor の Web ページへの追加
 
-1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
+1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
 2.  ご自分の HTML ページまたは ASP.NET MVC View で、必要な JavaScript ファイル、CSS ファイル、および ASP.NET MVC アセンブリを参照してください。
 
     **HTML の場合:**
@@ -112,8 +112,8 @@ $('#currencyEditor').igCurrencyEditor({
 ## 関連リンク
 
 -   [通貨エディター サンプル](%%SamplesUrl%%/editors/currency-editor)
--   [Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html)
--   [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
  
 

@@ -20,7 +20,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
-- [必要なリソースの手動で追加する](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html): このトピックは、必要な JavaScript リソースを追加して Ignite UI ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
+- [必要なリソースの手動で追加する](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html): このトピックは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
 
 - [*igDoughnutChart* の概要](igDoughnutChart-Overview.html): このトピックは、`igDoughnutChart` コントロールの概要を説明します。
 
@@ -74,7 +74,7 @@
 			</td>
 
 			<td>
-				Ignite UI™ は、以下のフレームワークをもとにビルドされます。
+				%%ProductName%%™ は、以下のフレームワークをもとにビルドされます。
 
 				<ul>
                     <li>
@@ -113,17 +113,17 @@
 			</td>
 
 			<td>
-				igDoughnutChart コントロールは、Ignite UI ライブラリ内の複数のファイルで提供される機能に依存します。以下のいずれかの方法で、必要なリソースを読み込みます。
+				igDoughnutChart コントロールは、%%ProductName%% ライブラリ内の複数のファイルで提供される機能に依存します。以下のいずれかの方法で、必要なリソースを読み込みます。
 
 				<ul>
 					<li>Infragistics® Loader (igLoader™) を使用します。ページ上に igLoader へのスクリプト参照を含めるのみです。</li>
 
 					<li>必要なリソースの手動による読み込み以下の表にリストされる依存関係を使用する必要があります。</li>
 
-					<li>Ignite UI パッケージのすべてのデータ ビジュアライゼーション コントロールのロジックを含む 2 つの結合ファイル (infragistics.core.js および infragistics.dv.js) の読み込み</li>
+					<li>%%ProductName%% パッケージのすべてのデータ ビジュアライゼーション コントロールのロジックを含む 2 つの結合ファイル (infragistics.core.js および infragistics.dv.js) の読み込み</li>
 				</ul>
 
-				以下の表は、igDoughnutChart コントロール関連の Ignite UI ライブラリの依存関係を示します。igLoader または結合ファイルを使用しない場合は、以下のリソースを参照してください。
+				以下の表は、igDoughnutChart コントロール関連の %%ProductName%% ライブラリの依存関係を示します。igLoader または結合ファイルを使用しない場合は、以下のリソースを参照してください。
 
 				<table class="table">
 					<tbody>
@@ -143,7 +143,7 @@
 							</td>
 
 							<td>
-								Ignite UI ユーティリティ
+								%%ProductName%% ユーティリティ
 							</td>
 						</tr>
 
@@ -235,7 +235,7 @@
 							</td>
 
 							<td>
-								igChartLegend™ コントロールは、Ignite UI のすべてのチャート コントロールに共通します。
+								igChartLegend™ コントロールは、%%ProductName%% のすべてのチャート コントロールに共通します。
 							</td>
 						</tr>
 
@@ -289,7 +289,7 @@
 			</td>
 
 			<td>
-				このテーマには、Ignite UI ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル: &lt;IG CSS root&gt;/themes/Infragistics/infragistics.theme.css
+				このテーマには、%%ProductName%% ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル: &lt;IG CSS root&gt;/themes/Infragistics/infragistics.theme.css
 			</td>
 
 			<td></td>
@@ -340,16 +340,16 @@
 	<!DOCTYPE html>
     <html>
     <head>
-    <!-- Ignite UI IG Theme CSS File -->
+    <!-- %%ProductName%% IG Theme CSS File -->
 	<link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-	<!-- Ignite UI Required CSS File -->
+	<!-- %%ProductName%% Required CSS File -->
 	<link rel="stylesheet" type="text/css" href="../../igniteui/css/structure/modules/infragistics.ui.html5.css"/>
 	<link rel="stylesheet" type="text/css" href="../../igniteui/css/structure/modules/infragistics.ui.shared.css"/>
 	<link rel="stylesheet" type="text/css" href="../../igniteui/css/structure/modules/infragistics.ui.chart.css"/>
 	<!-- jQuery Files -->
 	<script src="../../js/jquery.min.js"></script>
 	<script src="../../js/jquery-ui.min.js"></script>
-	<!-- Ignite UI Required JavaScript Files -->
+	<!-- %%ProductName%% Required JavaScript Files -->
 	<script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.datasource.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.templating.js" type="text/javascript"></script>
@@ -454,16 +454,16 @@
 <html>
 <head>
 <title>DoughnutChart</title>
-<!-- Ignite UI IG Theme CSS File -->
+<!-- %%ProductName%% IG Theme CSS File -->
 	<link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-	<!-- Ignite UI Required CSS File -->
+	<!-- %%ProductName%% Required CSS File -->
 	<link rel="stylesheet" type="text/css" href="../../igniteui/css/structure/modules/infragistics.ui.html5.css"/>
 	<link rel="stylesheet" type="text/css" href="../../igniteui/css/structure/modules/infragistics.ui.shared.css"/>
 	<link rel="stylesheet" type="text/css" href="../../igniteui/css/structure/modules/infragistics.ui.chart.css"/>
 	<!-- jQuery Files -->
 	<script src="../../js/jquery.min.js"></script>
 	<script src="../../js/jquery-ui.min.js"></script>
-	<!-- Ignite UI Required JavaScript Files -->
+	<!-- %%ProductName%% Required JavaScript Files -->
 	<script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.datasource.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.templating.js" type="text/javascript"></script>

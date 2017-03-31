@@ -30,9 +30,9 @@
 
 - [igSparkline の追加の概要](igSparkline-Adding-igSparkline-Overview.html): このトピックでは、`igSparkline`™ をアプリケーションに追加する各種方法の概要について説明します。
 
-- [必要なリソースの手動で追加する](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html): このトピックでは、Ignite UI®での JavaScript リソースの構成について説明します。
+- [必要なリソースの手動で追加する](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html): このトピックでは、%%ProductName%%®での JavaScript リソースの構成について説明します。
 
-- [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して Ignite UI ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
+- [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
 
 
 **外部リソース**
@@ -97,7 +97,7 @@ IG テーマ
 			</td>
 
             <td>
-このテーマには、Ignite UI ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
+このテーマには、%%ProductName%% ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
 
                 css/themes/Infragistics/infragistics.theme.css
 			</td>
@@ -136,7 +136,7 @@ CSS リソース
 			</td>
 
                             <td>
-すべての Ignite UI コントロールで共有される CSS スタイル
+すべての %%ProductName%% コントロールで共有される CSS スタイル
 			</td>
                         </tr>
 
@@ -195,7 +195,7 @@ jQuery および jQuery UI JavaScript リソース
 			</td>
 
             <td>
-                Ignite UI は、以下のフレームワークの最上部にビルドされます。
+                %%ProductName%% は、以下のフレームワークの最上部にビルドされます。
 
                 <ul>
                     <li>
@@ -219,7 +219,7 @@ jQuery および jQuery UI JavaScript リソース
 			</td>
 
             <td>
-                Ignite UI ライブラリの igSparkline 機能は、複数のファイルに渡って配布されます。必要なリソースは以下の方法で読み込むことができます。
+                %%ProductName%% ライブラリの igSparkline 機能は、複数のファイルに渡って配布されます。必要なリソースは以下の方法で読み込むことができます。
 
                 <ul>
                     <li>
@@ -235,7 +235,7 @@ Infragistics® Loader (`igLoader`™) を使用します。必要なのは `igLo
 					</li>
                 </ul>
 
-                以下の表は、igSparkline コントロール関連の Ignite UI ライブラリの依存関係をリストします。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (`igLoader` は使用しない)。
+                以下の表は、igSparkline コントロール関連の %%ProductName%% ライブラリの依存関係をリストします。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (`igLoader` は使用しない)。
 
                 <table class="table table-bordered">
 	<thead>
@@ -258,7 +258,7 @@ JS リソース
 			</td>
 
                             <td>
-Ignite UI ユーティリティ
+%%ProductName%% ユーティリティ
 			</td>
                         </tr>
 
@@ -303,7 +303,7 @@ Ignite UI ユーティリティ
 			</td>
 
                             <td>
-すべての Ignite UI チャート コンポーネントに対するベース ウィジェット
+すべての %%ProductName%% チャート コンポーネントに対するベース ウィジェット
 			</td>
                         </tr>
 
@@ -409,13 +409,13 @@ Ignite UI ユーティリティ
 	<html>
 	<head>
 	    <title></title>
-	    <!-- Ignite UI Required Combined CSS Files -->
+	    <!-- %%ProductName%% Required Combined CSS Files -->
 	    <link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
 	    <link href="../../igniteui/css/structure/infragistics.css" rel="stylesheet" />
 	    <script src="../../js/modernizr.min.js"></script>
 	    <script src="../../js/jquery.min.js"></script>
 	    <script src="../../js/jquery-ui.min.js"></script>
-	    <!-- Ignite UI Required Combined JavaScript Files -->
+	    <!-- %%ProductName%% Required Combined JavaScript Files -->
 	    <script src="../../igniteui/js/infragistics.core.js"></script>
 	    <script src="../../igniteui/js/infragistics.dv.js"></script>
 	</head>
@@ -502,13 +502,13 @@ Ignite UI ユーティリティ
 <html>
 <head>
     <title></title>
-    <!-- Ignite UI Required Combined CSS Files -->
+    <!-- %%ProductName%% Required Combined CSS Files -->
     <link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
     <link href="../../igniteui/css/structure/infragistics.css" rel="stylesheet" />
     <script src="../../js/modernizr.min.js"></script>
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/jquery-ui.min.js"></script>
-    <!-- Ignite UI Required Combined JavaScript Files -->
+    <!-- %%ProductName%% Required Combined JavaScript Files -->
     <script src="../../igniteui/js/infragistics.core.js"></script>
     <script src="../../igniteui/js/infragistics.dv.js"></script>
 </head>

@@ -13,9 +13,9 @@
 
 ### 概要
 
-Ignite UI® は、強い型付け、コンパイル時間のチェック、intellisense 機能を利用できるようにTypeScript の型定義を提供します。
+%%ProductName%%® は、強い型付け、コンパイル時間のチェック、intellisense 機能を利用できるようにTypeScript の型定義を提供します。
 
 ### トピック
 
--   [TypeScript で Ignite UI を使用](Using-Ignite-UI-with-TypeScript.html) - このトピックでは、Ignite UI の型定義を TypeScript で使用する方法の概要を説明します。
+-   [TypeScript で %%ProductName%% を使用](Using-Ignite-UI-with-TypeScript.html) - このトピックでは、%%ProductName%% の型定義を TypeScript で使用する方法の概要を説明します。
                     

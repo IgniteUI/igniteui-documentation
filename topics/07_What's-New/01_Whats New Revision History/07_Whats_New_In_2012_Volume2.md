@@ -13,7 +13,7 @@
 ## 新機能
 ### 機能の概要
 
-以下の表に、Ignite UI™ 2012 Volume 2 リリースの新機能を簡単に説明します。詳細は、概要表の後に記載されています。
+以下の表に、%%ProductName%%™ 2012 Volume 2 リリースの新機能を簡単に説明します。詳細は、概要表の後に記載されています。
 
 - [igHtmlEditor コントロール](#ightmleditor-control): 新しい `igHtmlEditor`™ は jQuery WYSIWYG コントロールです。Web ブラウザーで HTML を編集する機能があります。
 

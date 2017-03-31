@@ -36,7 +36,7 @@
 ## <a id="styling_using_themes"></a> テーマを使用したスタイル設定 
 ### <a id="required_css"></a> 必要な CSS とテーマ 
 
-Ignite UI™ 階層グリッドは、ほかの jQuery ウィジェットのように、スタイリングに jQuery UI CSS Framework を使用します。Ignite UI には、Infragistics および Metro と呼ばれるカスタム jQuery UI テーマが含まれています。これらのテーマによって、Infragistics ウィジェットおよび標準の jQuery UI ウィジェットが、プロフェッショナルで魅力的な外観になります。
+%%ProductName%%™ 階層グリッドは、ほかの jQuery ウィジェットのように、スタイリングに jQuery UI CSS Framework を使用します。%%ProductName%% には、Infragistics および Metro と呼ばれるカスタム jQuery UI テーマが含まれています。これらのテーマによって、Infragistics ウィジェットおよび標準の jQuery UI ウィジェットが、プロフェッショナルで魅力的な外観になります。
 
 Infragistics および Metro テーマに加えて、Infragistics ウィジェットの基本 CSS レイアウトに必要な structure ディレクトリがあります。
 

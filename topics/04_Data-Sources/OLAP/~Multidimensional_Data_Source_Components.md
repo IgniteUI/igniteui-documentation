@@ -16,13 +16,13 @@
 
 ### 概要
 
-このグループのトピックは、Ignite UI® の多次元 (OLAP) データ ソース コンポーネントについて説明します。
+このグループのトピックは、%%ProductName%%® の多次元 (OLAP) データ ソース コンポーネントについて説明します。
 
 ### トピック
 
 このセクションは、多次元データ ソースに関するトピックで構成されています。
 
-- [多言語 (OLAP) データ ソース コンポーネント概要](Multidimensional-Data-Source-Components-Overview.html): このトピックは、Ignite UI の多次元データ ソースの概要を提供します。
+- [多言語 (OLAP) データ ソース コンポーネント概要](Multidimensional-Data-Source-Components-Overview.html): このトピックは、%%ProductName%% の多次元データ ソースの概要を提供します。
 
 - [igOlapXmlaDataSource](igOlapXmlaDataSource.html): これは、`igOlapXmlaDataSource`™ コンポーネントとその使用を説明しているトピックのグループです。
 

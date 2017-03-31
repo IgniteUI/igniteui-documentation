@@ -17,7 +17,7 @@
 
 ### 目的
 
-このトピックでは、HTML ビューを作成し、JavaScript を使用して動的に柱状チャートにデータを追加し、Ignite UI ライブラリにあるチャートの Motion Framework を使用してデータの変化をアニメーション化する方法について説明します。
+このトピックでは、HTML ビューを作成し、JavaScript を使用して動的に柱状チャートにデータを追加し、%%ProductName%% ライブラリにあるチャートの Motion Framework を使用してデータの変化をアニメーション化する方法について説明します。
 
 ### 前提条件
 
@@ -246,7 +246,7 @@ HTML ビューの作成を終えれば、[項目の追加] ボタンをクリッ
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
 
--	[ASP.NET MVC でのチャートのアニメーション化 (igDataChart)](Animating-Charts-in-ASP.NET-MVC.html): このトピックでは、MVC ビューを作成し、jQuery を使用して　AJAX POST 要求によって動的に柱状チャートにデータを追加し、Ignite UI ライブラリにあるチャートの Motion Framework を使用してデータの変化をアニメーション化する方法について説明します。
+-	[ASP.NET MVC でのチャートのアニメーション化 (igDataChart)](Animating-Charts-in-ASP.NET-MVC.html): このトピックでは、MVC ビューを作成し、jQuery を使用して　AJAX POST 要求によって動的に柱状チャートにデータを追加し、%%ProductName%% ライブラリにあるチャートの Motion Framework を使用してデータの変化をアニメーション化する方法について説明します。
 
 
 

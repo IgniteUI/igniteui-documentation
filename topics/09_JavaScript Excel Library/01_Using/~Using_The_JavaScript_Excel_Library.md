@@ -12,7 +12,7 @@
 
 このセクションには、Infragistics JavaScript Excel ライブラリの使用に関するトピックが含まれています。
 
-このトピックは、新しい JavaScript Excel ライブラリを使用して、Ignite UI `igGrid` のコンテンツを Excel ワークブックにエクスポートする方法を紹介します。Infragistics JavaScript Excel ライブラリが強力であることを理解することができます。
+このトピックは、新しい JavaScript Excel ライブラリを使用して、%%ProductName%% `igGrid` のコンテンツを Excel ワークブックにエクスポートする方法を紹介します。Infragistics JavaScript Excel ライブラリが強力であることを理解することができます。
 
 ## 初期設定 
 
@@ -26,7 +26,7 @@ $.ig.loader({
     resources: "igGrid.Summaries"
 });
 ```
-ここでは、js フォルダーから JavaScript ファイル、Infragistics CDN から Ignite UI スタイルをそれぞれ読み込み、グリッドの集計機能を読み込むようにローダーを構成します。
+ここでは、js フォルダーから JavaScript ファイル、Infragistics CDN から %%ProductName%% スタイルをそれぞれ読み込み、グリッドの集計機能を読み込むようにローダーを構成します。
 
 スクリプトが読み込まれると、次のコードに示すように、グリッドが作成されます。
 

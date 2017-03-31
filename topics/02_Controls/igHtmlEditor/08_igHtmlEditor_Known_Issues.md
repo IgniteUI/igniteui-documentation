@@ -20,7 +20,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
--	[既知の問題](Known-Issues-Revision-History.html): すべての Ignite UI コントロールの既知の問題と制限に関する参考情報を提供します。
+-	[既知の問題](Known-Issues-Revision-History.html): すべての %%ProductName%% コントロールの既知の問題と制限に関する参考情報を提供します。
 
 
 ##既知の問題と制限
@@ -139,7 +139,7 @@ $.ig.loader(function () {
 
 -	[アクセシビリティ準拠 (igHtmlEditor)](igHtmlEditor-Accessibility-Compliance.html): このトピックでは、`igHtmlEditor` のアクセシビリティ機能について説明し、`igHtmlEditor` を含むページのアクセシビリティ準拠を達成する方法に関する情報を提供します。
 
--	[アクセシビリティ準拠](Accessibility-Compliance.html): すべての Ignite UI コントロールのアクセシビリティ準拠のための参照情報を提供します。
+-	[アクセシビリティ準拠](Accessibility-Compliance.html): すべての %%ProductName%% コントロールのアクセシビリティ準拠のための参照情報を提供します。
 
 
 

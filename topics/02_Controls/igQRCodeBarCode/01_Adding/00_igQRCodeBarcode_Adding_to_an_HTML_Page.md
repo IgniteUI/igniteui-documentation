@@ -76,7 +76,7 @@ jQuery および jQuery UI JavaScript リソース
 			</td>
 
             <td>
-                Ignite UI™ は、以下のフレームワークの最上部にビルドされます。
+                %%ProductName%%™ は、以下のフレームワークの最上部にビルドされます。
 
                 <ul>
                     <li>
@@ -100,7 +100,7 @@ jQuery および jQuery UI JavaScript リソース
 			</td>
 
             <td>
-                igQRCodeBarcode コントロールは、Ignite UI ライブラリ内の複数のファイルで配布される機能に依存します。必要なリソースは以下の方法で読み込むことができます。
+                igQRCodeBarcode コントロールは、%%ProductName%% ライブラリ内の複数のファイルで配布される機能に依存します。必要なリソースは以下の方法で読み込むことができます。
 
                 <ul>
                     <li>
@@ -112,11 +112,11 @@ Infragistics® Loader (`igLoader`™) を使用します。ページ上に `igLo
 					</li>
 
                     <li>
-Ignite UI パッケージのすべてのデータ ビジュアライゼーション コントロールのロジックを含む、2 つの結合ファイル (`infragistics.core.js`、`infragistics.dv.js` および `infragistics.encoding.js` (オプション)) を読み込みます。
+%%ProductName%% パッケージのすべてのデータ ビジュアライゼーション コントロールのロジックを含む、2 つの結合ファイル (`infragistics.core.js`、`infragistics.dv.js` および `infragistics.encoding.js` (オプション)) を読み込みます。
 					</li>
                 </ul>
 
-                以下の表は、igQRCodeBarcode コントロール関連の Ignite UI ライブラリの依存関係をリストします。`igLoader` または結合ファイルを使用しない選択をした場合、これらのリソースを明示的に参照する必要があります。
+                以下の表は、igQRCodeBarcode コントロール関連の %%ProductName%% ライブラリの依存関係をリストします。`igLoader` または結合ファイルを使用しない選択をした場合、これらのリソースを明示的に参照する必要があります。
 
                 <table class="table">
 	<thead>
@@ -139,7 +139,7 @@ JS リソース
 			</td>
 
                             <td>
-Ignite UI ユーティリティ
+%%ProductName%% ユーティリティ
 			</td>
                         </tr>
 
@@ -243,13 +243,13 @@ Ignite UI ユーティリティ
 <!DOCTYPE html>
 <html>
 <head>
-      <!-- Ignite UI  CSS File -->
+      <!-- %%ProductName%%  CSS File -->
       <link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
       
       <script type="text/javascript" src="../../js/jquery.min.js"></script>
       <script type="text/javascript" src="../../js/jquery-ui.js"></script>
       
-      <!-- Ignite UI Required Common JavaScript Files -->
+      <!-- %%ProductName%% Required Common JavaScript Files -->
       <script src="../../igniteui/js/modules/infragistics.util.js"></script>
       <script src="../../igniteui/js/modules/infragistics.dv.simple.core.js"></script>      
       
@@ -320,13 +320,13 @@ Ignite UI ユーティリティ
 <!DOCTYPE html>
 <html>
 <head>
-      <!-- Ignite UI  CSS File -->
+      <!-- %%ProductName%%  CSS File -->
       <link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
       
       <script type="text/javascript" src="../../js/jquery.min.js"></script>
       <script type="text/javascript" src="../../js/jquery-ui.js"></script>
       
-      <!-- Ignite UI Required Common JavaScript Files -->
+      <!-- %%ProductName%% Required Common JavaScript Files -->
       <script src="../../igniteui/js/modules/infragistics.util.js"></script>
       <script src="../../igniteui/js/modules/infragistics.dv.simple.core.js"></script>
       

@@ -172,7 +172,7 @@ $('#editor').igValidator({
 
 ### <a id="equals"></a> EqualsTo
 
-[`equalTo`](%%jQueryApiUrl%%/ui.igValidator#options:equalTo) 検証は、ターゲット値およびもう一つのフィールドが同じである必要があります。他のフィールドのセレクターは、入力のさまざまなタイプおよびその他のサポートされる Ignite UI エディター コントロールが初期化される要素へポイントできます。このチェックは、ルールが定義される `igValidator` トリガーに基づいて実行されます。
+[`equalTo`](%%jQueryApiUrl%%/ui.igValidator#options:equalTo) 検証は、ターゲット値およびもう一つのフィールドが同じである必要があります。他のフィールドのセレクターは、入力のさまざまなタイプおよびその他のサポートされる %%ProductName%% エディター コントロールが初期化される要素へポイントできます。このチェックは、ルールが定義される `igValidator` トリガーに基づいて実行されます。
 
 有効な jQuery セレクター/参照または`selector` オプション追加メッセージのあるオブジェクトで構成できます。
 
@@ -295,7 +295,7 @@ $('#validationForm').igValidator({
 - `thousandsSeparator` 数値オプションのプロパティが明示的に定義されていない場合に使用するデフォルトの桁区切り記号 (",")。
 - `emailRegEx`  [メール入力のための HTML5 仕様] に一致する RegExp オブジェクトをチェックするデフォルトのメールチェック。 
 
-これらの設定をグローバルにオーバーライドするために、`igValidator` を初期化する前に必要な Ignite UI リソースを読み込んだ後にプロパティを設定します。
+これらの設定をグローバルにオーバーライドするために、`igValidator` を初期化する前に必要な %%ProductName%% リソースを読み込んだ後にプロパティを設定します。
 
 ```js
 // override default thousands separator:

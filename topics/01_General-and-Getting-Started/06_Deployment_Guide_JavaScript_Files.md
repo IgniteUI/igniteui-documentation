@@ -8,29 +8,29 @@
 |metadata|
 -->
 
-# Ignite UI での JavaScript ファイル
+# %%ProductName%% での JavaScript ファイル
 
 ##トピックの概要
 
 ### 目的
 
-このトピックは、Ignite UI™ に含まれるコントロールを使用して作業するために必要な JavaScript ファイルに関連する参照情報を提供します。
+このトピックは、%%ProductName%%™ に含まれるコントロールを使用して作業するために必要な JavaScript ファイルに関連する参照情報を提供します。
 
 ### 必要な背景
 
 以下のリストは、この題材を理解するために必要な、前提条件となるトピックを示しています。
 
-- [Ignite UI で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、Web アプリケーションで Ignite UI JavaScript を操作して、必要なリソースを管理する方法について説明します。
+- [%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、Web アプリケーションで %%ProductName%% JavaScript を操作して、必要なリソースを管理する方法について説明します。
 
-- [Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html): このトピックでは、デザイン段階でのアプリケーションのセットアップ手順について説明し、実稼働環境で CSS を使用するためのオプションを紹介すると同時に、テーマの作成またはカスタマイズについての概要を示します。
+- [%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html): このトピックでは、デザイン段階でのアプリケーションのセットアップ手順について説明し、実稼働環境で CSS を使用するためのオプションを紹介すると同時に、テーマの作成またはカスタマイズについての概要を示します。
 
-- [Ignite UI 向けのインフラジスティックス コンテンツ配信ネットワーク (CDN)](Deployment-Guide-Infragistics-Content-Delivery-Network%28CDN%29.html): Ignite UI 対応 Infragistics Content Delivery Network (CDN) の使用方法。
+- [%%ProductName%% 向けのインフラジスティックス コンテンツ配信ネットワーク (CDN)](Deployment-Guide-Infragistics-Content-Delivery-Network%28CDN%29.html): %%ProductName%% 対応 Infragistics Content Delivery Network (CDN) の使用方法。
 
 
 ### JavaScript ファイル種類の参照
 
 
-以下は、Ignite UI に含まれる JavaScript のファイル種類の概要を示しています。
+以下は、%%ProductName%% に含まれる JavaScript のファイル種類の概要を示しています。
 
 結合スクリプトを含む JavaScript ファイルの名前は以下のリストです:
 
@@ -38,7 +38,7 @@
 -   `infragistics.lob.js`
 -   `infragistics.dv.js`
 
-ファイルは js フォルダー (Ignite UI プログラム インストール パス内の JavaScript ファイルのルート フォルダー) にあります。
+ファイルは js フォルダー (%%ProductName%% プログラム インストール パス内の JavaScript ファイルのルート フォルダー) にあります。
 
 ブルガリア語、ロシア語、英語、ドイツ語、スペイン語、およびフランス語の、結合スクリプト バージョンのローカライズ リソースもあります。ファイル名は `infragistics-bg.js`, `infragistics-en.js`、`infragistics-ru.js`、 `infragistics-de.js`、`infragistics-es.js`、および `infragistics-fr.js`であり、これらは `../js/i18n` フォルダーにあります。
 
@@ -54,9 +54,9 @@
 
 以下の 2 種類のインターナショナリゼーションがあります。1 つ目は、コントロール内のローカライズ リソースです。2 つ目は、コントロール内の地域設定です。
 
-コントロールのローカライズ リソースは、ブルガリア語、ロシア語、英語、ドイツ語、スペイン語、およびフランス語です。これらは、js/modules/i18n (*js* は、Ignite UI プログラムのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
+コントロールのローカライズ リソースは、ブルガリア語、ロシア語、英語、ドイツ語、スペイン語、およびフランス語です。これらは、js/modules/i18n (*js* は、%%ProductName%% プログラムのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
 
-地域設定 - igRegional JavaScript ファイルは、jQuery エディター用の日付、数字、通貨記号などのローカライズ フォーマットを提供します。これらは、`../js/modules/i18n/regional` (`js` は、Ignite UI プログラムのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
+地域設定 - igRegional JavaScript ファイルは、jQuery エディター用の日付、数字、通貨記号などのローカライズ フォーマットを提供します。これらは、`../js/modules/i18n/regional` (`js` は、%%ProductName%% プログラムのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
 
 >**注:** 結合スクリプト ファイルを使用するときは、地域設定を常に参照する必要があります。これらは結合スクリプト ファイルの一部ではありません。
 
@@ -65,7 +65,7 @@
 
 ##コントロールによる JavaScript ファイルの参照
 
-### Ignite UI コントロール リスト
+### %%ProductName%% コントロール リスト
 
 特定のコントロールの必要な JavaScript ファイル リストをナビゲートするには、以下のリストのコントロール名をクリックします。
 

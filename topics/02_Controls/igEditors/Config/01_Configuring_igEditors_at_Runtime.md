@@ -38,7 +38,7 @@
 #### 全般的な要件
 
 -   jQuery 固有の要件
--   Ignite UI コントロールのインスタンスが作成された HTML Web ページ
+-   %%ProductName%% コントロールのインスタンスが作成された HTML Web ページ
 -   MVC 固有の要件
 -   Microsoft Visual Studio® での MVC プロジェクト
 -   Infragsitics.Web.Mvc dll (ASP.NET MVC ヘルパーを含む) への参照
@@ -49,7 +49,7 @@
 
 	1.  jQuery コア ライブラリ スクリプト
 	2.  jQuery UI ライブラリ
-	3.  ページで使用するエディターに必要な Ignite UI スクリプト ファイル
+	3.  ページで使用するエディターに必要な %%ProductName%% スクリプト ファイル
 
 ##<a id="_Binding_to_events_and_setting_options"></a>イベントへのバインドとオプションの設定
 
@@ -283,7 +283,7 @@ $("#percenteditor").igEditor('option', 'maxDecimals', 10);
 ##<a id="_Related_Topics"></a>関連トピック
 
 
--   [Ignite UI でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html)
+-   [%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html)
 
  
 

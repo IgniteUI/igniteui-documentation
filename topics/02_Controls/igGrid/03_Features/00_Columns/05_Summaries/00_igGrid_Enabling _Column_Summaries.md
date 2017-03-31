@@ -219,9 +219,9 @@
 
 - [列集計の構成 (igGrid)](igGrid-Configuring-Column-Summaries.html)
 
-- [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+- [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
-- [Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
+- [%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
 
 ### <a id="samples"></a> サンプル
 

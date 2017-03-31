@@ -65,7 +65,7 @@
 ## <a id="overview"></a>igTileManager とデータ ソースのバインド - 概要
 ### <a id="data-source"></a>データ ソースの要約
 
-`igTileManager` は、Ignite UI® ライブラリの他のコントロールと同様にデータにバインドされます。データのバインドは、[dataSource](%%jQueryApiUrl%%/ui.igtilemanager#options:dataSource) オプションにデータ ソースを割り当てる方法、またはデータが Web サービスまたは Windows Communication Foundation (WCF) サービスにより提供される場合は [dataSourceUrl](%%jQueryApiUrl%%/ui.igtilemanager#options:dataSourceUrl) で URL を指定する方法で行います。`igTileManager` コントロールは [igDataSource](%%jQueryApiUrl%%/ig.datasource) オブジェクトを作成および使用してデータを処理します。
+`igTileManager` は、%%ProductName%%® ライブラリの他のコントロールと同様にデータにバインドされます。データのバインドは、[dataSource](%%jQueryApiUrl%%/ui.igtilemanager#options:dataSource) オプションにデータ ソースを割り当てる方法、またはデータが Web サービスまたは Windows Communication Foundation (WCF) サービスにより提供される場合は [dataSourceUrl](%%jQueryApiUrl%%/ui.igtilemanager#options:dataSourceUrl) で URL を指定する方法で行います。`igTileManager` コントロールは [igDataSource](%%jQueryApiUrl%%/ig.datasource) オブジェクトを作成および使用してデータを処理します。
 
 ### <a id="suppoted-data-source"></a>サポートされるデータ ソース
 

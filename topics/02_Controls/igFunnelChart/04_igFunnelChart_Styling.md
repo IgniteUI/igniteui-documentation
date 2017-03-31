@@ -24,7 +24,7 @@
 	-   カスケード スタイル シート
 	-   リンクされた CCS ファイルの変更によるテーマの適用
 -   トピック
-	-   [Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html): このトピックは、Ignite UI® ライブラリのスタイルとテーマの更新に関する一般情報とその手順を説明します。
+	-   [%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html): このトピックは、%%ProductName%%® ライブラリのスタイルとテーマの更新に関する一般情報とその手順を説明します。
 	-   [*igFunnelChart* の概要](igFunnelChart-Overview.html): このトピックでは、主要機能、最小要件、ユーザー機能性など、`igFunnelChart` コントロールに関する概念的な情報を提供します。 
 	-   [*igFunnelChart* の追加](igFunnelChart-Adding.html): このトピックでは、`igFunnelChart` コントロールを HTML ページに追加しデータへバインドする方法を説明します。
 
@@ -58,15 +58,15 @@
 
 `igFunnelChart` コントロールにより、開発者は Web サイトのアプリケーションでファンネル チャートを簡単に作成できます。`igFunnelChart` コントロールは、スタイルおよびテーマを適用するために jQuery UI CSS Framework を使用します。デフォルトでは、`igFunnelChart` は、アプリケーションで使用するため Infragistics® により提供される jQuery UI テーマである IG テーマを使用します。それに加えて、IG テーマにはファンネル チャートをサポートする固有のスタイルがいくつかあります。これは、ファンネル チャートのルック アンド フィールをカスタマイズするには、汎用の jQuery UI テーマでは十分でないために必要となります。ツールチップやスライスなどファンネル チャートに固有の要素を変更するために追加のスタイル クラスを提供します。
 
-Ignite UI ライブラリでテーマを使用する方法の詳細については、「[**Ignite UI のスタイル設定とテーマ設定**](Deployment-Guide-Styling-and-Theming.html)」トピックをご覧ください。
+%%ProductName%% ライブラリでテーマを使用する方法の詳細については、「[**%%ProductName%% のスタイル設定とテーマ設定**](Deployment-Guide-Styling-and-Theming.html)」トピックをご覧ください。
 
-> **注:** Ignite UI のベース テーマはチャートには不要で、チャートのみ表示されたページでは省略できます。
+> **注:** %%ProductName%% のベース テーマはチャートには不要で、チャートのみ表示されたページでは省略できます。
 
 
 
 ## <a id="themes"></a> テーマの概要
 
-Ignite UI は、`igFunnelChart` コントロールを使用して以下のテーマを提供します。
+%%ProductName%% は、`igFunnelChart` コントロールを使用して以下のテーマを提供します。
 
 -   IG 
 -   Metro
@@ -79,7 +79,7 @@ Ignite UI は、`igFunnelChart` コントロールを使用して以下のテー
 
 テーマ|説明
 --- | ---
-**IG** ![](images/Styling_igFunnelChart_%28User_Story%29_1.png) |パス: *IG CSS ルート/themes/infragistics/*<br />ファイル: *infragistics.theme.css*<br />このテーマは、すべての Ignite UI コントロールの一般的なビジュアル機能を定義します。IG テーマの使用方法の詳細については、「[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)」トピックをご覧ください。
+**IG** ![](images/Styling_igFunnelChart_%28User_Story%29_1.png) |パス: *IG CSS ルート/themes/infragistics/*<br />ファイル: *infragistics.theme.css*<br />このテーマは、すべての %%ProductName%% コントロールの一般的なビジュアル機能を定義します。IG テーマの使用方法の詳細については、「[%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)」トピックをご覧ください。
 **Metro** ![](images/Styling_igFunnelChart_%28User_Story%29_2.png)|パス: *IG CSS ルート/themes/metro/*<br />ファイル: *infragistics.theme.css*<br />このテーマは、新しい Windows® 8 ユーザー インターフェイスとタッチ対応デバイスに関するビジュアル機能を定義します。スライスの角ばったコーナーと多少異なるカラーが特長です。
 
 

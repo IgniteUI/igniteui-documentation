@@ -50,7 +50,7 @@
 
 `igTileManager` は、DIV 要素で初期化するコントロールです。DIV に追加されたマークアップやデータ ソースから、`igTileManager` を作成できます ([igTileManager とデータのバインド](igTileManager-Binding.html)を参照してください)。このトピックは、マークアップでの初期化を説明します。
 
-`igTileManager` コントロールによって必要とされるすべての Ignite UI リソースを読み込むために、Infragistics Loader (`igLoader`) コンポーネントを使用します。マークアップについても、HTML ページに定義されています。
+`igTileManager` コントロールによって必要とされるすべての %%ProductName%% リソースを読み込むために、Infragistics Loader (`igLoader`) コンポーネントを使用します。マークアップについても、HTML ページに定義されています。
 
 ### <a id="requirements"></a>要件
 
@@ -81,7 +81,7 @@ jQuery および jQuery UI JavaScript リソース
 			</td>
 
             <td>
-Ignite UI は、これらのフレームワークの最上位にビルドされます。
+%%ProductName%% は、これらのフレームワークの最上位にビルドされます。
 			</td>
 
             <td>
@@ -95,7 +95,7 @@ JavaScript リソース
 			</td>
 
             <td>
-                Ignite UI ライブラリの igTileManager 機能は、いくつかのファイルにて配布されます。必要なリソースは以下の方法で読み込むことができます。
+                %%ProductName%% ライブラリの igTileManager 機能は、いくつかのファイルにて配布されます。必要なリソースは以下の方法で読み込むことができます。
 
                 <ul>
                     <li>
@@ -108,7 +108,7 @@ JavaScript リソース
 					</li>
                 </ul>
 
-                以下の表は、igTileManager コントロール関連の Ignite UI ライブラリの依存関係を示します。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。
+                以下の表は、igTileManager コントロール関連の %%ProductName%% ライブラリの依存関係を示します。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。
 
                 <table class="table">
 	<thead>
@@ -131,7 +131,7 @@ JS リソース
 			</td>
 
                             <td>
-Ignite UI ユーティリティ
+%%ProductName%% ユーティリティ
 			</td>
                         </tr>
 
@@ -210,7 +210,7 @@ IG テーマ (オプション)
 			</td>
 
             <td>
-このテーマには、Ignite UI ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
+このテーマには、%%ProductName%% ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
 
                 `{IG CSS root}/themes/Infragistics/infragistics.theme.css`
 			</td>
@@ -254,7 +254,7 @@ IG テーマ (オプション)
 
 
 
->**注:** JavaScript と CSS リソースを読み込むためには `igLoader` コンポーネントを使うことを推奨します。この方法の詳細は、[Infragistics Loader による必要なリソースの自動追加](Using-Infragistics-Loader.html)のトピックを参照してください。さらに、オンラインの [Ignite UI サンプル ブラウザー](%%SamplesUrl%%) には、`igTileManager` コンポーネントで `igLoader` を使用する方法の具体的な例が記載されています。
+>**注:** JavaScript と CSS リソースを読み込むためには `igLoader` コンポーネントを使うことを推奨します。この方法の詳細は、[Infragistics Loader による必要なリソースの自動追加](Using-Infragistics-Loader.html)のトピックを参照してください。さらに、オンラインの [%%ProductName%% サンプル ブラウザー](%%SamplesUrl%%) には、`igTileManager` コンポーネントで `igLoader` を使用する方法の具体的な例が記載されています。
 
 ### <a id="steps"></a>手順
 
@@ -269,7 +269,7 @@ IG テーマ (オプション)
 ## <a id="html-markup-preocedure"></a>igTileManager の HTML マークアップへの追加 - 手順
 ### <a id="html-introduction"></a>概要
 
-この手順は、実際の HTML/JavaScript 実装を使用して、基本機能を持つ `igTileManager` コントロールを HTML ページへ追加するステップを説明します。`igTileManager` コントロールによって必要とされるすべての Ignite UI リソースを読み込むために、Infragistics Loader コンポーネント (`igLoader`) を使用します。マークアップについても、HTML ページに定義されています。
+この手順は、実際の HTML/JavaScript 実装を使用して、基本機能を持つ `igTileManager` コントロールを HTML ページへ追加するステップを説明します。`igTileManager` コントロールによって必要とされるすべての %%ProductName%% リソースを読み込むために、Infragistics Loader コンポーネント (`igLoader`) を使用します。マークアップについても、HTML ページに定義されています。
 
 ### <a id="html-preview"></a>プレビュー
 
@@ -283,9 +283,9 @@ IG テーマ (オプション)
 
 -   適切な場所に追加された必要なファイル:
     -   Web ページと同じディレクトリにある Scripts という名前のフォルダーに追加された必要な jQuery および jQueryUI JavaScript リソース
-    -   Content/ig という名前のフォルダーに追加された Ignite UI CSS ファイル (詳細は、[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
+    -   Content/ig という名前のフォルダーに追加された %%ProductName%% CSS ファイル (詳細は、[%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
 
--   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された Ignite UI JavaScript ファイル (詳細は、[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
+-   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された %%ProductName%% JavaScript ファイル (詳細は、[%%ProductName%% での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
 
 -   ページの `<head>` セクションで参照される、必要な JavaScript リソース。
 
@@ -423,8 +423,8 @@ IG テーマ (オプション)
 
 -   適切な場所に追加された必要なファイル:
     -   Web ページと同じディレクトリにある Scripts という名前のフォルダーに追加された必要な jQuery および jQueryUI JavaScript リソース
-    -   Content/ig という名前のフォルダーに追加された Ignite UI CSS ファイル (詳細は、[Ignite UI のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
-    -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された Ignite UI JavaScript ファイル (詳細は、[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
+    -   Content/ig という名前のフォルダーに追加された %%ProductName%% CSS ファイル (詳細は、[%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
+    -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された %%ProductName%% JavaScript ファイル (詳細は、[%%ProductName%% での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
 -   ページの `<head>` セクションで参照される、必要な JavaScript リソース。
 
     **HTML の場合:**

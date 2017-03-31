@@ -83,7 +83,7 @@
 -   `infragistics.encoding.js` ファイルこのファイルには、すべての文字エンコードのセットが含まれています。バーコードを生成するために複数の文字セットを使用する場合など、アプリケーションで複数のエンコードが必要な場合に適しています。
 -   `infragistics.encoding.core.js` および `infragistics.encoding_<encoding-name>.js` ファイル後者は、`<encoding-name>` エンコードのみを含みます。複数の言語に対応するために、複数の `infragistics.encoding_<encoding-name>.js` ファイルを含めることができます。この選択肢は、ファイル サイズが小さいために他のエンコードを使用しない場合にお勧めします。
 
-1.  Ignite UI™ パッケージ フォルダー構成の以下の場所で、任意のエンコード ファイルを見つけることができます。
+1.  %%ProductName%%™ パッケージ フォルダー構成の以下の場所で、任意のエンコード ファイルを見つけることができます。
 
     <IG JS root>/modules/encoding
 

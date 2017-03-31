@@ -13,12 +13,12 @@
 
 `igCurrencyEditor` の jQuery ウィジェットは、多くのスタイル設定オプションを公開します。通貨エディターのスタイルをカスタマイズするには、さまざまなテーマを使用する、またはカスタム CSS ルールをコントロールに直接適用する必要があります。 
 
-Ignite UI パッケージには、いくつかの jQuery UI や Bootstrap テーマが用意されています。また Bootstrap は、独自のブートストラップのテーマの生成やカスタマイズをサポートしています。詳細は、[スタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)を参照してください。 
+%%ProductName%% パッケージには、いくつかの jQuery UI や Bootstrap テーマが用意されています。また Bootstrap は、独自のブートストラップのテーマの生成やカスタマイズをサポートしています。詳細は、[スタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)を参照してください。 
 エディターを含めたページ上のすべてのコントロールのスタイルは、どのテーマでも設定できます。
 
 ## ThemeRoller の使用
 
-`igCurrencyEditor` コントロールは jQuery UI CSS フレームワークを使用するため、[jQuery UI ThemeRoller](http://jqueryui.com/themeroller/) を使用してすべてのスタイルを設定することもできます。これにより、独自に作成したテーマのカスタマイズや使用可能なギャラリーからのテーマの選択ができます。これらのテーマは、Ignite UI のデフォルトのテーマと置き換えられます。
+`igCurrencyEditor` コントロールは jQuery UI CSS フレームワークを使用するため、[jQuery UI ThemeRoller](http://jqueryui.com/themeroller/) を使用してすべてのスタイルを設定することもできます。これにより、独自に作成したテーマのカスタマイズや使用可能なギャラリーからのテーマの選択ができます。これらのテーマは、%%ProductName%% のデフォルトのテーマと置き換えられます。
 
 UI Darkness テーマを使用する通貨エディター: 
 

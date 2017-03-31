@@ -86,7 +86,7 @@ ASP.NET MVC|`Grid` の構成で、`TemplatingEngine` メソッドのパラメー
 
 この手順を実行するには、以下のリソースが必要です。
 
-1.  バージョン 13.2 に必要な Ignite UI の JavaScript ファイルと CSS ファイル
+1.  バージョン 13.2 に必要な %%ProductName%% の JavaScript ファイルと CSS ファイル
 2.  ページで参照される jsRender ライブラリ
 
 **JavaScript の場合:**

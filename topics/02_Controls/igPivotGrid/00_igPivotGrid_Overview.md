@@ -24,7 +24,7 @@
 
 **トピック**
 
-- [多次元 (OLAP) データ ソース コンポーネント](Multidimensional-Data-Source-Components.html): このトピック グループでは、Ignite UI™ スイートの多次元 (OLAP) データ ソース コンポーネントを説明します。
+- [多次元 (OLAP) データ ソース コンポーネント](Multidimensional-Data-Source-Components.html): このトピック グループでは、%%ProductName%%™ スイートの多次元 (OLAP) データ ソース コンポーネントを説明します。
 
 
 **外部リソース**
@@ -69,7 +69,7 @@
 
 `igPivotGrid` コントロールは OLAP キューブまたはフラットなデータ コレクションから得たデータをスライス、ダイス、ドリルダウン、ドリルアップおよび旋回できます。機能という武器を有し、`igPivotGrid` は洗練されたデータ駆動型のアプリケーショを構築できます。
 
-`igPivotGrid` は Ignite UI スイートからの別のコントロールを緊密に連携するよう設計されています -  [igPivotDataSelector](igPivotDataSelector.html)™。`igPivotDataSelector` コントロールは、`igPivotGrid` で表示するためにユーザーが使用可能なデータ ソースで使用可能なすべての階層およびメジャーを管理します。(igPivotGrid をそのままで使用すると、ユーザーはデータとの相互作用が現在ピボット グリッドで表示されているデータ スライスのみに制限されます)`igPivotDataSelector` をサイズ変更および縮小するため組み込み機能から恩恵を受ける 2 つのウィジェットでなく 1 つのウィジェットを望む場合、`igPivotGrid` と igPivotDataSelector の組み合わせでなく [igPivotView](igPivotView.html)™ を使用します。
+`igPivotGrid` は %%ProductName%% スイートからの別のコントロールを緊密に連携するよう設計されています -  [igPivotDataSelector](igPivotDataSelector.html)™。`igPivotDataSelector` コントロールは、`igPivotGrid` で表示するためにユーザーが使用可能なデータ ソースで使用可能なすべての階層およびメジャーを管理します。(igPivotGrid をそのままで使用すると、ユーザーはデータとの相互作用が現在ピボット グリッドで表示されているデータ スライスのみに制限されます)`igPivotDataSelector` をサイズ変更および縮小するため組み込み機能から恩恵を受ける 2 つのウィジェットでなく 1 つのウィジェットを望む場合、`igPivotGrid` と igPivotDataSelector の組み合わせでなく [igPivotView](igPivotView.html)™ を使用します。
 
 
 
@@ -189,7 +189,7 @@ igGrid の以下の機能は gridOptions.[features](%%jQueryApiUrl%%/ui.igPivotG
 
 ### 要件の概要
 
-`igPivotGrid` コントロールは jQuery UI ウィジェットであるため、jQuery と jQuery の UI ライブラリに依存します。Modernzr ライブラリは、内部的にブラウザーと装置の機能を検出するためにも使用されています。コントロールは、その機能のために通常いくつかの Ignite UI 共有リソースを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
+`igPivotGrid` コントロールは jQuery UI ウィジェットであるため、jQuery と jQuery の UI ライブラリに依存します。Modernzr ライブラリは、内部的にブラウザーと装置の機能を検出するためにも使用されています。コントロールは、その機能のために通常いくつかの %%ProductName%% 共有リソースを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
 
 `igPivotGrid` コントロールを使用した必要なリソースの詳細なリストについては、「[igPivotView の HTML ページへの追加](igPivotView-Adding-to-HTML-Page.html)」を参照してください。
 

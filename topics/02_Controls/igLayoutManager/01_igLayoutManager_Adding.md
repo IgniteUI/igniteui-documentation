@@ -96,7 +96,7 @@
 			</td>
 
 			<td>
-				Ignite UI は、これらのフレームワークの最上位にビルドされます。
+				%%ProductName%% は、これらのフレームワークの最上位にビルドされます。
 
 				<ul>
 					<li><a class="ig-topic-link" href="http://jquery.com/" target="_blank">jQuery</a></li>
@@ -116,7 +116,7 @@
 			</td>
 
 			<td>
-				Ignite UI ライブラリの igLayoutManager 機能は、複数のファイルで配布されます。必要なリソースは以下の方法で読み込むことができます。
+				%%ProductName%% ライブラリの igLayoutManager 機能は、複数のファイルで配布されます。必要なリソースは以下の方法で読み込むことができます。
 
 				<ul>
 					<li>(推奨) <a href="Using-Infragistics-Loader.html" data-auto-update-caption="true">**Infragistics Loader (igLoader™) を使用します**</a> 。ページ上に igLoader へのスクリプト参照を含めるのみです。</li>
@@ -124,7 +124,7 @@
 					<li>必要なリソースを手動で読み込みます。以下の表にリストされる依存関係を使用する必要があります。</li>
 				</ul>
 
-				<div>以下の表は、igLayoutManager コントロール関連の Ignite UI ライブラリの依存関係を示します。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。</div><br/>
+				<div>以下の表は、igLayoutManager コントロール関連の %%ProductName%% ライブラリの依存関係を示します。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。</div><br/>
 
 				<div>
                     <b>JS リソース</b> - infragistics.ui.layoutmanager.js
@@ -154,7 +154,7 @@
 			</td>
 
 			<td>
-				このテーマには、Ignite UI ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
+				このテーマには、%%ProductName%% ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
 
 				{IG CSS root}/themes/Infragistics/infragistics.theme.css
 			</td>
@@ -182,7 +182,7 @@
 
 
 
->**注:** JavaScript と CSS リソースを読み込むためには `igLoader` コンポーネントを使うことを推奨します。この方法の詳細は、[Infragistics Loader による必要なリソースの自動追加](Using-Infragistics-Loader.html)のトピックを参照してください。さらに、オンラインの [Ignite UI サンプル ブラウザー](%%SamplesUrl%%) には、`igLayoutManager` コンポーネントで `igLoader` を使用する方法の具体的な例が記載されています。
+>**注:** JavaScript と CSS リソースを読み込むためには `igLoader` コンポーネントを使うことを推奨します。この方法の詳細は、[Infragistics Loader による必要なリソースの自動追加](Using-Infragistics-Loader.html)のトピックを参照してください。さらに、オンラインの [%%ProductName%% サンプル ブラウザー](%%SamplesUrl%%) には、`igLayoutManager` コンポーネントで `igLoader` を使用する方法の具体的な例が記載されています。
 
 ### <a id="steps"></a>手順
 
@@ -198,7 +198,7 @@
 
 ### <a id="introduction"></a>概要
 
-ここでは、フロー レイアウトとデフォルト設定を持つ `igLayoutManager` コントロールを HTML ページに追加する手順について説明します。ここでは、実際の HTML/JavaScript を実装します。これは、`igLayoutManager` コントロールによって必要とされるすべての Ignite UI リソースを読み込むために、Infragistics Loader (`igLoader`) コンポーネントを使用します。マークアップについても、HTML ページに定義されています。`igLayoutManager` は、HTML マークアップ内で (すなわち、`<ul>` 要素のある `<li>` 要素) 直接、初期化します。
+ここでは、フロー レイアウトとデフォルト設定を持つ `igLayoutManager` コントロールを HTML ページに追加する手順について説明します。ここでは、実際の HTML/JavaScript を実装します。これは、`igLayoutManager` コントロールによって必要とされるすべての %%ProductName%% リソースを読み込むために、Infragistics Loader (`igLoader`) コンポーネントを使用します。マークアップについても、HTML ページに定義されています。`igLayoutManager` は、HTML マークアップ内で (すなわち、`<ul>` 要素のある `<li>` 要素) 直接、初期化します。
 
 その他のシナリオについては、[igLayoutManager の構成](igLayoutManager-Configuring-layouts.html)を参照してください。
 
@@ -214,8 +214,8 @@
 
 -   適切な場所に追加された必要なファイル:
     -   Web ページと同じディレクトリにある Scripts という名前のフォルダーに追加された必要な jQuery および jQueryUI JavaScript リソース
-    -   ig という名前のフォルダーに追加された Ignite UI CSS ファイル (詳細は、[**Ignite UI のスタイル設定とテーマ設定**](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
-    -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された Ignite UI JavaScript ファイル (詳細は、[**Ignite UI での JavaScript リソースの使用**](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
+    -   ig という名前のフォルダーに追加された %%ProductName%% CSS ファイル (詳細は、[**%%ProductName%% のスタイル設定とテーマ設定**](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
+    -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された %%ProductName%% JavaScript ファイル (詳細は、[**%%ProductName%% での JavaScript リソースの使用**](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
 -   ページの `<head>` セクションで参照される、必要な JavaScript リソース。
 
     **HTML の場合:**
@@ -297,7 +297,7 @@
 
 ### <a id="js-introduction"></a>概要
 
-この手順は、実際の HTML/JavaScript 実装を使用して、基本機能を持つ `igLayoutManager` コントロールを HTML ページへ追加する手順を説明します。`igLayoutManager` コントロールで必要なすべての Ignite UI リソースを読み込むための Infragistics Loader コンポーネントを使用します。`igLayoutManager` は、コントロール オプション内の項目オブジェクトの配列として初期化します (すなわち、ブランクの `<ul>` 要素で、[`itemCount`](%%jQueryApiUrl%%/ui.iglayoutmanager#options) プロパティを使用して、`igLayoutManager` のインスタンス内部で項目数を提供します)。
+この手順は、実際の HTML/JavaScript 実装を使用して、基本機能を持つ `igLayoutManager` コントロールを HTML ページへ追加する手順を説明します。`igLayoutManager` コントロールで必要なすべての %%ProductName%% リソースを読み込むための Infragistics Loader コンポーネントを使用します。`igLayoutManager` は、コントロール オプション内の項目オブジェクトの配列として初期化します (すなわち、ブランクの `<ul>` 要素で、[`itemCount`](%%jQueryApiUrl%%/ui.iglayoutmanager#options) プロパティを使用して、`igLayoutManager` のインスタンス内部で項目数を提供します)。
 
 ### <a id="js-preview"></a>プレビュー
 
@@ -311,8 +311,8 @@
 
 -   適切な場所に追加された必要なファイル:
     -   Web ページと同じディレクトリにある Scripts という名前のフォルダーに追加された必要な jQuery および jQueryUI JavaScript リソース
-    -   ig という名前のフォルダーに追加された Ignite UI CSS ファイル (詳細は、[**Ignite UI のスタイル設定とテーマ設定**](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
-    -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された Ignite UI JavaScript ファイル (詳細は、[**Ignite UI での JavaScript リソースの使用**](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
+    -   ig という名前のフォルダーに追加された %%ProductName%% CSS ファイル (詳細は、[**%%ProductName%% のスタイル設定とテーマ設定**](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
+    -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された %%ProductName%% JavaScript ファイル (詳細は、[**%%ProductName%% での JavaScript リソースの使用**](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
 -   ページの `<head>` セクションで参照される、必要な JavaScript リソース。
 
     **HTML の場合:**
@@ -404,8 +404,8 @@
 
 -   適切な場所に追加された必要なファイル:
     -   Web ページと同じディレクトリにある Scripts という名前のフォルダーに追加された必要な jQuery および jQueryUI JavaScript リソース
-    -   ig という名前のフォルダーに追加された Ignite UI CSS ファイル (詳細は、[**Ignite UI のスタイル設定とテーマ設定**](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
-    -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された Ignite UI JavaScript ファイル (詳細は、[**Ignite UI での JavaScript リソースの使用**](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
+    -   ig という名前のフォルダーに追加された %%ProductName%% CSS ファイル (詳細は、[**%%ProductName%% のスタイル設定とテーマ設定**](Deployment-Guide-Styling-and-Theming.html)のトピックを参照してください。)
+    -   Web サイトまたはアプリケーションにある Scripts/ig という名前のフォルダーに追加された %%ProductName%% JavaScript ファイル (詳細は、[**%%ProductName%% での JavaScript リソースの使用**](Deployment-Guide-JavaScript-Resources.html)のトピックを参照してください。)
 -   ページの `<head>` セクションで参照される、必要な JavaScript リソース。
 
     **HTML の場合:**

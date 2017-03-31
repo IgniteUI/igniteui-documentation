@@ -148,7 +148,7 @@ CRUD 操作の間、非バインド列データは更新と同様にトランザ
 
 - [既知の問題と制限 (igGrid)](igGrid-Known-Issues.html): このトピックでは、`igGrid` コントロールに関連する既知の問題点について説明します。
 
-- [既知の問題点の改訂履歴](Known-Issues-Revision-History.html): このトピックのグループでは、ボリューム リリース間の Ignite UI コントロールの既知の問題について説明します。
+- [既知の問題点の改訂履歴](Known-Issues-Revision-History.html): このトピックのグループでは、ボリューム リリース間の %%ProductName%% コントロールの既知の問題について説明します。
 
 
 

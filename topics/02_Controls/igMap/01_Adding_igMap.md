@@ -24,9 +24,9 @@
 
 **トピック**
 
--	[Ignite UI の概要](NetAdvantage-for-jQuery-Overview.html): Ignite UI™ ライブラリにつぃての一般的情報
+-	[%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
 
--	[Ignite UI で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して Ignite UI ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
+-	[%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
 
 -	[igMap の概要](Overview-igMap.html): このトピックは、`igMap` コントロールについて、その主要機能、最小要件、ユーザー インタラクションといった事項の概念的情報を提供します。
 
@@ -75,8 +75,8 @@
 
 -   必要なリソースを参照します。必要なリソースは次のとおりです。
     -   jQuery、jQueryUI、および Modernizer JavaScript リソース (Web サイトまたは Web アプリケーションのスクリプト フォルダーに格納されている必要があります)
-    -   Ignite UI CSS ファイル (Web サイトまたは Web アプリケーションの Infragistics® コンテンツ フォルダーに格納されている必要があります。詳細に関するトピックは [Ignite UI のスタイルとテーマの設定](Deployment-Guide-Styling-and-Theming.html)を参照)
-    -   Ignite UI JavaScript (Web サイトまたは Web アプリケーションの Infragistics スクリプト フォルダーに格納されている必要があります。詳細は [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックを参照)
+    -   %%ProductName%% CSS ファイル (Web サイトまたは Web アプリケーションの Infragistics® コンテンツ フォルダーに格納されている必要があります。詳細に関するトピックは [%%ProductName%% のスタイルとテーマの設定](Deployment-Guide-Styling-and-Theming.html)を参照)
+    -   %%ProductName%% JavaScript (Web サイトまたは Web アプリケーションの Infragistics スクリプト フォルダーに格納されている必要があります。詳細は [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックを参照)
 
 参照は、手動でまたは [Infragistics Loader](Using-Infragistics-Loader.html) (推奨) を使用して追加できます。
 
@@ -223,8 +223,8 @@
 
 -   必要なリソースを参照します。必要なリソースは次のとおりです。
    -   jQuery、jQueryUI、および Modernizer JavaScript リソース (Web サイトまたは Web アプリケーションのスクリプト フォルダーに格納されている必要があります)
-    -   Ignite UI CSS ファイル (Web サイトまたは Web アプリケーションの Infragistics® コンテンツ フォルダーに格納されている必要があります。詳細に関するトピックは [Ignite UI のスタイルとテーマの設定](Deployment-Guide-Styling-and-Theming.html)を参照)
-    -   Ignite UI JavaScript (Web サイトまたは Web アプリケーションの Infragistics スクリプト フォルダーに格納されている必要があります。詳細は [Ignite UI で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックを参照)
+    -   %%ProductName%% CSS ファイル (Web サイトまたは Web アプリケーションの Infragistics® コンテンツ フォルダーに格納されている必要があります。詳細に関するトピックは [%%ProductName%% のスタイルとテーマの設定](Deployment-Guide-Styling-and-Theming.html)を参照)
+    -   %%ProductName%% JavaScript (Web サイトまたは Web アプリケーションの Infragistics スクリプト フォルダーに格納されている必要があります。詳細は [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックを参照)
 
 参照は、手動でまたは [Infragistics Loader](Using-Infragistics-Loader.html) (推奨) を使用して追加できます。
 
@@ -236,7 +236,7 @@
 <script type="text/javascript" src="/Scripts/ig/js/infragistics.loader.js"></script>
 ```
 
-次に ASP.NET MVC プロジェクトで `Infragistics.Web.Mvc` アセンブリを参照し、`Infragistics.Web.Mvc` 名前空間をビューで参照します。詳細は、[Ignite UI での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)を参照してください。明確にするために、名前空間を参照するコードを以下に示します。
+次に ASP.NET MVC プロジェクトで `Infragistics.Web.Mvc` アセンブリを参照し、`Infragistics.Web.Mvc` 名前空間をビューで参照します。詳細は、[%%ProductName%% での JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)を参照してください。明確にするために、名前空間を参照するコードを以下に示します。
 
 **ASPX の場合:**
 

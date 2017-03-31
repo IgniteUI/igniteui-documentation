@@ -17,7 +17,7 @@
 
 ### 目的
 
-このトピックは、Knockout ライブラリを使用して View-Model のオブジェクトをバインドするために Ignite UI エディター コントロールを構成する方法について説明します。
+このトピックは、Knockout ライブラリを使用して View-Model のオブジェクトをバインドするために %%ProductName%% エディター コントロールを構成する方法について説明します。
 
 ### 前提条件
 
@@ -62,7 +62,7 @@
 
 ### Knockout サポートの概要
 
-Ignite UI エディター コントロールにおける Knockout ライブラリのサポートは、開発者が Knockout ライブラリとその宣言構文を使用して Ignite UI エディターを初期化し構成するための簡単な手段を提供することを目的としています。
+%%ProductName%% エディター コントロールにおける Knockout ライブラリのサポートは、開発者が Knockout ライブラリとその宣言構文を使用して %%ProductName%% エディターを初期化し構成するための簡単な手段を提供することを目的としています。
 
 Knockout のサポートは、View-Model への外部更新が発生した場合に、Knockout バインディングがページに適用されるときに最初に呼び出される Knockout 拡張機能としてページの存続期間中に実装されます。また、ビジネスに適したdata-bind 属性に関連するいずれかのエディター コントロール オプションを指定できます。
 
@@ -75,10 +75,10 @@ Knockout のサポートは、View-Model への外部更新が発生した場合
 以下の表に、このトピックで使用するコード例を示します。
 
 
--	 [Editor コントロール用に値のバインディングを構成する](#_Configuring_Value_Binding_for_Editor_Controls) : この例は、Knockout 宣言構文を使用して Ignite UI エディター コントロールの値オプションを View-Model オブジェクトにバインドする方法を示します。
+-	 [Editor コントロール用に値のバインディングを構成する](#_Configuring_Value_Binding_for_Editor_Controls) : この例は、Knockout 宣言構文を使用して %%ProductName%% エディター コントロールの値オプションを View-Model オブジェクトにバインドする方法を示します。
 	-	[入力マスクを構成する (igMaskEditor)](#_Configuring_an_Input_Mask) : この例は、Knockout 宣言構文を使用して `igMaskEditor`™ を View-Model オブジェクトにバインドする方法を示します。
 	-	[スケール ファクターを構成する (igPercentEditor)](#_Configuring_a_Scaling_Factor): この例は、Knockout 宣言構文を使用して `igPercentEditor`™ を View-Model オブジェクトにバインドする方法を示します。
-	-	[完全コード サンプル](#complete-sample): このサンプルは、Knockout データ バインディングにより管理されるデータに Ignite UI Editor コントロールをバインドする方法を紹介します。
+	-	[完全コード サンプル](#complete-sample): このサンプルは、Knockout データ バインディングにより管理されるデータに %%ProductName%% Editor コントロールをバインドする方法を紹介します。
 -	[コード例: 即時更新モードを構成する (igTextEditor)](#_Configuring_Immediate_Update_Mode): この例は、`igTextEditor` コントロールをインスタンス化し、各キー ストロークを更新する方法を示します。
 
 
@@ -87,7 +87,7 @@ Knockout のサポートは、View-Model への外部更新が発生した場合
 
 ## <a id="_Configuring_Value_Binding_for_Editor_Controls"></a>コード例: Editor コントロール用に値のバインディングを構成する
 
-この例は、Knockout により管理される View-Model オブジェクトに Ignite UI エディター コントロールの値オプションをバインドする方法を示します。`igTextEditor`、`igNumericEditor`、`igCurrencyEditor`™ および `igDateEditor` のコントロールのコンテキストで示されます。Knockout の宣言構文を使用して、コントロールが入力要素のデータ バインド属性からインスタンス化され View-Model 監視可能プロパティにバインドされます。
+この例は、Knockout により管理される View-Model オブジェクトに %%ProductName%% エディター コントロールの値オプションをバインドする方法を示します。`igTextEditor`、`igNumericEditor`、`igCurrencyEditor`™ および `igDateEditor` のコントロールのコンテキストで示されます。Knockout の宣言構文を使用して、コントロールが入力要素のデータ バインド属性からインスタンス化され View-Model 監視可能プロパティにバインドされます。
 
 #### コード
 
@@ -106,7 +106,7 @@ var viewModel = {
 };
 ```
 
-以下のコード スニペットは、宣言されたKnockout バインディングをページに適用する方法を示します。`ko.applyBindings()` 呼び出しは、Loader の即時コールバック中に実行される点に注意してください。これは、Knockout の Ignite UI エディター拡張機能が、バインディングの適用前にページにロードされる必要があるためです。
+以下のコード スニペットは、宣言されたKnockout バインディングをページに適用する方法を示します。`ko.applyBindings()` 呼び出しは、Loader の即時コールバック中に実行される点に注意してください。これは、Knockout の %%ProductName%% エディター拡張機能が、バインディングの適用前にページにロードされる必要があるためです。
 
 **JavaScript の場合:**
 
@@ -178,7 +178,7 @@ $.ig.loader({
 
 ### <a id="complete-sample"></a> 完全コード サンプル
 
-このサンプルは、Knockout データ バインディングにより管理されるデータに Ignite UI Editor コントロールをバインドする方法を紹介します。
+このサンプルは、Knockout データ バインディングにより管理されるデータに %%ProductName%% Editor コントロールをバインドする方法を紹介します。
 
 <div class="embed-sample">
    [%%SamplesEmbedUrl%%/editors/bind-editors-with-ko](%%SamplesEmbedUrl%%/editors/bind-editors-with-ko)
@@ -189,7 +189,7 @@ $.ig.loader({
 
 ### 説明
 
-この例は、Ignite UI エディター コントロールの値オプションをKnockout により管理される View-Model にバインドし、各キーストロークで View-Model を更新するようコントロールを構成する方法を示します。デフォルトでは、Ignite UI コントロール内の編集は、コントロールがフォーカスを失った場合、たとえば `onBlur` が発生した場合などに View-Model に送られます。以下のコードは、`updateMode` オプションを immediate に設定することにより、`igTextEditor` コントロールの更新モードをイミディエイトに構成します。
+この例は、%%ProductName%% エディター コントロールの値オプションをKnockout により管理される View-Model にバインドし、各キーストロークで View-Model を更新するようコントロールを構成する方法を示します。デフォルトでは、%%ProductName%% コントロール内の編集は、コントロールがフォーカスを失った場合、たとえば `onBlur` が発生した場合などに View-Model に送られます。以下のコードは、`updateMode` オプションを immediate に設定することにより、`igTextEditor` コントロールの更新モードをイミディエイトに構成します。
 
 ### コード
 
