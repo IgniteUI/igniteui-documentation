@@ -191,10 +191,10 @@ clone
         </tr>
 		<tr>
             <td>
-Controls and features affected by jQuery 3.2.\*
+jQuery 3.2.\* の影響
 			</td>
             <td>
-Due to API changes made in jQuery 3.2.\* versions some controls or control features may not function as expected when using them together with jQuery 3.2.\*.
+jQuery 3.2.\* バージョンの API 変更のため、jQuery 3.2.\* を使用する際にコントロールまたはコントロールの機能が正しく動作しない場合があります。
             </td>
             <td>
 ![](images/plannedFix.png)
