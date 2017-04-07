@@ -205,7 +205,7 @@ JSPM （[%%ProductName%% オープン ソース](https://www.npmjs.com/package/i
 
 ## <a id="aspnet_wrappers"></a>ASP.NET MVC ラッパー
 
-%%ProductName%% ASP.NET MVC ラッパーは、モデルおよびビューチャートの初期化およびボックス サーバー側リモート要求の処理をサポートします。詳細については、[「MVC プロジェクトへのコントロールの追加」](Adding-NetAdvantage-Controls-to-an-MVC-Project.html)トピックを参照してください。
+%%ProductName%% ASP.NET MVC ラッパーは、モデルおよびビューチャートの初期化およびサーバー側リモート要求の処理をサポートします。詳細については、[「コントロールを MVC プロジェクトに追加」](Adding-NetAdvantage-Controls-to-an-MVC-Project.html)トピックを参照してください。
 
 ## <a id="related_content"></a>関連コンテンツ
 
