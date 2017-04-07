@@ -16,8 +16,8 @@
 
 -   [概要](#introduction)
 -   [ダウンロードおよびインストール](#download)
--   [%%ProductName%% をプロジェクトにホストする](#hosting)
-    -   [NPM,、JSPM、NuGet の使用](#package_managers)
+-   [Ignite UI をプロジェクトにホストする](#hosting)
+    -   [NPM、JSPM、NuGet の使用](#package_managers)
     -   [CSS および JavaScript 参照の追加](#add_references)
     -   [%%ProductName%% ボイラープレート HTML ページのサンプル (CDN リンクを使用)](#boilerplate)
 -   [最初のコントロールの追加](#first_control)
@@ -64,7 +64,7 @@ MacOs、Linux、Unix 、などの場合。
 - [JavaScript ファイルおよび CSS ファイル](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html) を %%ProductName%% インストール ディレクトリからプロジェクトにコピーします。
 - [Infragistics コンテンツ配信ネットワーク (CDN)](#cdn) を使用します。
 
-## <a id="package_managers"></a>NPM,、JSPM、NuGet の使用
+## <a id="package_managers"></a>NPM、JSPM、NuGet の使用
 
 %%ProductName%% では、NPM,、JSPM、NuGet、複数のパッケージ マネージャーをサポートします。
 
