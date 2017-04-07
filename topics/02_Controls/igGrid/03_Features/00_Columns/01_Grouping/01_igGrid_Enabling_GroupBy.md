@@ -125,47 +125,47 @@ $("#grid1").igGrid({
 
 1.SQL モデルへの LINQ を作成します。
 
-	![](images/igGrid_GroupBy_Getting_Started_02.png)
+![](images/igGrid_GroupBy_Getting_Started_02.png)
 
 2.MVC Controller メソッドを作成します。
 
-	SQL Model からデータを取得して View を呼び出すための MVC Controller メソッドを作成します。
+SQL Model からデータを取得して View を呼び出すための MVC Controller メソッドを作成します。
 
-	**MVC の場合:**
+**MVC の場合:**
 
-	```csharp
-	public ActionResult Default()
-	{
-		var ctx = new AdventureWorksDataContext("ConnString");
-		var ds = ctx.Products;
+```csharp
+public ActionResult Default()
+{
+	var ctx = new AdventureWorksDataContext("ConnString");
+	var ds = ctx.Products;
 
-		return View("Events", ds);
-	}
-	```
+	return View("Events", ds);
+}
+```
 
 3.グリッドを作成します。
 
-	グリッド自体を定義すると同時に、Group By 機能とその構成値をすべて定義します。
+グリッド自体を定義すると同時に、Group By 機能とその構成値をすべて定義します。
 
-	**Razor の場合:**
+**Razor の場合:**
 
-	```csharp
-	@Html.Infragistics()
-	.Grid(Model)
-	.ID("grid1")
-	.Features(feature => {
-		feature.GroupBy().ColumnSettings(groupedGolumn =>
-		{
-			groupedGolumn.ColumnSetting().ColumnKey("Color").IsGroupBy(true);
-		});
-	})
-	.AutoGenerateColumns(true)
-	.PrimaryKey("ProductID")
-	.Width("750px")
-	.DataBind()
-	.Render()
-	)
-	```
+```csharp
+@Html.Infragistics()
+.Grid(Model)
+.ID("grid1")
+.Features(feature => {
+	feature.GroupBy().ColumnSettings(groupedGolumn =>
+	{
+		groupedGolumn.ColumnSetting().ColumnKey("Color").IsGroupBy(true);
+	});
+})
+.AutoGenerateColumns(true)
+.PrimaryKey("ProductID")
+.Width("750px")
+.DataBind()
+.Render()
+)
+```
 
 4.プロジェクトを保存します。
 
@@ -195,9 +195,3 @@ $("#grid1").igGrid({
 このトピックについては、以下のサンプルも参照してください。
 
 - [グループ化](%%SamplesUrl%%/grid/grouping)
-
- 
-
- 
-
-
