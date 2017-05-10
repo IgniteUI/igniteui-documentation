@@ -93,6 +93,7 @@ applyFormat | 書式を集計値に適用できるかどうかを設定します
 オプション | 説明 | デフォルト値 | 有効な値 |
 --------|-------------|----------------|-------------
 [groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:groupSummaries) |各列に適用されるデフォルト集計メソッドを制御します。<br/>**true** の場合 - デフォルト集計はすべての列で有効されます。<br/>**false** の場合 - デフォルト集計はすべての列で無効されます。<br/>**array** の場合 - 配列に指定された集計はすべての列で適用されます。集計オブジェクトの形式については [groupSummariesObject](#groupSummariesObject) を参照してください。<br/>|false |true, false, array|
+[groupSummariesPosition](%%jQueryApiUrl%%/ui.iggridgroupby#options:groupSummariesPosition) |集計行の配置を指定します。<br/> **top** - 集計行がグループ レコードの上に配置されます。<br/> **bottom** - 集計行がグループ レコードの下に配置されます。<br/>**both** - グループの上部および下部に 2 つの集計行が表示されます。グループに大量のデータがある場合に便利です。| "bottom"| "top", "bottom", "both"|
 [columnSettings.groupSummaries](%%jQueryApiUrl%%/ui.iggridgroupby#options:columnSettings.groupSummaries)|columnSettings の列の集計を設定するオブジェクトの配列。メイン groupSummaries オプションより優先があります。<br/>**true** の場合 - デフォルト集計は指定した列で有効されます。<br/>**false** の場合 - デフォルト集計は指定した列で無効されます。<br/>**array** の場合 - 配列に指定された集計は指定した列で適用されます。集計オブジェクトの形式については [groupSummariesObject](#groupSummariesObject) を参照してください。<br/>|null |true, false, array, null|
 
 groupSummaries オプションは、true/false に設定して集計を有効/無効にできます。また、その集計タイプを許可するすべての列で適用されるデフォルトの集計メソッドを配列で指定できます。以下の例は「合計」の単一のデフォルト集計の設定を指定することを紹介します。
