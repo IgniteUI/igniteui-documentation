@@ -18,33 +18,38 @@
 この動作の原因は、JavaScript でデータモードの最大値が指数表記で表される大きな数値であることです。
 この制限を回避するには、[`maxValue`](%%jQueryApiUrl%%/ui.ignumericeditor#options:maxValue) および [`minValue`](%%jQueryApiUrl%%/ui.ignumericeditor#options:minValue) を JavaScript の指数表記を使用しない数値に設定します。あるいは、数値エディター、パーセント エディター、または通貨エディターで [`scientificFormat`](%%jQueryApiUrl%%/ui.ignumericeditor#options:scientificFormat) オプションを有効にしてください。
 
-## Limitations on numeric values
-The Numeric editors process and store values as JavaScript numbers. The ECMAScript standard defines those values as based on the [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point#Basic_and_interchange_formats) double-precision [64-bit binary format](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) which allows for a significand of 15-17 digits while also relying on floating point arithmetic which is not always 100% accurate.
-Despite some measures in place, certain functions of the editors can only operate within the limits of the platform. 
+## 数値の制限
+数値エディターが値を JavaScript 数値として処理し、保存します。 ECMAScript 仕様は、数値を [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point#Basic_and_interchange_formats) 倍精度 [64-bit バイナリ形式](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)で定義します。15-17 有効数字を許可し、100% 正確ではない浮動小数点算術を使用します。
+エディターの特定の関数はプラットフォームの制限によって処理されます。
 
-This includes representation of very large integers or high precision floating-point format, both limited by the maximum significant digits that can be stored and are usually subject to rounding and loss of precision on operations.
-For example the standard maximum `long` value of `9223372036854775807` which is well above limit of stored digits, therefore is rounded to the closest supported:
+大きい整数または高精度浮動小数点書式の表現を含みます。保存可能な有効数字の最大数によって制限されるため、通常演算で丸められて精度が失われます。
+たとえば、規格の `long` の最大値は `9223372036854775807` です。保存された桁数制限より大きいため、サポートされる桁に丸みを付けます。
+
 ```bash
 > 9223372036854775807
 9223372036854776000
 ```
-Note the rounding at the 17th digit. This can cause a value to be considered at the [`maxValue`](%%jQueryApiUrl%%/ui.ignumericeditor#options:maxValue) much sooner despite the obvious difference in the last 3 digits, because:
+
+17 番目の数字の丸めに注意してください。最後の 3 桁が異なるため値が実際より先に [`maxValue`](%%jQueryApiUrl%%/ui.ignumericeditor#options:maxValue) になる可能性があります。
+
 ```bash
 > 9223372036854775807 === 9223372036854775500
 true
 ```
-With floating-point numbers the limited significant digits similarly cause rounding to occur, irregardless of the place of the decimal point. For example:
+
+浮動小数点数の場合、小数点の位置に関係なく制限された有効桁数で丸めが発生します。例:
+
 ```bash
 > 1.2345678912345678912345
 1.234567891234568
 > 1234.5678912345678912345
 1234.567891234568
 ```
-With just the point changing position, the representation cuts off at relatively the same amount of digits. This is why options like [`minDecimals`](%%jQueryApiUrl%%/ui.ignumericeditor#options:minDecimals) and [`maxDecimals`](%%jQueryApiUrl%%/ui.ignumericeditor#options:maxDecimals) while limited to 15 cannot always guarantee such values as the limit applies to the whole significant part and digits before the radix point limit the precision of the decimal side.
-Formatting for the minimum can still add to the set digits, but those would be an approximation rather than the actual value.
 
-Note that since all numbers are stored in the same format, same applies to scientific E-notation numbers regardless of the value of the exponent (if any). Furthermore, with JavaScript's `toFixed()` limited to 20 digits, values with higher exponent simply cannot be formatted to fixed-point notation (however impractical that may be).
-For example `1e+21` and larger can only be presented in scientific notation even if the [`scientificFormat`](%%jQueryApiUrl%%/ui.ignumericeditor#options:scientificFormat) option has not been specifically set. Values with negative exponent (smaller than 1) do expand to fixed with rounding and are likely to evaluate to `0`, which is why `scientificFormat` should be set if support for such values is required.
+小数点の位置が異なる場合にも、表現が同じ数字の量で制限されます。[`minDecimals`](%%jQueryApiUrl%%/ui.ignumericeditor#options:minDecimals) および [`maxDecimals`](%%jQueryApiUrl%%/ui.ignumericeditor#options:maxDecimals) オプションが 15 数字に制限されますが、値が常に正しいことを確認できません。制限が有効数字全体に適用されるため、小数点の前の数字は 10 進数部分の精度を制限します。最小値の書式設定が設定された数値に追加できますが、実際値ではなく概算です。
+
+すべての数値が同じ書式で保存されるため、同じ制限が指数の値に関係なく指数表記の数値に適用されます。また、JavaScript の `toFixed()` が 20 桁に制限されるため、より高い指数を持つ値が固定小数点書式 (適切ではありませんが) で書式設定できません。
+たとえば、[`scientificFormat`](%%jQueryApiUrl%%/ui.ignumericeditor#options:scientificFormat) オプションを明示的に設定しない場合も、`1e+21` およびより大きい値が指数表記のみで表現できます。負の数 (1 より小さい) の指数を持つ値を丸めて固定小数点書式にできますが、`0` と判断される可能性が高いです。そのような値のサポートが必要な場合は、`scientificFormat` を設定してください。
 
 ## 関連リンク
 - [igNumericEditor の概要](igNumericEditor-Overview.html)
