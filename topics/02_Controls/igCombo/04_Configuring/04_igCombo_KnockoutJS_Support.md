@@ -185,6 +185,8 @@ $.ig.loader({
 
 #### View 内の igCombo のバインディング プロパティを宣言
 
+##### igCombo handler
+
 以下のコードは、ビュー内に `igCombo` のバインディング プロパティを宣言する方法を示します。最も重要なのは、対応する span 要素の data-bind 属性におけるインスタンス化プロパティの宣言部分です。
 
 **HTML の場合:**
@@ -200,7 +202,16 @@ $.ig.loader({
 
 View-Model オブジェクトの `selectedItems` プロパティと `dataSource` プロパティの両方が監視可能である点にご注意ください。selectedItems プロパティでは、View-Model オブジェクトは `igCombo` 選択項目を動的に更新でき、逆も同様です。`igCombo` は View-Model オブジェクトを更新できるようになります。`dataSource` を監視可能配列に構成すると、`igCombo` は要素の追加と削除を追跡し、結果としてドロップダウン リストを更新できるようになります。これらのプロパティのいずれかを監視不可能として宣言できます。これは、対応する機能を失うことを意味します。監視可能として定義される View-Model オブジェクトがないと、`igCombo` に Knockout サポートはなく、宣言構文および Knockout バインディング拡張機能を使用することは意味がありません。
 
+##### igComboVisible handler
+
 以下のコードは `igComboVisible` バインディングを宣言する方法を紹介します。Knockout の visible バインディングと同じ機能があります。
+
+**JavaScript の場合:**
+```js
+function viewModel() {
+    this.isVisible =  ko.observable(true);
+}
+```
 
 **HTML の場合:**
 
@@ -209,6 +220,26 @@ View-Model オブジェクトの `selectedItems` プロパティと `dataSource`
 ```
 
 `igCombo` コントロールは inline-block プロパティを持つ HTML 要素に表示されます。Knockout の visible バインディングが要素の表示を block に設定するため、`igCombo` の外観が崩れます。カスタム `igComboVisible` バインディングを使用すると、正しく `igCombo` を表示し、Knockout の visible バインディングの機能を提供します。
+
+##### igComboDisable handler
+
+The following code demonstrates how to declare the `igComboDisable` binding, which has the same functionality as the Knockout [`disabled`](http://knockoutjs.com/documentation/disable-binding.html) binding.
+
+**In JavaScript:**
+
+```js
+function viewModel() {
+    this.isDisabled =  ko.observable(false);
+}
+```
+
+**In HTML:**
+
+```html
+<span id="comboActors" data-bind="igCombo: { ... }, igComboDisable: isDisabled"></span>
+```
+
+Using the Knockout [`disabled`](http://knockoutjs.com/documentation/disable-binding.html) binding handler is not enough, because the igCombo has a special logic that handles enabling/disabling the control.
 
 ## <a id="related-content"></a>関連コンテンツ
 
