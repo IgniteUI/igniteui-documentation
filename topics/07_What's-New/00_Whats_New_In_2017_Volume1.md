@@ -12,10 +12,21 @@
 
 このトピックでは、Ignite UI™ 2017 Volume 1 リリースのコントロールと新機能および拡張機能を紹介します。
 
-
 ## 新機能の概要
 
 以下の表に 2017 Volume 1 の新機能の概要を示します。追加の詳細は以下のとおりです。
+
+### igSpreadsheet
+
+Feature | Description
+---|---
+[New control igSpreadsheet (MVP)](#spreadsheet)| The igSpreadsheet is a jQuery widget that visualize excel documents in all modern browsers.
+
+### igScheduler
+
+Feature | Description
+---|---
+[New control igScheduler](#scheduler)| The igSpreadsheet is a jQuery widget that provides a common scheduling solution for presenting and managing time periods and the associated activities.
 
 ### igCombo
 
@@ -34,6 +45,49 @@ Feature | Description
 Feature | Description
 ---|---
 [Round Decimals](#roundDecimals)| The numeric editor introduces new option [`roundDecimals`](ui.ignumericeditor#options:roundDecimals), that allows to round values with decimal point.
+
+## <a id="spreadsheet"></a>igSpreadsheet
+
+In version 2017.1 we introduce the igSpreadsheet control. It is a jQuery widget that visualize excel documents in all modern browsers.
+
+![](images/spreadsheet.png)
+
+## <a id="igScheduler"></a> igScheduler
+### New Control (RTM)
+
+The `igScheduler`™ control provides a common scheduling solution for presenting and managing time periods and the associated activities.
+
+### Supported features in the RTM are:
+-   Creating, editing and deleting of appointment.
+    -   Configurable appointments display mode in the month view calendar (indicator or event subject).
+    -   Assigning appointments to color themed resources.
+-   Using different views (month and agenda view).
+    -   Month and agenda views switching support
+    -   Agenda view in month view support.
+    -   Configurable agenda view days display range.
+-   All day events supported.
+-   Desktop, tablet and phone layout.
+-   Responsive design.
+    -   Desktop environment optimized UI.
+-   Resources color scheme support.
+-   Keyboard navigation support.
+-   Localization support.
+
+![](../02_Controls/igScheduler/images/scheduler.png)
+
+#### Related Topics
+-   [igScheduler Overview](igScheduler-Overview.html)
+-   [Configuring igScheduler](igscheduler-configuring.html)
+-	[Adding igScheduler](igscheduler-adding-igscheduler.html)
+-	[Configuring igScheduler](igscheduler-Configuring.html)
+-	[Styling igScheduler](igscheduler-using-themes.html)
+-	[Accessibility Compliance (igScheduler)](igscheduler-accessibility-compliance.html)
+-	[Known Issues and Limitations (igScheduler)](igscheduler-known-limitations.html)
+
+#### Related Samples
+
+-   [igScheduler Agenda View](%%SamplesUrl%%/scheduler/agenda-view)
+-   [igScheduler Agenda View](%%SamplesUrl%%/scheduler/appointment-indicators)
 
 ### igGrid
 
