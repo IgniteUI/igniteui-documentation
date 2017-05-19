@@ -299,7 +299,7 @@ Bootstrap 用のテーマ ジェネレーターは Infragistics が提供する 
 
 ### プレビュー
 
-次のスクリーンショットは、選択したテーマが *Cyborg* であることを前提とした、最終結果のプレビューを示します。
+次のスクリーンショットは、選択したテーマが *Metro* であることを前提とした、最終結果のプレビューを示します。
 
 ![](images/Theming_Guide_Changes_7.png)
 
@@ -317,11 +317,11 @@ Bootstrap 用のテーマ ジェネレーターは Infragistics が提供する 
 3. **CSS リンクを更新して、Infragistics テーマと選択したテーマとの置き換え**
 	1. ダウンロード ファイルを解凍し、ウェブ サイトのテーマ ディレクトリを含むディレクトリにドラッグします。
 		![](images/Theming_Guide_Changes_6.png)
-	2. CSS 参照をエクスポートしたテーマに追加します。以下のコード サンプルは、Cyborg を選択し、テーマ フォルダーに同じ名前を使用しています。
+	2. CSS 参照をエクスポートしたテーマに追加します。以下のコード サンプルは、Metro を選択し、テーマ フォルダーに同じ名前を使用しています。
 	
 	**HTML の場合:**
 	```html
-	<link href="/css/themes/cyborg/infragistics.theme.css" rel="stylesheet" type="text/css" />
+	<link href="/css/themes/metro/infragistics.theme.css" rel="stylesheet" type="text/css" />
 	```
 	**ASPX の場合:**
 	```csharp
@@ -329,7 +329,7 @@ Bootstrap 用のテーマ ジェネレーターは Infragistics が提供する 
 	<!DOCTYPE html>
 	<html>
 	<head runat="server">
-	<link href="<%= Url.Content("~css/themes/cyborg/infragistics.theme.css") %>” rel="stylesheet" type="text/css" />                                
+	<link href="<%= Url.Content("~css/themes/metro/infragistics.theme.css") %>” rel="stylesheet" type="text/css" />                                
 	```
 	3. 構造テーマへの CSS 参照を追加します。
 	

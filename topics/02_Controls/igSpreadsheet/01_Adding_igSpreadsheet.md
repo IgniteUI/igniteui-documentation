@@ -19,7 +19,7 @@
 
 このトピックを理解するために [Infragistics JavaScript Excel Library](javascript-excel-library.html) の概念とトピックは前提条件です。
 
-始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な Ignite UI リソースを読み込みます。Ignite UI リソースをプロジェクトに追加する方法が 2 つあります。`igLoader` を使用するか、必要なモジュールを読み込むことができます。このトピックで `igLoader` を使用します。
+始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な Ignite UI リソースを読み込みます。Ignite UI リソースをプロジェクトに追加する方法が 2 つあります。`igLoader` を使用するか、必要なモジュールを読み込むことができます。このトピックで両方の方法を説明します。
 
 ```js
 $.ig.loader({
@@ -32,6 +32,55 @@ $.ig.loader({
 次のトピックは、`igLoader` についての使用方法を説明します。 
 
 [Infragistics Loader による必要なリソースを自動で追加する](using-infragistics-loader.html)
+
+```html
+<!-- util -->
+<script src="js/modules/infragistics.util.js"></script>
+
+<!-- ext -->
+<script src="js/modules/infragistics.ext_core.js"></script>
+<script src="js/modules/infragistics.ext_text.js"></script>
+<script src="js/modules/infragistics.ext_collections.js"></script>
+<script src="js/modules/infragistics.ext_io.js"></script>
+<script src="js/modules/infragistics.ext_ui.js"></script>
+<script src="js/modules/infragistics.ext_collectionsExtended.js"></script>
+<script src="js/modules/infragistics.ext_threading.js"></script>
+<script src="js/modules/infragistics.ext_web.js"></script>
+
+<!-- xml -->
+<script src="js/modules/infragistics.xml.js"></script>
+
+<!-- documents.core -->
+<script src="js/modules/infragistics.documents.core_core-en.js"></script>
+<script src="js/modules/infragistics.documents.core_core.js"></script>
+<script src="js/modules/infragistics.documents.core_openxml.js"></script>
+
+<!-- excel -->
+<script src="js/modules/infragistics.excel_core-en.js"></script>
+<script src="js/modules/infragistics.excel_core.js"></script>
+<script src="js/modules/infragistics.excel_functions.js"></script>
+<script src="js/modules/infragistics.excel_serialization_biff8.js"></script>
+<script src="js/modules/infragistics.excel_serialization_openxml.js"></script>
+
+<!-- undo -->
+<script src="js/modules/infragistics.undo.js"></script>
+
+<!-- dv -->
+<script src="js/modules/infragistics.dv_core.js"></script>
+<script src="js/modules/infragistics.dv_jquerydom.js"></script>
+
+<!-- combo -->
+<script src="js/modules/infragistics.util.jquery.js"></script>
+<script src="js/modules/infragistics.datasource.js"></script>
+<script src="js/modules/infragistics.templating.js"></script>
+<script src="js/modules/infragistics.ui.scroll.js"></script>
+<script src="js/modules/infragistics.ui.validator.js"></script>
+<script src="js/modules/infragistics.ui.combo.js"></script>
+
+<!-- spreadsheet -->
+<script src="js/modules/infragistics.spreadsheet.js"></script>
+<script src="js/modules/infragistics.ui.spreadsheet.js"></script>
+```
 
 ## 基本的な igSpreadsheet 実装を作成する
 
