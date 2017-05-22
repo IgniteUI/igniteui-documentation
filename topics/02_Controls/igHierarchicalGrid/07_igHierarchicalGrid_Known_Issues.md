@@ -74,6 +74,12 @@ initialExpandDepth と仮想化の使用がサポートされない|仮想化が
 ---|---|---
 ツールチップのオプションが子およびルートの定義で異なる場合、ツールチップは子レイアウトで表示されません。 | 階層グリッドのすべてのツールチップ インスタンスで同じ DOM 要素を使用するようになったため、このシナリオはサポートされません。 | ![](images/negative.png)
 
+#### [igHierarchicalGrid Updating](#updating)
+
+Issue | Description | Status
+---|---|---
+[Done/Cancel buttons are cut off for child layouts when their height is too small](#buttons-cutoff) | Certain configurations and use-cases allow for child layouts with small heights that makes positioning floating elements outside the visibility-critical elements impossible.  | ![](images/positive.png)
+
 ### <a id="general"></a> igHierarchicalGrid
 
 <table class="table table-striped">
@@ -232,6 +238,35 @@ initialExpandDepth と仮想化の使用がサポートされない|仮想化が
     </tbody>
 </table>
 
+## <a id="updating"></a> igHierarchicalGrid Updating
+<table class="table table-striped">
+	<thead>
+        <tr>
+            <th>Issue</th>
+            <th>Description</th>
+			<th>Workaround</th>
+        </tr>
+    </thead>
+    <tbody>
+		<tr id="buttons-cutoff">
+			<td>
+				Done/Cancel buttons are cut off for child layouts when their height is too small
+			</td>
+			<td>
+				Certain configurations and use-cases allow for child layouts with small heights that makes positioning floating elements outside the visibility-critical elements impossible.
+			</td>
+			<td>
+				Use a CSS rule to give minimum height to all child layouts:
+				<br>
+				**In CSS:**
+<pre>[id$=_child_container] {
+	min-height: 100px;
+}
+</pre>
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 ## 関連コンテンツ
 ### トピック
