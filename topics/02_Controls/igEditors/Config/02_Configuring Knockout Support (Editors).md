@@ -51,7 +51,7 @@
 	-   [スケール ファクターを構成する (igPercentEditor)](#_Configuring_a_Scaling_Factor)
 	-   [完全コード サンプル](#complete-sample)
 -   [コード例: 即時更新モードを構成する (igTextEditor)](#_Configuring_Immediate_Update_Mode)
--	[Code Example: Configuring Editors Disable Handler (igTextEditor)](#_Configuring_Disable_Handler)
+-	[コード例: エディターの Disable ハンドラーの構 (igTextEditor)](#_Configuring_Disable_Handler)
 -   [関連コンテンツ](#_Related_Content)
     -   [トピック](#_Topics)
     -   [リソース](#_Resources)
@@ -207,11 +207,11 @@ $.ig.loader({
 
 >**注:** 更新モード オプションは、初期化の時のみに構成できます。実行時は変更できません。
 
-##<a id="_Configuring_Disable_Handler"></a>Code Example: Configuring Editors Disable Handler (igTextEditor)
+##<a id="_Configuring_Disable_Handler"></a>コード例: エディターの Disable ハンドラーの構 (igTextEditor)
 
-If a developer wants to apply the Knockout [`disabled`](http://knockoutjs.com/documentation/disable-binding.html) binding handler this will not automatically enables/disables the editors, because they has a special logic that handles enabling/disabling the control. For that puprose an additional `igEditorDisable` binding handler is created. The following code demonstrates how to declare the `igEditorDisable` binding: 
+開発者が Knockout の [`disabled`](http://knockoutjs.com/documentation/disable-binding.html) バインディング ハンドラーを適用したい場合、これが自動的にエディターを有効/無効にしません。エディターにコントロールの有効化/無効化を処理する特別なロジックがあります。そのため、追加の `igEditorDisable` バインディング ハンドラーが作成されます。以下のコードは、`igEditorDisable` バインディングを宣言する方法を示します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```js
 function viewModel() {
@@ -219,7 +219,7 @@ function viewModel() {
 }
 ```
 
-**In HTML:**
+**HTML の場合:**
 
 ```html
 <div data-bind="igTextEditor: { ...}, igEditorDisable: isDisabled"></div>

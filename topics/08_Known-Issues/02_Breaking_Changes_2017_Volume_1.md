@@ -12,17 +12,17 @@
 
 以下のトピックは、2017 Volume 1 新機能の概要を示します。
 
-## General
+## 全般
 
-### Split of the Infragistics Util file
+### Infragistics Util ファイルの分割
 
-From version 17.1 the `infragistics.util.js` file has been split into a non-jQuery specific file and jQuery specific files. The new structure is the following:
+17.1 バージョン以後、`infragistics.util.js` ファイルが jQuery 以外のファイルおよび jQuery に関連するファイルに分割されます。新しい構造は以下のようになります。
 
--   `infragistics.util.js` - holds only utility functions that do not depend on jQuery framework.
--   `infragistics.util.jquery.js` - holds jQuery dependant utility functions.
--   `infragistics.util.jquerydeferred.js` - custom CommonJS Promises/A implementation, for users that are using versions of the jQuery, prior to version 1.5, which doesn't support $.Deferred.
+-   `infragistics.util.js` - jQuery フレームワークに依存関係なしのユーティリティ関数を含みます。
+-   `infragistics.util.jquery.js` - jQuery に依存関係あるユーティリティ関数を含みます。
+-   `infragistics.util.jquerydeferred.js` - カスタム CommonJS Promises。それに、$.Deferred をサポートしない 1.5 バージョン以前の jQuery バージョンの実装。
 
-For applications that are using the igLoader to load %%ProductName%% controls' dependencies, no change is required, because the loader is handling this internally. The other applications that load manually the files, may take advantage and not include the unnecessary utility references.
+%%ProductName%% コントロールの依存関係を読み込むために igLoader を使用するアプリケーションでローダーが内部に処理されているため、変更の必要がありません。ファイルを手動的に読み込むアプリケーションで必要のないのユーティリティ参照を削除できます。
 
 ### New Bootstrap themes structure
 
@@ -62,8 +62,8 @@ igGrid 集計の新しい [*format*](%%jQueryApiUrl%%/ui.iggridsummaries#options
 
 ## igDateEditor/igDatePicker
 
-The option [`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) has now a different function. You can use the [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) if you want to show the time in the editor with the desired offset. Please follow the [Migrating enableUTCDate option in 17.1](Migrating-enableUTCDates-option-in-17-1.html) topic to see how you can adapt to the new changes and the [Using Ignite UI controls in different time zones](Using-IgniteUI-controls-in-different-time-zones.html) topic for more detailed infomration of how the both options work.
+[`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) オプションの動作を変更しました。指定したオフセットとエディターで時間を表示するには [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) を使用します。既存のアプリケーションを変更する方法について、「[17.1 で enableUTCDate オプションの移動](Migrating-enableUTCDates-option-in-17-1.html)」トピックを参照してください。両方のオプションの詳細情報について、「[Ignite UI コントロールを別のタイム ゾーンで使用](Using-IgniteUI-controls-in-different-time-zones.html)」を参照してください。
 
 ## igNumericEditor
 
-In previous versions of the product, if user sets or enters a value in a numeric editor that has more decimal places than the one defined in the `maxDecimals` option, then the value was truncated. E.g. If an editor with defined 'maxDecimals' to `3`, receives a value `123.4567`, then it will be truncated to `123.456`. With version 17.1 of the product, a new option [`roundDecimals`](ui.ignumericeditor#options:roundDecimals) is introduced, which is enabled by default and rounds the numeric values, using the JavaScript `Math.round()` function. This means that the value of `123.4567` will be rounded and displayed in the editor as `123.457`. If the [`roundDecimals`](ui.ignumericeditor#options:roundDecimals) is disabled, then it will truncate the value and will show it as `123.456`, like in the old versions.
+製品の以前バージョンで、ユーザーが `maxDecimals` オプションで定義される数より大きい小数位がある値を数値エディターに入力すると、値が切り捨てられます。つまり、`maxDecimals` が `3` に設定されるエディターが `123.4567` の値を受け取ると、`123.456` に切り捨てられます。製品の 17.1 バージョンで新しい [`roundDecimals`](ui.ignumericeditor#options:roundDecimals) オプションを追加しました。デフォルトで有効で、JavaScript の `Math.round()` 関数を使用して数値を丸めます。`123.4567` の値は丸めて、エディターで `123.457` として表示されます。[`roundDecimals`](ui.ignumericeditor#options:roundDecimals) オプションが無効な場合、値を切り捨て、以前のバージョンと同じように `123.456` を表示します。

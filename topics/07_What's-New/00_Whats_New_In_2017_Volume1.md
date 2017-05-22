@@ -18,49 +18,49 @@
 
 ### igSpreadsheet
 
-Feature | Description
+機能 | 説明
 ---|---
-[New control igSpreadsheet](#spreadsheet)| The igSpreadsheet is a jQuery widget that visualize excel documents in all modern browsers.
+[igSpreadsheet - 新しいコントロール](#spreadsheet)| igSpreadsheet は、最新のあらゆるブラウザーで Excel ドキュメントを視覚化する jQuery ウィジェットです。
 
 ### igScheduler
 
-Feature | Description
+機能 | 説明
 ---|---
-[New control igScheduler](#scheduler)| The igSpreadsheet is a jQuery widget that provides a common scheduling solution for presenting and managing time periods and the associated activities.
+[igScheduler - 新しいコントロール](#scheduler)| igScheduler は、時間範囲および関連アクティビティを表示し、管理するスケジュール ソリューションを提供する jQuery ウィジェットです。
 
 ### igCombo
 
-Feature | Description
+機能 | 説明
 ---|---
-[Knockout Disable Handler](#comboKnockoutDisable)| Knockout Disable binding handler has been implemnted for the combo.
+[Knockout の Disable ハンドラー](#comboKnockoutDisable)| Knockout の Disable バインディング ハンドラーがコンボで実装されます。
 
 ### Editors
 
-Feature | Description
+機能 | 説明
 ---|---
-[Knockout Disable Handler](#editorsKnockoutDisable)| Knockout Disable binding handler has been implemnted for the editors.
+[Knockout の Disable ハンドラー](#editorsKnockoutDisable)| Knockout の Disable バインディング ハンドラーがエディターで実装されます。
 
 ### igNumericEditor
 
-Feature | Description
+機能 | 説明
 ---|---
-[Round Decimals](#roundDecimals)| The numeric editor introduces new option [`roundDecimals`](ui.ignumericeditor#options:roundDecimals), that allows to round values with decimal point.
+[10 進数の丸み](#roundDecimals)| 数値エディターに小数部を持つ値の丸みを許可する新しい [`roundDecimals`](ui.ignumericeditor#options:roundDecimals) オプションを追加しました。
 
 ### igDateEditor/igDatePicker
 
-Feature | Description
+機能 | 説明
 ---|---
 [Date Handling](#dateHandling)| New editors' settings are needed when handling date transfers.
 
 ### igDatePicker
 
-Feature | Description
+機能 | 説明
 ---|---
 [Date Picker Options MVC wrapper](#pickerOptionsWrapper) | When using DatePicker MVC wrapper, now additional wrapper for the date picker options is available.
 
 ## <a id="spreadsheet"></a>igSpreadsheet
 
-In version 2017.1 we introduce the igSpreadsheet control. It is a jQuery widget that visualize excel documents in all modern browsers. For MVP version, the control has the following areas and features available:
+2017.1 バージョンで igSpreadsheet コントロールを追加しました。最新のあらゆるブラウザーで Excel ドキュメントを視覚化する jQuery ウィジェットです。For MVP version, the control has the following areas and features available:
 
 -   Configurable component areas
     -   Formula Bar
@@ -105,41 +105,41 @@ In version 2017.1 we introduce the igSpreadsheet control. It is a jQuery widget 
 -   [Import Data From Excel File](%%SamplesUrl%%/spreadsheet/loading-data)
 
 ## <a id="igScheduler"></a> igScheduler
-### New Control (RTM)
+### 新しいコントロール (RTM)
 
-The `igScheduler`™ control provides a common scheduling solution for presenting and managing time periods and the associated activities.
+`igScheduler`™ コントロールは、時間範囲および関連アクティビティを表示し、管理するスケジュール ソリューションを提供します。
 
-### Supported features in the RTM are:
--   Creating, editing and deleting of appointment.
-    -   Configurable appointments display mode in the month view calendar (indicator or event subject).
-    -   Assigning appointments to color themed resources.
--   Using different views (month and agenda view).
-    -   Month and agenda views switching support
-    -   Agenda view in month view support.
-    -   Configurable agenda view days display range.
--   All day events supported.
--   Desktop, tablet and phone layout.
--   Responsive design.
-    -   Desktop environment optimized UI.
--   Resources color scheme support.
--   Keyboard navigation support.
--   Localization support.
+### RTM でサポートされる機能
+-   予定の作成、編集、削除
+    -   月単位の表示で構成可能な予定表示モード (インジケーターまたはイベントの件名)
+    -   予定を色付きリソースへの割り当て
+-   別のビューの使用 (月ビューおよび予定一覧ビュー)
+    -   月ビューおよび予定一覧ビューの間の切り替え
+    -   月ビューでの予定一覧ビュー
+    -   構成可能な予定一覧ビューの日の表示範囲
+-   終日イベントのサポート
+-   デスクトップ、タブレット、および携帯レイアウト
+-   レスポンシブ デザイン
+    -   デスクトップ環境に最適化された UI
+-   リソースの色スキーマ サポート
+-   キーボード ナビゲーション サポート
+-   ローカライズのサポート
 
 ![](../02_Controls/igScheduler/images/scheduler.png)
 
-#### Related Topics
--   [igScheduler Overview](igScheduler-Overview.html)
--   [Configuring igScheduler](igscheduler-configuring.html)
--	[Adding igScheduler](igscheduler-adding-igscheduler.html)
--	[Configuring igScheduler](igscheduler-Configuring.html)
--	[Styling igScheduler](igscheduler-using-themes.html)
--	[Accessibility Compliance (igScheduler)](igscheduler-accessibility-compliance.html)
--	[Known Issues and Limitations (igScheduler)](igscheduler-known-limitations.html)
+#### 関連トピック
+-   [igScheduler の概要](igScheduler-Overview.html)
+-   [igScheduler の構成](igscheduler-configuring.html)
+-	[igScheduler の追加](igscheduler-adding-igscheduler.html)
+-	[igScheduler の構成](igscheduler-Configuring.html)
+-	[igScheduler のスタイル設定](igscheduler-using-themes.html)
+-	[アクセシビリティの遵守 (igScheduler)](igscheduler-accessibility-compliance.html)
+-	[既知の問題と制限 (igScheduler)](igscheduler-known-limitations.html)
 
-#### Related Samples
+#### 関連サンプル
 
--   [igScheduler Agenda View](%%SamplesUrl%%/scheduler/agenda-view)
--   [igScheduler Agenda View](%%SamplesUrl%%/scheduler/appointment-indicators)
+-   [igScheduler 予定一覧ビュー](%%SamplesUrl%%/scheduler/agenda-view)
+-   [igScheduler 予定インジケーター](%%SamplesUrl%%/scheduler/appointment-indicators)
 
 ### igGrid
 
@@ -163,27 +163,27 @@ GroupBy 集計機能は、そのアイランドにあるデータ列の集計情
 
 ## igCombo
 
-### <a id="comboKnockoutDisable"></a> Knockout Disable Handler
+### <a id="comboKnockoutDisable"></a> Knockout の Disable ハンドラー
 
-If a developer wants to apply the Knockout [`disabled`](http://knockoutjs.com/documentation/disable-binding.html) binding handler to the combo control, it will not work and will not automatically enables/disables it. This is because combo has a special logic that handles enabling/disabling of the control. For that purpose additional `igComboDisable` binding handler is created, which implements the behavior, expected, when using the Knockout `disabled` handler.
+開発者がコンボ コントロールに Knockout の [`disabled`](http://knockoutjs.com/documentation/disable-binding.html) バインディング ハンドラーを適用したい場合、ハンドラーは動作せず、自動的に有効/無効にしません。コンボにコントロールの有効化/無効化を処理する特別なロジックがあります。そのため、Knockout `disabled` ハンドラーを使用時に予期される動作を実装する追加の `igComboDisable` バインディング ハンドラーが作成されます。
 
-#### Related Topics
--   [Configuring Knockout Support (igCombo)](igCombo-KnockoutJS-Support.html#)
+#### 関連トピック
+-   [Knockout サポートの構成 (igCombo)](igCombo-KnockoutJS-Support.html#)
 
-## Editors
+## エディター
 
-### <a id="editorsKnockoutDisable"></a> Knockout Disable Handler
+### <a id="editorsKnockoutDisable"></a> Knockout の Disable ハンドラー
 
-If a developer wants to apply the Knockout [`disabled`](http://knockoutjs.com/documentation/disable-binding.html) binding handler to the editors, it will not work and will not automatically enables/disables them. This is because editors have a special logic that handles enabling/disabling of the control. For that purpose additional `igEditorDisable` binding handler is created, which implements the behavior, expected, when using the Knockout `disabled` handler.
+開発者がエディターに Knockout の [`disabled`](http://knockoutjs.com/documentation/disable-binding.html) バインディング ハンドラーを適用したい場合、ハンドラーは動作せず、自動的に有効/無効にしません。エディターにコントロールの有効化/無効化を処理する特別なロジックがあります。そのため、Knockout `disabled` ハンドラーを使用時の予期される動作を実装する追加の `igEditorDisable` バインディング ハンドラーが作成されます。
 
-#### Related Topics
--   [Configuring Knockout Support (Editors)](Configuring-Knockout-Support-%28Editors%29.html)
+#### 関連トピック
+-   [Knockout サポートの構成 (エディター)](Configuring-Knockout-Support-%28Editors%29.html)
 
 ## igNumericEditor
 
-### <a id="roundDecimals"></a> Round Decimals
+### <a id="roundDecimals"></a> 10 進数の丸み
 
-In previous versions of the product, if user sets or enters a value in a numeric editor that has more decimal places than the one defined in the `maxDecimals` option, then the value was truncated. E.g. If an editor with defined 'maxDecimals' to `3`, receives a value `123.4567`, then it will be truncated to `123.456`. With version 17.1 of the product, a new option [`roundDecimals`](ui.ignumericeditor#options:roundDecimals) is introduced, which is enabled by default and rounds the numeric values, using the JavaScript `Math.round()` function. This means that the value of `123.4567` will be rounded and displayed in the editor as `123.457`. If the [`roundDecimals`](ui.ignumericeditor#options:roundDecimals) is disabled, then it will truncate the value and will show it as `123.456`, like in the old versions.
+製品の以前バージョンで、ユーザーが `maxDecimals` オプションで定義される数より大きい小数位がある値を数値エディターに入力すると、値が切り捨てられます。つまり、`maxDecimals` が `3` に設定されるエディターが `123.4567` の値を受けると、`123.456` に切り捨てられます。製品の 17.1 バージョンで新しい [`roundDecimals`](ui.ignumericeditor#options:roundDecimals) オプションを追加しました。デフォルトで有効で、JavaScript の `Math.round()` 関数を使用して数値を丸めます。`123.4567` の値は丸めて、エディターで `123.457` として表示されます。[`roundDecimals`](ui.ignumericeditor#options:roundDecimals) オプションが無効な場合、値を切り捨て、以前のバージョンと同じように `123.456` を表示します。
 
 ## igDateEditor/igDatePicker
 
