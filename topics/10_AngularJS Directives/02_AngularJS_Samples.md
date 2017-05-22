@@ -38,6 +38,9 @@
 -   [レイアウト マネージャー サンプル](#lm_sample)
     -   [プレビュー](#lm_preview)
     -   [詳細](#lm_details)
+-   [データ チャート サンプル](#dchart_sample)
+    -   [｢プレビュー](#dchart_preview)
+    -   [詳細](#dchart_details)
 -   [関連コンテンツ](#related_content)
 
 ### <a id="requirements"></a>要件
@@ -135,6 +138,19 @@
 
 #### <a id="lm_details"></a>詳細
 このサンプルでは、`igLayoutManager` AngularJS ディレクティブを使用します。
+
+### <a id="dchart_sample"></a>データ チャート サンプル
+このサンプルは、`igDataChart` をインスタンス化するために `AngularJS` ディレクティブを使用する方法を紹介します。
+
+#### <a id="dchart_preview"></a>プレビュー
+以下は最終結果のプレビューです。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/data-chart/angular](%%SamplesEmbedUrl%%/data-chart/angular)
+</div>
+
+#### <a id="dchart_details"></a>詳細
+このサンプルは、データ チャートおよびズームバー コントロールを AngularJS ディレクティブを使用してリンクする方法を紹介します。
 
 ### <a id="related_content"></a>関連コンテンツ
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
