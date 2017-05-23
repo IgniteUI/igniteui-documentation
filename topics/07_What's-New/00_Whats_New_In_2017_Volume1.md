@@ -50,59 +50,59 @@
 
 機能 | 説明
 ---|---
-[Date Handling](#dateHandling)| New editors' settings are needed when handling date transfers.
+[データ処理](#dateHandling)| データ変換を処理する際にエディターの設定が必要です。
 
 ### igDatePicker
 
 機能 | 説明
 ---|---
-[Date Picker Options MVC wrapper](#pickerOptionsWrapper) | When using DatePicker MVC wrapper, now additional wrapper for the date picker options is available.
+[日付の選択オプション MVC ラッパー](#pickerOptionsWrapper) | DatePicker MVC ラッパーを使用する場合に、日付の選択オプションの追加のラッパーが利用できます。
 
 ## <a id="spreadsheet"></a>igSpreadsheet
 
-2017.1 バージョンで igSpreadsheet コントロールを追加しました。最新のあらゆるブラウザーで Excel ドキュメントを視覚化する jQuery ウィジェットです。For MVP version, the control has the following areas and features available:
+2017.1 バージョンで igSpreadsheet コントロールを追加しました。最新のあらゆるブラウザーで Excel ドキュメントを視覚化する jQuery ウィジェットです。MVC バージョンでは、コントロールの以下の領域と機能が使用できます。
 
--   Configurable component areas
-    -   Formula Bar
-    -   Context Menu
-    -   Tab Bar Area
-    -   Headers
+-   構成可能なコンポーネント領域
+    -   数式バー
+    -   コンテキスト メニュー
+    -   タブ バー領域
+    -   ヘッダー
 
--   Control manupaltions
+-   コントロールの変更
 
-    -   Selection
-    -   Resizing
-    -   Hiding
-    -   Freezing Panes
-    -   Splitting Panes
-    -   Zooming
+    -   選択
+    -   サイズ変更
+    -   非表示
+    -   ペインのフリーズ
+    -   ペインの分割
+    -   ズーム
 
--   Data manipualtions
-    -   Inserting and Deleting Cells, Columns and Rows
-    -   Undo and Redo
-    -   Copy and Paste
-    -   Data Validation
-    -   Worksheets
-    -   Hyperlinks
+-   データの変更
+    -   セル、列、行の挿入と削除
+    -   元に戻す / やり直し
+    -   コピー / 貼り付け
+    -   データ検証
+    -   ワークシート
+    -   ハイパーリンク
 
--   Visual configurations
-    -   Gridlines
-    -   Cell Alignment
-    -   Cell Borders
-    -   Font Styles
+-   外観の構成
+    -   グリッド線
+    -   セルの配置
+    -   セルの境界線
+    -   フォント スタイル
 
 ![](images/spreadsheet.png)
 
-#### Related Topics
--   [igSpreadsheet Overview](igspreadsheet-overview.html)
--   [Adding igSpreadsheet](adding-igspreadsheet.html)
--   [Configuring igSpreadsheet](igspreadsheet-configuring.html)
+#### 関連トピック
+-   [igSpreadsheet の概要](igspreadsheet-overview.html)
+-   [igSpreadsheet の追加](adding-igspreadsheet.html)
+-   [igSpreadsheet の構成](igspreadsheet-configuring.html)
 
 
-#### Related Samples
--   [Overview](%%SamplesUrl%%/spreadsheet/overview)
--   [View Configuration](%%SamplesUrl%%/spreadsheet/create-view-save)
--   [Import Data From Excel File](%%SamplesUrl%%/spreadsheet/loading-data)
+#### 関連サンプル
+-   [概要](%%SamplesUrl%%/spreadsheet/overview)
+-   [表示の構成](%%SamplesUrl%%/spreadsheet/create-view-save)
+-   [エクセル ファイルからデータをインポート](%%SamplesUrl%%/spreadsheet/loading-data)
 
 ## <a id="igScheduler"></a> igScheduler
 ### 新しいコントロール (RTM)
@@ -187,19 +187,19 @@ GroupBy 集計機能は、そのアイランドにあるデータ列の集計情
 
 ## igDateEditor/igDatePicker
 
-### <a id="dateHandling"></a> Date Handling
+### <a id="dateHandling"></a> データ処理
 
-When the dates in the editors are transferred from the client to the server аnd vice versa, the options [`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) and [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) can be used to configure the editоrs and to properly handle date transfer.
+エディターの日付をクライアントからサーバーへ、またはサーバーからクライアントへ転送する場合、オプション [`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) および [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) を使用してエディターを構成し、適切に日付を転送します。
 
-#### Related Topics
--   [Migrating enableUTCDate option in 17.1](Migrating-enableUTCDates-option-in-17-1.html)
--   [Ignite UI controls in different time zones](Using-IgniteUI-controls-in-different-time-zones.html)
+#### 関連トピック
+-   [17.1 の enableUTCDate オプションの移行](Migrating-enableUTCDates-option-in-17-1.html)
+-   [Ignite UI コントロールを異なるタイム ゾーンで使用](Using-IgniteUI-controls-in-different-time-zones.html)
 
 ## igDatePicker
 
-### <a id="pickerOptionsWrapper"></a> Date Picker Options MVC wrapper
+### <a id="pickerOptionsWrapper"></a> 日付の選択オプション MVC ラッパー
 
-The DatePicker MVC wrapper is extended to allow the definition of the date picker options, using additional MVC wrapper. The new wrapper contains all the jQuery UI datepicker options that can be applied to our igDatePicker. Here is an example of how it can be configured in MVC:
+追加の MVC ラッパーを使用して DatePicker MVC ラッパーが日付の選択オプションの定義を許可するよう拡張されます。新しいラッパーは、すべての jQuery UI 日付の選択オプションを含み、igDatePicker に適用することができます。以下は、MVC で構成する方法です。
 
 ```
 @(Html.Infragistics()

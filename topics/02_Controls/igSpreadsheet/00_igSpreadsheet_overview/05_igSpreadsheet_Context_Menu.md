@@ -58,7 +58,7 @@
 ![](images/igSpreadsheet_context_menu_insert.png)
 ![](images/igSpreadsheet_context_menu_delete.png)
 
->**Note**: To render its items correctly, the Context menu requires jQuery UI version 1.12.0 or later to be loaded.
+>**注:** コンテキスト メニューの読み込みで項目を正しく描画するために jQuery UI バージョン 1.12.0 以後が必要です。
 
 ## ワークシートのコンテキスト メニュー
 

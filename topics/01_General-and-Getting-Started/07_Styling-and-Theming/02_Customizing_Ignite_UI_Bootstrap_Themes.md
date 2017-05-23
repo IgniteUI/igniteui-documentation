@@ -33,7 +33,7 @@ infragistics.igniteui.theme.less / infragistics.igniteui.theme.scss|`infragistic
 
 Bootstrap テーマを %%ProductName%% のテーマに統合する場合は、Bootstrap から取り込んだ変数を %%ProductName%% のテーマで使用する必要があります。以下の手順では、統合する方法を紹介します。
 
-1.  You can find different bootstrap themes under `\css\themes\bootstrap3`, `\css\themes\bootstrap3\<theme name>` or `\css\themes\bootstrap4` that you can use as a base by crating a copy. You can modify the variables file or replace it with one from your chosen Bootstrap. See the Modifying Variables to Customize Your Theme section below.
+1.  コピーを使用したベースとして使用できる各ブートストラップ テーマは `\css\themes\bootstrap3`、 `\css\themes\bootstrap3\<theme name>` または  `\css\themes\bootstrap4` にあります。変数ファイルの変更や選択した Bootstrap で置き換えることもできます。以下の「変数を変更してテーマをカスタマイズ」セクションをご覧ください。
 2.  次に、テーマの中で使用するスプライトの確認が必要になります、またはテーマのカラー パレットによって異なりますが、スプライト イメージで使用する色の調整が必要になる場合があります。スプライト イメージは、images フォルダーで確認できます。スプライトの確定後、テキスト エディタで `infragistics.theme.*ss` ファイルを開きます。テーマで使用可能な 3 つの基本的なスプライトのアイコンがあります。
 
     **LESS の場合:**
@@ -62,7 +62,7 @@ Bootstrap テーマを %%ProductName%% のテーマに統合する場合は、Bo
 
 以下の手順では、%%ProductName%% のテーマをカスタマイズするために変数を変更する箇所を示します。
 
-1.  Open `variables.less` or `variables.scss`(depending on the chosen base theme) in your text editor and edit the values to fit your intended design.変数の名前は、すぐに識別が可能で、機能を表す名前を使用してください。たとえば、次のような変数セットがあります。
+1.  テキスト エディターで `variables.less` または `variables.scss` ファイル (ベースとなるテーマに基づく) を開き、目的のデザインに応じて値を編集します。変数の名前は、すぐに識別が可能で、機能を表す名前を使用してください。たとえば、次のような変数セットがあります。
 
     **LESS の場合:**
 	```css

@@ -74,11 +74,11 @@ initialExpandDepth と仮想化の使用がサポートされない|仮想化が
 ---|---|---
 ツールチップのオプションが子およびルートの定義で異なる場合、ツールチップは子レイアウトで表示されません。 | 階層グリッドのすべてのツールチップ インスタンスで同じ DOM 要素を使用するようになったため、このシナリオはサポートされません。 | ![](images/negative.png)
 
-#### [igHierarchicalGrid Updating](#updating)
+#### [igHierarchicalGrid 更新](#updating)
 
-Issue | Description | Status
+問題 | 説明 | 状態
 ---|---|---
-[Done/Cancel buttons are cut off for child layouts when their height is too small](#buttons-cutoff) | Certain configurations and use-cases allow for child layouts with small heights that makes positioning floating elements outside the visibility-critical elements impossible.  | ![](images/positive.png)
+[高さが低すぎる場合、子レイアウトで [OK]/[キャンセル] ボタンの一部が表示されません。](#buttons-cutoff) | 特定の構成およびユースケースで子レイアウトの高さが低すぎる場合、表示要素の範囲外にフローティング要素は配置できません。  | ![](images/positive.png)
 
 ### <a id="general"></a> igHierarchicalGrid
 
@@ -238,27 +238,27 @@ Issue | Description | Status
     </tbody>
 </table>
 
-## <a id="updating"></a> igHierarchicalGrid Updating
+## <a id="updating"></a> igHierarchicalGrid 更新
 <table class="table table-striped">
 	<thead>
         <tr>
-            <th>Issue</th>
-            <th>Description</th>
-			<th>Workaround</th>
+            <th>問題</th>
+            <th>説明</th>
+			<th>回避方法</th>
         </tr>
     </thead>
     <tbody>
 		<tr id="buttons-cutoff">
 			<td>
-				Done/Cancel buttons are cut off for child layouts when their height is too small
+				高さが低すぎる場合、子レイアウトで [OK]/[キャンセル] ボタンの一部が表示されません。
 			</td>
 			<td>
-				Certain configurations and use-cases allow for child layouts with small heights that makes positioning floating elements outside the visibility-critical elements impossible.
+				特定の構成およびユースケースで子レイアウトの高さが低すぎる場合、表示要素の範囲外にフローティング要素は配置できません。
 			</td>
 			<td>
-				Use a CSS rule to give minimum height to all child layouts:
+				すべての子レイアウトに最小の高さを設定するために CSS ルールを使用します。
 				<br>
-				**In CSS:**
+				**CSS の場合:**
 <pre>[id$=_child_container] {
 	min-height: 100px;
 }

@@ -11,13 +11,13 @@
 # %%ProductName%% コントロールを別のタイム ゾーンで使用
 
 ## 概要
-Users of a web application are often in a different time zone than the web server and in some circumstances you may want to render the server-based date values adjusted to the client's time zone or with specific time offset. It also important to properly format dates while transferring them between server and client. In this topic you learn to customize properties of the `igGrid`, `igDatePicker` and `igDateEditor` to control the display and edit of date values for clients  in different time zones.
+Web アプリケーションのユーザーと web サーバーのタイム ゾーンが異なる場合がよくありますが、クライアントのタイム ゾーンに合わせたサーバーの日付値または特定の時間オフセットで描画できます。サーバーとクライアント間で日付を転送する際に日付書式を適切に設定してください。このトピックでは、`igGrid`、`igDatePicker`、および `igDateEditor` の enableUTCDates プロパティをカスタマイズし、表示の制御およびタイムゾーンの異なるクライアントで日付値を編集する方法を紹介します。
 
 ## クライアント側の日付の構成
 
 `igGrid` で有効な場合、`EnableUTCDates` オプションは、クライアント側で日付が UTC 日付として書式設定されます。日付値がサーバーから受信されたとき、日付を表示するための書式設定関数が適用されます。`enableUTCDates` が false に設定される場合、結果は標準の日付オブジェクトメソッド (getFullYear()、getMonth()、getDate()、getHours() など) によって日付値を返します。true に設定される場合、UTC のメソッド (getUTCFullYear()、getUTCMonth()、getUTCDate()、getUTCHours() など) が使用されます。したがって、オプションが有効な場合、サーバーから受信された日付は UTC に変換されます。 
  
-The `igDateEditor` and `igDatePicker` rely primarily on `displayTimeOffset` to format dates on the client while `enableUTCDates` affects the serialization format for stand-alone editors.
+`igDateEditor` および `igDatePicker` は、クライアントで日付を書式設定するために主にクライアントの `displayTimeOffset` に依存しますが、`enableUTCDates` はスタンドアロン エディターのシリアル化の書式に影響します。
 
 ##　igGrid/igHierarchicalGrid
  
@@ -104,27 +104,27 @@ DateTime date = new DateTime(2015, 1, 10, 7, 0, 0, 0, DateTimeKind.Local);
 
 ## igDatePicker および igDateEditor
 
-The `igDateEditor` and `igDatePicker` offer several options to properly handle dates in the different time zones. The properties below describe how both editors show dates and how they serialize them, in order to be transferred correctly.
--	[`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) - Gets/sets time zone offset from UTC, in minutes. The client date values are displayed with this offset instead of the local one, which are automatically transformed by the client browser. If you want to display UTC dates, then the value needs to be set to 0.
--	[`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) -  Enables/Disables serializing client date as UTC ISO 8061 string instead of using the local time and zone values. The option is only applied in "date" [`dataMode`](%%jQueryApiUrl%%/ui.igdateeditor#options:dataMode).
+`igDateEditor` および `igDatePicker` に別のタイム ゾーンで日付を正しく処理するために複数のオプションがあります。以下のプロパティは、エディターが日付を表示し、正しく送信するためにシリアル化する方法を説明します。
+-	[`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) - UTC からのタイム ゾーン オフセットを分単位で取得または設定します。Tクライアント側の日付値は、ローカル オフセットの代わりにこのオフセットで表示されます。ローカル オフセットがクライアント ブラウザーによって自動的に変換されます。UTC 日付を表示するには、値を 0 に設定します。
+-	[`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) -  ローカル時間およびゾーン値の代わりにクライアント側の日付を UTC ISO 8061 文字列としてのシリアル化を有効/無効にします。このオプションは "date" [`dataMode`](%%jQueryApiUrl%%/ui.igdateeditor#options:dataMode) のみで適用されます。
 
-For example 10:00 AM from a client with local offset of 5 hours ahead of GMT will be serialized as: "2016-11-11T10:00:00+05:00" with the option default 'false' value. If set to "true" the date will use the ISO UTC format: "2016-11-11T05:00:00Z".
+たとえば、GMT の前の 5 時のローカル オフセットを持つクライアントからの「10:00」は、デフォルトの 'false' 値のオプションで「2016-11-11T10:00:00+05:00」としてシリアル化されます。"true" に設定される場合、日付は ISO UTC 形式を使用します: "2016-11-11T05:00:00Z"。
 
-> **Note:** The functionality of the `enableUTCDates` has changed since 17.1.
+> **注:** `enableUTCDates` の機能が 17.1 から変更されました。
 > 
-> For more information of how you can migrate editors, configured with enableUTCDates option, from 16.2 to 17.1 follow the [Migrate enableUTCDates option in 17.1](Migrating-enableUTCDates-option-in-17-1.html) document.
+> 16.2 から 17.1 へのエディター移行や enableUTCDates オプションを使用した構成については、「[17.1 の enableUTCDate オプションの移行](Migrating-enableUTCDates-option-in-17-1.html)」をご覧ください。
 
-Client `igDateEditor`/`igDatePicker` widgets can serialize the date either in UTC format or containing local time and offset based on the `enableUTCDates` option. Both values refer to the same point in time, however one also carries additional information for the client and depending on the server platform it can make a difference when parsing submitted values. For example in .NET [`DateTimeOffset`](https://msdn.microsoft.com/en-us/library/system.datetimeoffset(v=vs.110).aspx) allows handling the client offset separately.
+クライアント `igDateEditor`/`igDatePicker` ウィジェットは、UTC 書式で日付をシリアル化、またはローカルタイムを含んで `enableUTCDates` オプションに基づいてオフセットできます。両値が同じ時点を参照しますが、クライアントの追加情報も持っており、サーバー プラットフォームに基づいて提出した値を解析する際に違いが発生します。たとえば、.NET [`DateTimeOffset`](https://msdn.microsoft.com/ja-jp/library/system.datetimeoffset(v=vs.110).aspx) は、クライアント オフセットを別々に処理できます。
 
-Since the JavaScript `Date` always converts the initial value to local time discarding any time zone offset in the process, it is always recommended to set UTC standard values for the `igDateEditor` and `igDatePicker`, especially when [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) option is defined, otherwise values with specific or ambiguous time zone could map to unpredictable times depending on the user agent local zone. 
+JavaScript `Date` は、処理ですべてのタイムゾーン オフセットを無視するため常に初期値をローカル タイムに変換するため、特に [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) が定義されている場合は `igDateEditor` および `igDatePicker` に UTC 標準値に設定することを推奨します。そうでない場合、ユーザー エージェントのローカル時間に基づいて特定の値またはあいまいなタイムゾーンは予期しない時間にマップされる場合があります。
 
-If the ASP.NET MVC wrapper of the date editor and date picker is used, then it sends the date serialized only using the UTC format. In addition to the UTC serialized date, set as a value to the client widget, the MVC wrapper also sets the [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) option by default. This is true even if no value is provided as the offset is extracted form the server local time. If the value provided has an offset (of `DateTimeOffset` type) or the `DisplayTimeOffset` is set as MVC wrapper option, then that value is sent to the client instead.
+日付エディターの ASP.NET MVC ラッパーと日付の選択を使用する場合、UTC 形式を使用したシリアル化した日付のみ送信します。UTC シリアル化されたデータに加え、クライアント ウィジェットに値として設定し、MVC ラッパーがデフォルトで [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) オプションを設定します。オフセットがサーバーローカル時間から抽出されるため、提供される値がない場合も true になります。提供した値にオフセット (`DateTimeOffset` タイプの) がある場合または `DisplayTimeOffset` が MVC ラッパー オプションに設定する場合、値は代わりにクライアントへ送信されます。
 
-The following examples will demonstrate how MVC wrapper and client widget works, when [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) and [`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) options are used.
+以下は、[`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) および [`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) を使用した場合の MVC ラッパーとクライアント ウィジェットの機能の例です。
 
-### Default Behavior
+### デフォルトの動作
 
-Let's define in MVC a date editor, with the following configuration and set the value in the server in "Central Europe Standard Time", which is GMT+01:00. Let's assume the client browser is in the "FLE Standard Time", which is GMT+02:00. The same result will be valid for the date picker.
+MVC で日付エディターを以下の構成で定義し、サーバーの値を中央ヨーロッパ標準時 (GMT+01:00) に設定します。クライアント ブラウザーが FLE 標準時 (GMT+02:00) であると仮定します。日付の選択でも同じ結果となります。
 
 ```csharp
 @(Html.Infragistics()
@@ -139,7 +139,7 @@ Let's define in MVC a date editor, with the following configuration and set the 
 	.Render())
 ```
 
-In that case the hour is 10 AM, and because the time zone is GMT+01:00, then the MVC wrapper will transform that value to UTC, in the following format: 2016-01-09T09:35:55.0000000Z. In addition it will add displayTimeOffset of 60 minutes. This is what will be rendered by the wrapper in the response:
+その場合、時間が 10 AM となり、タイムゾーンが GMT+01:00 のため MVC ラッパーが値を 2016-01-09T09:35:55.0000000Z 形式で UTC へ変換します。更に 60 分の displayTimeOffset を追加します。これは応答でラッパーによって描画されます。
 
 ```js
 $('#StartHour').igDateEditor({
@@ -152,13 +152,13 @@ $('#StartHour').igDateEditor({
 	width: '280' });
 ```
 
-The above configuration will render the following value in the editor:
+上記の構成によってエディターに以下の値を描画します。
 
 ![](images/Time_Zones_Editor_1.png)
 
-### Ignoring server offset and displaying the specific client one
+### サーバー オフセットを無視して特定のクライアント オフセットの表示
 
-From the example above, it can be seen that when we define a server hour in the editor MVC wrapper, in the client we will always see that server hour, ignoring the client time zone offset. This is the default behavior, if we want each of the clients to display the time in their time zones, then we need to set the [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) wrapper option to `null`. Using the previous example and setting the option, on the client the `displayTimeOffset` option will be ignored and the time will show according the specific time zone:
+上記は、エディター MVC ラッパーでサーバーの時間を定義した場合の例です。クライアントではサーバー時間となり、クライアント タイムゾーンのオフセットは無視されますデフォルト動作で、各クライアントでタイムゾーンの時間を表示する場合、[`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) ラッパー オプションを `null` に設定する必要があります。 前の例を使用してオプションを設定し、クライアントで `displayTimeOffset` オプションが無視されて時間が特定のタイム ゾーンに従って表示されます。
 
 ```csharp
 @(Html.Infragistics()
@@ -185,15 +185,15 @@ $('#StartHour').igDateEditor({
 	width: '280' });
 ```
 
-The above configuration will render the following value in the editor, if our time is "FLE Standard Time", which is GMT+02:00:
+上記の構成では、FLE 標準時 (GMT+02:00) の場合に次の値をエディターで描画します。
 
 ![](images/Time_Zones_Editor_2.png)
 
-### Configuring EnableUTCDates option
+### EnableUTCDates オプションの構成
 
-As mentioned earlier setting the `EnableUTCDates` in the wrapper only affects the way the client-widget serializes the date. When enabled like the previous example, the value the editor would submit will be '2016-01-09T09:35:55.000Z', which is the same the MVC wrapper has sent to the client. This allows for a standardized communication between client and server.
+上記に記述した通り、ラッパーで `EnableUTCDates` を設定した場合、クライアント ウィジェットが日付をシリアル化する方法に影響します。以前の例にあるように有効にした場合、エディターが送信する値は '2016-01-09T09:35:55.000Z' となり、MVC ラッパーがクライアントへ送信する値と同じです。これはクライアントとサーバー間の標準化された通信を許可します。
 
-If we decide to change the MVC wrapper setting:
+MVC ラッパー設定を変更する場合:
 
 ```csharp
 @(Html.Infragistics()
@@ -209,11 +209,11 @@ If we decide to change the MVC wrapper setting:
 	.Render())
 ```
 
-Then the submitted value will be formatted as local time and offset. And because our client is GMT+02:00, then the result will be: '2016-01-09T11:35:55+02:00'.
+送信された値は、ローカル時間とオフセットとして書式設定されます。クライアントが GMT+02:00 であるため、結果は '2016-01-09T11:35:55+02:00' となります。
 
-### Configuring DisplayTimeOffset option
+### DisplayTimeOffset オプションの構成
 
-If we decide to display a date in "Russian Standard Time", GMT+03:00, then what we need is to define the appropriate offset from UTC time, in minutes:
+ロシア標準時 (GMT+03:00 ) で日付を表示する場合、UTC から適切なオフセットを分単位で定義する必要があります。 
 
 ```js
 @(Html.Infragistics()
@@ -229,7 +229,7 @@ If we decide to display a date in "Russian Standard Time", GMT+03:00, then what 
 	.Render())
 ```
 
-The MVC wrapper will render the following `igDateEditor` widget configuration:
+MVC ラッパーは以下の `igDateEditor` ウィジェット構成を描画します。
 
 ```js
 $('#StartHour').igDateEditor({
@@ -242,8 +242,8 @@ $('#StartHour').igDateEditor({
 	width: '280' });
 ```
 
-The result on the browser will be:
+以下はブラウザーの結果です。
 
 ![](images/Time_Zones_Editor_3.png)
 
-> **Note:** Keep in mind that the `displayTimeOffset` is a static value that can't account for Daylight Saving. For that reason, if targeting a specific zone rather than just offset, the back end logic should check if the target date falls under DST to provide the correct offset value for the specific date. With .NET the `DisplayTimeOffset` type can be used and can also be handled automatically by the MVC editor wrappers.
+> **注:** `displayTimeOffset` は静的な値で、サマータイム用に変更しません。そのため、オフセットのみでなく特定のゾーンをターゲットとした場合、バックエンド ロジックでターゲット日が DST に該当し、特定の日時に正しいオフセット値を提供するかどうかを確認します。.NET で `DisplayTimeOffset` タイプが使用でき、MVC エディター ラッパーで自動的に処理できます。

@@ -18,7 +18,7 @@
 -   [igDatePicker アクセシビリティの遵守](igDatePicker-Accessibility-Compliance.html)
 -   [igDatePicker 既知の問題](igDatePicker-Known-Issues.html)
 -   [新しい igDatePicker への移行](Migrating-to-the-new-igDatePicker.html)
--   [Migrating date handling in 17.1](Migrating-enableUTCDates-option-in-17-1.html)
+-   [17.1 で日付処理の移行](Migrating-enableUTCDates-option-in-17-1.html)
 -   [igDatePicker のキーボード ナビゲーション](igDatePicker-Keyboard-Navigation.html)
 
  

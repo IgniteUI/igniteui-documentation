@@ -55,7 +55,7 @@
     -   [igHierarchicalGrid GroupBy](#hierarchical-grid-grouping)
     -   [igHierarchicalGrid RowSelectors](#hierarchical-grid-row-selectors)
     -   [igHierarchicalGrid ツールチップ](#hierarchical-grid-tooltips)
-	-   [igHierarchicalGrid Updating](#hierarchical-grid-updating)
+	-   [igHierarchicalGrid 更新](#hierarchical-grid-updating)
     -   [igLinearGauge](#linear-gauge)
     -   [%%ProductName%% ASP.NET MVC ラッパー](#mvc)
     -   [%%ProductName%% ASP.NET MVC ラッパー (モバイル)](#mvc-mobile)
@@ -1175,13 +1175,13 @@ initialExpandDepth と仮想化の使用がサポートされない|仮想化が
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
-### <a id="hierarchical-grid-updating"></a> [igHierarchicalGrid Updating](igHierarchicalGrid-Known-Issues.html)
+### <a id="hierarchical-grid-updating"></a> [igHierarchicalGrid 更新](igHierarchicalGrid-Known-Issues.html)
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-Done/Cancel buttons are cut off for child layouts when their height is too small | Certain configurations and use-cases allow for child layouts with small heights that makes positioning floating elements outside the visibility-critical elements impossible.  | ![](images/positive.png)
+高さが低すぎる場合、子レイアウトで [OK]/[キャンセル] ボタンの一部が表示されません。 | 特定の構成およびユースケースで子レイアウトの高さが低すぎる場合、表示要素の範囲外にフローティング要素は配置できません。  | ![](images/positive.png)
 
-Go up to [Known Issues and Limitations Summary](#summary)
+[既知の問題点と制限の概要](#summary)を参照してください。
 
 ### <a id="linear-gauge"></a> [igLinearGauge](igLinearGauge-Known-Issues-and-Limitations.html)
 

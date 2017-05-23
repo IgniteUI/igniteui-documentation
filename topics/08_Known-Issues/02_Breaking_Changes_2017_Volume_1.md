@@ -24,22 +24,22 @@
 
 %%ProductName%% コントロールの依存関係を読み込むために igLoader を使用するアプリケーションでローダーが内部に処理されているため、変更の必要がありません。ファイルを手動的に読み込むアプリケーションで必要のないのユーティリティ参照を削除できます。
 
-### New Bootstrap themes structure
+### 新しい Bootstrap テーマ構造
 
-The default and all Bootstrap 3 based themes have moved under a common "/bootstrap3" folder. The following lists the current Bootstrap 3 themes currently shipped with %%ProductName%% and the location of the `infragistics.theme.css` relative to the product source root ("~"):
+デフォルトおよびテーマに基づいたすべての Bootstrap 3 は、共通 "/bootstrap3" フォルダーへ移動しました。以下は、%%ProductName%% に含まれる現在の Bootstrap 3 テーマと製品ソース ルート ("~") に関連する `infragistics.theme.css` の場所です。
 
-Themes | Previous path | New Path
+テーマ | 以前のパス | 新しいパス
 -------|---------------|---------
-Bootstrap 3 (default) |  ~/css/themes/bootstrap/ | ~/css/themes/bootstrap3/
+Bootstrap 3 (デフォルト) |  ~/css/themes/bootstrap/ | ~/css/themes/bootstrap3/
 Flatly | ~/css/themes/flatly/ | ~/css/themes/bootstrap3/flatly/
 Yeti | ~/css/themes/yeti/ | ~/css/themes/bootstrap3/yeti/
 Superhero | ~/css/themes/superhero/ | ~/css/themes/bootstrap3/superhero/
 
-So for pages referencing the current Yeti theme for example, the new link becomes:
+現在の Yeti テーマを参照するページで新しいリンクは次のようになります。
 ```html
 <link href="/css/themes/bootstrap3/yeti/infragistics.theme.css" rel="stylesheet" type="text/css" />
 ```
-Or if using the Infragistics Loader with [`theme`](%%jQueryApiUrl%%/ig.loaderClass#options:settings.theme) option:
+または [`theme`](%%jQueryApiUrl%%/ig.loaderClass#options:settings.theme) オプションで Infragistics Loader を使用する場合: 
 
 ```js
 $.ig.loader({
