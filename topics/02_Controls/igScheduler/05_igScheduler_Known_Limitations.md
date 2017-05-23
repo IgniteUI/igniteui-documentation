@@ -104,7 +104,7 @@ igScheduler はローカル データ ソースのみを処理します。最初
 
 ### <a id="MinWidthSupport"></a>サポートされる最低幅は 320 px (モバイル環境)
 
-`320 pixels` is the minimum resolution under which `igScheduler` will be fully visible with properly aligned html elements. This applies for mobile devices.
+モバイル デバイスで `igScheduler` のサポートされる最小解像度は `320 px` です。
 
 以後のリリースで、最小解像度に到達した場合に表示されるメッセージを追加します。
 
