@@ -8,82 +8,82 @@
 |metadata|
 -->
 
-# Accessibility Compliance (igScheduler)
+# アクセシビリティの遵守 (igScheduler)
 
 
-## igScheduler Accessibility Compliance
+## igScheduler アクセシビリティの遵守
 
 
-### Purpose
+### 目的
 
-This topic explains `igScheduler`™ accessibility features and provides advice how to achieve accessibility compliance for pages containing schedulers.
+このトピックでは、`igScheduler`™ のアクセシビリティ機能について説明し、スケジューラを含むページのアクセシビリティ準拠を実現する方法についての助言を示します。
 
-### Introduction
+### 概要
 
-All of the Ignite UI™ controls and components comply with Section 508, Subpart 1194.22 of the Rehabilitation Act of 1973.
+すべての Ignite UI™ コントロールおよびコンポーネントは、1973 年リハビリテーション法第 508 条第 1194 部 22 条を遵守しています。
 
-To meet the requirements each accessibility rule, in some cases, you may need to interact with the control by to setting a specific property, but in other cases the control does the work for you.
+各アクセシビリティ規則の要件を満たすために、場合によっては、コントロールを操作して特定のプロパティを設定する必要がありますが、それ以外の場合は、コントロール自体がこの作業を行います。
 
->**Note:** As jQuery controls are client-only, some of the rules are not supported and are marked as limitations.
+>**注:** jQuery コントロールはクライアント専用のため、一部の規則はサポートされず、制限とされています。
 
-#### Accessibility compliance reference summary
+#### アクセシビリティ準拠のリファレンスの概要
 
-The following table summarizes the accessibility compliance features of the igScheduler.
+以下の表は、igScheduler のアクセシビリティ順守機能についてまとめたものです。
 
 <table class="table">
 	<thead>
 		<tr>
-			<th>Rules</th>
-			<th>Rule Text</th>
-			<th>How We Comply</th>
+			<th>規則</th>
+			<th>規則内容</th>
+			<th>準拠方法</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td>(c)</td>
-			<td>Web pages shall be designed so that all information conveyed with color is also available without color, for example from context or markup.</td>
-			<td>You can control coloring and provide suitable colors for scheduler using the styling and theming capabilities of igScheduler.
-            Using client-side events, the user can change attributes of any of the control's DOM elements reflecting the current state.</td>
+			<td>色によって伝達されるすべての情報が色を使用しなくても理解できるように (たとえば、コンテキストやマークアップ) Web ページを設計するものとします。</td>
+			<td>igScheduler のスタイルとテーマの設定機能を使用して、スケジューラの配色を制御し、適切な色を提供できます。
+            クライアント側イベントを使用すると、現在の状態を反映する任意のコントロールの DOM 要素の属性をユーザーは変更できます。</td>
 		</tr>
 		<tr>
 			<td>(d)</td>
-			<td>Documents shall be organized so they are readable without requiring an associated style sheet.</td>
-			<td>The control's markup is readable without the associated style sheet because it’s a client-side control and depends on the CSS rules..</td>
+			<td>関連付けられたスタイル シートがなくても読めるようにドキュメントを構成するものとします。</td>
+			<td>コントロールのマークアップは、クライアント側のコントロールで、CSS のルールに依存するため、関連付けられたスタイル シートなしで読み取り可能です。</td>
 		</tr>
         <tr>
 			<td>(j)</td>
-			<td>Pages shall be designed to avoid causing the screen to flicker with a frequency greater than 2 Hz and lower than 55 Hz.	</td>
-			<td>The igScheduler control does not itself contribute to causing the screen to flicker with a frequency greater than 2 Hz and lower than 55 Hz. (There are no BLINK or MARQUEE elements as part of the control.)</td>
+			<td>ページは、2 Hz より大きく、55 Hz を下回る周波数で画面がちらつかないように設計するものとします。	</td>
+			<td>周波数が 2 Hz より大きく、55 Hz を下回る場合は、igScheduler コントロール自体が画面のちらつきの原因になることはありません。(コントロールの一部として、BLINK または MARQUEE 要素はありません。)</td>
 		</tr>
         <tr>
 			<td>(l)</td>
-			<td>When pages utilize scripting languages to display content or to create interface elements, the information provided by the script shall be identified with functional text that can be read by assistive technology.</td>
-			<td>When the control's scripts are changing the page markup, the new created content complies with the screen reader due to the attributes described in rule (c).</td>
+			<td>ページがスクリプト言語を利用してコンテンツを表示、またはインターフェイス要素を作成する場合、スクリプトによって提供される情報は、支援技術で読み取ることのできる機能テキストで識別するものとします。</td>
+			<td>コントロールのスクリプトがページ マークアップを変更している場合、規則 (c) で説明されている属性のために、新しく作成されたコンテンツはスクリーン リーダーに準拠します。</td>
 		</tr>
         <tr>
 			<td>(n)</td>
-			<td>When electronic forms are designed to be completed on-line, the form shall allow people using assistive technology to access the information, field elements, and functionality required for completion and submission of the form, including all directions and cues.</td>
-			<td>Keyboard navigation for selecting different date is provided and the same applies for the date picker editor when it is on focus (edit mode).</td>
+			<td>オンラインですべての項目に記入するように電子的フォームが設計されている場合には、そのフォームによって、補助技術を使用するユーザーは、すべての指示と手掛かりを含めた、フォームの完成と提出に必要な情報、フィールド要素、および機能にアクセスすることができます。</td>
+			<td>日付選択の変更のためのキーボード ナビゲーションがサポートされ、フォーカス状態 (編集モード) である日付ピッカーのエディターにもキーボード ナビゲーションがサポートされます。</td>
 		</tr>
 	</tbody>
 </table>
 
-## WAI-ARIA Support
-In 2014 the W3C finalized their [WAI-ARIA specification](http://www.w3.org/TR/wai-aria/) which defined how to design Web content and Web applications to be more accessible to users with disabilities. The igScheduler is not yet completely designed to follow these guidelines.
+## WAI-ARIA サポート
+2014 年に W3C は [WAI-ARIA 仕様](http://www.w3.org/TR/wai-aria/) を完成しました。障害を持つユーザーに Web コンテンツおよび Web アプリケーションへのアクセシビリティを提供するデザインを定義したものです。igScheduler はこのガイドレアインの遵守のためにデザインされません。
 
-The list below provides links to more details on how WAI-ARIA support has been implemented in Widgets that are part of the scheduler and follows WAI-ARIA guidelines.
+以下のリストで、WAI-ARIA ガイドラインを遵守するスケジューラで含まれるウィジェットが実装されるサポートの詳細へのリンクを参照してください。
 
 - [igDatePicker](igdatepicker-accessibility-compliance.html#wai-aria)
 - [igDateEditor](igdateeditor-accessibility-compliance.html#wai-aria)
 - [igTextEditor](igtexteditor-accessibility-compliance.html#wai-aria)
 
 
-## Related Topics
+## 関連トピック
 
 
-Following are some other topics you may find useful.
+以下は、その他の役立つトピックです。
 
--	[Accessibility Compliance](Accessibility-Compliance.html)
+-	[アクセシビリティ準拠](Accessibility-Compliance.html)
 
 
 

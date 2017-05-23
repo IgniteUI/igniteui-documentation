@@ -8,138 +8,138 @@
 |metadata|
 -->
 
-# igScheduler Overview
+# igScheduler の概要
 
-## Topic Overview
+## トピックの概要
 
-### Purpose
+### 目的
 
-This topic provides conceptual information for the `igScheduler`™ control including information regarding: features, configuration, requirements and theming.
+このトピックでは、機能、構成、要件、テーマなど、`igScheduler`™ コントロール関連の概念について説明します。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [Minimum Requirements](#minimum-requirements)
+- [最低必要条件](#minimum-requirements)
 
-- [Main Features](#main-features)
-    - [Views](#views)
-        - [Agenda View](#agenda-view)
-        - [Month View](#month-view)
-    - [Activities](#activities)
-        - [Appointments](#appointments)
+- [主要機能](#main-features)
+    - [ビュー](#views)
+        - [予定一覧ビュー](#agenda-view)
+        - [月単位の表示](#month-view)
+    - [アクティビティ](#activities)
+        - [予定](#appointments)
 
-- [Binding to Data Sources](#binding-to-data-source)
+- [データ ソースにバインド](#binding-to-data-source)
 
-- [Related topics](#related-topics)
+- [関連トピック](#related-topics)
 
-### Required background
+### 前提条件
 
-The table below lists the required background you need for fully understanding the information in this topic.
+以下の表は、このトピックを理解するために必要な前提条件です。
 
-**Topics**
+**トピック**
 
-You need to first read the following topics:
+まず以下のトピックを読む必要があります。
 
--	[%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-	[%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
 
--	[Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
+-	[%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)
 
--	[Styling and Theming in %%ProductName%%](Deployment-Guide-Styling-and-Theming.html)
+-	[%%ProductName%% でスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
 
 
-**External Resources**
+**外部リソース**
 
-You need to first read the following article: [Working with jQuery Widgets](http://learn.jquery.com/jquery-ui/getting-started/)
+あらかじめ [jQuery ウィジェットの使用](http://learn.jquery.com/jquery-ui/getting-started/) を読んでおくことをお勧めします。
 
-## <a id="minimum-requirements"></a>Minimum Requirements
+## <a id="minimum-requirements"></a>最低必要条件
 
-### Introduction
+### 概要
 
-The `igScheduler` control is a jQuery UI Widget and therefore is dependent upon the jQuery core and jQuery UI JavaScript libraries. In addition, there are several %%ProductName%%™ JavaScript resources that the `igScheduler` control uses for shared functionality and data binding. These JavaScript references are required whether the `igScheduler` control is used in a pure JavaScript context.
+`igScheduler` コントロールは jQuery UI ウィジェットの 1 つであるため、jQuery コアと jQuery UI JavaScript ライブラリに依存します。また、`igScheduler` コントロールが機能の共有やデータのバインドを行うために使用する %%ProductName%%™ JavaScript リソースもいくつかあります。`igScheduler` コントロールをピュア JavaScript コンテキストの中でのみ使用するかどうかに関係なしでこうした JavaScript の参照が必要になります。
 
-### Requirements
+### 要件
 
-The table below lists the requirements for the `igScheduler` control.
+下の表は、`igScheduler` コントロールの要件をまとめたものです。
 
 <table class="table">
 	<thead>
 		<tr>
-			<th>Requirement</th>
-			<th>Description</th>
+			<th>要件</th>
+			<th>説明</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td>jQuery and jQuery UI JavaScript resources</td>
-			<td>%%ProductName%% is built on top of these frameworks:
+			<td>jQuery および jQuery UI JavaScript リソース</td>
+			<td>%%ProductName%% はこれらのフレームワークの最上部に構築されます。
 				<ul>
-					<li>[jQuery](http://jquery.com) (The required jQuery version for igScheduler is 1.8.3)</li>
-					<li>[jQuery UI](http://jqueryui.com/) (The required jQuery UI version for igScheduler is 1.9.2)</li>
+					<li>[jQuery](http://jquery.com) (igScheduler の必要な jQuery バージョンは 1.8.3 です)</li>
+					<li>[jQuery UI](http://jqueryui.com/) (igScheduler の必要な jQuery UI バージョンは 1.9.2 です)</li>
 				</ul>
 			</td>
 		</tr>
 		<tr>
-			<td>Shared %%ProductName%% JavaScript resources</td>
-			<td>There are several shared JavaScript resources in %%ProductName%% that most widgets use:
+			<td>共有の %%ProductName%% JavaScript 参照</td>
+			<td>%%ProductName%% には、ほとんどのウィジェットが使用する共用 JavaScript リソースがいくつかあります。
 				<ul>
 					<li>infragistics.util.js</li>
 				</ul>
 			</td>
 		</tr>
 		<tr>
-			<td>igDataSource JavaScript Resources</td>
-			<td>The igScheduler uses the igDataSource for data operations:
+			<td>igDataSource JavaScript リソース</td>
+			<td>igScheduler は igDataSource を使用してデータ操作を行います。
 				<ul>
 					<li>infragistics.dataSource.js</li>
 				</ul>
 			</td>
 		</tr>
 		<tr>
-			<td>igScheduler JavaScript resources</td>
-			<td>The JavaScript file for the igScheduler widget:
+			<td>igScheduler JavaScript リソース</td>
+			<td>igScheduler ウィジェット用の JavaScript ファイル:
 				<ul>
 					<li>infragistics.ui.scheduler.js</li>
 				</ul>
 			</td>
 		</tr>
 		<tr>
-			<td>IG Theme</td>
-			<td>This theme contains custom visual styles created especially for %%ProductName%%</td>
+			<td>IG テーマ</td>
+			<td>このテーマには、%%ProductName%% 向けに作成されたカスタム ビジュアル スタイルが含まれます。</td>
 		</tr>
 		<tr>
-			<td>Base Theme</td>
-			<td>The base theme contains styles that primarily define the form and function for each widget.</td>
+			<td>ベース テーマ</td>
+			<td>基本テーマには、主に各ウィジェットのフォームと機能を定義するスタイルが含まれています。</td>
 		</tr>
 	</tbody>
 </table>
 
-## <a id="main-features"></a>Main Features
+## <a id="main-features"></a>主要機能
 
-### Features overview
+### 機能の概要
 
-The table below briefly explains the main features of the `igScheduler`.
+下の表は、`igScheduler` の主要機能を簡潔にまとめたものです。
 
 <table class="table">
     <tbody>
         <tr>
-            <th>Feature</th>
-            <th>Description</th>
+            <th>機能</th>
+            <th>説明</th>
         </tr>
         <tr>
-            <td>Views</td>
-            <td>Тhe igScheduler can be configured to use agenda and month view, together and separately.</td>
+            <td>ビュー</td>
+            <td>igScheduler で予定一覧および月ビューを使用するために構成できます。同時または別に使用できます。</td>
         </tr>
         <tr>
-            <td>Activities</td>
-            <td>The activities are used to represent an event which start at a specific time and ends at a specific time</td>
+            <td>アクティビティ</td>
+            <td>アクティビティは、指定した時間で開始し、指定した時間で終了するイベントを表します。</td>
         </tr>
     </tbody>
 </table>
 
-### <a id="views"></a>Views
+### <a id="views"></a>ビュー
 
-The `igScheduler` control can be configured to present calendar information in different ways called "views". The view type can be configured using `views` and `viewMode` options.
+`igScheduler` コントロールは、「ビュー」と呼ばれる方法でカレンダー情報を表示するために構成できます。ビューの種類は `views` および `viewMode` オプションを使用して構成できます。
 
 ```js
 $("#scheduler").igScheduler({
@@ -151,121 +151,121 @@ $("#scheduler").igScheduler({
 ```
 
 
-#### <a id="agenda-view"></a>Agenda View
-The agenda view of the `igScheduler` is visualizing the activities which occur during a specific time range. Activities are presented in the agenda view with their subject, location and times. If an activity has a resource associated with it and the resource has a color scheme set, this color will be used for drawing the vertical separator between the activity’s time and activity’s subject.
+#### <a id="agenda-view"></a>予定一覧ビュー
+`igScheduler` の予定一覧ビューは、指定した時間範囲にあるアクティビティを視覚化します。アクティビティは件名、場所、および時間と予定一覧ビューで表示されます。アクティビティに関連付けられたリソースがあり、リソースに色スキーマが設定される場合、この色がアクティビティの時間およびアクティビティの件名の間の垂直セパレーターの描画で使用されます。
 
-The following image shows the agenda view along with its visual elements:
+以下の画像は、予定一覧ビューおよびその視覚要素を表示します。
 
 ![](images/agendaView.png)
 
-1. Day Header
+1. 日ヘッダー
 
-2. Activity subject
+2. アクティビティの件名
 
-3. Activity location
+3. アクティビティの場所
 
-4. Separator drawn using the associated resource’s color
+4. 関連付けられたリソースの色で描画されるセパレーター
 
-5. Activity start time (available if the activity is starting during the particular day)
+5. アクティビティの開始時間 (アクティビティが指定した日で開始する場合)
 
-6. Activity end time (available if the activity is ending during the particular day)
+6. アクティビティの終了時間 (アクティビティが指定した日で終了する場合)
 
-#### <a id="month-view"></a>Month View
-The month view of the `igScheduler` is visualizing the days of an entire month. Each day is represented by a cell which may contain up to three activities. The month view also has the concept of the "selected day" which is displayed using different styling (foreground color, background color, font size or font style).
+#### <a id="month-view"></a>月単位の表示
+`igScheduler` の月単位の表示は月全体の日を視覚化します。各日は最大 3 つのアクティビティを含むセルに表示されます。月単位の表示も「選択日」の概念があります。選択日は別のスタイル設定 (前景色、背景色、フォント サイズ、フォント スタイルなど) で表示されます。
 
-The following screenshot shows the month view along with its visual elements:
+以下の画像は、月単位の表示およびその視覚要素を表示します。
 
 ![](images/monthView.png)
 
-1. Month header (containing current month and year)
+1. 月ヘッダー (月および年を含む)
 
-2. Day of week header
+2. 曜日ヘッダー
 
-3. Week number
+3. 週番号
 
-4. Leading days (from previous month)
+4. 先頭日 (以前の月の日)
 
-5. Trailing days (from next month)
+5. 後続日 (次の月の日)
 
-6. Current day (displayed with different style)
+6. 現在の日 (別のスタイルで表示)
 
-7. Activity indicators. There indicators are rendered on days occupied with activities. Up to three activities indicators are rendered. The indicators are using the color set on the associated resource.
+7. アクティビティ インジケーターインジケーターがアクティビティを持つ日で描画されます。描画されるアクティビティ インジケーターの最大数は 3 です。インジケーターは関連リソースの色セットで描画されます。
 
-8. Current month days
+8. 現在の月の日
 
 
-The following screenshot shows the month view combined with agenda view with its visual elements:
+以下の画像は、月単位の表示、予定一覧ビュー、およびその視覚要素を表示します。
 
 ![](images/agendaWithMonthView.PNG)
 
-1. Activity’s subject
+1. アクティビティの件名
 
-2. Activity’s location
+2. アクティビティの場所
 
-3. The resource’s color associated with this activity
+3. このアクティビティと関連するリソースの色
 
-4. The time associated with this activity
+4. このアクティビティと関連する時間
 
-#### Topics
+#### トピック
 
--	[Adding igScheduler](igscheduler-adding-igscheduler.html)
+-	[igScheduler の追加](igscheduler-adding-igscheduler.html)
 
-#### Related Sample
+#### 関連サンプル
 
--   [igScheduler Agenda View](%%SamplesUrl%%/scheduler/agenda-view)
+-   [igScheduler 予定一覧ビュー](%%SamplesUrl%%/scheduler/agenda-view)
 
-### <a id="activities"></a>Activities
+### <a id="activities"></a>アクティビティ
 
-This section provide information about the activities concept of the igScheduler control.
+このセクションは、igScheduler コントロールのアクティビティ概念について説明します。
 
-The activities are used to represent an event which start at a specific time and ends at a specific time.
+アクティビティは、指定した時間で開始し、指定した時間で終了するイベントを表します。
 
 
-## <a id="appointments"></a>Appointments
+## <a id="appointments"></a>予定
 
-Activities occur during a range of time with a duration of several hours, several days or even more.
+アクティビティは、複数の時、日、またはそれより長い期間があります。
 
-The following table lists the Appointment's key properties and their purpose:
+以下の表は、Appointment の主なプロパティおよび目的を説明します。
 
 <table class="table">
 	<thead>
 		<tr>
-			<th>Field</th>
-			<th>Purpose</th>
+			<th>フィールド</th>
+			<th>目的</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td>Subject</td>
-			<td>Used as short description of the activity, it is the main information shown in the control’s views and therefore used to distinguish a specific activity amongst the other activities.
+			<td>件名</td>
+			<td>アクティビティの短い説明です。コントロールのビューで表示される主な情報です。特定のアクティビティをその他のアクティビティから識別するために使用されます。
 			</td>
 		</tr>
         <tr>
-			<td>Location</td>
-			<td>Used to store the location where the activity should take place.
+			<td>場所</td>
+			<td>アクティビティの場所を指定します。
 			</td>
 		</tr>
         <tr>
-			<td>From</td>
+			<td>開始日付</td>
 			<td>
-            Contains the start date and time of the activity.
+            アクティビティの開始日時を含みます。
 			</td>
 		</tr>
         <tr>
-			<td>To</td>
-			<td>Contains the end date and time of the activity.
+			<td>終了日付</td>
+			<td>アクティビティの終了日時を含みます。
 			</td>
 		</tr>
         <tr>
-			<td>Resource</td>
+			<td>リソース</td>
 			<td>
-            Used to obtain the resource associate with the current activity. Color scheme is used to highlight the activities associated with this resource.
+            現在のアクティビティと関連付けられたリソースを取得します。色スキーマは、このリソースと関連するアクティビティを強調表示するために使用されます。
 			</td>
 		</tr>
         <tr>
-			<td>Description</td>
+			<td>説明</td>
 			<td>
-            Provide more information about the appointment.
+            予定についての情報を提供します。
 			</td>
 		</tr>
 	</tbody>
@@ -274,30 +274,30 @@ The following table lists the Appointment's key properties and their purpose:
 ![](images/newAppointment.png)
 
 
-#### Related Sample
--   [igScheduler Agenda View](%%SamplesUrl%%/scheduler/appointment-indicators)
+#### 関連サンプル
+-   [igScheduler 予定一覧ビュー](%%SamplesUrl%%/scheduler/appointment-indicators)
 
 
-## <a id="binding-to-data-source"></a>Binding to Data Sources
+## <a id="binding-to-data-source"></a>データ ソースにバインド
 
 
-### Binding to data sources overview
+### データ ソースへのバインドに関する概要
 
-In most cases, you will use the `dataSource` option of the `igScheduler` to bind to data. This option provides your data to the `igDataSource` which can handle the various data formats that are supported. The one main exception to using this option is when the `igScheduler` is instantiated using a SELECT element. The `igScheduler` inherits the data and options of its base SELECT element in this case.
+ほとんどの場合、`igScheduler` の `dataSource`  オプションを使用してデータのバインドを行います。このオプションは、サポートされるさまざまなデータ形式を処理できる `igDataSource` へデータを提供します。ただし、SELECT 要素を使用して `igScheduler` のインスタンスを作成する場合は例外で、このオプションは使用しません。この場合、`igScheduler` は元の SELECT 要素のデータおよびオプションを継承します。
 
-### Supported data sources
+### サポートされるデータ ソース
 
-The following table lists the supported data sources and some basic specifics for their binding
+次の表は、サポートされるデータ ソース、および各データ ソースのバインドに関する基本情報をまとめたものです。
 
 
 <table class="table">
 	<thead>
 		<tr>
             <th>
-Data Source
+データ ソース
 			</th>
             <th>
-Binding
+バインディング
 			</th>
         </tr>
 	</thead>
@@ -307,39 +307,39 @@ Binding
 igDataSource
 			</td>
             <td>
-The `igDataSource` is used internally by the `igScheduler` control to manage data operations for the control. The data source accepts many different types of local and remote data.
+`igDataSource` は、コントロールのデータ操作を管理するために `igScheduler` コントロールによって内部的に使用されます。このデータ ソースは、さまざまなタイプのローカル データやリモート データを受け入れます。
 			</td>
         </tr>
     </tbody>
 </table>
 
-## <a id="related-topics"></a>Related Topics
+## <a id="related-topics"></a>関連トピック
 
 
-Following are some other topics you may find useful.
+以下は、その他の役立つトピックです。
 
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
 
--   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
+-   [%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)
 
--   [Styling and Theming in %%ProductName%%](Deployment-Guide-Styling-and-Theming.html)
+-   [%%ProductName%% でスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
 
--   [igScheduler Overview](igScheduler-Overview.html)
+-   [igScheduler の概要](igScheduler-Overview.html)
 
--   [Configuring igScheduler](igscheduler-configuring.html)
+-   [igScheduler の構成](igscheduler-configuring.html)
 
--   [Configuring Appointments](igscheduler-configure-appointments.html)
+-   [予定の構成](igscheduler-configure-appointments.html)
 
--   [Configuring Resources](igscheduler-configure-resources.html)
+-   [リソースの構成](igscheduler-configure-resources.html)
 
--	[Adding igScheduler](igscheduler-adding-igscheduler.html)
+-	[igScheduler の追加](igscheduler-adding-igscheduler.html)
 
--	[Configuring igScheduler](igscheduler-Configuring.html)
+-	[igScheduler の構成](igscheduler-Configuring.html)
 
--	[Styling igScheduler](igscheduler-using-themes.html)
+-	[igScheduler のスタイル設定](igscheduler-using-themes.html)
 
--	[Accessibility Compliance (igScheduler)](igscheduler-accessibility-compliance.html)
+-	[アクセシビリティの遵守 (igScheduler)](igscheduler-accessibility-compliance.html)
 
--	[Known Issues and Limitations (igScheduler)](igscheduler-known-limitations.html)
+-	[既知の問題と制限 (igScheduler)](igscheduler-known-limitations.html)
 
 

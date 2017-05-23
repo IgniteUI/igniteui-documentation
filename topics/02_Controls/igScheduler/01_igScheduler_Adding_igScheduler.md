@@ -7,31 +7,34 @@
 }
 |metadata|
 -->
-## Topic Overview and Purpose
 
-The `igScheduler` can be configured to run using jQuery. This help topic demonstrates how to setup a basic `igScheduler` control.
+# igScheduler の追加
 
-## In this topic
+## 概要と目的
 
-This topic contains the following sections:
+`igScheduler` を jQuery を使用して構成できます。このトピックは、基本の `igScheduler` コントロールを構成する方法を紹介します。
 
-- [Adding igScheduler](#adding)
-- [Required Background](#background)
-- [Adding an igScheduler to Web Page](#webpage)
-- [Creating a basic igScheduler implementation, step by step](#basic-implementation)
-- [Result](#result)
-- [Related topics](#related)
+## このトピックの内容
 
-# <a id="adding"></a>Adding igScheduler
+このトピックは、以下のセクションで構成されます。
 
-## <a id="background"></a>Required Background
+- [igScheduler の追加](#adding)
+- [前提条件](#background)
+- [igScheduler を Web ページに追加](#webpage)
+- [基本の igScheduler の作成の実装手順](#basic-implementation)
+- [結果](#result)
+- [関連トピック](#related)
 
-The topics listed below are required as a prerequisite to understanding this topic.
+# <a id="adding"></a>igScheduler の追加
 
--	[igScheduler Overview](igScheduler-Overview.html): This topic provides an overview of the `igScheduler` and its features.
+## <a id="background"></a>前提条件
 
--	[Using Infragistics Loader](Using-Infragistics-Loader.html):
-Before we get started we need to make sure we have loaded all of the needed resources. We first need to load the jQuery resources and then we need to add the required Ignite UI resources. There are two ways to add the Ignite UI resources to your project. You can either use the `igLoader` or you can load the required modules separately. For the purpose of our guidance we will use the `igLoader`.
+以下のトピックは、このトピックを理解するための前提条件として必要な情報を示しています。
+
+-	[igScheduler の概要](igScheduler-Overview.html): このトピックは、`igScheduler` およびその機能の概要を説明します。
+
+-	[Infragistics Loader の使用](Using-Infragistics-Loader.html)
+始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な Ignite UI リソースを読み込みます。Ignite UI リソースをプロジェクトに追加する方法が 2 つあります。`igLoader` を使用するか、必要なモジュールを読み込むことができます。このトピックで `igLoader` を使用します。
 
 ```js
 $.ig.loader({
@@ -41,28 +44,28 @@ $.ig.loader({
 });
 ```
 
-## <a id="webpage"></a>Adding an igScheduler to Web Page
+## <a id="webpage"></a>igScheduler を Web ページに追加
 
-### Introduction
+### 概要
 
-This procedure takes you step-by-step toward adding an `igScheduler` to a web page. This sample demonstrates how to instantiate the igScheduler with a Month View and appointments subjects. You can navigate between time periods and create, edit and delete scheduled activities.
+この手順では、`igScheduler` を Web ページに追加する方法を手順ごとに示します。このサンプルは、igScheduler を月ビューおよび予定件名とともに初期化する方法を紹介します。時間間隔の間で移動し、アクティビティを作成、編集、または削除できます。
 
 
-### Requirements
+### 要件
 
-To complete the procedure, you need the following:
+この手順を実行するには、以下が必要です。
 
--   A website and web page on which to add this example
--   The required JavaScript resources and jQuery themes in your website
--   References to the required JavaScript files and CSS files on your web page
+-   この例を追加する Web サイトと Web ページ
+-   Web サイト上の必要な JavaScript リソースおよび jQuery テーマ
+-   Web ページ上の必要な JavaScript ファイルと CSS ファイルへの参照
 
-## <a id="basic-implementation"></a>Creating a basic igScheduler implementation
-The steps below will guide you on how to quickly setup a `igScheduler` component in your page showing more than one appointments.
+## <a id="basic-implementation"></a>基本的な igScheduler 実装の作成
+以下の手順は、複数の予定を表示する `igScheduler` コンポーネントをページに追加する方法を説明します。
 
-1. Adding the required JS and CSS files
+1. 必要な JS および CSS ファイルの追加
 
-    1.1. By using igLoader
-Use the loader in order to load the combined JavaScript and CSS files referenced locally in the application.
+    1.1.igLoader の使用
+ローダーを使用して、アプリケーションで参照される結合された JavaScript および CSS ファイルを読み込みます。
 
 ```html
 <head>
@@ -86,9 +89,9 @@ Use the loader in order to load the combined JavaScript and CSS files referenced
 .....
 ```
 
-Html div element with id `scheduler` will be wrapped by the `igScheduler widget` on initialization.
+`scheduler` の id を持つ HTML DIV 要素が初期化で `igScheduler`  ウィジェットによってラップされます。
 
-    1.2. Without the igLoader
+    1.2.igLoader の使用なし
 
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -135,7 +138,7 @@ Html div element with id `scheduler` will be wrapped by the `igScheduler widget`
 <script src="igniteui/js/modules/infragistics.ui.scheduler.js"></script>
 ```
 
-2. Load the data that will be used by the `igScheduler`. In the example `igDataSource` is used to create a schedule list data source.
+2. `igScheduler` で使用されるデータを読み込みます。この例で、`igDataSource` はスケジュールのリスト データ ソースを作成するために使用されます。
 
 ```javascript
 ...
@@ -152,7 +155,7 @@ $.ig.loader(function () {
     scheduleListDataSource.appointmentItemsSource(appointmentsDS);
 ...
 ```
-3. Assign the data source.
+3. データ ソースを割り当てます。
 
 ```javascript
 $("#scheduler").igScheduler({
@@ -163,16 +166,16 @@ $("#scheduler").igScheduler({
 });
 ```
 
-### <a id="result"></a>Result
+### <a id="result"></a>結果
 
-The following screenshot is a preview of the final result
+以下のスクリーンショットは最終結果のプレビューです。
 
 ![](images/scheduler.png)
 
-## <a id="related"></a>Related Topics
+## <a id="related"></a>関連トピック
 
--   [igScheduler Overview](igScheduler-Overview.html)
+-   [igScheduler の概要](igScheduler-Overview.html)
 
--	[Configuring igScheduler](igscheduler-Configuring.html)
+-	[igScheduler の構成](igscheduler-Configuring.html)
 
--	[Styling igScheduler](igscheduler-Using-Themes.html)
+-	[igScheduler のスタイル設定](igscheduler-Using-Themes.html)

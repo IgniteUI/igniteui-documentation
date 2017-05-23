@@ -8,21 +8,21 @@
 |metadata|
 -->
 
-# Configuring igScheduler
+# igScheduler の構成
 
 
 
-##In This Group of Topics
+##このグループのトピックについて
 
 
-### Introduction
+### 概要
 
-The topics in this group explain how to configure %%ProductName%%® combo control.
+このグループのトピックでは、%%ProductName%%® スケジューラ コントロールの構成方法について説明します。
 
-### Topics
+### トピック
 
--	[Configuring Resources (igScheduler)](igScheduler-Configure-Resources.html): This topic shows how to add and configure Resources list for the appointments.
+-	[リソースの構成 (igScheduler)](igScheduler-Configure-Resources.html): このトピックは、予定の Resources リストを追加して構成する方法を紹介します。
 
--	[Configuring Appointments (igScheduler)](igScheduler-Configure-Appointments.html): This topic shows how to setup and configure Appointments DataSource for the `igScheduler`.
+-	[予定の構成 (igScheduler)](igScheduler-Configure-Appointments.html): このトピックは、`igScheduler` の Appointments DataSource リストを設定して構成する方法を紹介します。
 
--	[Configuring Views (igScheduler)](igScheduler-Configure-Views.html): The topics in this section provide information about the different views used by the  `igScheduler` control to present calendar data.
+-	[ビューの構成 (igScheduler)](igScheduler-Configure-Views.html): このセクションのトピックは、予定表のデータを表示する `igScheduler` コントロールで使用されるビューについての情報を提供します。

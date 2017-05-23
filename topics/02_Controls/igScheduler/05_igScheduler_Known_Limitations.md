@@ -8,60 +8,60 @@
 |metadata|
 -->
 
-# Known Issues and Limitations (igScheduler)
+# 既知の問題と制限 (igScheduler)
 
 
-## Known Issues and Limitations Summary
+## 既知の問題点と制限の概要
 
 
-### Known issues and limitations summary chart
+### 既知の問題点と制約の概要表
 
-The following table summarizes the known issues and limitations of the `igScheduler`™ control. Detailed explanations of some of the issues and the existing workarounds are provided after the summary table.
+以下の表で、`igScheduler`™ コントロールの既知の問題と制限を簡単に説明します。以下の表は、一部の問題の詳細な説明とその回避策を示します。
 
-Legend | Description |
+凡例|説明 |
 ---|---|---
-![](../../images/images/positive.png) | Workaround available
-![](../../images/images/negative.png) | No known workaround
-![](../../images/images/plannedFix.png) | No known workaround, fix planned
+![](images/positive.png) | 回避策
+![](images/negative.png) | 既知の回避策なし
+![](images/plannedFix.png) | 既知の回避策はありません。修正予定です。
 
-Below are listed all current limitations for the initial version of the `igScheduler` widget.
+以下は、`igScheduler` ウィジェットの最初バージョンの制限がリストされます。
 
-Issue | Description | Status
+問題|説明|状態
 ---|---|---
-[Reoccurring events](#NoReccuringEvents) | Reoccurring appointments are currently not supported |![](../../images/images/negative.png)
-[Time-zone offsetting](#NoTimeZoneOffsetting) | Time-zone offset settings details|![](../../images/images/negative.png)
-[Custom color scheme](#NoCustomColorScheme) | Pre-defined custom color scheme is used |![](../../images/images/negative.png)
-[Day and week views](#NoDayAndWeekViews) | Day and Week views are missing for this version |![](../../images/images/negative.png)
-[Templating](#NoTemplating) | Templating and changing of appointment appearance is not supported |![](../../images/images/negative.png)
-[ARIA support for appointments in calendar (Canvas)](#ARIASupport) | No ARIA support for appointments in calendar (Canvas) |![](../../images/images/negative.png)
-[First day of the week setting](#FirstDayOfWeek) | First day of the week settings are set to `Sunday` by design |![](../../images/images/negative.png)
-[Using of remote datasource is not supported](#remoteDS) | Local data source should be used. |![](../../images/images/negative.png)
-[Swipe-gestures support](#SwipeGesture) | No swipe-gestures support |![](../../images/images/negative.png)
-[Tab navigation to appointment popover](#NavigationToAppointmentPopover) | No tab navigation to appointment popover |![](../../images/images/negative.png)
-[Min width support – 320 px](#MinWidthSupport) | Minimum width resolution support on mobile devices is 320 px |![](../../images/images/negative.png)
-[MVC wrappers ](#MVCWrappers) | No MVC wrappers  |![](../../images/images/negative.png)
+[繰り返しイベント](#NoReccuringEvents) |繰り返し予定がサポートされていません。 |![](images/negative.png)
+[タイム ゾーンのオフセット](#NoTimeZoneOffsetting) |時間が常にブラウザー オフセットで表示されます。|![](images/negative.png)
+[カスタム色スキーマ](#NoCustomColorScheme) |定義済みのカスタム色スキーマが使用されます。 |![](images/negative.png)
+[日ビューおよび週ビュー](#NoDayAndWeekViews) |このバージョンで日ビューおよび週ビューがありません。 |![](images/negative.png)
+[テンプレート化](#NoTemplating) |予定の外観のテンプレート化および変更がサポートされません。 |![](images/negative.png)
+[カレンダー (Canvas) の予定の ARIA サポート](#ARIASupport) |カレンダー (Canvas) の予定の ARIA サポートがありません。 |![](images/negative.png)
+[週の最初の曜日設定](#FirstDayOfWeek) |週の最初の曜日は常に `Sunday` に設定されます。 |![](images/negative.png)
+[リモート データ ソースの使用がサポートされない](#remoteDS) |ローカル データ ソースを使用してください。 |![](images/negative.png)
+[スワイプ ジェスチャのサポート](#SwipeGesture) |スワイプ ジェスチャのサポートがありません。 |![](images/negative.png)
+[予定ポップオーバーへの Tab ナビゲーション](#NavigationToAppointmentPopover) |予定ポップオーバーへの Tab ナビゲーションがありません。 |![](images/negative.png)
+[サポートされる最小幅は 320 px](#MinWidthSupport) |モバイル デバイスでサポートされる最小幅は 320 px です。 |![](images/negative.png)
+[MVC ラッパー ](#MVCWrappers) |MVC ラッパーがありません。  |![](images/negative.png)
 
 
-## Known Issues and Limitations Details
+## 既知の問題点と制限の詳細
 
 
-### <a id="NoReccuringEvents"></a>No reccuring events
+### <a id="NoReccuringEvents"></a>繰り返しイベントのサポートがない
 
-The scheduler cannot create pre-defined events like weekly meetings, anniversaries and birthdays or other units of time that occurs more than once.
+スケジューラが、毎週のミーティング、記念日、または誕生日などの複数回発生する定義済みのイベントを作成できません。
 
-### <a id="NoTimeZoneOffsetting"></a>No time-zone offset settings
+### <a id="NoTimeZoneOffsetting"></a>タイム ゾーン オフセット設定がない
 
-Time in the `igScheduler` is always shown according to the current browser offset (hours). For now the scheduler doesn't support showing times in a zone different from the browser's time zone.
+`igScheduler` の時間が常にブラウザー オフセット (時) で表示されます。このリリースでは、スケジューラがブラウザーのタイム ゾーンと違うゾーンで時間の表示をサポートしません。
 
-### <a id="NoCustomColorScheme"></a>No custom color scheme
+### <a id="NoCustomColorScheme"></a>カスタム色スキーマがない
 
-Pre-defined color scheme with twelve colors is provided by the scheduler, which cannot be changed by the end user.
+スケジューラで 12 色の定義済みの色スキーマが提供されますが、エンド ユーザーは変更できません。
 
 ![](images/preDefinedColors.png)
 
-### <a id="NoDayAndWeekViews"></a>No day and week views
+### <a id="NoDayAndWeekViews"></a>日ビューおよび週ビューがない
 
-Currently only Month and Agenda views can be displayed by the scheduler. `isAgendaVisible` option from `monthViewSettings` settings could be used in order to use both Agenda and Month view at the same time.
+月ビューおよび予定一覧のみがスケジューラで表示可能です。`monthViewSettings` 設定の `isAgendaVisible` オプションを使用すると、両方のビューを一度に表示できます。
 
 ```js
 $("#scheduler").igScheduler({
@@ -72,43 +72,43 @@ $("#scheduler").igScheduler({
 });
 ```
 
-### <a id="NoTemplating"></a>No templating
+### <a id="NoTemplating"></a>テンプレート
 
-Currently it is not possible to customize the appearance of the scheduler events by using templates.
+現在テンプレートによるスケジューラのイベントの外観のカスタマイズはサポートされません。
 
-### <a id="ARIASupport"></a>igScheduler ARIA support
-Scheduler appointments are visualized using canvas which could not be processed by screen readers. Consider listing selected appointments separately, in igGrid for instance, for accessibility purposes.
+### <a id="ARIASupport"></a>igScheduler の ARIA サポート
+スケジューラの予定が canvas で視覚化されるため、画面リーダーによって処理できません。アクセシビリティのために igGrid などで選択した予定を別にリストできます。
 
-The list below provides links to more details related to how WAI-ARIA support has been implemented in Widgets that are part of the scheduler.
+以下は、スケジューラに含まれるウィジェットで実装される WAI-ARIA サポートについての詳細へのリンクです。
 
 - [igDatePicker](igdatepicker-accessibility-compliance.html#wai-aria)
 - [igDateEditor](igdateeditor-accessibility-compliance.html#wai-aria)
 - [igTextEditor](igtexteditor-accessibility-compliance.html#wai-aria)
 
-Currently the appointments in the calendar doesn't have ARIA support, only the widgets that are listed above.
+カレンダーの予定に ARIA サポートがありません。上記のウィジェットのみでサポートされます。
 
-### <a id="FirstDayOfWeek"></a>No first day of the week setting
+### <a id="FirstDayOfWeek"></a>週の最初の曜日設定がない
 
-Sunday is used as the first day of the week by default and currently we do not expose an option that could be used to set a different day of the week (e.g. Monday).
+週の最初の曜日として日曜日がデフォルトで使用されます。別の日 (月曜日など) を設定するためのオプションを公開しません。
 
-### <a id="remoteDS"></a>Using of remote datasource is not supported
-Currently igScheduler can handle only local datasource, using of remote datasource is not supported for version one.
+### <a id="remoteDS"></a>リモート データ ソースの使用がサポートされない
+igScheduler はローカル データ ソースのみを処理します。最初のバージョンでリモート データ ソースはサポートされません。
 
-### <a id="SwipeGesture"></a>No swipe-gestures support
+### <a id="SwipeGesture"></a>スワイプ ジェスチャのサポートがありません。
 
-Currently the `igScheduler` doesn't have swipe gestures support for actions like `swipe left` or `swipe right` for example.
+`igScheduler` は`左へのスワイプ`または`右へのスワイプ`などの操作のスワイプ ジェスチャ サポートがありません。
 
-### <a id="NavigationToAppointmentPopover"></a>No tab navigation to appointment popover
+### <a id="NavigationToAppointmentPopover"></a>予定ポップオーバーへの Tab ナビゲーションがありません。
 
-There is accessibility limitation with `tab navigation` and `selection` of appointment, by using the keyboard.
+キーボードによって予定の`タブ ナビゲーション`および`選択`のアクセシビリティ制限があります。
 
-### <a id="MinWidthSupport"></a>Min width support – 320 px (Mobile environment)
+### <a id="MinWidthSupport"></a>サポートされる最低幅は 320 px (モバイル環境)
 
 `320 pixels` is the minimum resolution under which `igScheduler` will be fully visible with properly aligned html elements. This applies for mobile devices.
 
-For next releases it is planned to add a message that will be shown when minimum resolution is reached.
+以後のリリースで、最小解像度に到達した場合に表示されるメッセージを追加します。
 
-### <a id="MVCWrappers"></a>MVC Wrappers
+### <a id="MVCWrappers"></a>MVC ラッパー 
 
-Currently it is not possible to instantiate Scheduler in a View, `igScheduler` ASP.NET MVC wrappers are planned to be implemented for the next scheduler version.
+Scheduler を View でインスタンス化できません。次のバージョンで `igScheduler` ASP.NET MVC ラッパーを追加します。
 

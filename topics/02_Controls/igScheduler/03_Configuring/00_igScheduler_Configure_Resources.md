@@ -8,35 +8,35 @@
 |metadata|
 -->
 
-# Configuring Resources (igScheduler)
+# リソースの構成 (igScheduler)
 
 
-## Purpose
+## 目的
 
-The topics in this section provide information about the resources concept of the `igScheduler` control.
+このセクションのトピックでは、`igScheduler` コントロールのリソース概念について説明します。
 
-## Overview
+## 概要
 
-In order to distinguish activities' owner the `igScheduler` control supports Resources. A resource may be a person or some other entity which owns one or more activities. Every resource needs to have a unique id.
+アクティビティのオーナーを識別するために、`igScheduler` コントロールが Resources をサポートします。リソースは、アクティビティを 1 つ以上所有する人などのエンティティです。各リソースに一意の ID があります。
 
-## Resource object properties
+## リソース オブジェクト プロパティ
 
-The following table lists the Resource's key properties and their purpose:
+以下の表は、Resource の主なプロパティおよび目的を説明します。
 
-Property |	Purpose
+プロパティ|	目的
 ---|---
-id | The resource’s ID must be unique amongst all resources.
-displayName | The display name identifies a resource in the application’s user interface.
-colorScheme | The color scheme is used to highlight the activities associated with this resource. The color scheme is optional, and is auto generated from one when not set. Color scheme can be set by using the `$.ig.scheduler.ScheduleResourceColorScheme` enumeration.
+id|リソースの ID がすべてのリソースで一意です。
+displayName |表示名は、アプリケーションのユーザー インターフェイスでリソースを識別します。
+colorScheme |色スキーマは、このリソースと関連するアクティビティを強調表示するために使用されます。色スキーマはオプションで、設定されていない場合に自動的に生成されます。色スキーマを `$.ig.scheduler.ScheduleResourceColorScheme` 列挙体を使用して設定できます。
 
-## Resources color scheme
-There are 12 color predefined for the color scheme of the resources which can be used. `Stone` color is applied only when no resource is associated with appointment and cannot be set manually. 
+## リソースの色スキーマ
+12 色の定義済みリソースの色スキーマが使用できます。`Stone` 色は、予定と関連するリソースがなく、手動的に設定できない場合のみに適用されます。 
 
 ![Resources color scheme](../images/preDefinedColors.png)
 
-### Code example
+### コード例
 
-The resources are passed to the resourceItemsSource of the `ScheduleListDataSource` as array of objects. 
+リソースは、`ScheduleListDataSource` の resourceItemsSource にオブジェクトの配列として渡されます。 
 
 ```javascript
 var resources = [
@@ -64,9 +64,9 @@ $("#scheduler").igScheduler({
 
 ```
 
-## Related topics
+## 関連トピック
 
-Topic | Purpose
+トピック|目的
 ---|---
-[Configuring Appointments (igScheduler)](igScheduler-Configure-Appointments.html) | This topic shows how to setup and configure Appointments DataSource for the `igScheduler`.
-[Configuring Views (igScheduler)](igScheduler-Configure-Views.html): The topics in this section provide information about the different views used by the  `igScheduler` control to present calendar data.
+[予定の構成 (igScheduler)](igScheduler-Configure-Appointments.html)|このトピックは、`igScheduler` の Appointments DataSource リストを設定して構成する方法を紹介します。
+[ビューの構成 (igScheduler)](igScheduler-Configure-Views.html): このセクションのトピックは、予定表のデータを表示する `igScheduler` コントロールで使用されるビューについての情報を提供します。

@@ -8,33 +8,33 @@
 |metadata|
 -->
 
-# Configuring Appointments (igScheduler)
+# 予定の構成 (igScheduler)
 
 
-## Purpose
+## 目的
 
-This topic explains how to bind, create, update and delete appointments in the `igScheduler` control.
+このトピックは、`igScheduler` コントロールで予定をバインド、作成、更新、および削除する方法を紹介します。
 
-## Overview
+## 概要
 
-The appointments are used to represent an event which starts at a specific time and ends at a specific time. The appointment can be associated with resource
+予定は、指定した時間で開始し、指定した時間で終了するイベントを表します。予定はリソースと関連付けが可能です。
 
-## Appointment object properties
+## Appointment オブジェクトのプロパティ
 
-The following table lists the Appointment's key properties and their purpose:
+以下の表は、Appointment の主なプロパティとその使用目的を示します。
 
-Property |	Purpose 
+プロパティ|	目的 
 ---|---
-id | This property is used to distinguish this activity amongst all other appointments. It must be unique. | 
-subject | This `string` property is used as short description of the activity it is the main information shown in the control’s views and therefor used to distinguish a specific appointment amongst the other appointments.
-location| This `string` property is used to store the location where the appointment should take place.
-start | This `Date` property contains the start date and time of the appointment.
-end | This `Date` property contains the end date and time of the appointment.
-resourceId | This property is used to associate the current appointment with a resource.
+id|このプロパティは、その他の予定からこの予定を識別します。一意にする必要があります。 | 
+subject |この `string` 型プロパティは、アクティビティの短い説明です。コントロールのビューで表示される主な情報です。特定の予定をその他の予定から識別するために使用されます。
+location|この `string` 型プロパティは、予定の場所を指定します。
+start|この `Date` 型プロパティは、予定の開始日時を含みます。
+end|この `Date` 型プロパティは、予定の終了日時を含みます。
+resourceId |このプロパティは、現在の予定をリソースと関連付けるために使用されます。
 
-### Code example
+### コード例
 
-The appointments are instance of [$.ig.DataSource](%%jQueryApiUrl%%/ig.datasource) passed to the appointmentItemsSource of the `ScheduleListDataSource`.
+予定は `ScheduleListDataSource` の appointmentItemsSource に渡される [$.ig.DataSource](%%jQueryApiUrl%%/ig.datasource) のインスタンスです。
 
 ```javascript
 var appointments = [{
@@ -72,21 +72,21 @@ $("#scheduler").igScheduler({
 
 ```
 
-## Finding appointment by ID
+## ID によって予定の検索
 
-Appointments can be accessed by id using the [getAppointmentById method](%%jQueryApiUrl%%/ui.igscheduler#methods:getAppointmentById)
+予定は、[getAppointmentById](%%jQueryApiUrl%%/ui.igscheduler#methods:getAppointmentById) メソッドを使用してアクセスできます。
 
-### Code example
+### コード例
 
 ```javascript
 var appointment = $("#scheduler").igScheduler("getAppointmentById", 4);
 ```
 
-## Adding appointment through the API
+## API で予定の追加
 
-Appointments can be added through [createAppointment method](%%jQueryApiUrl%%/ui.igscheduler#methods:createAppointment) by passing as the argument appointment object.
+予定は、予定オブジェクトを引数として渡して [createAppointment](%%jQueryApiUrl%%/ui.igscheduler#methods:createAppointment) メソッドで追加できます。
 
-### Code example
+### コード例
 
 ```javascript
 var appointment = $("#scheduler").igScheduler("createAppointment", {
@@ -100,11 +100,11 @@ var appointment = $("#scheduler").igScheduler("createAppointment", {
 });
 ```
 
-## Editing appointment through the API
+## API で予定を編集
 
-Appointments can be edited through [editAppointment method](%%jQueryApiUrl%%/ui.igscheduler#methods:editAppointment) by passing as argument the appointment object and object containing tha properties that will be changed.
+予定は、予定オブジェクトおよび変更するプロパティを含むオブジェクトを引数として渡して [editAppointment](%%jQueryApiUrl%%/ui.igscheduler#methods:editAppointment) メソッドで編集できます。
 
-### Code example
+### コード例
 
 ```javascript
 var appointment = var appointment = $("#scheduler").igScheduler("getAppointmentById", 4);
@@ -119,11 +119,11 @@ $("#scheduler").igScheduler("editAppointment", appointment, {
 });
 ```
 
-## Deleting appointment through the API
+## API で予定を削除
 
-Appointments can be deleted through [deleteAppointment method](%%jQueryApiUrl%%/ui.igscheduler#methods:deleteAppointment) by passing as argument the appointment object.
+予定は、予定オブジェクトを引数として渡して [deleteAppointment](%%jQueryApiUrl%%/ui.igscheduler#methods:deleteAppointment) メソッドで削除できます。
 
-### Code example
+### コード例
 
 ```javascript
 var appointment = var appointment = $("#scheduler").igScheduler("getAppointmentById", 4);
@@ -131,9 +131,9 @@ var appointment = var appointment = $("#scheduler").igScheduler("getAppointmentB
 $("#scheduler").igScheduler("deleteAppointment", appointment);
 ```
 
-## Related topics
+## 関連トピック
 
-Topic | Purpose
+トピック|目的
 ---|---
-[Configuring Appointments (igScheduler)](igScheduler-Configure-Appointments.html) | This topic shows how to setup and configure Appointments DataSource for the `igScheduler`.
-[Configuring Views (igScheduler)](igScheduler-Configure-Views.html): The topics in this section provide information about the different views used by the  `igScheduler` control to present calendar data.
+[予定の構成 (igScheduler)](igScheduler-Configure-Appointments.html)|このトピックは、`igScheduler` の Appointments DataSource リストを設定して構成する方法を紹介します。
+[ビューの構成 (igScheduler)](igScheduler-Configure-Views.html): このセクションのトピックは、予定表のデータを表示する `igScheduler` コントロールで使用されるビューについての情報を提供します。

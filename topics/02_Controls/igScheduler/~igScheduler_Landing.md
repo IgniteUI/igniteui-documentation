@@ -10,29 +10,29 @@
 
 # igScheduler
 
-## Introduction
+## 概要
 
-The `igScheduler` control provides a common scheduling solution for presenting and managing time periods and the associated activities.
+`igScheduler` コントロールは、時間範囲および関連アクティビティを表示し、管理するスケジュール ソリューションを提供します。
 
 
-### Topics
+### トピック
 
-The information you need about the Infragistics Scheduler is covered in the following topics:
+Infragistics Scheduler について把握しておくべき知識は以下の各トピックにまとめられています。
 
--   [igScheduler Overview](igScheduler-Overview.html)
+-   [igScheduler の概要](igScheduler-Overview.html)
 
--   [Configuring igScheduler](igscheduler-configuring.html)
+-   [igScheduler の構成](igscheduler-configuring.html)
 
--   [Configuring Appointments](igscheduler-configure-appointments.html)
+-   [予定の構成](igscheduler-configure-appointments.html)
 
--   [Configuring Resources](igscheduler-configure-resources.html)
+-   [リソースの構成](igscheduler-configure-resources.html)
 
--	[Adding igScheduler](igscheduler-adding-igscheduler.html)
+-	[igScheduler の追加](igscheduler-adding-igscheduler.html)
 
--	[Configuring igScheduler](igscheduler-Configuring.html)
+-	[igScheduler の構成](igscheduler-Configuring.html)
 
--	[Styling igScheduler](igscheduler-using-themes.html)
+-	[igScheduler のスタイル設定](igscheduler-using-themes.html)
 
--	[Accessibility Compliance (igScheduler)](igscheduler-accessibility-compliance.html)
+-	[アクセシビリティの遵守 (igScheduler)](igscheduler-accessibility-compliance.html)
 
--	[Known Issues and Limitations (igScheduler)](igscheduler-known-limitations.html)
+-	[既知の問題と制限 (igScheduler)](igscheduler-known-limitations.html)

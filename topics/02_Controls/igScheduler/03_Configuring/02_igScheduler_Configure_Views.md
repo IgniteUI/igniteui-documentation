@@ -8,69 +8,69 @@
 |metadata|
 -->
 
-# Configuring Views (igScheduler)
+# ビューの構成 (igScheduler)
 
 
-## Purpose
+## 目的
 
-The topics in this section provide information about the different views used by the `igScheduler` control to present calendar data.
+このセクションのトピックは、予定表のデータを表示する `igScheduler` コントロールで使用されるビューについての情報を提供します。
 
-## Overview
+## 概要
 
-The igScheduler control can be configured to present calendar information in different ways called "views". The view type can be configured using the [ViewMode](%%jQueryApiUrl%%/ui.igscheduler#options:viewMode) property.
+igScheduler コントロールは、「ビュー」と呼ばれる方法でカレンダー情報を表示するために構成できます。ビューの週類は [ViewMode](%%jQueryApiUrl%%/ui.igscheduler#options:viewMode) オプションを使用して構成できます。
 
-## Required Background
+## 前提条件
 
-Topic |	Purpose
+トピック|	目的
 ---|---
-[Overview (igScheduler)](igScheduler-Overview.html) | This topic provides conceptual information for the `igScheduler`™ control including information regarding: features, configuration, requirements and theming.
-[Configuring Appointments (igScheduler)](igScheduler-Configure-Appointments.html) | This topic shows how to setup and configure Appointments DataSource for the `igScheduler`.
- [Configuring Resources (igScheduler)](igScheduler-Configure-Resources.html) | The topics in this section provide information about the resources concept of the `igScheduler` control.
+[概要 (igScheduler)](igScheduler-Overview.html) |このトピックでは、機能、構成、要件、テーマなど、`igScheduler`™ コントロール関連の概念について説明します。
+[予定の構成 (igScheduler)](igScheduler-Configure-Appointments.html)|このトピックは、`igScheduler` の Appointments DataSource リストを設定して構成する方法を紹介します。
+ [リソースの構成 (igScheduler)](igScheduler-Configure-Resources.html)|このセクションのトピックでは、`igScheduler` コントロールのリソース概念について説明します。
 
-## Agenda View
+## 予定一覧ビュー
 
-This topic explains how data is presented in the `igScheduler`'s agenda view.
+このトピックは、`igScheduler` の予定一覧でデータの表示方法を説明します。
 
-### Configuring
+### 構成
 
-The following table maps some configurable aspect/behavior of the agenda view to the property that is responsible for:
+以下の表は、予定一覧の構成可能な要素または動作をオプションにマップします。
 
-Aspect | Description | Property
+要素|説明|オプション
 ---|---|---
-Amount of visible days| Configure the the amount of days in the agenda view. | [dateRangeInterval](%%jQueryApiUrl%%/ui.igscheduler#options:agendaViewSettings.dateRangeInterval)
+表示日の数|予定一覧で日の数を構成します。|[dateRangeInterval](%%jQueryApiUrl%%/ui.igscheduler#options:agendaViewSettings.dateRangeInterval)
 
-The following table maps some of the user interactions to the events that are raised by the control:
+以下の表は、ユーザー操作をコントロールで発生したイベントにマップします。
 
-User Interaction | Description | Event
+ユーザー インタラクション|説明|イベント
 ---|---|--
-Changed the range | Fired after agenda view range is changed when using previous and next buttons. | [agendaRangeChanged](%%jQueryApiUrl%%/ui.igscheduler#events:agendaRangeChanged)
-Changing the range | Fired before agenda view range is changed when using previous and next buttons. | [agendaRangeChanging](%%jQueryApiUrl%%/ui.igscheduler#events:agendaRangeChanging)
+範囲を変更した後|[前へ] および [次へ] ボタンによって予定一覧ビューの範囲が変更した後に発生されます。|[agendaRangeChanged](%%jQueryApiUrl%%/ui.igscheduler#events:agendaRangeChanged)
+範囲の変更|[前へ] および [次へ] ボタンによって予定一覧ビューの範囲が変更する前に発生されます。|[agendaRangeChanging](%%jQueryApiUrl%%/ui.igscheduler#events:agendaRangeChanging)
 
-## Month View
+## 月単位の表示
 
-This topic explains how data is presented in the igScheduler's month view.
+このトピックは、igScheduler の月ビューでデータの表示方法を説明します。
 
-### Configuring
+### 構成
 
-The following table maps some configurable aspect/behavior of the month view to the property/method that is responsible for:
+以下の表は、月ビューの構成可能な要素または動作をオプション/メソッドにマップします。
 
-Aspect | Description | Property
+要素|説明|プロパティ
 ---|---|---
-Agenda visible appointments | The scope of appointments that are displayed in a MonthView's AgendaView | [agendaVisibilityType](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.agendaVisibilityType)
-Appointment indicator mode | The type of content displayed for appointment in a MonthView day. | [appointmentMode](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.appointmentMode)
-Agenda visibility | Controls the visibility of an AgendaView in a MonthView. When enabled, the MonthView will display an AgendaView showing the Appointments for the currently selected day at the top of its list of Appointments. | [isAgendaVisible](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isAgendaVisible)
-Horizontal Separator | Controls the visibility of the horizontal separators between weeks in the MonthView | [isHorizontalSeparatorVisibile](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isHorizontalSeparatorVisibile)
-Days visibility from the next month | Controls the visibility of the days from the next month that occur in the last week of a given month. | [isNextMonthShown](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isNextMonthShown)
-Days visibility from the previous month | Controls the visibility of the days from the previous month that occur in the last week of a given month. | [isPreviousMonthShown](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isPreviousMonthShown)
-Vertical separator between days | Controls the visibility of the vertical separators between days of the week in a MonthView. | [isVerticalSeparatorVisibile](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isVerticalSeparatorVisibile)
-Weekdays names visibility | Controls the visibility of the weekday names in MonthView. | [isWeekdayVisible](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isWeekdayVisible)
-Week number visibility | Controls the visibility of the week numbers in a MonthView. | [isWeekNumberVisible](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isWeekNumberVisible)
-Agenda - Month view split orientation | Controls the orientation, which determines whether the MonthView and AgendaView views are split vertically or horizontally. This option can be used when the AgendaView is displayed in the MonthView.
+予定一覧で表示される予定|MonthView の AgendaView で表示される予定のスコープ。|[agendaVisibilityType](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.agendaVisibilityType)
+予定インジケーターのモード|MonthView 日で予定が表示されるコンテンツのタイプ。|[appointmentMode](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.appointmentMode)
+予定一覧の表示状態|MonthView で AgendaView の表示状態を制御します。有効な場合、MonthView は、Appointments のリストの上にある選択されている日の Appointments を表示する AgendaView を表示します。|[isAgendaVisible](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isAgendaVisible)
+水平方向のセパレーター|MonthView の週の間の水平セパレーターの表示状態を制御します。|[isHorizontalSeparatorVisibile](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isHorizontalSeparatorVisibile)
+次の月の日の表示状態|特定の月の最後の週にある以後の月の日の表示状態を制御します。|[isNextMonthShown](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isNextMonthShown)
+以前の月の日の表示状態|特定の月の最初の週にある以前の月の日の表示状態を制御します。|[isPreviousMonthShown](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isPreviousMonthShown)
+日の間の垂直方向のセパレーター|MonthView の曜日の間の垂直セパレーターの表示状態を制御します。|[isVerticalSeparatorVisibile](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isVerticalSeparatorVisibile)
+曜日名の表示状態|MonthView で曜日名の表示状態を制御します。|[isWeekdayVisible](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isWeekdayVisible)
+週番号の表示状態|MonthView で週番号の表示状態を制御します。|[isWeekNumberVisible](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.isWeekNumberVisible)
+予定一覧と月ビューの分割の方向|MonthView および AgendaView が垂直方向または水平方向に分割されるかどうかを決定する方向を制御します。このオプションは、AgendaView が MonthView で表示される場合に使用可能です。
  | [viewSplitOrientation](%%jQueryApiUrl%%/ui.igscheduler#options:monthViewSettings.viewSplitOrientation)
 
-# Related topics
+## 関連トピック
 
-Topic | Purpose
+トピック|目的
 ---|---
-[Configuring Appointments (igScheduler)](igScheduler-Configure-Appointments.html) | This topic shows how to setup and configure Appointments DataSource for the `igScheduler`.
-[Configuring Resources (igScheduler)](igScheduler-Configure-Resources.html): This topic shows how to add and configure Resources list for the appointments.
+[予定の構成 (igScheduler)](igScheduler-Configure-Appointments.html)|このトピックは、`igScheduler` の Appointments DataSource リストを設定して構成する方法を紹介します。
+[リソースの構成 (igScheduler)](igScheduler-Configure-Resources.html): このトピックは、予定の Resources リストを追加して構成する方法を紹介します。
