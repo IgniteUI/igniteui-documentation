@@ -84,6 +84,7 @@
 			<td>%%ProductName%% には、ほとんどのウィジェットが使用する共用 JavaScript リソースがいくつかあります。
 				<ul>
 					<li>infragistics.util.js</li>
+					<li>infragistics.util.jquery.js</li>
 				</ul>
 			</td>
 		</tr>
