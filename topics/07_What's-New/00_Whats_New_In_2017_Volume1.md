@@ -192,7 +192,7 @@ GroupBy 集計機能は、そのアイランドにあるデータ列の集計情
 エディターの日付をクライアントからサーバーへ、またはサーバーからクライアントへ転送する場合、オプション [`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) および [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) を使用してエディターを構成し、適切に日付を転送します。
 
 #### 関連トピック
--   [17.1 の enableUTCDate オプションの移行](Migrating-enableUTCDates-option-in-17-1.html)
+-   [17.1 の enableUTCDate オプションの移行](igDateEditor-migrating-date-handling-in-17-1.html)
 -   [Ignite UI コントロールを異なるタイム ゾーンで使用](Using-IgniteUI-controls-in-different-time-zones.html)
 
 ## igDatePicker

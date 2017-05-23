@@ -62,7 +62,7 @@ igGrid 集計の新しい [*format*](%%jQueryApiUrl%%/ui.iggridsummaries#options
 
 ## igDateEditor/igDatePicker
 
-[`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) オプションの動作を変更しました。指定したオフセットとエディターで時間を表示するには [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) を使用します。既存のアプリケーションを変更する方法について、「[17.1 で enableUTCDate オプションの移動](Migrating-enableUTCDates-option-in-17-1.html)」トピックを参照してください。両方のオプションの詳細情報について、「[Ignite UI コントロールを別のタイム ゾーンで使用](Using-IgniteUI-controls-in-different-time-zones.html)」を参照してください。
+[`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) オプションの動作を変更しました。指定したオフセットとエディターで時間を表示するには [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) を使用します。既存のアプリケーションを変更する方法について、「[17.1 で enableUTCDate オプションの移動](igDateEditor-migrating-date-handling-in-17-1.html)」トピックを参照してください。両方のオプションの詳細情報について、「[Ignite UI コントロールを別のタイム ゾーンで使用](Using-IgniteUI-controls-in-different-time-zones.html)」を参照してください。
 
 ## igNumericEditor
 

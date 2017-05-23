@@ -19,7 +19,7 @@
 -   [igDateEditor アクセシビリティの遵守](igDateEditor-Accessibility-Compliance.html)
 -   [igDateEditor の既知の問題](igDateEditor-Known-Issues.html)
 -   [新しい igDateEditor への移行](Migrating-to-the-new-igDateEditor.html)
--   [17.1 で日付処理の移行](Migrating-enableUTCDates-option-in-17-1.html)
+-   [17.1 で日付処理の移行](igDateEditor-migrating-date-handling-in-17-1.html)
 -   [igDateEditor のキーボード ナビゲーション](igDateEditor-Keyboard-Navigation.html)
 
  

@@ -112,7 +112,7 @@ DateTime date = new DateTime(2015, 1, 10, 7, 0, 0, 0, DateTimeKind.Local);
 
 > **注:** `enableUTCDates` の機能が 17.1 から変更されました。
 > 
-> 16.2 から 17.1 へのエディター移行や enableUTCDates オプションを使用した構成については、「[17.1 の enableUTCDate オプションの移行](Migrating-enableUTCDates-option-in-17-1.html)」をご覧ください。
+> 16.2 から 17.1 へのエディター移行や enableUTCDates オプションを使用した構成については、「[17.1 で日付処理の移行](igDateEditor-migrating-date-handling-in-17-1.html)」をご覧ください。
 
 クライアント `igDateEditor`/`igDatePicker` ウィジェットは、UTC 書式で日付をシリアル化、またはローカルタイムを含んで `enableUTCDates` オプションに基づいてオフセットできます。両値が同じ時点を参照しますが、クライアントの追加情報も持っており、サーバー プラットフォームに基づいて提出した値を解析する際に違いが発生します。たとえば、.NET [`DateTimeOffset`](https://msdn.microsoft.com/ja-jp/library/system.datetimeoffset(v=vs.110).aspx) は、クライアント オフセットを別々に処理できます。
 
