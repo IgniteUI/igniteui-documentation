@@ -94,8 +94,10 @@
 -   [igRadialGauge](#igRadialGauge)
 -   [igRating](#igRating)
 -   [igReportViewer](#igReportViewer)
+-   [igScheduler](#igScheduler)
 -   [igScroll](#igScroll)
 -   [igSplitter](#igSplitter)
+-   [igSpreadsheet](#igSpreadsheet)
 -   [igTemplating](#igTemplating)
 -   [igTileManager](#igTileManager)
 -   [igTree](#igTree)
@@ -753,8 +755,8 @@
 	<tbody>
 		<tr>
 			<td>依存スクリプト</td>
-			<td>infragistics.util.js</td>
-			<td>infragistics.util.jquery.js</td>
+			<td>infragistics.util.js
+			<br>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -774,8 +776,8 @@
 	<tbody>
 		<tr>
 			<td>依存スクリプト</td>
-			<td>infragistics.util.js</td>
-			<td>infragistics.util.jquery.js</td>
+			<td>infragistics.util.js
+			<br>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -941,8 +943,8 @@
 	<tbody>
 		<tr>
 			<td>依存スクリプト</td>
-			<td>infragistics.util.js</td>
-			<td>infragistics.util.jquery.js</td>
+			<td>infragistics.util.js
+			<br>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -1024,8 +1026,8 @@
 	<tbody>
 		<tr>
 			<td>依存スクリプト</td>
-			<td>infragistics.util.js</td>
-			<td>infragistics.util.jquery.js</td>
+			<td>infragistics.util.js
+			<br>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -1060,6 +1062,53 @@
 			<td>スクリプト</td>
 			<td>
 				infragistics.ui.reportviewer.js</td>
+		</tr>
+	</tbody>
+</table>
+
+#### <a id="igScheduler"></a>igScheduler
+<table class="table">
+	<thead>
+		<tr>
+			<th>スクリプトの種類</th>
+			<th>スクリプト ファイル名</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>依存スクリプト</td>
+			<td>
+				infragistics.util.js
+				<br>infragistics.util.jquery.js
+				<br>infragistics.templating.js
+				<br>infragistics.ui.scroll.js
+				<br>infragistics.ext_core.js
+				<br>infragistics.ext_text.js
+				<br>infragistics.ext_collections.js
+				<br>infragistics.ext_io.js
+				<br>infragistics.ext_ui.js
+				<br>infragistics.ext_collectionsExtended.js
+				<br>infragistics.ext_threading.js
+				<br>infragistics.ext_web.js
+				<br>infragistics.xml.js
+				<br>infragistics.dv_core.js
+				<br>infragistics.dv_jquerydom.js
+				<br>infragistics.datasource.js
+				<br>infragistics.ui.popover.js
+				<br>infragistics.ui.validator.js
+				<br>infragistics.ui.editors.js
+				<br>infragistics.ui.notifier.js
+				<br>infragistics.ui.shared.js
+				<br>infragistics.ui.combo.js
+			</td>
+		</tr>
+		<tr>
+			<td>スクリプト</td>
+			<td>
+				infragistics.scheduler.core.js
+				<br>infragistics.ui.scheduler.core.js
+				<br>infragistics.ui.scheduler.js
+			</td>
 		</tr>
 	</tbody>
 </table>
@@ -1137,8 +1186,8 @@
 	<tbody>
 		<tr>
 			<td>依存スクリプト</td>
-			<td>infragistics.util.js</td>
-			<td>infragistics.util.jquery.js</td>
+			<td>infragistics.util.js
+			<br>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -1148,6 +1197,56 @@
 	</tbody>
 </table>
 
+#### <a id="igSpreadsheet"></a>igSpreadsheet
+<table class="table">
+	<thead>
+		<tr>
+			<th>スクリプトの種類</th>
+			<th>スクリプト ファイル名</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>依存スクリプト</td>
+			<td>
+				infragistics.util.js
+			<br>infragistics.util.jquery.js
+			<br>infragistics.ext_core.js
+			<br>infragistics.ext_text.js
+			<br>infragistics.ext_collections.js
+			<br>infragistics.ext_io.js
+			<br>infragistics.ext_ui.js
+			<br>infragistics.dv_jquerydom.js
+			<br>infragistics.ext_collectionsExtended.js
+			<br>infragistics.ext_threading.js
+			<br>infragistics.ext_web.js
+			<br>infragistics.xml.js
+			<br>infragistics.documents.core_core.js
+			<br>infragistics.documents.core_openxml.js
+			<br>infragistics.excel_core.js
+			<br>infragistics.excel_functions.js
+			<br>infragistics.excel_serialization_biff8.js
+			<br>infragistics.excel_serialization_openxml.js
+			<br>infragistics.undo.js
+			<br>infragistics.dv_core.js
+			<br>infragistics.dv_jquerydom.js
+			<br>infragistics.util.jquery.js
+			<br>infragistics.datasource.js
+			<br>infragistics.templating.js
+			<br>infragistics.ui.scroll.js
+			<br>infragistics.ui.validator.js
+			<br>infragistics.ui.combo.js
+			</td>
+		</tr>
+		<tr>
+			<td>スクリプト</td>
+			<td>
+				infragistics.spreadsheet.js
+				<br>infragistics.ui.spreadsheet.js
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 #### <a id="igTemplating"></a>igTemplating 
 <table class="table">
@@ -1160,8 +1259,8 @@
 	<tbody>
 		<tr>
 			<td>依存スクリプト</td>
-			<td>infragistics.util.js</td>
-			<td>infragistics.util.jquery.js</td>
+			<td>infragistics.util.js
+			<br>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -1318,8 +1417,8 @@
 	<tbody>
 		<tr>
 			<td>依存スクリプト</td>
-			<td>infragistics.util.js</td>
-			<td>infragistics.util.jquery.js</td>
+			<td>infragistics.util.js
+			<br>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
