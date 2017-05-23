@@ -36,6 +36,7 @@ $.ig.loader({
 ```html
 <!-- util -->
 <script src="js/modules/infragistics.util.js"></script>
+<script src="js/modules/infragistics.util.jquery.js"></script>
 
 <!-- ext -->
 <script src="js/modules/infragistics.ext_core.js"></script>
@@ -43,6 +44,7 @@ $.ig.loader({
 <script src="js/modules/infragistics.ext_collections.js"></script>
 <script src="js/modules/infragistics.ext_io.js"></script>
 <script src="js/modules/infragistics.ext_ui.js"></script>
+<script src="js/modules/infragistics.dv_jquerydom.js" ></script>
 <script src="js/modules/infragistics.ext_collectionsExtended.js"></script>
 <script src="js/modules/infragistics.ext_threading.js"></script>
 <script src="js/modules/infragistics.ext_web.js"></script>

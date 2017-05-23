@@ -137,7 +137,7 @@ ASP.NET MVC ヘルパーを使用して、マネージ コード言語で `igTre
 要件|説明
 ---|---
 jQuery および jQuery UI JavaScript リソース|%%ProductName%% は、これらのフレームワークの最上位にビルドされます。[jQuery](http://jquery.com/) [jQuery UI](http://jqueryui.com/) [テンプレート エンジンの概要](igTemplating-Overview.html) (ノード テンプレート用)
-%%ProductName%% の共用 JavaScript リソース|%%ProductName%% には、ほとんどのウィジェットが使用する共用 JavaScript リソースがいくつかあります。`infragistics.util.js` infragistics.ui.shared.js
+%%ProductName%% の共用 JavaScript リソース|%%ProductName%% には、ほとんどのウィジェットが使用する共用 JavaScript リソースがいくつかあります。`infragistics.util.js` `infragistics.util.jquery.js` infragistics.ui.shared.js
 `igDataSource` JavaScript リソース | `igTree` は `igDataSource` を内部的に使用してデータ操作を行います。 `infragistics.dataSource.js`
 `igTree` JavaScript リソース | `igTree` コントロールの JavaScript ファイル: `infragistics.ui.tree.js`
 IG テーマ|このテーマには、%%ProductName%% 向けに作成されたカスタム ビジュアル スタイルが含まれます。

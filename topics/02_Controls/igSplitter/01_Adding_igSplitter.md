@@ -127,7 +127,8 @@ igSplitter JavaScript リソース
 						</tr>
 						<tr>
 							<td>
-				infragistics.util.js
+				infragistics.util.js<br>
+				infragistics.util.jquery.js
 							</td>
 							<td>
 				%%ProductName%% ユーティリティ

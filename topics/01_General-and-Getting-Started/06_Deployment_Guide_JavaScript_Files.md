@@ -118,9 +118,11 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js<br>
+				infragistics.util.jquery.js<br>
 				infragistics.ext_core.js<br>
 				infragistics.ext_collections.js<br>
 				infragistics.ext_ui.js<br>
+				infragistics.dv_jquerydom.js<br>
 				infragistics.dv_core.js<br>
 				infragistics.dv_geometry.js	
 			</td>
@@ -149,11 +151,13 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js
+				<br>infragistics.util.jquery.js
 				<br>infragistics.datasource.js
 				<br>infragistics.templating.js
 				<br>infragistics.ext_core.js
 				<br>infragistics.ext_collections.js
 				<br>infragistics.ext_ui.js
+				<br>infragistics.dv_jquerydom.js
 				<br>infragistics.dv_core.js
 				<br>infragistics.dv_datasource.js
 				<br>infragistics.dv_dataseriesadapter.js
@@ -222,6 +226,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.dataSource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
@@ -250,6 +255,7 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js
+				<br>infragistics.util.jquery.js
 			</td>
 		</tr>
 		<tr>
@@ -275,6 +281,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
 			</td>
@@ -285,6 +292,7 @@
 			    infragistics.ext_core.js
 				<br>infragistics.ext_collections.js
 				<br>infragistics.ext_ui.js
+				<br>infragistics.dv_jquerydom.js
 				<br>infragistics.dv_core.js
 				<br>infragistics.dv_geometry.js
 				<br>infragistics.datachart_core.js
@@ -323,9 +331,11 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js<br>
+				infragistics.util.jquery.js<br>
 				infragistics.ext_core.js<br>
 				infragistics.ext_collections.js<br>
 				infragistics.ext_ui.js<br>
+				infragistics.dv_jquerydom.js<br>
 				infragistics.dv_core.js<br>
 				infragistics.dv_geometry.js<br>
 				infragistics.datachart_core.js<br>
@@ -355,6 +365,7 @@
 			<td>依存スクリプト</td>
 			<td>
     			infragistics.util.js
+				<br>infragistics.util.jquery.js
 			</td>
 		</tr>
 		<tr>
@@ -379,11 +390,13 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js<br>
+				infragistics.util.jquery.js<br>
 				infragistics.datasource.js<br>
 				infragistics.templating.js<br>
 				infragistics.ext_core.js<br>
 				infragistics.ext_collections.js<br>
 				infragistics.ext_ui.js<br>
+				infragistics.dv_jquerydom.js<br>
 				infragistics.dv_core.js<br>
 				infragistics.dv_geometry.js<br>
 				infragistics.datachart_core.js<br>
@@ -416,6 +429,7 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js
+				<br>infragistics.util.jquery.js
 			</td>
 		</tr>
 		<tr>
@@ -440,11 +454,13 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js<br>
+				infragistics.util.jquery.js<br>
 				infragistics.datasource.js<br>
 				infragistics.templating.js<br>
 				infragistics.ext_core.js<br>
 				infragistics.ext_collections.js<br>
 				infragistics.ext_ui.js<br>
+				infragistics.dv_jquerydom.js<br>
 				infragistics.dv_core.js<br>
 				infragistics.dv_geometry.js<br>
 				infragistics.datachart_core.js<br>
@@ -475,6 +491,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
@@ -525,6 +542,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
@@ -572,6 +590,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
@@ -607,6 +626,7 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js
+				<br>infragistics.util.jquery.js
 			</td>
 		</tr>
 		<tr>
@@ -629,9 +649,11 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js<br>
+				<br>infragistics.util.jquery.js
 				infragistics.ext_core.js<br>
 				infragistics.ext_collections.js<br>
 				infragistics.ext_ui.js<br>
+				infragistics.dv_jquerydom.js<br>
 				infragistics.dv_core.js<br>
 				infragistics.dv_geometry.js
 			</td>
@@ -660,11 +682,13 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js<br>
+				infragistics.util.jquery.js<br>
 				infragistics.datasource.js<br>
 				infragistics.templating.js<br>
 				infragistics.ext_core.js<br>
 				infragistics.ext_collections.js<br>
 				infragistics.ext_ui.js<br>
+				infragistics.dv_jquerydom.js<br>
 				infragistics.dv_core.js<br>
 				infragistics.dv_geometry.js<br>
 				infragistics.datachart_core.js<br>
@@ -701,9 +725,11 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js<br>
+				infragistics.util.jquery.js<br>
 				infragistics.ext_core.js<br>
 				infragistics.ext_collections.js<br>
 				infragistics.ext_ui.js<br>
+				infragistics.dv_jquerydom.js<br>
 				infragistics.dv_core.js
 			</td>
 		</tr>
@@ -728,6 +754,7 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js</td>
+			<td>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -748,6 +775,7 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js</td>
+			<td>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -769,11 +797,13 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js<br>
+				infragistics.util.jquery.js<br>
 				infragistics.datasource.js<br>
 				infragistics.templating.js<br>
 				infragistics.ext_core.js<br>
 				infragistics.ext_collections.js<br>
 				infragistics.ext_ui.js<br>
+				infragistics.dv_jquerydom.js<br>
 				infragistics.dv_core.js<br>
 				infragistics.dv_geometry.js<br>
 				infragistics.datachart_core.js<br>
@@ -803,6 +833,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.olapflatdatasource.js
 			
@@ -838,6 +869,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.olapflatdatasource.js
 			
@@ -872,7 +904,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
-			    
+			    <br>infragistics.util.jquery.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.olapflatdatasource.js
 			
@@ -910,6 +942,7 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js</td>
+			<td>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -933,6 +966,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.dv.simple.core.js
 			</td>
 		</tr>
@@ -960,9 +994,11 @@
 			<td>依存スクリプト</td>
 			<td>
     			infragistics.util.js<br>
+				infragistics.util.jquery.js<br>
 				infragistics.ext_core.js<br>
 				infragistics.ext_collections.js<br>
 				infragistics.ext_ui.js<br>
+				infragistics.dv_jquerydom.js<br>
 				infragistics.dv_core.js<br>
 				infragistics.dv_geometry.js
 			</td>
@@ -989,6 +1025,7 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js</td>
+			<td>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -1010,6 +1047,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.dataSource.js
 			    <br>infragistics.dv.core.js
 			    <br>infragistics.dvcommonwidget.js
@@ -1039,6 +1077,7 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js
+				<br>infragistics.util.jquery.js
 				<br>modernizr.js
 			</td>
 		</tr>
@@ -1064,11 +1103,13 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js<br>
+				infragistics.util.jquery.js<br>
 				infragistics.datasource.js<br>
 				infragistics.templating.js<br>
 				infragistics.ext_core.js<br>
 				infragistics.ext_collections.js<br>
 				infragistics.ext_ui.js<br>
+				infragistics.dv_jquerydom.js<br>
 				infragistics.dv_core.js<br>
 				infragistics.dv_geometry.js<br>
 				infragistics.dv.simple.core.js<br>
@@ -1097,6 +1138,7 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js</td>
+			<td>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -1119,6 +1161,7 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js</td>
+			<td>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -1141,12 +1184,12 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.splitter-en.js
 			    <br>infragistics.ui.splitter.js
 			    <br>infragistics.ui.layoutmanager.js
-			    <br>infragistics.util.js
 			</td>
 		</tr>
 		<tr>
@@ -1171,6 +1214,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.dataSource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
@@ -1198,6 +1242,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.dataSource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
@@ -1250,6 +1295,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.ui.shared.js
 			</td>
 		</tr>
@@ -1273,6 +1319,7 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js</td>
+			<td>infragistics.util.jquery.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -1296,6 +1343,7 @@
 			<td>依存スクリプト</td>
 			<td>
 			    infragistics.util.js
+				<br>infragistics.util.jquery.js
 			    <br>infragistics.ui.shared.js
 			</td>
 		</tr>
@@ -1322,6 +1370,7 @@
 			<td>依存スクリプト</td>
 			<td>
 				infragistics.util.js
+				<br>infragistics.util.jquery.js
 				<br>infragistics.ui.shared.js
 			</td>
 		</tr>

@@ -127,7 +127,8 @@ JS リソース
 
                         <tr>
                             <td>
-`Infragistics.util.js`
+`infragistics.util.js`<br/>
+`infragistics.util.jquery.js`
 			</td>
 
                             <td>

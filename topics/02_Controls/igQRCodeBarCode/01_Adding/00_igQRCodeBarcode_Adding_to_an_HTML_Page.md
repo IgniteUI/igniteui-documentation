@@ -135,7 +135,8 @@ JS リソース
 
                         <tr>
                             <td>
-`infragistics.util.js`
+`infragistics.util.js`<br/>
+`infragistics.util.jquery.js`
 			</td>
 
                             <td>
@@ -251,6 +252,7 @@ JS リソース
       
       <!-- %%ProductName%% Required Common JavaScript Files -->
       <script src="../../igniteui/js/modules/infragistics.util.js"></script>
+	  <script src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
       <script src="../../igniteui/js/modules/infragistics.dv.simple.core.js"></script>      
       
       <!-- QR Code Barcode Specific JavaScript Files -->
@@ -328,6 +330,7 @@ JS リソース
       
       <!-- %%ProductName%% Required Common JavaScript Files -->
       <script src="../../igniteui/js/modules/infragistics.util.js"></script>
+	  <script src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
       <script src="../../igniteui/js/modules/infragistics.dv.simple.core.js"></script>
       
       <!-- QR Code Barcode Specific JavaScript Files -->

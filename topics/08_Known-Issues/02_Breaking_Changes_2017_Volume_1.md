@@ -24,6 +24,18 @@
 
 %%ProductName%% コントロールの依存関係を読み込むために igLoader を使用するアプリケーションでローダーが内部に処理されているため、変更の必要がありません。ファイルを手動的に読み込むアプリケーションで必要のないのユーティリティ参照を削除できます。
 
+There is a new, jQuery dependant file, explicitly needed for Ignite UI DV components - `infragsitics.dv_jquerydom.js`. It needs to be loaded prior to the `infragistics.dv_core.js` dependancy.
+
+```
+...
+<script src="js/modules/infragistics.dv_jquerydom.js"></script>
+<script src="js/modules/infragistics.dv_core.js"></script>
+...
+```
+
+#### Related Topics
+-   [JavaScript Files in %%ProductName%%](Deployment-Guide-JavaScript-Files.html)
+
 ### 新しい Bootstrap テーマ構造
 
 デフォルトおよびテーマに基づいたすべての Bootstrap 3 は、共通 "/bootstrap3" フォルダーへ移動しました。以下は、%%ProductName%% に含まれる現在の Bootstrap 3 テーマと製品ソース ルート ("~") に関連する `infragistics.theme.css` の場所です。

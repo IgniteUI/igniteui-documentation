@@ -88,7 +88,7 @@
 
 -   必要な JavaScript ファイル (インフラジスティックス JavaScript ファイルは、デフォルトで %%ProductName%%™ インストール パス下の JavaScript モジュール フォルダーに配置されます)
     -   Jquery-[versionNumber].js (query-1.9.0.js など) - jQuery ライブラリ (jQuery サイトで使用可能)
-    -   infragistics.util.js - 一部の %%ProductName%%™ コンポーネントで使用される共有非 UI ロジックを含む JavaScript ファイル
+    -   infragistics.util.js、infragistics.util.jquery.js - 一部の %%ProductName%%™ コンポーネントで使用される共有非 UI ロジックを含む JavaScript ファイル
     -   `infragistics.olapxmladatasource.js` - igOlapXmlaDataSource コンポーネントを含む JavaScript ファイル
     -   (条件付き - Infragistics ローダー が使用されます) `infragistics.loader.js` - コンポーネントにより必要なすべてのインフラジスティックス JavaScript および CSS のファイルを自動で読み込むために使用可能なインフラジスティックス ローダー コンポーネント
 -   Adventure Works DW 標準エディション データベース `msmdpump.dll` を介して HTTP アクセスで構成される SSAS サーバー インスタンスで配置されます。
@@ -113,6 +113,7 @@
 	    ```
 	    <script src="js/jquery-1.9.0.js" type="text/javascript"></script>
 	    <script src="js/infragistics.util.js" type="text/javascript"></script>
+		<script src="js/infragistics.util.jquery.js" type="text/javascript"></script>
 	    <script src="js/infragistics.olapxmladatasource.js" type="text/javascript"></script>
 	    ```
 	

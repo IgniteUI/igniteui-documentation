@@ -145,7 +145,8 @@
 
 						<tr>
 							<td>
-								`infragistics.util.js`
+								`infragistics.util.js`<br/>
+								`infragistics.util.jquery.js`
 							</td>
 
 							<td>

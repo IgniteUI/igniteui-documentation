@@ -131,6 +131,7 @@
       
       <!-- QR Code Barcode Specific JavaScript Files -->
       <script src="../../igniteui/js/modules/infragistics.util.js"></script>
+	  <script src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
       <script src="../../igniteui/js/modules/infragistics.dv.simple.core.js"></script>
       <script src="../../igniteui/js/modules/encoding/infragistics.encoding.core.js"></script>
       <script src="../../igniteui/js/modules/encoding/infragistics.encoding_shift_jis.js"></script>
@@ -238,6 +239,7 @@ ECI 番号|ISO 文字セット
       
       <!-- QR Code Barcode Specific JavaScript Files -->
       <script src="../../igniteui/js/modules/infragistics.util.js"></script>
+	  <script src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
       <script src="../../igniteui/js/modules/infragistics.dv.simple.core.js"></script>
       <script src="../../igniteui/js/modules/encoding/infragistics.encoding.core.js"></script>
       <script src="../../igniteui/js/modules/encoding/infragistics.encoding_iso-8859-7.js"></script>

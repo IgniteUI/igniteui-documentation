@@ -647,7 +647,8 @@ JS リソース
 
 						<tr>
 							<td>
-infragistics.util.js
+infragistics.util.js<br>
+infragistics.util.jquery.js
 			</td>
 
 							<td>
@@ -670,6 +671,7 @@ igDataSource コントロール
 infragistics.ext_core.js<br>
 infragistics.ext_collections.js<br>
 infragistics.ext_ui.js<br>
+infragistics.dv_jquerydom.js<br>
 infragistics.dv_core.js<br>
 infragistics.dv_geometry.js<br>
 infragistics.datachart_core.js

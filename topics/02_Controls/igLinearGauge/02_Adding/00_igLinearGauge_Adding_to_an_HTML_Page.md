@@ -128,7 +128,8 @@
                         </tr>
 
                         <tr>
-                            <td>`infragistics.util.js`</td>
+                            <td>`infragistics.util.js`<br/>
+								`infragistics.util.jquery.js`</td>
 
                             <td>
                                 %%ProductName%% ユーティリティ
@@ -140,6 +141,7 @@
                                 `infragistics.ext_core.js`
                                 `infragistics.ext_collections.js`
                                 `infragistics.ext_ui.js`
+								`infragistics.dv_jquerydom.js`
                                 `infragistics.dv_core.js`
                                 `infragistics.dv_geometry.js`
                             </td>
@@ -235,9 +237,11 @@
     <script type="text/javascript" src="../../js/jquery-ui.js"></script>
     <!-- Linear Gauge Required JavaScript Files -->
 	<script type="text/javascript" src="../../igniteui/js/modules/infragistics.util.js"></script>
+	<script type="text/javascript" src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ext_core.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ext_collections.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ext_ui.js"></script>
+	<script type="text/javascript" src="../../igniteui/js/modules/infragistics.dv_jquerydom.js" ></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.dv_core.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.dv_geometry.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.lineargauge.js"></script>
@@ -384,9 +388,11 @@
     <script type="text/javascript" src="../../js/jquery-ui.js"></script>
     <!-- Linear Gauge Required JavaScript Files -->
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.util.js"></script>
+	<script type="text/javascript" src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ext_core.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ext_collections.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ext_ui.js"></script>
+	<script type="text/javascript" src="../../igniteui/js/modules/infragistics.dv_jquerydom.js" ></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.dv_core.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.dv_geometry.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.lineargauge.js"></script>

@@ -139,6 +139,7 @@ $(document).delegate("#grid1", "iggridfilteringdatafiltering", function (evt, ui
 
 ```html
 <script type="text/javascript" src="infragistics.util.js"></script>
+<script type="text/javascript" src="infragistics.util.jquery.js"></script>
 <script type="text/javascript" src="infragistics.dataSource.js"></script>
 <script type="text/javascript" src="infragistics.ui.shared.js"></script>
 <script type="text/javascript" src="infragistics.ui.popover.js"></script>

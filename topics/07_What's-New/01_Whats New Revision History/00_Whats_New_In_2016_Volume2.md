@@ -123,6 +123,8 @@ igDataChart、igCategoryChart、igPieChart、igFunnelChart、igDoughnutChart、i
 
 * infragistics.util.js
 
+* infragistics.util.jquery.js
+
 * infragistics.ext_core.js
 
 * infragistics.ext_collections.js
