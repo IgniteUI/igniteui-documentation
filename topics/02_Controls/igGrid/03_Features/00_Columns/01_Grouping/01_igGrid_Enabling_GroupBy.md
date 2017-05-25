@@ -184,9 +184,9 @@ public ActionResult Default()
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [グループ化の概要](igGrid-GroupBy-Overview.html)
+- [列のグループ化の概要](igGrid-GroupBy-Overview.html)
 
-- [グループ化プロパティ リファレンス](%%jQueryApiUrl%%/ui.igGridGroupBy#options)
+- [グリッドのグループ化プロパティ リファレンス](%%jQueryApiUrl%%/ui.igGridGroupBy#options)
 
 - [igGrid の既知の問題および重大な変更](igGrid-Known-Issues.html)
 

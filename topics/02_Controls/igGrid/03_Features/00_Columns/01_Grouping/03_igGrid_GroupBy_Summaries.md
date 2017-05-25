@@ -31,7 +31,7 @@
 
 ## <a id="summaries-overview"></a> グループ化集計の機能概要
 
-グループ化集計機能は、そのアイランドにあるデータ列の集計情報を表示するグループ データ アイランドの下に追加の集計行を表示します。集計行は、関連するグループが展開された場合のみ表示されます。以下の画像は、グループ化された列を持つグリッドで各グループの下に「Price」列の合計数が集計行に表示されます。
+グループ化集計機能は、そのアイランドにあるデータ列の集計情報を表示するグループ データ アイランドの下、上、または上下の両方に追加の集計行を表示します。集計行は、関連するグループが展開された場合のみ表示されます。以下の画像は、グループ化された列を持つグリッドで各グループの下に「Price」列の合計数が集計行に表示されます。
 
 ![](images/igGrid_GroupBy_Summaries_Overview_01.png)
     
@@ -79,7 +79,7 @@ $("#grid1").igGrid({
 名前 | 説明 | タイプ 
 -----| ------------| -----
 label | 集計関数の結果に適用されるラベル。 | string
-name | 集計関数の名前。例: {summaryFunction: “count”} | string
+name | 集計関数の名前。例: {summaryFunction: "count"} | string
 summaryFunction | 集計の計算に使用する関数を指定します。 | function
 dataType | この集計が適用できる列タイプを指定します。'any' に設定するとこの集計をすべての列タイプに適用します。 | 'any' または配列。
 active | 集計を適用するかどうかを設定します。 | boolean | true
@@ -122,8 +122,8 @@ $("#grid1").igGrid({
 
 集計オプションの指定のために使用される <a id="groupSummariesObject"></a>**groupSummariesObject** は以下のプロパティを持ちます:
 
-名前|説明|タイプ|デフォルト値 |
-----|-------------|------|---------------|
+名前|説明|タイプ|デフォルト値
+----|-------------|------|---------------
 summaryFunction|集計を指定する名前またはカスタム関数。|string または function |
 label |集計値の表示で使用されるラベルを設定します。|string |
 summaryTemplate|各集計結果のテンプレートを設定します。|string |"{label}{value}"
@@ -193,6 +193,6 @@ function existingCount(data) {
 
 このトピックに関連する追加情報については、以下のトピックを参照してください。
 
-- [グリッド Outlook Group By のセットアップ](igGrid-Enabling-GroupBy.html)
+- [列のグループ化の有効化 (igGrid)](igGrid-Enabling-GroupBy.html)
 
-- [グリッド Outlook Group By プロパティ リファレンス](%%jQueryApiUrl%%/ui.iggridgroupby#options)
+- [グリッドのグループ化のプロパティ リファレンス](%%jQueryApiUrl%%/ui.iggridgroupby#options)

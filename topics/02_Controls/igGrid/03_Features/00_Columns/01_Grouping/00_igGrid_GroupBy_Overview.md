@@ -38,7 +38,7 @@
 
 グループ化メソッドは自身で定義することできます。カスタムのグループ化メソッドの詳細については、「Grid Group By の概要」というトピックをご覧ください。
 
-グループ化は、Group By ウィジェットによって実行/管理されます。
+グループ化は、GroupBy ウィジェットによって実行/管理されます。
 
 ## <a id="groupBy-persistence"></a> GroupBy の永続化
 
@@ -63,7 +63,7 @@ GroupBy の永続化は `igHierarchicalGrid` にも実装されています。
 ```js
 features: [
   { 
-     name: “GroupBy”, 
+     name: "GroupBy", 
      persist: false 
   }
 ] 
@@ -267,7 +267,7 @@ API 使用については、以下のサンプルも参照してください。
 
 - [列のグループ化の有効化 (igGrid)](igGrid-Enabling-GroupBy.html)
 
-- [グリッド Group By プロパティ リファレンス](%%jQueryApiUrl%%/ui.iggridgroupby#options)
+- [グリッド GroupBy プロパティ リファレンス](%%jQueryApiUrl%%/ui.iggridgroupby#options)
 
 - [グリッドの既知の問題と重要な変更](igGrid-Known-Issues.html)
 
