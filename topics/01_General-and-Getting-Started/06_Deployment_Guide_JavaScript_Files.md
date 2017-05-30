@@ -756,7 +756,9 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js
-			<br>infragistics.util.jquery.js</td>
+			<br>infragistics.util.jquery.js
+			<br>infragistics.util.jquerydeferred.js
+			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -777,7 +779,9 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js
-			<br>infragistics.util.jquery.js</td>
+			<br>infragistics.util.jquery.js
+			<br>infragistics.util.jquerydeferred.js
+			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -836,6 +840,7 @@
 			<td>
 			    infragistics.util.js
 				<br>infragistics.util.jquery.js
+				<br>infragistics.util.jquerydeferred.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.olapflatdatasource.js
 			
@@ -872,6 +877,7 @@
 			<td>
 			    infragistics.util.js
 				<br>infragistics.util.jquery.js
+				<br>infragistics.util.jquerydeferred.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.olapflatdatasource.js
 			
@@ -907,6 +913,7 @@
 			<td>
 			    infragistics.util.js
 			    <br>infragistics.util.jquery.js
+				<br>infragistics.util.jquerydeferred.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.olapflatdatasource.js
 			

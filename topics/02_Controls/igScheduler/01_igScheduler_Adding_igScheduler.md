@@ -31,9 +31,9 @@
 
 以下のトピックは、このトピックを理解するための前提条件として必要な情報を示しています。
 
--	[igScheduler の概要](igScheduler-Overview.html): このトピックは、`igScheduler` およびその機能の概要を説明します。
+- [igScheduler の概要](igScheduler-Overview.html): このトピックは、`igScheduler` およびその機能の概要を説明します。
 
--	[Infragistics Loader の使用](Using-Infragistics-Loader.html)
+- [Infragistics Loader の使用](Using-Infragistics-Loader.html)
 始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な Ignite UI リソースを読み込みます。Ignite UI リソースをプロジェクトに追加する方法が 2 つあります。`igLoader` を使用するか、必要なモジュールを読み込むことができます。このトピックで `igLoader` を使用します。
 
 ```js
@@ -95,49 +95,56 @@ $.ig.loader({
     1.2.igLoader の使用なし
 
 	```html
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link type="text/css" href="igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-	<link type="text/css" href="igniteui/css/structure/modules/infragistics.ui.shared.css" rel="stylesheet" />
-	<link type="text/css" href="igniteui/css/structure/modules/infragistics.ui.editors.css" rel="stylesheet" />
-	<link type="text/css" href="igniteui/css/structure/modules/infragistics.ui.popover.css" rel="stylesheet" />
-	<link type="text/css" href="igniteui/css/structure/modules/infragistics.ui.notifier.css" rel="stylesheet" />
+	<link type="text/css" href="ignite-ui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+	<link type="text/css" href="ignite-ui/css/structure/modules/infragistics.ui.shared.css" rel="stylesheet" />
+	<link type="text/css" href="ignite-ui/css/structure/modules/infragistics.ui.editors.css" rel="stylesheet" />
+	<link type="text/css" href="ignite-ui/css/structure/modules/infragistics.ui.popover.css" rel="stylesheet" />
+	<link type="text/css" href="ignite-ui/css/structure/modules/infragistics.ui.notifier.css" rel="stylesheet" />
 	
-	<link type="text/css" href="igniteui/css/structure/modules/infragistics.ui.toolbarbutton.css" rel="stylesheet" />
-	<link type="text/css" href="igniteui/css/structure/modules/infragistics.ui.splitbutton.css" rel="stylesheet" />
-	<link type="text/css" href="igniteui/css/structure/modules/infragistics.ui.colorpicker.css" rel="stylesheet" />
-	<link type="text/css" href="igniteui/css/structure/modules/infragistics.ui.combo.css" rel="stylesheet" />
-	<link type="text/css" href="https://rawgit.com/IgniteUI/ignite-ui/master/src/css/structure/modules/infragistics.ui.scroll.css" rel="stylesheet" />
+	<link type="text/css" href="ignite-ui/css/structure/modules/infragistics.ui.toolbarbutton.css" rel="stylesheet" />
+	<link type="text/css" href="ignite-ui/css/structure/modules/infragistics.ui.splitbutton.css" rel="stylesheet" />
+	<link type="text/css" href="ignite-ui/css/structure/modules/infragistics.ui.colorpicker.css" rel="stylesheet" />
+	<link type="text/css" href="ignite-ui/css/structure/modules/infragistics.ui.combo.css" rel="stylesheet" />
+	<link type="text/css" href="ignite-ui/css/structure/modules/infragistics.ui.scroll.css" rel="stylesheet" />
 	
-	<link type="text/css" href="igniteui/css/structure/modules/infragistics.ui.scheduler.css" rel="stylesheet" />
+	<link type="text/css" href="ignite-ui/css/structure/modules/infragistics.ui.scheduler.css" rel="stylesheet" />
 	
 	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 	
-	<script src="igniteui/js/infragistics.core.js"></script>
-	<script src="igniteui/js/infragistics.lob.js"></script>
+	<script type="text/javascript" src="ignite-ui/js/modules/infragistics.util.js"></script>
+	<script type="text/javascript" src="ignite-ui/js/modules/infragistics.util.jquery.js"></script>
+	<script type="text/javascript" src="ignite-ui/js/modules/infragistics.datasource.js"></script>
+	<script type="text/javascript" src="ignite-ui/js/modules/infragistics.templating.js"></script>
+	<script type="text/javascript" src="ignite-ui/js/modules/infragistics.ui.scroll.js"></script>
+	<script type="text/javascript" src="ignite-ui/js/modules/infragistics.ui.shared.js"></script>
+	<script type="text/javascript" src="ignite-ui/js/modules/infragistics.ui.popover.js"></script>
+	<script type="text/javascript" src="ignite-ui/js/modules/infragistics.ui.notifier.js"></script>
+	<script type="text/javascript" src="ignite-ui/js/modules/infragistics.ui.validator.js"></script>
+	<script type="text/javascript" src="ignite-ui/js/modules/infragistics.ui.combo.js"></script>
+	<script type="text/javascript" src="ignite-ui/js/modules/infragistics.ui.editors.js"></script>
 	
 	<!-- ext -->
-	<script src="igniteui/js/modules/infragistics.ext_core.js"></script>
-	<script src="igniteui/js/modules/infragistics.ext_text.js"></script>
-	<script src="igniteui/js/modules/infragistics.ext_collections.js"></script>
-	<script src="igniteui/js/modules/infragistics.ext_io.js"></script>
-	<script src="igniteui/js/modules/infragistics.ext_ui.js"></script>
-	<script src="igniteui/js/modules/infragistics.dv_jquerydom.js" ></script>
-	<script src="igniteui/js/modules/infragistics.ext_collectionsExtended.js"></script>
-	<script src="igniteui/js/modules/infragistics.ext_threading.js"></script>
-	<script src="igniteui/js/modules/infragistics.ext_web.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.ext_core.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.ext_text.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.ext_collections.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.ext_io.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.ext_ui.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.dv_jquerydom.js" ></script>
+	<script src="ignite-ui/js/modules/infragistics.ext_collectionsExtended.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.ext_threading.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.ext_web.js"></script>
 	<!-- xml -->
-	<script src="igniteui/js/modules/infragistics.xml.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.xml.js"></script>
 	<!-- dv -->
-	<script src="igniteui/js/modules/infragistics.dv_core.js"></script>
-	<script src="igniteui/js/modules/infragistics.dv_jquerydom.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.dv_core.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.dv_jquerydom.js"></script>
 	
 	<!-- scheduler -->
-	<script src="igniteui/js/modules/infragistics.scheduler.core.js"></script>
-	<script src="igniteui/js/modules/infragistics.ui.scheduler.core.js"></script>
-	
-	<script src="igniteui/js/modules/infragistics.ui.scheduler.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.scheduler.core.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.ui.scheduler.core.js"></script>
+	<script src="ignite-ui/js/modules/infragistics.ui.scheduler.js"></script>
 	```
 
 2. `igScheduler` で使用されるデータを読み込みます。この例で、`igDataSource` はスケジュールのリスト データ ソースを作成するために使用されます。

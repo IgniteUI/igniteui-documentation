@@ -284,35 +284,7 @@ $("#scheduler").igScheduler({
 
 ### データ ソースへのバインドに関する概要
 
-ほとんどの場合、`igScheduler` の `dataSource`  オプションを使用してデータのバインドを行います。このオプションは、サポートされるさまざまなデータ形式を処理できる `igDataSource` へデータを提供します。ただし、SELECT 要素を使用して `igScheduler` のインスタンスを作成する場合は例外で、このオプションは使用しません。この場合、`igScheduler` は元の SELECT 要素のデータおよびオプションを継承します。
-
-### サポートされるデータ ソース
-
-次の表は、サポートされるデータ ソース、および各データ ソースのバインドに関する基本情報をまとめたものです。
-
-
-<table class="table">
-	<thead>
-		<tr>
-            <th>
-データ ソース
-			</th>
-            <th>
-バインディング
-			</th>
-        </tr>
-	</thead>
-	<tbody>
-        <tr>
-            <td>
-igDataSource
-			</td>
-            <td>
-`igDataSource` は、コントロールのデータ操作を管理するために `igScheduler` コントロールによって内部的に使用されます。このデータ ソースは、さまざまなタイプのローカル データやリモート データを受け入れます。
-			</td>
-        </tr>
-    </tbody>
-</table>
+ほとんどの場合、`igScheduler` の `dataSource`  オプションを使用してデータのバインドを行います。`ScheduleListDataSource` should be initialized, where the [appointments](igscheduler-configure-appointments.html) and [resources](igscheduler-configure-resources.html) collections should be configured. 
 
 ## <a id="related-topics"></a>関連トピック
 

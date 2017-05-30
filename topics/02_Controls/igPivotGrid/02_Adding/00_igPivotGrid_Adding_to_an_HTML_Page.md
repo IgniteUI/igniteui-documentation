@@ -143,7 +143,8 @@
 						<tr>
 							<td>
 								`infragistics.util.js`<br/>
-								`infragistics.util.jquery.js`
+								`infragistics.util.jquery.js`<br/>
+								`infragistics.util.jquerydeferred.js`
 							</td>
 
 							<td>

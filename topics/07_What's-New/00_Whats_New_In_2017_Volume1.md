@@ -28,6 +28,20 @@
 ---|---
 [igScheduler - 新しいコントロール](#scheduler)| igScheduler は、時間範囲および関連アクティビティを表示し、管理するスケジュール ソリューションを提供する jQuery ウィジェットです。
 
+### igDataSource
+
+機能 | 説明
+---|---
+[Filter By Text](#filterbytext)| The igDataSource component provides a way to search for a specific words or phrases in all of its fields.
+
+### igGrid
+
+機能 | 説明
+---|---
+[Date Handling](#griddatehandling)| The igGrid provides a way to control the display and edit of date values for clients in different time zones.
+[More Flexible Caption](#gridcaption)| igGrid's new caption is designed to be more flexible and customizable.
+[GroupBy 集計](#groupSummaries)| GroupBy 機能により集計行を各グループのデータ アイランドの下に表示できるようになりました。
+
 ### igCombo
 
 機能 | 説明
@@ -57,6 +71,23 @@
 機能 | 説明
 ---|---
 [日付の選択オプション MVC ラッパー](#pickerOptionsWrapper) | DatePicker MVC ラッパーを使用する場合に、日付の選択オプションの追加のラッパーが利用できます。
+
+### igDataChart
+
+機能 | 説明
+---|---
+[Zoom Enabling Options](#zoomEnablingProperties) | New options called [`isHorizontalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isHorizontalZoomEnabled) and [`isVerticalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isHorizontalZoomEnabled) have been added which control whether zooming is allowed on either the horizontal or vertical axis.
+
+### igMap
+
+機能 | 説明
+---|---
+[Map Imagery Tile Path](#tilePathProperty) | The option called [`tilePath`](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent.tilePath) has been added to the [`backgroundContent`](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent) options.  Users can use this property to specify a URL where the tile images are located.
+
+### igRadialGauge, igLinearGauge, igBulletGraph
+機能 | 説明
+---|---
+[Design Changes](#gaugeDesignChanges) | The visuals for the gauges have been updated.
 
 ## <a id="spreadsheet"></a>igSpreadsheet
 
@@ -105,11 +136,11 @@
 -   [エクセル ファイルからデータをインポート](%%SamplesUrl%%/spreadsheet/loading-data)
 
 ## <a id="igScheduler"></a> igScheduler
-### 新しいコントロール (RTM)
+### 新しいコントロール
 
 `igScheduler`™ コントロールは、時間範囲および関連アクティビティを表示し、管理するスケジュール ソリューションを提供します。
 
-### RTM でサポートされる機能
+### サポートされる機能
 -   予定の作成、編集、削除
     -   月単位の表示で構成可能な予定表示モード (インジケーターまたはイベントの件名)
     -   予定を色付きリソースへの割り当て
@@ -125,7 +156,7 @@
 -   キーボード ナビゲーション サポート
 -   ローカライズのサポート
 
-![](../02_Controls/igScheduler/images/scheduler.png)
+![](images/scheduler.png)
 
 #### 関連トピック
 -   [igScheduler の概要](igScheduler-Overview.html)
@@ -141,17 +172,33 @@
 -   [igScheduler 予定一覧ビュー](%%SamplesUrl%%/scheduler/agenda-view)
 -   [igScheduler 予定インジケーター](%%SamplesUrl%%/scheduler/appointment-indicators)
 
-### igGrid
+## igDataSource
 
-機能 | 説明
----|---
-[GroupBy 集計](#groupSummaries)| GroupBy 機能により集計行を各グループのデータ アイランドの下に表示できるようになりました。
+### <a id="filterbytext"></a> Filter By Text
+
+The igDataSource component provides a way to search for a specific words or phrases in all of its fields via the 'filterByText' method.
+
+#### Related Topics
+-   [igDataSource Overview](igspreadsheet-overview.html)
+
+#### Related Samples
+-   [Simple Filtering](%%SamplesUrl%%/grid/simple-filtering)
 
 ## igGrid
 
+### <a id="griddatehandling"></a> Date Handling
+
+When enabled for the igGrid, the option [`enableUTCDates`](%%jQueryApiUrl%%/ui.iggrid#options:enableUTCDates) affects only the dates serialization. Enables/Disables serializing client date as [UTC ISO 8061](https://en.wikipedia.org/wiki/ISO_8601#UTC) string instead of using the local time and zone values.
+
+In order to handle the displaying of the dates, there is an option in the date columns' definition - [`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType). As a date value is received from the server it goes through a formatter function to display the date. If [`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) is set to "local", the final result for the specified column returns date values via the standard date object methods (getFullYear(), getMonth(), getDate(),getHours() etc.) and if set to "utc" UTC equivalents ( getUTCFullYear(), getUTCMonth(), getUTCDate(), getUTCHours() etc.) are used. 
+
+### <a id="gridcaption"></a> Grid's Caption
+
+The igGrid's caption now provides the ability to render HTML elements in it in order to give the user more customizability and flexability. It also comes with useful events for full control of its initialization.
+
 ### <a id="groupSummaries"></a> GroupBy 集計
 
-GroupBy 集計機能は、そのアイランドにあるデータ列の集計情報を表示するグループ データ アイランドの下に追加の集計行を表示します。集計行は、関連するグループが展開された場合のみ表示されます。
+GroupBy 集計機能は、そのアイランドにあるデータ列の集計情報を表示するグループ データ アイランドの上下に追加の集計行を表示します。集計行は、関連するグループが展開された場合のみ表示されます。
 
 ![](images/group-summaries.png)
 
@@ -230,3 +277,52 @@ GroupBy 集計機能は、そのアイランドにあるデータ列の集計情
 	})
 	.Render())
 ```
+
+## igDataChart
+### <a id="zoomEnablingProperties"></a> Zoom Enabling Options
+
+New options called [`isHorizontalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isHorizontalZoomEnabled) and [`isVerticalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isVerticalZoomEnabled) were added, deprecating the existing [`horizontalZoomable`](%%jQueryApiUrl%%/ui.igDataChart#options:horizontalZoomable) and [`verticalZoomable`](%%jQueryApiUrl%%/ui.igDataChart#options:verticalZoomable) options respectively.  The older options are being left as-is in this release for backwards compatibility with existing applications.
+
+## igMap
+### <a id="tilePathProperty"></a> Map Imagery Tile Path
+
+Open Street Map can now accept custom tile source by re-purposing the *tileSource* option off of the *backgroundContent* object.
+
+**In JavaScript**
+
+	$(function () {
+            $("#map").igMap({
+                width: "700px",
+                height: "500px",
+                windowRect: { left: 0.1, top: 0.1, height: 0.7, width: 0.7 },
+                // specifies imagery tiles from OpenStreetMap
+                backgroundContent: {
+                    type: "openStreet",
+                    tilePath: "tile.openstreetmap.org/{Z}/{X}/{Y}.png"
+                }
+            });
+        });
+		
+Before this change *tilePath* was only relevant to the Bing Map. After the change it is applicable to the Open Street Map as well.
+
+Omitting the protocol specifier (*http:* or *https:*) in the URL allows for the control to detect and use the protocol of the hosting web site. It is also possible to force the control into desired protocol by explicitely setting it in the *tilePath* option:
+
+**In JavaScript**
+
+    tilePath: "https://tile.openstreetmap.org/{Z}/{X}/{Y}.png"
+
+*{Z}*, *{X}*, and *{Y}* tokens are replaced during tile rendering by Zoom, Horizontal location, and Vertical location of each tile respectively.
+
+## igRadialGauge, igLinearGauge, igBulletGraph
+### <a id="gaugeDesignChanges"></a> Design Changes
+
+The igRadialGauge, igLinearGauge and igBulletGraph have new styling provided when you include `infragistics.theme.css`.  The new styling looks as follows:
+
+#### igRadialGauge:
+![](images/radialgauge_igtheme_17_1.png)
+
+#### igLinearGauge:
+![](images/lineargauge_igtheme_17_1.png)
+
+#### igBulletGraph:
+![](images/bulletgraph_igtheme_17_1.png)
