@@ -284,7 +284,7 @@ $("#scheduler").igScheduler({
 
 ### データ ソースへのバインドに関する概要
 
-ほとんどの場合、`igScheduler` の `dataSource`  オプションを使用してデータのバインドを行います。`ScheduleListDataSource` should be initialized, where the [appointments](igscheduler-configure-appointments.html) and [resources](igscheduler-configure-resources.html) collections should be configured. 
+ほとんどの場合、`igScheduler` の `dataSource`  オプションを使用してデータのバインドを行います。`ScheduleListDataSource` は初期化されますが、[予定](igscheduler-configure-appointments.html)および[リソース](igscheduler-configure-resources.html) コレクションは構成する必要があります。
 
 ## <a id="related-topics"></a>関連トピック
 

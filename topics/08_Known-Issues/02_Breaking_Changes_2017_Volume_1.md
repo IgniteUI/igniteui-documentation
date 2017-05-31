@@ -24,7 +24,7 @@
 
 %%ProductName%% コントロールの依存関係を読み込むために igLoader を使用するアプリケーションでローダーが内部に処理されているため、変更の必要がありません。ファイルを手動的に読み込むアプリケーションで必要のないのユーティリティ参照を削除できます。
 
-There is a new, jQuery dependant file, explicitly needed for Ignite UI DV components - `infragsitics.dv_jquerydom.js`. It needs to be loaded prior to the `infragistics.dv_core.js` dependancy.
+Ignite UI DV コンポーネントで明示的に必要な新しい jQuery に依存関係があるファイルを追加しました: `infragsitics.dv_jquerydom.js`。 `infragistics.dv_core.js` 依存ファイルの前に読み込む必要があります。
 
 ```
 ...
@@ -33,8 +33,8 @@ There is a new, jQuery dependant file, explicitly needed for Ignite UI DV compon
 ...
 ```
 
-#### Related Topics
--   [JavaScript Files in %%ProductName%%](Deployment-Guide-JavaScript-Files.html)
+#### 関連トピック
+-   [%%ProductName%% の JavaScript ファイル](Deployment-Guide-JavaScript-Files.html)
 
 ### 新しい Bootstrap テーマ構造
 
@@ -62,8 +62,8 @@ $.ig.loader({
 
 ## igGrid
 
-### headerText option behavior changes
-When headerText option is not set in columns definition of the grid, then column key is used as header text.
+### headerText オプションの動作変更
+headerText オプションがグリッドの columns 定義で設定されていない場合、列キーがヘッダー テキストとして使用されます。
 
 ### igGrid Summaries のオプション変更
 igGrid 集計のメイン レベル オプションである [*isGridFormatter*](http://jp.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:isGridFormatter) および [*defaultDecimalDisplay*](http://jp.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:defaultDecimalDisplay) は削除されました。

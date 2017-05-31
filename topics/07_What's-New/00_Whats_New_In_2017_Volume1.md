@@ -32,14 +32,14 @@
 
 機能 | 説明
 ---|---
-[Filter By Text](#filterbytext)| The igDataSource component provides a way to search for a specific words or phrases in all of its fields.
+[テキストでフィルターする](#filterbytext)| igDataSource コンポーネントは、すべてのフィールドで特定の単語または句を検索する方法を提供します。
 
 ### igGrid
 
 機能 | 説明
 ---|---
-[Date Handling](#griddatehandling)| The igGrid provides a way to control the display and edit of date values for clients in different time zones.
-[More Flexible Caption](#gridcaption)| igGrid's new caption is designed to be more flexible and customizable.
+[データ処理](#griddatehandling)| igGrid は、別のタイム ゾーンにあるクライアントで日付値の表示および編集を制御する方法を提供します。
+[キャプションのカスタマイズ化](#gridcaption)| igGrid の新しいキャプションはよりカスタマイズしやすくなりました。
 [GroupBy 集計](#groupSummaries)| GroupBy 機能により集計行を各グループのデータ アイランドの下に表示できるようになりました。
 
 ### igCombo
@@ -76,18 +76,18 @@
 
 機能 | 説明
 ---|---
-[Zoom Enabling Options](#zoomEnablingProperties) | New options called [`isHorizontalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isHorizontalZoomEnabled) and [`isVerticalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isHorizontalZoomEnabled) have been added which control whether zooming is allowed on either the horizontal or vertical axis.
+[ズームを有効にするオプション](#zoomEnablingProperties) | [`isHorizontalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isHorizontalZoomEnabled) および [`isVerticalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isHorizontalZoomEnabled) と呼ばれる新しいオプションが追加されました。水平軸または垂直軸でズームを許可するかどうかを制御します。
 
 ### igMap
 
 機能 | 説明
 ---|---
-[Map Imagery Tile Path](#tilePathProperty) | The option called [`tilePath`](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent.tilePath) has been added to the [`backgroundContent`](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent) options.  Users can use this property to specify a URL where the tile images are located.
+[マップ画像のタイル パス](#tilePathProperty) | [`tilePath`](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent.tilePath) オプションが [`backgroundContent`](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent) オプションに追加されました。 このプロパティはタイル画像の URL に設定できます。
 
 ### igRadialGauge, igLinearGauge, igBulletGraph
 機能 | 説明
 ---|---
-[Design Changes](#gaugeDesignChanges) | The visuals for the gauges have been updated.
+[デザインの更新](#gaugeDesignChanges) | ゲージのビジュアルが更新されました。
 
 ## <a id="spreadsheet"></a>igSpreadsheet
 
@@ -174,27 +174,27 @@
 
 ## igDataSource
 
-### <a id="filterbytext"></a> Filter By Text
+### <a id="filterbytext"></a> テキストでフィルタリング
 
-The igDataSource component provides a way to search for a specific words or phrases in all of its fields via the 'filterByText' method.
+igDataSource コンポーネントは、'filterByText' メソッドによってすべてのフィールドで特定の単語または句を検索する方法を提供します。
 
-#### Related Topics
--   [igDataSource Overview](igspreadsheet-overview.html)
+#### 関連トピック
+-   [igDataSource の概要](igspreadsheet-overview.html)
 
-#### Related Samples
--   [Simple Filtering](%%SamplesUrl%%/grid/simple-filtering)
+#### 間連サンプル
+-   [簡易なフィルタリング](%%SamplesUrl%%/grid/simple-filtering)
 
 ## igGrid
 
-### <a id="griddatehandling"></a> Date Handling
+### <a id="griddatehandling"></a> データ処理
 
-When enabled for the igGrid, the option [`enableUTCDates`](%%jQueryApiUrl%%/ui.iggrid#options:enableUTCDates) affects only the dates serialization. Enables/Disables serializing client date as [UTC ISO 8061](https://en.wikipedia.org/wiki/ISO_8601#UTC) string instead of using the local time and zone values.
+igGrid で有効な場合、[`enableUTCDates`](%%jQueryApiUrl%%/ui.iggrid#options:enableUTCDates) オプションは日付のシリアル化のみに影響します。 ローカル時間およびゾーン値の代わりにクライアント側の日付を [UTC ISO 8061](https://en.wikipedia.org/wiki/ISO_8601#UTC) 文字列としてのシリアル化を有効/無効にします。
 
-In order to handle the displaying of the dates, there is an option in the date columns' definition - [`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType). As a date value is received from the server it goes through a formatter function to display the date. If [`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) is set to "local", the final result for the specified column returns date values via the standard date object methods (getFullYear(), getMonth(), getDate(),getHours() etc.) and if set to "utc" UTC equivalents ( getUTCFullYear(), getUTCMonth(), getUTCDate(), getUTCHours() etc.) are used. 
+日付の表示を処理するには、日付列の定義の [`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) オプションを使用します。 サーバーから日付値を受け取ると、日付を表示するための書式設定関数が適用されます。[`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) が "local" に設定される場合、結果は標準の日付オブジェクト メソッド (getFullYear()、getMonth()、getDate()、getHours() など) によって日付値を返します。"utc" に設定される場合、UTC のメソッド (getUTCFullYear()、getUTCMonth()、getUTCDate()、getUTCHours() など) が使用されます。 
 
-### <a id="gridcaption"></a> Grid's Caption
+### <a id="gridcaption"></a> グリッドのキャプション
 
-The igGrid's caption now provides the ability to render HTML elements in it in order to give the user more customizability and flexability. It also comes with useful events for full control of its initialization.
+カスタマイズするために igGrid のキャプションで HTML 要素を描画できます。初期化を制御するイベントも追加しました。
 
 ### <a id="groupSummaries"></a> GroupBy 集計
 
@@ -279,16 +279,16 @@ GroupBy 集計機能は、そのアイランドにあるデータ列の集計情
 ```
 
 ## igDataChart
-### <a id="zoomEnablingProperties"></a> Zoom Enabling Options
+### <a id="zoomEnablingProperties"></a> ズームを有効にするオプション
 
-New options called [`isHorizontalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isHorizontalZoomEnabled) and [`isVerticalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isVerticalZoomEnabled) were added, deprecating the existing [`horizontalZoomable`](%%jQueryApiUrl%%/ui.igDataChart#options:horizontalZoomable) and [`verticalZoomable`](%%jQueryApiUrl%%/ui.igDataChart#options:verticalZoomable) options respectively.  The older options are being left as-is in this release for backwards compatibility with existing applications.
+[`isHorizontalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isHorizontalZoomEnabled) および [`isVerticalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isVerticalZoomEnabled) と呼ばれる新いオプションが追加されました。既存の [`horizontalZoomable`](%%jQueryApiUrl%%/ui.igDataChart#options:horizontalZoomable) および [`verticalZoomable`](%%jQueryApiUrl%%/ui.igDataChart#options:verticalZoomable) オプションは非推奨になりました。 非推奨のオプションは後方互換性のために残されています。
 
 ## igMap
-### <a id="tilePathProperty"></a> Map Imagery Tile Path
+### <a id="tilePathProperty"></a> マップ画像のタイル パス
 
-Open Street Map can now accept custom tile source by re-purposing the *tileSource* option off of the *backgroundContent* object.
+Open Street Map は、`backgroundContent` オブジェクトの `tilePath` オプションを使用してカスタム タイル ソースを使用できます。
 
-**In JavaScript**
+**JavaScript の場合**
 
 	$(function () {
             $("#map").igMap({
@@ -303,20 +303,20 @@ Open Street Map can now accept custom tile source by re-purposing the *tileSourc
             });
         });
 		
-Before this change *tilePath* was only relevant to the Bing Map. After the change it is applicable to the Open Street Map as well.
+この変更の前は `tilePath` は Bing Maps のみに適用可能でした。変更後は Open Street Maps でも使用可能となります。
 
-Omitting the protocol specifier (*http:* or *https:*) in the URL allows for the control to detect and use the protocol of the hosting web site. It is also possible to force the control into desired protocol by explicitely setting it in the *tilePath* option:
+プロトコル指定子 (*http:* または *https:*) を URL から解除すると、コントロールがホストの web サイトのプロトコルを検出、使用できます。`tilePath` オプションで明示的に設定してコントロールのプロトコルを設定できます。
 
-**In JavaScript**
+**JavaScript の場合**
 
     tilePath: "https://tile.openstreetmap.org/{Z}/{X}/{Y}.png"
 
-*{Z}*, *{X}*, and *{Y}* tokens are replaced during tile rendering by Zoom, Horizontal location, and Vertical location of each tile respectively.
+`{Z}`、`{X}`、および `{Y}` トークンは、タイル描画で各タイルのズーム、水平位置、および垂直位置で置き換えられます。
 
 ## igRadialGauge, igLinearGauge, igBulletGraph
-### <a id="gaugeDesignChanges"></a> Design Changes
+### <a id="gaugeDesignChanges"></a> デザインの更新
 
-The igRadialGauge, igLinearGauge and igBulletGraph have new styling provided when you include `infragistics.theme.css`.  The new styling looks as follows:
+`infragistics.theme.css` を含む場合、igRadialGauge、 igLinearGauge および igBulletGraph に新しいスタイル設定があります。新しいスタイル設定は以下のようです:
 
 #### igRadialGauge:
 ![](images/radialgauge_igtheme_17_1.png)

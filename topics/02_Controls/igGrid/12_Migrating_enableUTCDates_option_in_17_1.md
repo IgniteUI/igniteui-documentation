@@ -8,23 +8,23 @@
 |metadata|
 -->
 
-# Migrating enableUTCDates option after 17.1
+# 17.1 の enableUTCDates オプションの移行
 
-## Date handling in 17.1 and above for igGrid, igHierarchicalGrid and igTreeGrid
+## 17.1 以後の igGrid、igHierarchicalGrid および igTreeGridDate の日付処理
 
-Grids are handling dates through two options [`enableUTCDates`](%%jQueryApiUrl%%/ui.iggrid#options:enableUTCDates) and [`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) after 17.1.
+17.1 バージョン以後、グリッドは [`enableUTCDates`](%%jQueryApiUrl%%/ui.iggrid#options:enableUTCDates) および [`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) の 2 つのオプションで日付を処理します。
 
--	[`enableUTCDates`](%%jQueryApiUrl%%/ui.iggrid#options:enableUTCDates) - this option is similar to what it does for igDateEditor and igDatePicker. It has nothing to do with displaying dates anymore. It serves the purpose to specify dates serialization. Whether the dates are serialized as [UTC ISO 8061](https://en.wikipedia.org/wiki/ISO_8601#UTC) string or in local time and zone values. 
-For example 10:00 AM from a client with local offset of 5 hours ahead of GMT will be serialized as: "2016-11-11T10:00:00+05:00". This is when the option gets the default 'false' value. Otherwise, the date will use the ISO UTC format: "2016-11-11T05:00:00Z".
--	[`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) – This option is part of the columns definitions and can be used for the date columns. If set to "local" (default) the grid is rendering the dates in local time zone. If set to "utc" the grid is rendering the dates in UTC. There is one more behavior delivered with that option and designed specifically to handle the default MVC wrappers scenario. It requires data source with time zone offset metadata. The dates are rendered as if in "utc" with the added offset. The idea behind this is to show the same dates the user sees on the server. The option dateDisplayType has no effect on non-date type columns and is ignored.
+-	[`enableUTCDates`](%%jQueryApiUrl%%/ui.iggrid#options:enableUTCDates) - このオプションは igDateEditor および igDatePicker のオプションと同様です。日付の表示と関係ありません。日付のシリアル化のみを指定します。日付が [UTC ISO 8061](https://en.wikipedia.org/wiki/ISO_8601#UTC) 文字列またはローカル時間およびタイムゾーン値でシリアル化されるかどうかを指定します。 
+たとえば、GMT の前の 5 時のローカル オフセットを持つクライアントからの「10:00」は、「2016-11-11T10:00:00+05:00」としてシリアル化されます。オプションのデフォルトの 'false' 値の場合です。それ以外の場合、日付は ISO UTC 形式を使用します: "2016-11-11T05:00:00Z"。
+-	[`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) – このオプションは columns 定義の部分で、日付列で使用できます。"local" (デフォルト値) に設定される場合、グリッドは日付をローカル タイム ゾーンで描画します。utc" に設定される場合、グリッドは日付を UTC で描画します。デフォルトの MVC ラッパーのシナリオを処理するもう 1 つの動作がそのオプションで実装されます。タイム ゾーン オフセットのメタデータを持つデータ ソースが必要です。日付は追加されたオフセット (UTC )で描画されます。これはサーバーで表示される日付をユーザーに表示するためです。dateDisplayType オプションは日付型以外の列に影響せず、無視されます。
 
->**Note:** When a grid is initalized through MVC wrappers `enableUTCDates` is set to `true` by default. When a grid is not initialized through the MVC wrappers the option is set to `false` by default. For example if the `enableUTCDates` is not specified(using the default behavior) and MVC wrappers are used the dates are serialized in ISO UTC format ("2016-11-11T05:00:00Z"). In non-MVC wrappers scenario not specifing `enableUTCDates` would serialize the dates to local time and zone values ("2016-11-11T10:00:00+05:00").
+>**注:** グリッドが MVC ラッパーで初期化された場合、`enableUTCDates` がデフォルトで `true` に設定されます。グリッドが MVC ラッパーを使用しないで初期化された場合、オプションがデフォルトで `false` に設定されます。たとえば、`enableUTCDates` がデフォルト動作を使用し、MVC ラッパーが使用される場合、日付が ISO UTC 形式 ("2016-11-11T05:00:00Z") でシリアル化されます。MVC ラッパー以外のシナリオで `enableUTCDates` を指定しない場合は日付をローカル時間およびゾーン値 ("2016-11-11T10:00:00+05:00") にシリアル化します。
 
-The main questions to answer in order to understand the date handling are how and where are the dates stored. All records and their values(including dates) are stored by igDataSource. Before storing the dates igDataSource transforms them as Date objects, if they are not already Date objects. Once stored they should be rendered and displayed into the grid cells. The responsibility for this is owned by $.ig.formatter. The formatter renders the dates as they are expected and in accordance with `dateDisplayType` option.
+日付の処理を理解するには、日付の保存方法および保存場所が重要です。すべてのレコードおよび (日付などの) 値は igDataSource で保存されます。日付を保存する前に、まだ Date オブジェクトではない場合、igDataSource はそれを Date オブジェクトに変換します。保存された後、グリッド セルに表示されます。この表示は $.ig.formatter によって実行されます。formatter は `dateDisplayType` オプションに基づいて日付を描画します。
 
-Another behavioral change is that the transaction log will not keep dates serialized. All dates will be preserved as Date objects and serialization will be done only to the passed parameters, when saveChanges is invoked and the enableUTCDates option tells how this should be done.
+もうひとつの動作変更は、トランザクション ログがシリアル化された日付を含みません。すべての日付は Date オブジェクトとして保存し、シリアル化が saveChanges が呼び出したときに渡されたパラメーターのみに適用されます。enableUTCDates オプションはシリアル化の方法を示します。
 
-In 17.1 and above the MVC wrapper will send the dates into the following format:
+17.1 以後で、MVC ラッパーは以下の形式で日付を送信します。
 
 ```js
 {
@@ -50,14 +50,14 @@ In 17.1 and above the MVC wrapper will send the dates into the following format:
 }
 ```
 
-## Date handling in 16.2 for igGrid, igHierarchicalGrid and igTreeGrid
+## igGrid、igHierarchicalGrid および igTreeGridDate で 16.2 以前の日付処理
 
-The option `enableUTCDates` determines how the grid displays and uses dates into its cells.
--	If enabled the grid shows UTC time, ignoring the client offset. For example, the grid has a property with a value of 2009-02-15T04:00:00Z and the client has GMT+02:00 offset. Then the grid will use 4 AM. In addition, sorting and filtering will consider this value when comparing values.
--	If disabled the grid shows local time, taking into account the client offset. Consider the following example, there is a value of 2009-02-15T04:00:00Z into the data source and the client offset is GMT+02:00. In this case, the used value will be 6 AM.
->**Note:** If the grid is initialized through MVC wrapper the enableUTCDates is enabled by default, otherwise the option is disabled by default.
+`enableUTCDates` オプションは、グリッドが日付を表示してセルで使用する方法を決定します。
+-	有効な場合、グリッドはクライアント オフセットを無視して UTC 時間を表示します。たとえば、値が 2009-02-15T04:00:00Z の場合、クライアントで GMT+02:00 オフセットされます。その場合、グリッドは 04:00 を使用します。また、並べ替えおよびフィルター機能はこの値を比較操作で使用します。
+-	無効な場合、グリッドはクライアント オフセットを適用してローカル時間を使用します。たとえば、データ ソースの値が 2009-02-15T04:00:00Z で、クライアント オフセットが GMT+02:00 です。この場合、グリッドは 06:00 を使用します。
+>**注:** グリッドが MVC ラッパーによって初期化された場合、デフォルトで enableUTCDates オプションは有効にされます。それ以外の場合、オプションはデフォルトで無効されます。
 
->**Note:** If the MVC wrapper is used to process the data source or the data source is remote and the GridDataSource attribute is used, then metadata with time zone offsets has been generated.
+>**注:** MVC ラッパーがデータ ソースの処理で使用されたか、データ ソースがリモートで GridDataSource 属性が使用された場合、タイム ゾーン オフセットを持つメタデータが生成されます。
 
 ```js
 "Metadata": {
@@ -72,8 +72,8 @@ The option `enableUTCDates` determines how the grid displays and uses dates into
 		...
 		}
 ```
-Each date has its specific offset.
-This is how the data source looks like when there is metadata for the time zone offsets. If the data source contains information about the server time zone offsets, igDataSource is always considering the offsets to form the transformed data.
+各日付に指定のオフセットがあります。
+タイム ゾーン オフセットのメタデータがある場合のデータ ソース。データ ソースにサーバー タイム ゾーン オフセットに関する情報が含まれる場合、igDataSource はオフセットを使用して変換されたデータを生成します。
 
 ```js
 {
@@ -98,21 +98,21 @@ This is how the data source looks like when there is metadata for the time zone 
 	}
 }
 ```
-The data source stores its objects with the sum of the ticks from ExpirationDate and the ticks of the offset for this date. The data source this object for this date value:
+データ ソースはオブジェクトを ExpirationDate のチックおよびこの日付のオフセットのチックの合計として保存します。以下はデータ ソースでの日付値の表現です:
 ```
 new Date(1268467810000 + 10800000)
 ```
 
-Accumulated transactions returned with the API method allTransactions() are being serialized immediately. This means that when a date is updated or added to the data source the value into the accumulated transactions will be with the following format `/Date(1485881423759)/`. On the other hand `pendingChanges()` API method is returning the date object(not serialized). 
-The API method `saveChanges()` is sending the serialized accumulated transactions to the server.
->**Note:** In 16.2 version, the MVC wrapper is sending the dates with the Microsoft dates format (`/Date(1485881423759)/`).
+allTransactions() API メソッドから返されたトランザクションはすぐにシリアル化されます。日付がデータ ソースで更新または追加された場合、トランザクションの値は次の形式になります: `/Date(1485881423759)/`。 `pendingChanges()` API メソッドはシリアル化されていない日付オブジェクトを返します。 
+`saveChanges()` API メソッドはシリアル化されたトランザクションをサーバーに送信します。
+>**注:** 16.2 バージョンで、MVC ラッパーが Microsoft 日付形式 (`/Date(1485881423759)/`) で日付を送信します。
 
 
-## Migrate igGrid,igHierarchicalGrid or igTreeGrid from 16.2 to 17.1 and above
+## igGrid、igHierarchicalGrid または igTreeGrid を 16.2 から 17.1 以後へ移行
 
-From 17.1 the igDataSource is not going to accept Microsoft date formatting `/Date(1234656000000)/`. If the provided data source contains this kind of data they have to be changed to ISO UTC format "2009-02-15T00:00:00Z".
-If the MVC wrapper is used, for the user perspective there is nothing to configure. Internally MVC wrapper was using Microsoft format in 16.2 and from 17.1 it would send the dates in ISO UTC.
-To display UTC time in 17.1 and above versions:
+17.1 以後、igDataSource は Microsoft 日付形式をサポートしません: `/Date(1234656000000)/`。提供されたデータ ソースがそのようなデータを含む場合、ISO UTC 形式 "2009-02-15T00:00:00Z" に変更する必要があります。
+MVC ラッパーが使用される場合、ユーザーによる構成が必要な項目はありません。MVC ラッパーは内部で Microsoft 形式を使用していましたが、17.1 以後では ISO UTC 形式で日付を送信します。
+17.1 以後のバージョンで UTC 時間を表示:
 
 ```js
 $('#Grid1').igGrid({
@@ -128,7 +128,7 @@ $('#Grid1').igGrid({
 	]
 });
 ```
-The same configuration in 16.2 was:
+16.2 と同じ構成:
 
 ```js
 $('#Grid1').igGrid({
@@ -146,7 +146,7 @@ $('#Grid1').igGrid({
 });
 ```
 
-After MVC 17.1:
+MVC 17.1 以後:
 ```csharp
 @(Html.Infragistics().Grid(Model)
 	.ID("Grid1")
@@ -166,7 +166,7 @@ After MVC 17.1:
 	.Render()
 )
 ```
-Before MVC 16.2:
+MVC 16.2 以前:
 
 ```csharp
 @(Html.Infragistics().Grid(Model)
@@ -189,7 +189,7 @@ Before MVC 16.2:
 )
 ```
 
-To display **Local time** from 17.1 grid:
+17.1 グリッドで**ローカル時間**を表示:
 ```js
 $('#Grid1').igGrid({
 	dataSource: 'http://localhost:3000/testData',
@@ -204,7 +204,7 @@ $('#Grid1').igGrid({
 	]
 });
 ```
-The same configuration in 16.2 was:
+16.2 と同じ構成:
 ```js
 $('#Grid1').igGrid({
 	dataSource: 'http://localhost:3000/testData',
@@ -221,7 +221,7 @@ $('#Grid1').igGrid({
 });
 ```
 
-After MVC 17.1:
+MVC 17.1 以後:
 ```csharp
 	.ID("Grid1")
 	.AutoGenerateColumns(false)
@@ -240,7 +240,7 @@ After MVC 17.1:
 	.Render()
 )
 ```
-Before MVC 16.2:
+MVC 16.2 以前:
 ```csharp
 @(Html.Infragistics().Grid(Model)
 	.ID("Grid1")
@@ -263,7 +263,7 @@ Before MVC 16.2:
 
 ```
 
->**Note:** The default grid initialized through MVC wrapper will display the dates as they are on the server. If the initialization is not done through the MVC wrapper the default behavior is to show local time.
+>**注:** MVC ラッパーで初期化されたデフォルトのグリッドがサーバー形式で日付を表示します。初期化が MVC ラッパーで実行されない場合、デフォルト動作でローカル時間を表示します。
 
-For more information of how to show the specific client date, please follow the [Using Ignite UI controls in different time zones](Using-IgniteUI-controls-in-different-time-zones.html) topic and specifically the Ignoring server date and displaying the specific client one paragraph.
+クライアント日付を表示する方法の詳細については、[%%ProductName%% コントロールを別のタイム ゾーンで使用](Using-IgniteUI-controls-in-different-time-zones.html)トピックの「サーバー日付を無視してクライアント側の日付を表示」セクションを参照してください。
 

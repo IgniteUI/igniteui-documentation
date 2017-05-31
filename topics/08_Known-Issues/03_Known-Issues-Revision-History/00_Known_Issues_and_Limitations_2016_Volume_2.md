@@ -570,7 +570,7 @@ igGrid では特殊記号 ([、]、\、(、) など) を含む列キーがサポ
 グリッドのレコードを直接にデータソースで削除すると、スクロール可能なコンテナの高さが正しく更新されない|グリッドのレコードを直接にデータソースで削除すると、スクロール可能なコンテナの高さが正しく更新されず、グリッドの下に空白スペースが残る場合があります。 | ![](images/plannedFix.png)
 タッチ オンリー環境でコンテナの高さ、または幅を変更すると、カスタムのスクロールバーが更新されない|この制限はグリッドのさまざまな機能にトリガーされた変更にも適用されます。たとえば、集計やフィルターを表示/非表示する場合。 | ![](images/plannedFix.png)
 グリッドがスクロール可能なコンテナにあるがスクロールバーがない場合、タッチ環境でグリッドをスワイプしてもスクロール可能なコンテナをスクロールできない|グリッドにスクロールバーがない場合、グリッドをスワイプすると通常そのコンテナのスクロールがトリガーされますが、現在この動作がサポートされません。 | ![](images/plannedFix.png)
-Page cannot be scrolled in IE11 on touch environment when scrolling over igGrid with Selection enabled | Selection applies "-ms-touch-action: none" to disable the default behavior of the pointer events in IE so that users are able to e.g. touch and drag selected cells instead of executing page scroll | ![](images/negative.png)
+タッチ環境で選択が有効な igGrid でスクロールする場合、IE11 でページをスクロールできません。 | 選択機能は IE でポインター イベントのデフォルト動作を無効にするために "-ms-touch-action: none" を適用します。これでページをスクロールする代わりにユーザーがセルをタッチしてドラッグできます。 | ![](images/negative.png)
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
