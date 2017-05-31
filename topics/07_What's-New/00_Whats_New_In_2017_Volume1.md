@@ -82,7 +82,7 @@
 
 機能 | 説明
 ---|---
-[マップ画像のタイル パス](#tilePathProperty) | [`tilePath`](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent.tilePath) オプションが [`backgroundContent`](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent) オプションに追加されました。 このプロパティはタイル画像の URL に設定できます。
+[OpenStreet タイル パス](#tilePathProperty) | OpenStreet タイル ソースで [`tilePath`](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent.tilePath) オプションが [`backgroundContent`](%%jQueryApiUrl%%/ui.igMap#options:backgroundContent) オプションに追加されました。
 
 ### igRadialGauge, igLinearGauge, igBulletGraph
 機能 | 説明
@@ -284,7 +284,7 @@ GroupBy 集計機能は、そのアイランドにあるデータ列の集計情
 [`isHorizontalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isHorizontalZoomEnabled) および [`isVerticalZoomEnabled`](%%jQueryApiUrl%%/ui.igDataChart#options:isVerticalZoomEnabled) と呼ばれる新いオプションが追加されました。既存の [`horizontalZoomable`](%%jQueryApiUrl%%/ui.igDataChart#options:horizontalZoomable) および [`verticalZoomable`](%%jQueryApiUrl%%/ui.igDataChart#options:verticalZoomable) オプションは非推奨になりました。 非推奨のオプションは後方互換性のために残されています。
 
 ## igMap
-### <a id="tilePathProperty"></a> マップ画像のタイル パス
+### <a id="tilePathProperty"></a> OpenStreet のタイル パス
 
 Open Street Map は、`backgroundContent` オブジェクトの `tilePath` オプションを使用してカスタム タイル ソースを使用できます。
 
