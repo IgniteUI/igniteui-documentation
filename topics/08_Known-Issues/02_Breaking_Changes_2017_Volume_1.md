@@ -75,6 +75,10 @@ igGrid 集計の新しい [*format*](%%jQueryApiUrl%%/ui.iggridsummaries#options
 
 集計と現在の列に書式が設定されていない場合、列タイプの地域の設定が集計に適用されます。[*autoFormat*](%%jQueryApiUrl%%/ui.iggrid#options:autoFormat) が 'date' のデフォルトのため、地域の設定はその列タイプの集計のみに適用されます。その他の列タイプは書式設定が適用されません。集計と列に *format* オプションを設定せずに地域の設定を他の列タイプに適用する必要がある場合、[*autoFormat*](%%jQueryApiUrl%%/ui.iggrid#options:autoFormat) を設定します。地域自動書式設定の適用を集計がどの列にあるかに基づいて指定します。
 
+### Date handling
+
+The option [`enableUTCDates`](%%jQueryApiUrl%%/ui.iggrid#options:enableUTCDates) has now a different function. It affects only the dates serialization. You should use the new option [`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) in the grid column's definition to handle date timezone display. Please follow the [Migrating enableUTCDates option after 17.1](migrating-enableutcdates-option-in-17-1.html) topic to see how you can adapt to the new changes and the [Using Ignite UI controls in different time zones](Using-IgniteUI-controls-in-different-time-zones.html) topic for more detailed information of how the both options work.
+
 ## igDateEditor/igDatePicker
 
 [`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) オプションの動作を変更しました。指定したオフセットとエディターで時間を表示するには [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) を使用します。既存のアプリケーションを変更する方法について、「[17.1 で enableUTCDate オプションの移動](igDateEditor-migrating-date-handling-in-17-1.html)」トピックを参照してください。両方のオプションの詳細情報について、「[Ignite UI コントロールを別のタイム ゾーンで使用](Using-IgniteUI-controls-in-different-time-zones.html)」を参照してください。
