@@ -76,13 +76,14 @@ $("#grid1").igGrid({
 適用可能な列タイプおよびデフォルト集計に関連するその他のオプションを `$.ig.util.defaultSummaryMethods` 配列で変更できます。
 
 以下は `$.ig.util.defaultSummaryMethods` 配列の集計メソッド オブジェクトのオプションです。
+
 名前 | 説明 | タイプ 
 -----| ------------| -----
 label | 集計関数の結果に適用されるラベル。 | string
 name | 集計関数の名前。例: {summaryFunction: "count"} | string
 summaryFunction | 集計の計算に使用する関数を指定します。 | function
 dataType | この集計が適用できる列タイプを指定します。'any' に設定するとこの集計をすべての列タイプに適用します。 | 'any' または配列。
-active | 集計を適用するかどうかを設定します。 | boolean | true
+active | 集計を適用するかどうかを設定します。 | boolean
 order | 複数の集計がある場合にこの集計が配置される順序を指定します。order: 0 の場合にすべての集計の一番上に表示されます。 |  number 
 applyFormat | 書式を集計値に適用できるかどうかを設定します。 | boolean
 
