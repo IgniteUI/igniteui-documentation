@@ -149,31 +149,32 @@ $.ig.loader({
 
 2. `igScheduler` で使用されるデータを読み込みます。この例で、`igDataSource` はスケジュールのリスト データ ソースを作成するために使用されます。
 
-```javascript
-...
-$.ig.loader(function () {
-    var scheduleListDataSource = new $.ig.scheduler.ScheduleListDataSource(),
-        appointmentsDS = new $.ig.DataSource({
-            primaryKey: "id",
-            dataSource: appointments
-        });
+	```javascript
+	...
+	$.ig.loader(function () {
+		var scheduleListDataSource = new $.ig.scheduler.ScheduleListDataSource(),
+			appointmentsDS = new $.ig.DataSource({
+				primaryKey: "id",
+				dataSource: appointments
+			});
 
-    appointmentsDS.dataBind();
+		appointmentsDS.dataBind();
 
-    scheduleListDataSource.resourceItemsSource(resources);
-    scheduleListDataSource.appointmentItemsSource(appointmentsDS);
-...
-```
+		scheduleListDataSource.resourceItemsSource(resources);
+		scheduleListDataSource.appointmentItemsSource(appointmentsDS);
+	...
+	```
+	
 3. データ ソースを割り当てます。
 
-```javascript
-$("#scheduler").igScheduler({
-    height: "650px",
-    width: "100%",
-    selectedDate: today,
-    dataSource: scheduleListDataSource
-});
-```
+	```javascript
+	$("#scheduler").igScheduler({
+		height: "650px",
+		width: "100%",
+		selectedDate: today,
+		dataSource: scheduleListDataSource
+	});
+	```
 
 ### <a id="result"></a>結果
 

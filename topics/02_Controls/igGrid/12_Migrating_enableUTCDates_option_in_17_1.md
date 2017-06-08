@@ -10,7 +10,7 @@
 
 # 17.1 の enableUTCDates オプションの移行
 
-## 17.1 以後の igGrid、igHierarchicalGrid および igTreeGridDate の日付処理
+## 17.1 以後の igGrid、igHierarchicalGrid および igTreeGrid の日付処理
 
 17.1 バージョン以後、グリッドは [`enableUTCDates`](%%jQueryApiUrl%%/ui.iggrid#options:enableUTCDates) および [`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) の 2 つのオプションで日付を処理します。
 
@@ -50,7 +50,7 @@
 }
 ```
 
-## igGrid、igHierarchicalGrid および igTreeGridDate で 16.2 以前の日付処理
+## igGrid、igHierarchicalGrid および igTreeGrid で 16.2 以前の日付処理
 
 `enableUTCDates` オプションは、グリッドが日付を表示してセルで使用する方法を決定します。
 -	有効な場合、グリッドはクライアント オフセットを無視して UTC 時間を表示します。たとえば、値が 2009-02-15T04:00:00Z の場合、クライアントで GMT+02:00 オフセットされます。その場合、グリッドは 04:00 を使用します。また、並べ替えおよびフィルター機能はこの値を比較操作で使用します。

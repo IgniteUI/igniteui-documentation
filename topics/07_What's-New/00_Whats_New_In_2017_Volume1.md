@@ -127,7 +127,7 @@
 #### 関連トピック
 -   [igSpreadsheet の概要](igspreadsheet-overview.html)
 -   [igSpreadsheet の追加](adding-igspreadsheet.html)
--   [igSpreadsheet の構成](igspreadsheet-configuring.html)
+-   [igSpreadsheet の構成](configuring-igspreadsheet.html)
 
 
 #### 関連サンプル
