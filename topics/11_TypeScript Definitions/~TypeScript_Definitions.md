@@ -18,4 +18,5 @@
 ### トピック
 
 -   [TypeScript で %%ProductName%% を使用](Using-Ignite-UI-with-TypeScript.html) - このトピックでは、%%ProductName%% の型定義を TypeScript で使用する方法の概要を説明します。
-                    
+-   [TypeScript サンプル](TypeScript-Samples.html) - このトピックでは、%%ProductName%% コントロールと TypeScript のサンプルについて説明します。
+
