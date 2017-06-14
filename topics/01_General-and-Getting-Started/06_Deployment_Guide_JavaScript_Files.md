@@ -42,13 +42,13 @@
 
 ブルガリア語、ロシア語、英語、ドイツ語、スペイン語、およびフランス語の、結合スクリプト バージョンのローカライズ リソースもあります。ファイル名は `infragistics-bg.js`, `infragistics-en.js`、`infragistics-ru.js`、 `infragistics-de.js`、`infragistics-es.js`、および `infragistics-fr.js`であり、これらは `../js/i18n` フォルダーにあります。
 
-**JavaScript 縮小ファイル**
+**JavaScript 圧縮ファイル**
 
-デバッグ バージョンの例外を除き、すべての JavaScript ファイルは縮小されています。
+デバッグ バージョンの例外を除き、すべての JavaScript ファイルは圧縮されています。
 
-**JavaScript 非縮小ファイル** (デバッグ バージョン)
+**JavaScript 非圧縮ファイル** (デバッグ バージョン)
 
-デバッグには、縮小されていないファイルを使用します。これらのファイルは縮小されたファイルと同じファイル構造を持ち、ファイル名も同じです。縮小されていないファイルは、`.zip` アーカイブで提供されます (`infragistics.IgniteUI.debug.zip`)。
+デバッグには、圧縮されていないファイルを使用します。これらのファイルは圧縮されたファイルと同じファイル構造を持ち、ファイル名も同じです。圧縮されていないファイルは、`.zip` アーカイブで提供されます (`infragistics.IgniteUI.debug.zip`)。
 
 **インターナショナリゼーション**
 
