@@ -25,25 +25,50 @@ Excel ライブラリは、クライアント マシン上のワークブック 
 
 ## 環境のセットアップ
 
-Excel ライブラリを使用するには、%%ProductName%% 製品から以下の各 JavaScript ファイルを参照する必要があります。
+Excel ライブラリを使用するには、%%ProductName%% 製品から最低限必要な以下の各 JavaScript ファイルを参照する必要があります。
 
 -   infragistics.util.js
--   infragistics.xml.js [14.2 で新規]
--   infragistics.documents.core.js [14.2 で新規]
--   infragistics.excel.js [14.2 で新規]
+-   infragistics.ext_core.js [17.1 で新規]
+-   infragistics.ext_collections.js [17.1 で新規]
+-   infragistics.ext_text.js [17.1 で新規]
+-   infragistics.ext_io.js [17.1 で新規]
+-   infragistics.ext_ui.js [17.1 で新規]
+-   infragistics.documents.core_core.js [17.1 で新規]
+-   infragistics.ext_collectionsextended.js [17.1 で新規]
+-   infragistics.excel_core.js [17.1 で新規]
+
+ワークシート オブジェクトを既存の Excel ファイルから読み込むか、デフォルトの Office Excel 2007 以後の XML ファイル形式で新しい Excel ファイルに保存する場合、以下のアセンブリも参照する必要があります。
+
+-   infragistics.ext_threading.js [17.1 で新規]
+-   infragistics.ext_web.js [17.1 で新規]
+-   infragistics.xml.js [17.1 で新規]
+-   infragistics.documents.core_openxml.js [17.1 で新規]
+-   infragistics.excel_serialization_openxml.js [17.1 で新規]
 
 また、Visual Studio での作業では、コーティング中により良いステートメント完了についてのサポートと記述を提供する、以下の IntelliSense アノテーション ファイルを含めることができます。
 
--   infragistics.documents.core.intellisense.js [14.2 で新規]
--   infragistics.excel.intellisense.js [14.2 で新規]
+-   infragistics.documents.core_core.intellisense.js [17.1 で新規]
+-   infragistics.excel_core.intellisense.js [17.1 で新規]
+-   infragistics.excel_serialization_openxml.intellisense.js [17.1 で新規]
 
 これらのリファレンスを含めた場合は、Excel ライブラリを使用して `.js` ファイルのコードの一番上に以下のコードを追加する必要があります。
 
 **JavaScript の場合:**
 ```js
 /// <reference path="infragistics.util.js" />
-/// <reference path="infragistics.documents.core.js" />
-/// <reference path="infragistics.excel.js" />
+/// <reference path="infragistics.ext_core.js" />
+/// <reference path="infragistics.ext_collections.js" />
+/// <reference path="infragistics.ext_text.js" />
+/// <reference path="infragistics.ext_io.js" />
+/// <reference path="infragistics.ext_ui.js" />
+/// <reference path="infragistics.documents.core_core.js" />
+/// <reference path="infragistics.ext_collectionsextended.js" />
+/// <reference path="infragistics.excel_core.js" />
+/// <reference path="infragistics.ext_threading.js" />
+/// <reference path="infragistics.ext_web.js" />
+/// <reference path="infragistics.xml.js" />
+/// <reference path="infragistics.documents.core_openxml.js" />
+/// <reference path="infragistics.excel_serialization_openxml.js" />
 ```
 このコードを追加すると、Excel ライブラリの型が `$.ig.excel` 名前空間に表示されるようになります。
 
