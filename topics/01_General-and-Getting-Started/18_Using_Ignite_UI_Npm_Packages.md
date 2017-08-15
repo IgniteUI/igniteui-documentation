@@ -25,8 +25,6 @@ npm install ignite-ui
 
 このコマンドを実行した後、プロジェクトの node_modules ディレクトリに %%ProductName%% パッケージがインストールされます。  
 
-> ## **注: プライベート フィードのインストールは ProGet の問題のため正しく操作されていません。**
-
 ## Infragistics プライベート フィードから %%ProductName%% npm パッケージをインストール
 
 %%ProductName%% の最新版を使用するには、npm を構成する必要があります。 
@@ -52,7 +50,5 @@ npm install @infragistics/ignite-ui-full
 %%ProductName%% パッケージをスコープに設定したため、プライベート フィードおよび npmjs.org からのパッケージを同時にインストールするためにレジストリを変更する必要はありません。
 
 npm を既に使用していて、%%ProductName%% ライセンスがある場合、Infragistics プライベート フィードを構成してください。 
-
-> ## **注: プライベート フィードのインストールは ProGet の問題のため正しく操作されていません。**
 
 %%ProductName%% のライセンスがない場合、Infragistics が %%ProductName%% OSS パッケージで提供するコントロールを使用できます。igEditors、igCombo、igTree などのコントロールが OSS パッケージに含まれます。npmjs.com から %%ProductName%% npm パッケージをインストールしてください。
