@@ -8,42 +8,42 @@
 |metadata|
 -->
 
-# What's New in 2017 Volume 2
+# 2017 Volume 2 の新機能
 
-This topic presents the controls and the new and enhanced features for the Ignite UI™ 2017 Volume 1 release.
+このトピックでは、Ignite UI™ 2017 Volume 2 リリースのコントロールと新機能および拡張機能を紹介します。
 
 
-## What’s New Summary
+## 新機能の概要
 
-The following summarizes what’s new in 2017 Volume 2. Additional details follow.
+以下の表に 2017 Volume 2 の新機能の概要を示します。追加の詳細は以下のとおりです。
 
-### Editors
+### エディター
 
-Feature | Description
+機能 | 説明
 ---|---
-[Suppress Keyboard](#suppressKeyboard)| Prevents onscreen keyboard from showing when the dropdown button is clicked/tapped.
+[キーボードの制御](#suppressKeyboard)| ドロップダウン ボタンがクリック/タップされたときにスクリーン キーボードが表示されないようにします。
 
 ### igDateEditor/igDatePicker
 
-Feature | Description
+機能 | 説明
 ---|---
-[Spin Delta as Object](#spinDeltaObject)| Spin delta can be configured as an object, which defines specific values for each time period.
+[スピン デルタをオブジェクトとして構成](#spinDeltaObject)| スピン デルタを各時間間隔の指定値を定義するオブジェクトとして構成できます。
 
-## Editors
+## エディター
 
-### <a id="suppressKeyboard"></a> Suppress Keyboard
+### <a id="suppressKeyboard"></a> キーボードの制御
 
-The [`suppressKeyboard`](ui.igtexteditor#options:suppressKeyboard) option prevents the onscreen keyboard (if available on device) to be shown when the dropdown button is clicked/tapped. This option prevents initial focus or removes it when the drop button is clicked/tapped.
+[`suppressKeyboard`](ui.igtexteditor#options:suppressKeyboard) オプションは、ドロップダウン ボタンがクリックまたはタップされたとき、デバイスで利用可能な場合に画面にキーボードの表示を回避します。このオプションは最初のフォーカスを回避するか、ドロップダウン ボタンがクリックまたはタップされたときにフォーカスを解除します。
 
 ## igDateEditor/igDatePicker
 
-### <a id="spinDeltaObject"></a> Spin Delta as Object
+### <a id="spinDeltaObject"></a> スピン デルタをオブジェクトとして構成
 
-The [`spinDelta`](%%jQueryApiUrl%%/ui.igdateeditor#options:spinDelta) option can be configured as an object, which defines specific values for each time period.
-Accepted values for client-side widget's deltas are positive integer numbers, and the fractional portion of floating point numbers is ignored.
-Accepted values for MVC wrapper's deltas are integer numbers.
+[`spinDelta`](%%jQueryApiUrl%%/ui.igdateeditor#options:spinDelta) オプションを各時間間隔の指定値を定義するオブジェクトとして構成できます。
+クライアント側ウィジェットのデルタに有効な値は正の整数で、浮動小数点数の分数が無視されます。
+MVC ラッパーのデルタの有効な値は整数です。
 
-The option can accept the following format:
+このオプションは以下の形式が有効です。
 
 ```
 $("#editor").igDateEditor({
@@ -61,7 +61,7 @@ $("#editor").igDateEditor({
 });
 ```
 
-In MVC:
+MVC の場合:
 ```
 @(Html.Infragistics()
 	.DateEditor()
