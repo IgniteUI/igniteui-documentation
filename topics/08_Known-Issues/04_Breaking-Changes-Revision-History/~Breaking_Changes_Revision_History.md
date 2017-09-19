@@ -17,4 +17,5 @@
 ### トピック
 
 各リリースの重大な変更に関する詳細情報は、次のトピックで扱います。
+- [2017 Volume 1 の重大な変更](Breaking-Changes-2017-Volume-1.html): このトピックでは、2017 Volume 1 リリースの %%ProductName%% ライブラリの重大な変更について示します。
 - [2016 Volume 2 の重大な変更](Breaking-Changes-2016-Volume-2.html): このトピックでは、2016 Volume 2 リリースの %%ProductName%% ライブラリの重大な変更について示します。
