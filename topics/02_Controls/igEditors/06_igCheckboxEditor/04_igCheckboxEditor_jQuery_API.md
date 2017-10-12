@@ -13,3 +13,5 @@
 `igCheckboxEditor` は、ASP.NET MVC ヘルパーを含む jQuery UI ウィジェットとしてビルドされます。各 API の詳細は、以下の API ドキュメントを参照してください。
 
 -	[igCheckboxEditor jQuery API](%%jQueryApiUrl%%/ui.igCheckBoxEditor)
+
+-   [igCheckboxEditor ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.CheckBoxEditorModel.html)

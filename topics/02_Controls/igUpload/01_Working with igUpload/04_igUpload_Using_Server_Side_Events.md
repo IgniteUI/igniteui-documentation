@@ -270,7 +270,7 @@ public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.U
 
 **手順 1**`igUpload` の UploadStarting イベントのサーバー側イベント ハンドラーを登録します。
 
-`UploadStarting` イベント ハンドラーを `Global.asax` の ` Application_Start()` メソッドで登録します。[AddStartingUploadEventHandler](Infragistics.Infragistics.Web.Mvc~AddStartingUploadEventHandler.html) メソッドは 2 つのパラメーターを受けます: コントロール ID およびイベント ハンドラー。コントロール ID の値が関連する `igUpload` コントロールで定義された `ControlId` プロパティと一致する必要があります。イベントが関連する `ControlId` を持つ各 `igUpload` コントロールで発生されます。定義されるビュー/コントローラーに関係がありません。このイベント ハンドラーを登録する必要な別の `ControlId` 値を持つその他の igUpload コントロールがある場合、 
+`UploadStarting` イベント ハンドラーを `Global.asax` の ` Application_Start()` メソッドで登録します。[AddStartingUploadEventHandler](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadProgressManager~AddStartingUploadEventHandler.html) メソッドは 2 つのパラメーターを受けます: コントロール ID およびイベント ハンドラー。コントロール ID の値が関連する `igUpload` コントロールで定義された `ControlId` プロパティと一致する必要があります。イベントが関連する `ControlId` を持つ各 `igUpload` コントロールで発生されます。定義されるビュー/コントローラーに関係がありません。このイベント ハンドラーを登録する必要な別の `ControlId` 値を持つその他の igUpload コントロールがある場合、 
 [AddStartingUploadEventHandler](Infragistics.Infragistics.Web.Mvc~AddStartingUploadEventHandler.html) メソッドを各のコントロールのために呼び出します。最初のパラメーターが関連する `igUpload` コントロールで定義される `ControlId` オプションと一致する必要があります。 
 
 **C# の場合**
@@ -296,7 +296,7 @@ public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.U
 
 ```
 
-**手順 2**イベント ハンドラーでカスタム検証ロジックを追加します。条件と一致しない場合、カスタム [ServerMessage](Infragistics.Infragistics.Web.Mvc~ServerMessage.html) を設定し、イベントをキャンセルします。
+**手順 2** イベント ハンドラーでカスタム検証ロジックを追加します。条件と一致しない場合、カスタム [ServerMessage](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadCancellableBaseEventArgs~ServerMessage.html) を設定し、イベントをキャンセルします。
 
 **C# の場合**
 
