@@ -15,6 +15,7 @@
 ### このトピックの内容
  - [概要](#intro)
  - [ルールの実行順序](#rules-order)
+	- [Execute all rules](#execute-all-rules)
     - [要件](#required)
     - [Infragistics エディター (オプション)](#igcontrols)
     - [Number](#number)
@@ -44,7 +45,7 @@
 
 `igValidator` コントロールまたはフィールド オプションに複数の入力規則を使用し、さまざまな条件や補足 (数値など) を検証できます。特定の順序で実行することにより、不必要なチェックを防止でき、ユーザーに値が一致しなかった条件についての正しい情報を示すことができます。最初に最も一般的でシンプルな検証を実行し、次に条件を少しずつ詳細に設定していきます。
 
-> **注:** ルールの 1 つが失敗した場合、値は無効でより詳細なチェックは必要ないと考えられます。値が空の場合、有効なメールとしてパスしなかった場合も含め、エラーメッセージで値が必要であることを知らせます。
+> **注:** デフォルトで、ルールの 1 つが失敗した場合、値は無効でより詳細なチェックは必要ないと考えられます。値が空の場合、有効なメールとしてパスしなかった場合も含め、エラーメッセージで値が必要であることを知らせます。
 
 以下は、デフォルトの検証の優先度です。
 
@@ -60,12 +61,41 @@
 10. [パターン (正規表現)](#pattern)
 11. [カスタム関数](#custom)
 
+### <a id="execute-all-rules"></a> Execute all rules
+
+The [`executeAllRules`](%%jQueryApiUrl%%/ui.igValidator#options:executeAllRules) option allows multiple rules to run even if one has already failed, overriding the default behavior. This causes each validation to run all applicable rules, accumulate and display multiple error messages. Can be set at the root level options,  inherited by entries in the `fields` collection as well as set separately for each field.
+
+```js
+$("#editor").igValidator({
+  onchange: true,
+  executeAllRules: true,
+  lengthRange: { min: 8 },
+  pattern: { 
+    expression: /\d/,
+    errorMessage: "Must contain at least one number"
+  },
+  custom: { 
+    method: function (val, opts) {
+      var valid = true;
+      if (val === $("#name").val()) {
+        valid = false;
+      }
+      return valid;
+    },
+    errorMessage: "Value can't be the same as the name"
+  }
+});
+```
+
+![](images/igValidator-execute-all-rules.png)
+
+Normally, most rules won't execute without a value after [`required`](#required) and this option will not force those checks. It will however allow the validation process to continue regardless, reaching the [Custom function](#custom) that can run on an empty field. This allows the custom logic to determine the validity of an empty value independently of the `required` option.
 
 ### <a id="required"></a> 必須
 
 [`必須`](%%jQueryApiUrl%%/ui.igValidator#options:required)ルールは値が入力されたかどうかを検証します。多くの状況に適用 - 入力およびエディターが空テキストを値として持つことができない場合、複数選択 (チェックボックス グループ、または `igCombo`) に少なくとも項目が 1 つ選択されている必要があります。シングル チェックボックス コントロールはチェックする必要があります。
 
-> **注:** このルールは優先度が一番高いため、他のルールは使用しない、または値が空の場合は失敗します。 
+> **注:** As this rule is first in priority, no other rule should be concerned with or fail if the value is empty as validation stops after checking the required condition, unless [`executeAllRules`](#execute-all-rules) is enabled in which case all but the [Custom](#custom) rule ignore empty values.
 
 両方のブール値またはメッセージを含むオブジェクトとして構成できます。
 
