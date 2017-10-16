@@ -34,7 +34,7 @@
 - [igScheduler の概要](igScheduler-Overview.html): このトピックは、`igScheduler` およびその機能の概要を説明します。
 
 - [Infragistics Loader の使用](Using-Infragistics-Loader.html)
-始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な Ignite UI リソースを読み込みます。Ignite UI リソースをプロジェクトに追加する方法が 2 つあります。`igLoader` を使用するか、必要なモジュールを読み込むことができます。このトピックで `igLoader` を使用します。
+始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な Ignite UI リソースを読み込みます。There are three ways to add the Ignite UI resources to your project. You can either use the `igLoader`, you can load the required modules separately or use the bundled files that combine all the required resources. You can find those approaches below:
 
 ```js
 $.ig.loader({
@@ -42,6 +42,13 @@ $.ig.loader({
     cssPath: "../../igniteui/css/",
     resources: "igScheduler"
 });
+```
+
+Load bundled modules
+```html
+<script src="igniteui/js/infragistics.core.js"></script>
+<script src="igniteui/js/infragistics.lob.js"></script>
+<script src="igniteui/js/infragistics.scheduler-bundled.js"></script>
 ```
 
 ## <a id="webpage"></a>igScheduler を Web ページに追加
@@ -92,7 +99,7 @@ $.ig.loader({
 
 	`scheduler` の id を持つ HTML DIV 要素が初期化で `igScheduler`  ウィジェットによってラップされます。
 
-    1.2.igLoader の使用なし
+    1.2. Load modules separately
 
 	```html
 	<link type="text/css" href="ignite-ui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
@@ -145,6 +152,14 @@ $.ig.loader({
 	<script src="ignite-ui/js/modules/infragistics.scheduler.core.js"></script>
 	<script src="ignite-ui/js/modules/infragistics.ui.scheduler.core.js"></script>
 	<script src="ignite-ui/js/modules/infragistics.ui.scheduler.js"></script>
+	```
+	
+	1.3. Load bundled modules
+    
+	```html
+	<script src="igniteui/js/infragistics.core.js"></script>
+	<script src="igniteui/js/infragistics.lob.js"></script>
+	<script src="igniteui/js/infragistics.scheduler-bundled.js"></script>
 	```
 
 2. `igScheduler` で使用されるデータを読み込みます。この例で、`igDataSource` はスケジュールのリスト データ ソースを作成するために使用されます。

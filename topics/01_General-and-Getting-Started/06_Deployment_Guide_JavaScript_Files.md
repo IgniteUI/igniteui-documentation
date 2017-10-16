@@ -37,6 +37,9 @@
 -   `infragistics.core.js`
 -   `infragistics.lob.js`
 -   `infragistics.dv.js`
+-	`infragistics.excel-bundled`
+-	`infragistics.spreadsheet-bundled`
+-	`infragistics.scheduler-bundled`
 
 ファイルは js フォルダー (%%ProductName%% プログラム インストール パス内の JavaScript ファイルのルート フォルダー) にあります。
 
@@ -1100,6 +1103,7 @@
 				<br>infragistics.xml.js
 				<br>infragistics.dv_core.js
 				<br>infragistics.dv_jquerydom.js
+				<br>infragistics.dv_interactivity.js
 				<br>infragistics.datasource.js
 				<br>infragistics.ui.popover.js
 				<br>infragistics.ui.validator.js
@@ -1237,6 +1241,7 @@
 			<br>infragistics.undo.js
 			<br>infragistics.dv_core.js
 			<br>infragistics.dv_jquerydom.js
+			<br>infragistics.dv_interactivity.js
 			<br>infragistics.util.jquery.js
 			<br>infragistics.datasource.js
 			<br>infragistics.templating.js

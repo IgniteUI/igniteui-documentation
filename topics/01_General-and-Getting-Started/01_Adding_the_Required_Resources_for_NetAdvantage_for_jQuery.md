@@ -29,11 +29,17 @@
 
 すべての %%ProductName%% の結合スクリプトを含む JavaScript ファイルの名前は以下のリストです:
 
--  ` infragistics.core.js`: 共有依存関係 (必須)
+-   `infragistics.core.js`: 共有依存関係 (必須)
 
 -   `infragistics.lob.js`: すべて業務用コントロール
 
 -   `infragistics.dv.js`: すべてのデータ ビジュアライゼーション コントロール
+
+-   `infragistics.excel-bundled.js`: all excel exporting related logic (required by `infragistics.spreadsheet-bundled.js`)
+
+-   `infragistics.spreadsheet-bundled.js`: only spreadsheet user interface implementation
+
+-   `infragistics.scheduler-bundled.js`: all scheduler related logic
 
 すべての JavaScript の結合スクリプトを含むファイルは `js` フォルダー (%%ProductName%% プログラム インストール内の JavaScript ファイルの root フォルダー) にあります。結合スクリプト バージョンの名前付きのローカライズ リソースもあり、これは `i18n` フォルダーにあります。
 

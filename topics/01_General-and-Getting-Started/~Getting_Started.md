@@ -94,7 +94,7 @@ JSPM （[%%ProductName%% オープン ソース](https://www.npmjs.com/package/i
 ### <a id="add_references"></a>CSS および JavaScript 参照の追加
 
 %%ProductName%% がj Query および jQuery UI ライブラリに依存するため、%%ProductName%% スクリプトの前にそれへの参照を追加する必要があります。また、%%ProductName%% コントロールをページに追加するために複数のオプションがあります。
-- 結合されたバンドル ファイルおよび縮小化されたバンドル ファイルの参照 - インストールには、タイプごとにコントロールがグループ化された、結合されたファイルおよび縮小化されたファイルが含まれています。`infragistics.core.js` （必須）、グリッドなどの Line of Business コントロールが含まれる `infragistics.lob.js`、およびチャートなどの Data Visualization コントロールが含まれるや `infragistics.dv.js` があります。詳細については、[必要なリソースの手動で追加する](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html)トピックを参照してください。
+- Referencing combined and minified bundle files - installation comes with a combined and minified files which group controls by type. There are `infragistics.core.js` (mandatory), `infragistics.lob.js` which contains the Line of Business controls like Grids and `infragistics.dv.js` which contains the Data Visualization controls like Charts, `infragistics.excel-bundled.js` which contains all excel exporting related logic, `infragistics.spreadsheet-bundled.js` which contains only spreadsheet user interface implementation, `infragistics.scheduler-bundled.js` which contains all scheduler related logic. 詳細については、[必要なリソースの手動で追加する](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html)トピックを参照してください。
 - 個別のコントロール ファイルを参照する - 詳細については、[%%ProductName%% での JavaScript ファイル](Deployment-Guide-JavaScript-Files.html) トピックを参照してください。
 - Infragistics Loader の使用 - Infragistics Loader は %%ProductName%% などのファイルを自動的に読み込みます。コントロール ファイルを手動で参照する手間を省きます。詳細については、 [Infragistics Loader による必要なリソースを自動で追加する](Using-Infragistics-Loader.html)  トピックを参照してください。
 - AMD Loader の使用 - %%ProductName%% は AMD と互換性があるため、一般的な AMD ローダーで使用できます。
