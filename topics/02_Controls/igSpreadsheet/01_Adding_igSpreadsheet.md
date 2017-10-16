@@ -19,7 +19,12 @@
 
 このトピックを理解するために [Infragistics JavaScript Excel Library](javascript-excel-library.html) の概念とトピックは前提条件です。
 
-始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な Ignite UI リソースを読み込みます。Ignite UI リソースをプロジェクトに追加する方法が 2 つあります。`igLoader` を使用するか、必要なモジュールを読み込むことができます。このトピックで両方の方法を説明します。
+## JavaScript Resources
+
+始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な Ignite UI リソースを読み込みます。Ignite UI リソースをプロジェクトに追加する方法が 3 つあります。
+- use the `igLoader` (below)
+- load the required modules [separately](#separate-files)
+- use the [bundled files](#bundled) that combine all the required resources
 
 ```js
 $.ig.loader({
@@ -28,10 +33,12 @@ $.ig.loader({
     resources: "igSpreadsheet"
 });
 ```
-ファイルを読み込む代わりに新しい Excel ファイルを作成する場合に `igSpreadsheet` のみを読み込む必要があります。しかし、外部のファイルを読み込むには、`igExcel.LoadSaveXlsx` リソースも読み込む必要があります。
+> **注:** ファイルを読み込む代わりに新しい Excel ファイルを作成する場合に `igSpreadsheet` のみを読み込む必要があります。しかし、.xlsx ファイルを読み込むには、`igExcel.LoadSaveXlsx` リソースも読み込む必要があります。
 次のトピックは、`igLoader` についての使用方法を説明します。 
 
 [Infragistics Loader による必要なリソースを自動で追加する](using-infragistics-loader.html)
+
+### <a id="separate-files"></a>Load modules separately
 
 ```html
 <!-- util -->
@@ -84,7 +91,16 @@ $.ig.loader({
 <script src="js/modules/infragistics.ui.spreadsheet.js"></script>
 ```
 
-## 基本的な igSpreadsheet 実装を作成する
+### <a id="bundled"></a> Load bundled files
+
+```html
+<script src="js/infragistics.core.js"></script>
+<script src="js/infragistics.lob.js"></script>
+<script src="js/infragistics.excel-bundled.js"></script>
+<script src="js/infragistics.spreadsheet-bundled.js"></script>
+```
+
+## Creating a basic igSpreadsheet implementation on client-side
 
 
 リソースを読み込んだ後、コントロールを初期化します。以下のコードは、空のスプレッドシートを読み込む基本ウィジェットを作成する方法を紹介します。 
@@ -123,6 +139,23 @@ xhr.onload = function (e) {
 
 xhr.send();
 ```
+
+## Creating a basic igSpreadsheet implementation using ASP.NET MVC/Core helpers
+
+If you want to define the control on server-side then you can use the MVC wrapper. The code below will achieve the same result as when the control is defined on the client-side.
+
+In MVC:
+
+```
+@(Html.Infragistics()
+    .Spreadsheet()
+    .Height("600")
+    .Width("100%")
+    .WorkbookURL("../../data-files/FormattingData.xlsx")
+)
+```
+
+> **Note:** When using the 'WorkbookURL' option, the Spreadsheet MVC helper automatically generates the required client-side code, that is needed to request an excel file and load it in the spreadsheet.
 
 ## 関連リンク
  -   [igSpreadsheet の概要](igSpreadsheet-Overview.html)
