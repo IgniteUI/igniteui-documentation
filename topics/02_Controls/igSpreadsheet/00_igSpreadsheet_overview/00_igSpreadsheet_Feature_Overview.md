@@ -38,14 +38,14 @@
 
 | 機能			| 説明     																	|
 | ------------- 	|-------------																	|
-| Editing           | The control supports editing and provides several events and methods. For more information follow the [Editing API (igSpreadsheet)](igspreadsheet-editing.html) topic.	|
+| 編集           | コントロールは編集をサポートし、複数のイベントおよびメソッドを提供します。詳細については、[編集 API (igSpreadsheet)](igspreadsheet-editing.html) トピックを参照してください。	 |
 | セルの配置   | コントロールは多数の水平および垂直のセルのコンテンツの配置をサポートします。段落、テキストの折り返し、セルのマージもサポートされます。 <br>**注:**  コンテンツの位置調整、テキストの方向 (左から右でないもの)、回転および垂直方向のテキストはサポートされません。	|
 | セルの境界線		| コントロールはセルの境界線をサポートしますが、ズーム操作でそれを拡大縮小しません。 |
 | 操作			| コントロールは、さまざまな機能を起動するためのアクションを提供します。   |
 | コンテキスト メニュー 		| コントロールは、コンテキスト メニューを提供します。これにより、ユーザーは、選択された視覚要素に応じて、異なった操作を行うことができます。 <br>**関連トピック:**  [igSpreadsheet コンテキスト メニュー](igspreadsheet-Context-Menu.html) |
 | コピー / 貼り付け 	| コントロールは、セル間、シート間、さらに外部のアプリケーション間 (MS Excel など) の情報のクリップボードによるコピーをサポートします。 |
 | データ検証 	| コントロールは、セルの検証ルール セットに基づいてユーザー入力の検証を可能にするデータ検証機能をサポートします。ルールの構成は、ユーザー入力が検証をパスしなかった場合に表示する入力メッセージとエラー メッセージ ダイアログも含みます。 |
-| Decimal Places Formatting 	| The functionality that enables/disables whether a fixed decimal place is automatically added when a whole number is entered, while in edit mode. For more information follow the [Editing API (igSpreadsheet)](igspreadsheet-editing.html) topic. |
+| 小数位の書式設定 	| 編集モードで整数が入力されたときに固定小数位が自動的に追加されるかどうかを有効/無効にする機能。詳細については、[編集 API (igSpreadsheet)](igspreadsheet-editing.html) トピックを参照してください。 |
 | フォント スタイル 		| コントロールがサポートするテキスト プロパティは、フォント ファミリ、フォント サイズ、太字、斜体、下線、二重下線、取り消し線およびカラーです。<br> **注:**  下線、大きいテキストが同じ行にある場合の、MS Excel との表示の違いを確認してください。 |
 | 数式バー 		| コントロールにより、ユーザーは定義済みのセル テキストと数式を読み込みできます。 数式バーは、複数行もサポートします。|
 | ペインのフリーズ	| コントロールは、先頭行 / 左の列のフリーズを可能にします。スクロール中、フリーズされた行 / 列は表示されます。 <br>**関連サンプル:** [ビューの構成サンプル](%%SamplesUrl%%/spreadsheet/view-configuration) |

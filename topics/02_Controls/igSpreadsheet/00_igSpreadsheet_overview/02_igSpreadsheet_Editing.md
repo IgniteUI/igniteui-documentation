@@ -8,43 +8,49 @@
 |metadata|
 -->
 
-# Editing API (igSpreadsheet)
+# 編集 API (igSpreadsheet)
 
-## Topic Overview
-### Purpose
-This topic provides an overview of the control API related to the spreadsheet editing.
+## トピックの概要
 
-### Required background
-To understand this topic you need to be familiar with the concept and topics related to the [Infragistics JavaScript Excel Library](javascript-excel-library.html).
+### 目的
 
-### In this topic
+このトピックでは、スプレッドシートの編集に関連するコントロール API の概要を説明します。
 
-This topic contains the following sections:
+### 前提条件
 
--   [Introduction](#introduction)
--   [Events](#events)
--   [Methods](#methods)
--   [Options](#navigation)
-- 	[Related Links](#related_link)
+このトピックを理解するために [Infragistics JavaScript Excel Library](javascript-excel-library.html) の概念とトピックは前提条件です。
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [概要](#introduction)
+-   [イベント](#events)
+-   [メソッド](#methods)
+-   [オプション](#navigation)
+- 	[関連リンク](#related_link)
 
 
-## <a id="introduction"></a>Introduction
-You can edit spreadsheet content "in-place" using an editor positioned over cell which is being edited or in the formula editor. The control exposes API, which can be used to extract information about the cell, format data that is entered, cancel editing, etc. The following screenshot shows an excel workbook, while one of its cell is in edit mode.
+## <a id="introduction"></a>概要
+
+スプレッドシートのコンテンツを編集しているセル上に配置されるエディターを使用して「インプレース」で編集または数式エディターで編集できます。コントロールはセルについての情報または入力した書式設定データを取得、あるは編集をキャンセルする API を公開します。以下の画像は、セルが編集モードにある Excel ワークブックを表示します。
 
 ![](../images/igSpreadsheet_editing.png)
 
-## <a id="events"></a>Events
-The following table presents the events related to the cell editing functionality. Below you can find some user scenarios that can take advantage of those events.
+## <a id="events"></a>イベント
 
-| Event			| Description     																	|
+以下の表はセル編集機能に関連するイベントについて示します。以下はこのイベントを使用するシナリオについて示します。
+
+| イベント		| 説明																|
 | ------------- 	|:-------------:																	|
-| [`editModeEntering`](ui.igspreadsheet#events:editModeEntering)  | Invoked when the Spreadsheet is about to start in-place editing of the [`activeCell`](ui.igspreadsheet#options:activeCell).    |
-| [`editModeEntered`](ui.igspreadsheet#events:editModeEntered)    | Invoked when the Spreadsheet has started in-place editing of the [`activeCell`](ui.igspreadsheet#options:activeCell). 	|
-| [`editModeExiting`](ui.igspreadsheet#events:editModeExiting)    | Invoked when the Spreadsheet is about to end the in-place editing of the [`activeCell`](ui.igspreadsheet#options:activeCell). 	|
-| [`editModeExited`](ui.igspreadsheet#events:editModeExited)      | Invoked when the Spreadsheet has ended the in-place editing of the [`activeCell`](ui.igspreadsheet#options:activeCell). 	|
-| [`editModeValidationError`](ui.igspreadsheet#events:editModeValidationError)    |  Invoked when the Spreadsheet is exiting edit mode and the new value for the [`activeCell`](ui.igspreadsheet#options:activeCell) is not valid based on the criteria of that cell's [`ig.excel.DataValidationRule`](ig.excel.DataValidationRule).	|
+| [`editModeEntering`](ui.igspreadsheet#events:editModeEntering)  | Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を開始しようとするときに呼び出されます。    |
+| [`editModeEntered`](ui.igspreadsheet#events:editModeEntered)    | Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を開始したときに呼び出されます。 	|
+| [`editModeExiting`](ui.igspreadsheet#events:editModeExiting)    | Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を終了しようとするときに呼び出されます。 	|
+| [`editModeExited`](ui.igspreadsheet#events:editModeExited)      | Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を終了したときに呼び出されます。 	|
+| [`editModeValidationError`](ui.igspreadsheet#events:editModeValidationError)    |  Spreadsheet が編集モードを終了し、[`activeCell`](ui.igspreadsheet#options:activeCell) の新しい値がセルの [`ig.excel.DataValidationRule`](ig.excel.DataValidationRule) の条件に基づいて有効ではない場合に発生されます。 	|
 
-If you want to cancel editing of all the cells, then you just need to cancel [`editModeEntering`](ui.igspreadsheet#events:editModeEntering) event:
+すべてのセルの編集をキャンセルするには、[`editModeEntering`](ui.igspreadsheet#events:editModeEntering) イベントをキャンセルします。
+
 ```
 $("#spreadsheet1").igSpreadsheet({
     height: "600",
@@ -55,7 +61,8 @@ $("#spreadsheet1").igSpreadsheet({
 });
 ```
 
-If you want to show notification, when editing of a cell has finished and spreadsheet is updated, then you can use the [`editModeExited`](ui.igspreadsheet#events:editModeExited) event:
+セルの編集が完了してスプレッドシートの更新時に通知を表示するには、[`editModeExited`](ui.igspreadsheet#events:editModeExited) イベントを使用できます。
+
 ```
 $("#spreadsheet1").igSpreadsheet({
     height: "600",
@@ -66,24 +73,26 @@ $("#spreadsheet1").igSpreadsheet({
 });
 ```
 
-## <a id="methods"></a>Methods
-The following table shows the methods that the spreadsheet exposes, in order to get the current editing status of the spreadsheet.
+## <a id="methods"></a>メソッド
 
-| Method			| Description     																	|
+以下の表は、スプレッドシートの現在の編集状態を取得するために公開されたメソッドを説明します。
+
+| メソッド			| 説明     																	|
 | ------------- 	|:-------------:																	|
-| [`getIsInEditMode`](ui.igspreadsheet#methods:getIsInEditMode)  | Indicates if the control is currently editing the value of the [`activeCell`](ui.igspreadsheet#options:activeCell).    |
-| [`getCellEditMode`](ui.igspreadsheet#methods:getCellEditMode)    | Returns an enumeration used to indicate the current edit mode state. 	|
+| [`getIsInEditMode`](ui.igspreadsheet#methods:getIsInEditMode)  | コントロールが現在 [`activeCell`](ui.igspreadsheet#options:activeCell) の値を編集しているかどうかを示します。    |
+| [`getCellEditMode`](ui.igspreadsheet#methods:getCellEditMode)    | 現在の編集モード状態を示すために使用する列挙体を返します。 	|
 
 
-## <a id="options"></a>Options
-Entering a lot of numbers, with decimal places, in the spreadsheet, can happen in a faster manner, if the options from the table below are used. This will allow the control to automatically format the entered number, with the defined decimal places.
+## <a id="options"></a>オプション
 
-| Option			| Description     																	|
+スプレッドシートに小数位を持つ数値を多数入力する場合、以下の表のオプションを使用してすばやく入力できます。これは、入力した数値を定義された小数位で自動的に書式設定することを許可します。
+
+| オプション			| 説明     																	|
 | ------------- 	|:-------------:																	|
-| [`isFixedDecimalEnabled`](ui.igspreadsheet#options:isFixedDecimalEnabled)  | Indicates whether a fixed decimal place is automatically added when a whole number is entered while in edit mode.   |
-| [`fixedDecimalPlaceCount`](ui.igspreadsheet#options:fixedDecimalPlaceCount)    | Number of decimal places by which a whole number typed in during edit mode should be adjusted. 	|
+| [`isFixedDecimalEnabled`](ui.igspreadsheet#options:isFixedDecimalEnabled)  | 編集モードで整数が入力されたときに固定小数位が自動的に追加されるかどうかを示します。   |
+| [`fixedDecimalPlaceCount`](ui.igspreadsheet#options:fixedDecimalPlaceCount)    | 編集モードで入力された整数に使用される小数位。 	|
 
-Enabling this feature, setting decimal places to 3 and entering the value of 123456 in a spreadshett cell, will result in 123.456, after the cell exits edit mode.
+この機能を有効化して小数位を 3 に設定した場合、123456 の値をスプレッドシート セルに入力にすると、セルの編集モード終了後に 123.456 になります。
 
 ```
 $("#spreadsheet1").igSpreadsheet({
@@ -96,8 +105,8 @@ $("#spreadsheet1").igSpreadsheet({
 
 ![](../images/igSpreadsheet_decimals.png)
 
-## <a id="related_link"></a>Related Links
+## <a id="related_link"></a>関連リンク
 
--	[igSpreadsheet Overview](igspreadsheet-overview.html)
--   [Configuring igSpreadsheet](configuring-igspreadsheet.html)
+-	[igSpreadsheet の概要](igspreadsheet-overview.html)
+-   [igSpreadsheet の構成](configuring-igspreadsheet.html)
 -   [igSpreadsheet API](%%jQueryApiUrl%%/ui.igspreadsheet)

@@ -19,12 +19,12 @@
 
 このトピックを理解するために [Infragistics JavaScript Excel Library](javascript-excel-library.html) の概念とトピックは前提条件です。
 
-## JavaScript Resources
+## JavaScript リソース
 
 始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な Ignite UI リソースを読み込みます。Ignite UI リソースをプロジェクトに追加する方法が 3 つあります。
-- use the `igLoader` (below)
-- load the required modules [separately](#separate-files)
-- use the [bundled files](#bundled) that combine all the required resources
+- `igLoader` を使用します (以下)
+- [各必須モジュール](#separate-files)を読み込みます
+- すべての必須リソースを結合する[バンドル ファイル](#bundled)を使用します
 
 ```js
 $.ig.loader({
@@ -38,7 +38,7 @@ $.ig.loader({
 
 [Infragistics Loader による必要なリソースを自動で追加する](using-infragistics-loader.html)
 
-### <a id="separate-files"></a>Load modules separately
+### <a id="separate-files"></a>モジュールを別々に読み込む
 
 ```html
 <!-- util -->
@@ -91,7 +91,7 @@ $.ig.loader({
 <script src="js/modules/infragistics.ui.spreadsheet.js"></script>
 ```
 
-### <a id="bundled"></a> Load bundled files
+### <a id="bundled"></a> バンドル ファイルを読み込む
 
 ```html
 <script src="js/infragistics.core.js"></script>
@@ -100,7 +100,7 @@ $.ig.loader({
 <script src="js/infragistics.spreadsheet-bundled.js"></script>
 ```
 
-## Creating a basic igSpreadsheet implementation on client-side
+## クライアント側で基本的な igSpreadsheet 実装を作成する
 
 
 リソースを読み込んだ後、コントロールを初期化します。以下のコードは、空のスプレッドシートを読み込む基本ウィジェットを作成する方法を紹介します。 
@@ -140,11 +140,11 @@ xhr.onload = function (e) {
 xhr.send();
 ```
 
-## Creating a basic igSpreadsheet implementation using ASP.NET MVC/Core helpers
+## ASP.NET MVC/Core ヘルパーを使用して基本的な igSpreadsheet 実装を作成する
 
-If you want to define the control on server-side then you can use the MVC wrapper. The code below will achieve the same result as when the control is defined on the client-side.
+サーバー側でコントロールを定義するには MVC ラッパーを使用できます。以下のコードは、コントロールをクライアント側に定義した場合と同じ結果になります。
 
-In MVC:
+MVC の場合:
 
 ```
 @(Html.Infragistics()
@@ -155,7 +155,7 @@ In MVC:
 )
 ```
 
-> **Note:** When using the 'WorkbookURL' option, the Spreadsheet MVC helper automatically generates the required client-side code, that is needed to request an excel file and load it in the spreadsheet.
+> **注:** 'WorkbookURL' オプションを使用する場合、Spreadsheet MVC ヘルパーは、Excel ファイルを要求し、スプレッドシートに読み込むために必須となるクライアント側のコードを自動的に生成します。
 
 ## 関連リンク
  -   [igSpreadsheet の概要](igSpreadsheet-Overview.html)

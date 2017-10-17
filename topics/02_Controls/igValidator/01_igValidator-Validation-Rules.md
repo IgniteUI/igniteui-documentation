@@ -15,7 +15,7 @@
 ### このトピックの内容
  - [概要](#intro)
  - [ルールの実行順序](#rules-order)
-	- [Execute all rules](#execute-all-rules)
+	- [すべてのルールの実行](#execute-all-rules)
     - [要件](#required)
     - [Infragistics エディター (オプション)](#igcontrols)
     - [Number](#number)
@@ -61,9 +61,9 @@
 10. [パターン (正規表現)](#pattern)
 11. [カスタム関数](#custom)
 
-### <a id="execute-all-rules"></a> Execute all rules
+### <a id="execute-all-rules"></a> すべてのルールの実行
 
-The [`executeAllRules`](%%jQueryApiUrl%%/ui.igValidator#options:executeAllRules) option allows multiple rules to run even if one has already failed, overriding the default behavior. This causes each validation to run all applicable rules, accumulate and display multiple error messages. Can be set at the root level options,  inherited by entries in the `fields` collection as well as set separately for each field.
+[`executeAllRules`](%%jQueryApiUrl%%/ui.igValidator#options:executeAllRules) oオプションは、デフォルトの動作をオーバーライドして、ルールが失敗しても複数のルールを実行することを許可します。各検証はすべての適用可能なルールを実行し、複数のエラー メッセージを表示できます。ルート レベル オプションに設定するか、`fields` コレクションのエントリで継承するか、各フィールドに設定できます。
 
 ```js
 $("#editor").igValidator({
@@ -89,13 +89,13 @@ $("#editor").igValidator({
 
 ![](images/igValidator-execute-all-rules.png)
 
-Normally, most rules won't execute without a value after [`required`](#required) and this option will not force those checks. It will however allow the validation process to continue regardless, reaching the [Custom function](#custom) that can run on an empty field. This allows the custom logic to determine the validity of an empty value independently of the `required` option.
+[`required`](#required) の後に値がないルールは通常実行しませんが、このオプションはその確認を強制的には実行しません。ただし、検証処理を続行し、空のフィールドに実行可能な [Custom 関数](#custom)を検証します。カスタム ロジックで空値の有効化を `required` オプションに関係なく決定します。
 
 ### <a id="required"></a> 必須
 
 [`必須`](%%jQueryApiUrl%%/ui.igValidator#options:required)ルールは値が入力されたかどうかを検証します。多くの状況に適用 - 入力およびエディターが空テキストを値として持つことができない場合、複数選択 (チェックボックス グループ、または `igCombo`) に少なくとも項目が 1 つ選択されている必要があります。シングル チェックボックス コントロールはチェックする必要があります。
 
-> **注:** As this rule is first in priority, no other rule should be concerned with or fail if the value is empty as validation stops after checking the required condition, unless [`executeAllRules`](#execute-all-rules) is enabled in which case all but the [Custom](#custom) rule ignore empty values.
+> **注:** このルールが最優先のため、値が空の場合は検証で必要条件を確認した後に検証を中止するため、その他のルールが失敗することはありません。[`executeAllRules`](#execute-all-rules) が有効な場合、[Custom](#custom) ルール以外のすべてのルールは空値を無視します。
 
 両方のブール値またはメッセージを含むオブジェクトとして構成できます。
 

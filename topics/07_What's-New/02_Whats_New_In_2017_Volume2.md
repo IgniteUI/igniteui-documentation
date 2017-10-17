@@ -17,16 +17,16 @@
 
 以下の表に 2017 Volume 2 の新機能の概要を示します。追加の詳細は以下のとおりです。
 
-### General
-Feature | Description
+### 全般
+機能 | 説明
 ---|---
-[New bundled files](#bundledFiles)| New bundled files for excel, spreadsheet and scheduler.
+[新規のバンドル ファイル](#bundledFiles)| Excel、スプレッドシート、およびスケジューラの新規のバンドル ファイルがあります。
 
-### Spreadsheet
-Feature | Description
+### スプレッドシート
+機能 | 説明
 ---|---
-[Editing](#spreadsheetEditing)| Editing of spreadsheet content.
-[MVC Wrapper](#spreadsheetMVCWrapper)| MVC wrapper for the spreadsheet control.
+[編集](#spreadsheetEditing)| スプレッドシート コンテンツの編集。
+[MVC ラッパー](#spreadsheetMVCWrapper)| スプレッドシート コントロールの MVC ラッパー。
 
 ### エディター
 
@@ -42,16 +42,18 @@ Feature | Description
 
 ### igValidator
 
-Feature | Description
+機能 | 説明
 ---|---
-[Execute all rules](#execute-all-rules)| New option allows multiple rules to run and display multiple error messages.
+[すべてのルールの実行](#execute-all-rules)| 新しいオプションは、複数のルールを実行し、複数のエラー メッセージを表示できます。
 
-### General
+### 全般
 
-### <a id="bundledFiles"></a> New bundled files
-New bundled files for excel, spreadsheet and scheduler have been included in 17.2 release. You can use them instead of defining individual required resources, or instead of using the igLoader. In order to run excel, spreadsheet or scheduler, it is needed to define the following bundled resources:
+### <a id="bundledFiles"></a> 新規のバンドル ファイル
 
-igGrid excel exporting using igExcel
+Excel、スプレッドシート、およびスケジューラの新規のバンドル ファイルは 17.2 リリースに含まれています。各必須リソースを読み込むか、igLoader を使用する代わりにバンドル ファイルを使用できます。Excel、スプレッドシート、またはスケジューラを実行するには、以下のバンドル リソースを読み込む必要があります。
+
+igExcel を使用した igGrid の Excel エクスポート
+
 ```
 <script type="text/javascript" src="igniteui/js/infragistics.core.js"></script>
 <script type="text/javascript" src="igniteui/js/infragistics.lob.js"></script>
@@ -60,6 +62,7 @@ igGrid excel exporting using igExcel
 ```
 
 igSpreadsheet
+
 ```
 <script src="igniteui/js/infragistics.core.js"></script>
 <script src="igniteui/js/infragistics.lob.js"></script>
@@ -68,42 +71,43 @@ igSpreadsheet
 ```
 
 igScheduler
+
 ```
 <script src="igniteui/js/infragistics.core.js"></script>
 <script src="igniteui/js/infragistics.lob.js"></script>
 <script src="igniteui/js/infragistics.scheduler-bundled.js"></script>
 ```
 
-## Spreadsheet
+## スプレッドシート
 
-### <a id="spreadsheetEditing"></a> Editing of the spreadsheet content
+### <a id="spreadsheetEditing"></a> スプレッドシート コンテンツの編集
 
-Version 17.2 of the product adds support for editing of the spreadsheet's cells, extending the inaugural features of the Spreadsheet control. There are several new API events, methods and options that can be used when manipulating spreadsheet content.
+製品の 17.2 バージョンはスプレッドシートのセルに編集のサポートを追加します。スプレッドシート コンテンツの編集で使用可能な新しい API イベント、メソッド、およびオプションがあります。
 
-New events: 
--   [`editModeEntering`](ui.igspreadsheet#events:editModeEntering) - Invoked when the Spreadsheet is about to start in-place editing of the [`activeCell`](ui.igspreadsheet#options:activeCell).
--   [`editModeEntered`](ui.igspreadsheet#events:editModeEntered) - Invoked when the Spreadsheet has started in-place editing of the [`activeCell`](ui.igspreadsheet#options:activeCell).
--   [`editModeExiting`](ui.igspreadsheet#events:editModeExiting) - Invoked when the Spreadsheet is about to end the in-place editing of the [`activeCell`](ui.igspreadsheet#options:activeCell).
--   [`editModeExited`](ui.igspreadsheet#events:editModeExited) - Invoked when the Spreadsheet has ended the in-place editing of the [`activeCell`](ui.igspreadsheet#options:activeCell).
--   [`editModeValidationError`](ui.igspreadsheet#events:editModeValidationError) - Invoked when the Spreadsheet is exiting edit mode and the new value for the [`activeCell`](ui.igspreadsheet#options:activeCell) is not valid based on the criteria of that cell's [`ig.excel.DataValidationRule`](ig.excel.DataValidationRule).
+新しいイベント:
+-   [`editModeEntering`](ui.igspreadsheet#events:editModeEntering) - Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を開始しようとするときに呼び出されます。
+-   [`editModeEntered`](ui.igspreadsheet#events:editModeEntered) - Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を開始したときに呼び出されます。
+-   [`editModeExiting`](ui.igspreadsheet#events:editModeExiting) - Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を終了しようとするときに呼び出されます。
+-   [`editModeExited`](ui.igspreadsheet#events:editModeExited) - Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を終了したときに呼び出されます。
+-   [`editModeValidationError`](ui.igspreadsheet#events:editModeValidationError) - Spreadsheet が編集モードを終了し、[`activeCell`](ui.igspreadsheet#options:activeCell) の新しい値がセルの [`ig.excel.DataValidationRule`](ig.excel.DataValidationRule) の条件に基づいて有効ではない場合に発生されます。 
 
 
-New methods:
--   [`getIsInEditMode()`](ui.igspreadsheet#methods:getIsInEditMode) - Indicates if the control is currently editing the value of the [`activeCell`](ui.igspreadsheet#options:activeCell).
--   [`getCellEditMode()`](ui.igspreadsheet#methods:getCellEditMode) - Returns an enumeration used to indicate the current edit mode state.
+新しいメソッド:
+-   [`getIsInEditMode()`](ui.igspreadsheet#methods:getIsInEditMode) - コントロールが現在 [`activeCell`](ui.igspreadsheet#options:activeCell) の値を編集しているかどうかを示します。
+-   [`getCellEditMode()`](ui.igspreadsheet#methods:getCellEditMode) - 現在の編集モード状態を示すために使用する列挙体を返します。
 
-New options:
--   [`isFixedDecimalEnabled`](ui.igspreadsheet#options:isFixedDecimalEnabled) - Indicates whether a fixed decimal place is automatically added when a whole number is entered while in edit mode.
--   [`fixedDecimalPlaceCount`](ui.igspreadsheet#options:fixedDecimalPlaceCount) - Number of decimal places by which a whole number typed in during edit mode should be adjusted.
+新しいオプション:
+-   [`isFixedDecimalEnabled`](ui.igspreadsheet#options:isFixedDecimalEnabled) - 編集モードで整数が入力されたときに固定小数位が自動的に追加されるかどうかを示します。
+-   [`fixedDecimalPlaceCount`](ui.igspreadsheet#options:fixedDecimalPlaceCount) - 編集モードで入力された整数に使用される小数位。
 
-#### Related Topics
--   [igSpreadsheet Overview](igspreadsheet-overview.html)
--   [Editing API (igSpreadsheet)](igspreadsheet-editing.html) 
+#### 関連トピック
+-   [igSpreadsheet の概要](igspreadsheet-overview.html)
+-   [編集 API (igSpreadsheet)](igspreadsheet-editing.html) 
 
-#### Related Samples
--   [Overview](%%SamplesUrl%%/spreadsheet/overview)
--   [View Configuration](%%SamplesUrl%%/spreadsheet/create-view-save)
--   [Import Data From Excel File](%%SamplesUrl%%/spreadsheet/loading-data)
+#### 関連サンプル
+-   [概要](%%SamplesUrl%%/spreadsheet/overview)
+-   [表示の構成](%%SamplesUrl%%/spreadsheet/create-view-save)
+-   [エクセル ファイルからデータをインポート](%%SamplesUrl%%/spreadsheet/loading-data)
 
 ## エディター
 
@@ -158,15 +162,15 @@ MVC の場合:
 
 ## igValidator 
 
-### <a id="execute-all-rules"></a> Execute all rules
+### <a id="execute-all-rules"></a> すべてのルールの実行
 
-The `igValidator` now supports a new [`executeAllRules`](%%jQueryApiUrl%%/ui.igValidator#options:executeAllRules) option that allows multiple rules to run even if one has already failed and thus produce and display multiple error messages.
+`igValidator` は、ルールが失敗した場合も複数のルールを実行し、複数のエラー メッセージを表示する新しい [`executeAllRules`](%%jQueryApiUrl%%/ui.igValidator#options:executeAllRules) オプションをサポートします。
 
 ![](../02_Controls/igValidator/images/igValidator-execute-all-rules.png)
 
-Error related events like [`error`](%%jQueryApiUrl%%/ui.igValidator#events:error) and [`validated`](%%jQueryApiUrl%%/ui.igValidator#events:validated) now also provide `ui.rules` and `ui.messages` array arguments, listing in order each rule that did not pass and its message.
+[`error`](%%jQueryApiUrl%%/ui.igValidator#events:error) または [`validated`](%%jQueryApiUrl%%/ui.igValidator#events:validated) などのエラーに関連するイベントは `ui.rules` および `ui.messages` 配列引数を提供します。これは失敗したルールおよびそのメッセージを示します。
 
-With this execution process change, rules also specify if they should run for empty values and the [`custom`](%%jQueryApiUrl%%/ui.igValidator#options:custom) rule is now allowed to run without one. This allows for scenarios where validation based on external factors can be applied on the empty value independently of the `required` option.
+この実行処理の変更で、ルールが空値の場合も実行するかどうかを指定し、[`custom`](%%jQueryApiUrl%%/ui.igValidator#options:custom) ルールも値なしで実行できます。 `required` オプションに関係なく外部の要件に基づく検証が空の値に適用できます。
 
-#### Related Topics
--   [Validation Rules](igValidator-Validation-Rules.html)
+#### 関連トピック
+-   [入力規則](igValidator-Validation-Rules.html)
