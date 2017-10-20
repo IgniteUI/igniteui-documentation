@@ -46,7 +46,20 @@
 ---|---
 [すべてのルールの実行](#execute-all-rules)| 新しいオプションは、複数のルールを実行し、複数のエラー メッセージを表示できます。
 
-### 全般
+### igShapeChart
+
+機能 | 説明
+---|---
+[igShapeChart - 新しいコントロール](#igshapechart-control)| 軽量かつ高速な新しいチャート
+
+### igDataChart
+
+機能 | 説明
+---|---
+[TimeXAxis - 軸](#time-x-axis)| igDataChart の新しい軸タイプ
+[新しいシリーズ タイプ](#new-series)| igDataChart に新しいシリーズ タイプが追加されました。
+
+## 全般
 
 ### <a id="bundledFiles"></a> 新規のバンドル ファイル
 
@@ -166,7 +179,7 @@ MVC の場合:
 
 `igValidator` は、ルールが失敗した場合も複数のルールを実行し、複数のエラー メッセージを表示する新しい [`executeAllRules`](%%jQueryApiUrl%%/ui.igValidator#options:executeAllRules) オプションをサポートします。
 
-![](../02_Controls/igValidator/images/igValidator-execute-all-rules.png)
+![](images/igValidator-execute-all-rules.png)
 
 [`error`](%%jQueryApiUrl%%/ui.igValidator#events:error) または [`validated`](%%jQueryApiUrl%%/ui.igValidator#events:validated) などのエラーに関連するイベントは `ui.rules` および `ui.messages` 配列引数を提供します。これは失敗したルールおよびそのメッセージを示します。
 
@@ -174,3 +187,33 @@ MVC の場合:
 
 #### 関連トピック
 -   [入力規則](igValidator-Validation-Rules.html)
+
+## <a id="igshapechart-control"></a> igShapeChart
+
+igShapeChart は軽量で高パフォーマンスなチャートです。このチャートは、散布シリーズの表示、更にポリラインおよび多角形のデータ ビジュライゼーションもサポートします。チャートはシェープ ファイルまたは X/Y ポイントの配列の配列を使用して定義されるカスタム図形のデータをプロットできます。
+
+また、図形チャートは、FixedCost、VariableCost、SalesRevenue、および SalesUnits データ列を持つデータ項目が 1 つあれば損益分岐点データを描画できます。
+
+![](images/shapechart-breakeven-01.png)
+
+#### 関連トピック
+-   [igShapeChart の概要](shapechart-overview.html)
+-   [ShapeChart を使用した作業の開始](shapechart-getting-started-with-shapechart.html) 
+
+## igDataChart
+
+### <a id="time-x-axis"></a> TimeXAxis
+
+このリリースでは、TimeXAxis を igDataChart に追加しました。データを日付、時間、または両方にラベルを動的に設定できます。
+
+#### 関連トピック
+-   [TimeXAxis の構成 (igDataChart)](igdatachart-configuring-timexaxis.html)
+
+### <a id="new-series"></a> 新しいシリーズ タイプ
+
+以下のシリーズ タイプを igDataChart で使用できます。
+
+* 散布エリア シリーズ
+* 散布等高線シリーズ
+* 散布ポリライン シリーズ
+* 散布多角形シリーズ
