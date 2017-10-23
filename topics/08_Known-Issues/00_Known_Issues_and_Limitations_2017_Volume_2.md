@@ -14,7 +14,7 @@
 
 ### 目的
 
-以下に %%ProductName%%™ 2017 Volume 2 リリースの既知の問題と制限事項の概要を示します。旧リリースに関する情報は、[こちら](Known-Issues-Revision-History.html)を参照してください。
+以下に %%ProductName%%™ 2017 Volume 2 リリースの既知の問題と制限事項の概要を示します ([改訂履歴](https://jp.infragistics.com/support/online-documentation/revision-history))。旧リリースに関する情報は、[こちら](Known-Issues-Revision-History.html)を参照してください。
 
 ### このトピックの内容
 
