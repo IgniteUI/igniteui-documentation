@@ -251,6 +251,8 @@ $(document).delegate(".selector", "iglayoutmanageritemrendered", function(evt, u
 
 -	[colspan および rowspan 対応のグリッド レイアウト](%%SamplesUrl%%/layout-manager/grid-layout): このサンプルは、定義済みのサイズのグリッドに項目を任意の位置に配置できる `igLayoutManager` コントロールのグリッド レイアウトの機能を紹介します。rowspan や colspan がさまざまに設定された項目があります。
 
+-	[カスタム サイズのグリッド レイアウト](%%SamplesUrl%%/layout-manager/grid-layout-custom-size): このサンプルは、`igLayoutManager` コントロールのグリッド レイアウトで各列に特定の幅および高さを指定する機能を紹介します。
+
 -	[レスポンシブ垂直レイアウト](%%SamplesUrl%%/layout-manager/vertical-layout)  このサンプルは、さまざまな項目のサイズがピクセルまたはパーセンテージで設定された `igLayoutManager` コントロールの垂直レイアウトの応答について、また初期化のマークアップの必要なしで `igLayoutManager` のオプションに項目数を設定する方法を紹介します。
 
 

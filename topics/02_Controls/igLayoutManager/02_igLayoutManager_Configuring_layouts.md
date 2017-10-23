@@ -1049,6 +1049,10 @@ $("#layout").igLayoutManager({
 
 グリッドの列数と行数、および項目の高さと幅を指定できます。項目の高さと幅は、[`columnHeight`](%%jQueryApiUrl%%/ui.iglayoutmanager#options:columnHeight) および [`columnWidth`](%%jQueryApiUrl%%/ui.iglayoutmanager#options:columnWidth) プロパティを使用して構成します。これらのプロパティは、行や列をまたがない標準の項目のサイズ (つまり、複数の行および列をまたがない項目のサイズ、および各項目がグリッド内で占有するセルは 1 つのみ) を設定します。
 
+[`columnWidth`](%%jQueryApiUrl%%/ui.iglayoutmanager#options:columnWidth)/[`columnHeight`](%%jQueryApiUrl%%/ui.iglayoutmanager#options:columnHeight) を `*` に設定する場合、幅/高さがすべての列で均等に分割されます。
+
+[`columnWidth`](%%jQueryApiUrl%%/ui.iglayoutmanager#options:columnWidth)/[`columnHeight`](%%jQueryApiUrl%%/ui.iglayoutmanager#options:columnHeight) を配列 (`["100px", "20%", "*", "*"]` など) として指定する場合、 2 つ以上の列を `*` に設定すると、残りのスペースはその列で均等に分割されます。[`columnWidth`](%%jQueryApiUrl%%/ui.iglayoutmanager#options:columnWidth) が配列として設定される場合、その長さは [`cols`](%%jQueryApiUrl%%/ui.iglayoutmanager#options:cols) プロパティをオーバーライドします。[`columnHeight`](%%jQueryApiUrl%%/ui.iglayoutmanager#options:columnHeight) が配列として設定される場合、その長さは [`rows`](%%jQueryApiUrl%%/ui.iglayoutmanager#options:rows) プロパティをオーバーライドします。
+
 項目のカスタム配置は、オブジェクトの配列に設定される [`items`](%%jQueryApiUrl%%/ui.iglayoutmanager#options:items) プロパティによりサポートされます。コンテナーのサイズ変更時に、項目の自動再配置を無効にできます。これは、ユーザー エクスペリエンスを管理する追加手段となります。
 
 ### <a id="grid-settings"></a>プロパティ設定
@@ -1060,8 +1064,8 @@ $("#layout").igLayoutManager({
 レイアウトをグリッド レイアウトとして設定|[layoutMode](%%jQueryApiUrl%%/ui.iglayoutmanager#options:layoutMode)|"grid"|![](images/positive.png)|"column"
 項目数および項目の配置|[items](%%jQueryApiUrl%%/ui.iglayoutmanager#options:items)|オブジェクトの配列|![](images/negative.png)|[ ]
 グリッドの列数の設定|[cols](%%jQueryApiUrl%%/ui.iglayoutmanager#options:cols)|必要な列数|![](images/negative.png)|"nul"
-項目の高さの設定|[columnHeight](%%jQueryApiUrl%%/ui.iglayoutmanager#options:columnHeight)|ピクセルまたはパーセンテージで示された項目の目的の高さこの値には、項目の上の余白の幅が含まれます。|![](images/negative.png)|"null"
-項目の幅の設定|[columnWidth](%%jQueryApiUrl%%/ui.iglayoutmanager#options:columnWidth)|ピクセルまたはパーセンテージで示された項目の目的の幅この値には、項目の左の余白の幅が含まれます。|![](images/negative.png)|"null"
+項目の高さの設定|[columnHeight](%%jQueryApiUrl%%/ui.iglayoutmanager#options:columnHeight)|ピクセル、パーセンテージ、または高さをすべての列で均等に分割する `*` として指定される項目の最適な高さ。各列で異なる高さを指定するために高さの配列を受け取ることもできます。この値には、項目の上の余白の幅が含まれます。|![](images/negative.png)|"null"
+項目の幅の設定|[columnWidth](%%jQueryApiUrl%%/ui.iglayoutmanager#options:columnWidth)|ピクセル、パーセンテージ、または幅をすべての列で均等に分割する `*` として指定される項目の最適な幅。各列で異なる幅を指定するために幅の配列を受け取ることもできます。この値には、項目の左の余白の幅が含まれます。|![](images/negative.png)|"null"
 行数の設定|[rows](%%jQueryApiUrl%%/ui.iglayoutmanager#options:rows)|グリッドの目的の行数|![](images/negative.png)|"null"
 項目の左の余白の設定|[marginLeft](%%jQueryApiUrl%%/ui.iglayoutmanager#options:marginLeft)|目的のサイズ (ピクセル)|![](images/negative.png)|“0”
 項目の上の余白の設定|[marginTop](%%jQueryApiUrl%%/ui.iglayoutmanager#options:marginTop)|目的のサイズ (ピクセル)|![](images/negative.png)|“0”
@@ -1317,6 +1321,8 @@ $("#layout").igLayoutManager({
 -	[レスポンシブ フロー レイアウト](%%SamplesUrl%%/layout-manager/flow-layout): このサンプルは、さまざまな項目のサイズがピクセルまたはパーセンテージで設定された `igLayoutManager` コントロールのフロー レイアウトの応答について、また初期化のマークアップの必要なしで `igLayoutManager` のオプションに項目数を設定する方法を紹介します。
 
 -	[colspan および rowspan 対応のグリッド レイアウト](%%SamplesUrl%%/layout-manager/grid-layout): このサンプルは、定義済みのサイズのグリッドに項目を任意の位置に配置できる `igLayoutManager` コントロールのグリッド レイアウトの機能を紹介します。rowspan や colspan がさまざまに設定された項目があります。
+
+-	[カスタム サイズのグリッド レイアウト](%%SamplesUrl%%/layout-manager/grid-layout-custom-size): このサンプルは、`igLayoutManager` コントロールのグリッド レイアウトで各列に特定の幅および高さを指定する機能を紹介します。
 
 -	[レスポンシブ垂直レイアウト](%%SamplesUrl%%/layout-manager/vertical-layout): このサンプルは、さまざまな項目のサイズがピクセルまたはパーセンテージで設定された `igLayoutManager` コントロールの垂直レイアウトの応答について、また初期化のマークアップの必要なしで `igLayoutManager` のオプションに項目数を設定する方法を紹介します。
 
