@@ -104,9 +104,6 @@ Infragistics® Loader (`igLoader`™) を使用します。ページ上に `igLo
 必要なリソースを手動で読み込みます。以下の表にリストされる依存関係を使用する必要があります。
 					</li>
 
-                    <li>
-%%ProductName%% パッケージのすべてのデータ ビジュアライゼーション コントロールのロジックを含む、2 つの結合ファイル (`infragistics.core.js`、`infragistics.dv.js` および `infragistics.encoding.js` (オプション)) を読み込みます。
-					</li>
                 </ul>
 
                 以下の表は、`igRadialMenu` コントロール関連の %%ProductName%% ライブラリの依存関係を示します。igLoader または結合ファイルを使用しない選択をした場合、これらのリソースを明示的に参照する必要があります。
@@ -129,7 +126,8 @@ JS リソース
                         <tr>
                             <td>
 `infragistics.util.js`<br/>
-`infragistics.util.jquery.js`
+`infragistics.util.jquery.js`<br/>
+`infragistics.util.jquerydeferred.js`
 			</td>
 
                             <td>
@@ -139,17 +137,32 @@ JS リソース
 
                         <tr>
                             <td>
-`infragistics.dv.simple.core.js`
+`infragistics.ext_core.js`<br/>
+`infragistics.ext_collections.js`<br/>
+`infragistics.ext_collectionsextended.js`<br/>
+`infragistics.ext_ui.js`<br/>
+`infragistics.dv_core.js`<br/>
+`infragistics.dv_interactivity.js`<br/>
+`infragistics.dv_jquerydom.js`
 			</td>
 
                             <td>
-データ ビジュアライゼーション コンポーネント用の共有ライブラリ
+データ ビジュアライゼーションのコア機能
+			</td>
+                        </tr>
+						
+						<tr>
+                            <td>
+`infragistics.ui.widget.js`
+			</td>
+                            <td>
+共有のウィジェット機能
 			</td>
                         </tr>
 
                         <tr>
                             <td>
-`infragistics.radialmenu_core.js`
+`infragistics.radialmenu.js`
 			</td>
 
                             <td>
@@ -236,16 +249,28 @@ JS リソース
 <head>
     <!-- %%ProductName%% Required Combined CSS Files -->
     <link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-    <link href="../../igniteui/css/structure/infragistics.css" rel="stylesheet"/>
+    <link href="../../igniteui/css/structure/modules/infragistics.ui.radialmenu.css" rel="stylesheet"/>
+	
+	<!-- jQuery Files -->
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
     <script type="text/javascript" src="../../js/jquery-ui.js"></script>
+	
     <!-- Infragistics Shared JavaScript Files -->
-    <script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
+    <script src="../../igniteui/js/modules/infragistics.util.js"></script>
 	<script src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
-    <script src="../../igniteui/js/modules/infragistics.dv.simple.core.js" type="text/javascript"></script>
+    <script src="../../igniteui/js/modules/infragistics.util.jquerydeferred.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.ext_core.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.ext_collections.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.ext_collectionsextended.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.ext_ui.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.dv_core.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.dv_interactivity.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.dv_jquerydom.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.ui.widget.js"></script>
+	
     <!-- Radial Menu Required JavaScript Files -->
-    <script src="../../igniteui/js/modules/infragistics.radialmenu_core.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.ui.radialmenu.js" type="text/javascript"></script>
+    <script src="../../igniteui/js/modules/infragistics.radialmenu.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.ui.radialmenu.js"></script>
 </head>
 <body>
 </body>
@@ -393,16 +418,28 @@ JS リソース
 <head>
     <!-- %%ProductName%% Required Combined CSS Files -->
     <link href="../../igniteui/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-    <link href="../../igniteui/css/structure/infragistics.css" rel="stylesheet"/>
+    <link href="../../igniteui/css/structure/modules/infragistics.ui.radialmenu.css" rel="stylesheet"/>
+	
+	<!-- jQuery Files -->
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
     <script type="text/javascript" src="../../js/jquery-ui.js"></script>
+	
     <!-- Infragistics Shared JavaScript Files -->
-    <script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
+    <script src="../../igniteui/js/modules/infragistics.util.js"></script>
 	<script src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
-    <script src="../../igniteui/js/modules/infragistics.dv.simple.core.js" type="text/javascript"></script>
+    <script src="../../igniteui/js/modules/infragistics.util.jquerydeferred.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.ext_core.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.ext_collections.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.ext_collectionsextended.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.ext_ui.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.dv_core.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.dv_interactivity.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.dv_jquerydom.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.ui.widget.js"></script>
+	
     <!-- Radial Menu Required JavaScript Files -->
-    <script src="../../igniteui/js/modules/infragistics.radialmenu_core.js" type="text/javascript"></script>
-    <script src="../../igniteui/js/modules/infragistics.ui.radialmenu.js" type="text/javascript"></script>
+    <script src="../../igniteui/js/modules/infragistics.radialmenu.js"></script>
+    <script src="../../igniteui/js/modules/infragistics.ui.radialmenu.js"></script>
 <script type="text/jscript">
 $(function () {                        
     $("#radialMenu").igRadialMenu({
