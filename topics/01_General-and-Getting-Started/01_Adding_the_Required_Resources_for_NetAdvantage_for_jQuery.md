@@ -60,8 +60,8 @@
 
 -   Web アプリケーションが含まれるプロジェクト
 -   %%ProductName%% がインストール済み
--   [jQuery](http://jquery.com/) コア ライブラリ バージョン 1.4.4 またはそれ以降
--   [jQuery UI](http://jqueryui.com/) ライブラリ 1.8.11 以降
+-   [jQuery](http://jquery.com/) コア ライブラリ バージョン 1.9.1 またはそれ以降
+-   [jQuery UI](http://jqueryui.com/) ライブラリ 1.9.0 以降
 -   [Modernizr](http://modernizr.com/) オープン ソース JavaScript ライブラリ 2.5.2 以降
 
 > **注:** %%ProductName%% のサポートされるフレームワーク バージョンの詳細について、[http://jp.infragistics.com/help/supported-environments](http://jp.infragistics.com/help/supported-environments) を参照してください。

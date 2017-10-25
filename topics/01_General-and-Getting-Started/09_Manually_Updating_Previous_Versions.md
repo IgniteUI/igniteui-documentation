@@ -97,7 +97,7 @@
 
 -   最新バージョンの jQuery UI テーマ。
 
-デフォルトで、インストーラーは新しいテーマを `%%InstallPath%%\themes にインストールします。`このバージョンがインストールされていない場合、%%ProductName%% インストールの .zip ファイルを[ここ](http://jqueryui.com/download)からダウンロードする必要があります。
+デフォルトで、インストーラーは新しいテーマを `%%InstallPath%%\css\themes にインストールします。`このバージョンがインストールされていない場合、%%ProductName%% インストールの .zip ファイルを[ここ](http://jqueryui.com/download)からダウンロードする必要があります。
 
 -   %%ProductName%% アセンブリの最新バージョン。
 
