@@ -98,20 +98,20 @@ igScheduler
 製品の 17.2 バージョンはスプレッドシートのセルに編集のサポートを追加します。スプレッドシート コンテンツの編集で使用可能な新しい API イベント、メソッド、およびオプションがあります。
 
 新しいイベント:
--   [`editModeEntering`](ui.igspreadsheet#events:editModeEntering) - Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を開始しようとするときに呼び出されます。
--   [`editModeEntered`](ui.igspreadsheet#events:editModeEntered) - Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を開始したときに呼び出されます。
--   [`editModeExiting`](ui.igspreadsheet#events:editModeExiting) - Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を終了しようとするときに呼び出されます。
--   [`editModeExited`](ui.igspreadsheet#events:editModeExited) - Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を終了したときに呼び出されます。
--   [`editModeValidationError`](ui.igspreadsheet#events:editModeValidationError) - Spreadsheet が編集モードを終了し、[`activeCell`](ui.igspreadsheet#options:activeCell) の新しい値がセルの [`ig.excel.DataValidationRule`](ig.excel.DataValidationRule) の条件に基づいて有効ではない場合に発生されます。 
+-   [`editModeEntering`](%%jQueryApiUrl%%/ui.igspreadsheet#events:editModeEntering) - Spreadsheet が [`activeCell`](%%jQueryApiUrl%%/ui.igspreadsheet#options:activeCell) のインプレース編集を開始しようとするときに呼び出されます。
+-   [`editModeEntered`](%%jQueryApiUrl%%/ui.igspreadsheet#events:editModeEntered) - Spreadsheet が [`activeCell`](%%jQueryApiUrl%%/ui.igspreadsheet#options:activeCell) のインプレース編集を開始したときに呼び出されます。
+-   [`editModeExiting`](%%jQueryApiUrl%%/ui.igspreadsheet#events:editModeExiting) - Spreadsheet が [`activeCell`](%%jQueryApiUrl%%/ui.igspreadsheet#options:activeCell) のインプレース編集を終了しようとするときに呼び出されます。
+-   [`editModeExited`](%%jQueryApiUrl%%/ui.igspreadsheet#events:editModeExited) - Spreadsheet が [`activeCell`](%%jQueryApiUrl%%/ui.igspreadsheet#options:activeCell) のインプレース編集を終了したときに呼び出されます。
+-   [`editModeValidationError`](%%jQueryApiUrl%%/ui.igspreadsheet#events:editModeValidationError) - Spreadsheet が編集モードを終了し、[`activeCell`](%%jQueryApiUrl%%/ui.igspreadsheet#options:activeCell) の新しい値がセルの [`ig.excel.DataValidationRule`](%%jQueryApiUrl%%/ig.excel.DataValidationRule) の条件に基づいて有効ではない場合に発生されます。 
 
 
 新しいメソッド:
--   [`getIsInEditMode()`](ui.igspreadsheet#methods:getIsInEditMode) - コントロールが現在 [`activeCell`](ui.igspreadsheet#options:activeCell) の値を編集しているかどうかを示します。
--   [`getCellEditMode()`](ui.igspreadsheet#methods:getCellEditMode) - 現在の編集モード状態を示すために使用する列挙体を返します。
+-   [`getIsInEditMode()`](%%jQueryApiUrl%%/ui.igspreadsheet#methods:getIsInEditMode) - コントロールが現在 [`activeCell`](%%jQueryApiUrl%%/ui.igspreadsheet#options:activeCell) の値を編集しているかどうかを示します。
+-   [`getCellEditMode()`](%%jQueryApiUrl%%/ui.igspreadsheet#methods:getCellEditMode) - 現在の編集モード状態を示すために使用する列挙体を返します。
 
 新しいオプション:
--   [`isFixedDecimalEnabled`](ui.igspreadsheet#options:isFixedDecimalEnabled) - 編集モードで整数が入力されたときに固定小数位が自動的に追加されるかどうかを示します。
--   [`fixedDecimalPlaceCount`](ui.igspreadsheet#options:fixedDecimalPlaceCount) - 編集モードで入力された整数に使用される小数位。
+-   [`isFixedDecimalEnabled`](%%jQueryApiUrl%%/ui.igspreadsheet#options:isFixedDecimalEnabled) - 編集モードで整数が入力されたときに固定小数位が自動的に追加されるかどうかを示します。
+-   [`fixedDecimalPlaceCount`](%%jQueryApiUrl%%/ui.igspreadsheet#options:fixedDecimalPlaceCount) - 編集モードで入力された整数に使用される小数位。
 
 #### 関連トピック
 -   [igSpreadsheet の概要](igspreadsheet-overview.html)
@@ -126,7 +126,7 @@ igScheduler
 
 ### <a id="suppressKeyboard"></a> キーボードの制御
 
-[`suppressKeyboard`](ui.igtexteditor#options:suppressKeyboard) オプションは、ドロップダウン ボタンがクリックまたはタップされたとき、デバイスで利用可能な場合に画面にキーボードの表示を回避します。このオプションは最初のフォーカスを回避するか、ドロップダウン ボタンがクリックまたはタップされたときにフォーカスを解除します。
+[`suppressKeyboard`](%%jQueryApiUrl%%/ui.igtexteditor#options:suppressKeyboard) オプションは、ドロップダウン ボタンがクリックまたはタップされたとき、デバイスで利用可能な場合に画面にキーボードの表示を回避します。このオプションは最初のフォーカスを回避するか、ドロップダウン ボタンがクリックまたはタップされたときにフォーカスを解除します。
 
 ## igDateEditor/igDatePicker
 

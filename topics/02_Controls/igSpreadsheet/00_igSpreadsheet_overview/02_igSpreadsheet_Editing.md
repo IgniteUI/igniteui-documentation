@@ -43,13 +43,13 @@
 
 | イベント		| 説明																|
 | ------------- 	|:-------------:																	|
-| [`editModeEntering`](ui.igspreadsheet#events:editModeEntering)  | Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を開始しようとするときに呼び出されます。    |
-| [`editModeEntered`](ui.igspreadsheet#events:editModeEntered)    | Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を開始したときに呼び出されます。 	|
-| [`editModeExiting`](ui.igspreadsheet#events:editModeExiting)    | Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を終了しようとするときに呼び出されます。 	|
-| [`editModeExited`](ui.igspreadsheet#events:editModeExited)      | Spreadsheet が [`activeCell`](ui.igspreadsheet#options:activeCell) のインプレース編集を終了したときに呼び出されます。 	|
-| [`editModeValidationError`](ui.igspreadsheet#events:editModeValidationError)    |  Spreadsheet が編集モードを終了し、[`activeCell`](ui.igspreadsheet#options:activeCell) の新しい値がセルの [`ig.excel.DataValidationRule`](ig.excel.DataValidationRule) の条件に基づいて有効ではない場合に発生されます。 	|
+| [`editModeEntering`](%%jQueryApiUrl%%/ui.igspreadsheet#events:editModeEntering)  | Spreadsheet が [`activeCell`](%%jQueryApiUrl%%/ui.igspreadsheet#options:activeCell) のインプレース編集を開始しようとするときに呼び出されます。    |
+| [`editModeEntered`](%%jQueryApiUrl%%/ui.igspreadsheet#events:editModeEntered)    | Spreadsheet が [`activeCell`](%%jQueryApiUrl%%/ui.igspreadsheet#options:activeCell) のインプレース編集を開始したときに呼び出されます。 	|
+| [`editModeExiting`](%%jQueryApiUrl%%/ui.igspreadsheet#events:editModeExiting)    | Spreadsheet が [`activeCell`](%%jQueryApiUrl%%/ui.igspreadsheet#options:activeCell) のインプレース編集を終了しようとするときに呼び出されます。 	|
+| [`editModeExited`](%%jQueryApiUrl%%/ui.igspreadsheet#events:editModeExited)      | Spreadsheet が [`activeCell`](%%jQueryApiUrl%%/ui.igspreadsheet#options:activeCell) のインプレース編集を終了したときに呼び出されます。 	|
+| [`editModeValidationError`](%%jQueryApiUrl%%/ui.igspreadsheet#events:editModeValidationError)    |  Spreadsheet が編集モードを終了し、[`activeCell`](%%jQueryApiUrl%%/ui.igspreadsheet#options:activeCell) の新しい値がセルの [`ig.excel.DataValidationRule`](%%jQueryApiUrl%%/ig.excel.DataValidationRule) の条件に基づいて有効ではない場合に発生されます。 	|
 
-すべてのセルの編集をキャンセルするには、[`editModeEntering`](ui.igspreadsheet#events:editModeEntering) イベントをキャンセルします。
+すべてのセルの編集をキャンセルするには、[`editModeEntering`](%%jQueryApiUrl%%/ui.igspreadsheet#events:editModeEntering) イベントをキャンセルします。
 
 ```
 $("#spreadsheet1").igSpreadsheet({
@@ -61,7 +61,7 @@ $("#spreadsheet1").igSpreadsheet({
 });
 ```
 
-セルの編集が完了してスプレッドシートの更新時に通知を表示するには、[`editModeExited`](ui.igspreadsheet#events:editModeExited) イベントを使用できます。
+セルの編集が完了してスプレッドシートの更新時に通知を表示するには、[`editModeExited`](%%jQueryApiUrl%%/ui.igspreadsheet#events:editModeExited) イベントを使用できます。
 
 ```
 $("#spreadsheet1").igSpreadsheet({
@@ -79,8 +79,8 @@ $("#spreadsheet1").igSpreadsheet({
 
 | メソッド			| 説明     																	|
 | ------------- 	|:-------------:																	|
-| [`getIsInEditMode`](ui.igspreadsheet#methods:getIsInEditMode)  | コントロールが現在 [`activeCell`](ui.igspreadsheet#options:activeCell) の値を編集しているかどうかを示します。    |
-| [`getCellEditMode`](ui.igspreadsheet#methods:getCellEditMode)    | 現在の編集モード状態を示すために使用する列挙体を返します。 	|
+| [`getIsInEditMode`](%%jQueryApiUrl%%/ui.igspreadsheet#methods:getIsInEditMode)  | コントロールが現在 [`activeCell`](%%jQueryApiUrl%%/ui.igspreadsheet#options:activeCell) の値を編集しているかどうかを示します。    |
+| [`getCellEditMode`](%%jQueryApiUrl%%/ui.igspreadsheet#methods:getCellEditMode)    | 現在の編集モード状態を示すために使用する列挙体を返します。 	|
 
 
 ## <a id="options"></a>オプション
@@ -89,8 +89,8 @@ $("#spreadsheet1").igSpreadsheet({
 
 | オプション			| 説明     																	|
 | ------------- 	|:-------------:																	|
-| [`isFixedDecimalEnabled`](ui.igspreadsheet#options:isFixedDecimalEnabled)  | 編集モードで整数が入力されたときに固定小数位が自動的に追加されるかどうかを示します。   |
-| [`fixedDecimalPlaceCount`](ui.igspreadsheet#options:fixedDecimalPlaceCount)    | 編集モードで入力された整数に使用される小数位。 	|
+| [`isFixedDecimalEnabled`](%%jQueryApiUrl%%/ui.igspreadsheet#options:isFixedDecimalEnabled)  | 編集モードで整数が入力されたときに固定小数位が自動的に追加されるかどうかを示します。   |
+| [`fixedDecimalPlaceCount`](%%jQueryApiUrl%%/ui.igspreadsheet#options:fixedDecimalPlaceCount)    | 編集モードで入力された整数に使用される小数位。 	|
 
 この機能を有効化して小数位を 3 に設定した場合、123456 の値をスプレッドシート セルに入力にすると、セルの編集モード終了後に 123.456 になります。
 
