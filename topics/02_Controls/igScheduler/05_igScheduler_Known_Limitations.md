@@ -28,10 +28,8 @@
 
 問題|説明|状態
 ---|---|---
-[繰り返しイベント](#NoReccuringEvents) |繰り返し予定がサポートされていません。 |![](images/negative.png)
 [タイム ゾーンのオフセット](#NoTimeZoneOffsetting) |時間が常にブラウザー オフセットで表示されます。|![](images/negative.png)
 [カスタム色スキーマ](#NoCustomColorScheme) |定義済みのカスタム色スキーマが使用されます。 |![](images/negative.png)
-[日ビューおよび週ビュー](#NoDayAndWeekViews) |このバージョンで日ビューおよび週ビューがありません。 |![](images/negative.png)
 [テンプレート化](#NoTemplating) |予定の外観のテンプレート化および変更がサポートされません。 |![](images/negative.png)
 [カレンダー (Canvas) の予定の ARIA サポート](#ARIASupport) |カレンダー (Canvas) の予定の ARIA サポートがありません。 |![](images/negative.png)
 [週の最初の曜日設定](#FirstDayOfWeek) |週の最初の曜日は常に `Sunday` に設定されます。 |![](images/negative.png)
@@ -44,11 +42,6 @@
 
 ## 既知の問題点と制限の詳細
 
-
-### <a id="NoReccuringEvents"></a>繰り返しイベントのサポートがない
-
-スケジューラが、毎週のミーティング、記念日、または誕生日などの複数回発生する定義済みのイベントを作成できません。
-
 ### <a id="NoTimeZoneOffsetting"></a>タイム ゾーン オフセット設定がない
 
 `igScheduler` の時間が常にブラウザー オフセット (時) で表示されます。このリリースでは、スケジューラがブラウザーのタイム ゾーンと違うゾーンで時間の表示をサポートしません。
@@ -58,19 +51,6 @@
 スケジューラで 12 色の定義済みの色スキーマが提供されますが、エンド ユーザーは変更できません。
 
 ![](images/preDefinedColors.png)
-
-### <a id="NoDayAndWeekViews"></a>日ビューおよび週ビューがない
-
-月ビューおよび予定一覧のみがスケジューラで表示可能です。`monthViewSettings` 設定の `isAgendaVisible` オプションを使用すると、両方のビューを一度に表示できます。
-
-```js
-$("#scheduler").igScheduler({
-    views: ["month", "agenda"],
-    monthViewSettings: {
-        isAgendaVisible: true
-    },
-});
-```
 
 ### <a id="NoTemplating"></a>テンプレート
 
