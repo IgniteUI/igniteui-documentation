@@ -30,7 +30,12 @@
 -   [コントロールのローカライズ ファイル参照](#Localization)
    -   [概要](#subIntroduction)
     -   [コントロールのローカライズ参照の概要](#LocalizationSummary)
+- [language、locale、および regional オプションの設定](#set)
+- [言語および地域設定の変更](#change)
+	- [言語の変更](#change-locale)
+	- [地域設定の変更](#change-regional)
 -   [手順: igGridPaging のローカライズ](#Walkthrough)
+-   [チュートリアル: ページのすべてのコントロールの言語および地域設定をランタイムに変更](#Walkthrough2)
    -   [概要](#WalkthroughIntroduction)
     -   [プレビュー](#Preview)
     -   [要件](#Requirements)
@@ -54,14 +59,29 @@
 -   フランス語
 -   スペイン語 
 
-これらの言語のいずれかのローカライズ バージョンのコントロールを入手するには、Infragistics ローダーの locale プロパティを設定、またはローカライズ ファイル `infragistics-<locale>.js` を追加する必要があります。ここで `<locale>` は、en、ja、ru、bg、de、fr、es のいずれかになります。
+コントロールをいずれかの言語にローカライズするには、Infragistics ローダーまたはローカライズ ファイル `infragistics-<locale>.js` を参照する必要があります。`<locale>` は、en、ja、ru、bg、de、fr、es のいずれかになります。17.2 以前は単一のロケール ファイルは一度に読み込めましたが、2 つ以上のロケールを読み込んだ場合、最後に読み込んだロケールによって前のロケールがオーバーライドされました。17.2 以後、複数のロケール ファイルを一度に読み込むことができます。
 
->**注:** Infragistics ローダーは、カスタム ローカライズ ファイルの読み込みには使用できません。
+必要なロケールをすべて読み込んだ後、グローバルに適用するロケールを指定、またはコントロールごとにロケールを設定できます。単一のロケール ファイルのみ読み込んだ場合、グローバルのデフォルト言語が無視され、読み込んだロケールの言語文字列が表示されます。
 
+複数のロケール ファイルを読み込んだ場合、言語をグローバルに設定するには、コントロールを初期化する前に `$.ig.util.language` を設定します。
+
+**JavaScript の場合:**
+
+```js
+	$.ig.util.language = language;
+```
+
+また、各ローカライズ可能なコントロールに読み込んだときに使用する言語を決定する `language` プロパティがあります。
+
+注: このプロパティを設定した場合、特定のコントロールでグローバルで設定された言語より優先されます。
 
 >**注:** 2 つの再配布可能なパッケージがあります。ひとつは英語、もうひとつは日本語です。英語版では、再配布可能なパッケージ `infragistics-en.js` は利用できません。ローカライズ文字列は、ファイルの最初のコントロール コードに含まれています。日本語版では、再配布可能なパッケージ `infragistics-ja.js` は利用できません。ローカライズ文字列は、ファイルの最初のコントロール コードに含まれています。
 
-別の言語を設定する場合、設定手順は異なります。
+>**注:**  英語のロケール リソースを読み込んだ場合は、それがデフォルトで使用されます。英語のロケール リソースがページに読み込まれていない場合、最初に読み込んだリソースがロケール リソースとして使用されます。英語のパッケージで、英語のローカライズ文字列は製品ファイルに含まれているため、このパッケージにに常に読み込まれます。
+
+>**注:**  デフォルトの地域設定は "en-US" ですが、これをページに読み込んでいない場合、最後に読み込んだ地域設定がデフォルトの地域設定として使用されます。
+
+カスタム言語を設定する場合、設定手順は異なります。
 
 -   コントロールをローカライズします
    -   ローカライズ ファイルを見つけます - ローカライズ ファイルは `<Ignite_UI_Install_Folder>\js\modules\i18n` にあります
@@ -80,7 +100,7 @@
 
 
 
-##<a id="Localization"></a>コントロールのローカライズ ファイル参照
+## <a id="Localization"></a>コントロールのローカライズ ファイル参照
 
 
 ### <a id="subIntroduction"></a>概要
@@ -156,7 +176,142 @@
 	</tbody>
 </table>   
 
-##<a id="Walkthrough"></a>手順: igGridPaging のローカライズ
+## <a id="set"></a> `language`、`locale`、および `regional` オプションの設定
+
+コントロールの `language`、`regional`、および `locale` オプションを JavaScript および ASP.NET MVC で設定できます。
+
+**JavaScript の場合:**
+
+```js
+	$("#combo").igCombo({
+		language: "en",
+		regional:"en-GB",
+		locale: {
+			dropDownButtonTitle: 'New drop down title'
+		}
+		dataSource: colors,
+		textKey: "Name",
+		valueKey: "Name",
+		width: "200px"
+	});
+```
+
+Ignite UI MVC ラッパーの object 型の `locale` オプションを使用する場合、igGrid、igTreeGrid、および igHierarachicalGrid にラムダ式または文字列によって設定できます。すべてのその他のコントロールの場合、文字列のみを指定できます。
+
+**Razor の場合:**
+
+igTreeGrid - ラムダ式で設定される `locale` オプション
+
+```csharp
+@(Html.Infragistics().TreeGrid(Model)
+        .ID("treegrid1")
+        .Width("100%")
+		.Language("en")
+		.Regional("en-GB")
+		.Locale(l =>l.ExpandTooltipText("New Expand Tooltip").CollapseTooltipText("New Collapse Tooltip"))
+        .AutoGenerateColumns(false)
+        .PrimaryKey("ID")
+        .ChildDataKey("Files")
+        .RenderExpansionIndicatorColumn(true)
+        .InitialExpandDepth(1)
+        .Columns(column =>
+            {
+                column.For(x => x.ID).Hidden(true);
+                column.For(x => x.Name).HeaderText("Name").Width("30%");
+                column.For(x => x.DateModified).HeaderText("Date Modified").Width("20%");
+                column.For(x => x.Type).HeaderText("Type").Width("20%");
+                column.For(x => x.Size).HeaderText("Size in KB").Width("20%");
+            })
+        .DataBind()
+        .Render()
+    )
+```
+
+igTreeGrid - 文字列で設定される `locale` オプション
+
+```csharp
+@(Html.Infragistics().TreeGrid(Model)
+        .ID("treegrid1")
+        .Width("100%")
+		.Language("en")
+		.Regional("en-GB")
+		.Locale("{expandTooltipText: 'New Expand Tooltip', collapseTooltipText: 'New Collapse Tooltip' }")
+        .AutoGenerateColumns(false)
+        .PrimaryKey("ID")
+        .ChildDataKey("Files")
+        .RenderExpansionIndicatorColumn(true)
+        .InitialExpandDepth(1)
+        .Columns(column =>
+            {
+                column.For(x => x.ID).Hidden(true);
+                column.For(x => x.Name).HeaderText("Name").Width("30%");
+                column.For(x => x.DateModified).HeaderText("Date Modified").Width("20%");
+                column.For(x => x.Type).HeaderText("Type").Width("20%");
+                column.For(x => x.Size).HeaderText("Size in KB").Width("20%");
+            })
+        .DataBind()
+        .Render()
+    )
+```
+
+## <a id="change"></a> 言語および地域設定の変更
+
+### <a id="change-locale"></a> 言語の変更
+
+コントロールの言語を `language` オプションによって設定できます。ランタイムに変更するには、以下の方法を使用します。
+- ページで `language` が明示的に設定されていないすべての Ignite UI ウィジェットをグローバルに設定するには、`changeGlobalLanguage` 関数を使用します。
+
+	**JavaScript の場合:**
+	
+	```js
+		$.ig.util.changeGlobalLanguage("ru");
+	```
+- コントロールの `language` オプションによってコントロールごとに設定します。
+
+	**JavaScript の場合:**
+	
+	```js
+		grid.igGrid("option", "language", "ru");
+	```
+
+>**注:** 設定する言語の関連するローカライズ ファイルをページで初期化の前に読み込む必要があります。
+
+>**注:** `language` オプションは、`locale` オプションを使用して設定される文字列をオーバーライドしません。 `locale` オプションがより優先されます。
+
+### <a id="change-regional"></a> 地域設定の変更
+
+コントロールの地域設定を `regional` オプションによって設定できます。設定するには、以下の方法を使用します。
+
+- ページですべての Ignite UI ウィジェットをグローバルに設定するには、`changeGlobalRegional` 関数を使用します。
+
+	**JavaScript の場合:**
+	
+	```js
+		$.ig.util.changeGlobalRegional("ru");
+	```
+	
+- コントロールの `language` オプションによってコントロールごとに設定します。
+
+	**JavaScript の場合:**
+	
+	```js
+		grid.igGrid("option", "regional", "ru");
+	```
+	
+>**注:** igGrid コントロールで列ごとに地域設定を変更できます。これにより、データに異なる列で異なる地域書式を設定できます。
+
+**JavaScript の場合:**
+		
+```js
+grid.igGrid({
+	columns: [
+		{ headerText: "Price", key: "Price", dataType: "number", width: "200px", regional: "en" },
+		{ headerText: "Date", key: "Date", dataType: "date", width: "200px", regional: "ru" }
+	]
+});
+```
+
+## <a id="Walkthrough"></a>チュートリアル: igGridPaging をカスタム ロケールでローカライズ
 
 ### <a id="WalkthroughIntroduction"></a>概要
 
@@ -206,29 +361,28 @@
 	**JavaScript の場合:**
 
 	```js
-	$.ig.GridPaging = $.ig.GridPaging || {};
-			$.extend( $.ig.GridPaging , {
-			locale : {
-				pageSizeDropDownLabel: "Muestreme los registros",
-				pageSizeDropDownTrailingLabel: "registros",
-				nextPageLabelText: "siguienta",
-				prevPageLabelText: "anterior",
-				firstPageLabelText: "",
-				lastPageLabelText: "",
-				currentPageDropDownLeadingLabel: "Pg",
-				currentPageDropDownTrailingLabel: "de ${count}",
-				currentPageDropDownTooltip: "Elija índice de página",
-				pageSizeDropDownTooltip: "Elija el número de registros por página",
-				pagerRecordsLabelTooltip: "Rango de registros actual",
-				prevPageTooltip: "Vaya a la página siguiente",
-				nextPageTooltip: "Vaya a la página anterior",
-				firstPageTooltip: "Vaya a la página primera",
-				lastPageTooltip: "Vaya a la página última",
-				pageTooltipFormat: "página ${index}",
-				pagerRecordsLabelTemplate: "${startRecord} - ${endRecord} de ${recordCount} registros"
-				}
-			});
-	```             
+	$.ig.locale.es.GridPaging = {
+			optionChangeNotSupported: "{optionName} no se puede editar tras la inicialización. Su valor debe establecerse durante la inicialización.",
+			pageSizeDropDownLabel: "Mostrar ",
+			pageSizeDropDownTrailingLabel: "registros",
+			nextPageLabelText: "siguiente",
+			prevPageLabelText: "anterior",
+			firstPageLabelText: "",
+			lastPageLabelText: "",
+			currentPageDropDownLeadingLabel: "Pág",
+			currentPageDropDownTrailingLabel: "de ${count}",
+			currentPageDropDownTooltip: "Elegir índice de páginas",
+			pageSizeDropDownTooltip: "Elegir número de registros por página",
+			pagerRecordsLabelTooltip: "Intervalo de registros actuales",
+			prevPageTooltip: "ir a la página anterior",
+			nextPageTooltip: "ir a la página siguiente",
+			firstPageTooltip: "ir a la primera página",
+			lastPageTooltip: "ir a la última página",
+			pageTooltipFormat: "página ${index}",
+			pagerRecordsLabelTemplate: "${startRecord} - ${endRecord} de ${recordCount} registros",
+			invalidPageIndex: "Índice de página no válido: debería ser igual o superior a 0 e inferior al número de página"
+	};
+	```           
 
 3. <a id="include_localized_file"></a> ローカライズされたファイルをスクリプト参照と共にプロジェクトに追加
 
@@ -243,7 +397,141 @@
 	<script src="../../js/modules/i18n/infragistics.ui.grid-es.js"></script>
 	<script src="../../js/infragistics.loader.js"></script>
 	```
-              
+
+## <a id="Walkthrough2"></a>チュートリアル: ページのすべてのコントロールの言語および地域設定をランタイムに変更
+
+以下の手順は、ページのすべてのコントロールの言語および地域設定を変更する処理を説明します。
+
+### <a id="Steps"></a>手順
+
+1. すべてのロケールおよび地域リソースを igLoader で読み込みます。
+
+**JavaScript の場合:**
+	
+```js
+	$.ig.loader({
+		scriptPath: 'http://localhost/igniteui/js/',
+		cssPath: 'http://localhost/igniteui/css/',
+		resources: 'igGrid.*, igEditors, igCombo',
+		locale: 'en, ja, bg, ru',
+		regional: 'en, ja, bg, ru'
+	});
+```
+
+2. ローカライズ可能なコンポーネントを初期化します - igGrid、igEditors、igCombo。
+
+**JavaScript の場合:**
+
+```js
+	$.ig.loader(function () {
+		$("#grid1").igGrid({
+			dataSource: northwindEmployees,
+			primaryKey: "ID",
+			width: "100%",
+			height: "400px",
+			autoCommit: true,
+			autoGenerateColumns: false,
+			columns: [
+					{ headerText: "Employee ID", key: "ID", dataType: "number", hidden: true},					
+					{ headerText: "Name", key: "Name", dataType: "string" },
+					{ headerText: "Title", key: "Title", dataType: "string" },
+					{ headerText: "Phone", key: "Phone", dataType: "string" },
+					{ headerText: "HireDate", key: "HireDate", dataType: "date", format: "date" },
+					{ headerText: "Value", key: "Value", dataType: "number", format: "currency" }
+				],
+			features: [
+				{
+					name: "Updating"
+				},
+				{
+					name: "Filtering",
+					mode: "simple"
+				},
+				{
+					name: "Sorting"
+				},
+				{
+					name: "GroupBy"
+				},
+				{
+					name: "Summaries"
+				},
+				{
+					name: "Hiding"
+				},
+				{
+					name: "Paging"
+				},
+				{ 
+					name: "Selection"
+				}					
+				]
+			});
+			var colors = [{
+                    "Name": "Black"
+                  }, {
+                    "Name": "Blue"
+                  }, {
+                    "Name": "Brown"
+                  }, {
+                    "Name": "Red"
+                  }, {
+                    "Name": "White"
+                  }, {
+                    "Name": "Yellow"
+                  }];
+ 
+            $("#combo1").igCombo({
+                  dataSource: colors,
+                  textKey: "Name",
+                  valueKey: "Name",
+                  width: "200px"
+            });
+			
+			$("#currencyEditor").igCurrencyEditor({
+                         width: 200,
+						 buttonType: "spin"
+            });
+			
+			$("#numericEditor").igNumericEditor({
+                         width: 200
+            });
+
+	})
+```
+
+3. ロケールおよび地域設定を変更するためのドロップダウンを作成します。ページのすべてのコンポーネントに変更を適用するには、`$.ig.util.changeGlobalRegional` および `$.ig.util.changeGlobalRegional` メソッドを使用します。
+
+**JavaScript の場合:**
+	
+```js
+		$("#globalLanguageSelect").igCombo({
+				dataSource:[
+				{ Name: "English", Value:"en"},
+				{ Name: "Japanesse", Value: "ja"},
+				{ Name: "Bulgarian", Value: "bg"},
+				{ Name: "Rusian", Value: "ru"}],
+					textKey: "Name",
+					valueKey: "Value",
+					selectionChanged: function(e, ui){					
+						$.ig.util.changeGlobalLanguage( ui.items[0].value);
+					}
+			});
+
+			$("#globalRegionalSelect").igCombo({
+				dataSource:[
+				{ Name: "US", Value:"en-US"},
+				{ Name: "GB", Value: "en-GB"},
+				{ Name: "BG", Value: "bg"},
+				{ Name: "RU", Value: "ru"}],
+				textKey: "Name",
+				valueKey: "Value",
+				selectionChanged: function(e, ui){					
+					$.ig.util.changeGlobalRegional( ui.items[0].value);
+				}
+			});
+```
+	
 ##<a id="RelatedContent"></a>関連コンテンツ
 
 ### トピック

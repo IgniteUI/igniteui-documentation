@@ -55,17 +55,17 @@ jspm install github:igniteui/ignite-ui
 
 すべてのコントロールを含む %%ProductName%% の製品版も JSPM で使用できます。
 
-In order to use the Infragistics private feed please follow the steps outlined in the "Installing the Ignite UI npm package from npmjs.com" from the [Using Ignite UI npm packages](using-ignite-ui-npm-packages.html) topic in order to setup the Infragistics private registry.
+Infragistics 非公開フィードを使用するには、Infragistics 非公開レジストリを構成するために「[Ignite UI npm パッケージの使用](using-ignite-ui-npm-packages.html)」トピックの「npmjs.com から Ignite UI npm パッケージをインストール」セクションで説明した手順を実行します。
 
-Additionally you will have to update the jspm's npm registry:
+また、jspm の npm レジストリを更新する必要があります。
 
 ```
 jspm registry config npm
 ```
 
-Input the following registry: "https://packages.infragistics.com/npm/" and configure your credentials using the ones from your account in the infragistics.com webs site.
+レジストリを "https://packages.infragistics.com/npm/" に設定し、infragistics.com ウェブサイトのアカウント資格情報を使用します。
 
-Finally install the IgniteUI package from the newly registered feed.
+IgniteUI パッケージを新しく登録したフィードからインストールします。
 
 ```
 jspm install npm:@infragistics/ignite-ui-full

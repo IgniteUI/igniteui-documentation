@@ -235,6 +235,7 @@
 			    <br>infragistics.dataSource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
+				<br>infragistics.ui.widget.js
 			</td>
 		</tr>
 		<tr>
@@ -371,6 +372,7 @@
 			<td>
     			infragistics.util.js
 				<br>infragistics.util.jquery.js
+				<br>infragistics.ui.widget.js
 			</td>
 		</tr>
 		<tr>
@@ -435,6 +437,7 @@
 			<td>
 				infragistics.util.js
 				<br>infragistics.util.jquery.js
+				<br>infragistics.ui.widget.js
 			</td>
 		</tr>
 		<tr>
@@ -497,6 +500,7 @@
 			<td>
 			    infragistics.util.js
 				<br>infragistics.util.jquery.js
+				<br>infragistics.ui.widget.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
@@ -548,6 +552,7 @@
 			<td>
 			    infragistics.util.js
 				<br>infragistics.util.jquery.js
+				<br>infragistics.ui.widget.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
@@ -599,6 +604,7 @@
 			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
+				<br>infragistics.ui.widget.js
 			    <br>infragistics.ui.toolbarbutton.js
 			    <br>infragistics.ui.splitbutton.js
 			    <br>infragistics.ui.colopicker.js
@@ -881,6 +887,7 @@
 			    infragistics.util.js
 				<br>infragistics.util.jquery.js
 				<br>infragistics.util.jquerydeferred.js
+				<br>infragistics.ui.widget.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.olapflatdatasource.js
 			
@@ -917,6 +924,7 @@
 			    infragistics.util.js
 			    <br>infragistics.util.jquery.js
 				<br>infragistics.util.jquerydeferred.js
+				<br>infragistics.ui.widget.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.olapflatdatasource.js
 			
@@ -954,7 +962,9 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js
-			<br>infragistics.util.jquery.js</td>
+			<br>infragistics.util.jquery.js
+			<br>infragistics.ui.widget.js
+			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -1037,7 +1047,8 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js
-			<br>infragistics.util.jquery.js</td>
+			<br>infragistics.util.jquery.js
+			<br>infragistics.ui.widget.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -1090,6 +1101,7 @@
 			<td>
 				infragistics.util.js
 				<br>infragistics.util.jquery.js
+				<br>infragistics.ui.widget.js
 				<br>infragistics.templating.js
 				<br>infragistics.ui.scroll.js
 				<br>infragistics.ext_core.js
@@ -1138,6 +1150,7 @@
 			<td>
 				infragistics.util.js
 				<br>infragistics.util.jquery.js
+				<br>infragistics.ui.widget.js
 				<br>modernizr.js
 			</td>
 		</tr>
@@ -1198,7 +1211,8 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js
-			<br>infragistics.util.jquery.js</td>
+			<br>infragistics.util.jquery.js
+			<br>infragistics.ui.widget.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -1298,6 +1312,7 @@
 				<br>infragistics.util.jquery.js
 			    <br>infragistics.datasource.js
 			    <br>infragistics.templating.js
+				<br>infragistics.ui.widget.js
 			    <br>infragistics.ui.splitter-en.js
 			    <br>infragistics.ui.splitter.js
 			    <br>infragistics.ui.layoutmanager.js
@@ -1326,6 +1341,7 @@
 			<td>
 			    infragistics.util.js
 				<br>infragistics.util.jquery.js
+				<br>infragistics.ui.widget.js
 			    <br>infragistics.dataSource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
@@ -1354,6 +1370,7 @@
 			<td>
 			    infragistics.util.js
 				<br>infragistics.util.jquery.js
+				<br>infragistics.ui.widget.js
 			    <br>infragistics.dataSource.js
 			    <br>infragistics.templating.js
 			    <br>infragistics.ui.shared.js
@@ -1408,6 +1425,7 @@
 			    infragistics.util.js
 				<br>infragistics.util.jquery.js
 			    <br>infragistics.ui.shared.js
+				<br>infragistics.ui.widget.js
 			</td>
 		</tr>
 		<tr>
@@ -1430,7 +1448,8 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>infragistics.util.js
-			<br>infragistics.util.jquery.js</td>
+			<br>infragistics.util.jquery.js
+			<br>infragistics.ui.widget.js</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
@@ -1456,6 +1475,7 @@
 			    infragistics.util.js
 				<br>infragistics.util.jquery.js
 			    <br>infragistics.ui.shared.js
+				<br>infragistics.ui.widget.js
 			</td>
 		</tr>
 		<tr>
@@ -1483,6 +1503,7 @@
 				infragistics.util.js
 				<br>infragistics.util.jquery.js
 				<br>infragistics.ui.shared.js
+				<br>infragistics.ui.widget.js
 			</td>
 		</tr>
 		<tr>

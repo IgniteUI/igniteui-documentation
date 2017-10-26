@@ -353,6 +353,21 @@ $(Html.Infragistics()
 
 ローダーは、ブラウザーの言語設定を検出し、自動的にこのロケールに切り替えます。この動作は、`autoDetectLocale` オプションで制御され、デフォルトで `false` に設定されています。`autoDetectLocale` と `locale` が設定されていると、`locale` オプションが優先します。
 
+リストをコンマで区切ることにより複数の言語を読み込むことができます。
+
+**JavaScript の場合:**
+	
+```js
+    $.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igHierarchicalGrid.Updating',
+    locale: 'en, ja, bg, ru'
+    });
+```
+
+一部またはすべてのページのコンポーネントの言語をランタイムで変更し、関連する言語ファイルをページに読み込む場合に便利です。
+
 ## <a id="regional-settings"></a> 地域設定
 地域設定は、数値及び通貨の値が地域に基づいて書式設定されるエディターなどの %%ProductName%% コントロールの一部に関連します。ローダーは、locale オプションから推測するかブラウザー UI の自動検出により、自動的に地域設定を読み込みます。
 
@@ -366,7 +381,24 @@ $(Html.Infragistics()
 {%%ProductName%% resources root}/js/modules/i18n/regional/
 ```
 
+リストをコンマで区切ることにより複数の地域設定を読み込むこともできます。
+
+**JavaScript の場合:**
+	
+```js
+    $.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igHierarchicalGrid.Updating',
+    regional: 'en, ja, bg, ru'
+    });
+```
+
+一部またはすべてのページのコンポーネントの地域設定をランタイムで変更し、関連する言語ファイルをページに読み込む場合に便利です。
+
 次のコードは、イギリス英語を使用するブルガリア ロケールに更新機能 (%%ProductName%% エディター コントロールを使用) が有効な階層グリッドを読み込みます。
+
+**JavaScript の場合:**
 
 ```javascript
 $.ig.loader({
