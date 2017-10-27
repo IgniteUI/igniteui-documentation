@@ -64,8 +64,9 @@ $("#scheduler").igScheduler({
 
 ```
 
-*Note:*
-When `colorScheme` is used this will override the color associated with the `id`
+*注:*
+`colorScheme` が使用される場合、これは `id` と関連付けられている色をオーバーライドします。
+
 ```
 { id: 1, displayName: "Trina Friesen", colorScheme: $.ig.scheduler.ScheduleResourceColorScheme.fuchsia }
 ``

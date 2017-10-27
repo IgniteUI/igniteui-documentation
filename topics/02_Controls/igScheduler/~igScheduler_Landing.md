@@ -29,9 +29,9 @@ Infragistics Scheduler について把握しておくべき知識は以下の各
 
 -   [リソースの構成](igscheduler-configure-resources.html)
 
--   [Configuring Recurrence](igscheduler-configure-recurrence.html)
+-   [繰り返しの構成](igscheduler-configure-recurrence.html)
 
--   [Configuring Views](igscheduler-configure-views.html)
+-   [ビューの構成](igscheduler-configure-views.html)
 
 -	[igScheduler の構成](igscheduler-Configuring.html)
 

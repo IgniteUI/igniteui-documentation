@@ -26,8 +26,8 @@
     - [ビュー](#views)
         - [予定一覧ビュー](#agenda-view)
         - [月単位の表示](#month-view)
-		- [Week View](#week-view)
-        - [Day View](#day-view)
+		- [週ビュー](#week-view)
+        - [日ビュー](#day-view)
     - [アクティビティ](#activities)
         - [予定](#appointments)
 
@@ -209,54 +209,48 @@ $("#scheduler").igScheduler({
 
 4. このアクティビティと関連する時間
 
-#### <a id="week-view"></a>Week View
+#### <a id="week-view"></a>週ビュー
 
-The Week View of the `igScheduler` is visualizing all seven week days based on the currently selected day. This view contains time-slot segments with same length and different height based on the time range of the appointment.
+`igScheduler` の週ビューは、選択されている日に基づいて 7 日を表示します。このビューは、予定の時間範囲に基づいて別の高さを持つ同じ長さの時間帯セグメントを含みます。
 
 
-The following screenshot shows the Week View along with its visual elements:
+以下の画像は、週ビューおよびその視覚要素を示します。
 
-1. Navigation Header
-
-2. Time slots
-
-3. Day headers
-
-4. Activities in the time slots
+1. ナビゲーション ヘッダー
+2. 時間帯
+3. 日ヘッダー
+4. 時間帯のアクティビティ
 
 ![](images/weekView.PNG)
 
-The following properties could be used in order to configure different week view aspects and behaviors:
+以下のプロパティを使用すると、週ビューの要素および動作を構成できます。
 
--	`weekViewDisplayMode` - Display mode. The week view can be configured to show all 7 week days or only the days configured as working days.
+-	`weekViewDisplayMode` - 表示モード。週ビューはすべての 7 日または稼動日として構成される日のみを表示できます。
 
--	`timeSlotInterval` - Time slot duration. Configure the time slots' duration. Currently 5, 6, 10, 15, 30 and 60 minutes are supported.
+-	`timeSlotInterval` - 時間帯の期間。時間帯の期間を構成します。現在 5、6、10、15、30、および 60 分がサポートされます。
 
--	`workingHoursDisplayMode` - Working days and hours. You can configure this view to display only working hours or all 24 hours.
+-	`workingHoursDisplayMode` - 稼動日および稼働時間。このビューを稼働時間またはすべての 24 時間を表示するために構成できます。
 
-#### <a id="day-view"></a>Day View
+#### <a id="day-view"></a>日ビュー
 
-Shows hour-based view of the selected day, the hours are listed vertically going from top to bottom. This view contains time-slot segments with same length and different height based on the time range of the appointment.
+選択された日の時間レベルのビューを表示します。時間は垂直方向に上から下へ配置されます。このビューは、予定の時間範囲に基づいて別の高さを持つ同じ長さの時間帯セグメントを含みます。
 
-The following screenshot shows the Day View along with its visual elements:
+以下の画像は、日ビューおよびその視覚要素を示します。
 
-1. Navigation Header
-
-2. Time slots
-
-3. Day headers
-
-4. Activities in the time slots
+1. ナビゲーション ヘッダー
+2. 時間帯
+3. 日ヘッダー
+4. 時間帯のアクティビティ
 
 ![](images/dayView.PNG)
 
-The following properties could be used in order to configure different day view aspects and behaviors:
+以下のプロパティを使用すると、日ビューの要素および動作を構成できます。
 
--	`dayViewDisplayMode` - Visible days. You can control how many days are visible at a time in the day view. Currently between 1 and 7 days are supported.
+-	`dayViewDisplayMode` - 表示日。日ビューで表示される日数を制御できます。現在 1 日から 7 日間がサポートされます。
 
--	`timeSlotInterval` - Time slot duration. Configure the time slots' duration. Currently 5, 6, 10, 15, 30 and 60 minutes are supported.
+-	`timeSlotInterval` - 時間帯の期間。時間帯の期間を構成します。現在 5、6、10、15、30、および 60 分がサポートされます。
 
--	`workingHoursDisplayMode` - Working days and hours. You can configure this view to display only working hours or all 24 hours.
+-	`workingHoursDisplayMode` - 稼動日および稼働時間。このビューは、稼働時間または全 24 時間を表示するために構成できます。
 
 #### トピック
 
