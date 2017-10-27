@@ -37,7 +37,7 @@
 [スワイプ ジェスチャのサポート](#SwipeGesture) |スワイプ ジェスチャのサポートがありません。 |![](images/negative.png)
 [予定ポップオーバーへの Tab ナビゲーション](#NavigationToAppointmentPopover) |予定ポップオーバーへの Tab ナビゲーションがありません。 |![](images/negative.png)
 [サポートされる最小幅は 320 px](#MinWidthSupport) |モバイル デバイスでサポートされる最小幅は 320 px です。 |![](images/negative.png)
-[MVC ラッパー ](#MVCWrappers) |MVC ラッパーがありません。  |![](images/negative.png)
+[Setting views option though MVC wrapper is not possible.](#MVCWrappers) | You are not able to set views option, through ASP.NET MVC wrapper.  |![](images/plannedFix.png)
 
 
 ## 既知の問題点と制限の詳細
@@ -88,7 +88,7 @@ igScheduler はローカル データ ソースのみを処理します。最初
 
 以後のリリースで、最小解像度に到達した場合に表示されるメッセージを追加します。
 
-### <a id="MVCWrappers"></a>MVC ラッパー 
+### <a id="MVCWrappers"></a>Setting views option though MVC wrapper is not possible.
 
-Scheduler を View でインスタンス化できません。次のバージョンで `igScheduler` ASP.NET MVC ラッパーを追加します。
+Using the `views` option exposed by the MVC wrapper to control which views(`Agenda`, `Week`, `Day`, `Month`) are initialized does not work. This will be implemented for the next scheduler version.
 
