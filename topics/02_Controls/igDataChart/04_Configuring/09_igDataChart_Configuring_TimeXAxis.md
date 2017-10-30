@@ -10,14 +10,14 @@
 
 # TimeXAxis の構成 (igDataChart)
 
-このトピックは、コード例を示して、TimeXAxis を `igDataChart`™ コントロールで使用する方法を説明します。The benefit of using TimeXAxis is to dynamically change label formats as you zoom in or out of the data.  In addition, axis breaks can be created which omit dates within a range.  For example, weekends can be skipped.
+このトピックは、コード例を示して、TimeXAxis を `igDataChart`™ コントロールで使用する方法を説明します。TimeXAxis を使用する利点は、データのズームで動的にラベル書式設定を変更できることです。また、軸ブレークを構成すると、特定の範囲内の日付を除外できます。たとえば、週末を非表示できます。
 
 このトピックは以下のように構成されています。
 
 -   [概要](#introduction)
 -   [軸ブレークのプロパティ](#breaks)
 
-Note: The following sections are only required if the default labels (i.e. formatting and intervals) need to be changed.
+注: 次のセクションは、デフォルトのラベル (書式設定および間隔) を変更する場合のみ必須です。
 -   [軸ラベル書式のプロパティ](#labelformats)
 -   [軸間隔のプロパティ](#intervals)
 -   [関連コンテンツ](#related-content)
