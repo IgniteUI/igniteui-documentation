@@ -129,7 +129,9 @@
 				infragistics.ext_ui.js<br>
 				infragistics.dv_jquerydom.js<br>
 				infragistics.dv_core.js<br>
-				infragistics.dv_geometry.js	
+				infragistics.dv_geometry.js<br>
+			    infragistics.dv_interactivity.js<br>
+				infragistics.ui.widget.js
 			</td>
 		</tr>
 		<tr>
@@ -172,6 +174,11 @@
 				<br>infragistics.dvcommonwidget.js
 				<br>infragistics.ui.basechart.js
 				<br>infragistics.datachart_category.js
+				<br>infragistics.ui.widget.js
+				
+				<h5>機能:</h5>
+				infragistics.dv_interactivity.js
+				<br>infragistics.datachart_interactivity.js
 			</td>
 		</tr>
 		<tr>
@@ -205,6 +212,7 @@
 				<br>infragistics.dv_geometry.js
 				<br>infragistics.datachart_core.js
 				<br>infragistics.dvcommonwidget.js
+				<br>infragistics.ui.widget.js
 			</td>
 		</tr>
 		<tr>
@@ -304,6 +312,7 @@
 				<br>infragistics.datachart_core.js
 				<br>infragistics.dvcommonwidget.js
 				<br>infragistics.ui.chart.js
+				<br>infragistics.ui.widget.js
 			
 				<h5>機能:</h5>
 			    infragistics.datachart_categorycore.js
@@ -318,6 +327,15 @@
 				<br>infragistics.datachart_scatter.js
 				<br>infragistics.datachart_stacked.js
 				<br>infragistics.datachart_annotation.js
+				<br>infragistics.datachart_shape.js
+				<br>infragistics.dv_interactivity.js
+				<br>infragistics.datachart_interactivity.js
+				
+				<h5>シェープ ファイルの読み込みの追加の依存関係:</h5>
+				infragistics.ext_text.js
+				<br>infragistics.ext_io.js
+				<br>infragistics.ext_web.js
+				<br>infragistics.dv_geo.js
 			</td>
 		</tr>
 	</tbody>
@@ -410,7 +428,9 @@
 				infragistics.dvcommonwidget.js<br>
 				infragistics.ui.chart.js<br>
 				infragistics.piechart.js<br>
-				infragistics.ui.basechart.js
+				infragistics.ui.basechart.js<br>
+				infragistics.dv_interactivity.js<br>
+				infragistics.ui.widget.js
 			</td>
 		</tr>
 		<tr>
@@ -473,7 +493,9 @@
 				infragistics.dv_geometry.js<br>
 				infragistics.datachart_core.js<br>
 				infragistics.dvcommonwidget.js<br>
-				infragistics.ui.basechart.js
+				infragistics.ui.basechart.js<br>
+				infragistics.dv_interactivity.js<br>
+				infragistics.ui.widget.js
 			</td>
 		</tr>
 		<tr>
@@ -710,7 +732,12 @@
 				infragistics.ext_io.js<br>
 				infragistics.ext_threading.js<br>
 				infragistics.ext_web.js<br>
-				infragistics.dv_geo.js
+				infragistics.dv_geo.js<br>
+				infragistics.ui.widget.js
+				
+				<h5>機能:</h5>
+				infragistics.dv_interactivity.js<br>
+				infragistics.datachart_interactivity.js
 			</td>
 		</tr>
 		<tr>
@@ -822,7 +849,9 @@
 				infragistics.dv_core.js<br>
 				infragistics.dv_geometry.js<br>
 				infragistics.datachart_core.js<br>
-				infragistics.dvcommonwidget.js
+				infragistics.dvcommonwidget.js<br>
+				infragistics.dv_interactivity.js<br>
+				infragistics.ui.widget.js
 			</td>
 		</tr>
 		<tr>
@@ -989,14 +1018,22 @@
 			<td>
 			    infragistics.util.js
 				<br>infragistics.util.jquery.js
-			    <br>infragistics.dv.simple.core.js
+			    <br>infragistics.ui.widget.js
+			    <br>infragistics.ext_core.js
+			    <br>infragistics.ext_text.js
+			    <br>infragistics.ext_collections.js
+			    <br>infragistics.ext_ui.js
+			    <br>infragistics.dv_core.js
+			    <br>infragistics.ext_collectionsextended.js
+			    <br>infragistics.barcode_core.js
+			    <br>infragistics.dv_jquerydom.js
 			</td>
 		</tr>
 		<tr>
 			<td>スクリプト</td>
 			<td>infragistics.barcode_qrcodebarcode.js
-    			<br>infragistics.encoding.js (オプション)
-    			<br>infragistics.ui.barcode.js</td>
+    			<br>infragistics.encoding.core.js
+    			<br>infragistics.ui.qrcodebarcode.js</td>
 		</tr>
 	</tbody>
 </table>
@@ -1022,7 +1059,9 @@
 				infragistics.ext_ui.js<br>
 				infragistics.dv_jquerydom.js<br>
 				infragistics.dv_core.js<br>
-				infragistics.dv_geometry.js
+				infragistics.dv_geometry.js<br>
+				infragistics.dv_interactivity.js<br>
+				infragistics.ui.widget.js
 			</td>
 		</tr>
 		<tr>
