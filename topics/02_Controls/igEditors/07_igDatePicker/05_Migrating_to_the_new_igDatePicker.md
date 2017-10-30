@@ -34,7 +34,6 @@
 animationHideDuration animationShowDuration|ドロップダウン リストの表示 / 非表示時のアニメーション時間の設定に使用されます。<br>`$(".selector").igDatePicker({`<br>`animationShowDuration: 500,`<br>`animationHideDuration: 500`<br>`});`|これらのオプションは、ドロップダウン リストのアニメーション時間を制御する新しいオプションの `dropDownAnimationDuration` に置き換えられました。<br>`$(".selector").igDatePicker({`<br>`dropDownAnimationDuration: 500`<br>`});`
 button|このオプションは、スピン ボタンとドロップダウン ボタンの表示 / 非表示の設定に使用されます。<br>`$(".selector").igDatePicker({`<br>`button : "dropdown"`<br>`});`|このオプションは、機能を明確に表すために、`buttonType` という名前に変更されました。<br>`$(".selector").igDatePicker({`<br>`buttonType : "dropdown"`<br>`});`
 display|外部の HTML 要素の style.display を取得または設定します。|このオプションは削除されました。
-dropDownOnReadOnly|このオプションは、「readOnly」オプションのオーバーライドを可能にし、ドロップダウン リストの表示やリストによるエディター内の値の変更ができます。<br>`$(".selector").igDatePicker({`<br>    `dropDownOnReadOnly : true`<br>`});`|このオプションは削除されました。`readOnly` を `true` に設定すると、ドロップダウン リストを表示することができません。<br>`$(".selector").igDatePicker({`<br>`readOnly : true`<br>`});`
 dropDownTriggers|ドロップダウン リストまたはカレンダーの表示をトリガーするアクションのリストを設定または取得します。|このオプションは削除されました。新しいエディターでは、`Alt` + `下矢印` キーでドロップダウンが表示されます。
 focusOnSpin|このオプションが無効で、エディターがフォーカスされていない場合、スピン ボタンをマウスでリックすると、エディター内のテキストがフォーカスされていない形式で維持され、スピン アクションが実行されました。|このオプションは削除されました。新しいエディターでは、エディターがフォーカスされていない状態でスピン ボタンをマウスでクリックしても、エディターがフォーカスされません。
 focusOnDropDownOpen|カレンダーが開いたとき、自動的に入力をフォーカスする機能を取得または設定します。|このオプションは、igDatePicker では使用できなくなりました。
