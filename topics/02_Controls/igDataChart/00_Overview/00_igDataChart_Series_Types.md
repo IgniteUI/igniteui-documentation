@@ -1036,6 +1036,104 @@ Open、High、Low、Close の略開始と終わりの値のマーキングをも
                 </ul>
             </td>
         </tr>
+		        
+        <tr>
+            <td>
+			</td>
+            <td>
+Scatter Area
+			</td>
+            <td>
+Visualize data as a colored 2D surface based on a triangulation of X+Y+Value points in a Cartesian coordinate system.
+			</td>
+            <td>
+`scatterArea`
+			</td>
+            <td>
+                <ul>
+                    <li>
+[xMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:series.xMemberPath)
+					</li>
+                    <li>
+[yMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:series.yMemberPath)
+					</li>
+					
+					<li>
+[colorMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:series.colorMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+			</td>
+            <td>
+Scatter Contour
+			</td>
+            <td>
+Visualize data as isarithmic contours based on a triangulation of X+Y+Value points in a Cartesian coordinate system.
+			</td>
+            <td>
+`scatterContour`
+			</td>
+            <td>
+                <ul>
+                    <li>
+[xMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:series.xMemberPath)
+					</li>
+                    <li>
+[yMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:series.yMemberPath)
+					</li>
+					
+					<li>
+[valueMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:series.valueMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+			</td>
+            <td>
+Scatter Polygon
+			</td>
+            <td>
+Visualize data as a series of polygons in a Cartesian coordinate system.
+			</td>
+            <td>
+`scatterPolygon`
+			</td>
+            <td>
+                <ul>
+					<li>
+[shapeMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:series.shapeMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+			</td>
+            <td>
+Scatter Polyline
+			</td>
+            <td>
+Visualize data as a series of polylines in a Cartesian coordinate system.
+			</td>
+            <td>
+`scatterPolyline`
+			</td>
+            <td>
+                <ul>
+					<li>
+[shapeMemberPath](%%jQueryApiUrl%%/ui.igDataChart#options:series.shapeMemberPath)
+					</li>
+                </ul>
+            </td>
+        </tr>
     </tbody>
 </table>
 
@@ -1109,9 +1207,11 @@ Open、High、Low、Close の略開始と終わりの値のマーキングをも
 
 散布図は、2 つの変数が関係する科学的な測定やその他のデータ収集に使われ、測定の特定の分野での標本の密度をわかりやすく示すことができ、データの分布についてトレンドを示すこともできます。
 
+Two of the scatter types, `scatterPolygon` and `scatterPolyline`, depict data differently than the other types. They depict collections of points as two-dimensional shapes where each point makes up one corner, or vertex, of the shape.  For example, a rectangle is produced by having 4 points, one in each corner. The `scatterPolygon` type depicts a filled shape while the `scatterPolyline` type depicts the point collection as line segments connecting each point.
 
+![](images/igDataChart_Types_10.png)
 
-##<a id="composite"></a>複合チャート
+##　<a id="composite"></a>複合チャート
 
 
 ### 複合チャートの概要

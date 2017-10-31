@@ -112,7 +112,7 @@ Infragistics® Loader (`igLoader`™) を使用します。ページ上に `igLo
 					</li>
 
                     <li>
-%%ProductName%% パッケージのすべてのデータ ビジュアライゼーション コントロールのロジックを含む、2 つの結合ファイル (`infragistics.core.js`、`infragistics.dv.js` および `infragistics.encoding.js` (オプション)) を読み込みます。
+%%ProductName%% パッケージのすべてのデータ ビジュアライゼーション コントロールのロジックを含む、2 つの結合ファイル (`infragistics.core.js` および `infragistics.dv.js`) を読み込みます。
 					</li>
                 </ul>
 
@@ -144,6 +144,30 @@ JS リソース
 			</td>
                         </tr>
 
+						<tr>
+                            <td>
+`infragistics.ui.widget.js`
+                            </td>
+                            <td>
+共有のウィジェット
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+`infragistics.dv_core.js`<br/>
+`infragistics.dv_jquerydom.js`<br/>
+`infragistics.ext_core.js`<br/>
+`infragistics.ext_collection.js`<br/>
+`infragistics.ext_collectionsextended.js`<br/>
+`infragistics.ext_text.js`<br/>
+`infragistics.ext_ui.js`
+                            </td>
+                            <td>
+データ ビジュアライゼーションのコア機能
+                            </td>
+                        </tr>
+						
                         <tr>
                             <td>
 `infragistics.dv.simple.core.js`
@@ -156,6 +180,18 @@ JS リソース
 
                         <tr>
                             <td>
+`infragistics.encoding.core.js`<br/>
+`infragistics.encoding_<encoding-name>.js`
+			</td>
+
+                            <td>
+Character encodings.  The various supported encodings can be found under the %%ProductName%%™ package folder structure:<br/> /modules/encoding<br/><br/>Please see the [Configuring the Character Encoding](igQRCodeBarcode_Configuring_the_Character_Encoding.html) topic for more detail.
+			</td>
+                        </tr>
+
+                        <tr>
+                            <td>
+`infragistics.barcode_core.js`<br/>
 `infragistics.barcode_qrcodebarcode.js`
 			</td>
 
@@ -166,17 +202,7 @@ JS リソース
 
                         <tr>
                             <td>
-`infragistics.encoding.js`
-			</td>
-
-                            <td>
-(オプション) UTF-8 や UTF-16 とは別に、サポートされるすべてのエンコードに関するライブラリ
-			</td>
-                        </tr>
-
-                        <tr>
-                            <td>
-`infragistics.ui.barcode.js`
+`infragistics.ui.qrcodebarcode.js`
 			</td>
 
                             <td>

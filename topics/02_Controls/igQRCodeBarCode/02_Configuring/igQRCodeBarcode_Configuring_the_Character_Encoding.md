@@ -78,10 +78,7 @@
 
 ### <a id="encoding-requirements"></a>要件
 
-`igQRCodeBarcode` コントロールを適切に使用するには、文字セットで使用するそれぞれの文字エンコード ファイルがアプリケーションに読み込まれている必要があります。これは、すべてのエンコード情報が含まれたファイルを、または使用するエンコード情報が含まれるファイルのみのいずれかを読み込むことを意味します。代わりに以下を読み込みます。
-
--   `infragistics.encoding.js` ファイルこのファイルには、すべての文字エンコードのセットが含まれています。バーコードを生成するために複数の文字セットを使用する場合など、アプリケーションで複数のエンコードが必要な場合に適しています。
--   `infragistics.encoding.core.js` および `infragistics.encoding_<encoding-name>.js` ファイル後者は、`<encoding-name>` エンコードのみを含みます。複数の言語に対応するために、複数の `infragistics.encoding_<encoding-name>.js` ファイルを含めることができます。この選択肢は、ファイル サイズが小さいために他のエンコードを使用しない場合にお勧めします。
+For the `igQRCodeBarcode` control to operate properly, the respective character encoding file(s) for the character sets in use are required and must be loaded to the application. This means loading the files for the individual encodings to be used. These files would be `infragistics.encoding.core.js` and `infragistics.encoding_<encoding-name>.js` file. In the latter file, `<encoding-name>` refers to the name of the encoding type such as ISO-8859. Several `infragistics.encoding_<encoding-name>.js` files can be included to support multiple languages.
 
 1.  %%ProductName%%™ パッケージ フォルダー構成の以下の場所で、任意のエンコード ファイルを見つけることができます。
 
