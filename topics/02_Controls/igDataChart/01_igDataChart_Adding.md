@@ -481,8 +481,16 @@
 			<td>igDataChart.Radial</td>
 		</tr>
 		<tr>
-			<td>scatter, scatterLine</td>
+			<td>scatter, scatterLine, scatterArea, scatterContour</td>
 			<td>igDataChart.Scatter</td>
+		</tr>
+		<tr>
+			<td>scatterPolyline, scatterPolygon</td>
+			<td>igDataChart.Shape</td>
+		</tr>
+		<tr>
+			<td>シェープファイル</td>
+			<td>igDataChart.igShapeDataSource</td>
 		</tr>
 		<tr>
 			<td>stackedBar, stacked100Bar, stackedArea, stacked100Area, stackedColumn, stacked100Column, stackedLine, stacked100Line, stackedSpline, stacked100Spline, stackedSplineArea, stacked100SplineArea</td>
@@ -495,6 +503,10 @@
 		<tr>
 			<td>日時軸</td>
 			<td>igDateTimeAxis</td>
+		</tr>
+		<tr>
+			<td>TimeXAxis</td>
+			<td>igTimeXAxis</td>
 		</tr>
 		<tr>
 			<td>チャート凡例</td>
