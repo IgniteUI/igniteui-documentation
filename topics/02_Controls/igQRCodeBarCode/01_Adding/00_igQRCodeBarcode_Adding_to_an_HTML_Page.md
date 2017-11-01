@@ -185,7 +185,7 @@ JS リソース
 			</td>
 
                             <td>
-Character encodings.  The various supported encodings can be found under the %%ProductName%%™ package folder structure:<br/> /modules/encoding<br/><br/>Please see the [Configuring the Character Encoding](igQRCodeBarcode_Configuring_the_Character_Encoding.html) topic for more detail.
+文字エンコード。サポートされるエンコードは %%ProductName%%™ パッケージのフォルダーに含まれます。<br/> /modules/encoding<br/><br/>詳細については、「[文字エンコードの構成](igQRCodeBarcode_Configuring_the_Character_Encoding.html)」トピックを参照してください。
 			</td>
                         </tr>
 

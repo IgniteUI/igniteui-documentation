@@ -16,23 +16,23 @@
 
 - `windowResponse` オプションのデフォルトの値を `deferred` から `immediate` に変更しました。つまり、パンとズーム操作はユーザーがこの操作でポインター位置を変更するときすぐに実行します。以前の deferred 動作は、ユーザーが移動完了したときにビューを更新しました。
 
-## Data Visualization dependencies
+## データ可視化の依存関係
 
-Some optional functionality was modularized and their files were reorganized as below:
+オプションの機能の一部がモジュール化され、そのファイルが以下のように再編成されます。
 
-- `infragistics.barcode_core.js` is a new dependency for the igQRCodeBarcode.  
+- `infragistics.barcode_core.js` は igQRCodeBarcode の新しい依存関係です。
 
-- `infragistics.ui.barcode.js` has been renamed to "_infragistics.ui.qrcodebarcode.js_", please update your references.
+- `infragistics.ui.barcode.js` は "infragistics.ui.qrcodebarcode.js" に名前変更されました。参照を更新してください。
 
-- `infragistics.chart_sparkline.js` has been renamed to "_infragistics.sparkline.js_", please update your references.
+- `infragistics.chart_sparkline.js` は "infragistics.sparkline.js" に名前変更されました。参照を更新してください。
 
-- `infragistics.dv.simple.core.js` has been removed, it should no longer be referenced.  
+- `infragistics.dv.simple.core.js` は削除されました。参照を削除してください。
 
-- `infragistics.olap.js` is a new requirement for the igOlapFlatDataSource and igOlapXmlaDataSource.  
+- `infragistics.olap.js` は igOlapFlatDataSource および igOlapXmlaDataSource の新しい依存関係です。
 
-- `infragistics.radialmenu_core.js` has been removed, it should no longer be referenced.  
+- `infragistics.radialmenu_core.js` は削除されました。参照は削除してください。
 
-- `infragistics.dv_interactivity.js` provides support for user interaction such as panning, zooming, dragging, etc. This has been added as a **required** dependency for the following controls:
+- `infragistics.dv_interactivity.js` はパンニング、ズーム、ドラッグなどのユーザー インタラクションのサポートを提供します。これは以下のコントロールで**必須**依存関係として追加されました。
  - igPieChart
  - igFunnelChart
  - igSparkline
@@ -43,39 +43,39 @@ Some optional functionality was modularized and their files were reorganized as 
  - igSpreadsheet
  - igScheduler
 
-- `infragistics.datachart_interactivity.js` provides support for user interaction such as tooltips, panning, zooming, dragging, etc. This has been added as an **optional** dependency for the following controls, and should be referenced in conjunction with infragistics.dv_interactivity.js:  
+- `infragistics.datachart_interactivity.js` pはツールチップ、パンニング、ズーム、ドラッグなどのユーザー インタラクションのサポートを提供します。これは以下のコントロールで**オプション**の依存関係として追加され、infragistics.dv_interactivity.js と一緒に参照されます。
  - igDataChart
  - igCategoryChart
  - igShapeChart
  - igMap
 
-- `infragistics.dv_visualdata.js` enables visual data exporting for automated testing. This has been added as an **optional** dependency for the following controls:
+- `infragistics.dv_visualdata.js` は自動テストのために視覚データのエクスポートを有効にします。次のコントロールの**オプション**の依存関係として追加されました。
  - igDataChart
  - igCategoryChart
  - igShapeChart
  - igMap
  
-- `infragistics.datachart_visualdata.js` enables visual data exporting for automated testing for the charts. This has been added as an **optional** dependency for the following controls, and should be referenced in conjunction with infragistics.dv_visualdata.js:
+- `infragistics.datachart_visualdata.js` はチャートの自動テストのために視覚データのエクスポートを有効にします。次のコントロールの**オプション**の依存関係として追加され、infragistics.dv_visualdata.js と一緒に参照されます。
  - igDataChart
  - igCategoryChart
  - igShapeChart
  - igMap
 
-## Data Visualization Dependency Comparisons
+## データ可視化の依存関係の比較
 
 ### igQRCodeBarcode
-| 17.1 Dependencies  | 17.2 Dependencies |
+| 17.1 依存関係  | 17.2 依存関係 |
 | ------------------ |:------------------|
 |infragistics.util.js<br/> infragistics.util.jquery.js<br/> infragistics.util.jquerydeferred.js<br/> infragistics.dv.simple.core.js<br/> infragistics.ext_core.js<br/> infragistics.ext_collections.js<br/> infragistics.ext_ui.js<br/> infragistics.dv_core.js<br/> infragistics.dv_jquerydom.js<br/> infragistics.barcode_qrcodebarcode.js<br/> infragistics.ui.barcode.js | infragistics.util.js<br/> infragistics.util.jquery.js<br/> infragistics.util.jquerydeferred.js<br/> infragistics.ui.widget.js<br/> infragistics.ext_core.js<br/> infragistics.ext_text.js<br/> infragistics.ext_collections.js<br/> encoding/infragistics.encoding.core.js<br/> infragistics.ext_ui.js<br/> infragistics.dv_core.js<br/> infragistics.ext_collectionsextended.js<br/> infragistics.barcode_core.js<br/> infragistics.dv_jquerydom.js<br/> infragistics.barcode_qrcodebarcode.js<br/> infragistics.ui.qrcodebarcode.js |
 
 ### igSparkline
 
-| 17.1 Dependencies  | 17.2 Dependencies |
+| 17.1 依存関係  | 17.2 依存関係 |
 | ------------------ |:------------------|
 |infragistics.util.js<br/> infragistics.util.jquery.js<br/> infragistics.util.jquerydeferred.js<br/> infragistics.ext_core.js<br/> infragistics.ext_collections.js<br/> infragistics.ext_ui.js<br/> infragistics.dv_core.js<br/> infragistics.dv_geometry.js<br/> infragistics.dv.simple.core.js<br/> infragistics.templating.js<br/> infragistics.datasource.js<br/> infragistics.dv_jquerydom.js<br/> infragistics.ui.basechart.js<br/> infragistics.chart_sparkline.js<br/> infragistics.ui.sparkline.js | infragistics.util.js<br/> infragistics.util.jquery.js<br/> infragistics.util.jquerydeferred.js<br/> infragistics.templating.js<br/> infragistics.datasource.js<br/> infragistics.ext_core.js<br/> infragistics.ext_collections.js<br/> infragistics.ext_ui.js<br/> infragistics.dv_core.js<br/> infragistics.dv_jquerydom.js<br/> infragistics.ui.basechart.js<br/> infragistics.dv_geometry.js<br/> infragistics.dv_interactivity.js<br/> infragistics.ui.widget.js<br/> infragistics.sparkline.js<br/> infragistics.ui.sparkline.js |
 
 ### igRadialMenu
-| 17.1 Dependencies  | 17.2 Dependencies |
+| 17.1 依存関係  | 17.2 依存関係 |
 | ------------------ |:------------------|
 |infragistics.util.js<br/> infragistics.util.jquery.js<br/> infragistics.util.jquerydeferred.js<br/> infragistics.ext_core.js<br/> infragistics.ext_collections.js<br/> infragistics.ext_ui.js<br/> infragistics.dv_core.js<br/> infragistics.dv_jquerydom.js<br/> infragistics.radialmenu_core.js<br/> infragistics.ui.radialmenu.js | infragistics.util.js<br/> infragistics.util.jquery.js<br/> infragistics.util.jquerydeferred.js<br/> infragistics.ext_core.js<br/> infragistics.ext_collections.js<br/> infragistics.ext_collectionsextended.js<br/> infragistics.ext_ui.js<br/> infragistics.dv_core.js<br/> infragistics.dv_interactivity.js<br/> infragistics.dv_jquerydom.js<br/> infragistics.ui.widget.js<br/> infragistics.radialmenu.js<br/> infragistics.ui.radialmenu.js |
   

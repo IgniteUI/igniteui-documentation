@@ -1041,10 +1041,10 @@ Open、High、Low、Close の略開始と終わりの値のマーキングをも
             <td>
 			</td>
             <td>
-Scatter Area
+散布エリア
 			</td>
             <td>
-Visualize data as a colored 2D surface based on a triangulation of X+Y+Value points in a Cartesian coordinate system.
+デカルト座標システムの X+Y+Value ポイントの三角測量に基づいて、データを色付きの 2D サーフェスとして視覚化します。
 			</td>
             <td>
 `scatterArea`
@@ -1069,10 +1069,10 @@ Visualize data as a colored 2D surface based on a triangulation of X+Y+Value poi
             <td>
 			</td>
             <td>
-Scatter Contour
+散布等高線
 			</td>
             <td>
-Visualize data as isarithmic contours based on a triangulation of X+Y+Value points in a Cartesian coordinate system.
+デカルト座標システムの X+Y+Value ポイントの三角測量に基づいて、データを等高線として視覚化します。
 			</td>
             <td>
 `scatterContour`
@@ -1097,10 +1097,10 @@ Visualize data as isarithmic contours based on a triangulation of X+Y+Value poin
             <td>
 			</td>
             <td>
-Scatter Polygon
+散布多角形
 			</td>
             <td>
-Visualize data as a series of polygons in a Cartesian coordinate system.
+デカルト座標システムで、データを多角形のシリーズとして視覚化します。
 			</td>
             <td>
 `scatterPolygon`
@@ -1118,10 +1118,10 @@ Visualize data as a series of polygons in a Cartesian coordinate system.
             <td>
 			</td>
             <td>
-Scatter Polyline
+散布ポリライン
 			</td>
             <td>
-Visualize data as a series of polylines in a Cartesian coordinate system.
+デカルト座標システムで、データをポリラインのシリーズとして視覚化します。
 			</td>
             <td>
 `scatterPolyline`
@@ -1207,7 +1207,7 @@ Visualize data as a series of polylines in a Cartesian coordinate system.
 
 散布図は、2 つの変数が関係する科学的な測定やその他のデータ収集に使われ、測定の特定の分野での標本の密度をわかりやすく示すことができ、データの分布についてトレンドを示すこともできます。
 
-Two of the scatter types, `scatterPolygon` and `scatterPolyline`, depict data differently than the other types. They depict collections of points as two-dimensional shapes where each point makes up one corner, or vertex, of the shape.  For example, a rectangle is produced by having 4 points, one in each corner. The `scatterPolygon` type depicts a filled shape while the `scatterPolyline` type depicts the point collection as line segments connecting each point.
+`scatterPolygon` および `scatterPolyline` の散布タイプは他のタイプとは異なるデータ表示を使用します。このタイプでは、ポイントのコレクションが 2 次元の図形として描画されます。各ポイントはその図形の 1 つの角または頂点を構成します。たとえば、矩形は各角を表す 4 つのポイントで定義されます。`scatterPolygon` 型は塗りつぶされた図形を表示し、`scatterPolyline` 型はポイント コレクションを各ポイントを接続する線分として表示します。
 
 ![](images/igDataChart_Types_10.png)
 
