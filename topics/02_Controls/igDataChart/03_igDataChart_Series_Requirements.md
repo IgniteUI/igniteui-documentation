@@ -45,7 +45,7 @@
                 <th>numericY</th>
                 <th>categoryX</th>
                 <th>categoryY</th>
-                <th>categoryDateTimeX</th>
+                <th>time</th>
                 <th>valueMemberPath</th>
             </tr>
 
@@ -212,7 +212,7 @@ The table below shows what 軸型 can be used with Range Series in the `igDataCh
                 <th>シリーズ タイプ</th>
                 <th>numericY</th>
                 <th>categoryX</th>
-                <th>categoryDateTimeX</th> 
+                <th>time</th> 
                 <th>high</th>
                 <th>low</th>
             </tr>
@@ -254,7 +254,7 @@ The table below shows what 軸型 can be used with Stacked Series in the `igData
                 <th>numericY</th>
                 <th>categoryX</th>
                 <th>categoryY</th>
-                <th>categoryDateTimeX</th>
+                <th>time</th>
                 <th>value</th>
             </tr>
             <tr>
@@ -618,7 +618,7 @@ The table below shows what 軸型 can be used with Stacked Series in the `igData
                 <th>シリーズ タイプ</th>
                 <th>numericY</th> 
                 <th>categoryX</th>
-                <th>categoryDateTimeX</th>
+                <th>time</th>
                 <th>high</th>
                 <th>low</th>
                 <th>open</th>
