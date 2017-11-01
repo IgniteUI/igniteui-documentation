@@ -136,6 +136,15 @@
                             </td>
                         </tr>
 
+						<tr>
+							<td>
+								`infragistics.ui.widget.js`
+                            </td>
+							<td>
+								すべての Ignite UI ウィジェットの基本 igWidget。
+							</td>
+						</tr>
+						
                         <tr>
                             <td>
                                 `infragistics.ext_core.js`
@@ -150,6 +159,15 @@
                                データ ビジュアライゼーションのコア機能
                             </td>
                         </tr>
+						
+						<tr>
+							<td>
+								`infragistics.dv_interactivity.js`
+                            </td>
+							<td>
+								パンニング、ズーム、ドラッグなどのユーザー インタラクションのサポートを提供します。
+							</td>
+						</tr>
 
                         <tr>
                             <td>`infragistics.lineargauge.js`</td>
@@ -238,12 +256,14 @@
     <!-- Linear Gauge Required JavaScript Files -->
 	<script type="text/javascript" src="../../igniteui/js/modules/infragistics.util.js"></script>
 	<script type="text/javascript" src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
+	<script type="text/javascript" src="../../igniteui/js/modules/infragistics.ui.widget.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ext_core.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ext_collections.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ext_ui.js"></script>
 	<script type="text/javascript" src="../../igniteui/js/modules/infragistics.dv_jquerydom.js" ></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.dv_core.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.dv_geometry.js"></script>
+	<script type="text/javascript" src="../../igniteui/js/modules/infragistics.dv_interactivity.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.lineargauge.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ui.lineargauge.js"></script>
 </head>

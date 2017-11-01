@@ -139,6 +139,14 @@ JS リソース
 						</tr>
 						<tr>
 							<td>
+*infragistics.ui.widget.js*
+                            </td>
+							<td>
+すべての Ignite UI ウィジェットの基本 igWidget。
+							</td>
+						</tr>
+						<tr>
+							<td>
 *infragistics.bulletgraph.js*
                             </td>
 							<td>
@@ -224,6 +232,7 @@ JS リソース
 	<script src="../../igniteui/js/modules/infragistics.dv_jquerydom.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.dv_core.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.dv_geometry.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.widget.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.bulletgraph.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.ui.bulletgraph.js" type="text/javascript"></script>
 </head>
@@ -389,6 +398,7 @@ JS リソース
 	<script src="../../igniteui/js/modules/infragistics.dv_jquerydom.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.dv_core.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.dv_geometry.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.widget.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.bulletgraph.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.ui.bulletgraph.js" type="text/javascript"></script>
         <script type="text/jscript">

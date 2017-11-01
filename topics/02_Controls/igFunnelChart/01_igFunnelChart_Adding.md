@@ -167,6 +167,14 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 							</td>
 						</tr>
 
+						<tr>
+							<td>
+								infragistics.ui.widget.js
+                            </td>
+							<td>
+								すべての Ignite UI ウィジェットの基本 igWidget。
+							</td>
+						</tr>
 						
 						<tr>
 							<td>
@@ -200,6 +208,15 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 
 							<td>
 								データ ビジュアライゼーション ウィジェットの共有 UI コード
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								infragistics.dv_interactivity.js
+                            </td>
+							<td>
+								パンニング、ズーム、ドラッグなどのユーザー インタラクションのサポートを提供します。
 							</td>
 						</tr>
 

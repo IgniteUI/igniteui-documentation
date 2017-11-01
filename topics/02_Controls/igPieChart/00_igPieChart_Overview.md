@@ -176,6 +176,15 @@ JS リソース
 igDataSource™ コントロール
 			</td>
 						</tr>
+						
+						<tr>
+							<td>
+								`infragistics.ui.widget.js`
+                            </td>
+							<td>
+								すべての Ignite UI ウィジェットの基本 igWidget。
+							</td>
+						</tr>
 
 						<tr>
 							<td>
@@ -200,6 +209,15 @@ igDataSource™ コントロール
 							<td>
 チャートおよびマップの共通ウィジェット
 			</td>
+						</tr>
+						
+						<tr>
+							<td>
+								`infragistics.dv_interactivity.js`
+                            </td>
+							<td>
+								パンニング、ズーム、ドラッグなどのユーザー インタラクションのサポートを提供します。
+							</td>
 						</tr>
 
 						<tr>

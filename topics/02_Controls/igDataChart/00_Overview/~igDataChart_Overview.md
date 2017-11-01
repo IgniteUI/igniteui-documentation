@@ -721,6 +721,15 @@ infragistics.dv_opd.js
 チャートの概要と詳細ペイン機能
 			</td>
 						</tr>
+						<tr>
+							<td>
+infragistics.ui.widget.js
+			</td>
+
+							<td>
+すべての Ignite UI ウィジェットの基本 igWidget。
+			</td>
+						</tr>
 					</tbody>
 </table>
 			</td>
@@ -847,7 +856,7 @@ infragistics.datachart_scatter.js
 	
 		<tr>
 			<td>
-				DateTime 軸
+				DateTimeAxis / TimeAxis
 			</td>
 			<td>
 				infragistics.datachart_extendedaxes.js

@@ -170,6 +170,15 @@
 						
 						<tr>
 							<td>
+								infragistics.ui.widget.js
+                            </td>
+							<td>
+								すべての Ignite UI ウィジェットの基本 igWidget。
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
 								infragistics.ext_core.js,<br>
 								infragistics.ext_collections.js,<br>
 								infragistics.ext_ui.js,<br>
@@ -188,6 +197,15 @@
 								infragistics.datachart_core.js
 							<td>
 								共有チャート ビジュアライゼーションの機能
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								infragistics.dv_interactivity.js
+                            </td>
+							<td>
+								パンニング、ズーム、ドラッグなどのユーザー インタラクションのサポートを提供します。
 							</td>
 						</tr>
 
@@ -354,6 +372,7 @@
 	<!-- %%ProductName%% Required JavaScript Files -->
 	<script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.util.jquery.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.widget.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.datasource.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.templating.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.ext_core.js" type="text/javascript"></script>
@@ -363,6 +382,7 @@
 	<script src="../../igniteui/js/modules/infragistics.dv_core.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.legend.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.dv_geometry.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.dv_interactivity.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.datachart_core.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.dvcommonwidget.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.ui.chartlegend.js" type="text/javascript"></script>
