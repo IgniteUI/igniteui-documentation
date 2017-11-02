@@ -196,9 +196,9 @@
     </table>
 </div>
 
-## <a id="range"></a>Requirements for Range Series
+## <a id="range"></a>範囲シリーズの要件
 
-The table below shows what 軸型 can be used with Range Series in the `igDataChart` control. This table indicates also the data members that are required by these series.
+以下の表は `igDataChart` コントロールで範囲シリーズで使用できる軸タイプを示します。この表は、これらのシリーズによって必要とされるデータ メンバーも示します。
 
 <div class="document-table-container">
     <table class="table table-striped">
@@ -236,9 +236,9 @@ The table below shows what 軸型 can be used with Range Series in the `igDataCh
     </table>
 </div>
 
-## <a id="stacked"></a>Requirements for Stacked Series
+## <a id="stacked"></a>積層シリーズの要件
 
-The table below shows what 軸型 can be used with Stacked Series in the `igDataChart` control. This table indicates also the data members that are required by these series.
+以下の表は `igDataChart` コントロールで積層シリーズで使用できる軸タイプを示します。この表は、これらのシリーズによって必要とされるデータ メンバーも示します。
 
 <div class="document-table-container">
     <table class="table table-striped">

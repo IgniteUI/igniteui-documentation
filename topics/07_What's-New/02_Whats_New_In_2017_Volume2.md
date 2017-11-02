@@ -234,7 +234,7 @@ MVC の場合:
 
 ## <a id="igshapechart-control"></a> igShapeChart
 
-`igShapeChart` は軽量で高パフォーマンスなチャートです。This chart can be easily configured to display scatter X/Y points, shape files or any custom shape that you can define using an array of arrays of X/Y points. The `igShapeChart` control is using a smart data adapter in order to analyze bound data and select an appropriate visualization to render. However, it is possible to specify which chart type the `igShapeChart` will use by setting the `chartType` property to one of the following values: `Area`,`Bubble`,`Contour`,`HighDensity`,`Point`,`Line`, `Spline`, `Polygon`, or `Polyline`.
+`igShapeChart` は軽量で高パフォーマンスなチャートです。このチャートは散布 X/Y ポイント、シェープ ファイルまたは X/Y ポイントの配列の配列を使用して定義されるカスタム図形のデータを表示するために構成できます。`igShapeChart` コントロールはスマートなデータ アダプターを使用してバインドされるデータを解析して描画する適切なビジュアライゼーションを選択します。ただし、以下の値に `chartType` プロパティを設定すると、`igShapeChart` が使用するチャート タイプを指定できます: `Area`、`Bubble`、`Contour`、`HighDensity`、`Point`、`Line`、`Spline`、`Polygon`、または `Polyline`。
 
 ![](images/shapechart_overview.png)
 
