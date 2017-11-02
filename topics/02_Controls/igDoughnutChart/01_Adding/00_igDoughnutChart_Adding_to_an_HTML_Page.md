@@ -490,6 +490,7 @@
 	<!-- %%ProductName%% Required JavaScript Files -->
 	<script src="../../igniteui/js/modules/infragistics.util.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.util.jquery.js" type="text/javascript"></script>
+	<script src="../../igniteui/js/modules/infragistics.ui.widget.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.datasource.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.templating.js" type="text/javascript"></script>
 	<script src="../../igniteui/js/modules/infragistics.ext_core.js" type="text/javascript"></script>

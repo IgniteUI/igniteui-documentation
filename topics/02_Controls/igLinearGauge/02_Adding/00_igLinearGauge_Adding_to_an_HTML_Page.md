@@ -409,6 +409,7 @@
     <!-- Linear Gauge Required JavaScript Files -->
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.util.js"></script>
 	<script type="text/javascript" src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
+	<script type="text/javascript" src="../../igniteui/js/modules/infragistics.ui.widget.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ext_core.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ext_collections.js"></script>
     <script type="text/javascript" src="../../igniteui/js/modules/infragistics.ext_ui.js"></script>
