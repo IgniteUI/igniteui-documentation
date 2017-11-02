@@ -143,15 +143,6 @@ JS リソース
 %%ProductName%% ユーティリティ
 			</td>
                         </tr>
-
-						<tr>
-                            <td>
-`infragistics.ui.widget.js`
-                            </td>
-                            <td>
-共有のウィジェット
-                            </td>
-                        </tr>
                         
                         <tr>
                             <td>
@@ -170,16 +161,6 @@ JS リソース
 						
                         <tr>
                             <td>
-`infragistics.dv.simple.core.js`
-			</td>
-
-                            <td>
-データ ビジュアライゼーション コンポーネント用の共有ライブラリ
-			</td>
-                        </tr>
-
-                        <tr>
-                            <td>
 `infragistics.encoding.core.js`<br/>
 `infragistics.encoding_<encoding-name>.js`
 			</td>
@@ -195,8 +176,18 @@ JS リソース
 `infragistics.barcode_qrcodebarcode.js`
 			</td>
 
+                            <td>`igQRCodeBarcode` コントロール
+
+			</td>
+                        </tr>
+
+                        <tr>
                             <td>
-`igQRCodeBarcode` コントロール
+`infragistics.ui.widget.js`
+			</td>
+
+                            <td>
+共有のウィジェット
 			</td>
                         </tr>
 
@@ -279,10 +270,18 @@ JS リソース
       <!-- %%ProductName%% Required Common JavaScript Files -->
       <script src="../../igniteui/js/modules/infragistics.util.js"></script>
 	  <script src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
-      <script src="../../igniteui/js/modules/infragistics.dv.simple.core.js"></script>      
+      <script src="../../igniteui/js/modules/infragistics.dv_core.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.dv_jquerydom.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_core.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_collection.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_collectionsextended.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_text.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_ui.js"></script>      
       
       <!-- QR Code Barcode Specific JavaScript Files -->
+      <script src="../../igniteui/js/modules/encoding/infragistics.encoding.core.js"></script>
       <script src="../../igniteui/js/modules/infragistics.barcode_qrcodebarcode.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ui.widget.js"></script>
       <script src="../../igniteui/js/modules/infragistics.ui.barcode.js"></script>
 </head>
 <body>
@@ -357,10 +356,18 @@ JS リソース
       <!-- %%ProductName%% Required Common JavaScript Files -->
       <script src="../../igniteui/js/modules/infragistics.util.js"></script>
 	  <script src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
-      <script src="../../igniteui/js/modules/infragistics.dv.simple.core.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.dv_core.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.dv_jquerydom.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_core.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_collection.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_collectionsextended.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_text.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_ui.js"></script>
       
       <!-- QR Code Barcode Specific JavaScript Files -->
+      <script src="../../igniteui/js/modules/encoding/infragistics.encoding.core.js"></script>
       <script src="../../igniteui/js/modules/infragistics.barcode_qrcodebarcode.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ui.widget.js"></script>
       <script src="../../igniteui/js/modules/infragistics.ui.barcode.js"></script>
       
       <script type="text/jscript">
