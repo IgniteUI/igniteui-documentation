@@ -56,7 +56,7 @@ $.ig.loader({
 
 ### 概要
 
-この手順では、`igScheduler` を Web ページに追加する方法を手順ごとに示します。このサンプルは、igScheduler を月ビューおよび予定件名とともに初期化する方法を紹介します。時間間隔の間で移動し、アクティビティを作成、編集、または削除できます。
+この手順では、`igScheduler` を Web ページに追加する方法を手順ごとに示します。このサンプルは、igScheduler を月ビューおよび予定オブジェクトとともに初期化する方法を紹介します。時間間隔の間で移動し、アクティビティを作成、編集、または削除できます。
 
 
 ### 要件
@@ -74,7 +74,7 @@ $.ig.loader({
 
     1.1.igLoader の使用
 
-	ローダーを使用して、アプリケーションで参照される結合された JavaScript および CSS ファイルを読み込みます。
+	igLoader は、指定したコントロールの JavaScript および CSS ファイルを読み込みます。
 
 	```html
 	<head>
@@ -163,32 +163,39 @@ $.ig.loader({
 	<script src="igniteui/js/infragistics.scheduler-bundled.js"></script>
 	```
 
-2. `igScheduler` で使用されるデータを読み込みます。この例で、`igDataSource` はスケジュールのリスト データ ソースを作成するために使用されます。
+2. Assign the appointments and resources collections to the corresponding `dataSource` and `resources` options.
 
 	```javascript
 	...
-	$.ig.loader(function () {
-		var scheduleListDataSource = new $.ig.scheduler.ScheduleListDataSource(),
-			appointmentsDS = new $.ig.DataSource({
-				primaryKey: "id",
-				dataSource: appointments
-			});
-
-		appointmentsDS.dataBind();
-
-		scheduleListDataSource.resourceItemsSource(resources);
-		scheduleListDataSource.appointmentItemsSource(appointmentsDS);
+	appointments = [{
+            "resourceId": 1,
+            "id": "11",
+            "start": new Date(2017, 10, 2, 6, 45),
+            "end": new Date(2017, 10, 3, 6, 45),
+            "subject": "Marketing conference"
+        },
+        {
+            "resourceId": 2,
+            "id": "5",
+            "end": new Date(2017, 10, 3, 12, 45),
+            "start": new Date(2017, 10, 3, 13, 45),
+            "subject": "Dentist appointment"
+        }],
+    resources = [
+        { id: 1, displayName: "Trina Friesen"},
+        { id: 2, displayName: "Mack Koch"}]
 	...
 	```
 	
-3. データ ソースを割り当てます。
+3. Assign the above to the `dataSource` and `resources` options.
 
 	```javascript
 	$("#scheduler").igScheduler({
 		height: "650px",
 		width: "100%",
 		selectedDate: today,
-		dataSource: scheduleListDataSource
+		dataSource: appointments,
+		resources: resources
 	});
 	```
 

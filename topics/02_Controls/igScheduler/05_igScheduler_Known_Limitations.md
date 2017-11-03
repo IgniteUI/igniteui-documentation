@@ -37,7 +37,7 @@
 [スワイプ ジェスチャのサポート](#SwipeGesture) |スワイプ ジェスチャのサポートがありません。 |![](images/negative.png)
 [予定ポップオーバーへの Tab ナビゲーション](#NavigationToAppointmentPopover) |予定ポップオーバーへの Tab ナビゲーションがありません。 |![](images/negative.png)
 [サポートされる最小幅は 320 px](#MinWidthSupport) |モバイル デバイスでサポートされる最小幅は 320 px です。 |![](images/negative.png)
-[MVC ラッパーで views オプションを設定できません。](#MVCWrappers) | MVC ラッパーで views オプションを設定できません。  |![](images/plannedFix.png)
+[MVC ラッパーで views オプションの設定](#MVCWrappers) | MVC ラッパーで views オプションの設定に影響しません。  |![](images/plannedFix.png)
 
 
 ## 既知の問題点と制限の詳細
@@ -65,14 +65,12 @@
 - [igDateEditor](igdateeditor-accessibility-compliance.html#wai-aria)
 - [igTextEditor](igtexteditor-accessibility-compliance.html#wai-aria)
 
-カレンダーの予定に ARIA サポートがありません。上記のウィジェットのみでサポートされます。
-
 ### <a id="FirstDayOfWeek"></a>週の最初の曜日設定がない
 
 週の最初の曜日として日曜日がデフォルトで使用されます。別の日 (月曜日など) を設定するためのオプションを公開しません。
 
-### <a id="remoteDS"></a>リモート データ ソースの使用がサポートされない
-igScheduler はローカル データ ソースのみを処理します。最初のバージョンでリモート データ ソースはサポートされません。
+### <a id="remoteDS"></a>リモート データ ソースへのバインドがサポートされない
+igScheduler はローカル データ ソースのみを処理します。
 
 ### <a id="SwipeGesture"></a>スワイプ ジェスチャのサポートがありません。
 

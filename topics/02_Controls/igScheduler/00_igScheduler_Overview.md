@@ -131,7 +131,7 @@
         </tr>
         <tr>
             <td>ビュー</td>
-            <td>igScheduler で予定一覧および月ビューを使用するために構成できます。同時または別に使用できます。</td>
+            <td>igScheduler で予定一覧、月ビュー、週ビュー、および日ビューを使用するために構成できます。同時または別に使用できます。</td>
         </tr>
         <tr>
             <td>アクティビティ</td>
@@ -148,7 +148,7 @@
 $("#scheduler").igScheduler({
     height: "100%",
     width: "100%",
-    views: ["month", "agenda"],
+    views: ["month", "agenda", "week", "day"],
     viewMode: "monthView"
 });
 ```
@@ -329,7 +329,8 @@ $("#scheduler").igScheduler({
 
 ### データ ソースへのバインドに関する概要
 
-ほとんどの場合、`igScheduler` の `dataSource`  オプションを使用してデータのバインドを行います。`ScheduleListDataSource` は初期化されますが、[予定](igscheduler-configure-appointments.html)および[リソース](igscheduler-configure-resources.html) コレクションは構成する必要があります。
+The `dataSource` and `resources` options of the `igScheduler` are required for the data binding. Each option need to be assigned an array that is holding the corresponding appointments or resources collection.
+Please refer to the [Configure appointments](igscheduler-configure-appointments.html) and [Configure resources](igscheduler-configure-resources.html) topics for a more detailed overview.
 
 ## <a id="related-topics"></a>関連トピック
 
