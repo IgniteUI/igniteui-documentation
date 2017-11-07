@@ -73,7 +73,7 @@
 [週ビュー](#weekView)| 時間帯の垂直リストで描画してアクティビティを可視化します。|
 [日ビュー](#dayView)| 時間帯の垂直リストで描画してアクティビティを可視化します。時間帯の期間を構成できます。|
 [定期的な予定](#recurrentActivity)| 特定の定期的なパターンでアクティビティを繰り返す場合に使用します。たとえば、各日の特定の時間、または各月の特定の日などです。
-[スケジューラ MVC ラッパー](igscheduler-asp-net-mvc-wrapper.html) | `igScheduler` の ASP.NET MVC ラッパー。
+[スケジューラ MVC ラッパー](igscheduler-configure-asp-net-mvc.html) | `igScheduler` の ASP.NET MVC ラッパー。
 
 ## 全般
 
