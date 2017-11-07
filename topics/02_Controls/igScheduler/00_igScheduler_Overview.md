@@ -329,8 +329,8 @@ $("#scheduler").igScheduler({
 
 ### データ ソースへのバインドに関する概要
 
-The `dataSource` and `resources` options of the `igScheduler` are required for the data binding. Each option need to be assigned an array that is holding the corresponding appointments or resources collection.
-Please refer to the [Configure appointments](igscheduler-configure-appointments.html) and [Configure resources](igscheduler-configure-resources.html) topics for a more detailed overview.
+`igScheduler` の `dataSource` および `resources` オプションはデータ バインディングに必須です。各オプションを対応する予定またはリソース コレクションを持つ配列に割り当てる必要があります。
+詳細については、「[予定の構成](igscheduler-configure-appointments.html)」および「[リソースの構成](igscheduler-configure-resources.html)」トピックを参照してください。
 
 ## <a id="related-topics"></a>関連トピック
 

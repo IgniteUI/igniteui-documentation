@@ -163,7 +163,7 @@ $.ig.loader({
 	<script src="igniteui/js/infragistics.scheduler-bundled.js"></script>
 	```
 
-2. Assign the appointments and resources collections to the corresponding `dataSource` and `resources` options.
+2. 予定およびリソース コレクションを対応する `dataSource` および `resources` オプションに割り当てます。
 
 	```javascript
 	...
@@ -187,7 +187,7 @@ $.ig.loader({
 	...
 	```
 	
-3. Assign the above to the `dataSource` and `resources` options.
+3. 上記コレクションを `dataSource` および `resources` オプションに割り当てます。
 
 	```javascript
 	$("#scheduler").igScheduler({

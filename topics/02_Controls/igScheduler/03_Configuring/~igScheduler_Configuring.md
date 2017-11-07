@@ -21,10 +21,10 @@
 
 ### トピック
 
--	[リソースの構成 (igScheduler)](igScheduler-Configure-Resources.html): This topic shows how to add and configure resources collection for the `resources` option.
+-	[リソースの構成 (igScheduler)](igScheduler-Configure-Resources.html): このトピックは、`resources` オプションのリソース コレクションを追加して構成する方法を紹介します。
 
--	[予定の構成 (igScheduler)](igScheduler-Configure-Appointments.html): This topic shows how to setup and configure appointments collection for the `dataSource` option.
+-	[予定の構成 (igScheduler)](igScheduler-Configure-Appointments.html): このトピックは、`dataSource` オプションの予定コレクションを設定して構成する方法を紹介します。
 
 -	[ビューの構成 (igScheduler)](igScheduler-Configure-Views.html): このセクションのトピックは、予定表のデータを表示する `igScheduler` コントロールで使用されるビューについての情報を提供します。
 
--	[Configuring ASP.NET MVC (igScheduler)](igscheduler-asp-net-mvc-wrapper.html): This topic shows how to setup and configure ASP.NET MVC wrapper for the `igScheduler`.
+-	[ASP.NET MVC の構成 (igScheduler)](igscheduler-asp-net-mvc-wrapper.html): このトピックは、`igScheduler` の ASP.NET MVC  ラッパーを設定して構成する方法を紹介します。
