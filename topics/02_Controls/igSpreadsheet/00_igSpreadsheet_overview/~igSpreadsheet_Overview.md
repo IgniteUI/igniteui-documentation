@@ -18,7 +18,7 @@
 
 |トピック|目的|
 |------------- | -------------|
-|[編集 API (igSpreadsheet)](igspreadsheet-editing.html) 
+|[編集 API (igSpreadsheet)](igspreadsheet-editing.html) |このトピックでは、スプレッドシートの編集に関連するコントロール API の概要を説明します。|
 |[機能の概要 (igSpreadsheet)](igspreadsheet-feature-overview.html)|このトピックでは、このコントロールでサポートされる機能を開発者の観点から説明します。|
 |[視覚要素の概要 (igSpreadsheet)](igspreadsheet-visual-elements.html)|このトピックでは、コントロールの視覚要素についての概要を紹介します。|
 |[アクティベーションとナビゲーションのインタラクション (igSpreadsheet)](igspreadsheet-activation-and-navigation-interactions.html)|このトピックでは、ワークシートのセルをナビゲートする場合にユーザーが実行できる操作を説明します。|
