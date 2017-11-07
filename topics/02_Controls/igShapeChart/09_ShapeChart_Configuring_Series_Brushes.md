@@ -8,42 +8,42 @@
 |metadata|
 -->
 
-# Configuring Series Brushes (igShapeChart)
+# シリーズ ブラシの構成 (igShapeChart)
 
-This topic explains, with code examples, how to configure the different brush properties in the igShapeChart control.
+このトピックではコード例を使用して、igShapeChart コントロールのブラシ プロパティを構成する方法を説明します。
 
-### Required Background
+### 前提条件
 
-The following topics are prerequisites to understanding this topic:
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
 
-- [igShapeChart Overview](shapechart-binding-to-shapefile-data.html): This topic provides conceptual information about the igShapeChart control including its main features, minimum requirements, and user functionality.
-- [Getting Started with igShapeChart](shapechart-binding-to-shapefile-data.html): This topic explains, with a code example, how to add the igShapeChart to your application.
+- [igShapeChart の概要](shapechart-binding-to-shapefile-data.html): このトピックは、主要機能、最小要件およびユーザー機能性など、igShapeChart コントロールの概念的な情報を提供します。
+- [igShapeChart を使用した作業の開始](shapechart-binding-to-shapefile-data.html): このトピックでは、コード例を使用して igShapeChart をアプリケーションに追加する方法を説明します。
 
-### In this Topic
+### このトピックの内容
 
-- [Property Settings](#PropSettings)
-- [Series Brushes Code Example](#CodeExampleSeries)
-- [Marker Brushes Code Example](#CodeExampleMarkers)
-- [Related Content](#Related)
+- [プロパティの設定](#PropSettings)
+- [シリーズ ブラシのコード例](#CodeExampleSeries)
+- [マーカー ブラシのコード例](#CodeExampleMarkers)
+- [関連コンテンツ](#Related)
 
 <a id="PropSettings" />
-## Property Settings
+## プロパティの設定
 
-The igShapeChart control has a few different properties for setting the different brushes for the series and the markers of those series in the chart. These different properties are detailed below.
+igShapeChart コントロールには、チャートのシリーズ ブラシおよびシリーズのマーカーを設定するためのプロパティが複数あります。以下はプロパティの詳細です。
 
-Property Name|Description
+プロパティ名|説明
 ---|---
-`Brushes`|Gets or sets a collection of brushes used to determine the palette for the major series fill or line in the chart.
-`Outlines`|Gets or sets a collection of brushes used to determine the palette for the outlines of the series in the chart. This collection is useful for determining the primary series color when using Polyline and the stroke color for the Polygon `ChartType` enumerations.
-`MarkerBrushes`|Gets or sets a collection of brushes used to determine the palette of the markers shown for the series in the chart. For marker-only `ChartType` enumerations such as Bubble and Point, this collection of brushes will make up the primary colors of the series.
-`MarkerOutlines`|Gets or sets a collection of brushes used to determine the palette for the outer stroke of the markers shown for each series in the chart. For marker-only `ChartType` enumerations such as Bubble and Point, this collection of brushes will make up the outer stroke of the series.
+`Brushes`|主シリーズ塗りつぶしや線のパレットの決定に使用されるブラシ コレクションを取得または設定します。
+`Outlines`|チャートのシリーズ アウトラインのパレットの決定に使用されるブラシ コレクションを取得または設定します。このコレクションは、Polyline を使用する際にプライマリ シリーズの色を決定するか、Polygon `ChartType` 列挙体のストローク色を決定する場合に便利です。
+`MarkerBrushes`|チャートのシリーズに表示されるマーカー パレットの決定に使用されるブラシ コレクションを取得または設定します。Bubble や Point などのマーカー専用 `ChartType` 列挙体は、このブラシ コレクションがシリーズの原色を構成します。
+`MarkerOutlines`|チャートの各シリーズに表示されるマーカーのアウター ストロークのパレットの決定に使用されるブラシ コレクションを取得または設定します。Bubble や Point などのマーカー専用 `ChartType` 列挙体は、このブラシ コレクションがシリーズのアウターストロークを構成します。
 
 <a id="CodeExampleSeries" />
-## Series Brushes Code Example
+## シリーズ ブラシのコード例
 
-The following code example demonstrates usage of the `Brushes` and `Outlines` properties with the Polygon `ChartType`. The following collection is used as the data source for this code snippet:
+以下は、多角形 `ChartType` で `Brushes` および `Outlines` プロパティを使用したコード例です。以下のコレクションはコード スニペットのデータソースとして使用されます。
 
-**In HTML:**
+**HTML の場合:**
 ```html
 <script>
     
@@ -87,17 +87,17 @@ The following code example demonstrates usage of the `Brushes` and `Outlines` pr
 </script>
 ```
 
-Following the steps above will result in an igShapeChart control that looks like the following:
+上記の手順を実行すると、igShapeChart コントロールは以下のようになります。
 
 ![](images/shapechart_series_brushes.png)
 
 
 <a id="CodeExampleMarkers" />
-## Marker Brushes Code Example
+## マーカー ブラシのコード例
 
-The following code example demonstrates usage of the `MarkerBrushes` and `MarkerOutlines` properties with the Bubble `ChartType`. The following collection is used as the data source for this code snippet:
+以下は、バブル `ChartType` で `MarkerBrushes` および `MarkerOutlines` プロパティを使用したコード例です。以下のコレクションはコード スニペットのデータソースとして使用されます。
 
-**In HTML:**
+**HTML の場合:**
 ```html
 <script>
 
@@ -132,11 +132,11 @@ The following code example demonstrates usage of the `MarkerBrushes` and `Marker
 </script>
 ```
 
-Following the steps above will result in an igShapeChart control that looks like the following:
+上記の手順を実行すると、igShapeChart コントロールは以下のようになります。
 
 ![](images/shapechart_marker_brushes.png)
 
 <a id="Related" />
-### Related Content
+### 関連コンテンツ
 
-- [Using Legend](shapechart-using-legend-with-shapechart.html)
+- [凡例の使用](shapechart-using-legend-with-shapechart.html)

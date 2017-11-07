@@ -8,51 +8,51 @@
 |metadata|
 -->
 
-# Configuring Axis Labels (igShapeChart)
+# 軸ラベルの構成 (igShapeChart)
 
-The `igShapeChart` control allows you full control over configuring, formatting and styling the labels displayed on your chart. By default, you do not need to explicitly set the labels. The Shape Chart will use the first appropriate string property that it finds within the data you provided and will use that for the labels.
+`igShapeChart` は、チャートの構成、書式設定、ラベルのスタイル設定などを詳細に制御することが可能です。デフォルトでは、ラベルを明示的に設定する必要はありません。シェープ チャートは、データ内で最初の適切な文字列プロパティを使用し、ラベルに使用します。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
 
-- [Label Settings](#ConfigureLabelSettings)
-* [Styling](#ConfigureStyling)
-* [Related Content](#RelatedContent)
-- [Samples](#Samples)
+- [ラベル設定](#ConfigureLabelSettings)
+* [スタイル設定](#ConfigureStyling)
+* [関連コンテンツ](#RelatedContent)
+- [サンプル](#Samples)
 
 <a id="ConfigureLabelSettings" />
-### Label Settings
+### ラベル設定
 
-In the igShapeChart control, you can change the rotation angle, margin, horizontal/vertical alignment, opacity, padding and visibility, of the x-axis and y-axis labels using the following properties:
+igShapeChart コントロールでは、以下のプロパティで x 軸および y 軸のラベルの回転角度、マージン、水平/垂直の配置、不透明度、パディングと表示を変更できます。
 
-Property Name|Property Type| Description
+プロパティ名|プロパティ タイプ|説明
 ---|---
-`xAxisLabelAngle`, </br> `yAxisLabelAngle`|number|Determines angle rotation of x-axis or y-axis labels
-`xAxisLabelHorizontalAlignment`, </br> `yAxisLabelHorizontalAlignment`|enumeration|Determines horizontal alignment of the x-axis or y-axis labels
-`xAxisLabelVerticalAlignment`, </br> `yAxisLabelVerticalAlignment`|enumeration|Determines vertical alignment of the x-axis or y-axis labels
-`xAxisLabelLeftMargin`, </br> `yAxisLabelLeftMargin`|number|Determines the left margin applied to each x-axis or y-axis labels
-`xAxisLabelTopMargin`, </br> `yAxisLabelTopMargin`|number|Determines the top margin applied to each x-axis or y-axis labels
-`xAxisLabelRightMargin`, </br> `yAxisLabelRightMargin`|number|Determines the bottom margin applied to each x-axis or y-axis labels
-`xAxisLabelBottomMargin`, </br> `yAxisLabelBottomMargin`|number|Determines the bottom margin applied to each x-axis or y-axis labels
+`xAxisLabelAngle`, </br> `yAxisLabelAngle`|number|x 軸と y 軸のラベルの回転角度を決定します。
+`xAxisLabelHorizontalAlignment`, </br> `yAxisLabelHorizontalAlignment`|enumeration|x 軸と y 軸のラベルの水平方向の配置を決定します。
+`xAxisLabelVerticalAlignment`, </br> `yAxisLabelVerticalAlignment`|enumeration|x 軸と y 軸のラベルの垂直方向の配置を決定します。
+`xAxisLabelLeftMargin`, </br> `yAxisLabelLeftMargin`|number|x 軸と y 軸のラベルに適用する左マージンを決定します。
+`xAxisLabelTopMargin`, </br> `yAxisLabelTopMargin`|number|x 軸と y 軸のラベルに適用する上マージンを決定します。
+`xAxisLabelRightMargin`, </br> `yAxisLabelRightMargin`|number|x 軸と y 軸のラベルに適用する右マージンを決定します。
+`xAxisLabelBottomMargin`, </br> `yAxisLabelBottomMargin`|number|x 軸と y 軸のラベルに適用する下マージンを決定します。
 
 <a id="ConfigureStyling" />
-### Styling
+### スタイル設定
 
-The look and feel of the shape chart’s x-axis and y-axis labels can be styled in many aspects, the main of which are applying different font styles such as font type, font size and font weight to the labels. This can be achieved through the following properties:
+シェープ チャートの x 軸および y 軸のラベルのルックアンドフィールのスタイルを設定できます。主にフォント タイプ、フォント サイズ、フォントの太さなど異なるフォント スタイルをラベルに適用できます。以下のプロパティを使用します。
 
-Property Name|Property Type| Description
+プロパティ名|プロパティ タイプ|説明
 ---|---
-`xAxisLabelTextStyle`, </br> `yAxisLabelTextStyle`|string|Determines the text style for the x-axis or y-axis labels
-`xAxisLabelTextColor`, </br> `yAxisLabelTextColor`|string|Determines text color of the x-axis or y-axis labels
-`xAxisFormatLabel`, </br> `xAxisFormatLabel`|object|Gets or sets function which takes an context object and returns a formatted label for the x-axis or y-axis labels.
+`xAxisLabelTextStyle`, </br> `yAxisLabelTextStyle`|string|x 軸と y 軸のラベルのテキスト スタイルを決定します。
+`xAxisLabelTextColor`, </br> `yAxisLabelTextColor`|string|x 軸と y 軸のラベルのテキストの色を決定します。
+`xAxisFormatLabel`, </br> `xAxisFormatLabel`|object|コンテキスト オブジェクトを取得し、X 軸ラベルまたは Y 軸ラベルの書式付きラベルを返す関数を取得または設定します。
 
 
-### <a id="codesnippet"/>Code Snippet
-The following code example shows how to style labels on the x-axis using style properties:
+### <a id="codesnippet"/>コード スニペット
+以下のコード例は、スタイル プロパティを使用して x 軸のラベルをスタイル設定します。
 
-**In HTML:**
+**HTML の場合:**
 
 ```html
 $(function () {
@@ -65,20 +65,20 @@ $(function () {
         });
 ```
 
-The following screenshot demonstrates the igShapeChart control with the x-axis label styled.
+以下のスクリーンショットは、x 軸ラベルをスタイル設定した igShapeChart コントロールを示します。
 
 ![](images/shapechart-configuring-axis-labels-01.png)
 
-## <a id="relatedtopics"/>Related Topics:
+## <a id="relatedtopics"/>関連トピック:
 
-- [Getting Started with ShapeChart](shapechart-getting-started-with-shapechart.html)
+- [ShapeChart を使用した作業の開始](shapechart-getting-started-with-shapechart.html)
 
-- [Binding to Shapefile Data](shapechart-binding-shapefile-data.html)
+- [シェープファイル データにバインド](shapechart-binding-shapefile-data.html)
 
 
 <a id="Samples" />
-### Samples
+### サンプル
 
-The following sample provides additional information related to this topic.
+以下のサンプルでは、このトピックに関連する情報を提供しています。
 
--	[Configuring Axis Labels](%%SamplesUrl%%/shape-charts/axis-labels):  This sample demonstrates how to configure the axis labels for the `igShapeChart` control.
+-	[軸ラベルの構成](%%SamplesUrl%%/shape-charts/axis-labels): このサンプルでは、`igShapeChart` コントロールの軸ラベルを構成する方法を紹介します。

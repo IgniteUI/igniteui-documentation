@@ -1,22 +1,33 @@
-﻿# Series Requirements
+﻿<!--
+|metadata|
+{
+    "fileName": "shapechart-series-requirements",
+    "controlName": "igShapeChart",
+    "tags": ["ShapeChart"]
+}
+|metadata|
+-->
 
-### In this topic
+# シリーズ要件
 
-This topic contains the following sections:
+### このトピックの内容
 
--   [Setting Chart Type](#setting-chart-type)
--   [Required Settings](#required-settings)
--   [Creating Data Items](#creating-data-items)
--   [Related Content](#related-content)
+このトピックは、以下のセクションで構成されます。
 
-## Setting ChartType Property
+-   [チャート タイプの設定](#setting-chart-type)
+-   [必須の設定](#required-settings)
+-   [データ項目の作成](#creating-data-items)
+-   [関連コンテンツ](#related-content)
 
-As described in the Chart Types topic the chart can render different types of chart with a simple change of a property.
+## ChartType プロパティの設定
 
-To assign chart type during initialization:
+チャート タイプ トピックで説明されているように、チャート プロパティを変更するだけでさまざまなチャート タイプを描画できます。
 
-**In Javascript:**
+初期化時にチャート タイプを割り当てる方法:
 
+**JavaScript の場合:**
+
+	```
 	<script type="text/javascript">
         $(function () 
         {
@@ -28,12 +39,13 @@ To assign chart type during initialization:
         });
 
     </script>
+	```
 
 
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th>Chart Type</th>
+			<th>チャート タイプ</th>
 			<th>x</th>
 			<th>y</th>
 			<th>value</th>
@@ -117,14 +129,15 @@ To assign chart type during initialization:
 	</tbody>
 </table>
 
-## Creating Data Items
+## データ項目の作成
 
-This section provides examples that show the minimum requirements for each chart type. Each data class below includes properties that are responsible for rending the visual data on the chart.
+このセクションは、各チャート タイプの最小要件を表示する例です。以下の各データ クラスは、チャートのビジュアル データを描画するプロパティを含みます。
 
-When setting `ChartType` property to `Point`, `Line`, `Spline`, or `HighDensity` value, use:
+`ChartType` プロパティを `Point`、`Line`、`Spline`、または `HighDensity` 値に設定する場合、以下を使用します。
 
-**In Javascript:**
+**JavaScript の場合:**
 
+	```
     <script>
         function ScatterPoints() 
         { 
@@ -136,11 +149,13 @@ When setting `ChartType` property to `Point`, `Line`, `Spline`, or `HighDensity`
             return dataItems;
         }
     </script>
+	```
 
-When setting `ChartType` property to `Bubble` value, use:
+`ChartType` プロパティを `Bubble` 値に設定する場合、以下を使用します。
 
-**In Javascript:**
+**JavaScript の場合:**
 
+	```
     <script>
         function ScatterBubbles() 
         { 
@@ -152,11 +167,13 @@ When setting `ChartType` property to `Bubble` value, use:
     		return dataItems;
 		}
     </script>
+	```
 
-When setting `ChartType` property to `Area` or `Contour` value, use:
+`ChartType` プロパティを `Area` または `Contour` 値に設定する場合、以下を使用します。
 
-**In Javascript:**
+**JavaScript の場合:**
 
+	```
     <script>
         function ScatterValues() 
         { 
@@ -168,9 +185,11 @@ When setting `ChartType` property to `Area` or `Contour` value, use:
     		return dataItems;
 		}
     </script>
+	```
 
-When setting `ChartType` property to `Polyline` or `Polygon` value, use:
+`ChartType` プロパティを `Polyline` または `Polygon` 値に設定する場合、以下を使用します。
  
+	```
     <script>
         function ScatterShapes(x, y, w, h) 
         {
@@ -192,11 +211,12 @@ When setting `ChartType` property to `Polyline` or `Polygon` value, use:
 			return data;
 		}
     </script>
+	```
     
-*Related topics:* 
+*関連トピック:* 
 
-- [Getting Started](shapechart-getting-started-with-shapechart.html)
+- [はじめに](shapechart-getting-started-with-shapechart.html)
 
-- [Chart Types](shapechart-chart-types.html)
+- [チャート タイプ](shapechart-chart-types.html)
 
-- [Binding to Shape File Data](shapechart-binding-to-shapefile-data.html)
+- [シェープ ファイル データのバインド](shapechart-binding-to-shapefile-data.html)

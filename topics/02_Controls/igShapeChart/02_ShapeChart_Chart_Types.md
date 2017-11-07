@@ -1,41 +1,41 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "shapechart-overview",
+    "fileName": "shapechart-chart-types",
     "controlName": "igShapeChart",
-    "tags": ["API", "ShapeChart", "Overview"]
+    "tags": ["ShapeChart"]
 }
 |metadata|
 -->
 
-# Chart Types 
+# チャート タイプ 
 
-## Overview
+## 概要
 
-In order to select how data should be displayed it is enough to set the igShapeChart property of this chart.
-Below are all of the types that the Shape Chart supports.
+データの表示方法は、チャートの chartType プロパティで設定します。
+以下は、シェープ チャートでサポートされるすべてのタイプです。
 
-Special case is the `Auto` setting of that property. If `Auto` is used the chart will analyze assigned data and will assign the most suitable chart type.
+特別なケースにプロパティの `Auto` 設定があります。`Auto` を使用した場合、チャートがデータを分析し、最適なチャート タイプを割り当てます。
 
-The default value of that property is determined by the size of the underlying ItemsSource bound to the category chart.   
+このプロパティのデフォルト値は、カテゴリ チャートにバインドされる基本の ItemsSource のサイズに基づいて決定されます。   
 
-## Supported Chart Types
+## サポートされるチャート タイプ
 
 <div class="document-table-container">
     <table class="table table-striped">
         <tbody>
             <tr>
-                <th>Property Value</th>
+                <th>プロパティ値</th>
 
-                <th>Description</th>
+                <th>説明</th>
 
-                <th>Example</th>
+                <th>例</th>
             </tr>
             
             <tr>
                 <td>`Area`</td>
 
-                <td>Specifies area chart with colored surface based on a triangulation of X/Y data with numeric values assigned to each point.</td>
+                <td>各ポイントに割り当てられた数値の X/Y データによる三角測量に基づいて色付きのサーフェスを含むエリア チャートを指定します。</td>
 
                 <td>![](images/shapechart-area-01.png)</td>
                
@@ -44,7 +44,7 @@ The default value of that property is determined by the size of the underlying I
             <tr>
                 <td>`Bubble`</td>
 
-                <td>Specifies bubble chart with proportional markers at X/Y data</td>
+                <td>X/Y データに相対マーカーを使用するバブル チャートを指定します。</td>
 
                 <td>![](images/shapechart-bubble-01.png)</td>
                
@@ -53,7 +53,7 @@ The default value of that property is determined by the size of the underlying I
             <tr>
                 <td>`Contour`</td>
 
-                <td>Specifies area chart with colored lines based on a triangulation of X/Y data with numeric values assigned to each point.</td>
+                <td>各ポイントに割り当てられた数値の X/Y データによる三角測量に基づいて色付きの線を含むエリア チャートを指定します。</td>
 
                 <td>![](images/shapechart-contour-01.png)</td>
                
@@ -62,7 +62,7 @@ The default value of that property is determined by the size of the underlying I
             <tr>
                 <td>`HighDensity`</td>
 
-                <td>Specifies high density chart with colored bitmap pixels at X/Y data based on density of nearby points</td>
+                <td>隣接するポイントの密度に基づいて、X/Y データに色付きのビットマップ ピクセルの高密度チャートを指定します。</td>
 
                 <td>![](images/shapechart-highdensity-01.png)</td>
                
@@ -71,7 +71,7 @@ The default value of that property is determined by the size of the underlying I
             <tr>
                 <td>`Line`</td>
 
-                <td>Specifies line chart with small markers at X/Y data and connected with lines</td>
+                <td>X/Y データに線で接続される小さいマーカーを使用した折れ線チャートを指定します。</td>
 
                 <td>![](images/shapechart-line-01.png)</td>
             </tr>
@@ -79,7 +79,7 @@ The default value of that property is determined by the size of the underlying I
             <tr>
                 <td>`Point`</td>
 
-                <td>Specifies point chart with small markers at X/Y data</td>
+                <td>X/Y データに小さいマーカーを使用するポイント チャートを指定します。</td>
 
                 <td>![](images/shapechart-point-01.png)</td>
                
@@ -88,7 +88,7 @@ The default value of that property is determined by the size of the underlying I
             <tr>
                 <td>`Polygon`</td>
 
-                <td>Specifies polygon chart with polygons defined by X/Y data</td>
+                <td>X/Y データにより定義される多角形を持つ多角形チャートを指定します。</td>
 
                 <td>![](images/shapechart-polygon-01.png)</td>
                
@@ -97,7 +97,7 @@ The default value of that property is determined by the size of the underlying I
             <tr>
                 <td>`Polyline`</td>
 
-                <td>Specifies polyline chart with polylines defined by X/Y data</td>
+                <td>X/Y データにより定義されるポリラインを持つポリライン チャートを指定します。</td>
 
                 <td>![](images/shapechart-polyline-01.png)</td>
             </tr>
@@ -105,7 +105,7 @@ The default value of that property is determined by the size of the underlying I
             <tr>
                 <td>`Spline`</td>
 
-                <td>Specifies spline chart with small markers at X/Y data and connected with splines</td>
+                <td>X/Y データにスプラインで接続される小さいマーカーを使用したスプライン チャートを指定します。　　</td>
 
                 <td>![](images/shapechart-spline-01.png)</td>
             </tr>
@@ -113,7 +113,7 @@ The default value of that property is determined by the size of the underlying I
             <tr>
                 <td>`Auto`</td>
                 
-                <td>Specifies automatic selection of chart type based on suggestion from internal Data Adapter.</td>
+                <td>内部データ アダプターの候補に基づいてチャート タイプの自動選択を指定します。</td>
                 
                 <td></td>
             </tr>
@@ -124,10 +124,10 @@ The default value of that property is determined by the size of the underlying I
 
 
 
-*Related topics:* 
+*関連トピック:* 
 
-- [Getting Started](shapechart-getting-started-with-shapechart.html)
+- [はじめに](shapechart-getting-started-with-shapechart.html)
 
-- [Configuring Chart Types](shapechart-configuring-chart-types.html)
+- [チャート タイプの構成](shapechart-configuring-chart-types.html)
 
-- [Binding to Shape File Data](shapechart-binding-to-shapefile-data.html)
+- [シェープ ファイル データのバインド](shapechart-binding-to-shapefile-data.html)

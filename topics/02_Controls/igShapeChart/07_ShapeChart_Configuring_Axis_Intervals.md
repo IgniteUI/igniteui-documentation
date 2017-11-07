@@ -8,38 +8,38 @@
 |metadata|
 -->
 
-# Configuring Axis Intervals (igShapeChart)
+# 軸間隔の構成 (igShapeChart)
 
-### Purpose
-This topic demonstrates explains how to configure the major and minor intervals for chart axes of the igShapeChart control. 
+### 目的
+このトピックでは、コード例を使用して igShapeChart コントロールのチャート軸に主間隔と副間隔を構成する方法を示します。 
 
-In the igShapeChart control, axis major interval specifies how frequent major gridlines and axis labels are rendered on an axis. Similarly, axis minor interval specifies how frequent minor gridlines are rendered on an axis.
+igShapeChart コントロールで、軸の主間隔は主グリッド線および軸ラベルが軸に描画される頻度を指定します。同様に、軸副間隔は副グリッド線が軸に描画される頻度を指定します。
 
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [Configuring XAxis and YAxis Major and Minor Intervals](#ConfiguringXAxis)
-- [Code Snippet](#codesnippet)
-- [Related Topics](#relatedtopics)
+- [X 軸と Y 軸に主間隔と副間隔を構成](#ConfiguringXAxis)
+- [コード スニペット](#codesnippet)
+- [関連トピック](#relatedtopics)
 
-### <a id="ConfiguringXAxis"/>Configuring XAxis and YAxis Major and Minor Intervals
+### <a id="ConfiguringXAxis"/>X 軸と Y 軸に主間隔と副間隔を構成
 
-In order to configure|Use this property|And set it to
+構成の目的:|使用するプロパティ|設定値
 ---|---|---
-The frequency of major interval gridlines | `xAxisInterval`, </br> `yAxisInterval` | This value provides configurable spacing for axis labels and major gridlines, if used. Note that the interval for axis labels will also be set by this value, displaying one label at the point on the axis associated with the interval.<br/><br/> On the igShapeChart control's axes, this value is represented as a double between the axis minimum value and axis maximum value. By default, numeric axes will automatically calculate and find a nice and round interval based on axis minimum values and maximum value.
-The color of the major interval gridlines | `xAxisMajorStroke`, </br> `yAxisMajorStroke` | A color of axis major gridlines.
-The thickness of the major interval gridlines | `xAxisMajorStrokeThickness`, </br> `yAxisMajorStrokeThickness` | A thickness in pixels of the axis major gridlines set as a double value
-The frequency of minor interval gridlines | `xAxisMinorInterval`, </br> `yAxisMinorInterval` | This value provides adequate spacing for minor gridlines, which are always rendered between major gridlines. As result, a value of an igShapeChart minor interval property should always be much smaller (usually 2-5 time smaller) than the value of the corresponding major interval property of an axis. <br/></br> This value is represented as double between axis minimum value and axis maximum value. By default, numeric axes will not automatically calculate minor interval based on axis minimum values and maximum value.
-The color of the minor interval gridlines|`xAxisMinorStroke`, <br/> `yAxisMinorStroke` | A color of axis minor gridlines.
-The thickness of the  minor interval gridlines|`xAxisMajorStrokeThickness`, </br> `yAxisMajorStrokeThickness`|A thickness in pixels of the axis major gridlines set as a double value
+主間隔グリッド線の頻度。|`xAxisInterval`、</br> `yAxisInterval` |この値は、軸ラベルおよび主グリッド線 (使用する場合) に構成可能なスペースを提供します。軸ラベルの間隔も、この値によって設定され、間隔に関連付けられた軸のポイントにラベルが 1 つ表示されることに注意してください。<br/><br/>igShapeChart コントロールの軸では、この値は軸の最小値から最大値の範囲の double 値として表されます。数値軸はデフォルトで、軸の最小値および最大値から四捨五入されたバランスの良い数値に、自動的に計算されます。
+主間隔グリッド線の色。|`xAxisMajorStroke`、</br> `yAxisMajorStroke` |軸の主グリッド線の色。
+主間隔グリッド線の太さ。|`xAxisMajorStrokeThickness`、</br> `yAxisMajorStrokeThickness` |double 値として設定された軸の主グリッド線の太さ
+副間隔グリッド線の頻度。|`xAxisMinorInterval`、</br> `yAxisMinorInterval` |この値は、主グリッド線と主グリッド線の間に描画される副グリッド線に必要なスペースを提供します。そのために、igShapeChart の補助間隔プロパティの値は、常に主間隔プロパティの値より小さい値 (通常、2 分の 1 から 5 分の 1) である必要があります。 <br/></br> この値は軸の最小値から最大値の範囲の double 値として表されます。数値軸はデフォルトで、軸の最小値および最大値から副間隔を自動的に計算しません。
+副間隔グリッド線の色。|`xAxisMinorStroke`, <br/>`yAxisMinorStroke` |軸の副グリッド線の色。
+副間隔グリッド線の太さ。|`xAxisMajorStrokeThickness`、</br> `yAxisMajorStrokeThickness`|double 値として設定された軸の主グリッド線の太さ
 
-### <a id="codesnippet"/> Code Snippet
+### <a id="codesnippet"/> コード スニペット
 
-The following code snippet demonstrates how to configure the interval on the x-axis.
+以下のコード スニペットは、x 軸の間隔を設定する方法を示します。
 
-**In HTML:**
+**HTML の場合:**
 
 ```html
 
@@ -57,16 +57,16 @@ $(function () {
 
 ![](images/shapechart-intervals-01.png)
 
-## <a id="relatedtopics"/>Related Topics:
+## <a id="relatedtopics"/>関連トピック:
 
-- [Configuring Axis Labels](shapechart-configuring-axis-labels.html)
+- [軸ラベルの構成](shapechart-configuring-axis-labels.html)
 
-- [Configuring Axis Range](shapechart-configuring-axis-ranges.html)
+- [軸範囲の構成](shapechart-configuring-axis-ranges.html)
 
 
 <a id="Samples" />
-### Samples
+### サンプル
 
-The following sample provides additional information related to this topic.
+以下のサンプルでは、このトピックに関連する情報を提供しています。
 
--	[Configuring Axis Intervals](%%SamplesUrl%%/shape-charts/axis-intervals):  This sample demonstrates how to configure the axis intervals for the `igShapeChart` control.
+-	[軸間隔の構成](%%SamplesUrl%%/shape-charts/axis-intervals): このサンプルでは、`igShapeChart` コントロールの軸間隔を構成する方法を紹介します。

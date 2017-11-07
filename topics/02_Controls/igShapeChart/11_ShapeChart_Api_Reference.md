@@ -1,29 +1,39 @@
-﻿# jQuery API Reference Links (igShapeChart)
+﻿<!--
+|metadata|
+{
+    "fileName": "shapechart-api-reference",
+    "controlName": "igShapeChart",
+    "tags": ["API", "ShapeChart"]
+}
+|metadata|
+-->
 
-### Purpose
+# jQuery API リファレンス リンク (igShapeChart)
 
-This topic provides links to the API Documentation for jQuery for the igShapeChart control.
+### 目的
 
-### Required Background
+このトピックでは、igShapeChart コントロールのための jQuery の API ドキュメントへのリンクを提供します。
 
-The following topics are a prerequisite to understanding this topic:
+### 前提条件
 
-- [igShapeChart Overview](shapechart-overview.html): This topic provides conceptual information about the igShapeChart control including its main features, minimum requirements, and user functionality.
+このトピックを理解するためには、以下のトピックを理解しておく必要があります。
 
-- [Getting Started with igShapeChart](shapechart-getting-started-with-shapechart.html): This topic demonstrates how to create the igShapeChart control and bind it to data.
+- [igShapeChart の概要](shapechart-overview.html): このトピックは、主要機能、最小要件およびユーザー機能性など、igShapeChart コントロールの概念的な情報を提供します。
 
-## igShapeChart API Reference
+- [igShapeChart を使用した作業の開始](shapechart-getting-started-with-shapechart.html): このトピックでは、igShapeChart をコントロールを作成して追加し、データにバインドする方法を紹介します。
 
-### Introduction
+## igShapeChart API リファレンス
 
-The igShapeChart is built as a jQuery UI widget. For more information about its API, follow the links to the API documentation given below.
+### 概要
 
-### API Documents Reference Summary
+igShapeChart は jQuery UI ウィジェットとして作成されています。igShapeChart API の詳細は、以下に示された API マニュアルへのリンク先を参照してください。
 
-[igShapeChart jQuery API](%%jQueryApiUrl%%/ui.igShapeChart): This documentation contains an overview of the control and full list of options, events, and methods with code snippets.
+### API マニュアル参照の概要
 
-## Related Content
+[igShapeChart jQuery API](%%jQueryApiUrl%%/ui.igShapeChart): このマニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
 
-The following topic provides additional information related to this topic.
+## 関連コンテンツ
 
-- [Getting Started with igShapeChart](shapechart-getting-started-with-shapechart.html)
+以下のトピックでは、このトピックに関連する追加情報を提供しています。
+
+- [igShapeChart を使用した作業の開始](shapechart-getting-started-with-shapechart.html)

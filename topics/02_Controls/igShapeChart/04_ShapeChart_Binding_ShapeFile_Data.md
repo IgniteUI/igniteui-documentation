@@ -8,42 +8,42 @@
 |metadata|
 -->
 
-# Binding ShapeFile Data (igShapeChart)
+# シェープファイル データにバインド (igShapeChart)
 
-This topic explains, with code examples, how to bind the igShapeChart control to shape file data.
+このトピックは、コード例を示して、igShapeChart コントロールをシェープファイル データにバインドする方法を説明します。
 
-### Required Background
+### 前提条件
 
-The following topics are prerequisites to understanding this topic:
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
 
-- [igShapeChart Overview](shapechart-binding-to-shapefile-data.html): This topic provides conceptual information about the igShapeChart control including its main features, minimum requirements, and user functionality.
-- [Getting Started with igShapeChart](shapechart-binding-to-shapefile-data.html): This topic explains, with a code example, how to add the igShapeChart to your application.
+- [igShapeChart の概要](shapechart-binding-to-shapefile-data.html): このトピックは、主要機能、最小要件およびユーザー機能性など、igShapeChart コントロールの概念的な情報を提供します。
+- [igShapeChart を使用した作業の開始](shapechart-binding-to-shapefile-data.html): このトピックでは、コード例を使用して igShapeChart をアプリケーションに追加する方法を説明します。
 
 
-### In this topic
-- [Overview](#Overview)
-- [Binding the igShapeChart to a Shape File](#CodeExampleSingle)
-- [Binding the igShapeChart to Multiple Shape Files](#CodeExampleMulti)
-- [Related Content](#Related)
-- [Samples](#Samples)
+### このトピックの内容
+- [概要](#Overview)
+- [igShapeChart をシェープ ファイルにバインド](#CodeExampleSingle)
+- [igShapeChart を複数のシェープ ファイルにバインド](#CodeExampleMulti)
+- [関連コンテンツ](#Related)
+- [サンプル](#Samples)
 
 <a id="Overview" />
-### Overview
+### 概要
 
-The igShapeChart control has the ability to bind and display shape files. This is useful if you would like to visualize shape data. For example, if you wanted to visualize geographic data, like in the code examples below, or if you wanted to view something like a seating chart for a particular venue, the igShapeChart can help you to achieve this.
+igShapeChart コントロールはシェープ ファイルをバインドして表示できます。シェープ データを可視化する場合に便利です。たとえば、以下のコード例のように地理データなどを可視化する場合、または座席チャートを表示する場合などに igShapeChart を使用できます。
 
-You can do this by either binding the dataSource property of the igShapeChart to an array of ShapeDataSource records, or by binding the databaseSource and shapeDataSource properties of the chart. Which you choose to do really depends on whether you are binding a single or multiple shape files at a time. This is explained further in the code examples below. 
+igShapeChart の dataSource プロパティを ShapeDataSource レコードの配列にバインドするか、チャートの databaseSource および shapeDataSource プロパティをバインドすると実装できます。単一のシェープ ファイルまたは複数のシェープ ファイルにバインドするかどうかに基づいて方法を選択できます。以下コード例で詳細に説明します。 
 
-It is important also to note that you will require both a web hosted .shp and .dbf file in order to do this.
+これを実行するには、web でホストされる .shp および .dbf ファイルが必要であることに注意してください。
 
 <a id="CodeExampleSingle" />
-### Binding the igShapeChart to a Shape File
+### igShapeChart をシェープ ファイルにバインド
 
-In order to bind a single shape file, you can set the databaseSource and shapeDataSource properties to the URL pointing at the .dbf and .shp files, respectively.
+単一のシェープ ファイルにバインドする場合、databaseSource および shapeDataSource プロパティを .dbf ファイルおよび .shp ファイルに参照する URL にそれぞれ設定します。
 
-The following code example demonstrates how this can be achieved.
+以下のコード例は、実装方法を示します。
 
-**In HTML:**
+**HTML の場合:**
 ```html
 <script>
     $(function () {
@@ -57,20 +57,20 @@ The following code example demonstrates how this can be achieved.
 </script>
 ```
 
-Following the steps above will result in an igShapeChart control that looks like the following:
+上記の手順を実行すると、igShapeChart コントロールは以下のようになります。
 
 ![](images/shapechart_shapefile_single.png)
 
 <a id="CodeExampleMulti" />
-### Binding the igShapeChart to Multiple Shape Files
+### igShapeChart を複数のシェープ ファイルにバインド
 
-The igShapeChart does not currently have support for binding an array of URLs, but it does still have support for displaying multiple shape files at once. As such, you will need to create a ShapeDataSource element for each of your .shp and .dbf pairs that you are looking to bind, and then bind the dataSource property of the igShapeChart to an array of these ShapeDataSource's records.
+igShapeChart は現在 URL の配列にバインドできませんが、一度に複数のシェープ ファイルを表示する機能はサポートされます。バインドする各 .shp および .dbf ペアのための ShapeDataSource 要素を作成し、igShapeChart の dataSource プロパティを ShapeDataSource のレコードの配列にバインドする必要があります。
 
-The ShapeDataSource's records will be loaded asynchronously, and so you may want to utilize the callback function of the ShapeDataSource along with a boolean flag variable for each to synchronize when all of your ShapeDataSources are ready. At this point, you should initialize and set the dataSource of your igShapeChart.
+ShapeDataSource のレコードが非同期で読み込まれます。そのため、すべての ShapeDataSource の準備が整ったときに ShapeDataSource のコールバック関数と各レコードのブール フラグ変数を使用して同期させます。igShapeChart の dataSource を初期化して設定します。
 
-The following code example demonstrates how you can bind the igShapeChart to a pair of ShapeDataSources, showing an outline of North America along with a depiction of the major roads on the continent.
+以下のコード例は、igShapeChart を ShapeDataSource のペアにバインドする方法を紹介します。北アメリカのアウトラインおよび主な道路を表示します。
 
-**In HTML:**
+**HTML の場合:**
 ```html
 <script>           
     	
@@ -122,20 +122,20 @@ The following code example demonstrates how you can bind the igShapeChart to a p
 </script>
 ```
 
-Following the steps above will result in an igShapeChart that looks like the following:
+上記の手順を実行すると、igShapeChart は以下のようになります。
 
 ![](images/shapechart_shapefile_multi.png)
 
 <a id="Related" />
-### Related Content
+### 関連コンテンツ
 
-- [Binding to Break-Even Data](shapechart-binding-break-even-data.html)
-- [Using Legend](shapechart-using-legend-with-shapechart.html)
+- [損益分岐点データにバインド](shapechart-binding-break-even-data.html)
+- [凡例の使用](shapechart-using-legend-with-shapechart.html)
 
 <a id="Samples" />
-### Samples
+### サンプル
 
-The following samples provide additional information related to this topic.
+このトピックについて、以下のサンプルも参照してください。
 
--	[Binding a Shapefile](%%SamplesUrl%%/shape-charts/binding-shapefile-single):  This sample demonstrates the `igShapeChart` control binding to a single shape file.
--	[Binding Multiple Shapefiles](%%SamplesUrl%%/shape-charts/binding-shapefile-multi):  This sample demonstrates the `igShapeChart` control binding to multiple shape files.
+-	[シェープ ファイルのバインド](%%SamplesUrl%%/shape-charts/binding-shapefile-single): このサンプルは、`igShapeChart` コントロールを単一のシェープ ファイルにバインドする方法を紹介します。
+-	[複数シェープ ファイルのバインド](%%SamplesUrl%%/shape-charts/binding-shapefile-multi): このサンプルは、`igShapeChart` コントロールを複数のシェープ ファイルにバインドする方法を紹介します。

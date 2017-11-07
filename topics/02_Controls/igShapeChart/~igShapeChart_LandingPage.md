@@ -10,23 +10,23 @@
 
 # igShapeChart
 
-### Introduction
+### 概要
 
-The igShapeChart is a lightweight, highly performant chart. This chart can be easily configured to display scatter as well as providing support for two additional data visualizations (Polyline and Polygon). The chart can also plot data from shape files or any custom shape that you can define using an array of arrays of X/Y points.
+igShapeChart は軽量で高パフォーマンスなチャートです。このチャートは、散布シリーズの表示、更にポリラインや多角形のデータ可視化もサポートします。チャートはシェープ ファイルまたは X/Y ポイントの配列の配列を使用して定義されるカスタム図形のデータをプロットできます。
 
-The following screenshot demonstrates the shape chart displaying break even data.
+以下のスクリーンショットは、損益分岐点データを表示したシェープ チャートです。
 
 ![](images/shapechart-breakeven-01.png)
 
-### Topics
-The topics in this section provide detailed information regarding the igShapeChart control.
+### トピック
+このセクションのトピックでは、igShapeChart コントロールの詳細情報を提供します。
 
-- [Overview](shapechart-overview.html)
+- [概要](shapechart-overview.html)
 
-- [Getting Started](shapechart-getting-started-with-shapechart.html)
+- [はじめに](shapechart-getting-started-with-shapechart.html)
 
-- [Binding to Shape File Data](shapechart-binding-shapefile-data.html)
+- [シェープ ファイル データのバインド](shapechart-binding-shapefile-data.html)
 
-- [Binding to Break Even Data](shapechart-binding-break-even-data.html)
+- [損益分岐点データのバインド](shapechart-binding-break-even-data.html)
 
-- [Shape Chart API Overview](shapechart-api-reference.html)
+- [シェープ チャート API の概要](shapechart-api-reference.html)

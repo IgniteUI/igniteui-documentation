@@ -8,29 +8,29 @@
 |metadata|
 -->
 
-# Configuring Axis Ranges (igShapeChart)
+# 軸範囲の構成 (igShapeChart)
 
-In the `igShapeChart` control, both the axes are numeric. The range on these numeric axes is the difference in numeric values from the beginning of the axis to the end, or from the smallest to largest values in the underlying data. The range minimum is the lowest value of the axis. The range maximum is the highest value of the axis.
+`igShapeChart` コントロールでは両軸が数値軸です。数値軸の範囲は軸の最初と終わり、つまり基になるデータの最小値と最大値の数値の差です。範囲の最小値は、軸の最小値です。範囲の最大値は、軸の最大値です。
 
-### In this topic
+### このトピックの内容
 
-- [Overview](#Overview)
-- [Code Snippet](#CodeSnippet)
-- [Related Content](#Related)
+- [概要](#Overview)
+- [コード スニペット](#CodeSnippet)
+- [関連コンテンツ](#Related)
 
 <a id="Overview" />
-## Overview
+## 概要
 
-By default, the `igShapeChart` control will calculate the minimum and maximum values for the X and Y axis range based on the lowest and highest data points in the underlying data source in order to maximize the chart plot area. This automatic calculation of an axis' minimum and maximum values may not be appropriate for your set of data points. For example, if you wanted to show some extra space between the edge of the chart and your plotted series, you would need to format the axis range in the `igShapeChart`.
+デフォルトで、`igShapeChart` コントロールは、チャート プロット領域を最大化するために、最小データ ポイントおよび最大データ ポイントに基づいて軸の範囲の最小値と最大値を計算します。軸の最小値と最大値の自動計算は、データ ポイントのセットに適切でない場合があります。たとえば、チャートの端とプロット シリーズの間に余分なスペースを表示する場合、`igShapeChart` 軸範囲をフォーマットする必要があります。
 
-You can format the ranges of the igShapeChart control's axes by setting the `xAxisMinimumValue`, `xAxisMaximumValue`, `yAxisMinimumValue`, and `yAxisMaximumValue` properties on the chart. This will set the axis ranges to the values that you define, allowing you to display your data at the range that you desire.
+igShapeChart コントロールの軸の範囲を書式設定するには、チャートの `xAxisMinimumValue`、`xAxisMaximumValue`、`yAxisMinimumValue`、 および `yAxisMaximumValue` プロパティを設定します。これは軸範囲を定義している値に設定し、指定した範囲にデータを表示します。
 
 <a id="CodeSnippet" />
-## Code Snippet
+## コード スニペット
 
-The following sample code demonstrates how to change the axis range on the X and Y axes of the `igShapeChart` control.
+以下のサンプル コードは、`igShapeChart` コントロールの X 軸と Y 軸の軸範囲を変更する方法を示します。
 
-**In HTML:**
+**HTML の場合:**
 ```html
 <script>
     
@@ -55,11 +55,11 @@ The following sample code demonstrates how to change the axis range on the X and
     
 </script>
 ```
-Following the steps above will result in an igShapeChart control that looks like the following:
+上記の手順を実行すると、igShapeChart コントロールは以下のようになります。
 
 ![](images/shapechart_ranges.png)
 
 <a id="Related" />
-## Related Content
-- [Configuring Axis Labels](shapechart-configuring-axis-labels.html)
-- [Configuring Axis Intervals](shapechart-configuring-axis-intervals.html)
+## 関連コンテンツ
+- [軸ラベルの構成](shapechart-configuring-axis-labels.html)
+- [軸間隔の構成](shapechart-configuring-axis-intervals.html)

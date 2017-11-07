@@ -8,46 +8,46 @@
 |metadata|
 -->
 
-# Binding Break-Even Data (igShapeChart)
+# 損益分岐点データのバインド (igShapeChart)
 
-This topic explains, with a code example, how to bind break-even data in the igShapeChart control.
+このトピックではコード例を使用して、igShapeChart コントロールで損益分岐点データにバインドする方法を説明します。
 
-### Required Background
+### 前提条件
 
-The following topics are prerequisites to understanding this topic:
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
 
-- [igShapeChart Overview](shapechart-binding-to-shapefile-data.html): This topic provides conceptual information about the igShapeChart control including its main features, minimum requirements, and user functionality.
-- [Getting Started with igShapeChart](shapechart-binding-to-shapefile-data.html): This topic explains, with a code example, how to add the igShapeChart to your application.
+- [igShapeChart の概要](shapechart-binding-to-shapefile-data.html): このトピックは、主要機能、最小要件およびユーザー機能性など、igShapeChart コントロールの概念的な情報を提供します。
+- [igShapeChart を使用した作業の開始](shapechart-binding-to-shapefile-data.html): このトピックでは、コード例を使用して igShapeChart をアプリケーションに追加する方法を説明します。
 
-### In this topic
-- [Overview](#Overview)
-- [Preview](#Preview)
-- [Code Example](#CodeExample)
-- [Related Content](#Related)
-- [Samples](#Samples)
+### このトピックの内容
+- [概要](#Overview)
+- [プレビュー](#Preview)
+- [コード例](#CodeExample)
+- [関連コンテンツ](#Related)
+- [サンプル](#Samples)
 
 <a id="Overview" />
-### Overview
+### 概要
 
-The igShapeChart control has support for displaying "break-even" data. In order to do this, you will need to have at least a single data item with four numeric properties named FixedCost, VariableCost, Revenue, and Units. You can also optionally add a numeric property named MarginalProfit in order to plot that as well. For example, this would allow you to view a financial visualization of the break-even point given a number of units sold when bought for a particular price and sold for a particular price.
+igShapeChart コントロールは損益分岐点データの表示をサポートします。バインドするために、FixedCost、VariableCost、Revenue、および Units と呼ばれる 4 つの数値プロパティを持つ 1 つ以上のデータ項目が必要です。MarginalProfit と呼ばれる数値プロパティをオプションに追加してプロットできます。たとえば、販売単位数を指定し、特定の価格で購入して特定の価格で販売する損益分岐点の会計を可視化できます。
 
-Once plotted, the igShapeChart control will create a view with the Revenue property on the Y-Axis and the Units property on the X-Axis to generate a linear financial view of the relation between the two. This includes a series for each of the required properties mentioned above.
+プロットされると、igShapeChart コントロールは Y 軸に Revenue プロパティでビューを描画し、X 軸に Units プロパティを描画して、2 つの関係を示すリニア会計ビューを生成します。上記の必須プロパティのためのシリーズを含みます。
 
-Also generated will be a linear view of the Total Cost, Break Even point, and optionally the Marginal Profit, along with an area view of the Profit Area, Loss Area, and optionally, the Marginal Area as well.
+さらに、総費用、損益分岐点、および限界利益 (オプション) のリニア ビューが生成され、利益エリア、損失エリア、および限界エリア (オプション) のエリア ビューが生成されます。
 
 <a id="Preview" />
-### Preview
+### プレビュー
 
-The following is a preview of what the igShapeChart will look like when following the code example given below:
+以下は、コード例を使用した igShapeChart のプレビューです。
 
 ![](images/shapechart_breakeven_03.png)
 
 <a id="CodeExample" />
-### Code Example
+### コード例
 
-The following code example shows how to bind break-even data to the igShapeChart control.
+以下のコード例は損益分岐点データを igShapeChart コントロールにバインドする方法を紹介します。
 
-**In HTML:**
+**HTML の場合:**
 ```html
 <body>
     
@@ -83,14 +83,14 @@ The following code example shows how to bind break-even data to the igShapeChart
 ```
 
 <a id="Related" />
-### Related Content
+### 関連コンテンツ
 
-- [Binding to Shape File Data](shapechart-binding-shapefile-data.html)
-- [Using Legend](shapechart-using-legend-with-shapechart.html)
+- [シェープ ファイル データのバインド](shapechart-binding-shapefile-data.html)
+- [凡例の使用](shapechart-using-legend-with-shapechart.html)
 
 <a id="Samples" />
-### Samples
+### サンプル
 
-The following sample provides additional information related to this topic.
+以下のサンプルでは、このトピックに関連する情報を提供しています。
 
--	[Binding Break Even Data](%%SamplesUrl%%/shape-charts/binding-break-even-data):  This sample demonstrates the `igShapeChart` control binding to break-even data.
+-	[損益分岐点データのバインド](%%SamplesUrl%%/shape-charts/binding-break-even-data): このサンプルは、`igShapeChart` コントロールを損益分岐点データにバインドする方法を紹介します。

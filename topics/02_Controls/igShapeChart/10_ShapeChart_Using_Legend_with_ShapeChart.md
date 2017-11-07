@@ -8,44 +8,44 @@
 |metadata|
 -->
 
-# Using Legend (igShapeChart)
+# 凡例の使用 (igShapeChart)
 
-This topic explains, with a code example, how to add a legend to the igShapeChart control.
+このトピックは、コード例を示して、凡例を igShapeChart コントロールにドックする方法を説明します。
 
-### Required Background
+### 前提条件
 
-The following topics are prerequisites to understanding this topic:
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
 
-- [igShapeChart Overview](shapechart-binding-to-shapefile-data.html): This topic provides conceptual information about the igShapeChart control including its main features, minimum requirements, and user functionality.
-- [Getting Started with igShapeChart](shapechart-binding-to-shapefile-data.html): This topic explains, with a code example, how to add the igShapeChart to your application.
+- [igShapeChart の概要](shapechart-binding-to-shapefile-data.html): このトピックは、主要機能、最小要件およびユーザー機能性など、igShapeChart コントロールの概念的な情報を提供します。
+- [igShapeChart を使用した作業の開始](shapechart-binding-to-shapefile-data.html): このトピックでは、コード例を使用して igShapeChart をアプリケーションに追加する方法を説明します。
 
-### In this topic
-- [Introduction](#Introduction)
-- [Preview](#Preview)
-- [Code Example](#CodeExample)
-- [Related Content](#Related)
-- [Samples](#Samples)
+### このトピックの内容
+- [概要](#Introduction)
+- [プレビュー](#Preview)
+- [コード例](#CodeExample)
+- [関連コンテンツ](#Related)
+- [サンプル](#Samples)
 
 <a id="Introduction" />
-### Introduction
+### 概要
 
-The igShapeChart control has support for showing legends, but does not currently display legends for any series in the chart by default. In order to show a common legend for your shape chart, you need to set the legend option on the chart.
+igShapeChart コントロールで凡例の表示がサポートされますが現在デフォルトではチャート シリーズの凡例を表示しません。シェープ チャートで共有の凡例を表示するには、チャートの legend オプションを設定します。
 
-The legend element that will be created, will pull the names of its items from the Title property of the series that are plotted in the chart, and it will show your series' names in the format of "Series Type (XMemberPath vs YMemberPath)" by default. You can format the name shown in the Legend by utilizing the SeriesAdded event. The event arguments of this event can net you the series that has been added, allowing you to modify the Title of that series accordingly.
+作成する凡例要素はチャートでプロットされるシリーズの Title プロパティから項目の名前を取得します。シリーズ名は "Series Type (XMemberPath vs YMemberPath)" の書式で表示されます。凡例に表示される名前は、SeriesAdded イベントで書式設定できます。このイベントのイベント引数から追加されたシリーズを取得でき、そのシリーズの Title を変更できます。
 
 <a id="Preview" />
-### Preview
+### プレビュー
 
-The following is a preview of what the igShapeChart will look like when following the code example given below:
+以下は、コード例を使用した igShapeChart のレビューです。
 
 ![](images/shapechart_legend.png)
 
 <a id="CodeExample" />
-### Code Example
+### コード例
 
-The following code example shows how to use a legend for multiple series plotted within the igShapeChart control.
+以下のコード例は、igShapeChart コントロールでプロットされる複数のシリーズの凡例を使用する方法を紹介します。
 
-**In HTML:**
+**HTML の場合:**
 ```html
 <div id="shapeChart"></div>
 <div id="legend"></div>
@@ -81,14 +81,14 @@ The following code example shows how to use a legend for multiple series plotted
 ```
 
 <a id="Related" />
-### Related Content
+### 関連コンテンツ
 
-- [Binding to Shape File Data](shapechart-binding-shapefile-data.html)
-- [Binding to Break Even Data](shapechart-binding-break-even-data.html)
+- [シェープ ファイル データのバインド](shapechart-binding-shapefile-data.html)
+- [損益分岐点データのバインド](shapechart-binding-break-even-data.html)
 
 <a id="Samples" />
-### Samples
+### サンプル
 
-The following sample provides additional information related to this topic.
+以下のサンプルでは、このトピックに関連する情報を提供しています。
 
--	[Using Legend](%%SamplesUrl%%/shape-charts/using-legend):  This sample demonstrates usage of a legend with the `igShapeChart` control.
+-	[凡例の使用](%%SamplesUrl%%/shape-charts/using-legend): このサンプルでは、`igShapeChart` コントロールで凡例を使用する方法を紹介します。

@@ -8,63 +8,63 @@
 |metadata|
 -->
 
-# Getting Started (igShapeChart)
+# igShapeChart を使用した作業の開始
 
-### Purpose
+### 目的
 
-This topic explains using a code example how to add the igShapeChart control to your application.
+このトピックでは、コード例を使用して igShapeChart コントロールをアプリケーションに追加する方法を説明します。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [Introduction](#Introduction)
-- [Preview](#Preview)
-- [Overview](#Overview)
-- [Steps](#Steps)
-- [Related Content](#Related)
+- [概要](#Introduction)
+- [プレビュー](#Preview)
+- [概要](#Overview)
+- [手順](#Steps)
+- [関連コンテンツ](#Related)
 
 <a id="Introduction" />
-### Introduction
+### 概要
 
-The following procedure demonstrates adding the igShapeChart to your applications.
+以下の手順は、igShapeChart コントロールをアプリケーションに追加する方法を示します。
 
 <a id="Preview" />
-### Preview
+### プレビュー
 
-The following is a screenshot of the igShapeChart:
+以下は igShapeChart の画像です。
 
 ![](images/shapechart_getting_started.png)
 
 <a id="Overview" />
-### Overview
+### 概要
 
-1. Create a target element for storing the igShapeChart control.
-2. Add a data source.
-3. Instantiate the igShapeChart and bind the data source.
-4. Verify the result.
+1. igShapeChart コントロールを保存するターゲット要素を作成します。
+2. データ ソースを追加します。
+3. igShapeChart のインスタンスを作成し、データ ソースにバインドします。
+4. 結果を検証します。
 
 <a id="Steps" />
-### Steps
+### 手順
 
-The following procedure takes you through the steps necessary for adding the igShapeChart to a page.
+以下では igShapeChart をページに追加するために必要な手順を示します。
 
-**Create a target element for storing the igShapeChart**
+**igShapeChart を保存するターゲット要素の作成。**
 
-Create a <div> element within the HTML body on which to instantiate the igShapeChart control.
+HTML 本文内に igShapeChart コントロールをインスタンス化する <div> 要素を作成します。
 
-**In HTML:**
+**HTML の場合:**
 ```html
 <body>
     <div id="shapeChart"></div>
 </body>
 ```
 
-**Add a data source**
+**データ ソースを追加します。**
 
-In order to create an igShapeChart, you must first have data to bind it to. The following code snippet demonstrates how to create a simple data source.
+igShapeChart を作成するには、最初にバインドするデータが必要になります。以下のコード スニペットは、シンプルなデータソースを作成する方法を示します。
 
-**In HTML:**
+**HTML の場合:**
 ```html
 <script>
     var data = [
@@ -75,11 +75,11 @@ In order to create an igShapeChart, you must first have data to bind it to. The 
 </script>
 ```
 
-**Instantiate the igShapeChart and bind the data source**
+**igShapeChart のインスタンスを作成し、データ ソースにバインドします。**
 
-Use the selector of the target <div> element defined in step 1 to instantiate the igShapeChart control. You can then set the data property to the data source created in step 2. The following code shows this, along with setting the width, height, and x and y axis minimum and maximum values based on the data source.
+手順 1 で定義したターゲット <div> 要素のセレクターを使用して、igShapeChart コントロールのインスタンスを作成します。data プロパティを手順 2 で作成したデータ ソースに設定します。以下のコードはコントロールをインスタンス化してデータへバインドし、幅、高さ、およびデータ ソースに基づいて x 軸および y 軸の最小値と最大値を設定します。
 
-**In HTML:**
+**HTML の場合:**
 ```html
 <script>
     $(function () {
@@ -96,11 +96,11 @@ Use the selector of the target <div> element defined in step 1 to instantiate th
 </script>
 ```
 
-**Verify the result**
+**結果を確認します。**
 
-Build and run your project to verify the result. If you have implemented the above steps correctly, the displayed igShapeChart should look like the one in the Preview section above.
+結果を確認するために、プロジェクトをビルドして実行します。以上の手順を正しく実装した場合、igShapeChart は上記のプレビュー セクションで示したように表示されます。
 
-### Related Content
+### 関連コンテンツ
 
-- [Binding to Shape File Data](shapechart-binding-shapefile-data.html)
-- [Binding to Break Even Data](shapechart-binding-break-even-data.html)
+- [シェープ ファイル データのバインド](shapechart-binding-shapefile-data.html)
+- [損益分岐点データのバインド](shapechart-binding-break-even-data.html)
