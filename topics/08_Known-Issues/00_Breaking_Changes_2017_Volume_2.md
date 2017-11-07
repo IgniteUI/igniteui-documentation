@@ -184,8 +184,8 @@ tooltipTemplate | [locale.tooltipTemplate](%%jQueryApiUrl%%/ui.iggridfiltering#o
 featureChooserText | [locale.featureChooserText](%%jQueryApiUrl%%/ui.iggridfiltering#options:locale.featureChooserText)
 featureChooserTextHide | [locale.featureChooserTextHide](%%jQueryApiUrl%%/ui.iggridfiltering#options:locale.featureChooserTextHide)
 featureChooserTextAdvancedFilter | [locale.featureChooserTextAdvancedFilter](%%jQueryApiUrl%%/ui.iggridfiltering#options:locale.featureChooserTextAdvancedFilter)
-nullTexts | Setting null texts is now achieved via [locale](%%jQueryApiUrl%%/ui.iggridfiltering#options:locale) option
-labels | Setting labels is now achieved via [locale](%%jQueryApiUrl%%/ui.iggridfiltering#options:locale) option
+nullTexts | [locale](%%jQueryApiUrl%%/ui.iggridfiltering#options:locale)
+labels | [locale](%%jQueryApiUrl%%/ui.iggridfiltering#options:locale)
 
 ### igGrid GroupBy のオプション変更
 

@@ -124,10 +124,12 @@
 
 
 
-*関連トピック:* 
+**関連トピック:** 
 
 - [はじめに](shapechart-getting-started-with-shapechart.html)
+- [シリーズ要件](shapechart-series-requirements.html)
+- [シェープ ファイル データのバインド](shapechart-binding-shapefile-data.html)
 
-- [チャート タイプの構成](shapechart-configuring-chart-types.html)
+**サンプル:**
 
-- [シェープ ファイル データのバインド](shapechart-binding-to-shapefile-data.html)
+- [シェープ チャートのタイプ](%%SamplesUrl%%/shape-charts/shape-chart-types):  このサンプルは様々な `igShapeChart` の `chartType` を表示します。

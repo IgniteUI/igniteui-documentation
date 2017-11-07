@@ -69,4 +69,4 @@ $("#scheduler").igScheduler("createAppointment", dentistAppointment);
 トピック | 目的
 ---|---
 [予定の構成 (igScheduler)](igScheduler-Configure-Appointments.html) | このトピックは、`igScheduler` の Appointments DataSource リストを設定して構成する方法を紹介します。
-[ビューの構成 (igScheduler)](igScheduler-Configure-Views.html): このセクションのトピックは、予定表のデータを表示する `igScheduler` コントロールで使用されるビューについての情報を提供します。
+[ビューの構成 (igScheduler)](igScheduler-Configure-Views.html) | このセクションのトピックは、予定表のデータを表示する `igScheduler` コントロールで使用されるビューについての情報を提供します。

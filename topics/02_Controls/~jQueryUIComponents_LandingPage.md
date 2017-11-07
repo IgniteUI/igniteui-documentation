@@ -42,6 +42,7 @@
 -   [igRating](igRating-igRating.html)
 -   [igScheduler](igScheduler-Landing.html)
 -   [igScroll](igScroll.html)
+-   [igShapeChart](igshapechart-landingpage.html)
 -   [igSparkline](igSparkline-Landing.html)
 -   [igSplitter](igSplitter.html)
 -   [igSpreadsheet](igSpreadsheet.html)
