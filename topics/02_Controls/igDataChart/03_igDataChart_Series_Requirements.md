@@ -264,7 +264,7 @@
                 <td>X</td>
                 <td></td>
                 <td>X</td>
-                <td>X</td>> 
+                <td>X</td> 
             </tr>
             <tr>
                 <td>stackedBar </td>
@@ -282,7 +282,7 @@
                 <td>X</td>
                 <td></td>
                 <td>X</td>
-                <td>X</td>> 
+                <td>X</td> 
             </tr>
             <tr>
                 <td>stackedLine </td>
@@ -299,7 +299,7 @@
                 <td>X</td>
                 <td></td>
                 <td>X</td>
-                <td>X</td>> 
+                <td>X</td> 
             </tr>
             <tr>
                 <td>stackedSplineArea </td>
@@ -308,7 +308,7 @@
                 <td>X</td>
                 <td></td>
                 <td>X</td>
-                <td>X</td>> 
+                <td>X</td> 
             </tr>
             <tr>
                 <td>stacked100Area </td>
@@ -317,7 +317,7 @@
                 <td></td>
                 <td>X</td>
                 <td></td>
-                <td>X</td>> 
+                <td>X</td> 
             </tr>
             <tr>
                 <td>stacked100Bar </td>
@@ -326,7 +326,7 @@
                 <td></td>
                 <td>X</td>
                 <td></td>
-                <td>X</td>> 
+                <td>X</td> 
             </tr>
             <tr>
                 <td>stacked100Column </td>
@@ -335,7 +335,7 @@
                 <td>X</td>
                 <td></td>
                 <td>X</td>
-                <td>X</td>> 
+                <td>X</td> 
             </tr>
             <tr>
                 <td>stacked100Line </td>
@@ -344,7 +344,7 @@
                 <td>X</td>
                 <td></td>
                 <td>X</td>
-                <td>X</td>> 
+                <td>X</td> 
             </tr>
             <tr>
                 <td>stacked100Spline </td>
@@ -353,7 +353,7 @@
                 <td>X</td>
                 <td></td>
                 <td>X</td>
-                <td>X</td>> 
+                <td>X</td> 
             </tr>
             <tr>
                 <td>stacked100SplineArea </td>
@@ -362,7 +362,7 @@
                 <td>X</td>
                 <td></td>
                 <td>X</td>
-                <td>X</td>> 
+                <td>X</td> 
             </tr>
         </tbody>
     </table>

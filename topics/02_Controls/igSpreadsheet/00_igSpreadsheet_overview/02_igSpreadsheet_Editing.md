@@ -35,7 +35,7 @@
 
 スプレッドシートのコンテンツを編集しているセル上に配置されるエディターを使用して「インプレース」で編集または数式エディターで編集できます。コントロールはセルについての情報または入力した書式設定データを取得、あるは編集をキャンセルする API を公開します。以下の画像は、セルが編集モードにある Excel ワークブックを表示します。
 
-![](../images/igSpreadsheet_editing.png)
+![](images/igSpreadsheet_editing.png)
 
 ## <a id="events"></a>イベント
 
@@ -103,7 +103,7 @@ $("#spreadsheet1").igSpreadsheet({
 });
 ```
 
-![](../images/igSpreadsheet_decimals.png)
+![](images/igSpreadsheet_decimals.png)
 
 ## <a id="related_link"></a>関連リンク
 

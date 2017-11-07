@@ -498,7 +498,7 @@ IE9 以前のバージョンでは、プレースホルダー テキストはプ
 		</td>
 		
 		<td>
-		    <p><img alt="" src="../images/images/negative.png"></p>
+		    <p><img alt="" src="images/negative.png"></p>
 		</td>
 	</tr>
     </tbody>

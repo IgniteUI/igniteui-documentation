@@ -1027,7 +1027,7 @@ Firefox で相対的な列幅が設定されていないと、列のサイズ変
 `igGridRowSelectors` ウィジェットでは、選択機能を有効にする必要がある|`igGridRowSelectors` ウィジェットの [`requireSelection`](%%jQueryApiUrl%%/ui.iggridrowselectors#options:requireSelection) オプションは、デフォルトで *true* に設定されています。また行セレクターの使用に選択機能が必要なことを示す例外をスローします。 | ![](images/positive.png)
 IE 9 で選択機能が正しく動作しない|Internet Explorer 9 では、テーブルが大き過ぎるとページに垂直スクロールバーが表示されますが、バーを下にスクロールすると、チェックボックスの有無に関係なく、`RowSelectors` を使用した選択が正しく動作しません。グリッドがフォーカスを得ると、Internet Explorer 9 がページを上方にスクロールして戻すため、選択が誤った行に適用される、またはまったく適用されません。 | ![](images/negative.png)
 選択機能を自動的に有効にできない|選択機能の自動有効化は機能しません。`RowSelectors` に全機能を持たせるために、選択ウィジェットでが必要です。 | ![](images/positive.png)
-[すべて選択](igGrid-Configuring-Row-Selectors.html#select-all-pages) 機能はリモート ページング機能をサポートしません。|[`enableSelectAllForPaging`](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableSelectAllForPaging) オプションはリモート ページングで正しく機能しません。 | ![](../images/negative.png)
+[すべて選択](igGrid-Configuring-Row-Selectors.html#select-all-pages) 機能はリモート ページング機能をサポートしません。|[`enableSelectAllForPaging`](%%jQueryApiUrl%%/ui.iggridrowselectors#options:enableSelectAllForPaging) オプションはリモート ページングで正しく機能しません。 | ![](images/negative.png)
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
@@ -1391,8 +1391,8 @@ Mobile Slider が Windows Phone 7 上でスライドしない|Windows® Phone 7 
 
 問題|説明|状態
 ---|---|---
-igScroll を初期設定で非表示の要素で初期化すると、スクロールが動作しない。|igScroll を非表示の要素で初期化すると、要素が表示された後にスクロールバーが表示されず、スクロールが動作しません。| ![](../images/positive.png)
-igScroll でターゲット要素の tabIndex 属性を設定せず、フォーカスできない場合、キーボード インタラクションが動作しない。|igScroll 要素がフォーカスされている場合のみキーボード インタラクションが可能です。要素のフォーカスが有効でない (tabIndex 属性がない) 場合、キーボード インタラクションを起動できません。 | ![](../images/negative.png)
-igScroll インスタンスを持つ 2 つの要素が同期化される場合、1 つの要素をスクロールすると、その他の要素にスクロールバーを表示しない。|2 つの要素が [syncedElemsH](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH)/[syncedElemsV](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) プロパティによって同期化され、両方の要素で igScroll インスタンスが初期化される場合、1 つの要素がスクロールされると、その他の要素にスクロールバーが表示されません。| ![](../images/negative.png)
+igScroll を初期設定で非表示の要素で初期化すると、スクロールが動作しない。|igScroll を非表示の要素で初期化すると、要素が表示された後にスクロールバーが表示されず、スクロールが動作しません。| ![](images/positive.png)
+igScroll でターゲット要素の tabIndex 属性を設定せず、フォーカスできない場合、キーボード インタラクションが動作しない。|igScroll 要素がフォーカスされている場合のみキーボード インタラクションが可能です。要素のフォーカスが有効でない (tabIndex 属性がない) 場合、キーボード インタラクションを起動できません。 | ![](images/negative.png)
+igScroll インスタンスを持つ 2 つの要素が同期化される場合、1 つの要素をスクロールすると、その他の要素にスクロールバーを表示しない。|2 つの要素が [syncedElemsH](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH)/[syncedElemsV](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) プロパティによって同期化され、両方の要素で igScroll インスタンスが初期化される場合、1 つの要素がスクロールされると、その他の要素にスクロールバーが表示されません。| ![](images/negative.png)
 
 [既知の問題点と制限の概要](#summary)を参照してください。
