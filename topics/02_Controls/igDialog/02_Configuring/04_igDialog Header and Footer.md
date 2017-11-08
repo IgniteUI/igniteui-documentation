@@ -78,17 +78,17 @@
 
 					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:headerText" target="_blank">headerText</a></li>
 
-					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:closeButtonTitle" target="_blank">closeButtonTitle</a></li>
+					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:locale.closeButtonTitle" target="_blank">closeButtonTitle</a></li>
 
-					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:minimizeButtonTitle" target="_blank">minimizeButtonTitle</a></li>
+					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:locale.minimizeButtonTitle" target="_blank">minimizeButtonTitle</a></li>
 
-					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:maximizeButtonTitle" target="_blank">maximizeButtonTitle</a></li>
+					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:locale.maximizeButtonTitle" target="_blank">maximizeButtonTitle</a></li>
 
-					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:pinButtonTitle" target="_blank">pinButtonTitle</a></li>
+					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:locale.pinButtonTitle" target="_blank">pinButtonTitle</a></li>
 
-					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:unpinButtonTitle" target="_blank">unpinButtonTitle</a></li>
+					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:locale.unpinButtonTitle" target="_blank">unpinButtonTitle</a></li>
 
-					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:restoreButtonTitle" target="_blank">restoreButtonTitle</a></li>
+					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:locale.restoreButtonTitle" target="_blank">restoreButtonTitle</a></li>
 
 					<li><a href="%%jQueryApiUrl%%/ui.igDialog#options:imageClass" target="_blank">imageClass</a></li>
 				</ul>
@@ -132,12 +132,12 @@
 igDialog ヘッダーを表示します|[showHeader](%%jQueryApiUrl%%/ui.igDialog#options:showHeader) |true
 igDialog ヘッダーのタイトルを設定します|[headerText](%%jQueryApiUrl%%/ui.igDialog#options:headerText) |“HEADER”
 igDialog ヘッダーの画像を設定します|[imageClass](%%jQueryApiUrl%%/ui.igDialog#options:imageClass) |clsImage
-igDialog ヘッダーの閉じるボタンを設定します|[closeButtonTitle](%%jQueryApiUrl%%/ui.igDialog#options:closeButtonTitle) |“X”
-igDialog の最小化ボタンのタイトルを設定します|[minimizeButtonTitle](%%jQueryApiUrl%%/ui.igDialog#options:minimizeButtonTitle) |“MIN”
-igDialog の最大化ボタンのタイトルを設定します|[maximizeButtonTitle](%%jQueryApiUrl%%/ui.igDialog#options:maximizeButtonTitle) |“MAX”
-igDialog の固定ボタンのタイトルを設定します|[pinButtonTitle](%%jQueryApiUrl%%/ui.igDialog#options:pinButtonTitle) |“PIN”
-igDialog の固定解除ボタンのタイトルを設定します|[unpinButtonTitle](%%jQueryApiUrl%%/ui.igDialog#options:unpinButtonTitle) |“UNPIN”
-igDialog の復元ボタンのタイトルを設定します|[restoreButtonTitle](%%jQueryApiUrl%%/ui.igDialog#options:restoreButtonTitle) |“RESTORE”
+igDialog ヘッダーの閉じるボタンを設定します|[closeButtonTitle](%%jQueryApiUrl%%/ui.igDialog#options:locale.closeButtonTitle) |“X”
+igDialog の最小化ボタンのタイトルを設定します|[minimizeButtonTitle](%%jQueryApiUrl%%/ui.igDialog#options:locale.minimizeButtonTitle) |“MIN”
+igDialog の最大化ボタンのタイトルを設定します|[maximizeButtonTitle](%%jQueryApiUrl%%/ui.igDialog#options:locale.maximizeButtonTitle) |“MAX”
+igDialog の固定ボタンのタイトルを設定します|[pinButtonTitle](%%jQueryApiUrl%%/ui.igDialog#options:locale.pinButtonTitle) |“PIN”
+igDialog の固定解除ボタンのタイトルを設定します|[unpinButtonTitle](%%jQueryApiUrl%%/ui.igDialog#options:locale.unpinButtonTitle) |“UNPIN”
+igDialog の復元ボタンのタイトルを設定します|[restoreButtonTitle](%%jQueryApiUrl%%/ui.igDialog#options:locale.restoreButtonTitle) |“RESTORE”
 
 
 ### <a id="header-example"></a> 例

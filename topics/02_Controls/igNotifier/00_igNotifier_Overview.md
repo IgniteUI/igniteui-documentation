@@ -51,14 +51,14 @@ $('#success').igNotifier({
 
 ### <a id="info"></a>Info
 
-info メッセージの通知は、中程度を表すためにどのテーマでもグレー色で表示されます。このタイプの通知は、階層で 2 番目のレベルです。メッセージは、システムの具体的な状態またはユーザーに要求するアクションなどの情報の通知を目的としています。そのため、デフォルトの設定はありません。[`messages`](%%jQueryApiUrl%%/ui.igNotifier#options:messages) オプションを使用して設定できます。この状態でのテキストボックスの境界線は変化しません。
+info メッセージの通知は、中程度を表すためにどのテーマでもグレー色で表示されます。このタイプの通知は、階層で 2 番目のレベルです。メッセージは、システムの具体的な状態またはユーザーに要求するアクションなどの情報の通知を目的としています。そのため、デフォルトの設定はありません。[`locale`](%%jQueryApiUrl%%/ui.igNotifier#options:locale) オプションを使用して設定できます。この状態でのテキストボックスの境界線は変化しません。
 
 ```js
 $('#info').igNotifier({
     direction: "right",
 	showIcon: "true",
-    messages: {
-      info: "Heads up! This alert needs your attention, but it's not super important."
+    locale: {
+      infoMsg: "Heads up! This alert needs your attention, but it's not super important."
     }
 }).igNotifier("notify", "info");  
 ```
@@ -74,8 +74,8 @@ $('#info').igNotifier({
 $('#warning').igNotifier({
     direction: "right",
 	showIcon: "true",
-    messages: {
-      warning: "Warning! Better check yourself, you're not looking too good."
+    locale: {
+      warningMsg: "Warning! Better check yourself, you're not looking too good."
     }
 }).igNotifier("notify", "warning");
 ```
@@ -90,8 +90,8 @@ $('#warning').igNotifier({
 $('#error').igNotifier({
     mode: "popover",
 	showIcon: "true",
-    messages: {
-      error: "Oh snap! Change a few things up and try submitting again."
+    Locale: {
+      errorMsg: "Oh snap! Change a few things up and try submitting again."
     }
 }).igNotifier("notify", "error");
 ```
@@ -113,8 +113,8 @@ $('#notifier').igTextEditor({
 
 $('#notifier').igNotifier({
     direction: "right",
-    messages: {
-      success: "Well done!"
+    locale: {
+      successMsg: "Well done!"
     }
 }).igNotifier("notify", "success");
 
@@ -126,7 +126,7 @@ $('#notifier').igNotifier({
 
 もう 1 つの重要なオプションは、[`mode`](%%jQueryApiUrl%%/ui.igNotifier#options:mode) です。`ポップオーバー`または`インライン`表示モードのいずれかを選択できます。デフォルト値は auto です。これは info メッセージと warning メッセージに対してポップオーバー モードが設定され、success メッセージと error メッセージに対してインラインが設定されます。
 
-[`messages`](%%jQueryApiUrl%%/ui.ignotifier#options:messages) プロパティを使用すると、特定の状態で表示されるデフォルトのテキストをカスタマイズし、[`notify`](%%jQueryApiUrl%%/ui.ignotifier#methods:notify) メソッドの最後パラメータとして表示できます。
+[`locale`](%%jQueryApiUrl%%/ui.ignotifier#options:locale) プロパティを使用すると、特定の状態で表示されるデフォルトのテキストをカスタマイズし、[`notify`](%%jQueryApiUrl%%/ui.ignotifier#methods:notify) メソッドの最後パラメータとして表示できます。
 
 使用できるオプションや詳細な説明は、[igNotifier jQuery API](%%jQueryApiUrl%%/ui.igNotifier)の API マニュアルを参照してください。
 
