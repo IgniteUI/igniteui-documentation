@@ -8,79 +8,79 @@
 |metadata|
 -->
 
-# Configuring the Scatter Area Series (igDataChart)
+# 散布エリア シリーズの構成 (igDataChart)
 
-## Topic Overview
+## トピックの概要
 
-### Purpose
+### 目的
 
-This topic provides information on how to use the Scatter Area Series element in the `igDataChart` control.
+このトピックでは、`igDataChart` コントロールで散布エリア シリーズ要素を使用する方法を提供します。
 
-### Required background
+### 前提条件
 
-You should be familiar with the following topics before continuing:
+以下のトピックを事前に読んでおくことをお勧めします。
 
-- [Adding igDataChart](igDataChart-Adding.html): This topic demonstrates how to add the `igDataChart`™ control to a page and bind it to data.
+- [igDataChart の追加](igDataChart-Adding.html): このトピックでは、`igDataChart`™ コントロールをページに追加し、データにバインドする方法を紹介します。
 
-- [Binding igDataChart to Data](igDataChart-DataBinding.html): This topic explains how to bind the `igDataChart`™ control to various data sources (JavaScript array, `IQueryable<T>`, web service).
+- [igDataChart をデータにバインド](igDataChart-DataBinding.html): このトピックでは、`igDataChart`™ コントロールを各種データ ソース (JavaScript 配列、`IQueryable<T>`、Web サービス) にバインドする方法について説明します。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
--   [Overview](#overview)
-	-   [Preview](#preview)
--   [Data Requirements](#data-requirements)
--   [Data Binding](#data-binding)
--   [Color Scale](#color-scale)
--   [Example](#example)
--   [Related Content](#related-content)
-    -   [Topics](#topics)
+-   [概要](#overview)
+	-   [プレビュー](#preview)
+-   [データ要件](#data-requirements)
+-   [データ バインディング](#data-binding)
+-   [カラー スケール](#color-scale)
+-   [例](#example)
+-   [関連コンテンツ](#related-content)
+    -   [トピック](#topics)
 
-## <a id="overview"></a> Overview
+## <a id="overview"></a> 概要
 
-In the `igDataChart` control, the Scatter Area Series draws a colored surface based on a triangulation of X and Y data with a numeric value assigned to each point.
+`igDataChart` コントロールで、散布エリア シリーズは各ポイントに割り当てられた数値を使って、X および Y データの三角測量に基づいて、色付きのサーフェスを描画します。
 
-This type of series is useful for rendering heat maps, magnetic field strength or wifi strength in an office. The Scatter Area Series works a lot like the Scatter Contour Series except that it represents data as interpolated and colored surface instead of contour lines connecting data points with the same values.
+このシリーズのタイプはヒート マップ、磁場の強さ、またはオフィスの WIFI の強さを描画する場合などに便利です。散布エリア シリーズは散布等高線シリーズと同様ですが、同じ値を持つデータ ポイントを接続する等高線の代わりに補間で色つきサーフェス エリアとしてデータを表します。
 
-### <a id="preview"></a> Preview
+### <a id="preview"></a> プレビュー
 
-The following is a preview of the `igDataChart`_ control with a Scatter Area Series that is plotting 3D surface data where the Z axis is rendered as color changes across the surface.  Lower Z values are in blue and higher values are in red.
+以下は、3D サーフェス データをプロットする散布エリア シリーズを持つ `igDataChart` コントロールのプレビューです。Z 軸は、サーフェスの色の変更として描画されます。より低い Z 値は青色で、より高い値は赤色になります。
 
 ![](images/jquery_scatter_area_01.png)
 
-## <a id="data-requirements"></a> Data Requirements
+## <a id="data-requirements"></a> データ要件
 
-Similar to other types of series in the `igDataChart` control, the Scatter Area Series has the `dataSource` option for the purpose of data binding. This option can be set to an array and each item in this array must have two data columns that store point locations (one for X and one for Y). These data columns are then mapped to the `xMemberPath` and `yMemberPath` options.  The data must also have one data column that stores a value for each point.  This value is used by the series to color the surface. This value column is mapped to the `colorMemberPath` option.
+`igDataChart` コントロールのシリーズの他のタイプと同様、散布エリア シリーズには、データ バインディングのための `dataSource` オプションがあります。このオプションは配列に設定することができます。配列の各項目には、ポイント位置を保存する 2 つのデータ列が必要です (X と Y に各 1 列)。このデータ列は、`xMemberPath` および `yMemberPath` オプションにマップされます。データには各ポイントの値を保存するデータ列も 1 列必要です。この値はシリーズにサーフェスの色を設定するために使用されます。この値列は、`colorMemberPath` オプションにマップされます。
 
-## <a id="data-binding"></a> Data Binding
+## <a id="data-binding"></a> データ バインディング
 
-The following table summarizes options of Scatter Area Series used for data binding.
+以下の表は、データ バインドに使用される散布エリア シリーズ オプションの概要です。
 
-Property Name | Property Type | Description
+プロパティ名|プロパティ タイプ|説明
 ---|---|---
-`datasource` | array | The source of items to perform triangulation on.
-`xMemberPath` | string | The name of the property containing the X location for each item in the `dataSource`.
-`yMemberPath` | string | The name of the property containing the Y location for each item in the `dataSource`.
-`colorMemberPath` | string | The name of the property on each item containing a numeric value, which can be converted to a color by a color scale, set to the `colorScale` option.
-`colorScale` | object | The color scale to apply to each item based on the value of the property in `colorMemberPath`.
+`datasource` |array|三角測量を実行する項目のソース。
+`xMemberPath`|string |`dataSource` の各項目の X 位置を含むプロパティの名前。
+`yMemberPath`|string |`dataSource` の各項目の Y 位置を含むプロパティの名前。
+`colorMemberPath`|string |`colorScale` オプションに設定されて、カラー スケールによって色への変換が可能な数値を含む各項目のプロパティの名前。
+`colorScale` |オブジェクト|`colorMemberPath` プロパティの値に基づいて各項目に適用するカラー スケール。
 
-## <a id="color-scale"></a> Color Scale
+## <a id="color-scale"></a> カラー スケール
 
-Use the `colorScale` option of the Scatter Area Series to resolve values of points and thus fill the surface of the series. The colors are smoothly interpolated around the shape of the surface by applying a pixel-wise triangle rasterizer to triangulation data. Because rendering of the surface is pixel-wise, the color scale uses colors instead of brushes.
+散布エリア シリーズの `colorScale` オプションを使用して、ポイントの値を解決し、シリーズのサーフェスを塗りつぶします。色は、ピクセル単位の三角ラスタライザーを三角測量データに適用することによって、サーフェスの図形の周りをなめらかに補間します。サーフェスの描画がピクセル単位であるため、カラー スケールはブラシではなく色を使用します。
 
-The following table list properties of the `colorScale` affecting surface coloring of the Scatter Area Series.
+以下の表は、散布エリア シリーズのサーフェスの色付けに関わる `colorScale` プロパティを示します。
 
-Property Name | Property Type | Description
+プロパティ名|プロパティ タイプ|説明
 ---|---|---
-`palette` | array | An array of colors to select from or to interpolate between.
-`interpolationMode` | string | The type of interpolation that is used for selecting colors.  The options available are `"interpolateRGB"`, `"interpolateHSV"` and `"select"`. `"interpolateRGB"` will use RGB interpolation.  `"interpolateHSV"` will use HSV interpolation. `"select"` will select one of the colors in the `palette`.
-`minimumValue` | string | The highest value to assign a color. Any item value greater than this value will be made transparent. 
-`maximumValue` | string | The lowest value to assign a color. Any item value less than this value will be made transparent.
+`palette` |array|選択または補間するための色の配列。
+`interpolationMode` |string |色の選択に使用される補間タイプ。利用可能なオプションは `"interpolateRGB"`、`"interpolateHSV"` および `"select"` です。`"interpolateRGB"` は RGB 補間を使用します。`"interpolateHSV"` は HSV 補間を使用します。`"select"` は `palette` から色を選択します。
+`minimumValue`|string |色を割り当てるための最大値。この値より大きい項目値は透明になります。 
+`maximumValue`|string |色が割り当てられる最小値。この値より小さい項目値は透明になります。
 
-## <a id="example"></a> Example
+## <a id="example"></a> 例
 
-The following code shows how to bind the Scatter Area Series to data.
+以下のコードは散布エリア シリーズをデータにバインドします。
 
 ```js
 var data = [
@@ -115,14 +115,14 @@ $("#chart").igDataChart({
     }],
 });
 ```
-This code generates the following result:
+このコードは以下の結果になります。
 
 ![](images/jquery_scatter_area_02.png)
 
-## <a id="related-content"></a>Related Content
+## <a id="related-content"></a>関連コンテンツ
 
-### <a id="topics"></a>Topics
+### <a id="topics"></a>トピック
 
-- [Configuring Triangulation Series](triangulationseries-triangulation-series.html): This topic provides an overview for configuring the scatter area and contour series in the `igDataChart` control.
+- [三角測量シリーズの構成](triangulationseries-triangulation-series.html): このトピックでは、`igDataChart` コントロールの散布エリアおよび散布等高線シリーズの構成の概要を提供します。
 
-- [Configuring the Scatter Contour Series](triangulationseries-contour-series.html): This topic explains how to configure the Scatter Contour Series for the `igDataChart` control.
+- [散布等高線シリーズの構成](triangulationseries-contour-series.html): このトピックでは、`igDataChart` コントロールで散布等高線シリーズを構成する方法について説明します。

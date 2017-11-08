@@ -8,24 +8,24 @@
 |metadata|
 -->
 
-# Configuring Shape Series (igDataChart)
+# シェープ シリーズの構成 (igDataChart)
 
-## In This Group of Topics
+## このグループのトピックについて
 
-### Introduction
+### 概要
 
-The topics in this group explain both the Polygon and Polyline series. These series can be used to display custom shapes in the igDataChart.  All that is required is providing both series with a list of points made up of X and Y values.  These points are what define the shape.
+このグループのトピックでは、多角形およびポリラインシリーズについて説明します。このシリーズを使用すると、igDataChart でカスタム図形を表示できます。X および Y 値を含むポイントのリストをシリーズに提供する必要があります。これらのポイントで図形が定義されます。
 
-Figure 1. Scatter Polygon Series
+図 1.散布多角形シリーズ
 
 ![](images/jQuery_mini_scatter_polygon_01.png)
 
-Figure 2. Scatter Polyline Series
+図 2.散布ポリライン シリーズ
 
 ![](images/jQuery_mini_scatter_polyline_01.png)
 
-### Topics
+### トピック
 
-- [Configuring the Scatter Polygon Series (igDataChart)](ShapeSeries-Polygon-Series.html): This topic provides information about the polygon series. It describes the properties of the polygon series and provides an implementation example.
+- [散布多角形シリーズの構成 (igDataChart)](ShapeSeries-Polygon-Series.html): このトピックでは、多角形シリーズの情報を提供します。多角形シリーズのプロパティについて説明し、実装例を示します。
 
-- [Configuring the Scatter Polyline Series (igDataChart)](ShapeSeries-Polyline-Series.html): This topic provides information about the polyline series. It describes the properties of the polyline series and provides an implementation example.
+- [散布ポリライン シリーズの構成 (igDataChart)](ShapeSeries-Polyline-Series.html): このトピックでは、ポリライン シリーズの情報を提供します。ポリライン シリーズのプロパティについて説明し、実装例を示します。

@@ -8,81 +8,81 @@
 |metadata|
 -->
 
-# Configuring the Scatter Contour Series (igDataChart)
+# 散布等高線シリーズの構成 (igDataChart)
 
-## Topic Overview
+## トピックの概要
 
-### Purpose
+### 目的
 
-This topic provides information on how to use the Scatter Contour Series element in the `igDataChart` control.
+このトピックでは、`igDataChart` コントロールで散布等高線シリーズ要素を使用する方法を提供します。
 
-### Required background
+### 前提条件
 
-You should be familiar with the following topics before continuing:
+以下のトピックを事前に読んでおくことをお勧めします。
 
-- [Adding igDataChart](igDataChart-Adding.html): This topic demonstrates how to add the `igDataChart`™ control to a page and bind it to data.
+- [igDataChart の追加](igDataChart-Adding.html): このトピックでは、`igDataChart`™ コントロールをページに追加し、データにバインドする方法を紹介します。
 
-- [Binding igDataChart to Data](igDataChart-DataBinding.html): This topic explains how to bind the `igDataChart`™ control to various data sources (JavaScript array, `IQueryable<T>`, web service).
+- [igDataChart をデータにバインド](igDataChart-DataBinding.html): このトピックでは、`igDataChart`™ コントロールを各種データ ソース (JavaScript 配列、`IQueryable<T>`、Web サービス) にバインドする方法について説明します。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
--   [Overview](#overview)
-	-   [Preview](#preview)
--   [Data Requirements](#data-requirements)
--   [Data Binding](#data-binding)
--   [Fill Scale](#fill-scale)
--   [Value Resolver](#value-resolver)
--   [Example](#example)
--   [Related Content](#related-content)
-    -   [Topics](#topics)
+-   [概要](#overview)
+	-   [プレビュー](#preview)
+-   [データ要件](#data-requirements)
+-   [データ バインディング](#data-binding)
+-   [塗りつぶしスケール](#fill-scale)
+-   [値リゾルバー](#value-resolver)
+-   [例](#example)
+-   [関連コンテンツ](#related-content)
+    -   [トピック](#topics)
 
-## <a id="overview"></a> Overview
+## <a id="overview"></a> 概要
 
-In the `igDataChart` control, the Scatter Contour Series draws colored contour lines based on a triangulation of X and Y data with a numeric value assigned to each point.
+`igDataChart` コントロールで、散布等高線シリーズは各ポイントに割り当てられた数値を使って、X および Y データの三角測量に基づいて、色付きの等高線を描画します。
 
-This type of series is useful for rendering heat maps, magnetic field strength or wifi strength in an office. The Scatter Contour Series works a lot like the Scatter Area Series except that it represents data as contour lines colored using a fill scale and the scatter area series represents data as a surface interpolated using a color scale.
+このシリーズのタイプはヒート マップ、磁場の強さ、またはオフィスの WIFI の強さを描画する場合などに便利です。散布等高線シリーズは散布エリア シリーズと同様ですが、塗りつぶしスケールを使用した色付きの等高線でデータを表します。散布エリア シリーズはカラー スケールを使用して補間されサーフェスとしてデータを表します。
 
-### <a id="preview"></a> Preview
+### <a id="preview"></a> プレビュー
 
-The following is a preview of the `igDataChart`_ control with a Scatter Contour Series that is plotting 3D surface data where the Z axis is rendered as color changes across the surface.  Lower Z values are in blue and higher values are in red.
+以下は、3D サーフェス データをプロットする散布等高線シリーズを持つ `igDataChart` コントロールのプレビューです。Z 軸は、サーフェスの色の変更として描画されます。より低い Z 値は青色で、より高い値は赤色になります。
 
 ![](images/jquery_scatter_contour_01.png)
 
-## <a id="data-requirements"></a> Data Requirements
+## <a id="data-requirements"></a> データ要件
 
-Similar to other types of series in the `igDataChart` control, the Scatter Contour Series has the `dataSource` option for the purpose of data binding. This option can be set to an array and each item in this array must have two data columns that store point locations (one for X and one for Y). These data columns are then mapped to the `xMemberPath` and `yMemberPath` options.  The data must also have one data column that stores a value for each point.  This value is used by the series to color the surface. This value column is mapped to the `valueMemberPath` option.
+`igDataChart` コントロールのシリーズの他のタイプと同様、散布等高線シリーズには、データ バインディングのための `dataSource` オプションがあります。このオプションは配列に設定することができます。配列の各項目には、ポイント位置を保存する 2 つのデータ列が必要です (X と Y に各 1 列)。このデータ列は、`xMemberPath` および `yMemberPath` オプションにマップされます。データには各ポイントの値を保存するデータ列も 1 列必要です。この値はシリーズにサーフェスの色を設定するために使用されます。この値列は、`valueMemberPath` オプションにマップされます。
 
-## <a id="data-binding"></a> Data Binding
+## <a id="data-binding"></a> データ バインディング
 
-The following table summarizes options of Scatter Contour Series used for data binding.
+以下の表に、データ バインドに使用される散布等高線シリーズのオプションをまとめています。
 
-Property Name | Property Type | Description
+プロパティ名|プロパティ タイプ|説明
 ---|---|---
-`datasource` | array | The source of items to perform triangulation on.
-`xMemberPath` | string | The name of the property containing the X location for each item in the `dataSource`.
-`yMemberPath` | string | The name of the property containing the Y location for each item in the `dataSource`.
-`valueMemberPath` | string | The name of the property on each item containing a numeric value.  This value is used to generate contour lines grouping together points that contain similar numeric values.
-`fillScale` | object | Used for determining which colors are used for each contour line.
+`datasource` |array |三角測量を実行する項目のソース。
+`xMemberPath`|string |`dataSource` の各項目の X 位置を含むプロパティの名前。
+`yMemberPath`|string |`dataSource` の各項目の Y 位置を含むプロパティの名前。
+`valueMemberPath`|string |数値を含む各項目のプロパティ名。この値は、近似の数値を含むポイントをグループ化して等高線を生成するために使用されます。
+`fillScale` |object |等高線に使用される色を決定するために使用されます。
 
-## <a id="fill-scale"></a> Fill Scale
+## <a id="fill-scale"></a> 塗りつぶしスケール
 
-Use the `fillScale` option of the Scatter Contour Series to resolve fill brushes of the contour lines.
+散布等高線シリーズの `fillScale` オプションを使用して等高線の塗りブラシを解決します。
 
-The following table list properties of the `fillScale` affecting surface coloring of the Scatter Contour Series.
+以下の表は散布等高線シリーズのサーフェスの色付けに関わる `fillScale` プロパティをリストします。
 
-Property Name | Property Type | Description
+プロパティ名|プロパティ タイプ|説明
 ---|---|---
-`brushes` | array | An array of brushes for filling contours.
-`minimumValue` | numeric | The lowest value to assign a brush in a fill scale. If not assigned the series will use the lowest value contained in the data.
-`maximumValue` | numeric | The highest value to assign a brush in a fill scale. If not assigned the series will use the highest value contained in the data.
+`brushes`|array |等高線を塗りつぶすためのブラシ配列。
+`minimumValue`|numeric |塗りつぶしスケールでブラシが割り当てられる最小値。割り当てられない場合、シリーズはデータに含まれている一番低い値を使用します。
+`maximumValue`|numeric |塗りつぶしスケールでブラシが割り当てられる最大値。割り当てられない場合、シリーズはデータに含まれている一番高い値を使用します。
 
-## <a id="value-resolver"></a> Value Resolver
+## <a id="value-resolver"></a> 値リゾルバー
 
-The Scatter Contour Series renders using exactly 10 contour lines at even intervals between the minimum and maximum values of the items mapped to the `valueMemberPath` option. If you desire more or fewer contours, you can assign the `valueResolver` option with an object and setting the `valueCount` property with a number of desired contours.
+散布等高線シリーズは、`valueMemberPath` オプションにマップされた項目の最小値と最大値の間を等間隔でちょうど 10 本の等高線を使用して描画します。等高線の数を変更するには、`valueResolver` オプションをオブジェクトに設定し、`valueCount` プロパティを等高線の数に設定します。
 
-The following code shows how to configure the number of contour lines in the Scatter Contour Series.
+以下のコードは、散布等高線シリーズの等高線の数を構成する方法を示します。
 
 ```js
 valueResolver: {
@@ -91,9 +91,9 @@ valueResolver: {
 }
 ```
 
-## <a id="example"></a> Example
+## <a id="example"></a> 例
 
-The following code shows how to bind the Scatter Contour Series to data.  This example is increasing the contour line count from the default 10 up to 15.
+以下のコードは散布等高線シリーズをデータにバインドします。この例は、等高線の数を 10 から 15 に変更します。
 
 ```js
 var data = [
@@ -131,14 +131,14 @@ $("#chart").igDataChart({
     }],
 });
 ```
-This code generates the following result:
+このコードは以下の結果になります。
 
 ![](images/jquery_scatter_contour_02.png)
 
-## <a id="related-content"></a>Related Content
+## <a id="related-content"></a>関連コンテンツ
 
-### <a id="topics"></a>Topics
+### <a id="topics"></a>トピック
 
-- [Configuring Triangulation Series](triangulationseries-triangulation-series.html): This topic provides an overview for configuring the scatter area and contour series in the `igDataChart` control.
+- [三角測量シリーズの構成](triangulationseries-triangulation-series.html): このトピックでは、`igDataChart` コントロールで散布エリアおよび散布等高線シリーズの概要を提供します。
 
-- [Configuring the Scatter Area Series](triangulationseries-area-series.html): This topic explains how to configure the Scatter Area Series for the `igDataChart` control.
+- [散布エリア シリーズの構成](triangulationseries-area-series.html): このトピックでは、`igDataChart` コントロールで散布エリア シリーズを構成する方法について説明します。

@@ -8,55 +8,55 @@
 |metadata|
 -->
 
-# Configuring the Scatter Polyline Series (igDataChart)
+# 散布ポリライン シリーズの構成 (igDataChart)
 
-## Topic Overview
+## トピックの概要
 
-### Purpose
+### 目的
 
-This topic provides information on how to use the scatter polyline series element in the `igDataChart` control.
+このトピックでは、`igDataChart` コントロールで散布ポリライン シリーズ要素を使用する方法を説明します。
 
-### Required background
+### 前提条件
 
-You should be familiar with the following topics before continuing:
+以下のトピックを事前に読んでおくことをお勧めします。
 
-- [Adding igDataChart](igDataChart-Adding.html): This topic demonstrates how to add the `igDataChart`™ control to a page and bind it to data.
+- [igDataChart の追加](igDataChart-Adding.html): このトピックでは、`igDataChart`™ コントロールをページに追加し、データにバインドする方法を紹介します。
 
-- [Binding igDataChart to Data](igDataChart-DataBinding.html): This topic explains how to bind the `igDataChart`™ control to various data sources (JavaScript array, `IQueryable<T>`, web service).
-
-
-
-### In this topic
-
-This topic contains the following sections:
-
--   [Overview](#overview)
-	-   [Preview](#preview)
--   [Data Requirements](#data-requirements)
--   [Example](#example)
--   [Related Content](#related-content)
-    -   [Topics](#topics)
+- [igDataChart をデータにバインド](igDataChart-DataBinding.html): このトピックでは、`igDataChart`™ コントロールを各種データ ソース (JavaScript 配列、`IQueryable<T>`、Web サービス) にバインドする方法について説明します。
 
 
-## <a id="overview"></a> Overview
 
-In the `igDataChart` control, the scatter polyline series is a series that displays data using polylines. This type of scatter series is often used where rendering disconnected lines are required such as a network graph. The scatter polyline series works a lot like the scatter polygon series except that data is rendered with polylines instead of polygons.
+### このトピックの内容
 
-### <a id="preview"></a> Preview
+このトピックは、以下のセクションで構成されます。
 
-The following is a preview of the `igDataChart` control with the scatter polyline series rendering connections between various points.
+-   [概要](#overview)
+	-   [プレビュー](#preview)
+-   [データ要件](#data-requirements)
+-   [例](#example)
+-   [関連コンテンツ](#related-content)
+    -   [トピック](#topics)
+
+
+## <a id="overview"></a> 概要
+
+`igDataChart` コントロールで、散布ポリライン シリーズはポリラインを使用してデータを表示するシリーズです。この散布シリーズのタイプは、ネットワーク グラフなどの切断された折れ線の描画が必要な場合に使用されます。散布ポリライン シリーズは、データが多角形の代わりにポリラインで描画されることを除いて、散布多角形シリーズとほどんど同様に機能します。
+
+### <a id="preview"></a> プレビュー
+
+以下は、様々なポイントの間に接続を描画する散布ポリライン シリーズを持つ `igDataChart` コントロールのプレビューです。
 
 ![](images/jQuery_scatter_polyline_01.png)
 
-## <a id="data-requirements"></a> Data Requirements
+## <a id="data-requirements"></a> データ要件
 
-Similar to other types of series in the `igDataChart` control, the scatter polyline series has the `dataSource` option for the purpose of data binding. This option is provided as an array of items where each item must have one data column that stores point locations (X and Y values) of a shape as another array.  This data column is mapped to the `shapeMemberPath` option. The scatter polyline series uses points of this mapped data column to plot polylines in the `igDataChart` control.
+`igDataChart` コントロールのシリーズの他のタイプと同様、散布ポリライン シリーズには、データ バインディングのための `dataSource` オプションがあります。このオプションは項目の配列を受けます。各項目には、図形の X および Y 値のポイント位置を配列として保存するデータ列が必要です。このデータ列は、`shapeMemberPath` オプションにマップされます。散布ポリライン シリーズは、`igDataChart` コントロールでポリラインをプロットするために、このマップされたデータ列のポイントを使用します。
 
-## <a id="example"></a> Example
+## <a id="example"></a> 例
 
-Based on the above data requirements, an example of how your data must be structured is as follows:
+以下はデータ要件に基づいたデータ構造の例です。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```js
 var data = [
@@ -65,9 +65,9 @@ var data = [
         [{x: 2, y: 0}, {x: 2.5, y: 1}, {x: 1.5, y:1}, {x: 2, y: 0}]]}]
 ```
 
-Once your data is ready you can provide it to the chart:
+データの準備ができた後、チャートに設定します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```js
 $("#chart").igDataChart({
@@ -91,14 +91,14 @@ $("#chart").igDataChart({
 });
 ```
 
-With the above data and chart, the following result is generated:
+上記のようにデータとチャートを構成すると以下のようになります。
 
 ![](images/jquery_scatter_polyline_02.png)
 
-## <a id="related-content"></a>Related Content
+## <a id="related-content"></a>関連コンテンツ
 
-### <a id="topics"></a>Topics
+### <a id="topics"></a>トピック
 
-- [Configuring Shape Series](shapeseries-shape-series.html): This topic provides an overview of the scatter polygon and polyline series for the `igDataChart` control.
+- [シェープ シリーズの構成](shapeseries-shape-series.html): このトピックでは、`igDataChart` コントロールで散布多角形および散布ポリライン シリーズの概要を提供します。
 
-- [Configuring the Scatter Polygon Series](shapeseries-polygon-series.html): This topic explains how to configure the scatter polygon series for the `igDataChart` control.
+- [散布多角形シリーズの構成](shapeseries-polygon-series.html): このトピックでは、`igDataChart` コントロールで散布多角形シリーズを構成する方法について説明します。

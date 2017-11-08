@@ -8,24 +8,24 @@
 |metadata|
 -->
 
-# Configuring Triangulation Series (igDataChart)
+# 三角測量シリーズの構成 (igDataChart)
 
-## In This Group of Topics
+## このグループのトピックについて
 
-### Introduction
+### 概要
 
-The topics in this group explain both the Scatter Area and Scatter Contour series.  Both series take a list of points containing three values (X, Y and Z) and triangulate these points using the X and Y values in order to generate a two-dimensional surface that is rendered on screen.  The Z value is used for coloring the surface using a color scale.  This allows an easy visualization of value changes across a two-dimensional space.  An example might be displaying wifi strength across different locations in an office.
+このグループのトピックでは、散布エリアおよび散布等高線シリーズについて説明します。両シリーズは 3 つの値 (X、Y、および Z) を含むポイントのリストを取得し、X および Y 値を使用してポイントを三角測量し、画面に描画される 2 次元サーフェスを生成します。Z 値はカラー スケールを使用してサーフェスを色付けるために使用されます。2 次元スペースで値の変更を可視化します。オフィス内の異なる場所の wifi 強さなどを可視化できます。
 
-Figure 1. Scatter Area Series
+図 1.散布エリア シリーズ
 
 ![some title](images/jQuery_mini_scatter_area_01.png)
 
-Figure 2. Scatter Contour Series
+図 2.散布等高線シリーズ
 
 ![](images/jQuery_mini_scatter_contour_01.png)
 
-### Topics
+### トピック
 
-- [Configuring the Scatter Area Series (igDataChart)](TriangulationSeries-Scatter-Area.html): This topic provides information about the polygon series. It describes the properties of the polygon series and provides an implementation example.
+- [散布エリア シリーズの構成 (igDataChart)](TriangulationSeries-Scatter-Area.html): このトピックでは、エリア シリーズの情報を提供します。エリア シリーズのプロパティについて説明し、実装例を示します。
 
-- [Configuring the Scatter Contour Series (igDataChart)](TriangulationSeries-Scatter-Contour.html): This topic provides information about the polyline series. It describes the properties of the polyline series and provides an implementation example.
+- [散布等高線シリーズの構成 (igDataChart)](TriangulationSeries-Scatter-Contour.html): このトピックでは、等高線シリーズの情報を提供します。等高線シリーズのプロパティについて説明し、実装例を示します。
