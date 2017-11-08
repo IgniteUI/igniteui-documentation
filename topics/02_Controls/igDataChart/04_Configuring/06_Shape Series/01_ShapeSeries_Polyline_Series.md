@@ -36,6 +36,7 @@
 -   [例](#example)
 -   [関連コンテンツ](#related-content)
     -   [トピック](#topics)
+	-   [サンプル](#samples)
 
 
 ## <a id="overview"></a> 概要
@@ -102,3 +103,7 @@ $("#chart").igDataChart({
 - [シェープ シリーズの構成](shapeseries-shape-series.html): このトピックでは、`igDataChart` コントロールで散布多角形および散布ポリライン シリーズの概要を提供します。
 
 - [散布多角形シリーズの構成](shapeseries-polygon-series.html): このトピックでは、`igDataChart` コントロールで散布多角形シリーズを構成する方法について説明します。
+
+### <a id="samples"></a>サンプル
+
+- [散布ポリライン シリーズ](%%SamplesUrl%%/data-chart/polyline): このサンプルでは、`igDataChart` コントロールのポリライン シリーズを紹介します。
