@@ -64,7 +64,7 @@
 -   [jQuery UI](http://jqueryui.com/) ライブラリ 1.9.0 以降
 -   [Modernizr](http://modernizr.com/) オープン ソース JavaScript ライブラリ 2.5.2 以降
 
-> **注:** %%ProductName%% のサポートされるフレームワーク バージョンの詳細について、[http://jp.infragistics.com/help/supported-environments](http://jp.infragistics.com/help/supported-environments) を参照してください。
+> **注:** %%ProductName%% のサポートされるフレームワーク バージョンの詳細について、[http://jp.infragistics.com/support/supported-environments](http://jp.infragistics.com/support/supported-environments) を参照してください。
 
 ## <a id="steps"></a> 手順
 
