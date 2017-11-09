@@ -20,7 +20,7 @@
 
 - [セル結合の概要 (igGrid)](igGrid-CellMerging-Overview.html): このトピックは、`igGrid` コントロールのセル結合機能とその機能性について説明します。`igGrid` においてセル結合を有効にし構成する方法のコード例が含まれます。
 
-- [API リファレンス (セル結合、igGrid)](igGrid-CellMerging-API-Reference.html): このグループのトピックでは、`igGrid` のセル結合機能の API について説明します。
+- [セル結合の高度なカスタマイズ (igGrid)](igGrid-CellMerging-Advanced.html): このトピックは、igGrid™ コントロールのセル結合機能とその機能のカスタマイズについて説明します。
 
 
 
