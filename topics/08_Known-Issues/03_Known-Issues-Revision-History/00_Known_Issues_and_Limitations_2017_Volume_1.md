@@ -384,7 +384,7 @@ igTextEditor に関連するオプションは excludeKeys、includeKeys、toLow
             <td>
 igEditors で minValue および maxValue オプションを使用する場合、maxValue を超えると、エディターは値を自動的に maxValue プロパティ値に設定します。minValue より小さい値を入力すると、エディターは値を自動的に minValue プロパティ値に設定します。いずれの場合もエディターで値が変更されたことを説明するメッセージが表示されます。 
          <blockquote>
-**注**: この制限は、gTextEditor、igCheckboxEditor、および igMaskEditor には適用されません。
+**注**: この制限は、igTextEditor、igCheckboxEditor、および igMaskEditor には適用されません。
         </blockquote>
             </td>
 
