@@ -27,4 +27,4 @@
 
 -	[ビューの構成 (igScheduler)](igScheduler-Configure-Views.html): このセクションのトピックは、予定表のデータを表示する `igScheduler` コントロールで使用されるビューについての情報を提供します。
 
--	[ASP.NET MVC の構成 (igScheduler)](igscheduler-asp-net-mvc-wrapper.html): このトピックは、`igScheduler` の ASP.NET MVC  ラッパーを設定して構成する方法を紹介します。
+-	[ASP.NET MVC の構成 (igScheduler)](igscheduler-configure-asp-net-mvc.html): このトピックは、`igScheduler` の ASP.NET MVC  ラッパーを設定して構成する方法を紹介します。
