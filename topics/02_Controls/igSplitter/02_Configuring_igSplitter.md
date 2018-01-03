@@ -642,7 +642,7 @@ $("#splitter").igSplitter({
 
 展開/縮小が無効であると、ユーザーは `igSplitter` のパネルを展開/縮小できず、展開/折りたたみボタンはスプリッターで使用できません。
 
-それぞれ **resizable** と **collabsible** のパネル プロパティで、ユーザーを有効/無効にし、パネルを展開/縮小します。いずれかのパネルのみに対してプロパティを設定する必要があります。両方のパネルのプロパティが設定されると、左/上のパネルの設定は、右/下のパネルの設定を上書きします。
+それぞれ **resizable** と **collapsible** のパネル プロパティで、ユーザーを有効/無効にし、パネルを展開/縮小します。いずれかのパネルのみに対してプロパティを設定する必要があります。両方のパネルのプロパティが設定されると、左/上のパネルの設定は、右/下のパネルの設定を上書きします。
 
 ### <a id="user-interaction-settings"></a>プロパティ設定
 
@@ -750,11 +750,11 @@ true
 
         <tr>
             <td rowspan="3">
-パネルの展開/折りたたみを無効にします。
+パネルの展開/折りたたみを有効にします。
 			</td>
 
             <td>
-**collabsible**
+**collapsible**
 			</td>
 
             <td>
@@ -775,7 +775,7 @@ false
         <tr>
 
             <td>
-**collabsible**
+**collapsible**
 			</td>
 
             <td>
@@ -793,7 +793,7 @@ false
 			</td>
 
             <td>
-**collabsible**
+**collapsible**
 			</td>
 
             <td>
@@ -813,7 +813,7 @@ true
 
         <tr>
             <td>
-**collabsible**
+**collapsible**
 			</td>
 
             <td>
