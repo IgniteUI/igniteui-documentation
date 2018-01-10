@@ -24,6 +24,7 @@ lblValue.Text = theWorksheet.Rows[1].Cells[4].Value;
 ```
 ## 関連トピック
 - [Excel ファイルをワークブックに読み取る](ExcelEngine-Read-an-Excel-File-Into-a-Workbook.html)
+- [サポートされる定義済み関数のリスト](ExcelEngine-List-of-Supported-Built-in-Functions.html)
 
  
 

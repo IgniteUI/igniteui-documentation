@@ -20,6 +20,7 @@ var calculatedValue = theWorksheet.rows(1).cells(4).value();
 ```
 ## 関連トピック
 - [Excel ファイルをワークブックに読み取る](JavaScript-Excel-Library-Read-an-Excel-2007-XLSX-File-Into-a-Workbook.html)
+- [サポートされる定義済み関数のリスト](JavaScript-Excel-Library-List-of-Supported-Built-in-Functions.html)
 
  
 
