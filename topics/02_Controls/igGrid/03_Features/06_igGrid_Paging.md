@@ -17,6 +17,7 @@
 -   [概要](#overview)
 -   [データ書式](#data-formats)
 -   [ページングを有効にする](#enabling-paging)
+-   [サンプル](#sample)
 -   [ASP.NET MVC コード](#mvc)
 -   [リモート ページング](#remote)
 -   [API の使用](#api)
@@ -145,8 +146,8 @@
 	    ]
 	}
 	```
-	
-- **サンプル** 
+
+## <a id="sample"></a> **サンプル** 
 
 <div class="embed-sample">
    [igGrid ページング](%%SamplesEmbedUrl%%/grid/paging)
