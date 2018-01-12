@@ -17,6 +17,7 @@
 -   [概要](#introduction)
 -   [ダウンロードおよびインストール](#download)
 -   [Ignite UI をプロジェクトにホストする](#hosting)
+	-   [Ignite UI CLI の使用](#igniteui-cli)
     -   [NPM、JSPM、NuGet の使用](#package_managers)
     -   [CSS および JavaScript 参照の追加](#add_references)
     -   [%%ProductName%% ボイラープレート HTML ページのサンプル (CDN リンクを使用)](#boilerplate)
@@ -60,9 +61,22 @@ MacOs、Linux、Unix 、などの場合。
 ## <a id="hosting"></a>%%ProductName%% をプロジェクトにホストする
 
 %%ProductName%% をプロジェクトにホストするために複数のオプションがあります。
+- Ignite UI CLI を使用
 - NPM,、JSPM、NuGet のようなパッケージ マネージャーを使用します。
 - [JavaScript ファイルおよび CSS ファイル](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html) を %%ProductName%% インストール ディレクトリからプロジェクトにコピーします。
 - [Infragistics コンテンツ配信ネットワーク (CDN)](#cdn) を使用します。
+
+## <a id="igniteui-cli"></a>Ignite UI CLI の使用
+
+Ignite UI CLI は、Angular、React、および jQuery でアプリケーションを初期化、開発、スキャフォールディング、および処理するツールです。
+
+CLI を使用するには、npm パッケージをグローバル モジュールとしてインストールします。
+
+```
+    npm install -g igniteui-cli
+```
+
+詳細については、「[Ignite UI CLI の使用](Using-Ignite-UI-CLI.html)」の使用トピックを参照してください。
 
 ## <a id="package_managers"></a>NPM、JSPM、NuGet の使用
 
@@ -211,5 +225,6 @@ JSPM （[%%ProductName%% オープン ソース](https://www.npmjs.com/package/i
 
 ### トピック
 
+- [%%ProductName%% CLI](Using-Ignite-UI-CLI.html)
 - [配備ガイド](Deployment-Guide.html)
 - [%%ProductName%% ページ デザイナー](http://designer.igniteui.com/index-release-jp.html)

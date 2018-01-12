@@ -48,6 +48,18 @@ $('#currencyEditor').igCurrencyEditor({
 ```
 ![](images/igCurrencyEditor_PositivePattern.png)
 
+## Ignite UI CLI を使用して igCurrencyEditor の追加
+
+新しい igCurrencyEditor を簡単にアプリケーションに追加するには、Ignite UI CLI を使用します。新しいアプリケーションを作成した後、以下のコマンドを実行すると、通貨エディターがプロジェクトに追加されます。
+
+```
+   ig add currency-editor newCurrencyEditor 
+```
+
+このコマンドは、アプリケーションが Angular、React、または jQuery に関係なく新しい通貨エディターを追加します。
+
+すべての利用可能なコマンドおよび詳細な情報については、「[Ignite UI CLI の使用](Using-Ignite-UI-CLI.html)」のトピックを参照してください。
+
 ## igCurrencyEditor の Web ページへの追加
 
 1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。

@@ -37,6 +37,17 @@
 -   ASP.NET MVC ラッパー
 -   最小値と最大値
 
+## Ignite UI CLI を使用して igNumericEditor の追加
+
+新しい igNumericEditor を簡単にアプリケーションに追加するには、Ignite UI CLI を使用します。新しいアプリケーションを作成した後、以下のコマンドを実行すると、数値エディターがプロジェクトに追加されます。
+
+```
+   ig add numeric-editor newNumericEditor
+```
+
+このコマンドは、アプリケーションが Angular、React、または jQuery に関係なく新しい数値エディターを追加します。
+
+すべての利用可能なコマンドおよび詳細な情報については、「[Ignite UI CLI の使用](Using-Ignite-UI-CLI.html)」のトピックを参照してください。
 
 ##igNumericEditor の Web ページへの追加
 
