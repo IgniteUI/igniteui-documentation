@@ -16,10 +16,9 @@
 1.  アップロードされたファイルの最大サイズは 2 GB です。これはブラウザーの制限です。Opera など新しいバージョンのブラウザーの中には、4GB のファイルが可能なものもあります。
 2.  オプション [**maxSimultaneousFilesUploads**](%%jQueryApiUrl%%/ui.igUpload#options) を設定する時、その値はブラウザーが指示するように最大値にする必要があります。複数のファイルを一度にアップロードする場合、アップロードされたファイルの数だけ要求を行っています。IE6 の場合は、このオプションを 1 に設定することをお勧めします。他のブラウザーの場合は、1 または 2 に設定することをお勧めします。たとえば、Mozilla FireFox 3.6+ は、最大値 3 まで処理が可能です。
 3.  `igUpload` コントロールは、タブ ナビゲーション中を除き、キーボード ナビゲーションをサポートしておらず、コントロールはページ上でフォーカスを取得します。TAB キーを使用している場合、コントロールとその要素をナビゲートできます。
-4.  ファイルをアップロードし、ブラウザーに表示されたポップアップ ウィンドウでローカル ドライブから項目を選択する場合、一度に 1 ファイルしか選択できません。
-5.  PipelineMode が Classic で、Trace が有効な場合、大きいファイル (50kb 以上) のアップロードは失敗します。これはサード パーティの問題で、Microsoft に送信されました。詳細については、[ここ](https://connect.microsoft.com/VisualStudio/feedback/details/1008381/readentitybody-returns-0-bytes-in-iis-7-5-when-pipelinemode-is-classic-and-trace-is-enabled)を参照してください。
-6.  Internet Explorer 10/11 で Windows 認証モードが有効で、IE の HTTP keep-alive タイムアウト (デフォルト値は 120 秒) が切れた場合、ファイルのアップロードは失敗します。これは IE のサード パーティ問題で、詳細については[ここ](https://connect.microsoft.com/IE/feedback/details/819941/file-upload-stop-working-on-ie-with-windows-authentication)を参照してください。回避策として、接続を保持するには特定の期間にサーバーへ POST 要求を送信できます。たとえば、keep-alive を 120 秒に設定した場合、最初のアップロードの後に要求を 90 秒毎にトリガーします。
-7.  MVC ラッパーなど jQuery Upload コントロールにはサーバー イベントはありません。ポイントできるのは、ハンドラーとすべてのファイルがアップロードされるフォルダーですが、アップロードが完了したらファイルを処理して削除したり移動することはできません。しかし、ASP.NET MVC のコンテキストを使えば回避できます。Global.asax ファイルで、手動でサーバー側イベントにアタッチして必要なロジックを実行し、アップロードを行うことができます。
+4.  PipelineMode が Classic で、Trace が有効な場合、大きいファイル (50kb 以上) のアップロードは失敗します。これはサード パーティの問題で、Microsoft に送信されました。詳細については、[ここ](https://connect.microsoft.com/VisualStudio/feedback/details/1008381/readentitybody-returns-0-bytes-in-iis-7-5-when-pipelinemode-is-classic-and-trace-is-enabled)を参照してください。
+5.  Internet Explorer 10/11 で Windows 認証モードが有効で、IE の HTTP keep-alive タイムアウト (デフォルト値は 120 秒) が切れた場合、ファイルのアップロードは失敗します。これは IE のサード パーティ問題で、詳細については[ここ](https://connect.microsoft.com/IE/feedback/details/819941/file-upload-stop-working-on-ie-with-windows-authentication)を参照してください。回避策として、接続を保持するには特定の期間にサーバーへ POST 要求を送信できます。たとえば、keep-alive を 120 秒に設定した場合、最初のアップロードの後に要求を 90 秒毎にトリガーします。
+6.  MVC ラッパーなど jQuery Upload コントロールにはサーバー イベントはありません。ポイントできるのは、ハンドラーとすべてのファイルがアップロードされるフォルダーですが、アップロードが完了したらファイルを処理して削除したり移動することはできません。しかし、ASP.NET MVC のコンテキストを使えば回避できます。Global.asax ファイルで、手動でサーバー側イベントにアタッチして必要なロジックを実行し、アップロードを行うことができます。
 	 >**注:** このアプローチは、ベスト プラクティスではなく、あくまでも制限への回避策としての方法です。グローバル イベントを使用すると、アプリケーションのページごとにそれらのイベントが発生するため、アップロードを行っているページのコンテキストでのみコードが実行される必要があります。
 
 次のサンプルは、Global.asax ファイルにハンドラーをアタッチし、アップロードされたファイルを削除する方法を示しています。
