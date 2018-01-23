@@ -8,28 +8,28 @@
 |metadata|
 -->
 
-# What's New in 2018 Volume 1
+# 2018 Volume 1 の新機能
 
-This topic presents the controls and the new and enhanced features for the Ignite UI™ 2018 Volume 1 release.
+このトピックでは、Ignite UI™ 2018 Volume 1 リリースのコントロールと新機能および拡張機能を紹介します。
 
 
-### Overview
+### 概要
 
-The following table summarizes what’s new in 2018 Volume 1 and additional details follow.
+以下の表は、2018 Volume 1 リリースの新機能の概要です。詳細情報は表の下に説明されます。
 
 
 
 ### igUpload
 
-Feature | Description
+機能|説明
 ---|---
-[Use Single Request to Upload Multiple Files](#useSingleRequest)| Allows the control to upload multiple files using a single HTTP request.
+[複数ファイルのアップロードで単一の要求を使用](#useSingleRequest)|コントロールで単一の HTTP 要求を使用して複数のファイルをアップロードできます。
 
 
 
-### <a id="useSingleRequest"></a> Use Single Request to Upload Multiple Files
+### <a id="useSingleRequest"></a> 複数ファイルのアップロードで単一の要求を使用
 
-The [`useSingleRequest`](%%jQueryApiUrl%%/ui.igupload#options:useSingleRequest) option is used to configure the multiple files upload process.
+[`useSingleRequest`](%%jQueryApiUrl%%/ui.igupload#options:useSingleRequest) オプションは、複数のファイル アップロード処理を構成するために使用します。
 
-#### Related Topics
--   [Configuring igUpload](igupload-configuring-igupload.html)
+#### 関連トピック
+-   [igUpload の構成](igupload-configuring-igupload.html)

@@ -57,10 +57,10 @@
     -   [概要](#simultaneously-uploaded-files-overview)
     -   [プロパティ設定](#simultaneously-uploaded-files-settings)
     -   [例](#simultaneously-uploaded-files-example)
--   [Configuring the Usage of a Single Request When Uploading Multiple Files](#singleRequest)
-    -   [Overview](#singleRequest-overview)
-    -   [Property settings](#singleRequest-settings)
-    -   [Example](#singleRequest-example)
+-   [複数ファイルのアップロードで単一の要求を使用するための構成](#singleRequest)
+    -   [概要](#singleRequest-overview)
+    -   [プロパティ設定](#singleRequest-settings)
+    -   [例](#singleRequest-example)
 -   [ファイル表示モードの構成](#file-display-mode)
     -   [概要](#display-mode-overview)
     -   [プロパティ設定](#display-mode-settings)
@@ -194,10 +194,10 @@
         </tr>
 
 		<tr>
-            <td>[Using a single request when uploading multiple files](#singleRequest)</td>
+            <td>[複数ファイルのアップロードで単一の要求を使用](#singleRequest)</td>
             
             <td>
-This setting configures the control to upload multiple files using one single HTTP request.
+この設定はコントロールを単一の HTTP 要求を使用して複数のファイルのアップロードを構成します。
             </td>
             
             <td>
@@ -558,32 +558,32 @@ $('#upload1').igUpload({
 )
 ```
 
-## <a id="singleRequest"></a>Configuring the Usage of a Single Request When Uploading Multiple Files
+## <a id="singleRequest"></a>複数ファイルのアップロードで単一の要求を使用するための構成
 
-### <a id="singleRequest-overview"></a>Overview
+### <a id="singleRequest-overview"></a>概要
 
-You can configure whether the multiple files upload process of should use a request for each file or send all files using one single request.
+複数ファイルのアップロード処理がファイルごとの要求またはすべてのファイルを単一の要求で送信するかどうかを構成できます。
 
-### <a id="singleRequest-settings"></a>Property settings
+### <a id="singleRequest-settings"></a>プロパティ設定
 
-The following table maps the desired configuration to its respective property settings.
+以下の表では、各プロパティ設定の構成です。
 
-In order to:| Use this property:| And set it to:
+目的:| 使用するプロパティ:| 設定の選択肢:
 ---|---|---
-Upload multiple files each in a separate request| [useSingleRequest](%%jQueryApiUrl%%/ui.igupload#options:useSingleRequest)| false (default)
-Upload multiple files each in one single request| [useSingleRequest](%%jQueryApiUrl%%/ui.igupload#options:useSingleRequest)| true
+複数ファイルをファイルごとの要求でアップロードします。| [useSingleRequest](%%jQueryApiUrl%%/ui.igupload#options:useSingleRequest)| false (デフォルト)
+複数のファイルを単一の要求でアップロードします。| [useSingleRequest](%%jQueryApiUrl%%/ui.igupload#options:useSingleRequest)| true
 
-### <a id="singleRequest-example"></a>Example
+### <a id="singleRequest-example"></a>例
 
-The code sample below demonstrates how to set the file upload of multiple files to use a single request:
+以下のコード例は、複数ファイルのアップロードに単一の要求を使用するための設定方法を紹介します。
 
-Property| Value
+プロパティ| 値
 ---|---
 [useSingleRequest](%%jQueryApiUrl%%/ui.igupload#options:useSingleRequest)| true
 
-Following is the code that implements this example.
+以下のコードはこの例を実装します。
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```js
 $('#upload1').igUpload({ 
@@ -591,7 +591,7 @@ $('#upload1').igUpload({
 });
 ```
 
-**In ASPX:**
+**ASPX の場合:**
 
 ```csharp
 @(Html.Infragistics().Upload()
