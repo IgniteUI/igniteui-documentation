@@ -13,7 +13,7 @@
 
 ### 概要
 
-AngularJS アプリケーションで %%ProductName%%® コントロールを使用する場合に、AngularJS 用の %%ProductName%%® ディレクティブによりデータ バインディングとビューの宣言型プログラミングを利用できます。最新のソースとサンプルは、[%%ProductName%% の GitHub リポジトリ](https://github.com/IgniteUI/igniteui-angular)から入手できます。
+AngularJS アプリケーションで %%ProductName%%® コントロールを使用する場合に、AngularJS 用の %%ProductName%%® ディレクティブによりデータ バインディングとビューの宣言型プログラミングを利用できます。最新のソースとサンプルは、[%%ProductName%% の GitHub リポジトリ](https://github.com/IgniteUI/igniteui-angularjs)から入手できます。
 
 ### トピック
 

@@ -99,11 +99,11 @@ Infragistics の GitHub リポジトリで、最新版の AngularJS ディレク
 
 [AngularJS ディレクティブ](AngularJS-Directives.html)
 
-[GitHub に公開されている AngularJS 用の %%ProductName%% ディレクティブ](https://github.com/IgniteUI/igniteui-angular)
+[GitHub に公開されている AngularJS 用の %%ProductName%% ディレクティブ](https://github.com/IgniteUI/igniteui-angularjs)
 
 #### 関連サンプル
 
-[AngularJS のサンプル用の %%ProductName%% ディレクティブ](http://igniteui.github.io/igniteui-angular/)
+[AngularJS のサンプル用の %%ProductName%% ディレクティブ](http://igniteui.github.io/igniteui-angularjs/)
 
 
 

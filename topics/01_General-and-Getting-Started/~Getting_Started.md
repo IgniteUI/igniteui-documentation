@@ -209,9 +209,9 @@ JSPM （[%%ProductName%% オープン ソース](https://www.npmjs.com/package/i
 
 %%ProductName%% AngularJS 拡張子は、AngularJS アプリケーションで使用されるコントロールの両方向のデータ バインディングおよび宣言的初期化を提供します。詳細については、 [AngularJS での %%ProductName%% の使用](Using-Ignite-UI-with-AngularJS.html)トピックを参照してください。
 
-## <a id="angular"></a>Angular 2 拡張子
+## <a id="angular"></a>Angular 拡張子
 
-%%ProductName%% Angular 2 拡張子は、Angular 2 アプリケーションで使用されるコントロールの両方向のデータ バインディング、宣言的初期化、ネイティブ API を提供します。詳細については、GitHub で [%%ProductName%% Angular 2 拡張子 (英語)](https://github.com/IgniteUI/igniteui-angular2) を参照してください。
+%%ProductName%% Angular 拡張子は、Angular アプリケーションで使用されるコントロールの両方向のデータ バインディング、宣言的初期化、ネイティブ API を提供します。詳細については、GitHub で [%%ProductName%% Angular 拡張子 (英語)](https://github.com/IgniteUI/igniteui-angular-wrappers) を参照してください。
 
 ## <a id="reactjs"></a>ReactJS 拡張子
 

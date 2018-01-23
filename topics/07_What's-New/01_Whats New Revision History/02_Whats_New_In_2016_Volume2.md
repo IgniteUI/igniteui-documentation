@@ -22,7 +22,7 @@
 機能 | 説明
 ---|---
 %%ProductName%% OSS | %%ProductName%% ツールセットの一部がオープンソースになりました。 [GitHub](https://github.com/IgniteUI/ignite-ui) でリポジトリを参照してください。|
-Angular 2 (RTM) 用の %%ProductName%% ディレクティブ | %%ProductName%% ウィジェットは Angular 2 のコンポーネント ラッパーがあります。詳細については、 [%%ProductName%% Angular 2 GitHub](https://github.com/IgniteUI/igniteui-angular2) ページを参照してください。|
+Angular 2 (RTM) 用の %%ProductName%% ディレクティブ | %%ProductName%% ウィジェットは Angular 2 のコンポーネント ラッパーがあります。詳細については、 [%%ProductName%% Angular 2 GitHub](https://github.com/IgniteUI/igniteui-angular-wrappers) ページを参照してください。|
 React (CTP)用の %%ProductName%% コンポーネント | %%ProductName%% ウィジェットは [React](https://facebook.github.io/react/) のコンポーネント ラッパーがあります。詳細については、[%%ProductName%% Components for React](https://github.com/IgniteUI/igniteui-react) ページを参照してください。|
 ASP.NET Core 1.0 MVC ヘルパー | %%ProductName%% MVC ヘルパーで ASP.NET Core 1.0 がサポートされるようになりました。[%%ProductName%% コントロールを ASP.NET Core 1.0 で使用](Using-IgniteUI-Controls-in-ASP.NET-Core-1.0-project.html) トピックを参照してください。|
 ASP.NET Core 1.0 MVC タグ ヘルパー | %%ProductName%% ASP.NET Core 1.0 MVC タグ ヘルパーを提供します。[%%ProductName%% タグ ヘルパーの使用](Using-Ignite-UI-Tag-Helpers.html) トピックを参照してください。|
