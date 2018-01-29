@@ -26,6 +26,7 @@
 -   [スタイルの構成](#configure_styling)
 -   [コールバックのアタッチ (イベント)](#callbacks)
 -   [エクスポート時にオーバーレイを表示](#exporting_overlay)
+-   [Ignite UI CLI で Excel エクスポートが構成された igGrid の作成](#adding-using-CLI)
 
 ### 前提条件
 - [igGridExcelExporter 概要](iggridexcelexporter-overview.html "igGridExcelExporter Overview") - `igGridExcelExporter` コントロールの一般情報。
@@ -166,6 +167,27 @@ $.ig.GridExcelExporter.exportGrid($("#grid1"), {},
     },
 });
  ```
+ 
+### <a id="adding-using-CLI"></a> Ignite UI CLI で Excel エクスポートが構成された igGrid の作成
+
+Ignite UI CLI を使用して Excel エクスポートが構成された新しい igGrid を簡単にアプリケーションに追加できます。
+
+Ignite UI CLI のインストール:
+
+```
+npm install -g igniteui-cli
+```
+
+Ignite UI CLI インストール後、Ignite UI プロジェクトを生成し、Excel エクスポートが構成された新しい igGrid コンポーネントを追加してプロジェクトをビルドおよび公開するには、以下のコマンドを使用します。
+
+```
+ig new <project name>
+cd <project name>
+ig add grid-export newGridExport
+ig start
+```
+
+すべての利用可能なコマンドおよび詳細な情報については、[「Ignite UI CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
 
 ### <a id="Preview"></a>プレビュー
 以下は最終結果のプレビューです。

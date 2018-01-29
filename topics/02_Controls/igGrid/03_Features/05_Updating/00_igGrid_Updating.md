@@ -24,6 +24,7 @@
 -   [**更新を有効にする**](#enable)
     -   [JavaScript で igLoader を使用して必要な CSS および JavaScript 参照の追加](#required)
     -   [CSS および JavaScript 参照を静的に読み込む - 更新のみに必要](#minimal-required)
+-   [**Ignite UI CLI で更新機能が有効化されている igGrid の追加**](#adding-using-CLI)
 -   [**行の追加、更新、削除を無効にする**](#disable-row-add-delete)
 -   [**列の設定およびエディター**](#column-settings-editors)
     -   [columnSettings オブジェクトの取得](#retrieving-columnsettings)
@@ -384,6 +385,25 @@ $("#grid1").igGrid({
 	}).Height("500").DataSourceUrl(Url.Action("UpdatingGetData"))
 	.DataBind().Render()%>
 ```
+
+## <a id="adding-using-CLI"></a> Ignite UI CLI で更新機能が有効化されている igGrid の追加
+
+Ignite UI CLI のインストール:
+
+```
+npm install -g igniteui-cli
+```
+
+Ignite UI CLI インストール後、Ignite UI プロジェクトを生成し、更新機能が構成された新しい igGrid コンポーネントを追加してプロジェクトをビルドおよび公開するには、以下のコマンドを使用します。
+
+```
+ig new <project name>
+cd <project name>
+ig add grid-editing newGridEditing
+ig start
+```
+
+すべての利用可能なコマンドおよび詳細な情報については、[「Ignite UI CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
 
 ## <a id="adding-primarykey"></a> AddNewRow に PrimaryKey を追加 
 プライマリ キーを含むデータ ソースのグリッドの新しい行を初期化する際、`igGrid` 更新機能の `generatePrimaryKeyValue` イベントが発生し、プライマリ キーの値が新しい行に提供されます。イベント ハンドラーの 2 番目のパラメーターには、新しいプライマリ キーの値をグリッドまで戻すために使用される値メンバーが含まれます。デフォルトでは、この値は、データ ソースの行数と等しい値で初期化されます。以下のコード リストは、グリッドの新しい行に対して新しいプライマリ キーの値を生成する方法の例です。

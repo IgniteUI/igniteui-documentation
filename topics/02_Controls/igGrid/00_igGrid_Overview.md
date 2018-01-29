@@ -41,6 +41,27 @@
 -   豊富なクライアント側 API
 -   ASP.NET MVC ラッパー
 
+## Ignite UI CLI で igGrid を追加
+
+新しい igGrid を簡単にアプリケーションに追加するには、Ignite UI CLI を使用します。
+
+Ignite UI CLI のインストール:
+
+```
+npm install -g igniteui-cli
+```
+
+Ignite UI CLI インストール後、Ignite UI プロジェクトを生成し、新しい igGrid コンポーネントを追加してプロジェクトをビルドおよび公開すためにカスタム コマンドを実行するには、以下のコマンドを使用します。
+
+```
+ig new <project name>
+cd <project name>
+ig add grid newGrid
+ig start
+```
+
+すべての利用可能なコマンドおよび詳細な情報については、[「Ignite UI CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
+
 ## igGrid の Web ページへの追加
 
 次のステップは、いずれかの jQuery クライアント コードを使用して、Web ページに jQuery グリッドの基本的な実装を作成する方法を示します。どの実装を選択するかについて詳細は、[「%%ProductName%% の概要」](NetAdvantage-for-jQuery-Overview.html)を参照してください。

@@ -30,9 +30,11 @@
 - [**はじめに**](#getting-started)
 	- [JavaScript で igTreeGrid の初期化](#jq-treegrid)
 	  - [サンプル](#full-page-sample)
+	- [Ignite UI CLI で igTreeGrid を初期化](#adding-using-CLI)
 	- [MVC igTreeGrid の初期化](#mvc-treegrid)
 	- [展開および縮小アイコンのカスタマイズ化](#customize-icon)
 -  [**キーボード ナビゲーション**](#keyboard-navigation)
+- [**Ignite UI CLI で igTreeGrid を Excel にエクスポート**](#exporting-with-CLI)
 -   [**関連コンテンツ**](#related-content)
     -   [トピック](#topics)
     -   [サンプル](#samples)
@@ -329,6 +331,27 @@ $('#treegrid').igTreeGrid({
 </html>
 ```
 
+### <a id='adding-using-CLI'></a> Ignite UI CLI で igTreeGrid を初期化
+
+Ignite UI CLI で新しい igTreeGrid を簡単にアプリケーションに追加します。
+
+Ignite UI CLI のインストール:
+
+```
+npm install -g igniteui-cli
+```
+
+Ignite UI CLI インストール後、Ignite UI プロジェクトを生成し、新しい igTreeGrid コンポーネントを追加してプロジェクトをビルドおよび公開するには、以下のコマンドを使用します。
+
+```
+ig new <project name>
+cd <project name>
+ig add tree-grid newTreeGrid
+ig start
+```
+ 
+すべての利用可能なコマンドおよび詳細な情報については、[「Ignite UI CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
+
 ### <a id='mvc-treegrid'></a> MVC igTreeGrid の初期化
 
 以下の手順は、MVC igTreeGrid の初期化を実行します。
@@ -547,6 +570,27 @@ jQuery、jQueryUI、および Ignite　UI スクリプトおよび css クラス
 <kbd>End</kbd>|セルが選択される|行に一番右のセルへ移動します。
 <kbd>Ctrl+Home</kbd>|セルが選択される|グリッドの左上セルへ移動します。
 <kbd>Ctrl+End</kbd>|セルが選択される|グリッドの右下セルへ移動します。
+
+## <a id="exporting-with-CLI"></a> Ignite UI CLI で igTreeGrid を Excel にエクスポート
+
+Ignite UI CLI を使用して Excel エクスポートが構成された新しい igTreeGrid を簡単に追加できます。
+
+Ignite UI CLI のインストール:
+
+```
+npm install -g igniteui-cli
+```
+
+Ignite UI CLI インストール後、Ignite UI プロジェクトを生成し、Excel エクスポートが構成された新しい igTreeGrid コンポーネントを追加してプロジェクトをビルドおよび公開するには、以下のコマンドを使用します。
+
+```
+ig new <project name>
+cd <project name>
+ig add tree-grid-export newTreeGridExport
+ig start
+``` 
+
+すべての利用可能なコマンドおよび詳細な情報については、[「Ignite UI CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
 
 ## <a id="related-content"></a> 関連コンテンツ
 
