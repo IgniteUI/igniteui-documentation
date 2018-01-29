@@ -8,66 +8,67 @@
 |metadata|
 -->
 
-# Configuring Chart Markers
+# チャート マーカーの構成
 
-Markers are visual elements that display the values of data points in the igShapeChart control's plot area. Markers help your end-users immediately identify a data point's value even if the value falls between major or minor grid lines.
-This section provides you with useful information about working with the igShapeChart control's Markers.
+マーカーは、igShapeChart コントロールのプロット領域のデータ ポイント値を表示する視覚的要素です。マーカーは、値が主グリッド線と副グリッド線の間にある場合も指定したデータ ポイントの値をただちに識別できるようユーザーをサポートします。
 
-- [Required Background](#requiredbackground)
-- [Supported Chart Types](#supportedcharttypes)
-- [Marker Properties](#markerproperties)
-- [Marker Types](#markertypes)
-- [Marker Brushes and Outlines](#markerbrushesandoutlines)
-- [Related Content](#relatedcontent)
+このセクションは、igShapeChart コントロールのマーカーでの作業に関するタスクベースの手順についての役立つ情報を提供します。
 
-#### <a id="requiredbackground"/> Required Background
-Topic|Purpose
+- [前提条件](#requiredbackground)
+- [サポートされるチャート タイプ](#supportedcharttypes)
+- [マーカー プロパティ](#markerproperties)
+- [マーカー タイプ](#markertypes)
+- [マーカー ブラシとアウトライン](#markerbrushesandoutlines)
+- [関連コンテンツ](#relatedcontent)
+
+#### <a id="requiredbackground"/> 前提条件
+トピック|目的
 ---|---
-[igShapeChart Overview](shapechart-overview.html)|This topic provides conceptual information about the igShapeChart control including its main features, minimum requirements, and user functionality.
-[Getting Started with igShapeChart](shapechart-getting-started-with-shapechart.html)|This topic explains how to bind data to the igShapeChart control.
+[igShapeChart の概要](shapechart-overview.html)|このトピックは、主要機能、最小要件およびユーザー機能性など、igShapeChart コントロールの概念的な情報を提供します。
+[igShapeChart を使用した作業の開始](shapechart-getting-started-with-shapechart.html)|このトピックでは、データを igShapeChart コントロールにバインドする方法を説明します。
 
-#### <a id="supportedcharttypes"/> Supported Chart Types
+#### <a id="supportedcharttypes"/> サポートされるチャート タイプ
 
-Note, Polygon displays its markers in the center of the shapes, defined by points, whereas the other chart types render its markers at X/Y coordinates of data items.
+注: 多角形チャートはポイントによって定義される図形の中央にマーカーを表示します。その他のチャート タイプはデータ項目の X/Y 座標にマーカーを描画します。
 
-- Bubble
-- Line
-- Point
-- Spline
-- Polygon 
+- バブル
+- 折れ線
+- ポイント
+- スプライン
+- 多角形 
 
-#### <a id="markerproperties"/> Marker Properties
-The following table lists all marker properties.
+#### <a id="markerproperties"/> マーカー プロパティ
+以下の表は、マーカーのすべてのプロパティの一覧です。
 
 
-Property Name|Property Type|Description
+プロパティ名|プロパティ型|説明
 ---|---|---
-`markerTypes`| MarkerType |Determines type of markers displayed by the all series in the chart
-`markerBrushes` |Brush |Determines fill color of markers
-`markerOutlines`|Brush|Determines outline color of markers
-`MarkerMaxCount`|int|Determines outline color of markers
+`markerTypes`| MarkerType |チャートのすべてのシリーズで表示されるマーカーのタイプを決定します。
+`markerBrushes` |Brush |マーカーの塗りつぶし色を決定します。
+`markerOutlines`|Brush|マーカーのアウトライン色を決定します。
+`MarkerMaxCount`|int|マーカーの最大数を決定します。
 
 
-#### <a id="markertypes"/> Marker Types
-Property Name|Property Type|Description
+#### <a id="markertypes"/> マーカー タイプ
+プロパティ名|プロパティ型|説明
 ---|---|---
-`circleMarker`|MarkerType|Displays the Circle marker type.
-`diamondMarker`|MarkerType|Displays the Diamond marker type.
-`hexagonMarker`|MarkerType|Displays the Hexagon marker type.
-`hexagramMarker`|MarkerType|Displays the Hexagram marker type.
-`pentagramMarker`|MarkerType|Displays the Pentagram marker type.
-`pentagonMarker`|MarkerType|Displays the Pentagon marker type.
-`pyramidMarker`|MarkerType|Displays the Pyramid marker type.
-`squareMarker`|MarkerType|Displays the Square marker type.
-`tetragramMarker`|MarkerType|Displays the Tetragram marker type.
-`triangleMarker`|MarkerType|Displays the Triangle marker type.
-`autoMarker`|MarkerType|Displays one marker type from above list for each series rendered in the chart.
-`noneMarker`|MarkerType|Hides markers for a given series.
+`circleMarker`|MarkerType|円マーカーのタイプを表示します。
+`diamondMarker`|MarkerType|ダイアモンド マーカーのタイプを表示します。
+`hexagonMarker`|MarkerType|六角形マーカーのタイプを表示します。
+`hexagramMarker`|MarkerType|六線星形マーカーのタイプを表示します。
+`pentagramMarker`|MarkerType|五芒星マーカーのタイプを表示します。
+`pentagonMarker`|MarkerType|五角形マーカーのタイプを表示します。
+`pyramidMarker`|MarkerType|ピラミッドマーカーのタイプを表示します。
+`squareMarker`|MarkerType|四角形マーカーのタイプを表示します。
+`tetragramMarker`|MarkerType|テトラグラム マーカーのタイプを表示します。
+`triangleMarker`|MarkerType|三角形マーカーのタイプを表示します。
+`autoMarker`|MarkerType|チャートに描画される各シリーズに上記のリストから 1 つのマーカー タイプを表示します。
+`noneMarker`|MarkerType|指定したシリーズでマーカーを非表示にします。
 
 
-The code snippets below demonstrate how to change the marker type for the igShapeChart.
+以下のコードは、igShapeChart のマーカー タイプの変更方法を示します。
 
-*In HTML:*
+*HTML の場合:*
 
 ```html
 $(function () {
@@ -77,16 +78,16 @@ $(function () {
 });
 ```
 
-The following screenshot displays the igShapeChart control using the Line chart type with Diamond markers.
+以下のスクリーンショットは、折れ線チャート タイプでダイアモンド マーカーを使用した igShapeChart コントロールを示します。
 
 ![](images/shapechart-chart-markers-01.png)
 
 
-#### <a id="markerbrushesandoutlines"/> Marker Brush and Outline
+#### <a id="markerbrushesandoutlines"/> マーカー ブラシとアウトライン
 
-The code snippets below demonstrate how to change the markerBrushes and markerOutlines for the igShapeChart.
+以下のコード スニペットは、igShapeChart の markerBrushes および markerOutlines の変更方法を示します。
 
-*In HTML:*
+*HTML の場合:*
 
 ```html
 $(function () {
@@ -98,14 +99,14 @@ $(function () {
 });
 ```
 
-The following screenshot displays the igShapeChart control using the Line chart type with customized markers.
+以下のスクリーンショットは、折れ線チャート タイプでマーカーをカスタマイズした igShapeChart コントロールを示します。
 
 ![](images/shapechart-chart-markers-02.png)
 
 
 
-## <a id="relatedtopics"/>Related Topics:
+## <a id="relatedtopics"/>関連トピック:
 
-- [Configuring Axis Labels](shapechart-configuring-axis-labels.html)
+- [軸ラベルの構成](shapechart-configuring-axis-labels.html)
 
-- [Configuring Axis Range](shapechart-configuring-axis-ranges.html)
+- [軸範囲の構成](shapechart-configuring-axis-ranges.html)
