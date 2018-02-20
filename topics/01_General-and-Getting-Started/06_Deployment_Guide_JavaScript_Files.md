@@ -66,6 +66,23 @@
 >**注:** 英語のローカライズ ファイルは圧縮された JS ファイルに統合され、明示的に参照する必要はありません。
 その他の言語の場合は、該当するローカライズ スクリプトを実際のページ コードの JavaScript ファイルの前に参照する必要があります。
 
+### JavaScript 拡張機能のファイル参照
+
+以下は、%%ProductName%% に含まれる JavaScript [Knockout.js](http://knockoutjs.com) 機能拡張ファイルの概要です。
+
+以下は、機能拡張スクリプトを含む JavaScript ファイルの名前です。
+
+-   `infragistics.datasource.knockoutjs.js`
+-   `infragistics.ui.combo.knockout-extensions.js`
+-   `infragistics.ui.datachart.knockout-extensions.js`
+-	`infragistics.ui.editors.knockout-extensions.js`
+-	`infragistics.ui.grid.knockout-extensions.js`
+-	`infragistics.ui.tree.knockout-extensions.js`
+
+ファイルは js フォルダーの子である extensions フォルダーにあります。
+
+>**注:** 機能拡張スクリプトは結合したファイルに含まれていません。機能拡張を使用する場合、このファイルを個別に参照する必要があります。
+
 ##コントロールによる JavaScript ファイルの参照
 
 ### %%ProductName%% コントロール リスト
