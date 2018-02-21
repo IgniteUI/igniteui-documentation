@@ -28,7 +28,7 @@
 -   [CDN リンクの使用](#cdn)
 -   [TypeScript の定義](#typescript)
 -   [AngularJS 拡張子](#angularjs)
--   [Angular 2 拡張子](#angular)
+-   [Angular 拡張子](#angular)
 -   [ReactJS 拡張子](#reactjs)
 -   [ASP.NET MVC ラッパー](#aspnet_wrappers)
 -   [関連コンテンツ](#related_content)
