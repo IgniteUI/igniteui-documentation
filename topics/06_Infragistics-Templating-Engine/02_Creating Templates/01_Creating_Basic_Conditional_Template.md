@@ -35,7 +35,7 @@
     -   [プレビュー](#preview)
     -   [前提条件](#prerequisites)
     -   [手順](#steps)
--   [Ignite UI CLI で基本条件付きテンプレートを含む igTreeGrid の作成](##adding-using-CLI)
+-   [Ignite UI CLI で基本条件付きテンプレートを含む igTreeGrid の作成](#adding-using-CLI)
 -   [関連コンテンツ](#related-content)
 
 
