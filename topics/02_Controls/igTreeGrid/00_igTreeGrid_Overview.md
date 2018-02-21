@@ -358,9 +358,9 @@ ig start
 
 手順:
 
-	1. 新しい MVC アプリケーションを作成します。
-	2. Infragistics.Web.Mvc アセンブリへの参照を追加します。
-	3. モデル クラスを作成します。
+1. 新しい MVC アプリケーションを作成します。
+2. Infragistics.Web.Mvc アセンブリへの参照を追加します。
+3. モデル クラスを作成します。
 
 ```csharp
     public class FileExplorer
@@ -374,7 +374,7 @@ ig start
     }
 ```
 
-	4. データの List を生成し、View にデータを返す MVC Controller メソッドを作成します。
+4. データの List を生成し、View にデータを返す MVC Controller メソッドを作成します。
 
 ```csharp
 public ActionResult AspMvcHelper()
@@ -447,7 +447,7 @@ public ActionResult AspMvcHelper()
 		}
 ```
 
-	5. "aspnet-mvc-helper" と呼ばれる View を作成します。
+5. "aspnet-mvc-helper" と呼ばれる View を作成します。
 
 Infragistics.Web.Mvc.dll アセンブリを参照し、View の Model を定義します。
 
@@ -475,7 +475,7 @@ jQuery、jQueryUI、および Ignite　UI スクリプトおよび css クラス
 
 ```
 
-	6. View で igTreeGrid を定義します。
+6. View で igTreeGrid を定義します。
 
 **C# の場合:**
 
