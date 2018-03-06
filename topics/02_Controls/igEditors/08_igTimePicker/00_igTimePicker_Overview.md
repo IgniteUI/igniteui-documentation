@@ -27,7 +27,7 @@
 
 ![](images/igTimePicker_Overview_01.png)
 
--   [igTimePicker のサンプル](http://https://www.igniteui.com/editors/time-picker-overview)
+-   [igTimePicker のサンプル](%%SamplesUrl%%/editors/time-picker-overview)
 
 
 ## 機能
@@ -123,7 +123,7 @@
 
 ### 項目のデルタおよびスピン デルタ
 
-`itemsDelta` オプションは表示される連続時間項目の間のデルタを指定します。デフォルトの項目デルタは 30 分です。このオプションは、<kbd>上矢印</ kbd>および<kbd>下矢印</ kbd>を使用する場合の増減のステップも定義します。`buttonType` を "dropdown" に設定する場合、このオプションを使用します。
+`itemsDelta` オプションは表示される連続時間項目の間のデルタを指定します。デフォルトの項目デルタは 30 分です。このオプションは、<kbd>上矢印</kbd>および<kbd>下矢印</kbd>を使用する場合の増減のステップも定義します。`buttonType` を "dropdown" に設定する場合、このオプションを使用します。
 
 `spinDelta` オプションは、タイムピッカー コントロールでスピン ボタンが使用される場合に適用される増減のステップを指定します。このオプションは、<kbd>上矢印</kbd>および<kbd>下矢印</kbd>を使用する場合の増減のステップも定義します。`buttonType` を "spin" に設定する場合、このオプションを使用します。入力にフォーカスがない場合、スピン ボタンをクリックすると分の部分が変更されます。
 
