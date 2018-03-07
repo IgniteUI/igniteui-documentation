@@ -1,0 +1,1 @@
+﻿# API の概要 (igFinancialChart)

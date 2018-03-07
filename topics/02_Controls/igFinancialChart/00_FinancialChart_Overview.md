@@ -1,0 +1,1 @@
+﻿# igFinancialChart の概要
