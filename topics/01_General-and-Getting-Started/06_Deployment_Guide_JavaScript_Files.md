@@ -475,6 +475,9 @@
 				infragistics.util.js
 				<br>infragistics.util.jquery.js
 				<br>infragistics.ui.widget.js
+				<br>infragistics.ui.popover.js
+				<br>infragistics.ui.notifier.js
+				<br>infragistics.ui.validator.js
 			</td>
 		</tr>
 		<tr>
