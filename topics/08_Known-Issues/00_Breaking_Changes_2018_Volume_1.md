@@ -12,4 +12,4 @@
 
 以下のトピックは、2018 Volume 1 新機能の概要を示します。
 
-There are no breaking changes :)
+重大な変更はありません。
