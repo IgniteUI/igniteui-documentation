@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# igSpreadsheet の選択操作
+# igSpreadsheet のフィルター ダイアログ
 
 ## トピックの概要
 ### 目的
