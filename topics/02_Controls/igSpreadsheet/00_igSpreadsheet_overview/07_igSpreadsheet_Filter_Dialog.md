@@ -15,7 +15,7 @@
 このトピックでは、コントロールのフィルター ダイアログを使用して列で高度なフィルターを作成し、変更するための操作を説明します。
 
 ### 前提条件
-このトピックを理解するために [Infragistics JavaScript Excel Library](javascript-excel-library.html) および [igSpreadsheet](igSpreadsheet_Feature_Overview.html) の概念とトピックが前提条件です。
+このトピックを理解するために [Infragistics JavaScript Excel Library](javascript-excel-library.html) および [igSpreadsheet](igspreadsheet-feature-overview.html) の概念とトピックが前提条件です。
 
 ### このトピックの内容
 このトピックは、以下のセクションで構成されます。

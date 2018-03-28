@@ -95,33 +95,26 @@
                     <li>
 [series.name](%%jQueryApiUrl%%/ui.igMap#options:series.name)
 					</li>
-                </ul>**
+                </ul>
 値:
 
-
-				**series.type: "geographicProportionalSymbol"**,
-
-				**series.type: "seriesName"**
-
-
+```js
+series.type: "geographicProportionalSymbol",
+series.type: "seriesName"
+```
 
 				ASP.NET MVC の場合:
-
-
-				
-					
-						[MapSeriesBuilder Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.MapSeriesBuilder`1.html)
-
-						
-							[.GeographicProportionalSymbol()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.MapSeriesBuilder`1~GeographicProportionalSymbol.html)
-						
-					
+<ul>
+<li>[MapSeriesBuilder Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.MapSeriesBuilder`1.html)</li>
+<li>[.GeographicProportionalSymbol()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.MapSeriesBuilder`1~GeographicProportionalSymbol.html)</li>
+</ul>
 				
 値:
 
-
-				**series.GeographicProportionalSymbol("seriesName")**
-			**</td>
+```js
+series.GeographicProportionalSymbol("seriesName")
+```
+			</td>
 		</tr>
 
 		<tr>
