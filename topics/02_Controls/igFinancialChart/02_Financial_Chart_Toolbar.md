@@ -1,1 +1,1 @@
-﻿# igFinancialChart ツールバー
+﻿# ツールバー
