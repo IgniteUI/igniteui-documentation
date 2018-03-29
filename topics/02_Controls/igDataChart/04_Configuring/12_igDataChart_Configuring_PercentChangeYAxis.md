@@ -85,3 +85,6 @@ $(function () {
 
 <a id="related"></a>
 ### 関連コンテンツ
+
+- [igDataChart の追加](igDataChart-Adding.html):  このトピックでは、`igDataChart` コントロールをページに追加し、データにバインドする方法を紹介します。
+- [OrdinalTimeXAxis の構成](igdatachart-configuring-ordinaltimexaxis.html): このトピックは、OrdinalTimeXAxis を `igDataChart` コントロールで使用する方法を説明します。
