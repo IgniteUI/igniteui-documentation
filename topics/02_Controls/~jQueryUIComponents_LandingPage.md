@@ -23,6 +23,7 @@
 -   [igDialog](igDialog.html)
 -   [igDoughnutChart](igDoughnutChart.html)
 -   [igEditors](igEditors-LandingPage.html)
+-   [igFinancialChart](financial-chart-overview.html)
 -   [igFunnelChart](igFunnelChart-igFunnelChart.html)
 -   [igGrid](igGrid.html)
 -   [igHierarchicalGrid](igHierarchicalGrid-igHierarchicalGrid.html)
