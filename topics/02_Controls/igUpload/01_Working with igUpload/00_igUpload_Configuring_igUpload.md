@@ -27,7 +27,7 @@
 
 **外部リソース**
 
--   [HTML: マークアップ言語 (HTML 言語参照)](http://www.w3.org/TR/html-markup/input.file.html#input.file)
+-   [W3C: HTML ファイル型の入力](https://www.w3.org/wiki/HTML/Elements/input/file)
 
 ### このトピックの内容
 
