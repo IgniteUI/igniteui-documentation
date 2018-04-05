@@ -26,6 +26,7 @@
     -   [エディターの全般的な既知の問題](#editors)
     -   [igBulletGraph](#bullet-graph)
     -   [igCombo](#combo)
+	-   [igFinancialChart](#financial-chart)
     -   [igDataChart](#data-chart)
     -   [igDialog](#dialog)
 	-   [igUpload](#upload)
@@ -421,6 +422,13 @@ IE9 以前のバージョンでは、プレースホルダー テキストはプ
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
+### <a id="financial-chart"></a> [igFinancialChart](igFinancialChart-Known-Limitations.html)
+
+問題|説明|状態
+---|---|---
+ファイナンシャル チャートをすべての価格プロパティ (High、Low、Open、Close) を持たないデータにバインドする場合、ズーム ペインにシリーズの可視化を含むには、zoomSliderType を設定する必要があります。 | $("#chart").igFinancialChart( {dataSource: data, "zoomSliderType": "line"} ) | ![](images/positive.png)
+
+[既知の問題点と制限の概要](#summary)を参照してください。
 
 ### <a id="data-chart"></a> [igDataChart](igDataChart-Known-Issues.html)
 
@@ -515,6 +523,19 @@ IE9 以前のバージョンでは、プレースホルダー テキストはプ
 		
 		<td>
 		    <p><img alt="" src="images/negative.png"></p>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		    <p>DataChart で CategoryDateTimeXAxis または TimeXAxis を使用してシリーズをプロットする場合、複数のデータ ソースの項目を配置しません。</p>
+		</td>
+		
+		<td>
+		    <p>データ項目を配置するには、データ ソースに相対する項目がない場合、null 項目を挿入します。</p>
+		</td>
+		
+		<td>
+		    <p><img alt="" src="images/positive.png"></p>
 		</td>
 	</tr>
     </tbody>
