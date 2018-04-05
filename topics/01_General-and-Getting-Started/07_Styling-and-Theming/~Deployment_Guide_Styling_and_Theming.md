@@ -380,7 +380,7 @@ CDN の使用には多くの利点があります。詳細は、専用ヘルプ 
 
 - [データのビジュアル化でのグラデーション カラーの使用](Using-Gradient-Colors-in-Data-Visualizations.html): このトピックは、%%ProductName%%™ コントロールのビジュアル データにグラデーション カラーを適用する方法を説明します。
 
-- [新しいスタイルの適用 (*igDataChart*)](igDataChart-New-Default-Style.html): このトピックでは、新しいチャート スタイルを適用する方法を説明し、チャートの外観変更の概要について紹介します。
+- [新しいスタイルの適用 (*igDataChart*)](igdatachart-styling-themes.html): このトピックでは、チャートにスタイルおよびテーマを適用する方法を紹介します。
 
 - [Bootstrap と %%ProductName%% の使用](Using-Ignite-UI-with-Bootstrap.html) : このトピックでは、%%ProductName%% と Bootstrap を一緒に動作させる方法について説明します。
 
