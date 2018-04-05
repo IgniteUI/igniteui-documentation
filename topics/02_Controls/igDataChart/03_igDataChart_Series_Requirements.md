@@ -36,7 +36,7 @@
         <tbody>
 			<tr>
                 <th> </th>
-                <th colspan="5" align="center">軸型</th> 
+                <th colspan="7" align="center">軸型</th> 
                 <th colspan="1" align="center">シリーズ プロパティ</th> 
             </tr>
             <tr>
@@ -46,6 +46,8 @@
                 <th>categoryX</th>
                 <th>categoryY</th>
                 <th>time</th>
+				<th>ordinalTimeX</th>
+                <th>percentChangeY</th>
                 <th>valueMemberPath</th>
             </tr>
 
@@ -63,6 +65,10 @@
                 <td>X</td>
 
                 <td>X</td>
+				
+				<td>X</td>
+
+                <td>X</td>
             </tr>
 
             <tr>
@@ -75,12 +81,28 @@
                 <td></td>
 
                 <td>X</td>
+				
+				<td></td>
+				
+                <td></td>
 
                 <td></td>
 
                 <td>X</td>
             </tr>
 
+			<tr>
+                <td>柱状</td>
+                <td></td>
+                <td>X</td>
+                <td>X</td>
+                <td></td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td> 
+            </tr>
+			
             <tr>
                 <td>折れ線</td>
 
@@ -95,6 +117,10 @@
                 <td>X</td>
 
                 <td>X</td>
+				
+				<td>X</td>
+				
+				<td>X</td>
             </tr>
 
             <tr>
@@ -111,6 +137,10 @@
                 <td>X</td>
 
                 <td>X</td>
+				
+				<td>X</td>
+				
+				<td>X</td>
             </tr>
 
             <tr>
@@ -123,6 +153,10 @@
                 <td>X</td>
 
                 <td></td>
+				
+				<td>X</td>
+				
+				<td>X</td>
 
                 <td>X</td>
 
@@ -143,6 +177,10 @@
                 <td>X</td>
 
                 <td>X</td>
+				
+				<td>X</td>
+				
+				<td>X</td>
             </tr>
 
             <tr>
@@ -159,6 +197,10 @@
                 <td>X</td>
 
                 <td>X</td>
+				
+				<td>X</td>
+				
+				<td>X</td>
             </tr>
 
             <tr>
@@ -175,6 +217,10 @@
                 <td>X</td>
 
                 <td>X</td>
+				
+				<td>X</td>
+				
+				<td>X</td>
             </tr>
 
             <tr>
@@ -187,6 +233,10 @@
                 <td>X</td>
 
                 <td></td>
+				
+				<td>X</td>
+				
+				<td>X</td>
 
                 <td>X</td>
 
@@ -205,7 +255,7 @@
         <tbody>
             <tr>
                 <th> </th>
-                <th colspan="3" align="center">軸型</th> 
+                <th colspan="5" align="center">軸型</th> 
                 <th colspan="2" align="center">MemberPath プロパティ</th> 
             </tr>
             <tr>
@@ -213,11 +263,15 @@
                 <th>numericY</th>
                 <th>categoryX</th>
                 <th>time</th> 
+				<th>ordinalTimeX</th>
+                <th>percentChangeY</th>
                 <th>high</th>
                 <th>low</th>
             </tr>
             <tr>
                 <td>rangeArea </td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td> 
@@ -226,6 +280,8 @@
             </tr>
             <tr>
                 <td>rangeColumn </td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td> 
@@ -378,13 +434,14 @@
         <tbody>
             <tr>
                 <th> </th>
-                <th colspan="2" align="center">軸型</th> 
+                <th colspan="3" align="center">軸型</th> 
                 <th colspan="6" align="center">MemberPath プロパティ</th> 
             </tr>
             <tr>
                 <th>シリーズ タイプ</th>
                 <th>numericY</th>
                 <th>numericX</th> 
+				<th>percentChangeY</th>
                 <th>x</th>
                 <th>y</th>
                 <th>radius</th>
@@ -398,6 +455,7 @@
                 <td>X</td> 
                 <td>X</td>
                 <td>X</td>
+				<td>X</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -409,6 +467,7 @@
                 <td>X</td> 
                 <td>X</td>
                 <td>X</td>
+				<td>X</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -421,6 +480,7 @@
                 <td>X</td> 
                 <td>X</td>
                 <td>X</td>
+				<td>X</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -433,6 +493,7 @@
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
+				<td>X</td>
                 <td>X*</td>
                 <td></td>
                 <td></td>
@@ -443,6 +504,7 @@
                 <td>X</td> 
                 <td>X</td>
                 <td>X</td>
+				<td>X</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -454,6 +516,7 @@
                 <td>X</td> 
                 <td>X</td>
                 <td>X</td>
+				<td>X</td>
                 <td></td>
                 <td></td>
                 <td>X</td>
@@ -465,6 +528,7 @@
                 <td>X</td> 
                 <td>X</td>
                 <td>X</td>
+				<td>X</td>
                 <td></td>
                 <td></td>
                 <td>X</td>
@@ -474,6 +538,7 @@
                 <td>scatterPolygon</td>
                 <td>X</td>
                 <td>X</td> 
+				<td>X</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -485,6 +550,7 @@
                 <td>scatterPolyline</td>
                 <td>X</td>
                 <td>X</td> 
+				<td>X</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -611,7 +677,7 @@
         <tbody>
             <tr>
                 <th> </th>
-                <th colspan="4" align="center">軸型</th> 
+                <th colspan="6" align="center">軸型</th> 
                 <th colspan="5" align="center"> MemberPath プロパティ</th> 
             </tr>
             <tr>
@@ -619,6 +685,8 @@
                 <th>numericY</th> 
                 <th>categoryX</th>
                 <th>time</th>
+				<th>ordinalTimeX</th>
+                <th>percentChangeY</th>
                 <th>high</th>
                 <th>low</th>
                 <th>open</th>
@@ -627,6 +695,8 @@
             </tr>
             <tr>
                 <td>FinancialPrice</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -638,6 +708,8 @@
             </tr>
             <tr>
                 <td>AbsoluteVolumeOscillatorIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -649,6 +721,8 @@
             </tr>
             <tr>
                 <td>AccumulationDistributionIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -660,6 +734,8 @@
             </tr>
             <tr>
                 <td>AverageDirectionalIndexIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -671,6 +747,8 @@
             </tr>
             <tr>
                 <td>AverageTrueRangeIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -682,6 +760,8 @@
             </tr>
             <tr>
                 <td>BollingerBandsOverlay</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -693,6 +773,8 @@
             </tr>
             <tr>
                 <td>BollingerBandWidthIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -704,6 +786,8 @@
             </tr>
             <tr>
                 <td>ChaikinOscillatorIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -715,6 +799,8 @@
             </tr>
             <tr>
                 <td>ChaikinVolatilityIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -726,6 +812,8 @@
             </tr>
             <tr>
                 <td>CommodityChannelIndexIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -737,6 +825,8 @@
             </tr>
             <tr>
                 <td>DetrendedPriceOscillatorIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -748,6 +838,8 @@
             </tr>
             <tr>
                 <td>EaseOfMovementIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -759,6 +851,8 @@
             </tr>
             <tr>
                 <td>FastStochasticOscillatorIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -770,6 +864,8 @@
             </tr>
             <tr>
                 <td>ForceIndexIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -781,6 +877,8 @@
             </tr>
             <tr>
                 <td>FullStochasticOscillatorIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -792,6 +890,8 @@
             </tr>
             <tr>
                 <td>MarkerFacilitationIndexIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -803,6 +903,8 @@
             </tr>
             <tr>
                 <td>MassIndexIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -814,6 +916,8 @@
             </tr>
             <tr>
                 <td>MedianPriceIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -825,6 +929,8 @@
             </tr>
             <tr>
                 <td>MoneyFlowIndexIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -836,6 +942,8 @@
             </tr>
             <tr>
                 <td>MovingAverageConvergenceDivergenceIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -847,6 +955,8 @@
             </tr>
             <tr>
                 <td>NegativeVolumeIndexIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -858,6 +968,8 @@
             </tr>
             <tr>
                 <td>OnBalanceVolumeIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -869,6 +981,8 @@
             </tr>
             <tr>
                 <td>PercentagePriceOscillatorIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -880,6 +994,8 @@
             </tr>
             <tr>
                 <td>PercentageVolumeOscillatorIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -891,6 +1007,8 @@
             </tr>
             <tr>
                 <td>PositiveVolumeIndexIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -902,6 +1020,8 @@
             </tr>
             <tr>
                 <td>PriceVolumeTrendIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -913,6 +1033,8 @@
             </tr>
             <tr>
                 <td>PriceChannelOverlay</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -924,6 +1046,8 @@
             </tr>
             <tr>
                 <td>RateOfChangeAndMomentumIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -935,6 +1059,8 @@
             </tr>
             <tr>
                 <td>RelativeStrengthIndexIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -946,6 +1072,8 @@
             </tr>
             <tr>
                 <td>SlowStochasticOscillatorIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -957,6 +1085,8 @@
             </tr>
             <tr>
                 <td>StandardDeviationIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -968,6 +1098,8 @@
             </tr>
             <tr>
                 <td>StochRSIIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -979,6 +1111,8 @@
             </tr>
             <tr>
                 <td>TRIXIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -990,6 +1124,8 @@
             </tr>
             <tr>
                 <td>TypicalPriceIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -1001,6 +1137,8 @@
             </tr>
             <tr>
                 <td>UltimateOscillatorIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -1012,6 +1150,8 @@
             </tr>
             <tr>
                 <td>WeightedCloseIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
@@ -1023,6 +1163,8 @@
             </tr>
             <tr>
                 <td>WilliamsPercentRIndicator</td>
+				<td>X</td>
+                <td>X</td>
                 <td>X</td>
                 <td>X</td>
                 <td>X</td>
