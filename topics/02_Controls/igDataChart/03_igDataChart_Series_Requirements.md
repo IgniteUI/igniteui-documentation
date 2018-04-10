@@ -502,7 +502,7 @@
                 <td>scatterHD</td>
                 <td>X</td>
                 <td>X</td> 
-                <td>X</td>
+                <td></td>
                 <td>X</td>
 				<td>X</td>
                 <td></td>
@@ -514,7 +514,7 @@
                 <td>scatterArea</td>
                 <td>X</td>
                 <td>X</td> 
-                <td>X</td>
+                <td></td>
                 <td>X</td>
 				<td>X</td>
                 <td></td>
@@ -526,7 +526,7 @@
                 <td>scatterContour</td>
                 <td>X</td>
                 <td>X</td> 
-                <td>X</td>
+                <td></td>
                 <td>X</td>
 				<td>X</td>
                 <td></td>
@@ -538,7 +538,7 @@
                 <td>scatterPolygon</td>
                 <td>X</td>
                 <td>X</td> 
-				<td>X</td>
+				<td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -550,7 +550,7 @@
                 <td>scatterPolyline</td>
                 <td>X</td>
                 <td>X</td> 
-				<td>X</td>
+				<td></td>
                 <td></td>
                 <td></td>
                 <td></td>
