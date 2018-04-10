@@ -56,7 +56,7 @@
 WorksheetTable のエンジンに並べ替えおよびフィルタリングのサポートがあります。Excel では、ワークシートでテーブル以外に並べ替えおよびフィルタリングが可能な単一の領域を定義できます。また、ワークシートで並べ替えたその他の領域を定義できます。したがって、ワークシート レベル並べ替えおよびフィルタリング操作のサポートを Excel Engine に追加しました。また、アイコン並べ替え/フィルタリング クラスを公開しました。以前アイコンはアイコン セットの条件付き書式で指定していましたが、条件付き書式はサポートされていなかったために内部用でした。
 
 #### 関連トピック
--   [Excel エンジンでワークシートのフィルタリング(javascript-excel-library-worksheet-level-filtering.html)
+-   [Excel エンジンでワークシートのフィルタリング](javascript-excel-library-worksheet-level-filtering.html)
 -   [Excel エンジンでワークシートの並べ替え](javascript-excel-library-worksheet-level-sorting.html)
 
 ### <a id="excelFunctions"></a> サポートされるその他の Excel 関数
