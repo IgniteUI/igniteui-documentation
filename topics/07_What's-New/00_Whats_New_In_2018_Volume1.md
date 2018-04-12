@@ -38,6 +38,12 @@
 ---|---
 [ファイナンシャル チャート](#financialChart)| このリリースではファイナンシャル チャートが追加されました。
 
+### igTimePicker
+
+機能 | 説明
+---|---
+[タイムピッカー](#timepicker)| igTimePicker コントロールは、時間のみの入力を表示します。ドロップダウンは時:分の値をリストします。
+
 ### igUpload
 
 機能|説明
@@ -131,6 +137,12 @@ igFinancialChart は軽量で高パフォーマンスなチャートです。こ
 
 #### 関連トピック
 - [ファイナンシャル チャート](financial-chart-overview.html)
+
+## <a id="timepicker"></a>igTimePicker
+igTimePicker コントロールでは、時刻のみの入力と指定した時刻：分の値を含むドロップダウンのあるエディターを使用できます。デフォルトで、リストされる時間値は 30 分のデルタがあります。igTimePicker 入力および表示書式設定は構成可能です。デフォルトでコントロールは 12 時間形式を使用します。
+
+#### 関連トピック
+- [igTimePicker の概要](igtimepicker-overview.html)
 
 ## igUpload
 
