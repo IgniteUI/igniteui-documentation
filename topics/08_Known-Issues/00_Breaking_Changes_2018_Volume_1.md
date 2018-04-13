@@ -23,7 +23,7 @@
 
 ## ドメイン チャート
 
-* ドメイン チャート (CategoryChart、ShapeChart など) は新しく追加された js ファイルに依存関係があります: `infragistics.datachart_domainChart.js`
+* ドメイン チャート (CategoryChart、ShapeChart など) は新しく追加された js ファイルに依存関係があります。 `infragistics.datachart_domainChart.js`
 
 ## Ignite UI
 
