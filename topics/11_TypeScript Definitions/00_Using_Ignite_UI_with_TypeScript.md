@@ -41,7 +41,7 @@
 
 %%ProductName%%® は、強い型付け、コンパイル時のチェック、intellisense 機能を利用できるように TypeScript の型定義を提供します。
 
-コントロールの定義は、%%ProductName%% インストール ディレクトリの下の *typings\igniteui.d.ts* ファイルにあります。TypeScript 用の定義は、jQuery と jQuery UI の定義を拡張しているため、元の定義に依存します。
+コントロールの定義を NPM でインストールするには、`npm install @types/ignite-ui` コマンドを使用してください。TypeScript 用の定義は、jQuery と jQuery UI の定義を拡張しているため、元の定義に依存します。
 
 ## <a id="syntax"></a> 構文
 
