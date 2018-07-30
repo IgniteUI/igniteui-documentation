@@ -10,13 +10,15 @@
 
 # サポートされるバージョンの Microsoft Excel
 
-Infragistics JavaScript Excel ライブラリ™ は Microsoft® Excel®.xls ファイルを保存および読み込むことができます。これらの .xls ファイルは BIFF8 フォーマットで保存されるため、特定のバージョンの Excel に限り互換性があります。以下の表はサポートされるバージョンの Excel と、そのバージョンに関連付けられた制約または制限をリストしています。
+Infragistics JavaScript Excel ライブラリ™ は、以下の Microsoft® Excel® ファイル形式の保存および読み込みが可能です。
 
-Excel のバージョン|説明
----|---
-Microsoft Excel 97|BIFF8 フォーマットを使用。
-Microsoft Excel 2000|BIFF8 フォーマットを使用。
-Microsoft Excel 2002|Microsoft Office® XP ファミリー製品のメンバー。BIFF8 フォーマットを使用。
-Microsoft Excel 2003|BIFF8 フォーマットを使用。
-Microsoft Excel 2007|[Workbook](%%jQueryApiUrl%%/ig.excel.Workbook#methods:save) オブジェクトの [Save](%%jQueryApiUrl%%/ig.excel.Workbook) 関数を使用する場合、.xlsx ファイルは XML ファイル形式で書き出されます。<br/>**注:** Excel Engine は Excel Binary Workbook (.xlsb) フォーマットを現時点ではサポートしていません。
+|ファイル形式                          | 列挙体                                                               | 列挙体
+|--------------------------------------|---------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Excel 97-2003 ワークブック (*.xls)        | Infragistics.Documents.Excel.WorkbookFormat.Excel97To2003                 | BIFF8 形式を使用します。 format.                                                                                                                                                                          |
+|Excel 97-2003 テンプレート (*.xlt)        | Infragistics.Documents.Excel.WorkbookFormat.Excel97To2003Template         | BIFF8 形式を使用します。 format.                                                                                                                                                                          |
+|Excel ワークブック (*.xlsx)              | Infragistics.Documents.Excel.WorkbookFormat.Excel2007                     |                                                                                                                                                                                             |
+|Excel マクロ有効ワークブック (*.xlsm) | Infragistics.Documents.Excel.WorkbookFormat.Excel2007MacroEnabled         | Infragistics Excel Engine はマクロの作成、分析、または実行をサポートしません。読み込んだファイルにモジュールがある場合、保存時にそのモジュールが出力に含まれます。 |
+|Excel テンプレート (*.xltx)               | Infragistics.Documents.Excel.WorkbookFormat.Excel2007Template             |                                                                                                                                                                                             |
+|Excel マクロ有効テンプレート (*.xltm) | Infragistics.Documents.Excel.WorkbookFormat.Excel2007MacroEnabledTemplate | Infragistics Excel Engine はマクロの作成、分析、または実行をサポートしません。読み込んだファイルにモジュールがある場合、保存時にそのモジュールが出力に含まれます。 |
+|Strict Open XML スプレッドシート (*.xlsx)  | Infragistics.Documents.Excel.WorkbookFormat.StrictOpenXml                 | Strict Open XML (ISO/IEC 29500 Strict) ファイル形式です。                                                                                                                                      |
 
