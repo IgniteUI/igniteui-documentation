@@ -85,9 +85,10 @@ $("#grid1").igGrid({
     features: [
     {
         name: 'Hiding',
-              columnHiding: function (e, args) {
-              // Handle event  
-       }]
+        columnHiding: function (e, args) {
+            // Handle event  
+        }
+    }]
 });
 </script>
 ```
