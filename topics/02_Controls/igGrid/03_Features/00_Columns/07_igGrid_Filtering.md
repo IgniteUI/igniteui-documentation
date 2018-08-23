@@ -644,6 +644,13 @@ var expressions = $('#grid1').data('igGrid').dataSource.settings.filtering.expre
   -   notNull
   -   empty
   -   notEmpty
+- 時刻
+  -   at
+  -   notAt
+  -   before
+  -   after
+  -   atBefore
+  -   atAfter
 - オブジェクト
   -   null
   -   notNull

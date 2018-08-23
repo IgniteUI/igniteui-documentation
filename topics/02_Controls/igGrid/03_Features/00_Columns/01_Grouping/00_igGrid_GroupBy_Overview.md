@@ -185,6 +185,9 @@ features: [
 </table>
 
 以下のサンプルは、グループ化をカスタマイズするために [compareFunc](%%jQueryApiUrl%%/ui.iggridgroupby#options:columnSettings.compareFunc) を使用する方法を紹介します。
+
+> **注:** 
+You can also customize grouping of the `time` column using the `compareFunc`. See the example code for more details.
  
 <div class="embed-sample">    
     [グループ化のカスタマイズ](%%SamplesEmbedUrl%%/grid/grouping-customization)

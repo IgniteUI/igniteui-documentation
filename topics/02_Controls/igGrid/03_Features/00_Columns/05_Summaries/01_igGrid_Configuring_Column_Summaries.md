@@ -72,7 +72,7 @@
 
 
 
-> **注:** 定義済み集計関数は列の `dataType` に基づいて有効されます。たとえば、列の `dataType` が "number" または "numeric" の場合、デフォルトの集計関数は "Count"、"Min"、"Max"、"Sum"、"Avg" (平均) です。dataType が "date" の場合、デフォルトの集計関数は "Count"、"Min"、および "Max" です。それ以外の場合 (dataType が "string"、"bool"、または "object")、デフォルトの集計関数は "Count" のみです。
+> **注:** 定義済み集計関数は列の `dataType` に基づいて有効されます。たとえば、列の `dataType` が "number" または "numeric" の場合、デフォルトの集計関数は "Count"、"Min"、"Max"、"Sum"、"Avg" (平均) です。dataType が "date" または "time" の場合、デフォルトの集計関数は "Count"、"Min"、および "Max" です。それ以外の場合 (dataType が "string"、"bool"、または "object")、デフォルトの集計関数は "Count" のみです。
 
 
 ## <a id="type"></a> 集計タイプを構成する 

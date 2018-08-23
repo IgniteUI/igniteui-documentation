@@ -35,7 +35,7 @@
 
 ## <a id="editors"></a> ビルトイン エディター タイプ
 
-エディター プロバーダーのタイプは、テキスト、数値、火付/時間、日付の選択、マスク エディター、ブール値、パーセンテージ、通貨、コンボ、評価が含まれます。
+エディター プロバーダーのタイプは、テキスト、数値、火付/時間、日付の選択、タイムピッカー、マスク エディター、ブール値、パーセンテージ、通貨、コンボ、評価が含まれます。
 
 > **注**: すべてのエディター プロバイダーは infragistics.ui.grid.shared.js ファイルで定義されます。
 
@@ -87,7 +87,8 @@ $.ig.EditorProviderBase = $.ig.EditorProviderBase || $.ig.EditorProvider.extend(
 パーセント エディター プロバイダー|$.ig.EditorProviderPercent |$.ig.EditorProviderBase
 マスク エディター プロバイダー|$.ig.EditorProviderMask |$.ig.EditorProviderBase
 日付エディター プロバイダー|$.ig.EditorProviderDate |$.ig.EditorProviderBase
-日付ピッカー プロバイダー|$.ig.EditorProviderDatePicker |$.ig.EditorProviderBase
+日付ピッカー エディター プロバイダー|$.ig.EditorProviderDatePicker |$.ig.EditorProviderBase
+タイムピッカー エディター プロバイダー|$.ig.EditorProviderTimePicker |$.ig.EditorProviderBase
 ブール値エディター プロバイダー|$.ig.EditorProviderBoolean |$.ig.EditorProviderBase
 コンボ エディター プロバイダー|$.ig.EditorProviderCombo |$.ig.EditorProvider
 レーティング エディター プロバイダー|$.ig.EditorProviderRating |$.ig.EditorProvider
