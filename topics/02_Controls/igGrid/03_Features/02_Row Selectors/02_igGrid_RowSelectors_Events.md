@@ -75,7 +75,7 @@ MVC でハンドラーを添付する場合、jQuery UI パターンを使用す
 **JavaScript の場合:**
 
 ```js
-$("#grid1").delegate("#iggridrowselectorsrowselectorclicked’": function (e, args) {
+$("#grid1").on("iggridrowselectorsrowselectorclicked", function (evt, ui) {
       // Handle event  
    }
 );
