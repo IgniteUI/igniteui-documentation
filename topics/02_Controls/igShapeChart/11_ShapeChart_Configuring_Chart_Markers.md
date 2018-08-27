@@ -43,27 +43,27 @@
 
 プロパティ名|プロパティ型|説明
 ---|---|---
-`markerTypes`| MarkerType |チャートのすべてのシリーズで表示されるマーカーのタイプを決定します。
-`markerBrushes` |Brush |マーカーの塗りつぶし色を決定します。
-`markerOutlines`|Brush|マーカーのアウトライン色を決定します。
-`MarkerMaxCount`|int|マーカーの最大数を決定します。
+`markerTypes`| enumeration |チャートのすべてのシリーズで表示されるマーカーのタイプを決定します。
+`markerBrushes` |object |マーカーの塗りつぶし色を決定します。
+`markerOutlines`|object|マーカーのアウトライン色を決定します。
+`markerMaxCount`|number|チャートのプロット領域で表示されるマーカーの最大数を決定します。
 
 
 #### <a id="markertypes"/> マーカー タイプ
 プロパティ名|プロパティ型|説明
 ---|---|---
-`circleMarker`|MarkerType|円マーカーのタイプを表示します。
-`diamondMarker`|MarkerType|ダイアモンド マーカーのタイプを表示します。
-`hexagonMarker`|MarkerType|六角形マーカーのタイプを表示します。
-`hexagramMarker`|MarkerType|六線星形マーカーのタイプを表示します。
-`pentagramMarker`|MarkerType|五芒星マーカーのタイプを表示します。
-`pentagonMarker`|MarkerType|五角形マーカーのタイプを表示します。
-`pyramidMarker`|MarkerType|ピラミッドマーカーのタイプを表示します。
-`squareMarker`|MarkerType|四角形マーカーのタイプを表示します。
-`tetragramMarker`|MarkerType|テトラグラム マーカーのタイプを表示します。
-`triangleMarker`|MarkerType|三角形マーカーのタイプを表示します。
-`autoMarker`|MarkerType|チャートに描画される各シリーズに上記のリストから 1 つのマーカー タイプを表示します。
-`noneMarker`|MarkerType|指定したシリーズでマーカーを非表示にします。
+`circleMarker`|enumeration|円マーカーのタイプを表示します。
+`diamondMarker`|enumeration|ダイアモンド マーカーのタイプを表示します。
+`hexagonMarker`|enumeration|六角形マーカーのタイプを表示します。
+`hexagramMarker`|enumeration|六線星形マーカーのタイプを表示します。
+`pentagramMarker`|enumeration|五芒星マーカーのタイプを表示します。
+`pentagonMarker`|enumeration|五角形マーカーのタイプを表示します。
+`pyramidMarker`|enumeration|ピラミッドマーカーのタイプを表示します。
+`squareMarker`|enumeration|四角形マーカーのタイプを表示します。
+`tetragramMarker`|enumeration|テトラグラム マーカーのタイプを表示します。
+`triangleMarker`|enumeration|三角形マーカーのタイプを表示します。
+`autoMarker`|enumeration|チャートに描画される各シリーズに上記のリストから 1 つのマーカー タイプを表示します。
+`noneMarker`|enumeration|指定したシリーズでマーカーを非表示にします。
 
 
 以下のコードは、igShapeChart のマーカー タイプの変更方法を示します。
