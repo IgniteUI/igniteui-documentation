@@ -17,10 +17,36 @@
 
 以下の表は、2018 Volume 2 リリースの新機能の概要です。機能の詳細については表の下をご覧ください。
 
+### igGrid
+機能 | 説明
+---|---
+[時刻列](#TimeColumn) | igGrid の時刻列
+[フィルター セルのカスタム エディター プロバイダー](#FilteringCustomProvider) | igGrid のフィルター セルでカスタム エディター プロバイダーの実装が可能
+
 ### igSpreadsheet
 機能 | 説明
 ---|---
 [FormatCells ダイアログ](#FormatCellsDialog)| スプレッドシートの FormatCells ダイアログ
+
+## igGrid の時刻列
+### <a id="TimeColumn"></a> 時刻列
+
+時刻列の新しい列型を igGrid コントロールに追加しました。使用するには、列の `dataType` を `time` に設定します。定義済みのタイムピッカー エディターを使用して時刻データをフィルターして更新できます。
+
+![](images/time_column.png)
+
+## 関連コンテンツ
+### サンプル
+[フィルタリング](%%SamplesUrl%%/grid/simple-filtering)
+
+## igGrid のフィルター セルのカスタム エディター プロバイダー
+### <a id="FilteringCustomProvider"></a> フィルター セルのカスタム エディター プロバイダー
+
+フィルター セルのためにカスタム エディター プロバイダーを作成できます。つまり、igGrid コンテンツをフィルターするために igEditorProvider クラスを拡張してカスタム エディターを設定できます。詳細については、以下のサンプルを参照してください。
+
+## 関連コンテンツ
+### サンプル
+[Excel スタイル フィルタリング](%%SamplesUrl%%/grid/filtering-combo-editor-provider)
 
 ## FormatCellsDialog
 
