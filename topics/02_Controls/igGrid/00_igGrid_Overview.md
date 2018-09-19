@@ -91,7 +91,9 @@ ig start
     **HTML の場合:**
 
     ```html
-    <table id="grid"></table>
+	<div style="height:300px;">
+	    <table id="grid"></table>
+	</div>
     ```
 
 4. 上記のセットアップが完了したら、*ID*、*columns*、*dataSource* などの**オプションを設定**します。
