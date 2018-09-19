@@ -24,3 +24,4 @@
 |[アクティベーションとナビゲーションのインタラクション (igSpreadsheet)](igspreadsheet-activation-and-navigation-interactions.html)|このトピックでは、ワークシートのセルをナビゲートする場合にユーザーが実行できる操作を説明します。|
 |[選択 (igSpreadsheet)](igspreadsheet-selection.html)|このトピックでは、ワークシートのセルを選択する場合にユーザーが実行できる操作を説明します。|
 |[コンテキスト メニュー (igSpreadsheet)](igspreadsheet-context-menu)|このトピックでは、コンテキスト メニューを使用する場合にユーザーが実行できる操作を説明します。|
+| [FormatCell ダイアログ (igSpreadsheet)](igspreadsheet-FormatCell-Dialog)|このトピックは、FormatCellsDialog のさまざまな設定、セル データの表示方法への影響について説明します。|
