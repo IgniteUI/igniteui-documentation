@@ -99,7 +99,7 @@ ig start
 4. 上記のセットアップが完了したら、*ID*、*columns*、*dataSource* などの**オプションを設定**します。
 
     1.  [columns](%%jQueryApiUrl%%/ui.iggrid#options:columns) - `igGrid` の列オブジェクト定義。
-        -   `headerText` - 列のヘッダーのテキスト。
+        -   `headerText` - 列のヘッダーのテキスト。正しく動作しなくなる機能があるため、HTML タグを使用しないでください。
         -   `key` - データ ソースのキー フィールドの名前。
         -   `dataType` - 列のデータ型。「string」、「number」または「date」を指定できます。
 
