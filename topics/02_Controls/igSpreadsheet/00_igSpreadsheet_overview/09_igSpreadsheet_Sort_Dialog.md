@@ -45,7 +45,7 @@
 
 ![](../images/igSpreadsheet_custom_sort_dialog.png)
 
-## <a id="related_links">関連リンク</a>
+## <a id="related_links"></a>関連リンク
 -   [igSpreadsheet の概要](igSpreadsheet-Overview.html)
 -   [igSpreadsheet のアクティベーションとナビゲーションのインタラクション](igspreadsheet-activation-and-navigation-interactions.html)
 -   [igSpreadsheet の機能の概要](igSpreadsheet-Feature-Overview.html)
