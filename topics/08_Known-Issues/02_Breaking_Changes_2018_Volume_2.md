@@ -11,7 +11,7 @@
 # 2018 Volume 2 の重大な変更
 
 ## igGrid
-- From version 18.2 on, when remote features, such as Sorting, Filtering, Paging etc. are enabled the query string, created for feature`s requests, will include not only the column key but the column type as well.例:
+- 18.2 バージョンでは、並べ替えフィルタリングやページングなどのリモート機能でクエリ文字列が含まれており、列キー以外に列タイプがサポートされます。例:
  
  GetData?sort(**Name%3Astring**)=asc&page=0&pageSize=1&pk=ProductID&_=1538145630155
 
