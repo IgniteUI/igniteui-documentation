@@ -31,16 +31,18 @@
 -   [共通のプロパティ](#common-properties)
 -   [レイヤーのタイプ](#types-of-layers)
     -   [十字線レイヤー](#crosshair-layer)
-    -   [カテゴリ強調表示レイヤー](#category-highlight-layer)
-    -   [カテゴリ項目強調表示レイヤー](#category-item-highlight-layer)
+    -   [カテゴリ ハイライト レイヤー](#category-highlight-layer)
+    -   [カテゴリ項目 ハイライト　レイヤー](#category-item-highlight-layer)
     -   [カテゴリ ツールチップ レイヤー](#category-tooltip-layer)
     -   [項目ツールチップ レイヤー](#item-tooltip-layer)
+	-   [最終値レイヤー](#final-value-layer)
+    -   [コールアウト レイヤー](#callout-layer)
 -   [関連コンテンツ](#related-content)
     -   [トピック](#topics)
     -   [サンプル](#samples)
+	
 
-
-
+	
 ## <a id="overview"></a> 概要
 
 #### ホバー 操作のサマリー
@@ -52,7 +54,6 @@
 以下のスクリーンショットは、カテゴリ強調表示レイヤー、十字線レイヤー、および品目ツールチップ レイヤーが実装された `igDataChart` コントロールを示しています。
 
 ![](images/jQuery_Multiple_Layers_01.png)
-
 
 
 ## <a id="common-properties"></a> 共通のプロパティ
@@ -112,6 +113,22 @@
 ![](images/jQuery_Item_Tooltip_Layer_01.png)
 
 詳細は、[項目ツールチップ レイヤーの構成 (igDataChart)](HoverInteractions-Item-Tooltip-Layer.html) のトピックを参照してください。
+
+### <a id="final-value-layer"></a> 最終値レイヤー
+
+`finalValueLayer` は、チャートでシリーズの現在の (最終) 値を表す注釈を表示します。
+
+![](../04_Configuring/04_Hover Interactions/images/jQuery_Final_Value_Layer_01.png)
+
+詳細は、[最終値レイヤーの構成 (igDataChart) (igDataChart)](HoverInteractions-Final-Value-Layer.html) のトピックを参照してください。
+
+### <a id="callout-layer"></a> コールアウト レイヤー
+
+`calloutLayer` はチャート既存または新しいデータの注釈を表示します。
+
+![](../04_Configuring/04_Hover Interactions/images/jQuery_Callout_Layer_01.png)
+
+詳細は、[コールアウト レイヤー (igDataChart)](HoverInteractions-Callout-Layer.html) のトピックを参照してください。
 
 
 ## <a id="related-content"></a>関連コンテンツ

@@ -44,7 +44,7 @@
        * AccordionFromValueAxisMinimum – シリーズは値軸の最小値からアコーディオンします。
 
 * Expand – シリーズは値の中点から展開します。
-* Sweep-type transitions: 
+* スイープタイプのトランジション: 
    * 側面から: 
        * SweepFromLeft – シリーズは左側からスイープします。
        * SweepFromRight – シリーズは右側からスイープします。
