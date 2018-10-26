@@ -68,15 +68,25 @@ finalValueSelectionMode | `enumeration`| 最終値を識別するメソッドを
 
 ## <a id="example"></a> 例
 
-このサンプルは、最終値に軸注釈を表示する最終レイヤーを示します。
+このサンプルは、最終値レイヤーを有効にする方法を示します。
 
-<div class="embed-sample">
-   [Final Value Layer](%%SamplesEmbedUrl%%/data-chart/final-value-layer)
-   ![](images/jQuery_Final_Value_Layer_01.png)
-</div>
+*HTML:*
+
+```html
+$(function () {
+    $("#chart1").igDataChart({
+        series: [
+            {
+                name: "finalValueSeries",
+                type: "finalValueLayer"
+            }
+        ]
+    });
+});
+```
 
 
-## <a id="related-content"></a>関連リンク
+## <a id="related-content"></a>関連コンテンツ
 
 ### <a id="topics"></a>トピック
 
