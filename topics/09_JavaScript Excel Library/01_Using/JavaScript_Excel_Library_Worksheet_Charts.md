@@ -8,60 +8,61 @@
 |metadata|
 -->
 
-# Adding a Chart to a Worksheet
+# ワークシートにチャートを追加
 
-## Overview
+## 概要
 
-This topic demonstrates how to add a worksheet chart to an Excel® worksheet (".xlsx) programmatically, using the Javascript Excel Library to show visual representations of data trends across regions of cells in a worksheet.
+このトピックでは、データ トレンドを視覚的に表示するためにコードを使用して Excel® ワークシート (.xlsx) にワークシート チャートを追加し、ワークシートのセル領域のデータ トレンドを可視化する方法を表します。
 
-### In this topic
+### このトピックの内容
 
-This topic contains the following sections:
+このトピックは、以下のセクションで構成されます。
 
-- [Required Background](#background)
-- [Introduction](#intro)
-- [Adding a Chart to an Excel Worksheet](#adding_chart)
-- [Supported Chart Types](#chart_types)
-- [Preview](#preview)
-- [Code Snippets](#code_snippets)
+- [前提要件](#background)
+- [はじめに](#intro)
+- [Excel ワークシートにチャートを追加](#adding_chart)
+- [サポートされるチャート タイプ](#chart_types)
+- [プレビュー](#preview)
+- [コード スニペット](#code_snippets)
 
 <a id="background"/>
-## Required Background
+## 前提条件
 
-**NOTE: The XLSX format is required. Other formats are not supported at this time.**
+**注： XLSX 形式が必要です。現在他の形式はサポートされていません。**
 
-You need to first read the following topics:
+以下のトピックがあります。
 
-- [Create a Workbook](javascript-excel-library-create-a-workbook.html)
+- [ワークブックを作成](javascript-excel-library-create-a-workbook.html)
 
-- [Accessing Cells and Regions by their Reference Strings](javascript-excel-library-accessing-cells-and-regions-by-their-reference-strings.html)
+- [参照文字列による Cells および Regions のアクセス](javascript-excel-library-accessing-cells-and-regions-by-their-reference-strings.html)
 
 <a id="intro"/>
-## Introduction
+## 概要
 
-In order to add a chart to a worksheet, you must use the [addChart](%%jQueryApiUrl%%/ig.excel.WorksheetShapeCollection#methods:addChart ) method of the worksheet's Shapes collection. In this method, you can specify the chart type that you wish to use, and then either the area in twips or the top-left cell and bottom-right cell, depending on the overload of this method that you choose to use.
+ワークシートを追加するには、ワークシートの Shapes コレクションの [addChart](%%jQueryApiUrl%%/ig.excel.WorksheetShapeCollection#methods:addChart) メソッドを使用する必要があります。
+このメソッドでは、チャート タイプを指定し、使用するメソッドのオーバーロードに応じて twip の領域または左上と右下のセルのいずれかを選択します。
 
-The [addChart](%%jQueryApiUrl%%/ig.excel.WorksheetShapeCollection#methods:addChart ) method returns the worksheet chart element to be added to the worksheet. Once you have this, you can use the [setSourceData](%%jQueryApiUrl%%/ig.excel.WorksheetChart#methods:setSourceData ) method on the chart to set a cell address of the region of worksheet cells that you wish to use as a data source, as well as whether or not you want to switch the mapping of columns and rows to the X and Y axis.
+[addChart](%%jQueryApiUrl%%/ig.excel.WorksheetShapeCollection#methods:addChart ) メソッドはワークシートに追加されるワークシート チャート要素を返します。チャートで [setSourceData](%%jQueryApiUrl%%/ig.excel.WorksheetChart#methods:setSourceData ) メソッドを使用してデータソースとして使用するワークシート セル領域のセルのセル アドレスを設定できます。同様に行列のマッピングを Y と X 軸に切り替えることもできます。
 
 <a id="adding_chart"/>
-## Adding a Chart to an Excel Worksheet
+## Excel ワークシートにチャートを追加
 
 <a id="chart_types"/>
-### Supported Chart Types
+### サポートされるチャート タイプ
 
-There are over 70 supported chart types including, Line, Area, Column, and Pie. To see the full list, see the [Worksheet ChartType API topic](%%jQueryApiUrl%%/ig.excel.ChartType.html#options).
+折れ線、エリア、柱状、円を含む 70 タイプ以上のチャート タイプがサポートされます。詳細については、[Worksheet ChartType API topic](%%jQueryApiUrl%%/ig.excel.ChartType.html#options) をご覧ください。
 
 <a id="preview"/>
-### Preview
+### プレビュー
 
-The following is a preview of the final result of a worksheet with a Line, Column, Area and Pie chart displayed, along with the data used for each using the code snippets below:
+以下は、各データと折れ線、エリア、柱状、円チャートをコードスニペットを使用して表示したワークシートのプレビューです。
 
 ![Displays the results of using the code below.](images/ExcelEngine_Worksheet_Charts.png)
 
 <a id="code_snippets"/>
-### Code Snippets
+### コード スニペット
 
-**In JavaScript:**
+**JavaScript の場合:**
 
 ```html
 $(function () {
