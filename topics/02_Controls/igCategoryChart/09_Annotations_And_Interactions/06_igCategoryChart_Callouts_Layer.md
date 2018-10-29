@@ -53,4 +53,4 @@ $(function () {
 
 - [最終値レイヤー](igcategorychart-final-value-layer.html)
 
-- [項目ツールチップ レイヤー](igcategorychart-item-tooltips-layer.html)
+- [項目ツールチップ レイヤー](igcategorychart-item-tooltip-layer.html)

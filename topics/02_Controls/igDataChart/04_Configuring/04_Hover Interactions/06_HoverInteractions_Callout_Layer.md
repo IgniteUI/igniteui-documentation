@@ -115,4 +115,4 @@ $(function () {
 
 以下のサンプルでは、このトピックに関連する追加情報を提供します。
 
-- [ホバー操作 – 複数レイヤー](%%SamplesUrl%%/data-chart/callout-layer): このサンプルは、`igDataChart` でコールアウト注釈レイヤーを使用しています。
+- [コールアウト レイヤー](%%SamplesUrl%%/data-chart/callout-layer): このサンプルは、`igDataChart` でコールアウト注釈レイヤーを使用しています。
