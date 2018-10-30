@@ -120,7 +120,7 @@
 
 ![](../04_Configuring/04_Hover Interactions/images/jQuery_Final_Value_Layer_01.png)
 
-詳細は、[最終値レイヤーの構成 (igDataChart) (igDataChart)](HoverInteractions-Final-Value-Layer.html) のトピックを参照してください。
+詳細は、[最終値レイヤーの構成 (igDataChart)](HoverInteractions-Final-Value-Layer.html) のトピックを参照してください。
 
 ### <a id="callout-layer"></a> コールアウト レイヤー
 

@@ -22,9 +22,9 @@
 
 本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
 
-- [Adding igDataChart](igDataChart-Adding.html): igDataChart の追加:このトピックでは、igDataChart コントロールをページに追加し、データにバインドする方法を紹介します。
+- [igDataChart の追加](igDataChart-Adding.html): このトピックでは、`igDataChart`™ コントロールをページに追加し、データにバインドする方法を紹介します。
 
-- [igDataChart をデータへバインド](igDataChart-DataBinding.html): このトピックでは、[igDataChart](igDataChart-DataBinding.html)™ コントロールを各種データ ソース (JavaScript 配列、IQueryable<T>、Web サービス) にバインドする方法について説明します。
+- [igDataChart をデータへバインド](igDataChart-DataBinding.html): このトピックでは、`igDataChart`™ コントロールを各種データ ソース (JavaScript 配列、`IQueryable<T>`、Web サービス) にバインドする方法について説明します。
 
 
 

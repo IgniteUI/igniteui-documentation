@@ -37,4 +37,4 @@ $(function () {
 
 - [カテゴリ ハイライト レイヤー](igcategorychart-category-highlight-layer.html)
 
-- [項目ハイライト レイヤー](igcategorychart-item-tooltip-layer.html)
+- [項目ツールチップ レイヤー](igcategorychart-item-tooltip-layer.html)

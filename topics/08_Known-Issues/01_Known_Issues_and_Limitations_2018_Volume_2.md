@@ -422,7 +422,7 @@ IE9 以前のバージョンでは、プレースホルダー テキストはプ
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
-### <a id="financial-chart"></a> [igFinancialChart](igFinancialChart-Known-Limitations.html)
+### <a id="financial-chart"></a> [igFinancialChart](financial-chart-known-limitations.html)
 
 問題|説明|状態
 ---|---|---
