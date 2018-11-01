@@ -491,8 +491,8 @@ igLayoutManager はすでに製品版 (RTM) です。
 
 #### 関連サンプル
 
--   [**カテゴリ強調表示レイヤー**](HoverInteractions-Category-Highlight-Layer.html#example)
--   [**カテゴリ項目強調表示レイヤー**](HoverInteractions-Category-Item-Highlight-Layer.html#example)
+-   [**カテゴリ ハイライト レイヤー**](HoverInteractions-Category-Highlight-Layer.html#example)
+-   [**カテゴリ項目ハイライト レイヤー**](HoverInteractions-Category-Item-Highlight-Layer.html#example)
 -   [**カテゴリ ツールチップ レイヤー**](HoverInteractions-Category-Tooltip-Layer.html#example)
 -   [**十字線レイヤー**](HoverInteractions-Crosshair-Layer.html#example)
 -   [**項目ツールチップ レイヤー**](HoverInteractions-Item-Tooltip-Layer.html#example)

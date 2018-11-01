@@ -51,7 +51,7 @@
 
 デフォルトのビヘイビアーは、ホバー操作レイヤーのカーソルを動かすときの組み込みビヘイビアーと視覚的な機能が似ているため無効にします。しかしこのビヘイビアは上書きし、ホバー操作レイヤーの機能に加えてデフォルトの十字線機能を実行できるようにできます。また、一度に 1 つのツールチップ レイヤーで 1 つのシリーズのみが対象になります。1 つのシリーズで複数のヒントレイヤーを目標にすると、ヒントを使用するホバー操作レイヤーは期待通りに動作しなくなります。シリーズに対してツールチップを複数の場所で使用することはできません。
 
-以下のスクリーンショットは、カテゴリ強調表示レイヤー、十字線レイヤー、および品目ツールチップ レイヤーが実装された `igDataChart` コントロールを示しています。
+以下のスクリーンショットは、カテゴリ ハイライト レイヤー、十字線レイヤー、および品目ツールチップ レイヤーが実装された `igDataChart` コントロールを示しています。
 
 ![](images/jQuery_Multiple_Layers_01.png)
 
@@ -82,7 +82,7 @@
 
 詳細は、[十字線レイヤー (igDataChart)](HoverInteractions-Crosshair-Layer.html) のトピックを参照してください。
 
-### <a id="category-highlight-layer"></a> カテゴリ強調表示レイヤー
+### <a id="category-highlight-layer"></a> カテゴリ ハイライト レイヤー
 
 `categoryHighlightLayer` は、`igDataChart` コントロール内の 1 つまたはすべてのカテゴリ軸を対象にしています。カーソル位置に最も近い軸のエリアを照らすシェイプを描画します。
 
@@ -90,13 +90,13 @@
 
 詳細は、[十字線レイヤーの構成 (igDataChart)](HoverInteractions-Category-Highlight-Layer.html) のトピックを参照してください。
 
-### <a id="category-item-highlight-layer"></a> カテゴリ項目強調表示レイヤー
+### <a id="category-item-highlight-layer"></a> カテゴリ項目ハイライト レイヤー
 
 `categoryItemHighlightLayer` レイヤーは、その位置で縞模様シェイプまたはマーカーを描画することにより、カテゴリ軸を使用するシリーズ内の項目を強調表示します。
 
 ![](images/jQuery_Item_Highlight_Layer_01.png)
 
-詳細は、[カテゴリ項目強調表示レイヤーの構成 (igDataChart)](HoverInteractions-Category-Item-Highlight-Layer.html) のトピックを参照してください。
+詳細は、[カテゴリ項目ハイライト レイヤーの構成 (igDataChart)](HoverInteractions-Category-Item-Highlight-Layer.html) のトピックを参照してください。
 
 ### <a id="category-tooltip-layer"></a> カテゴリ ツールチップ レイヤー
 
@@ -141,9 +141,9 @@
 
 - [十字線レイヤーの構成 (igDataChart)](HoverInteractions-Crosshair-Layer.html): このトピックは、ホバー操作に使用される十字線レイヤーについての情報を提供します。十字線のプロパティについて説明し、実装例を示します。
 
-- [カテゴリ強調表示レイヤーの構成 (igDataChart)](HoverInteractions-Category-Highlight-Layer.html): このトピックは、ホバー操作に使用されるカテゴリ強調表示レイヤーについての情報を提供します。カテゴリ強調表示レイヤーのプロパティについて説明し、実装例を示します。
+- [カテゴリ ハイライト レイヤーの構成 (igDataChart)](HoverInteractions-Category-Highlight-Layer.html): このトピックは、ホバー操作に使用されるカテゴリ ハイライト レイヤーについての情報を提供します。カテゴリ ハイライト レイヤーのプロパティについて説明し、実装例を示します。
 
-- [カテゴリ項目強調表示レイヤーの構成 (igDataChart)](HoverInteractions-Category-Item-Highlight-Layer.html): このトピックは、ホバー操作に使用されるカテゴリ項目強調表示レイヤーについての情報を提供します。カテゴリ項目強調表示レイヤーのプロパティについて説明し、実装例を示します。
+- [カテゴリ項目ハイライト レイヤーの構成 (igDataChart)](HoverInteractions-Category-Item-Highlight-Layer.html): このトピックは、ホバー操作に使用されるカテゴリ項目ハイライト レイヤーについての情報を提供します。カテゴリ項目ハイライト レイヤーのプロパティについて説明し、実装例を示します。
 
 - [カテゴリ ツールチップ レイヤーの構成 (igDataChart)](HoverInteractions-Category-Tooltip-Layer.html): このトピックは、ホバー操作に使用されるカテゴリ ツールチップ レイヤーについての情報を提供します。カテゴリ ツールチップ レイヤーのプロパティについて説明し、実装例を提供します。
 
@@ -156,15 +156,15 @@
 
 - [ホバー操作 - 十字線レイヤー](HoverInteractions-Crosshair-Layer.html#example): このサンプルは、ターゲットとする実際の値に一致する十字線を提供する十字線レイヤーを紹介します。このサンプル オプション ペインでは、十字線の太さの変更など、レイヤー プロパティを編集できます。
 
-- [ホバー操作 - カテゴリ強調表示レイヤー](HoverInteractions-Category-Highlight-Layer.html#example): このサンプルは、`igDataChart`™ コントロールで単一/複数のカテゴリ軸をターゲットにしたカテゴリ強調表示レイヤーを紹介します。このサンプル オプション ペインでは、カテゴリ強調表示レイヤーのプロパティを変更できます。強調表示の色、アウトライン、太さなどの変更が可能です。
+- [ホバー操作 - カテゴリ ハイライト レイヤー](HoverInteractions-Category-Highlight-Layer.html#example): このサンプルは、`igDataChart`™ コントロールで単一/複数のカテゴリ軸をターゲットにしたカテゴリ ハイライト レイヤーを紹介します。このサンプル オプション ペインでは、カテゴリ ハイライト レイヤーのプロパティを変更できます。強調表示の色、アウトライン、太さなどの変更が可能です。
 
-- [ホバー操作 - カテゴリ項目の強調表示レイヤー](HoverInteractions-Category-Item-Highlight-Layer.html#example): このサンプルは、カテゴリ項目強調表示レイヤーでカテゴリ軸を使用、その場でバンド図形またはマーカーを描画してシリーズの項目を強調表示します。このサンプル オプション ペインでは、カテゴリ強調表示レイヤーのプロパティを変更できます。強調表示の色、アウトライン、太さなどの変更が可能です。
+- [ホバー操作 - カテゴリ項目の強調表示レイヤー](HoverInteractions-Category-Item-Highlight-Layer.html#example): このサンプルは、カテゴリ項目ハイライト レイヤーでカテゴリ軸を使用、その場でバンド図形またはマーカーを描画してシリーズの項目を強調表示します。このサンプル オプション ペインでは、カテゴリ ハイライト レイヤーのプロパティを変更できます。強調表示の色、アウトライン、太さなどの変更が可能です。
 
 - [ホバー操作 - カテゴリ ツールチップ レイヤー](HoverInteractions-Category-Tooltip-Layer.html#example): このサンプルは、カテゴリ軸を使用してグループ化されたツールチップを表示するカテゴリ ツール チップ レイヤーを紹介します。このサンプル オプション ペインでは、ツールチップの位置の変更など、レイヤーのプロパティを編集できます。
 
 - [ホバー操作 - 項目ツールチップ レイヤー](HoverInteractions-Item-Tooltip-Layer.html#example): このサンプルは、すべてのターゲット シリーズに項目ツールチップ レイヤーを表示するツールチップ レイヤーを紹介します。 このサンプル オプション ペインでは、トランジション期間の変更など、レイヤー プロパティを編集できます。
 
-- [ホバー操作 - 複数レイヤー](%%SamplesUrl%%/data-chart/multiple-layers): このサンプルは、`igDataChart` コントロール内での複数レイヤーの相互作用を紹介します。このサンプルでは、項目ツールチップ レイヤー、十字線レイヤー、およびカテゴリ強調表示レイヤーを表示します。
+- [ホバー操作 - 複数レイヤー](%%SamplesUrl%%/data-chart/multiple-layers): このサンプルは、`igDataChart` コントロール内での複数レイヤーの相互作用を紹介します。このサンプルでは、項目ツールチップ レイヤー、十字線レイヤー、およびカテゴリ ハイライト レイヤーを表示します。
 
 
 

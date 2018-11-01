@@ -426,12 +426,6 @@ IE9 以前のバージョンでは、プレースホルダー テキストはプ
 
 問題|説明|状態
 ---|---|---
-ファイナンシャル チャートをすべての価格プロパティ (High、Low、Open、Close) を持たないデータにバインドする場合、ズーム ペインにシリーズの可視化を含むには、zoomSliderType を設定する必要があります。 | $("#chart").igFinancialChart( {dataSource: data, "zoomSliderType": "line"} ) | ![](images/positive.png)
-
-[既知の問題点と制限の概要](#summary)を参照してください。
-
-### <a id="data-chart"></a> [igDataChart](igDataChart-Known-Issues.html)
-
 <table class="table table-striped">
 	<thead>
 		<tr>
@@ -449,11 +443,57 @@ IE9 以前のバージョンでは、プレースホルダー テキストはプ
         </tr>
 	</thead>
 	<tbody>
-        
+	<tr>
+            <td>
+ファイナンシャル チャートをすべての価格プロパティ (High、Low、Open、Close) を持たないデータにバインドする場合、ズーム ペインにシリーズの可視化を含むには、zoomSliderType を設定する必要があります。
+			</td>
 
+            <td>
+$("#chart").igFinancialChart( {dataSource: data, "zoomSliderType": "line"} )
+			</td>
+            <td>
+![](../images/images/positive.png)
+			</td>
+        </tr>
+<tr>
+            <td>
+igLoader の igDataChart と注釈モジュール
+			</td>
+
+            <td>
+igLoader を使用して注釈のリソースを読み込む際にリソースのリストに igDataChart.Annotation を含む必要があります。 リソース例: "igFinancialChart.*、igDataChart.Annotation"
+			</td>
+            <td>
+![](../images/images/positive.png)
+			</td>
+        </tr>
+		</tbody>
+</table>
+
+[既知の問題点と制限の概要](#summary) を参照してください。
+
+### <a id="data-chart"></a> [igDataChart](igDataChart-Known-Issues.html)
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+            <th>
+Issue
+			</th>
+
+            <th>
+Description
+			</th>
+
+            <th>
+Status
+			</th>
+        </tr>
+	</thead>
+	<tbody>
         <tr>
             <td>
-財務シリーズ チャートでは先頭の項目と最後の項目が半分切れた状態で表示される
+財務シリーズ チャートで先頭の項目と最後の項目が半分切れた状態で表示される
 			</td>
 
             <td>
@@ -461,9 +501,9 @@ IE9 以前のバージョンでは、プレースホルダー テキストはプ
 			</td>
 
             <td>
-![](images/negative.png)
+![](../images/images/negative.png)
                 
-![](images/plannedFix.png)
+![](../images/images/plannedFix.png)
 			</td>
         </tr>
 
@@ -477,39 +517,39 @@ IE9 以前のバージョンでは、プレースホルダー テキストはプ
 			</td>
 
             <td>
-![](images/positive.png)
+![](../images/images/positive.png)
 			</td>
         </tr>
 
         <tr>
             <td>
-モノリス シャドウは、ぼかし効果を許可しません。
+モノリス シャドウでぼかし効果を適用できない
 			</td>
 
             <td>
-シリーズの [`useSingleShadow`](%%jQueryApiUrl%%/ui.igDataChart#options:useSingleShadow) プロパティを true に設定した場合、[`shadowBlur`](%%jQueryApiUrl%%/ui.igDataChart#options:shadowBlur) 設定は無視され、ぼかしはシャドウに適用されません。これは、[Google® Chrome™ のバグ](https://code.google.com/p/chromium/issues/detail?id=100703)に対応し、すべての主要なブラウザーで同じ動作を保証するために導入している制限です。上記の Chrome のバグが解消され次第、この効果はアップデートの対象となる予定です。
+[`useSingleShadow`](%%jQueryApiUrl%%/ui.igDataChart#options:useSingleShadow) プロパティを true に設定した場合、[`shadowBlur`](%%jQueryApiUrl%%/ui.igDataChart#options:shadowBlur) 設定は無視され、ぼかしはシャドウに適用されません。これは、[Google® Chrome™ のバグ] (https://code.google.com/p/chromium/issues/detail?id=100703) に対応するための制限です。すべての主要なブラウザーで同じ動作を確実にすることが目的です。上記の Chrome のバグが解消され次第、この効果はアップデートの対象となる予定です。
                 
 
 >**回避策:**
-影をぼかす必要がある場合、コンパウンド シャドウを使用してください (`useSingleShadow = "false"`)。
+シャドウをぼかす必要がある場合、コンパウンド シャドウを使用してください ( (`useSingleShadow = “false”`)。
                 
             </td>
 
             <td>
-![](images/positive.png)
+![](../images/images/positive.png)
 			</td>
         </tr>
 	<tr>
 		<td>
-		    <p>Chromium ブラウザーでは、折れ線シリーズが塗りつぶされた図形のように見える場合がある</p>
+		    <p>Chromium ブラウザーで折れ線シリーズが塗りつぶされた図形のように見える場合がある</p>
 		</td>
 		
 		<td>
-		    <p>これは、<a href="https://code.google.com/p/chromium/issues/detail?id=412640" target="_blank">Chromium のキャンバスのレンダリングの問題</a> (Google® Chrome™ や Opera などのブラウザーに影響を与える) が原因です。</p>
+		    <p>これは、<a href="https://code.google.com/p/chromium/issues/detail?id=412640" target="_blank">Chromium のキャンバスのレンダリングの問題</a> (Google® Chrome™ や Opera などのブラウザーに影響がある) が原因です。</p>
 		</td>
 		
 		<td>
-		    <p><img alt="" src="images/negative.png"></p>
+		    <p><img alt="" src="../images/images/negative.png"></p>
 		</td>
 	</tr>
 	<tr>
@@ -522,7 +562,7 @@ IE9 以前のバージョンでは、プレースホルダー テキストはプ
 		</td>
 		
 		<td>
-		    <p><img alt="" src="images/negative.png"></p>
+		    <p><img alt="" src="../images/images/negative.png"></p>
 		</td>
 	</tr>
 	<tr>
@@ -535,14 +575,13 @@ IE9 以前のバージョンでは、プレースホルダー テキストはプ
 		</td>
 		
 		<td>
-		    <p><img alt="" src="images/positive.png"></p>
+		    <p></p>
 		</td>
-	</tr>
-    </tbody>
+	</tr>    </tbody>
 </table>
 
 
- [既知の問題点と制限の概要](#summary)を参照してください。
+[既知の問題点と制限の概要](#summary) を参照してください。
 
 #### <a id="dialog"></a> [igDialog](igDialog-Known-Issues.html)
 
