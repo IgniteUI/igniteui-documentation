@@ -10,4 +10,4 @@
 
 # 2019 Volume 1 の重大な変更
 
-There are no known breaking changes in this release.
+このリリースに重大な変更はありません。
