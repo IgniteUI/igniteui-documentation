@@ -116,7 +116,6 @@
 -   [igRating](#igRating)
 -   [igReportViewer](#igReportViewer)
 -   [igScheduler](#igScheduler)
--   [igScroll](#igScroll)
 -   [igShapeChart](#igShapeChart)
 -   [igSplitter](#igSplitter)
 -   [igSpreadsheet](#igSpreadsheet)
@@ -127,6 +126,7 @@
 -   [igUpload](#igUpload)
 -   [igVideoPlayer](#igVideoPlayer)
 -   [igZoombar](#igZoombar)
+-   [igScroll](#igScroll)
 
 #### <a id="igBulletGraph"></a>igBulletGraph
 
@@ -349,21 +349,21 @@
 				<br>infragistics.ui.widget.js
 			
 				<h5>機能:</h5>
-			    infragistics.datachart_categorycore.js
-				<br>infragistics.datachart_category.js
-				<br>infragistics.datachart_rangecategory.js
-				<br>infragistics.datachart_verticalcategory.js
-				<br>infragistics.datachart_financial.js
-				<br>infragistics.datachart_extendedfinancial.js
-				<br>infragistics.datachart_extendedaxes.js
-				<br>infragistics.datachart_polar.js
-				<br>infragistics.datachart_radial.js
-				<br>infragistics.datachart_scatter.js
-				<br>infragistics.datachart_stacked.js
-				<br>infragistics.datachart_shape.js
-				<br>infragistics.datachart_annotation.js
-				<br>infragistics.datachart_interactivity.js
-				<br>infragistics.legend.js
+                infragistics.datachart_categorycore.js
+                <br>infragistics.datachart_category.js
+                <br>infragistics.datachart_rangecategory.js
+                <br>infragistics.datachart_verticalcategory.js
+                <br>infragistics.datachart_financial.js
+                <br>infragistics.datachart_extendedfinancial.js
+                <br>infragistics.datachart_extendedaxes.js
+                <br>infragistics.datachart_polar.js
+                <br>infragistics.datachart_radial.js
+                <br>infragistics.datachart_scatter.js
+                <br>infragistics.datachart_stacked.js
+                <br>infragistics.datachart_shape.js
+                <br>infragistics.datachart_annotation.js
+                <br>infragistics.datachart_interactivity.js
+                <br>infragistics.legend.js
 				
 				<h5>シェープ ファイルの読み込みの追加の依存関係:</h5>
 				infragistics.ext_text.js
@@ -518,9 +518,6 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>
-                    jquery-1.4.4.js<br>
-                    jquery.ui.core.js<br>
-                    jquery.ui.widget.js<br>
                     infragistics.ui.chartlegend.js<br> 
                     infragistics.ui.basechart.js<br>
                     infragistics.ui.chart.js<br>
@@ -539,13 +536,12 @@
                     infragistics.datasource.js<br>
                     infragistics.datachart_categorycore.js<br>
                     infragistics.datachart_core.js<br>
-                    infragistics.datachart_interactivity.js<br> 
                     infragistics.datachart_extendedaxes.js<br>
                     infragistics.datachart_category.js<br>
                     infragistics.datachart_financial.js<br>
                     infragistics.datachart_extendedfinancial.js<br>
-                    infragistics.datachart_annotation.js<br>
                     infragistics.datachart_domainChart.js<br>
+                    infragistics.financialchart.js<br>
                     infragistics.dvcommonwidget.js<br>
                     infragistics.dv_core.js<br>
                     infragistics.dv_geo.js<br>
@@ -553,10 +549,15 @@
                     infragistics.dv_jquerydom.js<br>
                     infragistics.dv_datasource.js<br>
                     infragistics.dv_dataseriesadapter.js<br>
-                    infragistics.dv_interactivity.js<br>
                     infragistics.ext_ui.js<br>
                     infragistics.legend.js<br>
                     infragistics.zoomslider_core.js<br>
+                   
+                    <h5>機能:</h5>
+
+                    infragistics.dv_interactivity.js
+                    <br>infragistics.datachart_interactivity.js
+                    <br>infragistics.datachart_annotation.js
                    
             </td>
 		</tr>
@@ -1432,9 +1433,6 @@
 		<tr>
 			<td>依存スクリプト</td>
 			<td>
-                jquery-1.4.4.js<br>
-                jquery.ui.core.js<br>
-                jquery.ui.widget.js<br>
                 infragistics.util.js<br>
                 infragistics.util.jquery.js<br>
                 infragistics.ui.shared.js<br>
@@ -1455,17 +1453,21 @@
                 infragistics.dv_jquerydom.js<br>
                 infragistics.dv_datasource.js<br>
                 infragistics.dv_dataseriesadapter.js<br>
-                infragistics.dv_interactivity.js<br>
                 infragistics.templating.js<br>
                 infragistics.datasource.js<br>
                 infragistics.datachart_core.js<br>
-                infragistics.datachart_interactivity.js<br> 
                 infragistics.datachart_extendedaxes.js<br>
                 infragistics.datachart_scatter.js<br>
                 infragistics.datachart_shape.js<br>
                 infragistics.datachart_domainChart.js<br> 
-                infragistics.datachart_visualdata.js<br>
                 infragistics.legend.js<br>
+
+                <h5>機能:</h5>
+
+                infragistics.dv_interactivity.js
+                <br>infragistics.datachart_interactivity.js
+                <br>infragistics.datachart_visualdata.js
+                <br>infragistics.datachart_annotation.js
                
             </td>
 		</tr>
