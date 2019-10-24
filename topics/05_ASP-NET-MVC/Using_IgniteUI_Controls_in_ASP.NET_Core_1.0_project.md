@@ -1,18 +1,18 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "mvc-aspnet-core",
+    "fileName": "mvc-aspnet-core3",
     "controlName": "",
     "tags": ["ASP.NET MVC","Getting Started"]
 }
 |metadata|
 -->
 
-# %%ProductName%% コントロールを ASP.NET Core 1.0 で使用
+# %%ProductName%% コントロールを ASP.NET Core 3.0 で使用
 
 ## トピックの概要
 
-このトピックでは、ASP.NET Core 1.0 で作成される ASP.NET MVC 6 アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
+このトピックでは、ASP.NET Core 3.0 で作成した ASP.NET Core Web アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法について説明します。
 
 ### このトピックの内容
 
@@ -24,13 +24,15 @@
 
 ## <a id="nuget"></a> Infragistics Web MVC NuGet パッケージの参照
 
+### <a id="nuget-local"></a> ローカル フィードの使用
+
 新しい ASP.NET では、ほとんどのモジュールが NuGet パッケージとしてラップされています。これによってアプリケーションに必要な特定のモジュールのみを使用することができるため、共通アセンブリに依存する必要がなくなります。特定のモジュールのすべての依存関係は、追加設定なしに復元できます。
 
 
 そのため、ASP.NET Core 上に構築されている新しい  MVC ラッパーも NuGet パッケージとして提供されます。 
-NuGet パッケージは、MVC\MVC6\Bin\dotnetcore1.0 内の %%ProductName%% 製品のインストール ディレクトリにあります。
+NuGet パッケージは、"MVC\AspNetCore" 内の %%ProductName%% 製品のインストール ディレクトリにあります。
 
-このディレクトリを NuGet パッケージ マネージャーのパッケージソースとして追加するには、パッケージ マネージャーでギアアイコンをクリックして設定を開きます。
+このディレクトリ (ファイルを解凍した場所) を NuGet パッケージ マネージャーのパッケージソースとして追加するには、パッケージ マネージャーでギアアイコンをクリックして設定を開きます。
 
 ![](images/packageSource.png)
 	 
@@ -45,6 +47,9 @@ NuGet パッケージは、MVC\MVC6\Bin\dotnetcore1.0 内の %%ProductName%% 製
 インストール ボタンをクリックしてインストールできます。
 
 コントロールの宣言は、以前の MVC バージョンと同じ構文です。詳細および例については、[コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html)を参照してください。
+
+### <a id="nuget-licensed"></a> オンライン プライベート フィードの使用
+Infragistics がホストする NuGet サーバーを使用して、Infragistics Web MVC NuGet パッケージをインストールすることもできます。詳細については、[オンライン プライベート フィードからの Ignite UI パッケージのインストール](using-ignite-ui-nuget-packages.html#privateFeedInstallation) トピックを参照してください。
 
 ## <a id="middleware"></a> アップロード処理のために igUpload ミドルウェアを構成
 

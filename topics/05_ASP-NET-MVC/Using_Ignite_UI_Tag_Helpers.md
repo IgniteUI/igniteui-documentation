@@ -29,18 +29,18 @@
 ```csharp
 @using Infragistics.Web.Mvc
 
-@addTagHelper "Infragistics.Web.Mvc.TagHelpers.*, Infragistics.Web.Mvc"
+@addTagHelper *, Infragistics.Web.AspNetCore
 ```
 
 列挙体オプションが使用されていない場合、名前空間を使用する必要はありません。 
 特定のコントロールのみをビューに登録するには、コントロールのタグ ヘルパーの名前空間をワイルドカード (*) で終了して指定できます。
 
-igGrid のみを登録する場合:
+igGrids のみを登録する場合:
 
 ```csharp
 @using Infragistics.Web.Mvc
 
-@addTagHelper "Infragistics.Web.Mvc.TagHelpers.Grids.Grid.*, Infragistics.Web.Mvc"
+@addTagHelper Infragistics.Web.Mvc.TagHelpers.Grids.*, Infragistics.Web.AspNetCore
 ```
 
 ## <a id="control-configuration"></a> データ バインドされたコントロールの構成
