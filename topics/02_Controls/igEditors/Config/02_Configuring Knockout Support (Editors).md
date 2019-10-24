@@ -29,9 +29,21 @@
 
 -	[igTextEditor の概要](igTextEditor-Overview.html): このトピックは、`igTextEditor` コントロールを紹介し、基本的なインスタンス化の例を示します。
 
--	[igNumericEditor の概要](igNumericEditor-Overview.html): このトピックは、`igNumericEditor`™ コントロールを紹介し、基本のインスタンス化の例を提供します。
+-	[igNumericEditor の概要](igNumericEditor-Overview.html): このトピックは、`igNumericEditor`™ コントロールを紹介し、基本的なインスタンス化の例を示します。
 
 -	[igDateEditor の概要](igDateEditor-Overview.html): このトピックは、`igDateEditor`™ コントロールを紹介し、基本的なインスタンス化の例を示します。
+
+-	[igCurrencyEditor の概要](igCurrencyEditor-Overview.html): このトピックは、`igCurrencyEditor` コントロールを紹介し、基本的なインスタンス化の例を示します。
+
+-	[igPercentEditor の概要](igPercentEditor-Overview.html): このトピックは、`igPercentEditor`™ コントロールを紹介し、基本的なインスタンス化の例を示します。
+
+-	[igMaskEditor の概要](igMaskEditor-Overview.html): このトピックは、`igMaskEditor`™ コントロールを紹介し、基本的なインスタンス化の例を示します。
+
+-	[igCheckboxEditor の概要](igCheckboxEditor-Overview.html): このトピックは、`igCheckboxEditor`™ コントロールを紹介し、基本的なインスタンス化の例を示します。
+
+-	[igDatePicker Oの概要](igDatePicker-Overview.html): このトピックは、`igDatePicker`™ コントロールを紹介し、基本的なインスタンス化の例を示します。
+
+-	[igTimePicker の概要](igTimePicker-Overview.html): このトピックは、`igTimePicker`™ コントロールを紹介し、基本的なインスタンス化の例を示します。
 
 
 **外部リソース**
@@ -88,7 +100,7 @@ Knockout のサポートは、View-Model への外部更新が発生した場合
 
 ## <a id="_Configuring_Value_Binding_for_Editor_Controls"></a>コード例: Editor コントロール用に値のバインディングを構成する
 
-この例は、Knockout により管理される View-Model オブジェクトに %%ProductName%% エディター コントロールの値オプションをバインドする方法を示します。`igTextEditor`、`igNumericEditor`、`igCurrencyEditor`™ および `igDateEditor` のコントロールのコンテキストで示されます。Knockout の宣言構文を使用して、コントロールが入力要素のデータ バインド属性からインスタンス化され View-Model 監視可能プロパティにバインドされます。
+この例は、Knockout により管理される View-Model オブジェクトに %%ProductName%% エディター コントロールの値オプションをバインドする方法を示します。`igTextEditor`、`igNumericEditor`、`igCurrencyEditor` および `igDateEditor` のコントロールのコンテキストで示されます。Knockout の宣言構文を使用して、コントロールが入力要素のデータ バインド属性からインスタンス化され View-Model 監視可能プロパティにバインドされます。
 
 #### コード
 
@@ -139,7 +151,7 @@ $.ig.loader({
 
 
 
-### <a id="_Configuring_an_Input_Mask"></a>コード例: 入力マスクを構成する (igMaskEditor)
+### <a id="_Configuring_an_Input_Mask"></a>コード例: 入力マスクを構成する (`igMaskEditor`)
 
 この例は、Knockout により管理される View-Model オブジェクトに `igMaskEditor` コントロールをバインドする方法を示します。Knockout の宣言構文を使用して、input 要素の data-bind 属性から `igMaskEditor` をインスタンス化し View-Model 監視可能プロパティにバインドします。エディターの `inputMask` オプションはその他に、特定のパターンに従ってユーザー入力を制限するに構成されます。
 
@@ -159,7 +171,7 @@ $.ig.loader({
 
 
 
-### <a id="_Configuring_a_Scaling_Factor"></a>コード例: スケール ファクターを構成する (igPercentEditor)
+### <a id="_Configuring_a_Scaling_Factor"></a>コード例: スケール ファクターを構成する (`igPercentEditor`)
 
 この例は、Knockout により管理される View-Model オブジェクトに `igPercentEditor` コントロールをバインドする方法を示します。Knockout の宣言構文を使用して、`igPercentEditor` は入力要素のデータ バインドからインスタンス化され View-Model 監視可能プロパティにバインドされます。エディターの `displayFactor` オプションはその他に、基本の View-Model 値を適切なパーセンテージ入力まで拡大縮小するように構成されます。
 
@@ -185,7 +197,7 @@ $.ig.loader({
    [%%SamplesEmbedUrl%%/editors/bind-editors-with-ko](%%SamplesEmbedUrl%%/editors/bind-editors-with-ko)
 </div>
 
-## <a id="_Configuring_Immediate_Update_Mode"></a>コード例: 即時更新モードを構成する (igTextEditor)
+## <a id="_Configuring_Immediate_Update_Mode"></a>コード例: 即時更新モードを構成する (`igTextEditor`)
 
 
 ### 説明

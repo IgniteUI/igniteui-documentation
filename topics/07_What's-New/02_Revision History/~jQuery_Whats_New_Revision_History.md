@@ -18,6 +18,8 @@
 
 導入された新しいコントロールおよび機能に関する詳細は、以下のトピックで説明されています。
 
+- [2018 Volume 2 の新機能](Whats-New-In-2018-Volume2.html): このトピックでは、Infragistics %%ProductName%%™ 2018 Volume 2 で導入された、新しい機能およびコンポーネントの概要について説明します。
+
 - [2018 Volume 1 の新機能](Whats-New-In-2018-Volume1.html): このトピックでは、Infragistics %%ProductName%%™ 2018 Volume 1 で導入された、新しい機能およびコンポーネントの概要について説明します。
 
 - [2017 Volume 2 の新機能](Whats-New-In-2017-Volume2.html): このトピックでは、Infragistics %%ProductName%%™ 2017 Volume 2 で導入された、新しい機能およびコンポーネントの概要について説明します。
