@@ -148,5 +148,5 @@ igGrid で更新機能を構成し、エディターを追加します:
 ```
 
 ## <a id="related"></a> 関連コンテンツ
-- [%%ProductName%% コントロールを ASP.NET Core 1.0 で使用](Using-IgniteUI-Controls-in-ASP.NET-Core-1.0-project.html)
+- [%%ProductName%% コントロールを ASP.NET Core で使用](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html)
 - [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html)
