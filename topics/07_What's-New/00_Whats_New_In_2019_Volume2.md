@@ -18,3 +18,7 @@ Infragistics ASP.NET MVC ヘルパーで ASP.NET Core 3 プロジェクトがサ
 
 ### Infragistics タグ ヘルパー
 Infragistics ASP.NET タグ ヘルパーで ASP.NET Core 3 プロジェクトがサポートされます。詳細情報は、[Ignite UI タグ ヘルパーの使用](using-ignite-ui-tag-helpers.html)トピックを参照してください。
+
+
+### Infragistics Documents
+Infragistics Documents　アセンブリが　ASP.NET Core 3　プロジェクトで利用可能になりました。
