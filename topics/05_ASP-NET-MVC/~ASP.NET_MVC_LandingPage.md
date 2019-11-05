@@ -20,7 +20,6 @@
 -   [Infragistics.Web.Documents.IO アセンブリ](Infragistics.Web.Documents.IO.html)
 -   [Infragistics.Web.Documents.Reports アセンブリ](Infragistics.Web.Documents.Reports.html)
 -   [Infragistics.Web.Documents.Word アセンブリ](Infragistics.Web.Documents.Word.html)
--   [Infragistics.Web.Mvc.Mobile アセンブリ](Infragistics.Web.Mvc.Mobile.html)
 
  
 
