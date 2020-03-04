@@ -122,7 +122,7 @@ For more information and the list of all available commands read the [Using Igni
 ## Related Links
 
 -   [Currency Editor Sample](%%SamplesUrl%%/editors/currency-editor)
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 
  

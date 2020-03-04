@@ -136,7 +136,7 @@ Value | Description
 10 | Error set when file upload is cancelled on start uploading in event handler
 
 ## Related Links
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 -   [igUpload Overview](igUpload-Overview.html)
 

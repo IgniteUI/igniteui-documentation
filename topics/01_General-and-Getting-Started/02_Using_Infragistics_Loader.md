@@ -445,5 +445,5 @@ et (Estonia)	                | ja (Japan)  				  | sq (Albania)
 ## <a id="related-content"></a> Related Content
 - [JavaScript Files in %%ProductName%%](deployment-guide-javascript-files.html)
 - [Infragistics Content Delivery Network (CDN) for %%ProductName%%](deployment-guide-infragistics-content-delivery-network%28cdn%29.html)
-- [Adding Required Resources Manually](adding-the-required-resources-for-netadvantage-for-jquery.html)
+- [Adding Required Resources Manually](adding-the-required-resources-for-igniteui-for-jquery.html)
 - [Using JavaScript Resources in %%ProductName%%](deployment-guide-javascript-resources.html)

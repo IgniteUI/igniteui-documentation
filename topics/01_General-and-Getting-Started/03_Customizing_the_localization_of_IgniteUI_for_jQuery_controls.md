@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "customizing-the-localization-of-netadvantage-for-jquery-controls",
+    "fileName": "customizing-the-localization-of-igniteui-for-jquery-controls",
     "controlName": [],
     "tags": []
 }
@@ -303,7 +303,7 @@ This procedure will guide you to the process of localizing `igGridPaging`. For t
 
 The following screenshot is a preview of the final result.
 
-![](images/Customizing_the_Localization_of_NetAdvantage_for_jQuery_Controls_1.png)
+![](images/Customizing_the_Localization_of_IgniteUI_for_jQuery_Controls_1.png)
 
 ### <a id="Requirements"></a>Requirements
 
@@ -331,7 +331,7 @@ The following steps demonstrate how to localize x control.
 	
 	The result is shown in the following screenshot:
 	
-	![](images/Customizing_the_Localization_of_NetAdvantage_for_jQuery_Controls_2.png)
+	![](images/Customizing_the_Localization_of_IgniteUI_for_jQuery_Controls_2.png)
 
 2. <a id="localize_file"></a> Localizing infragistics.ui.grid-es.js
 

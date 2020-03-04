@@ -25,9 +25,9 @@ The following topics are prerequisites to understanding this topic:
 
 
 
-- [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%® components by adding them to an ASP.NET MVC application.
+- [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%® components by adding them to an ASP.NET MVC application.
 
-- [Using Events in %%ProductName%%](Using-Events-in-NetAdvantage-for-jQuery.html): This topic demonstrates how to handle events raised by %%ProductName%% controls. Also included is an explanation of the differences between binding events on initialization and after initialization.
+- [Using Events in %%ProductName%%](Using-Events-in-IgniteUI-for-jQuery.html): This topic demonstrates how to handle events raised by %%ProductName%% controls. Also included is an explanation of the differences between binding events on initialization and after initialization.
 
 
 
@@ -183,7 +183,7 @@ The following steps demonstrate how to configure the `igCombo`’s ASP.NET MVC H
 
 The following topic provides additional information related to this topic.
 
-- [Using Events in %%ProductName%%](Using-Events-in-NetAdvantage-for-jQuery.html): This topic demonstrates how to handle events raised by %%ProductName%% controls. Also included is an explanation of the differences between binding events on initialization and after initialization.
+- [Using Events in %%ProductName%%](Using-Events-in-IgniteUI-for-jQuery.html): This topic demonstrates how to handle events raised by %%ProductName%% controls. Also included is an explanation of the differences between binding events on initialization and after initialization.
 
 
 

@@ -23,7 +23,7 @@ The following lists the materials required as a prerequisite to understanding th
 
 **Topics**
 
-- [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html): General information on the %%ProductName%%™ library.
+- [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html): General information on the %%ProductName%%™ library.
 
 - [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html): This topic provides general guidance on adding required JavaScript resources to use controls from the %%ProductName%% library.
 

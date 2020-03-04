@@ -132,7 +132,7 @@ This sample shows different configurations for formatting dates and times in the
 ## Related Links
 
 -   [Date Editor Sample](%%SamplesUrl%%/editors/date-editor)  
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 
  

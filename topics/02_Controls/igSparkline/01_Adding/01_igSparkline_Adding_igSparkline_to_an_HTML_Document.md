@@ -30,7 +30,7 @@ The following table lists the concepts, topics, and articles required as a prere
 
 - [Adding igSparkline Overview](igSparkline-Adding-igSparkline-Overview.html): This topic provides an overview of the various ways of adding `igSparkline`™ to an application.
 
-- [Adding Required Resources Manually](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html): This topic explains the organization of JavaScript resources in %%ProductName%%®.
+- [Adding Required Resources Manually](Adding-the-Required-Resources-for-IgniteUI-for-jQuery.html): This topic explains the organization of JavaScript resources in %%ProductName%%®.
 
 - [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html): This topic provides general guidance on adding required JavaScript resources to use controls from the %%ProductName%% library.
 

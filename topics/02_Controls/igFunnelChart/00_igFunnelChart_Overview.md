@@ -25,7 +25,7 @@ The following table lists the concepts and topics required as a prerequisite to 
 	-   Funnel chart
 	-   Data Visualization
 -   Topics
-	-   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html): General information on the %%ProductName%%® library.
+	-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html): General information on the %%ProductName%%® library.
 
 
 ### In this topic

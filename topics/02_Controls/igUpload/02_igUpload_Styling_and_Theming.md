@@ -194,7 +194,7 @@ If there are file extension icons with more than one set default property then t
 -   [jQuery UI CSS Framework](http://docs.jquery.com/UI/Theming/API)
 
 ## Related Links
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 
  

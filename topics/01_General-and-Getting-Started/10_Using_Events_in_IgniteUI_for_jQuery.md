@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "using-events-in-netadvantage-for-jquery",
+    "fileName": "using-events-in-igniteui-for-jquery",
     "controlName": [],
     "tags": []
 }

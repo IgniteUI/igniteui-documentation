@@ -29,7 +29,7 @@ The following table lists the concepts and topics required as a prerequisite to 
 	-   ASP.NET MVC HTML Helpers
 
 - Topics
-	- [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%™ components in an 	ASP.NET MVC application.
+	- [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%™ components in an 	ASP.NET MVC application.
 	- [*igBulletGraph* Overview](igBulletGraph-Overview.html): This topic provides conceptual information about the `igBulletGraph` control including its main features, minimum requirements, and user functionality.
 
 
@@ -84,7 +84,7 @@ Apart from its [`startValue`](%%jQueryApiUrl%%/ui.igBulletGraph#options:ranges) 
 To complete the procedure, you need the following:
 
 -   **An ASP.NET MVC application**
--   **A reference to the *Infragistics.Web.Mvc.dll* assembly** added to the application project. For details, refer to the [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html) topic.
+-   **A reference to the *Infragistics.Web.Mvc.dll* assembly** added to the application project. For details, refer to the [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) topic.
 -   The dependencies of the View:
 
     -   **The `Infragistics.Web.Mvc` namespace added** to the ASP.NET MVC View

@@ -44,7 +44,7 @@ The topics in this section provide detailed information regarding the `igPieChar
 
 The following topics provide additional information related to this topic.
 
-- [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html): This topic provides general information about the %%ProductName%%™ library.
+- [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html): This topic provides general information about the %%ProductName%%™ library.
 
 - [igDataChart Overview](igDataChart-Overview.html): This topic provides conceptual information about the `igDataChart` control including its main features, minimum requirements for using charts and user functionality.
 

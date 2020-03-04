@@ -320,7 +320,7 @@ Value |Description
 8 |Error thrown when trying to check if the file could be canceled and `maxSimultaneousFilesUploads` Is less or equal to 0
 
 ## Related Links
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 
  

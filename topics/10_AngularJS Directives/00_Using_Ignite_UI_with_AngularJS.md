@@ -19,7 +19,7 @@ This topic contains an overview using the %%ProductName%% directives for Angular
 The following lists the concepts, topics, and articles required as a prerequisite to understanding this topic.
 
 -   Topics
-    -   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+    -   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 
 -   Concepts
     -   [AngularJS Conceptual Overview](https://docs.angularjs.org/guide/concepts)
@@ -140,7 +140,7 @@ These options may seem familiar to you as they are simply using the [%%ProductNa
 
 ### <a id="events"></a>Events
 
-Although standard methods of [handling %%ProductName%% events](Using-Events-in-NetAdvantage-for-jQuery.html) are still available, directives can also bind handlers that are defined declaratively as an attribute with `event-` prefix. The name of the event still follows the same naming convention as options - **lower case and dash-delimited**. For example, the following code listing shows how to declare the [`ended`](%%jQueryApiUrl%%/ui.igvideoplayer#events:ended) event of the `igVideoPlayer`:
+Although standard methods of [handling %%ProductName%% events](Using-Events-in-IgniteUI-for-jQuery.html) are still available, directives can also bind handlers that are defined declaratively as an attribute with `event-` prefix. The name of the event still follows the same naming convention as options - **lower case and dash-delimited**. For example, the following code listing shows how to declare the [`ended`](%%jQueryApiUrl%%/ui.igvideoplayer#events:ended) event of the `igVideoPlayer`:
 
 **In HTML:**
 ```html

@@ -139,5 +139,5 @@ The sample below shows to configure `igDatePicker` with different [`dataMode`](%
 ## Related Links
 
 -   [igDatePicker Sample](%%SamplesUrl%%/editors/date-picker-overview)
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)  
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)  
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)

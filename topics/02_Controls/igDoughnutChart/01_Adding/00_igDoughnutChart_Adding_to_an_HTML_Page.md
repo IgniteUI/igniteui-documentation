@@ -20,7 +20,7 @@ This topic explains how to add the `igDoughnutChart`™ to an HTML page.
 
 The following topics are prerequisites to understanding this topic:
 
-- [Adding Required Resources Manually](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html): This topic provides general guidance on adding required JavaScript resources to use controls from the %%ProductName%% library.
+- [Adding Required Resources Manually](Adding-the-Required-Resources-for-IgniteUI-for-jQuery.html): This topic provides general guidance on adding required JavaScript resources to use controls from the %%ProductName%% library.
 
 - [*igDoughnutChart* Overview](igDoughnutChart-Overview.html): This topic provides an overall look at the `igDoughnutChart` control.
 

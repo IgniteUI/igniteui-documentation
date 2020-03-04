@@ -26,7 +26,7 @@ The following table lists the concepts and topics required as a prerequisite to 
 	- ASP.NET MVC
 	- ASP.NET MVC HTML Helpers
 - **Topics**
-	- [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%™ components in an ASP.NET MVC application.
+	- [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%™ components in an ASP.NET MVC application.
 
  
 
@@ -60,7 +60,7 @@ You must provide a pre-configured data source instance, or create one internally
 
 ### <a id="summary-requirements"></a> Requirements
 
-An ASP.NET MVC application configured with the required JavaScript files, CSS files, and ASP.NET MVC assembly as outlined in the [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html) topic.
+An ASP.NET MVC application configured with the required JavaScript files, CSS files, and ASP.NET MVC assembly as outlined in the [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) topic.
 
 
 
@@ -96,7 +96,7 @@ This topic walks through using the ASP.NET MVC helper to instantiate an `igDough
 
 1. **Add a reference to *Infragistics.Web.Mvc.dll***
 	
-	Add a reference to the Infragistics.Web.Mvc.dll to your ASP.NET application. The details for adding this assembly are available in the [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html) topic.
+	Add a reference to the Infragistics.Web.Mvc.dll to your ASP.NET application. The details for adding this assembly are available in the [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) topic.
 
 2. **Configure the view dependencies**
 	

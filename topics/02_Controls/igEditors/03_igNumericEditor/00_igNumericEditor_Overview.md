@@ -205,7 +205,7 @@ While the spin functionality is always available through [keyboard intearcation]
 
 
 -   [Basic Usage Sample](%%SamplesUrl%%/editors/basic-usage)
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 
  

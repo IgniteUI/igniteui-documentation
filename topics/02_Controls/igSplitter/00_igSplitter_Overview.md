@@ -121,7 +121,7 @@ By default, the `igSplitter` control supports mouse dragging for resizing panels
 
 ## <a id="touch-suport"></a>Touch Support
 
-For touch-enabled devices, special classes are added to the splitter and touch events are handled. On touch-enabled devices, the splitter bar a bit wider (16 pixels of width) than it is on standard devices (6 pixels) to allow for easier user interaction with the splitter bar in the touch environment. For details, refer to [Touch Support for %%ProductName%%](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html).
+For touch-enabled devices, special classes are added to the splitter and touch events are handled. On touch-enabled devices, the splitter bar a bit wider (16 pixels of width) than it is on standard devices (6 pixels) to allow for easier user interaction with the splitter bar in the touch environment. For details, refer to [Touch Support for %%ProductName%%](Touch-Support-for-IgniteUI-for-jQuery-Controls.html).
 
 
 

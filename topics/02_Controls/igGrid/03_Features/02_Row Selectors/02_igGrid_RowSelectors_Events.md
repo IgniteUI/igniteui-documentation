@@ -81,7 +81,7 @@ $("#grid1").on("iggridrowselectorsrowselectorclicked", function (evt, ui) {
 );
 ```
 
-> **Note:** For more information please read the topic [Using Events in %%ProductName%%](Using-Events-in-NetAdvantage-for-jQuery.html).
+> **Note:** For more information please read the topic [Using Events in %%ProductName%%](Using-Events-in-IgniteUI-for-jQuery.html).
 
 ## <a id="reference-chart"></a> Events Reference Chart 
 

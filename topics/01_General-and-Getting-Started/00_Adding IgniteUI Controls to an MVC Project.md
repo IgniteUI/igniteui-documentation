@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "adding-netadvantage-controls-to-an-mvc-project",
+    "fileName": "adding-igniteui-controls-to-an-mvc-project",
     "controlName": [],
     "tags": []
 }

@@ -30,7 +30,7 @@ Concepts
 
 **Topics**
 
-- [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%™ components in an ASP.NET MVC application.
+- [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%™ components in an ASP.NET MVC application.
 
 - [igRadialMenu Features](igRadialMenu-Features.html): This topic explains the features supported by the control from developer perspective.
 

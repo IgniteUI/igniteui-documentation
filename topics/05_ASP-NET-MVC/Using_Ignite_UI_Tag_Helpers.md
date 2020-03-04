@@ -149,4 +149,4 @@ and by using Tag Helpers:
 
 ## <a id="related"></a> Related Content
 - [Using %%ProductName%% controls in ASP.NET Core](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html)
-- [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html)
+- [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html)

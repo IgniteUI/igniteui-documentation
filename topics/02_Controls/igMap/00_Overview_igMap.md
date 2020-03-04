@@ -30,7 +30,7 @@ The following table lists the topics, and concepts required as a prerequisite to
 
 **Topics**
 
-- [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html) General information on the %%ProductName%%™ library.
+- [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html) General information on the %%ProductName%%™ library.
 
  
 

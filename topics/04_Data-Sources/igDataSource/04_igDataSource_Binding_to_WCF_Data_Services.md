@@ -29,7 +29,7 @@ The following steps walk you through building the sample in Microsoft Visual Stu
 
     ![](images/dswcf_webapp.jpg)
 
-2.  Add a reference to the %%ProductName%% combined and minified script file, infragistics.core.js, which comes with the product. In addition, you must reference jQuery core, jQuery UI, and jQuery templating scripts to run the sample. This [help article discusses referencing the required scripts](Deployment-Guide-JavaScript-Resources.html) and where the combined and minified scripts are available to add to your application. **Note**: You can [download the full or trial product here](http://www.infragistics.com/dotnet/netadvantage/jquery-controls.aspx#Downloads). The jQuery [templates script is available here](http://plugins.jquery.com/tag/templates/).
+2.  Add a reference to the %%ProductName%% combined and minified script file, infragistics.core.js, which comes with the product. In addition, you must reference jQuery core, jQuery UI, and jQuery templating scripts to run the sample. This [help article discusses referencing the required scripts](Deployment-Guide-JavaScript-Resources.html) and where the combined and minified scripts are available to add to your application. **Note**: You can [download the full or trial product here](http://www.infragistics.com/dotnet/igniteui/jquery-controls.aspx#Downloads). The jQuery [templates script is available here](http://plugins.jquery.com/tag/templates/).
 
 3.  Create a “scripts” directory in your project and copy the JavaScript files into this folder.
 
@@ -260,7 +260,7 @@ The following steps walk you through building the sample in Microsoft Visual Stu
 
 11. Run the application and the stock information for Microsoft will appear. At first, this will be the only company that has data available. To see data for all of the companies as well as the sample in its completed form, download the [full sample here](http://dl.infragistics.com/community/jquery/codesamples/aaronm/2011-07-28/igDataSourceWCFService.zip).
 
->**Note**: The %%ProductName%% script files are not included with this download. Please use the files installed with your copy of %%ProductName%% or download your copy [here](http://www.infragistics.com/dotnet/netadvantage/jquery-controls.aspx#Downloads).
+>**Note**: The %%ProductName%% script files are not included with this download. Please use the files installed with your copy of %%ProductName%% or download your copy [here](http://www.infragistics.com/dotnet/igniteui/jquery-controls.aspx#Downloads).
 
 ## Related Topics
 Following are some other topics you may find useful.

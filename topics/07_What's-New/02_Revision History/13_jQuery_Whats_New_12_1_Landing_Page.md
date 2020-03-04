@@ -200,7 +200,7 @@ All the Infragistics jQuery controls support touch interaction. New features and
 
 ### Related Topics:
 
--   [Touch Support for %%ProductName%% Controls](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html)
+-   [Touch Support for %%ProductName%% Controls](Touch-Support-for-IgniteUI-for-jQuery-Controls.html)
 
 ## <a id="combo-load-on-demand"></a> Combo box load on demand
 

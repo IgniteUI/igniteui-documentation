@@ -283,7 +283,7 @@ $("#percenteditor").igEditor('option', 'maxDecimals', 10);
 ##<a id="_Related_Topics"></a>Related Topics
 
 
--   [Using Events in %%ProductName%%](Using-Events-in-NetAdvantage-for-jQuery.html)
+-   [Using Events in %%ProductName%%](Using-Events-in-IgniteUI-for-jQuery.html)
 
  
 

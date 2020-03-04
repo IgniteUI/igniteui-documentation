@@ -311,7 +311,7 @@ You can bind to client-side events in two different ways:
 
 For more information regarding handling events please refer to the topic :
 
-[Using Events in %%ProductName%%](Using-Events-in-NetAdvantage-for-jQuery.html)
+[Using Events in %%ProductName%%](Using-Events-in-IgniteUI-for-jQuery.html)
 
 -   By specifying the event name as an option when you initialize the Selection feature (this is not case sensitive, as opposed to the first way of binding events):
 

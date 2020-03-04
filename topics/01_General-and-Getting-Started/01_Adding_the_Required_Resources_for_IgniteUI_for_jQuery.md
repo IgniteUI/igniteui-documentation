@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "adding-the-required-resources-for-netadvantage-for-jquery",
+    "fileName": "adding-the-required-resources-for-igniteui-for-jquery",
     "controlName": [],
     "tags": []
 }
@@ -74,7 +74,7 @@ Copy the resources from the installation directory.
 
 1. The %%ProductName%%™ resources files are located in the installed directory within the `js` and `css` folder.
 
-	![](images/Adding_the_Required_Resources_for_NetAdvantage_for_jQuery_2.png)
+	![](images/Adding_the_Required_Resources_for_IgniteUI_for_jQuery_2.png)
 
 2. Copy the `css` folder to the `Styles` folder of your Web application.
 
@@ -99,7 +99,7 @@ There is a requirement with `css-boxsizing`, which is not included in the defaul
 
 You should make sure that `css-boxsizing` (from Community add-ons) is checked and then you need to click the Generate button to create a custom build.
 
-![](images/Adding_the_Required_Resources_for_NetAdvantage_for_jQuery_3.png)
+![](images/Adding_the_Required_Resources_for_IgniteUI_for_jQuery_3.png)
 
 #### Copy the JQuery JavaScript file.
 

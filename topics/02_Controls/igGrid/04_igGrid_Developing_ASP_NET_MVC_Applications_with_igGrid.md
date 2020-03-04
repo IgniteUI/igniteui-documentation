@@ -314,4 +314,4 @@ The associated View for this controller is:
 ## <a id="related-content"></a>Related Content
 ### <a id="related-topics"></a>Topics
 * [igGrid Overview](iggrid-overview.html)
-* [Adding Controls to an MVC Project](adding-netadvantage-controls-to-an-mvc-project.html)
+* [Adding Controls to an MVC Project](adding-igniteui-controls-to-an-mvc-project.html)

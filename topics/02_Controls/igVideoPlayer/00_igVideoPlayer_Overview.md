@@ -35,7 +35,7 @@ Styling the `igVideoPlayer` provides a consistent appearance across supported br
 ## Adding igVideoPlayer to a Web Page
 The following steps demonstrate how to create a basic implementation of the video player on a web page using either jQuery client code or ASP.NET MVC server code.
 
->**Note:** To read more about which implementation to choose, see [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html).
+>**Note:** To read more about which implementation to choose, see [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html).
 
 **Figure 2: igVideoPlayer showing initial video player view**
 
@@ -247,7 +247,7 @@ The following steps demonstrate how to create a basic implementation of the vide
 
 ## Related Links
 -   [igVideoPlayer Basic Usage Samples](%%SamplesUrl%%/video-player/basic-usage)
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 -   [JavaScript Files in %%ProductName%%](Deployment-Guide-JavaScript-Files.html)
 -   [igVideoPlayer Working with HTML5 Video](igVideoPlayer-Working-with-HTML5-Video.html)

@@ -164,7 +164,7 @@ The following steps demonstrate how to bind the `igGrid` control to client-side 
 ## Related Links
 
 -   [Table as DataSoure Sample](iggrid-binding-to-datatable.html)
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 
  

@@ -20,7 +20,7 @@ This topic explains, in both conceptual and step-by-step form, how to add the `i
 
 The following topics are prerequisites to understanding this topic:
 
-- [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html): This topic provides some general information on the %%ProductName%%™ library.
+- [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html): This topic provides some general information on the %%ProductName%%™ library.
 
 - [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html):This topic provides general guidance on adding the required JavaScript resources for using the controls from the %%ProductName%% library.
 

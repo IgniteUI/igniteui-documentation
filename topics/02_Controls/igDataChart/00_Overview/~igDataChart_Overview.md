@@ -30,7 +30,7 @@ The following table lists the materials required as a prerequisite to understand
 **Topics**
 
 
--	[%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-	[%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 
 General information on the %%ProductName%%™ library.
 
