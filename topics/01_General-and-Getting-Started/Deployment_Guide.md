@@ -21,7 +21,7 @@ As you prepare to build or deploy your application, it’s a good idea to begin 
 If you choose to localize your application you have the option to [customize the localization settings](Customizing-the-localization-of-IgniteUI-for-jQuery-controls.html), which may have an impact on your deployment procedure.
 
 ## Using MVC Helpers
-You have the option of working with %%ProductName%% controls directly in JavaScript or by using the ASP.NET MVC helpers. If you use the helper methods then you want to learn how [adding controls to an MVC project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) can affect your deployment.
+You have the option of working with %%ProductName%% controls directly in JavaScript or by using the %%ProductNameMVC%%. If you use the helper methods then you want to learn how [adding controls to an MVC project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) can affect your deployment.
 
 ## Styling and Theming
 Adding themes to your application requires that you deploy the style and image files to the appropriate place on the server. The [Styling and Theming in %%ProductName%%](Deployment-Guide-Styling-and-Theming.html) topic includes details on how the files should be organized.

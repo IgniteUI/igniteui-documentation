@@ -156,7 +156,7 @@ The following steps demonstrate how to instantiate `igQRCodeBarcode` in an ASP.N
 
 2. Instantiate the `igQRCodeBarcode` control.
 
-	Instantiate the `igQRCodeBarcode` control. As with all %%ProductName%% ASP.NET MVC helpers, you must call the [Render](Infragistics.Web.Mvc~Infragistics.Web.Mvc.QRCodeBarcodeRenderer~Render.html) method to render the HTML and JavaScript to the View.
+	Instantiate the `igQRCodeBarcode` control. As with all %%ProductName%% %%ProductNameMVC%%, you must call the [Render](Infragistics.Web.Mvc~Infragistics.Web.Mvc.QRCodeBarcodeRenderer~Render.html) method to render the HTML and JavaScript to the View.
 	
 	**In ASPX:**
 	

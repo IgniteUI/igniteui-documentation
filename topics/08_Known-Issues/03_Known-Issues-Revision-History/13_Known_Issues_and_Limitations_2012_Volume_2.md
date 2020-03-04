@@ -298,7 +298,7 @@ Before resizing the table, the height of the grid table container needs to be re
 
 ## <a id="mvc-loader-not-working-properly"></a>The ASP.NET MVC Loader does not function properly in an MVC Razor layout view solution
 
-ASP.NET MVC helpers do not produce the proper Loader code when the Loader is included in a layout page in an ASP.NET MVC Razor application. They use the regular jQuery `$(function() { }) (document.ready)` syntax. This happens only for ASP.NET MVC Razor applications and in MVC ASPX views with master pages the same problem is not experienced.
+%%ProductNameMVC%% do not produce the proper Loader code when the Loader is included in a layout page in an ASP.NET MVC Razor application. They use the regular jQuery `$(function() { }) (document.ready)` syntax. This happens only for ASP.NET MVC Razor applications and in MVC ASPX views with master pages the same problem is not experienced.
 
 The reason for this is that layout views are processed and executed after the particular view is rendered and the loader has no chance to initialize prior to the view rendering.
 

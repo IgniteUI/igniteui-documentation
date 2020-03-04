@@ -51,9 +51,9 @@ $('#edtr').igDateEditor({
 ```
 Both versions produce "2/9/2016 10:55 AM" (in US format), with the addition of `displayTimeOffset` as non-boolean allows to display both UTC or a completely custom offset, while keeping the underlying value untouched.
 
-### ASP.NET MVC Helpers
+### %%ProductNameMVC%%
 
-While upgrading to version 17.1 may not necessarily require any action, it's important to note the differences. In previous versions, when handling `DateTime` values, the ASP.NET MVC wrappers always created a Date for the client with the server values.
+While upgrading to version 17.1 may not necessarily require any action, it's important to note the differences. In previous versions, when handling `DateTime` values, the %%ProductNameMVC%% always created a Date for the client with the server values.
 Take the following example:
 
 ```csharp

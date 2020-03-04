@@ -268,7 +268,7 @@ The following samples provide additional information related to this topic.
 
 - [Nested Templates](%%SamplesUrl%%/templating-engine/nested-templates): This sample demonstrates how nested templates are possible using the Infragistics Templating Engine. In the following scenario each feature of the Infragistics Templating Engine is used to iterate through the movies collection from the data source and unordered list is created as an output in the last column.
 
-- [ASP.NET MVC Usage](%%SamplesUrl%%/templating-engine/aspnet-mvc-usage): When using ASP.NET MVC Helpers, you can use the Infragistics Templating Engine in ASP.NET MVC views. The approach is identical to that in JavaScript.
+- [ASP.NET MVC Usage](%%SamplesUrl%%/templating-engine/aspnet-mvc-usage): When using %%ProductNameMVC%%, you can use the Infragistics Templating Engine in ASP.NET MVC views. The approach is identical to that in JavaScript.
 
 
 

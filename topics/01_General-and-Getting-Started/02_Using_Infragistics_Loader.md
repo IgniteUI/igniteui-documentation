@@ -323,7 +323,7 @@ $.ig.loader({
 ## <a id="working-with-mvc-helpers"></a> Working with MVC Helpers
 If you initialize a control through MVC helpers, all dependent resources are loaded automatically.
 
-The following demonstrates how to use the loader with the ASP.NET MVC helpers:
+The following demonstrates how to use the loader with the %%ProductNameMVC%%:
 
 **In Razor:**
 

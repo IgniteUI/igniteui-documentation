@@ -13,7 +13,7 @@
 This topic presents the new features for the Ignite UI™ 2019 Volume 2 release.
 
 ### Infragistics MVC Helpers
-Infragistics ASP.NET MVC Helpers now support ASP.NET Core 3 projects. For more information see the [Using Ignite UI controls in ASP.NET Core](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html) topic.
+Infragistics %%ProductNameMVC%% now support ASP.NET Core 3 projects. For more information see the [Using Ignite UI controls in ASP.NET Core](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html) topic.
 
 
 ### Infragistics Tag Helpers

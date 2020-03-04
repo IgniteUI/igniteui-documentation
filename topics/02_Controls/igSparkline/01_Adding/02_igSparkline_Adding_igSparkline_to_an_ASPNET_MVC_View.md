@@ -193,7 +193,7 @@ Width()| Sets the string width of the `igSparkline`
 ValueMemberPath()|Set this helper method to the Invoice member that signifies the value the `igSparkline` renders on the vertical axis for each item.
 LabelMemberPath()|Set this helper method to the Invoice member that represents the horizontal axis value.
 
-Finally, as with all of the %%ProductName%% ASP.NET MVC helpers, you must call the Render method to render the HTML and JavaScript to the view.
+Finally, as with all of the %%ProductName%% %%ProductNameMVC%%, you must call the Render method to render the HTML and JavaScript to the view.
 
 **In ASPX:**
 

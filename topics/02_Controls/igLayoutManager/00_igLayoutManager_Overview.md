@@ -228,7 +228,7 @@ Enlarged browser viewport|Diminished browser viewport
 ##<a id="requirements"></a>Requirements
 
 
-The `igLayoutManager` control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. References to these resources are needed nevertheless, in spite of the use of pure jQuery or ASP.NET MVC helpers. The Infragistics.Web.Mvc assembly is required when the control is used in the context of ASP.NET MVC.
+The `igLayoutManager` control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. References to these resources are needed nevertheless, in spite of the use of pure jQuery or %%ProductNameMVC%%. The Infragistics.Web.Mvc assembly is required when the control is used in the context of ASP.NET MVC.
 
 For the full requirements listing, refer to the [Adding igLayoutManager](igLayoutManager-Adding.html) topic.
 

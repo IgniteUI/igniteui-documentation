@@ -929,7 +929,7 @@ The following picture demonstrates an `igLinearGauge` displayed with default set
 
 ##<a id="requirements"></a>Requirements
 
-The `igLinearGauge` control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. References to these resources are needed nevertheless, in spite of the use of pure jQuery or ASP.NET MVC helpers. The `Infragistics.Web.Mvc` assembly is required when the control is used in the context of ASP.NET MVC.
+The `igLinearGauge` control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. References to these resources are needed nevertheless, in spite of the use of pure jQuery or %%ProductNameMVC%%. The `Infragistics.Web.Mvc` assembly is required when the control is used in the context of ASP.NET MVC.
 
 In order for the linear gauge to display the needle, the [value](%%jQueryApiUrl%%/ui.igLinearGauge#options:value) property has to be set.
 

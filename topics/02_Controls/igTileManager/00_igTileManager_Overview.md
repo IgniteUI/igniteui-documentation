@@ -220,7 +220,7 @@ With its default settings, the `igTileManager` control renders tiles with items 
 
 ## <a id="requirements"></a>Requirements
 
-The `igTileManager` control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. The Modernizr library is also needed because the `igSplitter` depends on it. References to these resources are needed nevertheless, in spite of the use of pure jQuery or ASP.NET MVC helpers. The Infragistics.Web.Mvc assembly is required when the control is used in the context of ASP.NET MVC.
+The `igTileManager` control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. The Modernizr library is also needed because the `igSplitter` depends on it. References to these resources are needed nevertheless, in spite of the use of pure jQuery or %%ProductNameMVC%%. The Infragistics.Web.Mvc assembly is required when the control is used in the context of ASP.NET MVC.
 
 The CSS files for the `igTileManager`, `igLayoutManager`, `igSplitter` and should be referenced in your page for the correct rendering of the control.
 

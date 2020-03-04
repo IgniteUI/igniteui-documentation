@@ -62,7 +62,7 @@ The jQuery Mobile framework is a unified, HTML5-based user interface system for 
 -   List View
 -   Rating with null support and hover
 
-In addition to those two controls, %%ProductName%%™ includes a set of ASP.NET MVC helpers to add standard jQuery Mobile widgets to ASP.NET views using Razor and ASPX syntax. This speeds up development in an ASP.NET MVC project. The ASP.NET MVC helpers support the following controls:
+In addition to those two controls, %%ProductName%%™ includes a set of %%ProductNameMVC%% to add standard jQuery Mobile widgets to ASP.NET views using Razor and ASPX syntax. This speeds up development in an ASP.NET MVC project. The %%ProductNameMVC%% support the following controls:
 
 -   Button
 -   Check Box
@@ -96,11 +96,11 @@ The user interface components in %%ProductName%% are built with the jQuery UI fr
 
 The data source component, igDataSource, is a client-side JavaScript class that manipulates data through data binding, paging, sorting and filtering collections of data whether local to the client or remote from a web server. Supported remote data formats include: REST, JSON, XML, JSONP and oData. No server-side data binding is required to build data-driven web applications and data-binding operations are available to the client where Ajax can support seamless client-server communication.
 
-### ASP.NET MVC Helpers
+### %%ProductNameMVC%%
 
 %%ProductName%% includes a .NET™ assembly for ASP.NET MVC. This assembly provides .NET developers the ability to interact with the jQuery widgets on the server. Developers using any CLR language can set options on the %%ProductName%% widgets on the server in order emit the appropriate jQuery and HTML to the client.
 
-The ASP.NET MVC Helpers give you the flexibility to implement different server-side ViewModel patterns. The helper API also supports a fluent syntax for use in both Web Forms and Razor View Engine templates.
+The %%ProductNameMVC%% give you the flexibility to implement different server-side ViewModel patterns. The helper API also supports a fluent syntax for use in both Web Forms and Razor View Engine templates.
 
 ### ASP.NET MVC Templates
 

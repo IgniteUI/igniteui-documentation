@@ -24,7 +24,7 @@ Starting with a form consisting of %%ProductName%% editor controls, this topic d
 ####Concepts
 
 -   ASP.NET MVC Data Annotation Validators
--   Using igEditors and igCombo with their ASP.NET MVC Helpers
+-   Using igEditors and igCombo with their %%ProductNameMVC%%
 
 ####Topics
 
@@ -452,7 +452,7 @@ The following steps demonstrate how to configure data annotation validation for 
 The following topics provide additional information related to this topic.
 
 
--	[Configuring igEditors at Runtime](Configuring-igEditors-at-Runtime.html) : To learn more about using editors at runtime including important information regarding how the ASP.NET MVC Helpers render the controls.
+-	[Configuring igEditors at Runtime](Configuring-igEditors-at-Runtime.html) : To learn more about using editors at runtime including important information regarding how the %%ProductNameMVC%% render the controls.
 
 
 ###<a id="_Samples"></a> Samples

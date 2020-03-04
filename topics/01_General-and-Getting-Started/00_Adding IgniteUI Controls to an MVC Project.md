@@ -27,7 +27,7 @@ This topic contains the following sections:
 
 ### Using the MVC helper overview
 
-The ASP.NET MVC helpers for %%ProductName%% wrap the already client-only control in a server-side set of MVC Extensions that allows the control to be defined and used in the following way:
+The %%ProductNameMVC%% for %%ProductName%% wrap the already client-only control in a server-side set of MVC Extensions that allows the control to be defined and used in the following way:
 
 **In Razor:**
 
@@ -80,7 +80,7 @@ If you have chosen the typical installation of %%ProductName%% 20%%ProductVersio
 
 ## MVC 4, MVC 5 and ASP.NET Core
 
-All the code for the MVC helper is contained in the `Infragistics.Web.Mvc` assembly, which comes compiled against all MVC4, MVC5 and ASP.NET Core. For further details on the assembly location of the ASP.NET MVC helpers, please read [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
+All the code for the MVC helper is contained in the `Infragistics.Web.Mvc` assembly, which comes compiled against all MVC4, MVC5 and ASP.NET Core. For further details on the assembly location of the %%ProductNameMVC%%, please read [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 
 > **Note**: You should set `Copy Local` property of the reference of the dll to be `true`.
 
@@ -309,7 +309,7 @@ The following steps demonstrate how to develop ASP.NET MVC application with `igT
 	)
 	```
 	
-	> **Note**: Notice the use of the Render method the code listing. All Infragistics ASP.NET MVC Helpers require the Render method to be called as the last method in order to initiate server-side rendering for the control.
+	> **Note**: Notice the use of the Render method the code listing. All Infragistics %%ProductNameMVC%% require the Render method to be called as the last method in order to initiate server-side rendering for the control.
 
 3. Add the controller’s code
 

@@ -157,7 +157,7 @@ Add the ASP.NET MVC helper to the body of your ASP.NET page.
 
 ​**2. Instantiate the *igBulletGraph* control** configuring its basic rendering options.
 
-Instantiate the `igBulletGraph` control. As with all %%ProductName%% ASP.NET MVC helpers, you must call the Render method to render the HTML and JavaScript to the View.
+Instantiate the `igBulletGraph` control. As with all %%ProductName%% %%ProductNameMVC%%, you must call the Render method to render the HTML and JavaScript to the View.
 
 **In ASPX:**
 

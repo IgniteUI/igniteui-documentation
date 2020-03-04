@@ -30,7 +30,7 @@ This topic contains the following sections:
 -   [AngularJS Extensions](#angularjs)
 -   [Angular Extensions](#angular)
 -   [ReactJS Extensions](#reactjs)
--   [ASP.NET MVC Wrappers](#aspnet_wrappers)
+-   [%%ProductNameMVC%%](#aspnet_wrappers)
 -   [Related Content](#related_content)
 
 ## <a id="introduction"></a>Introduction
@@ -217,9 +217,9 @@ Following are the %%ProductName%% Trial links. For more details checkout [Infrag
 
 %%ProductName%% ReactJS extenstions provide JSX markup and React API initialization. For more information check [%%ProductName%% extensions for React](https://github.com/IgniteUI/igniteui-react) on GitHub.
 
-## <a id="aspnet_wrappers"></a>ASP.NET MVC Wrappers
+## <a id="aspnet_wrappers"></a>%%ProductNameMVC%%
 
-%%ProductName%% ASP.NET MVC Wrappers provide Model and View Chaining initialization as well as out of the box server-side remote requests handling. For more information check [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) topic.
+%%ProductNameMVC%% provide Model and View Chaining initialization as well as out of the box server-side remote requests handling. For more information check [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) topic.
 
 ## <a id="related_content"></a>Related Content
 
