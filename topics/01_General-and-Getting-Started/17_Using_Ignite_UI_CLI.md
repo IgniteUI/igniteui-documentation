@@ -7,7 +7,7 @@
 }
 |metadata|
 -->
-# Using %%ProductName%% CLI
+# Using Ignite UI CLI
 
 ## Overview
 The Ignite UI CLI is a tool to initialize, develop, scaffold  and maintain applications in a wide variety of frameworks. It provide you with predefined templates for Ignite UI for JavaScript controls. Ignite UI CLI will give you a quick-start for your next project even if you are a newcomer to Ignite UI and to the target frameworks.<br/>
