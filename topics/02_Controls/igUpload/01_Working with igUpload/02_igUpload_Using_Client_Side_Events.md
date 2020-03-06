@@ -31,8 +31,8 @@ $(window).load(function () {
 });
 ```
 
-## Attach to Client-Side Event Using the MVC Wrapper
-By default the MVC wrappers don’t support defining the event handlers in the context of the wrapper syntax. Event binding is again set up using jQuery.
+## Attach to Client-Side Event Using the %%ProductNameMVC%%
+By default the %%ProductNameMVC%% don’t support defining the event handlers in the context of the wrapper syntax. Event binding is again set up using jQuery.
 
 1.  First, instantiate an instance of `igUpload` using the MVC wrapper
 

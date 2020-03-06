@@ -28,7 +28,7 @@ This topic contains the following sections:
 
 With the ASP.NET Core most modules are now wrapped as NuGet packages. This allows you to retrieve and use only the specific modules you need for your application, without having to depend on a common assembly. All dependencies of the specific module will be restored out of the box.
 
-As such our new MVC wrappers built on top of ASP.NET Core will also ship as a NuGet package. When you are installing the product make sure to include the NuGet packages module that will create a local feed for you to install the required packages from. For more information, please refer to the topic: [Using %%ProductName%% NuGet packages](Using-Ignite-UI-NuGet-Packages.html).
+As such our new %%ProductNameASPNETCore%% built on top of ASP.NET Core will also ship as a NuGet package. When you are installing the product make sure to include the NuGet packages module that will create a local feed for you to install the required packages from. For more information, please refer to the topic: [Using %%ProductName%% NuGet packages](Using-Ignite-UI-NuGet-Packages.html).
 
 Control's declaration follows the same syntax as the previous MVC versions. You can refer to the following topic for more information and examples: [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html)
 

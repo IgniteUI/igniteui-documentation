@@ -20,7 +20,7 @@ As you prepare to build or deploy your application, it’s a good idea to begin 
 ## Localization
 If you choose to localize your application you have the option to [customize the localization settings](Customizing-the-localization-of-IgniteUI-for-jQuery-controls.html), which may have an impact on your deployment procedure.
 
-## Using MVC Helpers
+## Using %%ProductNameMVC%%
 You have the option of working with %%ProductName%% controls directly in JavaScript or by using the %%ProductNameMVC%%. If you use the helper methods then you want to learn how [adding controls to an MVC project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) can affect your deployment.
 
 ## Styling and Theming

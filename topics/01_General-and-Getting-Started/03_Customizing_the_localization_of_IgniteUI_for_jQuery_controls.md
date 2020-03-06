@@ -183,7 +183,7 @@ The controls `language`, `regional` and `locale` options can be set in both Java
 		width: "200px"
 	});
 ```
-When using IgniteUI MVC Wrappers `locale` option,which is of type object, for igGrid, igTreeGrid and igHierarachicalGrid can be set vie both lambda expression and string. For all other controls is set only via string.
+When using %%ProductNameMVC%% `locale` option,which is of type object, for igGrid, igTreeGrid and igHierarachicalGrid can be set vie both lambda expression and string. For all other controls is set only via string.
 
 **In Razor:**
 

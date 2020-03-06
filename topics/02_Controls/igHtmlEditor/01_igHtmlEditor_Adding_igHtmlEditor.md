@@ -71,7 +71,7 @@ The following steps demonstrate how to add the `igHtmlEditor` to a web page.
 
 2. <a id="initialize-htmlEditor"></a> Initialize the igHtmlEditor in JavaScript.
 
-	If you are using Infragistics MVC Wrappers then you should instantiate `igHtmlEditor` in ASP.NET MVC View as shown in step 3.
+	If you are using Infragistics %%ProductNameMVC%% then you should instantiate `igHtmlEditor` in ASP.NET MVC View as shown in step 3.
 
 	1. Define the HTML placeholder for the editor
 
