@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# ASP.NET MVC
+# %%ProductNameMVC%%
 
 
 

@@ -8,11 +8,11 @@
 |metadata|
 -->
 
-# Using %%ProductName%% Tag Helpers
+# Using %%ProductNameProductNameASPNETCore%% Tag Helpers
 
 ## Topic Overview
 
-This topic demonstrates how to configure %%ProductName%%™ components by using the Tag Helpers syntax introduced in the new ASP.NET Core 1.0
+This topic demonstrates how to configure %%ProductNameASPNETCore%%™ components by using the Tag Helpers syntax introduced in the new ASP.NET Core 1.0
 
 ### In this topic
 
@@ -148,5 +148,5 @@ and by using Tag Helpers:
 ```
 
 ## <a id="related"></a> Related Content
-- [Using %%ProductName%% controls in ASP.NET Core](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html)
+- [Using %%ProductNameASPNETCore%%](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html)
 - [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html)

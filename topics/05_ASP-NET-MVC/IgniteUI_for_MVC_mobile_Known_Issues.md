@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# Mobile Wrappers Known Issues and Limitations (%%ProductName%% ASP.NET MVC)
+# Mobile Wrappers Known Issues and Limitations (%%ProductNameMVC%%)
 
 
 
 ## Known Issues and Limitations Summary
 
-The following table summarizes the known issues and limitations of the Ignite U™ ASP.NET MVC mobile wrappers.
+The following table summarizes the known issues and limitations of the %%ProductNameMVC%% mobile.
 
 Legend: | 
 --------|---------
