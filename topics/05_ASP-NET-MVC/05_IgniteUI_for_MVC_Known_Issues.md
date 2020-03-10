@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# Wrappers Known Issues and Limitations (%%ProductName%% ASP.NET MVC)
+# Wrappers Known Issues and Limitations (%%ProductNameMVC%%)
 
 
 
@@ -66,7 +66,7 @@ When [`AutoGenerateLayouts`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel
 
 ### <a id="loader-layout-view"></a> MVC Loader not functioning correctly in an MVC Razor Layout View
 
-The ASP.NET MVC Loader cannot initialize before the controls in an actual View when it is included in an ASP.NET MVC Razor Layout View.
+The %%ProductNameMVC%% Loader cannot initialize before the controls in an actual View when it is included in an ASP.NET MVC Razor Layout View.
 
 %%ProductNameMVC%% do not produce the proper Loader code when the Loader is included in a layout page in an  ASP.NET MVC Razor application. They use the regular jQuery `$(function() { })` (document.ready) syntax. This happens only for ASP.NET MVC Razor applications. In MVC ASPX Views with master pages this problem does not occur.
 

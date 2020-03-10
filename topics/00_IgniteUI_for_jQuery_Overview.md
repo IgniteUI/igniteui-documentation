@@ -82,7 +82,7 @@ In addition to those two controls, %%ProductName%%™ includes a set of %%Produc
 -   Toogle Switch
 
 ## Server-Side Options
-Most of the functionality of %%ProductName%% is available in the browser independent of any particular server framework. Whether using Microsoft® ASP.NET™ Web Forms, ASP.NET MVC, PHP, Java™, Python™ or Ruby on Rails® you are free to choose the server-side technology that best suits your needs.
+Most of the functionality of %%ProductName%% is available in the browser independent of any particular server framework. Whether using Microsoft® ASP.NET™ Web Forms, Microsoft® ASP.NET™ MVC, PHP, Java™, Python™ or Ruby on Rails® you are free to choose the server-side technology that best suits your needs.
 
 > **Note:** The igUpload control, while built with jQuery on the client, depends on a server-side counterpart to fully realize its function. An ASP.NET MVC helper is included.
 
@@ -104,7 +104,7 @@ The %%ProductNameMVC%% give you the flexibility to implement different server-si
 
 ### ASP.NET MVC Templates
 
-%%ProductName%% includes Visual Studio project templates for ASP.NET MVC 3 and 4. These templates provide a starter web application including all required resources to run a web application with Infragistics controls.
+%%ProductName%% includes Visual Studio project templates for ASP.NET MVC 4 and 5. These templates provide a starter web application including all required resources to run a web application with Infragistics controls.
 
 ### Infragistics Themes and ThemeRoller
 

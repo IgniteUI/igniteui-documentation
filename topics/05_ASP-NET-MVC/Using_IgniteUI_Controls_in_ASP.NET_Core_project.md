@@ -8,11 +8,11 @@
 |metadata|
 -->
 
-# Using %%ProductName%% controls in ASP.NET Core
+# Using %%ProductNameASPNETCore%%
 
 ## Topic Overview
 
-This topic explains how to get started with %%ProductName%%™ components in an ASP.NET Core Web Application built with ASP.NET Core 3.0.
+This topic explains how to get started with %%ProductNameASPNETCore%%™ components in an ASP.NET Core Web Application built with ASP.NET Core 3.0.
 
 ### In this topic
 
@@ -40,7 +40,7 @@ You can also install Infragistics Web MVC NuGet package using the Infragistics h
 
 In the old ASP.NET in order to handle more robust file uploading capabilities as multiple file uploads, large file uploads and reporting of the progress of an upload you would have to implement an HttpModule and/or HttpHandler in order to plug into the HTTP Request process.  
 ASP.NET Core introduces a new request pipeline built around a new middleware definition. 
-The %%ProductName%% file upload fully utilizes the new middleware definition model and can be directly plugged into the pipeline.
+The %%ProductNameASPNETCore%% file upload fully utilizes the new middleware definition model and can be directly plugged into the pipeline.
 There are two middleware modules - one for handling uploads and one for receiving commands from the client and returning status feedback to the client. 
 In order to add them to the pipeline they need to be include in the Configure method of the Startup.cs class before the MVC module.  
 

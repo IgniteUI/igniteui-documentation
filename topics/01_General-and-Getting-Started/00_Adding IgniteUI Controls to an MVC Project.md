@@ -12,14 +12,14 @@
 
 ## Topic Overview
 
-This topic explains how to get started with %%ProductName%%™ components in an ASP.NET MVC application.
+This topic explains how to get started with %%ProductNameMVC%%™ components.
 
 ### In this topic
 
 This topic contains the following sections:
 
--   [Using MVC helper](#mvcHelper)
--   [Methods for Defining %%ProductName%% Controls in an MVC Project](#methodsMVC)
+-   [Using %%ProductNameMVC%%](#mvcHelper)
+-   [Methods for Defining %%ProductNameMVC%% Controls in an MVC Project](#methodsMVC)
 -   [Developing ASP.NET MVC application with igTree](#developingMVC)
 -   [Related Content](#related)
 
@@ -27,7 +27,7 @@ This topic contains the following sections:
 
 ### Using the MVC helper overview
 
-The %%ProductNameMVC%% for %%ProductName%% wrap the already client-only control in a server-side set of MVC Extensions that allows the control to be defined and used in the following way:
+The %%ProductNameMVC%% provides a server-side set of MVC Extensions that allows the %%ProductName%% controls to be defined and used in the following way:
 
 **In Razor:**
 
@@ -53,7 +53,7 @@ All controls have helper methods available off of the `Infragistics()` extension
 
 ### Navigate to the installed resources
 
-If you have chosen the typical installation of %%ProductName%% 20%%ProductVersionShort%% , you can find the resources under the paths below:
+If you have chosen the typical installation of %%ProductName%% 20%%ProductVersionShort%%, you can find the resources under the paths below:
 
 <table class="table">
 	<thead>
@@ -78,17 +78,17 @@ If you have chosen the typical installation of %%ProductName%% 20%%ProductVersio
 	</tbody>
 </table>
 
-## MVC 4, MVC 5 and ASP.NET Core
+## MVC 4, MVC 5
 
-All the code for the MVC helper is contained in the `Infragistics.Web.Mvc` assembly, which comes compiled against all MVC4, MVC5 and ASP.NET Core. For further details on the assembly location of the %%ProductNameMVC%%, please read [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
+All the %%ProductNameMVC%% functionality is contained in the `Infragistics.Web.Mvc` assembly, which comes compiled against all MVC4 and MVC5. For further details on the assembly location of the %%ProductNameMVC%%, please read [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html).
 
 > **Note**: You should set `Copy Local` property of the reference of the dll to be `true`.
 
-### Use the MVC helper for the loader
+### Use the %%ProductNameMVC%% loader
 
 The Infragistics loader is used to load dependent scripts and styles files required for the page. For further details on how to use the loader please refer to the topic: [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html).
 
-The following code listing demonstrates how to initialize the loader using the ASP.NET MVC helper:
+The following code listing demonstrates how to initialize the %%ProductNameMVC%% loader:
 
 **In Razor:**
 
@@ -122,13 +122,13 @@ The JavaScript files are also available in a hosted environment on the Infragist
 
 ### Calling Render() method
 
-When instantiating the control with the ASP.NET MVC Helper, you must call the Render method last after all other options are configured. This is the method that renders the HTML and JavaScript necessary to instantiate the control on the client.
+When instantiating a %%ProductNameMVC%% control, you must call the Render method last after all other options are configured. This is the method that renders the HTML and JavaScript necessary to instantiate the control on the client.
 
-## <a id="methodsMVC"></a> Methods for Defining %%ProductName%% Controls in an MVC Project
+## <a id="methodsMVC"></a> Methods for using %%ProductNameMVC%% Controls
 
 ### Methods for configuring the controls summary
 
-There are two different options available for defining controls in an MVC application available. The following table lists the available methods for defining %%ProductName%% controls depending on whether you define the control in a Model or in the View. Additional details are available after the summary table.
+There are two different options available for declaring controls in an MVC application available. The following table lists the available methods for defining %%ProductNameMVC%% controls depending on whether you define the control in a Model or in the View. Additional details are available after the summary table.
 
 <table class="table">
 	<thead>
@@ -238,7 +238,7 @@ private void InitializeSortingGridOptions(GridModel model)
 
 ### Introduction
 
-The following procedure demonstrates how to add the required assemblies and resources (CSS and JavaScript files) to work with %%ProductName%% in ASP.NET MVC.
+The following procedure demonstrates how to add the required assemblies and resources (CSS and JavaScript files) to work with %%ProductNameMVC%%.
 
 ### Requirements
 
@@ -309,7 +309,7 @@ The following steps demonstrate how to develop ASP.NET MVC application with `igT
 	)
 	```
 	
-	> **Note**: Notice the use of the Render method the code listing. All Infragistics %%ProductNameMVC%% require the Render method to be called as the last method in order to initiate server-side rendering for the control.
+	> **Note**: Notice the use of the Render method the code listing. All %%ProductNameMVC%% require the Render method to be called as the last method in order to initiate server-side rendering for the control.
 
 3. Add the controller’s code
 
@@ -391,8 +391,8 @@ The following steps demonstrate how to develop ASP.NET MVC application with `igT
 	```
 
 ## Next Steps
-Now that you've had the opportunity to learn about working with %%ProductName%% and ASP.NET MVC, make sure to check out 
-[Developing ASP.NET MVC Applications with igGrid](igGrid-Developing-ASP-NET-MVC-Applications-with-igGrid.html) for more detail on working specifically with ASP.NET MVC.
+Now that you've had the opportunity to learn about working with %%ProductNameMVC%%, make sure to check out 
+[Developing ASP.NET MVC Applications with igGrid](igGrid-Developing-ASP-NET-MVC-Applications-with-igGrid.html) for more detail on working specifically with ASP.NET MVC and the igGrid.
 
 ## <a id="related"></a>Related Content
 

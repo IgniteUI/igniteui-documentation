@@ -7,12 +7,12 @@
 }
 |metadata|
 -->
-# %%ProductName%% Scaffolder Visual Studio extension
+# %%ProductNameMVC%% Scaffolder Visual Studio extension
 
 ### Introduction
 
 
-With the 2015.2 Release, we introduce the **%%ProductName%%** Scaffolder Extension.
+With the 2015.2 Release, we introduce the **%%ProductNameMVC%%** Scaffolder Extension.
 
 It allows the developer to easily generate MVC wrapper widget declarations, as well as related Controller action methods.
 This saves a lot of time for manual setup, referencing and coding.
