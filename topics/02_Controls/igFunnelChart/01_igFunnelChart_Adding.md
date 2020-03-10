@@ -456,7 +456,7 @@ The following screenshot is a preview of the final result.
 
 Following are the general requirements for adding an `igFunnelChart` to an HTML page in ASP.NET MVC:
 
--   The Infragistics MVC helpers assembly *Infragistics.Web.Mvc.dll* which contains the MVC helper for `igFunnelChart`.
+-   The Infragistics %%ProductNameMVC%% assembly *Infragistics.Web.Mvc.dll* which contains the MVC helper for `igFunnelChart`.
 
 ### <a id="asp-net-mvc-overview"></a> Overview
 

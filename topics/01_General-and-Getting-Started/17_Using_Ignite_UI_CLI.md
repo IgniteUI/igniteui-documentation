@@ -7,11 +7,11 @@
 }
 |metadata|
 -->
-# Using %%ProductName%% CLI
+# Using Ignite UI CLI
 
 ## Overview
-The Ignite UI CLI is a tool to initialize, develop, scaffold  and maintain applications in a wide variety of frameworks. It provide you with predefined templates for Ignite UI for JavaScript controls. Ignite UI CLI will give you a quick-start for your next project even if you are a newcomer to Ignite UI and to the target frameworks.<br/>
-**You can create projects and add Ignite UI for JavaScript controls in [jQuery](https://jquery.com), [Angular](https://angular.io) and [React](https://reactjs.org), executing the very same commands.**
+The Ignite UI CLI is a tool to initialize, develop, scaffold  and maintain applications in a wide variety of frameworks. It provide you with predefined templates for %%ProductName%% controls. Ignite UI CLI will give you a quick-start for your next project even if you are a newcomer to Ignite UI and to the target frameworks.<br/>
+**You can create projects and add %%ProductName%% controls in [jQuery](https://jquery.com), [Angular](https://angular.io) and [React](https://reactjs.org), executing the very same commands.**
 
 ## Getting Started
 To install the Ignite UI CLI:
@@ -50,13 +50,13 @@ Using the `new` command, you can create a new jQuery, Angular and React applicat
 The new application is created in a directory of the same name.
 Keep in mind that creating a new application inside an exisitng application is not supported.
 
-Following are examples of how to use the `new` command to create an Ignite UI for JavaScript applications for all supported frameworks:<br/>
+Following are examples of how to use the `new` command to create an %%ProductName%% applications for all supported frameworks:<br/>
 **In jQuery:** `ig new newIgniteUIjQuery` (jQuery is the default choice so you do not need to provide the "framework" argument)<br/>
 **In React:** `ig new newIgniteUIReact --framework=react`<br/>
 **In Angular:** `ig new newIgniteUIAngular --framework=angular --type=ig-ts`
 
 ### add
-To add a new Ignite UI for JavaScript control to an already created application, execute the following command:
+To add a new %%ProductName%% control to an already created application, execute the following command:
 
 ```
     ig add [template] [name]
@@ -64,8 +64,8 @@ To add a new Ignite UI for JavaScript control to an already created application,
 
 The `add` command is supported only on existing project created with the Ignite UI CLI. You cannot use the `add` command before creating a project uisng the `new` command or using the step by step guide which is invoked by the `ig` command.
 
-#### Ignite UI for JavaScript templates
-Inside the [Ignite UI CLI Wiki](https://github.com/IgniteUI/igniteui-cli/wiki/Add#ignite-ui-for-javascript-templates) you can find the up to date table that demonstrates what Ignite UI for JavaScript templates are available in the supported frameworks.
+#### %%ProductName%% templates
+Inside the [Ignite UI CLI Wiki](https://github.com/IgniteUI/igniteui-cli/wiki/Add#ignite-ui-for-javascript-templates) you can find the up to date table that demonstrates what %%ProductName%% templates are available in the supported frameworks.
 
 
 ### build
