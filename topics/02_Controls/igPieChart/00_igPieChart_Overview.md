@@ -30,7 +30,7 @@ The following table lists the materials required as a prerequisite to understand
 
 **Topics**
 
-- [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html): General information on the %%ProductName%%™ library.
+- [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html): General information on the %%ProductName%%™ library.
 
 
 ### In this topic
@@ -65,7 +65,7 @@ The main features of `igPieChart` include legend, tooltips based on templates, c
 
 ### <a id="min-requirements-introduction"></a>Introduction
 
-The igPieChart control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. The Modernzr library is also used internally for detecting browser and device capabilities. The control uses several %%ProductName%%™ shared resources for functionality and data binding. References to these resources are needed nevertheless, in spite of pure jQuery or ASP.NET MVC helpers being used. The `Infragistics.Web.Mvc` assembly is required when the control is used in the context of ASP.NET MVC.
+The igPieChart control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. The Modernzr library is also used internally for detecting browser and device capabilities. The control uses several %%ProductName%%™ shared resources for functionality and data binding. References to these resources are needed nevertheless, in spite of pure jQuery or %%ProductNameMVC%% being used. The `Infragistics.Web.Mvc` assembly is required when the control is used in the context of ASP.NET MVC.
 
 ### <a id="requirements-summary-chart"></a>Requirements summary chart
 
@@ -183,7 +183,7 @@ The igDataSource control
 								`infragistics.ui.widget.js`
                             </td>
 							<td>
-								Base igWidget for all Ignite UI widgets.
+								Base igWidget for all %%ProductName%% widgets.
 							</td>
 						</tr>
 						

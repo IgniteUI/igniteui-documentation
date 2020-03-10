@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# Wrappers Known Issues and Limitations (%%ProductName%% ASP.NET MVC)
+# Wrappers Known Issues and Limitations (%%ProductNameMVC%%)
 
 
 
 ## Known Issues and Limitations Summary
 
-The following table summarizes the known issues and limitations of the %%ProductName%%™ ASP.NET MVC wrappers. Detailed explanations of some of the issues and the existing workarounds are provided after the summary table.
+The following table summarizes the known issues and limitations of the %%ProductNameMVC%%. Detailed explanations of some of the issues and the existing workarounds are provided after the summary table.
 
 
 Legend: | 
@@ -23,7 +23,7 @@ Legend: |
 ![](../images/images/negative.png) | No known workaround
 ![](../images/images/plannedFix.png) | No known workaround, fix planned
 
-### %%ProductName%% ASP.NET MVC Wrappers
+### %%ProductNameMVC%%
 
 
 Issue | Description | Status
@@ -66,9 +66,9 @@ When [`AutoGenerateLayouts`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel
 
 ### <a id="loader-layout-view"></a> MVC Loader not functioning correctly in an MVC Razor Layout View
 
-The ASP.NET MVC Loader cannot initialize before the controls in an actual View when it is included in an ASP.NET MVC Razor Layout View.
+The %%ProductNameMVC%% Loader cannot initialize before the controls in an actual View when it is included in an ASP.NET MVC Razor Layout View.
 
-ASP.NET MVC helpers do not produce the proper Loader code when the Loader is included in a layout page in an  ASP.NET MVC Razor application. They use the regular jQuery `$(function() { })` (document.ready) syntax. This happens only for ASP.NET MVC Razor applications. In MVC ASPX Views with master pages this problem does not occur.
+%%ProductNameMVC%% do not produce the proper Loader code when the Loader is included in a layout page in an  ASP.NET MVC Razor application. They use the regular jQuery `$(function() { })` (document.ready) syntax. This happens only for ASP.NET MVC Razor applications. In MVC ASPX Views with master pages this problem does not occur.
 
 The reason for this is that layout Views are processed and executed after the particular View is rendered and the Loader has no chance to initialize prior to View rendering.
 

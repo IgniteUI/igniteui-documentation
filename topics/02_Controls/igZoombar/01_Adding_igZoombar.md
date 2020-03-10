@@ -141,7 +141,7 @@ $("#zoombar").igZoombar({
 ## <a id="add-in-mvc"></a>Code Example: Adding igZoombar in ASP.NET MVC
 ### <a id="mvc-description"></a>Description
 
-The following code creates `igDataChart` and `igZoombar` instances in the View using the Infragistics ASP.NET MVC wrappers. The `igZoombar` control is rendered with its [default configuration](igZoombar-Overview.html#default-config).
+The following code creates `igDataChart` and `igZoombar` instances in the View using the %%ProductNameMVC%%. The `igZoombar` control is rendered with its [default configuration](igZoombar-Overview.html#default-config).
 
 ### <a id="mvc-code"></a>Code
 

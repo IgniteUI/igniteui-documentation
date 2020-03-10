@@ -10,7 +10,7 @@
 
 # What's New in 2017 Volume 1
 
-This topic presents the controls and the new and enhanced features for the Ignite UI™ 2017 Volume 1 release.
+This topic presents the controls and the new and enhanced features for the %%ProductFamilyName%%™ 2017 Volume 1 release.
 
 
 ## What’s New Summary
@@ -251,7 +251,7 @@ When the dates in the editors are transferred from the client to the server аnd
 
 #### Related Topics
 -   [Migrating date handling in 17.1](igDateEditor-migrating-date-handling-in-17-1.html)
--   [Ignite UI controls in different time zones](Using-IgniteUI-controls-in-different-time-zones.html)
+-   [%%ProductName%% controls in different time zones](Using-IgniteUI-controls-in-different-time-zones.html)
 
 ## igDatePicker
 

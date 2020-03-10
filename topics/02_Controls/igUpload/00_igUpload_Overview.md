@@ -339,7 +339,7 @@ Configures the MIME types which can be uploaded. Multiple MIME types can be list
 
 ## Related Links
 -   [igUpload Single Upload Sample](%%SamplesUrl%%/file-upload/basic-usage)
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 -   [igUpload HTTP Handler and Module](igUpload-Using-HTTP-Handler-and-Modules.html)
 -   [igUpload Client-side events](igUpload-Using-Client-Side-Events.html)

@@ -10,7 +10,7 @@
 
 #What's New in 2016 Volume 2
 
-This topic presents the controls and the new and enhanced features for the %%ProductName%%™ 2016 Volume 2 release.
+This topic presents the controls and the new and enhanced features for the %%ProductFamilyName%%™ 2016 Volume 2 release.
 
 
 ##What’s New Summary

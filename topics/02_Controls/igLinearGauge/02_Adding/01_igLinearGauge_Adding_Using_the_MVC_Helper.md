@@ -30,7 +30,7 @@ The following lists the concepts and topics required as a prerequisite to unders
 
 **Topics**
 
--	[Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html):This topic explains how to get started with %%ProductName%%™ components in an ASP.NET MVC application.
+-	[Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html):This topic explains how to get started with %%ProductName%%™ components in an ASP.NET MVC application.
 
 -	[igLinearGauge Overview](igLinearGauge-Overview.html):This topic provides conceptual information about the `igLinearGauge` control including its main features, minimum requirements, and user functionality.
 
@@ -77,7 +77,7 @@ Helper Method|Purpose
 To complete the procedure, you need the following:
 
 -   An ASP.NET MVC application
--   A reference to the `Infragistics.Web.Mvc.dll` assembly added to the application project. For details, refer to the [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html) topic.
+-   A reference to the `Infragistics.Web.Mvc.dll` assembly added to the application project. For details, refer to the [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) topic.
 -   The dependencies of the View:
 
     -   The `Infragistics.Web.Mvc` namespace added to the ASP.NET MVC View
@@ -154,7 +154,7 @@ The following steps demonstrate how to instantiate `igLinearGauge` in an ASP.NET
 	```
 
 2. Instantiate the `igLinearGauge` control configuring its basic rendering options. 
-	Instantiate the igLinearGauge control. As with all %%ProductName%% ASP.NET MVC helpers, you must call the Render method to render the HTML and JavaScript to the View.
+	Instantiate the igLinearGauge control. As with all %%ProductNameMVC%% controls, you must call the Render method to render the HTML and JavaScript to the View.
 
 	**In ASPX:**
 

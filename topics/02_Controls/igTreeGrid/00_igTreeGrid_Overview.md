@@ -30,11 +30,11 @@ In order to maintain flexibility the tree grid features a configurable expansion
 - [**Getting Started**](#getting-started)
   - [Initializing igTreeGrid in JavaScript](#jq-treegrid)
 	  - [Full Page Sample](#full-page-sample)
-  - [Initializing igTreeGrid using the Ignite UI CLI](#adding-using-CLI)
+  - [Initializing igTreeGrid using the %%ProductFamilyName%% CLI](#adding-using-CLI)
   - [Initializing a MVC igTreeGrid](#mvc-treegrid)
   - [Customize the expand and collapse icons](#customize-icon)
 -  [**Keyboard navigation**](#keyboard-navigation)
-- [**Exporting igTreeGrid to Excel using the Ignite UI CLI**](#exporting-with-CLI)
+- [**Exporting igTreeGrid to Excel using the %%ProductFamilyName%% CLI**](#exporting-with-CLI)
 -   [**Related Content**](#related-content)
     -   [Topics](#topics)
     -   [Samples](#samples)
@@ -332,14 +332,14 @@ The Filtering and Paging features are shown to include commented out option valu
 </html>
 ```
 
-### <a id='adding-using-CLI'></a> Initializing igTreeGrid using the Ignite UI CLI
-The easiest way to add a new igTreeGrid to your application is via the Ignite UI CLI. 
+### <a id='adding-using-CLI'></a> Initializing igTreeGrid using the %%ProductFamilyName%% CLI
+The easiest way to add a new igTreeGrid to your application is via the %%ProductFamilyName%% CLI. 
 
-To install the Ignite UI CLI:
+To install the %%ProductFamilyName%% CLI:
 ```
 npm install -g igniteui-cli
 ```
-Once the Ignite UI CLI is installed the commands for generating an Ignite UI project, adding a new igTreeGrid component, building and serving the project are as following:
+Once the %%ProductFamilyName%% CLI is installed the commands for generating an %%ProductName%% project, adding a new igTreeGrid component, building and serving the project are as following:
 ```
 ig new <project name>
 cd <project name>
@@ -347,7 +347,7 @@ ig add tree-grid newTreeGrid
 ig start
 ```
  
-For more information and the list of all available commands read the [Using Ignite UI CLI](Using-Ignite-UI-CLI.html) topic.
+For more information and the list of all available commands read the [Using %%ProductFamilyName%% CLI](Using-Ignite-UI-CLI.html) topic.
 
 ### <a id='mvc-treegrid'></a> Initializing a MVC igTreeGrid
 
@@ -450,15 +450,15 @@ In it reference the Infragistics.Web.Mvc.dll assembly and define the Model for t
 
 **In C#:**
 
-```
+```csharp
 @using Infragistics.Web.Mvc
 @model IQueryable<FileExplorer>
 ```
 
 Add reference to the jQuery, jQueryUI and the IgniteUI scripts and css classes:
 
-```js
-    <!-- Ignite UI Required Combined CSS Files -->
+```html
+    <!-- %%ProductName%% Required Combined CSS Files -->
     <link href="http://cdn-na.infragistics.com/igniteui/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
     <link href="http://cdn-na.infragistics.com/igniteui/latest/css/structure/infragistics.css" rel="stylesheet" />
 
@@ -466,7 +466,7 @@ Add reference to the jQuery, jQueryUI and the IgniteUI scripts and css classes:
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 
-    <!-- Ignite UI Required Combined JavaScript Files -->
+    <!-- %%ProductName%% Required Combined JavaScript Files -->
     <script src="http://cdn-na.infragistics.com/igniteui/latest/js/infragistics.core.js"></script>
     <script src="http://cdn-na.infragistics.com/igniteui/latest/js/infragistics.lob.js"></script>
 
@@ -568,20 +568,20 @@ Press|While| To
 <kbd>Ctrl+Home</kbd>| A cell is selected.|Move to top left cell in the grid.
 <kbd>Ctrl+End</kbd>| A cell is selected.|Move to bottom right cell in the grid.
 
-## <a id="exporting-with-CLI"></a> Exporting igTreeGrid to Excel using the Ignite UI CLI
-The easiest way to add a new igTreeGrid with Excel Exporting configured is via the Ignite UI CLI. 
-To install the Ignite UI CLI:
+## <a id="exporting-with-CLI"></a> Exporting igTreeGrid to Excel using the %%ProductFamilyName%% CLI
+The easiest way to add a new igTreeGrid with Excel Exporting configured is via the %%ProductFamilyName%% CLI. 
+To install the %%ProductFamilyName%% CLI:
 ```
 npm install -g igniteui-cli
 ```
-Once the Ignite UI CLI is installed the commands for generating an Ignite UI project, adding a new igTreeGrid component configured for Excel Exporting, building and serving the project are as following:
+Once the %%ProductFamilyName%% CLI is installed the commands for generating an %%ProductName%% project, adding a new igTreeGrid component configured for Excel Exporting, building and serving the project are as following:
  ```
  ig new <project name>
  cd <project name>
  ig add tree-grid-export newTreeGridExport
  ig start
  ``` 
-  For more information and the list of all available commands read the [Using Ignite UI CLI](Using-Ignite-UI-CLI.html) topic.
+  For more information and the list of all available commands read the [Using %%ProductFamilyName%% CLI](Using-Ignite-UI-CLI.html) topic.
 
 ## <a id="related-content"></a> Related Content
 

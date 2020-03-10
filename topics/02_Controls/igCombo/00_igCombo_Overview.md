@@ -42,7 +42,7 @@ The table below lists the required background you need for fully understanding t
 
 You need to first read the following topics:
 
--	[%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-	[%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 
 -	[Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 
@@ -452,7 +452,7 @@ The table below maps some of your possible needs to the appropriate templates.
 
 Following are some other topics you may find useful.
 
-- [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+- [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 
 - [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 

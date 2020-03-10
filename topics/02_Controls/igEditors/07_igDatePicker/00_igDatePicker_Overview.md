@@ -40,15 +40,15 @@ The `igDatePicker` includes the following characteristics:
 -   ASP.NET MVC wrapper
 -   All features supported by the jquery.ui.datepicker
 
-## Adding igDatePicker using the Ignite UI CLI
+## Adding igDatePicker using the %%ProductFamilyName%% CLI
 
-The easiest way to add a new igDatePicker to your application is via the Ignite UI CLI. After you have created a new application, you just need to execute the following command and a date picker will be added to the project:
+The easiest way to add a new igDatePicker to your application is via the %%ProductFamilyName%% CLI. After you have created a new application, you just need to execute the following command and a date picker will be added to the project:
 ```
    ig add date-picker newDatePicker
 ```
 
 This command will add a new date picker no matter if your application is created in Angular, React or jQuery.
-For more information and the list of all available commands read the [Using Ignite UI CLI](Using-Ignite-UI-CLI.html) topic.
+For more information and the list of all available commands read the [Using %%ProductFamilyName%% CLI](Using-Ignite-UI-CLI.html) topic.
 
 ## Adding igDatePicker to a Web Page
 
@@ -139,5 +139,5 @@ The sample below shows to configure `igDatePicker` with different [`dataMode`](%
 ## Related Links
 
 -   [igDatePicker Sample](%%SamplesUrl%%/editors/date-picker-overview)
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)  
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)  
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)

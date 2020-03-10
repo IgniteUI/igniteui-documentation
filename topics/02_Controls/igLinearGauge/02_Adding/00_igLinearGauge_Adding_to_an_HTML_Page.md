@@ -141,7 +141,7 @@ The following table summarizes the requirements for using the `igLinearGauge` co
 								`infragistics.ui.widget.js`
                             </td>
 							<td>
-								Base igWidget for all Ignite UI widgets.
+								Base igWidget for all %%ProductName%% widgets.
 							</td>
 						</tr>
 

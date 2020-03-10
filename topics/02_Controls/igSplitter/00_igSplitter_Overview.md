@@ -121,7 +121,7 @@ By default, the `igSplitter` control supports mouse dragging for resizing panels
 
 ## <a id="touch-suport"></a>Touch Support
 
-For touch-enabled devices, special classes are added to the splitter and touch events are handled. On touch-enabled devices, the splitter bar a bit wider (16 pixels of width) than it is on standard devices (6 pixels) to allow for easier user interaction with the splitter bar in the touch environment. For details, refer to [Touch Support for %%ProductName%%](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html).
+For touch-enabled devices, special classes are added to the splitter and touch events are handled. On touch-enabled devices, the splitter bar a bit wider (16 pixels of width) than it is on standard devices (6 pixels) to allow for easier user interaction with the splitter bar in the touch environment. For details, refer to [Touch Support for %%ProductName%%](Touch-Support-for-IgniteUI-for-jQuery-Controls.html).
 
 
 
@@ -263,7 +263,7 @@ Keyboard
 
 ## <a id="requirements"></a>Requirements
 
-The `igSplitter` control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. The Modernzr library is also used internally for detecting browser and device capabilities. References to these resources are needed nevertheless, in spite of the use of pure jQuery or ASP.NET MVC helpers. The Infragistics.Web.Mvc assembly is required when the control is used in the context of ASP.NET MVC.
+The `igSplitter` control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. The Modernzr library is also used internally for detecting browser and device capabilities. References to these resources are needed nevertheless, in spite of the use of pure jQuery or %%ProductNameMVC%%. The Infragistics.Web.Mvc assembly is required when the control is used in the context of ASP.NET MVC.
 
 For the full requirements listing, refer to the [Adding topic](Adding-igSplitter.html).
 

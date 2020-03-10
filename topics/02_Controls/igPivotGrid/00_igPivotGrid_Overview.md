@@ -191,7 +191,7 @@ Apply sorting|The sort buttons, users can sort the values for one or more column
 
 ### Requirements summary
 
-Because the `igPivotGrid` control is a jQuery UI widget, it depends on jQuery and jQuery UI libraries. The Modernzr library is also used internally for detecting browser and device capabilities. The control uses several %%ProductName%% shared resources for its functionality. References to these resources are needed nevertheless, in spite of pure jQuery or ASP.NET MVC helpers being used. The `Infragistics.Web.Mvc` assembly is required when the control is used in the context of ASP.NET MVC.
+Because the `igPivotGrid` control is a jQuery UI widget, it depends on jQuery and jQuery UI libraries. The Modernzr library is also used internally for detecting browser and device capabilities. The control uses several %%ProductName%% shared resources for its functionality. References to these resources are needed nevertheless, in spite of pure jQuery or %%ProductNameMVC%% being used. The `Infragistics.Web.Mvc` assembly is required when the control is used in the context of ASP.NET MVC.
 
 For a detailed list of the required resources for using the `igPivotGrid` control, refer to the [Adding igPivotView to an HTML Page](igPivotView-Adding-to-HTML-Page.html).
 

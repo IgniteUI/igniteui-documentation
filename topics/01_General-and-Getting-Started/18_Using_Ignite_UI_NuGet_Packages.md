@@ -18,9 +18,9 @@ This topic contains the following sections:
 -   [Installing %%ProductName%% packages from the local feed](#localFeedInstallation)
 -   [Installing %%ProductName%% packages via GUI](#guiInstallation)
 -   [Installing %%ProductName%% packages via Package Manager Console](#consoleInstallation)
--   [What is installed by the %%ProductName%% NuGet package](#whatIsInstalled)
+-   [What is installed by the %%ProductNameMVC%% NuGet package](#whatIsInstalled)
 -   [Uninstalling the %%ProductName%% NuGet packages](#uninstalling)
--   [Using the NuGet package for ASP.NET Core MVC](#aspnetcore)
+-   [Using the %%ProductNameASPNETCore%% NuGet package](#aspnetcore)
 
 # <a id="usingNuGet"></a> Using %%ProductName%% NuGet packages
 
@@ -51,7 +51,7 @@ If you check the "Remember my password" checkbox the credentials will be stored 
 
 ## <a id="localFeedInstallation"></a> Installing %%ProductName%% packages from the local feed
 
-There are two ways to install the %%ProductName%% NuGet package to your project, using the GUI or using the console, and we will follow both procedures below. All the steps and screenshots are taken in Visual Studio 2015 but if you are using an older version of Visual Studio, the differences are negligible. Don't worry if you haven't used NuGet before as this example will guide you step-by-step through the procedure.
+There are two ways to install %%ProductName%% NuGet packages to your project, using the GUI or using the console, and we will follow both procedures below. All the steps and screenshots are taken in Visual Studio 2015 but if you are using an older version of Visual Studio, the differences are negligible. Don't worry if you haven't used NuGet before as this example will guide you step-by-step through the procedure.
 
  1. First create a new %%ProductName%% Web Application project. You can name it IgniteUIProject.
 ![](images/IgniteUIProject_NuGet_Packages.png)
@@ -72,7 +72,7 @@ This will open the **Manage NuGet Packages** view. In this view you can see all 
 Now you should change the package source to **Infragistics (Local)**.
 ![](images/NuGet_Packages_Infragistics_IgniteUI.png)
 
-Navigate to the Browse tab and you will see the list of available Infragistics %%ProductName%% NuGet packages. 
+Navigate to the Browse tab and you will see the list of available %%ProductName%% NuGet packages. 
 
 When you select a package, you will see more information of it in the right panel. The most important information in this panel is the list of dependencies for the selected package. Those are assemblies that will be installed automatically to your project and you don't have to worry about those. 
 
@@ -86,16 +86,16 @@ Here we will describe how you can add %%ProductName%% package using the Package 
 To show the Console, navigate to **Tools** in the Visual Studio's menu and after hovering **NuGet Package Manager**, select **Package Manager Console**.
 ![](images/NuGet_Manager_Console.png)
 
-The **Package Manager Console** will be shown at the bottom of the screen and you just need to enter “Install-Package *name_of_the_package*” to initiate the installation. For example, if you want to install “IgniteUI.MVC”, you must enter Install-Package IgniteUI.MVC and the manager will install this assembly and all the assemblies it depends on. Note that in the console you should select Infragistics(local) from the Package source drop down.
+The **Package Manager Console** will be shown at the bottom of the screen and you just need to enter “Install-Package *name_of_the_package*” to initiate the installation. For example, if you want to install Infragistics.Web.Mvc”, you must enter Install-Package Infragistics.Web.Mvc and the manager will install this assembly and all the assemblies it depends on. Note that in the console you should select Infragistics(local) from the Package source drop down.
 
 When the installation is finished, you will see a message in the Console that your %%ProductName%% package is successfully added to the project.
  ![](images/Console_Installation_of_NuGet_Packages.png)
 
-## <a id="whatIsInstalled"></a> What is installed by the %%ProductName%% NuGet package
+## <a id="whatIsInstalled"></a> What is installed by the %%ProductNameMVC%% NuGet package
 
 ![](images/Added_Files_from_NuGet_packages.png)
 
-If you install the %%ProductName%% package a JavaScript and Content folder will be added to your project. Those folders will contain the Infragistics JS and CSS resources. If you choose to install one of the MVC packages, you will also see that the needed assemblies will be added to the references.
+If you install the %%ProductNameMVC%% package a JavaScript and Content folder will be added to your project. Those folders will contain the Infragistics JS and CSS resources. If you choose to install one of the MVC packages, you will also see that the needed assemblies will be added to the references.
 
 ## <a id="uninstalling"></a> Uninstalling the %%ProductName%% NuGet packages
 
@@ -107,7 +107,7 @@ To remove an assembly right-click the project again and select **Manage NuGet Pa
 
 Have in mind that this will uninstall only the assemblies you've selected and all other assemblies that were installed with the package as dependencies will be preserved. 
 
-In addition, you won't be able to uninstall an assembly if another one depends on it. For example, if you have installed **IgniteUI.MVC** to your project and for some reason try to uninstall IgniteUI which was installed as a dependency, you will see an error saying you are not able to uninstall it because another assembly depends on it. If you want to uninstall it, you must first uninstall all the assemblies that depend on it. 
+In addition, you won't be able to uninstall an assembly if another one depends on it. For example, if you have installed **Infragistics.Web.MVC** to your project and for some reason try to uninstall IgniteUI which was installed as a dependency, you will see an error saying you are not able to uninstall it because another assembly depends on it. If you want to uninstall it, you must first uninstall all the assemblies that depend on it. 
 
 ![](images/Error_When_uninstaling_depending_packages.png)
 
@@ -115,21 +115,21 @@ To uninstall an assembly through the Console, enter “Uninstall-Package *name_o
 
 The %%ProductName%%  NuGet packages will boost your productivity and they are the fastest way to start creating your next high-performance application.
 
-## <a id="aspnetcore"></a> Using the NuGet package for ASP.NET Core MVC
+## <a id="aspnetcore"></a> Using the %%ProductNameASPNETCore%% NuGet package
 
-Using the %%ProductName%% NuGet package for ASP.NET Core MVC since version 2017.2 has some specifics that you should have in mind when creating a ASP.NET Core application. Until version 2017.2 of %%ProductName%% the NuGet package for ASP.NET Core MVC was distributed under the name “Infragistics.Web.Mvc”. In version 2017.2 this package was renamed to “Infragistics.Web.AspNetCore” in order to differentiate it from the packages for MVC4 and MVC5, which are also called "Infragistics.Web.Mvc".  
+Using the %%ProductNameASPNETCore%% NuGet package has some specifics that you should have in mind when creating a ASP.NET Core application. Until version 2017.2 of %%ProductNameASPNETCore%% the NuGet package was distributed under the name “Infragistics.Web.Mvc”. In version 2017.2 this package was renamed to “Infragistics.Web.AspNetCore” in order to differentiate it from the packages for MVC4 and MVC5, which are also called "Infragistics.Web.Mvc".  
 
 After we install the "Infragistics.Web.AspNetCore" package in our ASP.NET Core 2.x project – it will be placed under the “NuGet” dependency, where we can find the “Microsoft.AspNetCore.All” package that is installed by default.
 
 If you look at the dependencies for the "Infragistics.Web.AspNetCore" package, you will find “IgniteUI” as a dependency. This means that installing this package will also install the %%ProductName%% script files wich we will need in our project. As the default project uses PackageReferences, the static script files are not added to the project automatically. They are installed under “%UserProfile%\.nuget\packages” folder. So, you need to copy the %%ProductName%% files that are needed by your application and place it inside the “wwwroot” folder of the project. Inside your .cshtml pages, you need to reference those scripts from this folder.
 
-After the script files are added, we can use them in the .cshtml page that we want to add our  %%ProductName%% control in. We need to import our namespace like this: 
+After the script files are added, we can use them in the .cshtml page that we want to add our  %%ProductNameASPNETCore%% control in. We need to import our namespace like this: 
 
 ```js
 @using Infragistics.Web.Mvc 
 ```
 
-Below we need to reference our Ignite UI scripts. For example, like this: 
+Below we need to reference our %%ProductName%% scripts. For example, like this: 
 
 ```js
 <link href="~/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" /> 
@@ -141,6 +141,6 @@ Below we need to reference our Ignite UI scripts. For example, like this:
 <script src="~/js/infragistics.lob.js"></script> 
 ```
 
-Of course, do not forget to reference jQuery and jQuery UI before using the Ignite UI scripts. When this is done, you will be able to create the  %%ProductName%% controls that you need in your scenario. In this example, I will create a numeric editor using the following line: 
+Of course, do not forget to reference jQuery and jQuery UI before using the %%ProductName%% scripts. When this is done, you will be able to create the  %%ProductNameASPNETCore%% controls that you need in your scenario. In this example, I will create a numeric editor using the following line: 
 
 @(Html.Infragistics().NumericEditor().ID("newEditor").MaxValue(100).Render())

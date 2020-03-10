@@ -11,7 +11,7 @@
 # TypeScript Samples
 
 ## Topic Overview
-This topic covers samples with Ignite UI controls and TypeScript.
+This topic covers samples with %%ProductName%% controls and TypeScript.
 
 ### In this topic
 
@@ -60,8 +60,8 @@ This topic contains the following sections:
 
 ### <a id="requirements"></a>Requirements
 In order to run these samples, you need to have:
--   The required Ignite UI JavaScript and CSS files
--   The required Ignite UI TypeScript definitions
+-   The required %%ProductName%% JavaScript and CSS files
+-   The required %%ProductName%% TypeScript definitions
 
 
 ### <a id="grid_sample"></a>Grid Sample​
@@ -1516,4 +1516,4 @@ $(function () {
 ### <a id="related_content"></a>Related Content
 The following topic provides additional information related to this one:
 
-[Using Ignite UI with TypeScript](Using-Ignite-UI-with-TypeScript.html) - This topic contains an overview for using the Ignite UI type definitions for TypeScript.
+[Using %%ProductName%% with TypeScript](Using-Ignite-UI-with-TypeScript.html) - This topic contains an overview for using the %%ProductName%% type definitions for TypeScript.

@@ -63,7 +63,7 @@ The following table summarizes the new features for the %%ProductName%%™ 2012 
 
 - [Mobile NavBar](#mobile-navbar): The NavBar ASP.NET MVC helper defines a menu of items that reference external pages or internal page blocks.
 
-- [Mobile Page, PageContent, PageFooter, PageHeader](#mobile-page): The ASP.NET MVC helpers allow you to create jQuery Mobile pages using Razor or ASPX syntax.
+- [Mobile Page, PageContent, PageFooter, PageHeader](#mobile-page): The %%ProductNameMVC%% allow you to create jQuery Mobile pages using Razor or ASPX syntax.
 
 - [Mobile Popup](#mobile-popup): Popup is a widget that allows you to display HTML content in a popup window.
 

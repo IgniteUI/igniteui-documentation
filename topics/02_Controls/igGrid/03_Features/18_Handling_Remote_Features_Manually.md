@@ -40,7 +40,7 @@ features: [
 ]
 ```
 
-When you're using the Grid ASP.NET MVC wrapper the remote requests initiated by these features can be processed out of the box by adding to the related Action the `GridDataSourceActionAttribute`.
+When you're using the %%ProductNameMVC%% Grid the remote requests initiated by these features can be processed out of the box by adding to the related Action the `GridDataSourceActionAttribute`.
 This is an action filter attribute that you can use to decorate the MVC Action that returns your grid data.
 For example:
 
@@ -59,7 +59,7 @@ It handles incoming requests by the various remote grid features and returns the
 
 We recommend you to use the above methods in order to take full advantage of their remote capabilities with the least amount of effort.
 
-However in some cases you may not have access to the MVC wrappers (for example if you're using Ignite UI in an ASP.NET project) or you may want to build a custom logic for handling those requests.
+However in some cases you may not have access to the MVC wrappers (for example if you're using %%ProductName%% in an ASP.NET project) or you may want to build a custom logic for handling those requests.
 This topic will guide you through the process manually handling `igGrid` features remote requests and sending back a response in a JSON format that they can understand.
 
 ## <a id="paging"></a> Handling Remote Paging

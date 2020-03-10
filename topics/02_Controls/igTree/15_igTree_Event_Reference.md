@@ -101,4 +101,4 @@ The following topics provide additional information related to this topic:
 -	[igTree Overview](igtree-overview.html)
 -   [igTree jQuery API documentation](%%jQueryApiUrl%%/ui.igtree#!overview)
 -   [igTree ASP.NET MVC API documentation](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeModel_members.html)
--	[Using Events in Ignite UI](using-events-in-netadvantage-for-jquery.html)
+-	[Using Events in %%ProductName%%](using-events-in-igniteui-for-jquery.html)

@@ -31,8 +31,8 @@ $(window).load(function () {
 });
 ```
 
-## Attach to Client-Side Event Using the MVC Wrapper
-By default the MVC wrappers don’t support defining the event handlers in the context of the wrapper syntax. Event binding is again set up using jQuery.
+## Attach to Client-Side Event Using the %%ProductNameMVC%%
+By default the %%ProductNameMVC%% don’t support defining the event handlers in the context of the wrapper syntax. Event binding is again set up using jQuery.
 
 1.  First, instantiate an instance of `igUpload` using the MVC wrapper
 
@@ -320,7 +320,7 @@ Value |Description
 8 |Error thrown when trying to check if the file could be canceled and `maxSimultaneousFilesUploads` Is less or equal to 0
 
 ## Related Links
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 
  

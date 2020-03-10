@@ -24,7 +24,7 @@ To use the loader on a page you need to add reference to the `infragistics.loade
 ## In this Topic
 - [Initialization](#initialization)
 - [Resource Expressions](#resource-expressions)
-- [Working with MVC Helpers](#working-with-mvc-helpers)
+- [Working with %%ProductNameMVC%%](#working-with-mvc-helpers)
 - [Localization](#localization)
 - [Regional Settings](#regional-settings)
 - [Related Content](#related-content)
@@ -320,10 +320,10 @@ $.ig.loader({
 });
 ```
 
-## <a id="working-with-mvc-helpers"></a> Working with MVC Helpers
-If you initialize a control through MVC helpers, all dependent resources are loaded automatically.
+## <a id="working-with-mvc-helpers"></a> Working with %%ProductNameMVC%%
+If you initialize a control through %%ProductNameMVC%%, all dependent resources are loaded automatically.
 
-The following demonstrates how to use the loader with the ASP.NET MVC helpers:
+The following demonstrates how to use the loader with the %%ProductNameMVC%%:
 
 **In Razor:**
 
@@ -445,5 +445,5 @@ et (Estonia)	                | ja (Japan)  				  | sq (Albania)
 ## <a id="related-content"></a> Related Content
 - [JavaScript Files in %%ProductName%%](deployment-guide-javascript-files.html)
 - [Infragistics Content Delivery Network (CDN) for %%ProductName%%](deployment-guide-infragistics-content-delivery-network%28cdn%29.html)
-- [Adding Required Resources Manually](adding-the-required-resources-for-netadvantage-for-jquery.html)
+- [Adding Required Resources Manually](adding-the-required-resources-for-igniteui-for-jquery.html)
 - [Using JavaScript Resources in %%ProductName%%](deployment-guide-javascript-resources.html)

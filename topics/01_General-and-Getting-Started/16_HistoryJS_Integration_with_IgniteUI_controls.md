@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# History.js Integration with Ignite UI controls
+# History.js Integration with %%ProductName%% controls
 
 ## Topic Overview
 
 ### Purpose
 
-Ignite UI controls are fully integrated with history.js – a popular framework for browser history support. This topic describes the requirements to achieve that and demonstrates how the igGrid control can be integrated with history.js framework.
+%%ProductName%% controls are fully integrated with history.js – a popular framework for browser history support. This topic describes the requirements to achieve that and demonstrates how the igGrid control can be integrated with history.js framework.
 
 ### Required background
 
@@ -56,7 +56,7 @@ When using the browser History API, a current page is defined with three main pa
 
 Defining the current page state, using the parameters above, then the page can be added to the history stack, replaced or restored from there and it will be available, when navigating through the browser history.
 
-Ignite UI controls can be fully integrated with history.js. When we want to save the state of IgniteUI control, we use the client-side event API of the latter. Those events carry the current state of the IgniteUI control - a state we can use the push it to the browser history stack. Follow the next paragraph for more information of how to integrate igGrid with the HistotyJS framework.
+%%ProductName%% controls can be fully integrated with history.js. When we want to save the state of IgniteUI control, we use the client-side event API of the latter. Those events carry the current state of the IgniteUI control - a state we can use the push it to the browser history stack. Follow the next paragraph for more information of how to integrate igGrid with the HistotyJS framework.
 
 The following are the browser History and History.js API methods that are needed to enable that functionality for the IgniteUI controls. Follow that [topic](https://developer.mozilla.org/en-US/docs/Web/API/History_API), for detailed information about the full browser History API and [History.js](https://github.com/browserstate/history.js/) framework overview in GitHub.
 

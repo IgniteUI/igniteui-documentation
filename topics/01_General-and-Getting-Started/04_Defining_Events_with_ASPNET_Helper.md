@@ -8,16 +8,14 @@
 |metadata|
 -->
 
-# Defining Events with the ASP.NET MVC Helper
-
-
+# Defining Events with %%ProductNameMVC%%
 
 ##Topic Overview
 
 
 #### Purpose
 
-This topic demonstrates how to define a client event handler using the ASP.NET MVC helper. While the provided example uses the `igCombo`™ `selectionChanged` event, the same approach is used for all components’ ASP.NET MVC helpers that support it(all Line of Business components' ASP.NET MVC helpers).
+This topic demonstrates how to define a client event handler using %%ProductNameMVC%%. While the provided example uses the `igCombo`™ `selectionChanged` event, the same approach is used for all %%ProductNameMVC%% components that support it (all Line of Business %%ProductNameMVC%% components).
 
 #### Required background
 
@@ -25,12 +23,9 @@ The following topics are prerequisites to understanding this topic:
 
 
 
-- [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%® components by adding them to an ASP.NET MVC application.
+- [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductNameMVC%%® components.
 
-- [Using Events in %%ProductName%%](Using-Events-in-NetAdvantage-for-jQuery.html): This topic demonstrates how to handle events raised by %%ProductName%% controls. Also included is an explanation of the differences between binding events on initialization and after initialization.
-
-
-
+- [Using Events in %%ProductNameMVC%%](Using-Events-in-IgniteUI-for-jQuery.html): This topic demonstrates how to handle events raised by %%ProductNameMVC%% controls. Also included is an explanation of the differences between binding events on initialization and after initialization.
 
 
 ##Defining an Event Handler – Conceptual Overview
@@ -48,13 +43,13 @@ The requirement for completing this procedure is an ASP.NET MVC application conf
 
 ## Steps
 
-Following are the general conceptual steps for defining an event handler with an ASP.NET MVC helper.
+Following are the general conceptual steps for defining an event handler with %%ProductNameMVC%%.
 
-1. Instantiating a control with the ASP.NET MVC helper.
+1. Instantiating %%ProductNameMVC%% control.
 
 2. Defining a JavaScript function to handle the event.
 
-3. Configuring the event on the ASP.NET MVC helper.
+3. Configuring %%ProductNameMVC%% events.
 
 ##Defining an Event Handler – Procedure
 
@@ -79,20 +74,20 @@ To complete the procedure, you need the following:
 
 Following is a conceptual overview of the process: ​
 
-1. Instantiating a control using the ASP.NET MVC Helper
+1. Instantiating %%ProductNameMVC%% control.
 
-2. Defining a JavaScript function to handle the event
+2. Defining a JavaScript function to handle the event.
 
-3. Configuring the event on the ASP.NET MVC helper
+3. Configuring %%ProductNameMVC%% events.
 
 ### Steps
 
-The following steps demonstrate how to configure the `igCombo`’s ASP.NET MVC Helper to handle the `selectionChanged` event on the client.
+The following steps demonstrate how to configure the %%ProductNameMVC%% `igCombo` to handle the `selectionChanged` event on the client.
 
 
-1. Instantiate a control using the ASP.NET MVC Helper.
+1. Instantiate %%ProductNameMVC%% control.
 
-	**If adding an event** **to an existing ASP.NET MVC helper implementation, see step 2.** If starting without an existing ASP.NET MVC helper implementation, copy the below code into your project containing an *igCombo* instantiated with the ASP.NET MVC helper.
+	**If adding an event** **to an existing %%ProductNameMVC%% implementation, see step 2.** If starting without an existing %%ProductNameMVC%% implementation, copy the below code into your project containing %%ProductNameMVC%% *igCombo*.
 	
 	**In ASPX:**
 	
@@ -159,9 +154,9 @@ The following steps demonstrate how to configure the `igCombo`’s ASP.NET MVC H
     </script>
     ```
 
-3. Configure the event on the ASP.NET MVC helper.
+3. Configure %%ProductNameMVC%% event.
 
-	Configure the ASP.NET MVC helper to call the JavaScript function when the event is fired.
+	Configure %%ProductNameMVC%% to call the JavaScript function when the event is fired.
 
 	**In ASPX:**
 
@@ -183,7 +178,7 @@ The following steps demonstrate how to configure the `igCombo`’s ASP.NET MVC H
 
 The following topic provides additional information related to this topic.
 
-- [Using Events in %%ProductName%%](Using-Events-in-NetAdvantage-for-jQuery.html): This topic demonstrates how to handle events raised by %%ProductName%% controls. Also included is an explanation of the differences between binding events on initialization and after initialization.
+- [Using Events in %%ProductName%%](Using-Events-in-IgniteUI-for-jQuery.html): This topic demonstrates how to handle events raised by %%ProductName%% controls. Also included is an explanation of the differences between binding events on initialization and after initialization.
 
 
 

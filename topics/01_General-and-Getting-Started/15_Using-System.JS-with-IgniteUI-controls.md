@@ -54,7 +54,7 @@ jspm install github:igniteui/ignite-ui
 ## Add %%ProductName%% package using private NPM registry
 
 Full paid version of %%ProductName%% that includes all of the controls can also be used with JSPM.
-In order to use the Infragistics private feed please follow the steps outlined in the "Installing the Ignite UI npm package from npmjs.com" from the [Using Ignite UI npm packages](using-ignite-ui-npm-packages.html) topic in order to setup the Infragistics private registry.
+In order to use the Infragistics private feed please follow the steps outlined in the "Installing the %%ProductName%% npm package from npmjs.com" from the [Using %%ProductName%% npm packages](using-ignite-ui-npm-packages.html) topic in order to setup the Infragistics private registry.
 Additionally you will have to update the jspm's npm registry:
 
 ```

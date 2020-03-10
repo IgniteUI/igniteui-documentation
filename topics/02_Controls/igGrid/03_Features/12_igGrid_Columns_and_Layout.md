@@ -465,6 +465,6 @@ The sample below demonstrates how to enable checkboxes in a boolean column inste
 ## <a id="related-content"></a> Related Content
 
 ### Topic
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Formatting Dates, Numbers and Strings](Formatting-Dates-Numbers-and-Strings.html)
 -   [Templating Engine Overview](igTemplating-Overview.html)

@@ -19,7 +19,7 @@ This topic provides an overview of the [igSparkline](%%jQueryApiUrl%%/ui.igSpark
 
 The following topics are prerequisites to understanding this topic:
 
-- [%%ProductName%%® Overview](NetAdvantage-for-jQuery-Overview.html): This topic describes the main features and benefits of the %%ProductName%% product.
+- [%%ProductName%%® Overview](IgniteUI-for-jQuery-Overview.html): This topic describes the main features and benefits of the %%ProductName%% product.
 
 
 ### In this topic

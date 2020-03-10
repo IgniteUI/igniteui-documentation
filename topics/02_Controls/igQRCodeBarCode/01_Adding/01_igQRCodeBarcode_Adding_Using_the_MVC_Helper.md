@@ -28,7 +28,7 @@ The following table lists the concepts and topics required as a prerequisite to 
 
 Topics
 
-- [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%™ components in an ASP.NET MVC application.
+- [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%™ components in an ASP.NET MVC application.
 
 - [igQRCodeBarcode Overview](igQRCodeBarcode-Overview.html): This topic provides conceptual information about the `igQRCodeBarcode` control including its main features and minimum requirements.
 
@@ -69,7 +69,7 @@ Width()|Sets the string width of the `igQRCodeBarcode`
 To complete the procedure, you need the following:
 
 -   An ASP.NET MVC application
--   A reference to the `Infragistics.Web.Mvc.dll` assembly added to the application project. For details, refer to the [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html) topic.
+-   A reference to the `Infragistics.Web.Mvc.dll` assembly added to the application project. For details, refer to the [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) topic.
 -   The dependencies of the View:
 
     -   The `Infragistics.Web.Mvc` namespace added to the ASP.NET MVC View
@@ -156,7 +156,7 @@ The following steps demonstrate how to instantiate `igQRCodeBarcode` in an ASP.N
 
 2. Instantiate the `igQRCodeBarcode` control.
 
-	Instantiate the `igQRCodeBarcode` control. As with all %%ProductName%% ASP.NET MVC helpers, you must call the [Render](Infragistics.Web.Mvc~Infragistics.Web.Mvc.QRCodeBarcodeRenderer~Render.html) method to render the HTML and JavaScript to the View.
+	Instantiate the `igQRCodeBarcode` control. As with all %%ProductNameMVC%% controls, you must call the [Render](Infragistics.Web.Mvc~Infragistics.Web.Mvc.QRCodeBarcodeRenderer~Render.html) method to render the HTML and JavaScript to the View.
 	
 	**In ASPX:**
 	

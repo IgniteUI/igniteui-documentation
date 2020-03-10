@@ -36,7 +36,7 @@ The jQuery Rating allows itself to be styled, providing a different look and fee
 ## Adding jQuery Rating to a Web Page
 The following steps demonstrate how to create a basic implementation of the jQuery Rating on a webpage using either jQuery client code or ASP.NET MVC server code.
 
-To read about which implementation to choose, see [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html). The following screenshot shows the default Rating view.
+To read about which implementation to choose, see [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html). The following screenshot shows the default Rating view.
 
 ![](images/Rating_Overview_02.png)
 
@@ -143,7 +143,7 @@ To read about which implementation to choose, see [%%ProductName%% Overview](Net
 
 ## Related Links
 -   [Basic Usage](%%SamplesUrl%%/rating/basic-usage)
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 
  

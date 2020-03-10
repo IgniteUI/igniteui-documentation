@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "customizing-the-localization-of-netadvantage-for-jquery-controls",
+    "fileName": "customizing-the-localization-of-igniteui-for-jquery-controls",
     "controlName": [],
     "tags": []
 }
@@ -183,7 +183,7 @@ The controls `language`, `regional` and `locale` options can be set in both Java
 		width: "200px"
 	});
 ```
-When using IgniteUI MVC Wrappers `locale` option,which is of type object, for igGrid, igTreeGrid and igHierarachicalGrid can be set vie both lambda expression and string. For all other controls is set only via string.
+When using %%ProductNameMVC%% `locale` option,which is of type object, for igGrid, igTreeGrid and igHierarachicalGrid can be set vie both lambda expression and string. For all other controls is set only via string.
 
 **In Razor:**
 
@@ -243,7 +243,7 @@ igTreeGrid - `locale` option set with string
 ## <a id="change-locale"></a> Changing language
 
 The controls' language can be set via the `language` option and can be changed runtime in one of the following ways:
-- Globally for all Ignite UI widgets on the page, that don't have `language` explicitly set, via the util changeGlobalLanguage function.
+- Globally for all %%ProductName%% widgets on the page, that don't have `language` explicitly set, via the util changeGlobalLanguage function.
 
 	**In JavaScript:**
 	
@@ -266,7 +266,7 @@ The controls' language can be set via the `language` option and can be changed r
 
 The regional settings of the control can be set via the `regional` option and can be set in one of the following ways:
 
-- Globally for all Ignite UI widgets on the page via the util changeGlobalRegional function.
+- Globally for all %%ProductName%% widgets on the page via the util changeGlobalRegional function.
 
 	**In JavaScript:**
 	
@@ -303,7 +303,7 @@ This procedure will guide you to the process of localizing `igGridPaging`. For t
 
 The following screenshot is a preview of the final result.
 
-![](images/Customizing_the_Localization_of_NetAdvantage_for_jQuery_Controls_1.png)
+![](images/Customizing_the_Localization_of_IgniteUI_for_jQuery_Controls_1.png)
 
 ### <a id="Requirements"></a>Requirements
 
@@ -331,7 +331,7 @@ The following steps demonstrate how to localize x control.
 	
 	The result is shown in the following screenshot:
 	
-	![](images/Customizing_the_Localization_of_NetAdvantage_for_jQuery_Controls_2.png)
+	![](images/Customizing_the_Localization_of_IgniteUI_for_jQuery_Controls_2.png)
 
 2. <a id="localize_file"></a> Localizing infragistics.ui.grid-es.js
 

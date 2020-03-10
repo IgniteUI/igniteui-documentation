@@ -50,4 +50,4 @@ Row and column headers can be identified for the control.
 </table>
 
 ## Related Links
--   [Accessibility Compliance:](accessibility-compliance.html) Provides reference information for accessibility compliance of all Ignite UI controls.
+-   [Accessibility Compliance:](accessibility-compliance.html) Provides reference information for accessibility compliance of all %%ProductName%% controls.

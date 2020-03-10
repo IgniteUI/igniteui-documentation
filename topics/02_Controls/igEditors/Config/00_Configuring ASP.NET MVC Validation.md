@@ -24,11 +24,11 @@ Starting with a form consisting of %%ProductName%% editor controls, this topic d
 ####Concepts
 
 -   ASP.NET MVC Data Annotation Validators
--   Using igEditors and igCombo with their ASP.NET MVC Helpers
+-   Using igEditors and igCombo with their %%ProductNameMVC%%
 
 ####Topics
 
--	[Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): To accomplish the basics of setting up an ASP.NET MVC application with %%ProductName%% scripts, CSS, and assemblies.
+-	[Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html): To accomplish the basics of setting up an ASP.NET MVC application with %%ProductName%% scripts, CSS, and assemblies.
 
 -	[igTextEditor Overview](igTextEditor-Overview.html) : To familiarize you with the basics of using the igTextEditor in ASP.NET MVC
 
@@ -65,7 +65,7 @@ In this procedure, you create and configure a Person model for ASP.NET MVC Data 
 
 The following screenshot is a preview of the final result.
 
-![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_1.png)
+![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_1.png)
 
 ###<a id="_Requirements"></a> Requirements
 
@@ -95,7 +95,7 @@ The following steps demonstrate how to configure data annotation validation for 
 
 	Add a Person class to your Models folder.
 	
-	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_2.png)
+	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_2.png)
 
 2. Create class members
 
@@ -142,7 +142,7 @@ The following steps demonstrate how to configure data annotation validation for 
 
 	Create a new controller in the Controllers folder of your ASP.NET MVC application named PersonController.cs
 	
-	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_3.png)
+	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_3.png)
 
 2. Create the ActionMethods
 
@@ -173,7 +173,7 @@ The following steps demonstrate how to configure data annotation validation for 
 
 	Create a strongly-typed View named Create and use the Person class as the Model.
 	
-	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_4.png)
+	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_4.png)
 	
 	**In ASPX:**
 	
@@ -241,7 +241,7 @@ The following steps demonstrate how to configure data annotation validation for 
 
 	Run the sample and navigate to /person/create. The form displays with all of the editors.
 	
-	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_5.png)
+	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_5.png)
 	
 	Once you have finished the above steps, the code of your View should look like this:
 	
@@ -394,7 +394,7 @@ The following steps demonstrate how to configure data annotation validation for 
 
 	You can see that the validators fire and also prevent the form from submitting. Also the length validator on the Name field prevents the user from typing more than 50 characters. Additionally, the numeric editor will change values to the closest valid value upon losing focus by default.
 	
-	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_6.png)
+	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_6.png)
 
 ​**4. Configure Validation Messages (Optional)**
 
@@ -441,7 +441,7 @@ The following steps demonstrate how to configure data annotation validation for 
 
 	Now the validation appears to the right of each input field.
 	
-	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_1.png)
+	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_1.png)
 
 
 ##<a id="_Related_Content"></a>Related Content
@@ -452,7 +452,7 @@ The following steps demonstrate how to configure data annotation validation for 
 The following topics provide additional information related to this topic.
 
 
--	[Configuring igEditors at Runtime](Configuring-igEditors-at-Runtime.html) : To learn more about using editors at runtime including important information regarding how the ASP.NET MVC Helpers render the controls.
+-	[Configuring igEditors at Runtime](Configuring-igEditors-at-Runtime.html) : To learn more about using editors at runtime including important information regarding how the %%ProductNameMVC%% render the controls.
 
 
 ###<a id="_Samples"></a> Samples

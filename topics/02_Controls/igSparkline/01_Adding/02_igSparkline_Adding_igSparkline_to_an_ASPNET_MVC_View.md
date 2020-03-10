@@ -26,7 +26,7 @@ The following table lists the concepts and topics required as a prerequisite to 
 
 Topics
 
-- [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%® components in an ASP.NET MVC application.
+- [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%® components in an ASP.NET MVC application.
 
  
 #### In this topic
@@ -50,7 +50,7 @@ The Invoice model object contains an `ExtendedPrice` field containing the amount
 
 ### Requirements
 
-An ASP.NET MVC application configured with the required JavaScript files, CSS files, and ASP.NET MVC assembly as outlined in the [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html) topic.
+An ASP.NET MVC application configured with the required JavaScript files, CSS files, and ASP.NET MVC assembly as outlined in the [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) topic.
 
 
 
@@ -93,7 +93,7 @@ The following steps demonstrate adding an `igSparkline` to an ASP.NET MVC ASPX v
 
 1. Adding a reference to `Infragistics.Web.Mvc.dll`
 
-	Add a reference to the `Infragistics.Web.Mvc.dll` in your ASP.NET application if you have not done so already. The details for adding this assembly are available in the [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html) topic.
+	Add a reference to the `Infragistics.Web.Mvc.dll` in your ASP.NET application if you have not done so already. The details for adding this assembly are available in the [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) topic.
 
 2. Configuring the view dependencies
 
@@ -193,7 +193,7 @@ Width()| Sets the string width of the `igSparkline`
 ValueMemberPath()|Set this helper method to the Invoice member that signifies the value the `igSparkline` renders on the vertical axis for each item.
 LabelMemberPath()|Set this helper method to the Invoice member that represents the horizontal axis value.
 
-Finally, as with all of the %%ProductName%% ASP.NET MVC helpers, you must call the Render method to render the HTML and JavaScript to the view.
+Finally, as with all of the %%ProductNameMVC%% controls, you must call the Render method to render the HTML and JavaScript to the view.
 
 **In ASPX:**
 

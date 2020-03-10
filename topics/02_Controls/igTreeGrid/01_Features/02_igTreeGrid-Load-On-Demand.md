@@ -19,7 +19,7 @@ This feature can be combined with additional remote features to achieve complete
 
 The following lists the concepts, topics, and articles required as a prerequisite to understanding this topic.
 
-- [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%™ components in an ASP.NET MVC application.
+- [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html): This topic explains how to get started with %%ProductName%%™ components in an ASP.NET MVC application.
 
 
 ## Introduction

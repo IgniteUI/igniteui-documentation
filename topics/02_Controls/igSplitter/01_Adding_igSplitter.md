@@ -457,11 +457,11 @@ The following steps demonstrate how to add a basic `igSplitter` control using Ty
 
 1. Add references to required resources.
 
-	1. Include the Ignite UI theme and structural files:
+	1. Include the %%ProductName%% theme and structural files:
 
 		**In HTML:**
 		```html
-		<!-- Ignite UI Required Combined CSS Files -->
+		<!-- %%ProductName%% Required Combined CSS Files -->
 		<link href="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
 		<link href="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/css/structure/infragistics.css" rel="stylesheet" />
 		```
@@ -475,11 +475,11 @@ The following steps demonstrate how to add a basic `igSplitter` control using Ty
 		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 		```
 
-	3. Include Ignite UI scripts. Preferably use a custom download, but you can also check ["Using JavaScript Resources in Ignite UI"](Deployment-Guide-JavaScript-Resources.html) topic for other methods.
+	3. Include %%ProductName%% scripts. Preferably use a custom download, but you can also check ["Using JavaScript Resources in %%ProductName%%"](Deployment-Guide-JavaScript-Resources.html) topic for other methods.
 
 		**In HTML:**
 		```html
-		<!-- Ignite UI Required Combined JavaScript Files -->
+		<!-- %%ProductName%% Required Combined JavaScript Files -->
 		<script src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.core.js"></script>
 		<script src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.lob.js"></script>
 		```
@@ -528,7 +528,7 @@ The following steps demonstrate how to add a basic `igSplitter` control using Ty
 			"Countries": [{ "Text": "United States", "Description": "The United States.." }]
 		}];
 		```
-	3. Add ts implementation code and include the reference paths to the Ignite UI and jQuery type definitions for TypeScript:
+	3. Add ts implementation code and include the reference paths to the %%ProductName%% and jQuery type definitions for TypeScript:
 
 		**In TypeScript:**
 		```typescript

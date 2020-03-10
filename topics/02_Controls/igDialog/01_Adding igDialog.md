@@ -111,7 +111,7 @@ The following code demonstrates how to initialize `igDialog` control, with full 
 	    });
 		```
 		
-If you want to use the `igDialog` with TypeScript, you can instantiate it using the code above. You just need to include the reference paths to the Ignite UI and jQuery type definitions for TypeScript:
+If you want to use the `igDialog` with TypeScript, you can instantiate it using the code above. You just need to include the reference paths to the %%ProductFamilyName%% and jQuery type definitions for TypeScript:
 
     **In TypeScript:**
     ```typescript
@@ -122,7 +122,7 @@ If you want to use the `igDialog` with TypeScript, you can instantiate it using 
     
 >**Note:** This is needed for TypeScript versions prior to 1.5 so the compiler could include the dependencies in the program during compilation. In 1.5 and newer versions they can be defined in a separate tsconfig.json file. For more information see the [tsconfig.json wiki page](https://github.com/Microsoft/TypeScript/wiki/tsconfig.json)
 		
-> More information on how to use the Ignite UI definitions for TypeScript can be found in ["Using Ignite UI with TypeScript" topic](using-ignite-ui-with-typescript.html).
+> More information on how to use the %%ProductFamilyName%% definitions for TypeScript can be found in ["Using %%ProductFamilyName%% with TypeScript" topic](using-ignite-ui-with-typescript.html).
 
 - **Razor Initialization**
 	
@@ -174,7 +174,7 @@ The following example demonstrates how to declare a Dialog Window with an Angula
    [%%SamplesEmbedUrl%%/dialog-window/angular](%%SamplesEmbedUrl%%/dialog-window/angular)
 </div>
 
-> More information on how to use the Ignite UI directives for AngularJS can be found in ["Using Ignite UI with AngularJS" topic](using-ignite-ui-with-angularjs.html).
+> More information on how to use the %%ProductFamilyName%% directives for AngularJS can be found in ["Using %%ProductFamilyName%% with AngularJS" topic](using-ignite-ui-with-angularjs.html).
 
 ## Destroy igDialog
 

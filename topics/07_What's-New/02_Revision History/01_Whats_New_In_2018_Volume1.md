@@ -10,7 +10,7 @@
 
 # What's New in 2018 Volume 1
 
-This topic presents the controls and the new and enhanced features for the Ignite UI™ 2018 Volume 1 release.
+This topic presents the controls and the new and enhanced features for the %%ProductFamilyName%%™ 2018 Volume 1 release.
 
 
 ### Overview

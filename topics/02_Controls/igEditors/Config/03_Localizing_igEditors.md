@@ -12,9 +12,9 @@
 
 There are two types of localization. First is for the localization resources in the controls. Second is for the regional settings in the controls.
 
-Localization resources for the controls are in Bulgarian, Russian, Japanese, German, Spanish and French languages. These reside in js/modules/i18n (where js is the root folder for the JavaScript files in the Ignite UI program installation path). To get more into using the localization resources you can read the ["Customizing the Localization of Ignite UI Controls"](customizing-the-localization-of-netadvantage-for-jquery-controls.html) topic.
+Localization resources for the controls are in Bulgarian, Russian, Japanese, German, Spanish and French languages. These reside in js/modules/i18n (where js is the root folder for the JavaScript files in the %%ProductName%% program installation path). To get more into using the localization resources you can read the ["Customizing the Localization of %%ProductName%% Controls"](customizing-the-localization-of-igniteui-for-jquery-controls.html) topic.
 
-The regional settings, on the other hand, provide region specific formats for dates, numbers, as well as currency symbols, floating point symbols, decimal separators, default decimal rounding, etc. These reside in the ../js/modules/i18n/regional (where js is the root folder for the JavaScript files in the Ignite UI program installation path).
+The regional settings, on the other hand, provide region specific formats for dates, numbers, as well as currency symbols, floating point symbols, decimal separators, default decimal rounding, etc. These reside in the ../js/modules/i18n/regional (where js is the root folder for the JavaScript files in the %%ProductName%% program installation path).
 
 ## Use cases
 
@@ -107,4 +107,4 @@ In this sample we show how a culture can be set to the editors' `regional` optio
 ## <a id="_Related_Topics"></a>Related Topics
 
 -   [Editors Help Overview](igeditors-landingpage.html)
--   [Customizing the Localization of Ignite UI Controls](customizing-the-localization-of-netadvantage-for-jquery-controls.html)
+-   [Customizing the Localization of %%ProductName%% Controls](customizing-the-localization-of-igniteui-for-jquery-controls.html)

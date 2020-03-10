@@ -19,7 +19,7 @@ This topic explains the events of the `igPopover`™ control and provides code e
 
 The following topics are prerequisites to understanding this topic:
 
-- [Using Events in %%ProductName%%](Using-Events-in-NetAdvantage-for-jQuery.html): This topic demonstrates how to handle events raised by %%ProductName%%® controls. Also included is an explanation of the differences between binding events on initialization and after initialization.
+- [Using Events in %%ProductName%%](Using-Events-in-IgniteUI-for-jQuery.html): This topic demonstrates how to handle events raised by %%ProductName%%® controls. Also included is an explanation of the differences between binding events on initialization and after initialization.
 
 - [igPopover Overview](igPopover-Overview.html): This topic provides conceptual information about the igPopover control including its main features and functionality.
 

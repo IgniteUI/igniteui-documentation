@@ -263,7 +263,7 @@ The following samples provide additional information related to this topic.
    [%%SamplesEmbedUrl%%/combo/bind-combo-with-ko](%%SamplesEmbedUrl%%/combo/bind-combo-with-ko)
 </div>
 
->**Note:**  The Knockout extensions do not work with the ASP.NET MVC Helpers.
+>**Note:**  The Knockout extensions do not work with the %%ProductNameMVC%%.
 
 ### <a id="resources"></a> Resources
 

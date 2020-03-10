@@ -57,7 +57,7 @@ This section contains topics covering `igMap` control.
 The following topics provide additional information related to this topic.
 
 
--	[%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html): This topic provides general information about the %%ProductName%% library.
+-	[%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html): This topic provides general information about the %%ProductName%% library.
 
 ### Samples
 

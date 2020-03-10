@@ -157,7 +157,7 @@ information for changes read [Styling and Theming
 
 ​**3. (Conditional) Upgrade the assemblies**
 
-If your application uses the ASP.NET MVC helpers or the Document assemblies, the assemblies for the new versions must be included in your application. Following is the list of the assemblies you need to include:
+If your application uses the %%ProductNameMVC%% or the Document assemblies, the assemblies for the new versions must be included in your application. Following is the list of the assemblies you need to include:
 
 -   `Infragistics.Web.Mvc.dll`
 -   `Infragistics.WebUI.Documents.Core.dll` **or** `Infragistics.Web.Mvc.Documents.Core.dll` **or** `Infragistics.Web.Documents.Core.dll`

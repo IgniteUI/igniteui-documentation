@@ -57,8 +57,8 @@ This topic contains the following sections:
     -   [igHierarchicalGrid Tooltips](#hierarchical-grid-tooltips)
     -   [igHierarchicalGrid Updating](#hierarchical-grid-updating)
     -   [igLinearGauge](#linear-gauge)
-    -   [%%ProductName%% ASP.NET MVC Wrappers](#mvc)
-    -   [%%ProductName%% ASP.NET MVC Wrappers (mobile)](#mvc-mobile)
+    -   [%%ProductNameMVC%%](#mvc)
+    -   [%%ProductNameMVC%% (mobile)](#mvc-mobile)
     -   [igMap](#map)
     -   [igOlapXmlaDataSource](#olap-xmla-data-source)
     -   [igPivotDataSelector](#pivot-data-selector)
@@ -1186,7 +1186,7 @@ No label collisions detection | The `igLinearGauge` control does not provide mea
 
 Go up to [Known Issues and Limitations Summary](#summary)
 
-### <a id="mvc"></a> [%%ProductName%% ASP.NET MVC Wrappers](ASPNET-MVC-Wrappers-Known-Issues.html)
+### <a id="mvc"></a> [%%ProductNameMVC%%](ASPNET-MVC-Wrappers-Known-Issues.html)
 
 Issue | Description | Status
 ---|---|---
@@ -1198,7 +1198,7 @@ MVC Loader not functioning correctly in an MVC Razor Layout View | The ASP.NET M
 Go up to [Known Issues and Limitations Summary](#summary)
 
 
-### <a id="mvc-mobile"></a> [%%ProductName%% ASP.NET MVC Wrappers (mobile)](ASPNET-MVC-Mobile-Wrappers-Known-Issues.html)
+### <a id="mvc-mobile"></a> [%%ProductNameMVC%% (mobile)](ASPNET-MVC-Mobile-Wrappers-Known-Issues.html)
 
 Issue | Description | Status
 ---|---|---

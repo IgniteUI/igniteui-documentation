@@ -7,14 +7,14 @@
 }
 |metadata|
 -->
-# Using %%ProductName%% CLI
+# Using %%ProductFamilyName%% CLI
 
 ## Overview
-The Ignite UI CLI is a tool to initialize, develop, scaffold  and maintain applications in a wide variety of frameworks. It provide you with predefined templates for Ignite UI for JavaScript controls. Ignite UI CLI will give you a quick-start for your next project even if you are a newcomer to Ignite UI and to the target frameworks.<br/>
-**You can create projects and add Ignite UI for JavaScript controls in [jQuery](https://jquery.com), [Angular](https://angular.io) and [React](https://reactjs.org), executing the very same commands.**
+The %%ProductFamilyName%% CLI is a tool to initialize, develop, scaffold  and maintain applications in a wide variety of frameworks. It provide you with predefined templates for %%ProductName%% controls. %%ProductFamilyName%% CLI will give you a quick-start for your next project even if you are a newcomer to %%ProductFamilyName%% and to the target frameworks.<br/>
+**You can create projects and add %%ProductName%% controls in [jQuery](https://jquery.com), [Angular](https://angular.io) and [React](https://reactjs.org), executing the very same commands.**
 
 ## Getting Started
-To install the Ignite UI CLI:
+To install the %%ProductFamilyName%% CLI:
 ```
 npm install -g igniteui-cli
 ```
@@ -24,7 +24,7 @@ To get a guided experience through the available options, simply run:
 ig
 ```
 
-If you prefer to provide the commands for generating an Ignite UI project, adding a new component, building and serving the project by yourself, you can use the following:
+If you prefer to provide the commands for generating an %%ProductFamilyName%% project, adding a new component, building and serving the project by yourself, you can use the following:
 ```
 ig new <project name> --framework=<framework>
 ig add <component/template> <component_name>
@@ -35,7 +35,7 @@ Navigate to http://localhost:3000/. The app will automatically reload if you cha
 ## Available Commands
 
 ### new
-To create a new Ignite UI application, execute the following command:
+To create a new %%ProductFamilyName%% application, execute the following command:
 
 ```
    ig new [name] [framework]
@@ -50,22 +50,22 @@ Using the `new` command, you can create a new jQuery, Angular and React applicat
 The new application is created in a directory of the same name.
 Keep in mind that creating a new application inside an exisitng application is not supported.
 
-Following are examples of how to use the `new` command to create an Ignite UI for JavaScript applications for all supported frameworks:<br/>
+Following are examples of how to use the `new` command to create an %%ProductName%% applications for all supported frameworks:<br/>
 **In jQuery:** `ig new newIgniteUIjQuery` (jQuery is the default choice so you do not need to provide the "framework" argument)<br/>
 **In React:** `ig new newIgniteUIReact --framework=react`<br/>
 **In Angular:** `ig new newIgniteUIAngular --framework=angular --type=ig-ts`
 
 ### add
-To add a new Ignite UI for JavaScript control to an already created application, execute the following command:
+To add a new %%ProductName%% control to an already created application, execute the following command:
 
 ```
     ig add [template] [name]
 ```
 
-The `add` command is supported only on existing project created with the Ignite UI CLI. You cannot use the `add` command before creating a project uisng the `new` command or using the step by step guide which is invoked by the `ig` command.
+The `add` command is supported only on existing project created with the %%ProductFamilyName%% CLI. You cannot use the `add` command before creating a project uisng the `new` command or using the step by step guide which is invoked by the `ig` command.
 
-#### Ignite UI for JavaScript templates
-Inside the [Ignite UI CLI Wiki](https://github.com/IgniteUI/igniteui-cli/wiki/Add#ignite-ui-for-javascript-templates) you can find the up to date table that demonstrates what Ignite UI for JavaScript templates are available in the supported frameworks.
+#### %%ProductName%% templates
+Inside the [%%ProductFamilyName%% CLI Wiki](https://github.com/IgniteUI/igniteui-cli/wiki/Add#ignite-ui-for-javascript-templates) you can find the up to date table that demonstrates what %%ProductName%% templates are available in the supported frameworks.
 
 
 ### build
@@ -75,7 +75,7 @@ To build the application into an output directory, execute the following command
     ig build
 ```
 
-The `build` command will install the npm packages that the project depends on. By default, it will install the [OSS version of Ignite UI](https://github.com/IgniteUI/ignite-ui) but it checks if a full version is required (if a grid component is added, for example) and will swap the OSS package for the full version, after asking you for your Infragistics account credentials. You can find more information on how to install the full package in [this topic](https://www.igniteui.com/help/using-ignite-ui-npm-packages).<br/>
+The `build` command will install the npm packages that the project depends on. By default, it will install the [OSS version of %%ProductFamilyName%%](https://github.com/IgniteUI/ignite-ui) but it checks if a full version is required (if a grid component is added, for example) and will swap the OSS package for the full version, after asking you for your Infragistics account credentials. You can find more information on how to install the full package in [this topic](https://www.igniteui.com/help/using-ignite-ui-npm-packages).<br/>
 The build artifacts, such as CSS resources, will be stored in the `output/` directory.
 
 ### start
@@ -93,17 +93,17 @@ To generates a new custom template for supported frameworks and project types, e
     ig generate template [name]
 ```
 
-By default the command registers the generated template path in the `customTemplates` in the global config of the Ignite UI CLI. That makes the generated template automatically visible under the Add View menu, or directly when using `add` command.
+By default the command registers the generated template path in the `customTemplates` in the global config of the %%ProductFamilyName%% CLI. That makes the generated template automatically visible under the Add View menu, or directly when using `add` command.
 
 ### config
 
-To perform read and write operation on the Ignite UI CLI configuration settings, execute the following command:
+To perform read and write operation on the %%ProductFamilyName%% CLI configuration settings, execute the following command:
 
 ```
     ig config <get|set|add> <property> [value]
 ```
 
-Ignite UI CLI stores configuration in an `ignite-ui-cli.json` file. Project structures created with Ignite UI CLI include such a file as local configuration. A per-user file can provide global defaults in case `ig config` is called with a --global flag . The global `ignite-ui-cli.json` file is stored under the current user home directory - usually `/home/<user>` for Unix and `C:\Users\<user>` for Windows.
+%%ProductFamilyName%% CLI stores configuration in an `ignite-ui-cli.json` file. Project structures created with %%ProductFamilyName%% CLI include such a file as local configuration. A per-user file can provide global defaults in case `ig config` is called with a --global flag . The global `ignite-ui-cli.json` file is stored under the current user home directory - usually `/home/<user>` for Unix and `C:\Users\<user>` for Windows.
 
 ### test
 
@@ -134,7 +134,7 @@ To search the Infragistics knowledge base for information about a given search t
 The command takes in a single search term and opens the Infragistics search in the default browser.
 
 ### help
-To list all the Ignite UI CLI available commands, execute the following command:
+To list all the %%ProductFamilyName%% CLI available commands, execute the following command:
 
 ```
     ng help

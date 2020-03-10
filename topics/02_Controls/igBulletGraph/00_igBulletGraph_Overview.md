@@ -1050,7 +1050,7 @@ The following picture demonstrates a `igBulletGraph` displayed with default sett
 
 ## <a id="requirements"></a>Requirements
 
-The `igBulletGraph` control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. References to these resources are needed nevertheless, in spite of the use of pure jQuery or ASP.NET MVC helpers. The *Infragistics.Web.Mvc* assembly is required when the control is used in the context of ASP.NET MVC.
+The `igBulletGraph` control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. References to these resources are needed nevertheless, in spite of the use of pure jQuery or %%ProductNameMVC%%. The *Infragistics.Web.Mvc* assembly is required when the control is used in the context of ASP.NET MVC.
 
 In order for the bullet graph to display the performance value(s), the [`targetValue`](%%jQueryApiUrl%%/ui.igBulletGraph#options:targetValue) property has to be set.
 

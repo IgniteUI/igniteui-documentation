@@ -17,7 +17,7 @@ This topic contains the following sections:
 -   [Introduction](#introduction)
 -   [Download and Install](#download)
 -   [Host %%ProductName%% in your project](#hosting)
-    -   [Using Ignite UI CLI](#igniteui-cli)
+    -   [Using %%ProductFamilyName%% CLI](#igniteui-cli)
     -   [Using NPM, JSPM, NuGet](#package_managers)
     -   [Add CSS and JavaScript references](#add_references)
     -   [Sample %%ProductName%% Boilerplate HTML page (using trial CDN links)](#boilerplate)
@@ -30,7 +30,7 @@ This topic contains the following sections:
 -   [AngularJS Extensions](#angularjs)
 -   [Angular Extensions](#angular)
 -   [ReactJS Extensions](#reactjs)
--   [ASP.NET MVC Wrappers](#aspnet_wrappers)
+-   [%%ProductNameMVC%%](#aspnet_wrappers)
 -   [Related Content](#related_content)
 
 ## <a id="introduction"></a>Introduction
@@ -62,21 +62,21 @@ A Windows only offline MSI installer containing the product and samples.
 
 You have several options to host %%ProductName%% in your project:
 
-- Use Ignite UI CLI
+- Use %%ProductFamilyName%% CLI
 - Use Package Manager like NPM, JSPM, NuGet
-- Copy the [JavaScript and CSS files](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html) from the %%ProductName%% installation directory into your project
+- Copy the [JavaScript and CSS files](Adding-the-Required-Resources-for-IgniteUI-for-jQuery.html) from the %%ProductName%% installation directory into your project
 - Use [Infragistics Content Delivery Network (CDN)](#cdn)
 
-## <a id="igniteui-cli"></a>Using Ignite UI CLI
+## <a id="igniteui-cli"></a>Using %%ProductFamilyName%% CLI
 
-The Ignite UI CLI is a tool to initialize, develop, scaffold  and maintain applications in Angular, React and jQuery.
+The %%ProductFamilyName%% CLI is a tool to initialize, develop, scaffold  and maintain applications in Angular, React and jQuery.
 To start using it, you need to install the npm package as a global module:
 
 ```
     npm install -g igniteui-cli
 ```
 
-For more information read [Using Ignite UI CLI](Using-Ignite-UI-CLI.html) topic.
+For more information read [Using %%ProductFamilyName%% CLI](Using-Ignite-UI-CLI.html) topic.
 
 ## <a id="package_managers"></a>Using NPM, JSPM, NuGet
 
@@ -108,7 +108,7 @@ For instructions how to configure the full licensed package, please check [Using
 ### <a id="add_references"></a>Add CSS and JavaScript references
 
 %%ProductName%% depends on jQuery and jQuery UI libraries and you need to add references to them before the %%ProductName%% scripts. You also have several options to include the %%ProductName%% controls in the page
-- Referencing combined and minified bundle files - installation comes with combined and minified files which group controls by type. There are `infragistics.core.js` (mandatory), `infragistics.lob.js` which contains the Line of Business controls like Grids, `infragistics.dv.js` which contains the Data Visualization controls like Charts, `infragistics.excel-bundled.js` which contains all excel exporting related logic, `infragistics.spreadsheet-bundled.js` which contains only spreadsheet user interface implementation and `infragistics.scheduler-bundled.js` which contains all scheduler related logic. For more information check [Adding Required Resources Manually](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html) topic.
+- Referencing combined and minified bundle files - installation comes with combined and minified files which group controls by type. There are `infragistics.core.js` (mandatory), `infragistics.lob.js` which contains the Line of Business controls like Grids, `infragistics.dv.js` which contains the Data Visualization controls like Charts, `infragistics.excel-bundled.js` which contains all excel exporting related logic, `infragistics.spreadsheet-bundled.js` which contains only spreadsheet user interface implementation and `infragistics.scheduler-bundled.js` which contains all scheduler related logic. For more information check [Adding Required Resources Manually](Adding-the-Required-Resources-for-IgniteUI-for-jQuery.html) topic.
 - Referencing individual control files - For more information check [JavaScript Files in %%ProductName%%](Deployment-Guide-JavaScript-Files.html) topic.
 - Using Infragistics Loader - The Infragistics Loader is a loader that can automatically load %%ProductName%% files (and not only). It saves you the burden to reference control files manually. For more information check [Adding Required Resources Automatically with the Infragistics Loader](Using-Infragistics-Loader.html) topic.
 - Using AMD Loader - %%ProductName%% is AMD compatible and can be used with all popular AMD loaders.
@@ -217,9 +217,9 @@ Following are the %%ProductName%% Trial links. For more details checkout [Infrag
 
 %%ProductName%% ReactJS extenstions provide JSX markup and React API initialization. For more information check [%%ProductName%% extensions for React](https://github.com/IgniteUI/igniteui-react) on GitHub.
 
-## <a id="aspnet_wrappers"></a>ASP.NET MVC Wrappers
+## <a id="aspnet_wrappers"></a>%%ProductNameMVC%%
 
-%%ProductName%% ASP.NET MVC Wrappers provide Model and View Chaining initialization as well as out of the box server-side remote requests handling. For more information check [Adding Controls to an MVC Project](Adding-NetAdvantage-Controls-to-an-MVC-Project.html) topic.
+%%ProductNameMVC%% provide Model and View Chaining initialization as well as out of the box server-side remote requests handling. For more information check [Adding Controls to an MVC Project](Adding-IgniteUI-Controls-to-an-MVC-Project.html) topic.
 
 ## <a id="related_content"></a>Related Content
 

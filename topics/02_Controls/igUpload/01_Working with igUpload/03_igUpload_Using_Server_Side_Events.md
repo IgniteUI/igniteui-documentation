@@ -331,7 +331,7 @@ After uploading a file that does not meet the requirements, the custom error mes
 ![](images/igUpload_CustomErrorMessage.png)
 
 ## Related Links
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 
  

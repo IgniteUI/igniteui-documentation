@@ -265,5 +265,5 @@ Before MVC 16.2:
 
 >**Note:** The default grid initialized through MVC wrapper will display the dates as they are on the server. If the initialization is not done through the MVC wrapper the default behavior is to show local time.
 
-For more information of how to show the specific client date, please follow the [Using Ignite UI controls in different time zones](Using-IgniteUI-controls-in-different-time-zones.html) topic and specifically the Ignoring server date and displaying the specific client one paragraph.
+For more information of how to show the specific client date, please follow the [Using %%ProductName%% controls in different time zones](Using-IgniteUI-controls-in-different-time-zones.html) topic and specifically the Ignoring server date and displaying the specific client one paragraph.
 

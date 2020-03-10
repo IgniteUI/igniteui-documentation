@@ -30,7 +30,7 @@ The following table lists the topics, and concepts required as a prerequisite to
 
 **Topics**
 
-- [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html) General information on the %%ProductName%%™ library.
+- [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html) General information on the %%ProductName%%™ library.
 
  
 
@@ -275,7 +275,7 @@ The following table displays the supported map (series) types.
 
 ### <a id="min-introduction"></a>Introduction
 
-The `igMap` control is a jQuery UI widget and depends on the jQuery and jQuery UI libraries. The Modernzr library is used internally for detecting browser and device capabilities. The control uses shared resources from the %%ProductName%%™ for functionality and data binding. References to these resources are needed nevertheless, in spite of pure jQuery or ASP.NET MVC helpers being used. The `Infragistics.Web.Mvc` assembly is required when the control is used in the context of ASP.NET MVC.
+The `igMap` control is a jQuery UI widget and depends on the jQuery and jQuery UI libraries. The Modernzr library is used internally for detecting browser and device capabilities. The control uses shared resources from the %%ProductName%%™ for functionality and data binding. References to these resources are needed nevertheless, in spite of pure jQuery or %%ProductNameMVC%% being used. The `Infragistics.Web.Mvc` assembly is required when the control is used in the context of ASP.NET MVC.
 
 ### <a id="min-requirements-summary"></a>Requirements summary chart
 
@@ -380,7 +380,7 @@ The functionality of the igMap control is based on the HTML5 Canvas tag and its 
 								`infragistics.ui.widget.js`
                             </td>
 							<td>
-								Base igWidget for all Ignite UI widgets.
+								Base igWidget for all %%ProductName%% widgets.
 							</td>
 						</tr>
 

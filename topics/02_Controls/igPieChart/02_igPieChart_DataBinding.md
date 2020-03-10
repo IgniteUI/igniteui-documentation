@@ -180,7 +180,7 @@ The following steps demonstrate how to bind JavaScript data array to an `igPieCh
 
 ### <a id="data-source-summary"></a>Data sources summary
 
-Data binding for `igPieChart` is done identically to binding for other controls from the Ignite UI™ library. The way to bind data is by either by assigning a data source to the `dataSource` option or to provide a URL in the `dataSourceUrl` if data is provided by a web or WCF service.
+Data binding for `igPieChart` is done identically to binding for other controls from the %%ProductName%%™ library. The way to bind data is by either by assigning a data source to the `dataSource` option or to provide a URL in the `dataSourceUrl` if data is provided by a web or WCF service.
 
 
 

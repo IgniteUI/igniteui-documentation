@@ -310,7 +310,7 @@ Resize/Collapse the `igPivotDataSelector` | The `igSplitter`’s handle.  |  By 
 
 ### Requirements summary
 
-Because the `igPivotView` control is a jQuery UI widget, it depends on jQuery and jQuery UI libraries. The Modernizr library is also used internally for detecting browser and device capabilities. The control uses several %%ProductName%% shared resources for its functionality. References to these resources are needed nevertheless, in spite of pure jQuery or ASP.NET MVC helpers being used. The `Infragistics.Web.Mvc` assembly is required when the control is used in the context of ASP.NET MVC.
+Because the `igPivotView` control is a jQuery UI widget, it depends on jQuery and jQuery UI libraries. The Modernizr library is also used internally for detecting browser and device capabilities. The control uses several %%ProductName%% shared resources for its functionality. References to these resources are needed nevertheless, in spite of pure jQuery or %%ProductNameMVC%% being used. The `Infragistics.Web.Mvc` assembly is required when the control is used in the context of ASP.NET MVC.
 
 For a detailed list of the required resources for using the `igPivotView` control, refer to the [Adding igPivotView](igPivotView-Adding.html) topics.
 

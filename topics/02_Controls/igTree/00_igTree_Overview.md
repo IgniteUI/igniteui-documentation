@@ -45,7 +45,7 @@ The table belows lists the required background you need to fully understand the 
 
 Background type | Content
 ---|---
-Topics | You need to first read the following topics: [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html) <br> [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html) <br> [Styling and Theming %%ProductName%%](Deployment-Guide-Styling-and-Theming.html) <br> [igGrid/igDataSource Architectural Overview](igGrid-igDataSource-Architecture-Overview.html), The Data Source Control section
+Topics | You need to first read the following topics: [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html) <br> [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html) <br> [Styling and Theming %%ProductName%%](Deployment-Guide-Styling-and-Theming.html) <br> [igGrid/igDataSource Architectural Overview](igGrid-igDataSource-Architecture-Overview.html), The Data Source Control section
 External Resources | You need to first read the following article: [Working with jQuery Widgets](http://wiki.jqueryui.com/w/page/12137708/How%20to%20use%20jQuery%20UI%20widgets)
 
 
@@ -199,7 +199,7 @@ Display custom HTML for each node on a certain level of hierarchy | `nodeContent
 ## <a id="related-topics"></a>Related Topics 
 Following are some other topics you may find useful.
 
--   [%%ProductName%% Overview](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% Overview](IgniteUI-for-jQuery-Overview.html)
 -   [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html)
 -   [Styling and Theming %%ProductName%%](Deployment-Guide-Styling-and-Theming.html)
 -   [igGrid/igDataSource Architectural Overview](igGrid-igDataSource-Architecture-Overview.html)

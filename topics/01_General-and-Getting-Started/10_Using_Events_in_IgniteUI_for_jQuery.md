@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "using-events-in-netadvantage-for-jquery",
+    "fileName": "using-events-in-igniteui-for-jquery",
     "controlName": [],
     "tags": []
 }
@@ -36,7 +36,7 @@ This topic contains the following sections:
 -   An HTML web page where %%ProductName%% controls are instantiated.
 -   MVC-specific requirements
 -   An MVC project in Microsoft Visual Studio® with an igGrid bound to a data source
--   A reference to the Infragistics.Web.Mvc.dll (contains the ASP.NET MVC wrappers)
+-   A reference to the Infragistics.Web.Mvc.dll (contains the %%ProductNameMVC%%)
 
 > **Note:** Calling API methods programmatically does not raise events related to their operation; those events are only raised by their respective user interaction..
 
@@ -277,7 +277,7 @@ In the following examples there are separate sections each for the bind and unbi
 
  ######Introduction
 
- This sample `igTextEditor` is instantiated in a MVC context and is bound to the `valueChanged` event. When using ASP.NET MVC helpers to instantiate controls which inherit from the `igEditor` control, the render method generates an `igEditor` control with the appropriate type value to configure the right editor. Therefore, when binding or unbinding to an event the “igeditor” prefix is required.
+ This sample `igTextEditor` is instantiated in a MVC context and is bound to the `valueChanged` event. When using %%ProductNameMVC%% to instantiate controls which inherit from the `igEditor` control, the render method generates an `igEditor` control with the appropriate type value to configure the right editor. Therefore, when binding or unbinding to an event the “igeditor” prefix is required.
 
  ######Code:
 
