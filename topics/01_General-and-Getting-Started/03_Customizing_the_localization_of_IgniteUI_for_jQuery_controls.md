@@ -243,7 +243,7 @@ igTreeGrid - `locale` option set with string
 ## <a id="change-locale"></a> Changing language
 
 The controls' language can be set via the `language` option and can be changed runtime in one of the following ways:
-- Globally for all Ignite UI widgets on the page, that don't have `language` explicitly set, via the util changeGlobalLanguage function.
+- Globally for all %%ProductName%% widgets on the page, that don't have `language` explicitly set, via the util changeGlobalLanguage function.
 
 	**In JavaScript:**
 	
@@ -266,7 +266,7 @@ The controls' language can be set via the `language` option and can be changed r
 
 The regional settings of the control can be set via the `regional` option and can be set in one of the following ways:
 
-- Globally for all Ignite UI widgets on the page via the util changeGlobalRegional function.
+- Globally for all %%ProductName%% widgets on the page via the util changeGlobalRegional function.
 
 	**In JavaScript:**
 	

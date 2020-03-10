@@ -34,7 +34,7 @@ Control's declaration follows the same syntax as the previous MVC versions. You 
 
 ### <a id="nuget-licensed"></a> Using online private feed
 
-You can also install Infragistics Web MVC NuGet package using the Infragistics hosted NuGet server. Checkout [Installing Ignite UI packages from the online private feed](using-ignite-ui-nuget-packages.html#privateFeedInstallation) topic for more information.
+You can also install Infragistics Web MVC NuGet package using the Infragistics hosted NuGet server. Checkout [Installing %%ProductNameMVC%% packages from the online private feed](using-ignite-ui-nuget-packages.html#privateFeedInstallation) topic for more information.
 
 ## <a id="middleware"></a> Configuring the igUpload Middleware for file upload handling
 

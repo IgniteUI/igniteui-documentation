@@ -31,7 +31,7 @@ The topics listed below are required as a prerequisite to understanding this top
 - [igScheduler Overview](igScheduler-Overview.html): This topic provides an overview of the `igScheduler` and its features.
 
 - [Using Infragistics Loader](Using-Infragistics-Loader.html):
-Before we get started we need to make sure we have loaded all of the needed resources. We first need to load the jQuery resources and then we need to add the required Ignite UI resources. There are three ways to add the Ignite UI resources to your project. You can either use the `igLoader`, you can load the required modules separately or use the bundled files that combine all the required resources. You can find those approaches below:
+Before we get started we need to make sure we have loaded all of the needed resources. We first need to load the jQuery resources and then we need to add the required %%ProductName%% resources. There are three ways to add the %%ProductName%% resources to your project. You can either use the `igLoader`, you can load the required modules separately or use the bundled files that combine all the required resources. You can find those approaches below:
 
 ```js
 $.ig.loader({

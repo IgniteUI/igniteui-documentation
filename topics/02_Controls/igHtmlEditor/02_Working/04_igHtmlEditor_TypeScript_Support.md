@@ -32,8 +32,8 @@ The following screenshot is a preview of the final result.
 
 ### <a id="Requirements"></a>Requirements
 In order to run this sample, you need to have:
--   The required Ignite UI JavaScript and CSS files
--   The required Ignite UI TypeScript definitions
+-   The required %%ProductName%% JavaScript and CSS files
+-   The required %%ProductName%% TypeScript definitions
 
 ### <a id="Overview"></a>Overview
 This topic takes you step-by-step toward creating an `igHtmlEditor` and TypeScript code to go with it.
@@ -295,4 +295,4 @@ $(function () {
 
 ### <a id="Related_Content"></a>Related Content
 The following topic provides additional information related to this topic:
--   [Using Ignite UI with TypeScript](Using-Ignite-UI-with-TypeScript.html) - This topic contains an overview for using the Ignite UI type definitions for TypeScript.
+-   [Using %%ProductName%% with TypeScript](Using-Ignite-UI-with-TypeScript.html) - This topic contains an overview for using the %%ProductName%% type definitions for TypeScript.

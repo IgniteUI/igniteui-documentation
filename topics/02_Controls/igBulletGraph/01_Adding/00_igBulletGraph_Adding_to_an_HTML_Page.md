@@ -141,7 +141,7 @@ A shared library for data visualization components
 *infragistics.ui.widget.js*
                             </td>
 							<td>
-Base igWidget for all Ignite UI widgets.
+Base igWidget for all %%ProductName%% widgets.
 							</td>
 						</tr>
 						<tr>

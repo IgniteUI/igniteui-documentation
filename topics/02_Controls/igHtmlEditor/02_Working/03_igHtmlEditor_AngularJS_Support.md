@@ -31,13 +31,13 @@ The following is a preview of the final result.
 
 ### <a id="Requirements"></a>Requirements
 In order to run this sample, you need to have:
--   The required Ignite UI JavaScript and CSS files
--   The Ignite UI AngularJS directives
+-   The required %%ProductName%% JavaScript and CSS files
+-   The %%ProductFamilyName%% AngularJS directives
 
 ### <a id="Details"></a>Details
 In the sample we have an `igHtmlEditor` initialized with its AngularJS directive. The data source of the `igHtmlEditor` is stored in a variable in the AngularJS controller. The same variable holding the data is bound to a HTML `textarea`. When we update the data from the `textarea`, the `igHtmlEditor`'s content is immediately updated.
 
 ### <a id="Related_Content"></a>Related Content
 The following topics provide additional information related to this topic:
--   [Using Ignite UI with AngularJS](Using-Ignite-UI-with-AngularJS.html) - This topic contains an overview using the Ignite UI directives for AngularJS.
--   [Conditional and Advanced Templating with AngularJS](Conditional-and-Advanced-Templating-with-AngularJS.html) - This topic explains how to use conditional templates and use advanced templating methods to customize controls created with the Ignite UI directives for AngularJS.
+-   [Using %%ProductFamilyName%% with AngularJS](Using-Ignite-UI-with-AngularJS.html) - This topic contains an overview using the %%ProductFamilyName%% directives for AngularJS.
+-   [Conditional and Advanced Templating with AngularJS](Conditional-and-Advanced-Templating-with-AngularJS.html) - This topic explains how to use conditional templates and use advanced templating methods to customize controls created with the %%ProductFamilyName%% directives for AngularJS.

@@ -22,7 +22,7 @@ ShapeChart has IsHorizontalZoomEnabled and IsVerticalZoomEnabled properties set 
 ## Domain Charts
 Domain Charts (ex. CategoryChart, ShapeChart) are dependent on a newly added js file: infragistics.datachart_domainChart.js
 
-## Ignite UI
+## %%ProductName%%
 The infragistics.util.jquerydeferred.js has been removed. The loader Chart will now support double.ToString(“00.0#) formatting.
 
 ## PercentChangeYAxis

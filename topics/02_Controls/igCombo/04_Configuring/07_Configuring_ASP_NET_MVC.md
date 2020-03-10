@@ -46,7 +46,7 @@ The following screenshot is a preview of the final result.
 
 To complete the procedure, you need an ASP.NET MVC Project with the following:
 
--   The required Ignite UI JavaScript and CSS files
+-   The required %%ProductName%% JavaScript and CSS files
 -   The Infragistics.Web.Mvc.dll assembly referenced
 
 ### <a id="_Requirements_Overview"></a> Overview

@@ -27,8 +27,8 @@ This topic contains the following sections:
     -   [Inheritance](#inheritance)
     -   [Events API](#events-api)
     -   [Styling and Theming](#styling-theming)
--   [Adding igHierarchicalGrid using the Ignite UI CLI](#adding-using-CLI)
--	[Adding igHierarachicalGrid configured for Excel Exporting using the Ignite UI CLI](#exporting-with-CLI)
+-   [Adding igHierarchicalGrid using the %%ProductFamilyName%% CLI](#adding-using-CLI)
+-	[Adding igHierarachicalGrid configured for Excel Exporting using the %%ProductFamilyName%% CLI](#exporting-with-CLI)
 -   [ASP.NET MVC helper](#aspnet-mvc-helper)
 -   [Binding Requirements](#binding-requirements)
 
@@ -115,16 +115,16 @@ The igHierarchicalGrid has plenty of properties that allow you to change the ani
 - [igHierarchicalGrid Styling and Theming](igHierarchicalGrid-Styling-and-Theming.html)
 
 
-## <a id="adding-using-CLI"></a> Adding igHierarchicalGrid using the Ignite UI CLI
-The easiest way to add a new igHierarchicalGrid to your application is via the Ignite UI CLI. 
+## <a id="adding-using-CLI"></a> Adding igHierarchicalGrid using the %%ProductFamilyName%% CLI
+The easiest way to add a new igHierarchicalGrid to your application is via the %%ProductFamilyName%% CLI. 
 
-To install the Ignite UI CLI:
+To install the %%ProductFamilyName%% CLI:
 ```
 npm install -g igniteui-cli
 ```
-Once the Ignite UI CLI is installed the commands for generating an Ignite UI project, adding a new igHierarchicalGrid component, building and serving the project are as following:
+Once the %%ProductFamilyName%% CLI is installed the commands for generating an %%ProductName%% project, adding a new igHierarchicalGrid component, building and serving the project are as following:
 ```
-ig new <project name>
+ig new <project name> --framework=jquery
 cd <project name>
 ig add hierarchical-grid newHierarchicalGrid
 ig start
@@ -134,28 +134,28 @@ Additionally, you can add an igHierarchicalGrid with Updating feature configured
 ```
 ig add hierarchical-grid-editing newHierarchicalGridEditing
  ```
- For more information and the list of all available commands read the [Using Ignite UI CLI](Using-Ignite-UI-CLI.html) topic.
+ For more information and the list of all available commands read the [Using %%ProductFamilyName%% CLI](Using-Ignite-UI-CLI.html) topic.
 
-## <a id="exporting-with-CLI"></a> Adding igHierarachicalGrid configured for Excel Exporting using the Ignite UI CLI
+## <a id="exporting-with-CLI"></a> Adding igHierarachicalGrid configured for Excel Exporting using the %%ProductFamilyName%% CLI
 
-The easiest way to add a new igHierarachicalgrid with exporting configured is via the Ignite UI CLI. 
-To install the Ignite UI CLI:
+The easiest way to add a new igHierarachicalgrid with exporting configured is via the %%ProductFamilyName%% CLI. 
+To install the %%ProductFamilyName%% CLI:
 ```
 npm install -g igniteui-cli
 ```
-Once the Ignite UI CLI is installed the commands for generating an Ignite UI project, adding a new igHierarachicalGrid configured for Excel Exporting, building and serving the project are as following:
+Once the %%ProductFamilyName%% CLI is installed the commands for generating an %%ProductName%% project, adding a new igHierarachicalGrid configured for Excel Exporting, building and serving the project are as following:
 
  ```
-ig new <project name>
+ig new <project name> --framework=jquery
 cd <project name>
 ig add hierarchical-grid-export newHierarchicalGridExport
 ig start
  ``` 
-For more information and the list of all available commands read the [Using Ignite UI CLI](Using-Ignite-UI-CLI.html) topic.
+For more information and the list of all available commands read the [Using %%ProductFamilyName%% CLI](Using-Ignite-UI-CLI.html) topic.
 
-## <a id="aspnet-mvc-helper"></a> ASP.NET MVC helper
+## <a id="aspnet-mvc-helper"></a> %%ProductNameMVC%%
 
-You can use the ASP.NET MVC Helper for managed code languages to configure the igHierarchicalGrid. The MVC wrapper for the igHierarchicalGrid uses the same code as the flat igGrid wrapper. That’s why, as it is in the flat igGrid, the features’ logic is automatically handled by the MVC wrapper and you don’t need to create implementation for features like paging, sorting, filtering, summaries, as the requests It from these features are handled internally.
+You can use %%ProductNameMVC%% for managed code languages to configure the igHierarchicalGrid. The MVC wrapper for the igHierarchicalGrid uses the same code as the flat igGrid wrapper. That’s why, as it is in the flat igGrid, the features’ logic is automatically handled by the MVC wrapper and you don’t need to create implementation for features like paging, sorting, filtering, summaries, as the requests It from these features are handled internally.
 
 ### Related Topics
 - [Initializing the igHierarchicalGrid](igHierarchicalGrid-Initializing.html)

@@ -129,7 +129,7 @@ After the script files are added, we can use them in the .cshtml page that we wa
 @using Infragistics.Web.Mvc 
 ```
 
-Below we need to reference our Ignite UI scripts. For example, like this: 
+Below we need to reference our %%ProductName%% scripts. For example, like this: 
 
 ```js
 <link href="~/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" /> 
@@ -141,6 +141,6 @@ Below we need to reference our Ignite UI scripts. For example, like this:
 <script src="~/js/infragistics.lob.js"></script> 
 ```
 
-Of course, do not forget to reference jQuery and jQuery UI before using the Ignite UI scripts. When this is done, you will be able to create the  %%ProductNameASPNETCore%% controls that you need in your scenario. In this example, I will create a numeric editor using the following line: 
+Of course, do not forget to reference jQuery and jQuery UI before using the %%ProductName%% scripts. When this is done, you will be able to create the  %%ProductNameASPNETCore%% controls that you need in your scenario. In this example, I will create a numeric editor using the following line: 
 
 @(Html.Infragistics().NumericEditor().ID("newEditor").MaxValue(100).Render())

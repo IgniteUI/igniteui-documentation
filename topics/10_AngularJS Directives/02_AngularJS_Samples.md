@@ -11,7 +11,7 @@
 # AngularJS Samples
 
 ## Topic Overview
-This topic covers samples with Ignite UI directives for AngularJS.
+This topic covers samples with %%ProductFamilyName%% directives for AngularJS.
 
 ### In this topic
 
@@ -45,8 +45,8 @@ This topic contains the following sections:
 
 ### <a id="requirements"></a>Requirements
 In order to run this sample, you need to have:
--   The required Ignite UI JavaScript and CSS files
--   The Ignite UI AngularJS directives
+-   The required %%ProductName%% JavaScript and CSS files
+-   The %%ProductFamilyName%% AngularJS directives
 
 ### <a id="grid_sample"></a>Grid Sample​
 This sample will demonstrate how we can use `igGrid` with AngularJS.
@@ -156,5 +156,5 @@ This sample demonstrates how to link together the Data Chart and Zoombar Control
 ### <a id="related_content"></a>Related Content
 The following topics provide additional information related to this one:
 
--   [Using Ignite UI with AngularJS](Using-Ignite-UI-with-AngularJS.html) - This topic contains an overview using the Ignite UI directives for AngularJS.
--   [Conditional and Advanced Templating with AngularJS](Conditional-and-Advanced-Templating-with-AngularJS.html) - This topic explains how to use conditional templates and use advanced templating methods to customize controls created with the Ignite UI directives for AngularJS.
+-   [Using %%ProductFamilyName%% with AngularJS](Using-Ignite-UI-with-AngularJS.html) - This topic contains an overview using the %%ProductFamilyName%% directives for AngularJS.
+-   [Conditional and Advanced Templating with AngularJS](Conditional-and-Advanced-Templating-with-AngularJS.html) - This topic explains how to use conditional templates and use advanced templating methods to customize controls created with the %%ProductFamilyName%% directives for AngularJS.

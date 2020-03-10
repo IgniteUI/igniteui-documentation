@@ -380,7 +380,7 @@ The functionality of the igMap control is based on the HTML5 Canvas tag and its 
 								`infragistics.ui.widget.js`
                             </td>
 							<td>
-								Base igWidget for all Ignite UI widgets.
+								Base igWidget for all %%ProductName%% widgets.
 							</td>
 						</tr>
 

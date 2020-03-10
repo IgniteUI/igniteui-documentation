@@ -34,7 +34,7 @@ It is important to note that the igGrid/igHierarchicalGrid/igTreeGrid take the t
 
 -	The data source is processed via their respective MVC Wrappers ( set via the Model for example)
 -	The data source is remote and the `GridDataSourceAction` attribute is used on the remote method. 
-In those cases the time zone offset is added to the data source in the form of metadata. This metadata is generated from Ignite UI MVC wrapper For example:
+In those cases the time zone offset is added to the data source in the form of metadata. This metadata is generated from %%ProductNameMVC%% For example:
 
 ```js
 "Metadata": {
