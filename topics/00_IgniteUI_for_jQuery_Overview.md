@@ -104,7 +104,7 @@ The %%ProductNameMVC%% give you the flexibility to implement different server-si
 
 ### ASP.NET MVC Templates
 
-%%ProductName%% includes Visual Studio project templates for ASP.NET MVC 4 and 5. These templates provide a starter web application including all required resources to run a web application with Infragistics controls.
+%%ProductNameMVC%% includes Visual Studio project templates for ASP.NET MVC 4 and 5. These templates provide a starter web application including all required resources to run a web application with Infragistics controls.
 
 ### Infragistics Themes and ThemeRoller
 

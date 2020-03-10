@@ -233,7 +233,7 @@ This topic walks through using the ASP.NET MVC helper to instantiate an `igDough
 		</tbody>
 	</table>
 	
-	Finally, as with all of the %%ProductName%% %%ProductNameMVC%%, you must call the Render method to render the HTML and JavaScript to the view.
+	Finally, as with all of the %%ProductNameMVC%% controls, you must call the Render method to render the HTML and JavaScript to the view.
 	
 	**In ASPX:**
 	

@@ -154,7 +154,7 @@ The following steps demonstrate how to instantiate `igLinearGauge` in an ASP.NET
 	```
 
 2. Instantiate the `igLinearGauge` control configuring its basic rendering options. 
-	Instantiate the igLinearGauge control. As with all %%ProductName%% %%ProductNameMVC%%, you must call the Render method to render the HTML and JavaScript to the View.
+	Instantiate the igLinearGauge control. As with all %%ProductNameMVC%% controls, you must call the Render method to render the HTML and JavaScript to the View.
 
 	**In ASPX:**
 

@@ -19,7 +19,7 @@ This topic explains how to get started with %%ProductNameMVC%%™ components.
 This topic contains the following sections:
 
 -   [Using %%ProductNameMVC%%](#mvcHelper)
--   [Methods for Defining %%ProductNameMVC%% Controls in an MVC Project](#methodsMVC)
+-   [Methods for using %%ProductNameMVC%% Controls](#methodsMVC)
 -   [Developing ASP.NET MVC application with igTree](#developingMVC)
 -   [Related Content](#related)
 

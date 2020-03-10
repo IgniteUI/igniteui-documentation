@@ -10,7 +10,7 @@
 
 # What's New in 2017 Volume 1
 
-This topic presents the controls and the new and enhanced features for the %%ProductName%%™ 2017 Volume 1 release.
+This topic presents the controls and the new and enhanced features for the %%ProductFamilyName%%™ 2017 Volume 1 release.
 
 
 ## What’s New Summary

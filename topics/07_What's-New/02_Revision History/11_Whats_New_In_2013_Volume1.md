@@ -348,7 +348,7 @@ igUpload™ allows you to process files as MemoryStream object.
 
         <tr>
             <td>
-%%ProductName%% %%ProductNameMVC%%
+%%ProductNameMVC%%
 			</td>
 
             <td>
@@ -356,7 +356,7 @@ igUpload™ allows you to process files as MemoryStream object.
 			</td>
 
             <td>
-You can now add client events to the %%ProductName%%® controls’ %%ProductNameMVC%% by using the `AddClientEvent` helper method. Provide an event name and function name to the helper and it renders the required
+You can now add client events to the %%ProductNameMVC%% controls’ by using the `AddClientEvent` helper method. Provide an event name and function name to the helper and it renders the required
                     JavaScript on the client to handle the event.
 			</td>
         </tr>
@@ -785,7 +785,7 @@ The functionality is available only in the browsers which support multiple attri
 
 
 
-## %%ProductName%% %%ProductNameMVC%%
+## %%ProductNameMVC%%
 ### <a id="support-adding-events"></a>Support for Adding Events
 
 You can now add events to %%ProductName%% controls by adding them to the ASP.NET MVC helper. Use the `AddClientEvent` method to supply the event name and a handler function name. The helper will render to the appropriate instantiation JavaScript on the client to fire the event.

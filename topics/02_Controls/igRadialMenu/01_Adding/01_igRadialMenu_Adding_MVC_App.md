@@ -151,7 +151,7 @@ The following steps demonstrate how to instantiate `igRadialMenu` in an ASP.NET 
 
 2. Instantiate the `igRadialMenu` control configuring its basic rendering options.
 
-	Instantiates the `igRadialMenu` control. As with all %%ProductName%% %%ProductNameMVC%%, you must call the Render method to render the HTML and JavaScript to the View.
+	Instantiates the `igRadialMenu` control. As with all %%ProductNameMVC%% controls, you must call the Render method to render the HTML and JavaScript to the View.
 	
 	**In ASPX:**
 	

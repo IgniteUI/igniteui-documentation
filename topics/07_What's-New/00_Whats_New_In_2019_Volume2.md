@@ -10,7 +10,7 @@
 
 # What's New in 2019 Volume 2
 
-This topic presents the new features for the %%ProductName%%™ 2019 Volume 2 release.
+This topic presents the new features for the %%ProductFamilyName%%™ 2019 Volume 2 release.
 
 ### %%ProductNameASPNETCore%%
 Infragistics %%ProductNameASPNETCore%% now supports ASP.NET Core 3 projects. For more information see the [Using %%ProductNameASPNETCore%%](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html) topic.
