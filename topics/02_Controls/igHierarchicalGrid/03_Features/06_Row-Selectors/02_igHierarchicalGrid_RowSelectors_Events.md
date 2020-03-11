@@ -437,29 +437,38 @@ $("#grid").igHierarchicalGrid({
 ## <a id="example_attaching_event_handler_mvc"></a> Code Example: Attaching an Event Handler in jQuery and MVC at Run-Time
 ### Description
 
-Attaching an event handler at runtime using the jQuery `delegate()` method.
-
-When using the MVC helper, it is necessary to assign event handlers at runtime, since you cannot define event handlers within the MVC helper. Depending on the method used there are three ways to assign an event:
-
-1.  `bind()`
-2.  `live()`
-3.  `delegate()`
-
-The recommended method, `delegate()`, offers the best performance and allows the event handler to be automatically attached should the control be destroyed and recreated.
-
-### Code
-The code in this example assigns an event handler at runtime. See [Enabling Row Selectors(igHierarchicalGrid)](igHierarchicalGrid-Enabling-RowSelectors.html) for additional information on using the MVC helper.
+When using %%ProductNameMVC%%, you can attach event handlers at runtime using the jQuery `on()` method.
 
 **In JavaScript:**
 
 ```js
-$("#grid").delegate("#iggridrowselectorsrowselectorclicked":
-    function (e, args) {
+$("#grid").on("iggridrowselectorsrowselectorclicked", function (e, args) {
         // Handle event  
     }
 );
 ```
 
+This option is available when using %%ProductNameMVC%% as well, but %%ProductNameMVC%% also exposes another way with the `AddClientEvent` method. The first method argument accepts the string name of the event’s option and the second accepts the string name of the event handler function.
+
+While this approach serves the majority of use cases, the second argument of the `AddClientEvent` method also accepts a string of JavaScript code to execute as well as a string representing the full JavaScript function as demonstrated in step 2 without the script element tags.
+
+**In ASPX:**
+
+```csharp
+    <%= Html.Infragistics()
+        .Grid(Model)
+        .ID("grid")
+        .Features(features =>
+            {
+                features.RowSelectors().Inherit(true).AddClientEvent("rowSelectorClicked", "selectorClicked")
+                features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
+            })
+        .AutoGenerateColumns(true)
+        .AutoGenerateLayouts(true)
+        .DataBind()
+        .Render()
+    %>
+```
 
 
 ## <a id="example_cancelling_checkbox_state"></a> Code Example: Canceling the Check-Box State Changing Event

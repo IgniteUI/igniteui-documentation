@@ -90,47 +90,51 @@ These steps demonstrate how to create a custom grouping function and assign it t
 
     Configure the custom grouping function in the grid so that the controls could call it when grouping data.
 
-    In JavaScript  In the `groupComparerFunction: "firstLetterGroupComparer"` assignment for the Name column, the grid object’s configuration calls the `firstLetterGroupComparer()` function whenever the grouping operation is performed on the data from the Name column.
+    - In JavaScript
+        
+        In the `groupComparerFunction: "firstLetterGroupComparer"` assignment for the Name column, the grid object’s configuration calls the `firstLetterGroupComparer()` function whenever the grouping operation is performed on the data from the Name column.
 
-    **In JavaScript:**
+        **In JavaScript:**
 
-    ```js
-    ...
-    features: [
-    {
-        name: "GroupBy",
-        type: "local",
-        groupByAreaVisibility: "hidden",
-        inherit: true,
-        columnSettings: [{
-                columnKey: "Name",
-                isGroupBy: true,
-                groupComparerFunction: "firstLetterGroupComparer",
-                allowGrouping: false
+        ```js
+        ...
+        features: [
+        {
+            name: "GroupBy",
+            type: "local",
+            groupByAreaVisibility: "hidden",
+            inherit: true,
+            columnSettings: [{
+                    columnKey: "Name",
+                    isGroupBy: true,
+                    groupComparerFunction: "firstLetterGroupComparer",
+                    allowGrouping: false
+            }]
         }]
-    }]
-    ...
-    ```
+        ...
+        ```
 
-    ASP.NET MVC  As with the previous JavaScript example, here, the method call `GroupByComparerFunction("firstLetterGroupComparer")` of the grid wrapper configures the grid to use the `firstLetterGroupComparer()` function for grouping on the Name column.
+    - ASP.NET MVC
+        
+        As with the previous JavaScript example, here, the method call `GroupByComparerFunction("firstLetterGroupComparer")` of the grid wrapper configures the grid to use the `firstLetterGroupComparer()` function for grouping on the Name column.
 
-    **In ASPX:**
+        **In ASPX:**
 
-    ```csharp
-    ...
-    .Features(feature => {
-        feature.GroupBy().Type(OpType.Local).Inherit(true)
-            .GroupByAreaVisibility(GroupAreaVisibility.Hidden)
-            .ColumnSettings(setting =>
-            {
-                setting.ColumnSetting().ColumnKey("Name")
-                    .IsGroupBy(true)
-                    .GroupByComparerFunction("firstLetterGroupComparer")
-                    .AllowGrouping(false);
-            });
-    })
-    ...
-    ```
+        ```csharp
+        ...
+        .Features(feature => {
+            feature.GroupBy().Type(OpType.Local).Inherit(true)
+                .GroupByAreaVisibility(GroupAreaVisibility.Hidden)
+                .ColumnSettings(setting =>
+                {
+                    setting.ColumnSetting().ColumnKey("Name")
+                        .IsGroupBy(true)
+                        .GroupByComparerFunction("firstLetterGroupComparer")
+                        .AllowGrouping(false);
+                });
+        })
+        ...
+        ```
 
 
 

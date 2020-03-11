@@ -33,9 +33,9 @@ This topic contains the following sections:
 ## <a id="introduction"></a> Introduction
 If Load On Demand is disabled on the client, the whole data set will be retrieved from the server; if it is enabled, only the needed data set will be retrieved. With JSON format, when Load On Demand is enabled, a JSON file without child data will be generated.
 
-Load On Demand works differently for the igHierarchicalGrid, depending on whether jQuery widget is used or an MVC igHierarchicalGrid helper. The widget doesn’t have a specific property for Load On Demand, but can achieve this effect using the oData protocol, meaning the data must come from a remote server supporting that protocol.
+Load On Demand works differently for igHierarchicalGrid, depending on whether you are using %%ProductName%% or %%ProductNameMVC%%. The jQuery widget doesn’t have a specific property for Load On Demand, but can achieve this effect using the oData protocol, meaning the data must come from a remote server supporting that protocol.
 
-The MVC igHierarchicalGrid wrapper, on the other hand, has a Load On Demand property and if that property is set to true, the wrapper internally will send a JSON without children data to the client.
+The %%ProductNameMVC%% hierarchical grid, on the other hand, has a Load On Demand property that if set to true will make the control send data only for the requested layout to the client.
 
 The text blocks that follow demonstrate how to implement each of these two approaches.
 
@@ -43,7 +43,7 @@ The text blocks that follow demonstrate how to implement each of these two appro
 ### <a id="wholeDataSetJQuery"></a> Loading the whole data set in jQuery 
 To load the whole data set at once in jQuery, you need:
 
--   A hierarchical data source like the following JSON: Hierarchical Adventrueworks Data
+-   A hierarchical data source like the following JSON: Hierarchical Adventureworks Data
 -   To set the bind level
 
  
@@ -76,7 +76,7 @@ allDataGridModel.LoadOnDemand = false;
 ### <a id="loadOnDemandJQuery"></a> Loading data on demand in jQuery 
 To load all data on demand for jQuery you need:
 
--   A Hierarchical data source like the following JSON: oData Adventrueworks Data
+-   A Hierarchical data source like the following JSON: oData Adventureworks Data
 -   To set the `oData` property to `true`, which means we will use the oData protocol to load data on demand.
 -   To set the bind level of the igHierarchicalGrid to zero, because when loading data on demand, only the parent data loads initially.
 

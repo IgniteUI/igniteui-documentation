@@ -24,7 +24,7 @@ This topic contains the following sections:
 -   [Preview](#preview)
 -   [Requirements](#requirements)
 -   [Initializing a jQuery igHierarchicalGrid](#initializing-jquery)
--   [Initializing a MVC igHierarchicalGrid](#initializing-mvc)
+-   [Initializing an MVC igHierarchicalGrid](#initializing-mvc)
 -   [Related Topics](#related-topics)
 
 ## <a id="introduction"></a> Introduction
@@ -59,11 +59,11 @@ Following is a preview of the final result.
     ```
 
 -   MVC-specific requirements
-    -   An MVC 2 or MVC 3 project in MS Visual Studio® with a grid connected to a data source
+    -   An MVC 4, MVC 5 or ASP.NET Core project in MS Visual Studio® with a grid connected to a data source
     -   A reference to the MVC dll (stores the MVC IG wrappers)
 
 ### Scripting Requirements 
-The required scripts for both jQuery and MVC sample are the same because the MVC wrappers just render a jQuery widget.
+The required scripts for the jQuery and MVC samples are the same because %%ProductNameMVC%% renders jQuery widgets.
 
 The following scripts are required to run the grid and its grouping functionality:
 
@@ -96,7 +96,7 @@ The sample below demonstrates how to bind igHierarchicalGrid to JSON data source
    [igHierarchicalGrid JSON Binding](%%SamplesEmbedUrl%%/hierarchical-grid/json-binding)
 </div>
 
-## <a id="initializing-mvc"></a>Initializing a MVC igHierarchicalGrid 
+## <a id="initializing-mvc"></a>Initializing an MVC igHierarchicalGrid 
 1.  Create the LINQ to SQL model. ![](images/igHierarchicalGrid_Initializing_02.png)
 2.  Create an MVC Controller method.
 
