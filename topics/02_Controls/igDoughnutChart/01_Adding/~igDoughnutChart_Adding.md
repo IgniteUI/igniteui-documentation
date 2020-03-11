@@ -20,7 +20,7 @@ This is a group of topics demonstrating how to add the `igDoughnutChart`™ cont
 
 - [Adding *igDoughnutChart* to an HTML Page](igDoughnutChart-Adding-to-an-HTML-Page.html): This topic explains how to add the `igDoughnutChart` to an HTML page.
 
-- [Adding *igDoughnutChart* to an ASP.NET MVC Application](igDoughnutChart-Adding-Using-the-MVC-Helper.html): This topic walks through instantiating an `igDoughnutChart` in an ASP.NET MVC application using the ASP.NET MVC helper.
+- [Adding *igDoughnutChart* to an ASP.NET MVC Application](igDoughnutChart-Adding-Using-the-MVC-Helper.html): This topic walks through instantiating an `igDoughnutChart` in an ASP.NET MVC application using Ignite UI for MVC.
 
 
 

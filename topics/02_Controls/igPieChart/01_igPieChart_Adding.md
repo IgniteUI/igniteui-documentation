@@ -131,7 +131,7 @@ The following steps demonstrate how to add an `igPieChart` control to a web page
 
 	The `Infragistics.Web.Mvc` assembly must be referenced in your ASP.NET MVC project and the corresponding namespace must be referenced in your view. For details, see [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html) but for clarity the code to reference the namespace is given here.
 
-	For MVC views the `igLoader` MVC helper must be used:
+	For MVC views Ignite UI for MVC Loader must be used:
 
 	**In ASPX:**
 
@@ -144,7 +144,7 @@ The following steps demonstrate how to add an `igPieChart` control to a web page
 	%>
 	```
 
-	The MVC helper for `igLoader` automatically detects required resources and specifying resources is not necessary.
+	The Ignite UI for MVC Loader automatically detects required resources and specifying resources is not necessary.
 
 	**Referencing resources manually**
 
@@ -165,7 +165,7 @@ The following steps demonstrate how to add an `igPieChart` control to a web page
 
 	**ASP.NET Example**
 
-	For ASP.NET MVC, no container elements are needed because the MVC helper adds the required markup automatically.
+	For ASP.NET MVC, no container elements are needed because the Ignite UI for MVC adds the required markup automatically.
 
 3. Add the data source.
 
@@ -263,7 +263,7 @@ The following steps demonstrate how to add an `igPieChart` control to a web page
 
 	**ASP.NET example**
 
-	The code below instantiates and sets the main features of the `igPieChart` using the MVC helper for pie chart provided in the `Infragistics.Web.Mvc` assembly. The data model is associated with the control with the PieChart(Model) call and the rest of the calls act similarly to the HTML example.
+	The code below instantiates and sets the main features of the `igPieChart` using the Ignite UI for MVC PieChart provided in the `Infragistics.Web.Mvc` assembly. The data model is associated with the control with the PieChart(Model) call and the rest of the calls act similarly to the HTML example.
 
 	**In ASPX:**
 
@@ -293,7 +293,7 @@ The following topics provide additional information related to this topic.
 
 - [Data Binding (igPieChart)](igPieChart-DataBinding.html): This topic explains how to bind various data sources to the `igPieChart`™ control.
 
-- [jQuery and ASP.NET MVC Helper API Reference Links (igPieChart)](igPieChart-API-Links.html): This topic provides links to the API documentation for jQuery and ASP.NET MVC helper class for `igDataChart`™ control.
+- [jQuery and Ignite UI for MVC API Reference Links (igPieChart)](igPieChart-API-Links.html): This topic provides links to the API documentation for jQuery and Ignite UI for MVC class for `igDataChart`™ control.
 
 - [Styling igPieChart with Themes](igPieChart-Styling-Themes.html): Demonstrates using styles and applying themes with `igPieChart`™.
 

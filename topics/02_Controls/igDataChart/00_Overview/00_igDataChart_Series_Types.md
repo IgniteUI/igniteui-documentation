@@ -1256,7 +1256,7 @@ The following topics provide additional information related to this topic.
 
 -	[Adding igDataChart](igDataChart-Adding.html): This topic demonstrates how to add the igDataChart control to a web page and bind it to data.
 
--	[](igDataChart-API-Links.html)[jQuery and ASP.NET MVC Helper API Reference Links (igDataChart)](igDataChart-API-Links.html): This topic provides links to the API documentation for jQuery and ASP.NET MVC helper class for `igDataChart`
+-	[](igDataChart-API-Links.html)[jQuery and Ignite UI for MVC API Reference Links (igDataChart)](igDataChart-API-Links.html): This topic provides links to the API documentation for jQuery and Ignite UI for MVC class for `igDataChart`
 
 
 

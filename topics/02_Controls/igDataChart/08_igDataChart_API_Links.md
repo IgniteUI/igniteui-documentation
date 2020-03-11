@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Reference Links (igDataChart)
+# jQuery and Ignite UI for MVC API Reference Links (igDataChart)
 
 
 ##Topic Overview
 ### Purpose
 
-This topic provides links to the API documentation for jQuery and ASP.NET MVC helper class for `igDataChart`™ control.
+This topic provides links to the API documentation for jQuery and Ignite UI for MVC class for `igDataChart`™ control.
 
 ### Required Background
 
@@ -29,13 +29,13 @@ The following topics are prerequisite to understanding this topic:
 
 ### Introduction
 
-The `igDataChart` is built as a jQuery UI widget with an accompanying ASP.NET MVC Helper. For more information about each API, follow the links to the API documentation given below.
+The `igDataChart` is built as a jQuery UI widget with an accompanying Ignite UI for MVC. For more information about each API, follow the links to the API documentation given below.
 
 ### API documents reference summary
 
 -	[igDataChart jQuery API](%%jQueryApiUrl%%/ui.igDataChart): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
 
--	[igDataChart ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DataChart`1.html) : The documentation contains the DataChart class description and a list of all of its members.
+-	[igDataChart Ignite UI for MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DataChart`1.html) : The documentation contains the DataChart class description and a list of all of its members.
 
 ##Related Content
 

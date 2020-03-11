@@ -28,7 +28,7 @@ The `igDoughnutChart` control allows for proportionally illustrating the occurre
 
 - [Configuring Selection and Explosion (*igDoughnutChart*)](igDoughnutChart-Configuring-Selection-and-Explosion.html): This topic explains how to configure selection and explosion for the slices of the `igDoughnutChart`.
 
-- [jQuery and ASP.NET MVC Helper API Links (*igDoughnutChart*)](igDoughnutChart-API-Links.html): This topic provides links to the API documentation about the `igDoughnutChart` control and the ASP.NET MVC Helper for it.
+- [jQuery and Ignite UI for MVC API Links (*igDoughnutChart*)](igDoughnutChart-API-Links.html): This topic provides links to the API documentation about the `igDoughnutChart` control and the Ignite UI for MVC for it.
 
 - [Known Issues and Limitations (*igDoughnutChart*)](igDoughnutChart-Known-Issues-and-Limitations.html):  This topic provides information on the `igDoughnutChart` control’s known issues and limitations.
 

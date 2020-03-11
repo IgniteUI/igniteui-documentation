@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Reference Links (igPieChart)
+# jQuery and Ignite UI for MVC API Reference Links (igPieChart)
 
 ##Topic Overview
 
 ### Purpose
 
-This topic provides links to the API documentation for jQuery and ASP.NET MVC helper class for `igPieChart`™.
+This topic provides links to the API documentation for jQuery and Ignite UI for MVC class for `igPieChart`™.
     
 ### Required Background
 
@@ -29,14 +29,14 @@ The following topics are prerequisite to understanding this topic:
 
 ### Introduction
 
-The `igPieChart` is built as a jQuery UI widget with an accompanying ASP.NET MVC Helper. For more information about each API, follow the links to the API documentation given below.
+The `igPieChart` is built as a jQuery UI widget with an accompanying Ignite UI for MVC PieChart. For more information about each API, follow the links to the API documentation given below.
 
 ### API reference summary
 
 API|Description
 ---|---
 [igPieChart jQuery API](%%jQueryApiUrl%%/ui.igPieChart)|The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
-[igPieChart ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PieChart`1.html)|The documentation contains the PieChart class description and a list of all of its members.
+[igPieChart Ignite UI for MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PieChart`1.html)|The documentation contains the PieChart class description and a list of all of its members.
 
 
 ##Related Content

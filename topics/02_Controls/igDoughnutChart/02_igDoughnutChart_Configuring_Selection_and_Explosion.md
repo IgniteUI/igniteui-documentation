@@ -374,7 +374,7 @@ The following code example demonstrates how to toggle the explosion state of sli
 
 The following samples provide additional information related to this topic.
 
-- [Bind to Collection](%%SamplesUrl%%/doughnut-chart/bind-to-collection): This is an example of rendering the `igDoughnutChart` using the ASP.NET MVC helper. The helper binds to a collection of objects on the server and serializes the collection to JSON objects and renders the required `igDoughnutChart` HTML and JavaScript.
+- [Bind to Collection](%%SamplesUrl%%/doughnut-chart/bind-to-collection): This is an example of rendering the `igDoughnutChart` using Ignite UI for MVC. The helper binds to a collection of objects on the server and serializes the collection to JSON objects and renders the required `igDoughnutChart` HTML and JavaScript.
 
 
 

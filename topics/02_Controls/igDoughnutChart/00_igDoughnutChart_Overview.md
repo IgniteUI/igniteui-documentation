@@ -75,7 +75,7 @@ The following topics provide additional information related to this topic.
 
 - [Configuring Selection and Explosion (*igDoughnutChart*)](igDoughnutChart-Configuring-Selection-and-Explosion.html): This topic explains how to configure the slice selection and explosion on `igDoughnutChart`.
 
-- [jQuery and ASP.NET MVC Helper API Links (*igDoughnutChart*)](igDoughnutChart-API-Links.html): This topic provides links to the API documentation about the `igDoughnutChart` control and the ASP.NET MVC Helper for it.
+- [jQuery and Ignite UI for MVC API Links (*igDoughnutChart*)](igDoughnutChart-API-Links.html): This topic provides links to the API documentation about the `igDoughnutChart` control and the Ignite UI for MVC for it.
 
 
 
@@ -83,7 +83,7 @@ The following topics provide additional information related to this topic.
 
 The following samples provide additional information related to this topic.
 
-- [Bind to Collection](%%SamplesUrl%%/doughnut-chart/bind-to-collection): This sample demonstrates how to render `igDoughnutChart` using the ASP.NET MVC helper and bind it to a collection of objects on the server.
+- [Bind to Collection](%%SamplesUrl%%/doughnut-chart/bind-to-collection): This sample demonstrates how to render `igDoughnutChart` using the Ignite UI for MVC and bind it to a collection of objects on the server.
 
 - [Bind to JSON](%%SamplesUrl%%/doughnut-chart/bind-json): This sample demonstrates how to bind doughnut chart to JSON data.
 
