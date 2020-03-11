@@ -202,7 +202,7 @@ Listing 5: HTML element required to instantiate the grid
    [igGrid Advanced Filtering](%%SamplesEmbedUrl%%/grid/advanced-filtering)
 </div>
 
-Listing 6: Razor or CSHTML markup for use with the ASP.NET MVC wrapper
+Listing 6: Razor or CSHTML markup to use with %%ProductNameMVC%%
 
 
 
@@ -235,7 +235,7 @@ Otherwise, the grid encodes filtering information in the following way (example)
 http://<SERVER>/grid/GridGetData? filter(Name)=startsWith(a)&filter(ModifiedDate)=today()&filterLogic=AND
 ```
 
-When the ASP.NET MVC wrapper is used to bind to server-side data through LINQ (IQueryable), all filtering information that’s encoded in the URL is automatically translated to LINQ expression clauses (Where clause), so you do not need to do anything additional in order to filter the data.
+When %%ProductNameMVC%% is used to bind to server-side data through LINQ (IQueryable), all filtering information that’s encoded in the URL is automatically translated to LINQ expression clauses (Where clause), so you do not need to do anything additional in order to filter the data.
 
 
 ## <a id="column-settings"></a> Column Settings
