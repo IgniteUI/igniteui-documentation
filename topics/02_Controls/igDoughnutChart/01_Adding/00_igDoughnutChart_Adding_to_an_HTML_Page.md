@@ -542,9 +542,9 @@ Follow these steps to add an `igDoughnutChart` to an HTML page.
 
 The following topics provide additional information related to this topic.
 
-- [Adding *igDoughnutChart* to an ASP.NET MVC Application](igDoughnutChart-Adding-Using-the-MVC-Helper.html): This topic walks through instantiating an `igDoughnutChart` in an ASP.NET MVC application using Ignite UI for MVC.
+- [Adding *igDoughnutChart* to an ASP.NET MVC Application](igDoughnutChart-Adding-Using-the-MVC-Helper.html): This topic walks through instantiating an `igDoughnutChart` in an ASP.NET MVC application using %%ProductNameMVC%%.
 
-- [jQuery and Ignite UI for MVC API Links (*igDoughnutChart*)](igDoughnutChart-API-Links.html): This topic provides links to the API documentation about the `igDoughnutChart` control and the Ignite UI for MVC for it.
+- [jQuery and %%ProductNameMVC%% API Links (*igDoughnutChart*)](igDoughnutChart-API-Links.html): This topic provides links to the API documentation about the `igDoughnutChart` control and the %%ProductNameMVC%% for it.
 
 
 ### <a id="samples"></a> Samples

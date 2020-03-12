@@ -14,7 +14,7 @@
 
 ### Purpose
 
-This topic walks through using Ignite UI for MVC to instantiate an [`igDoughnutChart`](%%jQueryApiUrl%%/ui.igDoughnutChart#options)™ in an ASP.NET MVC application.
+This topic walks through using %%ProductNameMVC%% to instantiate an [`igDoughnutChart`](%%jQueryApiUrl%%/ui.igDoughnutChart#options)™ in an ASP.NET MVC application.
 
 ### Required background
 
@@ -54,7 +54,7 @@ This topic contains the following sections:
 
 ### <a id="intro-summary"></a> Adding *igDoughnutChart* summary
 
-The successful addition of `igDoughnutChart` to an ASP.NET MVC application, using Ignite UI for MVC requires that you adjust its size by specifying values for its [`height`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:height) and [`width`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:width) options and adding at least one [`series`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:series) to it.
+The successful addition of `igDoughnutChart` to an ASP.NET MVC application, using %%ProductNameMVC%% requires that you adjust its size by specifying values for its [`height`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:height) and [`width`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:width) options and adding at least one [`series`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:series) to it.
 
 You must provide a pre-configured data source instance, or create one internally for the series. Apart from the [`dataSource`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:series.dataSource) option, in order to display the control, the [name](%%jQueryApiUrl%%/ui.igDoughnutChart#options:series.name) and [`valueMemberPath`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:series.valueMemberPath) options require a value. The `valueMemberPath` parameter contains the value used in creating the slices of the series. In this example, the `ProductItemCollection` model is used to instantiate the `dataSource` option of the series. The `valueMemberPath` of the series is set to Index and uses its value to build its slices.
 
@@ -66,7 +66,7 @@ An ASP.NET MVC application configured with the required JavaScript files, CSS fi
 
 ## <a id="adding"></a> Adding igDoughnutChart to an ASP.NET MVC Application
 
-This topic walks through using Ignite UI for MVC to instantiate an igDoughnutChart in an ASP.NET MVC application.
+This topic walks through using %%ProductNameMVC%% to instantiate an igDoughnutChart in an ASP.NET MVC application.
 
 ### <a id="adding-preview"></a> Preview
 
@@ -92,7 +92,7 @@ Following is a conceptual overview of the process:
 
 ### <a id="adding-steps"></a> Steps
 
-This topic walks through using Ignite UI for MVC to instantiate an `igDoughnutChart` in an ASP.NET MVC application.
+This topic walks through using %%ProductNameMVC%% to instantiate an `igDoughnutChart` in an ASP.NET MVC application.
 
 1. **Add a reference to *Infragistics.Web.Mvc.dll***
 	
@@ -102,7 +102,7 @@ This topic walks through using Ignite UI for MVC to instantiate an `igDoughnutCh
 	
 	**1.** Import the *Infragistics.Web.Mvc* namespace
 
-	In order to use Ignite UI for MVC, you must first import the Infragistics.Web.Mvc namespace onto your view.
+	In order to use %%ProductNameMVC%%, you must first import the Infragistics.Web.Mvc namespace onto your view.
 
 	**In ASPX:**
 	```csharp
@@ -191,7 +191,7 @@ This topic walks through using Ignite UI for MVC to instantiate an `igDoughnutCh
 
 4. **Instantiate the *igDoughnutChart***
 	
-	**Use Ignite UI for MVC and set basic options in order to Instantiate the `igDoughnutChart`.** Use Ignite UI for MVC within the body of your ASP.NET page to instantiate the `igDoughnutChart`. Several helper methods need to be set for a basic rendering when instantiating the control, there are including the following:
+	**Use %%ProductNameMVC%% and set basic options in order to Instantiate the `igDoughnutChart`.** Use %%ProductNameMVC%% within the body of your ASP.NET page to instantiate the `igDoughnutChart`. Several helper methods need to be set for a basic rendering when instantiating the control, there are including the following:
 	
 	<table class="table">
 		<tbody>
@@ -293,13 +293,13 @@ The following topics provide additional information related to this topic.
 
 - [Adding *igDoughnutChart* to an HTML Page](igDoughnutChart-Adding-to-an-HTML-Page.html): This topic explains how to add the `igDoughnutChart` to an HTML page.
 
-- [jQuery and Ignite UI for MVC API Links (*igDoughnutChart*)](igDoughnutChart-API-Links.html): This topic provides links to the API documentation about the `igDoughnutChart` control and the Ignite UI for MVC for it.
+- [jQuery and %%ProductNameMVC%% API Links (*igDoughnutChart*)](igDoughnutChart-API-Links.html): This topic provides links to the API documentation about the `igDoughnutChart` control and the %%ProductNameMVC%% for it.
 
 ### <a id="samples"></a> Samples
 
 The following sample provides additional information related to this topic.
 
-- [Bind to Collection](%%SamplesUrl%%/doughnut-chart/bind-to-collection): This is an example of rendering the `igDoughnutChart` using Ignite UI for MVC. The helper binds to a collection of objects on the server and serializes the collection to JSON objects and renders the required `igDoughnutChart` HTML and JavaScript.
+- [Bind to Collection](%%SamplesUrl%%/doughnut-chart/bind-to-collection): This is an example of rendering the `igDoughnutChart` using %%ProductNameMVC%%. The helper binds to a collection of objects on the server and serializes the collection to JSON objects and renders the required `igDoughnutChart` HTML and JavaScript.
 
 
 

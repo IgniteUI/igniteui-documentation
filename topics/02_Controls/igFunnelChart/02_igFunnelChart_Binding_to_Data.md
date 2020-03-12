@@ -229,7 +229,7 @@ This sample shows how to bind an `igFunnelChart` to data available in XML struct
 
 ### Description
 
-In an MVC application you will usually want to have a strongly-typed View and pass it data objects from the business logic layer of your application. This example provides the essential code which defines a sample data class and passes a model object to the Ignite UI for MVC FunnelChart which instantiates a funnel chart. The data model object is required to be an IQueryable of the data class.
+In an MVC application you will usually want to have a strongly-typed View and pass it data objects from the business logic layer of your application. This example provides the essential code which defines a sample data class and passes a model object to the %%ProductNameMVC%% FunnelChart which instantiates a funnel chart. The data model object is required to be an IQueryable of the data class.
 
 ### Code
 
@@ -245,7 +245,7 @@ public class BudgetData
 }
 ```
 
-The following code snippet specifies a strongly-typed MVC View at the beginning. Then it shows how to use the Ignite UI for MVC FunnelChart in order to **bind to the Model object of the View**.
+The following code snippet specifies a strongly-typed MVC View at the beginning. Then it shows how to use the %%ProductNameMVC%% FunnelChart in order to **bind to the Model object of the View**.
 
 **In ASPX:**
 
@@ -331,7 +331,7 @@ The following topics provide additional information related to this topic.
 
 - [Known Issues and Limitations (*igFunnelChart*)](igFunnelChart-Known-Issues-and-Limitations.html): This topic lists the known issues related to the `igFunnelChart` control. 
  
-- [jQuery and Ignite UI for MVC API Links (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): This topic lists the links to the API reference documentation for the `igFunnelChart` control.
+- [jQuery and %%ProductNameMVC%% API Links (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): This topic lists the links to the API reference documentation for the `igFunnelChart` control.
 
 
 ### <a id="samples"></a> Samples

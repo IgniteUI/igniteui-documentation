@@ -295,7 +295,7 @@ to that array.
 
 ###<a id="mvc_steps"></a> Steps
 
-The following steps demonstrate how to instantiate and bind an `igDataChart` control in ASP.NET MVC by providing a list of data objects to a strongly typed view and use Ignite UI for MVC DataChart.
+The following steps demonstrate how to instantiate and bind an `igDataChart` control in ASP.NET MVC by providing a list of data objects to a strongly typed view and use %%ProductNameMVC%% DataChart.
 
 1. Define the data model.
 
@@ -320,7 +320,7 @@ The following steps demonstrate how to instantiate and bind an `igDataChart` con
 
  Add the logic to a controller method in order to instantiate an array of `StockMarketDataPoint` objects. This place to add custom logic that gets data from the data base.
 
- Note that the list of `StockMarketDataPoint` objects is converted to an IQueryable<StockMarketDataPoint> before submitting to the view. This can alternatively be done in the Ignite UI for MVC call in the view, but the implementation provided here is cleaner.
+ Note that the list of `StockMarketDataPoint` objects is converted to an IQueryable<StockMarketDataPoint> before submitting to the view. This can alternatively be done in the %%ProductNameMVC%% call in the view, but the implementation provided here is cleaner.
 
  **In C#:**
 

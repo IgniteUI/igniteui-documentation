@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and Ignite UI for MVC API Links (igDoughnutChart)
+# jQuery and %%ProductNameMVC%% API Links (igDoughnutChart)
 
 ## igDoughnutChart API Reference Documentation
 
@@ -16,7 +16,7 @@ The following table lists the links to the API reference documentation for the `
 
 - [igDoughnutChart jQuery API](%%jQueryApiUrl%%/ui.igDoughnutChart): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
 
-- [*igDoughnutChart* Ignite UI for MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DoughnutChartModel.html): The documentation contains the description of the `igDoughnutChart` and a list of all of its members.
+- [*igDoughnutChart* %%ProductNameMVC%% API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DoughnutChartModel.html): The documentation contains the description of the `igDoughnutChart` and a list of all of its members.
 
 ## Related Content
 
@@ -24,7 +24,7 @@ The following table lists the links to the API reference documentation for the `
 
 The following topics provide additional information related to this topic.
 
-- [Adding igDoughnutChart](igDoughnutChart-Adding.html): This topic walks through instantiating an `igDoughnutChart` in an ASP.NET MVC application using Ignite UI for MVC.
+- [Adding igDoughnutChart](igDoughnutChart-Adding.html): This topic walks through instantiating an `igDoughnutChart` in an ASP.NET MVC application using %%ProductNameMVC%%.
 
 
 

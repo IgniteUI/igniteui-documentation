@@ -35,7 +35,7 @@ The topics in this section provide detailed information regarding the `igPieChar
 
 - [Accessibility Compliance (igPieChart)](igPieChart-Accessibility.html): This topic explains the accessibility features of the `igPieChart` and provides advice how to achieve accessibility compliance for pages containing charts.
 
-- [jQuery and Ignite UI for MVC API Reference Links (igPieChart)](igPieChart-API-Links.html): This topic provides links to the API documentation for jQuery and Ignite UI for MVC class for `igPieChart`.
+- [jQuery and %%ProductNameMVC%% API Reference Links (igPieChart)](igPieChart-API-Links.html): This topic provides links to the API documentation for jQuery and %%ProductNameMVC%% class for `igPieChart`.
 
 
 ##Related Content

@@ -161,7 +161,7 @@ The following steps demonstrate how to add an `igDataChart` control to a web pag
 	
 	**ASP.NET Example**
 	
-	For ASP.NET MVC no container elements are needed because Ignite UI for MVC adds the required markup automatically.
+	For ASP.NET MVC no container elements are needed because %%ProductNameMVC%% adds the required markup automatically.
 
 3. Add data source. <a id="add-data-array"></a> 
 
@@ -257,7 +257,7 @@ The following steps demonstrate how to add an `igDataChart` control to a web pag
 	
 	**ASP.NET example**
 	
-	The code below instantiates and sets the main features of the `igDataChart` using the Ignite UI for MVC DataChart provided in the `Infragistics.Web.Mvc` assembly. The data model is associated with the control with the DataChart(Model) call and the rest of the calls act similarly to the HTML example.
+	The code below instantiates and sets the main features of the `igDataChart` using the %%ProductNameMVC%% DataChart provided in the `Infragistics.Web.Mvc` assembly. The data model is associated with the control with the DataChart(Model) call and the rest of the calls act similarly to the HTML example.
 	
 	**In ASPX:**
 	
@@ -532,7 +532,7 @@ The following topics provide additional information related to this topic.
 
 -	[Binding igDataChart to Data](igDataChart-DataBinding.html): Shows how to bind data from various data sources to a chart control. This includes JavaScript arrays, JSON, WCF service. Shows how a big volume of data can be data bound to a chart control.
 
--	[jQuery and Ignite UI for MVC API Reference Links (igDataChart)](igDataChart-API-Links.html): References to the jQuery API reference of `igDataChart` and contains a reference table with all Ignite UI for MVC properties with code snippets.
+-	[jQuery and %%ProductNameMVC%% API Reference Links (igDataChart)](igDataChart-API-Links.html): References to the jQuery API reference of `igDataChart` and contains a reference table with all %%ProductNameMVC%% properties with code snippets.
 
 -	[Styling igDataChart](igDataChart-Styling-Themes.html): Demonstrates how to use the `igDataChart`™ control to apply styles and themes.
 

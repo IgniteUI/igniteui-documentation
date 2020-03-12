@@ -318,7 +318,7 @@ The following screenshot is a preview of the final result.
 
 ### <a id="mvc-steps"></a>Steps
 
-The following steps demonstrate how to instantiate and bind an `igPieChart` control in ASP.NET MVC by providing a list of data objects to a strongly typed view and use the Ignite UI for MVC DataChart.
+The following steps demonstrate how to instantiate and bind an `igPieChart` control in ASP.NET MVC by providing a list of data objects to a strongly typed view and use the %%ProductNameMVC%% DataChart.
 
 1. Define data model.
 
@@ -355,7 +355,7 @@ The following steps demonstrate how to instantiate and bind an `igPieChart` cont
 	}
 	```
 
-	Note how the list of `DepartmentSpending` objects is converted to an `IQueryable< DepartmentSpending>` before submitting to the view. This can alternatively be done in the Ignite UI for MVC PieChart call in the view but the implementation provided is cleaner.
+	Note how the list of `DepartmentSpending` objects is converted to an `IQueryable< DepartmentSpending>` before submitting to the view. This can alternatively be done in the %%ProductNameMVC%% PieChart call in the view but the implementation provided is cleaner.
 
 3. Instantiate chart control and set data source.
 
