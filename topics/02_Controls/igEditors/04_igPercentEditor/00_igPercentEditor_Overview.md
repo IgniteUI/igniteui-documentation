@@ -29,7 +29,7 @@ The `igPercentEditor` includes the following characteristics:
 
 -   Overall theme support
 -   JavaScript Client API
--   ASP.NET MVC wrapper
+-   ASP.NET MVC
 
 
 ##Adding igPercentEditor to a Web Page
@@ -64,7 +64,7 @@ The `igPercentEditor` includes the following characteristics:
     <script type="text/javascript" src="@Url.Content("~/Scripts/Samples/modules/i18n/regional/infragistics.ui.regional-en.js")"></script>
     ```
 
-3.  For jQuery implementations create an INPUT, DIV or SPAN as the target element in HTML. This step is optional for ASP.NET MVC implementations as the MVC wrapper creates the containing element for you.
+3.  For jQuery implementations create an INPUT, DIV or SPAN as the target element in HTML. This step is optional for ASP.NET MVC implementations as %%ProductNameMVC%% creates the containing element for you.
 
     **In HTML:**
 

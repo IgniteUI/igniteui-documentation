@@ -212,7 +212,7 @@ The following examples demonstrate how to create a custom theme. Listing 3 shows
 </style>
 ```
 
-**Listing 4** demonstrates how to markup and instantiate the rating control in a jQuery/HTML scenario, while **Listing 5** shows you how to create the rating control using the ASP.NET MVC wrapper.
+**Listing 4** demonstrates how to markup and instantiate the rating control in a jQuery/HTML scenario, while **Listing 5** shows you how to create the rating control using %%ProductNameMVC%% Rating.
 
 **Listing 4: Create the markup and associated script in HTML**
 
@@ -319,7 +319,7 @@ $("#igRating1).igRating({
 <div id="igRating1"></div>
 ```
 
-When the igRating ASP.NET MVC wrapper is used you can directly set the classes for every one of the items (which means you don’t need to define JSON array or JavaScript array). The wrapper is doing the job behind the scenes.
+When the %%ProductNameMVC%% Rating is used you can directly set the classes for every one of the items (which means you don’t need to define JSON array or JavaScript array). The %%ProductNameMVC%% is doing the job behind the scenes.
 
 **Listing 10: Apply custom styles to the rating control in ASP.NET MVC**
 

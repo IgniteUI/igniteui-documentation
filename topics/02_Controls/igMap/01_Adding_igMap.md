@@ -76,7 +76,7 @@ Following are the requirements for adding a map to a web page:
 -   References to the required resources. The required resources are:
     -   The jQuery, jQueryUI and Modernizr JavaScript resources (must reside in the scripts folder of your web site or web application)
     -   The %%ProductName%% CSS files (must reside in the Infragistics® content folder of your web site or web application; topic for details, see the [Styling and Theming %%ProductName%%](Deployment-Guide-Styling-and-Theming.html))
-    -   The %%ProductName%% JavaScript (must reside in the Infragistics scripts folder your web site or web application; for details, see the [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html) topic).
+    -   The %%ProductName%% JavaScript files (must reside in the Infragistics scripts folder your web site or web application; for details, see the [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html) topic).
 
 You can add the references either manually or using the [Infragistics Loader](Using-Infragistics-Loader.html) (recommended).
 
@@ -224,7 +224,7 @@ Following are the requirements for adding a map to an ASP.NET MVC View:
 -   References to the required resources. The required resources are:
    -   The jQuery, jQueryUI and Modernizr JavaScript resources (must reside in the scripts folder of your web site or web application)
     -   The %%ProductName%% CSS files (must reside in the Infragistics® content folder of your web site or web application; topic for details, see the [Styling and Theming %%ProductName%%](Deployment-Guide-Styling-and-Theming.html))
-    -   The %%ProductName%% JavaScript (must reside in the Infragistics scripts folder your web site or web application; for details, see the [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html) topic).
+    -   The %%ProductName%% JavaScript files (must reside in the Infragistics scripts folder your web site or web application; for details, see the [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html) topic).
 
 You can the references either manually or using the [Infragistics Loader](Using-Infragistics-Loader.html) (recommended).
 

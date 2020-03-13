@@ -14,7 +14,7 @@
 
 This procedure guides you through the process of adding an `igDialog` control to a web page. The `igDialog` is configured so that all of the header buttons are enabled – such as buttons for minimize, maximize, pin and close.
 
-You have the option of instantiating the control in several ways. This topic demonstrates the typical jQuery UI method, the jQuery method (by using attributes) and instantiating the control using the MVC Dialog wrapper.
+You have the option of instantiating the control in several ways. This topic demonstrates the typical jQuery UI method, the jQuery method (by using attributes) and instantiating the control using the %%ProductNameMVC%% Dialog.
 
 ### Preview
 
@@ -64,7 +64,7 @@ The recommended approach to instantiating the `igDialog` control is to use the l
     </script>
 	```
 
-> **Note:** If you are using MVC Dialog wrapper, remember to reference the ***Infragistics.Web.Mvc*** dll into your project.
+> **Note:** If you are using %%ProductNameMVC%% Dialog, remember to reference the ***Infragistics.Web.Mvc*** dll into your project.
 
 
 ### 2. Instantiate igDialog
@@ -122,11 +122,11 @@ If you want to use the `igDialog` with TypeScript, you can instantiate it using 
     
 >**Note:** This is needed for TypeScript versions prior to 1.5 so the compiler could include the dependencies in the program during compilation. In 1.5 and newer versions they can be defined in a separate tsconfig.json file. For more information see the [tsconfig.json wiki page](https://github.com/Microsoft/TypeScript/wiki/tsconfig.json)
 		
-> More information on how to use the %%ProductFamilyName%% definitions for TypeScript can be found in ["Using %%ProductFamilyName%% with TypeScript" topic](using-ignite-ui-with-typescript.html).
+> More information on how to use the %%ProductName%% definitions for TypeScript can be found in ["Using %%ProductName%% with TypeScript" topic](using-ignite-ui-with-typescript.html).
 
 - **Razor Initialization**
 	
-	It’s important to know that the Dialog MVC wrapper is not like the other MVC wrappers where it is expected that it will render the HTML,  along with the JavaScript code that initializes the control. Because the `igDialog` content can be any HTML markup, you need to define the markup first, and then the MVC wrapper will define all the configurations of the control.
+	It’s important to know that the %%ProductNameMVC%% Dialog is not like the other controls where it is expected that it will render the HTML,  along with the JavaScript code that initializes the control. Because the `igDialog` content can be any HTML markup, you need to define the markup first, and then the %%ProductNameMVC%% will define all the configurations of the control.
 
 	- Define `DIV` HTML placeholder
 
@@ -138,7 +138,7 @@ If you want to use the `igDialog` with TypeScript, you can instantiate it using 
 	    </div>
 		```
 
-		MVC wrapper code:
+		%%ProductNameMVC%% code:
 		
 		**In C#:**
 		
@@ -156,15 +156,15 @@ If you want to use the `igDialog` with TypeScript, you can instantiate it using 
 	    )
 		```
 
-> **Note**: When you want to set identifier of the MVC Dialog wrappers you have three different options. For more information see the [Property Reference](igDialog-Property-Reference.html) topic. If the defined HTML placeholder has the same ID as in the sample above – `igDialog1`, then you can use one of the following:
+> **Note**: When you want to set identifier of the %%ProductNameMVC%% Dialog, you have three different options. For more information see the [Property Reference](igDialog-Property-Reference.html) topic. If the defined HTML placeholder has the same ID as in the sample above – `igDialog1`, then you can use one of the following:
 
 > `Dialog.ContentJquerySelector("#igDialog1")` – defines the selector – the same as it is supposed  to be in the jQuery.
 
-> `Dialog.ContentID("igDialog1")` – defines the selector without the #, which will be rendered automatically by the MVC wrapper.
+> `Dialog.ContentID("igDialog1")` – defines the selector without the #, which will be rendered automatically by the %%ProductNameMVC%%.
 
 > `Dialog.ID(“igDialog1”)` – the same as the `ContentID(“igDialog1”)`
 
-> **Note**: If you want to define the HTML DIV Placeholder code using the MVC wrapper, then the Dialog Helper suggests the following method. Assume that you want to achieve the same effect as defining an DIV HTML placeholder, then use:  `Dialog.ContentHTML("<div id="igDialog1"> igDialog Content </div>")`
+> **Note**: If you want to define the HTML DIV Placeholder code using the %%ProductNameMVC%%, then the Dialog Helper suggests the following method. Assume that you want to achieve the same effect as defining an DIV HTML placeholder, then use:  `Dialog.ContentHTML("<div id="igDialog1"> igDialog Content </div>")`
 
 - **Instantiate in AngularJS**
 
@@ -174,7 +174,7 @@ The following example demonstrates how to declare a Dialog Window with an Angula
    [%%SamplesEmbedUrl%%/dialog-window/angular](%%SamplesEmbedUrl%%/dialog-window/angular)
 </div>
 
-> More information on how to use the %%ProductFamilyName%% directives for AngularJS can be found in ["Using %%ProductFamilyName%% with AngularJS" topic](using-ignite-ui-with-angularjs.html).
+> More information on how to use the %%ProductName%% directives for AngularJS can be found in ["Using %%ProductName%% with AngularJS" topic](using-ignite-ui-with-angularjs.html).
 
 ## Destroy igDialog
 

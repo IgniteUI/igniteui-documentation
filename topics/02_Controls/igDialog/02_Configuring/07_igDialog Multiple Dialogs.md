@@ -51,7 +51,7 @@ You can show multiple `igDialog` widgets on a single page and they will appear p
 
 What the control does automatically is it detects the first HTML placeholder and initializes the first dialog widget at the bottom. Respectively, the last `igDialog` HTML placeholder will be for the top widget. The `igDialog` exposes API methods that grant access to the top dialogs and the ability to move dialogs to the top level if they are not there already.
 
-> **Note:** You cannot achieve this functionality using Dialog MVC wrappers.
+> **Note:** You cannot achieve this functionality using %%ProductNameMVC%% Dialog.
 
 ### <a id="configuring-code"></a> Code
 

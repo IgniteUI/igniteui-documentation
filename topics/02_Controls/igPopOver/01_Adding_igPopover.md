@@ -389,7 +389,7 @@ The following steps demonstrate how to add a basic `igPopover` control to an ASP
 
 2. Add the `igPopover` control.
 
-	Add the Loader MVC helper configuration for `igPopover` to your ASP.NET MVC View.
+	Add the configuration for %%ProductNameMVC%% `Popover` to your ASP.NET MVC View.
 	
 	The following code creates an instance of the `igPopover` control without specifying its options. It targets the input element “firstName” created in step 1.
 	

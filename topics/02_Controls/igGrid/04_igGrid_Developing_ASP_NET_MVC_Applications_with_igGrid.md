@@ -42,7 +42,7 @@ Before you can use the igGrid MVC Helper, you must first create a reference to t
 Begin by creating a reference in your ASP.NET application to the %%ProductName%% MVC assembly which is found at this location:
 
 ```
-%%InstallPath%%\MVC\<MVC_VERSION_NUMBER>\Bin\Infragistics.Web.Mvc.dll
+%%InstallPathMVC%%\<MVC_VERSION_NUMBER>\Bin\Infragistics.Web.Mvc.dll
 ```
 
 ### <a id="referencing-styles-and-scripts"></a>Referencing Styles and Scripts

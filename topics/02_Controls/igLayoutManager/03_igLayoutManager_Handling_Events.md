@@ -64,7 +64,7 @@ This topic contains the following sections:
 
 Attaching event handler functions to the `igLayoutManager` control is commonly done upon the initialization of the control.
 
-When using the MVC helper, it is necessary to assign event handlers at run-time because you cannot define event handlers within the MVC helper.
+When using the %%ProductNameMVC%%, it is necessary to assign event handlers at run-time because you cannot define event handlers within the HTML helper.
 
 jQuery supports the following methods for assigning event handlers:
 
@@ -141,9 +141,9 @@ The following table lists the code examples included in this topic.
 Example|Description
 ---|---
 [Handling the itemRendered Event Upon Initialization in jQuery](#example-jquery)|This example assigns an event handling function to the [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events) event upon initialization in jQuery.
-[Handling the itemRendered Event Upon Initialization in ASP.NET MVC](#example-asp-net)|This example assigns an event handling function to the [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events) event upon initialization using the ASP.NET MVC wrapper.
+[Handling the itemRendered Event Upon Initialization in ASP.NET MVC](#example-asp-net)|This example assigns an event handling function to the [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events) event upon initialization using the %%ProductNameMVC%%.
 [Handling the itemRendered Event at Run-Time in jQuery](#example-run-time-jquery)|This example assigns an event handling function to the [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events) event at run-time in jQuery.
-[Handling the itemRendered Event at Run-Time in ASP.NET MVC](#example-run-time-mvc)|This example assigns an event handling function to the [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) event at run-time using the ASP.NET MVC wrapper.
+[Handling the itemRendered Event at Run-Time in ASP.NET MVC](#example-run-time-mvc)|This example assigns an event handling function to the [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) event at run-time using the %%ProductNameMVC%%.
 
 ##<a id="example-jquery"></a>Code Example: Handling the itemRendered Event Upon Initialization in jQuery
 
@@ -171,7 +171,7 @@ $(".selector").igLayoutManager({
 
 ### <a id="itemRender-mvc-description"></a>Description
 
-This example assigns an event handling function to the [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) event upon initialization using the ASP.NET MVC wrapper.
+This example assigns an event handling function to the [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) event upon initialization using the %%ProductNameMVC%%.
 
 ### <a id="itemRender-mvc-code"></a>Code
 
@@ -210,7 +210,7 @@ $(document).delegate(".selector", "iglayoutmanageritemrendered", function(evt, u
 
 ### <a id="itemRender-mvc-description-run-time"></a>Description
 
-This example assigns an event handling function to the [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events) event at run-time using the ASP.NET MVC wrapper.
+This example assigns an event handling function to the [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events) event at run-time using the %%ProductNameMVC%%.
 
 ### <a id="itemRender-mvc-code-run-time"></a>Code
 
@@ -239,7 +239,7 @@ The following topics provide additional information related to this topic.
 
 The following samples provide additional information related to this topic.
 
--	[ASP.NET MVC Basic Usage](%%SamplesUrl%%/layout-manager/aspnet-mvc-helper): This sample demonstrates using the ASP.NET MVC helper for the Layout Manager control.
+-	[ASP.NET MVC Basic Usage](%%SamplesUrl%%/layout-manager/aspnet-mvc-helper): This sample demonstrates using the %%ProductNameMVC%% Layout Manager control.
 
 -	[Border Layout from HTML Markup](%%SamplesUrl%%/layout-manager/border-layout-markup): This sample demonstrates initializing the `igLayoutManager` control’s Border layout from the HTML markup by assigning *"center"*/*"left"*/*"right"*/*"header"*/*"footer"* CSS classes.
 

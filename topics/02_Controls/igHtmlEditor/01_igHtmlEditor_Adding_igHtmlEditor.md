@@ -117,7 +117,7 @@ The following steps demonstrate how to add the `igHtmlEditor` to a web page.
 		 @(Html.Infragistics().Loader().ScriptPath(Url.Content ("js")).CssPath(Url.Content("css")).Render())
 		 ```
 
-		The Resources method invocation is not required when using the Infragistics Loader ASP.NET MVC Helper because the loader infers which resources to include based off of the other Infragistics helpers used in a given View. This is only valid if the %%ProductName%% controls are also instantiated with %%ProductNameMVC%%.
+		The Resources method invocation is not required when using the %%ProductNameMVC%% Loader because the loader infers which resources to include based off of the other %%ProductNameMVC%% helpers used in a given View. This is only valid if the %%ProductName%% controls are also instantiated with %%ProductNameMVC%%.
 
 	2. Initialize the igHtmlEditor
 

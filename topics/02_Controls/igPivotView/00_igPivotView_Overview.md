@@ -326,7 +326,7 @@ The following topics provide additional information related to this topic.
 
 - [Known Issues and Limitations (igPivotView)](igPivotView-Known-Issues-and-Limitations.html): This topic provides information about the known issues and limitations of the `igPivotView` control.
 
-- [jQuery and ASP.NET MVC Helper API Links (igPivotView)](igPivotView-API-Links.html): This topic lists links to the API documentation about the `igPivotView` control and its ASP.NET MVC Helper.
+- [jQuery and MVC API Links (igPivotView)](igPivotView-API-Links.html): This topic lists links to the API documentation about the `igPivotView` control.
 
 ### <a id="samples"></a>Samples
 
@@ -336,9 +336,9 @@ The following samples provide additional information related to this topic.
 
 - [Binding to XMLA to Show KPIs](%%SamplesUrl%%/pivot-view/binding-to-xmla-data-source): This sample demonstrates how to bind the `igPivotView` to an `igOlapXmlaDataSource`.
 
-- [Using the ASP.NET MVC Helper with Flat Data Source](%%SamplesUrl%%/pivot-view/using-the-asp-net-mvc-helper-with-flat-data-source): This sample demonstrates how to use the ASP.NET MVC Helper for the `igPivotView` with `igOlapFlatDataSource`.
+- [Using the %%ProductNameMVC%% with Flat Data Source](%%SamplesUrl%%/pivot-view/using-the-asp-net-mvc-helper-with-flat-data-source): This sample demonstrates how to use the %%ProductNameMVC%% `igPivotView` with `igOlapFlatDataSource`.
 
-- [Using the ASP.NET MVC Helper with Xmla Data Source](%%SamplesUrl%%/pivot-view/using-the-asp-net-mvc-helper-with-xmla-data-source): This sample demonstrates how to use the ASP.NET MVC Helper for the `igPivotView` with `igOlapXmlaDataSource`.
+- [Using the %%ProductNameMVC%% with Xmla Data Source](%%SamplesUrl%%/pivot-view/using-the-asp-net-mvc-helper-with-xmla-data-source): This sample demonstrates how to use the %%ProductNameMVC%% `igPivotView` with `igOlapXmlaDataSource`.
 
 
 

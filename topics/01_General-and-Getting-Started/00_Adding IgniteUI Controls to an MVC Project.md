@@ -65,7 +65,7 @@ If you have chosen the typical installation of %%ProductName%% 20%%ProductVersio
 	<tbody>
 		<tr>
 			<td>Assemblies</td>
-			<td>%%InstallPath%%\MVC</td>
+			<td>%%InstallPathMVC%%\</td>
 		</tr>
 		<tr>
 			<td>Script files</td>

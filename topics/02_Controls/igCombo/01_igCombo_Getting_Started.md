@@ -18,7 +18,7 @@
 ###Purpose
 
 
-The `igCombo`™ can be configured to run using jQuery or using the ASP.NET MVC Helper. This help topic demonstrates how to setup a basic `igCombo` control in each of these environments binding to JSON data on the client and a collection of business object on the server.
+The `igCombo`™ can be configured to run using jQuery or ASP.NET MVC. This help topic demonstrates how to setup a basic `igCombo` control in each of these environments binding to JSON data on the client and a collection of business object on the server.
 
 ###Required background
 
@@ -34,7 +34,7 @@ You need to first read the following topics:
 ###Introduction
 
 
-The following steps demonstrate how to configure basic options and bind to data using both jQuery and the ASP.NET MVC Helper.
+The following steps demonstrate how to configure basic options and bind to data using both jQuery and ASP.NET MVC.
 
 ###Preview
 
@@ -76,7 +76,7 @@ Following is a conceptual overview of the process:
 	<div id="comboTarget"></div>
 	```
 	
-	Instantiate the `igCombo`. In jQuery, you can use the document ready JavaScript event to instantiate the combo. In ASP.NET MVC, use the ASP.NET MVC helper to bind to an `IQueryable` datasource.
+	Instantiate the `igCombo`. In jQuery, you can use the document ready JavaScript event to instantiate the combo. In ASP.NET MVC, use the %%ProductNameMVC%% to bind to an `IQueryable` datasource.
 	
 	**In HTML:**
 	
@@ -135,7 +135,7 @@ Following is a conceptual overview of the process:
 
    **b. Set the data source.**
 
-	Use the dataSource option to supply the data to the combo. In ASP.NET MVC, Use the DataSource method of the helper to bind to the data passed in as part of the Model.
+	Use the dataSource option to supply the data to the combo. In ASP.NET MVC, Use the DataSource method to bind to the data passed in as part of the Model.
 	
 	**In HTML:**
 	
@@ -171,7 +171,7 @@ Following is a conceptual overview of the process:
 	
 	**d. (ASP.NET MVC) Call Render().**
 	
-	When instantiating the `igCombo` with the ASP.NET MVC Helper, call the Render method last after all other options have been configured. This is the method that renders the HTML and JavaScript necessary to instantiate the `igCombo` on the client
+	When instantiating the %%ProductNameMVC%% `Combo`, call the Render method last after all other options have been configured. This is the method that renders the HTML and JavaScript necessary to instantiate the `igCombo` on the client
 	
 	**In ASPX:**
 	
@@ -236,7 +236,7 @@ The following table lists the code examples provided below.
         <tr>
             <td>Basic ASP.NET MVC Implementation</td>
 
-            <td>Shows how to bind to data and set basic options using the ASP.NET MVC Helper</td>
+            <td>Shows how to bind to data and set basic options using the %%ProductNameMVC%%</td>
         </tr>
     </tbody>
 </table>
@@ -305,7 +305,7 @@ The code below demonstrates how to create and configure the `igCombo` control us
 ###Code Example: Basic ASP.NET MVC implementation
 
 
-The code below demonstrates how to create and configure the `igCombo` control using the ASP.NET MVC Helper with the following parameters:
+The code below demonstrates how to create and configure the %%ProductNameMVC%% `Combo` control with the following parameters:
 
 <table class="table">
 	<thead>

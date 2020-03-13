@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Links (igPivotView)
+# jQuery and MVC API Links (igPivotView)
 
 ##igPivotView API Reference Documentation
 
@@ -18,7 +18,7 @@ The following table lists the links to the API reference documentation for the `
 
 - [igPivotView jQuery API](%%jQueryApiUrl%%/ui.igPivotView): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
 
-- [igPivotView ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PivotViewModel.html): The documentation contains the description of the pivot view ASP.NET MVC Helper and a list of all of its members.
+- [igPivotView %%ProductNameMVC%% API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PivotViewModel.html): The documentation contains the description of the %%ProductNameMVC%% Pivot View and a list of all of its members.
 
 
 ##Related Content

@@ -50,7 +50,7 @@ This topic contains the following sections:
 
 Attaching event handler functions to the `igSplitter` control is commonly done upon the initialization of the control. When the event occurs, the handling function is called.
 
-When using the MVC helper, it is necessary to assign event handlers at run-time because you cannot define event handlers within the MVC helper.
+When using the %%ProductNameMVC%%, it is necessary to assign event handlers at run-time because you cannot define event handlers within the HTML helper.
 
 jQuery supports the following methods for assigning event handlers:
 

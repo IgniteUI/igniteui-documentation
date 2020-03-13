@@ -15,11 +15,11 @@ This topic shows how to use the igCombo in a basic ASP.NET MVC scenario.
 
 ### Purpose
 
-The igCombo ASP.NET MVC helper is used to instantiate the combo in the View. In addition, the `ComboDataSourceAction` attribute is used to process the remote request for the collection of employees as well as process the remote filtering parameters. Finally, you can see how the combo is used in a form to update a field in the model.
+The %%ProductNameMVC%% Combo is instantiated in a View. In addition, the `ComboDataSourceAction` attribute is used to process the remote request for the collection of employees as well as process the remote filtering parameters. Finally, you can see how the combo is used in a form to update a field in the model.
 
 #### Concepts
 
--   Using igCombo as ASP.NET MVC Helper
+-   Using %%ProductNameMVC%% Combo
 
 
 ### In this topic

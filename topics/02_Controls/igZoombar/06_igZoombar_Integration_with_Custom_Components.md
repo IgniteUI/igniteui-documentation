@@ -45,7 +45,7 @@ igZoombar is designed with the ability to work with virtually every JavaScript c
 
 ## <a id="provider-structure"></a> Provider Structure
 
-The custom provider should implement all methods available in the base class `$.ig.igZoombarProviderDefault`. It should be defined in the same namespace if only its name is passed to igZoombar (the suggested option when using the MVC helpers for the widget).
+The custom provider should implement all methods available in the base class `$.ig.igZoombarProviderDefault`. It should be defined in the same namespace if only its name is passed to igZoombar (the suggested option when using the %%ProductNameMVC%% Zoombar).
 
 A brief description of each method follows:
 

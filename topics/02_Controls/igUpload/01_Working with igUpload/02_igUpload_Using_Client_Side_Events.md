@@ -12,7 +12,7 @@
 
 The `igUpload` control exposes a rich client-side API featuring a number of events. There are seven different client-side events, which are fired either while the user is interacting with the control or during the upload process.
 
-This topic demonstrates how to attach to client-side event handlers to `igUpload` using basic jQuery version as well as using the ASP.NET™ MVC wrapper. Further, this document details the associated event arguments as well as describing each event.
+This topic demonstrates how to attach to client-side event handlers to `igUpload` using basic jQuery version as well as using the %%ProductNameMVC%% Upload. Further, this document details the associated event arguments as well as describing each event.
 
 ## Attach to Client-Side Event in jQuery
 When the basic `igUpload` jQuery widget is used, the handlers to the events are defined the same way as a jQuery UI option.
@@ -32,9 +32,9 @@ $(window).load(function () {
 ```
 
 ## Attach to Client-Side Event Using the %%ProductNameMVC%%
-By default the %%ProductNameMVC%% don’t support defining the event handlers in the context of the wrapper syntax. Event binding is again set up using jQuery.
+By default the %%ProductNameMVC%% don’t support defining the event handlers in the context of the MVC Helper syntax. Event binding is again set up using jQuery.
 
-1.  First, instantiate an instance of `igUpload` using the MVC wrapper
+1.  First, instantiate an instance of the %%ProductNameMVC%% `Upload`.
 
     In ASPX:
 

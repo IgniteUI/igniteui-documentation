@@ -13,7 +13,7 @@
 ## Topic Overview
 ### Purpose
 
-This topic demonstrates, with code examples, how to add the [`igRadialMenu`](%%jQueryApiUrl%%/ui.igRadialMenu#options)™ to an ASP.NET MVC application using the ASP.NET MVC helper.
+This topic demonstrates, with code examples, how to add the [`igRadialMenu`](%%jQueryApiUrl%%/ui.igRadialMenu#options)™ to an ASP.NET MVC application using %%ProductNameMVC%%.
 
 ### Required background
 
@@ -50,7 +50,7 @@ This topic contains the following sections:
 ## <a id="overview"></a>Adding igRadialMenu to an ASP.NET MVC Application – Conceptual Overview
 ### Adding igRadialMenu summary
 
-The `igRadialMenu` control can be added to an ASP.NET MVC view using the ASP.NET MVC helper.
+The `igRadialMenu` control can be added to an ASP.NET MVC view using the %%ProductNameMVC%% HTML helper.
 
 When instantiating the `igRadialMenu` control, there are several helper methods that should be set for basic renderings including the following:
 
@@ -133,11 +133,11 @@ An ASP.NET MVC application configured with the required JavaScript files, CSS fi
 
 ### Steps
 
-The following steps demonstrate how to instantiate `igRadialMenu` in an ASP.NET MVC application using the ASP.NET MVC helper.
+The following steps demonstrate how to instantiate `igRadialMenu` in an ASP.NET MVC application using the %%ProductNameMVC%% HTML helper.
 
 1. Add the ASP.NET MVC Helper
 
-	Adds the ASP.NET MVC helper to the body of your ASP.NET page.
+	Adds the helper to the body of your ASP.NET page.
 	
 	**In ASPX:**
 	

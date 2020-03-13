@@ -506,6 +506,6 @@ $(function () {
 
 The following topics provide additional information related to this topic.
 
-- [Adding igRadialMenu to an ASP.NET MVC Application](igRadialMenu-Adding-MVC-App.html): This topic demonstrates, with code examples, how to add the `igRadialMenu` to an ASP.NET MVC application using the ASP.NET MVC helper.
+- [Adding igRadialMenu to an ASP.NET MVC Application](igRadialMenu-Adding-MVC-App.html): This topic demonstrates, with code examples, how to add the `igRadialMenu` to an ASP.NET MVC application using %%ProductNameMVC%%.
 
 - [igRadialMenu Configuration Overview](igRadialMenu-Configuration-Overview.html): This topic explains how to configure the `igRadialMenu` control.

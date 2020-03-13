@@ -29,7 +29,7 @@ The `igCurrencyEditor` includes the following characteristics:
 -   Validation
 -   Localization
 -   JavaScript Client API
--   ASP.NET MVC wrapper
+-   ASP.NET MVC
 -   Min/Max Value
 
 
@@ -89,7 +89,7 @@ For more information and the list of all available commands read the [Using %%Pr
     <script type="text/javascript" src="@Url.Content("~/Scripts/Samples/modules/i18n/regional/infragistics.ui.regional-en.js")"></script>
     ```
 
-3.  For purely jQuery implementations, start off by creating an INPUT, DIV or SPAN as the target element in HTML. This step is optional for ASP.NET MVC implementations as the MVC wrapper creates the containing element for you.    
+3.  For purely jQuery implementations, start off by creating an INPUT, DIV or SPAN as the target element in HTML. This step is optional for ASP.NET MVC implementations as %%ProductNameMVC%% creates the containing element for you.    
 
     **In HTML:**
 

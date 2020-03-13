@@ -82,7 +82,7 @@ ASP.NET MVC
 			</td>
 
             <td>
-                In the View, use the Infragistics® MVC Helper and call its [Zoombar](Infragistics.Web.Mvc~Infragistics.Web.Mvc.InfragisticsSuite`1~Zoombar.html) method which returns the `ZoombarWrapper` object.
+                In the View, use the %%ProductNameMVC%% and call its [Zoombar](Infragistics.Web.Mvc~Infragistics.Web.Mvc.InfragisticsSuite`1~Zoombar.html) method which returns the `ZoombarWrapper` object.
                     Attach the `ZoombarWrapper` object to an igDataChart control using its [Target](Infragistics.Web.Mvc~Infragistics.Web.Mvc.ZoombarWrapper~Target.html) method.
                     Finally, call the [ZoombarWrapper.Render](Infragistics.Web.Mvc~Infragistics.Web.Mvc.ZoombarWrapper~Render.html) method.
 
@@ -90,7 +90,7 @@ ASP.NET MVC
                 
 
                 <blockquote>**Note:**
-                    There is no need to define placeholders in the HTML page. They will be created automatically by the Infragistics ASP.NET MVC wrapper
+                    There is no need to define placeholders in the HTML page. They will be created automatically by the %%ProductNameMVC%%.
                 </blockquote>
             </td>
         </tr>
