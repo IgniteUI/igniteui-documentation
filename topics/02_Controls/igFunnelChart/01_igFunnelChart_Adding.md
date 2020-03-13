@@ -607,7 +607,7 @@ The following topics provide additional information related to this topic.
 
 - [Known Issues and Limitations (*igFunnelChart*)](igFunnelChart-Known-Issues-and-Limitations.html): This topic lists the known issues related to the `igFunnelChart` control. 
  
-- [jQuery and %%ProductNameMVC%% API Links (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): This topic lists the links to the API reference documentation for the `igFunnelChart` control.
+- [jQuery and MVC API Links (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): This topic lists the links to the API reference documentation for the `igFunnelChart` control.
 
 ### <a id="samples"></a> Samples
 

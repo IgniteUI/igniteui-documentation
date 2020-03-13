@@ -58,7 +58,7 @@ The following topics provide additional information related to this topic.
 
 - [Handling Drag-and-Drop Events Upon Initialization in jQuery (igTree)](igTree-Drag-and-Drop-Handling-Events-Initialization.html): This topic explains, with code examples, how to attach events to the `igTree` control upon initialization in jQuery.
 
-- [API Links (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): This topic provides links to `igTree` jQuery and ASP.NET MVC Helper API.
+- [API Links (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): This topic provides links to `igTree` jQuery and MVC API.
 
 
 ### Samples

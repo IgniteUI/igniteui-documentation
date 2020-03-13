@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and %%ProductNameMVC%% API Links (igFunnelChart)
+# jQuery and MVC API Links (igFunnelChart)
 
 ## *igFunnelChart* API Reference Documentation
 

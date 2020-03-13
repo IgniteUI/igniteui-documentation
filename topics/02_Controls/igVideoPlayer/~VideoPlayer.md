@@ -14,7 +14,7 @@ Click on the links below to find information on how to get `igVideoPlayer` quick
 
 -   [igVideoPlayer Overview](igVideoPlayer-Overview.html)
 -   [Styling and Theming (igVideoPlayer)](igVideoPlayer-Styling-and-Theming.html)
--   [jQuery and ASP.NET MVC Helper API Links (igVideoPlayer)](igVideoPlayer-jQuery-API.html)
+-   [jQuery and MVC API Links (igVideoPlayer)](igVideoPlayer-jQuery-API.html)
 -   [Accessibility Compliance (igVideoPlayer)](igVideoPlayer-Accessibility-Compliance.html)
 -   [Known Issues and Limitations (igVideoPlayer)](igVideoPlayer-Known-Issues.html)
 -   [Working with HTML5 Video (igVideoPlayer)](igVideoPlayer-Working-with-HTML5-Video.html)

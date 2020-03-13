@@ -15,7 +15,7 @@ Click on the links below to find information on how to get `igMaskEditor` quickl
 
 -   [igMaskEditor Overview](igMaskEditor--Overview.html)
 -   [igMaskEditor Styling and Theming](igMaskEditor-Styling-and-Theming.html)
--   [igMaskEditor jQuery and ASP.NET MVC Helper API Links](igMaskEditor-jQuery-API.html)
+-   [igMaskEditor jQuery and MVC API Links](igMaskEditor-jQuery-API.html)
 -   [igMaskEditor Accessibility Compliance](igMaskEditor-Accessibility-Compliance.html)
 -   [igMaskEditor Known Issues](igMaskEditor-Known-Issues.html)
 -   [Migrating to the new igMaskEditor](Migrating-To-The-New-igMaskEditor.html)

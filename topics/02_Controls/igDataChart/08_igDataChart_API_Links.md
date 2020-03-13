@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and %%ProductNameMVC%% API Reference Links (igDataChart)
+# jQuery and MVC API Reference Links (igDataChart)
 
 
 ##Topic Overview
@@ -35,7 +35,7 @@ The `igDataChart` is built as a jQuery UI widget with an accompanying %%ProductN
 
 -	[igDataChart jQuery API](%%jQueryApiUrl%%/ui.igDataChart): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
 
--	[igDataChart %%ProductNameMVC%% API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DataChart`1.html) : The documentation contains the DataChart class description and a list of all of its members.
+-	[igDataChart MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DataChart`1.html) : The documentation contains the DataChart class description and a list of all of its members.
 
 ##Related Content
 

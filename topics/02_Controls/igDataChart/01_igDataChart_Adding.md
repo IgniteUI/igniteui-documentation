@@ -532,7 +532,7 @@ The following topics provide additional information related to this topic.
 
 -	[Binding igDataChart to Data](igDataChart-DataBinding.html): Shows how to bind data from various data sources to a chart control. This includes JavaScript arrays, JSON, WCF service. Shows how a big volume of data can be data bound to a chart control.
 
--	[jQuery and %%ProductNameMVC%% API Reference Links (igDataChart)](igDataChart-API-Links.html): References to the jQuery API reference of `igDataChart` and contains a reference table with all %%ProductNameMVC%% properties with code snippets.
+-	[jQuery and MVC API Reference Links (igDataChart)](igDataChart-API-Links.html): References to the jQuery API reference of `igDataChart` and contains a reference table with all %%ProductNameMVC%% properties with code snippets.
 
 -	[Styling igDataChart](igDataChart-Styling-Themes.html): Demonstrates how to use the `igDataChart`™ control to apply styles and themes.
 

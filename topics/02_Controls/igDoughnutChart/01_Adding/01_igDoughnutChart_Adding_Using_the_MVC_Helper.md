@@ -293,7 +293,7 @@ The following topics provide additional information related to this topic.
 
 - [Adding *igDoughnutChart* to an HTML Page](igDoughnutChart-Adding-to-an-HTML-Page.html): This topic explains how to add the `igDoughnutChart` to an HTML page.
 
-- [jQuery and %%ProductNameMVC%% API Links (*igDoughnutChart*)](igDoughnutChart-API-Links.html): This topic provides links to the API documentation about the `igDoughnutChart` control and the %%ProductNameMVC%% for it.
+- [jQuery and MVC API Links (*igDoughnutChart*)](igDoughnutChart-API-Links.html): This topic provides links to the API documentation about the `igDoughnutChart` control and the %%ProductNameMVC%% for it.
 
 ### <a id="samples"></a> Samples
 

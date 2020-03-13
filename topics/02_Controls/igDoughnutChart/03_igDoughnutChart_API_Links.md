@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and %%ProductNameMVC%% API Links (igDoughnutChart)
+# jQuery and MVC API Links (igDoughnutChart)
 
 ## igDoughnutChart API Reference Documentation
 
@@ -16,7 +16,7 @@ The following table lists the links to the API reference documentation for the `
 
 - [igDoughnutChart jQuery API](%%jQueryApiUrl%%/ui.igDoughnutChart): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
 
-- [*igDoughnutChart* %%ProductNameMVC%% API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DoughnutChartModel.html): The documentation contains the description of the `igDoughnutChart` and a list of all of its members.
+- [*igDoughnutChart* MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DoughnutChartModel.html): The documentation contains the description of the `igDoughnutChart` and a list of all of its members.
 
 ## Related Content
 

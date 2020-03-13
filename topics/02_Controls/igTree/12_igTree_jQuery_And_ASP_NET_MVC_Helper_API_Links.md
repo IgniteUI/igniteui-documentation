@@ -8,12 +8,12 @@
 |metadata|
 -->
 
-# igTree jQuery and ASP.NET MVC Helper API Links
+# igTree jQuery and MVC API Links
 
 The `igTree` is built as a jQuery UI widget with an accompanying ASP.NET MVC Helper. For more information about each API, see the following API documentation:
 
 -   [igTree jQuery API](%%jQueryApiUrl%%/ui.igTree)
--   [igTree ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeModel.html)
+-   [igTree MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeModel.html)
 
  
 

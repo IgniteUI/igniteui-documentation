@@ -176,7 +176,7 @@ Returns the transaction log stack.
 
 The following topics provide additional information related to this topic.
 
-- [API Links (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): This topic provides links to `igTree` jQuery and ASP.NET MVC Helper API.
+- [API Links (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): This topic provides links to `igTree` jQuery and MVC API.
 
 - [Adding and Removing Nodes Overview and Examples (igTree)](igTree-Adding-Removing-Nodes-Overview-Examples.html): This topic explains, with code examples, how to add and remove nodes of `igTree` control programmatically.
 

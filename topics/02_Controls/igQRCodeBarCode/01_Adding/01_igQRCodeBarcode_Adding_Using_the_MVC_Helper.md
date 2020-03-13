@@ -233,7 +233,7 @@ The following topics provide additional information related to this topic.
 
 - [Adding igQRCodeBarcode to an HTML Page](igQRCodeBarcode-Adding-to-an-HTML-Page.html): This topic demonstrates, with code examples, how to add the `igQRCodeBarcode` control to an HTML page.
 
-- [jQuery and ASP.NET MVC Helper API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): This topic provides links to the API reference documentation about the `igQRCodeBarcode` control and its ASP.NET MVC Helper.
+- [jQuery and MVC API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): This topic provides links to the API reference documentation about the `igQRCodeBarcode` control and its ASP.NET MVC Helper.
 
 
 

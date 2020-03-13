@@ -246,7 +246,7 @@ Full ASPX View Code Listing
 
 The following topics provide additional information related to this topic.
 
-- [jQuery and ASP.NET MVC Helper API Links (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): This topic provides links to the API documentation for jQuery and ASP.NET MVC helper class for the `igSparkline` control.
+- [jQuery and MVC API Links (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): This topic provides links to the API documentation for jQuery and ASP.NET MVC helper class for the `igSparkline` control.
 
 - [Adding igSparkline to an HTML Document](igSparkline-Adding-igSparkline-to-an-HTML-Document.html): This topic explains how to add the `igSparkline` to an HTML page and bind to a JavaScript array.
 

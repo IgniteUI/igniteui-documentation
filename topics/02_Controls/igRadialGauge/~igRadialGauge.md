@@ -29,7 +29,7 @@ The `igRadialGauge`™ control is a data visualization tool capable of displayin
 
 - [Configuring igRadialGauge](igRadialGauge-Using-igRadialGauge.html): This is a group of topics explaining how to configure the various aspects of the `igRadialGauge`™ control including its orientation and direction and visual elements.
 
-- [jQuery and ASP.NET MVC Helper API Reference (igRadialGauge)](igRadialGauge-igRadialGauge-API-Reference.html): This topic provides reference information about the key classes and properties related to the `igRadialGauge` control.
+- [jQuery and MVC API Reference (igRadialGauge)](igRadialGauge-igRadialGauge-API-Reference.html): This topic provides reference information about the key classes and properties related to the `igRadialGauge` control.
 
 - [Accessibility Compliance](igRadialGauge-Accessibility-Compliance.html): This topic provides information about the accessibility compliance of the `igRadialGauge` control.
 

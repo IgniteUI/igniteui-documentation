@@ -32,7 +32,7 @@ The `igPivotGrid` control is a data presentation control for displaying data in 
 
 - [Known Issues and Limitations (igPivotGrid)](igPivotGrid-Known-Issues-and-Limitations.html): This topic provides information about the known issues and limitations of the `igPivotGrid` control.
 
-- [jQuery and ASP.NET MVC Helper API Links (igPivotGrid)](igPivotGrid-API-Links.html): This topic lists links to the API documentation about the `igPivotGrid` control and its ASP.NET MVC Helper.
+- [jQuery and MVC API Links (igPivotGrid)](igPivotGrid-API-Links.html): This topic lists links to the API documentation about the `igPivotGrid` control and its ASP.NET MVC Helper.
 
 
 

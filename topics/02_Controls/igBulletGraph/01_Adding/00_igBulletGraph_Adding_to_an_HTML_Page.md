@@ -449,7 +449,7 @@ The following topics provide additional information related to this topic.
 
 - [Adding *igBulletGraph* to an ASP.NET MVC Application](igBulletGraph-Adding-Using-the-MVC-Helper.html): This topic demonstrates, with code examples, how to add the igBulletGraph control to an ASP.NET MVC View using the ASP.NET MVC helper.
 
-- [jQuery and ASP.NET MVC Helper API Links (*igBulletGraph*)](igBulletGraph-API-Links.html): This topic provides links to the API reference documentation about the `igBulletGraph` control and the ASP.NET MVC Helper for it.
+- [jQuery and MVC API Links (*igBulletGraph*)](igBulletGraph-API-Links.html): This topic provides links to the API reference documentation about the `igBulletGraph` control and the ASP.NET MVC Helper for it.
 
 
 

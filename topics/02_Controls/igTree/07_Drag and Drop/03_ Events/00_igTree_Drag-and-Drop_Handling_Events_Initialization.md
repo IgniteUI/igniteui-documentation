@@ -52,7 +52,7 @@ The following topics provide additional information related to this topic.
 
 - [Handling Drag-and-Drop Events at Run-Time (igTree)](igTree-Drag-and-Drop-Handling-Events-Run-Time.html): This topic explains, with a code example, how to subscribe to events in the `igTree` control and attach event handlers at run-time.
 
-- [API Links (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): This topic provides links to `igTree` jQuery and ASP.NET MVC Helper API.
+- [API Links (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): This topic provides links to `igTree` jQuery and MVC API.
 
 
 ### Samples

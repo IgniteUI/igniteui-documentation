@@ -326,7 +326,7 @@ The following topics provide additional information related to this topic.
 
 - [Known Issues and Limitations (igPivotView)](igPivotView-Known-Issues-and-Limitations.html): This topic provides information about the known issues and limitations of the `igPivotView` control.
 
-- [jQuery and ASP.NET MVC Helper API Links (igPivotView)](igPivotView-API-Links.html): This topic lists links to the API documentation about the `igPivotView` control and its ASP.NET MVC Helper.
+- [jQuery and MVC API Links (igPivotView)](igPivotView-API-Links.html): This topic lists links to the API documentation about the `igPivotView` control and its ASP.NET MVC Helper.
 
 ### <a id="samples"></a>Samples
 

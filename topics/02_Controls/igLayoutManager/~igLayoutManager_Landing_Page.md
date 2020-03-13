@@ -37,4 +37,4 @@ The `igLayoutManager` is a layout control for managing the overall HTML page lay
 
 -	[Known Issues and Limitations (igLayoutManager)](igLayoutManager-Known-Issues-and-Limitations.html): This topic provides information about the known issues and limitations of the `igLayoutManager` control.
 
--	[jQuery and ASP.NET MVC Helper API Links (igLayoutManager)](igLayoutManager-jQuery-and-ASP.NET-MVC-Helper-API-Links-.html): This topic provides links to the API documentation for the jQuery and its ASP.NET MVC helper class for the `igLayoutManager` control.
+-	[jQuery and MVC API Links (igLayoutManager)](igLayoutManager-jQuery-and-ASP.NET-MVC-Helper-API-Links-.html): This topic provides links to the API documentation for the jQuery and its ASP.NET MVC helper class for the `igLayoutManager` control.

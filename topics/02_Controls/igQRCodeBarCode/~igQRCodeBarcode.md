@@ -35,7 +35,7 @@ The `igQRCodeBarcode` control generates QR (Quick Response) barcode images for u
 
 - [Known Issues and Limitations (igQRCodeBarcode)](igQRCodeBarcode-Known-Issues-and-Limitations.html): This topic provides information on the known issues and limitations of the `igQRCodeBarcode` control.
 
-- [jQuery and ASP.NET MVC Helper API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): This topic provides links to the API reference documentation about the `igQRCodeBarcode` control and the ASP.NET MVC Helper for it.
+- [jQuery and MVC API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): This topic provides links to the API reference documentation about the `igQRCodeBarcode` control and the ASP.NET MVC Helper for it.
 
 
 

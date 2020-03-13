@@ -75,7 +75,7 @@ The following topics provide additional information related to this topic.
 
 - [Configuring Selection and Explosion (*igDoughnutChart*)](igDoughnutChart-Configuring-Selection-and-Explosion.html): This topic explains how to configure the slice selection and explosion on `igDoughnutChart`.
 
-- [jQuery and %%ProductNameMVC%% API Links (*igDoughnutChart*)](igDoughnutChart-API-Links.html): This topic provides links to the API documentation about the `igDoughnutChart` control and the %%ProductNameMVC%% for it.
+- [jQuery and MVC API Links (*igDoughnutChart*)](igDoughnutChart-API-Links.html): This topic provides links to the API documentation about the `igDoughnutChart` control and the %%ProductNameMVC%% for it.
 
 
 

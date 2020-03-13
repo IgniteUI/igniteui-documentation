@@ -551,7 +551,7 @@ The following topics provide additional information related to this topic.
 
 - [Known Issues and Limitations (igTileManager)](igTileManager-Known-Issues-and-Limitations.html): This topic provides information about the known issues and limitations of the `igTileManager` control and the available workarounds for them.
 
-- [jQuery and ASP.NET MVC Helper API Links (igTileManager)](igTileManager-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): This topic lists the links to the API reference documentation for the `igTileManager` control.
+- [jQuery and MVC API Links (igTileManager)](igTileManager-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): This topic lists the links to the API reference documentation for the `igTileManager` control.
 
 
 

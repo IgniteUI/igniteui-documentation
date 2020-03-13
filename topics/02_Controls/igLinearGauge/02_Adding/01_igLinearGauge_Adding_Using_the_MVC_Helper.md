@@ -274,7 +274,7 @@ The following topics provide additional information related to this topic.
 
 -	[Adding `igLinearGauge` to an HTML Page](igLinearGauge-Adding-to-an-HTML-Page.html):This topic demonstrates, with code examples, how to add the igLinearGauge control to an HTML page.
 
--	[jQuery and ASP.NET MVC Helper API Links (igLinearGauge)](igLinearGauge-API-Links.html):This topic provides links to the API reference documentation about the `igLinearGauge` control and its ASP.NET MVC Helper.
+-	[jQuery and MVC API Links (igLinearGauge)](igLinearGauge-API-Links.html):This topic provides links to the API reference documentation about the `igLinearGauge` control and its ASP.NET MVC Helper.
 
 
 ### <a id="samples"></a>Samples

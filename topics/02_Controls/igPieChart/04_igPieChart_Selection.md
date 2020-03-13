@@ -114,6 +114,6 @@ For scenarios where you click on the Others slice, the pie chart will return an 
 
 - [Data Binding (igPieChart)](igPieChart-DataBinding.html): This topic explains how to bind various data sources to the `igPieChart`™ control.
 
-- [jQuery and %%ProductNameMVC%% API Reference Links (igPieChart)](igPieChart-API-Links.html): This topic provides links to the API documentation for jQuery and %%ProductNameMVC%% class for `igDataChart`™ control.
+- [jQuery and MVC API Reference Links (igPieChart)](igPieChart-API-Links.html): This topic provides links to the API documentation for jQuery and %%ProductNameMVC%% class for `igDataChart`™ control.
 
 - [Styling igPieChart with Themes](igPieChart-Styling-Themes.html): Demonstrates using styles and applying themes with `igPieChart`™.

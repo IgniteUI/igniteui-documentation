@@ -31,7 +31,7 @@ The `igOlapXmlaDataSource` component handles the communication between a JavaScr
 
 - [Known Issues and Limitations (igOlapXmlaDataSource)](igOlapXmlaDataSource-Known-Issues-and-Limitations.html): This topic provides information about the known issues and limitations of the `igOlapXmlaDataSource` component.
 
-- [jQuery and ASP.NET MVC Helper API Links (igOlapXmlaDataSource)](igOlapXmlaDataSource-API-Links.html): This topic provides links to the jQuery and ASP.NET MVC API documentation for the `igOlapXmlaDataSource` component.
+- [jQuery and MVC API Links (igOlapXmlaDataSource)](igOlapXmlaDataSource-API-Links.html): This topic provides links to the jQuery and ASP.NET MVC API documentation for the `igOlapXmlaDataSource` component.
 
 
 

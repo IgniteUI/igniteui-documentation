@@ -27,7 +27,7 @@ The `igOlapFlatDataSource` component enables multi-dimensional (OLAP-like) analy
 
 - [Defining Metadata (igOlapFlatDataSource)](igOlapFlatDataSource-Defining-Metadata.html): This topic explains how to define metadata for the data used with `igOlapFlatDataSource` so that flat data can be presented in multidimensional (OLAP) form.
 
-- [jQuery and ASP.NET MVC Helper API Links (igOlapFlatDataSource)](igOlapFlatDataSource-API-Links.html): This topic provides links to the jQuery and ASP.NET MVC API documentation for the `igOlapFlatDataSource` component.
+- [jQuery and MVC API Links (igOlapFlatDataSource)](igOlapFlatDataSource-API-Links.html): This topic provides links to the jQuery and ASP.NET MVC API documentation for the `igOlapFlatDataSource` component.
 
 
 

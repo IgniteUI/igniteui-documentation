@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Links (igQRCodeBarcode)
+# jQuery and MVC API Links (igQRCodeBarcode)
 
 ## igQRCodeBarcode API Reference Documentation
 ### igQRCodeBarcode API reference documentation summary chart
@@ -17,7 +17,7 @@ The following table lists the links to the API reference documentation for the `
 
 - [igQRCodeBarcode jQuery API](%%jQueryApiUrl%%/ui.igQRCodeBarcode): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
 
-- [igQRCodeBarcode ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.QRCodeBarcodeModel.html): The documentation contains the description of the `igQRCodeBarcode` ASP.NET MVC Helper and a list of all of its members.
+- [igQRCodeBarcode MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.QRCodeBarcodeModel.html): The documentation contains the description of the `igQRCodeBarcode` ASP.NET MVC Helper and a list of all of its members.
 
 
 ## Related Content

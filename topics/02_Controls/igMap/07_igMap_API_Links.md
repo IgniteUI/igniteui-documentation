@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Reference (igMap)
+# jQuery and MVC API Reference (igMap)
 
 
 
@@ -44,7 +44,7 @@ The `igMap` control is built as a jQuery UI widget with an accompanying ASP.NET 
 API Document|Description
 ---|---
 [igMap jQuery API](%%jQueryApiUrl%%/ui.igMap)|The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
-[igMap ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Map`1.html)|The documentation contains the Map class description and a list of all of its members.
+[igMap MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Map`1.html)|The documentation contains the Map class description and a list of all of its members.
 
 
 

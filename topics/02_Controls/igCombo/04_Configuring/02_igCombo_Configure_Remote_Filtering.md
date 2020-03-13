@@ -343,7 +343,7 @@ For detailed information about these properties, refer to their listing
 in the property reference section:
 
 -   [igCombo Options](%%jQueryApiUrl%%/ui.igcombo#!options)
--   [igCombo ASP.NET MVC Helper API](%%jQueryApiUrl%%/ui.igcombo)
+-   [igCombo MVC API](%%jQueryApiUrl%%/ui.igcombo)
 
 ###<a id="asp_example"></a>ASP.NET MVC list filtering configuration example 
 
@@ -404,7 +404,7 @@ Following are some other topics you may find useful.
 
 -	[Configure igCombo](igCombo-Configuring.html)
 
--	[jQuery and ASP.NET MVC Helper API Links (igCombo)](igCombo-jQuery-And-ASP-NET-MVC-Helper-API-Links.html)
+-	[jQuery and MVC API Links (igCombo)](igCombo-jQuery-And-ASP-NET-MVC-Helper-API-Links.html)
 
  
 

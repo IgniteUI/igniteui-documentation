@@ -22,7 +22,7 @@ Click on the links below to find information on how to get `igUpload` quickly up
 -   [Styling igUpload](igUpload-Styling-and-Theming.html)
 -   [Accessibility Compliance (igUpload)](igUpload-Accessibility-Compliance.html)
 -   [Known Issues and Limitations (igUpload)](igUpload-Known-Issues.html) 
--   [jQuery and ASP.NET MVC Helper API Links (igUpload)](igUpload-jQuery-API-Links.html)
+-   [jQuery and MVC API Links (igUpload)](igUpload-jQuery-API-Links.html)
 
  
 

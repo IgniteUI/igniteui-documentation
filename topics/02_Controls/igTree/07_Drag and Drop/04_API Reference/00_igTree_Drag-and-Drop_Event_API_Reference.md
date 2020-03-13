@@ -584,7 +584,7 @@ The following topics provide additional information related to this topic.
 
 - [Drag-and-Drop Property Reference (igTree)](igTree-Drag-and-Drop-Property-API-Reference.html): This topic is a chart with reference information about the properties of the `igTree` control related to its Drag-and-Drop feature.
 
-- [API Links (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): This topic provides links to the `igTree` jQuery and ASP.NET MVC Helper API.
+- [API Links (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): This topic provides links to the `igTree` jQuery and MVC API.
 
 ### Samples
 

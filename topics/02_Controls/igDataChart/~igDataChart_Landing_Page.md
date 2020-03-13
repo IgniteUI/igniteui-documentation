@@ -51,7 +51,7 @@ The topics in this section provide detailed information regarding the `igDataCha
 
 -	[Accessibility Compliance (igDataChart)](igDataChart-Accessibility-Compliance.html): This topic explains `igDataChart` accessibility features and provides advice how to achieve accessibility compliance for pages containing charts.
 
--	[jQuery and %%ProductNameMVC%% API Reference Links (igDataChart)](igDataChart-API-Links.html): This topic provides links to the API documentation for jQuery and %%ProductNameMVC%% class for `igDataChart` control.
+-	[jQuery and MVC API Reference Links (igDataChart)](igDataChart-API-Links.html): This topic provides links to the API documentation for jQuery and %%ProductNameMVC%% class for `igDataChart` control.
 
 -	[Known Issues and Limitations (igDataChart)](igDataChart-Known-Issues.html): This topic lists all known issues and limitations in the `igDataChart` control.
 

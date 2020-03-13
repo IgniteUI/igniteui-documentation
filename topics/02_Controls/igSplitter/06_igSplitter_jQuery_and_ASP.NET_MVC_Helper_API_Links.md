@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API
+# jQuery and MVC API
 
 ## igSplitter API Reference
 ### igSplitter API reference chart

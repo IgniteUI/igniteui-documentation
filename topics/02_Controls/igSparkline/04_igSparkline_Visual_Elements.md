@@ -73,7 +73,7 @@ Tooltip|`tooltipTemplate`
 
 The following topic provides additional information related to this topic.
 
-- [jQuery and ASP.NET MVC Helper API Links (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): The `igSparkline` is built as a jQuery UI widget with an accompanying ASP.NET MVC Helper. For more information about each API, follow the links given below to the API documentation.
+- [jQuery and MVC API Links (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): The `igSparkline` is built as a jQuery UI widget with an accompanying ASP.NET MVC Helper. For more information about each API, follow the links given below to the API documentation.
 
 
 ### Samples

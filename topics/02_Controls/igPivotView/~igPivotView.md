@@ -28,7 +28,7 @@ The topics in this group explain the `igPivotView`™ control and its use.
 
 - [Known Issues and Limitations (igPivotView)](igPivotView-Known-Issues-and-Limitations.html): This topic provides information about the known issues and limitations of the `igPivotView` c control.
 
-- [jQuery and ASP.NET MVC Helper API Links (igPivotView)](igPivotView-API-Links.html): This topic lists links to the API documentation about the `igPivotView` control and its ASP.NET MVC Helper.
+- [jQuery and MVC API Links (igPivotView)](igPivotView-API-Links.html): This topic lists links to the API documentation about the `igPivotView` control and its ASP.NET MVC Helper.
 
 
 

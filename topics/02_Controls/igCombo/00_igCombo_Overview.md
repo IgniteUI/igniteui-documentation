@@ -474,5 +474,5 @@ Following are some other topics you may find useful.
 
 - [Known Issues and Limitations (igCombo)](igCombo-Known-Limitations.html)
 
-- [jQuery and ASP.NET MVC Helper API Links (igCombo)](igCombo-jQuery-And-ASP-NET-MVC-Helper-API-Links.html)
+- [jQuery and MVC API Links (igCombo)](igCombo-jQuery-And-ASP-NET-MVC-Helper-API-Links.html)
 

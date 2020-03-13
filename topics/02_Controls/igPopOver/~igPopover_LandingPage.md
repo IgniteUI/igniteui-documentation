@@ -36,7 +36,7 @@ The `igPopover` control is designed to be used as an enhanced replacement of bro
 
 - [Known Issues and Limitations (igPopover)](igPopover-Known-Issues-And-Limitations.html): This topic summarizes the known issues and limitations of the `igPopover` control
 
-- [jQuery and ASP.NET MVC Helper API Links (igPopover)](igPopover-ASP-NET-MVC-Helper-API.html): This topic provides links to the API reference documentation for the jQuery and its ASP.NET MVC helper class for the `igPopover` control.
+- [jQuery and MVC API Links (igPopover)](igPopover-ASP-NET-MVC-Helper-API.html): This topic provides links to the API reference documentation for the jQuery and its ASP.NET MVC helper class for the `igPopover` control.
 
 - [Property Reference (igPopover)](igPopover-Property-Reference.html): This topic explains the properties of the `igPopover` control and lists their default values.
 

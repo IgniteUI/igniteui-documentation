@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Links (igSparkline)
+# jQuery and MVC API Links (igSparkline)
 
 
 
@@ -22,7 +22,7 @@ The [igSparkline](%%jQueryApiUrl%%/ui.igSparkline.html)™ is built as a jQuery 
 API Document| Description
 ---|---
 [igSparkline jQuery API](%%jQueryApiUrl%%/ui.igSparkline.html)| The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
-[igSparkline ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Sparkline`1.html)| The documentation contains the [SparklineModel](Infragistics.Web.Mvc~Infragistics.Web.Mvc.SparklineModel.html) class description and a list of all of its members.
+[igSparkline MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Sparkline`1.html)| The documentation contains the [SparklineModel](Infragistics.Web.Mvc~Infragistics.Web.Mvc.SparklineModel.html) class description and a list of all of its members.
 
 
 

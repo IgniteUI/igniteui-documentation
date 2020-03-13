@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Links (igPivotGrid)
+# jQuery and MVC API Links (igPivotGrid)
 
 
 
@@ -20,7 +20,7 @@ The following table lists the links to the API reference documentation for the `
 
 - [igPivotGrid jQuery API](%%jQueryApiUrl%%/ui.igPivotGrid): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
 
-- [igPivotGrid ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PivotGridModel.html): The documentation contains the description of the pivot grid ASP.NET MVC Helper and a list of all of its members.
+- [igPivotGrid MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PivotGridModel.html): The documentation contains the description of the pivot grid ASP.NET MVC Helper and a list of all of its members.
 
 ##Related Content
 

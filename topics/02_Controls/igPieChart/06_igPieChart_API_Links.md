@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and %%ProductNameMVC%% API Reference Links (igPieChart)
+# jQuery and MVC API Reference Links (igPieChart)
 
 ##Topic Overview
 
@@ -36,7 +36,7 @@ The `igPieChart` is built as a jQuery UI widget with an accompanying %%ProductNa
 API|Description
 ---|---
 [igPieChart jQuery API](%%jQueryApiUrl%%/ui.igPieChart)|The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
-[igPieChart %%ProductNameMVC%% API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PieChart`1.html)|The documentation contains the PieChart class description and a list of all of its members.
+[igPieChart MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PieChart`1.html)|The documentation contains the PieChart class description and a list of all of its members.
 
 
 ##Related Content
