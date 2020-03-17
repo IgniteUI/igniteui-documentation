@@ -33,7 +33,7 @@
     -   [igGrid – データ バインディング](#grid-data-binding)
     -   [igGrid – 非バインド列](#grid-unbound-columns)
     -   [igGrid – 仮想化](#grid-virtualization)
-	-   [igGrid - レスポンス Web デザイン モード](#grid-responsive)
+	-   [igGrid – レスポンス Web デザイン モード](#grid-responsive)
 	-   [igGridAppendRowsOnDemand](#appendRowsOnDemand)
     -   [igGridColumnFixing](#grid-column-fixing)
     -   [igGridColumnMoving](#grid-column-moving)
