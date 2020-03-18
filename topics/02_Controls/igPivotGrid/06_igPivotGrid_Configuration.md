@@ -131,7 +131,7 @@ The following topics provide additional information related to this topic.
 
 - [Adding igPivotGrid to an HTML Page](igPivotGrid-Adding-to-an-HTML-Page.html): This topic demonstrates how to add the `igPivotGrid` to an HTML page.
 
-- [Adding igPivotGrid to an ASP.NET MVC Application](igPivotGrid-Adding-Using-the-MVC-Helper.html): This topic explains, in both conceptual and step-by-step form, how to add the `igPivotGrid` control to an ASP.NET MVC application using the ASP.NET MVC helper.
+- [Adding igPivotGrid to an ASP.NET MVC Application](igPivotGrid-Adding-Using-the-MVC-Helper.html): This topic explains, in both conceptual and step-by-step form, how to add the `igPivotGrid` control to an ASP.NET MVC application.
 
 ### <a id="samples"></a>Samples
 
@@ -139,7 +139,7 @@ The following samples provide additional information related to this topic.
 
 - [Binding to Flat Data Source](%%SamplesUrl%%/pivot-grid/binding-to-flat-data-source): This sample demonstrates how to bind the `igPivotGrid` to an `igOlapFlatDataSource` and uses an `igPivotDataSelector` for data selection.
 
-- [Using the ASP.NET MVC Helper with Xmla Data Source](%%SamplesUrl%%/pivot-grid/using-the-asp-net-mvc-helper-with-xmla-data-source): This sample demonstrates how to use the ASP.NET MVC Helper for the `igPivotGrid` with `igOlapXmlaDataSource`.
+- [Using the %%ProductNameMVC%% with Xmla Data Source](%%SamplesUrl%%/pivot-grid/using-the-asp-net-mvc-helper-with-xmla-data-source): This sample demonstrates how to use the %%ProductNameMVC%% `igPivotGrid` with `igOlapXmlaDataSource`.
 
 - [Sorting](%%SamplesUrl%%/pivot-grid/sorting): This sample demonstrates how to enable sorting in the `igPivotGrid` and how to apply sorting for specific levels upon initialization.
 

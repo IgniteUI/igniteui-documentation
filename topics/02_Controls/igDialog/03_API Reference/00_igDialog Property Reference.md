@@ -888,7 +888,7 @@ The following table summarizes the purpose and functionality of the `igDialog` c
 
 ## <a id="mvc"></a> MVC Method Reference
 
-The following table summarizes the purpose and functionality of the `igDialog` *MVC wrapper –* Dialog. Most of the methods correspond to the jQuery properties except for [`mainElement`](%%jQueryApiUrl%%/ui.igDialog#options:mainElement) and [`temporaryUrl`](%%jQueryApiUrl%%/ui.igDialog#options:temporaryUrl), which don’t have MVC wrappers. There are additional MVC methods that don’t have corresponding igDialog properties, such as: [`ContentJquerySelector`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentJquerySelector.html), [`ContentID`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentID.html), [`ID`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ID.html), [`ContentHTML`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogWrapper~ContentHTML.html).
+The following table summarizes the purpose and functionality of * %%ProductNameMVC%% * `Dialog`. Most of the methods correspond to the jQuery properties except for [`mainElement`](%%jQueryApiUrl%%/ui.igDialog#options:mainElement) and [`temporaryUrl`](%%jQueryApiUrl%%/ui.igDialog#options:temporaryUrl). There are additional MVC methods that don’t have corresponding igDialog properties, such as: [`ContentJquerySelector`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentJquerySelector.html), [`ContentID`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentID.html), [`ID`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ID.html), [`ContentHTML`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogWrapper~ContentHTML.html).
 
 <table class="table table-striped">
 	<tbody>
@@ -924,7 +924,7 @@ The following table summarizes the purpose and functionality of the `igDialog` *
 			</td>
 
 			<td>
-				<p>This property defines the selector of the igDialog widget that is rendered from the wrapper. This selector should be the same as the selector when the jQuery-only widget is created. For example, if your HTML placeholder has the id “igDialog1”, then the value of <a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentJquerySelector.html">ContentJquerySelector</a> should be “#igDialog”. Then, the Wrapper will render following code:</p>
+				<p>This property defines the selector for the %%ProductNameMVC%% Dialog. This selector should be the same as the selector when the jQuery-only widget is created. For example, if your HTML placeholder has the id “igDialog1”, then the value of <a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentJquerySelector.html">ContentJquerySelector</a> should be “#igDialog”. Then, the %%ProductNameMVC%% will render following code:</p>
 
 				<p>$(“#igDialog”).igDialog();</p>
 			</td>
@@ -944,7 +944,7 @@ The following table summarizes the purpose and functionality of the `igDialog` *
 			</td>
 
 			<td>
-				<p>This property defines the selector of the igDialog widget that is rendered from the MVC wrapper. In contrast to the <a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentJquerySelector.html">ContentJquerySelector</a> property, you only need to pass the id of the HTML placeholder, without the #, and the wrapper will render it automatically. If your value in the <a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentID.html">ContentID</a> is “igDialog”, then the result will be the same as in the previous property:</p>
+				<p>This property defines the selector for the %%ProductNameMVC%% Dialog. In contrast to the <a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentJquerySelector.html">ContentJquerySelector</a> property, you only need to pass the id of the HTML placeholder, without the #, and the %%ProductNameMVC%% will render it automatically. If your value in the <a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentID.html">ContentID</a> is “igDialog”, then the result will be the same as in the previous property:</p>
 
 				<p>$(“#igDialog”).igDialog();</p>
 			</td>
@@ -964,7 +964,7 @@ The following table summarizes the purpose and functionality of the `igDialog` *
 			</td>
 
 			<td>
-				<p>This property defines the selector of the igDialog widget that is rendered from the MVC wrapper. It’s absolutely equivalent to the <a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogWrapper~ContentID.html">ContentID</a> property – it accepts the same format for the parameter and renders the same code.</p>
+				<p>This property defines the selector for the %%ProductNameMVC%% Dialog. It’s absolutely equivalent to the <a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogWrapper~ContentID.html">ContentID</a> property – it accepts the same format for the parameter and renders the same code.</p>
 			</td>
 		</tr>
 
@@ -982,7 +982,7 @@ The following table summarizes the purpose and functionality of the `igDialog` *
 			</td>
 
 			<td>
-				<p>This property allows you to define the HTML placeholder of the igDialog as part of the wrapper. This HTML code will then become the content of the igDialog.</p>
+				<p>This property allows you to define the HTML placeholder of the %%ProductNameMVC%% Dialog. This HTML code will then become the content of the igDialog.</p>
 			</td>
 		</tr>
 
@@ -1224,7 +1224,7 @@ The following table summarizes the purpose and functionality of the `igDialog` *
 
 				<p>If the value is “false,” the window will not be affected by mouse double click. Contrastingly, it will react if the value is “true”. The “auto” state means that the igDialog will only be affected by double click if there is maximize icon in the header.</p>
 
-				<p>“Auto” is the default state, but you cannot change it dynamically through the MVC wrapper.</p>
+				<p>“Auto” is the default state, but you cannot change it dynamically through the %%ProductNameMVC%%.</p>
 			</td>
 		</tr>
 

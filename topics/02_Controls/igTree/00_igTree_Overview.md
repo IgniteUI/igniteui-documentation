@@ -25,7 +25,7 @@ This topic contains the following sections:
     -   [Navigation & Selection](#navigation-and-selection)
     -   [Adding and Removing Nodes](#adding-and-removing-nodes)
     -   [Drag-and-Drop](#drag-and-drop)
-    -   [ASP.NET MVC Helper](#asp-mvc-helper)
+    -   [%%ProductNameMVC%%](#asp-mvc-helper)
 -   [Requirements](#requirements)
     -   [Introduction](#requirements-introduction)
     -   [Requirements chart](#requirements-chart)
@@ -61,7 +61,7 @@ Navigation & Selection | The `igTree` control has a rich keyboard interaction mo
 Node Images | Nodes can have their own custom images to provide more detail about an item or to customize the look and feel.
 Adding and Removing Nodes | The Adding and Removing Nodes feature of the `igTree` control enables users to add and remove tree nodes.
 Drag-and-Drop | The Drag-and-Drop feature of the `igTree` control enables users to drag-and-drop tree nodes. Dragging and dropping can be performed within the same tree or between two different trees.
-ASP.NET MVC Helper | You can use managed .NET code to configure the `igTree` control.
+%%ProductNameMVC%% | You can use managed .NET code to configure the `igTree` control.
 
 
 ## <a id="load-on-demand"></a>Load on demand 
@@ -120,8 +120,8 @@ Dragging-and-drop can be performed within the same `igTree` control or between t
 
 [Configuring Drag-and-Drop Modes](igTree-Drag-and-Drop-Configuring-Mode.html)
 
-## <a id="asp-mvc-helper"></a>ASP.NET MVC Helper 
-You can use the ASP.NET MVC Helper to use managed code languages to configure the `igTree` control. Using the MVC helpers allows you to take advantage of re-usable Views or ViewModels in your ASP.NET MVC applications. Further, you can bind to a collection of IQueryable collections in ASP.NET and the helper will generate the JSON data for the `igTree` control to use on the client.
+## <a id="asp-mvc-helper"></a>%%ProductNameMVC%%
+You can use the %%ProductNameMVC%% Helper to use managed code languages to configure the `igTree` control. Using the MVC helpers allows you to take advantage of re-usable Views or ViewModels in your ASP.NET MVC applications. Further, you can bind to a collection of IQueryable collections in ASP.NET and the helper will generate the JSON data for the `igTree` control to use on the client.
 
 ### Related Topics
 

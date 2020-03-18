@@ -26,7 +26,7 @@ The following topics are prerequisites to understanding this topic:
 ## Attaching Event Handlers in an igTree at Run-Time
 #### Attaching event handlers at run-time summary
 
-When using the MVC helper, it is necessary to assign event handlers at run-time because you cannot define event handlers within the MVC helper.
+When using the %%ProductNameMVC%%, it is necessary to assign event handlers at run-time because you cannot define event handlers within the HTML helper.
 
 jQuery supports the following methods for assigning event handlers:
 

@@ -232,7 +232,7 @@ Sets and retrieves the ability to process focus and blur events of the control i
 
 ### <a id="persistence"></a> Persistence
 
-The feature allows saving the state of the `igDialog`, after a postback to the server is executed. If Persistence is enabled, you will have the ability to save the `igDialog` width, height, position, zIndex, pinned position and state. This feature is enabled when one of the overload Dialog() constructors is used. In this constructor, you need to pass, as a second parameter, a string name which will be the name of the hidden input that will hold the setting of the `igDialog`. The control will use this hidden field to persist the `igDialog` state during the calls to the server. For more information about Dialog() overloads, check the API documentation for the Dialog wrapper.
+The feature allows saving the state of the `igDialog`, after a postback to the server is executed. If Persistence is enabled, you will have the ability to save the `igDialog` width, height, position, zIndex, pinned position and state. This feature is enabled when one of the overload Dialog() constructors is used. In this constructor, you need to pass, as a second parameter, a string name which will be the name of the hidden input that will hold the setting of the `igDialog`. The control will use this hidden field to persist the `igDialog` state during the calls to the server. For more information about Dialog() overloads, check the API documentation for the Dialog.
 
 To enable `igDialog` persistence please use the following code:
 

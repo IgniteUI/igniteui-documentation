@@ -17,14 +17,14 @@
 
 ### Purpose
 
-Starting with a form consisting of %%ProductName%% editor controls, this topic demonstrates how to create the form and validate the form with data annotations. It also shows how to configure an ASP.NET MVC ValidationMessage to further customize the layout of validation text.
+Starting with a form consisting of %%ProductNameMVC%% editor controls, this topic demonstrates how to create the form and validate the form with data annotations. It also shows how to configure an ASP.NET MVC ValidationMessage to further customize the layout of validation text.
 
 ### Required background
 
 ####Concepts
 
 -   ASP.NET MVC Data Annotation Validators
--   Using igEditors and igCombo with their %%ProductNameMVC%%
+-   Using %%ProductNameMVC%% Editors and Combo
 
 ####Topics
 
@@ -59,7 +59,7 @@ This topic contains the following sections:
 
 ### <a id="_Introduction"></a>Introduction
 
-In this procedure, you create and configure a Person model for ASP.NET MVC Data Annotation Validation using %%ProductName%% controls.
+In this procedure, you create and configure a Person model for ASP.NET MVC Data Annotation Validation using %%ProductNameMVC%% controls.
 
 ### <a id="_Preview"></a>Preview
 

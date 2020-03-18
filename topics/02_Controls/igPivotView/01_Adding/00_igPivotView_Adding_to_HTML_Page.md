@@ -529,7 +529,7 @@ The following steps demonstrate how to add a jQuery `igPivotView`.
 
 The following topics provide additional information related to this topic.
 
-- [Adding igPivotView to an ASP.NET MVC Application](igPivotView-Adding-Using-the-MVC-Helper.html): This topic explains, in both conceptual and step-by-step form, how to add the `igPivotView` control to an ASP.NET MVC Application using the ASP.NET MVC helper.
+- [Adding igPivotView to an ASP.NET MVC Application](igPivotView-Adding-Using-the-MVC-Helper.html): This topic explains, in both conceptual and step-by-step form, how to add the `igPivotView` control to an ASP.NET MVC Application using %%ProductNameMVC%%.
 
 ### <a id="samples"></a>Samples
 

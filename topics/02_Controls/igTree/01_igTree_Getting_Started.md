@@ -15,7 +15,7 @@
 ## Topic Overview
 ### Purpose
 
-The `igTree`™ control can be configured to run using jQuery or using the ASP.NET MVC Helper. This topic demonstrates how to setup an `igTree` control in each of these environments binding to JSON data on the client and a collection of business object on the server.
+The `igTree`™ control can be configured to run using jQuery or ASP.NET MVC. This topic demonstrates how to setup an `igTree` control in each of these environments binding to JSON data on the client and a collection of business object on the server.
 
 ### Required background
 You need to first read the following topics:
@@ -25,7 +25,7 @@ You need to first read the following topics:
 
 ## Create a basic igTree implementation
 ### Introduction
-The following steps will demonstrate how to configure basic options and bind to data using both jQuery and the ASP.NET MVC Helper.
+The following steps will demonstrate how to configure basic options and bind to data using both jQuery and ASP.NET MVC.
 
 ### Preview
 Following is a preview of the final result where the tree is bound to hierarchical data.
@@ -54,7 +54,7 @@ Following is a conceptual overview of the process:
 
     2.  Instantiate the `igTree`.
 
-        In jQuery, you can use the document ready JavaScript event to instantiate the igTree control. In ASP.NET MVC, use the ASP.NET MVC helper to bind to an IQueryable datasource.
+        In jQuery, you can use the document ready JavaScript event to instantiate the igTree control. In ASP.NET MVC, use the %%ProductNameMVC%% helper to bind to an IQueryable datasource.
 
         **In HTML:**
 
@@ -81,7 +81,7 @@ Following is a conceptual overview of the process:
 2.  <a id="binding-to-data"></a>Bind to data.
     1.  Define the data.
 
-        This example binds to a JSON array which is constructed with nested object arrays. There are two different object schemas: one for the product category which has a Label and Products property and the other for the Product with a Name property. You can see the Products property contains the nested data. This structure forms the hierarchy for the igTree control. In ASP.NET MVC, a nested IQueryable object collection is accepted by the ASP.NET MVC helper. An Entity Data Model and LINQ make it straightforward to provide this structure to the igTree control. For the purpose of the sample, the sample data code appears below to illustrate the structure of data required by the ASP.NET MVC helper when binding to collections of objects. The ProductCategory class is defined with a Label property and Products property similar to the JSON array. The GetProductNodes method returns the data for the ASP.NET MVC helper. You can see that the data is passed as the Model for the view.
+        This example binds to a JSON array which is constructed with nested object arrays. There are two different object schemas: one for the product category which has a Label and Products property and the other for the Product with a Name property. You can see the Products property contains the nested data. This structure forms the hierarchy for the igTree control. In ASP.NET MVC, a nested IQueryable object collection is accepted by the %%ProductNameMVC%% helper. An Entity Data Model and LINQ make it straightforward to provide this structure to the igTree control. For the purpose of the sample, the sample data code appears below to illustrate the structure of data required by the %%ProductNameMVC%% helper when binding to collections of objects. The ProductCategory class is defined with a Label property and Products property similar to the JSON array. The GetProductNodes method returns the data for the %%ProductNameMVC%% helper. You can see that the data is passed as the Model for the view.
 
         **In HTML:**
 
@@ -192,7 +192,7 @@ Following is a conceptual overview of the process:
 
     3.  (ASP.NET MVC) Call Render().
 
-        When instantiating the igTree with the ASP.NET MVC Helper, call the Render method last after all other options have been configured. This is the method that renders the HTML and JavaScript necessary to instantiate the igTree on the client
+        When instantiating the %%ProductNameMVC%% Tree, call the Render method last after all other options have been configured. This is the method that renders the HTML and JavaScript necessary to instantiate the igTree on the client
 
         **In ASPX:**
 
@@ -253,7 +253,7 @@ The following table lists the code examples provided below.
 Example| Description
 ---|---
 Basic jQuery implementation | Shows how to bind to data and set basic options in jQuery
-Basic ASP.NET MVC implementation | Shows how to bind to data and set basic options using the ASP.NET MVC Helper
+Basic ASP.NET MVC implementation | Shows how to bind to data and set basic options using %%ProductNameMVC%%
 
 ## Code Example: Basic jQuery Implementation
 ### Example description
@@ -298,7 +298,7 @@ The code below demonstrates how to create and configure the `igTree` in jQuery.
 ## Code Example: Basic ASP.NET Implementation
 ### Example description
 
-The code below demonstrates how to create and configure the `igTree` using the ASP.NET MVC Helper.
+The code below demonstrates how to create and configure the %%ProductNameMVC%% `Tree`.
 
 >**Note:** The different text key values are set on different binding
 objects to represent the different levels of data.

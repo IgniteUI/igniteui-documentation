@@ -14,7 +14,7 @@
 
 ### Purpose
 
-This topic explains, in both conceptual and step-by-step form, how to add the `igPivotView`™ control to an ASP.NET MVC application using the ASP.NET MVC helper.
+This topic explains, in both conceptual and step-by-step form, how to add the `igPivotView`™ control to an ASP.NET MVC application using %%ProductNameMVC%%.
 
 ### Required background
 
@@ -48,7 +48,7 @@ This topic contains the following sections:
 
 ### <a id="summary"></a>Adding igPivotView to an ASP.NET MVC application summary
 
-The `igPivotView` is a client-side component accompanied by an ASP.NET MVC helper that allows the component to be used in the CS/VB code of an MVC View. It allows also consuming data from the View’s Model (using `igOlapFlatDataSource`™). When using the ASP.NET MVC helper for the `igPivotView`, there are two ways to bind it to data:
+The `igPivotView` is a client-side component accompanied by an %%ProductNameMVC%% implementation that allows the component to be used in the CS/VB code of an MVC View. It allows also consuming data from the View’s Model (using `igOlapFlatDataSource`™). When using the %%ProductNameMVC%% `igPivotView`, there are two ways to bind it to data:
 
 -   By configuring a data source. - This is done by setting the required [DataSourceOptions](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PivotDataSelectorWrapper~DataSourceOptions.html) (used to create a data source object). This approach is explained in this topic.
 
@@ -177,9 +177,9 @@ The following steps demonstrate how to add an `igPivotView` to an ASP.NET MVC ap
 
 The following topics provide additional information related to this topic.
 
-- [Adding igOlapFlatDataSource to an ASP.NET MVC Application](igOlapFlatDataSource-Adding-Using-MVC-Helper.html): This topic explains, in both conceptual and step-by-step form, how to add the `igOlapFlatDataSource` control to an ASP.NET MVC application using ASP.NET MVC helper.
+- [Adding igOlapFlatDataSource to an ASP.NET MVC Application](igOlapFlatDataSource-Adding-Using-MVC-Helper.html): This topic explains, in both conceptual and step-by-step form, how to add the `igOlapFlatDataSource` control to an ASP.NET MVC application using %%ProductNameMVC%%.
 
-- [Adding igOlapXmlaDataSource to an ASP.NET MVC Application](igOlapXmlaDataSource-Adding-to-an-ASPNETMVC-Application.html):  This topic explains, in both conceptual and step-by-step form, how to add the `igOlapXmlaDataSource` control to an ASP.NET MVC application using ASP.NET MVC helper.
+- [Adding igOlapXmlaDataSource to an ASP.NET MVC Application](igOlapXmlaDataSource-Adding-to-an-ASPNETMVC-Application.html):  This topic explains, in both conceptual and step-by-step form, how to add the `igOlapXmlaDataSource` control to an ASP.NET MVC application using %%ProductNameMVC%%.
 
 - [igPivotDataSelector Overview](igPivotDataSelector-Overview.html): This topic provides conceptual information about the `igPivotDataSelector`™ control including its main features, minimum requirements, and user functionality.
 
@@ -190,9 +190,9 @@ The following topics provide additional information related to this topic.
 
 The following samples provide additional information related to this topic.
 
-- [Using the ASP.NET MVC Helper with Xmla Data Source](%%SamplesUrl%%/pivot-view/using-the-asp-net-mvc-helper-with-xmla-data-source): This sample demonstrates using the ASP.NET MVC Helper for the `igOlapXmlaDataSource` control and how to use it as data source in the `igPivotDataSelector` and `igPivotView` controls.
+- [Using the %%ProductNameMVC%% with Xmla Data Source](%%SamplesUrl%%/pivot-view/using-the-asp-net-mvc-helper-with-xmla-data-source): This sample demonstrates using the %%ProductNameMVC%% `igOlapXmlaDataSource` control and how to use it as data source in the `igPivotDataSelector` and `igPivotView` controls.
 
-- [Using the ASP.NET MVC Helper with Flat Data Source](%%SamplesUrl%%/pivot-view/using-the-asp-net-mvc-helper-with-flat-data-source): This sample demonstrates using the ASP.NET MVC Helper for the `igOlapFlatDataSource` control and how to use it as data source in the `igPivotDataSelector` and `igPivotView` controls.
+- [Using the %%ProductNameMVC%% with Flat Data Source](%%SamplesUrl%%/pivot-view/using-the-asp-net-mvc-helper-with-flat-data-source): This sample demonstrates using the %%ProductNameMVC%% `igOlapFlatDataSource` control and how to use it as data source in the `igPivotDataSelector` and `igPivotView` controls.
 
 
 

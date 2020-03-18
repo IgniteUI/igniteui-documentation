@@ -85,7 +85,7 @@ The following lists the supported data sources and some basic specifics for thei
 ## <a id="binding-to-data-sources"></a>Binding to data sources to overview
 
 
-In most cases, you will use the `dataSource` or `dataSourceUrl` options of the `igCombo` to bind to data. This option provides your data to the `igDataSource` which can handle the various supported data formats. The one main exception to using this option is when the `igCombo` is instantiated using a SELECT element. The `igCombo` will inherit the data and options of its base SELECT element in this case. In ASP.NET MVC, supplying an `IQueryable<T>` to the ASP.NET MVC Helper facilitates the serialization of the data from the server and passes it to the client with the View. Once the page is received by the browser, the `dataSource` option of the `igCombo` is set for client-side operation.
+In most cases, you will use the `dataSource` or `dataSourceUrl` options of the `igCombo` to bind to data. This option provides your data to the `igDataSource` which can handle the various supported data formats. The one main exception to using this option is when the `igCombo` is instantiated using a SELECT element. The `igCombo` will inherit the data and options of its base SELECT element in this case. In ASP.NET MVC, supplying an `IQueryable<T>` to the %%ProductNameMVC%% facilitates the serialization of the data from the server and passes it to the client with the View. Once the page is received by the browser, the `dataSource` option of the `igCombo` is set for client-side operation.
 
 ### Class diagram for binding to data sources
 
@@ -100,7 +100,7 @@ The following class diagram demonstrates how data binding works.
 ### Introduction
 
 
-The following steps demonstrate how to configure basic options and bind to data using both jQuery and the ASP.NET MVC Helper.
+The following steps demonstrate how to configure basic options and bind to data using both jQuery and ASP.NET MVC.
 
 ### Preview
 
@@ -142,7 +142,7 @@ Following is a conceptual overview of the process:
 	<select id="comboTarget"></select>
 	```
 
-	**b. Instantiate the `igCombo`.**  In jQuery, you can use the document ready JavaScript event to instantiate the combo. In ASP.NET MVC, use the ASP.NET MVC helper to bind to an `IQueryable` datasource.
+	**b. Instantiate the `igCombo`.**  In jQuery, you can use the document ready JavaScript event to instantiate the combo. In ASP.NET MVC, use the HTML helper to bind to an `IQueryable` datasource.
 
 	**In HTML:**
 
@@ -255,7 +255,7 @@ Following is a conceptual overview of the process:
 
 	**d. (ASP.NET MVC) Call DataBind() and Render().**
 
-	When instantiating the `igCombo` with the ASP.NET MVC Helper, call the DataBind method to bind to the data and call the Render method last after all other options have been configured. This is the method that renders the HTML and JavaScript necessary to instantiate the `igCombo` on the client
+	When instantiating the %%ProductNameMVC%% `Combo`, call the DataBind method to bind to the data and call the Render method last after all other options have been configured. This is the method that renders the HTML and JavaScript necessary to instantiate the `igCombo` on the client
 
 	**In ASPX:**
 

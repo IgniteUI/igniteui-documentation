@@ -13,7 +13,7 @@
 ## About the Video Player
 The %%ProductName%%™ Video Player, or `igVideoPlayer`, is an HTML 5 video player, which renders video on a web page with a robust, cross-browser user interface. The video player is built using the HTML 5 video tag and the jQuery UI framework providing users with a fast-loading, rich multimedia experience without the need for installing and maintaining browser plugins.
 
-When using the video player, you can choose from several implementation options. The video player exposes a rich jQuery API, which can be configured without the use of any specific server backend. Also, developers using the Microsoft® ASP.NET MVC framework can leverage the video player’s server-side wrapper to configure the control with their .NET™ language of choice.
+When using the video player, you can choose from several implementation options. The video player exposes a rich jQuery API, which can be configured without the use of any specific server backend. Also, developers using the Microsoft® ASP.NET MVC framework can leverage the video player’s server-side helper to configure the control with their .NET™ language of choice.
 
 Styling the `igVideoPlayer` provides a consistent appearance across supported browsers. The video player can utilize your existing style sheets and can be styled using jQuery UI’s ThemeRoller.
 
@@ -94,7 +94,7 @@ The following steps demonstrate how to create a basic implementation of the vide
 		<script src="@Url.Content("~/scripts/infragistics.lob.js")" type="text/javascript"></script>
 	```
 
-3.  For jQuery implementations, define a div or video as the target element in HTML. This step is optional for ASP.NET MVC implementations as the MVC wrapper creates the containing element for you. 
+3.  For jQuery implementations, define a div or video as the target element in HTML. This step is optional for ASP.NET MVC implementations as the %%ProductNameMVC%% creates the containing element for you. 
 
 	**Listing 4: Base DIV element defined for use with igVideoPlayer**
 

@@ -19,7 +19,7 @@ Depending on the specified time format (12-hour or 24-hour format), the drop-dow
 
 The control supports localization by recognizing different regional options provided by the browser.
 
-The `igTimePicker` control exposes a rich client-side API, which may be configured to work with any server technology. While the %%ProductName%%™ controls are server-agnostic, the picker control provides wrappers specific for the Microsoft® ASP.NET MVC Framework to configure the control with the .NET™ language of your choice.
+The `igTimePicker` control exposes a rich client-side API, which may be configured to work with any server technology. While the %%ProductName%%™ controls are server-agnostic, the picker control is featured in %%ProductNameMVC%% that is specific for the Microsoft® ASP.NET MVC Framework and can be configured the with the .NET™ language of your choice.
 
 The `igTimePicker` control may be extensively styled giving you an opportunity to provide a completely different look and feel for the control as opposed to the default style. Styling options include using your own styles as well as styles from jQuery UI's ThemeRoller.
 
@@ -42,7 +42,7 @@ The `igTimePicker` includes the following characteristics:
 -   [Min/Max values](#min-max-values)
 -   Localization
 -   JavaScript Client API
--   ASP.NET MVC wrapper
+-   ASP.NET MVC
 
 ## Adding igTimePicker to a Web Page
 
@@ -70,7 +70,7 @@ The `igTimePicker` includes the following characteristics:
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui.min.js")"></script>
     ```
 
-3.  For jQuery implementations, create an `INPUT`, `DIV` or `SPAN` as a target element in HTML. This step is optional for ASP.NET MVC implementations as the MVC wrapper creates the containing element for you.
+3.  For jQuery implementations, create an `INPUT`, `DIV` or `SPAN` as a target element in HTML. This step is optional for ASP.NET MVC implementations as the %%ProductNameMVC%% creates the containing element for you.
 
     **In HTML:**
 

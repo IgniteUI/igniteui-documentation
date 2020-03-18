@@ -34,7 +34,7 @@ During multiple uploads visual elements include:
 ## Architecture
 Use of the `igUpload` control consists of two required parts - client-side jQuery widget and server-side logic which is responsible for handling and processing each upload request. The server is also responsible for processing the upload itself. The example in this document implements server code using ASP.NET Framework, but the `igUpload` control is independent of server technology.
 
-The upload control exposes a rich jQuery API, so that the controls can be easily configured on the client-side. Also, developers using the Microsoft® ASP.NET MVC framework can leverage the upload control’s server-side wrapper to configure the control with their .NET™ language of choice.
+The upload control exposes a rich jQuery API, so that the controls can be easily configured on the client-side. Also, developers using the Microsoft® ASP.NET MVC framework can leverage the upload control’s server-side component to configure the control with their .NET™ language of choice.
 
 The `igUpload` control may be extensively styled giving you an opportunity to provide a completely different look and feel for the control as opposed to the default style. Styling options include using your own styles as well as styles from jQuery UI’s ThemeRoller.
 
@@ -106,7 +106,7 @@ This sample demonstrates a basic upload scenario in Single Mode, which will star
     <script type="text/javascript" src="@Url.Content("~/Scripts/Samples/infragistics.core.js")"></script><script type="text/javascript" src="@Url.Content("~/Scripts/Samples/infragistics.lob.js")"></script>
     ```
 
-3.  For jQuery implementations, define a DIV as the target element in HTML. This step is optional for ASP.NET MVC implementations as the MVC wrapper creates the containing element for you.
+3.  For jQuery implementations, define a DIV as the target element in HTML. This step is optional for ASP.NET MVC implementations as the %%ProductNameMVC%% creates the containing element for you.
 
     **In HTML:**
 
@@ -163,7 +163,7 @@ This sample demonstrates a basic upload scenario in Single Mode, which will star
 5.  Next you must configure the server-side HTTP Handler and Module.
 
 ## Configuring the HTTP Handler and Module for ASP.NET
-The required HTTP handler and Module are part of the `Infragistics.Web.MVC dll` as well as the MVC wrappers. Follow the steps below to register them in the Web.config file.
+The required HTTP handler and Module are part of the `Infragistics.Web.MVC dll` as well as the %%ProductNameMVC%%. Follow the steps below to register them in the Web.config file.
 
 1.  To get started, first you must create folder with write permissions, where the uploaded files will be saved. Then you have to register that folder in the Web.config file (see the code below), so that the `igUpload` knows where to save the files. For the current example the folder is called Uploads.
 2.  You can restrict the size of the uploaded files by setting the `maxFileSizeLimit` setting. In this sample this size is about 100 MB.

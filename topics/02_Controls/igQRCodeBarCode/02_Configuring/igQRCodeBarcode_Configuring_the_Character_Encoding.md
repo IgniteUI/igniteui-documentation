@@ -97,7 +97,7 @@ Encoding of 8-bits data (8 bits per character) encodingMode byte. Encoding of Ka
 
 
 
-2.  For details on the different encoding modes, refer to the [jQuery and ASP.NET MVC Helper API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html) topic.
+2.  For details on the different encoding modes, refer to the [jQuery and MVC API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html) topic.
 
 ### <a id="encoding-example"></a>Example
 
@@ -291,7 +291,7 @@ The following topics provide additional information related to this topic.
 
 - [Configuring the Dimensions of the QR Barcode (igQRCodeBarcode)](igQRCodeBarcode-Configuring-the-Dimensions.html): This topic demonstrates how to configure the `igQRCodeBarcode` control’s size and dimensional aspects, like the stretch and fill and the size of the minimum-size element.
 
-- [jQuery and ASP.NET MVC Helper API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): This topic provides links to the API reference documentation about the `igQRCodeBarcode` control and the ASP.NET MVC Helper for it.
+- [jQuery and MVC API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): This topic provides links to the API reference documentation about the `igQRCodeBarcode` control.
 
 
 ### <a id="samples"></a>Samples

@@ -42,7 +42,7 @@ Before you can use the %%ProductNameMVC%% Grid, you must first create a referenc
 Begin by creating a reference in your ASP.NET application to the %%ProductNameMVC%% assembly which is found at this location:
 
 ```
-%%InstallPath%%\MVC\<MVC_VERSION_NUMBER>\Bin\Infragistics.Web.Mvc.dll
+%%InstallPathMVC%%\<MVC_VERSION_NUMBER>\Bin\Infragistics.Web.Mvc.dll
 ```
 
 ### <a id="referencing-styles-and-scripts"></a>Referencing Styles and Scripts
