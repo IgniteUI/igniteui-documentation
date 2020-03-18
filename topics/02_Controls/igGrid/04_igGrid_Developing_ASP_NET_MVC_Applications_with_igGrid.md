@@ -9,9 +9,9 @@
 -->
 
 # Developing ASP.NET MVC Applications with igGrid
-%%ProductName%% is a JavaScript-based [jQuery UI](http://jqueryui.com/) control suite that you can use to build rich, interactive web applications. When %%ProductName%% is paired with ASP.NET MVC, you have the option to use JavaScript directly or with the MVC Helpers provided in %%ProductName%%.
+%%ProductName%% is a JavaScript-based [jQuery UI](http://jqueryui.com/) control suite that you can use to build rich, interactive web applications. When %%ProductName%% is paired with ASP.NET MVC, you have the option to use JavaScript directly or with the %%ProductNameMVC%%.
 
-The MVC Helpers are a collection of .NET classes and extension methods that generate the HTML markup and JavaScript required to work with %%ProductName%% controls. Once rendered to the page, there is very little difference between code you may write by hand using a JavaScript-only approach and what is rendered by %%ProductName%% MVC Helpers, but using the helpers may be a good choice for you if:
+%%ProductNameMVC%% is a collection of .NET classes and extension methods that generate the HTML markup and JavaScript required to work with %%ProductName%% controls. Once rendered to the page, there is very little difference between code you may write by hand using a JavaScript-only approach and what is rendered by %%ProductName%% MVC Helpers, but using the helpers may be a good choice for you if:
 
 * You are implementing remote features like remote load-on-demand, remote paging, remote filtering, etc.
 
@@ -24,7 +24,7 @@ This document is focused specifically on explaining the igGrid MVC Helper. Along
 
 ### In this topic
 - [**Getting Started**](#getting-started)
-	- [Referencing the %%ProductName%% MVC Assembly](#referencing-igniteui-mvc-assembly)
+	- [Referencing the %%ProductNameMVC%%](#referencing-igniteui-mvc-assembly)
 	- [Referencing Styles and Scripts](#referencing-styles-and-scripts)
 - [**Syntax Variations**](#syntax-variations)
  	- [Grid Model](#syntax-grid-model)
@@ -36,13 +36,13 @@ This document is focused specifically on explaining the igGrid MVC Helper. Along
 	- [Related Topics](#related-topics)
 
 ## <a id="getting-started"></a> Getting Started
-Before you can use the igGrid MVC Helper, you must first create a reference to the `Infragistics.Web.Mvc` assembly and reference the proper scripts and style sheets on your page.
+Before you can use the %%ProductNameMVC%% Grid, you must first create a reference to the `Infragistics.Web.Mvc` assembly and reference the proper scripts and style sheets on your page.
 
-### <a id="referencing-igniteui-mvc-assembly"></a>Referencing the %%ProductName%% MVC Assembly
-Begin by creating a reference in your ASP.NET application to the %%ProductName%% MVC assembly which is found at this location:
+### <a id="referencing-igniteui-mvc-assembly"></a>Referencing %%ProductNameMVC%%
+Begin by creating a reference in your ASP.NET application to the %%ProductNameMVC%% assembly which is found at this location:
 
 ```
-%%InstallPath%%\MVC\<MVC_VERSION_NUMBER>\Bin\Infragistics.Web.Mvc.dll
+%%InstallPathMVC%%\<MVC_VERSION_NUMBER>\Bin\Infragistics.Web.Mvc.dll
 ```
 
 ### <a id="referencing-styles-and-scripts"></a>Referencing Styles and Scripts
@@ -60,23 +60,23 @@ Next, you need to reference the required style sheet and script files on your pa
 > **Note**: Due to the nature of how the %%ProductName%% MVC Helpers operate, you must include references to jQuery, jQuery UI and %%ProductName%% at the top of the page.
 
 ## <a id="syntax-variations"></a>Syntax Variations
-When using the %%ProductName%% MVC Helpers, there are a few different parts that compose a page that are relevant to using the igGrid. As a page is requested, Model data is collected in the Controller and passed to the View so the %%ProductName%% MVC Helpers can render the control on the page. In the Controller, you can choose to either pass data directly to the view in the form of an `IQueryable<T>` collection, or pass an instance of the `Infragistics.Web.Mvc.GridModel` class.
+When using the %%ProductNameMVC%%, there are a few different parts that compose a page that are relevant to using the igGrid. As a page is requested, Model data is collected in the Controller and passed to the View so the %%ProductNameMVC%% can render the control on the page. In the Controller, you can choose to either pass data directly to the view in the form of an `IQueryable<T>` collection, or pass an instance of the `Infragistics.Web.Mvc.GridModel` class.
 
-> **Note**: The igGrid MVC Helper data source uses LINQ and therefore only accepts instances of `IQueryable<T>`. Even when you opt to use the `GridModel` you will explicitly set the `DataSource` property which requires an instance of `IQueryable<T>` .
+> **Note**: The %%ProductNameMVC%% Grid data source uses LINQ and therefore only accepts instances of `IQueryable<T>`. Even when you opt to use the `GridModel` you will explicitly set the `DataSource` property which requires an instance of `IQueryable<T>` .
 
-Therefore, as you use the igGrid MVC Helper you use syntax that follows a pattern like this:
+Therefore, as you use the %%ProductNameMVC%% Grid you use syntax that follows a pattern like this:
 
 ```html
 @(Html.Infragistics().Grid(/* collection or grid model here */)...
 ```
-The `Grid` method supports a number of overloads that give you the ability to select a syntax variation you want to use with the MVC Helper. A "syntax variation" is found while either using data collections (`IQueryable<T>`) or a grid model. The following table shows how the return type of the MVC Helper is affected by the argument you pass in to the Helper's `Grid` method.
+The `Grid` method supports a number of overloads that give you the ability to select a syntax variation you want to use with %%ProductNameMVC%%. A "syntax variation" is found while either using data collections (`IQueryable<T>`) or a grid model. The following table shows how the return type of %%ProductNameMVC%% is affected by the argument you pass in to the `Grid` method.
 
 Syntax Variation | Primary Argument | Return Type
 --- | --- | --- |
 Grid Model | IGridModel| MvcHtmlString
 Chaining | IQueryable&lt;T&gt; | IGrid&lt;T&gt;
 
-> **Note**: The above table refers to the "Primary Argument" because the MVC helper includes a number of variations in the overloads that include the ability to control the rendered TABLE element's HTML attributes, but the main difference between each of the overloads is the differentiation between either using `IQueryable<T>` or `Infragistics.Web.Mvc.GridModel` instances.
+> **Note**: The above table refers to the "Primary Argument" because %%ProductNameMVC%% includes a number of variations in the overloads that include the ability to control the rendered TABLE element's HTML attributes, but the main difference between each of the overloads is the differentiation between either using `IQueryable<T>` or `Infragistics.Web.Mvc.GridModel` instances.
 
 ### <a id="syntax-grid-model"></a>Grid Model
 The first option available to you in configuring the igGrid is to define all the options for the grid (including the data source) in the controller and simply pass the `GridModel` instance to the Helper. As an example, here a controller creates an instance of the `GridModel` class and sets the `DataSource` property to an instance of an `IQueryable<T>` collection.
@@ -98,7 +98,7 @@ public class GridModelController : Controller
     }
 }
 ```
-Now with the grid model being sent to the view, the MVC Helper is passed the view's Model to render the control.
+The GridModel is send to the view and used by the %%ProductNameMVC%% Helper to render the control.
 
 ```html
 @using Infragistics.Web.Mvc
@@ -117,7 +117,7 @@ Notice that the page requires a `using` directive to import `Infragistics.Web.Mv
 
 <script type="text/javascript">$(function () {$('#Grid1').igGrid({ dataSource: {"Records":[{"Name":"John Smith","Age":45},{"Name":"Mary Johnson","Age":32}],"TotalRecordsCount":0,"Metadata":{"timezoneOffset":-25200000}},dataSourceType: 'json',autoGenerateColumns: false,autoGenerateLayouts: false,mergeUnboundColumns: false, responseDataKey: 'Records', generateCompactJSONResponse: false, enableUTCDates: true, columns: [ { key: 'Name', headerText: 'Name', width: null, dataType: 'string' }, { key: 'Age', headerText: 'Age', width: null, dataType: 'number' } ], features: [ { sortUrlKey: 'sort', sortUrlKeyAscValue: 'asc', sortUrlKeyDescValue: 'desc', name: 'Sorting' } ], localSchemaTransform: false });});</script>
 ```
-It's not important for you to understand everything in this code listing at the moment, but this is included to help you get an understanding of the type of code rendered as you use the MVC Helper. Notice that a HTML `TABLE` element is generated with an `ID` of `Grid1`. Then in the `SCRIPT` element, just after the jQuery `ready` anonymous function, is the jQuery selector of `$('#Grid1')` runs which associates the data and options to the declared `TABLE` element.
+It's not important for you to understand everything in this code listing at the moment, but this is included to help you get an understanding of the type of code rendered as you use %%ProductNameMVC%%. Notice that a HTML `TABLE` element is generated with an `ID` of `Grid1`. Then in the `SCRIPT` element, just after the jQuery `ready` anonymous function, is the jQuery selector of `$('#Grid1')` runs which associates the data and options to the declared `TABLE` element.
 
 #### Settings, Columns and Features
 When you want to have fine-grained control over the settings and features of the grid, you simply need to appropriately compose the object model for the grid. The following listing demonstrates how to:
@@ -167,7 +167,7 @@ public ActionResult Index()
 ```
 
 ### <a id="syntax-chaining"></a>Chaining
-As an alternative to defining the grid model in the controller, you may choose to use the chaining syntax. When you pass in a collection of data into the MVC Helper, the `Grid` method returns an instance of `IGrid` that exposes a fluent interface allowing you to chain method calls to define the control on your page.
+As an alternative to defining the grid model in the controller, you may choose to use the chaining syntax. When you pass in a collection of data into the %%ProductNameMVC%% Helper, the `Grid` method returns an instance of `IGrid` that exposes a fluent interface allowing you to chain method calls to define the control on your page.
 
 Consider a Controller where data is passed to the view as an `IQueryable<T>` collection:
 
@@ -187,7 +187,7 @@ public class ChainedController : Controller
 }
 ```
 
-Here the igGrid's MVC Helper passed the collection via the page's `Model`.
+Here the %%ProductNameMVC%% Grid passed the collection via the page's `Model`.
 
 ```html
 @using Infragistics.Web.Mvc

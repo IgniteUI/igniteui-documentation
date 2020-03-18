@@ -167,7 +167,7 @@ For detailed information for each rule, refer to the [**Validation Rules topic**
 
 ## <a id="mvc-annotations"></a> ASP.NET MVC and Data Annotations
 
-To setup a validator in ASP.NET MVC the Infragistics HTML Helper [Validator()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.InfragisticsSuite`1~Validator().html) extension can be used:
+To setup a validator in ASP.NET MVC using %%ProductNameMVC%% Helper [Validator()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.InfragisticsSuite`1~Validator().html) extension can be used:
 
 **In Razor:**
 ```csharp
@@ -176,9 +176,9 @@ To setup a validator in ASP.NET MVC the Infragistics HTML Helper [Validator()](I
 		.Required(true)
 		.Render())
 ```
-The helper can also be initialized with an [ValidatorModel](Infragistics.Web.Mvc~Infragistics.Web.Mvc.ValidatorModel.html). Model properties and helper methods follow the jQuery API of the control as closely as possible.  
+The helper can also be initialized with an [ValidatorModel](Infragistics.Web.Mvc~Infragistics.Web.Mvc.ValidatorModel.html). Model properties and %%ProductNameMVC%% methods follow the jQuery API of the control as closely as possible.  
 
-Besides configuring the validator through the dedicated wrapper, when using strongly-typed editors the Model will be automatically inspected for Data Annotations and the appropriate validation rules and their messages will be added to the control configuration. Additionally, the [ValidatorOptions()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.BaseEditorWrapper`2~ValidatorOptions.html) helper method can still be used to add or override rules.
+Besides configuring the validator through the dedicated helper, when using strongly-typed editors the Model will be automatically inspected for Data Annotations and the appropriate validation rules and their messages will be added to the control configuration. Additionally, the [ValidatorOptions()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.BaseEditorWrapper`2~ValidatorOptions.html) helper method can still be used to add or override rules.
 
 For a step-by-step guide please refer to the [Configuring ASP.NET MVC Validation (Editors)](Configuring-ASP.NET-MVC-Validation.html) topic.
 

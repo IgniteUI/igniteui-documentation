@@ -94,7 +94,7 @@ Example | Description
 ---|---
 [Binding igTileManager to a JavaScript Array](#bind-js-array)| This example demonstrates how to bind the `igTileManager` control to a JavaScript array.
 [Binding igTileManager to XML Data](#bind-xml-data)|This example demonstrates how to bind the `igTileManager` control to an XML structure.
-[Binding igTileManager in a Strongly Typed MVC View](#bind-mvc-view)|This example demonstrates how to bind the `igTileManager` control to a model object in a strongly-typed ASP.NET MVC View using the MVC helper.
+[Binding igTileManager in a Strongly Typed MVC View](#bind-mvc-view)|This example demonstrates how to bind the `igTileManager` control to a model object in a strongly-typed ASP.NET MVC View using the %%ProductNameMVC%%.
 [Binding igTileManager to a JSON Response from a Remote Service](#bind-json)|This example demonstrates how to configure an `igTileManager` control to request remote data and bind it to a JSON response.
 
 
@@ -197,7 +197,7 @@ State options specify what content to be rendered in the corresponding tile’s 
 ## <a id="bind-mvc-view"></a>Code Example: Binding igTileManager in a Strongly Typed MVC View
 ### <a id="mvc-description"></a>Description
 
-In an MVC application, you typically want to have a strongly-typed View and pass data objects to it from the business logic layer of your application. This example provides the essential code which defines a sample data class and passes a model object to the `igTileManager` MVC helper which instantiates a tile manager. The data model object is required to be an IQueryable of the data class.
+In an MVC application, you typically want to have a strongly-typed View and pass data objects to it from the business logic layer of your application. This example provides the essential code which defines a sample data class and passes a model object to the %%ProductNameMVC%% `igTileManager` which instantiates a tile manager. The data model object is required to be an IQueryable of the data class.
 
 ### <a id="mvc-code"></a>Code
 
@@ -212,7 +212,7 @@ public class TileData
 }
 ```
 
-The following code snippet specifies a strongly-typed MVC View at the beginning. Then it shows how to use the MVC helper for `igTileManager` in order to bind to the Model object of the View.
+The following code snippet specifies a strongly-typed MVC View at the beginning. Then it shows how to use the %%ProductNameMVC%% `igTileManager` in order to bind to the Model object of the View.
 
 **In ASPX:**
 

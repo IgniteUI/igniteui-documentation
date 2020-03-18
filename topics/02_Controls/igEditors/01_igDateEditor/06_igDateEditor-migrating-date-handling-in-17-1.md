@@ -71,7 +71,7 @@ value: new Date(2016, 1, 9, 10, 55, 55);
 ```
 While this will produce the correct display, it actually creates a local date on the client so the underlying time value would actually be different based on the client time zone. This means the server and client values display the same but actually point to different points in time and that can lead to unexpected handling of values when transferring between them, especially using the default "date" [`dataMode`](%%jQueryApiUrl%%/ui.igdateeditor#options:dataMode) which serializes the client value based on the UTC value per the ISO 8061 format.
 
-For that reason from 17.1 the ASP.NET wrappers also use the ISO 8061 format to initialize the client widget with the correct value and allow for consistent round-trip transfer of values. For backwards compatibility, the helpers will also output the new [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) value based on the server time by default, thus for a server in GMT+1 the above example will render to the client as:
+For that reason from 17.1 the %%ProductNameMVC%% also use the ISO 8061 format to initialize the client widget with the correct value and allow for consistent round-trip transfer of values. For backwards compatibility, the helpers will also output the new [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) value based on the server time by default, thus for a server in GMT+1 the above example will render to the client as:
 
 ```js
 value: '2016-01-09T09:55:55.0000000Z',

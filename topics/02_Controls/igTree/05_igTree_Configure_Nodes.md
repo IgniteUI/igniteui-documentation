@@ -153,7 +153,7 @@ $(function () {
 ```
 
 ### <a id="example-configure-the-collapse-events"></a>Example: configure the collapse events using bind and live 
-There are times when an event handler needs to be attached to the `igTree` after the tree is instantiated. Post-initialization event binding is the primary way events are configured when the `igTree` control is instantiated using the ASP.NET MVC helper. When using attaching event handlers after the control is instantiated, the event type is needed. Event types are determined by combining the widget name with the event name. The code below demonstrates how to configure events using the jQuery bind and live method:
+There are times when an event handler needs to be attached to the `igTree` after the tree is instantiated. Post-initialization event binding is the primary way events are configured when the `igTree` control is instantiated using the %%ProductNameMVC%% helper. When using attaching event handlers after the control is instantiated, the event type is needed. Event types are determined by combining the widget name with the event name. The code below demonstrates how to configure events using the jQuery bind and live method:
 
 Method| Parameters
 ---|---

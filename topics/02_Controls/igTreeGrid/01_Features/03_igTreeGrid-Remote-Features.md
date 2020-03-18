@@ -39,16 +39,15 @@ When the tree grid is set up to use remote features, Ajax requests are used for 
 
 Supported features that can perform remote operations are **Sorting**, **Filtering** and **Paging**.
 
-In order to take advantage of the remote features functionality the controller action method responsible for Sorting, Filtering and Paging should be decorated with TreeGridDataSourceAction attribute. This is all that needs to be done and the TreeGridDataSourceAction is handling everything else for you. In this scenario requests are handled by the %%ProductName%% Grid MVC Wrapper which automatically adds parameter to the request and returns the data in the appropriate format. 
+In order to take advantage of the remote features functionality the controller action method responsible for Sorting, Filtering and Paging should be decorated with TreeGridDataSourceAction attribute. This is all that needs to be done and the TreeGridDataSourceAction is handling everything else for you. In this scenario requests are handled by the %%ProductNameMVC%% Grid which automatically adds a parameter to the request and returns the data in the appropriate format. 
 
 ```csharp
-
-		[TreeGridDataSourceAction]
-		public ActionResult GetData()
-		{
-			List<MyEmployeeHierarchical> emp = GenerateEmployees();
-			return View("Index", emp.AsQueryable());
-		}
+	[TreeGridDataSourceAction]
+	public ActionResult GetData()
+	{
+		List<MyEmployeeHierarchical> emp = GenerateEmployees();
+		return View("Index", emp.AsQueryable());
+	}
 ```
 
 Another benefit of the remote features is that expanded state is persisted across user interactions. For instance, if the user expand a node on the first page and moves to the second page, afterwards when he is on the first page again the expanded state of the nodes is going to be persisted. Same is applicable when filtering or sorting interactions are performed. 
@@ -60,20 +59,20 @@ All features share the same [`dataSourceUrl`](%%jQueryApiUrl%%/ui.igtreegrid#opt
 
 In case that requests are going to be manually handled on the back end it's important to maintain the logical order of the operations - for example filtering data transformations should be applied first and then sorting if needed, before cutting down the results to the required page size.
 
-### <a id="flat-data"></a> Binding to flat data in the MVC wrapper
+### <a id="flat-data"></a> Binding to flat data in %%ProductNameMVC%%
 
-The igTreeGrid can be bound to a flat self-referencing data via the MVC wrapper, where the parent-child relation is defined via the PrimaryKey/ForeignKey options. The flat data is internally parsed to Hierarchical based on the PrimaryKey and ForeignKey relation before it gets send to the client. This is usefull in scenarios when you want to bind to a self-referencing table of data, without having to transform it to a hierarchical structure.
+The igTreeGrid can be bound to a flat self-referencing data via the MVC wrapper, where the parent-child relation is defined via the PrimaryKey/ForeignKey options. The flat data is internally parsed to Hierarchical based on the PrimaryKey and ForeignKey relation before it gets send to the client. This is useful in scenarios when you want to bind to a self-referencing table of data, without having to transform it to a hierarchical structure.
 
-However, this data transformation will have a performance impacts, especially when combined with other remote features, which will trigger remote requests to the data source on certain operations. If you'd like to optimize the performance in this case you can transfrom the flat data to hierarchical only once, using the public TransformFlatToHierarchicalData method of the TreeGridModel and cache it to use on the next request. 
+However, this data transformation will have a performance impacts, especially when combined with other remote features, which will trigger remote requests to the data source on certain operations. If you'd like to optimize the performance in this case you can transform the flat data to hierarchical only once, using the public TransformFlatToHierarchicalData method of the TreeGridModel and cache it to use on the next request. 
 
-```
-		public ActionResult GetData()
-		{
-			TreeGridModel model = GetTreeGridModel();
-            IQueryable<Employee> empl = GetEmployeeData();
-			IList data = model.TransformFlatToHierarchicalData(empl);
-			...
-		}
+```csharp
+	public ActionResult GetData()
+	{
+		TreeGridModel model = GetTreeGridModel();
+		IQueryable<Employee> empl = GetEmployeeData();
+		IList data = model.TransformFlatToHierarchicalData(empl);
+		...
+	}
 ```
 > Note: In this scenario setting the ChildDataKey option to an existing object that's of type ICollection (or a type that implements ICollection) in the current data model is mandatory. As well as setting the ForeignKeyRootValue option, which specifies the row(s) in the data source that will be treated as the root row(s) based on the ForeignKey value.
 
@@ -121,7 +120,7 @@ http://<SERVER>/TreeGrid/GetData?sort(EmployeeID)=asc&sorting.fromLevel=0&sortin
 
 ### <a id="paging"></a> Remote Paging
 
-Enable the remote operation by setting the [`type`](%%jQueryApiUrl%%/ui.igtreegridpaging#options:type) feature option to `'remote'`. Remote Paging operations use following parameters - the `page` index the user is requesting, the respective row count per page set by `pageSize`, `listExpanisonStates[2]` which keeps the information about the expansion state.  Every time a node is expanded or collapsed a request is sent in order to update this property and preserve this state across user interactions:
+Enable the remote operation by setting the [`type`](%%jQueryApiUrl%%/ui.igtreegridpaging#options:type) feature option to `'remote'`. Remote Paging operations use following parameters - the `page` index the user is requesting, the respective row count per page set by `pageSize`, `listExpansionStates[2]` which keeps the information about the expansion state.  Every time a node is expanded or collapsed a request is sent in order to update this property and preserve this state across user interactions:
 
 ```
 http://<SERVER>/TreeGrid/GetData?page=1&pageSize=5&paging.mode=allLevels&paging.contextRowMode=none&pk=EmployeeID&listExpansionStates%5B2%5D=false&propertyDataLevel=__ig_options.dataLevel&propertyExpanded=__ig_options.expanded&childDataKey=Employees&initialExpandDepth=-1&_=1437129614152

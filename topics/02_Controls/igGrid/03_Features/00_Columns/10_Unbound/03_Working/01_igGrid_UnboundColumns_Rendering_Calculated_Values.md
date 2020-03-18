@@ -157,7 +157,7 @@ View:
 .Render())
 ```
 
-The View is strongly typed with model `IQueryable<UnboundColumns.Models.Employee>` used by the Grid MVC wrapper to bind to data. The code configures the grid with one unbound column with key `FullName`. A JavaScript function called `calcFullName` calculates its values on the client. This is the reason to define a script block in the View containing the definition of the `calcFullName` function.
+The View is strongly typed with model `IQueryable<UnboundColumns.Models.Employee>` used by the %%ProductNameMVC%% Grid to bind to data. The code configures the grid with one unbound column with key `FullName`. A JavaScript function called `calcFullName` calculates its values on the client. This is the reason to define a script block in the View containing the definition of the `calcFullName` function.
 
 The `calcFullName` function concatenates the `FirstName` and `LastName` fields from the data source.
 

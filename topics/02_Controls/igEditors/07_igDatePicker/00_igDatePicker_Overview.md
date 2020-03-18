@@ -15,7 +15,7 @@ The `igDatePicker`, allows you to have input field with dropdown calendar and sp
 
 > **Note on localization:** The `igDatePicker` control depends on `jQuery.datepicker` and thus also requires its localization files to be referenced on the page.
 
-The `igDatePicker` control exposes a rich client-side API, which may be configured the work with any server technology. While the %%ProductName%%™ controls are server-agnostic, the editor control does feature wrappers specific for the Microsoft® ASP.NET MVC Framework to configure the control with the .NET™ language of your choice.
+The `igDatePicker` control exposes a rich client-side API, which may be configured the work with any server technology. While the %%ProductName%%™ controls are server-agnostic, the editor control is featured in %%ProductNameMVC%% that is specific for the Microsoft® ASP.NET MVC Framework and can be configured with the .NET™ language of your choice.
 
 The `igDatePicker` control may be extensively styled giving you an opportunity to provide a completely different look and feel for the control as opposed to the default style. Styling options include using your own styles as well as styles from jQuery UI’s ThemeRoller.
 
@@ -37,7 +37,7 @@ The `igDatePicker` includes the following characteristics:
 -   Set Min/Max value
 -   Localization
 -   JavaScript Client API
--   ASP.NET MVC wrapper
+-   ASP.NET MVC
 -   All features supported by the jquery.ui.datepicker
 
 ## Adding igDatePicker using the %%ProductFamilyName%% CLI
@@ -81,7 +81,7 @@ For more information and the list of all available commands read the [Using %%Pr
     <script type="text/javascript" src="@Url.Content("~/Scripts/Samples/modules/i18n/regional/infragistics.ui.regional-en.js")"></script>
     ```
 
-3.  For jQuery implementations create an INPUT, DIV or SPAN as the target element in HTML. This step is optional for ASP.NET MVC implementations as the MVC wrapper creates the containing element for you.
+3.  For jQuery implementations create an INPUT, DIV or SPAN as the target element in HTML. This step is optional for ASP.NET MVC implementations as the %%ProductNameMVC%% creates the containing element for you.
 
     **In HTML:**
 

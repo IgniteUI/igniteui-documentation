@@ -476,7 +476,7 @@ The following steps demonstrate how to add a jQuery `igPivotGrid`.
 
 The following topics provide additional information related to this topic.
 
-- [Adding igPivotGrid Using the ASP.NET MVC Helper](igPivotGrid-Adding-Using-the-MVC-Helper.html): This topic demonstrates how to add the `igPivotGrid`™ control to an ASP.NET MVC application using the ASP.NET MVC helper.
+- [Adding %%ProductNameMVC%% igPivotGrid](igPivotGrid-Adding-Using-the-MVC-Helper.html): This topic demonstrates how to add the `igPivotGrid`™ control to an ASP.NET MVC application.
 
 ### <a id="samples"></a>Samples
 

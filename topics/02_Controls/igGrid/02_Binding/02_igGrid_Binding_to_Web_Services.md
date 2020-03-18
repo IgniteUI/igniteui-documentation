@@ -43,7 +43,7 @@ Also, if remote Paging is enabled, the recordCountKey option of the Paging featu
 
 By default igGrid will send oData requests when initialized in JavaScript.
 
-The Grid MVC Helper wrapper however uses different request parameters which are used by the built in remote features support provided by the Infragistics.Web.Mvc.dll, so if you want to use it to bind to the oData service you need to set the corresponding feature URL parameters to null.
+The %%ProductNameMVC%% Grid however uses different request parameters which are used by the built in remote features support provided by the Infragistics.Web.Mvc.dll, so if you want to use it to bind to the oData service you need to set the corresponding feature URL parameters to null.
 
 
 ## Walkthrough: Creating an igGrid in an MVC Application bound to an OData service that uses EntityFramework

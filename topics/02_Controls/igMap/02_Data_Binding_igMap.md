@@ -361,7 +361,7 @@ control instance in an ASP.NET MVC application.
 
 3. Map instantiation and data binding
 
-	The following code snippet shows the MVC helper code which instantiates an `igMap` control in a strongly-typed ASP.NET MVC view.
+	The following code snippet shows the MVC helper code which instantiates an %%ProductNameMVC%% `Map` control in a strongly-typed ASP.NET MVC view.
 
 	**In ASPX:**
 
@@ -381,7 +381,7 @@ control instance in an ASP.NET MVC application.
 	%>
 	```
 
-	-   The following code snippet shows the MVC helper code which instantiates an igMap control in a regular ASP.NET MVC view by setting the type of the model object directly into the helper.
+	-   The following code snippet shows the MVC helper code which instantiates an %%ProductNameMVC%% `Map` control in a regular ASP.NET MVC view by setting the type of the model object directly into the helper.
 
 		**In ASPX:**
 

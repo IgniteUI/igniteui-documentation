@@ -41,7 +41,7 @@ This topic contains the following sections:
 -   An HTML web page where %%ProductName%% controls are instantiated.
 -   MVC-specific requirements
 -   An MVC project in Microsoft Visual Studio®
--   A reference to the Infragsitics.Web.Mvc dll (contains the ASP.NET MVC helper)
+-   A reference to the Infragsitics.Web.Mvc dll (contains the %%ProductNameMVC%%)
 
 #### Scripting requirements
 
@@ -143,7 +143,7 @@ Therefore for example if want to attach to the “columnhiding” event of the �
 
 
 
-The following example instantiates an `igTextEditor` control using the ASP.NET MVC helper and then subscribes to the focus event once the control is initialized.
+The following example instantiates an %%ProductNameMVC%% `TextEditor` control using the HTML helper and then subscribes to the focus event once the control is initialized.
  
 
 
@@ -174,7 +174,7 @@ $("#texteditor").bind(‘igeditorfocus’, function (evt, ui) {
 
 
 
-The following example instantiates an `igDateEditor` using the ASP.NET MVC helper then subscribes to the focus event after initialization.
+The following example instantiates an %%ProductNameMVC%% `DateEditor` using the HTML helper then subscribes to the focus event after initialization.
 
 
 
@@ -211,7 +211,7 @@ In order to manipulate an option after initialization, you access the control cr
 $(‘#inputFieldID’).igTextEditor (‘option’, <option name>,<option  value>);
 ```
 
-The ASP.NET MVC helper internally renders an `igEditor` control. So your code should look like this:
+The %%ProductNameMVC%% internally renders an `igEditor` control. So your code should look like this:
 
 ```
 $(‘#inputFieldID’).igEditor (‘option’, <option name>,<option value>);
@@ -227,7 +227,7 @@ When using the widget on the client at runtime you should also use the `igEditor
 
 
 
-The following example instantiates an `igMaskEditor` control with the ASP.NET MVC helper and then changes the input mask after initialization.
+The following example instantiates an %%ProductNameMVC%% `MaskEditor` control with the HTML helper and then changes the input mask after initialization.
 
 
 
@@ -255,7 +255,7 @@ $("#maskeditor").igEditor('option', 'inputMask', ‘CCCCCCCCCC’);
 
 
 
-The following example instantiates an `igPercentEditor` control using the ASP.NET MVC helper and changes the maximum decimals after initialization.
+The following example instantiates an %%ProductNameMVC%% `PercentEditor` control using the HTML helper and changes the maximum decimals after initialization.
  
 
 

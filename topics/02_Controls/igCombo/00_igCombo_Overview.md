@@ -97,8 +97,8 @@ The table below briefly explains the main features of the `igCombo`.
             <td>When a user type a text in igCombo input the matching results in the dropdown items are displayed with a visual highlighting of the matching text.</td>
         </tr>
         <tr>
-            <td>ASP.NET MVC helper</td>
-            <td>You can use managed .NET code to configure the igCombo control.</td>
+            <td>%%ProductNameMVC%%</td>
+            <td>You can use managed .NET code to configure the %%ProductNameMVC%% Combo control.</td>
         </tr>
     </tbody>
 </table>
@@ -178,10 +178,10 @@ Experience by saving time and allowing the end-user to easily and quickly naviga
 
 - [Keyboard navigation](%%SamplesUrl%%/combo/keyboard-navigation)
 
-### ASP.NET MVC Helper
+### %%ProductNameMVC%%
 
 
-You can use the ASP.NET MVC Helper to use managed code languages to configure the `igCombo` control. You can create re-usable Views or ViewModels in your ASP.NET MVC applications to interface with the combo. You can also bind to an IQueryable object in ASP.NET and the helper will generate the JSON data for the `igCombo` control to use on the client.
+You can use the ASP.NET MVC Helper to use managed code languages to configure the %%ProductNameMVC%% `Combo` control. You can create re-usable Views or ViewModels in your ASP.NET MVC applications to interface with the combo. You can also bind to an IQueryable object in ASP.NET and the helper will generate the JSON data for the `igCombo` control to use on the client.
 
 ### Related Topics
 
@@ -192,7 +192,7 @@ You can use the ASP.NET MVC Helper to use managed code languages to configure th
 
 #### Related Sample
 
-- [igCombo ASP.NET MVC Helper](%%SamplesUrl%%/combo/aspnet-mvc-helper)
+- [%%ProductNameMVC%% Combo](%%SamplesUrl%%/combo/aspnet-mvc-helper)
 
 
 ##<a id="minimum-requirements"></a>Minimum Requirements
@@ -373,7 +373,7 @@ The support for the Knockout library in the `igCombo` control is intended to pro
 ### Binding to data sources overview
 
 
-In most cases, you will use the `dataSource` or `dataSourceUrl` options of the `igCombo` to bind to data. This option provides your data to the `igDataSource` which can handle the various data formats that are supported. The one main exception to using this option is when the `igCombo` is instantiated using a SELECT element. The `igCombo` inherits the data and options of its base SELECT element in this case. In ASP.NET MVC, supplying an IQueryable to the ASP.NET MVC Helper facilitates the serialization of the data from the server and passes it to the client with the View. Once the page is received by the browser, the `dataSource` option of the `igCombo` is set for client-side operation.
+In most cases, you will use the `dataSource` or `dataSourceUrl` options of the `igCombo` to bind to data. This option provides your data to the `igDataSource` which can handle the various data formats that are supported. The one main exception to using this option is when the `igCombo` is instantiated using a SELECT element. The `igCombo` inherits the data and options of its base SELECT element in this case. In ASP.NET MVC, supplying an IQueryable to the %%ProductNameMVC%% Helper facilitates the serialization of the data from the server and passes it to the client with the View. Once the page is received by the browser, the `dataSource` option of the `igCombo` is set for client-side operation.
 
 
 ##<a id="template-use-and-selection"></a>Template Use and Selection

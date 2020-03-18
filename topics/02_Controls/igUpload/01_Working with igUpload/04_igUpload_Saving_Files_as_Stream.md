@@ -53,9 +53,9 @@ This topic contains the following sections:
 
 When uploading files, you typically want to process them on the server. For example, you may want to save them to a database or to compress them before saving them to a file system.
 
-To enable the processing of the uploading files, you need to enable the `igUpload`’s MVC wrapper’s HTTP module. To enable that module, you must register it in the project’s web.config file. The exact configuration varies depending of the installed Internet Information Services (IIS) version.
+To enable the processing of the uploading files, you need to enable the %%ProductNameMVC%% `Upload`’s HTTP module. To enable that module, you must register it in the project’s web.config file. The exact configuration varies depending of the installed Internet Information Services (IIS) version.
 
-To upload and process files correctly, the `igUpload` control needs some pieces of data about the files and the upload process, like the file size and the upload status and progress. To allow this data exchange, you must enable the `igUpload`’s MVC wrapper’s HTTP handler. To enable that handler, you must register it in the project’s web.config file. The exact configuration varies depending of the installed Internet Information Services (IIS) version.
+To upload and process files correctly, the `igUpload` control needs some pieces of data about the files and the upload process, like the file size and the upload status and progress. To allow this data exchange, you must enable the %%ProductNameMVC%% `Upload`’s HTTP handler. To enable that handler, you must register it in the project’s web.config file. The exact configuration varies depending of the installed Internet Information Services (IIS) version.
 
 The `igUpload` control can work without any application settings explicitly defined. It is a good practice however to always configure things like:
 
@@ -79,22 +79,20 @@ In the Controller, you have to implement the method which will process each indi
 
 Following are the general conceptual steps for saving files as stream.
 
-1.  [Configuring the igUpload MVC wrapper’s HTTP module](#http-module)
-2.  [Configuring the igUpload MVC wrapper’s HTTP handler](#http-handler)
-3.  [(Optional) Configuring the igUpload MVC wrapper’s application settings](#application-settings)
+1.  [Configuring the Upload HTTP module](#http-module)
+2.  [Configuring the Upload HTTP handler](#http-handler)
+3.  [(Optional) Configuring the Upload application settings](#application-settings)
 4.  [Implementing the file caching functionality](#caching-functionality)
-5.  [Configuring the igUpload MVC wrapper in the View](#mvc-wrapper-view)
-6.  [Configuring the igUpload MVC wrapper in the Controller](#mvc-wrapper-controller)
+5.  [Configuring the Upload in the View](#mvc-view)
+6.  [Configuring the Upload in the Controller](#mvc-controller)
 7.  [Registering igUpload server-side events](#server-side-events)
-
-
 
 ## <a id="file-processing-overview"></a>File Processing Overview
 ### <a id="file-processing-summary"></a>File processing summary
 
-The `igUpload` MVC wrapper provides the following ways to process uploaded files depending on whether files are processed on demand while uploading or after they are saved to a temporary file on the server:
+The %%ProductNameMVC%% `Upload` provides the following ways to process uploaded files depending on whether files are processed on demand while uploading or after they are saved to a temporary file on the server:
 
--   File stream processing – the uploaded files are first saved as temporary files by the `igUpload` MVC wrapper’s HTTP module. You can process the files after the files are saved. Use this mode when you want to save the files on the server file system.
+-   File stream processing – the uploaded files are first saved as temporary files by the %%ProductNameMVC%% `Upload`'s HTTP module. You can process the files after the files are saved. Use this mode when you want to save the files on the server file system.
 -   Memory stream processing – the uploaded files can be processed on demand either during the upload (and then saved) or after they are uploaded to memory. Use this mode when you need a finer control over the upload process (When you want, for instance, to compress the file before saving it to the disk or to save it to a database.)
 
 ### <a id="file-stream-processing"></a>File stream processing
@@ -105,15 +103,15 @@ If `UploadFinishing` event is not handled, then the temporary file is renamed to
 
 ### <a id="memory-stream-processing"></a>Memory stream processing
 
-When using memory stream processing, files are uploaded to `MemoryStream` objects that you can process manually. The `igUpload` MVC wrapper component offers the following approaches to uploading to `MemoryStream` objects (based on which events you’re handling and how you process those events.):
+When using memory stream processing, files are uploaded to `MemoryStream` objects that you can process manually. The %%ProductNameMVC%% `Upload` component offers the following approaches to uploading to `MemoryStream` objects (based on which events you’re handling and how you process those events.):
 
 -   (Recommended) Process each chunk individually.
 
-    In order to be able to process file manually, you need to handle the FileUploading event. The FileUploading’s FileUploadingEventArgs parameter has a FileChunk property of type byte array. (This property store the current/last uploaded chunk of data.) FileUploading is a cancelable event so you can use it to return feedback to the MVC wrapper’s HTTP module, regardless of the file chunk having been processed or not. Whether you choose to cancel the event or not, depends on whether want to process the file chunks automatically or manually.
+    In order to be able to process file manually, you need to handle the FileUploading event. The FileUploading’s FileUploadingEventArgs parameter has a FileChunk property of type byte array. (This property store the current/last uploaded chunk of data.) FileUploading is a cancelable event so you can use it to return feedback to the Upload’s HTTP module, regardless of the file chunk having been processed or not. Whether you choose to cancel the event or not, depends on whether want to process the file chunks automatically or manually.
 
     -   Manual processing of the file chunks
 
-        If you want to process the file chunks manually, you need to cancel the FileUploading event. In such cases, the `igUpload` MVC wrapper will not append the chunk into an internal MemoryStream object. This approach is covered in detail in [Saving Files as Memory Stream by Processing Each Uploaded Chunk of the File Individually – Procedure](#procedure)
+        If you want to process the file chunks manually, you need to cancel the FileUploading event. In such cases, the %%ProductNameMVC%% `Upload` will not append the chunk into an internal MemoryStream object. This approach is covered in detail in [Saving Files as Memory Stream by Processing Each Uploaded Chunk of the File Individually – Procedure](#procedure)
 
     -   Automatic processing of the file chunks
 
@@ -178,26 +176,26 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 
 Following is a conceptual overview of the process:
 
-1.  [Configuring the igUpload MVC wrapper’s HTTP module](#http-module)
-2.  [Configuring the igUpload MVC wrapper’s HTTP handler](#http-handler)
-3.  [(Optional) Configuring the igUpload MVC wrapper’s application settings](#application-settings)
+1.  [Configuring the Upload's HTTP module](#http-module)
+2.  [Configuring the Upload's HTTP handler](#http-handler)
+3.  [(Optional) Configuring the Upload’s application settings](#application-settings)
 4.  [Implementing the file caching functionality](#caching-functionality)
-5.  [Configuring the igUpload MVC wrapper in the View](#mvc-wrapper-view)
-6.  [Configuring the igUpload MVC wrapper in the Controller](#mvc-wrapper-controller)
-7.  [Registering igUpload server-side events](#server-side-events)
+5.  [Configuring the Upload in the View](#mvc-view)
+6.  [Configuring the Upload in the Controller](#mvc-controller)
+7.  [Registering Upload server-side events](#server-side-events)
 8.  [(Optional) Verifying the result](#verifying-the-result)
 
 ### <a id="procedure-steps"></a>Steps
 
 The following steps demonstrate how to upload file as memory stream.
 
-1. <a id="http-module"></a>Configure the `igUpload` MVC wrapper’s HTTP module.
+1. <a id="http-module"></a>Configure the %%ProductNameMVC%% `Upload`’s HTTP module.
 
 	Enable the HTTP module by registering it in the project’s web.config file:
 	
 	-   Configuration for Internet Information Services (IIS) 6
 	
-	To configure IIS 6, in the <system.web> section, under the `<httpModules>` section of the web.config file, register the `igUpload` MVC wrapper’s HTTP module.
+	To configure IIS 6, in the <system.web> section, under the `<httpModules>` section of the web.config file, register the %%ProductNameMVC%% `Upload`’s HTTP module.
 	
 	**In XML:**
 	
@@ -211,7 +209,7 @@ The following steps demonstrate how to upload file as memory stream.
 	
 	-   Configuration for IIS 7
 	
-	To configure IIS 7, in the `<system.webServer>` section, under the `<modules>` section of the web.config file, register the `igUpload` MVC wrapper’s HTTP module.
+	To configure IIS 7, in the `<system.webServer>` section, under the `<modules>` section of the web.config file, register the %%ProductNameMVC%% `Upload`’s HTTP module.
 	
 	**In XML:**
 	
@@ -224,13 +222,13 @@ The following steps demonstrate how to upload file as memory stream.
 	</system.webServer>
 	```
 
-2. <a id="http-handler"></a>Configure the `igUpload` MVC wrapper’s HTTP handler.
+2. <a id="http-handler"></a>Configure the %%ProductNameMVC%% `Upload`’s HTTP handler.
 
 	Enable the HTTP module by registering it in the project’s web.config file:
 	
 	-   Configuration for IIS 6
 	
-	To configure IIS 6, in the `<system.web>` section, under the `<httpHandlers>` section of the web.config file, register the `igUpload` MVC wrapper’s HTTP handler.
+	To configure IIS 6, in the `<system.web>` section, under the `<httpHandlers>` section of the web.config file, register the %%ProductNameMVC%% `Upload`’s HTTP handler.
 	
 	**In XML:**
 	
@@ -245,7 +243,7 @@ The following steps demonstrate how to upload file as memory stream.
 	
 	-   Configuration for IIS 7
 	
-	To configure IIS 7, in the `<system.webServer>` section, under the `<handlers>` section of the web.config file, register the `igUpload` MVC wrapper’s HTTP handler.
+	To configure IIS 7, in the `<system.webServer>` section, under the `<handlers>` section of the web.config file, register the %%ProductNameMVC%% `Upload`’s HTTP handler.
 	
 	**In XML:**
 	
@@ -258,7 +256,7 @@ The following steps demonstrate how to upload file as memory stream.
 	</system.webServer>
 	```
 
-3. <a id="application-settings"></a>Configure `igUpload` MVC wrapper’s application settings.
+3. <a id="application-settings"></a>Configure %%ProductNameMVC%% `Upload`’s application settings.
 
 	Configure the application settings.
 	
@@ -420,7 +418,7 @@ The following steps demonstrate how to upload file as memory stream.
 		
 		**G.** Configure the method for retrieving the stream from the cache.
 		
-		Define the GetStreamFromCache static method. This static method returns the MemoryStream by a given key. To do this it manages a `Dictionary<string, MemoryStream>` object into the ASP.NET cache. The dictionary holds the currently uploading files data. As you are going to see in the [Configure the `igUpload` MVC wrapper in the Controller](#mvc-wrapper-controller) section, that will make it possible not to keep the whole file into the cache. Instead, it will write the data to the file on disk by chunks which size is defined by the UploadUtils.BufferSize property.
+		Define the GetStreamFromCache static method. This static method returns the MemoryStream by a given key. To do this it manages a `Dictionary<string, MemoryStream>` object into the ASP.NET cache. The dictionary holds the currently uploading files data. As you are going to see in the [Configure the `Upload` in the Controller](#mvc-controller) section, that will make it possible not to keep the whole file into the cache. Instead, it will write the data to the file on disk by chunks which size is defined by the UploadUtils.BufferSize property.
 		
 		**In C#:**
 		
@@ -449,7 +447,7 @@ The following steps demonstrate how to upload file as memory stream.
 		
 		**H.** Configure the method for removing the stream from the cache.
 		
-		Define the RemoveStreamFromCache static method. This method removes an item form the dictionary by a key. As you are going to see in the [Configure the `igUpload` MVC wrapper in the Controller](#mvc-wrapper-controller) section, you will use it to remove file from the currently uploading files cache.
+		Define the RemoveStreamFromCache static method. This method removes an item form the dictionary by a key. As you are going to see in the [Configure the `Upload` in the Controller](#mvc-controller) section, you will use it to remove file from the currently uploading files cache.
 		
 		**In C#:**
 		
@@ -480,7 +478,7 @@ The following steps demonstrate how to upload file as memory stream.
 		}
 		```
 
-5. <a id="mvc-wrapper-view"></a>Configure the `igUpload` MVC wrapper in the View.
+5. <a id="mvc-view"></a>Configure the `Upload` in the View.
 
 	In the `<project folder>/ViewsHomeIndex.cshtm` file put the code to configure the View.
 	
@@ -527,7 +525,7 @@ The following steps demonstrate how to upload file as memory stream.
 	<div id="uploadErrors" style="color: red;"></div>
 	```
 
-6. <a id="mvc-wrapper-controller"></a>Configure the `igUpload` MVC wrapper in the Controller.
+6. <a id="mvc-controller"></a>Configure the `Upload` in the Controller.
 
 	To configure the controller:
 

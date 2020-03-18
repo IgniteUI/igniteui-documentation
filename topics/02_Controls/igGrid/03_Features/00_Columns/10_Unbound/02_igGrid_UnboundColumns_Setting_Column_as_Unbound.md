@@ -141,7 +141,7 @@ View:
 .Render())
 ```
 
-The View is strongly typed with model `IQueryable<UnboundColumns.Models.Employee>`. The Grid MVC wrapper uses this model to bind to data. The code configures the grid with one unbound column with key `FullName` and provides its values by the `ViewData` variable with key `EmployeeFullName`.
+The View is strongly typed with model `IQueryable<UnboundColumns.Models.Employee>`. The %%ProductNameMVC%% Grid uses this model to bind to data. The code configures the grid with one unbound column with key `FullName` and provides its values by the `ViewData` variable with key `EmployeeFullName`.
 
 Controller:
 

@@ -43,7 +43,7 @@ This topic contains the following sections:
 
 ### <a id="summary"></a> Populating Unbound Columns Summary
 
-You may populate unbound columns with data on the client or the server (if you are using an ASP. NET MVC Wrapper) using predefined data (for example from an external source) or calculates the data from the grid data source.
+You may populate unbound columns with data on the client or the server (if you are using %%ProductNameMVC%%) using predefined data (for example from an external source) or calculates the data from the grid data source.
 
 On the client, you can populate the values as part of the grid initialization code or at runtime (after the grid instantiates).
 
@@ -172,7 +172,7 @@ In order to populate unbound column data at runtime use [`igGrid.setUnboundValue
 
 ### <a id="remote-data"></a> Populating Unbound Columns with Data Remotely summary
 
-In MVC Wrapper unbound columns can be set in either the View (when using chaining) or in the Controller (when using `GridModel` class).
+In %%ProductNameMVC%% unbound columns can be set in either the View (when using chaining) or in the Controller (when using `GridModel` class).
 
 In the View you can populate unbound column data by using an object list with the  `UnboundColumnWrapper<T>.UnboundValues(List<object> list)` method. There is also a Formula method which should be set to a name of a JavaScript function which will be called on the client for each cell to calculate its value.
 

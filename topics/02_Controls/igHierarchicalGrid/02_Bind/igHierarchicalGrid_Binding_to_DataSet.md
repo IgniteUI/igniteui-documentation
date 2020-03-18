@@ -250,13 +250,13 @@ GridModel grid = new GridModel();
 grid.PrimaryKey = "DepartmentID";
 ```
 
-### Manually creating the columns in igHierarchicalGrid using the ASP.NET MVC helper in the view
+### Manually creating the columns in igHierarchicalGrid using %%ProductNameMVC%% in the view
 
 When bound to a `DataSet` and manually creating layouts, each `ColumnLayout` should have its `DataMember` set to its corresponding `DataTable`’s name in the dataset tables’ collection.
 
 If the `igHierarchicalGrid` is defined in the view and a `DataSet` is used as the grid’s Model then the columns can only be auto-generated. If you want to define the columns manually, define a model which corresponds to the root `DataTable` structure and set it as the grid’s type.
 
-You should create strongly-typed models which correspond to the structure of each `DataTable` from the `DataSet`. Thus you should be able to use the the grid’s ASP.NET MVC helper in the view.
+You should create strongly-typed models which correspond to the structure of each `DataTable` from the `DataSet`. Thus you should be able to use the grid with %%ProductNameMVC%% in the view.
 
 Note: The fields of the custom type Customer must match the type and key of the DataColumns of the DataTable that they represent.
 

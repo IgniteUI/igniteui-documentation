@@ -291,7 +291,7 @@ The following topics provide additional information related to this topic.
 
 - [Configuring the Dimensions of the QR Barcode (igQRCodeBarcode)](igQRCodeBarcode-Configuring-the-Dimensions.html): This topic demonstrates how to configure the `igQRCodeBarcode` control’s size and dimensional aspects, like the stretch and fill and the size of the minimum-size element.
 
-- [jQuery and MVC API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): This topic provides links to the API reference documentation about the `igQRCodeBarcode` control and the ASP.NET MVC Helper for it.
+- [jQuery and MVC API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): This topic provides links to the API reference documentation about the `igQRCodeBarcode` control.
 
 
 ### <a id="samples"></a>Samples

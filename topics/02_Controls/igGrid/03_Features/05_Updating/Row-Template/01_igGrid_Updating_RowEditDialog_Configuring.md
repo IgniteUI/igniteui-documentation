@@ -234,7 +234,7 @@ This procedure guides you through the process of configuring a Row Edit Dialog i
 To complete the procedure, you need the following:
 
 -   Microsoft ® Visual Studio 2010 or newer installed
--   ASP.NET MVC 3 or newer Framework installed
+-   ASP.NET MVC 4 or newer Framework installed
 -   The AdventureWorks Database installed
 -   A reference to the Infragistics.Web.Mvc.dll assembly
 -   Required %%ProductName%% JavaScript and theme resources

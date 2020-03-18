@@ -62,20 +62,20 @@ Following is a preview of the final result
 ```
 
 -   MVC-specific requirements
-    -   An MVC 2 or above project in MS Visual Studio® with a grid connected to a data source
-    -   A reference to the Infragistics MVC dll (stores the MVC IG wrappers)
+    -   An MVC 4 or above project in MS Visual Studio® with a grid connected to a data source
+    -   A reference to the %%ProductNameMVC%% dll - Infragistics.Web.Mvc.dll.
 
 ### <a id="script-requirements"></a> Script Requirements 
 
-The required scripts for both jQuery and MVC sample are the same because the MVC wrappers just render a jQuery widget.
+-   The required scripts for both %%ProductName%% and %%ProductNameMVC%% samples are the same because the %%ProductNameMVC%% render jQuery widgets.
 
 The following scripts are required to run the grid and its grouping functionality:
 
 -   The jQuery library script
--   The jQuery User Interface (UI) library
--   The IG library script (This is obfuscated code for the controls)
+-   The jQuery User Interface (UI) library script
+-   The %%ProductName%% library scripts
 
-The following code sample demonstrates the scripts as added to the header code of the HTML file.
+The following code sample demonstrates the scripts added to the header section of a HTML file.
 
 **In HTML:**
 

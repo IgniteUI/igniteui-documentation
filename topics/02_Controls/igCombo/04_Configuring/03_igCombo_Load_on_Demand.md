@@ -31,7 +31,7 @@ This topic introduces the Load on Demand feature of the `igCombo`™ control and
 
 -	[igCombo Overview](igCombo-Overview.html): This topic provides conceptual information for the `igCombo` control including information regarding features, binding to data sources, requirements, and templates.
 
--	[Adding igCombo](igCombo-Getting-Started.html): This help topic demonstrates how to setup a basic `igCombo` control and bind it to JSON data on the client and a collection of business object on the server. Both jQuery or ASP.NET MVC Helper environments are covered.
+-	[Adding igCombo](igCombo-Getting-Started.html): This help topic demonstrates how to setup a basic `igCombo` control and bind it to JSON data on the client and a collection of business object on the server. Both jQuery or ASP.NET MVC environments are covered.
 
 -	[Binding igCombo to Data](igCombo-Binding-to-Data.html): This topic discusses the ways to bind the `igCombo` control to data and provides further details related to data binding.
 

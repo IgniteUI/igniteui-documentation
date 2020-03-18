@@ -76,7 +76,7 @@ $("#dialog").igDialog({
 
 ### <a id="configure-mvc"></a> Example with MVC
 
-The code below demonstrates how set the `igDialog` animations using Dialog wrapper:
+The code below demonstrates how set the animations for the %%ProductNameMVC%% Dialog:
 
 **In C#:**
 

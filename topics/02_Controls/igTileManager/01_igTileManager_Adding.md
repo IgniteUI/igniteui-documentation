@@ -444,7 +444,7 @@ include:
     <script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
     ```
 
-    The igLoader MVC helper configurated for igTileManager:
+    The %%ProductNameMVC%% Loader configured for igTileManager:
 
     **In ASPX:**
 

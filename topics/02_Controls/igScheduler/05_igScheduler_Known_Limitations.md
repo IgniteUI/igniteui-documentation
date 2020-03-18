@@ -37,7 +37,7 @@ Issue | Description | Status
 [Swipe-gestures support](#SwipeGesture) | No swipe-gestures support |![](../../images/images/negative.png)
 [Tab navigation to appointment popover](#NavigationToAppointmentPopover) | No tab navigation to appointment popover |![](../../images/images/negative.png)
 [Min width support – 320 px](#MinWidthSupport) | Minimum width resolution support on mobile devices is 320 px |![](../../images/images/negative.png)
-[Setting the views option through MVC wrapper.](#MVCWrappers) | Configuring the views option through the ASP.NET MVC wrapper does not take effect.  |![](../../images/images/plannedFix.png)
+[Setting the views option through %%ProductNameMVC%%.](#MVC) | Configuring the views option through the ASP.NET MVC does not take effect.  |![](../../images/images/plannedFix.png)
 
 
 ## Known Issues and Limitations Details
@@ -88,7 +88,7 @@ There is accessibility limitation with `tab navigation` and `selection` of appoi
 
 For next releases it is planned to add a message that will be shown when minimum resolution is reached.
 
-### <a id="MVCWrappers"></a>Setting views option though MVC wrapper is not possible.
+### <a id="MVC"></a>Setting views option though %%ProductNameMVC%% is not possible.
 
-Using the `views` option exposed by the MVC wrapper to control which views(`Agenda`, `Week`, `Day`, `Month`) are initialized does not work. This will be implemented for the next scheduler version.
+Using the `views` option exposed by the %%ProductNameMVC%% to control which views(`Agenda`, `Week`, `Day`, `Month`) are initialized does not work. This will be implemented for the next scheduler version.
 

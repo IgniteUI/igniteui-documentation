@@ -29,7 +29,7 @@ This topic contains the following sections:
     -   [Styling and Theming](#styling-theming)
 -   [Adding igHierarchicalGrid using the %%ProductFamilyName%% CLI](#adding-using-CLI)
 -	[Adding igHierarachicalGrid configured for Excel Exporting using the %%ProductFamilyName%% CLI](#exporting-with-CLI)
--   [ASP.NET MVC helper](#aspnet-mvc-helper)
+-   [%%ProductNameMVC%%](#aspnet-mvc-helper)
 -   [Binding Requirements](#binding-requirements)
 
 # Introduction

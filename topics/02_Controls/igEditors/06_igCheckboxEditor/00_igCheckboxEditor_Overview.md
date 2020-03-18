@@ -48,7 +48,7 @@ As the user interacts with the control the visual appearance is updated to give 
 	<script type="text/javascript" src="@Url.Content("~/Scripts/infragistics.lob.js")"></script>
     ```
 
-3.  For jQuery implementations create an INPUT,a SPAN or a DIV as the target element in HTML. This step is optional for ASP.NET MVC implementations as the MVC wrapper creates the containing element for you.
+3.  For jQuery implementations create an INPUT,a SPAN or a DIV as the target element in HTML. This step is optional for ASP.NET MVC implementations as %%ProductNameMVC%% creates the containing element for you.
 
 	**In HTML:**
    	```html

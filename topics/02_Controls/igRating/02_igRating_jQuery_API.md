@@ -12,7 +12,7 @@
 
 
 
-The igRating is built as a jQuery UI widget with an accompanying ASP.NET MVC Helper. For more information about each API, see the following API documentation:
+The igRating is built as a jQuery UI widget with an accompanying %%ProductNameMVC%% implementation. For more information about each API, see the following API documentation:
 
 -   [igRating jQuery API](%%jQueryApiUrl%%/ui.igRating)
 -   [igRating MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.RatingModel.html)

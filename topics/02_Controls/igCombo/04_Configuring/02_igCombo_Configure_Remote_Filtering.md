@@ -79,8 +79,8 @@ The table below lists the configurable behaviors of the `igCombo` control.
 			<td><ul><li>[filteringType](%%jQueryApiUrl%%/ui.igCombo#options:filteringType)</li><li>[responseDataKey](%%jQueryApiUrl%%/ui.igCombo#options:responseDataKey)</li></ul></td>
 		</tr>
 		<tr>
-			<td>Remote filtering with the ASP.NET MVC helper</td>
-			<td>The igCombo ASP.NET MVC helper provides the API to setup server-side filtering when binding to collections of business objects.</td>
+			<td>Remote filtering with the ASP.NET MVC</td>
+			<td>The %%ProductNameMVC%% Combo provides the API to setup server-side filtering when binding to collections of business objects.</td>
 			<td><ul><li>[filteringType](%%jQueryApiUrl%%/ui.igCombo#options:filteringType)</li>ComboDataSourceAction<li>[filterExprUrlKey](%%jQueryApiUrl%%/ui.igCombo#options:filterExprUrlKey)</li></ul></td>
 		</tr>
 	</tbody>
@@ -288,9 +288,9 @@ $("#comboTarget").igCombo({
 ###<a id="asp_details"></a>ASP.NET MVC list filtering configuration details 
 
 
-The `igCombo` ASP.NET MVC helper primarily functions to render the necessary jQuery and HTML on the client while being able to configure the behaviors in C# or Visual Basic.NET.
+The %%ProductNameMVC%% `Combo` primarily functions to render the necessary jQuery and HTML on the client while being able to configure the behaviors in C# or Visual Basic.NET.
 
-The other part of the helper is to facilitate remote operations to the server. This is the case with `igCombo` control where you can decorate an `ActionResult` method with the `ComboDataSourceAction` attribute and the helper can facilitate the server-side querying of the data source and return the appropriate data to the client.
+The other part of the %%ProductNameMVC%% is to facilitate remote operations to the server. This is the case with `igCombo` control where you can decorate an `ActionResult` method with the `ComboDataSourceAction` attribute and the helper can facilitate the server-side querying of the data source and return the appropriate data to the client.
 
 ###<a id="asp_settings"></a>ASP.NET MVC list filtering configuration property settings
 
@@ -309,7 +309,7 @@ The table below maps the desired configuration to property settings. The propert
     </thead>
     <tbody>
         <tr>
-            <td>Configure remote filtering with the ASP.NET MVC helper</td>
+            <td>Configure remote filtering with the %%ProductNameMVC%% helper</td>
 
             <td>
                 <a href="%%jQueryApiUrl%%/ui.igCombo#options:dataSource" target="_blank">DataSource</a><br>
@@ -350,7 +350,7 @@ in the property reference section:
 
 #### Introduction
 
-This example shows how to enable remote filtering with the ASP.NET MVC helper. In this configuration, and action method is defined for data filtering operations. The `igCombo` control is bound to data on the server and when a filtering operation occurs on the client, the request for filtered data is sent to the action method.
+This example shows how to enable remote filtering with the %%ProductNameMVC%%. In this configuration, and action method is defined for data filtering operations. The `igCombo` control is bound to data on the server and when a filtering operation occurs on the client, the request for filtered data is sent to the action method.
 
 #### Requirements
 
@@ -358,7 +358,7 @@ To complete the procedure, you need the following:
 
 -   an ASP.NET MVC application
 -   `Infragistics.Web.Mvc.dll` assembly referenced in your project
--   An `igCombo` control bound to data through the ASP.NET MVC helper
+-   A `Combo` control bound to data through the %%ProductNameMVC%%
 
 #### Overview
 

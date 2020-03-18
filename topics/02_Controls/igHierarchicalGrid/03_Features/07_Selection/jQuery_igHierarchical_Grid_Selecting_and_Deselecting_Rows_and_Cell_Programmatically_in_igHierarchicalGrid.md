@@ -148,29 +148,6 @@ function selectCellByProductId(productId, rowIndex, colIndex) {
 }
 ```
 
-### <a id="selecting-all-rows"></a> Code Example: Selecting All Rows in All Expanded Children Grids
-
-This example shows how to select all rows of all expanded children.
-
-> **Note:** Multiple selection must be enabled.
-
-**In Javascript:**
-
-```js
-function selectAllRowsOfExpandedChildren() {
-    // get all expanded child grids recursively
-    var childGrids = $("#grid1").igHierarchicalGrid("allChildren");
-    $(childGrids).each(function (index, grid) {
-        // get all rows of the child grid
-        var allRows = $(grid).igGrid("allRows");
-        $(allRows).each(function (index, row) {
-            // select each row
-            $(grid).igGridSelection("selectRow", index);
-        });
-    });
-}
-```
-
 ### <a id="deselecting-cell"></a> Code Example: Deselecting a Cell in a Child Grid
 
 This example shows how to deselect cell in child grid by foreign key relation.
@@ -206,11 +183,9 @@ function deselectCellByProductId(productId, rowIndex, colIndex) {
 }
 ```
 
+### <a id="clearing-selection"></a> Code Example: Clearing Selection of All Children Grids
 
-
-### <a id="clearing-selection"></a> Code Example: Clearing a Selection of All Children Grids
-
-This example shows how to clear the selection of second level children grids recursively.
+This example shows how to clear the selection of second level child grids.
 
 The example below iterates all the rows of the top level grid and checks if the row is expanded. On the expanded rows it calls `clearSelectionAllChildren` method. Top level grid selection and first level expanded grid selection is not affected.
 

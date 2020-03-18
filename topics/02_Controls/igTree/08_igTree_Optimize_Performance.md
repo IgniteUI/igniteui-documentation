@@ -244,7 +244,7 @@ Following is a conceptual overview of the process:
         }
         ```
 
-    2.  **Set data source in ASP.NET MVC Helper.**
+    2.  **Set data source in ASP.NET MVC.**
 
         Set the data source of the `igTree` using the MVC API
 
