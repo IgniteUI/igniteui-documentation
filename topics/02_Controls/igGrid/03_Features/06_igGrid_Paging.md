@@ -56,7 +56,7 @@ The Paging feature allows the user to change the `pageSize` through the UI, whic
 
 The Paging feature supports binding to oData services out-of-the-box. When binding to oData, the required parameters are automatically determined and set in the service request. You only need to point the `dataSource` option of the grid to your service URL.
 
-When using Paging from the MVC wrapper for the `igGrid` control, all paging-related data binding logic is performed automatically by translating the paging URL parameters to LINQ expressions.
+When using Paging from the %%ProductNameMVC%%, Grid all paging-related data binding logic is performed automatically by translating the paging URL parameters to LINQ expressions.
 
 Depending on the value of the `pageCountLimit` property, the UI automatically switches from page links to rendering a page index dropdown.
 
@@ -155,7 +155,7 @@ In order to enable Paging, you first need to include the necessary JavaScript an
 
 ## <a id="mvc"></a> ASP.NET MVC Code
 
-**Listing 6** demonstrates how to initialize the grid with paging enabled in an ASP.NET MVC view and controller by using the Infragistics Grid MVC wrapper.
+**Listing 6** demonstrates how to initialize the %%ProductNameMVC%% Grid with paging enabled in an ASP.NET MVC view and controller.
 
 - **Listing 6: Initializing the grid with paging enabled in ASP.NET MVC**
 
@@ -207,7 +207,7 @@ In order to enable Paging, you first need to include the necessary JavaScript an
 
 ## <a id="remote"></a> Remote Paging
 
-When you're using Infragistics ASP.NET MVC wrapper it will handle remote paging automatically for you. You are required to create action method decorated with `GridDataSourceActionAttribute` attribute which returns `ActionResult` (**Listing 6**). In the action method just pass the data as instance of `IQueryable`. The `GridDataSourceActionAttribute` class (which implements `IActionFilter` interface) will transform the data according the request parameters and will return it as `JsonResult`.
+When you're using %%ProductNameMVC%% it will handle remote paging automatically for you. You are required to create action method decorated with `GridDataSourceActionAttribute` attribute which returns `ActionResult` (**Listing 6**). In the action method just pass the data as instance of `IQueryable`. The `GridDataSourceActionAttribute` class (which implements `IActionFilter` interface) will transform the data according the request parameters and will return it as `JsonResult`.
 
 If you are implementing your own remote service (for example in ASP.NET or PHP), in order to properly initialize and render the pager, your service must specify both the `responseDataKey` (grid option) and the `recordCountKey` (paging option). The `recordCountKey` member tells the Paging widget how many records in total are in the backend. The `responseDataKey` specifies which property in the response contains the resulting data.
 

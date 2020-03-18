@@ -46,7 +46,7 @@ Issue | Description | Status
 [The showHeader option not working correctly](#showHeader) | When the [`showHeader`](%%jQueryApiUrl%%/ui.iggrid#options:showHeader) option is set to false on grid initialization, setting it to true run-time using the API will not show the header. | ![](../../images/images/positive.png)
 [Horizontal scrollbar visibility issues on Mac OS](#scrollbar-mac) | The grid’s horizontal scrollbar is not visible on Mac OS® when its *Show scrollbars only when scrolling option* is set to true. This is because the grid’s horizontal scrollbar has an `overflow` set to hidden. | ![](../../images/images/positive.png)
 With auto-generated columns, the source must contain key/value pairs | When the grid’s columns are auto-generated (i.e. [`autoGenerateColumns`](%%jQueryApiUrl%%/ui.iggrid#options:autoGenerateColumns) is enabled), the source should always contain key/value pairs, otherwise the grid might not render correctly. | ![](../../images/images/positive.png)
-Defining a feature more than once not possible | **In JavaScript:** <br /> In both `igGrid` and `igHierarchicalGrid`™, defining a feature more than once throws an error.  <br /> **In MVC:**  <br /> In both `igGrid` and `igHierarchicalGrid`, defining a feature more than once in the MVC Wrapper, causes only the last definition to be taken into account. | ![](../../images/images/negative.png)
+Defining a feature more than once not possible | **In JavaScript:** <br /> In both `igGrid` and `igHierarchicalGrid`™, defining a feature more than once throws an error.  <br /> **In MVC:**  <br /> In both `igGrid` and `igHierarchicalGrid`, defining a feature more than once in %%ProductNameMVC%%, causes only the last definition to be taken into account. | ![](../../images/images/negative.png)
 [Checkbox rendering not compatible with templates (row and column)](#checkbox-template) | When using templating and the `renderCheckboxes` option is set to true, the Boolean columns do not render checkboxes because it is not possible to examine if the Boolean column has a template defined. | ![](../../images/images/positive.png)
 Calling API methods does not raise the directly related events. | Calling API methods programmatically does not raise events related to their operation. Those events are only raised by their respective user interaction. | ![](../images/images/negative.png)
 [KnockoutJS observable array functions’ limitations](#knockout-observable-array) | The use of `unshift`, `reverse` and `sort` observable array functions results in incorrect visual appearance of the grid. | ![](../../images/images/positive.png)
@@ -88,13 +88,13 @@ The [`LoadTransaction()`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~Lo
             <td>![](../../images/images/positive.png)</td>
         </tr>
         <tr>
-            <td>[The grid `SetUnboundValues(<Column key>, <Dictionary of values>)` method overload of the grid MVC helpers requires a primary key](#SetUnboundValues)</td>
+            <td>[The grid `SetUnboundValues(<Column key>, <Dictionary of values>)` method overload of the %%ProductNameMVC%% Grid requires a primary key](#SetUnboundValues)</td>
             <td>Using the `SetUnboundValues(<Column key>, <Dictionary of values>)` method overload requires setting a primary key.</td>
             <td>![](../../images/images/positive.png)</td>
         </tr>
         <tr>
-            <td>[Limitations to using the grid helper in the View](#unbound-mvc-helper)</td>
-            <td>Using the grid helper in an ASP.NET MVC View is not a valid scenario when the data source is remote and the [`MergeUnboundColumns`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~MergeUnboundColumns.html) property is set to true.</td>
+            <td>[Limitations to using the %%ProductNameMVC%% Grid in the View](#unbound-mvc-helper)</td>
+            <td>Using the %%ProductNameMVC%% Grid in an ASP.NET MVC View is not a valid scenario when the data source is remote and the [`MergeUnboundColumns`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~MergeUnboundColumns.html) property is set to true.</td>
             <td>![](../../images/images/negative.png)</td>
         </tr>
         <tr>
@@ -402,7 +402,7 @@ Keyboard navigation not supported for column virtualization | Keyboard navigatio
 
 Issue | Description | Status
 ------|-------------|-------
-[Limitation when using custom summary with remote data](#summaries-custom-remote) | ASP.NET MVC helper wrapper doesn’t handle the custom summaries by default. Therefore, a custom summary should be created and calculated separately. | ![](../../images/images/positive.png)
+[Limitation when using custom summary with remote data](#summaries-custom-remote) | %%ProductNameMVC%% doesn’t handle the custom summaries by default. Therefore, a custom summary should be created and calculated separately. | ![](../../images/images/positive.png)
 Only basic numeric formats supported | The [`summaryFormat`](%%jQueryApiUrl%%/ui.iggridgroupby#options:summarySettings.summaryFormat) property supports only the basic numeric formats. For example, formats like $ .00 will not be able to display the $ sign. | ![](../../images/images/negative.png)
 [Limitation when setting custom methods](#summaries-custom-methods) | When setting custom methods, it is highly recommended to set the order and [`summaryCalculator`](%%jQueryApiUrl%%/ui.iggridsummaries#options:columnSettings.summaryOperands.summaryCalculator) options of the summary operands. | ![](../../images/images/positive.png)
 
@@ -662,9 +662,9 @@ The Sorting, Filtering, and Group By features do not work with unbound columns. 
 > 
 > When unbound columns are defined, use local configuration for the Sorting, Filtering, and Group By features.
 
-### <a id="SetUnboundValues"></a> The grid SetUnboundValues(&lt;Column key&gt;, &lt;Dictionary of values&gt;) method overload of the grid MVC helpers requires a primary key
+### <a id="SetUnboundValues"></a> The grid SetUnboundValues(&lt;Column key&gt;, &lt;Dictionary of values&gt;) method overload of the %%ProductNameMVC%% Grid requires a primary key
 
-The grid [`SetUnboundValues(<Column key>, <Dictionary of values>)`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~SetUnboundValues.html) method overload of the grid MVC helpers requires a primary key. This overload has parameters for column key and dictionary of primary key and unbound value pairs. The primary key in the dictionary points to the primary key of a row in the grid and the unbound value is the value which will be set in the unbound column with key equal to the column key.
+The grid [`SetUnboundValues(<Column key>, <Dictionary of values>)`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~SetUnboundValues.html) method overload of the %%ProductNameMVC%% grid requires a primary key. This overload has parameters for column key and dictionary of primary key and unbound value pairs. The primary key in the dictionary points to the primary key of a row in the grid and the unbound value is the value which will be set in the unbound column with key equal to the column key.
 
 > **Workaround** 
 > 
@@ -672,7 +672,7 @@ The grid [`SetUnboundValues(<Column key>, <Dictionary of values>)`](Infragistics
 
 ### <a id="unbound-mvc-helper"></a> Limitations to using the grid helper in the View
 
-The grid helper cannot be used in the View when the data source is remote and [`MergeUnboundColumns`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~MergeUnboundColumns.html) is set to true. Using the grid helper in an ASP.NET MVC View is not a valid scenario when the data source is remote and the `MergeUnboundColumns` property is set to true.
+The grid helper cannot be used in the View when the data source is remote and [`MergeUnboundColumns`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel~MergeUnboundColumns.html) is set to true. Using the %%ProductNameMVC%% Grid ASP.NET MVC View is not a valid scenario when the data source is remote and the `MergeUnboundColumns` property is set to true.
 
 You can set some options through chaining but when remote requests are performed, these options are re-set with the default values from the request.
 
@@ -1035,7 +1035,7 @@ Selecting a row in IE is applying focus to the row, which scrolls the `igGrid` a
 
 ### <a id="summaries-custom-remote"></a> Limitation when using custom summary with remote data
 
-ASP.NET MVC helper wrapper doesn’t handle the custom summaries by
+%%ProductNameMVC%% doesn’t handle the custom summaries by
 default. Therefore, a custom summary should be created and calculated
 separately.
 

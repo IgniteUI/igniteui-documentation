@@ -343,7 +343,7 @@ Listing 2: Required stylesheet definitions
 
 The first CSS, *jquery.ui.custom.css* represent the actual theme (that is, color-related styling), and you may replace it with any CSS file generated from Theme Roller.
 
-The second CSS is custom to Infragistics %%ProductName%% and contains layout-related rules that are not available in Theme Roller / jQuery UI. Therefore it is required so the control is ensured to function properly.
+The second CSS is custom to %%ProductName%% and contains layout-related rules that are not available in Theme Roller / jQuery UI. Therefore it is required so the control is ensured to function properly.
 
 If you would like to reference not-combined CSS (used in development scenarios), you can add the references as depicted by Listing 3.
 

@@ -269,7 +269,7 @@ View:
 .Render())
 ```
 
-The View is very simple. It has a strongly typed model `IQueryable<UnboundColumns.Models.Product>`. This is the model used by the Grid MVC wrapper to bind to data. Grid is configured with one unbound column with key `InStock` which is bound to data by a call to `Grid<T>.SetUnboundValues(string columnKey, List<object> unboundValues)`. The code defines the primary key so that the Grid Wrapper matches the unbound values with the grid data by primary key.
+The View is very simple. It has a strongly typed model `IQueryable<UnboundColumns.Models.Product>`. This is the model used by the %%ProductNameMVC%% Grid to bind to data. Grid is configured with one unbound column with key `InStock` which is bound to data by a call to `Grid<T>.SetUnboundValues(string columnKey, List<object> unboundValues)`. The code defines the primary key so that the Grid Wrapper matches the unbound values with the grid data by primary key.
 
 Controller:
 
@@ -396,7 +396,7 @@ View:
 .Render())
 ```
 
-The strongly typed View is with model `IQueryable<UnboundColumns.Models.Product>`. The Grid MVC wrapper uses this model to bind to data. The code configures the grid with one unbound column with key `InStock` bound to data by a call to `UnboundColumnWrapper<T>.UnboundValues(List<object> list)`.
+The strongly typed View is with model `IQueryable<UnboundColumns.Models.Product>`. The %%ProductNameMVC%% Grid uses this model to bind to data. The code configures the grid with one unbound column with key `InStock` bound to data by a call to `UnboundColumnWrapper<T>.UnboundValues(List<object> list)`.
 
 
 

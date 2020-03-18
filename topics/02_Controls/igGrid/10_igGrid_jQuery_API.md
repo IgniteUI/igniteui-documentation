@@ -8,14 +8,14 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Links (igGrid)
+# jQuery igGrid and %%ProductNameMVC%% Grid API Links
 
 
 
-The `igGrid` is built as a jQuery UI widget with an accompanying ASP.NET MVC Helper. For more information about each API, see the following API documentation:
+The `igGrid` is built as a jQuery UI widget with an accompanying %%ProductNameMVC%% Grid. For more information about each API, see the following API documentation:
 
 -   [igGrid jQuery API](%%jQueryApiUrl%%/ui.igGrid)
--   [igGrid ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel.html)
+-   [%%ProductNameMVC%% Grid](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GridModel.html)
 
  
 

@@ -14,7 +14,7 @@
 
 ### Purpose
 
-Starting with version 12.2, the `igGrid` supports binding to `DataTable` objects via its ASP.NET MVC Helper. This topic introduces the feature and demonstrates how to configure and use a `DataTable` with the Grid ASP.NET MVC Helper. In addition, you will see how you can use the `DataTable` in conjunction with the grid’s editing functionality.
+The %%ProductNameMVC%% Grid supports binding to `DataTable` objects. This topic introduces the feature and demonstrates how to configure and use a `DataTable` with the Grid in %%ProductNameMVC%%. In addition, you will see how you can use the `DataTable` in conjunction with the grid’s editing functionality.
 
 ### Required background
 
@@ -89,7 +89,7 @@ When the `AutoGenerateColumns` property is set to true, the grid columns' defini
 
 ### <a id="dataSet"></a> Binding to *DataSet*
 
-There is a new property introduced in the `igGrid` ASP.NET MVC helper: **`DataMember`**.
+There is a new property introduced in the `igGrid`: **`DataMember`**.
 
 It contains the name of the `DataTable` from the `DataSet` bound to the current `igGrid`.
 
@@ -202,7 +202,7 @@ The following features work remotely when binding to a `DataTable` or `DataSet`:
 
 ### If no PrimaryKey is set on the DataTable or DataSet, it should be explicitly set on the Grid
 
-If a `DataTable` or a `DataSet` has a `PrimaryKey` defined then the `igGrid` automatically uses it, otherwise set this manually through the ASP.NET MVC helper. This is needed when updating feature is enabled.
+If a `DataTable` or a `DataSet` has a `PrimaryKey` defined then the `igGrid` automatically uses it, otherwise set this manually. This is needed when updating feature is enabled.
 
 **In Razor:**
 
@@ -299,7 +299,7 @@ public ActionResult EditingSaveChanges()
 ```
 
 
-### Manually creating the columns in *igGrid* using the ASP.NET MVC helper in the view
+### Manually creating the columns of %%ProductNameMVC%% Grid in the view
 
 If the `igGrid` is defined in the view and a `DataTable` is used as the grid’s Model then the columns can only be auto-generated. If you want to define the columns manually, define a model which corresponds to the `DataTable` structure and set it as the grid’s type.
 

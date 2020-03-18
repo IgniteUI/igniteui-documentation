@@ -14,7 +14,7 @@
 
 ### Purpose
 
-This topic demonstrates how to enable the grouping functionality in an `igGrid`™ in both jQuery and MVC patterns.
+This topic demonstrates how to enable the grouping functionality in an `igGrid`™ in both jQuery and MVC.
 
 ### In this topic
 
@@ -62,20 +62,20 @@ Following is a preview of the final result.
         ```
 
 -   MVC-specific requirements
-    -   An MVC 2 or above project in MS Visual Studio® with a grid connected to a data source
-    -   A reference to the Infragistics MVC dll (stores the MVC IG wrappers)
+    -   An MVC 4 or above project in MS Visual Studio® with a grid connected to a data source
+    -   A reference to the %%ProductNameMVC%% dll - Infragistics.Web.Mvc.dll.
 
 ### <a id="script-requirements"></a> Script Requirements
 
-The required scripts for both jQuery and MVC sample are the same because the MVC wrappers just render a jQuery widget.
+The required scripts for both %%ProductName%% and %%ProductNameMVC%% samples are the same because the %%ProductNameMVC%% render jQuery widgets.
 
 The following scripts are required to run the grid and its grouping functionality:
 
 -   The jQuery library script
--   The jQuery User Interface (UI) library
--   The Infragistics library script (This is obfuscated code for the controls)
+-   The jQuery User Interface (UI) library script
+-   The %%ProductName%% library scripts
 
-The following code sample demonstrates the scripts as added to the header code of the HTML file.
+The following code sample demonstrates the scripts added to the header section of a HTML file.
 
 **In HTML:**
 
@@ -95,7 +95,7 @@ For the purpose of this example only:
 
 ## <a id="enabling-grouping-jquery"></a> Enabling grouping in jQuery
 
-Inside the `$(document).ready()` event handler you create an `igGrid` with grouping feature configuration to allow grouping by column. In the example code below the grid is sorted by default by one of its columns (SafetyStockLevel).
+Inside the `$(document).ready()` event handler create an `igGrid` with grouping feature configuration to allow grouping by column. In the example below the grid is sorted by default by one of its columns (SafetyStockLevel).
 
 **In Javascript:**
 
@@ -119,7 +119,7 @@ $("#grid1").igGrid({
 });
 ```
 
-To verify the result, open the HTML file in your browser. You should see the grid grouped by the default grouped column (as shown in the Preview above) and you should also able to group by other columns or undo the current grouping.
+To verify the result, open the HTML file in your browser. You will see the grid grouped by the default grouped column and you can group by other columns or undo the current grouping.
 
 ## <a id="enabling-grouping-mvc"></a> Enabling grouping in MVC
 
@@ -171,11 +171,11 @@ To verify the result, open the HTML file in your browser. You should see the gri
 
 5. (Optional) Verify the result.
 
-	To verify the result, run your application. You should see the grid grouped by the default grouped column (as shown in the Preview REF above) and you should also able to group by other columns or undo the current grouping.
+	To verify the result, run your application. You will see the grid grouped by the default grouped column and you can also group by other columns or undo the current grouping.
 
 ## <a id="custom-grouping-implementations"></a> Custom Grouping Implementations
 
-The grouping functionality allows for using a custom function to group the data using some criteria that differ from the default ones. For example, you may want to group a column based on the parity (the oddness or the evenness) of certain numbers.
+The grouping functionality allows using a custom function to group the data using some criteria that differs from the default ones. For example, you may want to group a column based on the parity (the oddness or the evenness) of certain numbers.
 
 
 ## <a id="related-content"></a> Related Content

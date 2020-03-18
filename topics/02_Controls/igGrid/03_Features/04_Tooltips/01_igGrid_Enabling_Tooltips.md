@@ -14,7 +14,7 @@
 
 ### Purpose
 
-This topic demonstrates how to add the Tooltip widget to an `igGrid`™ for both jQuery and MVC patterns. This will enable tooltips to appear over the grid cells upon mouse hover.
+This topic demonstrates how to add the Tooltip widget to an `igGrid`™ for both jQuery and MVC. This will enable tooltips to appear over the grid cells upon mouse hover.
 
 ### In this topic
 
@@ -34,7 +34,7 @@ To enable tooltips, you set the name of the Tooltip widget. You can configure th
 
 ## <a id="preview"></a>Preview
 
-Following is a preview of the final result of the example procedure. The end result is the same in both the jQuery and MVC technologies.
+Following is a preview of the final result of the example procedure. The end result is the same in both the jQuery and MVC.
 
 ![](images/Adding_Tooltips_to_an_igGrid_01.png)
 
@@ -44,19 +44,18 @@ Following is a preview of the final result of the example procedure. The end res
 -   jQuery-specific requirements
     -   An HTML web page with an [`igGrid`](igGrid-Overview.html) connected to a data source.
 -   MVC-specific requirements
-    -   An MVC 2 or above project in MS Visual Studio® with a [MVC igGrid](igGrid-Overview.html) connected to a data source
-    -   A reference to the Infragistics MVC dll (stores the MVC IG wrappers)
+    -   An MVC 4 or above project in MS Visual Studio® with a [%%ProductNameMVC%% Grid](igGrid-Overview.html) connected to a data source
+    -   A reference to the %%ProductNameMVC%% dll - Infragistics.Web.Mvc.dll.
 
 ### <a id="script-requirements"></a>Script Requirements 
-The required scripts for both jQuery and MVC sample are the same because the MVC wrappers just render a jQuery widget.
-
+The required scripts for both %%ProductName%% and %%ProductNameMVC%% samples are the same because the %%ProductNameMVC%% render jQuery widgets.
 The following scripts are required to run the grid and its grouping functionality:
 
 -   The jQuery library script
--   The jQuery User Interface (UI) library
--   The IG library script (This is obfuscated code for the controls)
+-   The jQuery User Interface (UI) library script
+-   The %%ProductName%% library scripts
 
-The following code sample demonstrates the scripts as added to the header code of the HTML file.
+The following code sample demonstrates the scripts added to the header section of a HTML file.
 
 **In HTML:**
 
@@ -94,7 +93,7 @@ $("#grid1").igGrid({
 
 To verify the result, open the HTML file in your browser. A tooltip should appear every time you hover with the mouse over a cell of the first and third columns of the grid as shown in the Preview above.
 
-## <a id="adding-mvc"></a>Adding MVC igGrid Tooltips 
+## <a id="adding-mvc"></a>Adding %%ProductNameMVC%% Grid Tooltips 
 
 Define the igGrid itself along with the Tooltip feature and all his configurations:
 
