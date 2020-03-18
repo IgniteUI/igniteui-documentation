@@ -67,33 +67,31 @@ In the picture below, Row Selection and Selection features are enabled. A red re
 
 ### Code
 
-**In HTML:**
+**In JavaScript:**
 
-```html
-<script type="text/javascript">
-    $(function () {
-        $("#grid").igHierarchicalGrid({
-            initialDataBindDepth: 1,
-            dataSource: data,
-            dataSourceType: "json",
-            responseDataKey: "Records",
-            autoGenerateColumns: true,
-            autoGenerateLayouts: true,
-            primaryKey: "ID",
-            features: [
-                {
-                    name: "RowSelectors",
-                    inherit: true
-                },
-                {
-                    name: "Selection",
-                    multipleSelection: true,
-                    mode: "row"
-                }
-            ]
-        });
+```javascript
+$(function () {
+    $("#grid").igHierarchicalGrid({
+        initialDataBindDepth: 1,
+        dataSource: data,
+        dataSourceType: "json",
+        responseDataKey: "Records",
+        autoGenerateColumns: true,
+        autoGenerateLayouts: true,
+        primaryKey: "ID",
+        features: [
+            {
+                name: "RowSelectors",
+                inherit: true
+            },
+            {
+                name: "Selection",
+                multipleSelection: true,
+                mode: "row"
+            }
+        ]
     });
-</script>
+});
 ```
 
 **In ASPX:**

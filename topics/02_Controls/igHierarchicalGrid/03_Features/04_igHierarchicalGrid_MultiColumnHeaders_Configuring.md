@@ -253,8 +253,8 @@ The following screenshot is a preview of the final result.
 
 To complete the procedure, you need the following:
 
--   Microsoft ® Visual Studio 2010 or newer installed
--   MVC 3 Framework or newer installed
+-   Microsoft ® Visual Studio 2012 or newer installed
+-   MVC 4 Framework or newer installed
 -   Northwind Database installed
 -   Infragistics.Web.Mvc.dll added to an ASP.NET MVC project
 -   %%ProductName%% JavaScript and theme files added to an ASP.NET MVC project
