@@ -18,7 +18,7 @@ The following table lists the links to the API reference documentation for the [
 API Document| Description
 ---|---
 [igRadialMenu jQuery API](%%jQueryApiUrl%%/ui.igradialmenu)|This is a set of documents containing an overview of the control and full list of options, events, and methods with code snippets.
-[igRadialMenu %%ProductNameMVC%% API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.RadialMenu`1.html)| This is a set of documents containing the `radialMenu` class description and a list of all of its members.
+[igRadialMenu MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.RadialMenu`1.html)| This is a set of documents containing the `radialMenu` class description and a list of all of its members.
 
 
 

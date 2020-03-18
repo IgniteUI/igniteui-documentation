@@ -456,7 +456,7 @@ The following screenshot is a preview of the final result.
 
 Following are the general requirements for adding an `igFunnelChart` to an HTML page in ASP.NET MVC:
 
--   The %%ProductNameMVC%% assembly *Infragistics.Web.Mvc.dll* which contains the MVC helper for `igFunnelChart`.
+-   The %%ProductNameMVC%% assembly *Infragistics.Web.Mvc.dll* which contains the %%ProductNameMVC%% `igFunnelChart`.
 
 ### <a id="asp-net-mvc-overview"></a> Overview
 
@@ -542,7 +542,7 @@ The following steps demonstrate how to add a basic funnel chart control to an AS
 		<script src="/Scripts/ig/js/infragistics.loader.js"></script>
 		```
 		
-	2. Add the `igLoader`’s MVC helper configuration for `igFunnelChart`.
+	2. Add the `igLoader`’s configuration for `igFunnelChart`.
 	
 		The following code, added to the ASP.NET MVC View, configures the `igLoader`’s wrapper with the paths to the %%ProductName%% resources.
 		
@@ -559,7 +559,7 @@ The following steps demonstrate how to add a basic funnel chart control to an AS
 
 5. **Instantiate *igFunnelChart*.**  <a id="mvc-step-init"></a>
 	
-	The code below configures the MVC helper to create a `<div>` element with `id` “funnel” where the funnel chart is to be hosted with the [`ID(“funnel”)`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~ID.html) call and assigns the data model object declared for the View to the control in the [`FunnelChart(Model)`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1.html) call. The member of the model which provides the value for every slice is referenced in the [`ValueMemberPath("Budget")`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~ValueMemberPath.html) calls.
+	The code below configures %%ProductNameMVC%% FunnelChart to create a `<div>` element with `id` “funnel” where the funnel chart is to be hosted with the [`ID(“funnel”)`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~ID.html) call and assigns the data model object declared for the View to the control in the [`FunnelChart(Model)`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1.html) call. The member of the model which provides the value for every slice is referenced in the [`ValueMemberPath("Budget")`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~ValueMemberPath.html) calls.
 	
 	**In ASPX:**
 	
@@ -607,7 +607,7 @@ The following topics provide additional information related to this topic.
 
 - [Known Issues and Limitations (*igFunnelChart*)](igFunnelChart-Known-Issues-and-Limitations.html): This topic lists the known issues related to the `igFunnelChart` control. 
  
-- [jQuery and ASP.NET MVC Helper API Links (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): This topic lists the links to the API reference documentation for the `igFunnelChart` control and its ASP.NET MVC Helper.
+- [jQuery and MVC API Links (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): This topic lists the links to the API reference documentation for the `igFunnelChart` control.
 
 ### <a id="samples"></a> Samples
 

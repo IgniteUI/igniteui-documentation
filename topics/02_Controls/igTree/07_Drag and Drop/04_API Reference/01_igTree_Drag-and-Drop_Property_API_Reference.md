@@ -557,7 +557,7 @@ The following topics provide additional information related to this topic.
 
 - [Drag-and-Drop Event Reference (igTree)](igTree-Drag-and-Drop-Event-API-Reference.html): This topic provides reference information about the events of the `igTree` control related to its Drag-and-Drop feature.
 
-- [API Links (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): This topic provides links to `igTree` jQuery and ASP.NET MVC Helper API.
+- [API Links (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): This topic provides links to `igTree` jQuery and MVC API.
 
 ### Samples
 

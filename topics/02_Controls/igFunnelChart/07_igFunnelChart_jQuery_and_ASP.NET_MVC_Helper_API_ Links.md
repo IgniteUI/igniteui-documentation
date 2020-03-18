@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Links (igFunnelChart)
+# jQuery and MVC API Links (igFunnelChart)
 
 ## *igFunnelChart* API Reference Documentation
 
@@ -16,7 +16,7 @@ The following lists the links to the API reference documentation for the `igFunn
 
 - [igFunnelChart **jQuery** API](%%jQueryApiUrl%%/ui.igfunnelchart): This is a set of documents containing an overview of the control and full list of options, events, and methods with code snippets.
 
-- [*igFunnelChart* **ASP.NET MVC** Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1.html): This is a set of documents containing the `FunnelChart` class description and a list of all of its members.
+- [*igFunnelChart* **%%ProductNameMVC%%** API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1.html): This is a set of documents containing the `FunnelChart` class description and a list of all of its members.
 
 
 ## Related Content

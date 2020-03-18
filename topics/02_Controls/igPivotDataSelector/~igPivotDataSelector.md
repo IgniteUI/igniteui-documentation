@@ -32,7 +32,7 @@ The topics in this group explain the `igPivotDataSelector`™ control and its us
 
 - [Known Issues and Limitations (igPivotDataSelector)](igPivotDataSelector-Known-Issues-and-Limitations.html): This topic provides information about the known issues and limitations of the `igPivotDataSelector` c control.
 
-- [jQuery and ASP.NET MVC Helper API Links (igPivotDataSelector)](igPivotDataSelector-API-Links.html): This topic lists links to the API documentation about the `igPivotDataSelector` control and its ASP.NET MVC Helper.
+- [jQuery and MVC API Links (igPivotDataSelector)](igPivotDataSelector-API-Links.html): This topic lists links to the API documentation about the `igPivotDataSelector` control and its ASP.NET MVC Helper.
 
 
 

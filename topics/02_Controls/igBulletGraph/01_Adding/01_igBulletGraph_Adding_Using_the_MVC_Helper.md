@@ -289,7 +289,7 @@ The following topics provide additional information related to this topic.
 
 - [Adding *igBulletGraph* to an HTML Page](igBulletGraph-Adding-to-an-HTML-Page.html): This topic demonstrates, with code examples, how to add the `igBulletGraph` control to an HTML page.
 
-- [jQuery and ASP.NET MVC Helper API Links (*igBulletGraph*)](igBulletGraph-API-Links.html): This topic provides links to the API reference documentation about the `igBulletGraph` control and its ASP.NET MVC Helper.
+- [jQuery and MVC API Links (*igBulletGraph*)](igBulletGraph-API-Links.html): This topic provides links to the API reference documentation about the `igBulletGraph` control and its ASP.NET MVC Helper.
 
 
 

@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-#jQuery and ASP.NET MVC Helper API Links (igBulletGraph)
+#jQuery and MVC API Links (igBulletGraph)
 
 
 ## igBulletGraph API Reference Documentation
@@ -19,7 +19,7 @@ The following table lists the links to the API reference documentation for the `
 
 - [***igBulletGraph* jQuery API**](%%jQueryApiUrl%%/ui.igBulletGraph): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
 
-- [***igBulletGraph* ASP.NET MVC Helper API**](Infragistics.Web.Mvc~Infragistics.Web.Mvc.BulletGraphModel.html): The documentation contains the description of the bullet graph ASP.NET MVC Helper and a list of all of its members.
+- [***igBulletGraph* MVC API**](Infragistics.Web.Mvc~Infragistics.Web.Mvc.BulletGraphModel.html): The documentation contains the description of the bullet graph ASP.NET MVC Helper and a list of all of its members.
 
 
 

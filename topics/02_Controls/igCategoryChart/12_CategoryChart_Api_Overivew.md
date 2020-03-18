@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Reference Links (igCategoryChart)
+# jQuery and MVC API Reference Links (igCategoryChart)
 
 
 ## Topic Overview
 ### Purpose
 
-This topic provides links to the API documentation for jQuery and ASP.NET MVC helper class for `igCategoryChart`™ control.
+This topic provides links to the API documentation for jQuery and %%ProductNameMVC%% class for `igCategoryChart`™ control.
 
 ### Required Background
 
@@ -29,13 +29,13 @@ The following topics are prerequisite to understanding this topic:
 
 ### Introduction
 
-The `igCategoryChart` is built as a jQuery UI widget with an accompanying ASP.NET MVC Helper. For more information about each API, follow the links to the API documentation given below.
+The `igCategoryChart` is built as a jQuery UI widget with an accompanying %%ProductNameMVC%%. For more information about each API, follow the links to the API documentation given below.
 
 ### API documents reference summary
 
 -	[igCategoryChart jQuery API](%%jQueryApiUrl%%/ui.igCategoryChart): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
 
--	[igCategoryChart ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.categorychart`1.html) : The documentation contains the CategoryChart class description and a list of all of its members.
+-	[igCategoryChart MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.categorychart`1.html) : The documentation contains the CategoryChart class description and a list of all of its members.
 
 ## Related Content
 

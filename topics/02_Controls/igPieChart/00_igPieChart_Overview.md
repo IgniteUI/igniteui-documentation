@@ -380,7 +380,7 @@ The following topics provide additional information related to this topic.
 
 - [Adding igDataChart](igDataChart-Adding.html): This topic demonstrates how to add the `igPieChart`™ control to a web page and bind it to data.
 
-- [](igPieChart-API-Links.html)[jQuery and ASP.NET MVC Helper API Reference Links (igPieChart)](igPieChart-API-Links.html): This topic provides links to the API documentation for jQuery and ASP.NET MVC helper class for `igPieChart`™.
+- [](igPieChart-API-Links.html)[jQuery and MVC API Reference Links (igPieChart)](igPieChart-API-Links.html): This topic provides links to the API documentation for jQuery and %%ProductNameMVC%% class for `igPieChart`™.
 
 - [Data Binding (igPieChart)](igPieChart-DataBinding.html): This topic explains how to bind various data sources to the `igPieChart`™ control.
 

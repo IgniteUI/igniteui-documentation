@@ -97,7 +97,7 @@ for (i = 0; i < log.length; i++) {
 
 The following topics provide additional information related to this topic.
 
-- [API Links (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): This topic provides links to the jQuery and ASP.NET MVC Helper API of the igTree control.
+- [API Links (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): This topic provides links to the jQuery and MVC API of the igTree control.
 
 - [Adding and Removing Nodes Overview and Examples (igTree)](igTree-Adding-Removing-Nodes-Overview-Examples.html): This topic explains, with code examples, how to add and remove nodes of `igTree` control programmatically.
 

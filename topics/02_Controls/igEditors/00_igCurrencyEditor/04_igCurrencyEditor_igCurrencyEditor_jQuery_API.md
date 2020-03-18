@@ -8,14 +8,14 @@
 |metadata|
 -->
 
-# igCurrencyEditor jQuery and ASP.NET MVC Helper API Links
+# igCurrencyEditor jQuery and MVC API Links
 
 
 
 The `igCurrencyEditor` is built as a jQuery UI widget with an accompanying ASP.NET MVC Helper. For more information about each API, see the following API documentation:
 
 -   [igCurrencyEditor jQuery API](%%jQueryApiUrl%%/ui.igCurrencyEditor)
--   [igCurrencyEditor ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.CurrencyEditorModel.html)
+-   [igCurrencyEditor MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.CurrencyEditorModel.html)
 
  
 

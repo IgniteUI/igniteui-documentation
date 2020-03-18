@@ -19,6 +19,6 @@ the unchecked one.
 
 -   [igCheckboxEditor Overview](igCheckboxEditor-Overview.html)
 -   [igCheckboxEditor Styling and Theming](igCheckboxEditor-Styling-and-Theming.html)
--   [igCheckboxEditor jQuery and ASP.NET MVC Helper API Links](igCheckboxEditor-jQuery-API.html)
+-   [igCheckboxEditor jQuery and MVC API Links](igCheckboxEditor-jQuery-API.html)
 -   [igCheckboxEditor Accessibility Compliance](igCheckboxEditor-Accessibility-Compliance.html)
 -   [igCheckboxEditor Known Issues](igCheckboxEditor-Known-Issues.html)

@@ -105,7 +105,7 @@ Example | Description
 --- | ---
 [Binding to a JavaScript Array](#javascript-array) | This example demonstrates how to bind the `igFunnelChart` control to a JavaScript array.
 [Binding *igFunnelChart* to XML Data](#xml) | This example demonstrates how to bind the `igFunnelChart` control to an XML structure.
-[Binding* igFunnelChart* in a Strongly Typed MVC View](#mvc-model) | This example demonstrates how to bind the `igFunnelChart` control to a model object in a strongly-typed ASP.NET MVC View using the MVC helper.
+[Binding* igFunnelChart* in a Strongly Typed MVC View](#mvc-model) | This example demonstrates how to bind the `igFunnelChart` control to a model object in a strongly-typed ASP.NET MVC View.
 [Binding *igFunnelChart* to a JSON Response from a Remote Service](#remote-service-json) | This example demonstrates how to configure an `igFunnelChart` control to request remote data and bind it to a JSON response.
 
 
@@ -229,7 +229,7 @@ This sample shows how to bind an `igFunnelChart` to data available in XML struct
 
 ### Description
 
-In an MVC application you will usually want to have a strongly-typed View and pass it data objects from the business logic layer of your application. This example provides the essential code which defines a sample data class and passes a model object to the `igFunnelChart` MVC helper which instantiates a funnel chart. The data model object is required to be an IQueryable of the data class.
+In an MVC application you will usually want to have a strongly-typed View and pass it data objects from the business logic layer of your application. This example provides the essential code which defines a sample data class and passes a model object to the %%ProductNameMVC%% FunnelChart which instantiates a funnel chart. The data model object is required to be an IQueryable of the data class.
 
 ### Code
 
@@ -245,7 +245,7 @@ public class BudgetData
 }
 ```
 
-The following code snippet specifies a strongly-typed MVC View at the beginning. Then it shows how to use the MVC helper for `igFunnelChart` in order to **bind to the Model object of the View**.
+The following code snippet specifies a strongly-typed MVC View at the beginning. Then it shows how to use the %%ProductNameMVC%% FunnelChart in order to **bind to the Model object of the View**.
 
 **In ASPX:**
 
@@ -331,7 +331,7 @@ The following topics provide additional information related to this topic.
 
 - [Known Issues and Limitations (*igFunnelChart*)](igFunnelChart-Known-Issues-and-Limitations.html): This topic lists the known issues related to the `igFunnelChart` control. 
  
-- [jQuery and ASP.NET MVC Helper API Links (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): This topic lists the links to the API reference documentation for the `igFunnelChart` control and its ASP.NET MVC Helper.
+- [jQuery and MVC API Links (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): This topic lists the links to the API reference documentation for the `igFunnelChart` control.
 
 
 ### <a id="samples"></a> Samples

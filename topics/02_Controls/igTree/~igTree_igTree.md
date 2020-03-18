@@ -23,7 +23,7 @@ Click on the links below to find information on how to get `igTree` quickly up a
 -   [Optimize the igTree's Performance](igTree-Optimize-Performance.html)
 -   [Using Themes with igTree](igTree-Using-Themes.html)
 -   [Walkthroughs](igTree-Walkthroughs.html)
--   [igTree jQuery and ASP.NET MVC Helper API Links](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html)
+-   [igTree jQuery and MVC API Links](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html)
 -   [Configuring Knockout Support](igTree-Knockoutjs-Support.html)
 -   [igTree Accessibility Compliance](igTree-Accessibility-Compliance.html)
 -   [igTree Known Limitations](igTree-Known-Limitations.html)

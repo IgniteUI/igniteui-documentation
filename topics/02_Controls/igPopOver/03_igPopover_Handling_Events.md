@@ -189,7 +189,7 @@ The following topics provide additional information related to this topic.
 
 - [Known Issues and Limitations (igPopover)](igPopover-Known-Issues-And-Limitations.html): This topic provides information about the known issues and limitations of the `igPopover` control and the available workarounds for them.
 
-- [jQuery and ASP.NET MVC Helper API Links (igPopover)](igPopover-ASP-NET-MVC-Helper-API.html): This topic provides links to the API reference documentation for the jQuery and its ASP.NET MVC helper class for the `igPopover` control.
+- [jQuery and MVC API Links (igPopover)](igPopover-ASP-NET-MVC-Helper-API.html): This topic provides links to the API reference documentation for the jQuery and its ASP.NET MVC helper class for the `igPopover` control.
 
 ### <a id="samples"></a>Samples
 

@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Links (igLinearGauge)
+# jQuery and MVC API Links (igLinearGauge)
 
 ##igLinearGauge API Reference Documentation
 
@@ -16,7 +16,7 @@ The following lists the links to the API reference documentation for the `igLine
 
 -	[igLinearGauge jQuery API](%%jQueryApiUrl%%/ui.igLinearGauge): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
 
--	[igLinearGauge ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LinearGaugeModel.html): The documentation contains the description of the linear gauge ASP.NET MVC Helper and a list of all of its members.
+-	[igLinearGauge MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LinearGaugeModel.html): The documentation contains the description of the linear gauge ASP.NET MVC Helper and a list of all of its members.
 
 
 ##Related Content

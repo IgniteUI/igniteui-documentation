@@ -262,7 +262,7 @@ The following topics provide additional information related to this topic.
 
 - [Configuring the Character Encoding (igQRCodeBarcode)](igQRCodeBarcode-Configuring-the-Character-Encoding.html): This topic explains how to configure the desired character encoding in the `igQRCodeBarcode` control.
 
-- [jQuery and ASP.NET MVC Helper API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): This topic provides links to the API reference documentation about the `igQRCodeBarcode` control and the ASP.NET MVC Helper for it.
+- [jQuery and MVC API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): This topic provides links to the API reference documentation about the `igQRCodeBarcode` control and the ASP.NET MVC Helper for it.
 
 ### <a id="samples"></a>Samples
 

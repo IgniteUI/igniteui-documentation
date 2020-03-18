@@ -114,7 +114,7 @@ The following topics provide additional information related to this topic.
 
 - [Adding igPivotDataSelector to an HTML Page](igPivotDataSelector-Adding-to-HTML-Page.html): This topic demonstrates how to add the `igPivotDataSelector` to an HTML page.
 
-- [jQuery and ASP.NET MVC Helper API Links (igPivotDataSelector)](igPivotDataSelector-API-Links.html): This topic lists links to the API documentation about the `igPivotDataSelector` and its ASP.NET MVC Helper.
+- [jQuery and MVC API Links (igPivotDataSelector)](igPivotDataSelector-API-Links.html): This topic lists links to the API documentation about the `igPivotDataSelector` and its ASP.NET MVC Helper.
 
 
 ### <a id="samples"></a>Samples

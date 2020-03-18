@@ -1290,7 +1290,7 @@ Contains basic information about the related `igPieChart` control for displaying
 
 -	[Configurable Visual Elements (igDataChart)](igDataChart-Visual-Elements.html): This topic lists all configurable visual elements of the `igDataChart` control and the properties that manage them.
 
--	[jQuery and ASP.NET MVC Helper API Reference Links (igDataChart)](igDataChart-API-Links.html): References to the jQuery API reference of `igDataChart` and contains a reference table with all MVC helper properties with code snippets.
+-	[jQuery and MVC API Reference Links (igDataChart)](igDataChart-API-Links.html): References to the jQuery API reference of `igDataChart` and contains a reference table with all MVC helper properties with code snippets.
 
 -	[Binding igDataChart to Data](igDataChart-DataBinding.html): Shows how to bind data from various data sources to a chart control. This includes JavaScript arrays, JSON, WCF service. Shows how a big volume of data can be data bound to a chart control.
 

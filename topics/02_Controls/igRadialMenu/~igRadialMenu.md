@@ -29,7 +29,7 @@ The `igRadialMenu` control is essentially a context menu presenting its items in
 
 - [Configuring igRadialMenu](igRadialMenu-Configuring.html): The topics in this section provide additional information about `igRadialMenu` configuring.
 
-- [jQuery and ASP.NET MVC Helper API Reference (igRadialMenu)](igRadialMenu-API-Reference.html): This topic provides links to the API documentation about the `igRadialMenu` control and the ASP.NET MVC Helper for it.
+- [jQuery and MVC API Reference (igRadialMenu)](igRadialMenu-API-Reference.html): This topic provides links to the API documentation about the `igRadialMenu` control and the ASP.NET MVC Helper for it.
 
 
 

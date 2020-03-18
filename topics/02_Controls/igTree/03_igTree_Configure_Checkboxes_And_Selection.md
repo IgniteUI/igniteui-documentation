@@ -275,7 +275,7 @@ $("#tree").live("igtreenodecheckstatechanging", function (evt, ui) {
 Following are some other topics you may find useful.
 
 -   [igTree API documentation](%%jQueryApiUrl%%/ui.igtree#!overview)
--   [igTree ASP.NET MVC helper API documentation](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeModel_members.html)
+-   [igTree MVC API documentation](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeModel_members.html)
 
  
 

@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-#jQuery and ASP.NET MVC Helper API Links (igOlapXmlaDataSource)
+#jQuery and MVC API Links (igOlapXmlaDataSource)
 
 ## igOlapXmlaDataSource API Reference Documentation
 ### igOlapXmlaDataSource API reference documentation summary chart
@@ -17,7 +17,7 @@ The following table lists the links to the API reference documentation for the `
 
 - [igOlapXmlaDataSource jQuery API](%%jQueryApiUrl%%/ig.OlapXmlaDataSource): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
 
-- [igOlapXmlaDataSource ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.OlapDataSourceModel.html): The documentation contains the description of the OLAP data source ASP.NET MVC Helper and a list of all of its members.
+- [igOlapXmlaDataSource MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.OlapDataSourceModel.html): The documentation contains the description of the OLAP data source ASP.NET MVC Helper and a list of all of its members.
 
 ## Related Content
 ### Topics

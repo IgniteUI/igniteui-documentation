@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery and ASP.NET MVC Helper API Links (igLayoutManager)
+# jQuery and MVC API Links (igLayoutManager)
 
 
 
@@ -20,7 +20,7 @@ The following table lists the links to the API reference documentation for the `
 API Document|Description
 ---|---
 [igLayoutManager jQuery API](%%jQueryApiUrl%%/ui.iglayoutmanager)|This is a set of documents containing an overview of the control and the full listing, with code examples, of its options, events, and methods.
-[igLayoutManager ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LayoutManagerWrapper.html)|This is a set of documents containing the LayoutManager wrapper description and a list of all of its members.
+[igLayoutManager MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LayoutManagerWrapper.html)|This is a set of documents containing the LayoutManager wrapper description and a list of all of its members.
 
 
 

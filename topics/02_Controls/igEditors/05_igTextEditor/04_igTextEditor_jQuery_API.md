@@ -8,12 +8,12 @@
 |metadata|
 -->
 
-# igTextEditor jQuery and ASP.NET MVC Helper API Links
+# igTextEditor jQuery and MVC API Links
 
 The `igTextEditor` is built as a jQuery UI widget with an accompanying ASP.NET MVC Helper. For more information about each API, see the following API documentation:
 
 -   [igTextEditor jQuery API](%%jQueryApiUrl%%/ui.igTextEditor)
--   [igTextEditor ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TextEditorModel.html)
+-   [igTextEditor MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TextEditorModel.html)
 
  
 

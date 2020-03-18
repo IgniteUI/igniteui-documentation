@@ -394,7 +394,7 @@ The following topics provide additional information related to this topic.
 
 - [Adding igQRCodeBarcode to an ASP.NET MVC Application](igQRCodeBarcode-Adding-Using-the-MVC-Helper.html): This topic demonstrates, with code examples, how to add the `igQRCodeBarcode` control to an ASP.NET MVC View using the %%ProductNameMVC%%.
 
-- [jQuery and ASP.NET MVC Helper API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): This topic provides links to the API reference documentation about the `igQRCodeBarcode` control and the ASP.NET MVC Helper for it.
+- [jQuery and MVC API Links (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): This topic provides links to the API reference documentation about the `igQRCodeBarcode` control and the ASP.NET MVC Helper for it.
 
 
 

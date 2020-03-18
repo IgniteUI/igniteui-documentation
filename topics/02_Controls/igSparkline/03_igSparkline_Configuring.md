@@ -52,7 +52,7 @@ The following topics provide additional information related to this topic.
 
 - [igSparkline Visual Elements](igSparkline-Visual-Elements.html): This topic provides an overview and images explaining the visual elements of the `igSparkline`.
 
-- [jQuery and ASP.NET MVC Helper API Links (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): This topic provides links to the API documentation for the jQuery and its ASP.NET MVC helper class for the `igSparkline` control.
+- [jQuery and MVC API Links (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): This topic provides links to the API documentation for the jQuery and its ASP.NET MVC helper class for the `igSparkline` control.
 
 ### Samples
 

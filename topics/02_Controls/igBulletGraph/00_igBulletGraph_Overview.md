@@ -1069,7 +1069,7 @@ The following topics provide additional information related to this topic.
 
 - [Configuring *igBulletGraph*](igBulletGraph-Configuring.html): This is a group of topics explaining how to configure the various aspects of the igBulletGraph control including its orientation and direction and visual elements.
 
-- [jQuery and ASP.NET MVC Helper API Links (*igBulletGraph*)](igBulletGraph-API-Links.html): This topic provides links to the API reference documentation about the igBulletGraph control and its ASP.NET MVC Helper.
+- [jQuery and MVC API Links (*igBulletGraph*)](igBulletGraph-API-Links.html): This topic provides links to the API reference documentation about the igBulletGraph control and its ASP.NET MVC Helper.
 
 - [Known Issues and Limitations (*igBulletGraph*)](igBulletGraph-Known-Issues-and-Limitations.html): This topic provides information about the known issues and limitations of the igBulletGraph control.
 

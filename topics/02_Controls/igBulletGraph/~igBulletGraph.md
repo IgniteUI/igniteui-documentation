@@ -26,7 +26,7 @@ The `igBulletGraph` control is an %%ProductName%%™ control which allows for vi
 
 - [**Configuring *igBulletGraph***](igBulletGraph-Configuring.html): This is a group of topics explaining how to configure the various aspects of the `igBulletGraph` control including its orientation and visual elements, and the animated display of values.
 
-- [**jQuery and ASP.NET MVC Helper API Links (*igBulletGraph*)**](igBulletGraph-API-Links.html): This topic provides links to the API reference documentation about the `igBulletGraph` control and its ASP.NET MVC Helper.
+- [**jQuery and MVC API Links (*igBulletGraph*)**](igBulletGraph-API-Links.html): This topic provides links to the API reference documentation about the `igBulletGraph` control and its ASP.NET MVC Helper.
 
 - [**Known Issues and Limitations (*igBulletGraph*)**](igBulletGraph-Known-Issues-and-Limitations.html): This topic provides information about the known issues and limitations of the `igBulletGraph` control.
  

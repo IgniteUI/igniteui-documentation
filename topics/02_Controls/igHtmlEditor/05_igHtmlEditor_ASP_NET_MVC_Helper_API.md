@@ -38,7 +38,7 @@ The `igHtmlEditor` is built as a jQuery UI widget with an accompanying ASP.NET M
 
 -	[igHtmlEditor jQuery API](%%jQueryApiUrl%%/ui.igHtmlEditor): The documentation contains an overview of the control and full list of options, events, and methods with code snippets.
 
--	[igHtmlEditor ASP.NET MVC Helper API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.HtmlEditorModel.html): The documentation contains the HtmlEditorModel class description and a list of all of its members.
+-	[igHtmlEditor MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.HtmlEditorModel.html): The documentation contains the HtmlEditorModel class description and a list of all of its members.
 
 ##Related Content
 
