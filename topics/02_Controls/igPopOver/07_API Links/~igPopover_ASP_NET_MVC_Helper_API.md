@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API リンク (igPopover)
+# jQuery と MVC API リンク (igPopover)
 
 ## igPopover API リファレンス マニュアル
 
@@ -19,7 +19,7 @@
 API マニュアル|説明
 ---|---
 [igPopover jQuery API](%%jQueryApiUrl%%/ui.igpopover)|これは、コントロールの概要と、そのオプション、イベントおよびメソッドの完全なリスト、コード例を含む一連のドキュメントです。
-[igPopover ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PopoverModel.html)|ドキュメントには、ポップオーバーの ASP.NET MVC ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
+[igPopover MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PopoverModel.html)|ドキュメントには、ポップオーバーの ASP.NET MVC ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
 [プロパティ リファレンス (igPopover)](igPopover-Property-Reference.html)|このトピックでは、`igPopover` コントロールのプロパティについて説明し、デフォルト値の一覧を示します。
 
 

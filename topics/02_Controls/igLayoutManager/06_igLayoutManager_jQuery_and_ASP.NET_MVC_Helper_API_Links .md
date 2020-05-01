@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API へのリンク (igLayoutManager)
+# jQuery および MVC API リファレンス リンク (igLayoutManager)
 
 
 
@@ -20,7 +20,7 @@
 API マニュアル|説明
 ---|---
 [igLayoutManager jQuery API](%%jQueryApiUrl%%/ui.iglayoutmanager)|これは、コントロールの概要と、そのオプション、イベントおよびメソッドの完全なリスト、コード例を含む一連のドキュメントです。
-[igLayoutManager ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LayoutManagerWrapper.html)|これは、LayoutManager ラッパーの説明およびすべてのメンバーのリストを含む一連のドキュメントです。
+[igLayoutManager MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LayoutManagerWrapper.html)|これは、LayoutManager ラッパーの説明およびすべてのメンバーのリストを含む一連のドキュメントです。
 
 
 

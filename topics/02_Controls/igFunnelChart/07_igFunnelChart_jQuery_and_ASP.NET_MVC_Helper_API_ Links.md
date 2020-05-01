@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API リンク (igFunnelChart)
+# jQuery と MVC API リンク (igFunnelChart)
 
 ## *igFunnelChart* API 参照ドキュメント
 
@@ -16,7 +16,7 @@
 
 - [igFunnelChart **jQuery** API](%%jQueryApiUrl%%/ui.igfunnelchart): これは、コントロールの概要の他、コード スニペットを伴うオプション、イベントおよびメソッドの完全なリストを含む一連のドキュメントです。
 
-- [*igFunnelChart* **ASP.NET MVC** ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1.html): これは、`FunnelChart` クラスの説明およびすべてのメンバーのリストを含む一連のドキュメントです。
+- [*igFunnelChart* **%%ProductNameMVC%%** API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1.html): これは、`FunnelChart` クラスの説明およびすべてのメンバーのリストを含む一連のドキュメントです。
 
 
 ## 関連コンテンツ

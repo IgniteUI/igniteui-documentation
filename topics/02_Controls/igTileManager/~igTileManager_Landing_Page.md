@@ -31,7 +31,7 @@
 
 - [既知の問題と制限 (igTileManager)](igTileManager-Known-Issues-and-Limitations.html): このトピックでは、`igTileManager` コントロールの既知の問題と制限に関する情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (igTileManager)](igTileManager-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックでは、`igTileManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (igTileManager)](igTileManager-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックでは、`igTileManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
     
 
 

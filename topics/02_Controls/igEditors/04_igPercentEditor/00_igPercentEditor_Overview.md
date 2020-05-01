@@ -29,7 +29,7 @@
 
 -   全体のテーマのサポート
 -   JavaScript クライアント API
--   ASP.NET MVC ラッパー
+-   ASP.NET MVC
 
 
 ##igPercentEditor の Web ページへの追加
@@ -64,7 +64,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Samples/modules/i18n/regional/infragistics.ui.regional-en.js")"></script>
     ```
 
-3.  jQuery の実装では、HTML 内のターゲット要素として INPUT、DIV、または SPAN を作成します。ASP.NET MVC の実装では、含める要素を MVC ラッパーが作成するため、この手順はオプションです。
+3.  jQuery の実装では、HTML 内のターゲット要素として INPUT、DIV、または SPAN を作成します。ASP.NET MVC の実装では、含める要素を %%ProductNameMVC%% が作成するため、この手順はオプションです。
 
     **HTML の場合:**
 
@@ -97,7 +97,7 @@
 ##関連リンク
 
 -   [基本的な使用方法サンプル](%%SamplesUrl%%/editors/basic-usage)
--   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 -   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
  

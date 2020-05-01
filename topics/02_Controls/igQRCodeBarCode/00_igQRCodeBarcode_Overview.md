@@ -267,7 +267,7 @@ QR コードのバーコード マトリックスのサイズ バージョンが
 
 - [既知の問題と制限 (igQRCodeBarcode)](igQRCodeBarcode-Known-Issues-and-Limitations.html): このトピックでは、`igQRCodeBarcode` コントロールの既知の問題と制限に関する情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): このトピックでは、`igQRCodeBarcode` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): このトピックでは、`igQRCodeBarcode` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 
 
 ### <a id="samples"></a>サンプル

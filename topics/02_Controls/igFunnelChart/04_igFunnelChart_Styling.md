@@ -283,7 +283,7 @@ $("#funnelChart").igFunnelChart({
 
 - [既知の問題と制限 (*igFunnelChart*)](igFunnelChart-Known-Issues-and-Limitations.html): このトピックでは、`igFunnelChart` コントロールに関連する既知の問題点に関する情報を提供します。 
  
-- [jQuery と ASP.NET MVC ヘルパー API リンク (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): このトピックでは、`igFunnelChart` コントロールと ASP.NET MVC ヘルパーのための API リファレンスのドキュメントへのリンクの一覧を示します。
+- [jQuery と MVC API リンク (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): このトピックでは、`igFunnelChart` コントロールと ASP.NET MVC ヘルパーのための API リファレンスのドキュメントへのリンクの一覧を示します。
 
 
 

@@ -22,7 +22,7 @@
 -   [igUpload のスタイル設定](igUpload-Styling-and-Theming.html)
 -   [アクセシビリティの遵守 (igUpload)](igUpload-Accessibility-Compliance.html)
 -   [既知の問題と制限事項 (igUpload)](igUpload-Known-Issues.html) 
--   [jQuery と ASP.NET MVC ヘルパー API へのリンク (igUpload)](igUpload-jQuery-API-Links.html)
+-   [jQuery および MVC API リファレンス リンク (igUpload)](igUpload-jQuery-API-Links.html)
 
  
 

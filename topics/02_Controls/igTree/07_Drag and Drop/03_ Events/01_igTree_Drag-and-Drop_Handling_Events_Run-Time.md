@@ -26,7 +26,7 @@
 ## 実行時に igTree でイベント ハンドラーをアタッチ
 #### 実行時にイベント ハンドラーをアタッチ (概要)
 
-MVC ヘルパー内ではイベント ハンドラーを定義できないので、MVC ヘルパーを使用するときは、実行時にイベント ハンドラーを割り当てる必要があります。
+HTML ヘルパー内ではイベント ハンドラーを定義できないので、%%ProductNameMVC%% を使用するときは、実行時にイベント ハンドラーを割り当てる必要があります。
 
 jQuery はイベント ハンドラーの割り当てるための以下のメソッドをサポートします。
 
@@ -58,7 +58,7 @@ $(document).delegate(".selector", "igtreedragstart", function(evt, ui) {
 
 - [jQuery における初期設定時のドラッグ アンド ドロップ イベントの処理 (igTree)](igTree-Drag-and-Drop-Handling-Events-Initialization.html): ここでは、コード例とともに、jQuery における初期設定時に `igTree` コントロールにイベント ハンドラーをアタッチする方法を説明します。
 
-- [API リンク (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): ここでは、`igTree` jQuery と ASP.NET MVC ヘルパー API までのリンクを紹介します。
+- [API リンク (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): ここでは、`igTree` jQuery と MVC API までのリンクを紹介します。
 
 
 ### サンプル

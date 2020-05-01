@@ -19,7 +19,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
-- [%%ProductName%%® の概要](NetAdvantage-for-jQuery-Overview.html): このトピックは、%%ProductName%% 製品の主な機能とメリットを説明します。
+- [%%ProductName%%® の概要](IgniteUI-for-jQuery-Overview.html): このトピックは、%%ProductName%% 製品の主な機能とメリットを説明します。
 
 
 ### このトピックの内容
@@ -652,7 +652,7 @@ toolTip オプションはツールチップを管理します。
 
 以下のトピックでは、このトピックに関連する追加情報を提供しています。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールのための jQuery と ASP.NET MVC ヘルパー クラスのAPIドキュメントへのリンクを提供します。
+- [jQuery と MVC API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールのための jQuery と ASP.NET MVC ヘルパー クラスのAPIドキュメントへのリンクを提供します。
 
 ### サンプル
 

@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API へのリンク (igZoombar)
+# jQuery および MVC API リファレンス リンク (igZoombar)
 
 ## igZoombar API 参照ドキュメント
 ### igZoombar API 参照ドキュメントの概要表

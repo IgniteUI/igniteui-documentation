@@ -42,7 +42,7 @@
 -   [最小値と最大値](#min-max-values)
 -   ローカライズ
 -   JavaScript クライアント API
--   ASP.NET MVC ラッパー
+-   ASP.NET MVC
 
 ## igTimePicker の Web ページへの追加
 
@@ -70,7 +70,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui.min.js")"></script>
     ```
 
-3.  jQuery の実装では、HTML 内のターゲット要素として `INPUT`、`DIV`、または `SPAN` を作成します。ASP.NET MVC の実装では、含める要素を MVC ラッパーが作成するため、この手順はオプションです。
+3.  jQuery の実装では、HTML 内のターゲット要素として `INPUT`、`DIV`、または `SPAN` を作成します。ASP.NET MVC の実装では、含める要素を %%ProductNameMVC%% が作成するため、この手順はオプションです。
 
     **HTML の場合:**
 

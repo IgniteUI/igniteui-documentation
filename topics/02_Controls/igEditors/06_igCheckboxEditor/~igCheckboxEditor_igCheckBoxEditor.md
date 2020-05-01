@@ -19,6 +19,6 @@
 
 -   [igCheckboxEditor の概要](igCheckboxEditor-Overview.html)
 -   [igCheckboxEditor のスタイルおよびテーマ設定](igCheckboxEditor-Styling-and-Theming.html)
--   [igCheckboxEditor jQuery および ASP.NET MVC ヘルパー API リンク](igCheckboxEditor-jQuery-API.html)
+-   [igCheckboxEditor jQuery および MVC API リファレンス リンク](igCheckboxEditor-jQuery-API.html)
 -   [igCheckboxEditor アクセシビリティの遵守](igCheckboxEditor-Accessibility-Compliance.html)
 -   [igCheckboxEditor の既知の問題](igCheckboxEditor-Known-Issues.html)

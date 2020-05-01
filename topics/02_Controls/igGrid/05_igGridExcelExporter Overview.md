@@ -25,7 +25,7 @@
  - エクスポート処理全体でコールバック (イベント) を提供
 
 ## 前提条件
-- [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html) - %%ProductName%%™ ライブラリについての一般的情報。  
+- [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html) - %%ProductName%%™ ライブラリについての一般的情報。  
 - [igGrid の概要](igGrid-Overview.html) - `igGrid` コントロールについての一般的情報。
 
 ## 依存関係

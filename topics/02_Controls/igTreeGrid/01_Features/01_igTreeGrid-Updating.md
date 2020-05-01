@@ -22,7 +22,7 @@
 -   [**更新の UI**](#ui)
     -   [マウス UI](#mouse)
     -   [タッチ UI](#touch)
--   [**Ignite UI CLI で更新機能が構成された igTreeGrid を追加**](#adding-using-CLI)
+-   [**%%ProductFamilyName%% CLI で更新機能が構成された igTreeGrid を追加**](#adding-using-CLI)
 -   [**更新の作業**](#working-with-updating)
      -   [更新を有効にする](#enable)
      -   [更新の構成](#configuring)
@@ -65,17 +65,17 @@
 
 ![](images/addChildTouch.png "Tree Grid Add child touch")
 
-## <a id="adding-using-CLI"></a> Ignite UI CLI で更新機能が構成された igTreeGrid を追加
+## <a id="adding-using-CLI"></a> %%ProductFamilyName%% CLI で更新機能が構成された igTreeGrid を追加
 
-更新機能が構成された新しい igTreeGrid を簡単にアプリケーションに追加するには、Ignite UI CLI を使用します。
+更新機能が構成された新しい igTreeGrid を簡単にアプリケーションに追加するには、%%ProductFamilyName%% CLI を使用します。
 
-Ignite UI CLI のインストール:
+%%ProductFamilyName%% CLI のインストール:
 
 ```
 npm install -g igniteui-cli
 ```
 
-Ignite UI CLI インストール後、Ignite UI プロジェクトを生成し、更新機能が構成された新しい igTreeGrid を追加してプロジェクトをビルドおよび公開するには、以下のコマンドを使用します。
+%%ProductFamilyName%% CLI インストール後、%%ProductName%% プロジェクトを生成し、更新機能が構成された新しい igTreeGrid を追加してプロジェクトをビルドおよび公開するには、以下のコマンドを使用します。
 
 ```
 ig new <project name>
@@ -84,7 +84,7 @@ ig add tree-grid-editing newTreeGridEditing
 ig start
 ```
  
-すべての利用可能なコマンドおよび詳細な情報については、[「Ignite UI CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
+すべての利用可能なコマンドおよび詳細な情報については、[「%%ProductFamilyName%% CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
 
 ## <a id="working-with-updating"></a> 更新の作業
 

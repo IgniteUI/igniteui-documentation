@@ -63,7 +63,7 @@
 
 - [Mobile NavBar](#mobile-navbar): NavBar ASP.NET MVC ヘルパーは外部ページや内部ページ ブロックを参照する項目メニューを定義します。
 
-- [Mobile Page, PageContent, PageFooter, PageHeader](#mobile-page): ASP.NET MVC ヘルパーでは、Razor 構文や ASPX 構文で jQuery Mobile ページを作成できます。
+- [Mobile Page, PageContent, PageFooter, PageHeader](#mobile-page): %%ProductNameMVC%% では、Razor 構文や ASPX 構文で jQuery Mobile ページを作成できます。
 
 - [Mobile Popup](#mobile-popup): Popup は、ポップアップ ウィンドウに HTML コンテンツを表示できるウィジェットです。
 

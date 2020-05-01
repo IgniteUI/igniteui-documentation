@@ -13,7 +13,7 @@
 ## ビデオ プレーヤーの概要
 %%ProductName%%™ ビデオ プレーヤー、つまり `igVideoPlayer` は HTML 5 ビデオ プレーヤーで、堅牢なクロスブラウザー ユーザー インターフェイスにより Web ページ上のビデオを描画します。ビデオ プレーヤーは HTML 5 ビデオ タグと jQuery UI フレームワークを使用してビルドされており、ブラウザーのプラグインをインストールして使用しなくても、高速ロードが可能な豊富なマルチメディア エクスペリエンスを実現します。
 
-ビデオ プレーヤーを使用する場合、さまざまな実装オプションから選択できます。このビデオ プレーヤーは、特定のサーバー バックエンドを使用せずに構成できる豊富な jQuery API を公開しています。また、Microsoft® ASP.NET MVC フレームワークを使用するデベロッパーは、ビデオ プレーヤーのサーバー側ラッパーを利用して、好みの .NET 言語を使ってコントロールを構成できます。
+ビデオ プレーヤーを使用する場合、さまざまな実装オプションから選択できます。このビデオ プレーヤーは、特定のサーバー バックエンドを使用せずに構成できる豊富な jQuery API を公開しています。また、Microsoft® ASP.NET MVC フレームワークを使用する開発者は、ビデオ プレーヤーのサーバー側ヘルパーを利用して、好みの .NET 言語を使ってコントロールを構成できます。
 
 `igVideoPlayer` をスタイル設定することによって、すべての対応ブラウザーに一貫性のある外観を提供できます。ビデオ プレーヤーは、既存のスタイル シートを活用でき、さらに jQuery UI の ThemeRoller を使用してスタイル設定することもできます。
 
@@ -35,7 +35,7 @@
 ## igVideoPlayer の Web ページへの追加
 次のステップは、jQuery クライアント コードまたは ASP.NET MVC サーバー コードのいずれかを使用して、Web ページにビデオ プレーヤーの基本的な実装を作成する方法を示します。
 
->**注:** どの実装を選択するかについて詳細は、[「%%ProductName%% の概要」](NetAdvantage-for-jQuery-Overview.html)を参照してください。
+>**注:** どの実装を選択するかについて詳細は、[「%%ProductName%% の概要」](IgniteUI-for-jQuery-Overview.html)を参照してください。
 
 **図 2: ビデオ プレーヤーの初回ビューを示す igVideoPlayer**
 
@@ -94,7 +94,7 @@
 		<script src="@Url.Content("~/scripts/infragistics.lob.js")" type="text/javascript"></script>
 	```
 
-3.  jQuery の実装では、HTML 内のターゲット要素として div または video を定義します。ASP.NET MVC の実装の場合、含める要素を MVC ラッパーが作成してくれるので、この手順はオプションです。
+3.  jQuery の実装では、HTML 内のターゲット要素として div または video を定義します。ASP.NET MVC の実装の場合、含める要素を %%ProductNameMVC%% が作成してくれるので、この手順はオプションです。
 
 	**リスト 4: igVideoPlayer で使用するために定義されたベース DIV 要素**
 
@@ -246,7 +246,7 @@
 
 ## 関連リンク
 -   [igVideoPlayer 基本的な使用方法サンプル](%%SamplesUrl%%/video-player/basic-usage)
--   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 -   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 -   [%%ProductName%% での JavaScript ファイル](Deployment-Guide-JavaScript-Files.html)
 -   [igVideoPlayer の HTML5 ビデオとの連携](igVideoPlayer-Working-with-HTML5-Video.html)

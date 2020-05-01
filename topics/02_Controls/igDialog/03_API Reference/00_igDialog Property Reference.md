@@ -888,7 +888,7 @@
 
 ## <a id="mvc"></a> MVC メソッド リファレンス
 
-以下の表は、`igDialog` *MVC ラッパーの*ダイアログの目的と機能をまとめたものです。MVC ラッパーがない [`mainElement`](%%jQueryApiUrl%%/ui.igDialog#options:mainElement) と [`temporaryUrl`](%%jQueryApiUrl%%/ui.igDialog#options:temporaryUrl) を除くほとんどのメソッドは、jQuery プロパティに対応します。対応する igDialog プロパティがない MVC メソッドには、これ以外にも、[`ContentJquerySelector`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentJquerySelector.html)、[`ContentID`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentID.html)、[`ID`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ID.html)、[`ContentHTML`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogWrapper~ContentHTML.html) などがあります。
+以下の表は、* %%ProductNameMVC%% * `Dialog` の目的と機能をまとめたものです。[`mainElement`](%%jQueryApiUrl%%/ui.igDialog#options:mainElement) と [`temporaryUrl`](%%jQueryApiUrl%%/ui.igDialog#options:temporaryUrl) を除くほとんどのメソッドは、jQuery プロパティに対応します。対応する igDialog プロパティがない MVC メソッドには、これ以外にも、[`ContentJquerySelector`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentJquerySelector.html)、[`ContentID`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentID.html)、[`ID`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ID.html)、[`ContentHTML`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogWrapper~ContentHTML.html) などがあります。
 
 <table class="table table-striped">
 	<tbody>
@@ -924,7 +924,7 @@
 			</td>
 
 			<td>
-				<p>このプロパティは、ラッパーからレンダリングする igDialog ウィジェットのセレクターを定義します。このセレクターは jQuery のみのウィジェットを作成するときと同じセレクターにしてください。たとえば、HTML プレースホルダーの ID が “igDialog1” の場合、<a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentJquerySelector.html">ContentJquerySelector</a> の値は 「#igDialog」になります。次に、ラッパーは以下のコードをレンダリングします。</p>
+				<p>このプロパティは、%%ProductNameMVC%% Dialog のセレクターを定義します。このセレクターは jQuery のみのウィジェットを作成するときと同じセレクターにしてください。たとえば、HTML プレースホルダーの ID が “igDialog1” の場合、<a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentJquerySelector.html">ContentJquerySelector</a> の値は 「#igDialog」になります。次に、%%ProductNameMVC%% は以下のコードをレンダリングします。</p>
 
 				<p>$(“#igDialog”).igDialog();</p>
 			</td>
@@ -944,7 +944,7 @@
 			</td>
 
 			<td>
-				<p>このプロパティは、MVC ラッパーからレンダリングする igDialog ウィジェットのセレクターを定義します。<a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentJquerySelector.html">ContentJquerySelector</a> プロパティと違って、渡す情報は # を除いた HTML プレースホルダーの ID だけです。ラッパーはウィジェットを自動的にレンダリングします。<a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentID.html">ContentID</a> の値が「igDialog」の場合、先のプロパティと同様の結果が得られます。</p>
+				<p>このプロパティは、%%ProductNameMVC%% Dialog のセレクターを定義します。<a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentJquerySelector.html">ContentJquerySelector</a> プロパティと違って、渡す情報は # を除いた HTML プレースホルダーの ID だけです。%%ProductNameMVC%% はウィジェットを自動的にレンダリングします。<a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogModel~ContentID.html">ContentID</a> の値が「igDialog」の場合、先のプロパティと同様の結果が得られます。</p>
 
 				<p>$(“#igDialog”).igDialog();</p>
 			</td>
@@ -964,7 +964,7 @@
 			</td>
 
 			<td>
-				<p>このプロパティは、MVC ラッパーからレンダリングする igDialog ウィジェットのセレクターを定義します。このプロパティは <a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogWrapper~ContentID.html">ContentID</a> プロパティとまったく同じ働きをします。パラメーターでは同じフォーマットを使用し、同じコードをレンダリングします。</p>
+				<p>このプロパティは、%%ProductNameMVC%% Dialog のセレクターを定義します。このプロパティは <a href="Infragistics.Web.Mvc~Infragistics.Web.Mvc.DialogWrapper~ContentID.html">ContentID</a> プロパティとまったく同じ働きをします。パラメーターでは同じフォーマットを使用し、同じコードをレンダリングします。</p>
 			</td>
 		</tr>
 
@@ -982,7 +982,7 @@
 			</td>
 
 			<td>
-				<p>このプロパティでは、ラッパーの一部として igDialog の HTML プレースホルダーを定義できます。この HTML コードは、igDialog のコンテンツになります。</p>
+				<p>このプロパティでは、%%ProductNameMVC%% Dialog の一部として igDialog の HTML プレースホルダーを定義できます。この HTML コードは、igDialog のコンテンツになります。</p>
 			</td>
 		</tr>
 
@@ -1224,7 +1224,7 @@
 
 				<p>値が false の場合、ウィンドウはマウスのダブル クリックに反応しません。一方、値が true のときは反応します。「auto」状態の場合、ダブルクリックで igDialog が反応するのはヘッダーのアイコンが最大化されているときだけです。</p>
 
-				<p>「Auto」はデフォルト状態ですが、MVC ラッパーで動的に変更することはできません。</p>
+				<p>「Auto」はデフォルト状態ですが、%%ProductNameMVC%% で動的に変更することはできません。</p>
 			</td>
 		</tr>
 

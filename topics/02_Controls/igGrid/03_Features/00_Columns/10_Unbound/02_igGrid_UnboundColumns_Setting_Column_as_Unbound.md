@@ -141,7 +141,7 @@ namespace UnboundColumns.Models
 .Render())
 ```
 
-View はモデル `IQueryable<UnboundColumns.Models.Employee>` で厳密に型指定されています。グリッド MVC ラッパーは、このモデルを使用してデータをバインドします。コードは、キー `FullName` を持つ 1 つの非バインド列でグリッドを構成し、キー `EmployeeFullName` を持つ `ViewData` 変数で値を提供します。
+View はモデル `IQueryable<UnboundColumns.Models.Employee>` で厳密に型指定されています。%%ProductNameMVC%% Grid は、このモデルを使用してデータをバインドします。コードは、キー `FullName` を持つ 1 つの非バインド列でグリッドを構成し、キー `EmployeeFullName` を持つ `ViewData` 変数で値を提供します。
 
 コントローラー:
 

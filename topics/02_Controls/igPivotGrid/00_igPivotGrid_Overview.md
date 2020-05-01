@@ -189,7 +189,7 @@ igGrid の以下の機能は gridOptions.[features](%%jQueryApiUrl%%/ui.igPivotG
 
 ### 要件の概要
 
-`igPivotGrid` コントロールは jQuery UI ウィジェットであるため、jQuery と jQuery の UI ライブラリに依存します。Modernzr ライブラリは、内部的にブラウザーと装置の機能を検出するためにも使用されています。コントロールは、その機能のために通常いくつかの %%ProductName%% 共有リソースを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
+`igPivotGrid` コントロールは jQuery UI ウィジェットであるため、jQuery と jQuery の UI ライブラリに依存します。Modernzr ライブラリは、内部的にブラウザーと装置の機能を検出するためにも使用されています。コントロールは、その機能のために通常いくつかの %%ProductName%% 共有リソースを使用します。これらのリソースへの参照は、実際の jQuery または %%ProductNameMVC%% が使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
 
 `igPivotGrid` コントロールを使用した必要なリソースの詳細なリストについては、「[igPivotView の HTML ページへの追加](igPivotView-Adding-to-HTML-Page.html)」を参照してください。
 

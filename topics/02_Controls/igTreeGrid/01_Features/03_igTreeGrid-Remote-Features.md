@@ -39,16 +39,15 @@
 
 リモート操作を実行できる機能として、**並べ替え**、**フィルタリング**、**ページング**がサポートされています。
 
-リモート機能を使用するには、並べ替え、フィルター、ページング機能を実行するコントローラー アクション メソッドが TreeGridDataSourceAction 属性を持つ必要があります。それだけを実装します。TreeGridDataSourceAction はその他の実装を処理します。その場合、要求は %%ProductName%% グリッドの MVC ラッパーによって処理されます。パラメーターを自動的に要求に追加し、適切な書式設定でデータを返します。 
+リモート機能を使用するには、並べ替え、フィルター、ページング機能を実行するコントローラー アクション メソッドが TreeGridDataSourceAction 属性を持つ必要があります。それだけを実装します。TreeGridDataSourceAction はその他の実装を処理します。その場合、要求は %%ProductNameMVC%% Grid によって処理されます。パラメーターを自動的に要求に追加し、適切な書式設定でデータを返します。 
 
 ```csharp
-
-		[TreeGridDataSourceAction]
-		public ActionResult GetData()
-		{
-			List<MyEmployeeHierarchical> emp = GenerateEmployees();
-			return View("Index", emp.AsQueryable());
-		}
+	[TreeGridDataSourceAction]
+	public ActionResult GetData()
+	{
+		List<MyEmployeeHierarchical> emp = GenerateEmployees();
+		return View("Index", emp.AsQueryable());
+	}
 ```
 
 リモート機能のその他の利点は、展開状態がユーザー操作間で永続化されることです。たとえば、ユーザーが最初のページでノードを展開し、2 番目のページに移動し、最初のページに戻る場合、最初のページのノードの展開状態が永続化されます。フィルターまたは並べ替え機能と同じです。 
@@ -60,20 +59,20 @@
 
 要求をバックエンドで動的に処理する場合、操作の論理順序を保存する必要があります。たとえば、フィルターのデータ変換を最初に適用して、次に並べ替えを実行して、ページ サイズの変更を最後に実行できます。
 
-### <a id="flat-data"></a> MVC ラッパーでフラット データへのバインド
+### <a id="flat-data"></a> %%ProductNameMVC%% でフラット データへのバインド
 
 igTreeGrid が MVC ラッパーによってフラット自己参照データにバインドできます。親子関係は PrimaryKey および ForeignKey オプションによって定義されます。フラット データは、クライアント側に送信される前に、PrimaryKey および ForeignKey の関係に基づいて内部に階層データに解析されます。データの自己参照表にバインドし、階層構造に変換しない場合に便利です。
 
 ただし、このデータ変換はパフォーマンスに影響します。特定の操作でデータ ソースへのリモート要求をトリガーするリモート機能と結合すると特にパフォーマンスに影響します。この場合にパフォーマンスを最適化するには、フラット データを階層データに一度変換できます。 TreeGridModel の公開用 TransformFlatToHierarchicalData メソッドを使用して、次の要求に使用するためにデータをキャッシュします。 
 
-```
-		public ActionResult GetData()
-		{
-			TreeGridModel model = GetTreeGridModel();
-            IQueryable<Employee> empl = GetEmployeeData();
-			IList data = model.TransformFlatToHierarchicalData(empl);
-			...
-		}
+```csharp
+	public ActionResult GetData()
+	{
+		TreeGridModel model = GetTreeGridModel();
+		IQueryable<Employee> empl = GetEmployeeData();
+		IList data = model.TransformFlatToHierarchicalData(empl);
+		...
+	}
 ```
 > 注: このシナリオで、ChildDataKey オプションを現在のデータ モデルの ICollection 型の既存のオブジェクトに設定することが必要です。更に、ForeignKey 値に基づいてルート行として操作するデータ ソースの行を指定する ForeignKeyRootValue オプションを設定する必要があります。
 

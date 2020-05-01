@@ -29,7 +29,7 @@
 -   検証
 -   ローカライズ
 -   JavaScript クライアント API
--   ASP.NET MVC ラッパー
+-   ASP.NET MVC
 -   最小値と最大値
 
 
@@ -48,9 +48,9 @@ $('#currencyEditor').igCurrencyEditor({
 ```
 ![](images/igCurrencyEditor_PositivePattern.png)
 
-## Ignite UI CLI を使用して igCurrencyEditor の追加
+## %%ProductFamilyName%% CLI を使用して igCurrencyEditor の追加
 
-新しい igCurrencyEditor を簡単にアプリケーションに追加するには、Ignite UI CLI を使用します。新しいアプリケーションを作成した後、以下のコマンドを実行すると、通貨エディターがプロジェクトに追加されます。
+新しい igCurrencyEditor を簡単にアプリケーションに追加するには、%%ProductFamilyName%% CLI を使用します。新しいアプリケーションを作成した後、以下のコマンドを実行すると、通貨エディターがプロジェクトに追加されます。
 
 ```
    ig add currency-editor newCurrencyEditor 
@@ -58,7 +58,7 @@ $('#currencyEditor').igCurrencyEditor({
 
 このコマンドは、アプリケーションが Angular、React、または jQuery に関係なく新しい通貨エディターを追加します。
 
-すべての利用可能なコマンドおよび詳細な情報については、「[Ignite UI CLI の使用](Using-Ignite-UI-CLI.html)」のトピックを参照してください。
+すべての利用可能なコマンドおよび詳細な情報については、「[%%ProductFamilyName%% CLI の使用](Using-Ignite-UI-CLI.html)」のトピックを参照してください。
 
 ## igCurrencyEditor の Web ページへの追加
 
@@ -91,7 +91,7 @@ $('#currencyEditor').igCurrencyEditor({
     <script type="text/javascript" src="@Url.Content("~/Scripts/Samples/modules/i18n/regional/infragistics.ui.regional-en.js")"></script>
     ```
 
-3.  jQuery の実装のみの場合、HTML 内のターゲット要素として INPUT、DIV、または SPAN の作成から開始します。ASP.NET MVC の実装では、含める要素を MVC ラッパーが作成するため、この手順はオプションです。    
+3.  jQuery の実装のみの場合、HTML 内のターゲット要素として INPUT、DIV、または SPAN の作成から開始します。ASP.NET MVC の実装では、含める要素を %%ProductNameMVC%% が作成するため、この手順はオプションです。    
 
     **HTML の場合:**
 
@@ -124,7 +124,7 @@ $('#currencyEditor').igCurrencyEditor({
 ## 関連リンク
 
 -   [通貨エディター サンプル](%%SamplesUrl%%/editors/currency-editor)
--   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 -   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
  

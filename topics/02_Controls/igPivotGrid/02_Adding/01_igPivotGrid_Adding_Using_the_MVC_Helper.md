@@ -16,7 +16,7 @@
 
 ### 目的
 
-このトピックは、 ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションへ `igPivotGrid`™ コントロールを追加する方法について概念と詳しい手順の両方から説明します。
+このトピックは、ASP.NET MVC アプリケーションへ `igPivotGrid`™ コントロールを追加する方法について概念と詳しい手順の両方から説明します。
 
 ### 前提条件
 
@@ -50,7 +50,7 @@
 
 ### <a id="overview-summary"></a>igPivotGrid の ASP.NET MVC アプリケーションへの追加のサマリー
 
-`igPivotGrid` は、ASP.NET MVC ヘルパーを伴うクライアント側コンポーネントで、MVC ビューの CS/VB コードでコンポーネントを使用できます。View のモデル (`igOlapFlatDataSource`™を使用) からデータを実行することも可能です。`igPivotGrid` に ASP.NET MVC ヘルパーを使用する場合、データのバインド方法は 2 通りあります。
+`igPivotGrid` は、%%ProductNameMVC%% の実装を伴うクライアント側コンポーネントで、MVC ビューの CS/VB コードでコンポーネントを使用できます。View のモデル (`igOlapFlatDataSource`™を使用) からデータを実行することも可能です。`igPivotGrid` に ASP.NET MVC ヘルパーを使用する場合、データのバインド方法は 2 通りあります。
 
 -   データ ソースを構成する方法
 
@@ -185,9 +185,9 @@
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
 
-- [igOlapFlatDataSource を ASP.NET MVC アプリケーションに追加](igOlapFlatDataSource-Adding-Using-MVC-Helper.html): このトピックは、 ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションへ `igOlapFlatDataSource` コントロールを追加する方法についての概念と詳しい手順を説明します。
+- [igOlapFlatDataSource を ASP.NET MVC アプリケーションに追加](igOlapFlatDataSource-Adding-Using-MVC-Helper.html): このトピックは、%%ProductNameMVC%%を使用して ASP.NET MVC アプリケーションへ `igOlapFlatDataSource` コントロールを追加する方法についての概念と詳しい手順を説明します。
 
-- [igOlapXmlaDataSource の ASP.NET MVC アプリケーションへの追加](igOlapXmlaDataSource-Adding-to-an-ASPNETMVC-Application.html): このトピックは、 ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションへ `igOlapXmlaDataSource` コントロールを追加する方法についての概念と詳しい手順を説明します。
+- [igOlapXmlaDataSource の ASP.NET MVC アプリケーションへの追加](igOlapXmlaDataSource-Adding-to-an-ASPNETMVC-Application.html): このトピックは、%%ProductNameMVC%%を使用して ASP.NET MVC アプリケーションへ `igOlapXmlaDataSource` コントロールを追加する方法についての概念と詳しい手順を説明します。
 
 - [igPivotDataSelector の概要](igPivotDataSelector-Overview.html): このトピックは、主要機能、最小要件、ユーザー機能性など、`igPivotDataSelector`™ コントロールに関する概念的な情報を提供します。
 
@@ -198,9 +198,9 @@
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [ASP.NET MVC ヘルパーと XMLA データ ソースの使用](%%SamplesUrl%%/pivot-grid/using-the-asp-net-mvc-helper-with-xmla-data-source): このサンプルは、`igOlapXmlaDataSource` コントロールのための ASP.NET MVC ヘルパーを利用した、`igPivotDataSelector` コントロールと `igPivotGrid` コントロールの使用方法を示します。
+- [%%ProductNameMVC%% と XMLA データ ソースの使用](%%SamplesUrl%%/pivot-grid/using-the-asp-net-mvc-helper-with-xmla-data-source): このサンプルは、`igOlapXmlaDataSource` コントロールのための ASP.NET MVC ヘルパーを利用した、`igPivotDataSelector` コントロールと `igPivotGrid` コントロールの使用方法を示します。
 
-- [ASP.NET MVC ヘルパーとフラット データ ソースの使用](%%SamplesUrl%%/pivot-grid/using-the-asp-net-mvc-helper-with-flat-data-source): このサンプルは、`igOlapFlatDataSource` コントロールのための ASP.NET MVC ヘルパーを利用した、`igPivotDataSelector` コントロールと `igPivotGrid` コントロールの使用方法を示します。
+- [%%ProductNameMVC%% とフラット データ ソースの使用](%%SamplesUrl%%/pivot-grid/using-the-asp-net-mvc-helper-with-flat-data-source): このサンプルは、`igOlapFlatDataSource` コントロールのための ASP.NET MVC ヘルパーを利用した、`igPivotDataSelector` コントロールと `igPivotGrid` コントロールの使用方法を示します。
 
 
 

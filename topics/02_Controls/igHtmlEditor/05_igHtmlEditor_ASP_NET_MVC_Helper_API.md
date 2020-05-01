@@ -38,7 +38,7 @@
 
 -	[igHtmlEditor jQuery API](%%jQueryApiUrl%%/ui.igHtmlEditor): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
 
--	[igHtmlEditor ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.HtmlEditorModel.html): このマニュアルには、 HtmlEditorModel クラス定義とそのメンバーの全リストが含まれています。
+-	[igHtmlEditor MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.HtmlEditorModel.html): このマニュアルには、 HtmlEditorModel クラス定義とそのメンバーの全リストが含まれています。
 
 ##関連コンテンツ
 

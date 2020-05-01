@@ -20,7 +20,7 @@
 
 以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
 
-- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックは、タッチ対話をサポートするために行われた %%ProductName%% コントロールの更新を紹介します。
+- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-IgniteUI-for-jQuery-Controls.html): このトピックは、タッチ対話をサポートするために行われた %%ProductName%% コントロールの更新を紹介します。
 
 - [igGrid 選択](igGrid-Selection-Overview.html): このトピックでは、`igGrid` 選択の有効化と使用法を説明します。
 
@@ -113,7 +113,7 @@
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックは、タッチ対話をサポートするために行われた %%ProductName%% コントロールの更新を紹介します。
+- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-IgniteUI-for-jQuery-Controls.html): このトピックは、タッチ対話をサポートするために行われた %%ProductName%% コントロールの更新を紹介します。
 
 - [igGrid 選択](igGrid-Selection-Overview.html): このトピックでは、`igGrid` 選択の有効化と使用法を説明します。
 

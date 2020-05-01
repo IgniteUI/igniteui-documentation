@@ -37,7 +37,7 @@
 [スワイプ ジェスチャのサポート](#SwipeGesture) |スワイプ ジェスチャのサポートがありません。 |![](images/negative.png)
 [予定ポップオーバーへの Tab ナビゲーション](#NavigationToAppointmentPopover) |予定ポップオーバーへの Tab ナビゲーションがありません。 |![](images/negative.png)
 [サポートされる最小幅は 320 px](#MinWidthSupport) |モバイル デバイスでサポートされる最小幅は 320 px です。 |![](images/negative.png)
-[MVC ラッパーで views オプションの設定](#MVCWrappers) | MVC ラッパーで views オプションの設定に影響しません。  |![](images/plannedFix.png)
+[%%ProductNameMVC%% で views オプションの設定](#MVCWrappers) | ASP.NET MVC MVC で views オプションの設定に影響しません。  |![](images/plannedFix.png)
 
 
 ## 既知の問題点と制限の詳細
@@ -86,7 +86,7 @@ igScheduler はローカル データ ソースのみを処理します。
 
 以後のリリースで、最小解像度に到達した場合に表示されるメッセージを追加します。
 
-### <a id="MVCWrappers"></a>MVC ラッパー views オプションの制限
+### <a id="MVC"></a>%%ProductNameMVC%% views オプションの制限
 
-MVC ラッパーで公開される `views` オプションを使用して初期化されるビュー (`Agenda`、`Week`、`Day`、`Month`) を制御できません。次バージョンのスケジューラで実際予定です。
+%%ProductNameMVC%% で公開される `views` オプションを使用して初期化されるビュー (`Agenda`、`Week`、`Day`、`Month`) を制御できません。次バージョンのスケジューラで実際予定です。
 

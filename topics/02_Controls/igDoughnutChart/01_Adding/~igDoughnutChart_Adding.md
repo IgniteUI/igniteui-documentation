@@ -20,7 +20,7 @@
 
 - [*igDoughnutChart* の HTML ページへの追加](igDoughnutChart-Adding-to-an-HTML-Page.html): このトピックは、`igDoughnutChart` を HTML ページに追加する方法を説明します。
 
-- [ASP.NET MVC アプリケーションへの *igDoughnutChart* の追加](igDoughnutChart-Adding-Using-the-MVC-Helper.html): このトピックでは、ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに `igDoughnutChart` のインスタンスを作成する方法を紹介します。
+- [ASP.NET MVC アプリケーションへの *igDoughnutChart* の追加](igDoughnutChart-Adding-Using-the-MVC-Helper.html): このトピックでは、%%ProductNameMVC%% を使用して ASP.NET MVC アプリケーションに `igDoughnutChart` のインスタンスを作成する方法を紹介します。
 
 
 

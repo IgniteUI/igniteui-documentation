@@ -260,7 +260,7 @@ uniformToFill|![](images/igQRCodeBarcode_Configuring_the_Dimensions_of_the_QR_Co
 
 - [文字エンコードの構成 (igQRCodeBarcode)](igQRCodeBarcode-Configuring-the-Character-Encoding.html): このトピックは、`igQRCodeBarcode` コントロールで文字エンコードを任意に構成する方法を説明します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): このトピックでは、`igQRCodeBarcode` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): このトピックでは、`igQRCodeBarcode` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 
 ### <a id="samples"></a>サンプル
 

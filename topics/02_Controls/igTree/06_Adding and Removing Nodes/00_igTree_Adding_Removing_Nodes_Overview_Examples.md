@@ -196,7 +196,7 @@ if (nodeValue) {
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [API リンク (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): ここでは、`igTree` jQuery と ASP.NET MVC ヘルパー API までのリンクを紹介します。
+- [API リンク (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): ここでは、`igTree` jQuery と MVC API までのリンクを紹介します。
 
 - [ノードの追加/削除メソッド API のリファレンス (igTree)](igTree-Adding-Removing-Node-Method-API-Reference.html): ここでは、`igTree` コントロールのノードを追加、削除するメソッドのリファレンスを紹介します。
 

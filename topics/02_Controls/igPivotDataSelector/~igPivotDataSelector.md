@@ -32,7 +32,7 @@
 
 - [既知の問題と制限 (igPivotDataSelector)](igPivotDataSelector-Known-Issues-and-Limitations.html): このトピックでは、`igPivotDataSelector` コントロールの既知の問題点および制限に関する情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igPivotDataSelector)](igPivotDataSelector-API-Links.html): このトピックでは、`igPivotDataSelector` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクの一覧を示します。
+- [jQuery と MVC API リンク (igPivotDataSelector)](igPivotDataSelector-API-Links.html): このトピックでは、`igPivotDataSelector` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクの一覧を示します。
 
 
 

@@ -15,7 +15,7 @@
 
 %%ProductName%%™ 数値エディター、つまり `igNumericEditor` は `dataMode` 値で決定された数値のみを受け付ける入力フィールドを描画するコントロールです。`igNumericEditor` コントロールは、ブラウザーから公開される異なる地域のオプションを認識することにより、ローカライズをサポートします。
 
-`igNumericEditor` コントロールは、任意のサーバー技術を使用する作業を構成できる豊富なクライアント側 API を公開します。%%ProductName%%™ のコントロールはサーバー非依存ですが、Microsoft® ASP.NET MVC Framework 専用のラッパーが機能するコントロールでは、希望する .NET™ 言語を使用してコントロールを構成できます。
+`igNumericEditor` コントロールは、任意のサーバー技術を使用する作業を構成できる豊富なクライアント側 API を公開します。%%ProductName%%™ のコントロールはサーバー非依存ですが、Microsoft® ASP.NET MVC Framework 専用の %%ProductNameMVC%% の一部として含まれるコントロールでは、希望する .NET™ 言語を使用して構成できます。
 
 `igNumericEditor` コントロールは、大幅にスタイル変更ができるため、デフォルトのスタイルとまったく異なるルック アンド フィールのコントロールを実現できます。スタイル設定オプションでは、独自のスタイルも jQuery UI の ThemeRoller のスタイルも使用できます。
 
@@ -34,12 +34,12 @@
 -   検証
 -   異なるデータ モード
 -   JavaScript クライアント API
--   ASP.NET MVC ラッパー
+-   ASP.NET MVC
 -   最小値と最大値
 
-## Ignite UI CLI を使用して igNumericEditor の追加
+## %%ProductFamilyName%% CLI を使用して igNumericEditor の追加
 
-新しい igNumericEditor を簡単にアプリケーションに追加するには、Ignite UI CLI を使用します。新しいアプリケーションを作成した後、以下のコマンドを実行すると、数値エディターがプロジェクトに追加されます。
+新しい igNumericEditor を簡単にアプリケーションに追加するには、%%ProductFamilyName%% CLI を使用します。新しいアプリケーションを作成した後、以下のコマンドを実行すると、数値エディターがプロジェクトに追加されます。
 
 ```
    ig add numeric-editor newNumericEditor
@@ -47,7 +47,7 @@
 
 このコマンドは、アプリケーションが Angular、React、または jQuery に関係なく新しい数値エディターを追加します。
 
-すべての利用可能なコマンドおよび詳細な情報については、「[Ignite UI CLI の使用](Using-Ignite-UI-CLI.html)」のトピックを参照してください。
+すべての利用可能なコマンドおよび詳細な情報については、「[%%ProductFamilyName%% CLI の使用](Using-Ignite-UI-CLI.html)」のトピックを参照してください。
 
 ##igNumericEditor の Web ページへの追加
 
@@ -81,7 +81,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Samples/modules/i18n/regional/infragistics.ui.regional-en.js")"></script>
     ```
 
-3.  jQuery の実装では、HTML 内のターゲット要素として INPUT、DIV、または SPAN を作成します。ASP.NET MVC の実装では、含める要素を MVC ラッパーが作成するため、この手順はオプションです。
+3.  jQuery の実装では、HTML 内のターゲット要素として INPUT、DIV、または SPAN を作成します。ASP.NET MVC の実装では、含める要素を %%ProductNameMVC%% が作成するため、この手順はオプションです。
 
     **HTML の場合:**
 
@@ -207,7 +207,7 @@ $('#divEditor').igNumericEditor({
 
 
 -   [基本的な使用方法サンプル](%%SamplesUrl%%/editors/basic-usage)
--   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 -   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
  

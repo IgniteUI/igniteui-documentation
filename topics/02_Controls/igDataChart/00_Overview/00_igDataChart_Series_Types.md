@@ -1236,7 +1236,7 @@ Open、High、Low、Close の略開始と終わりの値のマーキングをも
 
 -	[igDataChart の追加](igDataChart-Adding.html): このトピックでは、igDataChart コントロールを Web ページに追加し、データにバインドする方法を紹介します。
 
--	[](igDataChart-API-Links.html)[jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク (igDataChart)](igDataChart-API-Links.html): このトピックでは、 `igDataChart` の jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
+-	[](igDataChart-API-Links.html)[jQuery および MVC API リファレンス リンク (igDataChart)](igDataChart-API-Links.html): このトピックでは、 `igDataChart` の jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
 
 
 

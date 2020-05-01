@@ -67,33 +67,31 @@
 
 ### コード
 
-**HTML の場合:**
+**JavaScript の場合:**
 
-```html
-<script type="text/javascript">
-    $(function () {
-        $("#grid").igHierarchicalGrid({
-            initialDataBindDepth: 1,
-            dataSource: data,
-            dataSourceType: "json",
-            responseDataKey: "Records",
-            autoGenerateColumns: true,
-            autoGenerateLayouts: true,
-            primaryKey: "ID",
-            features: [
-                {
-                    name: "RowSelectors",
-                    inherit: true
-                },
-                {
-                    name: "Selection",
-                    multipleSelection: true,
-                    mode: "row"
-                }
-            ]
-        });
+```javascript
+$(function () {
+    $("#grid").igHierarchicalGrid({
+        initialDataBindDepth: 1,
+        dataSource: data,
+        dataSourceType: "json",
+        responseDataKey: "Records",
+        autoGenerateColumns: true,
+        autoGenerateLayouts: true,
+        primaryKey: "ID",
+        features: [
+            {
+                name: "RowSelectors",
+                inherit: true
+            },
+            {
+                name: "Selection",
+                multipleSelection: true,
+                mode: "row"
+            }
+        ]
     });
-</script>
+});
 ```
 
 **ASPX の場合:**

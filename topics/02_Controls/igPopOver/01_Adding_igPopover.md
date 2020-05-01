@@ -387,7 +387,7 @@ igPopover の構造
 
 2. `igPopover` コントロールを追加します。
 
-	`igPopover` の Loader MVC ヘルパー構成を ASP.NET MVC View に追加します。
+	`Popover` の %%ProductNameMVC%% 構成を ASP.NET MVC View に追加します。
 	
 	以下のコードは、オプションを指定せずに `igPopover` コントロールのインスタンスを作成します手順 1 で作成された入力要素「firstName」を対象にします。
 	
@@ -416,7 +416,7 @@ igPopover の構造
 
 - [既知の問題と制限事項 (igPopover)](igPopover-Known-Issues-And-Limitations.html): このトピックでは、`igPopover` コントロールの既知の問題と制限事項および回避策についての情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igPopover)](igPopover-ASP-NET-MVC-Helper-API.html): このトピックでは、`igPopover` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
+- [jQuery と MVC API リンク (igPopover)](igPopover-ASP-NET-MVC-Helper-API.html): このトピックでは、`igPopover` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
 
 
 

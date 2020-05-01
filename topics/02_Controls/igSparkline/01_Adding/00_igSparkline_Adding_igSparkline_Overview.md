@@ -68,7 +68,7 @@
 
 - [igSparkline を ASP.NET MVC ビューに追加](igSparkline-Adding-igSparkline-to-an-ASPNET-MVC-View.html): このトピックでは、ASP.NET MVC ビューでの `igSparkline` インスタンス作成とオブジェクトの .NET コレクションへのバインドを見てみます。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールのための jQuery と ASP.NET MVC ヘルパー クラスのAPIドキュメントへのリンクを提供します。
+- [jQuery と MVC API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールのための jQuery と ASP.NET MVC ヘルパー クラスのAPIドキュメントへのリンクを提供します。
 
 ### サンプル
 

@@ -29,7 +29,7 @@
 
 - [igRadialMenu の構成](igRadialMenu-Configuring.html): このセクションのトピックでは、`igRadialMenu` の構成について追加の情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リファレンス (igRadialMenu)](igRadialMenu-API-Reference.html): このトピックでは、`igRadialMenu` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクを提供します。
+- [jQuery と MVC API リファレンス リンク (igRadialMenu)](igRadialMenu-API-Reference.html): このトピックでは、`igRadialMenu` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクを提供します。
 
 
 

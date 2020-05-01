@@ -20,7 +20,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
-- [必要なリソースの手動で追加する](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html): このトピックは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
+- [必要なリソースの手動で追加する](Adding-the-Required-Resources-for-IgniteUI-for-jQuery.html): このトピックは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
 
 - [*igDoughnutChart* の概要](igDoughnutChart-Overview.html): このトピックは、`igDoughnutChart` コントロールの概要を説明します。
 
@@ -173,7 +173,7 @@
 								infragistics.ui.widget.js
                             </td>
 							<td>
-								すべての Ignite UI ウィジェットの基本 igWidget。
+								すべての %%ProductName%% ウィジェットの基本 igWidget。
 							</td>
 						</tr>
 						
@@ -544,9 +544,9 @@
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [ASP.NET MVC アプリケーションへの *igDoughnutChart* の追加](igDoughnutChart-Adding-Using-the-MVC-Helper.html): このトピックでは、ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに `igDoughnutChart` のインスタンスを作成する方法を紹介します。
+- [ASP.NET MVC アプリケーションへの *igDoughnutChart* の追加](igDoughnutChart-Adding-Using-the-MVC-Helper.html): このトピックでは、%ProductNameMVC%% を使用して ASP.NET MVC アプリケーションに `igDoughnutChart` のインスタンスを作成する方法を紹介します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (*igDoughnutChart*)](igDoughnutChart-API-Links.html): このトピックでは、`igDoughnutChart` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (*igDoughnutChart*)](igDoughnutChart-API-Links.html): このトピックでは、`igDoughnutChart` コントロールと %ProductNameMVC%% に関する API ドキュメントへのリンクを提供します。
 
 
 ### <a id="samples"></a> サンプル

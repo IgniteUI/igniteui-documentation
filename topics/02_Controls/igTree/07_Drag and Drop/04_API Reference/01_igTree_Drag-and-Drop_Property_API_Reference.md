@@ -554,7 +554,7 @@ Number
 
 - [ドラッグ アンド ドロップ イベント リファレンス (igTree)](igTree-Drag-and-Drop-Event-API-Reference.html): ここでは、ドラッグ アンド ドロップ機能に関する `igTree` コントロールのイベントに関するリファレンス情報を紹介します。
 
-- [API リンク (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): ここでは、`igTree` jQuery と ASP.NET MVC ヘルパー API までのリンクを紹介します。
+- [API リンク (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): ここでは、`igTree` jQuery と MVC API までのリンクを紹介します。
 
 ### サンプル
 

@@ -203,7 +203,7 @@ $("#myGrid").igGrid({
    [igGrid 詳細フィルター](%%SamplesEmbedUrl%%/grid/advanced-filtering)
 </div>
 
-リスト 6: ASP.NET MVC ラッパーで使用する Razor または CSHTML マークアップ
+リスト 6: %%ProductNameMVC%% で使用する Razor または CSHTML マークアップ
 
 
 
@@ -236,7 +236,7 @@ $("#myGrid").igGrid({
 http://<SERVER>/grid/GridGetData? filter(Name)=startsWith(a)&filter(ModifiedDate)=today()&filterLogic=AND
 ```
 
-ASP.NET MVC ラッパーを使用して LINQ (IQueryable) 経由でサーバー側データをバインドする場合、URL にエンコードされたすべてのフィルタリング情報は自動的に LINQ 式の句 (Where 句) に変換されるため、データをフィルターするのに余分な作業は必要ありません。
+%%ProductNameMVC%% を使用して LINQ (IQueryable) 経由でサーバー側データをバインドする場合、URL にエンコードされたすべてのフィルタリング情報は自動的に LINQ 式の句 (Where 句) に変換されるため、データをフィルターするのに余分な作業は必要ありません。
 
 
 ## <a id="column-settings"></a> 列の設定

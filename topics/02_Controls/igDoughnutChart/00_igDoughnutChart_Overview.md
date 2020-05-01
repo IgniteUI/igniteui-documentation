@@ -75,7 +75,7 @@
 
 - [選択と展開の構成 (*igDoughnutChart*)](igDoughnutChart-Configuring-Selection-and-Explosion.html): このトピックは、`igDoughnutChart` のスライスの選択および展開を構成する方法を説明します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (*igDoughnutChart*)](igDoughnutChart-API-Links.html): このトピックでは、`igDoughnutChart` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (*igDoughnutChart*)](igDoughnutChart-API-Links.html): このトピックでは、`igDoughnutChart` コントロールと %%ProductNameMVC%% に関する API ドキュメントへのリンクを提供します。
 
 
 
@@ -83,7 +83,7 @@
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [Collection にバインド](%%SamplesUrl%%/doughnut-chart/bind-to-collection): このサンプルは、ASP.NET MVC ヘルパーを使用して `igDoughnutChart` を描画し、サーバー上のオブジェクトのコレクションにバインドする方法を紹介します。
+- [Collection にバインド](%%SamplesUrl%%/doughnut-chart/bind-to-collection): このサンプルは、%%ProductNameMVC%%を使用して `igDoughnutChart` を描画し、サーバー上のオブジェクトのコレクションにバインドする方法を紹介します。
 
 - [JSON へのバインド](%%SamplesUrl%%/doughnut-chart/bind-json): このサンプルは、ドーナツ型チャートを JSON データにバインドする方法を紹介します。
 

@@ -31,7 +31,7 @@
 
 - [既知の問題と制限 (igOlapXmlaDataSource)](igOlapXmlaDataSource-Known-Issues-and-Limitations.html): このトピックでは、`igOlapXmlaDataSource` コンポーネントに固有の既知の問題と制限に関する情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igOlapXmlaDataSource)](igOlapXmlaDataSource-API-Links.html): このトピックは、`igOlapXmlaDataSource` コンポーネントの jQuery と ASP.NET MVC API ドキュメントへのリンクを提供します。
+- [jQuery と MVC API リンク (igOlapXmlaDataSource)](igOlapXmlaDataSource-API-Links.html): このトピックは、`igOlapXmlaDataSource` コンポーネントの jQuery と ASP.NET MVC API ドキュメントへのリンクを提供します。
 
 
 

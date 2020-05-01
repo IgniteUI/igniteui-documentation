@@ -53,9 +53,9 @@
 
 ファイルをアップロードする際に、通常サーバーで処理します。たとえば、ファイル システムに保存する前にデータベースに保存または圧縮します。
 
-ファイルのアップロード処理を有効にするには、`igUpload` の MVC ラッパーの HTTP モジュールを有効にする必要があります。このモジュールを有効にするには、プロジェクトの web.config ファイルに登録してください。正確な構成は、インストール済みのインターネット インフォメーション サービス (IIS) バージョンにより異なります。
+ファイルのアップロード処理を有効にするには、%%ProductNameMVC%% `Upload` の HTTP モジュールを有効にする必要があります。このモジュールを有効にするには、プロジェクトの web.config ファイルに登録してください。正確な構成は、インストール済みのインターネット インフォメーション サービス (IIS) バージョンにより異なります。
 
-ファイルをアップロードして正しく処理するには、`igUpload` コントロールは、ファイル サイズやアップロード状態および進行状況などファイルやアップロード処理に関するデータの一部が必要です。このデータ交換を可能にするには、`igUpload` の MVC ラッパーの HTTP モジュールを有効にする必要があります。このハンドラーを有効にするには、プロジェクトの web.config ファイルに登録してください。正確な構成は、インストール済みのインターネット インフォメーション サービス (IIS) バージョンにより異なります。
+ファイルをアップロードして正しく処理するには、`igUpload` コントロールは、ファイル サイズやアップロード状態および進行状況などファイルやアップロード処理に関するデータの一部が必要です。このデータ交換を可能にするには、%%ProductNameMVC%% `Upload` の HTTP モジュールを有効にする必要があります。このハンドラーを有効にするには、プロジェクトの web.config ファイルに登録してください。正確な構成は、インストール済みのインターネット インフォメーション サービス (IIS) バージョンにより異なります。
 
 `igUpload` コントロールは、明示的に定義されたアプリケーション設定なしで機能できます。ただし、以下のようなものを常に構成するには実施するとよいです。
 
@@ -79,22 +79,20 @@ View では、`igUpload` のクライアント側エラー処理と同様に、`
 
 以下は、ファイルをストリームとして保存するための概念的なステップです。
 
-1.  [ igUpload MVC ラッパーの HTTP モジュールを構成する](#http-module)
-2.  [ igUpload MVC ラッパーの HTTP ハンドラーを構成する](#http-handler)
-3.  [(オプション)  igUpload MVC ラッパーのアプリケーション設定を構成する](#application-settings)
+1.  [igUpload の HTTP モジュールを構成する](#http-module)
+2.  [igUpload の HTTP ハンドラーを構成する](#http-handler)
+3.  [(オプション) igUpload のアプリケーション設定を構成する](#application-settings)
 4.  [ファイル キャッシュ機能の実装](#caching-functionality)
-5.  [View で igUpload MVC ラッパーを構成する](#mvc-wrapper-view)
-6.  [コントローラーでの igUpload MVC ラッパーを構成する](#mvc-wrapper-controller)
+5.  [View で igUpload を構成する](#mvc-wrapper-view)
+6.  [コントローラーでの igUpload を構成する](#mvc-wrapper-controller)
 7.  [ igUpload サーバー側イベントを登録する](#server-side-events)
-
-
 
 ## <a id="file-processing-overview"></a>ファイル処理の概要
 ### <a id="file-processing-summary"></a>ファイル処理の要約
 
-`igUpload` MVC ラッパーは、アップロード中またはサーバー上の一時ファイルに保存された後にオンデマンドでファイルが処理されるかどうかに応じて、アップロード ファイルを処理する以下の方法を提供します。
+%%ProductNameMVC%% `Upload` は、アップロード中またはサーバー上の一時ファイルに保存された後にオンデマンドでファイルが処理されるかどうかに応じて、アップロード ファイルを処理する以下の方法を提供します。
 
--   ファイル ストリームの処理 - アップロードされたファイルは、まず `igUpload` MVC ラッパーの HTTP モジュールにより一時ファイルとして保存されます。ファイルの保存後にファイルを処理できます。このモードはファイルをサーバー ファイル システムに保存する場合に使用します。
+-   ファイル ストリームの処理 - アップロードされたファイルは、まず %%ProductNameMVC%% `Upload` の HTTP モジュールにより一時ファイルとして保存されます。ファイルの保存後にファイルを処理できます。このモードはファイルをサーバー ファイル システムに保存する場合に使用します。
 -   メモリ ストリーム処理 -  アップロードしたファイルは、アップロード時 (その後保存) またはメモリにアップロードした後のいずれかのオンデマンドで処理されます。アップロード処理により細やかなコントロールが必要である場合にこのモードを使用します (たとえばデスクやデータベースに保存する前に圧縮する場合など)。
 
 ### <a id="file-stream-processing"></a>ファイル ストリーム処理
@@ -105,15 +103,15 @@ View では、`igUpload` のクライアント側エラー処理と同様に、`
 
 ### <a id="memory-stream-processing"></a>メモリ ストリーム処理
 
-メモリ ストリーム処理を使用する場合、ファイルは手動で処理できる `MemoryStream` オブジェクトにアップロードされます。`igUpload` MVC ラッパー コンポーネントは、`MemoryStream` にアップロードするために以下のアプローチを提供します (処理するイベントやそれらのイベントの処理方法に基づく)。
+メモリ ストリーム処理を使用する場合、ファイルは手動で処理できる `MemoryStream` オブジェクトにアップロードされます。%%ProductNameMVC%% `Upload` コンポーネントは、`MemoryStream` にアップロードするために以下のアプローチを提供します (処理するイベントやそれらのイベントの処理方法に基づく)。
 
 -   (推奨) 各グループを処理します。
 
-    ファイルを手動で処理するには、FileUploading イベントを処理する必要があります。FileUploading の FileUploadingEventArgs パラメーターにタイプ バイト配列の FileChunk プロパティが必要です。(このプロパティは、現在の/最後のデータのアップロードされたﾃﾞｰﾀ群を保存します。)FileUploading はキャンセル可能なイベントであり、ファイルの一部が処理されているかどうかにかかわらず、MVC ラッパーの HTTP モジュールにフィードバックを返すために使用できます。イベントをキャンセルすることを選択するかどうかは、ファイル群を自動で処理するか手動で処理するかによります。
+    ファイルを手動で処理するには、FileUploading イベントを処理する必要があります。FileUploading の FileUploadingEventArgs パラメーターにタイプ バイト配列の FileChunk プロパティが必要です。(このプロパティは、現在の/最後のデータのアップロードされたﾃﾞｰﾀ群を保存します。) FileUploading はキャンセル可能なイベントであり、ファイルの一部が処理されているかどうかにかかわらず、Upload の HTTP モジュールにフィードバックを返すために使用できます。イベントをキャンセルすることを選択するかどうかは、ファイル群を自動で処理するか手動で処理するかによります。
 
     -   ファイルの一部を手動で処理
 
-        ファイルの一部を手動で処理する場合、イベントをキャンセルする必要があります。そのような場合、`igUpload` MVC ラッパーは、内部の MemoryStream オブジェクトに追加しません。この方法は、[アップロード済みの各ファイルの一部を処理してメモリ ストリームとしてファイルを保存 - 手順](#procedure) をご参照ください。
+        ファイルの一部を手動で処理する場合、イベントをキャンセルする必要があります。そのような場合、%%ProductNameMVC%% `Upload` は、内部の MemoryStream オブジェクトに追加しません。この方法は、[アップロード済みの各ファイルの一部を処理してメモリ ストリームとしてファイルを保存 - 手順](#procedure) をご参照ください。
 
     -   ファイルの一部を自動処理
 
@@ -178,26 +176,26 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 
 以下はプロセスの概念的概要です。
 
-1.  [ igUpload MVC ラッパーの HTTP モジュールを構成する](#http-module)
-2.  [ igUpload MVC ラッパーの HTTP ハンドラーを構成する](#http-handler)
-3.  [(オプション)  igUpload MVC ラッパーのアプリケーション設定を構成する](#application-settings)
+1.  [Upload の HTTP モジュールを構成する](#http-module)
+2.  [Upload の HTTP ハンドラーを構成する](#http-handler)
+3.  [(オプション) Upload のアプリケーション設定を構成する](#application-settings)
 4.  [ファイル キャッシュ機能の実装](#caching-functionality)
-5.  [View で igUpload MVC ラッパーを構成する](#mvc-wrapper-view)
-6.  [コントローラーでの igUpload MVC ラッパーを構成する](#mvc-wrapper-controller)
-7.  [ igUpload サーバー側イベントを登録する](#server-side-events)
+5.  [View で Upload を構成する](#mvc-wrapper-view)
+6.  [コントローラーでの Upload を構成する](#mvc-wrapper-controller)
+7.  [Upload サーバー側イベントを登録する](#server-side-events)
 8.  [(オプション) 結果の検証](#verifying-the-result)
 
 ### <a id="procedure-steps"></a>手順
 
 以下は、ファイルをメモリ ストリームとしてアップロードする方法の手順です。
 
-1. <a id="http-module"></a> `igUpload` MVC ラッパーの HTTP モジュールを構成します。
+1. <a id="http-module"></a> %%ProductNameMVC%% `Upload` の HTTP モジュールを構成します。
 
 	プロジェクトの web.config ファイルで登録することにより HTTP モジュールを有効にします。
 	
 	-   Internet Information Services (IIS) 6 の構成
 	
-	IIS 6 を構成するには、`<system.web>` セクションにおいて、web.config  ファイルの `<httpModules>` セクションで、`igUpload` MVC ラッパーの HTTP モジュールを登録します。
+	IIS 6 を構成するには、`<system.web>` セクションにおいて、web.config  ファイルの `<httpModules>` セクションで、%%ProductNameMVC%% `Upload` の HTTP モジュールを登録します。
 	
 	**XML の場合:**
 	
@@ -211,7 +209,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 	
 	-   IIS 7 の構成
 	
-	IIS 7 を構成するには、`<system.webServer>` セクションにおいて、web.config  ファイルの `<modules>` セクションで、`igUpload` MVC ラッパーの HTTP モジュールを登録します。
+	IIS 7 を構成するには、`<system.webServer>` セクションにおいて、web.config  ファイルの `<modules>` セクションで、%%ProductNameMVC%% `Upload`の HTTP モジュールを登録します。
 	
 	**XML の場合:**
 	
@@ -224,13 +222,13 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 	</system.webServer>
 	```
 
-2. <a id="http-handler"></a>`igUpload` MVC ラッパーの HTTP ハンドラーを構成します。
+2. <a id="http-handler"></a>%%ProductNameMVC%% `Upload`の HTTP ハンドラーを構成します。
 
 	プロジェクトの web.config ファイルで登録することにより HTTP モジュールを有効にします。
 	
 	-   IIS 6 の構成
 	
-	IIS 6 を構成するには、`<system.web>` セクションにおいて、web.config  ファイルの `<httpHandlers>` セクションで、`igUpload` MVC ラッパーの HTTP ハンドラーを登録します。
+	IIS 6 を構成するには、`<system.web>` セクションにおいて、web.config  ファイルの `<httpHandlers>` セクションで、%%ProductNameMVC%% `Upload`の HTTP ハンドラーを登録します。
 	
 	**XML の場合:**
 	
@@ -245,7 +243,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 	
 	-   IIS 7 の構成
 	
-	IIS 7 を構成するには、`<system.webServer>` セクションにおいて、web.config  ファイルの `<handlers>` セクションで、`igUpload` MVC ラッパーの HTTP ハンドラーを登録します。
+	IIS 7 を構成するには、`<system.webServer>` セクションにおいて、web.config  ファイルの `<handlers>` セクションで、%%ProductNameMVC%% `Upload`の HTTP ハンドラーを登録します。
 	
 	**XML の場合:**
 	
@@ -258,7 +256,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 	</system.webServer>
 	```
 
-3. <a id="application-settings"></a>`igUpload` MVC ラッパーのアプリケーション設定を構成します。
+3. <a id="application-settings"></a>%%ProductNameMVC%% `Upload`のアプリケーション設定を構成します。
 
 	アプリケーション設定を構成します。
 	
@@ -420,7 +418,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**G.** メソッドを構成して キャッシュからストリームを取得します。
 		
-		GetStreamFromCache 静的メソッドを定義します。この静的メソッドは、指定したキーで MemoryStream を返します。これを行うには、`Dictionary<string, MemoryStream>` オブジェクトを ASP.NET キャッシュに管理します。ディクショナリは、現在アップロードしているファイルのデータを保留します。「[コントローラーで `igUpload` MVC ラッパーを構成する](#mvc-wrapper-controller)」セクションを参照すると、ファイル全体をキャッシュに保持しなくてもよくなります。代わりに、UploadUtils.BufferSize プロパティでサイズが定義されたデータ群をディスクのファイルに書き込みます。
+		GetStreamFromCache 静的メソッドを定義します。この静的メソッドは、指定したキーで MemoryStream を返します。これを行うには、`Dictionary<string, MemoryStream>` オブジェクトを ASP.NET キャッシュに管理します。ディクショナリは、現在アップロードしているファイルのデータを保留します。「[コントローラーで %%ProductNameMVC%% `Upload`を構成する](#mvc-controller)」セクションを参照すると、ファイル全体をキャッシュに保持しなくてもよくなります。代わりに、UploadUtils.BufferSize プロパティでサイズが定義されたデータ群をディスクのファイルに書き込みます。
 		
 		**C# の場合:**
 		
@@ -449,7 +447,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		
 		**H.** メソッドを構成して キャッシュからストリームを削除します。
 		
-		RemoveStreamFromCache 静的メソッドを定義します。このメソッドは、キーによりディクショナリから項目フォームを削除します。「[コントローラーで `igUpload` MVC ラッパーを構成する](#mvc-wrapper-controller)」セクションを参照し、現在アップロードしているファイルのキャッシュからファイルを削除するために使用します。
+		RemoveStreamFromCache 静的メソッドを定義します。このメソッドは、キーによりディクショナリから項目フォームを削除します。「[コントローラーで %%ProductNameMVC%% `Upload`を構成する](#mvc-controller)」セクションを参照し、現在アップロードしているファイルのキャッシュからファイルを削除するために使用します。
 		
 		**C# の場合:**
 		
@@ -480,7 +478,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 		}
 		```
 
-5. <a id="mvc-wrapper-view"></a>View で `igUpload` MVC ラッパーを構成します。
+5. <a id="mvc-view"></a>View で %%ProductNameMVC%% `Upload`を構成します。
 
 	`<project folder>\Views\Home\Index.cshtml` ファイルで、コードを入力して View を構成します。
 	
@@ -527,7 +525,7 @@ routes.IgnoreRoute("IGUploadStatusHandler.ashx");
 	<div id="uploadErrors" style="color: red;"></div>
 	```
 
-6. <a id="mvc-wrapper-controller"></a>コントローラーで  `igUpload` MVC ラッパーを構成します。
+6. <a id="mvc-controller"></a>コントローラーで %%ProductNameMVC%% `Upload`を構成します。
 
 	コントローラーを構成するには
 

@@ -19,7 +19,7 @@
 
 - [HTML ページへの igQRCodeBarcode の追加](igQRCodeBarcode-Adding-to-an-HTML-Page.html): このトピックは、`igQRCodeBarcode` を HTML ページに追加する方法を説明します。
 
-- [ASP.NET MVC アプリケーションへの igQRCodeBarcode の追加](igQRCodeBarcode-Adding-Using-the-MVC-Helper.html): このトピックでは、ASP.NET MVC ヘルパーを使用して、ASP.NET MVC アプリケーションに `igQRCodeBarcode` のインスタンスを作成する方法を紹介します。
+- [ASP.NET MVC アプリケーションへの igQRCodeBarcode の追加](igQRCodeBarcode-Adding-Using-the-MVC-Helper.html): このトピックでは、%%ProductNameMVC%% を使用して、ASP.NET MVC アプリケーションに `igQRCodeBarcode` のインスタンスを作成する方法を紹介します。
 
 
 

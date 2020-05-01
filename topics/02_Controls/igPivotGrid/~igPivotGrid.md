@@ -32,7 +32,7 @@
 
 - [既知の問題と制限 (igPivotGrid)](igPivotGrid-Known-Issues-and-Limitations.html): このトピックでは、`igPivotGrid` コントロールの既知の問題と制限に関する情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igPivotGrid)](igPivotGrid-API-Links.html): このトピックでは、`igPivotGrid` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクの一覧を示します。
+- [jQuery と MVC API リンク (igPivotGrid)](igPivotGrid-API-Links.html): このトピックでは、`igPivotGrid` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクの一覧を示します。
 
 
 

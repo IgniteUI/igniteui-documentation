@@ -65,24 +65,24 @@ igHierarchicalGrid コントロールを構成してカスタム グループ化
 
  **JavaScript の場合:**
 
- ```js
-　　function firstLetterGroupComparer(columnSetting, val1, val2) {
-  　　  if (val1 !== null && val2 !== null && val1.substring(0, 1) === val2.substring(0, 1)) {
-    　　    columnSetting.customGroupName = val1.substring(0, 1);
-      　　  return true;
-　　    } else if (val1 !== null && val2 !== null && val1.substring(0, 1) !== val2.substring(0, 1)) {
-  　　      columnSetting.customGroupName = val1.substring(0, 1);
-    　　    return false;
-　　    } else if (val1 === null && val2 !== null) {
-  　　      columnSetting.customGroupName = val2.substring(0, 1);
-    　　    return false;
-　　    } else if (val1 !== null && val2 === null) {
-  　　      columnSetting.customGroupName = val1.substring(0, 1);
-    　　    return false;
-　　    }
-  　　  return false;
-　　}
- ```
+    ```js
+    function firstLetterGroupComparer(columnSetting, val1, val2) {
+        if (val1 !== null && val2 !== null && val1.substring(0, 1) === val2.substring(0, 1)) {
+            columnSetting.customGroupName = val1.substring(0, 1);
+            return true;
+        } else if (val1 !== null && val2 !== null && val1.substring(0, 1) !== val2.substring(0, 1)) {
+            columnSetting.customGroupName = val1.substring(0, 1);
+            return false;
+        } else if (val1 === null && val2 !== null) {
+            columnSetting.customGroupName = val2.substring(0, 1);
+            return false;
+        } else if (val1 !== null && val2 === null) {
+            columnSetting.customGroupName = val1.substring(0, 1);
+            return false;
+        }
+        return false;
+    }
+    ```
 
  if と最初の else if ステートメントのカスタム ロジックを除いて、最後の 2 つの else if ステートメントに注目する必要があります。これらは、1 つの値のみ定義され他が未定義のケースをカバーします。これは、比較演算子関数を作成するとき常に考慮する必要があります。
 
@@ -90,47 +90,52 @@ igHierarchicalGrid コントロールを構成してカスタム グループ化
 
  グリッド内にカスタム グループ化関数を構成し、データをグループ化するときコントロールから呼び出せるようにします。
 
- JavaScript の場合、Name 列の `groupComparerFunction: "firstLetterGroupComparer"` 割当てにおいてグリッド オブジェクトの構成は、Name 列のデータのグループ化を行うとき常に `firstLetterGroupComparer()` 関数を呼び出します。
+  - JavaScript
+        
+  Name 列の `groupComparerFunction: "firstLetterGroupComparer"` 割当てにおいてグリッド オブジェクトの構成は、Name 列のデータのグループ化を行うとき常に `firstLetterGroupComparer()` 関数を呼び出します。
 
- **JavaScript の場合:**
+  **JavaScript の場合:**
 
- ```js
-  ...
-  features: [
-　{
-  　     name: "GroupBy",
-   　　  type: "local",
-    　　groupByAreaVisibility: "hidden",
-　      inherit: true,
-  　　    columnSettings: [{
-    　　        columnKey: "Name",
-      　　      isGroupBy: true,
-        　　    groupComparerFunction: "firstLetterGroupComparer",
-          　　  allowGrouping: false
-　　    }]
-　}]
-　...
- ```
+        ```js
+        ...
+        features: [
+        {
+            name: "GroupBy",
+            type: "local",
+            groupByAreaVisibility: "hidden",
+            inherit: true,
+            columnSettings: [{
+                    columnKey: "Name",
+                    isGroupBy: true,
+                    groupComparerFunction: "firstLetterGroupComparer",
+                    allowGrouping: false
+            }]
+        }]
+        ...
+        ```
 
- ASP.NET MVC上記の JavaScript の例と同様、ここでグリッド ラッパーのメソッド呼び出し `GroupByComparerFunction("firstLetterGroupComparer")` は、 Name 列のグループ化に `firstLetterGroupComparer()` 関数を使用するようグリッドを構成します。
+  - ASP.NET MVC
+ 
+  上記の JavaScript の例と同様、ここでグリッド ラッパーのメソッド呼び出し `GroupByComparerFunction("firstLetterGroupComparer")` は、 Name 列のグループ化に `firstLetterGroupComparer()` 関数を使用するようグリッドを構成します。
 
- **ASPX の場合:**
+  **ASPX の場合:**
 
- ```csharp
-  ...
-　.Features(feature => {
- 　　  feature.GroupBy().Type(OpType.Local).Inherit(true)
-   　　    .GroupByAreaVisibility(GroupAreaVisibility.Hidden)
-     　　  .ColumnSettings(setting =>
-     　　{
-         　　  setting.ColumnSetting().ColumnKey("Name")
-         　　     .IsGroupBy(true)
-                .GroupByComparerFunction("firstLetterGroupComparer")
-                .AllowGrouping(false);
-　　     });
-　})
-　...
-　```
+        ```csharp
+        ...
+        .Features(feature => {
+            feature.GroupBy().Type(OpType.Local).Inherit(true)
+                .GroupByAreaVisibility(GroupAreaVisibility.Hidden)
+                .ColumnSettings(setting =>
+                {
+                    setting.ColumnSetting().ColumnKey("Name")
+                        .IsGroupBy(true)
+                        .GroupByComparerFunction("firstLetterGroupComparer")
+                        .AllowGrouping(false);
+                });
+        })
+        ...
+        ```
+
 
 ## <a id="related-content"></a> 関連コンテンツ
 #### トピック

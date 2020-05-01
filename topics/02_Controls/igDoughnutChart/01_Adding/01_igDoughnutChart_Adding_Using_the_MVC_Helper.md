@@ -14,7 +14,7 @@
 
 ### 目的
 
-このトピックでは、ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに [`igDoughnutChart`](%%jQueryApiUrl%%/ui.igDoughnutChart#options)™ のインスタンスを作成する方法を紹介します。
+このトピックでは、%%ProductNameMVC%% を使用して ASP.NET MVC アプリケーションに [`igDoughnutChart`](%%jQueryApiUrl%%/ui.igDoughnutChart#options)™ のインスタンスを作成する方法を紹介します。
 
 ### 前提条件
 
@@ -26,7 +26,7 @@
 	- ASP.NET MVC
 	- ASP.NET MVC HTML ヘルパー
 - **トピック**
-	- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
+	- [コントロールを MVC プロジェクトに追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
 
  
 
@@ -54,19 +54,19 @@
 
 ### <a id="intro-summary"></a> *igDoughnutChart* の追加の概要
 
-ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに `igDoughnutChart` を追加するには、[`height`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:height) オプションと [`width`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:width) オプションの値を指定して少なくとも 1 つの [`series`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:series) を追加し、サイズを調整する必要があります。
+%%ProductNameMVC%% を使用して ASP.NET MVC アプリケーションに `igDoughnutChart` を追加するには、[`height`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:height) オプションと [`width`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:width) オプションの値を指定して少なくとも 1 つの [`series`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:series) を追加し、サイズを調整する必要があります。
 
 事前構成されたデータ ソース インスタンスを提供する、またはシリーズのためにそれを内部的に作成することが必要です。[`dataSource`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:series.dataSource) オプションは別として、コントロールを表示するには、[name](%%jQueryApiUrl%%/ui.igDoughnutChart#options:series.name) オプションと [`valueMemberPath`](%%jQueryApiUrl%%/ui.igDoughnutChart#options:series.valueMemberPath) オプションの値が必要です。`valueMemberPath` パラメーターは、シリーズのスライスの作成で使用される値を含みます。この例は、シリーズの `dataSource` オプションのインスタンスを作成するために、`ProductItemCollection` モデルで使用されます。シリーズの `valueMemberPath` はIndex に設定され、スライスを作成するためにその値を使用します。
 
 ### <a id="summary-requirements"></a> 要件
 
-「[コントロールの MVC プロジェクトへの追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html)」トピックで説明されるとおり、必要な JavaScript ファイル、CSS ファイルおよび ASP.NET MVC アセンブリで構成される ASP.NET MVC アプリケーション
+「[コントロールの MVC プロジェクトへの追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html)」トピックで説明されるとおり、必要な JavaScript ファイル、CSS ファイルおよび ASP.NET MVC アセンブリで構成される ASP.NET MVC アプリケーション
 
 
 
 ## <a id="adding"></a> ASP.NET MVC アプリケーションへの igDoughnutChart の追加
 
-このトピックでは、ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに igDoughnutChart のインスタンスを作成する方法を紹介します。
+このトピックでは、%%ProductNameMVC%% を使用して ASP.NET MVC アプリケーションに igDoughnutChart のインスタンスを作成する方法を紹介します。
 
 ### <a id="adding-preview"></a> プレビュー
 
@@ -92,17 +92,17 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 
 ### <a id="adding-steps"></a> 手順
 
-このトピックでは、ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに `igDoughnutChart` のインスタンスを作成する方法を紹介します。
+このトピックでは、%%ProductNameMVC%% を使用して ASP.NET MVC アプリケーションに `igDoughnutChart` のインスタンスを作成する方法を紹介します。
 
 1. ***Infragistics.Web.Mvc.dll* への参照を追加します**
 	
-	ASP.NET アプリケーション に Infragistics.Web.Mvc.dll への参照を追加します。このアセンブリを追加する作業の詳細は、「[コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html)」トピックを参照してください。
+	ASP.NET アプリケーション に Infragistics.Web.Mvc.dll への参照を追加します。このアセンブリを追加する作業の詳細は、「[コントロールを MVC プロジェクトに追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html)」トピックを参照してください。
 
 2. **ビューの依存関係を構成します。**
 	
 	**1.***Infragistics.Web.Mvc* 名前空間をインポートします
 
-	ASP.NET MVC ヘルパーを使用するには、Infragistics.Web.Mvc 名前空間をビューにインポートする必要があります。
+	%%ProductNameMVC%% を使用するには、Infragistics.Web.Mvc 名前空間をビューにインポートする必要があります。
 
 	**ASPX の場合:**
 	```csharp
@@ -191,7 +191,7 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 
 4. ***igDoughnutChart* のインスタンスを作成します。**
 	
-	**`igDoughnutChart` のインスタンスを作成するために、ASP.NET MVC ヘルパーを使用し基本的なオプションを設定します。**`igDoughnutChart` のインスタンスを作成するには、ASP.NET ページの本文内で ASP.NET MVC ヘルパーを使用します。コントロールのインスタンスを作成する場合、基本的な描画のために、以下に示すような複数のヘルパー メソッドを設定する必要があります。
+	**`igDoughnutChart` のインスタンスを作成するために、%%ProductNameMVC%% を使用し基本的なオプションを設定します。**`igDoughnutChart` のインスタンスを作成するには、ASP.NET ページの本文内で %%ProductNameMVC%% を使用します。コントロールのインスタンスを作成する場合、基本的な描画のために、以下に示すような複数のヘルパー メソッドを設定する必要があります。
 	
 	<table class="table">
 		<tbody>
@@ -233,7 +233,7 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 		</tbody>
 	</table>
 	
-	最終的に、すべての %%ProductName%% ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
+	最終的に、すべての %%ProductNameMVC%% コントロールと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
 	
 	**ASPX の場合:**
 	
@@ -293,13 +293,13 @@ ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに 
 
 - [*igDoughnutChart* の HTML ページへの追加](igDoughnutChart-Adding-to-an-HTML-Page.html): このトピックは、`igDoughnutChart` を HTML ページに追加する方法を説明します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (*igDoughnutChart*)](igDoughnutChart-API-Links.html): このトピックでは、`igDoughnutChart` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (*igDoughnutChart*)](igDoughnutChart-API-Links.html): このトピックでは、`igDoughnutChart` コントロールと %%ProductNameMVC%%　に関する API ドキュメントへのリンクを提供します。
 
 ### <a id="samples"></a> サンプル
 
 以下のサンプルでは、このトピックに関連する情報を提供しています。
 
-- [Collection にバインド](%%SamplesUrl%%/doughnut-chart/bind-to-collection): このサンプルでは、ASP.NET MVC ヘルパーを使用して `igDoughnutChart` を描画する方法を紹介します。ヘルパーはサーバーのオブジェクトのコレクションにバインドし、そのコレクションを JSON オブジェクトにシリアル化し、必要な `igDoughnutChart` HTML および JavaScript を描画します。
+- [Collection にバインド](%%SamplesUrl%%/doughnut-chart/bind-to-collection): このサンプルでは、%%ProductNameMVC%%　を使用して `igDoughnutChart` を描画する方法を紹介します。ヘルパーはサーバーのオブジェクトのコレクションにバインドし、そのコレクションを JSON オブジェクトにシリアル化し、必要な `igDoughnutChart` HTML および JavaScript を描画します。
 
 
 

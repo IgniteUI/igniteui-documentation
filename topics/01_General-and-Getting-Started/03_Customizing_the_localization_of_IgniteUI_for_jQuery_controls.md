@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "customizing-the-localization-of-netadvantage-for-jquery-controls",
+    "fileName": "customizing-the-localization-of-igniteui-for-jquery-controls",
     "controlName": [],
     "tags": []
 }
@@ -196,7 +196,7 @@
 	});
 ```
 
-Ignite UI MVC ラッパーの object 型の `locale` オプションを使用する場合、igGrid、igTreeGrid、および igHierarachicalGrid にラムダ式または文字列によって設定できます。すべてのその他のコントロールの場合、文字列のみを指定できます。
+%%ProductNameMVC%% の object 型の `locale` オプションを使用する場合、igGrid、igTreeGrid、および igHierarachicalGrid にラムダ式または文字列によって設定できます。すべてのその他のコントロールの場合、文字列のみを指定できます。
 
 **Razor の場合:**
 
@@ -259,7 +259,7 @@ igTreeGrid - 文字列で設定される `locale` オプション
 ### <a id="change-locale"></a> 言語の変更
 
 コントロールの言語を `language` オプションによって設定できます。ランタイムに変更するには、以下の方法を使用します。
-- ページで `language` が明示的に設定されていないすべての Ignite UI ウィジェットをグローバルに設定するには、`changeGlobalLanguage` 関数を使用します。
+- ページで `language` が明示的に設定されていないすべての %%ProductName%% ウィジェットをグローバルに設定するには、`changeGlobalLanguage` 関数を使用します。
 
 	**JavaScript の場合:**
 	
@@ -282,7 +282,7 @@ igTreeGrid - 文字列で設定される `locale` オプション
 
 コントロールの地域設定を `regional` オプションによって設定できます。設定するには、以下の方法を使用します。
 
-- ページですべての Ignite UI ウィジェットをグローバルに設定するには、`changeGlobalRegional` 関数を使用します。
+- ページですべての %%ProductName%% ウィジェットをグローバルに設定するには、`changeGlobalRegional` 関数を使用します。
 
 	**JavaScript の場合:**
 	
@@ -321,7 +321,7 @@ grid.igGrid({
 
 以下のスクリーンショットは最終結果のプレビューです。
 
-![](images/Customizing_the_Localization_of_NetAdvantage_for_jQuery_Controls_1.png)
+![](images/Customizing_the_Localization_of_IgniteUI_for_jQuery_Controls_1.png)
 
 #### <a id="Requirements"></a>要件
 
@@ -350,7 +350,7 @@ grid.igGrid({
 
 	この結果は、以下のスクリーンショットに示されています。
 
-	![](images/Customizing_the_Localization_of_NetAdvantage_for_jQuery_Controls_2.png)
+	![](images/Customizing_the_Localization_of_IgniteUI_for_jQuery_Controls_2.png)
 
 2. <a id="localize_file"></a> infragistics.ui.grid-es.js のローカライズ
 

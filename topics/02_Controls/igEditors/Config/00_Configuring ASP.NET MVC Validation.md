@@ -17,18 +17,18 @@
 
 ### 目的
 
-このトピックでは、%%ProductName%% エディター コントロールで構成されるフォームの最初のステップとして、フォームの作成とデータ注釈付きでフォームを検証する方法を紹介します。また、ASP.NET MVC ValidationMessage を構成し、検証テキストをさらにカスタマイズする方法も説明します。
+このトピックでは、%%ProductNameMVC%% エディター コントロールで構成されるフォームの最初のステップとして、フォームの作成とデータ注釈付きでフォームを検証する方法を紹介します。また、ASP.NET MVC ValidationMessage を構成し、検証テキストをさらにカスタマイズする方法も説明します。
 
 ### 前提条件
 
 ####概念
 
 -   ASP.NET MVC データ注釈バリデーター
--   igEditors および igCombo とその ASP.NET MVC ヘルパーの使用
+-   %%ProductNameMVC%% エディターおよびコンボの使用
 
 ####トピック
 
--	[コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): %%ProductName%% スクリプト、CSS、およびアセンブリを使用した ASP.NET MVC アプリケーションの設定の基本事項の習得
+-	[コントロールを MVC プロジェクトに追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html): %%ProductName%% スクリプト、CSS、およびアセンブリを使用した ASP.NET MVC アプリケーションの設定の基本事項の習得
 
 -	[igTextEditor の概要](igTextEditor-Overview.html) : ASP.NET MVCでの igTextEditor 使用の基本事項の習熟
 
@@ -59,13 +59,13 @@
 
 ### <a id="_Introduction"></a>概要
 
-この手順では、%%ProductName%% コントロールを使用した ASP.NET MVC データ注釈検証の Person モデルを作成し構成します。
+この手順では、%%ProductNameMVC%% コントロールを使用した ASP.NET MVC データ注釈検証の Person モデルを作成し構成します。
 
 ### <a id="_Preview"></a>プレビュー
 
 以下のスクリーンショットは最終結果のプレビューです。
 
-![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_1.png)
+![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_1.png)
 
 ###<a id="_Requirements"></a> 要件
 
@@ -95,7 +95,7 @@
 
 	Person クラスを Models フォルダーに追加します。
 	
-	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_2.png)
+	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_2.png)
 
 2. クラス メンバーの作成
 
@@ -142,7 +142,7 @@
 
 	ASP.NET MVC アプリケーションの Controllers フォルダーに、PersonController.cs という名前で新しいコントローラーを作成します。
 	
-	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_3.png)
+	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_3.png)
 
 2. ActionMethods の作成
 
@@ -173,7 +173,7 @@
 
 	厳密に型指定されたビューを Create という名前で作成し、Person クラスをモデルとして使用します。
 	
-	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_4.png)
+	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_4.png)
 	
 	**ASPX の場合:**
 	
@@ -241,7 +241,7 @@
 
 	サンプルを実行し、/person/create に移動します。フォームが、すべてのエディターとともに表示されます。
 	
-	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_5.png)
+	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_5.png)
 	
 	上記の手順を完了すると、ビューのコードは以下のようになります。
 	
@@ -394,7 +394,7 @@
 
 	バリデーターが実行され、フォームの送信が防止されることが確認できます。また、Name フィールドの長さバリデーターにより、50 文字以上の入力ができなくなります。また、フォーカスが失われた場合、値は数値エディターによりデフォルトで最も近い有効な値に変更されます。
 	
-	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_6.png)
+	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_6.png)
 
 **4. 検証メッセージの構成 (オプション)**
 
@@ -441,7 +441,7 @@
 
 	これで、検証メッセージは各入力フィールドの右に表示されます。
 	
-	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_NetAdvantage_for_jQuery_1.png)
+	![](images/Configuring_ASP.NET_MVC_Data_Annotations_with_IgniteUI_for_jQuery_1.png)
 
 
 ##<a id="_Related_Content"></a>関連コンテンツ
@@ -452,7 +452,7 @@
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
 
--	[ランタイム時の igEditors の構成](Configuring-igEditors-at-Runtime.html) : ASP.NET MVC ヘルパーによりコントロールが表示される方法に関する重要な情報を含め、実行時のエディターの使用の詳細について学びます。
+-	[ランタイム時の igEditors の構成](Configuring-igEditors-at-Runtime.html) : %%ProductNameMVC%%によりコントロールが表示される方法に関する重要な情報を含め、実行時のエディターの使用の詳細について学びます。
 
 
 ###<a id="_Samples"></a> サンプル

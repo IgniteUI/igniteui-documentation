@@ -10,7 +10,7 @@
 
 #2016 Volume 1 の新機能
 
-このトピックでは、%%ProductName%%™ 2016 Volume 1 リリースのコントロールと新機能および拡張機能を紹介します。
+このトピックでは、%%ProductFamilyName%%™ 2016 Volume 1 リリースのコントロールと新機能および拡張機能を紹介します。
 
 
 ##新機能:
@@ -24,7 +24,7 @@
 新しい Bootstrap 4 テーマ|新しい Bootstrap 4 互換性のあるテーマが %%ProductName%% に含まれます - [サンプルの表示](%%SamplesUrl%%/themes/bootstrap4-default)。
 Angular 2 コンポーネント (CTP) |%%ProductName%% ウィジェットは Angular 2 のコンポーネント ラッパーがあります。詳細については、[%%ProductName%% Angular 2 GitHub](https://github.com/IgniteUI/igniteui-angular-wrappers) ページを参照してください。|
 新しいスケール可能なフォント アイコン|デフォルトの Infragistics テーマは画像アイコンの代わりに [jQuery UI フォント アイコン](https://github.com/mkkeck/jquery-ui-iconfont) を使用します。 |
-Modernizr 3.x サポート|%%ProductName%% は、Modernizr ライブラリを使用してタッチ環境を検出します。詳細については、[%%ProductName%% コントロールのタッチ サポート](touch-support-for-netadvantage-for-jquery-controls.html)を参照してください。[Mordernizr 3.x](https://modernizr.com/) は、以前の Modernizr バージョンもサポートされます。 |
+Modernizr 3.x サポート|%%ProductName%% は、Modernizr ライブラリを使用してタッチ環境を検出します。詳細については、[%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-IgniteUI-for-jQuery-Controls.html)を参照してください。[Mordernizr 3.x](https://modernizr.com/) は、以前の Modernizr バージョンもサポートされます。 |
 
 ### igTileManager
 

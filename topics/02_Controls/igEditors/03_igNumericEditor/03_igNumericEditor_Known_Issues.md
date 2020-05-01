@@ -14,7 +14,7 @@
 ## 既知の制約事項
 
 - 数値エディターは編集モードでは、グループ、または 1000 のセパレーターおよび記号をサポートしません。
-- 数値エディターの MVC ラッパーを使用してエディター値として double 数値を設定する場合、クライアント側で小数点を持つ数値として描画されます。使用される小数点は常に英語形式で使用される小数点 (.) です。エディターの MVC ラッパーがクライアントに送信される値を書式設定する場合、サーバーの数値書式設定を無視し、常にポイント (.) を小数点として使用します。クライアント側ウィジェットが値をサーバーに送信する場合にも同じ書式が使用されます。書式に関連するすべての igNumericEditor オプション ([`decimalSeparator`](%%jQueryApiUrl%%/ui.ignumericeditor#options:decimalSeparator) および [`groupSeparator`](%%jQueryApiUrl%%/ui.ignumericeditor#options:groupSeparator)) が無視され、値がポイントを小数点として使用するために変換されます。
+- %%ProductNameMVC%% 数値エディターを使用してエディター値として double 数値を設定する場合、クライアント側で小数点を持つ数値として描画されます。使用される小数点は常に英語形式で使用される小数点 (.) です。エディターがクライアントに送信される値を書式設定する場合、サーバーの数値書式設定を無視し、常にポイント (.) を小数点として使用します。クライアント側ウィジェットが値をサーバーに送信する場合にも同じ書式が使用されます。書式に関連するすべての igNumericEditor オプション ([`decimalSeparator`](%%jQueryApiUrl%%/ui.ignumericeditor#options:decimalSeparator) および [`groupSeparator`](%%jQueryApiUrl%%/ui.ignumericeditor#options:groupSeparator)) が無視され、値がポイントを小数点として使用するために変換されます。
 - [`minValue`](%%jQueryApiUrl%%/ui.ignumericeditor#options:minValue) または [`maxValue`](%%jQueryApiUrl%%/ui.ignumericeditor#options:maxValue) オプションを設定せずに [`spinWrapAround`](%%jQueryApiUrl%%/ui.ignumericeditor#options:spinWrapAround) を true に設定した場合、データモードで設定したデフォルトの上限に達したときにスピンをラップできません。これは [`dataMode`](%%jQueryApiUrl%%/ui.ignumericeditor#options:dataMode) オプションを float、long、または double の値に設定した場合です。
 この動作の原因は、JavaScript でデータモードの最大値が指数表記で表される大きな数値であることです。
 この制限を回避するには、[`maxValue`](%%jQueryApiUrl%%/ui.ignumericeditor#options:maxValue) および [`minValue`](%%jQueryApiUrl%%/ui.ignumericeditor#options:minValue) を JavaScript の指数表記を使用しない数値に設定します。あるいは、数値エディター、パーセント エディター、または通貨エディターで [`scientificFormat`](%%jQueryApiUrl%%/ui.ignumericeditor#options:scientificFormat) オプションを有効にしてください。

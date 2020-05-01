@@ -311,7 +311,7 @@ $('#grid1').igGridSelection('clearSelection');
 
 イベントの処理については、このトピックを参照してください:
 
-[%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html)
+[%%ProductName%% でイベントの使用](Using-Events-in-IgniteUI-for-jQuery.html)
 
 -   選択機能を初期化する場合にオプションとしてイベント名を指定してバインドする (最初にイベントをバインドした場合と異なり、イベント名は大文字と小文字を区別しません):
 

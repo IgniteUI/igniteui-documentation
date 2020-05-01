@@ -34,7 +34,7 @@
 ## アーキテクチャー
 `igUpload` コントロールは、クライアント側 jQuery ウィジェットと、各アップロード要求の処理を担当するサーバー側ロジックという 2 つの必須部分で使用されます。サーバーは、アップロード自体の処理も担当しています。このドキュメントの例では ASP.NET Framework を使用してサーバー コードを実装していますが、`igUpload` コントロールはサーバー技術とは関係ありません。
 
-アップロード コントロールは、豊富な jQuery API を公開しているため、コントロールをクライアント側で簡単に構成できます。また、Microsoft® ASP.NET MVC フレームワークを使用するデベロッパーは、アップロード コントロールのサーバー側ラッパーを利用して、好みの .NET 言語を使ってコントロールを構成できます。
+アップロード コントロールは、豊富な jQuery API を公開しているため、コントロールをクライアント側で簡単に構成できます。また、Microsoft® ASP.NET MVC フレームワークを使用する開発者は、アップロード コントロールのサーバー側コンポーネントを利用して、好みの .NET 言語を使ってコントロールを構成できます。
 
 `igUpload` コントロールは、大幅にスタイル変更できるため、デフォルトのスタイルとまったく異なるルック アンド フィールのコントロールを実現できます。スタイル設定オプションでは、独自のスタイルも jQuery UI の ThemeRoller のスタイルも使用できます。
 
@@ -106,7 +106,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Samples/infragistics.core.js")"></script><script type="text/javascript" src="@Url.Content("~/Scripts/Samples/infragistics.lob.js")"></script>
     ```
 
-3.  jQuery の実装では、HTML 内のターゲット要素として DIV を定義します。ASP.NET MVC の実装の場合、含める要素を MVC ラッパーが作成してくれるので、この手順はオプションです。
+3.  jQuery の実装では、HTML 内のターゲット要素として DIV を定義します。ASP.NET MVC の実装の場合、含める要素を %%ProductNameMVC%% が作成してくれるので、この手順はオプションです。
 
     **HTML の場合:**
 
@@ -163,7 +163,7 @@
 5.  次に、サーバー側 HTTP ハンドラーとモジュールを構成する必要があります。
 
 ## ASP.NET の HTTP ハンドラーとモジュールの構成
-必要な HTTP ハンドラーとモジュールは、`Infragistics.Web.MVC dll` だけではなく MVC ラッパーの一部です。次の手順に従ってそれらを Web.config ファイルに登録します。
+必要な HTTP ハンドラーとモジュールは、`Infragistics.Web.MVC dll` だけではなく %%ProductNameMVC%% の一部です。次の手順に従ってそれらを Web.config ファイルに登録します。
 
 1.  まず最初に、アップロードされたファイルを保存する書き込み許可のあるフォルダー を作成する必要があります。次に、`igUpload` がどこにファイルを保存するか認識するよう、そのフォルダーを Web.config ファイルに登録する必要があります (以下のコードを参照)。現在の例では、Uploads というフォルダーになっています。
 2.  `maxFileSizeLimit` 設定を行うことで、アップロードされたファイルのサイズを制限できます。このサンプルでは、このサイズは約 100 MB です。
@@ -233,7 +233,6 @@
 
 ## igUpload のアプリケーション設定
 `igUpload` は、HTTP モジュールおよびハンドラーの動作を制御するアプリケーション設定があります。この設定はアプリケーションの web.config ファイルに構成されます。
-
 **表 1:** `igUpload` のアプリケーション設定
 
 設定|説明|デフォルト値
@@ -248,7 +247,7 @@ allowedMIMEType |アップロード可能な MIME の種類を構成します。
 
 ## 関連リンク
 -   [igUpload シングル アップロードのサンプル](%%SamplesUrl%%/file-upload/basic-usage)
--   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 -   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 -   [igUpload HTTP ハンドラーおよびモジュール](igUpload-Using-HTTP-Handler-and-Modules.html)
 -   [igUpload クライアント側イベント](igUpload-Using-Client-Side-Events.html)

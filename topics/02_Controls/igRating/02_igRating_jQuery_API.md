@@ -8,14 +8,14 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API へのリンク (igRating)
+# jQuery および MVC API リファレンス リンク (igRating)
 
 
 
-igRating は、ASP.NET MVC ヘルパーを含む jQuery UI ウィジェットとしてビルドされます。各 API の詳細については、以下の API ドキュメントを参照してください。
+igRating は、%%ProductNameMVC%% の実装を含む jQuery UI ウィジェットとしてビルドされます。各 API の詳細については、以下の API ドキュメントを参照してください。
 
 -   [igRating jQuery API](%%jQueryApiUrl%%/ui.igRating)
--   [igRating ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.RatingModel.html)
+-   [igRating MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.RatingModel.html)
 
  
 

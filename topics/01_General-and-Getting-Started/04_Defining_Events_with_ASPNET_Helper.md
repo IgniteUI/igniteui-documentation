@@ -8,16 +8,14 @@
 |metadata|
 -->
 
-# ASP.NET MVC ヘルパーによるイベントの定義
-
-
+# %%ProductNameMVC%% によるイベントの定義
 
 ##トピックの概要
 
 
 #### 目的
 
-このトピックでは、ASP.NET MVC ヘルパーを使用してクライアント側のイベント ハンドラーを定義する方法を説明します。このサンプルは `igCombo`™ の `selectionChanged` イベントを使用しますが、すべてのコンポーネントの ASP.NET MVC ヘルパーで同じ方法を使用できます (すべての Line of Bussiness コンポーネントの ASP.NET MVC ヘルパー)。
+このトピックでは、%%ProductNameMVC%% を使用してクライアント側のイベント ハンドラーを定義する方法を説明します。このサンプルは `igCombo`™ の `selectionChanged` イベントを使用しますが、すべてのコンポーネントの %%ProductNameMVC%% で同じ方法を使用できます (すべての Line of Bussiness の%%ProductNameMVC%% コンポーネント)。
 
 #### 前提条件
 
@@ -25,11 +23,9 @@
 
 
 
-- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションに追加し、%%ProductName%% コンポーネントを使用して作業を開始する方法を説明します。
+- [コントロールを MVC プロジェクトに追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html): このトピックでは、%%ProductNameMVC%%® コンポーネントを使用して作業を開始する方法を説明します。
 
-- [%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックは、%%ProductName%% コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
-
-
+- [%%ProductNameMVC%% でイベントの使用](Using-Events-in-IgniteUI-for-jQuery.html): このトピックは、%%ProductNameMVC%% コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
 
 
 
@@ -48,13 +44,13 @@
 
 ## 手順
 
-以下は、ASP.NET MVC ヘルパーを使用してイベント ハンドラーを定義する手順の概要です。
+以下は、%%ProductNameMVC%% を使用してイベント ハンドラーを定義する手順の概要です。
 
-1. ASP.NET MVC ヘルパーでコントロールをインスタンス化します。
+1. %%ProductNameMVC%% コントロールをインスタンス化します。
 
 2. イベントを処理するための JavaScript 関数を定義します。
 
-3. ASP.NET MVC ヘルパーでイベントを構成します。
+3. %%ProductNameMVC%% でイベントを構成します。
 
 ##イベント ハンドラーの定義 - 手順
 
@@ -79,20 +75,20 @@
 
 以下はプロセスの概念的概要です。
 
-1. ASP.NET MVC ヘルパーでコントロールをインスタンス化します。
+1. %%ProductNameMVC%% コントロールをインスタンス化します。
 
 2. イベントを処理するための JavaScript 関数を定義します。
 
-3. ASP.NET MVC ヘルパーでイベントを構成します。
+3. %%ProductNameMVC%% でイベントを構成します。
 
 ### 手順
 
-以下の手順は、`igCombo` の ASP.NET MVC ヘルパーを `selectionChanged` をクライアント側で処理するために構成する方法を紹介します。
+以下の手順は、%%ProductNameMVC%% `igCombo` を `selectionChanged` をクライアント側で処理するために構成する方法を紹介します。
 
 
-1. ASP.NET MVC ヘルパーでコントロールをインスタンス化します。
+1. %%ProductNameMVC%% コントロールをインスタンス化します。
 
-	イベントを既存の ASP.NET MVC ヘルパーの実装に追加する場合、手順 2 から開始してください。既存の ASP.NET MVC ヘルパーの実装がない場合、ASP.NET MVC ヘルパーによってインスタンス化された igCombo を含むプロジェクトに以下のコードをコピーします。
+	イベントを既存の %%ProductNameMVC%% の実装に追加する場合、手順 2 から開始してください。既存の %%ProductNameMVC%% の実装がない場合、%%ProductNameMVC%% *igCombo* を含むプロジェクトに以下のコードをコピーします。
 	
 	**ASPX の場合:**
 	
@@ -159,9 +155,9 @@
     </script>
     ```
 
-3. ASP.NET MVC ヘルパーでイベントを構成します。
+3. %%ProductNameMVC%% イベントを構成します。
 
-	イベントが発生されたときに、JavaScript 関数を呼び出すために ASP.NET MVC ヘルパーを構成します。
+	イベントが発生されたときに、JavaScript 関数を呼び出すために %%ProductNameMVC%% を構成します。
 
 	**ASPX の場合:**
 
@@ -183,7 +179,7 @@
 
 以下のトピックでは、このトピックに関連する追加情報を提供しています。
 
-- [%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックは、%%ProductName%% コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
+- [%%ProductName%% でイベントの使用](Using-Events-in-IgniteUI-for-jQuery.html): このトピックは、%%ProductName%% コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
 
 
 

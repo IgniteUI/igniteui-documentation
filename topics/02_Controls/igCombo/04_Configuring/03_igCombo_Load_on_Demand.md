@@ -31,7 +31,7 @@
 
 -	[igCombo の概要](igCombo-Overview.html): このトピックでは、`igCombo` コントロールに関係する概念、たとえば、機能、データ ソースへのバインド、要件、テンプレートといった概念について説明します。
 
--	[igCombo の追加](igCombo-Getting-Started.html): このヘルプ トピックでは、基本的な `igCombo` コントロールを設定し、クライアントの JSON データおよびサーバーのビジネス オブジェクトのコレクションにバインドする方法を紹介します。jQuery 環境と ASP.NET MVC ヘルパー環境の両方を対象にしています。
+-	[igCombo の追加](igCombo-Getting-Started.html): このヘルプ トピックでは、基本的な `igCombo` コントロールを設定し、クライアントの JSON データおよびサーバーのビジネス オブジェクトのコレクションにバインドする方法を紹介します。jQuery 環境と ASP.NET MVC 環境の両方を対象にしています。
 
 -	[igCombo をデータにバインド](igCombo-Binding-to-Data.html): このトピックでは、`igCombo` コントロールをデータにバインドする方法と、データ バインドに関する詳細について説明します。
 

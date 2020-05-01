@@ -54,8 +54,8 @@
     -   [igHierarchicalGrid RowSelectors](#hierarchical-grid-row-selectors)
     -   [igHierarchicalGrid ツールチップ](#hierarchical-grid-tooltips)
     -   [igLinearGauge](#linear-gauge)
-    -   [%%ProductName%% ASP.NET MVC ラッパー](#mvc)
-    -   [%%ProductName%% ASP.NET MVC ラッパー (モバイル)](#mvc-mobile)
+    -   [%%ProductNameMVC%%](#mvc)
+    -   [%%ProductNameMVC%% (モバイル)](#mvc-mobile)
     -   [igMap](#map)
     -   [igOlapXmlaDataSource](#olap-xmla-data-source)
     -   [igPivotDataSelector](#pivot-data-selector)
@@ -1091,7 +1091,7 @@ initialExpandDepth と仮想化の使用がサポートされない|仮想化が
 
 [既知の問題点と制限の概要](#summary)を参照してください。
 
-### <a id="mvc"></a> [%%ProductName%% ASP.NET MVC ラッパー](ASPNET-MVC-Wrappers-Known-Issues.html)
+### <a id="mvc"></a> [%%ProductNameMVC%%](ASPNET-MVC-Wrappers-Known-Issues.html)
 
 問題|説明|状態
 ---|---|---
@@ -1103,7 +1103,7 @@ MVC Razor レイアウト ビューで MVC Loader が正常に機能しない|AS
 [既知の問題点と制限の概要](#summary)を参照してください。
 
 
-### <a id="mvc-mobile"></a> [%%ProductName%% ASP.NET MVC ラッパー (モバイル)](ASPNET-MVC-Mobile-Wrappers-Known-Issues.html)
+### <a id="mvc-mobile"></a> [%%ProductNameMVC%% (モバイル)](ASPNET-MVC-Mobile-Wrappers-Known-Issues.html)
 
 問題|説明|状態
 ---|---|---

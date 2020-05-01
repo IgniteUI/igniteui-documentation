@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "adding-the-required-resources-for-netadvantage-for-jquery",
+    "fileName": "adding-the-required-resources-for-igniteui-for-jquery",
     "controlName": [],
     "tags": []
 }
@@ -74,7 +74,7 @@
 
 1. %%ProductName%%™ リソースは、`js` および `css` フォルダー内のインストール ディレクトリに置かれています。
 
-![](images/Adding_the_Required_Resources_for_NetAdvantage_for_jQuery_2.png)
+![](images/Adding_the_Required_Resources_for_IgniteUI_for_jQuery_2.png)
 
 2. `css` フォルダーを Web アプリケーションの `Styles` フォルダーにコピーします。
 
@@ -100,7 +100,7 @@ Modernizr のデフォルトのパッケージには含まれていない、`css
 
 `css-boxsizing` (Community アドオンから) にチェックが付いていることを確認してから、[生成] ボタンをクリックしてカスタム ビルドを作成する必要があります。
 
-![](images/Adding_the_Required_Resources_for_NetAdvantage_for_jQuery_3.png)
+![](images/Adding_the_Required_Resources_for_IgniteUI_for_jQuery_3.png)
 
 #### JQuery JavaScript ファイルをコピーします。
 

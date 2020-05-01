@@ -191,7 +191,7 @@ $.ig.loader({
   
 このサンプルは、Knockout ビュー モデルのデータ ソースの変更を処理する igDataChart コントロールを紹介します。コントロールを再バインドせずにチャートが更新されます。デフォルトで、サンプルは月の最初の 10 日の売上および経費を表示します。チャートに日を追加/削除するか、項目を移動し、チャートを更新します。
 
->**注:** Knockout 拡張子が ASP.NET MVC ヘルパーとの互換性がありません。
+>**注:** Knockout 拡張子が %%ProductNameMVC%% との互換性がありません。
 
 <div class="embed-sample">
    [%%SamplesEmbedUrl%%/data-chart/edit-chart-items-with-knockout](%%SamplesEmbedUrl%%/data-chart/edit-chart-items-with-knockout)

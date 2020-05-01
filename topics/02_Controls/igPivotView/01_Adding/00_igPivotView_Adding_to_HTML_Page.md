@@ -530,7 +530,7 @@
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [igPivotView の ASP.NET MVC アプリケーションへの追加](igPivotView-Adding-Using-the-MVC-Helper.html): このトピックは、 ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーション へ `igPivotView` コントロールを追加する方法についての概念と詳しい手順を説明します。
+- [igPivotView の ASP.NET MVC アプリケーションへの追加](igPivotView-Adding-Using-the-MVC-Helper.html): このトピックは、%%ProductNameMVC%%を使用して ASP.NET MVC アプリケーションへ `igPivotView` コントロールを追加する方法についての概念と詳しい手順を説明します。
 
 ### <a id="samples"></a>サンプル
 

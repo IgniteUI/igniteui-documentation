@@ -19,7 +19,7 @@
 以下の表は、このトピックを理解するための前提条件として必要な概念、トピック、および記事の一覧です。
 
 -   トピック
-    -   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+    -   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 
 -   概念
     -   [AngularJS の概念的な概要](https://docs.angularjs.org/guide/concepts)
@@ -140,7 +140,7 @@ app.controller('treeController',
 
 ### <a id="events"></a>イベント
 
-[%%ProductName%% イベントを処理](Using-Events-in-NetAdvantage-for-jQuery.html)する標準的な方法は他にもありますが、ディレクティブは `event-` の接頭辞を持つ属性として、宣言的に定義されたハンドラをバインドすることもできます。イベントの名前は、オプションで **小文字およびダッシュで区切り、小文字で記述する**命名規則に従います。たとえば、以下のコードリストは `igVideoPlayer` の [`ended`](%%jQueryApiUrl%%/ui.igvideoplayer#events:ended) イベントを宣言する方法を示しています。
+[%%ProductName%% イベントを処理](Using-Events-in-IgniteUI-for-jQuery.html)する標準的な方法は他にもありますが、ディレクティブは `event-` の接頭辞を持つ属性として、宣言的に定義されたハンドラをバインドすることもできます。イベントの名前は、オプションで **小文字およびダッシュで区切り、小文字で記述する**命名規則に従います。たとえば、以下のコードリストは `igVideoPlayer` の [`ended`](%%jQueryApiUrl%%/ui.igvideoplayer#events:ended) イベントを宣言する方法を示しています。
 
 **HTML の場合:**
 ```html

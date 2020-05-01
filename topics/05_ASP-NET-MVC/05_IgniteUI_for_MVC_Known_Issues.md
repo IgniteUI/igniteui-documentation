@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# ラッパーの既知の問題と制限 (%%ProductName%% ASP.NET MVC)
+# ラッパーの既知の問題と制限 (%%ProductNameMVC%%)
 
 
 
 ## 既知の問題点と制限の概要
 
-以下の表は、%%ProductName%%™ ASP.NET MVC ラッパーの既知の問題と制限の概要を示します。以下の表は、一部の問題の詳細な説明とその回避策を示します。
+以下の表は、%%ProductNameMVC%% の既知の問題と制限の概要を示します。以下の表は、一部の問題の詳細な説明とその回避策を示します。
 
 
 凡例: | 
@@ -23,7 +23,7 @@
 ![](images/negative.png) | 既知の回避策はありません
 ![](images/plannedFix.png) | 既知の回避策はありません。修正予定です。
 
-### %%ProductName%% ASP.NET MVC ラッパー
+### %%ProductNameMVC%%
 
 
 問題|説明|状態
@@ -66,9 +66,9 @@ $.ig.loader(function () {
 
 ### <a id="loader-layout-view"></a> MVC Razor レイアウト ビューで MVC Loader が正常に機能しない
 
-ASP.NET MVC Loader を MVC Razor のレイアウト ビューに表示した場合、実際のビューにあるコントロールよりも前にローカルを初期化することはできません。
+%%ProductNameMVC%% Loader を MVC Razor のレイアウト ビューに表示した場合、実際のビューにあるコントロールよりも前にローカルを初期化することはできません。
 
-ローダーが ASP.NET MVC レイザー アプリケーションのレイアウト ページに含まれている場合、ASP.NET MVC ヘルパーは適切なローダー コードを生成しません。ASP.NET MVC へルパーは通常の jQuery `$(function() { })` (document.ready) 構文を使用します。ASP.NET MVC Razor アプリケーションでのみ発生します。マスター ページのある MVC ASPX ビューでは、この問題は発生しません。
+ローダーが ASP.NET MVC レイザー アプリケーションのレイアウト ページに含まれている場合、%%ProductNameMVC%% は適切なローダー コードを生成しません。ASP.NET MVC へルパーは通常の jQuery `$(function() { })` (document.ready) 構文を使用します。ASP.NET MVC Razor アプリケーションでのみ発生します。マスター ページのある MVC ASPX ビューでは、この問題は発生しません。
 
 これは、特定のビューが描画されてからレイアウト ビューが処理/実行されるため、ビューのレンダリングの前にローダーを初期化することができないためです。
 

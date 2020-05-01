@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク  (igCategoryChart)
+# jQuery および MVC API リファレンス リンク  (igCategoryChart)
 
 
 ## トピックの概要
 ### 目的
 
-このトピックは、` igCategoryChart`™ の jQuery および ASP.NET MVC ヘルパー クラスのたえの API マニュアルへのリンクを提供します。
+このトピックは、` igCategoryChart`™ の jQuery および %%ProductNameMVC%% クラスのたえの API マニュアルへのリンクを提供します。
 
 ### 前提条件
 
@@ -29,13 +29,13 @@
 
 ### 概要
 
-`igCategoryChart` は、ASP.NET MVC ヘルパー 付きの jQuery UI ウィジェットとして設計されています。それぞれの API についての詳細は、以下に示された API マニュアルへのリンク先を参照してください。
+`igCategoryChart` は、%%ProductNameMVC%% 付きの jQuery UI ウィジェットとして設計されています。それぞれの API についての詳細は、以下に示された API マニュアルへのリンク先を参照してください。
 
 ### API マニュアル参照の概要
 
 -	[igCategoryChart jQuery API](%%jQueryApiUrl%%/ui.igCategoryChart): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
 
--	[igCategoryChart ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.categorychart`1.html) : マニュアルには、 CategoryChart クラス定義とそのメンバーの全リストが含まれています。
+-	[igCategoryChart MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.categorychart`1.html) : マニュアルには、 CategoryChart クラス定義とそのメンバーの全リストが含まれています。
 
 ## 関連コンテンツ
 

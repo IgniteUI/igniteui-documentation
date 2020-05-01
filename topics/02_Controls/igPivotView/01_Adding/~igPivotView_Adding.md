@@ -22,7 +22,7 @@
 
 - [igPivotView の HTML ページへの追加](igPivotView-Adding-to-HTML-Page.html): このトピックでは、 HTML ページへ `igPivotView` コンポーネントを追加する方法についての概念と詳しい手順を説明します。
 
-- [igPivotView の ASP.NET MVC アプリケーションへの追加](igPivotView-Adding-Using-the-MVC-Helper.html): このトピックは、 ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションへ `igPivotView` コントロールを追加する方法についての概念と詳細な手順を提供します。
+- [igPivotView の ASP.NET MVC アプリケーションへの追加](igPivotView-Adding-Using-the-MVC-Helper.html): このトピックは、ASP.NET MVC アプリケーションへ `igPivotView` コントロールを追加する方法についての概念と詳細な手順を提供します。
 
 
 

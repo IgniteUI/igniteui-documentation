@@ -505,7 +505,7 @@ $(function () {
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [ASP.NET MVC アプリケーションへの igRadialMenu の追加](igRadialMenu-Adding-MVC-App.html): このトピックではコード例を使用して、ASP.NET MVC ヘルパーで `igRadialMenu` を ASP.NET MVC アプリケーションに追加する方法を紹介します。
+- [ASP.NET MVC アプリケーションへの igRadialMenu の追加](igRadialMenu-Adding-MVC-App.html): このトピックではコード例を使用して、%%ProductNameMVC%% で `igRadialMenu` を ASP.NET MVC アプリケーションに追加する方法を紹介します。
 
 - [igRadialMenu の構成の概要](igRadialMenu-Configuration-Overview.html): このトピックでは、`igRadialMenu` コントロールを構成する方法を説明します。
 

@@ -20,7 +20,7 @@
 
 以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
 
-- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックでは、%%ProductName%%™ コントロールのタッチ サポート インタラクションの更新内容を紹介します。
+- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-IgniteUI-for-jQuery-Controls.html): このトピックでは、%%ProductName%%™ コントロールのタッチ サポート インタラクションの更新内容を紹介します。
 
 - [機能セレクター](igGrid-Feature-Chooser.html): このトピックでは、`igGrid`™ 機能セレクター メニューとそのそのセクションについて説明します。 
 
@@ -219,7 +219,7 @@ igGrid|igHierarchicalGrid
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックでは、%%ProductName%%™ コントロールのタッチ サポート インタラクションの更新内容を紹介します。
+- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-IgniteUI-for-jQuery-Controls.html): このトピックでは、%%ProductName%%™ コントロールのタッチ サポート インタラクションの更新内容を紹介します。
 
 - [機能セレクター](igGrid-Feature-Chooser.html): このトピックでは、`igGrid`™ 機能セレクター メニューとそのそのセクションについて説明します。 
 

@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-#jQuery と ASP.NET MVC ヘルパー API へのリンク (igBulletGraph)
+# jQuery および MVC API リファレンス リンク (igBulletGraph)
 
 
 ## igBulletGraph API 参照ドキュメント
@@ -19,7 +19,7 @@
 
 - [***igBulletGraph* jQuery API**](%%jQueryApiUrl%%/ui.igBulletGraph): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
 
-- [***igBulletGraph* ASP.NET MVC ヘルパー API**](Infragistics.Web.Mvc~Infragistics.Web.Mvc.BulletGraphModel.html): マニュアルには、ブレット グラフの ASP.NET MVC ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
+- [***igBulletGraph* MVC API**](Infragistics.Web.Mvc~Infragistics.Web.Mvc.BulletGraphModel.html): マニュアルには、ブレット グラフの ASP.NET MVC ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
 
 
 

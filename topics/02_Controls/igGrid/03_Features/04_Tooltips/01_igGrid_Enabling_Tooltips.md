@@ -14,7 +14,7 @@
 
 ### 目的
 
-このトピックでは、jQuery と MVC の両方のパターンについて、Tooltip ウィジェットを `igGrid`™ へ追加する方法を示しています。これにより、マウスをホバーしたときにグリッド セル上にツールチップを表示させることができます。
+このトピックでは、jQuery と MVC の両方について、Tooltip ウィジェットを `igGrid`™ へ追加する方法を示しています。これにより、マウスをホバーしたときにグリッド セル上にツールチップを表示させることができます。
 
 ### このトピックの内容
 
@@ -34,7 +34,7 @@
 
 ## <a id="preview"></a> プレビュー
 
-以下は、手順例の最終結果のプレビューです。最終結果は jQuery 技術と MVC 技術で同じです。
+以下は、手順例の最終結果のプレビューです。最終結果は jQuery と MVC で同じです。
 
 ![](images/Adding_Tooltips_to_an_igGrid_01.png)
 
@@ -44,16 +44,15 @@
 -   jQuery の要件
     -   [`igGrid`](igGrid-Overview.html) がデータ ソースに接続されている HTML 形式の Web ページであること。
 -   MVC 固有の要件
-    -   [MVC igGrid](igGrid-Overview.html) がデータ ソースに接続されている MS Visual Studio® の MVC 2 以後のプロジェクトであること
-    -   (MVC IG ラッパーが納められた) Infragistics MVC dll への参照があること
+    -   [[%%ProductNameMVC%% Grid](igGrid-Overview.html) がデータ ソースに接続されている MS Visual Studio® の MVC 4 以後のプロジェクトであること
+    -   %%ProductNameMVC%% dll への参照があること - Infragistics.Web.Mvc.dll
 
 ### <a id="script-requirements"></a> スクリプト要件 
-MVC ラッパーが jQuery ウィジェットをレンダリングするため、jQuery と MVC のサンプルに必要とされるスクリプトは同じです。
-
+%%ProductNameMVC%% が jQuery ウィジェットをレンダリングするため、%%ProductName%% と %%ProductNameMVC%% のサンプルに必要とされるスクリプトは同じです。
 グリッドとそのグループ化機能を実行するためには以下のスクリプトが必要とされます。
 
 -   jQuery ライブラリ スクリプト
--   jQuery User Interface (UI) ライブラリ
+-   jQuery User Interface (UI) ライブラリ スクリプト
 -   IG ライブラリ スクリプト (これはコントロールのコードを難読化したものです)
 
 次のコード サンプルは、HTML ファイルのヘッダー コードに追加されるスクリプトです。
@@ -94,7 +93,7 @@ $("#grid1").igGrid({
 
 結果を確認するには、ブラウザーで HTML ファイルを開きます。上記のプレビューで示すように、ツールチップは第 1 列と第 3 列のセルにマウスをホバーするたびに表示されるはずです。
 
-## <a id="adding-mvc"></a> MVC igGrid ツールチップを追加する 
+## <a id="adding-mvc"></a> %%ProductNameMVC%% igGrid ツールチップを追加する 
 
 igGrid 自体を定義すると同時に、ツールチップ機能とその構成値をすべて定義します。
 

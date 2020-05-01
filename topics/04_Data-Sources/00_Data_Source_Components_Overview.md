@@ -24,7 +24,7 @@
 
 **トピック**
 
-- [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): このトピックは、%%ProductName%% 製品の概要を示します。
+- [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html): このトピックは、%%ProductName%% 製品の概要を示します。
 
 
 ## 概要

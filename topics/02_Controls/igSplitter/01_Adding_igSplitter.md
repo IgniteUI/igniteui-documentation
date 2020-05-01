@@ -549,7 +549,7 @@ igSplitter 構造
 
 - [既知の問題と制限 (igSplitter)](igSplitter-Known-Issues-and-Limitations.html): このトピックでは、`igSplitter` コントロールの既知の問題と制限に関する情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igSplitter)](igSplitter-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックでは、`igSplitter` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
+- [jQuery と MVC API リンク (igSplitter)](igSplitter-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックでは、`igSplitter` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
 
 ### <a id="samples"></a>サンプル
 

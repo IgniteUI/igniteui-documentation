@@ -443,7 +443,7 @@ IG テーマ (オプション)
     <script  type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
     ```
 
-    igTileManager 用に構成された igLoader MVC ヘルパー:
+    igTileManager 用に構成された %%ProductNameMVC%% Loader:
 
     **ASPX の場合:**
 
@@ -550,7 +550,7 @@ IG テーマ (オプション)
 
 - [既知の問題と制限 (igTileManager)](igTileManager-Known-Issues-and-Limitations.html): このトピックでは、`igTileManager` コントロールの既知の問題と制限、その回避策に関する情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (igTileManager)](igTileManager-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックは、`igTileManager` コントロールの API 参照ドキュメントのリンクの一覧です。
+- [jQuery および MVC API リファレンス リンク (igTileManager)](igTileManager-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックは、`igTileManager` コントロールの API 参照ドキュメントのリンクの一覧です。
 
 
 

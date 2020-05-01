@@ -23,7 +23,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
--	[%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックでは、Web アプリケーションで %%ProductName%%® を操作して、必要なリソースを管理する方法について説明します。
+-	[%%ProductName%% でイベントの使用](Using-Events-in-IgniteUI-for-jQuery.html): このトピックでは、Web アプリケーションで %%ProductName%%® を操作して、必要なリソースを管理する方法について説明します。
 
 -	[igLayoutManager の概要](igLayoutManager-Overview.html): このトピックでは、`igLayoutManager` コントロールの概念について説明し、サポートされているレイアウトやその使用についての情報を提供します。
 
@@ -64,7 +64,7 @@
 
 イベント ハンドラー関数の `igLayoutManager` コントロールへのアタッチは、一般的にコントロールの初期化時に行われます。
 
-MVC ヘルパー内ではイベント ハンドラーを定義できないので、MVC ヘルパーを使用するときは、実行時にイベント ハンドラーを割り当てる必要があります。
+HTML 内ではイベント ハンドラーを定義できないので、%%ProductNameMVC%% を使用するときは、実行時にイベント ハンドラーを割り当てる必要があります。
 
 jQuery はイベント ハンドラーの割り当てるための以下のメソッドをサポートします。
 
@@ -79,7 +79,7 @@ jQuery はイベント ハンドラーの割り当てるための以下のメソ
 -   [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) - すべての項目が描画された後に発生します。
 -   [`rendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:rendered) - 項目がコンテナーの幅または高さに完全に対応しようとする前に発生します。
 
-イベントを処理する方法の詳細は、[%%ProductName%% でのイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html)のトピックを参照してください。
+イベントを処理する方法の詳細は、[%%ProductName%% でのイベントの使用](Using-Events-in-IgniteUI-for-jQuery.html)のトピックを参照してください。
 
 ### <a id="event-handaling"></a>イベント処理ケースの概要表
 
@@ -141,9 +141,9 @@ jQuery はイベント ハンドラーの割り当てるための以下のメソ
 例|説明
 ---|---
 [jQuery での初期化時に itemRendered イベントを処理する](#example-jquery)|この例は、初期化時に jQuery で [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events) イベントにイベント処理関数を割り当てます。
-[ASP.NET MVC での初期化時に itemRendered イベントを処理する](#example-asp-net)|この例は、初期化時に ASP.NET MVC ラッパーを使用して [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events) イベントにイベント処理関数を割り当てます。
+[ASP.NET MVC での初期化時に itemRendered イベントを処理する](#example-asp-net)|この例は、初期化時に %%ProductNameMVC%% を使用して [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events) イベントにイベント処理関数を割り当てます。
 [jQuery での実行時に itemRendered イベントを処理する](#example-run-time-jquery)|この例は、実行時に jQuery で [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events) イベントにイベント処理関数を割り当てます。
-[ASP.NET MVC での実行時に itemRendered イベントを処理する](#example-run-time-mvc)|この例は、実行時に ASP.NET MVC ラッパーを使用して [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) イベントにイベント処理関数を割り当てます。
+[ASP.NET MVC での実行時に itemRendered イベントを処理する](#example-run-time-mvc)|この例は、実行時に %%ProductNameMVC%% を使用して [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) イベントにイベント処理関数を割り当てます。
 
 ##<a id="example-jquery"></a>コード例: jQuery での初期化時に itemRendered イベントを処理する
 
@@ -171,7 +171,7 @@ $(".selector").igLayoutManager({
 
 ### <a id="itemRender-mvc-description"></a>説明
 
-この例は、初期化時に ASP.NET MVC ラッパーを使用して [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) イベントにイベント処理関数を割り当てます。
+この例は、初期化時に %%ProductNameMVC%% を使用して [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events:itemRendered) イベントにイベント処理関数を割り当てます。
 
 ### <a id="itemRender-mvc-code"></a>コード
 
@@ -210,7 +210,7 @@ $(document).delegate(".selector", "iglayoutmanageritemrendered", function(evt, u
 
 ### <a id="itemRender-mvc-description-run-time"></a>説明
 
-この例は、実行時に ASP.NET MVC ラッパーを使用して [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events) イベントにイベント処理関数を割り当てます。
+この例は、実行時に %%ProductNameMVC%% を使用して [`itemRendered`](%%jQueryApiUrl%%/ui.iglayoutmanager#events) イベントにイベント処理関数を割り当てます。
 
 ### <a id="itemRender-mvc-code-run-time"></a>コード
 
@@ -239,7 +239,7 @@ $(document).delegate(".selector", "iglayoutmanageritemrendered", function(evt, u
 
 このトピックについては、以下のサンプルも参照してください。
 
--	[ASP.NET MVC の基本的な使用方法](%%SamplesUrl%%/layout-manager/aspnet-mvc-helper): このサンプルでは、レイアウト マネージャー コントロールの ASP.NET MVC ヘルパーを使用する方法を紹介します。
+-	[ASP.NET MVC の基本的な使用方法](%%SamplesUrl%%/layout-manager/aspnet-mvc-helper): このサンプルでは、レイアウト マネージャー コントロールの %%ProductNameMVC%% を使用する方法を紹介します。
 
 -	[HTML マークアップからの境界線のレイアウト](%%SamplesUrl%%/layout-manager/border-layout-markup): このサンプルでは、「*center*」/「*left*」/「*right*」/「*header*」/「*footer*」 の各 CSS クラスを割り当て、HTML マークアップから `igLayoutManager` コントロールの境界線レイアウトを初期化する方法を紹介します。
 

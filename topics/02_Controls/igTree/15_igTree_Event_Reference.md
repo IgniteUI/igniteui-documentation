@@ -101,4 +101,4 @@ $("#igTree1").on({ igtreedragstart: function (e, args) {
 -	[igTree の概要](igtree-overview.html)
 -   [igTree jQuery API ドキュメント](%%jQueryApiUrl%%/ui.igtree#!overview)
 -   [igTree ASP.NET MVC API ドキュメント](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeModel_members.html)
--	[%%ProductName%% でイベントの使用](using-events-in-netadvantage-for-jquery.html)
+-	[%%ProductName%% でイベントの使用](using-events-in-igniteui-for-jquery.html)

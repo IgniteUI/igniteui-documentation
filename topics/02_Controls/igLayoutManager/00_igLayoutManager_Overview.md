@@ -228,7 +228,7 @@
 ##<a id="requirements"></a>要件
 
 
-`igLayoutManager` コントロールは jQuery UI ウィジェットであるため、jQuery と jQuery の UI ライブラリに依存します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、Infragistics.Web.Mvc の組立が必要になります。
+`igLayoutManager` コントロールは jQuery UI ウィジェットであるため、jQuery と jQuery の UI ライブラリに依存します。これらのリソースへの参照は、実際の jQuery または %%ProductNameMVC%% が使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、Infragistics.Web.Mvc の組立が必要になります。
 
 完全な要件の一覧については、[igLayoutManager の追加](igLayoutManager-Adding.html)のトピックを参照してください。
 
@@ -252,7 +252,7 @@
 
 -	[既知の問題と制限 (igLayoutManager)](igLayoutManager-Known-Issues-and-Limitations.html): このトピックでは、`igLayoutManager` コントロールの既知の問題と制限に関する情報を提供します。
 
--	[jQuery と ASP.NET MVC ヘルパー API へのリンク (igLayoutManager)](igLayoutManager-jQuery-and-ASP.NET-MVC-Helper-API-Links-.html):このトピックでは、`igLayoutManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
+-	[jQuery および MVC API リファレンス リンク (igLayoutManager)](igLayoutManager-jQuery-and-ASP.NET-MVC-Helper-API-Links-.html):このトピックでは、`igLayoutManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
 
 
 

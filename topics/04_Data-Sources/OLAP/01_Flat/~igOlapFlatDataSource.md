@@ -27,7 +27,7 @@
 
 - [メタデータの定義 (igOlapFlatDataSource)](igOlapFlatDataSource-Defining-Metadata.html): このトピックは、フラットなデータが多次元 (OLAP) フォームを提示できるように `igOlapFlatDataSource` で使用されるデータに対してメタデータを定義する方法を説明します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igOlapFlatDataSource)](igOlapFlatDataSource-API-Links.html): このトピックは、`igOlapFlatDataSource` コンポーネントの jQuery と ASP.NET MVC API ドキュメントへのリンクを提供します。
+- [jQuery と MVC API リンク (igOlapFlatDataSource)](igOlapFlatDataSource-API-Links.html): このトピックは、`igOlapFlatDataSource` コンポーネントの jQuery と ASP.NET MVC API ドキュメントへのリンクを提供します。
 
 
 

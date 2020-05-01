@@ -135,7 +135,7 @@ JavaScript 配列へのデータ バインド|**関連トピック**<br>[igSpark
 
 以下のトピックでは、このトピックに関連する追加情報を提供しています。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
+- [jQuery と MVC API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
 
 
 ### サンプル

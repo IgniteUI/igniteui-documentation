@@ -14,7 +14,7 @@
 
 -   [igCurrencyEditor の概要](igCurrencyEditor-igCurrencyEditor-Overview.html)
 -   [igCurrencyEditor のスタイルおよびテーマ設定](igCurrencyEditor-igCurrencyEditor-Styling-and-Theming.html)
--   [igCurrencyEditor jQuery および ASP.NET MVC ヘルパー API リンク](igCurrencyEditor-igCurrencyEditor-jQuery-API.html)
+-   [igCurrencyEditor jQuery および MVC API リファレンス リンク](igCurrencyEditor-igCurrencyEditor-jQuery-API.html)
 -   [igCurrencyEditor アクセシビリティの遵守](igCurrencyEditor-igCurrencyEditor-Accessibility-Compliance.html)
 -   [igCurrencyEditor 既知の問題](igCurrencyEditor-igCurrencyEditor-Known-Issues.html)
 -   [igCurrencyEditor への移行](Migrating-to-the-new-igCurrencyEditor.html)

@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "touch-support-for-netadvantage-for-jquery-controls",
+    "fileName": "touch-support-for-igniteui-for-jquery-controls",
     "controlName": [],
     "tags": []
 }

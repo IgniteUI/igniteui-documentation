@@ -57,7 +57,7 @@
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
 
--	[%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): このトピックでは、%%ProductName%% ライブラリの一般情報を提供します。
+-	[%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html): このトピックでは、%%ProductName%% ライブラリの一般情報を提供します。
 
 ### サンプル
 

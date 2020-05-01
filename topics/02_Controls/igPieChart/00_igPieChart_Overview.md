@@ -30,7 +30,7 @@
 
 **トピック**
 
-- [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
+- [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
 
 
 ### このトピックの内容
@@ -65,7 +65,7 @@
 
 ### <a id="min-requirements-introduction"></a>概要
 
-igPieChart コントロールは jQuery UI ウィジェットであるため、jQuery ライブラリと jQuery UI ライブラリに依存します。Modernzr ライブラリは、内部的にブラウザーと装置の機能を検出するためにも使用されています。コントロールは、機能とデータのバインド用の %%ProductName%%™ の共有リソースのいくつかを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
+igPieChart コントロールは jQuery UI ウィジェットであるため、jQuery ライブラリと jQuery UI ライブラリに依存します。Modernzr ライブラリは、内部的にブラウザーと装置の機能を検出するためにも使用されています。コントロールは、機能とデータのバインド用の %%ProductName%%™ の共有リソースのいくつかを使用します。これらのリソースへの参照は、実際の jQuery または ProductNameMVC%% が使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
 
 ### <a id="requirements-summary-chart"></a>要件の概要表
 
@@ -182,7 +182,7 @@ igDataSource™ コントロール
 								`infragistics.ui.widget.js`
                             </td>
 							<td>
-								すべての Ignite UI ウィジェットの基本 igWidget。
+								すべての %%ProductName%% ウィジェットの基本 igWidget。
 							</td>
 						</tr>
 
@@ -381,7 +381,7 @@ IG テーマ
 
 - [igDataChart の追加](igDataChart-Adding.html): このトピックは、`igPieChart`™ コントロールをウェブ ページに追加し、それをデータにバインドする方法を説明します。
 
-- [](igPieChart-API-Links.html)[jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク (igPieChart)](igPieChart-API-Links.html): このトピックでは、`igPieChart`™ の jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメンテーションへのリンクを提供します。
+- [](igPieChart-API-Links.html)[jQuery および MVC API リファレンス リンク (igPieChart)](igPieChart-API-Links.html): このトピックでは、`igPieChart`™ の jQuery および %%ProductNameMVC%% クラスの API ドキュメンテーションへのリンクを提供します。
 
 - [データ バインディング (igPieChart)](igPieChart-DataBinding.html): このトピックでは、さまざまなデータ ソースを `igPieChart`™ コントロールにバインドする方法を説明します。
 

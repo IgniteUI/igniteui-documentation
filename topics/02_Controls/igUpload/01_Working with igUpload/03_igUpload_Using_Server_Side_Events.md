@@ -332,7 +332,7 @@ $(function(){
 ![](images/igUpload_CustomErrorMessage.png)
 
 ## 関連リンク
--   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 -   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
  

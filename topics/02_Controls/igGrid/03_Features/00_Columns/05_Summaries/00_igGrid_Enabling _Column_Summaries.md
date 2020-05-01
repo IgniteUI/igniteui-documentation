@@ -59,18 +59,18 @@
     ```
 
 -   MVC 固有の要件
-    -   グリッドがデータ ソースに接続されている MS Visual Studio® の MVC 2 または MVC 3 プロジェクトであること
-    -   (MVC IG ラッパーが納められた) Infragistics MVC dll への参照があること
+    -   グリッドがデータ ソースに接続されている MS Visual Studio® の MVC 4 または MVC 3 プロジェクトであること
+    -   %%ProductNameMVC%% dll への参照があること - Infragistics.Web.Mvc.dll
 
 ### <a id="scrip-requirements"></a> スクリプト要件 
 
--   MVC ラッパーが最終的に jQuery ウィジェットを再描画するため、jQuery と MVC 両方のサンプルに必要なスクリプトは同じです。次が必要になります。
+-   jQuery と MVC が jQuery ウィジェットを再描画するため、両方のサンプルに必要なスクリプトは同じです。次が必要になります。次が必要になります。
 
     1.  jQuery ライブラリ スクリプト
-    2.  jQuery UI ライブラリ
-    3.  コントロールの難解なコードである IG ライブラリ スクリプト
+    2.  jQuery User Interface (UI) ライブラリ スクリプト
+    3.  %%ProductNameMVC%% ライブラリ スクリプト
 
-次のコード サンプルは、HTML ファイルのヘッダー コードに追加されるスクリプトです。
+次のコード サンプルは、HTML ファイルのヘッダー セクションに追加されるスクリプトです。
 
 **HTML の場合:**
 

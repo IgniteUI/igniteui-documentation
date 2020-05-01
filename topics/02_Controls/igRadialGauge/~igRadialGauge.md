@@ -29,7 +29,7 @@
 
 - [igRadialGauge の構成](igRadialGauge-Using-igRadialGauge.html): このトピック グループは、向きや方向および視覚要素を含む `igRadialGauge`™ コントロールのさまざまな要素を構成する方法を説明します。
 
-- [jQuery と ASP.NET MVC ヘルパー API への参照 (igRadialGauge)](igRadialGauge-igRadialGauge-API-Reference.html): このトピックでは、`igRadialGauge` コントロールに関連するキー クラスやプロパティに関する参考情報を提供します。
+- [jQuery と MVC API リファレンス リンク (igRadialGauge)](igRadialGauge-igRadialGauge-API-Reference.html): このトピックでは、`igRadialGauge` コントロールに関連するキー クラスやプロパティに関する参考情報を提供します。
 
 - [アクセシビリティ準拠](igRadialGauge-Accessibility-Compliance.html): このトピックでは、`igRadialGauge` コントロールのアクセシビリティ遵守に関する情報を提供します。
 

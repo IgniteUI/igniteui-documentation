@@ -141,7 +141,7 @@
 								`infragistics.ui.widget.js`
                             </td>
 							<td>
-								すべての Ignite UI ウィジェットの基本 igWidget。
+								すべての %%ProductName%% ウィジェットの基本 igWidget。
 							</td>
 						</tr>
 						
@@ -467,7 +467,7 @@
 
 -   [igLinearGauge の ASP.NET MVC アプリケーションへの追加](igLinearGauge-Adding-Using-the-MVC-Helper.html): このトピックではコード例を使用して、ASP.NET MVC ヘルパーで ASP.NET MVC ビューに `igLinearGauge` コントロールを追加する方法を説明します。
 
--   [jQuery と ASP.NET MVC ヘルパー API へのリンク (igLinearGauge)](igLinearGauge-API-Links.html): このトピックでは、`igLinearGauge` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+-   [jQuery および MVC API リファレンス リンク (igLinearGauge)](igLinearGauge-API-Links.html): このトピックでは、`igLinearGauge` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 
 
 

@@ -435,29 +435,38 @@ $("#grid").igHierarchicalGrid({
 ## <a id="example_attaching_event_handler_mvc"></a> コード例: jQuery および MVC で実行時にイベント ハンドラーを割り当てる場合
 ### 説明
 
-jQuery の `delegate()` メソッドを使用して、実行時にイベント ハンドラーを割り当てます。
-
-MVC ヘルパー内ではイベント ハンドラーを定義できないため、MVC ヘルパーを使用する場合には、実行時にイベント ハンドラーを割り当てる必要があります。使用するメソッドに応じて、イベントの割り当て方には次の 3 通りの方法があります。
-
-1.  `bind()`
-2.  `live()`
-3.  `delegate()`
-
-推奨メソッド、`delegate()` は最高のパフォーマンスを提供するメソッドです。このメソッドを使用すると、万一コントロールが破棄されて作成し直されてもイベント ハンドラーが自動的に割り当てられることになります。
-
-### コード
-このコード例では、実行時にイベント ハンドラーを割り当てます。MVC ヘルパーの使用法の詳細については、「[行セレクターの有効化 (igHierarchicalGrid)](igHierarchicalGrid-Enabling-RowSelectors.html)」を参照してください。
+%%ProductNameMVC%% を使用する場合、jQueryの `on()` メソッドを使用して、ランタイムにイベントハンドラーをアタッチできます。
 
 **JavaScript の場合:**
 
 ```js
-$("#grid").delegate("#iggridrowselectorsrowselectorclicked":
-    function (e, args) {
+$("#grid").on("iggridrowselectorsrowselectorclicked", function (e, args) {
         // Handle event  
     }
 );
 ```
 
+このオプションは、%%ProductNameMVC%% を使用する場合にも使用できますが、%%ProductNameMVC%% は、 `AddClientEvent` メソッドによって別の方法も公開します。最初のメソッド引数は、イベントのオプションの文字列名前です。第 2 の引数は、イベント ハンドラー関数の文字列名前です。
+
+この方法は一般的なユース ケースに使用できますが、`AddClientEvent` メソッドの第 2 の引数も実行する JavaScript コードの文字列が可能で、スクリプト要素タグがない手順 2 の完全な JavaScript 関数を表現する文字列も可能です。
+
+**ASPX の場合:**
+
+```csharp
+    <%= Html.Infragistics()
+        .Grid(Model)
+        .ID("grid")
+        .Features(features =>
+            {
+                features.RowSelectors().Inherit(true).AddClientEvent("rowSelectorClicked", "selectorClicked")
+                features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
+            })
+        .AutoGenerateColumns(true)
+        .AutoGenerateLayouts(true)
+        .DataBind()
+        .Render()
+    %>
+```
 
 
 ## <a id="example_cancelling_checkbox_state"></a> コード例: チェックボックスの状態変更イベントを取り消す場合

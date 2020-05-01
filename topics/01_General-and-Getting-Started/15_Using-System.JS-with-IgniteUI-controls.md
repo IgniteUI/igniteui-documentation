@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "Using-System.JS-with-IgniteUI-controls",
+    "fileName": "Using-System.JS-with-igniteui-controls",
     "controlName": [],
     "tags": []
 }
@@ -55,7 +55,7 @@ jspm install github:igniteui/ignite-ui
 
 すべてのコントロールを含む %%ProductName%% の製品版も JSPM で使用できます。
 
-Infragistics 非公開フィードを使用するには、Infragistics 非公開レジストリを構成するために「[Ignite UI npm パッケージの使用](using-ignite-ui-npm-packages.html)」トピックの「npmjs.com から Ignite UI npm パッケージをインストール」セクションで説明した手順を実行します。
+Infragistics 非公開フィードを使用するには、Infragistics 非公開レジストリを構成するために「[%%ProductName%% npm パッケージの使用](using-ignite-ui-npm-packages.html)」トピックの「npmjs.com から %%ProductName%% npm パッケージをインストール」セクションで説明した手順を実行します。
 
 また、jspm の npm レジストリを更新する必要があります。
 

@@ -97,7 +97,7 @@ for (i = 0; i < log.length; i++) {
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [API リンク (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): ここでは、igTree コントロールの jQuery と ASP.NET MVC ヘルパー API までのリンクを紹介します。
+- [API リンク (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): ここでは、igTree コントロールの jQuery と MVC API までのリンクを紹介します。
 
 - [ノード追加/削除の概要と例 (igTree)](igTree-Adding-Removing-Nodes-Overview-Examples.html): ここでは、コード例とともに、`igTree` コントロールのノードをプログラム的に追加/削除する方法を説明します。
 

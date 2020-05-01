@@ -34,7 +34,7 @@
 - [igScheduler の概要](igScheduler-Overview.html): このトピックは、`igScheduler` およびその機能の概要を説明します。
 
 - [Infragistics Loader の使用](Using-Infragistics-Loader.html)
-始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な Ignite UI リソースを読み込みます。Ignite UI リソースをプロジェクトに追加する方法が 3 つあります。`igLoader` を使用、必要なモジュールを読み込み、あるいはすべての必須リソースを結合するバンドル ファイルを使用することができます。以下はその方法です。
+始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な %%ProductName%% リソースを読み込みます。%%ProductName%% リソースをプロジェクトに追加する方法が 3 つあります。`igLoader` を使用、必要なモジュールを読み込み、あるいはすべての必須リソースを結合するバンドル ファイルを使用することができます。以下はその方法です。
 
 ```js
 $.ig.loader({

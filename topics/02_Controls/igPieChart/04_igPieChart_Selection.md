@@ -114,6 +114,6 @@ $(function () {
 
 - [データ バインディング (igPieChart)](igPieChart-DataBinding.html): このトピックでは、さまざまなデータ ソースを `igPieChart`™ コントロールにバインドする方法を説明します。
 
-- [jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク (igPieChart)](igPieChart-API-Links.html): このトピックは、`igDataChart`™ の jQuery および ASP.NET MVC ヘルパー クラスのたえの API マニュアルへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (igPieChart)](igPieChart-API-Links.html): このトピックは、`igDataChart`™ の jQuery および %%ProductNameMVC%% クラスのたえの API マニュアルへのリンクを提供します。
 
 - [igPieChart にテーマを設定する](igPieChart-Styling-Themes.html): スタイルを用い、`igPieChart`™ にテーマを適用する方法を説明します。

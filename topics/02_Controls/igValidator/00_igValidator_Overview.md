@@ -166,7 +166,7 @@ $("#rating").igRating({
 
 ## <a id="mvc-annotations"></a> ASP.NET MVC でのデータ注釈
 
-ASP.NET MVC で検証コントロールを構成するために、Infragistics HTML Helper [Validator()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.InfragisticsSuite`1~Validator().html) 拡張機能を使用します。
+ASP.NET MVC で検証コントロールを構成するために、%%ProductNameMVC%% Helper [Validator()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.InfragisticsSuite`1~Validator().html) 拡張機能を使用します。
 
 **Razor の場合:**
 ```csharp
@@ -175,9 +175,9 @@ ASP.NET MVC で検証コントロールを構成するために、Infragistics H
 		.Required(true)
 		.Render())
 ```
-ヘルパーは [ValidatorModel](Infragistics.Web.Mvc~Infragistics.Web.Mvc.ValidatorModel.html) でも初期化できます。 Model プロパティおよびヘルパー メソッドは、できるだけコントロールの jQuery API に従い設定します。
+ヘルパーは [ValidatorModel](Infragistics.Web.Mvc~Infragistics.Web.Mvc.ValidatorModel.html) でも初期化できます。 Model プロパティおよび %%ProductNameMVC%% メソッドは、できるだけコントロールの jQuery API に従い設定します。
 
-検証コントロールを固有のラッパーで構成するほか、厳密に型指定されたエディターを使用する場合、Model のデータ注釈が自動的に検出され、適切な入力規則とそのメッセージがコントロールの設定に追加されます。一方、[ValidatorOptions()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.BaseEditorWrapper`2~ValidatorOptions.html) ヘルパー メソッドも使用してルールを追加しオーバーライドできます。
+検証コントロールを固有のヘルパーで構成するほか、厳密に型指定されたエディターを使用する場合、Model のデータ注釈が自動的に検出され、適切な入力規則とそのメッセージがコントロールの設定に追加されます。一方、[ValidatorOptions()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.BaseEditorWrapper`2~ValidatorOptions.html) ヘルパー メソッドも使用してルールを追加しオーバーライドできます。
 
 設定の手順は、[ASP.NET MVC 検証の構成 (エディター)](Configuring-ASP.NET-MVC-Validation.html) トピックを参照してください。
 

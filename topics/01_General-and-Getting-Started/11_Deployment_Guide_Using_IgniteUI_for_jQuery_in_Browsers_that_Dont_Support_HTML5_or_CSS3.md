@@ -1,7 +1,7 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "deployment-guide-using-netadvantage-for-jquery-in-browsers-that-dont-support-html5-or-css3",
+    "fileName": "deployment-guide-using-igniteui-for-jquery-in-browsers-that-dont-support-html5-or-css3",
     "controlName": [],
     "tags": []
 }

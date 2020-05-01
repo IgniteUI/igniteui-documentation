@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API リンク (igOlapFlatDataSource)
+# jQuery と MVC API リンク (igOlapFlatDataSource)
 
 ## igOlapFlatDataSource API 参照ドキュメント
 ### igOlapFlatDataSource API リファレンス マニュアルの概要表
@@ -17,7 +17,7 @@
 
 - [igOlapFlatDataSource jQuery API](%%jQueryApiUrl%%/ig.OlapFlatDataSource): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
 
-- [igOlapFlatDataSource ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.OlapDataSourceModel.html): マニュアルには、OLAP データ ソース ASP.NET MVC  ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
+- [igOlapFlatDataSource MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.OlapDataSourceModel.html): マニュアルには、OLAP データ ソース ASP.NET MVC ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
 
 
 ## 関連コンテンツ

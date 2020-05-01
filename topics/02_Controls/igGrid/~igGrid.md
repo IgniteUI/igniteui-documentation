@@ -26,7 +26,7 @@
 -   [仮想化 (igGrid)](igGrid-Virtualization.html)
 -   [17.1 の enableUTCDates オプションの移行](Migrating-enableUTCDates-option-in-17-1.html)
 -   [igGrid のスタイル設定](igGrid-Styling-and-Theming.html)
--   [jQuery と ASP.NET MVC ヘルパー API リンク (igGrid)](igGrid-jQuery-API.html)
+-   [jQuery と MVC API リンク (igGrid)](igGrid-jQuery-API.html)
 -   [アクセシビリティ準拠 (igGrid)](igGrid-Accessibility-Compliance.html)
 -   [既知の問題と制限 (igGrid)](igGrid-Known-Issues.html)
 

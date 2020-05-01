@@ -56,7 +56,7 @@
 ### <a id="binding-to-data-sources-overview"></a>データ ソースへのバインドに関する概要 
 ほとんどの場合、`igTree` コントロールの `dataSource` オプションまたは `dataSourceUrl` オプションを使用してデータのバインドを行うことになります。このオプションは、サポートされるさまざまなデータ形式を処理できる `igDataSource` コンポーネントへデータを提供します。ツリーが UL 要素を使用してインスタンス化されている場合は唯一例外で、このオプションは使用しません。この場合、ツリーはそのベース UL 要素のデータとオプションを継承します。
 
-ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.NET MVC ヘルパーに指定する必要があります。ヘルパーによりサーバーからデータを簡単にシリアル化し、View に渡すことができます。そのページがブラウザーで受信されると、`igTree` の `dataSource` オプションが設定され、クライアント側での操作に使用されます。
+ASP.NET MVC では、IQueryable オブジェクトのコレクションを %%ProductNameMVC%% ヘルパーに指定する必要があります。ヘルパーによりサーバーからデータを簡単にシリアル化し、View に渡すことができます。そのページがブラウザーで受信されると、`igTree` の `dataSource` オプションが設定され、クライアント側での操作に使用されます。
 
 ### <a id="class-diagram"></a>データ ソースへのバインドに関するクラス図 
 以下のクラス ダイアグラムは、`igTree` コントロールでのデータ バインディングの動作を示します。
@@ -65,7 +65,7 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 
 ## <a id="basic-data-binding"></a>igTree データ バインディングの基本 
 ### <a id="basic-data-binding-introduction"></a>概要 
-以下の手順は基本オプションの構成方法と、jQuery および ASP.NET MVC ヘルパーの両方を使用したデータへのバインド方法を示しています。
+以下の手順は基本オプションの構成方法と、jQuery および MVC の両方を使用したデータへのバインド方法を示しています。
 
 ### <a id="basic-data-binding-preview"></a>プレビュー 
 以下は最終結果のプレビューで、`igTree` コントロールは階層データにバインドされています。
@@ -93,7 +93,7 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 
     2.  `igTree` をインスタンス化します
 
-        jQuery では、document ready JavaScript イベントを使用して `igTree` コントロールをインスタンス化できます。ASP.NET MVC では、ASP.NET MVC ヘルパーを使用して、IQueryable データ ソースにバインドします。
+        jQuery では、document ready JavaScript イベントを使用して `igTree` コントロールをインスタンス化できます。ASP.NET MVC では、%%ProductNameMVC%% ヘルパーを使用して、IQueryable データ ソースにバインドします。
 
         **HTML の場合:**
 
@@ -120,7 +120,7 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 2.  データへバインドします。
     1.  データを定義します。
 
-        この例では、入れ子になったオブジェクト配列で構築されている JSON 配列にバインドしています。オブジェクト スキーマは 2 種類あります。1 つは Label and Products プロパティを持つ製品カテゴリのスキーマ、もう 1 つは Name プロパティのある製品のスキーマです。このコード例では、Products プロパティに入れ子になったデータが入っています。この構造は、`igTree` の階層を形成しています。ASP.NET MVC では、入れ子になった IQueryable オブジェクトのコレクションは ASP.NET MVC ヘルパーにより受け入れられます。Entity Data Model と適切な LINQ クエリにより、この構造を簡単に `igTree` コントロールに指定できます。以下の例では、オブジェクト コレクションにバインドするときに ASP.NET MVC ヘルパーで必要なデータ構造を示しています。ProductCategory クラスは JSON 配列同様に、Label プロパティと Products プロパティで定義されます。GetProductNodes メソッドは ASP.NET MVC へルパーのデータを返します。データはビューの Model として渡されていることがわかると思います。
+        この例では、入れ子になったオブジェクト配列で構築されている JSON 配列にバインドしています。オブジェクト スキーマは 2 種類あります。1 つは Label and Products プロパティを持つ製品カテゴリのスキーマ、もう 1 つは Name プロパティのある製品のスキーマです。このコード例では、Products プロパティに入れ子になったデータが入っています。この構造は、`igTree` の階層を形成しています。ASP.NET MVC では、入れ子になった IQueryable オブジェクトのコレクションは %%ProductNameMVC%% ヘルパーにより受け入れられます。Entity Data Model と適切な LINQ クエリにより、この構造を簡単に `igTree` コントロールに指定できます。以下の例では、オブジェクト コレクションにバインドするときに %%ProductNameMVC%% ヘルパーで必要なデータ構造を示しています。ProductCategory クラスは JSON 配列同様に、Label プロパティと Products プロパティで定義されます。GetProductNodes メソッドは %%ProductNameMVC%% へルパーのデータを返します。データはビューの Model として渡されていることがわかると思います。
 
         **HTML の場合:**
 
@@ -231,7 +231,7 @@ ASP.NET MVC では、IQueryable オブジェクトのコレクションを ASP.N
 
     3.  (ASP.NET MVC) Render() を呼び出します。
 
-        ASP.NET MVC ヘルパーで `igTree` コントロールをインスタンス化する場合、他のオプションをすべて構成し終わった後、最後に Render メソッドを呼び出します。Render メソッドは、クライアントで `igTree` コントロールをインスタンス化するのに必要な HTML および JavaScript を描画します。
+        %%ProductNameMVC%% `igTree` コントロールをインスタンス化する場合、他のオプションをすべて構成し終わった後、最後に Render メソッドを呼び出します。Render メソッドは、クライアントで `igTree` コントロールをインスタンス化するのに必要な HTML および JavaScript を描画します。
 
         **ASPX の場合:**
 

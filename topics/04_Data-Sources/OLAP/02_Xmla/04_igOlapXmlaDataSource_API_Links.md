@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-#jQuery と ASP.NET MVC ヘルパー API リンク (igOlapXmlaDataSource)
+#jQuery と MVC API リンク (igOlapXmlaDataSource)
 
 ## igOlapXmlaDataSource API 参照ドキュメント
 ### igOlapXmlaDataSource API 参照マニュアルの概要表
@@ -17,7 +17,7 @@
 
 - [igOlapXmlaDataSource jQuery API](%%jQueryApiUrl%%/ig.OlapXmlaDataSource): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
 
-- [igOlapXmlaDataSource ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.OlapDataSourceModel.html): マニュアルには、OLAP データ ソース ASP.NET MVC  ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
+- [igOlapXmlaDataSource MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.OlapDataSourceModel.html): マニュアルには、OLAP データ ソース ASP.NET MVC  ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
 
 ## 関連コンテンツ
 ### トピック

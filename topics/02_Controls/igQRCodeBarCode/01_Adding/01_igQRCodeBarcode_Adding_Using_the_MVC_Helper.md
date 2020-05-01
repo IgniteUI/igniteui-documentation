@@ -15,7 +15,7 @@
 ## トピックの概要
 ### 目的
 
-このトピックではコード例を示して、ASP.NET MVC ヘルパーで ASP.NET MVC アプリケーションに `igQRCodeBarcode`™ を追加する方法を説明します。
+このトピックではコード例を示して、%%ProductNameMVC%%で ASP.NET MVC アプリケーションに `igQRCodeBarcode`™ を追加する方法を説明します。
 
 ### 前提条件
 
@@ -28,7 +28,7 @@
 
 トピック
 
-- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
+- [コントロールを MVC プロジェクトに追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
 
 - [igQRCodeBarcode の概要](igQRCodeBarcode-Overview.html): このトピックでは、主要機能、最小要件など、`igQRCodeBarcode` コントロールの概念的情報を提供します。
 
@@ -56,9 +56,9 @@
 ## <a id="overview"></a>ASP.NET MVC アプリケーションへの igQRCodeBarcode の追加 - 概要
 ### <a id="summary"></a>igQRCodeBarcode の追加の概要
 
-`igQRCodeBarcode` コントロールは、ASP.NET MVC ヘルパーを使用して ASP.NET MVC ビューに追加できます。バーコードを正しく表示するには、データをヘルパーに取り込み、コントロールのディメンションを設定する必要があります。`igQRCodeBarcode` コントロールのインスタンスを作成する場合、以下に示すように、基本的な描画に設定する必要があるいくつかのヘルパー メソッドがあります。
+`igQRCodeBarcode` コントロールは、%%ProductNameMVC%% を使用して ASP.NET MVC ビューに追加できます。バーコードを正しく表示するには、データをヘルパーに取り込み、コントロールのディメンションを設定する必要があります。`igQRCodeBarcode` コントロールのインスタンスを作成する場合、以下に示すように、基本的な描画に設定する必要があるいくつかのヘルパー メソッドがあります。
 
-ヘルパー メソッド|目的
+%%ProductNameMVC%% メソッド|目的
 ---|---
 Data()|`igQRCodeBarcode` によりエンコードされる文字列データを設定します
 Height()|`igQRCodeBarcode` の文字列の高さを設定します
@@ -69,7 +69,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 この手順を実行するには、以下が必要です。
 
 -   ASP.NET MVC アプリケーション
--   アプリケーション プロジェクトに追加される `Infragistics.Web.Mvc.dll` アセンブリに対する参照。詳細は、「[MVC プロジェクトへのコントロールの追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html)」のトピックを参照してください。
+-   アプリケーション プロジェクトに追加される `Infragistics.Web.Mvc.dll` アセンブリに対する参照。詳細は、「[MVC プロジェクトへのコントロールの追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html)」のトピックを参照してください。
 -   ビューの依存関係:
 
     -   ASP.NET MVC ビューに追加される `Infragistics.Web.Mvc` 名前空間
@@ -110,7 +110,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 
 ### <a id="steps"></a>手順
 
-1. ASP.NET MVC ヘルパーの追加
+1. %%ProductNameMVC%% コントロールの追加
 
 2. `igQRCodeBarcode` コントロールのインスタンスの作成。
 
@@ -118,7 +118,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 ## <a id="procedure"></a>ASP.NET MVC アプリケーションへの igQRCodeBarcode の追加 - 手順
 ### <a id="procedure-introduction"></a>概要
 
-この手順では、コントロールの ASP.NET MVC ヘルパーを使用して `igQRCodeBarcode` のインスタンスを ASP.NET MVC アプリケーションに追加し、data、width、heightなどの基本的なオプションを設定します。エンコードする文字列データは *http://www.infragistics.com* です。この手順は、`Infragistics.Web.Mvc.dll` アセンブリ参照がプロジェクトに追加され、コントロールがASP.NET MVC ヘルパーの `Render()` メソッドでビューに描画されることを前提とします。
+この手順では、コントロールの %%ProductNameMVC%% を使用して `igQRCodeBarcode` のインスタンスを ASP.NET MVC アプリケーションに追加し、data、width、heightなどの基本的なオプションを設定します。エンコードする文字列データは *http://www.infragistics.com* です。この手順は、`Infragistics.Web.Mvc.dll` アセンブリ参照がプロジェクトに追加され、コントロールがASP.NET MVC ヘルパーの `Render()` メソッドでビューに描画されることを前提とします。
 
 ### <a id="procedure-preview"></a>プレビュー
 
@@ -132,11 +132,11 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 
 ### <a id="procedure-steps"></a>手順
 
-以下の手順では、ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに `igQRCodeBarcode` のインスタンスを作成する方法を示します。
+以下の手順では、%%ProductNameMVC%% を使用して ASP.NET MVC アプリケーションに `igQRCodeBarcode` のインスタンスを作成する方法を示します。
 
-1. ASP.NET MVC ヘルパーの追加
+1. HTML ヘルパーの追加
 
-	ASP.NET MVC ヘルパーを ASP.NET ページの本文に追加します。
+	HTML ヘルパーを ASP.NET ページの本文に追加します。
 	
 	**ASPX の場合:**
 	
@@ -154,7 +154,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 
 2. `igQRCodeBarcode` コントロールのインスタンスを作成します。
 
-	`igQRCodeBarcode` コントロールのインスタンスを作成します。すべての %%ProductName%% ASP.NET MVC ヘルパーと同様に、[Render](Infragistics.Web.Mvc~Infragistics.Web.Mvc.QRCodeBarcodeRenderer~Render.html) メソッドを呼び出して HTML と JavaScript をビューに描画します。
+	`igQRCodeBarcode` コントロールのインスタンスを作成します。すべての %%ProductNameMVC%% コントロールと同様に、[Render](Infragistics.Web.Mvc~Infragistics.Web.Mvc.QRCodeBarcodeRenderer~Render.html) メソッドを呼び出して HTML と JavaScript をビューに描画します。
 	
 	**ASPX の場合:**
 	
@@ -231,7 +231,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 
 - [HTML ページへの igQRCodeBarcode の追加](igQRCodeBarcode-Adding-to-an-HTML-Page.html): このトピックではコード例を使用して、`igQRCodeBarcode` コントロールを HTML ページに追加する方法を説明します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): このトピックでは、`igQRCodeBarcode` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): このトピックでは、`igQRCodeBarcode` コントロールに関する API 参照ドキュメントへのリンクを提供します。
 
 
 
@@ -239,7 +239,7 @@ Width()|`igQRCodeBarcode` の文字列の幅を設定します
 
 以下のサンプルでは、このトピックに関連する情報を提供しています。
 
-- [MVC の初期化](%%SamplesUrl%%/barcode/mvc-initialization): このサンプルは、ASP.NET MVC ヘルパーを使用して igQRCodeBarcode コントロールを HTML ページに追加する方法を紹介します。
+- [MVC の初期化](%%SamplesUrl%%/barcode/mvc-initialization): このサンプルは、%%ProductNameMVC%% を使用して igQRCodeBarcode コントロールを HTML ページに追加する方法を紹介します。
 
 
 

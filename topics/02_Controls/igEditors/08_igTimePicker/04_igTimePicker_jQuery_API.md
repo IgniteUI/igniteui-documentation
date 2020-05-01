@@ -8,9 +8,9 @@
 |metadata|
 -->
 
-# igTimePicker jQuery および ASP.NET MVC ヘルパー API リンク
+# igTimePicker jQuery および MVC API リファレンス リンク
 
 `igTimePicker` は、ASP.NET MVC ヘルパーを含む jQuery UI ウィジェットとしてビルドされます。各 API の詳細は、以下の API ドキュメントを参照してください。
 
 -   [igTimePicker jQuery API](%%jQueryApiUrl%%/ui.igTimePicker)
--   [igTimePicker ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TimePickerModel.html)
+-   [igTimePicker MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TimePickerModel.html)

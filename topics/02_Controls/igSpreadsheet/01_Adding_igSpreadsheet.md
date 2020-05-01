@@ -17,11 +17,11 @@
 
 ### 前提条件
 
-このトピックを理解するために [Infragistics JavaScript Excel Library](javascript-excel-library.html) の概念とトピックは前提条件です。
+このトピックを理解するために [Infragistics JavaScript Excel ライブラリ](javascript-excel-library.html) の概念とトピックは前提条件です。
 
 ## JavaScript リソース
 
-始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な Ignite UI リソースを読み込みます。Ignite UI リソースをプロジェクトに追加する方法が 3 つあります。
+始まる前に、すべての必要なリソースを読み込みます。最初に jQuery リソースを読み込み、次に必要な %%ProductName%% リソースを読み込みます。%%ProductName%% リソースをプロジェクトに追加する方法が 3 つあります。
 - `igLoader` を使用します (以下)
 - [各必須モジュール](#separate-files)を読み込みます
 - すべての必須リソースを結合する[バンドル ファイル](#bundled)を使用します
@@ -140,9 +140,9 @@ xhr.onload = function (e) {
 xhr.send();
 ```
 
-## ASP.NET MVC/Core ヘルパーを使用して基本的な igSpreadsheet 実装を作成する
+## %%ProductNameMVC%% 使用して基本的な igSpreadsheet 実装を作成する
 
-サーバー側でコントロールを定義するには MVC ラッパーを使用できます。以下のコードは、コントロールをクライアント側に定義した場合と同じ結果になります。
+サーバー側でコントロールを定義するには %%ProductNameMVC%% を使用できます。以下のコードは、コントロールをクライアント側に定義した場合と同じ結果になります。
 
 MVC の場合:
 
@@ -155,7 +155,7 @@ MVC の場合:
 )
 ```
 
-> **注:** 'WorkbookURL' オプションを使用する場合、Spreadsheet MVC ヘルパーは、Excel ファイルを要求し、スプレッドシートに読み込むために必須となるクライアント側のコードを自動的に生成します。
+> **注:** 'WorkbookURL' オプションを使用する場合、Spreadsheet %%ProductNameMVC%% は、Excel ファイルを要求し、スプレッドシートに読み込むために必須となるクライアント側のコードを自動的に生成します。
 
 ## 関連リンク
  -   [igSpreadsheet の概要](igSpreadsheet-Overview.html)

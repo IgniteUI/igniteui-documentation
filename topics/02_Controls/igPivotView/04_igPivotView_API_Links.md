@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API リンク (igPivotView)
+# jQuery と MVC API リンク (igPivotView)
 
 ##igPivotView API 参照ドキュメント
 
@@ -18,7 +18,7 @@
 
 - [igPivotView jQuery API](%%jQueryApiUrl%%/ui.igPivotView): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
 
-- [igPivotView ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PivotViewModel.html): マニュアルには、ピボット ビューのデータ選択ウィザードの ASP.NET MVC  ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
+- [igPivotView MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PivotViewModel.html): マニュアルには、ピボット ビューのデータ選択ウィザードの ASP.NET MVC  ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
 
 
 ##関連コンテンツ

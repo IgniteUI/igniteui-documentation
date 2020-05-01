@@ -16,7 +16,7 @@
 ![はじめに](images/landing-start.png "はじめに")
 
 <h2>はじめに</h2>
-<p>%%ProductName%% で作業を開始するには、このページのツリーで製品ヘルプを参照または[サンプルを実行](%%SamplesUrl%%/grid/overview)します。[Ignite UI CLI](https://github.com/IgniteUI/igniteui-cli) を使用して新しい Angular、React、または jQuery アプリケーションを作成、または [%%ProductName%% ページ デザイナー](%%DesignerUrl%%)でコントロールを構成します。</p>
+<p>%%ProductName%% で作業を開始するには、このページのツリーで製品ヘルプを参照または[サンプルを実行](%%SamplesUrl%%/grid/overview)します。[%%ProductFamilyName%% CLI](https://github.com/IgniteUI/igniteui-cli) を使用して新しい Angular、React、または jQuery アプリケーションを作成、または [%%ProductName%% ページ デザイナー](%%DesignerUrl%%)でコントロールを構成します。</p>
 <a href="Getting-Started.html" class="landing-btn landing-btn-primary" target="_blank">開始</a>
 </div>
 

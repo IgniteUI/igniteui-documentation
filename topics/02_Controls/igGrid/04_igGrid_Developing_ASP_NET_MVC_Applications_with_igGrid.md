@@ -9,9 +9,9 @@
 -->
 
 # igGrid を使用する ASP.NET MVC アプリケーションの開発
-%%ProductName%% は、JavaScript ベースの機能豊かなインタラクティブ web アプリケーションを作成するための [jQuery UI](http://jqueryui.com/) コントロール セットです。%%ProductName%% を ASP.NET MVC と使用する場合、直接 JavaScript を使用または MVC ヘルパーを使用するオプションがあります。
+%%ProductName%% は、JavaScript ベースの機能豊かなインタラクティブ web アプリケーションを作成するための [jQuery UI](http://jqueryui.com/) コントロール セットです。%%ProductName%% を ASP.NET MVC と使用する場合、直接 JavaScript を使用または %%ProductNameMVC%% を使用するオプションがあります。
 
-MVC ヘルパーは、%%ProductName%% コントロールで必要な HTML マークアップおよび JavaScript コードを生成する .NET クラスおよび拡張機能メソッドのコレクションです。ページに描画された後、手動的に JavaScript で作成したコードと %%ProductName%% MVC ヘルパーによって生成されたコードの違いはほとんどありませんが、以下の場合はヘルパーが役立ちます。
+%%ProductNameMVC%% は、%%ProductName%% コントロールで必要な HTML マークアップおよび JavaScript コードを生成する .NET クラスおよび拡張機能メソッドのコレクションです。ページに描画された後、手動的に JavaScript で作成したコードと %%ProductName%% MVC ヘルパーによって生成されたコードの違いはほとんどありませんが、以下の場合はヘルパーが役立ちます。
 
 * リモート ロードオンデマンド、リモート ページング、リモート フィルタリングなどのリモート機能を実装する場合。
 
@@ -24,7 +24,7 @@ MVC ヘルパーは、%%ProductName%% コントロールで必要な HTML マー
 
 ### このトピックの内容
 - [**はじめに**](#getting-started)
-	- [%%ProductName%% MVC アセンブリの参照](#referencing-igniteui-mvc-assembly)
+	- [%%ProductNameMVC%% の参照](#referencing-igniteui-mvc-assembly)
 	- [スタイルおよびスクリプトの参照](#referencing-styles-and-scripts)
 - [**構文方法**](#syntax-variations)
  	- [グリッド モデル](#syntax-grid-model)
@@ -36,13 +36,13 @@ MVC ヘルパーは、%%ProductName%% コントロールで必要な HTML マー
 	- [関連トピック](#related-topics)
 
 ## <a id="getting-started"></a> はじめに
-igGrid MVC ヘルパーを使用する前に、`Infragistics.Web.Mvc` アセンブリへの参照を作成し、ページで関連するスクリプトおよびスタイル シートを参照します。
+%%ProductNameMVC%% Grid を使用する前に、`Infragistics.Web.Mvc` アセンブリへの参照を作成し、ページで関連するスクリプトおよびスタイル シートを参照します。
 
-### <a id="referencing-igniteui-mvc-assembly"></a>%%ProductName%% MVC アセンブリの参照
-ASP.NET アプリケーションで、以下の場所にある %%ProductName%% MVC アセンブリへの参照を作成します。
+### <a id="referencing-igniteui-mvc-assembly"></a>%%ProductNameMVC%% の参照
+ASP.NET アプリケーションで、以下の場所にある %%ProductNameMVC%% アセンブリへの参照を作成します。
 
 ```
-%%InstallPath%%\MVC\<MVC_VERSION_NUMBER>\Bin\Infragistics.Web.Mvc.dll
+%%InstallPathMVC%%\<MVC_VERSION_NUMBER>\Bin\Infragistics.Web.Mvc.dll
 ```
 
 ### <a id="referencing-styles-and-scripts"></a>スタイルおよびスクリプトの参照
@@ -60,16 +60,16 @@ ASP.NET アプリケーションで、以下の場所にある %%ProductName%% M
 > **注**: %%ProductName%% MVC ヘルパーを使用するには、jQuery、jQuery UI、および %%ProductName%% への参照をページの上に含む必要があります。
 
 ## <a id="syntax-variations"></a>構文方法
-%%ProductName%% MVC ヘルパーを使用すると、igGrid の使用でページを構成するパーツがいくつかあります。ページが要求されたときに %%ProductName%% MVC ヘルパーがページでコントロールを描画するために、Model データが Controller で収集され、View に渡されます。Controller でビューに `IQueryable<T>` コレクションとしてデータを直接に渡すか、`Infragistics.Web.Mvc.GridModel` クラスのインスタンスを渡すことができます。
+%%ProductNameMVC%% を使用すると、igGrid の使用でページを構成するパーツがいくつかあります。ページが要求されたときに %%ProductName%% MVC ヘルパーがページでコントロールを描画するために、Model データが Controller で収集され、View に渡されます。Controller でビューに `IQueryable<T>` コレクションとしてデータを直接に渡すか、`Infragistics.Web.Mvc.GridModel` クラスのインスタンスを渡すことができます。
 
-> **注**: igGrid MVC ヘルパーのデータ ソースは LINQ を使用するため、`IQueryable<T>` のインスタンスのみを受け入れます。`GridModel` を使用した場合も、`IQueryable<T>` のインスタンスが必要な `DataSource` プロパティを明示的に設定します。
+> **注**: %%ProductNameMVC%% Grid のデータ ソースは LINQ を使用するため、`IQueryable<T>` のインスタンスのみを受け入れます。`GridModel` を使用した場合も、`IQueryable<T>` のインスタンスが必要な `DataSource` プロパティを明示的に設定します。
 
-したがって、igGrid MVC ヘルパーの使用で、以下のような構文パターンを使用します。
+したがって、%%ProductNameMVC%% Grid の使用で、以下のような構文パターンを使用します。
 
 ```html
 @(Html.Infragistics().Grid(/* collection or grid model here */)...
 ```
-`Grid` メソッドは、MVC ヘルパーで使用する構文方法を選択するためのオーバーロードをサポートします。構文方法は、データ コレクション (`IQueryable<T>`) またはグリッド モデルの使用で利用可能です。以下の表は、MVC ヘルパーの返却型がヘルパーの `Grid` メソッドに渡された引数によって影響される方法を表示します。
+`Grid` メソッドは、%%ProductNameMVC%% で使用する構文方法を選択するためのオーバーロードをサポートします。構文方法は、データ コレクション (`IQueryable<T>`) またはグリッド モデルの使用で利用可能です。以下の表は、%%ProductNameMVC%% の返却型がヘルパーの `Grid` メソッドに渡された引数によって影響される方法を表示します。
 
 構文方法|プライマリ引数|戻り値の型
 --- | --- | --- |
@@ -98,7 +98,7 @@ public class GridModelController : Controller
     }
 }
 ```
-グリッド モデルがビューに送信し、コントロールを描画するために MVC ヘルパーにビューのモデルが渡されます。
+The GridModel がビューに送信し、コントロールを描画するために %%ProductNameMVC%% ヘルパーに使用されます。
 
 ```html
 @using Infragistics.Web.Mvc
@@ -117,7 +117,7 @@ public class GridModelController : Controller
 
 <script type="text/javascript">$(function () {$('#Grid1').igGrid({ dataSource: {"Records":[{"Name":"John Smith","Age":45},{"Name":"Mary Johnson","Age":32}],"TotalRecordsCount":0,"Metadata":{"timezoneOffset":-25200000}},dataSourceType: 'json',autoGenerateColumns: false,autoGenerateLayouts: false,mergeUnboundColumns: false, responseDataKey: 'Records', generateCompactJSONResponse: false, enableUTCDates: true, columns: [ { key: 'Name', headerText: 'Name', width: null, dataType: 'string' }, { key: 'Age', headerText: 'Age', width: null, dataType: 'number' } ], features: [ { sortUrlKey: 'sort', sortUrlKeyAscValue: 'asc', sortUrlKeyDescValue: 'desc', name: 'Sorting' } ], localSchemaTransform: false });});</script>
 ```
-このコードをすべて理解する必要はありませんが、MVC ヘルパーを使用して描画されるコードについて説明するために本トピックに含まれます。`Grid1` の `ID` を持つ HTML `TABLE` 要素が生成されます。jQuery `ready` の匿名関数の後にある `SCRIPT` 要素で、データおよびオプションを宣言された `TABLE` 要素に関連する `$('#Grid1')` の jQuery セレクターがあります。
+このコードをすべて理解する必要はありませんが、%%ProductNameMVC%% を使用して描画されるコードについて説明するために本トピックに含まれます。`Grid1` の `ID` を持つ HTML `TABLE` 要素が生成されます。jQuery `ready` の匿名関数の後にある `SCRIPT` 要素で、データおよびオプションを宣言された `TABLE` 要素に関連する `$('#Grid1')` の jQuery セレクターがあります。
 
 #### 設定、列、および機能
 グリッドの設定および機能を制御するには、グリッドのオブジェクト モデルを適切に構成できます。以下のコードは以下を行う方法を示します。
@@ -167,7 +167,7 @@ public ActionResult Index()
 ```
 
 ### <a id="syntax-chaining"></a>チェーン
-コントローラーでグリッド モデルを定義する代わりに、チェーン構文を使用できます。MVC ヘルパーにデータのコレクションを渡すと、`Grid` メソッドは、ページでコントロールを定義するためにメソッド呼び出しをチェーンする可能な fluent インターフェイスを公開する `IGrid` インスタンスを返します。
+コントローラーでグリッド モデルを定義する代わりに、チェーン構文を使用できます。%%ProductNameMVC%% ヘルパーにデータのコレクションを渡すと、`Grid` メソッドは、ページでコントロールを定義するためにメソッド呼び出しをチェーンする可能な fluent インターフェイスを公開する `IGrid` インスタンスを返します。
 
 データが `IQueryable<T>` コレクションとしてビューに渡された Controller の場合:
 
@@ -187,7 +187,7 @@ public class ChainedController : Controller
 }
 ```
 
-igGrid の MVC ヘルパーがページの `Model` によりコレクションを渡されます。
+%%ProductNameMVC%% Grid がページの `Model` によりコレクションを渡されます。
 
 ```html
 @using Infragistics.Web.Mvc
@@ -314,4 +314,4 @@ public class AsyncController : Controller
 ## <a id="related-content"></a>関連コンテンツ
 ### <a id="related-topics"></a>トピック
 * [igGrid の概要](iggrid-overview.html)
-* [コントロールを MVC プロジェクトに追加](adding-netadvantage-controls-to-an-mvc-project.html)
+* [コントロールを MVC プロジェクトに追加](adding-igniteui-controls-to-an-mvc-project.html)

@@ -582,7 +582,7 @@ originalPosition プロパティの参照を取得します。
 
 - [ドラッグ アンド ドロップ プロパティ リファレンス (igTree)](igTree-Drag-and-Drop-Property-API-Reference.html): ここでは、ドラッグ アンド ドロップ機能に関する `igTree` コントロールのプロパティに関するリファレンス情報を紹介します。
 
-- [API リンク (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): ここでは、`igTree` jQuery とASP.NET MVC ヘルパー API までのリンクを紹介します。
+- [API リンク (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): ここでは、`igTree` jQuery と MVC API までのリンクを紹介します。
 
 ### サンプル
 

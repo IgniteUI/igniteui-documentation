@@ -25,7 +25,7 @@
     -   [ナビゲーションと選択](#navigation-and-selection)
     -   [ノードの追加と削除](#adding-and-removing-nodes)
     -   [ドラッグ アンド ドロップ](#drag-and-drop)
-    -   [ASP.NET MVC ヘルパー](#asp-mvc-helper)
+    -   [%%ProductNameMVC%%](#asp-mvc-helper)
 -   [要件](#requirements)
     -   [概要](#requirements-introduction)
     -   [要件の表](#requirements-chart)
@@ -45,7 +45,7 @@
 
 前提条件タイプ|コンテンツ
 ---|---
-トピック|まず以下のトピックを読む必要があります。 [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html) <br>[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)<br>[%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)<br>[igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html)、データ ソース コントロール セクション
+トピック|まず以下のトピックを読む必要があります。 [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html) <br>[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)<br>[%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)<br>[igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html)、データ ソース コントロール セクション
 外部リソース|あらかじめ [jQuery ウィジェットの使用](http://wiki.jqueryui.com/w/page/12137708/How%20to%20use%20jQuery%20UI%20widgets) を読んでおくことをお勧めします。
 
 
@@ -61,7 +61,7 @@
 ノードの画像|ノードは、項目に関する詳細情報を表示したり、ルック アンド フィールをカスタマイズしたりする自分のカスタム画像を設定できます。
 ノードの追加と削除|`igTree` コントロールのノードの追加と削除機能を使用すると、ツリー ノードを追加または削除できます。
 ドラッグ アンド ドロップ|`igTree` コントロールのドラッグ アンド ドロップ機能では、ツリー ノードをドラッグ アンド ドロップできます。ドラッグ アンド ドロップは、同じツリー内でも 2 つのツリー間でも操作できます。
-ASP.NET MVC ヘルパー|マネージ .NET コードを使用して `igTree` コントロールを構成できます。
+%%ProductNameMVC%% |マネージ .NET コードを使用して `igTree` コントロールを構成できます。
 
 
 ## <a id="load-on-demand"></a>ロード オン デマンド 
@@ -118,8 +118,8 @@ ASP.NET MVC ヘルパー|マネージ .NET コードを使用して `igTree` コ
 
 [ドラッグ アンド ドロップ モードの設定](igTree-Drag-and-Drop-Configuring-Mode.html)
 
-## <a id="asp-mvc-helper"></a>ASP.NET MVC ヘルパー 
-ASP.NET MVC ヘルパーを使用して、マネージ コード言語で `igTree` コントロールを構成できます。MVC ヘルパーを使用すると、ASP.NET MVC アプリケーションで再利用可能な View または ViewModel を利用できるようになります。さらに、ASP.NET で IQueryable オブジェクトのコレクションへのバインドを行うこともでき、ヘルパーはクライアントで使用する `igTree` コントロールの JSON データを生成します。
+## <a id="asp-mvc-helper"></a>%%ProductNameMVC%%
+%%ProductNameMVC%% ヘルパーを使用して、マネージ コード言語で `igTree` コントロールを構成できます。MVC ヘルパーを使用すると、ASP.NET MVC アプリケーションで再利用可能な View または ViewModel を利用できるようになります。さらに、ASP.NET で IQueryable オブジェクトのコレクションへのバインドを行うこともでき、ヘルパーはクライアントで使用する `igTree` コントロールの JSON データを生成します。
 
 ### 関連トピック
 
@@ -197,7 +197,7 @@ IG テーマ|このテーマには、%%ProductName%% 向けに作成されたカ
 ## <a id="related-topics"></a>関連トピック 
 以下は、その他の役立つトピックです。
 
--   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 -   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 -   [%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
 -   [igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html)

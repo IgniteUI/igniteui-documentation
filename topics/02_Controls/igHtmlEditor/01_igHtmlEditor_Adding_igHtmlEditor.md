@@ -71,7 +71,7 @@
 
 2. <a id="initialize-htmlEditor"></a> JavaScript で igHtmlEditor を初期化します。
 
-	Infragistics MVC ラッパーを使用している場合、手順 3 に示されているように、`igHtmlEditor` in ASP.NET MVC View をインスタンス化する必要があります。
+	Infragistics %%ProductNameMVC%% を使用している場合、手順 3 に示されているように、`igHtmlEditor` in ASP.NET MVC View をインスタンス化する必要があります。
 
 	1. HTML プレースホルダーをエディターに対して定義します。
 
@@ -117,7 +117,7 @@
 		 @(Html.Infragistics().Loader().ScriptPath(Url.Content ("js")).CssPath(Url.Content("css")).Render())
 		 ```
 
-		Infragistics Loader ASP.NET MVC ヘルパーを使用している場合、Resources メソッドの呼び出しは必要ありません。これは、ローダーは、特定のビューで使用される他の Infragistics ヘルパーに基づいて、含めるリソースを推測するためです。これは、%%ProductName%% コントロールも ASP.NET MVC ヘルパーを使用してインスタンス化された場合にのみ有効です。
+		%%ProductNameMVC%% Loader を使用している場合、Resources メソッドの呼び出しは必要ありません。これは、ローダーは、特定のビューで使用される他の %%ProductNameMVC%% ヘルパーに基づいて、含めるリソースを推測するためです。これは、%%ProductName%% コントロールも %%ProductNameMVC%% を使用してインスタンス化された場合にのみ有効です。
 
 	2. igHtmlEditor を初期化します
 

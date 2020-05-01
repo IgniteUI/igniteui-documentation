@@ -28,7 +28,7 @@
 
 - [既知の問題と制限 (igPivotView)](igPivotView-Known-Issues-and-Limitations.html): このトピックでは、`igPivotView` コントロールの既知の問題点および制限に関する情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igPivotView)](igPivotView-API-Links.html): このトピックでは、`igPivotView` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクの一覧を示します。
+- [jQuery と MVC API リンク (igPivotView)](igPivotView-API-Links.html): このトピックでは、`igPivotView` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクの一覧を示します。
 
 
 

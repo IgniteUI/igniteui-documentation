@@ -57,7 +57,7 @@
 
 ページング機能は、あえて設定せずに oData サービスへのバインディングをサポートしています。oData へバインドする場合、必須パラメーターはサービス要求で自動的に決定され、設定されます。グリッドの `dataSource` オプションをサービス URL にポイントするだけです。
 
-`igGrid` コントロールの MVC ラッパーからページングを使用する場合、ページング URL パラメーターを LINQ 式に変換することで、ページング関連のすべてのデータのバインディング ロジックが自動的に行われます。
+%%ProductNameMVC%% Grid からページングを使用する場合、ページング URL パラメーターを LINQ 式に変換することで、ページング関連のすべてのデータのバインディング ロジックが自動的に行われます。
 
 `pageCountLimit` プロパティの値によって、UI はページ リンクからページ インデックス ドロップダウンの描画へ自動的に切り替わります。
 
@@ -156,7 +156,7 @@
 
 ## <a id="mvc"></a> ASP.NET MVC コード
 
-**リスト 6** は、Infragistics グリッドの MVC ラッパーを使用して、ASP.NET MVC ビューでページングが有効なグリッドを初期化する方法を紹介します。
+**リスト 6** は、ASP.NET MVC ビューでページングが有効な %%ProductNameMVC%% Grid を初期化する方法を紹介します。
 
 - **リスト 6: ASP.NET MVC のページングが有効になっているグリッドの初期化**
 
@@ -208,7 +208,7 @@
 
 ## <a id="remote"></a> リモート ページング
 
-Infragistics ASP.NET MVC ラッパーを使用する場合、自動的にリモート ページングを処理します。`ActionResult` (**リスト 6**) を返す `GridDataSourceActionAttribute` 属性を含む操作メソッドを作成する必要があります。操作メソッドはデータを `IQueryable` のインスタンスとして渡します。`IActionFilter` インターフェイスを実装する `GridDataSourceActionAttribute` クラスは、要求パラメーターによってデータを変換して `JsonResult` として返します。
+%%ProductNameMVC%% を使用する場合、自動的にリモート ページングを処理します。`ActionResult` (**リスト 6**) を返す `GridDataSourceActionAttribute` 属性を含む操作メソッドを作成する必要があります。操作メソッドはデータを `IQueryable` のインスタンスとして渡します。`IActionFilter` インターフェイスを実装する `GridDataSourceActionAttribute` クラスは、要求パラメーターによってデータを変換して `JsonResult` として返します。
 
 カスタム リモート サービスを実装している (ASP.NET または PHP などの) 場合、ページャーを正しく初期化して描画するには、サービスで `responseDataKey` (グリッド オプション) および `recordCountKey` (ページング オプション) の両方を指定する必要があります。`recordCountKey` メンバーは、バックエンドに存在する合計レコード数を Paging ウィジェットに通知します。`responseDataKey` は、結果データが含まれる応答のプロパティを指定します。
 

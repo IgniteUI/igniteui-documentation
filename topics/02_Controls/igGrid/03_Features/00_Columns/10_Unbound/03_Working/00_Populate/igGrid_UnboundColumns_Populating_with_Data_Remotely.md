@@ -269,7 +269,7 @@ namespace UnboundColumns.Models
 .Render())
 ```
 
-View は非常にシンプルです。厳密に型指定されたモデル `IQueryable<UnboundColumns.Models.Product>` があります。これは、データをバインドするためグリッド MVC ラッパーにより使用されるモデルです。グリッドは、キー `InStock` で 1 つの非バインド列に構成されます。このキーは `Grid<T>.SetUnboundValues(string columnKey, List<object> unboundValues)` への呼び出しによりデータへバインドされます。コードは、プライマリ キーによってグリッド データを持つ非バインド値とグリッド ラッパーが一致するように、プライマリ キーを定義します。
+View は非常にシンプルです。厳密に型指定されたモデル `IQueryable<UnboundColumns.Models.Product>` があります。これは、データをバインドするため %%ProductNameMVC%% Grid により使用されるモデルです。グリッドは、キー `InStock` で 1 つの非バインド列に構成されます。このキーは `Grid<T>.SetUnboundValues(string columnKey, List<object> unboundValues)` への呼び出しによりデータへバインドされます。コードは、プライマリ キーによってグリッド データを持つ非バインド値とグリッド ラッパーが一致するように、プライマリ キーを定義します。
 
 コントローラー:
 
@@ -396,7 +396,7 @@ public class HomeController : Controller
 .Render())
 ```
 
-厳密に型指定されたビューにはモデル `IQueryable<UnboundColumns.Models.Product>` があります。グリッド MVC ラッパーは、このモデルを使用してデータをバインドします。コードは、`UnboundColumnWrapper<T>.UnboundValues(List<object> list)` への呼び出しによりデータへバインドされたキー  `InStock` を持つ 1 つの非バインド列でグリッドを構成します。
+厳密に型指定されたビューにはモデル `IQueryable<UnboundColumns.Models.Product>` があります。%%ProductNameMVC%% Grid は、このモデルを使用してデータをバインドします。コードは、`UnboundColumnWrapper<T>.UnboundValues(List<object> list)` への呼び出しによりデータへバインドされたキー  `InStock` を持つ 1 つの非バインド列でグリッドを構成します。
 
 
 

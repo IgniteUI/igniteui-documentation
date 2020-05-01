@@ -25,7 +25,7 @@
 
 * ドメイン チャート (CategoryChart、ShapeChart など) は新しく追加された js ファイルに依存関係があります。 `infragistics.datachart_domainChart.js`
 
-## Ignite UI
+## %%ProductName%%
 
 * `infragistics.util.jquerydeferred.js` ファイルが削除されました。loader を使用してインスタンス化されたチャートは `double.ToString("00.0#")` 書式をサポートします。
 

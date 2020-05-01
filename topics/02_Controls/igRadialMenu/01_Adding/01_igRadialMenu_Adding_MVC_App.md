@@ -13,7 +13,7 @@
 ## トピックの概要
 ### 目的
 
-このトピックでは、コード例を使用して、ASP.NET MVC ヘルパーで ASP.NET MVC アプリケーションに [`igRadialMenu`](%%jQueryApiUrl%%/ui.igRadialMenu#options)™ を追加する方法を説明します。
+このトピックでは、コード例を使用して、%%ProductNameMVC%% で ASP.NET MVC アプリケーションに [`igRadialMenu`](%%jQueryApiUrl%%/ui.igRadialMenu#options)™ を追加する方法を説明します。
 
 ### 前提条件
 
@@ -30,7 +30,7 @@
 
 **トピック**
 
-- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
+- [コントロールを MVC プロジェクトに追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
 
 - [igRadialMenu の機能](igRadialMenu-Features.html): このトピックでは、このコントロールでサポートする機能を開発者の観点から説明します。
 
@@ -50,7 +50,7 @@
 ## <a id="overview"></a>ASP.NET MVC アプリケーションへの igRadialMenu の追加 - 概念的な概要
 ### igRadialMenu の追加の概要
 
-`igRadialMenu` コントロールは、ASP.NET MVC ヘルパーを使用して ASP.NET MVC View に追加できます。
+`igRadialMenu` コントロールは、%%ProductNameMVC%% HTML ヘルパーを使用して ASP.NET MVC View に追加できます。
 
 `igRadialMenu` コントロールのインスタンスを作成する場合、基本的な描画に設定する必要がある、いくつかのヘルパー メソッドがあります。以下のメソッドが含まれます。
 
@@ -133,11 +133,11 @@
 
 ### 手順
 
-この手順では、ASP.NET MVC ヘルパーを使用して、ASP.NET MVC アプリケーションに `igRadialMenu` のインスタンスを作成する方法を示します。
+この手順では、%%ProductNameMVC%% HTML ヘルパーを使用して、ASP.NET MVC アプリケーションに `igRadialMenu` のインスタンスを作成する方法を示します。
 
 1. ASP.NET MVC ヘルパーの追加
 
-	ASP.NET MVC ヘルパーを ASP.NET ページの本文に追加します。
+	ヘルパーを ASP.NET ページの本文に追加します。
 	
 	**ASPX の場合:**
 	
@@ -151,7 +151,7 @@
 
 2. 基本的な描画オプションを構成する `igRadialMenu` コントロールのインスタンスの作成
 
-	`igRadialMenu` コントロールのインスタンスを作成します。すべての %%ProductName%% ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
+	`igRadialMenu` コントロールのインスタンスを作成します。すべての %%ProductNameMVC%% コントロールと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
 	
 	**ASPX の場合:**
 	

@@ -8,14 +8,14 @@
 |metadata|
 -->
 
-# igCurrencyEditor jQuery および ASP.NET MVC ヘルパー API リンク
+# igCurrencyEditor jQuery および MVC API リファレンス リンク
 
 
 
 `igCurrencyEditor` は、ASP.NET MVC ヘルパーを含む jQuery UI ウィジェットとしてビルドされます。各 API の詳細は、以下の API ドキュメントを参照してください。
 
 -   [igCurrencyEditor jQuery API](%%jQueryApiUrl%%/ui.igCurrencyEditor)
--   [igCurrencyEditor ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.CurrencyEditorModel.html)
+-   [igCurrencyEditor MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.CurrencyEditorModel.html)
 
  
 

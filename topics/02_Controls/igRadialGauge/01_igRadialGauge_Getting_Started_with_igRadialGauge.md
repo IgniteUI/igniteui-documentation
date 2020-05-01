@@ -23,7 +23,7 @@
 
 **トピック**
 
-- [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
+- [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
 
 - [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
 

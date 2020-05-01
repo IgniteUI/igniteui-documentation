@@ -8,12 +8,12 @@
 |metadata|
 -->
 
-# igTree jQuery および ASP.NET MVC ヘルパー API リンク
+# igTree jQuery および MVC API リファレンス リンク
 
 `igTree` は、ASP.NET MVC ヘルパーを含む jQuery UI ウィジェットとしてビルドされます。各 API の詳細については、以下の API ドキュメントを参照してください。
 
 -   [igTree jQuery API](%%jQueryApiUrl%%/ui.igTree)
--   [igTree ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeModel.html)
+-   [igTree MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeModel.html)
 
  
 

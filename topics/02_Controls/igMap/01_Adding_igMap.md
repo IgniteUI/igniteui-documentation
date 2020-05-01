@@ -24,7 +24,7 @@
 
 **トピック**
 
--	[%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
+-	[%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
 
 -	[%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
 
@@ -76,7 +76,7 @@
 -   必要なリソースを参照します。必要なリソースは次のとおりです。
     -   jQuery、jQueryUI、および Modernizer JavaScript リソース (Web サイトまたは Web アプリケーションのスクリプト フォルダーに格納されている必要があります)
     -   %%ProductName%% CSS ファイル (Web サイトまたは Web アプリケーションの Infragistics® コンテンツ フォルダーに格納されている必要があります。詳細に関するトピックは [%%ProductName%% のスタイルとテーマの設定](Deployment-Guide-Styling-and-Theming.html)を参照)
-    -   %%ProductName%% JavaScript (Web サイトまたは Web アプリケーションの Infragistics スクリプト フォルダーに格納されている必要があります。詳細は [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックを参照)
+    -   %%ProductName%% JavaScript ファイル (Web サイトまたは Web アプリケーションの Infragistics スクリプト フォルダーに格納されている必要があります。詳細は [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックを参照)
 
 参照は、手動でまたは [Infragistics Loader](Using-Infragistics-Loader.html) (推奨) を使用して追加できます。
 
@@ -224,7 +224,7 @@
 -   必要なリソースを参照します。必要なリソースは次のとおりです。
    -   jQuery、jQueryUI、および Modernizer JavaScript リソース (Web サイトまたは Web アプリケーションのスクリプト フォルダーに格納されている必要があります)
     -   %%ProductName%% CSS ファイル (Web サイトまたは Web アプリケーションの Infragistics® コンテンツ フォルダーに格納されている必要があります。詳細に関するトピックは [%%ProductName%% のスタイルとテーマの設定](Deployment-Guide-Styling-and-Theming.html)を参照)
-    -   %%ProductName%% JavaScript (Web サイトまたは Web アプリケーションの Infragistics スクリプト フォルダーに格納されている必要があります。詳細は [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックを参照)
+    -   %%ProductName%% JavaScript ファイル (Web サイトまたは Web アプリケーションの Infragistics スクリプト フォルダーに格納されている必要があります。詳細は [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)トピックを参照)
 
 参照は、手動でまたは [Infragistics Loader](Using-Infragistics-Loader.html) (推奨) を使用して追加できます。
 

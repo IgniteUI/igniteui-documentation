@@ -275,7 +275,7 @@ $("#tree").live("igtreenodecheckstatechanging", function (evt, ui) {
 以下は、その他の役立つトピックです。
 
 -   [igTree API ドキュメント](%%jQueryApiUrl%%/ui.igtree#!overview)
--   [igTree ASP.NET MVC ヘルパー API ドキュメント](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeModel_members.html)
+-   [igTree MVC API ドキュメント](Infragistics.Web.Mvc~Infragistics.Web.Mvc.TreeModel_members.html)
 
  
 

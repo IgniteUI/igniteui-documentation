@@ -172,7 +172,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 								infragistics.ui.widget.js
                             </td>
 							<td>
-								すべての Ignite UI ウィジェットの基本 igWidget。
+								すべての %%ProductName%% ウィジェットの基本 igWidget。
 							</td>
 						</tr>
 						
@@ -449,7 +449,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 
 以下は、`igFunnelChart` を ASP.NET MVC の HTML ページへ追加するための全般的な要件です。
 
--   `igFunnelChart` 用に MVC ヘルパーを含む Infragistics MVC ヘルパーのアセンブリ *Infragistics.Web.Mvc.dll*
+-   `igFunnelChart` 用に %%ProductNameMVC%% を含む %%ProductNameMVC%% のアセンブリ *Infragistics.Web.Mvc.dll*
 
 ### <a id="asp-net-mvc-overview"></a> 概要
 
@@ -535,7 +535,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 		<script src="/Scripts/ig/js/infragistics.loader.js"></script>
 		```
 		
-	2. ` igFunnelChart` 用 `igLoader` の MVC ヘルパー構成 を追加します。
+	2. ` igFunnelChart` 用 `igLoader` の構成を追加します。
 	
 		ASP.NET MVC ビュー に追加された以下のコードは、`igLoader` のラッパーを %%ProductName%% リソースへのパスで構成します。
 		
@@ -552,7 +552,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 
 5. ***igFunnelChart* をインスタンス化します。**  <a id="mvc-step-init"></a>
 	
-	以下のコードは、MVC ヘルパーを構成して `<div>` 要素を `id` “funnel” で作成します。ファンネル チャートは [`ID(“funnel”)`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~ID.html) 呼び出しでホストされ、ビュー用に宣言されたデータ モデル オブジェクトを [`FunnelChart(Model)`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1.html) 呼び出しでコントロールに割り当てます。各スライスの値を提供するモデルのメンバーは、[`ValueMemberPath("Budget")`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~ValueMemberPath.html) 呼び出しで参照されます。
+	以下のコードは、%%ProductNameMVC%% FunnelChart を構成して `<div>` 要素を `id` “funnel” で作成します。ファンネル チャートは [`ID(“funnel”)`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~ID.html) 呼び出しでホストされ、ビュー用に宣言されたデータ モデル オブジェクトを [`FunnelChart(Model)`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1.html) 呼び出しでコントロールに割り当てます。各スライスの値を提供するモデルのメンバーは、[`ValueMemberPath("Budget")`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~ValueMemberPath.html) 呼び出しで参照されます。
 	
 	**ASPX の場合:**
 	
@@ -599,7 +599,7 @@ igFunnelChart を HTML ページに追加すると、以下にリストされる
 
 - [既知の問題と制限 (*igFunnelChart*)](igFunnelChart-Known-Issues-and-Limitations.html): このトピックでは、`igFunnelChart` コントロールに関連する既知の問題点に関する情報を提供します。 
  
-- [jQuery と ASP.NET MVC ヘルパー API リンク (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): このトピックでは、`igFunnelChart` コントロールと ASP.NET MVC ヘルパーのための API リファレンスのドキュメントへのリンクの一覧を示します。
+- [jQuery と MVC API リンク (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): このトピックでは、`igFunnelChart` コントロールと ASP.NET MVC ヘルパーのための API リファレンスのドキュメントへのリンクの一覧を示します。
 
 ### <a id="samples"></a> サンプル
 

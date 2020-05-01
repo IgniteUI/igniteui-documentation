@@ -8,12 +8,12 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API へのリンク (igVideoPlayer)
+# jQuery および MVC API リファレンス リンク (igVideoPlayer)
 
 `igVideoPlayer` は、ASP.NET MVC ヘルパーを含む jQuery UI ウィジェットとして構築されます。各 API の詳細については、以下の API ドキュメントを参照してください。
 
 -   [igVideoPlayer jQuery API](%%jQueryApiUrl%%/ui.igVideoPlayer)
--   [igVideoPlayer ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.VideoPlayerModel.html)
+-   [igVideoPlayer MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.VideoPlayerModel.html)
 
  
 

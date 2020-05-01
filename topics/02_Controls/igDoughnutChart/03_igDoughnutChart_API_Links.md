@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API へのリンク (igDoughnutChart)
+# jQuery および MVC API リファレンス リンク (igDoughnutChart)
 
 ## igDoughnutChart API 参照ドキュメント
 
@@ -16,7 +16,7 @@
 
 - [igDoughnutChart jQuery API](%%jQueryApiUrl%%/ui.igDoughnutChart): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
 
-- [*igDoughnutChart* ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DoughnutChartModel.html): ドキュメントには、`igDoughnutChart` ASP.NET MVC ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
+- [*igDoughnutChart* MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DoughnutChartModel.html): ドキュメントには、`igDoughnutChart` の説明と、そのすべてのメンバーのリストが含まれます。
 
 ## 関連コンテンツ
 

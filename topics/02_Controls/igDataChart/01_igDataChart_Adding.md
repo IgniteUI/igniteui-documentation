@@ -28,7 +28,7 @@
 
 **トピック**
 
--	[%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
+-	[%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
 
 -	[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
 
@@ -140,7 +140,7 @@
     %>
 	```
 
-	`igLoader` の MVC ヘルパーは必要なリソースを自動的に検出するため、リソースを指定する必要はありません。
+	`igLoader` は必要なリソースを自動的に検出するため、リソースを指定する必要はありません。
 
 	<a id="load-resources-staticallty"></a>**リソースの静的なロード**
 
@@ -161,7 +161,7 @@
 
 	**ASP.NET の例**
 
-	ASP.NET MVC では、MVC ヘルパーが必要なマークアップを自動的に追加するためコンテナ要素は不要です。
+	ASP.NET MVC では、%%ProductNameMVC%% が必要なマークアップを自動的に追加するためコンテナ要素は不要です。
 
 3. データ ソースを追加します。 <a id="add-data-array"></a> 
 
@@ -257,7 +257,7 @@
 
 	**ASP.NET の例**
 
-	以下のコードは、`Infragistics.Web.Mvc` アセンブリで提供されているチャートの MVC ヘルパーを使用して `igDataChart` の主な機能をインスタンス化して設定します。データ モデル は、DataChart(Model) 呼び出しでコントロールに関連付けられ、残りの呼び出しは HTML の例と似た振る舞いをします。
+	以下のコードは、`Infragistics.Web.Mvc` アセンブリで提供されている %%ProductNameMVC%% DataChart を使用して `igDataChart` の主な機能をインスタンス化して設定します。データ モデル は、DataChart(Model) 呼び出しでコントロールに関連付けられ、残りの呼び出しは HTML の例と似た振る舞いをします。
 
 	**ASPX の場合:**
 
@@ -529,7 +529,7 @@
 
 -	[igDataChart をデータにバインド](igDataChart-DataBinding.html): 各種データ ソースから chart コントロールにデータをバインドする方法を示します。これには、JavaScript 配列、JSON、WCF サービスがあります。どれだけのボリュームのデータを chart コントロールにデータ バインドできるかを示します。
 
--	[jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク (igDataChart)](igDataChart-API-Links.html): `igDataChart` の jQuery API リファレンスを参照し、すべての MVC ヘルパー プロパティとコード スニペットを記載したリファレンス テーブルが入っています。
+-	[jQuery および MVC API リファレンス リンク (igDataChart)](igDataChart-API-Links.html): `igDataChart` の jQuery API リファレンスを参照し、すべての %%ProductNameMVC%% プロパティとコード スニペットを記載したリファレンス テーブルが入っています。
 
 -	[igDataChart のスタイル設定](igDataChart-Styling-Themes.html): `igDataChart`™ コントロールを使用してスタイルとテーマを適用する方法を示します。
 

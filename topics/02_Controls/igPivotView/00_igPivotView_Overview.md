@@ -309,7 +309,7 @@ igPivotDataSelector をサイズ変更します/折りたたみます。|`igSpli
 
 ### 要件の概要
 
-`igPivotView` コントロールは jQuery UI ウィジェットであるため、jQuery と jQuery の UI ライブラリに依存します。Modernizr ライブラリは、ブラウザーとデバイス機能を検出するために 内部使用されます。コントロールは、その機能のために通常いくつかの %%ProductName%% 共有リソースを使用します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
+`igPivotView` コントロールは jQuery UI ウィジェットであるため、jQuery と jQuery の UI ライブラリに依存します。Modernizr ライブラリは、ブラウザーとデバイス機能を検出するために 内部使用されます。コントロールは、その機能のために通常いくつかの %%ProductName%% 共有リソースを使用します。これらのリソースへの参照は、実際の jQuery または %%ProductNameMVC%% が使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
 
 `igPivotView` コントロールを使用した必要なリソースの詳細なリストについては、「[igPivotView の追加](igPivotView-Adding.html)」を参照してください。
 
@@ -325,7 +325,7 @@ igPivotDataSelector をサイズ変更します/折りたたみます。|`igSpli
 
 - [既知の問題と制限 (igPivotView)](igPivotView-Known-Issues-and-Limitations.html): このトピックでは、`igPivotView` コントロールの既知の問題点および制限に関する情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igPivotView)](igPivotView-API-Links.html): このトピックでは、`igPivotView` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクの一覧を示します。
+- [jQuery と MVC API リンク (igPivotView)](igPivotView-API-Links.html): このトピックでは、`igPivotView` コントロールと ASP.NET MVC ヘルパーに関する API ドキュメントへのリンクの一覧を示します。
 
 ### <a id="samples"></a>サンプル
 
@@ -335,9 +335,9 @@ igPivotDataSelector をサイズ変更します/折りたたみます。|`igSpli
 
 - [XMLA にバインドした KPI の表示](%%SamplesUrl%%/pivot-view/binding-to-xmla-data-source): このサンプルでは、`igPivotView` を `igOlapXmlaDataSource` にバインドする方法を紹介します。
 
-- [ASP.NET MVC ヘルパーとフラット データ ソースの使用](%%SamplesUrl%%/pivot-view/using-the-asp-net-mvc-helper-with-flat-data-source): このサンプルでは、ASP.NET MVC ヘルパーを使用して `igOlapFlatDataSource` と `igPivotView` を使用する方法を紹介します。
+- [%%ProductNameMVC%% とフラット データ ソースの使用](%%SamplesUrl%%/pivot-view/using-the-asp-net-mvc-helper-with-flat-data-source): このサンプルでは、ASP.NET MVC ヘルパーを使用して `igOlapFlatDataSource` と `igPivotView` を使用する方法を紹介します。
 
-- [ASP.NET MVC ヘルパーと XMLA データ ソースの使用](%%SamplesUrl%%/pivot-view/using-the-asp-net-mvc-helper-with-xmla-data-source): このサンプルでは、ASP.NET MVC ヘルパーを使用して `igOlapXmlaDataSource` と `igPivotView` を使用する方法を紹介します。
+- [%%ProductNameMVC%% と XMLA データ ソースの使用](%%SamplesUrl%%/pivot-view/using-the-asp-net-mvc-helper-with-xmla-data-source): このサンプルでは、ASP.NET MVC ヘルパーを使用して `igOlapXmlaDataSource` と `igPivotView` を使用する方法を紹介します。
 
 
 

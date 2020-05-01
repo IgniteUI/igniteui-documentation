@@ -31,7 +31,7 @@
 
 -	[igLinearGauge の構成](igLinearGauge-Configuring.html): このトピック グループは、向きや視覚要素および値のアニメーション表示を含む `igLinearGauge` コントロールのさまざまな要素を構成する方法を説明します。
 
--	[jQuery と ASP.NET MVC ヘルパー API へのリンク (igLinearGauge)](igLinearGauge-API-Links.html): このトピックでは、`igLinearGauge` コントロールに関連するキー クラスやプロパティに関する参考情報を提供します。
+-	[jQuery および MVC API リファレンス リンク (igLinearGauge)](igLinearGauge-API-Links.html): このトピックでは、`igLinearGauge` コントロールに関連するキー クラスやプロパティに関する参考情報を提供します。
 
 -	[既知の問題と制限 (igLinearGauge)](igLinearGauge-Known-Issues-and-Limitations.html): このトピックでは、`igLinearGauge` コントロールの既知の問題点および制限に関する情報を提供します。
 

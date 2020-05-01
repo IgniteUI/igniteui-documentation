@@ -393,9 +393,9 @@ JS リソース
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [ASP.NET MVC アプリケーションへの igQRCodeBarcode の追加](igQRCodeBarcode-Adding-Using-the-MVC-Helper.html): このトピックではコード例を使用して、ASP.NET MVC ヘルパーで ASP.NET MVC ビューに `igQRCodeBarcode` コントロールを追加する方法を説明します。
+- [ASP.NET MVC アプリケーションへの igQRCodeBarcode の追加](igQRCodeBarcode-Adding-Using-the-MVC-Helper.html): このトピックではコード例を使用して、%%ProductNameMVC%% で ASP.NET MVC ビューに `igQRCodeBarcode` コントロールを追加する方法を説明します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): このトピックでは、`igQRCodeBarcode` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): このトピックでは、`igQRCodeBarcode` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 
 
 

@@ -50,4 +50,4 @@
 </table>
 
 ## 関連リンク
--   [アクセシビリティ遵守](accessibility-compliance.html): このトピックは、すべての Ignite UI コントロールのアクセシビリティ遵守のための参照情報を提供します。
+-   [アクセシビリティ遵守](accessibility-compliance.html): このトピックは、すべての %%ProductName%% コントロールのアクセシビリティ遵守のための参照情報を提供します。

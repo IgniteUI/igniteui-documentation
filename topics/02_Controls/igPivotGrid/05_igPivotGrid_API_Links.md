@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API リンク (igPivotGrid)
+# jQuery と MVC API リンク (igPivotGrid)
 
 
 
@@ -20,7 +20,7 @@
 
 - [igPivotGrid jQuery API](%%jQueryApiUrl%%/ui.igPivotGrid): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
 
-- [igPivotGrid ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PivotGridModel.html): マニュアルには、ピボット グリッドのデータ選択ウィザードの ASP.NET MVC  ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
+- [igPivotGrid MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PivotGridModel.html): マニュアルには、ピボット グリッドのデータ選択ウィザードの ASP.NET MVC  ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
 
 ##関連コンテンツ
 

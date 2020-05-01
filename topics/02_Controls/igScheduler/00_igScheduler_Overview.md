@@ -43,7 +43,7 @@
 
 まず以下のトピックを読む必要があります。
 
--	[%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-	[%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 
 -	[%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)
 
@@ -337,7 +337,7 @@ $("#scheduler").igScheduler({
 
 以下は、その他の役立つトピックです。
 
--   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 
 -   [%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html)
 

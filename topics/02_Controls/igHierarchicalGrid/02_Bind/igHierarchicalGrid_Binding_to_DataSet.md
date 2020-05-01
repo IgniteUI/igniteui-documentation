@@ -250,13 +250,13 @@ GridModel grid = new GridModel();
 grid.PrimaryKey = "DepartmentID";
 ```
 
-### ASP.NET MVC ヘルパーをビューで使用して igHierarchicalGrid に列を手動で作成
+### %%ProductNameMVC%% をビューで使用して igHierarchicalGrid に列を手動で作成
 
 `DataSet` にバインドして、手動でレイアウトを作成するとき、データセット テーブルのコレクションでは、各 `ColumnLayout` の `DataMember` がそれぞれ対応する `DataTable` の名前に設定されます。
 
 `igHierarchicalGrid` をビューに定義して、`DataSet` をグリッドのモデルとして使用すると、列は自動生成以外では生成できなくなります。列を手動で定義するときは、`DataTable` 構造に対応したモデルを定義し、それをグリッドのタイプとして設定してください。
 
-タイプを強化して `DataSet` から取得した各 `DataTable` の構造に対応させたモデルを作成してください。そうすれば、グリッドの ASP.NET MVC ヘルパーをビューで使用できます。
+タイプを強化して `DataSet` から取得した各 `DataTable` の構造に対応させたモデルを作成してください。そうすれば、グリッドの %%ProductNameMVC%% をビューで使用できます。
 
 注: カスタム タイプ Customer のフィールドでは、そのフィールドが表す DataTable の DataColumns のタイプとキーを一致させてください。
 

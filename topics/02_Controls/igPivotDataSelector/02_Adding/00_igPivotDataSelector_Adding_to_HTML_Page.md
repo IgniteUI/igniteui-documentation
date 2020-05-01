@@ -20,7 +20,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
-- [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): このトピックでは、%%ProductName%%™ ライブラリの一般情報を提供します。
+- [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html): このトピックでは、%%ProductName%%™ ライブラリの一般情報を提供します。
 
 - [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的な説明をします。
 

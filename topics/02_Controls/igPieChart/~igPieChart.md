@@ -35,7 +35,7 @@
 
 - [アクセシビリティ準拠 (igPieChart)](igPieChart-Accessibility.html): このトピックでは、`igPieChart`™ のアクセシビリティ機能について説明し、チャートを含むページのアクセシビリティ準拠を実現する方法についての助言を示します。
 
-- [jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク (igPieChart)](igPieChart-API-Links.html): このトピックでは、`igPieChart` の jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメンテーションへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (igPieChart)](igPieChart-API-Links.html): このトピックでは、`igPieChart` の jQuery および %%ProductNameMVC%% クラスの API ドキュメンテーションへのリンクを提供します。
 
 
 ##関連コンテンツ
@@ -44,7 +44,7 @@
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): このトピックでは、%%ProductName%%™ ライブラリの一般情報を提供します。
+- [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html): このトピックでは、%%ProductName%%™ ライブラリの一般情報を提供します。
 
 - [igDataChart の概要](igDataChart-Overview.html): このトピックでは、`igDataChart` コントロールについての概念情報を提供します。これには、その主な機能、チャートとユーザー機能を使用するための最低要件が含まれます。
 

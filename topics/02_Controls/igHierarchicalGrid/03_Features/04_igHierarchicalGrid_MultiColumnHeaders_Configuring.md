@@ -253,8 +253,8 @@
 
 この手順を実行するには、以下が必要です。
 
--   Microsoft® Visual Studio 2010 またはそれ以降のバージョンのインストール
--   MVC 3 Framework 以降のインストール
+-   Microsoft® Visual Studio 2012 またはそれ以降のバージョンのインストール
+-   MVC 4 Framework 以降のインストール
 -   Northwind データベースのインストール
 -   ASP.NET MVC プロジェクトに追加された Infragistics.Web.Mvc.dll
 -   ASP.NET MVC プロジェクトに追加された %%ProductName%% JavaScript およびテーマ ファイル

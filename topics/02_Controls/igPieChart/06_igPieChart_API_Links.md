@@ -8,13 +8,13 @@
 |metadata|
 -->
 
-# jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク (igPieChart)
+# jQuery および MVC API リファレンス リンク (igPieChart)
 
 ##トピックの概要
 
 ### 目的
 
-このトピックでは、`igPieChart`™ の jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメンテーションへのリンクを提供します。
+このトピックでは、`igPieChart`™ の jQuery および %%ProductNameMVC%% クラスの API ドキュメンテーションへのリンクを提供します。
     
 ### 必要な背景
 
@@ -29,14 +29,14 @@
 
 ### 概要
 
-`igPieChart` は、ASP.NET MVC ヘルパーが付属する jQuery UI ウィジェットとして構築されます。それぞれの API についての詳細は、以下に示された API マニュアルへのリンク先を参照してください。
+`igPieChart` は、%%ProductNameMVC%% PieChart が付属する jQuery UI ウィジェットとして構築されます。それぞれの API についての詳細は、以下に示された API マニュアルへのリンク先を参照してください。
 
 ### API 参照の概要
 
 API|説明
 ---|---
 [igPieChart jQuery API](%%jQueryApiUrl%%/ui.igPieChart)|マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
-[igPieChart ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PieChart`1.html)|マニュアルには、 PieChart クラス定義とそのメンバーの全リストが含まれています。
+[igPieChart MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PieChart`1.html)|マニュアルには、 PieChart クラス定義とそのメンバーの全リストが含まれています。
 
 
 ##関連コンテンツ

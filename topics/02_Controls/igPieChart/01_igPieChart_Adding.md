@@ -28,7 +28,7 @@
 **トピック**
 
 
-- [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
+- [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html): %%ProductName%%™ ライブラリにつぃての一般的情報
 
 - [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
 
@@ -131,7 +131,7 @@
 
 	`Infragistics.Web.Mvc` アセンブリを ASP.NET MVC プロジェクトで参照し、対応する名前空間をビューで参照する必要があります。詳細については、[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)をご覧ください。ただし、明確にするため、名前空間を参照するコードはここに記載します。
 
-	MVC ビューでは、`igLoader` MVC ヘルパーを使用する必要があります。
+	MVC ビューでは、%%ProductNameMVC%% Loader を使用する必要があります。
 
 	**ASPX の場合:**
 
@@ -144,7 +144,7 @@
 	%>
 	```
 
-	`igLoader` の MVC ヘルパーは必要なリソースを自動的に検出するため、リソースを指定する必要はありません。
+	%%ProductNameMVC%% Loader は必要なリソースを自動的に検出するため、リソースを指定する必要はありません。
 
 	**手動によるリソースの参照**
 
@@ -165,7 +165,7 @@
 
 	**ASP.NET の例**
 
-	ASP.NET MVC の場合、MVC ヘルパーは必要なマークアップを自動的に追加するため、コンテナー要素が必要です。
+	ASP.NET MVC の場合、%%ProductNameMVC%% は必要なマークアップを自動的に追加するため、コンテナー要素が必要です。
 
 3. データ ソースを追加します。
 
@@ -263,7 +263,7 @@
 
 	**ASP.NET の例**
 
-	以下のコードは、`Infragistics.Web.Mvc` アセンブリで提供された円チャートの MVC ヘルパーを使用して、`igPieChart` の主な機能のインスタンスを作成し、設定しています。データ モデル は、PieChart(Model) 呼び出しでコントロールに関連付けられ、残りの呼び出しは HTML の例と似た振る舞いをします。
+	以下のコードは、`Infragistics.Web.Mvc` アセンブリで提供された %%ProductNameMVC%% PieChart を使用して、`igPieChart` の主な機能のインスタンスを作成し、設定しています。データ モデル は、PieChart(Model) 呼び出しでコントロールに関連付けられ、残りの呼び出しは HTML の例と似た振る舞いをします。
 
 	**ASPX の場合:**
 
@@ -293,7 +293,7 @@
 
 - [データ バインディング (igPieChart)](igPieChart-DataBinding.html): このトピックでは、さまざまなデータ ソースを `igPieChart`™ コントロールにバインドする方法を説明します。
 
-- [jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク (igPieChart)](igPieChart-API-Links.html): このトピックは、`igDataChart`™ の jQuery および ASP.NET MVC ヘルパー クラスのたえの API マニュアルへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (igPieChart)](igPieChart-API-Links.html): このトピックは、`igDataChart`™ の jQuery および %%ProductNameMVC%% クラスのたえの API マニュアルへのリンクを提供します。
 
 - [igPieChart にテーマを設定する](igPieChart-Styling-Themes.html): スタイルを用い、`igPieChart`™ にテーマを適用する方法を説明します。
 

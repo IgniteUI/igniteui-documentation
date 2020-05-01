@@ -215,7 +215,7 @@
 
 -	[igDataChart の追加](igDataChart-Adding.html): このトピックは、`igDataChart`™ コントロールの追加とそれへデータをバインドする方法を説明します。
 
--	[](igDataChart-API-Links.html)[jQuery および ASP.NET MVC ヘルパー  API リファレンス リンク (igDataChart)](igDataChart-API-Links.html): このトピックは、`igDataChart`™ の jQuery および ASP.NET MVC ヘルパー クラスのたえの API マニュアルへのリンクを提供します。
+-	[](igDataChart-API-Links.html)[jQuery および MVC API リファレンス リンク (igDataChart)](igDataChart-API-Links.html): このトピックは、`igDataChart`™ の jQuery および ASP.NET MVC ヘルパー クラスのたえの API マニュアルへのリンクを提供します。
 
 
 

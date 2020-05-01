@@ -45,7 +45,7 @@ igZoombar は、ズーム オプションを提供する各 JavaScript コンポ
 
 ## <a id="provider-structure"></a> プロバイダーの構造
 
-カスタム プロバイダーは、基本クラス `$.ig.igZoombarProviderDefault` で利用可能なすべてのメソッドを実装する必要があります。名前のみが igZoombar へ渡される場合は、同じ名前スペースで定義する必要があります (ウィジェットの MVC ヘルパーを使用する場合に推奨されるオプション)。
+カスタム プロバイダーは、基本クラス `$.ig.igZoombarProviderDefault` で利用可能なすべてのメソッドを実装する必要があります。名前のみが igZoombar へ渡される場合は、同じ名前スペースで定義する必要があります (%%ProductNameMVC%% Zoombar を使用する場合に推奨されるオプション)。
 
 各メソッドの概要:
 
@@ -197,7 +197,7 @@ window.onload = function () {
 
 - [既知の問題と制限 (igZoombar)](igZoombar-Known-Issues-And-Limitations.html): このトピックでは、`igZoombar` コントロールの既知の問題点および制限事項、その回避策について説明します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (igZoombar)](igZoombar-ASP-NET-MVC-Helper-API.html): このトピックでは、`igZoombar` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (igZoombar)](igZoombar-ASP-NET-MVC-Helper-API.html): このトピックでは、`igZoombar` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 
 
 ### <a id="samples"></a>サンプル

@@ -12,9 +12,9 @@
 
 
 
--   [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html)
+-   [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-IgniteUI-for-jQuery-Controls.html)
 -   [配備ガイド](Deployment-Guide.html)
--   [%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html)
+-   [%%ProductName%% でイベントの使用](Using-Events-in-IgniteUI-for-jQuery.html)
 -   [igBulletGraph](igBulletGraph.html)
 -   [igCombo](igCombo-igCombo.html)
 -   [igCategoryChart](igcategorychart-landingpage.html)

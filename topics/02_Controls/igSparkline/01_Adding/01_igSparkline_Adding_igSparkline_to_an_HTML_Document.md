@@ -30,7 +30,7 @@
 
 - [igSparkline の追加の概要](igSparkline-Adding-igSparkline-Overview.html): このトピックでは、`igSparkline`™ をアプリケーションに追加する各種方法の概要について説明します。
 
-- [必要なリソースの手動で追加する](Adding-the-Required-Resources-for-NetAdvantage-for-jQuery.html): このトピックでは、%%ProductName%%®での JavaScript リソースの構成について説明します。
+- [必要なリソースの手動で追加する](Adding-the-Required-Resources-for-IgniteUI-for-jQuery.html): このトピックでは、%%ProductName%%®での JavaScript リソースの構成について説明します。
 
 - [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html): このトピックは、必要な JavaScript リソースを追加して %%ProductName%% ライブラリからコントロールを使用する場合の全般的なガイダンスを提供します。
 
@@ -569,7 +569,7 @@ JS リソース
 
 - [igSparkline を ASP.NET MVC ビューに追加](igSparkline-Adding-igSparkline-to-an-ASPNET-MVC-View.html): このトピックでは、ASP.NET MVC ビューでの `igSparkline` インスタンス作成とオブジェクトの .NET コレクションへのバインドを見てみます。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールのための jQuery と ASP.NET MVC ヘルパー クラスのAPIドキュメントへのリンクを提供します。
+- [jQuery と MVC API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールのための jQuery と ASP.NET MVC ヘルパー クラスのAPIドキュメントへのリンクを提供します。
 
 ### <a id="samples"></a>サンプル
 

@@ -29,7 +29,7 @@
 	-   ASP.NET MVC HTML ヘルパー
 
 - トピック
-	- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
+	- [コントロールを MVC プロジェクトに追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
 	- [*igBulletGraph* の概要](igBulletGraph-Overview.html): このトピックは、主要機能、最小要件およびユーザー機能性など、`igBulletGraph` コントロールの概念的な情報を提供します。
 
 
@@ -84,7 +84,7 @@
 この手順を実行するには、以下が必要です。
 
 -   **ASP.NET MVC アプリケーション**
--   **アプリケーション プロジェクトに追加される *Infragistics.Web.Mvc.dll* アセンブリに対する参照**。詳細は、「[MVC プロジェクトへのコントロールの追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html)」のトピックを参照してください。
+-   **アプリケーション プロジェクトに追加される *Infragistics.Web.Mvc.dll* アセンブリに対する参照**。詳細は、「[MVC プロジェクトへのコントロールの追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html)」のトピックを参照してください。
 -   ビューの依存関係:
 
     -   **ASP.NET MVC ビューに追加される `Infragistics.Web.Mvc` 名前空間**
@@ -154,7 +154,7 @@ ASP.NET MVC ヘルパーを ASP.NET ページの本文に追加します。
 
 **2. 基本的な描画オプションを構成する *igBulletGraph* コントロールのインスタンスを作成します**。
 
-`igBulletGraph` のインスタンスの作成すべての %%ProductName%% ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
+`igBulletGraph` のインスタンスの作成すべての %%ProductNameMVC%% コントロールと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
 
 **ASPX の場合:**
 
@@ -286,7 +286,7 @@ igBulletGraph の `Value()` メソッドを設定して、パフォーマンス 
 
 - [HTML ページへの *igBulletGraph* の追加](igBulletGraph-Adding-to-an-HTML-Page.html): このトピックではコード例を使用して、`igBulletGraph` コントロールを HTML ページに追加する方法を説明します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (*igBulletGraph*)](igBulletGraph-API-Links.html): このトピックでは、`igBulletGraph` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (*igBulletGraph*)](igBulletGraph-API-Links.html): このトピックでは、`igBulletGraph` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 
 
 

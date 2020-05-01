@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API へのリンク (igLinearGauge)
+# jQuery および MVC API リファレンス リンク (igLinearGauge)
 
 ##igLinearGauge API 参照ドキュメント
 
@@ -16,7 +16,7 @@
 
 -	[igLinearGauge jQuery API](%%jQueryApiUrl%%/ui.igLinearGauge): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
 
--	[igLinearGauge ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LinearGaugeModel.html): ドキュメントには、リニア ゲージの ASP.NET MVC ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
+-	[igLinearGauge MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LinearGaugeModel.html): ドキュメントには、リニア ゲージの ASP.NET MVC ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
 
 
 ##関連コンテンツ

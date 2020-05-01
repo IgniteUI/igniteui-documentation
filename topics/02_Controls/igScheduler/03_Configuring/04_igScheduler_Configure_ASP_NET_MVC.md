@@ -10,13 +10,13 @@
 
 # ASP.NET MVC スケジューラの構成
 
-%%ProductName%% は、JavaScript ベースの機能豊かなインタラクティブ web アプリケーションを作成するための jQuery UI コントロール セットです。%%ProductName%% を ASP.NET MVC と使用する場合、直接 JavaScript を使用または MVC ヘルパーを使用するオプションがあります。
+%%ProductName%% は、JavaScript ベースの機能豊かなインタラクティブ web アプリケーションを作成するための jQuery UI コントロール セットです。%%ProductNameMVC%% の場合、直接 JavaScript を使用または %%ProductNameMVC%% ヘルパーを使用するオプションがあります。
 
-MVC ヘルパーは、%%ProductName%% コントロールで必要な HTML マークアップおよび JavaScript コードを生成する .NET クラスおよび拡張機能メソッドのコレクションです。ページに描画された後、手動的に JavaScript で作成したコードと %%ProductName%% MVC ヘルパーによって生成されたコードの違いはほとんどありませんが、以下の場合はヘルパーが役立ちます。
+%%ProductNameMVC%% ヘルパーは、%%ProductName%% コントロールで必要な HTML マークアップおよび JavaScript コードを生成する .NET クラスおよび拡張機能メソッドのコレクションです。ページに描画された後、手動的に JavaScript で作成したコードと %%ProductName%% MVC ヘルパーによって生成されたコードの違いはほとんどありませんが、以下の場合はヘルパーが役立ちます。
 
 * HTML および JavaScript より MVC ビュー エンジンの構文またはマネージ コードでの操作を望む場合。
 
-このトピックでは、igScheduler MVC ヘルパーについて説明します。ビューの構築で利用可能な構文オプションについて、またスケジューラにデータを提供するためのサーバーとの操作方法も説明します。
+このトピックでは、%%ProductNameMVC%% Scheduler ヘルパーについて説明します。ビューの構築で利用可能な構文オプションについて、またスケジューラにデータを提供するためのサーバーとの操作方法も説明します。
 
 > **注:** このトピックは Razor ビュー エンジンおよび C# でサンプル コードを表示します。
 
@@ -33,13 +33,13 @@ MVC ヘルパーは、%%ProductName%% コントロールで必要な HTML マー
 
 
 ## <a id="getting-started"></a> はじめに
-igScheduler MVC ヘルパーを使用する前に、`Infragistics.Web.Mvc` アセンブリへの参照を作成し、ページで関連するスクリプトおよびスタイル シートを参照します。
+%%ProductNameMVC%% Scheduler を使用する前に、`Infragistics.Web.Mvc` アセンブリへの参照を作成し、ページで関連するスクリプトおよびスタイル シートを参照します。
 
-### <a id="referencing-igniteui-mvc-assembly"></a>%%ProductName%% MVC アセンブリの参照
-ASP.NET アプリケーションで、以下の場所にある %%ProductName%% MVC アセンブリへの参照を作成します。
+### <a id="referencing-igniteui-mvc-assembly"></a>%%ProductNameMVC%% アセンブリの参照
+ASP.NET アプリケーションで、以下の場所にある %%ProductNameMVC%% アセンブリへの参照を作成します。
 
 ```
-%%InstallPath%%\MVC\<MVC_VERSION_NUMBER>\Bin\Infragistics.Web.Mvc.dll
+%%InstallPathMVC%%\<MVC_VERSION_NUMBER>\Bin\Infragistics.Web.Mvc.dll
 ```
 
 ### <a id="referencing-styles-and-scripts"></a>スタイルおよびスクリプトの参照
@@ -55,16 +55,16 @@ ASP.NET アプリケーションで、以下の場所にある %%ProductName%% M
 <script type="text/javascript" src="infragistics.lob.js"></script>
 <script type="text/javascript" src="infragistics.scheduler-bundled.js"></script>
 ```
-> **注**: %%ProductName%% MVC ヘルパーを使用するには、jQuery、jQuery UI、および %%ProductName%% への参照をページの上に追加する必要があります。
+> **注**: %%ProductNameMVC%% ヘルパーを使用するには、jQuery、jQuery UI、および %%ProductName%% への参照をページの上に追加する必要があります。
 
 ## <a id="syntax-variations"></a>構文方法
-%%ProductName%% MVC ヘルパーを igScheduler で使用する場合にページを構成する重要なパーツがいくつかあります。ページが要求されたときに %%ProductName%% MVC ヘルパーがページでコントロールを描画するために、Model データが Controller で収集され、View に渡されます。コントローラーで Appointments および Resources データの表現を含む `IQueryable<T>` コレクション (`T` は `Appointment` モデルまたは `Resource`) として Model クラスを渡します。2 つの Model は `Infragistics.Web.Mvc.IModel` 名前空間にある `IModel` インターフェイスを継承します。また、モデルの `JSON` 表記を表す `ToJson` メソッドを実装します。
+%%ProductNameMVC%% ヘルパーを igScheduler で使用する場合にページを構成する重要なパーツがいくつかあります。ページが要求されたときに %%ProductName%% MVC ヘルパーがページでコントロールを描画するために、Model データが Controller で収集され、View に渡されます。コントローラーで Appointments および Resources データの表現を含む `IQueryable<T>` コレクション (`T` は `Appointment` モデルまたは `Resource`) として Model クラスを渡します。2 つの Model は `Infragistics.Web.Mvc.IModel` 名前空間にある `IModel` インターフェイスを継承します。また、モデルの `JSON` 表記を表す `ToJson` メソッドを実装します。
 
-> **注**: igScheduler MVC ヘルパーのデータ ソースおよびリソースは `IQueryable<T>` のインスタンスのみを受けます。
+> **注**: Scheduler MVC ヘルパーのデータ ソースおよびリソースは `IQueryable<T>` のインスタンスのみを受けます。
 
 > **注**: `Render` メソッドが発生されない場合、コントロールは表示されません。
 
-したがって、igScheduler MVC ヘルパーの使用で、以下のような構文パターンを使用します。
+したがって、Scheduler MVC ヘルパーの使用で、以下のような構文パターンを使用します。
 
 ```html
 @(Html.Infragistics().Scheduler()

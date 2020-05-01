@@ -131,7 +131,7 @@ igPivotGridを使用すると、[customMoveValidation](%%jQueryApiUrl%%/ui.igPiv
 
 - [igPivotGrid の HTML ページへの追加](igPivotGrid-Adding-to-an-HTML-Page.html): このトピックは、`igPivotGrid` を HTML ページへ追加する方法を示します。
 
-- [igPivotGrid の ASP.NET MVC アプリケーションへの追加](igPivotGrid-Adding-Using-the-MVC-Helper.html): このトピックは、 ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションへ `igPivotGrid` コントロールを追加する方法についての概念と詳しい手順を説明します。
+- [igPivotGrid の ASP.NET MVC アプリケーションへの追加](igPivotGrid-Adding-Using-the-MVC-Helper.html): このトピックは、ASP.NET MVC アプリケーションへ `igPivotGrid` コントロールを追加する方法についての概念と詳しい手順を説明します。
 
 ### <a id="samples"></a>サンプル
 
@@ -139,7 +139,7 @@ igPivotGridを使用すると、[customMoveValidation](%%jQueryApiUrl%%/ui.igPiv
 
 - [フラット データ ソースへのバインド](%%SamplesUrl%%/pivot-grid/binding-to-flat-data-source): このサンプルでは、`igPivotGrid` を `igOlapFlatDataSource` にバインドする方法を説明します。データ選択で `igPivotDataSelector` が使用されています。
 
-- [ASP.NET MVC ヘルパーと XMLA データ ソースの使用](%%SamplesUrl%%/pivot-grid/using-the-asp-net-mvc-helper-with-xmla-data-source): このサンプルでは、`igOlapXmlaDataSource` および `igPivotGrid` で ASP.NET MVC ヘルパーを使用する方法を紹介します。
+- [%%ProductNameMVC%% と XMLA データ ソースの使用](%%SamplesUrl%%/pivot-grid/using-the-asp-net-mvc-helper-with-xmla-data-source): このサンプルでは、`igOlapXmlaDataSource`で %%ProductNameMVC%% `igPivotGrid` を使用する方法を紹介します。
 
 - [並べ替え](%%SamplesUrl%%/pivot-grid/sorting): このサンプルでは、`igPivotGrid` の並べ替えを有効にし、初期化で特定のレベルに並べ替えを適用する方法を紹介します。
 

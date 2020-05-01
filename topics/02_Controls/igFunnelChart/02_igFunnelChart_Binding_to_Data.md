@@ -105,7 +105,7 @@
 --- | ---
 [JavaScript 配列へのバインド](#javascript-array)|この例は、`igFunnelChart` コントロールを JavaScript データ配列にバインドする際の手順を示します。
 [*igFunnelChart* の XML データへのバインディング](#xml)|この例は、`igFunnelChart` コントロールを XML 構造にバインドする際の手順を示します。
-[*igFunnelChart* の厳密に型指定された MVC ビューへのバインド](#mvc-model)|この例は、MVC ヘルパーを使用して厳密に型指定された ASP.NET MVC ビューでモデル オブジェクトに`igFunnelChart` コントロールをバインドする方法をデモします。
+[*igFunnelChart* の厳密に型指定された MVC ビューへのバインド](#mvc-model)|この例は、厳密に型指定された ASP.NET MVC ビューでモデル オブジェクトに`igFunnelChart` コントロールをバインドする方法をデモします。
 [*igFunnelChart* のリモート サービスからの JSON へのバインド](#remote-service-json)|この例は、リモート データを要求して JSON 応答にバインドするために `igFunnelChart` コントロールを構成する方法をデモします。
 
 
@@ -229,7 +229,7 @@ $("#chartNormal").igFunnelChart({
 
 ### 説明
 
-MVC アプリケーションでは、通常、厳密に型指定されたビューを持ち、アプリケーションのビジネス ロジック レイヤーからデータ オブジェクトを渡します。このサンプルは、サンプル データ クラスを定義し、モデル オブジェクトをファンネル チャートをインスタンス化する `igFunnelChart` MVC ヘルパーに渡す基本的なコードを提供します。データ モデル オブジェクトは、データ クラスの IQueryable である必要があります。
+MVC アプリケーションでは、通常、厳密に型指定されたビューを持ち、アプリケーションのビジネス ロジック レイヤーからデータ オブジェクトを渡します。このサンプルは、サンプル データ クラスを定義し、モデル オブジェクトをファンネル チャートをインスタンス化する %%ProductNameMVC%% FunnelChart に渡す基本的なコードを提供します。データ モデル オブジェクトは、データ クラスの IQueryable である必要があります。
 
 ### コード
 
@@ -245,7 +245,7 @@ public class BudgetData
 }
 ```
 
-以下のコード スニペットは、最初に厳密に型指定された MVC ビューを指定します。次に、**ビューのモデル オブジェクトにバインドするために** `igFunnelChart` 用に MVC ヘルパーを使用する方法を示します。
+以下のコード スニペットは、最初に厳密に型指定された MVC ビューを指定します。次に、**ビューのモデル オブジェクトにバインドするために** %%ProductNameMVC%% FunnelChart を使用する方法を示します。
 
 **ASPX の場合:**
 
@@ -331,7 +331,7 @@ $("#chartRemote").igFunnelChart({
 
 - [既知の問題と制限 (*igFunnelChart*)](igFunnelChart-Known-Issues-and-Limitations.html): このトピックでは、`igFunnelChart` コントロールに関連する既知の問題点に関する情報を提供します。 
  
-- [jQuery と ASP.NET MVC ヘルパー API リンク (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): このトピックでは、`igFunnelChart` コントロールと ASP.NET MVC ヘルパーのための API リファレンスのドキュメントへのリンクの一覧を示します。
+- [jQuery と MVC API リンク (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): このトピックでは、`igFunnelChart` コントロールのための API リファレンスのドキュメントへのリンクの一覧を示します。
 
 
 ### <a id="samples"></a> サンプル

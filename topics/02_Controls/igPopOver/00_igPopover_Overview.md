@@ -495,7 +495,7 @@ ui-igpopover-close-button
 
 - [既知の問題と制限事項 (igPopover)](igPopover-Known-Issues-And-Limitations.html): このトピックでは、`igPopover` コントロールの既知の問題と制限事項および回避策についての情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igPopover)](igPopover-ASP-NET-MVC-Helper-API.html): このトピックでは、`igPopover` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
+- [jQuery と MVC API リンク (igPopover)](igPopover-ASP-NET-MVC-Helper-API.html): このトピックでは、`igPopover` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
 
 - [プロパティ リファレンス (igPopover)](igPopover-Property-Reference.html): このトピックでは、`igPopover` コントロールのプロパティについて説明し、デフォルト値の一覧を示します。
 

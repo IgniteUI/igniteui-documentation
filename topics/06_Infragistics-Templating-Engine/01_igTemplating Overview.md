@@ -268,7 +268,7 @@ var result = $.ig.tmpl('#This comment will be ignored#<p>$i</p>', data);
 
 - [ネスト テンプレート](%%SamplesUrl%%/templating-engine/nested-templates): このサンプルは、Infragistics テンプレート エンジンを使用してネストされたテンプレートを使用する方法を紹介します。以下のシナリオでは、Infragistics テンプレート エンジンの機能を使用して、データ ソースの映画コレクションを繰り返します。最後の列では、出力は非順序リストとして作成されます。
 
-- [ASP.NET MVC の使用方法](%%SamplesUrl%%/templating-engine/aspnet-mvc-usage): ASP.NET MVC ヘルパーを使用すると、ASP.NET MVC ビューに Infragistics テンプレート エンジンを使用できます。JavaScript との使用方法は同じです。
+- [ASP.NET MVC の使用方法](%%SamplesUrl%%/templating-engine/aspnet-mvc-usage): %%ProductNameMVC%% を使用すると、ASP.NET MVC ビューに Infragistics テンプレート エンジンを使用できます。JavaScript との使用方法は同じです。
 
 
 

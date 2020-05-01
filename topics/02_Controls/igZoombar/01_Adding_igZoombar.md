@@ -82,7 +82,7 @@ ASP.NET MVC
 			</td>
 
             <td>
-                ビュー内では、Infragistics® MVC ヘルパーを使用して、`ZoombarWrapper` オブジェクトを返す [Zoombar](Infragistics.Web.Mvc~Infragistics.Web.Mvc.InfragisticsSuite`1~Zoombar.html) メソッドを呼び出します。
+                ビュー内では、%%ProductNameMVC%% を使用して、`ZoombarWrapper` オブジェクトを返す [Zoombar](Infragistics.Web.Mvc~Infragistics.Web.Mvc.InfragisticsSuite`1~Zoombar.html) メソッドを呼び出します。
                     [Target](Infragistics.Web.Mvc~Infragistics.Web.Mvc.ZoombarWrapper~Target.html) メソッドを使用して、`ZoombarWrapper` オブジェクトを igDataChart コントロールにアタッチします。
                     最後に、[ZoombarWrapper.Render](Infragistics.Web.Mvc~Infragistics.Web.Mvc.ZoombarWrapper~Render.html) メソッドを呼び出します。
 
@@ -90,7 +90,7 @@ ASP.NET MVC
                 
 
                 <blockquote>**注:**
-                    HTML ページ内でプレースホルダーを定義する必要はありません。プレースホルダーは、Infragistics ASP.NET MVC ラッパーによって自動的に作成されます。
+                    HTML ページ内でプレースホルダーを定義する必要はありません。プレースホルダーは、%%ProductNameMVC%% によって自動的に作成されます。
                 </blockquote>
             </td>
         </tr>
@@ -141,7 +141,7 @@ $("#zoombar").igZoombar({
 ## <a id="add-in-mvc"></a>コード例: ASP.NET MVC での igZoombar の追加
 ### <a id="mvc-description"></a>説明
 
-以下のコードは、Infragistics ASP.NET MVC ラッパーを使用して、ビュー内で `igDataChart` と `igZoombar` のインスタンスを作成します。`igZoombar` コントロールは、[デフォルト構成](igZoombar-Overview.html#default-config)で描画されます。
+以下のコードは、%%ProductNameMVC%% を使用して、ビュー内で `igDataChart` と `igZoombar` のインスタンスを作成します。`igZoombar` コントロールは、[デフォルト構成](igZoombar-Overview.html#default-config)で描画されます。
 
 ### <a id="mvc-code"></a>コード
 
@@ -171,7 +171,7 @@ Code
 
 - [既知の問題と制限 (igZoombar)](igZoombar-Known-Issues-And-Limitations.html): このトピックでは、`igZoombar` コントロールの既知の問題と制限、その回避策について説明します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (igZoombar)](igZoombar-ASP-NET-MVC-Helper-API.html): このトピックでは、`igZoombar` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (igZoombar)](igZoombar-ASP-NET-MVC-Helper-API.html): このトピックでは、`igZoombar` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 
 
 

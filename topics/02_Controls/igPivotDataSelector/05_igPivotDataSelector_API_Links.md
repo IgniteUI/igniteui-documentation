@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API リンク (igPivotDataSelector)
+# jQuery と MVC API リンク (igPivotDataSelector)
 
 ##igPivotDataSelector API 参照ドキュメント
 
@@ -18,7 +18,7 @@
 
 - [igPivotDataSelector jQuery API](%%jQueryApiUrl%%/ui.igPivotDataSelector): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
 
-- [igPivotDataSelector ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PivotDataSelectorModel.html): マニュアルには、ピボット データ セレクターの ASP.NET MVC ヘルパーの説明と、そのメンバーすべてのリストが含まれます。
+- [igPivotDataSelector MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PivotDataSelectorModel.html): マニュアルには、ピボット データ セレクターの ASP.NET MVC ヘルパーの説明と、そのメンバーすべてのリストが含まれます。
 
 ##関連コンテンツ
 

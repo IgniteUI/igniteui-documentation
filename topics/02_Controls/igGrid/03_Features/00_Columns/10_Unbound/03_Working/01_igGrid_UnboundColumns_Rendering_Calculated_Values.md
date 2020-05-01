@@ -157,7 +157,7 @@ namespace GridDataBinding.Models
 .Render())
 ```
 
-ビューは、データにバインドするためにグリッド MVC ラッパーで使用されるモデル `IQueryable<UnboundColumns.Models.Employee>` で厳密に型指定されています。コードは、キー `FullName` のある 1 つの非バインド列でグリッドを構成します。`calcFullName` と呼ばれる JavaScript 関数はクライアント上の値を計算します。これが、`calcFullName` 関数の定義を含むビュー内にスクリプト ブロックを定義する理由です。
+ビューは、データにバインドするために %%ProductNameMVC%% Grid で使用されるモデル `IQueryable<UnboundColumns.Models.Employee>` で厳密に型指定されています。コードは、キー `FullName` のある 1 つの非バインド列でグリッドを構成します。`calcFullName` と呼ばれる JavaScript 関数はクライアント上の値を計算します。これが、`calcFullName` 関数の定義を含むビュー内にスクリプト ブロックを定義する理由です。
 
 `calcFullName` 関数は、データ ソースからの `FirstName` と `LastName` のフィールドを連結します。
 

@@ -11,7 +11,7 @@
 # AngularJS サンプル
 
 ## トピックの概要
-このトピックは、AngularJS の %%ProductName%% ディレクティブのサンプルについて説明します。
+このトピックは、AngularJS の %%ProductFamilyName%% ディレクティブのサンプルについて説明します。
 
 ### このトピックの内容
 
@@ -46,7 +46,7 @@
 ### <a id="requirements"></a>要件
 このサンプルを実行するために以下が必要です。
 -   必要となる %%ProductName%% の JavaScript と CSS ファイル
--   %%ProductName%% AngularJS ディレクティブ
+-   %%ProductFamilyName%% AngularJS ディレクティブ
 
 ### <a id="grid_sample"></a>グリッド サンプル
 このサンプルは、`igGrid` を AngularJS で使用する方法を示します。
@@ -155,5 +155,5 @@
 ### <a id="related_content"></a>関連コンテンツ
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
--   [AngularJS で %%ProductName%% の使用](Using-Ignite-UI-with-AngularJS.html) - このトピックでは、AngularJS の %%ProductName%% ディレクティブの使用方法の概要を説明します。
--   [AngularJS を使用した条件付きテンプレート化および高度なテンプレート化](Conditional-and-Advanced-Templating-with-AngularJS.html) - このトピックでは、条件付きテンプレートの使用方法と、AngularJS の %%ProductName%% ディレクティブを使用して作成されたコントロールをカスタマイズするための高度なテンプレート化の方法について説明します。
+-   [AngularJS で %%ProductFamilyName%% の使用](Using-Ignite-UI-with-AngularJS.html) - このトピックでは、AngularJS の %%ProductFamilyName%% ディレクティブの使用方法の概要を説明します。
+-   [AngularJS を使用した条件付きテンプレート化および高度なテンプレート化](Conditional-and-Advanced-Templating-with-AngularJS.html) - このトピックでは、条件付きテンプレートの使用方法と、AngularJS の %%ProductFamilyName%% ディレクティブを使用して作成されたコントロールをカスタマイズするための高度なテンプレート化の方法について説明します。

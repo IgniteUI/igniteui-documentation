@@ -52,7 +52,7 @@
 
 - [igSparkline のビジュアル要素](igSparkline-Visual-Elements.html): このトピックでは、`igSparkline` コントロールのビジュアル要素を説明する概要と画像を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
+- [jQuery と MVC API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
 
 ### サンプル
 

@@ -16,7 +16,7 @@
 
 -   [igRating の概要](igRating-Overview.html)
 -   [スタイル設定とテーマ設定 (igRating)](igRating-Styling-and-Theming.html)
--   [jQuery と ASP.NET MVC ヘルパー API へのリンク (igRating)](igRating-jQuery-API.html)
+-   [jQuery および MVC API リファレンス リンク (igRating)](igRating-jQuery-API.html)
 -   [アクセシビリティの遵守 (igRating)](igRating-Accessibility-Compliance.html)
 -   [既知の問題と制限事項 (igRating)](igRating-Known-Issues.html)
 

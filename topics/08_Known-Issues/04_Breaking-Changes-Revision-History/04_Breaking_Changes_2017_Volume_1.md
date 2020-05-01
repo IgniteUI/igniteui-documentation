@@ -24,7 +24,7 @@
 
 %%ProductName%% コントロールの依存関係を読み込むために igLoader を使用するアプリケーションでローダーが内部に処理されているため、変更の必要がありません。ファイルを手動的に読み込むアプリケーションで必要のないのユーティリティ参照を削除できます。
 
-Ignite UI DV コンポーネントで明示的に必要な新しい jQuery に依存関係があるファイルを追加しました: `infragsitics.dv_jquerydom.js`。 `infragistics.dv_core.js` 依存ファイルの前に読み込む必要があります。
+%%ProductName%% DV コンポーネントで明示的に必要な新しい jQuery に依存関係があるファイルを追加しました: `infragsitics.dv_jquerydom.js`。 `infragistics.dv_core.js` 依存ファイルの前に読み込む必要があります。
 
 ```
 ...
@@ -78,11 +78,11 @@ igGrid 集計の新しい [*format*](%%jQueryApiUrl%%/ui.iggridsummaries#options
 ### 日付処理
 
 [`enableUTCDates`](%%jQueryApiUrl%%/ui.iggrid#options:enableUTCDates) オプションの動作を変更しました。日付のシリアル化のみに影響します。グリッド列の定義で新しい [`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) オプションを使用して日付のタイムゾーン表示を処理するために使用できます。
-既存のアプリケーションを変更する方法については、「[17.1 の enableUTCDates オプションの移動](migrating-enableutcdates-option-in-17-1.html)」トピックを参照してください。両方のオプションの詳細情報について、「[Ignite UI コントロールを別のタイム ゾーンで使用](Using-IgniteUI-controls-in-different-time-zones.html)」を参照してください。
+既存のアプリケーションを変更する方法については、「[17.1 の enableUTCDates オプションの移動](migrating-enableutcdates-option-in-17-1.html)」トピックを参照してください。両方のオプションの詳細情報について、「[%%ProductName%% コントロールを別のタイム ゾーンで使用](Using-IgniteUI-controls-in-different-time-zones.html)」を参照してください。
 
 ## igDateEditor/igDatePicker
 
-[`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) オプションの動作を変更しました。指定したオフセットとエディターで時間を表示するには [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) を使用します。既存のアプリケーションを変更する方法について、「[17.1 で enableUTCDate オプションの移動](igDateEditor-migrating-date-handling-in-17-1.html)」トピックを参照してください。両方のオプションの詳細情報について、「[Ignite UI コントロールを別のタイム ゾーンで使用](Using-IgniteUI-controls-in-different-time-zones.html)」を参照してください。
+[`enableUTCDates`](%%jQueryApiUrl%%/ui.igdateeditor#options:enableUTCDates) オプションの動作を変更しました。指定したオフセットとエディターで時間を表示するには [`displayTimeOffset`](%%jQueryApiUrl%%/ui.igdateeditor#options:displayTimeOffset) を使用します。既存のアプリケーションを変更する方法について、「[17.1 で enableUTCDate オプションの移動](igDateEditor-migrating-date-handling-in-17-1.html)」トピックを参照してください。両方のオプションの詳細情報について、「[%%ProductName%% コントロールを別のタイム ゾーンで使用](Using-IgniteUI-controls-in-different-time-zones.html)」を参照してください。
 
 ## igNumericEditor
 

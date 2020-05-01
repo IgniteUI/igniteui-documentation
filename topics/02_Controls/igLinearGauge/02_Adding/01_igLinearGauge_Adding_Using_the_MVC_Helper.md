@@ -30,7 +30,7 @@
 
 **トピック**
 
--	[コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
+-	[コントロールを MVC プロジェクトに追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
 
 -	[igLinearGauge の概要](igLinearGauge-Overview.html): このトピックは、主要機能、最小要件およびユーザー機能性など、`igLinearGauge` コントロールの概念的な情報を提供します。
 
@@ -77,7 +77,7 @@
 この手順を実行するには、以下が必要です。
 
 -   ASP.NET MVC アプリケーション
--   アプリケーション プロジェクトに追加される `Infragistics.Web.Mvc.dll` アセンブリに対する参照。詳細は、「[MVC プロジェクトへのコントロールの追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html)」のトピックを参照してください。
+-   アプリケーション プロジェクトに追加される `Infragistics.Web.Mvc.dll` アセンブリに対する参照。詳細は、「[MVC プロジェクトへのコントロールの追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html)」のトピックを参照してください。
 -   ビューの依存関係:
 
     -   ASP.NET MVC ビューに追加される `Infragistics.Web.Mvc` 名前空間
@@ -151,7 +151,7 @@
 	```
 
 2. 基本的な描画オプションを構成する `igLinearGauge` コントロールのインスタンスを作成します。 
-	igLinearGauge のインスタンスを作成します。すべての %%ProductName%% ASP.NET MVC ヘルパーと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
+	igLinearGauge のインスタンスを作成します。すべての %%ProductNameMVC%% コントロールと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
 
 	**ASPX の場合:**
 
@@ -271,7 +271,7 @@
 
 -	[`igLinearGauge` の HTML ページへの追加](igLinearGauge-Adding-to-an-HTML-Page.html): このトピックではコード例を使用して、igLinearGauge コントロールを HTML ページに追加する方法を説明します。
 
--	[jQuery と ASP.NET MVC ヘルパー API へのリンク (igLinearGauge)](igLinearGauge-API-Links.html): このトピックでは、`igLinearGauge`  コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+-	[jQuery および MVC API リファレンス リンク (igLinearGauge)](igLinearGauge-API-Links.html): このトピックでは、`igLinearGauge`  コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 
 
 ### <a id="samples"></a>サンプル

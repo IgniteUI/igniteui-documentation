@@ -25,7 +25,7 @@
 
 **トピック**
 
--   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 
 
 ### このトピックの内容

@@ -476,7 +476,7 @@
 
 このトピックの追加情報については、以下のトピックも合わせてご参照ください。
 
-- [ASP.NET MVC ヘルパーを使用した igPivotGrid の追加](igPivotGrid-Adding-Using-the-MVC-Helper.html): このトピックは、 ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションへ `igPivotGrid`™ コントロールを追加する方法について説明します。
+- [%%ProductNameMVC%% igPivotGrid の追加](igPivotGrid-Adding-Using-the-MVC-Helper.html): このトピックは、 ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションへ `igPivotGrid`™ コントロールを追加する方法について説明します。
 
 ### <a id="samples"></a>サンプル
 

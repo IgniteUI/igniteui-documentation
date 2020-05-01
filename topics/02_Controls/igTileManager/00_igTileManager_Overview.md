@@ -206,7 +206,7 @@
 
 ## <a id="touch-support"></a>タッチ サポート
 
-タッチ対応デバイスの場合、特別なクラスがタイル マネージャーに追加され、タッチ イベントが処理されます。タッチ対応デバイスでは、スプリッターは標準のデバイス (幅 6 ピクセル) より少し広め (幅 16 ピクセル) になっており、タッチ環境でのユーザーのスプリッター バーの操作を簡単にしています。詳細は、[%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html)を参照してください。
+タッチ対応デバイスの場合、特別なクラスがタイル マネージャーに追加され、タッチ イベントが処理されます。タッチ対応デバイスでは、スプリッターは標準のデバイス (幅 6 ピクセル) より少し広め (幅 16 ピクセル) になっており、タッチ環境でのユーザーのスプリッター バーの操作を簡単にしています。詳細は、[%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-IgniteUI-for-jQuery-Controls.html)を参照してください。
 
 
 
@@ -220,7 +220,7 @@
 
 ## <a id="requirements"></a>要件
 
-`igTileManager` コントロールは jQuery UI ウィジェットであるため、jQuery ライブラリと jQuery UI ライブラリに依存します。`igSplitter` は Modernizr ライブラリに依存するため、このライブラリも必要です。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、Infragistics.Web.Mvc の組立が必要になります。
+`igTileManager` コントロールは jQuery UI ウィジェットであるため、jQuery ライブラリと jQuery UI ライブラリに依存します。`igSplitter` は Modernizr ライブラリに依存するため、このライブラリも必要です。これらのリソースへの参照は、実際の jQuery または %%ProductNameMVC%% が使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、Infragistics.Web.Mvc の組立が必要になります。
 
 `igTileManager`、`igLayoutManager`、`igSplitter` 用の CSS ファイルは、コントロールの正しい描画のページを参照する必要があります。
 
@@ -885,7 +885,7 @@ ASP.NET MVC プロパティ
 
 - [既知の問題と制限 (igTileManager)](igTileManager-Known-Issues-and-Limitations.html): このトピックでは、`igTileManager` コントロールの既知の問題と制限、その回避策に関する情報を提供します。
 
--  [jQuery と ASP.NET MVC ヘルパー API へのリンク (igTileManager)](igTileManager-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックでは、`igTileManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
+-  [jQuery および MVC API リファレンス リンク (igTileManager)](igTileManager-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックでは、`igTileManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
 
 
 

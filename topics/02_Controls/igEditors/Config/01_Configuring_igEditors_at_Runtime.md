@@ -41,7 +41,7 @@
 -   %%ProductName%% コントロールのインスタンスが作成された HTML Web ページ
 -   MVC 固有の要件
 -   Microsoft Visual Studio® での MVC プロジェクト
--   Infragsitics.Web.Mvc dll (ASP.NET MVC ヘルパーを含む) への参照
+-   Infragsitics.Web.Mvc dll (%%ProductNameMVC%% を含む) への参照
 
 #### スクリプト要件
 
@@ -143,7 +143,7 @@ $("#numericeditor").igNumericEditor({
 
 
 
-以下は、ASP.NET MVC ヘルパーを使用して `igTextEditor` コントロールのインスタンスを作成し、コントロールが初期化されるとフォーカス イベントへサブスクライブする例です。
+以下は、HTML ヘルパーを使用して %%ProductNameMVC%% `TextEditor` コントロールのインスタンスを作成し、コントロールが初期化されるとフォーカス イベントへサブスクライブする例です。
  
 
 
@@ -174,7 +174,7 @@ $("#texteditor").bind('igeditorfocus', function (evt, ui) {
 
 
 
-以下は、ASP.NET MVC ヘルパーを使用して `igDateEditor` コントロールのインスタンスを作成し、初期化されるとフォーカス イベントへサブスクライブする例です。
+以下は、HTML ヘルパーを使用して %%ProductNameMVC%% `DateEditor` コントロールのインスタンスを作成し、初期化されるとフォーカス イベントへサブスクライブする例です。
 
 
 
@@ -211,7 +211,7 @@ $("#dateeditor").bind('igeditorfocus', function (evt, ui) {
 $('#inputFieldID').igTextEditor ('option', <option name>,<option  value>);
 ```
 
-ASP.NET MVC ヘルパーは、`igEditor` コントロールを内部で描画します。コードは次のようになります。
+%%ProductNameMVC%% は、`igEditor` コントロールを内部で描画します。コードは次のようになります。
 
 ```
 $('#inputFieldID').igEditor ('option', <option name>,<option value>);
@@ -227,7 +227,7 @@ $('#inputFieldID').igEditor ('option', <option name>,<option value>);
 
 
 
-以下は、ASP.NET MVC ヘルパーを使用して `igMaskEditor` コントロールのインスタンスを作成し、初期化後にマスクを変更する例です。
+以下は、HTML ヘルパーを使用して %%ProductNameMVC%% `MaskEditor` コントロールのインスタンスを作成し、初期化後にマスクを変更する例です。
 
 
 
@@ -255,7 +255,7 @@ $("#maskeditor").igEditor('option', 'inputMask', 'CCCCCCCCCC');
 
 
 
-以下は、ASP.NET MVC ヘルパーを使用して `igPercentEditor` コントロールのインスタンスを作成し、初期化後に最大 10 進数を変更する例です。
+以下は、HTML ヘルパーを使用して %%ProductNameMVC%% `PercentEditor` コントロールのインスタンスを作成し、初期化後に最大 10 進数を変更する例です。
  
 
 
@@ -283,7 +283,7 @@ $("#percenteditor").igEditor('option', 'maxDecimals', 10);
 ##<a id="_Related_Topics"></a>関連トピック
 
 
--   [%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html)
+-   [%%ProductName%% でイベントの使用](Using-Events-in-IgniteUI-for-jQuery.html)
 
  
 

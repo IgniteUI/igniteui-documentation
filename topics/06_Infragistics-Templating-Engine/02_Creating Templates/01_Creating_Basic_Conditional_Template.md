@@ -35,7 +35,7 @@
     -   [プレビュー](#preview)
     -   [前提条件](#prerequisites)
     -   [手順](#steps)
--   [Ignite UI CLI で基本条件付きテンプレートを含む igTreeGrid の作成](#adding-using-CLI)
+-   [%%ProductFamilyName%% CLI で基本条件付きテンプレートを含む igTreeGrid の作成](#adding-using-CLI)
 -   [関連コンテンツ](#related-content)
 
 
@@ -101,17 +101,17 @@
 
 	ファイルを保存し、ダブル クリックして結果をプレビューします。3 番目の行の年齢プロパティが 21 未満であるため、テンプレート中の適用されたチェックに従い、2 行のみが表示されます。
 
-## <a id="adding-using-CLI"></a> Ignite UI CLI で基本条件付きテンプレートを含む igTreeGrid の作成
+## <a id="adding-using-CLI"></a> %%ProductFamilyName%% CLI で基本条件付きテンプレートを含む igTreeGrid の作成
 
-Ignite UI CLI を使用して基本条件付きテンプレートが構成された igGrid を簡単に追加できます。
+%%ProductFamilyName%% CLI を使用して基本条件付きテンプレートが構成された igGrid を簡単に追加できます。
 
-Ignite UI CLI のインストール:
+%%ProductFamilyName%% CLI のインストール:
 
 ```
 npm install -g igniteui-cli
 ```
 
-Ignite UI CLI インストール後、Ignite UI プロジェクトを生成し、基本条件付きテンプレートを含む新しい igGrid コンポーネントを追加してプロジェクトをビルドおよび公開するには、以下のコマンドを使用します。
+%%ProductFamilyName%% CLI インストール後、%%ProductName%% プロジェクトを生成し、基本条件付きテンプレートを含む新しい igGrid コンポーネントを追加してプロジェクトをビルドおよび公開するには、以下のコマンドを使用します。
 
 ```
 ig new <project name>
@@ -122,7 +122,7 @@ ig start
 
 このコマンドは、[「条件付きテンプレート」](%%SamplesUrl%%/templating-engine/conditional-templates)サンプルと同じテンプレートで構成された新しい igGrid を追加します。
  
-すべての利用可能なコマンドおよび詳細な情報については、[「Ignite UI CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
+すべての利用可能なコマンドおよび詳細な情報については、[「%%ProductFamilyName%% CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
 
 ## <a id="related-content"></a>関連コンテンツ
 ### トピック

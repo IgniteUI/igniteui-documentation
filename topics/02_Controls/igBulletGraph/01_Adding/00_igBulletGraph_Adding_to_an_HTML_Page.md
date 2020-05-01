@@ -142,7 +142,7 @@ JS リソース
 *infragistics.ui.widget.js*
                             </td>
 							<td>
-すべての Ignite UI ウィジェットの基本 igWidget。
+すべての %%ProductName%% ウィジェットの基本 igWidget。
 							</td>
 						</tr>
 						<tr>
@@ -450,7 +450,7 @@ JS リソース
 
 - [ASP.NET MVC アプリケーションへの *igBulletGraph* の追加](igBulletGraph-Adding-Using-the-MVC-Helper.html): このトピックではコード例を使用して、ASP.NET MVC ビューに ASP.NET MVC ヘルパーで igBulletGraph コントロールを追加する方法を説明します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (*igBulletGraph*)](igBulletGraph-API-Links.html): このトピックでは、`igBulletGraph` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (*igBulletGraph*)](igBulletGraph-API-Links.html): このトピックでは、`igBulletGraph` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 
 
 

@@ -37,7 +37,7 @@
 
 -	[既知の問題と制限 (igLayoutManager)](igLayoutManager-Known-Issues-and-Limitations.html): このトピックでは、`igLayoutManager` コントロールの既知の問題と制限に関する情報を提供します。
 
--	[jQuery と ASP.NET MVC ヘルパー API へのリンク (igLayoutManager)](igLayoutManager-jQuery-and-ASP.NET-MVC-Helper-API-Links-.html): このトピックでは、`igLayoutManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
+-	[jQuery および MVC API リファレンス リンク (igLayoutManager)](igLayoutManager-jQuery-and-ASP.NET-MVC-Helper-API-Links-.html): このトピックでは、`igLayoutManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API ドキュメントへのリンクを提供します。
 
 
 

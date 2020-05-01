@@ -80,7 +80,7 @@
 		</tr>
 		<tr>
 			<td>ASP.NET MVC ヘルパーによるリモート フィルタリング</td>
-			<td>igCombo ASP.NET MVC ヘルパーは、ビジネス オブジェクトのコレクションにバインドする場合にサーバー側フィルタリングを設定する API を提供します。</td>
+			<td>%%ProductNameMVC%% Combo は、ビジネス オブジェクトのコレクションにバインドする場合にサーバー側フィルタリングを設定する API を提供します。</td>
 			<td><ul><li>[filteringType](%%jQueryApiUrl%%/ui.igCombo#options:filteringType)</li><li>comboDataSourceAction</li><li>[filterExprUrlKey](%%jQueryApiUrl%%/ui.igCombo#options:filterExprUrlKey)</li></ul></td>
 		</tr>
 	</tbody>
@@ -288,9 +288,9 @@ $("#comboTarget").igCombo({
 ###<a id="asp_details"></a>ASP.NET MVC リスト フィルタリング構成の詳細 
 
 
-`igCombo` ASP.NET MVC ヘルパーは主に、C# または Visual Basic.NET でビヘイビアーを構成しながら、クライアント側で必要な jQuery および HTML を描画する機能を果たします。
+%%ProductNameMVC%% `Combo` は主に、C# または Visual Basic.NET でビヘイビアーを構成しながら、クライアント側で必要な jQuery および HTML を描画する機能を果たします。
 
-ヘルパーの他の部分は、サーバーへのリモート操作を簡単に行う機能を果たします。これは `ActionResult` メソッドに `ComboDataSourceAction` 属性を修飾できる `igCombo` コントロールに当てはまり、ヘルパーはサーバー側によるデータ ソースのクエリを簡単に行い、適切なデータをクライアントに返すことができます。
+%%ProductNameMVC%% の他の部分は、サーバーへのリモート操作を簡単に行う機能を果たします。これは `ActionResult` メソッドに `ComboDataSourceAction` 属性を修飾できる `igCombo` コントロールに当てはまり、ヘルパーはサーバー側によるデータ ソースのクエリを簡単に行い、適切なデータをクライアントに返すことができます。
 
 ###<a id="asp_settings"></a>ASP.NET MVC リスト フィルタリング構成のプロパティ設定
 
@@ -309,7 +309,7 @@ $("#comboTarget").igCombo({
     </thead>
     <tbody>
         <tr>
-            <td>ASP.NET MVC ヘルパーでリモート フィルタリングを構成する</td>
+            <td>%%ProductNameMVC%% でリモート フィルタリングを構成する</td>
 
             <td>
                 <a href="%%jQueryApiUrl%%/ui.igCombo#options:dataSource" target="_blank">DataSource</a><br>
@@ -342,14 +342,14 @@ $("#comboTarget").igCombo({
 これらのプロパティの詳細情報は、プロパティ参照セクションのリストを参照してください。
 
 -   [igCombo のオプション](%%jQueryApiUrl%%/ui.igcombo#!options)
--   [igCombo ASP.NET MVC ヘルパー API](%%jQueryApiUrl%%/ui.igcombo)
+-   [igCombo MVC API](%%jQueryApiUrl%%/ui.igcombo)
 
 ###<a id="asp_example"></a>ASP.NET MVC リスト フィルタリング構成の例 
 
 
 #### 概要
 
-この例は、ASP.NET MVC ヘルパーでリモート フィルタリングを有効にする方法を示しています。この構成では、データ フィルタリング操作のアクション メソッドが定義されています。`igCombo` コントロールはサーバーのデータにバインドされており、クライアントでフィルタリング操作が発生すると、フィルターされたデータの要求がアクション メソッドに送信されます。
+この例は、%%ProductNameMVC%% でリモート フィルタリングを有効にする方法を示しています。この構成では、データ フィルタリング操作のアクション メソッドが定義されています。`igCombo` コントロールはサーバーのデータにバインドされており、クライアントでフィルタリング操作が発生すると、フィルターされたデータの要求がアクション メソッドに送信されます。
 
 #### 要件
 
@@ -357,7 +357,7 @@ $("#comboTarget").igCombo({
 
 -   ASP.NET MVC アプリケーション
 -   プロジェクトで参照されている `Infragistics.Web.Mvc.dll` アセンブリ
--   ASP.NET MVC ヘルパーを通してデータにバインドされている `igCombo` コントロール
+-   %%ProductNameMVC%% を通してデータにバインドされている `Combo` コントロール
 
 #### 概要
 
@@ -403,7 +403,7 @@ $("#comboTarget").igCombo({
 
 -	[igCombo の構成](igCombo-Configuring.html)
 
--	[jQuery と ASP.NET MVC ヘルパー API へのリンク (igCombo)](igCombo-jQuery-And-ASP-NET-MVC-Helper-API-Links.html)
+-	[jQuery および MVC API リファレンス リンク (igCombo)](igCombo-jQuery-And-ASP-NET-MVC-Helper-API-Links.html)
 
  
 

@@ -373,7 +373,7 @@
 
 このトピックについては、以下のサンプルも参照してください。
 
-- [Collection にバインド](%%SamplesUrl%%/doughnut-chart/bind-to-collection): このサンプルでは、ASP.NET MVC ヘルパーを使用して `igDoughnutChart` を描画する方法を紹介します。ヘルパーはサーバーのオブジェクトのコレクションにバインドし、そのコレクションを JSON オブジェクトにシリアル化し、必要な `igDoughnutChart` HTML および JavaScript を描画します。
+- [Collection にバインド](%%SamplesUrl%%/doughnut-chart/bind-to-collection): このサンプルでは、%%ProductNameMVC%% を使用して `igDoughnutChart` を描画する方法を紹介します。ヘルパーはサーバーのオブジェクトのコレクションにバインドし、そのコレクションを JSON オブジェクトにシリアル化し、必要な `igDoughnutChart` HTML および JavaScript を描画します。
 
 
 

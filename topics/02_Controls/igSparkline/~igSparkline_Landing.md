@@ -60,7 +60,7 @@ WinLoss
 
 - [アクセシビリティ準拠 (igSparkline)](igSparkline-Accessibility-Compliance.html): このトピックでは、`igSparkline` のアクセシビリティ機能について説明し、`igSparkline` を含むページのアクセシビリティ準拠を実現する方法についてのヒントを示します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールのための jQuery と ASP.NET MVC ヘルパー クラスのAPIドキュメントへのリンクを提供します。
+- [jQuery と MVC API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールのための jQuery と ASP.NET MVC ヘルパー クラスのAPIドキュメントへのリンクを提供します。
 
 
 

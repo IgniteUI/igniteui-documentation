@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API リファレンス (igMap)
+# jQuery と MVC API リファレンス リンク (igMap)
 
 
 
@@ -44,7 +44,7 @@
 API マニュアル|説明
 ---|---
 [igMap jQuery API](%%jQueryApiUrl%%/ui.igMap)|マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
-[igMap ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Map`1.html)|マニュアルには、Map クラス定義とそのメンバーの全リストが含まれています。
+[igMap MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Map`1.html)|マニュアルには、Map クラス定義とそのメンバーの全リストが含まれています。
 
 
 

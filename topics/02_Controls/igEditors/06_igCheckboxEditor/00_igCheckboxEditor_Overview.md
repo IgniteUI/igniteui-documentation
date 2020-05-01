@@ -48,7 +48,7 @@
 	<script type="text/javascript" src="@Url.Content("~/Scripts/infragistics.lob.js")"></script>
     ```
 
-3.  jQuery の実装では、HTML 内のターゲット要素として INPUT、SPAN または DIV を作成します。ASP.NET MVC の実装では、含める要素を MVC ラッパーが作成するため、この手順はオプションです。
+3.  jQuery の実装では、HTML 内のターゲット要素として INPUT、SPAN または DIV を作成します。ASP.NET MVC の実装では、含める要素を %%ProductNameMVC%% が作成するため、この手順はオプションです。
 
 	**HTML の場合:**
    	```html
@@ -109,6 +109,6 @@ $('#checkInput').igCheckboxEditor({
 
 ## 関連リンク
 
--   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 -   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 

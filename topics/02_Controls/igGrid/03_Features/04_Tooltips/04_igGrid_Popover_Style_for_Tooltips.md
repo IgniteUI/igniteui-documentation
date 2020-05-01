@@ -20,7 +20,7 @@
 
 以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
 
-- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックは、タッチ対話をサポートするために行われた jQuery コントロールの更新を紹介します。
+- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-IgniteUI-for-jQuery-Controls.html): このトピックは、タッチ対話をサポートするために行われた jQuery コントロールの更新を紹介します。
 
 - [igGrid™ ツールチップの概要](igGrid-Tooltips-Overview.html): このトピックは、`igGrid` ツールチップを有効にして使用する方法を示します。
 
@@ -143,7 +143,7 @@ tooltip
 
 - [igGrid ツールチップの概要](igGrid-Tooltips-Overview.html): `igGrid` ツールチップのプロパティと動作を示すトピック。
 
-- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-NetAdvantage-for-jQuery-Controls.html): このトピックは、タッチ対話をサポートするために行われた jQuery コントロールの更新を紹介します。
+- [%%ProductName%% コントロールのタッチ サポート](Touch-Support-for-IgniteUI-for-jQuery-Controls.html): このトピックは、タッチ対話をサポートするために行われた jQuery コントロールの更新を紹介します。
 
 
 

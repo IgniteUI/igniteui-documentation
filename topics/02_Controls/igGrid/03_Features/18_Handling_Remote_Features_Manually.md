@@ -40,7 +40,7 @@ features: [
 ]
 ```
 
-Grid ASP.NET MVC ラッパーを使用する際に、関連する `GridDataSourceActionAttribute` 操作を追加し、既定でこれらの機能が処理されることによってリモートが初期化されることを要求します。
+%%ProductNameMVC%% Grid を使用する際に、関連する `GridDataSourceActionAttribute` 操作を追加し、既定でこれらの機能が処理されることによってリモートが初期化されることを要求します。
 操作フィルターの属性は、グリッド データを返す MVC 操作を修飾するために使用できます。
 例:
 

@@ -41,17 +41,17 @@
 -   豊富なクライアント側 API
 -   ASP.NET MVC ラッパー
 
-## Ignite UI CLI で igGrid を追加
+## %%ProductFamilyName%% CLI で igGrid を追加
 
-新しい igGrid を簡単にアプリケーションに追加するには、Ignite UI CLI を使用します。
+新しい igGrid を簡単にアプリケーションに追加するには、%%ProductFamilyName%% CLI を使用します。
 
-Ignite UI CLI のインストール:
+%%ProductFamilyName%% CLI のインストール:
 
 ```
 npm install -g igniteui-cli
 ```
 
-Ignite UI CLI インストール後、Ignite UI プロジェクトを生成し、新しい igGrid コンポーネントを追加してプロジェクトをビルドおよび公開すためにカスタム コマンドを実行するには、以下のコマンドを使用します。
+%%ProductFamilyName%% CLI インストール後、%%ProductFamilyName%% プロジェクトを生成し、新しい igGrid コンポーネントを追加してプロジェクトをビルドおよび公開すためにカスタム コマンドを実行するには、以下のコマンドを使用します。
 
 ```
 ig new <project name>
@@ -60,11 +60,11 @@ ig add grid newGrid
 ig start
 ```
 
-すべての利用可能なコマンドおよび詳細な情報については、[「Ignite UI CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
+すべての利用可能なコマンドおよび詳細な情報については、[「%%ProductFamilyName%% CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
 
 ## igGrid の Web ページへの追加
 
-次のステップは、いずれかの jQuery クライアント コードを使用して、Web ページに jQuery グリッドの基本的な実装を作成する方法を示します。どの実装を選択するかについて詳細は、[「%%ProductName%% の概要」](NetAdvantage-for-jQuery-Overview.html)を参照してください。
+次のステップは、いずれかの jQuery クライアント コードを使用して、Web ページに jQuery グリッドの基本的な実装を作成する方法を示します。どの実装を選択するかについて詳細は、[「%%ProductName%% の概要」](IgniteUI-for-jQuery-Overview.html)を参照してください。
 
 [igGrid の概要のサンプル](%%SamplesUrl%%/grid/overview)
 
@@ -180,7 +180,7 @@ ig start
 ### トピック
 
 -   [igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html)
--   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html) 
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html) 
 -   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
 
 

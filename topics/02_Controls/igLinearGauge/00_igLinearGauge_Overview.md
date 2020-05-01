@@ -968,7 +968,7 @@ igLinearGauge コントロールのツールチップを有効または無効に
 
 ##<a id="requirements"></a>要件
 
-`igLinearGauge` コントロールは jQuery UI ウィジェットであるため、jQuery ライブラリと jQuery UI ライブラリに依存します。これらのリソースへの参照は、実際の jQuery または ASP.NET MVC ヘルパーが使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
+`igLinearGauge` コントロールは jQuery UI ウィジェットであるため、jQuery ライブラリと jQuery UI ライブラリに依存します。これらのリソースへの参照は、実際の jQuery または %%ProductNameMVC%% が使用されているとしても必要となります。コントロールが ASP.NET MVC のコンテクスト内で使用されている場合、`Infragistics.Web.Mvc` アセンブリが必要です。
 
 リニア ゲージに針を表示するには、[value](%%jQueryApiUrl%%/ui.igLinearGauge#options:value) プロパティの設定が必要です。
 
@@ -986,7 +986,7 @@ igLinearGauge コントロールのツールチップを有効または無効に
 
 -	[igLinearGauge の構成](igLinearGauge-Configuring.html): このトピック グループは、向きや方向および視覚要素を含む `igLinearGauge` コントロールのさまざまな要素を構成する方法を説明します。
 
--	[jQuery と ASP.NET MVC ヘルパー API へのリンク (igLinearGauge)](igLinearGauge-API-Links.html): このトピックでは、`igLinearGauge` コントロールに関連するキー クラスやプロパティに関する参考情報を提供します。
+-	[jQuery および MVC API リファレンス リンク (igLinearGauge)](igLinearGauge-API-Links.html): このトピックでは、`igLinearGauge` コントロールに関連するキー クラスやプロパティに関する参考情報を提供します。
 
 -	[既知の問題と制限 (igLinearGauge)](igLinearGauge-Known-Issues-and-Limitations.html): このトピックでは、`igLinearGauge` コントロールの既知の問題点および制限に関する情報を提供します。
 

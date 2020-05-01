@@ -19,7 +19,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
-- [%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックは、%%ProductName%%® コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
+- [%%ProductName%% でイベントの使用](Using-Events-in-IgniteUI-for-jQuery.html): このトピックは、%%ProductName%%® コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
 
 - [igTileManager の概要](igTileManager-Overview.html): このトピックでは、主要機能、最小要件およびユーザー機能性など、`igTileManager` コントロールについて概念的な情報を提供します。
 
@@ -52,7 +52,7 @@
 
 イベント ハンドラー関数の `igTileManager` コントロールへのアタッチは、一般的にコントロールの初期化時に行われます。このイベントが発生すると、処理関数を呼び出します。
 
-MVC ヘルパー内ではイベント ハンドラーを定義できないので、MVC ヘルパーを使用するときは、実行時にイベント ハンドラーを割り当てる必要があります。
+HTML ヘルパー内ではイベント ハンドラーを定義できないので、%%ProductNameMVC%% を使用するときは、実行時にイベント ハンドラーを割り当てる必要があります。
 
 jQuery はイベント ハンドラーの割り当てるための以下のメソッドをサポートします。
 
@@ -238,7 +238,7 @@ $(document).delegate(".selector", "igtilemanagerrendered", function(evt, ui) {
 
 - [既知の問題と制限 (igTileManager)](igTileManager-Known-Issues-and-Limitations.html): このトピックでは、`igTileManager` コントロールの既知の問題と制限、その回避策に関する情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (igTileManager)](igTileManager-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックでは、`igTileManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (igTileManager)](igTileManager-jQuery-and-ASP.NET-MVC-Helper-API-Links.html): このトピックでは、`igTileManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
 
 ### <a id="samples"></a>サンプル
 

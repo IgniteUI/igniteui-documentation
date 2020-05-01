@@ -19,7 +19,7 @@
 
 このトピックを理解するために、以下のトピックを参照することをお勧めします。
 
-- [%%ProductName%% でイベントの使用](Using-Events-in-NetAdvantage-for-jQuery.html): このトピックは、%%ProductName%%® コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
+- [%%ProductName%% でイベントの使用](Using-Events-in-IgniteUI-for-jQuery.html): このトピックは、%%ProductName%%® コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
 
 - [igPopover の概要](igPopover-Overview.html): このトピックでは、主要機能や機能性など、igPopover コントロールの概念的な情報を提供します。
 
@@ -182,7 +182,7 @@ $(document).delegate(".selector", "igpopovershown", function(evt, ui) {
 
 - [既知の問題と制限事項 (igPopover)](igPopover-Known-Issues-And-Limitations.html): このトピックでは、`igPopover` コントロールの既知の問題と制限事項および回避策についての情報を提供します。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igPopover)](igPopover-ASP-NET-MVC-Helper-API.html): このトピックでは、`igPopover` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
+- [jQuery と MVC API リンク (igPopover)](igPopover-ASP-NET-MVC-Helper-API.html): このトピックでは、`igPopover` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
 
 ### <a id="samples"></a>サンプル
 

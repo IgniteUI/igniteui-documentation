@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# jQuery と ASP.NET MVC ヘルパー API リンク (igSparkline)
+# jQuery と MVC API リンク (igSparkline)
 
 
 
@@ -22,7 +22,7 @@
 API マニュアル|説明
 ---|---
 [igSparkline jQuery API](%%jQueryApiUrl%%/ui.igSparkline.html)|マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
-[igSparkline ASP.NET MVC ヘルパー API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Sparkline`1.html)|マニュアルには、[SparklineModel](Infragistics.Web.Mvc~Infragistics.Web.Mvc.SparklineModel.html) クラスの説明およびそのメンバーすべてのリストが含まれます。
+[igSparkline MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Sparkline`1.html)|マニュアルには、[SparklineModel](Infragistics.Web.Mvc~Infragistics.Web.Mvc.SparklineModel.html) クラスの説明およびそのメンバーすべてのリストが含まれます。
 
 
 

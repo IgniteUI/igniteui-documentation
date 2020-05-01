@@ -73,7 +73,7 @@
 
 以下のトピックでは、このトピックに関連する追加情報を提供しています。
 
-- [jQuery と ASP.NET MVC ヘルパー API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): `igSparkline` は、ASP.NET MVC ヘルパーが付属する jQuery UI ウィジェットとして構築されます。各 API の詳細については、以下の API マニュアルへのリンクを参照してください。
+- [jQuery と MVC API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): `igSparkline` は、ASP.NET MVC ヘルパーが付属する jQuery UI ウィジェットとして構築されます。各 API の詳細については、以下の API マニュアルへのリンクを参照してください。
 
 
 ### サンプル

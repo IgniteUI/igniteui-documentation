@@ -14,7 +14,7 @@
 
 ### 目的
 
-バージョン 12.2 以降、`igGrid` では ASP.NET MVC ヘルパーで `DataTable` オブジェクトにバインドできるようになりました。このトピックでは、この機能を紹介し、Grid ASP.NET MVC ヘルパーと `DataTable` を構成し、使用する方法を説明します。また、グリッドの編集機能を併用した  `DataTable` の利用方法も説明します。
+バージョン 12.2 以降、%%ProductNameMVC%% Grid では `DataTable` オブジェクトにバインドできるようになりました。このトピックでは、この機能を紹介し、%%ProductNameMVC%% の Grid と `DataTable` を構成し、使用する方法を説明します。また、グリッドの編集機能を併用した  `DataTable` の利用方法も説明します。
 
 ### 前提条件
 
@@ -89,7 +89,7 @@ public ActionResult UpdateDataTableGrid()
 
 ### <a id="dataSet"></a> *DataSet* にバインド
 
-`igGrid` ASP.NET MVC ヘルパーには新しいプロパティ **`DataMember`** を導入しました。
+`igGrid` には新しいプロパティ **`DataMember`** を導入しました。
 
 このプロパティは、現在の `igGrid` にバインドされた `DataSet` から取得した `DataTable` の名前を保存します。
 
@@ -202,7 +202,7 @@ public List<SortExpression> BuildSortExpressions(NameValueCollection queryString
 
 ### DataTable や DataSet に PrimaryKey が設定されていない場合、Grid に明示的に設定してください。
 
-`DataTable` や `DataSet` に `PrimaryKey` を定義しておくると、`igGrid` がそれを自動的に使用します。あるいは ASP.NET MVC ヘルパーで手動設定することもできます。更新機能を有効にしたとき、以上の設定が必要です。
+`DataTable` や `DataSet` に `PrimaryKey` を定義しておくると、`igGrid` がそれを自動的に使用します。あるいは手動設定することもできます。更新機能を有効にしたとき、以上の設定が必要です。
 
 **Razor の場合:**
 
@@ -299,7 +299,7 @@ public ActionResult EditingSaveChanges()
 ```
 
 
-### ASP.NET MVC ヘルパーをビューで使用して *igGrid* に列を手動で作成します。
+### ビューに %%ProductNameMVC%% Grid の列を手動で作成します。
 
 `igGrid` をビューに定義して、`DataTable` をグリッドのモデルとして使用すると、列は自動生成以外では生成できなくなります。列を手動で定義するときは、`DataTable` 構造に対応したモデルを定義し、それをグリッドのタイプに設定してください。
 

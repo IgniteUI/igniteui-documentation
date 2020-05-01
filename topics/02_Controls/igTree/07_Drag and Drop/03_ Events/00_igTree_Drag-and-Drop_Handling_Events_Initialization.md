@@ -52,7 +52,7 @@ $(".selector").igTree({
 
 - [実行時のドラッグ アンド ドロップ イベントの処理 (igTree)](igTree-Drag-and-Drop-Handling-Events-Run-Time.html): ここでは、コード例とともに、`igTree` コントロールでイベントをサブスクライブし、実行時にイベント ハンドラーをアタッチする方法について説明します。
 
-- [API リンク (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): ここでは、`igTree` jQuery と ASP.NET MVC ヘルパー API までのリンクを紹介します。
+- [API リンク (igTree)](igTree-jQuery-And-ASP-NET-MVC-Helper-API-Links.html): ここでは、`igTree` jQuery と MVC API までのリンクを紹介します。
 
 
 ### サンプル

@@ -97,7 +97,7 @@
 
 
 
-2.  各種のエンコード モデルの詳細は、[jQuery と ASP.NET MVC ヘルパー API へのリンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html) のトピックを参照してください。
+2.  各種のエンコード モデルの詳細は、[jQuery および MVC API リファレンス リンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html) のトピックを参照してください。
 
 ### <a id="encoding-example"></a>例
 
@@ -290,7 +290,7 @@ ECI 番号|ISO 文字セット
 
 - [QR バーコードのサイズの構成 (igQRCodeBarcode)](igQRCodeBarcode-Configuring-the-Dimensions.html): このトピックは、ストレッチや塗りつぶし、最小サイズ要素のサイズなど、`igQRCodeBarcode` コントロールのサイズや寸法に関わる要素の設定方法について示します。
 
-- [jQuery と ASP.NET MVC ヘルパー API へのリンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): このトピックでは、`igQRCodeBarcode` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+- [jQuery および MVC API リファレンス リンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): このトピックでは、`igQRCodeBarcode` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
 
 
 ### <a id="samples"></a>サンプル

@@ -19,14 +19,14 @@
 
 以下の表は、このトピックを理解するための前提条件として必要な概念、トピック、および記事の一覧です。
 
-- [コントロールを MVC プロジェクトに追加](Adding-NetAdvantage-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductName%%™ コンポーネントを使用した作業の開始方法を説明します。
+- [コントロールを MVC プロジェクトに追加](Adding-IgniteUI-Controls-to-an-MVC-Project.html): このトピックでは、ASP.NET MVC アプリケーションで %%ProductNameMVC%%™ コンポーネントを使用した作業の開始方法を説明します。
 
 
 ## 概要
 
 ロード オン デマンド機能は、ユーザーがツリー グリッドのノードを展開する際にサーバーから子ノードのデータを要求します。この方法は、ブラウザーとサーバー間で送信されるデータの量を減らします。
 
-リモート ロードオンデマンド機能を使用するには、要求を処理するコントローラー アクション メソッドが TreeGridDataSourceAction 属性を持つ必要があります。それだけを実装します。TreeGridDataSourceAction はその他の実装を処理します。このシナリオで、要求は %%ProductName%% グリッドの MVC ラッパーによって処理されます。パラメーターを自動的に要求に追加し、特定のレベルのみのデータを返します。  
+リモート ロードオンデマンド機能を使用するには、要求を処理するコントローラー アクション メソッドが TreeGridDataSourceAction 属性を持つ必要があります。それだけを実装します。TreeGridDataSourceAction はその他の実装を処理します。このシナリオで、要求は %%ProductNameMVC%% Grid によって処理されます。パラメーターを自動的に要求に追加し、特定のレベルのみのデータを返します。  
 
 行が展開されると、子レコードのデータがAJAX 呼び出しによりサーバーに要求されます。この機能は、他の[リモート機能](igTreeGrid-Remote-Features.html)により共有される同じ [`dataSourceUrl`](%%jQueryApiUrl%%/ui.igtreegrid#options:dataSourceUrl) アドレスを使用します。すなわち、複数の要求のスタイルを処理できるように、複数のリモート機能のバックエンド実装が必要です。
 
@@ -46,7 +46,7 @@
 
 また、子レコードのキー値は「5」で、そのデータ要求に `2/5` のパスが生成されます。
 
-> **注:** %%ProductName%% には、デベロッパーを支援する ASP.NET MVC ヘルパー モデルが付属しています。この機能はプラットフォームに依存しません。ロード オン デマンドは、[`enableRemoteLoadOnDemand`](%%jQueryApiUrl%%/ui.igtreegrid#options:enableRemoteLoadOnDemand) オプションを通じて使用できます。受け取った要求を処理し、JSON として処理済みのデータを返すエンドポイントを提供できるどのようなサーバー側プラットフォームでも実装できます。
+> **注:** %%ProductNameMVC%% には、開発者を支援する機能が付属しています。この機能はプラットフォームに依存しません。ロード オン デマンドは、[`enableRemoteLoadOnDemand`](%%jQueryApiUrl%%/ui.igtreegrid#options:enableRemoteLoadOnDemand) オプションを通じて使用できます。受け取った要求を処理し、JSON として処理済みのデータを返すエンドポイントを提供できるどのようなサーバー側プラットフォームでも実装できます。
 
 ## <a id="walkthrough"></a> チュートリアル
 

@@ -12,7 +12,7 @@
 
 ##igMaskEditor の概要
 
-%%ProductName%%™ のマスク エディターまたは `igMaskEditor` は、指定の入力マスクによって決定される入力制限を強制する入力フィールドを描画するコントロールです。`igMaskEditor` コントロールは、ブラウザーから公開される異なる地域のオプションを認識することにより、ローカライズをサポートします。`igMaskEditor` コントロールは、任意のサーバー技術を使用する作業を構成できる豊富なクライアント側 API を公開します。%%ProductName%%™ のコントロールはサーバー非依存ですが、Microsoft® ASP.NET MVC Framework 専用のラッパーが機能するコントロールでは、希望する .NET™ 言語を使用してコントロールを構成できます。`igMaskEditor` コントロールは、大幅にスタイル変更ができるため、デフォルトのスタイルとまったく異なるルック アンド フィールのコントロールを実現できます。スタイル設定オプションでは、独自のスタイルも jQuery UI の ThemeRoller のスタイルも使用できます。<br />図 1: `igMaskEditor` コントロールの電話番号マスクの適用
+%%ProductName%%™ のマスク エディターまたは `igMaskEditor` は、指定の入力マスクによって決定される入力制限を強制する入力フィールドを描画するコントロールです。`igMaskEditor` コントロールは、ブラウザーから公開される異なる地域のオプションを認識することにより、ローカライズをサポートします。`igMaskEditor` コントロールは、任意のサーバー技術を使用する作業を構成できる豊富なクライアント側 API を公開します。%%ProductName%%™ のコントロールはサーバー非依存ですが、Microsoft® ASP.NET MVC Framework 専用の %%ProductNameMVC%% の一部として含まれるコントロールでは、希望する .NET™ 言語を使用して構成できます。`igMaskEditor` コントロールは、大幅にスタイル変更ができるため、デフォルトのスタイルとまったく異なるルック アンド フィールのコントロールを実現できます。スタイル設定オプションでは、独自のスタイルも jQuery UI の ThemeRoller のスタイルも使用できます。<br />図 1: `igMaskEditor` コントロールの電話番号マスクの適用
 
 ![](images/igMaskEditor_Overview_Pic1.png)
 
@@ -27,14 +27,14 @@
 -   異なるデータ モード
 -   ローカライズ
 -   JavaScript クライアント API
--   ASP.NET MVC ラッパー
+-   ASP.NET MVC
 
 
 >**注:** 新しいマスク エディターの大きな変更点の 1 つは、リストとドロップダウンのサポートが廃止されたことです。ドロップダウンやリストに関連するメソッドを使用しようとすると、メソッドが使用できないことを通知するメッセージが表示されます。 
 
-## Ignite UI CLI を使用して igMaskEditor の追加
+## %%ProductFamilyName%% CLI を使用して igMaskEditor の追加
 
-新しい igMaskEditor を簡単にアプリケーションに追加するには、Ignite UI CLI を使用します。新しいアプリケーションを作成した後、以下のコマンドを実行すると、マスク エディターがプロジェクトに追加されます。
+新しい igMaskEditor を簡単にアプリケーションに追加するには、%%ProductFamilyName%% CLI を使用します。新しいアプリケーションを作成した後、以下のコマンドを実行すると、マスク エディターがプロジェクトに追加されます。
 
 ```
    ig add mask-editor newMaskEditor 
@@ -42,7 +42,7 @@
 
 このコマンドは、アプリケーションが Angular、React、または jQuery に関係なく新しいマスク エディターを追加します。
 
-すべての利用可能なコマンドおよび詳細な情報については、「[Ignite UI CLI の使用](Using-Ignite-UI-CLI.html)」のトピックを参照してください。
+すべての利用可能なコマンドおよび詳細な情報については、「[%%ProductFamilyName%% CLI の使用](Using-Ignite-UI-CLI.html)」のトピックを参照してください。
    
 ##igMaskEditor の Web ページへの追加
 
@@ -70,7 +70,7 @@
 	<script type="text/javascript" src="@Url.Content("~/Scripts/Samples/infragistics.lob.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Samples/modules/i18n/regional/infragistics.ui.regional-en.js")"></script>
     ```
-3.  jQuery の実装では、HTML 内のターゲット要素として INPUT、DIV、または SPAN を作成します。ASP.NET MVC の実装では、含める要素を MVC ラッパーが作成するため、この手順はオプションです。 
+3.  jQuery の実装では、HTML 内のターゲット要素として INPUT、DIV、または SPAN を作成します。ASP.NET MVC の実装では、含める要素を %%ProductNameMVC%% が作成するため、この手順はオプションです。 
 
 	**HTML の場合:**
     ```html
@@ -154,7 +154,7 @@
 ##関連リンク
 
 -   [マスク エディターの基本サンプル](%%SamplesUrl%%/editors/mask-editor-basic)
--   [%%ProductName%% の概要](NetAdvantage-for-jQuery-Overview.html)
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
 -   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
  
  
