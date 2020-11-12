@@ -12,7 +12,7 @@
 
 ## Topic Overview
 
-This topic explains how to get started with %%ProductNameASPNETCore%%™ components in an ASP.NET Core Web Application built with ASP.NET Core 3.0.
+This topic explains how to get started with %%ProductNameASPNETCore%%™ components in an ASP.NET Core Web Application built with .NET 5.
 
 ### In this topic
 
