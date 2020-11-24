@@ -8,17 +8,17 @@
 |metadata|
 -->
 
-# What's New in 2020 Volume 2
+# 2020 Volume 2 の新機能
 
-This topic presents the new features for the %%ProductFamilyName%%™ 2020 Volume 2 release.
+このトピックは、%%ProductFamilyName%%™ 2020 Volume 2 リリースの新機能について説明します。
 
 ### %%ProductNameASPNETCore%%
-Infragistics %%ProductNameASPNETCore%% now supports ASP.NET Core for .NET 5 projects. For more information see the [Using %%ProductNameASPNETCore%%](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html) topic.
+Infragistics %%ProductNameASPNETCore%% で ASP.NET Core 5 プロジェクトがサポートされるようになりました。詳細情報は、[%%ProductNameASPNETCore%% の使用](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html)トピックを参照してください。
 
 
 ### %%ProductNameASPNETCore%% Tag Helpers
-%%ProductNameASPNETCore%% Tag Helpers now support ASP.NET Core for .NET 5 projects. For more information see the [Using %%ProductNameASPNETCore%% Tag Helpers](using-ignite-ui-tag-helpers.html) topic.
+%%ProductNameASPNETCore%% タグ ヘルパーで ASP.NET Core 5 プロジェクトがサポートされます。詳細情報は、[%%ProductNameASPNETCore%% タグ ヘルパーの使用](using-ignite-ui-tag-helpers.html)トピックを参照してください。
 
 
 ### Infragistics Documents
-Infragistics Documents assemblies are now available for ASP.NET Core for .NET 5 projects.
+Infragistics Documents アセンブリが ASP.NET Core 5 プロジェクトで利用可能になりました。
