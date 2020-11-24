@@ -12,7 +12,7 @@
 
 ## トピックの概要
 
-このトピックでは、ASP.NET Core 3.0 で作成した ASP.NET Core Web アプリケーションで %%ProductNameASPNETCore%%™ コンポーネントを使用した作業の開始方法について説明します。
+このトピックでは、.NET 5 用にビルドされた ASP.NET Core Web アプリケーションで %%ProductNameASPNETCore%%™ コンポーネントを使用した作業の開始方法を説明します。
 
 ### このトピックの内容
 
