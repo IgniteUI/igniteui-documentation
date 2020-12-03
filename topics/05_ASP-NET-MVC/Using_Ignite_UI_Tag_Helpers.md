@@ -8,7 +8,7 @@
 |metadata|
 -->
 
-# Using %%ProductNameProductNameASPNETCore%% Tag Helpers
+# Using %%ProductNameASPNETCore%% Tag Helpers
 
 ## Topic Overview
 
