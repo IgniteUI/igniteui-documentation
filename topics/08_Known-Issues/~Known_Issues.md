@@ -19,9 +19,9 @@ The topics in this group provide information about the Known Issues, Limitations
 
 Detailed information regarding known issues, limitations and breaking changes is covered in the following topics:
 
-- [Known Issues 2020.2](Known-Issues-and-Limitations-2020-Volume-2.html): This topic contains a list of Known Issues and Limitations of the 2020 Volume 2 release of the %%ProductName%%™ library.
+- [Known Issues 2021.1](Known-Issues-and-Limitations-2021-Volume-1.html): This topic contains a list of Known Issues and Limitations of the 2021 Volume 1 release of the %%ProductName%%™ library.
 
-- [Breaking Changes in 2020.2](Breaking-Changes-2020-Volume-2.html): This topic contains a list of Breaking Changes of the 2020 Volume 2 release of the %%ProductName%%™ library.
+- [Breaking Changes in 2021.1](Breaking-Changes-2021-Volume-1.html): This topic contains a list of Breaking Changes of the 2021 Volume 1 release of the %%ProductName%%™ library.
 
 - [Known Issues Revision History](Known-Issues-Revision-History.html): This topic provides links to the Known Issues and Limitations documents for earlier versions of the %%ProductName%%™ library.
 
