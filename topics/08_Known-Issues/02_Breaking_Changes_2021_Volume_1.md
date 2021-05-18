@@ -10,4 +10,10 @@
 
 # Breaking Changes 2021 Volume 1
 
-There are no known breaking changes in this release.
+## Charts
+### Redesigned Chart Defaults
+
+- All color resources	
+- All color resource values were changed, and new resource values are added	
+- Brushes	
+--  Most of the brush values were updated
