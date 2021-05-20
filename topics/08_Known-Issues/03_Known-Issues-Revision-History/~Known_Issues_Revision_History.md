@@ -18,6 +18,8 @@
 
 各リリースの既知の問題と制限に関する詳細情報は、次のトピックで扱います。
 
+- [2020 Volume 2 の既知の問題と制限](Known-Issues-and-Limitations-2020-Volume-2.html): このトピックでは、 2020 Volume 2 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
+
 - [2020 Volume 1 の既知の問題と制限](Known-Issues-and-Limitations-2020-Volume-1.html): このトピックでは、 2020 Volume 1 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
 
 - [2019 Volume 2 の既知の問題と制限](Known-Issues-and-Limitations-2019-Volume-2.html): このトピックでは、 2019 Volume 2 リリースの %%ProductName%% ライブラリの既知の問題と制限を示します。
