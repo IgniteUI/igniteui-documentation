@@ -17,7 +17,7 @@
 
 ### トピック
 
-- [2020 Volume 2 の新機能](Whats-New-In-2020-Volume2.html): このトピックには、%%ProductName%% ライブラリの 2020 Volume 2 リリースで導入されたコントロールと機能のリストが含まれています。
+- [2021 Volume 1 の新機能](Whats-New-In-2021-Volume1.html): このトピックには、%%ProductName%% ライブラリの 2021 Volume 1 リリースで導入されたコントロールと機能のリストが含まれています。
 
 - [改訂履歴](jQuery-Whats-New-Revision-History.html): このトピックは、以前のバージョンの「新機能」のトピックに該当します。
 

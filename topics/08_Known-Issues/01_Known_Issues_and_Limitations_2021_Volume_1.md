@@ -1,20 +1,20 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "known-issues-and-limitations-2020-volume-2",
+    "fileName": "known-issues-and-limitations-2021-volume-1",
     "controlName": "",
     "tags": ["Breaking Changes","Known Issues"]
 }
 |metadata|
 -->
 
-# 2020 Volume 2 の既知の問題と制限
+# 2021 Volume 1 の既知の問題と制限
 
 ## トピックの概要
 
 ### 目的
 
-以下に %%ProductName%%™ 2020 Volume 2 リリースの既知の問題と制限事項の概要を示します ([改訂履歴](https://jp.infragistics.com/support/online-documentation/revision-history))。旧リリースに関する情報は、[こちら](Known-Issues-Revision-History.html)を参照してください。
+以下に %%ProductName%%™ 2021 Volume 1 リリースの既知の問題と制限事項の概要を示します ([改訂履歴](https://jp.infragistics.com/support/online-documentation/revision-history))。旧リリースに関する情報は、[こちら](Known-Issues-Revision-History.html)を参照してください。
 
 ### このトピックの内容
 
@@ -26,7 +26,8 @@
     -   [エディターの全般的な既知の問題](#editors)
     -   [igBulletGraph](#bullet-graph)
     -   [igCombo](#combo)
-	-   [igFinancialChart](#financial-chart)
+	-   [igCategoryChart](#category-chart)
+    -   [igFinancialChart](#financial-chart)
     -   [igDataChart](#data-chart)
     -   [igDialog](#dialog)
 	-   [igUpload](#upload)
@@ -80,7 +81,7 @@
 
 ## <a id="summary"></a> 既知の問題点と制限の概要
 
-以下の表に、%%ProductName%% 2020 Volume 2 リリースの既知の問題と制限事項の概要を示します。各コントロールの既知の問題点に関するトピックでは、それぞれの既知の問題点と考えられる回避策について詳しく説明します。
+以下の表に、%%ProductName%% 2020 Volume 1 リリースの既知の問題と制限事項の概要を示します。各コントロールの既知の問題点に関するトピックでは、それぞれの既知の問題点と考えられる回避策について詳しく説明します。
 <a id="legend"></a>
 
 凡例 | 
@@ -139,7 +140,7 @@ insert
 					</li>
 
                     <li>
-RemoveAt
+removeAt
 					</li>
 
                     <li>
