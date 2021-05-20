@@ -35,37 +35,37 @@ This release introduces several new and improved visual design and configuration
 
 6. Changed marker's fill to match the marker's outline for PointSeries, BubbleSeries, ScatterSeries, PolarScatterSeries 
 
-Note, you can use set [`MarkerFillMode`](%%jQueryApiUrl%%/ui.igDataChart#options:MarkerFillMode) property to Normal to undo this change
+Note, you can use set [`MarkerFillMode`](%%jQueryApiUrl%%/ui.igDataChart#options:markerFillMode) property to Normal to undo this change
 
 7. Compressed labelling for the TimeXAxis and OrdinalTimeXAxis 
 
 8. New Marker Properties:
 
-- [`MarkerFillMode`](%%jQueryApiUrl%%/ui.igDataChart#options:MarkerFillMode) - Can be set to 'MatchMarkerOutline' so the marker depends on the outline
-- [`MarkerFillOpacity`](%%jQueryApiUrl%%/ui.igDataChart#options:MarkerFillOpacity) - Can be set to a value 0 to 1
-- [`MarkerOutlineMode`](%%jQueryApiUrl%%/ui.igDataChart#options:MarkerOutlineMode) - Can be set to 'MatchMarkerBrush' so the marker's outline depends on the fill brush color
+- [`MarkerFillMode`](%%jQueryApiUrl%%/ui.igDataChart#options:markerFillMode) - Can be set to 'MatchMarkerOutline' so the marker depends on the outline
+- [`MarkerFillOpacity`](%%jQueryApiUrl%%/ui.igDataChart#options:markerFillOpacity) - Can be set to a value 0 to 1
+- [`MarkerOutlineMode`](%%jQueryApiUrl%%/ui.igDataChart#options:markerOutlineMode) - Can be set to 'MatchMarkerBrush' so the marker's outline depends on the fill brush color
 
-9. New Series [`OutlineMode`](%%jQueryApiUrl%%/ui.igDataChart#options:series.OutlineMode) Property:
+9. New Series [`OutlineMode`](%%jQueryApiUrl%%/ui.igDataChart#options:series.outlineMode) Property:
 
 Can be set to toggle the series outline visibility. Note, for Data Chart, the property is on the series
 
 10. New Plot Area Margin Properties:
 
-The [`PlotAreaMargin`](%%jQueryApiUrl%%/ui.igDataChart#options:PlotAreaMargin) properties defines the bleed over area introduced into the viewport when the chart is at the default zoom level. A common use case provide space between the axes and first/last data points. Note, the [`ComputedPlotAreaMarginMode`](%%jQueryApiUrl%%/ui.igDataChart#options:ComputedPlotAreaMarginMode), listed below, will automatically set the margin when markers are enabled. The others are designed to specify a certain thickness, where PlotAreaMargin provides a thickness to all four sides of the chart. These new properties were added:
+The [`PlotAreaMargin`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMargin) properties defines the bleed over area introduced into the viewport when the chart is at the default zoom level. A common use case provide space between the axes and first/last data points. Note, the [`ComputedPlotAreaMarginMode`](%%jQueryApiUrl%%/ui.igDataChart#options:ComputedPlotAreaMarginMode), listed below, will automatically set the margin when markers are enabled. The others are designed to specify a certain thickness, where PlotAreaMargin provides a thickness to all four sides of the chart. These new properties were added:
 
-- [`PlotAreaMargin`](%%jQueryApiUrl%%/ui.igDataChart#options:PlotAreaMargin)
-- [`PlotAreaMarginLeft`](%%jQueryApiUrl%%/ui.igDataChart#options:PlotAreaMarginLeft)
-- [`PlotAreaMarginTop`](%%jQueryApiUrl%%/ui.igDataChart#options:PlotAreaMarginTop)
-- [`PlotAreaMarginRight`](%%jQueryApiUrl%%/ui.igDataChart#options:PlotAreaMarginRight)
-- [`PlotAreaMarginBottom`](%%jQueryApiUrl%%/ui.igDataChart#options:PlotAreaMarginBottom)
-- [`ComputedPlotAreaMarginMode`](%%jQueryApiUrl%%/ui.igDataChart#options:ComputedPlotAreaMarginMode)
+- [`PlotAreaMargin`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMargin)
+- [`PlotAreaMarginLeft`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMarginLeft)
+- [`PlotAreaMarginTop`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMarginTop)
+- [`PlotAreaMarginRight`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMarginRight)
+- [`PlotAreaMarginBottom`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMarginBottom)
+- [`ComputedPlotAreaMarginMode`](%%jQueryApiUrl%%/ui.igDataChart#options:computedPlotAreaMarginMode)
 
 11. New Highlighting Properties
 
 Several configurations to the series highlighting as been added. In previous releases the highlighting was limited to fade on hover. These new properties were added:
 
-- [`HighlightingMode`](%%jQueryApiUrl%%/ui.igDataChart#options:HighlightingMode) - Sets whether hovered or non-hovered series to fade, brighten
-- [`HighlightingBehavior`](%%jQueryApiUrl%%/ui.igDataChart#options:HighlightingBehavior) - Sets whether the series highlights depending on mouse position eg. directly over or nearest item
+- [`HighlightingMode`](%%jQueryApiUrl%%/ui.igDataChart#options:highlightingMode) - Sets whether hovered or non-hovered series to fade, brighten
+- [`HighlightingBehavior`](%%jQueryApiUrl%%/ui.igDataChart#options:highlightingBehavior) - Sets whether the series highlights depending on mouse position eg. directly over or nearest item
 
 12. Added Highlighting for the following series:
 
@@ -101,7 +101,7 @@ The following chart types can use ItemLegend in horizontal orientation:
 - Donut
 - Pie 
 
-2. [`LegendHighlightingMode`](%%jQueryApiUrl%%/ui.igDataChart#options:LegendHighlightingMode) - Enables series highlighting when hovering over legend items
+2. [`LegendHighlightingMode`](%%jQueryApiUrl%%/ui.igDataChart#options:legendHighlightingMode) - Enables series highlighting when hovering over legend items
 
 ### Geographic Map Features (CTP):
 
