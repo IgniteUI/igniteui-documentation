@@ -14,44 +14,44 @@
 
 ## チャート機能
 
-This release introduces several new and improved visual design and configuration options for all of the chart components. e.g. Data Chart, Category Chart, and Financial Chart.
+このリリースでは、すべてのチャート コンポーネント、例えば、データ チャート、カテゴリ チャート、およびファイナンシャル チャートに、いくつかの新しく改善されたビジュアル デザインと構成オプションが導入されています。
 
-### Redesigned Chart Defaults (i.e.1-6):
+### チャート デフォルト値のデザイン更新 (i.e.1-6):
 
-1. New color palette for series/markers in all charts
+1. すべてのチャートのシリーズ/マーカーの新しい色パレット
 
 ![](images/chartDefaults1.png)  | ![](images/chartDefaults2.png)
 ------------- | -------------
 ![](images/chartDefaults3.png)  | ![](images/chartDefaults4.png)
 
 
-2. Changed Bar/Column/Waterfall series to have square corners instead of rounded corners 
+2. 棒/縦棒/ウォーターフォール シリーズを、角が丸いのではなく角が四角になるように変更しました。 
 
-3. Changed Scatter High Density series’ colors for min/max heat properties  
+3. 散布高密度シリーズの最小/最大ヒート プロパティの色を変更しました。 
 
-4. Changed Financial/Waterfall series’ colors for negative fill of their visuals
+4. ファイナンシャル/ウォーターフォール シリーズのビジュアルの負の塗りつぶしの色を変更しました。
 
-5. Changed marker's thickness to 2px from 1px
+5. マーカーの厚さを 1 pxから 2 pxに変更しました。
 
-6. Changed marker's fill to match the marker's outline for PointSeries, BubbleSeries, ScatterSeries, PolarScatterSeries 
+6. PointSeries、BubbleSeries、ScatterSeries、PolarScatterSeries のマーカーのアウトラインに一致するようにマーカーの塗りつぶしを変更しました。 
 
-Note, you can use set [`MarkerFillMode`](%%jQueryApiUrl%%/ui.igDataChart#options:MarkerFillMode) property to Normal to undo this change
+[`MarkerFillMode`](%%jQueryApiUrl%%/ui.igDataChart#options:MarkerFillMode) プロパティを Normal に設定すると、この変更を元に戻すことができます。
 
-7. Compressed labelling for the TimeXAxis and OrdinalTimeXAxis 
+7. TimeXAxis および OrdinalTimeXAxis のラベリングを圧縮しました。 
 
-8. New Marker Properties:
+8. 新しいマーカー プロパティ:
 
-- [`MarkerFillMode`](%%jQueryApiUrl%%/ui.igDataChart#options:MarkerFillMode) - Can be set to 'MatchMarkerOutline' so the marker depends on the outline
-- [`MarkerFillOpacity`](%%jQueryApiUrl%%/ui.igDataChart#options:MarkerFillOpacity) - Can be set to a value 0 to 1
-- [`MarkerOutlineMode`](%%jQueryApiUrl%%/ui.igDataChart#options:MarkerOutlineMode) - Can be set to 'MatchMarkerBrush' so the marker's outline depends on the fill brush color
+- [`MarkerFillMode`](%%jQueryApiUrl%%/ui.igDataChart#options:MarkerFillMode) - マーカーがアウトラインに依存するように、'MatchMarkerOutline' に設定できます。
+- [`MarkerFillOpacity`](%%jQueryApiUrl%%/ui.igDataChart#options:MarkerFillOpacity) - 0〜1 の値に設定できます。
+- [`MarkerOutlineMode`](%%jQueryApiUrl%%/ui.igDataChart#options:MarkerOutlineMode) - マーカーのアウトラインが塗りブラシの色に依存するように、'MatchMarkerBrush' に設定できます。
 
-9. New Series [`OutlineMode`](%%jQueryApiUrl%%/ui.igDataChart#options:series.OutlineMode) Property:
+9. 新シリーズ [`OutlineMode`](%%jQueryApiUrl%%/ui.igDataChart#options:series.OutlineMode) プロパティ:
 
-Can be set to toggle the series outline visibility. Note, for Data Chart, the property is on the series
+シリーズ アウトラインの表示を切り替えるように設定できます。データ チャートの場合、プロパティはシリーズ上にあることに注意してください。
 
-10. New Plot Area Margin Properties:
+10. 新しいプロット エリア マージン プロパティ:
 
-The [`PlotAreaMargin`](%%jQueryApiUrl%%/ui.igDataChart#options:PlotAreaMargin) properties defines the bleed over area introduced into the viewport when the chart is at the default zoom level. A common use case provide space between the axes and first/last data points. Note, the [`ComputedPlotAreaMarginMode`](%%jQueryApiUrl%%/ui.igDataChart#options:ComputedPlotAreaMarginMode), listed below, will automatically set the margin when markers are enabled. The others are designed to specify a certain thickness, where PlotAreaMargin provides a thickness to all four sides of the chart. These new properties were added:
+[`PlotAreaMargin`](%%jQueryApiUrl%%/ui.igDataChart#options:PlotAreaMargin) プロパティは、チャートがデフォルトのズーム レベルにあるときにビューポートに導入されるブリード オーバー領域を定義します。一般的な使用例では、軸と最初/最後のデータ ポイントの間にスペースを提供します。以下にリストされている [`ComputedPlotAreaMarginMode`](%%jQueryApiUrl%%/ui.igDataChart#options:ComputedPlotAreaMarginMode) は、マーカーが有効になっているときに自動的にマージンを設定することに注意してください。その他は特定の厚さを指定するように設計されており、PlotAreaMargin はチャートの上下左右それぞれに厚さを提供します。これらの新しいプロパティが追加されました:
 
 - [`PlotAreaMargin`](%%jQueryApiUrl%%/ui.igDataChart#options:PlotAreaMargin)
 - [`PlotAreaMarginLeft`](%%jQueryApiUrl%%/ui.igDataChart#options:PlotAreaMarginLeft)
@@ -60,14 +60,14 @@ The [`PlotAreaMargin`](%%jQueryApiUrl%%/ui.igDataChart#options:PlotAreaMargin) p
 - [`PlotAreaMarginBottom`](%%jQueryApiUrl%%/ui.igDataChart#options:PlotAreaMarginBottom)
 - [`ComputedPlotAreaMarginMode`](%%jQueryApiUrl%%/ui.igDataChart#options:ComputedPlotAreaMarginMode)
 
-11. New Highlighting Properties
+11. 新しい強調表示プロパティ:
 
-Several configurations to the series highlighting as been added. In previous releases the highlighting was limited to fade on hover. These new properties were added:
+シリーズの強調表示にいくつかの構成が追加されました。以前のリリースでは、強調表示はホバー時にフェードするように制限されていました。これらの新しいプロパティが追加されました:
 
-- [`HighlightingMode`](%%jQueryApiUrl%%/ui.igDataChart#options:HighlightingMode) - Sets whether hovered or non-hovered series to fade, brighten
-- [`HighlightingBehavior`](%%jQueryApiUrl%%/ui.igDataChart#options:HighlightingBehavior) - Sets whether the series highlights depending on mouse position eg. directly over or nearest item
+- [`HighlightingMode`](%%jQueryApiUrl%%/ui.igDataChart#options:HighlightingMode) - ホバーされたシリーズとホバーされていないシリーズをフェードまたは明るくするかを設定します。
+- [`HighlightingBehavior`](%%jQueryApiUrl%%/ui.igDataChart#options:HighlightingBehavior) - 真上または最も近い項目など、マウスの位置に応じてシリーズを強調表示するかどうかを設定します。
 
-12. Added Highlighting for the following series:
+12. 次のシリーズの強調表示を追加しました:
 
 - 積層型
 - 散布図
@@ -75,7 +75,7 @@ Several configurations to the series highlighting as been added. In previous rel
 - ラジアル 
 - 図形
 
-13. Added Annotation layers to the following series:
+13. 次のシリーズに注釈レイヤーを追加しました:
 
 - 積層型
 - 散布図
@@ -83,35 +83,35 @@ Several configurations to the series highlighting as been added. In previous rel
 - ラジアル
 - 図形
 
-14. Added support for overriding the data source of individual stack fragments within a stacked series 
+14. 積層型シリーズ内の個々の積層フラグメントのデータ ソースをオーバーライドするためのサポートが追加されました。
 
-15. Added custom style events to Stacked, Scatter, Range, Polar, Radial, and Shape series
+15. 積層型、散布、範囲、極座標、ラジアル、シェイプ シリーズにカスタム スタイルのイベントを追加しました。
 
-16. Added support to automatically sync the vertical zoom to the series content
+16. 垂直ズームをシリーズ コンテンツに自動的に同期するサポートが追加されました。
 
-17. Added support to automatically expanding the horizontal margins of the chart based on the initial labels displayed 
+17. 表示された最初のラベルに基づいてチャートの水平マージンを自動的に拡張するサポートが追加されました。 
 
-### Chart Legend Features:
+### チャート凡例の機能:
 
-1. Added Horizontal Orientation for ItemLegend
+1. ItemLegend に水平方向を追加しました。
 
-The following chart types can use ItemLegend in horizontal orientation: 
+次のチャート タイプでは、ItemLegend を水平方向で使用できます:
 
 - バブル
 - ドーナツ
 - 円 
 
-2. [`LegendHighlightingMode`](%%jQueryApiUrl%%/ui.igDataChart#options:LegendHighlightingMode) - Enables series highlighting when hovering over legend items
+2. [`LegendHighlightingMode`](%%jQueryApiUrl%%/ui.igDataChart#options:LegendHighlightingMode) - 凡例項目にカーソルを合わせると、シリーズの強調表示が有効になります。
 
-### Geographic Map Features (CTP):
+### 地理マップの機能 (CTP):
 
-1. Added support for wrap around display of the map (scroll infinitely horizontally)  
+1. マップの表示を折り返すためのサポートが追加されました (水平方向に無限にスクロールできます)。  
 
-2. Added support for shifting display of some map series while wrapping around the coordinate origin  
+2. 座標原点を折り返しながら、一部のマップ シリーズの表示をシフトするためのサポートが追加されました。  
 
-3. Added support for highlighting of the shape series 
+3. シェイプ シリーズの強調表示のサポートが追加されました。 
 
-4. Added support for some annotation layers for the shape series 
+4. シェイプ シリーズの強調表示のサポートが追加されました。 
 
 <!--TODO ADD CONTENTS - sample structure from 20-2 below
 
