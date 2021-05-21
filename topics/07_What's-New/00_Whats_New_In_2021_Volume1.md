@@ -51,9 +51,8 @@ Can be set to toggle the series outline visibility. Note, for Data Chart, the pr
 
 10. New Plot Area Margin Properties:
 
-The [`PlotAreaMargin`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMargin) properties defines the bleed over area introduced into the viewport when the chart is at the default zoom level. A common use case provide space between the axes and first/last data points. Note, the [`ComputedPlotAreaMarginMode`](%%jQueryApiUrl%%/ui.igDataChart#options:ComputedPlotAreaMarginMode), listed below, will automatically set the margin when markers are enabled. The others are designed to specify a certain thickness, where PlotAreaMargin provides a thickness to all four sides of the chart. These new properties were added:
+The plot area margin properties defines the bleed over area introduced into the viewport when the chart is at the default zoom level. A common use case provide space between the axes and first/last data points. Note, the [`ComputedPlotAreaMarginMode`](%%jQueryApiUrl%%/ui.igDataChart#options:ComputedPlotAreaMarginMode), listed below, will automatically set the margin when markers are enabled. The others are designed to specify a certain thickness, where PlotAreaMargin provides a thickness to all four sides of the chart. These new properties were added:
 
-- [`PlotAreaMargin`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMargin)
 - [`PlotAreaMarginLeft`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMarginLeft)
 - [`PlotAreaMarginTop`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMarginTop)
 - [`PlotAreaMarginRight`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMarginRight)
