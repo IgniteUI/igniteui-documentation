@@ -11,6 +11,8 @@
 # Breaking Changes 2021 Volume 1
 
 ## Charts
+
+### Redesigned Chart Defaults
 - All types of charts/series have new colors for brush/fill and outlines 
 
 Old series brushes outlines  | New series outline brushes 
