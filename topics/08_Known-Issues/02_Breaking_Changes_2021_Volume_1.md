@@ -40,16 +40,16 @@ Old series brushes outlines  | New series outline brushes
 
 - Scatter High Density series has new colors for min/max heat properties 
 
-    Old heat min color  | New heat min color
-    ------------- | -------------
-    `#FF7446B9` | `#ff8b5bb1`
+Old heat min color  | New heat min color
+------------- | -------------
+`#FF7446B9` | `#ff8b5bb1`
 
-    Old heat max color  | New heat max color  
-    ------------- | -------------
-    `#FFC62828`  | `#ffee5879`
+Old heat max color  | New heat max color  
+------------- | -------------
+`#FFC62828`  | `#ffee5879`
 
 - Financial/Waterfall series have new colors for negative fill of their visuals 
 
-    Old negative brush | new negative brush  
-    ------------- | -------------
-    `#FFC62828`  | `#ffee5879`
+Old negative brush | new negative brush  
+------------- | -------------
+`#FFC62828`  | `#ffee5879`
