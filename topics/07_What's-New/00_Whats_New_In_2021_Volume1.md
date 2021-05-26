@@ -25,13 +25,13 @@
 ![](images/chartDefaults3.png)  | ![](images/chartDefaults4.png)
 
 
-* 棒/縦棒/ウォーターフォール シリーズを、角が丸いのではなく角が四角になるように変更しました。 
+* 棒/縦棒/ウォーターフォール シリーズを、角丸ではなく角が四角になるように変更しました。 
 
 * 散布高密度シリーズの最小/最大ヒート プロパティの色を変更しました。 
 
 * ファイナンシャル/ウォーターフォール シリーズのビジュアルの負の塗りつぶしの色を変更しました。
 
-* マーカーの厚さを 1 pxから 2 pxに変更しました。
+* マーカーの厚さを 1 px から 2 px に変更しました。
 
 * PointSeries、BubbleSeries、ScatterSeries、PolarScatterSeries のマーカーのアウトラインに一致するようにマーカーの塗りつぶしを変更しました。 
 
@@ -51,7 +51,7 @@
 
 * 新しいプロット エリア マージン プロパティ:
 
-    The plot area margin properties define the bleed over area introduced into the viewport when the chart is at the default zoom level. A common use case is to provide space between the axes and first/last data points. Note, the [`ComputedPlotAreaMarginMode`](%%jQueryApiUrl%%/ui.igDataChart#options:computedPlotAreaMarginMode), listed below, will automatically set the margin when markers are enabled. The others are designed to specify a `Number` to represent the thickness, where PlotAreaMarginLeft etc. adjusts the space to all four sides of the chart. These new properties were added:
+    プロット領域のマージン プロパティは、チャートがデフォルト ズーム レベルにある場合、ビューポートのブリード オーバー領域を定義します。一般的な使用例では、軸と最初/最後のデータ ポイントの間にスペースを提供します。以下にリストされている [`ComputedPlotAreaMarginMode`](%%jQueryApiUrl%%/ui.igDataChart#options:computedPlotAreaMarginMode) は、マーカーが有効になっているときに自動的にマージンを設定することに注意してください。その他は、厚さを表す `Double` を指定するように設計されており、PlotAreaMarginLeft などがチャートの 4 辺すべてにスペースを調整します。これらの新しいプロパティが追加されました:
 
     - [`PlotAreaMarginLeft`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMarginLeft)
     - [`PlotAreaMarginTop`](%%jQueryApiUrl%%/ui.igDataChart#options:plotAreaMarginTop)
