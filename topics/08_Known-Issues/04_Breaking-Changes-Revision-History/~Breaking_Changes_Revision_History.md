@@ -18,8 +18,6 @@ This topic provides links to the Breaking Changes documents for earlier versions
 
 Detailed information regarding the Breaking Changes of each release is covered in the following topics:
 
-- [Breaking Changes in 2021 Volume 2](Breaking-Changes-2021-Volume-2.html): This topic summarizes the breaking changes in the %%ProductName%% library for the 2021 Volume 2 release.
-
 - [Breaking Changes in 2021 Volume 1](Breaking-Changes-2021-Volume-1.html): This topic summarizes the breaking changes in the %%ProductName%% library for the 2021 Volume 1 release.
 
 - [Breaking Changes in 2020 Volume 2](Breaking-Changes-2020-Volume-2.html): This topic summarizes the breaking changes in the %%ProductName%% library for the 2020 Volume 2 release.
