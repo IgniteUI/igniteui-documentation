@@ -57,7 +57,21 @@ Currently we ship jQuery controls in the following languages:
 -   Bulgarian
 -   German
 -   French
--   Spanish 
+-   Spanish
+-   Portuguese
+-   Italian
+-   Korean
+-   Chinese Traditional
+-   Chinese Simplified
+-   Czech
+-   Polish
+-   Romanian
+-   Turkish
+-   Danish
+-   Norwegian
+-   Swedish
+-   Dutch
+-   Hungarian
 
 In order to localize controls for one of these languages you need to load the related locale files either via the Infragistics loader or by referencing the localization file `infragistics-<locale>.js` where `<locale>` is one of the following: en, ja, ru, bg, de, fr, es. Up until 17.2, we supported having only one locale file to be loaded at a time. If more than one was loaded, then the last loaded locale would override all the previous ones. As of 17.2, we support multiple locale files to be loaded together.  
 Once the desired locales are loaded you can specify which one should be applied globally or per control. If only one locale file is loaded, then the global default language is disregarded and the language strings of the loaded locale are displayed.
