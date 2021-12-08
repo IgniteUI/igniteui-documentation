@@ -12,6 +12,20 @@
 
 This topic presents the new features for the %%ProductFamilyName%%™ 2021 Volume 2 release.
 
+### %%ProductNameASPNETCore%%
+Infragistics %%ProductNameASPNETCore%% now supports ASP.NET Core for .NET 6 projects. For more information see the [Using %%ProductNameASPNETCore%%](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html) topic.
+
+
+### %%ProductNameASPNETCore%% Tag Helpers
+%%ProductNameASPNETCore%% Tag Helpers now support ASP.NET Core for .NET 6 projects. For more information see the [Using %%ProductNameASPNETCore%% Tag Helpers](using-ignite-ui-tag-helpers.html) topic.
+
+
+### Infragistics Documents
+Infragistics Documents assemblies are now available for ASP.NET Core for .NET 6 projects.
+
+### %%ProductName%%
+%%ProductName%% now supports the recently released jQuery UI 1.13.0 .
+
 ## Chart Features
 
 This release introduces several new and improved visual design and configuration options for all of the chart components. e.g. Data Chart, Category Chart, and Financial Chart.
