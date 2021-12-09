@@ -26,22 +26,24 @@
 
 このトピックは、以下のセクションで構成されます。
 
--   [概要](#Introduction)
--   [コントロールのローカライズ ファイル参照](#Localization)
-   -   [概要](#subIntroduction)
-    -   [コントロールのローカライズ参照の概要](#LocalizationSummary)
-- [language、locale、および regional オプションの設定](#set)
-- [言語および地域設定の変更](#change)
-	- [言語の変更](#change-locale)
-	- [地域設定の変更](#change-regional)
--   [手順: igGridPaging のローカライズ](#Walkthrough)
--   [チュートリアル: ページのすべてのコントロールの言語および地域設定をランタイムに変更](#Walkthrough2)
-   -   [概要](#WalkthroughIntroduction)
-    -   [プレビュー](#Preview)
-    -   [要件](#Requirements)
-    -   [概要](#Overview)
-    -   [手順](#Steps)
--   [関連コンテンツ](#RelatedContent)
+- [%%ProductName%% コントロールのローカライズのカスタマイズ](#productname-コントロールのローカライズのカスタマイズ)
+			- [目的](#目的)
+			- [必要な背景](#必要な背景)
+			- [このトピックの内容](#このトピックの内容)
+			- [%%ProductName%% コントロールのローカライズの紹介](#productname-コントロールのローカライズの紹介)
+	- [<a id="Localization"></a>コントロールのローカライズ ファイル参照](#コントロールのローカライズ-ファイル参照)
+		- [<a id="subIntroduction"></a>概要](#概要)
+	- [<a id="set"></a> `language`、`locale`、および `regional` オプションの設定](#-languagelocaleおよび-regional-オプションの設定)
+	- [<a id="change"></a> 言語および地域設定の変更](#-言語および地域設定の変更)
+		- [<a id="change-locale"></a> 言語の変更](#-言語の変更)
+		- [<a id="change-regional"></a> 地域設定の変更](#-地域設定の変更)
+	- [<a id="Walkthrough"></a>チュートリアル: igGridPaging をカスタム ロケールでローカライズ](#チュートリアル-iggridpaging-をカスタム-ロケールでローカライズ)
+		- [<a id="WalkthroughIntroduction"></a>概要](#概要-1)
+			- [<a id="Requirements"></a>要件](#要件)
+			- [<a id="Steps"></a>手順](#手順)
+	- [<a id="Walkthrough2"></a>チュートリアル: ページのすべてのコントロールの言語および地域設定をランタイムに変更](#チュートリアル-ページのすべてのコントロールの言語および地域設定をランタイムに変更)
+		- [<a id="Steps"></a>手順](#手順-1)
+		- [トピック](#トピック)
 
 
 ##<a id="Introduction"></a>概要
@@ -58,6 +60,20 @@
 -   ドイツ語
 -   フランス語
 -   スペイン語 
+-   ポルトガル語
+-   イタリア語
+-   韓国語
+-   繁体字中国語
+-   簡体字中国語
+-   チェコ語
+-   ポーランド語
+-   ルーマニア語
+-   トルコ語
+-   デンマーク語
+-   ノルウェー語
+-   スウェーデン語
+-   オランダ語
+-   ハンガリー語
 
 コントロールをいずれかの言語にローカライズするには、Infragistics ローダーまたはローカライズ ファイル `infragistics-<locale>.js` を参照する必要があります。`<locale>` は、en、ja、ru、bg、de、fr、es のいずれかになります。17.2 以前は単一のロケール ファイルは一度に読み込めましたが、2 つ以上のロケールを読み込んだ場合、最後に読み込んだロケールによって前のロケールがオーバーライドされました。17.2 以後、複数のロケール ファイルを一度に読み込むことができます。
 

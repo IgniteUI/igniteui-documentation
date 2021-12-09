@@ -1,0 +1,51 @@
+<!--
+|metadata|
+{
+    "fileName": "whats-new-in-2021-volume2",
+    "controlName": [],
+    "tags": []
+}
+|metadata|
+-->
+
+# 2021 Volume 2 の新機能
+
+このトピックは、%%ProductFamilyName%%™ 2021 Volume 2 リリースの新機能について説明します。
+
+### %%ProductNameASPNETCore%%
+Infragistics %%ProductNameASPNETCore%% で ASP.NET Core for .NET 6 プロジェクトがサポートされます。詳細情報は、[%%ProductNameASPNETCore%% の使用](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html)トピックを参照してください。
+
+
+### %%ProductNameASPNETCore%% タグ ヘルパー
+%%ProductNameASPNETCore%% タグ ヘルパーで ASP.NET Core for .NET 6 プロジェクトがサポートされます。詳細情報は、[%%ProductNameASPNETCore%% タグ ヘルパーの使用:](using-ignite-ui-tag-helpers.html)トピックを参照してください。
+
+
+### Infragistics Documents
+Infragistics Documents アセンブリが、ASP.NET Core for .NET6 プロジェクトで利用可能になりました。
+
+### %%ProductName%%
+%%ProductName%% は、最近リリースされた jQuery UI 1.13.0 をサポートするようになりました。
+
+## チャート機能
+
+このリリースでは、すべてのチャート コンポーネント、例えば、データ チャート、カテゴリ チャート、およびファイナンシャル チャートに、いくつかの新しく改善されたビジュアル デザインと構成オプションが導入されています。
+
+このリリースでは、地理マップとすべてのチャート コンポーネントのビジュアル デザインと構成オプションにいくつかの改善と簡素化が導入されています。
+
+* `FinancialChart` と `CategoryChart` にデフォルトの十字線を追加しました。
+* `FinancialChart` と `CategoryChart` にデフォルトの十字線の注釈を追加しました。
+* `FinancialChart` にデフォルトの最終値の注釈を追加しました。
+* カテゴリ チャートとファイナンシャル チャートに新しいプロパティを追加しました:
+   - 十字線をカスタマイズするための `CrosshairsLineThickness` およびその他のプロパティ
+   - 十字線の注釈をカスタマイズするための `CrosshairsAnnotationXAxisBackground` およびその他のプロパティ
+   - 最終値の注釈をカスタマイズするための `FinalValueAnnotationsBackground` およびその他のプロパティ
+   - 塗りつぶしの図形  (エリア チャートなど) の不透明度を変更するための `AreaFillOpacity`
+   - マーカーの厚さを変更するための `MarkerThickness`
+* カテゴリ チャート、ファイナンシャル チャート、データ チャート、および地理マップに新しいプロパティを追加しました:
+   - 同じチャート内の複数のシリーズにどのマーカー タイプを割り当てるための `MarkerAutomaticBehavior`
+   - 凡例で表されるすべてのシリーズのバッジの形状を設定するための `LegendItemBadgeShape`
+   - 凡例のすべてのシリーズにバッジの複雑さを設定するための `LegendItemBadgeMode`
+* データ チャートと地理マップのシリーズに新しいプロパティを追加しました:
+   - 凡例で表される特定のシリーズにバッジの形状を設定するための `LegendItemBadgeShape`
+   - 凡例の特定のシリーズにバッジの複雑さを設定するための `LegendItemBadgeMode`
+* チャートの凡例のシリーズの簡略化された図形で、円、線、または四角のみを表示します。これは、チャートの `LegendItemBadgeMode` プロパティを `MatchSeries` 列挙値に設定することで元に戻すことができます。
