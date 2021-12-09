@@ -19,7 +19,7 @@
 
 既知の問題点、制限事項、および重大な変更に関する詳細情報については、以下のトピックを参照してください。
 
-- [2021.2 の既知の問題点](Known-Issues-and-Limitations-2021-Volume-2.html): このトピックでは、%%ProductName%%™ ライブラリの 2021 Volume 1 リリースの既知の問題と制限について説明します。
+- [2021.2 の既知の問題点](Known-Issues-and-Limitations-2021-Volume-2.html): このトピックでは、%%ProductName%%™ ライブラリの 2021 Volume 2 リリースの既知の問題と制限について説明します。
 
 - [2021.2 の重大な変更](Breaking-Changes-2021-Volume-2.html): このトピックには、%%ProductName%%™ ライブラリの 2021 Volume 2 リリースで導入された重大な変更点を紹介します。
 
