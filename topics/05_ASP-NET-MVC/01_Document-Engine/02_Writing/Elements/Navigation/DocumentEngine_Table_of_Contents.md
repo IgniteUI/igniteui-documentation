@@ -11,13 +11,13 @@
 # 目次
 目次（TOC）の作成はほとんどの人が考えているよりもはるかにシンプルです。Infragistics Document Engine™ でレポートをすでに書いている場合には、目次の作成の工程の半分はすでに完了していると言えるかもしれません。TOC 要素は、レポートの構造に基づいて目次を作成します。したがって、TOC 要素を活用するためには、レポートを適切に作成することが重要となります。
 
-Text 要素は、[Heading](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Text.IText~Heading.html) プロパティを公開します。このプロパティは [TextHeading](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.TextHeading.html) 列挙体に設定することができます。この列挙体の値は、H1、H2、H3 というようになります。Text 要素の見出しを設定するときに、目次の生成方法を TOC 要素に通知します。[ITOC](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.TOC.ITOC.html) インターフェイスには、[AddLevel](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.TOC.ITOC~AddLevel.html) メソッドが含まれており、このメソッドを異なる見出しとともに使用することができます。目次に追加する最初のレベルは、見出しの最初のレベルつまり H1 に対応します。目次にもうひとつのレベルを追加すると H2 に対応し、最後の見出し H9 まで続きます。したがって、見出しのラベルを適切に設定すれば、目次を生成するためにさほどの追加作業を行う必要はありません。
+Text 要素は、[Heading](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Text.IText~Heading.html) プロパティを公開します。このプロパティは [TextHeading](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.TextHeading.html) 列挙体に設定することができます。この列挙体の値は、H1、H2、H3 というようになります。Text 要素の見出しを設定するときに、目次の生成方法を TOC 要素に通知します。[ITOC](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.TOC.ITOC.html) インターフェイスには、[AddLevel](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.TOC.ITOC~AddLevel.html) メソッドが含まれており、このメソッドを異なる見出しとともに使用することができます。目次に追加する最初のレベルは、見出しの最初のレベルつまり H1 に対応します。目次にもうひとつのレベルを追加すると H2 に対応し、最後の見出し H9 まで続きます。したがって、見出しのラベルを適切に設定すれば、目次を生成するためにさほどの追加作業を行う必要はありません。
 
-[ILevel](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.TOC.ILevel.html) インターフェイスは、目次を処理する時に一般的ないくつかのプロパティを公開します。
+[ILevel](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.TOC.ILevel.html) インターフェイスは、目次を処理する時に一般的ないくつかのプロパティを公開します。
 
 *   **Indents** -- 垂直、水平、上、下、左、右のインデントおよびすべてインデントを設定することによって、TOC レベルのインデントを制御できます。これは、見出しのレベルごとに異なるインデントを指定できるようにすることによって読みやすさを向上するために役立ちます。
 *   **Style** -- Style オブジェクトをこのプロパティに設定することは、見出し、リーダー、ページ番号がどのように表示されるのかを決定します。
-*   **Leader** -- 引き出し線は、ほとんどの目次で点線で表示されます。この線は、ページのもう一方の側まで線を引くことによって、読む人が見出しとページ番号を結び付けやすくします。[LeaderFormat](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.LeaderFormat.html) 列挙体によって、この線を破線、点線、実線、またはスペースに設定することができます。
+*   **Leader** -- 引き出し線は、ほとんどの目次で点線で表示されます。この線は、ページのもう一方の側まで線を引くことによって、読む人が見出しとページ番号を結び付けやすくします。[LeaderFormat](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.LeaderFormat.html) 列挙体によって、この線を破線、点線、実線、またはスペースに設定することができます。
 
 ![](images/DocumentEngine_Table_of_Contents_01.png)
 

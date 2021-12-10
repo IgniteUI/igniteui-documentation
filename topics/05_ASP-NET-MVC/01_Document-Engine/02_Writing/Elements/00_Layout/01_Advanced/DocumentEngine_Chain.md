@@ -22,7 +22,7 @@ Chain 要素は、1 ページにすべてを表示するための十分なスペ
 
 ------
 
-以下のコードを使用して、[Chain](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.IChain.html) 要素を Section 要素に追加し、テキストを追加します。
+以下のコードを使用して、[Chain](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.IChain.html) 要素を Section 要素に追加し、テキストを追加します。
 
 1.  **レポートを定義して、Section 要素を追加します。**
 

@@ -10,19 +10,19 @@
 
 # Word 文書の作成
 
-このトピックは、forward-only の [WordDocumentWriter](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter.html) ストリーマー オブジェクトを使用して、Word 文書を作成する方法を示します。`WordDocumentWriter` オブジェクトの静的な Create メソッドは、新しい Word 文書を作成します。
+このトピックは、forward-only の [WordDocumentWriter](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter.html) ストリーマー オブジェクトを使用して、Word 文書を作成する方法を示します。`WordDocumentWriter` オブジェクトの静的な Create メソッドは、新しい Word 文書を作成します。
 
 以下のスクリーンショットは、テキストとハイパーリンクで作成された Word 文書を表示します。
 
 ![](images/Word_Create_a_Word_Document_01.png)
 
-`Author`、`Title`、`Subject` などのドキュメントのさまざまなプロパティは、`WordDocumentWriter` オブジェクトの [DocumentProperties](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~DocumentProperties.html) プロパティを使用して設定できます。Office ボタンをクリックして、[準備] > [プロパティ] セクションを指定することによって、Word 2007 でこれらの情報にアクセスできます。Word 2010 で同様に、[ファイル] タブをクリックすることによって、Backstage ビューの右側からドキュメント プロパティにアクセスできます。
+`Author`、`Title`、`Subject` などのドキュメントのさまざまなプロパティは、`WordDocumentWriter` オブジェクトの [DocumentProperties](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~DocumentProperties.html) プロパティを使用して設定できます。Office ボタンをクリックして、[準備] > [プロパティ] セクションを指定することによって、Word 2007 でこれらの情報にアクセスできます。Word 2010 で同様に、[ファイル] タブをクリックすることによって、Backstage ビューの右側からドキュメント プロパティにアクセスできます。
 
-Word 文書への書き出しを開始するには、[StartDocument](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~StartDocument.html) メソッドを使用し、これは [EndDocument](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~EndDocument.html) メソッドへの対応する呼び出しとバランスを取らなければなりません。
+Word 文書への書き出しを開始するには、[StartDocument](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~StartDocument.html) メソッドを使用し、これは [EndDocument](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~EndDocument.html) メソッドへの対応する呼び出しとバランスを取らなければなりません。
 
-Paragraph は揃えて配置またはインデントが可能なテキスト ブロックを表示する機能を提供します。段落を始めるには [StartParagraph](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~StartParagraph.html) メソッドを使用します。[AddTextRun](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~AddTextRun.html) メソッドはコンテンツを段落に追加する方法を提供します。コンテンツが追加されたら、段落は [EndParagraph](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~EndParagraph.html) メソッドを使用して閉じなければなりません。
+Paragraph は揃えて配置またはインデントが可能なテキスト ブロックを表示する機能を提供します。段落を始めるには [StartParagraph](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~StartParagraph.html) メソッドを使用します。[AddTextRun](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~AddTextRun.html) メソッドはコンテンツを段落に追加する方法を提供します。コンテンツが追加されたら、段落は [EndParagraph](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~EndParagraph.html) メソッドを使用して閉じなければなりません。
 
-> **注:** `Infragistics.Web.Mvc.Documents.IO` アセンブリへの参照が以下のコードに必要とされます。
+> **注:** `Infragistics.Web.Documents.IO` アセンブリへの参照が以下のコードに必要とされます。
 
 > **注:** Word 文書を作成するために `WordDocumentWriter` オブジェクトを使用する時には、Dispose メソッドまたは Close メソッドのいずれかを使用してストリーマー オブジェクトを破棄または閉じなければなりません。
 

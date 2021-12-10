@@ -15,7 +15,7 @@
 
 ただし、状況によっては、行の高さが自動的に増えるので、すべてのコンテンツが表示されます。たとえば、セル内のテキストを回転または折り返し、そのセルを含む行の高さが既定値の場合、すべてのコンテンツが表示されるように行の高さが自動的に増加します。列の幅は自動的に管理されないので、セルのコンテンツに関係なく常に一定のままです。
 
-個々の行と列のサイズを変更することに加えて、ワークシートの [`DefaultRowHeight`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Worksheet~DefaultRowHeight.html) プロパティと [`DefaultColumnWidth`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Worksheet~DefaultColumnWidth.html) プロパティを設定することによって、すべての行と列のサイズを変更できます。
+個々の行と列のサイズを変更することに加えて、ワークシートの [`DefaultRowHeight`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet~DefaultRowHeight.html) プロパティと [`DefaultColumnWidth`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet~DefaultColumnWidth.html) プロパティを設定することによって、すべての行と列のサイズを変更できます。
 
 ## 達成すること
 この詳細なガイドでは、行を自動サイズ設定する方法をいくつか示します。さらに、セルがそのコンテンツを完全に含むように行と列を手動でサイズ調整する方法も紹介します。

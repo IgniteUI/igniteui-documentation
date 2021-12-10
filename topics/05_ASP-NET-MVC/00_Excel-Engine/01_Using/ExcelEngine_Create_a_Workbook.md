@@ -10,7 +10,7 @@
 
 # ワークブックを作成
 
-Excel アセンブリの機能を活用する前に、[Workbook](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook.html) オブジェクトを作成する必要があります。それを行うには、操作方法のトピック [Excel ファイルをブックに読み込む](ExcelEngine-Read-an-Excel-File-Into-a-Workbook.html)で説明したように既存の Microsoft® Excel® ファイルを読み込むか、ブランクのワークブックを作成します。ブランクのワークブックを作成する場合、それをファイルに書き込む前に、ワークシートを少なくとも 1 つ追加する必要があります。また、様々な表示および印刷のオプションをワークブックとワークシートに設定できます。
+Excel アセンブリの機能を活用する前に、[Workbook](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook.html) オブジェクトを作成する必要があります。それを行うには、操作方法のトピック [Excel ファイルをブックに読み込む](ExcelEngine-Read-an-Excel-File-Into-a-Workbook.html)で説明したように既存の Microsoft® Excel® ファイルを読み込むか、ブランクのワークブックを作成します。ブランクのワークブックを作成する場合、それをファイルに書き込む前に、ワークシートを少なくとも 1 つ追加する必要があります。また、様々な表示および印刷のオプションをワークブックとワークシートに設定できます。
 
 以下のコードは、ブランクのワークブックを作成、いくつかのプロパティを設定、ワークシートを追加の各方法を示します。
 

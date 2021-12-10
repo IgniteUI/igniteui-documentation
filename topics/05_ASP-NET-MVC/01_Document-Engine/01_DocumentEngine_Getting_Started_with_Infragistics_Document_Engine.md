@@ -19,12 +19,12 @@ Infragistics Document Engine™ はいくつかのインターフェイスを持
     レポート > セクション > レイアウト要素 > レポート グラフィックス > パターン コンテンツ > パブリッシュ
 
 ## レポート
-[`Report`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html) オブジェクトは、レポートを作成するために必要なすべてのオブジェクト、プロパティ、情報を含みます。レポート作成の最初のステップは、このオブジェクトをインスタンス化することです。いったんインスタンス化したら、セクションおよびレポート情報を追加し、レポート固有のプロパティを設定して、レポートを保存するか、既存のレポートをロードすることができます。プレファレンス、添付ファイル、埋め込みフォントだけでなく、レポートのブックマークにアクセスすることができます。コンテンツをレポートに追加する準備が整ったら、AddSection メソッドを使用して Section 要素を追加することができます。
+[`Report`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html) オブジェクトは、レポートを作成するために必要なすべてのオブジェクト、プロパティ、情報を含みます。レポート作成の最初のステップは、このオブジェクトをインスタンス化することです。いったんインスタンス化したら、セクションおよびレポート情報を追加し、レポート固有のプロパティを設定して、レポートを保存するか、既存のレポートをロードすることができます。プレファレンス、添付ファイル、埋め込みフォントだけでなく、レポートのブックマークにアクセスすることができます。コンテンツをレポートに追加する準備が整ったら、AddSection メソッドを使用して Section 要素を追加することができます。
 
 詳細は、[`Report`](DocumentEngine-Report.html) を参照してください。
 
 ## セクション
-Report オブジェクトを取得したら、[`ISection`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html) オブジェクトの追加が完了するまで一切コンテンツを作成できません。Section 要素は、レポート自体に追加可能である唯一のレイアウト要素であるため独特な要素です。その他のすべてのレイアウト要素 (たとえば、Band、Chain、Flow、および Group) は Section 要素に追加できます。必要な数だけセクションをレポートに追加してください。複数のヘッダーとフッターを追加するだけでなく、追加のページをセクションに追加することができます。Section 要素が含むことができるレイアウト 要素およびコンテンツと、含むことができないレイアウト 要素およびコンテンツをしっかりと把握する必要があります。
+Report オブジェクトを取得したら、[`ISection`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html) オブジェクトの追加が完了するまで一切コンテンツを作成できません。Section 要素は、レポート自体に追加可能である唯一のレイアウト要素であるため独特な要素です。その他のすべてのレイアウト要素 (たとえば、Band、Chain、Flow、および Group) は Section 要素に追加できます。必要な数だけセクションをレポートに追加してください。複数のヘッダーとフッターを追加するだけでなく、追加のページをセクションに追加することができます。Section 要素が含むことができるレイアウト 要素およびコンテンツと、含むことができないレイアウト 要素およびコンテンツをしっかりと把握する必要があります。
 
 詳細は[Section](DocumentEngine-Section.html) を参照してください。
 
@@ -39,20 +39,20 @@ Report オブジェクトを取得したら、[`ISection`](Infragistics.Web.Mvc.
 詳細は[「レポート グラフィックス」](DocumentEngine-Report-Graphics.html)を参照してください。すぐに開始したい場合には、[`Brushes`](DocumentEngine-Brushes.html) と [`Pens`](DocumentEngine-Pens.html) を参照してください。
 
 ## パターン コンテンツ
-パターン コンテンツはレポートの中心です。追加したいテキストは、このグループ内の要素によって行われます。ここに Text 要素があり、任意のスタイルで任意のテキストを追加できます。DataSet からデータの Grids、Lists、Trees を使用し、[ITable](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Table.ITable.html) インターフェイスを使用します。レポートにとって重要な名前または製品のリストがありますか?[`IList`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.List.IList.html) インターフェイスを使用してリストを作成します。これらの要素は、特定のメソッドによってそれぞれ簡単にレイアウト 要素に追加できます（ITable インターフェイスの場合は AddTable、IList インターフェイスの場合は AddList）。これらのメソッドは、ほとんどのレイアウト要素にあります。
+パターン コンテンツはレポートの中心です。追加したいテキストは、このグループ内の要素によって行われます。ここに Text 要素があり、任意のスタイルで任意のテキストを追加できます。DataSet からデータの Grids、Lists、Trees を使用し、[ITable](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Table.ITable.html) インターフェイスを使用します。レポートにとって重要な名前または製品のリストがありますか?[`IList`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.List.IList.html) インターフェイスを使用してリストを作成します。これらの要素は、特定のメソッドによってそれぞれ簡単にレイアウト 要素に追加できます（ITable インターフェイスの場合は AddTable、IList インターフェイスの場合は AddList）。これらのメソッドは、ほとんどのレイアウト要素にあります。
 
 詳細は[「パターン コンテンツ」](DocumentEngine-Pattern-Content.html)を参照してください。すぐに開始したい場合には、[Text](DocumentEngine-Text.html) のトピックを参照してください。
 
 ## パブリッシュ
 レポートの記述が終わったら、誰かと共有しなければならない場合があります。レポートをパブリッシュする方法は、いくつかの要因によって異なります。パブリッシュの方法を見てみましょう。
 
-**印刷** -- 最も簡単な公開の方法です。Report オブジェクトから [Print](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Print.html) を呼び出すと、レポートをローカル プリンタに直接印刷することができます。
+**印刷** -- 最も簡単な公開の方法です。Report オブジェクトから [Print](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Print.html) を呼び出すと、レポートをローカル プリンタに直接印刷することができます。
 
 **パブリッシュ** -- 「パブリッシュ」という語は、PDF または XPS ファイルにレポートを書き出すことを指します。この方法は、Adobe Acrobat® PDF Writer を使用して、 Microsoft® Word 文書を出力することと同じです。
 
 **XML として保存** -- レポート コンテンツ全体を XML ファイルに保存するオプションが提供されています。これによって、完成したレポート全体を保存して後でロードすることができます。パブリッシュした後でレポートに追加や修正が必要なことが分かった場合に役に立ちます。
 
-**生成** -- この公開方法は独特で若干変わっていますが非常に役に立ちます。Report オブジェクトの [`Generate`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Generate.html) メソッドを使用すると、大量のページ セットで構成されるグラフィックス オブジェクトをレポートから作成します。これらのグラフィックス オブジェクトは、レポートのページのサムネイル画像として使用することができます。
+**生成** -- この公開方法は独特で若干変わっていますが非常に役に立ちます。Report オブジェクトの [`Generate`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Generate.html) メソッドを使用すると、大量のページ セットで構成されるグラフィックス オブジェクトをレポートから作成します。これらのグラフィックス オブジェクトは、レポートのページのサムネイル画像として使用することができます。
 
 詳細は、[「レポートの公開」](DocumentEngine-Publish-a-Report.html)を参照してください。
 

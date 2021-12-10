@@ -10,7 +10,7 @@
 
 # Worksheet セル内のコメント
 
-セル コメントは、セルまたはセルの範囲のコンテンツを説明または思い出すために使用されます。たとえば、関連付けられるセル内にある数式を説明するために使用することができます。Microsoft® Excel® の場合のように、Infragistics.Documents.Excel アセンブリの [`WorksheetCellComment`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCellComment.html) クラスを使用して、セル コメントを Excel Worksheet に追加することができます。
+セル コメントは、セルまたはセルの範囲のコンテンツを説明または思い出すために使用されます。たとえば、関連付けられるセル内にある数式を説明するために使用することができます。Microsoft® Excel® の場合のように、Infragistics.Documents.Excel アセンブリの [`WorksheetCellComment`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCellComment.html) クラスを使用して、セル コメントを Excel Worksheet に追加することができます。
 
 コメントを持つセルは右上隅に赤い三角形が付きます。コメントを見るには、セルにポインタを配置します。セルからポインタを移動すると、コメントが消えます。
 

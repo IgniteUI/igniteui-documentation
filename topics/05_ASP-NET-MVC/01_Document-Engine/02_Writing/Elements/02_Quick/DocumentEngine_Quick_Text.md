@@ -12,7 +12,7 @@
 
 
 
-Quick Text 要素は、要素のカスタマイズが全く必要ない点で、[Quick Content](DocumentEngine-Quick-Content.html) 要素の中で最もシンプルな要素です。Quick Text 要素は、テキストをレポートに素早く追加するために文字列を AddQuickText メソッドに渡すだけでいいように設計されています。もちろん、要素への参照を取得して、[Alignment](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.QuickText.IQuickText~Alignment.html)、[Brush](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.QuickText.IQuickText~Brush.html)、および [Font](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.QuickText.IQuickText~Font.html) などのいくつかの標準的なプロパティを修正することも可能です。しかし、十分な機能を備えた Text 要素が必要な場合、詳細は[Text](DocumentEngine-Text.html)を参照してください。Quick Text 要素の基本的な使用事例は、配置や外観を無視してデフォルトのテキスト（Arial、12pt）を追加する場合です。
+Quick Text 要素は、要素のカスタマイズが全く必要ない点で、[Quick Content](DocumentEngine-Quick-Content.html) 要素の中で最もシンプルな要素です。Quick Text 要素は、テキストをレポートに素早く追加するために文字列を AddQuickText メソッドに渡すだけでいいように設計されています。もちろん、要素への参照を取得して、[Alignment](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.QuickText.IQuickText~Alignment.html)、[Brush](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.QuickText.IQuickText~Brush.html)、および [Font](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.QuickText.IQuickText~Font.html) などのいくつかの標準的なプロパティを修正することも可能です。しかし、十分な機能を備えた Text 要素が必要な場合、詳細は[Text](DocumentEngine-Text.html)を参照してください。Quick Text 要素の基本的な使用事例は、配置や外観を無視してデフォルトのテキスト（Arial、12pt）を追加する場合です。
 
 ![](images/DocumentEngine_Quick_Text_01.png)
 

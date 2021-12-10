@@ -10,7 +10,7 @@
 
 # レポートを公開するときの PageOrientation の設定
 
-PDF または XPS ドキュメントを公開するとき、ページの Orientation は、[PageOrientation](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection~PageOrientation.html) プロパティで設定できます。[Report.Publish()](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Publish.html) メソッドを使用するとき、Report に追加する各 Section の [ISection()](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html) に、PageOrientation を直接設定する必要があります。
+PDF または XPS ドキュメントを公開するとき、ページの Orientation は、[PageOrientation](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection~PageOrientation.html) プロパティで設定できます。[Report.Publish()](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Publish.html) メソッドを使用するとき、Report に追加する各 Section の [ISection()](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html) に、PageOrientation を直接設定する必要があります。
 
 **C# の場合:**
 

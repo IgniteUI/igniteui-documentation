@@ -10,7 +10,7 @@
 
 # 画像を Word 文書に追加
 
-Infragistics® Word ライブラリは、[WordDocumentWriter](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter.html) ストリーマー オブジェクトを使用して、新しい Word 文書に追加できる 2 種類の画像をサポートします。それらはアンカー固定画像とインライン画像（ピクチャーとも言う）です。
+Infragistics® Word ライブラリは、[WordDocumentWriter](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter.html) ストリーマー オブジェクトを使用して、新しい Word 文書に追加できる 2 種類の画像をサポートします。それらはアンカー固定画像とインライン画像（ピクチャーとも言う）です。
 
 アンカー固定はドキュメント内の特定の位置に「アンカー固定された」画像で、隣接するテキストはその境界の周りに配置されます。これとは対照的に、「インライン」画像は段落内で隣接するコンテンツとともに移動します。
 
@@ -18,10 +18,10 @@ Infragistics® Word ライブラリは、[WordDocumentWriter](Infragistics.Web.M
 
 ![](images/Word_Add_Images_to_Word_Document_01.png)
 
-> **注:** アンカー固定した画像およびインライン画像を追加するコードは、WordDocumentWriter オブジェクトの [StartParagraph](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~StartParagraph.html) メソッドと [EndParagraph](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~EndParagraph.html) メソッドの間に配置する必要があります。
+> **注:** アンカー固定した画像およびインライン画像を追加するコードは、WordDocumentWriter オブジェクトの [StartParagraph](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~StartParagraph.html) メソッドと [EndParagraph](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~EndParagraph.html) メソッドの間に配置する必要があります。
 
 ## アンカー固定した画像の追加
-アンカー固定した画像を現在の段落に追加するには、WordDocumentWriter クラスのインスタンスを使用して、AnchoredPicture のインスタンスを返す [CreateAnchoredPicture](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~CreateAnchoredPicture.html) メソッドを呼び出します。この参照は、WordDocumentWriter オブジェクトの [AddAnchoredPicture](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~AddAnchoredPicture.html) メソッドにパラメーターとして渡されます。
+アンカー固定した画像を現在の段落に追加するには、WordDocumentWriter クラスのインスタンスを使用して、AnchoredPicture のインスタンスを返す [CreateAnchoredPicture](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~CreateAnchoredPicture.html) メソッドを呼び出します。この参照は、WordDocumentWriter オブジェクトの [AddAnchoredPicture](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~AddAnchoredPicture.html) メソッドにパラメーターとして渡されます。
 
 **C# の場合:**
 
@@ -50,7 +50,7 @@ docWriter.AddAnchoredPicture(anchPic)
 ```
 
 ## インライン画像の追加
-インライン画像を段落に追加するには、WordDocumentWriter オブジェクトの [AddInlinePicture](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~AddInlinePicture.html) メソッドを使用します。
+インライン画像を段落に追加するには、WordDocumentWriter オブジェクトの [AddInlinePicture](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~AddInlinePicture.html) メソッドを使用します。
 
 **C# の場合:**
 
@@ -78,7 +78,7 @@ docWriter.AddInlinePicture(img)
 
 > **注:**  AddAnchoredPicture メソッドまたは AddInlinePicture メソッドが使用される前に、StartParagraph メソッドを使用して段落を開始する必要があります。そうしないと例外がスローされます。
 
-アンカー固定した画像の周囲に表示されるアウトラインのプロパティを定義するには、PictureOultlineProperties クラスを使用できます。WordDocumentWriter オブジェクトの [CreatePictureOutlineProperties](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~CreatePictureOutlineProperties.html) メソッドは、PictureOutlineProperties クラスへの参照を含むインスタンスを返します。この参照はさまざまなアウトライン プロパティを公開します。これらのプロパティはアンカー固定した画像のみに定義できます。
+アンカー固定した画像の周囲に表示されるアウトラインのプロパティを定義するには、PictureOultlineProperties クラスを使用できます。WordDocumentWriter オブジェクトの [CreatePictureOutlineProperties](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~CreatePictureOutlineProperties.html) メソッドは、PictureOutlineProperties クラスへの参照を含むインスタンスを返します。この参照はさまざまなアウトライン プロパティを公開します。これらのプロパティはアンカー固定した画像のみに定義できます。
 
 **C# の場合:**
 

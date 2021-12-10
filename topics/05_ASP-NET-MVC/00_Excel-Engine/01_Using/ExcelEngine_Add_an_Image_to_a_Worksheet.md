@@ -10,13 +10,13 @@
 
 # 画像をワークシートに追加
 
-Microsoft® Excel® では、ワークシートの任意の位置に画像や形状を配置できます。[`WorksheetImage`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetImage.html) オブジェクトを使って、画像を [Worksheet](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Worksheet.html) に追加することもできます。次の手順に従って、すべての形状をワークシートに追加できます。
+Microsoft® Excel® では、ワークシートの任意の位置に画像や形状を配置できます。[`WorksheetImage`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetImage.html) オブジェクトを使って、画像を [Worksheet](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet.html) に追加することもできます。次の手順に従って、すべての形状をワークシートに追加できます。
 
 1.  希望の形状を作成します。
 2.  形状のアンカーを設定します。これは、形状がワークシート上のどこに配置されるかを決定します。
-3.  形状をワークシートの [Shapes](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Worksheet~Shapes.html) コレクションに追加します。
+3.  形状をワークシートの [Shapes](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet~Shapes.html) コレクションに追加します。
 
-形状をワークシートに配置する前に設定する必要があるアンカーは、形状の [TopLeftCornerCell](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetShape~TopLeftCornerCell.html) および [BottomRightCornerCell](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetShape~BottomRightCornerCell.html) プロパティです。これらのセルは、形状のワークシートを Excel で表示するときに、形状の関連付けられた隅がどこに表示されるかを決定します。追加のアンカー プロパティとして、形状の [TopLeftCornerPosition](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetShape~TopLeftCornerPosition.html) および [BottomRightCornerPosition](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetShape~BottomRightCornerPosition.html) プロパティがあります。これらのプロパティを使用することで、形状の関連付けられた隅がセル内のどこに表示されるかを細かく制御できます。これらの位置プロパティでは、セルの各寸法をすべてパーセンテージで表し、(0.0, 0.0) が関連付けられたアンカー セルの左上隅を意味し、(100.0, 100.0) が右下隅を意味します。
+形状をワークシートに配置する前に設定する必要があるアンカーは、形状の [TopLeftCornerCell](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetShape~TopLeftCornerCell.html) および [BottomRightCornerCell](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetShape~BottomRightCornerCell.html) プロパティです。これらのセルは、形状のワークシートを Excel で表示するときに、形状の関連付けられた隅がどこに表示されるかを決定します。追加のアンカー プロパティとして、形状の [TopLeftCornerPosition](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetShape~TopLeftCornerPosition.html) および [BottomRightCornerPosition](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetShape~BottomRightCornerPosition.html) プロパティがあります。これらのプロパティを使用することで、形状の関連付けられた隅がセル内のどこに表示されるかを細かく制御できます。これらの位置プロパティでは、セルの各寸法をすべてパーセンテージで表し、(0.0, 0.0) が関連付けられたアンカー セルの左上隅を意味し、(100.0, 100.0) が右下隅を意味します。
 
 以下のコードは、画像を作成し、ワークシートの A1 セル全体を塗りつぶす方法を示します。
 

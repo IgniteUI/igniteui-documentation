@@ -22,9 +22,9 @@
 -   状態
 -   コメント
 
-この情報には、Microsoft® Excel® インターフェイスおよびワークブック ファイルの Properties ダイアログ ボックスを介してアクセスできます。その [`DocumentProperties`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook~DocumentProperties.html) プロパティを使って、シリアル化する前に、この情報をワークブック内で編集できます。
+この情報には、Microsoft® Excel® インターフェイスおよびワークブック ファイルの Properties ダイアログ ボックスを介してアクセスできます。その [`DocumentProperties`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~DocumentProperties.html) プロパティを使って、シリアル化する前に、この情報をワークブック内で編集できます。
 
-以下のコードは、ワークブックを作成し、 [`Title`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.DocumentProperties~Title.html) および [`Status`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.DocumentProperties~Status.html) ドキュメント プロパティを設定する方法を示します。
+以下のコードは、ワークブックを作成し、 [`Title`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.DocumentProperties~Title.html) および [`Status`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.DocumentProperties~Status.html) ドキュメント プロパティを設定する方法を示します。
 
 **Visual Basic の場合:**
 

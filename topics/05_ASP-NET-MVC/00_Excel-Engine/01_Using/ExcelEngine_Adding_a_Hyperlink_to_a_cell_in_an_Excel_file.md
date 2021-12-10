@@ -10,7 +10,7 @@
 
 # Excel ファイルのセルへのハイパーリンクの追加
 
-このトピックは、[`WorksheetCell`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html) オブジェクトの [ApplyFormula](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell~ApplyFormula.html) メソッドを使用して、Microsoft® Excel™ ファイルのセルにハイパーリンクを追加する方法を示します。以下のコードは、Excel 固有の数式 `HYPERLINK` を使用してワークシートのセル 0 にハイパーリンクのある Excel ファイルを作成します。
+このトピックは、[`WorksheetCell`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html) オブジェクトの [ApplyFormula](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell~ApplyFormula.html) メソッドを使用して、Microsoft® Excel™ ファイルのセルにハイパーリンクを追加する方法を示します。以下のコードは、Excel 固有の数式 `HYPERLINK` を使用してワークシートのセル 0 にハイパーリンクのある Excel ファイルを作成します。
 
 コードの記述を開始する前にコード ビハインドに using/imports のディレクティブを配置します。そうすれば、メンバーは完全に記述された名前を常に入力する必要がなくなります。
 

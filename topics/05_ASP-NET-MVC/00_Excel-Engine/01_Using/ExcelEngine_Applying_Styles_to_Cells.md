@@ -13,7 +13,7 @@
 ## 始める前に
 スタイルをセルに適用する機能は、Infragistics.Documents.Excel アセンブリでワークシートをカスタマイズする方法の 1 つです。セルのあらゆる特性はカスタマイズ可能で、各セルに異なる表示方法を設定できます。セルで使用するフォント、セルの背景と境界線、およびテキストの配置と回転を制御できます。同じセル内の異なるテキスト部分に異なる書式設定を使用することもできます。
 
-ほとんどのスタイルは、[`WorksheetCell`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html)、[`WorksheetRow`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetRow.html)、[`WorksheetColumn`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetColumn.html)、および [`WorksheetMergedCellsRegion`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetMergedCellsRegion.html) の `CellFormat` プロパティでプロパティを設定することで適用できます。
+ほとんどのスタイルは、[`WorksheetCell`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html)、[`WorksheetRow`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetRow.html)、[`WorksheetColumn`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetColumn.html)、および [`WorksheetMergedCellsRegion`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetMergedCellsRegion.html) の `CellFormat` プロパティでプロパティを設定することで適用できます。
 
 ## 達成すること
 この詳細なガイドでは、ワークシートのセルにさまざまなスタイルを適用する方法を示します。

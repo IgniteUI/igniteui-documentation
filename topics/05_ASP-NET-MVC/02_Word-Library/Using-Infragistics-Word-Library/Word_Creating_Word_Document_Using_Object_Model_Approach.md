@@ -27,13 +27,13 @@
 -   [関連トピック](#RelatedTopics)
 
 ## <a id="CreateSimpleDoc"></a> 単純な Word 文書の作成
-Word 文書全体は、[Document](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Document.html) クラスでカプセル化されます。Document クラスはオブジェクト階層のルート レベルのエンティティで、この下にすべての他のオブジェクトがグループ化されています。段落およびテーブルなどのブロック レベルのコンテンツのコンテナーとして使用されます。ブロック レベルのコンテンツは、[ContentBlocks](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Document~ContentBlocks.html) コレクション内に含まれます。
+Word 文書全体は、[Document](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document.html) クラスでカプセル化されます。Document クラスはオブジェクト階層のルート レベルのエンティティで、この下にすべての他のオブジェクトがグループ化されています。段落およびテーブルなどのブロック レベルのコンテンツのコンテナーとして使用されます。ブロック レベルのコンテンツは、[ContentBlocks](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document~ContentBlocks.html) コレクション内に含まれます。
 
-ドキュメントの個々のパラグラフは、[Paragraph](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Paragraph.html) クラスでカプセル化されます。Paragraph クラスは、[ContentRuns](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Paragraph~ContentRuns.html) コレクションを公開します。これはコンテンツをパラグラフに追加する方法を提供します。
+ドキュメントの個々のパラグラフは、[Paragraph](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Paragraph.html) クラスでカプセル化されます。Paragraph クラスは、[ContentRuns](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Paragraph~ContentRuns.html) コレクションを公開します。これはコンテンツをパラグラフに追加する方法を提供します。
 
-Word 文書を生成するには、Document クラスのインスタンスを作成し、公開されているプロパティとメソッドを使用して作業し、そして [Save](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Document~Save.html) メソッドを呼び出します。
+Word 文書を生成するには、Document クラスのインスタンスを作成し、公開されているプロパティとメソッドを使用して作業し、そして [Save](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document~Save.html) メソッドを呼び出します。
 
-Author、Title、Subject などの Word 文書のさまざまなプロパティは、 [DocumentProperties](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Document~DocumentProperties.html) プロパティを使用して設定できます。Office ボタンをクリックして、[準備] > [プロパティ] セクションを指定することによって、Word 2007 でこれらの情報にアクセスできます。Word 2010 で同様に、[ファイル] タブをクリックすることによって、Backstage ビューの右側からドキュメント プロパティにアクセスできます。
+Author、Title、Subject などの Word 文書のさまざまなプロパティは、 [DocumentProperties](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document~DocumentProperties.html) プロパティを使用して設定できます。Office ボタンをクリックして、[準備] > [プロパティ] セクションを指定することによって、Word 2007 でこれらの情報にアクセスできます。Word 2010 で同様に、[ファイル] タブをクリックすることによって、Backstage ビューの右側からドキュメント プロパティにアクセスできます。
 
 **C# の場合:**
 
@@ -55,7 +55,7 @@ para1.ContentRuns.AddTextRun("Sample Word Document with Hyperlinks,Images,Header
 ```
 
 ## <a id="AddHyperlink"></a> ハイパーリンクを Word 文書に追加
-Infragistics Word ライブラリはハイパーリンクをサポートします。[AddHyperlink](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddHyperlink.html) メソッドは、TextHyperlink を関連付けられたパラグラフに追加します。
+Infragistics Word ライブラリはハイパーリンクをサポートします。[AddHyperlink](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddHyperlink.html) メソッドは、TextHyperlink を関連付けられたパラグラフに追加します。
 
 **C# の場合:**
 
@@ -71,7 +71,7 @@ para2.ContentRuns.AddHyperlink("http://www.infragistics.com", "Infragistics Inc.
 
 ## <a id="AddPic"></a> ピクチャの追加
 ### <a id="AddAnchPic"></a> アンカー固定した画像の追加
-[AnchoredPicture](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.AnchoredPicture.html) クラスは、ドキュメント内の固有の場所にアンカー固定される画像をカプセル化します。[AddAnchoredPicture](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.AnchorsCollection~AddAnchoredPicture.html) メソッドは、アンカー固定された画像を関連付けられたパラグラフに追加します。
+[AnchoredPicture](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.AnchoredPicture.html) クラスは、ドキュメント内の固有の場所にアンカー固定される画像をカプセル化します。[AddAnchoredPicture](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.AnchorsCollection~AddAnchoredPicture.html) メソッドは、アンカー固定された画像を関連付けられたパラグラフに追加します。
 
 **C# の場合:**
 
@@ -96,7 +96,7 @@ para3.Anchors.AddAnchoredPicture(anchPic);
 ```
 
 ### <a id="AddInlinePic"></a> インライン画像の追加
-[InlinePicture](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.InlinePicture.html) クラスは、画像をカプセル化し、ドキュメント内のテキスト コンテンツと共にインライン表示します。[AddInlinePicture](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddInlinePicture.html) メソッドは、インライン画像を関連付けられたパラグラフに追加します。
+[InlinePicture](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.InlinePicture.html) クラスは、画像をカプセル化し、ドキュメント内のテキスト コンテンツと共にインライン表示します。[AddInlinePicture](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddInlinePicture.html) メソッドは、インライン画像を関連付けられたパラグラフに追加します。
 
 **C# の場合:**
 
@@ -116,7 +116,7 @@ inlinePic.AlternateTextDescription = "Word Image";
 // Add the Inline picture to a content section of the paragraph
 para4.ContentRuns.AddInlinePicture(inlinePic);
 ```
-[Section](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Section.html) クラスは、改ページ プロパティおよびドキュメント セクションのヘッダー/フッター コンテンツをカプセル化します。
+[Section](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Section.html) クラスは、改ページ プロパティおよびドキュメント セクションのヘッダー/フッター コンテンツをカプセル化します。
 
 ## <a id="HeaderFooter"></a> ヘッダーとフッターの設定
 ### <a id="Header"></a> ヘッダーの追加と設定
@@ -145,7 +145,7 @@ headerPara.ContentRuns.AddTextRun("This is a header");
 ```
 
 ### <a id="Footer"></a> フッターの追加と設定
-[AddPageNumberField](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddPageNumberField.html) メソッドは、PageNumberField を関連付けられたパラグラフに追加します。
+[AddPageNumberField](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddPageNumberField.html) メソッドは、PageNumberField を関連付けられたパラグラフに追加します。
 
 **C# の場合:**
 

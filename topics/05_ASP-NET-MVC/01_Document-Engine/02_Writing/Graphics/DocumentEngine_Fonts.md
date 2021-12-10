@@ -10,16 +10,16 @@
 
 # フォント
 
-テキストがなければレポートを書くことができません。したがってフォントはレポートを記述する上で不可欠な要素です。もちろん、テキストにすべてのデフォルト設定を使用することは可能ですが、これらのデフォルトもフォントを使用します（デフォルトのフォントは Arial、12 pt です）。フォントを定義するために必要なのは、名前とサイズだけです。[`FontStyle`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~_ctor.html) やフォントの位置など、 (システムの Fonts フォルダーにない場合に) フォントを定義する時にその他のオプションも提供する [Font](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.FontStyle.html) コンストラクターには複数のオーバーロードがあります。プロパティによってフォントに追加できるスタイルは多数あり、以下に例を示します。
+テキストがなければレポートを書くことができません。したがってフォントはレポートを記述する上で不可欠な要素です。もちろん、テキストにすべてのデフォルト設定を使用することは可能ですが、これらのデフォルトもフォントを使用します（デフォルトのフォントは Arial、12 pt です）。フォントを定義するために必要なのは、名前とサイズだけです。[`FontStyle`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~_ctor.html) やフォントの位置など、 (システムの Fonts フォルダーにない場合に) フォントを定義する時にその他のオプションも提供する [Font](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.FontStyle.html) コンストラクターには複数のオーバーロードがあります。プロパティによってフォントに追加できるスタイルは多数あり、以下に例を示します。
 
--   [太字](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~Bold.html)
--   [二重取り消し線](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~DoubleStrikeout.html)
--   [二重下線](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~DoubleUnderline.html)
--   [斜体](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~Italic.html)
--   [取り消し線](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~Strikeout.html)
--   [下線](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~Underline.html)
+-   [太字](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~Bold.html)
+-   [二重取り消し線](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~DoubleStrikeout.html)
+-   [二重下線](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~DoubleUnderline.html)
+-   [斜体](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~Italic.html)
+-   [取り消し線](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~Strikeout.html)
+-   [下線](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~Underline.html)
 
-これらの各スタイルは、FontStyle 列挙体でも使用可能で、[Style](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~Style.html) プロパティを設定する時に使用されます。[Fonts](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Fonts.html) クラスを使用して、事前に定義されたフォントとスタイルのコレクションにアクセスすることも可能です。Fonts クラスの各フォントはシールされており、スタイルを修正できないことに留意してください（たとえば、Bold や Underline を追加）。
+これらの各スタイルは、FontStyle 列挙体でも使用可能で、[Style](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Font~Style.html) プロパティを設定する時に使用されます。[Fonts](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Fonts.html) クラスを使用して、事前に定義されたフォントとスタイルのコレクションにアクセスすることも可能です。Fonts クラスの各フォントはシールされており、スタイルを修正できないことに留意してください（たとえば、Bold や Underline を追加）。
 
 ![](images/DocumentEngine_Fonts_01.png)
 

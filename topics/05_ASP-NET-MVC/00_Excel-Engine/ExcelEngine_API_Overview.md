@@ -17,25 +17,25 @@
             <td valign="top">
                 <h3>Infragistics Excel Engine 名前空間:</h3>
 
-                <p><a href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel_namespace.html">Infragistics.Documents.Excel</a></p>
+                <p><a href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel_namespace.html">Infragistics.Documents.Excel</a></p>
             </td>
 
             <td valign="top">
                 <h3>キー クラス:</h3>
 
-                <p><a href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook.html">Workbook</a></p>
+                <p><a href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook.html">Workbook</a></p>
 
-                <p><a href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.DocumentProperties.html">DocumentProperties</a></p>
+                <p><a href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.DocumentProperties.html">DocumentProperties</a></p>
 
-                <p><a href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorkbookWindowOptions.html">WorkbookWindowOptions</a></p>
+                <p><a href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorkbookWindowOptions.html">WorkbookWindowOptions</a></p>
 
-                <p><a href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Worksheet.html">Worksheet</a></p>
+                <p><a href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet.html">Worksheet</a></p>
 
-                <p><a href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetRow.html">WorksheetRow</a></p>
+                <p><a href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetRow.html">WorksheetRow</a></p>
 
-                <p><a href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetColumn.html">WorksheetColumn</a></p>
+                <p><a href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetColumn.html">WorksheetColumn</a></p>
 
-                <p><a href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html">WorksheetCell</a></p>
+                <p><a href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html">WorksheetCell</a></p>
             </td>
         </tr>
     </tbody>

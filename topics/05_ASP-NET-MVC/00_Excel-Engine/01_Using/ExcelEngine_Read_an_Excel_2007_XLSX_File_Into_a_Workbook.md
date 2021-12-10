@@ -10,13 +10,13 @@
 
 # Excel 2007 XLSX ファイルをワークブックに読み込む
 
-Microsoft® Excel® ファイルを書き出すだけでなく、Infragistics.Documents.Excel アセンブリはこれらのファイルを読み込むことができます。Excel ファイルが静的な [`Load`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook~Load.html) メソッドで読み取られる時に、[`Workbook`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook.html) オブジェクトが作成され、オブジェクト モデル全体にファイルからのすべてのサポートされる情報が移植されます。
+Microsoft® Excel® ファイルを書き出すだけでなく、Infragistics.Documents.Excel アセンブリはこれらのファイルを読み込むことができます。Excel ファイルが静的な [`Load`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~Load.html) メソッドで読み取られる時に、[`Workbook`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook.html) オブジェクトが作成され、オブジェクト モデル全体にファイルからのすべてのサポートされる情報が移植されます。
 
-特定のフォーマットのワークブックをロードし、それを別のフォーマットで保存したい場合、[Infragistics.Documents.Excel.Workbook](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook.html) クラスの [SetCurrentFormat](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook~SetCurrentFormat.html) メソッドを使用できます。また、[CurrentFormat](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook~CurrentFormat.html) プロパティは、現在のワークブック形式を取得するために使用できます。
+特定のフォーマットのワークブックをロードし、それを別のフォーマットで保存したい場合、[Infragistics.Documents.Excel.Workbook](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook.html) クラスの [SetCurrentFormat](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~SetCurrentFormat.html) メソッドを使用できます。また、[CurrentFormat](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~CurrentFormat.html) プロパティは、現在のワークブック形式を取得するために使用できます。
 
 xlsx フォーマットをロードおよび保存する時のプロジェクトの依存および参照についての詳細は、トピック [Office® 2007 xlsx ファイル生成の参照と依存](ExcelEngine-Office-2007-XLSX-file-generation-references-and-dependencies.html)を参照してください。
 
-> **注:** ワークブックを新しい xlsx フォーマット (Excel2007) でロードする時、Microsoft® Excel® などの安全なソースでワークブックが保存されたことを確信できる場合には、[Load](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook~Load.html) メソッドの verifyExcel2007Xml オーバーロードに False を割り当てることができます。大きいファイルに False を割り当てると、ロードされるファイルのコンテンツを検証することから Excel アセンブリは除外されます。これが順々にパフォーマンスを高めてより大きいファイルのロード時間を短縮します。
+> **注:** ワークブックを新しい xlsx フォーマット (Excel2007) でロードする時、Microsoft® Excel® などの安全なソースでワークブックが保存されたことを確信できる場合には、[Load](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~Load.html) メソッドの verifyExcel2007Xml オーバーロードに False を割り当てることができます。大きいファイルに False を割り当てると、ロードされるファイルのコンテンツを検証することから Excel アセンブリは除外されます。これが順々にパフォーマンスを高めてより大きいファイルのロード時間を短縮します。
 
 以下のコードは、既存の XLSX ワークブックで読み取り、変更を行い、ワークブックを新しいファイルに書き込む方法を示します。
 

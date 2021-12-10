@@ -10,7 +10,7 @@
 
 # Excel ファイルをワークブックに読み取る
 
-Microsoft® Excel® ファイルを書き出すだけでなく、Infragistics.Documents.Excel アセンブリはこれらのファイルを読み込むことができます。既存の Excel ファイルから [`Workbook`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook.html) オブジェクトを作成し、変更を行い、修正したワークブックを含む新しいファイルを保存することができます。Excel ファイルが静的な [`Load`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook~Load.html) メソッドで読み取られる時に、Workbook オブジェクトが作成され、オブジェクト モデル全体にファイルからのすべてのサポートされる情報が移植されます。ワークブックおよびワークシート オプションだけでなく、セル値、フォーマット、および画像はすべて、解析された Workbook からアクセスおよび修正可能です。
+Microsoft® Excel® ファイルを書き出すだけでなく、Infragistics.Documents.Excel アセンブリはこれらのファイルを読み込むことができます。既存の Excel ファイルから [`Workbook`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook.html) オブジェクトを作成し、変更を行い、修正したワークブックを含む新しいファイルを保存することができます。Excel ファイルが静的な [`Load`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~Load.html) メソッドで読み取られる時に、Workbook オブジェクトが作成され、オブジェクト モデル全体にファイルからのすべてのサポートされる情報が移植されます。ワークブックおよびワークシート オプションだけでなく、セル値、フォーマット、および画像はすべて、解析された Workbook からアクセスおよび修正可能です。
 
 以下のコードは、既存のワークブックで読み取り、変更を行い、ワークブックを新しいファイルに書き込む方法を示します。
 

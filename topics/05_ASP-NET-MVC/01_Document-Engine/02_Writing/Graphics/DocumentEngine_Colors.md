@@ -10,9 +10,9 @@
 
 # 色
 
-[Color](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Color.html) クラスによって、ほとんど苦労せずに任意の RGB カラーをレポート コンテンツに追加できます。Color クラスは複数のシナリオを説明するために複数のコンストラクターがあります。Color クラスの新しいインスタンスを初期化するよりもむしろ、使用可能な138 の事前に定義された色を含む [Colors](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Colors.html) オブジェクトにアクセスすることも可能です。
+[Color](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Color.html) クラスによって、ほとんど苦労せずに任意の RGB カラーをレポート コンテンツに追加できます。Color クラスは複数のシナリオを説明するために複数のコンストラクターがあります。Color クラスの新しいインスタンスを初期化するよりもむしろ、使用可能な138 の事前に定義された色を含む [Colors](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Colors.html) オブジェクトにアクセスすることも可能です。
 
-色の使用は、[ColorBlend](DocumentEngine-Brushes.html) クラスを使用して[ダイレクト グラデーション ブラシ](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.ColorBlend.html)のためにカスタムのカラー ブレンドを作成すると面白くなってきます。ColorBlend クラスは線の上の位置にマップされた色のコレクションです。これは別名 [ColorBlendEntry](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.ColorBlendEntry.html) として知られています。各 ColorBlendEntry には、Color に設定可能な [Color](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.ColorBlendEntry~Color.html) プロパティと、グラデーションのパスに沿って位置を表すフロートに設定可能な [Position](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.ColorBlendEntry~Position.html) プロパティがあります。Position プロパティは、0F から 1.0F のスケール上の値を受け付けます。
+色の使用は、[ColorBlend](DocumentEngine-Brushes.html) クラスを使用して[ダイレクト グラデーション ブラシ](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.ColorBlend.html)のためにカスタムのカラー ブレンドを作成すると面白くなってきます。ColorBlend クラスは線の上の位置にマップされた色のコレクションです。これは別名 [ColorBlendEntry](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.ColorBlendEntry.html) として知られています。各 ColorBlendEntry には、Color に設定可能な [Color](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.ColorBlendEntry~Color.html) プロパティと、グラデーションのパスに沿って位置を表すフロートに設定可能な [Position](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.ColorBlendEntry~Position.html) プロパティがあります。Position プロパティは、0F から 1.0F のスケール上の値を受け付けます。
 
 ![](images/DocumentEngine_Colors_01.png)
 

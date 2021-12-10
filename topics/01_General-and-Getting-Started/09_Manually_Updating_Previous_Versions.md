@@ -156,11 +156,11 @@
 アプリケーションで ASP.NET MVC ヘルパーまたは Document アセンブリを使用している場合、新バージョンのアセンブリをアプリケーションに追加する必要があります。以下は、追加する必要のあるアセンブリのリストです。
 
 -   `Infragistics.Web.Mvc.dll`
--   `Infragistics.WebUI.Documents.Core.dll` **または** `Infragistics.Web.Mvc.Documents.Core.dll` **または** `Infragistics.Web.Documents.Core.dll`
--   `Infragistics.WebUI.Documents.IO.dll` **または** `Infragistics.Web.Mvc.Documents.IO.dll` **または** `Infragistics.Web.Documents.IO.dll`
--   `Infragistics.WebUI.Documents.Reports.dll` **または** `Infragistics.Web.Mvc.Documents.Reports.dll` **または** `Infragistics.Web.Documents.Reports.dll`
--   `Infragistics.WebUI.Documents.Excel.dll` **または** `Infragistics.Web.Mvc.Documents.Excel.dll` **または** `Infragistics.Web.Documents.Excel.dll`
--   `Infragistics.WebUI.Documents.Word.dll` **または** `Infragistics.Web.Mvc.Documents.Word.dll` **または** `Infragistics.Web.Documents.Word.dll`
+-   `Infragistics.WebUI.Documents.Core.dll` **または** `Infragistics.Web.Documents.Core.dll`
+-   `Infragistics.WebUI.Documents.IO.dll` **または** `Infragistics.Web.Documents.IO.dll`
+-   `Infragistics.WebUI.Documents.Reports.dll` **または** `Infragistics.Web.Documents.Reports.dll`
+-   `Infragistics.WebUI.Documents.Excel.dll` **または** `Infragistics.Web.Documents.Excel.dll`
+-   `Infragistics.WebUI.Documents.Word.dll` **または** `Infragistics.Web.Documents.Word.dll`
 
 >**注:** ドキュメント アセンブリの新バージョンは、Infragistics.Web.Documents の命名規則を使用します。
 
