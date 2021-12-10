@@ -10,7 +10,7 @@
 
 # Setting PageOrientation when publishing a Report
 
-When publishing a PDF or XPS document, the Orientation of the page can be set by the [PageOrientation](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection~PageOrientation.html "Link to the API Reference Guide to the value member.") property. When the [Report.Publish(](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Publish.html "Link to the API Reference Guide to the Report.Publish member.")) method is used, the PageOrientation needs to be directly set on each Section [ISection()](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html "Link to the API Reference Guide to the value member.") that you add to the Report.
+When publishing a PDF or XPS document, the Orientation of the page can be set by the [PageOrientation](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection~PageOrientation.html "Link to the API Reference Guide to the value member.") property. When the [Report.Publish(](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Publish.html "Link to the API Reference Guide to the Report.Publish member.")) method is used, the PageOrientation needs to be directly set on each Section [ISection()](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html "Link to the API Reference Guide to the value member.") that you add to the Report.
 
 **In C#:**
 

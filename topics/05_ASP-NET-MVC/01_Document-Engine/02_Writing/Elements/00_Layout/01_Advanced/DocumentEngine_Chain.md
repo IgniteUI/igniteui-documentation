@@ -22,7 +22,7 @@ This is useful if you want to keep a paragraph of text on one page, or maybe you
 
 * * * * *
 
-Use the following code to add a [Chain](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.IChain.html "Link to the Web API Reference Guide to the IChain interface.") element to a Section element and add text to it.
+Use the following code to add a [Chain](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.IChain.html "Link to the Web API Reference Guide to the IChain interface.") element to a Section element and add text to it.
 
 1.  **Define a report and add a Section element.**
 

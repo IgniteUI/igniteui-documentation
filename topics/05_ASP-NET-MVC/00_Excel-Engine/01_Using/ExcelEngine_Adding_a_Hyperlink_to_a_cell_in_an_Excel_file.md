@@ -10,7 +10,7 @@
 
 # Adding a Hyperlink to a cell in an Excel file
 
-This topic shows you how to add a hyperlink to a cell in a Microsoft® Excel™ file using the [`WorksheetCell`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html "Link to the API Reference Guide to the WorksheetCell member.") object’s [ApplyFormula](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell~ApplyFormula.html "Link to the API Reference Guide to the ApplyFormula member.") method. The following code creates an Excel file with a hyperlink in cell 0 of the worksheet by using the intrinsic Excel `HYPERLINK` formula.
+This topic shows you how to add a hyperlink to a cell in a Microsoft® Excel™ file using the [`WorksheetCell`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html "Link to the API Reference Guide to the WorksheetCell member.") object’s [ApplyFormula](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell~ApplyFormula.html "Link to the API Reference Guide to the ApplyFormula member.") method. The following code creates an Excel file with a hyperlink in cell 0 of the worksheet by using the intrinsic Excel `HYPERLINK` formula.
 
 Before you start writing any code, you should place using/imports directives in your code-behind so you don't need to always type out a member's fully qualified name.
 

@@ -19,7 +19,7 @@ Pens are used to define the characteristics of lines. You will find lines in sev
 -   Line Join
 -   Miter Limit
 
-You can also use the [Pens](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Pens.html "Link to the Web API Reference Guide to the Pens member.") class, a collection of predefined pens, to quickly add a colored pen with default style attributes to a line. Each pen in the Pens class is a solid pen with a width of 1px. ![Shows how you can use Pens to draw borders around a text element, and is the result of the code listed below.](images/DocumentEngine_Pens_01.png)
+You can also use the [Pens](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Pens.html "Link to the Web API Reference Guide to the Pens member.") class, a collection of predefined pens, to quickly add a colored pen with default style attributes to a line. Each pen in the Pens class is a solid pen with a width of 1px. ![Shows how you can use Pens to draw borders around a text element, and is the result of the code listed below.](images/DocumentEngine_Pens_01.png)
 
 
 Use the following code to define two Pen objects and use them to draw the borders of a Text element. The third Text element uses a predefined pen to draw its borders.

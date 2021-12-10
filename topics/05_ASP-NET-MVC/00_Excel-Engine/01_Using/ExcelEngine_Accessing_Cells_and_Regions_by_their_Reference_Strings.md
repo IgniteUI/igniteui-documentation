@@ -10,7 +10,7 @@
 
 # Accessing Cells and Regions by their Reference Strings
 
-This topic will familiarize you on how to access cells and ranges within a worksheet in an Excel® Workbook. The [`GetCell`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Worksheet~GetCell.html "Link to the Web API Reference Guide to the GetCell member.") and [`GetRegion`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Worksheet~GetRegion.html "Link to the Web API Reference Guide to the GetRegion member.") method of the Worksheet class accepts cell reference strings as a parameter.
+This topic will familiarize you on how to access cells and ranges within a worksheet in an Excel® Workbook. The [`GetCell`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet~GetCell.html "Link to the Web API Reference Guide to the GetCell member.") and [`GetRegion`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet~GetRegion.html "Link to the Web API Reference Guide to the GetRegion member.") method of the Worksheet class accepts cell reference strings as a parameter.
 
 In the following example code a Worksheet cell is accessed by the GetCell method and an Excel formula is applied to it. Similarly an Excel formula is applied to a range of cells within the worksheet.
 

@@ -16,7 +16,7 @@ When deploying a .NET application, you must distribute certain files in addition
 
 In order to deploy your application, you will have to re-distribute the following file:
 
-    Infragistics.Web.Mvc.Documents.Excel.dll
+    Infragistics.Web.Documents.Excel.dll
 
 This is the .NET Assembly containing the Infragistics Excel Engine™ code library.
 

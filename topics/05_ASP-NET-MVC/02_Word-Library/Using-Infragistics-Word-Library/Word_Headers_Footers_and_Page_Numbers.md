@@ -19,10 +19,10 @@ The following screenshots depicts a Word document created with text and page num
 
 ![](images/Word_Headers_Footers_and_Page_Numbers_02.png)
 
-> **Note:** A reference to the `Infragistics.Web.Mvc.Documents.IO` assembly is required for the following code.
+> **Note:** A reference to the `Infragistics.Web.Documents.IO` assembly is required for the following code.
 
 ## Headers and Footers
-To write content to the headers and footers in a document section you must use the [SectionHeaderFooterWriterSet](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.SectionHeaderFooterWriterSet.html) class that holds one or more [WordHeaderFooterWriter](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordHeaderFooterWriter.html) instances. The headers and footers can either be set to all pages or to the first page only. Text, image, multiple paragraphs, hyperlinks can all be added to the header and footer sections.
+To write content to the headers and footers in a document section you must use the [SectionHeaderFooterWriterSet](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.SectionHeaderFooterWriterSet.html) class that holds one or more [WordHeaderFooterWriter](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordHeaderFooterWriter.html) instances. The headers and footers can either be set to all pages or to the first page only. Text, image, multiple paragraphs, hyperlinks can all be added to the header and footer sections.
 
 **In C#:**
 
@@ -47,7 +47,7 @@ writerSet.FooterWriterAllPages.Close();
 ```
 
 ## Page Numbers
-Page numbers are possible by adding the right settings to either the header or footer of a Word document using the [AddPageNumberField](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordHeaderFooterWriter~AddPageNumberField.html) method. This method accepts the `PageNumberFieldType` enum value and font object as optional argument. The `PageNumberFieldType` enum offers several formats such as `Decimal`, `RomanLowercase`, `TextCardinal`, `Ordinal` etc., for the page numbers.
+Page numbers are possible by adding the right settings to either the header or footer of a Word document using the [AddPageNumberField](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordHeaderFooterWriter~AddPageNumberField.html) method. This method accepts the `PageNumberFieldType` enum value and font object as optional argument. The `PageNumberFieldType` enum offers several formats such as `Decimal`, `RomanLowercase`, `TextCardinal`, `Ordinal` etc., for the page numbers.
 
 **In C#:**
 

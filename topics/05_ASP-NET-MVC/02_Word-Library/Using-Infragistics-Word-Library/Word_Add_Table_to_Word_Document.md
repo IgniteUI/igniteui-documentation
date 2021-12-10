@@ -29,14 +29,14 @@ A reference to the Infragsitics3.Documents.IO assembly is required.
 ## <a id="FormatTable"></a> Formatting Tables - Overview
 Formatting table, table rows, and table cells is handled by various classes, such as:
 
--   [TableProperties](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.TableProperties.html)
--   [TableRowProperties](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.TableRowProperties.html)
--   [TableCellProperties](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.TableCellProperties.html)
--   [TableBorderProperties](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.TableBorderProperties.html)
+-   [TableProperties](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.TableProperties.html)
+-   [TableRowProperties](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.TableRowProperties.html)
+-   [TableCellProperties](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.TableCellProperties.html)
+-   [TableBorderProperties](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.TableBorderProperties.html)
 
 ## <a id="Ex"></a> Examples
 ### Example: Creating a Table With a Header Row
-The code below creates a table with two columns and three rows using the [WordDocumentWriter](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter.html) streamer object. The first row is set as a header row using the [IsHeaderRow](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.TableRowProperties~IsHeaderRow.html) property of the TableRowProperties object.
+The code below creates a table with two columns and three rows using the [WordDocumentWriter](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter.html) streamer object. The first row is set as a header row using the [IsHeaderRow](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.TableRowProperties~IsHeaderRow.html) property of the TableRowProperties object.
 
 ## Preview
 Following is a preview of the final result:

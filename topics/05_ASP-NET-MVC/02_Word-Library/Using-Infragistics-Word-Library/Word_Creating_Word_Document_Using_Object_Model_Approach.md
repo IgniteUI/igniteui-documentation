@@ -27,13 +27,13 @@ The topic is organized as follows:
 -   [Related Topics](#RelatedTopics)
 
 ## <a id="CreateSimpleDoc"></a> Creating a Simple Word Document
-The entire Word document is encapsulated by the [Document](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Document.html) class. The Document class is the root-level entity in the object hierarchy, under which all other objects are grouped. It serves as a container for block-level content such as paragraphs and tables. Block-level content is contained within the [ContentBlocks](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Document~ContentBlocks.html) collection.
+The entire Word document is encapsulated by the [Document](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document.html) class. The Document class is the root-level entity in the object hierarchy, under which all other objects are grouped. It serves as a container for block-level content such as paragraphs and tables. Block-level content is contained within the [ContentBlocks](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document~ContentBlocks.html) collection.
 
-Individual paragraphs in the document are encapsulated by the [Paragraph](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Paragraph.html) class. The Paragraph class exposes a [ContentRuns](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Paragraph~ContentRuns.html) collection, which provides a way to add content to the paragraph.
+Individual paragraphs in the document are encapsulated by the [Paragraph](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Paragraph.html) class. The Paragraph class exposes a [ContentRuns](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Paragraph~ContentRuns.html) collection, which provides a way to add content to the paragraph.
 
-To generate a Word document, create an instance of the Document class and manipulate it using publicly exposed properties and methods, and then call a [Save](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Document~Save.html) method.
+To generate a Word document, create an instance of the Document class and manipulate it using publicly exposed properties and methods, and then call a [Save](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document~Save.html) method.
 
-The various properties of the Word document such as Author, Title, Subject, etc., can be set using the [DocumentProperties](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Document~DocumentProperties.html) property. These information can be accessed in Word 2007 by clicking the Office Button and navigating to Prepare > Properties section. Similarly in Word 2010 by clicking the File tab the document properties can be accessed from the right side of the backstage view.
+The various properties of the Word document such as Author, Title, Subject, etc., can be set using the [DocumentProperties](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document~DocumentProperties.html) property. These information can be accessed in Word 2007 by clicking the Office Button and navigating to Prepare > Properties section. Similarly in Word 2010 by clicking the File tab the document properties can be accessed from the right side of the backstage view.
 
 **In C#:**
 
@@ -55,7 +55,7 @@ para1.ContentRuns.AddTextRun("Sample Word Document with Hyperlinks,Images,Header
 ```
 
 ## <a id="AddHyperlink"></a> Adding a Hyperlink to the Word Document
-The Infragistics Word library supports hyperlinks. The [AddHyperlink](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddHyperlink.html) method adds a TextHyperlink to the associated paragraph.
+The Infragistics Word library supports hyperlinks. The [AddHyperlink](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddHyperlink.html) method adds a TextHyperlink to the associated paragraph.
 
 **In C#:**
 
@@ -71,7 +71,7 @@ para2.ContentRuns.AddHyperlink("http://www.infragistics.com", "Infragistics Inc.
 
 ## <a id="AddPic"></a> Adding a Picture
 ### <a id="AddAnchPic"></a> Adding Anchored Picture
-The [AnchoredPicture](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.AnchoredPicture.html) class encapsulates a picture or image that is anchored to a specific location within the document. [AddAnchoredPicture](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.AnchorsCollection~AddAnchoredPicture.html) method adds an anchored picture to the associated paragraph.
+The [AnchoredPicture](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.AnchoredPicture.html) class encapsulates a picture or image that is anchored to a specific location within the document. [AddAnchoredPicture](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.AnchorsCollection~AddAnchoredPicture.html) method adds an anchored picture to the associated paragraph.
 
 **In C#:**
 
@@ -96,7 +96,7 @@ para3.Anchors.AddAnchoredPicture(anchPic);
 ```
 
 ### <a id="AddInlinePic"></a> Adding Inline Picture
-The [InlinePicture](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.InlinePicture.html) class enacpsulates a picture, which appears inline with the textual content within the document. [AddInlinePicture](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddInlinePicture.html) method adds an inline picture to the associated paragraph.
+The [InlinePicture](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.InlinePicture.html) class enacpsulates a picture, which appears inline with the textual content within the document. [AddInlinePicture](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddInlinePicture.html) method adds an inline picture to the associated paragraph.
 
 **In C#:**
 
@@ -116,7 +116,7 @@ inlinePic.AlternateTextDescription = "Word Image";
 // Add the Inline picture to a content section of the paragraph
 para4.ContentRuns.AddInlinePicture(inlinePic);
 ```
-The [Section](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Section.html) class encapsulates the pagination properties and header/footer content for a document section.
+The [Section](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Section.html) class encapsulates the pagination properties and header/footer content for a document section.
 
 ## <a id="HeaderFooter"></a> Setting the Header and the Footer
 ### <a id="Header"></a> Adding and Setting the Header
@@ -145,7 +145,7 @@ headerPara.ContentRuns.AddTextRun("This is a header");
 ```
 
 ### <a id="Footer"></a> Adding and Setting the Footer
-The [AddPageNumberField](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddPageNumberField.html) method adds a PageNumberField to the associated paragraph.
+The [AddPageNumberField](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddPageNumberField.html) method adds a PageNumberField to the associated paragraph.
 
 **In C#:**
 

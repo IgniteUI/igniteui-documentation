@@ -12,7 +12,7 @@
 
 ## Using .NET CLR 4.0 or greater
 
-When using the Infragistics®Word library and exporters to generate a Microsoft® Word®document, the .NET Framework CLR version 4.0 or greater is required. In this scenario, you will reference the Infragistics.Web.Mvc.Documents.IO assembly. The compression and packaging functionality that is built into the Word document creation logic relies on the .NET Framework CLR4.0.
+When using the Infragistics®Word library and exporters to generate a Microsoft® Word®document, the .NET Framework CLR version 4.0 or greater is required. In this scenario, you will reference the Infragistics.Web.Documents.IO assembly. The compression and packaging functionality that is built into the Word document creation logic relies on the .NET Framework CLR4.0.
 
 ## Related Topics
 -   [Using the Infragistics Word Library](Word-Using-the-Infragistics-Word-Library.html)

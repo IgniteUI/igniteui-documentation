@@ -10,7 +10,7 @@
 
 # Comments in a Worksheet Cell
 
-Cell Comments are used to explain or remind the content of a cell or range of cells. For example, they may be used to explain the formulas that reside in the cells they are attached to. As in Microsoft® Excel®, it is possible to add cell comments to your Excel Worksheet using the [`WorksheetCellComment`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCellComment.html "Link to the Web API Reference Guide to the WorksheetCellComment member.") class of the Infragistics.Documents.Excel Assembly.
+Cell Comments are used to explain or remind the content of a cell or range of cells. For example, they may be used to explain the formulas that reside in the cells they are attached to. As in Microsoft® Excel®, it is possible to add cell comments to your Excel Worksheet using the [`WorksheetCellComment`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCellComment.html "Link to the Web API Reference Guide to the WorksheetCellComment member.") class of the Infragistics.Documents.Excel Assembly.
 
 Cells with comments have a red triangle in the upper right corner. To see the comment, place the pointer in the cell. The comment disappears when you move the pointer off the cell.
 

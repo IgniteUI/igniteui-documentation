@@ -10,12 +10,12 @@
 
 # Canvas
 
-The Canvas element is a versatile painting surface. With the Canvas element, you can draw a vast amount of shapes while manipulating them in several different ways. The Canvas element exposes several standard properties, such as [Background](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.ICanvas~Background.html "Link to the Web API Reference Guide to the Background member.") , [Borders](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.ICanvas~Borders.html "Link to the Web API Reference Guide to the Borders member.") , and [Margins](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.ICanvas~Margins.html "Link to the Web API Reference Guide to the Margins member.") , that you will encounter in other layout elements. Also, the Canvas element implements the [IGraphics](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics.html "Link to the Web API Reference Guide to the IGraphics interface.") interface, which is where the element derives its visual prowess. The IGraphics interface is very similar to the System.Drawing.Graphics object.
+The Canvas element is a versatile painting surface. With the Canvas element, you can draw a vast amount of shapes while manipulating them in several different ways. The Canvas element exposes several standard properties, such as [Background](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.ICanvas~Background.html "Link to the Web API Reference Guide to the Background member.") , [Borders](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.ICanvas~Borders.html "Link to the Web API Reference Guide to the Borders member.") , and [Margins](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.ICanvas~Margins.html "Link to the Web API Reference Guide to the Margins member.") , that you will encounter in other layout elements. Also, the Canvas element implements the [IGraphics](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics.html "Link to the Web API Reference Guide to the IGraphics interface.") interface, which is where the element derives its visual prowess. The IGraphics interface is very similar to the System.Drawing.Graphics object.
 
 ![](images/DocumentEngine_Canvas_01.png)
 
 ## Standard Layout Element Properties
-The Canvas element exposes its own set of standard layout properties that are essential in positioning the canvas as a whole; but there are a few properties exposed through the IGraphics interface that affect what is actually drawn. Two important properties exposed by the IGraphics interface are [Pen](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~Pen.html "Link to the Web API Reference Guide to the Pen member.") and [Brush](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~Brush.html "Link to the Web API Reference Guide to the Brush member.") (normally exposed by the element itself). Each of these properties affects the stroke and fill of all objects created by the IGraphics interface. Another important concept to understand is that all drawings are created in a linear fashion, which means that you can change the pen and brush while drawing shapes and have the same shape with the same dimensions, but drawn differently.
+The Canvas element exposes its own set of standard layout properties that are essential in positioning the canvas as a whole; but there are a few properties exposed through the IGraphics interface that affect what is actually drawn. Two important properties exposed by the IGraphics interface are [Pen](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~Pen.html "Link to the Web API Reference Guide to the Pen member.") and [Brush](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~Brush.html "Link to the Web API Reference Guide to the Brush member.") (normally exposed by the element itself). Each of these properties affects the stroke and fill of all objects created by the IGraphics interface. Another important concept to understand is that all drawings are created in a linear fashion, which means that you can change the pen and brush while drawing shapes and have the same shape with the same dimensions, but drawn differently.
 
 ## IGraphics Interface
 The IGraphics Interface is where you will be doing most of your graphics implementation in your reports. Through this interface, you can add hyperlinks anywhere on a page, draw any shape, fill and clip those shapes, and even scale, skew, or transform the shapes.
@@ -32,15 +32,15 @@ You can add a hyperlink area by specifying the coordinates of the upper-left cor
             <td valign="top">
                 <ul>
                     <li>
-[AddHyperlinkArea](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~AddHyperlinkArea.html)
+[AddHyperlinkArea](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~AddHyperlinkArea.html)
 					</li>
 
                     <li>
-[StartHyperlink](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~StartHyperlink.html)
+[StartHyperlink](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~StartHyperlink.html)
 					</li>
 
                     <li>
-[PauseHyperlink](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~PauseHyperlink.html)
+[PauseHyperlink](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~PauseHyperlink.html)
 					</li>
                 </ul>
             </td>
@@ -48,11 +48,11 @@ You can add a hyperlink area by specifying the coordinates of the upper-left cor
             <td valign="top">
                 <ul>
                     <li>
-[ResumeHyperlink](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~ResumeHyperlink.html)
+[ResumeHyperlink](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~ResumeHyperlink.html)
 					</li>
 
                     <li>
-[EndHyperlink](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~EndHyperlink.html)
+[EndHyperlink](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.IGraphics~EndHyperlink.html)
 					</li>
                 </ul>
             </td>

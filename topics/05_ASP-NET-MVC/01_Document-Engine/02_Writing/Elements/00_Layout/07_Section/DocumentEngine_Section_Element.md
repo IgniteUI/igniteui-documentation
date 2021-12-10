@@ -20,7 +20,7 @@ The Section element is the only layout element that you can add to the Report el
 
 - These unique features of the Section element allow you to organize your report on a high level as well as apply several necessary settings to the report as a whole.
 
-The following code will define a [Report](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html "Link to the Web API Reference Guide to the Report member.") and add a single [ISection](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html "Link to the Web API Reference Guide to the ISection interface.") to it. The Section will include headers, footers, stationery, and decorations.
+The following code will define a [Report](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html "Link to the Web API Reference Guide to the Report member.") and add a single [ISection](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html "Link to the Web API Reference Guide to the ISection interface.") to it. The Section will include headers, footers, stationery, and decorations.
 
 1.  **Define the Report and Section.**
 

@@ -15,7 +15,7 @@ In a worksheet, you may have a large amount of text in a cell or a large image t
 
 However, in some situations the row height will automatically be increased so all content is visible. For example, if you rotate or wrap text in a cell, and the height of the row containing the cell is the default value, the row height will automatically increase to show all content. The column width is never managed automatically, and always remains constant, regardless of the content of its cells.
 
-In addition to resizing individual rows and columns, you can resize all rows and columns by setting the Worksheet's [`DefaultRowHeight`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Worksheet~DefaultRowHeight.html "Link to the Web API Reference Guide to the DefaultRowHeight member et class.") and  [`DefaultColumnWidth`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Worksheet~DefaultColumnWidth.html "Link to the Web API Reference Guide to the DefaultColumnWidth member .") properties.
+In addition to resizing individual rows and columns, you can resize all rows and columns by setting the Worksheet's [`DefaultRowHeight`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet~DefaultRowHeight.html "Link to the Web API Reference Guide to the DefaultRowHeight member et class.") and  [`DefaultColumnWidth`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet~DefaultColumnWidth.html "Link to the Web API Reference Guide to the DefaultColumnWidth member .") properties.
 
 ## What You Will Accomplish
 This walkthrough will show you a few ways to auto-size rows. In addition, you will learn how it manually size rows and columns so a cell can completely contain its contents.

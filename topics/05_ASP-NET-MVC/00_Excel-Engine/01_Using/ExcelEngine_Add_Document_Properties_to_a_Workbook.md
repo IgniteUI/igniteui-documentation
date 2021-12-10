@@ -22,9 +22,9 @@ Associated with each workbook file are various properties that provide informati
 -   Status
 -   Comments
 
-This information can be accessed through the Microsoft® Excel® interface as well as the Properties dialog box for the workbook file. You can edit this information in a workbook before serializing it by using its [`DocumentProperties`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook~DocumentProperties.html "Link to the Web API Reference Guide to the DocumentProperties member.") property.
+This information can be accessed through the Microsoft® Excel® interface as well as the Properties dialog box for the workbook file. You can edit this information in a workbook before serializing it by using its [`DocumentProperties`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~DocumentProperties.html "Link to the Web API Reference Guide to the DocumentProperties member.") property.
 
-The following code demonstrates how to create a workbook and set its [`Title`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.DocumentProperties~Title.html "Link to the Web API Reference Guide to the Title member.") and [`Status`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.DocumentProperties~Status.html "Link to the Web API Reference Guide to the Status member.") document properties.
+The following code demonstrates how to create a workbook and set its [`Title`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.DocumentProperties~Title.html "Link to the Web API Reference Guide to the Title member.") and [`Status`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.DocumentProperties~Status.html "Link to the Web API Reference Guide to the Status member.") document properties.
 
 **In Visual Basic:**
 

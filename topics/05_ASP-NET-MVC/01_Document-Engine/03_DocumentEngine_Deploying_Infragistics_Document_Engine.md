@@ -17,7 +17,7 @@ When deploying a .NET application, you must distribute certain files in addition
 In order to deploy your application, you will have to re-distribute the following file.
 
 
-    Infragistics.Web.Mvc.Documents.Reports.dll
+    Infragistics.Web.Documents.Reports.dll
 
 This is the .NET Assembly containing the Infragistics Document Engine™ code library.
 

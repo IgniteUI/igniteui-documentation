@@ -17,25 +17,25 @@ This section lists each namespace that is relevant to the code library. We also 
             <td valign="top">
                 <h3>Infragistics Excel Engine Namespace:</h3>
 
-                <p><a title="Link to the Web API Reference Guide to the Excel Engine namespace." href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel_namespace.html">Infragistics.Documents.Excel</a></p>
+                <p><a title="Link to the Web API Reference Guide to the Excel Engine namespace." href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel_namespace.html">Infragistics.Documents.Excel</a></p>
             </td>
 
             <td valign="top">
                 <h3>Key Classes:</h3>
 
-                <p><a title="Link to the Web API Reference Guide to the Workbook member." href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook.html">Workbook</a></p>
+                <p><a title="Link to the Web API Reference Guide to the Workbook member." href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook.html">Workbook</a></p>
 
-                <p><a title="Link to the Web API Reference Guide to the DocumentProperties member." href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.DocumentProperties.html">DocumentProperties</a></p>
+                <p><a title="Link to the Web API Reference Guide to the DocumentProperties member." href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.DocumentProperties.html">DocumentProperties</a></p>
 
-                <p><a title="Link to the Web API Reference Guide to the WorkbookWindowOptions member." href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorkbookWindowOptions.html">WorkbookWindowOptions</a></p>
+                <p><a title="Link to the Web API Reference Guide to the WorkbookWindowOptions member." href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorkbookWindowOptions.html">WorkbookWindowOptions</a></p>
 
-                <p><a title="Link to the Web API Reference Guide to the Worksheet class." href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Worksheet.html">Worksheet</a></p>
+                <p><a title="Link to the Web API Reference Guide to the Worksheet class." href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet.html">Worksheet</a></p>
 
-                <p><a title="Link to the Web API Reference Guide to the WorksheetRow member." href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetRow.html">WorksheetRow</a></p>
+                <p><a title="Link to the Web API Reference Guide to the WorksheetRow member." href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetRow.html">WorksheetRow</a></p>
 
-                <p><a title="Link to the Web API Reference Guide to the WorksheetColumn member." href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetColumn.html">WorksheetColumn</a></p>
+                <p><a title="Link to the Web API Reference Guide to the WorksheetColumn member." href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetColumn.html">WorksheetColumn</a></p>
 
-                <p><a title="Link to the Web API Reference Guide to the WorksheetCell member." href="Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html">WorksheetCell</a></p>
+                <p><a title="Link to the Web API Reference Guide to the WorksheetCell member." href="Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html">WorksheetCell</a></p>
             </td>
         </tr>
     </tbody>

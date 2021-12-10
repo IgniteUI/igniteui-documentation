@@ -26,7 +26,7 @@ The forward-only streaming approach improves performance but decreases the ease 
 
 ### <a id="streamer"></a> Implementing the Forward-Only Streamer Approach
 
-The [WordDocumentWriter](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter.html) is a streamer object that provides a fast, non-cached, forward-only means of generating streams or files containing word processing data. This object is available in the Infragistics.Documents.IO assembly. The WordDocumentWriter object enables you to create Word documents with improved performance through the forward-only streaming approach.
+The [WordDocumentWriter](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter.html) is a streamer object that provides a fast, non-cached, forward-only means of generating streams or files containing word processing data. This object is available in the Infragistics.Documents.IO assembly. The WordDocumentWriter object enables you to create Word documents with improved performance through the forward-only streaming approach.
 
 The WinGridWordWriter™ and WinFormattedTextWordWriter™ components use the WordDocumentWriter object for their exporting to Word functionality. The content exported by these components is directly exported to a file without creating the document in memory and hence use much less RAM and avoid memory issues caused during export of very large data.
 
@@ -34,11 +34,11 @@ The sections below demonstrate how to use the WordDocumentWriter class with code
 
 ####  Requirements
 
-A reference to the Infragistics.Web.Mvc.Documents.IO assembly is required.
+A reference to the Infragistics.Web.Documents.IO assembly is required.
 
 #### Creating an Instance
 
-The WordDocumentWriter class is abstract, and does not support direct instantiation. Therefore, a static [Create](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~Create.html) method is exposed to create an instance of a derived class.
+The WordDocumentWriter class is abstract, and does not support direct instantiation. Therefore, a static [Create](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter~Create.html) method is exposed to create an instance of a derived class.
 
 **In C#:**
 
@@ -104,11 +104,11 @@ private void WriteParagraph(
 
 ##### Introduction to the Document Class
 
-The [Document](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Document.html) class encapsulates all content associated with the Word document. It is the root-level entity in the object hierarchy, under which all other objects are grouped. For generating a Microsoft Word document you need to create an instance of the [Document](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Document.html) class, manipulate it using publicly exposed properties and methods, and then call a [Save](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Document~Save.html) method.
+The [Document](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document.html) class encapsulates all content associated with the Word document. It is the root-level entity in the object hierarchy, under which all other objects are grouped. For generating a Microsoft Word document you need to create an instance of the [Document](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document.html) class, manipulate it using publicly exposed properties and methods, and then call a [Save](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document~Save.html) method.
 
 ##### Requirements
 
-The Object model approach requires a reference to the Infragistics.Documents.Word assembly in addition to the Infragistics.Web.Mvc.Documents.IO assembly.
+The Object model approach requires a reference to the Infragistics.Documents.Word assembly in addition to the Infragistics.Web.Documents.IO assembly.
 
 ##### Creating a Blank Word Document and Saving It
 
@@ -128,11 +128,11 @@ doc.Save(filename);
 
 ##### Adding Paragraphs
 
-The following code sample demonstrates how to use the [Paragraph](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Paragraph.html) class to add text to a Document, and align that text with the center of the printable area:
+The following code sample demonstrates how to use the [Paragraph](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Paragraph.html) class to add text to a Document, and align that text with the center of the printable area:
 
 ##### Introduction to the Paragraph Class
 
-The Paragraph class encapsulates a single paragraph in the document. A Paragraph is created by adding a member to the Document’s content blocks collection. A Paragraph provides the ability to display a block of text which can be aligned or indented. The Paragraph class exposes a [ContentRuns](Infragistics.Web.Mvc.Documents.Word~Infragistics.Documents.Word.Paragraph~ContentRuns.html) collection, which provides a way to add content to the paragraph.
+The Paragraph class encapsulates a single paragraph in the document. A Paragraph is created by adding a member to the Document’s content blocks collection. A Paragraph provides the ability to display a block of text which can be aligned or indented. The Paragraph class exposes a [ContentRuns](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Paragraph~ContentRuns.html) collection, which provides a way to add content to the paragraph.
 
 **In C#:**
 

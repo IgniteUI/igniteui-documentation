@@ -17,7 +17,7 @@ The width of the Rule element, by definition, is not how far the line spans hori
 ![Shows a PDF that demonstrates the Rule element, and is the result of the code below.](images/Rule.png)
 
 
-You can use the following code to create a page in a section that looks similar to the image above. The following code assumes you already have a [Report](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html "Link to the Web API Reference Guide to the Report member.") element defined with at least one [ISection](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html "Link to the Web API Reference Guide to the ISection interface.") element added and named section1.
+You can use the following code to create a page in a section that looks similar to the image above. The following code assumes you already have a [Report](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html "Link to the Web API Reference Guide to the Report member.") element defined with at least one [ISection](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html "Link to the Web API Reference Guide to the ISection interface.") element added and named section1.
 
 **In C#:**
 

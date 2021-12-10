@@ -10,7 +10,7 @@
 
 # Getting the Value of a Formula from an Excel File
 
-In order to get the evaluated value of an Excel Cell that is represented by a Formula, you simply access the [`Value`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell~Value.html "Link to the API Reference Guide to the value member.") property of the [WorksheetCell](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html "Link to the API Reference Guide to the worksheetcell member.").
+In order to get the evaluated value of an Excel Cell that is represented by a Formula, you simply access the [`Value`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell~Value.html "Link to the API Reference Guide to the value member.") property of the [WorksheetCell](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html "Link to the API Reference Guide to the worksheetcell member.").
 
 The example code below shows you how to access a particular Excel Worksheet Cell that is populated by an Excel Formula.
 

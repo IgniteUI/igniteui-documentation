@@ -10,7 +10,7 @@
 
 # Publish a Report
 
-Publishing a report is synonymous with writing a PDF or XPS file. Once you've created and designed your report, you can publish it with the [Publish](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Publish.html "Link to the Web API Reference Guide to the Publish member.") method off the [Report](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html "Link to the Web API Reference Guide to the Report member.") object. There are two overloads for the Publish method:
+Publishing a report is synonymous with writing a PDF or XPS file. Once you've created and designed your report, you can publish it with the [Publish](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Publish.html "Link to the Web API Reference Guide to the Publish member.") method off the [Report](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html "Link to the Web API Reference Guide to the Report member.") object. There are two overloads for the Publish method:
 
 -   The first parameter of the first overload accepts a string for the full path of the file name you will publish the report to.
 -   The first parameter of the second overload accepts a file stream.

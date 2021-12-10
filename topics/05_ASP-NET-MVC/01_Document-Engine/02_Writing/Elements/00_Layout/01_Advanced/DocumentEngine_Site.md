@@ -17,7 +17,7 @@ The first overload of each layout element method accepts two floats, the distanc
 
 ![](images/Site.png)
 
-The following code adds a Site element to a Section element and then adds Text and Image elements to the Site element. The Text element is rotated 45 degrees and the Image element is rotated -45 degrees similar to the image above. This topic assumes that you already have a [Report](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html "Link to the Web API Reference Guide to the Report member.") defined along with a [Section](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html "Link to the Web API Reference Guide to the ISection interface.") element added.
+The following code adds a Site element to a Section element and then adds Text and Image elements to the Site element. The Text element is rotated 45 degrees and the Image element is rotated -45 degrees similar to the image above. This topic assumes that you already have a [Report](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html "Link to the Web API Reference Guide to the Report member.") defined along with a [Section](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html "Link to the Web API Reference Guide to the ISection interface.") element added.
 
 Use the following text to set the the `string1` variable:
 
