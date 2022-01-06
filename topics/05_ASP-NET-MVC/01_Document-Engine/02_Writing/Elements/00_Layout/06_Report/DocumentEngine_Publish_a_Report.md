@@ -10,7 +10,7 @@
 
 # レポートをパブリッシュ
 
-レポートのパブリッシュは、PDF または XPS ファイルを書き出すことと同義語です。レポートを作成およびデザインしたら、[Report](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Publish.html) オブジェクトから [Publish](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html) メソッドを使用して、パブリッシュすることができます。Publish メソッドには 2 つのオーバーロードがあります。
+レポートのパブリッシュは、PDF または XPS ファイルを書き出すことと同義語です。レポートを作成およびデザインしたら、[Report](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Publish.html) オブジェクトから [Publish](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html) メソッドを使用して、パブリッシュすることができます。Publish メソッドには 2 つのオーバーロードがあります。
 
 -   最初のオーバーロードの最初のパラメーターは、レポートを公開するファイル名のフル パスに対応する文字列を受け付けます。
 -   2 番目のオーバーロードの最初のパラメーターはファイル ストリームを認めます。

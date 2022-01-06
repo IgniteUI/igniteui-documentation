@@ -16,9 +16,9 @@ Band 要素は、繰り返し可能なヘッダー、フッター、デバイダ
 
 以下のコンテンツ レイアウト セクションは、Band 要素固有です。
 
-- **Header**: Header 要素は、新しいページで始まるコンテンツ領域の上部を修飾します。この機能を利用するためには、[`IBand`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Band.IBand.html) オブジェクトの [`Header`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Band.IBand~Header.html) プロパティを新しい [`IBandHeader`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Band.IBandHeader.html) オブジェクトに設定します。もちろん、ヘッダーが不要な場合には、このプロパティを設定する必要はありません。
-- **Divider**: [`Divider`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Band.IBand~Divider.html) 要素は、最後のページを除く全ページのフッターの前の、コンテンツ領域の下部に表示されます。これにより Divider 要素はセクションが次ページに続くことを識別するために最適な要素となっています。この機能を利用するためには、IBand オブジェクトの Divider プロパティを新しい [`IBandDivider`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Band.IBandDivider.html) オブジェクトに設定します。Header と同様に、Divider を使用したくない場合にはこのプロパティを設定する必要はありません。
-- **Footer**: Footer 要素はコンテンツ領域の下部を修飾します。Band がページの下部までいかないうちに終了すると、フッターはページではなく、バンドの終わりに表示します。ただし、バンドがページ全体を占めるようにしたい場合には（最後のページだけでなく各ページに適用）、Band オブジェクトの [`Stretch`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Band.IBand~Stretch.html) プロパティを True に設定してください。
+- **Header**: Header 要素は、新しいページで始まるコンテンツ領域の上部を修飾します。この機能を利用するためには、[`IBand`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Band.IBand.html) オブジェクトの [`Header`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Band.IBand~Header.html) プロパティを新しい [`IBandHeader`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Band.IBandHeader.html) オブジェクトに設定します。もちろん、ヘッダーが不要な場合には、このプロパティを設定する必要はありません。
+- **Divider**: [`Divider`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Band.IBand~Divider.html) 要素は、最後のページを除く全ページのフッターの前の、コンテンツ領域の下部に表示されます。これにより Divider 要素はセクションが次ページに続くことを識別するために最適な要素となっています。この機能を利用するためには、IBand オブジェクトの Divider プロパティを新しい [`IBandDivider`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Band.IBandDivider.html) オブジェクトに設定します。Header と同様に、Divider を使用したくない場合にはこのプロパティを設定する必要はありません。
+- **Footer**: Footer 要素はコンテンツ領域の下部を修飾します。Band がページの下部までいかないうちに終了すると、フッターはページではなく、バンドの終わりに表示します。ただし、バンドがページ全体を占めるようにしたい場合には（最後のページだけでなく各ページに適用）、Band オブジェクトの [`Stretch`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Band.IBand~Stretch.html) プロパティを True に設定してください。
 
 ![](images/Band.png)
 

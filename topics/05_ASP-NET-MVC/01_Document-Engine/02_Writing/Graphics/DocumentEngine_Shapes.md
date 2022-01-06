@@ -9,28 +9,28 @@
 -->
 
 # 図形
-Site 要素は、オブジェクトを回転するだけでなく、バインディングしている矩形の任意の場所にオブジェクトを配置できる魅力的な要素です。Site 要素が非常に役に立つ要素となっているもうひとつの特徴は [Shapes](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IShapes.html) ファクトリです。その名前が示すように、Shapes ファクトリによって膨大な種類の形状を作り出してそれらを Site 要素に追加することができます。
+Site 要素は、オブジェクトを回転するだけでなく、バインディングしている矩形の任意の場所にオブジェクトを配置できる魅力的な要素です。Site 要素が非常に役に立つ要素となっているもうひとつの特徴は [Shapes](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IShapes.html) ファクトリです。その名前が示すように、Shapes ファクトリによって膨大な種類の形状を作り出してそれらを Site 要素に追加することができます。
 
-その形状固有のメソッドを呼び出すことによって、Shapes オブジェクトのそれぞれの形状に簡単にアクセスできます (たとえば、矩形を追加するためには、[AddRetangle](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IShapes~AddRectangle.html) メソッドを呼び出します)。このメソッドは、新たに作成された形状への参照を返すので、その参照を新しい形状オブジェクトに設定することができます。
+その形状固有のメソッドを呼び出すことによって、Shapes オブジェクトのそれぞれの形状に簡単にアクセスできます (たとえば、矩形を追加するためには、[AddRetangle](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IShapes~AddRectangle.html) メソッドを呼び出します)。このメソッドは、新たに作成された形状への参照を返すので、その参照を新しい形状オブジェクトに設定することができます。
 
 以下は、Site 要素に追加できる形状のリストです。
 
 *   **Arc** -- 円弧に開始角度と終了角度を提供し、円弧が残りの作業を実行します。左上隅の x 座標と ｙ 座標だけでなく、境界矩形の高さと幅を指定することができます。
 *   **Ellipse** -- 楕円形は矩形とほとんど同じように作成されます。サイズと位置を決定するために ｘ 座標と y 座標だけでなく境界矩形の高さと幅を提供します。これで楕円形は矩形に基づいて作成され自動的に形成されます。
-*   **Label** -- サイトに配置するためにフォントの境界四角形の左上隅の x 座標と y 座標を指定できます。[Font](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.ILabel~Font.html) プロパティと [Text](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.ILabel~Text.html) プロパティが設定されると、矩形のサイズが自動的に決定されます。
+*   **Label** -- サイトに配置するためにフォントの境界四角形の左上隅の x 座標と y 座標を指定できます。[Font](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.ILabel~Font.html) プロパティと [Text](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.ILabel~Text.html) プロパティが設定されると、矩形のサイズが自動的に決定されます。
 *   **Line**-- 線には、線の開始点を決定するための X1 および Y1 座標と、終点を決定するための X2 および Y2 座標があります。線の外観を修正するためにブラシを指定することも可能です。
 *   **Path** -- パスには、完全にカスタムな形状を作成するために役立ついくつかのメソッドがあります。パスは特定の方向に紙の上でペンを移動させることであると考えることができます。
-     *   **Move To** -- [MoveTo](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPath~MoveTo.html) メソッドは、アクティブな点を指定した座標に移動します。このメソッドは実際には何も描画しません。ペンと紙に例えると、これは紙からペンを離して、ペンを新しい点に移動し、1 本の線を書くことなく紙にペンを戻すことになります。
-     *   **Line To** -- [LineTo](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPath~LineTo.html) メソッドは、開始座標から終了座標に線を描画します。
-     *   **Curve To** -- [CurveTo](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPath~CurveTo.html) メソッドは、開始座標から線を描画し、中間座標を使用して曲線を作成し、終了座標で終了します。
-     *   **Close Path** -- [ClosePath](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPath~ClosePath.html) メソッドでパスを手動で閉じることができます。
+     *   **Move To** -- [MoveTo](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPath~MoveTo.html) メソッドは、アクティブな点を指定した座標に移動します。このメソッドは実際には何も描画しません。ペンと紙に例えると、これは紙からペンを離して、ペンを新しい点に移動し、1 本の線を書くことなく紙にペンを戻すことになります。
+     *   **Line To** -- [LineTo](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPath~LineTo.html) メソッドは、開始座標から終了座標に線を描画します。
+     *   **Curve To** -- [CurveTo](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPath~CurveTo.html) メソッドは、開始座標から線を描画し、中間座標を使用して曲線を作成し、終了座標で終了します。
+     *   **Close Path** -- [ClosePath](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPath~ClosePath.html) メソッドでパスを手動で閉じることができます。
 
     呼び出す各メソッドは通常、現在呼び出されているメソッドの開始座標として、前のメソッドの終了座標を渡します。これは連続パスを作成し、最終的には形状を定義します。パスを塗りつぶすためにブラシを、パスを描画するためにペンを指定することもできます。
 
 *   **Pie** -- パイは開始角度と終了角度を提供する必要がある点で円弧に似ています。パイと円弧の違いは、円弧は曲線を作成するだけなのに対して、パイはパイ全体またはパイ スライスを作成します。
-*   **Polygon** -- [Polygon](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPolygon.html) 形状で必要な数の辺を使用して、多角形を作成することができます。ポリゴンを定義するために、[Points](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPolygon~Points.html) プロパティを [Point](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Point.html) オブジェクトの配列に設定します。ポリゴンは点を提供する順序で描画されます。したがって、アウトラインをトレースする場合と同じように点を提供する時には注意して、連続して描画してください。
+*   **Polygon** -- [Polygon](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPolygon.html) 形状で必要な数の辺を使用して、多角形を作成することができます。ポリゴンを定義するために、[Points](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IPolygon~Points.html) プロパティを [Point](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Point.html) オブジェクトの配列に設定します。ポリゴンは点を提供する順序で描画されます。したがって、アウトラインをトレースする場合と同じように点を提供する時には注意して、連続して描画してください。
 *   **Polyline** -- ポリラインは、辿る線の Point オブジェクトの配列も提供する点で多角形と非常に似ています。
-*   **Rectangle** -- サイズと位置を決定するために ｘ 座標と y 座標だけでなく境界矩形の高さと幅を提供します。矩形を塗りつぶすためにブラシを、アウトラインを描画するためにペンを指定することもできます。[Radius](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IRectangle~Radius.html) プロパティによって、矩形の角を丸めることができます。
+*   **Rectangle** -- サイズと位置を決定するために ｘ 座標と y 座標だけでなく境界矩形の高さと幅を提供します。矩形を塗りつぶすためにブラシを、アウトラインを描画するためにペンを指定することもできます。[Radius](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IRectangle~Radius.html) プロパティによって、矩形の角を丸めることができます。
 
 ![](images/DocumentEngine_Shapes_01.png)
 

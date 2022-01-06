@@ -16,7 +16,7 @@
 
 アプリケーションを配備するためには、以下のファイルを再配布する必要があります。
 
-    Infragistics.Web.Mvc.Documents.Excel.dll
+    Infragistics.Web.Documents.Excel.dll
 
 これは Infragistics Excel Engine™ コード ライブラリを含む .NET アセンブリ。
 

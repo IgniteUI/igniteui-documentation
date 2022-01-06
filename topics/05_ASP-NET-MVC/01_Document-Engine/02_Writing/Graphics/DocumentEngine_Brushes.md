@@ -10,11 +10,11 @@
 
 # ブラシ
 
-画家がブラシを使用してキャンバスに絵の具を塗るのと全く同じように、[`Brush`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Brush.html) クラスを使用して、レポートのコンテンツに色やグラデーションを追加することができます。Background、Borders、 Pen など色を付けるためにブラシを使用するクラスがいくつかあります。Brush クラスは、色でコンテンツを塗りつぶす時のさまざまなオプションを提供します。
+画家がブラシを使用してキャンバスに絵の具を塗るのと全く同じように、[`Brush`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Brush.html) クラスを使用して、レポートのコンテンツに色やグラデーションを追加することができます。Background、Borders、 Pen など色を付けるためにブラシを使用するクラスがいくつかあります。Brush クラスは、色でコンテンツを塗りつぶす時のさまざまなオプションを提供します。
 
 Brushes は Direct と Indirect の 2 タイプで提供されます。
 
-- ダイレクト ブラシは、[`Rectangle`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Rectangle.html) などの*定義された*領域で色のブレンドとストップで特定のグラデーションを適用します。ダイレクト ブラシには、ハッチ、テクスチャ、単色も含まれます。
+- ダイレクト ブラシは、[`Rectangle`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Rectangle.html) などの*定義された*領域で色のブレンドとストップで特定のグラデーションを適用します。ダイレクト ブラシには、ハッチ、テクスチャ、単色も含まれます。
 - インダイレクト ブラシは、レポートを作成する時に正確な寸法が分からないレポート コンテンツ用の背景としてより一般的に使用されます。
 
 Infragistics Document Engine™ がレポートを生成する時にすべてのブラシはダイレクト ブラシに最終的に変換されます。これは、いったんレポートが生成されると、すべてのコンテンツの幅と高さが決定され、ダイレクト ブラシをすべてに適用できるからです。
@@ -25,29 +25,29 @@ Infragistics Document Engine™ がレポートを生成する時にすべての
 
 ## インダイレクト ブラシ
 
-[IndirectBrush](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.IndirectBrush.html) クラスは、Brush クラスから派生しており、抽象的なクラスです。つまり、直接的にインスタンス化できません。インスタンス化できる IndirectBrush クラスから派生したクラスは 3 つあります。
+[IndirectBrush](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.IndirectBrush.html) クラスは、Brush クラスから派生しており、抽象的なクラスです。つまり、直接的にインスタンス化できません。インスタンス化できる IndirectBrush クラスから派生したクラスは 3 つあります。
 
--   [LinearGradientBrush](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.LinearGradientBrush.html) -- 親オブジェクトの一方の側からもう一方の側に線の形状で 2 色のグラデーションを作成するブラシ。このグラデーションは常に最初の色から 2 番目の色へのなめらかな 50% のトランジションです（これはインダイレクト ブラシであるため、線に沿ってトランジションを発生させようとする場所を指定できません）。グラデーションの角度を修正するオプションもあります。
--   [RadialGradientBrush](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.RadialGradientBrush.html) --2 色のグラデーションを作成するブラシ。最初の色は親オブジェクトの中央から開始し、2 番目の色に移行する間に完全な円形で外側に放射します。グラデーションの回転角を指定することも可能です。
--   [TextureBrush](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.TextureBrush.html) -- テクスチャ ブラシは、画像を描画サーフェイスに適用し、すべてのスペースが一杯になるまで画像を水平および垂直に繰り返します。ご使用の Windows® デスクトップはタイルの壁紙に同じ概念を使用しています。TextureBrush コンストラクターによって、水平および垂直のスケールとオフセットだけでなく、画像の角度を指定できます。
+-   [LinearGradientBrush](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.LinearGradientBrush.html) -- 親オブジェクトの一方の側からもう一方の側に線の形状で 2 色のグラデーションを作成するブラシ。このグラデーションは常に最初の色から 2 番目の色へのなめらかな 50% のトランジションです（これはインダイレクト ブラシであるため、線に沿ってトランジションを発生させようとする場所を指定できません）。グラデーションの角度を修正するオプションもあります。
+-   [RadialGradientBrush](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.RadialGradientBrush.html) --2 色のグラデーションを作成するブラシ。最初の色は親オブジェクトの中央から開始し、2 番目の色に移行する間に完全な円形で外側に放射します。グラデーションの回転角を指定することも可能です。
+-   [TextureBrush](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.TextureBrush.html) -- テクスチャ ブラシは、画像を描画サーフェイスに適用し、すべてのスペースが一杯になるまで画像を水平および垂直に繰り返します。ご使用の Windows® デスクトップはタイルの壁紙に同じ概念を使用しています。TextureBrush コンストラクターによって、水平および垂直のスケールとオフセットだけでなく、画像の角度を指定できます。
 
 ## ダイレクト ブラシ
 
-[`DirectBrush`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.DirectBrush.html) クラスは、IndirectBrush クラスと同じように、Brush クラスから派生しており、抽象的なクラスです。Rectangle やその他の [`Shape`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IShapes.html) などの含むオブジェクトの境界が分かっているときには Direct ブラシを使用します。DirectBrush クラスから派生するダイレクト ブラシのタイプは 5 つあります。
+[`DirectBrush`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.DirectBrush.html) クラスは、IndirectBrush クラスと同じように、Brush クラスから派生しており、抽象的なクラスです。Rectangle やその他の [`Shape`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Shapes.IShapes.html) などの含むオブジェクトの境界が分かっているときには Direct ブラシを使用します。DirectBrush クラスから派生するダイレクト ブラシのタイプは 5 つあります。
 
--   [HatchBrush](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.HatchBrush.html): ハッチ ブラシでハッチ デザインを作成します。HatchStyle 列挙体を使用することによってデザインを指定できます。前景色と背景色を指定することも可能です。
--   [LinearGradientDirectBrush](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.LinearGradientDirectBrush.html): ダイレクトのリニア グラデーション ブラシによって、[ColorBlend](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.ColorBlend.html) オブジェクトを使用して、2 色を超える色を使用したリニア グラデーションを作成することができます。変換マトリックスだけでなくバインディング Rectangle を指定することも必要です。色のブレンドについての詳細は、[「カラー」](DocumentEngine-Colors.html)を参照してください。
--   [RadialGradientDirectBrush](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.RadialGradientDirectBrush.html): LinearGradientDirectBrush クラスと同じですが、放射状グラデーションを作成します。x および y の半径の距離だけでなく、グラデーションの中心点を指定することも可能です。
--   [SolidColorBrush](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.SolidColorBrush.html): 単色ブラシは使用可能なブラシの中で最もシンプルな形式です。ブラシの色を Color オブジェクトに設定できます。
--   [TextureDirectBrush](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.TextureDirectBrush.html): テクスチャ ダイレクト ブラシは、テクスチャ インダイレクト ブラシと全く同じように、背景として画像を適用します。違いは、ダイレクト フォームは適用できる変換マトリックスを含む点です。
+-   [HatchBrush](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.HatchBrush.html): ハッチ ブラシでハッチ デザインを作成します。HatchStyle 列挙体を使用することによってデザインを指定できます。前景色と背景色を指定することも可能です。
+-   [LinearGradientDirectBrush](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.LinearGradientDirectBrush.html): ダイレクトのリニア グラデーション ブラシによって、[ColorBlend](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.ColorBlend.html) オブジェクトを使用して、2 色を超える色を使用したリニア グラデーションを作成することができます。変換マトリックスだけでなくバインディング Rectangle を指定することも必要です。色のブレンドについての詳細は、[「カラー」](DocumentEngine-Colors.html)を参照してください。
+-   [RadialGradientDirectBrush](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.RadialGradientDirectBrush.html): LinearGradientDirectBrush クラスと同じですが、放射状グラデーションを作成します。x および y の半径の距離だけでなく、グラデーションの中心点を指定することも可能です。
+-   [SolidColorBrush](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.SolidColorBrush.html): 単色ブラシは使用可能なブラシの中で最もシンプルな形式です。ブラシの色を Color オブジェクトに設定できます。
+-   [TextureDirectBrush](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.TextureDirectBrush.html): テクスチャ ダイレクト ブラシは、テクスチャ インダイレクト ブラシと全く同じように、背景として画像を適用します。違いは、ダイレクト フォームは適用できる変換マトリックスを含む点です。
 
 ## Brushes クラス
 
-[`Brushes`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Brushes.html) クラスは、SolidColorBrush から派生する事前に定義されたブラシのセットです。レポートのコンテンツが必要とするのがグレーの背景だけの場合には、ほとんどのレイアウト 要素の Background クラスの Brush プロパティを [`Brushes.Gray`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Brushes~Gray.html) プロパティに設定できます。
+[`Brushes`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Brushes.html) クラスは、SolidColorBrush から派生する事前に定義されたブラシのセットです。レポートのコンテンツが必要とするのがグレーの背景だけの場合には、ほとんどのレイアウト 要素の Background クラスの Brush プロパティを [`Brushes.Gray`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Brushes~Gray.html) プロパティに設定できます。
 
 ----------
 
-以下のコードは複数のインダイレクト ブラシを作成し、Text 要素の背景に適用します。3 番目の段落のテキスト スタイルを設定する時に Brushes クラスの使用にも注意してください。Brushes クラスの各ブラシはシールされており、色や [`BrushType`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.BrushType.html) を修正できないことに留意してください。
+以下のコードは複数のインダイレクト ブラシを作成し、Text 要素の背景に適用します。3 番目の段落のテキスト スタイルを設定する時に Brushes クラスの使用にも注意してください。Brushes クラスの各ブラシはシールされており、色や [`BrushType`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.BrushType.html) を修正できないことに留意してください。
 
 以下のテキストを使用して、`string1` 変数を設定します。
 

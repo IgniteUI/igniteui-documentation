@@ -10,7 +10,7 @@
 
 # Excel ファイルから数式の値を取得
 
-Formula で表現された Excel の Cell の評価した値を取得するには、単純に [WorksheetCell](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html) の [`Value`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell~Value.html) プロパティにアクセスします。
+Formula で表現された Excel の Cell の評価した値を取得するには、単純に [WorksheetCell](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html) の [`Value`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell~Value.html) プロパティにアクセスします。
 
 以下のコード例は、Excel 数式によって移植される特定の Excel ワークシート セルのアクセス方法を示します。
 

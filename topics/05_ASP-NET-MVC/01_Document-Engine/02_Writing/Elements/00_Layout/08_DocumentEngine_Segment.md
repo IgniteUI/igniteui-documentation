@@ -12,7 +12,7 @@
 
 
 
-Segment 要素は、この要素が作成できるコンテンツのいくつかの完全なセグメント (またはページ) に由来して適切に命名されています。Section 要素と同じように、Segment 要素は個々のページごとに異なるヘッダー/フッターを持つことができます (ページ数がヘッダー/フッターの数を超えない場合に限ります。詳細は以下の「セグメント ヘッダーおよびフッター」のセクションを参照してください)。しかし、Section 要素と異なり、Segment のサイズを設定できません。Segment は含んでいる Section 要素のサイズに依存しています。Segment 要素と Section 要素は両方とも個々のページ上でコンテンツを引き伸ばすための [AddStretcher](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Segment.ISegment~AddStretcher.html) メソッドがあります。ただし、Segment 要素には、全ページですべてのコンテンツを引き伸ばすための [Stretch](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Segment.ISegment~Stretch.html) プロパティもあります。
+Segment 要素は、この要素が作成できるコンテンツのいくつかの完全なセグメント (またはページ) に由来して適切に命名されています。Section 要素と同じように、Segment 要素は個々のページごとに異なるヘッダー/フッターを持つことができます (ページ数がヘッダー/フッターの数を超えない場合に限ります。詳細は以下の「セグメント ヘッダーおよびフッター」のセクションを参照してください)。しかし、Section 要素と異なり、Segment のサイズを設定できません。Segment は含んでいる Section 要素のサイズに依存しています。Segment 要素と Section 要素は両方とも個々のページ上でコンテンツを引き伸ばすための [AddStretcher](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Segment.ISegment~AddStretcher.html) メソッドがあります。ただし、Segment 要素には、全ページですべてのコンテンツを引き伸ばすための [Stretch](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Segment.ISegment~Stretch.html) プロパティもあります。
 
 Segment 要素は Section、Band、Group の各要素に機能が非常に似ています。これらの 4 つの要素間の主な違いは、以下の表を参照してください。
 

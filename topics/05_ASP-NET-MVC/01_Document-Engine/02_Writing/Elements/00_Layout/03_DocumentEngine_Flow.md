@@ -15,10 +15,10 @@ Flow 要素はレポートで列を定義するために非常に役に立ちま
 ![](images/Flow.png)
 
 ## IFlowColumn インターフェイス
-[IFlowColumn](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Flow.IFlowColumn.html) インターフェイスはフローで列を定義します。希望する数だけ列を追加することができます。列は、作成される順序で追加されます。各列はそれ自体個別のセクションを表すものではありません。Flow 要素のコンテンツがセクションでどのようにフローするのかを表すだけです。したがって、個別のコンテンツを個々の列に追加できません。ただし、[AddColumnBreak](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Flow.IFlow~AddColumnBreak.html) メソッドを使用してどの列にどのコンテンツを表示するのかをある程度制御できます。
+[IFlowColumn](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Flow.IFlowColumn.html) インターフェイスはフローで列を定義します。希望する数だけ列を追加することができます。列は、作成される順序で追加されます。各列はそれ自体個別のセクションを表すものではありません。Flow 要素のコンテンツがセクションでどのようにフローするのかを表すだけです。したがって、個別のコンテンツを個々の列に追加できません。ただし、[AddColumnBreak](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Flow.IFlow~AddColumnBreak.html) メソッドを使用してどの列にどのコンテンツを表示するのかをある程度制御できます。
 
 ## AddColumnBreak メソッド
-[IFlow](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Flow.IFlow.html) オブジェクトでこのメソッドを呼び出すと、フロー内の特定の位置に列の区切りを挿入します。このメソッドを使用すると、フローに追加したさまざまなコンテンツのタイプを分割できます。テキスト、次に列の区切り、次に画像、別の列の区切り、そしてさらにテキストを追加できます。このパターンによって、画像がテキストのない中央の列に常に配置されることが保証されます。
+[IFlow](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Flow.IFlow.html) オブジェクトでこのメソッドを呼び出すと、フロー内の特定の位置に列の区切りを挿入します。このメソッドを使用すると、フローに追加したさまざまなコンテンツのタイプを分割できます。テキスト、次に列の区切り、次に画像、別の列の区切り、そしてさらにテキストを追加できます。このパターンによって、画像がテキストのない中央の列に常に配置されることが保証されます。
 
 
 ## Flow 要素の作成

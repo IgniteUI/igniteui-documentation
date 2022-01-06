@@ -10,12 +10,12 @@
 
 # 書式設定を Word 文書に適用
 
-このトピックは、Infragistics® Word ライブラリを使用して Word 文書を書式設定する方法を示します。以下のコードは、forward-only の [WordDocumentWriter](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter.html) オブジェクトを使用します。このトピックで検討されるさまざまな書式設定機能は、サイズ、方向などのフォント、段落書式およびページ属性です。
+このトピックは、Infragistics® Word ライブラリを使用して Word 文書を書式設定する方法を示します。以下のコードは、forward-only の [WordDocumentWriter](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.WordDocumentWriter.html) オブジェクトを使用します。このトピックで検討されるさまざまな書式設定機能は、サイズ、方向などのフォント、段落書式およびページ属性です。
 
-**注:** Infragistics.Web.Mvc.Documents.IO アセンブリへの参照が必要とされます。
+**注:** Infragistics.Web.Documents.IO アセンブリへの参照が必要とされます。
 
 ## フォントの指定
-[Font](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.Font.html) クラスは、文字のビジュアル属性または文字の範囲をカスタマイズする方法を提供します。
+[Font](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.Font.html) クラスは、文字のビジュアル属性または文字の範囲をカスタマイズする方法を提供します。
 
 **C# の場合:**
 
@@ -32,7 +32,7 @@ font.Effects.Capitalization = Capitalization.CapsOn;
 ```
 
 ## 段落プロパティ
-[ParagraphProperties](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.ParagraphProperties.html) クラスは段落の書式設定を制御する方法を提供します。
+[ParagraphProperties](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.ParagraphProperties.html) クラスは段落の書式設定を制御する方法を提供します。
 
 **C# の場合:**
 
@@ -48,7 +48,7 @@ paraformat.Alignment = ParagraphAlignment.Right;
 ```
 
 ## セクション プロパティ
-[SectionProperties](Infragistics.Web.Mvc.Documents.IO~Infragistics.Documents.Word.SectionProperties.html) クラスは、サイズ、余白、方向などのページ属性を制御する方法を提供します。SectionProperties インスタンスを渡す DefineSection メソッドは、EndParagraph メソッドの後で呼び出さなければなりません。
+[SectionProperties](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.SectionProperties.html) クラスは、サイズ、余白、方向などのページ属性を制御する方法を提供します。SectionProperties インスタンスを渡す DefineSection メソッドは、EndParagraph メソッドの後で呼び出さなければなりません。
 
 **C# の場合:**
 

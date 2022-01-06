@@ -10,7 +10,7 @@
 
 # 参照文字列による Cells および Regions のアクセス
 
-このトピックによって、Excel® ワークブックのワークシート内でセルと範囲にアクセスする方法をよく知ることができます。Worksheet クラスの [`GetCell`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Worksheet~GetCell.html) メソッドと [`GetRegion`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Worksheet~GetRegion.html) メソッドはセル参照文字列をパラメーターとして受け取ります。
+このトピックによって、Excel® ワークブックのワークシート内でセルと範囲にアクセスする方法をよく知ることができます。Worksheet クラスの [`GetCell`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet~GetCell.html) メソッドと [`GetRegion`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet~GetRegion.html) メソッドはセル参照文字列をパラメーターとして受け取ります。
 
 以下の例のコードで、Worksheet セルは GetCell メソッドによってアクセスされ、Excel 数式が適用されます。同様に Excel 数式がワークシート内のセルの範囲に適用されます。
 

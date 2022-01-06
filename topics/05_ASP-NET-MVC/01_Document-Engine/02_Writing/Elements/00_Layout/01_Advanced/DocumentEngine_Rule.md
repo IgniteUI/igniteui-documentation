@@ -17,7 +17,7 @@ Rule 要素の幅は線が水平にどこまで引かれるかを定義するも
 ![](images/Rule.png)
 
 
-以下のコードを使用して、上記の画像のようなページをセクションに作成します。以下のコードは、[Report](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html) 要素が定義済みであり、少なくともひとつの [ISection](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html) 要素が追加されて section1 と名前を指定されていることを前提とします。
+以下のコードを使用して、上記の画像のようなページをセクションに作成します。以下のコードは、[Report](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html) 要素が定義済みであり、少なくともひとつの [ISection](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html) 要素が追加されて section1 と名前を指定されていることを前提とします。
 
 **C# の場合:**
 

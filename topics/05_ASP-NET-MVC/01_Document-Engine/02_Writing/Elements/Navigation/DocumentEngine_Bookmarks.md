@@ -10,10 +10,10 @@
 
 # ブックマーク
 
-Bookmarks は、Adobe® Acrobat® Reader の機能で、印刷したメディアでは何の意味もありません。ところが Acrobat Reader でレポートを表示する時にレポートの閲覧者には非常に便利です。Report 要素はブックマークの生成支援のために [`TextHeading`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.TextHeading.html) 列挙体を使用します。Text 要素は [`Heading`](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Text.IText~Heading.html) プロパティを公開し、これによって TextHeading 列挙体に基づいて見出しを選択することができます。これらの見出しは、階層として Report 要素によって認識されます。Report 要素は、Heading プロパティを設定したレポート内のすべての Text 要素を収集し、それらに基づいてブックマークのリストを作成します。H1 見出しは最上位のブックマークで、H2 見出しは対応する H1 見出しに含まれます。このロジックは H9 まで見出しの階層全体に適用されます。このロジックは非常に似ているので、詳細は[「目次」](DocumentEngine-Table-of-Contents.html)を参照してください。
+Bookmarks は、Adobe® Acrobat® Reader の機能で、印刷したメディアでは何の意味もありません。ところが Acrobat Reader でレポートを表示する時にレポートの閲覧者には非常に便利です。Report 要素はブックマークの生成支援のために [`TextHeading`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.TextHeading.html) 列挙体を使用します。Text 要素は [`Heading`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Text.IText~Heading.html) プロパティを公開し、これによって TextHeading 列挙体に基づいて見出しを選択することができます。これらの見出しは、階層として Report 要素によって認識されます。Report 要素は、Heading プロパティを設定したレポート内のすべての Text 要素を収集し、それらに基づいてブックマークのリストを作成します。H1 見出しは最上位のブックマークで、H2 見出しは対応する H1 見出しに含まれます。このロジックは H9 まで見出しの階層全体に適用されます。このロジックは非常に似ているので、詳細は[「目次」](DocumentEngine-Table-of-Contents.html)を参照してください。
 
-- [TextHeading](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.TextHeading.html): Web API リファレンス ガイドの TextHeading メンバーへのリンク。
-- [Heading](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Report.Text.IText~Heading.html): Web API リファレンス ガイドの Heading メンバーへのリンク。
+- [TextHeading](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.TextHeading.html): Web API リファレンス ガイドの TextHeading メンバーへのリンク。
+- [Heading](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Text.IText~Heading.html): Web API リファレンス ガイドの Heading メンバーへのリンク。
 - [目次](DocumentEngine-Table-of-Contents.html): ドキュメント エンジンで使用可能な目次ナビゲーション ヘルパーについて説明します。
 
 

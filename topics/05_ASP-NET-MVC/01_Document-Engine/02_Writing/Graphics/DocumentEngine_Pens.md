@@ -19,7 +19,7 @@ Pens は線の特徴を定義するために使用されます。Borders、Shape
 -   ライン ジョイン
 -   マイター リミット
 
-事前に定義したペンのコレクションである、[Pens](Infragistics.Web.Mvc.Documents.Reports~Infragistics.Documents.Reports.Graphics.Pens.html) クラスを使用して、デフォルトのスタイル属性を持つ色の付いたペンを素早く線に追加することも可能です。Pens クラスの各ペンは 1 ピクセル幅の単色のペンです。![](images/DocumentEngine_Pens_01.png)
+事前に定義したペンのコレクションである、[Pens](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Pens.html) クラスを使用して、デフォルトのスタイル属性を持つ色の付いたペンを素早く線に追加することも可能です。Pens クラスの各ペンは 1 ピクセル幅の単色のペンです。![](images/DocumentEngine_Pens_01.png)
 
 
 以下のコードを使用して、2 つの Pen オブジェクトを定義し、Text 要素の境界線を描画するために使用します。3 番目の Text 要素は事前に定義したペンを使用して境界線を描画します。

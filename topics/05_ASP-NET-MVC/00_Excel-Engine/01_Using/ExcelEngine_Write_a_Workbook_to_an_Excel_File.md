@@ -10,7 +10,7 @@
 
 # ワークブックを Excel ファイルに書き出す
 
-すべてのオプションとセル値を設定した後で、ワークブックでしなければならない最後の作業は、ファイルに書き出すことです。こうすることにより、Microsoft® Excel® で開くことができます。これは、[`Workbook`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook~Save.html) オブジェクトの [`Save`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook.html) メソッドを使用して簡単に実行できます。ワークブックをストリームに書き出したり、ワークブック自体で xls ファイルを自動作成するようにすることができます。
+すべてのオプションとセル値を設定した後で、ワークブックでしなければならない最後の作業は、ファイルに書き出すことです。こうすることにより、Microsoft® Excel® で開くことができます。これは、[`Workbook`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~Save.html) オブジェクトの [`Save`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook.html) メソッドを使用して簡単に実行できます。ワークブックをストリームに書き出したり、ワークブック自体で xls ファイルを自動作成するようにすることができます。
 
 > **注:** ワークブックを保存する前に、ワークブックには少なくともひとつの表示できるワークシートを含んでいる必要があります。含んでいない場合には、Save メソッドが呼び出されて例外がスローされます。
 

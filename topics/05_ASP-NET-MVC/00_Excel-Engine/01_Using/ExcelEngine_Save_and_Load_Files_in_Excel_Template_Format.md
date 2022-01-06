@@ -12,9 +12,9 @@
 
 Infragistics Excel ライブラリは、テンプレート ファイルを定義できる 3 つのファイル形式があります。テンプレートの形式には、Excel テンプレート フォーマット（拡張子は XLTX）、Excel マクロに対応したテンプレート フォーマット（拡張子は XLTM）、および Excel 97-2003 テンプレート フォーマット（拡張子は XLT）があり、これらの形式で保存および読み込みが可能です。
 
-[`WorkbookFormat`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.WorkbookFormat.html) 列挙体は、XLTX、XLTM、および XLT に対応する値 Excel2007Template、Excel2007MacroEnabledTemplate、および Excel97To2003Template を含みます。[`CurrentFormat`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook~CurrentFormat.html) プロパティは、ファイルの現在の形式を取得するために使用できます。拡張子が不明なファイルを読み込む場合、ファイル コンテンツは適切な形式を動的に決定するために解析されます。
+[`WorkbookFormat`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorkbookFormat.html) 列挙体は、XLTX、XLTM、および XLT に対応する値 Excel2007Template、Excel2007MacroEnabledTemplate、および Excel97To2003Template を含みます。[`CurrentFormat`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~CurrentFormat.html) プロパティは、ファイルの現在の形式を取得するために使用できます。拡張子が不明なファイルを読み込む場合、ファイル コンテンツは適切な形式を動的に決定するために解析されます。
 
-以下のコードは、Excel ファイルを [`Save`](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook~Save.html) メソッドを使用して Excel2007Template 形式で保存します。
+以下のコードは、Excel ファイルを [`Save`](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~Save.html) メソッドを使用して Excel2007Template 形式で保存します。
 
 **Visual Basic の場合:**
 
@@ -42,7 +42,7 @@ worksheet1.Rows[1].Cells[1].CellFormat.FillPatternBackgroundColor = Color.Red;
 newWorkBook.Save("C:ExcelBookTemplate.xltx");
 ```
 
-以下のコードは、[SetCurrentFormat](Infragistics.Web.Mvc.Documents.Excel~Infragistics.Documents.Excel.Workbook~SetCurrentFormat.html) メソッドを使用して既存の Excel ファイルの形式を変更します。
+以下のコードは、[SetCurrentFormat](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~SetCurrentFormat.html) メソッドを使用して既存の Excel ファイルの形式を変更します。
 
 **Visual Basic の場合:**
 
