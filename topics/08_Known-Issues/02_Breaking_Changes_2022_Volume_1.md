@@ -9,3 +9,5 @@
 -->
 
 # Breaking Changes 2022 Volume 1
+
+There are no known breaking changes in this release.
