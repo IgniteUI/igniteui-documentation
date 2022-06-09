@@ -44,7 +44,7 @@
 
 ## データ ツールチップのグループ化と配置
 
-`dataToolTipGroupingMode` プロパティを `Grouped` または `Individual` に設定して、複数のシリーズのコンテンツを 1 つのツールチップにグループ化するか、各シリーズのコンテンツを複数のツールチップに分割することができます。`Grouped`  モードでは、`dataToolTipGroupedPositionModeX` プロパティと `dataToolTipGroupedPositionModeY` プロパティを設定することにより、ツールチップが表示される場所をカスタマイズできます。これにより、ツールチップの水平方向と垂直方向の配置を、マウス位置に最も近いシリーズ ポイントに追従させるか、プロット領域の端に固定するかをカスタマイズできます。
+`dataToolTipGroupingMode` プロパティを `Grouped` または `Individual` に設定して、複数のシリーズのコンテンツを 1 つのツールチップにグループ化するか、各シリーズのコンテンツを複数のツールチップに分割することができます。`Grouped` モードでは、`dataToolTipGroupedPositionModeX` プロパティと `dataToolTipGroupedPositionModeY` プロパティを設定することにより、ツールチップが表示される場所をカスタマイズできます。これにより、ツールチップの水平方向と垂直方向の配置を、マウス位置に最も近いシリーズ ポイントに追従させるか、プロット領域の端に固定するかをカスタマイズできます。
 
 以下のコード スニペットは、スクロールすると `igCategoryChart` の左上にピン固定されるデータ ツールチップを示しています。
 

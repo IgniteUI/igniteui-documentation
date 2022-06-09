@@ -1,6 +1,6 @@
-# チャート データのツールチップ
+# チャートのデータ ツールチップ
 
-{ProductName} では、 `igFinancialChart` のデータ ツールチップは、シリーズの値とタイトル、およびシリーズの凡例バッジをツールチップに表示します。さらに、シリーズの行と値の列をフィルタリングし、値をスタイル設定し、書式を設定するための `igDataLegend` の多くの構成プロパティを提供します。このツールチップ タイプは、`igFinancialChart` のプロット領域内でマウスを動かすと更新されます。
+{ProductName} では、`igFinancialChart` のデータ ツールチップは、シリーズの値とタイトル、およびシリーズの凡例バッジをツールチップに表示します。さらに、シリーズの行と値の列をフィルタリングし、値をスタイル設定し、書式を設定するための `igDataLegend` の多くの構成プロパティを提供します。このツールチップ タイプは、`igFinancialChart` のプロット領域内でマウスを動かすと更新されます。
 
 ## データ ツールチップの要素
 
@@ -36,7 +36,7 @@
 
 ## データ ツールチップのスタイル設定
 
-`igFinancialChart` は、データ ツールチップの各タイプの列をスタイル設定するためのプロパティを提供します。これらの各プロパティ名は、Title、Label、Value、Units で始まり、テキストの色、フォント、およびマージンのスタイルを設定できます。たとえば、これらのそれぞれのテキストの色を設定する場合は、 `dataToolTipTitleTextColor`、`dataToolTipLabelTextColor`、`dataToolTipValueTextColor`、および `dataToolTipUnitsTextColor` プロパティを設定します。
+`igFinancialChart` は、データ ツールチップの各タイプの列をスタイル設定するためのプロパティを提供します。これらの各プロパティ名は、Title、Label、Value、Units で始まり、テキストの色、フォント、およびマージンのスタイルを設定できます。たとえば、これらのそれぞれのテキストの色を設定する場合は、`dataToolTipTitleTextColor`、`dataToolTipLabelTextColor`、`dataToolTipValueTextColor`、および `dataToolTipUnitsTextColor` プロパティを設定します。
 
 以下のコード スニペットは、上記のスタイル設定プロパティを設定する方法を示しています。
 
@@ -44,7 +44,7 @@
 
 ## データ ツールチップのグループ化と配置
 
-`dataToolTipGroupingMode` プロパティを `Grouped` または `Individual` に設定して、複数のシリーズのコンテンツを 1 つのツールチップにグループ化するか、各シリーズのコンテンツを複数のツールチップに分割することができます。`Grouped`  モードでは、`dataToolTipGroupedPositionModeX` プロパティと `dataToolTipGroupedPositionModeY` プロパティを設定することにより、ツールチップが表示される場所をカスタマイズできます。これにより、ツールチップの水平方向と垂直方向の配置を、マウス位置に最も近いシリーズ ポイントに追従させるか、プロット領域の端に固定するかをカスタマイズできます。
+`dataToolTipGroupingMode` プロパティを `Grouped` または `Individual` に設定して、複数のシリーズのコンテンツを 1 つのツールチップにグループ化するか、各シリーズのコンテンツを複数のツールチップに分割することができます。`Grouped` モードでは、`dataToolTipGroupedPositionModeX` プロパティと `dataToolTipGroupedPositionModeY` プロパティを設定することにより、ツールチップが表示される場所をカスタマイズできます。これにより、ツールチップの水平方向と垂直方向の配置を、マウス位置に最も近いシリーズ ポイントに追従させるか、プロット領域の端に固定するかをカスタマイズできます。
 
 以下のコード スニペットは、スクロールすると `igFinancialChart` の左上にピン固定されるデータ ツールチップを示しています。
 
@@ -60,7 +60,7 @@
 
 ## データ ツールチップの値モード
 
-チャートの `dataToolTipValueFormatMode` プロパティを変更することにより、データ ツールチップ内の値のデフォルトの 10 進表示を通貨表示に変更できます。`igFinancialChart`  は、`dataToolTipValueFormatCulture` プロパティを使用し、対応するカルチャ タグに設定することにより、ツールチップに表示されている通貨記号のカルチャを変更する機能も公開します。
+チャートの `dataToolTipValueFormatMode` プロパティを変更することにより、データ ツールチップ内の値のデフォルトの 10 進表示を通貨表示に変更できます。`igFinancialChart` は、`dataToolTipValueFormatCulture` プロパティを使用し、対応するカルチャ タグに設定することにより、ツールチップに表示されている通貨記号のカルチャを変更する機能も公開します。
 
 たとえば、以下のコード スニペットは、`dataToolTipValueFormatCulture` が "en-GB" に設定され、`dataToolTipValueFormatMode` が "Currency" に設定されたチャートを作成します。
 

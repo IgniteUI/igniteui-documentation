@@ -40,7 +40,7 @@
 
 ## データ凡例値の書式設定
 
-`igDataLegend`  は、`valueFormatAbbreviation` プロパティを使用して、大きな数値の自動省略形を提供します。これにより、単位の列に kilo、million、billion などの乗数が追加されます。
+`igDataLegend` は、`valueFormatAbbreviation` プロパティを使用して、大きな数値の自動省略形を提供します。これにより、単位の列に kilo、million、billion などの乗数が追加されます。
 
 `valueFormatMinFractions` および `valueFormatMaxFractions` を設定することにより、表示される小数桁数をカスタマイズできます。これにより、小数点以下に表示される最小桁数と最大桁数をそれぞれ決定できます。
 
@@ -52,7 +52,7 @@
 
 コントロールの `valueFormatMode` プロパティを変更することにより、`igDataLegend` 内の値のデフォルトの 10 進表示を通貨に変更することができます。`igDataLegend` は、その `valueFormatCulture` プロパティに対応するカルチャ タグを設定することにより、表示されている通貨記号のカルチャを変更する機能も公開します。
 
-たとえば、以下のコード スニペットは、`valueFormatCulture` が "en-GB" に設定され、`valueFormatMode`  が "Currency" に設定された  `igDataLegend` を作成します。
+たとえば、以下のコード スニペットは、`valueFormatCulture` が "en-GB" に設定され、`valueFormatMode` が "Currency" に設定された  `igDataLegend` を作成します。
 
 <!-- CODE SNIPPET -->
 

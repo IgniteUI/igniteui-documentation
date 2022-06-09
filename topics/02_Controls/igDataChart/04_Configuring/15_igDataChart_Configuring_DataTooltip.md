@@ -69,7 +69,7 @@
 
 ## データ ツールチップのグループ化と配置
 
-`groupingMode` プロパティを `Grouped` または `Individual` に設定して、複数のシリーズのコンテンツを 1 つのツールチップにグループ化するか、各シリーズのコンテンツを複数のツールチップに分割することができます。`Grouped`  モードでは、`groupedPositionModeX` プロパティと `groupedPositionModeY` プロパティを設定することにより、ツールチップが表示される場所をカスタマイズできます。これにより、ツールチップの水平方向と垂直方向の配置を、マウス位置に最も近いシリーズ ポイントに追従させるか、プロット領域の端に固定するかをカスタマイズできます。
+`groupingMode` プロパティを `Grouped` または `Individual` に設定して、複数のシリーズのコンテンツを 1 つのツールチップにグループ化するか、各シリーズのコンテンツを複数のツールチップに分割することができます。`Grouped` モードでは、`groupedPositionModeX` プロパティと `groupedPositionModeY` プロパティを設定することにより、ツールチップが表示される場所をカスタマイズできます。これにより、ツールチップの水平方向と垂直方向の配置を、マウス位置に最も近いシリーズ ポイントに追従させるか、プロット領域の端に固定するかをカスタマイズできます。
 
 以下のコード スニペットは、スクロールするとチャートの左上にピン固定される `DataToolTipLayer` を示しています。
 
@@ -87,6 +87,6 @@
 
 レイヤーの `valueFormatMode` プロパティを変更することにより、`DataToolTipLayer` 内の値のデフォルトの 10 進表示を通貨表示に変更できます。`DataToolTipLayer` は、その `valueFormatCulture` プロパティに対応するカルチャ タグを設定することにより、表示されている通貨記号のカルチャを変更する機能も公開します。
 
-たとえば、以下のコード スニペットは、`valueFormatCulture` が "en-GB" に設定され、`valueFormatMode`  が "Currency" に設定された `DataToolTipLayer`  を作成します。
+たとえば、以下のコード スニペットは、`valueFormatCulture` が "en-GB" に設定され、`valueFormatMode` が "Currency" に設定された `DataToolTipLayer` を作成します。
 
 <!-- CODE SNIPPET -->
