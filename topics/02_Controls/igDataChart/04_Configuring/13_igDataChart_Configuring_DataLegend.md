@@ -1,4 +1,4 @@
-# Data Legend
+# Chart Data Legend
 
 The `igDataLegend` is a component that works much like the `Legend`, but it shows values of series and provides many configuration properties for filtering series rows and values columns, styling and formatting values. This legend updates when moving the mouse inside of the plot area of the `igDataChart` and has a persistent state that remembers the last hovered point when the user's mouse pointer exits the plot area. It displays this content using a set of three type of rows and four types of columns.
 
@@ -37,25 +37,25 @@ The value column displays series values as abbreviated text which can be formatt
 
 The units column displays an abbreviation symbol and/or unit text, which can be set either on the `igDataLegend` by setting the `unitText` for all columns or using the the following properties on each series in the chart:
 
-* Category Series (e.g. ColumnSeries)
-    ** ValueMemberAsLegendUnit="K"
+- Category Series (e.g. ColumnSeries)
+    - ValueMemberAsLegendUnit="K"
 
-* Financial Price Series:
-    ** OpenMemberAsLegendUnit="K"
-    ** LowMemberAsLegendUnit="K"
-    ** HighMemberAsLegendUnit="K"
-    ** CloseMemberAsLegendUnit="K"
+- Financial Price Series:
+    - OpenMemberAsLegendUnit="K"
+    - LowMemberAsLegendUnit="K"
+    - HighMemberAsLegendUnit="K"
+    - CloseMemberAsLegendUnit="K"
     
 * Range Series:
-    ** LowMemberAsLegendUnit="K"
-    ** HighMemberAsLegendUnit="K"
+    - LowMemberAsLegendUnit="K"
+    - HighMemberAsLegendUnit="K"
         
 * Radial Series:
-    ** ValueMemberAsLegendUnit="K"    
+    - ValueMemberAsLegendUnit="K"    
 
 * Polar Series:
-    ** RadiusMemberAsLegendUnit="K"
-    ** AngleMemberAsLegendUnit="K"
+    - RadiusMemberAsLegendUnit="K"
+    - AngleMemberAsLegendUnit="K"
 
 For each of the above-listed properties, there is a corresponding `MemberAsLegendLabel` property as well to determine the text in the label columns mentioned previously.
 
