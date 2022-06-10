@@ -22,15 +22,45 @@ Finally, there is a summary row that displays the total of all series values. Th
 
 The following code snippet demonstrates setting the properties mentioned above to have a `DataToolTipLayer` with a `Total` summary type with a custom title for the summary and a custom header:
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#chartContainer").igDataChart({
+    dataSource: data,
+    axes: [{
+        type: "categoryX",
+        name: "xAxis",
+        label: "Label",
+    }, {
+        type: "numericY",
+        name: "yAxis",
+    }],
+    series: [{
+        type: "column",
+        name: "series",        
+        xAxis: "xAxis",
+        yAxis: "yAxis",
+        valueMemberPath: "Value"        
+    },
+    {
+        name: "dataTooltipLayer",
+        type: "dataToolTipLayer",
+        headerText: "My Custom Data Tooltip Header",
+        summaryType: "total",
+        summaryTitleText: "Grand Total:"        
+    }]
+});
+```
 
 ### Data Tooltip Columns
 
-The columns of the `DataToolTipLayer` from left to right include the title column, value column, and units column.
+The columns of the data tooltip include the title, label, value, and units columns. Each series in the chart can have multiple columns for label, value, and units depending on the `includedColumns` or `excludedColumns` collections of the tooltip layer.
 
 The title column displays legend badges and series titles, which come from the `title` property of the different `series` plotted in the chart.
 
-The value column displays series values as abbreviated text which can be formatted using the `valueFormatAbbreviation` property to apply the same abbreviation for all numbers by setting this property to `Auto` or `Shared`. Alternatively, a user can select other abbreviations such as `Independent`, `Kilo`, `Million`, etc. Procession of abbreviated values is controlled using the `valueFormatMinFractions` and `valueFormatMaxFractions` for minimum and maximum digits, respectively.
+The label column displays the name or abbreviation of the different property paths in the `includedColumns` or `excludedColumns` collections of the tooltip layer.
+
+The value column displays series values as abbreviated text which can be formatted using the `valueFormatAbbreviation` property to apply the same abbreviation for all numbers by setting this property to `Auto` or `Shared`. Alternatively, a user can select other abbreviations such as `Independent`, `Kilo`, `Million`, etc. Precision of abbreviated values is controlled using the `valueFormatMinFractions` and `valueFormatMaxFractions` for minimum and maximum digits, respectively.
 
 The units column displays an abbreviation symbol and/or unit text, which can be set either on the `DataToolTipLayer` by setting the `unitText` for all columns or using the following properties on each series in the chart:
 
@@ -48,16 +78,47 @@ The units column displays an abbreviation symbol and/or unit text, which can be 
     ** HighMemberAsLegendUnit="K"
         
 * Radial Series:
-    ** ValueMemberAsLegendUnit="km"
-    ** AngleMemberAsLegendUnit="degrees" 
+    ** ValueMemberAsLegendUnit="km"    
 
 * Polar Series:
     ** RadiusMemberAsLegendUnit="km"
     ** AngleMemberAsLegendUnit="degrees"
+
+For each of the above-listed properties, there is a corresponding `MemberAsLegendLabel` property as well to determine the text in the label columns mentioned previously.
+
+The columns included in the `includedColumns` or `excludedColumns` generally correspond to the value paths of your underlying data items, but the financial series has the option to include some special ones in addition to the High, Low, Open, and Close paths that are required for the financial series to plot correctly. You have the ability to show `typicalPrice`, `change`, and `volume` options within the legend.
     
-The following code snippet demonstrates a pair of `ColumnSeries` with the `valueMemberAsLegendUnit` properties set and the minimum/maximum fractions set on the `DataToolTipLayer`:
+The following code snippet demonstrates a `ColumnSeries` with the `valueMemberAsLegendUnit` properties set and the minimum/maximum fractions set on the `DataToolTipLayer`:
     
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#chartContainer").igDataChart({
+    dataSource: data,
+    axes: [{
+        type: "categoryX",
+        name: "xAxis",
+        label: "Label",
+    }, {
+        type: "numericY",
+        name: "yAxis",
+    }],
+    series: [{
+        type: "column",
+        name: "series",        
+        xAxis: "xAxis",
+        yAxis: "yAxis",
+        valueMemberPath: "Value",
+        valueMemberAsLegendUnit="K"     
+    },
+    {
+        name: "dataTooltipLayer",
+        type: "dataToolTipLayer",
+        valueFormatMinFractions: 2,
+        valueFormatMaxFractions: 4
+    }]
+});
+```
 
 ## Data Tooltip Styling
 
@@ -65,7 +126,37 @@ The `DataToolTipLayer` provides properties for styling each type of column. Each
 
 The following code snippet demonstrates how to set the styling properties mentioned above:
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#chartContainer").igDataChart({
+    dataSource: data,
+    axes: [{
+        type: "categoryX",
+        name: "xAxis",
+        label: "Label",
+    }, {
+        type: "numericY",
+        name: "yAxis",
+    }],
+    series: [{
+        type: "column",
+        name: "series",        
+        xAxis: "xAxis",
+        yAxis: "yAxis",
+        valueMemberPath: "Value"        
+    },
+    {
+        name: "dataTooltipLayer",
+        type: "dataToolTipLayer",
+        titleTextColor: "lightgray",
+        labelTextColor: "lightgray",
+        valueTextColor: "green",
+        unitsTextColor: "green",
+        unitsText: "K"      
+    }]
+});
+```
 
 ## Data Tooltip Grouping & Positioning
 
@@ -73,7 +164,35 @@ You can set the `groupingMode` property to either `Grouped` or `Individual` to g
 
 The following code snippet demonstrates a `DataToolTipLayer` that will be pinned to the top-left of the chart as you scroll:
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#chartContainer").igDataChart({
+    dataSource: data,
+    axes: [{
+        type: "categoryX",
+        name: "xAxis",
+        label: "Label",
+    }, {
+        type: "numericY",
+        name: "yAxis",
+    }],
+    series: [{
+        type: "column",
+        name: "series",        
+        xAxis: "xAxis",
+        yAxis: "yAxis",
+        valueMemberPath: "Value"        
+    },
+    {
+        name: "dataTooltipLayer",
+        type: "dataToolTipLayer",
+        groupingMode: "grouped",
+        groupedPositionModeX: "pinLeft",
+        groupedPositionModeY: "pinTop"       
+    }]
+});
+```
 
 ## Data Tooltip Value Formatting
 
@@ -81,7 +200,34 @@ The `DataToolTipLayer` provides automatic abbreviation of large numbers using it
 
 The following code snippet demonstrates how to set the minimum and maximum fractions of the `DataToolTipLayer`:
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#chartContainer").igDataChart({
+    dataSource: data,
+    axes: [{
+        type: "categoryX",
+        name: "xAxis",
+        label: "Label",
+    }, {
+        type: "numericY",
+        name: "yAxis",
+    }],
+    series: [{
+        type: "column",
+        name: "series",        
+        xAxis: "xAxis",
+        yAxis: "yAxis",
+        valueMemberPath: "Value"        
+    },
+    {
+        name: "dataTooltipLayer",
+        type: "dataToolTipLayer",
+        valueFormatMinFractions: 2,
+        valueFormatMaxFractions: 4    
+    }]
+});
+```
 
 ## Data Tooltip Value Mode
 
@@ -89,4 +235,31 @@ You can change the default decimal display of values within the `DataToolTipLaye
 
 For example, the following code snippet will create a `DataToolTipLayer` with the `valueFormatCulture` set to "en-GB" and the `valueFormatMode` set to "Currency":
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#chartContainer").igDataChart({
+    dataSource: data,
+    axes: [{
+        type: "categoryX",
+        name: "xAxis",
+        label: "Label",
+    }, {
+        type: "numericY",
+        name: "yAxis",
+    }],
+    series: [{
+        type: "column",
+        name: "series",        
+        xAxis: "xAxis",
+        yAxis: "yAxis",
+        valueMemberPath: "Value"        
+    },
+    {
+        name: "dataTooltipLayer",
+        type: "dataToolTipLayer",
+        valueFormatMode: "currency",
+        valueFormatCulture: "en-GB"       
+    }]
+});
+```
