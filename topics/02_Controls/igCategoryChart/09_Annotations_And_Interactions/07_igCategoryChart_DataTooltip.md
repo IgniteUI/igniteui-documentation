@@ -18,21 +18,45 @@ Finally, there is a summary row that displays the total of all series values. Th
 
 The following code snippet demonstrates setting the properties mentioned above to have a data tooltip with a `Total` summary type with a custom title for the summary and a custom header:
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#chart").igCategoryChart({
+    dataSource: data,
+    chartType: "column",                
+    toolTipType: "data",
+    dataToolTipHeaderText: "My Custom Data Tooltip Header",
+    dataToolTipSummaryType: "total",
+    dataToolTipSummaryTitleText: "Grand Total:"           
+});
+```
 
 ### Data Tooltip Columns
 
-The columns of the data tooltip from left to right include the title column, value column, and units column.
+The columns of the data tooltip include the title, label, value, and units columns. Each series in the chart can have multiple columns for label, value, and units depending on the `dataToolTipIncludedColumns` or `dataToolTipExcludedColumns` collections of the chart.
 
 The title column displays legend badges and series titles, which come from the `title` property of the different series plotted in the chart.
 
-The value column displays series values as abbreviated text which can be formatted using the `dataToolTipValueFormatAbbreviation` property to apply the same abbreviation for all numbers by setting this property to `Auto` or `Shared`. Alternatively, a user can select other abbreviations such as `Independent`, `Kilo`, `Million`, etc. Procession of abbreviated values is controlled using the `dataToolTipValueFormatMinFractions` and `dataToolTipValueFormatMaxFractions` for minimum and maximum digits, respectively.
+The label column displays the name or abbreviation of the different property paths in the `dataToolTipIncludedColumns` or `dataToolTipExcludedColumns` collections of the chart.
+
+The value column displays series values as abbreviated text which can be formatted using the `dataToolTipValueFormatAbbreviation` property to apply the same abbreviation for all numbers by setting this property to `Auto` or `Shared`. Alternatively, a user can select other abbreviations such as `Independent`, `Kilo`, `Million`, etc. Precision of abbreviated values is controlled using the `dataToolTipValueFormatMinFractions` and `dataToolTipValueFormatMaxFractions` for minimum and maximum digits, respectively.
 
 The units column displays an abbreviation symbol and/or unit text, which can be set on the tooltip by setting the `dataToolTipUnitsText`.
     
 The following code snippet demonstrates the `unitText` and the minimum/maximum fractions set for the data tooltip on the `igCategoryChart`:
     
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#chart").igCategoryChart({
+    dataSource: data,
+    chartType: "column",                
+    toolTipType: "data",
+    dataToolTipUnitsText: "K",
+    dataToolTipValueFormatMinFractions: 2,
+    dataToolTipValueFormatMaxFractions: 4 
+});
+```
 
 ## Data Tooltip Styling
 
@@ -40,7 +64,20 @@ The `igCategoryChart` provides properties for styling each type of column in its
 
 The following code snippet demonstrates how to set the styling properties mentioned above:
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#chart").igCategoryChart({
+    dataSource: data,
+    chartType: "column",                
+    toolTipType: "data",
+    dataToolTipTitleTextColor: "lightgray",
+    dataToolTipLabelTextColor: "lightgray",
+    dataToolTipValueTextColor: "green",
+    dataToolTipUnitsTextColor: "green",
+    dataToolTipUnitsText: "K"
+});
+```
 
 ## Data Tooltip Grouping & Positioning
 
@@ -48,7 +85,18 @@ You can set the `dataToolTipGroupingMode` property to either `Grouped` or `Indiv
 
 The following code snippet demonstrates a data tooltip that will be pinned to the top-left of the `igCategoryChart` as you scroll:
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#chart").igCategoryChart({
+    dataSource: data,
+    chartType: "column",                
+    toolTipType: "data",
+    dataToolTipGroupingMode: "grouped",
+    dataToolTipGroupedPositionModeX: "pinLeft",
+    dataToolTipGroupedPositionModeY: "pinTop"
+});
+```
 
 ## Data Tooltip Value Formatting
 
@@ -56,7 +104,17 @@ The `igCategoryChart` provides automatic abbreviation of large numbers for its d
 
 The following code snippet demonstrates how to set the minimum and maximum fractions of the data tooltip of the `igCategoryChart`:
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#chart").igCategoryChart({
+    dataSource: data,
+    chartType: "column",                
+    toolTipType: "data",
+    dataToolTipValueFormatMinFractions: 2,
+    dataToolTipValueFormatMaxFractions: 4 
+});
+```
 
 ## Data Tooltip Value Mode
 
@@ -64,4 +122,14 @@ You can change the default decimal display of values within the data tooltip to 
 
 For example, the following code snippet will create a chart with the `dataToolTipValueFormatCulture` set to "en-GB" and the `dataToolTipValueFormatMode` set to "Currency":
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#chart").igCategoryChart({
+    dataSource: data,
+    chartType: "column",                
+    toolTipType: "data",
+    dataToolTipValueFormatCulture: "en-GB",
+    dataToolTipValueFormatMode: "currency"
+});
+```

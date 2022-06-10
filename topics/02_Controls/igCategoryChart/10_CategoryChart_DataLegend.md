@@ -14,21 +14,41 @@ Finally, there is a summary row that displays the total of all series values. Th
 
 The following code snippet demonstrates setting the properties mentioned above to have a `igDataLegend` with a *Total* summary type with a custom title for the summary and a custom header:
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#dataLegendContainer").igDataLegend({
+    target: $("#chartContainer").igCategoryChart(),
+    headerText: "My Custom Data Legend Header",
+    summaryType: "total",
+    summaryTitleText: "Grand Total"
+});
+```
 
 ## Data Legend Columns
 
-The columns of the `igDataLegend` from left to right include the title column, value column, and units column.
+The columns of the `igDataLegend` include the title, label, value, and units columns. Each series in the chart can have multiple columns for label, value, and units depending on the `includedColumns` or `excludedColumns` collections of the legend.
 
 The title column displays legend badges and series titles, which come from the `title` property of the different `Series` plotted in the chart.
 
-The value column displays series values as abbreviated text which can be formatted using the `valueFormatAbbreviation` property to apply the same abbreviation for all numbers by setting this property to `Auto` or `Shared`. Alternatively, a user can select other abbreviations such as `Independent`, `Kilo`, `Million`, etc. Procession of abbreviated values is controlled using the `valueFormatMinFractions` and `valueFormatMaxFractions` for minimum and maximum digits, respectively.
+The label column displays the name or abbreviation of the different property paths in the `includedColumns` or `excludedColumns` collections of the legend.
+
+The value column displays series values as abbreviated text which can be formatted using the `valueFormatAbbreviation` property to apply the same abbreviation for all numbers by setting this property to `Auto` or `Shared`. Alternatively, a user can select other abbreviations such as `Independent`, `Kilo`, `Million`, etc. Precision of abbreviated values is controlled using the `valueFormatMinFractions` and `valueFormatMaxFractions` for minimum and maximum digits, respectively.
 
 The units column displays an abbreviation symbol and/or unit text, which can be set on the `igDataLegend` by setting the `UnitText` property.
     
 The following code snippet demonstrates the `unitText` and the minimum/maximum fractions set on the `igDataLegend`:
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#dataLegendContainer").igDataLegend({
+    target: $("#chartContainer").igCategoryChart(),
+    valueFormatMinFractions: 2,
+    valueFormatMaxFractions: 4,
+    unitsText: "K"
+});
+```
 
 ## Data Legend Styling
 
@@ -36,7 +56,18 @@ The `igDataLegend` provides properties for styling each type of column. Each of 
 
 The following code snippet demonstrates how to set the styling properties mentioned above:
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#dataLegendContainer").igDataLegend({
+    target: $("#chartContainer").igCategoryChart(),
+    titleTextColor: "lightgray",
+    labelTextColor: "lightgray",
+    valueTextColor: "green",
+    unitsTextColor: "green",
+    unitsText: "K"
+});
+```
 
 ## Data Legend Value Formatting
 
@@ -46,7 +77,15 @@ You can customize the number of fractional digits that are displayed by setting 
 
 The following code snippet demonstrates how to set the minimum and maximum fractions of the `igDataLegend`:
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#dataLegendContainer").igDataLegend({
+    target: $("#chartContainer").igCategoryChart(),
+    valueFormatMinFractions: 2,
+    valueFormatMaxFractions: 4
+});
+```
 
 ## Data Legend Value Mode
 
@@ -54,7 +93,15 @@ You have the ability to change the default decimal display of values within the 
 
 For example, the following code snippet will create a `igDataLegend` with the `valueFormatCulture` set to "en-GB" and the `valueFormatMode` set to "Currency":
 
-<!-- CODE SNIPPET -->
+**In JavaScript:**
+
+```js
+$("#dataLegendContainer").igDataLegend({
+    target: $("#chartContainer").igCategoryChart(),
+    valueFormatMode: "currency",
+    valueFormatCulture: "en-GB"
+});
+```
 
 ## Data Legend Styling Events
 
@@ -62,10 +109,8 @@ The `igDataLegend` has three events that fire when rendering their corresponding
 
 - `styleHeaderRow`: This event fires once when rendering the header row.
 - `styleSeriesRow`: This event fires once for each series row which allows conditional styling of the values of the series.
+- `styleSeriesColumn`: This event fires once for each series column, which allows conditional styling of the different columns for the series in the chart.
 - `styleSummaryRow`: This event fires once when rendering the summary row.
+- `styleSummaryColumn`: This event fires once when rendering the summary column.
 
 Each of the above events exposes a `DataLegendStylingRowEventArgs` parameter as its arguments, which lets you customize each item's text, text color, and the overall visibility of the row. The event arguments also expose event-specific properties. For example, since the `styleSeriesRow` event fires for each series, the event arguments will return the series index and series title for the row that represents the series.
-
-The following code snippet demonstrates usage of the above events:
-
-<!-- CODE SNIPPET -->
