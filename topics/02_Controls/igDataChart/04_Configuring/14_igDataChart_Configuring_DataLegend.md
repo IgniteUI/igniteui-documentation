@@ -14,42 +14,86 @@
 
 以下のコードス ニペットは、上記のプロパティを設定して、集計のカスタム タイトルとカスタム ヘッダーを持つ **Total** 集計タイプの `igDataLegend` を設定する方法を示しています。
 
-<!-- CODE SNIPPET -->
+**JavaScript の場合:**
+
+```js
+$("#dataLegendContainer").igDataLegend({
+    target: $("#chartContainer").igDataChart(),
+    headerText: "My Custom Data Legend Header",
+    summaryType: "total",
+    summaryTitleText: "Grand Total"
+});
+```
 
 ## データ凡例の列
 
-`igDataLegend` の左から右への列には、タイトル列、値列、および単位列が含まれます。
+`igDataLegend` の列には、タイトル、ラベル、値、および単位の列が含まれます。 チャートの各シリーズには、凡例の `includedColumns` または `excludedColumns` コレクションに応じて、ラベル、値、および単位の複数の列を含めることができます。
 
 タイトル列には、チャートにプロットされたさまざまな`シリーズ`の `title` プロパティに由来する凡例バッジとシリーズ タイトルが表示されます。
 
-値の列には、一連の値が省略形のテキストとして表示されます。このテキストは、`valueFormatAbbreviation` プロパティを使用してフォーマットでき、このプロパティを `Auto` または `Shared` に設定することで、すべての数値に同じ省略形を適用できます。または、ユーザーは `Independent`、`Kilo`、`Million` などの他の省略形を選択できます。省略値の処理は、最小桁数と最大桁数にそれぞれ `valueFormatMinFractions` と `valueFormatMaxFractions` を使用して制御されます。
+ラベルの列には、凡例の `includedColumns` または `excludedColumns` コレクション内のさまざまなプロパティパスの名前または省略形が表示されます。
 
-単位列には、省略記号や単位テキストが表示されます。これらは、すべての列に `unitText` を設定するか、チャートの各シリーズで次のプロパティを使用して、`igDataLegend` で設定できます:
+値の列には、一連の値が省略形のテキストとして表示されます。このテキストは、`valueFormatAbbreviation` プロパティを使用してフォーマットでき、このプロパティを `Auto` または `Shared` に設定することで、すべての数値に同じ省略形を適用できます。または、ユーザーは `Independent`、`Kilo`、`Million` などの他の省略形を選択できます。省略値の精度は、最小桁数と最大桁数にそれぞれ `valueFormatMinFractions` と `valueFormatMaxFractions` を使用して制御されます。
 
-* カテゴリ シリーズ (例: ColumnSeries)
-    ** ValueMemberAsLegendUnit="K"
+単位の列には、省略記号や単位テキストが表示されます。これらは、すべての列に `unitText` を設定するか、チャートの各シリーズで次のプロパティを使用して、`igDataLegend` で設定できます:
 
-* 財務物価シリーズ:
-    ** OpenMemberAsLegendUnit="K"
-    ** LowMemberAsLegendUnit="K"
-    ** HighMemberAsLegendUnit="K"
-    ** CloseMemberAsLegendUnit="K"
+- カテゴリ シリーズ (例: ColumnSeries)
+    - ValueMemberAsLegendUnit="K"
+
+- 財務物価シリーズ:
+    - OpenMemberAsLegendUnit="K"
+    - LowMemberAsLegendUnit="K"
+    - HighMemberAsLegendUnit="K"
+    - CloseMemberAsLegendUnit="K"
     
-* 範囲シリーズ:
-    ** LowMemberAsLegendUnit="K"
-    ** HighMemberAsLegendUnit="K"
+- 範囲シリーズ:
+    - LowMemberAsLegendUnit="K"
+    - HighMemberAsLegendUnit="K"
         
-* ラジアル シリーズ:
-    ** ValueMemberAsLegendUnit="K"
-    ** AngleMemberAsLegendUnit="K"
+- ラジアル シリーズ:
+    - ValueMemberAsLegendUnit="K"
+    - AngleMemberAsLegendUnit="K"
 
-* 極座標シリーズ:
-    ** RadiusMemberAsLegendUnit="K"
-    ** AngleMemberAsLegendUnit="K"
-    
+- 極座標シリーズ:
+    - RadiusMemberAsLegendUnit="K"
+    - AngleMemberAsLegendUnit="K"
+
+
+上記の各プロパティには、前述のラベル列のテキストを判別するための対応する `MemberAsLegendLabel` プロパティもあります。
+
+`includedColumns` および `excludedColumns` コレクションに含まれる列は、通常、基になるデータ項目の値パスに対応しますが、財務シリーズには、正しくプロットするために必要な High、Low、Open、Close パス、および、いくつかの特別なパスを含めるオプションがあります 。 凡例内に `typicalPrice`、`change`、および `volume` オプションを表示することができます。
+
 以下のコード スニペットは、`valueMemberAsLegendUnit` プロパティが設定された `ColumnSeries` のペアと、`igDataLegend` に設定された最小/最大の分数を示しています。
 
-<!-- CODE SNIPPET -->
+**JavaScript の場合:**
+
+```js
+$("#dataLegendContainer").igDataLegend({
+    target: $("#chartContainer").igDataChart(),
+    valueFormatMinFractions: 2,
+    valueFormatMaxFractions: 4
+});
+
+$("#chartContainer").igDataChart({
+    dataSource: data,
+    axes: [{
+        type: "categoryX",
+        name: "xAxis",
+        label: "Label",
+    }, {
+        type: "numericY",
+        name: "yAxis",
+    }],
+    series: [{
+        type: "column",
+        name: "series",        
+        xAxis: "xAxis",
+        yAxis: "yAxis",
+        valueMemberPath: "Value",
+        valueMemberAsLegendUnit="K"     
+    }]
+});
+```
 
 ## データ凡例のスタイル設定
 
@@ -57,7 +101,18 @@
 
 以下のコード スニペットは、上記のスタイル設定プロパティを設定する方法を示しています。
 
-<!-- CODE SNIPPET -->
+**JavaScript の場合:**
+
+```js
+$("#dataLegendContainer").igDataLegend({
+    target: $("#chartContainer").igDataChart(),
+    titleTextColor: "lightgray",
+    labelTextColor: "lightgray",
+    valueTextColor: "green",
+    unitsTextColor: "green",
+    unitsText: "K"
+});
+```
 
 ## データ凡例値の書式設定
 
@@ -67,7 +122,15 @@
 
 以下のコード スニペットは、`igDataLegend` の最小分数と最大分数を設定する方法を示しています。
 
-<!-- CODE SNIPPET -->
+**JavaScript の場合:**
+
+```js
+$("#dataLegendContainer").igDataLegend({
+    target: $("#chartContainer").igDataChart(),
+    valueFormatMinFractions: 2,
+    valueFormatMaxFractions: 4
+});
+```
 
 ## データ凡例の値モード
 
@@ -75,18 +138,25 @@
 
 たとえば、以下のコード スニペットは、`valueFormatCulture` が "en-GB" に設定され、`valueFormatMode` が "Currency" に設定された  `igDataLegend` を作成します。
 
-<!-- CODE SNIPPET -->
+**JavaScript の場合:**
+
+```js
+$("#dataLegendContainer").igDataLegend({
+    target: $("#chartContainer").igDataChart(),
+    valueFormatMode: "currency",
+    valueFormatCulture: "en-GB"
+});
+```
+
 
 ## データ凡例のスタイル設定イベント
 
-`igDataLegend` には、対応する行を描画するときに発生する 3 つのイベントがあります。それらのイベントを、その使用目的とあわせて以下に示します:
+`igDataLegend` には、対応する行を描画するときに発生する 5 つのイベントがあります。それらのイベントを、その使用目的とあわせて以下に示します:
 
 - `styleHeaderRow`: このイベントは、ヘッダー行を描画するときに 1 回発生します。
 - `styleSeriesRow`: このイベントは、シリーズの行ごとに 1 回発生し、シリーズの値の条件付きスタイル設定を可能にします。
+- `styleSeriesColumn`: このイベントは、シリーズ列ごとに 1 回発生します。これにより、チャート内のシリーズのさまざまな列の条件付きスタイルが可能になります。
 - `styleSummaryRow`: このイベントは、集計行を描画するときに 1 回発生します。
+- `styleSummaryColumn`: このイベントは、集計列を描画するときに 1 回発生します。
 
 上記の各イベントは、引数として `DataLegendStylingRowEventArgs` パラメーターを公開します。これにより、各項目のテキスト、テキストの色、および行の全体的な可視性をカスタマイズできます。イベント引数は、イベント固有のプロパティも公開します。たとえば、`styleSeriesRow` イベントはシリーズごとに発生するため、イベント引数は、シリーズを表す行の、シリーズ インデックスとシリーズ タイトルを返します。
-
-以下のコード スニペットは、上記のイベントの使用法を示しています。
-
-<!-- CODE SNIPPET -->

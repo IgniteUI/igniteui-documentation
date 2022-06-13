@@ -18,21 +18,45 @@
 
 以下のコードス ニペットは、上記のプロパティを設定して、集計のカスタム タイトルとカスタム ヘッダーを持つ `Total` 集計タイプのデータ ツールチップを設定する方法を示しています。
 
-<!-- CODE SNIPPET -->
+**JavaScript の場合:**
+
+```js
+$("#chart").igCategoryChart({
+    dataSource: data,
+    chartType: "column",
+    toolTipType: "data",
+    dataToolTipHeaderText: "My Custom Data Tooltip Header",
+    dataToolTipSummaryType: "total",
+    dataToolTipSummaryTitleText: "Grand Total:"
+});
+```
 
 ### データ ツールチップの列
 
-データ ツールチップの列は、左から順に、タイトル列、値列、および単位列となっています。
+データ ツールチップの列には、タイトル、ラベル、値、および単位の列が含まれます。 チャートの各シリーズには、凡例の `dataToolTipIncludedColumns` または `dataToolTipExcludedColumns` コレクションに応じて、ラベル、値、および単位の複数の列を含めることができます。
 
 タイトル列には、チャートにプロットされたさまざまなシリーズの `title` プロパティに由来する凡例バッジとシリーズ タイトルが表示されます。
 
-値の列には、一連の値が省略形のテキストとして表示されます。このテキストは、`dataToolTipValueFormatAbbreviation` プロパティを使用してフォーマットでき、このプロパティを `Auto` または `Shared` に設定することで、すべての数値に同じ省略形を適用できます。または、ユーザーは `Independent`、`Kilo`、`Million` などの他の省略形を選択できます。省略値の処理は、最小桁数と最大桁数にそれぞれ `dataToolTipValueFormatMinFractions` と `dataToolTipValueFormatMaxFractions` を使用して制御されます。
+ラベルの列には、ツールチップの `dataToolTipIncludedColumns` または `dataToolTipExcludedColumns` コレクション内のさまざまなプロパティパスの名前または省略形が表示されます。
+
+値の列には、一連の値が省略形のテキストとして表示されます。このテキストは、`dataToolTipValueFormatAbbreviation` プロパティを使用してフォーマットでき、このプロパティを `Auto` または `Shared` に設定することで、すべての数値に同じ省略形を適用できます。または、ユーザーは `Independent`、`Kilo`、`Million` などの他の省略形を選択できます。省略値の精度は、最小桁数と最大桁数にそれぞれ `dataToolTipValueFormatMinFractions` と `dataToolTipValueFormatMaxFractions` を使用して制御されます。
 
 単位の列には、省略記号や単位テキストが表示されます。これらは、`dataToolTipUnitsText` を設定することでツールチップに設定できます。
     
 以下のコードスニペットは、`unitText` と `igCategoryChart` のデータ ツールチップに設定された最小/最大の端数を示しています。
     
-<!-- CODE SNIPPET -->
+**JavaScript の場合:**
+
+```js
+$("#chart").igCategoryChart({
+    dataSource: data,
+    chartType: "column",
+    toolTipType: "data",
+    dataToolTipUnitsText: "K",
+    dataToolTipValueFormatMinFractions: 2,
+    dataToolTipValueFormatMaxFractions: 4 
+});
+```
 
 ## データ ツールチップのスタイル設定
 
@@ -40,7 +64,20 @@
 
 以下のコード スニペットは、上記のスタイル設定プロパティを設定する方法を示しています。
 
-<!-- CODE SNIPPET -->
+**JavaScript の場合:**
+
+```js
+$("#chart").igCategoryChart({
+    dataSource: data,
+    chartType: "column",
+    toolTipType: "data",
+    dataToolTipTitleTextColor: "lightgray",
+    dataToolTipLabelTextColor: "lightgray",
+    dataToolTipValueTextColor: "green",
+    dataToolTipUnitsTextColor: "green",
+    dataToolTipUnitsText: "K"
+});
+```
 
 ## データ ツールチップのグループ化と配置
 
@@ -48,7 +85,18 @@
 
 以下のコード スニペットは、スクロールすると `igCategoryChart` の左上にピン固定されるデータ ツールチップを示しています。
 
-<!-- CODE SNIPPET -->
+**JavaScript の場合:**
+
+```js
+$("#chart").igCategoryChart({
+    dataSource: data,
+    chartType: "column",
+    toolTipType: "data",
+    dataToolTipGroupingMode: "grouped",
+    dataToolTipGroupedPositionModeX: "pinLeft",
+    dataToolTipGroupedPositionModeY: "pinTop"
+});
+```
 
 ## データ ツールチップ値の書式設定
 
@@ -56,7 +104,17 @@
 
 以下のコード スニペットは、`igCategoryChart` の データ ツールチップの最小部分と最大部分を設定する方法を示しています。
 
-<!-- CODE SNIPPET -->
+**JavaScript の場合:**
+
+```js
+$("#chart").igCategoryChart({
+    dataSource: data,
+    chartType: "column",
+    toolTipType: "data",
+    dataToolTipValueFormatMinFractions: 2,
+    dataToolTipValueFormatMaxFractions: 4 
+});
+```
 
 ## データ ツールチップの値モード
 
@@ -64,4 +122,14 @@
 
 たとえば、以下のコード スニペットは、`dataToolTipValueFormatCulture` が "en-GB" に設定され、`dataToolTipValueFormatMode` が "Currency" に設定されたチャートを作成します。
 
-<!-- CODE SNIPPET -->
+**JavaScript の場合:**
+
+```js
+$("#chart").igCategoryChart({
+    dataSource: data,
+    chartType: "column",
+    toolTipType: "data",
+    dataToolTipValueFormatCulture: "en-GB",
+    dataToolTipValueFormatMode: "currency"
+});
+```

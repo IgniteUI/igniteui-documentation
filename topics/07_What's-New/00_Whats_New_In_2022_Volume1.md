@@ -12,6 +12,28 @@
 
 このトピックは、%%ProductFamilyName%%™ 2022 Volume 1 リリースの新機能について説明します。
 
+## データ凡例
+
+`igDataLegend` は `Legend` のように機能する新しいコンポーネントですが、シリーズの値の表示や、シリーズの行と値の列のフィルタリング、値のスタイルと書式を設定するための多くの構成プロパティを提供します。 この凡例は、さまざまな Ignite UI チャート コントロールのプロット領域内でマウスを動かすと更新されます。
+
+`igDataLegend` についての完全なヘルプ トピックは、以下のリンクにあります。
+
+- [igCategoryChart データ凡例](categorychart-datalegend.html)
+- [igDataChart データ凡例](igdatachart-configuring-datalegend.html)
+- [igFinancialChart データ凡例](financial-chart-datalegend.html)
+
+## データ ツールチップ レイヤー
+
+`DataToolTipLayer` は、シリーズの値とタイトル、およびシリーズの凡例バッジをツールチップに表示する新しい注釈レイヤーです。 さらに、シリーズの行と値の列をフィルタリングし、値をスタイル設定し、書式を設定するための XamDataLegend の多くの構成プロパティを提供します。 ツールチップの値は、さまざまな Infragistics チャート コントロールのプロット領域内でマウスを動かすと更新されます。
+
+`DataToolTipLayer` は、各 Infragistics チャート コントロールのデフォルトのツールチップ タイプになりました。 XamDataChart の `DataToolTipLayer` に存在する各プロパティは、`igCategoryChart`、`igFinancialChart`、および `igShapeChart` コントロールでも使用でき、`DataTooltip` がプレフィックスとして付けられます。
+
+`DataToolTipLayer` についての完全なヘルプ トピックは、以下のリンクにあります。
+
+- [igCategoryChart データ ツールチップ レイヤー](igcategorychart-datatooltip.html)
+- [igDataChart データ ツールチップ レイヤー](igdatachart-configuring-datatooltip.html)
+- [igFinancialChart データ ツールチップ レイヤー](financial-chart-datatooltip.html)
+
 ## チャート機能
 === データ チャート:
  * 積層シリーズのアニメーションとトランジションインのサポートが追加されました。`IsTransitionInEnabled` プロパティを true に設定すると、アニメーションを有効にできます。そこから、`TransitionInDuration` プロパティを設定してアニメーションが完了するまでの時間を決定し、`TransitionInMode` でアニメーションのタイプを決定できます。
