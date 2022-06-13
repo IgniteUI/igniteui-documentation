@@ -27,7 +27,7 @@ $("#dataLegendContainer").igDataLegend({
 
 ## データ凡例の列
 
-`igDataLegend` の列には、タイトル、ラベル、値、および単位の列が含まれます。 チャートの各シリーズには、凡例の `includedColumns` または `excludedColumns` コレクションに応じて、ラベル、値、および単位の複数の列を含めることができます。
+`igDataLegend` の列には、タイトル、ラベル、値、および単位の列が含まれます。チャートの各シリーズには、凡例の `includedColumns` または `excludedColumns` コレクションに応じて、ラベル、値、および単位の複数の列を含めることができます。
 
 タイトル列には、チャートにプロットされたさまざまな `Series` の `title` プロパティに由来する凡例バッジとシリーズ タイトルが表示されます。
 
@@ -37,7 +37,7 @@ $("#dataLegendContainer").igDataLegend({
 
 単位の列には、省略記号や単位テキストが表示されます。これらは、`UnitText` プロパティを設定することで `igDataLegend` に設定できます。
 
-`includedColumns` および `excludedColumns` コレクションに含まれる列は、通常、基になるデータ項目の値パスに対応しますが、財務シリーズには、正しくプロットするために必要な High、Low、Open、Close パス、および、いくつかの特別なパスを含めるオプションがあります 。 凡例内に `typicalPrice`、`change`、および `volume` オプションを表示することができます。
+`includedColumns` および `excludedColumns` コレクションに含まれる列は、通常、基になるデータ項目の値パスに対応しますが、財務シリーズには、正しくプロットするために必要な High、Low、Open、Close パス、および、いくつかの特別なパスを含めるオプションがあります 。凡例内に `typicalPrice`、`change`、および `volume` オプションを表示することができます。
 
 以下のコード スニペットは、`unitText` と `igDataLegend` に設定された最小/最大の分数を示しています。
 

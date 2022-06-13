@@ -8,7 +8,7 @@
 
 ## データ ツールチップの要素
 
-`DataToolTipLayer` は、3 種類の行と 4 種類の列のセットを使用してコンテンツを表示します。 
+`DataToolTipLayer` は、3 種類の行と 4 種類の列のセットを使用してコンテンツを表示します。
 
 ### データ ツールチップの行
 
@@ -54,7 +54,7 @@ $("#chartContainer").igDataChart({
 
 ### データ ツールチップの列
 
-データ ツールチップの列には、タイトル、ラベル、値、および単位の列が含まれます。 チャートの各シリーズには、ツールチップ レイヤーの `includedColumns` または `excludedColumns` コレクションに応じて、ラベル、値、および単位の複数の列を含めることができます。
+データ ツールチップの列には、タイトル、ラベル、値、および単位の列が含まれます。チャートの各シリーズには、ツールチップ レイヤーの `includedColumns` または `excludedColumns` コレクションに応じて、ラベル、値、および単位の複数の列を含めることができます。
 
 タイトル列には、チャートにプロットされたさまざまな`シリーズ`の `title` プロパティに由来する凡例バッジとシリーズ タイトルが表示されます。
 
@@ -87,7 +87,7 @@ $("#chartContainer").igDataChart({
 
 上記の各プロパティには、前述のラベル列のテキストを判別するための対応する `MemberAsLegendLabel` プロパティもあります。
 
-`includedColumns` および `excludedColumns` に含まれる列は、通常、基になるデータ項目の値パスに対応しますが、財務シリーズには、正しくプロットするために必要な High、Low、Open、Close パス、および、いくつかの特別なパスを含めるオプションがあります 。 凡例内に `typicalPrice`、`change`、および `volume` オプションを表示することができます。
+`includedColumns` および `excludedColumns` に含まれる列は、通常、基になるデータ項目の値パスに対応しますが、財務シリーズには、正しくプロットするために必要な High、Low、Open、Close パス、および、いくつかの特別なパスを含めるオプションがあります 。凡例内に `typicalPrice`、`change`、および `volume` オプションを表示することができます。
 
 以下のコード スニペットは、`valueMemberAsLegendUnit` プロパティが設定された `ColumnSeries` のペアと、`DataToolTipLayer` に設定された最小/最大の分数を示しています。
     
