@@ -12,7 +12,7 @@
 
 ## トピックの概要
 
-このトピックでは、.NET 5 用にビルドされた ASP.NET Core Web アプリケーションで %%ProductNameASPNETCore%%™ コンポーネントを使用した作業の開始方法を説明します。
+このトピックでは、.NET 7 用にビルドされた ASP.NET Core Web アプリケーションで %%ProductNameASPNETCore%%™ コンポーネントを使用した作業の開始方法を説明します。
 
 ### このトピックの内容
 
