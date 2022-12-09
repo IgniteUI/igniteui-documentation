@@ -12,6 +12,13 @@
 
 This topic presents the new features for the %%ProductFamilyName%%™ 2022 Volume 2 release.
 
+### %%ProductNameASPNETCore%%
+Infragistics %%ProductNameASPNETCore%% now supports ASP.NET Core for .NET 7 projects. For more information see the [Using %%ProductNameASPNETCore%%](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html) topic.
+
+
+### %%ProductNameASPNETCore%% Tag Helpers
+%%ProductNameASPNETCore%% Tag Helpers now support ASP.NET Core for .NET 7 projects. For more information see the [Using %%ProductNameASPNETCore%% Tag Helpers](using-ignite-ui-tag-helpers.html) topic.
+
 ## Chart Improvements
 
 Added significant improvements to default behaviors, and refined the Category Chart API to make it easier to use.  
