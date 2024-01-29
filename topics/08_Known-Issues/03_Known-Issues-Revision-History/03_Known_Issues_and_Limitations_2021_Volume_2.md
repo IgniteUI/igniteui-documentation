@@ -1,89 +1,87 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "known-issues-and-limitations-2021-volume-1",
+    "fileName": "known-issues-and-limitations-2021-volume-2",
     "controlName": "",
     "tags": ["Breaking Changes","Known Issues"]
 }
 |metadata|
 -->
 
-# 2022 Volume 2 の既知の問題と制限
+# 2021 Volume 2 の既知の問題と制限
 
 ## トピックの概要
 
 ### 目的
 
-以下に %%ProductName%%™ 2022 Volume 2 リリースの既知の問題と制限事項の概要を示します。旧リリースに関する情報は、[こちら](Known-Issues-Revision-History.html)を参照してください。
+以下に %%ProductName%%™ 2021 Volume 2 リリースの既知の問題と制限事項の概要を示します。旧リリースに関する情報は、[こちら](Known-Issues-Revision-History.html)を参照してください。
 
 ### このトピックの内容
 
 このトピックは、以下のセクションで構成されます。
 
-- [2022 Volume 2 の既知の問題と制限](#2022-volume-2-の既知の問題と制限)
-  - [トピックの概要](#トピックの概要)
-    - [目的](#目的)
-    - [このトピックの内容](#このトピックの内容)
-  - [<a id="summary"></a> 既知の問題点と制限の概要](#-既知の問題点と制限の概要)
-    - [<a id="editors"></a> エディターの一般的な既知の問題点](#-エディターの一般的な既知の問題点)
-    - [<a id="bullet-graph"></a> igBulletGraph](#-igbulletgraph)
-    - [<a id="combo"></a> igCombo](#-igcombo)
-    - [<a id="category-chart"></a> igCategoryChart](#-igcategorychart)
-    - [<a id="financial-chart"></a> igFinancialChart](#-igfinancialchart)
-    - [<a id="data-chart"></a> igDataChart](#-igdatachart)
-      - [<a id="dialog"></a> igDialog](#-igdialog)
-      - [<a id="upload"></a> igUpload](#-igupload)
-    - [<a id="grid"></a> igGrid – 全般](#-iggrid--全般)
-    - [<a id="grid-data-binding"></a> igGrid – データ バインディング](#-iggrid--データ-バインディング)
-    - [<a id="grid-unbound-columns"></a> igGrid – 非バインド列](#-iggrid--非バインド列)
-    - [<a id="grid-virtualization"></a> igGrid – 仮想化](#-iggrid--仮想化)
-    - [<a id="grid-responsive"></a> igGrid - レスポンス Web デザイン モード](#-iggrid---レスポンス-web-デザイン-モード)
-  - [<a id="appendRowsOnDemand"></a> igGridAppendRowsOnDemand](#-iggridappendrowsondemand)
-    - [<a id="grid-column-fixing"></a> igGridColumnFixing](#-iggridcolumnfixing)
-    - [<a id="grid-column-moving"></a> igGridColumnMoving](#-iggridcolumnmoving)
-    - [<a id="grid-multi-column-headers"></a> igGrid - 複数列ヘッダー](#-iggrid---複数列ヘッダー)
-    - [<a id="grid-filtering"></a> igGridFiltering](#-iggridfiltering)
-    - [<a id="grid-grouping"></a> igGridGroupBy](#-iggridgroupby)
-    - [<a id="grid-paging"></a> igGridPaging](#-iggridpaging)
-    - [<a id="grid-resizing"></a> igGridResizing](#-iggridresizing)
-    - [<a id="grid-row-selectors"></a> igGridRowSelectors](#-iggridrowselectors)
-    - [<a id="grid-selection"></a> igGridSelection](#-iggridselection)
-    - [<a id="grid-summaries"></a> igGridSummaries](#-iggridsummaries)
-    - [<a id="grid-tooltips"></a> igGridTooltips](#-iggridtooltips)
-    - [<a id="grid-exporter"></a> igGridExcelExporter](#-iggridexcelexporter)
-    - [<a id="grid-updating"></a> igGridUpdating](#-iggridupdating)
-    - [<a id="grid-hiding"></a> igGridHiding](#-iggridhiding)
-    - [<a id="feature-chooser"></a>機能セレクター](#機能セレクター)
-    - [<a id="tree-grid"></a>igTreeGrid](#igtreegrid)
-    - [<a id="hierarchical-grid"></a> igHierarchicalGrid](#-ighierarchicalgrid)
-    - [<a id="hierarchical-grid-grouping"></a> igHierarchicalGrid GroupBy](#-ighierarchicalgrid-groupby)
-    - [<a id="hierarchical-grid-row-selectors"></a> igHierarchicalGrid RowSelectors](#-ighierarchicalgrid-rowselectors)
-    - [<a id="hierarchical-grid-tooltips"></a> igHierarchicalGrid ツールチップ](#-ighierarchicalgrid-ツールチップ)
-    - [<a id="hierarchical-grid-updating"></a> igHierarchicalGrid 更新](#-ighierarchicalgrid-更新)
-    - [<a id="linear-gauge"></a> igLinearGauge](#-iglineargauge)
-    - [<a id="mvc"></a> %%ProductNameMVC%%](#-productnamemvc)
-    - [<a id="mvc-mobile"></a> %%ProductNameMVC%% (モバイル)](#-productnamemvc-モバイル)
-    - [<a id="map"></a> igMap](#-igmap)
-    - [<a id="olap-xmla-data-source"></a> igOlapXmlaDataSource](#-igolapxmladatasource)
-    - [<a id="pivot-data-selector"></a> igPivotDataSelector](#-igpivotdataselector)
-    - [<a id="pivot-grid"></a> igPivotGrid](#-igpivotgrid)
-    - [<a id="popover"></a> igPopover](#-igpopover)
-    - [<a id="qr-barcode"></a> igQRCodeBarcode](#-igqrcodebarcode)
-    - [<a id="shape-chart"></a> igShapeChart](#-igshapechart)
-    - [<a id="validator"></a> igValidator](#-igvalidator)
-    - [<a id="zoombar"></a> igZoombar](#-igzoombar)
-    - [<a id="infragistics-documents"></a> Infragistics Document Engine](#-infragistics-document-engine)
-    - [<a id="templating-engine"></a> Infragistics テンプレート エンジン](#-infragistics-テンプレート-エンジン)
-    - [<a id="popup-mobile"></a> Popup (モバイル)](#-popup-モバイル)
-    - [<a id="selectmenu-mobile"></a> SelectMenu (モバイル)](#-selectmenu-モバイル)
-    - [<a id="slider-mobile"></a>  Slider (モバイル)](#--slider-モバイル)
-    - [<a id="scroll"></a>  igScroll](#--igscroll)
+-   [**既知の問題点と制限の概要**](#summary)
+    -   [凡例](#legend)
+    -   [全般的な既知の問題](#general-known-issues)
+    -   [エディターの全般的な既知の問題](#editors)
+    -   [igBulletGraph](#bullet-graph)
+    -   [igCombo](#combo)
+	-   [igCategoryChart](#category-chart)
+    -   [igFinancialChart](#financial-chart)
+    -   [igDataChart](#data-chart)
+    -   [igDialog](#dialog)
+	-   [igUpload](#upload)
+    -   [igGrid – 全般](#grid)
+    -   [igGrid – データ バインディング](#grid-data-binding)
+    -   [igGrid – 非バインド列](#grid-unbound-columns)
+    -   [igGrid – 仮想化](#grid-virtualization)
+	-   [igGrid - レスポンス Web デザイン モード](#grid-responsive)
+	-   [igGridAppendRowsOnDemand](#appendRowsOnDemand)
+    -   [igGridColumnFixing](#grid-column-fixing)
+    -   [igGridColumnMoving](#grid-column-moving)
+    -   [igGrid - 複数列ヘッダー](#grid-multi-column-headers)
+    -   [igGridFiltering](#grid-filtering)
+    -   [igGridGroupBy](#grid-grouping)
+    -   [igGridPaging](#grid-paging)
+    -   [igGridResizing](#grid-resizing)
+    -   [igGridRowSelectors](#grid-row-selectors)
+    -   [igGridSelection](#grid-selection)
+    -   [igGridSummaries](#grid-summaries)
+    -   [igGridTooltips](#grid-tooltips)
+    -   [igGridUpdating](#grid-updating)
+	-   [igGridHiding](#grid-hiding)
+    -   [igGridExcelExporter](#grid-exporter)
+    -   [機能セレクター](#feature-chooser)
+    -   [igTreeGrid](#tree-grid)
+    -   [igHierarchicalGrid](#hierarchical-grid)
+    -   [igHierarchicalGrid GroupBy](#hierarchical-grid-grouping)
+    -   [igHierarchicalGrid RowSelectors](#hierarchical-grid-row-selectors)
+    -   [igHierarchicalGrid ツールチップ](#hierarchical-grid-tooltips)
+	-   [igHierarchicalGrid 更新](#hierarchical-grid-updating)
+    -   [igLinearGauge](#linear-gauge)
+    -   [%%ProductNameMVC%%](#mvc)
+    -   [%%ProductNameMVC%% (モバイル)](#mvc-mobile)
+    -   [igMap](#map)
+    -   [igOlapXmlaDataSource](#olap-xmla-data-source)
+    -   [igPivotDataSelector](#pivot-data-selector)
+    -   [igPivotGrid](#pivot-grid)
+    -   [igPopover](#popover)
+    -   [igQRCodeBarcode](#qr-barcode)
+	-   [igShapeChart](#shape-chart)
+    -   [igValidator](#validator)
+    -   [igZoombar](#zoombar)
+    -   [Infragistics Document Engine](#infragistics-documents)
+    -   [Infragistics テンプレート エンジン](#templating-engine)
+    -   [Popup (モバイル)](#popup-mobile)
+    -   [SelectMenu (モバイル)](#selectmenu-mobile)
+    -   [Slider (モバイル)](#slider-mobile)
+	-   [igScroll](#scroll)
 
 
 
 ## <a id="summary"></a> 既知の問題点と制限の概要
 
-以下の表に、%%ProductName%% 2022 Volume 2 リリースの既知の問題と制限事項の概要を示します。各コントロールの既知の問題点に関するトピックでは、それぞれの既知の問題点と考えられる回避策について詳しく説明します。
+以下の表に、%%ProductName%% 2021 Volume 2 リリースの既知の問題と制限事項の概要を示します。各コントロールの既知の問題点に関するトピックでは、それぞれの既知の問題点と考えられる回避策について詳しく説明します。
 <a id="legend"></a>
 
 凡例 | 
