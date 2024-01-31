@@ -41,7 +41,7 @@ The names of the JavaScript files containing the combined scripts are:
 -	`infragistics.spreadsheet-bundled`
 -	`infragistics.scheduler-bundled`
 
-The files are found in the js folder (the root folder for the JavaScript files in the %%ProductName%% program installation path).
+The files are found in the js folder (the root folder for the JavaScript files in the %%ProductName%% npm package installation path).
 
 There is also a combined script version of the localization resources in Bulgarian, Russian, Japanese, German, Spanish and French language. File names are `infragistics-bg.js`, `infragistics-ja.js`, `infragistics-ru.js`, `infragistics-de.js`, `infragistics-es.js` and `infragistics-fr.js` and they resides in the `../js/i18n` folder.
 
@@ -59,7 +59,7 @@ There are two types of internalizations. First is for the localization resources
 
 Localization resources for the controls are in Bulgarian, Russian, Japanese, German, Spanish and French languages. These reside in js/modules/i18n (where *js* is the root folder for the JavaScript files in the %%ProductName%% program installation path).
 
-The regional settings - igRegional JavaScript files - provide localized formats including dates, numbers, and currency symbols for the jQuery editors. These reside in the `../js/modules/i18n/regional` (where `js` is the root folder for the JavaScript files in the %%ProductName%% program installation path).
+The regional settings - igRegional JavaScript files - provide localized formats including dates, numbers, and currency symbols for the jQuery editors. These reside in the `../js/modules/i18n/regional` (where `js` is the root folder for the JavaScript files in the %%ProductName%% npm package installation path).
 
 >**Note:** When using the combined scripts file you must always reference the regional settings; they are not part of combined scripts file.
 

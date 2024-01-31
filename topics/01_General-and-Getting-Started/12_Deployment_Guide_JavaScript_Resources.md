@@ -176,15 +176,13 @@ References needed to include the libraries mentioned above:
 
 ### Referencing localization resources summary
 
-%%ProductName%% ships with resources for English and Japanese languages.
-
-Since Volume 2012.2 we provide Russian ([ru]), Bulgarian ([bg]), German ([de]), Spanish ([es]) and French ([fr]) localization as part of the product. Localization files must be placed in the localization folder `../js/i18n` (where *js* is the root folder for the JavaScript files in the %%ProductName%% program installation).
+%%ProductName%% ships with resources for English ([en]), Japanese ([ja]), Russian ([ru]), Bulgarian ([bg]), German ([de]), Spanish ([es]) and French ([fr]) languages.
 
 After adding Infragistics resources, the *scripts* folder of your Web application will have a *modules* folder. Under the modules folder localization resources for modular widgets (igGrid) need to be combined into one file.
 
-The *i18n* folder will be placed inside the *modules* folder, holding the JavaScript files to localize the widgets to the Japanese, Bulgarian,  Russian, German, Spanish and French languages.
+The *i18n* folder will be placed inside the *modules* folder, holding the JavaScript files to localize the widgets to the Japanese, Bulgarian, Russian, German, Spanish and French languages.
 
-JavaScript files provide localized formats including dates, numbers, and currency for the jQuery editors. These reside *in `../js/modules/i18n/regional`* (where js is the root folder for the JavaScript files in the %%ProductName%% program installation).
+JavaScript files provide localized formats including dates, numbers, and currency for the jQuery editors. These reside *in `../js/modules/i18n/regional`* (where js is the root folder for the JavaScript files in the npm package installation folder).
 
 >**Note:** The regional settings are not part of combined scripts file,therefore they must be referenced if the combined scripts file is used.
 
@@ -198,12 +196,6 @@ There are two ways to reference localization resources:
 -   Referencing the localization scripts manually.
 
 The examples below will demonstrate how to include Bulgarian localization resources, assuming you already have the JavaScript files mentioned above.
-
-### Referencing English and Japanese localization
-
-We have two redistributable packages, one for English and one for Japanese. Each is installed respectively by the English and Japanese product installers.
-When using the English redistributable package there is no need to include references to the  **-en.js** locale scripts, since its localization strings are combined inside the controls code.
-Similarly when using the Japanese redistributable package there's no need to include the **-ja.js** locale scripts, since they're already combined in the files.
 
 ### Code example: referencing localization resources using the Infragistics Loader
 

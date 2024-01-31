@@ -41,30 +41,12 @@ This topic contains the following sections:
 -   Open Source - a free version that contains a subset of the complete toolset. Grids and Data Visualization controls are excluded. For more information checkout the [%%ProductName%% OSS](https://github.com/IgniteUI/ignite-ui) project on GitHub&trade;.
 -   Full - a paid version that contains the complete toolset.
 
-## <a id="download"></a>Download and Install
-
-You can download the %%ProductName%% from its [download page](http://www.infragistics.com/products/ignite-ui/download). 
-Depending on your operating system you have several options to install the product, both trial and licensed.
-
-For Windows:
-
-- **[Platform Installer](https://www.infragistics.com/my-account/keys-and-downloads)**: Platform Installer is a Windows only online installer that gives you a wizard like experience to manage (install, update, uninstall) %%ProductName%% and all other Infragistics Developer tools their help and samples.
-
-- **[Download full product](http://www.infragistics.com/products/ignite-ui/download)**: 
-A Windows only offline MSI installer containing the product, help and samples.
-
-For MacOs, Linux, Unix etc.
-
-- **[Download No Installer Bundle](http://www.infragistics.com/products/ignite-ui/download)**: 
-A Windows only offline MSI installer containing the product and samples.
-
 # <a id="hosting"></a>Host %%ProductName%% in your project
 
 You have several options to host %%ProductName%% in your project:
 
 - Use %%ProductFamilyName%% CLI
 - Use Package Manager like NPM, JSPM, NuGet
-- Copy the [JavaScript and CSS files](Adding-the-Required-Resources-for-IgniteUI-for-jQuery.html) from the %%ProductName%% installation directory into your project
 - Use [Infragistics Content Delivery Network (CDN)](#cdn)
 
 ## <a id="igniteui-cli"></a>Using %%ProductFamilyName%% CLI
@@ -80,7 +62,7 @@ For more information read [Using %%ProductFamilyName%% CLI](Using-Ignite-UI-CLI.
 
 ## <a id="package_managers"></a>Using NPM, JSPM, NuGet
 
-%%ProductName%% supports a number of package managers: NPM, JSPM and NuGet.
+The primary distribution method for the %%ProductName%% family of controls is through package managers such as NPM, JSPM and NuGet.
 
 NPM (installs [%%ProductName%% Open Source](https://www.npmjs.com/package/ignite-ui))
 
@@ -108,7 +90,7 @@ For instructions how to configure the full licensed package, please check [Using
 ### <a id="add_references"></a>Add CSS and JavaScript references
 
 %%ProductName%% depends on jQuery and jQuery UI libraries and you need to add references to them before the %%ProductName%% scripts. You also have several options to include the %%ProductName%% controls in the page
-- Referencing combined and minified bundle files - installation comes with combined and minified files which group controls by type. There are `infragistics.core.js` (mandatory), `infragistics.lob.js` which contains the Line of Business controls like Grids, `infragistics.dv.js` which contains the Data Visualization controls like Charts, `infragistics.excel-bundled.js` which contains all excel exporting related logic, `infragistics.spreadsheet-bundled.js` which contains only spreadsheet user interface implementation and `infragistics.scheduler-bundled.js` which contains all scheduler related logic. For more information check [Adding Required Resources Manually](Adding-the-Required-Resources-for-IgniteUI-for-jQuery.html) topic.
+- Referencing combined and minified bundle files - the package comes with combined and minified files which group controls by type. There are `infragistics.core.js` (mandatory), `infragistics.lob.js` which contains the Line of Business controls like Grids, `infragistics.dv.js` which contains the Data Visualization controls like Charts, `infragistics.excel-bundled.js` which contains all excel exporting related logic, `infragistics.spreadsheet-bundled.js` which contains only spreadsheet user interface implementation and `infragistics.scheduler-bundled.js` which contains all scheduler related logic. For more information check [Adding Required Resources Manually](Adding-the-Required-Resources-for-IgniteUI-for-jQuery.html) topic.
 - Referencing individual control files - For more information check [JavaScript Files in %%ProductName%%](Deployment-Guide-JavaScript-Files.html) topic.
 - Using Infragistics Loader - The Infragistics Loader is a loader that can automatically load %%ProductName%% files (and not only). It saves you the burden to reference control files manually. For more information check [Adding Required Resources Automatically with the Infragistics Loader](Using-Infragistics-Loader.html) topic.
 - Using AMD Loader - %%ProductName%% is AMD compatible and can be used with all popular AMD loaders.

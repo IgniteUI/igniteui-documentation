@@ -41,7 +41,7 @@ The names of the JavaScript files containing the combined scripts for all of %%P
 
 -   `infragistics.scheduler-bundled.js`: all scheduler related logic
 
-They can be found in the `js` folder (the root folder for the JavaScript files in the %%ProductName%% program installation).There is also a combined script version of the localization resources named, and it resides in the `i18n` folder.
+They can be found in the `js` folder of the installed npm package. There is also a combined script version of the localization resources named, and it resides in the `i18n` folder.
 
 With the exception of the debug version all JavaScript files are minified. The non-minified files are used for debugging purposes. They expose the same folder structure as the minified files and have the same file names. The non-minified files are shipped in a .zip archive called `infragistics.IgniteUI.debug.zip`.
 
@@ -59,7 +59,7 @@ For reference on all scripts required for each control, refer to the [JavaScript
 To complete the procedure, you need the following:
 
 -   A project with any Web application
--   %%ProductName%% installed
+-   %%ProductName%% npm package installed
 -   [jQuery](http://jquery.com/) core library 1.9.1 version or above
 -   [jQuery UI](http://jqueryui.com/) library 1.9.0 or above
 -   [Modernizr](http://modernizr.com/) open-source JavaScript library 2.5.2 or above
@@ -72,7 +72,7 @@ To complete the procedure, you need the following:
 
 Copy the resources from the installation directory.
 
-1. The %%ProductName%%™ resources files are located in the installed directory within the `js` and `css` folder.
+1. The %%ProductName%%™ resources files are located in the npm package directory, within the `js` and `css` folder.
 
 	![](images/Adding_the_Required_Resources_for_IgniteUI_for_jQuery_2.png)
 
