@@ -31,7 +31,6 @@ NuGet is available since Visual Studio 2010 and since Visual Studio 2012, it is 
 
 Infragistics %%ProductName%% controls are available to explore as a NuGet package and this is the easiest and the fastest way to install the Infragistics files and assemblies required for your project.
 There are two approaches to start using the NuGet packages. We suggest you to set up and use our private NuGet feed hosted on  [https://packages.infragistics.com/nuget/licensed](https://packages.infragistics.com/nuget/licensed) which will keep you up to date with all the NuGet packages Infragistics provide. Using this approach you will be able to get the latest version of the packages each time you create a new project or restore the packages of an existing one.
-The alternative approach to the %%ProductName%% NuGet packages is to install them locally by running the NuGet installer. The installer will automatically create a local feed named “Infragistics (Local)”, which will display all the %%ProductName%% NuGet packages that are available. During the installation if you leave the product key field empty, the installer will install the trial version of the packages. Have in mind that if you choose this way of working with the %%ProductName%% NuGet packages you will have to install a later version of the packages manually if you want to update the assemblies you use to the latest version available. 
 
 ## <a id="privateFeedInstallation"></a> Installing %%ProductName%% packages from the online private feed
 
@@ -48,36 +47,6 @@ Inside the NuGet packages manager dialog you will need to select "Infragistics f
 ![](images/package_credentials.jpg)
 
 If you check the "Remember my password" checkbox the credentials will be stored in Windows and you will be able to manage them from the Credential Manager. After authenticating you will get a list of the packages that are available to install. When you pick a package, you get the required assemblies installed in the project and the packages.config is updated with the installed packages.
-
-## <a id="localFeedInstallation"></a> Installing %%ProductName%% packages from the local feed
-
-There are two ways to install %%ProductName%% NuGet packages to your project, using the GUI or using the console, and we will follow both procedures below. All the steps and screenshots are taken in Visual Studio 2015 but if you are using an older version of Visual Studio, the differences are negligible. Don't worry if you haven't used NuGet before as this example will guide you step-by-step through the procedure.
-
- 1. First create a new %%ProductName%% Web Application project. You can name it IgniteUIProject.
-![](images/IgniteUIProject_NuGet_Packages.png)
- 2. Select Empty project.
-![](images/Empty_Project_for_NnuGet_Packages.png)
- 3. After your project is created, your Solution Explorer will look like this:
- ![](images/Solution_Explorer_View_NuGet_Packages.png)
- At the moment, your project contains only the three default nodes: Properties, References and Web.config.
-
- 
-### <a id="guiInstallation"></a> Installing %%ProductName%% packages via GUI
-
-To install the %%ProductName%% NuGet package using the GUI, you should right-click on the project name and select Manage NuGet Packages… from the context menu.
- ![](images/NuGet_Manager.png)
-
-This will open the **Manage NuGet Packages** view. In this view you can see all the packages that are available for you to use in your project.
-
-Now you should change the package source to **Infragistics (Local)**.
-![](images/NuGet_Packages_Infragistics_IgniteUI.png)
-
-Navigate to the Browse tab and you will see the list of available %%ProductName%% NuGet packages. 
-
-When you select a package, you will see more information of it in the right panel. The most important information in this panel is the list of dependencies for the selected package. Those are assemblies that will be installed automatically to your project and you don't have to worry about those. 
-
-Click the Install button and the selected package will be added to your project. 
-![](images/Install_Button_for_NuGet_Packages.png)
 
 ### <a id="consoleInstallation"></a> Installing %%ProductName%% packages via Package Manager Console
 

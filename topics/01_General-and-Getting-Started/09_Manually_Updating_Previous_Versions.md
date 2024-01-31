@@ -82,26 +82,29 @@ The procedure of updating a project that uses %%ProductName%% includes updating 
 
 To complete the procedure, you need the following:
 
--   The latest version of the JavaScript files.
+-   The latest version of the JavaScript files. Using npm getting the latest version is as easy as calling:
 
-By default, the installer places the new JavaScript files in:
- 
+```
+npm install ignite-ui
+```
 
- ```
- %%InstallPath%%\js
- ```
+or, if you are using the licensed feed:
 
-where *ProductVersionShort* stands for the release year and release number separated by a dot, e.g. *2013.2*.
+```
+npm install @infragistics/ignite-ui-full
+```
 
-If you don’t have this version installed, you need to download the %%ProductName%% installation .zip file available from [here](https://www.infragistics.com/Membership/Default.aspx?panel=Downloads).
+> Note: In case your project uses a `package.json` file, the version the project depends on needs to be updated there.
+
+The JavaScript files can be found in `<IgniteUI_NPM_Directory>/js/`.
 
 -   The latest version of the jQuery UI themes.
 
-By default, the installer places the new themes in:`%%InstallPath%%\css\themes.`  If you don’t have this version installed, you need to download the %%ProductName%% installation .zip file available from [here](http://jqueryui.com/download).
+The CSS files can be found in `<IgniteUI_NPM_Directory>/css/`
 
 -   The latest version of the %%ProductName%% assemblies.
 
-By default, the installer places the new assemblies in:  `%%InstallPath%%\MVC`. If you don’t have this version installed, you need to download the %%ProductName%% installation .zip file available from [here](https://www.infragistics.com/Membership/Default.aspx?panel=Downloads).
+You can obtain these by updating your project dependencies in the Nuget Package Manager in your Visual Studio.
 
 ### Overview
 
@@ -136,15 +139,13 @@ To switch to the latest version of the resources, delete the existing Infragisti
  (These are all script files beginning with ig.) ​
 2. Delete the existing jQuery UI theme files and their folders. Copy  the new version of the JavaScript files together with their folder structure to the JavaScript folder of your project.
 
- - If you have the latest version of the JavaScript files installed, copy them from the %%ProductName%% installation  folder. (See the default the path in the [Prerequisites](#prerequisites) block.)
- - If you don’t have the latest version of the JavaScript files installed, extract the files from the installation .zip archive. The JavaScript files reside in the js folder stored in archive. (For download  instruction, see the [Prerequisites](#prerequisites) block.)
+ - If you have the latest version of the JavaScript files installed, copy them from the npm package installation folder (in case you don't reference them directly).
 
  > **Note:** There are breaking changes in JavaScript files and folder  structure. More information for changes, refer to [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html). 
 
 3. Copy the new version of the jQuery UI theme files together with their folder structure to the themes folder of your project.
 
- - If you have the latest version of the theme files installed, copy them from the %%ProductName%% installation folder. (See the default the path in the [Prerequisites](#prerequisites) block.)
- - If you don’t have the latest version of the theme files installed, extract the files from the installation .zip archive. The theme files reside in the themes folder stored in archive. (For download instruction, see the [Prerequisites](#prerequisites) block.)
+ - If you have the latest version of the theme files installed, copy them from the %%ProductName%% npm package installation folder (in case you don't reference them directly).
  - If you have customized versions of the old themes, these customizations must be re-created (copied) manually in the new versions of the themes.
  - If you have a ThemeRoller theme, copy theme from backup folder in the css/theme folder.
 
@@ -175,9 +176,6 @@ To upgrade the assemblies:
 In Visual Studio, remove the existing references for the Infragistics assemblies from your project.
 
 ​2. Add and reference the new version of the Infragistics assemblies in your project.
-
--   If you have the latest version of the assembly files installed, copy them from the %%ProductName%% installation folder. (See the default the path in the [Prerequisites](#prerequisites) block.)
--   If you don’t have the latest version of the assembly files installed, extract the files from the installation .zip archive. The assembly files reside in the MVC directory stored in archive. (For download instruction, see the [Prerequisites](#prerequisites) block.)
 
 >**Note:** The method by which you add the assemblies to your project will vary depending on the type of deployment. In most cases, removing the old assemblies from the bin folder and adding the new assemblies to the bin folder will be adequate but the steps may differ if you are using a different deployment method, e.g. when the assemblies are in the Global Assembly Cache (GAC).
 

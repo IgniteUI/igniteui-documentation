@@ -51,33 +51,6 @@ All controls have helper methods available off of the `Infragistics()` extension
 @(Html.Infragistics().Grid("grid1", Model.GridFiltering))
 ```
 
-### Navigate to the installed resources
-
-If you have chosen the typical installation of %%ProductName%% 20%%ProductVersionShort%%, you can find the resources under the paths below:
-
-<table class="table">
-	<thead>
-		<tr>
-			<th>Type</th>
-			<th>Path</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Assemblies</td>
-			<td>%%InstallPathMVC%%\</td>
-		</tr>
-		<tr>
-			<td>Script files</td>
-			<td>%%InstallPath%%\js</td>
-		</tr>
-		<tr>
-			<td>CSS files</td>
-			<td>%%InstallPath%%\css</td>
-		</tr>
-	</tbody>
-</table>
-
 ## MVC 4, MVC 5
 
 All the %%ProductNameMVC%% functionality is contained in the `Infragistics.Web.Mvc` assembly, which comes compiled against all MVC4 and MVC5. For further details on the assembly location of the %%ProductNameMVC%%, please read [Using JavaScript Resources in %%ProductName%%](Deployment-Guide-JavaScript-Resources.html).
@@ -266,13 +239,8 @@ The following steps demonstrate how to develop ASP.NET MVC application with `igT
 
 1. Adding required resource to the MVC application
 
-	 - Navigate to the installation folder of %%ProductName%% 20%%ProductVersionShort%%: `%%InstallPath%%`
-	
-	 - Copy the `js` and `css` folder to the root directory of your MVC application
-	
-	 - Add reference to `Infragistics.Web.Mvc` assembly
-	
-	> **Note**: You should set `Copy Local` property of the reference of the dll to `true`.
+	- Add the %%ProductName%% NuGet package to your application's list of dependencies.
+	- Add the %%ProductNameMVC%% NuGet package (based on the MVC version you use) to your application's list of dependencies.
 
 2. Declare the igTree in an MVC application
 

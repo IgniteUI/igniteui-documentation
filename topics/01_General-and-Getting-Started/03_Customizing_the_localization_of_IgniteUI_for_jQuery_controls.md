@@ -95,21 +95,18 @@ Note that if this property is set it will take precedence over the globally set 
 If you want to set a custom language you need to follow a different procedure:
 
 -   Localize the control
-   -   Locate localization files. You can find localization files in `<IgniteUI_Install_Folder>\js\modules\i18n`, where <IgniteUI_Install_Folder> points by default to `%%InstallPath%%`
+   -   Locate localization files. You can find localization files in `<IgniteUI_NPM_Folder>\js\modules\i18n`
 
 -   To localize control which you want to use make a copy of `*-ru.js` file for the control you want to localize and rename it to `*-<language>.js ` where <language> is two character code of your language.
 
 -   Include the localized file in your project. Include the file you just created into your project. This way, the control will use the strings from your file. This approach will work with Infragistics loader no matter what you’ve set for the locale property.
-
->**Note:**  This guide assumes that you have installed English redistributable package. In this case you will not have `infragistics-en.js`. That’s why we will use `infragistics-ru.js`. If you feel uncomfortable with that you can get the Japanese redistributable and get the `infragistics-en.js` file from there.
 
 ## <a id="Localization"></a>Control Localization Files Reference
 
 
 ### <a id="subIntroduction"></a>Introduction
 
-This section describes the available localization files for %%ProductName%% controls. You can find these files under the *<IgniteUI_Install_Folder>\js\modules\i18n* folder, where <IgniteUI_Install_Folder> points to the directory where you installed the %%ProductName%% product.
-
+This section describes the available localization files for %%ProductName%% controls. You can find these files under the *<IgniteUI_NPM_Folder>\js\modules\i18n* folder.
 ###<a id="LocalizationSummary"></a> Control localization reference summary
 
 The following table summarizes localization files for %%ProductName%% controls.
@@ -321,9 +318,7 @@ The following screenshot is a preview of the final result.
 
 ### <a id="Requirements"></a>Requirements
 
-To complete the procedure, you need an installation of %%ProductName%% %%ProductVersionShort%% (English redistributable).
-
->**Note**:  We assume that the installation path is `%%InstallPath%%`
+To complete the procedure, you need to download or install the npm package of %%ProductName%% %%ProductVersionShort%% (English version).
 
 ###<a id="Overview"></a> Overview
 
@@ -341,7 +336,7 @@ The following steps demonstrate how to localize x control.
 
 1. <a id="copy_localization_file"></a> Making a copy of `infragistics.ui.grid-ru.js` and renaming it to `infragistics.ui.grid-es.js`
 
-	Copy `%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-ru.js` to `%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-es.js`
+	Copy `<IgniteUI_NPM_Folder>\js\modules\i18n\infragistics.ui.grid-ru.js` to `<IgniteUI_NPM_Folder>\js\modules\i18n\infragistics.ui.grid-es.js`
 	
 	The result is shown in the following screenshot:
 	
@@ -349,7 +344,7 @@ The following steps demonstrate how to localize x control.
 
 2. <a id="localize_file"></a> Localizing infragistics.ui.grid-es.js
 
-	Open file `%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-es.js` with text editor and translate `igGridPaging` section strings into your language. In our case this is Spanish.
+	Open file `<IgniteUI_NPM_Folder>\js\modules\i18n\infragistics.ui.grid-es.js` with text editor and translate `igGridPaging` section strings into your language. In our case this is Spanish.
 	
 	>**Note:**  `infragistics.ui.grid-es.js` contains localization strings for all `igGrid` features, so you do not have to translate the whole file if you do not need to use all `igGrid` features.
 	
