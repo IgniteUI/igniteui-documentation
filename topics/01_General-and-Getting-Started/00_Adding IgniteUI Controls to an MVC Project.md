@@ -51,33 +51,6 @@
 @(Html.Infragistics().Grid("grid1", Model.GridFiltering))
 ```
 
-### インストールしたリソースへ移動
-
-%%ProductName%% 20%%ProductVersionShort%% のインストール時に一般的なフォルダー構成を選択した場合、各リソースは次のパスに置かれています。
-
-<table class="table">
-	<thead>
-		<tr>
-			<th>タイプ</th>
-			<th>パス</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>アセンブリ</td>
-			<td>%%InstallPathMVC%%\</td>
-		</tr>
-		<tr>
-			<td>スクリプト ファイル</td>
-			<td>%%InstallPath%%\js</td>
-		</tr>
-		<tr>
-			<td>CSS ファイル</td>
-			<td>%%InstallPath%%\css</td>
-		</tr>
-	</tbody>
-</table>
-
 ## ## MVC 4 および MVC 5
 
 %%ProductNameMVC%% の機能は、`Infragistics.Web.Mvc` アセンブリに含まれています。これは、MVC4 と MVC5 の両方に対してコンパイル済みです。%%ProductNameMVC%% のアセンブリの場所の詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」を参照してください。
@@ -266,13 +239,8 @@ private void InitializeSortingGridOptions(GridModel model)
 
 1. MVC アプリケーションへの必要なリソースの追加
 
-	 - %%ProductName%% 20%%ProductVersionShort%% のインストール フォルダーへ移動します: `%%InstallPath%%`。
-	
-	 - `js` および `css` フォルダーを MVC アプリケーションのルート ディレクトリへコピーします。
-	
-	 - `Infragistics.Web.Mvc` アセンブリへの参照を追加します。
-	
-	> **注**: dll の参照の `Copy Local` プロパティを `true` に設定する必要があります。
+	- %%ProductName%% NuGet パッケージをアプリケーションの依存関係のリストに追加します。
+	- %%ProductNameMVC%% NuGet パッケージ (使用する MVC バージョンに基づく) をアプリケーションの依存関係のリストに追加します。
 
 2. MVC アプリケーションで igTree を宣言
 
@@ -408,13 +376,3 @@ private void InitializeSortingGridOptions(GridModel model)
 - [%%ProductName%% のスタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)
 
 - [%%ProductName%% 対応 Infragistics コンテンツ配信ネットワーク (CDN)](Deployment-Guide-Infragistics-Content-Delivery-Network%28CDN%29.html)
-
-
-
-
-
- 
-
- 
-
-

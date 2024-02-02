@@ -41,7 +41,7 @@
 -	`infragistics.spreadsheet-bundled`
 -	`infragistics.scheduler-bundled`
 
-ファイルは js フォルダー (%%ProductName%% プログラム インストール パス内の JavaScript ファイルのルート フォルダー) にあります。
+ファイルは js フォルダー (%%ProductName%% npm パッケージのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
 
 ブルガリア語、ロシア語、英語、ドイツ語、スペイン語、およびフランス語の、結合スクリプト バージョンのローカライズ リソースもあります。ファイル名は `infragistics-bg.js`, `infragistics-en.js`、`infragistics-ru.js`、 `infragistics-de.js`、`infragistics-es.js`、および `infragistics-fr.js`であり、これらは `../js/i18n` フォルダーにあります。
 
@@ -59,7 +59,7 @@
 
 コントロールのローカライズ リソースは、ブルガリア語、ロシア語、英語、ドイツ語、スペイン語、およびフランス語です。これらは、js/modules/i18n (*js* は、%%ProductName%% プログラムのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
 
-地域設定 - igRegional JavaScript ファイルは、jQuery エディター用の日付、数字、通貨記号などのローカライズ フォーマットを提供します。これらは、`../js/modules/i18n/regional` (`js` は、%%ProductName%% プログラムのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
+地域設定 - igRegional JavaScript ファイルは、jQuery エディター用の日付、数字、通貨記号などのローカライズ フォーマットを提供します。これらは、`../js/modules/i18n/regional` (`js` は、%%ProductName%% npm パッケージのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
 
 >**注:** 結合スクリプト ファイルを使用するときは、地域設定を常に参照する必要があります。これらは結合スクリプト ファイルの一部ではありません。
 
