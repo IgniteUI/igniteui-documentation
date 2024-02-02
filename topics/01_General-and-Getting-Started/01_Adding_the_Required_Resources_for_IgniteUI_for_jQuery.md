@@ -41,7 +41,7 @@
 
 -   `infragistics.scheduler-bundled.js`: すべてのスケジューラに関連するロジック
 
-すべての JavaScript の結合スクリプトを含むファイルは `js` フォルダー (%%ProductName%% プログラム インストール内の JavaScript ファイルの root フォルダー) にあります。結合スクリプト バージョンの名前付きのローカライズ リソースもあり、これは `i18n` フォルダーにあります。
+これらは、インストールされた npm パッケージの `js` フォルダーにあります。結合スクリプト バージョンの名前付きのローカライズ リソースもあり、これは `i18n` フォルダーにあります。
 
 デバッグ バージョンの例外を除き、すべての JavaScript ファイルは縮小されています。デバッグには、縮小されていないファイルを使用します。これらのファイルは縮小されたファイルと同じファイル構造を持ち、ファイル名も同じです。縮小されていないファイルは、.zip アーカイブで提供されます (`infragistics.IgniteUI.debug.zip`)。
 
@@ -59,7 +59,7 @@
 この手順を実行するには、以下が必要です。
 
 -   Web アプリケーションが含まれるプロジェクト
--   %%ProductName%% がインストール済み
+-   %%ProductName%% npm パッケージがインストール済み
 -   [jQuery](http://jquery.com/) コア ライブラリ バージョン 1.9.1 またはそれ以降
 -   [jQuery UI](http://jqueryui.com/) ライブラリ 1.9.0 以降
 -   [Modernizr](http://modernizr.com/) オープン ソース JavaScript ライブラリ 2.5.2 以降
@@ -72,7 +72,7 @@
 
 インストール ディレクトリからリソースをコピーします。
 
-1. %%ProductName%%™ リソースは、`js` および `css` フォルダー内のインストール ディレクトリに置かれています。
+1. %%ProductName%%™ リソースは、`js` および `css` フォルダー内の npm パッケージ ディレクトリに置かれています。
 
 ![](images/Adding_the_Required_Resources_for_IgniteUI_for_jQuery_2.png)
 
@@ -88,13 +88,13 @@
 
 Modernizr JavaScript ファイルをコピーします。
 
-1. JavaScript ライブラリをダウンロードします。 
+1. JavaScript ライブラリをダウンロードします。
 
 2. ダウンロードした JavaScript ファイルを Web アプリケーションの Scripts フォルダーにコピーします。
 
 > **注**: Modernizr JavaScript ライブラリは現在のブラウザ機能を検出するために使用され、その他のすべてのリソース (`css` および `js`) の前に追加する必要があります。
 
-> **注**: 注 : IE7 サポートに関しては、カスタマイズされたバージョンの Modernizr `js` ファイルを作成する必要があります。
+> **注**: IE7 サポートに関しては、カスタマイズされたバージョンの Modernizr `js` ファイルを作成する必要があります。
 
 Modernizr のデフォルトのパッケージには含まれていない、`css-boxsizing` が必要です。このため、Modernizr サイトのダウンロード セクションに移動します : [http://www.modernizr.com/download/](http://www.modernizr.com/download/)
 

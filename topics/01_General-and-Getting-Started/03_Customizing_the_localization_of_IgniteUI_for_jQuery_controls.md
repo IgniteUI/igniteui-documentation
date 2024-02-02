@@ -12,17 +12,17 @@
 
 ##トピックの概要
 
-#### 目的
+### 目的
 
 このトピックでは、必要な言語での %%ProductName%%™ コントロールのローカライズ方法について説明します。
 
-#### 必要な背景
+### 必要な背景
 
 以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
 
 [%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html) : このトピックでは、%%ProductName%% のフォルダー構造、Infragistics ローダーの使用方法、およびコントロールの手動での参照方法について説明します。
 
-#### このトピックの内容
+### このトピックの内容
 
 このトピックは、以下のセクションで構成されます。
 
@@ -47,7 +47,7 @@
 ##<a id="Introduction"></a>概要
 
 
-#### %%ProductName%% コントロールのローカライズの紹介
+### %%ProductName%% コントロールのローカライズの紹介
 
 現在、jQuery コントロールは以下の言語で提供されています。
 
@@ -74,9 +74,7 @@
 -   ハンガリー語
 
 コントロールをいずれかの言語にローカライズするには、Infragistics ローダーまたはローカライズ ファイル `infragistics-<locale>.js` を参照する必要があります。`<locale>` は、en、ja、ru、bg、de、fr、es のいずれかになります。17.2 以前は単一のロケール ファイルは一度に読み込めましたが、2 つ以上のロケールを読み込んだ場合、最後に読み込んだロケールによって前のロケールがオーバーライドされました。17.2 以後、複数のロケール ファイルを一度に読み込むことができます。
-
 必要なロケールをすべて読み込んだ後、グローバルに適用するロケールを指定、またはコントロールごとにロケールを設定できます。単一のロケール ファイルのみ読み込んだ場合、グローバルのデフォルト言語が無視され、読み込んだロケールの言語文字列が表示されます。
-
 複数のロケール ファイルを読み込んだ場合、言語をグローバルに設定するには、コントロールを初期化する前に `$.ig.util.language` を設定します。
 
 **JavaScript の場合:**
@@ -86,7 +84,6 @@
 ```
 
 また、各ローカライズ可能なコントロールに読み込んだときに使用する言語を決定する `language` プロパティがあります。
-
 注: このプロパティを設定した場合、特定のコントロールでグローバルで設定された言語より優先されます。
 
 >**注:** 2 つの再配布可能なパッケージがあります。ひとつは英語、もうひとつは日本語です。英語版では、再配布可能なパッケージ `infragistics-en.js` は利用できません。ローカライズ文字列は、ファイルの最初のコントロール コードに含まれています。日本語版では、再配布可能なパッケージ `infragistics-ja.js` は利用できません。ローカライズ文字列は、ファイルの最初のコントロール コードに含まれています。
@@ -98,30 +95,20 @@
 カスタム言語を設定する場合、設定手順は異なります。
 
 -   コントロールをローカライズします
-   -   ローカライズ ファイルを見つけます - ローカライズ ファイルは `<Ignite_UI_Install_Folder>\js\modules\i18n` にあります
-
-<IgniteUI_Install_Folder> のデフォルト値は:      
-
-```
-%%InstallPath%%
-```
+   -   ローカライズ ファイルを見つけます - ローカライズ ファイルは `<IgniteUI_NPM_Folder>\js\modules\i18n` にあります。
 
 -   使用したいコントロールをローカライズするには、ローカライズするコントロールの `*-ru.js` ファイルのコピーを作成し、`*-<language>.js` に名前を変更します。ここでは、<language> は使用する言語の 2 文字のコードです。
 
 -   ローカライズされたファイルをプロジェクトに追加します。作成したファイルをプロジェクトに追加します。このようにして、コントロールは、開発者のファイルからの文字列を使用するようになります。locale プロパティをどのように設定しても、このアプローチは Infragistics ローダーで動作します。
-
->**注:** このガイドは、英語版の再配布可能なパッケージがインストールされていることを前提としています。この場合、`infragistics-en.js` はありません。このため、`infragistics-ru.js` を使用します。都合が悪い場合は日本語の再配布可能パッケージを入手して、そこから `infragistics-en.js` を入手できます。
-
-
 
 ## <a id="Localization"></a>コントロールのローカライズ ファイル参照
 
 
 ### <a id="subIntroduction"></a>概要
 
-このセクションでは、%%ProductName%% コントロールの利用可能なローカライズ ファイルについて説明します。これらのファイルは <IgniteUI_Install_Folder>\js\modules\i18n フォルダーにあり、ここで <IgniteUI_Install_Folder> は、%%ProductName%% をインストールしたディレクトリを指します。
+このセクションでは、%%ProductName%% コントロールの利用可能なローカライズ ファイルについて説明します。これらのファイルは *<IgniteUI_NPM_Folder>\js\modules\i18n* フォルダーにあります。
 
-####<a id="LocalizationSummary"></a> コントロールのローカライズ参照の概要
+###<a id="LocalizationSummary"></a> コントロールのローカライズ参照の概要
 
 以下の表は、%%ProductName%% コントロールのローカライズ ファイルの概要を示しています。
 
@@ -188,9 +175,9 @@
 			<td>infragistics.ui.videoplayer-ru.js</td>
 		</tr>
 	</tbody>
-</table>   
+</table>
 
-## <a id="set"></a> `language`、`locale`、および `regional` オプションの設定
+# <a id="set"></a> `language`、`locale`、および `regional` オプションの設定
 
 コントロールの `language`、`regional`、および `locale` オプションを JavaScript および ASP.NET MVC で設定できます。
 
@@ -268,9 +255,9 @@ igTreeGrid - 文字列で設定される `locale` オプション
     )
 ```
 
-## <a id="change"></a> 言語および地域設定の変更
+# <a id="change"></a> 言語および地域設定の変更
 
-### <a id="change-locale"></a> 言語の変更
+## <a id="change-locale"></a> 言語の変更
 
 コントロールの言語を `language` オプションによって設定できます。ランタイムに変更するには、以下の方法を使用します。
 - ページで `language` が明示的に設定されていないすべての %%ProductName%% ウィジェットをグローバルに設定するには、`changeGlobalLanguage` 関数を使用します。
@@ -292,7 +279,7 @@ igTreeGrid - 文字列で設定される `locale` オプション
 
 >**注:** `language` オプションは、`locale` オプションを使用して設定される文字列をオーバーライドしません。 `locale` オプションがより優先されます。
 
-### <a id="change-regional"></a> 地域設定の変更
+## <a id="change-regional"></a> 地域設定の変更
 
 コントロールの地域設定を `regional` オプションによって設定できます。設定するには、以下の方法を使用します。
 
@@ -303,7 +290,7 @@ igTreeGrid - 文字列で設定される `locale` オプション
 	```js
 		$.ig.util.changeGlobalRegional("ru");
 	```
-	
+
 - コントロールの `language` オプションによってコントロールごとに設定します。
 
 	**JavaScript の場合:**
@@ -311,7 +298,7 @@ igTreeGrid - 文字列で設定される `locale` オプション
 	```js
 		grid.igGrid("option", "regional", "ru");
 	```
-	
+
 >**注:** igGrid コントロールで列ごとに地域設定を変更できます。これにより、データに異なる列で異なる地域書式を設定できます。
 
 **JavaScript の場合:**
@@ -337,13 +324,11 @@ grid.igGrid({
 
 ![](images/Customizing_the_Localization_of_IgniteUI_for_jQuery_Controls_1.png)
 
-#### <a id="Requirements"></a>要件
+### <a id="Requirements"></a>要件
 
-手順を実行するには、%%ProductName%% %%ProductVersionShort%% (英語版再配布可能パッケージ) のインストールが必要です。
+手順を完了するには、%%ProductName%% %%ProductVersionShort%% (英語版) の npm パッケージをダウンロードまたはインストールする必要があります。
 
->**注**: インストール パスは `%%InstallPath%%` として仮定します。
-
-####<a id="Overview"></a> 概要
+###<a id="Overview"></a> 概要
 
 このトピックでは、igGridPaging のローカライズについてステップごとに説明します。以下はプロセスの概念的概要です。
 
@@ -360,7 +345,7 @@ grid.igGrid({
 
 1. <a id="copy_localization_file"></a> `infragistics.ui.grid-ru.js` のコピーを作成し、`infragistics.ui.grid-es.js` に名前を変更します。
 
-	`%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-ru.js` を `%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-es.js` にコピーします。
+	`<IgniteUI_NPM_Folder>\js\modules\i18n\infragistics.ui.grid-ru.js` を `<IgniteUI_NPM_Folder>\js\modules\i18n\infragistics.ui.grid-es.js` にコピーします。
 
 	この結果は、以下のスクリーンショットに示されています。
 
@@ -368,7 +353,7 @@ grid.igGrid({
 
 2. <a id="localize_file"></a> infragistics.ui.grid-es.js のローカライズ
 
-	`%%InstallPath%%\js\modules\i18n\infragistics.ui.grid-es.js` をテキスト エディターで開き、`igGridPaging` セクションの文字列を自分の言語に翻訳します。この場合はスペイン語です。
+	`<IgniteUI_NPM_Folder>\js\modules\i18n\infragistics.ui.grid-es.js` をテキスト エディターで開き、`igGridPaging` セクションの文字列を自分の言語に翻訳します。この場合はスペイン語です。
 
 	>**注:** `infragistics.ui.grid-es.js` にはすべての `igGrid` 機能のローカライズ文字列が含まれているため、すべての `igGrid` 機能を使用する必要がなければ、ファイル全体を翻訳する必要はありません。
 
@@ -396,7 +381,7 @@ grid.igGrid({
 			pagerRecordsLabelTemplate: "${startRecord} - ${endRecord} de ${recordCount} registros",
 			invalidPageIndex: "Índice de página no válido: debería ser igual o superior a 0 e inferior al número de página"
 	};
-	```           
+	```
 
 3. <a id="include_localized_file"></a> ローカライズされたファイルをスクリプト参照と共にプロジェクトに追加
 
@@ -556,12 +541,5 @@ grid.igGrid({
 
 - [%%ProductName%% の JavaScript ファイル](Deployment-Guide-JavaScript-Files.html) : %%ProductName%% のすべての JavaScript ファイルを示します。
 
-
-
-
-
- 
-
- 
 
 
