@@ -52,7 +52,6 @@
 ## <a id="igniteui-cli"></a>%%ProductFamilyName%% CLI の使用
 
 %%ProductFamilyName%% CLI は、Angular、React、および jQuery でアプリケーションを初期化、開発、スキャフォールディング、および処理するツールです。
-
 CLI を使用するには、npm パッケージをグローバル モジュールとしてインストールします。
 
 ```
@@ -202,7 +201,7 @@ JSPM ([%%ProductName%% オープン ソース](https://www.npmjs.com/package/ign
 
 ## <a id="aspnet_wrappers"></a>ASP.NET MVC ラッパー
 
-%%ProductNameMVC% ラッパーは、モデルおよびビューチャートの初期化およびサーバー側リモート要求の処理をサポートします。詳細については、[「コントロールを MVC プロジェクトに追加」](Adding-IgniteUI-Controls-to-an-MVC-Project.html)トピックを参照してください。
+%%ProductNameMVC%% ラッパーは、モデルおよびビューチャートの初期化およびサーバー側リモート要求の処理をサポートします。詳細については、[「コントロールを MVC プロジェクトに追加」](Adding-IgniteUI-Controls-to-an-MVC-Project.html)トピックを参照してください。
 
 ## <a id="related_content"></a>関連コンテンツ
 
