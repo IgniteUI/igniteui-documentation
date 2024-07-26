@@ -18,8 +18,12 @@
 
 導入された新しいコントロールおよび機能に関する詳細は、以下のトピックで説明されています。
 
-- [2022 Volume 1 の新機能](Whats-New-In-2022-Volume1.html): このトピックでは、Infragistics  %%ProductName%%™ 2022 Volume 1 で導入された、新しい機能およびコンポーネントの概要について説明します。
-- 
+- [2023 Volume 2 の新機能](Whats-New-In-2023-Volume2.html): このトピックでは、Infragistics %%ProductName%%™ 2023 Volume 2 で導入された、新しい機能およびコンポーネントの概要について説明します。
+
+- [2022 Volume 2 の新機能](Whats-New-In-2022-Volume2.html): このトピックでは、Infragistics %%ProductName%%™ 2022 Volume 2 で導入された、新しい機能およびコンポーネントの概要について説明します。
+
+- [2022 Volume 1 の新機能](Whats-New-In-2022-Volume1.html): このトピックでは、Infragistics %%ProductName%%™ 2022 Volume 1 で導入された、新しい機能およびコンポーネントの概要について説明します。
+
 - [2021 Volume 2 の新機能](Whats-New-In-2021-Volume2.html): このトピックでは、Infragistics %%ProductName%%™ 2021 Volume 2 で導入された、新しい機能およびコンポーネントの概要について説明します。
 
 - [2021 Volume 1 の新機能](Whats-New-In-2021-Volume1.html): このトピックでは、Infragistics %%ProductName%%™ 2021 Volume 1 で導入された、新しい機能およびコンポーネントの概要について説明します。
