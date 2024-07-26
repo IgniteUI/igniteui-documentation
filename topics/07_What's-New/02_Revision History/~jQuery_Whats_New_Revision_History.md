@@ -18,6 +18,8 @@ The topics referred below provide information about what new controls and featur
 
 Detailed information regarding what new controls and features are introduced is covered in the following topics:
 
+- [What's New in 2023 Volume 2](Whats-New-In-2023-Volume2.html): This topic provides an overview of the new functionalities and components introduced with the %%ProductName%%™ 2023 Volume 2.
+
 - [What's New in 2022 Volume 2](Whats-New-In-2022-Volume2.html): This topic provides an overview of the new functionalities and components introduced with the %%ProductName%%™ 2022 Volume 2.
 
 - [What's New in 2022 Volume 1](Whats-New-In-2022-Volume1.html): This topic provides an overview of the new functionalities and components introduced with the %%ProductName%%™ 2022 Volume 1.
