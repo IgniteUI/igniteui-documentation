@@ -19,9 +19,9 @@ The topics in this group provide information about the Known Issues, Limitations
 
 Detailed information regarding known issues, limitations and breaking changes is covered in the following topics:
 
-- [Breaking Changes in 2023.2](Breaking-Changes-2023-Volume-2.html): This topic contains a list of Breaking Changes of the 2023 Volume 2 release of the %%ProductName%%™ library.
+- [Breaking Changes in 2024.1](Breaking-Changes-2024-Volume-1.html): This topic contains a list of Breaking Changes of the 2024 Volume 1 release of the %%ProductName%%™ library.
 
-- [Known Issues 2023.2](Known-Issues-and-Limitations-2023-Volume-2.html): This topic contains a list of Known Issues and Limitations of the 2023 Volume 2 release of the %%ProductName%%™ library.
+- [Known Issues 2024.1](Known-Issues-and-Limitations-2024-Volume-1.html): This topic contains a list of Known Issues and Limitations of the 2024 Volume 1 release of the %%ProductName%%™ library.
 
 - [Known Issues Revision History](Known-Issues-Revision-History.html): This topic provides links to the Known Issues and Limitations documents for earlier versions of the %%ProductName%%™ library.
 
