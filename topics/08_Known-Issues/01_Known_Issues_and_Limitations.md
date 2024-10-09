@@ -1,20 +1,20 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "known-issues-and-limitations-2024-volume-1",
+    "fileName": "known-issues-and-limitations",
     "controlName": "",
     "tags": ["Breaking Changes","Known Issues"]
 }
 |metadata|
 -->
 
-# Known Issues and Limitations in 2024 Volume 1
+# Known Issues and Limitations
 
 ## Topic Overview
 
 ### Purpose
 
-This summarizes the known issues and limitations of the %%ProductName%%™ 2024 Volume 1 release. Information about previous releases can be found [here](Known-Issues-Revision-History.html).
+This summarizes the current known issues and limitations of the %%ProductName%%™ library. Information about previous releases can be found [here](Known-Issues-Revision-History.html).
 
 ### In this topic
 

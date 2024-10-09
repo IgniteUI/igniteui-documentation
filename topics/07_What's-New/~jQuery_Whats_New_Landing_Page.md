@@ -19,6 +19,6 @@ The topics in this group provide information about the new controls and features
 
 Detailed information regarding what new controls and features are introduced is covered in the following topics:
 
-- [What’s New in 2024 Volume 1](Whats-New-In-2024-Volume1.html): This topic contains a list of controls and features introduced in the 2024 Volume 1 release of the %%ProductName%% library.
+- [General Changelog](General-Changelog.html): This topic encapsulates all changes introduced in both major and minor versions of the %%ProductName%% library since the 2024 Volume 1 release.
 
-- [Revision History](jQuery-Whats-New-Revision-History.html): This is a topic listing to the What’s New topics for earlier versions.
+- [Revision History](jQuery-Whats-New-Revision-History.html): This is an archive of all What’s New topics for earlier versions.
