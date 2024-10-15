@@ -1,26 +1,26 @@
 ﻿<!--
 |metadata|
 {
-    "fileName": "known-issues-and-limitations-2023-volume-2",
+    "fileName": "known-issues-and-limitations",
     "controlName": "",
     "tags": ["Breaking Changes","Known Issues"]
 }
 |metadata|
 -->
 
-# 2024 Volume 1 の既知の問題と制限
+# 既知の問題と制限
 
 ## トピックの概要
 
 ### 目的
 
-以下に %%ProductName%%™ 2024 Volume 1 リリースの既知の問題と制限事項の概要を示します。旧リリースに関する情報は、[こちら](Known-Issues-Revision-History.html)を参照してください。
+ここでは、%%ProductName%%™ ライブラリの既知の問題と制限事項を示します。旧リリースに関する情報は、[こちら](Known-Issues-Revision-History.html)を参照してください。
 
 ### このトピックの内容
 
 このトピックは、以下のセクションで構成されます。
 
-- [2024 Volume 1 の既知の問題と制限](#2024-volume-1-の既知の問題と制限)
+- [既知の問題と制限](#2024-volume-1-の既知の問題と制限)
   - [トピックの概要](#トピックの概要)
     - [目的](#目的)
     - [このトピックの内容](#このトピックの内容)

@@ -17,9 +17,9 @@
 
 ### トピック
 
-- [2024 Volume 1 の新機能](Whats-New-In-2024-Volume1.html): このトピックには、%%ProductName%% ライブラリの 2024 Volume 1 リリースで導入されたコントロールと機能のリストが含まれています。
+- [一般的な変更ログ](General-Changelog.html): このトピックでは、2024 Volume 1 リリース以降に %%ProductName%% ライブラリのメジャー バージョンとマイナー バージョンの両方で導入されたすべての変更について説明します。
 
-- [改訂履歴](jQuery-Whats-New-Revision-History.html): このトピックは、以前のバージョンの「新機能」のトピックに該当します。
+- [改訂履歴](jQuery-Whats-New-Revision-History.html): このトピックは、以前のバージョンの「新機能」のトピックのアーカイブです。
 
 
 
