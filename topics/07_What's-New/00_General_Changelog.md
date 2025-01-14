@@ -11,10 +11,21 @@
 # 変更ログ
 
 - **リリースされたバージョン**
+    - 2025 年 1 月
+        - [24.2.3](#2423)
     - 2024 年 9 月
         - [24.1.9](#2419)
         - [23.2.58](#23258)
 
+
+## <a id="2423"></a> 24.2.3
+### 追加
+- Infragistics %%ProductNameASPNETCore%% で ASP.NET Core for .NET 9 プロジェクトがサポートされます。詳細情報は、[%%ProductNameASPNETCore%% の使用](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html)トピックを参照してください。
+- Infragistics %%ProductName%% は、最近リリースされた jQuery 3.7 および jQuery UI 1.14 をサポートするようになりました。
+- igGrid および igHierarchicalGrid
+   - 新しいプロパティ `rowAttributeTemplate` を使用すると、行に任意の属性を追加できます [#2249](https://github.com/IgniteUI/ignite-ui/issues/2249)
+- igGridFiltering
+   - 新しいプロパティ `filterCellLabelTemplate` (対応する列設定を通じて列ごとにオーバーライド可能) を使用すると、列フィルターに関する追加情報を提供する視覚的なラベルをヘッダー セルに表示できます [#2244](https://github.com/IgniteUI/ignite-ui/issues/2244)
 
 ## <a id="2419"></a> 24.1.9
 
