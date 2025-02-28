@@ -11,11 +11,33 @@
 # Changelog
 
 - **Released Versions**
+    - February 2025
+        - [24.2.6](#2426)
+        - [24.1.11](#24111)
+        - [23.2.60](#23260)
     - January 2025
         - [24.2.3](#2423)
     - September 2024
         - [24.1.9](#2419)
         - [23.2.58](#23258)
+
+## <a id="2426"></a> 24.2.6
+
+### Fixed
+
+- Replaced usage of deprecated jQuery API from various 3.x releases
+
+## <a id="24111"></a> 24.1.11
+
+### Fixed
+
+- Replaced usage of deprecated jQuery API from various 3.x releases
+
+## <a id="23260"></a> 23.2.60
+
+### Fixed
+
+- Replaced usage of deprecated jQuery API from various 3.x releases
 
 ## <a id="2423"></a> 24.2.3
 
