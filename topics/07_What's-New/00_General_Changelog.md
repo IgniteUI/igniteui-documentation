@@ -11,6 +11,9 @@
 # Changelog
 
 - **Released Versions**
+    - April 2025
+        - [24.2.7](#2427)
+        - [24.1.12](#24112)
     - February 2025
         - [24.2.6](#2426)
         - [24.1.11](#24111)
@@ -20,6 +23,24 @@
     - September 2024
         - [24.1.9](#2419)
         - [23.2.58](#23258)
+
+## <a id="2427"></a> 24.2.7
+
+### Fixed
+
+- Replaced usage of additional deprecated jQuery API functions such as
+    - setting `outline` to 0 through `jQuery.css`
+    - `jQuery.isArray`
+    - shorthand functions such as `keydown`, `mousedown`, `dblclick`, `focus`, `select`
+
+## <a id="24112"></a> 24.1.12
+
+### Fixed
+
+- Replaced usage of additional deprecated jQuery API functions such as
+    - setting `outline` to 0 through `jQuery.css`
+    - `jQuery.isArray`
+    - shorthand functions such as `keydown`, `mousedown`, `dblclick`, `focus`, `select`
 
 ## <a id="2426"></a> 24.2.6
 
