@@ -29,18 +29,18 @@
 ### 修正
 
 - 非推奨となった以下の jQuery API の使用を置き換えました:
-    - jQuery.css による outline の 0 設定
+    - `jQuery.css` による `outline` の 0 設定
     - `jQuery.isArray`
-    - keydown、mousedown、dblclick、focus、select などのショートハンド関数
+    - `keydown`、`mousedown`、`dblclick`、`focus`、`select` などのショートハンド関数
 
 ## <a id="24112"></a> 24.1.12
 
 ### 修正
 
 - 非推奨となった以下の jQuery API の使用を置き換えました:
-    - jQuery.css による outline の 0 設定
+    - `jQuery.css` による `outline` の 0 設定
     - `jQuery.isArray`
-    - keydown、mousedown、dblclick、focus、select などのショートハンド関数
+    - `keydown`、`mousedown`、`dblclick`、`focus`、`select` などのショートハンド関数
 
 ## <a id="2426"></a> 24.2.6
 
