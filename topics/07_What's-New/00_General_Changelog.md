@@ -11,6 +11,9 @@
 # Changelog
 
 - **Released Versions**
+    - May 2025
+        - [24.2.8](#2428)
+        - [24.1.14](#24114)
     - April 2025
         - [24.2.7](#2427)
         - [24.1.12](#24112)
@@ -23,6 +26,20 @@
     - September 2024
         - [24.1.9](#2419)
         - [23.2.58](#23258)
+
+## <a id="2428"></a> 24.2.8
+
+### Fixed
+
+- Replaced usage of left-over deprecated jQuery API functions
+- String functions such as `startsWith` and `endsWith` are now not replaced by a polyfill in modern browsers
+
+## <a id="24114"></a> 24.1.14
+
+### Fixed
+
+- Replaced usage of left-over deprecated jQuery API functions
+- String functions such as `startsWith` and `endsWith` are now not replaced by a polyfill in modern browsers
 
 ## <a id="2427"></a> 24.2.7
 
