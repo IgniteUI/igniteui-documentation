@@ -67,6 +67,9 @@ Comments | #That comment will be ignored# `$i` | Comments start with **#** and f
 
 >Keep in mind, that when using Infragistics Template Engine for applying a template on a data, the result is of type string. That means in all of the samples below the variable the result is a string.
 
+**If you have security concerns**
+>The input expression of the templating engine is sanitized before being executed.
+
 ### <a id="scalar-property"></a>Scalar Property output (Substitution)
 
 The templating engine recognizes defined property names, the values of which are replaced by the corresponding property values in the data provided.
