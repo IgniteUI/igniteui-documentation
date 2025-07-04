@@ -11,6 +11,8 @@
 # Changelog
 
 - **Released Versions**
+    - July 2025
+        - [24.2.10](#24210)
     - May 2025
         - [24.2.8](#2428)
         - [24.1.14](#24114)
@@ -26,6 +28,12 @@
     - September 2024
         - [24.1.9](#2419)
         - [23.2.58](#23258)
+
+## <a id="24210"></a> 24.2.10
+
+### Refactored
+
+- Separated `igTemplating` into two modules. The original `igTemplating` no longer allows conditions and iterations (`{{if}}` and `{{each}}` clauses). This allows it to be CSP-compliant as it doesn't rely on the creation of dynamic functions. To use conditions and iterations, you need to include the new `igAdvancedTemplating` in your loader config or as a file `infragistics.templating.advanced.js`. The `infragistics.core.js` bundle continues to include both modules and therefore the full functionality of `igTemplating`.
 
 ## <a id="2428"></a> 24.2.8
 
