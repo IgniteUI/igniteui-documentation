@@ -12,6 +12,8 @@
 
 - **Released Versions**
     - July 2025
+        - [24.2.12](#24212)
+        - [24.1.16](#24116)
         - [24.2.10](#24210)
     - May 2025
         - [24.2.8](#2428)
@@ -28,6 +30,22 @@
     - September 2024
         - [24.1.9](#2419)
         - [23.2.58](#23258)
+
+## <a id="24212"></a> 24.2.12
+
+### Fixed
+
+- Bug #36448 - Radial label format properties do not work. (eg. Title, SubTitles)
+- Bug #37244 - Excel Library - Custom DataValidation not working
+- Bug #37023 - DataChart - Tooltips are cut-off/offscreen if overflow is set to hidden
+- Bug #37685 - Spreadsheet - Poor rendering of numbers formatted with Arial font
+
+## <a id="24116"></a> 24.1.16
+
+### Fixed
+
+- Bug #36448 - Radial label format properties do not work. (eg. Title, SubTitles)
+- Bug #37244 - Excel Library - Custom DataValidation not working
 
 ## <a id="24210"></a> 24.2.10
 
