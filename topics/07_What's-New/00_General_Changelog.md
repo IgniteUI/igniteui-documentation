@@ -11,6 +11,8 @@
 # Changelog
 
 - **Released Versions**
+    - December 2025
+        - [25.1.2](#2512)
     - July 2025
         - [24.2.12](#24212)
         - [24.1.16](#24116)
@@ -30,6 +32,16 @@
     - September 2024
         - [24.1.9](#2419)
         - [23.2.58](#23258)
+
+## <a id="2512"></a> 25.1.2
+
+### Added
+
+- Infragistics %%ProductNameASPNETCore%% now supports ASP.NET Core for .NET 10 projects. For more information see the [Using %%ProductNameASPNETCore%%](Using-IgniteUI-Controls-in-ASP.NET-Core-project.html) topic.
+
+### Breaking Changes
+
+- Infragistics %%ProductNameASPNETCore%% no longer supports ASP.NET Core 3.1.
 
 ## <a id="24212"></a> 24.2.12
 
