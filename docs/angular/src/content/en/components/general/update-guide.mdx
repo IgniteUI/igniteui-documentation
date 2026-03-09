@@ -4,8 +4,7 @@ description: Check out this article on updating how to update to a newer version
 keywords: ignite ui for angular, update, npm package, material components
 ---
 
-import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
-import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+<!-- markdownlint-disable MD024 -->
 
 # Update Guide
 
@@ -51,11 +50,11 @@ To update the **Angular CLI** package use the following command:
 ng update @angular/cli
 ```
 
-<DocsAside type="note">
-If the `ng update` command fails because of package dependency mismatches, then revert the update, delete the `node_modules` folder and rerun the update with `--force` flag.
-</DocsAside>
+>[!NOTE]
+> If the `ng update` command fails because of package dependency mismatches, then revert the update, delete the `node_modules` folder and rerun the update with `--force` flag.
 
 ## Additional manual changes
+
 
 Unfortunately not all changes can be automatically updated. Changes below are split into sections as they occur in the versions, so if any updates are required you should start from your current version and apply further updates from bottom to top.
 
@@ -107,9 +106,8 @@ igx-avatar {
 }
 ```
 
-<DocsAside type="note">
-In scoped mode, the `selector` property in the produced theme map is required to determine the component selector for proper variable scoping. If the mixin is called from the stylesheet root, the generated rule will use the theme's internal `selector` value. If called from within a selector, both that selector and the component selector will receive the variables.
-</DocsAside>
+> [!NOTE]
+> In scoped mode, the `selector` property in the produced theme map is required to determine the component selector for proper variable scoping. If the mixin is called from the stylesheet root, the generated rule will use the theme's internal `selector` value. If called from within a selector, both that selector and the component selector will receive the variables.
 
 ```scss
 // Global override:
@@ -124,9 +122,8 @@ In scoped mode, the `selector` property in the produced theme map is required to
 //         and picks up the global orange value from --ig-avatar-background.
 ```
 
-<DocsAside type="note">
-**Global overrides flow into scoped mode.** Because scoped variables fall back to `--ig-*` tokens, setting a global token at `:root` will propagate to all scoped instances:
-</DocsAside>
+> [!IMPORTANT]
+> **Global overrides flow into scoped mode.** Because scoped variables fall back to `--ig-*` tokens, setting a global token at `:root` will propagate to all scoped instances:
 
 ## From 20.x to 21.0.x
 
@@ -153,7 +150,7 @@ Choose **"Yes"** when prompted, or migrate later with:
 ng update igniteui-angular --migrate-only --from=20.1.0 --to=21.0.0
 ```
 
-For complete details on entry points, migration options, breaking changes, and usage examples, see the [Code Splitting and Multiple Entry Points guide](/general/code-splitting-and-multiple-entry-points).
+For complete details on entry points, migration options, breaking changes, and usage examples, see the [Code Splitting and Multiple Entry Points guide](code-splitting-and-multiple-entry-points.md).
 
 ### Dependency Injection Refactor
 
@@ -261,7 +258,7 @@ If your code in `selectionChanging` event handler was depending on reading `valu
   - E.g. EN strings come from `igniteui-angular`: `import { GridResourceStringsEN } from 'igniteui-angular';`
   - E.g. DE or other language strings come from `igniteui-angular-i18n`: `import { GridResourceStringsDE } from 'igniteui-angular-i18n';`
 
-    Usage examples can be found in the updated [Localization (i18n)](/general/localization) doc.
+    Usage examples can be found in the updated [Localization (i18n)](localization.md) doc.
 
 ## From 16.0.x to 16.1.x
 
@@ -282,7 +279,7 @@ providers: [{ provide: DisplayDensityToken, useValue: { displayDensity: DisplayD
 Remove all bindings or programmatic assignments to the `displayDensity` input property:
 
 ```html
-{/* Remove `[displayDensity]="'compact'"` */}
+<!-- Remove `[displayDensity]="'compact'"` -->
 <igx-grid [displayDensity]="'compact'">...</igx-grid>
 ```
 
@@ -347,6 +344,7 @@ public onButtonClick(event) {
  const cell = grid.getCellByKey(rowKey, columnField);
  const cell = grid.getCellByColumn(rowIndex, columnField);
 ```
+
 
 ## From 15.0.x to 15.1.x
 
@@ -434,11 +432,12 @@ When selected row is deleted from the grid component, `rowSelectionChanging` eve
 
 - `igxGrid`, `igxHierarchicalGrid`, `igxTreeGrid`
   - Parameters in grid templates now have types for their context. This can also cause issues if the app is in strict template mode and uses the wrong type. References to the template that may require conversion:
-    - `IgxColumnComponent` - <ApiLink type="ColumnType" kind="interface" suffix={false} prefixed={false} /> (for example the column parameter in `igxFilterCellTemplate`)
-    - `IgxGridCell` - <ApiLink type="CellType" kind="interface" suffix={false} prefixed={false} /> (for example the cell parameter in `igxCell` template)
+    - `IgxColumnComponent` - [`ColumnType`]({environment:angularApiUrl}/interfaces/columntype.html) (for example the column parameter in `igxFilterCellTemplate`)
+    - `IgxGridCell` - [`CellType`]({environment:angularApiUrl}/interfaces/celltype.html) (for example the cell parameter in `igxCell` template)
 - Ignite UI for Angular has a dependency on [igniteui-theming](https://github.com/IgniteUI/igniteui-theming). Add the following preprocessor configuration in your `angular.json` file.
 
-```json
+    ```json
+
  "build": {
    "options": {
      "stylePreprocessorOptions": {
@@ -446,7 +445,7 @@ When selected row is deleted from the grid component, `rowSelectionChanging` eve
      }
    }
  }
-```
+    ```
 
 - **Breaking Change** - All global CSS variables for theme configuration, colors, elevations, and typography have changed the prefix from `--igx` to `--ig`. This change doesn't affect global component variables;
 
@@ -504,6 +503,7 @@ Here's how that will affect existing code:
         border-color: hsl(var(--ig-gray-500));
     }
     ```
+
 
 - **Breaking Change** - **Generating CSS variables** for a palette is now done by the **palette mixin**, instead of the **palette-vars mixin**.
 
@@ -606,7 +606,6 @@ Here's how that will affect existing code:
         <span igxGridToolbarTitle>Title</span >
         <div igxGridToolbarActions>
             ...
-        
         </div>
     </igx-grid-toolbar>
     ```
@@ -784,6 +783,7 @@ After:
 @use '@infragistics/igniteui-angular/theming' as *;
 @forward '@infragistics/igniteui-angular/theming';
 
+
 // _other-file.scss
 @use 'variables' as *;
 ```
@@ -883,8 +883,8 @@ To get a better grasp on the Sass Module System, you can read [this great articl
 ### Grids
 
 - Breaking Changes:
-  - <ApiLink type="Paginator" /> - The way the Paginator is instantiated in the grid has changed. It is now a separate component projected in the grid tree. Thus the `[paging]="true"` property is removed from all grids and all other properties related to the paginator in the grid are deprecated. It is recommended to follow the guidance for enabling `Grid Paging` features as described in the [Paging topic](/grid/paging).
-  - <ApiLink type="PageSizeSelector" /> and <ApiLink type="PageNavigation" /> are introduced to ease the implementation of any custom content:
+  - [`IgxPaginatorComponent`]({environment:angularApiUrl}/classes/IgxPaginatorComponent.html) - The way the Paginator is instantiated in the grid has changed. It is now a separate component projected in the grid tree. Thus the `[paging]="true"` property is removed from all grids and all other properties related to the paginator in the grid are deprecated. It is recommended to follow the guidance for enabling `Grid Paging` features as described in the [Paging topic](../grid/paging.md).
+  - [`IgxPageSizeSelectorComponent`]({environment:angularApiUrl}/classes/IgxPageSizeSelectorComponent.html) and [`IgxPageNavigationComponent`]({environment:angularApiUrl}/classes/IgxPageNavigationComponent.html) are introduced to ease the implementation of any custom content:
 
     ```html
     <igx-paginator #paginator>
@@ -949,6 +949,7 @@ To get a better grasp on the Sass Module System, you can read [this great articl
 
   - IgxGridCellComponent, IgxTreeGridCellComponent, IgxHierarchicalGridCellComponent, IgxGridExpandableCellComponent are no longer exposed in the public API. See sections below for detail guide on upgrading to the new `IgxGridCell`.
 
+
 - Grid Deprecation:
   - The DI pattern for providing `IgxGridTransaction` is deprecated. The following will still work, but you are advised to refactor it, as it **will likely be removed** in a future version:
 
@@ -965,7 +966,7 @@ To get a better grasp on the Sass Module System, you can read [this great articl
     }
     ```
 
-    In order to achieve the above behavior, you should use the the newly added [`batchEditing`](/grid/batch-editing) input:
+    In order to achieve the above behavior, you should use the the newly added [`batchEditing`](../grid/batch-editing.md) input:
 
     ```typescript
     @Component({
@@ -981,11 +982,12 @@ To get a better grasp on the Sass Module System, you can read [this great articl
 
   - `getCellByColumnVisibleIndex` is now deprecated and will be removed in next major version. Use `getCellByKey`, `getCellByColumn` instead.
 
+
 ### IgxGridCell migration
 
 - _IgxGridCellComponent_, _IgxTreeGridCellComponent_, _IgxHierarchicalGridCellComponent_, _IgxGridExpandableCellComponent_ are no longer exposed in the public API.
 
-- Public APIs, which used to return an instance of one of the above, now return an instance of <ApiLink type="GridCell" suffix={false} />:
+- Public APIs, which used to return an instance of one of the above, now return an instance of [`IgxGridCell`]({environment:angularApiUrl}/classes/igxgridcell.html):
 
 ```ts
 const cell = grid.getCellByColumn(0, 'ProductID');     // returns IgxGridCell
@@ -996,14 +998,15 @@ const selectedCells = grid.selectedCells;              // returns IgxGridCell[]
 const cells = grid.getColumnByName('ProductID').cells; // returns IgxGridCell[]
 ```
 
-- `cell` property in the `IGridCellEventArgs` event arguments emitted by _cellClick_, _selected_, _contextMenu_ and _doubleClick_ events is now an instance of <ApiLink type="GridCell" suffix={false} />
+- `cell` property in the `IGridCellEventArgs` event arguments emitted by _cellClick_, _selected_, _contextMenu_ and _doubleClick_ events is now an instance of [`IgxGridCell`]({environment:angularApiUrl}/classes/igxgridcell.html)
 - `let-cell` property in cell template is now `IgxGridCell`.
 - `getCellByColumnVisibleIndex` is now deprecated and will be removed in next major version. Use `getCellByKey`, `getCellByColumn` instead.
 
 Please note:
 
-- _ng update_ will migrate the uses of _IgxGridCellComponent_, _IgxTreeGridCellComponent_, _IgxHierarchicalGridCellComponent_, _IgxGridExpandableCellComponent_, like imports, typings and casts. If a place in your code using any of the above is not migrated, just remove the typing/cast, or change it with <ApiLink type="GridCell" suffix={false} />.
+- _ng update_ will migrate the uses of _IgxGridCellComponent_, _IgxTreeGridCellComponent_, _IgxHierarchicalGridCellComponent_, _IgxGridExpandableCellComponent_, like imports, typings and casts. If a place in your code using any of the above is not migrated, just remove the typing/cast, or change it with [`IgxGridCell`]({environment:angularApiUrl}/classes/igxgridcell.html).
 - _getCellByIndex_ and other methods will return undefined, if the row at that index is not a data row, but is IgxGroupByRow, IgxSummaryRow, details row, etc.
+
 
 ### Themes
 
@@ -1098,14 +1101,10 @@ If for any reason you see Sass compilation errors saying `math.div` is not a kno
 
     ```html
     <div class="my-raised-btn">
-
     <button igxButton="raised">Raised button</button>
-    
     </div>
     <div class="my-outlined-btn">
-
         <button igxButton="outlined">Outlined button</button>
-    
     </div>
     ```
 
@@ -1146,9 +1145,8 @@ If for any reason you see Sass compilation errors saying `math.div` is not a kno
     @include theme();
     ```
 
-    <DocsAside type="note">
-    The `core` mixin should always be included first.
-    </DocsAside>
+    > [!IMPORTANT]
+    > The `core` mixin should always be included first.
 
     For each theme included in Ignite UI for Angular we provide specific `font-family` and `type-scale` variables which you can use:
 
@@ -1161,7 +1159,8 @@ If for any reason you see Sass compilation errors saying `math.div` is not a kno
 
 ### IgxBottomNav component
 
-The <ApiLink type="BottomNav" label="**IgxBottomNavComponent**" /> was completely refactored in order to provide more flexible and descriptive way to define tab headers and contents. It is recommended that you update via **ng update** in order to migrate the existing **igx-bottom-nav** definitions to the new ones.
+The [**IgxBottomNavComponent**]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html) was completely refactored in order to provide more flexible and descriptive way to define tab headers and contents. It is recommended that you update via **ng update** in order to migrate the existing **igx-bottom-nav** definitions to the new ones.
+
 
 - Template
   - The new structure defines bottom navigation item components each wrapping a header and a content component. The headers usually contain an icon ([`Material guidelines`](https://material.io/components/bottom-navigation#usage)) but may as well have a label or any other custom content.
@@ -1185,15 +1184,16 @@ The <ApiLink type="BottomNav" label="**IgxBottomNavComponent**" /> was completel
     ```
 
 - API changes
-  - The `id`, `itemStyle`, `panels`, `viewTabs`, `contentTabs` and `tabs` properties were removed. Currently, the <ApiLink type="BottomNav" member="items" label="items" /> property returns the collection of tabs.
+  - The `id`, `itemStyle`, `panels`, `viewTabs`, `contentTabs` and `tabs` properties were removed. Currently, the [`items`]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html#items) property returns the collection of tabs.
   - The following properties were changed:
-    - The tab item's `isSelected` property was renamed to <ApiLink type="selected" suffix={false} member="selected" label="selected" />.
-    - The `selectedTab` property was renamed to <ApiLink type="BottomNav" member="selectedItem" label="selectedItem" />.
-  - The `onTabSelected` and `onTabDeselected` events were removed. We introduced three new events, <ApiLink type="BottomNav" member="selectedIndexChanging" label="selectedIndexChanging" />,<ApiLink type="BottomNav" member="selectedIndexChange" label="selectedIndexChange" /> and <ApiLink type="BottomNav" member="selectedItemChange" label="selectedItemChange" />, which provide more flexibility and control over the tabs' selection. Unfortunately, having an adequate migration for these event changes is complicated to say the least, so any errors should be handled at project level.
+    - The tab item's `isSelected` property was renamed to [`selected`]({environment:angularApiUrl}/classes/igxbottomnavitemcomponent.html#selected).
+    - The `selectedTab` property was renamed to [`selectedItem`]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html#selectedItem).
+  - The `onTabSelected` and `onTabDeselected` events were removed. We introduced three new events, [`selectedIndexChanging`]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html#selectedIndexChanging),[`selectedIndexChange`]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html#selectedIndexChange) and [`selectedItemChange`]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html#selectedItemChange), which provide more flexibility and control over the tabs' selection. Unfortunately, having an adequate migration for these event changes is complicated to say the least, so any errors should be handled at project level.
 
 ### IgxTabs component
 
-The <ApiLink type="Tabs" label="**IgxTabsComponent**" /> was completely refactored in order to provide more flexible and descriptive way to define tab headers and contents. It is recommended that you update via **ng update** in order to migrate the existing **igx-tabs** definitions to the new ones.
+The [**IgxTabsComponent**]({environment:angularApiUrl}/classes/igxtabscomponent.html) was completely refactored in order to provide more flexible and descriptive way to define tab headers and contents. It is recommended that you update via **ng update** in order to migrate the existing **igx-tabs** definitions to the new ones.
+
 
 - Template
   - The new structure defines tab item components each wrapping a header and a content component. The headers usually contain an icon and a label but may as well have any other custom content.
@@ -1210,8 +1210,7 @@ The <ApiLink type="Tabs" label="**IgxTabsComponent**" /> was completely refactor
             </igx-tab-header>
             <igx-tab-content>
                 <h1>Tab 1 Content</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             </igx-tab-content>
         </igx-tab-item>
     ...
@@ -1219,17 +1218,17 @@ The <ApiLink type="Tabs" label="**IgxTabsComponent**" /> was completely refactor
     ```
 
 - API changes
-  - The `id`, `groups`, `viewTabs`, `contentTabs` and `tabs` properties were removed. Currently, the <ApiLink type="Tabs" member="items" label="items" /> property returns the collection of tabs.
+  - The `id`, `groups`, `viewTabs`, `contentTabs` and `tabs` properties were removed. Currently, the [`items`]({environment:angularApiUrl}/classes/igxtabscomponent.html#items) property returns the collection of tabs.
   - The following properties were changed:
-    - The tab item's `isSelected` property was renamed to <ApiLink type="TabItem" member="selected" label="selected" />.
-    - The `selectedTabItem` property was shortened to <ApiLink type="Tabs" member="selectedItem" label="selectedItem" />.
-    - The `type` property, with its contentFit and fixed options, is no longer available. The header sizing & positioning mode is currently controlled by the <ApiLink type="Tabs" member="tabAlignment" label="tabAlignment" /> input property which accepts four different values - start (default), center, end and justify. The old `contentFit` type corresponds to the current `start` alignment value and the old `fixed` type - to the current `justify` value.
-  - The `tabItemSelected` and `tabItemDeselected` events were removed. We introduced three new events, <ApiLink type="Tabs" member="selectedIndexChanging" label="selectedIndexChanging" />, <ApiLink type="Tabs" member="selectedindexchange" label="selectedIndexChange" /> and <ApiLink type="Tabs" member="selectedIndexChange" label="selectedItemChange" />, which provide more flexibility and control over the tabs' selection. Unfortunately, having an adequate migration for these event changes is complicated to say the least, so any errors should be handled at project level.
+    - The tab item's `isSelected` property was renamed to [`selected`]({environment:angularApiUrl}/classes/igxtabitemcomponent.html#selected).
+    - The `selectedTabItem` property was shortened to [`selectedItem`]({environment:angularApiUrl}/classes/igxtabscomponent.html#selectedItem).
+    - The `type` property, with its contentFit and fixed options, is no longer available. The header sizing & positioning mode is currently controlled by the [`tabAlignment`]({environment:angularApiUrl}/classes/igxtabscomponent.html#tabAlignment) input property which accepts four different values - start (default), center, end and justify. The old `contentFit` type corresponds to the current `start` alignment value and the old `fixed` type - to the current `justify` value.
+  - The `tabItemSelected` and `tabItemDeselected` events were removed. We introduced three new events, [`selectedIndexChanging`]({environment:angularApiUrl}/classes/igxtabscomponent.html#selectedIndexChanging), [`selectedIndexChange`]({environment:angularApiUrl}/classes/igxtabscomponent.html#selectedindexchange) and [`selectedItemChange`]({environment:angularApiUrl}/classes/igxtabscomponent.html#selectedIndexChange), which provide more flexibility and control over the tabs' selection. Unfortunately, having an adequate migration for these event changes is complicated to say the least, so any errors should be handled at project level.
 
 ### IgxGridComponent, IgxTreeGridComponent, IgxHierarchicalGridComponent
 
 - _IgxGridRowComponent_, _IgxTreeGridRowComponent_, _IgxHierarchicalRowComponent_, _IgxGridGroupByRowComponent_ are no longer exposed in the public API.
-- Public APIs, which used to return an instance of one of the above, now return objects implementing the public <ApiLink type="RowType" kind="interface" suffix={false} prefixed={false} /> interface:
+- Public APIs, which used to return an instance of one of the above, now return objects implementing the public [`RowType`]({environment:angularApiUrl}/interfaces/rowtype.html) interface:
 
 ```ts
 const row = grid.getRowByIndex(0);
@@ -1237,9 +1236,9 @@ const row = grid.getRowByKey(2);
 const row = cell.row;
 ```
 
-While the public API of <ApiLink type="RowType" kind="interface" suffix={false} prefixed={false} /> is the same as what _IgxRowComponent_ and others used to expose, please note:
+While the public API of [`RowType`]({environment:angularApiUrl}/interfaces/rowtype.html) is the same as what _IgxRowComponent_ and others used to expose, please note:
 
-- _toggle_ method, exposed by the _IgxHierarchicalRowComponent_ is not available. Use <ApiLink kind="interface" prefixed={false} suffix={false} type="RowType" member="expanded" /> property for all row types:
+- _toggle_ method, exposed by the _IgxHierarchicalRowComponent_ is not available. Use [`expanded`]({environment:angularApiUrl}/interfaces/rowtype.html#expanded) property for all row types:
 
 ```ts
 grid.getRowByIndex(0).expanded = false;
@@ -1247,9 +1246,9 @@ grid.getRowByIndex(0).expanded = false;
 
 *row.rowData_ and _row.rowID_ are deprecated and will be entirely removed with version 13. Please use _row.data_ and _row.key_ instead.
 
-- _row_ property in the event arguments emitted by _onRowPinning_, and _dragData_ property in the event arguments emitted by _onRowDragStart_, _onRowDragEnd_ is now implementing <ApiLink type="RowType" kind="interface" suffix={false} prefixed={false} />
-- _ng update_ will migrate most of the uses of _IgxGridRowComponent_, _IgxTreeGridRowComponent_, _IgxHierarchicalRowComponent_, _IgxGridGroupByRowComponent_ , like imports, typings and casts. If a place in your code using any of the above is not migrated, just remove the typing/cast, or change it with <ApiLink type="RowType" kind="interface" suffix={false} prefixed={false} />.
-- _getRowByIndex_ will now return a <ApiLink type="RowType" kind="interface" suffix={false} prefixed={false} /> object, if the row at that index is a summary row (previously used to returned _undefined_). _row.isSummaryRow_ and _row.isGroupByRow_ return true if the row at the index is a summary row or a group by row.
+- _row_ property in the event arguments emitted by _onRowPinning_, and _dragData_ property in the event arguments emitted by _onRowDragStart_, _onRowDragEnd_ is now implementing [`RowType`]({environment:angularApiUrl}/interfaces/rowtype.html)
+- _ng update_ will migrate most of the uses of _IgxGridRowComponent_, _IgxTreeGridRowComponent_, _IgxHierarchicalRowComponent_, _IgxGridGroupByRowComponent_ , like imports, typings and casts. If a place in your code using any of the above is not migrated, just remove the typing/cast, or change it with [`RowType`]({environment:angularApiUrl}/interfaces/rowtype.html).
+- _getRowByIndex_ will now return a [`RowType`]({environment:angularApiUrl}/interfaces/rowtype.html) object, if the row at that index is a summary row (previously used to returned _undefined_). _row.isSummaryRow_ and _row.isGroupByRow_ return true if the row at the index is a summary row or a group by row.
 
 ### IgxInputGroupComponent
 
@@ -1286,7 +1285,7 @@ grid.getRowByIndex(0).expanded = false;
   - The way the toolbar is instantiated in the grid has changed. It is now a separate component projected in the grid tree. Thus the `showToolbar` property is removed from
     all grids and all other properties related to the toolbar in the grid are deprecated.
     It is recommended to follow the recommended way for enabling
-    toolbar features as described in the [Toolbar topic](/grid/toolbar).
+    toolbar features as described in the [Toolbar topic](../grid/toolbar.md).
   - The `igxToolbarCustomContent` directive is removed. While the migration will move
     your template content inside the toolbar content, it does not try to resolve template bindings. Make sure to check your template files after the migration.
   - The API for the toolbar component was changed during the refactor and many of the old properties are now removed. Unfortunately, having
@@ -1295,7 +1294,7 @@ grid.getRowByIndex(0).expanded = false;
 ## From 10.0.x to 10.1.x
 
 - IgxGrid, IgxTreeGrid, IgxHierarchicalGrid
-  - Since we have removed the `IgxExcelStyleSortingTemplateDirective`, `IgxExcelStyleHidingTemplateDirective`, `IgxExcelStyleMovingTemplateDirective`, `IgxExcelStylePinningTemplateDirective`, and `IgxExcelStyleSelectingTemplateDirective` directives used for templating some parts of the Excel style filter menu, you could use the newly added directives for templating the column and filter operations areas - `IgxExcelStyleColumnOperationsTemplateDirective` and `IgxExcelStyleFilterOperationsTemplateDirective`. We have also exposed all internal components of the Excel style filter menu so that they can be used inside custom templates. You can find more information about the new template directives in the [Excel-Style Filtering Topic](/grid/excel-style-filtering#templates).
+  - Since we have removed the `IgxExcelStyleSortingTemplateDirective`, `IgxExcelStyleHidingTemplateDirective`, `IgxExcelStyleMovingTemplateDirective`, `IgxExcelStylePinningTemplateDirective`, and `IgxExcelStyleSelectingTemplateDirective` directives used for templating some parts of the Excel style filter menu, you could use the newly added directives for templating the column and filter operations areas - `IgxExcelStyleColumnOperationsTemplateDirective` and `IgxExcelStyleFilterOperationsTemplateDirective`. We have also exposed all internal components of the Excel style filter menu so that they can be used inside custom templates. You can find more information about the new template directives in the [Excel-Style Filtering Topic](../grid/excel-style-filtering.md#templates).
 - IgxGrid
   - The `selectedRows()` method has been refactored into an input property named. This breaking change allows users to easily change the grid's selection state at runtime. Pre-selection of rows is also supported. All instances where the `selectedRows()` method is called have to be rewritten without any parentheses.
   - Binding to the `selectedRows` input property could look something like this:
@@ -1307,7 +1306,7 @@ grid.getRowByIndex(0).expanded = false;
     ```html
     <igx-grid [data]="myData" rowSelection="multiple"
         primaryKey="ID" [selectedRows]="mySelectedRows">
-        {/* ... */}
+        <!-- ... -->
     </igx-grid>
     ```
 
@@ -1321,11 +1320,9 @@ grid.getRowByIndex(0).expanded = false;
     ```html
     <igx-drop-down-item>
         <div class="my-styles">
-
             <igx-icon>alarm</igx-icon>
             <span>item text</span>
-        
-    </div>
+        </div>
     </igx-drop-down-item>
     ```
 
@@ -1393,7 +1390,6 @@ The `ng update` process will update all enumeration names, like `AvatarType`, `T
     <div igxDrag [ngStyle]="{ 'visibility': targetDragged ? 'hidden' : 'visible' }"
         (dragStart)="onDragStarted($event)" (dragEnd)="onDragEnded($event)">
         Drag me!
-    
     </div>
     ```
 
@@ -1448,7 +1444,7 @@ The `ng update` process will update all enumeration names, like `AvatarType`, `T
     ```
 
 - IgxCombo
-  - The way that the [`igx-combo`](/combo) handles selection and data binding is changed.
+  - The way that the [`igx-combo`](../combo.md) handles selection and data binding is changed.
 
   - If the combo's [`valueKey`] input is defined, the control will look for that specific property in the passed array of data items when performing selection.
     **All** selection events are handled with the value of the data items' `valueKey` property.
@@ -1487,7 +1483,7 @@ The `ng update` process will update all enumeration names, like `AvatarType`, `T
     }
     ```
 
-    You can read more about setting up the combo in the [readme](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/combo/README.md#value-binding) and in the [official documentation](/combo#selection-api).
+    You can read more about setting up the combo in the [readme](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/combo/README.md#value-binding) and in the [official documentation](../combo.md#selection-api).
 
 ## From 8.0.x to 8.1.x
 
