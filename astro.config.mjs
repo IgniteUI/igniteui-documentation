@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import starlightLlmsTxt from 'starlight-llms-txt';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -200,6 +201,7 @@ export default defineConfig({
       editLink: {
         baseUrl: DOCS_CONFIG.editLinkBaseUrl,
       },
+      plugins: [starlightLlmsTxt()],
     }),
     docfxImagesIntegration(),
   ],
