@@ -29,7 +29,7 @@ try {
 
 const ENV_PATTERN = /\{environment:(\w+)\}/g;
 
-function replaceEnvVars(str) {
+export function replaceEnvVars(str) {
   if (!str || typeof str !== 'string') return str;
   return str.replace(ENV_PATTERN, (_match, key) => ENV[key] ?? `{environment:${key}}`);
 }
