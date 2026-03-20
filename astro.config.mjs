@@ -58,6 +58,9 @@ export default defineConfig({
       editLink: {
         baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
       },
+      components: {
+        Sidebar: './src/components/Sidebar.astro',
+      },
     }),
     staticImagesIntegration(IMAGES),
     siteMetaIntegration({
