@@ -1,5 +1,4 @@
 import type { APIRoute } from 'astro';
-// @ts-expect-error virtual module provided by siteMetaIntegration
 import { title, description, sidebar } from 'virtual:docs-template/site-meta';
 
 export const prerender = true;
@@ -36,7 +35,7 @@ function walkSidebar(items: SidebarItem[], base: string, lines: string[], depth 
 export const GET: APIRoute = ({ site }) => {
   const base = (site?.toString() ?? '').replace(/\/$/, '');
   const lines: string[] = [`# ${title}`, '', `> ${description}`, ''];
-  walkSidebar(sidebar, base, lines);
+  walkSidebar(sidebar as SidebarItem[], base, lines);
   return new Response(lines.join('\n'), {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },
   });
