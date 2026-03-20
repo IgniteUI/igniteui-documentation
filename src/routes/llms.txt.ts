@@ -7,13 +7,29 @@ export const prerender = true;
 type SidebarItem = { label: string; slug?: string; items?: SidebarItem[] };
 
 function walkSidebar(items: SidebarItem[], base: string, lines: string[], depth = 0) {
+  const nestedGroups: SidebarItem[] = [];
   for (const item of items) {
     if (item.slug !== undefined) {
+      if (depth === 1) {
+        lines.push("", `### ${item.label}`, "");
+      }
+
       lines.push(`- [${item.label}](${base}/${item.slug}.md)`);
-    } else if (Array.isArray(item.items)) {
-      lines.push('', `## ${item.label}`, '');
-      walkSidebar(item.items, base, lines, depth + 1);
+      continue;
     }
+
+    if (Array.isArray(item.items) && item.items.length > 0) {
+      nestedGroups.push(item);
+    }
+  }
+
+  for (const group of nestedGroups) {
+    if (depth < 3) {
+      const headingLevel = depth === 0 ? 2 : depth + 2;
+      lines.push("", `${"#".repeat(headingLevel)} ${group.label}`, "");
+    }
+
+    walkSidebar(group.items!, base, lines, depth + 1);
   }
 }
 
