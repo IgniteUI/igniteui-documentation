@@ -1,0 +1,31 @@
+---
+/**
+ * Footer component override
+ * Extends Starlight's default Footer with:
+ *   1. The original Starlight footer content (edit link, pagination, credits)
+ *   2. The Infragistics/Reveal/AppBuilder global product footer (GlobalFooter).
+ *      Controlled by VITE_NAV_THEME / VITE_NAV_LANG env vars.
+ *   3. Global scripts that run on every docs page:
+ *      - article-enhancements (external-link icons, collapsible blocks)
+ *      - lazyload (intersection-observer-based iframe lazy loading)
+ *      - theming (forwards theming-widget state into sample iframes)
+ *      - license-indicator (runtime fallback for DocFX meta-tag based pages)
+ *
+ * The <script> tags are bundled by Astro/Vite into a single module and
+ * injected once per page — Astro deduplicates identical script modules.
+ */
+import type { Props } from '@astrojs/starlight/props';
+import GlobalFooter from '@/components/GlobalFooter.astro';
+
+const navTheme = (import.meta.env.VITE_NAV_THEME ?? 'igniteui') as
+  'igniteui' | 'appbuilder' | 'reveal' | 'slingshot' | string;
+const navLang = (import.meta.env.VITE_NAV_LANG ?? 'en') as 'en' | 'ja' | 'kr';
+const showGlobalFooter = navTheme !== 'none';
+---
+
+{showGlobalFooter && (
+  <GlobalFooter
+    theme={navTheme as 'igniteui' | 'appbuilder' | 'reveal' | 'slingshot'}
+    lang={navLang}
+  />
+)}
