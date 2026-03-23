@@ -40,6 +40,16 @@ export default defineConfig({
   build: {
     assets: '_assets',
   },
+  vite: {
+    css: {
+      preprocessorOptions: {
+        // Allow Sass files to resolve igniteui-theming subpaths via node_modules
+        scss: {
+          loadPaths: [path.resolve(__dirname, 'node_modules')],
+        },
+      },
+    },
+  },
   image: {
     // Disable built-in image optimization — images are served statically
     service: { entrypoint: 'astro/assets/services/noop' },
@@ -54,7 +64,9 @@ export default defineConfig({
         { icon: 'github', label: 'GitHub', href: 'https://github.com/IgniteUI/igniteui-angular' },
       ],
       sidebar,
-      customCss: ['./src/styles/custom.css'],
+      customCss: [
+        './src/styles/ig-theme.scss',
+      ],
       editLink: {
         baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
       },
