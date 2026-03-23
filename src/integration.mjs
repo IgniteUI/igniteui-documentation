@@ -56,6 +56,56 @@ import { buildSidebarFromToc } from './sidebar.mjs';
 import { replaceEnvVars } from './plugins/remark-docfx.mjs';
 
 // ---------------------------------------------------------------------------
+// Navigation HTML prefetch cache + helpers
+// ---------------------------------------------------------------------------
+
+/** Module-level cache so the nav URL is fetched at most once per build. */
+let _navHtmlCache = null;
+
+/**
+ * Nesting-aware outer-HTML extractor.
+ * Finds the first tag whose opening tag matches `openPattern` and returns
+ * the complete element including its closing tag.
+ *
+ * @param {string} html       Full HTML string to search.
+ * @param {string} openPattern  Regex source for the opening tag (no flags).
+ * @returns {string}
+ */
+function extractOuterHtml(html, openPattern) {
+  const openRe = new RegExp(openPattern, 'i');
+  const tagRe  = /<\/?([a-z][a-z0-9]*)[^>]*>/gi;
+
+  let tagName   = null;
+  let depth     = 0;
+  let startIdx  = -1;
+
+  let m;
+  while ((m = tagRe.exec(html)) !== null) {
+    const full       = m[0];
+    const name       = m[1].toLowerCase();
+    const isSelfClose = full.endsWith('/>');
+    const isClose    = full.startsWith('</');
+
+    if (tagName === null) {
+      if (openRe.test(full)) {
+        tagName  = name;
+        startIdx = m.index;
+        depth    = isSelfClose ? 0 : 1;
+        if (depth === 0) return full;
+      }
+      continue;
+    }
+
+    if (name !== tagName) continue;
+    if (isSelfClose) continue;
+    if (isClose) { depth--; if (depth === 0) return html.slice(startIdx, tagRe.lastIndex); }
+    else depth++;
+  }
+
+  return '';
+}
+
+// ---------------------------------------------------------------------------
 // Sidebar slug → metadata map
 // ---------------------------------------------------------------------------
 
@@ -104,14 +154,19 @@ function injectFrontmatterKeys(raw, keys) {
  * @param {string} [options.docsSourcePath] Path to the source markdown files.
  * @returns {import('astro').AstroIntegration}
  */
-export function siteMetaIntegration({ title, description = '', docsSourcePath, sidebar } = {}) {
+export function siteMetaIntegration({ title, description = '', docsSourcePath, sidebar, prefetchNav = false, navLang = 'en' } = {}) {
   const slugMeta = buildSlugMetaMap(sidebar);
   const moduleCode = `export const title = ${JSON.stringify(title)};
 export const description = ${JSON.stringify(description)};
 export const sidebar = ${JSON.stringify(sidebar ?? [])};
 `;
-  const virtualId = 'virtual:docs-template/site-meta';
-  const resolvedId = '\0' + virtualId;
+  const virtualId   = 'virtual:docs-template/site-meta';
+  const resolvedId  = '\0' + virtualId;
+
+  const navVirtualId  = 'virtual:docs-template/nav-html';
+  const navResolvedId = '\0' + navVirtualId;
+  const navBase = navLang === 'ja' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
+  const navUrl  = `${navBase}/navigation`;
 
   return {
     name: 'docs-template:site-meta',
@@ -126,8 +181,52 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
           vite: {
             plugins: [{
               name: 'vite-plugin-docs-template-site-meta',
-              resolveId(id) { if (id === virtualId) return resolvedId; },
-              load(id) { if (id === resolvedId) return moduleCode; },
+              resolveId(id) {
+                if (id === virtualId) return resolvedId;
+                if (id === navVirtualId) return navResolvedId;
+              },
+              async load(id) {
+                if (id === resolvedId) return moduleCode;
+                if (id !== navResolvedId) return;
+
+                // Return cached module code — fetched at most once per build.
+                if (_navHtmlCache) return _navHtmlCache;
+
+                let headerHtml   = '';
+                let uiFooterHtml = '';
+                let footerHtml   = '';
+
+                if (prefetchNav) {
+                  try {
+                    const res = await fetch(navUrl, {
+                      credentials: 'omit',
+                      signal: AbortSignal.timeout(15_000),
+                    });
+                    if (res.ok) {
+                      const html = await res.text();
+                      headerHtml   = extractOuterHtml(html, '<header[^>]+id="header"');
+                      uiFooterHtml = extractOuterHtml(html, '<footer[^>]+class="[^"]*\\bui-footer\\b');
+                      footerHtml   = extractOuterHtml(html, '<footer[^>]+id="footer"');
+                      // Strip the hello-bar promotional strip
+                      headerHtml = headerHtml.replace(
+                        /<div[^>]+id="hello-bar"[\s\S]*?<\/div>\s*/i, ''
+                      );
+                    } else {
+                      console.warn(`[docs-template] Navigation fetch returned ${res.status} — falling back to empty markup.`);
+                    }
+                  } catch (err) {
+                    console.warn(`[docs-template] Could not fetch navigation HTML: ${err.message} — falling back to empty markup.`);
+                  }
+                }
+
+                _navHtmlCache = [
+                  `export const prefetched = ${JSON.stringify(!!headerHtml)};`,
+                  `export const headerHtml = ${JSON.stringify(headerHtml)};`,
+                  `export const uiFooterHtml = ${JSON.stringify(uiFooterHtml)};`,
+                  `export const footerHtml = ${JSON.stringify(footerHtml)};`,
+                ].join('\n');
+                return _navHtmlCache;
+              },
             }],
           },
         });
@@ -294,6 +393,8 @@ export function createDocsSite(options = {}) {
     sidebar: sidebarOptions = {},
     starlight: starlightExtra = {},
     integrations: extraIntegrations = [],
+    prefetchNav = false,
+    navLang = 'en',
     ...astroExtra
   } = options;
 
@@ -308,7 +409,7 @@ export function createDocsSite(options = {}) {
     ...(base !== undefined ? { base } : {}),
     ...astroExtra,
     integrations: [
-      siteMetaIntegration({ title, description, docsSourcePath: source.componentsDir }),
+      siteMetaIntegration({ title, description, docsSourcePath: source.componentsDir, sidebar, prefetchNav, navLang }),
       starlight({ title, sidebar, ...starlightExtra }),
       ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
       ...extraIntegrations,

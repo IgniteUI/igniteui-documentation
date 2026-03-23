@@ -18,8 +18,8 @@ const SOURCE_ROOT =
     : path.resolve(__dirname, '..', 'igniteui-docfx');
 
 const COMPONENTS = path.join(SOURCE_ROOT, 'en/components');
-const IMAGES     = path.join(SOURCE_ROOT, 'en/images');
-const TOC_PATH   = path.join(SOURCE_ROOT, 'en/components/toc.yml');
+const IMAGES = path.join(SOURCE_ROOT, 'en/images');
+const TOC_PATH = path.join(SOURCE_ROOT, 'en/components/toc.yml');
 
 const sidebar = buildSidebarFromToc({
   tocPath: TOC_PATH,
@@ -70,10 +70,15 @@ export default defineConfig({
       editLink: {
         baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
       },
+      components: {
+        Header: './src/components/overrides/Header.astro',
+        Footer: './src/components/overrides/Footer.astro',
+      },
     }),
     staticImagesIntegration(IMAGES),
     siteMetaIntegration({
       title: 'Ignite UI for Angular',
+      prefetchNav: true,
       description:
         'Complete reference documentation for Ignite UI for Angular — a Material-based ' +
         'UI component library including Data Grid, Charts, Gauges, Calendars, and more.',
