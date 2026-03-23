@@ -4,8 +4,7 @@
 // Must be rendered inside a <sidebar-filter> custom element.
 ---
 
-<div class="sidebar-filter-wrapper">
-  <label for="sidebar-filter-input" class="sl-sr-only">Filter navigation</label>
+<div class="sidebar-filter-wrapper" role="search" aria-label="Filter sidebar topics">
   <div class="sidebar-filter-field">
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,8 +16,7 @@
       height="14"
       fill="none"
     >
-      <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5"/>
-      <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M1 3h14M4 8h8M7 13h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
     </svg>
     <input
       id="sidebar-filter-input"
@@ -27,7 +25,7 @@
       spellcheck="false"
       placeholder="Filter topics…"
       aria-label="Filter navigation topics"
-      role="searchbox"
+      aria-controls="starlight__sidebar"
       data-sidebar-filter-input
     />
     <button type="button" aria-label="Clear filter" hidden data-sidebar-filter-clear>
@@ -38,7 +36,6 @@
   </div>
   <p
     role="status"
-    aria-live="polite"
     aria-atomic="true"
     class="sidebar-filter-status"
     data-sidebar-filter-status
@@ -48,10 +45,13 @@
 <style>
   @layer starlight.user {
     .sidebar-filter-wrapper {
-      padding: 0.5rem var(--sl-sidebar-pad-x, 1rem);
-      padding-bottom: 0.25rem;
-      border-bottom: 1px solid var(--sl-color-hairline-light);
-      margin-bottom: 0.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      /* Pull out of .sidebar-content's padding: 1rem var(--sl-sidebar-pad-x) 0 */
+      margin-top: -1rem;
+      margin-inline: calc(-1 * var(--sl-sidebar-pad-x, 1rem));
+      background: var(--sl-color-bg-sidebar, var(--sl-color-bg));
     }
 
     .sidebar-filter-field {
@@ -73,7 +73,7 @@
       padding: 0.35rem 2rem 0.35rem 1.75rem;
       background: var(--sl-color-bg-inline-code);
       border: 1px solid var(--sl-color-hairline-light);
-      border-radius: 0.25rem;
+      border-radius: 0;
       color: var(--sl-color-text);
       font-size: var(--sl-text-xs);
       font-family: inherit;

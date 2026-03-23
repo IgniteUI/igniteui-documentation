@@ -59,7 +59,7 @@ export default defineConfig({
         baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
       },
       components: {
-        Sidebar: './src/components/Sidebar.astro',
+        Sidebar: './src/components/Sidebar/Sidebar.astro',
       },
     }),
     staticImagesIntegration(IMAGES),
