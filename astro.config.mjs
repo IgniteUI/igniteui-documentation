@@ -46,6 +46,7 @@ export default defineConfig({
         // Allow Sass files to resolve igniteui-theming subpaths via node_modules
         scss: {
           loadPaths: [path.resolve(__dirname, 'node_modules')],
+          silenceDeprecations: ['if-function'],
         },
       },
     },
