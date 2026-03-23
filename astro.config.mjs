@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { buildSidebarFromToc, staticImagesIntegration, siteMetaIntegration } from './src/integration.mjs';
+import { getPlatformHead } from './src/platform.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -67,6 +68,13 @@ export default defineConfig({
       sidebar,
       customCss: [
         './src/styles/ig-theme.scss',
+        './src/styles/custom.css',
+      ],
+      head: [
+        // Platform CDN assets — driven by `platform` option in siteMetaIntegration below
+        ...getPlatformHead('reveal', 'en'),
+        // Angular-specific Ignite UI component bundle (repo-specific, not in shared registry)
+        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/products/ignite-ui-angular/angular/bundles/igniteui.f5cfb48022e69dd66658.css' } },
       ],
       editLink: {
         baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
@@ -79,7 +87,7 @@ export default defineConfig({
     staticImagesIntegration(IMAGES),
     siteMetaIntegration({
       title: 'Ignite UI for Angular',
-      prefetchNav: true,
+      platform: 'reveal', // Used to drive platform-specific features like CDN assets and global nav configuration
       description:
         'Complete reference documentation for Ignite UI for Angular — a Material-based ' +
         'UI component library including Data Grid, Charts, Gauges, Calendars, and more.',
