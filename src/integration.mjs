@@ -13,12 +13,17 @@
  *     site:  'https://my-org.github.io/my-docs',
  *     title: 'My Library',
  *     description: 'Reference docs for My Library.',
+ *     platform: 'angular',   // drives CDN head entries + nav prefetch
+ *     navLang: 'en',         // 'en' | 'ja' | 'kr'
  *     source: {
  *       tocPath:       './my-docs/toc.yml',
  *       componentsDir: './my-docs/en/components',
  *       imagesDir:     './my-docs/en/images',   // omit to skip image serving
  *     },
  *     sidebar: { exclude: [/^internal\//] },   // optional TOC excludes
+ *     head: [                                   // extra <head> entries after platform ones
+ *       { tag: 'link', attrs: { rel: 'stylesheet', href: '...' } },
+ *     ],
  *     // Extra Starlight options (logo, social, editLink, customCss, …)
  *     starlight: {
  *       logo: { src: './public/favicon.svg' },
@@ -54,6 +59,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { buildSidebarFromToc } from './sidebar.mjs';
 import { replaceEnvVars } from './plugins/remark-docfx.mjs';
+import { getNavConfig, getPlatformHead } from './platform.mjs';
 
 // ---------------------------------------------------------------------------
 // Navigation HTML prefetch cache + helpers
@@ -73,24 +79,24 @@ let _navHtmlCache = null;
  */
 function extractOuterHtml(html, openPattern) {
   const openRe = new RegExp(openPattern, 'i');
-  const tagRe  = /<\/?([a-z][a-z0-9]*)[^>]*>/gi;
+  const tagRe = /<\/?([a-z][a-z0-9]*)[^>]*>/gi;
 
-  let tagName   = null;
-  let depth     = 0;
-  let startIdx  = -1;
+  let tagName = null;
+  let depth = 0;
+  let startIdx = -1;
 
   let m;
   while ((m = tagRe.exec(html)) !== null) {
-    const full       = m[0];
-    const name       = m[1].toLowerCase();
+    const full = m[0];
+    const name = m[1].toLowerCase();
     const isSelfClose = full.endsWith('/>');
-    const isClose    = full.startsWith('</');
+    const isClose = full.startsWith('</');
 
     if (tagName === null) {
       if (openRe.test(full)) {
-        tagName  = name;
+        tagName = name;
         startIdx = m.index;
-        depth    = isSelfClose ? 0 : 1;
+        depth = isSelfClose ? 0 : 1;
         if (depth === 0) return full;
       }
       continue;
@@ -154,19 +160,32 @@ function injectFrontmatterKeys(raw, keys) {
  * @param {string} [options.docsSourcePath] Path to the source markdown files.
  * @returns {import('astro').AstroIntegration}
  */
-export function siteMetaIntegration({ title, description = '', docsSourcePath, sidebar, prefetchNav = false, navLang = 'en' } = {}) {
+export function siteMetaIntegration({ title, description = '', docsSourcePath, sidebar, platform = null, navLang = 'en', prefetchNav = false, prefetchAppBuilderNav = false } = {}) {
   const slugMeta = buildSlugMetaMap(sidebar);
   const moduleCode = `export const title = ${JSON.stringify(title)};
 export const description = ${JSON.stringify(description)};
 export const sidebar = ${JSON.stringify(sidebar ?? [])};
 `;
-  const virtualId   = 'virtual:docs-template/site-meta';
-  const resolvedId  = '\0' + virtualId;
+  const virtualId = 'virtual:docs-template/site-meta';
+  const resolvedId = '\0' + virtualId;
 
-  const navVirtualId  = 'virtual:docs-template/nav-html';
+  const navVirtualId = 'virtual:docs-template/nav-html';
   const navResolvedId = '\0' + navVirtualId;
-  const navBase = navLang === 'ja' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
-  const navUrl  = `${navBase}/navigation`;
+
+  const effectivePlatform = platform ?? null;
+
+  let navPrefetchTarget = null;
+  if (platform) {
+    navPrefetchTarget = platform;
+  } else if (prefetchAppBuilderNav) {
+    navPrefetchTarget = 'appbuilder';
+  } else if (prefetchNav) {
+    // Use 'angular' as a representative IG platform — IG nav endpoint is the
+    // same shape for angular/react/blazor/web-components/slingshot.
+    navPrefetchTarget = 'angular';
+  }
+
+  const { navType, navUrl } = getNavConfig(navPrefetchTarget, navLang);
 
   return {
     name: 'docs-template:site-meta',
@@ -192,11 +211,12 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
                 // Return cached module code — fetched at most once per build.
                 if (_navHtmlCache) return _navHtmlCache;
 
-                let headerHtml   = '';
+                let headerHtml = '';
                 let uiFooterHtml = '';
-                let footerHtml   = '';
+                let footerHtml = '';
 
-                if (prefetchNav) {
+                // ── IG nav prefetch ──────────────────────────────────────────
+                if (navType === 'infragistics' && navUrl) {
                   try {
                     const res = await fetch(navUrl, {
                       credentials: 'omit',
@@ -204,9 +224,9 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
                     });
                     if (res.ok) {
                       const html = await res.text();
-                      headerHtml   = extractOuterHtml(html, '<header[^>]+id="header"');
+                      headerHtml = extractOuterHtml(html, '<header[^>]+id="header"');
                       uiFooterHtml = extractOuterHtml(html, '<footer[^>]+class="[^"]*\\bui-footer\\b');
-                      footerHtml   = extractOuterHtml(html, '<footer[^>]+id="footer"');
+                      footerHtml = extractOuterHtml(html, '<footer[^>]+id="footer"');
                       // Strip the hello-bar promotional strip
                       headerHtml = headerHtml.replace(
                         /<div[^>]+id="hello-bar"[\s\S]*?<\/div>\s*/i, ''
@@ -219,11 +239,60 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
                   }
                 }
 
+                // ── AppBuilder nav prefetch ──────────────────────────────────
+                let abHeaderHtml = '';
+                let abFooterHtml = '';
+                let abFooterUtilsHtml = '';
+                let abFooterCopyrightHtml = '';
+                let abContactSalesHtml = '';
+
+                if (navType === 'appbuilder' && navUrl) {
+                  try {
+                    const abRes = await fetch(navUrl, {
+                      credentials: 'omit',
+                      signal: AbortSignal.timeout(15_000),
+                    });
+                    if (abRes.ok) {
+                      const abRaw = await abRes.text();
+                      // Endpoint may return JSON { header, footer } or a full HTML page.
+                      let parsed = false;
+                      try {
+                        const data = JSON.parse(abRaw);
+                        if (data.header || data.footer) {
+                          abHeaderHtml = data.header ?? '';
+                          abFooterHtml  = data.footer  ?? '';
+                          parsed = true;
+                        }
+                      } catch { /* not JSON — fall through to HTML extraction */ }
+
+                      if (!parsed) {
+                        abHeaderHtml          = extractOuterHtml(abRaw, '<header');
+                        abFooterHtml          = extractOuterHtml(abRaw, '<footer');
+                        abFooterUtilsHtml     = extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+class="[^"]*\\bfooter-utils\\b');
+                        abFooterCopyrightHtml = extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+class="[^"]*\\bfooter-copyright\\b');
+                        abContactSalesHtml    = extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+id="contactSales"');
+                      }
+                    } else {
+                      console.warn(`[docs-template] AppBuilder nav fetch returned ${abRes.status} — falling back to runtime loading.`);
+                    }
+                  } catch (err) {
+                    console.warn(`[docs-template] Could not prefetch AppBuilder navigation: ${err.message} — falling back to runtime loading.`);
+                  }
+                }
+
                 _navHtmlCache = [
+                  `export const platform = ${JSON.stringify(effectivePlatform ?? null)};`,
+                  `export const navLang = ${JSON.stringify(navLang)};`,
                   `export const prefetched = ${JSON.stringify(!!headerHtml)};`,
                   `export const headerHtml = ${JSON.stringify(headerHtml)};`,
                   `export const uiFooterHtml = ${JSON.stringify(uiFooterHtml)};`,
                   `export const footerHtml = ${JSON.stringify(footerHtml)};`,
+                  `export const abPrefetched = ${JSON.stringify(!!abHeaderHtml)};`,
+                  `export const abHeaderHtml = ${JSON.stringify(abHeaderHtml)};`,
+                  `export const abFooterHtml = ${JSON.stringify(abFooterHtml)};`,
+                  `export const abFooterUtilsHtml = ${JSON.stringify(abFooterUtilsHtml)};`,
+                  `export const abFooterCopyrightHtml = ${JSON.stringify(abFooterCopyrightHtml)};`,
+                  `export const abContactSalesHtml = ${JSON.stringify(abContactSalesHtml)};`,
                 ].join('\n');
                 return _navHtmlCache;
               },
@@ -375,6 +444,16 @@ export function staticImagesIntegration(imagesDir, { urlPath = '/images' } = {})
  * @param {object}   [options.sidebar={}]             Sidebar builder options.
  * @param {RegExp[]} [options.sidebar.exclude=[]]     Patterns to exclude from the TOC.
  * @param {string}   [options.description='']         Short description for the llms.txt header.
+ * @param {'angular'|'react'|'blazor'|'web-components'|'slingshot'|'appbuilder'|'reveal'} [options.platform]
+ *                                                     Platform identifier. Drives CDN styles/scripts
+ *                                                     injected into `<head>` (via `getPlatformHead`)
+ *                                                     and the build-time nav prefetch endpoint.
+ *                                                     When provided, takes precedence over the
+ *                                                     deprecated `prefetchNav` flag.
+ * @param {string}   [options.navLang='en']           Locale for the nav prefetch URL ('en'|'ja'|'kr').
+ * @param {Array}    [options.head=[]]                Extra `<head>` entries appended after the
+ *                                                     platform entries. Same format as Starlight's
+ *                                                     `head` option.
  * @param {object}   [options.starlight={}]           Extra Starlight options (logo, social,
  *                                                     editLink, customCss, plugins, …).
  * @param {Array}    [options.integrations=[]]        Extra Astro integrations appended after
@@ -391,10 +470,14 @@ export function createDocsSite(options = {}) {
     description = '',
     source = {},
     sidebar: sidebarOptions = {},
+    platform = null,
+    navLang = 'en',
+    head = [],
     starlight: starlightExtra = {},
     integrations: extraIntegrations = [],
+    // Deprecated: use `platform` instead
     prefetchNav = false,
-    navLang = 'en',
+    prefetchAppBuilderNav = false,
     ...astroExtra
   } = options;
 
@@ -404,13 +487,22 @@ export function createDocsSite(options = {}) {
     exclude: sidebarOptions.exclude ?? [],
   });
 
+  // Resolve effective platform — explicit option wins over deprecated flags.
+  const effectivePlatform =
+    platform ??
+    (prefetchAppBuilderNav ? 'appbuilder' : null) ??
+    (prefetchNav ? 'angular' : null);
+
+  // Platform CDN entries come first so site-specific `head` entries can override.
+  const platformHead = effectivePlatform ? getPlatformHead(effectivePlatform, navLang) : [];
+
   return defineConfig({
     site,
     ...(base !== undefined ? { base } : {}),
     ...astroExtra,
     integrations: [
-      siteMetaIntegration({ title, description, docsSourcePath: source.componentsDir, sidebar, prefetchNav, navLang }),
-      starlight({ title, sidebar, ...starlightExtra }),
+      siteMetaIntegration({ title, description, docsSourcePath: source.componentsDir, sidebar, platform: effectivePlatform, navLang }),
+      starlight({ title, sidebar, head: [...platformHead, ...head], ...starlightExtra }),
       ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
       ...extraIntegrations,
     ],

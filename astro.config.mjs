@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { buildSidebarFromToc, staticImagesIntegration, siteMetaIntegration } from './src/integration.mjs';
+import { getPlatformHead } from './src/platform.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -56,17 +57,10 @@ export default defineConfig({
       sidebar,
       customCss: ['./src/styles/custom.css'],
       head: [
-        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/layout.css' } },
+        // Platform CDN assets — driven by `platform` option in siteMetaIntegration below
+        ...getPlatformHead('reveal', 'en'),
+        // Angular-specific Ignite UI component bundle (repo-specific, not in shared registry)
         { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/products/ignite-ui-angular/angular/bundles/igniteui.f5cfb48022e69dd66658.css' } },
-        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/animate-custom.css' } },
-        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/fontello.css' } },
-        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' } },
-        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity: 'sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin: 'anonymous' } },
-        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/css/navigation.css' } },
-        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/css/footer.css' } },
-        { tag: 'script', attrs: { src: 'https://code.jquery.com/jquery-3.1.0.js', integrity: 'sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=', crossorigin: 'anonymous' } },
-        { tag: 'script', attrs: { src: 'https://www.infragistics.com/assets/modern/scripts/plugins.nav.js' } },
-        { tag: 'script', attrs: { src: 'https://www.infragistics.com/assets/modern/scripts/navigation.js' } },
       ],
       editLink: {
         baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
@@ -79,7 +73,7 @@ export default defineConfig({
     staticImagesIntegration(IMAGES),
     siteMetaIntegration({
       title: 'Ignite UI for Angular',
-      prefetchNav: true,
+      platform: 'reveal', // Used to drive platform-specific features like CDN assets and global nav configuration
       description:
         'Complete reference documentation for Ignite UI for Angular — a Material-based ' +
         'UI component library including Data Grid, Charts, Gauges, Calendars, and more.',

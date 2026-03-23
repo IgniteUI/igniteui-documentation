@@ -2,65 +2,188 @@
 /**
  * GlobalNavBar
  *
- * Renders the Infragistics global navigation bar, equivalent to what the old
- * igniteui-docfx-template rendered via:
- *   - template/partials/navbar.tmpl.partial  (dispatcher)
- *   - template/partials/infranav.tmpl.partial         (EN)
- *   - template/partials/infranav.ja.tmpl.partial      (JA)
- *   - template/partials/infranav.kr.tmpl.partial      (KR)
- *   - template/partials/revealnav.tmpl.partial        (Reveal EN)
- *   - template/partials/revealnav.ja.tmpl.partial     (Reveal JA)
- *   - template/partials/appbuilder/navbar.tmpl.partial (AppBuilder)
- *   - template/partials/slingshot/navbar.tmpl.partial  (Slingshot)
+ * Renders the platform-appropriate global navigation bar. Platform is driven
+ * by `siteMetaIntegration({ platform })` in astro.config.mjs (exported from
+ * the virtual module) and can be overridden per-instance via the `theme` prop.
  *
- * CDN assets from infragistics.com are required for the IgniteUI/default
- * theme. They are loaded as link/script tags inside this component and the
- * browser handles them correctly even when placed outside <head>.
+ * Platforms:
+ *   igniteui / angular / react / blazor / web-components / slingshot
+ *     → IG global nav (infragistics.com). Prebuild path uses virtual module
+ *       headerHtml. Static fallback renders the full nav server-side.
+ *   appbuilder
+ *     → AppBuilder nav (appbuilder.dev). Prebuild uses abHeaderHtml.
+ *       Runtime fallback uses the XHR includeContent pattern.
+ *   reveal
+ *     → Static Reveal BI nav.
  *
- * Props:
- *   theme – which product nav to show (default: 'igniteui')
- *   lang  – locale (default: 'en')
+ * CDN styles/scripts for each platform are injected into <head> by
+ * getPlatformHead() in astro.config.mjs — NOT repeated here.
  */
-
-import { prefetched, headerHtml } from 'virtual:docs-template/nav-html';
+import {
+  platform as virtualPlatform,
+  navLang as virtualNavLang,
+  prefetched,
+  headerHtml,
+  abPrefetched,
+  abHeaderHtml,
+} from 'virtual:docs-template/nav-html';
 
 interface Props {
-  theme?: 'igniteui' | 'appbuilder' | 'reveal' | 'slingshot';
+  /** Override the platform for this instance. Defaults to virtual module value. */
+  theme?: 'igniteui' | 'appbuilder' | 'reveal' | 'slingshot' | 'angular' | 'react' | 'blazor' | 'web-components';
+  /** Override the locale. Defaults to virtual module navLang. */
   lang?: 'en' | 'ja' | 'kr';
 }
 
-const { theme = 'igniteui', lang = 'en' } = Astro.props;
+const { theme, lang } = Astro.props as Props;
 
-const isJa = lang === 'ja';
-const isKr = lang === 'kr';
+// Props override the virtual module values (allows per-page overrides)
+const resolvedPlatform = theme ?? virtualPlatform ?? 'igniteui';
+const resolvedLang = (lang ?? virtualNavLang ?? 'en') as 'en' | 'ja' | 'kr';
 
-// CDN base for locale-aware links
-const igBase = isJa ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
+const isJa = resolvedLang === 'ja';
+const isKr = resolvedLang === 'kr';
+const isAppBuilder = resolvedPlatform === 'appbuilder';
+const isReveal     = resolvedPlatform === 'reveal';
+// All IG-family platforms share the same global nav
+const isIgPlatform = !isAppBuilder && !isReveal;
 
-// Reveal product links
+const igBase    = isJa ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
 const revealHref = isJa ? 'https://www.revealbi.io/jp/' : 'https://www.revealbi.io';
 
-// Per-theme flags
-const isIgniteUI   = theme === 'igniteui';
-const isReveal     = theme === 'reveal';
-const isAppBuilder = theme === 'appbuilder';
-const isSlingshot  = theme === 'slingshot';
-// Slingshot docs share the IG global nav header
-const useIgGlobalNav = isIgniteUI || isSlingshot;
 ---
 
-{/* === IgniteUI / Slingshot global nav (server-rendered HTML, light DOM) === */}
-{/* CDN stylesheets & scripts are loaded globally via Starlight head config in astro.config.mjs */}
-{useIgGlobalNav && prefetched && (
+{/* ============================================================
+    IG-family global nav (angular, react, blazor, web-components,
+    slingshot, igniteui)
+    ============================================================ */}
+
+{/* Prebuild path — HTML captured at build time */}
+{isIgPlatform && prefetched && (
   <>
     <header id="header" class="globalnav" data-nav-auto-init="false">
       <Fragment set:html={headerHtml} />
     </header>
-
     <script is:inline>
       if (window.igNavigation && typeof window.igNavigation.init === 'function') {
         window.igNavigation.init();
       }
     </script>
   </>
+)}
+
+{/* Static fallback — rendered when prefetch is unavailable */}
+{isIgPlatform && !prefetched && (
+  <header id="header" class="globalnav" data-nav-auto-init="false">
+    <section id="header-wrap" class="globalnav__container" data-default-height="175" data-sticky-height="60">
+      <section class="globalnav__primary clearfix">
+        <div class="globalnav__wrapper">
+          <div class="globalnav__brand">
+            <a href={igBase}>
+              <img class="globalnav__logo" src="https://static.infragistics.com/marketing/Website/products/ignite-ui/ignite-ui-logo.svg" alt="Infragistics Logo" />
+            </a>
+          </div>
+          <nav class="globalnav__nav">
+            {isJa ? (
+              <ul class="globalnav__menu">
+                <li class="globalnav__item"><a class="globalnav__link" href="https://jp.infragistics.com/products">製品</a></li>
+                <li class="globalnav__item"><a class="globalnav__link" href="https://jp.infragistics.com/community/blogs">ブログ</a></li>
+                <li class="globalnav__item"><a class="globalnav__link" href="https://jp.infragistics.com/support">サポート</a></li>
+              </ul>
+            ) : isKr ? (
+              <ul class="globalnav__menu">
+                <li class="globalnav__item"><a class="globalnav__link" href="https://www.infragistics.com/products">제품</a></li>
+                <li class="globalnav__item"><a class="globalnav__link" href="https://www.infragistics.com/community/blogs">블로그</a></li>
+                <li class="globalnav__item"><a class="globalnav__link" href="https://www.infragistics.com/support">지원</a></li>
+              </ul>
+            ) : (
+              <ul class="globalnav__menu">
+                <li class="globalnav__item"><a class="globalnav__link" href="https://www.infragistics.com/products">Products</a></li>
+                <li class="globalnav__item"><a class="globalnav__link" href="https://www.infragistics.com/community/blogs">Blog</a></li>
+                <li class="globalnav__item"><a class="globalnav__link" href="https://www.infragistics.com/support">Support</a></li>
+              </ul>
+            )}
+          </nav>
+          <div class="globalnav__overlay"></div>
+        </div>
+      </section>
+    </section>
+  </header>
+)}
+
+{/* ============================================================
+    AppBuilder nav
+    ============================================================ */}
+{isAppBuilder && (
+  <>
+    {/* Prebuild path — AB header/footer HTML captured at build time */}
+    {abPrefetched && (
+      <>
+        <Fragment set:html={abHeaderHtml} />
+        <script is:inline>
+          window.addEventListener('load', function () {
+            // Fix language-bar links (depends on current page URL at runtime)
+            var langBar = document.querySelector('.mega-lang-bar');
+            if (langBar) {
+              langBar.innerHTML =
+                '<a class="mega-custom-icon mega-menu-link" href="#" aria-expanded="false" tabindex="0" aria-label="LangBar">' +
+                '<span class="mega-indicator" aria-hidden="true"></span></a>' +
+                '<ul class="mega-sub-menu"><li class="mega-menu-item" id="mega-menu-item-8148"><div class="wovn-languages">' +
+                '<a href="' + window.location.href.replace('/ja/help/', '/help/') + '" style="display:block;padding-left:10px;color:gray;font-weight:300;">English</a>' +
+                '<a href="' + window.location.href.replace('/help/', '/ja/help/') + '" style="display:block;padding-left:10px;color:gray;font-weight:300;">日本語</a>' +
+                '</div></li></ul>';
+            }
+            // Initialise mega menu
+            if (window.jQuery && typeof window.jQuery('.max-mega-menu').maxmegamenu === 'function') {
+              window.jQuery('.max-mega-menu').maxmegamenu();
+            }
+            // Search toggle
+            var searchIcon  = document.querySelector('.mega-search .search-icon');
+            var searchInput = document.querySelector('.mega-search input[type=text]');
+            if (searchIcon)  searchIcon.onclick  = function () { _abSearchToggle(); };
+            if (searchInput) searchInput.onblur  = function () { _abSearchToggle(); };
+
+            function _abSearchToggle() {
+              var form = document.querySelector('.mega-search');
+              var inp  = document.querySelector('.mega-search input[type=text]');
+              if (!form) return;
+              if (form.classList.contains('mega-search-open')) {
+                form.classList.replace('mega-search-open', 'mega-search-closed');
+                if (inp) { inp.setAttribute('placeholder', ''); inp.value = ''; inp.setAttribute('tabindex', '0'); }
+              } else {
+                form.classList.replace('mega-search-closed', 'mega-search-open');
+                if (inp) { inp.setAttribute('placeholder', 'Search...'); inp.focus(); inp.setAttribute('tabindex', '-1'); }
+              }
+            }
+          });
+        </script>
+      </>
+    )}
+
+  </>
+)}
+
+{/* ============================================================
+    Reveal BI nav (static)
+    ============================================================ */}
+{isReveal && (
+  <div id="header" class="globalnav" data-nav-auto-init="false" data-nav-theme="reveal">
+    <section id="header-wrap" class="globalnav__container stuck" data-default-height="175" data-sticky-height="175">
+      <section class="globalnav__primary clearfix">
+        <div class="globalnav__wrapper">
+          <div class="globalnav__brand">
+            <a href={revealHref}>
+              <img class="globalnav__logo" src="https://static.infragistics.com/marketing/reveal/business-teams-reveal-logo-black.svg" alt="Reveal Logo" />
+            </a>
+          </div>
+          <div class="igw-header-nav">
+            <a class="igw-header-btn igw-btn-reveal" href="https://app.revealbi.io/Login?redirect=">
+              <span>{isJa ? '今すぐ試す' : 'Try it now'}</span>
+            </a>
+          </div>
+          <div class="globalnav__overlay"></div>
+        </div>
+      </section>
+    </section>
+  </div>
 )}
