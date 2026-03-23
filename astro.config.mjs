@@ -58,7 +58,7 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
       head: [
         // Platform CDN assets — driven by `platform` option in siteMetaIntegration below
-        ...getPlatformHead('reveal', 'en'),
+        ...getPlatformHead('angular', 'en'),
         // Angular-specific Ignite UI component bundle (repo-specific, not in shared registry)
         { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/products/ignite-ui-angular/angular/bundles/igniteui.f5cfb48022e69dd66658.css' } },
       ],
@@ -73,7 +73,7 @@ export default defineConfig({
     staticImagesIntegration(IMAGES),
     siteMetaIntegration({
       title: 'Ignite UI for Angular',
-      platform: 'reveal', // Used to drive platform-specific features like CDN assets and global nav configuration
+      platform: 'angular', // Used to drive platform-specific features like CDN assets and global nav configuration
       description:
         'Complete reference documentation for Ignite UI for Angular — a Material-based ' +
         'UI component library including Data Grid, Charts, Gauges, Calendars, and more.',

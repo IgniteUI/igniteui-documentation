@@ -172,20 +172,14 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
   const navVirtualId = 'virtual:docs-template/nav-html';
   const navResolvedId = '\0' + navVirtualId;
 
-  const effectivePlatform = platform ?? null;
+  // Resolve effective platform: explicit `platform` option wins; fall back to
+  // deprecated boolean flags for backwards compatibility.
+  const effectivePlatform =
+    platform ??
+    (prefetchAppBuilderNav ? 'appbuilder' : null) ??
+    (prefetchNav ? 'angular' : null);
 
-  let navPrefetchTarget = null;
-  if (platform) {
-    navPrefetchTarget = platform;
-  } else if (prefetchAppBuilderNav) {
-    navPrefetchTarget = 'appbuilder';
-  } else if (prefetchNav) {
-    // Use 'angular' as a representative IG platform — IG nav endpoint is the
-    // same shape for angular/react/blazor/web-components/slingshot.
-    navPrefetchTarget = 'angular';
-  }
-
-  const { navType, navUrl } = getNavConfig(navPrefetchTarget, navLang);
+  const { navType, navUrl } = getNavConfig(effectivePlatform, navLang);
 
   return {
     name: 'docs-template:site-meta',
@@ -260,17 +254,17 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
                         const data = JSON.parse(abRaw);
                         if (data.header || data.footer) {
                           abHeaderHtml = data.header ?? '';
-                          abFooterHtml  = data.footer  ?? '';
+                          abFooterHtml = data.footer ?? '';
                           parsed = true;
                         }
                       } catch { /* not JSON — fall through to HTML extraction */ }
 
                       if (!parsed) {
-                        abHeaderHtml          = extractOuterHtml(abRaw, '<header');
-                        abFooterHtml          = extractOuterHtml(abRaw, '<footer');
-                        abFooterUtilsHtml     = extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+class="[^"]*\\bfooter-utils\\b');
+                        abHeaderHtml = extractOuterHtml(abRaw, '<header');
+                        abFooterHtml = extractOuterHtml(abRaw, '<footer');
+                        abFooterUtilsHtml = extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+class="[^"]*\\bfooter-utils\\b');
                         abFooterCopyrightHtml = extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+class="[^"]*\\bfooter-copyright\\b');
-                        abContactSalesHtml    = extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+id="contactSales"');
+                        abContactSalesHtml = extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+id="contactSales"');
                       }
                     } else {
                       console.warn(`[docs-template] AppBuilder nav fetch returned ${abRes.status} — falling back to runtime loading.`);
@@ -399,9 +393,24 @@ export function staticImagesIntegration(imagesDir, { urlPath = '/images' } = {})
     hooks: {
       'astro:server:setup'({ server }) {
         server.middlewares.use(urlPath, (req, res, next) => {
-          // Normalise and prevent path traversal
-          const safePath = path.normalize(req.url || '/').replace(/\.\./g, '');
-          const filePath = path.join(imagesDir, safePath);
+          // Extract path (no query string)
+          const rawUrl = req.url || '/';
+          const requestPath = rawUrl.split('?', 1)[0] || '/';
+          // Decode URL component; reject malformed encodings
+          let decodedPath;
+          try {
+            decodedPath = decodeURIComponent(requestPath);
+          } catch {
+            return next();
+          }
+          // Build absolute file path and ensure it stays within imagesDir
+          const basePath = path.resolve(imagesDir);
+          const relativePath = decodedPath.replace(/^\/+/, '');
+          const filePath = path.resolve(path.join(basePath, relativePath));
+          // Prevent path traversal outside of imagesDir
+          if (filePath !== basePath && !filePath.startsWith(basePath + path.sep)) {
+            return next();
+          }
           try {
             if (fs.statSync(filePath).isFile()) {
               const ext = path.extname(filePath).slice(1).toLowerCase();
@@ -409,7 +418,9 @@ export function staticImagesIntegration(imagesDir, { urlPath = '/images' } = {})
               fs.createReadStream(filePath).pipe(res);
               return;
             }
-          } catch { /* file not found — fall through */ }
+          } catch {
+            /* file not found — fall through */
+          }
           next();
         });
       },
