@@ -21,17 +21,17 @@ const SOURCE_ROOT = path.resolve(__dirname, '..', '..', '..', process.env.SOURCE
 const ENV_PATH = path.join(SOURCE_ROOT, 'en', 'environment.json');
 let ENV: Record<string, string>;
 try {
-  const envData = JSON.parse(fs.readFileSync(ENV_PATH, 'utf-8')) as { production?: Record<string, string> };
-  ENV = envData.production ?? {};
+    const envData = JSON.parse(fs.readFileSync(ENV_PATH, 'utf-8')) as { production?: Record<string, string> };
+    ENV = envData.production ?? {};
 } catch {
-  ENV = {};
+    ENV = {};
 }
 
 const ENV_PATTERN = /\{environment:(\w+)\}/g;
 
 export function replaceEnvVars(str: string): string {
-  if (!str || typeof str !== 'string') return str;
-  return str.replace(ENV_PATTERN, (_match, key: string) => ENV[key] ?? `{environment:${key}}`);
+    if (!str || typeof str !== 'string') return str;
+    return str.replace(ENV_PATTERN, (_match, key: string) => ENV[key] ?? `{environment:${key}}`);
 }
 
 /**
@@ -39,80 +39,80 @@ export function replaceEnvVars(str: string): string {
  * into rendered iframes.
  */
 function transformCodeView(html: string): string {
-  return html.replace(
-    /<code-view\s+([^>]*)>\s*<\/code-view>/gs,
-    (_match, attrs: string) => {
-      const srcMatch = attrs.match(/iframe-src="([^"]*)"/);
-      const heightMatch = attrs.match(/style="height:(\d+px)"/);
-      const altMatch = attrs.match(/alt="([^"]*)"/);
-      const src = srcMatch ? replaceEnvVars(srcMatch[1]) : '';
-      const height = heightMatch ? heightMatch[1] : '400px';
-      const alt = altMatch ? altMatch[1] : 'Demo';
+    return html.replace(
+        /<code-view\s+([^>]*)>\s*<\/code-view>/gs,
+        (_match, attrs: string) => {
+            const srcMatch = attrs.match(/iframe-src="([^"]*)"/);
+            const heightMatch = attrs.match(/style="height:(\d+px)"/);
+            const altMatch = attrs.match(/alt="([^"]*)"/);
+            const src = srcMatch ? replaceEnvVars(srcMatch[1]) : '';
+            const height = heightMatch ? heightMatch[1] : '400px';
+            const alt = altMatch ? altMatch[1] : 'Demo';
 
-      if (!src) return '';
-      return `<iframe src="${src}" style="width:100%;height:${height};border:1px solid #e5e7eb;border-radius:8px;" title="${alt}" loading="lazy"></iframe>`;
-    }
-  );
+            if (!src) return '';
+            return `<iframe src="${src}" style="width:100%;height:${height};border:1px solid #e5e7eb;border-radius:8px;" title="${alt}" loading="lazy"></iframe>`;
+        }
+    );
 }
 
 /**
  * Transform <div class="divider--half"></div> into <hr>
  */
 function transformDividers(html: string): string {
-  return html.replace(/<div\s+class="divider--half"\s*>\s*<\/div>/g, '<hr/>');
+    return html.replace(/<div\s+class="divider--half"\s*>\s*<\/div>/g, '<hr/>');
 }
 
 export function remarkDocfx() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (tree: any, file: any) => {
-    // 1. Transform frontmatter: map _description -> description, _keywords -> keywords
-    if (file.data.astro?.frontmatter) {
-      const fm = file.data.astro.frontmatter as Record<string, unknown>;
-      if (fm._description && !fm.description) {
-        fm.description = fm._description;
-      }
-      // Remove underscore-prefixed keys that Starlight doesn't use
-      delete fm._description;
-      delete fm._keywords;
-      delete fm._license;
-    }
-
-    // 2. Walk the AST and replace environment variables in text/links/html
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    visit(tree, (node: any) => {
-      // Text nodes
-      if (node.type === 'text' && node.value) {
-        node.value = replaceEnvVars(node.value as string);
-      }
+    return (tree: any, file: any) => {
+        // 1. Transform frontmatter: map _description -> description, _keywords -> keywords
+        if (file.data.astro?.frontmatter) {
+            const fm = file.data.astro.frontmatter as Record<string, unknown>;
+            if (fm._description && !fm.description) {
+                fm.description = fm._description;
+            }
+            // Remove underscore-prefixed keys that Starlight doesn't use
+            delete fm._description;
+            delete fm._keywords;
+            delete fm._license;
+        }
 
-      // Links
-      if (node.type === 'link' && node.url) {
-        node.url = replaceEnvVars(node.url as string);
-      }
+        // 2. Walk the AST and replace environment variables in text/links/html
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        visit(tree, (node: any) => {
+            // Text nodes
+            if (node.type === 'text' && node.value) {
+                node.value = replaceEnvVars(node.value as string);
+            }
 
-      // Images
-      if (node.type === 'image' && node.url) {
-        node.url = replaceEnvVars(node.url as string);
-        // Fix relative image paths: ../../images/ -> /images/
-        node.url = (node.url as string).replace(/^\.\.\/\.\.\/images\//, '/images/');
-        node.url = (node.url as string).replace(/^\.\.\/images\//, '/images/');
-      }
+            // Links
+            if (node.type === 'link' && node.url) {
+                node.url = replaceEnvVars(node.url as string);
+            }
 
-      // Inline HTML
-      if (node.type === 'html' && node.value) {
-        node.value = replaceEnvVars(node.value as string);
-        node.value = transformCodeView(node.value as string);
-        node.value = transformDividers(node.value as string);
-        // Fix image src paths in raw HTML
-        node.value = (node.value as string).replace(
-          /src="\.\.\/\.\.\/images\//g,
-          'src="/images/'
-        );
-        node.value = (node.value as string).replace(
-          /src="\.\.\/images\//g,
-          'src="/images/'
-        );
-      }
-    });
-  };
+            // Images
+            if (node.type === 'image' && node.url) {
+                node.url = replaceEnvVars(node.url as string);
+                // Fix relative image paths: ../../images/ -> /images/
+                node.url = (node.url as string).replace(/^\.\.\/\.\.\/images\//, '/images/');
+                node.url = (node.url as string).replace(/^\.\.\/images\//, '/images/');
+            }
+
+            // Inline HTML
+            if (node.type === 'html' && node.value) {
+                node.value = replaceEnvVars(node.value as string);
+                node.value = transformCodeView(node.value as string);
+                node.value = transformDividers(node.value as string);
+                // Fix image src paths in raw HTML
+                node.value = (node.value as string).replace(
+                    /src="\.\.\/\.\.\/images\//g,
+                    'src="/images/'
+                );
+                node.value = (node.value as string).replace(
+                    /src="\.\.\/images\//g,
+                    'src="/images/'
+                );
+            }
+        });
+    };
 }

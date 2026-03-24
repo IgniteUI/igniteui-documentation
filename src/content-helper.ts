@@ -35,17 +35,17 @@ import { pathToFileURL } from 'node:url';
 type ExtendSchema = NonNullable<Parameters<typeof docsSchema>[0]>['extend'];
 
 interface CreateDocsCollectionOptions {
-  /**
-   * Glob patterns to exclude (relative to `sourceDir`). A leading `!` is
-   * added automatically when missing, so `'internal/**'` and
-   * `'!internal/**'` are both accepted.
-   */
-  exclude?: string[];
-  /**
-   * Additional Zod object fields merged into the Starlight doc schema.
-   * Useful for repo-specific frontmatter fields.
-   */
-  extendSchema?: ExtendSchema;
+    /**
+     * Glob patterns to exclude (relative to `sourceDir`). A leading `!` is
+     * added automatically when missing, so `'internal/**'` and
+     * `'!internal/**'` are both accepted.
+     */
+    exclude?: string[];
+    /**
+     * Additional Zod object fields merged into the Starlight doc schema.
+     * Useful for repo-specific frontmatter fields.
+     */
+    extendSchema?: ExtendSchema;
 }
 
 /**
@@ -65,47 +65,47 @@ interface CreateDocsCollectionOptions {
  * @throws When neither `sourceDir` nor `DOCS_SOURCE_PATH` env var is set.
  */
 export function createDocsCollection(
-  sourceDir?: string,
-  { exclude = [], extendSchema }: CreateDocsCollectionOptions = {},
+    sourceDir?: string,
+    { exclude = [], extendSchema }: CreateDocsCollectionOptions = {},
 ) {
-  const dir = sourceDir ?? process.env.DOCS_SOURCE_PATH;
-  if (!dir) {
-    throw new Error(
-      '[docs-template] createDocsCollection: no source directory provided. ' +
-      'Pass a path as the first argument or set the DOCS_SOURCE_PATH env variable.'
-    );
-  }
+    const dir = sourceDir ?? process.env.DOCS_SOURCE_PATH;
+    if (!dir) {
+        throw new Error(
+            '[docs-template] createDocsCollection: no source directory provided. ' +
+            'Pass a path as the first argument or set the DOCS_SOURCE_PATH env variable.'
+        );
+    }
 
-  // Normalise exclude patterns — ensure each starts with '!'
-  const excludePatterns = exclude.map(p => (p.startsWith('!') ? p : `!${p}`));
+    // Normalise exclude patterns — ensure each starts with '!'
+    const excludePatterns = exclude.map(p => (p.startsWith('!') ? p : `!${p}`));
 
-  const schema = extendSchema
-    ? docsSchema({ extend: extendSchema })
-    : docsSchema();
+    const schema = extendSchema
+        ? docsSchema({ extend: extendSchema })
+        : docsSchema();
 
-  return defineCollection({
-    loader: glob({
-      base: pathToFileURL(dir.endsWith('/') ? dir : dir + '/'),
-      pattern: [
-        '*.{md,mdx}',
-        '**/*.{md,mdx}',
-        '!**/_*.{md,mdx}',
-        '!**/toc.yml',
-        '!**/*.json',
-        // TODO: remove once source repos add proper Starlight frontmatter to
-        // these repo-root files (they have no `title` and fail schema validation)
-        '!readme.md',
-        '!README.md',
-        '!CHANGELOG.md',
-        '!LICENSE.md',
-        ...excludePatterns,
-      ],
-    }),
-    // docsSchema returns different Zod shapes depending on whether extend is
-    // provided; casting to any avoids the union mismatch with defineCollection.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    schema: schema as any,
-  });
+    return defineCollection({
+        loader: glob({
+            base: pathToFileURL(dir.endsWith('/') ? dir : dir + '/'),
+            pattern: [
+                '*.{md,mdx}',
+                '**/*.{md,mdx}',
+                '!**/_*.{md,mdx}',
+                '!**/toc.yml',
+                '!**/*.json',
+                // TODO: remove once source repos add proper Starlight frontmatter to
+                // these repo-root files (they have no `title` and fail schema validation)
+                '!readme.md',
+                '!README.md',
+                '!CHANGELOG.md',
+                '!LICENSE.md',
+                ...excludePatterns,
+            ],
+        }),
+        // docsSchema returns different Zod shapes depending on whether extend is
+        // provided; casting to any avoids the union mismatch with defineCollection.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        schema: schema as any,
+    });
 }
 
 // ---------------------------------------------------------------------------
@@ -128,5 +128,5 @@ export function createDocsCollection(
  * `createDocsCollection` directly instead.
  */
 export const collections = {
-  docs: createDocsCollection(process.env.DOCS_SOURCE_PATH),
+    docs: createDocsCollection(process.env.DOCS_SOURCE_PATH),
 };
