@@ -38,68 +38,86 @@ const TOC_PATH = path.join(SOURCE_ROOT, 'en/components/toc.yml');
 process.env.DOCS_SOURCE_PATH = COMPONENTS;
 
 const sidebar = buildSidebarFromToc({
-    tocPath: TOC_PATH,
-    docsDir: COMPONENTS,
-    exclude: [
-        /^grids_templates\//i,
-        /^style-guide\.md$/i,
-        /^themes\/sass\/presets\//i,
-        /^themes\.md$/i,
-    ],
+  tocPath: TOC_PATH,
+  docsDir: COMPONENTS,
+  exclude: [
+    /^grids_templates\//i,
+    /^style-guide\.md$/i,
+    /^themes\/sass\/presets\//i,
+    /^themes\.md$/i,
+  ],
 });
+
+// // Ensure a default build mode for local/demo usage.
+// process.env.DOCS_BUILD_MODE = process.env.DOCS_BUILD_MODE ?? 'dev';
+// const DOCS_BUILD_MODE = process.env.DOCS_BUILD_MODE;
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://igniteui.github.io/docs-template',
-    // base: '/docs-template', // Uncomment if deploying to a subpath
-    compressHTML: true,
-    build: {
-        assets: '_assets',
+  site: 'https://igniteui.github.io/docs-template',
+  // base: '/docs-template', // Uncomment if deploying to a subpath
+  compressHTML: true,
+  build: {
+    assets: '_assets',
+  },
+  // Ensure Sass `@import 'highlight.js/…'` resolves from node_modules
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          loadPaths: [path.join(process.cwd(), 'node_modules')],
+          // The if-function deprecation originates inside igniteui-theming
+          // (vendor code in node_modules we cannot modify). Silence only that.
+          silenceDeprecations: ['if-function'],
+        },
+      },
     },
-    image: {
-        // Disable built-in image optimization — images are served statically
-        service: { entrypoint: 'astro/assets/services/noop' },
-    },
-    integrations: [
-        starlight({
-            title: 'Ignite UI for Angular',
-            logo: {
-                src: './public/favicon.svg',
-            },
-            social: [
-                { icon: 'github', label: 'GitHub', href: 'https://github.com/IgniteUI/igniteui-angular' },
-            ],
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            sidebar: sidebar as any,
-            customCss: ['./src/styles/custom.css'],
-            head: [
-                // Platform CDN assets — driven by `platform` option in siteMetaIntegration below
-                ...getPlatformHead('angular', 'en'),
-                // Angular-specific Ignite UI component bundle (repo-specific, not in shared registry)
-                { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/products/ignite-ui-angular/angular/bundles/igniteui.f5cfb48022e69dd66658.css' } },
-            ],
-            editLink: {
-                baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
-            },
-            components: {
-                Header: './src/components/overrides/Header.astro',
-                Footer: './src/components/overrides/Footer.astro',
-            },
-        }),
-        staticImagesIntegration(IMAGES),
-        siteMetaIntegration({
-            title: 'Ignite UI for Angular',
-            platform: 'angular',
-            description:
-                'Complete reference documentation for Ignite UI for Angular — a Material-based ' +
-                'UI component library including Data Grid, Charts, Gauges, Calendars, and more.',
-            docsDir: COMPONENTS,
-            sidebar,
-        }),
+  },
+  image: {
+    // Disable built-in image optimization — images are served statically
+    service: { entrypoint: 'astro/assets/services/noop' },
+  },
+  integrations: [
+    starlight({
+      title: 'Ignite UI for Angular',
+      logo: {
+        src: './public/favicon.svg',
+      },
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/IgniteUI/igniteui-angular' },
+      ],
+      sidebar,
+      // Prepend the packaged theme entry so consuming projects get the theme.
+      customCss: ['./src/styles/themes/ignite-ui.scss', './src/styles/custom.css'],
+      head: [
+        // Platform CDN assets — driven by platform below
+        ...getPlatformHead('angular', 'en'),
+        // Angular-specific Ignite UI component bundle (repo-specific, not in shared registry)
+        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/products/ignite-ui-angular/angular/bundles/igniteui.f5cfb48022e69dd66658.css' } },
+      ],
+      editLink: {
+        baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
+      },
+      components: {
+        Header: './src/components/overrides/Header.astro',
+        Footer: './src/components/overrides/Footer.astro',
+      },
+    }),
+    staticImagesIntegration(IMAGES),
+    siteMetaIntegration({
+      title: 'Ignite UI for Angular',
+      platform: 'angular',
+      description:
+        'Complete reference documentation for Ignite UI for Angular — a Material-based ' +
+        'UI component library including Data Grid, Charts, Gauges, Calendars, and more.',
+      docsDir: COMPONENTS,
+      sidebar,
+    }),
+  ],
+  markdown: {
+    remarkPlugins: [
+      (await import('./src/plugins/remark-docfx')).remarkDocfx,
     ],
-    markdown: {
-        remarkPlugins: [
-            (await import('./src/plugins/remark-docfx')).remarkDocfx,
-        ],
-    },
+  },
 });
+

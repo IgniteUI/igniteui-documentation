@@ -62,6 +62,25 @@ import { buildSidebarFromToc } from './sidebar';
 import { replaceEnvVars } from './plugins/remark-docfx';
 import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey } from './platform.ts';
+
+/** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
+export type DocsMode = 'dev' | 'staging' | 'prod';
+
+// ---------------------------------------------------------------------------
+// Platform → SCSS theme map
+// ---------------------------------------------------------------------------
+
+/** Absolute paths to the bundled SCSS entry files, keyed by platform. */
+const _themeDir = new URL('./styles/themes/', import.meta.url);
+const PLATFORM_SCSS: Partial<Record<PlatformKey, string>> = {
+    angular: fileURLToPath(new URL('ignite-ui.scss', _themeDir)),
+    react: fileURLToPath(new URL('ignite-ui.scss', _themeDir)),
+    blazor: fileURLToPath(new URL('ignite-ui.scss', _themeDir)),
+    'web-components': fileURLToPath(new URL('ignite-ui.scss', _themeDir)),
+    slingshot: fileURLToPath(new URL('slingshot.scss', _themeDir)),
+    reveal: fileURLToPath(new URL('slingshot.scss', _themeDir)),
+    appbuilder: fileURLToPath(new URL('appbuilder.scss', _themeDir)),
+};
 import { JSDOM } from 'jsdom';
 
 // ---------------------------------------------------------------------------
@@ -204,6 +223,8 @@ export interface SiteMetaOptions {
     sidebar?: SidebarItem[];
     platform?: PlatformKey | null;
     navLang?: string;
+    /** Build / deployment mode. Exposed via `virtual:docs-template/site-meta`. */
+    mode?: DocsMode;
     /** @deprecated Use `platform` instead. */
     prefetchNav?: boolean;
     /** @deprecated Use `platform: 'appbuilder'` instead. */
@@ -221,6 +242,7 @@ export function siteMetaIntegration({
     sidebar,
     platform = null,
     navLang = 'en',
+    mode = 'dev',
     prefetchNav = false,
     prefetchAppBuilderNav = false,
 }: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
@@ -228,6 +250,7 @@ export function siteMetaIntegration({
     const moduleCode = `export const title = ${JSON.stringify(title)};
 export const description = ${JSON.stringify(description)};
 export const sidebar = ${JSON.stringify(sidebar ?? [])};
+export const mode = ${JSON.stringify(mode)};
 `;
     const virtualId = 'virtual:docs-template/site-meta';
     const resolvedId = '\0' + virtualId;
@@ -252,6 +275,22 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
                     pattern: '/llms.txt',
                     entrypoint: fileURLToPath(new URL('./routes/llms.txt.ts', import.meta.url)),
                     prerender: true,
+                });
+                // Configure Sass loadPaths so bare `highlight.js/scss/vs2015`
+                // imports in the platform theme files resolve from node_modules.
+                updateConfig({
+                    vite: {
+                        css: {
+                            preprocessorOptions: {
+                                scss: {
+                                    loadPaths: [path.join(process.cwd(), 'node_modules')],
+                                    // The if-function deprecation originates inside
+                                    // igniteui-theming (vendor code we cannot modify).
+                                    silenceDeprecations: ['if-function'],
+                                },
+                            },
+                        },
+                    },
                 });
                 updateConfig({
                     vite: {
@@ -532,6 +571,16 @@ export interface CreateDocsSiteOptions {
      * Same format as Starlight's `head` option.
      */
     head?: HeadEntry[];
+    /**
+     * Build / deployment mode.
+     * - `'dev'`     — local development (default)
+     * - `'staging'` — pre-production environment
+     * - `'prod'`    — production deployment
+     *
+     * Exposed as `process.env.DOCS_BUILD_MODE` and through the
+     * `virtual:docs-template/site-meta` virtual module.
+     */
+    mode?: DocsMode;
     /** Extra Starlight options (logo, social, editLink, customCss, plugins, …). */
     starlight?: Record<string, unknown>;
     /** Extra Astro integrations appended after the built-in ones. */
@@ -558,6 +607,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         sidebar: sidebarOptions = {},
         platform = null,
         navLang = 'en',
+        mode = 'dev',
         head = [],
         starlight: starlightExtra = {},
         integrations: extraIntegrations = [],
@@ -570,24 +620,45 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         exclude: sidebarOptions.exclude ?? [],
     });
 
-    // Expose the source path via env var so the consuming project's
-    // src/content.config.ts (which uses createDocsCollection) can find the
-    // markdown files without any extra configuration.
+    // Expose env vars so consuming content.config.ts and components can read them.
     if (source.docsDir) {
         process.env.DOCS_SOURCE_PATH = source.docsDir;
     }
+    process.env.DOCS_BUILD_MODE = mode;
 
     // Platform CDN entries come first so site-specific `head` entries can override.
     const platformHead = platform ? getPlatformHead(platform, navLang) : [];
+
+    // Platform SCSS theme — bundled inside docs-template, absolute path so it
+    // works regardless of where the consuming project is located.
+    const platformScss = platform ? PLATFORM_SCSS[platform] : undefined;
+
+    // Default component overrides shipped by this package.
+    // Consumers can override individual slots via starlight.components.
+    const pkgDir = new URL('.', import.meta.url);
+    const defaultComponents: Record<string, string> = {
+        Header: fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
+        Footer: fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
+    };
 
     return defineConfig({
         site,
         ...(base !== undefined ? { base } : {}),
         ...astroExtra,
         integrations: [
-            siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang }),
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            starlight({ title, sidebar: sidebar as any, head: [...platformHead, ...head] as any, ...starlightExtra }),
+            siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode }),
+            starlight({
+                title,
+                sidebar: sidebar,
+                head: [...platformHead, ...head],
+                components: { ...defaultComponents, ...(starlightExtra.components as Record<string, string> ?? {}) },
+                customCss: [
+                    ...(platformScss ? [platformScss] : []),
+                    ...((starlightExtra.customCss as string[]) ?? []),
+                ],
+                ...starlightExtra,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            }),
             ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
             ...extraIntegrations,
         ],
