@@ -62,6 +62,7 @@ import { buildSidebarFromToc } from './sidebar';
 import { replaceEnvVars } from './plugins/remark-docfx';
 import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey } from './platform.ts';
+import { JSDOM } from 'jsdom';
 
 // ---------------------------------------------------------------------------
 // Navigation HTML prefetch cache + helpers
@@ -78,12 +79,17 @@ let _navHtmlCache: string | null = null;
  * scripts are already injected cleanly via getPlatformHead().
  */
 function stripScripts(html: string): string {
-    let previous: string;
-    do {
-        previous = html;
-        html = html.replace(/<script\b[\s\S]*?<\/script>/gi, '');
-    } while (html !== previous);
-    return html;
+    // Use a DOM parser instead of a fragile regexp to remove all <script> tags.
+    // This correctly handles malformed end tags like </script foo="bar">,
+    // extra whitespace, case differences, and nested/script-like text.
+    const dom = new JSDOM(html);
+    const { document } = dom.window;
+
+    document.querySelectorAll('script').forEach((el) => {
+        el.remove();
+    });
+
+    return dom.serialize();
 }
 
 /**
