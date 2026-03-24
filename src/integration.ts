@@ -82,7 +82,7 @@ function stripScripts(html: string): string {
     const dom = new JSDOM(html);
     const { document } = dom.window;
 
-    document.querySelectorAll('script').forEach((el: Element) => {
+    document.querySelectorAll('script').forEach((el) => {
         el.remove();
     });
 
