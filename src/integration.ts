@@ -79,13 +79,10 @@ let _navHtmlCache: string | null = null;
  * scripts are already injected cleanly via getPlatformHead().
  */
 function stripScripts(html: string): string {
-    // Use a DOM parser instead of a fragile regexp to remove all <script> tags.
-    // This correctly handles malformed end tags like </script foo="bar">,
-    // extra whitespace, case differences, and nested/script-like text.
     const dom = new JSDOM(html);
     const { document } = dom.window;
 
-    document.querySelectorAll('script').forEach((el) => {
+    document.querySelectorAll('script').forEach((el: Element) => {
         el.remove();
     });
 
@@ -549,23 +546,7 @@ export interface CreateDocsSiteOptions {
  * All individual helpers (`buildSidebarFromToc`, `staticImagesIntegration`,
  * `siteMetaIntegration`) remain independently importable for cases that
  * need finer control.
- *
- * @remarks
- * **Content collection required** — `createDocsSite` does NOT automatically
- * convert `.md` files into rendered HTML pages by itself. Astro renders pages
- * only when the source markdown is registered in a content collection.
- *
- * This function sets `process.env.DOCS_SOURCE_PATH` to `source.docsDir`
- * so your `src/content.config.ts` can pick it up without any extra wiring.
- * The minimal `content.config.ts` for a consuming project is:
- *
- *   import { createDocsCollection } from 'docs-template/content';
- *   export const collections = {
- *     docs: createDocsCollection(process.env.DOCS_SOURCE_PATH),
- *   };
- *
- * Without this file, `createDocsSite` still configures Starlight (sidebar,
- * nav, head assets, llms.txt) but **no doc pages will be generated**.
+ * @param options - Configuration options.
  */
 export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocsSiteOptions): ReturnType<typeof defineConfig> {
     const {
