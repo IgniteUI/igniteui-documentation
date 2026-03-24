@@ -1,5 +1,5 @@
 /**
- * platform.mjs
+ * platform.ts
  *
  * Central registry of per-platform CDN assets (styles / scripts) and nav
  * endpoint configuration, ported from igniteui-docfx-template:
@@ -7,19 +7,57 @@
  *   - template/partials/scripts.tmpl.partial (scripts per platform)
  *   - template/conceptual.html.primary.js   (platform flag derivation)
  *
- * Usage from astro.config.mjs:
- *   import { getPlatformHead } from './src/platform.mjs';
+ * Usage from astro.config.ts:
+ *   import { getPlatformHead } from './src/platform.ts';
  *   // inside starlight({ head: getPlatformHead('angular', 'en') })
  *
- * Usage from integration.mjs:
- *   import { getNavConfig } from './platform.mjs';
+ * Usage from integration.ts:
+ *   import { getNavConfig } from './platform.ts';
  *   const { navType, navUrl } = getNavConfig(platform, navLang);
  */
 
 // ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+/** HTML tag names accepted by Starlight's `head` array. */
+export type HeadTag =
+  | 'title' | 'link' | 'style' | 'base'
+  | 'meta'  | 'script' | 'noscript' | 'template';
+
+/** Single entry in Starlight's `head` array — tag, attrs, optional content. */
+export type HeadEntry = {
+  tag: HeadTag;
+  attrs?: Record<string, string | boolean | undefined>;
+  content?: string;
+};
+
+export type PlatformKey =
+  | 'angular'
+  | 'react'
+  | 'blazor'
+  | 'web-components'
+  | 'slingshot'
+  | 'appbuilder'
+  | 'reveal';
+
+type NavType = 'infragistics' | 'appbuilder' | 'reveal' | 'none';
+
+interface PlatformDef {
+  navType: NavType;
+  styles: HeadEntry[];
+  scripts: HeadEntry[];
+}
+
+export interface NavConfig {
+  navType: NavType;
+  navUrl: string | null;
+}
+
+// ---------------------------------------------------------------------------
 // Shared IG styles — used by: angular, react, blazor, web-components, slingshot
 // ---------------------------------------------------------------------------
-const IG_STYLES = [
+const IG_STYLES: HeadEntry[] = [
   { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/layout.css' } },
   { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/animate-custom.css' } },
   { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/fontello.css' } },
@@ -40,7 +78,7 @@ const IG_STYLES = [
 // ---------------------------------------------------------------------------
 // Shared IG scripts — used by: angular, react, blazor, web-components, slingshot
 // ---------------------------------------------------------------------------
-const IG_SCRIPTS = [
+const IG_SCRIPTS: HeadEntry[] = [
   {
     tag: 'script',
     attrs: {
@@ -56,7 +94,7 @@ const IG_SCRIPTS = [
 // ---------------------------------------------------------------------------
 // AppBuilder styles — source: head.tmpl.partial {{#_isAppBuilder}} block
 // ---------------------------------------------------------------------------
-const APPBUILDER_STYLES = [
+const APPBUILDER_STYLES: HeadEntry[] = [
   // Mega-menu plugin styles
   { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/uploads/maxmegamenu/style.css?ver=631e5d', media: 'all' } },
   { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-includes/css/dashicons.min.css', media: 'all' } },
@@ -83,7 +121,7 @@ const APPBUILDER_STYLES = [
 // These are injected into <head> so they are available when the prebuild
 // header HTML calls jQuery / maxmegamenu on load.
 // ---------------------------------------------------------------------------
-const APPBUILDER_SCRIPTS = [
+const APPBUILDER_SCRIPTS: HeadEntry[] = [
   // jQuery from staging (megamenu plugins may depend on this specific version)
   { tag: 'script', attrs: { src: 'https://staging.appbuilder.dev/wp-includes/js/jquery/jquery.min.js?ver=3.7.1' } },
   { tag: 'script', attrs: { src: 'https://staging.appbuilder.dev/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1' } },
@@ -109,7 +147,7 @@ const APPBUILDER_SCRIPTS = [
 //   'appbuilder'   → www.appbuilder.dev/header-footer-export
 //   'reveal'       → no fetch (static embedded nav)
 // ---------------------------------------------------------------------------
-export const PLATFORM_DEFS = {
+export const PLATFORM_DEFS: Record<PlatformKey, PlatformDef> = {
   angular:           { navType: 'infragistics', styles: IG_STYLES,         scripts: IG_SCRIPTS         },
   react:             { navType: 'infragistics', styles: IG_STYLES,         scripts: IG_SCRIPTS         },
   blazor:            { navType: 'infragistics', styles: IG_STYLES,         scripts: IG_SCRIPTS         },
@@ -127,12 +165,11 @@ export const PLATFORM_DEFS = {
  * Returns an array of Starlight `head` entries for the given platform.
  * Pass the result directly to `starlight({ head: getPlatformHead(...) })`.
  *
- * @param {keyof PLATFORM_DEFS} platform
- * @param {string} [lang='en']  Locale — not currently used but kept for API completeness.
- * @returns {Array<{ tag: string, attrs: Record<string,string>, content?: string }>}
+ * @param platform - Platform identifier.
+ * @param lang - Locale — not currently used but kept for API completeness.
  */
-export function getPlatformHead(platform, lang = 'en') {
-  const def = PLATFORM_DEFS[platform];
+export function getPlatformHead(platform: string, lang = 'en'): HeadEntry[] {
+  const def = PLATFORM_DEFS[platform as PlatformKey];
   if (!def) {
     console.warn(`[docs-template] Unknown platform "${platform}" — no head entries injected.`);
     return [];
@@ -144,11 +181,10 @@ export function getPlatformHead(platform, lang = 'en') {
  * Returns the nav endpoint config for the given platform.
  * Used internally by siteMetaIntegration to decide what to prefetch.
  *
- * @param {keyof PLATFORM_DEFS | null} platform
- * @param {string} [lang='en']
- * @returns {{ navType: string, navUrl: string | null }}
+ * @param platform - Platform identifier, or `null` for no nav.
+ * @param lang - Locale for the nav URL ('en' | 'ja' | 'kr').
  */
-export function getNavConfig(platform, lang = 'en') {
+export function getNavConfig(platform: string | null, lang = 'en'): NavConfig {
   const igBase = lang === 'ja' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
   switch (platform) {
     case 'appbuilder':

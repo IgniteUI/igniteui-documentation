@@ -1,30 +1,45 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import { buildSidebarFromToc, staticImagesIntegration, siteMetaIntegration } from './src/integration.mjs';
-import { getPlatformHead } from './src/platform.mjs';
+import { buildSidebarFromToc, staticImagesIntegration, siteMetaIntegration } from './src/integration';
+import { getPlatformHead } from './src/platform';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { loadEnv } from 'vite';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Load .env into process.env — Vite/Astro does this for the browser bundle
+// but NOT for astro.config.ts itself, so we do it explicitly here.
+const env = loadEnv('', process.cwd(), '');
+Object.assign(process.env, env);
 
 // ---------------------------------------------------------------------------
-// Source paths — specific to this repo (igniteui-docfx / Angular docs).
-// Consuming repos define their own equivalent block and pass it to the shared
-// buildSidebarFromToc() / createDocsCollection() helpers.
+// Source paths — set via DOCS_SOURCE_PATH env var.
+// For local development copy .env.example to .env and set an absolute path:
+//   DOCS_SOURCE_PATH=C:/Repos/docs/igniteui-docfx   (Windows)
+//   DOCS_SOURCE_PATH=/home/user/repos/igniteui-docfx  (macOS/Linux)
+// In CI/CD this is provided by the pipeline environment.
+// Consuming repos use createDocsSite({ source: { docsDir } }) which sets
+// the env var automatically — this manual config is the template's own demo.
 // ---------------------------------------------------------------------------
 
-const SOURCE_ROOT =
-  process.env.DOCS_SOURCE_PATH
-    ? path.resolve(process.env.DOCS_SOURCE_PATH)
-    : path.resolve(__dirname, '..', 'igniteui-docfx');
+if (!process.env.DOCS_SOURCE_PATH) {
+  throw new Error(
+    '[docs-template] DOCS_SOURCE_PATH env var is required. ' +
+    'Copy .env.example to .env and set an absolute path to the docs source repo root. ' +
+    'When using createDocsSite({ source: { docsDir } }), this is set automatically.'
+  );
+}
 
+const SOURCE_ROOT = path.resolve(process.env.DOCS_SOURCE_PATH);
 const COMPONENTS = path.join(SOURCE_ROOT, 'en/components');
-const IMAGES = path.join(SOURCE_ROOT, 'en/images');
-const TOC_PATH = path.join(SOURCE_ROOT, 'en/components/toc.yml');
+const IMAGES     = path.join(SOURCE_ROOT, 'en/images');
+const TOC_PATH   = path.join(SOURCE_ROOT, 'en/components/toc.yml');
+
+// Narrow DOCS_SOURCE_PATH to the components dir so content.config.ts uses
+// it as the glob base (same as what createDocsSite does automatically).
+process.env.DOCS_SOURCE_PATH = COMPONENTS;
 
 const sidebar = buildSidebarFromToc({
   tocPath: TOC_PATH,
-  componentsDir: COMPONENTS,
+  docsDir: COMPONENTS,
   exclude: [
     /^grids_templates\//i,
     /^style-guide\.md$/i,
@@ -54,7 +69,8 @@ export default defineConfig({
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/IgniteUI/igniteui-angular' },
       ],
-      sidebar,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      sidebar: sidebar as any,
       customCss: ['./src/styles/custom.css'],
       head: [
         // Platform CDN assets — driven by `platform` option in siteMetaIntegration below
@@ -73,17 +89,17 @@ export default defineConfig({
     staticImagesIntegration(IMAGES),
     siteMetaIntegration({
       title: 'Ignite UI for Angular',
-      platform: 'angular', // Used to drive platform-specific features like CDN assets and global nav configuration
+      platform: 'angular',
       description:
         'Complete reference documentation for Ignite UI for Angular — a Material-based ' +
         'UI component library including Data Grid, Charts, Gauges, Calendars, and more.',
-      docsSourcePath: COMPONENTS,
+      docsDir: COMPONENTS,
       sidebar,
     }),
   ],
   markdown: {
     remarkPlugins: [
-      (await import('./src/plugins/remark-docfx.mjs')).remarkDocfx,
+      (await import('./src/plugins/remark-docfx')).remarkDocfx,
     ],
   },
 });

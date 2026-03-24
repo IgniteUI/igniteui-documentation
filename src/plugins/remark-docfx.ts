@@ -19,9 +19,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SOURCE_ROOT = path.resolve(__dirname, '..', '..', '..', process.env.SOURCE_KEY === 'xplat' ? 'igniteui-xplat-docs' : 'igniteui-docfx');
 
 const ENV_PATH = path.join(SOURCE_ROOT, 'en', 'environment.json');
-let ENV;
+let ENV: Record<string, string>;
 try {
-  const envData = JSON.parse(fs.readFileSync(ENV_PATH, 'utf-8'));
+  const envData = JSON.parse(fs.readFileSync(ENV_PATH, 'utf-8')) as { production?: Record<string, string> };
   ENV = envData.production ?? {};
 } catch {
   ENV = {};
@@ -29,20 +29,19 @@ try {
 
 const ENV_PATTERN = /\{environment:(\w+)\}/g;
 
-export function replaceEnvVars(str) {
+export function replaceEnvVars(str: string): string {
   if (!str || typeof str !== 'string') return str;
-  return str.replace(ENV_PATTERN, (_match, key) => ENV[key] ?? `{environment:${key}}`);
+  return str.replace(ENV_PATTERN, (_match, key: string) => ENV[key] ?? `{environment:${key}}`);
 }
 
 /**
  * Transform <code-view ...> ... </code-view> raw HTML blocks
  * into rendered iframes.
  */
-function transformCodeView(html) {
-  // Replace code-view blocks with iframes
+function transformCodeView(html: string): string {
   return html.replace(
     /<code-view\s+([^>]*)>\s*<\/code-view>/gs,
-    (_match, attrs) => {
+    (_match, attrs: string) => {
       const srcMatch = attrs.match(/iframe-src="([^"]*)"/);
       const heightMatch = attrs.match(/style="height:(\d+px)"/);
       const altMatch = attrs.match(/alt="([^"]*)"/);
@@ -59,15 +58,16 @@ function transformCodeView(html) {
 /**
  * Transform <div class="divider--half"></div> into <hr>
  */
-function transformDividers(html) {
+function transformDividers(html: string): string {
   return html.replace(/<div\s+class="divider--half"\s*>\s*<\/div>/g, '<hr/>');
 }
 
 export function remarkDocfx() {
-  return (tree, file) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (tree: any, file: any) => {
     // 1. Transform frontmatter: map _description -> description, _keywords -> keywords
     if (file.data.astro?.frontmatter) {
-      const fm = file.data.astro.frontmatter;
+      const fm = file.data.astro.frontmatter as Record<string, unknown>;
       if (fm._description && !fm.description) {
         fm.description = fm._description;
       }
@@ -78,36 +78,37 @@ export function remarkDocfx() {
     }
 
     // 2. Walk the AST and replace environment variables in text/links/html
-    visit(tree, (node) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    visit(tree, (node: any) => {
       // Text nodes
       if (node.type === 'text' && node.value) {
-        node.value = replaceEnvVars(node.value);
+        node.value = replaceEnvVars(node.value as string);
       }
 
       // Links
       if (node.type === 'link' && node.url) {
-        node.url = replaceEnvVars(node.url);
+        node.url = replaceEnvVars(node.url as string);
       }
 
       // Images
       if (node.type === 'image' && node.url) {
-        node.url = replaceEnvVars(node.url);
+        node.url = replaceEnvVars(node.url as string);
         // Fix relative image paths: ../../images/ -> /images/
-        node.url = node.url.replace(/^\.\.\/\.\.\/images\//, '/images/');
-        node.url = node.url.replace(/^\.\.\/images\//, '/images/');
+        node.url = (node.url as string).replace(/^\.\.\/\.\.\/images\//, '/images/');
+        node.url = (node.url as string).replace(/^\.\.\/images\//, '/images/');
       }
 
       // Inline HTML
       if (node.type === 'html' && node.value) {
-        node.value = replaceEnvVars(node.value);
-        node.value = transformCodeView(node.value);
-        node.value = transformDividers(node.value);
+        node.value = replaceEnvVars(node.value as string);
+        node.value = transformCodeView(node.value as string);
+        node.value = transformDividers(node.value as string);
         // Fix image src paths in raw HTML
-        node.value = node.value.replace(
+        node.value = (node.value as string).replace(
           /src="\.\.\/\.\.\/images\//g,
           'src="/images/'
         );
-        node.value = node.value.replace(
+        node.value = (node.value as string).replace(
           /src="\.\.\/images\//g,
           'src="/images/'
         );

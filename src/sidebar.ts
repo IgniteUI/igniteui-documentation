@@ -1,16 +1,16 @@
 /**
- * sidebar.mjs
+ * sidebar.ts
  *
  * Builds an Astro Starlight sidebar from a YAML or JSON TOC file.
  * Source-agnostic: consuming repos pass their own paths.
  *
- * Usage in a consuming repo's astro.config.mjs:
+ * Usage in a consuming repo's astro.config.ts:
  *
  *   import { buildSidebarFromToc } from 'docs-template/sidebar';
  *
  *   const sidebar = buildSidebarFromToc({
  *     tocPath: './node_modules/my-docs-source/toc.yml',   // YAML or JSON
- *     componentsDir: './node_modules/my-docs-source/en/components',
+ *     docsDir: './node_modules/my-docs-source/en/components',
  *     // exclude: [/^internal\//],   // optional extra exclude patterns
  *   });
  */
@@ -20,16 +20,31 @@ import path from 'node:path';
 import yaml from 'js-yaml';
 
 // ---------------------------------------------------------------------------
+// Internal types
+// ---------------------------------------------------------------------------
+
+interface TocItem {
+  name?: string;
+  href?: string;
+  header?: boolean;
+  items?: TocItem[];
+  new?: boolean;
+  preview?: boolean;
+  updated?: boolean;
+  premium?: boolean;
+}
+
+// ---------------------------------------------------------------------------
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-function docExists(componentsDir, href, exclude) {
+function docExists(docsDir: string, href: string, exclude: RegExp[]): boolean {
   if (!href) return false;
   if (exclude?.some((p) => p.test(href))) return false;
-  return fs.existsSync(path.join(componentsDir, href));
+  return fs.existsSync(path.join(docsDir, href));
 }
 
-function hrefToSlug(href) {
+function hrefToSlug(href: string): string {
   if (!href) return '';
   let slug = href
     .replace(/\\/g, '/')
@@ -39,24 +54,26 @@ function hrefToSlug(href) {
   return slug === 'index' ? '' : slug;
 }
 
-function convertTocItem(componentsDir, item, exclude) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function convertTocItem(docsDir: string, item: TocItem, exclude: RegExp[]): any | null {
   if (!item.name) return null;
 
-  if (item.items?.length > 0) {
-    const group = { label: item.name, items: [] };
-    if (item.href && docExists(componentsDir, item.href, exclude)) {
+  if (item.items && item.items.length > 0) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const group: { label: string; items: any[] } = { label: item.name, items: [] };
+    if (item.href && docExists(docsDir, item.href, exclude)) {
       group.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
     }
     for (const child of item.items) {
-      const entry = convertTocItem(componentsDir, child, exclude);
+      const entry = convertTocItem(docsDir, child, exclude);
       if (entry) group.items.push(entry);
     }
     return group.items.length > 0 ? group : null;
   }
 
   if (item.href) {
-    if (!docExists(componentsDir, item.href, exclude)) return null;
-    const entry = { label: item.name, slug: hrefToSlug(item.href) };
+    if (!docExists(docsDir, item.href, exclude)) return null;
+    const entry: Record<string, unknown> = { label: item.name, slug: hrefToSlug(item.href) };
     // Common TOC badge conventions (docfx-style, widely adopted)
     if (item.new) entry.badge = { text: 'New', variant: 'success' };
     else if (item.preview) entry.badge = { text: 'Preview', variant: 'caution' };
@@ -72,32 +89,38 @@ function convertTocItem(componentsDir, item, exclude) {
 // Public API
 // ---------------------------------------------------------------------------
 
+export interface BuildSidebarFromTocOptions {
+  /** Absolute path to the TOC file (.yml or .json). */
+  tocPath: string;
+  /** Absolute path to the Markdown docs directory. */
+  docsDir: string;
+  /** Extra patterns to exclude (matched against the `href`). */
+  exclude?: RegExp[];
+}
+
 /**
  * Reads a YAML or JSON TOC file and converts it to a Starlight sidebar array.
- *
- * @param {object} options
- * @param {string} options.tocPath       Absolute path to the TOC file (.yml or .json).
- * @param {string} options.componentsDir Absolute path to the Markdown components directory.
- * @param {RegExp[]} [options.exclude]   Extra patterns to exclude (matched against the `href`).
- * @returns {import('@astrojs/starlight').StarlightUserConfig['sidebar']}
  */
-export function buildSidebarFromToc({ tocPath, componentsDir, exclude = [] }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSidebarFromTocOptions): any[] {
   const tocRaw = fs.readFileSync(tocPath, 'utf-8');
-  const tocItems = tocPath.endsWith('.json') ? JSON.parse(tocRaw) : yaml.load(tocRaw);
+  const tocItems = tocPath.endsWith('.json') ? JSON.parse(tocRaw) : yaml.load(tocRaw) as TocItem[];
 
-  const sidebar = [];
-  let currentGroup = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const sidebar: any[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let currentGroup: { label: string; items: any[] } | null = null;
 
   for (const item of tocItems) {
     if (item.header) {
       if (currentGroup) sidebar.push(currentGroup);
-      currentGroup = { label: item.name, items: [] };
-      if (item.href && docExists(componentsDir, item.href, exclude)) {
+      currentGroup = { label: item.name!, items: [] };
+      if (item.href && docExists(docsDir, item.href, exclude)) {
         currentGroup.items.push({ label: item.name, slug: hrefToSlug(item.href) });
       }
       continue;
     }
-    const entry = convertTocItem(componentsDir, item, exclude);
+    const entry = convertTocItem(docsDir, item, exclude);
     if (!entry) continue;
     if (currentGroup) currentGroup.items.push(entry);
     else sidebar.push(entry);
@@ -106,4 +129,3 @@ export function buildSidebarFromToc({ tocPath, componentsDir, exclude = [] }) {
   if (currentGroup) sidebar.push(currentGroup);
   return sidebar;
 }
-

@@ -1,5 +1,5 @@
 /**
- * integration.mjs
+ * integration.ts
  *
  * Shared configuration helpers for Astro + Starlight docs sites.
  * All functions are independently usable; `createDocsSite` is the
@@ -16,9 +16,9 @@
  *     platform: 'angular',   // drives CDN head entries + nav prefetch
  *     navLang: 'en',         // 'en' | 'ja' | 'kr'
  *     source: {
- *       tocPath:       './my-docs/toc.yml',
- *       componentsDir: './my-docs/en/components',
- *       imagesDir:     './my-docs/en/images',   // omit to skip image serving
+ *       tocPath:  './my-docs/toc.yml',
+ *       docsDir:  './my-docs/en/components',
+ *       imagesDir: './my-docs/en/images',   // omit to skip image serving
  *     },
  *     sidebar: { exclude: [/^internal\//] },   // optional TOC excludes
  *     head: [                                   // extra <head> entries after platform ones
@@ -36,7 +36,7 @@
  *
  *   import { buildSidebarFromToc, staticImagesIntegration, siteMetaIntegration } from 'docs-template/integration';
  *
- *   const sidebar = buildSidebarFromToc({ tocPath, componentsDir });
+ *   const sidebar = buildSidebarFromToc({ tocPath, docsDir });
  *
  *   export default defineConfig({
  *     integrations: [
@@ -56,36 +56,37 @@ import fsp from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
+import type { AstroIntegration, AstroConfig } from 'astro';
 import starlight from '@astrojs/starlight';
-import { buildSidebarFromToc } from './sidebar.mjs';
-import { replaceEnvVars } from './plugins/remark-docfx.mjs';
-import { getNavConfig, getPlatformHead } from './platform.mjs';
+import { buildSidebarFromToc } from './sidebar';
+import { replaceEnvVars } from './plugins/remark-docfx';
+import { getNavConfig, getPlatformHead } from './platform';
+import type { HeadEntry, PlatformKey } from './platform.ts';
 
 // ---------------------------------------------------------------------------
 // Navigation HTML prefetch cache + helpers
 // ---------------------------------------------------------------------------
 
 /** Module-level cache so the nav URL is fetched at most once per build. */
-let _navHtmlCache = null;
+let _navHtmlCache: string | null = null;
 
 /**
  * Nesting-aware outer-HTML extractor.
  * Finds the first tag whose opening tag matches `openPattern` and returns
  * the complete element including its closing tag.
  *
- * @param {string} html       Full HTML string to search.
- * @param {string} openPattern  Regex source for the opening tag (no flags).
- * @returns {string}
+ * @param html - Full HTML string to search.
+ * @param openPattern - Regex source for the opening tag (no flags).
  */
-function extractOuterHtml(html, openPattern) {
+function extractOuterHtml(html: string, openPattern: string): string {
   const openRe = new RegExp(openPattern, 'i');
   const tagRe = /<\/?([a-z][a-z0-9]*)[^>]*>/gi;
 
-  let tagName = null;
+  let tagName: string | null = null;
   let depth = 0;
   let startIdx = -1;
 
-  let m;
+  let m: RegExpExecArray | null;
   while ((m = tagRe.exec(html)) !== null) {
     const full = m[0];
     const name = m[1].toLowerCase();
@@ -115,15 +116,27 @@ function extractOuterHtml(html, openPattern) {
 // Sidebar slug → metadata map
 // ---------------------------------------------------------------------------
 
-function buildSlugMetaMap(sidebar) {
-  const map = new Map();
-  function walk(items, groupLabel) {
+interface SlugMeta {
+  [key: string]: unknown;
+  metaTitle: string;
+  groupMetaTitle: string;
+}
+
+interface SidebarItem {
+  label?: string;
+  slug?: string;
+  items?: SidebarItem[];
+}
+
+function buildSlugMetaMap(sidebar: SidebarItem[] | undefined): Map<string, SlugMeta> {
+  const map = new Map<string, SlugMeta>();
+  function walk(items: SidebarItem[], groupLabel: string | null) {
     for (const item of items) {
       if (typeof item.slug === 'string') {
-        map.set(item.slug, { metaTitle: item.label, groupMetaTitle: groupLabel ?? '' });
+        map.set(item.slug, { metaTitle: item.label ?? '', groupMetaTitle: groupLabel ?? '' });
       }
       if (Array.isArray(item.items)) {
-        walk(item.items, groupLabel ?? item.label);
+        walk(item.items, groupLabel ?? item.label ?? null);
       }
     }
   }
@@ -131,7 +144,7 @@ function buildSlugMetaMap(sidebar) {
   return map;
 }
 
-function injectFrontmatterKeys(raw, keys) {
+function injectFrontmatterKeys(raw: string, keys: Record<string, unknown>): string {
   const extra = Object.entries(keys)
     .map(([k, v]) => `${k}: ${JSON.stringify(v)}`)
     .join('\n');
@@ -150,17 +163,34 @@ function injectFrontmatterKeys(raw, keys) {
 // Site meta virtual module
 // ---------------------------------------------------------------------------
 
+export interface SiteMetaOptions {
+  title: string;
+  description?: string;
+  /** Path to the source markdown files. */
+  docsDir?: string;
+  sidebar?: SidebarItem[];
+  platform?: PlatformKey | null;
+  navLang?: string;
+  /** @deprecated Use `platform` instead. */
+  prefetchNav?: boolean;
+  /** @deprecated Use `platform: 'appbuilder'` instead. */
+  prefetchAppBuilderNav?: boolean;
+}
+
 /**
  * Astro integration that exposes site metadata as the virtual module
  * `virtual:docs-template/site-meta`, consumed by `src/pages/llms.txt.ts`.
- *
- * @param {object} options
- * @param {string} options.title        Site title.
- * @param {string} [options.description] Short description for the llms.txt header.
- * @param {string} [options.docsSourcePath] Path to the source markdown files.
- * @returns {import('astro').AstroIntegration}
  */
-export function siteMetaIntegration({ title, description = '', docsSourcePath, sidebar, platform = null, navLang = 'en', prefetchNav = false, prefetchAppBuilderNav = false } = {}) {
+export function siteMetaIntegration({
+  title,
+  description = '',
+  docsDir,
+  sidebar,
+  platform = null,
+  navLang = 'en',
+  prefetchNav = false,
+  prefetchAppBuilderNav = false,
+}: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
   const slugMeta = buildSlugMetaMap(sidebar);
   const moduleCode = `export const title = ${JSON.stringify(title)};
 export const description = ${JSON.stringify(description)};
@@ -174,7 +204,7 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
 
   // Resolve effective platform: explicit `platform` option wins; fall back to
   // deprecated boolean flags for backwards compatibility.
-  const effectivePlatform =
+  const effectivePlatform: PlatformKey | null =
     platform ??
     (prefetchAppBuilderNav ? 'appbuilder' : null) ??
     (prefetchNav ? 'angular' : null);
@@ -194,11 +224,11 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
           vite: {
             plugins: [{
               name: 'vite-plugin-docs-template-site-meta',
-              resolveId(id) {
+              resolveId(id: string) {
                 if (id === virtualId) return resolvedId;
                 if (id === navVirtualId) return navResolvedId;
               },
-              async load(id) {
+              async load(id: string) {
                 if (id === resolvedId) return moduleCode;
                 if (id !== navResolvedId) return;
 
@@ -228,8 +258,8 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
                     } else {
                       console.warn(`[docs-template] Navigation fetch returned ${res.status} — falling back to empty markup.`);
                     }
-                  } catch (err) {
-                    console.warn(`[docs-template] Could not fetch navigation HTML: ${err.message} — falling back to empty markup.`);
+                  } catch (err: unknown) {
+                    console.warn(`[docs-template] Could not fetch navigation HTML: ${(err as Error).message} — falling back to empty markup.`);
                   }
                 }
 
@@ -251,7 +281,7 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
                       // Endpoint may return JSON { header, footer } or a full HTML page.
                       let parsed = false;
                       try {
-                        const data = JSON.parse(abRaw);
+                        const data = JSON.parse(abRaw) as { header?: string; footer?: string };
                         if (data.header || data.footer) {
                           abHeaderHtml = data.header ?? '';
                           abFooterHtml = data.footer ?? '';
@@ -269,8 +299,8 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
                     } else {
                       console.warn(`[docs-template] AppBuilder nav fetch returned ${abRes.status} — falling back to runtime loading.`);
                     }
-                  } catch (err) {
-                    console.warn(`[docs-template] Could not prefetch AppBuilder navigation: ${err.message} — falling back to runtime loading.`);
+                  } catch (err: unknown) {
+                    console.warn(`[docs-template] Could not prefetch AppBuilder navigation: ${(err as Error).message} — falling back to runtime loading.`);
                   }
                 }
 
@@ -296,14 +326,14 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
       },
 
       'astro:server:setup'({ server }) {
-        if (!docsSourcePath) return;
+        if (!docsDir) return;
         server.middlewares.use(async (req, res, next) => {
           // Only handle requests ending in .md
           if (!req.url?.endsWith('.md')) return next();
           // Strip leading slash and .md suffix to get the slug
           const slug = req.url.slice(1, -3);
           for (const ext of ['.md', '.mdx']) {
-            const src = path.join(docsSourcePath, slug + ext);
+            const src = path.join(docsDir, slug + ext);
             try {
               const raw = await fsp.readFile(src, 'utf-8');
               const meta = slugMeta.get(slug);
@@ -318,7 +348,7 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
       },
 
       async 'astro:build:done'({ dir, pages }) {
-        if (!docsSourcePath) return;
+        if (!docsDir) return;
         const outDir = fileURLToPath(dir);
 
         // pages[].pathname is like "accordion/" or "charts/chart-api/" — strip trailing slash.
@@ -329,7 +359,7 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
         await Promise.all(
           slugs.map(async (slug) => {
             for (const ext of ['.md', '.mdx']) {
-              const src = path.join(docsSourcePath, slug + ext);
+              const src = path.join(docsDir, slug + ext);
               try {
                 const raw = await fsp.readFile(src, 'utf-8');
                 const meta = slugMeta.get(slug);
@@ -348,17 +378,18 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
 }
 
 export { buildSidebarFromToc };
+
 // ---------------------------------------------------------------------------
 // Static images integration
 // ---------------------------------------------------------------------------
 
-const MIME = {
+const MIME: Record<string, string> = {
   png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg',
   gif: 'image/gif', svg: 'image/svg+xml', webp: 'image/webp',
   avif: 'image/avif', ico: 'image/x-icon',
 };
 
-function copyDirSync(src, dest) {
+function copyDirSync(src: string, dest: string): void {
   fs.mkdirSync(dest, { recursive: true });
   for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
     const s = path.join(src, entry.name);
@@ -372,22 +403,13 @@ function copyDirSync(src, dest) {
  * Astro integration that serves a local images directory during development
  * (via Vite middleware) and copies it to the build output.
  *
- * Usage:
- *   import { staticImagesIntegration } from 'docs-template/integration';
- *
- *   export default defineConfig({
- *     integrations: [
- *       ...,
- *       staticImagesIntegration('/abs/path/to/images'),
- *     ],
- *   });
- *
- * @param {string} imagesDir  Absolute path to the directory of images to serve.
- * @param {object} [options]
- * @param {string} [options.urlPath='/images']  URL prefix under which images are served.
- * @returns {import('astro').AstroIntegration}
+ * @param imagesDir - Absolute path to the directory of images to serve.
+ * @param options.urlPath - URL prefix under which images are served (default `'/images'`).
  */
-export function staticImagesIntegration(imagesDir, { urlPath = '/images' } = {}) {
+export function staticImagesIntegration(
+  imagesDir: string,
+  { urlPath = '/images' }: { urlPath?: string } = {},
+): AstroIntegration {
   return {
     name: 'static-images',
     hooks: {
@@ -397,7 +419,7 @@ export function staticImagesIntegration(imagesDir, { urlPath = '/images' } = {})
           const rawUrl = req.url || '/';
           const requestPath = rawUrl.split('?', 1)[0] || '/';
           // Decode URL component; reject malformed encodings
-          let decodedPath;
+          let decodedPath: string;
           try {
             decodedPath = decodeURIComponent(requestPath);
           } catch {
@@ -436,44 +458,79 @@ export function staticImagesIntegration(imagesDir, { urlPath = '/images' } = {})
 // All-in-one factory
 // ---------------------------------------------------------------------------
 
+export interface DocsSiteSource {
+  /** Absolute path to the TOC file. */
+  tocPath: string;
+  /** Absolute path to the Markdown docs directory. */
+  docsDir: string;
+  /**
+   * Absolute path to images directory.
+   * Omit to skip the images integration.
+   */
+  imagesDir?: string;
+}
+
+export interface CreateDocsSiteOptions {
+  /** Deployed site URL. */
+  site: string;
+  /** Base path, e.g. `'/docs'`. */
+  base?: string;
+  /** Starlight site title. */
+  title: string;
+  /** Short description for the llms.txt header. */
+  description?: string;
+  /** Content source paths. */
+  source?: Partial<DocsSiteSource>;
+  /** Sidebar builder options. */
+  sidebar?: {
+    /** Patterns to exclude from the TOC. */
+    exclude?: RegExp[];
+  };
+  /**
+   * Platform identifier. Drives CDN styles/scripts injected into `<head>`
+   * and the build-time nav prefetch endpoint.
+   */
+  platform?: PlatformKey | null;
+  /** Locale for the nav prefetch URL ('en' | 'ja' | 'kr'). */
+  navLang?: string;
+  /**
+   * Extra `<head>` entries appended after the platform entries.
+   * Same format as Starlight's `head` option.
+   */
+  head?: HeadEntry[];
+  /** Extra Starlight options (logo, social, editLink, customCss, plugins, …). */
+  starlight?: Record<string, unknown>;
+  /** Extra Astro integrations appended after the built-in ones. */
+  integrations?: AstroIntegration[];
+  /** Any remaining keys are spread into `defineConfig` (markdown, image, build, …). */
+  [key: string]: unknown;
+}
+
 /**
  * Creates a complete Astro config for a standard Starlight docs site.
  *
- * All individual helpers (`buildSidebarFromToc`, `withSidebarLlmsSets`,
- * `staticImagesIntegration`) remain independently importable for cases that
+ * All individual helpers (`buildSidebarFromToc`, `staticImagesIntegration`,
+ * `siteMetaIntegration`) remain independently importable for cases that
  * need finer control.
  *
- * @param {object}   options
- * @param {string}   options.site                     Deployed site URL.
- * @param {string}   [options.base]                   Base path, e.g. '/docs'.
- * @param {string}   options.title                    Starlight site title.
- * @param {object}   options.source                   Content source paths.
- * @param {string}   options.source.tocPath           Absolute path to the TOC file.
- * @param {string}   options.source.componentsDir     Absolute path to Markdown directory.
- * @param {string}   [options.source.imagesDir]       Absolute path to images directory.
- *                                                     Omit to skip the images integration.
- * @param {object}   [options.sidebar={}]             Sidebar builder options.
- * @param {RegExp[]} [options.sidebar.exclude=[]]     Patterns to exclude from the TOC.
- * @param {string}   [options.description='']         Short description for the llms.txt header.
- * @param {'angular'|'react'|'blazor'|'web-components'|'slingshot'|'appbuilder'|'reveal'} [options.platform]
- *                                                     Platform identifier. Drives CDN styles/scripts
- *                                                     injected into `<head>` (via `getPlatformHead`)
- *                                                     and the build-time nav prefetch endpoint.
- *                                                     When provided, takes precedence over the
- *                                                     deprecated `prefetchNav` flag.
- * @param {string}   [options.navLang='en']           Locale for the nav prefetch URL ('en'|'ja'|'kr').
- * @param {Array}    [options.head=[]]                Extra `<head>` entries appended after the
- *                                                     platform entries. Same format as Starlight's
- *                                                     `head` option.
- * @param {object}   [options.starlight={}]           Extra Starlight options (logo, social,
- *                                                     editLink, customCss, plugins, …).
- * @param {Array}    [options.integrations=[]]        Extra Astro integrations appended after
- *                                                     the built-in ones.
- * @param {...*}     options                          Any remaining keys are spread into
- *                                                     `defineConfig` (markdown, image, build, …).
- * @returns {import('astro').AstroConfig}
+ * @remarks
+ * **Content collection required** — `createDocsSite` does NOT automatically
+ * convert `.md` files into rendered HTML pages by itself. Astro renders pages
+ * only when the source markdown is registered in a content collection.
+ *
+ * This function sets `process.env.DOCS_SOURCE_PATH` to `source.docsDir`
+ * so your `src/content.config.ts` can pick it up without any extra wiring.
+ * The minimal `content.config.ts` for a consuming project is:
+ *
+ *   import { createDocsCollection } from 'docs-template/content';
+ *   export const collections = {
+ *     docs: createDocsCollection(process.env.DOCS_SOURCE_PATH),
+ *   };
+ *
+ * Without this file, `createDocsSite` still configures Starlight (sidebar,
+ * nav, head assets, llms.txt) but **no doc pages will be generated**.
  */
-export function createDocsSite(options = {}) {
+export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocsSiteOptions): ReturnType<typeof defineConfig> {
   const {
     site,
     base,
@@ -486,37 +543,35 @@ export function createDocsSite(options = {}) {
     head = [],
     starlight: starlightExtra = {},
     integrations: extraIntegrations = [],
-    // Deprecated: use `platform` instead
-    prefetchNav = false,
-    prefetchAppBuilderNav = false,
     ...astroExtra
   } = options;
 
   const sidebar = buildSidebarFromToc({
-    tocPath: source.tocPath,
-    componentsDir: source.componentsDir,
+    tocPath: source.tocPath!,
+    docsDir: source.docsDir!,
     exclude: sidebarOptions.exclude ?? [],
   });
 
-  // Resolve effective platform — explicit option wins over deprecated flags.
-  const effectivePlatform =
-    platform ??
-    (prefetchAppBuilderNav ? 'appbuilder' : null) ??
-    (prefetchNav ? 'angular' : null);
+  // Expose the source path via env var so the consuming project's
+  // src/content.config.ts (which uses createDocsCollection) can find the
+  // markdown files without any extra configuration.
+  if (source.docsDir) {
+    process.env.DOCS_SOURCE_PATH = source.docsDir;
+  }
 
   // Platform CDN entries come first so site-specific `head` entries can override.
-  const platformHead = effectivePlatform ? getPlatformHead(effectivePlatform, navLang) : [];
+  const platformHead = platform ? getPlatformHead(platform, navLang) : [];
 
   return defineConfig({
     site,
     ...(base !== undefined ? { base } : {}),
     ...astroExtra,
     integrations: [
-      siteMetaIntegration({ title, description, docsSourcePath: source.componentsDir, sidebar, platform: effectivePlatform, navLang }),
-      starlight({ title, sidebar, head: [...platformHead, ...head], ...starlightExtra }),
+      siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      starlight({ title, sidebar: sidebar as any, head: [...platformHead, ...head] as any, ...starlightExtra }),
       ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
       ...extraIntegrations,
     ],
   });
 }
-
