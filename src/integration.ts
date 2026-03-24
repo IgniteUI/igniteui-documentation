@@ -78,7 +78,12 @@ let _navHtmlCache: string | null = null;
  * scripts are already injected cleanly via getPlatformHead().
  */
 function stripScripts(html: string): string {
-    return html.replace(/<script\b[\s\S]*?<\/script>/gi, '');
+    let previous: string;
+    do {
+        previous = html;
+        html = html.replace(/<script\b[\s\S]*?<\/script>/gi, '');
+    } while (html !== previous);
+    return html;
 }
 
 /**
