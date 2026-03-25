@@ -21,11 +21,11 @@ Object.assign(process.env, env);
 // ---------------------------------------------------------------------------
 
 if (!process.env.DOCS_SOURCE_PATH) {
-    throw new Error(
-        '[docs-template] DOCS_SOURCE_PATH env var is required. ' +
-        'Copy .env.example to .env and set an absolute path to the docs source repo root. ' +
-        'When using createDocsSite({ source: { docsDir } }), this is set automatically.'
-    );
+  throw new Error(
+    '[docs-template] DOCS_SOURCE_PATH env var is required. ' +
+    'Copy .env.example to .env and set an absolute path to the docs source repo root. ' +
+    'When using createDocsSite({ source: { docsDir } }), this is set automatically.'
+  );
 }
 
 const SOURCE_ROOT = path.resolve(process.env.DOCS_SOURCE_PATH);
@@ -48,9 +48,6 @@ const sidebar = buildSidebarFromToc({
   ],
 });
 
-// // Ensure a default build mode for local/demo usage.
-// process.env.DOCS_BUILD_MODE = process.env.DOCS_BUILD_MODE ?? 'dev';
-// const DOCS_BUILD_MODE = process.env.DOCS_BUILD_MODE;
 
 // https://astro.build/config
 export default defineConfig({
