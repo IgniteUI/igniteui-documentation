@@ -1,30 +1,45 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import { buildSidebarFromToc, staticImagesIntegration, siteMetaIntegration } from './src/integration.mjs';
-import { getPlatformHead } from './src/platform.mjs';
+import { buildSidebarFromToc, staticImagesIntegration, siteMetaIntegration } from './src/integration';
+import { getPlatformHead } from './src/platform';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { loadEnv } from 'vite';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Load .env into process.env — Vite/Astro does this for the browser bundle
+// but NOT for astro.config.ts itself, so we do it explicitly here.
+const env = loadEnv('', process.cwd(), '');
+Object.assign(process.env, env);
 
 // ---------------------------------------------------------------------------
-// Source paths — specific to this repo (igniteui-docfx / Angular docs).
-// Consuming repos define their own equivalent block and pass it to the shared
-// buildSidebarFromToc() / createDocsCollection() helpers.
+// Source paths — set via DOCS_SOURCE_PATH env var.
+// For local development copy .env.example to .env and set an absolute path:
+//   DOCS_SOURCE_PATH=C:/Repos/docs/igniteui-docfx   (Windows)
+//   DOCS_SOURCE_PATH=/home/user/repos/igniteui-docfx  (macOS/Linux)
+// In CI/CD this is provided by the pipeline environment.
+// Consuming repos use createDocsSite({ source: { docsDir } }) which sets
+// the env var automatically — this manual config is the template's own demo.
 // ---------------------------------------------------------------------------
 
-const SOURCE_ROOT =
-  process.env.DOCS_SOURCE_PATH
-    ? path.resolve(process.env.DOCS_SOURCE_PATH)
-    : path.resolve(__dirname, '..', 'igniteui-docfx');
+if (!process.env.DOCS_SOURCE_PATH) {
+    throw new Error(
+        '[docs-template] DOCS_SOURCE_PATH env var is required. ' +
+        'Copy .env.example to .env and set an absolute path to the docs source repo root. ' +
+        'When using createDocsSite({ source: { docsDir } }), this is set automatically.'
+    );
+}
 
+const SOURCE_ROOT = path.resolve(process.env.DOCS_SOURCE_PATH);
 const COMPONENTS = path.join(SOURCE_ROOT, 'en/components');
 const IMAGES = path.join(SOURCE_ROOT, 'en/images');
 const TOC_PATH = path.join(SOURCE_ROOT, 'en/components/toc.yml');
 
+// Narrow DOCS_SOURCE_PATH to the components dir so content.config.ts uses
+// it as the glob base (same as what createDocsSite does automatically).
+process.env.DOCS_SOURCE_PATH = COMPONENTS;
+
 const sidebar = buildSidebarFromToc({
   tocPath: TOC_PATH,
-  componentsDir: COMPONENTS,
+  docsDir: COMPONENTS,
   exclude: [
     /^grids_templates\//i,
     /^style-guide\.md$/i,
@@ -32,6 +47,10 @@ const sidebar = buildSidebarFromToc({
     /^themes\.md$/i,
   ],
 });
+
+// // Ensure a default build mode for local/demo usage.
+// process.env.DOCS_BUILD_MODE = process.env.DOCS_BUILD_MODE ?? 'dev';
+// const DOCS_BUILD_MODE = process.env.DOCS_BUILD_MODE;
 
 // https://astro.build/config
 export default defineConfig({
@@ -41,12 +60,14 @@ export default defineConfig({
   build: {
     assets: '_assets',
   },
+  // Ensure Sass `@import 'highlight.js/…'` resolves from node_modules
   vite: {
     css: {
       preprocessorOptions: {
-        // Allow Sass files to resolve igniteui-theming subpaths via node_modules
         scss: {
-          loadPaths: [path.resolve(__dirname, 'node_modules')],
+          loadPaths: [path.join(process.cwd(), 'node_modules')],
+          // The if-function deprecation originates inside igniteui-theming
+          // (vendor code in node_modules we cannot modify). Silence only that.
           silenceDeprecations: ['if-function'],
         },
       },
@@ -66,13 +87,11 @@ export default defineConfig({
         { icon: 'github', label: 'GitHub', href: 'https://github.com/IgniteUI/igniteui-angular' },
       ],
       sidebar,
-      customCss: [
-        './src/styles/ig-theme.scss',
-        './src/styles/custom.css',
-      ],
+      // Prepend the packaged theme entry so consuming projects get the theme.
+      customCss: ['./src/styles/themes/ignite-ui.scss', './src/styles/custom.css'],
       head: [
-        // Platform CDN assets — driven by `platform` option in siteMetaIntegration below
-        ...getPlatformHead('reveal', 'en'),
+        // Platform CDN assets — driven by platform below
+        ...getPlatformHead('angular', 'en'),
         // Angular-specific Ignite UI component bundle (repo-specific, not in shared registry)
         { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/products/ignite-ui-angular/angular/bundles/igniteui.f5cfb48022e69dd66658.css' } },
       ],
@@ -87,17 +106,18 @@ export default defineConfig({
     staticImagesIntegration(IMAGES),
     siteMetaIntegration({
       title: 'Ignite UI for Angular',
-      platform: 'reveal', // Used to drive platform-specific features like CDN assets and global nav configuration
+      platform: 'angular',
       description:
         'Complete reference documentation for Ignite UI for Angular — a Material-based ' +
         'UI component library including Data Grid, Charts, Gauges, Calendars, and more.',
-      docsSourcePath: COMPONENTS,
+      docsDir: COMPONENTS,
       sidebar,
     }),
   ],
   markdown: {
     remarkPlugins: [
-      (await import('./src/plugins/remark-docfx.mjs')).remarkDocfx,
+      (await import('./src/plugins/remark-docfx')).remarkDocfx,
     ],
   },
 });
+

@@ -61,9 +61,7 @@ const revealHref = isJa ? 'https://www.revealbi.io/jp/' : 'https://www.revealbi.
 {/* Prebuild path — HTML captured at build time */}
 {isIgPlatform && prefetched && (
   <>
-    <header id="header" class="globalnav" data-nav-auto-init="false">
-      <Fragment set:html={headerHtml} />
-    </header>
+    <Fragment set:html={headerHtml} />
     <script is:inline>
       if (window.igNavigation && typeof window.igNavigation.init === 'function') {
         window.igNavigation.init();
@@ -160,6 +158,46 @@ const revealHref = isJa ? 'https://www.revealbi.io/jp/' : 'https://www.revealbi.
       </>
     )}
 
+    {/* Runtime fallback — XHR fetch of AB header/footer at page load */}
+    {!abPrefetched && (
+      <>
+        <div id="ab-nav-container"></div>
+        <script is:inline>
+          (function () {
+            var includeContent = {
+              settings: {
+                url: 'https://www.appbuilder.dev/header-footer-export',
+                selector: '#header-container',
+              },
+              processInclude: function () {
+                var self = this;
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', self.settings.url, true);
+                xhr.onreadystatechange = function () {
+                  if (xhr.readyState === 4 && xhr.status === 200) {
+                    try {
+                      var data    = JSON.parse(xhr.responseText);
+                      var header  = data.headerHtml  || '';
+                      var footer  = data.footerHtml  || '';
+                      var container = document.getElementById('ab-nav-container');
+                      if (container) container.innerHTML = header;
+                      var footerEl = document.getElementById('footer');
+                      if (footerEl) footerEl.innerHTML += footer;
+                    } catch (e) {
+                      /* no-op – nav unavailable */
+                    }
+                  }
+                };
+                xhr.send();
+              },
+            };
+            window.addEventListener('load', function () {
+              includeContent.processInclude();
+            });
+          })();
+        </script>
+      </>
+    )}
   </>
 )}
 

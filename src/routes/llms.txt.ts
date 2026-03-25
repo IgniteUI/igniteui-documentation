@@ -13,7 +13,8 @@ function walkSidebar(items: SidebarItem[], base: string, lines: string[], depth 
         lines.push("", `### ${item.label}`, "");
       }
 
-      lines.push(`- [${item.label}](${base}/${item.slug}.md)`);
+      const slug = item.slug === '' ? 'index' : item.slug;
+      lines.push(`- [${item.label}](${base}/${slug}.md)`);
       continue;
     }
 

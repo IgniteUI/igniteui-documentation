@@ -2,47 +2,42 @@
 /**
  * GlobalFooter
  *
- * Renders the product-specific bottom footer, equivalent to what the old
- * igniteui-docfx-template rendered via:
- *   - template/partials/footer.tmpl.partial  (dispatcher)
- *   - template/partials/infrafoot.tmpl.partial         (IG EN)
- *   - template/partials/infrafoot.ja.tmpl.partial      (IG JA)
- *   - template/partials/infrafoot.kr.tmpl.partial      (IG KR)
- *   - template/partials/revealfoot.tmpl.partial        (Reveal EN)
- *   - template/partials/revealfoot.ja.tmpl.partial     (Reveal JA)
- *   - template/partials/appbuilder/appbuilderfoot.tmpl.partial
- *   - template/partials/slingshot/slingshotfoot.tmpl.partial
- *
  * This component is separate from Starlight's own Footer override (which
  * provides the "Edit this page" link and pagination). Mount it INSIDE the
  * Starlight Footer override to place it below the docs navigation footer.
  *
  * Props:
- *   theme – product theme (default: 'igniteui')
+ *   theme – product theme (default: 'angular')
  *   lang  – locale       (default: 'en')
  */
 interface Props {
-  theme?: 'igniteui' | 'appbuilder' | 'reveal' | 'slingshot';
+  /** Override the platform for this instance. Defaults to virtual module value. */
+  theme?: 'igniteui' | 'appbuilder' | 'reveal' | 'slingshot' | 'angular' | 'react' | 'blazor' | 'web-components';
+  /** Override the locale. Defaults to virtual module navLang. */
   lang?: 'en' | 'ja' | 'kr';
 }
 
-import { prefetched, uiFooterHtml, footerHtml, abPrefetched, abFooterHtml, abFooterUtilsHtml, abFooterCopyrightHtml, abContactSalesHtml } from 'virtual:docs-template/nav-html';
+import {
+  platform as virtualPlatform,
+  navLang as virtualNavLang,
+  prefetched, uiFooterHtml,
+  abPrefetched, abFooterHtml, abFooterUtilsHtml, abFooterCopyrightHtml, abContactSalesHtml,
+} from 'virtual:docs-template/nav-html';
 
-const { theme = 'igniteui', lang = 'en' } = Astro.props;
+const { theme, lang } = Astro.props as Props;
 
-const isJa = lang === 'ja';
-const isKr = lang === 'kr';
-const igBase       = isJa ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
-const isIgniteUI   = theme === 'igniteui';
-const isReveal     = theme === 'reveal';
-const isAppBuilder = theme === 'appbuilder';
-const isSlingshot  = theme === 'slingshot';
-const year = new Date().getFullYear();
+// Props override the virtual module values (allows per-page overrides)
+const resolvedPlatform = theme ?? virtualPlatform ?? 'igniteui';
+
+const isAppBuilder = resolvedPlatform === 'appbuilder';
+const isReveal     = resolvedPlatform === 'reveal';
+// All IG-family platforms share the same global footer
+const isIgPlatform = !isAppBuilder && !isReveal;
 ---
 
 {/* === IgniteUI / default Infragistics footer === */}
 {
-  prefetched && (
+  isIgPlatform && prefetched && (
     <div id="ig-footer">
       <Fragment set:html={uiFooterHtml} />
     </div>
@@ -51,7 +46,7 @@ const year = new Date().getFullYear();
 
 {/* === AppBuilder footer (prebuild) === */}
 {
-  true && abPrefetched && (
+  isAppBuilder && abPrefetched && (
     <>
       {abContactSalesHtml && <Fragment set:html={abContactSalesHtml} />}
       <Fragment set:html={abFooterHtml} />
