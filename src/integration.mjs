@@ -69,6 +69,31 @@ import { getNavConfig, getPlatformHead } from './platform.mjs';
 let _navHtmlCache = null;
 
 /**
+ * Strip all <script> tags from an HTML string.
+ * The nav HTML fetched from infragistics.com / appbuilder.dev may contain
+ * inline or external scripts that don't belong in the docs page (e.g.
+ * staging.appbuilder.dev references in the IG nav).  Platform-specific
+ * scripts are already injected cleanly via getPlatformHead().
+ */
+function stripScripts(html) {
+  return html.replace(/<script\b[\s\S]*?<\/script>/gi, '');
+}
+
+/**
+ * Rewrite root-relative href/src/action attributes in nav HTML to absolute
+ * URLs using the given base origin (e.g. 'https://www.infragistics.com').
+ *
+ * Without this, links like href="/products/ignite-ui" resolve against the
+ * local dev-server origin and Astro's client-side router intercepts them,
+ * logging 404 warnings for every nav-bar link the user hovers or clicks.
+ */
+function absolutifyNavUrls(html, baseOrigin) {
+  return html
+    .replace(/(href|src|action)="(\/)([^"]*)"/g, `$1="${baseOrigin}/$3"`)
+    .replace(/(href|src|action)='(\/)([^']*)'/g, `$1='${baseOrigin}/$3'`);
+}
+
+/**
  * Nesting-aware outer-HTML extractor.
  * Finds the first tag whose opening tag matches `openPattern` and returns
  * the complete element including its closing tag.
@@ -218,9 +243,10 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
                     });
                     if (res.ok) {
                       const html = await res.text();
-                      headerHtml = extractOuterHtml(html, '<header[^>]+id="header"');
-                      uiFooterHtml = extractOuterHtml(html, '<footer[^>]+class="[^"]*\\bui-footer\\b');
-                      footerHtml = extractOuterHtml(html, '<footer[^>]+id="footer"');
+                      const igBase = navLang === 'ja' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
+                      headerHtml   = absolutifyNavUrls(stripScripts(extractOuterHtml(html, '<header[^>]+id="header"')), igBase);
+                      uiFooterHtml = absolutifyNavUrls(stripScripts(extractOuterHtml(html, '<footer[^>]+class="[^"]*\\bui-footer\\b')), igBase);
+                      footerHtml   = absolutifyNavUrls(stripScripts(extractOuterHtml(html, '<footer[^>]+id="footer"')), igBase);
                       // Strip the hello-bar promotional strip
                       headerHtml = headerHtml.replace(
                         /<div[^>]+id="hello-bar"[\s\S]*?<\/div>\s*/i, ''
@@ -260,11 +286,12 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
                       } catch { /* not JSON — fall through to HTML extraction */ }
 
                       if (!parsed) {
-                        abHeaderHtml = extractOuterHtml(abRaw, '<header');
-                        abFooterHtml = extractOuterHtml(abRaw, '<footer');
-                        abFooterUtilsHtml = extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+class="[^"]*\\bfooter-utils\\b');
-                        abFooterCopyrightHtml = extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+class="[^"]*\\bfooter-copyright\\b');
-                        abContactSalesHtml = extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+id="contactSales"');
+                        const abBase = 'https://www.appbuilder.dev';
+                        abHeaderHtml          = absolutifyNavUrls(stripScripts(extractOuterHtml(abRaw, '<header')), abBase);
+                        abFooterHtml          = absolutifyNavUrls(stripScripts(extractOuterHtml(abRaw, '<footer')), abBase);
+                        abFooterUtilsHtml     = absolutifyNavUrls(stripScripts(extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+class="[^"]*\\bfooter-utils\\b')), abBase);
+                        abFooterCopyrightHtml = absolutifyNavUrls(stripScripts(extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+class="[^"]*\\bfooter-copyright\\b')), abBase);
+                        abContactSalesHtml    = absolutifyNavUrls(stripScripts(extractOuterHtml(abRaw, '<[a-z][a-z0-9]*[^>]+id="contactSales"')), abBase);
                       }
                     } else {
                       console.warn(`[docs-template] AppBuilder nav fetch returned ${abRes.status} — falling back to runtime loading.`);

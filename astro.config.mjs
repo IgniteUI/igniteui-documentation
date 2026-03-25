@@ -16,7 +16,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SOURCE_ROOT =
   process.env.DOCS_SOURCE_PATH
     ? path.resolve(process.env.DOCS_SOURCE_PATH)
-    : path.resolve(__dirname, '..', 'igniteui-docfx');
+    : path.resolve('C:/Users/dtsvetkov/Work/igniteui-docfx');
 
 const COMPONENTS = path.join(SOURCE_ROOT, 'en/components');
 const IMAGES = path.join(SOURCE_ROOT, 'en/images');
@@ -35,6 +35,35 @@ const sidebar = buildSidebarFromToc({
 
 // https://astro.build/config
 export default defineConfig({
+  vite: {
+    plugins: [
+      {
+        // Collapse multi-line <code-view> attribute lists to a single line so
+        // remark can parse them as a type-7 HTML block and our remark-docfx
+        // plugin can transform them.
+        //
+        // Before:  <code-view style="height:460px"\n
+        //                     data-demos-base-url="..."\n
+        //                     iframe-src="..." alt="...">\n</code-view>
+        // After:   <code-view style="height:460px" data-demos-base-url="..." iframe-src="..." alt="...">
+        //          </code-view>
+        name: 'vite-preprocess-code-view',
+        enforce: 'pre',
+        transform(code, id) {
+          if (!id.match(/\.(md|mdx)($|\?)/)) return null;
+          const processed = code.replace(
+            /<code-view([\s\S]*?)>\s*<\/code-view>/g,
+            (_m, attrs) => {
+              const flat = attrs.replace(/\s+/g, ' ').trim();
+              return `<code-view ${flat}>\n</code-view>`;
+            }
+          );
+          if (processed === code) return null;
+          return { code: processed, map: null };
+        },
+      },
+    ],
+  },
   site: 'https://igniteui.github.io/docs-template',
   // base: '/docs-template', // Uncomment if deploying to a subpath
   compressHTML: true,
@@ -61,6 +90,8 @@ export default defineConfig({
         ...getPlatformHead('angular', 'en'),
         // Angular-specific Ignite UI component bundle (repo-specific, not in shared registry)
         { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/products/ignite-ui-angular/angular/bundles/igniteui.f5cfb48022e69dd66658.css' } },
+        // Code-view widget — replicates the old igniteui-docfx-template runtime widget
+        { tag: 'script', attrs: { src: '/scripts/code-view.js', defer: true } },
       ],
       editLink: {
         baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
@@ -84,6 +115,9 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [
       (await import('./src/plugins/remark-docfx.mjs')).remarkDocfx,
+    ],
+    rehypePlugins: [
+      (await import('./src/plugins/remark-docfx.mjs')).rehypeCodeView,
     ],
   },
 });
