@@ -62,15 +62,6 @@ const IG_STYLES: HeadEntry[] = [
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/animate-custom.css' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/fontello.css' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' } },
-    {
-        tag: 'link',
-        attrs: {
-            rel: 'stylesheet',
-            href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
-            integrity: 'sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u',
-            crossorigin: 'anonymous',
-        },
-    },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/css/navigation.css' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/css/footer.css' } },
 ];

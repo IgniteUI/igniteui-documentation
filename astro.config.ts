@@ -88,12 +88,12 @@ export default defineConfig({
       ],
       sidebar,
       // Prepend the packaged theme entry so consuming projects get the theme.
-      customCss: ['./src/styles/themes/ignite-ui.scss', './src/styles/custom.css'],
+      customCss: ['./src/styles/custom.css'],
       head: [
         // Platform CDN assets — driven by platform below
         ...getPlatformHead('angular', 'en'),
         // Angular-specific Ignite UI component bundle (repo-specific, not in shared registry)
-        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/products/ignite-ui-angular/angular/bundles/igniteui.f5cfb48022e69dd66658.css' } },
+        // { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/products/ignite-ui-angular/angular/bundles/igniteui.f5cfb48022e69dd66658.css' } },
       ],
       editLink: {
         baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
