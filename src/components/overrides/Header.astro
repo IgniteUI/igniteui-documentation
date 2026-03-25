@@ -18,19 +18,17 @@
  *   - Or hardcode the props below for a single-product deployment.
  */
 import type { Props } from '@astrojs/starlight/props';
-import Default from '@astrojs/starlight/components/Header.astro';
 import GlobalNavBar from '@/components/GlobalNavBar.astro';
-import styles from '../Header.module.css';
+import { platform as virtualPlatform, navLang as virtualNavLang } from 'virtual:docs-template/nav-html';
 
-// Read deployment-time env vars set in .env / astro.config.mjs
-// Falls back to 'igniteui' / 'en' if not configured.
-const navTheme = (import.meta.env.VITE_NAV_THEME ?? 'igniteui') as
-  'igniteui' | 'appbuilder' | 'reveal' | 'slingshot';
-const navLang = (import.meta.env.VITE_NAV_LANG ?? 'en') as 'en' | 'ja' | 'kr';
+// Virtual module `platform` (set via siteMetaIntegration) takes precedence;
+// VITE_NAV_THEME env var is kept as a deployment-time fallback.
+const navTheme = (virtualPlatform ?? import.meta.env.VITE_NAV_THEME ?? 'igniteui') as
+  'igniteui' | 'appbuilder' | 'reveal' | 'slingshot' | 'angular' | 'react' | 'blazor' | 'web-components';
+const navLang = (virtualNavLang ?? import.meta.env.VITE_NAV_LANG ?? 'en') as 'en' | 'ja' | 'kr';
 
 // Disable the global nav entirely when VITE_NAV_THEME is set to 'none'
 const showGlobalNav = navTheme !== ('none' as string);
 ---
 
 {showGlobalNav && <GlobalNavBar theme={navTheme} lang={navLang} />}
-<Default {...Astro.props} />

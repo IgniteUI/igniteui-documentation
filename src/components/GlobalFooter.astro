@@ -2,470 +2,125 @@
 /**
  * GlobalFooter
  *
- * Renders the product-specific bottom footer, equivalent to what the old
- * igniteui-docfx-template rendered via:
- *   - template/partials/footer.tmpl.partial  (dispatcher)
- *   - template/partials/infrafoot.tmpl.partial         (IG EN)
- *   - template/partials/infrafoot.ja.tmpl.partial      (IG JA)
- *   - template/partials/infrafoot.kr.tmpl.partial      (IG KR)
- *   - template/partials/revealfoot.tmpl.partial        (Reveal EN)
- *   - template/partials/revealfoot.ja.tmpl.partial     (Reveal JA)
- *   - template/partials/appbuilder/appbuilderfoot.tmpl.partial
- *   - template/partials/slingshot/slingshotfoot.tmpl.partial
- *
  * This component is separate from Starlight's own Footer override (which
  * provides the "Edit this page" link and pagination). Mount it INSIDE the
  * Starlight Footer override to place it below the docs navigation footer.
  *
  * Props:
- *   theme – product theme (default: 'igniteui')
+ *   theme – product theme (default: 'angular')
  *   lang  – locale       (default: 'en')
  */
 interface Props {
-  theme?: 'igniteui' | 'appbuilder' | 'reveal' | 'slingshot';
+  /** Override the platform for this instance. Defaults to virtual module value. */
+  theme?: 'igniteui' | 'appbuilder' | 'reveal' | 'slingshot' | 'angular' | 'react' | 'blazor' | 'web-components';
+  /** Override the locale. Defaults to virtual module navLang. */
   lang?: 'en' | 'ja' | 'kr';
 }
 
-import { prefetched, uiFooterHtml, footerHtml } from 'virtual:docs-template/nav-html';
+import { PLATFORM_DEFS, type PlatformKey } from '../platform';
+import {
+  platform as virtualPlatform,
+  navLang as virtualNavLang,
+  prefetched, uiFooterHtml,
+  abPrefetched, abFooterHtml, abFooterUtilsHtml, abFooterCopyrightHtml, abContactSalesHtml,
+} from 'virtual:docs-template/nav-html';
 
-const { theme = 'igniteui', lang = 'en' } = Astro.props;
+const { theme, lang } = Astro.props as Props;
 
-const isJa = lang === 'ja';
-const isKr = lang === 'kr';
-const igBase       = isJa ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
-const isIgniteUI   = theme === 'igniteui';
-const isReveal     = theme === 'reveal';
-const isAppBuilder = theme === 'appbuilder';
-const isSlingshot  = theme === 'slingshot';
-const year = new Date().getFullYear();
+// Props override the virtual module values (allows per-page overrides)
+const resolvedPlatform = theme ?? virtualPlatform ?? 'igniteui';
+
+const isAppBuilder = resolvedPlatform === 'appbuilder';
+const isReveal     = resolvedPlatform === 'reveal';
+// All IG-family platforms share the same global footer
+const isIgPlatform = !isAppBuilder && !isReveal;
+
+// All platform CSS links to inject into the #ig-footer shadow DOM
+const _footerDef = PLATFORM_DEFS[resolvedPlatform as PlatformKey] ?? PLATFORM_DEFS.angular;
+const shadowFooterLinks: Record<string, string>[] = [
+  { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity: 'sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin: 'anonymous' },
+  ..._footerDef.styles
+    .filter(e => e.tag === 'link')
+    .map(e => Object.fromEntries(
+      Object.entries(e.attrs ?? {}).filter(([, v]) => v !== undefined && v !== false)
+    ) as Record<string, string>),
+];
+// Platform scripts: { attrs } for external src-based, { content } for inline
+const shadowFooterScripts: { attrs?: Record<string, string>; content?: string }[] = _footerDef.scripts
+  .map(e => e.content
+    ? { content: e.content }
+    : { attrs: Object.fromEntries(
+        Object.entries(e.attrs ?? {}).filter(([, v]) => v !== undefined && v !== false)
+      ) as Record<string, string> }
+  );
 ---
 
 {/* === IgniteUI / default Infragistics footer === */}
-{isIgniteUI && (
-  prefetched ? (
+{
+  isIgPlatform && prefetched && (
+    <div id="ig-footer">
+      <Fragment set:html={uiFooterHtml} />
+    </div>
+  )
+}
+
+{/* === AppBuilder footer (prebuild) === */}
+{
+  isAppBuilder && abPrefetched && (
     <>
-      <div id="ig-footer" data-footer-auto-init="false"></div>
-      <template id="ig-footer-tpl">
-        <Fragment set:html={uiFooterHtml} />
-      </template>
+      {abContactSalesHtml && <Fragment set:html={abContactSalesHtml} />}
+      <Fragment set:html={abFooterHtml} />
+      {abFooterUtilsHtml && <Fragment set:html={abFooterUtilsHtml} />}
+      {abFooterCopyrightHtml && <Fragment set:html={abFooterCopyrightHtml} />}
+
       <script is:inline>
-      (function () {
-      var STYLE_URLS = [
-        'https://www.infragistics.com/DependencyHandler.axd?s=L2Fzc2V0cy9tb2Rlcm4vY3NzL3N0eWxlLmNzczsvYXNzZXRzL21vZGVybi9jc3Mvc2V0dGluZ3MuY3NzOy9hc3NldHMvbW9kZXJuL2Nzcy9sYXlvdXQuY3NzOy9hc3NldHMvbW9kZXJuL2Nzcy9zaG9ydGNvZGVzLmNzczsvYXNzZXRzL21vZGVybi9jc3MvYWRtaW4tYWpheC5jc3M7L2Fzc2V0cy9tb2Rlcm4vY3NzL2ZvbnRlbGxvLmNzczsvYXNzZXRzL21vZGVybi9jc3MvbWFnbmlmaWMtcG9wdXAuY3NzOy9hc3NldHMvbW9kZXJuL2Nzcy9mbGV4c2xpZGVyLmNzczsvYXNzZXRzL21vZGVybi9jc3Mvc3dpcGVyLWJ1bmRsZS5taW4uY3NzOy9hc3NldHMvbW9kZXJuL2Nzcy9hbmltYXRlLWN1c3RvbS5jc3M7L2Fzc2V0cy9tb2Rlcm4vY3NzL2JlLXNsaWRlci5jc3M7L2Fzc2V0cy9tb2Rlcm4vY3NzL2Nob3Nlbi5jc3M7L2Fzc2V0cy9tb2Rlcm4vY3NzL2lnbml0ZXVpLWN1c3RvbS5jc3M7L2Nzcy9iYXNlLmNzczsvY3NzL25hdmlnYXRpb24uY3NzOy9jc3MvZm9vdGVyLmNzczsvY3NzL2NvbXBvbmVudHMuY3NzOy9jc3MvY29tcG9uZW50c19wcmljaW5nLWJsb2Nrcy5jc3M7L2Nzcy9jb21wb25lbnRzX2V2ZW50cy5jc3M7L2Nzcy9jb21wYXJpc29uLWdyaWQuY3NzOy9jc3MvY29uc3VsdGluZy5jc3M7L2Nzcy9zbGluZ3Nob3QuY3NzOy9jc3MvaW5kaWdvX3VpX2tpdHMuY3NzOw&t=Css&cdv=20260306',
-      ];
-      var SCRIPT_QUEUE = [
-        {
-          src: 'https://www.infragistics.com/DependencyHandler.axd?s=L2Fzc2V0cy9tb2Rlcm4vc2NyaXB0cy9qcXVlcnkubWluLmpzOy9hc3NldHMvbW9kZXJuL3NjcmlwdHMvanF1ZXJ5LW1pZ3JhdGUtMS40LjEubWluLmpzOy9hc3NldHMvbW9kZXJuL3NjcmlwdHMvanF1ZXJ5LnRoZW1lcHVuY2gucGx1Z2lucy5taW4uanM7L2Fzc2V0cy9tb2Rlcm4vc2NyaXB0cy9qcXVlcnkudGhlbWVwdW5jaC5yZXZvbHV0aW9uLm1pbi5qczsvYXNzZXRzL21vZGVybi9zY3JpcHRzL21vZGVybml6ci0yLjYuMi5taW4uanM7L2Fzc2V0cy9tb2Rlcm4vc2NyaXB0cy9wbHVnaW5zLmpzOy9hc3NldHMvbW9kZXJuL3NjcmlwdHMvcGx1Z2lucy5uYXYuanM7L2Fzc2V0cy9tb2Rlcm4vc2NyaXB0cy9iZS1zbGlkZXIuanM7L2Fzc2V0cy9tb2Rlcm4vc2NyaXB0cy9qcXVlcnktdWkubWluLmpzOy9hc3NldHMvbW9kZXJuL3NjcmlwdHMvc2NyaXB0LmpzOy9hc3NldHMvbW9kZXJuL3NjcmlwdHMvQ3VzdG9tU2NyaXB0LmpzOy9hc3NldHMvbW9kZXJuL3NjcmlwdHMvbmF2aWdhdGlvbi5qczsvYXNzZXRzL3NjcmlwdHMvZG93bmxvYWRVdGlsaXR5LmpzOw&t=Javascript&cdv=20260306',
-        },
-      ];
-
-        function loadScript(item) {
-          return new Promise(function (resolve) {
-            if (item.src.indexOf('jquery') !== -1 && window.jQuery) { resolve(); return; }
-            var s = document.createElement('script');
-            s.src = item.src;
-            if (item.integrity) { s.integrity = item.integrity; s.crossOrigin = item.crossOrigin || 'anonymous'; }
-            s.onload  = resolve;
-            s.onerror = resolve;
-            document.head.appendChild(s);
-          });
-        }
-
-        function mountFooterShadow() {
-          var host = document.getElementById('ig-footer');
-          var tpl  = document.getElementById('ig-footer-tpl');
-          if (!host || !tpl || host.shadowRoot) return;
-
-          var shadow = host.attachShadow({ mode: 'open' });
-
-          STYLE_URLS.forEach(function (href) {
-            var link = document.createElement('link');
-            link.rel  = 'stylesheet';
-            link.href = href;
-            shadow.appendChild(link);
-          });
-
-          shadow.appendChild(tpl.content.cloneNode(true));
-
-          SCRIPT_QUEUE.reduce(function (chain, item) {
-            return chain.then(function () { return loadScript(item); });
-          }, Promise.resolve());
-        }
-
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', mountFooterShadow);
-        } else {
-          mountFooterShadow();
-        }
-      })();
+        window.addEventListener('load', function () {
+          if (window.leadTracker && typeof window.leadTracker.execute === 'function') {
+            window.leadTracker.execute({
+              macro: 'LeadTracker', lang: 'en',
+              leadFormID: 'lead-form_2',
+              reaptchaKey: '6Lc-MFAaAAAAAIWi7UOrSUfUZnVmDUSsXjzS4BgY',
+              redirectUrl: '', thankYouMessage: '1',
+              formContainerId: 'modal-contact-sales-pricing',
+              productCode: 'B7', leadProductCode: '', packageName: '',
+              productResourceType: '', osSupport: '', installerType: '',
+              eventTypeParam: 'contact sales', eventDetailParam: 'form submitted',
+              prohibitFreeMail: true, showRequestDemo: false,
+              googleEventType: 'Form Submit',
+              googleEventLabel: 'Slingshot - Contact Sales Pricing',
+              googleEventTypeDownload: '', googleEventLabelDownload: '',
+              zoomWebinarId: ''
+            });
+          }
+          if (window.customModal && typeof window.customModal.init === 'function') {
+            window.customModal.init();
+          }
+        });
       </script>
     </>
-  ) : (
-  <footer class="ui-footer ui-footer--clearfix">
-    <link rel="stylesheet" href="https://www.infragistics.com/css/footer.css" />
-
-    {/* Icon row */}
-    <div class="ui-footer__wrap ui-footer--clearfix ui-footer__icons">
-      {isJa ? (
-        <>
-          <a href="https://blogs.jp.infragistics.com" target="_blank" rel="noopener"
-             class="ui-footer__icon-link mchNoDecorate" aria-label="RSS">
-            <svg viewBox="0 0 512 512"><path d="M201.8 347.2c0 20.3-16.5 36.8-36.8 36.8-20.3 0-36.8-16.5-36.8-36.8s16.5-36.8 36.8-36.8C185.3 310.4 201.8 326.8 201.8 347.2zM128.2 204.7v54.5c68.5.7 124 56.3 124.7 124.7h54.5C306.7 285.3 226.9 205.4 128.2 204.7zM128.2 166.6c57.9.3 112.3 22.9 153.2 63.9 41 41 63.7 95.5 63.9 153.5h54.5c-.3-149.9-121.7-271.4-271.6-271.9V166.6L128.2 166.6z" /></svg>
-          </a>
-          <a href="https://twitter.com/IGJP" target="_blank" rel="noopener"
-             class="ui-footer__icon-link mchNoDecorate" aria-label="Twitter">
-            <svg viewBox="0 0 512 512"><path d="M419.6 168.6c-11.7 5.2-24.2 8.7-37.4 10.2 13.4-8.1 23.8-20.8 28.6-36-12.6 7.5-26.5 12.9-41.3 15.8-11.9-12.6-28.8-20.6-47.5-20.6-42 0-72.9 39.2-63.4 79.9-54.1-2.7-102.1-28.6-134.2-68-17 29.2-8.8 67.5 20.1 86.9-10.7-.3-20.7-3.3-29.5-8.1-.7 30.2 20.9 58.4 52.2 64.6-9.2 2.5-19.2 3.1-29.4 1.1 8.3 25.9 32.3 44.7 60.8 45.2-27.4 21.4-61.8 31-96.4 27 28.8 18.5 63 29.2 99.8 29.2 120.8 0 189.1-102.1 185-193.6C399.9 193.1 410.9 181.7 419.6 168.6z" /></svg>
-          </a>
-        </>
-      ) : (
-        <>
-          <a href={`${igBase}/community/blogs/`} target="_blank" rel="noopener"
-             class="ui-footer__icon-link mchNoDecorate" aria-label="RSS">
-            <svg viewBox="0 0 512 512"><path d="M201.8 347.2c0 20.3-16.5 36.8-36.8 36.8-20.3 0-36.8-16.5-36.8-36.8s16.5-36.8 36.8-36.8C185.3 310.4 201.8 326.8 201.8 347.2zM128.2 204.7v54.5c68.5.7 124 56.3 124.7 124.7h54.5C306.7 285.3 226.9 205.4 128.2 204.7zM128.2 166.6c57.9.3 112.3 22.9 153.2 63.9 41 41 63.7 95.5 63.9 153.5h54.5c-.3-149.9-121.7-271.4-271.6-271.9V166.6L128.2 166.6z" /></svg>
-          </a>
-          <a href="https://twitter.com/infragistics" target="_blank" rel="noopener"
-             class="ui-footer__icon-link mchNoDecorate" aria-label="Twitter">
-            <svg viewBox="0 0 512 512"><path d="M419.6 168.6c-11.7 5.2-24.2 8.7-37.4 10.2 13.4-8.1 23.8-20.8 28.6-36-12.6 7.5-26.5 12.9-41.3 15.8-11.9-12.6-28.8-20.6-47.5-20.6-42 0-72.9 39.2-63.4 79.9-54.1-2.7-102.1-28.6-134.2-68-17 29.2-8.8 67.5 20.1 86.9-10.7-.3-20.7-3.3-29.5-8.1-.7 30.2 20.9 58.4 52.2 64.6-9.2 2.5-19.2 3.1-29.4 1.1 8.3 25.9 32.3 44.7 60.8 45.2-27.4 21.4-61.8 31-96.4 27 28.8 18.5 63 29.2 99.8 29.2 120.8 0 189.1-102.1 185-193.6C399.9 193.1 410.9 181.7 419.6 168.6z" /></svg>
-          </a>
-          <a href="https://www.facebook.com/infragistics" target="_blank" rel="noopener"
-             class="ui-footer__icon-link mchNoDecorate" aria-label="Facebook">
-            <svg viewBox="0 0 512 512"><path d="M211.9 197.4h-36.7v59.9h36.7V433.1h70.5V256.5h49.2l5.2-59.1h-54.4c0 0 0-22.1 0-33.7 0-13.9 2.8-19.5 16.3-19.5 10.9 0 38.2 0 38.2 0V82.9c0 0-40.2 0-48.8 0-52.5 0-76.1 23.1-76.1 67.3C211.9 188.8 211.9 197.4 211.9 197.4z" /></svg>
-          </a>
-          <a href="https://www.linkedin.com/company/infragistics" target="_blank" rel="noopener"
-             class="ui-footer__icon-link mchNoDecorate" aria-label="LinkedIn">
-            <svg viewBox="0 0 512 512"><path d="M186.4 142.4c0 19-15.3 34.5-34.2 34.5-18.9 0-34.2-15.4-34.2-34.5 0-19 15.3-34.5 34.2-34.5C171.1 107.9 186.4 123.4 186.4 142.4zM181.4 201.3h-57.8V388.1h57.8V201.3zM273.8 201.3h-55.4V388.1h55.4c0 0 0-69.3 0-98 0-26.3 12.1-41.9 35.2-41.9 21.3 0 31.5 15 31.5 41.9 0 26.9 0 98 0 98h57.5c0 0 0-68.2 0-118.3 0-50-28.3-74.2-68-74.2-39.6 0-56.3 30.9-56.3 30.9v-25.2H273.8z" /></svg>
-          </a>
-          <a href="https://www.youtube.com/user/Infragistics" target="_blank" rel="noopener"
-             class="ui-footer__icon-link mchNoDecorate" aria-label="YouTube">
-            <svg viewBox="0 0 512 512"><path d="M422.6 193.6c-5.3-45.3-23.3-51.6-59-54-50.8-3.5-164.3-3.5-215.1 0-35.7 2.4-53.7 8.7-59 54-4 33.6-4 91.1 0 124.8 5.3 45.3 23.3 51.6 59 54 50.9 3.5 164.3 3.5 215.1 0 35.7-2.4 53.7-8.7 59-54C426.6 284.8 426.6 227.3 422.6 193.6zM222.2 303.4v-94.6l90.7 47.3L222.2 303.4z" /></svg>
-          </a>
-        </>
-      )}
-    </div>
-
-    {/* Navigation menu columns */}
-    <div class="ui-footer__wrap ui-footer__wrap--newsletter ui-footer--clearfix">
-      <div class="ui-footer__menu-block">
-        <div class="ui-footer__col-one-fourth ui-footer__col-block">
-          <div class="ui-footer__menu">
-            <ul class="ui-footer__menu-list">
-              <li class="ui-footer__menu-list-item">
-                <div class="ui-footer__category">{isJa ? '製品' : isKr ? '제품' : 'Products'}</div>
-                <ul>
-                  {isJa ? (
-                    <>
-                      <li><a class="menu__link mchNoDecorate" href="/products/ultimate">開発ツール</a></li>
-                      <li><a class="menu__link mchNoDecorate" href="/products/indigo-design">UXツール</a></li>
-                      <li><a class="menu__link mchNoDecorate" href="https://www.revealbi.io/jp/">データ可視化</a></li>
-                      <li><a class="menu__link mchNoDecorate" href="/products/ultimate/download">無料トライアル</a></li>
-                      <li><a class="menu__link mchNoDecorate" href="/how-to-buy/product-pricing">製品価格</a></li>
-                    </>
-                  ) : (
-                    <>
-                      <li><a class="menu__link mchNoDecorate" href={`${igBase}/products/ultimate`}>Developers</a></li>
-                      <li><a class="menu__link mchNoDecorate" href={`${igBase}/products/indigo-design/desktop`}>UX Pros</a></li>
-                      <li><a class="menu__link mchNoDecorate" href="https://revealbi.io">Business Intelligence</a></li>
-                      <li><a class="menu__link mchNoDecorate" href={`${igBase}/how-to-buy/product-pricing`}>View All</a></li>
-                      <li><a class="menu__link mchNoDecorate" href={`${igBase}/free-downloads`}>Free Trials</a></li>
-                    </>
-                  )}
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="ui-footer__col-one-fourth ui-footer__col-block">
-          <div class="ui-footer__menu">
-            <ul class="ui-footer__menu-list">
-              <li class="ui-footer__menu-list-item">
-                <div class="ui-footer__category">{isJa ? 'ラーニング&サポート' : isKr ? '학습 및 지원' : 'Learn & Support'}</div>
-                <ul>
-                  {isJa ? (
-                    <>
-                      <li><a class="menu__link mchNoDecorate" href="/support/online-documentation">ヘルプとAPIドキュメント</a></li>
-                      <li><a class="menu__link mchNoDecorate" href="/resources/sample-applications">サンプルアプリケーション</a></li>
-                      <li><a class="menu__link mchNoDecorate" href="/support/chat">テクニカルサポートチャット</a></li>
-                      <li><a class="menu__link mchNoDecorate" href="/community/forums">フォーラム</a></li>
-                    </>
-                  ) : (
-                    <>
-                      <li><a class="menu__link mchNoDecorate" href={`${igBase}/support`}>Help & API Docs</a></li>
-                      <li><a class="menu__link mchNoDecorate" href={`${igBase}/community/blogs`}>Blogs</a></li>
-                      <li><a class="menu__link mchNoDecorate" href={`${igBase}/support/chat`}>Technical Support Chat</a></li>
-                      <li><a class="menu__link mchNoDecorate" href={`${igBase}/community/forums`}>Forums</a></li>
-                    </>
-                  )}
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* Copyright */}
-    <div class="ui-footer__wrap ui-footer__wrap--copyright">
-      <p>
-        {isJa
-          ? `Copyright © 1997-${year} Infragistics, Inc.`
-          : `Copyright © ${year} Infragistics, Inc. All Rights Reserved`}
-      </p>
-    </div>
-  </footer>
   )
-)}
+}
 
-{/* IG copyright bar (rendered below ui-footer for igniteui theme) */}
-{isIgniteUI && (
-  prefetched ? (
-    <Fragment set:html={footerHtml} />
-  ) : (
-  <footer id="footer">
-    <div id="footer-wrap" class="be-wrap clearfix">
-      <div id="copyright">
-        {isJa
-          ? `© Copyright 1997-${year} INFRAGISTICS. All Rights Reserved`
-          : `© Copyright ${year} INFRAGISTICS. All Rights Reserved`}
-      </div>
-    </div>
-  </footer>
-  )
-)}
-
-{/* === Reveal footer === */}
-{isReveal && (
-  <footer class="ui-footer ui-footer--clearfix bg-gradient--primary text-white" data-footer-theme="reveal">
-    <h2>{isJa ? '最新ニュースとアップデートをフォロー' : 'Follow Us for the Latest News and Updates'}</h2>
-    <div class="ui-footer__wrap ui-footer--clearfix ui-footer__icons">
-      <a class="ui-footer__icon-link link--opacity-highlight" rel="noopener" href="https://www.facebook.com/reveal.bi" target="_blank">
-        <img src="https://static.infragistics.com/marketing/reveal/facebook-icon.svg" alt="Facebook" width="20" height="20" />
-      </a>
-      <a class="ui-footer__icon-link link--opacity-highlight" rel="noopener" href="https://twitter.com/reveal_bi" target="_blank">
-        <img src="https://download.infragistics.com/marketing/reveal/twitter-icon.svg" alt="Twitter" width="20" height="20" />
-      </a>
-      <a class="ui-footer__icon-link link--opacity-highlight" rel="noopener" href="https://www.linkedin.com/showcase/revealbi" target="_blank">
-        <img src="https://static.infragistics.com/marketing/reveal/linkedin-icon.svg" alt="LinkedIn" width="20" height="20" />
-      </a>
-      <a class="ui-footer__icon-link link--opacity-highlight" rel="noopener"
-         href="https://www.youtube.com/playlist?list=PLZ4rRHIJepBt-USWdh-9BimHh-GjPAGUH" target="_blank">
-        <img src="https://static.infragistics.com/marketing/reveal/youtube-icon.svg" alt="YouTube" width="20" height="20" />
-      </a>
-    </div>
-    <p>
-      <a href="https://www.revealbi.io/help" class="menu__link">{isJa ? 'アプリケーションドキュメント' : 'Application Documentation'}</a>
-      &ensp;|&ensp;
-      <a href="https://www.revealbi.io/help/developer" class="menu__link">{isJa ? 'SDK APIドキュメント' : 'SDK API Documentation'}</a>
-    </p>
-    <p>Copyright © {year} Infragistics, Inc.</p>
-  </footer>
-)}
-
-{/* === AppBuilder footer (dynamically loaded from CMS) === */}
-{isAppBuilder && (
-  <>
-    <div id="ab-footer-container"></div>
-    <script is:inline>
-      (function () {
-        var domain = window.location.origin.includes('staging') || window.location.origin.includes('localhost')
-          ? 'https://staging.appbuilder.dev'
-          : 'https://www.appbuilder.dev';
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', domain + '/header-footer-export', true);
-        xhr.onload = function () {
-          if (xhr.status >= 200 && xhr.status < 400) {
-            try {
-              var data = JSON.parse(xhr.responseText);
-              if (data.footer) {
-                document.getElementById('ab-footer-container').innerHTML = data.footer;
-              }
-            } catch (e) { /* ignore */ }
-          }
-        };
-        xhr.send();
-      })();
-    </script>
-  </>
-)}
-
-{/* === Slingshot footer === */}
-{isSlingshot && (
-  <>
-    <footer id="footer" class="footer slingshot-footer">
-      <div class="border-curve-top position-relative">
-        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1920 140"
-             xml:space="preserve" preserveAspectRatio="xMidYMin" class="ie-hide"
-             style="enable-background:new 0 0 1920 140;">
-          <path style="fill: #ffffff; stroke: #ffffff;" d="M1920.7,124.3V-1H-0.8l-2,125.3c0,0,371.7-107.5,962.1-111.4C959.3,12.9,1365.6-4.7,1920.7,124.3L1920.7,124.3z" />
-        </svg>
-        <div class="ie-visible pt-0"></div>
-      </div>
-      <div class="container">
-        <div class="footer__link-row row text-center text-xs-center text-sm-left text-md-left pt-4 m-auto justify-content-center">
-          <div class="col-xs-12 col-sm-12 col-md-3 text-center mb-5 mb-lg-0">
-            <img src="https://static.infragistics.com/marketing/slingshot/slingshot-icon.svg"
-                 alt="Slingshot" role="presentation" width="60" height="60" loading="lazy" />
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-2">
-            <h5 class="footer__title mt-3 mt-lg-0">{isJa ? '製品' : 'Products'}</h5>
-            <ul class="footer__link-list list--li-space-sm pt-1 pl-0">
-              {isJa ? (
-                <>
-                  <li><a href="/ja/product-tour">製品ツアー</a></li>
-                  <li><a href="/ja/why-slingshot">なぜ Slingshot なのか？</a></li>
-                  <li><a href="/ja/security">セキュリティ</a></li>
-                  <li><a href="/ja/working-with-google">Google との連携</a></li>
-                  <li><a href="/ja/working-with-office">Office との連携</a></li>
-                  <li><a href="/ja/pricing">価格</a></li>
-                </>
-              ) : (
-                <>
-                  <li><a href="/product-tour">Product Tour</a></li>
-                  <li><a href="/why-slingshot">Why Slingshot?</a></li>
-                  <li><a href="/security">Security</a></li>
-                  <li><a href="/working-with-google">Working with Google</a></li>
-                  <li><a href="/working-with-office">Working with Office</a></li>
-                  <li><a href="/pricing">Pricing</a></li>
-                </>
-              )}
-            </ul>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-2">
-            <h5 class="footer__title mt-3 mt-lg-0">{isJa ? 'ソリューション' : 'Solutions'}</h5>
-            <ul class="footer__link-list list--li-space-sm pt-1 pl-0">
-              {isJa ? (
-                <>
-                  <li><a href="/ja/solutions/marketing">マーケティング</a></li>
-                  <li><a href="/ja/solutions/marketing/abm">ABM</a></li>
-                  <li><a href="/ja/solutions/marketing/campaign-launch">キャンペーンの開始</a></li>
-                  <li><a href="/ja/solutions/marketing/seo-management">SEO</a></li>
-                  <li><a href="/ja/solutions/hr">人事</a></li>
-                  <li><a href="/ja/solutions/hr/employee-onboarding">従業員のオンボーディング</a></li>
-                </>
-              ) : (
-                <>
-                  <li><a href="/solutions/marketing">Marketing</a></li>
-                  <li><a href="/solutions/marketing/abm">ABM</a></li>
-                  <li><a href="/solutions/marketing/campaign-launch">Campaign Launch</a></li>
-                  <li><a href="/solutions/marketing/seo-management">SEO</a></li>
-                  <li><a href="/solutions/hr">Human Resources</a></li>
-                  <li><a href="/solutions/hr/employee-onboarding">Employee Onboarding</a></li>
-                </>
-              )}
-            </ul>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-2">
-            <h5 class="footer__title mt-3 mt-lg-0">{isJa ? 'リソース' : 'Resources'}</h5>
-            <ul class="footer__link-list list--li-space-sm pt-1 pl-0">
-              {isJa ? (
-                <>
-                  <li><a href="/ja/learning-center">学習センター</a></li>
-                  <li><a href="/ja/blog">ブログ</a></li>
-                  <li><a href="/forums">フォーラム</a></li>
-                  <li><a href="/ja/whitepapers">ホワイトペーパー</a></li>
-                  <li><a href="/ja/webinars">ウェビナー</a></li>
-                  <li><a href="/ja/faq">よくある質問</a></li>
-                  <li><a href="/ja/#slingshot-support-request">サポート</a></li>
-                  <li><a href="https://slingshotacademy.workramp.io/trainings">Slingshot アカデミー</a></li>
-                  <li><a href="/ja/templates">テンプレート</a></li>
-                </>
-              ) : (
-                <>
-                  <li><a href="/learning-center">Learning Center</a></li>
-                  <li><a href="/blog">Blog</a></li>
-                  <li><a href="/forums">Forums</a></li>
-                  <li><a href="/whitepapers">Whitepapers</a></li>
-                  <li><a href="/webinars">Webinars</a></li>
-                  <li><a href="/faq">FAQs</a></li>
-                  <li><a href="/#slingshot-support-request">Support</a></li>
-                  <li><a href="https://slingshotacademy.workramp.io/trainings">Slingshot Academy</a></li>
-                  <li><a href="/templates">Templates</a></li>
-                </>
-              )}
-            </ul>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-2">
-            <h5 class="footer__title mt-3 mt-lg-0">{isJa ? '会社情報' : 'About Us'}</h5>
-            <ul class="footer__link-list list--li-space-sm pt-1 pl-0">
-              {isJa ? (
-                <>
-                  <li><a href="/ja/about-us">会社情報</a></li>
-                  <li><a href="/ja/about-us#">お問い合わせ</a></li>
-                  <li><a href="/ja/in-the-news">プレス</a></li>
-                </>
-              ) : (
-                <>
-                  <li><a href="/about-us">About Us</a></li>
-                  <li><a href="/about-us#connect">Contact Us</a></li>
-                  <li><a href="/in-the-news">Press</a></li>
-                </>
-              )}
-            </ul>
-            <h5 class="footer__title mt-3 mt-lg-4">{isJa ? 'ダウンロード' : 'Downloads'}</h5>
-            <ul class="footer__link-list list--li-space-sm pt-1 pl-0">
-              <li><a href="https://my.slingshotapp.io">Web</a></li>
-              <li><a href="https://apps.apple.com/us/app/id1457353858">iOS</a></li>
-              <li><a href="https://apps.apple.com/us/app/id1457353858">MacOS</a></li>
-              <li><a href={isJa ? '/ja/download-desktop' : '/download-desktop'}>Desktop</a></li>
-              <li><a href="https://play.google.com/store/apps/details?id=com.infragistics.slingshot">Android</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    {/* Slingshot legal / app-store utils bar */}
-    <div class="footer footer-utils slingshot-footer">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="footer__legal-links col-12 col-md-5 col-lg-5 mb-4 mb-lg-0 text-center text-lg-left">
-            <ul class="footer-utils__term-links">
-              {isJa ? (
-                <>
-                  <li><a href="/ja/privacy-policy">プライバシー ポリシー</a></li>
-                  <li><a href="/ja/cookie-policy">クッキー ポリシー</a></li>
-                  <li><a href="/ja/terms-of-use">利用条件</a></li>
-                  <li><a href="/ja/license-agreement">ライセンス契約</a></li>
-                </>
-              ) : (
-                <>
-                  <li><a href="/privacy-policy">Privacy Policy</a></li>
-                  <li><a href="/cookie-policy">Cookies</a></li>
-                  <li><a href="/terms-of-use">Terms of Use</a></li>
-                  <li><a href="/license-agreement">License Agreement</a></li>
-                </>
-              )}
-            </ul>
-          </div>
-          <div class="footer-utils__apps col-12 col-md-7 col-lg-7 text-center text-lg-right">
-            <div class="footer-utils__app-links">
-              <a href="https://apps.apple.com/us/app/id1457353858" aria-label="Download Slingshot on iOS" class="d-inline-block mx-1">
-                <img src="https://static.infragistics.com/marketing/slingshot/app-store-badge.svg"
-                     alt="Slingshot on iOS App Store" width="85" height="30" loading="lazy" />
-              </a>
-              <a href="https://apps.apple.com/us/app/id1457353858" aria-label="Download Slingshot on macOS" class="d-inline-block mx-1">
-                <img src="https://static.infragistics.com/marketing/slingshot/mac-app-store-badge.svg"
-                     alt="Slingshot on Mac OS App Store" width="110" height="30" loading="lazy" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.infragistics.slingshot" aria-label="Download Slingshot on Android" class="d-inline-block">
-                <img src="https://static.infragistics.com/marketing/slingshot/google-play-badge.svg"
-                     alt="Slingshot on Android's Google Play Store" width="110" height="50" loading="lazy" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* Slingshot copyright bar */}
-    <div class="footer footer-copyright slingshot-footer">
-      <div class="container">
-        <div class="row">
-          <p id="copyright" class="m-0 mx-4 d-inline-block">
-            © Copyright {year} INFRAGISTICS. All Rights Reserved.
-            Slingshot and the Slingshot logo are registered trademarks of Infragistics Inc.
-          </p>
-        </div>
-      </div>
-    </div>
-  </>
-)}
+<script define:vars={{ shadowFooterLinks, shadowFooterScripts }}>
+  var el = document.getElementById('ig-footer');
+  if (el && el.parentNode) {
+    var host = document.createElement('div');
+    el.parentNode.insertBefore(host, el);
+    var shadow = host.attachShadow({ mode: 'open' });
+    shadowFooterLinks.forEach(function(attrs) {
+      var link = document.createElement('link');
+      Object.keys(attrs).forEach(function(k) { link.setAttribute(k, attrs[k]); });
+      shadow.appendChild(link);
+    });
+    shadow.appendChild(el);
+    shadowFooterScripts.forEach(function(entry) {
+      var s = document.createElement('script');
+      if (entry.content) {
+        s.textContent = entry.content;
+      } else if (entry.attrs) {
+        Object.keys(entry.attrs).forEach(function(k) { s.setAttribute(k, entry.attrs[k]); });
+      }
+      shadow.appendChild(s);
+    });
+  }
+</script>

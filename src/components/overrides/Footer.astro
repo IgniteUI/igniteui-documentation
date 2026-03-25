@@ -15,10 +15,12 @@
  * injected once per page — Astro deduplicates identical script modules.
  */
 import GlobalFooter from '@/components/GlobalFooter.astro';
+import { platform as virtualPlatform, navLang as virtualNavLang } from 'virtual:docs-template/nav-html';
 
-const navTheme = (import.meta.env.VITE_NAV_THEME ?? 'igniteui') as
+// Virtual module `platform` takes precedence over env var fallback
+const navTheme = (virtualPlatform ?? import.meta.env.VITE_NAV_THEME ?? 'igniteui') as
   'igniteui' | 'appbuilder' | 'reveal' | 'slingshot' | string;
-const navLang = (import.meta.env.VITE_NAV_LANG ?? 'en') as 'en' | 'ja' | 'kr';
+const navLang = (virtualNavLang ?? import.meta.env.VITE_NAV_LANG ?? 'en') as 'en' | 'ja' | 'kr';
 const showGlobalFooter = navTheme !== 'none';
 ---
 
