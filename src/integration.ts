@@ -652,10 +652,6 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 sidebar: sidebar,
                 head: [...platformHead, ...head],
                 components: { ...defaultComponents, ...(starlightExtra.components as Record<string, string> ?? {}) },
-                customCss: [
-                    ...(platformScss ? [platformScss] : []),
-                    ...((starlightExtra.customCss as string[]) ?? []),
-                ],
                 ...starlightExtra,
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
             }),
