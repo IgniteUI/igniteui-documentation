@@ -101,6 +101,7 @@ export default defineConfig({
       components: {
         Header: './src/components/overrides/Header.astro',
         Footer: './src/components/overrides/Footer.astro',
+        Sidebar: './src/components/overrides/Sidebar/Sidebar.astro',
       },
     }),
     staticImagesIntegration(IMAGES),
