@@ -99,6 +99,9 @@ export default defineConfig({
         Header: './src/components/overrides/Header.astro',
         Footer: './src/components/overrides/Footer.astro',
       },
+      expressiveCode: {
+        themes: ['dark-plus'],
+      }
     }),
     staticImagesIntegration(IMAGES),
     siteMetaIntegration({

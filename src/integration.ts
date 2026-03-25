@@ -629,6 +629,9 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 components: { ...defaultComponents, ...(starlightExtra.components as Record<string, string> ?? {}) },
                 ...starlightExtra,
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                expressiveCode: {
+                    themes: ['dark-plus'],
+                }
             }),
             ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
             ...extraIntegrations,
