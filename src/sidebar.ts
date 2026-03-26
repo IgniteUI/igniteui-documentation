@@ -20,6 +20,30 @@ import path from 'node:path';
 import yaml from 'js-yaml';
 
 // ---------------------------------------------------------------------------
+// Starlight sidebar types
+// ---------------------------------------------------------------------------
+
+type BadgeVariant = 'note' | 'danger' | 'success' | 'caution' | 'tip' | 'default';
+
+interface SidebarBadge {
+    text: string;
+    variant: BadgeVariant;
+}
+
+interface SidebarLink {
+    label: string;
+    slug: string;
+    badge?: SidebarBadge;
+}
+
+interface SidebarGroup {
+    label: string;
+    items: SidebarEntry[];
+}
+
+type SidebarEntry = SidebarLink | SidebarGroup;
+
+// ---------------------------------------------------------------------------
 // Internal types
 // ---------------------------------------------------------------------------
 
@@ -54,13 +78,11 @@ function hrefToSlug(href: string): string {
     return slug === 'index' ? '' : slug;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function convertTocItem(docsDir: string, item: TocItem, exclude: RegExp[]): any | null {
+function convertTocItem(docsDir: string, item: TocItem, exclude: RegExp[]): SidebarEntry | null {
     if (!item.name) return null;
 
     if (item.items && item.items.length > 0) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const group: { label: string; items: any[] } = { label: item.name, items: [] };
+        const group: SidebarGroup = { label: item.name, items: [] };
         if (item.href && docExists(docsDir, item.href, exclude)) {
             group.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
         }
@@ -73,7 +95,7 @@ function convertTocItem(docsDir: string, item: TocItem, exclude: RegExp[]): any 
 
     if (item.href) {
         if (!docExists(docsDir, item.href, exclude)) return null;
-        const entry: Record<string, unknown> = { label: item.name, slug: hrefToSlug(item.href) };
+        const entry: SidebarLink = { label: item.name, slug: hrefToSlug(item.href) };
         // Common TOC badge conventions (docfx-style, widely adopted)
         if (item.new) entry.badge = { text: 'New', variant: 'success' };
         else if (item.preview) entry.badge = { text: 'Preview', variant: 'caution' };
@@ -101,15 +123,12 @@ export interface BuildSidebarFromTocOptions {
 /**
  * Reads a YAML or JSON TOC file and converts it to a Starlight sidebar array.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSidebarFromTocOptions): any[] {
+export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSidebarFromTocOptions): SidebarEntry[] {
     const tocRaw = fs.readFileSync(tocPath, 'utf-8');
     const tocItems = tocPath.endsWith('.json') ? JSON.parse(tocRaw) : yaml.load(tocRaw) as TocItem[];
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const sidebar: any[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let currentGroup: { label: string; items: any[] } | null = null;
+    const sidebar: SidebarEntry[] = [];
+    let currentGroup: SidebarGroup | null = null;
 
     for (const item of tocItems) {
         if (item.header) {

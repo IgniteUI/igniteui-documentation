@@ -59,33 +59,12 @@ import { defineConfig } from 'astro/config';
 import type { AstroIntegration, AstroConfig } from 'astro';
 import starlight from '@astrojs/starlight';
 import { buildSidebarFromToc } from './sidebar';
-import { replaceEnvVars } from './plugins/remark-docfx';
 import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey } from './platform.ts';
+import { JSDOM } from 'jsdom';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'dev' | 'staging' | 'prod';
-
-// ---------------------------------------------------------------------------
-// Platform → SCSS theme map
-// ---------------------------------------------------------------------------
-
-/** Absolute paths to the bundled SCSS entry files, keyed by platform. */
-const _themeDir = new URL('./styles/themes/', import.meta.url);
-const PLATFORM_SCSS: Partial<Record<PlatformKey, string>> = {
-    angular: fileURLToPath(new URL('ignite-ui.scss', _themeDir)),
-    react: fileURLToPath(new URL('ignite-ui.scss', _themeDir)),
-    blazor: fileURLToPath(new URL('ignite-ui.scss', _themeDir)),
-    'web-components': fileURLToPath(new URL('ignite-ui.scss', _themeDir)),
-    slingshot: fileURLToPath(new URL('slingshot.scss', _themeDir)),
-    reveal: fileURLToPath(new URL('slingshot.scss', _themeDir)),
-    appbuilder: fileURLToPath(new URL('appbuilder.scss', _themeDir)),
-};
-import { JSDOM } from 'jsdom';
-
-// ---------------------------------------------------------------------------
-// Navigation HTML prefetch cache + helpers
-// ---------------------------------------------------------------------------
 
 /** Module-level cache so the nav URL is fetched at most once per build. */
 let _navHtmlCache: string | null = null;
@@ -410,7 +389,7 @@ export const mode = ${JSON.stringify(mode)};
                         try {
                             const raw = await fsp.readFile(src, 'utf-8');
                             const meta = slugMeta.get(slug);
-                            const content = meta ? injectFrontmatterKeys(replaceEnvVars(raw), meta) : replaceEnvVars(raw);
+                            const content = meta ? injectFrontmatterKeys(raw, meta) : raw;
                             res.setHeader('Content-Type', 'text/plain; charset=utf-8');
                             res.end(content);
                             return;
@@ -436,7 +415,7 @@ export const mode = ${JSON.stringify(mode)};
                             try {
                                 const raw = await fsp.readFile(src, 'utf-8');
                                 const meta = slugMeta.get(slug);
-                                const content = meta ? injectFrontmatterKeys(replaceEnvVars(raw), meta) : replaceEnvVars(raw);
+                                const content = meta ? injectFrontmatterKeys(raw, meta) : raw;
                                 const dest = path.join(outDir, slug + '.md');
                                 await fsp.mkdir(path.dirname(dest), { recursive: true });
                                 await fsp.writeFile(dest, content, 'utf-8');
@@ -629,10 +608,6 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Platform CDN entries come first so site-specific `head` entries can override.
     const platformHead = platform ? getPlatformHead(platform, navLang) : [];
 
-    // Platform SCSS theme — bundled inside docs-template, absolute path so it
-    // works regardless of where the consuming project is located.
-    const platformScss = platform ? PLATFORM_SCSS[platform] : undefined;
-
     // Default component overrides shipped by this package.
     // Consumers can override individual slots via starlight.components.
     const pkgDir = new URL('.', import.meta.url);
@@ -653,7 +628,13 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 head: [...platformHead, ...head],
                 components: { ...defaultComponents, ...(starlightExtra.components as Record<string, string> ?? {}) },
                 ...starlightExtra,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                expressiveCode: {
+                    themes: ['dark-plus'],
+                },
+                customCss: [
+                    fileURLToPath(new URL('./styles/custom.css', pkgDir)),
+                    ...(starlightExtra.customCss as string[] ?? []),
+                ],
             }),
             ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
             ...extraIntegrations,
