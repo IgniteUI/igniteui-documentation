@@ -4,7 +4,7 @@
  *
  * Handles:
  * 1. {environment:...} variable substitution in text, links, and raw HTML
- * 2. <code-view> elements -> iframe embeds
+ * 2. <code-view> elements -> .ig-code-view placeholder divs (enhanced by code-view.js)
  * 3. <div class="divider--half"></div> -> <hr>
  * 4. Docfx frontmatter normalisation (_description -> description)
  */
@@ -13,14 +13,14 @@ import { visit } from 'unist-util-visit';
 import fs from 'node:fs';
 import path from 'node:path';
 
-// Resolve the docs source root — must match the logic in astro.config.mjs and content.config.ts.
+// Resolve the docs source root — must match the logic in astro.config.ts and content.config.ts.
 // DOCS_SOURCE_PATH env var is the repo root (e.g. C:/Users/.../igniteui-docfx).
 const SOURCE_ROOT = process.env.DOCS_SOURCE_PATH
   ? path.resolve(process.env.DOCS_SOURCE_PATH)
   : path.resolve('C:/Users/dtsvetkov/Work/igniteui-docfx');
 
 const ENV_PATH = path.join(SOURCE_ROOT, 'en', 'environment.json');
-let ENV;
+let ENV: Record<string, string> = {};
 try {
   const envData = JSON.parse(fs.readFileSync(ENV_PATH, 'utf-8'));
   // DOCS_ENV overrides explicitly (useful for staging builds).
@@ -34,20 +34,19 @@ try {
 
 const ENV_PATTERN = /\{environment:(\w+)\}/g;
 
-export function replaceEnvVars(str) {
+export function replaceEnvVars(str: string): string {
   if (!str || typeof str !== 'string') return str;
   return str.replace(ENV_PATTERN, (_match, key) => ENV[key] ?? `{environment:${key}}`);
 }
 
 /**
- * Transform <code-view ...> ... </code-view> raw HTML blocks into an iframe
- * widget with a StackBlitz live-editing link — matching what the old docfx
- * template's instantiateCodeViews() + AngularCodeService produced at runtime.
+ * Transform <code-view ...> ... </code-view> raw HTML blocks into an .ig-code-view
+ * placeholder div — enhanced by the client-side code-view.js script at runtime.
  */
-function transformCodeView(html) {
+function transformCodeView(html: string): string {
   return html.replace(
     /<code-view\s+([\s\S]*?)>\s*(?:<\/code-view>)?/g,
-    (_match, attrs) => {
+    (_match, attrs: string) => {
       const stackblitzMatch = attrs.match(/stackblitz="([^"]*)"/);
       const codesandboxMatch = attrs.match(/codesandbox="([^"]*)"/);
       const srcMatch = attrs.match(/iframe-src="([^"]*)"/);
@@ -82,14 +81,14 @@ function transformCodeView(html) {
         const src = replaceEnvVars(srcMatch[1]);
         if (!src || src.includes('{environment:')) return ''; // env var not resolved
         const demosBaseUrl = demosBaseMatch ? replaceEnvVars(demosBaseMatch[1]) : '';
-        const attrs = [
+        const divAttrs = [
           `class="ig-code-view"`,
           `data-src="${src}"`,
           `data-height="${height}"`,
           `data-alt="${alt}"`,
           demosBaseUrl ? `data-demos-base-url="${demosBaseUrl}"` : '',
         ].filter(Boolean).join(' ');
-        return `<div ${attrs}></div>`;
+        return `<div ${divAttrs}></div>`;
       }
 
       return '';
@@ -100,8 +99,12 @@ function transformCodeView(html) {
 /**
  * Transform <div class="divider--half"></div> into <hr>
  */
-function transformDividers(html) {
+function transformDividers(html: string): string {
   return html.replace(/<div\s+class="divider--half"\s*>\s*<\/div>/g, '<hr/>');
+}
+
+function strVal(v: unknown): string {
+  return typeof v === 'string' ? v : Array.isArray(v) ? v.join(' ') : String(v ?? '');
 }
 
 /**
@@ -113,25 +116,25 @@ function transformDividers(html) {
  *    present and re-parses raw HTML fragments into proper HAST elements.
  *
  * 2. `raw` string nodes — produced when rehype-raw is NOT in the pipeline
- *    (e.g. Astro content-collection .md files).  In that case multiline
+ *    (e.g. Astro content-collection .md files). In that case multiline
  *    <code-view> blocks are carried through as opaque raw strings and we run
  *    the same regex transformer used in the remark stage.
  */
 export function rehypeCodeView() {
-  return (tree) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (tree: any) => {
     // ── 1. element nodes (after rehype-raw) ──────────────────────────────────
-    visit(tree, 'element', (node) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    visit(tree, 'element', (node: any) => {
       if (node.tagName !== 'code-view') return;
 
       const p = node.properties || {};
 
       // HAST converts hyphenated attributes to camelCase via property-information.
-      // Unknown attributes (iframe-src, data-*) follow the same rule, so we
-      // check both forms to be safe across HAST versions.
-      const iframeSrc = str(p.iframeSrc   ?? p['iframe-src']             ?? '');
-      const demosBase = str(p.dataDemosBaseUrl ?? p['data-demos-base-url'] ?? '');
-      const styleStr  = str(p.style ?? '');
-      const alt       = str(p.alt   ?? 'Demo');
+      const iframeSrc = strVal(p.iframeSrc   ?? p['iframe-src']             ?? '');
+      const demosBase = strVal(p.dataDemosBaseUrl ?? p['data-demos-base-url'] ?? '');
+      const styleStr  = strVal(p.style ?? '');
+      const alt       = strVal(p.alt   ?? 'Demo');
 
       const src     = replaceEnvVars(iframeSrc);
       const baseUrl = replaceEnvVars(demosBase);
@@ -153,72 +156,61 @@ export function rehypeCodeView() {
     });
 
     // ── 2. raw string nodes (no rehype-raw in pipeline) ──────────────────────
-    visit(tree, 'raw', (node) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    visit(tree, 'raw', (node: any) => {
       if (!node.value || !node.value.includes('<code-view')) return;
-      const updated = transformCodeView(replaceEnvVars(node.value));
+      const updated = transformCodeView(replaceEnvVars(node.value as string));
       if (updated !== node.value) node.value = updated;
     });
   };
 }
 
-function str(v) {
-  return typeof v === 'string' ? v : Array.isArray(v) ? v.join(' ') : String(v ?? '');
-}
-
 export function remarkDocfx() {
-  return (tree, file) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (tree: any, file: any) => {
     // 1. Transform frontmatter: map _description -> description, _keywords -> keywords
     if (file.data.astro?.frontmatter) {
-      const fm = file.data.astro.frontmatter;
+      const fm = file.data.astro.frontmatter as Record<string, unknown>;
       if (fm._description && !fm.description) {
         fm.description = fm._description;
       }
-      // Remove underscore-prefixed keys that Starlight doesn't use
       delete fm._description;
       delete fm._keywords;
       delete fm._license;
     }
 
     // 2. Walk the AST and replace environment variables in text/links/html
-    visit(tree, (node) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    visit(tree, (node: any) => {
       // Text nodes
       if (node.type === 'text' && node.value) {
-        node.value = replaceEnvVars(node.value);
+        node.value = replaceEnvVars(node.value as string);
       }
 
       // Links
       if (node.type === 'link' && node.url) {
-        node.url = replaceEnvVars(node.url);
+        node.url = replaceEnvVars(node.url as string);
       }
 
       // Images
       if (node.type === 'image' && node.url) {
-        node.url = replaceEnvVars(node.url);
-        // Fix relative image paths: ../../images/ -> /images/
-        node.url = node.url.replace(/^\.\.\/\.\.\/images\//, '/images/');
-        node.url = node.url.replace(/^\.\.\/images\//, '/images/');
+        node.url = replaceEnvVars(node.url as string);
+        node.url = (node.url as string).replace(/^\.\.\/\.\.\/images\//, '/images/');
+        node.url = (node.url as string).replace(/^\.\.\/images\//, '/images/');
       }
 
-      // Code blocks — normalize language identifiers to lowercase so
-      // astro-expressive-code can find the grammar (e.g. "TypeScript" → "typescript")
+      // Code blocks — normalize language identifiers to lowercase
       if (node.type === 'code' && node.lang) {
-        node.lang = node.lang.toLowerCase();
+        node.lang = (node.lang as string).toLowerCase();
       }
 
       // Inline HTML
       if (node.type === 'html' && node.value) {
-        node.value = replaceEnvVars(node.value);
-        node.value = transformCodeView(node.value);
-        node.value = transformDividers(node.value);
-        // Fix image src paths in raw HTML
-        node.value = node.value.replace(
-          /src="\.\.\/\.\.\/images\//g,
-          'src="/images/'
-        );
-        node.value = node.value.replace(
-          /src="\.\.\/images\//g,
-          'src="/images/'
-        );
+        node.value = replaceEnvVars(node.value as string);
+        node.value = transformCodeView(node.value as string);
+        node.value = transformDividers(node.value as string);
+        node.value = (node.value as string).replace(/src="\.\.\/\.\.\/images\//g, 'src="/images/');
+        node.value = (node.value as string).replace(/src="\.\.\/images\//g, 'src="/images/');
       }
     });
   };

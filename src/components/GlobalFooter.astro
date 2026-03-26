@@ -17,6 +17,7 @@ interface Props {
   lang?: 'en' | 'ja' | 'kr';
 }
 
+import { PLATFORM_DEFS, type PlatformKey } from '../platform';
 import {
   platform as virtualPlatform,
   navLang as virtualNavLang,
@@ -33,6 +34,25 @@ const isAppBuilder = resolvedPlatform === 'appbuilder';
 const isReveal     = resolvedPlatform === 'reveal';
 // All IG-family platforms share the same global footer
 const isIgPlatform = !isAppBuilder && !isReveal;
+
+// All platform CSS links to inject into the #ig-footer shadow DOM
+const _footerDef = PLATFORM_DEFS[resolvedPlatform as PlatformKey] ?? PLATFORM_DEFS.angular;
+const shadowFooterLinks: Record<string, string>[] = [
+  { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity: 'sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin: 'anonymous' },
+  ..._footerDef.styles
+    .filter(e => e.tag === 'link')
+    .map(e => Object.fromEntries(
+      Object.entries(e.attrs ?? {}).filter(([, v]) => v !== undefined && v !== false)
+    ) as Record<string, string>),
+];
+// Platform scripts: { attrs } for external src-based, { content } for inline
+const shadowFooterScripts: { attrs?: Record<string, string>; content?: string }[] = _footerDef.scripts
+  .map(e => e.content
+    ? { content: e.content }
+    : { attrs: Object.fromEntries(
+        Object.entries(e.attrs ?? {}).filter(([, v]) => v !== undefined && v !== false)
+      ) as Record<string, string> }
+  );
 ---
 
 {/* === IgniteUI / default Infragistics footer === */}
@@ -80,3 +100,27 @@ const isIgPlatform = !isAppBuilder && !isReveal;
     </>
   )
 }
+
+<script define:vars={{ shadowFooterLinks, shadowFooterScripts }}>
+  var el = document.getElementById('ig-footer');
+  if (el && el.parentNode) {
+    var host = document.createElement('div');
+    el.parentNode.insertBefore(host, el);
+    var shadow = host.attachShadow({ mode: 'open' });
+    shadowFooterLinks.forEach(function(attrs) {
+      var link = document.createElement('link');
+      Object.keys(attrs).forEach(function(k) { link.setAttribute(k, attrs[k]); });
+      shadow.appendChild(link);
+    });
+    shadow.appendChild(el);
+    shadowFooterScripts.forEach(function(entry) {
+      var s = document.createElement('script');
+      if (entry.content) {
+        s.textContent = entry.content;
+      } else if (entry.attrs) {
+        Object.keys(entry.attrs).forEach(function(k) { s.setAttribute(k, entry.attrs[k]); });
+      }
+      shadow.appendChild(s);
+    });
+  }
+</script>
