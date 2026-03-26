@@ -1,0 +1,52 @@
+---
+/**
+ * Starlight Head component override.
+ *
+ * Renders all standard head entries from Astro.locals.starlightRoute.head
+ * (the same data Starlight's default Head component iterates), then appends
+ * the tags Starlight does not emit on its own:
+ *
+ *   - <title>  — re-emitted verbatim when the raw frontmatter title already
+ *                carries a full suffix (e.g. "… | Infragistics"). Starlight
+ *                unconditionally appends " | {siteTitle}", which would double
+ *                the suffix. We filter Starlight's <title> out and replace it.
+ *   - <meta name="description"> / <meta property="og:description">
+ *                — Starlight never emits these for DocFX pages (which use
+ *                  _description, not description). We fill the gap.
+ *   - <meta name="keywords"> — Starlight never emits this.
+ *
+ * Data flow:
+ *   Markdown `_description`/`_keywords` captured by extended docsSchema
+ *     → available in entry.data._description / entry.data._keywords
+ *       → resolver normalises them into PageSeo
+ */
+import { resolvePageSeo } from '../../seo/resolver';
+
+type EntryData = {
+    title: string;
+    _description?: string | null;
+    _keywords?: string | null;
+};
+
+const { entry, head } = Astro.locals.starlightRoute;
+const data = entry.data as EntryData;
+const seo = resolvePageSeo(data);
+
+const emitDescription = !!seo.description;
+
+// DocFX titles already carry a full suffix (e.g. "… | Ignite UI for Angular | Infragistics").
+// Starlight unconditionally appends " | {siteTitle}", creating a duplicate.
+// When the raw title contains the delimiter, strip Starlight's <title> entry
+// and emit the raw title verbatim as the first (and only) <title> tag.
+const useRawTitle = data.title.includes(' | ');
+const resolvedHead = useRawTitle ? head.filter((e) => e.tag !== 'title') : head;
+---
+
+{resolvedHead.map(({ tag: Tag, attrs, content }) => (
+    <Tag {...attrs} set:html={content} />
+))}
+{useRawTitle && <title>{data.title}</title>}
+{emitDescription && <meta name="description" content={seo.description} />}
+{seo.keywords && <meta name="keywords" content={seo.keywords} />}
+
+

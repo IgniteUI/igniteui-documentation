@@ -27,7 +27,7 @@
  *   };
  */
 
-import { defineCollection } from 'astro:content';
+import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { docsSchema } from '@astrojs/starlight/schema';
 import { pathToFileURL } from 'node:url';
@@ -79,9 +79,22 @@ export function createDocsCollection(
     // Normalise exclude patterns — ensure each starts with '!'
     const excludePatterns = exclude.map(p => (p.startsWith('!') ? p : `!${p}`));
 
-    const schema = extendSchema
-        ? docsSchema({ extend: extendSchema })
-        : docsSchema();
+    const schema = docsSchema({
+        extend: (ctx) => {
+            const base = z.object({
+                // Capture DocFX underscore-prefixed fields so they survive Zod
+                // validation and are available in entry.data at render time.
+                // .nullish() because a bare `_description:` in YAML parses as null.
+                _description: z.string().nullish(),
+                _keywords: z.string().nullish(),
+            });
+            if (extendSchema) {
+                const extra = typeof extendSchema === 'function' ? extendSchema(ctx) : extendSchema;
+                return extra instanceof z.ZodObject ? base.merge(extra) : base;
+            }
+            return base;
+        },
+    });
 
     return defineCollection({
         loader: glob({

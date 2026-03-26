@@ -612,6 +612,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Consumers can override individual slots via starlight.components.
     const pkgDir = new URL('.', import.meta.url);
     const defaultComponents: Record<string, string> = {
+        Head: fileURLToPath(new URL('./components/overrides/Head.astro', pkgDir)),
         Header: fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
         Footer: fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
     };
