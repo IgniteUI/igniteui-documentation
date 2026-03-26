@@ -1,0 +1,273 @@
+---
+/**
+ * GlobalNavBar
+ *
+ * Renders the platform-appropriate global navigation bar. Platform is driven
+ * by `siteMetaIntegration({ platform })` in astro.config.mjs (exported from
+ * the virtual module) and can be overridden per-instance via the `theme` prop.
+ *
+ * Platforms:
+ *   igniteui / angular / react / blazor / web-components / slingshot
+ *     → IG global nav (infragistics.com). Prebuild path uses virtual module
+ *       headerHtml. Static fallback renders the full nav server-side.
+ *   appbuilder
+ *     → AppBuilder nav (appbuilder.dev). Prebuild uses abHeaderHtml.
+ *       Runtime fallback uses the XHR includeContent pattern.
+ *   reveal
+ *     → Static Reveal BI nav.
+ *
+ * CDN styles/scripts for each platform are injected into <head> by
+ * getPlatformHead() in astro.config.mjs — NOT repeated here.
+ */
+import { PLATFORM_DEFS, type PlatformKey } from '../platform';
+import {
+  platform as virtualPlatform,
+  navLang as virtualNavLang,
+  prefetched,
+  headerHtml,
+  abPrefetched,
+  abHeaderHtml,
+} from 'virtual:docs-template/nav-html';
+
+interface Props {
+  /** Override the platform for this instance. Defaults to virtual module value. */
+  theme?: 'igniteui' | 'appbuilder' | 'reveal' | 'slingshot' | 'angular' | 'react' | 'blazor' | 'web-components';
+  /** Override the locale. Defaults to virtual module navLang. */
+  lang?: 'en' | 'ja' | 'kr';
+}
+
+const { theme, lang } = Astro.props as Props;
+
+// Props override the virtual module values (allows per-page overrides)
+const resolvedPlatform = theme ?? virtualPlatform ?? 'igniteui';
+const resolvedLang = (lang ?? virtualNavLang ?? 'en') as 'en' | 'ja' | 'kr';
+
+const isJa = resolvedLang === 'ja';
+const isKr = resolvedLang === 'kr';
+const isAppBuilder = resolvedPlatform === 'appbuilder';
+const isReveal     = resolvedPlatform === 'reveal';
+// All IG-family platforms share the same global nav
+const isIgPlatform = !isAppBuilder && !isReveal;
+
+// All platform CSS links to inject into the #header shadow DOM
+const _navDef = PLATFORM_DEFS[resolvedPlatform as PlatformKey] ?? PLATFORM_DEFS.angular;
+const shadowNavLinks: Record<string, string>[] = [
+  // Bootstrap 3.3.7 — the commented-out entry from platform.ts, placed first
+  { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity: 'sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin: 'anonymous' },
+  // Platform-specific stylesheet links from PLATFORM_DEFS
+  ..._navDef.styles
+    .filter(e => e.tag === 'link')
+    .map(e => Object.fromEntries(
+      Object.entries(e.attrs ?? {}).filter(([, v]) => v !== undefined && v !== false)
+    ) as Record<string, string>),
+];
+// Platform scripts: { attrs } for external src-based, { content } for inline
+const shadowNavScripts: { attrs?: Record<string, string>; content?: string }[] = _navDef.scripts
+  .map(e => e.content
+    ? { content: e.content }
+    : { attrs: Object.fromEntries(
+        Object.entries(e.attrs ?? {}).filter(([, v]) => v !== undefined && v !== false)
+      ) as Record<string, string> }
+  );
+
+const igBase    = isJa ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
+const revealHref = isJa ? 'https://www.revealbi.io/jp/' : 'https://www.revealbi.io';
+
+---
+
+{/* ============================================================
+    IG-family global nav (angular, react, blazor, web-components,
+    slingshot, igniteui)
+    ============================================================ */}
+
+{/* Prebuild path — HTML captured at build time */}
+{isIgPlatform && prefetched && (
+  <>
+    <Fragment set:html={headerHtml} />
+    <script is:inline>
+      if (window.igNavigation && typeof window.igNavigation.init === 'function') {
+        window.igNavigation.init();
+      }
+    </script>
+  </>
+)}
+
+{/* Static fallback — rendered when prefetch is unavailable */}
+{isIgPlatform && !prefetched && (
+  <header id="header" class="globalnav" data-nav-auto-init="false">
+    <section id="header-wrap" class="globalnav__container" data-default-height="175" data-sticky-height="60">
+      <section class="globalnav__primary clearfix">
+        <div class="globalnav__wrapper">
+          <div class="globalnav__brand">
+            <a href={igBase}>
+              <img class="globalnav__logo" src="https://static.infragistics.com/marketing/Website/products/ignite-ui/ignite-ui-logo.svg" alt="Infragistics Logo" />
+            </a>
+          </div>
+          <nav class="globalnav__nav">
+            {isJa ? (
+              <ul class="globalnav__menu">
+                <li class="globalnav__item"><a class="globalnav__link" href="https://jp.infragistics.com/products">製品</a></li>
+                <li class="globalnav__item"><a class="globalnav__link" href="https://jp.infragistics.com/community/blogs">ブログ</a></li>
+                <li class="globalnav__item"><a class="globalnav__link" href="https://jp.infragistics.com/support">サポート</a></li>
+              </ul>
+            ) : isKr ? (
+              <ul class="globalnav__menu">
+                <li class="globalnav__item"><a class="globalnav__link" href="https://www.infragistics.com/products">제품</a></li>
+                <li class="globalnav__item"><a class="globalnav__link" href="https://www.infragistics.com/community/blogs">블로그</a></li>
+                <li class="globalnav__item"><a class="globalnav__link" href="https://www.infragistics.com/support">지원</a></li>
+              </ul>
+            ) : (
+              <ul class="globalnav__menu">
+                <li class="globalnav__item"><a class="globalnav__link" href="https://www.infragistics.com/products">Products</a></li>
+                <li class="globalnav__item"><a class="globalnav__link" href="https://www.infragistics.com/community/blogs">Blog</a></li>
+                <li class="globalnav__item"><a class="globalnav__link" href="https://www.infragistics.com/support">Support</a></li>
+              </ul>
+            )}
+          </nav>
+          <div class="globalnav__overlay"></div>
+        </div>
+      </section>
+    </section>
+  </header>
+)}
+
+{/* ============================================================
+    AppBuilder nav
+    ============================================================ */}
+{isAppBuilder && (
+  <>
+    {/* Prebuild path — AB header/footer HTML captured at build time */}
+    {abPrefetched && (
+      <>
+        <Fragment set:html={abHeaderHtml} />
+        <script is:inline>
+          window.addEventListener('load', function () {
+            // Fix language-bar links (depends on current page URL at runtime)
+            var langBar = document.querySelector('.mega-lang-bar');
+            if (langBar) {
+              langBar.innerHTML =
+                '<a class="mega-custom-icon mega-menu-link" href="#" aria-expanded="false" tabindex="0" aria-label="LangBar">' +
+                '<span class="mega-indicator" aria-hidden="true"></span></a>' +
+                '<ul class="mega-sub-menu"><li class="mega-menu-item" id="mega-menu-item-8148"><div class="wovn-languages">' +
+                '<a href="' + window.location.href.replace('/ja/help/', '/help/') + '" style="display:block;padding-left:10px;color:gray;font-weight:300;">English</a>' +
+                '<a href="' + window.location.href.replace('/help/', '/ja/help/') + '" style="display:block;padding-left:10px;color:gray;font-weight:300;">日本語</a>' +
+                '</div></li></ul>';
+            }
+            // Initialise mega menu
+            if (window.jQuery && typeof window.jQuery('.max-mega-menu').maxmegamenu === 'function') {
+              window.jQuery('.max-mega-menu').maxmegamenu();
+            }
+            // Search toggle
+            var searchIcon  = document.querySelector('.mega-search .search-icon');
+            var searchInput = document.querySelector('.mega-search input[type=text]');
+            if (searchIcon)  searchIcon.onclick  = function () { _abSearchToggle(); };
+            if (searchInput) searchInput.onblur  = function () { _abSearchToggle(); };
+
+            function _abSearchToggle() {
+              var form = document.querySelector('.mega-search');
+              var inp  = document.querySelector('.mega-search input[type=text]');
+              if (!form) return;
+              if (form.classList.contains('mega-search-open')) {
+                form.classList.replace('mega-search-open', 'mega-search-closed');
+                if (inp) { inp.setAttribute('placeholder', ''); inp.value = ''; inp.setAttribute('tabindex', '0'); }
+              } else {
+                form.classList.replace('mega-search-closed', 'mega-search-open');
+                if (inp) { inp.setAttribute('placeholder', 'Search...'); inp.focus(); inp.setAttribute('tabindex', '-1'); }
+              }
+            }
+          });
+        </script>
+      </>
+    )}
+
+    {/* Runtime fallback — XHR fetch of AB header/footer at page load */}
+    {!abPrefetched && (
+      <>
+        <div id="ab-nav-container"></div>
+        <script is:inline>
+          (function () {
+            var includeContent = {
+              settings: {
+                url: 'https://www.appbuilder.dev/header-footer-export',
+                selector: '#header-container',
+              },
+              processInclude: function () {
+                var self = this;
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', self.settings.url, true);
+                xhr.onreadystatechange = function () {
+                  if (xhr.readyState === 4 && xhr.status === 200) {
+                    try {
+                      var data    = JSON.parse(xhr.responseText);
+                      var header  = data.headerHtml  || '';
+                      var footer  = data.footerHtml  || '';
+                      var container = document.getElementById('ab-nav-container');
+                      if (container) container.innerHTML = header;
+                      var footerEl = document.getElementById('footer');
+                      if (footerEl) footerEl.innerHTML += footer;
+                    } catch (e) {
+                      /* no-op – nav unavailable */
+                    }
+                  }
+                };
+                xhr.send();
+              },
+            };
+            window.addEventListener('load', function () {
+              includeContent.processInclude();
+            });
+          })();
+        </script>
+      </>
+    )}
+  </>
+)}
+
+{/* ============================================================
+    Reveal BI nav (static)
+    ============================================================ */}
+{isReveal && (
+  <div id="header" class="globalnav" data-nav-auto-init="false" data-nav-theme="reveal">
+    <section id="header-wrap" class="globalnav__container stuck" data-default-height="175" data-sticky-height="175">
+      <section class="globalnav__primary clearfix">
+        <div class="globalnav__wrapper">
+          <div class="globalnav__brand">
+            <a href={revealHref}>
+              <img class="globalnav__logo" src="https://static.infragistics.com/marketing/reveal/business-teams-reveal-logo-black.svg" alt="Reveal Logo" />
+            </a>
+          </div>
+          <div class="igw-header-nav">
+            <a class="igw-header-btn igw-btn-reveal" href="https://app.revealbi.io/Login?redirect=">
+              <span>{isJa ? '今すぐ試す' : 'Try it now'}</span>
+            </a>
+          </div>
+          <div class="globalnav__overlay"></div>
+        </div>
+      </section>
+    </section>
+  </div>
+)}
+
+<script define:vars={{ shadowNavLinks, shadowNavScripts }}>
+  var el = document.getElementById('header');
+  if (el && el.parentNode) {
+    var host = document.createElement('div');
+    el.parentNode.insertBefore(host, el);
+    var shadow = host.attachShadow({ mode: 'open' });
+    shadowNavLinks.forEach(function(attrs) {
+      var link = document.createElement('link');
+      Object.keys(attrs).forEach(function(k) { link.setAttribute(k, attrs[k]); });
+      shadow.appendChild(link);
+    });
+    shadow.appendChild(el);
+    shadowNavScripts.forEach(function(entry) {
+      var s = document.createElement('script');
+      if (entry.content) {
+        s.textContent = entry.content;
+      } else if (entry.attrs) {
+        Object.keys(entry.attrs).forEach(function(k) { s.setAttribute(k, entry.attrs[k]); });
+      }
+      shadow.appendChild(s);
+    });
+  }
+</script>

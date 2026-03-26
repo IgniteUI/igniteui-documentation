@@ -1,0 +1,126 @@
+---
+/**
+ * GlobalFooter
+ *
+ * This component is separate from Starlight's own Footer override (which
+ * provides the "Edit this page" link and pagination). Mount it INSIDE the
+ * Starlight Footer override to place it below the docs navigation footer.
+ *
+ * Props:
+ *   theme – product theme (default: 'angular')
+ *   lang  – locale       (default: 'en')
+ */
+interface Props {
+  /** Override the platform for this instance. Defaults to virtual module value. */
+  theme?: 'igniteui' | 'appbuilder' | 'reveal' | 'slingshot' | 'angular' | 'react' | 'blazor' | 'web-components';
+  /** Override the locale. Defaults to virtual module navLang. */
+  lang?: 'en' | 'ja' | 'kr';
+}
+
+import { PLATFORM_DEFS, type PlatformKey } from '../platform';
+import {
+  platform as virtualPlatform,
+  navLang as virtualNavLang,
+  prefetched, uiFooterHtml,
+  abPrefetched, abFooterHtml, abFooterUtilsHtml, abFooterCopyrightHtml, abContactSalesHtml,
+} from 'virtual:docs-template/nav-html';
+
+const { theme, lang } = Astro.props as Props;
+
+// Props override the virtual module values (allows per-page overrides)
+const resolvedPlatform = theme ?? virtualPlatform ?? 'igniteui';
+
+const isAppBuilder = resolvedPlatform === 'appbuilder';
+const isReveal     = resolvedPlatform === 'reveal';
+// All IG-family platforms share the same global footer
+const isIgPlatform = !isAppBuilder && !isReveal;
+
+// All platform CSS links to inject into the #ig-footer shadow DOM
+const _footerDef = PLATFORM_DEFS[resolvedPlatform as PlatformKey] ?? PLATFORM_DEFS.angular;
+const shadowFooterLinks: Record<string, string>[] = [
+  { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity: 'sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin: 'anonymous' },
+  ..._footerDef.styles
+    .filter(e => e.tag === 'link')
+    .map(e => Object.fromEntries(
+      Object.entries(e.attrs ?? {}).filter(([, v]) => v !== undefined && v !== false)
+    ) as Record<string, string>),
+];
+// Platform scripts: { attrs } for external src-based, { content } for inline
+const shadowFooterScripts: { attrs?: Record<string, string>; content?: string }[] = _footerDef.scripts
+  .map(e => e.content
+    ? { content: e.content }
+    : { attrs: Object.fromEntries(
+        Object.entries(e.attrs ?? {}).filter(([, v]) => v !== undefined && v !== false)
+      ) as Record<string, string> }
+  );
+---
+
+{/* === IgniteUI / default Infragistics footer === */}
+{
+  isIgPlatform && prefetched && (
+    <div id="ig-footer">
+      <Fragment set:html={uiFooterHtml} />
+    </div>
+  )
+}
+
+{/* === AppBuilder footer (prebuild) === */}
+{
+  isAppBuilder && abPrefetched && (
+    <>
+      {abContactSalesHtml && <Fragment set:html={abContactSalesHtml} />}
+      <Fragment set:html={abFooterHtml} />
+      {abFooterUtilsHtml && <Fragment set:html={abFooterUtilsHtml} />}
+      {abFooterCopyrightHtml && <Fragment set:html={abFooterCopyrightHtml} />}
+
+      <script is:inline>
+        window.addEventListener('load', function () {
+          if (window.leadTracker && typeof window.leadTracker.execute === 'function') {
+            window.leadTracker.execute({
+              macro: 'LeadTracker', lang: 'en',
+              leadFormID: 'lead-form_2',
+              reaptchaKey: '6Lc-MFAaAAAAAIWi7UOrSUfUZnVmDUSsXjzS4BgY',
+              redirectUrl: '', thankYouMessage: '1',
+              formContainerId: 'modal-contact-sales-pricing',
+              productCode: 'B7', leadProductCode: '', packageName: '',
+              productResourceType: '', osSupport: '', installerType: '',
+              eventTypeParam: 'contact sales', eventDetailParam: 'form submitted',
+              prohibitFreeMail: true, showRequestDemo: false,
+              googleEventType: 'Form Submit',
+              googleEventLabel: 'Slingshot - Contact Sales Pricing',
+              googleEventTypeDownload: '', googleEventLabelDownload: '',
+              zoomWebinarId: ''
+            });
+          }
+          if (window.customModal && typeof window.customModal.init === 'function') {
+            window.customModal.init();
+          }
+        });
+      </script>
+    </>
+  )
+}
+
+<script define:vars={{ shadowFooterLinks, shadowFooterScripts }}>
+  var el = document.getElementById('ig-footer');
+  if (el && el.parentNode) {
+    var host = document.createElement('div');
+    el.parentNode.insertBefore(host, el);
+    var shadow = host.attachShadow({ mode: 'open' });
+    shadowFooterLinks.forEach(function(attrs) {
+      var link = document.createElement('link');
+      Object.keys(attrs).forEach(function(k) { link.setAttribute(k, attrs[k]); });
+      shadow.appendChild(link);
+    });
+    shadow.appendChild(el);
+    shadowFooterScripts.forEach(function(entry) {
+      var s = document.createElement('script');
+      if (entry.content) {
+        s.textContent = entry.content;
+      } else if (entry.attrs) {
+        Object.keys(entry.attrs).forEach(function(k) { s.setAttribute(k, entry.attrs[k]); });
+      }
+      shadow.appendChild(s);
+    });
+  }
+</script>
