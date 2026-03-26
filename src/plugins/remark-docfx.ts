@@ -19,7 +19,11 @@ const SOURCE_ROOT = process.env.DOCS_SOURCE_PATH
   ? path.resolve(process.env.DOCS_SOURCE_PATH)
   : path.resolve('C:/Users/dtsvetkov/Work/igniteui-docfx');
 
-const ENV_PATH = path.join(SOURCE_ROOT, 'en', 'environment.json');
+// Support both DocFX layout ({root}/en/environment.json) and flat layout ({root}/environment.json)
+const ENV_PATH =
+  fs.existsSync(path.join(SOURCE_ROOT, 'en', 'environment.json'))
+    ? path.join(SOURCE_ROOT, 'en', 'environment.json')
+    : path.join(SOURCE_ROOT, 'environment.json');
 let ENV: Record<string, string> = {};
 try {
   const envData = JSON.parse(fs.readFileSync(ENV_PATH, 'utf-8'));
@@ -195,8 +199,7 @@ export function remarkDocfx() {
       // Images
       if (node.type === 'image' && node.url) {
         node.url = replaceEnvVars(node.url as string);
-        node.url = (node.url as string).replace(/^\.\.\/\.\.\/images\//, '/images/');
-        node.url = (node.url as string).replace(/^\.\.\/images\//, '/images/');
+        node.url = (node.url as string).replace(/^(\.\.\/)+images\//, '/images/');
       }
 
       // Code blocks — normalize language identifiers to lowercase
@@ -209,8 +212,7 @@ export function remarkDocfx() {
         node.value = replaceEnvVars(node.value as string);
         node.value = transformCodeView(node.value as string);
         node.value = transformDividers(node.value as string);
-        node.value = (node.value as string).replace(/src="\.\.\/\.\.\/images\//g, 'src="/images/');
-        node.value = (node.value as string).replace(/src="\.\.\/images\//g, 'src="/images/');
+        node.value = (node.value as string).replace(/src="(\.\.\/)+images\//g, 'src="/images/');
       }
     });
   };
