@@ -379,6 +379,26 @@ export const mode = ${JSON.stringify(mode)};
             },
 
             'astro:server:setup'({ server }) {
+                // Serve package scripts (e.g. code-view.js) from docs-template/public/scripts/
+                const pkgPublic = fileURLToPath(new URL('../public', import.meta.url));
+                server.middlewares.use('/scripts', (req, res, next) => {
+                    const rawUrl = req.url || '/';
+                    const requestPath = rawUrl.split('?', 1)[0] || '/';
+                    let decodedPath: string;
+                    try { decodedPath = decodeURIComponent(requestPath); } catch { return next(); }
+                    const base = path.resolve(pkgPublic, 'scripts');
+                    const filePath = path.resolve(path.join(base, decodedPath.replace(/^\/+/, '')));
+                    if (!filePath.startsWith(base + path.sep) && filePath !== base) return next();
+                    try {
+                        if (fs.statSync(filePath).isFile()) {
+                            res.setHeader('Content-Type', 'application/javascript');
+                            fs.createReadStream(filePath).pipe(res);
+                            return;
+                        }
+                    } catch { /* fall through */ }
+                    next();
+                });
+
                 if (!docsDir) return;
                 server.middlewares.use(async (req, res, next) => {
                     // Only handle requests ending in .md
@@ -401,6 +421,11 @@ export const mode = ${JSON.stringify(mode)};
             },
 
             async 'astro:build:done'({ dir, pages }) {
+                // Copy package scripts to the build output /scripts/ directory.
+                const pkgScripts = fileURLToPath(new URL('../public/scripts', import.meta.url));
+                const outScripts = path.join(fileURLToPath(dir), 'scripts');
+                if (fs.existsSync(pkgScripts)) copyDirSync(pkgScripts, outScripts);
+
                 if (!docsDir) return;
                 const outDir = fileURLToPath(dir);
 
@@ -612,6 +637,8 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Default component overrides shipped by this package.
     // Consumers can override individual slots via starlight.components.
     const pkgDir = new URL('.', import.meta.url);
+    // Package-level CSS (code-view styles, etc.) — prepended so consumers can override.
+    const pkgCss = fileURLToPath(new URL('./styles/custom.css', pkgDir));
     const defaultComponents: Record<string, string> = {
         Header: fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
         Footer: fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
@@ -626,6 +653,9 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     return defineConfig({
         site,
         ...(base !== undefined ? { base } : {}),
+        // Docs sites serve images statically — disable Astro's image optimization
+        // so relative image paths in markdown don't cause build errors.
+        image: { service: { entrypoint: 'astro/assets/services/noop' }, ...(astroExtra as any).image },
         ...astroExtra,
         markdown: {
             remarkPlugins: [remarkDocfx],
@@ -638,12 +668,17 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 title,
                 sidebar: sidebar,
                 head: [...platformHead, ...codeViewHead, ...head],
-                components: { ...defaultComponents, ...(starlightExtra.components as Record<string, string> ?? {}) },
+                // Consumer's extra options spread here — allows overriding title, head, etc.
                 ...starlightExtra,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                // These always come last so merging with defaults is applied correctly.
+                // pkgCss is always first so consumers can override via their own customCss entries.
+                customCss: [pkgCss, ...((starlightExtra.customCss as string[] | undefined) ?? [])],
+                components: { ...defaultComponents, ...(starlightExtra.components as Record<string, string> ?? {}) },
+                // Default code theme is 'dark-plus'; consumer can override via starlight.expressiveCode.
                 expressiveCode: {
                     themes: ['dark-plus'],
-                }
+                    ...(starlightExtra.expressiveCode as Record<string, unknown> ?? {}),
+                },
             }),
             ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
             ...extraIntegrations,
