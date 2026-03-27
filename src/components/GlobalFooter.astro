@@ -20,10 +20,11 @@ interface Props {
 import { PLATFORM_DEFS, type PlatformKey } from '../platform';
 import {
   platform as virtualPlatform,
-  navLang as virtualNavLang,
   prefetched, uiFooterHtml,
+  footerHtml,
   abPrefetched, abFooterHtml, abFooterUtilsHtml, abFooterCopyrightHtml, abContactSalesHtml,
 } from 'virtual:docs-template/nav-html';
+import shadowCss from './GlobalFooter.shadow.css?raw';
 
 const { theme, lang } = Astro.props as Props;
 
@@ -54,13 +55,15 @@ const shadowFooterScripts: { attrs?: Record<string, string>; content?: string }[
       ) as Record<string, string> }
   );
 ---
+<div id="ig-footer">
 
 {/* === IgniteUI / default Infragistics footer === */}
 {
   isIgPlatform && prefetched && (
-    <div id="ig-footer">
+    <>
       <Fragment set:html={uiFooterHtml} />
-    </div>
+      {footerHtml && <Fragment set:html={footerHtml} />}
+    </>
   )
 }
 
@@ -100,13 +103,19 @@ const shadowFooterScripts: { attrs?: Record<string, string>; content?: string }[
     </>
   )
 }
+</div>
 
-<script define:vars={{ shadowFooterLinks, shadowFooterScripts }}>
+<script define:vars={{ shadowFooterLinks, shadowFooterScripts, shadowCss }}>
   var el = document.getElementById('ig-footer');
   if (el && el.parentNode) {
     var host = document.createElement('div');
     el.parentNode.insertBefore(host, el);
     var shadow = host.attachShadow({ mode: 'open' });
+    if (shadowCss) {
+      var styleEl = document.createElement('style');
+      styleEl.textContent = shadowCss;
+      shadow.appendChild(styleEl);
+    }
     shadowFooterLinks.forEach(function(attrs) {
       var link = document.createElement('link');
       Object.keys(attrs).forEach(function(k) { link.setAttribute(k, attrs[k]); });
