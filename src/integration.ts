@@ -532,7 +532,7 @@ export interface CreateDocsSiteOptions {
     /** Short description for the llms.txt header. */
     description?: string;
     /** Content source paths. */
-    source?: Partial<DocsSiteSource>;
+    source: Partial<DocsSiteSource>;
     /** Sidebar builder options. */
     sidebar?: {
         /** Patterns to exclude from the TOC. */
