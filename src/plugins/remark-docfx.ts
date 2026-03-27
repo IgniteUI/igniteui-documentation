@@ -13,34 +13,61 @@ import { visit } from 'unist-util-visit';
 import fs from 'node:fs';
 import path from 'node:path';
 
-// Resolve the docs source root — must match the logic in astro.config.ts and content.config.ts.
-// DOCS_SOURCE_PATH env var is the repo root (e.g. C:/Users/.../igniteui-docfx).
-const SOURCE_ROOT = process.env.DOCS_SOURCE_PATH
-  ? path.resolve(process.env.DOCS_SOURCE_PATH)
-  : path.resolve('C:/Users/dtsvetkov/Work/igniteui-docfx');
+// ENV is loaded lazily the first time replaceEnvVars() is called — NOT at
+// module load time.  Module-level code runs while the Astro config is being
+// evaluated, before createDocsSite() has had a chance to set DOCS_SOURCE_PATH.
+// Deferring the load ensures we read the correct environment.json for the
+// active project (Angular, Blazor, React, WC, …).
+let _ENV: Record<string, string> | null = null;
+let _envSourcePath: string | null = null; // tracks which DOCS_SOURCE_PATH was used
 
-// Support both DocFX layout ({root}/en/environment.json) and flat layout ({root}/environment.json)
-const ENV_PATH =
-  fs.existsSync(path.join(SOURCE_ROOT, 'en', 'environment.json'))
-    ? path.join(SOURCE_ROOT, 'en', 'environment.json')
-    : path.join(SOURCE_ROOT, 'environment.json');
-let ENV: Record<string, string> = {};
-try {
-  const envData = JSON.parse(fs.readFileSync(ENV_PATH, 'utf-8'));
-  // DOCS_ENV overrides explicitly (useful for staging builds).
-  // Otherwise fall back to NODE_ENV ('development' | 'production').
-  // Matches environment.json keys: development / staging / production.
-  const envKey = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'production';
-  ENV = envData[envKey] ?? envData.production ?? {};
-} catch {
-  ENV = {};
+function loadEnv(): Record<string, string> {
+  const currentPath = process.env.DOCS_SOURCE_PATH ?? null;
+  // Re-load if the source path changed (e.g. two projects built in the same process)
+  if (_ENV !== null && currentPath === _envSourcePath) return _ENV as Record<string, string>;
+  _envSourcePath = currentPath;
+  _ENV = null;
+
+  if (!process.env.DOCS_SOURCE_PATH) { _ENV = {}; return _ENV as Record<string, string>; }
+  const sourceRoot = path.resolve(process.env.DOCS_SOURCE_PATH);
+
+  // Search order:
+  //   1. {docsDir}/en/environment.json   — docfx repo layout
+  //   2. {docsDir}/environment.json      — flat layout
+  //   3. {docsDir}/../environment.json   — xplat layout: docsDir = dist/{P}/{lang}/components,
+  //                                        environment.json lives one level up
+  //   4. {docsDir}/../en/environment.json
+  const parent = path.dirname(sourceRoot);
+  const candidates = [
+    path.join(sourceRoot, 'en', 'environment.json'),
+    path.join(sourceRoot, 'environment.json'),
+    path.join(parent, 'environment.json'),
+    path.join(parent, 'en', 'environment.json'),
+  ];
+
+  const envPath = candidates.find(c => fs.existsSync(c));
+  if (!envPath) { _ENV = {}; return _ENV; }
+
+  try {
+    const envData = JSON.parse(fs.readFileSync(envPath, 'utf-8'));
+    // DOCS_ENV overrides explicitly (useful for staging builds).
+    // Otherwise fall back to NODE_ENV ('development' | 'production').
+    // Matches environment.json keys: development / staging / production.
+    const envKey = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'production';
+    _ENV = envData[envKey] ?? envData.production ?? {};
+  } catch {
+    _ENV = {};
+  }
+
+  return _ENV as Record<string, string>;
 }
 
 const ENV_PATTERN = /\{environment:(\w+)\}/g;
 
 export function replaceEnvVars(str: string): string {
   if (!str || typeof str !== 'string') return str;
-  return str.replace(ENV_PATTERN, (_match, key) => ENV[key] ?? `{environment:${key}}`);
+  const env = loadEnv();
+  return str.replace(ENV_PATTERN, (_match, key) => env[key] ?? `{environment:${key}}`);
 }
 
 /**
@@ -55,6 +82,7 @@ function transformCodeView(html: string): string {
       const codesandboxMatch = attrs.match(/codesandbox="([^"]*)"/);
       const srcMatch = attrs.match(/iframe-src="([^"]*)"/);
       const demosBaseMatch = attrs.match(/data-demos-base-url="([^"]*)"/);
+      const githubSrcMatch = attrs.match(/github-src="([^"]*)"/);
       const heightMatch = attrs.match(/style="height:\s*(\d+px)"/);
       const altMatch = attrs.match(/alt="([^"]*)"/);
       const height = heightMatch ? heightMatch[1] : '400px';
@@ -85,12 +113,14 @@ function transformCodeView(html: string): string {
         const src = replaceEnvVars(srcMatch[1]);
         if (!src || src.includes('{environment:')) return ''; // env var not resolved
         const demosBaseUrl = demosBaseMatch ? replaceEnvVars(demosBaseMatch[1]) : '';
+        const githubSrc = githubSrcMatch ? githubSrcMatch[1] : '';
         const divAttrs = [
           `class="ig-code-view"`,
           `data-src="${src}"`,
           `data-height="${height}"`,
           `data-alt="${alt}"`,
           demosBaseUrl ? `data-demos-base-url="${demosBaseUrl}"` : '',
+          githubSrc    ? `data-github-src="${githubSrc}"`        : '',
         ].filter(Boolean).join(' ');
         return `<div ${divAttrs}></div>`;
       }
@@ -135,10 +165,11 @@ export function rehypeCodeView() {
       const p = node.properties || {};
 
       // HAST converts hyphenated attributes to camelCase via property-information.
-      const iframeSrc = strVal(p.iframeSrc   ?? p['iframe-src']             ?? '');
-      const demosBase = strVal(p.dataDemosBaseUrl ?? p['data-demos-base-url'] ?? '');
-      const styleStr  = strVal(p.style ?? '');
-      const alt       = strVal(p.alt   ?? 'Demo');
+      const iframeSrc  = strVal(p.iframeSrc      ?? p['iframe-src']             ?? '');
+      const demosBase  = strVal(p.dataDemosBaseUrl ?? p['data-demos-base-url'] ?? '');
+      const githubSrc  = strVal(p.githubSrc      ?? p['github-src']             ?? '');
+      const styleStr   = strVal(p.style ?? '');
+      const alt        = strVal(p.alt   ?? 'Demo');
 
       const src     = replaceEnvVars(iframeSrc);
       const baseUrl = replaceEnvVars(demosBase);
@@ -154,7 +185,8 @@ export function rehypeCodeView() {
         'data-src': src,
         'data-height': height,
         'data-alt': alt,
-        ...(baseUrl ? { 'data-demos-base-url': baseUrl } : {}),
+        ...(baseUrl    ? { 'data-demos-base-url': baseUrl }  : {}),
+        ...(githubSrc  ? { 'data-github-src': githubSrc }    : {}),
       };
       node.children = [];
     });

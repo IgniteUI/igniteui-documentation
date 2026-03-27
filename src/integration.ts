@@ -630,6 +630,12 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         process.env.DOCS_SOURCE_PATH = source.docsDir;
     }
     process.env.DOCS_BUILD_MODE = mode;
+    // Ensure DOCS_ENV aligns with the `mode` when DOCS_ENV is not explicitly set.
+    // This maps the internal mode ('dev'|'staging'|'prod') to the environment.json keys
+    // ('development'|'staging'|'production') so remark-docfx loads the expected section.
+    if (!process.env.DOCS_ENV) {
+        process.env.DOCS_ENV = mode === 'dev' ? 'development' : mode === 'staging' ? 'staging' : 'production';
+    }
 
     // Platform CDN entries come first so site-specific `head` entries can override.
     const platformHead = platform ? getPlatformHead(platform, navLang) : [];
@@ -650,6 +656,38 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         { tag: 'script' as const, attrs: { src: '/scripts/code-view.js', defer: true } },
     ];
 
+    // Auto-configure a Vite dev-server proxy so code-view.js can fetch
+    // /code-viewer/*.json (and /assets/code-viewer/*.json) from the local demos
+    // server without hitting browser CORS restrictions.
+    // Only activated when dvDemosBaseUrl resolves to localhost / 127.0.0.1.
+    const devProxy: Record<string, object> = {};
+    if (source.docsDir) {
+        try {
+            const docsRoot = path.resolve(source.docsDir);
+            const envCandidates = [
+                path.join(docsRoot, 'en', 'environment.json'),
+                path.join(docsRoot, 'environment.json'),
+                path.join(path.dirname(docsRoot), 'environment.json'),
+                path.join(path.dirname(docsRoot), 'en', 'environment.json'),
+            ];
+            const envFile = envCandidates.find(c => fs.existsSync(c));
+            if (envFile) {
+                const envData = JSON.parse(fs.readFileSync(envFile, 'utf-8'));
+                const envKey = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'production';
+                const env: Record<string, string> = envData[envKey] ?? envData.production ?? {};
+                const demosUrl = env.dvDemosBaseUrl || env.demosBaseUrl;
+                if (demosUrl) {
+                    const u = new URL(demosUrl);
+                    if (u.hostname === 'localhost' || u.hostname === '127.0.0.1') {
+                        const cfg = { target: demosUrl, changeOrigin: true, secure: false };
+                        devProxy['/code-viewer'] = cfg;
+                        devProxy['/assets/code-viewer'] = cfg;
+                    }
+                }
+            }
+        } catch { /* non-fatal — proxy just won't be configured */ }
+    }
+
     return defineConfig({
         site,
         ...(base !== undefined ? { base } : {}),
@@ -657,10 +695,21 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         // so relative image paths in markdown don't cause build errors.
         image: { service: { entrypoint: 'astro/assets/services/noop' }, ...(astroExtra as any).image },
         ...astroExtra,
+        vite: {
+            ...(astroExtra as any).vite,
+            server: {
+                ...(astroExtra as any).vite?.server,
+                proxy: {
+                    ...devProxy,
+                    ...(astroExtra as any).vite?.server?.proxy,
+                },
+            },
+        },
         markdown: {
-            remarkPlugins: [remarkDocfx],
-            rehypePlugins: [rehypeCodeView],
             ...(astroExtra as any).markdown,
+            // Always prepend our required plugins; consumer's extra plugins follow.
+            remarkPlugins: [remarkDocfx, ...((astroExtra as any).markdown?.remarkPlugins ?? [])],
+            rehypePlugins: [rehypeCodeView, ...((astroExtra as any).markdown?.rehypePlugins ?? [])],
         },
         integrations: [
             siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode }),

@@ -9,15 +9,54 @@
  *   - ArticleRenderingService.instantiateCodeViews()  (iframe + tab UI)
  *   - AngularCodeService.init() / generateLiveEditingAngularApp()
  *     (fetch sample source files → code tabs, StackBlitz / CodeSandbox buttons)
+ *   - XplatCodeService.init() for React, WebComponents (wc), Blazor
  */
 (function () {
   'use strict';
 
   // ── constants ────────────────────────────────────────────────────────────────
 
+  /** Angular samples tab order */
   const SAMPLES_ORDER = ['modules', 'ts', 'html', 'scss', 'css'];
-  const DV_PATHS      = ['gauges/', 'maps/', 'excel/', 'charts/'];
-  const ASSETS_RE     = /([.]{0,2}\/)*assets\//g;
+
+  /** Tab order per xplat platform key */
+  const XPLAT_SAMPLES_ORDER = {
+    react:  ['tsx', 'ts', 'html', 'css'],
+    wc:     ['tsx', 'ts', 'html', 'css'],
+    blazor: ['razor', 'cs', 'js', 'css'],
+  };
+
+  /**
+   * Code-viewer JSON base path per xplat key.
+   * wc   → /assets/code-viewer/
+   * rest → /code-viewer/
+   * Mirrors XplatCodeService constructor samplesCodeBasePath logic.
+   */
+  const XPLAT_CODE_BASE = {
+    wc:     '/assets/code-viewer/',
+    react:  '/code-viewer/',
+    blazor: '/code-viewer/',
+  };
+
+  const DV_PATHS  = ['gauges/', 'maps/', 'excel/', 'charts/'];
+  const ASSETS_RE = /([.]{0,2}\/)*assets\//g;
+
+  // ── platform detection ───────────────────────────────────────────────────────
+
+  /**
+   * Read the platform from the <meta property="docs:platform"> tag injected by
+   * getPlatformHead() in platform.ts.  Normalises web-components → wc to match
+   * XplatCodeService conventions.
+   */
+  function getPagePlatform() {
+    const meta = document.querySelector('meta[property="docs:platform"]');
+    const raw  = meta ? (meta.getAttribute('content') || 'angular') : 'angular';
+    return raw === 'web-components' ? 'wc' : raw;
+  }
+
+  function isXplatPlatform(platform) {
+    return platform === 'react' || platform === 'wc' || platform === 'blazor';
+  }
 
   // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -29,7 +68,7 @@
   }
 
   /**
-   * Returns the Git branch to use for live-editing links.
+   * Returns the Git branch to use for angular live-editing links.
    * Non-production = staging demos URL or docs site running on localhost.
    *
    * Branch name casing differs per repo:
@@ -45,6 +84,18 @@
     return isNonProd ? 'vNext' : 'master';
   }
 
+  /**
+   * Returns the Git branch for xplat platforms (all lowercase).
+   * Mirrors XplatCodeService.onGithubProjectButtonClicked branch logic.
+   */
+  function getXplatBranch(demosBaseUrl) {
+    const host = new URL(demosBaseUrl).host;
+    const isNonProd = host.includes('staging')
+      || window.location.hostname === 'localhost'
+      || window.location.hostname === '127.0.0.1';
+    return isNonProd ? 'vnext' : 'master';
+  }
+
   function isDvSample(samplePath) {
     return DV_PATHS.some(p => samplePath.startsWith(p));
   }
@@ -52,12 +103,8 @@
   /**
    * Rewrite relative asset paths inside fetched source-file content so they
    * point to the live demos server.  Mirrors AngularCodeService.replaceRelativeAssetsUrls().
-   * When the sample runs on StackBlitz it needs absolute URLs — localhost is unreachable.
    */
   function replaceRelativeAssetUrls(files, demosBaseUrl) {
-    // Use the resolved demosBaseUrl as the asset base (works for staging/prod).
-    // For localhost we still do the replacement so the pattern is consistent;
-    // assets simply won't load inside StackBlitz when pointed at localhost.
     const assetsBase = demosBaseUrl.replace(/\/$/, '') + '/assets/';
     files.forEach(f => {
       if (f.content && ASSETS_RE.test(f.content)) {
@@ -69,7 +116,6 @@
 
   /**
    * Lazily load the StackBlitz SDK UMD bundle from CDN.
-   * The SDK exposes `window.StackBlitzSDK` after loading.
    */
   function loadStackBlitzSdk() {
     if (window.StackBlitzSDK) return Promise.resolve(window.StackBlitzSDK);
@@ -83,16 +129,8 @@
   }
 
   /**
-   * Open the sample in StackBlitz using the SDK WebContainer approach.
+   * Open the Angular sample in StackBlitz using the SDK WebContainer approach.
    * Replicates AngularCodeService._openStackBlitz().
-   *
-   * template: 'node' → StackBlitz boots a real Node.js environment in the
-   * browser, runs `npm install` and `ng serve` as a live dev server.
-   * This is fundamentally different from the old POST-form / 'angular-cli'
-   * template which only simulated an Angular project statically.
-   *
-   * Combines sharedData.files (scaffolding) + sampleData.sampleFiles (sample)
-   * into a flat { path: content } dictionary, sample files taking precedence.
    */
   async function openInStackBlitz(sampleData, sharedData) {
     let sdk;
@@ -106,7 +144,6 @@
     const sharedFiles = (sharedData && sharedData.files)       || [];
     const sampleFiles = (sampleData && sampleData.sampleFiles) || [];
 
-    // Build flat file dictionary; sample files override shared files at same path
     const files = {};
     sharedFiles.forEach(f => { if (f.path) files[f.path.replace(/^\.\//, '')] = f.content || ''; });
     sampleFiles.forEach(f => { if (f.path) files[f.path.replace(/^\.\//, '')] = f.content || ''; });
@@ -124,7 +161,7 @@
   }
 
   /**
-   * Open the sample in CodeSandbox via GitHub URL.
+   * Open the Angular sample in CodeSandbox via GitHub URL.
    *
    * DV (xplat): igniteui-angular-examples, samples under /samples/.
    * Non-DV:     igniteui-live-editing-samples, samples under /angular-demos/.
@@ -141,6 +178,18 @@
     );
   }
 
+  /**
+   * Open an xplat sample in CodeSandbox via GitHub URL.
+   * Mirrors XplatCodeService.getGithubSampleUrl() for CodeSandbox.
+   */
+  function openInCodeSandboxXplat(githubSrc, xplat, demosBaseUrl) {
+    const branch = getXplatBranch(demosBaseUrl);
+    window.open(
+      `https://codesandbox.io/p/sandbox/github/IgniteUI/igniteui-${xplat}-examples/tree/${branch}/samples/${githubSrc}`,
+      '_blank'
+    );
+  }
+
   // ── DOM builders ─────────────────────────────────────────────────────────────
 
   /**
@@ -149,8 +198,6 @@
    *     .code-view-navbar   [EXAMPLE tab | … code tabs … | fullscreen btn]
    *     .code-views-container
    *       #cv-{i}-example   .sample-container  (iframe lives here)
-   *
-   * Mirrors instantiateCodeViews() from article.ts.
    */
   function buildShell(widget, iframeSrc, height, alt, index) {
     widget.classList.add('code-view');
@@ -190,10 +237,8 @@
     iframe.addEventListener('load', () => samplePane.classList.remove('loading'));
 
     if (index === 0) {
-      // First code-view: load eagerly (mirrors the original behaviour)
       iframe.src = iframeSrc;
     } else {
-      // Subsequent code-views: lazy-load via IntersectionObserver
       iframe.dataset.src = iframeSrc;
       const obs = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
@@ -229,7 +274,6 @@
       tab.classList.add('code-view-tab--active');
       const pane = container.querySelector('#' + tab.dataset.tabId);
       if (pane) pane.style.display = '';
-      // Hide fullscreen button when a code tab is active
       fsBtn.style.visibility = (tab.dataset.tabId === exampleTabId) ? 'visible' : 'hidden';
     }
 
@@ -240,7 +284,6 @@
 
   /**
    * Add a single source-file code tab.
-   * Mirrors CodeView.createTabsWithCodeViews() from code-view.ts.
    */
   function addCodeTab(navbar, container, activateTab, widgetIndex, file, tabIndex) {
     const lang = file.fileExtension === 'js' ? 'javascript' : (file.fileExtension || 'text');
@@ -252,7 +295,6 @@
     tab.dataset.tabId = tabId;
     tab.addEventListener('click', () => activateTab(tab));
 
-    // Insert before the fullscreen button (always last child of navbar)
     navbar.insertBefore(tab, navbar.lastElementChild);
 
     const pane = document.createElement('div');
@@ -266,7 +308,6 @@
     code.className   = `language-${lang}`;
     code.textContent = file.content;
 
-    // Copy-code button (mirrors cv-hljs-code-copy)
     const copyBtn = document.createElement('button');
     copyBtn.className   = 'cv-hljs-code-copy hidden';
     copyBtn.textContent = 'COPY CODE';
@@ -286,19 +327,16 @@
     pane.appendChild(pre);
     container.appendChild(pane);
 
-    // Highlight if highlight.js is loaded on the page
     if (typeof hljs !== 'undefined') {
       hljs.highlightElement(code);
     }
   }
 
   /**
-   * Render the live-editing footer.
-   * Mirrors CodeView.renderFooter() + AngularCodeService handlers.
+   * Render the live-editing footer with StackBlitz / CodeSandbox buttons.
    *
    * @param {Function|null} onStackblitz  Called when StackBlitz button is clicked.
-   *   Receives the fetched {sampleData, sharedData} and calls openInStackBlitz().
-   *   When null (fetch failed) the button falls back to the GitHub-tree URL.
+   * @param {Function|null} onCodeSandbox Called when CodeSandbox button is clicked.
    */
   function addFooter(widget, samplePath, demosBaseUrl, explicitEditor, onStackblitz, onCodeSandbox) {
     const footer = document.createElement('div');
@@ -318,7 +356,6 @@
         if (onStackblitz) {
           onStackblitz();
         } else {
-          // Fallback: GitHub-tree URL when file content is unavailable
           const isDv   = isDvSample(samplePath);
           const repo   = isDv ? 'igniteui-angular-examples' : 'igniteui-live-editing-samples';
           const branch = getRepoBranch(demosBaseUrl, isDv);
@@ -339,7 +376,6 @@
         if (onCodeSandbox) {
           onCodeSandbox();
         } else {
-          // Fallback when file fetch failed: GitHub devbox URL
           const isDv   = isDvSample(samplePath);
           const repo   = isDv ? 'igniteui-angular-examples' : 'igniteui-live-editing-samples';
           const branch = getRepoBranch(demosBaseUrl, isDv);
@@ -354,12 +390,11 @@
     widget.appendChild(footer);
   }
 
-  // ── async: fetch sample source files ────────────────────────────────────────
+  // ── async: fetch sample source files (Angular) ───────────────────────────────
 
   /**
-   * Fetch sample metadata from the demos server and populate code tabs.
-   * Mirrors AngularCodeService.generateLiveEditingAngularApp() /
-   *          getAngularFiles() / angularSampleFilePostProcess().
+   * Fetch Angular sample metadata and populate code tabs.
+   * Mirrors AngularCodeService.generateLiveEditingAngularApp().
    */
   async function fetchAndBuildCodeTabs(widget, iframeSrc, demosBaseUrl, widgetIndex, navbar, container, activateTab) {
     const samplePath = getSamplePath(iframeSrc, demosBaseUrl);
@@ -367,7 +402,6 @@
     const assetDir   = isDv ? 'code-viewer' : 'samples';
 
     try {
-      // 1. meta.json → generationTimeStamp (cache-bust key)
       const metaRes = await fetch(
         `${demosBaseUrl}/assets/samples/meta.json?t=${Date.now()}`,
         { credentials: 'omit' }
@@ -375,9 +409,6 @@
       if (!metaRes.ok) throw new Error(`meta.json ${metaRes.status}`);
       const { generationTimeStamp } = await metaRes.json();
 
-      // 2. Fetch sample metadata + shared files in parallel.
-      //    Non-DV path convention: layouts/accordion-sample-1 → layouts--accordion-sample-1.json
-      //    DV path convention:     charts/data-pie-chart/selection → charts/data-pie-chart/selection.json
       const sampleJsonPath = isDv
         ? `${demosBaseUrl}/assets/${assetDir}/${samplePath}.json`
         : `${demosBaseUrl}/assets/${assetDir}/${samplePath.replace('/', '--')}.json`;
@@ -390,12 +421,9 @@
       const sampleData = await sampleRes.json();
       const sharedData = sharedRes.ok ? await sharedRes.json() : null;
 
-      // 3. Replace relative ./assets/ URLs with absolute ones so files work
-      //    when opened on StackBlitz (which can't reach localhost).
       replaceRelativeAssetUrls(sampleData.sampleFiles || [], demosBaseUrl);
       if (sharedData) replaceRelativeAssetUrls(sharedData.files || [], demosBaseUrl);
 
-      // 4. Build code tabs for "main" files, sorted by samplesOrder
       const mainFiles = (sampleData.sampleFiles || [])
         .filter(f => f.isMain)
         .sort((a, b) => SAMPLES_ORDER.indexOf(a.fileHeader) - SAMPLES_ORDER.indexOf(b.fileHeader));
@@ -404,11 +432,6 @@
         addCodeTab(navbar, container, activateTab, widgetIndex, file, i)
       );
 
-      // 5. Build footer with live-editing callbacks.
-      //    DV samples: CodeSandbox only (mirrors original isDvSample check).
-      //    Non-DV: both StackBlitz (WebContainer) and CodeSandbox (Define API).
-      // DV (xplat): CodeSandbox only (GitHub devbox URL → igniteui-angular-examples).
-      // Non-DV: both StackBlitz (file-based WebContainer) and CodeSandbox (GitHub devbox URL).
       const explicitEditor = isDv ? 'csb' : null;
       const onStackblitz   = isDv ? null  : () => openInStackBlitz(sampleData, sharedData);
       const onCodeSandbox  = () => openInCodeSandbox(samplePath, demosBaseUrl);
@@ -416,8 +439,63 @@
 
     } catch (err) {
       console.warn('[code-view] Could not fetch sample files:', err.message);
-      // Still render the footer so users can at least open the sample externally
       addFooter(widget, samplePath, demosBaseUrl, null, null, null);
+    }
+  }
+
+  // ── async: fetch sample source files (xplat) ────────────────────────────────
+
+  /**
+   * Fetch xplat (React / WebComponents / Blazor) sample metadata and build tabs.
+   * Mirrors XplatCodeService.getSamplesContent() / sampleFilePostProcess().
+   *
+   * JSON path:
+   *   wc   → {demosBaseUrl}/assets/code-viewer/{samplePath}.json
+   *   rest → {demosBaseUrl}/code-viewer/{samplePath}.json
+   *
+   * Live editing:
+   *   react / wc  → StackBlitz + CodeSandbox GitHub URL when github-src present
+   *   blazor      → no live editing buttons
+   */
+  async function fetchXplatCodeTabs(widget, iframeSrc, demosBaseUrl, githubSrc, xplat, widgetIndex, navbar, container, activateTab) {
+    const samplePath  = getSamplePath(iframeSrc, demosBaseUrl);
+    const codeBase    = XPLAT_CODE_BASE[xplat] || '/code-viewer/';
+    const samplesOrder = XPLAT_SAMPLES_ORDER[xplat] || ['ts', 'html', 'css'];
+
+    const addXplatFooter = () => {
+      if (xplat === 'blazor' || !githubSrc) return;
+      // Mirrors XplatCodeService.renderFooter(..., "csb") — CSB only, no StackBlitz for xplat.
+      addFooter(
+        widget, samplePath, demosBaseUrl, 'csb',
+        null,
+        () => openInCodeSandboxXplat(githubSrc, xplat, demosBaseUrl)
+      );
+    };
+
+    try {
+      // Blazor's local dev server uses HTTPS with a self-signed cert on a
+      // non-4200 port, which causes CORS errors.  Route through Vite's proxy
+      // (configured in integration.ts) by using a relative URL.
+      // All other platforms fetch directly from demosBaseUrl.
+      const jsonUrl = xplat === 'blazor'
+        ? `${codeBase}${samplePath}.json`
+        : `${demosBaseUrl}${codeBase}${samplePath}.json`;
+      const res = await fetch(jsonUrl, { credentials: 'omit' });
+      if (!res.ok) throw new Error(`xplat sample meta ${res.status}`);
+      const data = await res.json();
+
+      const mainFiles = (data.sampleFiles || [])
+        .filter(f => f.isMain)
+        .sort((a, b) => samplesOrder.indexOf(a.fileHeader) - samplesOrder.indexOf(b.fileHeader));
+
+      mainFiles.forEach((file, i) =>
+        addCodeTab(navbar, container, activateTab, widgetIndex, file, i)
+      );
+
+      addXplatFooter();
+    } catch (err) {
+      console.warn('[code-view] Could not fetch xplat sample files:', err.message);
+      addXplatFooter();
     }
   }
 
@@ -425,8 +503,8 @@
 
   /**
    * Normalize raw <code-view> custom elements that were not transformed
-   * server-side into .ig-code-view placeholder divs so the main loop can
-   * handle them uniformly.
+   * server-side into .ig-code-view placeholder divs.
+   * Also reads the github-src attribute for xplat live editing.
    */
   function normalizeRawCodeViews() {
     document.querySelectorAll('code-view').forEach(el => {
@@ -434,6 +512,7 @@
       if (!src) return;
 
       const demosBaseUrl = el.getAttribute('data-demos-base-url') || '';
+      const githubSrc    = el.getAttribute('github-src') || '';
       const styleStr     = el.getAttribute('style') || '';
       const heightMatch  = styleStr.match(/height:\s*(\d+px)/i);
       const height       = heightMatch ? heightMatch[1] : '400px';
@@ -445,6 +524,7 @@
       div.dataset.height = height;
       div.dataset.alt    = alt;
       if (demosBaseUrl) div.dataset.demosBaseUrl = demosBaseUrl;
+      if (githubSrc)    div.dataset.githubSrc    = githubSrc;
 
       el.replaceWith(div);
     });
@@ -453,21 +533,27 @@
   function initCodeViews() {
     normalizeRawCodeViews();
 
+    const platform = getPagePlatform();
+    const isXplat  = isXplatPlatform(platform);
+
     document.querySelectorAll('.ig-code-view').forEach((widget, index) => {
       const src          = widget.dataset.src;
       const demosBaseUrl = widget.dataset.demosBaseUrl || '';
       const height       = widget.dataset.height || '400px';
       const alt          = widget.dataset.alt    || 'Demo';
+      const githubSrc    = widget.dataset.githubSrc || '';
 
       if (!src) return;
 
       const { navbar, container, activateTab } =
         buildShell(widget, src, height, alt, index);
 
-      if (demosBaseUrl) {
-        fetchAndBuildCodeTabs(widget, src, demosBaseUrl, index, navbar, container, activateTab);
+      if (!demosBaseUrl) return;
+
+      if (isXplat) {
+        fetchXplatCodeTabs(widget, src, demosBaseUrl, githubSrc, platform, index, navbar, container, activateTab);
       } else {
-        // No demos base URL — can't build live-editing URLs, skip footer
+        fetchAndBuildCodeTabs(widget, src, demosBaseUrl, index, navbar, container, activateTab);
       }
     });
   }
