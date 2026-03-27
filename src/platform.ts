@@ -173,10 +173,10 @@ export function getPlatformHead(platform: string, lang = 'en'): HeadEntry[] {
  * Used internally by siteMetaIntegration to decide what to prefetch.
  *
  * @param platform - Platform identifier, or `null` for no nav.
- * @param lang - Locale for the nav URL ('en' | 'ja' | 'kr').
+ * @param lang - Locale for the nav URL ('en' | 'jp' | 'kr').
  */
 export function getNavConfig(platform: string | null, lang = 'en'): NavConfig {
-    const igBase = lang === 'ja' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
+    const igBase = lang === 'jp' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
     switch (platform) {
         case 'appbuilder':
             return { navType: 'appbuilder', navUrl: 'https://www.appbuilder.dev/header-footer-export' };

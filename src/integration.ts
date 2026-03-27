@@ -14,7 +14,7 @@
  *     title: 'My Library',
  *     description: 'Reference docs for My Library.',
  *     platform: 'angular',   // drives CDN head entries + nav prefetch
- *     navLang: 'en',         // 'en' | 'ja' | 'kr'
+ *     navLang: 'en',         // 'en' | 'jp' | 'kr'
  *     source: {
  *       tocPath:  './my-docs/toc.yml',
  *       docsDir:  './my-docs/en/components',
@@ -299,7 +299,7 @@ export const mode = ${JSON.stringify(mode)};
                                         });
                                         if (res.ok) {
                                             const html = await res.text();
-                                            const igBase = navLang === 'ja' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
+                                            const igBase = navLang === 'jp' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
                                             headerHtml = absolutifyNavUrls(stripScripts(extractOuterHtml(html, '<header[^>]+id="header"')), igBase);
                                             uiFooterHtml = absolutifyNavUrls(stripScripts(extractOuterHtml(html, '<footer[^>]+class="[^"]*\\bui-footer\\b')), igBase);
                                             footerHtml = absolutifyNavUrls(stripScripts(extractOuterHtml(html, '<footer[^>]+id="footer"')), igBase);
@@ -543,7 +543,7 @@ export interface CreateDocsSiteOptions {
      * and the build-time nav prefetch endpoint.
      */
     platform?: PlatformKey | null;
-    /** Locale for the nav prefetch URL ('en' | 'ja' | 'kr'). */
+    /** Locale for the nav prefetch URL ('en' | 'jp' | 'kr'). */
     navLang?: string;
     /**
      * Extra `<head>` entries appended after the platform entries.
