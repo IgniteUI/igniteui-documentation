@@ -117,8 +117,8 @@ class SidebarFilter extends HTMLElement {
     const linkSpan = item.querySelector(':scope > a > span:first-child');
     if (linkSpan) return linkSpan.textContent?.trim() ?? '';
 
-    // Group item: <li> > <details> > <summary> ... <span class="large">text</span>
-    const groupSpan = item.querySelector(':scope > details > summary .large');
+    // Group item: <li> > <details> > <summary> > <span class="group-label"> > <span class="large">text</span>
+    const groupSpan = item.querySelector(':scope > details > summary .group-label > .large');
     if (groupSpan) return groupSpan.textContent?.trim() ?? '';
 
     return '';
@@ -136,7 +136,7 @@ class SidebarFilter extends HTMLElement {
     let node: Element | null = item.parentElement;
     while (node && node !== this) {
       if (node instanceof HTMLLIElement) {
-        const groupSpan = node.querySelector(':scope > details > summary .large');
+        const groupSpan = node.querySelector(':scope > details > summary .group-label > .large');
         if (groupSpan) parts.unshift(groupSpan.textContent?.trim() ?? '');
       }
       node = node.parentElement;
@@ -183,4 +183,6 @@ class SidebarFilter extends HTMLElement {
   }
 }
 
-customElements.define('sidebar-filter', SidebarFilter);
+if (!customElements.get('sidebar-filter')) {
+  customElements.define('sidebar-filter', SidebarFilter);
+}
