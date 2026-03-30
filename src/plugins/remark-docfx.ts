@@ -3,36 +3,12 @@
  * standard HTML / markdown that Starlight can render.
  *
  * Handles:
- * 1. {environment:...} variable substitution in text, links, and raw HTML
  * 2. <code-view> elements -> iframe embeds
  * 3. <div class="divider--half"></div> -> <hr>
  * 4. Docfx frontmatter normalisation (_description -> description)
  */
 
 import { visit } from 'unist-util-visit';
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// Read environment variables directly from igniteui-docfx — no generated copy needed
-const SOURCE_ROOT = path.resolve(__dirname, '..', '..', '..', process.env.SOURCE_KEY === 'xplat' ? 'igniteui-xplat-docs' : 'igniteui-docfx');
-
-const ENV_PATH = path.join(SOURCE_ROOT, 'en', 'environment.json');
-let ENV: Record<string, string>;
-try {
-    const envData = JSON.parse(fs.readFileSync(ENV_PATH, 'utf-8')) as { production?: Record<string, string> };
-    ENV = envData.production ?? {};
-} catch {
-    ENV = {};
-}
-
-const ENV_PATTERN = /\{environment:(\w+)\}/g;
-
-export function replaceEnvVars(str: string): string {
-    if (!str || typeof str !== 'string') return str;
-    return str.replace(ENV_PATTERN, (_match, key: string) => ENV[key] ?? `{environment:${key}}`);
-}
 
 /**
  * Transform <code-view ...> ... </code-view> raw HTML blocks
@@ -45,7 +21,7 @@ function transformCodeView(html: string): string {
             const srcMatch = attrs.match(/iframe-src="([^"]*)"/);
             const heightMatch = attrs.match(/style="height:(\d+px)"/);
             const altMatch = attrs.match(/alt="([^"]*)"/);
-            const src = srcMatch ? replaceEnvVars(srcMatch[1]) : '';
+            const src = srcMatch ? srcMatch[1] : '';
             const height = heightMatch ? heightMatch[1] : '400px';
             const alt = altMatch ? altMatch[1] : 'Demo';
 
@@ -80,19 +56,8 @@ export function remarkDocfx() {
         // 2. Walk the AST and replace environment variables in text/links/html
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         visit(tree, (node: any) => {
-            // Text nodes
-            if (node.type === 'text' && node.value) {
-                node.value = replaceEnvVars(node.value as string);
-            }
-
-            // Links
-            if (node.type === 'link' && node.url) {
-                node.url = replaceEnvVars(node.url as string);
-            }
-
             // Images
             if (node.type === 'image' && node.url) {
-                node.url = replaceEnvVars(node.url as string);
                 // Fix relative image paths: ../../images/ -> /images/
                 node.url = (node.url as string).replace(/^\.\.\/\.\.\/images\//, '/images/');
                 node.url = (node.url as string).replace(/^\.\.\/images\//, '/images/');
@@ -100,7 +65,6 @@ export function remarkDocfx() {
 
             // Inline HTML
             if (node.type === 'html' && node.value) {
-                node.value = replaceEnvVars(node.value as string);
                 node.value = transformCodeView(node.value as string);
                 node.value = transformDividers(node.value as string);
                 // Fix image src paths in raw HTML
