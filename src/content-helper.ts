@@ -79,22 +79,9 @@ export function createDocsCollection(
     // Normalise exclude patterns — ensure each starts with '!'
     const excludePatterns = exclude.map(p => (p.startsWith('!') ? p : `!${p}`));
 
-    const schema = docsSchema({
-        extend: (ctx) => {
-            const base = z.object({
-                // Capture DocFX underscore-prefixed fields so they survive Zod
-                // validation and are available in entry.data at render time.
-                // .nullish() because a bare `_description:` in YAML parses as null.
-                _description: z.string().nullish(),
-                _keywords: z.string().nullish(),
-            });
-            if (extendSchema) {
-                const extra = typeof extendSchema === 'function' ? extendSchema(ctx) : extendSchema;
-                return extra instanceof z.ZodObject ? base.merge(extra) : base;
-            }
-            return base;
-        },
-    });
+    const schema = extendSchema
+        ? docsSchema({ extend: extendSchema })
+        : docsSchema();
 
     return defineCollection({
         loader: glob({
