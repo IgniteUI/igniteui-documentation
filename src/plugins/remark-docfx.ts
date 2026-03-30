@@ -5,7 +5,7 @@
  * Handles:
  * 2. <code-view> elements -> iframe embeds
  * 3. <div class="divider--half"></div> -> <hr>
- * 4. Docfx frontmatter normalisation (_description -> description)
+ * 4. Markdown frontmatter normalisation (_description -> description, _keywords -> keywords)
  */
 
 import { visit } from 'unist-util-visit';
@@ -46,6 +46,9 @@ export function remarkDocfx() {
             const fm = file.data.astro.frontmatter as Record<string, unknown>;
             if (fm._description && !fm.description) {
                 fm.description = fm._description;
+            }
+            if (fm._keywords) {
+                fm.keywords = fm._keywords;
             }
             // Remove underscore-prefixed keys that Starlight doesn't use
             delete fm._description;

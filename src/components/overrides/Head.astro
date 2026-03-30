@@ -2,51 +2,44 @@
 /**
  * Starlight Head component override.
  *
- * Renders all standard head entries from Astro.locals.starlightRoute.head
- * (the same data Starlight's default Head component iterates), then appends
- * the tags Starlight does not emit on its own:
+ * We fully own the following tags, filtering Starlight's versions out and
+ * emitting our own directly from entry.data so we have complete control:
  *
- *   - <title>  — re-emitted verbatim when the raw frontmatter title already
- *                carries a full suffix (e.g. "… | Infragistics"). Starlight
- *                unconditionally appends " | {siteTitle}", which would double
- *                the suffix. We filter Starlight's <title> out and replace it.
- *   - <meta name="description"> / <meta property="og:description">
- *                — Starlight never emits these for DocFX pages (which use
- *                  _description, not description). We fill the gap.
- *   - <meta name="keywords"> — Starlight never emits this.
+ *   - <title> — Starlight appends " | {siteTitle}" unconditionally.
+ *   - <meta name="description"> — Emitted by Starlight by default, but we control it.
+ *   - <meta name="keywords">    — Starlight never emits this.
  *
  * Data flow:
- *   Markdown `_description`/`_keywords` captured by extended docsSchema
- *     → available in entry.data._description / entry.data._keywords
- *       → resolver normalises them into PageSeo
+ *   remark-docfx maps _description → description, _keywords → keywords
+ *     → docsSchema captures both into entry.data
  */
-import { resolvePageSeo } from '../../seo/resolver';
 
 type EntryData = {
     title: string;
-    _description?: string | null;
-    _keywords?: string | null;
+    description: string;
+    keywords: string;
 };
 
+const OWNED_TAGS = new Set(['title']);
+const OWNED_ATTRS = new Set(['description', 'keywords']);
+
 const { entry, head } = Astro.locals.starlightRoute;
-const data = entry.data as EntryData;
-const seo = resolvePageSeo(data);
+const { title, description, keywords } = entry.data as EntryData;
 
-const emitDescription = !!seo.description;
-
-// DocFX titles already carry a full suffix (e.g. "… | Ignite UI for Angular | Infragistics").
-// Starlight unconditionally appends " | {siteTitle}", creating a duplicate.
-// When the raw title contains the delimiter, strip Starlight's <title> entry
-// and emit the raw title verbatim as the first (and only) <title> tag.
-const useRawTitle = data.title.includes(' | ');
-const resolvedHead = useRawTitle ? head.filter((e) => e.tag !== 'title') : head;
+// Strip tags we own from Starlight's head so nothing is duplicated.
+const passthroughHead = head.filter((e) => {
+    if (OWNED_TAGS.has(e.tag)) return false;
+    const prop = (e.attrs as Record<string, string>).property ?? (e.attrs as Record<string, string>).name;
+    if (prop && OWNED_ATTRS.has(prop)) return false;
+    return true;
+});
 ---
 
-{resolvedHead.map(({ tag: Tag, attrs, content }) => (
+<title>{title.trim()}</title>
+<meta name="description" content={description.trim()} />
+<meta name="keywords" content={keywords.trim()} />
+{passthroughHead.map(({ tag: Tag, attrs, content }) => (
     <Tag {...attrs} set:html={content} />
 ))}
-{useRawTitle && <title>{data.title}</title>}
-{emitDescription && <meta name="description" content={seo.description} />}
-{seo.keywords && <meta name="keywords" content={seo.keywords} />}
 
 
