@@ -1,3 +1,6 @@
+---
+title: "Default Theme"
+---
 # Default Theme
 
 The _**light**_ version of the Material theme is the default theme in Ignite UI for Angular. To use it you need to include the `theme` mixin after the `core` mixin.

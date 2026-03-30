@@ -1,3 +1,6 @@
+---
+title: "Switching from Material to Fluent Theme"
+---
 # Switching from Material to Fluent Theme
 
 Since version `8.2` our components include a new theme inspired by the [`Microsoft Fluent Design System`](https://www.microsoft.com/design/fluent/)

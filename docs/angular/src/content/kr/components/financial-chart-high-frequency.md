@@ -1,4 +1,7 @@
 ---
+title: "Angular 실시간 데이터 바인딩"
+---
+---
 제목: 금융 차트 | 데이터 비주얼라이제이션 도구 | Infragistics | 실시간 데이터
 _description: 재무 차트 구성 요소를 사용하여 간단한 API를 사용하여 재무 데이터를 시각화하십시오. 자세한 정보는 데모, 종속성, 사용법 및 도구 모음을보십시오.
 _keywords: financial chart, Ignite UI for Angular, Infragistics

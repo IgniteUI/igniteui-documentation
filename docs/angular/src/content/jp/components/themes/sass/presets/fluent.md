@@ -1,3 +1,6 @@
+---
+title: "Material から Fluent テーマへの切り替え"
+---
 # Material から Fluent テーマへの切り替え
 
 バージョン `8.2` 以降、インフラジスティックスのコンポーネントでは、[Microsoft Fluent デザイン システム](https://www.microsoft.com/design/fluent/) に基づいて構築された新しいテーマが含まれます。

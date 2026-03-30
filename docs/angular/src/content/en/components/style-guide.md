@@ -1,3 +1,6 @@
+---
+title: "Style guide"
+---
 # Style guide
 
 ## Colors

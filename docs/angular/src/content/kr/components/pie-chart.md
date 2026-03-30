@@ -1,4 +1,7 @@
 ---
+title: "Angular 파이형 차트"
+---
+---
 제목: 파이형 차트 | 카테고리형 데이터 비주얼라이제이션 | Ignite UI for React | Infragistics
 _description: 다채로운 원형 차트를 만들어 데이터 시각화를 위해 Ignite UI 에 범주 형 데이터를 표시합니다.
 _keywords: pie chart, ignite ui for react, Infragistics

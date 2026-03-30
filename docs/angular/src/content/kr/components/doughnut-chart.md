@@ -1,4 +1,7 @@
 ---
+title: "Angular 도넛형 차트"
+---
+---
 제목: 도넛형 차트 | 계층 데이터 비주얼라이제이션 | Infragistics
 _description: 도넛 형 차트 구성 요소를 사용하여 계층 적 데이터 시각화를위한 동심 반지 모양의 여러 변수를 표시합니다. 자세한 정보는 데모를보십시오.
 _keywords: doughnut chart, Ignite UI for Angular, Infragistics

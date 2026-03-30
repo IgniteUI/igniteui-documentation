@@ -1,3 +1,6 @@
+---
+title: "Switching from Material to Bootstrap Theme"
+---
 # Switching from Material to Bootstrap Theme
 
 Since version `9.0` our components include a new theme inspired by [Bootstrap 4](https://getbootstrap.com/) and [ng-bootstrap](https://ng-bootstrap.github.io/#/home).

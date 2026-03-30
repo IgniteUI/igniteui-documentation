@@ -1,3 +1,6 @@
+---
+title: "Switching from Material to Indigo Theme"
+---
 # Switching from Material to Indigo Theme
 
 Since version `10.1` our components include a new theme inspired by our own design language.
