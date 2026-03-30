@@ -255,6 +255,11 @@ export const mode = ${JSON.stringify(mode)};
                     entrypoint: fileURLToPath(new URL('./routes/llms.txt.ts', import.meta.url)),
                     prerender: true,
                 });
+                injectRoute({
+                    pattern: '/sitemap.xml',
+                    entrypoint: fileURLToPath(new URL('./routes/sitemap.xml.ts', import.meta.url)),
+                    prerender: true,
+                });
                 // Configure Sass loadPaths so bare `highlight.js/scss/vs2015`
                 // imports in the platform theme files resolve from node_modules.
                 updateConfig({
