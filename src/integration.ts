@@ -646,6 +646,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Package-level CSS (code-view styles, etc.) — prepended so consumers can override.
     const pkgCss = fileURLToPath(new URL('./styles/custom.css', pkgDir));
     const defaultComponents: Record<string, string> = {
+        PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro', pkgDir)),
         Header: fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
         Footer: fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
     };
@@ -721,7 +722,10 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 ...starlightExtra,
                 // These always come last so merging with defaults is applied correctly.
                 // pkgCss is always first so consumers can override via their own customCss entries.
-                customCss: [pkgCss, ...((starlightExtra.customCss as string[] | undefined) ?? [])],
+                customCss: [
+                    fileURLToPath(new URL('./styles/custom.css', pkgDir)),
+                    ...(starlightExtra.customCss as string[] ?? []),
+                ],
                 components: { ...defaultComponents, ...(starlightExtra.components as Record<string, string> ?? {}) },
                 // Default code theme is 'dark-plus'; consumer can override via starlight.expressiveCode.
                 expressiveCode: {
