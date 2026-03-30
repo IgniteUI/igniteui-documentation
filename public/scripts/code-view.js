@@ -234,14 +234,19 @@
     iframe.frameBorder  = '0';
     iframe.setAttribute('seamless', '');
     iframe.title = alt;
-    iframe.addEventListener('load', () => samplePane.classList.remove('loading'));
+
+    const onIframeLoad = () => samplePane.classList.remove('loading');
 
     if (index === 0) {
-      iframe.src = iframeSrc;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        iframe.addEventListener('load', onIframeLoad);
+        iframe.src = iframeSrc;
+      }));
     } else {
       iframe.dataset.src = iframeSrc;
       const obs = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
+          iframe.addEventListener('load', onIframeLoad);
           iframe.src = iframe.dataset.src;
           obs.disconnect();
         }
@@ -418,8 +423,10 @@
       ]);
       if (!sampleRes.ok) throw new Error(`sample meta ${sampleRes.status}`);
 
-      const sampleData = await sampleRes.json();
-      const sharedData = sharedRes.ok ? await sharedRes.json() : null;
+      const [sampleData, sharedData] = await Promise.all([
+        sampleRes.json(),
+        sharedRes.ok ? sharedRes.json() : Promise.resolve(null),
+      ]);
 
       replaceRelativeAssetUrls(sampleData.sampleFiles || [], demosBaseUrl);
       if (sharedData) replaceRelativeAssetUrls(sharedData.files || [], demosBaseUrl);
@@ -550,10 +557,17 @@
 
       if (!demosBaseUrl) return;
 
-      if (isXplat) {
-        fetchXplatCodeTabs(widget, src, demosBaseUrl, githubSrc, platform, index, navbar, container, activateTab);
+      const startFetch = () => {
+        if (isXplat) {
+          fetchXplatCodeTabs(widget, src, demosBaseUrl, githubSrc, platform, index, navbar, container, activateTab);
+        } else {
+          fetchAndBuildCodeTabs(widget, src, demosBaseUrl, index, navbar, container, activateTab);
+        }
+      };
+      if (typeof requestIdleCallback !== 'undefined') {
+        requestIdleCallback(startFetch);
       } else {
-        fetchAndBuildCodeTabs(widget, src, demosBaseUrl, index, navbar, container, activateTab);
+        requestAnimationFrame(startFetch);
       }
     });
   }
