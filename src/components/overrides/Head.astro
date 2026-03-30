@@ -17,7 +17,6 @@
  *
  * Data flow:
  *   remark-docfx maps _description → description, _keywords → keywords
- *     → docsSchema captures both into entry.data
  */
 
 type EntryData = {
@@ -29,14 +28,15 @@ type EntryData = {
 // Tag names and property/name attribute values we filter from Starlight's
 // head array before passing through, to prevent duplicates.
 const OWNED_TAG = 'title';
-const OWNED_ATTRS = new Set(['description']);
+const OWNED_ATTRS = new Set(['description', 'keywords']);
 
 const { entry, head } = Astro.locals.starlightRoute;
 const { title, description, keywords } = entry.data as EntryData;
 
 const passthroughHead = head.filter(({ tag, attrs }) => {
     if (tag === OWNED_TAG) return false;
-    const attr = (attrs as Record<string, string>).property ?? (attrs as Record<string, string>).name;
+    const safeAttrs = (attrs ?? {}) as Record<string, string>;
+    const attr = safeAttrs.property ?? safeAttrs.name;
     return !OWNED_ATTRS.has(attr);
 });
 ---
@@ -44,8 +44,9 @@ const passthroughHead = head.filter(({ tag, attrs }) => {
 <title>{title}</title>
 <meta name="description" content={description} />
 <meta name="keywords" content={keywords} />
-{passthroughHead.map(({ tag: Tag, attrs, content }) => (
-    <Tag {...attrs} set:html={content} />
-))}
+{passthroughHead.map((entry) => {
+    const { tag: Tag, attrs, content } = entry;
+    return content ? <Tag {...attrs} set:html={content} /> : <Tag {...attrs} />;
+})}
 
 
