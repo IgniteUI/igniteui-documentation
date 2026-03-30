@@ -54,8 +54,9 @@ class SidebarFilter extends HTMLElement {
   }
 
   private filter(rawQuery: string): void {
-    const query = rawQuery.trim().toLowerCase();
-    this.syncClearButton(rawQuery);
+    const trimmed = rawQuery.trim();
+    const query = trimmed.toLowerCase();
+    this.syncClearButton(trimmed);
 
     // Take a one-time snapshot of <details> open state before first filter.
     if (!this.snapshotTaken && query) {
