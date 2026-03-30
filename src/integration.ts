@@ -613,8 +613,9 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     const pkgDir = new URL('.', import.meta.url);
     const defaultComponents: Record<string, string> = {
         PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro', pkgDir)),
-        Header: fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
-        Footer: fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
+        Header:    fileURLToPath(new URL('./components/overrides/Header.astro',          pkgDir)),
+        Footer:    fileURLToPath(new URL('./components/overrides/Footer.astro',          pkgDir)),
+        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro',       pkgDir)),
     };
 
     return defineConfig({
