@@ -99,6 +99,7 @@ export default defineConfig({
         PageFrame: './src/components/overrides/CustomPageFrame.astro',
         Header: './src/components/overrides/Header.astro',
         Footer: './src/components/overrides/Footer.astro',
+        MobileTableOfContents: './src/components/overrides/MobileTableOfContents.astro',
       },
       expressiveCode: {
         themes: ['dark-plus'],

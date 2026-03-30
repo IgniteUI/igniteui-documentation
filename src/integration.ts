@@ -615,6 +615,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro', pkgDir)),
         Header: fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
         Footer: fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
+        MobileTableOfContents: fileURLToPath(new URL('./components/overrides/MobileTableOfContents.astro', pkgDir)),
     };
 
     return defineConfig({
