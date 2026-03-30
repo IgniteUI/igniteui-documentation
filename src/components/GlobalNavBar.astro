@@ -28,6 +28,7 @@ import {
   abPrefetched,
   abHeaderHtml,
 } from 'virtual:docs-template/nav-html';
+import shadowCss from './GlobalNavBar.shadow.css?raw';
 
 interface Props {
   /** Override the platform for this instance. Defaults to virtual module value. */
@@ -79,21 +80,21 @@ const revealHref = isJa ? 'https://www.revealbi.io/jp/' : 'https://www.revealbi.
     IG-family global nav (angular, react, blazor, web-components,
     slingshot, igniteui)
     ============================================================ */}
+<div id="ig-header">
+  {/* Prebuild path — HTML captured at build time */}
+  {isIgPlatform && prefetched && (
+    <>
+      <Fragment set:html={headerHtml} />
+      <script is:inline>
+        if (window.igNavigation && typeof window.igNavigation.init === 'function') {
+          window.igNavigation.init();
+        }
+      </script>
+    </>
+  )}
 
-{/* Prebuild path — HTML captured at build time */}
-{isIgPlatform && prefetched && (
-  <>
-    <Fragment set:html={headerHtml} />
-    <script is:inline>
-      if (window.igNavigation && typeof window.igNavigation.init === 'function') {
-        window.igNavigation.init();
-      }
-    </script>
-  </>
-)}
-
-{/* Static fallback — rendered when prefetch is unavailable */}
-{isIgPlatform && !prefetched && (
+  {/* Static fallback — rendered when prefetch is unavailable */}
+  {isIgPlatform && !prefetched && (
   <header id="header" class="globalnav" data-nav-auto-init="false">
     <section id="header-wrap" class="globalnav__container" data-default-height="175" data-sticky-height="60">
       <section class="globalnav__primary clearfix">
@@ -129,18 +130,18 @@ const revealHref = isJa ? 'https://www.revealbi.io/jp/' : 'https://www.revealbi.
       </section>
     </section>
   </header>
-)}
+  )}
 
-{/* ============================================================
-    AppBuilder nav
-    ============================================================ */}
-{isAppBuilder && (
-  <>
-    {/* Prebuild path — AB header/footer HTML captured at build time */}
-    {abPrefetched && (
-      <>
-        <Fragment set:html={abHeaderHtml} />
-        <script is:inline>
+  {/* ============================================================
+      AppBuilder nav
+      ============================================================ */}
+  {isAppBuilder && (
+    <>
+      {/* Prebuild path — AB header/footer HTML captured at build time */}
+      {abPrefetched && (
+        <>
+          <Fragment set:html={abHeaderHtml} />
+          <script is:inline>
           window.addEventListener('load', function () {
             // Fix language-bar links (depends on current page URL at runtime)
             var langBar = document.querySelector('.mega-lang-bar');
@@ -176,12 +177,12 @@ const revealHref = isJa ? 'https://www.revealbi.io/jp/' : 'https://www.revealbi.
               }
             }
           });
-        </script>
-      </>
-    )}
+          </script>
+        </>
+      )}
 
-    {/* Runtime fallback — XHR fetch of AB header/footer at page load */}
-    {!abPrefetched && (
+      {/* Runtime fallback — XHR fetch of AB header/footer at page load */}
+      {!abPrefetched && (
       <>
         <div id="ab-nav-container"></div>
         <script is:inline>
@@ -219,41 +220,47 @@ const revealHref = isJa ? 'https://www.revealbi.io/jp/' : 'https://www.revealbi.
           })();
         </script>
       </>
-    )}
-  </>
-)}
+      )}
+    </>
+  )}
 
-{/* ============================================================
-    Reveal BI nav (static)
-    ============================================================ */}
-{isReveal && (
-  <div id="header" class="globalnav" data-nav-auto-init="false" data-nav-theme="reveal">
-    <section id="header-wrap" class="globalnav__container stuck" data-default-height="175" data-sticky-height="175">
-      <section class="globalnav__primary clearfix">
-        <div class="globalnav__wrapper">
-          <div class="globalnav__brand">
-            <a href={revealHref}>
-              <img class="globalnav__logo" src="https://static.infragistics.com/marketing/reveal/business-teams-reveal-logo-black.svg" alt="Reveal Logo" />
-            </a>
+  {/* ============================================================
+      Reveal BI nav (static)
+      ============================================================ */}
+  {isReveal && (
+    <div id="header" class="globalnav" data-nav-auto-init="false" data-nav-theme="reveal">
+      <section id="header-wrap" class="globalnav__container stuck" data-default-height="175" data-sticky-height="175">
+        <section class="globalnav__primary clearfix">
+          <div class="globalnav__wrapper">
+            <div class="globalnav__brand">
+              <a href={revealHref}>
+                <img class="globalnav__logo" src="https://static.infragistics.com/marketing/reveal/business-teams-reveal-logo-black.svg" alt="Reveal Logo" />
+              </a>
+            </div>
+            <div class="igw-header-nav">
+              <a class="igw-header-btn igw-btn-reveal" href="https://app.revealbi.io/Login?redirect=">
+                <span>{isJa ? '今すぐ試す' : 'Try it now'}</span>
+              </a>
+            </div>
+            <div class="globalnav__overlay"></div>
           </div>
-          <div class="igw-header-nav">
-            <a class="igw-header-btn igw-btn-reveal" href="https://app.revealbi.io/Login?redirect=">
-              <span>{isJa ? '今すぐ試す' : 'Try it now'}</span>
-            </a>
-          </div>
-          <div class="globalnav__overlay"></div>
-        </div>
+        </section>
       </section>
-    </section>
-  </div>
-)}
+    </div>
+  )}
+</div>
 
-<script define:vars={{ shadowNavLinks, shadowNavScripts }}>
-  var el = document.getElementById('header');
+<script define:vars={{ shadowNavLinks, shadowNavScripts, shadowCss }}>
+  var el = document.getElementById('ig-header');
   if (el && el.parentNode) {
     var host = document.createElement('div');
     el.parentNode.insertBefore(host, el);
     var shadow = host.attachShadow({ mode: 'open' });
+    if (shadowCss) {
+      var styleEl = document.createElement('style');
+      styleEl.textContent = shadowCss;
+      shadow.appendChild(styleEl);
+    }
     shadowNavLinks.forEach(function(attrs) {
       var link = document.createElement('link');
       Object.keys(attrs).forEach(function(k) { link.setAttribute(k, attrs[k]); });

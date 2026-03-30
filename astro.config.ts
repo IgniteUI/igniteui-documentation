@@ -96,6 +96,7 @@ export default defineConfig({
         baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
       },
       components: {
+        PageFrame: './src/components/overrides/CustomPageFrame.astro',
         Head: './src/components/overrides/Head.astro',
         Header: './src/components/overrides/Header.astro',
         Footer: './src/components/overrides/Footer.astro',

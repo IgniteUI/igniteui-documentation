@@ -612,6 +612,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Consumers can override individual slots via starlight.components.
     const pkgDir = new URL('.', import.meta.url);
     const defaultComponents: Record<string, string> = {
+        PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro', pkgDir)),
         Head: fileURLToPath(new URL('./components/overrides/Head.astro', pkgDir)),
         Header: fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
         Footer: fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
@@ -629,10 +630,13 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 head: [...platformHead, ...head],
                 components: { ...defaultComponents, ...(starlightExtra.components as Record<string, string> ?? {}) },
                 ...starlightExtra,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 expressiveCode: {
                     themes: ['dark-plus'],
-                }
+                },
+                customCss: [
+                    fileURLToPath(new URL('./styles/custom.css', pkgDir)),
+                    ...(starlightExtra.customCss as string[] ?? []),
+                ],
             }),
             ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
             ...extraIntegrations,
