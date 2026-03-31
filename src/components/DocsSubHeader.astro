@@ -1,0 +1,369 @@
+---
+/**
+ * DocsSubHeader
+ *
+ * A secondary fixed header bar rendered below the GlobalNavBar.
+ * It provides:
+ *   - Cross-product navigation links (from siteMetaIntegration({ productLinks }))
+ *   - Current platform/product label and current page title
+ *   - Starlight's native pagefind Search (reused, not reimplemented)
+ *
+ * Positioning (set in custom.css):
+ *   --docs-global-nav-height   height of the GlobalNavBar above (default 86px)
+ *   --docs-subheader-height    height of this bar (default 40px)
+ *
+ * Desktop layout  (≥ 50rem):
+ *   [product links] — [platform / page title, flex:1] — [Search]
+ *
+ *   .subheader-panel uses display:contents so its children (product-nav and
+ *   search) become direct flex items of the bar. CSS order positions them
+ *   at the left (1) and right (3) while context sits in the middle (2).
+ *
+ * Mobile layout (< 50rem):
+ *   Bar:      [platform / page title] [toggle button]
+ *   Dropdown: [product links] then [search] — absolute panel below bar.
+ *
+ *   .subheader-panel switches from display:contents → display:flex column.
+ *   Same markup, no duplication — only the CSS context changes.
+ */
+import Search from 'virtual:starlight/components/Search';
+import config from 'virtual:starlight/user-config';
+import { platform as virtualPlatform } from 'virtual:docs-template/nav-html';
+import { productLinks, title as siteTitle } from 'virtual:docs-template/site-meta';
+
+const shouldRenderSearch =
+    config.pagefind ||
+    config.components.Search !== '@astrojs/starlight/components/Search.astro';
+
+// DocFX-style frontmatter titles are full SEO strings:
+//   "Getting Started | Ignite UI for Angular | Infragistics"
+// Take only the first segment before " | " for the sidebar/TOC label.
+const rawTitle = Astro.locals.starlightRoute?.entry?.data?.title ?? '';
+const pageTitle = rawTitle.includes(' | ') ? rawTitle.split(' | ')[0].trim() : rawTitle;
+
+const currentPlatform = virtualPlatform ?? null;
+---
+
+<docs-subheader-menu>
+    <div class="docs-subheader">
+
+        <!-- ── Panel ────────────────────────────────────────────────────────
+             Desktop: display:contents → product-nav and search become direct
+               flex children of the bar, sorted by CSS order.
+             Mobile:  display:flex column → dropdown panel below the bar.
+             Single rendering, no markup duplication. -->
+        <div class="subheader-panel" id="docs-subheader-panel">
+            {productLinks.length > 0 && (
+                <nav class="subheader-product-nav" aria-label="Product navigation">
+                    <ul>
+                        {productLinks.map(link => (
+                            <li>
+                                <a
+                                    href={link.href}
+                                    class:list={[
+                                        'product-link',
+                                        { 'product-link--active': link.platform === currentPlatform },
+                                    ]}
+                                    aria-current={link.platform === currentPlatform ? 'page' : undefined}
+                                >
+                                    {link.label}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+            )}
+
+            {shouldRenderSearch && (
+                <div class="subheader-search">
+                    <Search />
+                </div>
+            )}
+        </div>
+
+        <!-- ── Context: always in the bar ────────────────────────────────── -->
+        <div class="subheader-context">
+            {siteTitle && (
+                <span class="subheader-platform">{siteTitle}</span>
+            )}
+            {pageTitle && (
+                <span class="subheader-page-title" title={rawTitle}>{pageTitle}</span>
+            )}
+        </div>
+
+        <!-- ── Mobile toggle (hidden on desktop) ─────────────────────────── -->
+        <button
+            class="subheader-toggle"
+            aria-expanded="false"
+            aria-controls="docs-subheader-panel"
+            aria-label="Toggle documentation navigation"
+        >
+            <svg class="icon-open" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="3" y1="6"  x2="21" y2="6"  />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+            <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="18" y1="6"  x2="6"  y2="18" />
+                <line x1="6"  y1="6"  x2="18" y2="18" />
+            </svg>
+        </button>
+
+    </div>
+</docs-subheader-menu>
+
+<script>
+    class DocsSubHeaderMenu extends HTMLElement {
+        // connectedCallback fires after the element is in the DOM with children present,
+        // which is safer than constructor() for querying descendants.
+        connectedCallback() {
+            const btn = this.querySelector<HTMLButtonElement>('.subheader-toggle');
+            if (!btn) return;
+
+            const setExpanded = (expanded: boolean) => {
+                this.setAttribute('aria-expanded', String(expanded));
+                btn.setAttribute('aria-expanded', String(expanded));
+            };
+
+            btn.addEventListener('click', () => {
+                setExpanded(this.getAttribute('aria-expanded') !== 'true');
+            });
+
+            // Close on Escape key
+            document.addEventListener('keyup', (e: KeyboardEvent) => {
+                if (e.key === 'Escape' && this.getAttribute('aria-expanded') === 'true') {
+                    setExpanded(false);
+                    btn.focus();
+                }
+            });
+
+            // Close when focus leaves this component
+            this.addEventListener('focusout', (e: FocusEvent) => {
+                if (!this.contains(e.relatedTarget as Node)) {
+                    setExpanded(false);
+                }
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e: MouseEvent) => {
+                if (!this.contains(e.target as Node)) {
+                    setExpanded(false);
+                }
+            });
+        }
+    }
+
+    customElements.define('docs-subheader-menu', DocsSubHeaderMenu);
+</script>
+
+<style>
+    /* Transparent wrapper — in the DOM for JS/CSS but generates no layout box */
+    docs-subheader-menu {
+        display: contents;
+    }
+
+    /* ── Fixed bar ──────────────────────────────────────────────────────────── */
+
+    .docs-subheader {
+        position: fixed;
+        inset-inline-start: 0;
+        inset-block-start: var(--docs-global-nav-height, 86px);
+        width: 100%;
+        height: var(--docs-subheader-height, 40px);
+        z-index: calc(var(--sl-z-index-navbar) - 1);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        /* Use 1rem padding — distinct from --sl-nav-pad-x which is set to 0
+           globally to suppress the Starlight header's own padding. */
+        padding-inline: 1rem;
+        background-color: var(--sl-color-bg-nav);
+        border-bottom: 1px solid var(--sl-color-hairline-shade);
+    }
+
+    /* ── Desktop panel: display:contents makes children direct flex items ──── */
+
+    .subheader-panel {
+        display: contents;
+    }
+
+    /* Desktop layout: [Title, flex:1] — [platform links] — [Search]
+       Title takes all free space (flex:1), pushing links and search to the right. */
+    .subheader-context      { order: 1; flex: 1; min-width: 0; overflow: hidden; }
+    .subheader-product-nav  { order: 2; flex-shrink: 0; }
+    .subheader-search       { order: 3; flex-shrink: 0; }
+    .subheader-toggle       { order: 4; display: none; }
+
+    /* ── Product navigation ─────────────────────────────────────────────────── */
+
+    .subheader-product-nav ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        align-items: center;
+    }
+
+    /* Pipe separator between links */
+    .subheader-product-nav li + li::before {
+        content: '|';
+        color: var(--sl-color-gray-4);
+        font-size: 0.6875rem;
+        padding-inline: 0.25rem;
+    }
+
+    .product-link {
+        display: block;
+        padding: 0.125rem 0;
+        font-size: 0.75rem;
+        color: var(--sl-color-gray-2);
+        text-decoration: none;
+        white-space: nowrap;
+        transition: color 0.15s;
+    }
+
+    .product-link:hover,
+    .product-link:focus-visible {
+        color: var(--sl-color-white);
+        text-decoration: underline;
+    }
+
+    .product-link--active {
+        color: var(--sl-color-text-accent);
+        font-weight: 600;
+    }
+
+    /* ── Context ────────────────────────────────────────────────────────────── */
+
+    .subheader-context {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .subheader-platform {
+        color: var(--sl-color-text-accent);
+        font-weight: 600;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .subheader-platform + .subheader-page-title::before {
+        content: '/';
+        margin-inline-end: 0.5rem;
+        color: var(--sl-color-gray-3);
+    }
+
+    .subheader-page-title {
+        color: var(--sl-color-text);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* ── Search ─────────────────────────────────────────────────────────────── */
+
+    /* Scale the pagefind trigger to fit the bar height; the modal is unaffected */
+    .subheader-search :global(site-search) {
+        --pagefind-ui-scale: 0.6;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════════
+       Mobile  (mirrors Starlight's 50rem breakpoint)
+       ═══════════════════════════════════════════════════════════════════════════ */
+
+    @media (max-width: 50rem) {
+
+        /* Allow the dropdown to overflow below the fixed bar */
+        .docs-subheader {
+            overflow: visible;
+        }
+
+        /* Panel becomes an absolute dropdown column, hidden until expanded */
+        .subheader-panel {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.25rem;
+            padding: 0.75rem 1rem;
+            background-color: var(--sl-color-bg-nav);
+            border-bottom: 1px solid var(--sl-color-hairline-shade);
+            box-shadow: var(--sl-shadow-md);
+        }
+
+        docs-subheader-menu[aria-expanded='true'] .subheader-panel {
+            display: flex;
+        }
+
+        /* Reset order — items flow in DOM order inside the dropdown */
+        .subheader-product-nav,
+        .subheader-context,
+        .subheader-search,
+        .subheader-toggle {
+            order: 0;
+        }
+
+        /* Context: keep flex:1 so the title still truncates cleanly */
+        .subheader-context {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Product links stack vertically in the dropdown */
+        .subheader-product-nav ul {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.25rem;
+        }
+
+        /* Hide the pipe separators when stacked */
+        .subheader-product-nav li + li::before {
+            display: none;
+        }
+
+        .product-link {
+            font-size: 0.875rem;
+            padding: 0.25rem 0;
+        }
+
+        /* Search fills full dropdown width */
+        .subheader-search {
+            margin-block-start: 0.25rem;
+        }
+
+        .subheader-search :global(site-search) {
+            --pagefind-ui-scale: 0.8;
+            display: block;
+            width: 100%;
+        }
+
+        /* Toggle button: visible on mobile */
+        .subheader-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            padding: 0.25rem;
+            background: none;
+            border: none;
+            border-radius: 0.25rem;
+            color: var(--sl-color-text);
+            cursor: pointer;
+            line-height: 0;
+        }
+
+        .subheader-toggle:hover,
+        .subheader-toggle:focus-visible {
+            background-color: var(--sl-color-gray-5);
+            color: var(--sl-color-white);
+        }
+
+        /* Icon swap — same pattern as Starlight's MobileMenuToggle */
+        docs-subheader-menu[aria-expanded='true']      .subheader-toggle .icon-open  { display: none; }
+        docs-subheader-menu:not([aria-expanded='true']) .subheader-toggle .icon-close { display: none; }
+    }
+</style>
