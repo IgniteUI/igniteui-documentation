@@ -38,10 +38,9 @@ export type PlatformKey =
     | 'blazor'
     | 'web-components'
     | 'slingshot'
-    | 'appbuilder'
-    | 'reveal';
+    | 'appbuilder';
 
-type NavType = 'infragistics' | 'appbuilder' | 'reveal' | 'none';
+type NavType = 'infragistics' | 'appbuilder' | 'none';
 
 interface PlatformDef {
     navType: NavType;
@@ -58,6 +57,14 @@ export interface NavConfig {
 // Shared IG styles — used by: angular, react, blazor, web-components, slingshot
 // ---------------------------------------------------------------------------
 const IG_STYLES: HeadEntry[] = [
+    // Bootstrap is wrapped in a CSS cascade layer so its global resets do not
+    // bleed into the Starlight theme. The layer priority order is declared at
+    // the top of custom.css: @layer bootstrap, starlight.core, starlight.overrides
+    // Note: @import layer() does not support the `integrity` SRI attribute.
+    {
+        tag: 'style',
+        content: '@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css") layer(bootstrap);',
+    },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/layout.css' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/animate-custom.css' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/fontello.css' } },
@@ -91,15 +98,21 @@ const APPBUILDER_STYLES: HeadEntry[] = [
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-includes/css/dashicons.min.css', media: 'all' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/plugins/megamenu-pro/icons/genericons/genericons/genericons.css', media: 'all' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/plugins/megamenu-pro/icons/fontawesome6/css/all.min.css', media: 'all' } },
-    // Bootstrap v4.4 partials (slingshot/appbuilder theme)
-    { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_reboot.css', media: 'all' } },
-    { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_type.css', media: 'all' } },
-    { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_grid.css', media: 'all' } },
-    { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_buttons.css', media: 'all' } },
-    { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_forms.css', media: 'all' } },
-    { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_input-group.css', media: 'all' } },
-    { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_custom-forms.css', media: 'all' } },
-    { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_utilities.css', media: 'all' } },
+    // Bootstrap v4.4 partials — wrapped in a CSS cascade layer so they don't
+    // override the Starlight theme. See custom.css @layer declaration.
+    {
+        tag: 'style',
+        content: [
+            '@import url("https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_reboot.css") layer(bootstrap);',
+            '@import url("https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_type.css") layer(bootstrap);',
+            '@import url("https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_grid.css") layer(bootstrap);',
+            '@import url("https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_buttons.css") layer(bootstrap);',
+            '@import url("https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_forms.css") layer(bootstrap);',
+            '@import url("https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_input-group.css") layer(bootstrap);',
+            '@import url("https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_custom-forms.css") layer(bootstrap);',
+            '@import url("https://staging.appbuilder.dev/wp-content/themes/slingshot/css/bootstrap.v4.4/_utilities.css") layer(bootstrap);',
+        ].join('\n'),
+    },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/themes/slingshot/css/ig-modal.css', media: 'all' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/themes/slingshot/css/styles.css', media: 'all' } },
     // Fonts
@@ -136,7 +149,6 @@ const APPBUILDER_SCRIPTS: HeadEntry[] = [
 // navType drives which endpoint the build-time prefetch uses:
 //   'infragistics' → www/jp.infragistics.com/navigation
 //   'appbuilder'   → www.appbuilder.dev/header-footer-export
-//   'reveal'       → no fetch (static embedded nav)
 // ---------------------------------------------------------------------------
 export const PLATFORM_DEFS: Record<PlatformKey, PlatformDef> = {
     angular: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
@@ -145,7 +157,6 @@ export const PLATFORM_DEFS: Record<PlatformKey, PlatformDef> = {
     'web-components': { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
     slingshot: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
     appbuilder: { navType: 'appbuilder', styles: APPBUILDER_STYLES, scripts: APPBUILDER_SCRIPTS },
-    reveal: { navType: 'reveal', styles: [], scripts: [] },
 };
 
 // ---------------------------------------------------------------------------
@@ -184,8 +195,6 @@ export function getNavConfig(platform: string | null, lang = 'en'): NavConfig {
     switch (platform) {
         case 'appbuilder':
             return { navType: 'appbuilder', navUrl: 'https://www.appbuilder.dev/header-footer-export' };
-        case 'reveal':
-            return { navType: 'reveal', navUrl: null };
         case 'angular':
         case 'react':
         case 'blazor':
