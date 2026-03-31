@@ -60,13 +60,20 @@ function seoLoader(options: Parameters<typeof glob>[0]): Loader {
             const originalParseData = context.parseData;
             context.parseData = async (params) => {
                 const data = await originalParseData(params);
-                const kw = (params.data as Record<string, unknown>).keywords;
-                if (typeof kw === 'string') {
-                    (data as unknown as Record<string, unknown>).keywords = kw;
+                const rawData = params.data;
+                if (rawData && typeof rawData === 'object' && 'keywords' in rawData) {
+                    const kw = (rawData as Record<string, unknown>).keywords;
+                    if (typeof kw === 'string') {
+                        (data as unknown as Record<string, unknown>).keywords = kw;
+                    }
                 }
                 return data;
             };
-            await inner.load(context);
+            try {
+                await inner.load(context);
+            } finally {
+                context.parseData = originalParseData;
+            }
         },
     };
 }
