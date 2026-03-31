@@ -39,6 +39,57 @@ type ExtendSchema = NonNullable<Parameters<typeof docsSchema>[0]>['extend'];
 // through validation instead of being stripped as an unknown field.
 const seoFields = { keywords: z.string().optional() } as const;
 
+/** Sentinel value placed on entries that have no title so we can remove them after loading. */
+const SKIP_TITLE = '\x00skip';
+
+/**
+ * Wraps a loader so that after it populates the store, any entry whose
+ * title equals the SKIP_TITLE sentinel is silently removed.
+ *
+ * Works in tandem with `skippableDocsSchema` which injects the sentinel
+ * before Zod validation runs (preventing InvalidContentEntryDataError),
+ * so the entry makes it into the store and can then be deleted here.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function withTitleFilter(baseLoader: any): any {
+    return {
+        ...baseLoader,
+        load: async (ctx: any) => {
+            await baseLoader.load(ctx);
+            for (const id of [...ctx.store.keys()]) {
+                const entry = ctx.store.get(id);
+                if (!entry?.data?.title || entry.data.title === SKIP_TITLE) {
+                    ctx.store.delete(id);
+                }
+            }
+        },
+    };
+}
+
+// TODO: remove this added only for easer testing
+
+/**
+ * Wraps docsSchema with a z.preprocess that injects a sentinel title for
+ * entries that are missing one — preventing the required-field error from
+ * being thrown inside the glob loader. withTitleFilter then removes those
+ * entries from the store after loading completes.
+ */
+function skippableDocsSchema(extend?: ExtendSchema) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const base = docsSchema(extend ? { extend } : undefined) as any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (ctx: any) => z.preprocess(
+        (data: unknown) => {
+            if (typeof data === 'object' && data !== null) {
+                const d = data as Record<string, unknown>;
+                if (!d['title']) return { ...d, title: SKIP_TITLE };
+            }
+            return data;
+        },
+        base(ctx),
+    );
+}
+
 interface CreateDocsCollectionOptions {
     /**
      * Glob patterns to exclude (relative to `sourceDir`). A leading `!` is
@@ -84,17 +135,15 @@ export function createDocsCollection(
     // Normalise exclude patterns — ensure each starts with '!'
     const excludePatterns = exclude.map(p => (p.startsWith('!') ? p : `!${p}`));
 
-    const schema = docsSchema({
-        extend: (ctx) => {
-            const user = typeof extendSchema === 'function'
-                ? extendSchema(ctx)
-                : (extendSchema ?? z.object({}));
-            return (user as z.ZodObject<z.ZodRawShape>).extend(seoFields);
-        },
-    });
+    const combinedExtend: ExtendSchema = (ctx) => {
+        const user = typeof extendSchema === 'function'
+            ? extendSchema(ctx)
+            : (extendSchema ?? z.object({}));
+        return (user as z.ZodObject<z.ZodRawShape>).extend(seoFields);
+    };
 
     return defineCollection({
-        loader: glob({
+        loader: withTitleFilter(glob({
             base: pathToFileURL(dir.endsWith('/') ? dir : dir + '/'),
             pattern: [
                 '*.{md,mdx}',
@@ -102,19 +151,15 @@ export function createDocsCollection(
                 '!**/_*.{md,mdx}',
                 '!**/toc.yml',
                 '!**/*.json',
-                // TODO: remove once source repos add proper Starlight frontmatter to
-                // these repo-root files (they have no `title` and fail schema validation)
                 '!readme.md',
                 '!README.md',
                 '!CHANGELOG.md',
                 '!LICENSE.md',
                 ...excludePatterns,
             ],
-        }),
-        // docsSchema returns different Zod shapes depending on whether extend is
-        // provided; casting to any avoids the union mismatch with defineCollection.
+        })),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        schema: schema as any,
+        schema: skippableDocsSchema(combinedExtend) as any,
     });
 }
 

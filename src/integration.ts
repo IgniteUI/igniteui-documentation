@@ -62,6 +62,7 @@ import { buildSidebarFromToc } from './sidebar';
 import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey } from './platform.ts';
 import { JSDOM } from 'jsdom';
+import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'dev' | 'staging' | 'prod';
@@ -378,6 +379,26 @@ export const mode = ${JSON.stringify(mode)};
             },
 
             'astro:server:setup'({ server }) {
+                // Serve package scripts (e.g. code-view.js) from docs-template/public/scripts/
+                const pkgPublic = fileURLToPath(new URL('../public', import.meta.url));
+                server.middlewares.use('/scripts', (req, res, next) => {
+                    const rawUrl = req.url || '/';
+                    const requestPath = rawUrl.split('?', 1)[0] || '/';
+                    let decodedPath: string;
+                    try { decodedPath = decodeURIComponent(requestPath); } catch { return next(); }
+                    const base = path.resolve(pkgPublic, 'scripts');
+                    const filePath = path.resolve(path.join(base, decodedPath.replace(/^\/+/, '')));
+                    if (!filePath.startsWith(base + path.sep) && filePath !== base) return next();
+                    try {
+                        if (fs.statSync(filePath).isFile()) {
+                            res.setHeader('Content-Type', 'application/javascript');
+                            fs.createReadStream(filePath).pipe(res);
+                            return;
+                        }
+                    } catch { /* fall through */ }
+                    next();
+                });
+
                 if (!docsDir) return;
                 server.middlewares.use(async (req, res, next) => {
                     // Only handle requests ending in .md
@@ -400,6 +421,11 @@ export const mode = ${JSON.stringify(mode)};
             },
 
             async 'astro:build:done'({ dir, pages }) {
+                // Copy package scripts to the build output /scripts/ directory.
+                const pkgScripts = fileURLToPath(new URL('../public/scripts', import.meta.url));
+                const outScripts = path.join(fileURLToPath(dir), 'scripts');
+                if (fs.existsSync(pkgScripts)) copyDirSync(pkgScripts, outScripts);
+
                 if (!docsDir) return;
                 const outDir = fileURLToPath(dir);
 
@@ -604,6 +630,12 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         process.env.DOCS_SOURCE_PATH = source.docsDir;
     }
     process.env.DOCS_BUILD_MODE = mode;
+    // Ensure DOCS_ENV aligns with the `mode` when DOCS_ENV is not explicitly set.
+    // This maps the internal mode ('dev'|'staging'|'prod') to the environment.json keys
+    // ('development'|'staging'|'production') so remark-docfx loads the expected section.
+    if (!process.env.DOCS_ENV) {
+        process.env.DOCS_ENV = mode === 'dev' ? 'development' : mode === 'staging' ? 'staging' : 'production';
+    }
 
     // Platform CDN entries come first so site-specific `head` entries can override.
     const platformHead = platform ? getPlatformHead(platform, navLang) : [];
@@ -611,32 +643,97 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Default component overrides shipped by this package.
     // Consumers can override individual slots via starlight.components.
     const pkgDir = new URL('.', import.meta.url);
+    // Package-level CSS (code-view styles, etc.) — prepended so consumers can override.
+    const pkgCss = fileURLToPath(new URL('./styles/custom.css', pkgDir));
     const defaultComponents: Record<string, string> = {
         PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro', pkgDir)),
-        Head: fileURLToPath(new URL('./components/overrides/Head.astro', pkgDir)),
-        Header: fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
-        Footer: fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
+        Head:      fileURLToPath(new URL('./components/overrides/Head.astro', pkgDir)),
+        Header:    fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
+        Footer:    fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
+        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro', pkgDir)),
     };
+
+    const codeViewHead = [
+        { tag: 'link' as const, attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
+        { tag: 'script' as const, attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
+        { tag: 'script' as const, attrs: { src: '/scripts/code-view.js', defer: true } },
+    ];
+
+    // Auto-configure a Vite dev-server proxy so code-view.js can fetch
+    // /code-viewer/*.json (and /assets/code-viewer/*.json) from the local demos
+    // server without hitting browser CORS restrictions.
+    // Only activated when dvDemosBaseUrl resolves to localhost / 127.0.0.1.
+    const devProxy: Record<string, object> = {};
+    if (source.docsDir) {
+        try {
+            const docsRoot = path.resolve(source.docsDir);
+            const envCandidates = [
+                path.join(docsRoot, 'en', 'environment.json'),
+                path.join(docsRoot, 'environment.json'),
+                path.join(path.dirname(docsRoot), 'environment.json'),
+                path.join(path.dirname(docsRoot), 'en', 'environment.json'),
+            ];
+            const envFile = envCandidates.find(c => fs.existsSync(c));
+            if (envFile) {
+                const envData = JSON.parse(fs.readFileSync(envFile, 'utf-8'));
+                const envKey = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'production';
+                const env: Record<string, string> = envData[envKey] ?? envData.production ?? {};
+                const demosUrl = env.dvDemosBaseUrl || env.demosBaseUrl;
+                if (demosUrl) {
+                    const u = new URL(demosUrl);
+                    if (u.hostname === 'localhost' || u.hostname === '127.0.0.1') {
+                        const cfg = { target: demosUrl, changeOrigin: true, secure: false };
+                        devProxy['/code-viewer'] = cfg;
+                        devProxy['/assets/code-viewer'] = cfg;
+                    }
+                }
+            }
+        } catch { /* non-fatal — proxy just won't be configured */ }
+    }
 
     return defineConfig({
         site,
         ...(base !== undefined ? { base } : {}),
+        // Docs sites serve images statically — disable Astro's image optimization
+        // so relative image paths in markdown don't cause build errors.
+        image: { service: { entrypoint: 'astro/assets/services/noop' }, ...(astroExtra as any).image },
         ...astroExtra,
+        vite: {
+            ...(astroExtra as any).vite,
+            server: {
+                ...(astroExtra as any).vite?.server,
+                proxy: {
+                    ...devProxy,
+                    ...(astroExtra as any).vite?.server?.proxy,
+                },
+            },
+        },
+        markdown: {
+            ...(astroExtra as any).markdown,
+            // Always prepend our required plugins; consumer's extra plugins follow.
+            remarkPlugins: [remarkDocfx, ...((astroExtra as any).markdown?.remarkPlugins ?? [])],
+            rehypePlugins: [rehypeCodeView, ...((astroExtra as any).markdown?.rehypePlugins ?? [])],
+        },
         integrations: [
             siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode }),
             starlight({
                 title,
                 sidebar: sidebar,
-                head: [...platformHead, ...head],
-                components: { ...defaultComponents, ...(starlightExtra.components as Record<string, string> ?? {}) },
+                head: [...platformHead, ...codeViewHead, ...head],
+                // Consumer's extra options spread here — allows overriding title, head, etc.
                 ...starlightExtra,
-                expressiveCode: {
-                    themes: ['dark-plus'],
-                },
+                // These always come last so merging with defaults is applied correctly.
+                // pkgCss is always first so consumers can override via their own customCss entries.
                 customCss: [
                     fileURLToPath(new URL('./styles/custom.css', pkgDir)),
                     ...(starlightExtra.customCss as string[] ?? []),
                 ],
+                components: { ...defaultComponents, ...(starlightExtra.components as Record<string, string> ?? {}) },
+                // Default code theme is 'dark-plus'; consumer can override via starlight.expressiveCode.
+                expressiveCode: {
+                    themes: ['dark-plus'],
+                    ...(starlightExtra.expressiveCode as Record<string, unknown> ?? {}),
+                },
             }),
             ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
             ...extraIntegrations,
