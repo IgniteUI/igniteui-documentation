@@ -171,7 +171,11 @@ export function getPlatformHead(platform: string, lang = 'en'): HeadEntry[] {
         console.warn(`[docs-template] Unknown platform "${platform}" — no head entries injected.`);
         return [];
     }
-    return [...def.styles, ...def.scripts];
+    return [
+        { tag: 'meta', attrs: { property: 'docs:platform', content: platform } },
+        ...def.styles,
+        ...def.scripts,
+    ];
 }
 
 /**
