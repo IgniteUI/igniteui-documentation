@@ -2,24 +2,22 @@
 /**
  * GlobalNavBar
  *
- * Renders the platform-appropriate global navigation bar. Platform is driven
- * by `siteMetaIntegration({ platform })` in astro.config.mjs (exported from
- * the virtual module) and can be overridden per-instance via the `theme` prop.
+ * Renders the platform-appropriate global navigation bar directly in the
+ * light DOM. Platform is driven by `siteMetaIntegration({ platform })` in
+ * astro.config.ts (exported from the virtual module) and can be overridden
+ * per-instance via the `theme` prop.
  *
  * Platforms:
  *   igniteui / angular / react / blazor / web-components / slingshot
  *     → IG global nav (infragistics.com). Prebuild path uses virtual module
- *       headerHtml. Static fallback renders the full nav server-side.
+ *       headerHtml. Static fallback renders the minimal nav server-side.
  *   appbuilder
  *     → AppBuilder nav (appbuilder.dev). Prebuild uses abHeaderHtml.
  *       Runtime fallback uses the XHR includeContent pattern.
- *   reveal
- *     → Static Reveal BI nav.
  *
- * CDN styles/scripts for each platform are injected into <head> by
- * getPlatformHead() in astro.config.mjs — NOT repeated here.
+ * CDN styles/scripts for each platform are already injected into <head> by
+ * getPlatformHead() in astro.config.ts — not repeated here.
  */
-import { PLATFORM_DEFS, type PlatformKey } from '../platform';
 import {
   platform as virtualPlatform,
   navLang as virtualNavLang,
@@ -28,11 +26,11 @@ import {
   abPrefetched,
   abHeaderHtml,
 } from 'virtual:docs-template/nav-html';
-import shadowCss from './GlobalNavBar.shadow.css?raw';
+import styles from './GlobalNavBar.module.scss';
 
 interface Props {
   /** Override the platform for this instance. Defaults to virtual module value. */
-  theme?: 'igniteui' | 'appbuilder' | 'reveal' | 'slingshot' | 'angular' | 'react' | 'blazor' | 'web-components';
+  theme?: 'igniteui' | 'appbuilder' | 'slingshot' | 'angular' | 'react' | 'blazor' | 'web-components';
   /** Override the locale. Defaults to virtual module navLang. */
   lang?: 'en' | 'jp' | 'kr';
 }
@@ -46,49 +44,29 @@ const resolvedLang = (lang ?? virtualNavLang ?? 'en') as 'en' | 'jp' | 'kr';
 const isJa = resolvedLang === 'jp';
 const isKr = resolvedLang === 'kr';
 const isAppBuilder = resolvedPlatform === 'appbuilder';
-const isReveal     = resolvedPlatform === 'reveal';
 // All IG-family platforms share the same global nav
-const isIgPlatform = !isAppBuilder && !isReveal;
+const isIgPlatform = !isAppBuilder;
 
-// All platform CSS links to inject into the #header shadow DOM
-const _navDef = PLATFORM_DEFS[resolvedPlatform as PlatformKey] ?? PLATFORM_DEFS.angular;
-const shadowNavLinks: Record<string, string>[] = [
-  // Bootstrap 3.3.7 — the commented-out entry from platform.ts, placed first
-  { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity: 'sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin: 'anonymous' },
-  // Platform-specific stylesheet links from PLATFORM_DEFS
-  ..._navDef.styles
-    .filter(e => e.tag === 'link')
-    .map(e => Object.fromEntries(
-      Object.entries(e.attrs ?? {}).filter(([, v]) => v !== undefined && v !== false)
-    ) as Record<string, string>),
-];
-// Platform scripts: { attrs } for external src-based, { content } for inline
-const shadowNavScripts: { attrs?: Record<string, string>; content?: string }[] = _navDef.scripts
-  .map(e => e.content
-    ? { content: e.content }
-    : { attrs: Object.fromEntries(
-        Object.entries(e.attrs ?? {}).filter(([, v]) => v !== undefined && v !== false)
-      ) as Record<string, string> }
-  );
-
-const igBase    = isJa ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
-const revealHref = isJa ? 'https://www.revealbi.io/jp/' : 'https://www.revealbi.io';
-
+const igBase = isJa ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
 ---
 
 {/* ============================================================
     IG-family global nav (angular, react, blazor, web-components,
     slingshot, igniteui)
     ============================================================ */}
-<div id="ig-header">
+<div class={styles.navBar}>
   {/* Prebuild path — HTML captured at build time */}
   {isIgPlatform && prefetched && (
     <>
       <Fragment set:html={headerHtml} />
-      <script is:inline>
-        if (window.igNavigation && typeof window.igNavigation.init === 'function') {
-          window.igNavigation.init();
+      <script is:inline data-astro-rerun>
+        function initNav() {
+          if (window.igNavigation && typeof window.igNavigation.init === 'function') {
+            window.igNavigation.init();
+          }
         }
+      
+        document.addEventListener('astro:page-load', initNav);
       </script>
     </>
   )}
@@ -137,7 +115,7 @@ const revealHref = isJa ? 'https://www.revealbi.io/jp/' : 'https://www.revealbi.
       ============================================================ */}
   {isAppBuilder && (
     <>
-      {/* Prebuild path — AB header/footer HTML captured at build time */}
+      {/* Prebuild path — AB header HTML captured at build time */}
       {abPrefetched && (
         <>
           <Fragment set:html={abHeaderHtml} />
@@ -181,7 +159,29 @@ const revealHref = isJa ? 'https://www.revealbi.io/jp/' : 'https://www.revealbi.
         </>
       )}
 
-      {/* Runtime fallback — XHR fetch of AB header/footer at page load */}
+      {/*
+        Runtime fallback — XHR fetch of AB header at page load.
+        ---------------------------------------------------------
+        This path executes when the build-time prefetch of
+        https://www.appbuilder.dev/header-footer-export was unavailable
+        (abPrefetched === false).
+
+        It fires a client-side XHR on window load and injects the returned
+        headerHtml into #ab-nav-container. The footerHtml is appended to
+        document.getElementById('footer'), which may conflict with the
+        GlobalFooter component rendered by CustomPageFrame.
+
+        Known downsides:
+          - Visible layout shift: header appears only after the page load event.
+          - Requires the client to reach appbuilder.dev at runtime (cross-origin).
+          - The footer injection target (#footer) is fragile and couples
+            this component to the DOM shape of GlobalFooter.
+
+        TODO: Consider removing this fallback entirely. If the build-time
+        prefetch is consistently reliable, this branch is never reached. A static
+        minimal fallback or a clear error state would be more predictable than a
+        delayed XHR-driven render.
+      */}
       {!abPrefetched && (
       <>
         <div id="ab-nav-container"></div>
@@ -224,57 +224,4 @@ const revealHref = isJa ? 'https://www.revealbi.io/jp/' : 'https://www.revealbi.
     </>
   )}
 
-  {/* ============================================================
-      Reveal BI nav (static)
-      ============================================================ */}
-  {isReveal && (
-    <div id="header" class="globalnav" data-nav-auto-init="false" data-nav-theme="reveal">
-      <section id="header-wrap" class="globalnav__container stuck" data-default-height="175" data-sticky-height="175">
-        <section class="globalnav__primary clearfix">
-          <div class="globalnav__wrapper">
-            <div class="globalnav__brand">
-              <a href={revealHref}>
-                <img class="globalnav__logo" src="https://static.infragistics.com/marketing/reveal/business-teams-reveal-logo-black.svg" alt="Reveal Logo" />
-              </a>
-            </div>
-            <div class="igw-header-nav">
-              <a class="igw-header-btn igw-btn-reveal" href="https://app.revealbi.io/Login?redirect=">
-                <span>{isJa ? '今すぐ試す' : 'Try it now'}</span>
-              </a>
-            </div>
-            <div class="globalnav__overlay"></div>
-          </div>
-        </section>
-      </section>
-    </div>
-  )}
 </div>
-
-<script define:vars={{ shadowNavLinks, shadowNavScripts, shadowCss }}>
-  var el = document.getElementById('ig-header');
-  if (el && el.parentNode) {
-    var host = document.createElement('div');
-    el.parentNode.insertBefore(host, el);
-    var shadow = host.attachShadow({ mode: 'open' });
-    if (shadowCss) {
-      var styleEl = document.createElement('style');
-      styleEl.textContent = shadowCss;
-      shadow.appendChild(styleEl);
-    }
-    shadowNavLinks.forEach(function(attrs) {
-      var link = document.createElement('link');
-      Object.keys(attrs).forEach(function(k) { link.setAttribute(k, attrs[k]); });
-      shadow.appendChild(link);
-    });
-    shadow.appendChild(el);
-    shadowNavScripts.forEach(function(entry) {
-      var s = document.createElement('script');
-      if (entry.content) {
-        s.textContent = entry.content;
-      } else if (entry.attrs) {
-        Object.keys(entry.attrs).forEach(function(k) { s.setAttribute(k, entry.attrs[k]); });
-      }
-      shadow.appendChild(s);
-    });
-  }
-</script>
