@@ -29,10 +29,47 @@
 
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import type { Loader, LoaderContext } from 'astro/loaders';
 import { docsSchema } from '@astrojs/starlight/schema';
 import { pathToFileURL } from 'node:url';
 
 type ExtendSchema = NonNullable<Parameters<typeof docsSchema>[0]>['extend'];
+
+// ---------------------------------------------------------------------------
+// SEO loader wrapper
+// ---------------------------------------------------------------------------
+
+/**
+ * Wraps Astro's standard glob loader to preserve `keywords` through
+ * Starlight's schema validation.
+ *
+ * Starlight overrides the docs collection schema in its integration, so
+ * parseData strips any field not in Starlight's base schema. `description`
+ * survives natively (it's in the base schema), but `keywords` does not.
+ *
+ * This wrapper intercepts parseData, lets Starlight validate the data, then
+ * re-injects the `keywords` value from the raw frontmatter onto the result.
+ *
+ * The `_keywords → keywords` remapping itself is handled by remark-docfx.
+ */
+function seoLoader(options: Parameters<typeof glob>[0]): Loader {
+    const inner = glob(options);
+    return {
+        name: 'docfx-seo-loader',
+        load: async (context: LoaderContext) => {
+            const originalParseData = context.parseData;
+            context.parseData = async (params) => {
+                const data = await originalParseData(params);
+                const kw = (params.data as Record<string, unknown>).keywords;
+                if (typeof kw === 'string') {
+                    (data as unknown as Record<string, unknown>).keywords = kw;
+                }
+                return data;
+            };
+            await inner.load(context);
+        },
+    };
+}
 
 interface CreateDocsCollectionOptions {
     /**
@@ -84,7 +121,7 @@ export function createDocsCollection(
         : docsSchema();
 
     return defineCollection({
-        loader: glob({
+        loader: seoLoader({
             base: pathToFileURL(dir.endsWith('/') ? dir : dir + '/'),
             pattern: [
                 '*.{md,mdx}',
