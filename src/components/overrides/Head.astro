@@ -21,29 +21,29 @@
 
 type EntryData = {
     title: string;
-    description: string;
-    keywords: string;
+    description?: string | null;
+    keywords?: string | null;
 };
-
-// Tag names and property/name attribute values we filter from Starlight's
-// head array before passing through, to prevent duplicates.
-const OWNED_TAG = 'title';
-const OWNED_ATTRS = new Set(['description', 'keywords']);
 
 const { entry, head } = Astro.locals.starlightRoute;
 const { title, description, keywords } = entry.data as EntryData;
 
+// Only filter Starlight's description tag when we have our own value to
+// replace it with; otherwise let the passthrough entry stand.
 const passthroughHead = head.filter(({ tag, attrs }) => {
-    if (tag === OWNED_TAG) return false;
-    const safeAttrs = (attrs ?? {}) as Record<string, string>;
-    const attr = safeAttrs.property ?? safeAttrs.name;
-    return !OWNED_ATTRS.has(attr);
+    if (tag === 'title') return false;
+    if (description) {
+        const safeAttrs = (attrs ?? {}) as Record<string, string>;
+        const attr = safeAttrs.property ?? safeAttrs.name;
+        if (attr === 'description') return false;
+    }
+    return true;
 });
 ---
 
 <title>{title}</title>
-<meta name="description" content={description} />
-<meta name="keywords" content={keywords} />
+{description && <meta name="description" content={description} />}
+{keywords && <meta name="keywords" content={keywords} />}
 {passthroughHead.map((entry) => {
     const { tag: Tag, attrs, content } = entry;
     return content ? <Tag {...attrs} set:html={content} /> : <Tag {...attrs} />;
