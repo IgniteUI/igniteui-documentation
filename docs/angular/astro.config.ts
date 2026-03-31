@@ -29,7 +29,7 @@ export default createDocsSite({
 	title: 'Ignite UI for Angular',
 	description: 'Component and API reference docs for Ignite UI for Angular.',
 	platform: 'angular',
-	navLang: docsLang,   // docs-template expects 'ja' not 'jp'
+	navLang: docsLang === 'jp' ? 'ja' : docsLang,   // docs-template expects 'ja' not 'jp'
 	mode,
 	source: {
 		tocPath: `${componentsDocsDir}/toc.yml`,
