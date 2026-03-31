@@ -9,11 +9,11 @@ _language: ja
 
 <style>
 .greenCheck {
-  content:url("../../images/general/greenCheck.png");
+  content:url("/images/general/greenCheck.png");
 }
 
 .redCheck {
-  content:url("../../images/general/redX.png");
+  content:url("/images/general/redX.png");
 }
 </style>
 

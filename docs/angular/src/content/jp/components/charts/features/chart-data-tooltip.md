@@ -132,7 +132,7 @@ Ignite UI for Angular では、**DataToolTip** は、シリーズの値とタイ
 
 凡例項目は、[`layoutMode`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igniteui_angular_charts.igxdatalegendcomponent.html#layoutMode) プロパティを使って垂直または表形式の構造に配置できます。デフォルト値は `Table` で、以前のリリースと同じ外観と操作性を維持します。
 
-例: <img src="../../../images/general/layout_mode.png" alt="Layout Mode" />
+例: <img src="/images/general/layout_mode.png" alt="Layout Mode" />
 
 ## Angular データ ツールチップのスタイル設定
 

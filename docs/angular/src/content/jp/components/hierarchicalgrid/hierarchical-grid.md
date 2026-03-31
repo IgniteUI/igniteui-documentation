@@ -291,7 +291,7 @@ export class RemoteLoDService {
 
 左上の角にある [すべて縮小] ボタンを押して Hierarchical Grid で展開されてる行を縮小できます。更に他のグリッドを含む各子グリッドと Hierarchical Grid にも同様のボタンがあり、階層の特定のグリッドのみ縮小することができます。
 
-![](../../images/unfold_less_icon_screenshot.jpg)
+![](/images/unfold_less_icon_screenshot.jpg)
 
 ## サイズ変更
 

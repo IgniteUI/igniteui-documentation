@@ -46,7 +46,7 @@ public getData(dataState): Observable<any[]> {
 
 다음으로 GET 요청에 대한 URL을 작성하는 방법을 정의합니다. 메인 그리드 뿐만 아니라 그 안에 있는 모든 하위 그리드의 데이터도 얻을 수 있습니다. 루트 수준에 대해서는 `https://services.odata.org/V4/Northwind/Northwind.svc/`의 `Customers` 데이터를 사용하고 하위 수준에 대해서는 `Order` 및 `Order_Details`를 사용합니다. 모델은 애플리케이션마다 다르며 여기에서는 다음의 모델을 사용합니다:
 
-![Dragging](../../images/hgrid-database.jpg)
+![Dragging](/images/hgrid-database.jpg)
 
  가장 먼저 필요한 것은 원하는 그리드 데이터, 상위 행의 기본 키 및 고유 ID를 어디서 얻을 수 있는지 결정하는 테이블의 `key`입니다. `IDataState`라는 인터페이스에서 이 모든 것을 정의합니다. 예:
 

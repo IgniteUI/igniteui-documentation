@@ -160,7 +160,7 @@ ngAfterViewInit(): void {
 >[!NOTE]
 >あるクエリ ツリーのチップを別のクエリ ツリーにドラッグすることはできません (例: 親から内部へ、またはその逆)。
 
-<img class="responsive-img"  src="../images/general/query-builder-drag-and-drop.gif" />
+<img class="responsive-img"  src="/images/general/query-builder-drag-and-drop.gif" />
 
 ## キーボード操作
 
@@ -173,7 +173,7 @@ ngAfterViewInit(): void {
 >[!NOTE]
 >キーボードの並べ替えは、マウスのドラッグ アンド ドロップと同じ機能を提供します。チップを移動したら、ユーザーは新しい位置を確認するか、並べ替えをキャンセルする必要があります。
 
-<img class="responsive-img"  src="../images/general/query-builder-keyboard-drag-and-drop.gif" />
+<img class="responsive-img"  src="/images/general/query-builder-keyboard-drag-and-drop.gif" />
 
 ## テンプレート化
 

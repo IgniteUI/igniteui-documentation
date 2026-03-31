@@ -94,8 +94,8 @@ The following information is on how to setup authentication to our private npm r
 - Generate a token from https://account.infragistics.com/access-tokens
 
 <img class="responsive-img" style="margin-bottom:10px; -webkit-box-shadow: 4px 4px 4px 4px #ccc; -moz-box-shadow: 4px 4px 4px 4px #ccc; box-shadow: 4px 4px 4px 4px #ccc; max-width: 600px"
-src="../images/general/generate-token.jpg"
-data-src="../images/general/generate-token.jpg"
+src="/images/general/generate-token.jpg"
+data-src="/images/general/generate-token.jpg"
 alt="New Token Generated"
 title="Generate new token" />
 
@@ -124,14 +124,14 @@ npm config set _auth=$(token) --scope:@infragistics
 Add **npm registry** and **token** variables.
 
 <img class="responsive-img" style="margin-bottom:10px; -webkit-box-shadow: 4px 4px 4px 4px #ccc; -moz-box-shadow: 4px 4px 4px 4px #ccc; box-shadow: 4px 4px 4px 4px #ccc; max-width: 600px"
-src="../images/general/azure-ci-new-variable-2.jpg"
-data-src="../images/general/azure-ci-new-variable-2.jpg"
+src="/images/general/azure-ci-new-variable-2.jpg"
+data-src="/images/general/azure-ci-new-variable-2.jpg"
 alt="Set npm Registry and token variables"
 title="Set npm Registry and token variables" />
 
 <img class="responsive-img" style="margin-bottom:10px; -webkit-box-shadow: 4px 4px 4px 4px #ccc; -moz-box-shadow: 4px 4px 4px 4px #ccc; box-shadow: 4px 4px 4px 4px #ccc; max-width: 380px"
-src="../images/general/azure-ci-add-token-variable-1.jpg"
-data-src="../images/general/azure-ci-add-token-variable-1.jpg"
+src="/images/general/azure-ci-add-token-variable-1.jpg"
+data-src="/images/general/azure-ci-add-token-variable-1.jpg"
 alt="npm Registry and token variables"
 title="npm Registry and token variables" />
 

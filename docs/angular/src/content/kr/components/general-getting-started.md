@@ -15,7 +15,7 @@ Before you can run Ignite UI for Angular, there are 2 steps to get everything on
 
 <div style="display:block;width:100%;margin:50px;">
     <div style="display:inline-block;width:45%;text-align:center;">
-      <img src="../images/general/nodejs.svg"
+      <img src="/images/general/nodejs.svg"
            style="display:flex;max-height:100px;margin:auto auto 20px auto;" />
       <a target="_blank" href="https://nodejs.org/en/download/"
          style="color:white;background-color:#09f;text-decoration:none;font-weight:700;font-size:16px;padding: 5px 15px 5px 15px;">
@@ -23,7 +23,7 @@ Before you can run Ignite UI for Angular, there are 2 steps to get everything on
       </a>
     </div>
     <div style="display:inline-block;width:45%;text-align:center;">
-      <img src="../images/general/vs-code.svg"
+      <img src="/images/general/vs-code.svg"
            style="display:flex;max-height:100px;margin:auto auto 20px auto;" />
       <a target="_blank" href="https://code.visualstudio.com/download"
          style="color:white;background-color:#09f;text-decoration:none;font-weight:700;font-size:16px;padding: 5px 15px 5px 15px;">
@@ -109,4 +109,4 @@ Finally, we can run our new application by using one of the following commands:
 
 The final result should look something like this screenshot:
 
-<img src="../images/general/geo-map.png" alt="geo-map" />
+<img src="/images/general/geo-map.png" alt="geo-map" />

@@ -145,7 +145,7 @@ Shadows are used to establish and maintain functional boundaries between Documen
 
 ### Usage
 <div class="elevate-image">
-    <img width="100%" height="100%" src="../images/whatismaterial_3d_elevation2.jpg" alt="Shadows Usage">
+    <img width="100%" height="100%" src="/images/whatismaterial_3d_elevation2.jpg" alt="Shadows Usage">
 </div>
 
 ### How to add elevations?

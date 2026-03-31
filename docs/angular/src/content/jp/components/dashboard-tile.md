@@ -89,7 +89,7 @@ export class AppModule {}
 
 視覚化または視覚化のプロパティも、コントロールの上部にある [`IgxToolbarComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igniteui_angular_layouts.igxtoolbarcomponent.html) を使用して構成できます。この [`IgxToolbarComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igniteui_angular_layouts.igxtoolbarcomponent.html) には、現在の視覚化の既定のツールに加えて、以下で強調表示されている 4 つの Dashboard Tile 固有のツールが含まれています。
 
-<img src="../images/dashboard-tile-toolbar.png" alt="Dashboard Tile Toolbar"/>
+<img src="/images/dashboard-tile-toolbar.png" alt="Dashboard Tile Toolbar"/>
 
 左から右へ:
 

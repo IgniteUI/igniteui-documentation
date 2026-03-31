@@ -46,9 +46,9 @@ _language: ja
         <div class="tabbar-wrapper">
             <div class="tab-content">
                 <img class="b-lazy responsive-img"
-                    src="../../images/general/landing-grid-page.png"
-                    data-src="../../images/general/landing-grid-page.png"
-                    data-srcset="../../images/general/landing-grid-page.png 480w, ../../images/general/landing-grid-page.png 768w, ../../images/general/landing-grid-page.png 1100w"
+                    src="/images/general/landing-grid-page.png"
+                    data-src="/images/general/landing-grid-page.png"
+                    data-srcset="/images/general/landing-grid-page.png 480w, /images/general/landing-grid-page.png 768w, /images/general/landing-grid-page.png 1100w"
                     alt="Angular データ グリッド"
                     title="Angular Data Grid">
                 </div>

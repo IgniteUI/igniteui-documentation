@@ -191,8 +191,8 @@ Ignite UI for Angular のパッケージはスコープ付きのため、npmjs.o
 - https://account.infragistics.com/package-feeds からトークンを生成します。
 
 <img class="responsive-img" style="-webkit-box-shadow: 8px 9px 9px 5px #ccc; -moz-box-shadow: 8px 9px 9px 5px #ccc; box-shadow: 8px 9px 9px 5px #ccc; width: calc(100% - 250px)"
-  src="../../images/general/generate-token.jpg"
-  data-src="../../images/general/generate-token.jpg"
+  src="/images/general/generate-token.jpg"
+  data-src="/images/general/generate-token.jpg"
   alt="新しく生成されたトークン"
   title="新しいトークンの生成" />
 
@@ -227,8 +227,8 @@ Ignite UI for Angular のパッケージはスコープ付きのため、npmjs.o
 [この記事](https://docs.microsoft.com/ja-jp/azure/devops/pipelines/library/variable-groups?view=azure-devops&tabs=yaml)は、変数グループを使用して複数のパイプラインで制御および利用できる値を保存する方法を説明します。
 
 <img class="responsive-img" style="-webkit-box-shadow: 8px 9px 9px 5px #ccc; -moz-box-shadow: 8px 9px 9px 5px #ccc; box-shadow: 8px 9px 9px 5px #ccc; min-width: calc(100% - 350px)"
-  src="../../images/general/azure-ci-variable-groups.jpg"
-  data-src="../../images/general/azure-ci-variable-groups.jpg"
+  src="/images/general/azure-ci-variable-groups.jpg"
+  data-src="/images/general/azure-ci-variable-groups.jpg"
   alt="npm Registry および token 変数の設定"
   title="npm Registry および token 変数の設定" />
 
@@ -237,14 +237,14 @@ Ignite UI for Angular のパッケージはスコープ付きのため、npmjs.o
 最も一般的なケースでは、[変数を設定して YAML ファイル内で使用します](https://docs.microsoft.com/ja-jp/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch#set-variables-in-pipeline)。
 
 <img class="responsive-img" style="-webkit-box-shadow: 8px 9px 9px 5px #ccc; -moz-box-shadow: 8px 9px 9px 5px #ccc; box-shadow: 8px 9px 9px 5px #ccc; min-width: calc(100% - 650px)"
-  src="../../images/general/azure-ci-new-variable-2.jpg"
-  data-src="../../images/general/azure-ci-new-variable-2.jpg"
+  src="/images/general/azure-ci-new-variable-2.jpg"
+  data-src="/images/general/azure-ci-new-variable-2.jpg"
   alt="npm Registry および token 変数の設定"
   title="npm Registry および token 変数の設定" />
 
 <img class="responsive-img" style="-webkit-box-shadow: 8px 9px 9px 5px #ccc; -moz-box-shadow: 8px 9px 9px 5px #ccc; box-shadow: 8px 9px 9px 5px #ccc; min-width: calc(100% - 650px)"
-  src="../../images/general/azure-ci-add-token-variable-1.jpg"
-  data-src="../../images/general/azure-ci-add-token-variable-1.jpg"
+  src="/images/general/azure-ci-add-token-variable-1.jpg"
+  data-src="/images/general/azure-ci-add-token-variable-1.jpg"
   alt="npm Registry および token 変数"
   title="npm Registry および token 変数" />
 

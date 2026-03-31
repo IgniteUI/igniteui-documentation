@@ -96,7 +96,7 @@ OHLC 価格の **TypicalPrice** (標準価格) とパーセンテージの **Cha
 
 例:
 
-<img src="../../../images/general/layout_mode.png" alt="Layout Mode" />
+<img src="/images/general/layout_mode.png" alt="Layout Mode" />
 
 ## Angular データ凡例のスタイル設定
 

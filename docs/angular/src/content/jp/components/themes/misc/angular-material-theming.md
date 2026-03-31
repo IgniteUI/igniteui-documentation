@@ -74,19 +74,19 @@ import { IgxAvatarModule } from 'igniteui-angular/avatar';
 
 デモ サンプルの実行方法を見てみましょう。Ignite UI コンポーネントと Angular Material コンポーネントを組み合わせたもので、1 つのアプリケーションにうまく収まります。この例のナビゲーションは、[`igx-buttons`]({environment:angularApiUrl}/classes/igxbuttondirective.html) および [`igx-avatar`]({environment:angularApiUrl}/classes/igxavatarcomponent.html) とともに material [`mat-toolbar`](https://material.angular.io/components/toolbar/overview) を使用して作成されます。[Campaigns] ボタンの下の [`menu`](https://material.angular.io/components/menu/overview) も Angular Material ライブラリから取得されます。ナビゲーションの下で、[`igx-card`]({environment:angularApiUrl}/classes/igxcardcomponent.html) コンポーネントを使用して統計を表示します。カード内に複数の項目を配置しました - [`igx-avatars`]({environment:angularApiUrl}/classes/igxavatarcomponent.html)、[`igx-icons`]({environment:angularApiUrl}/classes/igxiconcomponent.html)、および material [`buttons`](https://material.angular.io/components/button/overview)。
 
-<img src="../../../images/material-nav.png" width="100%">
+<img src="/images/material-nav.png" width="100%">
 
 `[その他]` ボタンをクリックすると、[`igx-dialog`]({environment:angularApiUrl}/classes/igxdialogcomponent.html) が表示されます。
 
-<img src="../../../images/igniteui-dialog.png" width="100%">
+<img src="/images/igniteui-dialog.png" width="100%">
 
 次に、クレジット カードに関する情報を表示する [`igx-expansion-panel`]({environment:angularApiUrl}/classes/igxexpansionpanelcomponent.html) を追加しました。その内容には、[`mat-sliders`](https://material.angular.io/components/slider/overview)、[`igx-divider`]({environment:angularApiUrl}/classes/igxdividerdirective.html)、[`mat-form-fields`](https://material.angular.io/components/form-field/overview) を含む [`mat-stepper`](https://material.angular.io/components/stepper/overview) があります。
 
-<img src="../../../images/igx-expansion-panel.png" width="100%">
+<img src="/images/igx-expansion-panel.png" width="100%">
 
 最後に、右上隅に Ignite UI for Angular [`icon button`]({environment:angularApiUrl}/classes/igxbuttondirective.html) を挿入し、アプリ全体のテーマを変更します。  
 
-<img src="../../../images/material-dark.png" width="100%">
+<img src="/images/material-dark.png" width="100%">
 
 ## Angular コンポーネントのスタイル設定
 

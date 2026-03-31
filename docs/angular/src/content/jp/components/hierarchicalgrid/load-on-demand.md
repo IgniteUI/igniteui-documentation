@@ -193,7 +193,7 @@ public ngAfterViewInit() {
 
 次に、子グリッドのデータを取得するために、GET リクエストの URL をどのように構築するかを定義します。これはテーブル間の関係を視覚的に表現したものです。
 
-<img class="responsive-img" src="../../images/hgrid-database.jpg" />
+<img class="responsive-img" src="/images/hgrid-database.jpg" />
 
 最後に、作成された新しい子グリッドのデータを要求する `gridCreated` メソッドを実装する必要があります。これはルート レベルのグリッド データを取得する場合と似ていますが、今回はイベント [`gridCreated`]({environment:angularApiUrl}/classes/igxrowislandcomponent.html#gridCreated) で提供されたデータを使用し、それを使用して URL を構築します。
 

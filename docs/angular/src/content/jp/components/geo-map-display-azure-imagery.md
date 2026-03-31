@@ -14,7 +14,7 @@ Angular [`IgxAzureMapsImagery`]({environment:dvApiBaseUrl}/products/ignite-ui-an
 
 ## Angular Azure Maps からの画像の表示 - 概要
 
-<img src="../images/general/AzureMapsImagery.png" alt="AzureMapsImagery" />
+<img src="/images/general/AzureMapsImagery.png" alt="AzureMapsImagery" />
 
 <div class="divider--half"></div>
 
@@ -64,7 +64,7 @@ this.map.backgroundContent = tileSource;
 - **Terra** に **WeatherRadarOverlay** を組み合わせて、地形と降水を同時に視覚化。
 - **DarkGrey** と **LabelsRoadOverlay** を適用し、ダッシュボードに適したコントラストの高いビューを実現。
 
-<img src="../images/general/Azure_Traffic_Tile_Series_With_Background.png" alt="Azure Traffic Tile Series With Background"/>
+<img src="/images/general/Azure_Traffic_Tile_Series_With_Background.png" alt="Azure Traffic Tile Series With Background"/>
 
 <div class="divider--half"></div>
 

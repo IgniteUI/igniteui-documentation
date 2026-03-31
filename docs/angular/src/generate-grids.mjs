@@ -125,7 +125,7 @@ function processTemplate(content, context) {
 
     // Astro requires frontmatter to be at position 0.
     // Strip any remaining leading HTML comments and whitespace before ---.
-    result = result.replace(/^(<!--[\s\S]*?-->\s*|\s+)*(?=---)/, '');
+    result = result.replace(/^\s*(?:<!--(?:[^-]|-(?!->))*-->\s*)*(?=---)/, '');
 
     return result;
 }

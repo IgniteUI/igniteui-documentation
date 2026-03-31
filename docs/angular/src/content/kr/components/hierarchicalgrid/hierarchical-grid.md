@@ -258,7 +258,7 @@ export class RemoteLoDService {
 
 계층 그리드는 사용자가 왼쪽 상단 모서리에서 "모두 축소" 버튼을 눌러 현재 확장된 모든 행을 편리하게 축소할 수 있습니다. 또한, 다른 그리드를 포함하는 모든 하위 그리드와 계층 그리드에는 이러한 버튼이 있으며, 계층의 특정 그리드만 축소할 수 있습니다. 
 
-<img class="responsive-img" src="../../images/unfold_less_icon_screenshot.jpg" srcset="../../images/unfold_less_icon_screenshoto@2x.jpg 2x" />
+<img class="responsive-img" src="/images/unfold_less_icon_screenshot.jpg" srcset="/images/unfold_less_icon_screenshoto@2x.jpg 2x" />
 
 ### Sizing
 

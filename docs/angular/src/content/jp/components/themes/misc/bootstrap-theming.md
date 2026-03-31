@@ -82,19 +82,19 @@ import { IgxAvatarModule } from 'igniteui-angular/avatar';
 
 デモ サンプルの実行方法を見てみましょう。Ignite UI コンポーネントと NG Bootstrap コンポーネントを組み合わせたもので、1 つのアプリケーションにうまく収まります。この例のナビゲーションは、[`igx-buttons`]({environment:angularApiUrl}/classes/igxbuttondirective.html) および [`igx-avatar`]({environment:angularApiUrl}/classes/igxavatarcomponent.html) とともに bootstrap [`navbar`](https://getbootstrap.com/docs/4.0/components/navbar/) を使用して作成されます。[Campaigns] ボタンの下の [`dropdown`](https://ng-bootstrap.github.io/#/components/dropdown/examples) も bootstrap ライブラリから取得されます。ナビゲーションの下で、[`igx-card`]({environment:angularApiUrl}/classes/igxcardcomponent.html) コンポーネントを使用して統計を表示します。カード内に複数の項目を配置しました - [`igx-avatars`]({environment:angularApiUrl}/classes/igxavatarcomponent.html)、[`igx-icons`]({environment:angularApiUrl}/classes/igxiconcomponent.html)、[`buttons`](https://getbootstrap.com/docs/4.0/components/buttons/) および [`ngb-ratings`](https://ng-bootstrap.github.io/#/components/rating/examples)。
 
-<img src="../../../images/igx-cards.png" width="100%">
+<img src="/images/igx-cards.png" width="100%">
 
 `[More]` ボタンをクリックすると、[`igx-dialog`]({environment:angularApiUrl}/classes/igxdialogcomponent.html) が表示されます。
 
-<img src="../../../images/igx-dialog.png" width="100%">
+<img src="/images/igx-dialog.png" width="100%">
 
 次に、クレジット カードに関する情報を表示する [`ngb-accordion`](https://ng-bootstrap.github.io/#/components/accordion/examples) を追加しました。コンテンツの中には、[`igx-list`]({environment:angularApiUrl}/classes/igxlistcomponent.html) と `igx-button` があります。
 
-<img src="../../../images/ngb-accordion.png" width="100%">
+<img src="/images/ngb-accordion.png" width="100%">
 
 最後に、右上隅に Ignite UI for Angular `アイコン ボタン`を挿入し、アプリ全体のテーマを変更します。  
 
-<img src="../../../images/dark-variant.png" width="100%">
+<img src="/images/dark-variant.png" width="100%">
 
 ## スタイル設定
 
