@@ -85,7 +85,10 @@ export default defineConfig({
       ],
       sidebar,
       // Prepend the packaged theme entry so consuming projects get the theme.
-      customCss: ['./src/styles/custom.css'],
+      customCss: [
+        './src/styles/ig-theme.scss',
+        './src/styles/custom.css',
+      ],
       head: [
         // Platform CDN assets — driven by platform below
         ...getPlatformHead('angular', 'en'),
