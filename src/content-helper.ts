@@ -135,11 +135,9 @@ export function createDocsCollection(
     // Normalise exclude patterns — ensure each starts with '!'
     const excludePatterns = exclude.map(p => (p.startsWith('!') ? p : `!${p}`));
 
-    const combinedExtend: ExtendSchema = (ctx) => {
-        const user = typeof extendSchema === 'function'
-            ? extendSchema(ctx)
-            : (extendSchema ?? z.object({}));
-        return (user as z.ZodObject<z.ZodRawShape>).extend(seoFields);
+    const extend: ExtendSchema = (ctx) => {
+        const user = typeof extendSchema === 'function' ? extendSchema(ctx) : extendSchema;
+        return ((user ?? z.object({})) as z.ZodObject<z.ZodRawShape>).extend(seoFields);
     };
 
     return defineCollection({
@@ -158,8 +156,9 @@ export function createDocsCollection(
                 ...excludePatterns,
             ],
         })),
+        // use => schema: docsSchema({ extend }) as any, when skippableDocsSchema is no longer needed
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        schema: skippableDocsSchema(combinedExtend) as any,
+        schema: skippableDocsSchema(extend) as any,
     });
 }
 
