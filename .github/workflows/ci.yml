@@ -1,0 +1,36 @@
+name: CI
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [ master, vnext ]
+
+jobs:
+  build-and-verify:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        platform: ['angular', 'react', 'web-components', 'blazor']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build {{ matrix.platform }}
+        run: npm run xplat:build:{{ matrix.platform }}
+
+      - name: Build Angular Unique
+        if: matrix.platform == 'angular'
+        run: npm run angular:build
