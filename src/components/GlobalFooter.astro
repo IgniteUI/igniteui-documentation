@@ -2,6 +2,7 @@
 /**
  * GlobalFooter
  *
+ * Renders the platform-appropriate global footer directly in the light DOM.
  * This component is separate from Starlight's own Footer override (which
  * provides the "Edit this page" link and pagination). Mount it INSIDE the
  * Starlight Footer override to place it below the docs navigation footer.
@@ -12,19 +13,18 @@
  */
 interface Props {
   /** Override the platform for this instance. Defaults to virtual module value. */
-  theme?: 'igniteui' | 'appbuilder' | 'reveal' | 'slingshot' | 'angular' | 'react' | 'blazor' | 'web-components';
+  theme?: 'igniteui' | 'appbuilder' | 'slingshot' | 'angular' | 'react' | 'blazor' | 'web-components';
   /** Override the locale. Defaults to virtual module navLang. */
   lang?: 'en' | 'ja' | 'kr';
 }
 
-import { PLATFORM_DEFS, type PlatformKey } from '../platform';
 import {
   platform as virtualPlatform,
   prefetched, uiFooterHtml,
   footerHtml,
   abPrefetched, abFooterHtml, abFooterUtilsHtml, abFooterCopyrightHtml, abContactSalesHtml,
 } from 'virtual:docs-template/nav-html';
-import shadowCss from './GlobalFooter.shadow.css?raw';
+import styles from './GlobalFooter.module.scss';
 
 const { theme, lang } = Astro.props as Props;
 
@@ -32,30 +32,10 @@ const { theme, lang } = Astro.props as Props;
 const resolvedPlatform = theme ?? virtualPlatform ?? 'igniteui';
 
 const isAppBuilder = resolvedPlatform === 'appbuilder';
-const isReveal     = resolvedPlatform === 'reveal';
 // All IG-family platforms share the same global footer
-const isIgPlatform = !isAppBuilder && !isReveal;
-
-// All platform CSS links to inject into the #ig-footer shadow DOM
-const _footerDef = PLATFORM_DEFS[resolvedPlatform as PlatformKey] ?? PLATFORM_DEFS.angular;
-const shadowFooterLinks: Record<string, string>[] = [
-  { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity: 'sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin: 'anonymous' },
-  ..._footerDef.styles
-    .filter(e => e.tag === 'link')
-    .map(e => Object.fromEntries(
-      Object.entries(e.attrs ?? {}).filter(([, v]) => v !== undefined && v !== false)
-    ) as Record<string, string>),
-];
-// Platform scripts: { attrs } for external src-based, { content } for inline
-const shadowFooterScripts: { attrs?: Record<string, string>; content?: string }[] = _footerDef.scripts
-  .map(e => e.content
-    ? { content: e.content }
-    : { attrs: Object.fromEntries(
-        Object.entries(e.attrs ?? {}).filter(([, v]) => v !== undefined && v !== false)
-      ) as Record<string, string> }
-  );
+const isIgPlatform = !isAppBuilder;
 ---
-<div id="ig-footer">
+<div class={styles.footer}>
 
 {/* === IgniteUI / default Infragistics footer === */}
 {
@@ -104,32 +84,3 @@ const shadowFooterScripts: { attrs?: Record<string, string>; content?: string }[
   )
 }
 </div>
-
-<script define:vars={{ shadowFooterLinks, shadowFooterScripts, shadowCss }}>
-  var el = document.getElementById('ig-footer');
-  if (el && el.parentNode) {
-    var host = document.createElement('div');
-    el.parentNode.insertBefore(host, el);
-    var shadow = host.attachShadow({ mode: 'open' });
-    if (shadowCss) {
-      var styleEl = document.createElement('style');
-      styleEl.textContent = shadowCss;
-      shadow.appendChild(styleEl);
-    }
-    shadowFooterLinks.forEach(function(attrs) {
-      var link = document.createElement('link');
-      Object.keys(attrs).forEach(function(k) { link.setAttribute(k, attrs[k]); });
-      shadow.appendChild(link);
-    });
-    shadow.appendChild(el);
-    shadowFooterScripts.forEach(function(entry) {
-      var s = document.createElement('script');
-      if (entry.content) {
-        s.textContent = entry.content;
-      } else if (entry.attrs) {
-        Object.keys(entry.attrs).forEach(function(k) { s.setAttribute(k, entry.attrs[k]); });
-      }
-      shadow.appendChild(s);
-    });
-  }
-</script>

@@ -124,6 +124,7 @@ export interface BuildSidebarFromTocOptions {
  * Reads a YAML or JSON TOC file and converts it to a Starlight sidebar array.
  */
 export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSidebarFromTocOptions): SidebarEntry[] {
+    if (!tocPath || !fs.existsSync(tocPath)) return [];
     const tocRaw = fs.readFileSync(tocPath, 'utf-8');
     const tocItems = tocPath.endsWith('.json') ? JSON.parse(tocRaw) : yaml.load(tocRaw) as TocItem[];
 
