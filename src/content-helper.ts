@@ -29,54 +29,15 @@
 
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
-import type { Loader, LoaderContext } from 'astro/loaders';
 import { docsSchema } from '@astrojs/starlight/schema';
+import { z } from 'astro/zod';
 import { pathToFileURL } from 'node:url';
 
 type ExtendSchema = NonNullable<Parameters<typeof docsSchema>[0]>['extend'];
 
-// ---------------------------------------------------------------------------
-// SEO loader wrapper
-// ---------------------------------------------------------------------------
-
-/**
- * Wraps Astro's standard glob loader to preserve `keywords` through
- * Starlight's schema validation.
- *
- * Starlight overrides the docs collection schema in its integration, so
- * parseData strips any field not in Starlight's base schema. `description`
- * survives natively (it's in the base schema), but `keywords` does not.
- *
- * This wrapper intercepts parseData, lets Starlight validate the data, then
- * re-injects the `keywords` value from the raw frontmatter onto the result.
- *
- * The `_keywords → keywords` remapping itself is handled by remark-docfx.
- */
-function seoLoader(options: Parameters<typeof glob>[0]): Loader {
-    const inner = glob(options);
-    return {
-        name: 'docfx-seo-loader',
-        load: async (context: LoaderContext) => {
-            const originalParseData = context.parseData;
-            context.parseData = async (params) => {
-                const data = await originalParseData(params);
-                const rawData = params.data;
-                if (rawData && typeof rawData === 'object' && 'keywords' in rawData) {
-                    const kw = (rawData as Record<string, unknown>).keywords;
-                    if (typeof kw === 'string') {
-                        (data as unknown as Record<string, unknown>).keywords = kw;
-                    }
-                }
-                return data;
-            };
-            try {
-                await inner.load(context);
-            } finally {
-                context.parseData = originalParseData;
-            }
-        },
-    };
-}
+// SEO fields added to Starlight's base schema so `keywords` is preserved
+// through validation instead of being stripped as an unknown field.
+const seoFields = { keywords: z.string().optional() } as const;
 
 interface CreateDocsCollectionOptions {
     /**
@@ -123,12 +84,17 @@ export function createDocsCollection(
     // Normalise exclude patterns — ensure each starts with '!'
     const excludePatterns = exclude.map(p => (p.startsWith('!') ? p : `!${p}`));
 
-    const schema = extendSchema
-        ? docsSchema({ extend: extendSchema })
-        : docsSchema();
+    const schema = docsSchema({
+        extend: (ctx) => {
+            const user = typeof extendSchema === 'function'
+                ? extendSchema(ctx)
+                : (extendSchema ?? z.object({}));
+            return (user as z.ZodObject<z.ZodRawShape>).extend(seoFields);
+        },
+    });
 
     return defineCollection({
-        loader: seoLoader({
+        loader: glob({
             base: pathToFileURL(dir.endsWith('/') ? dir : dir + '/'),
             pattern: [
                 '*.{md,mdx}',
