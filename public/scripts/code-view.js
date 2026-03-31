@@ -125,23 +125,9 @@
     iframe.setAttribute('seamless', '');
     iframe.title = alt;
 
-    const onIframeLoad = () => samplePane.classList.remove('loading');
-
-    if (index === 0) {
-      iframe.addEventListener('load', onIframeLoad);
-      iframe.src = iframeSrc;
-    } else {
-      // Lazy-load below-the-fold iframes via IntersectionObserver.
-      iframe.dataset.src = iframeSrc;
-      const obs = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-          iframe.addEventListener('load', onIframeLoad);
-          iframe.src = iframe.dataset.src;
-          obs.disconnect();
-        }
-      });
-      obs.observe(samplePane);
-    }
+    // Always use data-src — initCodeViews manages when to set iframe.src
+    // via a serial queue so iframes load one at a time.
+    iframe.dataset.src = iframeSrc;
 
     samplePane.appendChild(iframe);
     container.appendChild(samplePane);
@@ -449,6 +435,27 @@
     const platform = getPagePlatform();
     const service  = createCodeService(platform);
 
+    // Serial iframe-load queue. Loading all iframes simultaneously causes the
+    // browser to parse and execute many JS bundles at once, freezing the main
+    // thread. Instead we load one iframe at a time: the next one starts only
+    // after the current iframe fires its `load` event.
+    let iframeQueue = [];
+    let iframeLoading = false;
+
+    function processIframeQueue() {
+      if (iframeLoading || iframeQueue.length === 0) return;
+      iframeLoading = true;
+      const { iframe, samplePane } = iframeQueue.shift();
+
+      iframe.addEventListener('load', () => {
+        samplePane.classList.remove('loading');
+        iframeLoading = false;
+        processIframeQueue();
+      }, { once: true });
+
+      iframe.src = iframe.dataset.src;
+    }
+
     document.querySelectorAll('.ig-code-view').forEach((widget, index) => {
       const src          = widget.dataset.src;
       const demosBaseUrl = widget.dataset.demosBaseUrl || '';
@@ -464,12 +471,47 @@
 
       const ctx = { widget, iframeSrc: src, demosBaseUrl, widgetIndex: index, navbar, container, activateTab, githubSrc };
 
-      // Defer fetch work to browser idle time to avoid blocking the main thread.
+      // buildShell always stores the URL in data-src; initCodeViews decides
+      // when to actually assign iframe.src via the serial queue.
+      const iframe     = widget.querySelector('iframe');
+      const samplePane = widget.querySelector('.sample-container');
+
+      if (iframe && samplePane) {
+        // Enqueue the iframe. For index 0 enqueue immediately (after paint);
+        // for others wait until the widget scrolls into view.
+        const enqueue = () => {
+          iframeQueue.push({ iframe, samplePane });
+          processIframeQueue();
+        };
+        if (index === 0) {
+          requestAnimationFrame(enqueue);
+        } else {
+          const visObs = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+              visObs.disconnect();
+              enqueue();
+            }
+          });
+          visObs.observe(samplePane);
+        }
+      }
+
+      // Fetch code-tab data only when the widget becomes visible.
       const startFetch = () => service.init(ctx);
-      if (typeof requestIdleCallback !== 'undefined') {
-        requestIdleCallback(startFetch);
+      if (index === 0) {
+        if (typeof requestIdleCallback !== 'undefined') {
+          requestIdleCallback(startFetch);
+        } else {
+          requestAnimationFrame(startFetch);
+        }
       } else {
-        requestAnimationFrame(startFetch);
+        const fetchObs = new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting) {
+            fetchObs.disconnect();
+            startFetch();
+          }
+        });
+        fetchObs.observe(samplePane || widget);
       }
     });
   }

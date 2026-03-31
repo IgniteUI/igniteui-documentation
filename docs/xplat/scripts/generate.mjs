@@ -20,7 +20,7 @@
 
 import {
     readFileSync, writeFileSync, mkdirSync,
-    existsSync, readdirSync, statSync, rmSync,
+    existsSync, readdirSync, rmSync,
 } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -263,7 +263,7 @@ function transformSampleViewers(content) {
             }
 
             if (showStackblitz) {
-                const encodedFile = file.replace('/', '%2F');
+                const encodedFile = encodeURIComponent(file);
                 const url = `https://stackblitz.com/${tree}${sample}?file=src/${encodedFile}`;
                 buttons +=
                     `<a target="_blank" href="${url}" rel="noopener noreferrer">\n` +
@@ -354,17 +354,18 @@ function processDir(srcDir, outDir) {
     mkdirSync(outDir, { recursive: true });
 
     for (const entry of readdirSync(srcDir)) {
+        if (entry === '_shared') continue; // handled separately below
         const srcPath = path.join(srcDir, entry);
-        const stat    = statSync(srcPath);
 
-        if (stat.isDirectory()) {
-            if (entry !== '_shared') processDir(srcPath, path.join(outDir, entry));
-        } else if (/\.(md|mdx)$/.test(entry)) {
+        if (/\.(md|mdx)$/.test(entry)) {
             const raw = readFileSync(srcPath, 'utf8');
             writeFileSync(path.join(outDir, entry), transformRegularFile(raw), 'utf8');
         } else if (entry.endsWith('.json') && entry !== 'toc.json') {
             const raw = readFileSync(srcPath, 'utf8');
             writeFileSync(path.join(outDir, entry), applyReplacements(raw), 'utf8');
+        } else if (!path.extname(entry)) {
+            // No extension → treat as a subdirectory
+            processDir(srcPath, path.join(outDir, entry));
         }
     }
 

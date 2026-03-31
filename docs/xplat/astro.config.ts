@@ -1,8 +1,9 @@
-// @ts-check
 import path from 'node:path';
 import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { createDocsSite } from 'docs-template/integration';
+import { createDocsSite, type DocsMode } from 'docs-template/integration';
+import { remarkEnv } from './src/plugins/remark-env.ts';
+import { remarkApiLinks } from './src/plugins/remark-api-links.ts';
 
 // ---------------------------------------------------------------------------
 // Platform selection
@@ -15,9 +16,8 @@ import { createDocsSite } from 'docs-template/integration';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-/** @param {string} envKey @param {string} jsonKey @param {string} fallback @returns {string} */
-function resolveSetting(envKey, jsonKey, fallback) {
-    if (process.env[envKey]) return process.env[envKey];
+function resolveSetting(envKey: string, jsonKey: string, fallback: string): string {
+    if (process.env[envKey]) return process.env[envKey]!;
     try {
         const file = path.join(__dirname, '.platform.json');
         if (existsSync(file)) {
@@ -31,54 +31,64 @@ function resolveSetting(envKey, jsonKey, fallback) {
 const platform = resolveSetting('PLATFORM', 'platform', 'React');
 const lang     = resolveSetting('LANG_CODE', 'lang',     'en');
 
+// NODE_ENV: 'development' | 'staging' | 'production'  (default: 'development')
+const nodeEnv = process.env.NODE_ENV || 'development';
+const mode: DocsMode = nodeEnv === 'production' ? 'prod'
+    : nodeEnv === 'staging' ? 'staging'
+    : 'dev';
+
 // ---------------------------------------------------------------------------
 // Per-platform site metadata
 // ---------------------------------------------------------------------------
 
-const PLATFORM_META = {
+const PLATFORM_META: Record<string, { title: string; description: string }> = {
     Angular: {
-        site: 'https://www.infragistics.com/products/ignite-ui-angular',
         title: 'Ignite UI for Angular',
         description: 'Reference docs for Ignite UI for Angular.',
     },
     React: {
-        site: 'https://www.infragistics.com/products/ignite-ui-react',
         title: 'Ignite UI for React',
         description: 'Reference docs for Ignite UI for React.',
     },
     WebComponents: {
-        site: 'https://www.infragistics.com/products/ignite-ui-web-components',
         title: 'Ignite UI for Web Components',
         description: 'Reference docs for Ignite UI for Web Components.',
     },
     Blazor: {
-        site: 'https://www.infragistics.com/products/ignite-ui-blazor',
         title: 'Ignite UI for Blazor',
         description: 'Reference docs for Ignite UI for Blazor.',
     },
 };
 
-const meta = PLATFORM_META[/** @type {keyof typeof PLATFORM_META} */ (platform)] ?? PLATFORM_META.React;
+const meta = PLATFORM_META[platform] ?? PLATFORM_META['React'];
 
-const PLATFORM_KEY = {
+const PLATFORM_KEY: Record<string, string> = {
     Angular: 'angular',
     React: 'react',
     WebComponents: 'web-components',
     Blazor: 'blazor',
 };
 
+const PLATFORM_SITE: Record<string, string> = {
+    Angular:       'https://www.infragistics.com/products/ignite-ui-angular/angular/components',
+    React:         'https://www.infragistics.com/products/ignite-ui-react/react/components',
+    WebComponents: 'https://www.infragistics.com/products/ignite-ui-web-components/web-components/components',
+    Blazor:        'https://www.infragistics.com/products/ignite-ui-blazor/blazor/components',
+};
+
 // Generated markdown lives in generated/{platform}/{lang}/ (produced by scripts/generate.mjs)
 const XPLAT_ROOT = path.join(__dirname, 'generated', platform, lang);
 
-console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  →  ${XPLAT_ROOT}`);
+console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}  →  ${XPLAT_ROOT}`);
 
 // https://astro.build/config
 export default createDocsSite({
-    site: meta.site,
+    site: PLATFORM_SITE[platform] ?? 'https://www.infragistics.com',
     title: meta.title,
     description: meta.description,
-    platform: /** @type {any} */ (PLATFORM_KEY[/** @type {keyof typeof PLATFORM_KEY} */ (platform)] ?? null),
-    navLang: 'en',
+    platform: (PLATFORM_KEY[platform] ?? null) as any,
+    navLang: lang === 'jp' ? 'ja' : lang,
+    mode,
     source: {
         tocPath: path.join(XPLAT_ROOT, 'components', 'toc.json'),
         docsDir: path.join(XPLAT_ROOT, 'components'),
@@ -88,5 +98,5 @@ export default createDocsSite({
     },
     // Serve images statically from public/ — no Astro image optimization needed
     image: { service: { entrypoint: 'astro/assets/services/noop' } },
-    markdown: { remarkPlugins: [] },
+    markdown: { remarkPlugins: [remarkEnv, remarkApiLinks] },
 });
