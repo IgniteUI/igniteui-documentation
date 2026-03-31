@@ -38,10 +38,9 @@ export type PlatformKey =
     | 'blazor'
     | 'web-components'
     | 'slingshot'
-    | 'appbuilder'
-    | 'reveal';
+    | 'appbuilder';
 
-type NavType = 'infragistics' | 'appbuilder' | 'reveal' | 'none';
+type NavType = 'infragistics' | 'appbuilder' | 'none';
 
 interface PlatformDef {
     navType: NavType;
@@ -58,6 +57,15 @@ export interface NavConfig {
 // Shared IG styles — used by: angular, react, blazor, web-components, slingshot
 // ---------------------------------------------------------------------------
 const IG_STYLES: HeadEntry[] = [
+    {
+        tag: 'link',
+        attrs: {
+            rel: 'stylesheet',
+            href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+            integrity: 'sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u',
+            crossorigin: 'anonymous',
+        },
+    },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/layout.css' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/animate-custom.css' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/fontello.css' } },
@@ -136,7 +144,6 @@ const APPBUILDER_SCRIPTS: HeadEntry[] = [
 // navType drives which endpoint the build-time prefetch uses:
 //   'infragistics' → www/jp.infragistics.com/navigation
 //   'appbuilder'   → www.appbuilder.dev/header-footer-export
-//   'reveal'       → no fetch (static embedded nav)
 // ---------------------------------------------------------------------------
 export const PLATFORM_DEFS: Record<PlatformKey, PlatformDef> = {
     angular: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
@@ -145,7 +152,6 @@ export const PLATFORM_DEFS: Record<PlatformKey, PlatformDef> = {
     'web-components': { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
     slingshot: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
     appbuilder: { navType: 'appbuilder', styles: APPBUILDER_STYLES, scripts: APPBUILDER_SCRIPTS },
-    reveal: { navType: 'reveal', styles: [], scripts: [] },
 };
 
 // ---------------------------------------------------------------------------
@@ -180,8 +186,6 @@ export function getNavConfig(platform: string | null, lang = 'en'): NavConfig {
     switch (platform) {
         case 'appbuilder':
             return { navType: 'appbuilder', navUrl: 'https://www.appbuilder.dev/header-footer-export' };
-        case 'reveal':
-            return { navType: 'reveal', navUrl: null };
         case 'angular':
         case 'react':
         case 'blazor':
