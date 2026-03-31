@@ -7,6 +7,7 @@
  * 2. <code-view> elements -> .ig-code-view placeholder divs (enhanced by code-view.js)
  * 3. <div class="divider--half"></div> -> <hr>
  * 4. Docfx frontmatter normalisation (_description -> description)
+ * 5. Relative .md link rewriting for Astro trailing-slash URLs
  */
 
 import { visit } from 'unist-util-visit';
@@ -63,6 +64,41 @@ function loadEnv(): Record<string, string> {
 }
 
 const ENV_PATTERN = /\{environment:(\w+)\}/g;
+
+/**
+ * Rewrite a relative .md link to a root-relative Astro URL.
+ * Absolute, root-relative, fragment-only, and protocol links are left untouched.
+ * @param url      - Raw link URL from the markdown AST.
+ * @param filePath - Absolute path of the current .md file.
+ * @param docsDir  - Absolute path to the docs root (DOCS_SOURCE_PATH).
+ */
+function rewriteMdLink(url: string, filePath: string, docsDir: string): string {
+  if (!url) return url;
+  if (
+    url.startsWith('http://') || url.startsWith('https://') ||
+    url.startsWith('/') || url.startsWith('#') || url.startsWith('mailto:')
+  ) return url;
+
+  // Separate path from fragment / query-string suffix.
+  const hashIdx = url.indexOf('#');
+  const qIdx    = url.indexOf('?');
+  const splitAt = hashIdx !== -1 ? hashIdx : qIdx !== -1 ? qIdx : -1;
+  let mdPath = splitAt !== -1 ? url.slice(0, splitAt) : url;
+  const suffix = splitAt !== -1 ? url.slice(splitAt) : '';
+
+  if (!mdPath.endsWith('.md')) return url;
+
+  // Resolve the link relative to the current file's directory.
+  const fileDir     = path.dirname(filePath);
+  const resolved    = path.resolve(fileDir, mdPath);
+
+  // Compute the slug: path relative to docsDir, forward slashes, no .md extension.
+  const rel         = path.relative(docsDir, resolved).replace(/\\/g, '/');
+  const slug        = rel.endsWith('.md') ? rel.slice(0, -3) : rel;
+
+  // Return a root-relative URL with trailing slash (matches Starlight's URL format).
+  return '/' + slug + '/' + suffix;
+}
 
 export function replaceEnvVars(str: string): string {
   if (!str || typeof str !== 'string') return str;
@@ -204,6 +240,10 @@ export function rehypeCodeView() {
 export function remarkDocfx() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (tree: any, file: any) => {
+    const filePath = (file.path as string) ?? '';
+    const docsDir  = process.env.DOCS_SOURCE_PATH
+      ? path.resolve(process.env.DOCS_SOURCE_PATH)
+      : (filePath ? path.dirname(filePath) : '');
     // 1. Transform frontmatter: map _description -> description, _keywords -> keywords
     if (file.data.astro?.frontmatter) {
       const fm = file.data.astro.frontmatter as Record<string, unknown>;
@@ -226,6 +266,7 @@ export function remarkDocfx() {
       // Links
       if (node.type === 'link' && node.url) {
         node.url = replaceEnvVars(node.url as string);
+        node.url = rewriteMdLink(node.url as string, filePath, docsDir);
       }
 
       // Images
