@@ -62,6 +62,7 @@ import { buildSidebarFromToc } from './sidebar';
 import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey } from './platform.ts';
 import { JSDOM } from 'jsdom';
+import { visit } from 'unist-util-visit';
 import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
@@ -537,6 +538,35 @@ export function staticImagesIntegration(
     };
 }
 
+/**
+ * Remark plugin factory that rewrites root-relative URLs in markdown HTML
+ * nodes to include the Astro `base` path. Baking `base` into the plugin at
+ * config time ensures Astro's content-layer cache is invalidated when the
+ * base changes, so rebuilt HTML always has correct paths.
+ */
+function createRemarkPrependBase(base: string) {
+    const normalizedBase = base.replace(/\/$/, '');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return () => (tree: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        visit(tree, (node: any) => {
+            if (node.type === 'html' && node.value) {
+                node.value = node.value.replace(/(src|href)="(\/[^"]*)"/g, (_: string, attr: string, url: string) => {
+                    if (url.startsWith(normalizedBase + '/')) return `${attr}="${url}"`;
+                    return `${attr}="${normalizedBase}${url}"`;
+                });
+                node.value = node.value.replace(/url\((\/[^)"']*)\)/g, (_: string, url: string) => {
+                    if (url.startsWith(normalizedBase + '/')) return `url(${url})`;
+                    return `url(${normalizedBase}${url})`;
+                });
+            }
+            if (node.type === 'image' && node.url?.startsWith('/') && !node.url.startsWith(normalizedBase + '/')) {
+                node.url = normalizedBase + node.url;
+            }
+        });
+    };
+}
+
 // ---------------------------------------------------------------------------
 // All-in-one factory
 // ---------------------------------------------------------------------------
@@ -635,6 +665,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         process.env.DOCS_SOURCE_PATH = source.docsDir;
     }
     process.env.DOCS_BUILD_MODE = mode;
+    process.env.DOCS_BASE = base ? base.replace(/\/$/, '') : '';
     // Ensure DOCS_ENV aligns with the `mode` when DOCS_ENV is not explicitly set.
     // This maps the internal mode ('dev'|'staging'|'prod') to the environment.json keys
     // ('development'|'staging'|'production') so remark-docfx loads the expected section.
@@ -716,7 +747,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         markdown: {
             ...(astroExtra as any).markdown,
             // Always prepend our required plugins; consumer's extra plugins follow.
-            remarkPlugins: [remarkDocfx, ...((astroExtra as any).markdown?.remarkPlugins ?? [])],
+            remarkPlugins: [remarkDocfx, ...((astroExtra as any).markdown?.remarkPlugins ?? []), ...(base ? [createRemarkPrependBase(base)] : [])],
             rehypePlugins: [rehypeCodeView, ...((astroExtra as any).markdown?.rehypePlugins ?? [])],
         },
         integrations: [
