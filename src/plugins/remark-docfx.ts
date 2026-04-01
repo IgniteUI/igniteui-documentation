@@ -244,20 +244,20 @@ export function remarkDocfx() {
     const docsDir  = process.env.DOCS_SOURCE_PATH
       ? path.resolve(process.env.DOCS_SOURCE_PATH)
       : (filePath ? path.dirname(filePath) : '');
-        // 1. Transform frontmatter: map _description -> description, _keywords -> keywords
-        if (file.data.astro?.frontmatter) {
-            const fm = file.data.astro.frontmatter as Record<string, unknown>;
-            if (fm._description && !fm.description) {
-                fm.description = fm._description;
-            }
-            if (fm._keywords && !fm.keywords) {
-                fm.keywords = fm._keywords;
-            }
-            // Remove underscore-prefixed keys that Starlight doesn't use
-            delete fm._description;
-            delete fm._keywords;
-            delete fm._license;
+    // 1. Transform frontmatter: map _description -> description, _keywords -> keywords
+    if (file.data.astro?.frontmatter) {
+        const fm = file.data.astro.frontmatter as Record<string, unknown>;
+        if (fm._description && !fm.description) {
+            fm.description = fm._description;
         }
+        if (fm._keywords && !fm.keywords) {
+            fm.keywords = fm._keywords;
+        }
+        // Remove underscore-prefixed keys that Starlight doesn't use
+        delete fm._description;
+        delete fm._keywords;
+        delete fm._license;
+    }
 
     // 2. Walk the AST and replace environment variables in text/links/html
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
