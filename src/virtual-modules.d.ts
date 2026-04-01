@@ -1,9 +1,5 @@
 declare module 'virtual:docs-template/site-meta' {
-  export const title: string;
-  export const description: string;
   export const sidebar: { label: string; slug?: string; items?: unknown[] }[];
-  /** Build / deployment mode set via `createDocsSite({ mode })`. */
-  export const mode: 'dev' | 'staging' | 'prod';
 }
 
 declare module 'virtual:docs-template/nav-html' {
