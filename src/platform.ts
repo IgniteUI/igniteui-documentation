@@ -40,6 +40,11 @@ export type PlatformKey =
     | 'slingshot'
     | 'appbuilder';
 
+export interface PlatformMeta {
+    title: string;
+    description: string;
+}
+
 type NavType = 'infragistics' | 'appbuilder' | 'none';
 
 interface PlatformDef {

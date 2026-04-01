@@ -51,7 +51,7 @@ const sidebar = buildSidebarFromToc({
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://igniteui.github.io/docs-template',
+  site: 'localhost:4321',
   // base: '/docs-template', // Uncomment if deploying to a subpath
   compressHTML: true,
   build: {

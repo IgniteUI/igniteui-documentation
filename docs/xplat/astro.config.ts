@@ -2,6 +2,7 @@ import path from 'node:path';
 import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
+import { type PlatformKey, type PlatformMeta } from 'docs-template/platform';
 import { remarkEnv } from './src/plugins/remark-env.ts';
 import { remarkApiLinks } from './src/plugins/remark-api-links.ts';
 
@@ -41,7 +42,7 @@ const mode: DocsMode = nodeEnv === 'production' ? 'prod'
 // Per-platform site metadata
 // ---------------------------------------------------------------------------
 
-const PLATFORM_META: Record<string, { title: string; description: string }> = {
+const PLATFORM_META: Record<string, PlatformMeta> = {
     Angular: {
         title: 'Ignite UI for Angular',
         description: 'Reference docs for Ignite UI for Angular.',
@@ -60,33 +61,51 @@ const PLATFORM_META: Record<string, { title: string; description: string }> = {
     },
 };
 
-const meta = PLATFORM_META[platform] ?? PLATFORM_META['React'];
-
-const PLATFORM_KEY: Record<string, string> = {
+const PLATFORM_KEY: Record<string, PlatformKey> = {
     Angular: 'angular',
     React: 'react',
     WebComponents: 'web-components',
     Blazor: 'blazor',
 };
 
-const PLATFORM_SITE: Record<string, string> = {
-    Angular:       'https://www.infragistics.com/products/ignite-ui-angular/angular/components',
-    React:         'https://www.infragistics.com/products/ignite-ui-react/react/components',
+const PROD_SITE: Record<string, string> = {
+    Angular: 'https://www.infragistics.com/products/ignite-ui-angular/angular/components',
+    React: 'https://www.infragistics.com/products/ignite-ui-react/react/components',
     WebComponents: 'https://www.infragistics.com/products/ignite-ui-web-components/web-components/components',
-    Blazor:        'https://www.infragistics.com/products/ignite-ui-blazor/blazor/components',
+    Blazor: 'https://www.infragistics.com/products/ignite-ui-blazor/blazor/components',
 };
 
-// Generated markdown lives in generated/{platform}/{lang}/ (produced by scripts/generate.mjs)
+const STAGING_SITE: Record<string, string> = {
+    Angular: 'https://staging.infragistics.com/products/ignite-ui-angular/angular/components',
+    React: 'https://staging.infragistics.com/products/ignite-ui-react/react/components',
+    WebComponents: 'https://staging.infragistics.com/products/ignite-ui-web-components/web-components/components',
+    Blazor: 'https://staging.infragistics.com/products/ignite-ui-blazor/blazor/components',
+};
+
+// Dev-server ports — must match docs/xplat/package.json script --port values
+const DEV_PORT: Record<string, number> = {
+    Angular: 4331,
+    React: 4332,
+    WebComponents: 4333,
+    Blazor: 4334,
+};
+
+// ── Resolved values for this build ───────────────────────────────────────────────
+const meta = PLATFORM_META[platform];
+const site = mode === 'prod' ? PROD_SITE[platform]
+    : mode === 'staging' ? STAGING_SITE[platform]
+        : `http://localhost:${DEV_PORT[platform]}`;
+
 const XPLAT_ROOT = path.join(__dirname, 'generated', platform, lang);
 
-console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}  →  ${XPLAT_ROOT}`);
+console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}  site: ${site}`);
 
 // https://astro.build/config
 export default createDocsSite({
-    site: PLATFORM_SITE[platform] ?? 'https://www.infragistics.com',
+    site,
     title: meta.title,
     description: meta.description,
-    platform: (PLATFORM_KEY[platform] ?? null) as any,
+    platform: PLATFORM_KEY[platform],
     navLang: lang === 'jp' ? 'ja' : lang,
     mode,
     source: {
