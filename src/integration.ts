@@ -698,7 +698,6 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     return defineConfig({
         site,
         ...(base !== undefined ? { base } : {}),
-        trailingSlash: 'never',
         // Docs sites serve images statically — disable Astro's image optimization
         // so relative image paths in markdown don't cause build errors.
         image: { service: { entrypoint: 'astro/assets/services/noop' }, ...(astroExtra as any).image },
