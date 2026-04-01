@@ -54,7 +54,6 @@ export default defineConfig({
   site: 'https://igniteui.github.io/docs-template',
   // base: '/docs-template', // Uncomment if deploying to a subpath
   compressHTML: true,
-  trailingSlash: 'never',
   build: {
     assets: '_assets',
   },
