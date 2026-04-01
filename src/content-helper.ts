@@ -37,7 +37,7 @@ type ExtendSchema = NonNullable<Parameters<typeof docsSchema>[0]>['extend'];
 
 // SEO fields added to Starlight's base schema so `keywords` is preserved
 // through validation instead of being stripped as an unknown field.
-const seoFields = { keywords: z.string().optional() } as const;
+const EXTENDED_SEO_FIELDS = { keywords: z.string().optional() } as const;
 
 /** Sentinel value placed on entries that have no title so we can remove them after loading. */
 const SKIP_TITLE = '\x00skip';
@@ -55,6 +55,10 @@ function withTitleFilter(baseLoader: any): any {
     return {
         ...baseLoader,
         load: async (ctx: any) => {
+            // Force full re-parse in build mode so z.preprocess always remaps
+            // _description/_keywords. The glob loader skips parseData for
+            // digest-matched entries otherwise. ctx.watcher is only set in dev mode.
+            if (!ctx.watcher) ctx.store.clear();
             await baseLoader.load(ctx);
             for (const id of [...ctx.store.keys()]) {
                 const entry = ctx.store.get(id);
@@ -66,13 +70,12 @@ function withTitleFilter(baseLoader: any): any {
     };
 }
 
-// TODO: remove this added only for easer testing
-
 /**
- * Wraps docsSchema with a z.preprocess that injects a sentinel title for
- * entries that are missing one — preventing the required-field error from
- * being thrown inside the glob loader. withTitleFilter then removes those
- * entries from the store after loading completes.
+ * Wraps docsSchema with a z.preprocess that:
+ * 1. Normalizes docfx frontmatter (_description → description, _keywords → keywords)
+ *    before Zod validation
+ * 2. Injects a sentinel title for entries missing one so the glob loader doesn't
+ *    throw InvalidContentEntryDataError; withTitleFilter removes those entries after loading.
  */
 function skippableDocsSchema(extend?: ExtendSchema) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -82,6 +85,8 @@ function skippableDocsSchema(extend?: ExtendSchema) {
         (data: unknown) => {
             if (typeof data === 'object' && data !== null) {
                 const d = data as Record<string, unknown>;
+                if (d['_description'] && !d['description']) d['description'] = d['_description'];
+                if (d['_keywords'] && !d['keywords']) d['keywords'] = d['_keywords'];
                 if (!d['title']) return { ...d, title: SKIP_TITLE };
             }
             return data;
@@ -135,9 +140,9 @@ export function createDocsCollection(
     // Normalise exclude patterns — ensure each starts with '!'
     const excludePatterns = exclude.map(p => (p.startsWith('!') ? p : `!${p}`));
 
-    const extend: ExtendSchema = (ctx) => {
+    const extendSEO: ExtendSchema = (ctx) => {
         const user = typeof extendSchema === 'function' ? extendSchema(ctx) : extendSchema;
-        return ((user ?? z.object({})) as z.ZodObject<z.ZodRawShape>).extend(seoFields);
+        return ((user ?? z.object({})) as z.ZodObject<z.ZodRawShape>).extend(EXTENDED_SEO_FIELDS);
     };
 
     return defineCollection({
@@ -158,7 +163,7 @@ export function createDocsCollection(
         })),
         // use => schema: docsSchema({ extend }) as any, when skippableDocsSchema is no longer needed
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        schema: skippableDocsSchema(extend) as any,
+        schema: skippableDocsSchema(extendSEO) as any,
     });
 }
 
