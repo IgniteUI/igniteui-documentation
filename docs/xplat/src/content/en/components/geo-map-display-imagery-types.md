@@ -1,8 +1,8 @@
 ---
-title: {Platform} Map | Data Visualization Tools | Geographic Imagery | Infragistics
-_description: The Map allows you to display data that contains geographic locations from view models or geo-spatial data loaded from shape files on geographic imagery maps.View the demo, dependencies, usage and toolbar for more information.
-_keywords: {Platform} map, Geographic Imagery, tiles, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Map | Data Visualization Tools | Geographic Imagery | Infragistics"
+description: The Map allows you to display data that contains geographic locations from view models or geo-spatial data loaded from shape files on geographic imagery maps.View the demo, dependencies, usage and toolbar for more information.
+keywords: "{Platform} map, Geographic Imagery, tiles, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: ["XamGeographicMap"]
 ---
 

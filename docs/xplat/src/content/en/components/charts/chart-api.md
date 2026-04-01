@@ -1,8 +1,8 @@
 ---
-title: {Platform} Chart API | Data Visualization Tools | Infragistics
-_description: Use Infragistics {ProductName} chart provides useful API to configure and styles chart visuals
-_keywords: {Platform} charts, chart API, API, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Chart API | Data Visualization Tools | Infragistics"
+description: Use Infragistics {ProductName} chart provides useful API to configure and styles chart visuals
+keywords: "{Platform} charts, chart API, API, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: ["XamDataChart", "CategoryChart", "FinancialChart", "SeriesViewer", "XamDoughnutChart", "XamPieChart", "XamSparkline", "DataPieChart" ]
 namespace: Infragistics.Controls.Charts
 ---

@@ -1,7 +1,7 @@
 ---
 title: Angular Rating | Rating | Ignite UI | Infragistics
-_description: With Ignite UI Angular Rating, allows users to view and provide feedback using unicode symbols, svg, or icons.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Rating component, Angular Rating control
+description: With Ignite UI Angular Rating, allows users to view and provide feedback using unicode symbols, svg, or icons.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Rating component, Angular Rating control
 ---
 # Rating
 

@@ -1,8 +1,8 @@
 ---
-title: {Platform} Data Aggregations | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Data Aggregations
-_keywords: {Platform} Charts, Markers, Infragistics
-_license: commercial
+title: "{Platform} Data Aggregations | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Data Aggregations
+keywords: "{Platform} Charts, Markers, Infragistics"
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart"]
 namespace: Infragistics.Controls.Charts
 ---

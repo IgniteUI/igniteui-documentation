@@ -1,8 +1,8 @@
 ---
-title: {Platform} ネットワーク チャート | ネットワーク グラフ | ポリライン チャート | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの {Platform} ネットワーク チャート / グラフ
-_keywords: {Platform} Charts, Network Chart, Network Graph, Network Polar Chart, Network Scatter Chart, Polyline Chart, Infragistics, {Platform} チャート, ネットワーク チャート, ネットワーク グラフ, ネットワーク極座標チャート, ネットワーク散布図, ポリライン チャート, インフラジスティックス
-_license: commercial
+title: "{Platform} ネットワーク チャート | ネットワーク グラフ | ポリライン チャート | データ可視化 | インフラジスティックス"
+description: インフラジスティックスの {Platform} ネットワーク チャート / グラフ
+keywords: "{Platform} Charts, Network Chart, Network Graph, Network Polar Chart, Network Scatter Chart, Polyline Chart, Infragistics, {Platform} チャート, ネットワーク チャート, ネットワーク グラフ, ネットワーク極座標チャート, ネットワーク散布図, ポリライン チャート, インフラジスティックス"
+license: commercial
 mentionedTypes: ["XamDataChart", "Series"]
 namespace: Infragistics.Controls.Charts
 _language: ja

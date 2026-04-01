@@ -1,8 +1,8 @@
 ---
 title: Manage Angular Page Layout | Tile Manager | Ignite UI | Infragistics | MIT license
-_description: The Ignite UI for Angular Tile Manager component enables the display of content in individual tiles.
-_keywords: manage angular page layout, Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Angular Tile Manager, Infragistics, Tile , Angular Tile Manager component, Angular Tile Manager control
-_license: MIT
+description: The Ignite UI for Angular Tile Manager component enables the display of content in individual tiles.
+keywords: manage angular page layout, Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Angular Tile Manager, Infragistics, Tile , Angular Tile Manager component, Angular Tile Manager control
+license: MIT
 ---
 
 # Angular Tile Manager Overview

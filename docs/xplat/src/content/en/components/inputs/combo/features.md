@@ -1,8 +1,8 @@
 ---
-title: {Platform} ComboBox Component – {ProductName}
-_description: {ProductName} ComboBox Component Features
-_keywords: {ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} ComboBox Component Features
-_license: MIT
+title: "{Platform} ComboBox Component – {ProductName}"
+description: "{ProductName} ComboBox Component Features"
+keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} ComboBox Component Features"
+license: MIT
 mentionedTypes: ["Combo", "ComboList", "ComboItem"]
 ---
 

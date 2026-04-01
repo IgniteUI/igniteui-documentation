@@ -1,8 +1,8 @@
 ---
 title: Angular @@igComponent での編集と検証 - インフラジスティックス
-_description: グリッドでユーザーの入力を検証し、Angular @@igComponent の使用中に有効かどうかを通知します。デモと例をお試しください。
-_keywords: angular 検証, ignite ui for angular, インフラジスティックス
-_license: commercial
+description: グリッドでユーザーの入力を検証し、Angular @@igComponent の使用中に有効かどうかを通知します。デモと例をお試しください。
+keywords: angular 検証, ignite ui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 

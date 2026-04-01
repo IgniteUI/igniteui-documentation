@@ -1,7 +1,7 @@
 ---
 title: Angular イベントの処理 | イベントのバインディング | WPF vs Angular 比較ガイド | インフラジスティックス
-_description: Angular イベント バインディングと、独自の Angular カスタム イベントを作成する方法について説明します。Angular が DOM イベントを使用してこれを行う方法と、ユーザー入力を処理する方法について説明します。
-_keywords: angular イベントの処理, ignite ui for angular, インフラジスティックス
+description: Angular イベント バインディングと、独自の Angular カスタム イベントを作成する方法について説明します。Angular が DOM イベントを使用してこれを行う方法と、ユーザー入力を処理する方法について説明します。
+keywords: angular イベントの処理, ignite ui for angular, インフラジスティックス
 _language: ja
 ---
 

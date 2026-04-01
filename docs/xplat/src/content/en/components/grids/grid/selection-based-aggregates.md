@@ -1,8 +1,8 @@
 ---
-title: {Platform} Grid Selection-Based Data Aggregation- {ProductName}
-_description: Learn how to aggregate selected data in a grid with Ignite UI. Get instant content aggregations in the virtualized data and rich API for your next project.
-_keywords: Data aggregation, selection, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics {Platform}, infragistics
-_license: commercial
+title: "{Platform} Grid Selection-Based Data Aggregation- {ProductName}"
+description: Learn how to aggregate selected data in a grid with Ignite UI. Get instant content aggregations in the virtualized data and rich API for your next project.
+keywords: Data aggregation, selection, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics {Platform}, infragistics
+license: commercial
 mentionedTypes: ["Infragistics.Controls.Grid"]
 ---
 

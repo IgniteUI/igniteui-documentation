@@ -1,8 +1,8 @@
 ---
 title: Angular @@igComponent Grid でのカスケード コンボ - インフラジスティックス
-_description: カスケード コンボを使用した Grid  について説明します。コンポーネントのサンプルも提供しています。
-_keywords: angular grid でのカスケード コンボ, ignite ui for angular, インフラジスティックス
-_license: commercial
+description: カスケード コンボを使用した Grid  について説明します。コンポーネントのサンプルも提供しています。
+keywords: angular grid でのカスケード コンボ, ignite ui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 

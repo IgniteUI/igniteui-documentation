@@ -1,7 +1,7 @@
 ---
 title: Ignite UI for Angular Skills | AI Skills | AI-Assisted Development | Ignite UI for Angular | Infragistics
-_description: Learn how to use Agent Skills to supercharge AI-assisted development with Ignite UI for Angular components, grids, data operations, and theming.
-_keywords: ignite ui for angular, copilot skills, ai assisted development, github copilot, cursor, windsurf, claude, jetbrains ai
+description: Learn how to use Agent Skills to supercharge AI-assisted development with Ignite UI for Angular components, grids, data operations, and theming.
+keywords: ignite ui for angular, copilot skills, ai assisted development, github copilot, cursor, windsurf, claude, jetbrains ai
 ---
 
 # Ignite UI for Angular Skills

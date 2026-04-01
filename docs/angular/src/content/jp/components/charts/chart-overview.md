@@ -1,8 +1,8 @@
 ---
 title: Angular チャートとグラフ ライブラリー | Ignite UI for Angular
-_description: Ignite UI for Angular チャートおよびグラフは、データ視覚化の広範なライブラリであり、Web アプリやモバイル アプリの魅力的でインタラクティブなチャートを実現します。無料でお試しください。
-_keywords: Angular Charts, Chart, Infragistics, Angular チャート, チャート, インフラジスティックス
-_license: commercial
+description: Ignite UI for Angular チャートおよびグラフは、データ視覚化の広範なライブラリであり、Web アプリやモバイル アプリの魅力的でインタラクティブなチャートを実現します。無料でお試しください。
+keywords: Angular Charts, Chart, Infragistics, Angular チャート, チャート, インフラジスティックス
+license: commercial
 mentionedTypes: ["DomainChart", "FinancialChart", "CategoryChart", "XamDataChart", "CategoryChartType"]
 _language: ja
 ---

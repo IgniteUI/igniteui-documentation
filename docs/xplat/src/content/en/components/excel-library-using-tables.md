@@ -1,8 +1,8 @@
 ---
-title: {Platform} Excel Library| Using Tables | Infragistics
-_description: Use Infragistics' {Platform} excel library's table functionality to format your data in rows and columns. View {ProductName} excel tutorials for more information!
-_keywords: Excel library, tables, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Excel Library| Using Tables | Infragistics"
+description: Use Infragistics' {Platform} excel library's table functionality to format your data in rows and columns. View {ProductName} excel tutorials for more information!
+keywords: Excel library, tables, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: ["Workbook", "WorksheetTable", "Worksheet", "SortSettings"]
 ---
 # {Platform} Using Tables

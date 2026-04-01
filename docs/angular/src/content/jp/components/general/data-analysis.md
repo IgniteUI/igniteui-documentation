@@ -1,7 +1,7 @@
 ---
 title: データ分析機能 | Angular Universal | Ignite UI for Angular | インフラジスティックス
-_description: Ignite UI for Angular でチャート統合の機能を使用して最適なビジネス目標を達成するためのデータ分析手段を提供する方法。
-_keywords: data analysis, ignite ui for angular, infragistics, データ分析, インフラジスティックス
+description: Ignite UI for Angular でチャート統合の機能を使用して最適なビジネス目標を達成するためのデータ分析手段を提供する方法。
+keywords: data analysis, ignite ui for angular, infragistics, データ分析, インフラジスティックス
 _language: ja
 ---
 

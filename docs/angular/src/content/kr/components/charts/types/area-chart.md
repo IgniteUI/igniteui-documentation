@@ -1,7 +1,7 @@
 ---
 title: Angular Area Chart | Data Visualization | Infragistics
-_description: Infragistics' Angular Area Chart
-_keywords: Angular Charts, Area Chart, Infragistics
+description: Infragistics' Angular Area Chart
+keywords: Angular Charts, Area Chart, Infragistics
 _language: kr
 mentionedTypes: ["CategoryChart", "XamDataChart", "ChartType"]
 ---

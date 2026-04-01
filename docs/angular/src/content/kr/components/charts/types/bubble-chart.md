@@ -1,7 +1,7 @@
 ---
 title: Angular Bubble Chart | Data Visualization | Infragistics
-_description: Infragistics' Angular Bubble Chart
-_keywords: Angular Charts, Bubble Chart, Infragistics
+description: Infragistics' Angular Bubble Chart
+keywords: Angular Charts, Bubble Chart, Infragistics
 _language: kr
 mentionedTypes: ["Series", "BubbleSeries", "ScatterSeries"]
 ---

@@ -1,10 +1,10 @@
 ---
 title: 無料の {Platform} Data {GridLiteTitle} (オープン ソース) - Ignite UI Grid Lite | MIT ライセンス
-_description: オープン ソースの {GridLiteTitle} を使用してアプリを作成できます。軽量でありながら、フィルタリング、非表示、ソート など、必要な機能がすべて搭載されています。今すぐお試しください。
-_keywords: overview, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, 概要, インフラジスティックス
+description: オープン ソースの {GridLiteTitle} を使用してアプリを作成できます。軽量でありながら、フィルタリング、非表示、ソート など、必要な機能がすべて搭載されています。今すぐお試しください。
+keywords: overview, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, 概要, インフラジスティックス
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
-_license: MIT
+license: MIT
 _language: ja
 ---
 

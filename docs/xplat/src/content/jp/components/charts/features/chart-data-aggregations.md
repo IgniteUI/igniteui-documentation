@@ -1,8 +1,8 @@
 ---
-title: {Platform} データ集計 | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの {Platform} データ集計
-_keywords: {Platform} Charts, Markers, Infragistics, {Platform} チャート, マーカー, インフラジスティックス
-_license: commercial
+title: "{Platform} データ集計 | データ可視化 | インフラジスティックス"
+description: インフラジスティックスの {Platform} データ集計
+keywords: "{Platform} Charts, Markers, Infragistics, {Platform} チャート, マーカー, インフラジスティックス"
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart"]
 namespace: Infragistics.Controls.Charts
 _language: ja

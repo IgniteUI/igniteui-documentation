@@ -1,7 +1,7 @@
 ---
 title: Expansion Panel
-_description: Provides an easily configurable component with two states - collapsed and expanded.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Collapsible component, IgxExpansionPanel, Ignite UI Expansion Panel
+description: Provides an easily configurable component with two states - collapsed and expanded.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Collapsible component, IgxExpansionPanel, Ignite UI Expansion Panel
 _language: kr
 ---
 

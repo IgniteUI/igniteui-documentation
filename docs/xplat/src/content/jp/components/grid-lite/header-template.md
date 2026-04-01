@@ -1,10 +1,10 @@
 ---
-title: {Platform} {GridLiteTitle} ヘッダー テンプレート | {ProductName} | MIT ライセンス
-_description: カスタム {GridLiteTitle} 列ヘッダー レンダラーを構成およびカスタマイズします。オープン ソースの {Platform} {GridLiteTitle} を使用してアプリケーションを構築できます。今すぐお試しください。
-_keywords: header template, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, ヘッダー テンプレート, インフラジスティックス
+title: "{Platform} {GridLiteTitle} ヘッダー テンプレート | {ProductName} | MIT ライセンス"
+description: カスタム {GridLiteTitle} 列ヘッダー レンダラーを構成およびカスタマイズします。オープン ソースの {Platform} {GridLiteTitle} を使用してアプリケーションを構築できます。今すぐお試しください。
+keywords: header template, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, ヘッダー テンプレート, インフラジスティックス
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
-_license: MIT
+license: MIT
 _language: ja
 ---
 

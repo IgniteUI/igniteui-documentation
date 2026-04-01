@@ -1,7 +1,7 @@
 ---
 title: Getting Started with Ignite UI for Angular Schematics | Ignite UI for Angular | Infragistics
-_description: The Step-by-Step mode contains guided experience through the Ignite UI CLI options.
-_keywords: angular cli, ignite ui for angular, infragistics
+description: The Step-by-Step mode contains guided experience through the Ignite UI CLI options.
+keywords: angular cli, ignite ui for angular, infragistics
 ---
 
 ## Getting Started with Ignite UI for Angular Schematics

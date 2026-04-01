@@ -1,7 +1,7 @@
 ---
 title: Build a Blazor Hybrid App with .NET MAUI - Ignite UI for Blazor
-_description: This article provides a step-step instruction on how to create a blazor hybrid app with .Net Maui using Ignite UI for Blazor. Try it Now!
-_keywords: {ProductName}, Infragistics, Getting Started
+description: This article provides a step-step instruction on how to create a blazor hybrid app with .Net Maui using Ignite UI for Blazor. Try it Now!
+keywords: "{ProductName}, Infragistics, Getting Started"
 mentionedTypes: []
 ---
 # Getting Started: Build a Blazor Hybrid App with .NET MAUI

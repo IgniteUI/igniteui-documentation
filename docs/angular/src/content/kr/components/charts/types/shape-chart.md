@@ -1,7 +1,7 @@
 ---
 title: Angular Shape Chart | Data Visualization | Infragistics
-_description: Infragistics' Angular Shape Chart
-_keywords: Angular Charts, Shape Chart, Infragistics
+description: Infragistics' Angular Shape Chart
+keywords: Angular Charts, Shape Chart, Infragistics
 _language: kr
 mentionedTypes: ["XamDataChart", "ScatterPolygonSeries", "ScatterPolylineSeries", "GeographicShapeSeriesBase"]
 ---

@@ -1,8 +1,8 @@
 ---
-title: {Platform} Dialog | Infragistics
-_description: With {ProductName} Dialog component, developers can easily integrate a dialog window centered on top of app content.
-_keywords: {ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Dialog components
-_license: MIT
+title: "{Platform} Dialog | Infragistics"
+description: With {ProductName} Dialog component, developers can easily integrate a dialog window centered on top of app content.
+keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Dialog components"
+license: MIT
 mentionedTypes: ["Dialog"]
 ---
 

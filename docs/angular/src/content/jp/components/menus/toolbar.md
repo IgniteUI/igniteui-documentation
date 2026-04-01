@@ -1,8 +1,8 @@
 ---
 title: Angular Toolbar コンポーネント | Ignite UI for Angular
-_description: Angular ツールバー コンポーネントを簡単に始める方法をご覧ください。データ チャートと互換性があります。
-_keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, Angular ツールバー コンポーネント, Angular ツールバー コントロール
-_license: commercial
+description: Angular ツールバー コンポーネントを簡単に始める方法をご覧ください。データ チャートと互換性があります。
+keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, Angular ツールバー コンポーネント, Angular ツールバー コントロール
+license: commercial
 mentionedTypes: ["Toolbar", "ToolAction", "DomainChart", "CategoryChart", "XamDataChart", "TrendLineType"]
 _language: ja
 ---

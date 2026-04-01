@@ -1,10 +1,10 @@
 ---
-title: {Platform} Data Grid | Column Animations | Infragistics
-_description: Learn how to display column animations through events when moving or hiding columns with Infragistics' {ProductName} data table & grid. Check out {ProductName} table tutorials!
-_keywords: {Platform} Table, Data Grid, column animations, {ProductName}, Infragistics
+title: "{Platform} Data Grid | Column Animations | Infragistics"
+description: Learn how to display column animations through events when moving or hiding columns with Infragistics' {ProductName} data table & grid. Check out {ProductName} table tutorials!
+keywords: "{Platform} Table, Data Grid, column animations, {ProductName}, Infragistics"
 mentionedTypes: ["Grid", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridMain}
+_canonicalLink: "{CanonicalLinkToGridMain}"
 ---
 
 <!-- Blazor, WebComponents -->

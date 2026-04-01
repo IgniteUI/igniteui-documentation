@@ -1,7 +1,7 @@
 ---
 title: Angular Date Picker Component | Date Picker | Infragistics
-_description: Learn how to use a functionality to select a date from a calendar to your web application with Ignite UI for Angular Date Picker control.
-_keywords: angular date picker, angular component, ignite ui for angular
+description: Learn how to use a functionality to select a date from a calendar to your web application with Ignite UI for Angular Date Picker control.
+keywords: angular date picker, angular component, ignite ui for angular
 ---
 
 # Angular Date Picker

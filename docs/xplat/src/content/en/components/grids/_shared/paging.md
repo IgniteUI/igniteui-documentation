@@ -1,11 +1,11 @@
 ---
-title: {Platform} {ComponentTitle} Paging - {ProductName}
-_description: Configure {Platform} pagination and create custom pages in the {Platform} table by Ignite UI, get data for the requested pages with variety of events.
+title: "{Platform} {ComponentTitle} Paging - {ProductName}"
+description: Configure {Platform} pagination and create custom pages in the {Platform} table by Ignite UI, get data for the requested pages with variety of events.
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
-_keywords: Paging, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: commercial
+keywords: Paging, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: commercial
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridPaging}
+_canonicalLink: "{CanonicalLinkToGridPaging}"
 ---
 
 # {Platform} {ComponentTitle} Pagination Overview

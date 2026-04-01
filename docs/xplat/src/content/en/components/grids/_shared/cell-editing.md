@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Cell Editing - {ProductName}
-_description: The {ComponentTitle} is using in-cell editing. It has a default cell editing template, but it also lets you define your own custom templates for update-data action. Try it now!
-_keywords: data manipulation, excel editing, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Cell Editing - {ProductName}"
+description: The {ComponentTitle} is using in-cell editing. It has a default cell editing template, but it also lets you define your own custom templates for update-data action. Try it now!
+keywords: data manipulation, excel editing, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridCellEditing}
+_canonicalLink: "{CanonicalLinkToGridCellEditing}"
 ---
 
 # {Platform} {ComponentTitle} Cell Editing

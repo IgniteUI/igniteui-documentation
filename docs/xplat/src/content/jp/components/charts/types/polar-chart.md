@@ -1,8 +1,8 @@
 ---
-title: {Platform} 極座標チャート | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの {Platform} 極座標チャート
-_keywords: {Platform} Charts, Polar Chart, Infragistics, {Platform} チャート, 極座標チャート, インフラジスティックス
-_license: commercial
+title: "{Platform} 極座標チャート | データ可視化 | インフラジスティックス"
+description: インフラジスティックスの {Platform} 極座標チャート
+keywords: "{Platform} Charts, Polar Chart, Infragistics, {Platform} チャート, 極座標チャート, インフラジスティックス"
+license: commercial
 mentionedTypes: ["XamDataChart", "PolarAreaSeries", "Series"]
 namespace: Infragistics.Controls.Charts
 _language: ja

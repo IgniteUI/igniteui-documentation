@@ -1,8 +1,8 @@
 ---
 title: Angular Chart Tooltips | Data Visualization | Infragistics
-_description: Infragistics' Angular Chart Tooltips
-_keywords: Angular Charts, Tooltips, Infragistics
-_license: commercial
+description: Infragistics' Angular Chart Tooltips
+keywords: Angular Charts, Tooltips, Infragistics
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "ToolTipType"]
 namespace: Infragistics.Controls.Charts
 ---

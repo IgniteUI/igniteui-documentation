@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} 条件付きセルのスタイル設定 - {ProductName}
-_description: ユーザーが異なるセルをすばやく識別できるようにします。さまざまなセルのスタイル設定を定義します。{Platform} {ComponentTitle} の条件付きセル スタイル設定を使用してセルを目立たせます。
-_keywords: conditional styling, {Platform}, {ProductName}, Infragistics, 条件付きスタイル設定, インフラジスティックス
-_license: commercial
+title: "{Platform} {ComponentTitle} 条件付きセルのスタイル設定 - {ProductName}"
+description: ユーザーが異なるセルをすばやく識別できるようにします。さまざまなセルのスタイル設定を定義します。{Platform} {ComponentTitle} の条件付きセル スタイル設定を使用してセルを目立たせます。
+keywords: conditional styling, {Platform}, {ProductName}, Infragistics, 条件付きスタイル設定, インフラジスティックス
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridConditionalCellStyling}
+_canonicalLink: "{CanonicalLinkToGridConditionalCellStyling}"
 _language: ja
 ---
 

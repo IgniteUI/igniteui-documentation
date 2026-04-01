@@ -1,8 +1,8 @@
 ---
-title: {Platform} ドック マネージャー | フレームの埋め込み | インフラジスティックス
-_description: インフラジスティックスの {Platform} ドック マネージャーを使用してペインによってインタラクティブなコンテンツを埋め込みます。{ProductName} ドック マネージャー チュートリアルを是非お試しください!
-_keywords: dock manager, embed frames, {ProductName}, Infragistics, ドック マネージャー, フレームの埋め込み, インフラジスティックス
-_license: commercial
+title: "{Platform} ドック マネージャー | フレームの埋め込み | インフラジスティックス"
+description: インフラジスティックスの {Platform} ドック マネージャーを使用してペインによってインタラクティブなコンテンツを埋め込みます。{ProductName} ドック マネージャー チュートリアルを是非お試しください!
+keywords: dock manager, embed frames, {ProductName}, Infragistics, ドック マネージャー, フレームの埋め込み, インフラジスティックス
+license: commercial
 _language: ja
 mentionedTypes: ["DockManager"]
 ---

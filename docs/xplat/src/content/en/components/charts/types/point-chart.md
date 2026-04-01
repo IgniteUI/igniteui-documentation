@@ -1,8 +1,8 @@
 ---
-title: {Platform} Point Chart | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Point Chart
-_keywords: {Platform} Charts, Point Chart, Infragistics
-_license: commercial
+title: "{Platform} Point Chart | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Point Chart
+keywords: "{Platform} Charts, Point Chart, Infragistics"
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "CategoryChartType", "Legend", "Series"]
 namespace: Infragistics.Controls.Charts
 ---

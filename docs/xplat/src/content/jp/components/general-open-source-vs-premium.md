@@ -1,7 +1,7 @@
 ---
 title: オープン ソース vs プレミアム | {ProductName} | インフラジスティックス
-_description: {ProductName} は、高速で機能が豊富なネイティブ Angular UI コンポーネントと、マテリアル デザインに基づく UI コントロールからなる完全なライブラリです。
-_keywords: {ProductName}, はじめに, angular コンポーネント
+description: "{ProductName} は、高速で機能が豊富なネイティブ Angular UI コンポーネントと、マテリアル デザインに基づく UI コントロールからなる完全なライブラリです。"
+keywords: "{ProductName}, はじめに, angular コンポーネント"
 _language: ja
 ---
 

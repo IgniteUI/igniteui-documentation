@@ -1,8 +1,8 @@
 ---
-title: {Platform} Select Component – {ProductName}
-_description: {ProductName} Select component
-_keywords: {ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Select components, {Platform} Select controls
-_license: MIT
+title: "{Platform} Select Component – {ProductName}"
+description: "{ProductName} Select component"
+keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Select components, {Platform} Select controls"
+license: MIT
 mentionedTypes: ["Select"]
 ---
 

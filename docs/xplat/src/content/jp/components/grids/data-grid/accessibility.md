@@ -1,10 +1,10 @@
 ---
-title: {Platform} データ グリッド | リアルタイム データ グリッドとテーブル | アクセシビリティの遵守 | インフラジスティックス
-_description: インフラジスティックスの {ProductName} データ テーブルとグリッドを使用して、スクリーン リーダーがグリッドのセルと列を介して「話す」キーボード ナビゲーションのインタラクションを読み取ることができるアクセシビリティ機能をサポートします。{ProductName} テーブルのチュートリアルをご覧ください!
-_keywords: {Platform} Table, Data Grid, cell accessibility, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, セルのアクセシビリティ, インフラジスティックス
+title: "{Platform} データ グリッド | リアルタイム データ グリッドとテーブル | アクセシビリティの遵守 | インフラジスティックス"
+description: インフラジスティックスの {ProductName} データ テーブルとグリッドを使用して、スクリーン リーダーがグリッドのセルと列を介して「話す」キーボード ナビゲーションのインタラクションを読み取ることができるアクセシビリティ機能をサポートします。{ProductName} テーブルのチュートリアルをご覧ください!
+keywords: "{Platform} Table, Data Grid, cell accessibility, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, セルのアクセシビリティ, インフラジスティックス"
 mentionedTypes: ["Grid", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridMain}
+_canonicalLink: "{CanonicalLinkToGridMain}"
 _language: ja
 ---
 

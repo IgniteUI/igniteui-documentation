@@ -1,8 +1,8 @@
 ---
 title: Multi-select Hierarchical Drop Down- Ignite UI for Angular - MIT license 
-_description: Learn how to create a multi-select tree-style hierarchical drop-down with Ignite UI.
-_keywords: Multi-select drop-down, hierarchical selection, ignite ui for angular, infragistics
-_license: MIT
+description: Learn how to create a multi-select tree-style hierarchical drop-down with Ignite UI.
+keywords: Multi-select drop-down, hierarchical selection, ignite ui for angular, infragistics
+license: MIT
 ---
 
 # Multi-select Hierarchical Drop Down

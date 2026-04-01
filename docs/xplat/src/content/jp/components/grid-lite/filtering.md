@@ -1,10 +1,10 @@
 ---
-title: {Platform} {GridLiteTitle} フィルタリング | {ProductName} | MIT ライセンス
-_description: {GridLiteTitle} のフィルター操作、フィルターのカスタマイズ、およびリモート フィルタリング。オープン ソースの {Platform} {GridLiteTitle} を使用してアプリを作成できます。今すぐお試しください。
-_keywords: filtering, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, フィルタリング, インフラジスティックス
+title: "{Platform} {GridLiteTitle} フィルタリング | {ProductName} | MIT ライセンス"
+description: "{GridLiteTitle} のフィルター操作、フィルターのカスタマイズ、およびリモート フィルタリング。オープン ソースの {Platform} {GridLiteTitle} を使用してアプリを作成できます。今すぐお試しください。"
+keywords: filtering, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, フィルタリング, インフラジスティックス
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
-_license: MIT
+license: MIT
 _language: ja
 ---
 

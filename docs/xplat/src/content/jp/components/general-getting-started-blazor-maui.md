@@ -1,7 +1,7 @@
 ---
 title: .NET MAUI を使用して Blazor Hybrid アプリを構築する - Ignite UI for Blazor
-_description: この記事では、Ignite UI for Blazor を使用して、.NET MAUI で Blazor Hybrid アプリを作成する方法の手順を説明します。今すぐお試しください。
-_keywords: {ProductName}, Infragistics, Getting Started, インフラジスティックス, 作業の開始
+description: この記事では、Ignite UI for Blazor を使用して、.NET MAUI で Blazor Hybrid アプリを作成する方法の手順を説明します。今すぐお試しください。
+keywords: "{ProductName}, Infragistics, Getting Started, インフラジスティックス, 作業の開始"
 _language: ja
 mentionedTypes: []
 ---

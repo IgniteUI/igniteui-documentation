@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Filtering - {ProductName}
-_description: Start using angular filter to return specific data with {Platform} {ComponentTitle}. Check the advanced filtering options, including data-type Excel-style filtering.
-_keywords: filter, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Filtering - {ProductName}"
+description: Start using angular filter to return specific data with {Platform} {ComponentTitle}. Check the advanced filtering options, including data-type Excel-style filtering.
+keywords: filter, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridFiltering}
+_canonicalLink: "{CanonicalLinkToGridFiltering}"
 ---
 
 # {Platform} {ComponentTitle} Filtering

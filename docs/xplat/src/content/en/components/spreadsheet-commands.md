@@ -1,8 +1,8 @@
 ---
-title: {Platform} Spreadsheet | Commands | Infragistics
-_description: Perform commands to activate different features of Infragistics' {Platform} spreadsheet control. Learn commands such as ZoomIn and ZoomOut with {ProductName} spreadsheet!
-_keywords: Spreadsheet, commands, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Spreadsheet | Commands | Infragistics"
+description: Perform commands to activate different features of Infragistics' {Platform} spreadsheet control. Learn commands such as ZoomIn and ZoomOut with {ProductName} spreadsheet!
+keywords: Spreadsheet, commands, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: ["Spreadsheet", "SpreadsheetAction"]
 ---
 # {Platform} Working with Commands

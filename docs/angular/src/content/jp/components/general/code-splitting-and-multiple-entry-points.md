@@ -1,7 +1,7 @@
 ---
 title: コード分割とマルチ エントリのポイント | Ignite UI for Angular | インフラジスティックス
-_description: Ignite UI for Angular のマルチエントリ ポイントを使用して、ツリー シェイキングとコード分割を改善し、Angular アプリケーション の バンドル サイズを最適化する方法を説明します。
-_keywords: ignite ui for angular, コード分割, エントリ ポイント、ツリー シェイキング, 遅延読み込み, バンドル最適化
+description: Ignite UI for Angular のマルチエントリ ポイントを使用して、ツリー シェイキングとコード分割を改善し、Angular アプリケーション の バンドル サイズを最適化する方法を説明します。
+keywords: ignite ui for angular, コード分割, エントリ ポイント、ツリー シェイキング, 遅延読み込み, バンドル最適化
 _language: ja
 ---
 

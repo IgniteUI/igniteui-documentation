@@ -1,7 +1,7 @@
 ---
 title: Angular Breaking Changes | Ignite UI for Angular | Infragistics
-_description: Learn about breaking changes in the Ignite UI for Angular and how to update your code to latest API.
-_keywords: Breaking Changes,  Ignite UI for Angular, Infragistics
+description: Learn about breaking changes in the Ignite UI for Angular and how to update your code to latest API.
+keywords: Breaking Changes,  Ignite UI for Angular, Infragistics
 ---
 
 # Breaking Changes in Ignite UI for Angular

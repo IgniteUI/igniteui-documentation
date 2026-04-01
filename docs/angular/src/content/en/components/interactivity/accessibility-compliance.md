@@ -1,8 +1,8 @@
 ---
 title: Ignite UI for Angular Accessibility Compliance | Ignite UI for Angular | Infragistics
-_description: Ignite UI for Angular Accessibility Support and Compliance - Section 508 Compliance, WCAG and ARIA .
-_keywords: accessibility, Angular, ignite ui for Angular, infragistics
-_license: MIT
+description: Ignite UI for Angular Accessibility Support and Compliance - Section 508 Compliance, WCAG and ARIA .
+keywords: accessibility, Angular, ignite ui for Angular, infragistics
+license: MIT
 mentionedTypes: []
 ---
 

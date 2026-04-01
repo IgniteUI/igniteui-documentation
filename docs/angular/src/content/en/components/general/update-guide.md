@@ -1,7 +1,7 @@
 ---
 title: Update Guide | Ignite UI for Angular | Infragistics
-_description: Check out this article on updating how to update to a newer version of the Ignite UI for Angular library.
-_keywords: ignite ui for angular, update, npm package, material components
+description: Check out this article on updating how to update to a newer version of the Ignite UI for Angular library.
+keywords: ignite ui for angular, update, npm package, material components
 ---
 
 <!-- markdownlint-disable MD024 -->

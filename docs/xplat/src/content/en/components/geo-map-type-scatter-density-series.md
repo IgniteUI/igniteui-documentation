@@ -1,8 +1,8 @@
 ---
-title: {Platform} Map | Data Visualization Tools | Scatter High Density Series | Data Binding | Infragistics
-_description: Use Infragistics {Platform} map's scatter high density series to bind and show scatter data ranging from hundreds to millions of data points requiring exceedingly little loading time. Learn more about {ProductName} map's series!
-_keywords: {Platform} map, scatter high density series, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Map | Data Visualization Tools | Scatter High Density Series | Data Binding | Infragistics"
+description: Use Infragistics {Platform} map's scatter high density series to bind and show scatter data ranging from hundreds to millions of data points requiring exceedingly little loading time. Learn more about {ProductName} map's series!
+keywords: "{Platform} map, scatter high density series, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: ["XamGeographicMap", "Series"]
 ---
 # {Platform} Geographic High Density Map

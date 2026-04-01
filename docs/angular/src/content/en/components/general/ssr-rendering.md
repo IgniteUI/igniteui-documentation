@@ -1,7 +1,7 @@
 ---
 title: Server-side rendering | Angular SSR | Ignite UI for Angular | Infragistics
-_description: How to use Angular Server-side rendering with Ignite UI for Angular.
-_keywords: Ignite UI for Angular, Angular SSR, Server-side rendering
+description: How to use Angular Server-side rendering with Ignite UI for Angular.
+keywords: Ignite UI for Angular, Angular SSR, Server-side rendering
 ---
 
 # Server-side Rendering with Angular SSR

@@ -1,10 +1,10 @@
 ---
-title: {Platform} データ グリッド | セル結合 | 結合 | インフラジスティックス
-_description: Infragistics の {Platform} データ グリッドのセル結合機能を使用して、重複する値を持つセルを結合します。
-_keywords: {Platform} Table, Data Grid, cell merging, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, セル結合, インフラジスティックス
+title: "{Platform} データ グリッド | セル結合 | 結合 | インフラジスティックス"
+description: Infragistics の {Platform} データ グリッドのセル結合機能を使用して、重複する値を持つセルを結合します。
+keywords: "{Platform} Table, Data Grid, cell merging, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, セル結合, インフラジスティックス"
 mentionedTypes: ["Grid", "MergedCellMode", "MergedCellEvaluationCriteria"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridMain}
+_canonicalLink: "{CanonicalLinkToGridMain}"
 _language: ja
 ---
 

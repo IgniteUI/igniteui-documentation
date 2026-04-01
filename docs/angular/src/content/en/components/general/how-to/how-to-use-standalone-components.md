@@ -1,7 +1,7 @@
 ---
 title: How to Use Standalone Components - Angular | Ignite UI for Angular
-_description: How to use Ignite UI for Angular components as standalone components, and as dependencies in your other standalone components.
-_keywords: Ignite UI for Angular, Standalone Components, Angular 16, Angular Modules
+description: How to use Ignite UI for Angular components as standalone components, and as dependencies in your other standalone components.
+keywords: Ignite UI for Angular, Standalone Components, Angular 16, Angular Modules
 ---
 
 # Using Standalone Components with Ignite UI for Angular

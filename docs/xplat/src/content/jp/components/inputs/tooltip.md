@@ -1,8 +1,8 @@
 ---
-title: {Platform} Tooltip | インフラジスティックス
-_description: {ProductName} Tooltip コンポーネントを使用すると、ツールチップを簡単に作成し、要素に添付することができます。
-_keywords: {ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Tooltip components, UI コントロール, {Platform} ウィジェット, web ウィジェット, UI ウィジェット, ネイティブ {Platform} コンポーネント スイート, ネイティブ {Platform} コントロール, ネイティブ {Platform} コンポーネント ライブラリ, {Platform} Tooltip コンポーネント
-_license: MIT
+title: "{Platform} Tooltip | インフラジスティックス"
+description: "{ProductName} Tooltip コンポーネントを使用すると、ツールチップを簡単に作成し、要素に添付することができます。"
+keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Tooltip components, UI コントロール, {Platform} ウィジェット, web ウィジェット, UI ウィジェット, ネイティブ {Platform} コンポーネント スイート, ネイティブ {Platform} コントロール, ネイティブ {Platform} コンポーネント ライブラリ, {Platform} Tooltip コンポーネント"
+license: MIT
 mentionedTypes: ["Tooltip", "PopoverPlacement"]
 _language: ja
 ---

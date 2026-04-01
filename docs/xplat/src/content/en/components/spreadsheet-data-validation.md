@@ -1,8 +1,8 @@
 ---
-title: {Platform} Spreadsheet | Data Validation | Infragistics
-_description: Use Infragistics' {Platform} spreadsheet control to setup built-in data validation rules. View {ProductName} spreadsheet demos!
-_keywords: Excel Spreadsheet, data validation, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Spreadsheet | Data Validation | Infragistics"
+description: Use Infragistics' {Platform} spreadsheet control to setup built-in data validation rules. View {ProductName} spreadsheet demos!
+keywords: Excel Spreadsheet, data validation, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: ["Spreadsheet"]
 ---
 # {Platform} Data Validation

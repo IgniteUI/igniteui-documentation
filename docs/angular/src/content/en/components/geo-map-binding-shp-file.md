@@ -1,8 +1,8 @@
 ---
 title: Angular Map | Data Visualization Tools | Binding Geographic Shape Files | Infragistics
-_description: Use Infragistics' Angular JavaScript map to load geo-spatial data from shape files. View Ignite UI for Angular map demos!
-_keywords: Angular map, shapefiles, Ignite UI for Angular, Infragistics, data binding
-_license: commercial
+description: Use Infragistics' Angular JavaScript map to load geo-spatial data from shape files. View Ignite UI for Angular map demos!
+keywords: Angular map, shapefiles, Ignite UI for Angular, Infragistics, data binding
+license: commercial
 mentionedTypes: ["XamGeographicMap", "ShapefileConverter", "Series", "GeographicShapeSeriesBase"]
 ---
 

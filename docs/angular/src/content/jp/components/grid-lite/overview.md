@@ -1,8 +1,8 @@
 ---
 title: 無料の Angular Data Grid (オープン ソース) - Ignite UI Grid Lite | MIT ライセンス
-_description: オープン ソースの Grid Lite を使用してアプリを作成できます。軽量でありながら、フィルタリング、非表示、ソート など、必要な機能がすべて搭載されています。今すぐお試しください。
-_keywords: 概要, {Platform}, {ComponentKeywords}, {ProductName}, インフラジスティックス
-_license: MIT
+description: オープン ソースの Grid Lite を使用してアプリを作成できます。軽量でありながら、フィルタリング、非表示、ソート など、必要な機能がすべて搭載されています。今すぐお試しください。
+keywords: 概要, {Platform}, {ComponentKeywords}, {ProductName}, インフラジスティックス
+license: MIT
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
 _language: ja

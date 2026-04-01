@@ -1,7 +1,7 @@
 ---
 title: Create a User Interface with Angular Components | WPF to Angular Guide | Infragistics
-_description: Learn how to create a user interface in an Angular application with an Angular component. See how similar WPF components translate in Angular.
-_keywords: create user interface with an angular component, ignite ui for angular, infragistics
+description: Learn how to create a user interface in an Angular application with an Angular component. See how similar WPF components translate in Angular.
+keywords: create user interface with an angular component, ignite ui for angular, infragistics
 ---
 
 # Create User Interface with an Angular component

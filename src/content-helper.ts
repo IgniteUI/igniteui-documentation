@@ -55,10 +55,6 @@ function withTitleFilter(baseLoader: any): any {
     return {
         ...baseLoader,
         load: async (ctx: any) => {
-            // Force full re-parse in build mode so z.preprocess always remaps
-            // _description/_keywords. The glob loader skips parseData for
-            // digest-matched entries otherwise. ctx.watcher is only set in dev mode.
-            if (!ctx.watcher) ctx.store.clear();
             await baseLoader.load(ctx);
             for (const id of [...ctx.store.keys()]) {
                 const entry = ctx.store.get(id);
@@ -71,11 +67,9 @@ function withTitleFilter(baseLoader: any): any {
 }
 
 /**
- * Wraps docsSchema with a z.preprocess that:
- * 1. Normalizes docfx frontmatter (_description → description, _keywords → keywords)
- *    before Zod validation
- * 2. Injects a sentinel title for entries missing one so the glob loader doesn't
- *    throw InvalidContentEntryDataError; withTitleFilter removes those entries after loading.
+ * Wraps docsSchema with a z.preprocess that injects a sentinel title for entries
+ * missing one so the glob loader doesn't throw InvalidContentEntryDataError;
+ * withTitleFilter removes those entries after loading.
  */
 function skippableDocsSchema(extend?: ExtendSchema) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -85,8 +79,7 @@ function skippableDocsSchema(extend?: ExtendSchema) {
         (data: unknown) => {
             if (typeof data === 'object' && data !== null) {
                 const d = data as Record<string, unknown>;
-                if (d['_description'] && !d['description']) d['description'] = d['_description'];
-                if (d['_keywords'] && !d['keywords']) d['keywords'] = d['_keywords'];
+                if (d['description'] === null) delete d['description'];
                 if (!d['title']) return { ...d, title: SKIP_TITLE };
             }
             return data;

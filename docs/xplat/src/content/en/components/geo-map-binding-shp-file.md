@@ -1,8 +1,8 @@
 ---
-title: {Platform} Map | Data Visualization Tools | Binding Geographic Shape Files | Infragistics
-_description: Use Infragistics' {Platform} JavaScript map to load geo-spatial data from shape files. View {ProductName} map demos!
-_keywords: {Platform} map, shapefiles, {ProductName}, Infragistics, data binding
-_license: commercial
+title: "{Platform} Map | Data Visualization Tools | Binding Geographic Shape Files | Infragistics"
+description: Use Infragistics' {Platform} JavaScript map to load geo-spatial data from shape files. View {ProductName} map demos!
+keywords: "{Platform} map, shapefiles, {ProductName}, Infragistics, data binding"
+license: commercial
 mentionedTypes: ["XamGeographicMap", "ShapefileConverter", "Series", "GeographicShapeSeriesBase"]
 ---
 # {Platform} Binding Shape Files with Geo-spatial Data

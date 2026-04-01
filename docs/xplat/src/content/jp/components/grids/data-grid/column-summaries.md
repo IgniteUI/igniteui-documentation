@@ -1,10 +1,10 @@
 ---
-title: {Platform} データ グリッド | 列集計 | インフラジスティックス
-_description: Infragistics のグリッド コンポーネントの列集計機能を使用して、件数、最大値、最小値などの集計データを表示します。{ProductName} テーブルのサンプルを是非お試しください!
-_keywords: {Platform} Table, Data Grid, column, summaries, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, 列, 集計, インフラジスティックス
+title: "{Platform} データ グリッド | 列集計 | インフラジスティックス"
+description: Infragistics のグリッド コンポーネントの列集計機能を使用して、件数、最大値、最小値などの集計データを表示します。{ProductName} テーブルのサンプルを是非お試しください!
+keywords: "{Platform} Table, Data Grid, column, summaries, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, 列, 集計, インフラジスティックス"
 mentionedTypes: ["Implementation.Grid", "SummaryScope", "GroupSummaryDisplayMode"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridSummaries}
+_canonicalLink: "{CanonicalLinkToGridSummaries}"
 _language: ja
 ---
 

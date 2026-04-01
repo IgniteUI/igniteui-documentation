@@ -1,8 +1,8 @@
 ---
 title: Angular スプレッドシート | ハイパーリンク | インフラジスティックス
-_description: インフラジスティックスの Angular スプレッドシート コントロールを使用して、Excel ワークブックに Webサイト、ファイル ディレクトリ、およびその他のワークシートにリンクするハイパーリンクを表示します。Ignite UI for Angular スプレッドシート チュートリアルを是非お試しください!
-_keywords: Excel Spreadsheet, hyperlinks, Ignite UI for Angular, Infragistics, Excel スプレッドシート、ハイパーリンク, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular スプレッドシート コントロールを使用して、Excel ワークブックに Webサイト、ファイル ディレクトリ、およびその他のワークシートにリンクするハイパーリンクを表示します。Ignite UI for Angular スプレッドシート チュートリアルを是非お試しください!
+keywords: Excel Spreadsheet, hyperlinks, Ignite UI for Angular, Infragistics, Excel スプレッドシート、ハイパーリンク, インフラジスティックス
+license: commercial
 mentionedTypes: ["Spreadsheet"]
 _language: ja
 ---

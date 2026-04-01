@@ -1,7 +1,7 @@
 ---
 title: Ignite UI Theming MCP | Ignite UI for Angular
-_description: Ignite UI for Angular ships with the Ignite UI Theming MCP server that allows you to create custom themes, palettes, typography, and elevations for your Angular applications. Learn how to use the MCP server to generate and apply custom themes that match your brand and design requirements.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Artificial Intelligence, AI, MCP, Model Context Protocol, Theming, Custom Themes, Palettes, Typography, Elevations
+description: Ignite UI for Angular ships with the Ignite UI Theming MCP server that allows you to create custom themes, palettes, typography, and elevations for your Angular applications. Learn how to use the MCP server to generate and apply custom themes that match your brand and design requirements.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Artificial Intelligence, AI, MCP, Model Context Protocol, Theming, Custom Themes, Palettes, Typography, Elevations
 ---
 
 # Ignite UI Theming MCP

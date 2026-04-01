@@ -1,7 +1,7 @@
 ---
 title: Angular Sparkline | Data Visualization Tools | Ignite UI for Angular | Infragistics
-_description: Use the sparkline chart to render in a small scale layout such as a grid cell or stand alone.
-_keywords: Sparkline, Ignite UI for Angular, Infragistics
+description: Use the sparkline chart to render in a small scale layout such as a grid cell or stand alone.
+keywords: Sparkline, Ignite UI for Angular, Infragistics
 ---
 
 # Angular Sparkline

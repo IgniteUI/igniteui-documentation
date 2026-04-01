@@ -1,8 +1,8 @@
 ---
-title: {Platform} Map | Data Visualization Tools | Displaying Bing Imagery | Infragistics
-_description: Use Infragistics' {Platform} to display imagery from Microsoft Bing Maps. View {ProductName} map tutorials!
-_keywords: {Platform} map, bing maps, {ProductName}, Infragistics, imagery tile source, map background
-_license: commercial
+title: "{Platform} Map | Data Visualization Tools | Displaying Bing Imagery | Infragistics"
+description: Use Infragistics' {Platform} to display imagery from Microsoft Bing Maps. View {ProductName} map tutorials!
+keywords: "{Platform} map, bing maps, {ProductName}, Infragistics, imagery tile source, map background"
+license: commercial
 mentionedTypes: ["XamGeographicMap", "BingMapsMapImagery"]
 ---
 # {Platform} Displaying Imagery from Bing Maps

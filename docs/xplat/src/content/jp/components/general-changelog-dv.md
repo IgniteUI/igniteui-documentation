@@ -1,7 +1,7 @@
 ---
-title: {Platform} 新機能 | {ProductName} | インフラジスティックス
-_description: {ProductName} の新機能について学んでください。
-_keywords: Changelog, What's New, {ProductName}, Infragistics, 変更ログ, 新機能, インフラジスティックス
+title: "{Platform} 新機能 | {ProductName} | インフラジスティックス"
+description: "{ProductName} の新機能について学んでください。"
+keywords: Changelog, What's New, {ProductName}, Infragistics, 変更ログ, 新機能, インフラジスティックス
 mentionedTypes: ["SeriesViewer", "XYChart", "DomainChart", "XamDataChart", "Toolbar", "XamGeographicMap", "DatePicker", "DataPieChart", "MultiColumnComboBox", "CategoryChart", "CrosshairLayer", "FinalValueLayer", "CalloutLayer", "DataLegend", "XamRadialGauge", "XamRadialChart", "Toolbar"]
 namespace: Infragistics.Controls.Charts
 _language: ja
