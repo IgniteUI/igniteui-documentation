@@ -724,7 +724,11 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
             starlight({
                 title,
                 sidebar: sidebar,
-                head: [...platformHead, ...codeViewHead, ...head],
+                head: [
+                    // Force light theme as default — runs before page renders to avoid flash.
+                    { tag: 'script', content: "if(!localStorage.getItem('starlight-theme'))localStorage.setItem('starlight-theme','light');" },
+                    ...platformHead, ...codeViewHead, ...head,
+                ],
                 // Consumer's extra options spread here — allows overriding title, head, etc.
                 ...starlightExtra,
                 // These always come last so merging with defaults is applied correctly.
