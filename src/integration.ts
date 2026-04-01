@@ -657,10 +657,11 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro',       pkgDir)),
     };
 
+    const scriptsBase = base ? base.replace(/\/$/, '') : '';
     const codeViewHead = [
         { tag: 'link' as const, attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
         { tag: 'script' as const, attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
-        { tag: 'script' as const, attrs: { src: '/scripts/code-view.js', defer: true } },
+        { tag: 'script' as const, attrs: { src: `${scriptsBase}/scripts/code-view.js`, defer: true } },
     ];
 
     // Auto-configure a Vite dev-server proxy so code-view.js can fetch
