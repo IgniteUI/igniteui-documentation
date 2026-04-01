@@ -1,16 +1,19 @@
-import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
-import { docsSchema } from '@astrojs/starlight/schema';
-import { pathToFileURL } from 'node:url';
+import { createDocsCollection } from 'docs-template/content';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const docsDir = process.env.DOCS_SOURCE_PATH || './src/content/en';
+// src/ → project root
+const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+
+let lang = 'en';
+try {
+	const cfg = JSON.parse(readFileSync(path.join(root, '.platform.json'), 'utf8'));
+	lang = cfg.lang ?? lang;
+} catch { /* use defaults */ }
+
+const docsDir = path.join(root, 'src', 'content', lang, 'components');
 
 export const collections = {
-	docs: defineCollection({
-		loader: glob({
-			base: pathToFileURL(docsDir.endsWith('/') ? docsDir : docsDir + '/'),
-			pattern: '**/*.{md,mdx}',
-		}),
-		schema: docsSchema(),
-	}),
+	docs: createDocsCollection(docsDir),
 };
