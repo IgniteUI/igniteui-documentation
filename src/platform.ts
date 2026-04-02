@@ -43,7 +43,7 @@ export type PlatformKey =
 export interface PlatformMeta {
     title: string; description: string;
     key: PlatformKey; devPort: number;
-    base: string; igPath: string; label: string;
+    base: string; label: string;
 }
 
 type NavType = 'infragistics' | 'appbuilder' | 'none';
@@ -168,6 +168,45 @@ export const PLATFORM_DEFS: Record<PlatformKey, PlatformDef> = {
 // ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
+
+/**
+ * Shared per-platform metadata for all Ignite UI docs sites.
+ * Import this in `astro.config.ts` files instead of duplicating the data.
+ */
+export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
+  Angular: {
+    title: "Ignite UI for Angular",
+    description: "Reference docs for Ignite UI for Angular.",
+    key: "angular",
+    devPort: 4331,
+    base: "/docs-angular-new",
+    label: "Angular",
+  },
+  React: {
+    title: "Ignite UI for React",
+    description: "Reference docs for Ignite UI for React.",
+    key: "react",
+    devPort: 4332,
+    base: "/docs-react-new",
+    label: "React",
+  },
+  WebComponents: {
+    title: "Ignite UI for Web Components",
+    description: "Reference docs for Ignite UI for Web Components.",
+    key: "web-components",
+    devPort: 4333,
+    base: "/docs-wc-new",
+    label: "Web Components",
+  },
+  Blazor: {
+    title: "Ignite UI for Blazor",
+    description: "Reference docs for Ignite UI for Blazor.",
+    key: "blazor",
+    devPort: 4334,
+    base: "/docs-blazor-new",
+    label: "Blazor",
+  },
+};
 
 /**
  * Returns an array of Starlight `head` entries for the given platform.

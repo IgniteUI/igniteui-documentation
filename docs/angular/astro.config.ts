@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
+import { IGDOCS_PLATFORMS } from 'docs-template/platform';
 import { generateGridTopics, normalizeImagePaths } from './src/generate-grids.mjs';
 import { remarkEnv } from './src/plugins/remark-env.mjs';
 
@@ -14,18 +15,13 @@ const mode: DocsMode = nodeEnv === 'production' ? 'prod'
 		: 'dev';
 
 // ── Site URL — varies by build mode ─────────────────────────────────────────
-const igBase = mode === 'prod'
-	? 'https://www.infragistics.com/products/'
-	: 'https://staging.infragistics.com/products/';
+const PROD_HOST = 'https://www.infragistics.com';
+const STAGING_HOST = 'https://staging.infragistics.com';
 
-const IG_PATHS = {
-	Angular: 'ignite-ui-angular/angular/components',
-	React: 'ignite-ui-react/react/components',
-	WebComponents: 'ignite-ui-web-components/web-components/components',
-	Blazor: 'ignite-ui-blazor/blazor/components',
-} as const;
-
-const site = mode === 'dev' ? 'http://localhost:4321' : `${igBase}${IG_PATHS.Angular}`;
+const { base } = IGDOCS_PLATFORMS.Angular;
+const site = mode === 'prod' ? `${PROD_HOST}${base}`
+	: mode === 'staging' ? `${STAGING_HOST}${base}`
+		: 'http://localhost:4321';
 
 // ── Source paths ─────────────────────────────────────────────────────────────
 const docsDir = path.resolve(`./src/content/${docsLang}`);
@@ -39,17 +35,17 @@ normalizeImagePaths(componentsDocsDir);
 // https://astro.build/config
 export default createDocsSite({
 	site,
+	base: mode !== 'dev' ? base : undefined,
 	title: 'Ignite UI for Angular',
 	description: 'Component and API reference docs for Ignite UI for Angular.',
 	platform: 'angular',
 	navLang: docsLang === 'jp' ? 'ja' : docsLang,
 	mode,
-	productLinks: [
-		{ label: 'Angular', href: `${igBase}${IG_PATHS.Angular}`, platform: 'angular' },
-		{ label: 'React', href: `${igBase}${IG_PATHS.React}`, platform: 'react' },
-		{ label: 'Web Components', href: `${igBase}${IG_PATHS.WebComponents}`, platform: 'web-components' },
-		{ label: 'Blazor', href: `${igBase}${IG_PATHS.Blazor}`, platform: 'blazor' },
-	],
+	productLinks: Object.values(IGDOCS_PLATFORMS).map(({ label, key, base: b }) => ({
+		label,
+		href: mode === 'prod' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
+		platform: key,
+	})),
 	source: {
 		tocPath: path.join(componentsDocsDir, 'toc.yml'),
 		docsDir: componentsDocsDir,
