@@ -41,8 +41,9 @@ export type PlatformKey =
     | 'appbuilder';
 
 export interface PlatformMeta {
-    title: string;
-    description: string;
+    title: string; description: string;
+    key: PlatformKey; devPort: number;
+    base: string; igPath: string; label: string;
 }
 
 type NavType = 'infragistics' | 'appbuilder' | 'none';

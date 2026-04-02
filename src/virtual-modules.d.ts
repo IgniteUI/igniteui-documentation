@@ -1,5 +1,18 @@
+// virtual:starlight/components/* are declared in Starlight's virtual-internal.d.ts
+// which is not publicly re-exported. Declare the ones we use directly.
+declare module 'virtual:starlight/components/Search' {
+  const Search: typeof import('@astrojs/starlight/components/Search.astro').default;
+  export default Search;
+}
+
 declare module 'virtual:docs-template/site-meta' {
   export const sidebar: { label: string; slug?: string; items?: unknown[] }[];
+  /** Cross-product navigation links for the DocsSubHeader. */
+  export const productLinks: Array<{
+    label: string;
+    href: string;
+    platform?: string;
+  }>;
 }
 
 declare module 'virtual:docs-template/nav-html' {

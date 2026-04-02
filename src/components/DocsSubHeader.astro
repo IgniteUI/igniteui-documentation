@@ -1,0 +1,343 @@
+---
+/**
+ * DocsSubHeader
+ *
+ * A secondary fixed header bar rendered below the GlobalNavBar.
+ *
+ * Positioning (set in custom.css):
+ *   --docs-global-nav-height   height of the GlobalNavBar above (default 86px)
+ *   --docs-subheader-height    height of this bar (default 40px)
+ *
+ */
+import Search from 'virtual:starlight/components/Search';
+import config from 'virtual:starlight/user-config';
+import { platform as virtualPlatform } from 'virtual:docs-template/nav-html';
+import { productLinks, title as siteTitle } from 'virtual:docs-template/site-meta';
+
+const shouldRenderSearch =
+    config.pagefind ||
+    config.components.Search !== '@astrojs/starlight/components/Search.astro';
+
+const rawTitle = Astro.locals.starlightRoute?.entry?.data?.title ?? '';
+const pageTitle = rawTitle.includes(' | ') ? rawTitle.split(' | ')[0].trim() : rawTitle;
+
+const currentPlatform = virtualPlatform ?? null;
+const filteredLinks = productLinks.filter(l => l.platform !== currentPlatform);
+---
+
+<docs-subheader-menu>
+    <div class="docs-subheader">
+
+        <!-- Left: title area, takes all free space -->
+        <div class="subheader-context">
+            {siteTitle && <span class="subheader-site-title">{siteTitle}</span>}
+            {pageTitle && <span class="subheader-page-title" title={rawTitle}>{pageTitle}</span>}
+        </div>
+
+        <!-- Right: links + search. Desktop: flex row. Mobile: absolute dropdown. -->
+        <div class="subheader-right" id="docs-subheader-panel">
+            {filteredLinks.length > 0 && (
+                <div class="subheader-links">
+                    {filteredLinks.map((link, i) => (
+                        <>
+                            {i > 0 && <span class="product-sep" aria-hidden="true">|</span>}
+                            <a href={link.href} class="product-link">{link.label}</a>
+                        </>
+                    ))}
+                </div>
+            )}
+
+            {shouldRenderSearch && (
+                <div class="subheader-search">
+                    <Search />
+                </div>
+            )}
+        </div>
+
+        <!-- Mobile toggle (hidden on desktop) -->
+        <button
+            class="subheader-toggle"
+            data-docs-toggle
+            aria-expanded="false"
+            aria-controls="docs-subheader-panel"
+            aria-label="Toggle navigation"
+        >
+            <svg class="icon-open" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="3" y1="6"  x2="21" y2="6"  />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+            <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="18" y1="6"  x2="6"  y2="18" />
+                <line x1="6"  y1="6"  x2="18" y2="18" />
+            </svg>
+        </button>
+
+    </div>
+</docs-subheader-menu>
+
+<script>
+    if (!customElements.get('docs-subheader-menu')) {
+        class DocsSubHeaderMenu extends HTMLElement {
+            connectedCallback() {
+                const btn = this.querySelector<HTMLButtonElement>('[data-docs-toggle]');
+                if (!btn) return;
+
+                const setExpanded = (expanded: boolean) => {
+                    this.setAttribute('aria-expanded', String(expanded));
+                    btn.setAttribute('aria-expanded', String(expanded));
+                };
+
+                btn.addEventListener('click', () => {
+                    setExpanded(this.getAttribute('aria-expanded') !== 'true');
+                });
+
+                document.addEventListener('keyup', (e: KeyboardEvent) => {
+                    if (e.key === 'Escape' && this.getAttribute('aria-expanded') === 'true') {
+                        setExpanded(false);
+                        btn.focus();
+                    }
+                });
+
+                this.addEventListener('focusout', (e: FocusEvent) => {
+                    if (!this.contains(e.relatedTarget as Node)) setExpanded(false);
+                });
+
+                document.addEventListener('click', (e: MouseEvent) => {
+                    if (!this.contains(e.target as Node)) setExpanded(false);
+                });
+            }
+        }
+
+        customElements.define('docs-subheader-menu', DocsSubHeaderMenu);
+    }
+</script>
+
+<style>
+    docs-subheader-menu {
+        display: contents;
+    }
+
+    /* ── Fixed bar ─────────────────────────────────────────────────────────── */
+
+    .docs-subheader {
+        position: fixed;
+        inset-inline-start: 0;
+        inset-block-start: var(--docs-global-nav-height, 86px);
+        width: 100%;
+        height: var(--docs-subheader-height, 40px);
+        z-index: calc(var(--sl-z-index-navbar) - 1);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+        padding-inline: 1rem;
+        background-color: var(--sl-color-bg-nav);
+        border-bottom: 1px solid var(--sl-color-hairline-shade);
+        overflow: visible;
+    }
+
+    /* ── Context (left) ────────────────────────────────────────────────────── */
+
+    .subheader-context {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.375rem;
+        overflow: hidden;
+    }
+
+    .subheader-site-title {
+        flex-shrink: 0;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--sl-color-text-accent);
+        white-space: nowrap;
+    }
+
+    .subheader-page-title {
+        font-size: 0.875rem;
+        color: var(--sl-color-text);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .subheader-site-title + .subheader-page-title::before {
+        content: '/';
+        margin-inline-end: 0.375rem;
+        color: var(--sl-color-gray-3);
+    }
+
+    /* ── Right side: links + search ────────────────────────────────────────── */
+
+    .subheader-right {
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* Links row: spans + anchors in a flat flex row */
+    .subheader-links {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 0;
+    }
+
+    .product-link {
+        font-size: 0.75rem;
+        color: var(--sl-color-gray-2);
+        text-decoration: none;
+        white-space: nowrap;
+        padding-inline: 0.25rem;
+        line-height: 1;
+        transition: color 0.15s;
+    }
+
+    .product-link:hover,
+    .product-link:focus-visible {
+        color: var(--sl-color-text-accent);
+        text-decoration: underline;
+    }
+
+    .product-sep {
+        flex-shrink: 0;
+        font-size: 0.6875rem;
+        color: var(--sl-color-gray-4);
+        padding-inline: 0.125rem;
+        line-height: 1;
+        user-select: none;
+    }
+
+    /* Search wrapper */
+    .subheader-search {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    /* Override Starlight's starlight.core layer which applies
+       background-color: var(--sl-color-black) to the button at ≥ 50rem. */
+    .subheader-search :global(button[data-open-modal]) {
+        border: 1px solid var(--sl-color-gray-5);
+        border-radius: 0.375rem;
+        color: var(--sl-color-gray-2);
+        padding-inline: 0.5rem;
+        font-size: var(--sl-text-sm);
+        width: 11rem;
+        max-width: 14rem;
+        gap: 0.375rem;
+    }
+
+    /* Push the kbd shortcut badge to the far right of the button */
+    .subheader-search :global(button[data-open-modal] > kbd) {
+        margin-inline-start: auto;
+    }
+
+    .subheader-search :global(button[data-open-modal]:hover) {
+        border-color: var(--sl-color-gray-2);
+        color: var(--sl-color-text);
+    }
+
+    .subheader-search :global(site-search) {
+        --pagefind-ui-scale: 0.6;
+    }
+
+    /* ── Mobile toggle (hidden on desktop) ─────────────────────────────────── */
+
+    .subheader-toggle {
+        display: none;
+        flex-shrink: 0;
+        padding: 0.25rem;
+        background: none;
+        border: none;
+        border-radius: 0.25rem;
+        color: var(--sl-color-text);
+        cursor: pointer;
+        line-height: 0;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════════════
+       Mobile  (≤ 50rem)
+       ══════════════════════════════════════════════════════════════════════════ */
+
+    @media (max-width: 50rem) {
+        /* Hide right side from the bar; it becomes an absolute dropdown */
+        .subheader-right {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background-color: var(--sl-color-bg-nav);
+            border-bottom: 1px solid var(--sl-color-hairline-shade);
+            box-shadow: var(--sl-shadow-md);
+        }
+
+        docs-subheader-menu[aria-expanded='true'] .subheader-right {
+            display: flex;
+        }
+
+        /* Links stay in a horizontal row inside the dropdown */
+        .subheader-links {
+            flex-wrap: wrap;
+        }
+
+        .product-link {
+            font-size: 0.875rem;
+            padding-block: 0.25rem;
+        }
+
+        /* Full-width search */
+        .subheader-search {
+            width: 100%;
+        }
+
+        .subheader-search :global(site-search) {
+            --pagefind-ui-scale: 0.85;
+            display: block;
+            width: 100%;
+        }
+
+        .subheader-search :global(button[data-open-modal]) {
+            width: 100%;
+            max-width: none;
+            height: 2.25rem;
+            background-color: var(--sl-color-bg);
+            justify-content: flex-start;
+            padding-inline: 0.625rem;
+        }
+
+        /* Reveal Starlight's hidden search label text inside our dropdown */
+        .subheader-search :global(.sl-hidden) {
+            display: block;
+        }
+
+        /* Show toggle button */
+        .subheader-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subheader-toggle:hover,
+        .subheader-toggle:focus-visible {
+            background-color: var(--sl-color-gray-5);
+            color: var(--sl-color-white);
+        }
+
+        /* Icon swap */
+        docs-subheader-menu[aria-expanded='true'] .subheader-toggle .icon-open { display: none; }
+        docs-subheader-menu:not([aria-expanded='true']) .subheader-toggle .icon-close { display: none; }
+    }
+</style>

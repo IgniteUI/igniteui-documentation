@@ -2,7 +2,7 @@ import path from 'node:path';
 import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
-import { type PlatformKey, type PlatformMeta } from 'docs-template/platform';
+import { type PlatformMeta } from 'docs-template/platform';
 import { remarkEnv } from './src/plugins/remark-env.ts';
 import { remarkApiLinks } from './src/plugins/remark-api-links.ts';
 
@@ -30,71 +30,63 @@ function resolveSetting(envKey: string, jsonKey: string, fallback: string): stri
 }
 
 const platform = resolveSetting('PLATFORM', 'platform', 'React');
-const lang     = resolveSetting('LANG_CODE', 'lang',     'en');
+const lang = resolveSetting('LANG_CODE', 'lang', 'en');
 
 // NODE_ENV: 'development' | 'staging' | 'production'  (default: 'development')
 const nodeEnv = process.env.NODE_ENV || 'development';
 const mode: DocsMode = nodeEnv === 'production' ? 'prod'
     : nodeEnv === 'staging' ? 'staging'
-    : 'dev';
+        : 'dev';
 
 // ---------------------------------------------------------------------------
-// Per-platform site metadata
+// Single source of truth for all per-platform values
 // ---------------------------------------------------------------------------
 
-const PLATFORM_META: Record<string, PlatformMeta> = {
+const PLATFORMS: Record<string, PlatformMeta> = {
     Angular: {
         title: 'Ignite UI for Angular',
         description: 'Reference docs for Ignite UI for Angular.',
+        key: 'angular',
+        devPort: 4331,
+        base: '/docs-angular-new',
+        igPath: 'ignite-ui-angular/angular/components',
+        label: 'Angular',
     },
     React: {
         title: 'Ignite UI for React',
         description: 'Reference docs for Ignite UI for React.',
+        key: 'react',
+        devPort: 4332,
+        base: '/docs-react-new',
+        igPath: 'ignite-ui-react/react/components',
+        label: 'React',
     },
     WebComponents: {
         title: 'Ignite UI for Web Components',
         description: 'Reference docs for Ignite UI for Web Components.',
+        key: 'web-components',
+        devPort: 4333,
+        base: '/docs-wc-new',
+        igPath: 'ignite-ui-web-components/web-components/components',
+        label: 'Web Components',
     },
     Blazor: {
         title: 'Ignite UI for Blazor',
         description: 'Reference docs for Ignite UI for Blazor.',
+        key: 'blazor',
+        devPort: 4334,
+        base: '/docs-blazor-new',
+        igPath: 'ignite-ui-blazor/blazor/components',
+        label: 'Blazor',
     },
 };
 
-const PLATFORM_KEY: Record<string, PlatformKey> = {
-    Angular: 'angular',
-    React: 'react',
-    WebComponents: 'web-components',
-    Blazor: 'blazor',
-};
+const igBase = mode === 'prod'
+    ? 'https://www.infragistics.com/products/'
+    : 'https://staging.infragistics.com/products/';
 
-const PROD_SITE: Record<string, string> = {
-    Angular: 'https://www.infragistics.com/products/ignite-ui-angular/angular/components',
-    React: 'https://www.infragistics.com/products/ignite-ui-react/react/components',
-    WebComponents: 'https://www.infragistics.com/products/ignite-ui-web-components/web-components/components',
-    Blazor: 'https://www.infragistics.com/products/ignite-ui-blazor/blazor/components',
-};
-
-const STAGING_SITE: Record<string, string> = {
-    Angular: 'https://staging.infragistics.com/products/ignite-ui-angular/angular/components',
-    React: 'https://staging.infragistics.com/products/ignite-ui-react/react/components',
-    WebComponents: 'https://staging.infragistics.com/products/ignite-ui-web-components/web-components/components',
-    Blazor: 'https://staging.infragistics.com/products/ignite-ui-blazor/blazor/components',
-};
-
-// Dev-server ports — must match docs/xplat/package.json script --port values
-const DEV_PORT: Record<string, number> = {
-    Angular: 4331,
-    React: 4332,
-    WebComponents: 4333,
-    Blazor: 4334,
-};
-
-// ── Resolved values for this build ───────────────────────────────────────────────
-const meta = PLATFORM_META[platform];
-const site = mode === 'prod' ? PROD_SITE[platform]
-    : mode === 'staging' ? STAGING_SITE[platform]
-        : `http://localhost:${DEV_PORT[platform]}`;
+const p = PLATFORMS[platform];
+const site = mode === 'dev' ? `http://localhost:${p.devPort}` : `${igBase}${p.igPath}`;
 
 const XPLAT_ROOT = path.join(__dirname, 'generated', platform, lang);
 
@@ -103,19 +95,24 @@ console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode} 
 // https://astro.build/config
 export default createDocsSite({
     site,
-    title: meta.title,
-    description: meta.description,
-    platform: PLATFORM_KEY[platform],
+    base: mode !== 'dev' ? p.base : undefined,
+    title: p.title,
+    description: p.description,
+    platform: p.key,
     navLang: lang === 'jp' ? 'ja' : lang,
     mode,
     source: {
         tocPath: path.join(XPLAT_ROOT, 'components', 'toc.json'),
         docsDir: path.join(XPLAT_ROOT, 'components'),
     },
+    productLinks: Object.values(PLATFORMS).map(({ label, key, igPath }) => ({
+        label,
+        href: `${igBase}${igPath}`,
+        platform: key,
+    })),
     starlight: {
         logo: { src: './public/favicon.svg' },
     },
-    // Serve images statically from public/ — no Astro image optimization needed
     image: { service: { entrypoint: 'astro/assets/services/noop' } },
     markdown: { remarkPlugins: [remarkEnv, remarkApiLinks] },
 });

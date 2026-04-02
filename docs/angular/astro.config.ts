@@ -10,22 +10,27 @@ const nodeEnv = process.env.NODE_ENV || 'development';
 const docsLang = process.env.DOCS_LANG || 'en';
 
 const mode: DocsMode = nodeEnv === 'production' ? 'prod'
-    : nodeEnv === 'staging' ? 'staging'
-    : 'dev';
+	: nodeEnv === 'staging' ? 'staging'
+		: 'dev';
 
 // ── Site URL — varies by build mode ─────────────────────────────────────────
-const PROD_SITE    = 'https://www.infragistics.com/products/ignite-ui-angular/angular/components';
-const STAGING_SITE = 'https://staging.infragistics.com/products/ignite-ui-angular/angular/components';
-const DEV_SITE     = 'http://localhost:4321';
+const igBase = mode === 'prod'
+	? 'https://www.infragistics.com/products/'
+	: 'https://staging.infragistics.com/products/';
 
-const site = mode === 'prod' ? PROD_SITE
-    : mode === 'staging' ? STAGING_SITE
-    : DEV_SITE;
+const IG_PATHS = {
+	Angular: 'ignite-ui-angular/angular/components',
+	React: 'ignite-ui-react/react/components',
+	WebComponents: 'ignite-ui-web-components/web-components/components',
+	Blazor: 'ignite-ui-blazor/blazor/components',
+} as const;
+
+const site = mode === 'dev' ? 'http://localhost:4321' : `${igBase}${IG_PATHS.Angular}`;
 
 // ── Source paths ─────────────────────────────────────────────────────────────
-const docsDir           = path.resolve(`./src/content/${docsLang}`);
+const docsDir = path.resolve(`./src/content/${docsLang}`);
 const componentsDocsDir = path.join(docsDir, 'components');
-const templatesDir      = path.join(docsDir, 'grids_templates');
+const templatesDir = path.join(docsDir, 'grids_templates');
 
 // ── Pre-build steps (run before Astro starts) ────────────────────────────────
 generateGridTopics(templatesDir, componentsDocsDir);
@@ -33,21 +38,27 @@ normalizeImagePaths(componentsDocsDir);
 
 // https://astro.build/config
 export default createDocsSite({
-    site,
-    title: 'Ignite UI for Angular',
-    description: 'Component and API reference docs for Ignite UI for Angular.',
-    platform: 'angular',
-    navLang: docsLang === 'jp' ? 'ja' : docsLang,
-    mode,
-    source: {
-        tocPath: path.join(componentsDocsDir, 'toc.yml'),
-        docsDir: componentsDocsDir,
-        imagesDir: path.join(docsDir, 'images'),
-    },
-    sidebar: { exclude: [/^internal\//] },
-    starlight: {
-        // logo: { src: './public/favicon.svg' },
-    },
-    image: { service: { entrypoint: 'astro/assets/services/noop' } },
-    markdown: { remarkPlugins: [remarkEnv] },
+	site,
+	title: 'Ignite UI for Angular',
+	description: 'Component and API reference docs for Ignite UI for Angular.',
+	platform: 'angular',
+	navLang: docsLang === 'jp' ? 'ja' : docsLang,
+	mode,
+	productLinks: [
+		{ label: 'Angular', href: `${igBase}${IG_PATHS.Angular}`, platform: 'angular' },
+		{ label: 'React', href: `${igBase}${IG_PATHS.React}`, platform: 'react' },
+		{ label: 'Web Components', href: `${igBase}${IG_PATHS.WebComponents}`, platform: 'web-components' },
+		{ label: 'Blazor', href: `${igBase}${IG_PATHS.Blazor}`, platform: 'blazor' },
+	],
+	source: {
+		tocPath: path.join(componentsDocsDir, 'toc.yml'),
+		docsDir: componentsDocsDir,
+		imagesDir: path.join(docsDir, 'images'),
+	},
+	sidebar: { exclude: [/^internal\//] },
+	starlight: {
+		// logo: { src: './public/favicon.svg' },
+	},
+	image: { service: { entrypoint: 'astro/assets/services/noop' } },
+	markdown: { remarkPlugins: [remarkEnv] },
 });

@@ -67,6 +67,7 @@ import { buildSidebarFromToc } from './sidebar';
 import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey } from './platform.ts';
 import { JSDOM } from 'jsdom';
+import { visit } from 'unist-util-visit';
 import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
@@ -153,6 +154,18 @@ function extractOuterHtml(html: string, openPattern: string): string {
 // Site meta virtual module
 // ---------------------------------------------------------------------------
 
+export interface ProductLink {
+    /** Display label shown in the DocsSubHeader, e.g. `"Angular"`. */
+    label: string;
+    /** Absolute or root-relative href to the sibling docs site. */
+    href: string;
+    /**
+     * Optional platform key (matches `PlatformKey`).
+     * When it equals the current build's platform the link is omitted from the DocsSubHeader.
+     */
+    platform?: PlatformKey;
+}
+
 export interface SiteMetaOptions {
     title: string;
     description?: string;
@@ -165,6 +178,8 @@ export interface SiteMetaOptions {
     mode?: DocsMode;
     /** Named documentation subsets linked from llms.txt and passed to starlight-llms-txt. */
     llmsSets?: LlmsSet[];
+    /** Cross-product navigation links rendered in the DocsSubHeader. */
+    productLinks?: ProductLink[];
     /** @deprecated Use `platform` instead. */
     prefetchNav?: boolean;
     /** @deprecated Use `platform: 'appbuilder'` instead. */
@@ -184,6 +199,7 @@ export function siteMetaIntegration({
     navLang = 'en',
     mode = 'dev',
     llmsSets = [],
+    productLinks = [],
     prefetchNav = false,
     prefetchAppBuilderNav = false,
 }: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
@@ -209,6 +225,7 @@ export function siteMetaIntegration({
     // Navigation buckets for this platform — stripped from ancestor paths during label generation.
     const broadSections = getBroadSectionsForPlatform(effectivePlatform);
     const moduleCode = `export const sidebar = ${JSON.stringify(sidebar ?? [])};
+export const productLinks = ${JSON.stringify(productLinks)};
 `;
 
     // Captured from astro:config:done; used to generate llms.txt content.
@@ -511,6 +528,35 @@ export function staticImagesIntegration(
     };
 }
 
+/**
+ * Remark plugin factory that rewrites root-relative URLs in markdown HTML
+ * nodes to include the Astro `base` path. Baking `base` into the plugin at
+ * config time ensures Astro's content-layer cache is invalidated when the
+ * base changes, so rebuilt HTML always has correct paths.
+ */
+function createRemarkPrependBase(base: string) {
+    const normalizedBase = base.replace(/\/$/, '');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return () => (tree: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        visit(tree, (node: any) => {
+            if (node.type === 'html' && node.value) {
+                node.value = node.value.replace(/(src|href)="(\/[^"]*)"/g, (_: string, attr: string, url: string) => {
+                    if (url.startsWith(normalizedBase + '/')) return `${attr}="${url}"`;
+                    return `${attr}="${normalizedBase}${url}"`;
+                });
+                node.value = node.value.replace(/url\((\/[^)"']*)\)/g, (_: string, url: string) => {
+                    if (url.startsWith(normalizedBase + '/')) return `url(${url})`;
+                    return `url(${normalizedBase}${url})`;
+                });
+            }
+            if (node.type === 'image' && node.url?.startsWith('/') && !node.url.startsWith(normalizedBase + '/')) {
+                node.url = normalizedBase + node.url;
+            }
+        });
+    };
+}
+
 // ---------------------------------------------------------------------------
 // All-in-one factory
 // ---------------------------------------------------------------------------
@@ -572,6 +618,8 @@ export interface CreateDocsSiteOptions {
     llmsSets?: LlmsSet[];
     /** Extra Starlight options (logo, social, editLink, customCss, plugins, …). */
     starlight?: Record<string, unknown>;
+    /** Cross-product navigation links rendered in the DocsSubHeader. */
+    productLinks?: ProductLink[];
     /** Extra Astro integrations appended after the built-in ones. */
     integrations?: AstroIntegration[];
     /** Any remaining keys are spread into `defineConfig` (markdown, image, build, …). */
@@ -597,6 +645,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         platform = null,
         navLang = 'en',
         mode = 'dev',
+        productLinks = [],
         head = [],
         llmsSets = [] as LlmsSet[],
         starlight: starlightExtra = {},
@@ -615,6 +664,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         process.env.DOCS_SOURCE_PATH = source.docsDir;
     }
     process.env.DOCS_BUILD_MODE = mode;
+    process.env.DOCS_BASE = base ? base.replace(/\/$/, '') : '';
     // Ensure DOCS_ENV aligns with the `mode` when DOCS_ENV is not explicitly set.
     // This maps the internal mode ('dev'|'staging'|'prod') to the environment.json keys
     // ('development'|'staging'|'production') so remark-docfx loads the expected section.
@@ -629,16 +679,18 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Consumers can override individual slots via starlight.components.
     const pkgDir = new URL('.', import.meta.url);
     const defaultComponents: Record<string, string> = {
-        PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro', pkgDir)),
-        Header: fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
-        Footer: fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
-        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro', pkgDir)),
+        PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro',  pkgDir)),
+        Header:    fileURLToPath(new URL('./components/overrides/Header.astro',           pkgDir)),
+        Footer:    fileURLToPath(new URL('./components/overrides/Footer.astro',           pkgDir)),
+        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro',        pkgDir)),
+        Sidebar:   fileURLToPath(new URL('./components/overrides/Sidebar/Sidebar.astro',  pkgDir)),
     };
 
+    const scriptsBase = base ? base.replace(/\/$/, '') : '';
     const codeViewHead = [
         { tag: 'link' as const, attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
         { tag: 'script' as const, attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
-        { tag: 'script' as const, attrs: { src: '/scripts/code-view.js', defer: true } },
+        { tag: 'script' as const, attrs: { src: `${scriptsBase}/scripts/code-view.js`, defer: true } },
     ];
 
     // Auto-configure a Vite dev-server proxy so code-view.js can fetch
@@ -693,11 +745,11 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         markdown: {
             ...(astroExtra as any).markdown,
             // Always prepend our required plugins; consumer's extra plugins follow.
-            remarkPlugins: [remarkDocfx, ...((astroExtra as any).markdown?.remarkPlugins ?? [])],
+            remarkPlugins: [remarkDocfx, ...((astroExtra as any).markdown?.remarkPlugins ?? []), ...(base ? [createRemarkPrependBase(base)] : [])],
             rehypePlugins: [rehypeCodeView, ...((astroExtra as any).markdown?.rehypePlugins ?? [])],
         },
         integrations: [
-            siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode, llmsSets }),
+            siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode, llmsSets, productLinks }),
             starlight({
                 title,
                 sidebar: sidebar,
