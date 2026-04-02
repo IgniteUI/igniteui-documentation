@@ -37,6 +37,7 @@ const PLATFORM_SITE: Record<string, string> = {
 // https://astro.build/config
 export default createDocsSite({
 	site: PLATFORM_SITE.Angular,
+	base: '/docs-angular-new',
 	title: 'Ignite UI for Angular',
 	description: 'Component and API reference docs for Ignite UI for Angular.',
 	platform: 'angular',
