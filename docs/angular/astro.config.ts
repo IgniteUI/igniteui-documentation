@@ -23,14 +23,32 @@ const templatesDir = path.resolve(`${docsDir}/grids_templates`);
 generateGridTopics(templatesDir, componentsDocsDir);
 normalizeImagePaths(componentsDocsDir);
 
+const PLATFORM_URL_BASE: string = nodeEnv === 'production'
+	? 'https://www.infragistics.com/products/'
+	: 'https://staging.infragistics.com/products/';
+
+const PLATFORM_SITE: Record<string, string> = {
+    Angular:       `${PLATFORM_URL_BASE}ignite-ui-angular/angular/components`,
+    React:         `${PLATFORM_URL_BASE}ignite-ui-react/react/components`,
+    WebComponents: `${PLATFORM_URL_BASE}ignite-ui-web-components/web-components/components`,
+    Blazor:        `${PLATFORM_URL_BASE}ignite-ui-blazor/blazor/components`,
+};
+
 // https://astro.build/config
 export default createDocsSite({
-	site: 'https://www.infragistics.com/products/ignite-ui-angular',
+	site: PLATFORM_SITE.Angular,
+	base: '/docs-angular-new',
 	title: 'Ignite UI for Angular',
 	description: 'Component and API reference docs for Ignite UI for Angular.',
 	platform: 'angular',
 	navLang: docsLang === 'jp' ? 'ja' : docsLang,   // docs-template expects 'ja' not 'jp'
 	mode,
+	productLinks: [
+        { label: 'Angular',        href: PLATFORM_SITE.Angular,       platform: 'angular' },
+        { label: 'React',          href: PLATFORM_SITE.React,         platform: 'react' },
+        { label: 'Web Components', href: PLATFORM_SITE.WebComponents, platform: 'web-components' },
+        { label: 'Blazor',         href: PLATFORM_SITE.Blazor,        platform: 'blazor' },
+    ],
 	source: {
 		tocPath: `${componentsDocsDir}/toc.yml`,
 		docsDir: componentsDocsDir,
