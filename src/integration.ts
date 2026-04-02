@@ -196,6 +196,18 @@ function injectFrontmatterKeys(raw: string, keys: Record<string, unknown>): stri
 // Site meta virtual module
 // ---------------------------------------------------------------------------
 
+export interface ProductLink {
+    /** Display label shown in the DocsSubHeader, e.g. `"Angular"`. */
+    label: string;
+    /** Absolute or root-relative href to the sibling docs site. */
+    href: string;
+    /**
+     * Optional platform key (matches `PlatformKey`).
+     * When it equals the current build's platform the link is omitted from the DocsSubHeader.
+     */
+    platform?: PlatformKey;
+}
+
 export interface SiteMetaOptions {
     title: string;
     description?: string;
@@ -206,6 +218,8 @@ export interface SiteMetaOptions {
     navLang?: string;
     /** Build / deployment mode. Exposed via `virtual:docs-template/site-meta`. */
     mode?: DocsMode;
+    /** Cross-product navigation links rendered in the DocsSubHeader. */
+    productLinks?: ProductLink[];
     /** @deprecated Use `platform` instead. */
     prefetchNav?: boolean;
     /** @deprecated Use `platform: 'appbuilder'` instead. */
@@ -224,6 +238,7 @@ export function siteMetaIntegration({
     platform = null,
     navLang = 'en',
     mode = 'dev',
+    productLinks = [],
     prefetchNav = false,
     prefetchAppBuilderNav = false,
 }: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
@@ -232,6 +247,7 @@ export function siteMetaIntegration({
 export const description = ${JSON.stringify(description)};
 export const sidebar = ${JSON.stringify(sidebar ?? [])};
 export const mode = ${JSON.stringify(mode)};
+export const productLinks = ${JSON.stringify(productLinks)};
 `;
     const virtualId = 'virtual:docs-template/site-meta';
     const resolvedId = '\0' + virtualId;
@@ -623,6 +639,8 @@ export interface CreateDocsSiteOptions {
     mode?: DocsMode;
     /** Extra Starlight options (logo, social, editLink, customCss, plugins, …). */
     starlight?: Record<string, unknown>;
+    /** Cross-product navigation links rendered in the DocsSubHeader. */
+    productLinks?: ProductLink[];
     /** Extra Astro integrations appended after the built-in ones. */
     integrations?: AstroIntegration[];
     /** Any remaining keys are spread into `defineConfig` (markdown, image, build, …). */
@@ -648,6 +666,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         platform = null,
         navLang = 'en',
         mode = 'dev',
+        productLinks = [],
         head = [],
         starlight: starlightExtra = {},
         integrations: extraIntegrations = [],
@@ -682,10 +701,11 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Package-level CSS (code-view styles, etc.) — prepended so consumers can override.
     const pkgCss = fileURLToPath(new URL('./styles/custom.css', pkgDir));
     const defaultComponents: Record<string, string> = {
-        PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro', pkgDir)),
-        Header:    fileURLToPath(new URL('./components/overrides/Header.astro',          pkgDir)),
-        Footer:    fileURLToPath(new URL('./components/overrides/Footer.astro',          pkgDir)),
-        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro',       pkgDir)),
+        PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro',  pkgDir)),
+        Header:    fileURLToPath(new URL('./components/overrides/Header.astro',           pkgDir)),
+        Footer:    fileURLToPath(new URL('./components/overrides/Footer.astro',           pkgDir)),
+        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro',        pkgDir)),
+        Sidebar:   fileURLToPath(new URL('./components/overrides/Sidebar/Sidebar.astro',  pkgDir)),
     };
 
     const scriptsBase = base ? base.replace(/\/$/, '') : '';
@@ -751,7 +771,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
             rehypePlugins: [rehypeCodeView, ...((astroExtra as any).markdown?.rehypePlugins ?? [])],
         },
         integrations: [
-            siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode }),
+            siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode, productLinks }),
             starlight({
                 title,
                 sidebar: sidebar,
