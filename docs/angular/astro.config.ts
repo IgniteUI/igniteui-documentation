@@ -26,6 +26,7 @@ normalizeImagePaths(componentsDocsDir);
 // https://astro.build/config
 export default createDocsSite({
 	site: 'https://www.infragistics.com/products/ignite-ui-angular',
+	base: '/docs-angular-new',
 	title: 'Ignite UI for Angular',
 	description: 'Component and API reference docs for Ignite UI for Angular.',
 	platform: 'angular',

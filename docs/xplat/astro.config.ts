@@ -76,6 +76,13 @@ const PLATFORM_SITE: Record<string, string> = {
     Blazor:        'https://www.infragistics.com/products/ignite-ui-blazor/blazor/components',
 };
 
+const PLATFORM_BASE: Record<string, string> = {
+    Angular:       '/docs-angular-new',
+    React:         '/docs-react-new',
+    WebComponents: '/docs-wc-new',
+    Blazor:        '/docs-blazor-new',
+};
+
 // Generated markdown lives in generated/{platform}/{lang}/ (produced by scripts/generate.mjs)
 const XPLAT_ROOT = path.join(__dirname, 'generated', platform, lang);
 
@@ -84,6 +91,7 @@ console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode} 
 // https://astro.build/config
 export default createDocsSite({
     site: PLATFORM_SITE[platform] ?? 'https://www.infragistics.com',
+    base: PLATFORM_BASE[platform] ?? '/',
     title: meta.title,
     description: meta.description,
     platform: (PLATFORM_KEY[platform] ?? null) as any,
