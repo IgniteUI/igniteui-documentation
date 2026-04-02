@@ -24,7 +24,7 @@ declare module 'virtual:docs-template/nav-html' {
    * The platform set via `siteMetaIntegration({ platform })` in astro.config.mjs.
    * `null` when no platform is configured (defaults to IG nav styles/behaviour).
    */
-  export const platform: 'igniteui' | 'angular' | 'react' | 'blazor' | 'web-components' | 'slingshot' | 'appbuilder' | 'reveal' | null;
+  export const platform: 'igniteui' | 'angular' | 'react' | 'blazor' | 'web-components' | 'slingshot' | 'appbuilder' | null;
   /** The locale configured for the nav fetch (`'en'` | `'ja'` | `'kr'`). */
   export const navLang: string;
   /** `true` when the IG nav was successfully fetched at build time. */

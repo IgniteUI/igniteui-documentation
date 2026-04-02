@@ -85,12 +85,20 @@ export default defineConfig({
       ],
       sidebar,
       // Prepend the packaged theme entry so consuming projects get the theme.
-      customCss: ['./src/styles/custom.css'],
+      customCss: [
+        './src/styles/ig-theme.scss',
+        './src/styles/custom.css',
+      ],
       head: [
         // Platform CDN assets — driven by platform below
         ...getPlatformHead('angular', 'en'),
         // Angular-specific Ignite UI component bundle (repo-specific, not in shared registry)
         // { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/products/ignite-ui-angular/angular/bundles/igniteui.f5cfb48022e69dd66658.css' } },
+        // highlight.js for code-tab syntax highlighting inside code-view widgets
+        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
+        { tag: 'script', attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
+        // Client-side code-view widget (iframe + code tabs + live-editing buttons)
+        { tag: 'script', attrs: { src: '/scripts/code-view.js', defer: true } },
       ],
       editLink: {
         baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
@@ -99,6 +107,7 @@ export default defineConfig({
         PageFrame: './src/components/overrides/CustomPageFrame.astro',
         Header: './src/components/overrides/Header.astro',
         Footer: './src/components/overrides/Footer.astro',
+        Sidebar: './src/components/overrides/Sidebar/Sidebar.astro',
       },
       expressiveCode: {
         themes: ['dark-plus'],
@@ -124,6 +133,9 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [
       (await import('./src/plugins/remark-docfx')).remarkDocfx,
+    ],
+    rehypePlugins: [
+      (await import('./src/plugins/remark-docfx')).rehypeCodeView,
     ],
   },
 });
