@@ -202,9 +202,9 @@ export interface ProductLink {
     href: string;
     /**
      * Optional platform key (matches `PlatformKey`).
-     * When it equals the current build's platform the link is highlighted as active.
+     * When it equals the current build's platform the link is omitted from the DocsSubHeader.
      */
-    platform?: string;
+    platform?: PlatformKey;
 }
 
 export interface SiteMetaOptions {

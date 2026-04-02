@@ -77,38 +77,40 @@ const filteredLinks = productLinks.filter(l => l.platform !== currentPlatform);
 </docs-subheader-menu>
 
 <script>
-    class DocsSubHeaderMenu extends HTMLElement {
-        connectedCallback() {
-            const btn = this.querySelector<HTMLButtonElement>('[data-docs-toggle]');
-            if (!btn) return;
+    if (!customElements.get('docs-subheader-menu')) {
+        class DocsSubHeaderMenu extends HTMLElement {
+            connectedCallback() {
+                const btn = this.querySelector<HTMLButtonElement>('[data-docs-toggle]');
+                if (!btn) return;
 
-            const setExpanded = (expanded: boolean) => {
-                this.setAttribute('aria-expanded', String(expanded));
-                btn.setAttribute('aria-expanded', String(expanded));
-            };
+                const setExpanded = (expanded: boolean) => {
+                    this.setAttribute('aria-expanded', String(expanded));
+                    btn.setAttribute('aria-expanded', String(expanded));
+                };
 
-            btn.addEventListener('click', () => {
-                setExpanded(this.getAttribute('aria-expanded') !== 'true');
-            });
+                btn.addEventListener('click', () => {
+                    setExpanded(this.getAttribute('aria-expanded') !== 'true');
+                });
 
-            document.addEventListener('keyup', (e: KeyboardEvent) => {
-                if (e.key === 'Escape' && this.getAttribute('aria-expanded') === 'true') {
-                    setExpanded(false);
-                    btn.focus();
-                }
-            });
+                document.addEventListener('keyup', (e: KeyboardEvent) => {
+                    if (e.key === 'Escape' && this.getAttribute('aria-expanded') === 'true') {
+                        setExpanded(false);
+                        btn.focus();
+                    }
+                });
 
-            this.addEventListener('focusout', (e: FocusEvent) => {
-                if (!this.contains(e.relatedTarget as Node)) setExpanded(false);
-            });
+                this.addEventListener('focusout', (e: FocusEvent) => {
+                    if (!this.contains(e.relatedTarget as Node)) setExpanded(false);
+                });
 
-            document.addEventListener('click', (e: MouseEvent) => {
-                if (!this.contains(e.target as Node)) setExpanded(false);
-            });
+                document.addEventListener('click', (e: MouseEvent) => {
+                    if (!this.contains(e.target as Node)) setExpanded(false);
+                });
+            }
         }
-    }
 
-    customElements.define('docs-subheader-menu', DocsSubHeaderMenu);
+        customElements.define('docs-subheader-menu', DocsSubHeaderMenu);
+    }
 </script>
 
 <style>
