@@ -7,6 +7,7 @@ declare module 'virtual:starlight/components/Search' {
 
 declare module 'virtual:docs-template/site-meta' {
   export const sidebar: { label: string; slug?: string; items?: unknown[] }[];
+  export const title: string;
   /** Cross-product navigation links for the DocsSubHeader. */
   export const productLinks: Array<{
     label: string;
