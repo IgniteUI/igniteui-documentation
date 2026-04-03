@@ -6,8 +6,7 @@
  * 1. {environment:...} variable substitution in text, links, and raw HTML
  * 2. <code-view> elements -> .ig-code-view placeholder divs (enhanced by code-view.js)
  * 3. <div class="divider--half"></div> -> <hr>
- * 4. Docfx frontmatter normalisation (_description -> description, _keywords -> keywords)
- * 5. Relative .md link rewriting for Astro trailing-slash URLs
+ * 4. Relative .md link rewriting for Astro trailing-slash URLs
  */
 
 import { visit } from 'unist-util-visit';

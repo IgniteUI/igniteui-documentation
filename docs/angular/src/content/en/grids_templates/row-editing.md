@@ -2,18 +2,18 @@
 @@if(igxName==='IgxGrid'){
 ---
 title: Editing Rows in Angular Data Grid - Ignite UI for Angular
-_description: Want to enable row editing in Angular Data Grid? Need a powerful API for CRUD operations? Try our Ignite UI for Angular Data Grid rows editing component!
-_keywords: row editing, igniteui for angular, infragistics
-_license: commercial
+description: Want to enable row editing in Angular Data Grid? Need a powerful API for CRUD operations? Try our Ignite UI for Angular Data Grid rows editing component!
+keywords: row editing, igniteui for angular, infragistics
+license: commercial
 ---
 
 }
 @@if(igxName!=='IgxGrid'){
 ---
 title: Editing Rows in Angular @@igComponent - Ignite UI for Angular
-_description: Want to enable row editing in Angular @@igComponent? Need a powerful API for CRUD operations? Try our Ignite UI for Angular Data Grid rows editing component!
-_keywords: row editing, igniteui for angular, infragistics
-_license: commercial
+description: Want to enable row editing in Angular @@igComponent? Need a powerful API for CRUD operations? Try our Ignite UI for Angular Data Grid rows editing component!
+keywords: row editing, igniteui for angular, infragistics
+license: commercial
 _canonicalLink: grid/row-editing
 ---
 

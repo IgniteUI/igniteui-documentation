@@ -2,27 +2,27 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Column Data Types in Angular - Ignite UI for Angular
-_description: Handle cell and editing templates in Angular by choosing from several predefined column data types - number, string, date, boolean, currency and percent column.
-_keywords: column data type, ignite ui for angular, infragistics
-_license: commercial
+description: Handle cell and editing templates in Angular by choosing from several predefined column data types - number, string, date, boolean, currency and percent column.
+keywords: column data type, ignite ui for angular, infragistics
+license: commercial
 ---
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Column Data Types in Angular - Ignite UI for Angular
-_description: Handle cell and editing templates in Angular by choosing from several predefined column data types - number, string, date, boolean, currency and percent column.
-_keywords: column data type, ignite ui for angular, infragistics
-_license: commercial
+description: Handle cell and editing templates in Angular by choosing from several predefined column data types - number, string, date, boolean, currency and percent column.
+keywords: column data type, ignite ui for angular, infragistics
+license: commercial
 ---
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Column Data Types in Angular - Ignite UI for Angular
-_description: SHandle cell and editing templates in Angular by choosing from several predefined column data types - number, string, date, boolean, currency and percent column.
-_keywords: column data type, ignite ui for angular, infragistics
-_license: commercial
+description: SHandle cell and editing templates in Angular by choosing from several predefined column data types - number, string, date, boolean, currency and percent column.
+keywords: column data type, ignite ui for angular, infragistics
+license: commercial
 ---
 
 }

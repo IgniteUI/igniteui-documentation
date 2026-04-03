@@ -1,9 +1,9 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid のソート - Ignite UI for Angular
-_description: Ignite for Angular UI グリッドの Angular ソート機能を使用して、ソート可能な列の組み合わせを構成し、データ レコードの表示順序を変更します。
-_keywords: angular sort, ignite ui for angular, infragistics
-_license: commercial
+description: Ignite for Angular UI グリッドの Angular ソート機能を使用して、ソート可能な列の組み合わせを構成し、データ レコードの表示順序を変更します。
+keywords: angular sort, ignite ui for angular, infragistics
+license: commercial
 _language: ja
 ---
 
@@ -11,9 +11,9 @@ _language: ja
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid のソート - Ignite UI for Angular
-_description: Ignite for Angular UI グリッドの Angular ソート機能を使用して、ソート可能な列の組み合わせを構成し、データ レコードの表示順序を変更します。
-_keywords: angular sort, ignite ui for angular, infragistics
-_license: commercial
+description: Ignite for Angular UI グリッドの Angular ソート機能を使用して、ソート可能な列の組み合わせを構成し、データ レコードの表示順序を変更します。
+keywords: angular sort, ignite ui for angular, infragistics
+license: commercial
 _language: ja
 ---
 
@@ -21,9 +21,9 @@ _language: ja
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid のソート - Ignite UI for Angular
-_description: Ignite for Angular UI グリッドの Angular ソート機能を使用して、ソート可能な列の組み合わせを構成し、データ レコードの表示順序を変更します。
-_keywords: angular sort, ignite ui for angular, infragistics
-_license: commercial
+description: Ignite for Angular UI グリッドの Angular ソート機能を使用して、ソート可能な列の組み合わせを構成し、データ レコードの表示順序を変更します。
+keywords: angular sort, ignite ui for angular, infragistics
+license: commercial
 _language: ja
 ---
 

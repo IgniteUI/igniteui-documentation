@@ -1,22 +1,22 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid search | search data | Ignite UI for Angular | Infragistics 
-_description: Learn how to perform grid seach with the Ignite Angular table using rich API. It also allows instant content search in the virtualized data of the Grid
-_keywords: Content search, ignite ui for angular, infragistics
+description: Learn how to perform grid seach with the Ignite Angular table using rich API. It also allows instant content search in the virtualized data of the Grid
+keywords: Content search, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid search | search data | Ignite UI for Angular | Infragistics
-_description: Learn how to perform grid seach with the Ignite Angular table using rich API. It also allows instant content search in the virtualized data of the Grid
-_keywords: Content search, ignite ui for angular, infragistics
+description: Learn how to perform grid seach with the Ignite Angular table using rich API. It also allows instant content search in the virtualized data of the Grid
+keywords: Content search, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid search | search data | Ignite UI for Angular | Infragistics
-_description: Learn how to perform grid seach with the Ignite Angular table using rich API. It also allows instant content search in the virtualized data of the Grid
-_keywords: Content search, ignite ui for angular, infragistics
+description: Learn how to perform grid seach with the Ignite Angular table using rich API. It also allows instant content search in the virtualized data of the Grid
+keywords: Content search, ignite ui for angular, infragistics
 ---
 }
 

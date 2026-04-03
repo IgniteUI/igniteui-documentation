@@ -2,18 +2,18 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid Summaries - Ignite UI for Angular
-_description: Configure Angular grid summaries in the group footer of the column and use the option to set custom angular template in the Ignite UI for Angular table
-_keywords: angular grid summaries, igniteui for angular, infragistics
-_license: commercial
+description: Configure Angular grid summaries in the group footer of the column and use the option to set custom angular template in the Ignite UI for Angular table
+keywords: angular grid summaries, igniteui for angular, infragistics
+license: commercial
 ---
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Grid Summaries - Ignite UI for Angular
-_description: Configure Angular grid summaries in the group footer of the column and use the option to set custom angular template in the Ignite UI for Angular table
-_keywords: angular grid summaries, ignite ui for angular, infragistics
-_license: commercial
+description: Configure Angular grid summaries in the group footer of the column and use the option to set custom angular template in the Ignite UI for Angular table
+keywords: angular grid summaries, ignite ui for angular, infragistics
+license: commercial
 _canonicalLink: grid/summaries
 ---
 
@@ -21,9 +21,9 @@ _canonicalLink: grid/summaries
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Grid Summaries - Ignite UI for Angular
-_description: Configure Angular grid summaries in the group footer of the column and use the option to set custom angular template in the Ignite UI for Angular table
-_keywords: angular grid summaries, ignite ui for angular, infragistics
-_license: commercial
+description: Configure Angular grid summaries in the group footer of the column and use the option to set custom angular template in the Ignite UI for Angular table
+keywords: angular grid summaries, ignite ui for angular, infragistics
+license: commercial
 _canonicalLink: grid/summaries
 ---
 

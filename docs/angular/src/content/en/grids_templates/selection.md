@@ -2,18 +2,18 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid Selection - Ignite UI for Angular
-_description: See how easy it is to select data in Ignite UI for Angular grid using variety of events, rich API or with simple mouse interactions like single select.
-_keywords: data select, igniteui for angular, infragistics
-_license: commercial
+description: See how easy it is to select data in Ignite UI for Angular grid using variety of events, rich API or with simple mouse interactions like single select.
+keywords: data select, igniteui for angular, infragistics
+license: commercial
 ---
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid Selection - Ignite UI for Angular
-_description: See how easy it is to select data in Ignite UI for Angular grid using variety of events, rich API or with simple mouse interactions like single select.
-_keywords: data select, igniteui for angular, infragistics
-_license: commercial
+description: See how easy it is to select data in Ignite UI for Angular grid using variety of events, rich API or with simple mouse interactions like single select.
+keywords: data select, igniteui for angular, infragistics
+license: commercial
 _canonicalLink: grid/selection
 ---
 
@@ -21,9 +21,9 @@ _canonicalLink: grid/selection
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid Selection - Ignite UI for Angular
-_description: See how easy it is to select data in Ignite UI for Angular grid using variety of events, rich API or with simple mouse interactions like single select.
-_keywords: data select, igniteui for angular, infragistics
-_license: commercial
+description: See how easy it is to select data in Ignite UI for Angular grid using variety of events, rich API or with simple mouse interactions like single select.
+keywords: data select, igniteui for angular, infragistics
+license: commercial
 _canonicalLink: grid/selection
 ---
 

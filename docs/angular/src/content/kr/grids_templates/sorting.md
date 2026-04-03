@@ -1,22 +1,22 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid Sorting | Data Sorting | Ignite UI for Angular | infragistics
-_description: Get started with the Angular Sort feature of Ignite UI Material UI grid and learn how to configure a mix of sortable columns with rich API and angular events
-_keywords: angular sort, ignite ui for angular, infragistics
+description: Get started with the Angular Sort feature of Ignite UI Material UI grid and learn how to configure a mix of sortable columns with rich API and angular events
+keywords: angular sort, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid Sorting | Data Sorting | Ignite UI for Angular | infragistics
-_description: Get started with the Angular Sort feature of Ignite UI Material UI grid and learn how to configure a mix of sortable columns with rich API and angular events
-_keywords: angular sort, ignite ui for angular, infragistics
+description: Get started with the Angular Sort feature of Ignite UI Material UI grid and learn how to configure a mix of sortable columns with rich API and angular events
+keywords: angular sort, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid Sorting | Data Sorting | Ignite UI for Angular | infragistics
-_description: Get started with the Angular Sort feature of Ignite UI Material UI grid and learn how to configure a mix of sortable columns with rich API and angular events
-_keywords: angular sort, ignite ui for angular, infragistics
+description: Get started with the Angular Sort feature of Ignite UI Material UI grid and learn how to configure a mix of sortable columns with rich API and angular events
+keywords: angular sort, ignite ui for angular, infragistics
 ---
 }
 

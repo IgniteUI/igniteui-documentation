@@ -2,18 +2,18 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Multi-column Headers - Ignite UI for Angular
-_description: Start grouping column headers by placing them under a common hierarchical header with the help of Ignite UI for Angular grid and combine them into multi headers.
-_keywords: column headers, ignite ui for angular, infragistics
-_license: commercial
+description: Start grouping column headers by placing them under a common hierarchical header with the help of Ignite UI for Angular grid and combine them into multi headers.
+keywords: column headers, ignite ui for angular, infragistics
+license: commercial
 ---
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Multi-column Headers - Ignite UI for Angular
-_description: SStart grouping column headers by placing them under a common hierarchical header with the help of Ignite UI for Angular grid and combine them into multi headers.
-_keywords: column headers, ignite ui for angular, infragistics
-_license: commercial
+description: SStart grouping column headers by placing them under a common hierarchical header with the help of Ignite UI for Angular grid and combine them into multi headers.
+keywords: column headers, ignite ui for angular, infragistics
+license: commercial
 _canonicalLink: grid/multi-column-headers
 ---
 
@@ -21,9 +21,9 @@ _canonicalLink: grid/multi-column-headers
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Multi-column Headers - Ignite UI for Angular
-_description: Start grouping column headers by placing them under a common hierarchical header with the help of Ignite UI for Angular grid and combine them into multi headers.
-_keywords: column headers, ignite ui for angular, infragistics
-_license: commercial
+description: Start grouping column headers by placing them under a common hierarchical header with the help of Ignite UI for Angular grid and combine them into multi headers.
+keywords: column headers, ignite ui for angular, infragistics
+license: commercial
 _canonicalLink: grid/multi-column-headers
 ---
 
