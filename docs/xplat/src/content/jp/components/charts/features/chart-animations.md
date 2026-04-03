@@ -1,8 +1,8 @@
 ---
-title: {Platform} チャート アニメーション | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの {Platform} チャート アニメーション
-_keywords: {Platform} Charts, Animations, Infragistics, {Platform} チャート, アニメーション, インフラジスティックス
-_license: commercial
+title: "{Platform} チャート アニメーション | データ可視化 | インフラジスティックス"
+description: インフラジスティックスの {Platform} チャート アニメーション
+keywords: "{Platform} Charts, Animations, Infragistics, {Platform} チャート, アニメーション, インフラジスティックス"
+license: commercial
 mentionedTypes: ["CategoryChart"]
 namespace: Infragistics.Controls.Charts
 _language: ja

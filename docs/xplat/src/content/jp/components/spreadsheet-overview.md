@@ -1,8 +1,8 @@
 ---
-title: {Platform} Spreadsheet コンポーネント – {ProductName}
-_description: {ProductName} Spreadsheet を使用して、柔軟なレイアウト、簡単なカスタマイズ オプション、Excel のような便利なインターフェイスを利用できます。表データを好きなように管理できます。
-_license: commercial
-_keywords: Excel Spreadsheet, {ProductName}, Infragistics, Excel スプレッドシート, インフラジスティックス
+title: "{Platform} Spreadsheet コンポーネント – {ProductName}"
+description: "{ProductName} Spreadsheet を使用して、柔軟なレイアウト、簡単なカスタマイズ オプション、Excel のような便利なインターフェイスを利用できます。表データを好きなように管理できます。"
+license: commercial
+keywords: Excel Spreadsheet, {ProductName}, Infragistics, Excel スプレッドシート, インフラジスティックス
 _language: ja
 mentionedTypes: ["Spreadsheet"]
 ---

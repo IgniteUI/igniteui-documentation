@@ -1,8 +1,8 @@
 ---
-title: {Platform} スプレッドシート | 条件付き書式 | インフラジスティックス
-_description: インフラジスティックスの {Platform} スプレッドシート コントロールを使用して、ワークシートのセルに条件付き書式を設定します。{ProductName} スプレッドシートのサンプルを是非お試しください!
-_keywords: Spreadsheet, conditional formatting, {ProductName}, Infragistics, Worksheet, スプレッドシート, 条件付き書式, インフラジスティックス, ワークシート
-_license: commercial
+title: "{Platform} スプレッドシート | 条件付き書式 | インフラジスティックス"
+description: インフラジスティックスの {Platform} スプレッドシート コントロールを使用して、ワークシートのセルに条件付き書式を設定します。{ProductName} スプレッドシートのサンプルを是非お試しください!
+keywords: Spreadsheet, conditional formatting, {ProductName}, Infragistics, Worksheet, スプレッドシート, 条件付き書式, インフラジスティックス, ワークシート
+license: commercial
 mentionedTypes: ["Spreadsheet", "ConditionalFormatCollection", "WorksheetCell", "Worksheet", "IWorksheetCellFormat"]
 _language: ja
 ---

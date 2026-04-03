@@ -1,8 +1,8 @@
 ---
 title: Angular チャートのデータ フィルタリング | データ可視化 | インフラジスティックス
-_description: Infragistics の Angular チャートのデータ フィルタリング
-_keywords: Angular Charts, Filtering, Infragistics, Angular チャート, フィルタリング, インフラジスティックス
-_license: commercial
+description: Infragistics の Angular チャートのデータ フィルタリング
+keywords: Angular Charts, Filtering, Infragistics, Angular チャート, フィルタリング, インフラジスティックス
+license: commercial
 mentionedTypes: ["CategoryChart"]
 namespace: Infragistics.Controls.Charts
 _language: ja

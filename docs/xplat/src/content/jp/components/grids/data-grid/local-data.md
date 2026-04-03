@@ -1,10 +1,10 @@
 ---
-title: {Platform} データ グリッド | ローカル データ ソースのバインディング | インフラジスティックス
-_description: Infragistics のグリッド コントロールを使用してデータの配列にバインドします。{ProductName} を使用したデータの表示方法について説明します。
-_keywords: {Platform} Table, Data Grid, binding to data, {ProductName}, Infragistics, data binding, {Platform} テーブル, データ グリッド, データへのバインド, データ バインディング, インフラジスティックス
+title: "{Platform} データ グリッド | ローカル データ ソースのバインディング | インフラジスティックス"
+description: Infragistics のグリッド コントロールを使用してデータの配列にバインドします。{ProductName} を使用したデータの表示方法について説明します。
+keywords: "{Platform} Table, Data Grid, binding to data, {ProductName}, Infragistics, data binding, {Platform} テーブル, データ グリッド, データへのバインド, データ バインディング, インフラジスティックス"
 mentionedTypes: ["Grid", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridMain}
+_canonicalLink: "{CanonicalLinkToGridMain}"
 _language: ja
 ---
 

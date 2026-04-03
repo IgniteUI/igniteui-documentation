@@ -1,8 +1,8 @@
 ---
-title: {Platform} Spline Chart | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Spline Chart
-_keywords: {Platform} Charts, Spline Chart, Infragistics
-_license: commercial
+title: "{Platform} Spline Chart | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Spline Chart
+keywords: "{Platform} Charts, Spline Chart, Infragistics"
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "XamDataChart", "SplineSeries", "StackedSplineSeries", "Stacked100SplineSeries", "Series", "CategoryChartType"]
 ---
 # {Platform} Spline Chart

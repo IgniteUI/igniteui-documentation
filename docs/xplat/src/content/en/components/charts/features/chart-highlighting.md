@@ -1,8 +1,8 @@
 ---
-title: {Platform} Chart Highlighting | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Chart Highlighting
-_keywords: {Platform} Charts, Highlighting, Infragistics
-_license: commercial
+title: "{Platform} Chart Highlighting | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Chart Highlighting
+keywords: "{Platform} Charts, Highlighting, Infragistics"
+license: commercial
 mentionedTypes: ["CategoryChart"]
 namespace: Infragistics.Controls.Charts
 ---

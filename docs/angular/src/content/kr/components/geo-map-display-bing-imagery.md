@@ -1,7 +1,7 @@
 ---
 title: Angular Map | Data Visualization Tools | Bing Maps | Infragistics
-_description: The Map allows you to display data that contains geographic locations from view models or geo-spatial data loaded from shape files on geographic imagery maps.View the demo, dependencies, usage and toolbar for more information.
-_keywords: map, Ignite UI for Angular, Infragistics, imagery tiles, Bing Maps
+description: The Map allows you to display data that contains geographic locations from view models or geo-spatial data loaded from shape files on geographic imagery maps.View the demo, dependencies, usage and toolbar for more information.
+keywords: map, Ignite UI for Angular, Infragistics, imagery tiles, Bing Maps
 _language: kr
 mentionedTypes: ["XamGeographicMap", "ShapefileConverter"]
 ---

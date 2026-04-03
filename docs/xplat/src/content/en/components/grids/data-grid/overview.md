@@ -1,10 +1,10 @@
 ---
-title: {Platform} Data Grid Component | Real-Time {Platform} Tables | Infragistics
-_description: Infragistics' {Platform} grid component helps you create a fast, real-time react data grid. Learn how {ProductName} can help you better display your data!
-_keywords: {Platform} Table, Data Grid, overview, {ProductName}, data binding, Infragistics
+title: "{Platform} Data Grid Component | Real-Time {Platform} Tables | Infragistics"
+description: Infragistics' {Platform} grid component helps you create a fast, real-time react data grid. Learn how {ProductName} can help you better display your data!
+keywords: "{Platform} Table, Data Grid, overview, {ProductName}, data binding, Infragistics"
 mentionedTypes: ["Grid", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridMain}
+_canonicalLink: "{CanonicalLinkToGridMain}"
 ---
 
 <!-- Blazor, WebComponents -->

@@ -1,7 +1,7 @@
 ---
 title: Angular Column Chart | Data Visualization | Infragistics
-_description: Infragistics' Angular Column Chart
-_keywords: Angular Charts, Column Chart, Column Graph, Vertical Bar Chart, Infragistics
+description: Infragistics' Angular Column Chart
+keywords: Angular Charts, Column Chart, Column Graph, Vertical Bar Chart, Infragistics
 _language: kr
 mentionedTypes: ["CategoryChart", "XamDataChart", "ColumnSeries", "WaterfallSeries", "StackedColumnSeries", "Stacked100ColumnSeries", "RangeColumnSeries", "RadialColumnSeries"]
 ---

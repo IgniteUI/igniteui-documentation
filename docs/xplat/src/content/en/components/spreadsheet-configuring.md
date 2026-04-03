@@ -1,8 +1,8 @@
 ---
-title: {Platform} Spreadsheet | Configuring | Cell | Formula | Navigation | Selection | Infragistics
-_description: Learn how configuring your {Platform} spreadsheets with {ProductName} helps you better chart data. Improve your data visualization with Infragistics!
-_keywords: Excel Spreadsheet,  {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Spreadsheet | Configuring | Cell | Formula | Navigation | Selection | Infragistics"
+description: Learn how configuring your {Platform} spreadsheets with {ProductName} helps you better chart data. Improve your data visualization with Infragistics!
+keywords: Excel Spreadsheet,  {ProductName}, Infragistics
+license: commercial
 mentionedTypes: ["Spreadsheet"]
 ---
 # {Platform} Configuring Spreadsheet

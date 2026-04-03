@@ -1,8 +1,8 @@
 ---
 title: Angular Pie Chart | Data Visualization Tool | Infragistics
-_description: Use Infragistics' Angular pie chart to create a colorful pie chart to display categorical data. Learn about the Ignite UI for Angular pie chart configurable elements!
-_keywords: Angular charts, pie chart, Ignite UI for Angular, Infragistics, data binding, slice selection, slice explosion, animation
-_license: commercial
+description: Use Infragistics' Angular pie chart to create a colorful pie chart to display categorical data. Learn about the Ignite UI for Angular pie chart configurable elements!
+keywords: Angular charts, pie chart, Ignite UI for Angular, Infragistics, data binding, slice selection, slice explosion, animation
+license: commercial
 mentionedTypes: ['XamPieChart','SliceSelectionMode','PieSliceOthersContext']
 ---
 

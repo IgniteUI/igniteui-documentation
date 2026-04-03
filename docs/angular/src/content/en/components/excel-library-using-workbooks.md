@@ -1,8 +1,8 @@
 ---
 title: Angular Excel Library| Using Workbooks| Infragistics
-_description: Use Infragistics' Angular excel library to create workbooks and worksheets, input data and export the date to Microsoft® Excel. View Ignite UI for Angular excel tutorials for more information!
-_keywords: Excel library, workbooks, Ignite UI for Angular, Infragistics
-_license: commercial
+description: Use Infragistics' Angular excel library to create workbooks and worksheets, input data and export the date to Microsoft® Excel. View Ignite UI for Angular excel tutorials for more information!
+keywords: Excel library, workbooks, Ignite UI for Angular, Infragistics
+license: commercial
 mentionedTypes: ["Workbook"]
 ---
 

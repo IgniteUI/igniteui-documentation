@@ -1,7 +1,7 @@
 ---
 title: Localization (i18n) | {ProductName} | Infragistics
-_description: Use Infragistics' {Platform} Localization for components to easily translate and localize fully Infragistics' {Platform} components
-_keywords: {ProductName}, Infragistics, Localization, Internationalization, i18n
+description: Use Infragistics' {Platform} Localization for components to easily translate and localize fully Infragistics' {Platform} components
+keywords: "{ProductName}, Infragistics, Localization, Internationalization, i18n"
 mentionedTypes: ["Grid"]
 ---
 

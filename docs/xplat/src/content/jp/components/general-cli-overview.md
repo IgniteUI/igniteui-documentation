@@ -1,7 +1,7 @@
 ---
-title: {Platform} CLI | データ可視化ツールおよびテーブル | インフラジスティックス
-_description: {ProductName} ツールセットには {Platform} CLI があり、生産性を高め、プロジェクトをすばやく開始できます。今すぐ {ProductName} アプリケーションを作成してください!
-_keywords: {Platform} cli, command line interface, {ProductName}, Infragistics, コマンド ライン インターフェイス, インフラジスティックス
+title: "{Platform} CLI | データ可視化ツールおよびテーブル | インフラジスティックス"
+description: "{ProductName} ツールセットには {Platform} CLI があり、生産性を高め、プロジェクトをすばやく開始できます。今すぐ {ProductName} アプリケーションを作成してください!"
+keywords: "{Platform} cli, command line interface, {ProductName}, Infragistics, コマンド ライン インターフェイス, インフラジスティックス"
 _language: ja
 mentionedTypes: []
 ---

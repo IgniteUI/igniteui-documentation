@@ -1,8 +1,8 @@
 ---
-title: {Platform} Calendar Component - {ProductName}
-_description: With {Platform} Calendar Component, users can create intuitive calendars for applications to display date information using three different selection modes. Try it Now
-_keywords: {Platform} Calendar, {ProductName}, Infragistics
-_license: MIT
+title: "{Platform} Calendar Component - {ProductName}"
+description: With {Platform} Calendar Component, users can create intuitive calendars for applications to display date information using three different selection modes. Try it Now
+keywords: "{Platform} Calendar, {ProductName}, Infragistics"
+license: MIT
 mentionedTypes: ["Calendar", "DateRangeType", "DateRangeDescriptor"]
 ---
 

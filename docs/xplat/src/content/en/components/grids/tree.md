@@ -1,8 +1,8 @@
 ---
-title: {Platform} Tree Component | Infragistics
-_description: With {Platform} Tree component you can display hierarchical data in a tree-view structure, customize nodes easily and load data on demand. Try it now.
-_keywords: {Platform} Tree, Item Tree, overview, {ProductName}, Infragistics
-_license: MIT
+title: "{Platform} Tree Component | Infragistics"
+description: With {Platform} Tree component you can display hierarchical data in a tree-view structure, customize nodes easily and load data on demand. Try it now.
+keywords: "{Platform} Tree, Item Tree, overview, {ProductName}, Infragistics"
+license: MIT
 mentionedTypes: ["Tree", "TreeItem", "Icon", "CircularProgress"]
 ---
 

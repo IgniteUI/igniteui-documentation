@@ -1,8 +1,8 @@
 ---
-title: {Platform} Query Builder | Infragistics
-_description: Infragistics' {Platform} Query Builder allows users to build complex custom queries in angular apps with a great UI experience. Try it Now.
-_keywords: {Platform} Query Builder, {ProductName}, Infragistics
-_license: MIT
+title: "{Platform} Query Builder | Infragistics"
+description: Infragistics' {Platform} Query Builder allows users to build complex custom queries in angular apps with a great UI experience. Try it Now.
+keywords: "{Platform} Query Builder, {ProductName}, Infragistics"
+license: MIT
 mentionedTypes: ["QueryBuilder"]
 ---
 

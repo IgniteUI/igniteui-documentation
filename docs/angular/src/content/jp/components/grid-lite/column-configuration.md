@@ -1,8 +1,8 @@
 ---
 title: Angular Grid Lite 列の構成 | Ignite UI for Angular | MIT ライセンス
-_description: Grid Lite 列の構成と列のプロパティ。オープン ソースの Angular Grid Lite をお試しください。軽量でありながら、必要な機能がすべて搭載されています。
-_keywords: 列の構成, インフラジスティックス
-_license: MIT
+description: Grid Lite 列の構成と列のプロパティ。オープン ソースの Angular Grid Lite をお試しください。軽量でありながら、必要な機能がすべて搭載されています。
+keywords: 列の構成, インフラジスティックス
+license: MIT
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
 _language: ja

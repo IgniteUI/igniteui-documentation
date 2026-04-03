@@ -1,7 +1,7 @@
 ---
 title: IgxSelect - Native Angular | Ignite UI for Angular
-_description: The igxSelect provides an input with drop-down list allowing selection of a single item.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Components, Native Angular Controls, Native Angular Components Library, Angular IgxSelect Component, IgxSelect
+description: The igxSelect provides an input with drop-down list allowing selection of a single item.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Components, Native Angular Controls, Native Angular Components Library, Angular IgxSelect Component, IgxSelect
 _language: kr
 ---
 

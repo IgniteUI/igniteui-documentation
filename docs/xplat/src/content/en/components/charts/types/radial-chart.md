@@ -1,8 +1,8 @@
 ---
-title: {Platform} Radial Chart | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Radial Chart
-_keywords: {Platform} Charts, Radial Chart, Infragistics
-_license: commercial
+title: "{Platform} Radial Chart | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Radial Chart
+keywords: "{Platform} Charts, Radial Chart, Infragistics"
+license: commercial
 mentionedTypes: ["XamDataChart", "RadialLineSeries", "Series"]
 namespace: Infragistics.Controls.Charts
 ---

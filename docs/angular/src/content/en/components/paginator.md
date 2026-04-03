@@ -1,8 +1,8 @@
 ---
 title: Angular Paginator Example – Ignite UI for Angular - MIT license 
-_description: Configure Angular pagination and create custom pages in the Angular table, or other iterable UI collection, by Ignite UI, get data for the requested pages with variety of angular events.
-_keywords: angular paginator, angular paginator component, angular ui components, igniteui for angular, infragistics
-_license: MIT
+description: Configure Angular pagination and create custom pages in the Angular table, or other iterable UI collection, by Ignite UI, get data for the requested pages with variety of angular events.
+keywords: angular paginator, angular paginator component, angular ui components, igniteui for angular, infragistics
+license: MIT
 ---
 
 # Angular Paginator Component Overview

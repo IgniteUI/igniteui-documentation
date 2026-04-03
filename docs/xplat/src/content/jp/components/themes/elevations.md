@@ -1,8 +1,8 @@
 ---
-title: {Platform} スタイル設定およびテーマ | {Platform} エレベーション | インフラジスティックス
-_description:
-_keywords: {ProductName}, Infragistics, Elevations, Styling, インフラジスティックス, エレベーション, スタイル設定
-_license: MIT
+title: "{Platform} スタイル設定およびテーマ | {Platform} エレベーション | インフラジスティックス"
+description:
+keywords: "{ProductName}, Infragistics, Elevations, Styling, インフラジスティックス, エレベーション, スタイル設定"
+license: MIT
 mentionedTypes: ["Elevations"]
 _language: ja
 ---

@@ -1,8 +1,8 @@
 ---
 title: Angular チャート データの注釈 | データ可視化 | インフラジスティックス
-_description: Infragistics' Angular チャート データの注釈
-_keywords: Angular Charts, Data Annotations, Infragistics, Angular チャート, データの注釈, インフラジスティックス
-_license: commercial
+description: Infragistics' Angular チャート データの注釈
+keywords: Angular Charts, Data Annotations, Infragistics, Angular チャート, データの注釈, インフラジスティックス
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "CrosshairLayer", "FinalValueLayer", "CalloutLayer"]
 namespace: Infragistics.Controls.Charts
 _language: ja

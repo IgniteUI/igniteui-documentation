@@ -1,8 +1,8 @@
 ---
 title: Angular  データ チャート | データ可視化ツール | ナビゲーション | インフラジスティックス
-_description: インフラジスティックスの Angular チャートをナビゲートするには、マウスまたはタッチを使用して左右にパンし、水平および垂直にズームします。Ignite UI for Angular のグラフ ナビゲーション機能について説明します。
-_keywords: Angular charts, data chart, navigation, Ignite UI for Angular, Infragistics, Angular チャート, データ チャート, ナビゲーション, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular チャートをナビゲートするには、マウスまたはタッチを使用して左右にパンし、水平および垂直にズームします。Ignite UI for Angular のグラフ ナビゲーション機能について説明します。
+keywords: Angular charts, data chart, navigation, Ignite UI for Angular, Infragistics, Angular チャート, データ チャート, ナビゲーション, インフラジスティックス
+license: commercial
 mentionedTypes: ["XamDataChart", "CategoryChart", "FinancialChart", "ModifierKeys"]
 _language: ja
 ---

@@ -1,10 +1,10 @@
 ---
-title: {Platform} Data Grid | Row Grouping | Infragistics
-_description: Use Infragistics' {Platform} grid component's Group Row feature to group rows into a sticky header Row Group. This is an easy way to visually group data based on your criteria. Check out {ProductName} table demos!
-_keywords: {Platform} Table, Data Grid, row grouping, groupby area,  {ProductName}, Infragistics
+title: "{Platform} Data Grid | Row Grouping | Infragistics"
+description: Use Infragistics' {Platform} grid component's Group Row feature to group rows into a sticky header Row Group. This is an easy way to visually group data based on your criteria. Check out {ProductName} table demos!
+keywords: "{Platform} Table, Data Grid, row grouping, groupby area,  {ProductName}, Infragistics"
 mentionedTypes: ["Grid", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridGroupBy}
+_canonicalLink: "{CanonicalLinkToGridGroupBy}"
 ---
 
 <!-- Blazor, WebComponents -->

@@ -1,8 +1,8 @@
 ---
-title: {Platform} エリア チャート | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの {Platform} エリア チャート
-_keywords: {Platform} Charts, Area Chart, Infragistics, {Platform} チャート, エリア チャート, インフラジスティックス
-_license: commercial
+title: "{Platform} エリア チャート | データ可視化 | インフラジスティックス"
+description: インフラジスティックスの {Platform} エリア チャート
+keywords: "{Platform} Charts, Area Chart, Infragistics, {Platform} チャート, エリア チャート, インフラジスティックス"
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "XamDataChart", "CategoryChartType"]
 namespace: Infragistics.Controls.Charts
 _language: ja

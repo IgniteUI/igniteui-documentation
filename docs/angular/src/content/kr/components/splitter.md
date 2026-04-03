@@ -1,7 +1,7 @@
 ---
 title: Angular Splitter | Split Panes |  Ignite UI for Angular | Infragistics
-_description: Use the Angular Splitter component to create a simple split layout splitting the view horizontally or vertically into multiple collapsible split panes.
-_keywords: angular splitter, igniteui for angular, infragistics
+description: Use the Angular Splitter component to create a simple split layout splitting the view horizontally or vertically into multiple collapsible split panes.
+keywords: angular splitter, igniteui for angular, infragistics
 ---
 
 ## Splitter

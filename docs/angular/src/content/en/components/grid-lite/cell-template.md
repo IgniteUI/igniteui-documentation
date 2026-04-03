@@ -1,8 +1,8 @@
 ---
 title: Angular Grid Lite Cell Template | Ignite UI for Angular | MIT license
-_description: Configure and customize custom Grid Lite cell renderers. Create apps with our open-source Angular Grid Lite. Try now.
-_keywords: cell template, Infragistics
-_license: MIT
+description: Configure and customize custom Grid Lite cell renderers. Create apps with our open-source Angular Grid Lite. Try now.
+keywords: cell template, Infragistics
+license: MIT
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
 ---

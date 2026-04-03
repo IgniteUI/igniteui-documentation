@@ -1,8 +1,8 @@
 
 ---
 title: Angular Collapsible Column Groups | Ignite UI for Angular | Infragistics
-_description: Collapsible multi-column headers make it possible to collapse some subset of the nested columns under the current one and to show some nested headers, which will give you a shorten informtion for example.
-_keywords: collpasible column headers, ignite ui for angular, infragistics
+description: Collapsible multi-column headers make it possible to collapse some subset of the nested columns under the current one and to show some nested headers, which will give you a shorten informtion for example.
+keywords: collpasible column headers, ignite ui for angular, infragistics
 ---
 
 ### Grid Collapsible Column Groups Overview

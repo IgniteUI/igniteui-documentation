@@ -1,8 +1,8 @@
 ---
-title: {Platform} Axis Types | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Axis Types
-_keywords: {Platform} Axis, Options, Title, Labels, Gap, Overlap, Range, Scale, Mode, Infragistics
-_license: commercial
+title: "{Platform} Axis Types | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Axis Types
+keywords: "{Platform} Axis, Options, Title, Labels, Gap, Overlap, Range, Scale, Mode, Infragistics"
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "FinancialChart", "FinancialChartYAxisMode", "FinancialChartXAxisMode", "NumericYAxis", "CategoryXAxis"]
 namespace: Infragistics.Controls.Charts
 ---

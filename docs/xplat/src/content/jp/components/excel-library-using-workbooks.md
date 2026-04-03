@@ -1,8 +1,8 @@
 ---
-title: {Platform} Excel ライブラリ | ワークブックの使用 | インフラジスティックス
-_description: インフラジスティックスの {Platform} Excel ライブラリを使用してワークブックおよびワークシートを作成し、データを入力して日付を Microsoft® Excel にエクスポートします。詳細については、{ProductName} Excel のチュートリアルを参照してください。
-_keywords: Excel library, workbooks, {ProductName}, Infragistics, Excel ライブラリ, ワークブック, インフラジスティックス
-_license: commercial
+title: "{Platform} Excel ライブラリ | ワークブックの使用 | インフラジスティックス"
+description: インフラジスティックスの {Platform} Excel ライブラリを使用してワークブックおよびワークシートを作成し、データを入力して日付を Microsoft® Excel にエクスポートします。詳細については、{ProductName} Excel のチュートリアルを参照してください。
+keywords: Excel library, workbooks, {ProductName}, Infragistics, Excel ライブラリ, ワークブック, インフラジスティックス
+license: commercial
 mentionedTypes: ["Workbook"]
 _language: ja
 ---

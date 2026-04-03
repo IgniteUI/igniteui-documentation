@@ -1,7 +1,7 @@
 ---
 title: Angular Batch Editing | Angular Crud | Ignite UI for Angular | Infragistics
-_description: How to configure batch editing for Ignite UI Angular components and execute CRUD operations on them, using Transaction service.
-_keywords: batch editing, igniteui for angular, infragistics
+description: How to configure batch editing for Ignite UI Angular components and execute CRUD operations on them, using Transaction service.
+keywords: batch editing, igniteui for angular, infragistics
 ---
 
 # How to use the Transaction service

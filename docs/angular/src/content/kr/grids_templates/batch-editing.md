@@ -1,22 +1,22 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid Batch Editing | Angular CRUD | Ignite UI for Angular | Infragistics
-_description: Perform data manipulation without affecting the underlying data with Grid Batch Editing and with Angular CRUD using Material UI table by Ignite UI for Angular
-_keywords: angular crud, ignite ui for angular, infragistics
+description: Perform data manipulation without affecting the underlying data with Grid Batch Editing and with Angular CRUD using Material UI table by Ignite UI for Angular
+keywords: angular crud, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid Batch Editing | Angular CRUD | Ignite UI for Angular | Infragistics
-_description: Perform data manipulation without affecting the underlying data with Grid Batch Editing and with Angular CRUD using Material UI table by Ignite UI for Angular
-_keywords: angular crud, ignite ui for angular, infragistics
+description: Perform data manipulation without affecting the underlying data with Grid Batch Editing and with Angular CRUD using Material UI table by Ignite UI for Angular
+keywords: angular crud, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular HierarchicalGrid Grid Batch Editing | Angular CRUD | Ignite UI for Angular | Infragistics
-_description: Perform data manipulation without affecting the underlying data with Grid Batch Editing and with Angular CRUD using Material UI table by Ignite UI for Angular
-_keywords: angular crud, ignite ui for angular, infragistics
+description: Perform data manipulation without affecting the underlying data with Grid Batch Editing and with Angular CRUD using Material UI table by Ignite UI for Angular
+keywords: angular crud, ignite ui for angular, infragistics
 ---
 }
 

@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} 状態保持 - {ProductName}
-_description: 包括的な {ProductName} のツールセットを使用して、グリッドの状態を簡単に保存および復元できます。列の復元、使用方法、デモをご覧ください。
-_keywords: state persistence, {Platform}, {ProductName}, Infragistics, 状態の永続化, インフラジスティックス
-_license: commercial
+title: "{Platform} {ComponentTitle} 状態保持 - {ProductName}"
+description: 包括的な {ProductName} のツールセットを使用して、グリッドの状態を簡単に保存および復元できます。列の復元、使用方法、デモをご覧ください。
+keywords: state persistence, {Platform}, {ProductName}, Infragistics, 状態の永続化, インフラジスティックス
+license: commercial
 mentionedTypes: ["GridStateBaseDirective", "GridState", "PivotConfiguration", "PivotDimension", "PivotValue"]
 sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridStatePersistence}
+_canonicalLink: "{CanonicalLinkToGridStatePersistence}"
 _language: ja
 ---
 

@@ -1,8 +1,8 @@
 ---
-title: {Platform} チャート データ ツールチップ | データ視覚化ツール | インフラジスティックス
-_description: データ ツールチップ レイヤーで Infragistics {ProductName} チャートをお試しください!
-_keywords: {Platform} charts, chart legend, legend, legend types, {ProductName}, Infragistics, {Platform} チャート, チャート凡例, 凡例, 凡例タイプ, インフラジスティックス
-_license: commercial
+title: "{Platform} チャート データ ツールチップ | データ視覚化ツール | インフラジスティックス"
+description: データ ツールチップ レイヤーで Infragistics {ProductName} チャートをお試しください!
+keywords: "{Platform} charts, chart legend, legend, legend types, {ProductName}, Infragistics, {Platform} チャート, チャート凡例, 凡例, 凡例タイプ, インフラジスティックス"
+license: commercial
 mentionedTypes: ["XamDataChart", "Legend", "CategoryChart", "FinancialChart", "XamDataLegend", "DataToolTipLayer"]
 namespace: Infragistics.Controls.Charts
 _language: ja

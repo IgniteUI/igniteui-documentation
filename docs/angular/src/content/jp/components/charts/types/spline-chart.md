@@ -1,8 +1,8 @@
 ---
 title: Angular スプライン チャート | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの Angular スプライン チャート
-_keywords: Angular Charts, Spline Chart, Infragistics, Angular チャート, スプライン チャート, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular スプライン チャート
+keywords: Angular Charts, Spline Chart, Infragistics, Angular チャート, スプライン チャート, インフラジスティックス
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "XamDataChart", "SplineSeries", "StackedSplineSeries", "Stacked100SplineSeries", "Series", "CategoryChartType"]
 _language: ja
 ---

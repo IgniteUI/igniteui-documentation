@@ -1,8 +1,8 @@
 ---
 title: Angular Expansion Panel – Ignite UI for Angular - MIT license 
-_description: Use our Angular expansion panel which provides an easily configurable expandable component with two states - collapsed and expanded. Try it now.
-_keywords: angular expansion panel, angular expansion panel component, angular UI components, igniteui for angular, infragistics
-_license: MIT
+description: Use our Angular expansion panel which provides an easily configurable expandable component with two states - collapsed and expanded. Try it now.
+keywords: angular expansion panel, angular expansion panel component, angular UI components, igniteui for angular, infragistics
+license: MIT
 ---
 
 # Angular Expansion Panel Component Overview

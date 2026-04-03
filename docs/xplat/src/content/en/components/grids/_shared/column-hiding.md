@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Column Hiding - {ProductName}
-_description: Learn how to use the Column Hiding feature that allows users to change the visible state of the columns directly through the UI of the Ignite Material UI table.
-_keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Column Hiding - {ProductName}"
+description: Learn how to use the Column Hiding feature that allows users to change the visible state of the columns directly through the UI of the Ignite Material UI table.
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridColumnHiding}
+_canonicalLink: "{CanonicalLinkToGridColumnHiding}"
 ---
 
 # {Platform} {ComponentTitle} Column Hiding

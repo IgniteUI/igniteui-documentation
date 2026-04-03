@@ -1,8 +1,8 @@
 ---
 title: Angular Grid Lite データ バインディング | Ignite UI for Angular | MIT ライセンス
-_description: Angular Grid Lite のデータ バインディング。オープン ソースの Angular Grid Lite を使用してアプリを作成できます。軽量でありながら、必要な機能がすべて揃っています。今すぐお試しください。
-_keywords: データ バインディング, インフラジスティックス
-_license: MIT
+description: Angular Grid Lite のデータ バインディング。オープン ソースの Angular Grid Lite を使用してアプリを作成できます。軽量でありながら、必要な機能がすべて揃っています。今すぐお試しください。
+keywords: データ バインディング, インフラジスティックス
+license: MIT
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
 _language: ja

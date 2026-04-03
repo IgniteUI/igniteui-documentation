@@ -1,7 +1,7 @@
 ---
 title: Code Splitting and Multiple Entry Points | Ignite UI for Angular | Infragistics
-_description: Learn how to optimize your Angular application bundle size using Ignite UI for Angular's multiple entry points for better tree-shaking and code splitting.
-_keywords: ignite ui for angular, code splitting, entry points, tree-shaking, lazy loading, bundle optimization
+description: Learn how to optimize your Angular application bundle size using Ignite UI for Angular's multiple entry points for better tree-shaking and code splitting.
+keywords: ignite ui for angular, code splitting, entry points, tree-shaking, lazy loading, bundle optimization
 ---
 
 # Code Splitting and Multiple Entry Points

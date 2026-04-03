@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} 列の選択 - {ProductName}
-_description: {ProductName} {ComponentTitle} で列選択を構成する方法を説明します。これにより、グリッドのインタラクションがより簡単かつ高速になります。
-_keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス, 列選択
-_license: commercial
+title: "{Platform} {ComponentTitle} 列の選択 - {ProductName}"
+description: "{ProductName} {ComponentTitle} で列選択を構成する方法を説明します。これにより、グリッドのインタラクションがより簡単かつ高速になります。"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス, 列選択"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridColumnSelection}
+_canonicalLink: "{CanonicalLinkToGridColumnSelection}"
 _language: ja
 ---
 

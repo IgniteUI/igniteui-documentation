@@ -2,18 +2,18 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid Keyboard Navigation - Ignite UI for Angular
-_description: Learn how to use Grid Keyboard Navigation with Ignite UI for Angular. With Keyboard interaction, users can quickly navigate between cells, rows, and columns.
-_keywords: keyboard navigation, ignite ui for angular, infragistics
-_license: commercial
+description: Learn how to use Grid Keyboard Navigation with Ignite UI for Angular. With Keyboard interaction, users can quickly navigate between cells, rows, and columns.
+keywords: keyboard navigation, ignite ui for angular, infragistics
+license: commercial
 ---
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid Keyboard Navigation - Ignite UI for Angular
-_description: Learn how to use Tree Grid Keyboard Navigation with Ignite UI for Angular. With Keyboard interaction, users can quickly navigate between cells, rows, and columns.
-_keywords: keyboard navigation, ignite ui for angular, infragistics
-_license: commercial
+description: Learn how to use Tree Grid Keyboard Navigation with Ignite UI for Angular. With Keyboard interaction, users can quickly navigate between cells, rows, and columns.
+keywords: keyboard navigation, ignite ui for angular, infragistics
+license: commercial
 _canonicalLink: grid/keyboard-navigation
 ---
 
@@ -21,9 +21,9 @@ _canonicalLink: grid/keyboard-navigation
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid Keyboard Navigation - Ignite UI for Angular
-_description: Learn how to use Hierarchical Grid Keyboard Navigation with Ignite UI for Angular. With Keyboard interaction, users can quickly navigate between cells, rows, and columns.
-_keywords: keyboard navigation, ignite ui for angular, infragistics
-_license: commercial
+description: Learn how to use Hierarchical Grid Keyboard Navigation with Ignite UI for Angular. With Keyboard interaction, users can quickly navigate between cells, rows, and columns.
+keywords: keyboard navigation, ignite ui for angular, infragistics
+license: commercial
 _canonicalLink: grid/keyboard-navigation
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Customize Marker Display | Blazor Charts | Infragistics
-_description: Infragistics Blazor Charts - How to customize marker display in blazor charts
-_keywords: Blazor charts, marker display, $ProductName$, Infragistics
+description: Infragistics Blazor Charts - How to customize marker display in blazor charts
+keywords: Blazor charts, marker display, $ProductName$, Infragistics
 mentionedTypes: []
 ---
 

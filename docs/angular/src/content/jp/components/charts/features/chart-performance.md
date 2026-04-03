@@ -1,8 +1,8 @@
 ---
 title: Angular チャート パフォーマンス | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの Angular チャート パフォーマンス
-_keywords: Angular Charts, Performance, Infragistics, Angular チャート, パフォーマンス, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular チャート パフォーマンス
+keywords: Angular Charts, Performance, Infragistics, Angular チャート, パフォーマンス, インフラジスティックス
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "FinancialChart", "XamDataChart", "FinancialChartVolumeType", "FinancialChartZoomSliderType"]
 namespace: Infragistics.Controls.Charts
 _language: ja

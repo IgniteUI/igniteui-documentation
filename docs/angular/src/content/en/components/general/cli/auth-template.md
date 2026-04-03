@@ -1,7 +1,7 @@
 ---
 title: Authentication Project Template | Ignite UI for Angular | Infragistics
-_description: Check out the Ignite UI for Angular Authentication Project Template guide.
-_keywords: igniteui for angular | angular schematics | templates | infragistics 
+description: Check out the Ignite UI for Angular Authentication Project Template guide.
+keywords: igniteui for angular | angular schematics | templates | infragistics 
 ---
 
 # Authentication Project Template

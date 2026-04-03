@@ -1,7 +1,7 @@
 ---
 title: Excel에서 붙여넣기 - 네이티브 Angular | Ignite UI for Angular
-_description: Users can paste data into igxGrid that is copied from Excel.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Controls, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Grid, Angular Data Grid, Angular Grid Control, Angular Grid Component, Paste from Excel, Angular Paste from Excel
+description: Users can paste data into igxGrid that is copied from Excel.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Controls, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Grid, Angular Data Grid, Angular Grid Control, Angular Grid Component, Paste from Excel, Angular Paste from Excel
 _language: kr
 ---
 

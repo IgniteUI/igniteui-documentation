@@ -1,8 +1,8 @@
 ---
-title: {Platform} Map | Data Visualization Tools | Binding Multiple Data Shapes | Infragistics
-_description: Use Infragistics' {Platform} to add multiple geographic series objects to overlay a few shapefiles with geo-spacial data. View {ProductName} map tutorials!
-_keywords: {Platform} map, shape files, {ProductName}, Infragistics, data binding
-_license: commercial
+title: "{Platform} Map | Data Visualization Tools | Binding Multiple Data Shapes | Infragistics"
+description: Use Infragistics' {Platform} to add multiple geographic series objects to overlay a few shapefiles with geo-spacial data. View {ProductName} map tutorials!
+keywords: "{Platform} map, shape files, {ProductName}, Infragistics, data binding"
+license: commercial
 mentionedTypes: ["XamGeographicMap", "ShapefileConverter", "Series", "GeographicShapeSeriesBase"]
 namespace: Infragistics.Controls.Maps
 ---

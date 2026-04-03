@@ -1,8 +1,8 @@
 ---
-title: {Platform} チャート データの注釈 | データ可視化 | インフラジスティックス
-_description: Infragistics' {Platform} チャート データの注釈
-_keywords: {Platform} Charts, Data Annotations, Infragistics, {Platform} チャート, データの注釈, インフラジスティックス
-_license: commercial
+title: "{Platform} チャート データの注釈 | データ可視化 | インフラジスティックス"
+description: Infragistics' {Platform} チャート データの注釈
+keywords: "{Platform} Charts, Data Annotations, Infragistics, {Platform} チャート, データの注釈, インフラジスティックス"
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "CrosshairLayer", "FinalValueLayer", "CalloutLayer"]
 namespace: Infragistics.Controls.Charts
 _language: ja

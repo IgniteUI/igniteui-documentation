@@ -1,7 +1,7 @@
 ---
 title: Drag and Drop
-_description: Use Ignite UI for Angular Drag and Drop directives to move DOM elements from one place to another.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Drag and Drop directives
+description: Use Ignite UI for Angular Drag and Drop directives to move DOM elements from one place to another.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Drag and Drop directives
 _language: kr
 ---
 

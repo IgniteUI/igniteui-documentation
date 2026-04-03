@@ -1,7 +1,7 @@
 ---
 title: Angular チャートのユーザー注釈 | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの Angular チャートのユーザー注釈
-_keywords: Angular Charts, User Annotations, Infragistics, Angular チャート, ユーザー注釈, インフラジスティックス
+description: インフラジスティックスの Angular チャートのユーザー注釈
+keywords: Angular Charts, User Annotations, Infragistics, Angular チャート, ユーザー注釈, インフラジスティックス
 mentionedTypes: ["DataChart", "UserAnnotationLayer", "UserStripAnnotation", "UserSliceAnnotation", "UserPointAnnotation", "Toolbar", "UserAnnotationInformation", "SeriesViewer"]
 namespace: Infragistics.Controls.Charts
 _language: ja

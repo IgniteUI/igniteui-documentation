@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Editing Rows - {ProductName}
-_description: Want to enable row editing in {Platform} {ComponentTitle}? Need a powerful API for CRUD operations? Try our {ProductName} {ComponentTitle} rows editing component!
-_keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Editing Rows - {ProductName}"
+description: Want to enable row editing in {Platform} {ComponentTitle}? Need a powerful API for CRUD operations? Try our {ProductName} {ComponentTitle} rows editing component!
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridRowEditing}
+_canonicalLink: "{CanonicalLinkToGridRowEditing}"
 ---
 
 # {Platform} {ComponentTitle} Row Editing

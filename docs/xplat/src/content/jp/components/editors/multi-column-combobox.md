@@ -1,7 +1,7 @@
 ---
-title: {Platform} コンボ | データ可視化ツール | インフラジスティックス
-_description: インフラジスティックスの {Platform} コンボ コンポーネントは、データを表示するのに最適なチャートを選択するのに役立ちます。{ProductName} でグラフと視覚化を改善します!
-_keywords: {Platform} combo, drop down, {ProductName}, Infragistics, {Platform} コンボ, ドロップダウン, インフラジスティックス
+title: "{Platform} コンボ | データ可視化ツール | インフラジスティックス"
+description: インフラジスティックスの {Platform} コンボ コンポーネントは、データを表示するのに最適なチャートを選択するのに役立ちます。{ProductName} でグラフと視覚化を改善します!
+keywords: "{Platform} combo, drop down, {ProductName}, Infragistics, {Platform} コンボ, ドロップダウン, インフラジスティックス"
 mentionedTypes: []
 _language: ja
 ---

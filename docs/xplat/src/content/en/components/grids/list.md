@@ -1,8 +1,8 @@
 ---
-title: {Platform} List Component | Infragistics
-_description: Infragistics' {Platform} List component helps you with presenting a group of items. Learn how {ProductName} can help you better display your data!
-_keywords: {Platform} List, Item List, overview, {ProductName}, data binding, Infragistics
-_license: MIT
+title: "{Platform} List Component | Infragistics"
+description: Infragistics' {Platform} List component helps you with presenting a group of items. Learn how {ProductName} can help you better display your data!
+keywords: "{Platform} List, Item List, overview, {ProductName}, data binding, Infragistics"
+license: MIT
 mentionedTypes: ["List", "ListHeader", "ListItem", "Avatar", "Button", "RadioGroup", "Radio"]
 ---
 

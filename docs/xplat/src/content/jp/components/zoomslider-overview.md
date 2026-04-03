@@ -1,8 +1,8 @@
 ---
-title: {Platform} ズームスライダー | データ可視化ツール | ナビゲーション | ズーム | データ チャート | データ バインディング | インフラジスティックス
-_description: インフラジスティックスの {Platform} ズームスライダー コントロールを使用して、最小値と最大値を表す 2 つのハンドルのデータ サブセットを簡単に表示します。{ProductName} ズームスライダーでデータの可視化を向上させます。
-_keywords: zoom slider, {ProductName}, Infragistics, data chart, ズームスライダー, インフラジスティックス, データ チャート
-_license: commercial
+title: "{Platform} ズームスライダー | データ可視化ツール | ナビゲーション | ズーム | データ チャート | データ バインディング | インフラジスティックス"
+description: インフラジスティックスの {Platform} ズームスライダー コントロールを使用して、最小値と最大値を表す 2 つのハンドルのデータ サブセットを簡単に表示します。{ProductName} ズームスライダーでデータの可視化を向上させます。
+keywords: zoom slider, {ProductName}, Infragistics, data chart, ズームスライダー, インフラジスティックス, データ チャート
+license: commercial
 mentionedTypes: ["ZoomSlider", "XamDataChart"]
 _language: ja
 ---

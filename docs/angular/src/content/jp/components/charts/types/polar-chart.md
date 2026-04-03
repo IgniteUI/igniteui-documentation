@@ -1,8 +1,8 @@
 ---
 title: Angular 極座標チャート | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの Angular 極座標チャート
-_keywords: Angular Charts, Polar Chart, Infragistics, Angular チャート, 極座標チャート, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular 極座標チャート
+keywords: Angular Charts, Polar Chart, Infragistics, Angular チャート, 極座標チャート, インフラジスティックス
+license: commercial
 mentionedTypes: ["XamDataChart", "PolarAreaSeries", "Series"]
 namespace: Infragistics.Controls.Charts
 _language: ja

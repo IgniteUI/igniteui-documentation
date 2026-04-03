@@ -1,7 +1,7 @@
 ---
 title: Component and Scenario CLI Templates | Ignite UI for Angular | Infragistics
-_description: Check out the list of all available CLI templates with Ignite UI for Angular framework
-_keywords: igniteui for angular | angular schematics | templates | infragistics
+description: Check out the list of all available CLI templates with Ignite UI for Angular framework
+keywords: igniteui for angular | angular schematics | templates | infragistics
 ---
 
 # Component Templates

@@ -1,7 +1,7 @@
 ---
 title: Angular reactive form validation – Ignite UI for Angular
-_description: Angular form validation is a process of verifying if inputs entered by a user into a web-form are correct. Check how to do it with Ignite UI for Angular reactive forms.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Combo components, Angular Reactive Forms, Angular Forms
+description: Angular form validation is a process of verifying if inputs entered by a user into a web-form are correct. Check how to do it with Ignite UI for Angular reactive forms.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Combo components, Angular Reactive Forms, Angular Forms
 ---
 
 # Angular reactive form validation

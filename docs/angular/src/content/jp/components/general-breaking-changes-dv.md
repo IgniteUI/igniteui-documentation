@@ -1,7 +1,7 @@
 ---
 title: Angular 重大な変更 | Ignite UI for Angular | インフラジスティックス
-_description: Ignite UI for Angular の重大な変更とコードを最新の API に更新する方法について説明します。
-_keywords: Breaking Changes, Ignite UI for Angular, Infragistics, 重大な変更, インフラジスティックス
+description: Ignite UI for Angular の重大な変更とコードを最新の API に更新する方法について説明します。
+keywords: Breaking Changes, Ignite UI for Angular, Infragistics, 重大な変更, インフラジスティックス
 _language: ja
 ---
 

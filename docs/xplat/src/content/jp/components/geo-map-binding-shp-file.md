@@ -1,8 +1,8 @@
 ---
-title: {Platform} マップ | データ可視化ツール | 地理的シェープ ファイルのバインディング | インフラジスティックス
-_description: インフラジスティックスの {Platform} JavaScript マップを使用して、シェイプ ファイルから地理空間データを読み込みます。{ProductName} マップのサンプルを是非お試しください!
-_keywords: {Platform} map, shapefiles, {ProductName}, Infragistics, data binding, {Platform} マップ, シェープファイル, データ バインディング, インフラジスティックス
-_license: commercial
+title: "{Platform} マップ | データ可視化ツール | 地理的シェープ ファイルのバインディング | インフラジスティックス"
+description: インフラジスティックスの {Platform} JavaScript マップを使用して、シェイプ ファイルから地理空間データを読み込みます。{ProductName} マップのサンプルを是非お試しください!
+keywords: "{Platform} map, shapefiles, {ProductName}, Infragistics, data binding, {Platform} マップ, シェープファイル, データ バインディング, インフラジスティックス"
+license: commercial
 mentionedTypes: ["XamGeographicMap", "ShapefileConverter", "Series", "GeographicShapeSeriesBase"]
 _language: ja
 ---
