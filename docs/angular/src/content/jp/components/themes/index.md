@@ -1,7 +1,7 @@
 ---
 title: Theming Engine - ネイティブ Angular | Ignite UI for Angular
-_description: Ignite UI for Angular テーマ エンジンは SASS によって開発されます。API は簡単で、単一のコンポーネント、複数のコンポーネント、またはアプリケーション全体のスタイル変更を適用できます。
-_keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, ネイティブ Angular コンポーネント, Angular テーマ エンジン, Angular Theming
+description: Ignite UI for Angular テーマ エンジンは SASS によって開発されます。API は簡単で、単一のコンポーネント、複数のコンポーネント、またはアプリケーション全体のスタイル変更を適用できます。
+keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, ネイティブ Angular コンポーネント, Angular テーマ エンジン, Angular Theming
 _language: ja
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Button Directive
-_description: Enhance standard buttons with built-in text, images and more features through Ignite UI for Angular Buttons control.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Buttons components, Angular Buttons controls
+description: Enhance standard buttons with built-in text, images and more features through Ignite UI for Angular Buttons control.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Buttons components, Angular Buttons controls
 _language: kr
 ---
 

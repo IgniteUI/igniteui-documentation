@@ -1,39 +1,39 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid の Excel と PDF へのエクスポート - Ignite UI for Angular
-_description: Ignite UI Excel および PDF Exporter を使用すると、クライアント エクスポートをより便利でシンプルにできます。これらの形式により、フィルタリング、ソートなどの機能が可能になります。
-_keywords: データ エクスポート, ignite ui for angular, インフラジスティックス
-_license: commercial
+description: Ignite UI Excel および PDF Exporter を使用すると、クライアント エクスポートをより便利でシンプルにできます。これらの形式により、フィルタリング、ソートなどの機能が可能になります。
+keywords: データ エクスポート, ignite ui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid の Excel と PDF へのエクスポート - Ignite UI for Angular
-_description: Ignite UI Excel および PDF Exporter を使用すると、クライアント エクスポートをより便利でシンプルにできます。これらの形式により、フィルタリング、ソートなどの機能が可能になります。
-_keywords: データ エクスポート, ignite ui for angular, インフラジスティックス
+description: Ignite UI Excel および PDF Exporter を使用すると、クライアント エクスポートをより便利でシンプルにできます。これらの形式により、フィルタリング、ソートなどの機能が可能になります。
+keywords: データ エクスポート, ignite ui for angular, インフラジスティックス
 _canonicalLink: grid/export-excel
-_license: commercial
+license: commercial
 _language: ja
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid の Excel と PDF へのエクスポート - Ignite UI for Angular
-_description: Ignite UI Excel および PDF Exporter を使用すると、クライアント エクスポートをより便利でシンプルにできます。これらの形式により、フィルタリング、ソートなどの機能が可能になります。
-_keywords: データ エクスポート, ignite ui for angular, インフラジスティックス
+description: Ignite UI Excel および PDF Exporter を使用すると、クライアント エクスポートをより便利でシンプルにできます。これらの形式により、フィルタリング、ソートなどの機能が可能になります。
+keywords: データ エクスポート, ignite ui for angular, インフラジスティックス
 _canonicalLink: grid/export-excel
-_license: commercial
+license: commercial
 _language: ja
 ---
 }
 @@if (igxName === 'IgxPivotGrid') {
 ---
 title: Angular Pivot Grid の Excel と PDF へのエクスポート - Ignite UI for Angular
-_description: Ignite UI Excel および PDF Exporter を使用すると、クライアント エクスポートをより便利でシンプルにできます。これらの形式により、フィルタリング、ソートなどの機能が可能になります。
-_keywords: データ エクスポート, ignite ui for angular, インフラジスティックス
+description: Ignite UI Excel および PDF Exporter を使用すると、クライアント エクスポートをより便利でシンプルにできます。これらの形式により、フィルタリング、ソートなどの機能が可能になります。
+keywords: データ エクスポート, ignite ui for angular, インフラジスティックス
 _canonicalLink: grid/export-excel
-_license: commercial
+license: commercial
 _language: ja
 ---
 

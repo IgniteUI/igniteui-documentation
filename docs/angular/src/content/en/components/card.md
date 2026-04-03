@@ -1,8 +1,8 @@
 ---
 title: Angular Card Component – Ignite UI for Angular - MIT license 
-_description: With Angular Card component you can present users with dashboards and engaging text, images, icons or buttons as an entry point for detailed information. Try it now.
-_keywords: Angular Card component, Angular Card control, Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Angular UI Components, Native Angular Components Library
-_license: MIT
+description: With Angular Card component you can present users with dashboards and engaging text, images, icons or buttons as an entry point for detailed information. Try it now.
+keywords: Angular Card component, Angular Card control, Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Angular UI Components, Native Angular Components Library
+license: MIT
 ---
 
 # Angular Card Component Overview

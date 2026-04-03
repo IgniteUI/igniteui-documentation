@@ -1,7 +1,7 @@
 ---
 title: Ignite UI Theming MCP | Ignite UI for Angular
-_description: Ignite UI for Angular には Ignite UI Theming MCP サーバーが付属しており、Angular アプリケーション用のカスタム テーマ、パレット、タイポグラフィ、エレベーションを作成できます。MCP サーバーを使用してブランドおよび設計要件に合わせたカスタム テーマを生成および適用する方法について説明します。
-_keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, 人工知能, AI, MCP, Model Context Protocol, テーマ設定, カスタム テーマ, パレット, タイポグラフィ, エレベーション
+description: Ignite UI for Angular には Ignite UI Theming MCP サーバーが付属しており、Angular アプリケーション用のカスタム テーマ、パレット、タイポグラフィ、エレベーションを作成できます。MCP サーバーを使用してブランドおよび設計要件に合わせたカスタム テーマを生成および適用する方法について説明します。
+keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, 人工知能, AI, MCP, Model Context Protocol, テーマ設定, カスタム テーマ, パレット, タイポグラフィ, エレベーション
 _language: ja
 ---
 

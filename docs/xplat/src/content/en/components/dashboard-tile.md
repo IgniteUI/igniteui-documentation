@@ -1,8 +1,8 @@
 ---
-title: {Platform} Dashboard Tile Component | {ProductName}
-_description: See how you can easily get started with {Platform} Dashboard Tile Component.
-_keywords: {ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Dashboard components, {Platform} Dashboard Tile controls
-_license: commercial
+title: "{Platform} Dashboard Tile Component | {ProductName}"
+description: See how you can easily get started with {Platform} Dashboard Tile Component.
+keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Dashboard components, {Platform} Dashboard Tile controls"
+license: commercial
 mentionedTypes: ["Toolbar", "CategoryChart", "XamDataChart", "XamRadialGauge", "XamLinearGauge", "XamGeographicMap"]
 ---
 

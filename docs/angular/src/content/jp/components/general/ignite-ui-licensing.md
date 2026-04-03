@@ -1,7 +1,7 @@
 ---
 title: Ignite UI のライセンス
-_description: Ignite UI npm ライセンス パッケージの使用に関する情報
-_keywords: npm package license, ignite ui license feed, licensing, npm パッケージ ライセンス, ignite ui ライセンス フィード, ライセンス
+description: Ignite UI npm ライセンス パッケージの使用に関する情報
+keywords: npm package license, ignite ui license feed, licensing, npm パッケージ ライセンス, ignite ui ライセンス フィード, ライセンス
 _language: ja
 ---
 

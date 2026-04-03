@@ -1,8 +1,8 @@
 ---
-title: {Platform} Map | Shape Map Resources | Infragistics
-_description: Use Infragistics' {Platform} JavaScript map to load geo-spatial data from shape files. View {ProductName} map demos!
-_keywords: {Platform} map, shape styling, conditional formatting, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Map | Shape Map Resources | Infragistics"
+description: Use Infragistics' {Platform} JavaScript map to load geo-spatial data from shape files. View {ProductName} map demos!
+keywords: "{Platform} map, shape styling, conditional formatting, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: ["XamGeographicMap"]
 ---
 # {Platform} Shape Styling Utility

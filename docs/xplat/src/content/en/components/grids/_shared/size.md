@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Size - {ProductName}
-_description: Learn how to apply different size capabilities to the {ComponentTitle} component. You can use a set of compact view options in the {ProductName}.
-_keywords:  material size, {Platform}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Size - {ProductName}"
+description: Learn how to apply different size capabilities to the {ComponentTitle} component. You can use a set of compact view options in the {ProductName}.
+keywords:  material size, {Platform}, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridSize}
+_canonicalLink: "{CanonicalLinkToGridSize}"
 ---
 
 # {Platform} {ComponentTitle} Size

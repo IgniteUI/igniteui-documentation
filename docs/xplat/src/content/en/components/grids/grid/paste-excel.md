@@ -1,8 +1,8 @@
 ---
-title: {Platform} Excel Like {ComponentTitle} - Infragistics
-_description: Configure the {Platform} Grid to paste data from excel, by using rich and performance API with less code, and use the rich API do export selected grid data easily.
-_keywords: export selected, igniteui for {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Excel Like {ComponentTitle} - Infragistics"
+description: Configure the {Platform} Grid to paste data from excel, by using rich and performance API with less code, and use the rich API do export selected grid data easily.
+keywords: export selected, igniteui for {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: ["Infragistics.Controls.Grid"]
 ---
 

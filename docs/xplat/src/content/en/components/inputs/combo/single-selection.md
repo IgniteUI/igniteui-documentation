@@ -1,8 +1,8 @@
 ---
-title: {Platform} ComboBox Component – {ProductName}
-_description: {Platform} Combo component provides a powerful input, combining features of the basic HTML input, select, filtering and custom drop-down lists. Try it for FREE
-_keywords: {ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} ComboBox component
-_license: MIT
+title: "{Platform} ComboBox Component – {ProductName}"
+description: "{Platform} Combo component provides a powerful input, combining features of the basic HTML input, select, filtering and custom drop-down lists. Try it for FREE"
+keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} ComboBox component"
+license: MIT
 mentionedTypes: ["Combo", "SingleSelect", "ComboItem", "ComboHeader", "ComboList"]
 ---
 

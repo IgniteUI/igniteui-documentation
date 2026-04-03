@@ -1,8 +1,8 @@
 ---
-title: {Platform} Spreadsheet | Chart Adapter | Infragistics
-_description: Display charts such as column, line and area, in the Infragistics' {Platform} spreadsheet control. Learn how to integrate charts in {ProductName} spreadsheet!
-_keywords: Excel Spreadsheet, chart adapter, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Spreadsheet | Chart Adapter | Infragistics"
+description: Display charts such as column, line and area, in the Infragistics' {Platform} spreadsheet control. Learn how to integrate charts in {ProductName} spreadsheet!
+keywords: Excel Spreadsheet, chart adapter, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: ["Spreadsheet", "Worksheet", "WorksheetShapeCollection", "WorksheetChart"]
 ---
 # {Platform} Spreadsheet Chart Adapter

@@ -1,10 +1,10 @@
 ---
-title: {Platform} {GridLiteTitle} セル テンプレート | {ProductName} | MIT ライセンス
-_description: カスタム Grid Lite セル レンダラーを構成およびカスタマイズします。オープン ソースの {Platform} {GridLiteTitle} を使用してアプリを作成できます。今すぐお試しください。
-_keywords: cell template, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, セル テンプレート, インフラジスティックス
+title: "{Platform} {GridLiteTitle} セル テンプレート | {ProductName} | MIT ライセンス"
+description: カスタム Grid Lite セル レンダラーを構成およびカスタマイズします。オープン ソースの {Platform} {GridLiteTitle} を使用してアプリを作成できます。今すぐお試しください。
+keywords: cell template, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, セル テンプレート, インフラジスティックス
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
-_license: MIT
+license: MIT
 _language: ja
 ---
 

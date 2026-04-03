@@ -1,7 +1,7 @@
 ---
 title: Angular Material のテーマ
-_description: Ignite UI for Angular テーマ エンジンを使用すると、Angular Material ライブラリなどの他のテーマ ライブラリからインポートされた外部コンポーネントと一緒に簡単に使用できます。
-_keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, テーマ, Angular Material, Material コンポーネント
+description: Ignite UI for Angular テーマ エンジンを使用すると、Angular Material ライブラリなどの他のテーマ ライブラリからインポートされた外部コンポーネントと一緒に簡単に使用できます。
+keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, テーマ, Angular Material, Material コンポーネント
 _language: ja
 ---
 

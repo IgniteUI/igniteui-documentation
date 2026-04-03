@@ -1,8 +1,8 @@
 ---
-title: {Platform} Excel ライブラリ | スパークラインの使用 | インフラジスティックス
-_description: インフラジスティックスの {Platform} Excel ライブラリのスパークライン チャートを使用して、ワークシートのセル領域全体のデータ トレンドを視覚化します。{ProductName} Excel エンジン チュートリアルを是非お試しください!
-_keywords: Excel library, sparkline chart, {ProductName}, Infragistics, Excel ライブラリ, スパークライン チャート, インフラジスティックス
-_license: commercial
+title: "{Platform} Excel ライブラリ | スパークラインの使用 | インフラジスティックス"
+description: インフラジスティックスの {Platform} Excel ライブラリのスパークライン チャートを使用して、ワークシートのセル領域全体のデータ トレンドを視覚化します。{ProductName} Excel エンジン チュートリアルを是非お試しください!
+keywords: Excel library, sparkline chart, {ProductName}, Infragistics, Excel ライブラリ, スパークライン チャート, インフラジスティックス
+license: commercial
 mentionedTypes: ["Workbook"]
 _language: ja
 ---

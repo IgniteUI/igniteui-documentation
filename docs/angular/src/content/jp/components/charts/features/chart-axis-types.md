@@ -1,8 +1,8 @@
 ---
 title: Angular 軸タイプ | データの視覚化 | インフラジスティックス
-_description: インフラジスティックスの Angular 軸タイプ
-_keywords: Angular 軸, オプション, タイトル, ラベル, ギャップ, オーバーラップ, 範囲, スケール, モード, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular 軸タイプ
+keywords: Angular 軸, オプション, タイトル, ラベル, ギャップ, オーバーラップ, 範囲, スケール, モード, インフラジスティックス
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "FinancialChart", "FinancialChartYAxisMode", "FinancialChartXAxisMode", "NumericYAxis", "CategoryXAxis"]
 namespace: Infragistics.Controls.Charts
 _language: ja

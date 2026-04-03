@@ -1,8 +1,8 @@
 ---
-title: {Platform} スタイリングとテーマ | {Platform} テーマ設定 | テーマの切り替え | インフラジスティックス
-_description: インフラジスティックスの {Platform} コンポーネントを使用してアプリを作成し、世界最速の仮想化されたリアルタイムの {Platform} データ グリッドによるストリーミング ファイナンシャルおよびビジネス チャートで、データの視覚化を向上させます。
-_keywords: {ProductName}, Infragistics, Themes, Styling, インフラジスティックス, テーマ, スタイル設定
-_license: MIT
+title: "{Platform} スタイリングとテーマ | {Platform} テーマ設定 | テーマの切り替え | インフラジスティックス"
+description: インフラジスティックスの {Platform} コンポーネントを使用してアプリを作成し、世界最速の仮想化されたリアルタイムの {Platform} データ グリッドによるストリーミング ファイナンシャルおよびビジネス チャートで、データの視覚化を向上させます。
+keywords: "{ProductName}, Infragistics, Themes, Styling, インフラジスティックス, テーマ, スタイル設定"
+license: MIT
 mentionedTypes: ["ConfigureTheme"]
 _language: ja
 ---

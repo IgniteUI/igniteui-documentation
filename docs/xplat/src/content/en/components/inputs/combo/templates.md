@@ -1,8 +1,8 @@
 ---
-title: {Platform} ComboBox Component Templates – {ProductName}
-_description: {ProductName} ComboBox component templates
-_keywords: {ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} ComboBox Component Templates
-_license: MIT
+title: "{Platform} ComboBox Component Templates – {ProductName}"
+description: "{ProductName} ComboBox component templates"
+keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} ComboBox Component Templates"
+license: MIT
 mentionedTypes: ["Combo"]
 ---
 

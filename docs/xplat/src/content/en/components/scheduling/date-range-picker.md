@@ -1,8 +1,8 @@
 ---
-title: {Platform} Date Range Picker Component - {ProductName}
-_description: Infragistics' {Platform} Date Range Picker allows the user to select a range of two dates from a calendar and set it in an input element.
-_keywords: {Platform} Date Range Picker, {ProductName}, Infragistics
-_license: MIT
+title: "{Platform} Date Range Picker Component - {ProductName}"
+description: Infragistics' {Platform} Date Range Picker allows the user to select a range of two dates from a calendar and set it in an input element.
+keywords: "{Platform} Date Range Picker, {ProductName}, Infragistics"
+license: MIT
 mentionedTypes: ["DateRangePicker"]
 ---
 

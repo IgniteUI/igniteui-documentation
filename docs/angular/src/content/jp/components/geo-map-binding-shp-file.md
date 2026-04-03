@@ -1,8 +1,8 @@
 ---
 title: Angular マップ | データ可視化ツール | 地理的シェープ ファイルのバインディング | インフラジスティックス
-_description: インフラジスティックスの Angular JavaScript マップを使用して、シェイプ ファイルから地理空間データを読み込みます。Ignite UI for Angular マップのサンプルを是非お試しください!
-_keywords: Angular map, shapefiles, Ignite UI for Angular, Infragistics, data binding, Angular マップ, シェープファイル, データ バインディング, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular JavaScript マップを使用して、シェイプ ファイルから地理空間データを読み込みます。Ignite UI for Angular マップのサンプルを是非お試しください!
+keywords: Angular map, shapefiles, Ignite UI for Angular, Infragistics, data binding, Angular マップ, シェープファイル, データ バインディング, インフラジスティックス
+license: commercial
 mentionedTypes: ["XamGeographicMap", "ShapefileConverter", "Series", "GeographicShapeSeriesBase"]
 _language: ja
 ---

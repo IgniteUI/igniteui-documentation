@@ -1,7 +1,7 @@
 ---
 title: Infragistics NuGet Feed
-_description: Infragistics NuGet Feed for Angular components.
-_keywords: Angular, NuGet, Feed, Infragistics
+description: Infragistics NuGet Feed for Angular components.
+keywords: Angular, NuGet, Feed, Infragistics
 mentionedTypes: []
 ---
 

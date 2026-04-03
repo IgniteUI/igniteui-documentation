@@ -1,8 +1,8 @@
 ---
-title: {Platform} NavDrawer | Infragistics
-_description: Infragistics' {Platform} NavDrawer provides side navigation that can be expanded or collapsed within the content
-_keywords: {Platform} navbar, {ProductName}, Infragistics
-_license: MIT
+title: "{Platform} NavDrawer | Infragistics"
+description: Infragistics' {Platform} NavDrawer provides side navigation that can be expanded or collapsed within the content
+keywords: "{Platform} navbar, {ProductName}, Infragistics"
+license: MIT
 mentionedTypes: ["NavDrawer"]
 ---
 

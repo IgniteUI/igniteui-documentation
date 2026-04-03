@@ -1,8 +1,8 @@
 ---
-title: {Platform} {ComponentTitle} Editing and Validation - {ProductName}
-_description: Validate the input of the users in grid and notify them if it's valid or not while using {Platform} {ComponentTitle}. See demos & examples!
-_keywords: {Platform} validation, {ProductName}, infragistics,
-_license: commercial
+title: "{Platform} {ComponentTitle} Editing and Validation - {ProductName}"
+description: Validate the input of the users in grid and notify them if it's valid or not while using {Platform} {ComponentTitle}. See demos & examples!
+keywords: "{Platform} validation, {ProductName}, infragistics,"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
 ---

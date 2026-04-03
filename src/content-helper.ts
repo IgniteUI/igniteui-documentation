@@ -27,12 +27,17 @@
  *   };
  */
 
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { docsSchema } from '@astrojs/starlight/schema';
+import { z } from 'astro/zod';
 import { pathToFileURL } from 'node:url';
 
 type ExtendSchema = NonNullable<Parameters<typeof docsSchema>[0]>['extend'];
+
+// SEO fields added to Starlight's base schema so `keywords` is preserved
+// through validation instead of being stripped as an unknown field.
+const EXTENDED_SEO_FIELDS = { keywords: z.string().optional() } as const;
 
 /** Sentinel value placed on entries that have no title so we can remove them after loading. */
 const SKIP_TITLE = '\x00skip';
@@ -61,13 +66,10 @@ function withTitleFilter(baseLoader: any): any {
     };
 }
 
-// TODO: remove this added only for easer testing
-
 /**
- * Wraps docsSchema with a z.preprocess that injects a sentinel title for
- * entries that are missing one — preventing the required-field error from
- * being thrown inside the glob loader. withTitleFilter then removes those
- * entries from the store after loading completes.
+ * Wraps docsSchema with a z.preprocess that injects a sentinel title for entries
+ * missing one so the glob loader doesn't throw InvalidContentEntryDataError;
+ * withTitleFilter removes those entries after loading.
  */
 function skippableDocsSchema(extend?: ExtendSchema) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -77,6 +79,7 @@ function skippableDocsSchema(extend?: ExtendSchema) {
         (data: unknown) => {
             if (typeof data === 'object' && data !== null) {
                 const d = data as Record<string, unknown>;
+                if (d['description'] === null) delete d['description'];
                 if (!d['title']) return { ...d, title: SKIP_TITLE };
             }
             return data;
@@ -130,9 +133,11 @@ export function createDocsCollection(
     // Normalise exclude patterns — ensure each starts with '!'
     const excludePatterns = exclude.map(p => (p.startsWith('!') ? p : `!${p}`));
 
-    // const schema = extendSchema
-    //     ? docsSchema({ extend: extendSchema })
-    //     : docsSchema();
+    const extendSEO: ExtendSchema = (ctx) => {
+        const user = typeof extendSchema === 'function' ? extendSchema(ctx) : extendSchema;
+        return ((user ?? z.object({})) as z.ZodObject<z.ZodRawShape>).extend(EXTENDED_SEO_FIELDS);
+    };
+
     return defineCollection({
         loader: withTitleFilter(glob({
             base: pathToFileURL(dir.endsWith('/') ? dir : dir + '/'),
@@ -149,8 +154,9 @@ export function createDocsCollection(
                 ...excludePatterns,
             ],
         })),
+        // use => schema: docsSchema({ extend }) as any, when skippableDocsSchema is no longer needed
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        schema: skippableDocsSchema(extendSchema) as any,
+        schema: skippableDocsSchema(extendSEO) as any,
     });
 }
 

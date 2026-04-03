@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Summaries - {ProductName}
-_description: Configure {Platform} {ComponentTitle} summaries in the group footer of the column and use the option to set custom {Platform} template in the {ProductName} Material table
-_keywords: {Platform} {ComponentTitle} summaries, {Platform}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Summaries - {ProductName}"
+description: Configure {Platform} {ComponentTitle} summaries in the group footer of the column and use the option to set custom {Platform} template in the {ProductName} Material table
+keywords: "{Platform} {ComponentTitle} summaries, {Platform}, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: ["GridBaseDirective", "Column", "SummaryOperand"]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridSummaries}
+_canonicalLink: "{CanonicalLinkToGridSummaries}"
 ---
 
 # {Platform} {ComponentTitle} Summaries

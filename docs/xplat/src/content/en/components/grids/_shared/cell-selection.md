@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Cell Selection - {ProductName}
-_description: Check how easy it is to use cell data selection using variety of events, rich API or mouse interactions. The {ComponentTitle} supports 3 modes for cell selection. Try it now!
-_keywords: data select, igniteui for {Platform}, infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Cell Selection - {ProductName}"
+description: Check how easy it is to use cell data selection using variety of events, rich API or mouse interactions. The {ComponentTitle} supports 3 modes for cell selection. Try it now!
+keywords: data select, igniteui for {Platform}, infragistics
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridCellSelection}
+_canonicalLink: "{CanonicalLinkToGridCellSelection}"
 ---
 
 # {Platform} {ComponentTitle} Cell Selection

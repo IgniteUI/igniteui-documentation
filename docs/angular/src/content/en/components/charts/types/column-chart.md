@@ -1,8 +1,8 @@
 ---
 title: Angular Column Chart | Data Visualization | Infragistics
-_description: Infragistics' Angular Column Chart
-_keywords: Angular Charts, Column Chart, Column Graph, Vertical Bar Chart, Infragistics
-_license: commercial
+description: Infragistics' Angular Column Chart
+keywords: Angular Charts, Column Chart, Column Graph, Vertical Bar Chart, Infragistics
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "XamDataChart", "ColumnSeries", "WaterfallSeries", "StackedColumnSeries", "Stacked100ColumnSeries", "RangeColumnSeries", "RadialColumnSeries", "CategoryChartType", "Series"]
 namespace: Infragistics.Controls.Charts
 ---

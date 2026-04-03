@@ -1,7 +1,7 @@
 ---
-title: {Platform} XDate Picker | データ可視化ツール | インフラジスティックス
-_description: インフラジスティックスの {Platform} XDate Picker コンポーネントは、ユーザーの日付選択を支援します。{ProductName} でグラフと視覚化を改善します!
-_keywords: {Platform} xdate picker, drop down, {ProductName}, Infragistics, ドロップダウン, インフラジスティックス
+title: "{Platform} XDate Picker | データ可視化ツール | インフラジスティックス"
+description: インフラジスティックスの {Platform} XDate Picker コンポーネントは、ユーザーの日付選択を支援します。{ProductName} でグラフと視覚化を改善します!
+keywords: "{Platform} xdate picker, drop down, {ProductName}, Infragistics, ドロップダウン, インフラジスティックス"
 mentionedTypes: ["XDatePicker"]
 _language: ja
 ---

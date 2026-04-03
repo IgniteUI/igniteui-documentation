@@ -1,8 +1,8 @@
 ---
 title: Angular Scatter Chart | Data Visualization | Infragistics
-_description: Infragistics' Angular Scatter Chart
-_keywords: Angular Charts, Scatter Chart, Infragistics
-_license: commercial
+description: Infragistics' Angular Scatter Chart
+keywords: Angular Charts, Scatter Chart, Infragistics
+license: commercial
 mentionedTypes: ["XamDataChart", "ScatterSeries", "ScatterLineSeries", "ScatterSplineSeries", "HighDensityScatterSeries", "ScatterAreaSeries", "ScatterContourSeries", "Series"]
 namespace: Infragistics.Controls.Charts
 ---

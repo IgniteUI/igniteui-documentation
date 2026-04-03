@@ -1,8 +1,8 @@
 ---
 title: Angular Bullet Graph | Data Visualization Tools | Infragistics
-_description: Infragistics' Angular bullet graph control allows you to create dashboards displaying ranges or comparing multiple measurements. View our data visualization tools!
-_keywords: Angular Bullet Graph, animation, labels, needle, scales, ranges, tick marks, Infragistics
-_license: commercial
+description: Infragistics' Angular bullet graph control allows you to create dashboards displaying ranges or comparing multiple measurements. View our data visualization tools!
+keywords: Angular Bullet Graph, animation, labels, needle, scales, ranges, tick marks, Infragistics
+license: commercial
 mentionedTypes: ["XamBulletGraph"]
 namespace: Infragistics.Controls.Gauges
 ---

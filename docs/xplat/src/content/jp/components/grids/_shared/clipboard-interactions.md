@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} クリップボード操作 - {ProductName}
-_description: {Platform} {ComponentTitle} のクリップボード機能は、データを Excel、その他のプログラムにコピー、貼り付け、エクスポートするための高速で簡単、カスタマイズ可能な方法を提供します。今すぐお試しください。
-_keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス
-_license: commercial
+title: "{Platform} {ComponentTitle} クリップボード操作 - {ProductName}"
+description: "{Platform} {ComponentTitle} のクリップボード機能は、データを Excel、その他のプログラムにコピー、貼り付け、エクスポートするための高速で簡単、カスタマイズ可能な方法を提供します。今すぐお試しください。"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridClipboardInteractions}
+_canonicalLink: "{CanonicalLinkToGridClipboardInteractions}"
 _language: ja
 ---
 

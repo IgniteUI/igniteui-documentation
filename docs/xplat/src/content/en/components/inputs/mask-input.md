@@ -1,8 +1,8 @@
 ---
-title: {Platform} MaskInput | Infragistics
-_description: Infragistics' {Platform} MaskInput allows the user to control input and format the visible value based on configurable mask rules
-_keywords: {Platform} input, {ProductName}, Infragistics
-_license: MIT
+title: "{Platform} MaskInput | Infragistics"
+description: Infragistics' {Platform} MaskInput allows the user to control input and format the visible value based on configurable mask rules
+keywords: "{Platform} input, {ProductName}, Infragistics"
+license: MIT
 mentionedTypes: ["MaskInput"]
 ---
 

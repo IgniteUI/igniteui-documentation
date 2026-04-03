@@ -1,10 +1,10 @@
 ---
-title: {Platform} {GridLiteTitle} Data Binding - {ProductName} | MIT license
-_description: Data binding for {GridLiteTitle}. Create apps with our open-source {Platform} {GridLiteTitle}. It’s lightweight and packed with essential features. Try now.
-_keywords: data binding, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+title: "{Platform} {GridLiteTitle} Data Binding - {ProductName} | MIT license"
+description: Data binding for {GridLiteTitle}. Create apps with our open-source {Platform} {GridLiteTitle}. It’s lightweight and packed with essential features. Try now.
+keywords: data binding, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
-_license: MIT
+license: MIT
 ---
 
 # {Platform} {GridLiteTitle} Data Binding

@@ -1,8 +1,8 @@
 ---
 title: Angular チャート マーカー | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの Angular チャート マーカー
-_keywords: Angular Charts, Markers, Infragistics, Angular チャート, マーカー, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular チャート マーカー
+keywords: Angular Charts, Markers, Infragistics, Angular チャート, マーカー, インフラジスティックス
+license: commercial
 mentionedTypes: ["CategoryChart", "CategoryChartType", "MarkerType"]
 namespace: Infragistics.Controls.Charts
 _language: ja

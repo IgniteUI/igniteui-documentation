@@ -1,8 +1,8 @@
 ---
-title: {Platform} {PivotGridTitle} Features | Pivot Tables | Infragistics
-_description: Create fast, responsive {Platform} {PivotGridTitle} and tables with {ProductName} and perform complex data analysis via pivot data.
-_keywords: {Platform}, {PivotGridTitle}, material pivot table, {ProductName}, grid features, pivot features
-_license: commercial
+title: "{Platform} {PivotGridTitle} Features | Pivot Tables | Infragistics"
+description: Create fast, responsive {Platform} {PivotGridTitle} and tables with {ProductName} and perform complex data analysis via pivot data.
+keywords: "{Platform}, {PivotGridTitle}, material pivot table, {ProductName}, grid features, pivot features"
+license: commercial
 mentionedTypes: ["Infragistics.Controls.Grid"]
 namespace: Infragistics.Controls
 ---

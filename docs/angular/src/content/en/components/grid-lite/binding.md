@@ -1,8 +1,8 @@
 ---
 title: Angular Grid Lite Data Binding | Ignite UI for Angular | MIT license
-_description: Data binding for Angular Grid Lite. Create apps with our open-source Angular Grid Lite. It’s lightweight and packed with essential features. Try now.
-_keywords: data binding, Infragistics
-_license: MIT
+description: Data binding for Angular Grid Lite. Create apps with our open-source Angular Grid Lite. It’s lightweight and packed with essential features. Try now.
+keywords: data binding, Infragistics
+license: MIT
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
 ---

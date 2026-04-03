@@ -1,27 +1,27 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid のサイズ変更 - Ignite UI for Angular
-_description: Angular グリッドのサイズ設定がどのように機能するかを理解し、ユーザーが遭遇するさまざまな状況に対応するために幅と高さを使用する方法を学びます。
-_keywords: angular grid sizing, igniteui for angular, infragistics, グリッド, サイズ変更,
-_license: commercial
+description: Angular グリッドのサイズ設定がどのように機能するかを理解し、ユーザーが遭遇するさまざまな状況に対応するために幅と高さを使用する方法を学びます。
+keywords: angular grid sizing, igniteui for angular, infragistics, グリッド, サイズ変更,
+license: commercial
 _language: ja
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid のサイズ変更 - Ignite UI for Angular
-_description: Angular グリッドのサイズ設定がどのように機能するかを理解し、ユーザーが遭遇するさまざまな状況に対応するために幅と高さを使用する方法を学びます。
-_keywords: angular grid sizing, igniteui for angular, infragistics, グリッド, サイズ変更,
-_license: commercial
+description: Angular グリッドのサイズ設定がどのように機能するかを理解し、ユーザーが遭遇するさまざまな状況に対応するために幅と高さを使用する方法を学びます。
+keywords: angular grid sizing, igniteui for angular, infragistics, グリッド, サイズ変更,
+license: commercial
 _language: ja
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid のサイズ変更 - Ignite UI for Angular
-_description: Angular グリッドのサイズ設定がどのように機能するかを理解し、ユーザーが遭遇するさまざまな状況に対応するために幅と高さを使用する方法を学びます。
-_keywords: angular grid sizing, igniteui for angular, infragistics, グリッド, サイズ変更,
-_license: commercial
+description: Angular グリッドのサイズ設定がどのように機能するかを理解し、ユーザーが遭遇するさまざまな状況に対応するために幅と高さを使用する方法を学びます。
+keywords: angular grid sizing, igniteui for angular, infragistics, グリッド, サイズ変更,
+license: commercial
 _language: ja
 ---
 }

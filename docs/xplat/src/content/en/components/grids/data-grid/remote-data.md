@@ -1,10 +1,10 @@
 ---
-title: {Platform} Data Grid | Remote Data | Infragistics
-_description: Use the Infragistics {Platform} grid component's Virtual Data Source to bind remote data. View {ProductName} table tutorials!
-_keywords: {Platform} Table, Data Grid, virtual data, {ProductName}, Infragistics, data binding
+title: "{Platform} Data Grid | Remote Data | Infragistics"
+description: Use the Infragistics {Platform} grid component's Virtual Data Source to bind remote data. View {ProductName} table tutorials!
+keywords: "{Platform} Table, Data Grid, virtual data, {ProductName}, Infragistics, data binding"
 mentionedTypes: ["Grid", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridMain}
+_canonicalLink: "{CanonicalLinkToGridMain}"
 ---
 
 <!-- Blazor, WebComponents -->

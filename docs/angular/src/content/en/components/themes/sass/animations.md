@@ -1,7 +1,7 @@
 ---
 title: Animations
-_description: Ignite UI for Angular includes over 100+ pre-built animations specially designed for a better user experience.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, animations
+description: Ignite UI for Angular includes over 100+ pre-built animations specially designed for a better user experience.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, animations
 ---
 
 # Animations

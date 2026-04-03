@@ -1,7 +1,7 @@
 ---
 title: オープン ソース vs プレミアム | Ignite UI for Angular | インフラジスティックス
-_description: Ignite UI for Angular は、高速で機能が豊富なネイティブ Angular UI コンポーネントと、マテリアル デザインに基づく UI コントロールからなる完全なライブラリです。
-_keywords: ignite ui for angular, はじめに, angular コンポーネント
+description: Ignite UI for Angular は、高速で機能が豊富なネイティブ Angular UI コンポーネントと、マテリアル デザインに基づく UI コントロールからなる完全なライブラリです。
+keywords: ignite ui for angular, はじめに, angular コンポーネント
 _language: ja
 ---
  

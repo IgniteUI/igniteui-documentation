@@ -1,7 +1,7 @@
 ---
-title: {Platform} Chart User Annotations | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Chart User Annotations
-_keywords: {Platform} Charts, User Annotations, Infragistics
+title: "{Platform} Chart User Annotations | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Chart User Annotations
+keywords: "{Platform} Charts, User Annotations, Infragistics"
 mentionedTypes: ["DataChart", "UserAnnotationLayer", "UserStripAnnotation", "UserSliceAnnotation", "UserPointAnnotation", "Toolbar", "UserAnnotationInformation", "SeriesViewer"]
 namespace: Infragistics.Controls.Charts
 ---

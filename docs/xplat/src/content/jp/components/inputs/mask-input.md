@@ -1,8 +1,8 @@
 ---
-title: {Platform} MaskInput | インフラジスティックス
-_description: インフラジスティックスの {Platform} MaskInput により、ユーザーは入力を制御し、構成可能なマスク ルールに基づいて表示される値を書式設定できます。
-_keywords: {Platform} input, {ProductName}, Infragistics, {Platform} 入力, インフラジスティックス
-_license: MIT
+title: "{Platform} MaskInput | インフラジスティックス"
+description: インフラジスティックスの {Platform} MaskInput により、ユーザーは入力を制御し、構成可能なマスク ルールに基づいて表示される値を書式設定できます。
+keywords: "{Platform} input, {ProductName}, Infragistics, {Platform} 入力, インフラジスティックス"
+license: MIT
 mentionedTypes: ["MaskInput"]
 _language: ja
 ---

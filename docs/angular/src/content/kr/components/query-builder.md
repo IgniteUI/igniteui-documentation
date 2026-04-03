@@ -1,7 +1,7 @@
 ---
 title: Angular Query Builder Component - Ignite UI for Angular | Infragistics
-_description: Ignite UI for Angular Query Builder control provides a great UI experience to allow users to build custom queries.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Query Builder component, Angular Query Builder control
+description: Ignite UI for Angular Query Builder control provides a great UI experience to allow users to build custom queries.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Query Builder component, Angular Query Builder control
 ---
 
 

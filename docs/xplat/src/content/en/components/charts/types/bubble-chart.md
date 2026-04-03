@@ -1,8 +1,8 @@
 ---
-title: {Platform} Bubble Chart | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Bubble Chart
-_keywords: {Platform} Charts, Bubble Chart, Infragistics
-_license: commercial
+title: "{Platform} Bubble Chart | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Bubble Chart
+keywords: "{Platform} Charts, Bubble Chart, Infragistics"
+license: commercial
 mentionedTypes: ["Series", "BubbleSeries", "ScatterSeries", "MarkerType"]
 namespace: Infragistics.Controls.Charts
 ---

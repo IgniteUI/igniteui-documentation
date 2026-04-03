@@ -1,7 +1,7 @@
 ---
 title: Angular の一方向データ バインディング | WPF vs Angular 比較ガイド | インフラジスティックス
-_description: Angular の一方向データ バインディングと、基になるデータの変更との同期を維持しながらエンド ユーザーに情報を表示するためにそれがどのように使用されるかについて説明します。
-_keywords: データ バインディング, ignite ui for angular, インフラジスティックス
+description: Angular の一方向データ バインディングと、基になるデータの変更との同期を維持しながらエンド ユーザーに情報を表示するためにそれがどのように使用されるかについて説明します。
+keywords: データ バインディング, ignite ui for angular, インフラジスティックス
 _language: ja
 ---
 

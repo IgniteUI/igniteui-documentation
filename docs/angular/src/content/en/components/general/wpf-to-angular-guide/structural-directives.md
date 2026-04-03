@@ -1,7 +1,7 @@
 ---
 title: Angular Structural Directives | ngIf, ngswitch | WPF to Angular Guide | Infragistics
-_description: Learn how to use structural directives in Angular 9 like ngIf, ngswitch & ngFor to add and remove elements to your view in your Angular application
-_keywords: angular structural directives, ignite ui for angular, infragistics
+description: Learn how to use structural directives in Angular 9 like ngIf, ngswitch & ngFor to add and remove elements to your view in your Angular application
+keywords: angular structural directives, ignite ui for angular, infragistics
 ---
 
 # Angular Structural Directives

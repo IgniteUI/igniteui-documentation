@@ -1,7 +1,7 @@
 ---
 title: How to create ASP.NET Core SignalR service for live-data streaming.
-_description: Modern data grid & dock manager are used for application creation along with ASP.NET Core SignalR.
-_keywords: angular, signalr, .net core, infragistics
+description: Modern data grid & dock manager are used for application creation along with ASP.NET Core SignalR.
+keywords: angular, signalr, .net core, infragistics
 ---
 
 # Real-time Web App with ASP.NET Core SignalR

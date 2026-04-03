@@ -1,7 +1,7 @@
 ---
 title: Size | Ignite UI for Angular 
-_description: The Ignite UI for Angular provides a way of setting size property on application or component level. 
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Components, Native Angular Controls, Native Angular Components Library, size
+description: The Ignite UI for Angular provides a way of setting size property on application or component level. 
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Components, Native Angular Controls, Native Angular Components Library, size
 ---
 
 # Size

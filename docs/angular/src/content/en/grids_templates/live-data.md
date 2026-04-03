@@ -2,9 +2,9 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Live Data Updates in Angular Data Grid - Ignite UI for Angular
-_description: Check out how the Ignite UI for Angular Data Grid can handle thousands of updates per second, while staying responsive for user interactions.
-_keywords: angular data grid, angular grid updates, angular live data
-_license: commercial
+description: Check out how the Ignite UI for Angular Data Grid can handle thousands of updates per second, while staying responsive for user interactions.
+keywords: angular data grid, angular grid updates, angular live data
+license: commercial
 ---
 
 }
@@ -12,9 +12,9 @@ _license: commercial
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Live Data Updates in Angular Tree Grid - Ignite UI for Angular
-_description: Check out how the Ignite UI for Angular Tree Grid can handle thousands of updates per second, while staying responsive for user interactions.
-_keywords: angular data grid, angular grid updates, angular live data
-_license: commercial
+description: Check out how the Ignite UI for Angular Tree Grid can handle thousands of updates per second, while staying responsive for user interactions.
+keywords: angular data grid, angular grid updates, angular live data
+license: commercial
 _canonicalLink: grid/live-data
 ---
 

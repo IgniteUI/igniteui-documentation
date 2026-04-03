@@ -1,8 +1,8 @@
 ---
 title: Angular エリア チャート | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの Angular エリア チャート
-_keywords: Angular Charts, Area Chart, Infragistics, Angular チャート, エリア チャート, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular エリア チャート
+keywords: Angular Charts, Area Chart, Infragistics, Angular チャート, エリア チャート, インフラジスティックス
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "XamDataChart", "CategoryChartType"]
 namespace: Infragistics.Controls.Charts
 _language: ja

@@ -1,8 +1,8 @@
 ---
-title: {Platform} Toolbar Component | {ProductName}
-_description: See how you can easily get started with {Platform} Toolbar Component. Compatible with the Data Chart. Extend your .
-_keywords: {ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Toolbar components, {Platform} Toolbar controls
-_license: commercial
+title: "{Platform} Toolbar Component | {ProductName}"
+description: See how you can easily get started with {Platform} Toolbar Component. Compatible with the Data Chart. Extend your .
+keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Toolbar components, {Platform} Toolbar controls"
+license: commercial
 mentionedTypes: ["Toolbar", "ToolAction", "DomainChart", "CategoryChart", "XamDataChart", "TrendLineType"]
 ---
 

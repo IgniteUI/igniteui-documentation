@@ -1,8 +1,8 @@
 ---
-title: {Platform} Button コンポーネント | {ProductName}
-_description: {Platform} Button コンポーネントの使用を開始します。{Platform} Button OnClick イベントを通じて、ボタンのバリアントを選択し、サイズを構成し、スタイルを定義し、柔軟性を獲得します。
-_keywords: {Platform}, UI controls, web widgets, UI widgets, {Platform} Button Components, Infragistics, UI コントロール, web ウィジェット, UI ウィジェット, {Platform} Button コンポーネント, インフラジスティックス
-_license: MIT
+title: "{Platform} Button コンポーネント | {ProductName}"
+description: "{Platform} Button コンポーネントの使用を開始します。{Platform} Button OnClick イベントを通じて、ボタンのバリアントを選択し、サイズを構成し、スタイルを定義し、柔軟性を獲得します。"
+keywords: "{Platform}, UI controls, web widgets, UI widgets, {Platform} Button Components, Infragistics, UI コントロール, web ウィジェット, UI ウィジェット, {Platform} Button コンポーネント, インフラジスティックス"
+license: MIT
 mentionedTypes: ["Button", "ButtonBase"]
 _language: ja
 ---

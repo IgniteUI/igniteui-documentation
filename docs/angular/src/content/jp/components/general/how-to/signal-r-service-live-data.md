@@ -1,7 +1,7 @@
 ---
 title: ライブ データ ストリーミング用の ASP.NET Core SignalR サービスを作成する方法。
-_description: 最新のデータ グリッドとドック マネージャーは、ASP.NET Core SignalR とともにアプリケーションの作成に使用されます。
-_keywords: angular, signalr, .net core, infragistics, インフラジスティックス
+description: 最新のデータ グリッドとドック マネージャーは、ASP.NET Core SignalR とともにアプリケーションの作成に使用されます。
+keywords: angular, signalr, .net core, infragistics, インフラジスティックス
 _language: ja
 ---
 

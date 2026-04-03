@@ -1,8 +1,8 @@
 ---
-title: {Platform} チャートのハイライト表示フィルター | データ可視化 | インフラジスティックス
-_description: Infragistics の {Platform} チャートのハイライト表示フィルター
-_keywords: {Platform} Charts, Highlighting, Filtering, Infragistics, {Platform} チャート, ハイライト表示, フィルターリング, インフラジスティックス
-_license: commercial
+title: "{Platform} チャートのハイライト表示フィルター | データ可視化 | インフラジスティックス"
+description: Infragistics の {Platform} チャートのハイライト表示フィルター
+keywords: "{Platform} Charts, Highlighting, Filtering, Infragistics, {Platform} チャート, ハイライト表示, フィルターリング, インフラジスティックス"
+license: commercial
 mentionedTypes: ["CategoryChart", "XamDataChart", "Series", "HighlightedValuesDisplayMode"]
 namespace: Infragistics.Controls.Charts
 _language: ja

@@ -1,10 +1,10 @@
 ---
-title: {Platform} データ グリッド | 列選択 | インフラジスティックス
-_description: インフラジスティックスの {ProductName} グリッド コンポーネントで UI から直接、または {Platform} コントロールを使用して列の表示/非表示機能をサポートする方法について説明します。詳細については、{ProductName} テーブル サンプルを参照してください。
-_keywords: {Platform} Table, Data Grid, column chooser, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, 列選択, インフラジスティックス
+title: "{Platform} データ グリッド | 列選択 | インフラジスティックス"
+description: インフラジスティックスの {ProductName} グリッド コンポーネントで UI から直接、または {Platform} コントロールを使用して列の表示/非表示機能をサポートする方法について説明します。詳細については、{ProductName} テーブル サンプルを参照してください。
+keywords: "{Platform} Table, Data Grid, column chooser, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, 列選択, インフラジスティックス"
 mentionedTypes: ["Grid", "DataGridColumn", "DataGridToolbar", "Button", "ColumnChooser", "ColumnHidingAnimationMode", "ColumnShowingAnimationMode", "ColumnChooserTitle"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridMain}
+_canonicalLink: "{CanonicalLinkToGridMain}"
 _language: ja
 ---
 

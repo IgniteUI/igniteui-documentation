@@ -1,8 +1,8 @@
 ---
 title: Angular Grid Lite Header Template | Ignite UI for Angular | MIT license
-_description: Configure and customize custom Grid Lite column header renderers. See demos and examples! Build applications with open-source Angular Grid Lite. Try it now.
-_keywords: header template, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: MIT
+description: Configure and customize custom Grid Lite column header renderers. See demos and examples! Build applications with open-source Angular Grid Lite. Try it now.
+keywords: header template, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: MIT
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
 ---

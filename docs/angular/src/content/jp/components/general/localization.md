@@ -1,7 +1,7 @@
 ---
 title: ローカライズ (i18n) - ネイティブ Angular | Ignite UI for Angular
-_description: Ignite UI for Angular ローカライズ メカニズムはコンポーネントの文字列をローカライズ/変更する機能をサポートします。
-_keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ、ネイティブ Angular コンポーネント
+description: Ignite UI for Angular ローカライズ メカニズムはコンポーネントの文字列をローカライズ/変更する機能をサポートします。
+keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ、ネイティブ Angular コンポーネント
 _language: ja
 ---
 

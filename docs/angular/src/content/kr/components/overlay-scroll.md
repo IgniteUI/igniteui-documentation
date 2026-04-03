@@ -1,6 +1,6 @@
 ---
 title: Overlay Service - Scroll Strategies
-_description: Explanation and example about the Overlay Service's IScrollStrategy interface and the classes that implement it.
+description: Explanation and example about the Overlay Service's IScrollStrategy interface and the classes that implement it.
 _language: kr
 ---
 

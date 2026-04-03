@@ -1,8 +1,8 @@
 ---
 title: Angular Toggle Component | Ignite UI for Angular | MIT license 
-_description: The Ignite UI for Angular Toggle directive allows the users to open, to interact with, to apply animations, and to close a toggle container. 
-_keywords: Angular Toggle directive, Angular Toggle control, Angular Toggle Component, Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Angular UI Components, Native Angular Components Library, Native Angular Components
-_license: MIT
+description: The Ignite UI for Angular Toggle directive allows the users to open, to interact with, to apply animations, and to close a toggle container. 
+keywords: Angular Toggle directive, Angular Toggle control, Angular Toggle Component, Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Angular UI Components, Native Angular Components Library, Native Angular Components
+license: MIT
 ---
 
 # Angular Toggle Directive Overview

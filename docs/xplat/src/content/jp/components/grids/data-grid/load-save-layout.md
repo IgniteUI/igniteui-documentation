@@ -1,10 +1,10 @@
 ---
-title: {Platform} データ グリッド | リアルタイム データ グリッドとテーブル | 読み込みと保存 | インフラジスティックス
-_description: ユーザーが作成したレイアウトの読み込みと保存をサポートするインフラジスティックスの {ProductName} データ テーブルとグリッドをお試しください。
-_keywords: {Platform} Table, Data Grid, cell activation, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, セルのアクティブ化, インフラジスティックス
+title: "{Platform} データ グリッド | リアルタイム データ グリッドとテーブル | 読み込みと保存 | インフラジスティックス"
+description: ユーザーが作成したレイアウトの読み込みと保存をサポートするインフラジスティックスの {ProductName} データ テーブルとグリッドをお試しください。
+keywords: "{Platform} Table, Data Grid, cell activation, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, セルのアクティブ化, インフラジスティックス"
 mentionedTypes: ["Grid", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridMain}
+_canonicalLink: "{CanonicalLinkToGridMain}"
 _language: ja
 ---
 

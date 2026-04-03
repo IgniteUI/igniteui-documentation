@@ -1,7 +1,7 @@
 ---
 title: Single Select ComboBox Component
-_description: The Ignite UI for Angular ComboBox provides a powerful input, combining features of the basic HTML input, select, filtering and custom drop-down lists. Try it for FREE
-_keywords: angular combobox, ignite ui for angular, infragistics
+description: The Ignite UI for Angular ComboBox provides a powerful input, combining features of the basic HTML input, select, filtering and custom drop-down lists. Try it for FREE
+keywords: angular combobox, ignite ui for angular, infragistics
 ---
 
 # Single Select ComboBox

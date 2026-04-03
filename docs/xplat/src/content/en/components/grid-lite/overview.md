@@ -1,10 +1,10 @@
 ---
 title: Free {Platform} Data {GridLiteTitle} (Open Source) - Ignite UI Grid Lite | MIT license
-_description: Create apps with our open-source {GridLiteTitle}. It’s lightweight and packed with essential features - filtering, hiding, sorting, and more. Try now.
-_keywords: overview, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+description: Create apps with our open-source {GridLiteTitle}. It’s lightweight and packed with essential features - filtering, hiding, sorting, and more. Try now.
+keywords: overview, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
-_license: MIT
+license: MIT
 ---
 
 # Free & Open-Source {Platform} Data Grid (Grid Lite)
