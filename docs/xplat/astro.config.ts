@@ -1,0 +1,120 @@
+import path from 'node:path';
+import { readFileSync, existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { createDocsSite, type DocsMode } from 'docs-template/integration';
+import { remarkEnv } from './src/plugins/remark-env.ts';
+import { remarkApiLinks } from './src/plugins/remark-api-links.ts';
+
+// ---------------------------------------------------------------------------
+// Platform selection
+//
+// Priority (highest → lowest):
+//   1. PLATFORM env var    (e.g. PLATFORM=Angular npm run dev)
+//   2. .platform.json      (written by scripts/generate.mjs)
+//   3. Default → 'React'
+// ---------------------------------------------------------------------------
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+function resolveSetting(envKey: string, jsonKey: string, fallback: string): string {
+    if (process.env[envKey]) return process.env[envKey]!;
+    try {
+        const file = path.join(__dirname, '.platform.json');
+        if (existsSync(file)) {
+            const cfg = JSON.parse(readFileSync(file, 'utf8'));
+            if (cfg[jsonKey]) return cfg[jsonKey];
+        }
+    } catch { /* ignore */ }
+    return fallback;
+}
+
+const platform = resolveSetting('PLATFORM', 'platform', 'React');
+const lang     = resolveSetting('LANG_CODE', 'lang',     'en');
+
+// NODE_ENV: 'development' | 'staging' | 'production'  (default: 'development')
+const nodeEnv = process.env.NODE_ENV || 'development';
+const mode: DocsMode = nodeEnv === 'production' ? 'prod'
+    : nodeEnv === 'staging' ? 'staging'
+    : 'dev';
+
+// ---------------------------------------------------------------------------
+// Per-platform site metadata
+// ---------------------------------------------------------------------------
+
+const PLATFORM_META: Record<string, { title: string; description: string }> = {
+    Angular: {
+        title: 'Ignite UI for Angular',
+        description: 'Reference docs for Ignite UI for Angular.',
+    },
+    React: {
+        title: 'Ignite UI for React',
+        description: 'Reference docs for Ignite UI for React.',
+    },
+    WebComponents: {
+        title: 'Ignite UI for Web Components',
+        description: 'Reference docs for Ignite UI for Web Components.',
+    },
+    Blazor: {
+        title: 'Ignite UI for Blazor',
+        description: 'Reference docs for Ignite UI for Blazor.',
+    },
+};
+
+const meta = PLATFORM_META[platform] ?? PLATFORM_META['React'];
+
+const PLATFORM_KEY: Record<string, string> = {
+    Angular: 'angular',
+    React: 'react',
+    WebComponents: 'web-components',
+    Blazor: 'blazor',
+};
+
+const PLATFORM_URL_BASE: string = nodeEnv === 'production'
+	? 'https://www.infragistics.com/products/'
+	: 'https://staging.infragistics.com/products/';
+
+const PLATFORM_SITE: Record<string, string> = {
+    Angular:       `${PLATFORM_URL_BASE}ignite-ui-angular/angular/components`,
+    React:         `${PLATFORM_URL_BASE}ignite-ui-react/react/components`,
+    WebComponents: `${PLATFORM_URL_BASE}ignite-ui-web-components/web-components/components`,
+    Blazor:        `${PLATFORM_URL_BASE}ignite-ui-blazor/blazor/components`,
+};
+
+const PLATFORM_BASE: Record<string, string> = {
+    Angular:       '/docs-angular-new',
+    React:         '/docs-react-new',
+    WebComponents: '/docs-wc-new',
+    Blazor:        '/docs-blazor-new',
+};
+
+// Generated markdown lives in generated/{platform}/{lang}/ (produced by scripts/generate.mjs)
+const XPLAT_ROOT = path.join(__dirname, 'generated', platform, lang);
+
+console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}  →  ${XPLAT_ROOT}`);
+
+// https://astro.build/config
+export default createDocsSite({
+    site: PLATFORM_SITE[platform] ?? 'https://www.infragistics.com',
+    base: PLATFORM_BASE[platform] ?? '/',
+    title: meta.title,
+    description: meta.description,
+    platform: (PLATFORM_KEY[platform] ?? null) as any,
+    navLang: lang === 'jp' ? 'ja' : lang,
+    mode,
+    source: {
+        tocPath: path.join(XPLAT_ROOT, 'components', 'toc.json'),
+        docsDir: path.join(XPLAT_ROOT, 'components'),
+    },
+    productLinks: [
+        { label: 'Angular',        href: PLATFORM_SITE.Angular,       platform: 'angular' },
+        { label: 'React',          href: PLATFORM_SITE.React,         platform: 'react' },
+        { label: 'Web Components', href: PLATFORM_SITE.WebComponents, platform: 'web-components' },
+        { label: 'Blazor',         href: PLATFORM_SITE.Blazor,        platform: 'blazor' },
+    ],
+    starlight: {
+        logo: { src: './public/favicon.svg' },
+    },
+    // Serve images statically from public/ — no Astro image optimization needed
+    image: { service: { entrypoint: 'astro/assets/services/noop' } },
+    markdown: { remarkPlugins: [remarkEnv, remarkApiLinks] },
+});
