@@ -62,6 +62,7 @@ import { buildSidebarFromToc } from './sidebar';
 import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey } from './platform.ts';
 import { JSDOM } from 'jsdom';
+import { visit } from 'unist-util-visit';
 import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
@@ -195,6 +196,18 @@ function injectFrontmatterKeys(raw: string, keys: Record<string, unknown>): stri
 // Site meta virtual module
 // ---------------------------------------------------------------------------
 
+export interface ProductLink {
+    /** Display label shown in the DocsSubHeader, e.g. `"Angular"`. */
+    label: string;
+    /** Absolute or root-relative href to the sibling docs site. */
+    href: string;
+    /**
+     * Optional platform key (matches `PlatformKey`).
+     * When it equals the current build's platform the link is omitted from the DocsSubHeader.
+     */
+    platform?: PlatformKey;
+}
+
 export interface SiteMetaOptions {
     title: string;
     description?: string;
@@ -205,6 +218,8 @@ export interface SiteMetaOptions {
     navLang?: string;
     /** Build / deployment mode. Exposed via `virtual:docs-template/site-meta`. */
     mode?: DocsMode;
+    /** Cross-product navigation links rendered in the DocsSubHeader. */
+    productLinks?: ProductLink[];
     /** @deprecated Use `platform` instead. */
     prefetchNav?: boolean;
     /** @deprecated Use `platform: 'appbuilder'` instead. */
@@ -223,6 +238,7 @@ export function siteMetaIntegration({
     platform = null,
     navLang = 'en',
     mode = 'dev',
+    productLinks = [],
     prefetchNav = false,
     prefetchAppBuilderNav = false,
 }: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
@@ -231,6 +247,7 @@ export function siteMetaIntegration({
 export const description = ${JSON.stringify(description)};
 export const sidebar = ${JSON.stringify(sidebar ?? [])};
 export const mode = ${JSON.stringify(mode)};
+export const productLinks = ${JSON.stringify(productLinks)};
 `;
     const virtualId = 'virtual:docs-template/site-meta';
     const resolvedId = '\0' + virtualId;
@@ -537,6 +554,35 @@ export function staticImagesIntegration(
     };
 }
 
+/**
+ * Remark plugin factory that rewrites root-relative URLs in markdown HTML
+ * nodes to include the Astro `base` path. Baking `base` into the plugin at
+ * config time ensures Astro's content-layer cache is invalidated when the
+ * base changes, so rebuilt HTML always has correct paths.
+ */
+function createRemarkPrependBase(base: string) {
+    const normalizedBase = base.replace(/\/$/, '');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return () => (tree: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        visit(tree, (node: any) => {
+            if (node.type === 'html' && node.value) {
+                node.value = node.value.replace(/(src|href)="(\/[^"]*)"/g, (_: string, attr: string, url: string) => {
+                    if (url.startsWith(normalizedBase + '/')) return `${attr}="${url}"`;
+                    return `${attr}="${normalizedBase}${url}"`;
+                });
+                node.value = node.value.replace(/url\((\/[^)"']*)\)/g, (_: string, url: string) => {
+                    if (url.startsWith(normalizedBase + '/')) return `url(${url})`;
+                    return `url(${normalizedBase}${url})`;
+                });
+            }
+            if (node.type === 'image' && node.url?.startsWith('/') && !node.url.startsWith(normalizedBase + '/')) {
+                node.url = normalizedBase + node.url;
+            }
+        });
+    };
+}
+
 // ---------------------------------------------------------------------------
 // All-in-one factory
 // ---------------------------------------------------------------------------
@@ -593,6 +639,8 @@ export interface CreateDocsSiteOptions {
     mode?: DocsMode;
     /** Extra Starlight options (logo, social, editLink, customCss, plugins, …). */
     starlight?: Record<string, unknown>;
+    /** Cross-product navigation links rendered in the DocsSubHeader. */
+    productLinks?: ProductLink[];
     /** Extra Astro integrations appended after the built-in ones. */
     integrations?: AstroIntegration[];
     /** Any remaining keys are spread into `defineConfig` (markdown, image, build, …). */
@@ -618,6 +666,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         platform = null,
         navLang = 'en',
         mode = 'dev',
+        productLinks = [],
         head = [],
         starlight: starlightExtra = {},
         integrations: extraIntegrations = [],
@@ -635,6 +684,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         process.env.DOCS_SOURCE_PATH = source.docsDir;
     }
     process.env.DOCS_BUILD_MODE = mode;
+    process.env.DOCS_BASE = base ? base.replace(/\/$/, '') : '';
     // Ensure DOCS_ENV aligns with the `mode` when DOCS_ENV is not explicitly set.
     // This maps the internal mode ('dev'|'staging'|'prod') to the environment.json keys
     // ('development'|'staging'|'production') so remark-docfx loads the expected section.
@@ -651,17 +701,19 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Package-level CSS (code-view styles, etc.) — prepended so consumers can override.
     const pkgCss = fileURLToPath(new URL('./styles/custom.css', pkgDir));
     const defaultComponents: Record<string, string> = {
-        PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro', pkgDir)),
-        Head:      fileURLToPath(new URL('./components/overrides/Head.astro', pkgDir)),
-        Header:    fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
-        Footer:    fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
-        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro', pkgDir)),
+        PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro',  pkgDir)),
+        Head:      fileURLToPath(new URL('./components/overrides/Head.astro',             pkgDir)),
+        Header:    fileURLToPath(new URL('./components/overrides/Header.astro',           pkgDir)),
+        Footer:    fileURLToPath(new URL('./components/overrides/Footer.astro',           pkgDir)),
+        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro',        pkgDir)),
+        Sidebar:   fileURLToPath(new URL('./components/overrides/Sidebar/Sidebar.astro',  pkgDir)),
     };
 
+    const scriptsBase = base ? base.replace(/\/$/, '') : '';
     const codeViewHead = [
         { tag: 'link' as const, attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
         { tag: 'script' as const, attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
-        { tag: 'script' as const, attrs: { src: '/scripts/code-view.js', defer: true } },
+        { tag: 'script' as const, attrs: { src: `${scriptsBase}/scripts/code-view.js`, defer: true } },
     ];
 
     // Auto-configure a Vite dev-server proxy so code-view.js can fetch
@@ -716,11 +768,11 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         markdown: {
             ...(astroExtra as any).markdown,
             // Always prepend our required plugins; consumer's extra plugins follow.
-            remarkPlugins: [remarkDocfx, ...((astroExtra as any).markdown?.remarkPlugins ?? [])],
+            remarkPlugins: [remarkDocfx, ...((astroExtra as any).markdown?.remarkPlugins ?? []), ...(base ? [createRemarkPrependBase(base)] : [])],
             rehypePlugins: [rehypeCodeView, ...((astroExtra as any).markdown?.rehypePlugins ?? [])],
         },
         integrations: [
-            siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode }),
+            siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode, productLinks }),
             starlight({
                 title,
                 sidebar: sidebar,

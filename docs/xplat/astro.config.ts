@@ -69,11 +69,22 @@ const PLATFORM_KEY: Record<string, string> = {
     Blazor: 'blazor',
 };
 
+const PLATFORM_URL_BASE: string = nodeEnv === 'production'
+	? 'https://www.infragistics.com/products/'
+	: 'https://staging.infragistics.com/products/';
+
 const PLATFORM_SITE: Record<string, string> = {
-    Angular:       'https://www.infragistics.com/products/ignite-ui-angular/angular/components',
-    React:         'https://www.infragistics.com/products/ignite-ui-react/react/components',
-    WebComponents: 'https://www.infragistics.com/products/ignite-ui-web-components/web-components/components',
-    Blazor:        'https://www.infragistics.com/products/ignite-ui-blazor/blazor/components',
+    Angular:       `${PLATFORM_URL_BASE}ignite-ui-angular/angular/components`,
+    React:         `${PLATFORM_URL_BASE}ignite-ui-react/react/components`,
+    WebComponents: `${PLATFORM_URL_BASE}ignite-ui-web-components/web-components/components`,
+    Blazor:        `${PLATFORM_URL_BASE}ignite-ui-blazor/blazor/components`,
+};
+
+const PLATFORM_BASE: Record<string, string> = {
+    Angular:       '/docs-angular-new',
+    React:         '/docs-react-new',
+    WebComponents: '/docs-wc-new',
+    Blazor:        '/docs-blazor-new',
 };
 
 // Generated markdown lives in generated/{platform}/{lang}/ (produced by scripts/generate.mjs)
@@ -84,6 +95,7 @@ console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode} 
 // https://astro.build/config
 export default createDocsSite({
     site: PLATFORM_SITE[platform] ?? 'https://www.infragistics.com',
+    base: PLATFORM_BASE[platform] ?? '/',
     title: meta.title,
     description: meta.description,
     platform: (PLATFORM_KEY[platform] ?? null) as any,
@@ -93,6 +105,12 @@ export default createDocsSite({
         tocPath: path.join(XPLAT_ROOT, 'components', 'toc.json'),
         docsDir: path.join(XPLAT_ROOT, 'components'),
     },
+    productLinks: [
+        { label: 'Angular',        href: PLATFORM_SITE.Angular,       platform: 'angular' },
+        { label: 'React',          href: PLATFORM_SITE.React,         platform: 'react' },
+        { label: 'Web Components', href: PLATFORM_SITE.WebComponents, platform: 'web-components' },
+        { label: 'Blazor',         href: PLATFORM_SITE.Blazor,        platform: 'blazor' },
+    ],
     starlight: {
         logo: { src: './public/favicon.svg' },
     },

@@ -123,6 +123,12 @@ export default defineConfig({
         'UI component library including Data Grid, Charts, Gauges, Calendars, and more.',
       docsDir: COMPONENTS,
       sidebar,
+      productLinks: [
+        { label: 'Angular',        href: '#', platform: 'angular' },
+        { label: 'React',          href: '#', platform: 'react' },
+        { label: 'Blazor',         href: '#', platform: 'blazor' },
+        { label: 'Web Components', href: '#', platform: 'web-components' },
+      ],
     }),
   ],
   markdown: {
