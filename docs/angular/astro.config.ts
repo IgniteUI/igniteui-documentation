@@ -5,13 +5,14 @@ import { generateGridTopics, normalizeImagePaths } from './src/generate-grids.mj
 import { remarkEnv } from './src/plugins/remark-env.mjs';
 
 // ── Build mode and language ──────────────────────────────────────────────────
-// NODE_ENV: 'development' | 'staging' | 'production'  (default: 'development')
+// DOCS_ENV: 'development' | 'staging' | 'production'  (preferred, default: 'development')
+// NODE_ENV: fallback — do NOT set to 'staging'; Vite derives import.meta.env.DEV from it.
 // DOCS_LANG: 'en' | 'jp' | 'kr'                       (default: 'en')
-const nodeEnv = process.env.NODE_ENV || 'development';
+const docsEnv = process.env.DOCS_ENV || process.env.NODE_ENV || 'development';
 const docsLang = process.env.DOCS_LANG || 'en';
 
-const mode: DocsMode = nodeEnv === 'production' ? 'prod'
-	: nodeEnv === 'staging' ? 'staging'
+const mode: DocsMode = docsEnv === 'production' ? 'prod'
+	: docsEnv === 'staging' ? 'staging'
 		: 'dev';
 
 // ── Site URL — varies by build mode ─────────────────────────────────────────

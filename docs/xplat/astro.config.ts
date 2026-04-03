@@ -32,10 +32,11 @@ function resolveSetting(envKey: string, jsonKey: string, fallback: string): stri
 const platform = resolveSetting('PLATFORM', 'platform', 'React');
 const lang = resolveSetting('LANG_CODE', 'lang', 'en');
 
-// NODE_ENV: 'development' | 'staging' | 'production'  (default: 'development')
-const nodeEnv = process.env.NODE_ENV || 'development';
-const mode: DocsMode = nodeEnv === 'production' ? 'prod'
-    : nodeEnv === 'staging' ? 'staging'
+// DOCS_ENV: 'development' | 'staging' | 'production'  (preferred, default: 'development')
+// NODE_ENV: fallback — do NOT set to 'staging'; Vite derives import.meta.env.DEV from it.
+const docsEnv = process.env.DOCS_ENV || process.env.NODE_ENV || 'development';
+const mode: DocsMode = docsEnv === 'production' ? 'prod'
+    : docsEnv === 'staging' ? 'staging'
         : 'dev';
 
 const PLATFORMS = IGDOCS_PLATFORMS;
