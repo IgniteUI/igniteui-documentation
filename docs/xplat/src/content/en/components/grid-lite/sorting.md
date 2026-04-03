@@ -1,10 +1,10 @@
 ---
-title: {Platform} {GridLiteTitle} Sorting  | {ProductName} | MIT license
-_description: Try {GridLiteTitle} with sort operations, sort customization, and remote sorting for {Platform} {GridLiteTitle}. See demos and examples and build your next app.
-_keywords: sorting, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+title: "{Platform} {GridLiteTitle} Sorting  | {ProductName} | MIT license"
+description: Try {GridLiteTitle} with sort operations, sort customization, and remote sorting for {Platform} {GridLiteTitle}. See demos and examples and build your next app.
+keywords: sorting, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
-_license: MIT
+license: MIT
 ---
 
 # Sort operations

@@ -1,8 +1,8 @@
 ---
-title: {Platform} Navbar | Infragistics
-_description: Infragistics' {Platform} navbar provides optimal UI experience with seamless integration to allow users to move within an application smoothly. Improve your application with Ignite UI for  {Platform}!
-_keywords: {Platform} navbar, {ProductName}, Infragistics
-_license: MIT
+title: "{Platform} Navbar | Infragistics"
+description: Infragistics' {Platform} navbar provides optimal UI experience with seamless integration to allow users to move within an application smoothly. Improve your application with Ignite UI for  {Platform}!
+keywords: "{Platform} navbar, {ProductName}, Infragistics"
+license: MIT
 mentionedTypes: ["Navbar"]
 ---
 

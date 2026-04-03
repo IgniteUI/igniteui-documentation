@@ -1,12 +1,12 @@
 ---
 title:  Row actions in {Platform} {ComponentTitle} - Infragistics
-_description: The {ComponentName} provides the ability to use ActionStrip and utilize CRUD for row/cell components and row pinning.
-_keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: commercial
+description: The {ComponentName} provides the ability to use ActionStrip and utilize CRUD for row/cell components and row pinning.
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridRowActions}
+_canonicalLink: "{CanonicalLinkToGridRowActions}"
 ---
 
 # Row Actions in {Platform} {ComponentTitle}

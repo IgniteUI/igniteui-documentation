@@ -1,7 +1,7 @@
 ---
 title: スペーシング | Ignite UI for Angular 
-_description: Ignite UI for Angular は、アプリケーション レベルまたはコンポーネント レベルでパディングとマージンを簡単に調整する方法を提供します。
-_keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コンポーネント, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, スペーシング, パディング, マージン
+description: Ignite UI for Angular は、アプリケーション レベルまたはコンポーネント レベルでパディングとマージンを簡単に調整する方法を提供します。
+keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コンポーネント, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, スペーシング, パディング, マージン
 _language: ja
 ---
 

@@ -1,8 +1,8 @@
 ---
-title: {Platform} Excel ライブラリ | チャートの使用 | インフラジスティックス
-_description: インフラジスティックスの {Platform} Excel ライブラリのチャート機能を使用して、ワークシートのセル領域全体のデータ トレンドをチャートで表示します。{ProductName} Excel データを 70 種類以上のチャート タイプで可視化できます。
-_keywords: Excel library, charts, {ProductName}, Infragistics, Excel ライブラリ, チャート, インフラジスティックス
-_license: commercial
+title: "{Platform} Excel ライブラリ | チャートの使用 | インフラジスティックス"
+description: インフラジスティックスの {Platform} Excel ライブラリのチャート機能を使用して、ワークシートのセル領域全体のデータ トレンドをチャートで表示します。{ProductName} Excel データを 70 種類以上のチャート タイプで可視化できます。
+keywords: Excel library, charts, {ProductName}, Infragistics, Excel ライブラリ, チャート, インフラジスティックス
+license: commercial
 mentionedTypes: ["Workbook", "Worksheet"]
 _language: ja
 ---

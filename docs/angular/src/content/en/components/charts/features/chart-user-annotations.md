@@ -1,7 +1,7 @@
 ---
 title: Angular Chart User Annotations | Data Visualization | Infragistics
-_description: Infragistics' Angular Chart User Annotations
-_keywords: Angular Charts, User Annotations, Infragistics
+description: Infragistics' Angular Chart User Annotations
+keywords: Angular Charts, User Annotations, Infragistics
 mentionedTypes: ["DataChart", "UserAnnotationLayer", "UserStripAnnotation", "UserSliceAnnotation", "UserPointAnnotation", "Toolbar", "UserAnnotationInformation", "SeriesViewer"]
 namespace: Infragistics.Controls.Charts
 ---

@@ -1,8 +1,8 @@
 ---
-title: {Platform} Styling and Themes | {Platform} Typography | Infragistics
-_description:
-_keywords: {ProductName}, Infragistics, Typography, Styling
-_license: MIT
+title: "{Platform} Styling and Themes | {Platform} Typography | Infragistics"
+description:
+keywords: "{ProductName}, Infragistics, Typography, Styling"
+license: MIT
 mentionedTypes: ["Typography"]
 ---
 

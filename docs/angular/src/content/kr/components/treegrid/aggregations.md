@@ -1,7 +1,7 @@
 ---
 title: 트리 그리드 집계- 네이티브 Angular | Ignite UI for Angular
-_description: With the Ignite UI for Angular Tree Grid aggregations, see the data grouped and aggregated.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Component, Angular Tree Grid, Angular Tree Grid component, Angular Tree Grid control, Angular High Performance Tree Grid, Summaries, Summary, Aggregate, Aggregations
+description: With the Ignite UI for Angular Tree Grid aggregations, see the data grouped and aggregated.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Component, Angular Tree Grid, Angular Tree Grid component, Angular Tree Grid control, Angular High Performance Tree Grid, Summaries, Summary, Aggregate, Aggregations
 _language: kr
 ---
 

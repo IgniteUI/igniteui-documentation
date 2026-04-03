@@ -1,8 +1,8 @@
 ---
 title: Angular Avatar Component – Ignite UI for Angular | Infragistics | MIT license
-_description: Ignite UI for Angular Avatar control enables users to add images, material icons or initials within any application for instances such as a profile button.
-_keywords: Angular Avatar component, Angular Avatar control, Ignite UI for Angular, Angular UI components
-_license: MIT
+description: Ignite UI for Angular Avatar control enables users to add images, material icons or initials within any application for instances such as a profile button.
+keywords: Angular Avatar component, Angular Avatar control, Ignite UI for Angular, Angular UI components
+license: MIT
 ---
 
 # Angular Avatar Component Overview

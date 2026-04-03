@@ -1,8 +1,8 @@
 ---
 title: Angular マスター - 詳細 Grid - Ignite UI for Angular
-_description: Ignite UI Angular Grid を使用して行データの展開可能な詳細ビュー テンプレートを定義します。マスター - 詳細スタイル データを階層構造で表示する場合に便利です。
-_keywords: マスターと詳細, igniteui for angular, インフラジスティックス
-_license: commercial
+description: Ignite UI Angular Grid を使用して行データの展開可能な詳細ビュー テンプレートを定義します。マスター - 詳細スタイル データを階層構造で表示する場合に便利です。
+keywords: マスターと詳細, igniteui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 

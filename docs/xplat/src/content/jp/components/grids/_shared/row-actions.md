@@ -1,12 +1,12 @@
 ---
 title:  {Platform} {ComponentTitle} の行操作 - インフラジスティックス
-_description: {ComponentName} は、ActionStrip を使用し、行/セルコンポーネントおよび行のピン固定に CRUD を使用する機能を提供します。
-_keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス
-_license: commercial
+description: "{ComponentName} は、ActionStrip を使用し、行/セルコンポーネントおよび行のピン固定に CRUD を使用する機能を提供します。"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridRowActions}
+_canonicalLink: "{CanonicalLinkToGridRowActions}"
 _language: ja
 ---
 

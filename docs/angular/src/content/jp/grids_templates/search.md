@@ -1,27 +1,27 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid の検索フィルター - Ignite UI for Angular
-_description: Ignite UI for Angular Data Grid で高速グリッド検索を実行します。優れた UX を提供しながら、グリッドの仮想化データでコンテンツの即時検索が可能です。
-_keywords: コンテンツ検索, ignite ui for angular, インフラジスティックス
-_license: commercial
+description: Ignite UI for Angular Data Grid で高速グリッド検索を実行します。優れた UX を提供しながら、グリッドの仮想化データでコンテンツの即時検索が可能です。
+keywords: コンテンツ検索, ignite ui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid の検索フィルター - Ignite UI for Angular
-_description: Ignite UI for Angular Tree Grid で高速グリッド検索を実行します。優れた UX を提供しながら、グリッドの仮想化データでコンテンツの即時検索が可能です。
-_keywords: コンテンツ検索, ignite ui for angular, インフラジスティックス
-_license: commercial
+description: Ignite UI for Angular Tree Grid で高速グリッド検索を実行します。優れた UX を提供しながら、グリッドの仮想化データでコンテンツの即時検索が可能です。
+keywords: コンテンツ検索, ignite ui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid の検索フィルター - Ignite UI for Angular
-_description: Ignite UI for Angular Hierarchical Grid で高速グリッド検索を実行します。優れた UX を提供しながら、グリッドの仮想化データでコンテンツの即時検索が可能です。
-_keywords: コンテンツ検索, ignite ui for angular, インフラジスティックス
-_license: commercial
+description: Ignite UI for Angular Hierarchical Grid で高速グリッド検索を実行します。優れた UX を提供しながら、グリッドの仮想化データでコンテンツの即時検索が可能です。
+keywords: コンテンツ検索, ignite ui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 }

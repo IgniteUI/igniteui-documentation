@@ -1,8 +1,8 @@
 ---
 title: PDF へのエクスポート コンポーネント - ネイティブ Angular| Ignite UI for Angular
-_description: ユーザーがオフライン プレゼンテーションのためにデータをエクスポートできます。PDF へのエクスポート Ignite UI for Angular コンポーネントで PDF 形式にエクスポートできます。
-_keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, Angular Grid, Angular Data Grid, Angular Grid コントロール, Angular Grid コンポーネント, PDF  エクスポート, Angular PDF コンポーネント, Angular エクスポート PDF
-_license: commercial
+description: ユーザーがオフライン プレゼンテーションのためにデータをエクスポートできます。PDF へのエクスポート Ignite UI for Angular コンポーネントで PDF 形式にエクスポートできます。
+keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, Angular Grid, Angular Data Grid, Angular Grid コントロール, Angular Grid コンポーネント, PDF  エクスポート, Angular PDF コンポーネント, Angular エクスポート PDF
+license: commercial
 _language: ja
 ---
 

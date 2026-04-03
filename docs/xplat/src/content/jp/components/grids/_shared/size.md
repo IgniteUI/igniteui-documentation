@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} サイズ - {ProductName}
-_description: {ComponentTitle} コンポーネントにサイズ機能を適用する方法を説明します。{ProductName} のコンパクト ビュー オプションのセットを使用できます。
-_keywords: material size, {Platform}, {ProductName}, Infragistics, マテリアル サイズ, インフラジスティックス
-_license: commercial
+title: "{Platform} {ComponentTitle} サイズ - {ProductName}"
+description: "{ComponentTitle} コンポーネントにサイズ機能を適用する方法を説明します。{ProductName} のコンパクト ビュー オプションのセットを使用できます。"
+keywords: material size, {Platform}, {ProductName}, Infragistics, マテリアル サイズ, インフラジスティックス
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridSize}
+_canonicalLink: "{CanonicalLinkToGridSize}"
 _language: ja
 ---
 

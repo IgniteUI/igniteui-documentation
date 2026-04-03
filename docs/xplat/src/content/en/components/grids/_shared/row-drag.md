@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Row Dragging - {ProductName}
-_description: Row dragging in {Platform} {ComponentTitle} is used to quickly rearrange rows by dragging them with the mouse. See how to configure row dragging in your project.
-_keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Row Dragging - {ProductName}"
+description: Row dragging in {Platform} {ComponentTitle} is used to quickly rearrange rows by dragging them with the mouse. See how to configure row dragging in your project.
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridRowDrag}
+_canonicalLink: "{CanonicalLinkToGridRowDrag}"
 ---
 
 # Row Dragging in {Platform} {ComponentTitle}

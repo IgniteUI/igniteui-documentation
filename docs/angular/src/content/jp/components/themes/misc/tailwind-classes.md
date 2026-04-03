@@ -1,7 +1,7 @@
 ---
 title: Ignite UI の Tailwind 統合
-_description: Ignite UI for Angular のテーマ エンジンのカスタム ユーティリティ クラスと Tailwind CSS を統合する方法について説明します。このガイドでは、セットアップの手順を説明し、ユーティリティ ファーストのアプローチでカラー、タイポグラフィ、シャドウのデザイン トークンを使用する方法について説明します。
-_keywords: Ignite UI for Angular, Tailwind CSS, Angular スタイル、Angular テーマ設定, カスタム CSS, ユーティリティ クラス, テーマ設定エンジン, タイポグラフィ, シャドウ, カラー
+description: Ignite UI for Angular のテーマ エンジンのカスタム ユーティリティ クラスと Tailwind CSS を統合する方法について説明します。このガイドでは、セットアップの手順を説明し、ユーティリティ ファーストのアプローチでカラー、タイポグラフィ、シャドウのデザイン トークンを使用する方法について説明します。
+keywords: Ignite UI for Angular, Tailwind CSS, Angular スタイル、Angular テーマ設定, カスタム CSS, ユーティリティ クラス, テーマ設定エンジン, タイポグラフィ, シャドウ, カラー
 _language: ja
 ---
 

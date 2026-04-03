@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Row Pinning in - {ProductName}
-_description: Use the {Platform} Row pinning feature to lock rows with a rich and easy to use API. Let users pin rows in a particular order or duplicate them in a special area.
-_keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Row Pinning in - {ProductName}"
+description: Use the {Platform} Row pinning feature to lock rows with a rich and easy to use API. Let users pin rows in a particular order or duplicate them in a special area.
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridRowPinning}
+_canonicalLink: "{CanonicalLinkToGridRowPinning}"
 ---
 
 # {Platform} {ComponentTitle} Row Pinning

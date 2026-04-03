@@ -1,8 +1,8 @@
 ---
 title: Angular Snackbar Component - MIT license 
-_description: Easily integrate a brief, single-line message within your mobile and desktop applications with Ignite UI for Angular Snackbar component.
-_keywords: Angular Snackbar component, Angular Snackbar control, Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Angular UI Components, Native Angular Components Library
-_license: MIT
+description: Easily integrate a brief, single-line message within your mobile and desktop applications with Ignite UI for Angular Snackbar component.
+keywords: Angular Snackbar component, Angular Snackbar control, Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Angular UI Components, Native Angular Components Library
+license: MIT
 ---
 
 # Angular Snackbar Component Overview

@@ -1,7 +1,7 @@
 ---
 title: Angular Pivot Grid Features | Pivot Tables | Infragistics
-_description: Create fast, responsive Angular pivot grids and tables with Ignite UI for Angular. Perform complex data analysis via pivot data.
-_keywords: angular pivot grid, Angular pivot table, ignite ui for angular, pivot grid features, pivot features
+description: Create fast, responsive Angular pivot grids and tables with Ignite UI for Angular. Perform complex data analysis via pivot data.
+keywords: angular pivot grid, Angular pivot table, ignite ui for angular, pivot grid features, pivot features
 ---
 
 # Angular Pivot Grid Features

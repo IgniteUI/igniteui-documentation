@@ -1,8 +1,8 @@
 ---
 title: Angular Star Rating Component – Ignite UI for Angular - MIT license 
-_description: With Angular Star Rating Component, users can view and provide feedback quickly. You can use the rating component in any angular app and angular forms. Try it Now
-_keywords: Angular Rating component, Angular Rating control, Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Angular UI Components, Native Angular Components Library
-_license: MIT
+description: With Angular Star Rating Component, users can view and provide feedback quickly. You can use the rating component in any angular app and angular forms. Try it Now
+keywords: Angular Rating component, Angular Rating control, Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Angular UI Components, Native Angular Components Library
+license: MIT
 ---
 
 # Angular Star Rating Overview

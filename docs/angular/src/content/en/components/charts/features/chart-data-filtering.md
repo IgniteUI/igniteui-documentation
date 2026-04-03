@@ -1,8 +1,8 @@
 ---
 title: Angular Chart Data Filtering | Data Visualization | Infragistics
-_description: Infragistics' Angular Chart Data Filtering
-_keywords: Angular Charts, Filtering, Infragistics
-_license: commercial
+description: Infragistics' Angular Chart Data Filtering
+keywords: Angular Charts, Filtering, Infragistics
+license: commercial
 mentionedTypes: ["CategoryChart"]
 namespace: Infragistics.Controls.Charts
 ---

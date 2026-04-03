@@ -1,8 +1,8 @@
 ---
-title: {Platform} Chart Titles | Data Visualization Tools | Infragistics
-_description: Use Infragistics {ProductName} chart with Titles
-_keywords: {Platform} charts, chart titles, titles, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Chart Titles | Data Visualization Tools | Infragistics"
+description: Use Infragistics {ProductName} chart with Titles
+keywords: "{Platform} charts, chart titles, titles, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: ["CategoryChart"]
 namespace: Infragistics.Controls.Charts
 ---

@@ -1,10 +1,8 @@
 ---
 title: "Angular 도구 설명 템플릿"
----
----
 제목: 카테고리 차트 | 데이터 비주얼라이제이션 도구 | 도구 설명 템플릿 | Infragistics
-_description: 범주 차트 구성 요소를 사용하여 데이터를 나타내는 데 가장 적합한 차트 유형을 분석하고 자동으로 선택합니다. 시각화를위한 차트 유형에 대해 알아보십시오.
-_keywords: category chart, Ignite UI for Angular, Infragistics
+description: 범주 차트 구성 요소를 사용하여 데이터를 나타내는 데 가장 적합한 차트 유형을 분석하고 자동으로 선택합니다. 시각화를위한 차트 유형에 대해 알아보십시오.
+keywords: category chart, Ignite UI for Angular, Infragistics
 _language: kr
 ---
 

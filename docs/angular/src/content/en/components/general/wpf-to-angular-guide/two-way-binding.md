@@ -1,7 +1,7 @@
 ---
 title: Two-Way Data Binding in Angular with ngModel | WPF to Angular Guide | Infragistics
-_description: Learn how two-way data binding in Angular is used to display information to the end user and allows them to make changes to the underlying data using the UI. 
-_keywords: two-way data binding in Angular, ignite ui for angular, infragistics
+description: Learn how two-way data binding in Angular is used to display information to the end user and allows them to make changes to the underlying data using the UI. 
+keywords: two-way data binding in Angular, ignite ui for angular, infragistics
 ---
 
 # What is two-way data binding in Angular

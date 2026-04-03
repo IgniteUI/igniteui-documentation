@@ -2,18 +2,18 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid Column Pinning - Ignite UI for Angular
-_description: Want to use the Pinning feature of the Ignite UI for Angular when you develop your next app? Easily lock column or change column order with rich API.
-_keywords: lock column, ignite ui for angular, infragistics
-_license: commercial
+description: Want to use the Pinning feature of the Ignite UI for Angular when you develop your next app? Easily lock column or change column order with rich API.
+keywords: lock column, ignite ui for angular, infragistics
+license: commercial
 ---
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid Column Pinning - Ignite UI for Angular
-_description: Want to use the Pinning feature of the Ignite UI for Angular when you develop your next app? Easily lock column or change column order with rich API.
-_keywords: lock column, ignite ui for angular, infragistics
-_license: commercial
+description: Want to use the Pinning feature of the Ignite UI for Angular when you develop your next app? Easily lock column or change column order with rich API.
+keywords: lock column, ignite ui for angular, infragistics
+license: commercial
 _canonicalLink: grid/column-pinning
 ---
 
@@ -21,9 +21,9 @@ _canonicalLink: grid/column-pinning
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid Column Pinning - Ignite UI for Angular
-_description: Want to use the Pinning feature of the Ignite UI for Angular when you develop your next app? Easily lock column or change column order with rich API.
-_keywords: lock column, ignite ui for angular, infragistics
-_license: commercial
+description: Want to use the Pinning feature of the Ignite UI for Angular when you develop your next app? Easily lock column or change column order with rich API.
+keywords: lock column, ignite ui for angular, infragistics
+license: commercial
 _canonicalLink: grid/column-pinning
 ---
 

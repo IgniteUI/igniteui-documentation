@@ -1,8 +1,8 @@
 ---
 title: Angular Area Chart | Data Visualization | Infragistics
-_description: Infragistics' Angular Area Chart
-_keywords: Angular Charts, Area Chart, Infragistics
-_license: commercial
+description: Infragistics' Angular Area Chart
+keywords: Angular Charts, Area Chart, Infragistics
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "XamDataChart", "CategoryChartType"]
 namespace: Infragistics.Controls.Charts
 ---

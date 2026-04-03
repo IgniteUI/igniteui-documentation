@@ -1,10 +1,10 @@
 ---
-title: {Platform} {GridLiteTitle} Header Template | {ProductName} | MIT license
-_description: Configure and customize custom {GridLiteTitle} column header renderers. See demos and examples! Build applications with open-source {Platform} {GridLiteTitle}. Try it now.
-_keywords: header template, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+title: "{Platform} {GridLiteTitle} Header Template | {ProductName} | MIT license"
+description: Configure and customize custom {GridLiteTitle} column header renderers. See demos and examples! Build applications with open-source {Platform} {GridLiteTitle}. Try it now.
+keywords: header template, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
-_license: MIT
+license: MIT
 ---
 
 # Customizing the Column Header

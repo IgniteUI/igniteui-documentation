@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} 列のデータ タイプ - {ProductName}
-_description: いくつかの定義済みの列データ タイプ- number、string、date、boolean、currency、percent 列 - から選択して {Platform} のセルおよび編集テンプレートを処理します。
-_keywords: Column Data Type, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス, 列のデータ タイプ
-_license: commercial
+title: "{Platform} {ComponentTitle} 列のデータ タイプ - {ProductName}"
+description: いくつかの定義済みの列データ タイプ- number、string、date、boolean、currency、percent 列 - から選択して {Platform} のセルおよび編集テンプレートを処理します。
+keywords: Column Data Type, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス, 列のデータ タイプ
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridColumnTypes}
+_canonicalLink: "{CanonicalLinkToGridColumnTypes}"
 _language: ja
 ---
 

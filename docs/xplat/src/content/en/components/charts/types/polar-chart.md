@@ -1,8 +1,8 @@
 ---
-title: {Platform} Polar Chart | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Polar Chart
-_keywords: {Platform} Charts, Polar Chart, Infragistics
-_license: commercial
+title: "{Platform} Polar Chart | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Polar Chart
+keywords: "{Platform} Charts, Polar Chart, Infragistics"
+license: commercial
 mentionedTypes: ["XamDataChart", "PolarAreaSeries", "Series"]
 namespace: Infragistics.Controls.Charts
 ---

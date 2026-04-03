@@ -1,7 +1,7 @@
 ---
 title: Handling Angular Events | Event Binding | WPF to Angular Guide | Infragistics
-_description: Learn about Angular event binding and how to create your own Angular custom events. See how Angular uses DOM events to do this and handles user inputs.
-_keywords: handling angular events, ignite ui for angular, infragistics
+description: Learn about Angular event binding and how to create your own Angular custom events. See how Angular uses DOM events to do this and handles user inputs.
+keywords: handling angular events, ignite ui for angular, infragistics
 ---
 
 # Handling Angular Events

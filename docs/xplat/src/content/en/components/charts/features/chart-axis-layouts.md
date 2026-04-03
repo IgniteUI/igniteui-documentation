@@ -1,8 +1,8 @@
 ---
-title: {Platform} Axis Layouts | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Axis Layouts
-_keywords: {Platform} Axis, Layouts, Location, Position, Share, Multiple, Crossing, Infragistics
-_license: commercial
+title: "{Platform} Axis Layouts | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Axis Layouts
+keywords: "{Platform} Axis, Layouts, Location, Position, Share, Multiple, Crossing, Infragistics"
+license: commercial
 mentionedTypes: [ "DomainChart", "CategoryChart", "XYChart", "DomainChart", "XamDataChart", "Axis", "AxisLabelSettings", "ScatterSplineSeries", "TimeXAxis" ]
 ---
 

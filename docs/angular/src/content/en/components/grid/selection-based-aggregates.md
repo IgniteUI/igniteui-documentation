@@ -1,8 +1,8 @@
 ---
 title: Angular Grid Selection-Based Data Aggregation- Ignite UI for Angular
-_description: Learn how to aggregate selected data in a grid with Ignite UI. Get instant content aggregations in the virtualized data and rich API for your next project.
-_keywords: Data aggregation, selection, ignite ui for angular, infragistics
-_license: commercial
+description: Learn how to aggregate selected data in a grid with Ignite UI. Get instant content aggregations in the virtualized data and rich API for your next project.
+keywords: Data aggregation, selection, ignite ui for angular, infragistics
+license: commercial
 ---
 
 # Angular Grid Selection-Based Data Aggregation

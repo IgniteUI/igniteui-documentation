@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Editing - {ProductName}
-_description: Get a powerful public API and an easy way to perform data manipulations like creating, updating, or deleting records. See the {Platform} {ComponentTitle} editing options!
-_keywords: data manipulation, {Platform}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Editing - {ProductName}"
+description: Get a powerful public API and an easy way to perform data manipulations like creating, updating, or deleting records. See the {Platform} {ComponentTitle} editing options!
+keywords: data manipulation, {Platform}, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridEditing}
+_canonicalLink: "{CanonicalLinkToGridEditing}"
 ---
 
 # {Platform} {ComponentTitle} Editing

@@ -1,8 +1,8 @@
 ---
-title: {Platform} ドック マネージャー | デスクトップ統合 | インフラジスティックス
-_description: インフラジスティックスの {Platform} ドック マネージャー コンポーネントを使用して、複数ウィンドウの Electron デスクトップ アプリケーションのレイアウトを管理します。{ProductName} ドック マネージャーのチュートリアルを是非お試しください!
-_keywords: dock manager, layout, {ProductName}, Infragistics, ドック マネージャー, レイアウト, インフラジスティックス
-_license: commercial
+title: "{Platform} ドック マネージャー | デスクトップ統合 | インフラジスティックス"
+description: インフラジスティックスの {Platform} ドック マネージャー コンポーネントを使用して、複数ウィンドウの Electron デスクトップ アプリケーションのレイアウトを管理します。{ProductName} ドック マネージャーのチュートリアルを是非お試しください!
+keywords: dock manager, layout, {ProductName}, Infragistics, ドック マネージャー, レイアウト, インフラジスティックス
+license: commercial
 _language: ja
 mentionedTypes: ["DockManager", "DocumentHost", "DockManagerLayout", "DockManagerPaneType", "ContentPane", "SplitPane", "TabGroupPane", "PinnedLocation", "PaneHeaderElement"]
 ---

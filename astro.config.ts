@@ -105,6 +105,7 @@ export default defineConfig({
       },
       components: {
         PageFrame: './src/components/overrides/CustomPageFrame.astro',
+        Head: './src/components/overrides/Head.astro',
         Header: './src/components/overrides/Header.astro',
         Footer: './src/components/overrides/Footer.astro',
         Sidebar: './src/components/overrides/Sidebar/Sidebar.astro',

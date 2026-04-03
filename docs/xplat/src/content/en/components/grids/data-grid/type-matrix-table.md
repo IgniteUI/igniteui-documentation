@@ -1,10 +1,10 @@
 ---
-title: {Platform} Data Grid | Matrix Data | Data Binding | Infragistics
-_description: Use Infragistics' {Platform} grid component's template columns to create a matrix table. View our {ProductName} table demos!
-_keywords: {Platform} Table, Data Grid, column template, matrix table, {ProductName}, data binding, Infragistics
+title: "{Platform} Data Grid | Matrix Data | Data Binding | Infragistics"
+description: Use Infragistics' {Platform} grid component's template columns to create a matrix table. View our {ProductName} table demos!
+keywords: "{Platform} Table, Data Grid, column template, matrix table, {ProductName}, data binding, Infragistics"
 mentionedTypes: ["Grid", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridMain}
+_canonicalLink: "{CanonicalLinkToGridMain}"
 ---
 
 <!-- Blazor, WebComponents -->

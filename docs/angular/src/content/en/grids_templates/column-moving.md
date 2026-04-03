@@ -2,18 +2,18 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Column Reordering & Moving in Angular Data Grid - Infragistics
-_description: Set custom column order & enable columns reordering via drag/drop mouse or touch gestures, or by using the Angular Column Moving API. Try Ignite UI for Angular!
-_keywords: column order, igniteui for angular, infragistics
-_license: commercial
+description: Set custom column order & enable columns reordering via drag/drop mouse or touch gestures, or by using the Angular Column Moving API. Try Ignite UI for Angular!
+keywords: column order, igniteui for angular, infragistics
+license: commercial
 ---
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Column Reordering & Moving in Angular Tree Grid - Infragistics
-_description: Set custom column order & enable columns reordering via drag/drop mouse or touch gestures, or by using the Angular Column Moving API. Try Ignite UI for Angular!
-_keywords: column order, igniteui for angular, infragistics
-_license: commercial
+description: Set custom column order & enable columns reordering via drag/drop mouse or touch gestures, or by using the Angular Column Moving API. Try Ignite UI for Angular!
+keywords: column order, igniteui for angular, infragistics
+license: commercial
 _canonicalLink: grid/column-moving
 ---
 
@@ -21,9 +21,9 @@ _canonicalLink: grid/column-moving
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Column Reordering & Moving in Angular Hierarchical Grid - Infragistics
-_description: Set custom column order & enable columns reordering via drag/drop mouse or touch gestures, or by using the Angular Column Moving API. Try Ignite UI for Angular!
-_keywords: column order, igniteui for angular, infragistics
-_license: commercial
+description: Set custom column order & enable columns reordering via drag/drop mouse or touch gestures, or by using the Angular Column Moving API. Try Ignite UI for Angular!
+keywords: column order, igniteui for angular, infragistics
+license: commercial
 _canonicalLink: grid/column-moving
 ---
 

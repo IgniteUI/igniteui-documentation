@@ -1,22 +1,22 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Filter | Angular Grid Filtering | Ignite UI for Angular | Infragistics
-_description: Start using angular filter to return data with Ignite UI for Angular table similar to the one in excel with convenient usage be the Angular grid filtering
-_keywords: angular filter, ignite ui for angular, infragistics
+description: Start using angular filter to return data with Ignite UI for Angular table similar to the one in excel with convenient usage be the Angular grid filtering
+keywords: angular filter, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Filter | Angular Tree Grid Filtering | Ignite UI for Angular | Infragistics
-_description: Start using angular filter to return data with Ignite UI for Angular table similar to the one in excel with convenient usage be the Angular grid filtering
-_keywords: angular filter, ignite ui for angular, infragistics
+description: Start using angular filter to return data with Ignite UI for Angular table similar to the one in excel with convenient usage be the Angular grid filtering
+keywords: angular filter, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Filter | Angular Hierarchical Grid Filtering | Ignite UI for Angular | Infragistics
-_description: Start using angular filter to return data with Ignite UI for Angular table similar to the one in excel with convenient usage be the Angular grid filtering
-_keywords: angular filter, ignite ui for angular, infragistics
+description: Start using angular filter to return data with Ignite UI for Angular table similar to the one in excel with convenient usage be the Angular grid filtering
+keywords: angular filter, ignite ui for angular, infragistics
 ---
 }
 

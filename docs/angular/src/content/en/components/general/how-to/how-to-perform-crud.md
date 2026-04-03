@@ -1,7 +1,7 @@
 ---
 title: How to enable CRUD operations in Angular.
-_description: What is Angular Crud? How to Build a CRUD service in Angular and use it to perform CRUD operations with the Grid data? Learn more here.
-_keywords: angular, crud, crud operations, infragistics, crud tutorial
+description: What is Angular Crud? How to Build a CRUD service in Angular and use it to perform CRUD operations with the Grid data? Learn more here.
+keywords: angular, crud, crud operations, infragistics, crud tutorial
 ---
 
 # What is CRUD

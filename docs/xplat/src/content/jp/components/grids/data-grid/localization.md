@@ -1,10 +1,10 @@
 ---
-title: {Platform} データ グリッド | リアルタイム データ グリッドとテーブル | ローカリゼーション | インフラジスティックス
-_description: ローカリゼーションをサポートするインフラジスティックスの {ProductName} データ テーブルとグリッドを試しましょう。{ProductName} テーブルのチュートリアルをご覧ください。
-_keywords: {Platform} テーブル、データ グリッド、セル アクセシビリティ、{ProductName}、インフラジスティック
+title: "{Platform} データ グリッド | リアルタイム データ グリッドとテーブル | ローカリゼーション | インフラジスティックス"
+description: ローカリゼーションをサポートするインフラジスティックスの {ProductName} データ テーブルとグリッドを試しましょう。{ProductName} テーブルのチュートリアルをご覧ください。
+keywords: "{Platform} テーブル、データ グリッド、セル アクセシビリティ、{ProductName}、インフラジスティック"
 mentionedTypes: ["Grid", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridMain}
+_canonicalLink: "{CanonicalLinkToGridMain}"
 _language: ja
 ---
 

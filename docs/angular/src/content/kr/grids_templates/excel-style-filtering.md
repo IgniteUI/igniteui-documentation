@@ -1,24 +1,24 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: 그리드 Excel 스타일 필터링
-_description: The Ignite UI for Angular Data Grid control features the fastest, touch-responsive data-rich grid with popular features, including hierarchical and list views.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Grid, Angular Table, Angular Data Grid component, Angular Data Table component, Angular Data Grid control, Angular Data Table control, Angular Grid component, Angular Table component, Angular Grid control, Angular Table control, Angular High Performance Grid, Angular High Performance Data Table, Filtering, Data Grid Filtering, Data Table Filtering, Excel, Excel Style Filtering
+description: The Ignite UI for Angular Data Grid control features the fastest, touch-responsive data-rich grid with popular features, including hierarchical and list views.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Grid, Angular Table, Angular Data Grid component, Angular Data Table component, Angular Data Grid control, Angular Data Table control, Angular Grid component, Angular Table component, Angular Grid control, Angular Table control, Angular High Performance Grid, Angular High Performance Data Table, Filtering, Data Grid Filtering, Data Table Filtering, Excel, Excel Style Filtering
 _language: kr
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: 트리 그리드 Excel 스타일 필터링
-_description: The Ignite UI for Angular Tree Grid control features the fastest, touch-responsive data-rich grid with popular features, including hierarchical and list views.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Tree Grid, Angular Table, Angular Tree Grid component, Angular Data Table component, Angular Tree Grid control, Angular Data Table control, Angular Tree Grid component, Angular Table component, Angular Grid control, Angular Table control, Angular High Performance Grid, Angular High Performance Data Table, Filtering, Tree Grid Filtering, Data Table Filtering, Excel, Excel Style Filtering
+description: The Ignite UI for Angular Tree Grid control features the fastest, touch-responsive data-rich grid with popular features, including hierarchical and list views.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Tree Grid, Angular Table, Angular Tree Grid component, Angular Data Table component, Angular Tree Grid control, Angular Data Table control, Angular Tree Grid component, Angular Table component, Angular Grid control, Angular Table control, Angular High Performance Grid, Angular High Performance Data Table, Filtering, Tree Grid Filtering, Data Table Filtering, Excel, Excel Style Filtering
 _language: kr
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: 계층 그리드 Excel 스타일 필터링
-_description: The Ignite UI for Angular Hierarchical Grid control features the fastest, touch-responsive data-rich grid with popular features, including hierarchical and list views.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Hierarchical Grid, Angular Table, Angular Hierarchical Grid component, Angular Data Table component, Angular Hierarchical Grid control, Angular Data Table control, Angular Hierarchical Grid component, Angular Table component, Angular Grid control, Angular Table control, Angular High Performance Grid, Angular High Performance Data Table, Filtering, Hierarchical Grid Filtering, Data Table Filtering, Excel, Excel Style Filtering
+description: The Ignite UI for Angular Hierarchical Grid control features the fastest, touch-responsive data-rich grid with popular features, including hierarchical and list views.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Hierarchical Grid, Angular Table, Angular Hierarchical Grid component, Angular Data Table component, Angular Hierarchical Grid control, Angular Data Table control, Angular Hierarchical Grid component, Angular Table component, Angular Grid control, Angular Table control, Angular High Performance Grid, Angular High Performance Data Table, Filtering, Hierarchical Grid Filtering, Data Table Filtering, Excel, Excel Style Filtering
 _language: kr
 ---
 }

@@ -1,10 +1,10 @@
 ---
-title: {Platform} {GridLiteTitle} Cell Template | {ProductName} | MIT license
-_description: Grid Lite column configuration and column properties. Try our open-source {Platform} {GridLiteTitle} - lightweight and packed with essential features.
-_keywords: column configuration, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+title: "{Platform} {GridLiteTitle} Cell Template | {ProductName} | MIT license"
+description: Grid Lite column configuration and column properties. Try our open-source {Platform} {GridLiteTitle} - lightweight and packed with essential features.
+keywords: column configuration, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
-_license: MIT
+license: MIT
 ---
 
 # Column Configuration

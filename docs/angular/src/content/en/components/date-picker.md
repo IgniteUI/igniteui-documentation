@@ -1,8 +1,8 @@
 ---
 title: Angular Datepicker Component – Ignite UI for Angular - MIT license 
-_description: Learn how to use a functionality to select a date from a calendar to your web application with Angular Datepicker Component by Ignite UI. Try it now. 
-_keywords: angular datepicker, angular datepicker component, angular UI components, angular component, ignite ui for angular
-_license: MIT
+description: Learn how to use a functionality to select a date from a calendar to your web application with Angular Datepicker Component by Ignite UI. Try it now. 
+keywords: angular datepicker, angular datepicker component, angular UI components, angular component, ignite ui for angular
+license: MIT
 ---
 
 # Angular Date Picker Component Overview

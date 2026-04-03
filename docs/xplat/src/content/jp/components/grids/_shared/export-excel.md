@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} エクスポート - {ProductName}
-_description: {ProductName} {ComponentTitle} のエクスポート機能を使用すると、フィルタリング、ソート、および現在のグリッド状態などの機能を保持したまま、グリッド データを Excel、CSV、および PDF 形式にエクスポートできます。
-_keywords: {Platform}, {ComponentTitle}, {ComponentName}, {ProductName}, Infragistics, インフラジスティックス
-_license: commercial
+title: "{Platform} {ComponentTitle} エクスポート - {ProductName}"
+description: "{ProductName} {ComponentTitle} のエクスポート機能を使用すると、フィルタリング、ソート、および現在のグリッド状態などの機能を保持したまま、グリッド データを Excel、CSV、および PDF 形式にエクスポートできます。"
+keywords: "{Platform}, {ComponentTitle}, {ComponentName}, {ProductName}, Infragistics, インフラジスティックス"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridExportExcel}
+_canonicalLink: "{CanonicalLinkToGridExportExcel}"
 _language: ja
 ---
 

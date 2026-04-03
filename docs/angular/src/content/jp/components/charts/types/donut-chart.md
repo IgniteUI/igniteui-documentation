@@ -1,8 +1,8 @@
 ---
 title: Angular ドーナツ チャート | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの Angular ドーナツ チャート
-_keywords: Angular Charts, Donut Chart, Infragistics, Angular チャート, ドーナツ チャート, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular ドーナツ チャート
+keywords: Angular Charts, Donut Chart, Infragistics, Angular チャート, ドーナツ チャート, インフラジスティックス
+license: commercial
 mentionedTypes: ["XamDoughnutChart", "DoughnutChart"]
 namespace: Infragistics.Controls.Charts
 _language: ja

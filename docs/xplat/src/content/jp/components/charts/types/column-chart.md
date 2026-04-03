@@ -1,8 +1,8 @@
 ---
-title: {Platform} 縦棒チャート | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの {Platform} 縦棒チャート
-_keywords: {Platform} Charts, Column Chart, Column Graph, Vertical Bar Chart, Infragistics, {Platform} チャート, 縦棒チャート, 縦棒グラフ, 垂直棒チャート, インフラジスティックス
-_license: commercial
+title: "{Platform} 縦棒チャート | データ可視化 | インフラジスティックス"
+description: インフラジスティックスの {Platform} 縦棒チャート
+keywords: "{Platform} Charts, Column Chart, Column Graph, Vertical Bar Chart, Infragistics, {Platform} チャート, 縦棒チャート, 縦棒グラフ, 垂直棒チャート, インフラジスティックス"
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "XamDataChart", "ColumnSeries", "WaterfallSeries", "StackedColumnSeries", "Stacked100ColumnSeries", "RangeColumnSeries", "RadialColumnSeries", "CategoryChartType", "Series"]
 namespace: Infragistics.Controls.Charts
 _language: ja

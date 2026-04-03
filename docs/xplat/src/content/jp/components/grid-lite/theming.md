@@ -1,10 +1,10 @@
 ---
-title: {Platform} {GridLiteTitle} テーマ設定 | {ProductName} | MIT ライセンス
-_description: {ProductName} で {GridLiteTitle} のスタイル設定は、容易かつ迅速に行えます。デモと例をお試しください。オープン ソース コンポーネントをお試しになり、次のアプリを構築してください。
-_keywords: styling, theming, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, スタイル設定, テーマ設定, インフラジスティックス
+title: "{Platform} {GridLiteTitle} テーマ設定 | {ProductName} | MIT ライセンス"
+description: "{ProductName} で {GridLiteTitle} のスタイル設定は、容易かつ迅速に行えます。デモと例をお試しください。オープン ソース コンポーネントをお試しになり、次のアプリを構築してください。"
+keywords: styling, theming, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, スタイル設定, テーマ設定, インフラジスティックス
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
-_license: MIT
+license: MIT
 _language: ja
 ---
 

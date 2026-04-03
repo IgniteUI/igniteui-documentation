@@ -702,6 +702,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     const pkgCss = fileURLToPath(new URL('./styles/custom.css', pkgDir));
     const defaultComponents: Record<string, string> = {
         PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro',  pkgDir)),
+        Head:      fileURLToPath(new URL('./components/overrides/Head.astro',             pkgDir)),
         Header:    fileURLToPath(new URL('./components/overrides/Header.astro',           pkgDir)),
         Footer:    fileURLToPath(new URL('./components/overrides/Footer.astro',           pkgDir)),
         PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro',        pkgDir)),

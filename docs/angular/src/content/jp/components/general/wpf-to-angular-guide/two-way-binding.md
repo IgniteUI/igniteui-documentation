@@ -1,7 +1,7 @@
 ---
 title: ngModel を使用した双方向のデータ バインディング | WPF vs Angular 比較ガイド | インフラジスティックス
-_description: Angular の双方向データ バインディングを使用してエンド ユーザーに情報を表示し、エンド ユーザーが UI を使用して基になるデータを変更できるようにする方法について説明します。
-_keywords: data binding, ignite ui for angular, インフラジスティックス
+description: Angular の双方向データ バインディングを使用してエンド ユーザーに情報を表示し、エンド ユーザーが UI を使用して基になるデータを変更できるようにする方法について説明します。
+keywords: data binding, ignite ui for angular, インフラジスティックス
 _language: ja
 ---
 

@@ -1,27 +1,27 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title:  Angular Grid のサイズ - Ignite UI for Angular
-_description: Data Grid コンポーネントにサイズ機能を適用する方法を説明します。Ignite UI for Angular のコンパクト ビュー オプションのセットを使用できます。
-_keywords: material density, size, igniteui for angular, infragistics, マテリアル密度
-_license: commercial
+description: Data Grid コンポーネントにサイズ機能を適用する方法を説明します。Ignite UI for Angular のコンパクト ビュー オプションのセットを使用できます。
+keywords: material density, size, igniteui for angular, infragistics, マテリアル密度
+license: commercial
 _language: ja
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title:  Angular Grid のサイズ - Ignite UI for Angular
-_description: Tree Grid コンポーネントにサイズ機能を適用する方法を説明します。Ignite UI for Angular のコンパクト ビュー オプションのセットを使用できます。
-_keywords: material density, size, igniteui for angular, infragistics, マテリアル密度
-_license: commercial
+description: Tree Grid コンポーネントにサイズ機能を適用する方法を説明します。Ignite UI for Angular のコンパクト ビュー オプションのセットを使用できます。
+keywords: material density, size, igniteui for angular, infragistics, マテリアル密度
+license: commercial
 _language: ja
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title:  Angular Grid のサイズ - Ignite UI for Angular
-_description: Hierarchical Grid コンポーネントにサイズ機能を適用する方法を説明します。Ignite UI for Angular のコンパクト ビュー オプションのセットを使用できます。
-_keywords: material density, size, igniteui for angular, infragistics, マテリアル密度
-_license: commercial
+description: Hierarchical Grid コンポーネントにサイズ機能を適用する方法を説明します。Ignite UI for Angular のコンパクト ビュー オプションのセットを使用できます。
+keywords: material density, size, igniteui for angular, infragistics, マテリアル密度
+license: commercial
 _language: ja
 ---
 }

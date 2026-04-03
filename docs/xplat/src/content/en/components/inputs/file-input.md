@@ -1,8 +1,8 @@
 ---
-title: {Platform} File Input | Data Visualization Tools | Infragistics
-_description: Infragistics' {Platform} File input is a component where the user can select and upload files. Improve your application with {ProductName}!
-_keywords: {Platform} File input, {ProductName}, Infragistics
-_license: MIT
+title: "{Platform} File Input | Data Visualization Tools | Infragistics"
+description: Infragistics' {Platform} File input is a component where the user can select and upload files. Improve your application with {ProductName}!
+keywords: "{Platform} File input, {ProductName}, Infragistics"
+license: MIT
 mentionedTypes: ["Input", "Icon", "Button"]
 ---
 # {Platform} File Input Overview

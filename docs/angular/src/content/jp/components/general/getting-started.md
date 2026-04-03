@@ -1,7 +1,7 @@
 ---
 title: 作業の開始 | Ignite UI for Angular | インフラジスティックス
-_description: Ignite UI for Angular はネイティブ Angular UI コンポーネントのセットです。機能豊かなマテリアル デザイン アプリケーションをすばやくビルドできます。 
-_keywords: ignite ui for angular, 作業の開始, angular コンポーネント
+description: Ignite UI for Angular はネイティブ Angular UI コンポーネントのセットです。機能豊かなマテリアル デザイン アプリケーションをすばやくビルドできます。 
+keywords: ignite ui for angular, 作業の開始, angular コンポーネント
 _language: ja
 ---
 

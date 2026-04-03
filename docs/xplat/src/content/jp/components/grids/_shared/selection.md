@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} 選択 - {ProductName}
-_description: {ProductName} グリッドでデータを選択は、さまざまなイベント、豊富な API、単一選択のような単純なマウス操作を使用して簡単に行うことができます。
-_keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス
-_license: commercial
+title: "{Platform} {ComponentTitle} 選択 - {ProductName}"
+description: "{ProductName} グリッドでデータを選択は、さまざまなイベント、豊富な API、単一選択のような単純なマウス操作を使用して簡単に行うことができます。"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridSelection}
+_canonicalLink: "{CanonicalLinkToGridSelection}"
 _language: ja
 ---
 

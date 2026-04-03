@@ -1,7 +1,7 @@
 ---
 title: Angular Page Layout Elements | WPF to Angular Guide | Infragistics
-_description: Learn how to customize the page layout of your Angular application with our in-depth tutorial of using CSS features like Flexbox & Grid. 
-_keywords: angular page layout elements, ignite ui for angular, infragistics
+description: Learn how to customize the page layout of your Angular application with our in-depth tutorial of using CSS features like Flexbox & Grid. 
+keywords: angular page layout elements, ignite ui for angular, infragistics
 ---
 
 # Page Layout

@@ -1,10 +1,10 @@
 ---
-title: {Platform} {GridLiteTitle} Cell Template | {ProductName} | MIT license
-_description: Configure and customize custom Grid Lite cell renderers. Create apps with our open-source {Platform} {GridLiteTitle}. Try now.
-_keywords: cell template, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+title: "{Platform} {GridLiteTitle} Cell Template | {ProductName} | MIT license"
+description: Configure and customize custom Grid Lite cell renderers. Create apps with our open-source {Platform} {GridLiteTitle}. Try now.
+keywords: cell template, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
-_license: MIT
+license: MIT
 ---
 
 # Column Cell Template

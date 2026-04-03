@@ -1,10 +1,10 @@
 ---
-title: {Platform} Data Grid | Column Types | Infragistics
-_description: Learn how Infragistics' {ProductName} data table & grid supports four column types to display your content such as Image, Text, Numeric, DataTime or a Template Column. View {ProductName} tutorials!
-_keywords: {Platform} Table, Data Grid, column types, {ProductName}, Infragistics
+title: "{Platform} Data Grid | Column Types | Infragistics"
+description: Learn how Infragistics' {ProductName} data table & grid supports four column types to display your content such as Image, Text, Numeric, DataTime or a Template Column. View {ProductName} tutorials!
+keywords: "{Platform} Table, Data Grid, column types, {ProductName}, Infragistics"
 mentionedTypes: [ "Grid","CellInfo", "TemplateCellInfo", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridColumnTypes}
+_canonicalLink: "{CanonicalLinkToGridColumnTypes}"
 ---
 
 <!-- Blazor, WebComponents -->

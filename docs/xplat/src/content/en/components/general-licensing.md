@@ -1,7 +1,7 @@
 ---
-title: {Platform} Licensing | Dock Manager | {ProductName} | Infragistics
-_description: Learn how to use Infragistics' {ProductName} licensed npm feed.
-_keywords: npm package license, {ProductName} license feed,  licensing
+title: "{Platform} Licensing | Dock Manager | {ProductName} | Infragistics"
+description: Learn how to use Infragistics' {ProductName} licensed npm feed.
+keywords: npm package license, {ProductName} license feed,  licensing
 mentionedTypes: []
 ---
 

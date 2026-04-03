@@ -1,8 +1,8 @@
 ---
-title: {Platform} Excel Library| Data Spreadsheet | Infragistics
-_description: Use the Excel Library to work with spreadsheet data using Microsoft Excel features. Easily transfer data from excel to your application.
-_keywords: Excel library, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Excel Library| Data Spreadsheet | Infragistics"
+description: Use the Excel Library to work with spreadsheet data using Microsoft Excel features. Easily transfer data from excel to your application.
+keywords: Excel library, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: ["Workbook"]
 ---
 # {Platform} Working with Grids

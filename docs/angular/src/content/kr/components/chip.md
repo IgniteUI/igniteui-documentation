@@ -1,7 +1,7 @@
 ---
 title: Chip Component - Native Angular | Ignite UI for Angular
-_description: The Ignite UI for Angular Chip component provide compact elements that represent an input, attribute, or action.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Chip, Chip Component, ChipArea, ChipArea Component
+description: The Ignite UI for Angular Chip component provide compact elements that represent an input, attribute, or action.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Chip, Chip Component, ChipArea, ChipArea Component
 _language: kr
 ---
 

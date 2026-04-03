@@ -1,9 +1,9 @@
 ---
-title: {Platform} Button Component | {ProductName}
-_description: Get started with the {Platform} Button Component. Select button variants, configure sizes, define styling, and gain flexibility through the {Platform} Button OnClick event.
-_keywords: {Platform}, UI controls, web widgets, UI widgets, {Platform} Button Components, Infragistics
+title: "{Platform} Button Component | {ProductName}"
+description: Get started with the {Platform} Button Component. Select button variants, configure sizes, define styling, and gain flexibility through the {Platform} Button OnClick event.
+keywords: "{Platform}, UI controls, web widgets, UI widgets, {Platform} Button Components, Infragistics"
 mentionedTypes: ["Button", "ButtonBase"]
-_license: MIT
+license: MIT
 ---
 
 # {Platform} Button Overview

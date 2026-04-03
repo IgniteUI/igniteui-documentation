@@ -1,8 +1,8 @@
 ---
-title: {Platform} スプライン チャート | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの {Platform} スプライン チャート
-_keywords: {Platform} Charts, Spline Chart, Infragistics, {Platform} チャート, スプライン チャート, インフラジスティックス
-_license: commercial
+title: "{Platform} スプライン チャート | データ可視化 | インフラジスティックス"
+description: インフラジスティックスの {Platform} スプライン チャート
+keywords: "{Platform} Charts, Spline Chart, Infragistics, {Platform} チャート, スプライン チャート, インフラジスティックス"
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "XamDataChart", "SplineSeries", "StackedSplineSeries", "Stacked100SplineSeries", "Series", "CategoryChartType"]
 _language: ja
 ---

@@ -1,8 +1,8 @@
 ---
 title: Angular Map | Data Visualization Tools | Map Navigation | Infragistics
-_description: Navigate Infragistics' Angular map by panning right and left and zooming horizontally and vertically using mouse or touch. Learn about Ignite UI for Angular map's navigation capabilities!
-_keywords: Angular map, navigation, Ignite UI for Angular, Infragistics
-_license: commercial
+description: Navigate Infragistics' Angular map by panning right and left and zooming horizontally and vertically using mouse or touch. Learn about Ignite UI for Angular map's navigation capabilities!
+keywords: Angular map, navigation, Ignite UI for Angular, Infragistics
+license: commercial
 mentionedTypes: ["XamGeographicMap"]
 ---
 

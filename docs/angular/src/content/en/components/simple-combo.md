@@ -1,8 +1,8 @@
 ---
 title: Single Select ComboBox Component - MIT license 
-_description: The Ignite UI for Angular Simple ComboBox provides a powerful input, combining features of the basic HTML input, select, filtering and custom drop-down lists. Try it for FREE
-_keywords: angular single selection combobox, angular combobox component, angular single selection combobox component, angular combo, angular ui components, ignite ui for angular, infragistics
-_license: MIT
+description: The Ignite UI for Angular Simple ComboBox provides a powerful input, combining features of the basic HTML input, select, filtering and custom drop-down lists. Try it for FREE
+keywords: angular single selection combobox, angular combobox component, angular single selection combobox component, angular combo, angular ui components, ignite ui for angular, infragistics
+license: MIT
 ---
 
 # Angular Single Select ComboBox Component Overview

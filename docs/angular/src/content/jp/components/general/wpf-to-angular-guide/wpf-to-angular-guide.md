@@ -1,7 +1,7 @@
 ---
 title: WPF から Angular へのチュートリアルと開発者向けガイド | デスクトップから Web | インフラジスティックス
-_description: 開発者がデスクトップから Web フレームワークにスムーズに移行できるようにガイドする WPF から Angular へのチュートリアルをお読みください。今すぐ Angular について学びましょう！
-_keywords: wpf から angular へのチュートリアル, igniteui for angular, インフラジスティックス
+description: 開発者がデスクトップから Web フレームワークにスムーズに移行できるようにガイドする WPF から Angular へのチュートリアルをお読みください。今すぐ Angular について学びましょう！
+keywords: wpf から angular へのチュートリアル, igniteui for angular, インフラジスティックス
 _language: ja
 ---
 

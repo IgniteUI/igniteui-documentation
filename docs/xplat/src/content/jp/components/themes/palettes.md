@@ -1,8 +1,8 @@
 ---
-title: {Platform} スタイル設定およびテーマ | {Platform} パレット | インフラジスティックス
-_description:
-_keywords: {ProductName}, Infragistics, Palettes, Styling, インフラジスティックス, パレット, スタイル設定
-_license: MIT
+title: "{Platform} スタイル設定およびテーマ | {Platform} パレット | インフラジスティックス"
+description:
+keywords: "{ProductName}, Infragistics, Palettes, Styling, インフラジスティックス, パレット, スタイル設定"
+license: MIT
 mentionedTypes: ["Palettes"]
 _language: ja
 ---

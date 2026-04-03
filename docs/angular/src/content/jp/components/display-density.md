@@ -1,8 +1,8 @@
 ---
 title: サイズ | Ignite UI for Angular | MITライセンス 
-_description: Ignite UI for Angular は、アプリケーションまたはコンポーネント レベルで size プロパティの表示を設定できます。
-_keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular Components, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, サイズ
-_license: MIT
+description: Ignite UI for Angular は、アプリケーションまたはコンポーネント レベルで size プロパティの表示を設定できます。
+keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular Components, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, サイズ
+license: MIT
 _language: ja
 ---
 
