@@ -1,8 +1,8 @@
 ---
-title: {Platform} Excel Library | Temporarily Stop Automatic Calculation of Formulas to Speed Up Processing | Infragistics
-_description: Infragistics Blazor Excel Library – Temporarily Stop Automatic Calculation of Formulas to Speed Up Processing
-_keywords: {Platform} excel library, calculation, speed up processing, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Excel Library | Temporarily Stop Automatic Calculation of Formulas to Speed Up Processing | Infragistics"
+description: Infragistics Blazor Excel Library – Temporarily Stop Automatic Calculation of Formulas to Speed Up Processing
+keywords: "{Platform} excel library, calculation, speed up processing, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: []
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: Angular マップ | データ可視化ツール | マップ ナビゲーション | インフラジスティックス
-_description: インフラジスティックスの Angular マップをナビゲートするには、マウスまたはタッチを使用して左右にパンニングし、水平および垂直にズームします。Ignite UI for Angular マップのナビゲーション機能について説明します。
-_keywords: Angular map, navigation, Ignite UI for Angular, Infragistics, Angular マップ, ナビゲーション, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular マップをナビゲートするには、マウスまたはタッチを使用して左右にパンニングし、水平および垂直にズームします。Ignite UI for Angular マップのナビゲーション機能について説明します。
+keywords: Angular map, navigation, Ignite UI for Angular, Infragistics, Angular マップ, ナビゲーション, インフラジスティックス
+license: commercial
 mentionedTypes: ["XamGeographicMap"]
 _language: ja
 ---

@@ -1,9 +1,9 @@
 @@if(igxName === 'IgxGrid'){
 ---
 title: Angular Data Grid の高度なフィルタリング - Ignite UI for Angular
-_description: Angular テーブルを使用してデータの高度なフィルターを構成する方法を学びます。グリッドの高度なフィルタリングは、これまで以上に便利で魅力的です。
-_keywords: 高度なフィルター, igniteui for angular, インフラジスティックス
-_license: commercial
+description: Angular テーブルを使用してデータの高度なフィルターを構成する方法を学びます。グリッドの高度なフィルタリングは、これまで以上に便利で魅力的です。
+keywords: 高度なフィルター, igniteui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 
@@ -11,9 +11,9 @@ _language: ja
 @@if(igxName !== 'IgxGrid'){
 ---
 title: Angular Data Grid の高度なフィルタリング - Ignite UI for Angular
-_description: Angular テーブルを使用してデータの高度なフィルターを構成する方法を学びます。グリッドの高度なフィルタリングは、これまで以上に便利で魅力的です。
-_keywords: 高度なフィルター, igniteui for angular, インフラジスティックス
-_license: commercial
+description: Angular テーブルを使用してデータの高度なフィルターを構成する方法を学びます。グリッドの高度なフィルタリングは、これまで以上に便利で魅力的です。
+keywords: 高度なフィルター, igniteui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 

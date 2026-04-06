@@ -1,9 +1,9 @@
 ---
 title: Blazor Webassembly | Blazor Excel ライブラリ | インフラジスティックス
-_description: Infragistics Blazor Webassembly - Blazor WebAssembly 上で Excel ファイルを読み書きし、サーバー負荷を減らす
-_keywords: Blazor Webassembly, Excel ライブラリ, Excel ファイルの読み書き, {ProductName}, インフラジスティックス
+description: Infragistics Blazor Webassembly - Blazor WebAssembly 上で Excel ファイルを読み書きし、サーバー負荷を減らす
+keywords: Blazor Webassembly, Excel ライブラリ, Excel ファイルの読み書き, {ProductName}, インフラジスティックス
 _language: ja
-_license: commercial
+license: commercial
 mentionedTypes: []
 ---
 

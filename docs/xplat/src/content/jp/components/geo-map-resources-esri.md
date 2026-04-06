@@ -1,8 +1,8 @@
 ---
-title: {Platform} マップ | データ可視化ツール | ESRI マップのリソース | インフラジスティックス
-_description: インフラジスティックスの {Platform} を使用して ESRI Maps からの画像を表示します。{ProductName} マップ チュートリアルを是非お試しください!
-_keywords: {Platform} map, ESRI, {ProductName}, Infragistics, imagery tile source, map background, {Platform} マップ, ESRI, インフラジスティックス, 画像タイル ソース, マップ背景
-_license: commercial
+title: "{Platform} マップ | データ可視化ツール | ESRI マップのリソース | インフラジスティックス"
+description: インフラジスティックスの {Platform} を使用して ESRI Maps からの画像を表示します。{ProductName} マップ チュートリアルを是非お試しください!
+keywords: "{Platform} map, ESRI, {ProductName}, Infragistics, imagery tile source, map background, {Platform} マップ, ESRI, インフラジスティックス, 画像タイル ソース, マップ背景"
+license: commercial
 mentionedTypes: ["XamGeographicMap"]
 _language: ja
 ---

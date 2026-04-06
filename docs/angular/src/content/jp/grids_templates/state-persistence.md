@@ -1,18 +1,18 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid の状態保持 - Ignite UI for Angular
-_description: 包括的な Ignite UI for Angular のツールセットを使用して、グリッドの状態を簡単に保存および復元できます。列の復元、使用方法、デモをご覧ください。
-_keywords: 状態保持, ignite ui for angular, infragistics, インフラジスティックス
-_license: commercial
+description: 包括的な Ignite UI for Angular のツールセットを使用して、グリッドの状態を簡単に保存および復元できます。列の復元、使用方法、デモをご覧ください。
+keywords: 状態保持, ignite ui for angular, infragistics, インフラジスティックス
+license: commercial
 _language: ja
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid の状態保持 - Ignite UI for Angular
-_description: 包括的な Ignite UI for Angular のツールセットを使用して、グリッドの状態を簡単に保存および復元できます。列の復元、使用方法、デモをご覧ください。
-_keywords: 状態保持, ignite ui for angular, infragistics, インフラジスティックス
-_license: commercial
+description: 包括的な Ignite UI for Angular のツールセットを使用して、グリッドの状態を簡単に保存および復元できます。列の復元、使用方法、デモをご覧ください。
+keywords: 状態保持, ignite ui for angular, infragistics, インフラジスティックス
+license: commercial
 _canonicalLink: grid/state-persistence
 _language: ja
 ---
@@ -20,9 +20,9 @@ _language: ja
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid の状態保持 - Ignite UI for Angular
-_description: 包括的な Ignite UI for Angular のツールセットを使用して、グリッドの状態を簡単に保存および復元できます。列の復元、使用方法、デモをご覧ください。
-_keywords: 状態保持, ignite ui for angular, infragistics, インフラジスティックス
-_license: commercial
+description: 包括的な Ignite UI for Angular のツールセットを使用して、グリッドの状態を簡単に保存および復元できます。列の復元、使用方法、デモをご覧ください。
+keywords: 状態保持, ignite ui for angular, infragistics, インフラジスティックス
+license: commercial
 _canonicalLink: grid/state-persistence
 _language: ja
 ---
@@ -31,9 +31,9 @@ _language: ja
 @@if (igxName === 'IgxPivotGrid') {
 ---
 title: Angular Pivot Grid の状態保持 - Ignite UI for Angular
-_description: 包括的な Ignite UI for Angular のツールセットを使用して、グリッドの状態を簡単に保存および復元できます。構成の復元、使用方法、デモをご覧ください。
-_keywords: 状態保持, ignite ui for angular, インフラジスティックス
-_license: commercial
+description: 包括的な Ignite UI for Angular のツールセットを使用して、グリッドの状態を簡単に保存および復元できます。構成の復元、使用方法、デモをご覧ください。
+keywords: 状態保持, ignite ui for angular, インフラジスティックス
+license: commercial
 _canonicalLink: grid/state-persistence
 _language: ja
 ---

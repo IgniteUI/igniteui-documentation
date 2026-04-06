@@ -1,8 +1,8 @@
 ---
 title: Angular Grid Lite ソート | Ignite UI for Angular | MIT ライセンス
-_description: Angular Grid Lite 向けに、ソート操作、ソート カスタマイズ、リモート ソートを備えた Angular Grid Lite をお試しください。デモと例を参照して、次のアプリを構築してください。
-_keywords: ソート, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: MIT
+description: Angular Grid Lite 向けに、ソート操作、ソート カスタマイズ、リモート ソートを備えた Angular Grid Lite をお試しください。デモと例を参照して、次のアプリを構築してください。
+keywords: ソート, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: MIT
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
 _language: ja

@@ -1,8 +1,8 @@
 ---
 title: Free Angular Data Grid (Open Source) - Ignite UI Grid Lite | MIT license
-_description: Create apps with our open-source Angular Grid Lite. It’s lightweight and packed with essential features - filtering, hiding, sorting, and more. Try now.
-_keywords: overview, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: MIT
+description: Create apps with our open-source Angular Grid Lite. It’s lightweight and packed with essential features - filtering, hiding, sorting, and more. Try now.
+keywords: overview, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: MIT
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
 ---

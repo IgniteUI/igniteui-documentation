@@ -1,7 +1,7 @@
 ---
 title: WPF to Angular Tutorial & Guide for Developers | Desktop to Web | Infragistics
-_description: Read our WPF to Angular tutorial that guides developers on making a smooth transition from a desktop to web framework. Learn more about Angular today!
-_keywords: wpf to angular tutorial, igniteui for angular, infragistics
+description: Read our WPF to Angular tutorial that guides developers on making a smooth transition from a desktop to web framework. Learn more about Angular today!
+keywords: wpf to angular tutorial, igniteui for angular, infragistics
 ---
 
 # Migrating from Desktop to Web: A WPF to Angular Tutorial

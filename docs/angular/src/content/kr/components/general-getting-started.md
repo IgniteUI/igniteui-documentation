@@ -1,7 +1,7 @@
 ---
 title: Angular Data Visualization Tools | Infragistics
-_description: The Ignite UI for Angular is a complete set of Angular components designed to enable developers to build the most modern, high-performance HTML5 & TypeScript apps for modern desktop browsers.
-_keywords: Ignite UI for Angular, Infragistics, Getting started, IG, Install Angular
+description: The Ignite UI for Angular is a complete set of Angular components designed to enable developers to build the most modern, high-performance HTML5 & TypeScript apps for modern desktop browsers.
+keywords: Ignite UI for Angular, Infragistics, Getting started, IG, Install Angular
 _language: kr
 ---
 

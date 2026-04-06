@@ -1,8 +1,8 @@
 ---
-title: {Platform} Accordion | アコーディオン | インフラジスティックス
-_description: アコーディオンは、アコーディオン メニューで垂直方向に展開可能なパネルを構築するために使用されます。
-_keywords: {Platform} Accordion, {ProductName}, Infragistics, {Platform} アコーディオン, インフラジスティックス
-_license: MIT
+title: "{Platform} Accordion | アコーディオン | インフラジスティックス"
+description: アコーディオンは、アコーディオン メニューで垂直方向に展開可能なパネルを構築するために使用されます。
+keywords: "{Platform} Accordion, {ProductName}, Infragistics, {Platform} アコーディオン, インフラジスティックス"
+license: MIT
 mentionedTypes: ["Accordion", "Infragistics.Controls.Layouts.Implementation.ExpansionPanel"]
 namespace: Infragistics.Controls
 _language: ja

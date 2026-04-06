@@ -1,8 +1,8 @@
 ---
-title: {Platform} チャート タイトル | データ可視化ツール | インフラジスティックス
-_description: タイトル付きの Infragistics {ProductName} チャートをお試しください!
-_keywords: {Platform} charts, chart titles, titles, {ProductName}, Infragistics, {Platform} チャート, チャート タイトル, タイトル, インフラジスティックス
-_license: commercial
+title: "{Platform} チャート タイトル | データ可視化ツール | インフラジスティックス"
+description: タイトル付きの Infragistics {ProductName} チャートをお試しください!
+keywords: "{Platform} charts, chart titles, titles, {ProductName}, Infragistics, {Platform} チャート, チャート タイトル, タイトル, インフラジスティックス"
+license: commercial
 mentionedTypes: ["CategoryChart"]
 namespace: Infragistics.Controls.Charts
 _language: ja

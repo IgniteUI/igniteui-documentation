@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Column Reordering & Moving - {ProductName}
-_description: Set custom column order & enable columns reordering via drag/drop mouse or touch gestures, or by using the {Platform} Column Moving API. Try {ProductName}!
-_keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Column Reordering & Moving - {ProductName}"
+description: Set custom column order & enable columns reordering via drag/drop mouse or touch gestures, or by using the {Platform} Column Moving API. Try {ProductName}!
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridColumnMoving}
+_canonicalLink: "{CanonicalLinkToGridColumnMoving}"
 ---
 
 # {ComponentTitle} Column Reordering & Moving

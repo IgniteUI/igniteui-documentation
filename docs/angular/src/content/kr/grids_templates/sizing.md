@@ -1,22 +1,22 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title:  Angular Grid Sizing | Ignite UI for Angular | infragistics 
-_description: Understand how the Angular grid sizing works and learn how to use the width and height in order to accomodate the different scenarios that users can have.
-_keywords: angular grid sizing, igniteui for angular, infragistics
+description: Understand how the Angular grid sizing works and learn how to use the width and height in order to accomodate the different scenarios that users can have.
+keywords: angular grid sizing, igniteui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title:  Angular Tree Grid Sizing | Ignite UI for Angular | infragistics 
-_description: Understand how the Angular grid sizing works and learn how to use the width and height in order to accomodate the different scenarios that users can have.
-_keywords: angular grid sizing, igniteui for angular, infragistics
+description: Understand how the Angular grid sizing works and learn how to use the width and height in order to accomodate the different scenarios that users can have.
+keywords: angular grid sizing, igniteui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title:  Angular Hierarchical Grid Sizing | Ignite UI for Angular | infragistics 
-_description: Understand how the Angular grid sizing works and learn how to use the width and height in order to accomodate the different scenarios that users can have.
-_keywords:  angular grid sizing, igniteui for angular, infragistics
+description: Understand how the Angular grid sizing works and learn how to use the width and height in order to accomodate the different scenarios that users can have.
+keywords:  angular grid sizing, igniteui for angular, infragistics
 ---
 }
 

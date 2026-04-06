@@ -1,8 +1,8 @@
 ---
-title: {Platform} Scatter Chart | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Scatter Chart
-_keywords: {Platform} Charts, Scatter Chart, Infragistics
-_license: commercial
+title: "{Platform} Scatter Chart | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Scatter Chart
+keywords: "{Platform} Charts, Scatter Chart, Infragistics"
+license: commercial
 mentionedTypes: ["XamDataChart", "ScatterSeries", "ScatterLineSeries", "ScatterSplineSeries", "HighDensityScatterSeries", "ScatterAreaSeries", "ScatterContourSeries", "Series"]
 namespace: Infragistics.Controls.Charts
 ---

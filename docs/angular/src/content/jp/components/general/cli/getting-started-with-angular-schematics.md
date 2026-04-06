@@ -1,7 +1,7 @@
 ---
 title: Ignite UI for Angular Schematics を使用した作業の開始 | Ignite UI for Angular | インフラジスティックス
-_description: ステップ バイ ステップ モードには、Ignite UI CLI オプションによるガイドが含まれます。
-_keywords: angular cli, ignite ui for angular, infragistics
+description: ステップ バイ ステップ モードには、Ignite UI CLI オプションによるガイドが含まれます。
+keywords: angular cli, ignite ui for angular, infragistics
 _language: ja
 ---
 

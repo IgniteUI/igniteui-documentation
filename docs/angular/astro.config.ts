@@ -1,61 +1,62 @@
-// @ts-check
 import path from 'node:path';
-import { createDocsSite } from 'docs-template/integration';
+import { createDocsSite, type DocsMode } from 'docs-template/integration';
+import { IGDOCS_PLATFORMS } from 'docs-template/platform';
 import { generateGridTopics, normalizeImagePaths } from './src/generate-grids.mjs';
 import { remarkEnv } from './src/plugins/remark-env.mjs';
 
-// ── Resolve build mode and language from environment variables ───────────────
-// NODE_ENV: 'development' | 'staging' | 'production'  (default: 'development')
+// ── Build mode and language ──────────────────────────────────────────────────
+// DOCS_ENV: 'development' | 'staging' | 'production'  (preferred, default: 'development')
+// NODE_ENV: fallback — do NOT set to 'staging'; Vite derives import.meta.env.DEV from it.
 // DOCS_LANG: 'en' | 'jp' | 'kr'                       (default: 'en')
-const nodeEnv = process.env.NODE_ENV || 'development';
+const docsEnv = process.env.DOCS_ENV || process.env.NODE_ENV || 'development';
 const docsLang = process.env.DOCS_LANG || 'en';
 
-/** @type {'dev' | 'staging' | 'prod'} */
-const mode = nodeEnv === 'production' ? 'prod'
-	: nodeEnv === 'staging' ? 'staging'
-		: 'dev';
+if (docsEnv !== 'development' && docsEnv !== 'staging' && docsEnv !== 'production') {
+	throw new Error(
+		`[astro.config] Invalid DOCS_ENV "${docsEnv}". Expected one of: "development", "staging", "production".`
+	);
+}
 
+const mode: DocsMode = docsEnv;
+
+// ── Site URL — varies by build mode ─────────────────────────────────────────
+const PROD_HOST = 'https://www.infragistics.com';
+const STAGING_HOST = 'https://staging.infragistics.com';
+
+const { base } = IGDOCS_PLATFORMS.Angular;
+const site = mode === 'production' ? `${PROD_HOST}${base}`
+	: mode === 'staging' ? `${STAGING_HOST}${base}`
+	: 'http://localhost:4321';
+
+// ── Source paths ─────────────────────────────────────────────────────────────
 const docsDir = path.resolve(`./src/content/${docsLang}`);
 const componentsDocsDir = path.join(docsDir, 'components');
-const templatesDir = path.resolve(`${docsDir}/grids_templates`);
+const templatesDir = path.join(docsDir, 'grids_templates');
 
-// ── Pre-build steps (run before Astro starts) ───────────────────────────────
+// ── Pre-build steps (run before Astro starts) ────────────────────────────────
 generateGridTopics(templatesDir, componentsDocsDir);
 normalizeImagePaths(componentsDocsDir);
 
-const PLATFORM_URL_BASE: string = nodeEnv === 'production'
-	? 'https://www.infragistics.com/products/'
-	: 'https://staging.infragistics.com/products/';
-
-const PLATFORM_SITE: Record<string, string> = {
-    Angular:       `${PLATFORM_URL_BASE}ignite-ui-angular/angular/components`,
-    React:         `${PLATFORM_URL_BASE}ignite-ui-react/react/components`,
-    WebComponents: `${PLATFORM_URL_BASE}ignite-ui-web-components/web-components/components`,
-    Blazor:        `${PLATFORM_URL_BASE}ignite-ui-blazor/blazor/components`,
-};
-
 // https://astro.build/config
 export default createDocsSite({
-	site: PLATFORM_SITE.Angular,
-	base: '/docs-angular-new',
+	site,
+	base: mode !== 'development' ? base : undefined,
 	title: 'Ignite UI for Angular',
 	description: 'Component and API reference docs for Ignite UI for Angular.',
 	platform: 'angular',
-	navLang: docsLang === 'jp' ? 'ja' : docsLang,   // docs-template expects 'ja' not 'jp'
+	navLang: docsLang === 'jp' ? 'ja' : docsLang,
 	mode,
-	productLinks: [
-        { label: 'Angular',        href: PLATFORM_SITE.Angular,       platform: 'angular' },
-        { label: 'React',          href: PLATFORM_SITE.React,         platform: 'react' },
-        { label: 'Web Components', href: PLATFORM_SITE.WebComponents, platform: 'web-components' },
-        { label: 'Blazor',         href: PLATFORM_SITE.Blazor,        platform: 'blazor' },
-    ],
+	productLinks: Object.values(IGDOCS_PLATFORMS).map(({ label, key, base: b }) => ({
+		label,
+		href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
+		platform: key,
+	})),
 	source: {
-		tocPath: `${componentsDocsDir}/toc.yml`,
+		tocPath: path.join(componentsDocsDir, 'toc.yml'),
 		docsDir: componentsDocsDir,
-		imagesDir: `${docsDir}/images`,
+		imagesDir: path.join(docsDir, 'images'),
 	},
 	sidebar: { exclude: [/^internal\//] },
-	head: [],
 	starlight: {
 		// logo: { src: './public/favicon.svg' },
 	},

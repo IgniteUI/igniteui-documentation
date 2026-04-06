@@ -1,8 +1,8 @@
 ---
-title: {Platform} Dock Manager | Embed Frames | Infragistics
-_description: Use Infragistics' {Platform} dock manager to embed interactive content using panes. View {ProductName} dock manager tutorials!
-_keywords: dock manager, embed frames, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Dock Manager | Embed Frames | Infragistics"
+description: Use Infragistics' {Platform} dock manager to embed interactive content using panes. View {ProductName} dock manager tutorials!
+keywords: dock manager, embed frames, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: ["DockManager"]
 ---
 # {Platform} Embedding Frames in Dock Manager

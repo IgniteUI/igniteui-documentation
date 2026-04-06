@@ -1,27 +1,27 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Data Grid セル編集 - Ignite UI for Angular
-_description: Grid はセル内編集を使用しています。デフォルトのセル編集テンプレートがありますが、データ更新操作のカスタム テンプレートを定義することもできます。今すぐお試しください。
-_keywords: データ操作, ignite ui for angular, excel editing, excel 編集, インフラジスティックス
-_license: commercial
+description: Grid はセル内編集を使用しています。デフォルトのセル編集テンプレートがありますが、データ更新操作のカスタム テンプレートを定義することもできます。今すぐお試しください。
+keywords: データ操作, ignite ui for angular, excel editing, excel 編集, インフラジスティックス
+license: commercial
 _language: ja
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid のセル編集 - Ignite UI for Angular
-_description: Grid はセル内編集を使用しています。デフォルトのセル編集テンプレートがありますが、データ更新操作のカスタム テンプレートを定義することもできます。今すぐお試しください。
-_keywords: データ操作, ignite ui for angular, インフラジスティックス
-_license: commercial
+description: Grid はセル内編集を使用しています。デフォルトのセル編集テンプレートがありますが、データ更新操作のカスタム テンプレートを定義することもできます。今すぐお試しください。
+keywords: データ操作, ignite ui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid のセル編集 - Ignite UI for Angular
-_description: Grid はセル内編集を使用しています。デフォルトのセル編集テンプレートがありますが、データ更新操作のカスタム テンプレートを定義することもできます。今すぐお試しください。
-_keywords: データ操作, ignite ui for angular, インフラジスティックス
-_license: commercial
+description: Grid はセル内編集を使用しています。デフォルトのセル編集テンプレートがありますが、データ更新操作のカスタム テンプレートを定義することもできます。今すぐお試しください。
+keywords: データ操作, ignite ui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 }

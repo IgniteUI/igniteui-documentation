@@ -1,7 +1,7 @@
 ---
 title: Overlay サービス - スクロール ストラテジ - MITライセンス
-_description: オーバレイ サービスの IScrollStrategy インターフェイスと実装するクラスについての説明とその例です。
-_license: MIT
+description: オーバレイ サービスの IScrollStrategy インターフェイスと実装するクラスについての説明とその例です。
+license: MIT
 _language: ja
 ---
 

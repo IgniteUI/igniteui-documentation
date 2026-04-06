@@ -1,8 +1,8 @@
 ---
-title: {Platform} Rating
-_description: With {ProductName} Rating, allows users to view and provide feedback using unicode symbols, svg, or icons.
-_keywords: {ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Rating components, {Platform} Rating controls
-_license: MIT
+title: "{Platform} Rating"
+description: With {ProductName} Rating, allows users to view and provide feedback using unicode symbols, svg, or icons.
+keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Rating components, {Platform} Rating controls"
+license: MIT
 mentionedTypes: ["Rating"]
 ---
 

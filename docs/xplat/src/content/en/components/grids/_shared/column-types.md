@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Column Data Types - {ProductName}
-_description: Handle cell and editing templates in {Platform} by choosing from several predefined column data types - number, string, date, boolean, currency and percent column.
-_keywords: Column Data Type , {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Column Data Types - {ProductName}"
+description: Handle cell and editing templates in {Platform} by choosing from several predefined column data types - number, string, date, boolean, currency and percent column.
+keywords: Column Data Type , {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridColumnTypes}
+_canonicalLink: "{CanonicalLinkToGridColumnTypes}"
 ---
 
 # {Platform} {ComponentTitle} Column Types Overview

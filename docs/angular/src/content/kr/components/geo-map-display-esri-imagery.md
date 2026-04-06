@@ -1,7 +1,7 @@
 ---
 title: Angular Map | Data Visualization Tools | Esri Maps | Infragistics
-_description: The Map allows you to display imagery from Esri Street Maps. View the demo and usage for more
-_keywords: map, Ignite UI for Angular, Infragistics, imagery tiles, Esri, Arc GIS
+description: The Map allows you to display imagery from Esri Street Maps. View the demo and usage for more
+keywords: map, Ignite UI for Angular, Infragistics, imagery tiles, Esri, Arc GIS
 _language: kr
 mentionedTypes: ["XamGeographicMap"]
 ---

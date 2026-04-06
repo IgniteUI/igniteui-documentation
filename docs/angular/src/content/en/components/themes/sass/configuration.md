@@ -1,7 +1,7 @@
 ---
 title: Theming Library Configuration
-_description: The Ignite UI for Angular Theming provides several global variables that let you configure how the theming engine works.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Angular Theming Component, Angular Theming
+description: The Ignite UI for Angular Theming provides several global variables that let you configure how the theming engine works.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Angular Theming Component, Angular Theming
 ---
 
 # Configuration

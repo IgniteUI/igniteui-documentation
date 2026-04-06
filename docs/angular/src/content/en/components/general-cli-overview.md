@@ -1,7 +1,7 @@
 ---
 title: Angular CLI | Data Visualization Tools and Tables | Infragistics
-_description: The Ignite UI for Angular toolset has a Angular CLI to help you boost productivity and get your project started quickly. Create a Ignite UI for Angular application now!
-_keywords: Angular cli, command line interface, Ignite UI for Angular, Infragistics
+description: The Ignite UI for Angular toolset has a Angular CLI to help you boost productivity and get your project started quickly. Create a Ignite UI for Angular application now!
+keywords: Angular cli, command line interface, Ignite UI for Angular, Infragistics
 ---
 
 # Ignite UI CLI for Angular

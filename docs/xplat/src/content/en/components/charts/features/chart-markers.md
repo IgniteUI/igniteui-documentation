@@ -1,8 +1,8 @@
 ---
-title: {Platform} Chart Markers | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Chart Markers
-_keywords: {Platform} Charts, Markers, Infragistics
-_license: commercial
+title: "{Platform} Chart Markers | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Chart Markers
+keywords: "{Platform} Charts, Markers, Infragistics"
+license: commercial
 mentionedTypes: ["CategoryChart", "CategoryChartType", "MarkerType"]
 namespace: Infragistics.Controls.Charts
 ---

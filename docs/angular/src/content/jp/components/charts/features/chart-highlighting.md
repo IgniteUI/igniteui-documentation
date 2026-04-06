@@ -1,8 +1,8 @@
 ---
 title: Angular チャートのハイライト表示 | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの Angular チャートのハイライト表示
-_keywords: Angular Charts, Highlighting, Infragistics, Angular チャート, ハイライト表示, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular チャートのハイライト表示
+keywords: Angular Charts, Highlighting, Infragistics, Angular チャート, ハイライト表示, インフラジスティックス
+license: commercial
 mentionedTypes: ["CategoryChart"]
 namespace: Infragistics.Controls.Charts
 _language: ja

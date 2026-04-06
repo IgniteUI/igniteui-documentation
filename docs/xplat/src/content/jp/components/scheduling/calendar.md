@@ -1,8 +1,8 @@
 ---
-title: {Platform} Calendar コンポーネント - {ProductName}
-_description: {Platform} Calendar (カレンダー) コンポーネントを使用すると、ユーザーはアプリケーション用の直感的なカレンダーを作成し、3 つの異なる選択モードを使用して日付情報を表示できます。今すぐお試しください。
-_keywords: {Platform} Calendar, {Platform} カレンダー, {ProductName}, インフラジスティックス
-_license: MIT
+title: "{Platform} Calendar コンポーネント - {ProductName}"
+description: "{Platform} Calendar (カレンダー) コンポーネントを使用すると、ユーザーはアプリケーション用の直感的なカレンダーを作成し、3 つの異なる選択モードを使用して日付情報を表示できます。今すぐお試しください。"
+keywords: "{Platform} Calendar, {Platform} カレンダー, {ProductName}, インフラジスティックス"
+license: MIT
 mentionedTypes: ["Calendar", "DateRangeType", "DateRangeDescriptor"]
 _language: ja
 ---

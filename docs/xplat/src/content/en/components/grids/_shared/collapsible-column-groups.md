@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Collapsible Column Groups - {ProductName}
-_description: Take advantage of the capability to show\hide smaller and concise set of data with the use of collapsible column groups in our {Platform} {ComponentTitle}. Try it now!
-_keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Collapsible Column Groups - {ProductName}"
+description: Take advantage of the capability to show\hide smaller and concise set of data with the use of collapsible column groups in our {Platform} {ComponentTitle}. Try it now!
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: ["ColumnGroup"]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridCollapsibleColumnGroups}
+_canonicalLink: "{CanonicalLinkToGridCollapsibleColumnGroups}"
 ---
 # {Platform} {ComponentTitle} Collapsible Column Groups Overview
 

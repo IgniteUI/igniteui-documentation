@@ -1,7 +1,7 @@
 ---
 title: Tailwind Integration for Ignite UI
-_description: Learn how to integrate Tailwind CSS with custom utility classes from the Ignite UI for Angular theming engine. This guide walks you through the setup and demonstrates how to use design tokens for colors, typography, and shadows in a utility-first approach.
-_keywords: Ignite UI for Angular, Tailwind CSS, Angular styling, Angular theming, custom CSS, utility classes, theming engine, typography, shadows, colors
+description: Learn how to integrate Tailwind CSS with custom utility classes from the Ignite UI for Angular theming engine. This guide walks you through the setup and demonstrates how to use design tokens for colors, typography, and shadows in a utility-first approach.
+keywords: Ignite UI for Angular, Tailwind CSS, Angular styling, Angular theming, custom CSS, utility classes, theming engine, typography, shadows, colors
 ---
 
 # Tailwind CSS Integration with Ignite UI for Angular

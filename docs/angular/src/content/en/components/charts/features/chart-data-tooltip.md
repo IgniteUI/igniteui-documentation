@@ -1,8 +1,8 @@
 ---
 title: Angular Chart Data Tooltip | Data Visualization Tools | Infragistics
-_description: Use Infragistics Ignite UI for Angular chart with the data tooltip layer!
-_keywords: Angular charts, chart legend, legend, legend types, Ignite UI for Angular, Infragistics
-_license: commercial
+description: Use Infragistics Ignite UI for Angular chart with the data tooltip layer!
+keywords: Angular charts, chart legend, legend, legend types, Ignite UI for Angular, Infragistics
+license: commercial
 mentionedTypes: ["XamDataChart", "Legend", "CategoryChart", "FinancialChart", "XamDataLegend", "DataToolTipLayer"]
 namespace: Infragistics.Controls.Charts
 ---

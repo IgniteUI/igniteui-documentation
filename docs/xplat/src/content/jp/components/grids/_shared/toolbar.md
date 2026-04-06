@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} for {ProductName}
-_description: 重要な UI 操作には {Platform} {ComponentTitle} を使用します。列の非表示、ピン固定、Excel エクスポートなど、グリッドの機能にさまざまな UI コントロールをホストします。
-_keywords: {Platform}, {ComponentTitle}, {ComponentTitle}, {ProductName}, Infragistics, インフラジスティックス
-_license: commercial
+title: "{Platform} {ComponentTitle} for {ProductName}"
+description: 重要な UI 操作には {Platform} {ComponentTitle} を使用します。列の非表示、ピン固定、Excel エクスポートなど、グリッドの機能にさまざまな UI コントロールをホストします。
+keywords: "{Platform}, {ComponentTitle}, {ComponentTitle}, {ProductName}, Infragistics, インフラジスティックス"
+license: commercial
 mentionedTypes: ["GridToolbar"]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridToolbar}
+_canonicalLink: "{CanonicalLinkToGridToolbar}"
 _language: ja
 ---
 

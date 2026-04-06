@@ -1,10 +1,10 @@
 ---
-title: {Platform} Data Grid | Column Options | Infragistics
-_description: See how Infragistics' {ProductName} Data Grid supports the ability to pin, move, filter, and sort columns individually through a drop down UI from each column header. Check out {ProductName} table's column option!
-_keywords: {Platform} Table, Data Grid, column options, {ProductName}, Infragistics
+title: "{Platform} Data Grid | Column Options | Infragistics"
+description: See how Infragistics' {ProductName} Data Grid supports the ability to pin, move, filter, and sort columns individually through a drop down UI from each column header. Check out {ProductName} table's column option!
+keywords: "{Platform} Table, Data Grid, column options, {ProductName}, Infragistics"
 mentionedTypes: ["Grid", "HeaderClickAction", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridMain}
+_canonicalLink: "{CanonicalLinkToGridMain}"
 ---
 
 <!-- Blazor, WebComponents -->

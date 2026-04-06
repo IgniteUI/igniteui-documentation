@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} 列のサイズ変更 - {ProductName}
-_description: {Platform} {ComponentTitle} の列サイズ変更を使用して、グリッド列の幅を瞬時に変更できます。{Platform} ドラッグ サイズ変更が大変使いやすくなりました。無料でお試しください。
-_keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス
-_license: commercial
+title: "{Platform} {ComponentTitle} 列のサイズ変更 - {ProductName}"
+description: "{Platform} {ComponentTitle} の列サイズ変更を使用して、グリッド列の幅を瞬時に変更できます。{Platform} ドラッグ サイズ変更が大変使いやすくなりました。無料でお試しください。"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス"
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridColumnResizing}
+_canonicalLink: "{CanonicalLinkToGridColumnResizing}"
 _language: ja
 ---
 

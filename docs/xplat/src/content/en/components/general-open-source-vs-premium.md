@@ -1,7 +1,7 @@
 ---
 title: Open Source vs Premium | {ProductName} | Infragistics
-_description: Ignite UI for Angular is a complete set of native Angular UI components, which allow you to build fast, feature-rich and Material designed applications!
-_keywords: {ProductName}, getting started, angular components
+description: Ignite UI for Angular is a complete set of native Angular UI components, which allow you to build fast, feature-rich and Material designed applications!
+keywords: "{ProductName}, getting started, angular components"
 ---
 
 # Open-Source vs Premium in {ProductName}

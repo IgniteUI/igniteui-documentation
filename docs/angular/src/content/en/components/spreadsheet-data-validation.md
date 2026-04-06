@@ -1,8 +1,8 @@
 ---
 title: Angular Spreadsheet | Data Validation | Infragistics
-_description: Use Infragistics' Angular spreadsheet control to setup built-in data validation rules. View Ignite UI for Angular spreadsheet demos!
-_keywords: Excel Spreadsheet, data validation, Ignite UI for Angular, Infragistics
-_license: commercial
+description: Use Infragistics' Angular spreadsheet control to setup built-in data validation rules. View Ignite UI for Angular spreadsheet demos!
+keywords: Excel Spreadsheet, data validation, Ignite UI for Angular, Infragistics
+license: commercial
 mentionedTypes: ["Spreadsheet"]
 ---
 

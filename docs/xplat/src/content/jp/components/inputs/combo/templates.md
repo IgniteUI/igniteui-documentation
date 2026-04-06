@@ -1,8 +1,8 @@
 ---
-title: {Platform} コンボボックス コンポーネントのテンプレート – {ProductName}
-_description: {ProductName} コンボボックス コンポーネントのテンプレート
-_keywords: {ProductName}, UI コントロール, {Platform} ウィジェット, web ウィジェット, UI ウィジェット, {Platform}, ネイティブ {Platform} コンポーネント スイート, ネイティブ {Platform} コントロール, ネイティブ {Platform} コンポーネント ライブラリ, {Platform} コンボボックス コンポーネントのテンプレート
-_license: MIT
+title: "{Platform} コンボボックス コンポーネントのテンプレート – {ProductName}"
+description: "{ProductName} コンボボックス コンポーネントのテンプレート"
+keywords: "{ProductName}, UI コントロール, {Platform} ウィジェット, web ウィジェット, UI ウィジェット, {Platform}, ネイティブ {Platform} コンポーネント スイート, ネイティブ {Platform} コントロール, ネイティブ {Platform} コンポーネント ライブラリ, {Platform} コンボボックス コンポーネントのテンプレート"
+license: MIT
 mentionedTypes: ["Combo"]
 _language: ja
 ---

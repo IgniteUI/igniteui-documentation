@@ -1,6 +1,6 @@
 ---
 title: Angular Treemap | Data Visualization Tools | Data Binding | Infragistics
-_description: Use the Treemap to show users relative weighting of data points at more than one level supporting strip, squarified, and slice-and-dice algorithms.
+description: Use the Treemap to show users relative weighting of data points at more than one level supporting strip, squarified, and slice-and-dice algorithms.
 mentionedTypes: ['Treemap']
 ---
 

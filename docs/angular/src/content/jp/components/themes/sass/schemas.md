@@ -1,7 +1,7 @@
 ---
 title: スキーマ
-_description: Ignite UI for Angular テーマ化するスキーマを使用して、コンポーネント テーマのレシピを作成できます。
-_keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ 
+description: Ignite UI for Angular テーマ化するスキーマを使用して、コンポーネント テーマのレシピを作成できます。
+keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ 
 _language: ja
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: Angular チャートのハイライト表示フィルター | データ可視化 | インフラジスティックス
-_description: Infragistics の Angular チャートのハイライト表示フィルター
-_keywords: Angular Charts, Highlighting, Filtering, Infragistics, Angular チャート, ハイライト表示, フィルターリング, インフラジスティックス
-_license: commercial
+description: Infragistics の Angular チャートのハイライト表示フィルター
+keywords: Angular Charts, Highlighting, Filtering, Infragistics, Angular チャート, ハイライト表示, フィルターリング, インフラジスティックス
+license: commercial
 mentionedTypes: ["CategoryChart", "XamDataChart", "Series", "HighlightedValuesDisplayMode"]
 namespace: Infragistics.Controls.Charts
 _language: ja

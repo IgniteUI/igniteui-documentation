@@ -1,7 +1,7 @@
 ﻿---
 title: 認証プロジェクト テンプレート | Ignite UI for Angular | インフラジスティックス
-_description: Angular 認証プロジェクト テンプレート ガイド
-_keywords: igniteui for angular, angular schematics, テンプレート, インフラジスティックス
+description: Angular 認証プロジェクト テンプレート ガイド
+keywords: igniteui for angular, angular schematics, テンプレート, インフラジスティックス
 _language: ja
 ---
 

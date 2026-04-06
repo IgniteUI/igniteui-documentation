@@ -1,8 +1,8 @@
 ---
-title: {Platform} チャート API | データ視覚化ツール | インフラジスティックス
-_description: インフラジスティックスの {ProductName} マップは、マップ ビジュアルを構成およびスタイル設定するための便利な API を提供します。
-_keywords: {Platform} maps, geographic, map API, API, {Platform} マップ, 地理, マップ API, API, {ProductName}
-_license: commercial
+title: "{Platform} チャート API | データ視覚化ツール | インフラジスティックス"
+description: インフラジスティックスの {ProductName} マップは、マップ ビジュアルを構成およびスタイル設定するための便利な API を提供します。
+keywords: "{Platform} maps, geographic, map API, API, {Platform} マップ, 地理, マップ API, API, {ProductName}"
+license: commercial
 mentionedTypes: ["XamGeographicMap", "Series", "SeriesViewer", "GeographicSymbolSeries", "GeographicProportionalSymbolSeries", "GeographicShapeSeries", "GeographicHighDensityScatterSeries", "GeographicScatterAreaSeries", "GeographicContourLineSeries", "GeographicShapeSeriesBase"]
 namespace: Infragistics.Controls.Maps
 _language: ja

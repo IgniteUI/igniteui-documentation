@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} for {ProductName} for
-_description: Use {Platform} {ComponentTitle} for essential UI operations. Hosts different UI controls for the Grid’s features - column hiding, pinning, excel exporting, etc.
-_keywords: {Platform}, {ComponentTitle}, {ComponentTitle}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} for {ProductName} for"
+description: Use {Platform} {ComponentTitle} for essential UI operations. Hosts different UI controls for the Grid’s features - column hiding, pinning, excel exporting, etc.
+keywords: "{Platform}, {ComponentTitle}, {ComponentTitle}, {ProductName}, Infragistics"
+license: commercial
 mentionedTypes: ["GridToolbar"]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridToolbar}
+_canonicalLink: "{CanonicalLinkToGridToolbar}"
 ---
 
 # {Platform} {ComponentTitle} Toolbar

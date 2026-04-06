@@ -1,8 +1,8 @@
 ---
-title: {Platform} ドーナツ チャート | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの {Platform} ドーナツ チャート
-_keywords: {Platform} Charts, Donut Chart, Infragistics, {Platform} チャート, ドーナツ チャート, インフラジスティックス
-_license: commercial
+title: "{Platform} ドーナツ チャート | データ可視化 | インフラジスティックス"
+description: インフラジスティックスの {Platform} ドーナツ チャート
+keywords: "{Platform} Charts, Donut Chart, Infragistics, {Platform} チャート, ドーナツ チャート, インフラジスティックス"
+license: commercial
 mentionedTypes: ["XamDoughnutChart", "DoughnutChart"]
 namespace: Infragistics.Controls.Charts
 _language: ja

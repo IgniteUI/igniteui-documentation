@@ -1,8 +1,8 @@
 ---
 title: Angular Date Range Picker Component | Ignite UI for Angular | MIT license
-_description: The Angular Date Range Picker component allows you to choose a date range by defining its start and end date. You can select a range from a calendar UI. Try it now. 
-_keywords: Angular Date Range Picker, Date Range Picker, Date Picker, Angular Date Range Picker Component, Angular UI Components, Angular component
-_license: MIT
+description: The Angular Date Range Picker component allows you to choose a date range by defining its start and end date. You can select a range from a calendar UI. Try it now. 
+keywords: Angular Date Range Picker, Date Range Picker, Date Picker, Angular Date Range Picker Component, Angular UI Components, Angular component
+license: MIT
 ---
 
 # Angular Date Range Picker Component Overview

@@ -1,8 +1,8 @@
 ---
-title: {Platform} Avatar | レイアウト コントロール | インフラジスティックス
-_description: インフラジスティックスの {Platform} Avatar コンポーネントを使用して、画像、アイコン、またはイニシャルを表示します。
-_keywords: avatar, layout, {ProductName}, Infragistics, アバター, レイアウト, インフラジスティックス
-_license: MIT
+title: "{Platform} Avatar | レイアウト コントロール | インフラジスティックス"
+description: インフラジスティックスの {Platform} Avatar コンポーネントを使用して、画像、アイコン、またはイニシャルを表示します。
+keywords: avatar, layout, {ProductName}, Infragistics, アバター, レイアウト, インフラジスティックス
+license: MIT
 mentionedTypes: ["Avatar"]
 _language: ja
 ---

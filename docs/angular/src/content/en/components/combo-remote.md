@@ -1,8 +1,8 @@
 ---
 title: ComboBox Remote Binding - MIT license 
-_description: The igx-combo exposes API that allows to bind a combo to a remote service and retrieve data on demand.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Combo components, Angular Combo controls, Angular Combo Remote Binding
-_license: MIT
+description: The igx-combo exposes API that allows to bind a combo to a remote service and retrieve data on demand.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Combo components, Angular Combo controls, Angular Combo Remote Binding
+license: MIT
 ---
 
 # ComboBox Remote Binding

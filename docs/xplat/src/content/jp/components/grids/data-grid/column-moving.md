@@ -1,10 +1,10 @@
 ---
-title: {Platform} データ グリッド | 列移動 | インフラジスティックス
-_description: インフラジスティックスの {ProductName} データ グリッドは列の移動をサポートし、列の表示方法を柔軟に選択できます。詳細については、{ProductName} テーブル サンプルを参照してください。
-_keywords: {Platform} Table, Data Grid, column moving, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, 列移動, インフラジスティックス
+title: "{Platform} データ グリッド | 列移動 | インフラジスティックス"
+description: インフラジスティックスの {ProductName} データ グリッドは列の移動をサポートし、列の表示方法を柔軟に選択できます。詳細については、{ProductName} テーブル サンプルを参照してください。
+keywords: "{Platform} Table, Data Grid, column moving, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, 列移動, インフラジスティックス"
 mentionedTypes: ["Grid", "ColumnMovingMode", "ColumnMovingAnimationMode"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridColumnMoving}
+_canonicalLink: "{CanonicalLinkToGridColumnMoving}"
 _language: ja
 ---
 

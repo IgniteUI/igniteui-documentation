@@ -1,7 +1,7 @@
 ---
 title: Roundness
-_description: Ignite UI for Angular allow you to change the shape of components by changing their border-radius.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library 
+description: Ignite UI for Angular allow you to change the shape of components by changing their border-radius.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library 
 ---
 
 # Roundness

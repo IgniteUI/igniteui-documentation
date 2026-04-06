@@ -1,7 +1,7 @@
 ---
 title: アップデート ガイド | Ignite UI for Angular | インフラジスティックス
-_description: 新しいバージョンの Ignite UI for Angular ライブラリにアップデートする方法については、この記事を参照してください。
-_keywords: ignite ui for angular, アップデート, npm パッケージ, マテリアル コンポーネント
+description: 新しいバージョンの Ignite UI for Angular ライブラリにアップデートする方法については、この記事を参照してください。
+keywords: ignite ui for angular, アップデート, npm パッケージ, マテリアル コンポーネント
 _language: ja
 ---
 

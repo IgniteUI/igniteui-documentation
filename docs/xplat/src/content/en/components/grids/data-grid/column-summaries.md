@@ -1,10 +1,10 @@
 ---
-title: {Platform} Data Grid | Column Summaries | Infragistics
-_description: Use Infragistics' {Platform} grid component's column summaries feature to display summarized data such as count, max, min and many more. Check out {ProductName} table demos!
-_keywords: {Platform} Table, Data Grid, column, summaries, {ProductName}, Infragistics
+title: "{Platform} Data Grid | Column Summaries | Infragistics"
+description: Use Infragistics' {Platform} grid component's column summaries feature to display summarized data such as count, max, min and many more. Check out {ProductName} table demos!
+keywords: "{Platform} Table, Data Grid, column, summaries, {ProductName}, Infragistics"
 mentionedTypes: ["Implementation.Grid", "SummaryScope", "GroupSummaryDisplayMode"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridSummaries}
+_canonicalLink: "{CanonicalLinkToGridSummaries}"
 ---
 
 <!-- Blazor, WebComponents -->

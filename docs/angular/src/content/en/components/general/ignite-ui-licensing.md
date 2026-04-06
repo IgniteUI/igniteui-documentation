@@ -1,7 +1,7 @@
 ---
 title: Ignite UI Licensing
-_description: Information on using the Licensed Ignite UI npm package
-_keywords: npm package license, ignite ui license feed, licensing
+description: Information on using the Licensed Ignite UI npm package
+keywords: npm package license, ignite ui license feed, licensing
 ---
 
 # License FAQ and Installation

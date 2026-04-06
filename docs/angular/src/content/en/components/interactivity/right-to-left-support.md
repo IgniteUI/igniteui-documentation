@@ -1,7 +1,7 @@
 ---
 title: Ignite UI for Angular Frameworks and features  | Ignite UI for Angular | Infragistics
-_description: Learn how to configure ARIA Accessibility and Directionality of your application with Ignite UI for Angular
-_keywords: aria support, a11y, ignite ui for angular, infragistics
+description: Learn how to configure ARIA Accessibility and Directionality of your application with Ignite UI for Angular
+keywords: aria support, a11y, ignite ui for angular, infragistics
 ---
 
 # Right to Left (RTL) Support

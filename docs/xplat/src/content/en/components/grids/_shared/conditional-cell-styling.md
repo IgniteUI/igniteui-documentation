@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} Conditional Cell Styling - {ProductName}
-_description: Let users identify different cells quickly. Define a variety of cell styles. Use the conditional cell styling in {Platform} {ComponentTitle} to make cells stand out.
-_keywords: conditional styling, {Platform}, {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} {ComponentTitle} Conditional Cell Styling - {ProductName}"
+description: Let users identify different cells quickly. Define a variety of cell styles. Use the conditional cell styling in {Platform} {ComponentTitle} to make cells stand out.
+keywords: conditional styling, {Platform}, {ProductName}, Infragistics
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridConditionalCellStyling}
+_canonicalLink: "{CanonicalLinkToGridConditionalCellStyling}"
 ---
 
 # {Platform} {ComponentTitle} Conditional Styling

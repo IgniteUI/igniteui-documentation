@@ -1,7 +1,7 @@
 ---
 title: Angular What's New | Ignite UI for Angular | Infragistics
-_description: Learn about new features in the Ignite UI for Angular.
-_keywords: What's New,  Ignite UI for Angular, Infragistics
+description: Learn about new features in the Ignite UI for Angular.
+keywords: What's New,  Ignite UI for Angular, Infragistics
 ---
 
 # What's New in Ignite UI for Angular

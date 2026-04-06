@@ -1,7 +1,7 @@
 ---
 title: サーバー サイド レンダリング | Angular SSR | Ignite UI for Angular | インフラジスティックス
-_description: Ignite UI for Angular で Angular サーバー サイド レンダリングを使用する方法。
-_keywords: Ignite UI for Angular, Angular SSR, サーバー サイド レンダリング
+description: Ignite UI for Angular で Angular サーバー サイド レンダリングを使用する方法。
+keywords: Ignite UI for Angular, Angular SSR, サーバー サイド レンダリング
 _language: ja
 ---
 

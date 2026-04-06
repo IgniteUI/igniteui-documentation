@@ -1,8 +1,8 @@
 ---
-title: {Platform} Chart Tooltips | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Chart Tooltips
-_keywords: {Platform} Charts, Tooltips, Infragistics
-_license: commercial
+title: "{Platform} Chart Tooltips | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Chart Tooltips
+keywords: "{Platform} Charts, Tooltips, Infragistics"
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "ToolTipType"]
 namespace: Infragistics.Controls.Charts
 ---

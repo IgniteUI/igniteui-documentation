@@ -1,8 +1,8 @@
 ---
-title: {Platform} Excel Library| Working with Charts | Infragistics
-_description: Use the Infragistics' {Platform} excel library's chart feature to add visual charting representations of data trends across regions of cells in a worksheet. Visualize {ProductName} excel data in over 70 chart types!
-_keywords: Excel library, charts,  {ProductName}, Infragistics
-_license: commercial
+title: "{Platform} Excel Library| Working with Charts | Infragistics"
+description: Use the Infragistics' {Platform} excel library's chart feature to add visual charting representations of data trends across regions of cells in a worksheet. Visualize {ProductName} excel data in over 70 chart types!
+keywords: Excel library, charts,  {ProductName}, Infragistics
+license: commercial
 mentionedTypes: ["Workbook", "Worksheet"]
 ---
 # {Platform} Working with Charts

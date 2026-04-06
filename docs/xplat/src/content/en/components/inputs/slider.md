@@ -1,9 +1,9 @@
 ---
-title: {Platform} Slider & Range Slider Components | {ProductName}
-_description: Learn how to configure a selection in a given range by using the thumb track with {Platform} Slider & Range Slider part of {ProductName}. Choose between single and range slider.
-_keywords: {Platform}, UI controls, web widgets, UI widgets, {Platform} Slider Components, Infragistics
+title: "{Platform} Slider & Range Slider Components | {ProductName}"
+description: Learn how to configure a selection in a given range by using the thumb track with {Platform} Slider & Range Slider part of {ProductName}. Choose between single and range slider.
+keywords: "{Platform}, UI controls, web widgets, UI widgets, {Platform} Slider Components, Infragistics"
 mentionedTypes: ["Slider", "SliderLabel", "RangeSlider"]
-_license: MIT
+license: MIT
 ---
 
 # {Platform} Slider & Range Slider Overview

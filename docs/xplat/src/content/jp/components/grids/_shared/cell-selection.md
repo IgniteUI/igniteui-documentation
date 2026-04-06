@@ -1,12 +1,12 @@
 ---
-title: {Platform} {ComponentTitle} セルの選択 - {ProductName}
-_description: さまざまなイベント、豊富な API、またはマウス操作を使用してセル データ選択を簡単に実行できます。{ComponentTitle} はセル選択で 3 つのモードをサポートします。今すぐお試しください。
-_keywords: data select, igniteui for {Platform}, infragistics, データ選択, インフラジスティックス
-_license: commercial
+title: "{Platform} {ComponentTitle} セルの選択 - {ProductName}"
+description: さまざまなイベント、豊富な API、またはマウス操作を使用してセル データ選択を簡単に実行できます。{ComponentTitle} はセル選択で 3 つのモードをサポートします。今すぐお試しください。
+keywords: data select, igniteui for {Platform}, infragistics, データ選択, インフラジスティックス
+license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
-_canonicalLink: {CanonicalLinkToGridCellSelection}
+_canonicalLink: "{CanonicalLinkToGridCellSelection}"
 _language: ja
 ---
 

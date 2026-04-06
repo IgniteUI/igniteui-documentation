@@ -2,6 +2,7 @@ import path from 'node:path';
 import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
+import { IGDOCS_PLATFORMS } from 'docs-template/platform';
 import { remarkEnv } from './src/plugins/remark-env.ts';
 import { remarkApiLinks } from './src/plugins/remark-api-links.ts';
 
@@ -29,92 +30,55 @@ function resolveSetting(envKey: string, jsonKey: string, fallback: string): stri
 }
 
 const platform = resolveSetting('PLATFORM', 'platform', 'React');
-const lang     = resolveSetting('LANG_CODE', 'lang',     'en');
+const lang = resolveSetting('LANG_CODE', 'lang', 'en');
 
-// NODE_ENV: 'development' | 'staging' | 'production'  (default: 'development')
-const nodeEnv = process.env.NODE_ENV || 'development';
-const mode: DocsMode = nodeEnv === 'production' ? 'prod'
-    : nodeEnv === 'staging' ? 'staging'
-    : 'dev';
+// DOCS_ENV: 'development' | 'staging' | 'production'  (preferred, default: 'development')
+// NODE_ENV: fallback — do NOT set to 'staging'; Vite derives import.meta.env.DEV from it.
+const docsEnv = process.env.DOCS_ENV || process.env.NODE_ENV || 'development';
 
-// ---------------------------------------------------------------------------
-// Per-platform site metadata
-// ---------------------------------------------------------------------------
+if (docsEnv !== 'development' && docsEnv !== 'staging' && docsEnv !== 'production') {
+	throw new Error(
+		`[astro.config] Invalid DOCS_ENV "${docsEnv}". Expected one of: "development", "staging", "production".`
+	);
+}
 
-const PLATFORM_META: Record<string, { title: string; description: string }> = {
-    Angular: {
-        title: 'Ignite UI for Angular',
-        description: 'Reference docs for Ignite UI for Angular.',
-    },
-    React: {
-        title: 'Ignite UI for React',
-        description: 'Reference docs for Ignite UI for React.',
-    },
-    WebComponents: {
-        title: 'Ignite UI for Web Components',
-        description: 'Reference docs for Ignite UI for Web Components.',
-    },
-    Blazor: {
-        title: 'Ignite UI for Blazor',
-        description: 'Reference docs for Ignite UI for Blazor.',
-    },
-};
+const mode: DocsMode = docsEnv;
 
-const meta = PLATFORM_META[platform] ?? PLATFORM_META['React'];
+const PLATFORMS = IGDOCS_PLATFORMS;
 
-const PLATFORM_KEY: Record<string, string> = {
-    Angular: 'angular',
-    React: 'react',
-    WebComponents: 'web-components',
-    Blazor: 'blazor',
-};
+const PROD_HOST = 'https://www.infragistics.com';
+const STAGING_HOST = 'https://staging.infragistics.com';
 
-const PLATFORM_URL_BASE: string = nodeEnv === 'production'
-	? 'https://www.infragistics.com/products/'
-	: 'https://staging.infragistics.com/products/';
+const p = PLATFORMS[platform];
+const site = mode === 'production' ? `${PROD_HOST}${p.base}`
+    : mode === 'staging' ? `${STAGING_HOST}${p.base}`
+    : `http://localhost:${p.devPort}`;
 
-const PLATFORM_SITE: Record<string, string> = {
-    Angular:       `${PLATFORM_URL_BASE}ignite-ui-angular/angular/components`,
-    React:         `${PLATFORM_URL_BASE}ignite-ui-react/react/components`,
-    WebComponents: `${PLATFORM_URL_BASE}ignite-ui-web-components/web-components/components`,
-    Blazor:        `${PLATFORM_URL_BASE}ignite-ui-blazor/blazor/components`,
-};
-
-const PLATFORM_BASE: Record<string, string> = {
-    Angular:       '/docs-angular-new',
-    React:         '/docs-react-new',
-    WebComponents: '/docs-wc-new',
-    Blazor:        '/docs-blazor-new',
-};
-
-// Generated markdown lives in generated/{platform}/{lang}/ (produced by scripts/generate.mjs)
 const XPLAT_ROOT = path.join(__dirname, 'generated', platform, lang);
 
-console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}  →  ${XPLAT_ROOT}`);
+console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}  site: ${site}`);
 
 // https://astro.build/config
 export default createDocsSite({
-    site: PLATFORM_SITE[platform] ?? 'https://www.infragistics.com',
-    base: PLATFORM_BASE[platform] ?? '/',
-    title: meta.title,
-    description: meta.description,
-    platform: (PLATFORM_KEY[platform] ?? null) as any,
+    site,
+    base: mode !== 'development' ? p.base : undefined,
+    title: p.title,
+    description: p.description,
+    platform: p.key,
     navLang: lang === 'jp' ? 'ja' : lang,
     mode,
     source: {
         tocPath: path.join(XPLAT_ROOT, 'components', 'toc.json'),
         docsDir: path.join(XPLAT_ROOT, 'components'),
     },
-    productLinks: [
-        { label: 'Angular',        href: PLATFORM_SITE.Angular,       platform: 'angular' },
-        { label: 'React',          href: PLATFORM_SITE.React,         platform: 'react' },
-        { label: 'Web Components', href: PLATFORM_SITE.WebComponents, platform: 'web-components' },
-        { label: 'Blazor',         href: PLATFORM_SITE.Blazor,        platform: 'blazor' },
-    ],
+    productLinks: Object.values(PLATFORMS).map(({ label, key, base: b }) => ({
+        label,
+        href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
+        platform: key,
+    })),
     starlight: {
         logo: { src: './public/favicon.svg' },
     },
-    // Serve images statically from public/ — no Astro image optimization needed
     image: { service: { entrypoint: 'astro/assets/services/noop' } },
     markdown: { remarkPlugins: [remarkEnv, remarkApiLinks] },
 });

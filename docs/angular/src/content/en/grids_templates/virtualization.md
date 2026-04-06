@@ -2,27 +2,27 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid Virtualization and Performance - Ignite UI for Angular
-_description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed & performance of the grid when handling large data sets. Try for free!
-_keywords: angular data grid, grid performance, data table virtualization, ignite ui for angular
-_license: commercial
+description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed & performance of the grid when handling large data sets. Try for free!
+keywords: angular data grid, grid performance, data table virtualization, ignite ui for angular
+license: commercial
 ---
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Grid Virtualization and Performance - Ignite UI for Angular
-_description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed & performance of the grid when handling large data sets. Try for free!
-_keywords: angular data grid, grid performance, data table virtualization, ignite ui for angular
-_license: commercial
+description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed & performance of the grid when handling large data sets. Try for free!
+keywords: angular data grid, grid performance, data table virtualization, ignite ui for angular
+license: commercial
 _canonicalLink: grid/virtualization
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Grid Virtualization and Performance - Ignite UI for Angular
-_description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed & performance of the grid when handling large data sets. Try for free!
-_keywords: angular data grid, grid performance, data table virtualization, ignite ui for angular
-_license: commercial
+description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed & performance of the grid when handling large data sets. Try for free!
+keywords: angular data grid, grid performance, data table virtualization, ignite ui for angular
+license: commercial
 _canonicalLink: grid/virtualization
 ---
 
@@ -31,8 +31,8 @@ _canonicalLink: grid/virtualization
 ---
 
 title: Angular Grid Virtualization and Performance - Ignite UI for Angular
-_description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed & performance of the grid when handling large data sets. Try for free!
-_keywords: angular data grid, grid performance, data table virtualization, ignite ui for angular
+description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed & performance of the grid when handling large data sets. Try for free!
+keywords: angular data grid, grid performance, data table virtualization, ignite ui for angular
 _canonicalLink: grid/virtualization
 ---
 

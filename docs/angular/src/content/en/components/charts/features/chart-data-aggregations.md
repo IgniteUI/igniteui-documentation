@@ -1,8 +1,8 @@
 ---
 title: Angular Data Aggregations | Data Visualization | Infragistics
-_description: Infragistics' Angular Data Aggregations
-_keywords: Angular Charts, Markers, Infragistics
-_license: commercial
+description: Infragistics' Angular Data Aggregations
+keywords: Angular Charts, Markers, Infragistics
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart"]
 namespace: Infragistics.Controls.Charts
 ---

@@ -1,8 +1,8 @@
 ---
 title: Angular Step Chart | Data Visualization | Infragistics
-_description: Infragistics' Angular Step Chart
-_keywords: Angular Charts, Step Chart, Step Area Chart, Step Line Chart, Infragistics
-_license: commercial
+description: Infragistics' Angular Step Chart
+keywords: Angular Charts, Step Chart, Step Area Chart, Step Line Chart, Infragistics
+license: commercial
 mentionedTypes: ["DomainChart", "CategoryChart", "CategoryChartType", "Series", "CategoryChartType"]
 namespace: Infragistics.Controls.Charts
 ---

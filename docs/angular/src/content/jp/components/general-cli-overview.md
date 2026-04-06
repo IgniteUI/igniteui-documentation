@@ -1,7 +1,7 @@
 ---
 title: Angular CLI | データ可視化ツールおよびテーブル | インフラジスティックス
-_description: Ignite UI for Angular ツールセットには Angular CLI があり、生産性を高め、プロジェクトをすばやく開始できます。今すぐ Ignite UI for Angular アプリケーションを作成してください!
-_keywords: Angular cli, command line interface, Ignite UI for Angular, Infragistics, コマンド ライン インターフェイス, インフラジスティックス
+description: Ignite UI for Angular ツールセットには Angular CLI があり、生産性を高め、プロジェクトをすばやく開始できます。今すぐ Ignite UI for Angular アプリケーションを作成してください!
+keywords: Angular cli, command line interface, Ignite UI for Angular, Infragistics, コマンド ライン インターフェイス, インフラジスティックス
 _language: ja
 ---
 

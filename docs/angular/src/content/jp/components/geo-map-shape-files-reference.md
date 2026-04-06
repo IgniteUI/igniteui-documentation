@@ -1,8 +1,8 @@
 ---
 title: Angular マップ | データ可視化ツール | シェープ ファイル リファレンス | シェープ ファイルの編集 | インフラジスティックス
-_description: インフラジスティックスの Angular マップで使用するシェープ ファイル形式について説明します。Ignite UI for Angular マップ チュートリアルを是非お試しください!
-_keywords: Angular map, shape files, Ignite UI for Angular, Infragistics, shape editing, Angular マップ, シェープ ファイル, シェイプの編集, インフラジスティックス
-_license: commercial
+description: インフラジスティックスの Angular マップで使用するシェープ ファイル形式について説明します。Ignite UI for Angular マップ チュートリアルを是非お試しください!
+keywords: Angular map, shape files, Ignite UI for Angular, Infragistics, shape editing, Angular マップ, シェープ ファイル, シェイプの編集, インフラジスティックス
+license: commercial
 mentionedTypes: ["XamGeographicMap", "GeographicShapeSeriesBase", "Series"]
 _language: ja
 ---

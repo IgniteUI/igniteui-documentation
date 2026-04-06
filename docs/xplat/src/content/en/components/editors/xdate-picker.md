@@ -1,7 +1,7 @@
 ---
-title: {Platform} XDate Picker | Data Visualization Tools | Infragistics
-_description: Infragistics' {Platform} xdate picker component helps your users select dates. Improve your graphs and visualization with Ignite UI for {Platform}!
-_keywords: {Platform} xdate picker, drop down, {ProductName}, Infragistics
+title: "{Platform} XDate Picker | Data Visualization Tools | Infragistics"
+description: Infragistics' {Platform} xdate picker component helps your users select dates. Improve your graphs and visualization with Ignite UI for {Platform}!
+keywords: "{Platform} xdate picker, drop down, {ProductName}, Infragistics"
 mentionedTypes: ["XDatePicker"]
 ---
 # {Platform} XDate Picker Overview

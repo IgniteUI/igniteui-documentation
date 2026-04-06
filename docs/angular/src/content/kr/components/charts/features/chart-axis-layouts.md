@@ -1,7 +1,7 @@
 ---
 title: Angular Axis Layouts | Data Visualization | Infragistics
-_description: Infragistics' Angular Axis Layouts
-_keywords: Angular Axis, Layouts, Location, Position, Gap, Overlap, Infragistics
+description: Infragistics' Angular Axis Layouts
+keywords: Angular Axis, Layouts, Location, Position, Gap, Overlap, Infragistics
 _language: kr
 mentionedTypes: [ "CategoryChart", "XamDataChart" ]
 ---

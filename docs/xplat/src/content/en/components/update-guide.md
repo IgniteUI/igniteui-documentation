@@ -1,7 +1,7 @@
 ---
 title: Update Guide | Ignite UI for React | Infragistics
-_description: Check out this article on updating how to update to a newer version of the Ignite UI for React library.
-_keywords: ignite ui for react, update, npm package, material components
+description: Check out this article on updating how to update to a newer version of the Ignite UI for React library.
+keywords: ignite ui for react, update, npm package, material components
 mentionedTypes: ["Input", "Button"]
 ---
 

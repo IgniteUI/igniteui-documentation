@@ -1,8 +1,8 @@
 ---
-title: {Platform} Chart Features | Data Visualization | Infragistics
-_description: Infragistics' {Platform} Chart Features
-_keywords: {Platform} Charts, Features, Infragistics
-_license: commercial
+title: "{Platform} Chart Features | Data Visualization | Infragistics"
+description: Infragistics' {Platform} Chart Features
+keywords: "{Platform} Charts, Features, Infragistics"
+license: commercial
 mentionedTypes: ["FinancialChart", "CategoryChart", "XamDataChart"]
 ---
 # {Platform} Chart Features
