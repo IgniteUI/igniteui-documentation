@@ -64,6 +64,53 @@ if (!platformConfig) {
     process.exit(1);
 }
 
+// ---------------------------------------------------------------------------
+// Build the set of hrefs excluded for the current platform from toc.json.
+//
+// toc.json entries look like:
+//   { "href": "general-changelog-dv-react.md", "exclude": ["Angular", "Blazor"] }
+//
+// We normalise each href to a slug (no .md/.mdx extension, forward slashes)
+// and store it in a Set for O(1) lookup in processDir / expandSharedFiles.
+// Section nodes with no href but with children are recursively scanned.
+// ---------------------------------------------------------------------------
+
+function collectExcludedSlugs(nodes, excluded = new Set()) {
+    for (const node of nodes || []) {
+        const isExcluded = Array.isArray(node.exclude) && node.exclude.includes(PLATFORM);
+        if (isExcluded && node.href) {
+            // Normalise: strip .md / .mdx extension, convert backslashes
+            excluded.add(node.href.replace(/\.(mdx?)?$/, '').replace(/\\/g, '/'));
+        }
+        // Always recurse — a child may be individually excluded even if parent isn't,
+        // and if parent IS excluded its children inherit the exclusion below.
+        if (Array.isArray(node.items)) {
+            if (isExcluded) {
+                // Propagate parent exclusion to all descendants
+                collectAllSlugs(node.items, excluded);
+            } else {
+                collectExcludedSlugs(node.items, excluded);
+            }
+        }
+    }
+    return excluded;
+}
+
+function collectAllSlugs(nodes, excluded) {
+    for (const node of nodes || []) {
+        if (node.href) excluded.add(node.href.replace(/\.(mdx?)?$/, '').replace(/\\/g, '/'));
+        if (Array.isArray(node.items)) collectAllSlugs(node.items, excluded);
+    }
+}
+
+const TOC_PATH = path.join(ROOT, 'src', 'content', LANG, 'toc.json');
+const EXCLUDED_SLUGS = existsSync(TOC_PATH)
+    ? collectExcludedSlugs(JSON.parse(readFileSync(TOC_PATH, 'utf8')))
+    : new Set();
+
+console.log(`[generate] Excluded pages for ${PLATFORM}: ${EXCLUDED_SLUGS.size}`);
+
+// ---------------------------------------------------------------------------
 // Sort longer names first to avoid partial-match problems
 // e.g. {PlatformLower} must match before {Platform}
 const replacements = platformConfig.replacements
@@ -189,8 +236,92 @@ function filterCodeBlocks(content) {
 }
 
 // ---------------------------------------------------------------------------
-// 5. (Shared file expansion handled in expandSharedFiles below)
+// 5. <PlatformBlock for="..."> filtering for MDX files
+//
+// Depth-aware stack parser — correctly handles nested PlatformBlocks.
+// Keeps body content when the platform list includes PLATFORM, strips otherwise.
+// After filtering the now-unused `import PlatformBlock` line is also removed.
 // ---------------------------------------------------------------------------
+
+function inlinePlatformBlocks(content) {
+    const openRe  = /<PlatformBlock\s+for="([^"]+)">/g;
+    const closeRe = /<\/PlatformBlock>/g;
+
+    let result = '';
+    let pos = 0;
+
+    while (pos < content.length) {
+        openRe.lastIndex  = pos;
+        closeRe.lastIndex = pos;
+        const openMatch  = openRe.exec(content);
+        const closeMatch = closeRe.exec(content);
+        const openPos    = openMatch  ? openMatch.index  : Infinity;
+        const closePos   = closeMatch ? closeMatch.index : Infinity;
+
+        if (openPos === Infinity && closePos === Infinity) {
+            result += content.slice(pos);
+            break;
+        }
+
+        if (closePos < openPos) {
+            // Orphaned closer — pass through verbatim
+            result += content.slice(pos, closePos + closeMatch[0].length);
+            pos = closePos + closeMatch[0].length;
+            continue;
+        }
+
+        result += content.slice(pos, openPos);
+        const platforms = openMatch[1].split(',').map(s => s.trim());
+        const keep      = platforms.includes(PLATFORM);
+        const bodyStart = openPos + openMatch[0].length;
+
+        let depth = 1, searchPos = bodyStart;
+        let bodyEnd = content.length, closerEnd = content.length;
+
+        while (depth > 0) {
+            openRe.lastIndex  = searchPos;
+            closeRe.lastIndex = searchPos;
+            const nextOpen  = openRe.exec(content);
+            const nextClose = closeRe.exec(content);
+            const nop = nextOpen  ? nextOpen.index  : Infinity;
+            const ncp = nextClose ? nextClose.index : Infinity;
+
+            if (ncp === Infinity) {
+                bodyEnd = closerEnd = content.length;
+                depth = 0;
+            } else if (ncp < nop) {
+                depth--;
+                if (depth === 0) {
+                    bodyEnd   = ncp;
+                    closerEnd = ncp + nextClose[0].length;
+                } else {
+                    searchPos = ncp + nextClose[0].length;
+                }
+            } else {
+                depth++;
+                searchPos = nop + nextOpen[0].length;
+            }
+        }
+
+        if (keep) {
+            result += inlinePlatformBlocks(content.slice(bodyStart, bodyEnd));
+        }
+
+        pos = closerEnd;
+    }
+
+    return result;
+}
+
+function transformMdxFile(content) {
+    // 1. Resolve <PlatformBlock> tags — keep only this platform's content
+    content = inlinePlatformBlocks(content);
+    // 2. Remove the now-unused PlatformBlock import (if any)
+    content = content.replace(/^import PlatformBlock from '[^']+';?\r?\n/m, '');
+    // 3. Resolve all tokens ({Platform}, {ProductName}, etc.) in both frontmatter and body.
+    content = applyReplacements(content);
+    return content;
+}
 
 // ---------------------------------------------------------------------------
 // 6 & 7. Sample viewer + edit buttons
@@ -386,16 +517,14 @@ function getSharedComponentKeys(content) {
  */
 
 function ensureMdxImports(content) {
-    const needsSample      = content.includes('<Sample ');
-    const needsPlatform    = content.includes('<PlatformBlock');
-    const needsApiRef      = /<ApiRef\b/.test(content);
-    const needsApiLink     = /<ApiLink\b/.test(content);
+    const needsSample  = content.includes('<Sample ');
+    const needsApiRef  = /<ApiRef\b/.test(content);
+    const needsApiLink = /<ApiLink\b/.test(content);
 
     const imports = [
-        needsSample   && "import Sample from '@/components/mdx/Sample.astro';",
-        needsPlatform && "import PlatformBlock from '@/components/mdx/PlatformBlock.astro';",
-        needsApiRef   && "import ApiRef from '@/components/mdx/ApiRef.astro';",
-        needsApiLink  && "import ApiLink from '@/components/mdx/ApiLink.astro';",
+        needsSample  && "import Sample from '@/components/mdx/Sample.astro';",
+        needsApiRef  && "import ApiRef from 'docs-template/components/mdx/ApiRef.astro';",
+        needsApiLink && "import ApiLink from 'docs-template/components/mdx/ApiLink.astro';",
     ].filter(Boolean);
 
     if (imports.length === 0) return content;
@@ -446,11 +575,15 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
             mkdirSync(outSubDir, { recursive: true });
 
             // 1. Filter component blocks (keep only this component's sections).
-            //    Platform blocks use <PlatformBlock> components — handled at build time.
             let content = filterComponentBlocks(raw, comp.key);
 
-            // 3. Apply replacements + component tokens to frontmatter only
-            //    (body is handled by the Vite plugin at build time via _componentKey)
+            // 2. Filter <PlatformBlock> tags — keep only this platform's content.
+            content = inlinePlatformBlocks(content);
+            content = content.replace(/^import PlatformBlock from '[^']+';?\r?\n/m, '');
+
+            // 3. Apply replacements + component tokens to frontmatter only.
+            //    Body tokens ({Platform} etc.) are still handled by the Vite plugin
+            //    at build time via _componentKey.
             const compTokens = [...comp.tokens].sort((a, b) => b.name.length - a.name.length);
             content = content.replace(/^(---[\s\S]*?^---)/m, fm => {
                 let resolved = applyReplacements(fm);
@@ -476,10 +609,17 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
             // 5. Normalize image paths
             content = normalizeImagePaths(content);
 
-            // 6. Ensure MDX imports are present
+            // 6. Check exclusion before writing
+            const slug = `grids/${comp.outDir}/${entry.replace(/\.mdx?$/, '')}`;
+            if (EXCLUDED_SLUGS.has(slug)) {
+                console.log(`[generate] Skipping excluded: ${slug}`);
+                continue;
+            }
+
+            // 7. Ensure MDX imports are present
             content = ensureMdxImports(content);
 
-            // 7. Write as .mdx
+            // 8. Write as .mdx
             writeFileSync(path.join(outSubDir, entry), content, 'utf8');
         }
 
@@ -491,29 +631,33 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
 // 9. Directory walker  (handles shared file expansion)
 // ---------------------------------------------------------------------------
 
-function processDir(srcDir, outDir) {
+function processDir(srcDir, outDir, relBase = '') {
     mkdirSync(outDir, { recursive: true });
 
     for (const entry of readdirSync(srcDir)) {
         if (entry === '_shared') continue; // handled separately below
         const srcPath = path.join(srcDir, entry);
 
-        if (/\.mdx$/.test(entry)) {
-            // MDX files: copy through but resolve tokens in the frontmatter block.
-            // The Vite plugin handles token substitution in the body at build time,
-            // but Astro parses frontmatter as YAML before the Vite transform runs.
-            let raw = readFileSync(srcPath, 'utf8');
-            raw = raw.replace(/^(---[\s\S]*?^---)/m, fm => applyReplacements(fm));
-            writeFileSync(path.join(outDir, entry), raw, 'utf8');
-        } else if (/\.md$/.test(entry)) {
+        if (/\.mdx?$/.test(entry)) {
+            const slug = relBase
+                ? `${relBase}/${entry.replace(/\.mdx?$/, '')}`
+                : entry.replace(/\.mdx?$/, '');
+            if (EXCLUDED_SLUGS.has(slug)) {
+                console.log(`[generate] Skipping excluded: ${slug}`);
+                continue;
+            }
             const raw = readFileSync(srcPath, 'utf8');
-            writeFileSync(path.join(outDir, entry), transformRegularFile(raw), 'utf8');
+            if (/\.mdx$/.test(entry)) {
+                writeFileSync(path.join(outDir, entry), transformMdxFile(raw), 'utf8');
+            } else {
+                writeFileSync(path.join(outDir, entry), transformRegularFile(raw), 'utf8');
+            }
         } else if (entry.endsWith('.json') && entry !== 'toc.json') {
             const raw = readFileSync(srcPath, 'utf8');
             writeFileSync(path.join(outDir, entry), applyReplacements(raw), 'utf8');
         } else if (!path.extname(entry)) {
             // No extension → treat as a subdirectory
-            processDir(srcPath, path.join(outDir, entry));
+            processDir(srcPath, path.join(outDir, entry), relBase ? `${relBase}/${entry}` : entry);
         }
     }
 

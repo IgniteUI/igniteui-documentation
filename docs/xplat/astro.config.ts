@@ -233,10 +233,11 @@ function vitePluginPlatformTokens() {
             // try to evaluate them as JS expressions and throw at runtime.
             //
             // Two patterns to clean up:
-            //   a) Tokens with hyphens: {PackageCommonVerChanges-6.3.6} → strip braces
+            //   a) Tokens with hyphens or underscores in suffix: {PackageVerChanges-25-1-OCT_2} → strip braces
+            //      Character class includes underscore so e.g. OCT_2 is handled correctly.
             //   b) UpperCamelCase docfx tokens: {PackageAngularComponents} → empty string
             //      (these are platform-specific tokens absent from the current platform)
-            result = result.replace(/\{([A-Za-z][A-Za-z0-9]*(?:[-][A-Za-z0-9.]+)+)\}/g, (_m, inner) => inner);
+            result = result.replace(/\{([A-Za-z][A-Za-z0-9]*(?:[-][A-Za-z0-9._]+)+)\}/g, (_m, inner) => inner);
             // Strip remaining {UpperCamelCase} docfx-style tokens (2+ capital-started words
             // concatenated, e.g. {PackageAngularComponents}, {ComponentTitle}).
             // Guards: the name must be ≥2 uppercase words mashed together (PascalCase with
