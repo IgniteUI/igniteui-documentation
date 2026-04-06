@@ -95,8 +95,11 @@ function rewriteMdLink(url: string, filePath: string, docsDir: string): string {
   const rel         = path.relative(docsDir, resolved).replace(/\\/g, '/');
   const slug        = rel.endsWith('.md') ? rel.slice(0, -3) : rel;
 
-  // Return a root-relative URL with trailing slash (matches Starlight's URL format).
-  return '/' + slug + '/' + suffix;
+  // Return a URL with the site base prepended so links remain correct when
+  // the site is mounted at a sub-path (e.g. /docs-react-new/).
+  // DOCS_BASE is set by createDocsSite() in integration.ts; it is empty in dev mode.
+  const docsBase = (process.env.DOCS_BASE ?? '').replace(/\/$/, '');
+  return docsBase + '/' + slug.toLowerCase() + '/' + suffix;
 }
 
 export function replaceEnvVars(str: string): string {
@@ -328,6 +331,18 @@ export function remarkDocfx() {
       if (node.type === 'link' && node.url) {
         node.url = replaceEnvVars(node.url as string);
         node.url = rewriteMdLink(node.url as string, filePath, docsDir);
+        // Prepend DOCS_BASE to root-relative internal links that were not already
+        // rewritten by rewriteMdLink (e.g. bare /grids/grid/… links that skip
+        // the .md-only rewriter above).
+        const docsBase = (process.env.DOCS_BASE ?? '').replace(/\/$/, '');
+        if (
+          docsBase &&
+          (node.url as string).startsWith('/') &&
+          !(node.url as string).startsWith('//') &&
+          !(node.url as string).startsWith(docsBase + '/')
+        ) {
+          node.url = docsBase + (node.url as string);
+        }
       }
 
       // Images

@@ -187,6 +187,31 @@ export interface SiteMetaOptions {
 }
 
 /**
+ * Strip MDX-specific syntax from a source file so the `.md` endpoint
+ * served to LLM crawlers contains clean markdown instead of JSX.
+ *
+ * Removes:
+ *  - `import … from '…'` lines at the top of the file
+ *  - Self-closing JSX components: <Sample …/>, <ApiRef …/>, <ApiLink …/>
+ *  - Block JSX components: <ApiRef …>…</ApiRef>
+ *  - Inline <style>{`…`}</style> blocks
+ */
+function stripMdxForLlms(raw: string): string {
+    return raw
+        // Remove all import lines
+        .replace(/^import\s+.+from\s+['"][^'"]+['"];?\r?\n/gm, '')
+        // Remove <style>{`...`}</style> blocks (multiline)
+        .replace(/<style>\{`[\s\S]*?`\}<\/style>\s*/g, '')
+        // Remove self-closing components: <Sample … />, <ApiRef … />, <ApiLink … />
+        .replace(/<(Sample|ApiRef|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*\/>\s*/g, '')
+        // Remove paired components: <ApiRef …>…</ApiRef>
+        .replace(/<(ApiRef|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*>[\s\S]*?<\/\1>\s*/g, '')
+        // Collapse 3+ blank lines left behind into 2
+        .replace(/\n{3,}/g, '\n\n')
+        .trim() + '\n';
+}
+
+/**
  * Astro integration that exposes site metadata as the virtual module
  * `virtual:docs-template/site-meta` and generates /llms.txt at build time.
  */
@@ -412,7 +437,7 @@ export const productLinks = ${JSON.stringify(productLinks)};
                                 const raw = await fsp.readFile(src, 'utf-8');
                                 const dest = path.join(outDir, slug + '.md');
                                 await fsp.mkdir(path.dirname(dest), { recursive: true });
-                                await fsp.writeFile(dest, raw, 'utf-8');
+                                await fsp.writeFile(dest, stripMdxForLlms(raw), 'utf-8');
                                 break;
                             } catch { /* try next extension */ }
                         }
