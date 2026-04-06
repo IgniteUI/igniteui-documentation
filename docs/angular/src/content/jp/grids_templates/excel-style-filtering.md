@@ -1,9 +1,9 @@
 @@if(igxName === 'IgxGrid'){
 ---
 title: Angular Data Grid の Excel スタイル フィルタリング - Ignite UI for Angular
-_description: Angular Data Grid で Excel フィルタリングを構成する方法を説明します。さまざまなオプションを有効/無効にし、Excel スタイル フィルター メニューを自由にカスタマイズできます。
-_keywords: Excel のようなフィルター, igniteui for angular, インフラジスティックス
-_license: commercial
+description: Angular Data Grid で Excel フィルタリングを構成する方法を説明します。さまざまなオプションを有効/無効にし、Excel スタイル フィルター メニューを自由にカスタマイズできます。
+keywords: Excel のようなフィルター, igniteui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 
@@ -11,9 +11,9 @@ _language: ja
 @@if(igxName !== 'IgxGrid'){
 ---
 title: Angular @@igComponent の Excel スタイル フィルタリング - Ignite UI for Angular
-_description: Angular @@igComponent で Excel フィルタリングを構成する方法を説明します。さまざまなオプションを有効/無効にし、Excel スタイル フィルター メニューを自由にカスタマイズできます。
-_keywords: Excel のようなフィルター, igniteui for angular, インフラジスティックス
-_license: commercial
+description: Angular @@igComponent で Excel フィルタリングを構成する方法を説明します。さまざまなオプションを有効/無効にし、Excel スタイル フィルター メニューを自由にカスタマイズできます。
+keywords: Excel のようなフィルター, igniteui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 

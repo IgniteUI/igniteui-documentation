@@ -1,7 +1,7 @@
 ---
 title: オーバーレイ サービス - 配置ストラテジ - MITライセンス
-_description: オーバーレイ サービスの IPositionStrategy インターフェイスとそれを実装するクラスに関する説明と例の紹介。
-_license: MIT
+description: オーバーレイ サービスの IPositionStrategy インターフェイスとそれを実装するクラスに関する説明と例の紹介。
+license: MIT
 _language: ja
 ---
 

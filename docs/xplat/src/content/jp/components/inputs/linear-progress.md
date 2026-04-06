@@ -1,8 +1,8 @@
 ---
-title: {Platform} Linear Progress | Linear Progress | インフラジスティックス
-_description: プログレス バーを表示し、Linear Progress Indicator コンポーネントを使用して、無限の色とストライプ オプションで外観をカスタマイズします。
-_keywords: {Platform} Linear Progress, {ProductName}, インフラジスティックス
-_license: MIT
+title: "{Platform} Linear Progress | Linear Progress | インフラジスティックス"
+description: プログレス バーを表示し、Linear Progress Indicator コンポーネントを使用して、無限の色とストライプ オプションで外観をカスタマイズします。
+keywords: "{Platform} Linear Progress, {ProductName}, インフラジスティックス"
+license: MIT
 mentionedTypes: ["LinearProgress"]
 _language: ja
 ---

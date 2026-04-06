@@ -1,7 +1,7 @@
 ---
 title: Ignite UI テーマのカスタマイズ - Angular | Ignite UI for Angular
-_description: Ignite UI for Angular テーマ エンジンを使用すると、アプリケーションのテーマを完全にカスタマイズし、スタイル サイズを最適化できます。
-_keywords: Ignite UI for Angular、Ignite UI テーマのカスタマイズ、Ignite UI テーマの最適化、Angular テーマ エンジン、Angular テーマ
+description: Ignite UI for Angular テーマ エンジンを使用すると、アプリケーションのテーマを完全にカスタマイズし、スタイル サイズを最適化できます。
+keywords: Ignite UI for Angular、Ignite UI テーマのカスタマイズ、Ignite UI テーマの最適化、Angular テーマ エンジン、Angular テーマ
 _language: ja
 ---
 

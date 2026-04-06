@@ -1,8 +1,8 @@
 ---
 title: Angular Query Builder コンポーネント - Ignite UI for Angular
-_description: Angular Query Builder (クエリ ビルダー) を使用すると、ユーザーは優れた UI エクスペリエンスを備えた Angular アプリで複雑なカスタム クエリを作成できます。今すぐお試しください。
-_keywords: Angular Query Builder コンポーネント, Angular Query Builder コントロール, Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, Angular UI コンポーネント, ネイティブ Angular コンポーネント ライブラリ
-_license: commercial
+description: Angular Query Builder (クエリ ビルダー) を使用すると、ユーザーは優れた UI エクスペリエンスを備えた Angular アプリで複雑なカスタム クエリを作成できます。今すぐお試しください。
+keywords: Angular Query Builder コンポーネント, Angular Query Builder コントロール, Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, Angular UI コンポーネント, ネイティブ Angular コンポーネント ライブラリ
+license: commercial
 _language: ja
 ---
 

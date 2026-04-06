@@ -1,10 +1,10 @@
 ---
-title: {Platform} データ グリッド | リモート データ | インフラジスティックス
-_description: インフラジスティックスの {Platform} グリッド コンポーネントの仮想データ ソースを使用してリモート データをバインドします。{ProductName} テーブル チュートリアルを是非お試しください!
-_keywords: {Platform} Table, Data Grid, virtual data, {ProductName}, Infragistics, data binding, {Platform} テーブル, データ グリッド, 仮想データ, データ バインディング, インフラジスティックス
+title: "{Platform} データ グリッド | リモート データ | インフラジスティックス"
+description: インフラジスティックスの {Platform} グリッド コンポーネントの仮想データ ソースを使用してリモート データをバインドします。{ProductName} テーブル チュートリアルを是非お試しください!
+keywords: "{Platform} Table, Data Grid, virtual data, {ProductName}, Infragistics, data binding, {Platform} テーブル, データ グリッド, 仮想データ, データ バインディング, インフラジスティックス"
 mentionedTypes: ["Grid", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridMain}
+_canonicalLink: "{CanonicalLinkToGridMain}"
 _language: ja
 ---
 

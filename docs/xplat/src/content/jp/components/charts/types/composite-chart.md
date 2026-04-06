@@ -1,8 +1,8 @@
 ---
-title: {Platform} 複合チャート | コンボ チャート | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの {Platform} 複合チャート
-_keywords: {Platform} Charts, Composite Chart, Combo Chart, Infragistics, {Platform} チャート, 複合チャート, コンボ チャート, インフラジスティックス
-_license: commercial
+title: "{Platform} 複合チャート | コンボ チャート | データ可視化 | インフラジスティックス"
+description: インフラジスティックスの {Platform} 複合チャート
+keywords: "{Platform} Charts, Composite Chart, Combo Chart, Infragistics, {Platform} チャート, 複合チャート, コンボ チャート, インフラジスティックス"
+license: commercial
 mentionedTypes: ["XamDataChart", "Series"]
 namespace: Infragistics.Controls.Charts
 _language: ja

@@ -1,9 +1,9 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid の列サイズ変更 - Ignite UI for Angular
-_description: Angular Grid の列サイズ変更を使用して、グリッド列の幅を瞬時に変更できます。Angular ドラッグ サイズ変更が大変使いやすくなりました。無料でお試しください。
-_keywords: grid 列サイズ変更, igniteui for angular, インフラジスティックス
-_license: commercial
+description: Angular Grid の列サイズ変更を使用して、グリッド列の幅を瞬時に変更できます。Angular ドラッグ サイズ変更が大変使いやすくなりました。無料でお試しください。
+keywords: grid 列サイズ変更, igniteui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 
@@ -11,10 +11,10 @@ _language: ja
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid の列サイズ変更 - Ignite UI for Angular
-_description: Angular Tree Grid の列サイズ変更を使用して、グリッド列の幅を瞬時に変更できます。Angular ドラッグ サイズ変更が大変使いやすくなりました。無料でお試しください。
-_keywords: grid 列サイズ変更, igniteui for angular, インフラジスティックス
+description: Angular Tree Grid の列サイズ変更を使用して、グリッド列の幅を瞬時に変更できます。Angular ドラッグ サイズ変更が大変使いやすくなりました。無料でお試しください。
+keywords: grid 列サイズ変更, igniteui for angular, インフラジスティックス
 _canonicalLink: grid/column-resizing
-_license: commercial
+license: commercial
 _language: ja
 ---
 
@@ -22,10 +22,10 @@ _language: ja
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid の列サイズ変更 - Ignite UI for Angular
-_description: Angular Hierarchical Grid の列サイズ変更を使用して、グリッド列の幅を瞬時に変更できます。Angular ドラッグ サイズ変更が大変使いやすくなりました。無料でお試しください。
-_keywords: grid 列サイズ変更, igniteui for angular, インフラジスティックス
+description: Angular Hierarchical Grid の列サイズ変更を使用して、グリッド列の幅を瞬時に変更できます。Angular ドラッグ サイズ変更が大変使いやすくなりました。無料でお試しください。
+keywords: grid 列サイズ変更, igniteui for angular, インフラジスティックス
 _canonicalLink: grid/column-resizing
-_license: commercial
+license: commercial
 _language: ja
 ---
 

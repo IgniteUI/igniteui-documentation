@@ -1,8 +1,8 @@
 ---
-title: {Platform} Excel ライブラリ | ワークシートの使用 | インフラジスティックス
-_description: インフラジスティックスの {Platform} Excel ライブラリを使用してワークシートの行やセルにデータを入力でき、対応する値を設定できます。{ProductName} Excel からアプリケーションへデータを簡単に転送できます。
-_keywords: Excel library, worksheet, {ProductName}, Infragistics, Excel ライブラリ, ワークシート, インフラジスティックス
-_license: commercial
+title: "{Platform} Excel ライブラリ | ワークシートの使用 | インフラジスティックス"
+description: インフラジスティックスの {Platform} Excel ライブラリを使用してワークシートの行やセルにデータを入力でき、対応する値を設定できます。{ProductName} Excel からアプリケーションへデータを簡単に転送できます。
+keywords: Excel library, worksheet, {ProductName}, Infragistics, Excel ライブラリ, ワークシート, インフラジスティックス
+license: commercial
 mentionedTypes: ["Workbook", "Worksheet", "WorksheetCell", "DisplayOptions", "WorksheetFilterSettings", "IWorksheetCellFormat"]
 _language: ja
 ---

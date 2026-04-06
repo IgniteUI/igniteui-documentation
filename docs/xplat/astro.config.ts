@@ -3,6 +3,7 @@ import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import mdx from '@astrojs/mdx';
+import { IGDOCS_PLATFORMS } from 'docs-template/platform';
 
 // ---------------------------------------------------------------------------
 // Platform selection
@@ -24,16 +25,14 @@ function resolveSetting(envKey: string, jsonKey: string, fallback: string): stri
 }
 
 const platform = resolveSetting('PLATFORM', 'platform', 'React');
-const lang     = resolveSetting('LANG_CODE', 'lang',     'en');
+const lang = resolveSetting('LANG_CODE', 'lang', 'en');
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 const mode: DocsMode = nodeEnv === 'production' ? 'prod'
     : nodeEnv === 'staging' ? 'staging'
-    : 'dev';
+        : 'dev';
 
-// ---------------------------------------------------------------------------
-// Per-platform site metadata
-// ---------------------------------------------------------------------------
+const PLATFORMS = IGDOCS_PLATFORMS;
 
 const PLATFORM_META: Record<string, { title: string; description: string }> = {
     Angular:       { title: 'Ignite UI for Angular',       description: 'Reference docs for Ignite UI for Angular.'       },
@@ -295,20 +294,38 @@ function buildFilteredToc(): string {
 const filteredTocPath = buildFilteredToc();
 
 console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}`);
+const PROD_HOST = 'https://www.infragistics.com';
+const STAGING_HOST = 'https://staging.infragistics.com';
+
+const p = PLATFORMS[platform];
+const site = mode === 'prod' ? `${PROD_HOST}${p.base}`
+    : mode === 'staging' ? `${STAGING_HOST}${p.base}`
+        : `http://localhost:${p.devPort}`;
+
+
+console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}  site: ${site}`);
 
 // https://astro.build/config
 export default createDocsSite({
-    site: PLATFORM_SITE[platform] ?? 'https://www.infragistics.com',
-    title: meta.title,
-    description: meta.description,
-    platform: (PLATFORM_KEY[platform] ?? null) as any,
+    site,
+    base: mode !== 'dev' ? p.base : undefined,
+    title: p.title,
+    description: p.description,
+    platform: p.key,
     navLang: lang === 'jp' ? 'ja' : lang,
     mode,
     source: {
         tocPath: filteredTocPath,
         docsDir: path.join(XPLAT_ROOT, 'components'),
     },
-    starlight: { logo: { src: './public/favicon.svg' } },
+    productLinks: Object.values(PLATFORMS).map(({ label, key, base: b }) => ({
+        label,
+        href: mode === 'prod' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
+        platform: key,
+    })),
+    starlight: {
+        logo: { src: './public/favicon.svg' },
+    },
     image: { service: { entrypoint: 'astro/assets/services/noop' } },
     integrations: [mdx()],
     vite: { plugins: [vitePluginPlatformTokens()] },

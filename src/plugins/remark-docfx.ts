@@ -6,8 +6,7 @@
  * 1. {environment:...} variable substitution in text, links, and raw HTML
  * 2. <code-view> elements -> .ig-code-view placeholder divs (enhanced by code-view.js)
  * 3. <div class="divider--half"></div> -> <hr>
- * 4. Docfx frontmatter normalisation (_description -> description)
- * 5. Relative .md link rewriting for Astro trailing-slash URLs
+ * 4. Relative .md link rewriting for Astro trailing-slash URLs
  */
 
 import { visit } from 'unist-util-visit';
@@ -311,24 +310,13 @@ export function rehypeCodeView() {
 }
 
 export function remarkDocfx() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (tree: any, file: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (tree: any, file: any) => {
     const filePath = (file.path as string) ?? '';
     const docsDir  = process.env.DOCS_SOURCE_PATH
       ? path.resolve(process.env.DOCS_SOURCE_PATH)
       : (filePath ? path.dirname(filePath) : '');
-    // 1. Transform frontmatter: map _description -> description, _keywords -> keywords
-    if (file.data.astro?.frontmatter) {
-      const fm = file.data.astro.frontmatter as Record<string, unknown>;
-      if (fm._description && !fm.description) {
-        fm.description = fm._description;
-      }
-      delete fm._description;
-      delete fm._keywords;
-      delete fm._license;
-    }
-
-    // 2. Walk the AST and replace environment variables in text/links/html
+    // 1. Walk the AST and replace environment variables in text/links/html
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     visit(tree, (node: any) => {
       // Text nodes

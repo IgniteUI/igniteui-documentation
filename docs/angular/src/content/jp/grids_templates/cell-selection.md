@@ -1,9 +1,9 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid のセル選択 - Ignite UI for Angular
-_description: さまざまなイベント、豊富な API、またはマウス操作を使用してセル データ選択を簡単に実行できます。Grid はセル選択で 3 つのモードをサポートします。今すぐお試しください。
-_keywords: データ選択, igniteui for angular, インフラジスティックス
-_license: commercial
+description: さまざまなイベント、豊富な API、またはマウス操作を使用してセル データ選択を簡単に実行できます。Grid はセル選択で 3 つのモードをサポートします。今すぐお試しください。
+keywords: データ選択, igniteui for angular, インフラジスティックス
+license: commercial
 _language: ja
 ---
 
@@ -11,9 +11,9 @@ _language: ja
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid のセル選択 - Ignite UI for Angular
-_description: さまざまなイベント、豊富な API、またはマウス操作を使用してセル データ選択を簡単に実行できます。Grid はセル選択で 3 つのモードをサポートします。今すぐお試しください。
-_keywords: データ選択, igniteui for angular, infragistics
-_license: commercial
+description: さまざまなイベント、豊富な API、またはマウス操作を使用してセル データ選択を簡単に実行できます。Grid はセル選択で 3 つのモードをサポートします。今すぐお試しください。
+keywords: データ選択, igniteui for angular, infragistics
+license: commercial
 _language: ja
 ---
 
@@ -21,9 +21,9 @@ _language: ja
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid のセル選択 - Ignite UI for Angular
-_description: さまざまなイベント、豊富な API、またはマウス操作を使用してセル データ選択を簡単に実行できます。Grid はセル選択で 3 つのモードをサポートします。今すぐお試しください。
-_keywords: データ選択, igniteui for angular, infragistics
-_license: commercial
+description: さまざまなイベント、豊富な API、またはマウス操作を使用してセル データ選択を簡単に実行できます。Grid はセル選択で 3 つのモードをサポートします。今すぐお試しください。
+keywords: データ選択, igniteui for angular, infragistics
+license: commercial
 _language: ja
 ---
 

@@ -1,7 +1,7 @@
 ---
-title: {Platform} チャートのユーザー注釈 | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの {Platform} チャートのユーザー注釈
-_keywords: {Platform} Charts, User Annotations, Infragistics, {Platform} チャート, ユーザー注釈, インフラジスティックス
+title: "{Platform} チャートのユーザー注釈 | データ可視化 | インフラジスティックス"
+description: インフラジスティックスの {Platform} チャートのユーザー注釈
+keywords: "{Platform} Charts, User Annotations, Infragistics, {Platform} チャート, ユーザー注釈, インフラジスティックス"
 mentionedTypes: ["DataChart", "UserAnnotationLayer", "UserStripAnnotation", "UserSliceAnnotation", "UserPointAnnotation", "Toolbar", "UserAnnotationInformation", "SeriesViewer"]
 namespace: Infragistics.Controls.Charts
 _language: ja

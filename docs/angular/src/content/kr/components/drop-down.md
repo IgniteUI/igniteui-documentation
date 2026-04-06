@@ -1,7 +1,7 @@
 ---
 title: Drop Down Component
-_description: Use Ignite UI for Angular Drop Down component to display a list of items which supports a single item selection.
-_keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Drop Down components, Angular Drop Down controls
+description: Use Ignite UI for Angular Drop Down component to display a list of items which supports a single item selection.
+keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Drop Down components, Angular Drop Down controls
 _language: kr
 ---
 

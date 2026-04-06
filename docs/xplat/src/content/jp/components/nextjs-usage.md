@@ -1,7 +1,7 @@
 ---
 title: Next.js アプリケーションで {ProductName} コンポーネントを使用する | インフラジスティックス
-_description: インフラジスティックスの {Platform} コンポーネントを使用してアプリを作成し、Next.js の世界最速の {Platform} データ グリッドとチャートでデータの視覚化を向上させます。
-_keywords: {ProductName} Next.js, {ProductName} Components in Next.js, Infragistics, {ProductName} Next.js のコンポーネント, インフラジスティックス
+description: インフラジスティックスの {Platform} コンポーネントを使用してアプリを作成し、Next.js の世界最速の {Platform} データ グリッドとチャートでデータの視覚化を向上させます。
+keywords: "{ProductName} Next.js, {ProductName} Components in Next.js, Infragistics, {ProductName} Next.js のコンポーネント, インフラジスティックス"
 mentionedTypes: []
 _language: ja
 ---

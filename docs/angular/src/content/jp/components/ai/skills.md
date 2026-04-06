@@ -1,7 +1,7 @@
 ---
 title: Ignite UI for Angular スキル | AI スキル | AI 支援開発 | Ignite UI for Angular | インフラジスティックス
-_description: エージェントのスキルを使用して、Ignite UI for Angular コンポーネント、グリッド、データ操作、テーマ設定を使った AI 支援開発を強化する方法について説明します。
-_keywords: ignite ui for angular, copilot skills, copilot スキル, ai assisted development, AI 支援開発, github copilot, cursor, windsurf, claude, jetbrains ai
+description: エージェントのスキルを使用して、Ignite UI for Angular コンポーネント、グリッド、データ操作、テーマ設定を使った AI 支援開発を強化する方法について説明します。
+keywords: ignite ui for angular, copilot skills, copilot スキル, ai assisted development, AI 支援開発, github copilot, cursor, windsurf, claude, jetbrains ai
 _language: ja
 ---
 

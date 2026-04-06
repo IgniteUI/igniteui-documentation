@@ -1,7 +1,7 @@
 ---
 title: Angular Stacked Chart | Data Visualization | Infragistics
-_description: Infragistics' Angular Stacked Chart
-_keywords: Angular Charts, Stacked Chart, Stacked 100% Chart, Infragistics
+description: Infragistics' Angular Stacked Chart
+keywords: Angular Charts, Stacked Chart, Stacked 100% Chart, Infragistics
 _language: kr
 mentionedTypes: ["XamDataChart", "StackedAreaSeries", "Stacked100AreaSeries", "StackedBarSeries", "Stacked100BarSeries", "StackedColumnSeries", "Stacked100ColumnSeries", "StackedLineSeries", "Stacked100LineSeries", "StackedSplineSeries", "Stacked100SplineSeries", "StackedSplineAreaSeries", "Stacked100SplineAreaSeries"]
 ---

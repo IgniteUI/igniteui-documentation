@@ -1,7 +1,7 @@
 ---
 title: スタンドアロン コンポーネントの使用方法 - Angular | Ignite UI for Angular
-_description: Ignite UI for Angular コンポーネントをスタンドアロン コンポーネントとして、または他のスタンドアロン コンポーネントの依存関係として使用する方法について説明します。
-_keywords: Ignite UI for Angular, スタンドアロン コンポーネント, Angular 16, Angular モジュール
+description: Ignite UI for Angular コンポーネントをスタンドアロン コンポーネントとして、または他のスタンドアロン コンポーネントの依存関係として使用する方法について説明します。
+keywords: Ignite UI for Angular, スタンドアロン コンポーネント, Angular 16, Angular モジュール
 _language: ja
 ---
 

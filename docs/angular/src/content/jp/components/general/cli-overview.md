@@ -1,7 +1,7 @@
 ---
 title: Angular Schematics | Angular CLI | Ignite UI for Angular | インフラジスティックス
-_description: Angular Schematics & Ignite UI CLI は Ignite UI for Angular コンポーネントでプロジェクトを作成して変更できるためのヘルプを提供します。
-_keywords: igniteui for angular, angular schematics, cli, infragistics, インフラジスティックス 
+description: Angular Schematics & Ignite UI CLI は Ignite UI for Angular コンポーネントでプロジェクトを作成して変更できるためのヘルプを提供します。
+keywords: igniteui for angular, angular schematics, cli, infragistics, インフラジスティックス 
 _language: ja
 ---
 

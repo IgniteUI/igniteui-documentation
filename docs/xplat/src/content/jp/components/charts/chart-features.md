@@ -1,8 +1,8 @@
 ---
-title: {Platform} チャート機能 | データ可視化 | インフラジスティックス
-_description: インフラジスティックスの {Platform} チャート機能
-_keywords: {Platform} Charts, Features, Infragistics, {Platform} チャート, 機能, インフラジスティックス
-_license: commercial
+title: "{Platform} チャート機能 | データ可視化 | インフラジスティックス"
+description: インフラジスティックスの {Platform} チャート機能
+keywords: "{Platform} Charts, Features, Infragistics, {Platform} チャート, 機能, インフラジスティックス"
+license: commercial
 mentionedTypes: ["FinancialChart", "CategoryChart", "XamDataChart"]
 _language: ja
 ---

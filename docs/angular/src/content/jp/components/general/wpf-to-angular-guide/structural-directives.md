@@ -1,7 +1,7 @@
 ---
 title: Angular 構造ディレクティブ | ngIf, ngswitch | WPF vs Angular 比較ガイド | インフラジスティックス
-_description: ngIf、ngswitch、ngFor などの Angular 9 の構造ディレクティブを使用して、Angular アプリケーションのビューに要素を追加および削除する方法について説明します。
-_keywords: angular 構造ディレクティブ, ignite ui for angular, インフラジスティックス
+description: ngIf、ngswitch、ngFor などの Angular 9 の構造ディレクティブを使用して、Angular アプリケーションのビューに要素を追加および削除する方法について説明します。
+keywords: angular 構造ディレクティブ, ignite ui for angular, インフラジスティックス
 _language: ja
 ---
 

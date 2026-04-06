@@ -1,10 +1,10 @@
 ---
 title: Angular Chat | Ignite UI | インフラジスティックス
-_description: Ignite UI for Angular Chat コンポーネントを使用すると、メッセージ、添付、候補、入力中インジケーター、カスタム テンプレートのサポートにより、インタラクティブなメッセージング エクスペリエンスを構築できます。
-_keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, Angular Chat コンポーネント, Angular Chat コントロール
+description: Ignite UI for Angular Chat コンポーネントを使用すると、メッセージ、添付、候補、入力中インジケーター、カスタム テンプレートのサポートにより、インタラクティブなメッセージング エクスペリエンスを構築できます。
+keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, Angular Chat コンポーネント, Angular Chat コントロール
 mentionedTypes: ["Chat"]
 _language: ja
-_license: MIT
+license: MIT
 ---
 
 # Angular Chat (チャット) の概要

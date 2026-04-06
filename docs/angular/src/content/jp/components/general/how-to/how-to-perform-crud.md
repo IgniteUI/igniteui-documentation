@@ -1,7 +1,7 @@
 ---
 title: Angular で CRUD 操作を有効にする方法
-_description: Angular で CRUD サービスを構築し、それを使用してグリッド データで CRUD 操作を実行する方法を紹介します。
-_keywords: angular, crud, crud 操作, インフラジスティックス, crud チュートリアル
+description: Angular で CRUD サービスを構築し、それを使用してグリッド データで CRUD 操作を実行する方法を紹介します。
+keywords: angular, crud, crud 操作, インフラジスティックス, crud チュートリアル
 _language: ja
 ---
 

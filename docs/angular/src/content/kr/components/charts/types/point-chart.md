@@ -1,7 +1,7 @@
 ---
 title: Angular Point Chart | Data Visualization | Infragistics
-_description: Infragistics' Angular Point Chart
-_keywords: Angular Charts, Point Chart, Infragistics
+description: Infragistics' Angular Point Chart
+keywords: Angular Charts, Point Chart, Infragistics
 _language: kr
 mentionedTypes: ["CategoryChart", "ChartType", "Legend"]
 ---

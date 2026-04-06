@@ -1,43 +1,58 @@
 // @ts-check
 import mdx from '@astrojs/mdx';
 import path from 'node:path';
-import { createDocsSite } from 'docs-template/integration';
+import { createDocsSite, type DocsMode } from 'docs-template/integration';
+import { IGDOCS_PLATFORMS } from 'docs-template/platform';
 import { generateGridTopics, normalizeImagePaths } from './src/generate-grids.mjs';
 
-// ── Resolve build mode and language from environment variables ───────────────
+// ── Build mode and language ──────────────────────────────────────────────────
 // NODE_ENV: 'development' | 'staging' | 'production'  (default: 'development')
 // DOCS_LANG: 'en' | 'jp' | 'kr'                       (default: 'en')
 const nodeEnv = process.env.NODE_ENV || 'development';
 const docsLang = process.env.DOCS_LANG || 'en';
 
-/** @type {'dev' | 'staging' | 'prod'} */
-const mode = nodeEnv === 'production' ? 'prod'
+const mode: DocsMode = nodeEnv === 'production' ? 'prod'
 	: nodeEnv === 'staging' ? 'staging'
 		: 'dev';
 
+// ── Site URL — varies by build mode ─────────────────────────────────────────
+const PROD_HOST = 'https://www.infragistics.com';
+const STAGING_HOST = 'https://staging.infragistics.com';
+
+const { base } = IGDOCS_PLATFORMS.Angular;
+const site = mode === 'prod' ? `${PROD_HOST}${base}`
+	: mode === 'staging' ? `${STAGING_HOST}${base}`
+		: 'http://localhost:4321';
+
+// ── Source paths ─────────────────────────────────────────────────────────────
 const docsDir = path.resolve(`./src/content/${docsLang}`);
 const componentsDocsDir = path.join(docsDir, 'components');
-const templatesDir = path.resolve(`${docsDir}/grids_templates`);
+const templatesDir = path.join(docsDir, 'grids_templates');
 
-// ── Pre-build steps (run before Astro starts) ───────────────────────────────
+// ── Pre-build steps (run before Astro starts) ────────────────────────────────
 generateGridTopics(templatesDir, componentsDocsDir);
 normalizeImagePaths(componentsDocsDir);
 
 // https://astro.build/config
 export default createDocsSite({
-	site: 'https://www.infragistics.com/products/ignite-ui-angular',
+	site,
+	base: mode !== 'dev' ? base : undefined,
 	title: 'Ignite UI for Angular',
 	description: 'Component and API reference docs for Ignite UI for Angular.',
 	platform: 'angular',
-	navLang: docsLang === 'jp' ? 'ja' : docsLang,   // docs-template expects 'ja' not 'jp'
+	navLang: docsLang === 'jp' ? 'ja' : docsLang,
 	mode,
+	productLinks: Object.values(IGDOCS_PLATFORMS).map(({ label, key, base: b }) => ({
+		label,
+		href: mode === 'prod' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
+		platform: key,
+	})),
 	source: {
 		tocPath: `${componentsDocsDir}/toc.json`,
 		docsDir: componentsDocsDir,
-		imagesDir: `${docsDir}/images`,
+		imagesDir: path.join(docsDir, 'images'),
 	},
 	sidebar: { exclude: [/^internal\//] },
-	head: [],
 	starlight: {
 		// logo: { src: './public/favicon.svg' },
 	},

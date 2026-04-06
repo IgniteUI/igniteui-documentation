@@ -1,10 +1,10 @@
 ---
-title: {Platform} データ グリッド | 列サイズ変更 | インフラジスティックス
-_description: インフラジスティックスの {ProductName} グリッド コンポーネントは列サイズを変更する機能をサポートしており、各列の幅に関して列の表示方法を柔軟に選択できます。詳細については、{ProductName} テーブル サンプルを参照してください。
-_keywords: {Platform} Table, Data Grid, column resizing, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, 列サイズ変更, インフラジスティックス
+title: "{Platform} データ グリッド | 列サイズ変更 | インフラジスティックス"
+description: インフラジスティックスの {ProductName} グリッド コンポーネントは列サイズを変更する機能をサポートしており、各列の幅に関して列の表示方法を柔軟に選択できます。詳細については、{ProductName} テーブル サンプルを参照してください。
+keywords: "{Platform} Table, Data Grid, column resizing, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, 列サイズ変更, インフラジスティックス"
 mentionedTypes: ["Grid", "ColumnResizingMode", "ColumnResizingAnimationMode"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridColumnResizing}
+_canonicalLink: "{CanonicalLinkToGridColumnResizing}"
 _language: ja
 ---
 

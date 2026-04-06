@@ -1,10 +1,10 @@
 ---
-title: {Platform} データ グリッド | 一括更新のセルおよび行編集 | インフラジスティックス
-_description: セルおよび行の編集機能をサポートするインフラジスティックスの {Platform} グリッド コンポーネントを使用して、任意の時点でグリッドのすべてのセルを一括更新するように設定できます。{ProductName} を使用したデータの表示方法について説明します。
-_keywords: {Platform} Table, Data Grid, cell and row editing, {ProductName}, batch updating, Infragistics, {Platform} テーブル, データ グリッド, セルおよび行の編集, 一括更新, インフラジスティックス
+title: "{Platform} データ グリッド | 一括更新のセルおよび行編集 | インフラジスティックス"
+description: セルおよび行の編集機能をサポートするインフラジスティックスの {Platform} グリッド コンポーネントを使用して、任意の時点でグリッドのすべてのセルを一括更新するように設定できます。{ProductName} を使用したデータの表示方法について説明します。
+keywords: "{Platform} Table, Data Grid, cell and row editing, {ProductName}, batch updating, Infragistics, {Platform} テーブル, データ グリッド, セルおよび行の編集, 一括更新, インフラジスティックス"
 mentionedTypes: ["Grid", "EditModeType", "TransactionType"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridCellEditing}
+_canonicalLink: "{CanonicalLinkToGridCellEditing}"
 _language: ja
 ---
 

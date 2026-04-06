@@ -1,7 +1,7 @@
 ---
 title: Angular Polar Chart | Data Visualization | Infragistics
-_description: Infragistics' Angular Polar Chart
-_keywords: Angular Charts, Polar Chart, Infragistics
+description: Infragistics' Angular Polar Chart
+keywords: Angular Charts, Polar Chart, Infragistics
 _language: kr
 mentionedTypes: ["XamDataChart", "PolarAreaSeries"]
 ---

@@ -1,8 +1,8 @@
 ---
-title: {Platform} マップ | シェープ マップのリソース | インフラジスティックス
-_description: インフラジスティックスの {Platform} JavaScript マップを使用して、シェイプ ファイルから地理空間データを読み込みます。{ProductName} マップのサンプルを是非お試しください!
-_keywords: {Platform} map, shape styling, conditional formatting, {ProductName}, Infragistics, {Platform} マップ, 図形スタイル, 条件付き書式, インフラジスティックス
-_license: commercial
+title: "{Platform} マップ | シェープ マップのリソース | インフラジスティックス"
+description: インフラジスティックスの {Platform} JavaScript マップを使用して、シェイプ ファイルから地理空間データを読み込みます。{ProductName} マップのサンプルを是非お試しください!
+keywords: "{Platform} map, shape styling, conditional formatting, {ProductName}, Infragistics, {Platform} マップ, 図形スタイル, 条件付き書式, インフラジスティックス"
+license: commercial
 mentionedTypes: ["XamGeographicMap"]
 _language: ja
 ---

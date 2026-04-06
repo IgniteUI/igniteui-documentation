@@ -1,10 +1,10 @@
 ---
-title: {Platform} データ グリッド | 列タイプ | インフラジスティックス
-_description: インフラジスティックスの {ProductName} データ テーブルとグリッドは、画像、テキスト、数値、日付列、テンプレート列などのコンテンツを表示する 4 つの列タイプをサポートします。{ProductName} チュートリアルを是非お試しください!
-_keywords: {Platform} Table, Data Grid, column types, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, 列タイプ, インフラジスティックス
+title: "{Platform} データ グリッド | 列タイプ | インフラジスティックス"
+description: インフラジスティックスの {ProductName} データ テーブルとグリッドは、画像、テキスト、数値、日付列、テンプレート列などのコンテンツを表示する 4 つの列タイプをサポートします。{ProductName} チュートリアルを是非お試しください!
+keywords: "{Platform} Table, Data Grid, column types, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, 列タイプ, インフラジスティックス"
 mentionedTypes: [ "Grid","CellInfo", "TemplateCellInfo", "DataGridColumn"]
 namespace: Infragistics.Controls.Grids.Implementation
-_canonicalLink: {CanonicalLinkToGridColumnTypes}
+_canonicalLink: "{CanonicalLinkToGridColumnTypes}"
 _language: ja
 ---
 

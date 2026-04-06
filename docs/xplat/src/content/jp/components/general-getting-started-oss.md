@@ -1,7 +1,7 @@
 ---
 title: 作業の開始 | {ProductName} オープン ソース ライブラリ | インフラジスティックス
-_description: インフラジスティックスのオープン ソース {Platform} コンポーネントを使用して、Grid Lite を含む軽量な MIT ライセンス コンポーネントでアプリを作成できます。今すぐお試しください。
-_keywords: {ProductName}, Infragistics, Getting Started, Open-Source, MIT License, 作業の開始, オープン ソース, MIT ライセンス, インフラジスティックス
+description: インフラジスティックスのオープン ソース {Platform} コンポーネントを使用して、Grid Lite を含む軽量な MIT ライセンス コンポーネントでアプリを作成できます。今すぐお試しください。
+keywords: "{ProductName}, Infragistics, Getting Started, Open-Source, MIT License, 作業の開始, オープン ソース, MIT ライセンス, インフラジスティックス"
 _language: ja
 mentionedTypes: []
 ---

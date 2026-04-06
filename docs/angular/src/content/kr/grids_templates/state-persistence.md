@@ -1,22 +1,22 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid State Persistence | Ignite UI for Angular | Infragistics
-_description: Easily achieve state persistence for the IgxGrid by using the API exposed by the IgxGridState directive.
-_keywords: state persistence, ignite ui for angular, infragistics
+description: Easily achieve state persistence for the IgxGrid by using the API exposed by the IgxGridState directive.
+keywords: state persistence, ignite ui for angular, infragistics
 ---
 }
 <!-- @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular TreeGrid Editing | Data Manipulation | Ignite UI for Angular
-_description: Easily achieve state persistence for the IgxTreeGrid by using the API exposed by the IgxGridState directive.
-_keywords: state persistence, ignite ui for angular, infragistics
+description: Easily achieve state persistence for the IgxTreeGrid by using the API exposed by the IgxGridState directive.
+keywords: state persistence, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular HierarchicalGrid Editing | Data Manipulation | Ignite UI for Angular
-_description: Easily achieve state persistence for the IgxTreeGrid by using the API exposed by the IgxGridState directive.
-_keywords: state persistence, ignite ui for angular, infragistics
+description: Easily achieve state persistence for the IgxTreeGrid by using the API exposed by the IgxGridState directive.
+keywords: state persistence, ignite ui for angular, infragistics
 ---
 } -->
 

@@ -1,10 +1,10 @@
 ---
-title: {Platform} {GridLiteTitle} ソート | {ProductName} | MIT ライセンス
-_description: {Platform} {GridLiteTitle} 向けに、ソート操作、ソート カスタマイズ、リモート ソートを備えた {GridLiteTitle} をお試しください。デモと例を参照して、次のアプリを構築してください。
-_keywords: sorting, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, ソート, インフラジスティックス
+title: "{Platform} {GridLiteTitle} ソート | {ProductName} | MIT ライセンス"
+description: "{Platform} {GridLiteTitle} 向けに、ソート操作、ソート カスタマイズ、リモート ソートを備えた {GridLiteTitle} をお試しください。デモと例を参照して、次のアプリを構築してください。"
+keywords: sorting, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, ソート, インフラジスティックス
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
-_license: MIT
+license: MIT
 _language: ja
 ---
 
