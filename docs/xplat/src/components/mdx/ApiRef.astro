@@ -1,0 +1,86 @@
+---
+/**
+ * Renders the "API References" section with resolved hyperlinks.
+ *
+ * Usage:
+ *   <!-- core package — classes (default) -->
+ *   <ApiRef types={["Toast"]} />
+ *
+ *   <!-- charts sub-package -->
+ *   <ApiRef pkg="charts" types={["CategoryChart", "FinancialChart"]} />
+ *
+ *   <!-- mixed kinds on the same page (separate ApiRef blocks per kind/package) -->
+ *   <ApiRef types={["Toast"]} />
+ *   <ApiRef kind="interface" types={["ComboTemplateProps"]} prefixed={false} />
+ *   <ApiRef kind="enum" types={["CalendarSelection"]} />
+ *
+ *   <!-- skip auto-prefix for fully-qualified names -->
+ *   <ApiRef types={["IgbToast"]} prefixed={false} />
+ */
+import { getPlatformContext } from '../../lib/platform-context';
+
+type ApiKind = 'class' | 'interface' | 'enum' | 'type' | 'variable' | 'function';
+
+interface Props {
+    /** Short type / symbol names without platform prefix. */
+    types: string[];
+    /**
+     * TypeDoc symbol kind. Determines the URL segment used.
+     * @default "class"
+     */
+    kind?: ApiKind;
+    /**
+     * Package key as defined in platform-context apiPackages.
+     * Defaults to "core". All types in one call must be from the same package.
+     */
+    pkg?: string;
+    /**
+     * When true (default) the platform prefix is prepended automatically.
+     * Set to false for fully-qualified names or non-prefixed symbols.
+     */
+    prefixed?: boolean;
+}
+
+const KIND_SEGMENT: Record<ApiKind, string> = {
+    class:     'classes',
+    interface: 'interfaces',
+    enum:      'enums',
+    type:      'types',
+    variable:  'variables',
+    function:  'functions',
+};
+
+const { types, kind = 'class', pkg = 'core', prefixed = true } = Astro.props;
+const { prefix, apiPackages } = getPlatformContext();
+
+const pkgConfig = apiPackages[pkg] ?? apiPackages['core'];
+const segment   = KIND_SEGMENT[kind];
+
+const items = types.map((t) => {
+    const baseName = prefixed ? `${prefix}${t}` : t;
+
+    let url: string;
+    if (kind === 'class') {
+        // Classes: apply optional classSuffix, always lowercase, respect noPackagePrefix
+        const fullName  = prefixed && pkgConfig.classSuffix ? `${baseName}${pkgConfig.classSuffix}` : baseName;
+        const classSlug = pkgConfig.noPackagePrefix
+            ? fullName.toLowerCase()
+            : `${pkgConfig.packageId}.${fullName.toLowerCase()}`;
+        url = `${pkgConfig.docRoot}/classes/${classSlug}.html`;
+    } else {
+        // Non-class kinds: preserve original casing, no classSuffix
+        const slug = pkgConfig.noPackagePrefix
+            ? baseName
+            : `${pkgConfig.packageId}.${baseName}`;
+        url = `${pkgConfig.docRoot}/${segment}/${slug}.html`;
+    }
+
+    return { label: baseName, url };
+});
+---
+<h2>API References</h2>
+<ul>
+    {items.map(({ label, url }) => (
+        <li><a href={url}><code>{label}</code></a></li>
+    ))}
+</ul>

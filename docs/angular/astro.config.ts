@@ -1,8 +1,8 @@
 // @ts-check
+import mdx from '@astrojs/mdx';
 import path from 'node:path';
 import { createDocsSite } from 'docs-template/integration';
 import { generateGridTopics, normalizeImagePaths } from './src/generate-grids.mjs';
-import { remarkEnv } from './src/plugins/remark-env.mjs';
 
 // ── Resolve build mode and language from environment variables ───────────────
 // NODE_ENV: 'development' | 'staging' | 'production'  (default: 'development')
@@ -32,7 +32,7 @@ export default createDocsSite({
 	navLang: docsLang === 'jp' ? 'ja' : docsLang,   // docs-template expects 'ja' not 'jp'
 	mode,
 	source: {
-		tocPath: `${componentsDocsDir}/toc.yml`,
+		tocPath: `${componentsDocsDir}/toc.json`,
 		docsDir: componentsDocsDir,
 		imagesDir: `${docsDir}/images`,
 	},
@@ -42,5 +42,11 @@ export default createDocsSite({
 		// logo: { src: './public/favicon.svg' },
 	},
 	image: { service: { entrypoint: 'astro/assets/services/noop' } },
-	markdown: { remarkPlugins: [remarkEnv] },
+	integrations: [mdx()],
+	// Expose @/ alias so MDX files can import Sample.astro and peer components.
+	vite: {
+		resolve: {
+			alias: { '@': path.resolve('./src') },
+		},
+	},
 });

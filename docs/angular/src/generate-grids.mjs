@@ -1,138 +1,112 @@
 // @ts-check
 /**
- * Generates grid-specific markdown files from shared templates in grids_templates/.
- * Mirrors the DocFX gulp fileInclude task: evaluates @@if(condition){…} blocks
- * and substitutes @@variable placeholders for each grid variant.
+ * Generates grid-specific MDX files from shared templates.
  *
- * Call generateGridTopics(docsDir) before createDocsSite() in astro.config.mjs.
+ * This file orchestrates generation; transformation details live in
+ * src/lib/grid-generation/* to keep this entrypoint small and maintainable.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
-
-const gridsConfigs = {
-    grid: {
-        igPath: 'grid',
-        igMainTopic: 'grid',
-        igObjectRef: 'grid',
-        igDemoBasePath: 'grid',
-        igComponent: 'Grid',
-        igxName: 'IgxGrid',
-        igTypeDoc: 'igxgridcomponent',
-        igSelector: 'igx-grid',
-    },
-    treeGrid: {
-        igPath: 'treegrid',
-        igMainTopic: 'tree-grid',
-        igObjectRef: 'treeGrid',
-        igDemoBasePath: 'tree-grid',
-        igComponent: 'Tree Grid',
-        igxName: 'IgxTreeGrid',
-        igTypeDoc: 'igxtreegridcomponent',
-        igSelector: 'igx-tree-grid',
-    },
-    hierarchicalGrid: {
-        igPath: 'hierarchicalgrid',
-        igMainTopic: 'hierarchical-grid',
-        igObjectRef: 'hierarchicalGrid',
-        igDemoBasePath: 'hierarchical-grid',
-        igComponent: 'Hierarchical Grid',
-        igxName: 'IgxHierarchicalGrid',
-        igTypeDoc: 'igxhierarchicalgridcomponent',
-        igSelector: 'igx-hierarchical-grid',
-    },
-    pivotGrid: {
-        igPath: 'pivotGrid',
-        igMainTopic: 'pivot-grid',
-        igObjectRef: 'pivotGrid',
-        igDemoBasePath: 'pivot-grid',
-        igComponent: 'Pivot Grid',
-        igxName: 'IgxPivotGrid',
-        igTypeDoc: 'igxpivotgridcomponent',
-        igSelector: 'igx-pivot-grid',
-    },
-};
+import { GRID_CONFIGS, createTemplateContext } from './lib/grid-generation/configs.mjs';
+import {
+    buildGeneratedDoc,
+    collectTemplates,
+    hasFrontmatter,
+} from './lib/grid-generation/template-pipeline.mjs';
 
 /**
- * Evaluate a simple `@@if` condition string against the template context.
- * Conditions are plain JS expressions like `igxName === 'IgxGrid'`.
- * @param {string} condition
- * @param {Record<string, string>} context
+ * @param {string} filePath
+ */
+function removeIfExists(filePath) {
+    if (fs.existsSync(filePath)) fs.rmSync(filePath);
+}
+
+/**
+ * Writes file only when content changes.
+ *
+ * @param {string} filePath
+ * @param {string} content
  * @returns {boolean}
  */
-function evaluateCondition(condition, context) {
-    try {
-        // eslint-disable-next-line no-new-func
-        return new Function(...Object.keys(context), `return (${condition});`)(...Object.values(context));
-    } catch {
-        return false;
+function writeFileIfChanged(filePath, content) {
+    if (fs.existsSync(filePath)) {
+        const current = fs.readFileSync(filePath, 'utf-8');
+        if (current === content) return false;
     }
+
+    fs.writeFileSync(filePath, content, 'utf-8');
+    return true;
 }
 
 /**
- * Recursively process all @@if(condition){…} blocks in content.
- * Uses brace-depth counting to find matching closing `}` so nested
- * @@if blocks and balanced `{…}` inside content (e.g. code snippets,
- * {environment:…} tokens) are handled correctly.
+ * Convert bare internal doc links (e.g. `(filtering)`) to absolute route links
+ * for generated grid docs (e.g. `(/grid/filtering)`).
+ *
+ * This avoids nested URL resolution issues when current page URLs end with `/`.
+ *
  * @param {string} content
- * @param {Record<string, string>} context
- * @returns {string}
+ * @param {string} routeRoot
  */
-function processIfBlocks(content, context) {
-    const ifMatch = /@@if\s*\(([^)]+)\)\s*\{/.exec(content);
-    if (!ifMatch) return content;
+function absolutizeBareDocLinks(content, routeRoot) {
+    const normalizedRoot = `/${routeRoot}`;
 
-    const before = content.slice(0, ifMatch.index);
-    const conditionStr = ifMatch[1].trim();
-    const openBrace = ifMatch.index + ifMatch[0].length - 1; // index of `{`
+    /** @param {string} url */
+    const toAbsolute = (url) => {
+        const m = url.match(/^([^?#]*)(\?[^#]*)?(#.*)?$/);
+        const base = m?.[1] ?? url;
+        const query = m?.[2] ?? '';
+        const hash = m?.[3] ?? '';
 
-    // Walk forward counting braces to find the matching `}`
-    let depth = 1;
-    let i = openBrace + 1;
-    while (i < content.length && depth > 0) {
-        if (content[i] === '{') depth++;
-        else if (content[i] === '}') depth--;
-        i++;
-    }
-    const closeBrace = i - 1; // index of matching `}`
-    const innerContent = content.slice(openBrace + 1, closeBrace);
-    const after = content.slice(closeBrace + 1);
+        if (!base) return url;
+        if (base.startsWith('#')) return url;
+        if (base.startsWith('{environment:')) return url;
+        if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(base) || base.startsWith('//')) return url;
 
-    const keep = evaluateCondition(conditionStr, context);
-    const middle = keep ? processIfBlocks(innerContent, context) : '';
+        // Resolve relative links from the current grid section root.
+        const resolved = base.startsWith('/')
+            ? path.posix.normalize(base)
+            : path.posix.normalize(path.posix.join(normalizedRoot, base));
 
-    return before + middle + processIfBlocks(after, context);
-}
+        // Emit extensionless internal doc links.
+        const noMdExt = resolved.replace(/\.mdx?$/i, '');
 
-/**
- * Process a single template: evaluate @@if blocks then substitute @@variables.
- * @param {string} content
- * @param {Record<string, string>} context
- * @returns {string}
- */
-function processTemplate(content, context) {
-    let result = processIfBlocks(content, context);
+        return `${noMdExt}${query}${hash}`;
+    };
 
-    for (const [key, value] of Object.entries(context)) {
-        result = result.replaceAll(`@@${key}`, value);
-    }
+    // Markdown links/images
+    let out = content.replace(/(!?\[[^\]]*\]\()([^\)]+)(\))/g, (match, p1, inner, p3) => {
+        const trimmed = inner.trim();
+        if (!trimmed) return match;
 
-    // Strip markdownlint-disable comments (not needed in Astro output)
-    result = result.replace(/<!--\s*markdownlint-disable[^>]*-->\s*/g, '');
+        const firstSpace = trimmed.search(/\s/);
+        const urlPart = firstSpace === -1 ? trimmed : trimmed.slice(0, firstSpace);
+        const rest = firstSpace === -1 ? '' : trimmed.slice(firstSpace);
+        const abs = toAbsolute(urlPart);
+        if (abs === urlPart) return match;
 
-    // Collapse 3+ consecutive blank lines down to 2 (mirrors gulp replace step)
-    result = result.replace(/\n{3,}/g, '\n\n');
+        return `${p1}${abs}${rest}${p3}`;
+    });
 
-    // Astro requires frontmatter to be at position 0.
-    // Strip any remaining leading HTML comments and whitespace before ---.
-    result = result.replace(/^\s*(?:<!--(?:[^-]|-(?!->))*-->\s*)*(?=---)/, '');
+    // HTML href/src attrs
+    out = out.replace(/\b(href|src)="([^"]+)"/g, (match, attr, url) => {
+        const abs = toAbsolute(url);
+        if (abs === url) return match;
+        return `${attr}="${abs}"`;
+    });
 
-    return result;
+    // Reference-style links
+    out = out.replace(/^(\[[^\]]+\]:\s+)(\S+)(\s+"[^"]*")?\s*$/gm, (match, p1, url, p3 = '') => {
+        const abs = toAbsolute(url);
+        if (abs === url) return match;
+        return `${p1}${abs}${p3}`;
+    });
+
+    return out;
 }
 
 /**
  * Generate all grid variant pages from templates.
- * Templates live in src/grids_templates/{lang}/, output goes to src/content/{lang}/.
  *
  * @param {string} templatesDir - Absolute path to the templates directory.
  * @param {string} outBase - Absolute path to the content output directory.
@@ -143,48 +117,43 @@ export function generateGridTopics(templatesDir, outBase) {
         return;
     }
 
-    const templates = fs.readdirSync(templatesDir).filter(f => f.endsWith('.md'));
-    let fileCount = 0;
+    const templates = collectTemplates(templatesDir, fs);
+    let writtenCount = 0;
+    let unchangedCount = 0;
 
-    for (const config of Object.values(gridsConfigs)) {
+    for (const config of Object.values(GRID_CONFIGS)) {
         const outDir = path.join(outBase, config.igPath);
         fs.mkdirSync(outDir, { recursive: true });
+        const context = createTemplateContext(config);
 
-        const context = {
-            igMainTopic: config.igMainTopic,
-            igObjectRef: config.igObjectRef,
-            igDemoBasePath: config.igDemoBasePath,
-            igComponent: config.igComponent,
-            igxName: config.igxName,
-            igTypeDoc: config.igTypeDoc,
-            igSelector: config.igSelector,
-        };
+        for (const template of templates) {
+            const raw = fs.readFileSync(path.join(templatesDir, template.file), 'utf-8');
+            let processed = buildGeneratedDoc(raw, context, config.componentKey);
+            processed = absolutizeBareDocLinks(processed, config.igPath);
 
-        for (const file of templates) {
-            const raw = fs.readFileSync(path.join(templatesDir, file), 'utf-8');
-            const processed = processTemplate(raw, context);
-            const outFile = path.join(outDir, file);
-            // Skip (and remove stale output) if template doesn't apply to this grid variant
-            if (!processed.startsWith('---')) {
-                if (fs.existsSync(outFile)) fs.rmSync(outFile);
+            const outFile = path.join(outDir, `${template.base}.mdx`);
+
+            if (!hasFrontmatter(processed)) {
+                removeIfExists(outFile);
                 continue;
             }
-            fs.writeFileSync(outFile, processed, 'utf-8');
-            fileCount++;
+
+            if (writeFileIfChanged(outFile, processed)) writtenCount++;
+            else unchangedCount++;
         }
     }
 
+    const variantCount = Object.keys(GRID_CONFIGS).length;
     console.log(
-        `[generate-grids] Generated ${fileCount} files ` +
-        `(${templates.length} templates × ${Object.keys(gridsConfigs).length} grid variants).`
+        `[generate-grids] Generated ${writtenCount} updated files ` +
+        `(${templates.length} templates × ${variantCount} grid variants, ` +
+        `${unchangedCount} unchanged).`,
     );
 }
 
 /**
  * Rewrite relative `../images/` paths (any depth) to absolute `/images/` paths
- * in all markdown files under docsDir. Idempotent — already-absolute paths are
- * left untouched. This prevents Astro's content-assets pipeline from throwing
- * ImageNotFound when it scans markdown for image references.
+ * in all MDX files under docsDir.
  *
  * @param {string} docsDir - Absolute path to the docs content directory.
  */
@@ -197,9 +166,8 @@ export function normalizeImagePaths(docsDir) {
             const full = path.join(dir, entry.name);
             if (entry.isDirectory()) {
                 walk(full);
-            } else if (entry.name.endsWith('.md') || entry.name.endsWith('.mdx')) {
+            } else if (entry.name.endsWith('.mdx')) {
                 const original = fs.readFileSync(full, 'utf-8');
-                // Replace all relative ../images/ occurrences (any depth, any context)
                 const updated = original.replace(/(?:\.\.\/)+images\//g, '/images/');
                 if (updated !== original) {
                     fs.writeFileSync(full, updated, 'utf-8');

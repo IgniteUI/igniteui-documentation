@@ -384,26 +384,6 @@ export const mode = ${JSON.stringify(mode)};
             },
 
             'astro:server:setup'({ server }) {
-                // Serve package scripts (e.g. code-view.js) from docs-template/public/scripts/
-                const pkgPublic = fileURLToPath(new URL('../public', import.meta.url));
-                server.middlewares.use('/scripts', (req, res, next) => {
-                    const rawUrl = req.url || '/';
-                    const requestPath = rawUrl.split('?', 1)[0] || '/';
-                    let decodedPath: string;
-                    try { decodedPath = decodeURIComponent(requestPath); } catch { return next(); }
-                    const base = path.resolve(pkgPublic, 'scripts');
-                    const filePath = path.resolve(path.join(base, decodedPath.replace(/^\/+/, '')));
-                    if (!filePath.startsWith(base + path.sep) && filePath !== base) return next();
-                    try {
-                        if (fs.statSync(filePath).isFile()) {
-                            res.setHeader('Content-Type', 'application/javascript');
-                            fs.createReadStream(filePath).pipe(res);
-                            return;
-                        }
-                    } catch { /* fall through */ }
-                    next();
-                });
-
                 if (!docsDir) return;
                 server.middlewares.use(async (req, res, next) => {
                     // Only handle requests ending in .md
@@ -641,6 +621,10 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     if (!process.env.DOCS_ENV) {
         process.env.DOCS_ENV = mode === 'dev' ? 'development' : mode === 'staging' ? 'staging' : 'production';
     }
+    // Expose the platform so remark-docfx can set data-platform on widgets it generates.
+    if (platform) {
+        process.env.DOCS_PLATFORM = platform;
+    }
 
     // Platform CDN entries come first so site-specific `head` entries can override.
     const platformHead = platform ? getPlatformHead(platform, navLang) : [];
@@ -648,7 +632,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Default component overrides shipped by this package.
     // Consumers can override individual slots via starlight.components.
     const pkgDir = new URL('.', import.meta.url);
-    // Package-level CSS (code-view styles, etc.) — prepended so consumers can override.
+    // Package-level CSS — prepended so consumers can override.
     const pkgCss = fileURLToPath(new URL('./styles/custom.css', pkgDir));
     const defaultComponents: Record<string, string> = {
         PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro', pkgDir)),
@@ -660,10 +644,9 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     const codeViewHead = [
         { tag: 'link' as const, attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
         { tag: 'script' as const, attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
-        { tag: 'script' as const, attrs: { src: '/scripts/code-view.js', defer: true } },
     ];
 
-    // Auto-configure a Vite dev-server proxy so code-view.js can fetch
+    // Auto-configure a Vite dev-server proxy so sample-widget.ts can fetch
     // /code-viewer/*.json (and /assets/code-viewer/*.json) from the local demos
     // server without hitting browser CORS restrictions.
     // Only activated when dvDemosBaseUrl resolves to localhost / 127.0.0.1.
@@ -714,9 +697,14 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         },
         markdown: {
             ...(astroExtra as any).markdown,
-            // Always prepend our required plugins; consumer's extra plugins follow.
-            remarkPlugins: [remarkDocfx, ...((astroExtra as any).markdown?.remarkPlugins ?? [])],
-            rehypePlugins: [rehypeCodeView, ...((astroExtra as any).markdown?.rehypePlugins ?? [])],
+            remarkPlugins: [
+                remarkDocfx,
+                ...((astroExtra as any).markdown?.remarkPlugins ?? []),
+            ],
+            rehypePlugins: [
+                rehypeCodeView,
+                ...((astroExtra as any).markdown?.rehypePlugins ?? []),
+            ],
         },
         integrations: [
             siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode }),

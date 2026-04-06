@@ -6,7 +6,7 @@
  *   2. Platform block filtering        <!-- Angular -->...<!-- end: Angular -->
  *   3. Component block filtering       <!-- ComponentStart: Grid -->...<!-- ComponentEnd: Grid -->
  *   4. Code block removal              by exclusive language tag AND by content detection
- *   5. Shared file expansion           _shared/*.md → grid/, tree-grid/, …
+ *   5. Shared file expansion           _shared/*.mdx → grid/, tree-grid/, …
  *   6. Sample viewer transformation    `sample="..."` → <code-view> HTML
  *   7. CodeSandbox / StackBlitz buttons (per platform config)
  *   8. TOC generation                  filter toc.json by platform → dist toc.json
@@ -46,19 +46,16 @@ const ROOT       = path.join(__dirname, '..');
 const SRC_COMPONENTS = path.join(ROOT, 'src', 'content', LANG, 'components');
 
 // Source toc.json:  src/content/{lang}/toc.json
-const SRC_TOC = path.join(ROOT, 'src', 'content', LANG, 'toc.json');
 
 const OUT_DIR = path.join(ROOT, 'generated', PLATFORM, LANG, 'components');
 
 const DOC_CONFIG     = path.join(ROOT, 'docConfig.json');
-const DOC_COMPONENTS = path.join(ROOT, 'docComponents.json');
 
 // ---------------------------------------------------------------------------
 // Load config files
 // ---------------------------------------------------------------------------
 
 const docConfig = JSON.parse(readFileSync(DOC_CONFIG, 'utf8'));
-const docComponents = JSON.parse(readFileSync(DOC_COMPONENTS, 'utf8'));
 
 const platformConfig = docConfig[PLATFORM];
 if (!platformConfig) {
@@ -73,57 +70,6 @@ const replacements = platformConfig.replacements
     .filter(r => r.name && r.value !== undefined)
     .sort((a, b) => b.name.length - a.name.length);
 
-const replacementMap = Object.fromEntries(replacements.map(r => [r.name, r.value]));
-
-// ---------------------------------------------------------------------------
-// Component variable mapping
-//
-// For a shared file expanded for "Grid":
-//   {ComponentTitle}      → value of {GridTitle}       → "Grid"
-//   {ComponentName}       → value of {GridName}        → "IgrGrid"
-//   {ComponentApiMembers} → value of {GridApiMembers}
-// ---------------------------------------------------------------------------
-
-function buildComponentReplacements(componentKey) {
-    const prefix = `{${componentKey}`;
-    return Object.entries(replacementMap)
-        .filter(([name]) => name.startsWith(prefix))
-        .map(([name, value]) => ({
-            name:  `{Component${name.slice(prefix.length)}`,   // e.g. {ComponentTitle}
-            value,
-        }))
-        .sort((a, b) => b.name.length - a.name.length);
-}
-
-// ---------------------------------------------------------------------------
-// Frontmatter parser
-// ---------------------------------------------------------------------------
-
-function parseFrontmatter(content) {
-    const match = content.match(/^---[ \t]*\r?\n([\s\S]*?)\r?\n---[ \t]*(\r?\n|$)/);
-    if (!match) return { data: {} };
-    const fm = match[1];
-
-    const lineMatch = fm.match(/^sharedComponents:[ \t]*(.*)/m);
-    if (!lineMatch) return { data: {} };
-
-    const rest = lineMatch[1].trim();
-    let sharedComponents;
-
-    if (rest.startsWith('[')) {
-        // Flow sequence: ["Grid", "TreeGrid", "HierarchicalGrid"]
-        sharedComponents = [...rest.matchAll(/"([^"]+)"|'([^']+)'|([A-Za-z][\w]*)/g)]
-            .map(m => m[1] ?? m[2] ?? m[3])
-            .filter(Boolean);
-    } else {
-        const blockMatch = fm.match(/^sharedComponents:\s*\r?\n((?:[ \t]*-[ \t]+\S.*\r?\n?)*)/m);
-        if (!blockMatch) return { data: {} };
-        sharedComponents = [...blockMatch[1].matchAll(/^[ \t]*-[ \t]+(.+?)[ \t]*$/mg)]
-            .map(m => m[1]);
-    }
-
-    return { data: { sharedComponents } };
-}
 
 // ---------------------------------------------------------------------------
 // 1. Variable substitution
@@ -154,19 +100,50 @@ function filterPlatformBlocks(content) {
 // 3. Component block filtering
 // ---------------------------------------------------------------------------
 
+/**
+ * Filter component-conditional blocks, keeping only content for the given
+ * component key. Handles both syntaxes:
+ *
+ *   Legacy HTML comment syntax (used in .md files):
+ *     <!-- ComponentStart: Grid -->...<!-- ComponentEnd: Grid -->
+ *
+ *   MDX component syntax (used in _shared/*.mdx):
+ *     <ComponentBlock for="Grid">...</ComponentBlock>
+ *
+ * If componentKey is null, all block markers are stripped (content kept).
+ */
 function filterComponentBlocks(content, componentKey) {
-    return content.replace(
-        /<!-- ComponentStart: ([\w, ]+?) -->([\s\S]*?)<!-- ComponentEnd: \1 -->/g,
-        (_m, components, body) =>
-            components.split(',').map(c => c.trim()).includes(componentKey) ? body : '',
-    );
+    // --- HTML comment syntax ---
+    if (!componentKey) {
+        content = content
+            .replace(/<!-- ComponentStart: [\w, ]+ -->/g, '')
+            .replace(/<!-- ComponentEnd: [\w, ]+ -->/g, '');
+    } else {
+        content = content.replace(
+            /<!-- ComponentStart: ([\w, ]+) -->([\s\S]*?)<!-- ComponentEnd: \1 -->/g,
+            (_m, keys, body) =>
+                keys.split(',').map(k => k.trim()).includes(componentKey) ? body : '',
+        );
+    }
+
+    // --- MDX <ComponentBlock for="..."> syntax ---
+    if (!componentKey) {
+        // Strip the wrapper tags, keep the body
+        content = content.replace(
+            /<ComponentBlock for="[\w, ]+">([\s\S]*?)<\/ComponentBlock>/g,
+            (_m, body) => body,
+        );
+    } else {
+        content = content.replace(
+            /<ComponentBlock for="([\w, ]+)">([\s\S]*?)<\/ComponentBlock>/g,
+            (_m, keys, body) =>
+                keys.split(',').map(k => k.trim()).includes(componentKey) ? body : '',
+        );
+    }
+
+    return content;
 }
 
-function stripComponentTags(content) {
-    return content
-        .replace(/<!-- ComponentStart: [\w, ]+ -->/g, '')
-        .replace(/<!-- ComponentEnd: [\w, ]+ -->/g, '');
-}
 
 // ---------------------------------------------------------------------------
 // 4. Code block filtering  (language tag + content detection)
@@ -212,7 +189,7 @@ function filterCodeBlocks(content) {
 }
 
 // ---------------------------------------------------------------------------
-// 5. (Shared file expansion handled in processDir)
+// 5. (Shared file expansion handled in expandSharedFiles below)
 // ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
@@ -280,34 +257,8 @@ function transformSampleViewers(content) {
 }
 
 // ---------------------------------------------------------------------------
-// 8. TOC generation
+// 8. TOC generation — moved to astro.config.ts (buildFilteredToc)
 // ---------------------------------------------------------------------------
-
-function filterTocNodes(nodes) {
-    if (!Array.isArray(nodes)) return [];
-    return nodes
-        .filter(node => !Array.isArray(node.exclude) || !node.exclude.includes(PLATFORM))
-        .map(node => {
-            // Apply variable substitution to name
-            const { exclude, ...rest } = node;
-            rest.name = applyReplacements(rest.name || '');
-            if (rest.items) rest.items = filterTocNodes(rest.items);
-            return rest;
-        });
-}
-
-function generateToc() {
-    if (!existsSync(SRC_TOC)) {
-        console.warn(`[generate] toc.json source not found: ${SRC_TOC} — writing empty stub`);
-        writeFileSync(path.join(OUT_DIR, 'toc.json'), JSON.stringify({ items: [] }, null, 2), 'utf8');
-        return;
-    }
-    const raw      = readFileSync(SRC_TOC, 'utf8');
-    const nodes    = JSON.parse(raw);
-    const filtered = filterTocNodes(nodes);
-    writeFileSync(path.join(OUT_DIR, 'toc.json'), JSON.stringify(filtered, null, 2), 'utf8');
-    console.log(`[generate] toc.json  : generated (${filtered.length} top-level items)`);
-}
 
 // ---------------------------------------------------------------------------
 // Full transform pipelines
@@ -325,9 +276,9 @@ function normalizeImagePaths(content) {
     return content.replace(/(?:\.\.\/)+images\//g, '/images/');
 }
 
-function transformRegularFile(content) {
+function transformRegularFile(content, componentKey = null) {
     content = filterPlatformBlocks(content);
-    content = stripComponentTags(content);
+    content = filterComponentBlocks(content, componentKey);
     content = filterCodeBlocks(content);
     content = transformSampleViewers(content);
     content = applyReplacements(content);
@@ -335,15 +286,205 @@ function transformRegularFile(content) {
     return normalise(content);
 }
 
-function transformSharedFile(content, componentKey) {
-    const compRepl = buildComponentReplacements(componentKey);
-    content = filterPlatformBlocks(content);
-    content = filterComponentBlocks(content, componentKey);
-    content = filterCodeBlocks(content);
-    content = transformSampleViewers(content);
-    content = applyReplacements(content, compRepl);
-    content = normalizeImagePaths(content);
-    return normalise(content);
+// ---------------------------------------------------------------------------
+// 5b. Shared grid file expansion
+//
+// grids/_shared/*.mdx → generated/.../grids/grid/*.mdx
+//                        generated/.../grids/hierarchical-grid/*.mdx
+//                        generated/.../grids/tree-grid/*.mdx
+//                        generated/.../grids/pivot-grid/*.mdx  (if listed)
+//
+// Each component has a set of token overrides mapping {ComponentTitle} etc.
+// to the specific grid's values, plus a ComponentStart filter key.
+// ---------------------------------------------------------------------------
+
+/**
+ * Component definitions for _shared expansion.
+ * key        — matches <!-- ComponentStart: key --> blocks
+ * outDir     — sub-directory under grids/ in the output
+ * tokenMap   — maps {ComponentXxx} tokens to per-component replacements
+ *              by pulling existing replacement values from docConfig
+ */
+function buildSharedComponents() {
+    const r = replacements;
+    const get = (name) => r.find(x => x.name === name)?.value ?? '';
+
+    return [
+        {
+            key: 'Grid',
+            outDir: 'grid',
+            tokens: [
+                { name: '{ComponentTitle}',      value: get('{GridTitle}') },
+                { name: '{ComponentName}',       value: get('{GridName}') },
+                { name: '{ComponentModule}',     value: get('{GridModule}') },
+                { name: '{ComponentSelector}',   value: get('{GridSelector}') },
+                { name: '{ComponentPackage}',    value: get('{GridPackage}') },
+                { name: '{ComponentSample}',     value: get('{GridSample}') },
+                { name: '{ComponentKeywords}',   value: get('{GridKeywords}') },
+                { name: '{ComponentApiMembers}', value: get('{GridApiMembers}') },
+            ],
+        },
+        {
+            key: 'HierarchicalGrid',
+            outDir: 'hierarchical-grid',
+            tokens: [
+                { name: '{ComponentTitle}',      value: get('{HierarchicalGridTitle}') },
+                { name: '{ComponentName}',       value: get('{HierarchicalGridName}') },
+                { name: '{ComponentModule}',     value: get('{HierarchicalGridModule}') },
+                { name: '{ComponentSelector}',   value: get('{HierarchicalGridSelector}') },
+                { name: '{ComponentPackage}',    value: get('{HierarchicalGridPackage}') },
+                { name: '{ComponentSample}',     value: get('{HierarchicalGridSample}') },
+                { name: '{ComponentKeywords}',   value: get('{HierarchicalGridKeywords}') },
+                { name: '{ComponentApiMembers}', value: get('{HierarchicalGridApiMembers}') },
+            ],
+        },
+        {
+            key: 'TreeGrid',
+            outDir: 'tree-grid',
+            tokens: [
+                { name: '{ComponentTitle}',      value: get('{TreeGridTitle}') },
+                { name: '{ComponentName}',       value: get('{TreeGridName}') },
+                { name: '{ComponentModule}',     value: get('{TreeGridModule}') },
+                { name: '{ComponentSelector}',   value: get('{TreeGridSelector}') },
+                { name: '{ComponentPackage}',    value: get('{TreeGridPackage}') },
+                { name: '{ComponentSample}',     value: get('{TreeGridSample}') },
+                { name: '{ComponentKeywords}',   value: get('{TreeGridKeywords}') },
+                { name: '{ComponentApiMembers}', value: get('{TreeGridApiMembers}') },
+            ],
+        },
+        {
+            key: 'PivotGrid',
+            outDir: 'pivot-grid',
+            tokens: [
+                { name: '{ComponentTitle}',      value: get('{PivotGridTitle}') },
+                { name: '{ComponentName}',       value: get('{PivotGridName}') },
+                { name: '{ComponentModule}',     value: get('{PivotGridModule}') },
+                { name: '{ComponentSelector}',   value: get('{PivotGridSelector}') },
+                { name: '{ComponentPackage}',    value: get('{PivotGridPackage}') },
+                { name: '{ComponentSample}',     value: get('{PivotGridSample}') },
+                { name: '{ComponentKeywords}',   value: get('{PivotGridKeywords}') },
+                { name: '{ComponentApiMembers}', value: get('{PivotGridApiMembers}') },
+            ],
+        },
+    ];
+}
+
+/**
+ * For a given _shared .md file, check which components it applies to
+ * by reading its sharedComponents frontmatter field.
+ * Returns an array of component keys like ['Grid', 'TreeGrid', 'HierarchicalGrid'].
+ */
+function getSharedComponentKeys(content) {
+    const m = content.match(/^sharedComponents:\s*\[([^\]]+)\]/m);
+    if (!m) return null; // applies to all
+    return m[1].split(',').map(s => s.trim().replace(/['"]/g, ''));
+}
+
+/**
+ * Ensure required MDX imports (Sample, PlatformBlock, ApiRef, ApiLink) are present
+ * after the frontmatter block.
+ */
+
+function ensureMdxImports(content) {
+    const needsSample      = content.includes('<Sample ');
+    const needsPlatform    = content.includes('<PlatformBlock');
+    const needsApiRef      = /<ApiRef\b/.test(content);
+    const needsApiLink     = /<ApiLink\b/.test(content);
+
+    const imports = [
+        needsSample   && "import Sample from '@/components/mdx/Sample.astro';",
+        needsPlatform && "import PlatformBlock from '@/components/mdx/PlatformBlock.astro';",
+        needsApiRef   && "import ApiRef from '@/components/mdx/ApiRef.astro';",
+        needsApiLink  && "import ApiLink from '@/components/mdx/ApiLink.astro';",
+    ].filter(Boolean);
+
+    if (imports.length === 0) return content;
+
+    // Check which imports are already present in the header section only
+    // (before the first heading) to avoid false matches inside code blocks.
+    const headerEnd = content.search(/^#\s/m);
+    const header = headerEnd >= 0 ? content.slice(0, headerEnd) : content.slice(0, 2000);
+    const newImports = imports.filter(imp => !header.includes(imp));
+    if (newImports.length === 0) return content;
+
+    // Insert after the closing --- of the frontmatter (handle both LF and CRLF)
+    return content.replace(/^(---[\s\S]*?^---)\r?\n/m, `$1\n${newImports.join('\n')}\n\n`);
+}
+
+/**
+ * Expand all _shared/*.mdx files into per-component output directories.
+ *
+ * For each component:
+ *  - Filters <!-- ComponentStart/End --> blocks (keep only the target component)
+ *  - Filters <!-- Platform -->...<!-- end: Platform --> blocks for current PLATFORM
+ *  - Applies replacements to frontmatter only (body handled by Vite plugin at build time)
+ *  - Applies component-specific token replacements to frontmatter
+ *  - Adds _componentKey frontmatter so the Vite plugin resolves {Component*} tokens in body
+ *  - Strips docfx-only frontmatter fields (mentionedTypes, sharedComponents, namespace)
+ *  - Ensures required MDX imports are present (Sample, PlatformBlock, ApiRef)
+ *  - Writes as .mdx to the per-component output directory
+ */
+function expandSharedFiles(sharedSrcDir, gridsOutDir) {
+    if (!existsSync(sharedSrcDir)) return;
+
+    const components = buildSharedComponents();
+
+    for (const entry of readdirSync(sharedSrcDir)) {
+        if (!/\.mdx$/.test(entry)) continue;
+
+        const srcPath = path.join(sharedSrcDir, entry);
+        const raw = readFileSync(srcPath, 'utf8');
+
+        // Determine which components this file applies to
+        const applicableKeys = getSharedComponentKeys(raw);
+
+        for (const comp of components) {
+            // Skip if not applicable
+            if (applicableKeys && !applicableKeys.includes(comp.key)) continue;
+
+            const outSubDir = path.join(gridsOutDir, comp.outDir);
+            mkdirSync(outSubDir, { recursive: true });
+
+            // 1. Filter component blocks (keep only this component's sections).
+            //    Platform blocks use <PlatformBlock> components — handled at build time.
+            let content = filterComponentBlocks(raw, comp.key);
+
+            // 3. Apply replacements + component tokens to frontmatter only
+            //    (body is handled by the Vite plugin at build time via _componentKey)
+            const compTokens = [...comp.tokens].sort((a, b) => b.name.length - a.name.length);
+            content = content.replace(/^(---[\s\S]*?^---)/m, fm => {
+                let resolved = applyReplacements(fm);
+                for (const { name, value } of compTokens) {
+                    resolved = resolved.replaceAll(name, value);
+                }
+                return resolved;
+            });
+
+            // 4. Add _componentKey to frontmatter and strip docfx-only fields
+            content = content.replace(/^(---)([\s\S]*?)(^---)/m, (_m, open, body, close) => {
+                let fm = body
+                    .replace(/^mentionedTypes:.*\r?\n/m, '')
+                    .replace(/^sharedComponents:.*\r?\n/m, '')
+                    .replace(/^namespace:.*\r?\n/m, '');
+                // Add _componentKey if not already present
+                if (!fm.includes('_componentKey:')) {
+                    fm = fm.trimEnd() + `\n_componentKey: ${comp.key}\n`;
+                }
+                return `${open}${fm}${close}`;
+            });
+
+            // 5. Normalize image paths
+            content = normalizeImagePaths(content);
+
+            // 6. Ensure MDX imports are present
+            content = ensureMdxImports(content);
+
+            // 7. Write as .mdx
+            writeFileSync(path.join(outSubDir, entry), content, 'utf8');
+        }
+
+        console.log(`[generate] _shared/${entry} → grid/, hierarchical-grid/, tree-grid/, pivot-grid/`);
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -357,7 +498,14 @@ function processDir(srcDir, outDir) {
         if (entry === '_shared') continue; // handled separately below
         const srcPath = path.join(srcDir, entry);
 
-        if (/\.(md|mdx)$/.test(entry)) {
+        if (/\.mdx$/.test(entry)) {
+            // MDX files: copy through but resolve tokens in the frontmatter block.
+            // The Vite plugin handles token substitution in the body at build time,
+            // but Astro parses frontmatter as YAML before the Vite transform runs.
+            let raw = readFileSync(srcPath, 'utf8');
+            raw = raw.replace(/^(---[\s\S]*?^---)/m, fm => applyReplacements(fm));
+            writeFileSync(path.join(outDir, entry), raw, 'utf8');
+        } else if (/\.md$/.test(entry)) {
             const raw = readFileSync(srcPath, 'utf8');
             writeFileSync(path.join(outDir, entry), transformRegularFile(raw), 'utf8');
         } else if (entry.endsWith('.json') && entry !== 'toc.json') {
@@ -369,73 +517,6 @@ function processDir(srcDir, outDir) {
         }
     }
 
-    // Expand _shared/*.md into one file per declared component
-    const sharedDir = path.join(srcDir, '_shared');
-    if (!existsSync(sharedDir)) return;
-
-    for (const entry of readdirSync(sharedDir)) {
-        if (!/\.(md|mdx)$/.test(entry)) continue;
-
-        const srcPath = path.join(sharedDir, entry);
-        const raw     = readFileSync(srcPath, 'utf8');
-        const { data: fm } = parseFrontmatter(raw);
-        const shared  = Array.isArray(fm.sharedComponents) ? fm.sharedComponents : [];
-
-        if (shared.length === 0) {
-            // No sharedComponents — treat as a regular file in the current dir
-            writeFileSync(path.join(outDir, entry), transformRegularFile(raw), 'utf8');
-            continue;
-        }
-
-        for (const compName of shared) {
-            const compDef = docComponents[compName];
-            if (!compDef) {
-                console.warn(`  [warn] Unknown component "${compName}" in ${srcPath}`);
-                continue;
-            }
-            const compOutDir = path.join(outDir, compDef.output);
-            mkdirSync(compOutDir, { recursive: true });
-            writeFileSync(
-                path.join(compOutDir, entry),
-                transformSharedFile(raw, compName),
-                'utf8',
-            );
-        }
-    }
-}
-
-// ---------------------------------------------------------------------------
-// 9b. environment.json generation
-// ---------------------------------------------------------------------------
-
-/**
- * Write dist/{Platform}/{lang}/environment.json so that remark-docfx can
- * resolve {environment:dvDemosBaseUrl} (and friends) at build time.
- *
- * Structure mirrors the igniteui-docfx environment.json format:
- *   { "development": { "dvDemosBaseUrl": "..." }, "staging": { ... }, "production": { ... } }
- */
-function generateEnvironmentJson() {
-    const sb = platformConfig.samplesBrowsers;
-    if (!sb) {
-        console.warn('[generate] No samplesBrowsers in platformConfig — skipping environment.json');
-        return;
-    }
-
-    // Build one entry per environment key (development / staging / production).
-    const envJson = {};
-    for (const [envKey, url] of Object.entries(sb)) {
-        envJson[envKey] = {
-            dvDemosBaseUrl:        url,
-            demosBaseUrl:          url,   // alias used in some older samples
-            infragisticsBaseUrl:   'https://www.infragistics.com',
-        };
-    }
-
-    // Write one level above the components/ output dir: generated/{Platform}/{lang}/environment.json
-    const outPath = path.join(path.dirname(OUT_DIR), 'environment.json');
-    writeFileSync(outPath, JSON.stringify(envJson, null, 2), 'utf8');
-    console.log(`[generate] environment.json: ${outPath}`);
 }
 
 // ---------------------------------------------------------------------------
@@ -461,8 +542,13 @@ if (existsSync(OUT_ROOT)) {
 }
 mkdirSync(OUT_DIR, { recursive: true });
 processDir(SRC_COMPONENTS, OUT_DIR);
-generateToc();
-generateEnvironmentJson();
+
+// Expand grids/_shared/*.mdx into per-component output directories
+const sharedSrc = path.join(SRC_COMPONENTS, 'grids', '_shared');
+const gridsOut  = path.join(OUT_DIR, 'grids');
+expandSharedFiles(sharedSrc, gridsOut);
+// generateToc()          → now done inline in astro.config.ts (buildFilteredToc)
+// generateEnvironmentJson() → now read from docConfig.json.samplesBrowsers via platform-context.ts
 
 // Write .platform.json so astro.config.mjs picks up the right platform
 writeFileSync(
