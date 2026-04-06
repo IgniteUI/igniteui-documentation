@@ -236,7 +236,7 @@ export function getEnvVars(): Record<string, string> {
 
     const { name } = getPlatformContext();
     const lang = process.env.LANG_CODE ?? 'en';
-    const mode = process.env.NODE_ENV ?? 'development';
+    const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
 
     // Primary: generated/environment.json (written by generate.mjs when present)
     try {
@@ -246,6 +246,30 @@ export function getEnvVars(): Record<string, string> {
         if (Object.keys(vars).length > 0) {
             _env = vars;
             return _env;
+        }
+    } catch { /* fall through */ }
+
+    // Secondary: DOCS_SOURCE_PATH-based environment.json (Angular docs approach)
+    try {
+        const sourcePath = process.env.DOCS_SOURCE_PATH;
+        if (sourcePath) {
+            const sourceRoot = path.resolve(sourcePath);
+            const parent = path.dirname(sourceRoot);
+            const candidates = [
+                path.join(sourceRoot, 'en', 'environment.json'),
+                path.join(sourceRoot, 'environment.json'),
+                path.join(parent, 'environment.json'),
+                path.join(parent, 'en', 'environment.json'),
+            ];
+            const envPath = candidates.find(c => fs.existsSync(c));
+            if (envPath) {
+                const all = JSON.parse(fs.readFileSync(envPath, 'utf-8'));
+                const vars = (all[mode] ?? all['production'] ?? {}) as Record<string, string>;
+                if (Object.keys(vars).length > 0) {
+                    _env = vars;
+                    return _env;
+                }
+            }
         }
     } catch { /* fall through to docConfig fallback */ }
 

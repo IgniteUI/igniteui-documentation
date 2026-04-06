@@ -522,7 +522,7 @@ function ensureMdxImports(content) {
     const needsApiLink = /<ApiLink\b/.test(content);
 
     const imports = [
-        needsSample  && "import Sample from '@/components/mdx/Sample.astro';",
+        needsSample  && "import Sample from 'docs-template/components/mdx/Sample.astro';",
         needsApiRef  && "import ApiRef from 'docs-template/components/mdx/ApiRef.astro';",
         needsApiLink && "import ApiLink from 'docs-template/components/mdx/ApiLink.astro';",
     ].filter(Boolean);

@@ -87,7 +87,7 @@ function transformStyleBlocks(content) {
 function ensureSampleImport(content) {
     if (!content.includes('<Sample ')) return content;
 
-    const importLine = "import Sample from '@/components/mdx/Sample.astro';";
+    const importLine = "import Sample from 'docs-template/components/mdx/Sample.astro';";
     const headerEnd = content.search(/^#\s/m);
     const header = headerEnd >= 0 ? content.slice(0, headerEnd) : content.slice(0, 2000);
     if (header.includes(importLine)) return content;

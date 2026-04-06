@@ -3,17 +3,18 @@
  * Renders a live demo widget with source code tabs and live-edit buttons.
  *
  * Usage:
- *   <Sample src="/charts/data-chart/axis-crossing" height={500} alt="{platform} Example" />
- *
- * The `alt` prop supports the "{platform}" placeholder resolved at build time.
+ *   <Sample src="/charts/data-chart/axis-crossing" height={500} alt="Angular Example" />
  *
  * The widget HTML shell is rendered server-side by Astro; client-side behaviour
  * (iframe serial loading, code-tab fetching, tab switching, StackBlitz / CodeSandbox)
  * is handled by src/scripts/sample-widget.ts which is imported via the
  * deduplicated <script> below — it runs once per page regardless of how many
  * <Sample> components appear.
+ *
+ * DV samples (charts/, gauges/, maps/, excel/) automatically use dvDemosBaseUrl
+ * when a separate demosBaseUrl is present in the environment config.
  */
-import { getPlatformContext, getEnvVars } from '../../lib/platform-context';
+import { getPlatformContext, getEnvVars } from '../../lib/platform-context.ts';
 
 interface Props {
     src: string;
@@ -25,10 +26,14 @@ const { src, height = 400, alt = '' } = Astro.props;
 const { name, lower } = getPlatformContext();
 const env = getEnvVars();
 
-const demosBaseUrl = (env.dvDemosBaseUrl ?? '').replace(/\/$/, '');
-const resolvedAlt  = alt.replace('{platform}', name);
-const iframeSrc    = `${demosBaseUrl}${src}`;
-const githubSrc    = src.replace(/^\//, '');
+// DV samples (charts, gauges, maps, excel) use dvDemosBaseUrl when available.
+const DV_PREFIXES = ['gauges/', 'maps/', 'excel/', 'charts/'];
+const srcNoSlash  = src.replace(/^\//, '');
+const isDv        = DV_PREFIXES.some(p => srcNoSlash.startsWith(p));
+const baseUrl     = ((isDv ? env.dvDemosBaseUrl : env.demosBaseUrl) ?? env.dvDemosBaseUrl ?? '').replace(/\/$/, '');
+
+const iframeSrc   = `${baseUrl}${src}`;
+const githubSrc   = srcNoSlash;
 
 // Stable, unique element ID derived from the sample path.
 const widgetId     = 'cw' + src.replace(/[^a-z0-9]/gi, '-');
@@ -38,7 +43,7 @@ const exampleTabId = `${widgetId}-example`;
 <div class="code-view"
      id={widgetId}
      data-iframe-src={iframeSrc}
-     data-demos-base-url={demosBaseUrl}
+     data-demos-base-url={baseUrl}
      data-github-src={githubSrc}
      data-platform={lower}>
   <div class="code-view-navbar">
@@ -51,7 +56,7 @@ const exampleTabId = `${widgetId}-example`;
          style={`height: ${height}px`}>
       <iframe
         data-src={iframeSrc}
-        title={resolvedAlt}
+        title={alt}
         style="width: 100%; height: 100%;"
         frameborder="0"
         seamless
