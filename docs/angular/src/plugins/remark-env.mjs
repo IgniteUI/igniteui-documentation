@@ -10,7 +10,7 @@ let _vars = null;
 function getVars() {
 	if (_vars) return _vars;
 
-	const nodeEnv = process.env.NODE_ENV || 'development';
+	const nodeEnv = process.env.DOCS_ENV || process.env.NODE_ENV || 'development';
 
 	const docsLang = process.env.DOCS_LANG || 'en';
 
@@ -26,7 +26,7 @@ function getVars() {
 
 /**
  * Remark plugin that resolves `{environment:key}` tokens in markdown content
- * at build time. Reads environment.json using NODE_ENV and DOCS_LANG.
+ * at build time. Reads environment.json using DOCS_ENV (falling back to NODE_ENV) and DOCS_LANG.
  */
 export function remarkEnv() {
 	return (tree) => {

@@ -64,7 +64,7 @@ function loadConfig(): ApiLinkConfig | null {
     try {
         const root                   = process.cwd();
         const { platform, lang }     = resolvePlatformAndLang();
-        const nodeEnv                = process.env.NODE_ENV || 'development';
+        const nodeEnv                = process.env.DOCS_ENV || process.env.NODE_ENV || 'development';
 
         const docConfig      = JSON.parse(readFileSync(path.join(root, 'docConfig.json'), 'utf-8'));
         const platformConfig = docConfig[platform];

@@ -71,7 +71,7 @@ import { visit } from 'unist-util-visit';
 import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
-export type DocsMode = 'dev' | 'staging' | 'prod';
+export type DocsMode = 'development' | 'staging' | 'production';
 
 /** Module-level cache so the nav URL is fetched at most once per build. */
 let _navHtmlCache: string | null = null;
@@ -197,7 +197,7 @@ export function siteMetaIntegration({
     sidebar,
     platform = null,
     navLang = 'en',
-    mode = 'dev',
+    mode = 'development',
     llmsSets = [],
     productLinks = [],
     prefetchNav = false,
@@ -604,9 +604,9 @@ export interface CreateDocsSiteOptions {
     head?: HeadEntry[];
     /**
      * Build / deployment mode.
-     * - `'dev'`     — local development (default)
+     * - `'development'` — local development (default)
      * - `'staging'` — pre-production environment
-     * - `'prod'`    — production deployment
+     * - `'production'` — production deployment
      *
      * Exposed as `process.env.DOCS_BUILD_MODE`.
      */
@@ -645,7 +645,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         sidebar: sidebarOptions = {},
         platform = null,
         navLang = 'en',
-        mode = 'dev',
+        mode = 'development',
         productLinks = [],
         head = [],
         llmsSets = [] as LlmsSet[],
@@ -666,11 +666,8 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     }
     process.env.DOCS_BUILD_MODE = mode;
     process.env.DOCS_BASE = base ? base.replace(/\/$/, '') : '';
-    // Ensure DOCS_ENV aligns with the `mode` when DOCS_ENV is not explicitly set.
-    // This maps the internal mode ('dev'|'staging'|'prod') to the environment.json keys
-    // ('development'|'staging'|'production') so remark-docfx loads the expected section.
     if (!process.env.DOCS_ENV) {
-        process.env.DOCS_ENV = mode === 'dev' ? 'development' : mode === 'staging' ? 'staging' : 'production';
+        process.env.DOCS_ENV = mode;
     }
 
     // Platform CDN entries come first so site-specific `head` entries can override.

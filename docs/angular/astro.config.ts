@@ -5,23 +5,28 @@ import { generateGridTopics, normalizeImagePaths } from './src/generate-grids.mj
 import { remarkEnv } from './src/plugins/remark-env.mjs';
 
 // ── Build mode and language ──────────────────────────────────────────────────
-// NODE_ENV: 'development' | 'staging' | 'production'  (default: 'development')
+// DOCS_ENV: 'development' | 'staging' | 'production'  (preferred, default: 'development')
+// NODE_ENV: fallback — do NOT set to 'staging'; Vite derives import.meta.env.DEV from it.
 // DOCS_LANG: 'en' | 'jp' | 'kr'                       (default: 'en')
-const nodeEnv = process.env.NODE_ENV || 'development';
+const docsEnv = process.env.DOCS_ENV || process.env.NODE_ENV || 'development';
 const docsLang = process.env.DOCS_LANG || 'en';
 
-const mode: DocsMode = nodeEnv === 'production' ? 'prod'
-	: nodeEnv === 'staging' ? 'staging'
-		: 'dev';
+if (docsEnv !== 'development' && docsEnv !== 'staging' && docsEnv !== 'production') {
+	throw new Error(
+		`[astro.config] Invalid DOCS_ENV "${docsEnv}". Expected one of: "development", "staging", "production".`
+	);
+}
+
+const mode: DocsMode = docsEnv;
 
 // ── Site URL — varies by build mode ─────────────────────────────────────────
 const PROD_HOST = 'https://www.infragistics.com';
 const STAGING_HOST = 'https://staging.infragistics.com';
 
 const { base } = IGDOCS_PLATFORMS.Angular;
-const site = mode === 'prod' ? `${PROD_HOST}${base}`
+const site = mode === 'production' ? `${PROD_HOST}${base}`
 	: mode === 'staging' ? `${STAGING_HOST}${base}`
-		: 'http://localhost:4321';
+	: 'http://localhost:4321';
 
 // ── Source paths ─────────────────────────────────────────────────────────────
 const docsDir = path.resolve(`./src/content/${docsLang}`);
@@ -35,7 +40,7 @@ normalizeImagePaths(componentsDocsDir);
 // https://astro.build/config
 export default createDocsSite({
 	site,
-	base: mode !== 'dev' ? base : undefined,
+	base: mode !== 'development' ? base : undefined,
 	title: 'Ignite UI for Angular',
 	description: 'Component and API reference docs for Ignite UI for Angular.',
 	platform: 'angular',
@@ -43,7 +48,7 @@ export default createDocsSite({
 	mode,
 	productLinks: Object.values(IGDOCS_PLATFORMS).map(({ label, key, base: b }) => ({
 		label,
-		href: mode === 'prod' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
+		href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
 		platform: key,
 	})),
 	source: {
