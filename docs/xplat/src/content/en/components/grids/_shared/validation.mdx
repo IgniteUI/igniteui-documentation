@@ -3,9 +3,13 @@ title: {Platform} {ComponentTitle} Editing and Validation - {ProductName}
 _description: Validate the input of the users in grid and notify them if it's valid or not while using {Platform} {ComponentTitle}. See demos & examples!
 _keywords: {Platform} validation, {ProductName}, infragistics,
 _license: commercial
-mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
 ---
+import Sample from '@/components/mdx/Sample.astro';
+import PlatformBlock from '@/components/mdx/PlatformBlock.astro';
+import ApiRef from '@/components/mdx/ApiRef.astro';
+import ApiLink from '@/components/mdx/ApiLink.astro';
+
 
 # {Platform} {ComponentTitle} Editing and Validation
 
@@ -25,8 +29,7 @@ We extend some of the {Platform} Forms validator to directly work with the `Colu
 - MaxLength
 - Pattern
 
-<!-- Angular -->
-
+<PlatformBlock for="Angular">
 To validate that a column input would be set and the value is going to be formatted as an email, you can use the related directives:
 
 ```html
@@ -39,31 +42,31 @@ To validate that a column input would be set and the value is going to be format
 
 The following sample demonstrates how to use the prebuilt `Required`, `Email` and `Min` validator directives in a `{ComponentName}`.
 
-`sample="/{ComponentSample}/data-validator-service", height="600", alt="{Platform} {ComponentTitle} Validation Basic Example"`
+<Sample src="/{ComponentSample}/data-validator-service" height={600} alt="{Platform} {ComponentTitle} Validation Basic Example" />
 
 ### Configure via Reactive Forms
 
-We expose the `FormGroup` that will be used for validation when editing starts on a row/cell via a `formGroupCreated` event. You can modify it by adding your own validators for the related fields:
+We expose the <ApiLink pkg="grids" type="FormGroup" /> that will be used for validation when editing starts on a row/cell via a <ApiLink pkg="grids" type="{ComponentName}" member="formGroupCreated" prefixed={false} /> event. You can modify it by adding your own validators for the related fields:
 
-<!-- ComponentStart: Grid -->
+<ComponentBlock for="Grid">
 ```html
 <{ComponentInstance} (formGroupCreated)='formCreateHandler($event)' ...>
 ```
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: HierarchicalGrid -->
+<ComponentBlock for="HierarchicalGrid">
 ```html
 <igx-hierarchical-grid (formGroupCreated)='formCreateHandler($event)' ...>
 ```
-<!-- ComponentEnd: HierarchicalGrid -->
+</ComponentBlock>
 
-<!-- ComponentStart: TreeGrid -->
+<ComponentBlock for="TreeGrid">
 ```html
 <igx-tree-grid (formGroupCreated)='formCreateHandler($event)' ...>
 ```
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
-<!-- ComponentStart: Grid, HierarchicalGrid -->
+<ComponentBlock for="Grid, HierarchicalGrid">
 ```ts
     public formCreateHandler(args: IGridFormGroupCreatedEventArgs) {
         const formGroup = args.formGroup;
@@ -76,9 +79,9 @@ We expose the `FormGroup` that will be used for validation when editing starts o
         shippedDateRecord.addValidators(this.pastDateValidator());
     }
 ```
-<!-- ComponentEnd: Grid, HierarchicalGrid -->
+</ComponentBlock>
 
-<!-- ComponentStart: TreeGrid -->
+<ComponentBlock for="TreeGrid">
 ```ts
    public formCreateHandler(args: IGridFormGroupCreatedEventArgs) {
         const formGroup = args.formGroup;
@@ -86,22 +89,22 @@ We expose the `FormGroup` that will be used for validation when editing starts o
         hireDateRecord.addValidators([this.futureDateValidator(), this.pastDateValidator()]);
     }
 ```
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
 You can decide to write your own validator function, or use one of the [built-in {Platform} validator functions](https://{Platform}.io/guide/form-validation#built-in-validator-functions).
 
-<!-- end: Angular -->
+</PlatformBlock>
 
 ## Validation Service API
 
-The grid exposes a validation service via the `Validation` property.
+The grid exposes a validation service via the <ApiLink pkg="grids" type="{ComponentName}" member="validation" prefixed={false} /> property.
 
 That service has the following public APIs:
 
 - `Valid` - returns if the grid validation state is valid.
 - `GetInvalid` - returns records with invalid states.
 - `Clear` - clears state for record by id or clears all state if no id is provided.
-- `MarkAsTouched` - marks the related record/field as touched.
+- <ApiLink pkg="grids" type="{ComponentName}" member="markAsTouched" prefixed={false} /> - marks the related record/field as touched.
 
 Invalid states will persis until the validation errors in them are fixed according to the validation rule or they are cleared.
 
@@ -109,15 +112,14 @@ Invalid states will persis until the validation errors in them are fixed accordi
 
 Validation will be triggered in the following scenarios:
 
-- While editing via the cell editor based on the grid's `ValidationTrigger`. Either on `Change` while typing in the editor, or on `Blur` when the editor loses focus or closes.
-- When updating cells/rows via the API - `UpdateRow`, `UpdateCell`, etc.
+- While editing via the cell editor based on the grid's <ApiLink pkg="grids" type="ValidationTrigger" />. Either on `Change` while typing in the editor, or on `Blur` when the editor loses focus or closes.
+- When updating cells/rows via the API - <ApiLink pkg="grids" type="{ComponentName}" member="updateRow" prefixed={false} />, <ApiLink pkg="grids" type="{ComponentName}" member="updateCell" prefixed={false} />, etc.
 - When using batch editing and the `Undo`/`Redo` API of the transaction service.
 
 > [!Note]
-> Validation will not trigger for records that have not been edited via user input or via the editing API. Visual indicators on the cell will only shown if the related input is considered touched - either via user interaction or via the `MarkAsTouched` API of the validation service.
+> Validation will not trigger for records that have not been edited via user input or via the editing API. Visual indicators on the cell will only shown if the related input is considered touched - either via user interaction or via the <ApiLink pkg="grids" type="{ComponentName}" member="markAsTouched" prefixed={false} /> API of the validation service.
 
-<!-- Angular -->
-
+<PlatformBlock for="Angular">
 ## {Platform} {ComponentTitle} Validation Customization Options
 
 ### Set a custom validator
@@ -164,7 +166,7 @@ You can define your own custom error template that will be displayed in the erro
 
 ### Prevent Exiting Edit Mode on Invalid State
 
-In some cases you may want to disallow submitting an invalid value in the data. In that scenario, you can use the `CellEdit` or `RowEdit` events and cancel the event in case the new value is invalid.
+In some cases you may want to disallow submitting an invalid value in the data. In that scenario, you can use the <ApiLink pkg="grids" type="{ComponentName}" member="cellEdit" prefixed={false} /> or <ApiLink pkg="grids" type="{ComponentName}" member="rowEdit" prefixed={false} /> events and cancel the event in case the new value is invalid.
 
 Both events' arguments have a `Valid` property and can be canceled accordingly.
 
@@ -184,7 +186,7 @@ public cellEdit(evt) {
 
 The below example demonstrates the above-mentioned customization options.
 
-`sample="/{ComponentSample}/data-validator-service-extended", height="570", alt="{Platform} {ComponentTitle} Custom Validation Example"`
+<Sample src="/{ComponentSample}/data-validator-service-extended" height={570} alt="{Platform} {ComponentTitle} Custom Validation Example" />
 
 
 
@@ -192,10 +194,9 @@ The below example demonstrates the above-mentioned customization options.
 
 In some scenarios validation of one field may depend on the value of another field in the record.
 
-In that case a custom validator can be used to compare the values in the record via their shared `FormGroup`.
+In that case a custom validator can be used to compare the values in the record via their shared <ApiLink pkg="grids" type="FormGroup" />.
 
-<!-- ComponentStart: Grid -->
-
+<ComponentBlock for="Grid">
 The below sample demonstrates a cross-field validation between different field of the same record. It checks the dates validity compared to the current date and between the active and created on date of the record as well as the deals won/lost ration for each employee. All errors are collected in a separate pinned column that shows that the record is invalid and displays the related errors.
 
 The next lines of code show the cross-field validator function, which contains the comparisons and sets the related errors relative to them.
@@ -246,7 +247,7 @@ public calculateDealsRatio(dealsWon, dealsLost) {
 }
 ```
 
-The cross-field validator can be added to the `FormGroup` of the row from `FormGroupCreated` event, which returns the new `FormGroup` for each row when entering edit mode:
+The cross-field validator can be added to the <ApiLink pkg="grids" type="FormGroup" /> of the row from `FormGroupCreated` event, which returns the new <ApiLink pkg="grids" type="FormGroup" /> for each row when entering edit mode:
 
 ```html
 <{ComponentInstance} #grid1 [data]="transactionData" [width]="'100%'" [height]="'480px'" [autoGenerate]="false"
@@ -309,12 +310,11 @@ public stateMessage(cell: IgxGridCell) {
 
 The below sample demonstrates the cross-field validation in action.
 
-`sample="/{ComponentSample}/data-validator-service-cross-field", height="560", alt="{Platform} {ComponentTitle} Cross field Validation Example"`
+<Sample src="/{ComponentSample}/data-validator-service-cross-field" height={560} alt="{Platform} {ComponentTitle} Cross field Validation Example" />
 
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: HierarchicalGrid -->
-
+<ComponentBlock for="HierarchicalGrid">
 Cross-field validators can be added to the formGroup on the `FormGroupCreated` event. In them multiple fields can be compared for validity.
 
 ```ts
@@ -411,14 +411,13 @@ Errors and the detailed messages can be determined based on the row and cell's v
 
 The below sample demonstrates cross-field validation in a `{ComponentName}` for both the root and child data.
 
-`sample="/{ComponentSample}/data-validator-service-cross-field", height="530", alt="{Platform} {ComponentTitle} Cross field Validation Example"`
+<Sample src="/{ComponentSample}/data-validator-service-cross-field" height={530} alt="{Platform} {ComponentTitle} Cross field Validation Example" />
 
 
 
-<!-- ComponentEnd: HierarchicalGrid -->
+</ComponentBlock>
 
-<!-- ComponentStart: TreeGrid -->
-
+<ComponentBlock for="TreeGrid">
 The below sample demonstrates a cross-field validation between different field of the same record. It checks that a specified City for a person is in the Country currently set and vice versa. Also check if the age for a person was 18 already when it was hired.
 
 The next lines of code show the cross-field validator function, which contains comparisons described above and sets the related errors.
@@ -446,7 +445,7 @@ private rowValidator(): ValidatorFn {
 }
 ```
 
-The cross-field validator can be added to the `FormGroup` of the row from `FormGroupCreated` event, which returns the new `FormGroup` for each row when entering edit mode:
+The cross-field validator can be added to the <ApiLink pkg="grids" type="FormGroup" /> of the row from `FormGroupCreated` event, which returns the new <ApiLink pkg="grids" type="FormGroup" /> for each row when entering edit mode:
 
 ```html
 <igx-tree-grid igxPreventDocumentScroll #treeGrid [batchEditing]="true" [data]="data" primaryKey="ID"
@@ -514,11 +513,11 @@ public stateMessage(cell: IgxGridCell) {
 
 The below sample demonstrates the cross-field validation in action.
 
-`sample="/{ComponentSample}/data-validator-service-cross-field", height="570", alt="{Platform} {ComponentTitle} Cross field Validation Example"`
+<Sample src="/{ComponentSample}/data-validator-service-cross-field" height={570} alt="{Platform} {ComponentTitle} Cross field Validation Example" />
 
 
 
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
 ## Styling
 
@@ -561,7 +560,7 @@ Changing the default error template allows setting custom classes and styles:
 ### Invalid Row and Cell styles
 
 Rows and cells provide API for the developers to know if a row or cell is invalid and what kind of errors are active.
-<!-- ComponentStart: Grid -->
+<ComponentBlock for="Grid">
 ```ts
 public rowStyles = {
     background: (row: RowType) => row.validation.status === 'INVALID' ? '#FF000033' : '#00000000'
@@ -579,9 +578,9 @@ public cellStyles = {
 <{ComponentInstance} [rowStyles]="rowStyles">
     <igx-column field="ReorderLevel" header="ReorderLever" required [cellClasses]="cellStyles">
 ```
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: HierarchicalGrid -->
+<ComponentBlock for="HierarchicalGrid">
 ```ts
 public rowStyles = {
     background: (row: RowType) => row.validation.status === 'INVALID' ? '#FF000033' : '#00000000'
@@ -612,10 +611,10 @@ public cellStyles = {
 </igx-hierarchical-grid>
 ```
 
-<!-- ComponentEnd: HierarchicalGrid -->
+</ComponentBlock>
 
 
-<!-- ComponentStart: TreeGrid -->
+<ComponentBlock for="TreeGrid">
 ```razor
 public rowStyles = {
     background: (row: RowType) => row.cells.find(c => c.validation.errors !== null && c.validation.errors !== undefined) ? '#FF000033' : '#00000000'
@@ -633,27 +632,24 @@ public cellStyles = {
 <igx-tree-grid [rowStyles]="rowStyles">
         <igx-column *ngFor="let c of columns" [field]="c.field" [dataType]="c.dataType" [header]="c.label" [required]="c.required" [cellClasses]="cellStyles">
 ```
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
 
 ### Demo
 
-`sample="/{ComponentSample}/data-validation-style", height="560", alt="{Platform} {ComponentTitle} data validation style"`
+<Sample src="/{ComponentSample}/data-validation-style" height={560} alt="{Platform} {ComponentTitle} data validation style" />
 
 
-<!-- end: Angular -->
+</PlatformBlock>
 
 ## API References
 
-- `BaseTransactionService`
-- `{ComponentName}`
-- `Column`
-
+<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
+<ApiRef pkg="grids" types={["Column"]} />
 
 ## Additional Resources
 
-<!-- Angular -->
-
+<PlatformBlock for="Angular">
 - [Build CRUD operations with igxGrid](../general/how-to/how-to-perform-crud.md)
 
 - [{ComponentTitle} Editing](editing.md)
@@ -661,18 +657,17 @@ public cellStyles = {
 - [{ComponentTitle} Row Adding](row-adding.md)
 - [{ComponentTitle} Transactions](batch-editing.md)
 
-<!-- end: Angular -->
+</PlatformBlock>
 
-<!-- Blazor -->
-
-<!-- ComponentStart: Grid -->
+<PlatformBlock for="Blazor">
+<ComponentBlock for="Grid">
 - [{ComponentTitle} Editing](editing.md)
 - [{ComponentTitle} Row Editing](row-editing.md)
 - [{ComponentTitle} Row Adding](row-adding.md)
 - [{ComponentTitle} Transactions](batch-editing.md)
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- end: Blazor -->
+</PlatformBlock>
 
 <div class="divider--half"></div>
 

@@ -3,22 +3,31 @@ title: {Platform} Excel Library| Using Cells | Infragistics
 _description: Learn how to perform operations on Infragistics' {Platform} excel library's cells such as accessing them, adding formulas and comments, merging cells and formatting cells. View {ProductName} excel demos!
 _keywords: Excel library,  cell operations, {ProductName}, Infragistics
 _license: commercial
-mentionedTypes: ["Workbook", "Worksheet", "WorksheetCell", "WorkbookStyleCollection", "IWorksheetCellFormat", "WorkbookColorInfo", "DisplayOptions"]
+
 ---
+import PlatformBlock from '@/components/mdx/PlatformBlock.astro';
+import Sample from '@/components/mdx/Sample.astro';
+import ApiRef from '@/components/mdx/ApiRef.astro';
+import ApiLink from '@/components/mdx/ApiLink.astro';
+
 # {Platform} Using Cells
 
-The `WorksheetCell` objects in an Excel worksheet is the object that holds your actual data values for the worksheet. This topic goes over the many operations that you can perform on these cells, such as accessing them and their regions by name, adding formulas and comments to the cells, and merging and formatting them.
+The <ApiLink pkg="excel" type="WorksheetCell" /> objects in an Excel worksheet is the object that holds your actual data values for the worksheet. This topic goes over the many operations that you can perform on these cells, such as accessing them and their regions by name, adding formulas and comments to the cells, and merging and formatting them.
 
 ## {Platform} Using Cells Example
 
 
-`sample="/excel/excel-library/working-with-cells", height="200", alt="{Platform} Using Cells Example"`
+<Sample src="/excel/excel-library/working-with-cells" height={200} alt="{Platform} Using Cells Example" />
+
 
 
 
 <div class="divider--half"></div>
 
-<!-- Angular, React, WebComponents -->
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+
 ## References
 
 The following code shows the imports needed to use the code-snippets below:
@@ -32,11 +41,13 @@ import { NamedReference } from "{PackageExcel}";
 import { WorksheetCellComment } from "{PackageExcel}";
 import { FormattedString } from "{PackageExcel}";
 ```
-<!-- end: Angular, React, WebComponents -->
+
+</PlatformBlock>
+
 
 ## Referencing Cells and Regions
 
-You can access a `WorksheetCell` object or a `WorksheetRegion` object by calling the `Worksheet` object’s `GetCell` or `GetRegion` methods, respectively. Both methods accept a string parameter that references a cell. Getting a reference to a cell is useful when applying formats or working with formulas and cell contents.
+You can access a <ApiLink pkg="excel" type="WorksheetCell" /> object or a <ApiLink pkg="excel" type="WorksheetRegion" /> object by calling the <ApiLink pkg="excel" type="Worksheet" /> object’s `GetCell` or `GetRegion` methods, respectively. Both methods accept a string parameter that references a cell. Getting a reference to a cell is useful when applying formats or working with formulas and cell contents.
 
 The following example code demonstrates how to reference cells and regions:
 
@@ -50,6 +61,8 @@ var cell = worksheet.getCell("E2");
 var region = worksheet.getRegion("G1:G10");
 ```
 
+<PlatformBlock for="Blazor">
+
 ```razor
 var workbook = new Workbook();
 var worksheet = workbook.Worksheets.Add("Sheet1");
@@ -60,11 +73,13 @@ var cell = worksheet.GetCell("E2");
 var region = worksheet.GetRegion("G1:G10");
 ```
 
+</PlatformBlock>
+
 ## Accessing Cells and Regions by Name
 
 In Microsoft Excel, individual cells, as well as cell regions can have names assigned to them. The name of a cell or region can be used to reference that cell or region instead of their address.
 
-The Infragistics {Platform} Excel Library supports the referencing of cells and regions by name through the `GetCell` and `GetRegion` methods of the `Worksheet` object. You refer to the cell or region using the `NamedReference` instance that refers to that cell or region.
+The Infragistics {Platform} Excel Library supports the referencing of cells and regions by name through the `GetCell` and `GetRegion` methods of the <ApiLink pkg="excel" type="Worksheet" /> object. You refer to the cell or region using the `NamedReference` instance that refers to that cell or region.
 
 You can use the following code snippet as an example for naming a cell or region:
 
@@ -76,6 +91,8 @@ var cell_reference = workbook.namedReferences().add("myCell", "=Sheet1:A1");
 var region_reference = workbook.namedReferences().add("myRegion", "=Sheet1!A1:B2");
 ```
 
+<PlatformBlock for="Blazor">
+
 ```razor
 var workbook = new Workbook();
 var worksheet = workbook.Worksheets.Add("Sheet1");
@@ -84,6 +101,8 @@ var cell_reference = workbook.NamedReferences.Add("myCell", "=Sheet1:A1");
 var region_reference = workbook.NamedReferences.Add("myRegion", "=Sheet1!A1:B2");
 ```
 
+</PlatformBlock>
+
 The following code can be used to the get the cell and region referenced by the "myCell" and "myRegion" named references above:
 
 ```ts
@@ -91,14 +110,18 @@ var cell = worksheet.getCell("myCell");
 var region = worksheet.getRegion("myRegion");
 ```
 
+<PlatformBlock for="Blazor">
+
 ```razor
 var cell = worksheet.GetCell("myCell");
 var region = worksheet.GetRegion("myRegion");
 ```
 
+</PlatformBlock>
+
 ## Adding a Comment to a Cell
 
-A comment allows you to display hints or notes for a cell when the end user’s mouse hovers over a cell. The comments display as a tooltip-like callout that contains text. The Infragistics {Platform} Excel Library allows you to add comments to a cell by setting a `WorksheetCell` object’s `Comment` property.
+A comment allows you to display hints or notes for a cell when the end user’s mouse hovers over a cell. The comments display as a tooltip-like callout that contains text. The Infragistics {Platform} Excel Library allows you to add comments to a cell by setting a <ApiLink pkg="excel" type="WorksheetCell" /> object’s <ApiLink pkg="excel" type="WorksheetCell" member="comment" label="Comment" /> property.
 
 The following example code demonstrates how to add a comment to a cell:
 
@@ -113,6 +136,8 @@ cellComment.text = commentText;
 worksheet.rows(0).cells(0).comment = cellComment;
 ```
 
+<PlatformBlock for="Blazor">
+
 ```razor
 var workbook = new Workbook();
 var worksheet = workbook.Worksheets.Add("Sheet1");
@@ -124,9 +149,11 @@ cellComment.Text = commentText;
 worksheet.Rows[0].Cells[0].Comment = cellComment;
 ```
 
+</PlatformBlock>
+
 ## Adding a Formula to a Cell
 
-The Infragistics {Platform} Excel Library allows you to add Microsoft Excel formulas to a cell or group of cells in a worksheet. You can do this using the `WorksheetCell` object’s `ApplyFormula` method or by instantiating a `Formula` object and applying it to a cell. Regardless of the manner in which you apply a formula to a cell, you can access the `Formula` object using the `WorksheetCell` object’s `Formula` property. If you need the value, use the cell’s `Value` property.
+The Infragistics {Platform} Excel Library allows you to add Microsoft Excel formulas to a cell or group of cells in a worksheet. You can do this using the <ApiLink pkg="excel" type="WorksheetCell" /> object’s `ApplyFormula` method or by instantiating a <ApiLink pkg="excel" type="Formula" /> object and applying it to a cell. Regardless of the manner in which you apply a formula to a cell, you can access the <ApiLink pkg="excel" type="Formula" /> object using the <ApiLink pkg="excel" type="WorksheetCell" /> object’s <ApiLink pkg="excel" type="WorksheetCell" member="formula" label="Formula" /> property. If you need the value, use the cell’s `Value` property.
 
 The following code shows you how to add a formula to a cell.
 
@@ -140,6 +167,8 @@ The following code shows you how to add a formula to a cell.
  sumFormula.applyTo(worksheet.rows(5).cells(0));
 ```
 
+<PlatformBlock for="Blazor">
+
 ```razor
 var workbook = new Workbook();
 var worksheet = workbook.Worksheets.Add("Sheet1");
@@ -150,8 +179,10 @@ var sumFormula = Formula.Parse("=SUM(A1:A5)", CellReferenceMode.A1);
 sumFormula.ApplyTo(worksheet.Rows[5].Cells[0]);
 ```
 
+</PlatformBlock>
+
 ## Copying a Cell’s Format
-Cells can have different formatting, including background color, format string, and font style. If you need a cell to have the same format as a previously formatted cell, instead of individually setting each option exposed by the `WorksheetCell` object’s `CellFormat` property, you can call the `CellFormat` object’s `SetFormatting` method and pass it a `CellFormat` object to copy. This will copy every format setting from the first cell to the second cell. You can also do this for a row, merged cell region, or column.
+Cells can have different formatting, including background color, format string, and font style. If you need a cell to have the same format as a previously formatted cell, instead of individually setting each option exposed by the <ApiLink pkg="excel" type="WorksheetCell" /> object’s <ApiLink pkg="excel" type="WorksheetCell" member="cellFormat" label="CellFormat" /> property, you can call the <ApiLink pkg="excel" type="CellFormat" /> object’s `SetFormatting` method and pass it a <ApiLink pkg="excel" type="CellFormat" /> object to copy. This will copy every format setting from the first cell to the second cell. You can also do this for a row, merged cell region, or column.
 
 The following code shows you how to copy the format of the 2nd column to the 4th column:
 
@@ -167,6 +198,8 @@ worksheet.columns(1).cellFormat.font.bold = true;
 worksheet.columns(3).cellFormat.setFormatting(worksheet.columns(1).cellFormat);
 ```
 
+<PlatformBlock for="Blazor">
+
 ```razor
 var workbook = new Workbook();
 var worksheet = workbook.Worksheets.Add("Sheet1");
@@ -179,9 +212,11 @@ worksheet.Columns[1].CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
 worksheet.Columns[3].CellFormat.SetFormatting(worksheet.Columns[1].CellFormat);
 ```
 
+</PlatformBlock>
+
 ## Formatting a Cell
 
-The Infragistics {Platform} Excel Library allows you to customize the look and behavior of a cell. You can customize a cell by setting properties exposed by the `CellFormat` property of the `WorksheetCell`, `WorksheetRow`, `WorksheetColumn`, or `WorksheetMergedCellsRegion` objects.
+The Infragistics {Platform} Excel Library allows you to customize the look and behavior of a cell. You can customize a cell by setting properties exposed by the <ApiLink pkg="excel" type="WorksheetCell" member="cellFormat" label="CellFormat" /> property of the <ApiLink pkg="excel" type="WorksheetCell" />, <ApiLink pkg="excel" type="WorksheetRow" />, <ApiLink pkg="excel" type="WorksheetColumn" />, or `WorksheetMergedCellsRegion` objects.
 
 You can customize every aspect of a cell’s appearance. You can set a cell’s font, background, and borders, as well as text alignment and rotation. You can even apply a different format on a character-by-character basis for a cell’s text.
 
@@ -196,6 +231,8 @@ var workbook = workbook.worksheets().add("Sheet1");
 worksheet.columns(2).cellFormat.formatString = "\"$\"#,##0.00";
 ```
 
+<PlatformBlock for="Blazor">
+
 ```razor
 var workbook = new Workbook();
 var worksheet = workbook.Worksheets.Add("Sheet1");
@@ -203,31 +240,33 @@ var worksheet = workbook.Worksheets.Add("Sheet1");
 worksheet.Columns[2].CellFormat.FormatString = "\"$\"#,##0.00";
 ```
 
+</PlatformBlock>
+
 ## Excel 2007 Color Model
 
 The color palette is analogous to the color dialog in Microsoft Excel 2007 UI. You can open this color dialog by navigating to Excel Options => Save => Colors.
 
-You can create all possible fill types using static properties and methods on the `CellFill` class. They are as follows:
+You can create all possible fill types using static properties and methods on the <ApiLink pkg="excel" type="CellFill" /> class. They are as follows:
 
 - `NoColor` - A property that represents a fill with no color, which allows a background image of the worksheet, if any, to show through.
 
-- `CreateSolidFill` - Returns a `CellFillPattern` instance which has a pattern style of `Solid` and a background color set to the `Color` or `WorkbookColorInfo` specified in the method.
+- `CreateSolidFill` - Returns a <ApiLink pkg="excel" type="CellFillPattern" /> instance which has a pattern style of `Solid` and a background color set to the `Color` or <ApiLink pkg="excel" type="WorkbookColorInfo" /> specified in the method.
 
-- `CreatePatternFill` - Returns a `CellFillPattern` instance which has the specified pattern style and the `Color` or `WorkbookColorInfo` values, specified for the background and pattern colors.
+- `CreatePatternFill` - Returns a <ApiLink pkg="excel" type="CellFillPattern" /> instance which has the specified pattern style and the `Color` or <ApiLink pkg="excel" type="WorkbookColorInfo" /> values, specified for the background and pattern colors.
 
-- `CreateLinearGradientFill` - Returns a `CellFillLinearGradient` instance with the specified angle and gradient stops.
+- `CreateLinearGradientFill` - Returns a <ApiLink pkg="excel" type="CellFillLinearGradient" /> instance with the specified angle and gradient stops.
 
-- `CreateRectangularGradientFill` - Returns a `CellFillRectangularGradient` instance with the specified left, top, right, and bottom of the inner rectangle and gradient stops. If the inner rectangle values are not specified, the center of the cell is used as the inner rectangle.
+- `CreateRectangularGradientFill` - Returns a <ApiLink pkg="excel" type="CellFillRectangularGradient" /> instance with the specified left, top, right, and bottom of the inner rectangle and gradient stops. If the inner rectangle values are not specified, the center of the cell is used as the inner rectangle.
 
 The derived types, representing the various fills which can be created, are as follows:
 
-- `CellFillPattern` - A pattern that represents a cell fill of no color, a solid color, or a pattern fill for a cell. It has background color info and a pattern color info which correspond directly to the color sections in the Fill tab of the Format Cells dialog of Excel.
+- <ApiLink pkg="excel" type="CellFillPattern" /> - A pattern that represents a cell fill of no color, a solid color, or a pattern fill for a cell. It has background color info and a pattern color info which correspond directly to the color sections in the Fill tab of the Format Cells dialog of Excel.
 
-- `CellFillLinearGradient` - Represents a linear gradient fill. It has an angle, which is degrees clockwise of the left to right linear gradient, and a gradients stops collection which describes two or more color transitions along the length of the gradient.
+- <ApiLink pkg="excel" type="CellFillLinearGradient" /> - Represents a linear gradient fill. It has an angle, which is degrees clockwise of the left to right linear gradient, and a gradients stops collection which describes two or more color transitions along the length of the gradient.
 
-- `CellFillRectangularGradient` - Represents a rectangular gradient fill. It has top, left, right, and bottom values, which describe, in relative coordinates, the inner rectangle from which the gradient starts and goes out to the cell edges. It also has a gradient stops collection which describes two or more color transitions along the path from the inner rectangle to the cell edges.
+- <ApiLink pkg="excel" type="CellFillRectangularGradient" /> - Represents a rectangular gradient fill. It has top, left, right, and bottom values, which describe, in relative coordinates, the inner rectangle from which the gradient starts and goes out to the cell edges. It also has a gradient stops collection which describes two or more color transitions along the path from the inner rectangle to the cell edges.
 
-The following code snippet demonstrates how to create a solid fill in a `WorksheetCell`:
+The following code snippet demonstrates how to create a solid fill in a <ApiLink pkg="excel" type="WorksheetCell" />:
 
 ```ts
 var workbook = new Workbook();
@@ -237,6 +276,8 @@ var cellFill = CellFill.createSolidFill("Blue");
 worksheet.rows(0).cells(0).cellFormat.fill = cellFill;
 ```
 
+<PlatformBlock for="Blazor">
+
 ```razor
 var workbook = new Workbook();
 var worksheet = workbook.Worksheets.Add("Sheet1");
@@ -244,6 +285,8 @@ var worksheet = workbook.Worksheets.Add("Sheet1");
 var cellFill = CellFill.CreateSolidFill(Core.Graphics.Colors.Blue);
 worksheet.Rows[0].Cells[0].CellFormat.Fill = cellFill;
 ```
+
+</PlatformBlock>
 
 You can specify a color (the color of Excel cells background, border, etc) using linear and rectangular gradients in cells. When workbooks with these gradients are saved in .xls file format and opened in Microsoft Excel 2007/2010, the gradients will be visible, but when these files are opened in Microsoft Excel 2003, the cell will be filled with the solid color from the first gradient stop.
 
@@ -285,11 +328,11 @@ Each workbook has 12 associated theme colors. They are the following:
 
 - There are default values when a workbook is created, which can be customized via Excel.
 
-Colors are defined by the `WorkbookColorInfo` class, which is a sealed immutable class. The class has a static `Automatic` property, which returns the automatic color, and there are various constructors which allow you to create a `WorkbookColorInfo` instance with a color or a theme value and an optional tint.
+Colors are defined by the <ApiLink pkg="excel" type="WorkbookColorInfo" /> class, which is a sealed immutable class. The class has a static `Automatic` property, which returns the automatic color, and there are various constructors which allow you to create a <ApiLink pkg="excel" type="WorkbookColorInfo" /> instance with a color or a theme value and an optional tint.
 
-The `GetResolvedColor` method on `WorkbookColorInfo` allows you to determine what color will actually be seen by the user when they open the file in Excel.
+The `GetResolvedColor` method on <ApiLink pkg="excel" type="WorkbookColorInfo" /> allows you to determine what color will actually be seen by the user when they open the file in Excel.
 
-If the `WorkbookColorInfo` represents a theme color, you must pass in a Workbook instance to the method so it can get the theme color’s RGB value from the workbook.
+If the <ApiLink pkg="excel" type="WorkbookColorInfo" /> represents a theme color, you must pass in a Workbook instance to the method so it can get the theme color’s RGB value from the workbook.
 
 When saving out in the newer file formats such as .xlsx, the newer color information is saved directly into the file. When saving out in an older file format such as .xls, the index to the closest color in the palette will be saved out. In addition, the older formats have future feature records that can be saved out to indicate the newer color information.
 
@@ -297,27 +340,27 @@ When the older formats are opened in Microsoft Excel 2003 and earlier versions, 
 
 ## Excel Format Support
 
-You can set a host of different formats on a `WorksheetCell` by using the `CellFormat` object returned by the `CellFormat` property of that cell. This `CellFormat` object enables you to style many different aspects of the cell such as borders, font, fill, alignments, and whether or not the cell should shrink to fit or be locked.
+You can set a host of different formats on a <ApiLink pkg="excel" type="WorksheetCell" /> by using the <ApiLink pkg="excel" type="CellFormat" /> object returned by the <ApiLink pkg="excel" type="WorksheetCell" member="cellFormat" label="CellFormat" /> property of that cell. This <ApiLink pkg="excel" type="CellFormat" /> object enables you to style many different aspects of the cell such as borders, font, fill, alignments, and whether or not the cell should shrink to fit or be locked.
 
-You can also access the built-in styles to Microsoft Excel 2007 using the `Styles` collection of the `Workbook` object. The full list of styles in Excel can be found in the Cell Styles gallery of the Home tab of Microsoft Excel 2007.
+You can also access the built-in styles to Microsoft Excel 2007 using the `Styles` collection of the <ApiLink pkg="excel" type="Workbook" /> object. The full list of styles in Excel can be found in the Cell Styles gallery of the Home tab of Microsoft Excel 2007.
 
-There is a special type of style on the workbook's `Styles` collection known as the "normal" style, which can be accessed using that collection's `NormalStyle` property, or by indexing into the collection with the name "Normal".
+There is a special type of style on the workbook’s `Styles` collection known as the "normal" style, which can be accessed using that collection’s `NormalStyle` property, or by indexing into the collection with the name "Normal".
 
 The `NormalStyle` contains the default properties for all cells in the workbook, unless otherwise specified on a row, column, or cell. Changing the properties on the `NormalStyle` will change all of the default cell format properties on the workbook. This is useful, for example, if you want to change the default font for your workbook.
 
 You can clear the `Styles` collection or reset it to its predefined state by using the `Clear` and `Reset` methods, respectively. Both of these will remove all user-defined styles, but `Clear` will clear the `Styles` collection entirely.
 
-With this feature, a `Style` property has been added to the `CellFormat` object. This is a reference to a `WorkbookStyle` instance, representing the parent style of the format. For formats of a style, this property will always be null, because styles cannot have a parent style. For row, column, and cell formats, the `Style` property always returns the `NormalStyle` by default.
+With this feature, a `Style` property has been added to the <ApiLink pkg="excel" type="CellFormat" /> object. This is a reference to a <ApiLink pkg="excel" type="WorkbookStyle" /> instance, representing the parent style of the format. For formats of a style, this property will always be null, because styles cannot have a parent style. For row, column, and cell formats, the `Style` property always returns the `NormalStyle` by default.
 
 If the `Style` property is set to null, it will revert back to the `NormalStyle`. If it is set to another style in the styles collection, that style will now hold the defaults for all unset properties on the cell format.
 
-When the `Style` property is set on a cell format, the format options included on the `Style` are removed from the cell format. All other properties are left intact. For example, if a cell style including border formatting was created and that style was set as the cell's `Style`, the border format option on the cell format would be removed and the cell format only includes fill formatting.
+When the `Style` property is set on a cell format, the format options included on the `Style` are removed from the cell format. All other properties are left intact. For example, if a cell style including border formatting was created and that style was set as the cell’s `Style`, the border format option on the cell format would be removed and the cell format only includes fill formatting.
 
 When a format option flag is removed from a format, all associated properties are reset to their unset values, so the cell format’s border properties are implicitly reset to default/unset values.
 
 You can determine what would really be seen in cells by using the `GetResolvedCellFormat` method on classes which represent a row, column, cell, and merged cell.
 
-This method returns a `CellFormat` instance which refers back to the associated `CellFormat` on which it is based. So subsequent changes to the `CellFormat` property will be reflected in the instance returned from a `GetResolvedCellFormat` call.
+This method returns a <ApiLink pkg="excel" type="CellFormat" /> instance which refers back to the associated <ApiLink pkg="excel" type="CellFormat" /> on which it is based. So subsequent changes to the <ApiLink pkg="excel" type="WorksheetCell" member="cellFormat" label="CellFormat" /> property will be reflected in the instance returned from a `GetResolvedCellFormat` call.
 
 ## Merging Cells
 
@@ -327,7 +370,7 @@ When you merge cells, each cell in the region will have the same value and cell 
 
 Setting the value (or cell format) of the region or any cell in the region will change the value of all cells and the region. If you un-merge cells, all of the previously merged cells will retain the shared cell format they had before they were unmerged. However, only the top-left cell of the region will retain the shared value.
 
-In order to create a merged cell region, you must add a range of cells to the `Worksheet` object’s `MergedCellsRegions` collection. This collection exposes an `Add` method that takes four integer parameters. The four parameters determine the index of the starting row and column (top-left most cell) and the index of the ending row and column (bottom-right most cell).
+In order to create a merged cell region, you must add a range of cells to the <ApiLink pkg="excel" type="Worksheet" /> object’s `MergedCellsRegions` collection. This collection exposes an `Add` method that takes four integer parameters. The four parameters determine the index of the starting row and column (top-left most cell) and the index of the ending row and column (bottom-right most cell).
 
 ```ts
 var workbook = new Workbook();
@@ -349,6 +392,8 @@ mergedRegion1.value = "Day 1";
 worksheet.rows(0).cells(2).cellFormat.alignment = HorizontalCellAlignment.Center;
 ```
 
+<PlatformBlock for="Blazor">
+
 ```razor
 var workbook = new Workbook();
 var worksheet = workbook.Worksheets.Add("Sheet1");
@@ -368,6 +413,8 @@ mergedRegion1.Value = "Day1";
 // Since a cell and its merged region shared a cell format, this will ultimately set the format of the merged region
 worksheet.Rows[0].Cells[2].CellFormat.Alignment = HorizontalCellAlignment.Center;
 ```
+
+</PlatformBlock>
 
 ## Retrieving the Cell Text as Displayed in Excel
 
@@ -409,7 +456,7 @@ If a text is used in the cell, the cell displayed text will always be full value
 
 The only time when this is not the case is when padding characters are used in format string. Then the value will be displayed as all hash marks when there is not enough room for the text.
 
-You can set the worksheet's `DisplayOptions`' `ShowFormulasInCells` property to  have formulas be displayed in cells instead of their results, and format strings and cell widths are ignored. Text values display as if their format string were @ , non-integral numeric values display as if their format string were 0.0 and integral numeric values display as if their format string were 0 .
+You can set the worksheet's `DisplayOptions`' `ShowFormulasInCells` property to have formulas be displayed in cells instead of their results, and format strings and cell widths are ignored. Text values display as if their format string were @ , non-integral numeric values display as if their format string were 0.0 and integral numeric values display as if their format string were 0 .
 
 Additionally, if the value cannot fit, it will not display as all hashes. Display text will still return its full text as the cell text, even though it may not be fully seen.
 
@@ -422,6 +469,8 @@ var worksheet = this.workbook.worksheets().add("Sheet1");
 var cellText = worksheet.rows(0).cells(0).getText();
 ```
 
+<PlatformBlock for="Blazor">
+
 ```razor
 var workbook = new Workbook();
 var worksheet = workbook.Worksheets.Add("Sheet1");
@@ -429,22 +478,6 @@ var worksheet = workbook.Worksheets.Add("Sheet1");
 var cellText = worksheet.Rows[0].Cells[0].GetText();
 ```
 
-## API References
+</PlatformBlock>
 
-- `Add`
-- `CellFillLinearGradient`
-- `CellFillPattern`
-- `CellFillRectangularGradient`
-- `CellFill`
-- `CellFormat`
-- `DisplayOptions`'
-- `Formula`
-- `MergedCellsRegions`
-- `WorkbookColorInfo`
-- `WorkbookStyle`
-- `Workbook`
-- `WorksheetCell`
-- `WorksheetColumn`
-- `WorksheetRegion`
-- `WorksheetRow`
-- `Worksheet`
+<ApiRef types={["CellFillLinearGradient","CellFillPattern","CellFillRectangularGradient","CellFill","CellFormat","Formula","WorkbookColorInfo","WorkbookStyle","Workbook","WorksheetCell","WorksheetColumn","WorksheetRegion","WorksheetRow","Worksheet"]} pkg="excel" />

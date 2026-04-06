@@ -3,10 +3,14 @@ title: {Platform} {ComponentTitle} Search Filter - {ProductName}
 _description: Perform data manipulation without affecting the underlying data with {ComponentTitle} Batch Editing, using {Platform} {ComponentTitle}. See demos & examples!
 _keywords: {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
 _license: commercial
-mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid"]
 namespace: Infragistics.Controls
 ---
+import Sample from '@/components/mdx/Sample.astro';
+import PlatformBlock from '@/components/mdx/PlatformBlock.astro';
+import ApiRef from '@/components/mdx/ApiRef.astro';
+import ApiLink from '@/components/mdx/ApiLink.astro';
+
 
 # {Platform} {ComponentTitle} Search Filter
 
@@ -16,7 +20,7 @@ The {ProductName} Search Filter feature in {Platform} {ComponentTitle} enables t
 
 The following example represents `{ComponentName}` with search input box that allows searching in all columns and rows, as well as specific filtering options for each column.
 
-`sample="/{ComponentSample}/data-searching", height="600", alt="{Platform} {ComponentTitle} Search Example"`
+<Sample src="/{ComponentSample}/data-searching" height={600} alt="{Platform} {ComponentTitle} Search Example" />
 
 ## {Platform} Search Usage
 
@@ -24,9 +28,8 @@ The following example represents `{ComponentName}` with search input box that al
 
 Let's start by creating our grid and binding it to our data. We will also add some custom styles for the components we will be using!
 
-<!-- ComponentStart: Grid -->
-<!-- Angular -->
-
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
 ```html
 <{ComponentSelector} #grid1 id="grid1" [data]="data" [autoGenerate]="false" [allowFiltering]="true">
     <igx-column [field]="'IndustrySector'" dataType="string" [sortable]="true"></igx-column>
@@ -37,7 +40,7 @@ Let's start by creating our grid and binding it to our data. We will also add so
     <igx-column [field]="'Date'" dataType="date" [sortable]="true"></igx-column>
 </{ComponentSelector}>
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
 ```css
 .gridSize {
@@ -83,10 +86,10 @@ Let's start by creating our grid and binding it to our data. We will also add so
     <IgrColumn field="MarketNotion" dataType="number" sortable={true}></IgrColumn>
 </{ComponentSelector}>
 ```
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: TreeGrid -->
-<!-- Angular -->
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
 ```html
 <igx-tree-grid #treeGrid1 [data]="data" [autoGenerate]="false" primaryKey="ID" foreignKey="ParentID" height="480px" width="100%" [allowFiltering]="true">
     <igx-column [field]="'Name'" dataType="string" [sortable]="true"></igx-column>
@@ -96,9 +99,9 @@ Let's start by creating our grid and binding it to our data. We will also add so
     <igx-column [field]="'HireDate'" dataType="date" [sortable]="true"></igx-column>
 </igx-tree-grid>
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
-<!-- WebComponents -->
+<PlatformBlock for="WebComponents">
 ```html
 <igc-tree-grid id="treeGrid" auto-generate="false" primary-key="ID" foreign-key="ParentID" allow-filtering="true" height="100%" width="100%">
     <igc-column field="Name" data-type="string" sortable="true"></igc-column>
@@ -117,7 +120,7 @@ constructor() {
     this.treeGrid.data = new EmployeesFlatData();
 }
 ```
-<!-- end: WebComponents -->
+</PlatformBlock>
 
 ```tsx
 <IgrTreeGrid ref={gridRef} data={data} autoGenerate={false} primaryKey="ID" foreignKey="ParentID" allowFiltering={true} height="100%" width="100%">
@@ -138,22 +141,20 @@ constructor() {
     <IgbColumn Field="HireDate" DataType="GridColumnDataType.Date" Sortable=true></IgbColumn>
 </IgbTreeGrid>
 ```
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
 Great, and now let's prepare for the search API of our `{ComponentName}`! We can create a few properties, which can be used for storing the currently searched text and whether the search is case sensitive and/or by an exact match.
 
-<!-- ComponentStart: Grid -->
-<!-- Angular -->
-
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
 ```typescript
 public searchText: string = '';
 public caseSensitive: boolean = false;
 public exactMatch: boolean = false;
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
-<!-- WebComponents -->
-
+<PlatformBlock for="WebComponents">
 ```typescript
     private grid: IgcGridComponent;
 
@@ -168,7 +169,7 @@ public exactMatch: boolean = false;
     private exactMatchChip: IgcChipComponent;
 ```
 
-<!-- end: WebComponents -->
+</PlatformBlock>
 
 ```razor
 public string searchText = "";
@@ -182,10 +183,10 @@ const [caseSensitiveSelected, setCaseSensitiveSelected] = useState<boolean>(fals
 const [exactMatchSelected, setExactMatchSelected] = useState<boolean>(false);
 const [searchText, setSearchText] = useState('');
 ```
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: TreeGrid -->
-<!-- WebComponents -->
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
 ```ts
 private treeGrid: IgcTreeGridComponent;
 
@@ -198,7 +199,7 @@ private prevIconButton: IgcIconButtonComponent;
 private caseSensitiveChip: IgcChipComponent;
 private exactMatchChip: IgcChipComponent;
 ```
-<!-- end: WebComponents -->
+</PlatformBlock>
 
 ```razor
 private IgbTreeGrid treeGrid;
@@ -214,51 +215,51 @@ const [caseSensitiveSelected, setCaseSensitiveSelected] = useState<boolean>(fals
 const [exactMatchSelected, setExactMatchSelected] = useState<boolean>(false);
 const [searchText, setSearchText] = useState('');
 ```
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
 ### {Platform} Search Box Input
 
 
-<!-- WebComponents -->
-Now let's create our search input!  By getting the input element we can get its current value. This will allow us to use the `{ComponentName}`'s `FindNext` and `FindPrev` methods to highlight all the occurrences of the `SearchText` and scroll to the next/previous one (depending on which method we have invoked).
-<!-- end: WebComponents -->
+<PlatformBlock for="WebComponents">
+Now let's create our search input!  By getting the input element we can get its current value. This will allow us to use the `{ComponentName}`'s `FindNext` and `FindPrev` methods to highlight all the occurrences of the <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} /> and scroll to the next/previous one (depending on which method we have invoked).
+</PlatformBlock>
 
-<!-- Angular -->
-Now let's create our search input! By binding our `SearchText` as ngModel to our newly created input and subscribe to the ngModelChange event, we can detect every single `SearchText` modification by the user. This will allow us to use the `{ComponentName}`'s `FindNext` and `FindPrev` methods to highlight all the occurrences of the `SearchText` and scroll to the next/previous one (depending on which method we have invoked).
-<!-- end: Angular -->
+<PlatformBlock for="Angular">
+Now let's create our search input! By binding our <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} /> as ngModel to our newly created input and subscribe to the ngModelChange event, we can detect every single <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} /> modification by the user. This will allow us to use the `{ComponentName}`'s `FindNext` and `FindPrev` methods to highlight all the occurrences of the <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} /> and scroll to the next/previous one (depending on which method we have invoked).
+</PlatformBlock>
 
-<!-- Blazor -->
-Now let's create our search input! By binding our `SearchText` to the `Value` property to our newly created input and subscribe to the `ValueChanging` event, we can detect every single `SearchText` modification by the user. This will allow us to use the `{ComponentName}`'s `FindNext` and `FindPrev` methods to highlight all the occurrences of the `SearchText` and scroll to the next/previous one (depending on which method we have invoked).
-<!-- end: Blazor -->
+<PlatformBlock for="Blazor">
+Now let's create our search input! By binding our <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} /> to the `Value` property to our newly created input and subscribe to the `ValueChanging` event, we can detect every single <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} /> modification by the user. This will allow us to use the `{ComponentName}`'s `FindNext` and `FindPrev` methods to highlight all the occurrences of the <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} /> and scroll to the next/previous one (depending on which method we have invoked).
+</PlatformBlock>
 
-<!-- React -->
+<PlatformBlock for="React">
 Now let's create our search input! By binding our `searchText` to the `value` property to our newly created input and subscribe to the `inputOccured` event, we can detect every single `searchText` modification by the user. This will allow us to use the `{ComponentName}`'s `findNext` and `findPrev` methods to highlight all the occurrences of the `searchText` and scroll to the next/previous one (depending on which method we have invoked).
-<!-- end: React -->
+</PlatformBlock>
 
 Both the `FindNext` and the `FindPrev` methods have three arguments:
 
 - `Text`: **string** (the text we are searching for)
-- (optional) `CaseSensitive`: **boolean** (should the search be case sensitive or not, default value is false)
-- (optional) `ExactMatch`: **boolean** (should the search be by an exact match or not, default value is false)
+- (optional) <ApiLink pkg="grids" type="{ComponentName}" member="caseSensitive" prefixed={false} />: **boolean** (should the search be case sensitive or not, default value is false)
+- (optional) <ApiLink pkg="grids" type="{ComponentName}" member="exactMatch" prefixed={false} />: **boolean** (should the search be by an exact match or not, default value is false)
 
-When searching by an exact match, the search API will highlight as results only the cell values that match entirely the `SearchText` by taking the case sensitivity into account as well. For example the strings '_software_' and '_Software_' are an exact match with a disregard for the case sensitivity.
+When searching by an exact match, the search API will highlight as results only the cell values that match entirely the <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} /> by taking the case sensitivity into account as well. For example the strings '_software_' and '_Software_' are an exact match with a disregard for the case sensitivity.
 
 The methods from above return a **number** value (the number of times the `{ComponentName}` contains the given string).
 
-<!-- ComponentStart: Grid -->
-<!-- Angular -->
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
 ```html
 <!--searchgrid.component.html-->
 
 <input #search1 id="search1" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="@@igObjectRef.findNext(searchText, caseSensitive, exactMatch)" />
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
 ```razor
 <IgbInput ValueChanging="valueChanging" Value="@searchText" />
 ```
 
-<!-- WebComponents -->
+<PlatformBlock for="WebComponents">
 ```html
 <igc-input id="searchBox" name="searchBox">
 </igc-input>
@@ -275,7 +276,7 @@ public nextSearch(){
     this.grid.findNext(this.searchBox.value, false, false);
 }
 ```
-<!-- end: WebComponents -->
+</PlatformBlock>
 
 ```tsx
 const handleOnSearchChange = (event: IgrComponentValueChangedEventArgs) => {
@@ -286,10 +287,10 @@ const handleOnSearchChange = (event: IgrComponentValueChangedEventArgs) => {
 <IgrInput name="searchBox" value={searchText} onInput={handleOnSearchChange}>
 </IgrInput>
 ```
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: TreeGrid -->
-<!-- WebComponents -->
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
 ```html
 <igc-input id="searchBox" name="searchBox">
 </igc-input>
@@ -306,7 +307,7 @@ public nextSearch() {
     this.treeGrid.findNext(this.searchBox.value, this.caseSensitiveChip.selected, this.exactMatchChip.selected);
 }
 ```
-<!-- end: WebComponents -->
+</PlatformBlock>
 
 ```razor
 <IgbInput ValueChanging="OnValueChanging" Value="@searchText" />
@@ -326,13 +327,12 @@ const handleOnSearchChange = (event: IgrComponentValueChangedEventArgs) => {
 <IgrInput name="searchBox" value={searchText} onInput={handleOnSearchChange}>
 </IgrInput>
 ```
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
-<!-- Angular -->
-
+<PlatformBlock for="Angular">
 ### Display Results Count
 
-Let's also display the position of the current occurrence, along with the total results count! We can do this by using the grid's `LastSearchInfo` property. This property is automatically updated when using the **find** methods.
+Let's also display the position of the current occurrence, along with the total results count! We can do this by using the grid's <ApiLink pkg="grids" type="{ComponentName}" member="lastSearchInfo" prefixed={false} /> property. This property is automatically updated when using the **find** methods.
 
 - The grid's `LastSearchInfo.MatchInfoCache.Length` value will give us the total results count.
 - The grid's `LastSearchInfo.ActiveMatchIndex` value will give us the index position of the current occurrence (match).
@@ -348,23 +348,23 @@ Let's also display the position of the current occurrence, along with the total 
 </div>
 ```
 
-<!-- end: Angular -->
+</PlatformBlock>
 
 ### Add Search Buttons
 
 In order to freely search and navigate among our search results, let's create a couple of buttons by invoking the `FindNext` and the `FindPrev` methods inside the buttons' respective click event handlers.
 
 
-<!-- Angular -->
+<PlatformBlock for="Angular">
 ```html
 <div class="searchButtons">
     <input type="button" value="Previous" (click)="@@igObjectRef.findPrev(searchText, caseSensitive, exactMatch)" />
     <input type="button" value="Next" (click)="@@igObjectRef.findNext(searchText, caseSensitive, exactMatch)" />
 </div>
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
-<!-- ComponentStart: Grid -->
+<ComponentBlock for="Grid">
 ```razor
 <IgbIconButton Variant="IconButtonVariant.Flat" @onclick="PrevSearch">
     <IgbIcon IconName="prev" Collection="material"/>
@@ -387,7 +387,7 @@ In order to freely search and navigate among our search results, let's create a 
 }
 ```
 
-<!-- WebComponents -->
+<PlatformBlock for="WebComponents">
 ```html
 <igc-icon-button id="prevIconBtn" variant="flat" name="prev" collection="material" ></igc-icon-button>
 <igc-icon-button id="nextIconBtn" variant="flat" name="next" collection="material"></igc-icon-button>
@@ -408,11 +408,11 @@ public nextSearch() {
     this.grid.findNext(this.searchBox.value, this.caseSensitiveChip.selected, this.exactMatchChip.selected);
 }
 ```
-<!-- end: WebComponents -->
-<!-- ComponentEnd: Grid -->
+</PlatformBlock>
+</ComponentBlock>
 
-<!-- ComponentStart: TreeGrid -->
-<!-- WebComponents -->
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
 ```html
 <igc-icon-button id="prevIconBtn" variant="flat" name="prev" collection="material" ></igc-icon-button>
 <igc-icon-button id="nextIconBtn" variant="flat" name="next" collection="material"></igc-icon-button>
@@ -434,7 +434,7 @@ public nextSearch() {
     this.treeGrid.findNext(this.searchBox.value, this.caseSensitiveChip.selected, this.exactMatchChip.selected);
 }
 ```
-<!-- end: WebComponents -->
+</PlatformBlock>
 
 ```razor
 <IgbIconButton Variant="IconButtonVariant.Flat" @onclick="PrevSearch">
@@ -458,7 +458,7 @@ public nextSearch() {
     }
 }
 ```
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
 ```tsx
 const prevSearch = (text: string, caseSensitive: boolean, exactMatch: boolean) => {
@@ -480,7 +480,7 @@ const nextSearch = (text: string, caseSensitive: boolean, exactMatch: boolean) =
 
 We can also allow the users to navigate the results by using the keyboard's arrow keys and the <kbd>ENTER</kbd> key. In order to achieve this, we can handle the **keydown** event of our search input by preventing the default caret movement of the input with the `PreventDefault` method and invoke the `FindNext`/`FindPrev` methods depending on which key the user has pressed.
 
-<!-- Angular -->
+<PlatformBlock for="Angular">
 ```html
 <input #search1 id="search1" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="@@igObjectRef.findNext(searchText, caseSensitive, exactMatch)"
        (keydown)="searchKeyDown($event)" />
@@ -497,10 +497,10 @@ public searchKeyDown(ev) {
     }
 }
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
-<!-- ComponentStart: Grid -->
-<!-- WebComponents -->
+<ComponentBlock for="Grid">
+<PlatformBlock for="WebComponents">
 ```html
 <input id="searchBox" name="searchBox"/>
 ```
@@ -525,7 +525,7 @@ public onSearchKeydown(evt: KeyboardEvent) {
     }
 }
 ```
-<!-- end: WebComponents -->
+</PlatformBlock>
 
 ```tsx
 const searchKeyDown = (e: KeyboardEvent<HTMLElement>) => {
@@ -543,11 +543,10 @@ const searchKeyDown = (e: KeyboardEvent<HTMLElement>) => {
 </div>
 ```
 
-<!-- Blazor -->
-
+<PlatformBlock for="Blazor">
 We can also allow the users to navigate the results by using the keyboard's <kbd>ENTER</kbd> key. In order to achieve this, we can handle the **keydown** event of our search and invoke the `FindNext`/`FindPrev` methods depending on if the user has pressed <kbd>SHIFT</kbd> as well or not.
 
-<!-- end: Blazor -->
+</PlatformBlock>
 
 ```razor
 <IgbInput ValueChanging="valueChanging" Value="@searchText" @onkeydown="OnSearchKeyDown"/>
@@ -563,10 +562,10 @@ We can also allow the users to navigate the results by using the keyboard's <kbd
     }
 }
 ```
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: TreeGrid -->
-<!-- WebComponents -->
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
 ```html
 <igc-input id="searchBox" name="searchBox">
 </igc-input>
@@ -592,7 +591,7 @@ public onSearchKeydown(evt: KeyboardEvent) {
     }
 }
 ```
-<!-- end: WebComponents -->
+</PlatformBlock>
 
 ```tsx
 const searchKeyDown = (e: KeyboardEvent<HTMLElement>) => {
@@ -635,17 +634,16 @@ const handleOnSearchChange = (event: IgrComponentValueChangedEventArgs) => {
     }
 }
 ```
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
 ### Case Sensitive and Exact Match
 
-<!-- Angular -->
+<PlatformBlock for="Angular">
+Now let's allow the user to choose whether the search should be case sensitive and/or by an exact match. For this purpose we can use simple checkbox inputs by binding our <ApiLink pkg="grids" type="{ComponentName}" member="caseSensitive" prefixed={false} /> and <ApiLink pkg="grids" type="{ComponentName}" member="exactMatch" prefixed={false} /> properties to the inputs' `Checked` properties respectively and handle their `Change` events by toggling our properties and invoking the `FindNext` method.
 
-Now let's allow the user to choose whether the search should be case sensitive and/or by an exact match. For this purpose we can use simple checkbox inputs by binding our `CaseSensitive` and `ExactMatch` properties to the inputs' `Checked` properties respectively and handle their `Change` events by toggling our properties and invoking the `FindNext` method.
+</PlatformBlock>
 
-<!-- end: Angular -->
-
-<!-- Angular -->
+<PlatformBlock for="Angular">
 ```html
 <span>Case sensitive</span>
 <input type="checkbox" [checked]="caseSensitive" (change)="updateSearch()">
@@ -665,10 +663,10 @@ public updateExactSearch() {
     this.@@igObjectRef.findNext(this.searchText, this.caseSensitive, this.exactMatch);
 }
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
-<!-- ComponentStart: Grid -->
-<!-- WebComponents -->
+<ComponentBlock for="Grid">
+<PlatformBlock for="WebComponents">
 Now let's allow the user to choose whether the search should be case sensitive and/or by an exact match. For this purpose we can use simple checkbox inputs and bind to its `change` event where we can use the checkbox `checked` state.
 
 ```html
@@ -695,11 +693,11 @@ public updateSearch() {
     grid.findNext(search1.value, case.checked, exact.checked);
 }
 ```
-<!-- end: WebComponents -->
-<!-- ComponentEnd: Grid -->
+</PlatformBlock>
+</ComponentBlock>
 
-<!-- ComponentStart: TreeGrid -->
-<!-- WebComponents -->
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
 Now let's allow the user to choose whether the search should be case sensitive and/or by an exact match. For this purpose we can use simple selectable `Chips` and bind to the `igcSelect` event to determine when the user interacts with them.
 
 ```html
@@ -720,14 +718,13 @@ constructor() {
     });
 }
 ```
-<!-- end: WebComponents -->
-<!-- ComponentEnd: TreeGrid -->
+</PlatformBlock>
+</ComponentBlock>
 
-<!-- Blazor -->
-
+<PlatformBlock for="Blazor">
 Now let's allow the user to choose whether the search should be case sensitive and/or by an exact match. For this purpose we can use simple selectable `Chips` and bind to the `SelectedChanged` event to determine when the user interacts with them.
 
-<!-- end: Blazor -->
+</PlatformBlock>
 
 ```razor
 <IgbChip Selectable=true SelectedChanged="UpdateCase">
@@ -749,9 +746,9 @@ Now let's allow the user to choose whether the search should be case sensitive a
     }
 }
 ```
-<!-- React -->
+<PlatformBlock for="React">
 Now let's allow the user to choose whether the search should be case sensitive and/or by an exact match. For this purpose we can use the `IgrChip` component along with a boolean state variable to indicate whether the IgrChip is selected.
-<!-- end: React -->
+</PlatformBlock>
 ```tsx
 const [caseSensitiveSelected, setCaseSensitiveSelected] = useState<boolean>(false);
 const [exactMatchSelected, setExactMatchSelected] = useState<boolean>(false);
@@ -776,17 +773,16 @@ const handleExactMatchChange = (event: IgrComponentBoolValueChangedEventArgs) =>
 
 ### Persistence
 
-What if we would like to filter and sort our `{ComponentName}` or even to add and remove records? After such operations, the highlights of our current search automatically update and persist over any text that matches the `SearchText`! Furthermore, the search will work with paging and will persist the highlights through changes of the `{ComponentName}`'s `PerPage` property.
+What if we would like to filter and sort our `{ComponentName}` or even to add and remove records? After such operations, the highlights of our current search automatically update and persist over any text that matches the <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} />! Furthermore, the search will work with paging and will persist the highlights through changes of the `{ComponentName}`'s `PerPage` property.
 
 ### Adding icons
 
 By using some of our other components, we can create an enriched user interface and improve the overall design of our entire search bar! We can have a nice search or delete icon on the left of the search input, a couple of chips for our search options and some material design icons combined with nice ripple styled buttons for our navigation on the right.
 
-<!-- Angular -->
-
+<PlatformBlock for="Angular">
 To do this, let's go and grab the [**InputGroup**](../input-group.md), [**Icon**](../icon.md),  [**Ripple**](../ripple.md), [**Button**](../button.md) and the [**Chip**](../chip.md) modules.
 
-<!-- end: Angular -->
+</PlatformBlock>
 
 ```typescript
 import {
@@ -810,13 +806,12 @@ import { defineComponents, IgcInputComponent, IgcChipComponent, IgcIconComponent
 defineComponents(IgcInputComponent, IgcChipComponent, IgcIconComponent, IgcIconButtonComponent);
 ```
 
-<!-- Blazor -->
-
+<PlatformBlock for="Blazor">
 To do this, let's go and grab the `Input`, `Icon`, `IconButton` and the `Chip` modules.
 
-<!-- end: Blazor -->
+</PlatformBlock>
 
-<!-- ComponentStart: Grid -->
+<ComponentBlock for="Grid">
 ```razor
 // eg. Program.cs register the following:
 builder.Services.AddIgniteUIBlazor(
@@ -826,8 +821,8 @@ builder.Services.AddIgniteUIBlazor(
     typeof(IgbIconModule)
 );
 ```
-<!-- ComponentEnd: Grid -->
-<!-- ComponentStart: TreeGrid -->
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
 ```razor
 // eg. Program.cs register the following:
 builder.Services.AddIgniteUIBlazor(
@@ -837,7 +832,7 @@ builder.Services.AddIgniteUIBlazor(
     typeof(IgbIconModule)
 );
 ```
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 ```razor
 @code {
     private IgbIcon searchIconRef { get; set; }
@@ -862,15 +857,14 @@ builder.Services.AddIgniteUIBlazor(
 }
 ```
 
-<!-- WebComponents, Blazor -->
+<PlatformBlock for="WebComponents, Blazor">
 Finally, let's update our template with the new components!
-<!-- end: WebComponents, Blazor -->
+</PlatformBlock>
 
-<!-- Angular -->
+<PlatformBlock for="Angular">
+We will wrap all of our components inside an [InputGroup](../input-group.md). On the left we will toggle between a search and a delete/clear icon (depending on whether the search input is empty or not). In the center, we will position the input itself. In addition, whenever the delete icon is clicked, we will update our <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} /> and invoke the `{ComponentName}`'s `ClearSearch` method to clear the highlights.
 
-We will wrap all of our components inside an [InputGroup](../input-group.md). On the left we will toggle between a search and a delete/clear icon (depending on whether the search input is empty or not). In the center, we will position the input itself. In addition, whenever the delete icon is clicked, we will update our `SearchText` and invoke the `{ComponentName}`'s `ClearSearch` method to clear the highlights.
-
-<!-- end: Angular -->
+</PlatformBlock>
 
 ```html
 <igx-input-group type="search" class="offset">
@@ -888,16 +882,16 @@ We will wrap all of our components inside an [InputGroup](../input-group.md). On
 </igx-input-group>
 ```
 
-<!-- Angular -->
+<PlatformBlock for="Angular">
 ```typescript
 public clearSearch() {
     this.searchText = '';
     this.@@igObjectRef.clearSearch();
 }
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
-<!-- ComponentStart: Grid -->
+<ComponentBlock for="Grid">
 ```html
 <igc-input id="searchBox" name="searchBox">
     <igc-icon id="searchIcon" slot="prefix" name="search" collection="material"></igc-icon>
@@ -912,7 +906,7 @@ public clearSearch() {
 </igc-input>
 ```
 
-<!-- WebComponents -->
+<PlatformBlock for="WebComponents">
 ```typescript
 constructor() {
     const prevIconText = "<svg width='24' height='24' viewBox='0 0 24 24'><path d='M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z'></path></svg>";
@@ -926,18 +920,16 @@ constructor() {
     registerIconFromText("search", searchIconText, "material");
 }
 ```
-<!-- end: WebComponents -->
+</PlatformBlock>
 
-<!-- Blazor -->
+<PlatformBlock for="Blazor">
+We will wrap all of our components inside an `Input`. On the left we will toggle between a search and a delete/clear icon (depending on whether the search input is empty or not). In the center, we will position the input itself. In addition, whenever the delete icon is clicked, we will update our <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} /> and invoke the `{ComponentName}`'s `ClearSearch` method to clear the highlights.
 
-We will wrap all of our components inside an `Input`. On the left we will toggle between a search and a delete/clear icon (depending on whether the search input is empty or not). In the center, we will position the input itself. In addition, whenever the delete icon is clicked, we will update our `SearchText` and invoke the `{ComponentName}`'s `ClearSearch` method to clear the highlights.
+</PlatformBlock>
+</ComponentBlock>
 
-<!-- end: Blazor -->
-<!-- ComponentEnd: Grid -->
-
-<!-- ComponentStart: TreeGrid -->
-
-We will wrap all of our components inside an `Input`. On the left we will toggle between a search and a delete/clear icon (depending on whether the search input is empty or not). In the center, we will position the input itself. In addition, whenever the delete icon is clicked, we will update our `SearchText` and invoke the `{ComponentName}`'s `ClearSearch` method to clear the highlights.
+<ComponentBlock for="TreeGrid">
+We will wrap all of our components inside an `Input`. On the left we will toggle between a search and a delete/clear icon (depending on whether the search input is empty or not). In the center, we will position the input itself. In addition, whenever the delete icon is clicked, we will update our <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} /> and invoke the `{ComponentName}`'s `ClearSearch` method to clear the highlights.
 
 ```html
 <igc-input id="searchBox" name="searchBox">
@@ -953,7 +945,7 @@ We will wrap all of our components inside an `Input`. On the left we will toggle
 </igc-input>
 ```
 
-<!-- WebComponents -->
+<PlatformBlock for="WebComponents">
 ```typescript
 constructor() {
     const prevIconText = "<svg width='24' height='24' viewBox='0 0 24 24'><path d='M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z'></path></svg>";
@@ -981,9 +973,9 @@ public clearSearch() {
     this.treeGrid.clearSearch();
 }
 ```
-<!-- end: WebComponents -->
+</PlatformBlock>
 
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
 ```razor
 <IgbInput ValueChanging="OnValueChanging" Value="@searchText" @onkeydown="OnSearchKeyDown">
@@ -1024,16 +1016,15 @@ public clearSearch() {
 }
 ```
 
-<!-- Angular, Blazor, WebComponents -->
+<PlatformBlock for="Angular, Blazor, WebComponents">
 On the right in our input group, let's create three separate containers with the following purposes:
-<!-- end: Angular, Blazor, WebComponents -->
+</PlatformBlock>
 
-<!-- React -->
+<PlatformBlock for="React">
 Let's begin by creating the search navigation buttons on the right of the input by adding two ripple styled buttons with material icons. The handlers for the click events remain the same - invoking the `FindNext`/`FindPrev` methods.
-<!-- end: React -->
+</PlatformBlock>
 
-<!-- Angular -->
-
+<PlatformBlock for="Angular">
 - For displaying the search results.
 
 ```html
@@ -1071,12 +1062,11 @@ public showResults() {
 }
 ```
 
-<!-- end: Angular -->
+</PlatformBlock>
 
-- For displaying a couple of chips that toggle the `CaseSensitive` and the `ExactMatch` properties. We have replaced the checkboxes with two stylish chips. Whenever a chip is clicked, we invoke its respective handler.
+- For displaying a couple of chips that toggle the <ApiLink pkg="grids" type="{ComponentName}" member="caseSensitive" prefixed={false} /> and the <ApiLink pkg="grids" type="{ComponentName}" member="exactMatch" prefixed={false} /> properties. We have replaced the checkboxes with two stylish chips. Whenever a chip is clicked, we invoke its respective handler.
 
-<!-- Angular -->
-
+<PlatformBlock for="Angular">
 ```html
 <div class="chips">
     <igx-chips-area>
@@ -1089,10 +1079,10 @@ public showResults() {
     </igx-chips-area>
 </div>
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
 
-<!-- WebComponents -->
+<PlatformBlock for="WebComponents">
 ```html
 <div slot="suffix">
     <igc-chip selectable="true" id="caseSensitiveChip">Case Sensitive</igc-chip>
@@ -1100,7 +1090,7 @@ public showResults() {
 </div>
 ```
 
-<!-- ComponentStart: Grid -->
+<ComponentBlock for="Grid">
 ```ts
 constructor() {
     const input = document.getElementById("searchBox") as IgcInputComponent;
@@ -1113,9 +1103,9 @@ public updateSearch() {
     grid.findNext(input.value, caseSensitiveChip.selected, exactMatchChip.selected);
 }
 ```
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: TreeGrid -->
+<ComponentBlock for="TreeGrid">
 ```ts
 constructor() {
     this.caseSensitiveChip = document.getElementById('caseSensitiveChip') as IgcChipComponent;
@@ -1129,9 +1119,9 @@ constructor() {
     });
 }
 ```
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
-<!-- end: WebComponents -->
+</PlatformBlock>
 
 ```razor
     <div class="chips" slot="suffix">
@@ -1155,11 +1145,10 @@ constructor() {
     }
 }
 ```
-<!-- Angular, WebComponents, Blazor -->
+<PlatformBlock for="Angular, WebComponents, Blazor">
 - For the search navigation buttons, we have added two ripple styled buttons with material icons. The handlers for the click events remain the same - invoking the `FindNext`/`FindPrev` methods.
-<!-- end: Angular, WebComponents, Blazor -->
-<!-- Angular -->
-
+</PlatformBlock>
+<PlatformBlock for="Angular">
 ```html
 <igx-suffix>
     <div class="searchButtons">
@@ -1172,11 +1161,10 @@ constructor() {
     </div>
 </igx-suffix>
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
 
-<!-- WebComponents -->
-
+<PlatformBlock for="WebComponents">
 ```html
 <div slot="suffix">
     <igc-icon-button id="prevIconBtn" variant="flat" name="prev" collection="material" ></igc-icon-button>
@@ -1193,7 +1181,7 @@ constructor() {
 }
 ```
 
-<!-- ComponentStart: Grid -->
+<ComponentBlock for="Grid">
 ```ts
 public nextSearch() {
     this.grid.findNext(this.searchBox.value, this.caseSensitiveChip.selected, this.exactMatchChip.selected);
@@ -1203,9 +1191,9 @@ public prevSearch() {
     this.grid.findPrev(this.searchBox.value, this.caseSensitiveChip.selected, this.exactMatchChip.selected);
 }
 ```
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: TreeGrid -->
+<ComponentBlock for="TreeGrid">
 ```ts
 public prevSearch() {
     this.treeGrid.findPrev(this.searchBox.value, this.caseSensitiveChip.selected, this.exactMatchChip.selected);
@@ -1215,9 +1203,9 @@ public nextSearch() {
     this.treeGrid.findNext(this.searchBox.value, this.caseSensitiveChip.selected, this.exactMatchChip.selected);
 }
 ```
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
-<!-- end: WebComponents -->
+</PlatformBlock>
 
 ```tsx
 const prevSearch = (text: string, caseSensitive: boolean, exactMatch: boolean) => {
@@ -1237,7 +1225,7 @@ const nextSearch = (text: string, caseSensitive: boolean, exactMatch: boolean) =
     </IgrIconButton>
 </div>
 ```
-<!-- React -->
+<PlatformBlock for="React">
 Now let's add the search and clear icons to the left of the input:
 
 ```tsx
@@ -1287,7 +1275,7 @@ useEffect(() => {
     </div>
 </IgrInput>
 ```
-<!-- end: React -->
+</PlatformBlock>
 
 ```razor
 <div class="searchButtons" slot="suffix">
@@ -1322,36 +1310,7 @@ useEffect(() => {
 
 ## API References
 
-In this article we implemented our own search bar for the `{ComponentName}` with some additional functionality when it comes to navigating between the search results. We also used some additional {ProductName} components like icons, chips and inputs. The search API is listed below.
-
-`{ComponentName}` methods:
-- `FindNext`
-- `FindPrev`
-- `ClearSearch`
-- `RefreshSearch`
-
-`Column` properties:
-- `Searchable`
-
-Additional components with relative APIs that were used:
-
-<!-- Angular -->
-
-- `InputGroup`
-- `RippleDirective`
-- `ButtonDirective`
-
-<!-- end: Angular -->
-
-- `Icon`
-- `Chip`
-
-<!-- Blazor -->
-
-- `Input`
-- `IconButton`
-
-<!-- end: Blazor -->
+<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
 
 ## Additional Resources
 

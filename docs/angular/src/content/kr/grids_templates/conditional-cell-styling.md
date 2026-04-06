@@ -46,7 +46,7 @@ This can be achieved by setting the [`IgxColumnComponent`]({environment:angularA
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-<!-- TODO -->
+{/* TODO */}
 }
 <div class="divider--half"></div>
 
@@ -71,7 +71,7 @@ This can be achieved by setting the [`IgxColumnComponent`]({environment:angularA
 ```
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-<!-- TODO -->
+{/* TODO */}
 }
 
 [`cellClasses`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#cellclasses) 입력은 키 값 쌍을 포함하는 객체 리터럴을 허용하며 여기서 키는 CSS 클래스의 이름이고 값은 불 또는 불 값을 반환하는 콜백 함수입니다.
@@ -141,7 +141,7 @@ public priceClasses = {
 ```
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-<!-- TODO -->
+{/* TODO */}
 }
 
 **::ng-deep** 또는 **`ViewEncapsulation.None`**을 사용하여 사용자 스타일을 현재 컴포넌트와 그 하위 요소를 통해 강제로 적용할 수 있습니다.
