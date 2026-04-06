@@ -327,66 +327,6 @@ function transformMdxFile(content) {
 // 6 & 7. Sample viewer + edit buttons
 // ---------------------------------------------------------------------------
 
-function parseSampleAttrs(str) {
-    const attrs = {};
-    const re = /([\w-]+)="([^"]*)"/g;
-    let m;
-    while ((m = re.exec(str)) !== null) attrs[m[1]] = m[2];
-    return attrs;
-}
-
-function transformSampleViewers(content) {
-    // Match: `sample="/path", height="N", alt="...", img-src="..."`
-    return content.replace(/`(sample="[^`]+)`/g, (_match, inner) => {
-        const attrs  = parseSampleAttrs(inner);
-        const sample = (attrs.sample || '').replace(/^\//, ''); // strip leading /
-        const height = (attrs.height || '400').replace('px', '');
-        const alt    = attrs.alt || '';
-
-        let html =
-            `<code-view style="height: ${height}px" alt="${alt}"\n` +
-            `           data-demos-base-url="{environment:dvDemosBaseUrl}"\n` +
-            `                    iframe-src="{environment:dvDemosBaseUrl}/${sample}"\n` +
-            `                                             github-src="${sample}">\n` +
-            `</code-view>`;
-
-        // --- CodeSandbox / StackBlitz buttons ---
-        const showSandbox    = platformConfig.codeSandboxButtonInject    === true;
-        const showStackblitz = platformConfig.samplesDisplayStackblitz   === true;
-
-        if (showSandbox || showStackblitz) {
-            const tree = (platformConfig.samplesGithubTree || '').replace(/^github\//, '');
-            const file = platformConfig.samplesGithubFile || 'index.html';
-
-            let buttons = '';
-
-            if (showSandbox) {
-                const url = `https://codesandbox.io/s/${tree}${sample}` +
-                            `?fontsize=14&hidenavigation=1&theme=dark&view=preview&file=/${file}`;
-                buttons +=
-                    `<a target="_blank" href="${url}" rel="noopener noreferrer">\n` +
-                    `  <img height="40px" style="border-radius:0rem;max-width:100%;" ` +
-                    `alt="Code Sandbox" src="https://static.infragistics.com/xplatform/images/browsers/open-sandbox.png"/>\n` +
-                    `</a>\n`;
-            }
-
-            if (showStackblitz) {
-                const encodedFile = encodeURIComponent(file);
-                const url = `https://stackblitz.com/${tree}${sample}?file=src/${encodedFile}`;
-                buttons +=
-                    `<a target="_blank" href="${url}" rel="noopener noreferrer">\n` +
-                    `  <img height="40px" style="border-radius:0rem;max-width:100%;" ` +
-                    `alt="Stackblitz" src="https://static.infragistics.com/xplatform/images/browsers/open-stackblitz.png"/>\n` +
-                    `</a>\n`;
-            }
-
-            html += '\n\n' + buttons;
-        }
-
-        return html;
-    });
-}
-
 // ---------------------------------------------------------------------------
 // 8. TOC generation — moved to astro.config.ts (buildFilteredToc)
 // ---------------------------------------------------------------------------
@@ -411,7 +351,6 @@ function transformRegularFile(content, componentKey = null) {
     content = filterPlatformBlocks(content);
     content = filterComponentBlocks(content, componentKey);
     content = filterCodeBlocks(content);
-    content = transformSampleViewers(content);
     content = applyReplacements(content);
     content = normalizeImagePaths(content);
     return normalise(content);
