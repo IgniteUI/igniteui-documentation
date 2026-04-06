@@ -3,9 +3,13 @@ title: {Platform} Hierarchical Grid | Fastest {Platform} Hierarchical Table | In
 _description: The {ProductName} Hierarchical Grid provides the necessary tools to load data on demand for each child grid that is expanded. That way the volume of data would be greatly reduced and can be retrieved only when the user needs it.
 _keywords: {Platform} hierarchical grid, igniteui for {Platform}, infragistics
 _license: commercial
-mentionedTypes: ["HierarchicalGrid", "RowIsland"]
+
 namespace: Infragistics.Controls
 ---
+import PlatformBlock from '@/components/mdx/PlatformBlock.astro';
+import Sample from '@/components/mdx/Sample.astro';
+import ApiRef from '@/components/mdx/ApiRef.astro';
+
 
 # Hierarchical Grid Load On Demand
 
@@ -15,7 +19,8 @@ This topic demonstrates how to configure Load on Demand by creating a Remote Ser
 
 ## {Platform} Hierarchical Grid Load On Demand Example
 
-`sample="/{HierarchicalGridSample}/data-performance-virtualization", height="700", alt="{Platform} Hierarchical Grid Load On Demand Example"`
+<Sample src="/{HierarchicalGridSample}/data-performance-virtualization" height={700} alt="{Platform} Hierarchical Grid Load On Demand Example" />
+
 
 ## Remote Service Provider
 
@@ -23,7 +28,10 @@ First we will prepare our service provider so we will be ready to get the data w
 
 ### Getting basic data
 
-<!-- Angular -->
+
+<PlatformBlock for="Angular">
+
+
 We will be communicating with our backend service over HTTP protocol using the XMLHttpRequest interface the browsers provide. In order to achieve this more easily we will use Angular's [`HttpClient`](https://angular.io/api/common/http/HttpClient) module that offers a simplified client HTTP API. That way in order to get our data we will need this simple method in our service:
 
 ```typescript
@@ -35,9 +43,14 @@ public getData(dataState): Observable<any[]> {
 ```
 
 As you can see `this.http` will be a reference to our `HttpCLient` module, and `buildUrl()` will be the method that will generate our url based on the data that we have received. We map our response and return an Observable, since this is executed asynchronously. That way we can later subscribe to it, process it further in our application and pass it to our grid.
-<!-- end: Angular -->
 
-<!-- WebComponents, React -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents, React">
+
+
 We will be communicating with our backend service over HTTP protocol using the [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/fetch) global function the browsers provide. That way in order to get our data we will need this simple method in our service:
 
 ```ts
@@ -49,9 +62,14 @@ export async function getData(dataState: any): Promise<any> {
 ```
 
 As you can see `buildUrl()` will be the method that will generate our url based on the data that we have received. We return a Promise, since this is executed asynchronously. That way we can later subscribe to it, process it further in our application and pass it to our grid.
-<!-- end: WebComponents, React -->
 
-<!-- Blazor -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
 We will be communicating with our backend service over HTTP protocol using the [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/fetch) global function the browsers provide. That way in order to get our data we will need this simple method in our service:
 
 ```razor
@@ -62,7 +80,9 @@ function getData(dataState) {
 ```
 
 As you can see `buildUrl()` will be the method that will generate our url based on the data that we have received. We return a Promise, since this is executed asynchronously. That way we can later subscribe to it, process it further in our application and pass it to our grid.
-<!-- end: Blazor -->
+
+</PlatformBlock>
+
 
 ### Building our request url
 
@@ -72,7 +92,10 @@ Next we will define how we should build our URL for the GET request. This is whe
 
 What we first need is the `key` of our table to determine from where to get the data for the desired grid, the primary key of the parent row and its unique ID.
 
-<!-- Angular -->
+
+<PlatformBlock for="Angular">
+
+
 We will define all this in an interface called `IDataState`. An example:
 
 ```typescript
@@ -97,9 +120,14 @@ public buildUrl(dataState: IDataState): string {
 }
 //...
 ```
-<!-- end: Angular -->
 
-<!-- WebComponents, React -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents, React">
+
+
 We will define all this in the `dataState` object. An example:
 
 ```ts
@@ -124,9 +152,14 @@ function buildUrl(dataState: any) {
     return `${URL}${qS}`;
 }
 ```
-<!-- end: WebComponents, React -->
 
-<!-- Blazor -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
 We will define all this in the `dataState` object. An example:
 
 ```razor
@@ -151,11 +184,16 @@ function buildUrl(dataState) {
     return `${DATA_URL}${qS}`;
 }
 ```
-<!-- end: Blazor -->
+
+</PlatformBlock>
+
 
 ### Result
 
-<!-- Angular -->
+
+<PlatformBlock for="Angular">
+
+
 Finally, this is how our `remote-lod.service.ts` would look like:
 
 ```typescript
@@ -196,9 +234,14 @@ export class RemoteLoDService {
     }
 }
 ```
-<!-- end: Angular -->
 
-<!-- WebComponents, React -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents, React">
+
+
 Finally, this is how our remote service would look like:
 
 ```ts
@@ -222,9 +265,14 @@ function buildUrl(dataState: any) {
     return `${URL}${qS}`;
 }
 ```
-<!-- end: WebComponents, React -->
 
-<!-- Blazor -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
 Finally, this is how our remote service would look like:
 
 ```razor
@@ -247,7 +295,9 @@ function buildUrl(dataState) {
     return `${DATA_URL}${qS}`;
 }
 ```
-<!-- end: Blazor -->
+
+</PlatformBlock>
+
 
 ## Hierarchical Grid Setup
 
@@ -257,7 +307,10 @@ Next we will setup our hierarchical grid and connect it to our remote service pr
 
 First we will define our hierarchical grid template with the levels of hierarchy that we expect to have. We know that our root grid `PrimaryKey` for the customers is their `customerId`, for their orders on the first level - `orderId` and respectively for order details - `productId`. Knowing each database table and their keys allows us to define our initial template:
 
-<!-- Angular -->
+
+<PlatformBlock for="Angular">
+
+
 ```html
 <igx-hierarchical-grid #hGrid [primaryKey]="'customerId'" [autoGenerate]="false" [height]="'600px'" [width]="'100%'">
     <igx-column field="customerId" [hidden]="true"></igx-column>
@@ -281,9 +334,14 @@ First we will define our hierarchical grid template with the levels of hierarchy
     </igx-row-island>
 </igx-hierarchical-grid>
 ```
-<!-- end: Angular -->
 
-<!-- WebComponents -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
 ```html
 <igc-hierarchical-grid id="hGrid" primary-key="customerId" height="600px">
     <igc-column field="customerId" hidden="true"></igc-column>
@@ -307,9 +365,14 @@ First we will define our hierarchical grid template with the levels of hierarchy
     </igc-row-island>
 </igc-hierarchical-grid>
 ```
-<!-- end: WebComponents -->
 
-<!-- React -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
 ```tsx
 <IgrHierarchicalGrid ref={hierarchicalGrid} primaryKey="customerId" height="600px">
     <IgrColumn field="customerId" hidden={true}></IgrColumn>
@@ -333,9 +396,14 @@ First we will define our hierarchical grid template with the levels of hierarchy
     </IgrRowIsland>
 </IgrHierarchicalGrid>
 ```
-<!-- end: React -->
 
-<!-- Blazor -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
 ```razor
 <IgbHierarchicalGrid Id="hGrid" PrimaryKey="customerId" Height="600px">
     <IgbColumn Field="customerId" Hidden="true"></IgbColumn>
@@ -359,53 +427,103 @@ First we will define our hierarchical grid template with the levels of hierarchy
     </IgbRowIsland>
 </IgbHierarchicalGrid>
 ```
-<!-- end: Blazor -->
+
+</PlatformBlock>
+
 
 There is one thing missing in our template though, and that is the data for our root level hierarchical grid, and eventually its children.
 
-<!-- Angular -->
+
+<PlatformBlock for="Angular">
+
+
 We will easily set the data of the root grid after getting its data from the service in our code later, since we can use the `#hGrid` reference.
-<!-- end: Angular -->
 
-<!-- WebComponents -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
 We will easily set the data of the root grid after getting its data from the service in our code later, since we can use the `id="hGrid"` reference.
-<!-- end: WebComponents -->
 
-<!-- React -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
 We will easily set the data of the root grid after getting its data from the service in our code later, since we can use the `ref={hierarchicalGrid}` reference.
-<!-- end: React -->
 
-<!-- Blazor -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
 We will easily set the data of the root grid after getting its data from the service in our code later, since we can use the `Id="hGrid"` reference.
-<!-- end: Blazor -->
+
+</PlatformBlock>
+
 
 Setting the data for any child that has been expanded is a bit different. When a row is expanded for the first time, a new child `HierarchicalGrid` is rendered for it and we need to get the reference for the newly created grid to set its data. That is why each `RowIsland` component provides the `GridCreated` event that is fired when a new child grid is created for that specific row island. We can use that to get the reference we need for the new grid, request its data from the service, and apply it.
 
 We can use one method for all row islands since we built our service so that it needs only information if it is the root level, the key of the row island, the primary key of the parent row, and its unique identifier. All this information can be accessed either directly from the event arguments, or from the row island responsible for triggering the event.
 
-<!-- Angular, WebComponents, React -->
+
+<PlatformBlock for="Angular, WebComponents, React">
+
+
 Let's name the method that we will use `gridCreated`.
-<!-- end: Angular, WebComponents, React -->
 
-<!-- Blazor -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
 Let's name the method that we will use `OnGridCreated`.
-<!-- end: Blazor -->
 
-<!-- Angular, WebComponents -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Angular, WebComponents">
+
+
 Since the `GridCreated` event provides the `parentID` property, a reference to the row island as `owner` and the new child `grid` property, it will be passed as the first argument. We are only missing information about the parent row's `primaryKey`, but we can easily pass that as a second argument, depending on which row island we bind.
-<!-- end: Angular, WebComponents -->
 
-<!-- React -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
 Since the `GridCreated` event provides a reference to the row island, the `parentID` property, and the new child `grid` property, this will be passed as the first and second arguments. We are only missing information about the parent row's `primaryKey`, but we can easily pass that as a third argument, depending on which row island we bind.
-<!-- end: React -->
 
-<!-- Blazor -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
 Since the `GridCreated` event provides the `parentID` property, a reference to the row island as `owner` and the new child `grid` property, it will be passed as the first argument. We are only missing information about the parent row's `primaryKey`, but we can easily determine that based on the row island `ChildDataKey`.
-<!-- end: Blazor -->
+
+</PlatformBlock>
+
 
 The template file, with these changes added, would look like this:
 
-<!-- Angular -->
+
+<PlatformBlock for="Angular">
+
+
 ```html
 <igx-hierarchical-grid #hGrid [primaryKey]="'customerId'" [autoGenerate]="false" [height]="'600px'" [width]="'100%'">
     <igx-column field="customerId" [hidden]="true"></igx-column>
@@ -429,9 +547,14 @@ The template file, with these changes added, would look like this:
     </igx-row-island>
 </igx-hierarchical-grid>
 ```
-<!-- end: Angular -->
 
-<!-- WebComponents -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
 ```html
 <igc-hierarchical-grid id="hGrid" primary-key="customerId" height="600px">
     <igc-column field="customerId" hidden="true"></igc-column>
@@ -470,9 +593,14 @@ constructor() {
     });
 }
 ```
-<!-- end: WebComponents -->
 
-<!-- React -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
 ```tsx
 <IgrHierarchicalGrid ref={hierarchicalGrid} primaryKey="customerId" height="600px">
     <IgrColumn field="customerId" hidden={true}></IgrColumn>
@@ -496,9 +624,14 @@ constructor() {
     </IgrRowIsland>
 </IgrHierarchicalGrid>
 ```
-<!-- end: React -->
 
-<!-- Blazor -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
 ```razor
 <IgbHierarchicalGrid Id="hGrid" PrimaryKey="customerId" Height="600px">
     <IgbColumn Field="customerId" Hidden="true"></IgbColumn>
@@ -522,13 +655,18 @@ constructor() {
     </IgbRowIsland>
 </IgbHierarchicalGrid>
 ```
-<!-- end: Blazor -->
+
+</PlatformBlock>
+
 
 ### Connecting our service
 
 One of our final steps now will be to connect our previously created service to our hierarchical grid.
 
-<!-- Angular -->
+
+<PlatformBlock for="Angular">
+
+
 Since we defined it as an `Injectable`, we can pass it as a provider to our application. We will get a reference to our root grid as well, by using `ViewChild` query to set its data:
 
 ```typescript
@@ -556,9 +694,14 @@ public ngAfterViewInit() {
     });
 }
 ```
-<!-- end: Angular -->
 
-<!-- WebComponents -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
 We will get a reference to our root grid to set its data. As it doesn't have any parents we can only pass that `rootLevel` is **true**, and the key for it, to the `getData` of our service. Since it returns a Promise we will need to subscribe to it:
 
 ```ts
@@ -571,9 +714,14 @@ constructor() {
     });
 }
 ```
-<!-- end: WebComponents -->
 
-<!-- React -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
 We will get a reference to our root grid via the `useRef` React hook to set its data:
 
 ```tsx
@@ -592,9 +740,14 @@ useEffect(() => {
     );
 }, []);
 ```
-<!-- end: React -->
 
-<!-- Blazor -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
 We will get a reference to our root grid to set its data. In order to make sure that our grid is rendered before we request its data from the service and assign it, we will use the `Rendered` event. As it doesn't have any parents we can only pass that `rootLevel` is **true**, and the key for it, to the `getData` of our service. Since it returns a Promise we will need to subscribe to it:
 
 ```razor
@@ -608,19 +761,34 @@ igRegisterScript("OnGridRendered", () => {
         });
 }, false)
 ```
-<!-- end: Blazor -->
 
-<!-- Angular, WebComponents, React -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Angular, WebComponents, React">
+
+
 Next, we only need to create our `gridCreated` method that will request data for any new child grid created.
-<!-- end: Angular, WebComponents, React -->
 
-<!-- Blazor -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
 Next, we only need to create our `OnGridCreated` method that will request data for any new child grid created.
-<!-- end: Blazor -->
+
+</PlatformBlock>
+
 
 It will be similar to getting the root level grid data, just this time we will need to pass more information, like `parentID` and `parentKey`. `rootLevel` will be **false** for any child:
 
-<!-- Angular -->
+
+<PlatformBlock for="Angular">
+
+
 ```typescript
 public gridCreated(event: IGridCreatedEventArgs, _parentKey: string) {
     const dataState = {
@@ -637,9 +805,14 @@ public gridCreated(event: IGridCreatedEventArgs, _parentKey: string) {
     );
 }
 ```
-<!-- end: Angular -->
 
-<!-- WebComponents -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
 ```ts
 public gridCreated(event: CustomEvent<IgcGridCreatedEventArgs>, _parentKey: string) {
     const context = event.detail;
@@ -656,9 +829,14 @@ public gridCreated(event: CustomEvent<IgcGridCreatedEventArgs>, _parentKey: stri
     });
 }
 ```
-<!-- end: WebComponents -->
 
-<!-- React -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
 ```tsx
 function gridCreated(event: IgrGridCreatedEventArgs, _parentKey: string) {
     const context = event.detail;
@@ -676,9 +854,14 @@ function gridCreated(event: IgrGridCreatedEventArgs, _parentKey: string) {
     });
 }
 ```
-<!-- end: React -->
 
-<!-- Blazor -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
 ```razor
 igRegisterScript("OnGridCreated", (args) => {
     const context = args.detail;
@@ -696,7 +879,9 @@ igRegisterScript("OnGridCreated", (args) => {
     });
 }, false)
 ```
-<!-- end: Blazor -->
+
+</PlatformBlock>
+
 
 With this, the setup of our application is almost done. This last step aims to improve the user experience by informing the user that the data is still loading so he doesn't have to look at an empty grid in the meantime. That's why the `HierarchicalGrid` supports a loading indicator that can be displayed while the grid is empty. If new data is received, the loading indicator will hide and the data will be rendered.
 
@@ -706,7 +891,10 @@ The `HierarchicalGrid` can display a loading indicator by setting the `IsLoading
 
 In this case the final version of our configuration would look like this:
 
-<!-- Angular -->
+
+<PlatformBlock for="Angular">
+
+
 ```typescript
 import { AfterViewInit, Component, ViewChild } from "@angular/core";
 import {
@@ -755,9 +943,14 @@ export class HierarchicalGridLoDSampleComponent implements AfterViewInit {
     }
 }
 ```
-<!-- end: Angular -->
 
-<!-- WebComponents -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
 ```ts
 constructor() {
     const hierarchicalGrid = document.getElementById("hGrid") as IgcHierarchicalGridComponent;
@@ -799,9 +992,14 @@ public gridCreated(event: CustomEvent<IgcGridCreatedEventArgs>, _parentKey: stri
     });
 }
 ```
-<!-- end: WebComponents -->
 
-<!-- React -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
 ```tsx
 const hierarchicalGrid = useRef<IgrHierarchicalGrid>(null);
 
@@ -836,9 +1034,14 @@ function gridCreated(event: IgrGridCreatedEventArgs, _parentKey: string) {
     });
 }
 ```
-<!-- end: React -->
 
-<!-- Blazor -->
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
 ```razor
 igRegisterScript("OnGridRendered", () => {
     const grid = document.getElementById("hGrid");
@@ -872,12 +1075,11 @@ igRegisterScript("OnGridCreated", (args) => {
     });
 }, false)
 ```
-<!-- end: Blazor -->
 
-## API References
+</PlatformBlock>
 
-- `HierarchicalGrid`
-- `RowIsland`
+
+<ApiRef pkg="core" types={["HierarchicalGrid","RowIsland"]} />
 
 ## Additional Resources
 

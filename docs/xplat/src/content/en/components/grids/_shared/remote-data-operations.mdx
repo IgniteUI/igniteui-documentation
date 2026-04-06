@@ -4,35 +4,36 @@ _description: Start using Angular remote data operations like remote filtering, 
 _keywords: Remote Data, Paging, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
 _license: commercial
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
-mentionedTypes: ["GridBaseDirective"]
 namespace: Infragistics.Controls
 ---
+import Sample from '@/components/mdx/Sample.astro';
+import PlatformBlock from '@/components/mdx/PlatformBlock.astro';
+import ApiRef from '@/components/mdx/ApiRef.astro';
+import ApiLink from '@/components/mdx/ApiLink.astro';
+
 
 # {Platform} {ComponentTitle} Remote Data Operations
-<!-- Angular -->
+<PlatformBlock for="Angular">
 The {ProductName} Remote Data Operations feature in {Platform} {ComponentTitle} supports operations such as remote virtualization, remote sorting, remote filtering and others. This allows the developer to perform these tasks on a server, retrieve the data that is produced and display it in the `{ComponentName}`.
 
 ## {Platform} {ComponentTitle} Remote Data Operations Overview Example
 
-<!-- NOTE this sample is differed -->
 
-`sample="/{ComponentSample}/remote-filtering-data", height="550", alt="{Platform} {ComponentTitle} Remote Data Operations Overview Example"`
+<Sample src="/{ComponentSample}/remote-filtering-data" height={550} alt="{Platform} {ComponentTitle} Remote Data Operations Overview Example" />
 
 
-<!-- end: Angular -->
+</PlatformBlock>
 By default, the `{ComponentName}` uses its own logic for performing data operations.
 
 You can perform these tasks remotely and feed the resulting data to the `{ComponentName}` by taking advantage of certain inputs and events, which are exposed by the `{ComponentName}`.
 
-<!-- Angular -->
-
-<!-- ComponentStart: Grid -->
-
+<PlatformBlock for="Angular">
+<ComponentBlock for="Grid">
 ## Remote Virtualization
 
 The `{ComponentName}` supports the scenario in which the data chunks are requested from a remote service, exposing the behavior implemented in the `ForOf` directive it uses internally.
 
-To utilize this feature, you need to subscribe to the `DataPreLoad` output so that you make the appropriate request based on the arguments received, as well as set the public `{ComponentName}` property `TotalItemCount` with the respective information coming from the service.
+To utilize this feature, you need to subscribe to the <ApiLink pkg="grids" type="{ComponentName}" member="dataPreLoad" prefixed={false} /> output so that you make the appropriate request based on the arguments received, as well as set the public `{ComponentName}` property <ApiLink pkg="grids" type="{ComponentName}" member="totalItemCount" prefixed={false} /> with the respective information coming from the service.
 
 ```html
 <igx-grid #grid [data]="remoteData | async" [autoGenerate]="false"
@@ -70,38 +71,38 @@ public processData(reset) {
 BLAZOR CODE SNIPPET HERE
 ```
 
-When requesting data, you need to utilize the `IForOfState` interface, which provides the `StartIndex` and `ChunkSize` properties.
+When requesting data, you need to utilize the <ApiLink pkg="grids" type="IForOfState" /> interface, which provides the <ApiLink pkg="grids" type="{ComponentName}" member="startIndex" prefixed={false} /> and <ApiLink pkg="grids" type="{ComponentName}" member="chunkSize" prefixed={false} /> properties.
 
 > [!Note]
->The first `ChunkSize` will always be 0 and should be determined by you based on the specific application scenario.
+>The first <ApiLink pkg="grids" type="{ComponentName}" member="chunkSize" prefixed={false} /> will always be 0 and should be determined by you based on the specific application scenario.
 
-<!-- end: Angular -->
+</ComponentBlock>
+</PlatformBlock>
 
-<!-- Angular -->
-
+<PlatformBlock for="Angular">
+<ComponentBlock for="Grid">
 ### Remote Virtualization Demo
 
-<!-- NOTE this sample is differed -->
+{/* NOTE: this sample is differed */}
 
-`sample="/{ComponentSample}/data-performance-operations", height="550", alt="{Platform} {ComponentTitle} Remote Data Operations Overview Example"`
+<Sample src="/{ComponentSample}/data-performance-operations" height={550} alt="{Platform} {ComponentTitle} Remote Data Operations Overview Example" />
 
-
-
-<!-- end: Angular -->
+</ComponentBlock>
+</PlatformBlock>
 
 
 ## Infinite Scroll
 
  A popular design for scenarios requiring fetching data by chunks from an end-point is the so-called infinite scroll. For data grids, it is characterized by continuous increase of the loaded data triggered by the end-user scrolling all the way to the bottom. The next paragraphs explain how you can use the available API to easily achieve infinite scrolling in `{ComponentName}`.
 
-To implement infinite scroll, you have to fetch the data in chunks. The data that is already fetched should be stored locally and you have to determine the length of a chunk and how many chunks there are. You also have to keep a track of the last visible data row index in the grid. In this way, using the `StartIndex` and `ChunkSize` properties, you can determine if the user scrolls up and you have to show them already fetched data or scrolls down and you have to fetch more data from the end-point.
+To implement infinite scroll, you have to fetch the data in chunks. The data that is already fetched should be stored locally and you have to determine the length of a chunk and how many chunks there are. You also have to keep a track of the last visible data row index in the grid. In this way, using the <ApiLink pkg="grids" type="{ComponentName}" member="startIndex" prefixed={false} /> and <ApiLink pkg="grids" type="{ComponentName}" member="chunkSize" prefixed={false} /> properties, you can determine if the user scrolls up and you have to show them already fetched data or scrolls down and you have to fetch more data from the end-point.
 
 
 
 
-The first thing to do is fetch the first chunk of the data. Setting the `TotalItemCount` property is important, as it allows the grid to size its scrollbar correctly.
+The first thing to do is fetch the first chunk of the data. Setting the <ApiLink pkg="grids" type="{ComponentName}" member="totalItemCount" prefixed={false} /> property is important, as it allows the grid to size its scrollbar correctly.
 
-<!-- Angular -->
+<PlatformBlock for="Angular">
 ```typescript
 public ngAfterViewInit() {
     this._remoteService.loadDataForPage(this.page, this.pageSize, (request) => {
@@ -116,7 +117,7 @@ public ngAfterViewInit() {
 }
 ```
 
-<!-- end: Angular -->
+</PlatformBlock>
 
 ```razor
 @code {
@@ -142,10 +143,9 @@ public ngAfterViewInit() {
 }
 ```
 
-Additionally, you have to subscribe to the `DataPreLoad` output, so that you can provide the data needed by the grid when it tries to display a different chunk, rather than the currently loaded one. In the event handler, you have to determine whether to fetch new data or return data, that's already cached locally.
+Additionally, you have to subscribe to the <ApiLink pkg="grids" type="{ComponentName}" member="dataPreLoad" prefixed={false} /> output, so that you can provide the data needed by the grid when it tries to display a different chunk, rather than the currently loaded one. In the event handler, you have to determine whether to fetch new data or return data, that's already cached locally.
 
-<!-- Angular -->
-
+<PlatformBlock for="Angular">
 ```typescript
 public handlePreLoad() {
     const isLastChunk = this.grid.totalItemCount ===
@@ -170,7 +170,7 @@ public handlePreLoad() {
     }
 }
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
 ```razor
 <IgbGrid AutoGenerate="false"
@@ -251,12 +251,12 @@ public handlePreLoad() {
 
 ### Infinite Scroll Demo
 
-`sample="/{ComponentSample}/infinite-scroll", height="550", alt="{Platform} {ComponentTitle} Remote Data Operations Infinite Scroll Example"`
+<Sample src="/{ComponentSample}/infinite-scroll" height={550} alt="{Platform} {ComponentTitle} Remote Data Operations Infinite Scroll Example" />
 
-<!-- Angular -->
+<PlatformBlock for="Angular">
 ## Remote Sorting/Filtering
 
-To provide remote sorting and filtering, you need to subscribe to the `DataPreLoad`, `SortingExpressionsChange` and `FilteringExpressionsTreeChange` outputs, so that you make the appropriate request based on the arguments received, as well as set the public `{ComponentName}` property `TotalItemCount` with the respective information coming from the service.
+To provide remote sorting and filtering, you need to subscribe to the <ApiLink pkg="grids" type="{ComponentName}" member="dataPreLoad" prefixed={false} />, <ApiLink pkg="grids" type="{ComponentName}" member="sortingExpressionsChange" prefixed={false} /> and <ApiLink pkg="grids" type="{ComponentName}" member="filteringExpressionsTreeChange" prefixed={false} /> outputs, so that you make the appropriate request based on the arguments received, as well as set the public `{ComponentName}` property <ApiLink pkg="grids" type="{ComponentName}" member="totalItemCount" prefixed={false} /> with the respective information coming from the service.
 
 We will also take advantage of the **rxjs** `debounceTime` function, which emits a value from the source Observable only after a particular time span has passed without another source emission. This way the remote operation will be triggered only when the specified amount of time has passed without the user interrupting it.
 
@@ -290,7 +290,7 @@ public ngAfterViewInit() {
 BLAZOR CODE SNIPPET HERE
 ```
 
-When remote sorting and filtering are provided, usually we do not need the built-in sorting and filtering of the grid. We can disable them by setting the `SortStrategy` and the `FilterStrategy` inputs of the grid to the `NoopSortingStrategy` and the `NoopFilteringStrategy` respective instances.
+When remote sorting and filtering are provided, usually we do not need the built-in sorting and filtering of the grid. We can disable them by setting the <ApiLink pkg="grids" type="{ComponentName}" member="sortStrategy" prefixed={false} /> and the <ApiLink pkg="grids" type="{ComponentName}" member="filterStrategy" prefixed={false} /> inputs of the grid to the <ApiLink pkg="grids" type="NoopSortingStrategy" /> and the <ApiLink pkg="grids" type="NoopFilteringStrategy" /> respective instances.
 
 ```html
 <igx-grid #grid [data]="remoteData | async" [height]="'500px'" [width]="'100%'" [autoGenerate]='false'
@@ -316,13 +316,12 @@ BLAZOR CODE SNIPPET HERE
 
 You can see the result of the code from above at the beginning of this article in the Demo section.
 
-<!-- ComponentEnd: Grid -->
+</PlatformBlock>
 
-<!-- ComponentStart: TreeGrid -->
-
+<ComponentBlock for="TreeGrid">
 ### Remote Filtering
 
-To provide remote filtering, you need to subscribe to the `FilteringExpressionsTreeChange` output so that you make the appropriate request based on the arguments received. Let's use a flat collection as a data source for our Tree Grid by providing a `PrimaryKey` and a `ForeignKey`.
+To provide remote filtering, you need to subscribe to the <ApiLink pkg="grids" type="{ComponentName}" member="filteringExpressionsTreeChange" prefixed={false} /> output so that you make the appropriate request based on the arguments received. Let's use a flat collection as a data source for our Tree Grid by providing a <ApiLink pkg="grids" type="{ComponentName}" member="primaryKey" prefixed={false} /> and a `ForeignKey`.
 
 We will also take advantage of the **rxjs** `debounceTime` function, which emits a value from the source Observable only after a particular time span has passed without another source emission. This way the remote operation will be triggered only when the specified amount of time has passed without the user interrupting it.
 
@@ -342,7 +341,7 @@ public ngAfterViewInit() {
 BLAZOR CODE SNIPPET HERE
 ```
 
-When remote filtering is provided, usually we do not need the built-in filtering of the Tree Grid. We can disable it by setting the `FilterStrategy` input of the Tree Grid to the `NoopFilteringStrategy` instance.
+When remote filtering is provided, usually we do not need the built-in filtering of the Tree Grid. We can disable it by setting the <ApiLink pkg="grids" type="{ComponentName}" member="filterStrategy" prefixed={false} /> input of the Tree Grid to the <ApiLink pkg="grids" type="NoopFilteringStrategy" /> instance.
 
 ```html
 <igx-tree-grid #treeGrid [data]="remoteData | async" primaryKey="ID" foreignKey="ParentID"
@@ -382,17 +381,18 @@ The remote filtering will have to be performed over the flat collection directly
 
 You can see the result of the code from above at the beginning of this article in the Demo section.
 
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
+<PlatformBlock for="Angular">
 ## Unique Column Values Strategy
 
 The list items inside the Excel Style Filtering dialog represent the unique values for the respective column. The `{ComponentName}` generates these values based on its data source by default. In case of remote filtering, the grid data does not contain all the data from the server. In order to provide the unique values manually and load them on demand, we can take advantage of the `{ComponentName}`'s `UniqueColumnValuesStrategy` input. This input is actually a method that provides three arguments:
 
 - `Column`  - The respective column instance.
-- `FilteringExpressionsTree` - The filtering expressions tree, which is reduced based on the respective column.
+- <ApiLink pkg="grids" type="FilteringExpressionsTree" /> - The filtering expressions tree, which is reduced based on the respective column.
 - `Done` - Callback that should be called with the newly generated column values when they are retrieved from the server.
 
-The developer can manually generate the necessary unique column values based on the information, that is provided by the `Column` and the `FilteringExpressionsTree` arguments and then invoke the `Done` callback.
+The developer can manually generate the necessary unique column values based on the information, that is provided by the `Column` and the <ApiLink pkg="grids" type="FilteringExpressionsTree" /> arguments and then invoke the `Done` callback.
 
 > [!Note]
 > When the `UniqueColumnValuesStrategy` input is provided, the default unique values generating process in the excel style filtering will not be used.
@@ -423,7 +423,7 @@ BLAZOR CODE SNIPPET HERE
 
 ### Unique Column Values Strategy Demo
 
-`sample="/{ComponentSample}/excel-style-filtering-load-on-demand", height="550", alt="{Platform} {ComponentTitle} Remote Data Operations Unique Column Values Strategy Example"`
+<Sample src="/{ComponentSample}/excel-style-filtering-load-on-demand" height={550} alt="{Platform} {ComponentTitle} Remote Data Operations Unique Column Values Strategy Example" />
 
 
 
@@ -491,16 +491,14 @@ BLAZOR CODE SNIPPET HERE
 
 <div class="divider--half"></div>
 
-<!-- end: Angular -->
+</PlatformBlock>
 
 ## Remote Paging
 
-<!-- ComponentStart: Grid -->
-
+<ComponentBlock for="Grid">
 The paging feature can operate with remote data. In order to demonstrate this let's first declare our service that will be responsible for data fetching. We will need the count of all data items in order to calculate the page count. This logic will be added to our service.
 
-<!-- Angular -->
-
+<PlatformBlock for="Angular">
 ```typescript
 @Injectable()
 export class RemotePagingService {
@@ -532,10 +530,9 @@ export class RemotePagingService {
     }
 }
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
-<!-- WebComponents -->
-
+<PlatformBlock for="WebComponents">
 ```ts
 export class RemotePagingService {
     public static CUSTOMERS_URL = `https://data-northwind.indigo.design/Customers/GetCustomersWithPage`;
@@ -567,10 +564,9 @@ export class RemotePagingService {
     }
 }
 ```
-<!-- end: WebComponents -->
+</PlatformBlock>
 
-<!-- Blazor -->
-
+<PlatformBlock for="Blazor">
 As Blazor Server is already a remote instance, unlike the demos in the other platforms we do not need to set another remote instance for the data, as the data is already remote. In order to do remote paging, we just need to set a couple of methods ins the data class
 
 ```razor
@@ -585,9 +581,9 @@ As Blazor Server is already a remote instance, unlike the demos in the other pla
             return Task.FromResult(items.Count);
         }
 ```
-<!-- end: Blazor -->
+</PlatformBlock>
 
-<!-- React -->
+<PlatformBlock for="React">
 ```tsx
 const CUSTOMERS_URL = `https://data-northwind.indigo.design/Customers/GetCustomersWithPage`;
 
@@ -618,14 +614,12 @@ export class RemoteService {
     }
 }
 ```
-<!-- end: React -->
+</PlatformBlock>
 
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: HierarchicalGrid -->
-
-<!-- Angular -->
-
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
 The paging feature can operate with remote data. In order to demonstrate this let's first declare our service that will be responsible for data fetching. We will need the count of all data items in order to calculate the page count. This logic will be added to our service.
 
 
@@ -661,9 +655,9 @@ export class RemotePagingService {
 }
 ```
 
-<!-- end: Angular -->
+</PlatformBlock>
 
-<!-- WebComponents -->
+<PlatformBlock for="WebComponents">
 ```ts
 export class RemotePagingService {
     public static BASE_URL = 'https://data-northwind.indigo.design/';
@@ -702,9 +696,9 @@ export class RemotePagingService {
     }
 }
 ```
-<!-- end: WebComponents -->
+</PlatformBlock>
 
-<!-- Blazor -->
+<PlatformBlock for="Blazor">
 As Blazor Server is already a remote instance, unlike the demos in the other platforms we do not need to set another remote instance for the data, as the data is already remote. In order to do remote paging, we just need to set a couple of methods ins the data class
 
 ```razor
@@ -720,9 +714,9 @@ As Blazor Server is already a remote instance, unlike the demos in the other pla
         }
 ```
 
-<!-- end: Blazor -->
+</PlatformBlock>
 
-<!-- React -->
+<PlatformBlock for="React">
 ```tsx
 const BASE_URL = `https://data-northwind.indigo.design/`;
 const CUSTOMERS_URL = `${BASE_URL}Customers/GetCustomersWithPage`;
@@ -760,14 +754,14 @@ export class RemoteService {
 }
 ```
 
-<!-- end: React -->
+</PlatformBlock>
 
-<!-- ComponentEnd: HierarchicalGrid -->
+</ComponentBlock>
 
 After declaring the service, we need to create a component, which will be responsible for the `{ComponentName}` construction and data subscription.
 
-<!-- ComponentStart: Grid -->
-<!-- Angular -->
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
 ```typescript
 export class RemotePagingGridSample implements OnInit, AfterViewInit, OnDestroy {
     public data: Observable<any[]>;
@@ -791,9 +785,9 @@ export class RemotePagingGridSample implements OnInit, AfterViewInit, OnDestroy 
     }
 }
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
-<!-- WebComponents -->
+<PlatformBlock for="WebComponents">
 First we need to bind to the relevant events so when we change pages and the amount of records shown per page, the remote service will fetch the correct amount of data
 
 ```ts
@@ -857,11 +851,11 @@ For further reference, please check the demo bellow:
 
 ### Grid Remote Paging Demo
 
-`sample="/{ComponentSample}/remote-paging-grid", height="550", alt="{Platform} {ComponentTitle} Grid Remote Paging Example"`
+<Sample src="/{ComponentSample}/remote-paging-grid" height={550} alt="{Platform} {ComponentTitle} Grid Remote Paging Example" />
 
-<!-- end: WebComponents -->
+</PlatformBlock>
 
-<!-- Blazor -->
+<PlatformBlock for="Blazor">
 First we should load some data to the grid. It is best to do after the grid has been rendered to avoid any timing issues.
 
 ```razor
@@ -919,11 +913,11 @@ For further reference please check the full demo bellow:
 
 ### Grid Remote Paging Demo
 
-`sample="/{ComponentSample}/remote-paging-grid", height="550", alt="{Platform} {ComponentTitle} Grid Remote Paging Example"`
+<Sample src="/{ComponentSample}/remote-paging-grid" height={550} alt="{Platform} {ComponentTitle} Grid Remote Paging Example" />
 
-<!-- end: Blazor -->
+</PlatformBlock>
 
-<!-- React -->
+<PlatformBlock for="React">
 ```tsx
      <IgrGrid
           ref={grid}
@@ -991,15 +985,14 @@ For further reference please check the full sample bellow:
 
 ### Grid Remote Paging Demo
 
-`sample="/{ComponentSample}/remote-paging-grid", height="550", alt="{Platform} {ComponentTitle} Grid Remote Paging Example"`
+<Sample src="/{ComponentSample}/remote-paging-grid" height={550} alt="{Platform} {ComponentTitle} Grid Remote Paging Example" />
 
-<!-- end: React -->
+</PlatformBlock>
 
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: HierarchicalGrid -->
-
-<!-- Angular -->
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
 ```typescript
 export class HGridRemotePagingSampleComponent implements OnInit, AfterViewInit, OnDestroy {
     public data: BehaviorSubject<any> = new BehaviorSubject([]);
@@ -1023,9 +1016,9 @@ export class HGridRemotePagingSampleComponent implements OnInit, AfterViewInit, 
     }
 }
 ```
-<!-- end: Angular -->
+</PlatformBlock>
 
-<!-- WebComponents -->
+<PlatformBlock for="WebComponents">
 First we need to bind to the relevant events so when we change pages and the amount of records shown per page, the remote service will fetch the correct amount of data
 
 ```ts
@@ -1133,11 +1126,11 @@ For further reference, please check the demo bellow:
 
 ### Grid Remote Paging Demo
 
-`sample="/{ComponentSample}/remote-paging-hgrid", height="550", alt="{Platform} {ComponentTitle} Hierarchical Grid Remote Paging Example"`
+<Sample src="/{ComponentSample}/remote-paging-hgrid" height={550} alt="{Platform} {ComponentTitle} Hierarchical Grid Remote Paging Example" />
 
-<!-- end: WebComponents -->
+</PlatformBlock>
 
-<!-- Blazor -->
+<PlatformBlock for="Blazor">
 First we should load some data to the grid. It is best to do after the grid has been rendered to avoid any timing issues.
 
 ```razor
@@ -1195,11 +1188,11 @@ For further reference please check the full demo bellow:
 
 ### Grid Remote Paging Demo
 
-`sample="/{ComponentSample}/remote-paging-grid", height="550", alt="{Platform} {ComponentTitle} Hierarchical Grid Remote Paging Example"`
+<Sample src="/{ComponentSample}/remote-paging-grid" height={550} alt="{Platform} {ComponentTitle} Hierarchical Grid Remote Paging Example" />
 
-<!-- end: Blazor -->
+</PlatformBlock>
 
-<!-- React -->
+<PlatformBlock for="React">
 ```tsx
   <IgrHierarchicalGrid
           ref={hierarchicalGrid}
@@ -1270,14 +1263,13 @@ next set up the method for loading the data:
       })
   }
 ```
-<!-- end: React -->
+</PlatformBlock>
 
-<!-- ComponentEnd: HierarchicalGrid -->
+</ComponentBlock>
 
-<!-- React -->
-
+<PlatformBlock for="React">
 and finally set up the behaviour for the RowIslands:
-<!-- ComponentStart: HierarchicalGrid -->
+<ComponentBlock for="HierarchicalGrid">
 ```tsx
   function gridCreated(event: IgrGridCreatedEventArgs, parentKey: string) {
     const context = event.detail;
@@ -1314,16 +1306,14 @@ For further reference please check the full sample bellow:
 
 ### Grid Remote Paging Demo
 
-`sample="/{ComponentSample}/remote-paging-hgrid", height="550", alt="{Platform} {ComponentTitle} Hierarchical Grid Remote Paging Example"`
-<!-- ComponentEnd: HierarchicalGrid -->
+<Sample src="/{ComponentSample}/remote-paging-hgrid" height={550} alt="{Platform} {ComponentTitle} Hierarchical Grid Remote Paging Example" />
+</ComponentBlock>
 
-<!-- end: React -->
+</PlatformBlock>
 
-<!-- ComponentEnd: HierarchicalGrid -->
 
-<!-- ComponentStart: TreeGrid -->
-<!-- Angular -->
-
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
 In this sample we will demonstrate how to display a certain number of root records per page no matter how many child records they have. In order to cancel the built-in Tree Grid paging algorithm, which displays a certain number of records no matter their level (root or child), we have to set the `PerPage` property to `Number.MAX_SAFE_INTEGER`.
 
 ```html
@@ -1339,9 +1329,11 @@ public maxPerPage = Number.MAX_SAFE_INTEGER;
 ```razor
 BLAZOR CODE SNIPPET HERE
 ```
-<!-- ComponentEnd: TreeGrid -->
+</PlatformBlock>
+</ComponentBlock>
 
-Now we can choose between setting-up our own custom paging template or using the default one that the `Paginator` provides. Let's first take a look what is necessary to set-up remote paging by using the default paging template.
+<PlatformBlock for="Angular">
+Now we can choose between setting-up our own custom paging template or using the default one that the <ApiLink pkg="grids" type="Paginator" /> provides. Let's first take a look what is necessary to set-up remote paging by using the default paging template.
 
 ### Remote paging with default template
 
@@ -1418,13 +1410,13 @@ public paginate(page: number) {
 BLAZOR CODE SNIPPET HERE
 ```
 
-`sample="/{ComponentSample}/remote-paging-template", height="620", alt="{Platform} {ComponentTitle} Remote Paging Default Template Example"`
+<Sample src="/{ComponentSample}/remote-paging-template" height={620} alt="{Platform} {ComponentTitle} Remote Paging Default Template Example" />
 
 
 
 ### Remote Paging with Custom Paginator Content
 
-When we define a custom paginator content we need to define the content in a way to get the data only for the requested page and to pass the correct **skip** and **top** parameters to the remote service according to the selected page and items `PerPage`. We are going to use the `Paginator` in order to ease our example configuration, along with the `PageSizeSelectorComponent` and `PageNavigationComponent` that were introduced - `PageSize` will add the per page dropdown and label and `PageNav` will add the navigation action buttons and labels.
+When we define a custom paginator content we need to define the content in a way to get the data only for the requested page and to pass the correct **skip** and **top** parameters to the remote service according to the selected page and items `PerPage`. We are going to use the <ApiLink pkg="grids" type="Paginator" /> in order to ease our example configuration, along with the `PageSizeSelectorComponent` and `PageNavigationComponent` that were introduced - `PageSize` will add the per page dropdown and label and `PageNav` will add the navigation action buttons and labels.
 
 ```html
 <igx-paginator #paginator
@@ -1446,7 +1438,7 @@ When we define a custom paginator content we need to define the content in a way
 BLAZOR CODE SNIPPET HERE
 ```
 
-<!-- ComponentStart: Grid -->
+<ComponentBlock for="Grid">
 ```typescript
 @ViewChild('grid1', { static: true }) public grid1: IgxGridComponent;
 
@@ -1479,9 +1471,9 @@ public perPageChange(perPage: number) {
 ```razor
 BLAZOR CODE SNIPPET HERE
 ```
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: HierarchicalGrid -->
+<ComponentBlock for="HierarchicalGrid">
 ```typescript
 @ViewChild('hierarchicalGrid', { static: true }) public hierarchicalGrid: IgxHierarchicalGridComponent;
 
@@ -1510,9 +1502,9 @@ public ngAfterViewInit() {
 ```razor
 BLAZOR CODE SNIPPET HERE
 ```
-<!-- ComponentEnd: HierarchicalGrid -->
+</ComponentBlock>
 
-<!-- ComponentStart: TreeGrid -->
+<ComponentBlock for="TreeGrid">
 ```typescript
 public paginate(page: number) {
     this.page = page;
@@ -1526,7 +1518,7 @@ public paginate(page: number) {
 ```razor
 BLAZOR CODE SNIPPET HERE
 ```
-<!-- ComponentEnd: TreeGrid -->
+</ComponentBlock>
 
 > [!Note]
 > In order for the Remote Paging to be configured properly a `GridPagingMode.Remote` should be set:
@@ -1570,16 +1562,16 @@ BLAZOR CODE SNIPPET HERE
 
 After all the changes above, the following result will be achieved.
 
-`sample="/{ComponentSample}/remote-paging-data", height="620", alt="{Platform} {ComponentTitle} Remote Paging Custom Template Example"`
+<Sample src="/{ComponentSample}/remote-paging-data" height={620} alt="{Platform} {ComponentTitle} Remote Paging Custom Template Example" />
 
 
 
-<!-- ComponentStart: Grid -->
+<ComponentBlock for="Grid">
 ### Remote Paging with Custom Paginator
 
 In some cases you may want to define your own paging behavior and this is when we can take advantage of the Paging template and add our custom logic along with it. We are going to extend the Remote Paging example in order to demonstrate this:
 
-`sample="/{ComponentSample}/remote-paging-custom", height="620", alt="{Platform} {ComponentTitle} Remote Paging Custom Paging Example"`
+<Sample src="/{ComponentSample}/remote-paging-custom" height={620} alt="{Platform} {ComponentTitle} Remote Paging Custom Paging Example" />
 
 
 
@@ -1633,9 +1625,9 @@ public paginate(page: number, recalculate = false) {
 ```razor
 BLAZOR CODE SNIPPET HERE
 ```
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
-<!-- ComponentStart: Grid -->
+<ComponentBlock for="Grid">
 ### Remote Paging with Batch editing
 
 With the examples so far we clarified how to set up the `{ComponentName}` with remote data. Now, let's focus on enabling batch editing for the grid by following the [Batch Editing topic/guide](batch-editing.md).
@@ -1689,15 +1681,15 @@ As you can see in the `Paginate` method, custom pagination logic is performed, b
 
 #### Remote Paging with Batch Editing Demo
 
-`sample="/{ComponentSample}/remote-paging-batch-editing", height="620", alt="{Platform} {ComponentTitle} Remote Paging Batch Editing Example"`
+<Sample src="/{ComponentSample}/remote-paging-batch-editing" height={620} alt="{Platform} {ComponentTitle} Remote Paging Batch Editing Example" />
 
 
-<!-- ComponentEnd: Grid -->
-<!-- end: Angular -->
+</ComponentBlock>
+</PlatformBlock>
 
 ## Known Issues and Limitations
 
-- When the grid has no `PrimaryKey` set and remote data scenarios are enabled (when paging, sorting, filtering, scrolling trigger requests to a remote server to retrieve the data to be displayed in the grid), a row will lose the following state after a data request completes:
+- When the grid has no <ApiLink pkg="grids" type="{ComponentName}" member="primaryKey" prefixed={false} /> set and remote data scenarios are enabled (when paging, sorting, filtering, scrolling trigger requests to a remote server to retrieve the data to be displayed in the grid), a row will lose the following state after a data request completes:
 
 - Row Selection
 - Row Expand/collapse
@@ -1706,11 +1698,11 @@ As you can see in the `Paginate` method, custom pagination logic is performed, b
 
 ## API References
 
-- `Paginator`
-- `{ComponentName}`
+<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
+<ApiRef pkg="grids" types={["Paginator"]} />
 
 ## Additional Resources
-<!-- ComponentStart: Grid -->
+<ComponentBlock for="Grid">
 - [Paging](paging.md)
 - [Virtualization and Performance](virtualization.md)
 - [Filtering](filtering.md)
@@ -1720,7 +1712,7 @@ As you can see in the `Paginate` method, custom pagination logic is performed, b
 - [Column Pinning](column-pinning.md)
 - [Column Resizing](column-resizing.md)
 - [Selection](selection.md)
-<!-- ComponentEnd: Grid -->
+</ComponentBlock>
 
 Our community is active and always welcoming to new ideas.
 

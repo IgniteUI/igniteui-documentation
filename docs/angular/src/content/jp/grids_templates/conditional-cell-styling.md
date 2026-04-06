@@ -459,7 +459,7 @@ public grammyClasses = {
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-<!-- TODO -->
+{/* TODO */}
 }
 <div class="divider--half"></div>
 
@@ -678,7 +678,7 @@ public updateCSS(css: string) {
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-<!-- TODO -->
+{/* TODO */}
 }
 <div class="divider--half"></div>
 

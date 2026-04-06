@@ -3,8 +3,12 @@ title: {Platform} Map | Data Visualization Tools | Binding Geographic Shape File
 _description: Use Infragistics' {Platform} JavaScript map to load geo-spatial data from shape files. View {ProductName} map demos!
 _keywords: {Platform} map, shapefiles, {ProductName}, Infragistics, data binding
 _license: commercial
-mentionedTypes: ["XamGeographicMap", "ShapefileConverter", "Series", "GeographicShapeSeriesBase"]
+
 ---
+import PlatformBlock from '@/components/mdx/PlatformBlock.astro';
+import Sample from '@/components/mdx/Sample.astro';
+import ApiRef from '@/components/mdx/ApiRef.astro';
+
 # {Platform} Binding Shape Files with Geo-spatial Data
 
 The {ProductName} map component, the `ShapefileConverter` class loads geo-spatial data (points/locations, polylines, polygons) from shape files and converts it to a collection of `ShapefileRecord` objects.
@@ -13,7 +17,8 @@ The {ProductName} map component, the `ShapefileConverter` class loads geo-spatia
 ## {Platform} Binding Shape Files with Geo-spatial Data Example
 
 
-`sample="/maps/geo-map/binding-shp-polylines", height="500", alt="{Platform} Binding Shape Files with Geo spatial Data Example"`
+<Sample src="/maps/geo-map/binding-shp-polylines" height={500} alt="{Platform} Binding Shape Files with Geo spatial Data Example" />
+
 
 
 
@@ -27,8 +32,8 @@ The following table explains properties of the `ShapefileConverter` class for lo
 | `ShapefileSource` | string |Specifies the Uri to a shape file (.shp) that contains geo-spatial data items.|
 |`DatabaseSource` | string |Specifies the Uri to a shape database file (.dbf) that contains a data table for geo-spatial data items.|
 
-<!-- TODO add for WPF only: -->
-<!-- Both of the source properties for shape files are of Uri type. This means that shape files can be embedded resources in the application assembly and on the internet (via http). Refer to the previous section for more information on this process. The rules for resolving Uri objects are equivalent to any standard Uri property, for example the BitmapImage.UriSource property. -->
+{/* TODO add for WPF only: */}
+{/* Both of the source properties for shape files are of Uri type. This means that shape files can be embedded resources in the application assembly and on the internet (via http). Refer to the previous section for more information on this process. The rules for resolving Uri objects are equivalent to any standard Uri property, for example the BitmapImage.UriSource property. */}
 
 When both source properties are set to non-null values, then the `ShapefileConverter` object’s ImportAsync method is invoked which in return performs fetching and reading the shape files and finally doing the conversion. After this operation is complete, the `ShapefileConverter` is populated with `ShapefileRecord` objects and the `ImportCompleted` event is raised in order to notify about completed process of loading and converting geo-spatial data from shape files.
 
@@ -38,6 +43,8 @@ The following code creates an instance of the `ShapefileConverter` object for lo
 ```html
  TODO - ADD CODE SNIPPET
 ```
+
+<PlatformBlock for="React">
 
 ```ts
 import { IgrShapeDataSource } from 'igniteui-react-core';
@@ -49,6 +56,8 @@ sds.shapefileSource = url + "/shapes/WorldCableRoutes.shp";
 sds.databaseSource  = url + "/shapes/WorldCableRoutes.dbf";
 sds.dataBind();
 ```
+
+</PlatformBlock>
 
 ## Binding Shapefiles
 In the map component, Geographic Series are used for displaying geo-spatial data that is loaded from shape files. All types of Geographic Series have an `ItemsSource` property which can be bound to an array of objects. The `ShapefileConverter` is an example such array because it contains a list of `ShapefileRecord` objects.
@@ -65,6 +74,8 @@ This data structure is suitable for use in most Geographic Series as long as app
 ## Code Snippet
 This code example assumes that shape files were loaded using the `ShapefileConverter`.
 The following code binds `GeographicPolylineSeries` in the map component to the `ShapefileConverter` and maps the `Points` property of all `ShapefileRecord` objects.
+
+<PlatformBlock for="Angular">
 
 ```html
 <div className="sampleRoot" >
@@ -87,6 +98,10 @@ The following code binds `GeographicPolylineSeries` in the map component to the 
             </div>
 </ng-template>
 ```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
 
 ```ts
 import { IgrGeographicPolylineSeries } from 'igniteui-react-maps';
@@ -118,6 +133,10 @@ public onShapePolylinesLoaded(sds: IgrShapeDataSource, e: any) {
     this.geoMap.series.add(symbolSeries);
 }
 ```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
 
 ```ts
 import { AfterViewInit, Component, TemplateRef, ViewChild } from "@angular/core";
@@ -178,11 +197,19 @@ export class MapBindingShapefilePolylinesComponent implements AfterViewInit {
 }
 ```
 
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
 ```html
 <igc-geographic-map id="geoMap" width="100%" height="100%">
 
 </igc-geographic-map>
 ```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
 
 ```ts
 connectedCallback() {
@@ -227,6 +254,10 @@ onDataLoaded(sds: IgcShapeDataSource, e: any) {
 }
 ```
 
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
 ```razor
 @using IgniteUI.Blazor.Controls
 
@@ -253,11 +284,6 @@ onDataLoaded(sds: IgcShapeDataSource, e: any) {
 }
 ```
 
-## API References
+</PlatformBlock>
 
-- `Fields`
-- `GeographicPolylineSeries`
-- `ImportCompleted`
-- `ItemsSource`
-- `Points`
-- `ShapefileConverter`
+<ApiRef pkg="maps" types={["GeographicPolylineSeries","ShapefileConverter"]} />

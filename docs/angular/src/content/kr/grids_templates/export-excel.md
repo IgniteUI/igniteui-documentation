@@ -48,7 +48,7 @@ The Excel Exporter service can export data to excel from the @@igxName. The data
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-    <!-- todo -->
+    {/* TODO */}
 }
 
 <div class="divider--half"></div>
