@@ -143,7 +143,7 @@ createDocsSite({
   site: 'https://www.infragistics.com/products/ignite-ui-angular',
   platform: 'angular',
   navLang: docsLang === 'jp' ? 'ja' : docsLang,
-  mode,                          // 'dev' | 'staging' | 'prod'
+  mode, // 'development' | 'staging' | 'production'
   source: {
     tocPath: `./src/content/${docsLang}/toc.json`,
     docsDir: `./src/content/${docsLang}`,
