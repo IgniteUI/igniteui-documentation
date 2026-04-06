@@ -19,7 +19,7 @@ import {
  * @param {string} filePath
  */
 function removeIfExists(filePath) {
-    if (fs.existsSync(filePath)) fs.rmSync(filePath);
+    fs.rmSync(filePath, { force: true });
 }
 
 /**
@@ -30,9 +30,11 @@ function removeIfExists(filePath) {
  * @returns {boolean}
  */
 function writeFileIfChanged(filePath, content) {
-    if (fs.existsSync(filePath)) {
+    try {
         const current = fs.readFileSync(filePath, 'utf-8');
         if (current === content) return false;
+    } catch (err) {
+        if (/** @type {NodeJS.ErrnoException} */ (err).code !== 'ENOENT') throw err;
     }
 
     fs.writeFileSync(filePath, content, 'utf-8');

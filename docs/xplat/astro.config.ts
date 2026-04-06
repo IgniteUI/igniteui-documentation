@@ -27,10 +27,17 @@ function resolveSetting(envKey: string, jsonKey: string, fallback: string): stri
 const platform = resolveSetting('PLATFORM', 'platform', 'React');
 const lang = resolveSetting('LANG_CODE', 'lang', 'en');
 
-const nodeEnv = process.env.NODE_ENV || 'development';
-const mode: DocsMode = nodeEnv === 'production' ? 'prod'
-    : nodeEnv === 'staging' ? 'staging'
-        : 'dev';
+// DOCS_ENV: 'development' | 'staging' | 'production'  (preferred, default: 'development')
+// NODE_ENV: fallback — do NOT set to 'staging'; Vite derives import.meta.env.DEV from it.
+const docsEnv = process.env.DOCS_ENV || process.env.NODE_ENV || 'development';
+
+if (docsEnv !== 'development' && docsEnv !== 'staging' && docsEnv !== 'production') {
+	throw new Error(
+		`[astro.config] Invalid DOCS_ENV "${docsEnv}". Expected one of: "development", "staging", "production".`
+	);
+}
+
+const mode: DocsMode = docsEnv;
 
 const PLATFORMS = IGDOCS_PLATFORMS;
 
@@ -298,9 +305,9 @@ const PROD_HOST = 'https://www.infragistics.com';
 const STAGING_HOST = 'https://staging.infragistics.com';
 
 const p = PLATFORMS[platform];
-const site = mode === 'prod' ? `${PROD_HOST}${p.base}`
+const site = mode === 'production' ? `${PROD_HOST}${p.base}`
     : mode === 'staging' ? `${STAGING_HOST}${p.base}`
-        : `http://localhost:${p.devPort}`;
+    : `http://localhost:${p.devPort}`;
 
 
 console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}  site: ${site}`);
@@ -308,7 +315,7 @@ console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode} 
 // https://astro.build/config
 export default createDocsSite({
     site,
-    base: mode !== 'dev' ? p.base : undefined,
+    base: mode !== 'development' ? p.base : undefined,
     title: p.title,
     description: p.description,
     platform: p.key,
@@ -320,7 +327,7 @@ export default createDocsSite({
     },
     productLinks: Object.values(PLATFORMS).map(({ label, key, base: b }) => ({
         label,
-        href: mode === 'prod' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
+        href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
         platform: key,
     })),
     starlight: {
