@@ -55,24 +55,23 @@ const { prefix, apiPackages } = getPlatformContext();
 
 const pkgConfig = apiPackages[pkg] ?? apiPackages['core'];
 const segment   = KIND_SEGMENT[kind];
-
 const items = types.map((t) => {
     const baseName = prefixed ? `${prefix}${t}` : t;
 
     let url: string;
     if (kind === 'class') {
-        // Classes: apply optional classSuffix, always lowercase, respect noPackagePrefix
         const fullName  = prefixed && pkgConfig.classSuffix ? `${baseName}${pkgConfig.classSuffix}` : baseName;
+        const cased     = pkgConfig.preserveCase ? fullName : fullName.toLowerCase();
         const classSlug = pkgConfig.noPackagePrefix
-            ? fullName.toLowerCase()
-            : `${pkgConfig.packageId}.${fullName.toLowerCase()}`;
-        url = `${pkgConfig.docRoot}/classes/${classSlug}.html`;
+            ? cased
+            : `${pkgConfig.packageId}.${cased}`;
+        url = `${pkgConfig.docRoot}/classes/${classSlug}`;
     } else {
         // Non-class kinds: preserve original casing, no classSuffix
         const slug = pkgConfig.noPackagePrefix
             ? baseName
             : `${pkgConfig.packageId}.${baseName}`;
-        url = `${pkgConfig.docRoot}/${segment}/${slug}.html`;
+        url = `${pkgConfig.docRoot}/${segment}/${slug}`;
     }
 
     return { label: baseName, url };
