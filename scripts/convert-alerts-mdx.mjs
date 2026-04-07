@@ -28,6 +28,11 @@ const TYPE_MAP = {
   caution:   'danger',
 };
 
+/** Extra attributes to append to the opening tag per mapped type. */
+const TYPE_EXTRA_ATTRS = {
+  caution: ' title="Warning"',
+};
+
 const STARLIGHT_PKG = '@astrojs/starlight/components';
 const DOCS_ROOT     = path.resolve(process.cwd(), 'docs');
 const DRY_RUN       = process.argv.includes('--dry-run');
@@ -83,7 +88,8 @@ function convertAlerts(text) {
       alertBody.pop();
     }
 
-    out.push(`${alertIndent}<Aside type="${alertType}">`);
+    const extraAttrs = TYPE_EXTRA_ATTRS[alertType] ?? '';
+    out.push(`${alertIndent}<Aside type="${alertType}"${extraAttrs}>`);
     for (const bodyLine of alertBody) {
       out.push(bodyLine === '' ? '' : `${alertIndent}${bodyLine}`);
     }
