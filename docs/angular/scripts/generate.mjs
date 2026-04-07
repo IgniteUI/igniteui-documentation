@@ -8,8 +8,8 @@ const LANG = get('--lang=') ?? process.env.DOCS_LANG ?? 'en';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-// Write .platform.json so content.config.ts resolves the correct lang
-writeFileSync(path.join(ROOT, '.platform.json'), JSON.stringify({ lang: LANG }, null, 2));
+// Write .platform.json so content.config.ts and getPlatformContext() resolve correctly
+writeFileSync(path.join(ROOT, '.platform.json'), JSON.stringify({ platform: 'Angular', lang: LANG }, null, 2));
 console.log(`[generate] lang: ${LANG}`);
 
 // Clear Astro's content cache so the next build picks up fresh content

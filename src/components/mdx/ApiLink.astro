@@ -87,21 +87,20 @@ const { prefix, apiPackages } = getPlatformContext();
 const pkgConfig  = apiPackages[pkg] ?? apiPackages['core'];
 const baseType   = prefixed ? `${prefix}${type}` : type;
 const segment    = KIND_SEGMENT[kind];
-
 let url: string;
 if (kind === 'class') {
-    // Classes: apply optional classSuffix, always lowercase, respect noPackagePrefix
     const fullType  = prefixed && pkgConfig.classSuffix ? `${baseType}${pkgConfig.classSuffix}` : baseType;
+    const cased     = pkgConfig.preserveCase ? fullType : fullType.toLowerCase();
     const classSlug = pkgConfig.noPackagePrefix
-        ? fullType.toLowerCase()
-        : `${pkgConfig.packageId}.${fullType.toLowerCase()}`;
-    url = `${pkgConfig.docRoot}/classes/${classSlug}.html${member ? `#${member.toLowerCase()}` : ''}`;
+        ? cased
+        : `${pkgConfig.packageId}.${cased}`;
+    url = `${pkgConfig.docRoot}/classes/${classSlug}${member ? `#${member}` : ''}`;
 } else {
     // Non-class kinds: preserve original casing, no classSuffix
     const slug = pkgConfig.noPackagePrefix
         ? baseType
         : `${pkgConfig.packageId}.${baseType}`;
-    url = `${pkgConfig.docRoot}/${segment}/${slug}.html${member ? `#${member.toLowerCase()}` : ''}`;
+    url = `${pkgConfig.docRoot}/${segment}/${slug}${member ? `#${member.toLowerCase()}` : ''}`;
 }
 
 const displayLabel = label ?? (member ? `${baseType}.${member}` : baseType);
