@@ -77,6 +77,38 @@ export type DocsMode = 'development' | 'staging' | 'production';
 let _navHtmlCache: string | null = null;
 
 /**
+ * Read `themeApiUrl` and `themingWidgetVersion` from the project's
+ * environment.json at build time. Mirrors the lookup order in remark-docfx.ts
+ * so both always resolve from the same file.
+ */
+function readThemingEnv(sourcePath: string | undefined, envKey: string): {
+    themeApiUrl: string;
+    widgetVersion: string;
+} {
+    if (!sourcePath) return { themeApiUrl: '', widgetVersion: 'latest' };
+    const root = path.resolve(sourcePath);
+    const parent = path.dirname(root);
+    const candidates = [
+        path.join(root, 'en', 'environment.json'),
+        path.join(root, 'environment.json'),
+        path.join(parent, 'environment.json'),
+        path.join(parent, 'en', 'environment.json'),
+    ];
+    const envPath = candidates.find(c => fs.existsSync(c));
+    if (!envPath) return { themeApiUrl: '', widgetVersion: 'latest' };
+    try {
+        const data = JSON.parse(fs.readFileSync(envPath, 'utf-8'));
+        const env = data[envKey] ?? data.production ?? {};
+        return {
+            themeApiUrl: (env.themeApiUrl as string) ?? '',
+            widgetVersion: (env.themingWidgetVersion as string) ?? 'latest',
+        };
+    } catch {
+        return { themeApiUrl: '', widgetVersion: 'latest' };
+    }
+}
+
+/**
  * Strip all <script> tags from an HTML string.
  * The nav HTML fetched from infragistics.com / appbuilder.dev may contain
  * inline or external scripts that don't belong in the docs page (e.g.
@@ -275,6 +307,10 @@ export const productLinks = ${JSON.stringify(productLinks)};
                                 // Return cached module code — fetched at most once per build.
                                 if (_navHtmlCache) return _navHtmlCache;
 
+                                // ── Theming env ──────────────────────────────────────────────
+                                const envKey = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'production';
+                                const { themeApiUrl, widgetVersion } = readThemingEnv(process.env.DOCS_SOURCE_PATH, envKey);
+
                                 let headerHtml = '';
                                 let uiFooterHtml = '';
                                 let footerHtml = '';
@@ -348,6 +384,8 @@ export const productLinks = ${JSON.stringify(productLinks)};
                                 _navHtmlCache = [
                                     `export const platform = ${JSON.stringify(effectivePlatform ?? null)};`,
                                     `export const navLang = ${JSON.stringify(navLang)};`,
+                                    `export const themeApiUrl = ${JSON.stringify(themeApiUrl)};`,
+                                    `export const widgetVersion = ${JSON.stringify(widgetVersion)};`,
                                     `export const prefetched = ${JSON.stringify(!!headerHtml)};`,
                                     `export const headerHtml = ${JSON.stringify(headerHtml)};`,
                                     `export const uiFooterHtml = ${JSON.stringify(uiFooterHtml)};`,
@@ -684,7 +722,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro', pkgDir)),
         Sidebar: fileURLToPath(new URL('./components/overrides/Sidebar/Sidebar.astro', pkgDir)),
         MobileTableOfContents: fileURLToPath(new URL('./components/overrides/MobileTableOfContents.astro', pkgDir)),
-
+        PageSidebar: fileURLToPath(new URL('./components/overrides/PageSidebar.astro', pkgDir)),
     };
 
     const scriptsBase = base ? base.replace(/\/$/, '') : '';
