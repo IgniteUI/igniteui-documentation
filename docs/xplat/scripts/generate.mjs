@@ -79,14 +79,10 @@ function collectExcludedSlugs(nodes, excluded = new Set()) {
     for (const node of nodes || []) {
         const isExcluded = Array.isArray(node.exclude) && node.exclude.includes(PLATFORM);
         if (isExcluded && node.href) {
-            // Normalise: strip .md / .mdx extension, convert backslashes
             excluded.add(node.href.replace(/\.(mdx?)?$/, '').replace(/\\/g, '/'));
         }
-        // Always recurse — a child may be individually excluded even if parent isn't,
-        // and if parent IS excluded its children inherit the exclusion below.
         if (Array.isArray(node.items)) {
             if (isExcluded) {
-                // Propagate parent exclusion to all descendants
                 collectAllSlugs(node.items, excluded);
             } else {
                 collectExcludedSlugs(node.items, excluded);
@@ -103,10 +99,33 @@ function collectAllSlugs(nodes, excluded) {
     }
 }
 
+// Collect slugs that are reachable via at least one non-excluded path.
+// A slug present in both included and excluded sets is NOT excluded —
+// e.g. general-getting-started.md appears under a React node AND a Blazor-only node.
+function collectIncludedSlugs(nodes, included = new Set()) {
+    for (const node of nodes || []) {
+        const isExcluded = Array.isArray(node.exclude) && node.exclude.includes(PLATFORM);
+        if (!isExcluded && node.href) {
+            included.add(node.href.replace(/\.(mdx?)?$/, '').replace(/\\/g, '/'));
+        }
+        if (Array.isArray(node.items) && !isExcluded) {
+            collectIncludedSlugs(node.items, included);
+        }
+    }
+    return included;
+}
+
 const TOC_PATH = path.join(ROOT, 'src', 'content', LANG, 'toc.json');
-const EXCLUDED_SLUGS = existsSync(TOC_PATH)
-    ? collectExcludedSlugs(JSON.parse(readFileSync(TOC_PATH, 'utf8')))
-    : new Set();
+const EXCLUDED_SLUGS = (() => {
+    if (!existsSync(TOC_PATH)) return new Set();
+    const toc = JSON.parse(readFileSync(TOC_PATH, 'utf8'));
+    const excluded = collectExcludedSlugs(toc);
+    const included = collectIncludedSlugs(toc);
+    // A slug reachable via a non-excluded path is never excluded,
+    // even if it also appears under an excluded parent (e.g. shared getting-started page).
+    for (const slug of included) excluded.delete(slug);
+    return excluded;
+})();
 
 console.log(`[generate] Excluded pages for ${PLATFORM}: ${EXCLUDED_SLUGS.size}`);
 
