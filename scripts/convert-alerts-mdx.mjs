@@ -55,8 +55,8 @@ function collectMdxFiles(dir) {
 
 // ── Alert detection & conversion ───────────────────────────────────────────
 
-/** ( leading-indent ) >_ [!TYPE] ( remainder ) */
-const ALERT_RE = /^(\s*)>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\](.*)/i;
+/** ( leading-indent ) >_ [!TYPE] or >_ \[!TYPE] ( remainder ) */
+const ALERT_RE = /^(\s*)>\s*\\?\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\](.*)/i;
 
 /** ( leading-indent ) > ( optional-space ) ( content ) */
 const CONT_RE  = /^(\s*)>(\s?)(.*)/;
