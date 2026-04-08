@@ -65,15 +65,19 @@ defineComponents(IgcDockManagerComponent);
 
 Once the Dock Manager is imported, you can add it on the page:
 
+<PlatformBlock for="WebComponents">
 ```html
 <igc-dockmanager id="dockManager">
 </igc-dockmanager>
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 <IgrDockManager id="dockManager">
 </IgrDockManager>
 ```
+</PlatformBlock>
 
 <Aside type="note">
 Since the Dock Manager component uses ShadowDOM and slots it is not supported on older browsers like Internet Explorer 11 and Edge 18 and below (non-Chromium versions).
@@ -81,6 +85,7 @@ Since the Dock Manager component uses ShadowDOM and slots it is not supported on
 
 The Dock Manager has a <ApiLink type="DockManager" member="layout" label="Layout" /> property, which describes the layout of the panes. To start defining a layout, you should set the <ApiLink type="DockManagerLayout" member="rootPane" label="RootPane" /> property and add child panes. Here is how you can define a layout with a single content pane:
 
+<PlatformBlock for="WebComponents">
 ```ts
 import { IgcDockManagerPaneType, IgcSplitPaneOrientation, IgcDockManagerComponent } from 'igniteui-dockmanager';
 
@@ -101,7 +106,9 @@ this.dockManager.layout = {
     }
 };
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 import {  IgrDockManager, IgrDockManagerPaneType, IgrSplitPaneOrientation } from 'igniteui-react-dockmanager';
 
@@ -122,20 +129,25 @@ this.dockManager.layout = {
     }
 };
 ```
+</PlatformBlock>
 
 To load the content of the panes, the Dock Manager uses [slots](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot). The [slot](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/slot) attribute of the content element should match the `ContentId` of the content pane in the layout configuration. It is highly recommended to set width and height of the content elements to **100%** for predictable response when the end-user is resizing panes.
 
+<PlatformBlock for="WebComponents">
 ```html
 <igc-dockmanager id="dockManager">
     <div slot="content1" style="width: 100%; height: 100%;">Content 1</div>
 </igc-dockmanager>
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 <IgrDockManager id="dockManager">
     <div slot="content1" style={{ width: '100%', height: '100%' }}>Content 1</div>
 </IgrDockManager>
 ```
+</PlatformBlock>
 
 The Dock Manager defines several pane types:
 - <ApiLink type="ContentPane" />
@@ -164,6 +176,7 @@ All of these are reflected in the <ApiLink type="DockManager" member="layout" la
 
 The <ApiLink type="ContentPane" /> represents a pane with header and content. It can be hosted inside a Split Pane or a Tab Group Pane. Here is how a content pane is defined:
 
+<PlatformBlock for="WebComponents">
 ```ts
 const contentPane: IgcContentPane = {
     type: IgcDockManagerPaneType.contentPane,
@@ -171,7 +184,9 @@ const contentPane: IgcContentPane = {
     header: 'Pane 1'
 }
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const contentPane: IgrContentPane = {
     type: IgrDockManagerPaneType.contentPane,
@@ -179,16 +194,20 @@ const contentPane: IgrContentPane = {
     header: 'Pane 1'
 }
 ```
+</PlatformBlock>
 
 The `Header` property is used to provide a text header for the content pane. This text is rendered at several places: the top content pane header, the tab header if the pane is in a tab group and the unpinned header if the pane is unpinned. You can provide a custom slot content for each of these places respectively using the `HeaderId`, `TabHeaderId` and `UnpinnedHeaderId` properties. If any of these properties is not set, the `Header` text is used. Here is how to provide a tab header slot content:
 
+<PlatformBlock for="WebComponents">
 ```html
 <igc-dockmanager id="dockManager">
     <div slot="content1" style="width: 100%; height: 100%;">Content 1</div>
     <span slot="tabHeader1">Pane 1 Tab</span>
 </igc-dockmanager>
 ```
+</PlatformBlock>
 
+<PlatformBlock for="WebComponents">
 ```ts
 const contentPane: IgcContentPane = {
     type: IgcDockManagerPaneType.contentPane,
@@ -197,14 +216,18 @@ const contentPane: IgcContentPane = {
     tabHeaderId: 'tabHeader1'
 }
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 <IgrDockManager id="dockManager">
     <div slot="content1" style={{ width: '100%', height: '100%' }}>Content 1</div>
     <span slot="tabHeader1">Pane 1 Tab</span>
 </IgrDockManager>
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const contentPane: IgrContentPane = {
     type: IgrDockManagerPaneType.contentPane,
@@ -213,9 +236,11 @@ const contentPane: IgrContentPane = {
     tabHeaderId: 'tabHeader1'
 }
 ```
+</PlatformBlock>
 
 When a pane is unpinned, it appears as a tab header at one of the edges of the Dock Manager. If the end-user selects it, its content appears over the docked pinned panes. To unpin a content pane, set its <ApiLink type="ContentPane" member="isPinned" label="IsPinned" /> property to **false**.
 
+<PlatformBlock for="WebComponents">
 ```ts
 const contentPane = {
     type: IgcDockManagerPaneType.contentPane,
@@ -224,7 +249,9 @@ const contentPane = {
     isPinned: false
 }
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const contentPane = {
     type: IgrDockManagerPaneType.contentPane,
@@ -233,6 +260,7 @@ const contentPane = {
     isPinned: false
 }
 ```
+</PlatformBlock>
 
 The `IsPinned` property affects only content panes that are docked outside a document host. Also, content panes hosted in a floating pane cannot be unpinned.
 
@@ -246,6 +274,7 @@ To restrict the user interaction with the content pane and its content, you can 
 
 By default, when you close a pane it gets removed from the `Layout` object. However, in some cases you would want to temporary hide the pane and show it later again. In order to do that without changing the `Layout` object you can use the <ApiLink type="ContentPane" member="hidden" label="Hidden" /> property of the content pane. Setting the property to **true** will hide it from the UI, but it will remain in the <ApiLink type="DockManager" member="layout" label="Layout" /> object. In order to override the default close behavior you can subscribe to the `PaneClose` event like this:
 
+<PlatformBlock for="WebComponents">
 ```ts
 this.dockManager.addEventListener('paneClose', ev => {
     for (const pane of ev.detail.panes) {
@@ -254,7 +283,9 @@ this.dockManager.addEventListener('paneClose', ev => {
     ev.preventDefault();
 });
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 this.dockManager.addEventListener('paneClose', ev => {
     for (const pane of ev.detail.panes) {
@@ -263,11 +294,13 @@ this.dockManager.addEventListener('paneClose', ev => {
     ev.preventDefault();
 });
 ```
+</PlatformBlock>
 
 ### Split Pane
 
 The <ApiLink type="SplitPane" /> is a container pane which stacks all of its child `Panes` horizontally or vertically based on its <ApiLink type="SplitPane" member="orientation" label="Orientation" /> property. Here is how a horizontal split pane with two child content panes is defined:
 
+<PlatformBlock for="WebComponents">
 ```ts
 const splitPane: IgcSplitPane = {
     type: IgcDockManagerPaneType.splitPane,
@@ -286,7 +319,9 @@ const splitPane: IgcSplitPane = {
     ]
 }
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const splitPane: IgrSplitPane = {
     type: IgrDockManagerPaneType.splitPane,
@@ -305,6 +340,7 @@ const splitPane: IgrSplitPane = {
     ]
 }
 ```
+</PlatformBlock>
 
 The split pane may contain child panes of all pane types including other split panes.
 
@@ -314,6 +350,7 @@ By default, if the split pane is empty it is not displayed. Yet if you would lik
 
 The <ApiLink type="TabGroupPane" /> displays its child content `Panes` as the tabs of a tab component. Here is how a tab group pane with a content pane for each of its two tabs is defined:
 
+<PlatformBlock for="WebComponents">
 ```ts
 const tabGroupPane: IgcTabGroupPane = {
     type: IgcDockManagerPaneType.tabGroupPane,
@@ -331,7 +368,9 @@ const tabGroupPane: IgcTabGroupPane = {
     ]
 }
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const tabGroupPane: IgrTabGroupPane = {
     type: IgrDockManagerPaneType.tabGroupPane,
@@ -349,6 +388,7 @@ const tabGroupPane: IgrTabGroupPane = {
     ]
 }
 ```
+</PlatformBlock>
 
 If there is not enough space to display all tab headers, the tab group shows **More tabs** menu, which contains the non-visible tabs. If you click a tab item in that menu, the tab gets selected and moved to the first position.
 
@@ -360,6 +400,7 @@ In case you would like the tab group pane to be displayed in the UI when it has 
 
 The <ApiLink type="DocumentHost" /> is an area of tabs for documents, similar to the one in Visual Studio for code editing and design view. Here is how to define a document host with two document tabs:
 
+<PlatformBlock for="WebComponents">
 ```ts
 const docHost: IgcDocumentHost = {
     type: IgcDockManagerPaneType.documentHost,
@@ -386,7 +427,9 @@ const docHost: IgcDocumentHost = {
     }
 }
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const docHost: IgrDocumentHost = {
     type: IgrDockManagerPaneType.documentHost,
@@ -413,11 +456,13 @@ const docHost: IgrDocumentHost = {
     }
 }
 ```
+</PlatformBlock>
 
 ### Floating Pane
 
 The floating pane is a split pane rendered above all other ones in a floating window. The floating pane definitions are stored in the <ApiLink type="DockManagerLayout" member="floatingPanes" label="FloatingPanes" /> property of the <ApiLink type="DockManager" member="layout" label="Layout" />. Here is how to add a floating pane with a single content pane inside:
 
+<PlatformBlock for="WebComponents">
 ```ts
 const layout: IgcDockManagerLayout = {
     rootPane: {
@@ -442,7 +487,9 @@ const layout: IgcDockManagerLayout = {
     ]
 };
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const layout: IgrDockManagerLayout = {
     rootPane: {
@@ -467,6 +514,7 @@ const layout: IgrDockManagerLayout = {
     ]
 };
 ```
+</PlatformBlock>
 
 The `FloatingLocation`, `FloatingWidth` and `FloatingHeight` properties represent absolute dimensions in pixels. Please note that these properties are applied only for the split panes in the `FloatingPanes` array.
 
@@ -477,19 +525,23 @@ With the `FloatingResizable` and
 
 The Dock Manager component highlights the content pane which contains the focus and exposes it in its <ApiLink type="DockManager" member="activePane" label="ActivePane" /> property. You can programmatically change the active pane by setting the property. You can also listen for changes of the <ApiLink type="DockManager" member="activePane" label="ActivePane" /> property by subscribing to the `ActivePaneChanged` event:
 
+<PlatformBlock for="WebComponents">
 ```ts
 this.dockManager.addEventListener('activePaneChanged', ev => {
     console.log(ev.detail.oldPane);
     console.log(ev.detail.newPane);
 });
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 this.dockManager.addEventListener('activePaneChanged', ev => {
     console.log(ev.detail.oldPane);
     console.log(ev.detail.newPane);
 });
 ```
+</PlatformBlock>
 
 ### Docking
 
@@ -540,32 +592,41 @@ When the user drops the pane over the edge docking indicator, the dock manager i
 
 In some scenarios you may need to customize the layout of the Dock Manager by adding or removing a pane, changing orientation, etc., for example:
 
+<PlatformBlock for="WebComponents">
 ```ts
 const splitPane = this.dockManager.layout.rootPane.panes[0] as IgcSplitPane;
 const contentPane = splitPane.panes[0] as IgcContentPane;
 this.dockManager.removePane(contentPane);
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const splitPane = this.dockManager.layout.rootPane.panes[0] as IgrSplitPane;
 const contentPane = splitPane.panes[0] as IgrContentPane;
 this.dockManager.removePane(contentPane);
 ```
+</PlatformBlock>
 
 This will only update the layout object. To trigger an update of the Dock Manager so the changes are reflected in the UI, the layout object should be re-assigned:
 
+<PlatformBlock for="WebComponents">
 ```ts
 this.dockManager.layout = { ...this.dockManager.layout };
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 this.dockManager.layout = { ...this.dockManager.layout };
 ```
+</PlatformBlock>
 
 ### Save/Load Layout
 
 To restore or persist a layout, you simply have to get/set the value of the <ApiLink type="DockManager" member="layout" label="Layout" /> property. Here is how to save the layout as a stringified JSON:
 
+<PlatformBlock for="WebComponents">
 ```ts
 private savedLayout: string;
 
@@ -577,7 +638,9 @@ private loadLayout() {
     this.dockManager.layout = JSON.parse(this.savedLayout);
 }
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 private savedLayout: string;
 
@@ -589,6 +652,7 @@ private loadLayout() {
     this.dockManager.layout = JSON.parse(this.savedLayout);
 }
 ```
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 ### Adding Panes At Runtime
@@ -619,9 +683,11 @@ The Dock Manager component raises events when specific end-user interactions are
 
  Here is how to add an event listener for the `PaneClose` event:
 
+<PlatformBlock for="WebComponents">
 ```ts
 this.dockManager.addEventListener('paneClose', ev => console.log(ev.detail));
 ```
+</PlatformBlock>
 
 </PlatformBlock>
 

@@ -36,10 +36,12 @@ In order to enable row-dragging for your <ApiLink pkg="grids" type="{ComponentNa
 ```
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <{ComponentSelector} RowDraggable="true">
 </{ComponentSelector}>
 ```
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 ```html
@@ -82,6 +84,13 @@ import { ..., IgxDragDropModule } from 'igniteui-angular';
     imports: [..., IgxDragDropModule]
 })
 ```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+### Drop Areas
+
+First we need to register the `DragDropModule`:
 
 ```typescript
 import { IgcDragDropModule } from 'igniteui-webcomponents';
@@ -90,7 +99,9 @@ ModuleManager.register(
     IgcDragDropModule
 );
 ```
+</PlatformBlock>
 
+<PlatformBlock for="Angular">
 Then, in our template, we define a drop-area using the directive's selector:
 
 <ComponentBlock for="TreeGrid, HierarchicalGrid">
@@ -112,6 +123,21 @@ In this case, our drop-area will be a whole second grid where we'll drop the row
     (enter)="onEnterAllowed($event)" (leave)="onLeaveAllowed($event)" (dropped)="onDropAllowed($event)" [primaryKey]="'ID'">
 </igx-grid>
 ```
+
+Since the grid will initially be empty, we also define a template that will be more meaningful to the user:
+
+```html
+<ng-template #dragHereTemplate>
+    Drop a row to add it to the grid
+</ng-template>
+```
+
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="Grid">
+In this case, our drop-area will be a whole second grid where we'll drop the rows.
 
 ```html
 <igc-grid id="targetGrid" auto-generate="false" primary-key="ID">
@@ -136,16 +162,10 @@ public dragHereTemplate = (ctx: IgcGridEmptyTemplateContext) => {
     return html`Drop a row to add it to the grid`;
 }
 ```
-
-Since the grid will initially be empty, we also define a template that will be more meaningful to the user:
-
-```html
-<ng-template #dragHereTemplate>
-    Drop a row to add it to the grid
-</ng-template>
-```
-
 </ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
 
 You may enable animation when a row is dropped on a non-droppable area using the `Animation` parameter of the <ApiLink pkg="grids" type="{ComponentName}" member="rowDragEnd" prefixed={false} /> event. If set to true, the dragged row will animate back to its' original position when dropped over a non-droppable area.
 
@@ -236,6 +256,15 @@ export class {ComponentName}RowDragComponent {
 }
 ```
 
+We define a reference to each of our grids via the **ViewChild** decorator and the handle the drop as follows:
+- add a row to the `TargetGrid` that contains the data of the row being dropped
+- remove the dragged row from the `SourceGrid`
+
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="Grid">
 ```typescript
 export class {ComponentName}RowDragComponent {
     constructor() {
@@ -249,12 +278,10 @@ export class {ComponentName}RowDragComponent {
     }
 }
 ```
-
-We define a reference to each of our grids via the **ViewChild** decorator and the handle the drop as follows:
-- add a row to the `TargetGrid` that contains the data of the row being dropped
-- remove the dragged row from the `SourceGrid`
-
 </ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
 
 <Aside type="note">
 When using row data from the event arguments (**args.dragData.data**) or any other row property, note that the entire row is passed in the arguments as a reference, which means that you must clone the data you need, if you want to distinguish it from the one in the source grid.
@@ -273,7 +300,9 @@ The drag ghost can be templated using the `RowDragGhost` directive, applied to a
     </ng-template>
 </{ComponentSelector}>
 ```
+</PlatformBlock>
 
+<PlatformBlock for="WebComponents">
 ```ts
 constructor() {
     var grid = this.grid = document.getElementById('grid') as IgcGridComponent;
@@ -288,6 +317,9 @@ public rowDragGhostTemplate = (ctx: IgcGridRowDragGhostContext) => {
     return html`<igc-icon fontSet="material">arrow_right_alt</igc-icon>`;
 }
 ```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
 
 The result of the configuration can be seem below in a <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> with row dragging and multiple selection enabled. The demo shows the count of the currently dragged rows:
 
@@ -316,11 +348,13 @@ The drag ghost can be templated on every grid level, making it possible to have 
 
 </PlatformBlock>
 
+
 ### Templating the Drag Icon
 
 The drag handle icon can be templated using the grid's `DragIndicatorIconTemplate`. In the example we're building, let's change the icon from the default one (**drag_indicator**) to **drag_handle**.
 
 <ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="React">
 ```tsx
     const dragIndicatorIconTemplate = (ctx: IgrGridEmptyTemplateContext) => {
         return (
@@ -333,6 +367,7 @@ The drag handle icon can be templated using the grid's `DragIndicatorIconTemplat
     <IgrHierarchicalGrid rowDraggable={true} dragIndicatorIconTemplate={dragIndicatorIconTemplate}>
     </IgrHierarchicalGrid>
 ```
+</PlatformBlock>
 <PlatformBlock for="Blazor">
 ```razor
 <IgbHierarchicalGrid Data="CustomersData" PrimaryKey="ID" RowDraggable="true" DragIndicatorIconTemplate="dragIndicatorIconTemplate" @ref="grid">
@@ -369,6 +404,7 @@ public dragIndicatorIconTemplate = (ctx: IgcGridEmptyTemplateContext) => {
 </ComponentBlock>
 
 <ComponentBlock for="TreeGrid">
+<PlatformBlock for="React">
 ```tsx
     const dragIndicatorIconTemplate = (ctx: IgrGridEmptyTemplateContext) => {
         return (
@@ -381,6 +417,7 @@ public dragIndicatorIconTemplate = (ctx: IgcGridEmptyTemplateContext) => {
     <IgrTreeGrid rowDraggable={true} dragIndicatorIconTemplate={dragIndicatorIconTemplate}>
     </IgrTreeGrid>
 ```
+</PlatformBlock>
 <PlatformBlock for="Blazor">
 ```razor
 <IgbTreeGrid Data="CustomersData" PrimaryKey="ID" RowDraggable="true" DragIndicatorIconTemplate="dragIndicatorIconTemplate" @ref="grid">
@@ -410,6 +447,7 @@ private RenderFragment<IgbGridEmptyTemplateContext> dragIndicatorIconTemplate = 
 <ComponentBlock for="Grid">
 
 
+<PlatformBlock for="React">
 ```tsx
 const dragIndicatorIconTemplate = (ctx: IgrGridEmptyTemplateContext) => {
     return (
@@ -422,7 +460,9 @@ const dragIndicatorIconTemplate = (ctx: IgrGridEmptyTemplateContext) => {
 <{ComponentSelector} rowDraggable={true} dragIndicatorIconTemplate={dragIndicatorIconTemplate}>
 </{ComponentSelector}>
 ```
+</PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <IgbGrid Data="CustomersData" PrimaryKey="ID" RowDraggable="true" DragIndicatorIconTemplate="dragIndicatorIconTemplate" @ref="grid">
 </IgbGrid>
@@ -434,6 +474,7 @@ private RenderFragment<IgbGridEmptyTemplateContext> dragIndicatorIconTemplate = 
     </div>;
 };
 ```
+</PlatformBlock>
 </ComponentBlock>
 
 <PlatformBlock for="Angular">
@@ -543,11 +584,14 @@ constructor() {
 ```
 </PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 <IgrHierarchicalGrid rowDraggable={true} primaryKey="ID" onRowDragEnd={webHierarchicalGridReorderRowHandler}>
 </IgHierarchicalGrid>
 ```
+</PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <IgbHierarchicalGrid Data="CustomersData" PrimaryKey="ID" RowDraggable="true" RowDragEndScript="WebHierarchicalGridReorderRowHandler"></IgbHierarchicalGrid>
 
@@ -577,6 +621,7 @@ function getCurrentRowIndex(rowList, cursorPosition) {
     return -1;
 }
 ```
+</PlatformBlock>
 
 </ComponentBlock>
 
@@ -596,14 +641,18 @@ constructor() {
 ```
 </PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 <IgrTreeGrid rowDraggable={true} primaryKey="ID" onRowDragStart={webTreeGridReorderRowStartHandler} onRowDragEnd={webTreeGridReorderRowStartHandler}>
 </IgrTreeGrid>
 ```
+</PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <IgbTreeGrid Data="CustomersData" PrimaryKey="ID" RowDraggable="true" RowDragStartScript="WebTreeGridReorderRowStartHandler" RowDragEndScript="WebTreeGridReorderRowHandler"></IgbTreeGrid>
 ```
+</PlatformBlock>
 
 </ComponentBlock>
 
@@ -732,6 +781,7 @@ public getCurrentRowIndex(rowList: any[], cursorPosition) {
 }
 ```
 
+<PlatformBlock for="React">
 ```tsx
 const webGridReorderRowHandler = (args: IgrRowDragEndEventArgs): void => {
     const ghostElement = args.detail.dragDirective.ghostElement;
@@ -757,6 +807,7 @@ const getCurrentRowIndex = (rowList: any[], cursorPosition) => {
     return -1;
 }
 ```
+</PlatformBlock>
 
 </ComponentBlock>
 
