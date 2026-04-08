@@ -24,7 +24,7 @@
 
 import {
   themeApiUrl,
-  widgetVersion,
+  widgetScriptSrc,
 } from 'virtual:docs-template/nav-html';
 
 interface Props {
@@ -33,25 +33,20 @@ interface Props {
 
 const { language = 'en' } = Astro.props;
 
-// CDN script URL for the web component bundle.
-const scriptSrc = `https://cdn-na.infragistics.com/igniteui/theming-widget/${widgetVersion}/igniteui-theming-widget.js`;
-
 // Only add the `language` attribute for non-English locales.
 const lang = language !== 'en' ? language : undefined;
 ---
 
 {themeApiUrl && (
   <>
-    {/* Preload hint — browser starts the CDN download as early as possible. */}
-    <link rel="preload" href={scriptSrc} as="script" />
-    {/* Load the custom-element bundle asynchronously — no render blocking. */}
-    <script is:inline src={scriptSrc} async></script>
+    {/* Load the custom-element bundle — preloaded from <head>, no render blocking. */}
+    <script is:inline src={widgetScriptSrc} async></script>
 
     {/*
       Widget container — always visible when themeApiUrl is set.
       The client script below wires up theme→iframe forwarding.
     */}
-    <div id="theming-widget-container" class="theming-widget-container">
+    <div id="theming-widget-container" class="theming-widget-container" transition:persist transition:animate="none">
       {lang
         ? <igniteui-theming-widget theme-url={themeApiUrl} language={lang} />
         : <igniteui-theming-widget theme-url={themeApiUrl} />

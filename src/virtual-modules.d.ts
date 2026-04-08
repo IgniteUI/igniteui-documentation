@@ -30,10 +30,11 @@ declare module 'virtual:docs-template/nav-html' {
    */
   export const themeApiUrl: string;
   /**
-   * The `themingWidgetVersion` resolved from `environment.json` (e.g. `'latest'`,
-   * `'latest-stable'`). Defaults to `'latest'` when not configured.
+   * Full CDN URL for the theming-widget JS bundle, e.g.
+   * `'https://cdn-na.infragistics.com/igniteui/theming-widget/latest/igniteui-theming-widget.js'`.
+   * Empty string when not configured.
    */
-  export const widgetVersion: string;
+  export const widgetScriptSrc: string;
   /** `true` when the IG nav was successfully fetched at build time. */
   export const prefetched: boolean;
   /** Outer HTML of `<header id="header">` from infragistics.com/navigation. */

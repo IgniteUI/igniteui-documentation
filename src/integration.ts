@@ -310,6 +310,9 @@ export const productLinks = ${JSON.stringify(productLinks)};
                                 // ── Theming env ──────────────────────────────────────────────
                                 const envKey = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'production';
                                 const { themeApiUrl, widgetVersion } = readThemingEnv(process.env.DOCS_SOURCE_PATH, envKey);
+                                const widgetScriptSrc = widgetVersion
+                                    ? `https://cdn-na.infragistics.com/igniteui/theming-widget/${widgetVersion}/igniteui-theming-widget.js`
+                                    : '';
 
                                 let headerHtml = '';
                                 let uiFooterHtml = '';
@@ -385,7 +388,7 @@ export const productLinks = ${JSON.stringify(productLinks)};
                                     `export const platform = ${JSON.stringify(effectivePlatform ?? null)};`,
                                     `export const navLang = ${JSON.stringify(navLang)};`,
                                     `export const themeApiUrl = ${JSON.stringify(themeApiUrl)};`,
-                                    `export const widgetVersion = ${JSON.stringify(widgetVersion)};`,
+                                    `export const widgetScriptSrc = ${JSON.stringify(widgetScriptSrc)};`,
                                     `export const prefetched = ${JSON.stringify(!!headerHtml)};`,
                                     `export const headerHtml = ${JSON.stringify(headerHtml)};`,
                                     `export const uiFooterHtml = ${JSON.stringify(uiFooterHtml)};`,
