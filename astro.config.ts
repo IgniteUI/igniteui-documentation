@@ -108,6 +108,7 @@ export default defineConfig({
         Head: './src/components/overrides/Head.astro',
         Header: './src/components/overrides/Header.astro',
         Footer: './src/components/overrides/Footer.astro',
+        MobileTableOfContents: './src/components/overrides/MobileTableOfContents.astro',
         Sidebar: './src/components/overrides/Sidebar/Sidebar.astro',
       },
       expressiveCode: {
