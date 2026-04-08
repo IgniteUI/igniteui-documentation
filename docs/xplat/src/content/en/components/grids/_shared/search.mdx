@@ -49,6 +49,7 @@ Let's start by creating our grid and binding it to our data. We will also add so
 }
 ```
 
+<PlatformBlock for="Blazor">
 ```razor
 <{ComponentSelector} @ref=grid Class="gridSize" Width="100%" Height="480px" AllowFiltering=true AutoGenerate=false Data=marketData>
     <IgbColumn Field="IndustrySector" DataType="GridColumnDataType.String" Sortable=true></IgbColumn>
@@ -66,7 +67,9 @@ Let's start by creating our grid and binding it to our data. We will also add so
     }
 }
 ```
+</PlatformBlock>
 
+<PlatformBlock for="WebComponents">
 ```html
 <{ComponentSelector} id="grid1" class="gridSize" auto-generate="false" allow-filtering="true">
     <igc-column field="IndustrySector" data-type="string" sortable="true"></igc-column>
@@ -77,7 +80,9 @@ Let's start by creating our grid and binding it to our data. We will also add so
     <igc-column field="Date" data-type="date" sortable="true"></igc-column>
 </{ComponentSelector}>
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 <{ComponentSelector} ref={gridRef} className="gridSize" autoGenerate={false} allowFiltering={true} data={data}>
     <IgrColumn field="IndustrySector" dataType="string" sortable={true}></IgrColumn>
@@ -87,6 +92,7 @@ Let's start by creating our grid and binding it to our data. We will also add so
     <IgrColumn field="MarketNotion" dataType="number" sortable={true}></IgrColumn>
 </{ComponentSelector}>
 ```
+</PlatformBlock>
 </ComponentBlock>
 
 <ComponentBlock for="TreeGrid">
@@ -123,6 +129,7 @@ constructor() {
 ```
 </PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 <IgrTreeGrid ref={gridRef} data={data} autoGenerate={false} primaryKey="ID" foreignKey="ParentID" allowFiltering={true} height="100%" width="100%">
     <IgrColumn field="Name" dataType="string" sortable={true}></IgrColumn>
@@ -132,7 +139,9 @@ constructor() {
     <IgrColumn field="HireDate" dataType="date" sortable={true}></IgrColumn>
 </IgrTreeGrid>
 ```
+</PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <IgbTreeGrid @ref=treeGrid AutoGenerate=false Data=EmployeesFlatData PrimaryKey="ID" ForeignKey="ParentID" AllowFiltering=true Height="100%" Width="100%">
     <IgbColumn Field="Name" DataType="GridColumnDataType.String" Sortable=true></IgbColumn>
@@ -142,6 +151,7 @@ constructor() {
     <IgbColumn Field="HireDate" DataType="GridColumnDataType.Date" Sortable=true></IgbColumn>
 </IgbTreeGrid>
 ```
+</PlatformBlock>
 </ComponentBlock>
 
 Great, and now let's prepare for the search API of our <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />! We can create a few properties, which can be used for storing the currently searched text and whether the search is case sensitive and/or by an exact match.
@@ -172,18 +182,22 @@ public exactMatch: boolean = false;
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 public string searchText = "";
 public bool caseSensitive = false;
 public bool exactMatch = false;
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const gridRef = useRef<IgrGrid>(null);
 const [caseSensitiveSelected, setCaseSensitiveSelected] = useState<boolean>(false);
 const [exactMatchSelected, setExactMatchSelected] = useState<boolean>(false);
 const [searchText, setSearchText] = useState('');
 ```
+</PlatformBlock>
 </ComponentBlock>
 
 <ComponentBlock for="TreeGrid">
@@ -202,6 +216,7 @@ private exactMatchChip: IgcChipComponent;
 ```
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 private IgbTreeGrid treeGrid;
 
@@ -209,13 +224,16 @@ public string searchText = "";
 public bool caseSensitive = false;
 public bool exactMatch = false;
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const gridRef = useRef<IgrTreeGrid>(null);
 const [caseSensitiveSelected, setCaseSensitiveSelected] = useState<boolean>(false);
 const [exactMatchSelected, setExactMatchSelected] = useState<boolean>(false);
 const [searchText, setSearchText] = useState('');
 ```
+</PlatformBlock>
 </ComponentBlock>
 
 ### {Platform} Search Box Input
@@ -256,9 +274,11 @@ The methods from above return a **number** value (the number of times the <ApiLi
 ```
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <IgbInput ValueChanging="valueChanging" Value="@searchText" />
 ```
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 ```html
@@ -279,6 +299,7 @@ public nextSearch(){
 ```
 </PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const handleOnSearchChange = (event: IgrComponentValueChangedEventArgs) => {
     setSearchText(event.detail);
@@ -288,6 +309,7 @@ const handleOnSearchChange = (event: IgrComponentValueChangedEventArgs) => {
 <IgrInput name="searchBox" value={searchText} onInput={handleOnSearchChange}>
 </IgrInput>
 ```
+</PlatformBlock>
 </ComponentBlock>
 
 <ComponentBlock for="TreeGrid">
@@ -310,6 +332,7 @@ public nextSearch() {
 ```
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <IgbInput ValueChanging="OnValueChanging" Value="@searchText" />
 
@@ -318,7 +341,9 @@ public void NextSearch()
     this.treeGrid.FindNext(this.searchText, this.caseSensitive, this.exactMatch);
 }
 ```
+</PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const handleOnSearchChange = (event: IgrComponentValueChangedEventArgs) => {
     setSearchText(event.detail);
@@ -328,6 +353,7 @@ const handleOnSearchChange = (event: IgrComponentValueChangedEventArgs) => {
 <IgrInput name="searchBox" value={searchText} onInput={handleOnSearchChange}>
 </IgrInput>
 ```
+</PlatformBlock>
 </ComponentBlock>
 
 <PlatformBlock for="Angular">
@@ -366,6 +392,7 @@ In order to freely search and navigate among our search results, let's create a 
 </PlatformBlock>
 
 <ComponentBlock for="Grid">
+<PlatformBlock for="Blazor">
 ```razor
 <IgbIconButton Variant="IconButtonVariant.Flat" @onclick="PrevSearch">
     <IgbIcon IconName="prev" Collection="material"/>
@@ -387,6 +414,7 @@ In order to freely search and navigate among our search results, let's create a 
     }
 }
 ```
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 ```html
@@ -437,6 +465,7 @@ public nextSearch() {
 ```
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <IgbIconButton Variant="IconButtonVariant.Flat" @onclick="PrevSearch">
     <IgbIcon IconName="prev" Collection="material"/>
@@ -459,8 +488,10 @@ public nextSearch() {
     }
 }
 ```
+</PlatformBlock>
 </ComponentBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const prevSearch = (text: string, caseSensitive: boolean, exactMatch: boolean) => {
     gridRef.current.findPrev(text, caseSensitive, exactMatch);
@@ -475,6 +506,7 @@ const nextSearch = (text: string, caseSensitive: boolean, exactMatch: boolean) =
 <IgrIconButton variant="flat" name="next" collection="material" onClick={() => nextSearch(searchText, caseSensitiveSelected, exactMatchSelected)}>
 </IgrIconButton>
 ```
+</PlatformBlock>
 
 
 ### Add Keyboard Search
@@ -528,6 +560,7 @@ public onSearchKeydown(evt: KeyboardEvent) {
 ```
 </PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const searchKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key === 'Enter') {
@@ -543,12 +576,14 @@ const searchKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     <IgrInput name="searchBox" value={searchText} onInput={handleOnSearchChange}></IgrInput>
 </div>
 ```
+</PlatformBlock>
 
 <PlatformBlock for="Blazor">
 We can also allow the users to navigate the results by using the keyboard's <kbd>ENTER</kbd> key. In order to achieve this, we can handle the **keydown** event of our search and invoke the `FindNext`/`FindPrev` methods depending on if the user has pressed <kbd>SHIFT</kbd> as well or not.
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <IgbInput ValueChanging="valueChanging" Value="@searchText" @onkeydown="OnSearchKeyDown"/>
 
@@ -563,6 +598,7 @@ We can also allow the users to navigate the results by using the keyboard's <kbd
     }
 }
 ```
+</PlatformBlock>
 </ComponentBlock>
 
 <ComponentBlock for="TreeGrid">
@@ -594,6 +630,7 @@ public onSearchKeydown(evt: KeyboardEvent) {
 ```
 </PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const searchKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key === 'Enter' || e.key === 'ArrowDown') {
@@ -614,7 +651,9 @@ const handleOnSearchChange = (event: IgrComponentValueChangedEventArgs) => {
     <IgrInput name="searchBox" value={searchText} onInput={handleOnSearchChange}></IgrInput>
 </div>
 ```
+</PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <IgbInput ValueChanging="OnValueChanging" Value="@searchText" @onkeydown="OnSearchKeyDown" />
 
@@ -635,6 +674,7 @@ const handleOnSearchChange = (event: IgrComponentValueChangedEventArgs) => {
     }
 }
 ```
+</PlatformBlock>
 </ComponentBlock>
 
 ### Case Sensitive and Exact Match
@@ -727,6 +767,7 @@ Now let's allow the user to choose whether the search should be case sensitive a
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <IgbChip Selectable=true SelectedChanged="UpdateCase">
     Case Sensitive
@@ -747,9 +788,11 @@ Now let's allow the user to choose whether the search should be case sensitive a
     }
 }
 ```
+</PlatformBlock>
 <PlatformBlock for="React">
 Now let's allow the user to choose whether the search should be case sensitive and/or by an exact match. For this purpose we can use the `IgrChip` component along with a boolean state variable to indicate whether the IgrChip is selected.
 </PlatformBlock>
+<PlatformBlock for="React">
 ```tsx
 const [caseSensitiveSelected, setCaseSensitiveSelected] = useState<boolean>(false);
 const [exactMatchSelected, setExactMatchSelected] = useState<boolean>(false);
@@ -771,6 +814,7 @@ const handleExactMatchChange = (event: IgrComponentBoolValueChangedEventArgs) =>
     <span>Exact Match</span>
 </IgrChip>
 ```
+</PlatformBlock>
 
 ### Persistence
 
@@ -813,6 +857,7 @@ To do this, let's go and grab the `Input`, `Icon`, `IconButton` and the `Chip` m
 </PlatformBlock>
 
 <ComponentBlock for="Grid">
+<PlatformBlock for="Blazor">
 ```razor
 // eg. Program.cs register the following:
 builder.Services.AddIgniteUIBlazor(
@@ -822,8 +867,10 @@ builder.Services.AddIgniteUIBlazor(
     typeof(IgbIconModule)
 );
 ```
+</PlatformBlock>
 </ComponentBlock>
 <ComponentBlock for="TreeGrid">
+<PlatformBlock for="Blazor">
 ```razor
 // eg. Program.cs register the following:
 builder.Services.AddIgniteUIBlazor(
@@ -833,7 +880,9 @@ builder.Services.AddIgniteUIBlazor(
     typeof(IgbIconModule)
 );
 ```
+</PlatformBlock>
 </ComponentBlock>
+<PlatformBlock for="Blazor">
 ```razor
 @code {
     private IgbIcon searchIconRef { get; set; }
@@ -857,6 +906,7 @@ builder.Services.AddIgniteUIBlazor(
     }
 }
 ```
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents, Blazor">
 Finally, let's update our template with the new components!
@@ -867,6 +917,7 @@ We will wrap all of our components inside an [InputGroup](../input-group.md). On
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular">
 ```html
 <igx-input-group type="search" class="offset">
     <igx-prefix>
@@ -882,6 +933,7 @@ We will wrap all of our components inside an [InputGroup](../input-group.md). On
     </igx-suffix>
 </igx-input-group>
 ```
+</PlatformBlock>
 
 <PlatformBlock for="Angular">
 ```typescript
@@ -893,6 +945,7 @@ public clearSearch() {
 </PlatformBlock>
 
 <ComponentBlock for="Grid">
+<PlatformBlock for="WebComponents">
 ```html
 <igc-input id="searchBox" name="searchBox">
     <igc-icon id="searchIcon" slot="prefix" name="search" collection="material"></igc-icon>
@@ -906,6 +959,7 @@ public clearSearch() {
     </div>
 </igc-input>
 ```
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 ```typescript
@@ -932,6 +986,7 @@ We will wrap all of our components inside an `Input`. On the left we will toggle
 <ComponentBlock for="TreeGrid">
 We will wrap all of our components inside an `Input`. On the left we will toggle between a search and a delete/clear icon (depending on whether the search input is empty or not). In the center, we will position the input itself. In addition, whenever the delete icon is clicked, we will update our <ApiLink pkg="grids" type="{ComponentName}" member="findNext" prefixed={false} /> and invoke the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />'s `ClearSearch` method to clear the highlights.
 
+<PlatformBlock for="WebComponents">
 ```html
 <igc-input id="searchBox" name="searchBox">
     <igc-icon id="icon" slot="prefix" name="search" collection="material"></igc-icon>
@@ -945,6 +1000,7 @@ We will wrap all of our components inside an `Input`. On the left we will toggle
     </div>
 </igc-input>
 ```
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 ```typescript
@@ -978,6 +1034,7 @@ public clearSearch() {
 
 </ComponentBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <IgbInput ValueChanging="OnValueChanging" Value="@searchText" @onkeydown="OnSearchKeyDown">
     @if (searchText.Length == 0)
@@ -1016,6 +1073,7 @@ public clearSearch() {
     }
 }
 ```
+</PlatformBlock>
 
 <PlatformBlock for="Angular, Blazor, WebComponents">
 On the right in our input group, let's create three separate containers with the following purposes:
@@ -1041,6 +1099,7 @@ Let's begin by creating the search navigation buttons on the right of the input 
 </igx-suffix>
 ```
 
+<PlatformBlock for="WebComponents">
 ```html
 <igc-suffix >
     <div class="resultsText">
@@ -1049,6 +1108,7 @@ Let's begin by creating the search navigation buttons on the right of the input 
     </div>
 </igc-suffix>
 ```
+</PlatformBlock>
 
 ```typescript
 public showResults() {
@@ -1124,6 +1184,7 @@ constructor() {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
     <div class="chips" slot="suffix">
         <IgbChip Selectable=true SelectedChanged="UpdateCase">
@@ -1146,6 +1207,7 @@ constructor() {
     }
 }
 ```
+</PlatformBlock>
 <PlatformBlock for="Angular, WebComponents, Blazor">
 - For the search navigation buttons, we have added two ripple styled buttons with material icons. The handlers for the click events remain the same - invoking the `FindNext`/`FindPrev` methods.
 </PlatformBlock>
@@ -1208,6 +1270,7 @@ public nextSearch() {
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
 ```tsx
 const prevSearch = (text: string, caseSensitive: boolean, exactMatch: boolean) => {
     gridRef.current.findPrev(text, caseSensitive, exactMatch);
@@ -1226,6 +1289,7 @@ const nextSearch = (text: string, caseSensitive: boolean, exactMatch: boolean) =
     </IgrIconButton>
 </div>
 ```
+</PlatformBlock>
 <PlatformBlock for="React">
 Now let's add the search and clear icons to the left of the input:
 
@@ -1278,6 +1342,7 @@ useEffect(() => {
 ```
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 ```razor
 <div class="searchButtons" slot="suffix">
     <IgbIconButton Variant="IconButtonVariant.Flat" @onclick="PrevSearch">
@@ -1299,6 +1364,7 @@ useEffect(() => {
     }
 }
 ```
+</PlatformBlock>
 
 ## Known Limitations
 
