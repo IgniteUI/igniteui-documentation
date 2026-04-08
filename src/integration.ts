@@ -678,12 +678,14 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Consumers can override individual slots via starlight.components.
     const pkgDir = new URL('.', import.meta.url);
     const defaultComponents: Record<string, string> = {
-        PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro',  pkgDir)),
-        Head:      fileURLToPath(new URL('./components/overrides/Head.astro',             pkgDir)),
-        Header:    fileURLToPath(new URL('./components/overrides/Header.astro',           pkgDir)),
-        Footer:    fileURLToPath(new URL('./components/overrides/Footer.astro',           pkgDir)),
-        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro',        pkgDir)),
-        Sidebar:   fileURLToPath(new URL('./components/overrides/Sidebar/Sidebar.astro',  pkgDir)),
+        PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro', pkgDir)),
+        Head: fileURLToPath(new URL('./components/overrides/Head.astro', pkgDir)),
+        Header: fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
+        Footer: fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
+        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro', pkgDir)),
+        Sidebar: fileURLToPath(new URL('./components/overrides/Sidebar/Sidebar.astro', pkgDir)),
+        MobileTableOfContents: fileURLToPath(new URL('./components/overrides/MobileTableOfContents.astro', pkgDir)),
+
     };
 
     const scriptsBase = base ? base.replace(/\/$/, '') : '';
