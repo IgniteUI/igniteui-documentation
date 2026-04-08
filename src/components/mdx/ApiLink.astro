@@ -89,12 +89,15 @@ const baseType   = prefixed ? `${prefix}${type}` : type;
 const segment    = KIND_SEGMENT[kind];
 let url: string;
 if (kind === 'class') {
-    const fullType  = prefixed && pkgConfig.classSuffix ? `${baseType}${pkgConfig.classSuffix}` : baseType;
+    const fullType  = pkgConfig.classSuffix ? `${baseType}${pkgConfig.classSuffix}` : baseType;
     const cased     = pkgConfig.preserveCase ? fullType : fullType.toLowerCase();
     const classSlug = pkgConfig.noPackagePrefix
         ? cased
         : `${pkgConfig.packageId}.${cased}`;
-    url = `${pkgConfig.docRoot}/classes/${classSlug}${member ? `#${member}` : ''}`;
+    const memberAnchor = member
+        ? `#${pkgConfig.pascalCaseMembers ? member.charAt(0).toUpperCase() + member.slice(1) : member}`
+        : '';
+    url = `${pkgConfig.docRoot}/classes/${classSlug}${memberAnchor}`;
 } else {
     // Non-class kinds: preserve original casing, no classSuffix
     const slug = pkgConfig.noPackagePrefix
