@@ -39,6 +39,13 @@ interface Props {
      * Set to false for fully-qualified names or non-prefixed symbols.
      */
     prefixed?: boolean;
+    /**
+     * When true (default) the package classSuffix (e.g. "Component" for Angular)
+     * is appended. Set to false for utility/non-component classes that do not carry
+     * the platform class suffix (e.g. SummaryOperand, SortingStrategy).
+     * @default true
+     */
+    suffix?: boolean;
 }
 
 const KIND_SEGMENT: Record<ApiKind, string> = {
@@ -50,7 +57,7 @@ const KIND_SEGMENT: Record<ApiKind, string> = {
     function:  'functions',
 };
 
-const { types, kind = 'class', pkg = 'core', prefixed = true } = Astro.props;
+const { types, kind = 'class', pkg = 'core', prefixed = true, suffix = true } = Astro.props;
 const { prefix, apiPackages } = getPlatformContext();
 
 const pkgConfig = apiPackages[pkg] ?? apiPackages['core'];
@@ -60,7 +67,7 @@ const items = types.map((t) => {
 
     let url: string;
     if (kind === 'class') {
-        const fullName  = pkgConfig.classSuffix ? `${baseName}${pkgConfig.classSuffix}` : baseName;
+        const fullName  = (suffix && pkgConfig.classSuffix) ? `${baseName}${pkgConfig.classSuffix}` : baseName;
         const cased     = pkgConfig.preserveCase ? fullName : fullName.toLowerCase();
         const classSlug = pkgConfig.noPackagePrefix
             ? cased

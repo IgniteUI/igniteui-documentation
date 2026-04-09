@@ -28,9 +28,9 @@ Additionally, **Cell editing** exposes several default editors based on the colu
 
 ## Setup
 
-In order to specify which edit mode should be enabled, the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> exposes the following boolean properties - <ApiLink pkg="grids" type="{ComponentName}" member="editable" prefixed={false} /> and <ApiLink pkg="grids" type="{ComponentName}" member="rowEditable" prefixed={false} />.
+In order to specify which edit mode should be enabled, the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> exposes the following boolean properties - <ApiLink pkg="grids" type="Column" member="editable" /> and <ApiLink pkg="grids" type="{ComponentName}" member="rowEditable" prefixed={false} />.
 
-The <ApiLink pkg="grids" type="{ComponentName}" member="editable" prefixed={false} /> property enables you to specify the following options:
+The <ApiLink pkg="grids" type="Column" member="editable" /> property enables you to specify the following options:
 
 - **false** - the editing for the corresponding column will be disabled. This is the default value.
 - **true** - the editing for the corresponding column will be enabled.
@@ -42,7 +42,7 @@ The <ApiLink pkg="grids" type="{ComponentName}" member="rowEditable" prefixed={f
 - **false** - the row editing in the corresponding grid will be disabled. This is the default value.
 - **true** - the row editing in the corresponding grid will be enabled.
 
-In the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />, if you set <ApiLink pkg="grids" type="{ComponentName}" member="rowEditable" prefixed={false} /> property to true, and the <ApiLink pkg="grids" type="{ComponentName}" member="editable" prefixed={false} /> property is not explicitly defined for any column, the editing will be enabled for all the columns except the **primary key**.
+In the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />, if you set <ApiLink pkg="grids" type="{ComponentName}" member="rowEditable" prefixed={false} /> property to true, and the <ApiLink pkg="grids" type="Column" member="editable" /> property is not explicitly defined for any column, the editing will be enabled for all the columns except the **primary key**.
 
 [Batch editing](batch-editing.md) in the grid can be enabled for both [cell editing](cell-editing.md) and [row editing](row-editing.md) modes. In order to set up batch editing it is necessary to provide to the grid a  **TransactionService**.
 
@@ -52,16 +52,16 @@ In the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />, if you s
 
 ### Editing Templates
 
- If you want to use a data type specific edit templates, you should specify the column's <ApiLink pkg="grids" type="{ComponentName}" member="dataType" prefixed={false} /> property. So let's now see what are the default templates for each type:
+ If you want to use a data type specific edit templates, you should specify the column's <ApiLink pkg="grids" type="Column" member="dataType" /> property. So let's now see what are the default templates for each type:
 
-- For `string` data type, default template is using `Input`.
-- For `number` data type, default template is using `Input` type="number", so if you try to update cell to a value which can not be parsed to a number your change is going to be discarded, and the value in the cell will be set to 0.
-- For `date` data type, default template is using `DatePicker`
-- For `dateTime` data type, default template is using `DateTimeEditor`. This editor will give you a mask directions for the input elements part of the DateTime object.
-- For `time` - data type, default template is using `TimePicker`.
-- For `boolean` data type, default template is using `Checkbox`.
-- For `currency` data type, default template is using `InputGroup` with prefix/suffix configuration based on application or grid locale settings.
-- For `percent` data type, default template is using `InputGroup` with suffix element that shows a preview of the edited value in percents.
+- For `string` data type, default template is using <ApiLink pkg="core" type="Input" />.
+- For `number` data type, default template is using <ApiLink pkg="core" type="Input" /> type="number", so if you try to update cell to a value which can not be parsed to a number your change is going to be discarded, and the value in the cell will be set to 0.
+- For `date` data type, default template is using <ApiLink pkg="core" type="DatePicker" />
+- For `dateTime` data type, default template is using <ApiLink pkg="core" type="DateTimeEditor" />. This editor will give you a mask directions for the input elements part of the DateTime object.
+- For `time` - data type, default template is using <ApiLink pkg="core" type="TimePicker" />.
+- For `boolean` data type, default template is using <ApiLink pkg="core" type="Checkbox" />.
+- For `currency` data type, default template is using <ApiLink pkg="core" type="InputGroup" /> with prefix/suffix configuration based on application or grid locale settings.
+- For `percent` data type, default template is using <ApiLink pkg="core" type="InputGroup" /> with suffix element that shows a preview of the edited value in percents.
 <ComponentBlock for="Grid">
 - For custom templates you can see [Cell Editing topic](cell-editing.md#{PlatformLower}-grid-cell-editing-and-edit-templates-example)
 </ComponentBlock>
@@ -77,14 +77,14 @@ The grid exposes a wide array of events that provide greater control over the ed
 
  | Event           | Description                                                                                                                                               | Arguments                  | Cancellable |
  | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ----------- |
- | <ApiLink pkg="grids" type="{ComponentName}" member="rowEditEnter" prefixed={false} />  | If `RowEditing` is enabled, fires when a row enters edit mode                                                                                             | `GridEditEventArgs`     | **true**    |
- | <ApiLink pkg="grids" type="{ComponentName}" member="cellEditEnter" prefixed={false} /> | Fires when a cell **enters edit mode** (after <ApiLink pkg="grids" type="{ComponentName}" member="rowEditEnter" prefixed={false} />)                                                                                             | `GridEditEventArgs`     | **true**    |
- | <ApiLink pkg="grids" type="{ComponentName}" member="cellEdit" prefixed={false} />      | If value is changed, fires just **before** a cell's value is **committed** (e.g. by pressing <kbd>ENTER</kbd>)                                                     | `GridEditEventArgs`     | **true**    |
- | <ApiLink pkg="grids" type="{ComponentName}" member="cellEditDone" prefixed={false} />  | If value is changed, fires **after** a cell has been edited and cell's value is **committed**                                                             | `GridEditDoneEventArgs` | **false**   |
- | <ApiLink pkg="grids" type="{ComponentName}" member="cellEditExit" prefixed={false} />  | Fires when a cell **exits edit mode**                                                                                                                     | `GridEditDoneEventArgs` | **false**   |
- | <ApiLink pkg="grids" type="{ComponentName}" member="rowEdit" prefixed={false} />       | If `RowEditing` is enabled, fires just before a row in edit mode's value is **committed** (e.g. by clicking the `Done` button on the Row Editing Overlay) | `GridEditEventArgs`     | **true**    |
- | <ApiLink pkg="grids" type="{ComponentName}" member="rowEditDone" prefixed={false} />   | If `RowEditing` is enabled, fires **after** a row has been edited and new row's value has been **committed**.                                             | `GridEditDoneEventArgs` | **false**   |
- | <ApiLink pkg="grids" type="{ComponentName}" member="rowEditExit" prefixed={false} />   | If `RowEditing` is enabled, fires when a row **exits edit mode**                                                                                          | `GridEditDoneEventArgs` | **false**   |
+ | <ApiLink pkg="grids" type="{ComponentName}" member="rowEditEnter" prefixed={false} />  | If `RowEditing` is enabled, fires when a row enters edit mode                                                                                             | <ApiLink pkg="grids" kind="interface" type="GridEditEventArgs" label="GridEditEventArgs" />    | **true**    |
+ | <ApiLink pkg="grids" type="{ComponentName}" member="cellEditEnter" prefixed={false} /> | Fires when a cell **enters edit mode** (after <ApiLink pkg="grids" type="{ComponentName}" member="rowEditEnter" prefixed={false} />)                                                                                             | <ApiLink pkg="grids" kind="interface" type="GridEditEventArgs" label="GridEditEventArgs" />     | **true**    |
+ | <ApiLink pkg="grids" type="{ComponentName}" member="cellEdit" prefixed={false} />      | If value is changed, fires just **before** a cell's value is **committed** (e.g. by pressing <kbd>ENTER</kbd>)                                                     | <ApiLink pkg="grids" kind="interface" type="GridEditEventArgs" label="GridEditEventArgs" />     | **true**    |
+ | <ApiLink pkg="grids" type="{ComponentName}" member="cellEditDone" prefixed={false} />  | If value is changed, fires **after** a cell has been edited and cell's value is **committed**                                                             | <ApiLink pkg="grids" kind="interface" type="GridEditDoneEventArgs" label="GridEditDoneEventArgs" /> | **false**   |
+ | <ApiLink pkg="grids" type="{ComponentName}" member="cellEditExit" prefixed={false} />  | Fires when a cell **exits edit mode**                                                                                                                     | <ApiLink pkg="grids" kind="interface" type="GridEditDoneEventArgs" label="GridEditDoneEventArgs" /> | **false**   |
+ | <ApiLink pkg="grids" type="{ComponentName}" member="rowEdit" prefixed={false} />       | If `RowEditing` is enabled, fires just before a row in edit mode's value is **committed** (e.g. by clicking the `Done` button on the Row Editing Overlay) | <ApiLink pkg="grids" kind="interface" type="GridEditEventArgs" label="GridEditEventArgs" />     | **true**    |
+ | <ApiLink pkg="grids" type="{ComponentName}" member="rowEditDone" prefixed={false} />   | If `RowEditing` is enabled, fires **after** a row has been edited and new row's value has been **committed**.                                             | <ApiLink pkg="grids" kind="interface" type="GridEditDoneEventArgs" label="GridEditDoneEventArgs" /> | **false**   |
+ | <ApiLink pkg="grids" type="{ComponentName}" member="rowEditExit" prefixed={false} />   | If `RowEditing` is enabled, fires when a row **exits edit mode**                                                                                          | <ApiLink pkg="grids" kind="interface" type="GridEditDoneEventArgs" label="GridEditDoneEventArgs" /> | **false**   |
 
 ### Event Cancellation
 
