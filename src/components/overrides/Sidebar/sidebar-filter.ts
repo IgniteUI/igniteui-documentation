@@ -20,6 +20,8 @@
  *   - On clear, restore from the snapshot (safe: SidebarPersister has already restored
  *     its own state by this point, so the snapshot reflects the persisted state).
  */
+const STORAGE_KEY = 'sidebar-filter-value';
+
 class SidebarFilter extends HTMLElement {
   private input!: HTMLInputElement;
   private clearBtn!: HTMLButtonElement;
@@ -38,19 +40,36 @@ class SidebarFilter extends HTMLElement {
     this.allItems   = [...this.querySelectorAll<HTMLLIElement>('li')];
     this.allDetails = [...this.querySelectorAll<HTMLDetailsElement>('details')];
 
-    this.input.addEventListener('input', () => this.filter(this.input.value));
+    this.input.addEventListener('input', () => {
+      sessionStorage.setItem(STORAGE_KEY, this.input.value);
+      this.filter(this.input.value);
+    });
 
     this.clearBtn.addEventListener('click', () => {
       this.input.value = '';
+      sessionStorage.removeItem(STORAGE_KEY);
       this.input.focus();
       this.filter('');
     });
 
     this.input.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { this.input.value = ''; this.filter(''); }
+      if (e.key === 'Escape') {
+        this.input.value = '';
+        sessionStorage.removeItem(STORAGE_KEY);
+        this.filter('');
+      }
     });
 
-    this.syncClearButton('');
+    // Restore persisted filter value from previous navigation.
+    const saved = sessionStorage.getItem(STORAGE_KEY) ?? '';
+    if (saved) {
+      this.input.value = saved;
+      this.filter(saved);
+    } else {
+      this.syncClearButton('');
+    }
+
+    this.scrollToActivePage();
   }
 
   private filter(rawQuery: string): void {
@@ -67,6 +86,7 @@ class SidebarFilter extends HTMLElement {
     if (!query) {
       this.showAll();
       this.restoreDetailsState();
+      this.ensureActivePageVisible();
       this.snapshotTaken = false;
       this.updateStatus(null);
       return;
@@ -168,6 +188,44 @@ class SidebarFilter extends HTMLElement {
   private restoreDetailsState(): void {
     if (!this.snapshotTaken) return;
     this.allDetails.forEach((d, i) => { d.open = this.detailsSnapshot[i] ?? d.open; });
+  }
+
+  /**
+   * Scroll the sidebar list container so the active page link is visible.
+   * Uses scrollIntoView with block:"nearest" to avoid unnecessary scrolling
+   * when the link is already in view.
+   */
+  private scrollToActivePage(): void {
+    const activeLink = this.querySelector<HTMLAnchorElement>('a[aria-current="page"]');
+    if (!activeLink) return;
+    const scrollContainer = this.querySelector<HTMLElement>('.sidebar-scroll');
+    if (!scrollContainer) {
+      activeLink.scrollIntoView({ block: 'nearest' });
+      return;
+    }
+    const linkTop = activeLink.getBoundingClientRect().top;
+    const containerTop = scrollContainer.getBoundingClientRect().top;
+    const containerBottom = containerTop + scrollContainer.clientHeight;
+    // Only scroll if the link is outside the visible area of the container.
+    if (linkTop < containerTop || linkTop > containerBottom) {
+      activeLink.scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  /**
+   * After clearing the filter, ensure the currently active page's ancestor
+   * <details> elements are all open so the active link is always visible.
+   * This handles the case where the snapshot captured a collapsed state for
+   * the group containing the active page.
+   */
+  private ensureActivePageVisible(): void {
+    const activeLink = this.querySelector<HTMLAnchorElement>('a[aria-current="page"]');
+    if (!activeLink) return;
+    let node: Element | null = activeLink.parentElement;
+    while (node && node !== this) {
+      if (node instanceof HTMLDetailsElement) node.open = true;
+      node = node.parentElement;
+    }
   }
 
   private updateStatus(matchCount: number | null): void {

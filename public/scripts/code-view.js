@@ -521,4 +521,6 @@
   } else {
     initCodeViews();
   }
+  // Re-run after Astro View Transitions client-side navigation.
+  document.addEventListener('astro:page-load', initCodeViews);
 })();

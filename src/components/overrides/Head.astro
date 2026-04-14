@@ -15,7 +15,13 @@
  * twitter:card, favicon, charset, viewport, generator …) is passed through
  * from Starlight's starlightRoute.head unchanged.
  *
+ * ClientRouter enables Astro View Transitions (client-side navigation).
+ * This causes Astro to fire `astro:page-load` after each navigation, which
+ * lets sidebar filter state and code-view widgets re-initialize without a
+ * full page reload.
  */
+
+import { ClientRouter } from 'astro:transitions';
 
 type EntryData = {
     title: string;
@@ -39,6 +45,17 @@ const passthroughHead = head.filter(({ tag, attrs }) => {
 });
 ---
 
+{/* Force light theme on initial load and after every View Transitions swap. */}
+<script is:inline>
+  localStorage.setItem('starlight-theme', 'light');
+  document.documentElement.setAttribute('data-theme', 'light');
+  // astro:after-swap fires after each client-side navigation DOM swap.
+  // This script is deduplicated by Astro (same content = not re-run), but the
+  // listener added here persists in memory and corrects data-theme after every swap.
+  document.addEventListener('astro:after-swap', function () {
+    document.documentElement.setAttribute('data-theme', 'light');
+  });
+</script>
 <title>{title}</title>
 {description && <meta name="description" content={description} />}
 {keywords && <meta name="keywords" content={keywords} />}
@@ -46,5 +63,6 @@ const passthroughHead = head.filter(({ tag, attrs }) => {
     const { tag: Tag, attrs, content } = entry;
     return content ? <Tag {...attrs} set:html={content} /> : <Tag {...attrs} />;
 })}
+<ClientRouter />
 
 
