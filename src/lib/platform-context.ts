@@ -183,7 +183,7 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             grids:       { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor/25.1.x', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
             gauges:      { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor/25.1.x', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
             maps:        { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor/25.1.x', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            excel:       { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor/25.1.x', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
+            excel:       { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor.Documents.Excel/25.1.x', packageId: 'IgniteUI.Blazor.Documents.Excel', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
             spreadsheet: { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor/25.1.x',         packageId: 'IgniteUI.Blazor',         noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
             'grid-lite': { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor.GridLite/25.1.x', packageId: 'IgniteUI.Blazor.GridLite', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
         },
