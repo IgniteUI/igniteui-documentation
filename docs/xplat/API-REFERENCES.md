@@ -141,11 +141,13 @@ Angular wraps DV classes in Angular Components, so TypeDoc adds a `Component` su
 
 ```typescript
 export interface ApiPackageConfig {
-    docRoot:          string;   // Base URL, no trailing slash
-    packageId:        string;   // Segment used in /classes/{packageId}.{class}.html
-    noPackagePrefix?: boolean;  // When true: omit {packageId}. prefix (Angular/React core)
-    classSuffix?:     string;   // Appended to class name before URL lowercasing
-                                // e.g. 'Component' for Angular DV packages
+    docRoot:            string;   // Base URL, no trailing slash
+    packageId:          string;   // Segment used in /classes/{packageId}.{class}.html
+    noPackagePrefix?:   boolean;  // When true: omit {packageId}. prefix
+    preserveCase?:      boolean;  // When true: keep PascalCase in URL (new-style API sites)
+    classSuffix?:       string;   // Appended to class name in URL (e.g. 'Component' for Angular DV)
+                                  // NOT added to display labels — URL only
+    pascalCaseMembers?: boolean;  // When true: member anchors are PascalCase (Blazor)
 }
 ```
 
@@ -160,7 +162,7 @@ export interface ApiPackageConfig {
 | `"maps"` | Geographic map and series | `igniteui-react-maps` | `Component` |
 | `"inputs"` | Input controls | `igniteui-react-inputs` | — |
 | `"layouts"` | Layout components | `igniteui-react-layouts` | — |
-| `"excel"` | Excel library (Workbook, Worksheet…) | `igniteui-react-excel` | `Component` |
+| `"excel"` | Excel library (Workbook, Worksheet…) | `igniteui-react-excel` | — *(no suffix — utility classes)* |
 | `"spreadsheet"` | Spreadsheet component | `igniteui-react-spreadsheet` | `Component` |
 | `"datasources"` | Data source utilities | `igniteui-react-datasources` | — |
 
@@ -185,7 +187,8 @@ Use anywhere in prose to link a class, interface, enum, type alias, variable, or
 | `member` | `string` | — | Property or method name. Appended as `#{member}` anchor in URL |
 | `pkg` | `string` | `"core"` | Package key. See table above |
 | `label` | `string` | auto | Display text. Defaults to `{Prefix}{Type}` or `{Prefix}{Type}.{member}` — **never** includes `classSuffix` |
-| `prefixed` | `boolean` | `true` | Set `false` when the name already has the prefix, or for functions/types that have no platform prefix |
+| `prefixed` | `boolean` | `true` | Set `false` when the name already has the prefix, or for functions/types that have no platform prefix. **Always `false` for excel library types.** |
+| `suffix` | `boolean` | `true` | Set `false` for utility/non-component classes that don't carry the `Component` suffix. Required for all excel types, FilteringOperand classes, SortingStrategy classes, SummaryOperand classes. |
 
 ### URL segments by kind
 
@@ -285,7 +288,8 @@ Renders the standard "API References" `<h2>` section. Place near the bottom of t
 | `types` | `string[]` | **required** | Symbol names without platform prefix |
 | `kind` | `'class' \| 'interface' \| 'enum' \| 'type' \| 'variable' \| 'function'` | `"class"` | TypeDoc symbol kind — all entries in one call must be the same kind |
 | `pkg` | `string` | `"core"` | Package key. All entries in one call must be from the same package |
-| `prefixed` | `boolean` | `true` | Set `false` for fully-qualified names or `{ComponentName}` tokens |
+| `prefixed` | `boolean` | `true` | Set `false` for fully-qualified names or `{ComponentName}` tokens. **Always `false` for excel library types.** |
+| `suffix` | `boolean` | `true` | Set `false` for utility classes without the `Component` suffix (excel types, FilteringOperand, SortingStrategy, etc.) |
 
 ### Usage examples
 
@@ -418,6 +422,60 @@ Set <ApiLink pkg="grids" type="{ComponentName}" member="rowSelection" prefixed={
 Use <ApiLink pkg="grids" type="{ComponentName}" member="selectedRows" prefixed={false} /> to access selected rows.
 
 <ApiRef pkg="grids" types={["{ComponentName}", "Column"]} prefixed={false} />
+```
+
+---
+
+## Excel Library — Special Rules
+
+Excel library types (`Workbook`, `Worksheet`, `WorksheetTable`, `WorksheetCell`, `Formula`, `DisplayOptions`, `SortSettings`, etc.) are **utility classes** — they carry no platform prefix and no `Component` suffix on any platform.
+
+Always use `prefixed={false}` for all `pkg="excel"` links:
+
+```mdx
+<ApiLink pkg="excel" prefixed={false} type="WorksheetTable" />
+<ApiLink pkg="excel" prefixed={false} type="Workbook" />
+<ApiLink pkg="excel" prefixed={false} type="Worksheet" member="tables" label="Tables" />
+```
+
+The Blazor excel package is **separate** from `IgniteUI.Blazor`. The `pkg="excel"` config for Blazor resolves to:
+- **Package:** `IgniteUI.Blazor.Documents.Excel`
+- **URL root:** `https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor.Documents.Excel/25.1.x/`
+- Example: `.../classes/WorksheetTable`
+
+Do **not** add `classSuffix: 'Component'` to the `excel` entry in `platform-context.ts` for any platform.
+
+---
+
+## Dock Manager Slot Members
+
+Dock Manager slot names are exposed as members of the `DockManager` class. Use `pkg="core"` (WC API: `igniteui-dockmanager`):
+
+```mdx
+<ApiLink pkg="core" type="DockManager" member="closeButton" label="closeButton" />
+<ApiLink pkg="core" type="DockManager" member="maximizeButton" label="maximizeButton" />
+<ApiLink pkg="core" type="DockManager" member="minimizeButton" label="minimizeButton" />
+<ApiLink pkg="core" type="DockManager" member="pinButton" label="pinButton" />
+<ApiLink pkg="core" type="DockManager" member="unpinButton" label="unpinButton" />
+<ApiLink pkg="core" type="DockManager" member="paneHeaderCloseButton" label="paneHeaderCloseButton" />
+<ApiLink pkg="core" type="DockManager" member="splitterHandle" label="splitterHandle" />
+```
+
+---
+
+## MDX Parse Error — JSX Expressions in Comments
+
+JSX numeric expressions (`{500}`, `{0}`) inside `{/* */}` MDX block comments cause:
+`Cannot read properties of undefined (reading 'start')`
+
+The MDX parser tries to evaluate them even inside comments. Fix by converting to string attributes:
+
+```mdx
+{/* Bad — {500} triggers parse error */}
+{/* <Sample src="/foo" height={500} alt="{Platform} Example" />*/}
+
+{/* Good — use string attribute and add space before */ */}
+{/* <Sample src="/foo" height="500" alt="{Platform} Example" /> */}
 ```
 
 ---
