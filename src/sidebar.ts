@@ -143,7 +143,7 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSid
             if (currentGroup) sidebar.push(currentGroup);
             currentGroup = { label: item.name!, items: [] };
             if (item.href && docExists(docsDir, item.href, exclude)) {
-                currentGroup.items.push({ label: item.name, slug: hrefToSlug(item.href) });
+                currentGroup.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
             }
             continue;
         }
