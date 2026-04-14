@@ -65,7 +65,7 @@ export default createDocsSite({
     title: p.title,
     description: p.description,
     platform: p.key,
-    navLang: lang === 'jp' ? 'ja' : lang,
+    navLang: lang,
     mode,
     source: {
         tocPath: path.join(XPLAT_ROOT, 'components', 'toc.json'),
