@@ -22,6 +22,7 @@ Renders an inline `<a><code>…</code></a>` link to a specific type or member.
 | `member` | string | — | Property or method name to anchor to, e.g. `"sortable"` |
 | `label` | string | auto | Override display text. Defaults to `PrefixType` or `PrefixType.member` |
 | `prefixed` | boolean | `true` | When `true`, the platform prefix (`Igr`/`Igx`/`Igc`/`Igb`) is prepended automatically |
+| `suffix` | boolean | `true` | When `true`, the platform class suffix (e.g. `Component` for Angular DV packages) is appended. Set `false` for utility/non-component classes (FilteringOperand, SortingStrategy, excel library types, etc.) |
 
 ### URL Resolution
 
@@ -108,7 +109,7 @@ The `pkg=` attribute selects which API documentation root to use. The same key w
 | `"maps"` | `igniteui-react-maps` | `igniteui-angular-maps` | `igniteui-webcomponents-maps` | `IgniteUI.Blazor` |
 | `"inputs"` | `igniteui-react-inputs` | `igniteui-angular-inputs` | `igniteui-webcomponents-inputs` | `IgniteUI.Blazor` |
 | `"layouts"` | `igniteui-react-layouts` | `igniteui-angular-layouts` | `igniteui-webcomponents-layouts` | `IgniteUI.Blazor` |
-| `"excel"` | `igniteui-react-excel` | `igniteui-angular-excel` | `igniteui-webcomponents-excel` | `IgniteUI.Blazor` |
+| `"excel"` | `igniteui-react-excel` | `igniteui-angular-excel` | `igniteui-webcomponents-excel` | `IgniteUI.Blazor.Documents.Excel` |
 
 ---
 
@@ -192,7 +193,7 @@ The `prefixed` prop (default `true`) controls whether the platform class prefix 
 
 ---
 
-### The `suffix` prop — non-component utility classes
+### The `suffix` prop — non-component utility classes and excel library types
 
 Some platforms append a suffix to UI component class names. For Angular, the `grids` package appends `Component` to all component classes: `IgxGrid` → `IgxGridComponent`, `IgxColumn` → `IgxColumnComponent`.
 
@@ -212,6 +213,7 @@ However, **utility and strategy classes do not carry this suffix**: `IgxStringFi
 - All `*FilteringOperand` classes (`BooleanFilteringOperand`, `NumberFilteringOperand`, `StringFilteringOperand`, `DateFilteringOperand`, etc.)
 - All `*SummaryOperand` classes (`SummaryOperand`, `NumberSummaryOperand`, `DateSummaryOperand`)
 - Strategy classes (`DefaultSortingStrategy`, `NoopSortingStrategy`, `NoopFilteringStrategy`, `GridSortingStrategy`)
+- **All excel library types** (`Workbook`, `Worksheet`, `WorksheetCell`, `WorksheetTable`, `Formula`, `DisplayOptions`, `SortSettings`, etc.) — these are utility classes with no platform prefix and no Component suffix
 - Any class whose name does **not** end in a UI-component pattern
 
 **Classes that keep the default `suffix={true}` / omit it** (UI component classes):
@@ -279,6 +281,49 @@ If a page references a type that is not yet in the `## API References` section, 
 <ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
 <ApiRef pkg="grids" types={["Column", "ColumnGroup"]} />
 <ApiRef pkg="grids" kind="interface" types={["ClipboardOptions"]} />
+```
+
+---
+
+## Excel Library — Special Rules
+
+Excel library types (`Workbook`, `Worksheet`, `WorksheetTable`, `WorksheetCell`, `Formula`, `DisplayOptions`, `SortSettings`, etc.) **never** carry a platform prefix or the `Component` suffix on any platform. Always use:
+
+```mdx
+<ApiLink pkg="excel" prefixed={false} type="WorksheetTable" />
+<ApiLink pkg="excel" prefixed={false} type="Workbook" member="save" label="Save" />
+```
+
+The Blazor excel package is **separate** from the main `IgniteUI.Blazor` package:
+- `pkg="excel"` → Blazor resolves to `IgniteUI.Blazor.Documents.Excel`
+- URL: `https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor.Documents.Excel/25.1.x/classes/WorksheetTable`
+
+---
+
+## Dock Manager Slot Members
+
+For dock-manager slot names (`closeButton`, `maximizeButton`, `minimizeButton`, `pinButton`, `unpinButton`, `paneHeaderCloseButton`, etc.), use `pkg="core"` with `type="DockManager"` and the slot name as `member`:
+
+```mdx
+<ApiLink pkg="core" type="DockManager" member="closeButton" label="closeButton" />
+<ApiLink pkg="core" type="DockManager" member="splitterHandle" label="splitterHandle" />
+```
+
+---
+
+## MDX Parse Error — JSX in Comments
+
+JSX expressions like `{500}` inside `{/* */}` MDX block comments cause a parse error:
+`Cannot read properties of undefined (reading 'start')`
+
+Fix: change numeric JSX attributes to strings inside comments, and ensure the closing has a space:
+
+```mdx
+{/* Bad */}
+{/* <Sample height={500} /> */}
+
+{/* Good */}
+{/* <Sample height="500" /> */}
 ```
 
 ---

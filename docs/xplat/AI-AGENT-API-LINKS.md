@@ -52,36 +52,6 @@ Each JSON file is a TypeDoc reflection tree. Top-level `children` contains all e
 | `256` | Interface |
 | `4194304` | Type alias |
 
-### Python query pattern
-
-To find which class(es) own a member, run:
-
-```python
-import json, os
-
-# Find the api-docs data directory relative to your working directory, or use an absolute path
-data_file = os.path.join('<path-to-api-docs>', 'src', 'data', 'react', 'igniteui-react-grids.json')
-
-with open(data_file, encoding='utf-8') as f:
-    data = json.load(f)
-
-class_members = {}
-for c in data.get('children', []):
-    if c.get('kind') in (128, 256):  # Class or Interface
-        class_members[c['name']] = {ch['name'] for ch in c.get('children', [])}
-
-member = 'sortable'  # <-- the member you want to look up
-owners = [cls for cls, mems in class_members.items() if member in mems]
-print(f'{member} is defined on: {owners}')
-```
-
-To see all members of a specific class:
-
-```python
-target = 'IgrColumn'
-print(sorted(class_members.get(target, [])))
-```
-
 ---
 
 ## Step 2 — Understand the MDX ApiLink Syntax
@@ -96,7 +66,8 @@ print(sorted(class_members.get(target, [])))
 | `type` | yes | Short type name **without** platform prefix. E.g. `"Column"`, not `"IgrColumn"`. |
 | `kind` | **yes*** | Must match the TypeDoc symbol kind. Default is `"class"` — omit only for classes. **Always check and set this explicitly for non-class types.** |
 | `member` | no | Property or method name for the anchor. |
-| `prefixed` | no | Default `true` — adds `Igr`/`Igx`/`Igc`/`Igb` automatically. Set `false` when `type` contains `{ComponentName}` or the name is already fully-qualified. |
+| `prefixed` | no | Default `true` — adds `Igr`/`Igx`/`Igc`/`Igb` automatically. Set `false` when `type` contains `{ComponentName}` or the name is already fully-qualified. **Always `false` for excel types.** |
+| `suffix` | no | Default `true` — appends `Component` suffix for Angular DV packages. Set `false` for utility classes (FilteringOperand, SortingStrategy, SummaryOperand, all excel types). |
 | `label` | no | Override display text. |
 
 ### Platform prefix mapping
@@ -195,21 +166,6 @@ Check the `kind` field on the top-level symbol in the JSON:
 | `64` | `"function"` — **must set explicitly** |
 | `32` | `"variable"` — **must set explicitly** |
 
-### Python query to get a symbol's kind
-
-```python
-import json, os
-
-data_file = os.path.join('<path-to-api-docs>', 'src', 'data', 'react', 'igniteui-react-grids.json')
-with open(data_file, encoding='utf-8') as f:
-    data = json.load(f)
-
-target = 'IgrClipboardOptions'  # full prefixed name
-for c in data.get('children', []):
-    if c.get('name') == target:
-        print(f"{target}: kind={c.get('kind')}")  # 256 = Interface
-```
-
 ### Examples by kind
 
 ```mdx
@@ -247,6 +203,7 @@ The `prefixed` prop (default `true`) controls whether the platform class prefix 
 - `type="{ComponentName}"` — the template variable already expands to the full prefixed class name at build time (e.g. `IgrGrid`)
 - The type name is already fully qualified with a prefix (e.g. `"ExcelExporterService"` — Angular-only service)
 - The symbol genuinely has no platform prefix (standalone functions, certain enums used as literals)
+- **All excel library types** — `Workbook`, `Worksheet`, `WorksheetTable`, etc. never have a platform prefix
 
 **Remove `prefixed={false}` (use the default)** when:
 - You change `type` from `"{ComponentName}"` to a concrete short name like `"Column"`, `"ColumnGroup"`, `"GridState"`, etc.
@@ -265,6 +222,10 @@ The `prefixed` prop (default `true`) controls whether the platform class prefix 
 
 <!-- Angular-only service — no prefix exists for React/WC/Blazor, keep prefixed={false} -->
 <ApiLink pkg="grids" type="ExcelExporterService" prefixed={false} />
+
+<!-- Excel library — always prefixed={false} -->
+<ApiLink pkg="excel" prefixed={false} type="WorksheetTable" />
+<ApiLink pkg="excel" prefixed={false} type="Workbook" />
 ```
 
 ---
@@ -303,24 +264,6 @@ Angular's `grids` package appends `Component` to all **UI component** class name
 > If you call it in code like `StringFilteringOperand.instance()` → needs `suffix={false}`.  
 > If you put it in a template like `<igx-column>` → keep the default.
 
-### Python check — is the name a component or utility class?
-
-```python
-import json, os
-
-data_file = os.path.join('<path-to-api-docs>', 'src', 'data', 'react', 'igniteui-react-grids.json')
-with open(data_file, encoding='utf-8') as f:
-    data = json.load(f)
-
-# Look for the class and check whether it has a decorator or extends a component base
-target = 'IgrStringFilteringOperand'
-for c in data.get('children', []):
-    if c.get('name') == target:
-        print(f"kind={c.get('kind')}, extendedTypes={c.get('extendedTypes', [])}")
-```
-
-If the class extends `IgxFilteringOperand` / `IgrFilteringOperand` / ends in `Operand`, `Strategy`, or `SummaryOperand` — it is a utility class and needs `suffix={false}`.
-
 ---
 
 ## Step 6 — Angular-Only Members
@@ -336,7 +279,72 @@ React renames all events with an `on` prefix: `rowEdit` → `onRowEdit`, `column
 
 ---
 
-## Step 7 — Validation types
+## Step 7 — Excel Library Types
+
+Excel library types (`Workbook`, `Worksheet`, `WorksheetTable`, `WorksheetCell`, `Formula`, `DisplayOptions`, `SortSettings`, etc.) are utility classes — they carry **no platform prefix** and **no `Component` suffix** on any platform.
+
+**Always** use `prefixed={false}` for `pkg="excel"`:
+
+```mdx
+<ApiLink pkg="excel" prefixed={false} type="WorksheetTable" />
+<ApiLink pkg="excel" prefixed={false} type="Workbook" />
+<ApiLink pkg="excel" prefixed={false} type="SortSettings" />
+```
+
+The Blazor excel package is **not** the main `IgniteUI.Blazor` package — it is `IgniteUI.Blazor.Documents.Excel`. This is already configured in `platform-context.ts`. Do not change it to `IgniteUI.Blazor`.
+
+### `platform-context.ts` excel entry (Blazor — correct)
+```typescript
+excel: {
+  docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor.Documents.Excel/25.1.x',
+  packageId: 'IgniteUI.Blazor.Documents.Excel',
+  noPackagePrefix: true,
+  preserveCase: true,
+  pascalCaseMembers: true
+}
+```
+
+Do **not** add `classSuffix: 'Component'` to the `excel` entry for any platform.
+
+---
+
+## Step 7b — Dock Manager Slot Members
+
+Dock manager slot names are members of the `DockManager` class, in `pkg="core"`:
+
+```mdx
+<ApiLink pkg="core" type="DockManager" member="closeButton" label="closeButton" />
+<ApiLink pkg="core" type="DockManager" member="maximizeButton" label="maximizeButton" />
+<ApiLink pkg="core" type="DockManager" member="minimizeButton" label="minimizeButton" />
+<ApiLink pkg="core" type="DockManager" member="pinButton" label="pinButton" />
+<ApiLink pkg="core" type="DockManager" member="unpinButton" label="unpinButton" />
+<ApiLink pkg="core" type="DockManager" member="paneHeaderCloseButton" label="paneHeaderCloseButton" />
+<ApiLink pkg="core" type="DockManager" member="tabHeaderCloseButton" label="tabHeaderCloseButton" />
+<ApiLink pkg="core" type="DockManager" member="moreTabsButton" label="moreTabsButton" />
+<ApiLink pkg="core" type="DockManager" member="moreOptionsButton" label="moreOptionsButton" />
+<ApiLink pkg="core" type="DockManager" member="splitterHandle" label="splitterHandle" />
+```
+
+WC API reference: `https://staging.infragistics.com/wc-apis-new/wc/igniteui-dockmanager/latest/classes/IgcDockManagerComponent/`
+
+---
+
+## Step 7c — MDX Parse Error: JSX in Comments
+
+JSX expressions (`{500}`, `{true}`) inside `{/* */}` MDX comments cause:
+`Cannot read properties of undefined (reading 'start')`
+
+Fix: replace JSX numeric props with string values inside comments:
+
+```mdx
+{/* Bad */}
+{/* <Sample src="/foo" height={500} />*/}
+
+{/* Good */}
+{/* <Sample src="/foo" height="500" /> */}
+```
+
+---
 
 ## Step 8 — Fix Pattern
 
