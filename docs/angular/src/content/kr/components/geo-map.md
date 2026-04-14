@@ -1,0 +1,70 @@
+---
+title: Angular Map | Data Visualization Tools | Infragistics
+description: The Map allows you to display data that contains geographic locations from view models or geo-spatial data loaded from shape files on geographic imagery maps.View the demo, dependencies, usage and toolbar for more information.
+keywords: map, Ignite UI for Angular, Infragistics
+_language: kr
+mentionedTypes: ["XamGeographicMap", "ShapefileConverter"]
+---
+
+# Angular Map
+
+The Ignite UI for Angular map component allows you to display data that contains geographic locations from view models or geo-spatial data loaded from shape files on geographic imagery maps.
+
+## Demo
+
+<code-view style="height: 400px" alt="Angular geo map overview"
+           data-demos-base-url="{environment:dvDemosBaseUrl}"
+                    iframe-src="{environment:dvDemosBaseUrl}/maps/geo-map/overview"
+                                                 github-src="maps/geo-map/overview">
+</code-view>
+
+
+<div class="divider--half"></div>
+
+The map component allows you to render geographic imagery from Bing Maps™, and Open Street Maps. The map provides plotting of tens of thousands of data points, and updates them every few milliseconds so that the control can handle your real-time feeds.
+
+The map's Series property is used to support rendering an unlimited number of geographic series. This property is a collection of geographic series objects and any type of geographic series can be added to it. For example, [`IgxGeographicSymbolSeriesComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igniteui_angular_maps.igxgeographicsymbolseriescomponent.html) can be added for plotting geographic locations such as cities and the [`IgxGeographicPolylineSeriesComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igniteui_angular_maps.igxgeographicpolylineseriescomponent.html) for plotting connections (e.g. roads) between these geographic locations.
+
+The map provides customizable navigation behaviors for navigating map content using mouse, keyboard, or code-behind.
+
+NOTE: As of June 30, 2025 all Microsoft Bing Maps for Enterprise Basic (Free) accounts will be retired. If you're still using an unpaid Basic Account and key, now is the time to act to avoid service disruptions. Bing Maps for Enterprise license holders can continue to use Bing Maps in their applications until June 30,2028.
+
+For more details:
+
+[Microsoft Bing Blogs](https://blogs.bing.com/maps/2025-06/Bing-Maps-for-Enterprise-Basic-Account-shutdown-June-30,2025)
+
+<!-- Angular, React, WebComponents -->
+
+## Dependencies
+
+To use the geographic map component, you need to first install these packages:
+
+- **npm install --save igniteui-angular-core**
+- **npm install --save igniteui-angular-charts**
+- **npm install --save igniteui-angular-maps**
+
+<!-- end: Angular, React, WebComponents -->
+
+## Component Modules
+
+The [`IgxGeographicMapComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igniteui_angular_maps.igxgeographicmapcomponent.html) requires the following modules:
+
+```ts
+// app.module.ts
+import { IgxMapModule } from "igniteui-angular-maps";
+
+@NgModule({
+    imports: [
+        // ...
+        IgxMapModule,
+        // ...
+    ]
+})
+export class AppModule {}
+```
+
+<div class="divider--half"></div>
+
+## Usage
+
+Now that the map module is imported, next step is to create geographic map. The following code demonstrates how to do this and enable zooming in the map.

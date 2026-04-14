@@ -1,0 +1,51 @@
+---
+title: "{Platform} ネットワーク チャート | ネットワーク グラフ | ポリライン チャート | データ可視化 | インフラジスティックス"
+description: インフラジスティックスの {Platform} ネットワーク チャート / グラフ
+keywords: "{Platform} Charts, Network Chart, Network Graph, Network Polar Chart, Network Scatter Chart, Polyline Chart, Infragistics, {Platform} チャート, ネットワーク チャート, ネットワーク グラフ, ネットワーク極座標チャート, ネットワーク散布図, ポリライン チャート, インフラジスティックス"
+license: commercial
+mentionedTypes: ["XamDataChart", "Series"]
+namespace: Infragistics.Controls.Charts
+_language: ja
+---
+# {Platform} ネットワーク チャート
+
+{ProductName} ネットワーク チャートは、ネットワーク グラフまたはポリライン チャートとも呼ばれ、大量の要素間の複雑な関係を視覚化します。この視覚化は、無向および指向グラフ構造を表示します。また、丸いノードとして表示されるエンティティ間の関係を示し、線はそれらの関係を示します。
+
+次のセクションでは、さまざまなタイプのネットワーク チャートの例を示します。
+
+## {Platform} ネットワーク極座標チャート
+
+次の例は、`XamDataChart` コントロールで `PolarScatterSeries` (ノード マーカーの描画用) と `PolarLineSeries` (ノード接続の描画用) を使用してネットワーク極座標チャートを作成する方法を示しています。
+
+`sample="/charts/data-chart/network-polar-chart", height="600", alt="{Platform} ネットワーク極座標チャート"`
+
+
+
+<div class="divider--half"></div>
+
+## {Platform} ネットワーク散布図
+
+次の例は、`XamDataChart` コントロールで `ScatterSeries` (ノード マーカーの描画用) と `ScatterPolylineSeries` (ノード接続の描画用) を使用してネットワーク散布図を作成する方法を示しています。
+
+`sample="/charts/data-chart/network-scatter-chart", height="600", alt="{Platform} ネットワーク散布図"`
+
+
+
+<div class="divider--half"></div>
+
+## その他のリソース
+- [バブル チャート](bubble-chart.md)
+- [散布図](scatter-chart.md)
+- [シェープ チャート](shape-chart.md)
+
+## API リファレンス
+- `CategoryYAxis`
+- `NumericAngleAxis`
+- `NumericRadiusAxis`
+- `NumericXAxis`
+- `NumericYAxis`
+- `PolarLineSeries`
+- `PolarScatterSeries`
+- `ScatterPolylineSeries`
+- `ScatterSeries`
+- `XamDataChart`

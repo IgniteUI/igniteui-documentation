@@ -1,0 +1,43 @@
+---
+import { load as loadYaml } from 'js-yaml';
+import { readFileSync, existsSync } from 'node:fs';
+import path from 'node:path';
+
+type TocItem = { name?: string; href?: string; default?: boolean; header?: boolean; items?: TocItem[] };
+
+// DOCS_SOURCE_PATH is set by createDocsSite() to the absolute components docsDir.
+// This is the same path used by the sidebar and content collection — single source of truth.
+const docsDir = process.env.DOCS_SOURCE_PATH ?? path.join(process.cwd(), 'src', 'content', (process.env.DOCS_LANG ?? 'en'), 'components');
+const tocPath = path.join(docsDir, 'toc.yml');
+const toc: TocItem[] = existsSync(tocPath)
+    ? (loadYaml(readFileSync(tocPath, 'utf8')) as TocItem[]) ?? []
+    : [];
+
+function hrefToSlug(href: string): string {
+    return href.replace(/\\/g, '/').replace(/\.md$/i, '').toLowerCase().replace(/\/index$/, '');
+}
+
+function fileExists(href: string): boolean {
+    return existsSync(path.join(docsDir, href));
+}
+
+/** Find a slug: if defaultOnly, require `default: true` on the item. */
+function findSlug(items: TocItem[], defaultOnly: boolean): string | null {
+    for (const item of items) {
+        if (item.href && fileExists(item.href) && (!defaultOnly || item.default)) {
+            return hrefToSlug(item.href);
+        }
+        if (item.items) {
+            const found = findSlug(item.items, defaultOnly);
+            if (found) return found;
+        }
+    }
+    return null;
+}
+
+// Prefer default: true → fall back to first real file → /404/
+const slug = findSlug(toc, true) ?? findSlug(toc, false);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const redirectTo = slug ? `${base}/${slug}/` : `${base}/404/`;
+return Astro.redirect(redirectTo, 301);
+---

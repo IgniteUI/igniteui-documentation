@@ -56,16 +56,22 @@ import fsp from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
-import type { AstroIntegration, AstroConfig } from 'astro';
+import type { AstroIntegration } from 'astro';
 import starlight from '@astrojs/starlight';
+import starlightLlmsTxt from 'starlight-llms-txt';
+import {
+    buildLlmsTxt, buildLlmsMetaMap, getBroadSectionsForPlatform,
+    type LlmsMeta, type LlmsSet, type SidebarItem,
+} from './llms.ts';
 import { buildSidebarFromToc } from './sidebar';
 import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey } from './platform.ts';
 import { JSDOM } from 'jsdom';
+import { visit } from 'unist-util-visit';
 import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
-export type DocsMode = 'dev' | 'staging' | 'prod';
+export type DocsMode = 'development' | 'staging' | 'production';
 
 /** Module-level cache so the nav URL is fetched at most once per build. */
 let _navHtmlCache: string | null = null;
@@ -145,55 +151,20 @@ function extractOuterHtml(html: string, openPattern: string): string {
 }
 
 // ---------------------------------------------------------------------------
-// Sidebar slug → metadata map
-// ---------------------------------------------------------------------------
-
-interface SlugMeta {
-    [key: string]: unknown;
-    metaTitle: string;
-    groupMetaTitle: string;
-}
-
-interface SidebarItem {
-    label?: string;
-    slug?: string;
-    items?: SidebarItem[];
-}
-
-function buildSlugMetaMap(sidebar: SidebarItem[] | undefined): Map<string, SlugMeta> {
-    const map = new Map<string, SlugMeta>();
-    function walk(items: SidebarItem[], groupLabel: string | null) {
-        for (const item of items) {
-            if (typeof item.slug === 'string') {
-                map.set(item.slug, { metaTitle: item.label ?? '', groupMetaTitle: groupLabel ?? '' });
-            }
-            if (Array.isArray(item.items)) {
-                walk(item.items, groupLabel ?? item.label ?? null);
-            }
-        }
-    }
-    walk(sidebar ?? [], null);
-    return map;
-}
-
-function injectFrontmatterKeys(raw: string, keys: Record<string, unknown>): string {
-    const extra = Object.entries(keys)
-        .map(([k, v]) => `${k}: ${JSON.stringify(v)}`)
-        .join('\n');
-    if (/^---\r?\n/.test(raw)) {
-        const afterOpen = raw.indexOf('\n') + 1;
-        const closeOffset = raw.slice(afterOpen).search(/^---[ \t]*(\r?\n|$)/m);
-        if (closeOffset !== -1) {
-            const closeIdx = afterOpen + closeOffset;
-            return raw.slice(0, closeIdx) + extra + '\n' + raw.slice(closeIdx);
-        }
-    }
-    return `---\n${extra}\n---\n\n${raw}`;
-}
-
-// ---------------------------------------------------------------------------
 // Site meta virtual module
 // ---------------------------------------------------------------------------
+
+export interface ProductLink {
+    /** Display label shown in the DocsSubHeader, e.g. `"Angular"`. */
+    label: string;
+    /** Absolute or root-relative href to the sibling docs site. */
+    href: string;
+    /**
+     * Optional platform key (matches `PlatformKey`).
+     * When it equals the current build's platform the link is omitted from the DocsSubHeader.
+     */
+    platform?: PlatformKey;
+}
 
 export interface SiteMetaOptions {
     title: string;
@@ -203,8 +174,12 @@ export interface SiteMetaOptions {
     sidebar?: SidebarItem[];
     platform?: PlatformKey | null;
     navLang?: string;
-    /** Build / deployment mode. Exposed via `virtual:docs-template/site-meta`. */
+    /** Build / deployment mode. Exposed via `process.env.DOCS_BUILD_MODE`. */
     mode?: DocsMode;
+    /** Named documentation subsets linked from llms.txt and passed to starlight-llms-txt. */
+    llmsSets?: LlmsSet[];
+    /** Cross-product navigation links rendered in the DocsSubHeader. */
+    productLinks?: ProductLink[];
     /** @deprecated Use `platform` instead. */
     prefetchNav?: boolean;
     /** @deprecated Use `platform: 'appbuilder'` instead. */
@@ -213,7 +188,7 @@ export interface SiteMetaOptions {
 
 /**
  * Astro integration that exposes site metadata as the virtual module
- * `virtual:docs-template/site-meta`, consumed by `src/pages/llms.txt.ts`.
+ * `virtual:docs-template/site-meta` and generates /llms.txt at build time.
  */
 export function siteMetaIntegration({
     title,
@@ -222,16 +197,16 @@ export function siteMetaIntegration({
     sidebar,
     platform = null,
     navLang = 'en',
-    mode = 'dev',
+    mode = 'development',
+    llmsSets = [],
+    productLinks = [],
     prefetchNav = false,
     prefetchAppBuilderNav = false,
 }: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
-    const slugMeta = buildSlugMetaMap(sidebar);
-    const moduleCode = `export const title = ${JSON.stringify(title)};
-export const description = ${JSON.stringify(description)};
-export const sidebar = ${JSON.stringify(sidebar ?? [])};
-export const mode = ${JSON.stringify(mode)};
-`;
+    const llmsMetaMap = docsDir
+        ? buildLlmsMetaMap(docsDir, sidebar ?? [])
+        : new Map<string, LlmsMeta>();
+
     const virtualId = 'virtual:docs-template/site-meta';
     const resolvedId = '\0' + virtualId;
 
@@ -247,15 +222,23 @@ export const mode = ${JSON.stringify(mode)};
 
     const { navType, navUrl } = getNavConfig(effectivePlatform, navLang);
 
+    // Navigation buckets for this platform — stripped from ancestor paths during label generation.
+    const broadSections = getBroadSectionsForPlatform(effectivePlatform);
+    const moduleCode = `export const title = ${JSON.stringify(title)};
+export const sidebar = ${JSON.stringify(sidebar ?? [])};
+export const productLinks = ${JSON.stringify(productLinks)};
+`;
+
+    // Captured from astro:config:done; used to generate llms.txt content.
+    let configuredSite = '';
+
     return {
         name: 'docs-template:site-meta',
         hooks: {
+            'astro:config:done'({ config }) {
+                configuredSite = (config.site?.toString() ?? '').replace(/\/$/, '');
+            },
             'astro:config:setup'({ updateConfig, injectRoute }) {
-                injectRoute({
-                    pattern: '/llms.txt',
-                    entrypoint: fileURLToPath(new URL('./routes/llms.txt.ts', import.meta.url)),
-                    prerender: true,
-                });
                 injectRoute({
                     pattern: '/sitemap.xml',
                     entrypoint: fileURLToPath(new URL('./routes/sitemap.xml.ts', import.meta.url)),
@@ -404,6 +387,14 @@ export const mode = ${JSON.stringify(mode)};
                     next();
                 });
 
+                // Serve our custom /llms.txt — wins over the plugin's prerendered route in dev.
+                server.middlewares.use((req, res, next) => {
+                    if (req.url?.split('?')[0] !== '/llms.txt') return next();
+                    const content = buildLlmsTxt(configuredSite, title, description, sidebar ?? [], llmsMetaMap, llmsSets, broadSections);
+                    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+                    res.end(content);
+                });
+
                 if (!docsDir) return;
                 server.middlewares.use(async (req, res, next) => {
                     // Only handle requests ending in .md
@@ -414,10 +405,8 @@ export const mode = ${JSON.stringify(mode)};
                         const src = path.join(docsDir, slug + ext);
                         try {
                             const raw = await fsp.readFile(src, 'utf-8');
-                            const meta = slugMeta.get(slug);
-                            const content = meta ? injectFrontmatterKeys(raw, meta) : raw;
                             res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-                            res.end(content);
+                            res.end(raw);
                             return;
                         } catch { /* try next extension */ }
                     }
@@ -426,13 +415,17 @@ export const mode = ${JSON.stringify(mode)};
             },
 
             async 'astro:build:done'({ dir, pages }) {
+                const outDir = fileURLToPath(dir);
+
                 // Copy package scripts to the build output /scripts/ directory.
                 const pkgScripts = fileURLToPath(new URL('../public/scripts', import.meta.url));
-                const outScripts = path.join(fileURLToPath(dir), 'scripts');
-                if (fs.existsSync(pkgScripts)) copyDirSync(pkgScripts, outScripts);
+                if (fs.existsSync(pkgScripts)) copyDirSync(pkgScripts, path.join(outDir, 'scripts'));
+
+                // Write our custom llms.txt after all rendering — always wins over plugin output.
+                const llmsContent = buildLlmsTxt(configuredSite, title, description, sidebar ?? [], llmsMetaMap, llmsSets, broadSections);
+                await fsp.writeFile(path.join(outDir, 'llms.txt'), llmsContent, 'utf-8');
 
                 if (!docsDir) return;
-                const outDir = fileURLToPath(dir);
 
                 // pages[].pathname is like "accordion/" or "charts/chart-api/" — strip trailing slash.
                 const slugs = pages
@@ -445,11 +438,9 @@ export const mode = ${JSON.stringify(mode)};
                             const src = path.join(docsDir, slug + ext);
                             try {
                                 const raw = await fsp.readFile(src, 'utf-8');
-                                const meta = slugMeta.get(slug);
-                                const content = meta ? injectFrontmatterKeys(raw, meta) : raw;
                                 const dest = path.join(outDir, slug + '.md');
                                 await fsp.mkdir(path.dirname(dest), { recursive: true });
-                                await fsp.writeFile(dest, content, 'utf-8');
+                                await fsp.writeFile(dest, raw, 'utf-8');
                                 break;
                             } catch { /* try next extension */ }
                         }
@@ -461,6 +452,7 @@ export const mode = ${JSON.stringify(mode)};
 }
 
 export { buildSidebarFromToc };
+export type { LlmsMeta, LlmsSet } from './llms.ts';
 
 // ---------------------------------------------------------------------------
 // Static images integration
@@ -537,6 +529,35 @@ export function staticImagesIntegration(
     };
 }
 
+/**
+ * Remark plugin factory that rewrites root-relative URLs in markdown HTML
+ * nodes to include the Astro `base` path. Baking `base` into the plugin at
+ * config time ensures Astro's content-layer cache is invalidated when the
+ * base changes, so rebuilt HTML always has correct paths.
+ */
+function createRemarkPrependBase(base: string) {
+    const normalizedBase = base.replace(/\/$/, '');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return () => (tree: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        visit(tree, (node: any) => {
+            if (node.type === 'html' && node.value) {
+                node.value = node.value.replace(/(src|href)="(\/[^"]*)"/g, (_: string, attr: string, url: string) => {
+                    if (url.startsWith(normalizedBase + '/')) return `${attr}="${url}"`;
+                    return `${attr}="${normalizedBase}${url}"`;
+                });
+                node.value = node.value.replace(/url\((\/[^)"']*)\)/g, (_: string, url: string) => {
+                    if (url.startsWith(normalizedBase + '/')) return `url(${url})`;
+                    return `url(${normalizedBase}${url})`;
+                });
+            }
+            if (node.type === 'image' && node.url?.startsWith('/') && !node.url.startsWith(normalizedBase + '/')) {
+                node.url = normalizedBase + node.url;
+            }
+        });
+    };
+}
+
 // ---------------------------------------------------------------------------
 // All-in-one factory
 // ---------------------------------------------------------------------------
@@ -583,16 +604,23 @@ export interface CreateDocsSiteOptions {
     head?: HeadEntry[];
     /**
      * Build / deployment mode.
-     * - `'dev'`     — local development (default)
+     * - `'development'` — local development (default)
      * - `'staging'` — pre-production environment
-     * - `'prod'`    — production deployment
+     * - `'production'` — production deployment
      *
-     * Exposed as `process.env.DOCS_BUILD_MODE` and through the
-     * `virtual:docs-template/site-meta` virtual module.
+     * Exposed as `process.env.DOCS_BUILD_MODE`.
      */
     mode?: DocsMode;
+    /**
+     * Named documentation subsets. Each entry generates a dedicated
+     * `/_llms-txt/{slug}.txt` via starlight-llms-txt and adds a link under
+     * `## Documentation sets` in `llms.txt`.
+     */
+    llmsSets?: LlmsSet[];
     /** Extra Starlight options (logo, social, editLink, customCss, plugins, …). */
     starlight?: Record<string, unknown>;
+    /** Cross-product navigation links rendered in the DocsSubHeader. */
+    productLinks?: ProductLink[];
     /** Extra Astro integrations appended after the built-in ones. */
     integrations?: AstroIntegration[];
     /** Any remaining keys are spread into `defineConfig` (markdown, image, build, …). */
@@ -617,8 +645,10 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         sidebar: sidebarOptions = {},
         platform = null,
         navLang = 'en',
-        mode = 'dev',
+        mode = 'development',
+        productLinks = [],
         head = [],
+        llmsSets = [] as LlmsSet[],
         starlight: starlightExtra = {},
         integrations: extraIntegrations = [],
         ...astroExtra
@@ -635,11 +665,9 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         process.env.DOCS_SOURCE_PATH = source.docsDir;
     }
     process.env.DOCS_BUILD_MODE = mode;
-    // Ensure DOCS_ENV aligns with the `mode` when DOCS_ENV is not explicitly set.
-    // This maps the internal mode ('dev'|'staging'|'prod') to the environment.json keys
-    // ('development'|'staging'|'production') so remark-docfx loads the expected section.
+    process.env.DOCS_BASE = base ? base.replace(/\/$/, '') : '';
     if (!process.env.DOCS_ENV) {
-        process.env.DOCS_ENV = mode === 'dev' ? 'development' : mode === 'staging' ? 'staging' : 'production';
+        process.env.DOCS_ENV = mode;
     }
 
     // Platform CDN entries come first so site-specific `head` entries can override.
@@ -648,19 +676,22 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Default component overrides shipped by this package.
     // Consumers can override individual slots via starlight.components.
     const pkgDir = new URL('.', import.meta.url);
-    // Package-level CSS (code-view styles, etc.) — prepended so consumers can override.
-    const pkgCss = fileURLToPath(new URL('./styles/custom.css', pkgDir));
     const defaultComponents: Record<string, string> = {
         PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro', pkgDir)),
-        Header:    fileURLToPath(new URL('./components/overrides/Header.astro',          pkgDir)),
-        Footer:    fileURLToPath(new URL('./components/overrides/Footer.astro',          pkgDir)),
-        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro',       pkgDir)),
+        Head: fileURLToPath(new URL('./components/overrides/Head.astro', pkgDir)),
+        Header: fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
+        Footer: fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
+        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro', pkgDir)),
+        Sidebar: fileURLToPath(new URL('./components/overrides/Sidebar/Sidebar.astro', pkgDir)),
+        MobileTableOfContents: fileURLToPath(new URL('./components/overrides/MobileTableOfContents.astro', pkgDir)),
+
     };
 
+    const scriptsBase = base ? base.replace(/\/$/, '') : '';
     const codeViewHead = [
         { tag: 'link' as const, attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
         { tag: 'script' as const, attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
-        { tag: 'script' as const, attrs: { src: '/scripts/code-view.js', defer: true } },
+        { tag: 'script' as const, attrs: { src: `${scriptsBase}/scripts/code-view.js`, defer: true } },
     ];
 
     // Auto-configure a Vite dev-server proxy so code-view.js can fetch
@@ -715,19 +746,23 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         markdown: {
             ...(astroExtra as any).markdown,
             // Always prepend our required plugins; consumer's extra plugins follow.
-            remarkPlugins: [remarkDocfx, ...((astroExtra as any).markdown?.remarkPlugins ?? [])],
+            remarkPlugins: [remarkDocfx, ...((astroExtra as any).markdown?.remarkPlugins ?? []), ...(base ? [createRemarkPrependBase(base)] : [])],
             rehypePlugins: [rehypeCodeView, ...((astroExtra as any).markdown?.rehypePlugins ?? [])],
         },
         integrations: [
-            siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode }),
+            siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode, llmsSets, productLinks }),
             starlight({
                 title,
                 sidebar: sidebar,
-                head: [...platformHead, ...codeViewHead, ...head],
+                head: [
+                    // Force light theme as default — runs before page renders to avoid flash.
+                    { tag: 'script', content: "if(!localStorage.getItem('starlight-theme'))localStorage.setItem('starlight-theme','light');" },
+                    ...platformHead, ...codeViewHead, ...head,
+                ],
                 // Consumer's extra options spread here — allows overriding title, head, etc.
                 ...starlightExtra,
                 // These always come last so merging with defaults is applied correctly.
-                // pkgCss is always first so consumers can override via their own customCss entries.
+                // The package CSS is always first so consumers can override via their own customCss entries.
                 customCss: [
                     fileURLToPath(new URL('./styles/custom.css', pkgDir)),
                     ...(starlightExtra.customCss as string[] ?? []),
@@ -738,6 +773,13 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                     themes: ['dark-plus'],
                     ...(starlightExtra.expressiveCode as Record<string, unknown> ?? {}),
                 },
+                plugins: [
+                    // Generates /llms-full.txt and /llms-small.txt (full-content combined exports).
+                    // starlight-llms-txt also prerenders /llms.txt; siteMetaIntegration overwrites
+                    // it in astro:build:done (prod) and intercepts it in dev via middleware.
+                    starlightLlmsTxt({ projectName: title, description, customSets: llmsSets }),
+                    ...(starlightExtra.plugins as any[] ?? []),
+                ],
             }),
             ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
             ...extraIntegrations,
