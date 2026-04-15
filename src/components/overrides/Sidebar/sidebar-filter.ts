@@ -26,7 +26,12 @@ const STORAGE_KEY = 'sidebar-filter-value';
 // page loads (address bar, reload, new tab) because astro:before-preparation
 // never fires in those cases — the module is freshly evaluated each time.
 let _isClientSideNav = false;
-document.addEventListener('astro:before-preparation', () => { _isClientSideNav = true; });
+let _savedScrollTop = 0;
+document.addEventListener('astro:before-preparation', () => {
+  _isClientSideNav = true;
+  const sc = document.querySelector<HTMLElement>('.sidebar-scroll');
+  if (sc) _savedScrollTop = sc.scrollTop;
+});
 
 class SidebarFilter extends HTMLElement {
   private input!: HTMLInputElement;
@@ -87,11 +92,13 @@ class SidebarFilter extends HTMLElement {
       this.syncClearButton('');
     }
 
-    this.scrollToActivePage();
+    if (isClientNav && scrollContainer) {
+      scrollContainer.scrollTop = _savedScrollTop;
+    }
 
-    // Restore visibility after the scroll is committed. rAF ensures the
-    // corrected scrollTop is applied before the element becomes visible.
+    // Restore visibility after the scroll is committed.
     requestAnimationFrame(() => {
+      this.scrollToActivePage();
       if (scrollContainer) scrollContainer.style.visibility = '';
     });
   }
@@ -113,7 +120,7 @@ class SidebarFilter extends HTMLElement {
       this.ensureActivePageVisible();
       this.snapshotTaken = false;
       this.updateStatus(null);
-      requestAnimationFrame(() => this.scrollToActivePage());
+      //requestAnimationFrame(() => this.scrollToActivePage());
       return;
     }
 
