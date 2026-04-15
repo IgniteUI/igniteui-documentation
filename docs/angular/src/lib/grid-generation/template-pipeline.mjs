@@ -96,6 +96,20 @@ function ensureSampleImport(content) {
 }
 
 /**
+ * @param {string} content
+ */
+function ensureAsideImport(content) {
+    if (!content.includes('<Aside')) return content;
+
+    const importLine = "import { Aside } from '@astrojs/starlight/components';";
+    const headerEnd = content.search(/^#\s/m);
+    const header = headerEnd >= 0 ? content.slice(0, headerEnd) : content.slice(0, 2000);
+    if (header.includes(importLine)) return content;
+
+    return content.replace(/^(---[\s\S]*?^---)\r?\n/m, `$1\n${importLine}\n\n`);
+}
+
+/**
  * @param {string} templatesDir
  * @param {import('node:fs')} fs
  * @returns {Array<{base: string, file: string}>}
@@ -130,6 +144,7 @@ export function buildGeneratedDoc(raw, context, componentKey) {
     result = result.replace(/^\s*(?=---)/, '');
 
     result = transformStyleBlocks(result);
+    result = ensureAsideImport(result);
     result = ensureSampleImport(result);
 
     return result;
