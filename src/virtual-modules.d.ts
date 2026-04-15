@@ -24,6 +24,17 @@ declare module 'virtual:docs-template/nav-html' {
   export const platform: 'igniteui' | 'angular' | 'react' | 'blazor' | 'web-components' | 'slingshot' | 'appbuilder' | null;
   /** The locale configured for the nav fetch (`'en'` | `'ja'` | `'kr'`). */
   export const navLang: string;
+  /**
+   * The `themeApiUrl` resolved from the project's `environment.json` at build
+   * time. Empty string when not configured.
+   */
+  export const themeApiUrl: string;
+  /**
+   * Full CDN URL for the theming-widget JS bundle, e.g.
+   * `'https://cdn-na.infragistics.com/igniteui/theming-widget/latest/igniteui-theming-widget.js'`.
+   * Empty string when not configured.
+   */
+  export const widgetScriptSrc: string;
   /** `true` when the IG nav was successfully fetched at build time. */
   export const prefetched: boolean;
   /** Outer HTML of `<header id="header">` from infragistics.com/navigation. */
