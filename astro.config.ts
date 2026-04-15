@@ -108,6 +108,7 @@ export default defineConfig({
         Footer: './src/components/overrides/Footer.astro',
         MobileTableOfContents: './src/components/overrides/MobileTableOfContents.astro',
         Sidebar: './src/components/overrides/Sidebar/Sidebar.astro',
+        PageSidebar: './src/components/overrides/PageSidebar.astro',
       },
       expressiveCode: {
         themes: ['dark-plus'],
