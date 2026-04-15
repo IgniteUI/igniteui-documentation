@@ -75,6 +75,11 @@ class SidebarFilter extends HTMLElement {
     const saved = isClientNav ? (sessionStorage.getItem(STORAGE_KEY) ?? '') : '';
     if (!isClientNav) sessionStorage.removeItem(STORAGE_KEY);
 
+    // Hide the scroll container before adjusting scroll position so the
+    // browser never renders the sidebar at position 0 before the correction.
+    const scrollContainer = this.querySelector<HTMLElement>('.sidebar-scroll');
+    if (scrollContainer) scrollContainer.style.visibility = 'hidden';
+
     if (saved) {
       this.input.value = saved;
       this.filter(saved);
@@ -83,6 +88,12 @@ class SidebarFilter extends HTMLElement {
     }
 
     this.scrollToActivePage();
+
+    // Restore visibility after the scroll is committed. rAF ensures the
+    // corrected scrollTop is applied before the element becomes visible.
+    requestAnimationFrame(() => {
+      if (scrollContainer) scrollContainer.style.visibility = '';
+    });
   }
 
   private filter(rawQuery: string): void {
@@ -220,10 +231,16 @@ class SidebarFilter extends HTMLElement {
     }
     const linkRect = activeLink.getBoundingClientRect();
     const containerRect = scrollContainer.getBoundingClientRect();
-    if (linkRect.top < containerRect.top || linkRect.bottom > containerRect.bottom) {
+    const completelyAbove = linkRect.bottom <= containerRect.top;
+    const completelyBelow = linkRect.top    >= containerRect.bottom;
+    if (completelyAbove || completelyBelow) {
       const linkMid      = linkRect.top + linkRect.height / 2;
       const containerMid = containerRect.top + scrollContainer.clientHeight / 2;
+      // Suppress any inherited smooth-scroll so the correction is instant.
+      const prev = scrollContainer.style.scrollBehavior;
+      scrollContainer.style.scrollBehavior = 'auto';
       scrollContainer.scrollTop += linkMid - containerMid;
+      scrollContainer.style.scrollBehavior = prev;
     }
   }
 
