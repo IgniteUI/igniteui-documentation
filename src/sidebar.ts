@@ -39,6 +39,7 @@ interface SidebarLink {
 interface SidebarGroup {
     label: string;
     items: SidebarEntry[];
+    collapsed?: boolean;
 }
 
 type SidebarEntry = SidebarLink | SidebarGroup;
@@ -82,7 +83,7 @@ function convertTocItem(docsDir: string, item: TocItem, exclude: RegExp[]): Side
     if (!item.name) return null;
 
     if (item.items && item.items.length > 0) {
-        const group: SidebarGroup = { label: item.name, items: [] };
+        const group: SidebarGroup = { label: item.name, items: [], collapsed: true };
         if (item.href && docExists(docsDir, item.href, exclude)) {
             group.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
         }
