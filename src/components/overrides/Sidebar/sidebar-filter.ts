@@ -22,6 +22,12 @@
  */
 const STORAGE_KEY = 'sidebar-filter-value';
 
+// True only when Astro's ClientRouter is mid-navigation. Stays false on full
+// page loads (address bar, reload, new tab) because astro:before-preparation
+// never fires in those cases — the module is freshly evaluated each time.
+let _isClientSideNav = false;
+document.addEventListener('astro:before-preparation', () => { _isClientSideNav = true; });
+
 class SidebarFilter extends HTMLElement {
   private input!: HTMLInputElement;
   private clearBtn!: HTMLButtonElement;
@@ -60,8 +66,15 @@ class SidebarFilter extends HTMLElement {
       }
     });
 
-    // Restore persisted filter value from previous navigation.
-    const saved = sessionStorage.getItem(STORAGE_KEY) ?? '';
+    // Restore the filter only after a client-side navigation.
+    // On a full page load (address bar, new tab, reload) the flag is false
+    // because astro:before-preparation never fired — clear any stale value.
+    const isClientNav = _isClientSideNav;
+    _isClientSideNav = false;
+
+    const saved = isClientNav ? (sessionStorage.getItem(STORAGE_KEY) ?? '') : '';
+    if (!isClientNav) sessionStorage.removeItem(STORAGE_KEY);
+
     if (saved) {
       this.input.value = saved;
       this.filter(saved);
@@ -89,6 +102,7 @@ class SidebarFilter extends HTMLElement {
       this.ensureActivePageVisible();
       this.snapshotTaken = false;
       this.updateStatus(null);
+      requestAnimationFrame(() => this.scrollToActivePage());
       return;
     }
 
@@ -198,17 +212,18 @@ class SidebarFilter extends HTMLElement {
   private scrollToActivePage(): void {
     const activeLink = this.querySelector<HTMLAnchorElement>('a[aria-current="page"]');
     if (!activeLink) return;
+    if (activeLink.closest('li[hidden]')) return;
     const scrollContainer = this.querySelector<HTMLElement>('.sidebar-scroll');
     if (!scrollContainer) {
       activeLink.scrollIntoView({ block: 'nearest' });
       return;
     }
-    const linkTop = activeLink.getBoundingClientRect().top;
-    const containerTop = scrollContainer.getBoundingClientRect().top;
-    const containerBottom = containerTop + scrollContainer.clientHeight;
-    // Only scroll if the link is outside the visible area of the container.
-    if (linkTop < containerTop || linkTop > containerBottom) {
-      activeLink.scrollIntoView({ block: 'nearest' });
+    const linkRect = activeLink.getBoundingClientRect();
+    const containerRect = scrollContainer.getBoundingClientRect();
+    if (linkRect.top < containerRect.top || linkRect.bottom > containerRect.bottom) {
+      const linkMid      = linkRect.top + linkRect.height / 2;
+      const containerMid = containerRect.top + scrollContainer.clientHeight / 2;
+      scrollContainer.scrollTop += linkMid - containerMid;
     }
   }
 
