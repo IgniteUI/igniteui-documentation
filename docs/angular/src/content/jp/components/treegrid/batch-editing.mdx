@@ -1,0 +1,194 @@
+---
+title: Angular Tree Grid Grid での一括編集とトランザクション - インフラジスティックス
+description: Angular Tree Grid Grid を使用した Angular CRUD を使用して、基のデータに影響を与えずにデータを操作できます。デモと例をお試しください。
+keywords: angular crud, ignite ui for angular, infragistics
+license: commercial
+_language: ja
+---
+import Sample from 'docs-template/components/mdx/Sample.astro';
+
+# Angular Tree Grid 一括編集とトランザクション
+
+[`HierarchicalTransactionService`]({environment:angularApiUrl}/classes/igxhierarchicaltransactionservice.html) を [`IgxTreeGrid`]({environment:angularApiUrl}/classes/igxhierarchicalgridcomponent.html) と一緒に使用し、アイランドごとに個別のトランザクション ログを蓄積するには、代わりにサービス ファクトリを提供する必要があります。[`IgxHierarchicalTransactionServiceFactory`]({environment:angularApiUrl}/index.html#igxhierarchicaltransactionservicefactory) として使用できるようになります。
+
+以下は、Tree Grid コンポーネントに対して一括編集を有効にする方法の詳細な例です。
+
+
+
+The Batch Editing feature of the IgxTreeGrid is based on the [`HierarchicalTransactionService`]({environment:angularApiUrl}/classes/igxhierarchicaltransactionservice.html). Follow the [`Transaction Service class hierarchy`](/transaction-classes) topic to see an overview of the `igxHierarchicalTransactionService` and details how it is implemented.
+
+
+
+Below is a detailed example of how is Batch Editing enabled for the Tree Grid component.
+
+## Angular Tree Grid 一括編集とトランザクションの例
+
+以下のサンプルは、treeGrid にプロバイダーのトランザクションがあり、[`batchEditing`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#batchEditing) と行編集が有効にされています。行編集全体を確定後にトランザクションが追加されるようにします。
+
+> [!NOTE]
+> トランザクション ステートは、すべての更新、追加、削除された行、そして最後のステートで構成されます。
+
+<Sample src="/tree-grid/treegrid-batchediting" height={600} alt="Angular Tree Grid Batch Editing and Transactions Example" />
+
+<div class="divider--half"></div>
+
+
+
+> [!NOTE]
+> Transaction state consists of all the updated, added and deleted rows, and their last states.
+
+## 使用方法
+
+`IgxTreeGridModule` を **app.module.ts** ファイルにインポートします。
+
+```typescript
+// app.module.ts
+
+...
+import { IgxTreeGridModule } from 'igniteui-angular';
+
+@NgModule({
+    ...
+    imports: [..., IgxTreeGridModule],
+    ...
+})
+export class AppModule {}
+```
+
+次に、Tree Grid から `batchEditing` を有効にします。
+
+```html
+<igx-tree-grid [data]="data" [batchEditing]="true">
+  ...
+</igx-tree-grid>
+```
+
+これにより、igx-tree-grid に `Transaction` サービスの適切なインスタンスが提供されます。適切な `TransactionService` は `TransactionFactory` を通じて提供されます。この内部実装の詳細については、[トランザクション トピック](/transaction-classes#トランザクション-ファクトリ)を参照してください。
+
+一括編集を有効にした後、バインドされたデータ ソースと [`rowEditable`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#rowEditable) を true に設定して `IgxTreeGrid` を定義し、バインドします。
+
+```html
+<igx-grid #grid [batchEditing]="true" [data]="data" [primaryKey]="'ProductID'" width="100%" height="500px"
+    [rowEditable]="true">
+    ...
+</igx-grid>
+...
+<button igxButton [disabled]="!grid.transactions.canUndo" (click)="undo()">Undo</button>
+<button igxButton [disabled]="!grid.transactions.canRedo" (click)="redo()">Redo</button>
+<button igxButton [disabled]="grid.transactions.getAggregatedChanges(false).length < 1"
+    (click)="openCommitDialog(dialogGrid)">Commit</button>
+...
+
+```
+
+```html
+<igx-tree-grid #treeGrid [batchEditing]="true" [data]="data" primaryKey="employeeID" foreignKey="PID"
+    width ="100%" height ="500px" rowEditable=true>
+    ...
+</igx-tree-grid>
+...
+    <button igxButton (click)="addRow()">Add Root Level Row</button>
+    <button igxButton [disabled]="!treeGrid.transactions.canUndo" (click)="undo()">Undo</button>
+    <button igxButton [disabled]="!treeGrid.transactions.canRedo" (click)="redo()">Redo</button>
+    <button igxButton [disabled]="treeGrid.transactions.getAggregatedChanges(false).length < 1"
+        (click)="openCommitDialog()">Commit</button>
+...
+```
+
+> [!NOTE]
+> トランザクション API は編集の終了を処理しないので、自分で行う必要があります。そうしないと、`Tree Grid` は編集モードのままになります。これを行う 1 つの方法は、それぞれのメソッドで [`endEdit`]({environment:angularApiUrl}/classes/igxgridcomponent.html#endEdit) を呼び出すことです。
+
+```html
+<igx-hierarchical-grid #hierarchicalGrid [batchEditing]="true" [data]="data" [primaryKey]="'Artist'"
+    [height]="'580px'" [width]="'100%'" [rowEditable]="true" >
+    ...
+    <igx-row-island #childGrid [key]="'Albums'" [primaryKey]="'Album'" [rowEditable]="true">
+        <igx-grid-toolbar></igx-grid-toolbar>
+        ...
+        <ng-template igxToolbarCustomContent let-grid="grid">
+            <button igxButton [disabled]="!grid.transactions.canUndo" (click)="undo(grid)">Undo</button>
+            <button igxButton [disabled]="!grid.transactions.canRedo" (click)="redo(grid)">Redo</button>
+        </ng-template>
+    </igx-row-island>
+</igx-hierarchical-grid>
+...
+<div class="buttons-row">
+    <div class="buttons-wrapper">
+        <button igxButton [disabled]="!undoEnabledParent" (click)="undo(hierarchicalGrid)">Undo Parent</button>
+        <button igxButton [disabled]="!redoEnabledParent" (click)="redo(hierarchicalGrid)">Redo Parent</button>
+    </div>
+</div>
+...
+
+```
+
+> [!NOTE]
+> [`rowEditable`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#rowEditable) プロパティを無効にすると `Tree Grid` を変更してセル変更でトランザクションを作成し、UI で行編集オーバーレイを公開しません。
+
+
+
+
+The following code demonstrates the usage of the [`HierarchicalTransactionService`]({environment:angularApiUrl}/classes/igxhierarchicaltransactionservice.html) API - undo, redo, commit.
+
+```typescript
+export class TreeGridBatchEditingSampleComponent {
+    @ViewChild('treeGrid', { read: IgxTreeGridComponent }) public treeGrid: IgxTreeGridComponent;
+
+    public undo() {
+        /* exit edit mode and commit changes */
+        this.treeGrid.endEdit(true);
+        this.treeGrid.transactions.undo();
+    }
+
+    public redo() {
+        /* exit edit mode and commit changes */
+        this.treeGrid.endEdit(true);
+        this.treeGrid.transactions.redo();
+    }
+
+    public commit() {
+        this.treeGrid.transactions.commit(this.data);
+        this.dialog.close();
+    }
+}
+```
+
+
+
+
+> [!NOTE]
+> The transactions API won't handle end of edit and you'd need to do it by yourself. Otherwise, `Tree Grid` would stay in edit mode. One way to do that is by calling [`endEdit`]({environment:angularApiUrl}/classes/igxgridcomponent.html#endEdit) in the respective method.
+
+
+
+Deleting a parent node in `Tree Grid` has some peculiarities. If you are using a hierarchical data, the children will be deleted when deleting their parent. If you are using a flat data, you may set the desired behavior using the [`cascadeOnDelete`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#cascadeOnDelete) property of `Tree Grid`. This property indicates whether the child records should be deleted when their parent gets deleted (by default, it is set to `true`).
+
+
+> [!NOTE]
+> Disabling [`rowEditable`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#rowEditable) property will modify `Tree Grid` to create transactions on cell change and will not expose row editing overlay in the UI.
+
+## API リファレンス
+
+
+
+
+- [HierarchicalTransactionService]({environment:angularApiUrl}/classes/igxhierarchicaltransactionservice.html)
+- [rowEditable]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#rowEditable)
+- [IgxTreeGridComponent]({environment:angularApiUrl}/classes/igxtreegridcomponent.html)
+- [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
+
+
+
+## その他のリソース
+
+- [igxGrid を使用して CRUD 操作の構築](/general/how-to/how-to-perform-crud)
+- [Tree Grid 概要](/treegrid/tree-grid)
+- [Tree Grid 編集](/treegrid/editing)
+- [Tree Grid 行編集](/treegrid/row-editing)
+- [Tree Grid 行追加](/treegrid/row-adding)
+
+<div class="divider--half"></div>
+コミュニティに参加して新しいアイデアをご提案ください。
+
+- [Ignite UI for Angular **フォーラム** (英語)](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub** (英語)](https://github.com/IgniteUI/igniteui-angular)

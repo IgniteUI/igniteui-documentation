@@ -6,11 +6,13 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const repoRoot = join(__dirname, '../../..');
-const sourceDir = join(repoRoot, 'docs/xplat/generated/Angular/en');
-const targetDir = join(repoRoot, 'docs/angular/src/content/en');
+const lang = process.argv.find(a => a.startsWith('--lang='))?.split('=')[1] ?? 'en';
 
-console.log('Syncing generated Angular MDX content from xplat...');
+const repoRoot = join(__dirname, '../../..');
+const sourceDir = join(repoRoot, `docs/xplat/generated/Angular/${lang}`);
+const targetDir = join(repoRoot, `docs/angular/src/content/${lang}`);
+
+console.log(`Syncing generated Angular MDX content from xplat (lang: ${lang})...`);
 
 if (!existsSync(sourceDir)) {
   console.error(`Source directory not found: ${sourceDir}`);
