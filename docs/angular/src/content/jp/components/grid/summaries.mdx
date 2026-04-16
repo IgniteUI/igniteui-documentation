@@ -5,7 +5,12 @@ keywords: angular grid 集計, ignite ui for angular, infragistics
 license: commercial
 _language: ja
 ---
+import { Aside } from '@astrojs/starlight/components';
 import Sample from 'docs-template/components/mdx/Sample.astro';
+
+
+
+
 
 # Angular Grid 集計
 
@@ -13,12 +18,19 @@ Ignite UI for Angular の Angular UI グリッドには、グループ フッタ
 
 ## Angular Grid 集計の例
 
+
+
 <Sample src="/grid/grid-summary" height={650} alt="Angular Grid 集計の例" />
+
+
+
+
 
 <div class="divider--half"></div>
 
-> [!NOTE]
-> 列の集計は**列値すべての関数**ですが、フィルタリングが適用された場合、列の集計は**フィルターされた結果値の関数**になります。
+<Aside type="note" title="注">
+列の集計は**列値すべての関数**ですが、フィルタリングが適用された場合、列の集計は**フィルターされた結果値の関数**になります。
+</Aside>
 
 **Grid 集計**を列ごとに有効にして必要な列のみアクティブ化できます。Grid 集計は、列のデータ型に基づいてデフォルト集計の定義済みセットを提供します。
 
@@ -44,6 +56,8 @@ Ignite UI for Angular の Angular UI グリッドには、グループ フッタ
 
 [`hasSummary`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#hasSummary) プロパティを `true` に設定すると **Grid 集計**が列レベルで有効になります。各列の集計は列のデータ型に基づいて解決されます。`igx-grid` のデフォルトの列データ型は `string` のため、`number` または `date` 固有の集計を適用するには、[`dataType`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#dataType) プロパティを `number` または `date` に設定します。集計値は、グリッドの [`locale`]({environment:angularApiUrl}/classes/igxgridcomponent.html#locale) および列 [`pipeArgs`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#pipeArgs) に従ってローカライズされて表示されます。
 
+
+
 ```html
 <igx-grid #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)">
     <igx-column field="ProductID" header="Product ID" width="200px" [sortable]="true"></igx-column>
@@ -52,7 +66,13 @@ Ignite UI for Angular の Angular UI グリッドには、グループ フッタ
 </igx-grid>
 ```
 
+
+
+
+
 特定の列や列のリストを有効または無効にする他の方法として **igx-grid** のパブリック メソッド [`enableSummaries`]({environment:angularApiUrl}/classes/igxgridcomponent.html#enableSummaries)/[`disableSummaries`]({environment:angularApiUrl}/classes/igxgridcomponent.html#disableSummaries) を使用する方法があります。
+
+
 
 ```html
 <igx-grid #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)" >
@@ -76,9 +96,15 @@ public disableSummary() {
 }
 ```
 
+
+
+
+
 ## カスタム Grid 集計
 
 この関数が要件に合わない場合、指定した列にカスタム集計を提供できます。これには、基本クラス [`IgxSummaryOperand`]({environment:angularApiUrl}/classes/igxsummaryoperand.html)、[`IgxNumberSummaryOperand`]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html)、[`IgxDateSummaryOperand`]({environment:angularApiUrl}/classes/igxdatesummaryoperand.html) のいずれかを列データ型や必要に応じてオーバーライドします。このように既存の関数を再定義、または新しい関数を追加できます。[`IgxSummaryOperand`]({environment:angularApiUrl}/classes/igxsummaryoperand.html) クラスは、[`count`]({environment:angularApiUrl}/classes/igxsummaryoperand.html#count) メソッドにデフォルト実装のみを提供します。[`IgxNumberSummaryOperand`]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html) は [`IgxSummaryOperand`]({environment:angularApiUrl}/classes/igxsummaryoperand.html) を拡張し、[`min`]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html#min)、[`max`]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html#max)、[`sum`]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html#sum)、[`average`]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html#average) を提供します。[`IgxDateSummaryOperand`]({environment:angularApiUrl}/classes/igxdatesummaryoperand.html) は [`IgxSummaryOperand`]({environment:angularApiUrl}/classes/igxsummaryoperand.html) を拡張し、追加で [`earliest`]({environment:angularApiUrl}/classes/igxdatesummaryoperand.html#earliest) と [`latest`]({environment:angularApiUrl}/classes/igxdatesummaryoperand.html#latest) を提供します。
+
+
 
 ```typescript
 import { IgxSummaryResult, IgxSummaryOperand, IgxNumberSummaryOperand, IgxDateSummaryOperand } from 'igniteui-angular/core';
@@ -101,6 +127,9 @@ class MySummary extends IgxNumberSummaryOperand {
 }
 ```
 
+
+
+
 例に表示されるように、基本クラスは [`operate`]({environment:angularApiUrl}/classes/igxsummaryoperand.html#operate) メソッドを公開しているため、すべてのデフォルト集計を取得して結果を変更するか、まったく新しい集計結果を計算することができます。
 このメソッドは [`IgxSummaryResult`]({environment:angularApiUrl}/interfaces/igxsummaryresult.html) のリストを返し、集計を計算するためのオプションのパラメーターを取得します。
 
@@ -114,8 +143,9 @@ interface IgxSummaryResult {
 
 以下の[「すべてのデータにアクセスするカスタム集計」](#すべてのデータにアクセスするカスタム集計)セクションを参照してください。
 
-> [!NOTE]
-> 集計行の高さを正しく計算するために、Grid の [`operate`]({environment:angularApiUrl}/classes/igxsummaryoperand.html#operate) メソッドでデータが空の場合も常に [`IgxSummaryResult`]({environment:angularApiUrl}/interfaces/igxsummaryresult.html) 配列の正しい長さを返す必要があります。
+<Aside type="note" title="注">
+集計行の高さを正しく計算するために、Grid の [`operate`]({environment:angularApiUrl}/classes/igxsummaryoperand.html#operate) メソッドでデータが空の場合も常に [`IgxSummaryResult`]({environment:angularApiUrl}/interfaces/igxsummaryresult.html) 配列の正しい長さを返す必要があります。
+</Aside>
 
 `UnitsInStock` 列にカスタム集計を追加します。[`summaries`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#summaries) プロパティを以下に作成するクラスに設定します。
 
@@ -140,6 +170,12 @@ export class GridComponent implements OnInit {
 }
 ```
 
+
+
+
+
+
+
 ### すべてのデータにアクセスするカスタム集計
 
  カスタム列集計内のすべての Grid データにアクセスできます。IgxSummaryOperand `operate` メソッドには、2 つの追加のオプション パラメーターが導入されています。
@@ -147,6 +183,9 @@ export class GridComponent implements OnInit {
 - columnData - 現在の列の値のみを含む配列を提供します。
 - allGridData - グリッド データソース全体を提供します。
 - fieldName - 現在の列フィールド。
+
+
+
 
 ```typescript
 class MySummary extends IgxNumberSummaryOperand {
@@ -161,7 +200,15 @@ class MySummary extends IgxNumberSummaryOperand {
 }
 ```
 
+
+
+
+
 <Sample src="/grid/grid-alldata-summaries" height={650} alt="" />
+
+
+
+
 
 ### 集計テンプレート
 
@@ -178,10 +225,17 @@ class MySummary extends IgxNumberSummaryOperand {
 
 デフォルトの集計が定義されている場合、集計領域の高さは、集計の数が最も多い列とグリッドのサイズに応じてデザインにより計算されます。[summaryRowHeight]({environment:angularApiUrl}/classes/igxgridcomponent.html#summaryRowHeight) 入力プロパティを使用して、デフォルト値をオーバーライドします。引数として数値が必要であり、false 値を設定すると、グリッド フッターのデフォルトのサイズ設定動作がトリガーされます。
 
-> [!NOTE]
-> 列の集計テンプレートは、列 [summaryTemplate]({environment:angularApiUrl}/classes/igxcolumncomponent.html#summaryTemplate) プロパティを必要な TemplateRef に設定することにより、API を介して定義できます。
+<Aside type="note" title="注">
+列の集計テンプレートは、列 [summaryTemplate]({environment:angularApiUrl}/classes/igxcolumncomponent.html#summaryTemplate) プロパティを必要な TemplateRef に設定することにより、API を介して定義できます。
+</Aside>
+
+
 
 <Sample src="/grid/grid-summary-template" height={650} alt="" />
+
+
+
+
 
 ## 集計の無効化
 
@@ -190,6 +244,8 @@ class MySummary extends IgxNumberSummaryOperand {
 このプロパティは、コードを通じて**実行時に動的に**変更することもできるため、変化するアプリケーションの状態やユーザー操作に合わせてグリッドの集計を柔軟に調整できます。
 
 次の例は、`disabledSummaries` プロパティを使用してさまざまな列の集計を管理し、Ignite UI for Angular グリッドで特定のデフォルトおよびカスタムの集計タイプを除外する方法を示しています。
+
+
 
 ```html
 <!-- default summaries -->
@@ -217,9 +273,16 @@ class MySummary extends IgxNumberSummaryOperand {
 
 `UnitsInStock` の場合、`total` や `totalDiscontinued` などのカスタム集計は `disabledSummaries` プロパティを使用して除外されます。
 
+
+
+
 実行時に、`disabledSummaries` プロパティを使用して集計を動的に無効にすることもできます。たとえば、特定の列のプロパティをプログラムで設定または更新して、ユーザー操作やアプリケーションの状態の変化に基づいて表示される集計を調整できます。
 
+
 <Sample src="/grid/grid-disable-summaries" height={850} alt="" />
+
+
+
 
 ## 集計のフォーマット
 
@@ -241,7 +304,13 @@ public dateSummaryFormat(summary: IgxSummaryResult, summaryOperand: IgxSummaryOp
 <igx-column ... [summaryFormatter]="dateSummaryFormat"></igx-column>
 ```
 
+
 <Sample src="/grid/grid-summary-formatter" height={650} alt="" />
+
+
+
+
+
 
 ## グループの集計
 
@@ -260,12 +329,15 @@ public dateSummaryFormat(summary: IgxSummaryResult, summaryOperand: IgxSummaryOp
 
 [`showSummaryOnCollapse`]({environment:angularApiUrl}/classes/igxgridcomponent.html#showSummaryOnCollapse) プロパティはブール値です。デフォルト値は **false** に設定されています。これは、親行が縮小されたときに集計行が非表示になることを意味します。プロパティが **true** に設定されている場合、グループ行が縮小されたときに、集計行は表示されたままになります。
 
-> [!NOTE]
-> [`summaryPosition`]({environment:angularApiUrl}/classes/igxgridcomponent.html#summaryPosition) プロパティは子レベルの集計のみに適用します。ルートレベルの集計は、Grid の下に常に固定されます。
+<Aside type="note" title="注">
+[`summaryPosition`]({environment:angularApiUrl}/classes/igxgridcomponent.html#summaryPosition) プロパティは子レベルの集計のみに適用します。ルートレベルの集計は、Grid の下に常に固定されます。
+</Aside>
 
 ### デモ
 
 <Sample src="/grid/grid-groupby-summary" height={720} alt="" />
+
+
 
 <div class="divider--half"></div>
 
@@ -275,7 +347,13 @@ public dateSummaryFormat(summary: IgxSummaryResult, summaryOperand: IgxSummaryOp
 
 [`IgxExcelExporterService`]({environment:angularApiUrl}/classes/IgxExcelExporterService.html) は、すべての列タイプのデフォルトの集計を同等の Excel 関数としてエクスポートするため、シートが変更された場合でも適切に機能し続けます。以下の例をご覧ください:
 
+
 <Sample src="/grid/grid-summary-export" height={770} alt="" />
+
+
+
+
+
 
 エクスポートされたファイルには、シート内の各 `DataRecord` のレベルを保持する非表示の列が含まれています。このレベルは、集計関数に含める必要があるセルを除外するために集計で使用されます。
 
@@ -336,8 +414,9 @@ $custom-theme: grid-summary-theme(
 );
 ```
 
->[!NOTE]
->上記のようにカラーの値をハードコーディングする代わりに、[`palette`]({environment:sassApiUrl}/palettes#function-palette) および [`color`]({environment:sassApiUrl}/palettes#function-color) 関数を使用してカラーに関してより高い柔軟性を実現することができます。使い方の詳細については[`パレット`](/themes/sass/palettes)のトピックをご覧ください。
+<Aside type="note" title="注">
+上記のようにカラーの値をハードコーディングする代わりに、[`palette`]({environment:sassApiUrl}/palettes#function-palette) および [`color`]({environment:sassApiUrl}/palettes#function-color) 関数を使用してカラーに関してより高い柔軟性を実現することができます。使い方の詳細については[`パレット`](/themes/sass/palettes)のトピックをご覧ください。
+</Aside>
 
 最後にコンポーネントのカスタム テーマを**含めます**。
 
@@ -347,8 +426,9 @@ $custom-theme: grid-summary-theme(
 }
 ```
 
->[!NOTE]
->コンポーネントが [`Emulated`](/themes/sass/component-themes#表示のカプセル化) ViewEncapsulation を使用している場合、 `::ng-deep` を使用してこのカプセル化を`解除する`必要があります。
+<Aside type="note" title="注">
+コンポーネントが [`Emulated`](/themes/sass/component-themes#表示のカプセル化) ViewEncapsulation を使用している場合、 `::ng-deep` を使用してこのカプセル化を`解除する`必要があります。
+</Aside>
 
  ```scss
 :host {
@@ -358,9 +438,15 @@ $custom-theme: grid-summary-theme(
 }
 ```
 
+
+
 ### デモ
 
 <Sample src="/grid/grid-groupby-summary-styling" height={710} alt="" />
+
+
+
+
 
 ## API リファレンス
 

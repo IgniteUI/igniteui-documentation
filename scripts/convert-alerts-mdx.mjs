@@ -28,10 +28,52 @@ const TYPE_MAP = {
   caution:   'danger',
 };
 
-/** Extra attributes to append to the opening tag per mapped type. */
-const TYPE_EXTRA_ATTRS = {
-  caution: ' title="Warning"',
+/** Localized titles for different languages */
+const LOCALIZED_TITLES = {
+  note: {
+    en: null,  // English uses no title by default
+    jp: '注',   // Japanese: "Note"
+    kr: '참고',  // Korean: "Note"
+  },
+  tip: {
+    en: null,
+    jp: 'ヒント',
+    kr: '팁',
+  },
+  caution: {
+    en: 'Warning',
+    jp: '警告',  // Japanese: "Warning"
+    kr: '경고',  // Korean: "Warning"
+  },
+  danger: {
+    en: 'Caution',
+    jp: '注意',  // Japanese: "Caution"
+    kr: '주의',  // Korean: "Caution"
+  },
 };
+
+/**
+ * Detect language from file path.
+ * @param {string} filePath
+ * @returns {string} Language code ('jp', 'kr', or 'en')
+ */
+function detectLanguage(filePath) {
+  const normalized = filePath.replace(/\\/g, '/');
+  if (normalized.includes('/jp/')) return 'jp';
+  if (normalized.includes('/kr/')) return 'kr';
+  return 'en';
+}
+
+/**
+ * Get extra attributes for an alert type based on language.
+ * @param {string} alertType
+ * @param {string} lang
+ * @returns {string}
+ */
+function getExtraAttrs(alertType, lang) {
+  const title = LOCALIZED_TITLES[alertType]?.[lang];
+  return title ? ` title="${title}"` : '';
+}
 
 const STARLIGHT_PKG = '@astrojs/starlight/components';
 const DOCS_ROOT     = path.resolve(process.cwd(), 'docs');
@@ -68,8 +110,11 @@ function mapType(raw) {
 /**
  * Convert GFM alert blockquotes to <Aside> JSX blocks.
  * Returns { output, count } — count is the number of alerts converted.
+ * @param {string} text - The file content
+ * @param {string} filePath - The file path (used to detect language)
  */
-function convertAlerts(text) {
+function convertAlerts(text, filePath) {
+  const lang = detectLanguage(filePath);
   const eol   = text.includes('\r\n') ? '\r\n' : '\n';
   const lines  = text.split(/\r?\n/);
   const out    = [];
@@ -88,7 +133,7 @@ function convertAlerts(text) {
       alertBody.pop();
     }
 
-    const extraAttrs = TYPE_EXTRA_ATTRS[alertType] ?? '';
+    const extraAttrs = getExtraAttrs(alertType, lang);
     out.push(`${alertIndent}<Aside type="${alertType}"${extraAttrs}>`);
     for (const bodyLine of alertBody) {
       out.push(bodyLine === '' ? '' : `${alertIndent}${bodyLine}`);
@@ -196,7 +241,7 @@ let filesModified  = 0;
 
 for (const filePath of files) {
   const original = fs.readFileSync(filePath, 'utf-8');
-  const { output: converted, count } = convertAlerts(original);
+  const { output: converted, count } = convertAlerts(original, filePath);
 
   if (count > 0) {
     const final = injectImport(converted);
