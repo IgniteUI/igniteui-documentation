@@ -65,7 +65,7 @@ import {
 } from './llms.ts';
 import { buildSidebarFromToc } from './sidebar';
 import { getNavConfig, getPlatformHead } from './platform';
-import type { HeadEntry, PlatformKey } from './platform.ts';
+import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
 import { JSDOM } from 'jsdom';
 import { visit } from 'unist-util-visit';
 import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
@@ -205,7 +205,7 @@ export interface SiteMetaOptions {
     docsDir?: string;
     sidebar?: SidebarItem[];
     platform?: PlatformKey | null;
-    navLang?: string;
+    navLang?: NavLang;
     /** Build / deployment mode. Exposed via `process.env.DOCS_BUILD_MODE`. */
     mode?: DocsMode;
     /** Named documentation subsets linked from llms.txt and passed to starlight-llms-txt. */
@@ -636,8 +636,8 @@ export interface CreateDocsSiteOptions {
      * and the build-time nav prefetch endpoint.
      */
     platform?: PlatformKey | null;
-    /** Locale for the nav prefetch URL ('en' | 'jp' | 'kr'). */
-    navLang?: string;
+    /** Locale for the nav prefetch URL. */
+    navLang?: NavLang;
     /**
      * Extra `<head>` entries appended after the platform entries.
      * Same format as Starlight's `head` option.

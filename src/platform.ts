@@ -40,6 +40,16 @@ export type PlatformKey =
     | 'slingshot'
     | 'appbuilder';
 
+/** Locale code for nav/API requests and UI string lookups. */
+export type NavLang = 'en' | 'jp' | 'kr';
+
+/**
+ * Theme identifier used by nav/footer components.
+ * `'igniteui'` is the catch-all for all IG-family sites that don't have a
+ * more specific key; the rest match `PlatformKey` exactly.
+ */
+export type NavTheme = PlatformKey | 'igniteui';
+
 export interface PlatformMeta {
     title: string; description: string;
     key: PlatformKey; devPort: number;
