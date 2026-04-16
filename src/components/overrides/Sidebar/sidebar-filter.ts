@@ -21,6 +21,7 @@
  *     its own state by this point, so the snapshot reflects the persisted state).
  */
 const STORAGE_KEY = 'sidebar-filter-value';
+const DETAILS_STORAGE_KEY = 'sidebar-details-states';
 
 // True only when Astro's ClientRouter is mid-navigation. Stays false on full
 // page loads (address bar, reload, new tab) because astro:before-preparation
@@ -31,6 +32,36 @@ document.addEventListener('astro:before-preparation', () => {
   _isClientSideNav = true;
   const sc = document.querySelector<HTMLElement>('.sidebar-scroll');
   if (sc) _savedScrollTop = sc.scrollTop;
+
+  // Snapshot every open sidebar <details> label
+  const openKeys = [...document.querySelectorAll<HTMLDetailsElement>('details')]
+    .filter(d => d.open)
+    .map(d => {
+      const labelEl = d.querySelector<HTMLElement>('.group-label .large') ?? d.querySelector('summary');
+      return labelEl?.textContent?.trim() ?? '';
+    })
+    .filter(Boolean)
+    .join('\n');
+  sessionStorage.setItem(DETAILS_STORAGE_KEY, openKeys);
+});
+
+// Before the DOM swap, pre-apply the correct details open/close states
+document.addEventListener('astro:before-swap', (e) => {
+  const newDoc = ((e as any).newDocument as Document);
+
+  // Hide so the sidebar never paints at scroll=0 before we restore scrollTop.
+  const newSidebar = newDoc.querySelector('.sidebar-scroll') as HTMLElement | null;
+  if (newSidebar) newSidebar.style.visibility = 'hidden';
+
+  // Preapply open/close states so carets are correct from the first paint.
+  const raw = sessionStorage.getItem(DETAILS_STORAGE_KEY) ?? '';
+  const openGroups = new Set(raw ? raw.split('\n').filter(Boolean) : []);
+  newDoc.querySelectorAll<HTMLDetailsElement>('details').forEach(d => {
+    if (d.querySelector('a[aria-current="page"]')) return;
+    const labelEl = d.querySelector<HTMLElement>('.group-label .large') ?? d.querySelector('summary');
+    const key = labelEl?.textContent?.trim();
+    if (key) d.open = openGroups.has(key);
+  });
 });
 
 class SidebarFilter extends HTMLElement {
@@ -92,15 +123,19 @@ class SidebarFilter extends HTMLElement {
       this.syncClearButton('');
     }
 
-    if (isClientNav && scrollContainer) {
-      scrollContainer.scrollTop = _savedScrollTop;
+    if (isClientNav) {
+      // Details states were already applied in astro:before-swap
+      requestAnimationFrame(() => {
+        if (scrollContainer) scrollContainer.scrollTop = _savedScrollTop;
+        if (scrollContainer) scrollContainer.style.visibility = '';
+      });
+    } else {
+      // Full page load: no prior scroll position - scroll active link into view.
+      requestAnimationFrame(() => {
+        this.scrollToActivePage();
+        if (scrollContainer) scrollContainer.style.visibility = '';
+      });
     }
-
-    // Restore visibility after the scroll is committed.
-    requestAnimationFrame(() => {
-      this.scrollToActivePage();
-      if (scrollContainer) scrollContainer.style.visibility = '';
-    });
   }
 
   private filter(rawQuery: string): void {
@@ -120,7 +155,6 @@ class SidebarFilter extends HTMLElement {
       this.ensureActivePageVisible();
       this.snapshotTaken = false;
       this.updateStatus(null);
-      //requestAnimationFrame(() => this.scrollToActivePage());
       return;
     }
 
@@ -229,25 +263,16 @@ class SidebarFilter extends HTMLElement {
    */
   private scrollToActivePage(): void {
     const activeLink = this.querySelector<HTMLAnchorElement>('a[aria-current="page"]');
-    if (!activeLink) return;
-    if (activeLink.closest('li[hidden]')) return;
+    if (!activeLink || activeLink.closest('li[hidden]')) return;
     const scrollContainer = this.querySelector<HTMLElement>('.sidebar-scroll');
-    if (!scrollContainer) {
-      activeLink.scrollIntoView({ block: 'nearest' });
-      return;
-    }
-    const linkRect = activeLink.getBoundingClientRect();
+    if (!scrollContainer) { activeLink.scrollIntoView({ block: 'nearest' }); return; }
+
+    const linkRect      = activeLink.getBoundingClientRect();
     const containerRect = scrollContainer.getBoundingClientRect();
-    const completelyAbove = linkRect.bottom <= containerRect.top;
-    const completelyBelow = linkRect.top    >= containerRect.bottom;
-    if (completelyAbove || completelyBelow) {
-      const linkMid      = linkRect.top + linkRect.height / 2;
-      const containerMid = containerRect.top + scrollContainer.clientHeight / 2;
-      // Suppress any inherited smooth-scroll so the correction is instant.
-      const prev = scrollContainer.style.scrollBehavior;
-      scrollContainer.style.scrollBehavior = 'auto';
-      scrollContainer.scrollTop += linkMid - containerMid;
-      scrollContainer.style.scrollBehavior = prev;
+    if (linkRect.top < containerRect.top) {
+      scrollContainer.scrollTop += linkRect.top - containerRect.top;
+    } else if (linkRect.bottom > containerRect.bottom) {
+      scrollContainer.scrollTop += linkRect.bottom - containerRect.bottom;
     }
   }
 
