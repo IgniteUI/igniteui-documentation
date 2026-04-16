@@ -1,0 +1,711 @@
+---
+title: "{Platform} {ComponentTitle} 行のピン固定 - {ProductName}"
+description: "{Platform} の行ピン固定機能を使用して、豊富で使いやすい API で行をロックします。ユーザーが特定の順序で行をピン固定または特別な領域に複製することを許可します。"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridRowPinning}"
+_language: ja
+---
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} 行のピン固定
+
+{Platform} {ComponentTitle} の {ProductName} 行ピン固定機能を使用すると、1 つまたは複数の行をグリッドの上部または下部にピン固定できます。行ピン固定を使用すると、エンドユーザーは特定の順序で行をピン固定し、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> を垂直にスクロールしても常に表示される特別な領域に行を複製できます。{Platform} {ComponentTitle} には組み込みの行ピン固定 UI が含まれており、{ComponentTitle} のコンテキストで <ApiLink pkg="grids" type="ActionStrip" /> コンポーネントを初期化することで有効になります。その他、カスタム UI を定義し、行のピン固定 API を介して行のピン固定状態を変更できます。
+
+## {Platform} {ComponentTitle} 行ピン固定の例
+
+<Sample src="/{ComponentSample}/row-pinning-options" height={600} alt="{Platform} {ComponentTitle} 行ピン固定の例" />
+
+## 行のピン固定 UI
+
+組み込みの行ピン固定 UI は、<ApiLink pkg="grids" type="GridPinningActions" /> コンポーネントと <ApiLink pkg="grids" type="ActionStrip" /> コンポーネントを追加することで有効になります。アクション ストリップは、行にカーソルを合わせると自動的に表示され、表示されている行の状態に基づいてピン固定またはピン固定解除ボタンのアイコンが表示されます。ピン固定された行のコピーをビューにスクロールする追加のアクションがピン固定された行ごとに表示されます。
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [autoGenerate]="false">
+    <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
+    </igx-column>
+    <igx-action-strip #actionStrip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <igx-grid-editing-actions></igx-grid-editing-actions>
+    </igx-action-strip>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Width="100%"  
+             Height="100%"
+             PrimaryKey="Key"
+             AutoGenerate=true
+             Data=northwindEmployees
+             RowEditable=true>
+        <IgbColumn Field="ID" Editable=false></IgbColumn>
+        <IgbColumn Field="ContactName"></IgbColumn>
+        <IgbColumn Field="ContactTitle"></IgbColumn>
+        <IgbColumn Field="City" Sortable=true></IgbColumn>
+        <IgbColumn Field="CompanyName" Sortable=true></IgbColumn>
+        <IgbColumn Field="Fax" Sortable=true></IgbColumn>
+        <IgbColumn Field="Address" Sortable=true></IgbColumn>
+        <IgbColumn Field="PostalCode" Sortable=true></IgbColumn>
+        <IgbColumn Field="Country" Sortable=true></IgbColumn>
+        <IgbColumn Field="Phone" Sortable=true></IgbColumn>
+        <IgbActionStrip>
+            <IgbGridPinningActions></IgbGridPinningActions>
+            <IgbGridEditingActions></IgbGridEditingActions>
+        </IgbActionStrip>
+    </{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+```html
+<{ComponentSelector} auto-generate="false">
+    <igc-column field="Name" header="Full Name"></igc-column>
+    <igc-action-strip>
+        <igc-grid-pinning-actions></igc-grid-pinning-actions>
+        <igc-grid-editing-actions></igc-grid-editing-actions>
+    </igc-action-strip>
+</{ComponentSelector}>
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector}>
+    <IgrColumn field="Country" header="Country"> </IgrColumn>
+    <IgrActionStrip>
+        <IgrGridPinningActions></IgrGridPinningActions>
+        <IgrGridEditingActions></IgrGridEditingActions>
+    </IgrActionStrip>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+## 行のピン固定 API
+
+行のピン固定は `Row` の `Pinned` 入力によって制御されます。デフォルトでピン固定行は <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の上側に固定して描画され、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> 本体のピン固定されていない行は垂直スクロールされます。
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+this.grid.getRowByIndex(0).pinned = true;
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+gridRef.current.getRowByIndex(0).pinned = true;
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+this.Grid.PinRowAsync("ALFKI", 0);
+```
+</PlatformBlock>
+
+<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の <ApiLink pkg="grids" type="{ComponentName}" member="pinRow" label="PinRow" prefixed={false} /> または <ApiLink pkg="grids" type="{ComponentName}" member="unpinRow" label="UnpinRow" prefixed={false} /> メソッドを使用して ID によって行をピン固定またはピン固定解除できます。
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+this.grid.pinRow('ALFKI');
+this.grid.unpinRow('ALFKI');
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+gridRef.current.pinRow('ALFKI');
+gridRef.current.unpinRow('ALFKI');
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+this.Grid.PinRowAsync("ALFKI", 0);
+this.Grid.UnpinRowAsync("ALFKI");
+```
+</PlatformBlock>
+
+注: 行の ID は、グリッドの `PrimaryKey` またはレコード インスタンス自体によって定義される主キー値です。両方のメソッドは操作に成功したかどうかを示すブール値を返します。よくある失敗の原因に行がすでにその状態になっていることがあります。
+
+行は、最後にピンされた行の下にピン固定されます。ピン固定行の順序を変更するには、`RowPinning` イベントでイベント引数の `InsertAtIndex` プロパティを適切な位置インデックスに変更します。
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="true" (rowPinning)="rowPinning($event)">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" auto-generate="true">
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid1 = document.getElementById('grid1') as {ComponentName}Component;
+    grid1.data = this.data;
+    grid1.addEventListener("rowPinning", this.rowPinning);
+}
+
+public rowPinning(event) {
+    event.detail.insertAtIndex = 0;
+}
+```
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+<PlatformBlock for="React">
+```tsx
+const rowPinning = (event: IgrPinRowEventArgs) => {
+    event.detail.insertAtIndex = 0;
+}
+
+<{ComponentSelector} autoGenerate={true} onRowPinning={rowPinning}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+```tsx
+const rowPinning = (event: IgrPinRowEventArgs) => {
+    event.detail.insertAtIndex = 0;
+}
+
+<{ComponentSelector} autoGenerate={true} onRowPinning={rowPinning}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Width="100%"
+             Id="grid"
+             RowPinningScript="rowPinningHandler"
+             Height="100%"
+             PrimaryKey="Key"
+             AutoGenerate="true"
+             Data="northwindEmployees">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+## ピン固定の位置
+
+`Pinning` 設定オプションを使用して、行のピン固定の位置を変更できます。ピン固定の位置を Top または Bottom のいずれかに設定できます。
+Bottom に設定すると、行がピン固定されていない行の後に、グリッドの一番下にレンダリングされます。ピン固定されていない行は垂直にスクロールできますが、ピン固定された行は下側に固定されます。
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></{ComponentSelector}>
+```
+
+```typescript
+public pinningConfig: IPinningConfig = { rows: RowPinningPosition.Bottom };
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="dataGrid" auto-generate="true"></{ComponentSelector}>
+```
+
+```typescript
+var grid = document.getElementById('dataGrid') as {ComponentName}Component;
+grid.pinning = { rows: RowPinningPosition.Bottom };
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Id="grid"
+            Width="100%"
+            Height="100%"
+            Pinning=PinningConfig
+            PrimaryKey="Key"
+            AutoGenerate=true
+            Data=northwindEmployees>
+    </{ComponentSelector}>
+    @code {
+        public string Key = "ID";
+        private Northwind.EmployeesType[] northwindEmployees = Array.Empty<Northwind.EmployeesType>();
+        public IgbPinningConfig PinningConfig = new IgbPinningConfig()
+        {
+            Rows = RowPinningPosition.Bottom
+        };
+        protected override async Task OnInitializedAsync()
+        {
+            northwindEmployees = await this.northwindService.GetEmployees() ?? northwindEmployees;
+        }
+    }
+```
+</PlatformBlock>
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+<PlatformBlock for="React">
+```tsx
+const pinning: IgrPinningConfig = { rows : RowPinningPosition.Bottom };
+
+<{ComponentSelector} ref={gridRef} autoGenerate={true} pinning={pinning}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+## カスタム行ピン固定 UI
+
+カスタム UI を定義し、関連する API を介して行のピン状態を変更できます。
+
+### アイコン付きの追加の列による
+
+アクション ストリップの代わりに、すべての行にピンのアイコンを表示し、エンドユーザーが特定の行のピン状態をクリックして変更できます。
+カスタム アイコンを含むセル テンプレートの列を追加することで実行できます。
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Width="70px" BodyTemplateScript="WebGridRowPinCellTemplate"/>
+
+// In Javascript
+
+igRegisterScript("WebGridRowPinCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    window.toggleRowPin = function toggleRowPin(index) {
+        var grid = document.getElementsByTagName("igc-grid")[0];
+        grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
+    }
+    const index = ctx.cell.id.rowIndex;
+    return html`<div>
+    <span onpointerdown='toggleRowPin("${index}")'>📌</span>
+</div>`;
+}, false);
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ID'" [autoGenerate]="false">
+    <igx-column width="70px">
+        <ng-template igxCell let-cell="cell" let-val>
+            <igx-icon class="pin-icon" (mousedown)="togglePinning(cell.row, $event)">
+                {{cell.row.pinned ? 'lock' : 'lock_open'}}
+            </igx-icon>
+        </ng-template>
+    </igx-column>
+    <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
+    </igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+public togglePinning(row: IgxGridRow, event) {
+    event.preventDefault();
+    if (row.pinned) {
+        row.unpin();
+    } else {
+        row.pin();
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" primary-key="ID" auto-generate="false">
+    <igc-column id="column1" name="column1"></igc-column>
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid = document.getElementById('grid') as {ComponentName}Component;
+    var column = document.getElementById('column1') as IgcColumnComponent;
+
+    grid.data = this.data;
+    column.bodyTemplate = this.pinCellTemplate;
+}
+
+public pinCellTemplate = (ctx: IgcCellTemplateContext) => {
+   const index = ctx.cell.id.rowIndex;
+    return html`<span @pointerdown=${(e: any) => this.togglePinning(index)}>📌</span>`;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const cellPinCellTemplate = (ctx: IgrCellTemplateContext) => {
+    const index = ctx.cell.row.index;
+    return (
+        <>
+            <span onPointerDown={(e: any) => toggleRowPin(index)}>📌</span>
+        </>
+    );
+}
+
+<{ComponentSelector} primaryKey="ID" autoGenerate={false}>
+    <IgrColumn width="70px" bodyTemplate={cellPinCellTemplate}>
+    </IgrColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Width="70px" BodyTemplateScript="WebHierarchicalGridRowPinCellTemplate"/>
+
+// In Javascript
+
+igRegisterScript("WebHierarchicalGridRowPinCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    window.toggleRowPin = function toggleRowPin(row) {
+        row.pinned = !row.pinned;
+    }
+    const row = ctx.cell.row;
+    return html`<div>
+    <span onpointerdown='toggleRowPin("${row}")'>📌</span>
+</div>`;
+}, false);
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ID'" [autoGenerate]="false">
+    <igx-column width="70px">
+        <ng-template igxCell let-cell="cell" let-val>
+            <igx-icon class="pin-icon" (mousedown)="togglePinning(cell.row, $event)">
+                {{cell.row.pinned ? 'lock' : 'lock_open'}}
+            </igx-icon>
+        </ng-template>
+    </igx-column>
+    <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
+    </igx-column>
+    <igx-row-island [key]="'Orders'" [autoGenerate]="true">
+    </igx-row-island>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+public togglePinning(row: IgxGridRow, event) {
+    event.preventDefault();
+    if (row.pinned) {
+        row.unpin();
+    } else {
+        row.pin();
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" primary-key="ID" auto-generate="false">
+    <igc-column id="column1" name="column1"></igc-column>
+     <igc-row-island child-data-key="Orders" auto-generate="true">
+    </igc-row-island>
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid = document.getElementById('grid') as {ComponentName}Component;
+    var column = document.getElementById('column1') as IgcColumnComponent;
+
+    grid.data = this.data;
+    column.bodyTemplate = this.pinCellTemplate;
+}
+
+public pinCellTemplate = (ctx: IgcCellTemplateContext) => {
+   const row = ctx.cell.row;
+    return html`<span @pointerdown=${(e: any) => this.togglePinning(row)}>📌</span>`;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const cellPinCellTemplate = (ctx: IgrCellTemplateContext) => {
+    const row = ctx.cell.row;
+    return (
+        <>
+            <span onPointerDown={(e: any) => toggleRowPin(row)}>📌</span>
+        </>
+    );
+}
+
+<{ComponentSelector} primaryKey="ID" autoGenerate={false}>
+    <IgrColumn width="70px" bodyTemplate={cellPinCellTemplate}>
+    </IgrColumn>
+    <IgrRowIsland childDataKey="Orders" autoGenerate={true}></IgrRowIsland>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="Grid, TreeGrid">
+カスタム アイコンをクリックすると、行の API メソッドを使用して関連する行のピン状態を変更できます。
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public togglePinning(index: number) {
+    var grid = document.getElementsByTagName("{ComponentSelector}")[0] as {ComponentName}Component;
+    grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const toggleRowPin = (index: number) => {
+  const grid = grid1Ref.current;
+  grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+カスタム アイコンをクリックすると、行の API メソッドを使用して関連する行のピン状態を変更できます。
+<PlatformBlock for="WebComponents">
+```typescript
+public togglePinning(row: IgcRowType) {
+    row.pinned = !row.pinned;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const toggleRowPin = (row: IgrRowType) => {
+  row.pinned = !row.pinned;
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+#### デモ
+
+<Sample src="/{ComponentSample}/row-pinning-extra-column" height={600} alt="{Platform} {ComponentTitle} 行ピン固定の追加の列の例" />
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+### Via Row Drag
+
+Let's say that you want to be able to directly drag and drop a row between the pinned and unpinned rows to change its pin state.
+This can be achieved by enabling the row drag feature and pinning/unpinning the rows via the API on drop.
+
+First, the grid should be marked as a drop area using the `igxDrop` directive and the row drag functionality should be enabled via the `rowDraggable` option.
+
+```html
+<igx-grid [data]="data" [autoGenerate]="true" [rowDraggable]="true"
+    [primaryKey]="'ID'" igxDrop (dropped)="onDropAllowed($event)">
+</igx-grid>
+```
+
+Then the `dropped` event can be used to handle the reorder and pin/unpin logic.
+
+```typescript
+public onDropAllowed(args) {
+    const event = args.originalEvent;
+    let currRowPinnedIndex;
+    const currRowIndex = this.getCurrentRowIndex(this.grid.rowList.toArray(),
+        { x: event.clientX, y: event.clientY });
+    if (currRowIndex === -1) { return; }
+
+    const currRowID = this.getCurrentRowID(this.grid.rowList.toArray(),
+        { x: event.clientX, y: event.clientY });
+
+    const currentRow = this.grid.rowList.toArray().find((r) => r.rowID === currRowID);
+    if (currentRow.pinned) {
+        currRowPinnedIndex = this.grid.pinnedRows.indexOf(this.grid.pinnedRows.find((r) => r.rowID === currRowID));
+    }
+    // remove the row that was dragged and place it onto its new location
+    this.grid.deleteRow(args.dragData.key);
+    this.data.splice(currRowIndex, 0, args.dragData.data);
+    if (currentRow.pinned && !args.dragData.pinned) {
+        this.grid.pinRow(args.dragData.key, currRowPinnedIndex);
+    } else if (!currentRow.pinned && args.dragData.pinned) {
+        this.grid.unpinRow(args.dragData.key);
+    } else if (currentRow.pinned && args.dragData.pinned) {
+        this.grid.unpinRow(args.dragData.key);
+        this.grid.pinRow(args.dragData.key, currRowPinnedIndex);
+    }
+}
+```
+
+This would allow reordering the rows and moving them between the pinned and unpinned row collections.
+
+#### Demo
+
+<Sample src="/{ComponentSample}/row-pinning-drag" height={510} alt="{Platform} {ComponentTitle} Row Pinning Drag Example" />
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+## 行のドラッグによる
+
+ピン状態を変更するために、ピン固定された行とピン固定されていない行の間に直接行をドラッグアンドドロップできるようにするとします。
+これは、行のドラッグ機能を有効にし、ドロップの際に API で行をピン固定/ピン固定解除することで実現できます。
+
+<PlatformBlock for="Angular">
+最初に、`igxDrop` ディレクティブによってグリッドをドロップ領域としてマークし、`rowDraggable` オプションで行のドラッグ機能を有効にします。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+## デモ
+
+In addition to the predefined themes, the grid could be further customized by setting some of the available [CSS properties](../theming-grid.md).
+In case you would like to change some of the colors, you need to set a class for the grid first:
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+Then set the related CSS properties for that class:
+
+```css
+.grid {
+    --ig-grid-pinned-border-width: 5px;
+    --ig-grid-pinned-border-style: double;
+    --ig-grid-pinned-border-color: #FFCD0F;
+    --ig-grid-cell-active-border-color: #FFCD0F;
+}
+```
+
+### 行ピン固定の制限
+
+<Sample src="/{ComponentSample}/row-pinning-style" height={540} alt="{Platform} {ComponentTitle} 行ピン固定スタイル設定の例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## スタイル設定
+
+定義済みのテーマに加えて、利用可能な [CSS プロパティ](../theming-grid.md)のいくつかを設定することで、グリッドをさらにカスタマイズできます。
+一部の色を変更したい場合は、最初にグリッドのクラスを設定する必要があります。
+
+次に、そのクラスに関連する CSS プロパティを設定します。
+
+### デモ
+
+To begin the customization of the row pinning feature, you need to import the `index` file, where all styling functions and mixins are located.
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+### スタイル設定
+
+`{ComponentName}` を使用すると、[{ProductName} テーマ ライブラリ](../themes/styles.md)を介してスタイルを設定できます。{ComponentTitle} の [theme]({environment:sassApiUrl}/index.html#function-grid-theme) は、{ComponentTitle} のすべての機能をカスタマイズできるさまざまなプロパティを公開します。
+
+```scss
+$custom-grid-theme: grid-theme(
+    /* Pinning properties that affect styling */
+    $pinned-border-width: 5px,
+    $pinned-border-style: double,
+    $pinned-border-color: #FFCD0F,
+    $cell-active-border-color: #FFCD0F
+    /* add other features properties here... */
+);
+```
+
+### スタイル ライブラリのインポート
+
+行のピン固定機能のカスタマイズは、すべてのスタイリング機能とミックスインが配置されている `index` ファイルをインポートする必要があります。
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+### テーマの定義
+
+次に、[grid-theme]({environment:sassApiUrl}/index.html#function-grid-theme) を拡張し、必要に応じて行のピン固定をカスタマイズするために必要なパラメーターを受け入れる新しいテーマを作成します。
+
+If the component is using an [Emulated](../themes/styles.md#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep`. However, in order to prevent the custom theme to leak to other components, be sure to include the `:host` selector before `::ng-deep`:
+
+```scss
+$custom-grid-theme: grid-theme(
+    /* Pinning properties that affect styling */
+    $pinned-border-width: 5px,
+    $pinned-border-style: double,
+    $pinned-border-color: #FFCD0F,
+    $cell-active-border-color: #FFCD0F
+    /* add other features properties here... */
+);
+```
+
+### CSS 変数の使用
+
+<Sample src="/{ComponentSample}/row-pinning-style" height={540} alt="{Platform} {ComponentTitle} 行ピン固定スタイル設定の例" />
+
+最後にカスタム グリッド テーマを設定します。
+
+</PlatformBlock>
+
+## API リファレンス
+
+<ApiRef pkg="grids" types={["{ComponentName}","{ComponentName}Row"]} prefixed={false} />
+<ApiRef pkg="grids" types={["RowType"]} />
+
+## その他のリソース
+
+<ComponentBlock for="Grid">
+- [仮想化とパフォーマンス](virtualization.md)
+- [ページング](paging.md)
+- [フィルタリング](filtering.md)
+- [ソート](sorting.md)
+- [集計](summaries.md)
+- [列の移動](column-moving.md)
+- [列のサイズ変更](column-resizing.md)
+- [選択](selection.md)
+</ComponentBlock>
+
+コミュニティは常に新しいアイデアを歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

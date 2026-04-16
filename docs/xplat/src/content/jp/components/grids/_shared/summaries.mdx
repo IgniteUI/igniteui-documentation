@@ -1,0 +1,1549 @@
+---
+title: "{Platform} {ComponentTitle} 集計 - {ProductName}"
+description: 列のグループ フッターで {Platform} {ComponentTitle} 集計を構成し、オプションを使用して {ProductName} Material テーブルにカスタム {Platform} テンプレートを設定します。
+keywords: "{Platform} {ComponentTitle} summaries, {Platform}, {ProductName}, Infragistics, {Platform} {ComponentTitle} 集計, インフラジスティックス"
+license: commercial
+mentionedTypes: ["GridBaseDirective", "Column", "SummaryOperand"]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridSummaries}"
+_language: ja
+---
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} 集計
+
+{Platform} {ComponentTitle} の {ProductName} 集計機能は、グループ フッターとして列ごとのレベルで機能します。{Platform} {ComponentName} 集計は、列内のデータ タイプに応じて、あるいは <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> にカスタム テンプレートを実装することによって、定義済みのデフォルト集計項目を使用して別のコンテナの列情報を表示できます。
+
+## {Platform} {ComponentTitle} 集計概要の例
+
+<Sample src="/{ComponentSample}/data-summary-options" height={650} alt="{Platform} {ComponentTitle} データ集計オプション" />
+
+> [!Note]
+> 列の集計は列**値すべての関数**ですが、フィルタリングが適用された場合、列の集計**はフィルターされた結果値の関数になります**。
+
+<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> summaries can also be enabled on a per-column level in {ProductName}, which means that you can activate it only for columns that you need. <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> summaries gives you a predefined set of default summaries, depending on the type of data in the column, so that you can save some time:
+
+`{ComponentName}` 集計を列ごとに有効にして必要な列のみアクティブ化できます。`{ComponentName}` 集計は、列のデータ型に基づいてデフォルト集計の定義済みセットを提供します。
+
+`string` および `boolean` `DataType`の場合、以下の関数が利用できます:
+- Count
+
+`number`、`currency`、および `percent` データ型の場合、以下の関数を使用できます。
+
+- Count
+- Min
+- Max
+- Average
+- Sum
+
+`date` データ型の場合、以下の関数が利用できます:
+- Count
+- Earliest
+- Latest
+
+<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> summaries are enabled per-column by setting <ApiLink pkg="grids" type="Column" member="hasSummary" /> property to **true**. It is also important to keep in mind that the summaries for each column are resolved according to the column data type. In the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> the default column data type is `string`, so if you want `number` or `date` specific summaries you should specify the <ApiLink pkg="grids" type="Column" member="dataType" /> property as `number` or `date`. Note that the summary values will be displayed localized, according to the grid `Locale` and column <ApiLink pkg="grids" type="Column" member="pipeArgs" />.
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)">
+    <igx-column field="ProductID" header="Product ID" width="200px"  [sortable]="true">
+    </igx-column>
+    <igx-column field="ProductName" header="Product Name" width="200px" [sortable]="true" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="ReorderLevel" width="200px" [editable]="true" [dataType]="'number'" [hasSummary]="true">
+    </igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector}>
+        <IgbColumn Field="EmployeeID" DataType="GridColumnDataType.Number" HasSummary="true"></IgbColumn>
+        <IgbColumn Field="FirstName" HasSummary="true"></IgbColumn>
+        <IgbColumn Field="LastName" HasSummary="true"></IgbColumn>
+        <IgbColumn Field="Title" HasSummary="true"></IgbColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid1" auto-generate="false" height="800px" width="800px">
+    <igc-column field="ProductID" header="Product ID" width="200px"  sortable="true">
+    </igc-column>
+    <igc-column field="ProductName" header="Product Name" width="200px" sortable="true" has-summary="true">
+    </igc-column>
+    <igc-column field="ReorderLevel" width="200px" editable="true" data-type="number" has-summary="true">
+    </igc-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} autoGenerate={false} height="800px" width="800px">
+    <IgrColumn field="ProductID" header="Product ID" width="200px"  sortable={true}>
+    </IgrColumn>
+    <IgrColumn field="ProductName" header="Product Name" width="200px" sortable={true} hasSummary={true}>
+    </IgrColumn>
+    <IgrColumn field="ReorderLevel" width="200px" editable={true} dataType="number" hasSummary={true}>
+    </IgrColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #hierarchicalGrid [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)">
+    <igx-column field="ProductID" header="Product ID" width="200px"  [sortable]="true">
+    </igx-column>
+    <igx-column field="ProductName" header="Product Name" width="200px" [sortable]="true" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="ReorderLevel" width="200px" [editable]="true" [dataType]="'number'" [hasSummary]="true">
+    </igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} AutoGenerate="false" Data="SingersData" Name="hierarchicalGrid" @ref="hierarchicalGrid" Id="hierarchicalGrid" PrimaryKey="ID">
+        <IgbColumn Field="Artist" HasSummary="true"></IgbColumn>
+        <IgbColumn Field="Photo" DataType="GridColumnDataType.Image"></IgbColumn>
+        <IgbColumn Field="Debut" HasSummary="true"></IgbColumn>
+        <IgbColumn Field="GrammyNominations" DataType="GridColumnDataType.Number" HasSummary="true"></IgbColumn>
+        <IgbColumn Field="GrammyAwards" DataType="GridColumnDataType.Number" HasSummary="true"></IgbColumn>
+        <IgbRowIsland ChildDataKey="Albums" AutoGenerate="false">
+            <IgbColumn Field="Album" DataType="GridColumnDataType.String"></IgbColumn>
+            <IgbColumn Field="LaunchDate" DataType="GridColumnDataType.Date"></IgbColumn>
+            <IgbColumn Field="BillboardReview" DataType="GridColumnDataType.Number" HasSummary="true"></IgbColumn>
+            <IgbColumn Field="USBillboard200" DataType="GridColumnDataType.Number" HasSummary="true"></IgbColumn>
+        </IgbRowIsland>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid auto-generate="false" name="hierarchicalGrid" id="hierarchicalGrid" primary-key="ID">
+    <igc-column field="Artist" header="Artist" has-summary="true"> </igc-column>
+    <igc-column field="Photo" header="Photo" data-type="image"> </igc-column>
+    <igc-column field="Debut" header="Debut" has-summary="true"> </igc-column>
+    <igc-column field="GrammyNominations" header="Grammy Nominations" data-type="number" has-summary="true"> </igc-column>
+    <igc-column field="GrammyAwards" header="Grammy Awards" data-type="number" has-summary="true"> </igc-column>
+    <igc-row-island child-data-key="Albums" auto-generate="false">
+        <igc-column field="Album" header="Album" data-type="string"> </igc-column>
+        <igc-column field="LaunchDate" header="Launch Date" data-type="date"> </igc-column>
+        <igc-column field="BillboardReview" header="Billboard Review" data-type="number" has-summary="true"> </igc-column>
+        <igc-column field="USBillboard200" header="US Billboard 200" data-type="number" has-summary="true"> </igc-column>
+    </igc-row-island>
+</igc-hierarchical-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrHierarchicalGrid autoGenerate={false} data={singersData} ref={hierarchicalGridRef} primaryKey="ID">
+    <IgrColumn field="Artist" header="Artist" hasSummary={true}></IgrColumn>
+    <IgrColumn field="Photo" header="Photo" dataType="image"></IgrColumn>
+    <IgrColumn field="Debut" header="Debut" hasSummary={true}></IgrColumn>
+    <IgrColumn field="GrammyNominations" header="Grammy Nominations" dataType="number" hasSummary={true}></IgrColumn>
+    <IgrColumn field="GrammyAwards" header="Grammy Awards" dataType="number" hasSummary={true}></IgrColumn>
+    <IgrRowIsland childDataKey="Albums" autoGenerate={false}>
+        <IgrColumn field="Album" header="Album" dataType="string"></IgrColumn>
+        <IgrColumn field="LaunchDate" header="Launch Date" dataType="date"></IgrColumn>
+        <IgrColumn field="BillboardReview" header="Billboard Review" dataType="number" hasSummary={true}></IgrColumn>
+        <IgrColumn field="USBillboard200" header="US Billboard 200" dataType="number" hasSummary={true} ></IgrColumn>
+     </IgrRowIsland>
+</IgrHierarchicalGrid>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)">
+    <igx-column field="ID" header="Order ID" width="200px">
+    </igx-column>
+    <igx-column field="Name" header="Order Product" width="200px" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="Units" width="200px" [editable]="true" [dataType]="'number'" [hasSummary]="true">
+    </igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector}>
+        <IgbColumn Field="ID" Header="Order ID"></IgbColumn>
+        <IgbColumn Field="Name" Header="Order Product" HasSummary="true"></IgbColumn>
+        <IgbColumn Field="Units" Header="Units" HasSummary="true"></IgbColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid1" auto-generate="false" height="800px" width="800px">
+    <igc-column field="ID" header="Order ID">
+    </igc-column>
+    <igc-column field="Name" header="Order Product" has-summary="true">
+    </igc-column>
+    <igc-column field="Units" header="Units" editable="true" data-type="number" has-summary="true">
+    </igc-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} autoGenerate={false} height="800px" width="800px">
+    <IgrColumn field="ID" header="Order ID">
+    </IgrColumn>
+    <IgrColumn field="Name" header="Order Product" hasSummary={true}>
+    </IgrColumn>
+    <IgrColumn field="Units" header="Units" editable={true} dataType="number" hasSummary={true}>
+    </IgrColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+すべての利用可能な列データ型は、公式の[列タイプトピック](column-types.md#デフォルトのテンプレート)にあります。
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)" >
+    <igx-column field="ProductID" header="Product ID" width="200px"  [sortable]="true">
+    </igx-column>
+    <igx-column field="ProductName" header="Product Name" width="200px" [sortable]="true" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="ReorderLevel" width="200px" [editable]="true" [dataType]="'number'" [hasSummary]="false">
+    </igx-column>
+</{ComponentSelector}>
+<button (click)="enableSummary()">Enable Summary</button>
+<button (click)="disableSummary()">Disable Summary </button>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" auto-generate="false" height="800px" width="800px">
+    <igc-column field="ProductID" header="Product ID" width="200px" sortable="true">
+    </igc-column>
+    <igc-column field="ProductName" header="Product Name" width="200px" sortable="true" has-summary="true">
+    </igc-column>
+    <igc-column field="ReorderLevel" width="200px" editable="true" data-type="number" has-summary="false">
+    </igc-column>
+</{ComponentSelector}>
+<button id="enableBtn">Enable Summary</button>
+<button id="disableBtn">Disable Summary </button>
+```
+
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as IgcGridComponent;
+    var enableBtn = this.enableBtn = document.getElementById('enableBtn') as HTMLButtonElement;
+    var disableBtn = this.disableBtn = document.getElementById('disableBtn') as HTMLButtonElement;
+    grid.data = this.data;
+    enableBtn.addEventListener("click", this.enableSummary);
+    disableBtn.addEventListener("click", this.disableSummary);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public enableSummary() {
+    this.grid.enableSummaries([
+        {fieldName: 'ReorderLevel'},
+        {fieldName: 'ProductID'}
+    ]);
+}
+public disableSummary() {
+    this.grid.disableSummaries(['ProductID']);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const enableSummary = () => {
+    gridRef.current.enableSummaries([
+        {fieldName: 'ReorderLevel'},
+        {fieldName: 'ProductID'}
+    ]);
+}
+const disableSummary = () => {
+    gridRef.current.disableSummaries(['ProductID']);
+}
+
+<{ComponentSelector} ref={gridRef} autoGenerate={false} height="800px" width="800px">
+    <IgrColumn field="ProductID" header="Product ID" width="200px" sortable={true}>
+    </IgrColumn>
+    <IgrColumn field="ProductName" header="Product Name" width="200px" sortable={true} hasSummary={true}>
+    </IgrColumn>
+    <IgrColumn field="ReorderLevel" width="200px" editable={true} dataType="number" hasSummary={true}>
+    </IgrColumn>
+</{ComponentSelector}>
+<button onClick={enableSummary}>Enable Summary</button>
+<button onClick={disableSummary}>Disable Summary </button>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #hierarchicalGrid [data]="data" [autoGenerate]="false" height="800px" width="800px">
+    <igx-column field="Artist" header="Artist" [hasSummary]="true"> </igx-column>
+    <igx-column field="Photo" header="Photo"> </igx-column>
+    <igx-column field="Debut" header="Debut" [hasSummary]="true"> </igx-column>
+    <igx-column field="GrammyNominations" header="Grammy Nominations" [dataType]="'number'" [hasSummary]="true"> </igx-column>
+    <igx-column field="GrammyAwards" header="Grammy Awards" [dataType]="'number'" [hasSummary]="true"> </igx-column>
+</{ComponentSelector}>
+<button (click)="enableSummary()">Enable Summary</button>
+<button (click)="disableSummary()">Disable Summary </button>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid auto-generate="false" name="hierarchicalGrid" id="hierarchicalGrid" primary-key="ID">
+    <igc-column field="Artist" header="Artist" has-summary="true"> </igc-column>
+    <igc-column field="Photo" header="Photo" data-type="image"> </igc-column>
+    <igc-column field="Debut" header="Debut" has-summary="true"> </igc-column>
+    <igc-column field="GrammyNominations" header="Grammy Nominations" data-type="number" has-summary="true"> </igc-column>
+    <igc-column field="GrammyAwards" header="Grammy Awards" data-type="number" has-summary="true"> </igc-column>
+</igc-hierarchical-grid>
+<button id="enableBtn">Enable Summary</button>
+<button id="disableBtn">Disable Summary </button>
+```
+
+```ts
+constructor() {
+    var hierarchicalGrid = this.hierarchicalGrid = document.getElementById('hierarchicalGrid') as {ComponentName};
+    var enableBtn = this.enableBtn = document.getElementById('enableBtn') as HTMLButtonElement;
+    var disableBtn = this.disableBtn = document.getElementById('disableBtn') as HTMLButtonElement;
+    hierarchicalGrid.data = this.data;
+    enableBtn.addEventListener("click", this.enableSummary);
+    disableBtn.addEventListener("click", this.disableSummary);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public enableSummary() {
+    this.hierarchicalGrid.enableSummaries([
+        {fieldName: 'GrammyNominations'},
+        {fieldName: 'GrammyAwards'}
+    ]);
+}
+public disableSummary() {
+    this.hierarchicalGrid.disableSummaries(['GrammyNominations']);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} AutoGenerate="false" Data="SingersData" Name="hierarchicalGrid" @ref="hierarchicalGrid" Id="hierarchicalGrid" PrimaryKey="ID">
+    <IgbColumn Field="Artist" HasSummary="true"></IgbColumn>
+    <IgbColumn Field="Photo" DataType="GridColumnDataType.Image"></IgbColumn>
+    <IgbColumn Field="Debut" HasSummary="true"></IgbColumn>
+    <IgbColumn Field="GrammyNominations" DataType="GridColumnDataType.Number" HasSummary="true"></IgbColumn>
+    <IgbColumn Field="GrammyAwards" DataType="GridColumnDataType.Number" HasSummary="true"></IgbColumn>
+</{ComponentSelector}>
+
+@code {
+    public async void DisableSummaries()
+    {
+        object[] disabledSummaries = { "GrammyNominations" };
+        await this.hierarchicalGrid.DisableSummariesAsync(disabledSummaries);
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const enableSummary = () => {
+    hierarchicalGridRef.current.enableSummaries([
+        {fieldName: 'GrammyNominations'},
+        {fieldName: 'GrammyAwards'}
+    ]);
+}
+const disableSummary = () => {
+    hierarchicalGridRef.current.disableSummaries(['GrammyNominations']);
+}
+
+<IgrHierarchicalGrid autoGenerate={false} data={singersData} ref={hierarchicalGridRef} primaryKey="ID">
+    <IgrColumn field="Artist" header="Artist" hasSummary={true}></IgrColumn>
+    <IgrColumn field="Photo" header="Photo" dataType="image"></IgrColumn>
+    <IgrColumn field="Debut" header="Debut" hasSummary={true}></IgrColumn>
+    <IgrColumn field="GrammyNominations" header="Grammy Nominations" dataType="number" hasSummary={true}></IgrColumn>
+    <IgrColumn field="GrammyAwards" header="Grammy Awards" dataType="number" hasSummary={true}></IgrColumn>
+</IgrHierarchicalGrid>
+<button onClick={enableSummary}>Enable Summary</button>
+<button onClick={disableSummary}>Disable Summary </button>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #treeGrid [data]="data" [autoGenerate]="false" height="800px" width="800px">
+    <igx-column field="ID" header="Order ID" width="200px">
+    </igx-column>
+    <igx-column field="Name" header="Order Product" width="200px" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="Units" width="200px" [editable]="true" [dataType]="'number'" [hasSummary]="true">
+    </igx-column>
+</{ComponentSelector}>
+<button (click)="enableSummary()">Enable Summary</button>
+<button (click)="disableSummary()">Disable Summary </button>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igc-tree-grid auto-generate="false" name="treeGrid" id="treeGrid" primary-key="ID">
+    <igx-column field="ID" header="Order ID" width="200px">
+    </igx-column>
+    <igx-column field="Name" header="Order Product" width="200px" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="Units" width="200px" [editable]="true" [dataType]="'number'" [hasSummary]="true">
+    </igx-column>
+</igc-tree-grid>
+<button id="enableBtn">Enable Summary</button>
+<button id="disableBtn">Disable Summary </button>
+```
+
+```ts
+constructor() {
+    var treeGrid = this.treeGrid = document.getElementById('treeGrid') as {ComponentName};
+    var enableBtn = this.enableBtn = document.getElementById('enableBtn') as HTMLButtonElement;
+    var disableBtn = this.disableBtn = document.getElementById('disableBtn') as HTMLButtonElement;
+    treeGrid.data = this.data;
+    enableBtn.addEventListener("click", this.enableSummary);
+    disableBtn.addEventListener("click", this.disableSummary);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public enableSummary() {
+    this.treeGrid.enableSummaries([
+        {fieldName: 'Name'},
+        {fieldName: 'Units'}
+    ]);
+}
+public disableSummary() {
+    this.treeGrid.disableSummaries(['Units']);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} AutoGenerate="false" Data="OrdersTreeData" Name="treeGrid" @ref="treeGridRef" Id="treeGrid" PrimaryKey="ID">
+    <IgbColumn Field="ID" Header="Order ID"></IgbColumn>
+    <IgbColumn Field="Name" Header="Order Product" HasSummary="true"></IgbColumn>
+    <IgbColumn Field="Units" Header="Units" DataType="GridColumnDataType.Number" HasSummary="true"></IgbColumn>
+</{ComponentSelector}>
+
+@code {
+    public async void DisableSummaries()
+    {
+        object[] disabledSummaries = { "Units" };
+        await this.treeGrid.DisableSummariesAsync(disabledSummaries);
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const enableSummary = () => {
+    treeGridRef.current.enableSummaries([
+        {fieldName: 'Name'},
+        {fieldName: 'Units'}
+    ]);
+}
+const disableSummary = () => {
+    treeGridRef.current.disableSummaries(['Units']);
+}
+
+<IgrTreeGrid autoGenerate={false} data={ordersTreeData} ref={treeGridRef} primaryKey="ID">
+    <IgrColumn field="ID" header="Order ID"></IgrColumn>
+    <IgrColumn field="Name" header="Order Product" hasSummary={true}></IgrColumn>
+    <IgrColumn field="Units" header="Units" editable={true} dataType="number" hasSummary={true}></IgrColumn>
+</IgrTreeGrid>
+<button onClick={enableSummary}>Enable Summary</button>
+<button onClick={disableSummary}>Disable Summary </button>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Angular, WebComponents, Blazor">
+## カスタム {ComponentTitle} 集計
+
+これらの機能が要件を満たさない場合は、カスタム集計を提供できます。
+
+<PlatformBlock for="WebComponents">
+In order to achieve this you have to override one of the base classes <ApiLink pkg="grids" type="SummaryOperand" suffix={false} />, <ApiLink pkg="grids" type="NumberSummaryOperand" suffix={false} /> or <ApiLink pkg="grids" type="DateSummaryOperand" suffix={false} /> according to the column data type and your needs. This way you can redefine the existing function or you can add new functions. <ApiLink pkg="grids" type="SummaryOperand" suffix={false} /> class provides the default implementation only for the `Count` method. <ApiLink pkg="grids" type="NumberSummaryOperand" suffix={false} /> extends <ApiLink pkg="grids" type="SummaryOperand" suffix={false} /> and provides implementation for the `Min`, `Max`, `Sum` and `Average`. <ApiLink pkg="grids" type="DateSummaryOperand" suffix={false} /> extends <ApiLink pkg="grids" type="SummaryOperand" suffix={false} /> and additionally gives you `Earliest` and `Latest`.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+import { IgxSummaryResult, IgxSummaryOperand, IgxNumberSummaryOperand, IgxDateSummaryOperand } from 'igniteui-angular';
+
+class MySummary extends IgxNumberSummaryOperand {
+    constructor() {
+        super();
+    }
+
+    operate(data?: any[]): IgxSummaryResult[] {
+        const result = super.operate(data);
+        result.push({
+            key: 'test',
+            label: 'Test',
+            summaryResult: data.filter(rec => rec > 10 && rec < 30).length
+        });
+        return result;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+import { IgcSummaryResult, IgcSummaryOperand, IgcNumberSummaryOperand, IgcDateSummaryOperand } from 'igniteui-webcomponents-grids';
+
+class MySummary extends IgcNumberSummaryOperand {
+    constructor() {
+        super();
+    }
+
+    operate(data?: any[]): IgcSummaryResult[] {
+        const result = super.operate(data);
+        result.push({
+            key: 'test',
+            label: 'Test',
+            summaryResult: data.filter(rec => rec > 10 && rec < 30).length
+        });
+        return result;
+    }
+}
+```
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+<PlatformBlock for="Blazor">
+```razor
+
+//In JavaScript
+class WebGridDiscontinuedSummary {
+    operate(data, allData, fieldName) {
+        const discontinuedData = allData.filter((rec) => rec['Discontinued']).map(r => r[fieldName]);
+        const result = [];
+        result.push({
+            key: 'products',
+            label: 'Products',
+            summaryResult: data.length
+        });
+        result.push({
+            key: 'total',
+            label: 'Total Items',
+            summaryResult: data.length ? data.reduce((a, b) => +a + +b) : 0
+        });
+        result.push({
+            key: 'discontinued',
+            label: 'Discontinued Products',
+            summaryResult: allData.map(r => r['Discontinued']).filter((rec) => rec).length
+        });
+        result.push({
+            key: 'totalDiscontinued',
+            label: 'Total Discontinued Items',
+            summaryResult: discontinuedData.length ? discontinuedData.reduce((a, b) => +a + +b) : 0
+        });
+        return result;
+    }
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+
+//In JavaScript
+class PtoSummary {
+    operate(data, allData, fieldName) {
+        const result = [];
+        result.push({
+            key: 'totalOnPTO',
+            label: 'Employees On PTO',
+            summaryResult: this.count(allData.filter((rec) => rec['OnPTO']).map(r => r[fieldName]))
+        });
+        result.push({
+            key: 'devs',
+            label: 'Developers',
+            summaryResult: this.count(allData.filter((rec) => rec[fieldName].includes('Developer') && rec['OnPTO']).map(r => r[fieldName]))
+        });
+        result.push({
+            key: 'tl',
+            label: 'Team Leads',
+            summaryResult: this.count(allData.filter((rec) => rec[fieldName].includes('Team Lead') && rec['OnPTO']).map(r => r[fieldName]))
+        });
+        result.push({
+            key: 'managers',
+            label: 'Managers/Directors',
+            summaryResult: this.count(allData.filter((rec) => (rec[fieldName].includes('Manager') || rec[fieldName].includes('Director')) && rec['OnPTO']).map(r => r[fieldName]))
+        });
+        result.push({
+            key: 'ceo',
+            label: 'CEO/President',
+            summaryResult: this.count(allData.filter((rec) => (rec[fieldName].includes('CEO') || rec[fieldName].includes('President')) && rec['OnPTO']).map(r => r[fieldName]))
+        });
+        return result;
+    }
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+これを実現するには、列のデータ型とニーズに応じて、基本クラス `SummaryOperand`、`NumberSummaryOperand`、または `DateSummaryOperand` のいずれかをオーバーライドする必要があります。このように既存の関数を再定義、または新しい関数を追加できます。`SummaryOperand` クラスは、`Count` メソッドに対してのみデフォルトの実装を提供します。`NumberSummaryOperand` は `SummaryOperand` を拡張し、`Min`、`Max`、`Sum`、および `Average` の実装を提供します。`DateSummaryOperand` は `SummaryOperand` を拡張し、さらに特定の列の `Earliest` と `Latest` を提供します。
+
+例で見られるように、基本クラスは `Operate` メソッドを公開しているため、すべてのデフォルトの集計を取得して結果を変更するか、まったく新しい集計結果を計算するかを選択できます。
+
+<PlatformBlock for="Angular">
+```typescript
+interface IgxSummaryResult {
+    key: string;
+    label: string;
+    summaryResult: any;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+interface IgcSummaryResult {
+    key: string;
+    label: string;
+    summaryResult: any;
+}
+```
+</PlatformBlock>
+
+このメソッドは `SummaryResult` のリストを返します。
+
+そして、集計を計算するためのオプションのパラメーターを受け取ります。
+以下の[すべてのデータにアクセスするカスタム集計](#すべてのデータにアクセスするカスタム集計)セクションを参照してください。
+
+<ComponentBlock for="Grid">
+And now let's add our custom summary to the column `UnitsInStock`. We will achieve that by setting the Summaries` property to the class we create below.
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)" >
+    <igx-column field="ProductID" width="200px"  [sortable]="true">
+    </igx-column>
+    <igx-column field="ProductName" width="200px" [sortable]="true" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="UnitsInStock" width="200px" [dataType]="'number'" [hasSummary]="true" [summaries]="mySummary" [sortable]="true">
+    </igx-column>
+    <igx-column field="ReorderLevel" width="200px" [editable]="true" [dataType]="'number'" [hasSummary]="true">
+    </igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid1" auto-generate="false" height="800px" width="800px">
+    <igc-column field="ProductID" width="200px" sortable="true">
+    </igc-column>
+    <igc-column field="ProductName" width="200px" sortable="true" has-summary="true">
+    </igc-column>
+    <igc-column id="unitsInStock" field="UnitsInStock" width="200px" data-type="number" has-summary="true" sortable="true">
+    </igc-column>
+    <igc-column field="ReorderLevel" width="200px" editable="true" data-type="number" has-summary="true">
+    </igc-column>
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    var grid1 = this.grid1 = document.getElementById('grid1') as IgcGridComponent;
+    var unitsInStock = this.unitsInStock = document.getElementById('unitsInStock') as IgcColumnComponent;
+    grid1.data = this.data;
+    unitsInStock.summaries = this.mySummary;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+export class GridComponent implements OnInit {
+    mySummary = MySummary;
+}
+```
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector}
+        AutoGenerate="true"
+        Name="grid"
+        @ref="grid"
+        Data="NwindData"
+        PrimaryKey="ProductID"
+        ColumnInitScript="WebGridCustomSummary">
+</{ComponentSelector}>
+
+// In Javascript
+igRegisterScript("WebGridCustomSummary", (event) => {
+    if (event.detail.field === "UnitsInStock") {
+        event.detail.summaries = WebGridDiscontinuedSummary;
+    }
+}, false);
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+And now let's add our custom summary to the column `GrammyAwards`. We will achieve that by setting the Summaries` property to the class we create below.
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #hierarchicalGrid [data]="data" [autoGenerate]="false" height="800px" width="800px">
+    <igx-column field="Artist" header="Artist" [hasSummary]="true"> </igx-column>
+    <igx-column field="Photo" header="Photo"> </igx-column>
+    <igx-column field="Debut" header="Debut" [hasSummary]="true"> </igx-column>
+    <igx-column field="GrammyNominations" header="Grammy Nominations" [dataType]="'number'" [hasSummary]="true"> </igx-column>
+    <igx-column field="GrammyAwards" header="Grammy Awards" [dataType]="'number'" [hasSummary]="true"> </igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid auto-generate="false" name="hierarchicalGrid" id="hierarchicalGrid" primary-key="ID">
+    <igc-column field="Artist" header="Artist" has-summary="true"> </igc-column>
+    <igc-column field="Photo" header="Photo" data-type="image"> </igc-column>
+    <igc-column field="Debut" header="Debut" has-summary="true"> </igc-column>
+    <igc-column field="GrammyNominations" header="Grammy Nominations" data-type="number" has-summary="true"> </igc-column>
+    <igc-column field="GrammyAwards" header="Grammy Awards" data-type="number" has-summary="true" id="grammyAwards"> </igc-column>
+</igc-hierarchical-grid>
+```
+
+```ts
+constructor() {
+    var hierarchicalGrid = this.hierarchicalGrid = document.getElementById('hierarchicalGrid') as {ComponentName};
+    var grammyAwards = this.grammyAwards = document.getElementById('grammyAwards') as IgcColumnComponent;
+    hierarchicalGrid.data = this.data;
+    grammyAwards.summaries = this.mySummary;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```typescript
+export class HierarchicalGridComponent implements OnInit {
+    mySummary = MySummary;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector}
+        AutoGenerate="true"
+        Name="hierarchicalGrid"
+        @ref="hierarchicalGrid"
+        Data="SingersData"
+        PrimaryKey="ID"
+        ColumnInitScript="WebHierarchicalGridCustomSummary">
+</{ComponentSelector}>
+
+// In Javascript
+igRegisterScript("WebHierarchicalGridCustomSummary", (event) => {
+    if (event.detail.field === "GrammyAwards") {
+        event.detail.summaries = WebHierarchicalGridSummary;
+    }
+}, false);
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+And now let's add our custom summary to the column `Title`. We will achieve that by setting the Summaries` property to the class we create below.
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #treeGrid [data]="data" [autoGenerate]="false" height="800px" width="800px">
+    <igx-column field="Name"></igx-column>
+    <igx-column field="Age" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="Title" [dataType]="'string'" [hasSummary]="true">
+    </igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-tree-grid auto-generate="false" name="treeGrid" id="treeGrid" primary-key="ID">
+    <igc-column field="Name" data-type="string"></igc-column>
+    <igc-column field="Age" data-type="number"></igc-column>
+    <igc-column field="Title" data-type="string" has-summary="true" id="column1"></igc-column>
+</igc-tree-grid>
+```
+
+```ts
+constructor() {
+    var treeGrid = this.treeGrid = document.getElementById('treeGrid') as {ComponentName};
+    var column1 = this.column1 = document.getElementById('column1') as IgcColumnComponent;
+    treeGrid.data = this.data;
+    column1.summaries = this.mySummary;
+}
+```
+</PlatformBlock>
+
+```typescript
+export class TreeGridComponent implements OnInit {
+    mySummary = MySummary;
+}
+```
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector}
+        AutoGenerate="true"
+        Name="treeGrid"
+        @ref="treeGrid"
+        Data="EmployeesFlatData"
+        PrimaryKey="ID"
+        ColumnInitScript="WebTreeGridCustomSummary">
+</{ComponentSelector}>
+
+// In Javascript
+igRegisterScript("WebTreeGridCustomSummary", (event) => {
+    if (event.detail.field === "Title") {
+        event.detail.summaries = PtoSummary;
+    }
+}, false);
+```
+</PlatformBlock>
+</ComponentBlock>
+
+### すべてのデータにアクセスするカスタム集計
+カスタム列集計内のすべての {ComponentTitle} データにアクセスできます。SummaryOperand <ApiLink pkg="grids" type="SummaryOperand" member="operate" label="Operate" prefixed={false} suffix={false} /> メソッドには、2 つの追加のオプション パラメーターが導入されています。
+以下のコード スニペットで示されるように operate メソッドには以下の 3 つのパラメーターがあります。
+- columnData - 現在の列の値のみを含む配列を提供します。
+- allGridData - グリッド データソース全体を提供します。
+- fieldName - 現在の列フィールド
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+<PlatformBlock for="Angular">
+```typescript
+class MySummary extends IgxNumberSummaryOperand {
+    constructor() {
+        super();
+    }
+    operate(columnData: any[], allGridData = [], fieldName?): IgxSummaryResult[] {
+        const result = super.operate(allData.map(r => r[fieldName]));
+        result.push({ key: 'test', label: 'Total Discontinued', summaryResult: allData.filter((rec) => rec.Discontinued).length });
+        return result;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+class MySummary extends IgcNumberSummaryOperand {
+    constructor() {
+        super();
+    }
+    operate(columnData: any[], allGridData = [], fieldName?): IgcSummaryResult[] {
+        const result = super.operate(allData.map(r => r[fieldName]));
+        result.push({ key: 'test', label: 'Total Discontinued', summaryResult: allData.filter((rec) => rec.Discontinued).length });
+        return result;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+class WebGridDiscontinuedSummary {
+    operate(data, allData, fieldName) {
+        const discontinuedData = allData.filter((rec) => rec['Discontinued']).map(r => r[fieldName]);
+        result.push({
+            key: 'totalDiscontinued',
+            label: 'Total Discontinued Items',
+            summaryResult: discontinuedData.length ? discontinuedData.reduce((a, b) => +a + +b) : 0
+        });
+        return result;
+    }
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```typescript
+class MySummary extends IgxNumberSummaryOperand {
+    constructor() {
+        super();
+    }
+    operate(columnData: any[], allGridData = [], fieldName?): IgxSummaryResult[] {
+        const result = super.operate(allData.map(r => r[fieldName]));
+        result.push({ key: 'totalOnPTO', label: 'Employees On PTO', summaryResult: this.count(allData.filter((rec) => rec['OnPTO']).map(r => r[fieldName])) });
+        return result;
+    }
+}
+```
+
+```typescript
+class MySummary extends IgcNumberSummaryOperand {
+    constructor() {
+        super();
+    }
+    operate(columnData: any[], allGridData = [], fieldName?): IgcSummaryResult[] {
+        const result = super.operate(allData.map(r => r[fieldName]));
+        result.push({ key: 'totalOnPTO', label: 'Employees On PTO', summaryResult: this.count(allData.filter((rec) => rec['OnPTO']).map(r => r[fieldName])) });
+        return result;
+    }
+}
+```
+
+<PlatformBlock for="Blazor">
+```razor
+class PtoSummary {
+    operate(data, allData, fieldName) {
+        const result = [];
+        result.push({
+            key: 'totalOnPTO',
+            label: 'Employees On PTO',
+            summaryResult: this.count(allData.filter((rec) => rec['OnPTO']).map(r => r[fieldName]))
+        });
+        return result;
+    }
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="WebComponents">
+<Sample src="/{ComponentSample}/data-summaries-custom" height={650} alt="{Platform} {ComponentTitle} data summary custom" />
+
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Blazor">
+<Sample src="/{ComponentSample}/data-summary-options" height={650} alt="{Platform} {ComponentTitle} data summary options" />
+
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Blazor">
+<Sample src="/{ComponentSample}/data-summaries-custom" height={650} alt="{Platform} {ComponentTitle} data summary custom" />
+
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<Sample src="/{ComponentSample}/data-summary-options" height={650} alt="{Platform} {ComponentTitle} data summary options" />
+</ComponentBlock>
+
+</PlatformBlock>
+
+### 集計テンプレート
+<ApiLink pkg="grids" type="Column" member="summaryTemplate" label="SummaryTemplate" /> targets the column summary providing as a context the column summary results.
+
+<PlatformBlock for="Angular">
+```html
+<igx-column [hasSummary]="true">
+    <ng-template igxSummary let-summaryResults>
+        <span> My custom summary template</span>
+        <span>{{ summaryResults[0].label }} - {{ summaryResults[0].summaryResult }}</span>
+    </ng-template>
+</igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="column" has-summary="true">
+</igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var column = this.column = document.getElementById('column') as IgcColumnComponent;
+    column.summaryTemplate = this.summaryTemplate;
+}
+
+public summaryTemplate = (ctx: IgcSummaryTemplateContext) => {
+    return html`
+        <span> My custom summary template</span>
+        <span>${ ctx.implicit[0].label } - ${ ctx.implicit[0].summaryResult }</span>
+    `;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const summaryTemplate = (ctx: IgrSummaryTemplateContext) => {
+  return (
+    <>
+      <span>My custom summary template</span>
+      <span>{ctx.implicit[0].label} - {ctx.implicit[0].summaryResult}</span>
+    </>
+  );
+}
+
+<IgrColumn hasSummary={true} summaryTemplate={summaryTemplate}></IgrColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn HasSummary="true" SummaryTemplateScript="SummaryTemplate">
+</IgbColumn>
+
+igRegisterScript("SummaryTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<div>
+    <span> ${ctx.implicit[0].label} - ${ctx.implicit[0].summaryResult} </span>
+</div>`
+}, false);
+```
+</PlatformBlock>
+
+`SummaryTemplate` は、列の集計の結果をコンテキストとして提供する列の集計を対象としています。
+
+<PlatformBlock for="Angular">
+デフォルトの集計が定義されている場合、集計領域の高さは、集計の数が最も多い列とグリッドの `--ig-size` に応じてデザインにより計算されます。`SummaryRowHeight` 入力プロパティを使用して、デフォルト値をオーバーライドします。引数として数値が必要であり、falsy の値を設定すると、グリッド フッターのデフォルトのサイズ設定動作がトリガーされます。
+
+</PlatformBlock>
+
+<Sample src="/{ComponentSample}/data-summary-template" height={650} alt="{Platform} {ComponentTitle} データ集計のテンプレート" />
+
+## 無効な集計
+
+<PlatformBlock for="WebComponents">
+<ApiLink pkg="grids" type="Column" member="disabledSummaries" label="disabled-summaries" /> プロパティは、{Platform} {ComponentTitle} の集計機能に対して列ごとに正確な制御を提供します。このプロパティを使用すると、{ComponentName} 内の各列に表示される集計をカスタマイズして、最も関連性の高い意味のあるデータのみが表示されるようにすることができます。たとえば、配列で集計キーを指定することにより、**['count', 'min', 'max']** などの特定の集計タイプを除外できます。
+</PlatformBlock>
+
+<PlatformBlock for="React">
+<ApiLink pkg="grids" type="Column" member="disabledSummaries" label="DisabledSummaries" /> プロパティは、{Platform} {ComponentTitle} の集計機能に対して列ごとに正確な制御を提供します。このプロパティを使用すると、{ComponentName} 内の各列に表示される集計をカスタマイズして、最も関連性の高い意味のあるデータのみが表示されるようにすることができます。たとえば、配列で集計キーを指定することにより、**['count', 'min', 'max']** などの特定の集計タイプを除外できます。
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ApiLink pkg="grids" type="Column" member="disabledSummaries" label="DisabledSummaries" /> プロパティは、{Platform} {ComponentTitle} の要約機能に対して列ごとに正確な制御を提供します。このプロパティを使用すると、{ComponentName} 内の各列に表示される集計をカスタマイズして、最も関連性の高い意味のあるデータのみが表示されるようにすることができます。たとえば、配列で集計キーを指定することにより、**['count', 'min', 'max']** などの特定の集計タイプを除外できます。
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+このプロパティは、コードを通じて**実行時に動的に**変更することもできるため、変化するアプリケーションの状態やユーザー操作に合わせて {ComponentName} の集計を柔軟に調整できます。
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+次の例は、<ApiLink pkg="grids" type="Column" member="disabledSummaries" label="disabled-summaries" /> プロパティを使用してさまざまな列の集計を管理し、{Platform} {ComponentTitle} で特定のデフォルトおよびカスタムの集計タイプを除外する方法を示しています。
+</PlatformBlock>
+
+<PlatformBlock for="React">
+次の例は、`disabledSummaries` プロパティを使用してさまざまな列の集計を管理し、{Platform} {ComponentTitle} で特定のデフォルトおよびカスタムの集計タイプを除外する方法を示しています。
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+次の例は、<ApiLink pkg="grids" type="Column" member="disabledSummaries" label="DisabledSummaries" /> プロパティを使用してさまざまな列の集計を管理し、{Platform} {ComponentTitle} で特定のデフォルトおよびカスタムの集計タイプを除外する方法を示しています。
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+<PlatformBlock for="WebComponents">
+```html
+<!-- Disable default summaries -->
+<igc-column
+    field="UnitPrice"
+    header="Unit Price"
+    data-type="number"
+    has-summary="true"
+    disabled-summaries="['count', 'sum', 'average']"
+>
+</igc-column>
+
+<!-- Disable custom summaries -->
+<igc-column
+    field="UnitsInStock"
+    header="Units In Stock"
+    data-type="number"
+    has-summary="true"
+    summaries="discontinuedSummary"
+    disabled-summaries="['discontinued', 'totalDiscontinued']"
+>
+</igc-column>
+```
+</PlatformBlock>
+<PlatformBlock for="React">
+```tsx
+<!-- Disable default summaries -->
+<IgrColumn
+    field="UnitPrice"
+    header="Unit Price"
+    dataType="number"
+    hasSummary={true}
+    disabledSummaries={['count', 'sum', 'average']}
+/>
+
+<!-- Disable custom summaries -->
+<IgrColumn
+    field="UnitsInStock"
+    header="Units In Stock"
+    dataType="number"
+    hasSummary={true}
+    summaries={discontinuedSummary}
+    disabledSummaries={['discontinued', 'totalDiscontinued']}
+/>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<!-- Disable default summaries -->
+<IgbColumn
+    Field="UnitPrice"
+    Header="Unit Price"
+    DataType="GridColumnDataType.Number"
+    HasSummary="true"
+    DisabledSummaries="['count', 'sum', 'average']" />
+
+<!-- Disable custom summaries -->
+<IgbColumn
+    Field="UnitsInStock"
+    Header="Units In Stock"
+    DataType="GridColumnDataType.Number"
+    HasSummary="true"
+    Summaries="discontinuedSummary"
+    DisabledSummaries="['discontinued', 'totalDiscontinued']" />
+```
+</PlatformBlock>
+</ComponentBlock>
+
+`UnitPrice` の場合、`count`、`sum`、`average` などのデフォルトの集計は無効になっており、`min` や `max` などの他の集計は有効のままになっています。
+
+<PlatformBlock for="WebComponents">
+`UnitsInStock` の場合、`discontinued` や `totalDiscontinued` などのカスタム集計は <ApiLink pkg="grids" type="Column" member="disabledSummaries" label="disabled-summaries" /> プロパティを使用して除外されます。
+
+実行時に、<ApiLink pkg="grids" type="Column" member="disabledSummaries" label="DisabledSummaries" /> プロパティを使用して集計を動的に無効にすることもできます。たとえば、特定の列のプロパティをプログラムで設定または更新して、ユーザー操作やアプリケーションの状態の変化に基づいて表示される集計を調整できます。
+</PlatformBlock>
+
+<PlatformBlock for="React">
+`UnitsInStock` の場合、`discontinued` や `totalDiscontinued` などのカスタム集計は <ApiLink pkg="grids" type="Column" member="disabledSummaries" label="DisabledSummaries" /> プロパティを使用して除外されます。
+
+実行時に、<ApiLink pkg="grids" type="Column" member="disabledSummaries" label="DisabledSummaries" /> プロパティを使用して集計を動的に無効にすることもできます。たとえば、特定の列のプロパティをプログラムで設定または更新して、ユーザー操作やアプリケーションの状態の変化に基づいて表示される集計を調整できます。
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+`UnitsInStock` の場合、`discontinued` や `totalDiscontinued` などのカスタム集計は <ApiLink pkg="grids" type="Column" member="disabledSummaries" label="DisabledSummaries" /> プロパティを使用して除外されます。
+
+実行時に、<ApiLink pkg="grids" type="Column" member="disabledSummaries" label="DisabledSummaries" /> プロパティを使用して集計を動的に無効にすることもできます。たとえば、特定の列のプロパティをプログラムで設定または更新して、ユーザー操作やアプリケーションの状態の変化に基づいて表示される集計を調整できます。
+</PlatformBlock>
+
+<Sample src="/{ComponentSample}/disabled-summaries" height={750} alt="{Platform} {ComponentTitle} 無効な集計" />
+
+<PlatformBlock for="Angular, WebComponents, React">
+## 集計のフォーマット
+デフォルトでは、組み込みの集計オペランドによって生成される集計結果は、グリッド `Locale` および列 `PipeArgs` に従ってローカライズおよびフォーマットされます。カスタム オペランドを使用する場合、`Locale` と `PipeArgs` は適用されません。集計結果のデフォルトの外観を変更する場合は、<ApiLink pkg="grids" type="Column" member="summaryFormatter" label="SummaryFormatter" /> プロパティを使用してフォーマットできます。
+
+```typescript
+public dateSummaryFormat(summary: IgxSummaryResult, summaryOperand: IgxSummaryOperand): string {
+    const result = summary.summaryResult;
+    if (summaryOperand instanceof IgxDateSummaryOperand && summary.key !== 'count'
+        && result !== null && result !== undefined) {
+        const pipe = new DatePipe('en-US');
+        return pipe.transform(result,'MMM YYYY');
+    }
+    return result;
+}
+```
+
+```typescript
+    public dateSummaryFormat(summary: IgcSummaryResult, summaryOperand: IgcSummaryOperand): string {
+        const result = summary.summaryResult;
+        if (summaryOperand instanceof IgcDateSummaryOperand && summary.key !== "count" && result !== null && result !== undefined) {
+            const format = new Intl.DateTimeFormat("en", { year: "numeric" });
+            return format.format(new Date(result));
+        }
+        return result;
+    }
+```
+
+<PlatformBlock for="Angular">
+```html
+<igx-column [summaryFormatter]="dateSummaryFormat"></igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="column"></igx-column>
+```
+</PlatformBlock>
+
+```html
+<igx-column [summaryFormatter]="dateSummaryFormat"></igx-column>
+```
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn HasSummary="true" SummaryFormatterScript="SummaryFormatter"/>
+
+igRegisterScript("SummaryFormatter", (summary) => {
+    const result = summary.summaryResult;
+    if (summaryOperand instanceof IgcDateSummaryOperand && summary.key !== "count" && result !== null && result !== undefined) {
+        const format = new Intl.DateTimeFormat("en", { year: "numeric" });
+        return format.format(new Date(result));
+    }
+    return result;
+}, true);
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const summaryFormatter = (summary: IgrSummaryResult, summaryOperand: IgrSummaryOperand): string => {
+    const result = summary.summaryResult;
+    if (summary.key !== "count" && result !== null && result !== undefined) {
+      const format = new Intl.DateTimeFormat("en", { year: "numeric" });
+      return format.format(new Date(result));
+    }
+    return result;
+  }
+
+<IgrColumn hasSummary={true} summaryFormatter={summaryFormatter}></IgrColumn>
+```
+</PlatformBlock>
+
+<Sample src="/{ComponentSample}/data-summary-formatter" height={650} alt="{Platform} {ComponentTitle} データ集計のフォーマッタ" />
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+## グループ化の集計
+
+列のグループがある場合、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> は <ApiLink pkg="grids" type="{ComponentName}" member="summaryCalculationMode" label="SummaryCalculationMode" prefixed={false} /> と <ApiLink pkg="grids" type="{ComponentName}" member="summaryPosition" label="SummaryPosition" prefixed={false} /> を使用して集計配置の変更やモードの計算をします。これら 2 つのプロパティに加えて、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> は、参照するグループ行が縮小されたときに集計行が表示されたままであるかどうかを決定できる <ApiLink pkg="grids" type="{ComponentName}" member="showSummaryOnCollapse" label="ShowSummaryOnCollapse" prefixed={false} /> プロパティを公開します。
+
+以下は使用できる <ApiLink pkg="grids" type="{ComponentName}" member="summaryCalculationMode" label="SummaryCalculationMode" prefixed={false} /> プロパティの値です:
+
+- <ApiLink pkg="grids" type="GridSummaryCalculationMode" kind="type" prefixed={false} label="RootLevelOnly" /> - ルート レベルのみ集計が計算されます。
+- <ApiLink pkg="grids" type="GridSummaryCalculationMode" kind="type" prefixed={false} label="ChildLevelsOnly" /> - 子レベルのみ集計が計算されます。
+- <ApiLink pkg="grids" type="GridSummaryCalculationMode" kind="type" prefixed={false} label="RootAndChildLevels" /> - ルートと子レベルの両方の集計が計算されます。これがデフォルト値です。
+
+以下は使用できる <ApiLink pkg="grids" type="{ComponentName}" member="summaryPosition" label="SummaryPosition" prefixed={false} /> プロパティの値です。
+
+- <ApiLink pkg="grids" type="GridSummaryPosition" kind="type" prefixed={false} label="Top" /> - 集計行はグループ列の子の前に表示されます。
+- <ApiLink pkg="grids" type="GridSummaryPosition" kind="type" prefixed={false} label="Bottom" /> - 集計行はグループ列の子の後に表示されます。これがデフォルト値です。
+
+<ApiLink pkg="grids" type="{ComponentName}" member="showSummaryOnCollapse" label="ShowSummaryOnCollapse" prefixed={false} /> プロパティはブール値です。デフォルト値は **false** に設定されています。これは、親行が縮小されたときに集計行が非表示になることを意味します。プロパティが **true** に設定されている場合、グループ行が縮小されたときに、集計行は表示されたままになります。
+
+> [!Note]
+> <ApiLink pkg="grids" type="{ComponentName}" member="summaryPosition" label="SummaryPosition" prefixed={false} /> プロパティは子レベルの集計のみに適用します。ルート レベルの集計は、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の下に常に固定されます。
+
+### デモ
+
+<Sample src="/{ComponentSample}/groupby-summary-options" height={650} alt="{Platform} {ComponentTitle} グループ化の集計のオプション" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+## 子集計
+
+<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> はルート ノードの集計と各ネストされた子ノード レベルの区別をサポートします。集計は <ApiLink pkg="grids" type="{ComponentName}" member="summaryCalculationMode" label="SummaryCalculationMode" prefixed={false} /> プロパティを使用して設定できます。子レベル集計は、<ApiLink pkg="grids" type="{ComponentName}" member="summaryPosition" label="SummaryPosition" prefixed={false} /> を使用して子ノードの前または後に表示できます。これら 2 つのプロパティに加えて、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> は、参照するグループ行が縮小されたときに集計行が表示されたままであるかどうかを決定できる <ApiLink pkg="grids" type="{ComponentName}" member="showSummaryOnCollapse" label="ShowSummaryOnCollapse" prefixed={false} /> プロパティを公開します。
+
+以下は使用できる <ApiLink pkg="grids" type="{ComponentName}" member="summaryCalculationMode" label="SummaryCalculationMode" prefixed={false} /> プロパティの値です:
+
+- <ApiLink pkg="grids" type="GridSummaryCalculationMode" kind="type" prefixed={false} label="RootLevelOnly" /> - ルート レベルのノードのみ集計が計算されます。
+- <ApiLink pkg="grids" type="GridSummaryCalculationMode" kind="type" prefixed={false} label="ChildLevelsOnly" /> - 子レベルのみ集計が計算されます。
+- <ApiLink pkg="grids" type="GridSummaryCalculationMode" kind="type" prefixed={false} label="RootAndChildLevels" /> - ルートと子レベルの両方の集計が計算されます。これがデフォルト値です。
+
+以下は使用できる <ApiLink pkg="grids" type="{ComponentName}" member="summaryPosition" label="SummaryPosition" prefixed={false} /> プロパティの値です。
+
+- <ApiLink pkg="grids" type="GridSummaryPosition" kind="type" prefixed={false} label="Top" /> - 集計行は子行のリストの前に表示されます。
+- <ApiLink pkg="grids" type="GridSummaryPosition" kind="type" prefixed={false} label="Bottom" /> - 集計行は子行のリストの後に表示されます。これがデフォルト値です。
+
+<ApiLink pkg="grids" type="{ComponentName}" member="showSummaryOnCollapse" label="ShowSummaryOnCollapse" prefixed={false} /> プロパティはブール値です。デフォルト値は **false** に設定されています。これは、親行が縮小されたときに集計行が非表示になることを意味します。プロパティが **true** に設定されている場合、親行が縮小されたときに、集計行は表示されたままになります。
+
+> [!Note]
+> <ApiLink pkg="grids" type="{ComponentName}" member="summaryPosition" label="SummaryPosition" prefixed={false} /> プロパティは子レベルの集計のみに適用します。ルート レベルの集計は、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の下に常に固定されます。
+
+<Sample src="/{ComponentSample}/data-summary-children" height={720} alt="{Platform} {ComponentTitle} データの子集計" />
+
+</ComponentBlock>
+
+## キーボード ナビゲーション
+
+集計行は、以下のキーボード操作でナビゲーションできます。
+
+- <kbd>上矢印</kbd> - 1 つ上のセルへ移動。
+- <kbd>下矢印</kbd> - 1 つ下のセルへ移動。
+- <kbd>左矢印</kbd> - 1 つ左のセルへ移動。
+- <kbd>右矢印</kbd> - 1 つ右のセルへ移動。
+- <kbd>CTRL</kbd> + <kbd>左矢印</kbd> または <kbd>HOME</kbd> - 左端のセルへ移動。
+- <kbd>CTRL</kbd> + <kbd>右矢印</kbd> または <kbd>END</kbd> - 右端のセルへ移動。
+
+<PlatformBlock for="WebComponents, Blazor, React">
+## スタイル設定
+
+定義済みのテーマに加えて、利用可能な [CSS プロパティ](../theming-grid.md)のいくつかを設定することで、グリッドをさらにカスタマイズできます。
+一部の色を変更したい場合は、最初にグリッドのクラスを設定する必要があります。
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="grid">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+Then set the related CSS properties for that class:
+
+```css
+.grid {
+    --ig-grid-summary-background-color:#e0f3ff;
+    --ig-grid-summary-focus-background-color: rgba( #94d1f7, .3 );
+    --ig-grid-summary-label-color: rgb(228, 27, 117);
+    --ig-grid-summary-result-color: black;
+}
+```
+
+### Demo
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+<Sample src="/{ComponentSample}/groupby-summary-styling" height={710} alt="{Platform} {ComponentTitle} groupby summary styling" />
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<Sample src="/{ComponentSample}/data-summary-options-styling" height={710} alt="{Platform} {ComponentTitle} summary styling" />
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="hierarchicalGrid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} class="hierarchicalGrid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="hierarchicalGrid">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+Then set the related CSS properties for that class:
+
+```css
+.hierarchicalGrid {
+    --ig-grid-summary-background-color:#e0f3ff;
+    --ig-grid-summary-focus-background-color: rgba( #94d1f7, .3 );
+    --ig-grid-summary-label-color: rgb(228, 27, 117);
+    --ig-grid-summary-result-color: black;
+}
+```
+
+### Demo
+
+<Sample src="/{ComponentSample}/data-summary-options-styling" height={710} alt="{Platform} {ComponentTitle} groupby summary styling" />
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## デモ
+
+次に、そのクラスに関連する CSS プロパティを設定します。
+
+```html
+<{ComponentSelector} class="hierarchicalGrid"></{ComponentSelector}>
+```
+
+Following the simplest approach, we create a new theme that extends the [grid-summary-theme]({environment:sassApiUrl}/index.html#function-grid-summary-theme) and accepts the `$background-color`, `$focus-background-color`, `$label-color`, `$result-color`, `$pinned-border-width`, `$pinned-border-style` and `$pinned-border-color` parameters.
+
+```razor
+<{ComponentSelector} class="hierarchicalGrid"></{ComponentSelector}>
+```
+
+The last step is to **include** the component mixins:
+
+```tsx
+<{ComponentSelector} className="hierarchicalGrid">
+</{ComponentSelector}>
+```
+
+> [!Note]
+ >If the component is using an [Emulated](../themes/styles.md#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep`:
+
+ ```scss
+:host {
+    ::ng-deep {
+        @include grid-summary($custom-theme);
+    }
+}
+```css
+.hierarchicalGrid {
+    --ig-grid-summary-background-color:#e0f3ff;
+    --ig-grid-summary-focus-background-color: rgba( #94d1f7, .3 );
+    --ig-grid-summary-label-color: rgb(228, 27, 117);
+    --ig-grid-summary-result-color: black;
+}
+```
+$blue-color: #7793b1;
+$green-color: #00ff2d;
+
+$my-custom-palette: palette($primary: $blue-color, $secondary: $green-color);
+```
+
+And then with [igx-color]({environment:sassApiUrl}/index.html#function-igx-color) we can easily retrieve color from the palette.
+
+```scss
+$custom-theme: grid-summary-theme(
+    $background-color: color($my-custom-palette, "primary", 700),
+    $focus-background-color: color($my-custom-palette, "primary", 800),
+    $label-color: color($my-custom-palette, "secondary", 500),
+    $result-color: color($my-custom-palette, "grays", 900),
+    $pinned-border-width: 2px,
+    $pinned-border-style: dotted,
+    $pinned-border-color: color($my-custom-palette, "secondary", 500)
+);
+```
+
+> [!Note]
+>The `igx-color` and `igx-palette` are powerful functions for generating and retrieving colors. Please refer to [Palettes](../themes/palettes.md) topic for detailed guidance on how to use them.
+
+### Using Schemas
+
+Going further with the theming engine, you can build a robust and flexible structure that benefits from [**schemas**](../themes/sass/schemas.md). A **schema** is a recipe of a theme.
+
+Extend one of the two predefined schemas, that are provided for every component, in this case - [_light-grid-summary]({environment:sassApiUrl}/index.html#variable-_light-grid-summary):
+
+```scss
+// Extending the light grid summary schema
+$my-summary-schema: extend($_light-grid-summary,
+    (
+        background-color: (igx-color: ('primary', 700)),
+        focus-background-color: (igx-color: ('primary', 800)),
+        label-color: (igx-color: ('secondary', 500)),
+        result-color: (igx-color: ('grays', 900)),
+        pinned-border-width: 2px,
+        pinned-border-style: dotted,
+        pinned-border-color: (igx-color: ('secondary', 500))
+    )
+);
+```
+
+In order to apply our custom schema we have to **extend** one of the globals ([light]({environment:sassApiUrl}/index.html#variable-light-schema) or [dark]({environment:sassApiUrl}/index.html#variable-dark-schema)), which is basically pointing out the components with a custom schema, and after that add it to the respective component themes:
+
+```scss
+// Extending the global light-schema
+$my-custom-schema: extend($light-schema,
+    (
+        igx-grid-summary: $my-summary-schema
+    )
+);
+
+// Defining our custom theme with the custom schema
+$custom-theme: grid-summary-theme(
+    $palette: $my-custom-palette,
+    $schema: $my-custom-schema
+);
+```
+
+Don't forget to include the themes in the same way as it was demonstrated above.
+
+<Sample src="/{ComponentSample}/groupby-summary-styling" height={710} alt="{Platform} {ComponentTitle} groupby summary styling" />
+
+
+</PlatformBlock>
+
+## デモ
+
+<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
+<ApiRef pkg="grids" types={["Column"]} />
+<ApiRef pkg="grids" suffix={false} types={["SummaryOperand","NumberSummaryOperand","DateSummaryOperand"]} />
+
+## スタイル設定
+
+<PlatformBlock for="Angular">
+
+ソート動作のスタイル設定は、すべてのテーマ関数とコンポーネント mixins が存在する `index` ファイルをインポートする必要があります。
+
+<ComponentBlock for="Grid">
+- [Selection-based Aggregates](selection-based-aggregates.md)
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ComponentBlock for="Grid">
+- [Column Data Types](column-types.md#default-template)
+- [Virtualization and Performance](virtualization.md)
+- [Paging](paging.md)
+- [Filtering](filtering.md)
+- [Sorting](sorting.md)
+- [Column Moving](column-moving.md)
+- [Column Pinning](column-pinning.md)
+- [Column Resizing](column-resizing.md)
+- [Selection](selection.md)
+</ComponentBlock>
+
+</PlatformBlock>
+
+最も簡単な方法は、[grid-summary-theme]({environment:sassApiUrl}/index.html#function-grid-summary-theme) を拡張する新しいテーマを作成し、`$background-color`、`$focus-background-color`、`$label-color`、`$result-color`、`$pinned-border-width`、`$pinned-border-style`、および `$pinned-border-color` パラメーターを受け取る方法です。
+
+最後にそれぞれのテーマを持つコンポーネント mixins を**含めます**。

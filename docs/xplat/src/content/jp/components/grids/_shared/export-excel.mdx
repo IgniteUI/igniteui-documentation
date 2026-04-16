@@ -1,0 +1,299 @@
+---
+title: "{Platform} {ComponentTitle} エクスポート - {ProductName}"
+description: "{ProductName} {ComponentTitle} のエクスポート機能を使用すると、フィルタリング、ソート、および現在のグリッド状態などの機能を保持したまま、グリッド データを Excel、CSV、および PDF 形式にエクスポートできます。"
+keywords: "{Platform}, {ComponentTitle}, {ComponentName}, {ProductName}, Infragistics, インフラジスティックス"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridExportExcel}"
+_language: ja
+---
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+
+
+# {Platform} {ComponentTitle} エクスポート
+
+<PlatformBlock for="Blazor, React, WebComponents">
+{ProductName} {ComponentTitle} は、Grid Toolbar Exporter コンポーネントを介してデータ エクスポート機能を提供します。表示されたデータを Excel、CSV、または PDF 形式でエクスポートできます。Excel エクスポートは、フィルタリングやソートなどの機能をサポートする MS Excel テーブル形式を使用します。エクスポートを有効にするには、<ApiLink pkg="grids" type="GridToolbarExporter" /> をグリッドのツールバー内に配置します。デフォルトでは、すべてのエクスポート形式が有効になっています。
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+{Platform} {ComponentTitle} の {ProductName} エクスポート サービスは、データを Excel および PDF 形式にエクスポートできます。エクスポート機能は、<ApiLink pkg="grids" type="ExcelExporterService" /> クラスと <ApiLink pkg="grids" type="PdfExporterService" /> クラスにカプセル化されています。Excel エクスポートは、フィルタリングやソートなどの機能をサポートする MS Excel テーブル形式を使用し、PDF エクスポートはグリッドの現在の状態をキャプチャします。エクスポートを開始するには、<ApiLink pkg="grids" type="ExcelExporterService" /> または <ApiLink pkg="grids" type="PdfExporterService" /> の `Export` メソッドを呼び出し、最初の引数として <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> コンポーネントを渡します。
+</PlatformBlock>
+
+## {Platform} エクスポートの例
+
+<Sample src="/{ComponentSample}/excel-exporting" height={750} alt="{Platform} {ComponentTitle} グループ化されたデータのエクスポートの例" />
+
+
+<PlatformBlock for="Angular">
+## {ComponentTitle} のデータのエクスポート
+
+Ignite UI Excel および PDF エクスポーターの使用を開始するには、最初に app.module.ts ファイルで <ApiLink pkg="grids" type="ExcelExporterService" /> および <ApiLink pkg="grids" type="PdfExporterService" /> をインポートし、`providers` 配列にサービスを追加します。
+
+```ts
+// app.module.ts
+import { ExcelExporterService, PdfExporterService } from 'igniteui-{Platform}';
+
+@NgModule({
+  providers: [ ExcelExporterService, PdfExporterService ]
+})
+
+export class AppModule {}
+```
+
+> [!Note]
+> v12.2.1 以降では、エクスポーター サービスは root で提供されます。つまり、AppModule プロバイダーでそれらを宣言する必要はありません。
+
+エクスポートの開始は、コンポーネントのテンプレートでボタンのハンドラーを使用します。
+
+```html
+<{ComponentTitle} #{ComponentTitle} [data]="localData" [autoGenerate]="true"></{ComponentTitle}>
+<button (click)="exportButtonHandler()">Export {ComponentTitle} to Excel</button>
+<button (click)="exportPdfButtonHandler()">Export {ComponentTitle} to PDF</button>
+```
+
+コンストラクターの引数を <ApiLink pkg="grids" type="ExcelExporterService" /> または <ApiLink pkg="grids" type="PdfExporterService" /> として型定義することで、エクスポーター サービスにアクセスでき、{Platform} フレームワークがサービスのインスタンスを提供します。Excel または PDF にデータをエクスポートするには、`Export` メソッドを呼び出し、最初の引数として {ComponentTitle} コンポーネントを渡します。
+
+次のコードは、コンポーネント ファイル内のエクスポート処理を実行します。
+
+```Razor
+<IgbDataGrid data="localData"/>
+<button @onclick="exportButtonHandler">Export to Excel</button>
+<button @onclick="exportPdfButtonHandler">Export to PDF</button>
+```
+
+すべてが正常に完了すると、{ComponentTitle} コンポーネントと 2 つのエクスポート ボタンが表示されます。それぞれのボタンを押すと、エクスポート プロセスがトリガーされ、ブラウザーは <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> コンポーネントのデータを Excel または PDF 形式で含む 「ExportedDataFile.xlsx」 または 「ExportedDataFile.pdf」 という名前のファイルをダウンロードします。
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+## すべてのデータのエクスポート
+
+**ページング**などのリモート操作を使用する場合、グリッドは一度に完全なデータ セットにアクセスできない場合があります。このような場合は、[Excel エクスポート サービス](../exporter-excel.md)を使用し、利用可能な場合は完全なデータ コレクションを渡すことをお勧めします。
+
+```ts
+public exportButtonHandler() {
+  this.excelExportService.exportData(this.localData, new ExcelExporterOptions('ExportedDataFile'));
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## グループ化されたデータのエクスポート
+
+グループ化されたデータをエクスポートするには、`{ComponentName}` を 1 つ以上の列でグループ化する必要があります。ブラウザーは、選択した列でグループ化された Excel 形式の `{ComponentName}` コンポーネントからのデータを含む 「ExportedDataFile.xlsx」 という名前のファイルをダウンロードします。トピックのはじめに例があります。
+
+```ts
+public exportButtonHandler() {
+  this.excelExportService.exportData(this.localData, new ExcelExporterOptions('ExportedDataFile'));
+}
+```
+
+When offering PDF downloads for remote data, consider fetching the complete data set first and then calling `export` so the document mirrors what users expect to see.
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+## 複数列ヘッダー グリッドのエクスポート
+
+定義された[複数列ヘッダー](multi-column-headers.md)を使用して <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> をエクスポートできます。すべてのヘッダーは、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> に表示されるときに、エクスポートされた Excel ファイルに反映されます。エクスポートされたデータから定義された複数列ヘッダーを除外する場合は、`ExporterOption` `IgnoreMultiColumnHeaders` を **true** に設定できます。
+
+<PlatformBlock for="Angular">
+<Sample src="/{ComponentSample}/excel-exporting" height={750} alt="{Platform} {ComponentTitle} Grouped Data Excel Exporter Example" />
+</PlatformBlock>
+
+</ComponentBlock>
+
+## 固定された列ヘッダーを使用してグリッドをエクスポートする
+
+デフォルトでは、Excel エクスポーター サービスは、スクロール可能な (固定されていない) 列ヘッダーを使用してグリッドをエクスポートします。多くのシナリオでは、エクスポートされた Excel ファイルの上部にすべてのヘッダーを固定し、ユーザーがレコードをスクロールしても常に表示されるようにしたい場合があります。これを実現するには、`ExporterOption` `FreezeHeaders` を **true** に設定します。
+
+> [!Note]
+> PDF エクスポートには、ドキュメントの上部に列ヘッダー行が自動的に含まれるため、読者がファイルを開いたり印刷したりしても同じコンテキストが保持されます。
+
+> [!Note]
+> <ApiLink pkg="grids" type="GridToolbarExporter" /> is also configured to demonstrate how you can control which export formats are available to end users. Use the toolbar exporter options to toggle Excel, CSV, or PDF buttons:
+> - `export-excel`, `export-csv`, `export-pdf`
+> - `exportExcel`, `exportCsv`, `exportPdf`
+> - `ExportExcel`, `ExportCsv`, `ExportPdf`
+
+<Sample src="/{ComponentSample}/multi-column-headers-export" height={750} alt="{Platform} {ComponentTitle} 複数列ヘッダーのエクスポートの例" />
+
+## エクスポートするコンテンツのカスタマイズ
+
+
+上記の例では、Excel Exporter サービスはすべての使用可能なデータをエクスポートします。行または列全体のエクスポートをしない方が良い場合があります。これを実現するには、それぞれ各列と各行に対して発生する `columnExporting` および `rowExporting` イベントをサブスクライブし、イベント引数オブジェクトの `cancel` プロパティを **true** に設定してイベントをキャンセルします。
+
+以下の例では、ヘッダーが 「Age」 で、インデックスが 1 の場合、エクスポートから列を除外します。
+
+<PlatformBlock for="Angular">
+```ts
+// component.ts
+
+this.excelExportService.columnExporting.subscribe((args: IColumnExportingEventArgs) => {
+  if (args.header == 'Age' && args.columnIndex == 1) {
+      args.cancel = true;
+  }
+});
+this.excelExportService.export(this.{ComponentTitle}, new ExcelExporterOptions('ExportedDataFile'));
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="Grid, TreeGrid">
+```ts
+constructor() {
+  var gridToolbarExporter1 = document.getElementById('gridToolbarExporter1') as IgcGridToolbarExporterComponent;
+  gridToolbarExporter1.addEventListener("exportStarted", this.webGridExportEventFreezeHeaders);
+}
+
+public webGridExportEventFreezeHeaders(args: any): void {
+  args.detail.options.freezeHeaders = true;
+}
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="HierarchicalGrid">
+```ts
+constructor() {
+  var hGridToolbarExporter = document.getElementById('hGridToolbarExporter') as IgcGridToolbarExporterComponent;
+  hGridToolbarExporter.addEventListener("exportStarted", this.webGridExportEventFreezeHeaders);
+}
+
+public webGridExportEventFreezeHeaders(args: CustomEvent<IgcExporterEvent>): void {
+  args.detail.options.freezeHeaders = true;
+}
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+```tsx
+function exportEventFreezeHeaders(args: IgrExporterEventArgs) {
+    args.detail.options.freezeHeaders = true;
+  }
+
+<IgrGridToolbar>
+  <IgrGridToolbarActions>
+    <IgrGridToolbarExporter onExportStarted={exportEventFreezeHeaders}></IgrGridToolbarExporter>
+  </IgrGridToolbarActions>
+</IgrGridToolbar>
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+ <{ComponentSelector}>
+    <IgbGridToolbar>
+      <IgbGridToolbarActions>
+        <IgbGridToolbarExporter
+          ExportExcel="true" ExportStartedScript="WebGridExportEventFreezeHeaders">
+        </IgbGridToolbarExporter>
+      </IgbGridToolbarActions>
+    </IgbGridToolbar>
+ </{ComponentSelector}>
+
+igRegisterScript("WebGridExportEventFreezeHeaders", (ev) => {
+    ev.detail.options.freezeHeaders = false;
+}, false);
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+<ComponentBlock for="HierarchicalGrid">
+```razor
+ <{ComponentSelector}>
+    <IgbGridToolbar>
+      <IgbGridToolbarActions>
+        <IgbGridToolbarExporter
+          ExportExcel="true" ExportStartedScript="WebHierarchicalGridExportEventFreezeHeaders">
+        </IgbGridToolbarExporter>
+      </IgbGridToolbarActions>
+    </IgbGridToolbar>
+ </{ComponentSelector}>
+
+igRegisterScript("WebHierarchicalGridExportEventFreezeHeaders", (ev) => {
+    ev.detail.options.freezeHeaders = false;
+}, false);
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## 既知の問題と制限
+
+|制限|説明|
+|--- |--- |
+|ワークシートの最大サイズ|Excel でサポートされているワークシートの最大サイズは、1,048,576 行 x 16,384 列です。|
+|セルのスタイル設定|Excel エクスポーター サービスは、セル コンポーネントに適用されたカスタム スタイルのエクスポートをサポートしていません。このようなシナリオでは、[Excel ライブラリ](../../excel-library.md)を使用することをお勧めします。|
+|幅の広い PDF レイアウト|非常に幅の広い Grid は、PDF の列がページに収まるように縮小されることがあります。ドキュメントを読みやすく保つために、エクスポートする前に列幅を適用するか、優先度の低いフィールドを非表示にしてください。|
+
+|制限|説明|
+|--- |--- |
+|階層レベル|Excel エクスポーター サービスは、最大 8 レベルの階層を作成できます。|
+|ワークシートの最大サイズ|Excel でサポートされているワークシートの最大サイズは、1,048,576 行 x 16,384 列です。|
+|セルのスタイル設定|Excel エクスポーター サービスは、セル コンポーネントに適用されたカスタム スタイルのエクスポートをサポートしていません。このようなシナリオでは、[Excel ライブラリ](../../excel-library.md)を使用することをお勧めします。|
+|幅の広い PDF レイアウト|非常に幅の広い Grid は、PDF の列がページに収まるように縮小されることがあります。ドキュメントを読みやすく保つために、エクスポートする前に列幅を適用するか、優先度の低いフィールドを非表示にしてください。|
+
+```ts
+// component.ts
+
+this.excelExportService.columnExporting.subscribe((args: IColumnExportingEventArgs) => {
+  if (args.header == 'Age' && args.columnIndex == 1) {
+      args.cancel = true;
+  }
+});
+this.excelExportService.export(this.{ComponentTitle}, new ExcelExporterOptions('ExportedDataFile'));
+```
+
+|制限|説明|
+|--- |--- |
+|階層レベル|Excel エクスポーター サービスは、最大 8 レベルの階層を作成できます。|
+|ワークシートの最大サイズ|Excel でサポートされているワークシートの最大サイズは、1,048,576 行 x 16,384 列です。|
+|ピン固定列された列のエクスポート|エクスポートされた Excel ファイルでは、ピン固定列は固定されませんが、グリッドに表示されるのと同じ順序で表示されます。|
+|幅の広い PDF レイアウト|非常に幅の広い Grid は、PDF の列がページに収まるように縮小されることがあります。ドキュメントを読みやすく保つために、エクスポートする前に列幅を適用するか、優先度の低いフィールドを非表示にしてください。|
+</PlatformBlock>
+
+## API リファレンス
+
+<ComponentBlock for="Grid">
+- `ExcelExporterService`
+- `ExcelExporterOptions`
+- `PdfExporterService`
+- `PdfExporterOptions`
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+- `{ComponentName}`
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+|Limitation|Description|
+|--- |--- |
+|Hierarchy levels|The excel exporter service can create up to 8 levels of hierarchy.|
+|Max worksheet size|The maximum worksheet size supported by Excel is 1,048,576 rows by 16,384 columns.|
+|Exporting pinned columns|In the exported Excel file, the pinned columns will not be frozen but will be displayed in the same order as they appear in the grid.|
+|Wide PDF layouts|Very wide grids can force PDF columns to shrink to fit the page. Apply column widths or hide low-priority fields before exporting to keep the document legible.|
+</ComponentBlock>
+
+## その他のリソース
+
+<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
+
+## Additional Resources
+
+Our community is active and always welcoming to new ideas.
+
+- [{ProductName} **Forums**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

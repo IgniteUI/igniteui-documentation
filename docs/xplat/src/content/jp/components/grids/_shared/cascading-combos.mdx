@@ -1,0 +1,327 @@
+---
+title: "{Platform} {ComponentTitle} カスケード コンボ - {ProductName}"
+description: "{Platform} {ComponentTitle} を使用して、{ComponentTitle} のカスケード コンボを介して更新を実行します。デモと例をお試しください。"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス"
+license: commercial
+_language: ja
+sharedComponents: ["Grid"]
+mentionedTypes: ["Column", "Combo"]
+namespace: Infragistics.Controls
+---
+import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+
+
+# Cascading Combos (カスケード コンボ) を含む {Platform} {ComponentTitle}
+
+{ComponentTitle} の編集機能では、カスケード コンボボックス コンポーネントを使用する機会が提供されます。前の <ApiLink type="Combo" /> で値を選択すると、ユーザーは次の {Platform} Combobox コンポーネントでの選択に関連するデータのみを受け取ります。
+
+## カスケード コンボを使用した {Platform} {ComponentTitle} サンプルの概要
+
+以下のサンプルは、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> がネストされた Cascading <ApiLink type="Combo" /> コンポーネントとどのように動作するかを示しています。
+
+
+
+
+<ComponentBlock for="Grid">
+<Sample src="/{ComponentSample}/cascading-combo" height={500} alt="{Platform} {ComponentTitle} Cascading Combos Example" />
+</ComponentBlock>
+
+## 設定
+
+列の編集を有効にするには、`Editable` プロパティが **true** に設定されていることを確認してください。
+
+列の編集が有効になったら、<ApiLink type="Combo" /> を追加することから始めることができます。ここで、単一選択を 1 つだけ使用できるようにするには、`SingleSelect` プロパティを設定する必要があることに注意してください。
+
+
+<PlatformBlock for="WebComponents, Blazor, React">
+<ApiLink type="Combo" /> を使い始めるには、まずコンボをインポートする必要があります。
+
+
+<PlatformBlock for="WebComponents">
+```ts
+import { IgcComboComponent, defineAllComponents } from 'igniteui-webcomponents';
+defineAllComponents();
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+builder.Services.AddIgniteUIBlazor(
+    typeof(IgbGridModule),
+    typeof(IgbComboModule)
+);
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+import { IgrCombo } from 'igniteui-react';
+```
+</PlatformBlock>
+
+次に、コンボを使用して列テンプレートを定義する必要があります。
+
+
+<PlatformBlock for="React">
+```tsx
+   <IgrColumn
+    field="Country"
+    header="Country"
+    bodyTemplate={webGridCountryDropDownTemplate}>
+    </IgrColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+    const webGridCountryDropDownTemplate = (ctx: IgrCellTemplateContext) => {
+        const rowId = ctx.cell?.id.rowID;
+        if (!rowId) return <></>;
+        const comboId = `country_${rowId}`;
+
+        return (
+        <>
+            <IgrCombo
+                data={countries}
+                ref={getComboRef(comboId)}
+                onChange={(event: CustomEvent) => { onCountryChange(rowId, event) }}
+                placeholder="Choose Country..."
+                valueKey="Country"
+                displayKey="Country"
+                singleSelect={true}
+                name={comboId}>
+            </IgrCombo>
+        </>
+        );
+    }
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="Country" Header="Country" BodyTemplate="WebGridCountryDropDownTemplate"></IgbColumn>
+
+@code{
+    public static RenderFragment<IgbCellTemplateContext> WebGridCountryDropDownTemplate = (context) =>
+    {
+        var id = "country_" + context.Cell.Id.RowID;
+        return @<IgbCombo id="@id" Placeholder="Choose Country..." SingleSelect=true ValueKey="Country" DisplayKey="Country" ChangeScript="CountryChange"></IgbCombo>;
+    };
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public webGridCountryDropDownTemplate: IgcRenderFunction<IgcCellTemplateContext> = (ctx: IgcCellTemplateContext) => {
+    const id = ctx.cell.id.rowID;
+    const comboId = "country_" + id;
+    return html`<igc-combo placeholder="Choose Country..." value-key="Country" display-key="Country" id="${comboId}" single-select></igc-combo>`
+}
+```
+</PlatformBlock>
+
+- `displayKey` - オブジェクト配列に必要 - 項目のテキストに使用されるプロパティを指定します。`displayKey` に値が指定されていない場合、コンボは指定された `ValueKey` (存在する場合) を使用します。
+
+選択の変更を処理するには、`onChange` イベントが必要です。発行されたイベント引数には、変更前の選択、現在の選択、追加または削除された項目に関する情報が含まれています。したがって、前のコンボの選択に基づいて値をフィルタリングします。
+
+<PlatformBlock for="Blazor">
+```razor
+//In Javascript
+igRegisterScript("CountryChange", (ctx) => {
+    const value = e.detail.newValue;
+    cell.update(value);
+    const nextCombo = document.getElementById("region_" + cell.id.rowID);
+    const nextProgress = document.getElementById("progress_region_" + cell.id.rowID);
+    if (value === "") {
+        nextCombo.deselect(nextCombo.value);
+        nextCombo.disabled = true;
+        nextCombo.data = [];
+    } else {
+        nextProgress.style.display = "block";
+        setTimeout(() => {
+            nextProgress.style.display = "none";
+            nextCombo.disabled = false;
+            nextCombo.data = this.regions.filter(x => x.Country === value);
+        }, 2000);
+    }
+});
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+ public countries = [...this.worldCitiesAbove500K].filter(x => this.countryNames.indexOf(x.Country) !== -1).filter((value, index, array) => array.findIndex(x => x.Country === value.Country) === index);
+public bindEventsCountryCombo(rowId: any, cell: any) {
+        const comboId = "country_" + rowId;
+        var combo = document.getElementById(comboId) as IgcComboComponent<any>;
+        combo?.addEventListener("igcChange", (e:any) => {
+            const value = e.detail.newValue[0];
+            cell.update(value);
+            const nextCombo = document.getElementById("region_" + cell.id.rowID) as IgcComboComponent<any>;
+            const nextProgress = document.getElementById("progress_region_" + cell.id.rowID) as IgcLinearProgressComponent;
+            if (value === "") {
+                nextCombo.deselect(nextCombo.value);
+                nextCombo.disabled = true;
+                nextCombo.data = [];
+            } else {
+                nextProgress.style.display = "block";
+                setTimeout(() => {
+                    nextProgress.style.display = "none";
+                    nextCombo.disabled = false;
+                    nextCombo.data = this.regions.filter(x => x.Country === value);
+                }, 2000);
+
+            }
+        });
+        combo?.addEventListener("igcOpening", (e:any) => {
+            var currCombo = e.target;
+            if (currCombo.data.length === 0) {
+                combo.data = this.countries;
+            };
+        });
+    }
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+    const onCountryChange = (rowId: string, event: CustomEvent) => {
+        const regionCombo = getComboRef(`region_${rowId}`).current;
+        const cityCombo = getComboRef(`city_${rowId}`).current;
+        const regions = regions;
+        const newValue = event.detail.newValue[0];
+
+        if (newValue === undefined) {
+            regionCombo.deselect(regionCombo.value);
+            regionCombo.disabled = true;
+            regionCombo.data = [];
+
+            cityCombo.deselect(regionCombo.value);
+            cityCombo.disabled = true;
+            cityCombo.data = [];
+        } else {
+            regionCombo.disabled = false;
+            regionCombo.data = regions.filter(x => x.Country === newValue);
+
+            cityCombo.deselect(cityCombo.value);
+            cityCombo.disabled = true;
+            cityCombo.data = [];
+        }
+    }
+```
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+`SimpleComboBox` コンポーネントの使用を開始するには、最初に `IgxSimpleComboModule` を `app.module.ts` ファイルにインポートする必要があります。
+
+```ts
+import { IgcComboComponent, defineAllComponents } from 'igniteui-webcomponents';
+defineAllComponents();
+```
+
+次に、テンプレート内でコンボ `SimpleCombo` をデータにバインドする必要があります。
+
+- `displayKey` - オブジェクト配列に必要 - 項目のテキストに使用されるプロパティを指定します。`displayKey` に値が指定されていない場合、Simple ComboBox は指定された `valueKey` (存在する場合) を使用します。
+
+```razor
+builder.Services.AddIgniteUIBlazor(
+    typeof(IgbGridModule),
+    typeof(IgbComboModule)
+);
+```
+
+選択の変更を処理するには、`selectionChanging` が必要です。発行されたイベント引数 `IComboSelectionChangingEventArgs` には、変更前の選択、現在の選択、追加または削除された項目に関する情報が含まれています。したがって、前のコンボの選択に基づいて値をフィルタリングします。
+
+```tsx
+import { IgrCombo } from 'igniteui-react';
+```
+
+```tsx
+   <IgrColumn
+    field="Country"
+    header="Country"
+    bodyTemplate={webGridCountryDropDownTemplate}>
+    </IgrColumn>
+```
+
+最後に、データのリストを読み込むときに必要な <ApiLink type="LinearProgress" /> を追加します。
+`id` 属性の値を設定するには `id` が必要です。
+
+```tsx
+    const webGridCountryDropDownTemplate = (ctx: IgrCellTemplateContext) => {
+        const rowId = ctx.cell?.id.rowID;
+        if (!rowId) return <></>;
+        const comboId = `country_${rowId}`;
+
+        return (
+        <>
+            <IgrCombo
+                data={countries}
+                ref={getComboRef(comboId)}
+                onChange={(event: CustomEvent) => { onCountryChange(rowId, event) }}
+                placeholder="Choose Country..."
+                valueKey="Country"
+                displayKey="Country"
+                singleSelect={true}
+                name={comboId}>
+            </IgrCombo>
+        </>
+        );
+    }
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+最後に、データのリストを読み込むときに必要な <ApiLink type="LinearProgress" /> を追加します。
+`id` 属性の値を設定するには `id` が必要です。
+
+```razor
+<IgbColumn Field="Country" Header="Country" BodyTemplate="WebGridCountryDropDownTemplate"></IgbColumn>
+
+@code{
+    public static RenderFragment<IgbCellTemplateContext> WebGridCountryDropDownTemplate = (context) =>
+    {
+        var id = "country_" + context.Cell.Id.RowID;
+        return @<IgbCombo id="@id" Placeholder="Choose Country..." SingleSelect=true ValueKey="Country" DisplayKey="Country" ChangeScript="CountryChange"></IgbCombo>;
+    };
+}
+
+```
+
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+最後に、データのリストを読み込むときに必要な <ApiLink type="LinearProgress" /> を追加します。
+
+
+
+```ts
+public webGridCountryDropDownTemplate: IgcRenderFunction<IgcCellTemplateContext> = (ctx: IgcCellTemplateContext) => {
+    const id = ctx.cell.id.rowID;
+    const comboId = "country_" + id;
+    return html`<igc-combo placeholder="Choose Country..." value-key="Country" display-key="Country" id="${comboId}" single-select></igc-combo>`
+}
+```
+</PlatformBlock>
+
+## 既知の問題と制限
+
+|制限|説明|
+|--- |--- |
+| コンボ ドロップダウン リストは他の UI 要素の後ろに隠れる場合があります。 | グリッド内の要素の積み重ね順序により、コンボ ドロップダウンがヘッダーやフッターなどの他の要素の後ろに隠れる場合があります。 |
+
+
+## {Platform} {ComponentTitle} API メンバー
+
+<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
+<ApiRef pkg="grids" types={["Column","Combo"]} />
+<ApiRef types={["LinearProgress"]} />

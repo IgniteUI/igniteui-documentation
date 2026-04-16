@@ -45,7 +45,7 @@ export default createDocsSite({
 	title: 'Ignite UI for Angular',
 	description: 'Component and API reference docs for Ignite UI for Angular.',
 	platform: 'angular',
-	navLang: docsLang === 'jp' ? 'ja' : docsLang,
+	navLang: docsLang,
 	mode,
 	productLinks: Object.values(IGDOCS_PLATFORMS).map(({ label, key, base: b }) => ({
 		label,

@@ -1,0 +1,344 @@
+---
+title: "{Platform} {ComponentTitle} セル結合 - {ProductName}"
+description: "{ProductName} for {Platform} {ComponentTitle} の複数行レイアウト機能を使用して、列をより強力な方法で配置およびサイズ設定します。デモと例をお試しください。"
+keywords: cell merging, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, セル結合, インフラジスティックス
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridCellMerging}"
+_language: ja
+---
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+
+
+# {Platform} {ComponentTitle} セル結合
+
+<PlatformBlock for="WebComponents, React">
+Ignite UI for {Platform} {ComponentTitle} には、同じ値を持つ隣接セルを 1 つの大きなセルに結合するセル結合機能があります。結合は列内で縦方向に適用され、重複する値を減らして可読性を向上させます。既定ではデータ値の一致でセル結合されるほか、カスタム条件を設定して結合するように構成できます。
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+Ignite UI for {Platform} {ComponentTitle} には、同じ値を持つ隣接セルを 1 つの大きなセルに結合するセル結合機能があります。結合は列内で縦方向に適用され、重複する値を減らして可読性を向上させます。
+</PlatformBlock>
+## {Platform} {ComponentTitle} セル結合の例
+
+<ComponentBlock for="Grid">
+<Sample src="/{ComponentSample}/cell-merge" height={600} alt="{Platform} {ComponentTitle} セル結合の例" />
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+<Sample src="/{ComponentSample}/cell-merge" height={475} alt="{Platform} {ComponentTitle} セル結合の例" />
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+<Sample src="/{ComponentSample}/cell-merge" height={755} alt="{Platform} {ComponentTitle} セル結合の例" />
+</ComponentBlock>
+
+## セル結合の有効化と使用
+
+グリッドでのセル結合は、以下の 2 つのレベルで制御されます:
+- グリッド レベルの結合モード - 結合がいつ適用されるかを決定
+- 列レベルの結合トグル - どの列でセルを結合できるかを決定
+
+### グリッド結合モード
+
+グリッドは、<ApiLink pkg="grids" type="GridCellMergeMode" kind="type" prefixed={false} /> 列挙型の値を受け入れる `cellMergeMode` プロパティを公開します。
+- `always` - ソート状態に関係なく、結合条件を満たすすべての隣接セルを結合。
+- `onSort` - 列がソートされているときのみ隣接セルを結合 **(デフォルト値)**。
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} data={data} cellMergeMode={cellMergeMode} >
+    ...
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const cellMergeMode: GridCellMergeMode = 'always';
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} cell-merge-mode="always">
+    ...
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Data="Data" CellMergeMode="CellMergeMode" >
+    ...
+</{ComponentSelector}>
+
+@code {
+    private GridCellMergeMode CellMergeMode = GridCellMergeMode.Always;
+}
+```
+</PlatformBlock>
+
+### 列結合のトグル
+列レベルでは、<ApiLink pkg="grids" type="ColumnGroup" member="merge" label="merge" /> プロパティで結合の有効または無効を切り替えます。
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="OrderID" merge={true}></IgrColumn>
+<IgrColumn field="ShipperName" merge={false}></IgrColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="OrderID" merge="true"></igc-column>
+<igc-column field="ShipperName" merge="false"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="OrderID" Merge="true"></IgbColumn>
+<IgbColumn Field="ShipperName" Merge="false"></IgbColumn>
+```
+</PlatformBlock>
+
+上記の例では:
+- **OrderID** 列は、隣接する重複値を結合します。
+- **ShipperName** 列は、結合を行わず通常通りに描画されます。
+
+### 組み合わせた例
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} data={data} cellMergeMode={cellMergeMode} autoGenerate={false}>
+    <IgrColumn field="OrderID" header="Order ID" merge={true}></IgrColumn>
+    <IgrColumn field="ShipperName" header="Shipper Name" merge={true}></IgrColumn>
+    <IgrColumn field="Salesperson" header="Salesperson"></IgrColumn>
+</{ComponentSelector}>
+```
+
+
+```tsx
+const cellMergeMode: GridCellMergeMode = 'onSort';
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} cell-merge-mode="onSort" auto-generate="false">
+    <igc-column field="OrderID" header="Order ID" merge="true"></igc-column>
+    <igc-column field="ShipperName" header="Shipper Name" merge="false"></igc-column>
+    <igc-column field="Salesperson" header="Salesperson"></igc-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Data="Data" CellMergeMode="CellMergeMode" AutoGenerate="false">
+    <IgbColumn Field="OrderID" Header="Order ID" Merge="true"></IgbColumn>
+    <IgbColumn Field="ShipperName" Header="Shipper Name" Merge="true"></IgbColumn>
+    <IgbColumn Field="Salesperson" Header="Salesperson"></IgbColumn>
+</{ComponentSelector}>
+
+@code {
+    private GridCellMergeMode CellMergeMode = GridCellMergeMode.OnSort;
+}
+```
+</PlatformBlock>
+
+この例では、グリッドは列がソートされている場合のみ結合を行い、Category 列と Product 列の両方で結合が有効になっています。
+
+<PlatformBlock for="WebComponents, React">
+## カスタム結合条件
+`always` と `onSort` の組み込みモードに加えて、`mergeStrategy` プロパティを使用して独自の結合条件を定義することができます。このストラテジでは、セルの比較方法と結合範囲の計算方法の両方を制御します。
+
+### 結合ストラテジ クラス
+カスタム結合ストラテジは <ApiLink pkg="grids" type="GridMergeStrategy" /> クラスを実装する必要があります:
+
+<PlatformBlock for="React">
+```ts
+export declare class IgrGridMergeStrategy {
+    merge: (
+        data: any[],
+        field: string,
+        comparer: (prevRecord: any, currentRecord: any, field: string) => boolean,
+        result: any[],
+        activeRowIndex?: number,
+        grid?: GridType
+    ) => any[];
+
+    comparer: (prevRecord: any, record: any, field: string) => boolean;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+export declare class IgcGridMergeStrategy {
+    merge: (
+        data: any[],
+        field: string,
+        comparer: (prevRecord: any, currentRecord: any, field: string) => boolean,
+        result: any[],
+        activeRowIndex?: number,
+        grid?: GridType
+    ) => any[];
+
+    comparer: (prevRecord: any, record: any, field: string) => boolean;
+}
+```
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+### Extending the Default Strategy
+
+If you only want to customize part of the behavior (for example, the comparer logic), you can extend the built-in <ApiLink pkg="grids" type="DefaultMergeStrategy" /> and override the relevant methods.
+
+<PlatformBlock for="React">
+```ts
+export class MyCustomStrategy extends IgrDefaultMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+```ts
+export class MyCustomStrategy extends IgcDefaultMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+The `IgxTreeGrid` provides two built-in strategies that implement the `IGridMergeStrategy` interface: `DefaultTreeGridMergeStrategy` and `ByLevelTreeGridMergeStrategy`. `DefaultTreeGridMergeStrategy` merges all cells with the same value, regardless of their hierarchical level. In contrast, `ByLevelTreeGridMergeStrategy` only merges cells if they have the same value and are located at the same level, making level a required condition for merging.
+
+### Extending the Default Strategy
+
+If you only want to customize part of the behavior (for example, the comparer logic), you can extend one of the built-in strategies, either `DefaultTreeGridMergeStrategy` or `ByLevelTreeGridMergeStrategy`, and override the relevant methods.
+
+<PlatformBlock for="React">
+```ts
+export class MyCustomStrategy extends IgrDefaultTreeGridMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+export class MyCustomStrategy extends IgcDefaultTreeGridMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+### デフォルトのストラテジを拡張
+一部の動作 (例: comparer ロジック) のみをカスタマイズしたい場合は、組み込みの `DefaultMergeStrategy` を拡張し、必要なメソッドのみをオーバーライドできます。
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} data={data} mergeStrategy={customStrategy}>
+  <IgrColumn field="ActionID" merge={true}></IgrColumn>
+  <IgrColumn field="ProjectName" merge={true}></IgrColumn>
+</{ComponentSelector}>
+```
+
+```ts
+const customStrategy = new MyCustomStrategy() as IgrGridMergeStrategy;
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    const grid = (this.grid = document.getElementById('grid') as IgcGridComponent);
+
+    grid.data = this.data;
+    grid.mergeStrategy = new MyCustomStrategy() as IgcGridMergeStrategy;
+    grid.cellMergeMode = 'always';
+}
+```
+
+### Demo
+</PlatformBlock>
+<ComponentBlock for="Grid">
+<Sample src="/{ComponentSample}/cell-merge-custom-sample" height={600} alt="{Platform} {ComponentTitle} Cell Merging Example" />
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+<Sample src="/{ComponentSample}/cell-merge-custom-sample" height={425} alt="{Platform} {ComponentTitle} Cell Merging Example" />
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+<Sample src="/{ComponentSample}/cell-merge-custom-sample" height={755} alt="{Platform} {ComponentTitle} Cell Merging Example" />
+</ComponentBlock>
+
+</PlatformBlock>
+## デフォルトのストラテジを拡張
+一部の動作 (例: comparer ロジック) のみをカスタマイズしたい場合は、組み込みの `DefaultTreeGridMergeStrategy` または `ByLevelTreeGridMergeStrategy` のいずれかを拡張し、必要なメソッドのみをオーバーライドできます。
+<ComponentBlock for="Grid">
+- **Expand/Collapse**: if a feature (such as master-detail, grouping, etc.) generates a non-data row, then the cell merging is interrupted and the group will be split.
+</ComponentBlock>
+- **Excel export**: merged cells remain merged when exported to Excel.
+- **Column pinning**: cells remain merged when a column is pinned and are displayed in the pinned area.
+- **Row pinning**: cells merge only withing their containing area, i.e. cells of pinned rows merge only with cells of other pinned rows, while cells of unpinned rows merge only with cells of unpinned rows.
+- **Updating/Editing**: since activation breaks the merge sequence, only a single cell will be in edit mode.
+- **Row selection**: if selected rows intersect merged cells, all related merged cells should be marked as part of the selection.
+- **Navigation/Activation**: when a cell is active, all merged cells in the same row become single cells, i.e. their merge sequence is broken. This also includes activation via keyboard navigation.
+
+>[!NOTE]
+> If a merged cell is clicked, the closest cell from the merge sequence will become active.
+
+<ComponentBlock for="Grid">
+## カスタム ストラテジの適用
+
+定義したカスタム ストラテジは、`mergeStrategy` プロパティを通じてグリッドに割り当てます。
+</ComponentBlock>
+
+## デモ
+
+<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
+
+## 機能の統合
+
+セル結合の特性上、他の機能との連携動作について以下の点に注意が必要です:
+
+- **展開と縮小**: マスター詳細、グループ化など、データ以外の行を生成する機能がある場合、その位置でセル結合が中断され、グループが分割されます。
+
+- **Excel エクスポート**: 結合されたセルは、Excel にエクスポートしても結合状態が維持されます。
+- **列のピン固定**: 列がピン固定されてもセルの結合は維持され、ピン固定領域内に表示されます。
+- **行のピン固定**: セルは自身が属する領域内でのみ結合されます。つまり、ピン固定された行のセルはピン固定行のセル同士で、ピン固定されていない行のセルはその中でのみ結合されます。
+- **ナビゲーション/アクティベーション**: セルがアクティブになると、その行内の結合セルはすべて単一セルに分解されます。これはキーボード ナビゲーションによるアクティベーションも含みます。
+- **更新/編集**: アクティブ化によって結合シーケンスが分解されるため、編集モードになるのは単一セルのみです。
+- **行の選択**: 選択された行が結合セルと交差する場合、関連するすべての結合セルが選択対象としてマークされます。
