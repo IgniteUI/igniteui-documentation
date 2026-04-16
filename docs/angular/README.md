@@ -142,7 +142,7 @@ The sidebar is driven by `toc.json`, consumed by the `docs-template` integration
 createDocsSite({
   site: 'https://www.infragistics.com/products/ignite-ui-angular',
   platform: 'angular',
-  navLang: docsLang === 'jp' ? 'ja' : docsLang,
+  navLang: docsLang,
   mode, // 'development' | 'staging' | 'production'
   source: {
     tocPath: `./src/content/${docsLang}/toc.json`,
