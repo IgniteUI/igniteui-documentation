@@ -291,6 +291,30 @@ function filterTocNodes(nodes) {
             // Apply variable substitution to name
             const { exclude, ...rest } = node;
             rest.name = applyReplacements(rest.name || '');
+            // Normalise xplat status string/array → boolean flags
+            // e.g. "NEW" → new:true, "NEW_REACT" fires only for React
+            if (rest.status !== undefined) {
+                const statuses = Array.isArray(rest.status) ? rest.status : [rest.status];
+                const PLAT = PLATFORM.toUpperCase();
+                let resolved = false;
+                // Platform-specific entries take priority
+                for (const s of statuses) {
+                    const u = s.toUpperCase();
+                    if (u === `NEW_${PLAT}`)     { rest.new = true;     resolved = true; break; }
+                    if (u === `UPDATED_${PLAT}`) { rest.updated = true; resolved = true; break; }
+                    if (u === `PREVIEW_${PLAT}`) { rest.preview = true; resolved = true; break; }
+                }
+                // Fall back to generic entries (no platform suffix)
+                if (!resolved) {
+                    for (const s of statuses) {
+                        const u = s.toUpperCase();
+                        if (u === 'NEW')     { rest.new = true;     break; }
+                        if (u === 'UPDATED') { rest.updated = true; break; }
+                        if (u === 'PREVIEW') { rest.preview = true; break; }
+                    }
+                }
+                delete rest.status;
+            }
             if (rest.items) rest.items = filterTocNodes(rest.items);
             return rest;
         });

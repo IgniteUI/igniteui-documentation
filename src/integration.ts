@@ -14,7 +14,7 @@
  *     title: 'My Library',
  *     description: 'Reference docs for My Library.',
  *     platform: 'angular',   // drives CDN head entries + nav prefetch
- *     navLang: 'en',         // 'en' | 'ja' | 'kr'
+ *     navLang: 'en',         // 'en' | 'jp' | 'kr'
  *     source: {
  *       tocPath:  './my-docs/toc.yml',
  *       docsDir:  './my-docs/en/components',
@@ -65,7 +65,7 @@ import {
 } from './llms.ts';
 import { buildSidebarFromToc } from './sidebar';
 import { getNavConfig, getPlatformHead } from './platform';
-import type { HeadEntry, PlatformKey } from './platform.ts';
+import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
 import { JSDOM } from 'jsdom';
 import { visit } from 'unist-util-visit';
 import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
@@ -205,7 +205,7 @@ export interface SiteMetaOptions {
     docsDir?: string;
     sidebar?: SidebarItem[];
     platform?: PlatformKey | null;
-    navLang?: string;
+    navLang?: NavLang;
     /** Build / deployment mode. Exposed via `process.env.DOCS_BUILD_MODE`. */
     mode?: DocsMode;
     /** Named documentation subsets linked from llms.txt and passed to starlight-llms-txt. */
@@ -327,7 +327,7 @@ export const productLinks = ${JSON.stringify(productLinks)};
                                         });
                                         if (res.ok) {
                                             const html = await res.text();
-                                            const igBase = navLang === 'ja' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
+                                            const igBase = navLang === 'jp' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
                                             headerHtml = absolutifyNavUrls(stripScripts(extractOuterHtml(html, '<header[^>]+id="header"')), igBase);
                                             uiFooterHtml = absolutifyNavUrls(stripScripts(extractOuterHtml(html, '<footer[^>]+class="[^"]*\\bui-footer\\b')), igBase);
                                             footerHtml = absolutifyNavUrls(stripScripts(extractOuterHtml(html, '<footer[^>]+id="footer"')), igBase);
@@ -625,7 +625,7 @@ export interface CreateDocsSiteOptions {
     /** Short description for the llms.txt header. */
     description?: string;
     /** Content source paths. */
-    source?: Partial<DocsSiteSource>;
+    source: Partial<DocsSiteSource>;
     /** Sidebar builder options. */
     sidebar?: {
         /** Patterns to exclude from the TOC. */
@@ -636,8 +636,8 @@ export interface CreateDocsSiteOptions {
      * and the build-time nav prefetch endpoint.
      */
     platform?: PlatformKey | null;
-    /** Locale for the nav prefetch URL ('en' | 'ja' | 'kr'). */
-    navLang?: string;
+    /** Locale for the nav prefetch URL. */
+    navLang?: NavLang;
     /**
      * Extra `<head>` entries appended after the platform entries.
      * Same format as Starlight's `head` option.

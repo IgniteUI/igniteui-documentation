@@ -40,6 +40,16 @@ export type PlatformKey =
     | 'slingshot'
     | 'appbuilder';
 
+/** Locale code for nav/API requests and UI string lookups. */
+export type NavLang = 'en' | 'jp' | 'kr';
+
+/**
+ * Theme identifier used by nav/footer components.
+ * `'igniteui'` is the catch-all for all IG-family sites that don't have a
+ * more specific key; the rest match `PlatformKey` exactly.
+ */
+export type NavTheme = PlatformKey | 'igniteui';
+
 export interface PlatformMeta {
     title: string; description: string;
     key: PlatformKey; devPort: number;
@@ -233,10 +243,10 @@ export function getPlatformHead(platform: string, lang = 'en'): HeadEntry[] {
  * Used internally by siteMetaIntegration to decide what to prefetch.
  *
  * @param platform - Platform identifier, or `null` for no nav.
- * @param lang - Locale for the nav URL ('en' | 'ja' | 'kr').
+ * @param lang - Locale for the nav URL ('en' | 'jp' | 'kr').
  */
 export function getNavConfig(platform: string | null, lang = 'en'): NavConfig {
-    const igBase = lang === 'ja' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
+    const igBase = lang === 'jp' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
     switch (platform) {
         case 'appbuilder':
             return { navType: 'appbuilder', navUrl: 'https://www.appbuilder.dev/header-footer-export' };
