@@ -106,7 +106,11 @@ function ensureAsideImport(content) {
     const header = headerEnd >= 0 ? content.slice(0, headerEnd) : content.slice(0, 2000);
     if (header.includes(importLine)) return content;
 
-    return content.replace(/^(---[\s\S]*?^---)\r?\n/m, `$1\n${importLine}\n\n`);
+    // Check if Sample import already exists - if so, don't add blank line after Aside
+    const hasSampleImport = content.includes("import Sample from 'docs-template/components/mdx/Sample.astro'");
+    const spacing = hasSampleImport ? '\n' : '\n\n';
+    
+    return content.replace(/^(---[\s\S]*?^---)\r?\n/m, `$1\n${importLine}${spacing}`);
 }
 
 /**
@@ -144,8 +148,8 @@ export function buildGeneratedDoc(raw, context, componentKey) {
     result = result.replace(/^\s*(?=---)/, '');
 
     result = transformStyleBlocks(result);
-    result = ensureAsideImport(result);
     result = ensureSampleImport(result);
+    result = ensureAsideImport(result);
 
     return result;
 }
