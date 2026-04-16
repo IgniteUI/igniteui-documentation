@@ -144,6 +144,7 @@ export function buildGeneratedDoc(raw, context, componentKey) {
     result = applyReplacements(result, context);
 
     result = result.replace(/<!--\s*markdownlint-disable[^>]*-->\s*/g, '');
+    result = result.replace(/\{\/\*\s*markdownlint-disable[^*]*\*\/\}\s*\n?/g, '');
     result = result.replace(/\n{3,}/g, '\n\n');
     result = result.replace(/^\s*(?=---)/, '');
 
