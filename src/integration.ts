@@ -821,7 +821,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 },
                 plugins: [
                     // Generates /llms-full.txt and /llms-small.txt (full-content combined exports).
-                    // starlight-llms-txt also prerenders /llms.txt; site MetaIntegration overwrites
+                    // starlight-llms-txt also prerenders /llms.txt; siteMetaIntegration overwrites
                     // it in astro:build:done (prod) and intercepts it in dev via middleware.
                     starlightLlmsTxt({ projectName: title, description, customSets: llmsSets }),
                     ...(starlightExtra.plugins as any[] ?? []),
