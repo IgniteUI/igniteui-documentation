@@ -457,6 +457,9 @@
     }
 
     document.querySelectorAll('.ig-code-view').forEach((widget, index) => {
+      if (widget.dataset.cvInit) return;
+      widget.dataset.cvInit = 'true';
+
       const src          = widget.dataset.src;
       const demosBaseUrl = widget.dataset.demosBaseUrl || '';
       const height       = widget.dataset.height       || '400px';
@@ -521,4 +524,6 @@
   } else {
     initCodeViews();
   }
+  // Re-run after Astro View Transitions client-side navigation.
+  document.addEventListener('astro:page-load', initCodeViews);
 })();
