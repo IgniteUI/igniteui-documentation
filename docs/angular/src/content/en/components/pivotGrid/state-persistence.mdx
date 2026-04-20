@@ -5,27 +5,17 @@ keywords: state persistence, ignite ui for angular, infragistics
 license: commercial
 _canonicalLink: grid/state-persistence
 ---
+
 import Sample from 'docs-template/components/mdx/Sample.astro';
-
-
-
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
 
 # Angular Pivot Grid State Persistence
 
-Тhe igxGridState directive allows developers to easily save and restore the grid state. When the [`IgxGridState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html) directive is applied on the grid, it exposes the [`getState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#getState) and [`setState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#setState) methods that developers can use to achieve state persistence in any scenario.
+Тhe igxGridState directive allows developers to easily save and restore the grid state. When the <ApiLink type="GridState" suffix={false} /> directive is applied on the grid, it exposes the <ApiLink type="GridState" suffix={false} member="getState" label="getState" /> and <ApiLink type="GridState" suffix={false} member="setState" label="setState" /> methods that developers can use to achieve state persistence in any scenario.
 
 ## Supported Features
 
-[`IgxGridState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html) directive supports saving and restoring the state of the following features:
-
-
-
-
-
-
-
-
-
+<ApiLink type="GridState" suffix={false} /> directive supports saving and restoring the state of the following features:
 
 - `Sorting`
 - `Filtering`
@@ -34,18 +24,16 @@ import Sample from 'docs-template/components/mdx/Sample.astro';
 - `Column Selection`
 - `Expansion`
 - `Pivot Configuration`
-  - Pivot Configuration properties defined by the [`IPivotConfiguration`]({environment:angularApiUrl}/interfaces/ipivotconfiguration.html) interface.
+  - Pivot Configuration properties defined by the <ApiLink type="IPivotConfiguration" kind="interface" prefixed={false} /> interface.
   - Pivot Dimension and Value functions are restored using application level code, see [Restoring Pivot Configuration](/pivotGrid/state-persistence#restoring-pivot-configuration) section.
   - Pivot Row and Column strategies are also restored using application level code, see [Restoring Pivot Strategies](/pivotGrid/state-persistence#restoring-pivot-strategies) section.
 
-
-
 >[!NOTE]
-> The `Row Selection`  feature requires the [`primaryKey`]({environment:angularApiUrl}/classes/IgxGridComponent.html#primaryKey) property to be set, so it can be stored/restored correctly.
+> The `Row Selection`  feature requires the <ApiLink type="Grid" member="primaryKey" label="primaryKey" /> property to be set, so it can be stored/restored correctly.
 
 ## Usage
 
-[`getState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#getState) - This method returns the grid state in a serialized JSON string, so developers can just take it and save it on any data storage (database, cloud, browser localStorage, etc). The method accepts first optional parameter `serialize`, which determines whether [`getState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#getState) will return an [`IGridState`]({environment:angularApiUrl}/interfaces/igridstate.html) object or a serialized JSON string.
+<ApiLink type="GridState" suffix={false} member="getState" label="getState" /> - This method returns the grid state in a serialized JSON string, so developers can just take it and save it on any data storage (database, cloud, browser localStorage, etc). The method accepts first optional parameter `serialize`, which determines whether <ApiLink type="GridState" suffix={false} member="getState" label="getState" /> will return an <ApiLink type="IGridState" kind="interface" prefixed={false} /> object or a serialized JSON string.
 The developer may choose to get only the state for a certain feature/features, by passing in the feature name, or an array with feature names as a second argument.
 
 ```typescript
@@ -59,30 +47,22 @@ const gridState: IGridState = state.getState(false);
 const sortingFilteringStates: IGridState = state.getState(false, ['sorting', 'filtering']);
 ```
 
-[`setState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#setState) - The [`setState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#setState) method accepts the serialized JSON string or [`IGridState`]({environment:angularApiUrl}/interfaces/igridstate.html) object as argument and will restore the state of each feature found in the object/JSON string.
+<ApiLink type="GridState" suffix={false} member="setState" label="setState" /> - The <ApiLink type="GridState" suffix={false} member="setState" label="setState" /> method accepts the serialized JSON string or <ApiLink type="IGridState" kind="interface" prefixed={false} /> object as argument and will restore the state of each feature found in the object/JSON string.
 
 ```typescript
 state.setState(gridState);
 state.setState(sortingFilteringStates)
 ```
 
-`options` - The [`options`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#options) object implements the [`IGridStateOptions`]({environment:angularApiUrl}/interfaces/igridstateoptions.html) interface, i.e. for every key, which is the name of a certain feature, there is the boolean value indicating if this feature state will be tracked. [`getState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#getState) method will not put the state of these features in the returned value and [`setState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#setState) method will not restore state for it.
+`options` - The <ApiLink type="GridState" suffix={false} member="options" label="options" /> object implements the <ApiLink type="IGridStateOptions" kind="interface" prefixed={false} /> interface, i.e. for every key, which is the name of a certain feature, there is the boolean value indicating if this feature state will be tracked. <ApiLink type="GridState" suffix={false} member="getState" label="getState" /> method will not put the state of these features in the returned value and <ApiLink type="GridState" suffix={false} member="setState" label="setState" /> method will not restore state for it.
 
 ```typescript
 public options =  { cellSelection: false; sorting: false; }
 ```
 
-
-
-
-
-
-
 ```html
 <igx-pivot-grid [igxGridState]="options"></igx-pivot-grid>
 ```
-
-
 
 The simple to use single-point API's allows to achieve a full state persistence functionality in just a few lines of code. **Copy paste the code from below** - it will save the grid state in the browser `sessionStorage` object every time the user leaves the current page. Whenever the user returns to main page, the grid state will be restored. No more need to configure those complex advanced filtering and sorting expressions every time to get the data you want - do it once and have the code from below do the rest for your users:
 
@@ -112,14 +92,9 @@ public restoreGridState() {
 }
 ```
 
-
-
-
-
-
 ## Restoring Pivot Configuration
 
-[`IgxGridState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html) will not persist pivot dimension functions, value formatters, etc. by default (see [`limitations`](/pivotGrid/state-persistence#limitations)). Restoring any of these can be achieved with code on application level. The `IgxPivotGrid` exposes two events which can be used to set back any custom functions you have in the configuration: [`dimensionInit`]({environment:angularApiUrl}/classes/igxpivotgridcomponent.html#dimensionInit) and [`valueInit`]({environment:angularApiUrl}/classes/igxpivotgridcomponent.html#valueInit). Let's show how to do this:
+<ApiLink type="GridState" suffix={false} /> will not persist pivot dimension functions, value formatters, etc. by default (see [`limitations`](/pivotGrid/state-persistence#limitations)). Restoring any of these can be achieved with code on application level. The `IgxPivotGrid` exposes two events which can be used to set back any custom functions you have in the configuration: <ApiLink type="PivotGrid" member="dimensionInit" label="dimensionInit" /> and <ApiLink type="PivotGrid" member="valueInit" label="valueInit" />. Let's show how to do this:
 
 - Assign event handlers for the `dimensionInit` and `valueInit` events:
 
@@ -129,7 +104,7 @@ public restoreGridState() {
 </igx-pivot-grid>
 ```
 
-> The [`dimensionInit`]({environment:angularApiUrl}/classes/igxpivotgridcomponent.html#dimensionInit) and [`valueInit`]({environment:angularApiUrl}/classes/igxpivotgridcomponent.html#valueInit) events are emitted for each value and dimension defined in the [`pivotConfiguration`]({environment:angularApiUrl}/classes/igxpivotgridcomponent.html#pivotConfiguration) property.
+> The <ApiLink type="PivotGrid" member="dimensionInit" label="dimensionInit" /> and <ApiLink type="PivotGrid" member="valueInit" label="valueInit" /> events are emitted for each value and dimension defined in the <ApiLink type="PivotGrid" member="pivotConfiguration" label="pivotConfiguration" /> property.
 
 - In the `valueInit` event handler set all custom aggregators, formatters and styles:
 
@@ -180,31 +155,13 @@ public onDimensionInit(dim: IPivotDimension) {
 }
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <Sample src="/pivot-grid/pivot-grid-state-persistence" height={820} alt="" />
-
-
-
-
-
 
 ## Restoring Pivot Strategies
 
-[`IgxGridState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html) will not persist neither remote pivot operations nor custom dimension strategies (For further information see [Pivot Grid Remote Operations](/pivotGrid/pivot-grid-custom) sample) by default (see [`limitations`](/pivotGrid/state-persistence#limitations)). Restoring any of these can be achieved with code on application level. The `IgxGridState` exposes an event called [`stateParsed`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#stateParsed) which can be used to additionally modify the grid state before it gets applied. Let's show how to do this:
+<ApiLink type="GridState" suffix={false} /> will not persist neither remote pivot operations nor custom dimension strategies (For further information see [Pivot Grid Remote Operations](/pivotGrid/pivot-grid-custom) sample) by default (see [`limitations`](/pivotGrid/state-persistence#limitations)). Restoring any of these can be achieved with code on application level. The `IgxGridState` exposes an event called <ApiLink type="GridState" suffix={false} member="stateParsed" label="stateParsed" /> which can be used to additionally modify the grid state before it gets applied. Let's show how to do this:
 
-> [`stateParsed`]({environment:angularApiUrl}/classes/igxgridstatedirective) is only emitted when we are using [`setState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#setState) with string argument.
+> [`stateParsed`]({environment:angularApiUrl}/classes/igxgridstatedirective) is only emitted when we are using <ApiLink type="GridState" suffix={false} member="setState" label="setState" /> with string argument.
 
 - Set custom sorting strategy and custom pivot column and row dimension strategies:
 
@@ -246,41 +203,21 @@ public restoreState() {
 
 <Sample src="/pivot-grid/pivot-grid-noop-persistence" height={580} alt="Angular Pivot Noop Grid State Persistence Example" />
 
-
-
-
-
 ## Limitations
 
-
-
-
-
-- [`getState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#getState) method uses JSON.stringify() method to convert the original objects to a JSON string. JSON.stringify() does not support Functions, thats why the [`IgxGridState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html) directive will ignore the pivot dimension [`memberFunction`]({environment:angularApiUrl}/interfaces/IPivotDimension.html#memberFunction), pivot values [`member`]({environment:angularApiUrl}/interfaces/IPivotValue.html#member), [`formatter`]({environment:angularApiUrl}/interfaces/IPivotValue.html#formatter), custom [`aggregate`]({environment:angularApiUrl}/interfaces/IPivotValue.html#aggregate) functions,
+- <ApiLink type="GridState" suffix={false} member="getState" label="getState" /> method uses JSON.stringify() method to convert the original objects to a JSON string. JSON.stringify() does not support Functions, thats why the <ApiLink type="GridState" suffix={false} /> directive will ignore the pivot dimension [`memberFunction`]({environment:angularApiUrl}/interfaces/IPivotDimension.html#memberFunction), pivot values [`member`]({environment:angularApiUrl}/interfaces/IPivotValue.html#member), [`formatter`]({environment:angularApiUrl}/interfaces/IPivotValue.html#formatter), custom [`aggregate`]({environment:angularApiUrl}/interfaces/IPivotValue.html#aggregate) functions,
  [`styles`]({environment:angularApiUrl}/interfaces/IPivotValue.html#styles) and pivot configuration strategies: [`columnStrategy`]({environment:angularApiUrl}/interfaces/ipivotconfiguration.html#columnStrategy) and [`rowStrategy`]({environment:angularApiUrl}/interfaces/ipivotconfiguration.html#rowStrategy).
-
 
 <div class="divider--half"></div>
 
-
 ## API References
 
-
-
-
-
-
-- [IgxPivotGridComponent]({environment:angularApiUrl}/classes/igxpivotgridcomponent.html)
-- [IgxGridStateDirective]({environment:angularApiUrl}/classes/igxgridstatedirective.html)
-
+- <ApiLink type="PivotGrid" />
+- <ApiLink type="GridStateDirective" suffix={false} />
 
 ## Additional Resources
 
 <div class="divider--half"></div>
-
-
-
-
 
 - [Pivot Grid Overview](/pivotGrid/pivot-grid)
 - [Pivot Grid Remote Operations](/pivotGrid/pivot-grid-custom)

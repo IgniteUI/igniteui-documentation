@@ -6,6 +6,7 @@ license: commercial
 _language: ja
 ---
 import Sample from 'docs-template/components/mdx/Sample.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
 
 # Angular Hierarchical Grid の編集と検証
 
@@ -31,14 +32,9 @@ Angular Forms 検証ディレクティブは、`IgxColumn` で直接動作する
 <igx-column [field]="email" [header]="User E-mail" required email></igx-column>
 ```
 
-
-
-
-
 <Sample src="/hierarchical-grid/hierarchical-grid-validator-service" height={680} alt="Angular Hierarchical Grid Validation Basic Example" />
 
 <div class="divider--half"></div>
-
 
 ### リアクティブ フォームで構成する
 
@@ -58,8 +54,6 @@ Angular Forms 検証ディレクティブは、`IgxColumn` で直接動作する
 
 独自の検証関数を作成するか、[組み込みの Angular 検証関数](https://angular.io/guide/form-validation#built-in-validator-functions)を使用できます。
 
-
-
 ```ts
     public formCreateHandler(args: IGridFormGroupCreatedEventArgs) {
         const formGroup = args.formGroup;
@@ -73,20 +67,16 @@ Angular Forms 検証ディレクティブは、`IgxColumn` で直接動作する
     }
 ```
 
-
-
-
-
 You can decide to write your own validator function, or use one of the [built-in Angular validator functions](https://angular.io/guide/form-validation#built-in-validator-functions).
 
 ## 検証サービス API
 
-グリッドは、[`validation`]({environment:angularApiUrl}/classes/IgxGridComponent.html#validation) プロパティを介して検証サービスを公開します。
+グリッドは、<ApiLink type="Grid" member="validation" label="validation" /> プロパティを介して検証サービスを公開します。
 このサービスには以下のパブリック API があります。
-- [`valid`]({environment:angularApiUrl}/classes/IgxGridValidationService.html#valid) - グリッドの検証状態が有効であるかどうかを返します。
-- [`getInvalid`]({environment:angularApiUrl}/classes/IgxGridValidationService.html#getInvalid) - 無効な状態のレコードを返します。
-- [`clear`]({environment:angularApiUrl}/classes/IgxGridValidationService.html#clear) - レコードの状態を ID でクリアします。ID が提供されない場合はすべてのレコードの状態をクリアします。
-- [`markAsTouched`]({environment:angularApiUrl}/classes/IgxGridValidationService.html#markAsTouched) - 関連するレコード/フィールドをタッチ済みとしてマークします。
+- <ApiLink type="GridValidationService" suffix={false} member="valid" label="valid" /> - グリッドの検証状態が有効であるかどうかを返します。
+- <ApiLink type="GridValidationService" suffix={false} member="getInvalid" label="getInvalid" /> - 無効な状態のレコードを返します。
+- <ApiLink type="GridValidationService" suffix={false} member="clear" label="clear" /> - レコードの状態を ID でクリアします。ID が提供されない場合はすべてのレコードの状態をクリアします。
+- <ApiLink type="GridValidationService" suffix={false} member="markAsTouched" label="markAsTouched" /> - 関連するレコード/フィールドをタッチ済みとしてマークします。
 
 無効な状態は、検証ルールに従って検証エラーが修正されるか、クリアされるまで保持されます。
 
@@ -96,9 +86,9 @@ Invalid states will persist until the validation errors in them are fixed accord
 
 検証は以下のシナリオでトリガーされます。
 
-- グリッドの [`validationTrigger`]({environment:angularApiUrl}/classes/IgxGridComponent.html#validationTrigger) に基づくセルエディターでの編集中。エディター入力中の変更時 (`change`)、またはエディターがフォーカスを失うか (`blur`) 閉じた場合。
-- [`updateRow`]({environment:angularApiUrl}/classes/IgxGridComponent.html#updateRow)、[`updateCell`]({environment:angularApiUrl}/classes/IgxGridComponent.html#updateCell) などの API を使用してセル/行を更新する場合 。
-- トランザクション サービスの一括編集および [`undo`]({environment:angularApiUrl}/classes/IgxTransactionService.html#undo)/[`redo`]({environment:angularApiUrl}/classes/IgxTransactionService.html#redo) API を使用する場合。
+- グリッドの <ApiLink type="Grid" member="validationTrigger" label="validationTrigger" /> に基づくセルエディターでの編集中。エディター入力中の変更時 (`change`)、またはエディターがフォーカスを失うか (`blur`) 閉じた場合。
+- <ApiLink type="Grid" member="updateRow" label="updateRow" />、<ApiLink type="Grid" member="updateCell" label="updateCell" /> などの API を使用してセル/行を更新する場合 。
+- トランザクション サービスの一括編集および <ApiLink type="TransactionService" suffix={false} member="undo" label="undo" />/<ApiLink type="TransactionService" suffix={false} member="redo" label="redo" /> API を使用する場合。
 
 > 注: ユーザー入力または編集 API で編集されていないレコードに対しては、検証はトリガーされません。セルの視覚的なインジケーターは、ユーザー操作または検証サービスの `markAsTouched` API を介して入力がタッチ済みと見なされる場合のみ表示されます。
 
@@ -150,7 +140,7 @@ export class PhoneFormatDirective extends Validators {
 ### 無効な状態での編集モードの終了を防止する
 
 場合によっては、データ中の無効な値を送信しないようにしたいことがあります。
-その場合は、[`cellEdit`]({environment:angularApiUrl}/classes/IgxGridComponent.html#cellEdit) または [`rowEdit`]({environment:angularApiUrl}/classes/IgxGridComponent.html#rowEdit) イベントを使用し、新しい値が無効な場合にイベントをキャンセルできます。
+その場合は、<ApiLink type="Grid" member="cellEdit" label="cellEdit" /> または <ApiLink type="Grid" member="rowEdit" label="rowEdit" /> イベントを使用し、新しい値が無効な場合にイベントをキャンセルできます。
 いずれのイベントも引数には [`valid`]({environment:angularApiUrl}/interfaces/IGridEditEventArgs.html#valid) プロパティがあり、これによってキャンセルできます。その使用方法は、[クロス フィールド検証の例](#クロス-フィールドの例)で確認できます。
 
 ```html
@@ -160,10 +150,6 @@ export class PhoneFormatDirective extends Validators {
 ```html
 <igx-hierarchical-grid (cellEdit)='cellEdit($event)' ...>
 ```
-
-
-
-
 
 ```ts
 public cellEdit(evt) {
@@ -177,14 +163,9 @@ public cellEdit(evt) {
 
 以下の例は、上記のカスタマイズ オプションを示しています。
 
-
-
-
-
 <Sample src="/hierarchical-grid/hierarchical-grid-validator-service-extended" height={640} alt="Angular Hierarchical Grid Custom Validation Example" />
 
 <div class="divider--half"></div>
-
 
 ## クロス フィールド検証
 
@@ -195,7 +176,7 @@ public cellEdit(evt) {
 
 次のコード行は、比較を含み、それらに関連する関連エラーを設定するクロス フィールド検証関数を示しています。
 
-クロス フィールド検証は、編集モードに入ったときに各行の新しい `formGroup` を返す [`formGroupCreated`]({environment:angularApiUrl}/classes/IgxGridComponent.html#formGroupCreated) イベントから、その行の `formGroup` に追加することができます。
+クロス フィールド検証は、編集モードに入ったときに各行の新しい `formGroup` を返す <ApiLink type="Grid" member="formGroupCreated" label="formGroupCreated" /> イベントから、その行の `formGroup` に追加することができます。
 
 ```ts
 private rowValidator(): ValidatorFn {
@@ -304,7 +285,7 @@ public stateMessage(cell: CellType) {
 
 ```
 
-  クロス フィールド検証は、[`formGroupCreated`]({environment:angularApiUrl}/classes/IgxGridComponent.html#formGroupCreated) イベントで formGroup に追加できます。その中で複数のフィールドの有効状態を比較できます。
+  クロス フィールド検証は、<ApiLink type="Grid" member="formGroupCreated" label="formGroupCreated" /> イベントで formGroup に追加できます。その中で複数のフィールドの有効状態を比較できます。
 
   ```ts
   public formCreateCustomerHandler(event: IGridFormGroupCreatedEventArgs) {
@@ -402,7 +383,7 @@ public stateMessage(cell: CellType) {
 
 次のコード行はクロス フィールド検証関数を示しています。この関数は上記の比較を含み、関連するエラーを設定します。
 
-クロス フィールド検証は、編集モードに入ったときに各行の新しい `formGroup` を返す [`formGroupCreated`]({environment:angularApiUrl}/classes/IgxGridComponent.html#formGroupCreated) イベントから、その行の `formGroup` に追加することができます。
+クロス フィールド検証は、編集モードに入ったときに各行の新しい `formGroup` を返す <ApiLink type="Grid" member="formGroupCreated" label="formGroupCreated" /> イベントから、その行の `formGroup` に追加することができます。
 
 異なるエラーはテンプレート セルに表示され、すべてのエラーは一つのツールチップに結合されます。行の有効状態に応じて、異なるアイコンが表示されます。
 
@@ -505,10 +486,6 @@ public stateMessage(cell: CellType) {
 
 以下のサンプルは、ルート データと子データの両方について、階層グリッドでのクロス フィールド検証を示しています。
 
-
-
-
-
 <div class="divider--half"></div>
 
 ## スタイル設定
@@ -598,27 +575,19 @@ public cellStyles = {
     <igx-column field="Album" [editable]="true" [dataType]="'string'" required [cellClasses]="cellStyles">
 ```
 
-
-
-
-
 ### デモ
 
 <Sample src="/grid/grid-validation-style" height={560} alt="" />
 
 <Sample src="/hierarchical-grid/hierarchical-grid-validation-style" height={630} alt="" />
 
-
-
-
-
 <div class="divider--half"></div>
 
 ## API リファレンス
 
-- [IgxBaseTransactionService]({environment:angularApiUrl}/classes/igxbasetransactionservice.html)
-- [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
-- [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
+- <ApiLink type="BaseTransactionService" suffix={false} />
+- <ApiLink type="Grid" />
+- <ApiLink type="Column" />
 
 ## 既知の問題と制限
 

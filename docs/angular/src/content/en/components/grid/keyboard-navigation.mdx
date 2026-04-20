@@ -4,7 +4,6 @@ description: Learn how to use Grid Keyboard Navigation with Ignite UI for Angula
 keywords: keyboard navigation, ignite ui for angular, infragistics
 license: commercial
 ---
-import Sample from 'docs-template/components/mdx/Sample.astro';
 
 # Angular Grid Keyboard Navigation
 
@@ -115,15 +114,18 @@ Overriding the default behavior for a certain key or keys combination is one of 
 
 | API | Description | Arguments |
 |---------|-------------|-----------|
-| [`gridKeydown`]({environment:angularApiUrl}/classes/igxgridcomponent.html#gridKeydown) | An event that is emitted when any of key press/combinations described above is performed. Can be canceled. For any other key press/combination, use the default `onkeydown` event. | [IGridKeydownEventArgs]({environment:angularApiUrl}/interfaces/igridkeydowneventargs.html) |
-| [`activeNodeChange`]({environment:angularApiUrl}/classes/igxgridcomponent.html#activeNodeChange) | An event that is emitted when the active node is changed. You can use it to determine the Active focus position (header, tbody etc.), column index, row index or nested level. | [IActiveNodeChangeEventArgs]({environment:angularApiUrl}/interfaces/iactivenodechangeeventargs.html) |
-| [`navigateTo`]({environment:angularApiUrl}/classes/igxgridcomponent.html#navigateTo) | Navigates to a position in the grid, based on provided `rowindex` and `visibleColumnIndex`. It can also execute a custom logic over the target element, through a callback function that accepts param of type `&#123; targetType: GridKeydownTargetType, target: Object &#125;` . Usage: <br />_grid.navigateTo(10, 3, (args) => &#123; args.target.nativeElement.focus(); &#125;);_ | `rowindex`: number, `visibleColumnIndex`: number, `callback`: (`&#123; targetType: GridKeydownTargetType, target: Object &#125;`) => &#123;&#125; |
-| [`getNextCell`]({environment:angularApiUrl}/classes/igxgridcomponent.html#getNextCell)| returns [`ICellPosition`]({environment:angularApiUrl}/interfaces/icellposition.html) object, which defines the next cell by `rowIndex` and `visibleColumnIndex`. A callback function can be passed as a third parameter of [`getNextCell`]({environment:angularApiUrl}/classes/igxgridcomponent.html#getnextcell) method. The callback function accepts `IgxColumnComponent` as a param and returns a `boolean` value indication if a given criteria is met: <br />_const nextEditableCell = grid.getNextCell(0, 4, (col) => col.editable);_ | `currentRowIndex`: number, `currentVisibleColumnIndex`: number, `callback`: (`IgxColumnComponent`) => boolean |
-| [`getPreviousCell`]({environment:angularApiUrl}/classes/igxgridcomponent.html#getPreviousCell)| returns [`ICellPosition`]({environment:angularApiUrl}/interfaces/icellposition.html) object, which defines the previous cell by `rowIndex` and `visibleColumnIndex`. A callback function can be passed as a third parameter of [`getPreviousCell`]({environment:angularApiUrl}/classes/igxgridcomponent.html#getPreviousCell) method. The callback function accepts `IgxColumnComponent` as a param and returns a `boolean` value indication if a given criteria is met: <br />_const prevEditableCell = grid.getPreviousCell(0, 4, (col) => col.editable);_ | `currentRowIndex`: number, `currentVisibleColumnIndex`: number, `callback`: (`IgxColumnComponent`) => boolean |
+| <ApiLink type="Grid" member="gridKeydown" label="gridKeydown" /> | An event that is emitted when any of key press/combinations described above is performed. Can be canceled. For any other key press/combination, use the default `onkeydown` event. | <ApiLink type="IGridKeydownEventArgs" kind="interface" prefixed={false} /> |
+| <ApiLink type="Grid" member="activeNodeChange" label="activeNodeChange" /> | An event that is emitted when the active node is changed. You can use it to determine the Active focus position (header, tbody etc.), column index, row index or nested level. | <ApiLink type="IActiveNodeChangeEventArgs" kind="interface" prefixed={false} /> |
+| <ApiLink type="Grid" member="navigateTo" label="navigateTo" /> | Navigates to a position in the grid, based on provided `rowindex` and `visibleColumnIndex`. It can also execute a custom logic over the target element, through a callback function that accepts param of type `&#123; targetType: GridKeydownTargetType, target: Object &#125;` . Usage: <br />_grid.navigateTo(10, 3, (args) => &#123; args.target.nativeElement.focus(); &#125;);_ | `rowindex`: number, `visibleColumnIndex`: number, `callback`: (`&#123; targetType: GridKeydownTargetType, target: Object &#125;`) => &#123;&#125; |
+| <ApiLink type="Grid" member="getNextCell" label="getNextCell" />| returns <ApiLink type="ICellPosition" kind="interface" prefixed={false} /> object, which defines the next cell by `rowIndex` and `visibleColumnIndex`. A callback function can be passed as a third parameter of <ApiLink type="Grid" member="getnextcell" label="getNextCell" /> method. The callback function accepts `IgxColumnComponent` as a param and returns a `boolean` value indication if a given criteria is met: <br />_const nextEditableCell = grid.getNextCell(0, 4, (col) => col.editable);_ | `currentRowIndex`: number, `currentVisibleColumnIndex`: number, `callback`: (`IgxColumnComponent`) => boolean |
+| <ApiLink type="Grid" member="getPreviousCell" label="getPreviousCell" />| returns <ApiLink type="ICellPosition" kind="interface" prefixed={false} /> object, which defines the previous cell by `rowIndex` and `visibleColumnIndex`. A callback function can be passed as a third parameter of <ApiLink type="Grid" member="getPreviousCell" label="getPreviousCell" /> method. The callback function accepts `IgxColumnComponent` as a param and returns a `boolean` value indication if a given criteria is met: <br />_const prevEditableCell = grid.getPreviousCell(0, 4, (col) => col.editable);_ | `currentRowIndex`: number, `currentVisibleColumnIndex`: number, `callback`: (`IgxColumnComponent`) => boolean |
+
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
 
  
 
-Let's try the API to demonstrate how to achieve common scenarios like user input validation and custom navigation. First we need to register an event handler for the [`gridKeydown`]({environment:angularApiUrl}/classes/igxgridcomponent.html#gridKeydown) event:
+Let's try the API to demonstrate how to achieve common scenarios like user input validation and custom navigation. First we need to register an event handler for the <ApiLink type="Grid" member="gridKeydown" label="gridKeydown" /> event:
 
 ```html
 <igx-grid #grid1 [data]="data" [primaryKey]="'ProductID'" (gridKeydown)="customKeydown($event)">
@@ -144,7 +146,7 @@ public customKeydown(args: IGridKeydownEventArgs) {
 }
 ```
 
-Based on the [IGridKeydownEventArgs]({environment:angularApiUrl}/interfaces/igridkeydowneventargs.html) values we identified two cases, where to provide our own logic (see above). Now, using the methods from the API, let's perform the desired - if the user is pressing <kbd>Tab</kbd> key over a cell in edit mode, we will perform validation on the input. If the user is pressing <kbd>Enter</kbd> key over a cell, we will move focus to cell in the next row:
+Based on the <ApiLink type="IGridKeydownEventArgs" kind="interface" prefixed={false} /> values we identified two cases, where to provide our own logic (see above). Now, using the methods from the API, let's perform the desired - if the user is pressing <kbd>Tab</kbd> key over a cell in edit mode, we will perform validation on the input. If the user is pressing <kbd>Enter</kbd> key over a cell, we will move focus to cell in the next row:
 
 ```typescript
     // 1. USER INPUT VALIDATION ON TAB
@@ -178,7 +180,7 @@ Use the demo below to try out the custom scenarios that we just implemented:
 
 ## API References
 
-- [IgxGridComponent API]({environment:angularApiUrl}/classes/igxgridcomponent.html)
+- <ApiLink type="Grid" />
 - [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ## Additional Resources

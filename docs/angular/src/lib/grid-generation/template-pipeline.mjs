@@ -88,9 +88,7 @@ function ensureSampleImport(content) {
     if (!content.includes('<Sample ')) return content;
 
     const importLine = "import Sample from 'docs-template/components/mdx/Sample.astro';";
-    const headerEnd = content.search(/^#\s/m);
-    const header = headerEnd >= 0 ? content.slice(0, headerEnd) : content.slice(0, 2000);
-    if (header.includes(importLine)) return content;
+    if (content.includes(importLine)) return content;
 
     return content.replace(/^(---[\s\S]*?^---)\r?\n/m, `$1\n${importLine}\n\n`);
 }
@@ -128,6 +126,8 @@ export function buildGeneratedDoc(raw, context, componentKey) {
     result = result.replace(/<!--\s*markdownlint-disable[^>]*-->\s*/g, '');
     result = result.replace(/\n{3,}/g, '\n\n');
     result = result.replace(/^\s*(?=---)/, '');
+    // Ensure blank line after docs-template imports when followed by non-import content (MDX requires it)
+    result = result.replace(/(import\s+\w+\s+from\s+'docs-template\/[^\n]+'\n)(?!\n|import\s)/g, '$1\n');
 
     result = transformStyleBlocks(result);
     result = ensureSampleImport(result);

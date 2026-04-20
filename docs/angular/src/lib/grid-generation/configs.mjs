@@ -52,6 +52,7 @@ export const GRID_CONFIGS = {
  * Used by {Component...} token placeholders in shared MDX templates.
  *
  * @param {{
+ *   componentKey: string,
  *   igMainTopic: string,
  *   igObjectRef: string,
  *   igDemoBasePath: string,
@@ -68,6 +69,7 @@ export function createTemplateContext(config) {
         ComponentDemoBasePath: config.igDemoBasePath,
         ComponentTitle: config.igComponent,
         ComponentName: config.igxName,
+        ComponentApiType: config.componentKey,
         ComponentTypeDoc: config.igTypeDoc,
         ComponentSelector: config.igSelector,
 
