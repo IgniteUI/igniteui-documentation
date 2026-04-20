@@ -6,12 +6,9 @@ _canonicalLink: grid/column-resizing
 license: commercial
 _language: ja
 ---
+
 import { Aside } from '@astrojs/starlight/components';
 import Sample from 'docs-template/components/mdx/Sample.astro';
-
-
-
-
 
 # Angular Tree Grid 列サイズ変更
 
@@ -19,29 +16,17 @@ import Sample from 'docs-template/components/mdx/Sample.astro';
 
 ## Angular Tree Grid 列サイズ変更の例
 
-
-
-
 <Sample src="/tree-grid/treegrid-column-resizing" height={550} alt="Angular Tree Grid 列サイズ変更の例" />
 
 <div class="divider--half"></div>
 
-
-
 **列サイズ変更**も列レベルで有効化にできます。つまり、[**igx-tree-grid**]({environment:angularApiUrl}/classes/igxtreegridcomponent.html) にサイズ変更可能な列とサイズ変更不可の列の両方を含むことが可能です。[`igx-column`]({environment:angularApiUrl}/classes/igxcolumncomponent.html) の [`resizable`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#resizable) 入力で行うことができます。
-
-
 
 ```html
 <igx-column [field]="'ID'" width="100px" [resizable]="true"></igx-column>
 ```
 
-
-
 [`igx-tree-grid`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html) の [`columnResized`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#columnResized) イベントにサブスクライブして列がサイズ変更されたにカスタム ロジックを実装します。以前の列幅、新しい列幅、および [`IgxColumnComponent`]({environment:angularApiUrl}/classes/igxcolumncomponent.html) オブジェクトがイベント引数で公開されます。
-
-
-
 
 ```html
 <igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" (columnResized)="onResize($event)" [autoGenerate]="false">
@@ -58,17 +43,11 @@ public onResize(event) {
 }
 ```
 
-
-
-
 ## ピクセル/パーセンテージで列のサイズを変更する
 
 ユーザーのシナリオに応じて、列の幅はピクセル、パーセンテージ、または両方の組み合わせで定義できます。これらのシナリオはすべて、列のサイズ変更機能でサポートされています。デフォルトでは、列に幅が設定されていない場合、ピクセルで設定された幅の使用可能なスペースに収まります。
 
 つまり、次の構成が可能です。
-
-
-
 
 ```html
 <igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" (columnResized)="onResize($event)" [autoGenerate]="false">
@@ -77,9 +56,6 @@ public onResize(event) {
     <igx-column [field]="'Age'" dataType="number" [resizable]="true"></igx-column>
 </igx-tree-grid>
 ```
-
-
-
 
 <Aside type="note" title="注">
 ピクセルとパーセンテージで設定された場合で列のサイズ変更の動作は少々異なります。
@@ -97,41 +73,26 @@ public onResize(event) {
 
 列の最小幅および最大幅の構成も可能です。[`igx-column`]({environment:angularApiUrl}/classes/igxcolumncomponent.html)  の [`minWidth`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#minWidth) と [`maxWidth`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#maxWidth) 入力で行うことができます。この場合、サイズ変更インジケーターのドラッグ操作が制限されます。列が  [`minWidth`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#minWidth) および [`maxWidth`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#maxWidth). によって定義される範囲以外にサイズ変更できないことをユーザーに通知します。
 
-
-
 ```html
 <igx-column [field]="'ID'" width="100px" [resizable]="true"
             [minWidth]="'60px'" [maxWidth]="'230px'"></igx-column>
 ```
 
-
-
-
 列幅の最小値と最大値のタイプ (ピクセルまたはパーセンテージ) を混在させることができます。最小値と最大値がパーセンテージに設定されている場合、それぞれの列サイズはピクセルと同様の正確なサイズに制限されます。
 
 つまり、次の構成が可能です。
-
-
 
 ```html
 <igx-column [field]="'ID'" width="10%" [resizable]="true"
             [minWidth]="'60px'" [maxWidth]="'230px'"></igx-column>
 ```
 
-
-
-
 または
-
-
 
 ```html
 <igx-column [field]="'ID'" width="100px" [resizable]="true"
             [minWidth]="'5%'" [maxWidth]="'15%'"></igx-column>
 ```
-
-
-
 
 ## ダブルクリックで列の自動サイズ調整
 
@@ -139,17 +100,12 @@ public onResize(event) {
 
 公開した [`IgxColumnComponent`]({environment:angularApiUrl}/classes/igxcolumncomponent.html) の [`autosize()`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#autosize) を使用して列を動的に自動サイズ調整することも可能です。
 
-
-
 ```typescript
 @ViewChild('treeGrid') treeGrid: IgxTreeGridComponent;
 
 let column = this.treeGrid.columnList.filter(c => c.field === 'ID')[0];
 column.autosize();
 ```
-
-
-
 
 ## 初期化時に列を自動サイズ設定する
 
@@ -162,15 +118,9 @@ column.autosize();
 列がビューで最初に初期化されるとき、その幅は、表示されている最も長いセルまたはヘッダーのサイズに調整されます。表示されている行の外側にあるセルは含まれないことに注意してください。
 このアプローチは、初期化後の自動サイズ変更よりもパフォーマンスが最適化されており、特に多数の列のサイズを自動サイズ設定する必要がある場合に推奨されます。
 
-
-
-
 <Sample src="/tree-grid/tree-grid-columnAutoSizing-sample" height={550} alt="Angular Tree Grid 列のサイズ変更の例" />
 
 <div class="divider--half"></div>
-
-
-
 
 ## スタイル設定
 
@@ -192,7 +142,7 @@ $custom-grid-theme: grid-theme(
 ```
 
 <Aside type="note" title="注">
-上記のようにカラーの値をハードコーディングする代わりに、[`palette`]({environment:sassApiUrl}/palettes#function-palette) および [`color`]({environment:sassApiUrl}/palettes#function-color) 関数を使用してカラーに関してより高い柔軟性を実現することができます。使い方の詳細については[`パレット`](/themes/sass/palettes)のトピックをご覧ください。
+上記のようにカラーの値をハードコーディングする代わりに、[`palette`]({environment:sassApiUrl}/palettes#function-palette) および [`color`]({environment:sassApiUrl}/palettes#function-color) 関数を使用してカラーに関してより高い柔軟性を実現することができます。使い方の詳細については[`パレット`](/themes/sass/palettes.md)のトピックをご覧ください。
 </Aside>
 
 最後のステップは、それぞれのテーマを持つコンポーネント ミックスインを**含める**ことです。
@@ -205,13 +155,7 @@ $custom-grid-theme: grid-theme(
 
 ### デモ
 
-
-
-
 <Sample src="/tree-grid/treegrid-resize-line-styling" height={550} alt="" />
-
-
-
 
 <Aside type="note" title="注">
 このサンプルは、`Change Theme` (テーマの変更) から選択したグローバル テーマに影響を受けません。

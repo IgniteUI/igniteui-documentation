@@ -5,26 +5,16 @@ keywords: data export, ignite ui for angular, infragistics
 license: commercial
 _canonicalLink: grid/export-excel
 ---
+
 import { Aside } from '@astrojs/starlight/components';
 import Sample from 'docs-template/components/mdx/Sample.astro';
 
-
-
-
-
 # Angular Hierarchical Grid Export to Excel and PDF Service
-
-
-
-
-
 
 <p class="highlight">
 
 The Ignite UI Excel and PDF Exporter services treat the IgxHierarchicalGrid exactly like your users see it on screen—complete with hierarchical layouts and summaries. Inject the [`IgxExcelExporterService`]({environment:angularApiUrl}/classes/igxexcelexporterservice.html) or [`IgxPdfExporterService`]({environment:angularApiUrl}/classes/igxpdfexporterservice.html), call the appropriate [`export`]({environment:angularApiUrl}/classes/igxexcelexporterservice.html#export)/[`export`]({environment:angularApiUrl}/classes/igxpdfexporterservice.html#export) method, and let the service generate the final document.
 </p>
-
-
 
 The sections below walk through setup, usage patterns, and tips for tailoring each export so that your users receive data that is ready to consume, no matter which file type they prefer.
 
@@ -34,15 +24,7 @@ The sections below walk through setup, usage patterns, and tips for tailoring ea
 
 This live example demonstrates the standard Excel and PDF export workflow for the Hierarchical Grid—bound data, two export buttons (Excel and PDF), and the resulting `.xlsx` and `.pdf` files with preserved filtering and sorting state. Share it with stakeholders who want to preview the experience before wiring it into their application.
 
-
-
-
-
-
 <Sample src="/hierarchical-grid/hierarchical-grid-excel-export" height={600} alt="Angular Excel Exporter Example" />
-
-
-
 
 <div class="divider--half"></div>
 
@@ -71,18 +53,11 @@ In v12.2.1 and later, `IgxExcelExporterService` is provided in root and does not
 
 To initiate an export process you may use the handler of a button in your component's template.
 
-
-
-
 ```html
 <igx-hierarchical-grid #hierarchicalGrid [data]="localData" [autoGenerate]="true"></igx-hierarchical-grid>
 <button (click)="exportButtonHandler()">Export IgxHierarchicalGrid to Excel</button>
 <button (click)="exportPdfButtonHandler()">Export IgxHierarchicalGrid to PDF</button>
 ```
-
-
-
-
 
 You may access either exporter service by defining it as a constructor dependency and letting Angular provide an instance. Calling the shared [`export`]({environment:angularApiUrl}/classes/igxexcelexporterservice.html#export) method initiates the download while automatically respecting the component state, selected rows, and formatting rules.
 
@@ -109,11 +84,6 @@ public exportPdfButtonHandler() {
 
 Once wired up, pressing the respective buttons downloads files named `ExportedDataFile.xlsx` or `ExportedDataFile.pdf` populated with the current Hierarchical Grid view. You can swap in customer-friendly file names, append timestamps, or surface a success toast so users know their export has completed.
 
-
-
-
-
-
 ## Export All Data
 
 Large, remote datasets often load page-by-page or on demand, which means the Hierarchical Grid might not have every record available when the user clicks **Export**. To guarantee a complete workbook, hydrate the exporter with the full data collection before starting the process. The `exportData` helper bypasses the component and works directly against plain objects, so you can reuse the same routine for scheduled exports or admin-only downloads.
@@ -128,8 +98,6 @@ public exportButtonHandler() {
 When offering PDF downloads for remote data, consider fetching the complete dataset first and then calling `export` so the document mirrors the user's expectations.
 </Aside>
 
-
-
 ## Export Multi Column Headers Grid
 
 Dashboards often rely on [multi-column headers](/hierarchicalgrid/multi-column-headers) to add context—think of a "Q1/Q2/Q3" band above individual month columns. The exporter mirrors this structure so spreadsheet users immediately understand the grouping logic. If your downstream workflow prefers simple column names, flip the [exporter option]({environment:angularApiUrl}/classes/igxexporteroptionsbase.html) [ignoreMultiColumnHeaders]({environment:angularApiUrl}/classes/igxexporteroptionsbase.html#ignoremulticolumnheaders) flag to `true` and the output will include only the leaf headers.
@@ -138,21 +106,11 @@ Dashboards often rely on [multi-column headers](/hierarchicalgrid/multi-column-h
 The exported Hierarchical Grid will not be formatted as a table, since Excel tables do not support multiple row headers.
 </Aside>
 
-
-
 <Aside type="note">
 The exported expansion state of the multi-column headers in the row islands will always be in its initial state.
 </Aside>
 
-
-
-
-
-
-
-
 <Sample src="/hierarchical-grid/hierarchical-grid-multi-column-export" height={800} alt="Angular Multi-Column Headers Export" />
-
 
 ## Export Grid with Frozen Column Headers
 
@@ -166,16 +124,11 @@ public exportButtonHandler() {
 }
 ```
 
-
-
 PDF exports automatically include the column header row at the top of the document, so readers retain the same context when they open or print the file.
 
 ## Customizing the Exported Content
 
 Most teams tailor exports before sharing them: hiding internal-use columns, renaming headers, or skipping rows that only apply to administrators. Both exporter services expose events that let you intercept every row or column and decide how it should appear in the file. Subscribe to [`columnExporting`]({environment:angularApiUrl}/classes/igxexcelexporterservice.html#columnexporting) and [`rowExporting`]({environment:angularApiUrl}/classes/igxexcelexporterservice.html#rowexporting) to make last-minute adjustments—set `cancel = true` to omit an item or tweak the event arguments to update values on the fly.
-
-
-
 
 The following example will exclude a column from the export if its header is "Age" and if its index is 1:
 
@@ -190,22 +143,11 @@ this.excelExportService.columnExporting.subscribe((args: IColumnExportingEventAr
 this.excelExportService.export(this.hierarchicalGrid, new IgxExcelExporterOptions('ExportedDataFile'));
 ```
 
-
-
-
-
 When you are exporting data from the Hierarchical Grid component, the services automatically respect sorting, filtering, summaries, and hidden columns so the file reflects what the user currently sees. Need the full dataset instead? Toggle the relevant flags on [`IgxExcelExporterOptions`]({environment:angularApiUrl}/classes/igxexcelexporteroptions.html) or [`IgxPdfExporterOptions`]({environment:angularApiUrl}/classes/igxpdfexporteroptions.html) to include filtered rows, hidden columns, or custom metadata.
 
 ## Known Limitations
 
 Before shipping exports to production users, review the following platform constraints so you can set expectations and provide helpful guidance within your app.
-
-
-
-
-
-
-
 
 |Limitation|Description|
 |--- |--- |
@@ -214,10 +156,6 @@ Before shipping exports to production users, review the following platform const
 |Exporting pinned columns|In the exported Excel file, pinned columns are not frozen but preserve their order. If freezing is critical, adjust the sheet manually after export.|
 |Cell Styling|The Excel exporter service does not support exporting a custom style applied directly to a cell component. In such scenarios we recommend using the richer [Excel Library](/excel-library) for fine-grained formatting.|
 |Wide PDF layouts|Very wide grids can force PDF columns to shrink to fit the page. Apply column widths or hide low-priority fields before exporting to keep the document legible.|
-
-
-
-
 
 ## API References
 

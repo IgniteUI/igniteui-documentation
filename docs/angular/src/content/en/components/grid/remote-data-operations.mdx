@@ -4,35 +4,21 @@ description: Start using Angular remote data operations like remote filtering, r
 keywords: angular remote data operations, ignite ui for angular, infragistics
 license: commercial
 ---
+
 import { Aside } from '@astrojs/starlight/components';
 import Sample from 'docs-template/components/mdx/Sample.astro';
-
-
-
-
-
 
 # Angular Grid Remote Data Operations
 
 The Ignite UI for Angular Grid supports remote data operations such as remote virtualization, remote sorting, remote filtering and others. This allows the developer to perform these tasks on a server, retrieve the data that is produced and display it in the Grid.
-
-
-
 
 ## Angular Grid Remote Data Operations Overview Example
 
 
 <Sample src="/grid/grid-remote-filtering" height={500} alt="Angular Grid Remote Data Operations Overview Example" />
 
-
-
-
-
 By default, the Grid uses its own logic for performing data operations.
 You can perform these tasks remotely and feed the resulting data to the Grid by taking advantage of certain inputs and events, which are exposed by the Grid.
-
-
-
 
 ## Remote Virtualization
 
@@ -198,15 +184,7 @@ When remote data is requested, the filtering operation is case-sensitive.
 
 You can see the result of the code from above at the beginning of this article in the [Demo](#angular-grid-remote-data-operations-overview-example) section.
 
-
-
-
-
-
-
 ### Unique Column Values Strategy
-
-
 
 The list items inside the Excel Style Filtering dialog represent the unique values for the respective column. The Grid generates these values based on its data source by default. In case of remote filtering, the grid data does not contain all the data from the server. In order to provide the unique values manually and load them on demand, we can take advantage of the Grid's [`uniqueColumnValuesStrategy`]({environment:angularApiUrl}/classes/igxgridcomponent.html#uniqueColumnValuesStrategy) input. This input is actually a method that provides three arguments:
 
@@ -219,9 +197,6 @@ The developer can manually generate the necessary unique column values based on 
 <Aside type="note">
 When the [`uniqueColumnValuesStrategy`]({environment:angularApiUrl}/classes/igxgridcomponent.html#uniqueColumnValuesStrategy) input is provided, the default unique values generating process in the excel style filtering will not be used.
 </Aside>
-
-
-
 
 ```html
 <igx-grid #grid1 [data]="data" [filterMode]="'excelStyleFilter'" [uniqueColumnValuesStrategy]="columnValuesStrategy">
@@ -243,10 +218,6 @@ public columnValuesStrategy = (column: ColumnType,
 
 <Sample src="/grid/grid-excel-style-filtering-load-on-demand" height={800} alt="" />
 
-
-
-
-
 In order to provide a custom loading template for the excel style filtering, we can use the `igxExcelStyleLoading` directive:
 
 ```html
@@ -261,8 +232,6 @@ In order to provide a custom loading template for the excel style filtering, we 
 <div class="divider--half"></div>
 
 ## Remote Paging
-
-
 
 The paging feature can operate with remote data. In order to demonstrate this let's first declare our service that will be responsible for data fetching. We will need the count of all data items in order to calculate the page count. This logic will be added to our service.
 
@@ -300,8 +269,6 @@ export class RemotePagingService {
 
 After declaring the service, we need to create a component, which will be responsible for the Grid construction and data subscription.
 
-
-
 ```typescript
 export class RemotePagingGridSample implements OnInit, AfterViewInit, OnDestroy {
     public data: Observable<any[]>;
@@ -326,19 +293,11 @@ export class RemotePagingGridSample implements OnInit, AfterViewInit, OnDestroy 
 }
 ```
 
-
-
-
-
-
 Now we can choose between setting-up our own _custom paging template_ or using the default one that the `igx-paginator` provides. Let's first take a look what is necessary to set-up remote paging by using the _default paging template_.
 
 ### Remote paging with default template
 
 If you want to use the _default paging template_ you need to set the Paginator's [`totalRecords`]({environment:angularApiUrl}/classes/IgxPaginatorComponent.html#totalRecords) property, only then the grid will be able to calculate the _total page number_ based on total remote records. When performing a remote pagination the Paginator will pass to the Grid only the data for the current page, so the grid will not try to paginate the provided data source. That's why we should set Grid's [`pagingMode`]({environment:angularApiUrl}/classes/igxgridcomponent.html#pagingMode) property to _GridPagingMode.remote_. Also it is necessary to either subscribe to [`pagingDone`]({environment:angularApiUrl}/classes/IgxPaginatorComponent.html#pagingDone) or [`perPageChange`]({environment:angularApiUrl}/classes/IgxPaginatorComponent.html#perPageChange) events in order to fetch the data from your remote service, it depends on the use case which event will be used.
-
-
-
 
 ```html
 <igx-grid #grid1 [data]="data | async" [isLoading]="isLoading" [pagingMode]="mode">
@@ -349,10 +308,6 @@ If you want to use the _default paging template_ you need to set the Paginator's
     </igx-paginator>
 </igx-grid>
 ```
-
-
-
-
 
 ```typescript
 public totalCount = 0;
@@ -391,21 +346,11 @@ public paginate(page: number) {
 }
 ```
 
-
-
-
 <Sample src="/grid/remote-paging-default-template" height={620} alt="" />
-
-
-
-
 
 ### Remote Paging with custom igx-paginator-content
 
 When we define a custom paginator content we need to define the content in a way to get the data only for the requested page and to pass the correct **skip** and **top** parameters to the remote service according to the selected page and items [`perPage`]({environment:angularApiUrl}/classes/IgxPaginatorComponent.html#perPage). We are going to use the `<igx-paginator>` in order to ease our example configuration, along with the [`IgxPageSizeSelectorComponent`]({environment:angularApiUrl}/classes/IgxPageSizeSelectorComponent.html) and [`IgxPageNavigationComponent`]({environment:angularApiUrl}/classes/IgxPageNavigationComponent.html) that were introduced - `igx-page-size` will add the per page dropdown and label and `igx-page-nav` will add the navigation action buttons and labels.
-
-
-
 
 ```html
 <igx-paginator #paginator
@@ -452,26 +397,15 @@ public perPageChange(perPage: number) {
 }
 ```
 
-
-
-
-
 <Aside type="note">
 In order the Remote Paging to be configured properly a `GridPagingMode.Remote` should be set:
 </Aside>
-
-
-
 
 ```html
 <igx-grid #grid1 [data]="data | async" width="100%" height="580px" [pagingMode]="mode"></igx-grid>
 ...
 public mode = GridPagingMode.Remote;
 ```
-
-
-
-
 
 The last step will be to declare the paginator content based on your requirements.
 
@@ -485,17 +419,7 @@ The last step will be to declare the paginator content based on your requirement
 
 After all the changes above, the following result will be achieved.
 
-
-
-
 <Sample src="/grid/grid-remote-paging-sample" height={620} alt="" />
-
-
-
-
-
-
-
 
 ### Remote Paging with custom paginator
 
@@ -552,11 +476,6 @@ public paginate(page: number, recalculate = false) {
 }
 ```
 
-
-
-
-
-
 ### Remote Paging with Batch editing
 
 With the examples so far we clarified how to set up the IgxGrid with remote data. Now, let's focus on enabling batch editing for the grid by following the [Batch Editing topic/guide](/grid/batch-editing).
@@ -605,8 +524,6 @@ As you can see in the **paginate** method, custom pagination logic is performed,
 #### Remote Paging with Batch Editing Demo
 
 <Sample src="/grid/remote-paging-batch-editing" height={620} alt="" />
-
-
 
 ## Known Issues and Limitations
 

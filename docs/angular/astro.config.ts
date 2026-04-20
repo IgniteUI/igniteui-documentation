@@ -2,15 +2,15 @@
 import mdx from '@astrojs/mdx';
 import path from 'node:path';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
-import { IGDOCS_PLATFORMS } from 'docs-template/platform';
-import { generateGridTopics, normalizeImagePaths } from './src/generate-grids.mjs';
+import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
+import { generateGridTopics } from './src/scripts/generate-grids.mjs';
 
 // ── Build mode and language ──────────────────────────────────────────────────
 // DOCS_ENV: 'development' | 'staging' | 'production'  (preferred, default: 'development')
 // NODE_ENV: fallback — do NOT set to 'staging'; Vite derives import.meta.env.DEV from it.
 // DOCS_LANG: 'en' | 'jp' | 'kr'                       (default: 'en')
 const docsEnv = process.env.DOCS_ENV || process.env.NODE_ENV || 'development';
-const docsLang = process.env.DOCS_LANG || 'en';
+const docsLang = (process.env.DOCS_LANG || 'en') as NavLang;
 
 if (docsEnv !== 'development' && docsEnv !== 'staging' && docsEnv !== 'production') {
 	throw new Error(
@@ -24,7 +24,8 @@ const mode: DocsMode = docsEnv;
 const PROD_HOST = 'https://www.infragistics.com';
 const STAGING_HOST = 'https://staging.infragistics.com';
 
-const { base } = IGDOCS_PLATFORMS.Angular;
+const platformKey = docsLang === 'jp' ? 'AngularJP' : 'Angular';
+const { base } = IGDOCS_PLATFORMS[platformKey];
 const site = mode === 'production' ? `${PROD_HOST}${base}`
 	: mode === 'staging' ? `${STAGING_HOST}${base}`
 	: 'http://localhost:4321';
@@ -36,7 +37,6 @@ const templatesDir = path.join(docsDir, 'grids_templates');
 
 // ── Pre-build steps (run before Astro starts) ────────────────────────────────
 generateGridTopics(templatesDir, componentsDocsDir);
-normalizeImagePaths(componentsDocsDir);
 
 // https://astro.build/config
 export default createDocsSite({
@@ -47,11 +47,13 @@ export default createDocsSite({
 	platform: 'angular',
 	navLang: docsLang,
 	mode,
-	productLinks: Object.values(IGDOCS_PLATFORMS).map(({ label, key, base: b }) => ({
-		label,
-		href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
-		platform: key,
-	})),
+	productLinks: Object.values(IGDOCS_PLATFORMS)
+		.filter(p => p.lang === docsLang)
+		.map(({ label, key, base: b }) => ({
+			label,
+			href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
+			platform: key,
+		})),
 	source: {
 		tocPath: `${componentsDocsDir}/toc.json`,
 		docsDir: componentsDocsDir,

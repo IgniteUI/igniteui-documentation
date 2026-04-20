@@ -5,36 +5,21 @@ keywords: angular remote data operations, ignite ui for angular, infragistics
 license: commercial
 _canonicalLink: grid/remote-data-operations
 ---
+
 import { Aside } from '@astrojs/starlight/components';
 import Sample from 'docs-template/components/mdx/Sample.astro';
-
-
-
 
 # Angular Hierarchical Grid Remote Data Operations
 
 The Ignite UI for Angular Hierarchical Grid supports remote data operations such as remote virtualization, remote sorting, remote filtering and others. This allows the developer to perform these tasks on a server, retrieve the data that is produced and display it in the Hierarchical Grid.
 
-
-
-
-
 {/* TODO */}
-
 
 By default, the Hierarchical Grid uses its own logic for performing data operations.
 You can perform these tasks remotely and feed the resulting data to the Hierarchical Grid by taking advantage of certain inputs and events, which are exposed by the Hierarchical Grid.
 
-
-
-
-
 {/* TODO */}
 ## Unique Column Values Strategy
-
-
-
-
 
 The list items inside the Excel Style Filtering dialog represent the unique values for the respective column. The Hierarchical Grid generates these values based on its data source by default. In case of remote filtering, the grid data does not contain all the data from the server. In order to provide the unique values manually and load them on demand, we can take advantage of the Hierarchical Grid's [`uniqueColumnValuesStrategy`]({environment:angularApiUrl}/classes/igxhierarchicalgridcomponent.html#uniqueColumnValuesStrategy) input. This input is actually a method that provides three arguments:
 
@@ -47,11 +32,6 @@ The developer can manually generate the necessary unique column values based on 
 <Aside type="note">
 When the [`uniqueColumnValuesStrategy`]({environment:angularApiUrl}/classes/igxhierarchicalgridcomponent.html#uniqueColumnValuesStrategy) input is provided, the default unique values generating process in the excel style filtering will not be used.
 </Aside>
-
-
-
-
-
 
 ```html
 <igx-hierarchical-grid #hierarchicalGrid [primaryKey]="'Artist'" [data]="data" [filterMode]="'excelStyleFilter'"
@@ -88,8 +68,6 @@ this.remoteValuesService.getColumnData(
 
 <Sample src="/hierarchical-grid/hierarchical-grid-excel-style-filtering-load-on-demand" height={800} alt="" />
 
-
-
 In order to provide a custom loading template for the excel style filtering, we can use the `igxExcelStyleLoading` directive:
 
 ```html
@@ -104,8 +82,6 @@ In order to provide a custom loading template for the excel style filtering, we 
 <div class="divider--half"></div>
 
 ## Remote Paging
-
-
 
 The paging feature can operate with remote data. In order to demonstrate this let's first declare our service that will be responsible for data fetching. We will need the count of all data items in order to calculate the page count. This logic will be added to our service.
 
@@ -143,9 +119,6 @@ export class RemotePagingService {
 
 After declaring the service, we need to create a component, which will be responsible for the Hierarchical Grid construction and data subscription.
 
-
-
-
 ```typescript
 export class HGridRemotePagingSampleComponent implements OnInit, AfterViewInit, OnDestroy {
     public data: BehaviorSubject<any> = new BehaviorSubject([]);
@@ -170,20 +143,11 @@ export class HGridRemotePagingSampleComponent implements OnInit, AfterViewInit, 
 }
 ```
 
-
-
-
-
 Now we can choose between setting-up our own _custom paging template_ or using the default one that the `igx-paginator` provides. Let's first take a look what is necessary to set-up remote paging by using the _default paging template_.
 
 ### Remote paging with default template
 
 If you want to use the _default paging template_ you need to set the Paginator's [`totalRecords`]({environment:angularApiUrl}/classes/IgxPaginatorComponent.html#totalRecords) property, only then the grid will be able to calculate the _total page number_ based on total remote records. When performing a remote pagination the Paginator will pass to the Grid only the data for the current page, so the grid will not try to paginate the provided data source. That's why we should set Grid's [`pagingMode`]({environment:angularApiUrl}/classes/igxhierarchicalgridcomponent.html#pagingMode) property to _GridPagingMode.remote_. Also it is necessary to either subscribe to [`pagingDone`]({environment:angularApiUrl}/classes/IgxPaginatorComponent.html#pagingDone) or [`perPageChange`]({environment:angularApiUrl}/classes/IgxPaginatorComponent.html#perPageChange) events in order to fetch the data from your remote service, it depends on the use case which event will be used.
-
-
-
-
-
 
 ```html
 <igx-hierarchical-grid #hierarchicalGrid [primaryKey]="'CustomerID'" [pagingMode]="mode">
@@ -194,8 +158,6 @@ If you want to use the _default paging template_ you need to set the Paginator's
     </igx-paginator>
 </igx-hierarchical-grid>
 ```
-
-
 
 ```typescript
 public totalCount = 0;
@@ -234,23 +196,13 @@ public paginate(page: number) {
 }
 ```
 
-
-
-
-
-
 <Sample src="/hierarchical-grid/remote-paging-default-template" height={580} alt="" />
 
 <div class="divider--half"></div>
 
-
 ### Remote Paging with custom igx-paginator-content
 
 When we define a custom paginator content we need to define the content in a way to get the data only for the requested page and to pass the correct **skip** and **top** parameters to the remote service according to the selected page and items [`perPage`]({environment:angularApiUrl}/classes/IgxPaginatorComponent.html#perPage). We are going to use the `<igx-paginator>` in order to ease our example configuration, along with the [`IgxPageSizeSelectorComponent`]({environment:angularApiUrl}/classes/IgxPageSizeSelectorComponent.html) and [`IgxPageNavigationComponent`]({environment:angularApiUrl}/classes/IgxPageNavigationComponent.html) that were introduced - `igx-page-size` will add the per page dropdown and label and `igx-page-nav` will add the navigation action buttons and labels.
-
-
-
-
 
 ```html
 <igx-paginator #paginator
@@ -294,16 +246,9 @@ public ngAfterViewInit() {
 
 ```
 
-
-
-
 <Aside type="note">
 In order the Remote Paging to be configured properly a `GridPagingMode.Remote` should be set:
 </Aside>
-
-
-
-
 
 ```html
 <igx-hierarchical-grid #hierarchicalGrid [data]="data | async" [primaryKey]="'CustomerID'"
@@ -311,9 +256,6 @@ In order the Remote Paging to be configured properly a `GridPagingMode.Remote` s
 ...
 public mode = GridPagingMode.Remote;
 ```
-
-
-
 
 The last step will be to declare the paginator content based on your requirements.
 
@@ -327,19 +269,9 @@ The last step will be to declare the paginator content based on your requirement
 
 After all the changes above, the following result will be achieved.
 
-
-
-
-
-
 <Sample src="/hierarchical-grid/hierarchical-grid-remote-paging" height={580} alt="" />
 
 <div class="divider--half"></div>
-
-
-
-
-
 
 ## Known Issues and Limitations
 

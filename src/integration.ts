@@ -67,7 +67,6 @@ import { buildSidebarFromToc } from './sidebar';
 import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
 import { JSDOM } from 'jsdom';
-import { visit } from 'unist-util-visit';
 import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
@@ -123,7 +122,7 @@ function stripScripts(html: string): string {
         el.remove();
     });
 
-    return dom.serialize();
+    return document.body.innerHTML;
 }
 
 /**
@@ -568,31 +567,38 @@ export function staticImagesIntegration(
 }
 
 /**
- * Remark plugin factory that rewrites root-relative URLs in markdown HTML
- * nodes to include the Astro `base` path. Baking `base` into the plugin at
- * config time ensures Astro's content-layer cache is invalidated when the
- * base changes, so rebuilt HTML always has correct paths.
+ * Astro integration that post-processes all built HTML files to prepend `base`
+ * to root-relative `src="/..."` attributes that Astro doesn't rewrite automatically
+ * (e.g. raw `<img>` tags in markdown/MDX content).
  */
-function createRemarkPrependBase(base: string) {
+function createBasePrependIntegration(base: string): AstroIntegration {
     const normalizedBase = base.replace(/\/$/, '');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return () => (tree: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        visit(tree, (node: any) => {
-            if (node.type === 'html' && node.value) {
-                node.value = node.value.replace(/(src|href)="(\/[^"]*)"/g, (_: string, attr: string, url: string) => {
-                    if (url.startsWith(normalizedBase + '/')) return `${attr}="${url}"`;
-                    return `${attr}="${normalizedBase}${url}"`;
-                });
-                node.value = node.value.replace(/url\((\/[^)"']*)\)/g, (_: string, url: string) => {
-                    if (url.startsWith(normalizedBase + '/')) return `url(${url})`;
-                    return `url(${normalizedBase}${url})`;
-                });
-            }
-            if (node.type === 'image' && node.url?.startsWith('/') && !node.url.startsWith(normalizedBase + '/')) {
-                node.url = normalizedBase + node.url;
-            }
-        });
+
+    function rewriteDir(dir: string): void {
+        for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+            const full = path.join(dir, entry.name);
+            if (entry.isDirectory()) { rewriteDir(full); continue; }
+            if (!entry.name.endsWith('.html')) continue;
+
+            const original = fs.readFileSync(full, 'utf-8');
+            const rewritten = original.replace(
+                /\bsrc="(\/[^"]*)"/g,
+                (_: string, url: string) => {
+                    if (url.startsWith(normalizedBase + '/')) return `src="${url}"`;
+                    return `src="${normalizedBase}${url}"`;
+                },
+            );
+            if (rewritten !== original) fs.writeFileSync(full, rewritten, 'utf-8');
+        }
+    }
+
+    return {
+        name: 'docs-template:base-prepend',
+        hooks: {
+            'astro:build:done'({ dir }) {
+                rewriteDir(fileURLToPath(dir));
+            },
+        },
     };
 }
 
@@ -828,6 +834,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 ],
             }),
             ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
+            ...(base ? [createBasePrependIntegration(base)] : []),
             ...extraIntegrations,
         ],
     });

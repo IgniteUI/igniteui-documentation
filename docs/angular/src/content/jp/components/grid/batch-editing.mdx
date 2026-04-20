@@ -5,20 +5,13 @@ keywords: angular crud, ignite ui for angular, infragistics
 license: commercial
 _language: ja
 ---
-import { Aside } from '@astrojs/starlight/components';
-import Sample from 'docs-template/components/mdx/Sample.astro';
-
-
 
 # Angular Grid 一括編集とトランザクション
 
-[`HierarchicalTransactionService`]({environment:angularApiUrl}/classes/igxhierarchicaltransactionservice.html) を [`IgxGrid`]({environment:angularApiUrl}/classes/igxhierarchicalgridcomponent.html) と一緒に使用し、アイランドごとに個別のトランザクション ログを蓄積するには、代わりにサービス ファクトリを提供する必要があります。[`IgxHierarchicalTransactionServiceFactory`]({environment:angularApiUrl}/index.html#igxhierarchicaltransactionservicefactory) として使用できるようになります。
-
-
 以下は、Grid コンポーネントに対して一括編集を有効にする方法の詳細な例です。
 
-
-
+import { Aside } from '@astrojs/starlight/components';
+import Sample from 'docs-template/components/mdx/Sample.astro';
 
 Below is a detailed example of how is Batch Editing enabled for the Grid component.
 
@@ -26,13 +19,9 @@ Below is a detailed example of how is Batch Editing enabled for the Grid compone
 
 以下のサンプルは、grid にプロバイダーのトランザクションがあり、[`batchEditing`]({environment:angularApiUrl}/classes/igxgridcomponent.html#batchEditing) と行編集が有効にされています。行編集全体を確定後にトランザクションが追加されるようにします。
 
-
-
-
 <Sample src="/grid/grid-batch-editing" height={650} alt="Angular Grid Batch Editing and Transactions Example" />
 
 <div class="divider--half"></div>
-
 
 <Aside type="note" title="注">
 トランザクション ステートは、すべての更新、追加、削除された行、そして最後のステートで構成されます。
@@ -41,9 +30,6 @@ Below is a detailed example of how is Batch Editing enabled for the Grid compone
 <Sample src="/tree-grid/treegrid-batchediting" height={600} alt="Angular Grid Batch Editing and Transactions Example" />
 
 <div class="divider--half"></div>
-
-
-
 
 <Aside type="note" title="注">
 Transaction state consists of all the updated, added and deleted rows, and their last states.
@@ -75,12 +61,9 @@ export class AppModule {}
 </igx-grid>
 ```
 
-これにより、igx-grid に `Transaction` サービスの適切なインスタンスが提供されます。適切な `TransactionService` は `TransactionFactory` を通じて提供されます。この内部実装の詳細については、[トランザクション トピック](/transaction-classes#トランザクション-ファクトリ)を参照してください。
+これにより、igx-grid に `Transaction` サービスの適切なインスタンスが提供されます。適切な `TransactionService` は `TransactionFactory` を通じて提供されます。この内部実装の詳細については、[トランザクション トピック](/transaction-classes.md#トランザクション-ファクトリ)を参照してください。
 
 一括編集を有効にした後、バインドされたデータ ソースと [`rowEditable`]({environment:angularApiUrl}/classes/igxgridcomponent.html#rowEditable) を true に設定して `IgxGrid` を定義し、バインドします。
-
-
-
 
 ```html
 <igx-grid #grid [batchEditing]="true" [data]="data" [primaryKey]="'ProductID'" width="100%" height="500px"
@@ -96,29 +79,9 @@ export class AppModule {}
 
 ```
 
-
-
-
-
-
-```html
-<igx-tree-grid #treeGrid [batchEditing]="true" [data]="data" primaryKey="employeeID" foreignKey="PID"
-    width ="100%" height ="500px" rowEditable=true>
-    ...
-</igx-tree-grid>
-...
-    <button igxButton (click)="addRow()">Add Root Level Row</button>
-    <button igxButton [disabled]="!treeGrid.transactions.canUndo" (click)="undo()">Undo</button>
-    <button igxButton [disabled]="!treeGrid.transactions.canRedo" (click)="redo()">Redo</button>
-    <button igxButton [disabled]="treeGrid.transactions.getAggregatedChanges(false).length < 1"
-        (click)="openCommitDialog()">Commit</button>
-...
-```
-
 <Aside type="note" title="注">
 トランザクション API は編集の終了を処理しないので、自分で行う必要があります。そうしないと、`Grid` は編集モードのままになります。これを行う 1 つの方法は、それぞれのメソッドで [`endEdit`]({environment:angularApiUrl}/classes/igxgridcomponent.html#endEdit) を呼び出すことです。
 </Aside>
-
 
 ```html
 <igx-hierarchical-grid #hierarchicalGrid [batchEditing]="true" [data]="data" [primaryKey]="'Artist'"
@@ -148,8 +111,6 @@ export class AppModule {}
 [`rowEditable`]({environment:angularApiUrl}/classes/igxgridcomponent.html#rowEditable) プロパティを無効にすると `Grid` を変更してセル変更でトランザクションを作成し、UI で行編集オーバーレイを公開しません。
 </Aside>
 
-
-
 The following code demonstrates the usage of the [`transactions`]({environment:angularApiUrl}/classes/igxtransactionservice.html#) API - undo, redo, commit.
 
 ```typescript
@@ -175,22 +136,13 @@ export class GridBatchEditingSampleComponent {
 }
 ```
 
-
-
-
-
 <Aside type="note" title="注">
 The transactions API won't handle end of edit and you'd need to do it by yourself. Otherwise, `Grid` would stay in edit mode. One way to do that is by calling [`endEdit`]({environment:angularApiUrl}/classes/igxgridcomponent.html#endEdit) in the respective method.
 </Aside>
 
-
-
 <Aside type="note" title="注">
 Disabling [`rowEditable`]({environment:angularApiUrl}/classes/igxgridcomponent.html#rowEditable) property will modify `Grid` to create transactions on cell change and will not expose row editing overlay in the UI.
 </Aside>
-
-
-
 
 ## 一括編集のリモート ページング デモ
 
@@ -198,22 +150,14 @@ Disabling [`rowEditable`]({environment:angularApiUrl}/classes/igxgridcomponent.h
 
 <Sample src="/grid/remote-paging-batch-editing" height={620} alt="" />
 
-
-
 ## API リファレンス
-
-
-
 
 - [transactions]({environment:angularApiUrl}/classes/igxgridcomponent.html#transactions)
 - [igxTransactionService]({environment:angularApiUrl}/classes/igxtransactionservice.html)
 
-
-
-
 ## その他のリソース
 
-- [igxGrid を使用して CRUD 操作の構築](/general/how-to/how-to-perform-crud)
+- [igxGrid を使用して CRUD 操作の構築](/general/how-to/how-to-perform-crud.md)
 - [Grid 概要](/grid/grid)
 - [Grid 編集](/grid/editing)
 - [Grid 行編集](/grid/row-editing)
