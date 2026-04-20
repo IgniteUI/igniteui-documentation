@@ -10,23 +10,6 @@ import { GRID_CONFIGS } from './grid-configs.mjs';
 // ── Template pipeline ─────────────────────────────────────────────────────────
 
 /**
- * Joins two text segments, capping the combined newlines at the boundary to two
- * (one blank line). This prevents blank lines from excluded ComponentBlock sections
- * from accumulating in the output.
- *
- * @param {string} a
- * @param {string} b
- * @returns {string}
- */
-function joinSegments(a, b) {
-    if (!a || !b) return a + b;
-    const trailing = /\n+$/.exec(a)?.[0].length ?? 0;
-    const leading = /^\n+/.exec(b)?.[0].length ?? 0;
-    if (trailing + leading <= 2) return a + b;
-    return a.slice(0, a.length - trailing) + '\n\n' + b.slice(leading);
-}
-
-/**
  * Keep only ComponentBlock sections applicable to the current grid variant.
  *
  * @param {string} content
@@ -45,11 +28,11 @@ function filterComponentBlocks(content, componentKey) {
         const open = openTag.exec(content);
 
         if (!open) {
-            out = joinSegments(out, content.slice(cursor));
+            out += content.slice(cursor);
             break;
         }
 
-        out = joinSegments(out, content.slice(cursor, open.index));
+        out += content.slice(cursor, open.index);
 
         const keys = String(open[1]).split(',').map((k) => k.trim());
         const bodyStart = openTag.lastIndex;
@@ -74,7 +57,7 @@ function filterComponentBlocks(content, componentKey) {
         const body = content.slice(bodyStart, bodyEnd);
 
         if (keys.includes(componentKey)) {
-            out = joinSegments(out, filterComponentBlocks(body, componentKey));
+            out += filterComponentBlocks(body, componentKey);
         }
 
         cursor = anyTag.lastIndex;
@@ -103,8 +86,10 @@ function applyReplacements(content, context) {
  * @param {string} componentKey
  */
 function buildGeneratedDoc(raw, context, componentKey) {
-    let result = filterComponentBlocks(raw, componentKey);
+    let result = raw.replace(/\r\n/g, '\n');
+    result = filterComponentBlocks(result, componentKey);
     result = applyReplacements(result, context);
+    result = result.replace(/\n{3,}/g, '\n\n');
     return result.trimStart();
 }
 
