@@ -8,17 +8,29 @@ _language: ja
 import Sample from 'docs-template/components/mdx/Sample.astro';
 
 
+
+
+
 # Angular Tree Grid 列ピン固定
 
 単一または複数の列を Angular UI グリッドの左端にピン固定できます。Ignite UI for Angular の**列固定**は、ユーザーが特定の列順序で列をロックすることを可能にし、Tree Grid で水平スクロール時にロックされた列が常に表示されます。Material UI Grid には組み込みの列ピン固定 UI があり、Tree Grid のツールバーで列の表示状態を変更できます。その他、カスタム UI を定義し、Column Pinning API を介して列のピン固定状態を変更できます。
 
 ## Angular Tree Grid 列ピン固定の例
 
+
+
+
 <Sample src="/tree-grid/treegrid-toolbar-pinning" height={630} alt="Angular Tree Grid 列ピン固定の例" />
+
+
+
 
 ## 列固定 API
 
 列ピン固定は、[`igx-column`]({environment:angularApiUrl}/classes/igxcolumncomponent.html) の `pinned` 入力によって制御されます。ピン固定列は常に Tree Grid の左側に描画され、Tree Grid 本体のピン固定されていない列の水平スクロールで固定されます。
+
+
+
 
 ```html
 <igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="false">
@@ -28,16 +40,29 @@ import Sample from 'docs-template/components/mdx/Sample.astro';
 </igx-tree-grid>
 ```
 
+
+
+
+
 [`IgxTreeGridComponent`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html) の Tree Grid の [`pinColumn`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#pinColumn) または [`unpinColumn`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#unpinColumn) メソッドを使用してフィールド名によって列をピン固定またはピン固定解除できます。
+
+
+
 
 ```typescript
 this.treeGrid.pinColumn('Title');
 this.treeGrid.unpinColumn('Name');
 ```
 
+
+
+
 両方のメソッドは操作に成功したかどうかを示すブール値を返します。よくある失敗の原因として列がすでにそのステートになっていることがあります。
 
 列をピン固定すると、一番右に配置されたピン固定列の右にピン固定されます。ピン固定列の順序を変更するには、[`columnPin`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#columnPin) イベントでイベント引数の [`insertAtIndex`]({environment:angularApiUrl}/interfaces/ipincolumneventargs.html#insertAtIndex) プロパティを適切な位置インデックスに変更します。
+
+
+
 
 ```html
 <igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="true" (columnPin)="columnPinning($event)"></igx-tree-grid>
@@ -51,14 +76,25 @@ public columnPinning(event) {
 }
 ```
 
+
+
+
 ## ピン固定の位置
 
 [`pinning`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#pinning) 設定オプションを使用して、列のピン固定の位置を変更できます。列の位置を Start または End のいずれかに設定できます。End に設定すると、列がピン固定されていない列の後に、グリッドの最後にレンダリングされます。
 ピン固定されていない列は水平にスクロールできますが、ピン固定された列は右側に固定されます。
 
+
+
+
+
 ```html
 <igx-tree-grid #grid1 [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></igx-tree-grid>
 ```
+
+
+
+
 
 ```typescript
 public pinningConfig: IPinningConfig = { columns: ColumnPinningPosition.End };
@@ -66,13 +102,29 @@ public pinningConfig: IPinningConfig = { columns: ColumnPinningPosition.End };
 
 ### デモ
 
+
+
+
+
+
+
 <Sample src="/tree-grid/tree-grid-sample-right-pinning" height={510} alt="" />
+
+
 
 ### 両側の列ピン固定
 
 各列のピン固定位置を個別に指定できるため、グリッドの両側に列をピン固定して利便性を高め、データ セットの最適化を容易にすることができます。詳細については、以下のデモを参照してください。列をピン固定するには、ヘッダーをクリックして列を選択し、ツールバーに追加されたピン固定ボタンを使用するか、列を別のピン固定された列にドラッグします。
 
+
+
+
+
+
+
 <Sample src="/tree-grid/tree-grid-both-sides-pinning" height={510} alt="" />
+
+
 
 ## カスタム列ピン固定 UI
 
@@ -80,6 +132,10 @@ public pinningConfig: IPinningConfig = { columns: ColumnPinningPosition.End };
 
 ツールバーの代わりに、エンドユーザーが特定の列のピンの状態を変更するためにクリックできる列ヘッダーにピンアイコンを定義するとします。
 これは、カスタムアイコンを使用して列のヘッダーテンプレートを作成することで実行できます。
+
+
+
+
 
 ```html
 <ng-template igxHeader let-column #pinTemplate>
@@ -107,6 +163,10 @@ public pinningConfig: IPinningConfig = { columns: ColumnPinningPosition.End };
 </div>
 ```
 
+
+
+
+
 カスタムアイコンをクリックすると、関連する列のピン状態は、列の API メソッドを使用して変更できます。
 
 ```typescript
@@ -117,13 +177,22 @@ public toggleColumn(col: ColumnType) {
 
 ### デモ
 
+
+
+
 <Sample src="/tree-grid/treegrid-column-pinning" height={630} alt="" />
+
+
+
+
 
 ## ピン固定の制限
 
 - 列幅をパーセンテージ (%) で設定した場合にピン固定列があると Tree Grid 本体およびヘッダー コンテンツが正しく配置されません。列のピン固定を正しく設定するには、列幅をピクセル (px) に設定するか、Tree Grid によって自動的に割り当てる必要があります。
 
 <div class="divider--half"></div>
+
+
 
 ## API リファレンス
 
