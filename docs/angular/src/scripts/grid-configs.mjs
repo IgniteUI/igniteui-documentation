@@ -1,0 +1,48 @@
+// @ts-check
+
+export const GRID_CONFIGS = {
+    grid: {
+        igPath: 'grid',
+        componentKey: 'Grid',
+        ComponentMainTopic: 'grid',
+        ComponentObjectRef: 'grid',
+        ComponentDemoBasePath: 'grid',
+        ComponentTitle: 'Grid',
+        ComponentName: 'IgxGrid',
+        ComponentTypeDoc: 'igxgridcomponent',
+        ComponentSelector: 'igx-grid',
+    },
+    treeGrid: {
+        igPath: 'treegrid',
+        componentKey: 'TreeGrid',
+        ComponentMainTopic: 'tree-grid',
+        ComponentObjectRef: 'treeGrid',
+        ComponentDemoBasePath: 'tree-grid',
+        ComponentTitle: 'Tree Grid',
+        ComponentName: 'IgxTreeGrid',
+        ComponentTypeDoc: 'igxtreegridcomponent',
+        ComponentSelector: 'igx-tree-grid',
+    },
+    hierarchicalGrid: {
+        igPath: 'hierarchicalgrid',
+        componentKey: 'HierarchicalGrid',
+        ComponentMainTopic: 'hierarchical-grid',
+        ComponentObjectRef: 'hierarchicalGrid',
+        ComponentDemoBasePath: 'hierarchical-grid',
+        ComponentTitle: 'Hierarchical Grid',
+        ComponentName: 'IgxHierarchicalGrid',
+        ComponentTypeDoc: 'igxhierarchicalgridcomponent',
+        ComponentSelector: 'igx-hierarchical-grid',
+    },
+    pivotGrid: {
+        igPath: 'pivotGrid',
+        componentKey: 'PivotGrid',
+        ComponentMainTopic: 'pivot-grid',
+        ComponentObjectRef: 'pivotGrid',
+        ComponentDemoBasePath: 'pivot-grid',
+        ComponentTitle: 'Pivot Grid',
+        ComponentName: 'IgxPivotGrid',
+        ComponentTypeDoc: 'igxpivotgridcomponent',
+        ComponentSelector: 'igx-pivot-grid',
+    },
+};
