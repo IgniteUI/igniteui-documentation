@@ -1,27 +1,22 @@
-name: Build Documentation
-
-permissions:
-  contents: write
+name: _CD Deploy (reusable)
 
 on:
-  push:
-    branches:
-      - vnext
-      - master
-# TODO: add proper filters
-#    paths-ignore:
-#      - '**/jp/**'
-#      - '**/kr/**'
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      branch:
-        description: 'Branch to checkout'
+      locale:
+        description: 'Locale to build (en or jp)'
+        required: true
         type: string
-        default: 'vnext'
+      target_ref:
+        description: 'Git ref to checkout'
+        required: true
+        type: string
+    secrets:
+      CLASSIC_PAT_GITHUB:
+        required: true
 
 env:
-  BUILD_TYPE: ${{ github.ref_name == 'master' && 'staging' || 'staging' }} # master targets production but for testing purposes we only deploy to staging
-  TARGET_REF: ${{ github.event.inputs.branch && (startsWith(github.event.inputs.branch, 'refs/') && github.event.inputs.branch || format('refs/heads/{0}', github.event.inputs.branch)) || github.ref }}
+  BUILD_TYPE: ${{ contains(inputs.target_ref, 'master') && 'staging' || 'staging' }} # master targets production but for testing purposes we only deploy to staging
 
 jobs:
   build-and-deploy:
@@ -31,12 +26,12 @@ jobs:
     strategy:
       matrix:
         platform: ['angular', 'react', 'wc', 'blazor']
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ env.TARGET_REF }}
+          ref: ${{ inputs.target_ref }}
           clean: true
           fetch-tags: true
           fetch-depth: 0
@@ -49,20 +44,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Documentation for ${{ matrix.platform }}
-        run: npm run build:${{ env.BUILD_TYPE }}:${{ matrix.platform }}:en
+      - name: Build Documentation for ${{ matrix.platform }} (${{ inputs.locale }})
+        run: npm run build:${{ env.BUILD_TYPE }}:${{ matrix.platform }}:${{ inputs.locale }}
 
       - name: Package build
         run: |
-          cd dist/${{ matrix.platform }}
-          zip -r ../../${{ env.BUILD_TYPE }}_${{ matrix.platform }}_en.zip .
+          LOCALE="${{ inputs.locale }}"
+          DIST_DIR="dist/${{ matrix.platform }}$([[ "$LOCALE" == 'en' ]] && echo '' || echo "-$LOCALE")"
+          cd "$DIST_DIR"
+          zip -r ../../${{ env.BUILD_TYPE }}_${{ matrix.platform }}_${{ inputs.locale }}.zip .
           cd ../..
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: igniteui-docs-${{ matrix.platform }}-en
-          path: ${{ env.BUILD_TYPE }}_${{ matrix.platform }}_en.zip
+          name: igniteui-docs-${{ matrix.platform }}-${{ inputs.locale }}
+          path: ${{ env.BUILD_TYPE }}_${{ matrix.platform }}_${{ inputs.locale }}.zip
           retention-days: 1
 
       - name: Trigger Deploy Workflow in IgniteUI Actions
@@ -75,13 +72,13 @@ jobs:
               repo: 'igniteui-actions',
               event_type: 'igniteui-documentation-cd',
               client_payload: {
-                calling_branch: "${{ env.TARGET_REF }}",
+                calling_branch: "${{ inputs.target_ref }}",
                 environment: "${{ env.BUILD_TYPE }}",
-                artifact_name: "igniteui-docs-${{ matrix.platform }}-en",
+                artifact_name: "igniteui-docs-${{ matrix.platform }}-${{ inputs.locale }}",
                 base_href: "docs-${{ matrix.platform }}-new",
                 platform: "${{ matrix.platform }}",
                 repository: "${{ github.repository }}",
                 run_id: "${{ github.run_id }}",
-                locale: "en"
+                locale: "${{ inputs.locale }}"
               }
             });
