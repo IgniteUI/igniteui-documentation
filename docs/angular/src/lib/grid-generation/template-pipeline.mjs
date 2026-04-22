@@ -100,15 +100,9 @@ function ensureAsideImport(content) {
     if (!content.includes('<Aside')) return content;
 
     const importLine = "import { Aside } from '@astrojs/starlight/components';";
-    const headerEnd = content.search(/^#\s/m);
-    const header = headerEnd >= 0 ? content.slice(0, headerEnd) : content.slice(0, 2000);
-    if (header.includes(importLine)) return content;
+    if (content.includes(importLine)) return content;
 
-    // Check if Sample import already exists - if so, don't add blank line after Aside
-    const hasSampleImport = content.includes("import Sample from 'docs-template/components/mdx/Sample.astro'");
-    const spacing = hasSampleImport ? '\n' : '\n\n';
-    
-    return content.replace(/^(---[\s\S]*?^---)\r?\n/m, `$1\n${importLine}${spacing}`);
+    return content.replace(/^(---[\s\S]*?^---)\r?\n/m, `$1\n${importLine}\n\n`);
 }
 
 /**

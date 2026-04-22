@@ -84,9 +84,9 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
         productName: 'Ignite UI for Angular',
         productSpinal: 'ignite-ui-angular',
         apiPackages: {
-            core:        { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular/21.0.x', packageId: 'igniteui-angular', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
+            core:        { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular/latest', packageId: 'igniteui-angular', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
             charts:      { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-charts/latest', packageId: 'igniteui-angular-charts', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            grids:       { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular/21.0.x', packageId: 'igniteui-angular', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
+            grids:       { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular/latest', packageId: 'igniteui-angular', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
             gauges:      { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-gauges/latest', packageId: 'igniteui-angular-gauges', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
             maps:        { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-maps/latest',        packageId: 'igniteui-angular-maps',        noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
             excel:       { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-excel/latest',       packageId: 'igniteui-angular-excel',       noPackagePrefix: true, preserveCase: true },

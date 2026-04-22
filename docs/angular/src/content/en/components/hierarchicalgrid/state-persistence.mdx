@@ -5,8 +5,8 @@ keywords: state persistence, ignite ui for angular, infragistics
 license: commercial
 _canonicalLink: grid/state-persistence
 ---
-import { Aside } from '@astrojs/starlight/components';
 
+import { Aside } from '@astrojs/starlight/components';
 import Sample from 'docs-template/components/mdx/Sample.astro';
 import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
 
@@ -32,19 +32,20 @@ import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
 - `Columns`
   - Multi column headers
   - Columns order
-  - Column properties defined by the <ApiLink type="IColumnState" kind="interface" prefixed={false} /> interface.
+  - Column properties defined by the <ApiLink type="IColumnState" kind="interface" suffix={false} prefixed={false} /> interface.
   - Columns templates and functions are restored using application level code, see [Restoring Column](/hierarchicalgrid/state-persistence#restoring-columns) section.
 
 <Aside type="note">
 The <ApiLink type="GridState" suffix={false} /> directive does not take care of templates. Go to [Restoring Column](/hierarchicalgrid/state-persistence#restoring-columns) section to see how to restore column templates.
+</Aside>
 
-[!NOTE]
-The `Row Selection`  feature requires the <ApiLink type="Grid" member="primaryKey" label="primaryKey" /> property to be set, so it can be stored/restored correctly.
+<Aside type="note">
+The `Row Selection` feature requires the <ApiLink type="Grid" member="primaryKey" label="primaryKey" /> property to be set, so it can be stored/restored correctly.
 </Aside>
 
 ## Usage
 
-<ApiLink type="GridState" suffix={false} member="getState" label="getState" /> - This method returns the grid state in a serialized JSON string, so developers can just take it and save it on any data storage (database, cloud, browser localStorage, etc). The method accepts first optional parameter `serialize`, which determines whether <ApiLink type="GridState" suffix={false} member="getState" label="getState" /> will return an <ApiLink type="IGridState" kind="interface" prefixed={false} /> object or a serialized JSON string.
+<ApiLink type="GridState" suffix={false} member="getState" label="getState" /> - This method returns the grid state in a serialized JSON string, so developers can just take it and save it on any data storage (database, cloud, browser localStorage, etc). The method accepts first optional parameter `serialize`, which determines whether <ApiLink type="GridState" suffix={false} member="getState" label="getState" /> will return an <ApiLink type="IGridState" kind="interface" suffix={false} prefixed={false} /> object or a serialized JSON string.
 The developer may choose to get only the state for a certain feature/features, by passing in the feature name, or an array with feature names as a second argument.
 
 ```typescript
@@ -58,14 +59,14 @@ const gridState: IGridState = state.getState(false);
 const sortingFilteringStates: IGridState = state.getState(false, ['sorting', 'filtering']);
 ```
 
-<ApiLink type="GridState" suffix={false} member="setState" label="setState" /> - The <ApiLink type="GridState" suffix={false} member="setState" label="setState" /> method accepts the serialized JSON string or <ApiLink type="IGridState" kind="interface" prefixed={false} /> object as argument and will restore the state of each feature found in the object/JSON string.
+<ApiLink type="GridState" suffix={false} member="setState" label="setState" /> - The <ApiLink type="GridState" suffix={false} member="setState" label="setState" /> method accepts the serialized JSON string or <ApiLink type="IGridState" kind="interface" suffix={false} prefixed={false} /> object as argument and will restore the state of each feature found in the object/JSON string.
 
 ```typescript
 state.setState(gridState);
 state.setState(sortingFilteringStates)
 ```
 
-`options` - The <ApiLink type="GridState" suffix={false} member="options" label="options" /> object implements the <ApiLink type="IGridStateOptions" kind="interface" prefixed={false} /> interface, i.e. for every key, which is the name of a certain feature, there is the boolean value indicating if this feature state will be tracked. <ApiLink type="GridState" suffix={false} member="getState" label="getState" /> method will not put the state of these features in the returned value and <ApiLink type="GridState" suffix={false} member="setState" label="setState" /> method will not restore state for it.
+`options` - The <ApiLink type="GridState" suffix={false} member="options" label="options" /> object implements the <ApiLink type="IGridStateOptions" kind="interface" suffix={false} prefixed={false} /> interface, i.e. for every key, which is the name of a certain feature, there is the boolean value indicating if this feature state will be tracked. <ApiLink type="GridState" suffix={false} member="getState" label="getState" /> method will not put the state of these features in the returned value and <ApiLink type="GridState" suffix={false} member="setState" label="setState" /> method will not restore state for it.
 
 ```typescript
 public options =  { cellSelection: false; sorting: false; }
@@ -137,7 +138,7 @@ public onColumnInit(column: IgxColumnComponent) {
 
 ## Restoring Child Grids
 
-Saving / Restoring state for the child grids is controlled by the [`rowIslands`]({environment:angularApiUrl}/interfaces/igxgridstateoptions.html#rowIslands) property and is enabled by default. <ApiLink type="GridState" suffix={false} /> will use the same options for saving/restoring features both for the root grid and all child grids down the hierarchy. For example, if we pass the following options:
+Saving / Restoring state for the child grids is controlled by the <ApiLink kind="interface" prefixed={false} suffix={false} type="GridStateOptions" member="rowIslands" /> property and is enabled by default. <ApiLink type="GridState" suffix={false} /> will use the same options for saving/restoring features both for the root grid and all child grids down the hierarchy. For example, if we pass the following options:
 
 ``` html
 <!-- public options = {selection: false, sorting: false, rowIslands: true} -->
