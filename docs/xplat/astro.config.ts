@@ -3,7 +3,7 @@ import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import mdx from '@astrojs/mdx';
-import { IGDOCS_PLATFORMS } from 'docs-template/platform';
+import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
 
 // ---------------------------------------------------------------------------
 // Platform selection
@@ -25,7 +25,7 @@ function resolveSetting(envKey: string, jsonKey: string, fallback: string): stri
 }
 
 const platform = resolveSetting('PLATFORM', 'platform', 'React');
-const lang = resolveSetting('LANG_CODE', 'lang', 'en');
+const lang = resolveSetting('LANG_CODE', 'lang', 'en') as NavLang;
 
 // DOCS_ENV: 'development' | 'staging' | 'production'  (preferred, default: 'development')
 // NODE_ENV: fallback — do NOT set to 'staging'; Vite derives import.meta.env.DEV from it.
@@ -304,7 +304,8 @@ console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}`
 const PROD_HOST = 'https://www.infragistics.com';
 const STAGING_HOST = 'https://staging.infragistics.com';
 
-const p = PLATFORMS[platform];
+const platformLangKey = lang === 'jp' ? `${platform}JP` : platform;
+const p = PLATFORMS[platformLangKey] ?? PLATFORMS[platform];
 const site = mode === 'production' ? `${PROD_HOST}${p.base}`
     : mode === 'staging' ? `${STAGING_HOST}${p.base}`
     : `http://localhost:${p.devPort}`;
@@ -325,11 +326,13 @@ export default createDocsSite({
         tocPath: filteredTocPath,
         docsDir: path.join(XPLAT_ROOT, 'components'),
     },
-    productLinks: Object.values(PLATFORMS).map(({ label, key, base: b }) => ({
-        label,
-        href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
-        platform: key,
-    })),
+    productLinks: Object.values(PLATFORMS)
+        .filter(p => p.lang === lang)
+        .map(({ label, key, base: b }) => ({
+            label,
+            href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
+            platform: key,
+        })),
     starlight: {
         logo: { src: './public/favicon.svg' },
     },
