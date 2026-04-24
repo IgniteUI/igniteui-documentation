@@ -4,6 +4,7 @@ export const GRID_CONFIGS = {
     grid: {
         igPath: 'grid',
         componentKey: 'Grid',
+        ComponentApiType: 'Grid',
         ComponentMainTopic: 'grid',
         ComponentObjectRef: 'grid',
         ComponentDemoBasePath: 'grid',
@@ -15,6 +16,7 @@ export const GRID_CONFIGS = {
     treeGrid: {
         igPath: 'treegrid',
         componentKey: 'TreeGrid',
+        ComponentApiType: 'TreeGrid',
         ComponentMainTopic: 'tree-grid',
         ComponentObjectRef: 'treeGrid',
         ComponentDemoBasePath: 'tree-grid',
@@ -26,6 +28,7 @@ export const GRID_CONFIGS = {
     hierarchicalGrid: {
         igPath: 'hierarchicalgrid',
         componentKey: 'HierarchicalGrid',
+        ComponentApiType: 'HierarchicalGrid',
         ComponentMainTopic: 'hierarchical-grid',
         ComponentObjectRef: 'hierarchicalGrid',
         ComponentDemoBasePath: 'hierarchical-grid',
@@ -37,6 +40,7 @@ export const GRID_CONFIGS = {
     pivotGrid: {
         igPath: 'pivotGrid',
         componentKey: 'PivotGrid',
+        ComponentApiType: 'PivotGrid',
         ComponentMainTopic: 'pivot-grid',
         ComponentObjectRef: 'pivotGrid',
         ComponentDemoBasePath: 'pivot-grid',
