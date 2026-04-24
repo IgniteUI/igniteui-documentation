@@ -31,24 +31,9 @@ ng add igniteui-angular
 
 Ignite UI for Angular については、「[はじめに](general/getting-started.md)」トピックをご覧ください。
 
-次に、**app.module.ts** ファイルに `IgxBadgeModule` をインポートします。
+### スタンドアロン コンポーネント
 
-```typescript
-// app.module.ts
-
-...
-import { IgxBadgeModule } from 'igniteui-angular/badge';
-// import { IgxBadgeModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxBadgeModule],
-    ...
-})
-export class AppModule {}
-```
-
-あるいは、`16.0.0` 以降、`IgxBadgeComponent` をスタンドアロンの依存関係としてインポートできます。
+`16.0.0` 以降、`IgxBadgeComponent` はスタンドアロン コンポーネントです。直接インポートしてください。
 
 ```typescript
 // home.component.ts
@@ -67,11 +52,50 @@ import { IgxBadgeComponent } from 'igniteui-angular/badge';
 export class HomeComponent {}
 ```
 
+### NgModule (レガシー)
+
+NgModule を使用するアプリケーションの場合は、**app.module.ts** で `IgxBadgeModule` をインポートします:
+
+```typescript
+// app.module.ts
+
+...
+import { IgxBadgeModule } from 'igniteui-angular/badge';
+// import { IgxBadgeModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxBadgeModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxBadgeModule` は後方互換性のためにのみ保持されています。新しいプロジェクトでは、スタンドアロンの `IgxBadgeComponent` のインポートを使用してください。
+</Aside>
+
 Ignite UI for Angular Badge モジュールまたはコンポーネントをインポートしたので、`igx-badge` コンポーネントの基本構成を開始できます。
 
 ## Angular Badge コンポーネントの使用
 
-デモ サンプルの実行方法を見てみましょう。アバターのシンプルな success スタイルのバッジです。これを構築するためには、`IgxBadgeModule` とともに `IgxAvatarModule` をインポートする必要があります。
+デモ サンプルの実行方法を見てみましょう。アバターのシンプルな success スタイルのバッジです。これを構築するためには、`IgxBadgeComponent` と `IgxAvatarComponent` をインポートする必要があります。
+
+```typescript
+import { IgxBadgeComponent } from 'igniteui-angular/badge';
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+// import { IgxBadgeComponent, IgxAvatarComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IgxBadgeComponent, IgxAvatarComponent],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+NgModule ベースのアプリケーションの場合:_
 
 ```typescript
 // app.module.ts
@@ -88,8 +112,6 @@ import { IgxAvatarModule } from 'igniteui-angular/avatar';
 
 export class AppModule {}
 ```
-
-_あるいは、`16.0.0` 以降、`IgxBadgeComponent` と `IgxAvatarComponent` をスタンドアロンの依存関係としてインポートできます。_
 
 次に、これらのコンポーネントをテンプレートに追加します。
 
@@ -172,7 +194,24 @@ export class BadgeIconComponent implements OnInit {
 
 チャット クライアントのような連絡先リストを作成します。連絡先の名前を表示し、アバターおよび連絡先の現在状態 (オンライン、オフライン、退席中) を表示します。これを達成するには、<ApiLink type="Badge" label="igx-badge" /> および <ApiLink type="Avatar" label="igx-avatar" /> コンポーネントを使用します。コンテナーの場合、<ApiLink type="List" label="igx-list" /> が使用されます。
 
-続行するには、必要なすべてのモジュールを含めて、**app.module.ts** ファイルにインポートします。
+続行するには、必要なコンポーネントをインポートします。
+
+```typescript
+import { IGX_LIST_DIRECTIVES } from 'igniteui-angular/list';
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+import { IgxBadgeComponent } from 'igniteui-angular/badge';
+// import { IGX_LIST_DIRECTIVES, IgxAvatarComponent, IgxBadgeComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IGX_LIST_DIRECTIVES, IgxAvatarComponent, IgxBadgeComponent],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+NgModule ベースのアプリケーションの場合:_
 
 ```typescript
 // app.module.ts

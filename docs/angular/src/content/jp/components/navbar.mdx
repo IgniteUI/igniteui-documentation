@@ -29,23 +29,9 @@ ng add igniteui-angular
 
 Ignite UI for Angular については、「[はじめに](general/getting-started.md)」トピックをご覧ください。
 
- はじめに、**app.module.ts** ファイルに `IgxNavbarModule` をインポートします。
+### スタンドアロン コンポーネント
 
-```typescript
-// app.module.ts
-
-import { IgxNavbarModule } from 'igniteui-angular/navbar';
-// import { IgxNavbarModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxNavbarModule],
-    ...
-})
-export class AppModule {}
-```
-
-あるいは、`16.0.0` 以降、`IgxNavbarComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_NAVBAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/navbar/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
+`16.0.0` 以降、`IgxNavbarComponent` はスタンドアロン コンポーネントです。直接インポートするか、コンポーネントとそのすべてのサポート コンポーネントおよびディレクティブを含む `IGX_NAVBAR_DIRECTIVES` トークンを使用してください。
 
 ```typescript
 // home.component.ts
@@ -63,6 +49,28 @@ import { IGX_NAVBAR_DIRECTIVES } from 'igniteui-angular/navbar';
 })
 export class HomeComponent {}
 ```
+
+### NgModule (レガシー)
+
+NgModule を使用するアプリケーションの場合は、**app.module.ts** で `IgxNavbarModule` をインポートします:
+
+```typescript
+// app.module.ts
+
+import { IgxNavbarModule } from 'igniteui-angular/navbar';
+// import { IgxNavbarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxNavbarModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxNavbarModule` は後方互換性のためにのみ保持されています。新しいプロジェクトでは、スタンドアロンの `IGX_NAVBAR_DIRECTIVES` または `IgxNavbarComponent` のインポートを使用してください。
+</Aside>
 
 Ignite UI for Angular Navbar モジュールまたはディレクティブをインポートしたので、`igx-navbar` コンポーネントの使用を開始できます。
 
@@ -92,7 +100,24 @@ Ignite UI for Angular Navbar モジュールまたはディレクティブをイ
 
 ### アイコン ボタンの追加
 
-検索、お気に入りなどのオプションを追加するには、[**IgxIconButton**](icon-button.md) と [**IgxIcon**](icon.md) モジュールを **app.module.ts** ファイルにインポートします。
+検索、お気に入りなどのオプションを追加するには、`IGX_NAVBAR_DIRECTIVES`、`IgxIconComponent`、および `IgxButtonDirective` をインポートします:
+
+```typescript
+import { IGX_NAVBAR_DIRECTIVES } from 'igniteui-angular/navbar';
+import { IgxIconComponent } from 'igniteui-angular/icon';
+import { IgxButtonDirective } from 'igniteui-angular/directives';
+// import { IGX_NAVBAR_DIRECTIVES, IgxIconComponent, IgxButtonDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IGX_NAVBAR_DIRECTIVES, IgxIconComponent, IgxButtonDirective],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+NgModule ベースのアプリケーションの場合:_
 
 ```typescript
 // app.module.ts
