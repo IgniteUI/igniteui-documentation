@@ -38,24 +38,29 @@ const { label = "Components List" } = Astro.props;
 </button>
 
 <script>
-  const trigger = document.getElementById("mobile-sidebar-toggle");
-  if (trigger) {
-    trigger.addEventListener("click", () => {
-      const expanded = trigger.getAttribute("aria-expanded") === "true";
-      trigger.setAttribute("aria-expanded", String(!expanded));
-      document.body.toggleAttribute("data-mobile-menu-expanded", !expanded);
-    });
-    document.addEventListener("keyup", (e) => {
-      if (
-        e.key === "Escape" &&
-        trigger.getAttribute("aria-expanded") === "true"
-      ) {
-        trigger.setAttribute("aria-expanded", "false");
-        document.body.removeAttribute("data-mobile-menu-expanded");
-        trigger.focus();
-      }
-    });
-  }
+  document.addEventListener("click", (e) => {
+    const trigger = (e.target as Element).closest<HTMLElement>("#mobile-sidebar-toggle");
+    if (!trigger) return;
+    const expanded = trigger.getAttribute("aria-expanded") === "true";
+    trigger.setAttribute("aria-expanded", String(!expanded));
+    document.body.toggleAttribute("data-mobile-menu-expanded", !expanded);
+  });
+
+  document.addEventListener("keyup", (e) => {
+    if (e.key !== "Escape") return;
+    const trigger = document.getElementById("mobile-sidebar-toggle");
+    if (trigger && trigger.getAttribute("aria-expanded") === "true") {
+      trigger.setAttribute("aria-expanded", "false");
+      document.body.removeAttribute("data-mobile-menu-expanded");
+      trigger.focus();
+    }
+  });
+
+  document.addEventListener("astro:page-load", () => {
+    const trigger = document.getElementById("mobile-sidebar-toggle");
+    if (trigger) trigger.setAttribute("aria-expanded", "false");
+    document.body.removeAttribute("data-mobile-menu-expanded");
+  });
 </script>
 
 <style is:global>
