@@ -3,6 +3,7 @@ import mdx from '@astrojs/mdx';
 import path from 'node:path';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS } from 'docs-template/platform';
+import { normalizeMdxDir } from 'docs-template/normalize-mdx';
 
 // ── Build mode ───────────────────────────────────────────────────────────────
 // DOCS_ENV: 'development' | 'staging' | 'production'  (preferred, default: 'development')
@@ -29,6 +30,9 @@ const site = mode === 'production' ? `${PROD_HOST}${base}`
 // ── Source paths ─────────────────────────────────────────────────────────────
 const docsDir = path.resolve('./src/content/en/topics');
 const tocPath  = path.resolve('./toc.json');
+
+// ── Pre-process: normalize legacy DocFX MDX files to Astro/Starlight format ──
+normalizeMdxDir(docsDir);
 
 // https://astro.build/config
 export default createDocsSite({

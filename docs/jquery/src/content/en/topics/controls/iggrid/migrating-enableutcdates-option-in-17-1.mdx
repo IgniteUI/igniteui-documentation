@@ -1,30 +1,25 @@
-<!--
-|metadata|
-{
-    "fileName": "migrating-enableUTCDates-option-in-17-1",
-    "controlName": "igGrid",
-    "tags": ["Migration","Getting Started"]
-}
-|metadata|
--->
+---
+title: "Migrating enableUTCDates option after 17.1"
+slug: migrating-enableUTCDates-option-in-17-1
+---
 
 # Migrating enableUTCDates option after 17.1
 
 ## Date handling in 17.1 and above for igGrid, igHierarchicalGrid and igTreeGrid
 
-Grids are handling dates through two options [`enableUTCDates`](%%jQueryApiUrl%%/ui.iggrid#options:enableUTCDates) and [`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) after 17.1.
+Grids are handling dates through two options [`enableUTCDates`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:enableUTCDates) and [`dateDisplayType`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:columns.dateDisplayType) after 17.1.
 
--	[`enableUTCDates`](%%jQueryApiUrl%%/ui.iggrid#options:enableUTCDates) - this option is similar to what it does for igDateEditor and igDatePicker. It has nothing to do with displaying dates anymore. It serves the purpose to specify dates serialization. Whether the dates are serialized as [UTC ISO 8061](https://en.wikipedia.org/wiki/ISO_8601#UTC) string or in local time and zone values. 
+-	[`enableUTCDates`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:enableUTCDates) - this option is similar to what it does for igDateEditor and igDatePicker. It has nothing to do with displaying dates anymore. It serves the purpose to specify dates serialization. Whether the dates are serialized as [UTC ISO 8061](https://en.wikipedia.org/wiki/ISO_8601#UTC) string or in local time and zone values. 
 For example 10:00 AM from a client with local offset of 5 hours ahead of GMT will be serialized as: "2016-11-11T10:00:00+05:00". This is when the option gets the default 'false' value. Otherwise, the date will use the ISO UTC format: "2016-11-11T05:00:00Z".
--	[`dateDisplayType`](%%jQueryApiUrl%%/ui.iggrid#options:columns.dateDisplayType) – This option is part of the columns definitions and can be used for the date columns. If set to "local" (default) the grid is rendering the dates in local time zone. If set to "utc" the grid is rendering the dates in UTC. There is one more behavior delivered with that option and designed specifically to handle the default %%ProductNameMVC%% Grid scenario. It requires data source with time zone offset metadata. The dates are rendered as if in "utc" with the added offset. The idea behind this is to show the same dates the user sees on the server. The option dateDisplayType has no effect on non-date type columns and is ignored.
+-	[`dateDisplayType`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:columns.dateDisplayType) – This option is part of the columns definitions and can be used for the date columns. If set to "local" (default) the grid is rendering the dates in local time zone. If set to "utc" the grid is rendering the dates in UTC. There is one more behavior delivered with that option and designed specifically to handle the default &#123;environment:ProductNameMVC&#125; Grid scenario. It requires data source with time zone offset metadata. The dates are rendered as if in "utc" with the added offset. The idea behind this is to show the same dates the user sees on the server. The option dateDisplayType has no effect on non-date type columns and is ignored.
 
->**Note:** When a %%ProductNameMVC%% Grid is initalized `enableUTCDates` is set to `true` by default. When a %%ProductName%% grid is initialized the option is set to `false` by default. For example if the `enableUTCDates` is not specified(using the default behavior) and %%ProductNameMVC%% is used the dates are serialized in ISO UTC format ("2016-11-11T05:00:00Z"). In non-MVC scenario not specifing `enableUTCDates` would serialize the dates to local time and zone values ("2016-11-11T10:00:00+05:00").
+>**Note:** When a &#123;environment:ProductNameMVC&#125; Grid is initalized `enableUTCDates` is set to `true` by default. When a &#123;environment:ProductName&#125; grid is initialized the option is set to `false` by default. For example if the `enableUTCDates` is not specified(using the default behavior) and &#123;environment:ProductNameMVC&#125; is used the dates are serialized in ISO UTC format ("2016-11-11T05:00:00Z"). In non-MVC scenario not specifing `enableUTCDates` would serialize the dates to local time and zone values ("2016-11-11T10:00:00+05:00").
 
 The main questions to answer in order to understand the date handling are how and where are the dates stored. All records and their values(including dates) are stored by igDataSource. Before storing the dates igDataSource transforms them as Date objects, if they are not already Date objects. Once stored they should be rendered and displayed into the grid cells. The responsibility for this is owned by $.ig.formatter. The formatter renders the dates as they are expected and in accordance with `dateDisplayType` option.
 
 Another behavioral change is that the transaction log will not keep dates serialized. All dates will be preserved as Date objects and serialization will be done only to the passed parameters, when saveChanges is invoked and the enableUTCDates option tells how this should be done.
 
-In 17.1 and above %%ProductNameMVC%% will send the dates into the following format:
+In 17.1 and above &#123;environment:ProductNameMVC&#125; will send the dates into the following format:
 
 ```js
 {
@@ -55,9 +50,9 @@ In 17.1 and above %%ProductNameMVC%% will send the dates into the following form
 The option `enableUTCDates` determines how the grid displays and uses dates into its cells.
 -	If enabled the grid shows UTC time, ignoring the client offset. For example, the grid has a property with a value of 2009-02-15T04:00:00Z and the client has GMT+02:00 offset. Then the grid will use 4 AM. In addition, sorting and filtering will consider this value when comparing values.
 -	If disabled the grid shows local time, taking into account the client offset. Consider the following example, there is a value of 2009-02-15T04:00:00Z into the data source and the client offset is GMT+02:00. In this case, the used value will be 6 AM.
->**Note:** If the %%ProductNameMVC%% grid is used the enableUTCDates is enabled by default, otherwise the option is disabled by default.
+>**Note:** If the &#123;environment:ProductNameMVC&#125; grid is used the enableUTCDates is enabled by default, otherwise the option is disabled by default.
 
->**Note:** If %%ProductNameMVC%% is used to process the data source or the data source is remote and the GridDataSource attribute is used, then metadata with time zone offsets has been generated.
+>**Note:** If &#123;environment:ProductNameMVC&#125; is used to process the data source or the data source is remote and the GridDataSource attribute is used, then metadata with time zone offsets has been generated.
 
 ```js
 "Metadata": {
@@ -111,7 +106,7 @@ The API method `saveChanges()` is sending the serialized accumulated transaction
 ## Migrate igGrid,igHierarchicalGrid or igTreeGrid from 16.2 to 17.1 and above
 
 From 17.1 the igDataSource is not going to accept Microsoft date formatting `/Date(1234656000000)/`. If the provided data source contains this kind of data they have to be changed to ISO UTC format "2009-02-15T00:00:00Z".
-If %%ProductNameMVC%% is used, for the user perspective there is nothing to configure. Internally %%ProductNameMVC%%  was using Microsoft format in 16.2 and from 17.1 it would send the dates in ISO UTC.
+If &#123;environment:ProductNameMVC&#125; is used, for the user perspective there is nothing to configure. Internally &#123;environment:ProductNameMVC&#125;  was using Microsoft format in 16.2 and from 17.1 it would send the dates in ISO UTC.
 To display UTC time in 17.1 and above versions:
 
 ```js
@@ -146,7 +141,7 @@ $('#Grid1').igGrid({
 });
 ```
 
-After %%ProductNameMVC%% 17.1:
+After &#123;environment:ProductNameMVC&#125; 17.1:
 ```csharp
 @(Html.Infragistics().Grid(Model)
 	.ID("Grid1")
@@ -166,7 +161,7 @@ After %%ProductNameMVC%% 17.1:
 	.Render()
 )
 ```
-Before %%ProductNameMVC%% 16.2:
+Before &#123;environment:ProductNameMVC&#125; 16.2:
 
 ```csharp
 @(Html.Infragistics().Grid(Model)
@@ -221,7 +216,7 @@ $('#Grid1').igGrid({
 });
 ```
 
-After %%ProductNameMVC%% 17.1:
+After &#123;environment:ProductNameMVC&#125; 17.1:
 ```csharp
 	.ID("Grid1")
 	.AutoGenerateColumns(false)
@@ -240,7 +235,7 @@ After %%ProductNameMVC%% 17.1:
 	.Render()
 )
 ```
-Before %%ProductNameMVC%% 16.2:
+Before &#123;environment:ProductNameMVC&#125; 16.2:
 ```csharp
 @(Html.Infragistics().Grid(Model)
 	.ID("Grid1")
@@ -263,7 +258,7 @@ Before %%ProductNameMVC%% 16.2:
 
 ```
 
->**Note:** The default %%ProductNameMVC%% Grid will display the dates as they are on the server. If the initialization is not done through %%ProductNameMVC%% the default behavior is to show local time.
+>**Note:** The default &#123;environment:ProductNameMVC&#125; Grid will display the dates as they are on the server. If the initialization is not done through &#123;environment:ProductNameMVC&#125; the default behavior is to show local time.
 
-For more information of how to show the specific client date, please follow the [Using %%ProductName%% controls in different time zones](Using-IgniteUI-controls-in-different-time-zones.html) topic and specifically the Ignoring server date and displaying the specific client one paragraph.
+For more information of how to show the specific client date, please follow the [Using &#123;environment:ProductName&#125; controls in different time zones](//general-and-getting-started/using-igniteui-controls-in-different-time-zones.mdx) topic and specifically the Ignoring server date and displaying the specific client one paragraph.
 

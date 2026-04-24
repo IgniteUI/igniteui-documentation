@@ -1,0 +1,262 @@
+---
+title: "REST Updating (igGrid)"
+slug: iggrid-rest-updating
+---
+
+# REST Updating (igGrid)
+
+## Topic Overview
+
+### Purpose
+
+This topic explains `igGrid`™ support for REST services.
+
+### Required background
+
+The following table lists the topics and articles required as a prerequisite to understanding this topic.
+
+- Concepts
+    -   REST
+    -   OData
+    -   HTTP
+- Topics
+    - [igGrid Overview](/iggrid-overview.mdx): The `igGrid` is a jQuery-based client-side grid that is responsible for presenting and manipulating tabular data. Its whole lifecycle is on the client-side making it independent of any specific server-side technology.
+    - [igGrid/igDataSource Architecture Overview](/iggrid-igdatasource-architecture-overview.mdx): This document explains the architecture of `igDataSource`.
+    - [Binding to REST Services (igDataSource)](///data-sources/igdatasource/binding-to-rest-services.mdx): This document demonstrates how to bind REST services to the &#123;environment:ProductName&#125;™ data source, or `igDataSource`, control.
+- External Resources
+    -   Representational State Transfer (REST)
+    -   Open Data Protocol
+    -   HTTP/1.1 RFC
+
+
+#### In this topic
+
+This topic contains the following sections:
+
+-   [Introduction](#introduction)
+-   [igGrid REST Properties](#properties)
+-   [Control Configuration Summary](#configuration-summary)
+-   [Send batch REST requests](#batch)
+-   [Custom style Url](#custom-url)
+-   [Creating custom REST serializer](#custom-serializer)
+-   [Related Content](#related-content)
+
+
+## <a id="introduction"></a>Introduction
+#### igGrid REST summary
+
+REST frameworks are created on top of the HTTP/1.1 protocol. One of their key features is that they leverage the HTTP/1.1 verbs GET, POST, PUT and DELETE to identify the type of operation in the request.
+
+In order to provide REST support, the `$.ig.RESTDataSource` type was created. REST settings are configured through the [`restSettings`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings) property. The `$.ig.RESTDataSource` collects the data using HTTP verbs. When the [`saveChanges`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#methods:saveChanges) method is called, the `$.ig.RESTDataSource` serializes the request and sends it as a whole (if `batch` is set to true) or in individual entity chunks (if batch is set to false) grouped by verb type.
+
+By default, the `$.ig.RESTDataSource` serializes the requests using the JSON format. Support for other formats can be accomplished by implementing the [`contentSerializer`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.contentSerializer) function.
+
+The `igGrid` supports REST binding using the `$.ig.RESTDataSource` internally. It inherits all `$.ig.RESTDataSource` options, meaning these options can be set directly on the `igGrid`. In fact, you don’t need to directly configure the `$.ig.RESTDataSource` at all.
+
+It is important to note that `restSettings` are used when the `igGridUpdating` feature is enabled. On calling `saveChanges`, all the inserted rows are sent in a POST request, all deleted rows are sent with a DELETE request and all updated rows are sent with a PUT request.
+
+REST support is implemented on the client side. On the server side you can use any technology which can produce a REST service. For example you can use an ASP.NET MVC 4 WebAPI implementation or you can create your own in ASP.NET MVC2/3.
+
+There are two modes of a REST request. One is batch mode and the other is non-batch mode. The modes differ by how they package the data and also how they construct the URL. In the following tables you can see the request specifics defined by each REST mode:
+
+Non-batch default URL parameter table:
+
+Http Method/Verb | Request body | URL parameter placeholder | Example
+---|---|---|---
+POST | Single object | /api/&#123;controller&#125; | /api/products
+PUT | Single object | /api/&#123;controller&#125;/&#123;id&#125; | /api/products/1
+DELETE | Empty | /api/&#123;controller&#125;/&#123;id&#125; | /api/products/1
+
+
+Batch default URL parameter table:
+
+Http Method/Verb | Request body | URL parameter placeholder | Example
+---|---|---|---
+POST | Array of objects | /api/&#123;controller&#125; | /api/products
+PUT | Array of objects | /api/&#123;controller&#125;/?index=&#123;id0&#125;&index=&#123;id1&#125; | /api/products/?index=3070&index=815
+DELETE | Empty | /api/&#123;controller&#125;/?index=&#123;id0&#125;&index=&#123;id1&#125; | /api/products/?index=3070&index=815
+
+
+> **Note:** In the `igGrid`, `restSettings` can be set dynamically at runtime.
+
+It is possible to set the `url` only for one verb in the rest settings and the `url` is used by the other verbs. This behavior is only valid for the `url` option. Batch and Template options are not re-used between the verb settings.
+
+Example:
+
+The following code:
+
+**In JavaScript:**
+
+```js
+restSettings: {
+    create: {
+        url: "/api/products/"
+    }
+}
+```
+
+Is interpreted as:
+
+**In JavaScript:**
+
+```js
+restSettings: {
+    create: {
+        url: "/api/products/"
+    },
+    update: {
+        url: "/api/products/"
+    },
+    remove: {
+        url: "/api/products/"
+    }
+}
+```
+
+In the following screenshot you can see the REST request made by the `igGrid` when the [`saveChanges`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#methods:saveChanges) method is executed.
+
+![](images/igGrid_REST_Support_1.png)
+
+
+## <a id="properties"></a>igGrid REST Options
+
+The following table explains the options of the `igGrid` REST settings and lists the default and recommended values.
+
+
+| Option | Type | Description | Default Value |
+| --- | --- | --- | --- |
+| [restSettings](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings) | object | This is the object containing the REST settings. There are REST options for Create, Update and Delete requests. | - |
+| [restSettings.create](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.create) | object | This is the object which holds the create requests settings. | - |
+| [restSettings.create.url](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.create.url) | string | This option specifies a remote URL to which create requests are sent. | null |
+| [restSettings.create.template](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.create.template) | string | This option specifies a remote URL template. The $&#123;id&#125; placeholder is used in place of the resource id. **Note:**: When you set the template option, the url option is not taken into account. **Note:** This option is only valid in the context of non-batch requests. | null |
+| [restSettings.create.batch](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.create.batch) | false | This option specifies whether create requests are sent in batches. | false |
+| [restSettings.update](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.update) | object | This is the object which holds the update requests settings. | - |
+| [restSettings.update.url](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.update.url) | string | This option specifies a remote URL to which update requests are sent. | null |
+| [restSettings.update.template](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.update.template) | string | This option specifies a remote URL template. The $&#123;id&#125; placeholder is used in place of the resource id. **Note:** When you set the template option, the url option is not taken into account. **Note:** This option is only valid in the context of non-batch requests. | null |
+| [restSettings.update.batch](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.update.batch) | false | This option specifies whether update requests will be sent in batches. | false |
+| [restSettings.remove](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.remove) | object | This is the object which holds the remove requests settings. | - |
+| [restSettings.remove.url](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.remove.url) | string | This option specifies a remote URL to which remove requests are sent. | null |
+| [restSettings.remove.template](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.remove.template) | string | This option specifies a remote URL template. The $&#123;id&#125; placeholder is used in place of the resource id. **Note:** When you set the template option, the url option is not taken into account. **Note:** This option is only valid in the context of non-batch requests. | null |
+| [restSettings.remove.batch](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.remove.batch) | bool | This option specifies whether remove requests are sent in batches. | false |
+| [restSettings.encodeRemoveInRequestUri](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.encodeRemoveInRequestUri) | bool | This option specifies whether the ids of the deleted resources are sent through the request URI as a query string with keys index. **Note:** This option is only valid in the context of batch requests. | true |
+| [restSettings.contentSerializer](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.contentSerializer) | function | Specifies a custom function to serialize content sent to the server. | null |
+| [restSettings.contentType](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.contentType) | string | Specifies the content type of the request | 'application/json; charset=utf-8' |
+
+
+## <a id="configuration-summary"></a>Control Configuration Summary
+
+| Configurable aspects | Details | Options |
+| --- | --- | --- |
+| [Send batch REST requests](#batch) | You can choose how data is sent to the server. One way is to make requests for each entity. The other is to wrap the entities and make one request. | [restSettings.create.batch](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.create.batch) [restSettings.update.batch](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.update.batch) [restSettings.remove.batch](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.remove.batch) |
+| [Custom style URL](#custom-url) | Shows how to define a custom URL. You can use it to create OData-like URLs. | [restSettings.create.template](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.create.template) [restSettings.update.template](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.update.template) [restSettings.remove.template](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.remove.template) |
+| [Creating a custom REST serializer](#custom-serializer) | The $.ig.RESTDataSource supports JSON serialization out of the box. However, you can implement a custom serializer. | [restSettings.contentType](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.contentType) [restSettings.contentSerializer](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.contentSerializer) |
+
+
+## <a id="batch"></a>Send batch REST requests
+
+The `$.ig.RESTDataSource` supports two types of requests:
+
+-   Non-batch mode – in this mode, the data source sends each individual entity in a separate Ajax call to the server.
+-   Batch mode – in this mode, the data source wraps all the entities by verb type and sends them with up to tree Ajax calls to the server.
+
+### Option settings
+
+The following table maps the desired configuration to option settings.
+
+
+In order to: | Use this option: | And set it to:
+---|---|---
+Send batch REST requests for new entities | [restSettings.create.batch](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.create.batch) | true
+Send batch REST requests for updated entities | [restSettings.update.batch](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.update.batch) | true
+Send batch REST request for deleted entities | [restSettings.remove.batch](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.remove.batch) | true
+
+
+### Example
+
+The screenshot below demonstrates how the `$.ig.RESTDataSource` behaves as a result of the following settings:
+
+Option | Value
+-------|-------
+[restSettings.create.batch](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.create.batch) | true
+
+
+![](images/igGrid_REST_Support_2.png)
+
+
+## <a id="custom-url"></a>Custom style URL
+
+By default, the `$.ig.RESTDataSource` constructs the destination URL as explained earlier in the topic. If you have different routing logic on the server, then you can use a URL template to define your URLs. You can also use the URL template to construct OData-compatible URLs.
+
+> **Note:** Currently, $&#123;id&#125; is the only supported placeholder in the template string.
+
+### Option settings
+
+The following table maps the desired configuration to option settings.
+
+In order to: | Use this option: | And set it to:
+---|---|---
+Set custom URL template for PUT request | [restSettings.update.template](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.update.template) | Custom URL template string. For example: “/api/products/Update($&#123;id&#125;)”
+Set custom URL template for DELETE request | [restSettings.remove.template](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.remove.template) | Custom URL template string. For example: “/api/products/Remove($&#123;id&#125;)”
+
+
+### Example
+
+The screenshot below demonstrates how the `$.ig.RESTDataSource` behaves
+as a result of the following settings:
+
+Option | Value
+-------|-------
+[restSettings.remove.template](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.remove.template) | “/api/products/Remove($&#123;id&#125;)”
+
+
+![](images/igGrid_REST_Support_3.png)
+
+
+## <a id="custom-serializer"></a>Creating custom REST serializer
+
+The `$.ig.RESTDataSource` supports JSON serialization out of the box. However you can implement a custom serializer.
+
+### Option settings
+
+The following table maps the desired configuration to option settings.
+
+In order to: | Use this option: | And set it to:
+---|---|---
+Serialize data as XML | [contentType](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.contentType) | “application/xml; charset=utf-8”
+ | [contentSerializer](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:restSettings.contentSerializer) | A function which accepts one argument and returns a string containing the serialized data. <br /> In case of a batch request this argument is an array of objects where the objects’ types match the type of the data source entity. <br /> In case of a non-batch request, this argument is an object –who’s type matches the type of the data source entity.
+
+
+### Example
+
+The screenshot below demonstrates how the `$.ig.RESTDataSource` behaves as a result of the following settings:
+
+- `contentType`
+    - “application/xml; charset=utf-8”
+- `contentSerializer` 
+    - **In JavaScript:**
+```js
+		function (ds) {
+		    // if ds contains JavaScript object literal like this: {"ID":9,"Name":"Product","Price":90.0,"Quantity":2 } then you can serialize it in XML like this
+		    return "<Product><ID>" + ds.ID + "</ID><Name>" + ds.Name + "</Name><Price>" + ds.Price + "</Price><Quantity>" + ds.Quantity + "</Quantity></Product>";    
+		}
+```
+
+![](images/igGrid_REST_Support_4.png)
+
+
+## <a id="related-content"></a> Related Content
+
+### <a id="topics"></a> Topics
+
+The following topics provide additional information related to this topic.
+
+- [Binding to Web Services](/binding/iggrid-binding-to-web-services.mdx): This document demonstrates how to bind the &#123;environment:ProductName&#125;™ grid, or `igGrid`, to an OData protocol web-based data source.
+
+- [Getting started with igGrid, OData and WCF Data Services](/binding/iggrid-getting-started-with-iggrid-odata-and-wcf-data-services.mdx): This topic demonstrates how to setup a client-side jQuery grid with remote paging, filtering, and sorting by setting up a WCF Data Service in an ASP.NET Web Application and setting two options on the `igGrid`.
+
+
+ 
+
+ 
+
+

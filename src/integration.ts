@@ -60,7 +60,7 @@ import type { AstroIntegration } from 'astro';
 import starlight from '@astrojs/starlight';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import {
-    buildLlmsTxt, buildLlmsMetaMap, getBroadSectionsForPlatform,
+    buildLlmsTxt, buildLlmsMetaMap, buildSlugToFileMap, getBroadSectionsForPlatform,
     type LlmsMeta, type LlmsSet, type SidebarItem,
 } from './llms.ts';
 import { buildSidebarFromToc } from './sidebar';
@@ -259,8 +259,14 @@ export function siteMetaIntegration({
     prefetchNav = false,
     prefetchAppBuilderNav = false,
 }: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
+    // Build slug → source-file map once. This handles platforms where the
+    // page slug (from frontmatter/metadata) differs from the filesystem path
+    // (e.g. jQuery's flat DocFX fileNames like "igbulletgraph-adding" for a
+    // file at "controls/igbulletgraph/adding.mdx").
+    const slugFileMap = docsDir ? buildSlugToFileMap(docsDir) : new Map<string, string>();
+
     const llmsMetaMap = docsDir
-        ? buildLlmsMetaMap(docsDir, sidebar ?? [])
+        ? buildLlmsMetaMap(docsDir, sidebar ?? [], slugFileMap)
         : new Map<string, LlmsMeta>();
 
     const virtualId = 'virtual:docs-template/site-meta';
@@ -432,20 +438,25 @@ export const productLinks = ${JSON.stringify(productLinks)};
             },
 
             'astro:server:setup'({ server }) {
+                console.log(docsDir ? '[docs-template] Serving markdown files from ' + docsDir : '[docs-template] No docsDir configured; skipping markdown serving middleware.');
                 if (!docsDir) return;
                 server.middlewares.use(async (req, res, next) => {
                     // Only handle requests ending in .md
                     if (!req.url?.endsWith('.md')) return next();
                     // Strip leading slash and .md suffix to get the slug
                     const slug = req.url.slice(1, -3);
-                    for (const ext of ['.md', '.mdx']) {
-                        const src = path.join(docsDir, slug + ext);
+                    // Try slug→file map first (handles custom slugs), then path-based lookup
+                    const mapped = slugFileMap.get(slug);
+                    const candidates = mapped
+                        ? [mapped]
+                        : [path.join(docsDir, slug + '.md'), path.join(docsDir, slug + '.mdx')];
+                    for (const src of candidates) {
                         try {
                             const raw = await fsp.readFile(src, 'utf-8');
                             res.setHeader('Content-Type', 'text/plain; charset=utf-8');
                             res.end(raw);
                             return;
-                        } catch { /* try next extension */ }
+                        } catch { /* try next */ }
                     }
                     next();
                 });
@@ -471,15 +482,20 @@ export const productLinks = ${JSON.stringify(productLinks)};
 
                 await Promise.all(
                     slugs.map(async (slug) => {
-                        for (const ext of ['.md', '.mdx']) {
-                            const src = path.join(docsDir, slug + ext);
+                        // Try slug→file map first (handles custom slugs like jQuery's
+                        // flat DocFX fileNames), then fall back to path-based lookup.
+                        const mapped = slugFileMap.get(slug);
+                        const candidates = mapped
+                            ? [mapped]
+                            : ['.md', '.mdx'].map(ext => path.join(docsDir, slug + ext));
+                        for (const src of candidates) {
                             try {
                                 const raw = await fsp.readFile(src, 'utf-8');
                                 const dest = path.join(outDir, slug + '.md');
                                 await fsp.mkdir(path.dirname(dest), { recursive: true });
                                 await fsp.writeFile(dest, stripMdxForLlms(raw), 'utf-8');
                                 break;
-                            } catch { /* try next extension */ }
+                            } catch { /* try next */ }
                         }
                     })
                 );

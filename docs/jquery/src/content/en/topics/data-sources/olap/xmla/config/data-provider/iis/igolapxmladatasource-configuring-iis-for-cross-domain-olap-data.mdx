@@ -1,21 +1,16 @@
-﻿<!--
-|metadata|
-{
-    "fileName": "igolapxmladatasource-configuring-iis-for-cross-domain-olap-data",
-    "controlName": "igOlapXmlaDataSource",
-    "tags": ["How Do I","Tips and Tricks"]
-}
-|metadata|
--->
+---
+title: "Configuring IIS for Cross-Domain OLAP Data (igOlapXmlaDataSource)"
+slug: igolapxmladatasource-configuring-iis-for-cross-domain-olap-data
+---
 
 # Configuring IIS for Cross-Domain OLAP Data (igOlapXmlaDataSource)
 
 ## Topic Overview
 ### Purpose
 
-This topic explains how to configure Internet Information Services (IIS) hosting HTTP data provider (`msmdpump.dll`) for SQL Server Analysis Services (SSAS), for cross-domain access (both authenticated and non-authenticated access). These settings are required for certain usage scenarios of the [igOlapXmlaDataSource](igOlapXmlaDataSource-Overview.html) control.
+This topic explains how to configure Internet Information Services (IIS) hosting HTTP data provider (`msmdpump.dll`) for SQL Server Analysis Services (SSAS), for cross-domain access (both authenticated and non-authenticated access). These settings are required for certain usage scenarios of the [igOlapXmlaDataSource](///igolapxmladatasource-overview.mdx) control.
 
-For configuring of authenticated access for the Mozilla Firefox browser (version 17 at this writing), which constitutes a special case, refer to the [Configuring Authenticated Access for the Mozilla Firefox Browser (igOlapXmlaDataSource)](igOlapXmlaDataSource-Configuring-Authenticated-Access-for-Firefox.html) topic.
+For configuring of authenticated access for the Mozilla Firefox browser (version 17 at this writing), which constitutes a special case, refer to the [Configuring Authenticated Access for the Mozilla Firefox Browser (igOlapXmlaDataSource)](/igolapxmladatasource-configuring-authenticated-access-for-firefox.mdx) topic.
 
 ### Required background
 
@@ -29,8 +24,7 @@ The following table lists the concepts and topics required as a prerequisite to 
 
 **Topics**
 
-- [igOlapXmlaDataSource Overview](igOlapXmlaDataSource-Overview.html): This topic provides an overview of the `igOlapXmlaDataSource` component which uses SSAS instances for retrieving data.
-
+- [igOlapXmlaDataSource Overview](///igolapxmladatasource-overview.mdx): This topic provides an overview of the `igOlapXmlaDataSource` component which uses SSAS instances for retrieving data.
 
 
 ### In this topic
@@ -52,7 +46,6 @@ This topic contains the following sections:
     -   [Resources](#resources)
 
 
-
 ## <a id="conceptual-overview"></a>Configuring IIS for Cross-Domain OLAP Data – Conceptual Overview
 ### <a id="summary"></a>Configuring IIS for cross-domain OLAP data summary
 
@@ -70,7 +63,6 @@ Access-Control-Allow-Headers | As a part of a preflight request, manages which h
 Access-Control-Allow-Origin|Configures the domains from which requests will be accepted.
 Access-Control-Request-Method|Specifies the method to be used in the actual request as part of the pre-flight request.
 Access-Control-Request-Method  (Authenticated access only)|Specifies the method to be used in the actual request as part of the pre-flight request.
-
 
 
 Further configuration details are provided in the rest of the topic as follows:
@@ -91,112 +83,13 @@ Following are the general conceptual steps for Configuring IIS for Cross-Domain 
 
 The following table lists the required settings of the HTTP response headers for configuring ISS for cross-domain OLAP Data without authentication. The settings are configured as custom headers from the HTTP Response Headers option of the application that is hosting the HTTP access provider.
 
-<table class="table">
-	<thead>
-		<tr>
-            <th>
-Header Name
-			</th>
 
-            <th>
-Value
-			</th>
-
-            <th>
-Details
-			</th>
-        </tr>
-	</thead>
-	<tbody>
-        
-
-        <tr>
-            <td>
-**Access-Control-Allow-Headers**
-			</td>
-
-            <td>
-Origin, Content-Type, Accept
-			</td>
-
-            <td>
-                These are the names of the fields required to be used in the actual request, separated with commas.
-
-                These particular fields are required by the `igOlapXmlaDataSource` control. If any of these is not set, the cross-origin requests will fail.
-
-                <ul>
-                    <li>
-Origin – this header field indicates where the cross-origin request or preflight request originates from. This setting is required so that the origin of the requests is known to the server.
-					</li>
-
-                    <li>
-Content-Type – this header field indicates the content (MIME) type of the entity body sent to the recipient. The actual content type used in the communication between the server and `igOlapXmlaDataSource` is
-                        text/xml.
-					</li>
-
-                    <li>
-Accept – this header field specifies the media types which are acceptable for the response. Accept headers are used to indicate that the request is specifically limited to a small set of desired types.
-					</li>
-                </ul>
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-**Access-Control-Allow-Origin**
-			</td>
-
-            <td>
-The names of the allowed domains or asterisk (\*) for allowing all domains
-			</td>
-
-            <td>
-To grant access from several domains, type the domain names separated by comma (,).
-			</td>
-        </tr>
-
-        <tr>
-            <td>
-**Access-Control-Request-Method**
-			</td>
-
-            <td>
-POST
-			</td>
-
-            <td>
-The name of the HTTP method to be used in the actual request.
-
-                The `igOlapXmlaDataSource` control requires that the request method is POST.
-			</td>
-        </tr>
-
-        <tr>
-            <td>
-**Access-Control-Allow-Credentials** (Authenticated access only)
-			</td>
-
-            <td>
-true
-			</td>
-
-            <td>
-                The allowed values are:
-
-                <ul>
-                    <li>
-true – allows suppliying of credentials with the request
-					</li>
-
-                    <li>
-false – disallows supplying of credentials with the request. Equivalent to not defining the header at all.
-					</li>
-                </ul>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+| Header Name | Value | Details |
+| --- | --- | --- |
+| **Access-Control-Allow-Headers** | Origin, Content-Type, Accept | These are the names of the fields required to be used in the actual request, separated with commas. These particular fields are required by the `igOlapXmlaDataSource` control. If any of these is not set, the cross-origin requests will fail. Origin – this header field indicates where the cross-origin request or preflight request originates from. This setting is required so that the origin of the requests is known to the server. Content-Type – this header field indicates the content (MIME) type of the entity body sent to the recipient. The actual content type used in the communication between the server and `igOlapXmlaDataSource` is text/xml. Accept – this header field specifies the media types which are acceptable for the response. Accept headers are used to indicate that the request is specifically limited to a small set of desired types. |
+| **Access-Control-Allow-Origin** | The names of the allowed domains or asterisk (\*) for allowing all domains | To grant access from several domains, type the domain names separated by comma (,). |
+| **Access-Control-Request-Method** | POST | The name of the HTTP method to be used in the actual request. The `igOlapXmlaDataSource` control requires that the request method is POST. |
+| **Access-Control-Allow-Credentials** (Authenticated access only) | true | The allowed values are: true – allows suppliying of credentials with the request false – disallows supplying of credentials with the request. Equivalent to not defining the header at all. |
 
 
 ### <a id="mapping-settings"></a>OPTIONSVerbHandler mapping settings
@@ -206,9 +99,6 @@ The following table lists the required settings of the HTTP handler.
 HTTP handler name | Required Access Level | Details
 ---|---|---
 *OPTIONSVerbHandler*|Read|Specifies that the handler requires read access to the requests.
-
-
-
 
 
 ## <a id="procedure"></a>Configuring IIS for Cross-Domain OLAP Data (Non-Authenticated Access) – Procedure
@@ -258,32 +148,14 @@ The following steps demonstrate how to setup the IIS for accepting HTTP headers.
 	
 	The following table specifies the settings to use in for each header. For the sake of this example, requests from any domain will be accepted (* for Access-Control-Allow-Origin); if you need to accept requests only from certain domains, then put the domain names in the place of the asterisk (*). For enabling anonymous access do not define the Access-Control-Allow-Credentials header. For explanation of the values, refer to [HTTP response headers’ settings](#http-response).
 	
-	<table class="table">
-	    <thead>
-	        <tr>
-	            <th>Name</th>
-	            <th>Value</th>
-	        </tr>
-	    </thead>
-	    <tbody>
-	        <tr>
-	            <td>Access-Control-Allow-Headers</td>
-	            <td>Origin, Content-Type, Accept</td>
-	        </tr>
-	        <tr>
-	            <td>Access-Control-Allow-Origin</td>
-	            <td>\*</td>
-	        </tr>
-	        <tr>
-	            <td>Access-Control-Request-Method</td>
-	            <td>POST</td>
-	        </tr>
-	        <tr>
-	            <td>Access-Control-Allow-Credentials(Authenticated access only)</td>
-	            <td>true</td>
-	        </tr>
-	    </tbody>
-	</table>	
+	
+| Name | Value |
+| --- | --- |
+| Access-Control-Allow-Headers | Origin, Content-Type, Accept |
+| Access-Control-Allow-Origin | \* |
+| Access-Control-Request-Method | POST |
+| Access-Control-Allow-Credentials(Authenticated access only) | true |
+	
 		
 	 **To add and configure the headers:**
 
@@ -340,16 +212,14 @@ The following steps demonstrate how to setup the IIS for accepting HTTP headers.
 	![](images/igXmlaDataSource_Configuring_IIS_7.png)
 
 
-
 ## <a id="related-contnt"></a>Related Content
 ### <a id="samples"></a>Samples
 
 The following samples provide additional information related to this topic.
 
-- [Binding to XMLA to Show KPIs](%%SamplesUrl%%/pivot-view/binding-to-xmla-data-source): This sample demonstrates how to bind the `igPivotView` to an `igOlapXmlaDataSource`.
+- [Binding to XMLA to Show KPIs](&#123;environment:SamplesUrl&#125;/pivot-view/binding-to-xmla-data-source): This sample demonstrates how to bind the `igPivotView` to an `igOlapXmlaDataSource`.
 
-- [Remote Xmla Provider](%%SamplesUrl%%/pivot-grid/remote-xmla-provider): This sample demonstrates one of the benefits of using the remote provider feature of the `igOlapXmlaDataSource` - less network traffic. All requests are proxied through the server application to avoid cross domain problems. In addition, the data is translated to JSON reducing the size of the response.
-
+- [Remote Xmla Provider](&#123;environment:SamplesUrl&#125;/pivot-grid/remote-xmla-provider): This sample demonstrates one of the benefits of using the remote provider feature of the `igOlapXmlaDataSource` - less network traffic. All requests are proxied through the server application to avoid cross domain problems. In addition, the data is translated to JSON reducing the size of the response.
 
 
 ### <a id="resources"></a>Resources
@@ -365,9 +235,6 @@ The following material (available outside the Infragistics family of content) pr
 - [Working with Online Analytical Processing (OLAP)](http://msdn.microsoft.com/en-US/library/ms175367%28v=SQL.90%29.aspx): This article is an introduction to working with OLAP data.
 
 - [Walkthrough: Creating and Registering a Custom HTTP Module](http://msdn.microsoft.com/en-us/library/ms227673%28v=vs.100%29.aspx): This walkthrough illustrates the basic functionality of a custom HTTP module.
-
-
-
 
 
  

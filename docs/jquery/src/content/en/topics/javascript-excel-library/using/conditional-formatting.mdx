@@ -1,0 +1,97 @@
+---
+title: "Conditional Formatting"
+slug: javascript-excel-library-conditional-formatting
+---
+
+# Conditional Formatting
+
+### Purpose
+
+This topic explains how to configure and set conditional formatting on a worksheet using the Infragistics Excel Library.
+
+### In this Topic
+
+This topic contains the following sections:
+
+- [Conditional Formatting Configuration Summary](#formattingsummary)
+- [Conditional Formatting Configuration Summary Chart](#formattingsummarychart)
+- [Code Example](#codeexample)
+- [Related Content](#relatedcontent)
+
+<a id="formattingsummary" />
+## Conditional Formatting Configuration Summary
+
+You can configure the conditional formatting of a particular worksheet by using the many "Add" methods exposed on the ConditionalFormats collection of that worksheet. The first parameter of these "Add" methods is the `string` region of the worksheet that you would like to apply the conditional format to.
+
+Many of the conditional formats that you can add to your Worksheet have a `CellFormat` method that determines the way that the worksheet cell elements should look when the condition in that conditional format holds true. For example, you can use the methods attached to this `CellFormat` method such as Fill and Font to determine the background and font settings of your cells, respectively.
+
+When a conditional format is created and a cell format applied, there is a subset of properties that are currently supported by the worksheet cell. The properties that are currently honored off of the CellFormat method are Fill, Border properties, FormatString, and some Font properties such as Strikethrough, Underline, Italic, Bold, and Color. Many of these can be seen from the code snippet below.
+
+There are a few conditional formats that do not have a `CellFormat` method, as their visualization on the worksheet cell behaves differently. These conditional formats are the `DataBarConditionalFormat`, `ColorScaleConditionalFormat`, and `IconSetConditionalFormat`.
+
+When loading a pre-existing workbook from Excel, the formats will be preserved when that workbook is loaded. The same is true for when you save the workbook out to an Excel file.
+
+<a id="formattingsummarychart" />
+## Conditional Formatting Configuration Summary Chart
+
+The following table briefly explains the different conditional formats supported by the worksheet and maps them to the methods off of that element's `ConditionalFormats` collection used to add them:
+
+
+| Conditional Format | Method | Description |
+| --- | --- | --- |
+| [AverageConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.AverageConditionalFormat) | [addAverageCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addAverageCondition) | Exposes methods which control the visual attributes of a worksheet cell based on whether a cell's value is above or below the average or standard deviation for the associated range. |
+| [BlanksConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.BlanksConditionalFormat) | [addBlanksCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addBlanksCondition) | Exposes properties which control the visual attributes of a worksheet cell based on whether the cell's value is not set. |
+| [ColorScaleConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.ColorScaleConditionalFormat) | [addColorScaleCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addColorScaleCondition) | Exposes properties which control the coloring of a worksheet cell based on the cell's value as relative to minimum, midpoint, and maximum threshold values. |
+| [DataBarConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.DataBarConditionalFormat) | [addDataBarCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addDataBarCondition) | Exposes properties which display data bars in a worksheet cell based on the cell's value as relative to the associated range of values. |
+| [DateTimeConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.DateTimeConditionalFormat) | [addDateTimeCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addDateTimeCondition) | Exposes properties which control the visual attributes of a worksheet cell based on whether a cell's date value falls within a given range of time. |
+| [DuplicateConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.DuplicateConditionalFormat) | [addDuplicateCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addDuplicateCondition) | Exposes properties which control the visual attributes of a worksheet cell based on whether a cell's value is unique or duplicated across the associated range. |
+| [ErrorsConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.ErrorsConditionalFormat) | [addErrorsCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addErrorsCondition) | Exposes properties which control the visual attributes of a worksheet cell based on whether the cell's value is valid. |
+| [FormulaConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.FormulaConditionalFormat) | [addFormulaCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addFormulaCondition) | Exposes properties which control the visual attributes of a worksheet cell based on whether the cell's value meets the criteria defined by a formula. |
+| [IconSetConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.IconSetConditionalFormat) | [addIconSetCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addIconSetCondition) | Exposes properties which display icons in a worksheet cell based on the cell's value as relative to threshold values. |
+| [NoBlanksConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.NoBlanksConditionalFormat) | [addNoBlanksCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addNoBlanksCondition) | Exposes properties which control the visual attributes of a worksheet cell based on whether the cell's value is set. |
+| [NoErrorsConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.NoErrorsConditionalFormat) | [addNoErrorsCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addNoErrorsCondition) | Exposes properties which control the visual attributes of a worksheet cell based on whether the cell's value is valid. |
+| [OperatorConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.OperatorConditionalFormat) | [addOperatorCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addOperatorCondition) | Exposes properties which control the visual attributes of a worksheet cell based on whether the cell's value meets the criteria defined by a logical operator. |
+| [RankConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.RankConditionalFormat) | [addRankCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addRankCondition) | Exposes properties which control the visual attributes of a worksheet cell based on whether a cell's value is within the top of bottom rank of values across the associated range. |
+| [TextOperatorConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.TextOperatorConditionalFormat) | [addTextCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addTextCondition) | Exposes properties which control the visual attributes of a worksheet cell based on whether a cell's text value meets the criteria defined by a string. |
+| [UniqueConditionalFormat](&#123;environment:jQueryApiUrl&#125;/ig.excel.UniqueConditionalFormat) | [addUniqueCondition](&#123;environment:jQueryApiUrl&#125;/ig.excel.ConditionalFormatCollection#methods.addUniqueCondition) | Exposes properties which control the visual attributes of a worksheet cell based on whether a cell's value is unique across the associated range. |
+
+
+<a id="codeexample" />
+## Code Example
+
+The following code example demonstrates usage of many of the conditional formats mentioned above.
+
+
+**In HTML:**
+
+```html
+$(function () {
+
+        var workbook = new $.ig.excel.Workbook($.ig.excel.WorkbookFormat.excel2007);
+        var sheet = workbook.worksheets().add('Sheet1');
+        
+        var duplicateCondition = sheet.conditionalFormats().addDuplicateCondition("A2:A15");
+        duplicateCondition.cellFormat().font().colorInfo(new $.ig.excel.WorkbookColorInfo("red"));                               
+        var blanksCondition = sheet.conditionalFormats().addBlanksCondition("B2:B15");
+        blanksCondition.cellFormat().fill($.ig.excel.CellFill.createSolidFill("gray"));
+
+        var textCondition = sheet.conditionalFormats().addTextCondition("C2:C15", "Bev");
+        textCondition.cellFormat().font().colorInfo(new $.ig.excel.WorkbookColorInfo("blue"));                                 
+        var uniqueCondition = sheet.conditionalFormats().addUniqueCondition("D2:D15");      
+        uniqueCondition.cellFormat().font().colorInfo(new $.ig.excel.WorkbookColorInfo("orange"));
+        
+        var notBlankCondition = sheet.conditionalFormats().addNoBlanksCondition("E2:E15");
+        notBlankCondition.cellFormat().font().colorInfo(new $.ig.excel.WorkbookColorInfo("green"));
+                
+        sheet.conditionalFormats().addDataBarCondition("F2:F15");
+
+        var avgCondition = sheet.conditionalFormats().addAverageCondition("G2:G15");
+        avgCondition.cellFormat().font().colorInfo(new $.ig.excel.WorkbookColorInfo("red"));
+    });
+```
+
+<a id="relatedcontent" />
+### Related Content
+
+-   [Merge Cells](/javascript-excel-library-merge-cells.mdx)
+-   [Worksheet API](&#123;environment:jQueryApiUrl&#125;/ig.excel.Worksheet)

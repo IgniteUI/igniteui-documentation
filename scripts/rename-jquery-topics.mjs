@@ -31,6 +31,7 @@ import fs   from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { slug as githubSlug } from 'github-slugger';
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -55,6 +56,54 @@ const CHECK_REFS = process.argv.includes('--check-refs');
 console.log(`\n=== rename-topics  [${APPLY ? 'APPLY' : 'DRY-RUN'}] ===`);
 console.log(`  topics : ${TOPICS}`);
 console.log(`  toc    : ${TOC_JSON}\n`);
+
+// ─── Redundant-prefix helpers ─────────────────────────────────────────────────
+
+/**
+ * Return candidate prefix strings for a (raw) parent folder name.
+ * A file whose cleaned stem starts with any of these + '-' has a redundant prefix.
+ *
+ * Examples:
+ *   'iglineargauge'  → ['iglineargauge']
+ *   'document-engine'→ ['document-engine', 'documentengine']
+ *   "what's-new"     → ["what's-new", 'whats-new', 'whatsnew']
+ */
+function prefixVariants(rawFolderName) {
+  const cleaned  = cleanFolderName(rawFolderName);
+  const slugged  = githubSlug(rawFolderName);
+  const s = new Set([
+    cleaned,
+    cleaned.replace(/-/g, ''),
+    slugged,
+    slugged.replace(/-/g, ''),
+  ]);
+  // Only meaningful prefixes (≥3 chars) to avoid false positives.
+  return [...s].filter(v => v.length >= 3);
+}
+
+/**
+ * If a file's cleaned stem starts with its parent folder's slug as a prefix,
+ * return the stem with that prefix stripped. Otherwise return null.
+ *
+ * Examples:
+ *   stripRedundantPrefix('iglineargauge-overview',   'iglineargauge')   → 'overview'
+ *   stripRedundantPrefix('documentengine-api',        'document-engine') → 'api'
+ *   stripRedundantPrefix('iggrid-columnmoving-overview', 'iggrid')       → 'columnmoving-overview'
+ */
+/**
+ * rawAncestorFolders: array of raw folder names from closest to farthest ancestor.
+ */
+function stripRedundantPrefix(cleanedStem, rawAncestorFolders) {
+  const folders = Array.isArray(rawAncestorFolders) ? rawAncestorFolders : [rawAncestorFolders];
+  for (const rawFolder of folders) {
+    for (const prefix of prefixVariants(rawFolder)) {
+      if (cleanedStem.startsWith(prefix + '-') && cleanedStem.length > prefix.length + 1) {
+        return cleanedStem.slice(prefix.length + 1);
+      }
+    }
+  }
+  return null;
+}
 
 // ─── Naming helpers ───────────────────────────────────────────────────────────
 
@@ -97,6 +146,16 @@ function cleanFileStem(stem, parentFolder) {
   s = s.toLowerCase();
   // 5. Normalise hyphens
   s = s.replace(/-{2,}/g, '-').replace(/^-+|-+$/g, '');
+  // 6. Apply github-slugger normalization: removes apostrophes, dots, parentheses,
+  //    and other chars that github-slugger strips when generating URL slugs.
+  //    For changelog dirs, preserve the numeric prefix (e.g. '17-') and slug the rest.
+  if (isChangelogDir(parentFolder)) {
+    const m = s.match(/^(\d+-)(.*)/);
+    s = m ? m[1] + githubSlug(m[2]) : githubSlug(s);
+  } else {
+    s = githubSlug(s);
+  }
+  s = s.replace(/-{2,}/g, '-').replace(/^-+|-+$/g, '');
   return s;
 }
 
@@ -110,6 +169,9 @@ function cleanFolderName(name) {
   // 3. Lowercase
   s = s.toLowerCase();
   // 4. Normalise hyphens
+  s = s.replace(/-{2,}/g, '-').replace(/^-+|-+$/g, '');
+  // 5. Apply github-slugger normalization: removes apostrophes, dots, parentheses.
+  s = githubSlug(s);
   s = s.replace(/-{2,}/g, '-').replace(/^-+|-+$/g, '');
   return s;
 }
@@ -135,8 +197,12 @@ function transformHref(relPath) {
       }
       const ext        = part.slice(dotIdx);   // e.g. ".mdx"
       const stem       = part.slice(0, dotIdx);
-      const parentName = i > 0 ? parts[i - 1] : '';
-      return cleanFileStem(stem, parentName) + ext;
+      const parentName  = i > 0 ? parts[i - 1] : '';
+      const cleanedStem  = cleanFileStem(stem, parentName);
+      // Strip redundant ancestor-folder prefix (try all ancestors, closest first)
+      const ancestors   = parts.slice(0, i).reverse();
+      const stripped     = stripRedundantPrefix(cleanedStem, ancestors);
+      return (stripped ?? cleanedStem) + ext;
     })
     .join('/');
 }
@@ -150,13 +216,14 @@ const folderRenames = [];
 /** @type {{ from: string; to: string }[]} */
 const fileRenames = [];
 
-function collectRenames(dir) {
+function collectRenames(dir, ancestors = []) {
   const entries    = fs.readdirSync(dir, { withFileTypes: true });
   const parentName = path.basename(dir); // raw name of this directory
+  const nextAncestors = dir !== TOPICS ? [parentName, ...ancestors] : ancestors;
 
   // Recurse into subdirectories first (deepest-first)
   for (const e of entries.filter(e => e.isDirectory())) {
-    collectRenames(path.join(dir, e.name));
+    collectRenames(path.join(dir, e.name), nextAncestors);
   }
 
   // Files in this directory
@@ -164,8 +231,11 @@ function collectRenames(dir) {
     if (!e.name.endsWith('.mdx') && !e.name.endsWith('.md')) continue;
     const ext     = path.extname(e.name);
     const stem    = e.name.slice(0, -ext.length);
-    const newStem = cleanFileStem(stem, parentName);
-    const newName = newStem + ext;
+    const cleanedStem = cleanFileStem(stem, parentName);
+    // Strip redundant ancestor-folder prefix (try all ancestors, closest first)
+    const stripped = stripRedundantPrefix(cleanedStem, nextAncestors);
+    const newStem  = stripped ?? cleanedStem;
+    const newName  = newStem + ext;
     if (newName !== e.name) {
       fileRenames.push({ from: path.join(dir, e.name), to: path.join(dir, newName) });
     }

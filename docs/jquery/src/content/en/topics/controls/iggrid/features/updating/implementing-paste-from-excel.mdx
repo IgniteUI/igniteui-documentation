@@ -1,12 +1,7 @@
-﻿<!--
-|metadata|
-{
-    "fileName": "implementing-paste-from-excel",
-    "controlName": "igGrid",
-    "tags": ["Editing","Grids", "Paste"]
-}
-|metadata|
--->
+---
+title: "Implementing Paste from Excel in igGrid"
+slug: implementing-paste-from-excel
+---
 
 # Implementing Paste from Excel in igGrid
 
@@ -39,22 +34,22 @@ The following is a conceptual overview of the process:
 1. Configure an igGrid with Updating and Selection features.
 
     The following topics cover enabling the related features:
-    - [Enabling Updating](igGrid-Updating.html#enable)
-    - [Enabling Selection](igGrid-Selection-Overview.html#enabling-selection)
+    - [Enabling Updating](./00_igGrid_Updating.mdx#enable)
+    - [Enabling Selection](../03_Selection/00_igGrid_Selection_Overview.mdx#enabling-selection)
 
 2. Attach event handlers for the grid's `focusin` and `keydown` events.
 
     These events can be attached directly to the igGrid main element, for example:
 
-    ```js
+```js
     $("#grid").igGrid({ ... }).on('focusin', function (e) { ... }).on('keydown', function (evnt) { ... });
-    ```
+```
 3. In `focusin` event handler, attach an invisible `textarea` to the page. Attach event handlers for the `paste` event of the newly added `textarea`.
 
     The `textarea`'s purpose is to handle the `paste` event where we can safely access the pasted data. Not all browsers allow directly accessing the clipboards outside of the related events data due to security reasons.
     The `textarea` is attached to the DOM as an invisible element in order to not interfere with the UI.
 
-    ```js
+```js
     .on('focusin', function (e) {
 		if ($("#pasteHelper").length > 0) {
 		    return;
@@ -77,13 +72,13 @@ The following is a conceptual overview of the process:
 
 		textArea.on("paste", pasteHandler);
 	})
-    ```
+```
 
 4. In `keydown`'s event handler move the focus to the `textarea` when pasting (Ctrl + V) is executed on the grid.
 
     This will ensure that the `keydown` event is passed on to the `textarea` so that its paste event is fired for it with the pasted data.
 
-    ```js
+```js
     .on('keydown', function (evnt) {
 		//handle grid's keydown event
 		var ctrl = evnt.ctrlKey, key = evnt.keyCode;
@@ -93,14 +88,14 @@ The following is a conceptual overview of the process:
 			$("#pasteHelper").focus();
 		}
 	});
-    ```
+```
 
 5. In the `paste` event handler for the `textarea` proccess the pasted data and update the grid's records.
 
     Once the data is processed you can either update the records (starting from the selected cell) or add them as new records.
     The updating is done via the igGrid Updating feature's API.
 
-    ```js
+```js
     function pasteHandler(event) {
 	    var data;
 
@@ -126,7 +121,7 @@ The following is a conceptual overview of the process:
 		$("#undo").igButton("option", "disabled", false);
 		$("#saveChanges").igButton("option", "disabled", false);
 	}
-    ```
+```
 
 ### <a id='result'></a> Result
 
@@ -138,9 +133,9 @@ Paste starting from active cell - when this mode is selected the pasted records 
 In order to test it open up any Excel spreadsheet ([or this one here](http://www.igniteui.com/data-files/sample-data.xlsx)), copy some rows, and paste it into the grid using the keyboard. 
 
 <div class="embed-sample">
-   [Paste from Excel](%%SamplesEmbedUrl%%/grid/paste-from-excel)
+   [Paste from Excel](&#123;environment:SamplesEmbedUrl&#125;/grid/paste-from-excel)
 </div>
 
 ## <a id='related'></a> Related Content
 
-- [Updating Overview (igGrid)](igGrid-Updating.html): This topic explains how to use the Updating feature of the `igGrid`™ control.
+- [Updating Overview (igGrid)](/iggrid-updating.mdx): This topic explains how to use the Updating feature of the `igGrid`™ control.

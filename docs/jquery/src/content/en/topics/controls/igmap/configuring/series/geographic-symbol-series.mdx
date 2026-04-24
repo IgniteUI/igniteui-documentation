@@ -1,0 +1,194 @@
+---
+title: "Configuring Geographic Symbol Series (igMap)"
+slug: igmap-configuring-geographic-symbol-series
+---
+
+# Configuring Geographic Symbol Series (igMap)
+
+
+##Topic Overview
+
+### Purpose
+
+This topic explains how to configure the Geographic Symbol series using the `igMap`™ control.
+
+### Required background
+
+The following topics are prerequisites to understanding this topic:
+
+- [igMap Overview](//overview-igmap.mdx): This topic provides conceptual information about the `igMap` control including its main features, minimum requirements and user interaction capabilities.
+
+- [Adding an igMap](//adding-igmap.mdx): This topic is a walkthrough for adding a simple `igMap` control with basic features to a web page.
+
+
+### In this topic
+
+This topic contains the following sections:
+
+-   [Introduction](#introduction)
+-   [Geographic Symbol Series Configuration Summary](#config-summary)
+-   [Code Examples Summary](#code-example-summary)
+    -   [Configuring Geographic Symbol Series in JavaScript](#config-series-js)
+    -   [Configuring Geographic Symbol Series in ASP.NET MVC](#config-series-mvc)
+-   [Related Content](#related-content)
+    -   [Topics](#topics)
+    -   [Samples](#samples)
+
+
+##<a id="introduction"></a>Introduction
+
+
+### Geographic symbol series summary
+
+The geographic symbol series of the `igMap` plots the markers for the geographic points specified by the data in your application. This map series can be useful for highlighting points of interest in your particular business case like department stores, warehouses, or offices. Additional uses of this map series may be in a fleet management system or a GPS system for dynamic vehicle tracking.
+
+![](images/Configuring_Geographic_Symbol_Series_1.png)
+
+With the help of the custom marker feature you can draw your own markers to convey information to the user in a different way. Refer to the topic [Configuring the Visual Features (igMap)](/features/igmap-configuring-visual-features.mdx) for more information.
+
+You can control the outline and color of the markers using either the CSS styles or options of the series object. Refer to the topic [Styling Maps (igMap)](//styling-igmap.mdx) for more information.
+
+
+## <a id="config-summary"></a>Geographic Symbol Series Configuration Summary
+
+### Geographic Symbol series configuration summary chart
+
+The following table lists the `igMap` control’s configurable aspects pertaining to the geographic symbol series.
+
+
+| Configurable aspect | Details | Properties |
+| --- | --- | --- |
+| Set up geographic symbol series | Use these mandatory settings to configure the type of map series to the geographic symbol and set series name. | In JavaScript: [series.type](&#123;environment:jQueryApiUrl&#125;/ui.igMap#options:series.type) [series.name](&#123;environment:jQueryApiUrl&#125;/ui.igMap#options:series.name) ** Value: **series.type: “geographicSymbol”**, **series.type: “seriesName”** In ASP.NET MVC: [MapSeriesBuilder Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.MapSeriesBuilder`1.html) [.GeographicSymbol()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.MapSeriesBuilder`1~GeographicSymbol.html) Value: **series.GeographicSymbol(“seriesName”)** ** |
+| Data binding options of geographic symbol series | Use these mandatory settings to configure which properties of the input data contain the geographic coordinates for drawing the points on the map. | In JavaScript: [series.latitudeMemberPath](&#123;environment:jQueryApiUrl&#125;/ui.igMap#options:series.latitudeMemberPath) [series.longitudeMemberPath](&#123;environment:jQueryApiUrl&#125;/ui.igMap#options:series.longitudeMemberPath) In ASP.NET MVC: [GeographicSymbolSeries Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1.html) [.LatitudeMemberPath()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1~LatitudeMemberPath.html) [.LongitudeMemberPath()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1~LongitudeMemberPath.html) |
+| Tooltips visibility | Use these settings to enable or disable tooltip rendering. The default, settings for this control does not render tooltips. | In JavaScript: [series.showTooltip](&#123;environment:jQueryApiUrl&#125;/ui.igMap#options:series.showTooltip) In ASP.NET MVC: [GeographicSymbolSeries Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1.html) [.ShowTooltip()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Series`3~ShowTooltip.html) |
+| Tooltip template | Use this setting to configure which template to use for rendering the tooltips. | In JavaScript: [series.tooltipTemplate](&#123;environment:jQueryApiUrl&#125;/ui.igMap#options:series.tooltipTemplate) In ASP.NET MVC: [GeographicSymbolSeries Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1.html) [.TooltipTemplate()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Series`3~TooltipTemplate.html) |
+| Marker type | Use this setting to configure what marker is to be rendered by the control. By default marker is rendered and its type is chosen by the control. | In JavaScript: [series.markerType](&#123;environment:jQueryApiUrl&#125;/ui.igMap#options:series.markerType) In ASP.NET MVC: [GeographicSymbolSeries Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1.html) [.MarkerType() ](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1~MarkerType.html) |
+| Custom marker template | Configure an object with callback functions which render content directly on the Canvas element used for the map. | In JavaScript: [series.markerTemplate](&#123;environment:jQueryApiUrl&#125;/ui.igMap#options:series.markerTemplate) In ASP.NET MVC: [GeographicSymbolSeries Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1.html) [.MarkerTemplate()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1~MarkerTemplate.html) |
+| Marker collision avoidance logic | Configures the behavior of the control when two or more markers overlap. By default overlapping markers are drawn one over the other. | In JavaScript: [series.markerCollisionAvoidance](&#123;environment:jQueryApiUrl&#125;/ui.igMap#options:series.markerCollisionAvoidance) In ASP.NET MVC: [GeographicSymbolSeries Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1.html) [.MarkerCollisionAvoidance()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1~MarkerCollisionAvoidance.html) |
+| Marker outline | Configures the color of marker outline. By default the outline is black. | In JavaScript: [series.markerOutline](&#123;environment:jQueryApiUrl&#125;/ui.igMap#options:series.markerOutline) In ASP.NET MVC: [GeographicSymbolSeries Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1.html) [.MarkerOutline()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1~MarkerOutline.html) |
+| Marker fill | Configures the fill color for markers. By default the fill is black. | In JavaScript: [series.markerBrush](&#123;environment:jQueryApiUrl&#125;/ui.igMap#options:series.markerBrush) In ASP.NET MVC: [GeographicSymbolSeries Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1.html) [.MarkerBrush()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1~MarkerBrush.html) |
+
+
+##<a id="code-example-summary"></a>Code Examples Summary
+
+### Code examples summary chart
+
+The following table lists the code examples included in this topic.
+
+Example|Description
+---|---
+[Configure Geographic Symbol Series in JavaScript](#config-series-js)|This code example shows how to configure an `igMap` control to display geographic symbol series in JavaScript.
+[Configure Geographic Symbol Series in ASP.NET MVC](#config-series-mvc)|This code example shows how to configure an `igMap` control to display geographic symbol series in ASP.NET MVC.
+
+
+##<a id="config-series-js"></a>Code Example: Configuring Geographic Symbol Series in JavaScript
+
+### Description
+
+This code example shows how to configure an `igMap` control to display geographic symbol series in JavaScript. The example shows how to specify the data binding options of the series. Automatic marker selection is configured along with marker collision avoidance logic, and marker outline and fill colors are specified too.
+
+### Code
+
+**In JavaScript:**
+
+```js
+$("#map").igMap({
+    ...
+    series: [{
+        type: "geographicSymbol",
+        name: "seriesName",
+        dataSource: data,
+        latitudeMemberPath: "Latitude",
+        longitudeMemberPath: "Longitude",
+        markerType: "automatic",
+        markerCollisionAvoidance: "fade", 
+        markerBrush: "rgba(50,100,100,0.7)", 
+        markerOutline: "black"
+    }],
+    ...
+    }
+});
+```
+
+
+##<a id="config-series-mvc"></a>Code Example: Configuring Geographic Symbol Series in ASP.NET MVC
+
+### Description
+
+This code example shows how to configure an `igMap` control to display Geographic Symbol Series in ASP.NET MVC. The example shows how to specify the data model to be used for regular and strongly-typed view. Configure automatic marker selection along with marker collision avoidance logic, and marker outline and fill colors are specified too.
+
+### Code
+
+This code snippet configures geographic symbol series for a regular view.
+
+**In ASPX:**
+
+```csharp
+<%= Html.Infragistics().Map<SampleApp.Models.GeoSymbols>()
+        .ID("map")
+        ...
+        .Series(series => {
+            series.GeographicSymbol("seriesName")
+                .LatitudeMemberPath(item => item.Latitude)
+                .LongitudeMemberPath(item => item.Longitude)
+                .MarkerType(MarkerType.Automatic)
+                .MarkerCollisionAvoidance(CollisionAvoidanceType.Fade)
+                .MarkerBrush("rgba(50,100,100,0.7)")
+                .MarkerOutline("black");
+        })
+        ...
+        .DataBind()
+        .Render()
+%>
+```
+
+This code snippet configures geographic symbol series for a strongly-typed view.
+
+**In ASPX:**
+
+```csharp
+<%= Html.Infragistics().Map(Model)
+        .ID("map")
+        ...
+        .Series(series => {
+            series.GeographicSymbol("seriesName")
+                .LatitudeMemberPath(item => item.Latitude)
+                .LongitudeMemberPath(item => item.Longitude)
+                .MarkerType(MarkerType.Automatic)
+                .MarkerCollisionAvoidance(CollisionAvoidanceType.Fade)
+                .MarkerBrush("rgba(50,100,100,0.7)")
+                .MarkerOutline("black");
+        })
+        ...
+        .DataBind()
+        .Render()
+%>
+```
+
+##<a id="related-content"></a>Related Content
+
+### <a id="topics"></a>Topics
+
+The following topics provide additional information related to this topic.
+
+-	[Configuring the Map Series (igMap)](/igmap-creating-different-kinds-maps.mdx): This topic is a landing page linking to the topics explaining how to configure all supported map visualizations by the `igMap` control and how to use different background content (map providers).
+
+-	[Configuring Features (igMap)](/features/igmap-configuring-features.mdx): This topic is a landing page linking to the topics explaining how to configure various features of the `igMap` control.
+
+-	[Data Binding (igMap)](//data-binding-igmap.mdx): This topic explains how to bind the `igMap` control to different data sources depending on the map series visualized.
+
+-	[Styling Maps (igMap)](//styling-igmap.mdx):This topic explains how the igMap control can be configured with regard to visual styling.
+
+
+### <a id="samples"></a>Samples
+
+The following samples provide additional information related to this topic.
+
+-	[Geographic Symbol Series](&#123;environment:SamplesUrl&#125;/map/geo-symbol-series): This sample demonstrates how to create maps and visualize geographic symbol series.
+
+
+ 
+
+ 
+
+

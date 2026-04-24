@@ -1,0 +1,235 @@
+---
+title: "Styling the Chart Series (igDataChart)"
+slug: igdatachart-styling-the-chart-series
+---
+
+# Styling the Chart Series (igDataChart)
+
+
+##Topic Overview
+
+### Purpose
+
+This topic provides a brief overview on how to style the series of the `igDataChart`™ control and demonstrates, as an example, how to apply drop-shadow effect to the series.
+
+### Required background
+
+The following topics are prerequisites to understanding this topic:
+
+
+-   [Adding igDataChart](/igdatachart-adding.mdx)
+
+This topic demonstrates how to add the `igDataChart` control to a page and bind it to data.
+
+
+### In this topic
+
+This topic contains the following sections:
+
+-   [Introduction](#introduction)
+-   [Styling the Chart Series by Applying Linear Gradient Colors](#linear-gradient)
+-   [Styling the Chart Series by Applying Drop-Shadow Effect](#drop-shadow-effect)
+    -   [Drop-shadow effect configuration summary](#drop-shadow-effect-config)
+    -   [Shadow types](#shadow-types)
+    -   [Drop-shadow effect configuration summary chart](#drop-shadow-effect-chart)
+    -   [Property settings](#property-settings)
+    -   [Example – drop-shadow effect with Monolith shadow](#example)
+    -   [Example – drop-shadow effect with Compound shadow](#example-drop-shadow-effect)
+-   [Related Content](#related-content)
+    -   [Topics](#topics)
+
+
+##<a id="introduction"></a>Introduction
+
+
+### Chart series styling summary
+
+The igDataChart's series can be styled in many aspects, the main of which are applying different fill and outline brushes to the series. This is managed by the [`brush`](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.brush) and [`outline`](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.outline) properties of the series. Some other aspects of the series’ look-and-fill, such as the thickness of the outline and the opacity of the series, are configurable, too through the [`thickness`](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.thickness) and [`areaFillOpacity`](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.areaFillOpacity) properties of the series.
+
+In addition to managing the styling described above, [drop-shadow effect can be applied to the chart series](#drop-shadow-effect) by setting the [`isDropShadowEnabled`](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.isDropShadowEnabled) property.
+
+##<a id="linear-gradient"></a>Styling the Chart Series by Applying Linear Gradient Colors
+The linear gradient effect is achieved, by setting the type of the [`brush`](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.brush) or [`outline`](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.outline) to `"linearGradient"` and providing an array of `colorStops` (at least two) with color and offset for each.
+
+The following sample defines the chart configuration needed to achieve that effect:
+
+<div class="embed-sample">
+   [Chart Fill Gradients](&#123;environment:SamplesEmbedUrl&#125;/data-chart/chart-fill-gradients)
+</div>
+
+
+##<a id="drop-shadow-effect"></a>Styling the Chart Series by Applying Drop-Shadow Effect
+
+###<a id="drop-shadow-effect-config"></a> Drop-shadow effect configuration summary
+
+With the drop-shadow effect, the series appear as if casting a shadow.
+
+<div class="embed-sample">
+   [Drop Shadows](&#123;environment:SamplesEmbedUrl&#125;/data-chart/drop-shadows)
+   ![](images/igDataChart_Styling_the_Chart_Series_1.png)
+</div>
+
+Applying the drop-shadow effect to the series is done by setting the [`isDropShadowEnabled`](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.isDropShadowEnabled) property of the series to “true”. Customization of the effect in terms of [configurable shadow type](#shadow-types), blur radius, color, direction, and opacity is supported through the respective shadow-related properties of the [series](/overview/igdatachart-series-types.mdx) (See [Drop-shadow effect configuration summary chart](#drop-shadow-effect-chart), [Property settings](#property-settings), and the examples.).
+
+###<a id="shadow-types"></a> Shadow types
+
+Two types of shadows are available for the drop-shadow effect depending on whether the fill shape and the outline shape of a series cast separate shadows each or the series cast single monolith shadow:
+
+-   Monolith shadow – one shadow is displayed for the visual of the series
+-   Compound shadow – the fill part and outline part of the series each cast a separate shadow
+
+The default schedule type is Monolith. The benefit of using the Compound shadow type is in the capability to visually fine-tune the drop-shadow effect.
+
+>**Note:** Currently, [blur](#blur) can be applied only to Compound shadows. For details on this limitation, see [this note](#GoogleBug).
+
+The shadow type is controlled by the [`useSingleShadow`](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.useSingleShadow) property. When this property is set to *“true”* (default), Monolith shadow is applied; when set to “false”, the shadow will be Compound.
+
+### <a id="drop-shadow-effect-chart"></a> Drop-shadow effect configuration summary chart
+
+The following table explains briefly the configurable aspects of the chart drop-shadow effect and maps them to properties that configure them. The default drop-shadow effect styling differs depending on the series type. Further details and examples about configuring the shadow type after the table.
+
+
+| Configurable aspect | Details | Properties |
+| --- | --- | --- |
+| Configurable type of the shadow | Specifies whether the shadow can be configured (styled) individually for each series or only for the series visual as whole | [useSingleShadow](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.useSingleShadow) |
+| Direction and offset | The direction at which the shadow is cast as well as the horizontal and vertical offset from the series specified as X,Y offset co-ordinates relative to the top-left edge of the series’ bounds rectangle. | [shadowOffsetX](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowOffsetX), [shadowOffsetY](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowOffsetY) |
+| Color / Opacity | The color of the shadow. If a semi-transparent color is specified, a semi-transparent shadow is rendered. | [shadowColor](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowColor) |
+| Blur | The definition level of the edges of the shadow (sharp/blurry). The blur level is defined by the number of pixels throughout which the contour spreads and fades out. The higher the value, the blurrier the shadow. | [shadowBlur](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowBlur) |
+
+
+### <a id="property-settings"></a>Property settings
+
+The following table lists the configurable aspects of the drop-shadow effect to their respective property settings.
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th colspan="2">In order to configure:</th>
+            <th>Use this property:</th>
+            <th>And set it to:</th>
+</tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td colspan="2">Drop-shadow effect to be used</td>
+            <td>[isDropShadowEnabled](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.isDropShadowEnabled)</td>
+            <td>\*“true”\*</td>
+</tr>
+        <tr>
+            <td colspan="2">The type of the shadow</td>
+            <td>[useSingleShadow](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.useSingleShadow)</td>
+            <td>“true” or “false”</td>
+</tr>
+        <tr>
+            <td colspan="2">The color/opacity of the shadow</td>
+            <td>[shadowColor](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowColor)</td>
+            <td>The desired color HTML name, HEX color code or RGBA color definition</td>
+</tr>
+        <tr>
+            <td rowspan="2">The direction and offset</td>
+            <td>The horizontal offset of the shadow from the series visual</td>
+            <td>[shadowOffsetX](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowOffsetX)</td>
+            <td>A double value indicating the offset in pixels</td>
+</tr>
+        <tr>
+            <td>The vertical offset of the shadow from the series visual</td>
+            <td>[shadowOffsetY](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowOffsetY)</td>
+            <td>A double value indicating the offset in pixels</td>
+</tr>
+        <tr>
+            <td colspan="2">The blur level</td>
+            <td>[shadowBlur](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowBlur)</td>
+            <td>The desired pixel double value representing the blur level. The higher the value, the blurrier the shadow. <blockquote> <a id="GoogleBug" name="GoogleBug"></a> \*\*Note:\*\* Monolith shadows do not allow for the blur effect to be applied to them: when the useSingleShadow property is set to “true”, the shadowBlur setting is disregarded and no blur is applied to the shadow. This is a deliberate limitation due to a [Google® Chrome™ bug](https://code.google.com/p/chromium/issues/detail?id=100703) and extended to all major browsers thus ensuring consistent behavior across all of them. This behavior is subject to change once the aforementioned Chrome issue is resolved. In the meantime, if you need to apply blur to the shadow, use the Compound type of shadow (useSingleShadow:"true"). </blockquote></td>
+</tr>
+    </tbody>
+</table>
+
+### <a id="example"></a> Example – drop-shadow effect with Monolith shadow
+
+This example demonstrates applying and styling a [Monolith](#shadow-types) drop-shadow. Since the [`useSingleShadow`](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.useSingleShadow) property is "true" by default, setting it explicitly in the code is not necessary.
+
+The screenshot below demonstrates how a line series in an `igDataChart` control looks as a result of the following shadow-related settings:
+
+Property | Value
+---|---
+[isDropShadowEnabled](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.isDropShadowEnabled) | true
+[shadowBlur](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowBlur) | 20
+[shadowColor](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowColor) | "darkBlue"
+[shadowOffsetX](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowOffsetX) | 10
+[shadowOffsetY](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowOffsetY) | -15
+
+
+![](images/igDataChart_Styling_the_Chart_Series_2.png)
+
+Following is the code that implements this example.
+
+**In JavaScript:**
+
+```js
+series: [
+    {
+        type: "column",
+        isDropShadowEnabled: true,
+        shadowBlur: 20,
+        shadowColor: "darkBlue",
+        shadowOffsetX: 10,
+        shadowOffsetY: -15
+    }
+```
+
+### <a id="example-drop-shadow-effect"></a> Example – drop-shadow effect with Compound shadow
+
+This example demonstrates applying a [Compound](#shadow-types) drop-shadow with a blur.
+
+The screenshot below demonstrates how a column series in a `igDataChart` control looks as a result of the following shadow-related settings:
+
+Property | Value
+---|---
+[isDropShadowEnabled](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.isDropShadowEnabled) | true
+[useSingleShadow](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.useSingleShadow) | false
+[shadowBlur](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowBlur) | 20
+[shadowColor](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowColor) | “darkBlue”
+[shadowOffsetX](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowOffsetX) | 10
+[shadowOffsetY](&#123;environment:jQueryApiUrl&#125;/ui.igDataChart#options:series.shadowOffsetY) | -15
+
+
+![](images/igDataChart_Styling_the_Chart_Series_3.png)
+
+Following is the code that implements this example.
+
+**In JavaScript:**
+
+```js
+series: [
+    {
+        type: "column",
+        isDropShadowEnabled: true,
+        useSingleShadow: false,
+        shadowBlur: 20,
+        shadowColor: "darkBlue",
+        shadowOffsetX: 10,
+        shadowOffsetY: -15,
+      }
+```
+
+
+##<a id="related-content"></a>Related Content
+
+
+###<a id="topics"></a> Topics
+
+The following topics provide additional information related to this topic.
+
+
+-   [Styling igDataChart](/igdatachart-styling-themes.mdx): This topic demonstrates how to apply styles and themes to the `igDataChart` control.
+
+-   [Styling and Theming in &#123;environment:ProductName&#125;](///general-and-getting-started/styling-and-theming/deployment-guide-styling-and-theming.mdx)
+
+General information and a procedure for updating styles and themes in &#123;environment:ProductName&#125;™ library.
+
+
+ 
+
+ 
+
+
