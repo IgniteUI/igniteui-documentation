@@ -30,29 +30,13 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxBadgeModule` in your **app.module.ts** file.
+### Standalone Component 
 
-```typescript
-// app.module.ts
-
-...
-import { IgxBadgeModule } from 'igniteui-angular/badge';
-// import { IgxBadgeModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxBadgeModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxBadgeComponent` as a standalone dependency.
+Since `16.0.0`, `IgxBadgeComponent` is a standalone component. Import it directly into your component's `imports` array.
 
 ```typescript
 // home.component.ts
 
-...
 import { IgxBadgeComponent } from 'igniteui-angular/badge';
 // import { IgxBadgeComponent } from '@infragistics/igniteui-angular'; for licensed package
 
@@ -66,11 +50,49 @@ import { IgxBadgeComponent } from 'igniteui-angular/badge';
 export class HomeComponent {}
 ```
 
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxBadgeModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { IgxBadgeModule } from 'igniteui-angular/badge';
+// import { IgxBadgeModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxBadgeModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxBadgeModule` is kept for backwards compatibility only. New projects should use the standalone `IgxBadgeComponent` import instead.
+</Aside>
+
 Now that you have the Ignite UI for Angular Badge module or component imported, you can start with a basic configuration of the `igx-badge` component.
 
 ## Using the Angular Badge Component
 
-Let's see how the demo sample is done. It's a simple success badge on an avatar. To build that, we need to import the `IgxAvatarModule`, along with the `IgxBadgeModule`:
+Let's see how the demo sample is done. It's a simple success badge on an avatar. To build that, we need to import `IgxBadgeComponent` and `IgxAvatarComponent`:
+
+```typescript
+import { IgxBadgeComponent } from 'igniteui-angular/badge';
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+// import { IgxBadgeComponent, IgxAvatarComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IgxBadgeComponent, IgxAvatarComponent],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+Alternatively, for NgModule-based applications:_
 
 ```typescript
 // app.module.ts
@@ -87,8 +109,6 @@ import { IgxAvatarModule } from 'igniteui-angular/avatar';
 
 export class AppModule {}
 ```
-
-_Alternatively, as of `16.0.0` you can import the `IgxBadgeComponent` and `IgxAvatarComponent` as standalone dependencies._
 
 Next, we will add those components to our template:
 
@@ -172,7 +192,24 @@ The `igx-badge` component can also render as a minimal dot indicator for notific
 
 Let's extend the previous sample and create a list with contacts, similar to those in chat clients. In addition to the contact name, we want to display an avatar and the current state of the contact (online, offline or away). To achieve this, we're using the <ApiLink type="Badge" label="igx-badge" /> and <ApiLink type="Avatar" label="igx-avatar" /> components. For a container, <ApiLink type="List" label="igx-list" /> is used.
 
-To continue, include all needed modules and import them in the **app.module.ts** file.
+To continue, import the required components:
+
+```typescript
+import { IGX_LIST_DIRECTIVES } from 'igniteui-angular/list';
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+import { IgxBadgeComponent } from 'igniteui-angular/badge';
+// import { IGX_LIST_DIRECTIVES, IgxAvatarComponent, IgxBadgeComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IGX_LIST_DIRECTIVES, IgxAvatarComponent, IgxBadgeComponent],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+Alternatively, for NgModule-based applications:_
 
 ```typescript
 // app.module.ts

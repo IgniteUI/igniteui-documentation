@@ -31,29 +31,13 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxActionStripModule` in your **app.module.ts** file.
+### Standalone Component 
 
-```typescript
-// app.module.ts
-
-...
-import { IgxActionStripModule } from 'igniteui-angular/action-strip';
-// import { IgxActionStripModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxActionStripModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxActionStripComponent` as a standalone dependency, or use the [`IGX_ACTION_STRIP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/action-strip/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxActionStripComponent` is a standalone component. Import it directly or use the `IGX_ACTION_STRIP_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
 
-...
 import { IGX_ACTION_STRIP_DIRECTIVES } from 'igniteui-angular/action-strip';
 import { IgxButtonDirective } from 'igniteui-angular/button';
 import { IgxIconComponent } from 'igniteui-angular/icon';
@@ -78,7 +62,29 @@ import { IgxIconComponent } from 'igniteui-angular/icon';
 export class HomeComponent {}
 ```
 
-Now that you have the Ignite UI for Angular Action Strip module or directives imported, you can start with a basic configuration of the `igx-action-strip` component.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxActionStripModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { IgxActionStripModule } from 'igniteui-angular/action-strip';
+// import { IgxActionStripModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxActionStripModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxActionStripModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_ACTION_STRIP_DIRECTIVES` or `IgxActionStripComponent` import instead.
+</Aside>
+
+Now that you have the Ignite UI for Angular Action Strip directives imported, you can start with a basic configuration of the `igx-action-strip` component.
 
 ## Using the Angular Action Strip Component
 
@@ -117,6 +123,29 @@ For scenarios where more than three action items will be shown, it is best to us
 ```
 
 <Sample src="/menus/action-strip-paragraph-menu" height={400} alt="" />
+
+### Programmatic Visibility
+
+Use `show()` and `hide()` to control the Action Strip programmatically:
+
+```typescript
+@ViewChild('actionStrip') actionStrip: IgxActionStripComponent;
+
+// Show the strip for a specific context (e.g. a hovered row)
+this.actionStrip.show(rowComponent);
+
+// Hide it when interaction ends
+this.actionStrip.hide();
+```
+
+The `hidden` input can also be set declaratively as an initial state:
+
+```html
+<igx-action-strip [hidden]="false">
+    <button igxButton (click)="doAction()"><igx-icon>edit</igx-icon></button>
+</igx-action-strip>
+```
+
 
 ### Reusing the Action Strip
 

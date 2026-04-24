@@ -34,23 +34,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxCheckboxModule` in the **app.module.ts** file:
+### Standalone Component 
 
-```typescript
-// app.module.ts
-
-import { IgxCheckboxModule } from 'igniteui-angular/checkbox';
-// import { IgxCheckboxModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxCheckboxModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxCheckboxComponent` as a standalone dependency.
+Since `16.0.0`, `IgxCheckboxComponent` is a standalone component. Import it directly into your component's `imports` array.
 
 ```typescript
 // home.component.ts
@@ -71,6 +57,28 @@ import { IgxCheckboxComponent } from 'igniteui-angular/checkbox';
 })
 export class HomeComponent {}
 ```
+
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxCheckboxModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { IgxCheckboxModule } from 'igniteui-angular/checkbox';
+// import { IgxCheckboxModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxCheckboxModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxCheckboxModule` is kept for backwards compatibility only. New projects should use the standalone `IgxCheckboxComponent` import instead.
+</Aside>
 
 Now that you have the Ignite UI for Angular Checkbox module or component imported, you can start using the `igx-checkbox` component.
 
@@ -222,6 +230,45 @@ public toggleAll() {
 
 After all that is done, our application should look like this:
 <Sample src="/data-entries/checkbox-sample-3" height={200} alt="" />
+
+### Required Checkbox
+
+Use the `required` property to mark the checkbox as required in forms:
+
+```html
+<igx-checkbox [required]="true">
+    I agree to the terms
+</igx-checkbox>
+```
+
+### Disabled and Read-only
+
+```html
+{/* Completely non-interactive */}
+<igx-checkbox [disabled]="true">Disabled</igx-checkbox>
+
+{/* Displays state but blocks user changes */}
+<igx-checkbox [readonly]="true" [(ngModel)]="readonlyValue">Read-only</igx-checkbox>
+```
+
+### Change Event
+
+The `change` event fires whenever the checkbox value changes. The event argument provides a reference to the checkbox and the new checked state:
+
+```typescript
+import { IChangeCheckboxEventArgs } from 'igniteui-angular/checkbox';
+// import { IChangeCheckboxEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onCheckboxChange(event: IChangeCheckboxEventArgs) {
+    console.log('Checked:', event.checked);
+    console.log('Value:', event.value);
+    console.log('Owner:', event.owner);
+}
+```
+
+```html
+<igx-checkbox (change)="onCheckboxChange($event)" value="item1">Item 1</igx-checkbox>
+```
 
 ## Styling
 

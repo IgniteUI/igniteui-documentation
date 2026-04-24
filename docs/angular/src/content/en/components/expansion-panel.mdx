@@ -34,23 +34,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxExpansionPanelModule` in your **app.module.ts** file.
+### Standalone Component 
 
-```typescript
-// app.module.ts
-...
-import { IgxExpansionPanelModule } from 'igniteui-angular/expansion-panel';
-// import { IgxExpansionPanelModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxExpansionPanelModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxExpansionPanelComponent` as a standalone dependency, or use the [`IGX_EXPANSION_PANEL_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/expansion-panel/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxExpansionPanelComponent` is a standalone component. Import it directly or use the `IGX_EXPANSION_PANEL_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -86,7 +72,28 @@ import { IGX_EXPANSION_PANEL_DIRECTIVES } from 'igniteui-angular/expansion-panel
 export class HomeComponent {}
 ```
 
-Now that you have the Ignite UI for Angular Expansion Panel module or directives imported, you can start using the `igx-expansion-panel` component.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxExpansionPanelModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+import { IgxExpansionPanelModule } from 'igniteui-angular/expansion-panel';
+// import { IgxExpansionPanelModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxExpansionPanelModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxExpansionPanelModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_EXPANSION_PANEL_DIRECTIVES` or `IgxExpansionPanelComponent` import instead.
+</Aside>
+
+Now that you have the Ignite UI for Angular Expansion Panel directives imported, you can start using the `igx-expansion-panel` component.
 
 ## Using the Angular Expansion Panel
 
@@ -148,7 +155,7 @@ export class ExpansionPanelComponent {
 
 ```html
 {/* in expansion-component.component.html */}
-<igx-expansion-panel (onExpanded)="handleExpansion($event)" (contentCollapsed)="handleCollapse($event)"></igx-expansion-panel>
+<igx-expansion-panel (contentExpanded)="handleExpansion($event)" (contentCollapsed)="handleCollapse($event)"></igx-expansion-panel>
 ```
 
 Below we have the results:
@@ -213,6 +220,62 @@ For the sake of simplicity let's add some basic markup to the body of our expans
 Lets see the result from all the above changes:
 
 <Sample src="/layouts/expansion-sample-3" height={460} alt="" />
+
+## Programmatic Control
+
+Use `expand()`, `collapse()`, or `toggle()` to control the panel state from TypeScript:
+
+```typescript
+import { IgxExpansionPanelComponent } from 'igniteui-angular/expansion-panel';
+// import { IgxExpansionPanelComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({...})
+export class MyComponent {
+    @ViewChild(IgxExpansionPanelComponent)
+    public panel: IgxExpansionPanelComponent;
+
+    public expandPanel() { this.panel.expand(); }
+    public collapsePanel() { this.panel.collapse(); }
+    public togglePanel() { this.panel.toggle(); }
+}
+```
+
+The `collapsed` input also supports two-way binding:
+
+```html
+<igx-expansion-panel [(collapsed)]="isCollapsed">
+    <igx-expansion-panel-header>Title</igx-expansion-panel-header>
+    <igx-expansion-panel-body>Content</igx-expansion-panel-body>
+</igx-expansion-panel>
+```
+
+## Events
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `contentExpanding` | Emitted before the panel expands. | Yes |
+| `contentExpanded` | Emitted after the panel finishes expanding. | No |
+| `contentCollapsing` | Emitted before the panel collapses. | Yes |
+| `contentCollapsed` | Emitted after the panel finishes collapsing. | No |
+
+Use `contentExpanding` to conditionally prevent expansion:
+
+```typescript
+import { IExpansionPanelCancelableEventArgs } from 'igniteui-angular/expansion-panel';
+// import { IExpansionPanelCancelableEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onExpanding(event: IExpansionPanelCancelableEventArgs) {
+    if (this.isLocked) {
+        event.cancel = true;
+    }
+}
+```
+
+```html
+<igx-expansion-panel (contentExpanding)="onExpanding($event)">
+    ...
+</igx-expansion-panel>
+```
 
 ## Styling
 

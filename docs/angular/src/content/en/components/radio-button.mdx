@@ -32,26 +32,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxRadioModule` in the **app.module.ts** file.
+### Standalone Component 
 
-```typescript
-// app.module.ts
-
-...
-import { IgxRadioModule } from 'igniteui-angular/radio';
-// import { IgxRadioModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxRadioModule],
-    ...
-})
-export class AppModule {
-    public selected: any;
-}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxRadioGroupDirective` and `IgxRadioComponent` as standalone dependencies, or use the [`IGX_RADIO_GROUP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/directives/radio/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxRadioGroupDirective` is a standalone component. Import it directly or use the `IGX_RADIO_GROUP_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -80,7 +63,31 @@ export class HomeComponent {
 }
 ```
 
-Now that you have the Ignite UI for Angular Radio Button module or directives imported, you can start using the `igx-radio-group` directive and `igx-radio` component.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxRadioModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { IgxRadioModule } from 'igniteui-angular/radio';
+// import { IgxRadioModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxRadioModule],
+    ...
+})
+export class AppModule {
+    public selected: any;
+}
+```
+
+<Aside type="caution">
+`IgxRadioModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_RADIO_GROUP_DIRECTIVES` or `IgxRadioGroupDirective` import instead.
+</Aside>
+
+Now that you have the Ignite UI for Angular Radio Button directives imported, you can start using the `igx-radio-group` directive and `igx-radio` component.
 
 ## Using the Angular Radio Button
 
@@ -144,6 +151,53 @@ Pay attention that if you don't use the `NgModel` directive in a two-way data bi
 The final result would be something like that:
 
 <Sample src="/data-entries/radio-sample-2" height={550} alt="" />
+
+### Programmatic Selection
+
+Use `select()` and `deselect()` to control radio state from TypeScript without relying on template binding:
+
+```typescript
+import { IgxRadioComponent } from 'igniteui-angular/radio';
+// import { IgxRadioComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({...})
+export class MyComponent {
+    @ViewChild('radio') radio: IgxRadioComponent;
+
+    public checkOption() {
+        this.radio.select();
+    }
+
+    public uncheckOption() {
+        this.radio.deselect();
+    }
+}
+```
+
+```html
+<igx-radio #radio value="option1">Option 1</igx-radio>
+```
+
+### Change Event
+
+Both `igx-radio` (inheriting `CheckboxBaseDirective`) and `igx-radio-group` emit a `change` event when the selection changes:
+
+```typescript
+import { IChangeCheckboxEventArgs } from 'igniteui-angular/checkbox';
+// import { IChangeCheckboxEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onRadioChange(event: IChangeCheckboxEventArgs) {
+    console.log('Selected value:', event.value);
+    console.log('Radio component:', event.owner);
+}
+```
+
+```html
+<igx-radio-group (change)="onRadioChange($event)" name="options">
+    <igx-radio value="A">Option A</igx-radio>
+    <igx-radio value="B">Option B</igx-radio>
+</igx-radio-group>
+```
 
 ## Styling
 
@@ -284,7 +338,22 @@ The Ignite UI for Angular Radio Group directive provides a grouping container th
 
 ### Usage
 
-The Radio Group Directive is exported as an `NgModule`, thus all you need to do in your application is to import the `IgxRadioModule` in the **app.module.ts** file:
+To use the Radio Group in your application, import `IGX_RADIO_GROUP_DIRECTIVES`:
+
+```typescript
+import { IGX_RADIO_GROUP_DIRECTIVES } from 'igniteui-angular/radio';
+// import { IGX_RADIO_GROUP_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IGX_RADIO_GROUP_DIRECTIVES],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+Alternatively, for NgModule-based applications:_
 
 ```typescript
 // app.module.ts

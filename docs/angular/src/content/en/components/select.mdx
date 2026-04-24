@@ -28,22 +28,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxSelectModule` in the **app.module.ts** file.
+### Standalone Component 
 
-```typescript
-// app.module.ts
-...
-import { IgxSelectModule } from 'igniteui-angular/select';
-// import { IgxSelectModule } from '@infragistics/igniteui-angular'; for licensed package
-@NgModule({
-    ...
-    imports: [..., IgxSelectModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxSelectComponent` as a standalone dependency, or use the [`IGX_SELECT_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/select/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxSelectComponent` is a standalone component. Import it directly or use the `IGX_SELECT_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -73,7 +60,27 @@ export class HomeComponent {
 }
 ```
 
-Now that you have the Ignite UI for Angular Select module or directives imported, you can start using the `igx-select` component.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxSelectModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+import { IgxSelectModule } from 'igniteui-angular/select';
+// import { IgxSelectModule } from '@infragistics/igniteui-angular'; for licensed package
+@NgModule({
+    ...
+    imports: [..., IgxSelectModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxSelectModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_SELECT_DIRECTIVES` or `IgxSelectComponent` import instead.
+</Aside>
+
+Now that you have the Ignite UI for Angular Select directives imported, you can start using the `igx-select` component.
 
 ## Using the Angular Select
 
@@ -365,6 +372,38 @@ export class MyClass implements OnInit {
 <Aside type="note">
 If you pass in your custom settings both as an argument in the `open` function and in the template, `igx-select` will use the one provided in the `open` function. However, if you bind the settings to an internal event, such as `opening` or `opened` then `igx-select` will use the settings that are provided in the template.
 </Aside>
+
+## Events
+
+The Select component emits the following events:
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `opening` | Emitted before the dropdown panel opens. | Yes |
+| `opened` | Emitted after the dropdown panel finishes opening. | No |
+| `closing` | Emitted before the dropdown panel closes. | Yes |
+| `closed` | Emitted after the dropdown panel finishes closing. | No |
+| `selectionChanging` | Emitted before the selected item changes. Provides `oldSelection` and `newSelection`. | Yes |
+
+Use the cancelable `selectionChanging` event to validate or prevent a selection:
+
+```typescript
+import { ISelectionEventArgs } from 'igniteui-angular/drop-down';
+// import { ISelectionEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onSelectionChanging(event: ISelectionEventArgs) {
+    if (event.newSelection?.value === 'restricted') {
+        event.cancel = true;
+    }
+}
+```
+
+```html
+<igx-select (selectionChanging)="onSelectionChanging($event)">
+    <igx-select-item value="free">Free</igx-select-item>
+    <igx-select-item value="restricted">Restricted</igx-select-item>
+</igx-select>
+```
 
 ## Styling
 
