@@ -282,6 +282,7 @@ export function getNavConfig(platform: string | null, lang = 'en'): NavConfig {
         case 'blazor':
         case 'web-components':
         case 'slingshot':
+        case 'jquery':
             return { navType: 'infragistics', navUrl: `${igBase}/navigation` };
         default:
             return { navType: 'none', navUrl: null };
