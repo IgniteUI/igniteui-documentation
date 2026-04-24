@@ -1,0 +1,26 @@
+---
+/**
+ * Renders slotted content only for the matching grid variant route.
+ *
+ * Usage:
+ *   <ComponentBlock for="Grid, TreeGrid">
+ *     ...
+ *   </ComponentBlock>
+ */
+
+interface Props {
+    for: string;
+}
+
+const { for: forProp } = Astro.props;
+const allowed = (forProp ?? '').split(',').map((s) => s.trim()).filter(Boolean);
+
+const pathname = Astro.url.pathname.toLowerCase();
+
+let current = 'Grid';
+if (pathname.includes('/treegrid/')) current = 'TreeGrid';
+else if (pathname.includes('/hierarchicalgrid/')) current = 'HierarchicalGrid';
+else if (pathname.includes('/pivotgrid/')) current = 'PivotGrid';
+
+---
+{allowed.includes(current) && <slot />}

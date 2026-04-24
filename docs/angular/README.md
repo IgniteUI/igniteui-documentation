@@ -82,7 +82,7 @@ Documentation uses `{environment:variableName}` tokens inside markdown that are 
 
 All variable values are defined in each language's `environment.json` (e.g. `src/content/en/environment.json`), keyed by `NODE_ENV` (`development`, `staging`, `production`).
 
-At startup, `astro.config.mjs` reads `NODE_ENV` and `DOCS_LANG`, and the `remark-env` plugin resolves every `{environment:key}` token at render time using the matching variable set from `environment.json`.
+At startup, `astro.config.mjs` reads `NODE_ENV` and `DOCS_LANG`. The `remark-docfx` plugin (from `docs-template`) resolves every `{environment:key}` token at render time using the matching variable set from `environment.json`.
 
 Key variables:
 
@@ -126,7 +126,7 @@ Grid, Tree Grid, Hierarchical Grid, and Pivot Grid share documentation via DocFX
 
 ### 3. Environment token resolution
 
-The `remark-env` remark plugin resolves `{environment:key}` tokens at render time using the values from `src/content/{lang}/environment.json` matching the current `NODE_ENV`.
+The `remark-docfx` plugin (from `docs-template`) resolves `{environment:key}` tokens at render time using the values from `src/content/{lang}/environment.json` matching the current `NODE_ENV`.
 
 ### 4. Image path normalization
 
@@ -177,8 +177,6 @@ createDocsSite({
 │   │       └── environment.json   Environment variables (dev/staging/prod)
 │   ├── content.config.ts          Astro content collection schema
 │   ├── generate-grids.mjs         Build-time grid page generator
-│   └── plugins/
-│       └── remark-env.mjs         Remark plugin for {environment:} tokens
 ├── astro.config.mjs               Main site config (grid gen, createDocsSite)
 └── package.json                   Build scripts for all lang/env combinations
 ```

@@ -1,0 +1,110 @@
+---
+title: "{Platform} マップ | データ可視化ツール | マップ ナビゲーション | インフラジスティックス"
+description: インフラジスティックスの {Platform} マップをナビゲートするには、マウスまたはタッチを使用して左右にパンニングし、水平および垂直にズームします。{ProductName} マップのナビゲーション機能について説明します。
+keywords: "{Platform} map, navigation, {ProductName}, Infragistics, {Platform} マップ, ナビゲーション, インフラジスティックス"
+license: commercial
+mentionedTypes: ["GeographicMap"]
+_language: ja
+_description: Navigate Infragistics' {Platform} map by panning right and left and zooming horizontally and vertically using mouse or touch. Learn about {ProductName} map's navigation capabilities!
+_keywords: {Platform} map, navigation, {ProductName}, Infragistics
+_license: commercial
+
+---
+import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+
+# {Platform} コンテンツのナビゲーション
+
+`GeographicMap` コントロールのナビゲーションは、既定では有効にされており、マップ コンテンツのズームとパンが可能です。ただし、この動作は <ApiLink pkg="maps" type="GeographicMap" member="Zoomable" label="Zoomable" /> プロパティを使用して変更できます。マップでは同期ズームのみが許可されていること、つまり、アスペクト比を維持したままマップコンテンツをスケーリングすることを知っておくことが重要です。結果として、マップコンテンツを水平方向にスケーリングせずに垂直方向にスケーリングすることはできません。
+
+## {Platform} コンテンツのナビゲーションの例
+
+
+<Sample src="/maps/geo-map/navigation" height={500} alt="{Platform} コンテンツのナビゲーションの例" />
+
+
+
+
+<div class="divider--half"></div>
+
+## 地理座標
+
+これらの座標で囲まれた地理的領域内の地図コンテンツをナビゲートします。
+- 水平方向に 180°E (マイナス) から 180°W (プラス) の経度
+- 垂直方向に 85°S (マイナス) から 85°N (プラス) の緯度
+
+このコード スニペットは、地理座標を使用してマップをナビゲートする方法を示しています。
+
+<PlatformBlock for="React">
+
+```ts
+const geoMap = new IgrGeographicMap({ name: "geoMap" });
+
+geoMap.zoomToGeographic({ left: -134.5, top: 16.5, width: 70.0, height: 37.0 });
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+this.GeoMap.ZoomToGeographic(new Rect() { Left = -134.5, Top = 16.5, Width = 70.0, Height = 37.0 });
+```
+
+</PlatformBlock>
+
+## ウィンドウ座標
+
+また、これらの相対座標で区切られたウィンドウ長方形内でマップ コンテンツをナビゲーションできます。
+- 水平方向に 0.0 から 1.0 の値
+- 垂直方向に 0.0 から 1.0 の値
+
+このコード スニペットは、相対ウィンドウ座標を使用してマップをナビゲートする方法を示しています。
+
+<PlatformBlock for="React">
+
+```ts
+const geoMap = new IgrGeographicMap({ name: "geoMap" });
+
+geoMap.windowRect = { left: 0.1, top: 0.1, width: 0.5, height: 0.5 };
+// or
+geoMap.windowPositionHorizontal = 0.1;
+geoMap.windowPositionVertical = 0.1;
+geoMap.windowScale = 0.5;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+this.GeoMap.ZoomToGeographic(new Rect() { Left = 0.1, Top = 0.1, Width = 0.5, Height = 0.5 });
+// or
+this.GeoMap.WindowPositionHorizontal = 0.1;
+this.GeoMap.WindowPositionVertical = 0.1;
+this.GeoMap.WindowScale = 0.5;
+```
+
+</PlatformBlock>
+
+## プロパティ
+以下の表は `GeographicMap` コントロールのナビゲーションで使用できるプロパティをまとめたものです。
+
+| プロパティ名  | プロパティ型   | 概要   |
+|----------------|-----------------|---------------|
+|<ApiLink pkg="maps" type="GeographicMap" member="WindowRect" label="WindowRect" />| Rect | 地図コンテンツの表示領域にナビゲーション ウィンドウの新しい位置とサイズを設定します。0、0、1、1 の値で長方形を指定すると、ナビゲーション ウィンドウのマップ コンテンツ全体がズームアウトされます。 |
+|<ApiLink pkg="maps" type="GeographicMap" member="WindowScale" label="WindowScale" />| number | マップ コントロールのナビゲーション ウィンドウの新しいサイズを設定します。<ApiLink pkg="maps" type="GeographicMap" member="WindowRect" label="WindowRect" /> プロパティに格納されている Width または Height の最小値です。 |
+|<ApiLink pkg="maps" type="GeographicMap" member="WindowPositionHorizontal" label="WindowPositionHorizontal" />| number | マップ コントロールの左端からのナビゲーション ウィンドウのアンカー ポイントの新しい水平位置を設定します。これは <ApiLink pkg="maps" type="GeographicMap" member="WindowRect" label="WindowRect" /> プロパティの Left に保存された値と等しくなります。 |
+|<ApiLink pkg="maps" type="GeographicMap" member="WindowPositionVertical" label="WindowPositionVertical" />| number | ナビゲーション ウィンドウのアンカー ポイントの、地図コントロールの上端からの新しい垂直位置を設定します。これは <ApiLink pkg="maps" type="GeographicMap" member="WindowRect" label="WindowRect" /> プロパティの Top に保存された値と等しくなります。 |
+|<ApiLink pkg="maps" type="GeographicMap" member="ActualWindowRect" label="ActualWindowRect" />| Rect | マップ コンテンツの表示領域内のナビゲーション ウィンドウの現在の位置とサイズを示します。0、0、1、1の値で長方形を指定すると、ナビゲーション ウィンドウにマップ コンテンツ全体が表示されます。  |
+|<ApiLink pkg="maps" type="GeographicMap" member="ActualWindowScale" label="ActualWindowScale" />| number | マップ コントロールのナビゲーション ウィンドウの現在のサイズを示します。<ApiLink pkg="maps" type="GeographicMap" member="ActualWindowRect" label="ActualWindowRect" /> プロパティに格納されている Width または Height の最小値と同じです。 |
+|<ApiLink pkg="maps" type="GeographicMap" member="ActualWindowPositionHorizontal" label="ActualWindowPositionHorizontal" />| number | マップ コントロールの左端からのナビゲーション ウィンドウのアンカー ポイントの現在の水平位置を示します。<ApiLink pkg="maps" type="GeographicMap" member="ActualWindowRect" label="ActualWindowRect" /> プロパティの Left に保存された値と等しくなります。 |
+|<ApiLink pkg="maps" type="GeographicMap" member="ActualWindowPositionVertical" label="ActualWindowPositionVertical" />| number | マップコントロールの上端からのナビゲーションウィンドウのアンカーポイントの垂直位置を示します。<ApiLink pkg="maps" type="GeographicMap" member="ActualWindowRect" label="ActualWindowRect" /> プロパティの Top に保存された値と等しくなります。 |
+
+
+## API リファレンス
+
+<ApiRef pkg="maps" types={["GeographicMap"]} />

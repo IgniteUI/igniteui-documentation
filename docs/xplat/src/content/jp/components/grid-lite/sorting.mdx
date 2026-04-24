@@ -1,0 +1,642 @@
+---
+title: "{Platform} {GridLiteTitle} ソート | {ProductName} | MIT ライセンス"
+description: "{Platform} {GridLiteTitle} 向けに、ソート操作、ソート カスタマイズ、リモート ソートを備えた {GridLiteTitle} をお試しください。デモと例を参照して、次のアプリを構築してください。"
+keywords: sorting, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, ソート, インフラジスティックス
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+license: MIT
+_language: ja
+---
+import { Aside } from '@astrojs/starlight/components';
+import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+
+# ソート操作
+
+<PlatformBlock for="React, WebComponents">
+
+{GridLiteTitle} はデータ ソースに対してソート操作をサポートします。ソートは列単位で制御され、ソート可能な列とソート不可の列を設定できます。グリッド自体も特定のソート動作を制御します。デフォルトでは、`sortable` プロパティで明示的に設定されない限り、列のソートは無効です。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+{GridLiteTitle} はデータ ソースに対してソート操作をサポートします。ソートは列単位で制御され、ソート可能な列とソート不可の列を設定できます。グリッド自体も特定のソート動作を制御します。デフォルトでは、`sortable` プロパティで明示的に設定されない限り、列のソートは無効です。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite .data=${data}>
+  <igc-grid-lite-column field="price" sortable></igc-grid-lite-column>
+</igc-grid-lite>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <igc-grid-lite data={data}>
+    <igc-grid-lite-column field="price" sortable></igc-grid-lite-column>
+  </igc-grid-lite>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGridLite Data="@data">
+    <IgbGridLiteColumn Field="Price" Sortable="true" />
+</IgbGridLite>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+`sortingCaseSensitive` プロパティまたは `sorting-case-sensitive` 属性を使用して、文字列列のソート操作で大文字と小文字を区別するかどうかを制御することもできます。
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+カスタム比較ロジックの場合は、`comparer` 関数を使用して `sortConfiguration` プロパティを設定します:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite-column 
+  field="name" 
+  sortable
+  sorting-case-sensitive
+></igc-grid-lite-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <igc-grid-lite data={data}>
+    <igc-grid-lite-column 
+      field="name" 
+      sortable
+      sorting-case-sensitive
+    ></igc-grid-lite-column>
+  </igc-grid-lite>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+`SortingCaseSensitive` パラメーターを使用して、文字列列のソート操作で大文字と小文字を区別するかどうかを制御することもできます:
+
+```typescript
+const column = document.querySelector('igc-grid-lite-column[field="name"]');
+column.sortConfiguration = {
+  /**
+   * この列のソート操作に使用されるカスタム比較関数を指定します。
+   * 次のサンプルでは、`name` の値をその長さに基づいて比較します。
+   */
+  comparer: (a, b) => a.length - b.length
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+For custom comparison logic, set the `sortConfiguration` property with a `comparer` function:
+
+```razor
+<IgbGridLiteColumn 
+    Field="Name" 
+    Sortable="true"
+    SortingCaseSensitive="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+You can also control whether the sort operations for string columns should be case sensitive by using the `SortingCaseSensitive` parameter:
+
+```razor
+<IgbGridLiteColumn 
+    Field="Name" 
+    Sortable="true"
+    SortingCaseSensitive="true" />
+```
+
+</PlatformBlock>
+
+<Sample src="/{GridLiteSample}/sort-config-sample" height={600} alt="{Platform} {GridLiteTitle} ソート構成" />
+
+## 単一および複数列ソート
+
+<PlatformBlock for="React, WebComponents">
+
+{GridLiteTitle} は単一および複数列ソートの両方をサポートします。複数列はデフォルトで有効で、グリッドの `sortingOptions` プロパティを通じて設定可能です。`mode` プロパティは、値として `'single'` または `'multiple'` を受け入れます。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+{GridLiteTitle} は単一および複数列ソートの両方をサポートします。複数列はデフォルトで有効で、グリッドの `SortingOptions` プロパティを通じて設定可能です。`Mode` プロパティは、値として `GridLiteSortingMode.Single` または `GridLiteSortingMode.Multiple` を受け入れます。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+// 単一列のソートを有効にします
+grid.sortingOptions = { mode: 'single' };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+
+```razor
+// 単一列のソートを有効にします
+grid.SortingOptions = new IgbGridLiteSortingOptions { Mode = GridLiteSortingMode.Single };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+// Enable single-column sorting
+grid.SortingOptions = new IgbGridLiteSortingOptions { Mode = GridLiteSortingMode.Single };
+```
+
+</PlatformBlock>
+
+<Aside type="note" title="注">
+単一/複数列ソートの動作は、ユーザーが {GridLiteTitle} を操作する方法を制御します。API で複数の式によるソートを実行しても、単一ソートが有効な場合でも動作します。
+</Aside>
+
+### 3 状態ソート
+{GridLiteTitle} は 3 状態ソートをサポートしており、常に有効になっています。エンド ユーザーはソート可能な列ヘッダーをクリックすると、次の方向状態を順番に切り替えます:
+
+<PlatformBlock for="React, WebComponents">
+
+
+```
+ascending -> descending -> none -> ascending
+```
+`none` はデータの初期状態で、グリッドによるソートが適用されていません。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```
+Ascending -> Descending -> None -> Ascending
+```
+`None` はデータの初期状態で、グリッドによるソートが適用されていません。
+
+</PlatformBlock>
+
+### ソート インジケーター
+
+複数列ソートが有効な場合、列ヘッダーにはソートインジケーターが表示されます。これはソート操作が適用された順序を示す番号です。
+
+<PlatformBlock for="React, WebComponents">
+
+次のサンプルは、グリッドの `sortingOptions` プロパティと、それがグリッドのソート動作を制御する方法を示しています。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+次のサンプルは、グリッドの `SortingOptions` プロパティと、それがグリッドのソート動作を制御する方法を示しています。
+
+</PlatformBlock>
+
+<Sample src="/{GridLiteSample}/sort-config-grid" height={600} alt="{Platform} {GridLiteTitle} ソート構成グリッド" />
+
+## ソート モデル
+
+<PlatformBlock for="React, WebComponents">
+
+{GridLiteTitle} におけるソート操作の基本単位は `IgbGridLiteSortingExpression` で、以下のプロパティを持ちます:
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+グリッドはこれらの式をソート API メソッドや設定で使用し、ユーザー操作時にイベントやソート状態を生成します。詳細は以下を参照してください。
+
+</PlatformBlock>
+
+
+```typescript
+type SortingExpression<T> = {
+  /**
+   * ソート操作の対象列の `key`。
+   */
+  key: keyof T;
+  /**
+   * 操作のソート方向。
+   */
+  direction: 'ascending' | 'descending' | 'none';
+  /**
+   * 操作を大文字と小文字を区別するかどうかを指定します。デフォルトの string タイプに適用されます。
+   * 明示的に渡されていない場合、該当する列のソート設定の値が使用されます。
+   */
+  caseSensitive?: boolean;
+  /**
+   * 操作に対してカスタム比較関数を指定します。
+   * 該当する列のソート設定が適用可能な場合、その値が使用されます。
+   */
+  comparer?: SortComparer<T, T[keyof T]>;
+};
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+public class IgbGridLiteSortingExpression
+{
+    /// <summary>
+    /// ターゲット列。
+    /// </summary>
+    [JsonPropertyName("key")]
+    public string Key { get; set; }
+
+    /// <summary>
+    /// この操作のソート方向。
+    /// </summary>
+    [JsonPropertyName("direction")]
+    public GridLiteSortingDirection Direction { get; set; }
+
+    /// <summary>
+    /// ソート操作で大文字と小文字を区別するかどうかを指定します。
+    /// この値が指定されていない場合、列のソート構成に基づいて解決されます。
+    /// </summary>
+    [JsonPropertyName("caseSensitive")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? CaseSensitive { get; set; }
+}
+```
+
+</PlatformBlock>
+
+The grid consumes these expressions for its sort API methods and configuration and produces them for events and its sorting state when
+an end-user interacts with the component. See below for additional information.
+
+## ソート API
+
+<PlatformBlock for="React, WebComponents">
+
+{GridLiteTitle} は、ソート操作を API から適用するために 2 つの方法を提供します。`sort()`/`clearSort()` メソッドを使用するか、`sortingExpressions` プロパティを使用します。
+
+`sort()` メソッドは、単一式または複数のソート式の配列を受け取り、それらに基づいてグリッド データをソートします。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+{GridLiteTitle} は、ソート操作を API から適用するために 2 つの方法を提供します。`Sort()`/`ClearSort()` メソッドを使用するか、`SortingExpressions` プロパティを使用します。
+
+`Sort()` メソッドは、単一式または複数のソート式の配列を受け取り、それらに基づいてグリッド データをソートします。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+// 単一
+grid.sort({ key: 'price', direction: 'descending' });
+
+// 複数
+grid.sort([
+  { key: 'price', direction: 'descending' },
+  { key: 'name', direction: 'descending' },
+]);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+
+```razor
+// 単一
+await grid.Sort(new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending });
+
+// 複数
+await grid.Sort(new IgbGridLiteSortingExpression[]
+{
+    new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending },
+    new IgbGridLiteSortingExpression { Key = "Name", Direction = GridLiteSortingDirection.Descending }
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```typescript
+// `price` 列のソート状態をクリアします。
+grid.clearSort('price');
+
+// グリッドのソート状態をクリアします。
+grid.clearSort();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+`clearSort()` メソッドは、その名の通り、単一列またはグリッド全体のソート状態をクリアします。引数に応じて挙動が変わります。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+`ClearSort()` メソッドは、その名の通り、単一列またはグリッド全体のソート状態をクリアします。引数に応じて挙動が変わります。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+
+```razor
+// `Price` 列のソート状態をクリアします。
+await grid.ClearSort("Price");
+
+// グリッドのソート状態をクリアします。
+await grid.ClearSort();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+
+```typescript
+// Clear the sort state for the `price` column.
+gridRef.current.clearSort('price');
+
+// Clear the sort state of the grid.
+gridRef.current.clearSort();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+// Clear the sort state for the `Price` column.
+await grid.ClearSort("Price");
+
+// Clear the sort state of the grid.
+await grid.ClearSort();
+```
+
+</PlatformBlock>
+
+### 初期のソート状態
+
+<PlatformBlock for="React, WebComponents">
+
+`sortingExpressions` プロパティは `sort()` メソッド呼び出しと同様の動作をします。これはグリッド内のソート状態を制御する宣言的な方法を公開していますが、最も便利なプロパティは、{GridLiteTitle} が最初にレンダリングされるときに初期ソート状態を設定できることです。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+`sortingExpressions` プロパティは `Sort()` メソッド呼び出しと同様の動作をします。これはグリッド内のソート状態を制御する宣言的な方法を公開していますが、最も便利なプロパティは、{GridLiteTitle} が最初にレンダリングされるときに初期ソート状態を設定できることです。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+たとえば、Lit ベースのサンプルを次に示します。
+
+```typescript
+{
+  sortState: SortingExpression<Products>[] = [
+    { key: 'price', direction: 'descending' },
+    { key: 'name', direction: 'ascending', caseSensitive: true },
+  ];
+
+  render() {
+    return html`<igc-grid-lite .sortingExpressions=${sortState}></igc-grid-lite>`
+  }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+例:
+
+```razor
+private IgbGridLiteSortingExpression[] sortState = new[]
+{
+    new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending },
+    new IgbGridLiteSortingExpression { Key = "Name", Direction = GridLiteSortingDirection.Ascending, CaseSensitive = true }
+};
+
+<IgbGridLite SortingExpressions="sortState" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+これを使用すると、コンポーネントの現在のソート状態を取得し、アプリケーション内の別の状態に応じて追加の処理を実行できます。
+
+```typescript
+const state = grid.sortingExpressions;
+// 現在のソート状態を保存します
+saveUserSortState(state);
+```
+
+</PlatformBlock>
+
+It can be used to get the current sort state of the component and do additional processing depending on another state in your application.
+
+<PlatformBlock for="WebComponents">
+
+
+```razor
+var state = grid.SortingExpressions;
+// 現在のソート状態を保存します
+SaveUserSortState(state);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+
+```typescript
+const state = gridRef.current.sortingExpressions;
+// Save the current sort state
+saveUserSortState(state);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+var state = grid.SortingExpressions;
+// Save the current sort state
+SaveUserSortState(state);
+```
+
+</PlatformBlock>
+
+## イベント
+
+<PlatformBlock for="React, WebComponents">
+
+UI を通じてソート操作が実行されると、コンポーネントはカスタム `sorting` イベントを発行します。`detail` プロパティには {GridLiteTitle} が適用するソート式が含まれます。イベントはキャンセル可能で、キャンセルすると現在のソート操作が停止します。
+
+グリッドが新しいソート状態を適用した後、`sorted` イベントが発行されます。最後のソート操作で使用された式を含み、キャンセルはできません。
+
+<PlatformBlock for="WebComponents">
+```typescript
+grid.addEventListener('sorting', (event: CustomEvent<SortingExpression<T>>) => { ... });
+grid.addEventListener('sorted', (event: CustomEvent<SortingExpression<T>>) => { ... });
+```
+</PlatformBlock>
+<PlatformBlock for="React">
+```typescript
+gridRef.current.addEventListener('sorting', (event: CustomEvent<SortingExpression<T>>) => { ... });
+gridRef.current.addEventListener('sorted', (event: CustomEvent<SortingExpression<T>>) => { ... });
+```
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+UI を介してソート操作が実行されると、コンポーネントは `Sorting` および `Sorted` イベントを発生させます。`Sorting` イベントはキャンセル可能で、キャンセルすると現在のソート操作が停止します。
+
+グリッドが新しいソート状態を適用した後、`Sorted` イベントが発生します。最後のソート操作で使用された式を含み、キャンセルはできません。
+
+```typescript
+grid.addEventListener('sorting', (event: CustomEvent<SortingExpression<T>>) => { ... });
+grid.addEventListener('sorted', (event: CustomEvent<SortingExpression<T>>) => { ... });
+```
+
+</PlatformBlock>
+
+次のサンプルでは、**Name** と **Rating** 列のソートを試みると操作がキャンセルされます。下記のイベント ログで動作を確認してください。
+
+<Sample src="/{GridLiteSample}/sort-config-events" height={600} alt="{Platform} {GridLiteTitle} ソート構成イベント" />
+
+<PlatformBlock for="React, WebComponents">
+
+## リモート ソート操作
+
+ソートをリモートで実行する必要がある場合、または現在の状態/データをどこかのサーバーに保存する必要がある場合、{GridLiteTitle} は、この動作を実装およびカスタマイズできるフックを公開します。
+
+<PlatformBlock for="React, WebComponents">
+Using the `dataPipelineConfiguration` property, you can provide a custom hook which will be called each time a sort operation is about to run. The callback is passed a `DataPipelineParams` object.
+
+```typescript
+export type DataPipelineParams<T extends object> = {
+  /**
+   * The current data state of the grid.
+   */
+  data: T[];
+  /**
+   * The grid component itself.
+   */
+  grid: IgcGridLite<T>;
+  /**
+   * The type of data operation being performed.
+   */
+  type: 'sort' | 'filter';
+};
+```
+<PlatformBlock for="WebComponents">
+```typescript
+grid.dataPipelineConfiguration = { sort: (params: DataPipelineParams<T>) => T[] | Promise<T[]> };
+```
+</PlatformBlock>
+<PlatformBlock for="React">
+```typescript
+gridRef.current.dataPipelineConfiguration = { sort: (params: DataPipelineParams<T>) => T[] | Promise<T[]> };
+```
+</PlatformBlock>
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+Using the `DataPipelineConfiguration` property, you can provide a custom hook which will be called each time a sort operation is about to run. The callback is passed a `DataPipelineParams` object.
+
+```razor
+public class DataPipelineParams
+{
+    /// <summary>
+    /// The current data state of the grid.
+    /// </summary>
+    [JsonPropertyName("data")]
+    public object[] Data { get; set; }
+
+    /// <summary>
+    /// The type of data operation being performed.
+    /// </summary>
+    [JsonPropertyName("type")]
+    public string Type { get; set; } // "sort" or "filter"
+}
+```
+
+```razor
+grid.DataPipelineConfiguration = new DataPipelineParams
+{
+    Sort = async (params) =>
+    {
+        // Custom sort logic
+        return await Task.FromResult(params.Data);
+    }
+};
+```
+</PlatformBlock>
+
+`dataPipelineConfiguration` プロパティを使用すると、ソート操作が実行されるたびに呼び出されるカスタム フックを提供できます。コールバックには `DataPipelineParams` オブジェクトが渡されます。
+
+
+
+<Sample src="/{GridLiteSample}/sort-config-pipeline" height={600} alt="{Platform} {GridLiteTitle} ソート構成パイプライン" />
+
+</PlatformBlock>
+
+`DataPipelineConfiguration` プロパティを使用すると、ソート操作が実行されるたびに呼び出されるカスタム フックを提供できます。コールバックには `DataPipelineParams` オブジェクトが渡されます。
+
+{/* TODO <ApiRef types={["{ComponentName}","Column"]} />*/}
+
+## その他のリソース
+
+- [列の構成](column-configuration.md)
+- [フィルタリング](filtering.md)
+
+コミュニティに参加して新しいアイデアをご提案ください。
+
+- [{GridLiteTitle} **GitHub**]({GithubLinkLite})

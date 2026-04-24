@@ -1,0 +1,251 @@
+---
+title: Toggle コンポーネント - ネイティブ Angular | Ignite UI for Angular | MITライセンス
+description: Ignite UI for Angular Toggle ディレクティブを使用すると、トグル コンテナーを開く、操作、アニメーションに適用、および閉じることができます。
+keywords: Angular Toggle ディレクティブ, Angular Toggle コントロール, Angular Toggle コンポーネント, Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, Angular UI コンポーネント, ネイティブ Angular コンポーネント ライブラリ
+license: MIT
+_language: ja
+---
+import { Aside } from '@astrojs/starlight/components';
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# Angular Toggle (トグル) ディレクティブの概要
+
+<div class="highlight">
+The Ignite UI for Angular Toggle directive allows the users to make a container in the DOM toggleable through user interaction.
+</div>
+
+## Angular Toggle の例
+
+<Sample src="/interactions/toggle-sample-1" height={370} alt="Angular Toggle の例" />
+
+## Ignite UI for Angular Toggle を使用した作業の開始
+
+Ignite UI for Angular Toggle ディレクティブを使用した作業を開始するには、Ignite UI for Angular をインストールする必要があります。既存の Angular アプリケーションで、以下のコマンドを入力します。
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular については、「[はじめに](general/getting-started.md)」トピックをご覧ください。
+
+次に、**app.module.ts** ファイルに `IgxToggleModule` をインポートします。
+
+```typescript
+// app.module.ts
+
+...
+import { IgxToggleModule } from 'igniteui-angular/directives';
+// import { IgxToggleModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxToggleModule]
+    ...
+})
+export class AppModule {}
+```
+
+あるいは、`16.0.0` 以降、`IgxToggleDirective` をスタンドアロンの依存関係としてインポートできます。
+
+```typescript
+// home.component.ts
+
+import { IgxToggleDirective, IgxButtonDirective } from 'igniteui-angular/directives';
+
+// import { IgxToggleDirective, IgxButtonDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <button class="toggle-button" igxButton="contained" (click)="toggleContent()">Toggle</button>
+    <div class="toggle-content" igxToggle>
+        <section class="toggle-section">
+            <img src="assets/images/toggle/nature.jpg" alt="Nature" />
+        </section>
+    </div>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IgxToggleDirective, IgxButtonDirective]
+})
+export class HomeComponent {}
+```
+
+Ignite UI for Angular Toggle モジュールまたはディレクティブをインポートしたので、`igxToggle` ディレクティブの使用を開始できます。
+
+## Angular Toggle ディレクティブの使用
+
+### トグルの表示
+
+トグルのコンテンツを表示および非表示にするには、<ApiLink type="ToggleDirective" suffix={false} member="open" label="open" /> および <ApiLink type="ToggleDirective" suffix={false} member="close" label="close" /> メソッドを使用します。
+
+```typescript
+import { IgxToggleDirective } from 'igniteui-angular/directives'
+// import { IgxToggleDirective } from '@infragistics/igniteui-angular'; for licensed package
+...
+
+export class Class {
+    @ViewChild(IgxToggleDirective) toggle: IgxToggleDirective;
+
+    toggleContent() {
+        if (this.toggle.collapsed) {
+            this.toggle.open();
+        } else {
+            this.toggle.close();
+        }
+    }
+}
+```
+
+コンポーネントのテンプレートで、トグルを可能にする要素にディレクティブを適用します。
+
+```html
+<!--template.component.html-->
+<button class="toggle-button" igxButton="contained" (click)="toggleContent()">Toggle</button>
+<div class="toggle-content" igxToggle>
+    <section class="toggle-section">
+        <img src="assets/images/toggle/nature.jpg"/>
+    </section>
+</div>
+```
+
+## コード例
+
+### 位置の変更
+
+次のサンプルでは、さまざまな配置方法を使用してコンテンツをボタンの下に表示します。
+
+`igxToggle` ディレクティブは  <ApiLink type="OverlayService" suffix={false} /> プロバイダーを使用します。`open`、`close`、`toggle` メソッドは、コンテンツの表示方法を制御するオプションのオーバーレイ設定を受け取ります。省略した場合は、上のサンプルのようにデフォルトのオーバーレイ設定が使用されます。
+
+<Aside type="note" title="注">
+デフォルトで、<ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" member="closeOnOutsideClick" /> プロパティは `true`に設定されています。この機能を無効にするには、プロパティを `false` に設定する必要があります。さらに、<ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" member="closeOnEscape" /> プロパティのデフォルトの設定は `false` であるため、利用するには、`true` に設定する必要があります。
+</Aside>
+
+```typescript
+// template.component.ts
+
+...
+    @ViewChild(IgxToggleDirective) public igxToggle: IgxToggleDirective;
+    @ViewChild('button') public igxButton: ElementRef;
+
+    public _positionSettings = {
+        horizontalStartPoint: HorizontalAlignment.Left,
+        verticalStartPoint: VerticalAlignment.Bottom
+    };
+
+    public _overlaySettings = {
+        target: this.igxButton.nativeElement,
+        closeOnOutsideClick: false,
+        closeOnEscape: true,
+        positionStrategy: new ConnectedPositioningStrategy(this._positionSettings)
+    };
+
+    public toggle() {
+        this.igxToggle.toggle(this._overlaySettings);
+    }
+```
+
+トグルは以下のようになります。
+
+<Sample src="/interactions/toggle" height={370} alt="" />
+
+### トグル自動操作
+
+`open` および `close` メソッドの使用を回避するために、`onClick` ハンドラーを含む、参照するトグルの状態を自動的に変更できるディレクティブがあります。
+
+この機能を利用するには、`IgxToggleModule` の `IgxToggleActionDirective` を使用して `IgxToggleDirective` を割り当てる必要があります。
+
+<Aside type="note" title="注">
+トリガー (トグル) として使用する要素で <ApiLink type="ToggleActionDirective" suffix={false} /> を宣言します。
+</Aside>
+
+```html
+<!--template.component.html-->
+<button class="toggle-button"  igxButton="contained" [igxToggleAction]="toggleRef">Toggle</button>
+<div class="toggle-content" igxToggle #toggleRef="toggle">
+    <section class="toggle-section">
+        <h6>Automatic toggle actions</h6>
+    </section>
+</div>
+```
+
+この変更後、トグルが以下のように動作します。
+
+<Sample src="/interactions/toggle-sample-2" height={370} alt="" />
+
+<Aside type="note" title="注">
+デフォルトで、`IgxToggleActionDirective` はホスト要素を <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" member="closeOnOutsideClick" /> プロパティから除外します。したがって、ホスト要素をクリックしてもイベントは発生しません。さらに、このディレクティブはホスト要素をオーバーレイ設定の <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" member="target" /> として設定します。
+</Aside>
+
+### 自動トグル サービス プロバイダー
+
+`igxToggle` ディレクティブの状態を保持し、<ApiLink type="igxNavigationService" suffix={false} /> プロバイダーを介してコマンドする便利な方法があります。トグルをサービスに登録するために使用される `igxToggle` 要素の識別子を設定します。状態を自動的に制御したい場合、この識別子を `igxToggleActionDirective`に渡す必要があります。
+
+```html
+<!--template.component.html-->
+<button igxToggleAction="toggleId" class="toggle-button" igxButton="contained">Toggle</button>
+<div igxToggle id="toggleId" class="toggle-content">
+    <section class="toggle-section">
+        <h6>Toggled by the service provider</h6>
+    </section>
+</div>
+```
+
+すべて適切に設定できると、結果は以下のようになります。
+
+<Sample src="/interactions/toggle-sample-3" height={370} alt="" />
+
+### トグル コンテナーのオフセット
+
+対応する軸に沿ったトグル コンテナーの位置を指定した量だけ操作できます。`setOffset` メソッドは、現在のオフセット値に追加するか、特定の値に設定するかを決定するオプションの `offsetMode` パラメーターもサポートしています。
+
+```typescript
+// deltaX and deltaY determine by how much the container will be offset compared to its' previous position
+// Using OffsetMode.Add to add the values (default behavior)
+public offsetToggleAdd() {
+    const deltaX = 30;
+    const deltaY = 30;
+    this.toggle.setOffset(deltaX, deltaY, OffsetMode.Add);
+}
+```
+
+```typescript
+// deltaX and deltaY determine the exact position to set the container to, relative to its target element.
+// Using OffsetMode.Set to set the offset to specific values
+public offsetToggleSet() {
+    const deltaX = 30;
+    const deltaY = 30;
+    this.toggle.setOffset(deltaX, deltaY, OffsetMode.Set);
+}
+```
+
+<Sample src="/interactions/toggle-sample-4" height={370} alt="" />
+
+## API リファレンス
+
+<div class="divider"></div>
+
+- <ApiLink type="ToggleDirective" suffix={false} />
+- <ApiLink type="ToggleActionDirective" suffix={false} />
+
+その他のコンポーネントおよびディレクティブ (またはそのいずれか) で使用した API:
+
+- <ApiLink type="OverlayOutletDirective" suffix={false} />
+- <ApiLink type="OverlayService" suffix={false} />
+- <ApiLink type="igxNavigationService" suffix={false} />
+
+## テーマの依存関係
+
+- [IgxOverlay テーマ]({environment:sassApiUrl}/themes#function-overlay-theme)
+
+## その他のリソース
+
+<hr/>
+
+コミュニティに参加して新しいアイデアをご提案ください。
+- [Ignite UI for Angular **フォーラム** (英語)](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub** (英語)](https://github.com/IgniteUI/igniteui-angular)
+
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,87 @@
+name: _CD Deploy (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      locale:
+        description: 'Locale to build (en or jp)'
+        required: true
+        type: string
+      target_ref:
+        description: 'Git ref to checkout'
+        required: true
+        type: string
+    secrets:
+      CLASSIC_PAT_GITHUB:
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  BUILD_TYPE: ${{ contains(inputs.target_ref, 'master') && 'staging' || 'staging' }} # master targets production but for testing purposes we only deploy to staging
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        platform: ['angular', 'react', 'wc', 'blazor']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_ref }}
+          clean: true
+          fetch-tags: true
+          fetch-depth: 0
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Documentation for ${{ matrix.platform }} (${{ inputs.locale }})
+        run: npm run build:${{ env.BUILD_TYPE }}:${{ matrix.platform }}:${{ inputs.locale }}
+
+      - name: Package build
+        run: |
+          LOCALE="${{ inputs.locale }}"
+          DIST_DIR="dist/${{ matrix.platform }}$([[ "$LOCALE" == 'en' ]] && echo '' || echo "-$LOCALE")"
+          cd "$DIST_DIR"
+          zip -r ../../${{ env.BUILD_TYPE }}_${{ matrix.platform }}_${{ inputs.locale }}.zip .
+          cd ../..
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: igniteui-docs-${{ matrix.platform }}-${{ inputs.locale }}
+          path: ${{ env.BUILD_TYPE }}_${{ matrix.platform }}_${{ inputs.locale }}.zip
+          retention-days: 1
+
+      - name: Trigger Deploy Workflow in IgniteUI Actions
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.CLASSIC_PAT_GITHUB }}
+          script: |
+            await github.rest.repos.createDispatchEvent({
+              owner: 'IgniteUI',
+              repo: 'igniteui-actions',
+              event_type: 'igniteui-documentation-cd',
+              client_payload: {
+                calling_branch: "${{ inputs.target_ref }}",
+                environment: "${{ env.BUILD_TYPE }}",
+                artifact_name: "igniteui-docs-${{ matrix.platform }}-${{ inputs.locale }}",
+                base_href: "docs-${{ matrix.platform }}-new",
+                platform: "${{ matrix.platform }}",
+                repository: "${{ github.repository }}",
+                run_id: "${{ github.run_id }}",
+                locale: "${{ inputs.locale }}"
+              }
+            });

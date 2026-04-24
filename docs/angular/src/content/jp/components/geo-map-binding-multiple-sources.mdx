@@ -1,0 +1,252 @@
+---
+title: "Angular マップ | データ可視化ツール | 複数のデータ ソースのバインディング | インフラジスティックス"
+description: インフラジスティックスの Angular JavaScript マップを使用して、複数の地理的シリーズオブジェクトを追加し、カスタム データ ソースを地理空間データとオーバーレイすることができます。Ignite UI for Angular マップ チュートリアルを是非お試しください!
+keywords: "Angular map, geographic series, Ignite UI for Angular, Infragistics, data binding, Angular マップ, 地理的シリーズ, データ バインディング, インフラジスティックス"
+license: commercial
+mentionedTypes: ["GeographicMap", "SeriesViewer", "Series", "GeographicShapeSeriesBase"]
+_language: ja
+---
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+
+# Angular 複数データ ソースのバインド
+
+Ignite UI for Angular マップでは、カスタム データ ソースを地理空間データとオーバーレイするために複数の地理的シリーズ オブジェクトを追加できます。たとえば、空港の地理的位置をプロットするための <ApiLink pkg="maps" type="GeographicSymbolSeries" />、空港間のフライトをプロットするための <ApiLink pkg="maps" type="GeographicPolylineSeries" />、主要な地理座標のグリッド線をプロットするための別の <ApiLink pkg="maps" type="GeographicPolylineSeries" /> などです。
+
+
+## Angular 複数データ ソースのバインドの例
+
+
+<Sample src="/maps/geo-map/binding-multiple-sources" height={500} alt="Angular 複数データ ソースのバインドの例" />
+
+
+
+
+<div class="divider--half"></div>
+
+このトピックでは、以下の地理空間データをプロットする複数の地理的シリーズを表示するための手順を説明します。
+
+- <ApiLink pkg="maps" type="GeographicSymbolSeries" /> – 主要空港の場所を表示します。
+- <ApiLink pkg="maps" type="GeographicPolylineSeries" /> – 空港間のフライトを表示します。
+- <ApiLink pkg="maps" type="GeographicPolylineSeries" /> – 主座標のグリッド線を表示します。
+
+目的のデータをプロットするために、地理的シリーズをこの組み合わせまたは他の組み合わせでも使用できます。
+
+## データ ソースの作成
+
+Ignite UI for Angular マップに表示するすべての地理的シリーズのデータ​​ソースを作成します。たとえば、[WorldConnections](geo-map-resources-world-connections.md) スクリプトを使用できます。
+
+
+
+
+```html
+<div className="sampleRoot" >
+    <igx-geographic-map #map
+        width="700px"
+        height="500px"
+        zoomable="true" >
+    </igx-geographic-map>
+</div>
+
+<ng-template let-series="series" let-item="item" #polylineTooltipTemplate>
+        <div>
+            <span>
+            Arrival: {{item.origin.country}}
+            </span>
+            <br/>
+            <span>
+            Destination: {{item.dest.country}}
+            </span>
+            <br/>
+            <span>
+            Distance: {{item.distance}} miles
+            </span>
+        </div>
+    </ng-template>
+
+    <ng-template let-series="series" let-item="item" #pointTooltipTemplate>
+            <div>
+                <span>
+                {{item?.country}}
+                </span>
+                <br />
+                <span>
+                {{item?.name}}
+                </span>
+                <br />
+                <span>
+                Population: {{item.pop}} M
+                </span>
+                <br/>
+                <span>
+                Flights: {{item.flights}}
+                </span>
+            </div>
+        </ng-template>
+```
+
+
+
+
+
+
+
+## フライトのオーバーレイ
+
+主要空港間のフライト接続を持つ最初の <ApiLink pkg="maps" type="GeographicPolylineSeries" /> オブジェクトを作成し、Ignite UI for Angular マップの Series コレクションに追加します。
+
+
+
+```html
+<igx-geographic-polyline-series  #polylineSeries
+        [tooltipTemplate]="polylineTooltipTemplate"
+                name="polylineSeries"
+                shapeMemberPath="points"
+                shapeStroke="rgba(147, 15, 180, 0.5)"
+                thickness={3.0} >
+</igx-geographic-polyline-series>
+```
+
+
+
+
+
+
+
+## グリッド線のオーバーレイ
+
+地理グリッド線を使用して2番目の <ApiLink pkg="maps" type="GeographicPolylineSeries" /> オブジェクトを作成し、それを GeographicMap の Series コレクションに追加します。
+
+
+
+```html
+  <igx-geographic-polyline-series  #polylineSeries
+            [tooltipTemplate]="polylineTooltipTemplate"
+                 datasource = worldFlights
+                 name="polylineSeries"
+                 shapeMemberPath="points"
+                 shapeStroke="rgba(196, 14, 14,0.05)"
+                 thickness={3.0} >
+    </igx-geographic-polyline-series>
+```
+
+
+
+
+
+
+
+## 空港のオーバーレイ
+
+空港ポイントを使用して <ApiLink pkg="maps" type="GeographicSymbolSeries" /> オブジェクトを作成し、それを Ignite UI for Angular 地理マップの Series コレクションに追加します。
+
+
+
+```html
+<igx-geographic-symbol-series  #symbolSeries
+    name="symbolSeries"
+    longitudeMemberPath="longitude"
+    latitudeMemberPath="latitude"
+    markerType="Circle"
+    markerOutline="rgb(73, 73, 73)"
+    markerBrush="White" >
+</igx-geographic-symbol-series>
+```
+
+
+
+
+
+
+
+## まとめ
+
+上記すべてのコード スニペットを以下のコード ブロックにまとめて、プロジェクトに簡単にコピーできます。
+
+
+
+```ts
+import { AfterViewInit, Component, TemplateRef, ViewChild } from "@angular/core";
+import { MarkerType } from 'igniteui-angular-charts';
+import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
+import { IgxGeographicPolylineSeriesComponent } from "igniteui-angular-maps";
+import { IgxGeographicSymbolSeriesComponent } from "igniteui-angular-maps";
+import { WorldConnections } from "../../utilities/WorldConnections";
+
+@Component({
+  selector: "app-map-binding-multiple-data-sources",
+  styleUrls: ["./map-binding-multiple-data-sources.component.scss"],
+  templateUrl: "./map-binding-multiple--data-sources.component.html"
+})
+
+export class MapBindingMultipleSourcesComponent implements AfterViewInit {
+
+    @ViewChild ("map")
+    public map: IgxGeographicMapComponent;
+
+    @ViewChild("polylineTooltipTemplate")
+    public polylineTooltipTemplate: TemplateRef<object>;
+
+    @ViewChild("pointTooltipTemplate")
+    public pointTooltipTemplate: TemplateRef<object>;
+
+    public data: any;
+    constructor() {
+    }
+
+    public ngAfterViewInit(): void {
+      this.map.windowRect = { left: 0.195, top: 0.1, width: 0.5, height: 0.5 };
+
+      const worldFlights = WorldConnections.getFlights();
+      const worldAirports = WorldConnections.getAirports();
+      const worldGridlines = WorldConnections.getGridlines();
+
+      this.addPolylineSeriesWith(worldFlights);
+      this.addGridlineSeriesWith(worldGridlines);
+      this.addSymbolSeriesWith(worldAirports);
+    }
+
+    public addGridlineSeriesWith(data: any[]) {
+        const gridSeries = new IgxGeographicPolylineSeriesComponent();
+        gridSeries.dataSource = data;
+        gridSeries.shapeMemberPath = "points";
+        gridSeries.shapeStroke = "Gray";
+        gridSeries.shapeStrokeThickness = 1;
+        this.map.series.add(gridSeries);
+    }
+
+    public addPolylineSeriesWith(data: any[]) {
+        const lineSeries = new IgxGeographicPolylineSeriesComponent ();
+        lineSeries.dataSource = data;
+        lineSeries.shapeMemberPath = "points";
+        lineSeries.shapeStroke = "rgba(196, 14, 14,0.05)";
+        lineSeries.shapeStrokeThickness = 4;
+        lineSeries.tooltipTemplate = this.polylineTooltipTemplate;
+        this.map.series.add(lineSeries);
+    }
+
+    public addSymbolSeriesWith(data: any[]) {
+        const symbolSeries = new IgxGeographicSymbolSeriesComponent ();
+        symbolSeries.dataSource = data;
+        symbolSeries.markerType = MarkerType.Circle;
+        symbolSeries.latitudeMemberPath = "lat";
+        symbolSeries.longitudeMemberPath = "lon";
+        symbolSeries.markerBrush = "#aad3df";
+        symbolSeries.markerOutline = "rgb(73, 73, 73)";
+        symbolSeries.thickness = 1;
+        symbolSeries.tooltipTemplate = this.pointTooltipTemplate;
+        this.map.series.add(symbolSeries);
+    }
+}
+```
+
+
+
+
+
+
+## API リファレンス
+
+<ApiRef pkg="maps" types={["GeographicPolylineSeries","GeographicSymbolSeries"]} />

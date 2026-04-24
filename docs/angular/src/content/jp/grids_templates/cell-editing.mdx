@@ -1,0 +1,652 @@
+<ComponentBlock for="Grid">
+---
+title: Angular Data Grid セル編集 - Ignite UI for Angular
+description: Grid はセル内編集を使用しています。デフォルトのセル編集テンプレートがありますが、データ更新操作のカスタム テンプレートを定義することもできます。今すぐお試しください。
+keywords: データ操作, ignite ui for angular, excel editing, excel 編集, インフラジスティックス
+license: commercial
+_language: ja
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+---
+title: Angular Tree Grid のセル編集 - Ignite UI for Angular
+description: Grid はセル内編集を使用しています。デフォルトのセル編集テンプレートがありますが、データ更新操作のカスタム テンプレートを定義することもできます。今すぐお試しください。
+keywords: データ操作, ignite ui for angular, インフラジスティックス
+license: commercial
+_language: ja
+---
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+---
+title: Angular Hierarchical Grid のセル編集 - Ignite UI for Angular
+description: Grid はセル内編集を使用しています。デフォルトのセル編集テンプレートがありますが、データ更新操作のカスタム テンプレートを定義することもできます。今すぐお試しください。
+keywords: データ操作, ignite ui for angular, インフラジスティックス
+license: commercial
+_language: ja
+---
+</ComponentBlock>
+
+
+import { Aside } from '@astrojs/starlight/components';
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# Angular {ComponentTitle} のセル編集
+
+Ignite UI for Angular {ComponentTitle} コンポーネントは、Angular CRUD 操作のための優れたデータ操作機能と強力な API を提供します。デフォルトで {ComponentTitle} は**セル編集**を使用し、**デフォルトのセル編集テンプレート**によって、列のデータ型に基づいてさまざまなエディターが表示されます。さらに、データ更新アクション用の独自のカスタム テンプレートを定義したり、変更をコミット/破棄したりするためのデフォルトの動作をオーバーライドすることもできます。
+
+## Angular {ComponentTitle} セル編集とセル テンプレートの例
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-editing" height={650} alt="Angular {ComponentTitle} セル編集とセル テンプレートの例" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-editing" height={950} alt="Angular {ComponentTitle} セル編集とセル テンプレートの例" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-editing" height={660} alt="Angular {ComponentTitle} セル編集とセル テンプレートの例" />
+
+</ComponentBlock>
+<div class="divider--half"></div>
+
+<Aside type="note" title="注">
+任意のタイプのエディター コンポーネントで `igxCellEditor` を使用すると、キーボード ナビゲーション フローが中断されます。同じことが、編集モードに入るカスタム セルの直接編集にも当てはまります。これは、追加したエディター コンポーネント ([`igxSelect`](/select.md)、[`igxCombo`](/combo.md) など) ではなく、セル要素にフォーカスが残るためです。これが、`igxFocus` ディレクティブを利用する必要がある理由です。これにより、フォーカスがセル内コンポーネントに直接移動し、セル/行の`流暢な編集フロー`が維持されます。
+</Aside>
+
+## セルの編集
+
+### UI を介した編集
+
+編集可能なセルがフォーカスされたときに以下のいずれかの方法で特定のセルを編集モードにすることができます。
+- ダブルクリック;
+- シングル クリック - 以前選択したセルが編集モードで現在選択したセルが編集可能な場合のみ、シングル クリックで編集モードに入ります。以前選択したセルが編集モードではない場合、編集モードに入らずにシングル クリックでセルを選択します。
+- `Enter` キーの押下;
+- `F2` キーの押下;
+
+**変更をコミットしない場合**も以下の方法で編集モードを終了できます。
+- `Escape` キーの押下;
+- **ソート**、**フィルターリング**、**検索**、**非表示**操作の実行時。
+
+変更を**コミット**しない場合も以下の方法で編集モードを終了できます。
+- `Enter` キーの押下;
+- `F2` キーの押下;
+- `Tab` キーの押下;
+- 他のセルをシングル クリック - {ComponentTitle} で他のセルをクリックしたときに変更がサブミットされます。
+- その他の操作 (ページング、サイズ変更、ピン固定、移動など) は、編集モードを終了して変更を送信します。
+
+<Aside type="note" title="注">
+セルは、垂直/水平方向へのスクロールや {ComponentTitle} 以外をクリックした場合も編集モードのままです。セル編集と行編集両方で有効です。
+</Aside>
+
+### API を介した編集
+
+プライマリキーが定義されている場合のみ {ComponentName} API でもセル値を変更することができます。
+
+<ComponentBlock for="Grid">
+
+```typescript
+public updateCell() {
+    this.grid1.updateCell(newValue, rowID, 'ReorderLevel');
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+public updateCell() {
+    this.treeGrid.updateCell(newValue, rowID, 'Age');
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+public updateCell() {
+    this.hierarchicalGrid.updateCell(newValue, rowID, 'Age');
+}
+```
+
+</ComponentBlock>
+
+セルを更新するその他の方法として <ApiLink type="GridCell" suffix={false} /> の <ApiLink type="GridCell" suffix={false} member="update" label="update" /> メソッドで直接更新する方法があります。
+
+<ComponentBlock for="Grid">
+
+```typescript
+public updateCell() {
+    const cell = this.grid1.getCellByColumn(rowIndex, 'ReorderLevel');
+    // You can also get cell by rowID if primary key is defined
+    // cell = this.grid1.getCellByKey(rowID, 'ReorderLevel');
+    cell.update(70);
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+public updateCell() {
+    const cell = this.treeGrid.getCellByColumn(rowIndex, 'Age');
+    // You can also get cell by rowID if primary key is defined
+    // const cell = this.treeGrid.getCellByKey(rowID, 'Age');
+    cell.update(9999);
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+public updateCell() {
+    const cell = this.hierarchicalGrid.getCellByColumn(rowIndex, 'ReorderLevel');
+    // You can also get cell by rowID if primary key is defined
+    // cell = this.hierarchicalGrid.getCellByKey(rowID, 'ReorderLevel');
+    cell.update(70);
+}
+```
+
+</ComponentBlock>
+
+### セル編集テンプレート
+
+デフォルトのセル編集テンプレートの詳細については、[編集トピック](/{igPath}/editing#テンプレートの編集)を参照してください。
+
+セルが編集モードのときに適用されるカスタム テンプレートを提供する場合は、<ApiLink type="CellTemplateDirective" suffix={false} label="igxCellEditor` ディレクティブ" />を使用できます。これを行うには、`igxCellEditor` ディレクティブでマークされた `ng-template` を渡し、カスタム コントロールを <ApiLink type="GridCell" suffix={false} member="editValue" label="cell.editValue" /> に適切にバインドする必要があります:
+
+```html
+<igx-column field="class" header="Class" [editable]="true">
+    <ng-template igxCellEditor let-cell="cell" let-value>
+        <igx-select class="cell-select" [(ngModel)]="cell.editValue" [igxFocus]="true">
+            <igx-select-item *ngFor="let class of classes" [value]="class">
+                {{ class }}
+            </igx-select-item>
+        </igx-select>
+    </ng-template>
+</igx-column>
+```
+
+このコードは、`Race`、`Class`、および `Alignment` 列のセルに [`IgxSelectComponent`](../select.md) を実装する以下のサンプルで使用されています。
+
+<Sample src="/grid/grid-select" height={625} alt="" />
+
+<div class="divider--half"></div>
+
+<Aside type="note" title="注">
+編集モードでセルの <ApiLink type="GridCell" suffix={false} member="editValue" label="editValue" /> に加えられた変更は、終了時に適切な[編集イベント](editing.md#イベントの引数とシーケンス)をトリガーし、[トランザクション状態](./batch-editing.md)に適用されます (トランザクションが有効な場合)。
+</Aside>
+
+<Aside type="note" title="注">
+セルテンプレート [`igxCell`](/grid/grid.md#セル-テンプレート) は、編集モード外での列のセルの表示方法を制御します。
+`igxCellEditor` セル編集テンプレート ディレクティブは、編集モードでの列のセルの表示方法を処理し、編集されたセルの編集値を制御します。
+</Aside>
+
+<Aside type="note" title="注">
+任意のタイプのエディター コンポーネントで `igxCellEditor` を使用すると、キーボード ナビゲーション フローが中断されます。同じことが、編集モードに入るカスタム セルの直接編集にも当てはまります。これは、追加したエディター コンポーネント ([`igxSelect`](/select.md)、[`igxCombo`](/combo.md) など) ではなく、セル要素にフォーカスが残るためです。これが、`igxFocus` ディレクティブを利用する必要がある理由です。これにより、フォーカスがセル内コンポーネントに直接移動し、セル/行の `流暢な編集フロー`が維持されます。
+</Aside>
+
+列とそのテンプレートの構成方法の詳細については、[グリッド列構成](../grid/grid.md#angular-grid-列の構成)のドキュメントを参照してください。
+
+<ComponentBlock for="Grid">
+
+### {ComponentTitle} Excel スタイル編集
+
+Excel スタイル編集を使用すると、Excel を使用する場合と同じようにセルをナビゲートし、すばやく編集できます。
+
+このカスタム機能を実装するには、グリッドのイベントを使用します。最初にグリッドの keydown イベントにフックし、そこから 2 つの機能を実装できます。
+
+- 常時編集モード
+
+```typescript
+public keydownHandler(event) {
+  const key = event.keyCode;
+  const grid = this.grid;
+  const activeElem = grid.navigation.activeNode;
+
+  if(
+    (key >= 48 && key <= 57) ||
+    (key >= 65 && key <= 90) ||
+    (key >= 97 && key <= 122)){
+        // Number or Alphabet upper case or Alphabet lower case
+        const columnName = grid.getColumnByVisibleIndex(activeElem.column).field;
+        const cell = grid.getCellByColumn(activeElem.row, columnName);
+        if (cell && !cell.editMode) {
+            cell.editMode = true;
+            cell.editValue = event.key;
+            this.shouldAppendValue = true;
+        } else if (cell && cell.editMode && this.shouldAppendValue) {
+            event.preventDefault();
+            cell.editValue = cell.editValue + event.key;
+            this.shouldAppendValue = false;
+        }
+    }
+}
+```
+
+- `Enter`/`Shift + Enter` ナビゲーション
+
+```typescript
+if (key == 13) {
+    let thisRow = activeElem.row;
+    const column = activeElem.column;
+    const rowInfo = grid.dataView;
+
+    // to find the next eiligible cell, we will use a custom method that will check the next suitable index
+    let nextRow = this.getNextEditableRowIndex(thisRow, rowInfo, event.shiftKey);
+
+    // and then we will navigate to it using the grid's built in method navigateTo
+    this.grid.navigateTo(nextRow, column, (obj) => {
+        obj.target.activate();
+        this.grid.clearCellSelection();
+        this.cdr.detectChanges();
+    });
+}
+```
+
+次の適格なインデックスを見つけるための重要な部分は以下のようになります。
+
+```typescript
+//first we check if the currently selected cell is the first or the last
+if (currentRowIndex < 0 || (currentRowIndex === 0 && previous) || (currentRowIndex >= dataView.length - 1 && !previous)) {
+return currentRowIndex;
+}
+// in case using shift + enter combination, we look for the first suitable cell going up the field
+if(previous){
+return  dataView.findLastIndex((rec, index) => index < currentRowIndex && this.isEditableDataRecordAtIndex(index, dataView));
+}
+// or for the next one down the field
+return dataView.findIndex((rec, index) => index > currentRowIndex && this.isEditableDataRecordAtIndex(index, dataView));
+```
+
+詳細については、サンプルを参照してください。
+
+### Angular Grid Excel スタイル編集のサンプル
+
+<Sample src="/grid/grid-editing-excel-style" height={550} alt="Angular Grid Excel スタイル編集の例" />
+
+上記のアプローチの主な利点は次のとおりです:
+
+- 常時編集モード: セルが選択されているときに入力すると、編集モードに入り、入力された値が既存の値を置き換えます。
+- `Enter`/`Shift + Enter` で移動する場合、データ以外の行はスキップされます。これにより、ユーザーは値をすばやく切り替えることができます。
+
+</ComponentBlock>
+
+## CRUD 操作
+
+<Aside type="note" title="注">
+**CRUD 操作**を実行した場合、**filtering**、**sorting**、**grouping** などのパイプが再適用されるため、ビューが自動的に更新されることに注意してください。
+</Aside>
+
+<ApiLink type="{ComponentApiType}" /> は基本的な CRUD 操作のための簡易な API を提供します。
+
+### 新しいレコードの追加
+
+{ComponentTitle} コンポーネントは、提供したデータをデータ ソースに追加する <ApiLink type="{ComponentApiType}" member="addRow" label="addRow" /> メソッドを公開します。
+
+<ComponentBlock for="Grid">
+
+```typescript
+// Adding a new record
+// Assuming we have a `getNewRecord` method returning the new row data.
+const record = this.getNewRecord();
+this.grid.addRow(record);
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+public addNewChildRow() {
+    // Adding a new record
+    // Assuming we have a `getNewRecord` method returning the new row data
+    // And specifying the parentRowID.
+    const record = this.getNewRecord();
+    this.treeGrid.addRow(record, 1);
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+public addRow() {
+    // Adding a new record
+    // Assuming we have a `getNewRecord` method returning the new row data
+    const record = this.getNewRecord();
+    this.hierarchicalGrid.addRow(record, 1);
+}
+```
+
+</ComponentBlock>
+
+### データを {ComponentTitle} で更新
+
+{ComponentTitle} のデータ更新は、**グリッドでプライマリキーが定義されている場合のみ** <ApiLink type="{ComponentApiType}" member="updateRow" label="updateRow" /> と <ApiLink type="{ComponentApiType}" member="updateCell" label="updateCell" /> メソッドで行うことができます。セルと行の値またはそのいずれかを各 `update` メソッドで直接更新できます。
+
+<ComponentBlock for="Grid">
+
+```typescript
+// Updating the whole row
+this.grid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Grid API
+this.grid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.grid.getRowByKey(rowID);
+row.update(newData);
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+// Updating the whole row
+this.treeGrid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Tree Grid API
+this.treeGrid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.treeGrid.getRowByKey(rowID);
+row.update(newData);
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+// Updating the whole row
+this.hierarchicalGrid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Grid API
+this.hierarchicalGrid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.hierarchicalGrid.getRowByKey(rowID);
+row.update(newData);
+```
+
+</ComponentBlock>
+
+### {ComponentTitle} からデータを削除
+
+<ApiLink type="{ComponentApiType}" member="deleteRow" label="deleteRow()" /> メソッドは、プライマリキーが定義されている場合に指定した行のみを削除することに注意してください。
+
+<ComponentBlock for="Grid">
+
+```typescript
+// Delete row through Grid API
+this.grid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.grid.getRowByIndex(rowIndex);
+row.delete();
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+// Delete row through Tree Grid API
+this.treeGrid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.treeGrid.getRowByIndex(rowIndex);
+row.delete();
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+// Delete row through Grid API
+this.hierarchicalGrid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.hierarchicalGrid.getRowByIndex(rowIndex);
+row.delete();
+```
+
+</ComponentBlock>
+**{ComponentSelector}** に関係なく、ボタンのクリックなどのユーザー インタラクションに関連付けできます。
+
+```html
+<button igxButton igxRipple (click)="deleteRow($event)">Delete Row</button>
+```
+
+<div class="divider--half"></div>
+
+### 編集イベントでのセル検証
+
+グリッドの編集イベントを使用して、ユーザーがグリッドを操作する方法を変更できます。
+この例では、<ApiLink type="{ComponentApiType}" member="cellEdit" label="cellEdit" /> イベントにバインドすることにより、入力されたデータに基づいてセルを検証します。セルの新しい値が事前定義された基準を満たしていない場合、イベントをキャンセルすることでデータソースに到達しないようにします (`event.cancel = true`)。また、[`IgxToast`](../toast.md) を使用してカスタム エラーメッセージを表示します。
+
+最初に必要なことは、グリッドのイベントにバインドすることです。
+
+```html
+<{ComponentSelector} (cellEdit)="handleCellEdit($event)"
+...>
+...
+</{ComponentSelector}>
+```
+
+`cellEdit` は、セルの値がコミットされる直前に発生します。`handleCellEdit` の定義では、アクションを実行する前に特定の列を確認する必要があります。
+
+<ComponentBlock for="Grid">
+
+```typescript
+export class MyGridEventsComponent {
+    public handleCellEdit(event: IGridEditEventArgs): void {
+        const column = event.column;
+        if (column.field === 'Ordered') {
+            const rowData = event.rowData;
+            if (!rowData) {
+                return;
+            }
+            if (event.newValue > rowData.UnitsInStock) {
+                event.cancel = true;
+                this.toast.open();
+            }
+        }
+    }
+}
+```
+
+**注文済み**列の下のセルに入力された値が使用可能量 (**在庫数**の値) よりも大きい場合、編集はキャンセルされ、エラー メッセージ付きのトーストが表示されます。
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+export class MyTreeGridEventsComponent {
+    public handleCellEdit(event: IGridEditEventArgs): void {
+        const column = event.column;
+        if (column.field === 'Age') {
+            if (event.newValue < 18) {
+                event.cancel = true;
+                this.toast.message = 'Employees must be at least 18 years old!';
+                this.toast.open();
+            }
+        } else if (column.field === 'HireDate') {
+            if (event.newValue > new Date().getTime()) {
+                event.cancel = true;
+                this.toast.message = 'The employee hire date must be in the past!';
+                this.toast.open();
+            }
+        }
+    }
+}
+```
+
+ここでは、2 つの列を検証しています。ユーザーが従業員の**年齢** (18歳未満) または**雇用日** (将来の日付) に無効な値を設定しようとすると、編集がキャンセルされ (値は送信されません)、エラー メッセージ付きのトースターが表示されます。
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+export class MyHGridEventsComponent {
+    public handleCellEdit(event: IGridEditEventArgs) {
+        const today = new Date();
+        const column = event.column;
+        if (column.field === 'Debut') {
+            if (event.newValue > today.getFullYear()) {
+                this.toast.message = 'The debut date must be in the past!';
+                this.toast.open();
+                event.cancel = true;
+            }
+        } else if (column.field === 'LaunchDate') {
+            if (event.newValue > new Date()) {
+                this.toast.message = 'The launch date must be in the past!';
+                this.toast.open();
+                event.cancel = true;
+            }
+        }
+    }
+}
+```
+
+ここでは、2 つの列を検証しています。ユーザーがアーティストの**デビュー**年またはアルバムの**発売日**を変更しようとした際に、グリッドは今日よりも後の日付を許可しません。
+</ComponentBlock>
+
+以下は、上記の検証が `{ComponentSelector}` に適用された結果のデモです。
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-editing-events" height={650} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-editing-events" height={650} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-editing-events" height={650} alt="" />
+
+</ComponentBlock>
+
+## スタイル設定
+
+{ComponentName} で [`Ignite UI for Angular テーマ ライブラリ`](/themes/sass/component-themes.md)を使用してセルのスタイルを設定できます。グリッドの [`grid-theme`]({environment:sassApiUrl}/themes#function-grid-theme) は、ユーザーがグリッドのさまざまな側面をスタイル設定できる広範なプロパティを公開します。
+
+以下の手順では、編集モードでグリッドのセルのスタイルを設定する方法と、それらのスタイルの範囲を設定する方法について説明します。
+
+[`Ignite UI テーマ ライブラリ`](/themes/sass/component-themes.md)を使用するには、まずグローバル スタイルでテーマ `index` ファイルをインポートする必要があります。
+
+### スタイル ライブラリのインポート
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// 重要: Ignite UI for Angular 13 より前のバージョンは、次を使用してください。
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+以上で Ignite UI for Angular テーマ エンジンによって公開されているすべての機能を使用できます。
+
+### パレットの定義
+
+インデックス ファイルをインポート後、カスタム パレットを作成します。好きな 3 つの色を定義し、それらを使用して [`palette`](/themes/palettes.md) でパレットを作成しましょう。
+
+```scss
+$white: #fff;
+$blue: #4567bb;
+$gray: #efefef;
+
+$color-palette: palette(
+  $primary: $white, 
+  $secondary: $blue, 
+  $surface: $gray
+);
+```
+
+### テーマの定義
+
+これで、パレットを使用してテーマを定義できます。セルは [`grid-theme`]({environment:sassApiUrl}/themes#function-grid-theme) によってスタイル設定されているため、それを使用して {ComponentName} のテーマを生成できます。
+
+```scss
+$custom-grid-theme: grid-theme(
+  $cell-editing-background: $blue,
+  $cell-edited-value-color: $white,
+  $cell-active-border-color: $white,
+  $edit-mode-color: color($color-palette, "secondary", 200)
+);
+```
+
+### テーマを適用
+
+テーマを適用する最も簡単な方法は、グローバル スタイル ファイルに `sass` `@include` ステートメントを使用することです。
+
+```scss
+@include grid($custom-grid-theme);
+```
+
+### デモ
+
+上記の手順に加えて、セルの編集テンプレートに使用されるコントロールのスタイルを設定することもできます ([`input-group`](/input-group.md#スタイル設定)、[`datepicker`](/date-picker.md#スタイル設定) および [`checkbox`](/checkbox.md#スタイル設定))。
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-editing-style" height={650} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-editing-style" height={950} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-editing-style" height={660} alt="" />
+
+</ComponentBlock>
+
+<Aside type="note" title="注">
+このサンプルは、`Change Theme` (テーマの変更) から選択したグローバル テーマに影響を受けません。
+</Aside>
+<div class="divider--half"></div>
+
+## API リファレンス
+
+- <ApiLink type="GridCell" suffix={false} />
+- [{ComponentName}Component スタイル]({environment:sassApiUrl}/themes#function-grid-theme)
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+- <ApiLink type="InputDirective" suffix={false} />
+- <ApiLink type="DatePicker" />
+- [IgxDatePickerComponent スタイル]({environment:sassApiUrl}/themes#function-date-picker-theme)
+- <ApiLink type="Checkbox" />
+- [IgxCheckboxComponent スタイル]({environment:sassApiUrl}/themes#function-checkbox-theme)
+- <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" />
+- [IgxOverlay スタイル]({environment:sassApiUrl}/themes#function-overlay-theme)
+
+## その他のリソース
+
+<div class="divider--half"></div>
+
+- [igxGrid を使用して CRUD 操作の構築](/general/how-to/how-to-perform-crud.md)
+- [{ComponentTitle} 概要](/{igPath}/{ComponentMainTopic})
+- [仮想化とパフォーマンス](/{igPath}/virtualization)
+- [ページング](/{igPath}/paging)
+- [フィルタリング](/{igPath}/filtering)
+- [ソート](/{igPath}/sorting)
+- [集計](/{igPath}/summaries)
+- [列のピン固定](/{igPath}/column-pinning)
+- [列のサイズ変更](/{igPath}/column-resizing)
+- [選択](/{igPath}/selection)
+</ComponentBlock>
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+
+</ComponentBlock>
+

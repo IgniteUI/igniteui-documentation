@@ -1,0 +1,962 @@
+---
+title: "{Platform} {ComponentTitle} Excel スタイル フィルタリング - {ProductName}"
+description: "{Platform} {ComponentTitle} で Excel フィルタリングを構成する方法を説明します。さまざまなオプションを有効/無効にし、Excel スタイル フィルター メニューを自由にカスタマイズできます。"
+keywords: excel like filter, {Platform}, {ProductName}, Infragistics, excel のようなフィルター, インフラジスティックス
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_language: ja
+---
+import { Aside } from '@astrojs/starlight/components';
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} の Excel スタイル フィルタリング
+
+{Platform} {ComponentTitle} は、Excel のようなフィルタリング UI を提供する Excel スタイルのフィルタリング機能を公開します。これにより、大規模なデータセットを操作するプロセスが簡素化されます。主なアイデアは、無関係なエントリを排除しながら、最も関連性の高いデータをフィルタリングできるようにすることです。
+
+## {Platform} {ComponentTitle} Excel スタイル フィルタリングの例
+
+<Sample src="/{ComponentSample}/excel-style-filtering-sample-1" height={950} alt="{Platform} {ComponentTitle} Excel スタイルのフィルタリング サンプル 1" />
+
+## 使用方法
+
+<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> コンポーネントの Excel スタイル フィルタリングをオンにするには、2 つの入力を設定します。`AllowFiltering` を **true** に設定し、`FilterMode` を `ExcelStyleFilter` に設定してください。
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [autoGenerate]="true" [allowFiltering]="true" [filterMode]="'excelStyleFilter'" >
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter" >
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} auto-generate="true" allow-filtering="true" filter-mode="excelStyleFilter" >
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} data={nwindData} autoGenerate={true} allowFiltering={true} filterMode="excelStyleFilter">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+## インタラクション
+
+特定の列のフィルター メニューを開くには、ヘッダーの {Platform} フィルター アイコンをクリックします。さらに、選択したヘッダーで <kbd>CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>L</kbd> の組み合わせを使用できます。列でフィルタリング機能とソート、ピン固定、移動、選択、非表示が設定された場合、オンになっている機能のボタンが表示されます。
+
+フィルターが適用されていない場合、リストのすべての項目が選択されます￥。リストの上の入力からフィルターされます。データのフィルターは、リストで項目を選択/非選択して [適用] ボタンをクリックするか、あるいは <kbd>ENTER</kbd> を押します。リスト項目に適用したフィルタリングは、`equals` オペレーターでフィルター式を作成します。各式間のロジック オペレーターは `OR` です。
+
+検索ボックスに入力してフィルターを適用すると、検索条件に一致する項目のみが選択されます。ただし、現在フィルターされている項目に項目を追加したい場合は、**[現在の選択をフィルターに追加]** オプションを選択する必要があります。
+
+フィルターをクリアしたい場合、**[すべて選択]** オプションをチェックして [適用] ボタンを押します。
+
+異なる式でフィルターを適用する場合、**テキスト フィルター**をクリックし、特定の列で使用できるフィルター演算子のサブメニューを開きます。いずれかを選択してカスタム フィルター ダイアログを開き、フィルターとロジック演算子を使用して式を追加できます。[クリア] ボタンでフィルターをクリアできます。
+
+## メニュー機能の構成
+
+ソート、ピン固定、および非表示機能は、対応する入力を使用してフィルター メニューから削除できます: `Sortable`、`Selected`、`DisablePinning`、`DisableHiding`。
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+```html
+<igx-grid #grid1 [data]="data" [autoGenerate]="false" height="650px" width="100%" [moving]="true" [allowFiltering]="true" [filterMode]="'excelStyleFilter'">
+    <igx-column field="ProductName" header="Product Name" [sortable]="true" [dataType]="'string'">
+    </igx-column>
+    <igx-column field="QuantityPerUnit" header="Quantity Per Unit" [sortable]="false" [disablePinning]="true" [disableHiding]="true" [dataType]="'string'">
+    </igx-column>
+    <igx-column field="UnitPrice" header="Unit Price" [disablePinning]="true" [disableHiding]="true" [sortable]="true" [dataType]="'number'">
+    </igx-column>
+    <igx-column field="OrderDate" header="Order Date" [sortable]="false"  [dataType]="'date'" [formatter]="formatDate">
+    </igx-column>
+    <igx-column field="Discontinued" header="Discontinued" [sortable]="true" [dataType]="'boolean'">
+    </igx-column>
+</igx-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbGrid AutoGenerate="false" Data=northwindEmployees AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter">
+    <IgbColumn Field="ProductName" Sortable="true"></IgbColumn>
+    <IgbColumn Field="UnitPrice" Sortable="true" DisablePinning="true" DisableHiding="true"></IgbColumn>
+    <IgbColumn Field="QuantityPerUnit" Sortable="false" DisablePinning="true" DisableHiding="true"></IgbColumn>
+    <IgbColumn Field="OrderDate" Sortable="true" DisablePinning="false" DisableHiding="true"></IgbColumn>
+    <IgbColumn Field="Discontinued" Sortable="true"></IgbColumn>
+</IgbGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-grid id="grid1" auto-generate="false" height="650px" width="100%" moving="true" allow-filtering="true" filter-mode="ExcelStyleFilter">
+    <igc-column field="ProductName" header="Product Name" sortable="true" data-type="String">
+    </igc-column>
+    <igc-column field="QuantityPerUnit" header="Quantity Per Unit" sortable="false" disable-pinning="true" disable-hiding="true" data-type="String">
+    </igc-column>
+    <igc-column field="UnitPrice" header="Unit Price" disable-pinning="true" disable-hiding="true" sortable="true" data-type="Number">
+    </igc-column>
+    <igc-column field="OrderDate" header="Order Date" sortable="false"  data-type="Date">
+    </igc-column>
+    <igc-column field="Discontinued" header="Discontinued" sortable="true" data-type="Boolean">
+    </igc-column>
+</igc-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrGrid data={nwindData} autoGenerate={false} allowFiltering={true} filterMode="excelStyleFilter">
+    <IgrColumn field="ProductName" header="Product Name" sortable={true} dataType="string">
+    </IgrColumn>
+    <IgrColumn field="QuantityPerUnit" header="Quantity Per Unit" sortable={false} disablePinning={true} disableHiding={true} dataType="string">
+    </IgrColumn>
+    <IgrColumn field="UnitPrice" header="Unit Price" disablePinning={true} disableHiding={true} sortable={true} dataType="number">
+    </IgrColumn>
+    <IgrColumn field="OrderDate" header="Order Date" sortable={false}  dataType="date">
+    </IgrColumn>
+    <IgrColumn field="Discontinued" header="Discontinued" sortable={true} dataType="boolean">
+    </IgrColumn>
+</IgrGrid>
+```
+</PlatformBlock>
+
+以下のサンプルの **Product Name** と **Discontinued** 列で 4 つすべての機能が有効です。**Quantity Per Unit** で 4 機能すべてが無効、**Unit Price** でソートのみが有効、**Order Date** でピン固定と非表示のみ有効です。すべてが `Selectable` です。
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-tree-grid #treegrid1 [data]="data" [autoGenerate]="false" height="480px" width="100%" [moving]="true" [allowFiltering]="true"
+    primaryKey="ID" foreignKey="ParentID" filterMode="excelStyleFilter">
+    <igx-column field="ID" header="Product ID" [dataType]="'string'">
+    </igx-column>
+    <igx-column field="Name" header="Product Name" [sortable]="true" [dataType]="'string'">
+    </igx-column>
+    <igx-column field="UnitPrice" header="Unit Price" [dataType]="'number'" [sortable]="false" [disablePinning]="true" [disableHiding]="true">
+        <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.data.UnitPrice == 0">-</span>
+            <span *ngIf="cell.row.data.UnitPrice != 0">${{val}}</span>
+        </ng-template>
+    </igx-column>
+    <igx-column field="AddedDate" header="Added Date" [dataType]="'date'" [formatter]="formatDate" [sortable]="false">
+    </igx-column>
+    <igx-column field="Discontinued" header="Discontinued" [dataType]="'boolean'" [sortable]="true">
+        <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.data.UnitPrice == 0">-</span>
+            <img *ngIf="cell.row.data.UnitPrice != 0 && val" src="assets/images/grid/active.png" title="Continued" alt="Continued" />
+            <img *ngIf="cell.row.data.UnitPrice != 0 && !val" src="assets/images/grid/expired.png" title="Discontinued" alt="Discontinued" />
+        </ng-template>
+    </igx-column>
+</igx-tree-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbTreeGrid AutoGenerate="false" Data="FoodsData" PrimaryKey="ID" ForeignKey="ParentID" Moving="true" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter">
+    <IgbColumn Field="ID" Header="ID">
+    </IgbColumn>
+    <IgbColumn Field="Name" Header="Product Name" Sortable="true">
+    </IgbColumn>
+    <IgbColumn Field="UnitPrice" Header="Unit Price" Sortable="false" DataType="GridColumnDataType.Number" DisablePinning="true" DisableHiding="true">
+    </IgbColumn>
+    <IgbColumn Field="AddedDate" Header="Added Date" Sortable="false" DataType="GridColumnDataType.Date">
+    </IgbColumn>
+    <IgbColumn Field="Discontinued" DataType="GridColumnDataType.Boolean" BodyTemplateScript="WebGridBooleanCellTemplate" Sortable="true" >
+    </IgbColumn>
+</IgbTreeGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-tree-grid id="treegrid1" auto-generate="false" height="480px" width="100%" moving="true" allow-filtering="true"
+    primary-key="ID" foreign-key="ParentID" filter-mode="ExcelStyleFilter">
+    <igc-column field="ID" header="Product ID" data-type="String">
+    </igc-column>
+    <igc-column field="Name" header="Product Name" sortable="true" data-type="'string'">
+    </igc-column>
+    <igc-column field="UnitPrice" header="Unit Price" data-type="Number" sortable="false" disable-pinning="true" disable-hiding="true">
+    </igc-column>
+    <igc-column field="AddedDate" header="Added Date" data-type="Date" sortable="false">
+    </igc-column>
+    <igc-column field="Discontinued" header="Discontinued" data-type="Boolean" sortable="true">
+    </igc-column>
+</igc-tree-grid>
+```
+</PlatformBlock>
+
+以下のサンプルでは、「Product Name」 列と 「Discontinued」 列で 3 つの機能がすべて有効化され、「Unit Price」 で 3 つすべてが無効化され、「Added Date」 でピン固定と非表示のみが設定されています。
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-hierarchical-grid [data]="localdata" [autoGenerate]="false" [moving]="true" [allowFiltering]='true' filterMode="excelStyleFilter"
+    [height]="'650px'" [width]="'100%'" [rowHeight]="'65px'" #hierarchicalGrid>
+    <igx-column field="Artist" [filterable]='true' [sortable]="true"></igx-column>
+    <igx-column field="Photo" [filterable]='false'>
+        <ng-template igxCell let-cell="cell">
+            <div class="cell__inner_2">
+                <img [src]="cell.value" class="photo" />
+            </div>
+        </ng-template>
+    </igx-column>
+    <igx-column field="Debut" [filterable]='true' [disablePinning]="true" [disableHiding]="true"></igx-column>
+    <igx-column field="GrammyNominations" [filterable]='true' [dataType]="'number'" [sortable]="false"></igx-column>
+    <igx-column field="GrammyAwards" [filterable]='true' [dataType]="'number'"></igx-column>
+    <!-- ... -->
+</igx-hierarchical-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid auto-gGenerate="false" moving="true" allow-filtering='true' filter-mode="ExcelStyleFilter"
+    height="650px" width="100%" id="hierarchicalGrid">
+    <igc-column field="Artist" filterable='true' sortable="true"></igc-column>
+    <igc-column field="Photo" filterable='false'></igc-column>
+    <igc-column field="Debut" filterable='true' disable-pinning="true" disable-hiding="true"></igc-column>
+    <igc-column field="GrammyNominations" header="Grammy Nominations" filterable='true' date-type="Number" sortable="false"></igc-column>
+    <igc-column field="GrammyAwards" header="Grammy Awards" filterable='true' date-type="Number"></igc-column>
+    <!-- ... -->
+</igc-hierarchical-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrHierarchicalGrid autoGenerate={false} allowFiltering={true} filterMode="excelStyleFilter"
+    height="650px" width="100%" id="hierarchicalGrid">
+    <IgrColumn field="Artist" filterable={true} sortable={true} ></IgrColumn>
+    <IgrColumn field="Photo" filterable={false}></IgrColumn>
+    <IgrColumn field="Debut" filterable={true} disablePinning={true} disableHiding={true}></IgrColumn>
+    <IgrColumn field="GrammyNominations" header="Grammy Nominations" filterable={true} sortable={false} dataType="number"></IgrColumn>
+    <IgrColumn field="GrammyAwards" header="Grammy Awards" filterable={true} dataType="number"></IgrColumn>
+    {/* ... */}
+</IgrHierarchicalGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbHierarchicalGrid AutoGenerate="false" Moving="true" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter"
+    Height="650px" Width="100%" Id="hierarchicalGrid">
+    <IgbColumn Field="Artist" Filterable="true" Sortable="true"></IgbColumn>
+    <IgbColumn Field="Photo" Filterable="false"></IgbColumn>
+    <IgbColumn Field="Debut" Filterable="true" DisablePinning="true" DisableHiding="true"></IgbColumn>
+    <IgbColumn Field="GrammyNominations" Header="Grammy Nominations" DataType="GridColumnDataType.Number" Filterable="true" Sortable="true" ></IgbColumn>
+    <IgbColumn Field="GrammyAwards" Header="Grammy Awards" DataType="GridColumnDataType.Number" Filterable="true"></IgbColumn>
+    @* ... *@
+</IgbHierarchicalGrid>
+```
+</PlatformBlock>
+
+下のサンプルでは、「Artist」 列では 3 つの機能がすべて有効化され、「Debut」 では 3 つすべてが無効化され、「Grammy Nominations」 ではピン固定と非表示のみが設定されています。
+
+</ComponentBlock>
+
+<Sample src="/{ComponentSample}/excel-style-filtering-sample-2" height={620} alt="{Platform} {ComponentTitle} excel style filtering sample 2" />
+
+## テンプレート
+
+<PlatformBlock for="Angular">
+列機能を無効にせずに Excel スタイル フィルター メニューをさらにカスタマイズする場合は、カスタム テンプレートを使用できます。Excel スタイル フィルター メニューには、テンプレート化のための 2 つのディレクティブがあります。
+- `IgxExcelStyleColumnOperationsTemplateDirective` - ソート、移動、固定などのすべての列操作で領域を再テンプレート化します。
+- `IgxExcelStyleFilterOperationsTemplateDirective` - すべてのフィルター固有の操作で領域を再テンプレート化します。
+
+これらの領域の 1 つだけ、または両方を再テンプレート化できます。これらのディレクティブ内にカスタム コンテンツを配置したり、組み込みの Excel スタイル フィルタリング コンポーネントを使用できます。
+
+次のコードは、`excel-style-header`、`excel-style-sorting`、および `excel-style-search` コンポーネントを使用してカスタム Excel スタイル フィルター メニューを定義する方法を示しています。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+Excel スタイル フィルター メニューをさらにカスタマイズする場合は、`ExcelStyleHeaderIconTemplate` プロパティを使用して、メニューのヘッダー アイコンのカスタム テンプレートを定義できます。
+
+次のコードは、`ExcelStyleHeaderIconTemplate` を使用して Excel スタイル フィルター メニューをカスタマイズする方法を示しています。
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector}
+    Data="Data"
+    AllowFiltering="true"
+    FilterMode="FilterMode.ExcelStyleFilter"
+    ExcelStyleHeaderIconTemplateScript="WebGridFilterAltIconTemplate">
+</{ComponentSelector}>
+
+// In JavaScript
+igRegisterScript("WebGridFilterAltIconTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+        return html`<img height="15px" width="15px" src="http://static.infragistics.com/xplatform/images/grid/propeller-logo.svg" title="Continued" alt="Continued" />`
+}, false);
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.excelStyleHeaderIconTemplate = this.webGridFilterAltIconTemplate;
+}
+
+public webGridFilterAltIconTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`<img height="15px" width="15px" src="http://static.infragistics.com/xplatform/images/grid/propeller-logo.svg" title="Continued" alt="Continued" />`
+}
+```
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+<PlatformBlock for="React">
+```tsx
+const webGridFilterAltIconTemplate = (ctx: IgrGridHeaderTemplateContext) => {
+  return (
+    <img
+      height="15px"
+      width="15px"
+      src="http://static.infragistics.com/xplatform/images/grid/propeller-logo.svg"
+      title="Continued"
+      alt="Continued"
+    />
+  );
+}
+
+<{ComponentSelector} autoGenerate={true} allowFiltering={true} filterMode="excelStyleFilter"
+    excelStyleHeaderIconTemplate={webGridFilterAltIconTemplate}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+```html
+<igx-grid #grid1 [data]="data" [autoGenerate]="false" height="650px" width="100%" [allowFiltering]="true" [filterMode]="'excelStyleFilter'">
+
+    <igx-grid-excel-style-filtering [minHeight]="'380px'" [maxHeight]="'500px'">
+        <igx-excel-style-column-operations>
+            <igx-excel-style-header
+                [showPinning]="true"
+                [showHiding]="true"
+            >
+            </igx-excel-style-header>
+
+            <igx-excel-style-sorting></igx-excel-style-sorting>
+        </igx-excel-style-column-operations>
+
+        <igx-excel-style-filter-operations>
+            <igx-excel-style-search></igx-excel-style-search>
+        </igx-excel-style-filter-operations>
+    </igx-grid-excel-style-filtering>
+
+</igx-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-grid id="grid1" auto-generate="false" height="650px" width="100%" allow-filtering="true" filter-mode="ExcelStyleFilter">
+
+    <igc-grid-excel-style-filtering min-height="380px" max-height="500px">
+        <igc-excel-style-column-operations>
+            <igc-excel-style-header
+                show-pinning="true"
+                show-hiding="true"
+            >
+            </igc-excel-style-header>
+
+            <igc-excel-style-sorting></igc-excel-style-sorting>
+        </igc-excel-style-column-operations>
+
+        <igc-excel-style-filter-operations>
+            <igc-excel-style-search></igc-excel-style-search>
+        </igc-excel-style-filter-operations>
+    </igc-grid-excel-style-filtering>
+
+</igc-grid>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-tree-grid #treegrid1 [data]="data" [autoGenerate]="false" height="480px" width="100%" [allowFiltering]="true"
+    primaryKey="ID" foreignKey="ParentID" filterMode="excelStyleFilter">
+
+    <igx-grid-excel-style-filtering [minHeight]="'380px'" [maxHeight]="'500px'">
+        <igx-excel-style-column-operations>
+            <igx-excel-style-header
+                [showPinning]="true"
+                [showHiding]="true"
+            >
+            </igx-excel-style-header>
+
+            <igx-excel-style-sorting></igx-excel-style-sorting>
+        </igx-excel-style-column-operations>
+
+        <igx-excel-style-filter-operations>
+            <igx-excel-style-search></igx-excel-style-search>
+        </igx-excel-style-filter-operations>
+    </igx-grid-excel-style-filtering>
+</igx-tree-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-tree-grid id="treegrid1" auto-generate="false" height="650px" width="100%" allow-filtering="true"
+    primary-key="ID" foreign-key="ParentID" filter-mode="ExcelStyleFilter">
+
+    <igc-grid-excel-style-filtering min-height="380px" max-height="500px">
+        <igc-excel-style-column-operations>
+            <igc-excel-style-header
+                show-pinning="true"
+                show-hiding="true"
+            >
+            </igc-excel-style-header>
+
+            <igc-excel-style-sorting></igc-excel-style-sorting>
+        </igc-excel-style-column-operations>
+
+        <igc-excel-style-filter-operations>
+            <igc-excel-style-search></igc-excel-style-search>
+        </igc-excel-style-filter-operations>
+    </igc-grid-excel-style-filtering>
+
+</igc-tree-grid>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false" [allowFiltering]='true' filterMode="excelStyleFilter"
+    [height]="'650px'" [width]="'100%'" [rowHeight]="'65px'" #hierarchicalGrid>
+
+    <igx-grid-excel-style-filtering [minHeight]="'380px'" [maxHeight]="'500px'">
+        <igx-excel-style-column-operations>
+            <igx-excel-style-header
+                [showPinning]="true"
+                [showHiding]="true"
+            >
+            </igx-excel-style-header>
+
+            <igx-excel-style-sorting></igx-excel-style-sorting>
+        </igx-excel-style-column-operations>
+
+        <igx-excel-style-filter-operations>
+            <igx-excel-style-search></igx-excel-style-search>
+        </igx-excel-style-filter-operations>
+    </igx-grid-excel-style-filtering>
+    <igx-row-island [key]="'Albums'" [autoGenerate]="false" [allowFiltering]='true' filterMode="excelStyleFilter">
+        <igx-grid-excel-style-filtering [minHeight]="'380px'" [maxHeight]="'500px'">
+            <igx-excel-style-column-operations>
+                <igx-excel-style-header
+                    [showPinning]="true"
+                    [showHiding]="true"
+                >
+                </igx-excel-style-header>
+
+                <igx-excel-style-sorting></igx-excel-style-sorting>
+            </igx-excel-style-column-operations>
+
+            <igx-excel-style-filter-operations>
+                <igx-excel-style-search></igx-excel-style-search>
+            </igx-excel-style-filter-operations>
+        </igx-grid-excel-style-filtering>
+
+</igx-hierarchical-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+Add razor snipets
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid class="hgrid" auto-generate="false" allow-fFiltering='true' filter-mode="ExcelStyleFilter"
+    height="650px" width="100%" row-height="65px" id="hierarchicalGrid">
+
+    <igc-grid-excel-style-filtering min-height="380px" max-height="500px">
+        <igc-excel-style-column-operations>
+            <igc-excel-style-header
+                show-pinning="true"
+                show-hiding="true"
+            >
+            </igc-excel-style-header>
+
+            <igc-excel-style-sorting></igc-excel-style-sorting>
+        </igc-excel-style-column-operations>
+
+        <igc-excel-style-filter-operations>
+            <igc-excel-style-search></igc-excel-style-search>
+        </igc-excel-style-filter-operations>
+    </igc-grid-excel-style-filtering>
+    <igc-row-island key="Albums" auto-generate="false" allow-fFiltering='true' filter-mode="ExcelStyleFilter">
+        <igc-grid-excel-style-filtering min-height="380px" max-height="500px">
+            <igc-excel-style-column-operations>
+                <igc-excel-style-header
+                    show-pinning="true"
+                    show-hiding="true"
+                >
+                </igc-excel-style-header>
+
+                <igc-excel-style-sorting></igc-excel-style-sorting>
+            </igc-excel-style-column-operations>
+
+            <igc-excel-style-filter-operations>
+                <igc-excel-style-search></igc-excel-style-search>
+            </igc-excel-style-filter-operations>
+        </igc-grid-excel-style-filtering>
+
+</igc-hierarchical-grid>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<PlatformBlock for="Angular">
+
+
+```razor
+<{ComponentSelector}
+    Data="Data"
+    AllowFiltering="true"
+    FilterMode="FilterMode.ExcelStyleFilter"
+    ExcelStyleHeaderIconTemplateScript="WebGridFilterAltIconTemplate">
+</{ComponentSelector}>
+
+// In JavaScript
+igRegisterScript("WebGridFilterAltIconTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+        return html`<img height="15px" width="15px" src="http://static.infragistics.com/xplatform/images/grid/propeller-logo.svg" title="Continued" alt="Continued" />`
+}, false);
+```
+
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.excelStyleHeaderIconTemplate = this.webGridFilterAltIconTemplate;
+}
+
+public webGridFilterAltIconTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`<img height="15px" width="15px" src="http://static.infragistics.com/xplatform/images/grid/propeller-logo.svg" title="Continued" alt="Continued" />`
+}
+```
+
+</PlatformBlock>
+
+<Sample src="/{ComponentSample}/excel-style-filtering-sample-3" height={620} alt="{Platform} {ComponentTitle} excel style filtering sample 3" />
+
+
+<PlatformBlock for="Angular">
+## 一意の列値戦略
+
+Excel スタイル フィルタリング ダイアログ内のリスト項目は、それぞれの列の一意の値を表します。これらの値は手動で提供し、ロード オン デマンドすることができます。詳細については、[{ComponentTitle} リモート データ操作](remote-data-operations.md#一意の列値ストラテジ)で説明されています。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## 書式設定された値のフィルタリング ストラテジ
+
+デフォルトでは、{ComponentTitle} コンポーネントは元のセル値に基づいてデータをフィルター処理しますが、場合によっては、書式設定された値に基づいてデータをフィルター処理することが必要になる場合があります。
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+In order to do that you can use the `FormattedValuesFilteringStrategy`.
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+In order to do that you can use the `TreeGridFormattedValuesFilteringStrategy`.
+
+</ComponentBlock>
+
+これを行うには、`FormattedValuesFilteringStrategy` を使用できます。
+
+<Sample src="/{ComponentSample}/filtering-strategy" height={620} alt="{Platform} {ComponentTitle} filtering strategy" />
+
+そのためには、`TreeGridFormattedValuesFilteringStrategy` を使用できます。
+
+</PlatformBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
+## Tree Filter View
+
+By default, the Excel Style Filtering dialog displays the items in a list view. In order to display them in a tree view you can use the `TreeGridFilteringStrategy` and specify an array of column field names. Filter items will be displayed in a tree view for the specified columns and in a list view for all other columns. The following sample demonstrates how to show filter items in a tree view for the first column:
+
+<Sample src="/{ComponentSample}/filter-view" height={650} alt="{Platform} {ComponentTitle} filter view" />
+
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Angular">
+## ツリー フィルター ビュー
+
+デフォルトでは、Excel スタイル フィルタリング ダイアログはリスト ビューで項目を表示します。それらをツリー ビューに表示するには、`TreeGridFilteringStrategy` を使用して、列フィールド名の配列を指定します。フィルター項目は、指定された列の場合はツリー ビューに、他のすべての列の場合はリスト ビューに表示されます。次のサンプルは、最初の列のツリー ビューにフィルター項目を表示する方法を示しています:
+
+### 外部の Excel スタイル フィルタリング
+
+<Sample src="/{ComponentSample}/external-excel-style-filtering" height={620} alt="{Platform} {ComponentTitle} external excel style filtering" />
+
+### デモ
+
+In order to configure the Excel style filtering component, you should set its `Column` property to one of the {ComponentTitle}'s columns. In the sample above, we have bound the `Column` property to the value of an SelectComponent that displays the {ComponentTitle}'s columns.
+
+<ComponentBlock for="Grid">
+```html
+<igx-select #gridColums value="ProductID">
+   <label igxLabel>Columns:</label>
+   <igx-select-item *ngFor="let c of grid1.columns" [value]="c.field">
+       {{ c.field }}
+   </igx-select-item>
+</igx-select>
+
+<igx-grid-excel-style-filtering [column]="grid1.getColumnByName(gridColums.value)">
+</igx-grid-excel-style-filtering>
+```
+
+<PlatformBlock for="Blazor">
+```razor
+add snippet for blazor
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-select id="gridColums" value="ProductID">
+   <label>Columns:</label>
+</igc-select>
+
+<igc-grid-excel-style-filtering>
+</igc-grid-excel-style-filtering>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```html
+<igx-select #gridColums value="ID">
+   <label igxLabel>Columns:</label>
+   <igx-select-item *ngFor="let c of treegrid1.columns" [value]="c.field">
+       {{ c.field }}
+   </igx-select-item>
+</igx-select>
+
+<igx-grid-excel-style-filtering [column]="treegrid1.getColumnByName(gridColums.value)">
+</igx-grid-excel-style-filtering>
+```
+
+<PlatformBlock for="Blazor">
+ ```razor
+Add snippet for blazor
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+```html
+<igx-select #gridColums value="Artist">
+   <label igxLabel>Columns:</label>
+   <igx-select-item *ngFor="let c of hierarchicalgrid1.columns" [value]="c.field">
+       {{ c.field }}
+   </igx-select-item>
+</igx-select>
+
+<igx-grid-excel-style-filtering [column]="hierarchicalgrid1.getColumnByName(gridColums.value)">
+</igx-grid-excel-style-filtering>
+```
+
+<PlatformBlock for="Blazor">
+```razor
+Add snippet for blazor
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## 使用方法
+
+Excel スタイル フィルタリング コンポーネントを設定するには、その `Column` プロパティを {ComponentTitle} の列の 1 つに設定する必要があります。上記のサンプルでは、{ComponentTitle} の列を表示する SelectComponent の値に `Column` プロパティをバインドしています。
+
+### 表示要素が重なる場合のアウトレット設定
+
+<Sample src="/{ComponentSample}/external-outlet" height={700} alt="{Platform} {ComponentTitle} 表示要素が重なる場合のアウトレット" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## デモ
+
+To get started with styling the Excel Style Filtering dialog, we need to import the `index` file, where all the theme functions and component mixins live:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+The excel style filtering dialog takes its background color from the grid's theme, using the `filtering-row-background` parameter. In order to change the background we need to create a custom theme:
+
+```scss
+$custom-grid: grid-theme(
+    $filtering-row-background: #FFCD0F
+);
+```
+
+We obviously have a lot more components inside the excel like filtering dialog, such as buttons, checkboxes, a list and even a drop-down. In order to style them, we need to create a separate theme for each one:
+
+```scss
+$dark-button: button-theme(
+    $background: #FFCD0F,
+    $foreground: #292826,
+    $hover-background: #292826,
+    $hover-foreground: #FFCD0F
+);
+
+$dark-input-group: input-group-theme(
+    $box-background: #FFCD0F,
+    $idle-text-color: #292826,
+    $focused-text-color: #292826,
+    $filled-text-color: #292826
+);
+
+$custom-list: list-theme(
+    $background: #FFCD0F
+);
+
+$custom-checkbox: checkbox-theme(
+    $empty-color: #292826,
+    $fill-color: #292826,
+    $tick-color: #FFCD0F,
+    $label-color: #292826
+);
+
+$custom-drop-down: drop-down-theme(
+    $background-color: #FFCD0F,
+    $item-text-color: #292826,
+    $hover-item-background: #292826,
+    $hover-item-text-color: #FFCD0F
+);
+```
+
+In this example we only changed some of the parameters for the listed components, but the [button-theme]({environment:sassApiUrl}/index.html#function-button-theme), [checkbox-theme]({environment:sassApiUrl}/index.html#function-checkbox-theme), [drop-down-theme]({environment:sassApiUrl}/index.html#function-drop-down-theme), [input-group-theme]({environment:sassApiUrl}/index.html#function-input-group-theme), [list-theme]({environment:sassApiUrl}/index.html#function-list-theme) themes provide way more parameters to control their respective styling.
+
+The last step is to **include** the component mixins, each with its respective theme. We will also set the color property for the input's placeholder.
+
+```scss
+@include drop-down($custom-drop-down);
+@include grid($custom-grid);
+.igx-excel-filter, .igx-excel-filter__secondary {
+    @include button($dark-button);
+    @include input-group($dark-input-group);
+    @include list($custom-list);
+    @include checkbox($custom-checkbox);
+    .igx-input-group__input::placeholder {
+        color: #FFCD0F;
+    }
+}
+```
+
+<Aside type="note" title="注">
+We scope most of the components' mixins within `.igx-excel-filter` and `.igx-excel-filter__secondary`, so that these custom themes will affect only components nested in the excel style filtering dialog and all of its sub-dialogs. Otherwise other buttons, checkboxes, input-groups and lists would be affected too.
+</Aside>
+
+<Aside type="note" title="注">
+If the component is using an [Emulated](../themes/styles.md#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep`:
+</Aside>
+
+```scss
+:host {
+    ::ng-deep {
+        @include drop-down($custom-drop-down);
+        @include grid($custom-grid);
+        .igx-excel-filter, .igx-excel-filter__secondary {
+            @include button($dark-button);
+            @include input-group($dark-input-group);
+            @include list($custom-list);
+            @include checkbox($custom-checkbox);
+            .igx-input-group__input::placeholder {
+                color: #FFCD0F;
+            }
+        }
+    }
+}
+```
+
+### スタイル設定
+
+ページネータのスタイル設定を始めるには、すべてのテーマ関数とコンポーネントミックスインが存在する `index` ファイルをインポートする必要があります。
+
+Excel スタイルのフィルタリング ダイアログは、`filtering-row-background` パラメーターを使用して、グリッドのテーマから背景色を取得します。背景を変更するには、カスタム テーマを作成する必要があります。
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+ボタン、チェックボックス、リスト、さらにはドロップダウンなど、フィルタリング ダイアログのような Excel 内には明らかに多くのコンポーネントがあります。スタイルを設定するには、それぞれに個別のテーマを作成する必要があります。
+
+```scss
+$custom-grid: grid-theme(
+    $filtering-row-background: #FFCD0F
+);
+```
+
+この例では、リストされたコンポーネントのパラメーターの一部のみを変更しましたが、[button-theme]({environment:sassApiUrl}/index.html#function-button-theme)、[checkbox-theme]({environment:sassApiUrl}/index.html#function-checkbox-theme)、[drop-down-theme]({environment:sassApiUrl}/index.html#function-drop-down-theme)、[input-group-theme]({environment:sassApiUrl}/index.html#function-input-group-theme)、および [list-theme]({environment:sassApiUrl}/index.html#function-list-theme) テーマは、それぞれのスタイルを制御するためのより多くのパラメーターを提供します。
+
+### カラー パレットの定義
+
+上記のように色の値をハードコーディングする代わりに、[igx-palette]({environment:sassApiUrl}/index.html#function-igx-palette) および [igx-color]({environment:sassApiUrl}/index.html#function-igx-color) 関数を使用することによって色に関してより高い柔軟性を持つことができます。
+
+`igx-palette` は渡された一次色と二次色に基づいてカラーパレットを生成します。
+
+```scss
+$yellow-color: #FFCD0F;
+$black-color: #292826;
+
+$dark-palette: palette($primary: $black-color, $secondary: $yellow-color);
+```
+
+また [igx-color]({environment:sassApiUrl}/index.html#function-igx-color) を使用してパレットから簡単に色を取り出すことができます。
+
+```scss
+$custom-grid: grid-theme(
+    $filtering-row-background: #FFCD0F
+);
+
+$dark-button: button-theme(
+    $background: color($dark-palette, "secondary", 400),
+    $foreground: color($dark-palette, "primary", 400),
+    $hover-background: color($dark-palette, "primary", 400),
+    $hover-foreground: color($dark-palette, "secondary", 400)
+);
+
+$dark-input-group: input-group-theme(
+    $box-background: color($dark-palette, "secondary", 400),
+    $idle-text-color: color($dark-palette, "primary", 400),
+    $focused-text-color: color($dark-palette, "primary", 400),
+    $filled-text-color: color($dark-palette, "primary", 400)
+);
+
+$custom-list: list-theme(
+    $background: color($dark-palette, "secondary", 400)
+);
+
+$custom-checkbox: checkbox-theme(
+    $empty-color: color($dark-palette, "primary", 400),
+    $fill-color: color($dark-palette, "primary", 400),
+    $tick-color: color($dark-palette, "secondary", 400),
+    $label-color: color($dark-palette, "primary", 400)
+);
+
+$custom-drop-down:drop-down-theme(
+    $background-color: color($dark-palette, "secondary", 400),
+    $item-text-color: color($dark-palette, "primary", 400),
+    $hover-item-background: color($dark-palette, "primary", 400),
+    $hover-item-text-color: color($dark-palette, "secondary", 400)
+);
+```
+
+<Aside type="note" title="注">
+`igx-color` および `igx-palette` は、色を生成および取得するための重要な機能です。使い方の詳細については[パレット](../themes/sass/palettes.md)のトピックを参照してください。
+</Aside>
+
+### スキーマの使用
+
+<Sample src="/{ComponentSample}/excel-style-filtering-style" height={950} alt="{Platform} {ComponentTitle} Excel スタイルのフィルタリング スタイル" />
+
+テーマ エンジンを使用して[**スキーマ**](../themes/sass/schemas.md)の利点を活用でき、堅牢で柔軟な構造を構築できます。**スキーマ**はテーマを使用する方法です。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+## デモ
+
+<Aside type="note" title="注">
+サンプルは、**テーマの変更**で選択したグローバル テーマの影響を受けません。
+</Aside>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+Then set the related CSS properties to this class:
+
+```css
+.grid {
+    --ig-grid-filtering-row-background: #ffcd0f;
+    --ig-list-item-background: #ffcd0f;
+}
+```
+
+### スタイル設定
+
+<Sample src="/{ComponentSample}/excel-style-filtering-style" height={950} alt="{Platform} {ComponentTitle} Excel スタイルのフィルタリング スタイル" />
+
+</PlatformBlock>
+
+## デモ
+
+<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
+<ApiRef pkg="grids" types={["Column"]} />
+
+## API リファレンス
+
+<ComponentBlock for="Grid">
+- `Column`
+- `{ComponentName}`
+</ComponentBlock>
+
+Our community is active and always welcoming to new ideas.
+
+- [{ProductName} **Forums**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

@@ -1,0 +1,121 @@
+---
+/**
+ * Inline API documentation link.
+ *
+ * Renders a <code> link pointing to the TypeDoc API reference for a class,
+ * interface, enum, type alias, variable, or function — and optionally a
+ * specific member (property / method) on a class or interface.
+ *
+ * Usage:
+ *   <!-- core package — class (default kind) -->
+ *   <ApiLink type="Toast" />
+ *   → <a href="…/classes/igniteui-react.igrtoast.html"><code>IgrToast</code></a>
+ *
+ *   <!-- class member -->
+ *   <ApiLink type="Toast" member="show" label="Show" />
+ *   → <a href="…/classes/igniteui-react.igrtoast.html#show"><code>Show</code></a>
+ *
+ *   <!-- sub-package class -->
+ *   <ApiLink pkg="charts" type="CategoryChart" />
+ *
+ *   <!-- function (no platform prefix) -->
+ *   <ApiLink kind="function" type="configureTheme" prefixed={false} />
+ *   → <a href="…/functions/igniteui-react.configureTheme.html"><code>configureTheme</code></a>
+ *
+ *   <!-- variable (fully-qualified) -->
+ *   <ApiLink kind="variable" type="IgrCalendarResourceStringEN" prefixed={false} />
+ *   → <a href="…/variables/igniteui-react.IgrCalendarResourceStringEN.html">…</a>
+ *
+ *   <!-- type alias -->
+ *   <ApiLink kind="type" type="AbsolutePosition" prefixed={false} />
+ *   → <a href="…/types/igniteui-react.AbsolutePosition.html"><code>AbsolutePosition</code></a>
+ *
+ *   <!-- interface -->
+ *   <ApiLink kind="interface" type="ComboTemplateProps" prefixed={false} />
+ *   → <a href="…/interfaces/igniteui-react.ComboTemplateProps.html">…</a>
+ *
+ *   <!-- enum -->
+ *   <ApiLink kind="enum" type="CalendarSelection" />
+ *   → <a href="…/enums/igniteui-react.igrcalendarselection.html">…</a>
+ */
+import { getPlatformContext } from '../../lib/platform-context.ts';
+
+type ApiKind = 'class' | 'interface' | 'enum' | 'type' | 'variable' | 'function';
+
+interface Props {
+    /** Short type / symbol name without platform prefix, e.g. "Toast". */
+    type: string;
+    /**
+     * TypeDoc symbol kind. Determines the URL segment used.
+     * @default "class"
+     */
+    kind?: ApiKind;
+    /** Optional member name (property / method), e.g. "show". Appended as #anchor. */
+    member?: string;
+    /**
+     * Package key as defined in platform-context apiPackages.
+     * Defaults to "core" (the main component package).
+     * Use "charts", "grids", "gauges", "maps", "inputs", "layouts",
+     * "excel", "spreadsheet", "datasources" for sub-packages.
+     */
+    pkg?: string;
+    /**
+     * Override the display text. Defaults to the (prefixed) name,
+     * optionally suffixed with ".member".
+     */
+    label?: string;
+    /**
+     * When true (default) the platform prefix (Igr/Igx/Igc/Igb) is
+     * prepended to `type` automatically. Set to false when passing a
+     * fully-qualified name or a non-prefixed symbol like a function name.
+     */
+    prefixed?: boolean;
+    /**
+     * When true (default) the package classSuffix (e.g. "Component" for Angular)
+     * is appended to the class name. Set to false for utility/non-component classes
+     * that do not carry the platform class suffix (e.g. FilteringOperand, SortingStrategy).
+     * @default true
+     */
+    suffix?: boolean;
+}
+
+const KIND_SEGMENT: Record<ApiKind, string> = {
+    class:     'classes',
+    interface: 'interfaces',
+    enum:      'enums',
+    type:      'types',
+    variable:  'variables',
+    function:  'functions',
+};
+
+const { type, kind = 'class', member, pkg = 'core', label, prefixed = true, suffix = true } = Astro.props;
+const { prefix, apiPackages } = getPlatformContext();
+
+const pkgConfig  = apiPackages[pkg] ?? apiPackages['core'];
+const baseType   = prefixed ? `${prefix}${type}` : type;
+const segment    = KIND_SEGMENT[kind];
+let url: string;
+if (kind === 'class') {
+    const fullType  = (suffix && pkgConfig.classSuffix) ? `${baseType}${pkgConfig.classSuffix}` : baseType;
+    const cased     = pkgConfig.preserveCase ? fullType : fullType.toLowerCase();
+    const classSlug = pkgConfig.noPackagePrefix
+        ? cased
+        : `${pkgConfig.packageId}.${cased}`;
+    const memberAnchor = member
+        ? `#${pkgConfig.pascalCaseMembers ? member.charAt(0).toUpperCase() + member.slice(1) : member}`
+        : '';
+    url = `${pkgConfig.docRoot}/classes/${classSlug}${memberAnchor}`;
+} else {
+    // Non-class kinds: preserve original casing, no classSuffix
+    const slug = pkgConfig.noPackagePrefix
+        ? baseType
+        : `${pkgConfig.packageId}.${baseType}`;
+    const memberAnchorNonClass = member
+        ? `#${pkgConfig.pascalCaseMembers ? member.charAt(0).toUpperCase() + member.slice(1) : member.toLowerCase()}`
+        : '';
+    url = `${pkgConfig.docRoot}/${segment}/${slug}${memberAnchorNonClass}`;
+}
+
+const displayLabel = label ?? (member ? `${baseType}.${member}` : baseType);
+---
+<a href={url}><code>{displayLabel}</code></a>

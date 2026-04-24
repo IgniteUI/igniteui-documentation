@@ -1,0 +1,382 @@
+---
+title: "{Platform} {ComponentTitle} ページング - {ProductName}"
+description: "{Platform} ページネーションを構成し、Ignite UI によって {Platform} テーブルにカスタム ページを作成し、さまざまなイベントで要求されたページのデータを取得します。"
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+keywords: Paging, {Platform}, {ComponentKeywords}, {ProductName}, ページング, インフラジスティックス
+license: commercial
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridPaging}"
+_language: ja
+---
+import { Aside } from '@astrojs/starlight/components';
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} ページネーションの概要
+
+{Platform} {ComponentTitle} の {ProductName} ページネーション機能は、大量のデータセットを類似したコンテンツを持つ一連のページに分割するために使用されます。React グリッドのページネーションにより、ユーザー エクスペリエンスとデータ操作が向上します。<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> ページネーションは、列の追加と同様に、<ApiLink pkg="grids" type="Paginator" /> タグを定義することにより、グリッド ツリーに投影された別のコンポーネントを介して構成できます。他の {Platform} テーブルと同様に、{Platform} {ComponentTitle} のページネーションはカスタム ページのテンプレートをサポートしています。
+
+## {Platform} {ComponentTitle} ページネーションの例
+
+次の例は <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> のページネーションを表し、ページごとの項目のオプションの使用法とページングを有効にする方法を公開します。ユーザーは、[最後のページに移動] ボタンと [最初のページに移動] ボタンを使用して <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> ページをすばやく移動することもできます。
+
+<Sample src="/{ComponentSample}/row-paging-basic" height={550} alt="{Platform} {ComponentTitle} ページネーションの例" />
+
+<PlatformBlock for="Angular">
+
+
+</PlatformBlock>
+
+```css
+.gridSize {
+    --ig-size: var(--ig-size-small);
+}
+```
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid class="gridSize" [data]="data" [height]="'500px'" [width]="'100%'">
+    <igx-paginator [perPage]="10">
+    </igx-paginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} @ref=grid Class="gridSize" Width="100%" Height="500px" Data=Data>
+    <IgbPaginator PerPage="10"></IgbPaginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" class="gridSize" height="500px" width="100%" >
+    <igc-paginator per-page="10">
+    </igc-paginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="gridSize" height="500px" width="100%">
+    <IgrPaginator perPage={10}>
+    </IgrPaginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igx-paginator #paginator [totalRecords]="20">
+    <igx-paginator-content>
+        <div id="numberPager" style="justify-content: center;">
+            <button [disabled]="paginator.isFirstPage" (click)="paginator.previousPage()" igxButton="flat">
+                PREV
+            </button>
+            <span>
+               Page {{paginator.page}} of {{paginator.totalPages}}
+            </span>
+            <button [disabled]="paginator.isLastPage" (click)="paginator.nextPage()" igxButton="flat">
+                NEXT
+            </button>
+        </div>
+    </igx-paginator-content>
+</igx-paginator>
+```
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+## グループ化によるページング
+
+グループ行は、データ行とともにページング プロセスに関係します。それらは各ページのページ サイズにカウントされます。折りたたまれた行はページング プロセスに含まれません。
+
+ページングとグループ化の統合については、[グループ化](groupby.md#{PlatformLower}-grid-ページングでグループ化)のトピックで説明しています。
+
+</ComponentBlock>
+
+## 使用方法
+
+以下の例では、<ApiLink pkg="grids" type="Paginator" /> コンポーネントを <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> コンポーネントと一緒に使用していますが、ページング機能が必要な場合は、他のコンポーネントと一緒に使用できます。
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid [data]="data" className="gridSize">
+    <igx-paginator #paginator [(page)]="grid.page" [totalRecords]="grid.totalRecords" [(perPage)]="10"
+            [selectOptions]="selectOptions">
+    </igx-paginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} @ref=grid Data=Data className="gridSize">
+    <IgbPaginator Page="grid.Page" TotalRecords="grid.TotalRecords" PerPage="10">
+    </IgbPaginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" className="gridSize">
+    <igc-paginator id="paginator" per-page="10">
+    </igc-paginator>
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as {ComponentName};
+    var paginator = this.paginator = document.getElementById('paginator') as IgcPaginatorComponent;
+    const selectOptions = [5, 15, 20, 50];
+    grid.data = this.data;
+    paginator.page = grid.page;
+    paginator.totalRecords = grid.totalRecords;
+    paginator.selectOptions = selectOptions;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const selectOptions = [5, 15, 20, 50];
+
+<{ComponentSelector} className="gridSize">
+    <IgrPaginator perPage={10} page={1} selectOptions={selectOptions}>
+    </IgrPaginator>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-hierarchical-grid>
+    <igx-column *ngFor="let c of hColumns" [field]="c.field">
+    </igx-column>
+    <igx-row-island [key]="'childData'" [autoGenerate]="true">
+        <igx-row-island [key]="'childData'" [autoGenerate]="true">
+            <igx-paginator *igxPaginator></igx-paginator>
+        </igx-row-island>
+        <igx-paginator *igxPaginator></igx-paginator>
+    </igx-row-island>
+    <igx-row-island [key]="'childData2'" [autoGenerate]="true">
+        <igx-paginator *igxPaginator></igx-paginator>
+    </igx-row-island>
+
+    <igx-paginator></igx-paginator>
+</igx-hierarchical-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+TO-DO H-GRID CODE SNIPPET
+```
+</PlatformBlock>
+
+### 子グリッド内のページネーター設定
+
+<PlatformBlock for="Angular">
+Due to certain limitations in how the child grids of an <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> are implemented and how DI scope works, when defining a paginator component inside the `RowIsland` tags, always make sure to use the <ApiLink pkg="grids" type="Paginator" /> directive on the paginator itself. This will make sure that the child grid have the correct paginator instance as a reference:
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igx-hierarchical-grid>
+    <igx-row-island>
+        <igx-grid-toolbar *igxPaginator>
+        </igx-grid-toolbar>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+TO-DO H-GRID CODE SNIPPET
+```
+</PlatformBlock>
+</ComponentBlock>
+
+### ページネーター コンポーネントのデモ
+
+<Sample src="/{ComponentSample}/row-paging-options" height={550} alt="{Platform} {ComponentTitle} 再利用可能なページネーターの例" />
+
+<div class="divider--half"></div>
+
+<PlatformBlock for="Angular">
+
+## リモート ページング
+
+リモート ページングは、データ取得を担当するサービスと、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の構築とデータ サブスクリプションを担当するコンポーネントを宣言することで実現できます。詳細については、[リモート データ操作](remote-data-operations.md#リモート-ページング)トピックをご覧ください。
+
+<ComponentBlock for="Grid">
+## Remote Paging with Custom Template
+
+In some cases you may want to define your own paging behavior and this is when we can take advantage of the <ApiLink pkg="grids" type="PaginatorContent" /> and add our custom logic along with it. [This section](remote-data-operations.md#remote-paging-with-custom-igx-paginator-content) explains how we are going to extend the Remote Paging example in order to demonstrate this.
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## カスタム テンプレートのリモート ページング
+
+独自のページング動作を定義するために、`PaginatorContent` を使用してカスタム ロジックを追加できます。[このセクション](remote-data-operations.md#カスタム-igx-paginator-content-のリモート-ページング)では、上記を実証するために、リモート ページングの例を拡張する方法を説明します。
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Following the simplest approach, we create a new theme that extends the `PaginatorTheme` and accepts the `$text-color`, `$background-color` and the `$border-color` parameters.
+
+```scss
+$dark-paginator: paginator-theme(
+    $text-color: #F4D45C,
+    $background-color: #575757,
+    $border-color: #292826
+);
+```
+
+As seen, the `PaginatorTheme` only controls colors for the paging container, but does not affect the buttons in the pager UI. To style those buttons, let's create a new button theme:
+
+```scss
+$dark-button: button-theme(
+    $icon-color: #FFCD0F,
+    $icon-hover-color: #292826,
+    $icon-hover-background: #FFCD0F,
+    $icon-focus-color: #292826,
+    $icon-focus-background: #FFCD0F,
+    $disabled-color: #16130C
+);
+```
+
+In this example we only changed the icon color and background and the button disabled color, but the the `ButtonTheme` provides way more parameters to control the button style.
+
+The last step is to **include** the component mixins, each with its respective theme:
+
+```scss
+@include grid-paginator($dark-grid-paginator);
+.igx-grid-paginator__pager {
+    @include button($dark-button);
+}
+```
+
+<Aside type="note" title="注">
+We scope the `Button` mixin within `.igx-paginator__pager`, so that only the paginator buttons would be styled. Otherwise other buttons in the grid would be affected too.
+</Aside>
+
+<Aside type="note" title="注">
+If the component is using an [Emulated](../themes/styles.md#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep`:
+</Aside>
+
+```scss
+:host {
+    ::ng-deep {
+        @include paginator($dark-paginator);
+        .igx-paginator__pager {
+            @include button($dark-button);
+        }
+    }
+}
+```
+
+### {Platform} の各ページ スタイリング
+
+ページネーターのスタイル設定は、すべてのテーマ関数とコンポーネント ミックスインが存在する `index` ファイルをインポートする必要があります。
+
+最も簡単な方法は、`PaginatorTheme` を拡張する新しいテーマを作成し、`$text-color`、`$background-color`、`$border-color` パラメーターを受け取る方法です。
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+`PaginatorTheme` はページング コンテナの色の制御のみですが、ページャー UI のボタンには影響しません。これらのボタンにスタイル設定するために、新しいボタン テーマを作成しましょう。
+
+```scss
+$dark-paginator: paginator-theme(
+    $text-color: #F4D45C,
+    $background-color: #575757,
+    $border-color: #292826
+);
+```
+
+この例では、アイコンの色と背景、ボタンの無効な色のみを変更しましたが、`ButtonTheme` ではボタン スタイルを制御するためのパラメータを増やすことができます。
+
+### カラー パレットの定義
+
+上記のように色の値をハードコーディングする代わりに、`Palette` および `Color` 関数を使用することによって色に関してより高い柔軟性を持つことができます。
+
+`Palette` は渡された一次色と二次色に基づいてカラーパレットを生成します。
+
+```scss
+$yellow-color: #F9D342;
+$black-color: #292826;
+
+$dark-palette: palette($primary: $black-color, $secondary: $yellow-color);
+```
+
+また `Color` を使用してパレットから簡単に色を取り出すことができます。
+
+```scss
+$dark-paginator: paginator-theme(
+    $palette: $dark-palette,
+    $text-color: color($dark-palette, "secondary", 400),
+    $background-color: color($dark-palette, "primary", 200),
+    $border-color: color($dark-palette, "primary", 500)
+);
+
+$dark-button: button-theme(
+    $palette: $dark-palette,
+    $icon-color: color($dark-palette, "secondary", 700),
+    $icon-hover-color: color($dark-palette, "primary", 500),
+    $icon-hover-background: color($dark-palette, "secondary", 500),
+    $icon-focus-color: color($dark-palette, "primary", 500),
+    $icon-focus-background: color($dark-palette, "secondary", 500),
+    $disabled-color: color($dark-palette, "primary", 700)
+);
+```
+
+<Aside type="note" title="注">
+`Color` および `Palette` は、色を生成および取得するための重要な機能です。使い方の詳細については[パレット](../themes/sass/palettes.md)のトピックを参照してください。
+</Aside>
+
+### スキーマの使用
+
+<Sample src="/{ComponentSample}/row-paging-style" height={550} alt="{Platform} {ComponentTitle} ページング スタイルの例" />
+
+<div class="divider--half"></div>
+
+</PlatformBlock>
+
+## ページネーション スタイルの例
+
+<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
+<ApiRef pkg="grids" types={["Paginator"]} />
+
+## API リファレンス
+
+<ComponentBlock for="Grid, TreeGrid">
+- `{ComponentName}`
+- `Paginator`
+
+</ComponentBlock>
+
+Our community is active and always welcoming to new ideas.
+
+- [{ProductName} **Forums**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

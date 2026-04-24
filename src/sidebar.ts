@@ -67,14 +67,21 @@ interface TocItem {
 function docExists(docsDir: string, href: string, exclude: RegExp[]): boolean {
     if (!href) return false;
     if (exclude?.some((p) => p.test(href))) return false;
-    return fs.existsSync(path.join(docsDir, href));
+    // Check the href as-is, then also with .md ↔ .mdx swapped so that toc.json
+    // entries like "charts/chart-features.md" resolve even when the file on disk
+    // is "charts/chart-features.mdx" (and vice-versa).
+    if (fs.existsSync(path.join(docsDir, href))) return true;
+    const alt = href.endsWith('.mdx')
+        ? href.slice(0, -4) + '.md'
+        : href.endsWith('.md') ? href.slice(0, -3) + '.mdx' : null;
+    return alt !== null && fs.existsSync(path.join(docsDir, alt));
 }
 
 function hrefToSlug(href: string): string {
     if (!href) return '';
     let slug = href
         .replace(/\\/g, '/')
-        .replace(/\.md$/i, '')
+        .replace(/\.(md|mdx)$/i, '')
         .toLowerCase();
     slug = slug.replace(/\/index$/, '');
     return slug === 'index' ? '' : slug;

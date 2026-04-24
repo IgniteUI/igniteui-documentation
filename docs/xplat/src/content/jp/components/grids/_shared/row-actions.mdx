@@ -1,0 +1,329 @@
+---
+title:  {Platform} {ComponentTitle} の行操作 - インフラジスティックス
+description: "{ComponentName} は、ActionStrip を使用し、行/セルコンポーネントおよび行のピン固定に CRUD を使用する機能を提供します。"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics, インフラジスティックス"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridRowActions}"
+_language: ja
+---
+import { Aside } from '@astrojs/starlight/components';
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+
+
+# {Platform} {ComponentTitle} の行操作
+
+{Platform} {ComponentTitle} の {ProductName} 行操作機能を使用すると、開発者は <ApiLink pkg="grids" type="ActionStrip" /> を使用し、行/セル コンポーネントと行のピン固定に CRUD を利用できます。これらの操作 (編集とピン固定) には、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の特定の行に適用できる事前定義された UI コントロールがいくつかあります。
+
+## 使用方法
+
+<PlatformBlock for="Angular">
+最初の手順は、**app.module.ts** ファイルに **IgxActionStripModule** をインポートすることです。
+
+```typescript
+// app.module.ts
+import { IgxActionStripModule } from 'igniteui-angular';
+
+@NgModule({
+    imports: [..., IgxActionStripModule],
+})
+```
+</PlatformBlock>
+
+事前定義された操作 (actions) UI コンポーネントは次のとおりです:
+
+- <ApiLink pkg="grids" type="GridEditingActions" /> - <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> 編集専用に設計された機能と UI を含みます。`RowEditable` オプションと <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の行削除に応じて、セルまたは行の編集モードをすばやく切り替えることができます。
+
+- <ApiLink pkg="grids" type="GridPinningActions" /> - <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> ピン固定専用に設計された機能と UI を含みます。行をすばやくピン固定し、ピン固定された行とその無効な行の間を移動できます。
+
+これらは <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> 内に追加され、デフォルトのインタラクションを提供する <ApiLink pkg="grids" type="ActionStrip" /> プを持つために必要です。
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [rowEditable]="true" [primaryKey]="'ID'">
+    <igx-column *ngFor="let c of columns" [field]="c.field">
+    </igx-column>
+
+    <igx-action-strip #actionStrip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <igx-grid-editing-actions></igx-grid-editing-actions>
+    </igx-action-strip>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbGrid Data=northwindEmployees RowEditable="True" PrimaryKey="ID">
+    @foreach (var c in columns)
+    {
+        <IgbColumn Field="@c.Field">
+        </IgbColumn>
+    }
+    <IgbActionStrip @ref=actionstrip>
+        <IgbGridPinningActions></IgbGridPinningActions>
+        <IgbGridEditingActions></IgbGridEditingActions>
+    </IgbActionStrip>
+</IgbGrid>
+```
+</PlatformBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+<IgbTreeGrid Data=northwindEmployees RowEditable="True" PrimaryKey="ID">
+    @foreach (var c in columns)
+    {
+        <IgbColumn Field="@c.Field">
+        </IgbColumn>
+    }
+    <IgbActionStrip @ref=actionstrip>
+        <IgbGridPinningActions></IgbGridPinningActions>
+        <IgbGridEditingActions></IgbGridEditingActions>
+    </IgbActionStrip>
+</IgbTreeGrid>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Blazor">
+```razor
+<IgbHierarchicalGrid Data=northwindEmployees RowEditable="True" PrimaryKey="ID">
+    @foreach (var c in columns)
+    {
+        <IgbColumn Field="@c.Field">
+        </IgbColumn>
+    }
+    <IgbActionStrip @ref=actionstrip>
+        <IgbGridPinningActions></IgbGridPinningActions>
+        <IgbGridEditingActions></IgbGridEditingActions>
+    </IgbActionStrip>
+</IgbHierarchicalGrid>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Angular">
+```razor
+<IgbTreeGrid Data=northwindEmployees RowEditable="True" PrimaryKey="ID">
+    @foreach (var c in columns)
+    {
+        <IgbColumn Field="@c.Field">
+        </IgbColumn>
+    }
+    <IgbActionStrip @ref=actionstrip>
+        <IgbGridPinningActions></IgbGridPinningActions>
+        <IgbGridEditingActions></IgbGridEditingActions>
+    </IgbActionStrip>
+</IgbTreeGrid>
+```
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```html
+<igc-tree-grid row-editable="true" primary-key="ID">
+    <igc-column field="field"></igc-column>
+    <igc-action-strip>
+        <igc-grid-pinning-actions></igc-grid-pinning-actions>
+        <igc-grid-editing-actions></igc-grid-editing-actions>
+    </igc-action-strip>
+</igc-tree-grid>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid row-editable="true" primary-key="ID">
+    <igc-column field="field"></igc-column>
+    <igc-action-strip>
+        <igc-grid-pinning-actions></igc-grid-pinning-actions>
+        <igc-grid-editing-actions></igc-grid-editing-actions>
+    </igc-action-strip>
+</igc-hierarchical-grid>
+```
+</PlatformBlock>
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="Grid">
+```tsx
+<{ComponentSelector} rowEditable={true} primaryKey="ID">
+    <IgrColumn field="field">
+    </IgrColumn>
+    <IgrActionStrip>
+        <IgrGridPinningActions></IgrGridPinningActions>
+        <IgrGridEditingActions></IgrGridEditingActions>
+    </IgrActionStrip>
+</{ComponentSelector}>
+```
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```tsx
+<{ComponentSelector} rowEditable={true} primaryKey="ID">
+    <IgrColumn field="field">
+    </IgrColumn>
+    <IgrActionStrip>
+        <IgrGridPinningActions></IgrGridPinningActions>
+        <IgrGridEditingActions></IgrGridEditingActions>
+    </IgrActionStrip>
+</{ComponentSelector}>
+```
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+```tsx
+<IgrHierarchicalGrid rowEditable={true} primaryKey="ID">
+    <IgrColumn field="field">
+    </IgrColumn>
+    <IgrActionStrip>
+        <IgrGridPinningActions></IgrGridPinningActions>
+        <IgrGridEditingActions></IgrGridEditingActions>
+    </IgrActionStrip>
+</IgrHierarchicalGrid>
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<Aside type="note" title="注">
+`ActionStripComponent` が <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の子コンポーネントの場合、行をホバーすると UI が自動的に表示されます。
+</Aside>
+
+## カスタムの実装
+
+これらのコンポーネントは、カスタマイズのための柔軟性を提供するテンプレートを公開します。たとえば、**delete**、**edit** などの行アクションがある Gmail シナリオで <ApiLink pkg="grids" type="ActionStrip" /> を使用する場合、アイコンでボタン コンポーネントを作成します。そして、クリック イベントを追加し、<ApiLink pkg="grids" type="ActionStrip" /> に挿入します。
+
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector}>
+    <igx-action-strip #actionstrip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <button title="Edit" igxButton="icon" igxRipple (click)='startEdit(actionstrip.context)'>
+            <igx-icon>edit</igx-icon>
+        </button>
+        <button title="Delete" igxButton="icon" igxRipple *ngIf='!isDeleted(actionstrip.context)' (click)='actionstrip.context.delete()'>
+            <igx-icon>delete</igx-icon>
+        </button>
+    </igx-action-strip>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+<div class="grid__wrapper">
+    <{ComponentSelector} Data=northwindEmployees>
+        <IgbActionStrip @ref=actionstrip>
+            <IgbGridPinningActions></IgbGridPinningActions>
+            <IgbButton Title="Edit" @onclick="() => StartEdit(actionstrip.Context)">
+                <IgbIcon>edit</IgbIcon>
+            </IgbButton>
+            @if (!IsDeleted(actionstrip.Context))
+            {
+                <IgbButton Title="Delete" @onclick="() => Delete(actionstrip.Context)">
+                    <IgbIcon>delete</IgbIcon>
+                </IgbButton>
+            }
+        </IgbActionStrip>
+    </{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Blazor">
+```razor
+<div class="grid__wrapper">
+    <IgbHierarchicalGrid Data=northwindEmployees>
+        <IgbActionStrip @ref=actionstrip>
+            <IgbGridPinningActions></IgbGridPinningActions>
+            <IgbButton Title="Edit" @onclick="() => StartEdit(actionstrip.Context)">
+                <IgbIcon>edit</IgbIcon>
+            </IgbButton>
+            @if (!IsDeleted(actionstrip.Context))
+            {
+                <IgbButton Title="Delete" @onclick="() => Delete(actionstrip.Context)">
+                    <IgbIcon>delete</IgbIcon>
+                </IgbButton>
+            }
+        </IgbActionStrip>
+    </IgbHierarchicalGrid>
+</div>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="Grid, TreeGrid">
+```html
+<{ComponentSelector}>
+    <igc-action-strip #actionstrip>
+        <igc-grid-pinning-actions></igc-grid-pinning-actions>
+        <igc-grid-editing-actions edit-row="true" delete-row="true"></igc-grid-editing-actions>
+    </igc-action-strip>
+</{ComponentSelector}>
+```
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+```html
+<igc-hierarchical-grid>
+    <igc-action-strip #actionstrip>
+        <igc-grid-pinning-actions></igc-grid-pinning-actions>
+        <igc-grid-editing-actions edit-row="true" delete-row="true"></igc-grid-editing-actions>
+    </igc-action-strip>
+</igc-hierarchical-grid>
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="Grid, TreeGrid">
+```tsx
+<{ComponentSelector}>
+    <IgrActionStrip>
+        <IgrGridPinningActions></IgrGridPinningActions>
+        <IgrGridEditingActions editRow={true} deleteRow={true}></IgrGridEditingActions>
+    </IgrActionStrip>
+</{ComponentSelector}>
+```
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+```tsx
+<IgrHierarchicalGrid>
+    <IgrActionStrip>
+        <IgrGridPinningActions></IgrGridPinningActions>
+        <IgrGridEditingActions editRow={true} deleteRow={true}></IgrGridEditingActions>
+    </IgrActionStrip>
+</IgrHierarchicalGrid>
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<Sample src="/{ComponentSample}/action-strip" height={600} alt="{Platform} {ComponentTitle} アクション ストリップの例" />
+
+
+<PlatformBlock for="Angular">
+<Aside type="note" title="注">
+事前定義された操作は `GridActionsBaseDirective` を継承します。カスタム グリッド アクション コンポーネントを作成する場合、`GridActionsBaseDirective` も継承する必要があります。
+</Aside>
+
+</PlatformBlock>
+
+## API リファレンス
+
+<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
+<ApiRef pkg="grids" types={["GridPinningActions","GridEditingActions"]} />

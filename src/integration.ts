@@ -67,7 +67,6 @@ import { buildSidebarFromToc } from './sidebar';
 import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
 import { JSDOM } from 'jsdom';
-import { visit } from 'unist-util-visit';
 import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
@@ -123,7 +122,7 @@ function stripScripts(html: string): string {
         el.remove();
     });
 
-    return dom.serialize();
+    return document.body.innerHTML;
 }
 
 /**
@@ -216,6 +215,31 @@ export interface SiteMetaOptions {
     prefetchNav?: boolean;
     /** @deprecated Use `platform: 'appbuilder'` instead. */
     prefetchAppBuilderNav?: boolean;
+}
+
+/**
+ * Strip MDX-specific syntax from a source file so the `.md` endpoint
+ * served to LLM crawlers contains clean markdown instead of JSX.
+ *
+ * Removes:
+ *  - `import … from '…'` lines at the top of the file
+ *  - Self-closing JSX components: <Sample …/>, <ApiRef …/>, <ApiLink …/>
+ *  - Block JSX components: <ApiRef …>…</ApiRef>
+ *  - Inline <style>{`…`}</style> blocks
+ */
+function stripMdxForLlms(raw: string): string {
+    return raw
+        // Remove all import lines
+        .replace(/^import\s+.+from\s+['"][^'"]+['"];?\r?\n/gm, '')
+        // Remove <style>{`...`}</style> blocks (multiline)
+        .replace(/<style>\{`[\s\S]*?`\}<\/style>\s*/g, '')
+        // Remove self-closing components: <Sample … />, <ApiRef … />, <ApiLink … />
+        .replace(/<(Sample|ApiRef|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*\/>\s*/g, '')
+        // Remove paired components: <ApiRef …>…</ApiRef>
+        .replace(/<(ApiRef|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*>[\s\S]*?<\/\1>\s*/g, '')
+        // Collapse 3+ blank lines left behind into 2
+        .replace(/\n{3,}/g, '\n\n')
+        .trim() + '\n';
 }
 
 /**
@@ -408,34 +432,6 @@ export const productLinks = ${JSON.stringify(productLinks)};
             },
 
             'astro:server:setup'({ server }) {
-                // Serve package scripts (e.g. code-view.js) from docs-template/public/scripts/
-                const pkgPublic = fileURLToPath(new URL('../public', import.meta.url));
-                server.middlewares.use('/scripts', (req, res, next) => {
-                    const rawUrl = req.url || '/';
-                    const requestPath = rawUrl.split('?', 1)[0] || '/';
-                    let decodedPath: string;
-                    try { decodedPath = decodeURIComponent(requestPath); } catch { return next(); }
-                    const base = path.resolve(pkgPublic, 'scripts');
-                    const filePath = path.resolve(path.join(base, decodedPath.replace(/^\/+/, '')));
-                    if (!filePath.startsWith(base + path.sep) && filePath !== base) return next();
-                    try {
-                        if (fs.statSync(filePath).isFile()) {
-                            res.setHeader('Content-Type', 'application/javascript');
-                            fs.createReadStream(filePath).pipe(res);
-                            return;
-                        }
-                    } catch { /* fall through */ }
-                    next();
-                });
-
-                // Serve our custom /llms.txt — wins over the plugin's prerendered route in dev.
-                server.middlewares.use((req, res, next) => {
-                    if (req.url?.split('?')[0] !== '/llms.txt') return next();
-                    const content = buildLlmsTxt(configuredSite, title, description, sidebar ?? [], llmsMetaMap, llmsSets, broadSections);
-                    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-                    res.end(content);
-                });
-
                 if (!docsDir) return;
                 server.middlewares.use(async (req, res, next) => {
                     // Only handle requests ending in .md
@@ -481,7 +477,7 @@ export const productLinks = ${JSON.stringify(productLinks)};
                                 const raw = await fsp.readFile(src, 'utf-8');
                                 const dest = path.join(outDir, slug + '.md');
                                 await fsp.mkdir(path.dirname(dest), { recursive: true });
-                                await fsp.writeFile(dest, raw, 'utf-8');
+                                await fsp.writeFile(dest, stripMdxForLlms(raw), 'utf-8');
                                 break;
                             } catch { /* try next extension */ }
                         }
@@ -571,31 +567,38 @@ export function staticImagesIntegration(
 }
 
 /**
- * Remark plugin factory that rewrites root-relative URLs in markdown HTML
- * nodes to include the Astro `base` path. Baking `base` into the plugin at
- * config time ensures Astro's content-layer cache is invalidated when the
- * base changes, so rebuilt HTML always has correct paths.
+ * Astro integration that post-processes all built HTML files to prepend `base`
+ * to root-relative `src="/..."` attributes that Astro doesn't rewrite automatically
+ * (e.g. raw `<img>` tags in markdown/MDX content).
  */
-function createRemarkPrependBase(base: string) {
+function createBasePrependIntegration(base: string): AstroIntegration {
     const normalizedBase = base.replace(/\/$/, '');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return () => (tree: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        visit(tree, (node: any) => {
-            if (node.type === 'html' && node.value) {
-                node.value = node.value.replace(/(src|href)="(\/[^"]*)"/g, (_: string, attr: string, url: string) => {
-                    if (url.startsWith(normalizedBase + '/')) return `${attr}="${url}"`;
-                    return `${attr}="${normalizedBase}${url}"`;
-                });
-                node.value = node.value.replace(/url\((\/[^)"']*)\)/g, (_: string, url: string) => {
-                    if (url.startsWith(normalizedBase + '/')) return `url(${url})`;
-                    return `url(${normalizedBase}${url})`;
-                });
-            }
-            if (node.type === 'image' && node.url?.startsWith('/') && !node.url.startsWith(normalizedBase + '/')) {
-                node.url = normalizedBase + node.url;
-            }
-        });
+
+    function rewriteDir(dir: string): void {
+        for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+            const full = path.join(dir, entry.name);
+            if (entry.isDirectory()) { rewriteDir(full); continue; }
+            if (!entry.name.endsWith('.html')) continue;
+
+            const original = fs.readFileSync(full, 'utf-8');
+            const rewritten = original.replace(
+                /\bsrc="(\/[^"]*)"/g,
+                (_: string, url: string) => {
+                    if (url.startsWith(normalizedBase + '/')) return `src="${url}"`;
+                    return `src="${normalizedBase}${url}"`;
+                },
+            );
+            if (rewritten !== original) fs.writeFileSync(full, rewritten, 'utf-8');
+        }
+    }
+
+    return {
+        name: 'docs-template:base-prepend',
+        hooks: {
+            'astro:build:done'({ dir }) {
+                rewriteDir(fileURLToPath(dir));
+            },
+        },
     };
 }
 
@@ -710,6 +713,10 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     if (!process.env.DOCS_ENV) {
         process.env.DOCS_ENV = mode;
     }
+    // Expose the platform so remark-docfx can set data-platform on widgets it generates.
+    if (platform) {
+        process.env.DOCS_PLATFORM = platform;
+    }
 
     // Platform CDN entries come first so site-specific `head` entries can override.
     const platformHead = platform ? getPlatformHead(platform, navLang) : [];
@@ -732,10 +739,9 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     const codeViewHead = [
         { tag: 'link' as const, attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
         { tag: 'script' as const, attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
-        { tag: 'script' as const, attrs: { src: `${scriptsBase}/scripts/code-view.js`, defer: true } },
     ];
 
-    // Auto-configure a Vite dev-server proxy so code-view.js can fetch
+    // Auto-configure a Vite dev-server proxy so sample-widget.ts can fetch
     // /code-viewer/*.json (and /assets/code-viewer/*.json) from the local demos
     // server without hitting browser CORS restrictions.
     // Only activated when dvDemosBaseUrl resolves to localhost / 127.0.0.1.
@@ -786,9 +792,14 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         },
         markdown: {
             ...(astroExtra as any).markdown,
-            // Always prepend our required plugins; consumer's extra plugins follow.
-            remarkPlugins: [remarkDocfx, ...((astroExtra as any).markdown?.remarkPlugins ?? []), ...(base ? [createRemarkPrependBase(base)] : [])],
-            rehypePlugins: [rehypeCodeView, ...((astroExtra as any).markdown?.rehypePlugins ?? [])],
+            remarkPlugins: [
+                remarkDocfx,
+                ...((astroExtra as any).markdown?.remarkPlugins ?? []),
+            ],
+            rehypePlugins: [
+                rehypeCodeView,
+                ...((astroExtra as any).markdown?.rehypePlugins ?? []),
+            ],
         },
         integrations: [
             siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode, llmsSets, productLinks }),
@@ -821,6 +832,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 ],
             }),
             ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
+            ...(base ? [createBasePrependIntegration(base)] : []),
             ...extraIntegrations,
         ],
     });

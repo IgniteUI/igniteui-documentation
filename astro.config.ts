@@ -97,8 +97,6 @@ export default defineConfig({
         // highlight.js for code-tab syntax highlighting inside code-view widgets
         { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
         { tag: 'script', attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
-        // Client-side code-view widget (iframe + code tabs + live-editing buttons)
-        { tag: 'script', attrs: { src: '/scripts/code-view.js', defer: true } },
       ],
       editLink: {
         baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',

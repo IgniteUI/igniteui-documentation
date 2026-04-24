@@ -115,7 +115,7 @@ Example status workflows:
 
 `status: in-review` => `status: not-to-fix` (Issue can be closed)
 
-> Note: In most cases the development will be related to new topics creation or updating of existing one. Keep in mind that **for each newly added topic the toc.yml should be updated with a reference to the new topic**. It is recommended `Additional references` section to be added at the end of each topic.
+> Note: In most cases the development will be related to new topics creation or updating of existing one. Keep in mind that **for each newly added topic the toc.json should be updated with a reference to the new topic**. It is recommended `Additional references` section to be added at the end of each topic.
 
 ## Testing - applicable to pull requests
 1. `status: awaiting-test` this is the initial status of pull requests. If you're performing the pull request, please place this status on it. Pull requests are accepted if and only if all status checks pass, review is performed, and the pull request has been tested and contains `status: verified`.

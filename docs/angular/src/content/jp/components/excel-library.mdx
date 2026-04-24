@@ -1,0 +1,197 @@
+---
+title: "Angular Excel ライブラリ | データ スプレッドシートとテーブル | インフラジスティックス"
+description: インフラジスティックスの Angular Excel ライブラリは、Microsoft Excel 機能を使用してスプレッドシート データを使用した作業が可能になります。Ignite UI for Angular Excel ライブラリを使用して Excel からアプリケーションにデータを簡単に転送できる方法について説明します。
+keywords: Excel library, Ignite UI for Angular, Infragistics, workbook, Excel ライブラリ, ワークブック, インフラジスティックス
+license: commercial
+mentionedTypes: ["Workbook", "Worksheet", "Cell", "Formula"]
+_language: ja
+---
+import { Aside } from '@astrojs/starlight/components';
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+
+# Angular Excel ライブラリの概要
+
+Infragistics Angular Excel ライブラリは、<ApiLink pkg="excel" prefixed={false} type="Workbook" />、<ApiLink pkg="excel" prefixed={false} type="Worksheet" />、<ApiLink pkg="excel" prefixed={false} type="WorksheetCell" label="Cell" />、<ApiLink pkg="excel" prefixed={false} type="Formula" /> などの人気の Microsoft® Excel® スプレッドシート オブジェクトを使用してスプレッドシート データで作業をすることができます。Infragistics Angular Excel ライブラリによって Excel スプレッドシートでアプリケーションのデータを表示するだけでなく、Excel からアプリケーションへのデータの転送も簡単になります。
+
+## Angular Excel ライブラリの例
+
+
+<Sample src="/excel/excel-library/overview" height={100} alt="Angular Excel ライブラリの例" />
+
+
+
+
+<div class="divider--half"></div>
+
+
+
+
+
+## 依存関係
+excel パッケージをインストールするときに core パッケージもインストールする必要があります。
+
+```cmd
+npm install --save igniteui-angular-core
+npm install --save igniteui-angular-excel
+```
+
+## モジュールの要件
+
+Angular Excel ライブラリを作成するには、以下のモジュールが必要です。
+
+```ts
+// app.module.ts
+import { IgxExcelModule } from 'igniteui-angular-excel';
+
+@NgModule({
+    imports: [
+        // ...
+        IgxExcelModule,
+        // ...
+    ]
+})
+export class AppModule {}
+```
+
+```ts
+import { IgrExcelModule } from 'igniteui-react-excel';
+
+IgrExcelModule.register();
+```
+
+```ts
+// Module Manager for registering the modules of the chart
+import { ModuleManager } from 'igniteui-webcomponents-core';
+import { IgcExcelModule  } from 'igniteui-webcomponents-excel';
+
+// register the modules
+ModuleManager.register(
+    IgcExcelModule
+);
+```
+
+## モジュールの実装
+
+Excel ライブラリには、アプリのバンドル サイズを制限するために使用できる 5 つのモジュールが含まれています。
+
+- **IgxExcelCoreModule** – オブジェクトモデルを含み、Excel の基盤となります。
+- **IgxExcelFunctionsModule** – Sum、Average、Min、Max、SumIfs、Ifs など、数式評価のほとんどのカスタム関数を含み、このモジュールがなくても数式が計算 ( “=SUM(A1:A5 などの数式を適用するなど) されてセルの Value を要求する場合は数式の解析で問題を発生しません。(注: 例外のスローではありません。数式の結果がエラーとなるため特定のエラーを表すオブジェクト)。
+- **IgxExcelXlsModule** – xls (および関連する) タイプ ファイルのロジックの読み込みと保存を含みます。これは Excel97to2003 関連の WorkbookFormats です。
+- **IgxExcelXlsxModule** – xlsx (および関連する) タイプ ファイルのロジックの読み込みと保存を含みます。これは Excel2007 関連および StrictOpenXml ANDWorkbookFormats です。
+- **IgxExcelModule** – 他の 4 つのモジュールの参照ですべての機能の読み込み/使用を可能にします。
+
+
+
+
+
+
+
+
+
+## サポートされるバージョンの Microsoft Excel
+以下は Excel のサポートされるバージョンのリストです。
+
+- Microsoft Excel 97
+
+- Microsoft Excel 2000
+
+- Microsoft Excel 2002
+
+- Microsoft Excel 2003
+
+- Microsoft Excel 2007
+
+- Microsoft Excel 2010
+
+- Microsoft Excel 2013
+
+- Microsoft Excel 2016
+
+```md
+<Aside type="note" title="注">
+Excel ライブラリ は Excel Binary Workbook (.xlsb) フォーマットを現時点ではサポートしていません。
+</Aside>
+
+## ワークブックの読み込みと保存
+注: Excel ライブラリ モジュールをインポートした後、ワークブックを読み込みます。
+
+
+
+次のコード スニペットでは、外部の [ExcelUtility](excel-utility.md) クラスを使用して `Workbook` を保存およびロードしています。
+
+
+
+`Workbook` オブジェクトを読み込んで保存するために、実際の `Workbook` の保存メソッドや static な `Load` メソッドを使用できます。
+
+```ts
+
+## Load and Save Workbooks
+Now that the Excel Library module is imported, next step is to load a workbook.
+
+
+
+
+
+
+In the following code snippet, an external [ExcelUtility](excel-utility.md) class is used to save and load a <ApiLink pkg="excel" prefixed={false} type="Workbook" />.
+
+
+
+
+
+In order to load and save <ApiLink pkg="excel" prefixed={false} type="Workbook" /> objects, you can utilize the save method of the actual <ApiLink pkg="excel" prefixed={false} type="Workbook" /> object, as well as its static `Load` method.
+
+```ts
+import { Workbook } from "igniteui-angular-excel";
+import { WorkbookSaveOptions } from "igniteui-angular-excel";
+import { WorkbookFormat } from "igniteui-angular-excel";
+import { ExcelUtility } from "ExcelUtility";
+
+var workbook = ExcelUtility.load(file);
+ExcelUtility.save(workbook, "fileName");
+```
+
+
+
+
+
+## Managing Heap
+
+Due to the size of the Excel Library, it's recommended to disable the source map generation.
+
+Modify `angular.json` by setting the `vendorSourceMap` option under architect => build => options and under serve => options:
+
+```ts
+    "architect": {
+        "build": {
+          "builder": "...",
+          "options": {
+            "vendorSourceMap": false,
+            "outputPath": "dist",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "tsConfig": "src/tsconfig.app.json",
+                  // ...
+          },
+              // ...
+        },
+        "serve": {
+          "builder": "...",
+          "options": {
+            "vendorSourceMap": false,
+            "browserTarget": "my-app:build"
+          },
+              // ...
+        },
+        // ...
+      }
+```
+
+
+
+## API References
+
+<ApiRef pkg="excel" types={["Worksheet","Workbook"]} />

@@ -1,0 +1,881 @@
+---
+title: "{Platform} {ComponentTitle} Row Selection - {ProductName}"
+description: Perform data manipulation without affecting the underlying data with {ComponentTitle} Batch Editing, using {Platform} {ComponentTitle}. See demos & examples!
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["GridBaseDirective", "RowSelectorTemplateDetails", "HeadSelectorTemplateDetails", "Checkbox"]
+sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridRowSelection}"
+---
+import { Aside } from '@astrojs/starlight/components';
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
+import ApiRef from 'docs-template/components/mdx/ApiRef.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} Row Selection
+
+The {ProductName} Row Selection feature in {Platform} {ComponentTitle} allows users to interactively select, highlight, or deselect a single or multiple rows of data. There are several selection modes available in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />:
+- None Selection
+- Multiple Selection
+- Single Selection
+
+## {Platform} Row Selection Example
+
+<ComponentBlock for="TreeGrid">
+The sample below demonstrates the four types of <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />'s **row selection** behavior. Use the buttons below to enable each of the available selection modes. A brief description will be provided on each button interaction through a snackbar message box. Use the switch button to _hide_ or _show_ the row selector checkbox.
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+The sample below demonstrates the three types of <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />'s **row selection** behavior. Use the drop-down below to enable each of the available selection modes. Use the checkbox to _hide_ or _show_ the row selector checkboxes.
+
+</ComponentBlock>
+
+<Sample src="/{ComponentSample}/row-selection-mode" height={700} alt="{Platform} {ComponentTitle} Row Selection Example" />
+
+
+## Setup
+In order to setup row selection in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />, you just need to set the <ApiLink pkg="grids" type="{ComponentName}" member="rowSelection" prefixed={false} /> property. This property accepts <ApiLink pkg="grids" type="GridSelectionMode" kind="interface" prefixed={false} /> values.
+
+<ApiLink pkg="grids" type="GridSelectionMode" kind="interface" prefixed={false} /> exposes the following modes:
+
+- **None**
+- **Single**
+- **Multiple**
+
+<ComponentBlock for="TreeGrid">
+- **MultipleCascade**
+
+</ComponentBlock>
+
+Below we will take a look at each of them in more detail.
+
+### None Selection
+
+In the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> by default row selection is disabled (<ApiLink pkg="grids" type="{ComponentName}" member="rowSelection" prefixed={false} /> is None). So you can **not** select or deselect a row through interaction with the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> UI, the only way to complete these actions is to use the provided API methods.
+
+### Single Selection
+
+Single row selection can now be easily set up, the only thing you need to do, is to set <ApiLink pkg="grids" type="{ComponentName}" member="rowSelection" prefixed={false} /> to `Single` property. This gives you the opportunity to **select only one row within a grid**. You can select a row by clicking on a cell or pressing the <kbd>SPACE</kbd> key when you focus on a cell of the row, and of course you can select a row by clicking on the row selector field. When row is selected or deselected <ApiLink pkg="grids" type="{ComponentName}" member="rowSelectionChanging" prefixed={false} /> event is emitted.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="remote | async" [rowSelection]="'single'" [autoGenerate]="true"
+          (rowSelectionChanging)="handleRowSelection($event)" [allowFiltering]="true">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" row-selection="Single" auto-generate="true"
+        allow-filtering="true">
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    const grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.addEventListener("rowSelectionChanging", this.handleRowSelection);
+}
+```
+
+```ts
+public handleRowSelection(args: IgcRowSelectionEventArgs) {
+    if (args.detail.added.length && args.detail.added[0] === 3) {
+        args.detail.cancel = true;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const handleRowSelection = (args: IgrRowSelectionEventArgs) => {
+    if (args.detail.added.length && args.detail.added[0] === 3) {
+        args.detail.cancel = true;
+    }
+}
+
+<{ComponentSelector} rowSelection="single" autoGenerate={true} allowFiltering={true} onRowSelectionChanging={handleRowSelection}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Single
+             PrimaryKey="Key"
+             @ref=Grid
+             AutoGenerate=true
+             RowSelectionChanging='RowSelectionChanging'
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+@code {
+    private void RowSelectionChanging(IgbRowSelectionEventArgs args)
+    {
+        // handler for selection change
+    }
+}
+```
+</PlatformBlock>
+
+### Multiple Selection
+
+To enable multiple row selection in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> just set the <ApiLink pkg="grids" type="{ComponentName}" member="rowSelection" prefixed={false} /> property to `Multiple`. This will enable a row selector field on each row and in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> header. The row selector allows users to select multiple rows, with the selection persisting through scrolling, paging, and data operations, such as sorting and filtering. The row also can be selected by clicking on a cell or by pressing the <kbd>SPACE</kbd> key when a cell is focused. If you have selected one row and click on another while holding the <kbd>SHIFT</kbd> key, this will select the whole range of rows. In this selection mode, when you click on a single row, the previous selected rows will be deselected. If you **click** while holding the <kbd>CTRL</kbd> key, the row will be toggled and the previous selection will be preserved.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="remote | async" [primaryKey]="'ProductID'" [rowSelection]="'multiple'"
+        (rowSelectionChanging)="handleRowSelection($event)" [allowFiltering]="true" [autoGenerate]="true">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" primary-key="ProductID" row-selection="Multiple"
+        allow-filtering="true" auto-generate="true">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Multiple
+             PrimaryKey="Key"
+             @ref=Grid
+             AutoGenerate=true
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple"
+        allowFiltering={true} autoGenerate={true}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<ComponentBlock for="TreeGrid">
+### Cascade Selection
+
+To enable cascade row selection in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> just set the <ApiLink pkg="grids" type="{ComponentName}" member="rowSelection" prefixed={false} /> property to `MultipleCascade`. This will enable a row selector field on each row and in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> header. The row selector allows users to select multiple rows which would select all children in the tree below. The selection persists through scrolling, paging, and data operations, such as sorting and filtering. The row can also be selected by clicking on a cell or by pressing the <kbd>SPACE</kbd> key when a cell is focused. If you have selected one row and **click** on another while holding the <kbd>SHIFT</kbd> key, the selection of a parent record will select all of its children even if they are not in the selected range. In this selection mode, when you **click** on a single row, the previously selected rows will be deselected. If you **click** while holding the <kbd>CTRL</kbd> key, the row and its children will be toggled and the previous selection will be preserved.
+
+<PlatformBlock for="Angular">
+```html
+<igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="true"
+        [rowSelection]="'multipleCascade'" [allowFiltering]="true" (rowSelectionChanging)="handleRowSelection($event)">
+</igx-tree-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-tree-grid id="grid" primaryKey="ID" foreign-key="ParentID" auto-generate="true"
+        row-selection="MultipleCascade" allow-filtering="true">
+</igc-tree-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.MultipleCascade
+             PrimaryKey="Key"
+             @ref=Grid
+             AutoGenerate=true
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrTreeGrid primaryKey="ID" foreignKey="ParentID" autoGenerate={true}
+        rowSelection="multipleCascade" allowFiltering={true}>
+</IgrTreeGrid>
+```
+</PlatformBlock>
+
+In this mode a parent's selection state entirely depends on the selection state of its children. When a parent has some selected and some deselected children, its checkbox is in an indeterminate state.
+
+</ComponentBlock>
+
+**Notes**
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+<PlatformBlock for="Angular">
+- In order to have proper row selection and cell selection, while <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> has remote virtualization, a <ApiLink pkg="grids" type="{ComponentName}" member="primaryKey" prefixed={false} /> should be provided.
+- When the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> has remote virtualization, then clicking the header checkbox will select/deselect all records that are currently in the grid. When new data is loaded in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> on demand, newly added rows will not be selected and it is a limitation, so you should handle that behavior by yourself and you can select these rows by using the provided API methods.
+</PlatformBlock>
+
+</ComponentBlock>
+
+- Row selection will trigger <ApiLink pkg="grids" type="{ComponentName}" member="rowSelectionChanging" prefixed={false} /> event. This event gives you information about the **new selection**, **old selection**, the rows that have been **added** and **removed** from the old selection. Also the event is **cancellable**, so this allows you to prevent selection.
+- When row selection is enabled row selectors are displayed, but if you don't want to show them, you can set `HideRowSelectors` to **true**.
+- When you switch between row selection modes at runtime, this will clear the previous row selection state.
+
+
+## API usage
+
+### Select Rows Programmatically
+
+The code snippet below can be used to select one or multiple rows simultaneously (via <ApiLink pkg="grids" type="{ComponentName}" member="primaryKey" prefixed={false} />). Additionally, the second parameter of this method is a boolean property through which you may choose whether the previous row selection will be cleared or not. The previous selection is preserved by default.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid  [data]="remote | async"
+[primaryKey]="'ProductID'"
+[rowSelection]="'multiple'
+[autoGenerate]="true">
+</{ComponentSelector}>
+
+<button (click)="grid.selectRows([1,2,5], true)">Select 1,2 and 5</button>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Multiple
+             PrimaryKey="Key"
+             @ref=grid
+             AutoGenerate=true
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+    <IgbButton @onclick=Select>Select</IgbButton>
+    @code {
+        public {ComponentSelector} grid;
+        private async void Select()
+        {
+            object[] array = new object[] { 1,2, 5 };
+            await this.grid.SelectRowsAsync(array, true);
+        }
+    }
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid"
+primary-key="ProductID"
+row-selection="Multiple"
+auto-generate="true">
+</{ComponentSelector}>
+
+<button id='select'>Select 1,2 and 5</button>
+```
+
+```ts
+constructor() {
+    document.getElementById("select").addEventListener("click", this.onClickSelect);
+}
+public onClickSelect() {
+    const grid = document.getElementById("grid") as {ComponentName}Component;
+    grid.selectRows([1,2,5], true);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+function onClickSelect() {
+    gridRef.current.selectRows([1,2,5], true);
+}
+
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple" autoGenerate={true} ref={gridRef}>
+</{ComponentSelector}>
+<button onClick={onClickSelect}>Select 1,2 and 5</button>
+```
+</PlatformBlock>
+
+This will add the rows which correspond to the data entries with IDs 1, 2 and 5 to the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> selection.
+
+### Deselect Rows
+
+If you need to deselect rows programmatically, you can use the `DeselectRows` method.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid  [data]="remote | async"
+[primaryKey]="'ProductID'"
+[rowSelection]="'multiple'
+[autoGenerate]="true">
+</{ComponentSelector}>
+
+<button (click)="grid.deselectRows([1,2,5], true)">Select 1,2 and 5</button>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Multiple
+             PrimaryKey="Key"
+             @ref=grid
+             AutoGenerate=true
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+    <IgbButton @onclick=Deselect>Deselect</IgbButton>
+    @code {
+        public {ComponentSelector} grid;
+        private async void Deselect()
+        {
+            object[] array = new object[] { 1, 2, 5 };
+            await this.grid.DeselectRowsAsync(array);
+        }
+    }
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid"
+primary-key="ProductID"
+row-selection="Multiple"
+auto-generate="true">
+</{ComponentSelector}>
+
+<button id='deselect'>DeSelect</button>
+```
+
+```ts
+constructor() {
+    document.getElementById("deselect").addEventListener("click", this.onClickDeselect);
+}
+public onClickDeselect() {
+    const grid = document.getElementById("grid") as {ComponentName}Component;
+    grid.deselectRows([1,2,5]);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+function onClickDeselect() {
+    gridRef.current.deselectRows([1,2,5]);
+}
+
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple" autoGenerate={true} ref={gridRef}>
+</{ComponentSelector}>
+<button onClick={onClickDeselect}>Deselect 1,2 and 5</button>
+```
+</PlatformBlock>
+
+### Row Selection Event
+
+When there is some change in the row selection <ApiLink pkg="grids" type="{ComponentName}" member="rowSelectionChanging" prefixed={false} /> event is emitted. <ApiLink pkg="grids" type="{ComponentName}" member="rowSelectionChanging" prefixed={false} /> exposes the following arguments:
+- `OldSelection`  - array of row IDs that contains the previous state of the row selection.
+- `NewSelection` - array of row IDs that match the new state of the row selection.
+- `Added` - array of row IDs that are currently added to the selection.
+- `Removed` - array of row IDs that are currently removed according old selection state.
+- `Event` - the original event that triggered row selection change.
+- `Cancel` - allows you the prevent the row selection change.
+
+<ComponentBlock for="HierarchicalGrid">
+- `Owner` - if the event is triggered from a child grid, this will give you a reference to the component, from which the event is emitted.
+
+</ComponentBlock>
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} (rowSelectionChanging)="handleRowSelectionChange($event)">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid">
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    const grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.addEventListener("rowSelectionChanging", this.handleRowSelectionChange);
+}
+
+public handleRowSelectionChange(args) {
+    args.detail.cancel = true; // this will cancel the row selection
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const handleRowSelectionChange = (args: IgrRowSelectionEventArgs) => {
+    args.detail.cancel = true; // this will cancel the row selection
+}
+
+<{ComponentSelector} onRowSelectionChanging={handleRowSelectionChange}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Multiple
+             PrimaryKey="Key"
+             @ref=Grid
+             AutoGenerate=true
+             RowSelectionChanging='RowSelectionChanging'
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+@code {
+    private void RowSelectionChanging(IgbRowSelectionEventArgs args)
+    {
+        // handler
+    }
+}
+```
+</PlatformBlock>
+
+### Select All Rows
+
+Another useful API method that <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> provides is <ApiLink pkg="grids" type="{ComponentName}" member="selectAllRows" label="SelectAllRows" prefixed={false} />. By default this method will select all data rows, but if filtering is applied, it will select only the rows that match the filter criteria. If you call the method with **false** parameter, `SelectAllRows(false)` will always select all data in the grid, even if filtering is applied.
+
+> **Note** Keep in mind that `SelectAllRows` will not select the rows that are deleted.
+
+### Deselect All Rows
+
+<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> provides a <ApiLink pkg="grids" type="{ComponentName}" member="deselectAllRows" label="DeselectAllRows" prefixed={false} /> method, which by default will deselect all data rows, but if filtering is applied will deselect only the rows that match the filter criteria. If you call the method with **false** parameter, `DeselectAllRows(false)` will always clear all row selection state even if filtering is applied.
+
+### How to get Selected Rows
+
+If you need to see which rows are currently selected, you can get their row IDs with the <ApiLink pkg="grids" type="{ComponentName}" member="selectedRows" prefixed={false} /> getter.
+
+<PlatformBlock for="WebComponents">
+```ts
+public getSelectedRows() {
+    const grid = document.getElementById('grid') as {ComponentName}Component;
+    const currentSelection = grid.selectedRows; // return array of row IDs
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Multiple
+             PrimaryKey="Key"
+             @ref=grid
+             AutoGenerate=true
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+    <IgbButton @onclick=GetSelected>Get selected</IgbButton>
+    @code {
+        public {ComponentSelector} grid;
+        private async void GetSelected()
+        {
+            var selected = this.grid.SelectedRows;
+        }
+    }
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+function getSelectedRows() {
+    return gridRef.current.selectedRows;
+}
+```
+</PlatformBlock>
+
+Additionally, assigning row IDs to <ApiLink pkg="grids" type="{ComponentName}" member="selectedRows" prefixed={false} /> will allow you to change the grid's selection state.
+
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple" [autoGenerate]="false" [selectedRows]="mySelectedRows" [data]="data">
+    <igx-column [field]="'ProductID'"></igx-column>
+    <igx-column [field]="'ProductName'"></igx-column>
+    <igx-column [field]="'UnitsInStock'"></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public mySelectedRows = [1, 2, 3]; // an array of row IDs
+constructor() {
+    const grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.selectedRows = this.mySelectedRows;
+}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+```tsx
+const mySelectedRows = [1,2,3];
+
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple" autoGenerate={false} selectedRows={mySelectedRows}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Multiple
+             PrimaryKey="Key"
+             SelectedRows=selectedRows
+             @ref=Grid
+             AutoGenerate=true
+             Data=northwindEmployees>
+</{ComponentSelector}>
+
+@code {
+    public object[] selectedRows = new object[] { 1, 2, 5 };
+}
+```
+</PlatformBlock>
+
+### Row Selector Templates
+
+You can template header and row selectors in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> and also access their contexts which provide useful functionality for different scenarios.
+
+By default, the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> **handles all row selection interactions** on the row selector's parent container or on the row itself, leaving just the state visualization for the template. Overriding the base functionality should generally be done using the [RowSelectionChanging event](#row-selection-event). In case you implement a custom template with a `Click` handler which overrides the base functionality, you should stop the event's propagation to preserve the correct row state.
+
+#### Row Template
+
+
+To create a custom row selector template,  within the `{ComponentSelector}` you can use the `RowSelectorTemplate` property. From the template you can access the implicitly provided context variable, with properties that give you information about the row's state.
+
+The <ApiLink pkg="grids" type="Column" member="selected" /> property shows whether the current row is selected or not while the `Index` property can be used to access the row index.
+
+<PlatformBlock for="Angular">
+```html
+<ng-template igxRowSelector let-rowContext>
+    {{ rowContext.index }}
+    <igx-checkbox
+        [checked]="rowContext.selected"
+        [readonly]="true"
+    ></igx-checkbox>
+</ng-template>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+igRegisterScript("WebGridRowSelectorTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    if (ctx.implicit.selected) {
+        return html`<div style="justify-content: space-evenly;display: flex;width: 70px;">
+    <span> ${ctx.implicit.index}</span>
+<igc-checkbox checked></igc-checkbox>
+</div>`;
+    } else {
+        return html`<div style="justify-content: space-evenly;display: flex;width: 70px;">
+    <span> ${ctx.implicit.index}</span>
+<igc-checkbox></igc-checkbox>
+</div>`;
+    }
+}, false);
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public rowSelectorTemplate = (ctx: IgcRowSelectorTemplateContext) => {
+    if (ctx.implicit.selected) {
+        return html`<div style="justify-content: space-evenly;display: flex;width: 70px;">
+            <span> ${ctx.implicit.index}</span>
+            <igc-checkbox checked></igc-checkbox>
+            </div>`;
+    } else {
+        return html`<div style="justify-content: space-evenly;display: flex;width: 70px;">
+            <span> ${ctx.implicit.index}</span>
+            <igc-checkbox></igc-checkbox>
+            </div>`;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const rowSelectorTemplate = (ctx: IgrRowSelectorTemplateContext) => {
+    if (ctx.implicit.selected) {
+        return (
+            <>
+                <div style={{justifyContent: 'space-evenly', display: 'flex', width: '70px'}}>
+                    <span> ${ctx.implicit.index}</span>
+                    <IgrCheckbox checked></IgrCheckbox>
+                </div>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <div style={{justifyContent: 'space-evenly', display: 'flex', width: '70px'}}>
+                    <span> ${ctx.implicit.index}</span>
+                    <IgrCheckbox></IgrCheckbox>
+                </div>
+            </>
+        );
+    }
+}
+
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple" autoGenerate="false" rowSelectorTemplate={rowSelectorTemplate}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+The `RowID` property can be used to get a reference of an `{ComponentSelector}` row. This is useful when you implement a `click` handler on the row selector element.
+
+<PlatformBlock for="Angular">
+```html
+<ng-template igxRowSelector let-rowContext>
+    <igx-checkbox (click)="onSelectorClick($event, rowContext.key)"></igx-checkbox>
+</ng-template>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public rowSelectorTemplate = (ctx: IgcRowSelectorTemplateContext) => {
+    return html`
+        <igc-checkbox
+            @click="${(event: any) => {
+            this.onSelectorClick(event, ctx.implicit.key);
+            }}"
+        ></igc-checkbox>
+    `;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const rowSelectorTemplate = (ctx: IgrRowSelectorTemplateContext) => {
+    return (
+        <>
+            <IgrCheckbox onClick={(event) => onSelectorClick(event, ctx.implicit.key)}>
+            </IgrCheckbox>
+        </>
+    );
+}
+```
+</PlatformBlock>
+
+In the above example we are using an `Checkbox` and we bind `rowContext.selected` to its `Checked` property. See this in action in our [Row Numbering Demo](#row-numbering-demo).
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Aside type="note">
+The `rowContext.select()` and `rowContext.deselect()` methods are exposed in the template context of an `{ComponentSelector}`. They make it easier to toggle the current row, especially in a child grid, when you implement a click handler that overrides the base functionality.
+</Aside>
+
+</ComponentBlock>
+
+### Header Template
+
+To create a custom header selector template, within the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />, you can use the `HeadSelectorTemplate` property. From the template you can access the implicitly provided context variable, with properties that give you information about the header's state.
+
+The `SelectedCount` property shows you how many rows are currently selected while `TotalCount` shows you how many rows there are in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> in total.
+
+<PlatformBlock for="Angular">
+```html
+<ng-template igxHeadSelector let-headContext>
+    {{ headContext.selectedCount }} / {{ headContext.totalCount  }}
+</ng-template>
+```
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+```ts
+public headSelectorTemplate = (ctx: IgcHeadSelectorTemplateContext) => {
+    return html` ${ctx.implicit.selectedCount} / ${ctx.implicit.totalCount} `;
+};
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const headSelectorTemplate = (ctx: IgrHeadSelectorTemplateContext) => {
+    return (
+        <>
+            {ctx.implicit.selectedCount} / {ctx.implicit.totalCount}
+        </>
+    );
+};
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+public RenderFragment<IgbHeadSelectorTemplateContext> Template = (context) =>
+{
+    return @<div> <img style="min-width:80px;" src="https://www.infragistics.com/angular-demos-lob/assets/images/card/avatars/igLogo.png"/></div>;
+};
+```
+</PlatformBlock>
+
+The `SelectedCount` and `TotalCount` properties can be used to determine if the head selector should be checked or indeterminate (partially selected).
+
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="gridData" primaryKey="ProductID" rowSelection="multiple">
+    <ng-template igxHeadSelector let-headContext>
+        <igx-checkbox
+            [checked]=" headContext.selectedCount > 0 && headContext.selectedCount === headContext.totalCount"
+            [indeterminate]="headContext.selectedCount > 0 && headContext.selectedCount !== headContext.totalCount">
+        </igx-checkbox>
+    </ng-template>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid"
+primary-key="ProductID"
+row-selection="Multiple"
+auto-generate="true">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    const grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.headSelectorTemplate = this.headSelectorTemplate;
+}
+
+public headSelectorTemplate = (ctx: IgcHeadSelectorTemplateContext) => {
+    const implicit: any = ctx.implicit;
+    if (implicit.selectedCount > 0 && implicit.selectedCount === implicit.totalCount) {
+            return html`<igc-checkbox checked></igc-checkbox>`;
+        } else if (implicit.selectedCount > 0 && implicit.selectedCount !== implicit.totalCount) {
+            return html`<igc-checkbox indeterminate></igc-checkbox>`;
+        }
+        return html`<igc-checkbox></igc-checkbox>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const headSelectorTemplate = (ctx: IgrHeadSelectorTemplateContext) => {
+    const implicit: any = ctx.implicit;
+    if (implicit.selectedCount > 0 && implicit.selectedCount === implicit.totalCount) {
+            return (
+                <>
+                    <IgrCheckbox checked></IgrCheckbox>
+                </>
+            );
+        } else if (implicit.selectedCount > 0 && implicit.selectedCount !== implicit.totalCount) {
+            return (
+                <>
+                    <IgrCheckbox indeterminate></IgrCheckbox>
+                </>
+            );
+        }
+        return (
+            <>
+                <IgrCheckbox ></IgrCheckbox>
+            </>
+        );
+}
+
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple" autoGenerate={true} headSelectorTemplate={headSelectorTemplate}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+Each hierarchy level in an `{ComponentSelector}` can have its own row and header templating.
+
+<Aside type="note">
+The `headContext.selectAll()` and `headContext.deselectAll()` methods are exposed in the template context of an `{ComponentSelector}`. They make it easier to toggle all rows, especially in a child grid, when you implement a click handler that overrides the base functionality.
+</Aside>
+
+</ComponentBlock>
+
+### Row Numbering Demo
+
+This demo shows the usage of custom header and row selectors. The latter uses `RowContext.Index` to display row numbers and an `Checkbox` bound to `RowContext.Selected`.
+
+<Sample src="/{ComponentSample}/row-selection-template-numbers" height={550} alt="{Platform} {ComponentTitle} Selection Template Numbering Example" />
+
+
+
+<ComponentBlock for="Grid, TreeGrid">
+### Excel Style Row Selectors Demo
+
+This demo uses custom templates to resemble Excel-like header and row selectors.
+
+
+<Sample src="/{ComponentSample}/row-selection-template-excel" height={550} alt="{Platform} {ComponentTitle} Selection Template Excel Example" />
+
+
+</ComponentBlock>
+
+### Conditional Selection Demo
+
+This demo prevents some rows from being selected using the <ApiLink pkg="grids" type="{ComponentName}" member="rowSelectionChanging" prefixed={false} /> event and a custom template with disabled checkbox for non-selectable rows.
+
+<Sample src="/{ComponentSample}/conditional-row-selectors" height={550} alt="{Platform} {ComponentTitle} Conditional Row Selectors Example" />
+
+
+## API References
+
+<ApiRef pkg="grids" types={["{ComponentName}","{ComponentName}Row"]} prefixed={false} />
+<ApiRef pkg="grids" types={["RowSelectorTemplateDetails","HeadSelectorTemplateDetails","Checkbox"]} />
+
+## Additional Resources
+
+<ComponentBlock for="Grid, TreeGrid">
+- [Selection](selection.md)
+- [Cell selection](cell-selection.md)
+- [Paging](paging.md)
+- [Filtering](filtering.md)
+- [Sorting](sorting.md)
+- [Summaries](summaries.md)
+- [Column Moving](column-moving.md)
+- [Column Pinning](column-pinning.md)
+- [Column Resizing](column-resizing.md)
+- [Virtualization and Performance](virtualization.md)
+</ComponentBlock>
+
+Our community is active and always welcoming to new ideas.
+
+- [{ProductName} **Forums**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

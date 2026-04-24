@@ -1,0 +1,291 @@
+---
+title: Angular Virtual For Directive - MIT license  
+description: Ignite UI for Angular now exposes a virtual igxFor directive similar to ngFor, which virtualizes DOM object rendering by visualizing only the visible chunks of the data in the DOM.
+keywords: Angular Virtual ForOf Directive, Native Angular Components Suite, Angular UI Components, Native Angular Components Library, Virtualization, Performance, Virtual directive, Angular Virtual For
+license: MIT
+---
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# Angular Virtual ForOf Directive Overview
+
+<div class="highlight">
+The Ignite UI for Angular igxForOf directive is an alternative to ngForOf for templating large amounts of data. It uses virtualization behind the scenes to optimize DOM rendering and memory consumption.
+</div>
+
+## Angular Virtual For Directive Example
+
+<Sample src="/data-display/igx-for-sample-1" height={650} alt="Angular Virtual For Directive Example" />
+
+<div class="divider"></div>
+
+## Getting Started with Ignite UI for Angular Virtual ForOf Directive
+
+To get started with the Ignite UI for Angular <ApiLink type="ForOfDirective" suffix={false} member="igxForOf" label="igxFor" /> directive, first you need to install Ignite UI for Angular. In an existing Angular application, type the following command:
+
+```cmd
+ng add igniteui-angular
+```
+
+For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
+
+The next step is to import the `IgxForOfModule` in your **app.module.ts** file.
+
+```typescript
+// app.module.ts
+
+import { IgxForOfModule } from 'igniteui-angular/directives';
+// import { IgxForOfModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        ...
+        IgxForOfModule,
+        ...
+    ]
+})
+export class AppModule {}
+```
+
+Alternatively, as of `16.0.0` you can import the `IgxForOfDirective` as a standalone dependency.
+
+```typescript
+// home.component.ts
+
+import { IgxForOfDirective } from 'igniteui-angular/directives';
+// import { IgxForOfDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <span #container>
+        <ng-template *igxFor="data"></ng-template>
+    </span>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IgxForOfDirective]
+})
+export class HomeComponent {
+    public data: Employee [];
+}
+```
+
+Now that you have the Ignite UI for Angular Tree Grid module or directives imported, you can start using the `igxFor` directive.
+
+## Using the Angular Virtual ForOf
+
+Now that we have the module or directive imported, let’s get started with a basic configuration of the `igxFor` that binds to local data:
+
+```html
+<span #container>
+    <ng-template *igxFor="data"></ng-template>
+</span>
+```
+
+The **data** property is an array that provides the data objects used to construct the virtualized DOM.
+
+## Examples
+
+The `igxFor` directive can be used to virtualize the data in vertical, horizontal or both directions.
+
+Virtualization works similarly to Paging by slicing the data into smaller chucks which are swapped from a container viewport while the user scrolls the data horizontally/vertically. The difference with the Paging is that virtualization mimics the natural behavior of the scrollbar. The `igxFor` directive is creating scrollable containers and renders small chunks of the data. It is used inside the <ApiLink type="Grid" label="igxGrid" /> and it can be used to build a virtual <ApiLink type="List" label="igx-list" />.
+
+### Vertical virtualization
+
+```html
+<igx-list>
+    <div [style.height]="'500px'" [style.overflow]="'hidden'" [style.position]="'relative'">
+        <igx-list-item [style.width]="'calc(100% - 18px)'"
+            *igxFor="let item of data | igxFilter: fo;
+                     scrollOrientation : 'vertical';
+                     containerSize: '500px'; 
+                     itemSize: '50px'">
+            <div class="contact">
+
+                <span class="name">{{item.name}}</span>
+            
+</div>
+        </igx-list-item>
+    
+</div>
+</igx-list>
+```
+
+_**Note:**_ It is strongly advised that the parent container of the <ApiLink type="ForOfDirective" suffix={false} member="igxForOf" label="igxForOf" /> template has the following CSS rules applied: `height` for vertical and `width` for horizontal, `overflow: hidden` and `position: relative`. This is because the smooth scrolling behavior is achieved through content offsets that could visually affect other parts of the page if they remain visible.
+
+### Horizontal virtualization
+
+```html
+<igx-list>
+    <div [style.width]="'880px'" [style.overflow]="'hidden'" [style.position]="'relative'">
+        <igx-list-item [style.width]="'220px'"
+            *igxFor="let item of data | igxFilter: fo;
+                     scrollOrientation : 'horizontal'; 
+                     containerSize: '880px'; 
+                     itemSize: '220px'">
+            <div class="contact">
+
+                <span class="name">{{item.name}}</span>
+            
+</div>
+        </igx-list-item>
+    
+</div>
+</igx-list>
+```
+
+<Sample src="/data-display/igx-for-sample-2" height={240} alt="" />
+
+<hr/>
+
+### Horizontal and vertical virtualization
+
+```html
+<table #container [style.width]='width' 
+    [style.height]='height'
+    [style.overflow]='"hidden"'
+    [style.position]='"relative"'>
+    <ng-template #scrollContainer igxFor let-rowData
+        [igxForOf]="data"
+        [igxForScrollOrientation]="'vertical'"
+        [igxForContainerSize]='height'
+        [igxForItemSize]='"50px"'>
+        <tr [style.display]="'flex'" [style.height]="'50px'">
+            <ng-template #childContainer igxFor let-col
+                [igxForOf]="cols"
+                [igxForScrollOrientation]="'horizontal'"
+                [igxForScrollContainer]="parentVirtDir"
+                [igxForContainerSize]='width'>
+                    <td [style.min-width]='col.width + "px"'>
+                        {{rowData[col.field]}}
+                    </td>
+            </ng-template>
+        </tr>
+    </ng-template>
+</table>
+```
+
+The `igxFor` directive is used to virtualize data in both vertical and horizontal directions inside the `igxGrid`.
+
+Follow the [Grid Virtualization](/grid/virtualization) topic for more detailed information and demos.
+
+### igxFor bound to remote service
+
+The <ApiLink type="ForOfDirective" suffix={false} member="igxForOf" label="igxForOf" /> directive can be bound to a remote service using the `Observable` property - `remoteData` (in the following case). The `chunkLoading` event should also be utilized to trigger the requests for data.
+
+```html
+<div style='height: 500px; overflow: hidden; position: relative;'>
+    <ng-template igxFor let-item [igxForOf]="remoteData | async"
+        (chunkPreload)="chunkLoading($event)"
+        [igxForScrollOrientation]="'vertical'"
+        [igxForContainerSize]='"500px"'
+        [igxForItemSize]='"50px"'
+        [igxForRemote]='true'
+        let-rowIndex="index" #virtDirRemote>
+        <div style='height:50px;'>{{item.ProductID}} : {{item.ProductName}}
+</div>
+    </ng-template>
+</div>
+```
+
+_**Note:**_ There is a requirement to set the <ApiLink type="ForOfDirective" suffix={false} member="totalItemCount" label="totalItemCount" /> property in the instance of <ApiLink type="ForOfDirective" suffix={false} member="igxForOf" label="igxForOf" />.
+
+```typescript
+this.virtDirRemote.totalItemCount = data['@odata.count'];
+```
+
+In order to access the directive instance from the component, it should be marked as `ViewChild`:
+
+```typescript
+@ViewChild('virtDirRemote', { read: IgxForOfDirective })
+public virtDirRemote: IgxForOfDirective<any>;
+```
+
+After the request for loading the first chunk, the <ApiLink type="ForOfDirective" suffix={false} member="totalItemCount" label="totalItemCount" /> can be set:
+
+```typescript
+public ngAfterViewInit() {
+    this.remoteService.getData(this.virtDirRemote.state, (data) => {
+        this.virtDirRemote.totalItemCount = data['@odata.count'];
+    });
+}
+```
+
+When requesting data you can take advantage of the <ApiLink type="ForOfState" suffix={false} member="state" label="IgxForOfState" /> interface, which provides the <ApiLink type="ForOfDirective" suffix={false} member="state.startindex" label="startIndex" /> and <ApiLink type="ForOfDirective" suffix={false} member="state.chunkSize" label="chunkSize" /> properties. Note that initially the chunkSize will be 0, so you have to specify the size of the first loaded chunk (the best value is the initial <ApiLink type="ForOfDirective" suffix={false} member="igxforcontainersize" label="igxForContainerSize" /> divided by the <ApiLink type="ForOfDirective" suffix={false} member="igxForItemSize" label="igxForItemSize" />).
+
+```typescript
+public getData(data?: IForOfState, cb?: (any) => void): any {
+    var dataState = data;
+    return this.http
+        .get(this.buildUrl(dataState))
+        .map((response) => response.json())
+        .map((response) => {
+            return response;
+        })
+        .subscribe((data) => {
+            this._remoteData.next(data.value);
+            if (cb) {
+                cb(data);
+            }
+        });
+}
+
+private buildUrl(dataState: any): string {
+    let qS: string = '?', requiredChunkSize: number;
+    if (dataState) {
+        const skip = dataState.startIndex;
+            requiredChunkSize =  dataState.chunkSize === 0 ?
+            // Set initial chunk size, the best value is igxForContainerSize
+            // initially divided by igxForItemSize
+            10 : dataState.chunkSize;
+        const top = requiredChunkSize;
+        qS += `$skip=${skip}&$top=${top}&$count=true`;
+    }
+    return `${this.url}${qS}`;
+}
+```
+
+Every time the <ApiLink type="ForOfDirective" suffix={false} member="chunkPreload" label="chunkPreload" /> event is thrown, a new chunk of data should be requested:
+
+```typescript
+chunkLoading(evt) {
+    if(this.prevRequest){
+        this.prevRequest.unsubscribe();
+     }
+     this.prevRequest = this.remoteService.getData(evt, ()=> {
+        this.virtDirRemote.cdr.detectChanges();
+    });
+}
+```
+
+## Local Variables
+
+The `igxFor` directive includes the following helper properties in its context: `even`, `odd`, `first` and `last`. They are used to identify the current element position in the collection. The following code snippet demonstrates how to use the `even` property in an `ng-template`. Аn `even` class will be assigned to every even div element:
+
+```html
+<ng-template igxFor let-item let-isEven="even"
+             [igxForOf]="data" 
+             [igxForScrollOrientation]="'vertical'" >
+    <div [ngClass]="{even: isEven}"></div>
+</ng-template>
+```
+
+## Known Limitations
+
+|Limitation|Description|
+|--- |--- |
+| `scrollTo` method does not work correctly when the content size of the rendered templates changes post initialization | When the elements inside the template have a size, that changes runtime after initialization (for example as a result of content projection, remote request resolution etc.), then the `scrollTo` method will not be able to scroll to the correct index. The method will scroll to the position of the index before the runtime size change occurs, hence the location will not be correct after the size is changed later. A possible workaround is to use templates that do not change their size based on their content if the content is loaded later. |
+
+## API References
+
+- <ApiLink type="ForOfDirective" suffix={false} />
+- <ApiLink type="Grid" />
+- <ApiLink type="List" />
+
+## Additional Resources
+
+<hr/>
+Our community is active and always welcoming to new ideas.
+* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

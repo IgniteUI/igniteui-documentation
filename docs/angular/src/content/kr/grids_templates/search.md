@@ -45,7 +45,7 @@ While browsers natively provide content search functionality, most of the time t
 <div class="divider--half"></div>
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-<!-- TODO -->
+{/* TODO */}
 }
 
 ### 사용 방법
@@ -81,7 +81,7 @@ While browsers natively provide content search functionality, most of the time t
 ```
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-<!-- TODO -->
+{/* TODO */}
 }
 
 @@if (igxName === 'IgxGrid' || igxName === 'IgxTreeGrid') {
@@ -110,7 +110,7 @@ While browsers natively provide content search functionality, most of the time t
 ```
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-<!-- TODO -->
+{/* TODO */}
 }
 
 이제 @@igComponent의 검색 API를 구성합니다! 현재 검색된 텍스트를 저장하고 검색에서 대/소문자를 구분할지 여부에 사용할 수 있는 몇 가지 속성을 작성할 수 있습니다.

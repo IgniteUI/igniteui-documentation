@@ -1,0 +1,358 @@
+<ComponentBlock for="Grid">
+---
+title: Angular Data Grid の高度なフィルタリング - Ignite UI for Angular
+description: Angular テーブルを使用してデータの高度なフィルターを構成する方法を学びます。グリッドの高度なフィルタリングは、これまで以上に便利で魅力的です。
+keywords: 高度なフィルター, igniteui for angular, インフラジスティックス
+license: commercial
+_language: ja
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+---
+title: Angular Data Grid の高度なフィルタリング - Ignite UI for Angular
+description: Angular テーブルを使用してデータの高度なフィルターを構成する方法を学びます。グリッドの高度なフィルタリングは、これまで以上に便利で魅力的です。
+keywords: 高度なフィルター, igniteui for angular, インフラジスティックス
+license: commercial
+_language: ja
+---
+
+</ComponentBlock>
+
+import { Aside } from '@astrojs/starlight/components';
+import Sample from 'docs-template/components/mdx/Sample.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# Angular {ComponentTitle} 高度なフィルタリング
+
+高度なフィルタリングは、{ComponentTitle} のような任意の [Angular テーブル](https://jp.infragistics.com/products/ignite-ui-angular/angular/components/grid/grid)の全列に及ぶフィルタリング条件を持つグループを作成できるダイアログを提供します。
+
+## Angular {ComponentTitle} 高度なフィルタリングの例
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-advanced-filtering" height={530} alt="Angular {ComponentTitle} 高度なフィルタリングの例" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-advanced-filtering" height={510} alt="Angular {ComponentTitle} 高度なフィルタリングの例" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-advanced-filtering" height={630} alt="Angular {ComponentTitle} 高度なフィルタリングの例" />
+
+</ComponentBlock>
+
+<div class="divider--half"></div>
+
+## インタラクション
+
+**高度なフィルタリング** ダイアログを開くには、グリッドツールバーの高度なフィルタリングボタンをクリックする必要があります。ダイアログはフィルタリング ロジックを生成、表示、編集するために <ApiLink type="QueryBuilder" suffix={false} /> コンポーネントを使用しています。インタラクション プロセスの詳細については、[`Query Builder トピック`](../query-builder.md#ignite-ui-for-angular-query-builder-を使用した作業の開始)を参照してください。
+
+フィルタリング条件とグループを作成する準備後にデータをフィルタリングするには、**[適用]** ボタンをクリックします。拡張フィルターを変更後、変更を保存したくない場合は、**[キャンセル]** ボタンをクリックします。**[フィルターのクリア]** ボタンをクリックして、高度なフィルターをクリアすることもできます。
+
+## 使用方法
+
+高度なフィルタリングを有効にするには <ApiLink type="{ComponentApiType}" member="allowAdvancedFiltering" label="allowAdvancedFiltering" /> 入力プロパティを true に設定します。
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [data]="data" [autoGenerate]="true" [allowAdvancedFiltering]="true">
+    <igx-grid-toolbar></igx-grid-toolbar>
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid [data]="data" [autoGenerate]="true" [allowAdvancedFiltering]="true">
+    <igx-grid-toolbar></igx-grid-toolbar>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid [data]="data" [autoGenerate]="true" [allowAdvancedFiltering]="true">
+    <igx-grid-toolbar></igx-grid-toolbar>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+高度なフィルタリングは、<ApiLink type="{ComponentApiType}" member="advancedFilteringExpressionsTree" label="advancedFilteringExpressionsTree" /> 入力プロパティに保存される <ApiLink type="FilteringExpressionsTree" suffix={false} prefixed={false} /> を生成します。このプロパティを使用して、高度なフィルタリングの初期状態を設定できます。
+
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+
+```typescript
+ngAfterViewInit(): void {
+    const tree = new FilteringExpressionsTree(FilteringLogic.And);
+    tree.filteringOperands.push({
+        fieldName: 'ID',
+        condition: IgxStringFilteringOperand.instance().condition('contains'),
+        searchVal: 'a',
+        ignoreCase: true
+    });
+    const subTree = new FilteringExpressionsTree(FilteringLogic.Or);
+    subTree.filteringOperands.push({
+        fieldName: 'ContactTitle',
+        condition: IgxStringFilteringOperand.instance().condition('doesNotContain'),
+        searchVal: 'b',
+        ignoreCase: true
+    });
+    subTree.filteringOperands.push({
+        fieldName: 'CompanyName',
+        condition: IgxStringFilteringOperand.instance().condition('startsWith'),
+        searchVal: 'c',
+        ignoreCase: true
+    });
+    tree.filteringOperands.push(subTree);
+    
+    this.{ComponentObjectRef}.advancedFilteringExpressionsTree = tree;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```TypeScript
+ngAfterViewInit(): void {
+    const tree = new FilteringExpressionsTree(FilteringLogic.Or);
+    tree.filteringOperands.push({
+        fieldName: 'Artist',
+        condition: IgxStringFilteringOperand.instance().condition('startsWith'),
+        conditionName: IgxStringFilteringOperand.instance().condition('startsWith').name,
+        searchVal: 'A'
+    });
+    const subTree = new FilteringExpressionsTree(FilteringLogic.And);
+    subTree.filteringOperands.push({
+        fieldName: 'GrammyAwards',
+        condition: IgxNumberFilteringOperand.instance().condition('greaterThanOrEqualTo'),
+        conditionName: IgxNumberFilteringOperand.instance().condition('greaterThanOrEqualTo').name,
+        searchVal: 1
+    });
+    subTree.filteringOperands.push({
+        fieldName: 'Debut',
+        condition: IgxNumberFilteringOperand.instance().condition('lessThan'),
+        conditionName: IgxNumberFilteringOperand.instance().condition('lessThan').name,
+        searchVal: 2000
+    });
+    tree.filteringOperands.push(subTree);
+    this.{ComponentObjectRef}.advancedFilteringExpressionsTree = tree;
+}
+```
+
+`IgxHierarchicalGrid` の高度なフィルタリングでは、_IN / NOT-IN_ 演算子を使用して、子グリッド データに基づいてルート グリッド データをフィルタリングできます。この演算子により、サブクエリを作成して、より複雑なフィルタリング ロジックを定義できます。この機能の詳細については、[クエリ ビルダーの「サブクエリの使用」セクション](../query-builder-model.md#サブクエリの使用)を参照してください。以下はサブクエリを含むサンプル <ApiLink type="FilteringExpressionsTree" suffix={false} prefixed={false} /> です。
+
+```TypeScript
+ngAfterViewInit(): void {
+    const albumsTree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Albums', ['Artist']);
+    albumsTree.filteringOperands.push({
+        fieldName: 'LaunchDate',
+        condition: IgxDateFilteringOperand.instance().condition('after'),
+        conditionName: IgxDateFilteringOperand.instance().condition('after').name,
+        searchVal: new Date(2017, 1, 1)
+    });
+    const tree = new FilteringExpressionsTree(FilteringLogic.And);
+    tree.filteringOperands.push({
+        fieldName: 'Artist',
+        condition: IgxStringFilteringOperand.instance().condition('inQuery'),
+        conditionName: IgxStringFilteringOperand.instance().condition('inQuery').name,
+        searchTree: albumsTree
+    });
+    this.{ComponentObjectRef}.advancedFilteringExpressionsTree = tree;
+}
+```
+
+リモート データを使用する場合は、`IgxHierarchicalGrid` の <ApiLink type="HierarchicalGrid" member="schema" label="schema" /> プロパティを設定する必要があります。詳細なガイダンスについては、[`ロードオンデマンド`](../hierarchicalgrid/load-on-demand.md)のトピックを参照してください。
+</ComponentBlock>
+
+{ComponentTitle} ツールバーを表示したくない場合は、<ApiLink type="{ComponentApiType}" member="openAdvancedFilteringDialog" label="openAdvancedFilteringDialog" /> および <ApiLink type="{ComponentApiType}" member="closeAdvancedFilteringDialog" label="closeAdvancedFilteringDialog" /> メソッドを使用して、高度なフィルタリング ダイアログをコーディングを使用して開いたり閉じたりできます。
+
+<Aside type="note" title="注">
+{ComponentTitle} で `quickFilter`/`excelStyleFilter` と高度なフィルタリング ユーザー インターフェイスの両方を有効にできます。両フィルタリング ユーザー インターフェイスは、互いに依存せずに機能します。{ComponentTitle} の最終的なフィルター結果は、2 つのフィルターの結果の共通部分です。
+</Aside>
+
+## 外部の高度なフィルタリング
+
+上記デモで示されるように、高度なフィルタリング ダイアログは、{ComponentTitle} の上にあるオーバーレイでホストされます。ダイアログのセットアップの準備ができたときに、適用または閉じる操作によってダイアログが非表示になります。ダイアログはスタンドアロン コンポーネントとして使用した場合、常に表示になります。以下のデモでは、高度なフィルタリングダイアログが {ComponentTitle} とは別に宣言されます。
+
+### デモ
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-external-advanced-filtering" height={750} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-external-advanced-filtering" height={750} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-external-advanced-filtering" height={750} alt="" />
+
+</ComponentBlock>
+
+### 使用方法
+
+{ComponentTitle} の外部で動作するように高度なフィルタリングを構成する方法は簡単です。ダイアログを作成して、その <ApiLink type="GridToolbarAdvancedFiltering" member="grid" label="grid" /> プロパティを設定するだけです。
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-advanced-filtering-dialog [grid]="grid1">
+</igx-advanced-filtering-dialog>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-advanced-filtering-dialog [grid]="treegrid1">
+</igx-advanced-filtering-dialog>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-advanced-filtering-dialog [grid]="hierarchicalGrid">
+</igx-advanced-filtering-dialog>
+```
+
+</ComponentBlock>
+
+また、[ドラッグアンドドロップ App Builder™](https://jp.infragistics.com/products/appbuilder) が、デザインから Angular コード作成へのストーリー全体をどのように効率化できるかを確認することもできます。
+
+<div class="divider--half"></div>
+
+## スタイル設定
+
+高度なフィルタリング ダイアログのスタイル設定は、すべてのテーマ関数とコンポーネント ミックスインが存在する `index` ファイルをインポートする必要があります。
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// 重要: Ignite UI for Angular 13 より前のバージョンは、次を使用してください。
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+高度なフィルタリング ダイアログは <ApiLink type="QueryBuilder" suffix={false} /> コンポーネントを使用するため、[`query-builder-theme`]({environment:sassApiUrl}/themes#query-builder-theme) を使用してスタイルを設定できます。ヘッダー タイトルのスタイルを設定するには、[`query-builder-theme`]({environment:sassApiUrl}/themes#query-builder-theme) を拡張するカスタム テーマを作成し、`$header-foreground` パラメーターを設定します。
+
+```scss
+$custom-query-builder: query-builder-theme(
+  $header-foreground: #512da8
+);
+```
+
+<Aside type="note" title="注">
+上記のようにカラーの値をハードコーディングする代わりに、[`palette`]({environment:sassApiUrl}/palettes#function-palette) および [`color`]({environment:sassApiUrl}/palettes#function-color) 関数を使用してカラーに関してより高い柔軟性を実現することができます。使い方の詳細については[`パレット`](/themes/sass/palettes.md)のトピックをご覧ください。
+</Aside>
+
+最後にコンポーネントのテーマをアプリケーションに**含めます**。
+
+```scss
+$custom-query-builder: query-builder-theme(
+  $header-foreground: #512da8,
+  $color-expression-group-and:  #eb0000,
+  $color-expression-group-or: #0000f3,
+  $subquery-header-background: var(--ig-gray-300),
+  $subquery-border-color: var(--ig-warn-500),
+  $subquery-border-radius: rem(4px)
+);
+
+igx-advanced-filtering-dialog {
+  @include tokens($custom-query-builder);
+}
+```
+
+<Aside type="note" title="注">
+作成した **query-builder-theme** を `igx-advanced-filtering-dialog` 内に含めることで、このカスタム テーマは高度なフィルタリング ダイアログ内のクエリ ビルダーにのみに影響します。そうしない場合、アプリケーション内の他のクエリ ビルダー コンポーネントにも影響します。
+</Aside>
+
+<Aside type="note" title="注">
+コンポーネントが [`Emulated`](/themes/sass/component-themes.md#表示のカプセル化) ViewEncapsulation を使用している場合、`::ng-deep` を使用してこのカプセル化を解除する必要があります。
+</Aside>
+
+```scss
+$custom-query-builder: query-builder-theme(
+  $header-foreground: #512da8,
+  $color-expression-group-and:  #eb0000,
+  $color-expression-group-or: #0000f3,
+  $subquery-header-background: var(--ig-gray-300),
+  $subquery-border-color: var(--ig-warn-500),
+  $subquery-border-radius: rem(4px)
+);
+
+:host {
+  ::ng-deep {
+    igx-advanced-filtering-dialog {
+      @include tokens($custom-query-builder);
+    }
+  }
+}
+```
+
+### デモ
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-advanced-filtering-style" height={530} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-advanced-filtering-style" height={510} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-advanced-filtering-style" height={630} alt="" />
+
+</ComponentBlock>
+
+
+<Aside type="note" title="注">
+このサンプルは、`Change Theme` (テーマの変更) から選択したグローバル テーマに影響を受けません。
+</Aside>
+<div class="divider--half"></div>
+
+## API リファレンス
+
+<div class="divider--half"></div>
+
+- <ApiLink type="Column" />
+- <ApiLink type="{ComponentApiType}" />
+- [{ComponentName}Component スタイル]({environment:sassApiUrl}/themes#function-grid-theme)
+
+## その他のリソース
+
+<div class="divider--half"></div>
+
+- [{ComponentTitle} 概要](/{igPath}/{ComponentMainTopic})
+- [フィルタリング](/{igPath}/filtering)
+- [Excel スタイル フィルタリング](/{igPath}/excel-style-filtering)
+- [仮想化とパフォーマンス](/{igPath}/virtualization)
+- [ページング](/{igPath}/paging)
+- [ソート](/{igPath}/sorting)
+- [集計](/{igPath}/summaries)
+- [列移動](/{igPath}/column-moving)
+- [列固定](/{igPath}/column-pinning)
+- [列サイズ変更](/{igPath}/column-resizing)
+- [選択](/{igPath}/selection)
+
+<div class="divider--half"></div>
+コミュニティに参加して新しいアイデアをご提案ください。
+
+- [Ignite UI for Angular **フォーラム** (英語)](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub** (英語)](https://github.com/IgniteUI/igniteui-angular)

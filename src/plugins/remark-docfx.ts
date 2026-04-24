@@ -95,8 +95,11 @@ function rewriteMdLink(url: string, filePath: string, docsDir: string): string {
   const rel         = path.relative(docsDir, resolved).replace(/\\/g, '/');
   const slug        = rel.endsWith('.md') ? rel.slice(0, -3) : rel;
 
-  // Return a root-relative URL with trailing slash (matches Starlight's URL format).
-  return '/' + slug + '/' + suffix;
+  // Return a URL with the site base prepended so links remain correct when
+  // the site is mounted at a sub-path (e.g. /docs-react-new/).
+  // DOCS_BASE is set by createDocsSite() in integration.ts; it is empty in dev mode.
+  const docsBase = (process.env.DOCS_BASE ?? '').replace(/\/$/, '');
+  return docsBase + '/' + slug.toLowerCase() + '/' + suffix;
 }
 
 export function replaceEnvVars(str: string): string {
@@ -106,8 +109,42 @@ export function replaceEnvVars(str: string): string {
 }
 
 /**
- * Transform <code-view ...> ... </code-view> raw HTML blocks into an .ig-code-view
- * placeholder div — enhanced by the client-side code-view.js script at runtime.
+ * Build the pre-rendered widget HTML shell (matches the Sample.astro structure).
+ * Picked up at runtime by sample-widget.ts via `.code-view[data-platform]`.
+ */
+function buildWidgetHtml(
+  src: string,
+  demosBase: string,
+  githubSrc: string,
+  height: string,
+  alt: string,
+  platform: string,
+): string {
+  const widgetId = 'cw' + src.replace(/[^a-z0-9]/gi, '-');
+  const tabId    = `${widgetId}-example`;
+  const safeAlt  = alt.replace(/"/g, '&quot;');
+  return (
+    `<div class="code-view" id="${widgetId}"` +
+    ` data-iframe-src="${src}"` +
+    (demosBase ? ` data-demos-base-url="${demosBase}"` : '') +
+    (githubSrc ? ` data-github-src="${githubSrc}"`    : '') +
+    ` data-platform="${platform}">` +
+    `<div class="code-view-navbar">` +
+    `<div class="code-view-tab code-view-tab--active" data-tab-id="${tabId}">EXAMPLE</div>` +
+    `<span class="fs-button-container" title="Expand to fullscreen"></span>` +
+    `</div>` +
+    `<div class="code-views-container">` +
+    `<div id="${tabId}" class="sample-container code-view-tab-content loading" style="height: ${height}">` +
+    `<iframe data-src="${src}" title="${safeAlt}" style="width: 100%; height: 100%;" frameborder="0" seamless=""></iframe>` +
+    `</div>` +
+    `</div>` +
+    `</div>`
+  );
+}
+
+/**
+ * Transform <code-view ...> ... </code-view> raw HTML blocks into the
+ * pre-rendered widget shell consumed by sample-widget.ts at runtime.
  */
 function transformCodeView(html: string): string {
   return html.replace(
@@ -142,22 +179,14 @@ function transformCodeView(html: string): string {
       }
 
       // Standard docfx code-view with iframe-src + data-demos-base-url.
-      // Output a placeholder div; the client-side code-view.js script will
-      // build the full widget (tabs, live-editing buttons, lazy iframe) at runtime.
+      // Output the pre-rendered widget shell; sample-widget.ts activates it at runtime.
       if (srcMatch) {
         const src = replaceEnvVars(srcMatch[1]);
         if (!src || src.includes('{environment:')) return ''; // env var not resolved
         const demosBaseUrl = demosBaseMatch ? replaceEnvVars(demosBaseMatch[1]) : '';
         const githubSrc = githubSrcMatch ? githubSrcMatch[1] : '';
-        const divAttrs = [
-          `class="ig-code-view"`,
-          `data-src="${src}"`,
-          `data-height="${height}"`,
-          `data-alt="${alt}"`,
-          demosBaseUrl ? `data-demos-base-url="${demosBaseUrl}"` : '',
-          githubSrc    ? `data-github-src="${githubSrc}"`        : '',
-        ].filter(Boolean).join(' ');
-        return `<div ${divAttrs}></div>`;
+        const platform = process.env.DOCS_PLATFORM || 'angular';
+        return buildWidgetHtml(src, demosBaseUrl, githubSrc, height, alt, platform);
       }
 
       return '';
@@ -177,7 +206,7 @@ function strVal(v: unknown): string {
 }
 
 /**
- * Rehype plugin — transforms <code-view> elements into .ig-code-view placeholders.
+ * Rehype plugin — transforms <code-view> elements into the pre-rendered widget shell.
  *
  * Handles two HAST representations depending on what's in the pipeline:
  *
@@ -186,8 +215,8 @@ function strVal(v: unknown): string {
  *
  * 2. `raw` string nodes — produced when rehype-raw is NOT in the pipeline
  *    (e.g. Astro content-collection .md files). In that case multiline
- *    <code-view> blocks are carried through as opaque raw strings and we run
- *    the same regex transformer used in the remark stage.
+ *    <code-view> blocks are opaque raw strings; we run the same regex
+ *    transformer used in the remark stage.
  */
 export function rehypeCodeView() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -212,18 +241,65 @@ export function rehypeCodeView() {
       if (!src || src.includes('{environment:')) return;
 
       const heightMatch = styleStr.match(/height:\s*(\d+\s*px)/i);
-      const height = heightMatch ? heightMatch[1].replace(/\s+/, '') : '400px';
+      const height   = heightMatch ? heightMatch[1].replace(/\s+/, '') : '400px';
+      const platform = process.env.DOCS_PLATFORM || 'angular';
+      const widgetId = 'cw' + src.replace(/[^a-z0-9]/gi, '-');
+      const tabId    = `${widgetId}-example`;
 
       node.tagName = 'div';
       node.properties = {
-        className: ['ig-code-view'],
-        'data-src': src,
-        'data-height': height,
-        'data-alt': alt,
-        ...(baseUrl    ? { 'data-demos-base-url': baseUrl }  : {}),
-        ...(githubSrc  ? { 'data-github-src': githubSrc }    : {}),
+        className:          ['code-view'],
+        id:                 widgetId,
+        'data-iframe-src':  src,
+        'data-platform':    platform,
+        ...(baseUrl   ? { 'data-demos-base-url': baseUrl }  : {}),
+        ...(githubSrc ? { 'data-github-src': githubSrc }    : {}),
       };
-      node.children = [];
+      node.children = [
+        {
+          type: 'element', tagName: 'div',
+          properties: { className: ['code-view-navbar'] },
+          children: [
+            {
+              type: 'element', tagName: 'div',
+              properties: { className: ['code-view-tab', 'code-view-tab--active'], 'data-tab-id': tabId },
+              children: [{ type: 'text', value: 'EXAMPLE' }],
+            },
+            {
+              type: 'element', tagName: 'span',
+              properties: { className: ['fs-button-container'], title: 'Expand to fullscreen' },
+              children: [],
+            },
+          ],
+        },
+        {
+          type: 'element', tagName: 'div',
+          properties: { className: ['code-views-container'] },
+          children: [
+            {
+              type: 'element', tagName: 'div',
+              properties: {
+                id: tabId,
+                className: ['sample-container', 'code-view-tab-content', 'loading'],
+                style: `height: ${height}`,
+              },
+              children: [
+                {
+                  type: 'element', tagName: 'iframe',
+                  properties: {
+                    'data-src': src,
+                    title: alt,
+                    style: 'width: 100%; height: 100%;',
+                    frameBorder: '0',
+                    seamless: '',
+                  },
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+      ];
     });
 
     // ── 2. raw string nodes (no rehype-raw in pipeline) ──────────────────────
@@ -255,6 +331,18 @@ export function remarkDocfx() {
       if (node.type === 'link' && node.url) {
         node.url = replaceEnvVars(node.url as string);
         node.url = rewriteMdLink(node.url as string, filePath, docsDir);
+        // Prepend DOCS_BASE to root-relative internal links that were not already
+        // rewritten by rewriteMdLink (e.g. bare /grids/grid/… links that skip
+        // the .md-only rewriter above).
+        const docsBase = (process.env.DOCS_BASE ?? '').replace(/\/$/, '');
+        if (
+          docsBase &&
+          (node.url as string).startsWith('/') &&
+          !(node.url as string).startsWith('//') &&
+          !(node.url as string).startsWith(docsBase + '/')
+        ) {
+          node.url = docsBase + (node.url as string);
+        }
       }
 
       // Images

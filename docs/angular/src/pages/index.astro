@@ -1,42 +1,60 @@
 ---
-import { load as loadYaml } from 'js-yaml';
+import { sidebar } from 'virtual:docs-template/site-meta';
 import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 
+type SidebarEntry = { label: string; slug: string } | { label: string; items: SidebarEntry[] };
 type TocItem = { name?: string; href?: string; default?: boolean; header?: boolean; items?: TocItem[] };
 
 // DOCS_SOURCE_PATH is set by createDocsSite() to the absolute components docsDir.
 // This is the same path used by the sidebar and content collection — single source of truth.
 const docsDir = process.env.DOCS_SOURCE_PATH ?? path.join(process.cwd(), 'src', 'content', (process.env.DOCS_LANG ?? 'en'), 'components');
-const tocPath = path.join(docsDir, 'toc.yml');
+const tocPath = path.join(docsDir, 'toc.json');
 const toc: TocItem[] = existsSync(tocPath)
-    ? (loadYaml(readFileSync(tocPath, 'utf8')) as TocItem[]) ?? []
+    ? (JSON.parse(readFileSync(tocPath, 'utf8')) as TocItem[])
     : [];
 
 function hrefToSlug(href: string): string {
-    return href.replace(/\\/g, '/').replace(/\.md$/i, '').toLowerCase().replace(/\/index$/, '');
+    return href.replace(/\\/g, '/').replace(/\.(md|mdx)$/i, '').toLowerCase().replace(/\/index$/, '');
 }
 
-function fileExists(href: string): boolean {
-    return existsSync(path.join(docsDir, href));
-}
-
-/** Find a slug: if defaultOnly, require `default: true` on the item. */
-function findSlug(items: TocItem[], defaultOnly: boolean): string | null {
+function findDefaultSlug(items: TocItem[]): string | null {
     for (const item of items) {
-        if (item.href && fileExists(item.href) && (!defaultOnly || item.default)) {
+        if (item.default && item.href) {
             return hrefToSlug(item.href);
         }
         if (item.items) {
-            const found = findSlug(item.items, defaultOnly);
+            const found = findDefaultSlug(item.items);
             if (found) return found;
         }
     }
     return null;
 }
 
-// Prefer default: true → fall back to first real file → /404/
-const slug = findSlug(toc, true) ?? findSlug(toc, false);
+function firstSlug(items: SidebarEntry[]): string | null {
+    for (const item of items) {
+        if ('slug' in item) return item.slug;
+        if ('items' in item) {
+            const found = firstSlug(item.items);
+            if (found) return found;
+        }
+    }
+    return null;
+}
+
+function slugExistsInSidebar(items: SidebarEntry[], target: string): boolean {
+    for (const item of items) {
+        if ('slug' in item && item.slug === target) return true;
+        if ('items' in item && slugExistsInSidebar(item.items, target)) return true;
+    }
+    return false;
+}
+
+const typedSidebar = sidebar as SidebarEntry[];
+const defaultSlug = findDefaultSlug(toc);
+const slug = (defaultSlug && slugExistsInSidebar(typedSidebar, defaultSlug))
+    ? defaultSlug
+    : firstSlug(typedSidebar);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const redirectTo = slug ? `${base}/${slug}/` : `${base}/404/`;
 return Astro.redirect(redirectTo, 301);

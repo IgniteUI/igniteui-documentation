@@ -1,0 +1,92 @@
+---
+/**
+ * Renders the "API References" section with resolved hyperlinks.
+ *
+ * Usage:
+ *   <!-- core package — classes (default) -->
+ *   <ApiRef types={["Toast"]} />
+ *
+ *   <!-- charts sub-package -->
+ *   <ApiRef pkg="charts" types={["CategoryChart", "FinancialChart"]} />
+ *
+ *   <!-- mixed kinds on the same page (separate ApiRef blocks per kind/package) -->
+ *   <ApiRef types={["Toast"]} />
+ *   <ApiRef kind="interface" types={["ComboTemplateProps"]} prefixed={false} />
+ *   <ApiRef kind="enum" types={["CalendarSelection"]} />
+ *
+ *   <!-- skip auto-prefix for fully-qualified names -->
+ *   <ApiRef types={["IgbToast"]} prefixed={false} />
+ */
+import { getPlatformContext } from '../../lib/platform-context.ts';
+
+type ApiKind = 'class' | 'interface' | 'enum' | 'type' | 'variable' | 'function';
+
+interface Props {
+    /** Short type / symbol names without platform prefix. */
+    types: string[];
+    /**
+     * TypeDoc symbol kind. Determines the URL segment used.
+     * @default "class"
+     */
+    kind?: ApiKind;
+    /**
+     * Package key as defined in platform-context apiPackages.
+     * Defaults to "core". All types in one call must be from the same package.
+     */
+    pkg?: string;
+    /**
+     * When true (default) the platform prefix is prepended automatically.
+     * Set to false for fully-qualified names or non-prefixed symbols.
+     */
+    prefixed?: boolean;
+    /**
+     * When true (default) the package classSuffix (e.g. "Component" for Angular)
+     * is appended. Set to false for utility/non-component classes that do not carry
+     * the platform class suffix (e.g. SummaryOperand, SortingStrategy).
+     * @default true
+     */
+    suffix?: boolean;
+}
+
+const KIND_SEGMENT: Record<ApiKind, string> = {
+    class:     'classes',
+    interface: 'interfaces',
+    enum:      'enums',
+    type:      'types',
+    variable:  'variables',
+    function:  'functions',
+};
+
+const { types, kind = 'class', pkg = 'core', prefixed = true, suffix = true } = Astro.props;
+const { prefix, apiPackages } = getPlatformContext();
+
+const pkgConfig = apiPackages[pkg] ?? apiPackages['core'];
+const segment   = KIND_SEGMENT[kind];
+const items = types.map((t) => {
+    const baseName = prefixed ? `${prefix}${t}` : t;
+
+    let url: string;
+    if (kind === 'class') {
+        const fullName  = (suffix && pkgConfig.classSuffix) ? `${baseName}${pkgConfig.classSuffix}` : baseName;
+        const cased     = pkgConfig.preserveCase ? fullName : fullName.toLowerCase();
+        const classSlug = pkgConfig.noPackagePrefix
+            ? cased
+            : `${pkgConfig.packageId}.${cased}`;
+        url = `${pkgConfig.docRoot}/classes/${classSlug}`;
+    } else {
+        // Non-class kinds: preserve original casing, no classSuffix
+        const slug = pkgConfig.noPackagePrefix
+            ? baseName
+            : `${pkgConfig.packageId}.${baseName}`;
+        url = `${pkgConfig.docRoot}/${segment}/${slug}`;
+    }
+
+    return { label: baseName, url };
+});
+---
+
+<ul>
+    {items.map(({ label, url }) => (
+        <li><a href={url}><code>{label}</code></a></li>
+    ))}
+</ul>
