@@ -1,0 +1,48 @@
+﻿---
+title: "セルの結合"
+slug: javascript-excel-library-merge-cells
+---
+
+# セルの結合
+セルの値またはフォーマットの設定以外に、2 つ以上のセルをひとつのセルとして表示するためにセルをマージすることができます。セルをマージする場合、長方形の領域内にセルがなければなりません。マージされた領域の一部である場合、領域内の各セルは同じ値とセル フォーマットを持つことになります。さらに、これらのセルはすべて、[`associatedMergedCellsRegion`](&#123;environment:jQueryApiUrl&#125;/ig.excel.WorksheetMergedCellsRegion) プロパティからアクセス可能な、同じ [`WorksheetMergedCellsRegion`](&#123;environment:jQueryApiUrl&#125;/ig.excel.WorksheetCell#methods:associatedMergedCellsRegion) オブジェクトと関連付けられます。`WorksheetMergedCellsRegion` オブジェクトもセルと同じ値とセル フォーマットを持ちます。領域または領域内の任意のセルの値（またはセル フォーマット）を設定すると、すべてのセルおよび領域の値を変更します。セルをマージしない場合、マージされた領域がワークシートから削除されたために、以前マージされたセルすべてはマージされる以前に指定された共有のセル フォーマットを保持します。ただし、領域の左上のセルのみが共有値を保持します。
+
+以下のコードは、いくつかのセルをマージして、マージされたセル領域の値とフォーマットを設定する方法を示します。
+
+**JavaScript の場合:**
+
+```js
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add( "Sheet1" );
+
+// Make some column headers
+var workbook = new $.ig.excel.Workbook();
+var worksheet = workbook.worksheets().add( "Sheet1" );
+
+// Make some column headers
+worksheet.rows(1).cells(1).value("Morning");
+worksheet.rows(1).cells(2).value("Afternoon");
+worksheet.rows(1).cells(3).value("Evening");
+
+// Create a merged region that will be a header to the column headers
+var mergedRegion1 = worksheet.mergedCellsRegions().add( 0, 1, 0, 3 );
+
+// Set the value of the merged region
+mergedRegion1.value("Day 1");
+
+// Give the merged region a solid background color
+mergedRegion1.cellFormat().fill($.ig.excel.CellFill.createSolidFill("skyblue"));
+
+// Set the cell alignment of the middle cell in the merged region.
+// Since a cell and its merged region shared a cell format, this will 
+// ultimately set the format of the merged region
+worksheet.rows(0).cells(2).cellFormat().alignment($.ig.excel.HorizontalCellAlignment.center);
+```
+![](../../images/images/ExcelEngine_Merge_Cells_01.png)
+
+
+
+ 
+
+ 
+
+

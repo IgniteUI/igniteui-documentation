@@ -95,7 +95,9 @@ function hrefToSlug(href: string, docsDir?: string): string {
                     : null;
         if (filePath) {
             try {
-                const content = fs.readFileSync(filePath, 'utf-8');
+                let content = fs.readFileSync(filePath, 'utf-8');
+                // Strip UTF-8 BOM if present
+                if (content.charCodeAt(0) === 0xFEFF) content = content.slice(1);
                 // Check for frontmatter slug first
                 const fmMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
                 if (fmMatch) {

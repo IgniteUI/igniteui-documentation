@@ -1,0 +1,316 @@
+﻿---
+title: "igTileManager とデータのバインド"
+slug: igtilemanager-binding
+---
+
+# igTileManager とデータのバインド
+
+## トピックの概要
+### 目的
+
+このトピックでは、`igTileManager`™ コントロールをJavaScript 配列、XML データ、厳密に型指定された MVC ビュー、およびリモート サービスからの JSON レスポンスにバインドする方法を説明します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+**概念**
+
+-   JavaScript 配列
+-   JSON
+-   ASP.NET MVC
+
+**トピック**
+
+- [igDataChart の概要](/controls/igbulletgraph/overview): このトピックでは、`igDataSource`™ コンポーネントの概要を提供し、HTML ページへの追加方法をコードを説明します。
+
+- [テンプレート エンジンの概要](../../06_Infragistics-Templating-Engine/01_igTemplating Overview.mdx): このトピックでは、テンプレート エンジンによって開発者に公開されているオプションと機能の概要について説明します。
+
+- [igTileManager の概要](/controls/igtilemanager/overview): このトピックでは、主要機能、最小要件およびユーザー機能性など、`igTileManager` コントロールについて概念的な情報を提供します。
+
+- [igTileManager の追加](/controls/igtilemanager/adding): このトピックでは、主要機能、最小要件およびユーザー機能性など、`igTileManager` コントロールについて概念的な情報を提供します。このトピックは、HTML マークアップでの `igTileManager` の初期化を説明します。
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [**igTileManager とデータ ソースのバインド - 概要**](#overview)
+    -   [データ ソースの要約](#data-source)
+    -   [サポートされるデータ ソース](#suppoted-data-source)
+    -   [サポートされるテンプレート エンジン](#supported-templating-engines)
+-   [コード例の概要](#code-example-summary)
+-   [コード例: igTileManager の JavaScript 配列へのバインド](#bind-js-array)
+    -   [説明](#js-description)
+    -   [コード](#js-code)
+-   [コード例: igTileManager の XML データへのバインド](#bind-xml-data)
+    -   [説明](#xml-description)
+    -   [コード](#xml-code)
+-   [コード例: igTileManager の厳密に型指定された MVC ビューへのバインド](#bind-mvc-view)
+    -   [説明](#mvc-description)
+    -   [コード](#mvc-code)
+-   [コード例: igTileManager のリモート サービスからの JSON レスポンスへのバインド](#bind-json)
+    -   [説明](#json-description)
+    -   [コード](#json-code)
+-   [関連コンテンツ](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+
+
+## <a id="overview"></a>igTileManager とデータ ソースのバインド - 概要
+### <a id="data-source"></a>データ ソースの要約
+
+`igTileManager` は、&#123;environment:ProductName&#125;® ライブラリの他のコントロールと同様にデータにバインドされます。データのバインドは、[dataSource](&#123;environment:jQueryApiUrl&#125;/ui.igtilemanager#options:dataSource) オプションにデータ ソースを割り当てる方法、またはデータが Web サービスまたは Windows Communication Foundation (WCF) サービスにより提供される場合は [dataSourceUrl](&#123;environment:jQueryApiUrl&#125;/ui.igtilemanager#options:dataSourceUrl) で URL を指定する方法で行います。`igTileManager` コントロールは [igDataSource](&#123;environment:jQueryApiUrl&#125;/ig.datasource) オブジェクトを作成および使用してデータを処理します。
+
+### <a id="suppoted-data-source"></a>サポートされるデータ ソース
+
+以下の表は、サポートされているデータ ソース、および各データ ソースのバインドに関する基本情報を示します。
+
+データ ソース|バインディング
+---|---
+JSON オブジェクトの JavaScript 配列|`igTileManager` コントロールは、データのローカル JavaScript 配列にバインドできます。
+XML (クライアント側、あるいは Web または WCF サービスから)|`igTileManager` コントロールは、ローカル、または Web サーバーから提供される XML データにバインドできます。
+ASP.NET MVC での IQueryTable`<T>`|ASP.NET MVC では、`igTileManager` のデータ ソースとして IQueryTable を提供すると、コレクションが JSON にシリアライズされてブラウザーで使用するビューとともに返されます。
+[`igDataSource`](&#123;environment:jQueryApiUrl&#125;/ig.datasource)|`igDataSource` コンポーネントは、`igTileManager` コントロールにより内部的にコントロールのデータ操作の管理に使用されます。このデータ ソースは、さまざまなタイプのローカル データやリモート データを受け入れます。
+
+
+
+### <a id="supported-templating-engines"></a>サポートされるテンプレート エンジン
+
+`igTileManager` コントロールは、`igTemplating`™ をサポートします。
+
+
+## <a id="code-example-summary"></a>コード例の概要
+### コード例の概要表
+
+以下の表は、このトピックで使用したコード例をまとめたものです。
+
+例|説明
+---|---
+[igTileManager の JavaScript 配列へのバインド](#bind-js-array)|この例では、`igTileManager` コントロールを JavaScript データ配列にバインドする方法を示します。
+[igTileManager の XML データへのバインド](#bind-xml-data)|この例では、`igTileManager` コントロールを XML 構造にバインドする方法を示します。
+[igTileManager の厳密に型指定された MVC ビューへのバインド](#bind-mvc-view)|この例では、&#123;environment:ProductNameMVC&#125; を使用して厳密に型指定された ASP.NET MVC ビューのモデル オブジェクトに、`igTileManager` コントロールをバインドする方法を示します。
+[igTileManager のリモート サービスからの JSON レスポンスへのバインド](#bind-json)|この例は、リモート データを要求するように `igTileManager` コントロールを構成し、それを JSON レスポンスとバインドする方法を示します。
+
+
+## <a id="bind-js-array"></a>コード例: igTileManager の JavaScript 配列へのバインド
+### <a id="js-description"></a>説明
+
+もっとも一般的なデータ バインディング シナリオの 1 つは、Web ページ上でデータ オブジェクトの JavaScript 配列からデータを可視化することです。この例は、1 つのデータ フィールドを持つオブジェクトのサンプル配列を定義し、配列をデータ ソースとして使用するタイル マネージャーを構成します。
+
+### <a id="js-code"></a>コード
+
+以下のコード スニペットは、JavaScript 配列を定義します。ページにおいてスニペットをスクリプト ブロックに起きます。
+
+**JavaScript の場合:**
+
+```js
+var data = [
+    {name: 'Tile 1'},
+    {name: 'Tile 2'}, 
+    {name: 'Tile 3'}
+];
+```
+
+以下のスニペットは、`igTileManager` インスタンスを作成し、上記で定義された配列にタイル マネージャーをバインドします。
+
+**JavaScript の場合:**
+
+```js
+$("#dashboard").igTileManager({
+    dataSource: data,
+    minimizedState: '<h3>${name} - Minimized State</h3>',
+    maximizedState:  '<h3>${name} - Maximized State</h3>'
+});
+```
+
+状態オプションは、対応するタイル状態に描画するコンテンツを指定します。データ ソースでタイル マネージャーを初期化する場合に、これらのオプションに対して `igTemplating` 文字列を提供します。提供されない場合、コンテンツはタイルに描画されません。
+
+
+## <a id="bind-xml-data"></a>コード例: igTileManager の XML データへのバインド
+### <a id="xml-description"></a>説明
+
+`igTileManager` コントロールは`igDataSource` コンポーネントを活用して、XML 構造をデータ ソースとしてサポートします。このコード例は、XML 構造を `igDataSource` オブジェクトに渡し、データ ソース オブジェクトをタイル マネージャー コントロールにバインドする方法を示します。
+
+### <a id="xml-code"></a>コード
+
+以下のコード スニペットは、JavaScript 文字列で XML 構造を定義します。構造には、ノード データ属性 Name が含まれます。
+
+**JavaScript の場合:**
+
+```js
+var xmlDoc = 
+    '<Dashboard>' +
+        '<TileEntry name="Tile 1" />' +
+        '<TileEntry name="Tile 2" />' +
+        '<TileEntry name="Tile 3”  />' +
+    '</Dashboard>';
+```
+
+以下のコード スニペットは、XML データの構造を `igDataSource` で認識可能な `igDataSchema` オブジェクトへ宣言する方法を示します。
+
+**JavaScript の場合:**
+
+```js
+var xmlSchema = new $.ig.DataSchema("xml",
+    {
+        searchField: "//TileEntry",
+        fields: [
+            { name: "name", xpath: "./@name" }
+        ]
+    }
+);
+```
+
+以下のコード スニペットは、XML データとスキーマ オブジェクトを使用して `igDataSource` をインスタンス化する方法を示します。
+
+**JavaScript の場合:**
+
+```js
+var data = new $.ig.DataSource({
+    type: "xml",
+    dataSource: xmlDoc,
+    schema: xmlSchema
+});
+```
+
+以下のコード スニペットは、上記で作成されたデータ ソースにバインドする `igTileManager` コントロールのインスタンス化コードを示します。データ ソース オブジェクトは、XML 構造からのデータを処理し、適切なフォームでタイル マネージャー コントロールに提供します。
+
+**JavaScript の場合:**
+
+```js
+$("#dashboard").igTileManager({
+    dataSource: data,
+    minimizedState: '<h3>${name} - Minimized State</h3>',
+    maximizedState: '<h3>${name} - Maximized State</h3>'
+});
+```
+
+状態オプションは、対応するタイルの状態に描画するコンテンツを指定します。データ ソースで `igTileManager` を初期化する場合に、これらのオプションに対して `igTemplating` 文字列を提供します。提供されない場合、コンテンツはタイルに描画されません。
+
+
+## <a id="bind-mvc-view"></a>コード例: igTileManager の厳密に型指定された MVC ビューへのバインド
+### <a id="mvc-description"></a>説明
+
+MVC アプリケーションでは、通常、厳密に型指定されたビューを使用し、アプリケーションのビジネス ロジック レイヤーからビューにデータ オブジェクトを渡します。この例は、サンプル データ クラスを定義し、タイル マネージャーのインスタンスを作成する &#123;environment:ProductNameMVC&#125; `igTileManager` にモデル オブジェクトを渡す基本的なコードを示します。データ モデル オブジェクトは、データ クラスの IQueryable である必要があります。
+
+### <a id="mvc-code"></a>コード
+
+以下のコード スニペットは、サンプル クラスを宣言します。
+
+**C# の場合:**
+
+```csharp
+public class TileData
+{
+    public string Name { get; set; }
+}
+```
+
+以下のコード スニペットは、最初に厳密に型指定された MVC ビューを指定します。次に、ビューのモデル オブジェクトにバインドするために &#123;environment:ProductNameMVC&#125; `igTileManager` を使用する方法を示します。
+
+**ASPX の場合:**
+
+```csharp
+@model IQueryable<MvcApp.Models.TileData>
+. . .
+@(  Html.
+    Infragistics().
+    TileManager(Model).
+    ID("dashboard").
+    minimizedState(“<h3>${name} - Minimized State</h3>”).
+    maximizedState(“<h3>${name} - Maximized State</h3>”).
+    Render()
+)
+```
+
+状態オプションは、対応するタイル状態に描画するコンテンツを指定します。
+データ ソースで `igTileManager` を初期化する場合に、これらのオプションに対して `igTemplating` 文字列を提供します。
+提供されない場合、コンテンツはタイルに描画されません。
+
+
+
+## <a id="bind-json"></a>コード例: igTileManager のリモート サービスからの JSON レスポンスへのバインド
+### <a id="json-description"></a>説明
+
+このコード例は、リモート サービス要求 (この場合は MVC コントローラーの動作) からの JSON データを `igTileManager` コントロールにバインドする方法を示します。
+
+### <a id="json-code"></a>コード
+
+以下のコード スニペットは、サンプル クラスを宣言します。
+
+**C# の場合:**
+
+```csharp
+public class TileData
+{
+    public string Name { get; set; }
+}
+```
+
+以下のコード スニペットは、リモート要求にサービスを提供するコントローラー  アクション メソッドを定義します。このメソッドは、`getData()` メソッド (以下のコードには示されていません) を使用して実際のデータ取得ロジックを実装します。
+
+**C# の場合:**
+
+```csharp
+[ActionName("getDashboard")]
+public JsonResult GetDashboard()
+{
+    var data = getData();
+    return new JsonResult 
+    { 
+        Data = data, 
+        JsonRequestBehavior = JsonRequestBehavior.AllowGet 
+    };
+}
+```
+
+以下のコード スニペットには、リモート データ サービスのための URL を構成する `igTileManager` コントロールのインスタンス化コードが含まれています。このスニペットは、他のすべてのインスタンス化オプションを省略した基本的なデータ バインディング コードのみを含みます。
+
+**JavaScript の場合:**
+
+```js
+$("#dashboard").igTileManager ({
+    dataSourceUrl: "/businessLogic/getDashboard",
+    minimizedState: '<h3>${name} - Minimized State</h3>',
+    maximizedState: '<h3>${name} - Maximized State</h3>'
+});
+```
+
+状態オプションは、対応するタイル状態に描画するコンテンツを指定します。
+データ ソースで `igTileManager` を初期化する場合に、これらのオプションに対して `igTemplating` 文字列を提供します。
+提供されない場合、コンテンツはタイルに描画されません。
+
+
+
+## <a id="related-content"></a>関連コンテンツ
+### <a id="topics"></a>トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [igTileManager の構成](/controls/igtilemanager/configuring): このトピックでは、`igTileManager` コントロールの機能およびビヘイビアーを構成する方法を説明します。
+
+- [イベントの処理 (igTileManager)](/controls/igtilemanager/handling-events): このトピックではコード例を使用して、イベント ハンドラーを `igTileManager` に添付する方法を説明します。
+
+- [アクセシビリティの遵守 (igTileManager)](/controls/igtilemanager/accessibility-compliance): このトピックでは、`igTileManager` コントロールのアクセシビリティ機能を説明し、このコントロールを含むページのアクセシビリティ遵守を実現する方法を説明します。
+
+- [既知の問題と制限 (igTileManager)](/controls/igtilemanager/known-issues-and-limitations): このトピックでは、`igTileManager` コントロールの既知の問題と制限、その回避策に関する情報を提供します。
+
+- [jQuery および MVC API リファレンス リンク (igTileManager)](/controls/igtilemanager/jquery-and-aspnet-mvc-helper-api-links): このトピックでは、`igTileManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
+
+
+### <a id="samples"></a>サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [タイル マネージャーの JSON バインド](&#123;environment:SamplesUrl&#125;/tile-manager/bind-json): このサンプルは、`igTileManager` コントロールを JSON データ ソースにバインドする方法を紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

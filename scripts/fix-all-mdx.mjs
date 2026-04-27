@@ -713,17 +713,31 @@ async function main() {
     const rel = path.relative(topicsDir, file);
 
     // Apply normalization
-    let content = normalizeMdxContent(src) ?? src;
+    const normalized = normalizeMdxContent(src);
+    let content = normalized ?? src;
 
     // Test if it already compiles
     try {
       await compile(content, { jsx: true });
-      alreadyOk++;
+      // If normalization changed the file, write it even though it compiles
+      if (normalized !== null && normalized !== src) {
+        fixedCount++;
+        if (apply) {
+          const bom = raw.charCodeAt(0) === 0xFEFF ? '\uFEFF' : '';
+          fs.writeFileSync(file, bom + content, 'utf-8');
+          console.log(`  NORMALIZED: ${rel}`);
+        } else {
+          console.log(`  WOULD NORMALIZE: ${rel}`);
+        }
+      } else {
+        alreadyOk++;
+      }
       continue;
     } catch {}
 
     // Apply fixes in order
-    const original = content;
+    // Note: compare against `src` (disk content) not `content` (post-normalization),
+    // so that normalization changes are written even when fixes are no-ops.
     content = stripInlineAnchors(content);
     content = fixMiscSyntax(content);
     content = fixLiInTableCells(content);
@@ -736,6 +750,10 @@ async function main() {
     content = escapeProblematicHtmlInProse(content);
     content = escapeBracesInProse(content);
 
+    // Safety net: strip any HTML comments that survived earlier steps.
+    // MDX cannot parse <!-- --> (errors on the `!` character).
+    content = content.replace(/<!--[\s\S]*?-->/g, '');
+
     // Test if it compiles now
     let compiles = false;
     try {
@@ -746,7 +764,7 @@ async function main() {
       stillFailing.push({ file: rel, error: msg.slice(0, 150) });
     }
 
-    if (content !== original) {
+    if (content !== src) {
       fixedCount++;
       if (apply) {
         const bom = raw.charCodeAt(0) === 0xFEFF ? '\uFEFF' : '';

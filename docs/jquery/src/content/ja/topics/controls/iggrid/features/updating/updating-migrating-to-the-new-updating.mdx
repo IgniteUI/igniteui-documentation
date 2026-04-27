@@ -1,0 +1,126 @@
+﻿---
+title: "新しい更新への移行 (igGrid)"
+slug: iggrid-updating-migrating-to-the-new-updating
+---
+
+# 新しい更新への移行 (igGrid)
+
+## トピックの概要
+
+### 目的
+このトピックは、古い igGridUpdating から新しい igGridUpdating への移行のサポートを目的としています。 
+
+### このトピックの内容
+このトピックは、以下のセクションで構成されます。
+
+-   [**全般的な変更**](#general)
+    -   [依存関係](#dependencies)
+    -   [ダイアログを使用した行の編集の有効化](#RED)
+    -   [変更された動作](#behavioral-changes)
+- 	[**変更されたオプション**](#option-changes)
+- 	[**新しいオプション**](#options-new)
+- 	[**削除されたオプション**](#options-removed)
+- 	[**イベントの変更点**](#event-changes)
+- 	[**メソッドの変更点**](#method-changes)
+-   [**関連トピック**](#topics)
+
+
+## <a id="general"></a> 全般的な変更
+### <a id="dependencies"></a> 依存関係
+グリッド内の列とセルの編集で igGridUpdating により使用される igEditors スイートの構造と機能が変更され、改善されました。そのため、サポートされる jQuery と jQuery UI の最も古いバージョンが変更されました。バージョン間の違いを、以下の表で説明します。
+
+||&#123;environment:ProductName&#125; 15.1|&#123;environment:ProductName&#125; 15.2|
+|---|:---:|:---:|
+|**サポートされる最も古い jQuery バージョン**|1.4.4|1.9.1|
+|**サポートされる最も古い jQuery UI バージョン**|-|1.9.0|
+### <a id="RED"></a> ダイアログを使用した行の編集の有効化
+ダイアログによる編集を可能にする編集モードには、「rowedittemplate」に代わって「dialog」という新しい名前が付けられました。
+新しいダイアログでは異なるテンプレートを使用し、複雑なカスタム編集ダイアログの構築を可能にします。このモードの新機能の詳細は、主要トピック: [行編集ダイアログの概要 (igGrid)](/controls/iggrid/features/updating/row-template/updating-roweditdialog) を参照してください。
+
+宣言の例: 
+
+|旧|新 | 
+---|---
+|$("#grid ").igGrid(&#123;features : [&#123; name : "Updating", editMode: <b>"rowedittemplate"&#125;</b>] &#125;);|$("#grid ").igGrid(&#123;features : [&#123; name : "Updating", editMode : <b>"dialog"</b> &#125;] &#125;);|
+
+下の表に、更新機能のユーザー操作機能を簡単に示します。
+
+行編集ダイアログに関連するすべてのオプションを含む新しいオプション [rowEditDialogOptions](&#123;environment:jQueryApiUrl&#125;/ui.igGridUpdating#options:rowEditDialogOptions) が追加されています。 
+
+
+### <a id="behavioral-changes"></a> 変更された動作
+
+複数行のテキスト エディターで列を編集する場合は、[ALT] + [ENTER] キーの組み合わせを使用して新しい行を挿入し、[ENTER] キーで変更内容を送信する必要があります。
+
+エディターのアーキテクチャの変更、および変更がエディターと igGridUpdating の統合に与える影響の結果、エディターに対する `valueChanged` イベントは、エディターがぼかしを検出したときではなく、エンドユーザーが文字を入力するたびに発生します。
+
+
+### <a id="option-changes"></a> 変更されたオプション
+
+> **注:** 行編集ダイアログのすべてのオプションは、更新機能の中の rowEditDialogOptions という名前の新しいオプションの下にあります。以下の表では、それらのオプションに * が付けられています。
+
+| 古いオプション| 新しいオプション| 古い構文 | 新しい構文|
+---|---|---|---
+|editMode: "rowedittemplate" |editMode: "dialog"| $("#grid").igGrid(&#123; features: [&#123;   name: "Updating", <b>editMode:"rowedittemplate"</b> &#125; ]&#125;);|$("#grid").igGrid(&#123; features: [&#123; name: "Updating", <b>editMode:"dialog"</b>&#125;] &#125;);|
+|rowEditDialogWidth|width*|$("#grid").igGrid(&#123; features: [&#123; name: "Updating", editMode:"rowedittemplate", <b>rowEditDialogWidth: "370px"</b> &#125; ]&#125;); |$("#grid").igGrid(&#123; features: [&#123; name: "Updating", editMode:"dialog", <b>rowEditDialogOptions: &#123;width: "370px" &#125;</b> ]&#125;);|
+|rowEditDialogHeight|height*| $("#grid").igGrid(&#123; features: [ &#123; name: "Updating", editMode:"rowedittemplate", <b>rowEditDialogHeight: "350px"</b>&#125;] &#125;);|$("#grid").igGrid(&#123; features: [ &#123; name: "Updating", editMode:"dialog", <b>rowEditDialogOptions: &#123; height: "350px" &#125; </b>&#125; ]&#125;);|
+|rowEditDialogCaptionLabel|captionLabel*|$("#grid").igGrid(&#123; features: [ &#123; name: "Updating", editMode:"rowedittemplate", <b>rowEditDialogCaptionLabel: "CaptionLabel"</b>&#125;] &#125;);|$("#grid").igGrid(&#123; features: [ &#123; name: "Updating", editMode:"dialog", <b>rowEditDialogOptions: &#123; captionLabel: "CaptionLabel" &#125; </b>&#125; ]&#125;);|
+|rowEditDialogContainment|containment*| $("#grid").igGrid(&#123; features: [ &#123; name: "Updating", editMode:"rowedittemplate", <b>rowEditDialogContainment: "owner"</b>&#125;] &#125;);|$("#grid").igGrid(&#123; features: [ &#123; name: "Updating", editMode:"dialog", <b>rowEditDialogOptions: &#123; containment: "owner" &#125; </b>&#125; ]&#125;);|
+|rowEditDialogFieldWidth| editorsColumnWidth*|$("#grid").igGrid(&#123; features: [ &#123; name: "Updating", editMode:"rowedittemplate", <b>rowEditDialogFieldWidth: 150</b>&#125;] &#125;);|$("#grid").igGrid(&#123; features: [ &#123; name: "Updating", editMode:"dialog", <b>rowEditDialogOptions: &#123; editorsColumnWidth: 150 &#125; </b>&#125; ]&#125;);|
+|showReadonlyEditors|showReadonlyEditors*|$("#grid").igGrid(&#123; features: [ &#123; name: "Updating", editMode:"rowedittemplate", <b>showReadonlyEditors: false</b>&#125;] &#125;);|$("#grid").igGrid(&#123; features: [ &#123; name: "Updating", editMode:"dialog", <b>rowEditDialogOptions: &#123; showReadonlyEditors: false &#125; </b>&#125; ]&#125;);|
+
+### <a id="options-new"></a> 新しいオプション
+
+|オプション| 追加情報|
+---|---
+|animationDuration*|開くおよび閉じる操作の間のアニメーションを指定します。|
+|dialogTemplate*|現在編集したレコードに対して描画されるテンプレートを指定します。|
+|dialogTemplateSelector*|現在編集されたレコードに対して描画されたテンプレートへのセレクターを指定します。|
+|editorsTemplate*|グリッド列のコレクションの各列で実行されるテンプレートを指定します(または showReadonlyEditors が false の場合 read-write 列のみ)。エディターとして使用される要素を 'data-editor-for-$&#123;key&#125;' で装飾します。$&#123;key&#125; テンプレート タグは、レンダリング値の選択されたテンプレート エンジンの構文で置き換えられます。 列のエディターがダイアログ マークアップに指定される場合、テンプレートが描画されるデータから除外されます。このプロパティは、ダイアログ テンプレートが "data-render-tmpl" 属性の要素を含まない場合、無視されます。editorsTemplate と editorsTemplateSelector の両方が指定される場合、editorsTemplateSelector が使用されます。|
+|editorsTemplateSelector*|グリッドの列コレクションの各列で実行されるテンプレートのセレクターを指定します。 'data-editor-for-$&#123;key&#125;' でエディターとして使用される要素を装飾します。 $&#123;key&#125; テンプレート タグは、描画値の選択されたテンプレート エンジンのシンタックスで置き換えられます。列のエディターがダイアログ マークアップに指定される場合、テンプレートが描画されるデータから除外されます。このプロパティは、ダイアログ マークアップが 'data-render-tmpl' 属性の要素に含まれない場合無視されます。editorsTemplate と editorsTemplateSelector の両方が指定される場合、editorsTemplateSelector が使用されます。|
+|namesColumnWidth*|デフォルト行編集ダイアログで列名を含む列の幅を制御します。|
+|showEditorsForHiddenColumns*| エディターが非表示列に描画されるかどうかを制御します。|
+|wrapAround|キーボードを使用してナビゲーションする場合に、編集モードがグリッドをラップするかどうかを制御します。|
+### <a id="event-changes"></a> イベントの変更点
+
+### <a id="options-removed"></a> 削除されたオプション
+|オプション| 追加情報|
+---|---
+|rowEditDialogOkCancelButtonWidth| ボタンの幅が CSS で設定可能なため、このオプションは削除されます。例: .ui-igbutton&#123; width: 300px&#125;|
+|rowEditDialogRowTemplate| リファクタリングされたダイアログ編集モードのため、このオプションは削除されます。同様な機能を持つ新しいテンプレート化オプションは [dialogTemplate](&#123;environment:jQueryApiUrl&#125;/ui.igGridUpdating#options:rowEditDialogOptions.dialogTemplate) および [editorsTemplate](&#123;environment:jQueryApiUrl&#125;/ui.igGridUpdating#options:rowEditDialogOptions.editorsTemplate) です。設定の詳細については、「[行編集ダイアログの構成 (igGrid)](iggrid-updating-roweditdialog-configuring.html)」トピックを参照してください。
+|rowEditDialogRowTemplateID | リファクタリングされたダイアログ編集モードのため、このオプションは削除されます。同様な機能を持つ新しいテンプレート化オプションは [dialogTemplateSelector](&#123;environment:jQueryApiUrl&#125;/ui.igGridUpdating#options:rowEditDialogOptions.dialogTemplateSelector) および [editorsTemplateSelector](&#123;environment:jQueryApiUrl&#125;/ui.igGridUpdating#options:rowEditDialogOptions.editorsTemplateSelector) です。設定の詳細については、「[行編集ダイアログの構成 (igGrid)](iggrid-updating-roweditdialog-configuring.html)」トピックを参照してください。
+
+#### 名前が変更されたイベント
+
+|古い名前 | 新しい名前 | 追加情報|
+---|---|---
+|rowEditDialogOpening|rowEditDialogBeforeOpen|このイベントはキャンセルできません。 行編集をキャンセルする必要がある場合、[editRowStarting](&#123;environment:jQueryApiUrl&#125;/ui.igGridUpdating#events:editRowStarting) イベントを代わりに使用してください。|
+|rowEditDialogOpened|rowEditDialogAfterOpen||
+|rowEditDialogClosing|rowEditDialogBeforeClose|このイベントはキャンセルできません。|
+|rowEditDialogClosed|rowEditDialogAfterClose||
+
+#### 変更されたイベント引数
+
+|引数|影響されるイベント|追加情報|古い構文|新しい構文|
+---|---|---|---|---|
+|keepEditing|editCellEnding,editRowEnding|属性は削除されます。既存ユーザーの編集を防止するために、false を返してイベントをキャンセルできます。|`$("#grid").bind("iggridupdatingeditrowending", function (evt, ui) { ui.keepEditing = true; });`|`$("#grid").bind("iggridupdatingeditrowending", function (evt, ui) { return false; });`|
+
+#### 使用されていないイベント
+- rowEditDialogContentsRendering
+
+
+### <a id="method-changes"></a> メソッドの変更点
+- [setCellValue](&#123;environment:jQueryApiUrl&#125;/ui.igGridUpdating#methods:setCellValue) メソッドは、更新するセルの要素をわたすときにオプションが必要なくなりました。またオプションを提供することもありません。演算は、常にプライマリ キーと列キーの組み合わせにより、制御されます。
+- [updateRow](&#123;environment:jQueryApiUrl&#125;/ui.igGridUpdating#methods:updateRow) メソッドは、更新するセルの要素をわたすときにオプションが必要無くなりました。またオプションを提供することもありません。演算は、更新するレコードのプライマリ キーにより、制御されます。
+- `findHiddenComboEditor` メソッドは廃止され、削除されました。
+
+## <a id="topics"></a> 関連トピック 
+以下は、その他の役立つトピックです。
+
+-   [igGridUpdating API マニュアル](&#123;environment:jQueryApiUrl&#125;/ui.igGridUpdating)
+
+ 
+
+ 
+
+

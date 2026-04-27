@@ -1,0 +1,172 @@
+﻿---
+title: "予定の構成 (igScheduler)"
+slug: igscheduler-configure-appointments
+---
+
+# 予定の構成 (igScheduler)
+
+
+## 目的
+
+このトピックは、`igScheduler` コントロールの予定概念を説明し、その予定にバインドして CRUD 操作を実行する方法を説明する例を提供します。
+
+## 概要
+
+予定は、指定した時間で開始し、指定した時間で終了するイベントを表します。予定はリソースに関連付けできます。つまり、リソース (人などのエンティティ) はその予定で表されるアクティビティのオーナーです。
+
+注: スケジューラ コントロールは `igSchedulerCore` および `igScheduler` コントロールによってビルドされます。`igSchedulerCore` はエンジンで、`igScheduler` はユーザー インターフェイスを実行します。
+
+`igScheduler` は、[Appointment オブジェクトのプロパティ](#appointment-properties) セクションにリストされるプロパティのみを含む簡易な JSON オブジェクトである予定を使用します。開発者が `dataSource` オプションに割り当てた予定のコレクションに予定のタイプを含む必要があります。
+
+`igSchedulerCore` はこのオブジェクトを予定オブジェクトのその他のタイプにマップします。予定のその他のタイプと比較して、`igSchedulerCore` の予定は [Appointment オブジェクトのプロパティ セクション](#appointment-properties)にリストされるプロパティを含みませんが、同じ名前を持つゲッターおよびセッター メソッドを公開します。詳細については、以下の [Appointment オブジェクトのメソッド](#appointment-properties) セクションを参照してください。
+
+これらのタイプの交差ポイントは `igScheduler` とのユーザー インタラクションによってトリガーされたイベントです。特定のイベントにアタッチした場合、開発者が作成または編集している予定にアクセスできます。ただし、アクティビティを表す簡易な JSON オブジェクトを取得するために .dataObject() の呼び出しが必要な場合があります。この JSON オブジェクトをその他のメソッドに渡すことができます。
+
+### コード例
+
+開発者は作成された予定にアクセスし、コードで同じイベントを別の場所で作成します。
+
+```javascript
+$("#scheduler").igScheduler({
+	dataSource: appointments,
+	resources: resources,
+	appointmentCreated: function (evt, ui) {
+		console.log(ui.appointment.dataObject());
+        ui.appointment.dataObject().location = "London";
+        ui.owner.createAppointment(ui.appointment.dataObject());
+	},
+```
+
+##<a id="appointment-properties"></a> Appointment オブジェクトのプロパティ
+
+以下の表は、Appointment の主なプロパティとその使用目的を示します。
+
+プロパティ|	目的 
+---|---
+id|このプロパティは、その他の予定からこの予定を識別します。一意にする必要があります。 | 
+subject |この `string` 型プロパティは、アクティビティの短い説明です。コントロールのビューで表示される主な情報です。特定の予定をその他の予定から識別するために使用されます。
+location|この `string` 型プロパティは、予定の場所を指定します。
+start|この `Date` 型プロパティは、予定の開始日時を含みます。
+end|この `Date` 型プロパティは、予定の終了日時を含みます。
+resourceId |このプロパティは、現在の予定をリソースと関連付けるために使用されます。
+recurrence | このプロパティは予定の定期的なパターンを含みます。
+
+##<a id="appointment-properties"></a> Appointment オブジェクトのメソッド
+
+以下の表は、Appointment の主なメソッドとその使用目的を示します。
+
+プロパティ |	目的 
+---|---
+id | 予定をその他の予定から識別する `id` プロパティ値を取得します。
+subject | アクティビティの短い説明として使用される `subject` プロパティ値を取得または設定します。
+location| アクティビティの場所を保存する `location` プロパティ値を取得または設定します。
+start | 予定の開始日時を含む `start` プロパティ値を取得または設定します。
+end | 予定の終了日時を含む `end` プロパティ値を取得または設定します。
+resourceId | 現在の予定をリソースと関連付けるために使用される `resourceId` プロパティ値を取得または設定します。
+resource | 現在の予定に関連付けられたリソース オブジェクトを取得します。
+recurrence | 定期的なパターンを含む `recurrence` プロパティ値を取得または設定します。
+recurrenceId | ルートの定期的なアクティビティの `ID` を返します。アクティビティが定期的な予定と関連付けされていない場合は null。
+isRecurrenceRoot | この予定が定期的なルート アクティビティかどうかを示すブール値を返します。
+recurenceRoot | 定期的なルート アクティビティを返します。予定が繰り返しと関連付けされていない場合は null。
+dataObject | [Appointment オブジェクトのプロパティ](#appointment-properties) セクションにリストされるプロパティを持つ簡易な JSON オブジェクトを返します。
+
+### コード例
+
+予定は予定の任意のプロパティ、またはすべてのプロパティを含む JSON オブジェクトのコレクションです。
+
+```javascript
+var appointments = [{
+        "id": 11,
+        "start": new Date(currentYear, currentMonth, 2, 6, 45),
+        "end": new Date(currentYear, currentMonth, 3, 6, 45),
+        "subject": "Marketing conference",
+		"resourceId": 1
+    },
+    {
+        "id": 5,
+        "end": new Date(currentYear, currentMonth, 3, 12, 45),
+        "start": new Date(currentYear, currentMonth, 3, 13, 45),
+        "subject": "Dentist appointment"
+		"resourceId": 6
+    },
+    {
+        "id": 10,
+        "start": new Date(currentYear, currentMonth, 4, 8),
+        "end": new Date(currentYear, currentMonth, 4, 8, 30),
+        "subject": "Distributions sync",
+        "description": "Sync with distributions team"
+		"resourceId": 11
+    }
+],
+
+$("#scheduler").igScheduler({
+    height: "650px",
+    width: "100%",
+    dataSource: appointments
+});
+
+```
+
+## 時間範囲のすべての予定を取得
+
+指定した時間範囲のすべての予定のコレクションを [getAppointmentsInRange](&#123;environment:jQueryApiUrl&#125;/ui.igscheduler#methods:getAppointmentsInRange) メソッドによって取得できます。 
+
+### コード例
+
+```javascript
+var appointment = $("#scheduler").igScheduler("getAppointmentById", 4);
+```
+
+## API で予定の追加
+
+予定は、予定オブジェクトを引数として渡して [createAppointment](&#123;environment:jQueryApiUrl&#125;/ui.igscheduler#methods:createAppointment) メソッドで追加できます。
+
+### コード例
+
+```javascript
+var appointment = $("#scheduler").igScheduler("createAppointment", {
+    id: 1,
+    subject: "Some subject",
+    location: "Somewhere",
+    start: new Date(2017, 04, 05, 12, 30),
+    end: new Date(2017, 04, 05, 12, 30),
+    resourceId: 4,
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+});
+```
+
+## API で予定を編集
+
+予定は、予定オブジェクトおよび変更するプロパティを含むオブジェクトを引数として渡して [editAppointment](&#123;environment:jQueryApiUrl&#125;/ui.igscheduler#methods:editAppointment) メソッドで編集できます。
+
+### コード例
+
+```javascript
+var appointment = var appointment = $("#scheduler").igScheduler("getAppointmentById", 4);
+
+$("#scheduler").igScheduler("editAppointment", appointment, {
+    subject: "Some subject",
+    location: "Somewhere",
+    start: new Date(2017, 04, 05, 12, 30),
+    end: new Date(2017, 04, 05, 12, 30),
+    resourceId: 4,
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+});
+```
+
+## API で予定を削除
+
+予定は、予定オブジェクトを引数として渡して [deleteAppointment](&#123;environment:jQueryApiUrl&#125;/ui.igscheduler#methods:deleteAppointment) メソッドで削除できます。
+
+### コード例
+
+```javascript
+$("#scheduler").igScheduler("deleteAppointment", appointment);
+```
+
+## 関連トピック
+
+トピック|目的
+---|---
+[予定の構成 (igScheduler)](/controls/igscheduler/configuring/configure-appointments)|このトピックは、`igScheduler` の Appointments DataSource リストを設定して構成する方法を紹介します。
+[ビューの構成 (igScheduler)](/controls/igscheduler/configuring/configure-views)|このセクションのトピックは、予定表のデータを表示する `igScheduler` コントロールで使用されるビューについての情報を提供します。

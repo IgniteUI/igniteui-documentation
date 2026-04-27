@@ -1,0 +1,293 @@
+﻿---
+title: "TypeScript サポート (igHtmlEditor)"
+slug: ightmleditor-typescript-support
+---
+
+# TypeScript サポート (igHtmlEditor)
+
+## トピックの概要
+本トピックは、TypeScript で `igHtmlEditor` を構成する方法について説明します。
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [プレビュー](#Preview)
+-   [要件](#Requirements)
+-   [概要](#Overview)
+-   [手順](#Steps)
+    -   [HTML の作成](#create_html_markup)
+    -   [TypeScript コードの追加](#typescript_code)
+-   [関連コンテンツ](#Related_Content)
+
+### <a id="Preview"></a>プレビュー
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](../../../images/images/igHtmlEditor_TypeScript.png)
+
+### <a id="Requirements"></a>要件
+このサンプルを実行するために以下が必要です。
+-   必要となる &#123;environment:ProductName&#125; の JavaScript と CSS ファイル
+-   必須な &#123;environment:ProductName&#125; TypeScript 定義
+
+### <a id="Overview"></a>概要
+本トピックは、`igHtmlEditor` の作成および TypeScript コードの作成について順を追って説明します。
+
+### <a id="Steps"></a>手順
+
+<a id="create_html_markup"></a>HTML の作成 - `igHtmlEditor` を 1 つ使用します。
+
+**HTML の場合:**
+```html
+<div id="htmlEditor">
+    高いパフォーマンスを提供する jQuery データ グリッドは、インタラクティブな操作が可能な HTML テーブルやデータを表示します。本リリースでは業務向け機能を多数追加しており、高いクオリティとパフォーマンスが提供されます。
+</div>
+
+<div id="toolbarHolder">
+    <div id="text"></div>
+</div>
+```
+
+<a id="typescript_code"></a>TypeScript コードの作成 - ツールバーを追加します。太字、イタリック、下線操作をサポートします。
+
+**TypeScript の場合:**
+```typescript
+/// <reference path="http://www.igniteui.com/js/typings/jquery.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/jqueryui.d.ts" />
+/// <reference path="http://www.igniteui.com/js/typings/igniteui.d.ts" />
+
+function getSelectionCoords() {
+    var sel = window.frames[0].document.getSelection(), range;
+    var x = 0, y = 0;
+    if (sel) {
+        if (sel.type != "Control") {
+            range = sel.getRangeAt(0).getClientRects()[0];
+            x = range.left;
+            y = range.bottom + 2*range.height;
+        }
+    } else if (window.frames[0].document.getSelection()) {
+        var selection = window.frames[0].document.getSelection();
+        if (selection.rangeCount) {
+            range = selection.getRangeAt(0).cloneRange();
+            if (range.getClientRects) {
+                range.collapse(true);
+                var rect = range.getClientRects()[0];
+                if (rect) {
+                    x = rect.left;
+                    y = rect.top;
+                }
+            }
+        }
+    }
+
+    return {
+        x: x,
+        y: y + 118
+    };
+}
+
+function selectionIs(sel, state) {
+    var range, isState = false;
+    if (window.frames[0].document.getSelection) {
+        if (sel && sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+    }
+    if (window.frames[0].document.queryCommandState) {
+        isState = window.frames[0].document.queryCommandState(state);
+    }
+    return isState;
+}
+
+$(function () {
+     var $iframe,
+        mouseMoveCoord,
+        $htmlEditor = $("#htmlEditor"),
+        $toolbarHolder = $("#toolbarHolder"),
+        $textToolbar = $("#text"),
+        height = $('html').hasClass('touch') ? 500 : 350;
+
+    $toolbarHolder.hide();
+
+    $htmlEditor.igHtmlEditor({
+        width: "750px",
+        height: height,
+        inputName: "htmlEditor"
+    });
+ 
+    $textToolbar.igToolbar({
+        "name": "textToolbar",
+        "displayName": "Toolbar text",
+        "isExpanded": true,
+        "collapseButtonIcon": "ui-igbutton-collapse",
+        "expandButtonIcon": "ui-igbutton-expand",
+        "items": [{
+            "name": "Bold",
+            "type": "button",
+            "scope": null,
+            "props": {
+                "allowToggling": {
+                    "value": true
+                },
+                "isBold": {
+                    "value": false,
+                    "action": "_isSelectedAction"
+                },
+                "boldButtonTooltip": {
+                    "value": "Bold",
+                    "action": "_tooltipAction"
+                },
+                "boldButtonIcon": {
+                    "value": "ui-igbutton-bold",
+                    "action": "_buttonIconAction"
+                }
+            }
+        }, {
+                "name": "Italic",
+                "type": "button",
+                "props": {
+                    "isItalic": {
+                        "value": false,
+                        "action": "_isSelectedAction"
+                    },
+                    "italicButtonTooltip": {
+                        "value": "Italic",
+                        "action": "_tooltipAction"
+                    },
+                    "italicButtonIcon": {
+                        "value": "ui-igbutton-italic",
+                        "action": "_buttonIconAction"
+                    }
+                }
+            }, {
+                "name": "Underline",
+                "type": "button",
+                "props": {
+                    "isUnderline": {
+                        "value": false,
+                        "action": "_isSelectedAction"
+                    },
+                    "underlineButtonTooltip": {
+                        "value": "Underline",
+                        "action": "_tooltipAction"
+                    },
+                    "underlineButtonIcon": {
+                        "value": "ui-igbutton-underline",
+                        "action": "_buttonIconAction"
+                    }
+                }
+            }]
+    });
+
+    $iframe = $('#htmlEditor_editor');
+
+    $iframe.contents().find("body").on("mouseup", function (ev) {
+        var userSelection,
+            userSelectionString,
+            $bold = $textToolbar.find("div[id*='Bold']"),
+            $italic = $textToolbar.find("div[id*='Italic']"),
+            $underline = $textToolbar.find("div[id*='Underline']"),
+            coord = getSelectionCoords();
+
+        if (window.frames[0].document.getSelection) {
+            userSelection = window.frames[0].document.getSelection();
+            userSelectionString = userSelection.toString();
+        } else {
+            userSelection = window.frames[0].document.activeElement;
+            userSelectionString = userSelection.textContent;
+        }
+        if (userSelectionString !== "") {
+            $toolbarHolder.parent().css({
+                position: 'relative'
+            });
+
+            $toolbarHolder.css({
+                top: coord.y,
+                left: coord.x,
+                position: 'absolute'
+            });
+
+            mouseMoveCoord = {
+                x: ev.pageX,
+                y: ev.pageY
+            };
+
+            if (selectionIs(userSelection, "bold")) {
+                $bold.igToolbarButton("activate");
+            }
+
+            if (selectionIs(userSelection, "italic")) {
+                $italic.igToolbarButton("activate");
+            }
+
+            if (selectionIs(userSelection, "underline")) {
+                $underline.igToolbarButton("activate");
+            }
+
+            $iframe.contents().find("body").on("mousemove", function (ev) {
+                if (userSelectionString !== "") {
+                    if (mouseMoveCoord &&
+                        ((Math.abs(mouseMoveCoord.x - ev.pageX) > 50) ||
+                        (Math.abs(mouseMoveCoord.y - ev.pageY) > 50))) {
+
+                        $toolbarHolder.fadeOut();
+                    } else {
+                        $toolbarHolder.fadeIn();
+                    }
+                }
+            });
+
+            $iframe.contents().find("body").on("keydown", function (ev) {
+                if (ev.keyCode === 66 && ev.ctrlKey) {
+                    $bold.igToolbarButton("toggle");
+                }
+
+                if (ev.keyCode === 73 && ev.ctrlKey) {
+                    $italic.igToolbarButton("toggle");
+                }
+
+                if (ev.keyCode === 85 && ev.ctrlKey) {
+                    $underline.igToolbarButton("toggle");
+                }
+            });
+
+            $toolbarHolder.fadeIn();
+        } else {
+            $iframe.contents().find("body").off("mousemove");
+            $iframe.contents().find("body").off("keydown")
+
+                    $toolbarHolder.hide();
+            if ($bold.igToolbarButton) {
+                $bold.igToolbarButton("deactivate");
+            }
+
+            if ($italic) {
+                $italic.igToolbarButton("deactivate");
+            }
+
+            if ($underline) {
+                $underline.igToolbarButton("deactivate");
+            }
+        }
+    });
+
+    $(document).on("igtoolbarbuttonclick", function (ev) {
+        var command = $(ev.target).attr("id").replace($textToolbar.attr("id") + "_item_", "");
+        $htmlEditor.igHtmlEditor("executeAction", command.toLowerCase());
+    });
+
+    $(document).on("ightmleditoractionexecuting", function (ev, ui) {
+        var $button = $textToolbar.find("div[id*='" + ui.actionName + "']");
+
+        if ($button.igToolbarButton) {
+            $textToolbar.find("div[id*='" + ui.actionName + "']").igToolbarButton("toggle");
+        }
+    });
+});
+```
+
+### <a id="Related_Content"></a>関連コンテンツ
+以下のトピックでは、このトピックに関連する追加情報を提供しています。
+-   [TypeScript で &#123;environment:ProductName&#125; を使用](Using-Ignite-UI-with-TypeScript.html) - このトピックでは、&#123;environment:ProductName&#125; の型定義を TypeScript で使用する方法の概要を説明します。

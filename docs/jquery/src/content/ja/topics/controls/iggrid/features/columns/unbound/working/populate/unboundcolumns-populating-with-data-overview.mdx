@@ -1,0 +1,105 @@
+﻿---
+title: "非バインド列の生成の概要 (igGrid)"
+slug: iggrid-unboundcolumns-populating-with-data-overview
+---
+
+# 非バインド列の生成の概要 (igGrid)
+
+## トピックの概要
+
+### 目的
+
+このトピックは、非バインド列にデータを生成する方法の概念的な概要を示し、オプション (ローカル/リモート) を簡単に説明します。
+
+### 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+- [非バインド列の概要](/controls/iggrid/features/columns/unbound/unboundcolumns-overview): このトピックでは、`igGrid` の非バインド列機能の概要について説明します。
+
+- [列を非バインドとして設定 (igGrid)](/controls/iggrid/features/columns/unbound/unboundcolumns-setting-column-as-unbound): このトピックでは、クライアント側およびサーバー側で `igGrid` に非バインド列を設定する方法を示します。これには、JavaScript と ASP.NET のコード スニペットが含まれます。
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [概要](#introduction)
+    -   [非バインド列を作成する - サマリー](#summary)
+    -   [非バインド列を作成する - サマリー チャート](#summary-chart)
+    -   [非バインド列でデータをローカルに生成 - 概要](#local-data)
+    -   [非バインド列にデータをリモートで追加の概要](#remote-data)
+-   [関連コンテンツ](#related-content)
+    -   [トピック](#topics)
+
+
+
+## <a id="introduction"></a> 概要
+
+### <a id="summary"></a> 非バインド列を作成する - サマリー
+
+定義済みデータ (外部ソースから、など) を使用してクライアントまたはサーバー上で非バインド列にデータを事前設定できます (&#123;environment:ProductNameMVC&#125; を使用している場合) またはグリッド データ ソースからのデータを計算します。
+
+クライアント上では、グリッド初期化コードの一部として、または実行時 (グリッドのインスタンス化後) に値を事前設定できます。
+
+サーバー上では、非バインド列にデータを 2 通りの方法で事前設定します。最初のシナリオでは、非バインド列ディクショナリをグリッド データに一致させるためにグリッドのプライマリ キー値を使用しています。2 つめは、非バインド列のリストを使用しています。
+
+### <a id="summary-chart"></a> 非バインド列を作成する - サマリー チャート
+
+
+|  |  |  |
+| --- | --- | --- |
+| 非バインド列に事前定義データを事前設定する | 非バインド列には、[unboundValues](environment:jQueryApiUrl/ui.iggrid#options:columns.unboundValues) 配列プロパティを使用し任意の値 (事前定義データ セット) を事前設定します。, 配列内の項目のタイプは、非バインド列のタイプに一致しなければなりません。, 配列内の項目の数は、データ ソース内の項目数に等しくない可能性があります。, **配列内の値がデータ ソースより多い場合**、飛び抜けた値が破棄されます。 **配列内の値がデータ ソースより多い場合**、データ ソース値が null 値に設定されます。 **注:** `unboundValues` と `formula` のプロパティが設定されると、`unboundValues` プロパティは `formula` プロパティに優先し `formula` プロパティ (未使用) を破棄します。 | unbound unboundValues |
+| 非バインド計算値を作成する | 非バインド列に計算値を事前設定するには、各セルの値を計算するコールバック関数を使用します。, `formula` プロパティは、パラメータが 2 つある関数を承諾します。 row - 現在のデータ行オブジェクト行オブジェクト フィールドは、`localSchemaTransform` が true か false かによります。`localSchemaTransform` が true の場合、グリッド列により使用されるフィールドのみが使用できます。`localSchemaTransform` が false の場合、データ ソースからのすべてのフィールドが使用できます。 grid - igGrid インスタンス **注:** `unboundValues` と `formula` のプロパティが設定されると、`unboundValues` プロパティは優先し `formula` プロパティは使用されません。 | unbound formula |
+| テンプレートを使用して非バインド列値を作成する | `unboundValues` プロパティまたは `formula` プロパティに加え、またはオルタナティブとしてテンプレートを使用します。テンプレートには、別の列からのデータを非バインド列に事前設定できます。 | unbound template |
+
+
+
+
+### <a id="local-data"></a> 非バインド列でデータをローカルに生成 - 概要
+
+グリッド初期化コードの一部として非バインド列データを事前設定するには、 [`unboundValues`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:columns.unboundValues) プロパティ、[`formula`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:columns.formula) プロパティまたはグリッドの[`dataBound`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#events:dataBound) イベントを使用します。`unboundValues` は、値の配列を承諾し、非バインドデータを事前定義する必要があります。`dataBound` イベントおよび formula プロパティにより、グリッドのデータ ソースからデータを計算できます。`dataBound` イベントでは、[`$.ig.DataSource.data`](&#123;environment:jQueryApiUrl&#125;/ig.datasource#methods:data) メソッドを使用してグリッド データを取得し、非バインド列データを設定します。formula プロパティは、行 (処理する現在のデータ行) とグリッド インスタンス パラメータを承諾する関数コールバックです。
+
+実行時に非バインド列データを事前設定するには、[`igGrid.setUnboundValues`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#methods:setUnboundValues) または [`igGridUpdating.setCellValue`](&#123;environment:jQueryApiUrl&#125;/ui.iggridupdating#methods:setCellValue) を使用します。`setUnboundValues` は、列キーと値の配列をパラメータとして承諾し、複数の値を一度に事前設定します。`setCellValue` は、行 ID (プライマリ キーまたは行)、列キーおよび値パラメータを承諾し、一度に 1 つのセルのみを事前設定し更新機能を必要とします。
+
+**関連トピック**
+
+-   [非バインド列をローカルに生成 (igGrid)](/controls/iggrid/features/columns/unbound/working/populate/unboundcolumns-populating-with-data-locally)
+
+### <a id="remote-data"></a> 非バインド列にデータをリモートで追加の概要
+
+&#123;environment:ProductNameMVC&#125; では、非バインド列は View (チェーン使用時) またはコントローラー (`GridModel` クラス使用時) において設定できます。
+
+View では、`UnboundColumnWrapper<T>.UnboundValues(List<object> list)` メソッドでオブジェクト リストを使用することにより非バインド列データを事前設定できます。各セルがその値を計算するためにクライアント上で呼び出される JavaScript 関数名に設定すべき数式メソッドもあります。
+
+コントローラーでは、`GridModel.SetUnboundValues` メソッドの 2 つのオーバーロードを使用できます。
+
+最初のメソッド (`GridModel.SetUnboundValues(string key, Dictionary<object, object> values)`) は、列キーとオブジェクトのディクショナリを承諾します。このときキーはグリッド データのプライマリ キー値であり、値は非バインド列の値です。非バインド列値はプライマリ キーで一致が行われます。
+
+2 つめのメソッド (`GridModel.SetUnboundValues(string key, List<object> values)`) は、列キーとオブジェクトのリストを承諾します。非バインド列値は、要素の順序で一致が行われます。
+
+**関連トピック**
+
+-   [非バインド列をリモートに生成 (igGrid)](/controls/iggrid/features/columns/unbound/working/populate/unboundcolumns-populating-with-data-remotely)
+
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [更新の概要 (igGrid)](/controls/iggrid/features/updating/updating): このトピックでは、igGrid コントロールの更新機能の使用方法を説明します。
+
+- [非バインド列をローカルに生成 (igGrid)](/controls/iggrid/features/columns/unbound/working/populate/unboundcolumns-populating-with-data-locally): このトピックでは、クライアント上で非バインド列の値を設定する方法をコード例を用いて示します。
+
+- [非バインド列をリモートに生成 (igGrid)](/controls/iggrid/features/columns/unbound/working/populate/unboundcolumns-populating-with-data-remotely): このトピックでは、サーバー上で非バインド列の値を設定する方法をコード例を用いて示します。
+
+
+
+
+ 
+
+ 
+
+

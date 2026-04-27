@@ -75,7 +75,7 @@ if (APPLY) {
 
 // Step 2: Convert %%Token%% → {environment:Token} in content files,
 //         resolve %%Token%% → literal values in toc.json names
-run('Convert DocFX tokens', `node scripts/convert-docfx-tokens.mjs ${applyFlag}${topicsFlag}`);
+run('Convert DocFX tokens', `node scripts/convert-docfx-tokens.mjs ${applyFlag}${topicsFlag}${tocFlag}`);
 
 // Step 3: Convert HTML tables → Markdown pipe tables
 run('Convert HTML tables', `node scripts/convert-html-tables.mjs ${TOPICS} ${applyFlag}`);

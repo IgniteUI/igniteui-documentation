@@ -1,0 +1,519 @@
+﻿---
+title: "igMap のデータへのバインディング"
+slug: data-binding-igmap
+---
+
+# igMap のデータへのバインディング
+
+
+
+##トピックの概要
+
+### 目的
+
+このトピックでは、視覚化されたマップ シリーズに応じて `igMap`™ コントロールを各種のデータ ソースにバインドする方法を説明します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックと概念の一覧です。
+
+**概念**
+
+-   JavaScript 配列
+-   [JSON](http://www.json.org/)
+-   [Web サービス](https://ja.wikipedia.org/wiki/Webサービス)
+-   [WCF サービス](http://msdn.microsoft.com/ja-jp/library/aa480190.aspx)
+-   [ASP.NET MVC](http://www.asp.net/mvc)
+-   [シェープ ファイル](http://wiki.openstreetmap.org/wiki/Shapefiles)
+-   [DBF データベース ファイル](http://en.wikipedia.org/wiki/DBase)
+-   [三角測量 (ITF) ファイル](http://vterrain.org/Implementation/Formats/ITF.html)
+
+**トピック**
+
+- [igDataSource の概要](/data-sources/igdatasource/igdatasource-overview): データ バインドされたコントロールと実際のデータ ソースとの中間層として機能する `igDataSource`™ コントロールに関する全般的な説明。
+
+-	[igMap の概要](/controls/igmap/overview-igmap): このトピックは、`igMap` コントロールについて、その主要機能、最小用件、ユーザー機能といった事項の概念的情報を提供します。
+
+-	[igMap の追加](/controls/igmap/adding-igmap): このトピックでは、基本的な機能を備えた簡易マップを Web ページに追加する方法を示します。
+
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [サポートされるデータ ソース](#supported-datasources)
+    -   [サポートされるデータ ソースの概要](#supported-datasource-summary)
+    -   [マップ シリーズとデータ ソースの関連参照チャート](#map-series-chart)
+-   [データ バインディングの概要](#data-binding)
+    -   [JavaScript 配列へのバインド](#binding-js-array)
+    -   [JSON データへのバインド](#binding-json)
+    -   [図形データ ソースへのバインド](#binding-shape-datasource)
+    -   [図形データベースへのバインド](#binding-shape-database)
+    -   [三角測量データ ソースへのバインド](#binding-triangulation-datasource)
+-   [コード例の概要](#code-example-summary)
+-   [コード例: 地理シンボル シリーズの JavaScript 配列へのバインド](#example-js-array)
+-   [コード例: 地理シンボル シリーズの ASP.NET MVC の Model オブジェクトへのバインド](#example-mvc-model-object)
+-   [コード例: 地理シンボル シリーズの JSON データベースへのバインド](#example-json-local)
+-   [コード例: 地理シンボル シリーズのリモート サービスからの JSON データベースへのバインド](#example-json-database)
+-   [コード例: 地理図形シリーズのシェープ/DBF ファイルのペアへのバインド](#example-bdf-file-pair)
+-   [コード例: 地理散布エリア シリーズの三角測量ファイルへのバインド](#example-triangulation-file)
+-   [関連コンテンツ](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+
+
+##<a id="supported-datasources"></a>サポートされるデータ ソース
+
+### <a id="supported-datasource-summary"></a>サポートされるデータ ソースの概要表
+
+`igMap` コントロールは以下のデータ ソースをサポートしています。
+
+データ ソース|バインディング
+---|---
+[JavaScript 配列](#binding-js-array)|地理シンボル シリーズ マップは、ポイントの地理座標を視覚化するデータのローカル JavaScript 配列にバインドできます。
+[JSON](#binding-json)|igMap コントロールは、ローカル JSON を使用するか、リモート データを要求し、JSON 応答を受信するよう構成できます。次にこの応答は、地理シンボル シリーズ インスタンスにバインドできます。
+[シェープ ファイル](#binding-shape-datasource)|地理図形シリーズと地理ポリライン シリーズでは、視覚化のためシェープ ファイル ([DBF ファイル](#binding-shape-database)) またはカスタム データ ソースを提供する必要があります。
+[DBF ファイル](#binding-shape-database)|地理図形シリーズと地理ポリライン シリーズでは、DBF データベース ファイルまたはカスタム データ ソースを提供し、データ属性を図形およびポリラインに追加でバインドする必要があります。
+[三角測量 (ITF) ファイル](#binding-triangulation-datasource)|地理散布エリア シリーズと地理等高線シリーズでは、視覚化のため三角測量 (ITF) ファイルまたはカスタム三角測量データ ソースが必要です。
+
+### <a id="map-series-chart"></a>マップ シリーズとデータ ソースの関連参照チャート
+
+`igMap` コントロールでサポートされているさまざまなマップ シリーズは、さまざまな種類のデータにバインドし、それらを視覚化しています。以下に、サポートされているデータ ソースと各マップ シリーズ タイプの参照表を示します。
+
+
+|  |  |  |
+| --- | --- | --- |
+| マップ シリーズ | データ ソース | 関連トピック |
+| 地理シンボル | JavaScript 配列 リモート サービスの JSON | [地理シンボル シリーズの構成 (igMap)](/controls/igmap/configuring/series/configuring-geographic-symbol-series) |
+| 地理的図形 | シェープ ファイルおよびペアになった DBF ファイル | [地理図形シリーズの構成 (igMap)](/controls/igmap/configuring/series/configuring-geographic-shapes) |
+| 地理ポリライン | シェープ ファイルおよびペアになった DBF ファイル | [地理ポリライン シリーズの構成 (igMap)](/controls/igmap/configuring/series/configuring-geographic-polyline-series) |
+| 地理散布 | 三角測量ファイル | [地理散布エリア シリーズの構成 (igMap)](/controls/igmap/configuring/series/configuring-geographic-scatter-area-series) |
+| 地理等高線 | 三角測量ファイル | [地理散布エリア シリーズの構成 (igMap)](/controls/igmap/configuring/series/configuring-geographic-scatter-area-series) |
+
+
+
+
+
+
+##<a id="data-binding"></a>データ バインディングの概要
+
+### <a id="binding-js-array"></a>JavaScript 配列へのバインド
+
+地理シンボル シリーズ マップは、ポイントの地理座標を視覚化するデータのローカル JavaScript 配列にバインドできます。配列には、マップ上で対応するポイントにバインドされているその他のデータ属性を保存できます。その他のデータ属性は、ツールチップ テンプレートおよびコールバック関数に使用できます。
+
+`igMap` コントロールを JavaScript 配列にバインドする実装サンプルについては、[コード例: 地理シンボル シリーズの JavaScript 配列へのバインド](#example-js-array)を参照してください。
+
+### <a id="binding-json"></a>JSON データへのバインド
+
+`igMap` コントロールは、リモート データを要求し、JSON 応答を受信するよう構成できます。この応答は、地理シンボル シリーズ インスタンスにバインドできます。JSON 応答は、視覚化するポイントの地理座標を提供する必要があり、属性を追加で含むことができます。その他の属性は、地理座標とともにマップ上の対応するポイントにバインドされます。それらの属性は、ツールチップ テンプレートおよびコールバック関数に使用できます。
+
+`igMap` コントロールを JSON データにバインドする実装サンプルについては、[コード例: 地理シンボル シリーズのリモート サービスからの JSON データベースへのバインド](#example-json-database)を参照してください。
+
+`igMap` もローカル JSON データを使用するために構成できます。サンプルについては、[「コード例: 地理シンボル シリーズの JSON データベースへのバインド」](#example-json-local)を参照してください。
+
+### <a id="binding-shape-datasource"></a>図形データ ソースへのバインド
+
+地理図形シリーズと地理ポリライン シリーズでは、視覚化のため図形データ ソースを提供する必要があります。図形データ ソースはシェープ ファイル、JavaScript 配列、または図形データを持つ JSON です。
+
+シェープ ファイル (SHP) は特殊なファイル形式で、マップにプロットできる閉じた図形 (領域) または開いた図形 (ポリライン) に情報が入っています。`igMap` コントロールは、get 要求によりシェープ ファイルを読み込みます。これらのファイルは Web アプリケーションまたは Web サイトのコンテンツまたはデータ フォルダーに保存できます。シェープ ファイルは必ず、視覚化している図形のデータを含んだ対応する DBF データベース ファイルとともに配信されます。
+
+>**注:** 通常は、SHP ファイルの拡張子は、application/octet-stream MIME タイプとして、Web サーバーまたは SHP ファイルが保存されているディレクトリに登録する必要があります。登録しない場合、Web サーバーのセキュリティ ポリシーにより、これらのファイルをクライアントに提供できない場合があります。
+
+`igMap` コントロールを図形データ ソースにバインドする実装サンプルについては、[コード例: 地理図形シリーズのシェープ/DBF ファイルのペアへのバインド](#example-bdf-file-pair)を参照してください。
+
+### <a id="binding-shape-database"></a>図形データベースへのバインド
+
+地理図形とポリラインのシリーズでは、データ属性を図形およびポリラインにバインドするために、データを提供する必要があります。通常これらのデータは DBF ファイルから提供されますが、カスタム データ ソースにより図形とともに提供することもできます。
+
+`igMap` コントロールは、get 要求により DBF ファイルを読み込みます。これらのファイルは Web アプリケーションまたは Web サイトのコンテンツまたはデータ フォルダーに保存できます。DBF ファイルは、視覚化されている地理図形に関するデータで対応するシェープ ファイルを常に補完します。
+
+>**注:** 通常は、DBF ファイルの拡張子は、application/octet-stream MIME タイプとして、Web サーバーまたは DBF ファイルが保存されているディレクトリに登録する必要があります。登録しない場合、Web サーバーのセキュリティ ポリシーにより、これらのファイルをクライアントに提供できない場合があります。
+
+`igMap` コントロールを図形データベースにバインドする実装サンプルについては、[コード例: 地理図形シリーズのシェープ/DBF ファイルのペアへのバインド](#example-bdf-file-pair)を参照してください。
+
+### <a id="binding-triangulation-datasource"></a>三角測量データ ソースへのバインド
+
+地理散布エリア シリーズと地理等高線シリーズでは、視覚化のため JavaScript 配列または JSON の形式で三角測量 (ITF) ファイルまたはカスタム三角測量データ ソースが必要です。
+
+ITF ファイルは Triangular Irregular Network (TIN) の情報が入った特殊なファイル形式です。ITF の略称は、Intermediate TIN Format を表しています。TIN は、地表面を数学的に 3D で表現する方法です。ITF ファイルは get 要求を使用して読み込まれます。これらのファイルは Web サイトまたは Web アプリケーションのコンテンツまたはデータ フォルダーに保存できます。
+
+>**注:** 通常は、ITF ファイルの拡張子は、application/octet-stream MIME タイプとして、Web サーバーまたは ITF ファイルが保存されているディレクトリに登録する必要があります。登録しない場合、Web サーバーのセキュリティ ポリシーにより、これらのファイルをクライアントに提供できない場合があります。
+
+`igMap` コントロールを三角測量データ ソースにバインドする実装サンプルについては、[コード例: 地理散布エリア シリーズの三角測量ファイルへのバインド](#example-triangulation-file)を参照してください。
+
+
+
+##<a id="code-example-summary"></a>コード例の概要
+
+
+### コード例の概要表
+
+以下の表は、このトピックで使用したコード例をまとめたものです。
+
+例|説明
+---|---
+[コード例: 地理シンボル シリーズの JavaScript 配列へのバインド](#example-js-array)|このコード例は、`igMap` コントロールで JavaScript 配列を地理シンボル シリーズにバインドする方法を示します。
+[コード例: 地理シンボル シリーズの ASP.NET MVC の Model オブジェクトへのバインド](#example-mvc-model-object)|このコード例は、ASP.NET MVC アプリケーションで view model オブジェクトを `igMap` コントロール インスタンスにバインドする方法を示します。
+[コード例: 地理シンボル シリーズのリモート サービスからの JSON データベースへのバインド](#example-json-database)|このコード例は、`igMap` コントロールでリモート サービス要求からの JSON データを地理シンボル シリーズにバインドする方法を示します。
+[コード例: 地理図形シリーズのシェープ/DBF ファイルのペアへのバインド](#example-bdf-file-pair)|このコード例は、`igMap` コントロールでシェープ ファイルおよびデータベース ファイルのペアを地理図形シリーズにバインドする方法を示します。
+[コード例: 地理散布エリア シリーズの三角測量ファイルへのバインド](#example-triangulation-file)|このコード例は、`igMap` コントロールで三角測量ファイルを地理散布エリア シリーズにバインドする方法を示します。
+
+
+##<a id="example-js-array"></a>コード例: 地理シンボル シリーズの JavaScript 配列へのバインド
+
+### 説明
+
+このコード例は、`igMap` コントロールで JavaScript 配列を地理シンボル シリーズにバインドする方法を示します。
+
+### コード
+
+以下のコード スニペットでは、地理座標を使用して JavaScript 配列を定義しています。
+
+**JavaScript の場合:**
+
+```js
+var data = [
+    { Name: "Warsaw", Country: "Poland", Latitude: 52.21, Longitude: 21 },
+    { Name: "London", Country: "England", Latitude: 51.50, Longitude: 0.12 },
+    { Name: "Berlin", Country: "Germany", Latitude: 52.50, Longitude: 13.33 },
+    { Name: "Moscow", Country: "Russia", Latitude: 55.75, Longitude: 37.51 },
+    { Name: "Sydney", Country: "Australia", Latitude: -33.83, Longitude: 151.2 },
+    { Name: "Tokyo", Country: "Japan", Latitude: 35.6895, Longitude: 139.6917 }
+];
+```
+
+以下のコードでは `igMap` コントロールのインスタンスを作成し、定義済みの配列により地理シンボル シリーズを構成しています。配列データを series オブジェクトの `dataSource` プロパティに割り当てて、コントロールが配列を使用できるように構成します。`latitudeMemberPath` オプションと `longitudeMemberPath` オプションは、地理的な緯度と経度を含む配列のオブジェクトのプロパティの名前で構成されています。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({
+    backgroundContent: {
+        type: "openStreet"
+    },
+    series: [{
+        type: "geographicSymbol",
+        name: "worldCities",
+        dataSource: data,
+        latitudeMemberPath: "Latitude",
+        longitudeMemberPath: "Longitude",
+        markerType: "automatic"
+    }]
+});
+```
+
+
+
+##<a id="example-mvc-model-object"></a>コード例: 地理シンボル シリーズの ASP.NET MVC の Model オブジェクトへのバインド
+
+
+### 説明
+
+このコード例は、ASP.NET MVC アプリケーションでビュー モデル オブジェクトを `igMap` コントロール インスタンスにバインドする方法を示します。
+
+### コード
+
+1. データ モデル
+
+	以下のコード スニペットでは、ASP.NET MVC アプリケーションのデータ モデル オブジェクトを定義しています。
+
+	**C# の場合:**
+
+```csharp
+	namespace SampleMvcApp.Models
+	{
+	    public class WorldCity
+	    {
+	        public string Name { get; set; }
+	        public string Country { get; set; }
+	        public double Latitude { get; set; }
+	        public double Longitude { get; set; }
+	    }
+	}
+```
+
+2. Controller アクション メソッド
+
+	以下のコード スニペットでは、model オブジェクトのリストを作成し、リストにデータを登録し、データを ASP.NET MVC ビューに渡すコントローラー アクション メソッドを定義しています。
+
+	**C# の場合:**
+
+```csharp
+	public ActionResult Index()
+	{
+	    List<SampleMvcApp.Models.WorldCity> worldCities = 
+	        new List<SampleMvcApp.Models.WorldCity>
+	    {
+	        new WorldCity { Name = "Warsaw", Country = "Poland", 
+	            Latitude = 52.21, Longitude = 21 },
+	        new WorldCity { Name = "London", Country = "England", 
+	            Latitude = 51.50, Longitude = 0.12 },
+	        new WorldCity { Name = "Berlin", Country = "Germany", 
+	            Latitude = 52.50, Longitude = 13.33 },
+	        new WorldCity { Name = "Moscow", Country = "Russia", 
+	            Latitude = 55.75, Longitude = 37.51 },
+	        new WorldCity { Name = "Sydney", Country = "Australia", 
+	            Latitude = -33.83, Longitude = 151.2 },
+	        new WorldCity { Name = "Tokyo", Country = "Japan", 
+	            Latitude = 35.6895, Longitude = 139.6917 }
+	    };
+	    return View(worldCities.AsQueryable());
+	}
+```
+
+3. マップのインスタンス作成とデータ バインディング
+
+	以下のコード スニペットは、厳密に型指定された ASP.NET MVC ビューで &#123;environment:ProductNameMVC&#125; `Map` コントロールのインスタンスを作成する MVC ヘルパー コードを示します。
+
+	**ASPX の場合:**
+
+```csharp
+	<%@ Page Language="C#" Inherits="IQueryable<SampleMvcApp.Models.WorldCity>"
+	    MasterPageFile="~/Views/Shared/MvcSite.Master" %>
+	<%= Html.Infragistics().Map(Model)
+	        .ID("map")
+	        .BackgroundContent(bgr => bgr.OpenStreetMaps())
+	        .Series(series => {
+	            series.GeographicSymbol("worldCities")
+	                .LatitudeMemberPath(item => item.Latitude)
+	                .LongitudeMemberPath(item => item.Longitude);
+	        })
+	        .DataBind()
+	        .Render()
+	%>
+```
+
+	-   以下のコード スニペットは、model オブジェクトの型を直接ヘルパーに設定して、通常の ASP.NET MVC ビューで &#123;environment:ProductNameMVC&#125; `Map` コントロールのインスタンスを作成する MVC ヘルパー コードを示します。
+
+		**ASPX の場合:**
+
+```csharp
+		<%= Html.Infragistics().Map<SampleMvcApp.Models.WorldCity>(Model)
+		        .ID("map")
+		        .BackgroundContent(bgr => bgr.OpenStreetMaps())
+		        .Series(series => {
+		            series.GeographicSymbol("worldCities")
+		                .LatitudeMemberPath(item => item.Latitude)
+		                .LongitudeMemberPath(item => item.Longitude)
+		                .MarkerType(MarkerType.Automatic);
+		        })
+		        .DataBind()
+		        .Render()
+		%>
+```
+
+	両方の例で、`LatitudeMemberPath()` コールと `LongitudeMemberPath()` コールは、地理的な緯度と経度を含むデータ モデルのオブジェクトのプロパティの名前で構成されています。
+
+##<a id="example-json-local"></a> コード例: 地理シンボル シリーズの JSON データベースへのバインド
+
+### 説明
+
+このサンプルでは地理シンボル シリーズを使用し、世界の国の位置データを含む JSON データを、igMap コントロールにバインドする方法を示します。
+
+### 例
+
+<div class="embed-sample">
+   [&#123;environment:SamplesEmbedUrl&#125;/map/json-binding](&#123;environment:SamplesEmbedUrl&#125;/map/json-binding)
+</div>
+
+##<a id="example-json-database"></a>コード例: 地理シンボル シリーズのリモート サービスからの JSON データベースへのバインド
+
+### 説明
+
+このコード例は、`igMap` コントロールでリモート サービス要求からの JSON データを地理シンボル シリーズにバインドする方法を示します。
+
+### コード
+
+以下のコードは、JavaScript で `igMap` コントロールのインスタンスを作成し、それをリモート サービスから返されたデータにバインドする方法を示します。URL をマップ シリーズ オブジェクトの dataSourceUrl オプションに割り当ててコントロールを構成し、その URL に対するデータの GET 要求を実行します。Web サービス、WCF サービス、または MVC コントローラー アクションはその URL に対して構成し、JSON 形式データを返す必要があります。dataSourceType オプションは値「json」で構成し、リモート呼び出しの予想結果が JSON 形式配列データになるよう指定します。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({
+    backgroundContent: {
+        type: "openStreet"
+    },
+    series: [{
+        type: "geographicSymbol",
+        name: "worldCities",
+        dataSourceUrl: "http://www.example.com/WorldCitiesData",
+        latitudeMemberPath: "Latitude",
+        longitudeMemberPath: "Longitude"
+    }]
+});
+```
+
+以下のコードは、ASP.NET MVC で `igMap` コントロールのインスタンスを作成し、それをリモート サービスから返されたデータにバインドする方法を示します。URL をマップ シリーズ オブジェクトの `DataSourceUrl()` コールに割り当ててコントロールを構成し、その URL に対するデータの GET 要求を実行します。Web サービス、WCF サービス、または MVC コントローラー アクションはその URL に対して構成し、JSON 形式データを返す必要があります。`DataSourceType()` コールは、予想結果が JSON 形式配列データになるよう指定します。
+
+**ASPX の場合:**
+
+```csharp
+<%= Html.Infragistics().Map<SampleMvcApp.Models.WorldCity>()
+        .ID("map")
+        .BackgroundContent(bgr => bgr.OpenStreetMaps())
+        .Series(series => {
+            series.GeographicSymbol("worldCities")
+                .DataSourceType("json")
+                .DataSourceUrl("http://www.example.com/WorldCitiesData")
+                .LatitudeMemberPath(item => item.Latitude)
+                .LongitudeMemberPath(item => item.Longitude);
+        })
+        .DataBind()
+        .Render()
+%>
+```
+
+
+
+##<a id="example-bdf-file-pair"></a>コード例: 地理図形シリーズのシェープ/DBF ファイルのペアへのバインド
+
+### 説明
+
+このコード例は、`igMap` コントロールでシェープ ファイルおよびデータベース ファイルのペアを地理図形シリーズにバインドする方法を示します。
+
+### コード
+
+以下のコードでは、JavaScript で `igMap` コントロールのインスタンスを作成し、地理図形シリーズを構成しています。サーバーのシェープ ファイルとデータベース ファイルの場所は、それぞれ `shapeDataSource` オプションと `databaseSource` オプションの割り当てに指定されています。`shapeMemberPath` 割り当ては参照のためのみ行われ、オプション パラメーターであり省略できます。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({
+    backgroundContent: {
+        type: "openStreet"
+    },
+    series: [{
+        type: "geographicShape",
+        name: "world",
+        shapeMemberPath: "points",
+        shapeDataSource: "/Data/world.shp",
+        databaseSource: "/Data/world.dbf"
+    }]
+});
+```
+
+以下のコードでは、ASP.NET MVC で `igMap` コントロールのインスタンスを作成し、地理図形シリーズを構成しています。サーバーのシェープ ファイルとデータベース ファイルの場所は、それぞれ `ShapeDataSource()` コールと `DatabaseSource()` コールに指定されています。`ShapeMemberPath()` コールは参照のためのみ行われ、オプション パラメーターであり省略できます。
+
+**ASPX の場合:**
+
+```csharp
+<%= Html.Infragistics().Map()
+        .ID("map")
+        .BackgroundContent(bgr => bgr.OpenStreetMaps())
+        .Series(series => {
+            series.GeographicShape("world")
+                .ShapeMemberPath("points")
+                .ShapeDataSource(Url.Content("~/Data/world.shp"))
+                .DatabaseSource(Url.Content("~/Data/world.dbf"));
+        })
+        .DataBind()
+        .Render()
+%>
+```
+
+
+
+##<a id="example-triangulation-file"></a>コード例: 地理散布エリア シリーズの三角測量ファイルへのバインド
+
+### 説明
+
+このコード例は、igMap コントロールで三角測量ファイルを地理散布エリア シリーズにバインドする方法を示します。
+
+### コード
+
+以下のコードでは、JavaScript で `igMap` コントロールのインスタンスを作成し、地理散布エリア シリーズを構成しています。サーバーの三角測量ファイルの場所は、`triangulationDataSource` オプション割り当てに指定されています。カスタム三角測量データ ソースを使用する場合のみ、プロパティ `triangleVertexMemberPath1`、`triangleVertexMemberPath2`、`triangleVertexMemberPath3`、`longitudeMemberPath`、`latitudeMemberPath`、および `colorMemberPath` の値を指定する必要があります。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({
+    series: [{
+        type: "geographicScatterArea",
+        name: "precipitation",
+        colorScale: {
+            type: "customPalette",
+            interpolationMode: "interpolateRGB",
+            minimumValue: 0.15,
+            palette: ["#3300CC", "#4775FF", "#0099CC", "#00CC99", "#33CC00", "#99CC00", 
+                "#CC9900", "#FFC20A", "#CC3300"]
+        },
+        triangleVertexMemberPath1: "v1",
+        triangleVertexMemberPath2: "v2",
+        triangleVertexMemberPath3: "v3",
+        longitudeMemberPath: "pointX",
+        latitudeMemberPath: "pointY",
+        colorMemberPath: "value",
+        triangulationDataSource: "/Data/precipitation.itf"
+    }]
+});
+```
+
+以下のコードでは、ASP.NET MVC で `igMap` コントロールのインスタンスを作成し、地理散布エリア シリーズを構成しています。サーバーの三角測量ファイルの場所は、`TriangulationDataSource()` コールに指定されています。`TriangleVertexMemberPath1()`、`TriangleVertexMemberPath2()`、`TriangleVertexMemberPath3()`、`LongitudeMemberPath()`、`LatitudeMemberPath()`、および `ColorMemberPath()` の値の指定は任意です。
+
+**ASPX の場合:**
+
+```csharp
+<%= Html.Infragistics().Map()
+        .ID("map")
+        .Series(series => {
+            series.GeographicScatterArea("precipitation")
+                .ColorScale(cs => 
+                    cs.CustomPalette()
+                        .InterpolationMode(InterpolationMode.InterpolateRGB)
+                        .MinimumValue(0.15)
+                        .Palette(new List<string>() { "#3300CC", "#4775FF", "#0099CC", 
+                            "#00CC99", "#33CC00", "#99CC00", "#CC9900", "#FFC20A", 
+                            "#CC3300" })
+                )
+                .TriangleVertexMemberPath1("v1")
+                .TriangleVertexMemberPath2("v2")
+                .TriangleVertexMemberPath3("v3")
+                .LongitudeMemberPath("pointX")
+                .LatitudeMemberPath("pointY")
+                .ColorMemberPath("value")
+                .TriangulationDataSource(Url.Content("~/Data/precipitation.itf"));
+        })
+        .DataBind()
+        .Render()
+%>
+```
+
+
+
+##<a id="related-content"></a>関連コンテンツ
+
+
+### <a id="topics"></a>トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+-	[igMap の概要](/controls/igmap/overview-igmap): このトピックは、`igMap`™ コントロールについて、その主要機能、最小要件、ユーザー機能などの概念的情報を提供します。
+
+-	[igMap の追加](/controls/igmap/adding-igmap): このトピックでは、基本的な機能を備えた簡易マップを Web ページに追加する方法を示します。
+
+
+### <a id="samples"></a>サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+-	[地理記号シリーズ](&#123;environment:SamplesUrl&#125;/map/geo-symbol-series): このサンプルでは、マップを作成し、地理シンボル シリーズを視覚化する方法を紹介します。
+
+-	[地理図形シリーズ](&#123;environment:SamplesUrl&#125;/map/geo-shapes-series): このサンプルでは、シェープ ファイルおよびデータベース ファイルをマップ コントロールにバインドし、地理図形マップ シリーズを構成する方法を紹介します。
+
+-	[地理的ポリライン シリーズ](&#123;environment:SamplesUrl&#125;/map/geo-polyline-series): このサンプルは、シェープ ファイルおよびデータベース ファイルをバインドし、地理ポリライン マップ シリーズを構成する方法を示します。
+
+-	[地理散布エリア シリーズ](&#123;environment:SamplesUrl&#125;/map/geo-scatter-area): このサンプルでは、地理散布エリア シリーズで三角形分割済 (ITF) ファイルをマップ コントロールにバインドする方法を紹介します。
+
+-	[地理等高線シリーズ](&#123;environment:SamplesUrl&#125;/map/geo-contour-line): このサンプルでは、三角形分割済 (ITF) ファイルをマップ コントロールにバインドし、地理等高線シリーズを構成する方法を紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

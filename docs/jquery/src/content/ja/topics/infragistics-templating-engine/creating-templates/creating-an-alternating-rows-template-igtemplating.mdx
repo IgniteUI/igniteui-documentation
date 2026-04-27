@@ -1,0 +1,149 @@
+---
+title: "代替行表示テンプレートの作成 (igTemplating)"
+slug: creating-an-alternating-rows-template-(igtemplating)
+---
+
+# 代替行表示テンプレートの作成 (igTemplating)
+
+
+## <a id="topic-overview"></a>トピックの概要
+### <a id="purpose"></a>目的
+
+このトピックでは、テンプレート エンジンを使用して代替行表示テンプレートを作成する方法を紹介します。
+
+### <a id="required-background"></a>前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+- [テンプレート エンジンの参照の追加](/infragistics-templating-engine/adding-igtemplating-references): このトピックでは、テンプレート エンジンを使い始めるために必要な最低限の JavaScript ファイルについて説明します。
+
+- [テンプレート エンジンの概要](../01_igTemplating Overview.mdx): このトピックには、テンプレート エンジンでサポートされている機能に関する情報が含まれています。
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [トピックの概要](#topic-overview)
+    -   [目的](#purpose)
+    -   [必要な背景](#required-background)
+-   [代替行表示テンプレートの作成](#creating-alternative-row-template)
+    -   [概要](#introduction)
+    -   [プレビュー](#preview)
+    -   [前提条件](#prerequisites)
+    -   [手順](#steps)
+-   [関連コンテンツ](#relates-content)
+
+
+
+## <a id="creating-alternative-row-template"></a>代替行表示テーブル テンプレートの作成
+### <a id="introduction"></a>概要
+
+この例では、基本的な置換テンプレートを作成し、結果を HTML テーブルに追加します
+
+### <a id="preview"></a>プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。
+
+&#123;/* image not found: %28Walkthrough%29Creating_Alternative_Row_Template_1.png */&#125;
+
+### <a id="prerequisites"></a>前提条件
+
+この手順を実行するには、以下が必要です。
+
+-   `テンプレート エンジン`で必要な最低限の js ファイルのセットを参照する空の HTML ページ。(詳細については、[igTemplating 参照の追加](/infragistics-templating-engine/adding-igtemplating-references)を参照してください)。
+
+### <a id="steps"></a>手順
+
+以下の手順は、代替行表示テンプレートを作成する方法を示します。
+
+1.  `テンプレート エンジン`を使用した行テンプレートの追加と適用
+
+	1. アテンション行のための CSS クラスの追加:
+	
+		**JavaScript の場合:**
+		
+```js
+		<style type="text/css">
+		      .alternateRow
+		      {
+		            background-color: #C0C0C0;
+		      }
+		</style>
+```
+	
+	2. サンプル データと行テンプレートのページへの追加
+	
+		**JavaScript の場合:**
+		
+```js
+		<script type="text/javascript">
+		var employees = [
+		{ firstName: "Joseph", lastName: "Sommers", age: 17 },
+		{  firstName: "Anna", lastName: "Paterson", age: 25}, 
+		{  firstName: "Mark", lastName: "Smith", age: 22},
+		{  firstName: "John", lastName: "Rider", age: 35}];
+		var template = '{{if $i%2 == 0 }}' +
+		'<tr><td><b>First Name: </b>${firstName}</td>' + '<td><b>Last Name: </b>${lastName}</td>' +'<td><b>Age: </b>${age}</td>
+</tr>' +
+		'{{else}}' +
+		'<tr class="alternateRow">' +'<td><b>First Name: </b>${firstName}</td>' +'<td><b>Last Name: </b>${lastName}</td>' +'<td><b>Age: </b>${age}</td>
+</tr>'+
+		'{{/if}}';
+		</script>
+```
+		
+		**HTML の場合:**
+		
+```html
+		<body>
+		<table id="resultTable" style="border: 1px solid #000;"></table>
+		</body>
+```
+		
+		3. テンプレートを適用し、結果を HTML テーブルに追加します。
+		
+		**JavaScript の場合:**
+		
+```js
+		<script type="text/javascript">
+		$(document).ready(function () {
+		      var result = $.ig.tmpl(template, employees);
+		      $('#resultTable').html(result);
+		});
+		</script>
+```
+
+2.  (オプション) 結果を確認します。
+
+	ファイルを保存し、ダブル クリックして結果をプレビューします。適用された条件に従い、偶数行に `alternativeRow` クラスが適用されます。
+
+
+
+## <a id="relates-content"></a>関連コンテンツ
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [Infragistics テンプレート エンジン](../~Infragistics Templating Engine.mdx): このトピックでは、`テンプレート エンジン`に関するすべての情報についてのトピックの一覧を示します。
+
+- [基本的な条件付きテンプレートの作成](/infragistics-templating-engine/creating-templates/creating-basic-conditional-template): このトピックでは、`テンプレート エンジン`を使用して基本的な条件付きテンプレートを作成するための段階的な手順を紹介します。
+
+- [基本的な置換テンプレートの作成](/infragistics-templating-engine/creating-templates/creating-basic-substitution-template): このトピックでは、`テンプレート エンジン`を使用して基本的な置換テンプレートを作成するための段階的な手順を紹介します。
+
+- [複合プロパティ置換テンプレートの作成](/infragistics-templating-engine/creating-templates/creating-complex-property-substitution-template): このトピックでは、`テンプレート エンジン`を使用して複合プロパティ置換テンプレートを作成する方法を紹介します。
+
+- [デフォルト ステートメントを含む条件付きテンプレートの作成](./04_Creating_Conditional_Template_Containing_Default Statement.mdx): このトピックでは、`テンプレート エンジン`を使用して、デフォルトのステートメントがある条件付きテンプレートを作成するための段階的な手順を紹介します。
+
+- [デフォルト ステートメントを含む複数条件付きテンプレートの作成](/infragistics-templating-engine/creating-templates/creating-multi-conditional-template-containing-default-statement): このトピックでは、コード例を示し、`テンプレート エンジン`を使用して、デフォルト ステートメントがある複数条件付きテンプレートを作成する方法を紹介します。
+
+- [ネストしたブロック テーブル テンプレートの作成](/infragistics-templating-engine/creating-templates/creating-nested-blocks-template): このトピックでは、`テンプレート エンジン`を使用してネストしたブロック テンプレートを作成するための段階的な手順を紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

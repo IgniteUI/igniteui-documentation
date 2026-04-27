@@ -1,0 +1,306 @@
+---
+title: "igFunnelChart のスタイル設定"
+slug: igfunnelchart-styling
+---
+
+# igFunnelChart のスタイル設定
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、`igFunnelChart`™ コントロールのルックアンドフィールをカスタマイズする方法を説明します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+- 概念
+	-   カスケード スタイル シート
+	-   リンクされた CCS ファイルの変更によるテーマの適用
+-   トピック
+	-   [&#123;environment:ProductName&#125; のスタイル設定とテーマ設定](/general-and-getting-started/styling-and-theming/deployment-guide-styling-and-theming): このトピックは、&#123;environment:ProductName&#125;® ライブラリのスタイルとテーマの更新に関する一般情報とその手順を説明します。
+	-   [*igFunnelChart* の概要](/controls/igfunnelchart/overview): このトピックでは、主要機能、最小要件、ユーザー機能性など、`igFunnelChart` コントロールに関する概念的な情報を提供します。 
+	-   [*igFunnelChart* の追加](/controls/igfunnelchart/adding): このトピックでは、`igFunnelChart` コントロールを HTML ページに追加しデータへバインドする方法を説明します。
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [**概要**](#introduction)
+-   [**テーマの概要**](#themes)
+    -   [テーマの概要表](#themes-summary-chart)
+-   [**必要なカスケード スタイル シート (CSS)**](#required-css)
+    -   [必要な CSS リソース コード: HTML](#required-css-html)
+    -   [必要な CSS リソース コード: MVC](#required-css-mvc)
+-   [**ファンネル チャート スタイルの参照**](#styles-reference)
+-   [**igFunnelChart スタイル設定オプション**](#styling-options)
+    -   [スタイル リファレンスの概要](#styling-options-summary)
+    -   [スタイル参照の概要表](#styling-options-summary-chart)
+-   [**コード例**](#examples)
+    -   [コード例: インナー ラベルとアウター ラベルのテンプレートを構成する](#label-templates-example)
+    -   [コード例: CSS でスタイル カラーを構成する](#slice-colors-css)
+    -   [コード例: コントロール オプションでスタイル カラーを構成する](#slice-colors-options)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+    -   [リソース](#resources)
+
+
+
+## <a id="introduction"></a> 概要
+
+`igFunnelChart` コントロールにより、開発者は Web サイトのアプリケーションでファンネル チャートを簡単に作成できます。`igFunnelChart` コントロールは、スタイルおよびテーマを適用するために jQuery UI CSS Framework を使用します。デフォルトでは、`igFunnelChart` は、アプリケーションで使用するため Infragistics® により提供される jQuery UI テーマである IG テーマを使用します。それに加えて、IG テーマにはファンネル チャートをサポートする固有のスタイルがいくつかあります。これは、ファンネル チャートのルック アンド フィールをカスタマイズするには、汎用の jQuery UI テーマでは十分でないために必要となります。ツールチップやスライスなどファンネル チャートに固有の要素を変更するために追加のスタイル クラスを提供します。
+
+&#123;environment:ProductName&#125; ライブラリでテーマを使用する方法の詳細については、「[**&#123;environment:ProductName&#125; のスタイル設定とテーマ設定**](/general-and-getting-started/styling-and-theming/deployment-guide-styling-and-theming)」トピックをご覧ください。
+
+> **注:** &#123;environment:ProductName&#125; のベース テーマはチャートには不要で、チャートのみ表示されたページでは省略できます。
+
+
+
+## <a id="themes"></a> テーマの概要
+
+&#123;environment:ProductName&#125; は、`igFunnelChart` コントロールを使用して以下のテーマを提供します。
+
+-   IG 
+-   Metro
+
+詳細な説明については、以下の概要表を参照してください。
+
+### <a id="themes-summary-chart"></a> テーマの概要表
+
+次の表は、`igFunnelChart` で使用できるテーマをまとめたものです。
+
+テーマ|説明
+--- | ---
+**IG** &#123;/* image not found: Styling_igFunnelChart_%28User_Story%29_1.png */&#125; |パス: *IG CSS ルート/themes/infragistics/*<br />ファイル: *infragistics.theme.css*<br />このテーマは、すべての &#123;environment:ProductName&#125; コントロールの一般的なビジュアル機能を定義します。IG テーマの使用方法の詳細については、「[&#123;environment:ProductName&#125; のスタイル設定とテーマ設定](/general-and-getting-started/styling-and-theming/deployment-guide-styling-and-theming)」トピックをご覧ください。
+**Metro** &#123;/* image not found: Styling_igFunnelChart_%28User_Story%29_2.png */&#125;|パス: *IG CSS ルート/themes/metro/*<br />ファイル: *infragistics.theme.css*<br />このテーマは、新しい Windows® 8 ユーザー インターフェイスとタッチ対応デバイスに関するビジュアル機能を定義します。スライスの角ばったコーナーと多少異なるカラーが特長です。
+
+
+
+
+## <a id="required-css"></a> 必要なカスケード スタイル シート (CSS)
+
+ファンネル チャートを正しく描画するためには以下の CSSリソースが必要です。
+
+-   **infragistics.theme.css** - IG テーマが含まれています。
+
+-   **infragistics.ui.chart.css** - チャート構造が含まれています。
+
+以下のコード スニペットでは、CSS リソースが Web サイトまたはアプリケーション ルート下の `Content/ig` フォルダーに置かれていることを前提としています。
+
+> **注:** 以下のブロックは、手動で必要な CSS ファイルを組み込む場合の情報を提供しています。ただし、Infragistics Loader コントロールを使用してこれらのファイルをページに読み込むことをお勧めします。
+
+### <a id="required-css-html"></a> 必要な CSS リソース コード: HTML
+
+**HTML の場合:**
+
+```html
+Required CSS resources code: HTML
+<link href="Content/ig/themes/Infragistics/infragistics.theme.css" rel="Stylesheet" />
+<link href="Content/ig/structure/modules/infragistics.ui.chart.css" rel="Stylesheet" />
+```
+
+### <a id="required-css-mvc"></a> 必要な CSS リソース コード: MVC
+
+**ASPX の場合:**
+
+```csharp
+Required CSS resources code: MVC
+<link href='@Url.Content("~/Content/ig/themes/Infragistics/infragistics.theme.css")'
+      rel="stylesheet" type="text/css" />
+<link href='@Url.Content("~/Content/ig/structure/modules/infragistics.ui.chart.css")'
+      rel="stylesheet" type="text/css" />
+```
+
+
+
+##  <a id="styles-reference"></a>ファンネル チャート スタイルの参照
+
+以下の表は、`igFunnelChart` コントロールで使用するスタイル クラスの目的と機能を説明します。
+
+プロパティ|説明
+--- | ---
+`.ui-chart-palette-1` ~ `.ui-chart-palette-N` | スライス 1 ~ N の境界線と背景の色を設定します。アプリケーションで必要なだけ `ui-chart-palette` クラスを持つことができます。
+`.ui-funnel` | フォント、フォント サイズなどでファンネル チャート全体に対して基本設定を設定します。
+`.ui-funnel-tooltip` | チャートのツールチップのすべてのスタイル設定オプションを設定します。
+`.ui-funnel-slice` | スライスのスタイル設定オプションを設定します。選択されているスライスが無い場合、または `useUnselectedStyle` オプションが *false* に設定されている場合に使用されます。
+`.ui-funnel-slice-selected` | 選択されたスライスに対してスタイル設定オプションを設定します。
+`.ui-funnel-slice-unselected` | その他に選択されたスライスがある場合に使用される選択スライスのスタイル設定オプションを設定します。`useUnselectedStyle` オプションは *true* に設定します。
+
+
+
+
+
+## <a id="styling-options"></a> igFunnelChart スタイル設定オプション
+
+### <a id="styling-options-summary"></a> スタイル リファレンスの概要
+
+`igFunnelChart` コントロールはビジュアル コンテンツ用で、チャートのレイアウトおよび色を変更するための多数のプロパティおよびスタイル設定オプションがあります。CSS を使用して以下を定義します。
+
+-   スライスの色
+-   ツールチップのフォーマット用の色、網掛け、フォント、その他の CSS プロパティ
+
+個々のファンネル チャート コントロール オプションで、以下を定義できます。
+
+-   スライスの色とアウトライン
+-   スライス ラベル テキストのスタイル。
+
+以下の参照テーブルは、チャート要素の色とその目的を変更するすべてのオプションをカタログ化しています。設定されたファンネル チャート オプションは CSS ファイルで定義された style クラスより優先されます。これらのオプションは、チャートの描画を実行時にプログラム的に変更します。
+
+### <a id="styling-options-summary-chart"></a> スタイル参照の概要表
+
+以下の表は、`igFunnelChart` コントロールのスタイル設定プロパティの目的と機能についてまとめています。
+
+プロパティ|説明
+--- | ---
+[brushes](&#123;environment:jQueryApiUrl&#125;/ui.igfunnelchart#options:brushes) |自動的に割り当てられたスライスの色を選択するパレットを定義します。
+[outlines](&#123;environment:jQueryApiUrl&#125;/ui.igfunnelchart#options:outlines) |自動的に割り当てられたスライス アウトラインの色のパレットを定義します。
+[outlineThickness](&#123;environment:jQueryApiUrl&#125;/ui.igfunnelchart#options:outlineThickness) |スライスのアウトラインの太さを定義します。
+
+
+## <a id="examples"></a> コード例の概要
+
+以下の表は、このトピックで使用したコード例をまとめたものです。
+
+例|説明
+--- | ---
+[インナー ラベルとアウター ラベルのテンプレートを構成する](#label-templates-example)|このコード例は、ファンネル チャートにおいてインナー ラベルとアウター ラベル用のテンプレートを構成する方法を示します。
+[CSS でスタイル カラーを構成する](#slice-colors-css)|このコード例は、スライスのルック アンド フィールを制御する CSS リソースをオーバーライドすることによりスライスの色をカスタマイズする方法を示します。
+[コントロール オプションでスタイル カラーを構成する](#slice-colors-options)|このコード例は、スライスのルック アンド フィールを制御するファンネル チャート オプションを変更することによりスライスの色をカスタマイズする方法を示します。
+
+
+
+
+
+## <a id="label-templates-example"></a> コード例: インナー ラベルとアウター ラベルのテンプレートを構成する
+
+### 説明
+
+このコード例は、チャート上の各スライスについてコールバック関数を定義および呼び出すことによりインナー ラベルとアウター ラベルのファンネル チャート テンプレートを構成する方法を示します。コールバック関数は、適切なラベルを作成する場合に重大な柔軟性を有効化する引数を渡します。関数は、チャート上で描画される文字列を返さなければなりません。
+
+### コード
+
+以下のコード スニペットは、ファンネル チャートにおいてインナー ラベルとアウター ラベル用のコールバック関数を構成する方法を示します。この関数は、入力引数で文字列操作を実行し、チャート上に表示される文字列を対応するスライスのラベルとして返します。
+
+**JavaScript の場合:**
+
+```js
+$("#funnelChart").igFunnelChart({
+    . . .
+    formatInnerLabel: function (value, sliceNo, chart) {
+        return "$" + value + " million";
+    },
+    formatOuterLabel: function (value, sliceNo, chart) {
+        return "Division: " + value;
+    }
+});
+```
+
+### コールバック関数の引数参照
+
+引数|説明
+--- | ---
+`value` | チャートに渡されるデータ ソースから現在のスライスにバインドされる値を含みます。
+`sliceNo` | チャートにバインドされるデータ ソース内にスライスのインデックスを含みます。
+`chart` | チャート ウィジェットへの参照を含みます。
+
+
+
+
+
+## <a id="slice-colors-css"></a> コード例: CSS でスタイル カラーを構成する
+
+### 説明
+
+このコード例は、スライスのルック アンド フィールを支配する CSS スタイルをオーバーライドすることによりスライスの色をカスタマイズする方法を示します。
+
+### コード
+
+以下のコード スニペットは、複数の `igFunnelChart` スタイルをオーバーライドします。最初の 6 つのスライスに対し背景とアウトライン カラーを再定義し、選択済みと `unselected` スライスのスタイルの両方を設定します。
+
+**HTML の場合:**
+
+```html
+<style type="text/css">
+    /* Redefine the styles from infragistics.theme.css that define fill and border colors for slices */
+    .ui-chart-palette-1 { border-color: #00AADE; background-color: #00AADE }
+    .ui-chart-palette-2 { border-color: #4B4B4D; background-color: #4B4B4D }
+    .ui-chart-palette-3 { border-color: #FCB025; background-color: #FCB025 }
+    .ui-chart-palette-4 { border-color: #EC6C2B; background-color: #EC6C2B }
+    .ui-chart-palette-5 { border-color: #36C0F3; background-color: #36C0F3 }
+    .ui-chart-palette-6 { border-color: #5B17A8; background-color: #5B17A8 }
+    /* Redefine slice selected and unselected styles */
+    .ui-funnel-slice-selected { opacity: 1; }
+    .ui-funnel-slice-unselected { opacity: 0.4; border: 1px solid black; }
+</style>
+```
+
+
+
+## <a id="slice-colors-options"></a> コード例: コントロール オプションでスタイル カラーを構成する
+
+### 説明
+
+このコード例は、スライスのルック アンド フィールを制御するファンネル チャート オプションを変更することによりスライスの色をカスタマイズする方法を示します。brushes、outlines および `outlineThickness` のオプションを構成する場合、この構成は対応する視覚要素の CSS に優先します。
+
+### コード
+
+以下のコード例は、スライスの背景とアウトラインのカスタム カラーを構成する方法を示します。サンプルが示すのは、その他のすべての `igFunnelChart` 構成を省略する brushes、outlines および `outlineThickness` 用の基本コードのみです。
+
+**JavaScript の場合:**
+
+```js
+$("#funnelChart").igFunnelChart({
+    . . .
+    brushes: ["#7DC3D9", "#3e5354", "#9EB5B4", "#5DD1C6", "#AFD1CE", "#2B768E"],
+    outlines: [ "#3189A6", "#212D2E", "#5C7877", "#2FA498", "#487D78", "#163F4B" ],
+    outlineThickness: 3
+});
+```
+
+
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [*igFunnelChart* のデータへのバインディング](/controls/igfunnelchart/binding-to-data): このトピックでは、`igFunnelChart` コントロールを各種データ ソースへバインドする方法を説明します。
+
+- [*igFunnelChart* の構成](/controls/igfunnelchart/configuring): このトピックは、`igFunnelChart` コントロールの異なる可視機能とビヘイビアーの構成方法を説明します。
+
+- [*igFunnelChart *のスタイル設定](/controls/igfunnelchart/styling): このトピックでは、`igFunnelChart` コントロールのルックアンドフィールをカスタマイズする方法を説明します。
+
+- [アクセシビリティ準拠 (*igFunnelChart*)](/controls/igfunnelchart/accessibility-compliance): このトピックでは、`igFunnelChart` コントロールのユーザー補助機能について説明し、チャートを含むページのアクセシビリティの遵守を実現する方法に関してアドバイスを提供します。
+
+- [既知の問題と制限 (*igFunnelChart*)](/controls/igfunnelchart/known-issues-and-limitations): このトピックでは、`igFunnelChart` コントロールに関連する既知の問題点に関する情報を提供します。 
+ 
+- [jQuery と MVC API リンク (*igFunnelChart*)](./07_igFunnelChart_jQuery_and_ASP.NET_MVC_Helper_API_ Links.mdx): このトピックでは、`igFunnelChart` コントロールと ASP.NET MVC ヘルパーのための API リファレンスのドキュメントへのリンクの一覧を示します。
+
+
+
+### <a id="samples"></a> サンプル
+
+以下のサンプルでは、このトピックに関連する情報を提供しています。
+
+- [スライスの選択](&#123;environment:SamplesUrl&#125;/funnel-chart/slice-selection): このサンプルは、スライス選択機能の有効化および `sliceClicked` イベントの処理を示します。
+
+
+### <a id="resources"></a> リソース
+
+以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
+
+- [jQuery Themeroller](http://jqueryui.com/themeroller/): プレビューとダウンロードのため jQuery UI テーマを提供します。
+
+
+
+
+
+ 
+
+ 
+
+

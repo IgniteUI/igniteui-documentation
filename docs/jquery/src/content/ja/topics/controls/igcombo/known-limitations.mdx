@@ -1,0 +1,76 @@
+﻿---
+title: "既知の問題と制限 (igCombo)"
+slug: igcombo-known-limitations
+---
+
+# 既知の問題と制限 (igCombo)
+
+
+
+##既知の問題点と制限の概要
+
+
+### 既知の問題点と制約の概要表
+
+以下の表で、`igCombo` コントロールの既知の問題点と制限事項を簡単に説明します。以下の表は、一部の問題の詳細な説明とその回避策を示します。
+
+凡例 | 
+-------|------
+![](../../images/images/positive.png) | 回避策
+![](../../images/images/negative.png) | 既知の回避策はありません
+![](../../images/images/plannedFix.png) | 修正予定です
+
+問題|説明|状態
+---|---|---
+[IE9 以前のバージョンで placeHolder テキストがプレビューされない](#IE9PlaceHolder)|入力プレースホルダーは、IE9 以前では単に無視されます。|![](../../images/images/negative.png)
+[仮想化が有効な場合、すべての ItemTemplate 要素は同じ高さでなければならない](#virtualizationAndItemTemplate)|スクロールバーでずれの問題が発生することがあります。 | ![](../../images/images/positive.png)
+[グループ化および仮想化が使用される場合、項目が正しく描画されない可能性があります](#groupingWithVirtualization) |下へスクロールすると、項目は正しく追加されません。|![](../../images/images/negative.png)
+[loadOnDemand が使用される場合、initialSelectedItems オプションは正しく操作しません。](#lodWithInitialSelectedItems) | 項目がコンボにより読み込まれたページにない場合、最初の選択は表示されません。|![](../../images/images/negative.png)
+[オートコンプリート機能を使用する場合、IME を使用した日本語入力で Backspace キーおよび ESC キーが正しく動作しなくなります](#composition) | igCombo は日本語の構成機能を提供しますが、ブラウザー (Firefox 以外) によって規格の動作と異なります。 |![](../../images/images/negative.png)
+
+
+##既知の問題点と制限の詳細
+
+
+###<a id="IE9PlaceHolder"></a>IE9 以前のバージョンで placeHolder テキストがプレビューされない
+
+HTML5 は `input` 要素に `placeholder` 属性を導入し、デフォルトのテキストをグレーで表示できるようにしましたが、入力プレースホルダーは IE9 以前では単に無視されます。理由は、IE がそれをサポートしていないからです。
+
+###<a id="virtualizationAndItemTemplate"></a> 仮想化が有効な場合、すべての ItemTemplate 要素は同じ高さでなければならない
+
+`virtualization` で `itemTemplate` が有効な場合、スクロールバーでずれの問題が発生することがあります。たとえば、最後に表示される項目が一部表示されないことがあります。
+
+**回避方法**
+項目テンプレートに対して以下のように `height` を設定すると、この問題を回避できる可能性があります。
+```
+<script type="text/javascript">
+	$('#combo1').igCombo({
+		filteringType: "remote",
+		responseDataKey:"d.results",
+		dataSource: "http://igniteui.com/api/employees?callback=?",
+		valueKey: "ID",
+		textKey: "Name",
+		visibleItemsCount: 5,
+		virtualization: true,
+		itemTemplate: "<div class='comboItemContainer' style='height:100px'>" + 
+							"<div class='empInfo'>" + 
+								"<span class='empName'>${Name}</span>" + 
+								"<p>${BirthDate}</p>" + 
+								"<div>${Address}</div>" + 
+							"</div>" + 
+						"</div>"
+	});
+</script>
+```
+
+###<a id="groupingWithVirtualization"></a>グループ化および仮想化が使用される場合、項目が正しく描画されない場合があります
+
+項目リストでスクロールすると、グループ化された項目がある場合、リスト項目が正しく描画されないか、描画されない場合があります。
+
+###<a id="lodWithInitialSelectedItems"></a>loadOnDemand が使用される場合、initialSelectedItems オプションは正しく動作しません。
+ 
+項目がコンボにより読み込まれたページ (最初の 16 項目など) にない場合、最初の選択は表示されません。まだ読み込まれていない項目のテキストを取得できないため、コンボの入力フィールドにそのテキストを設定できません。
+
+###<a id="composition"></a>オートコンプリート機能を使用する場合、IME を使用した日本語入力で Backspace キーおよび ESC キーが正しく動作しなくなります
+
+igCombo は日本語の構成機能を提供しますが、ブラウザー (Firefox 以外) によって規格の動作と異なります。igCombo のオートコンプリート機能がアクティブなときに日本語の文字を入力中に Backspace キーを押した場合、最後の文字が削除される、あるいは ESC キーの場合はすべての文字を削除します。現在、Backspace キーおよびESC キーの押下によって IME を使用して入力した日本語文字が確定されてしまいます。ただし、これらのキーを 2 度目に使用する場合は正しく動作します。

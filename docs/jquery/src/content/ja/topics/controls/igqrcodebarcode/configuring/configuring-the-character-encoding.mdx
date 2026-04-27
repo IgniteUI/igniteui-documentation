@@ -1,0 +1,305 @@
+---
+title: "文字エンコードの構成 (igQRCodeBarcode)"
+slug: igqrcodebarcode-configuring-the-character-encoding
+---
+
+# 文字エンコードの構成 (igQRCodeBarcode)
+
+
+
+## トピックの概要
+### 目的
+
+このトピックは、`igQRCodeBarcode` コントロールで文字エンコードを任意に構成する方法を説明します。
+
+### 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+- [igQRCodeBarcode の概要](/controls/igqrcodebarcode/overview): このトピックでは、主要機能、最小要件など、`igQRCodeBarcode` コントロールの概念的情報を提供します。
+
+- [igQRCodeBarcode の追加](/controls/igqrcodebarcode/adding/adding): このトピック グループでは、`igQRCodeBarcode` コントロールを HTML ページと ASP.NET MVC アプリケーションに追加する方法を説明します。
+
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [概要](#introduction)
+    -   [文字エンコードの構成の概要](#summary)
+    -   [文字エンコードの構成の概要表](#summary-chart)
+-   [文字エンコードの構成](#config-character-encoding)
+    -   [概要](#encoding-overview)
+    -   [要件](#encoding-requirements)
+    -   [プロパティ設定](#encoding-settings)
+    -   [例](#encoding-example)
+-   [文字セットの構成](#config-character-set)
+    -   [概要](#set-overview)
+    -   [プロパティ設定](#set-settings)
+    -   [例](#set-example)
+-   [関連コンテンツ](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+
+
+## <a id="introduction"></a>概要
+### <a id="summary"></a>文字エンコードの構成の概要
+
+`igQRCodeBarcode` のエンコードの構成は、このコントロールの [data](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:data) プロパティに渡された文字をエンコードするコントロールの機能と関連します。
+
+既定では Shift_JIS エンコードが読み込まれ、`igQRCodeBarcode` コントロールは最も効率的な方法でデータをバイナリ文字列に変換したり、逆にデータを8 ビットの文字に変換します。
+
+`igQRCodeBarcode` コントロールの既定の文字セットは、UTF-8 に事前設定されています。ただし、ISO 8859-1 文字セットが読み込まれている場合には、それが既定の文字セットとして使用されます。
+
+### <a id="summary-chart"></a>文字エンコードの構成の概要表
+
+以下の表で、`igQRCodeBarcode` コントロールの文字エンコードとして構成できる要素について簡単に説明し、構成に使用されるプロパティにマップします。
+
+構成可能な項目|詳細|プロパティ
+---|---|---
+[文字エンコード モード](#config-character-encoding)|エンコードが必要なデータの型に応じて、使用するエンコード モードを指定できます。|<ul><li>[encodingMode](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:encodingMode)</li></ul>
+[文字セット](#config-character-set)|`igQRCodeBarcode` コントロールにより、さまざまな文字セットのデータをエンコードすることができます。|<ul><li>[eciNumber](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:eciNumber)</li></ul>
+
+
+
+## <a id="config-character-encoding"></a>文字エンコードの構成
+### <a id="encoding-overview"></a>概要
+
+`igQRCodeBarcode` は、data 文字のタイプに応じて、圧縮することで大量の文字をエンコードできます。`encodingMode` を Kanji に設定すると、JIS Kanji 文字もエンコートできます (漢字のみがエンコードされます)。
+
+`encodingMode` の既定値は、Shift_JIS エンコードの場合 undefined、その他のエンコートの場合 byte に指定され、エンコードのロジックを渡すためのファイル サイズを最小に抑えることができます。
+
+### <a id="encoding-requirements"></a>要件
+
+`igQRCodeBarcode` コントロールが正しく動作するために、使用中の文字セットのそれぞれの文字エンコーディング ファイルをアプリケーションに読み込む必要があります。使用する各エンコードのファイルを読み込む必要があります。このファイルは `infragistics.encoding.core.js` および `infragistics.encoding_<encoding-name>.js` です。２ つめのファイルで、`<encoding-name>` は ISO-8859 などのエンコード タイプを示しています。複数の `infragistics.encoding_<encoding-name>.js` ファイルを追加することにより、複数の言語をサポートできます。
+
+1.  &#123;environment:ProductName&#125;™ パッケージ フォルダー構成の以下の場所で、任意のエンコード ファイルを見つけることができます。
+
+    &lt;IG JS root>/modules/encoding
+
+### <a id="encoding-settings"></a>プロパティ設定
+
+次の表は、入力されたデータの型に応じて文字エンコード モードを設定する方法を説明しています。
+
+構成の目的:|使用するプロパティ:|設定の選択肢:
+---|---|---
+各種データ シーケンスの最適なエンコード モードの自動認識 (該当する場合)|[encodingMode](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:encodingMode)|undefined
+10 進数セット (0-9) のデータ エンコード|encodingMode|numeric
+45 文字セットのデータ エンコード - 桁 (0-9)、大文字 (A-Z)、その他の文字 (space $ % * + _ ./ : )。|encodingMode|alphanumeric
+8 ビット データ (各文字ごとに 8 ビット) の encodingMode バイトのエンコード。Shift JIS システムに基づく漢字のエンコード|encodingMode|kanji
+
+
+
+2.  各種のエンコード モデルの詳細は、[jQuery および MVC API リファレンス リンク (igQRCodeBarcode)](/controls/igqrcodebarcode/api-links) のトピックを参照してください。
+
+### <a id="encoding-example"></a>例
+
+漢字モードを使う場合は、Shift_JIS エンコードを読み込む必要があります。
+
+以下のスクリーンショットは、以下の設定の結果、`igQRCodeBarcode` コントロールの外観がどのようになるか示しています。
+
+プロパティ|値
+---|---
+[width](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:width)|“200px”
+[height](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:height)|“200px”
+[data](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:data)|“花"
+[encodingMode](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:encodingMode)|“kanji”
+
+
+&#123;/* image not found: igQRCodeBarcode_Configuring_the_Character_Encoding_%28igQRCodeBarcode%29_1.png */&#125;
+
+以下のコードはこの例を実装します。
+
+**HTML の場合:**
+
+```html
+<html>
+<head>
+      <link rel="stylesheet" href="../../themes/smoothness/jquery-ui.css"/>      
+      <script type="text/javascript" src="../../js/jquery.min.js"></script>
+      <script type="text/javascript" src="../../js/jquery-ui.js"></script>
+      
+      
+      <script src="../../igniteui/js/modules/infragistics.util.js"></script>
+	  <script src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.dv_core.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.dv_jquerydom.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_core.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_collection.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_collectionsextended.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_text.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_ui.js"></script>
+	  
+	  
+      <script src="../../igniteui/js/modules/encoding/infragistics.encoding.core.js"></script>
+      <script src="../../igniteui/js/modules/encoding/infragistics.encoding_shift_jis.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.barcode_qrcodebarcode.js"></script>
+	  <script src="../../igniteui/js/modules/infragistics.ui.widget.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ui.barcode.js"></script>
+      
+      <script type="text/jscript">
+        $(function () {                        
+                  $("#barcode").igQRCodeBarcode({
+                        width: "200px",
+                        height: "200px",
+                        data: "花",
+                        encodingMode:"kanji"
+                   }); 
+            });
+    </script>
+</head>
+<body>
+      <div id="barcode"></div>
+</body>
+</html>
+```
+
+
+
+## <a id="config-character-set"></a>文字セットの構成
+### <a id="set-overview"></a>概要
+
+`igQRCodeBarcode` コントロールには、既定の文字セット以外のデータをエンコーするサポートが組み込まれています。このサポートは、[eciNumber](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:eciNumber) プロパティで Extended Channel Interpretation (ECI) を適切に設定すると機能します。
+
+エンコードのロジックを渡すためのファイル サイズを最小に抑えるために、eciNumber の既定値は、ISO-8859-1 文字セットが読み込まれている場合にはこの文字セットを表す *3* に、読み込まれていない場合には UTF-8 文字セットを表す 26 になります。
+
+### ECI 番号の参照表
+
+igQRCodeBarcode コントロールでサポートされる ECI 番号および対応する ISO 文字セットの一覧を、以下の表に示します。
+
+ECI 番号|ISO 文字セット
+---|---
+0|CP 437
+1|ISO-8859-1
+2|CP 437
+3|ISO-8859-1
+4|ISO-8859-2
+5|ISO-8859-3
+6|ISO-8859-4
+7|ISO-8859-5
+8|ISO-8859-6
+9|ISO-8859-7
+10|ISO-8859-8
+11|ISO-8859-9
+13|ISO-8859-11
+15|ISO-8859-13
+17|ISO-8859-15
+20|Shift JIS
+21|Windows-1250
+22|Windows-1251
+23|Windows-1252
+24|Windows-1256
+25|UTF-16
+26|UTF-8
+27|ISO-646-US
+28|Big5
+29|GB 2312
+30|KSC-5601
+
+
+
+### <a id="set-settings"></a>プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+目的:|使用するプロパティ:|設定の選択肢:
+---|---|---
+文字セットの指定|[eciNumber](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:eciNumber)|使用する ISO 文字セットの ECI 番号
+バーコードに含まれる ISO 文字セットの番号のエンコード|[eciHeaderDisplayMode](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:eciHeaderDisplayMode)|show
+バーコードの ISO 文字セットの番号の省略|[eciHeaderDisplayMode](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:eciHeaderDisplayMode)|hide (デフォルト)
+
+
+### <a id="set-example"></a>例
+
+エンコードされるデータはギリシア語で、[eciNumber](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:eciNumber) は ISO/IEC 8859-7 文字セットに対応する 9 を使用します。
+
+以下のスクリーンショットは、以下の設定の結果、`igQRCodeBarcode` コントロールの外観がどのようになるか示しています。
+
+プロパティ|値
+---|---
+[width](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:width)|“200px”
+[height](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:height)|“200px”
+[data](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:data)|“ΑΒΓΔΕ”
+[eciNumber](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:eciNumber)|9
+[eciHeaderDisplayMode](&#123;environment:jQueryApiUrl&#125;/ui.igQRCodeBarcode#options:eciHeaderDisplayMode)|“show”
+
+&#123;/* image not found: igQRCodeBarcode_Configuring_the_Character_Encoding_%28igQRCodeBarcode%29_2.png */&#125;
+
+以下のコードはこの例を実装します。
+
+**HTML の場合:**
+
+```html
+<html>
+<head>
+      <link rel="stylesheet" href="../../themes/smoothness/jquery-ui.css"/>
+      <script type="text/javascript" src="../../js/jquery.min.js"></script>
+      <script type="text/javascript" src="../../js/jquery-ui.js"></script>
+      
+      
+      <script src="../../igniteui/js/modules/infragistics.util.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.util.jquery.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.dv_core.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.dv_jquerydom.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_core.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_collection.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_collectionsextended.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_text.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ext_ui.js"></script>
+	  
+	  
+      <script src="../../igniteui/js/modules/encoding/infragistics.encoding.core.js"></script>
+      <script src="../../igniteui/js/modules/encoding/infragistics.encoding_iso-8859-7.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.barcode_qrcodebarcode.js"></script>
+	  <script src="../../igniteui/js/modules/infragistics.ui.widget.js"></script>
+      <script src="../../igniteui/js/modules/infragistics.ui.barcode.js"></script>
+      
+      <script type="text/jscript">
+              $(function () {                        
+                  $("#barcode").igQRCodeBarcode({
+                        width: "200px",
+                        height: "200px",
+                        data: "ΑΒΓΔΕ",
+                        eciNumber: 9,
+                        eciHeaderDisplayMode: "show"
+                 });
+            });
+          </script>
+</head>
+<body>
+      <div id="barcode"></div>
+</body>
+</html>
+```
+
+
+
+## <a id="related-content"></a>関連コンテンツ
+### <a id="topics"></a>トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [QR コード固有の設定の構成 (igQRCodeBarcode)](/controls/igqrcodebarcode/configuring/configuring-the-qr-code-specific-settings): このトピックではコード例を使用して、エラー修正レベルやサイズ バージョン、FNC1 モード、アプリケーション インジケーターなど、QR (Quick Response) バーコードに特有の igQRCodeBarcode コントロール設定を構成する方法を説明します。
+
+- [QR バーコードのサイズの構成 (igQRCodeBarcode)](/controls/igqrcodebarcode/configuring/configuring-the-dimensions): このトピックは、ストレッチや塗りつぶし、最小サイズ要素のサイズなど、`igQRCodeBarcode` コントロールのサイズや寸法に関わる要素の設定方法について示します。
+
+- [jQuery および MVC API リファレンス リンク (igQRCodeBarcode)](/controls/igqrcodebarcode/api-links): このトピックでは、`igQRCodeBarcode` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+
+
+### <a id="samples"></a>サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [QR コード固有の設定の構成](&#123;environment:SamplesUrl&#125;/barcode/configuring-the-qr-code-specific-settings): このサンプルでは、QR コード固有の設定の構成について紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

@@ -1,0 +1,192 @@
+﻿---
+title: "igGridExcelExporter の構成"
+slug: iggridexcelexporter-configuring
+---
+
+# igGridExcelExporter の構成
+
+## トピックの概要
+
+### 目的
+
+このトピックは、Excel ワークシートへエクスポートする `igGrid` データと機能を構成する `igGridExcelExporter`™ オプションについて説明します。
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [`gridFeatureOptions` 設定を構成します。](#gridfeatureoptions_configure)
+-   [igHierarchicalGrid のエクスポートの構成](#hierarchical_data)
+-   [エクスポートしない列の構成](#configure_columns)
+-   [スタイルの構成](#configure_styling)
+-   [コールバックのアタッチ (イベント)](#callbacks)
+-   [エクスポート時にオーバーレイを表示](#exporting_overlay)
+-   [&#123;environment:ProductFamilyName&#125; CLI で Excel エクスポートが構成された igGrid の作成](#adding-using-CLI)
+
+### 前提条件
+- [igGridExcelExporter 概要](iggridexcelexporter-overview.html "igGridExcelExporter Overview") - `igGridExcelExporter` コントロールの一般情報。
+
+
+## <a id="gridfeatureoptions_configure"></a>`gridFeatureOptions` 設定を構成します。
+
+[`gridFeatureOptions`](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:settings.gridFeatureOptions)　オブジェクトは、`igGrid` の `Filtering`、`Hiding`、`Paging`、`Sorting`、`Summaries`、 `Column Fixing` 機能によって発生するデータとレイアウトの操作がエクスポートされた Excel ワークシートにどのように反映されるかを定義します。 
+
+#### フィルタリング
+すべての `igGrid` ビルトイン フィルタリング条件は、Excel にネイティブな対応するフィルタリング条件に一致します。ユーザーの確認は有効なデータセットと動作します。 `igGrid` で定義されるカスタム フィルタリング条件はサポートされません。それらが存在する場合は `igGridExcelExporter` で無視されます。
+
+#### 並べ替え
+`igGrid` の `並べ替え` は、並べ替えインジケーターを示し、列セルを色付けします。Excel にエクスポートする場合、列ヘッダーが並べ替え方向 (昇順または降順) を示すインジケーターを表示します。ただし、列自体は色付けされません。Excel にネイティブな動作ですが、`igGridExcelExporter` イベント用にカスタマイズできます。以下の例 [`events`](#callbacks) をご覧ください。 
+
+#### 集計
+`igGrid` の `Summaries` は柔軟性が高く、開発者は集計の計算方法や描画する特定の UI の変更などのカスタマイズができます。ワークシートに集計を適用する場合、`igGridExcelExporter` はネイティブ データ集計を使用します。`igGrid` で定義されるカスタム集計はサポートされないため、`igGridExcelExporter` で無視されます。
+
+#### ページング
+`igGrid` の `Paging` をカスタマイズする方法は多数ありますが、`igGridExcelExporter` では現在のページ データまたはすべてのページのデータをエクスポートするのみです。
+
+#### 非表示
+`igGrid` の列は初期設定で非表示に定義できます。または機能が有効な場合にユーザーが非表示/表示にできます。`igGridExcelExporter` は、これらの列が `hiding` プロパティを使用してエクスポートされるかどうかを制御できます。
+
+#### 列の固定
+Excel の列固定は左のみですが、`igGrid` の列は左または右方向へ固定できます。
+
+以下の表は、`gridFeatureOptions` オブジェクトのプロパティとすべての利用可能な値、更にそれらがエクスポートされた Excel ワークシートにどのように影響するかを示します。
+
+|設定 | プロパティ | 説明 |
+| -------------------| ------------------- |----------- |
+| 並べ替えの構成 | [sorting](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:settings.gridFeatureOptions.sorting) | 受け取られる値 `"none"`、`"applied"`<br />`"none"` の場合、並べ替えは Excel に適用されません。`"applied"` の場合、並べ替えは Excel ワークシートに適用されません。
+| フィルタリングの構成 | [filtering](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:settings.gridFeatureOptions.filtering) | 受け取られる値 `"none"`、`"applied"`、`"filteredRowsOnly"`.<br />`"none"` の場合、フィルタリングが Excel に適用されません。`"applied"` の場合、フィルタリング式が `igGrid` から読み込まれて Excel の個々の列に適用されます。`"filteredRowsOnly"` の値は、`igGrid` フィルターされたレコードのみエクスポートし、Excel ワークシートにフィルタリングを適用しません。
+| ページの構成 | [paging](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:settings.gridFeatureOptions.paging) | 受け取られる値 `"currentPage"`、`"allRows"`<br />`"allRows"` がすべてのデータ ページをエクスポートする `"currentPage"` は現在の `igGrid` ページのみエクスポートします。
+| 非表示の構成 | [hiding](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:settings.gridFeatureOptions.hiding) | 受け取られる値 `"none"`、`"applied"`、`"visibleColumnsOnly"`<br />列が初期時に非表示または`igGrid` UI を介している場合、`"none"` の値は無視されますが、ワークシートへエクスポートされます。`"applied"` は非表示列をエクスポートしますが、ユーザーが列幅を 0 より大きい値に変更するまで Excel には表示されません。値が `"visibleColumnsOnly"` の場合、`igGridExcelExporter` は非表示でない `igGrid` 列のみエクスポートします。
+| 列固定の構成 | [columnfixing](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:settings.gridFeatureOptions.columnfixing) | 受け取られる値 `"none"`、`"applied"`<br />`"none"` を設定して `列固定` を無視します。`"applied"` の値が Excel ワークシートの個々の列を固定します。
+| 列集計の構成 | [summaries](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:settings.gridFeatureOptions.summaries) | 受け取られる値 `"none"`、`"applied"`<br />`"none"` を設定して `igGrid` 集計を無視します。`"applied"` の値は Excel 計算集計を `igGrid` の集計がある各列に作成します。
+
+
+> **注:** フィルタリングおよび並べ替えは常に `igGrid` の全データ セットを操作しますが、Excel にエクスポートされるデータは全データのサブセットのみです (`paging` が `"currentPage"` に設定されている場合)。Excel データに同じフィルタリングおよび (または) 並べ替え式を適用した場合、`igGrid` と結果が異なります。 Excel で指定した列の集計を計算する場合も同様です。
+
+<br />コード サンプル:
+
+```javascript
+$.ig.GridExcelExporter.exportGrid($(".selector"), {
+    gridFeatureOptions: {
+        // Fixed `igGrid` columns will be fixed in the excel worksheet
+        columnfixing: "applied",
+        // summaries will not be calculated in the worksheet
+        summaries: "none",
+        // Sorted `igGrid` columns will be sorted in the excel worksheet
+        sorting: "applied",
+        // Hidden `igGrid` columns will be exported, but hidden in the worksheet
+        hiding: "applied",
+        // All pages of data will be exported
+        paging: "allRows",
+        // The same filter expressions will be applied to the excel worksheet
+        filtering: "applied"
+    }
+});
+```
+
+### <a id="hierarchical_data"></a>階層データのエクスポートの構成
+
+`igHierarchicalGrid` をエクスポートする場合、階層のすべてのデータまたは展開されている行以下のデータのみをエクスポートします。動作は [`dataExportMode`](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:settings.dataExportMode) プロパティで制御されます。値 `"allRows"` または `"expandedRows"` を取得します。
+
+```javascript
+$.ig.GridExcelExporter.exportGrid($(".selector"), { 
+    // The keys of the columns that will not be exported
+    dataExportMode: "expandedRows",
+})
+```
+
+### <a id="configure_columns"></a>エクスポートしない列の構成
+
+[`columnsToSkip`](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:settings.columnsToSkip) オプションがエクスポートしない列の定義に使用されます。オプションは列キーを含む配列を取得します。
+
+```javascript
+$.ig.GridExcelExporter.exportGrid($(".selector"), { 
+ // The keys of the columns that will not be exported
+  columnsToSkip: ["ProductID", "Supplier"]
+})
+```
+
+### <a id="configure_styling"></a>スタイルの構成
+
+デフォルトで `igGridExcelExporter` が `igGrid` のヘッダー行と最初の 2 行のスタイルをコピーし、ワークシート テーブルに適用します。[`gridStyling`](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:settings.gridStyling) が `"none"` に設定される場合、Excel のテーブル スタイルがワークシートに適用されます。テーブルのスタイルは [Office Open XML の ECMA 仕様](http://www.ecma-international.org/news/TC45_current_work/TC45_available_docs.htm) (Table Style Definitions セクション参照) に準拠します。[`tableStyle`](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:settings.tableStyle) を使用して定義済みのスタイルを設定できます。選択可能なスタイルは 3 つのカテゴリに分類されます。
+`TableStyleMedium[1-28]`、`TableStyleLight[1-21]`、および `TableStyleDark[1-11]`。
+括弧内の範囲が利用できるテーマ数です。
+
+```javascript
+$.ig.GridExcelExporter.exportGrid($(".selector"), {
+    gridStyling: "none",
+    //Setting the table style to 18th theme from TableStyleMedium category
+    tableStyle: "TableStyleMedium18"
+ });
+```
+
+### <a id="callbacks"></a>コールバックのアタッチ (イベント)
+
+エクスポート処理時に呼び出されるコールバック数 (イベント) が公開され、カスタマイズするエントリ ポイントを提供またはエクスポート処理を終了します。セルと行で使用できるコールバックのエクスポートまたはエクスポートされたコールバックは、ワークシート オブジェクトの read/write の値など数式や条件付き書式に適用できます。また [`exportStarting`](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:callbacks.exportStarting)、[`exportEnding`](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:callbacks.exportEnding)、[`error`](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:callbacks.error)、[`success`](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:callbacks.success) コールバックは、エクスポート前またはファイルをローカルに保存する前に何かを確認する場合に適しています。または、[エクスポート時にオーバーレイを表示](#exporting_overlay) セクションで示すようにエクスポート時に `igGrid` 上にモーダルオーバーレイを表示するのにも適しています。
+
+
+```javascript
+$.ig.GridExcelExporter.exportGrid($("#grid1"), {},
+{
+	cellExported: function (e, args) {
+		if (args.columnKey == 'Company') {
+			var xlRow = args.xlRow;
+            // apply formula to a cell
+			xlRow.cells(args.columnIndex).applyFormula('=HYPERLINK("' + args.cellValue + '")');
+		},
+		if (args.columnKey == "Age" && args.cellValue > 43) {
+            // format the font and the cell fill color
+			args.xlRow.getCellFormat(args.columnIndex).font().bold(1);
+            args.xlRow.getCellFormat(args.columnIndex).fill($.ig.excel.CellFill.createLinearGradientFill(45, '#FF0000', '#00FFFF'));
+		}
+	},
+    exportEnding: function (e, args) {
+        // format a date value to be displayed as 19/Mar/2017
+        args.worksheet.columns().item(3).cellFormat().formatString("dd/MMM/YYYY");
+    },
+});
+```
+
+### <a id="exporting_overlay"></a>エクスポート時にオーバーレイを表示
+
+エクスポート時に `igGrid` UI がインタラクションに利用できないため、モーダル オーバーレイを配置する必要がある場合があります。エクスポートの最初に表示されて最後に非表示になります。実装は [`exportStarting`](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:callbacks.exportStarting) および [`success`](&#123;environment:jQueryApiUrl&#125;/ig.gridexcelexporter#options:callbacks.success) が使用されます。
+
+```javascript
+$.ig.GridExcelExporter.exportGrid($("#grid1"), {},
+{
+    exportStarting: function (e, args) {
+        showOverlay(args.grid, exportingOverlay);
+    },
+    success: function () {
+        hideOverlay(exportingOverlay);
+    },
+});
+```
+ 
+### <a id="adding-using-CLI"></a> &#123;environment:ProductFamilyName&#125; CLI で Excel エクスポートが構成された igGrid の作成
+
+&#123;environment:ProductFamilyName&#125; CLI を使用して Excel エクスポートが構成された新しい igGrid を簡単にアプリケーションに追加できます。
+
+&#123;environment:ProductFamilyName&#125; CLI のインストール:
+
+```
+npm install -g igniteui-cli
+```
+
+&#123;environment:ProductFamilyName&#125; CLI インストール後、&#123;environment:ProductFamilyName&#125; プロジェクトを生成し、Excel エクスポートが構成された新しい igGrid コンポーネントを追加してプロジェクトをビルドおよび公開するには、以下のコマンドを使用します。
+
+```
+ig new <project name>
+cd <project name>
+ig add grid-export newGridExport
+ig start
+```
+
+すべての利用可能なコマンドおよび詳細な情報については、[「&#123;environment:ProductFamilyName&#125; CLI の使用」](/general-and-getting-started/using-ignite-ui-cli)のトピックを参照してください。
+
+### <a id="Preview"></a>プレビュー
+以下は最終結果のプレビューです。
+
+<div class="embed-sample">
+   [&#123;environment:SamplesEmbedUrl&#125;/grid/export-client-events](&#123;environment:SamplesEmbedUrl&#125;/grid/export-client-events)
+</div>

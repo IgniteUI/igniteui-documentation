@@ -1,0 +1,145 @@
+﻿---
+title: "&#123;environment:ProductName&#125; コントロールで System.JS を使用"
+slug: Using-System.JS-with-igniteui-controls
+---
+
+# &#123;environment:ProductName&#125; コントロールで System.JS を使用
+
+## 概要
+
+&#123;environment:ProductName&#125; コントロールは規格のモジュール ローダーで読み込むことができます。各モジュールは AMD 定義を含み、依存関係モジュールを参照します。
+[System.JS](https://github.com/systemjs/systemjs) は JSPM パッケージ マネージャーで使用される人気のあるモジュール ローダーです。このトピックは、&#123;environment:ProductName&#125; コントロールを使用するために System.JS を構成する方法を説明します。
+
+以下の例で、Windows のコマンド プロンプトが使用されます。同様のコマンドを MacOS のターミナルでも実行できます。[Visual Studio コード](https://code.visualstudio.com/) の使用が推薦されますが、必須ではありません。
+
+## JSPM でアプリケーションの初期化
+
+JSPM のインストール:
+```
+npm install -g jspm
+```
+
+新しいフォルダーを作成して、コマンド ラインでそのフォルダーに移動します。
+
+```
+mkdir igsample
+cd igsample
+```
+
+JSPM を使用してアプリケーションを初期化します:
+```
+jspm init
+```
+質問に回答後 (デフォルトの回答でも構いませんが、TypeScript をトランスパイラーとして使用することを推薦します。)、JSPM および System.JS ローダーをアプリケーションで使用する準備が整っています。
+
+`jquery`、`jquery-ui`、および `css` ローダー パッケージをインストールします:
+```
+jspm install jquery
+jspm install jquery-ui
+jspm install css
+```
+
+## GitHub を使用した &#123;environment:ProductName&#125; パッケージの追加
+
+オープンソースの &#123;environment:ProductName&#125; のコンポーネント セットは、GitHub でソース コードが[ホスト](https://github.com/IgniteUI/ignite-ui)されています。アプリケーションがオープンソース &#123;environment:ProductName&#125; コントロールのみを使用する場合、このパッケージをアプリケーションに追加するには、以下のコマンドを使用します:
+```
+jspm install github:igniteui/ignite-ui
+```
+
+## 非公開の NPM レジストリを使用して &#123;environment:ProductName&#125; パッケージを追加
+
+すべてのコントロールを含む &#123;environment:ProductName&#125; の製品版も JSPM で使用できます。
+
+Infragistics 非公開フィードを使用するには、Infragistics 非公開レジストリを構成するために「[&#123;environment:ProductName&#125; npm パッケージの使用](/general-and-getting-started/using-ignite-ui-npm-packages)」トピックの「npmjs.com から &#123;environment:ProductName&#125; npm パッケージをインストール」セクションで説明した手順を実行します。
+
+また、jspm の npm レジストリを更新する必要があります。
+
+```
+jspm registry config npm
+```
+
+レジストリを "https://packages.infragistics.com/npm/" に設定し、infragistics.com ウェブサイトのアカウント資格情報を使用します。
+
+IgniteUI パッケージを新しく登録したフィードからインストールします。
+
+```
+jspm install npm:@infragistics/ignite-ui-full
+```
+
+## コントロールを ES6 モジュールとして参照
+
+Visual Studio Code (またはその他のテキスト エディター) を使用して `index.html`、`js/bootstrap.js`、および `js/igsample.js` ファイルを作成します。現在のフォルダーでエディターを開くには、
+```
+code .
+```
+を入力します。 
+
+`index.html` のコンテンツ:
+```html
+<doctype html>
+<head>
+	<title>IG Sample</title>
+</head>
+<html>
+	<span id="rating"></span>
+
+	<script src="jspm_packages/system.js"></script>
+	<script src="config.js"></script>
+	<script>
+		SystemJS.import('js/igsample.js');
+	</script>
+</html>
+```
+
+`js/bootstrap.js` のコンテンツ:
+```JavaScript
+import 'igniteui/ignite-ui/src/css/themes/infragistics/infragistics.theme.css!';
+import 'igniteui/ignite-ui/src/css/structure/modules/infragistics.ui.rating.css!';
+import 'igniteui/ignite-ui/src/js/modules/infragistics.ui.rating';
+
+export function bootstrap(){
+	// init code here
+}
+```
+CSS モジュールの終わりにある「!」は、モジュール ローダーが JS モジュールとして使用せずに、CSS ローダーがこのモジュールを処理することを示します。
+
+`js/igsample.js` のコンテンツ:
+```JavaScript
+import $ from 'jquery';
+import {bootstrap} from './bootstrap';
+
+// execute initialization procedure
+bootstrap();
+
+$(function(){
+	$("#rating").igRating();
+})
+```
+
+
+## JavaScript および CSS のバンドル
+
+上記の例は、要求されたコントロールにすべての必要なモジュールを読み込むことを System.JS ローダーに命令します。依存関係ツリーが解析され、必要なファイルが依存関係の順序に読み込まれます。
+
+JSPM は、すべての参照されたモジュールおよびその依存関係および CSS ファイルを 1 つの JS ファイルにバンドルできます。サーバーに複数のファイルを要求しないため、ブラウザーの読み込み時間が軽減します。
+
+すべてのモジュールをバンドルするには、以下のコマンドを実行します:
+```
+jspm bundle js/igsample.js --inject
+``` 
+
+個々のファイルに戻るには、以下のコマンドを実行します:
+```
+jspm unbundle
+```
+
+## まとめ
+
+上記の例を web サーバーでホストできます。または、http-server を使用して実行できます:
+```
+npm install -g http-server
+http-server
+```
+ブラウザーを開いて、`http://localhost:8080` に移動すると、実行中のアプリケーションが表示されます。
+
+このトピックでは、&#123;environment:ProductName&#125; コントロールを JSPM および System.JS ローダーと使用する方法を紹介しました。

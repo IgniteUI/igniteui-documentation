@@ -218,14 +218,30 @@ function fixTableCells(body) {
 }
 
 function fixFile(text) {
+    // Strip BOM — we re-add it when writing if it was present.
+    const bom = text.charCodeAt(0) === 0xFEFF ? '\uFEFF' : '';
+    if (bom) text = text.slice(1);
+
     // Preserve frontmatter intact.
     const fmMatch = text.match(/^(---[\s\S]*?---\n?)/);
     const frontmatter = fmMatch ? fmMatch[1] : '';
     let body = fmMatch ? text.slice(frontmatter.length) : text;
 
     // -------------------------------------------------------------------------
-    // Step 0a: Remove HTML comments (<!-- ... -->). These include DocFX
-    // metadata blocks (<!--- |metadata| ... --->). MDX cannot parse them.
+    // Pre-step: Extract the DocFX metadata block before ANY processing.
+    // normalizeMdxContent (step 7) needs it intact to extract the fileName slug.
+    // We re-attach it at the very end so it's untouched by brace escaping etc.
+    // -------------------------------------------------------------------------
+    const metaRe = /<!--\s*\|metadata\|[\s\S]*?\|metadata\|\s*-->\n?/;
+    const metaMatch = body.match(metaRe);
+    const metadataBlock = metaMatch ? metaMatch[0] : '';
+    if (metaMatch) {
+        body = body.slice(0, metaMatch.index) + body.slice(metaMatch.index + metaMatch[0].length);
+    }
+
+    // -------------------------------------------------------------------------
+    // Step 0a: Remove ALL remaining HTML comments. With the metadata block
+    // already extracted, every comment left is a TODO/note that MDX can't parse.
     // -------------------------------------------------------------------------
     body = body.replace(/<!--[\s\S]*?-->/g, '');
 
@@ -346,7 +362,7 @@ function fixFile(text) {
     const parts = body.split(/(```[\s\S]*?```|`[^`\n]+`)/g);
     const fixed = parts.map((part, i) => (i % 2 === 1 ? part : fixProseChunk(part))).join('');
 
-    return frontmatter + fixed;
+    return bom + frontmatter + metadataBlock + fixed;
 }
 
 const abs = path.resolve(targetDir);

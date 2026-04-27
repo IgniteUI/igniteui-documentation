@@ -1,0 +1,498 @@
+﻿---
+title: "&#123;environment:ProductName&#125; での JavaScript ファイル"
+slug: deployment-guide-javascript-files
+---
+
+# &#123;environment:ProductName&#125; での JavaScript ファイル
+
+##トピックの概要
+
+### 目的
+
+このトピックは、&#123;environment:ProductName&#125;™ に含まれるコントロールを使用して作業するために必要な JavaScript ファイルに関連する参照情報を提供します。
+
+### 必要な背景
+
+以下のリストは、この題材を理解するために必要な、前提条件となるトピックを示しています。
+
+- [&#123;environment:ProductName&#125; で JavaScript リソースの使用](/general-and-getting-started/deployment-guide-javascript-resources): このトピックでは、Web アプリケーションで &#123;environment:ProductName&#125; JavaScript を操作して、必要なリソースを管理する方法について説明します。
+
+- [&#123;environment:ProductName&#125; のスタイル設定とテーマ設定](/general-and-getting-started/styling-and-theming/deployment-guide-styling-and-theming): このトピックでは、デザイン段階でのアプリケーションのセットアップ手順について説明し、実稼働環境で CSS を使用するためのオプションを紹介すると同時に、テーマの作成またはカスタマイズについての概要を示します。
+
+- [&#123;environment:ProductName&#125; 向けのインフラジスティックス コンテンツ配信ネットワーク (CDN)](/general-and-getting-started/deployment-guide-infragistics-content-delivery-networkcdn).mdx): &#123;environment:ProductName&#125; 対応 Infragistics Content Delivery Network (CDN) の使用方法。
+
+
+### JavaScript ファイル種類の参照
+
+
+以下は、&#123;environment:ProductName&#125; に含まれる JavaScript のファイル種類の概要を示しています。
+
+結合スクリプトを含む JavaScript ファイルの名前は以下のリストです:
+
+-   `infragistics.core.js`
+-   `infragistics.lob.js`
+-   `infragistics.dv.js`
+-	`infragistics.excel-bundled`
+-	`infragistics.spreadsheet-bundled`
+-	`infragistics.scheduler-bundled`
+
+ファイルは js フォルダー (&#123;environment:ProductName&#125; npm パッケージのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
+
+ブルガリア語、ロシア語、英語、ドイツ語、スペイン語、およびフランス語の、結合スクリプト バージョンのローカライズ リソースもあります。ファイル名は `infragistics-bg.js`, `infragistics-en.js`、`infragistics-ru.js`、 `infragistics-de.js`、`infragistics-es.js`、および `infragistics-fr.js`であり、これらは `../js/i18n` フォルダーにあります。
+
+**JavaScript 圧縮ファイル**
+
+デバッグ バージョンの例外を除き、すべての JavaScript ファイルは圧縮されています。
+
+**JavaScript 非圧縮ファイル** (デバッグ バージョン)
+
+デバッグには、圧縮されていないファイルを使用します。これらのファイルは圧縮されたファイルと同じファイル構造を持ち、ファイル名も同じです。圧縮されていないファイルは、`.zip` アーカイブで提供されます (`infragistics.IgniteUI.debug.zip`)。
+
+**インターナショナリゼーション**
+
+以下の 2 種類のインターナショナリゼーションがあります。1 つ目は、コントロール内のローカライズ リソースです。2 つ目は、コントロール内の地域設定です。
+
+コントロールのローカライズ リソースは、ブルガリア語、ロシア語、英語、ドイツ語、スペイン語、およびフランス語です。これらは、js/modules/i18n (*js* は、&#123;environment:ProductName&#125; プログラムのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
+
+地域設定 - igRegional JavaScript ファイルは、jQuery エディター用の日付、数字、通貨記号などのローカライズ フォーマットを提供します。これらは、`../js/modules/i18n/regional` (`js` は、&#123;environment:ProductName&#125; npm パッケージのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。
+
+>**注:** 結合スクリプト ファイルを使用するときは、地域設定を常に参照する必要があります。これらは結合スクリプト ファイルの一部ではありません。
+
+>**注:** 英語のローカライズ ファイルは圧縮された JS ファイルに統合され、明示的に参照する必要はありません。
+その他の言語の場合は、該当するローカライズ スクリプトを実際のページ コードの JavaScript ファイルの前に参照する必要があります。
+
+### JavaScript 拡張機能のファイル参照
+
+以下は、&#123;environment:ProductName&#125; に含まれる JavaScript [Knockout.js](http://knockoutjs.com) 機能拡張ファイルの概要です。
+
+以下は、機能拡張スクリプトを含む JavaScript ファイルの名前です。
+
+-   `infragistics.datasource.knockoutjs.js`
+-   `infragistics.ui.combo.knockout-extensions.js`
+-   `infragistics.ui.datachart.knockout-extensions.js`
+-	`infragistics.ui.editors.knockout-extensions.js`
+-	`infragistics.ui.grid.knockout-extensions.js`
+-	`infragistics.ui.tree.knockout-extensions.js`
+
+ファイルは js フォルダーの子である extensions フォルダーにあります。
+
+>**注:** 機能拡張スクリプトは結合したファイルに含まれていません。機能拡張を使用する場合、このファイルを個別に参照する必要があります。
+
+##コントロールによる JavaScript ファイルの参照
+
+### &#123;environment:ProductName&#125; コントロール リスト
+
+特定のコントロールの必要な JavaScript ファイル リストをナビゲートするには、以下のリストのコントロール名をクリックします。
+
+-   [igBulletGraph](#igBulletGraph)
+-   [igCategoryChart](#igCategoryChart)
+-   [igCombo](#igCombo)
+-   [igDataSource](#igDataSource)
+-   [igDataChart](#igDataChart)
+-   [igDialog](#igDialog)
+-   [igDoughnutChart](#igDoughnutChart)
+-   [igEditors](#igEditors)
+-   [igFinancialChart](#igFinancialChart)
+-   [igGrid](#igGrid)
+-   [igHierarchicalGrid](#igHierarchicalGrid)
+-   [igHtmlEditor](#igHtmlEditor)
+-   [igLayoutManager](#igLayoutManager)
+-   [igLinearGauge](#igLinearGauge)
+-   [igMap](#igMap)
+-   [igOlapFlatDataSource](#igOlapFlatDataSource)
+-   [igOlapXmlaDataSource](#igOlapXmlaDataSource)
+-   [igPieChart](#igPieChart)
+-   [igPivotDataSelector](#igPivotDataSelector)
+-   [igPivotGrid](#igPivotGrid)
+-   [igPivotView](#igPivotView)
+-   [igPopover](#igPopover)
+-   [igQRCodeBarcode](#igQRCodeBarcode)
+-   [igRadialGauge](#igRadialGauge)
+-   [igRating](#igRating)
+-   [igReportViewer](#igReportViewer)
+-   [igScheduler](#igScheduler)
+-   [igShapeChart](#igShapeChart)
+-   [igSplitter](#igSplitter)
+-   [igSpreadsheet](#igSpreadsheet)
+-   [igTemplating](#igTemplating)
+-   [igTileManager](#igTileManager)
+-   [igTree](#igTree)
+-   [igTreeGrid](#igTreeGrid)
+-   [igUpload](#igUpload)
+-   [igVideoPlayer](#igVideoPlayer)
+-   [igZoombar](#igZoombar)
+-   [igScroll](#igScroll)
+
+#### <a id="igBulletGraph"></a>igBulletGraph
+
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js, infragistics.dv_geometry.js, infragistics.dv_interactivity.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.bulletgraph.js, infragistics.ui.bulletgraph.js |
+
+
+#### <a id="igCategoryChart"></a>igCategoryChart
+
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.ui.basechart.js, infragistics.ui.chart.js, infragistics.ui.chartlegend.js, infragistics.ui.shared.js, infragistics.ui.widget.js, infragistics.util.js, infragistics.util.jquery.js, infragistics.datasource.js, infragistics.templating.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.ext_web.js, infragistics.ext_text.js, infragistics.ext_io.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js, infragistics.dv_datasource.js, infragistics.dv_dataseriesadapter.js, infragistics.dv_geo.js, infragistics.dv_geometry.js, infragistics.datachart_core.js, infragistics.datachart_categorycore.js, infragistics.datachart_domainChart.js, infragistics.dvcommonwidget.js, infragistics.datachart_category.js, infragistics.legend.js 機能: infragistics.dv_interactivity.js, infragistics.datachart_interactivity.js |
+| スクリプト | infragistics.categorychart.js, infragistics.ui.categorychart.js |
+
+
+#### <a id="igChartLegend"></a>igChartLegend
+
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js, infragistics.dv_geometry.js, infragistics.datachart_core.js, infragistics.dvcommonwidget.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.legend.js, infragistics.ui.chartlegend.js |
+
+
+#### <a id="igCombo"></a>igCombo 
+
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.dataSource.js, infragistics.templating.js, infragistics.ui.shared.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.ui.combo.js |
+
+
+#### <a id="igDataSource"></a>igDataSource
+
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js |
+| スクリプト | infragistics.datasource.js |
+
+
+#### <a id="igDataChart"></a>igDataChart
+
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.datasource.js, infragistics.templating.js |
+| スクリプト | infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js, infragistics.dv_geometry.js, infragistics.dv_interactivity.js, infragistics.datachart_core.js, infragistics.dvcommonwidget.js, infragistics.ui.basechart.js, infragistics.ui.chart.js, infragistics.ui.chartlegend.js, infragistics.ui.widget.js 機能: infragistics.datachart_categorycore.js, infragistics.datachart_category.js, infragistics.datachart_rangecategory.js, infragistics.datachart_verticalcategory.js, infragistics.datachart_financial.js, infragistics.datachart_extendedfinancial.js, infragistics.datachart_extendedaxes.js, infragistics.datachart_polar.js, infragistics.datachart_radial.js, infragistics.datachart_scatter.js, infragistics.datachart_stacked.js, infragistics.datachart_shape.js, infragistics.datachart_annotation.js, infragistics.datachart_interactivity.js, infragistics.legend.js シェープ ファイルの読み込みの追加の依存関係: infragistics.ext_text.js, infragistics.ext_io.js, infragistics.ext_web.js, infragistics.dv_geo.js |
+
+
+#### <a id="igDateTimeAxis"></a>igDateTimeAxis
+
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js, infragistics.dv_geometry.js, infragistics.datachart_core.js, infragistics.datachart_categorycore.js |
+| スクリプト | infragistics.datachart_extendedaxes.js |
+
+
+#### <a id="igDialog"></a>igDialog
+
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.ui.dialog.js |
+
+
+#### <a id="igDoughnutChart"></a>igDoughnutChart 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.datasource.js, infragistics.templating.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js, infragistics.dv_geometry.js, infragistics.datachart_core.js, infragistics.dvcommonwidget.js, infragistics.ui.chart.js, infragistics.piechart.js, infragistics.ui.basechart.js, infragistics.dv_interactivity.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.ui.doughnutchart.js, infragistics.ui.doughnutchart.js |
+
+
+#### <a id="igEditors"></a>igEditors
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js, infragistics.ui.popover.js, infragistics.ui.notifier.js, infragistics.ui.validator.js |
+| スクリプト | infragistics.ui.editors.js |
+
+
+#### <a id="igFinancialChart"></a>igFinancialChart
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.ui.chartlegend.js, infragistics.ui.basechart.js, infragistics.ui.chart.js, infragistics.ui.zoomslider.js, infragistics.ui.shared.js, infragistics.ui.widget.js, infragistics.util.js, infragistics.util.jquery.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_web.js, infragistics.ext_text.js, infragistics.ext_io.js, infragistics.ext_ui.js, infragistics.templating.js, infragistics.datasource.js, infragistics.datachart_categorycore.js, infragistics.datachart_core.js, infragistics.datachart_extendedaxes.js, infragistics.datachart_category.js, infragistics.datachart_financial.js, infragistics.datachart_extendedfinancial.js, infragistics.datachart_domainChart.js, infragistics.financialchart.js, infragistics.dvcommonwidget.js, infragistics.dv_core.js, infragistics.dv_geo.js, infragistics.dv_geometry.js, infragistics.dv_jquerydom.js, infragistics.dv_datasource.js, infragistics.dv_dataseriesadapter.js, infragistics.ext_ui.js, infragistics.legend.js, infragistics.zoomslider_core.js, 機能: infragistics.dv_interactivity.js, infragistics.datachart_interactivity.js, infragistics.datachart_annotation.js |
+| スクリプト | infragistics.datachart_financial.js, infragistics.ui.financialchart.js |
+
+
+#### <a id="igFunnelChart"></a>igFunnelChart
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.datasource.js, infragistics.templating.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js, infragistics.dv_geometry.js, infragistics.datachart_core.js, infragistics.dvcommonwidget.js, infragistics.ui.basechart.js, infragistics.dv_interactivity.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.funnelchart.js, infragistics.ui.funnelchart.js |
+
+
+#### <a id="igGrid"></a>igGrid 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js, infragistics.datasource.js, infragistics.templating.js, infragistics.ui.shared.js, infragistics.ui.grid.shared.js, infragistics.ui.scroll.js |
+| スクリプト | infragistics.ui.grid.framework.js 機能: infragistics.ui.grid.featurechooser.js, infragistics.ui.grid.filtering.js, infragistics.ui.grid.groupby.js, infragistics.ui.grid.hiding.js, infragistics.ui.grid.cellmerging.js, infragistics.ui.grid.paging.js, infragistics.ui.grid.resizing.js, infragistics.ui.grid.rowselectors.js, infragistics.ui.grid.selection.js, infragistics.ui.grid.sorting.js, infragistics.ui.grid.summaries.js, infragistics.ui.grid.tooltips.js, infragistics.ui.grid.updating.js, infragistics.ui.grid.multicolumnheaders.js, infragistics.ui.grid.columnmoving.js, infragistics.ui.grid.columnfixing.js, infragistics.ui.grid.responsive.js, infragistics.ui.grid.appendrowsondemand.js |
+
+
+
+#### <a id="igHierarchicalGrid"></a>igHierarchicalGrid 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js, infragistics.datasource.js, infragistics.templating.js, infragistics.ui.shared.js, infragistics.ui.grid.shared.js, infragistics.ui.scroll.js, infragistics.ui.grid.framework.js |
+| スクリプト | infragistics.ui.grid.hierarchical.js 機能: infragistics.ui.grid.featurechooser.js, infragistics.ui.grid.filtering.js, infragistics.ui.grid.groupby.js, infragistics.ui.grid.hiding.js, infragistics.ui.grid.cellmerging.js, infragistics.ui.grid.paging.js, infragistics.ui.grid.resizing.js, infragistics.ui.grid.rowselectors.js, infragistics.ui.grid.selection.js, infragistics.ui.grid.sorting.js, infragistics.ui.grid.summaries.js, infragistics.ui.grid.tooltips.js, infragistics.ui.grid.updating.js, infragistics.ui.grid.multicolumnheaders.js, infragistics.ui.grid.columnmoving.js |
+
+
+#### <a id="igHtmlEditor"></a>igHtmlEditor 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.datasource.js, infragistics.templating.js, infragistics.ui.shared.js, infragistics.ui.widget.js, infragistics.ui.toolbarbutton.js, infragistics.ui.splitbutton.js, infragistics.ui.colopicker.js, infragistics.ui.popover.js, infragistics.ui.colorpickersplitbutton.js, infragistics.ui.combo.js, infragistics.ui.editors.js, infragistics.ui.toolbar.js |
+| スクリプト | infragistics.ui.htmleditor.js |
+
+
+#### <a id="igLayoutManager"></a>igLayoutManager 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js |
+| スクリプト | infragistics.ui.layoutmanager.js |
+
+
+#### <a id="igLinearGauge"></a>igLinearGauge 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, , infragistics.util.jquery.js infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js, infragistics.dv_geometry.js |
+| スクリプト | infragistics.lineargauge.js, infragistics.ui.lineargauge.js |
+
+
+
+#### <a id="igMap"></a>igMap 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.ui.chart.js, infragistics.ui.chartlegend.js, infragistics.ui.basechart.js, infragistics.util.js, infragistics.ui.shared.js, infragistics.ui.widget.js, infragistics.ui.map.template.js, infragistics.util.jquery.js, infragistics.datasource.js, infragistics.templating.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.ext_text.js, infragistics.ext_io.js, infragistics.ext_threading.js, infragistics.ext_web.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js, infragistics.dv_datasource.js, infragistics.dv_dataseriesadapter.js, infragistics.dv_interactivity.js, infragistics.dv_geometry.js, infragistics.dv_geo.js, infragistics.datachart_core.js, infragistics.datachart_categorycore.js, infragistics.datachart_category.js, infragistics.datachart_extendedaxes.js, infragistics.datachart_scatter.js, infragistics.datachart_shape.js, infragistics.dvcommonwidget.js, infragistics.legend.js 機能: infragistics.dv_interactivity.js, infragistics.datachart_interactivity.js |
+| スクリプト | infragistics.geographicmap_core.js, infragistics.ui.map.js |
+
+
+#### <a id="igOverviewPlusDetailPane"></a>igOverviewPlusDetailPane 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js |
+| スクリプト | infragistics.dv_opd.js |
+
+
+#### <a id="igOlapFlatDataSource"></a>igOlapFlatDataSource 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js |
+| スクリプト | infragistics.olapflatdatasource.js |
+
+
+#### <a id="igOlapXmlaDataSource"></a>igOlapXmlaDataSource 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js |
+| スクリプト | infragistics.olapxmladatasource.js |
+
+
+#### <a id="igPieChart"></a>igPieChart 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.datasource.js, infragistics.templating.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js, infragistics.dv_geometry.js, infragistics.datachart_core.js, infragistics.dvcommonwidget.js, infragistics.dv_interactivity.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.piechart.js, infragistics.ui.chart.js |
+
+
+#### <a id="igPivotDataSelector"></a>igPivotDataSelector 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.datasource.js, infragistics.olapflatdatasource.js, *または*, infragistics.olapxmladatasource.js, infragistics.templating.js, infragistics.ui.shared.js, infragistics.ui.scroll.js, infragistics.ui.combo.js, infragistics.ui.tree.js, infragistics.ui.pivot.shared.js |
+| スクリプト | infragistics.ui.pivotdataselector.js |
+
+
+
+#### <a id="igPivotGrid"></a>igPivotGrid 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js, infragistics.datasource.js, infragistics.olapflatdatasource.js, *または*, infragistics.olapxmladatasource.js, infragistics.templating.js, infragistics.ui.shared.js, infragistics.ui.scroll.js, infragistics.ui.grid.framework.js, infragistics.ui.grid.multicolumnheaders.js, infragistics.ui.pivot.shared.js |
+| スクリプト | infragistics.ui.pivotgrid.js |
+
+
+#### <a id="igPivotView"></a>igPivotView 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js, infragistics.datasource.js, infragistics.olapflatdatasource.js, *または*, infragistics.olapxmladatasource.js, infragistics.templating.js, infragistics.ui.shared.js, infragistics.ui.scroll.js, infragistics.ui.combo.js, infragistics.ui.tree.js, infragistics.ui.grid.framework.js, infragistics.ui.grid.multicolumnheaders.js, infragistics.ui.pivot.shared.js, infragistics.ui.pivotdataselector.js, infragistics.ui.pivotgrid.js |
+| スクリプト | infragistics.ui.pivotview.js |
+
+
+#### <a id="igPopover"></a>igPopover
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.ui.popover.js |
+
+
+#### <a id="igQRCodeBarcode"></a>igQRCodeBarcode
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js, infragistics.ext_core.js, infragistics.ext_text.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.dv_core.js, infragistics.ext_collectionsextended.js, infragistics.barcode_core.js, infragistics.dv_jquerydom.js |
+| スクリプト | infragistics.barcode_qrcodebarcode.js, infragistics.encoding.core.js, infragistics.ui.qrcodebarcode.js |
+
+
+
+
+#### <a id="igRadialGauge"></a>igRadialGauge 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js, infragistics.dv_geometry.js, infragistics.dv_interactivity.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.radialgauge.js, infragistics.ui.radialgauge.js |
+
+
+#### <a id="igRating"></a>igRating 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.ui.rating.js |
+
+
+#### <a id="igReportViewer"></a>igReportViewer
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.dataSource.js, infragistics.dv.core.js, infragistics.dvcommonwidget.js, infragistics.ui.chart.js, infragistics.chart_categorychart.js, infragistics.chart_financialchart.js |
+| スクリプト | infragistics.ui.reportviewer.js |
+
+
+#### <a id="igScheduler"></a>igScheduler
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js, infragistics.templating.js, infragistics.ui.scroll.js, infragistics.ext_core.js, infragistics.ext_text.js, infragistics.ext_collections.js, infragistics.ext_io.js, infragistics.ext_ui.js, infragistics.ext_collectionsExtended.js, infragistics.ext_threading.js, infragistics.ext_web.js, infragistics.xml.js, infragistics.dv_core.js, infragistics.dv_jquerydom.js, infragistics.dv_interactivity.js, infragistics.datasource.js, infragistics.ui.popover.js, infragistics.ui.validator.js, infragistics.ui.editors.js, infragistics.ui.notifier.js, infragistics.ui.shared.js, infragistics.ui.combo.js |
+| スクリプト | infragistics.scheduler.core.js, infragistics.ui.scheduler.core.js, infragistics.ui.scheduler.js |
+
+
+#### <a id="igScroll"></a>igScroll 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js, modernizr.js |
+| スクリプト | infragistics.ui.scroll.js |
+
+
+#### <a id="igSparkline"></a>igSparkline 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.datasource.js, infragistics.templating.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.dv_jquerydom.js, infragistics.dv_core.js, infragistics.dv_geometry.js, infragistics.dv.simple.core.js, infragistics.ui.basechart.js |
+| スクリプト | infragistics.chart_sparkline.js, infragistics.ui.sparkline.js |
+
+
+#### <a id="igSplitter"></a>igSplitter 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.ui.splitter.js |
+
+
+#### <a id="igSpreadsheet"></a>igSpreadsheet
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ext_core.js, infragistics.ext_text.js, infragistics.ext_collections.js, infragistics.ext_io.js, infragistics.ext_ui.js, infragistics.ext_collectionsExtended.js, infragistics.ext_threading.js, infragistics.ext_web.js, infragistics.xml.js, infragistics.documents.core_core.js, infragistics.documents.core_openxml.js, infragistics.excel_core.js, infragistics.excel_functions.js, infragistics.excel_serialization_biff8.js, infragistics.excel_serialization_openxml.js, infragistics.undo.js, infragistics.dv_core.js, infragistics.dv_jquerydom.js, infragistics.dv_interactivity.js, infragistics.util.jquery.js, infragistics.datasource.js, infragistics.templating.js, infragistics.ui.scroll.js, infragistics.ui.validator.js, infragistics.ui.combo.js |
+| スクリプト | infragistics.spreadsheet.js, infragistics.ui.spreadsheet.js |
+
+
+#### <a id="igShapeChart"></a>igShapeChart
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.shared.js, infragistics.ui.widget.js, infragistics.ui.basechart.js, infragistics.ui.chart.js, infragistics.ui.chartlegend.js, infragistics.ext_core.js, infragistics.ext_collections.js, infragistics.ext_ui.js, infragistics.ext_web.js, infragistics.ext_text.js, infragistics.ext_io.js, infragistics.dvcommonwidget.js, infragistics.dv_core.js, infragistics.dv_geo.js, infragistics.dv_geometry.js, infragistics.dv_jquerydom.js, infragistics.dv_datasource.js, infragistics.dv_dataseriesadapter.js, infragistics.templating.js, infragistics.datasource.js, infragistics.datachart_core.js, infragistics.datachart_extendedaxes.js, infragistics.datachart_scatter.js, infragistics.datachart_shape.js, infragistics.datachart_domainChart.js, infragistics.legend.js, 機能: infragistics.dv_interactivity.js, infragistics.datachart_interactivity.js, infragistics.datachart_visualdata.js, infragistics.datachart_annotation.js |
+| スクリプト | infragistics.ui.shapechart.js, infragistics.shapechart.js |
+
+
+#### <a id="igTemplating"></a>igTemplating 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js |
+| スクリプト | infragistics.templating.js |
+
+
+#### <a id="igTileManager"></a>igTileManager 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.datasource.js, infragistics.templating.js, infragistics.ui.widget.js, infragistics.ui.splitter-en.js, infragistics.ui.splitter.js, infragistics.ui.layoutmanager.js |
+| スクリプト | infragistics.ui.tilemanager.js |
+
+
+#### <a id="igTree"></a>igTree 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js, infragistics.dataSource.js, infragistics.templating.js, infragistics.ui.shared.js |
+| スクリプト | infragistics.ui.tree.js |
+
+
+
+#### <a id="igTreeGrid"></a>igTreeGrid 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js, infragistics.dataSource.js, infragistics.templating.js, infragistics.ui.shared.js, infragistics.ui.grid.shared.js, infragistics.ui.scroll.js, infragistics.ui.grid.framework.js |
+| スクリプト | infragistics.ui.treegrid.js 機能: infragistics.ui.grid.featurechooser.js, infragistics.ui.grid.filtering.js, infragistics.ui.treegrid.filtering.js, infragistics.ui.grid.hiding.js, infragistics.ui.treegrid.hiding.js, infragistics.ui.grid.paging.js, infragistics.ui.treegrid.paging.js, infragistics.ui.grid.selection.js, infragistics.ui.treegrid.selection.js, infragistics.ui.grid.sorting.js, infragistics.ui.treegrid.sorting.js, infragistics.ui.grid.tooltips.js, infragistics.ui.treegrid.tooltips.js, infragistics.ui.grid.updating.js, infragistics.ui.treegrid.updating.js, infragistics.ui.grid.multicolumnheaders.js, infragistics.ui.treegrid.multicolumnheaders.js, infragistics.ui.grid.columnfixing.js, infragistics.ui.treegrid.columnfixing.js |
+
+
+
+#### <a id="igUpload"></a>igUpload 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.shared.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.ui.upload.js |
+
+
+
+#### <a id="igValidator"></a>igValidator 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.ui.validator.js |
+
+
+
+#### <a id="igVideoPlayer"></a>igVideoPlayer 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.shared.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.ui.videoplayer.js |
+
+
+
+#### <a id="igZoombar"></a>igZoombar 
+
+| スクリプトの種類 | スクリプト ファイル名 |
+| --- | --- |
+| 依存スクリプト | infragistics.util.js, infragistics.util.jquery.js, infragistics.ui.shared.js, infragistics.ui.widget.js |
+| スクリプト | infragistics.ui.zoombar.js |
+
+
+>**注:** 英語のローカライズ ファイルは圧縮された JS ファイルに統合され、明示的に参照する必要はありません。
+その他の言語の場合は、該当するローカライズ スクリプトを実際のページ コードの JavaScript ファイルの前に参照する必要があります。
+

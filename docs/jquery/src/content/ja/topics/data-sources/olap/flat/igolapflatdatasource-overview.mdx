@@ -1,0 +1,138 @@
+﻿---
+title: "igOlapFlatDataSource の概要"
+slug: igolapflatdatasource-overview
+---
+
+# igOlapFlatDataSource の概要
+
+## トピックの概要
+### 目的
+
+このトピックでは、`igOlapFlatDataSource`™ コンポーネントとその主な機能の概要を提供します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックと概念の一覧です。
+
+**トピック**
+
+- [多次元 (OLAP) データ ソース コンポーネント](/data-sources/olap/multidimensional-data-source-components): このトピック グループでは、&#123;environment:ProductName&#125;™ スイートの多次元 (OLAP) データ ソース コンポーネントを説明します。
+
+外部リソース
+
+-   [ピボット表](http://en.wikipedia.org/wiki/Pivot_table)
+-   [オンライン解析処理](http://en.wikipedia.org/wiki/Online_analytical_processing) (OLAP)
+
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [**概要**](#introduction)
+-   [**主要な機能の概要**](#main-features)
+    -   [主要な機能の概要表](#main-features-summary)
+    -   [複数データ タイプ サポート](#multiple-data-types)
+    -   [OLAP メタデータ生成](#olap-metadata-generation)
+    -   [データ スライス生成](#data-slice-generation)
+    -   [&#123;environment:ProductName&#125; コントロールとの統合](#integration-with-igniteui)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+
+
+## <a id="introduction"></a>概要
+
+`igOlapFlatDataSource` コンポーネントは、フラットなデータ コレクション上で多次元の (OLAP のような) 解析を実施できます。データ収集または [igDataSource](/data-sources/igdatasource/igdatasource)™ インスタンスが与えられユーザー構成に基づく場合、階層およびメジャーの分析コードを作成するため必要なメタデータを抽出します。`igOlapFlatDataSource` コンポーネントは、コンポーネントの API を直接使用、または OLAP データの視覚化および対話が可能な 1 つ以上の &#123;environment:ProductName&#125; ウィジェットを介して、要求に応じてデータの計算および集計を実行します (`igPivotView`™ または `igPivotGrid`™ など)。
+
+
+## <a id="main-features"></a>主要な機能の概要
+### <a id="main-features-summary"></a>主要な機能の概要表
+
+以下の表は、`igOlapFlatDataSource` コンポーネントの主な機能についてまとめています。
+
+- [複数データ タイプ サポート](#multiple-data-types): `igDataSource` コンポーネントでサポートされるデータ ソースは、入力データとして使用できます。
+
+- [OLAP メタデータ生成](#olap-metadata-generation): `igOlapFlatDataSource` は、入力データに基づいてカスタムなメタデータ構造をコードで定義することが可能です。
+
+- [データ スライス生成](#data-slice-generation): 行と列に階層を割り当てた後に、`igOlapFlatDataSource` は、相対する階層のメンバーのタプルを含む結果軸を 1 つ以上生成します。メジャーが選択された場合、`igOlapFlatDataSource` は値セルオブジェクトの2 次元配列を生成します。
+
+- [&#123;environment:ProductName&#125; コントロールとの統合](#integration-with-igniteui): `igOlapFlatDataSource` コンポーネントは、OLAP データを表示する &#123;environment:ProductName&#125; のデータ ビジュアライゼーション コントロールにデータを提供できます。
+
+
+
+### <a id="multiple-data-types"></a>複数データ タイプ サポート
+
+`igDataSource` コンポーネントでサポートされるデータ ソースは、`igOlapFlatDataSource` の入力データとして使用できます。`igOlapFlatDataSource` コンポーネントは、データでフィードされている `igDataSource` インスタンス上で動作します。あるいは、データ ソース オプション オブジェクトを指定して `igDataSource` コンポーネントでサポートされるデータ ソースを使用することも可能です。この方法により、ほとんどすべてのデータ コレクションでオンライン解析処理 (OLAP) 解析を実行できます。`igDataSource` でサポートされるデータ型の一覧は、[igDataSource 概要](/data-sources/igdatasource/igdatasource-overview)をご参照ください。
+
+#### 関連トピック:
+
+-   [**igOlapFlatDataSource の HTML ページへの追加**](/data-sources/olap/flat/adding/igolapflatdatasource-adding-to-an-html-page)
+
+### <a id="olap-metadata-generation"></a>OLAP メタデータ生成
+
+`igOlapFlatDataSource` は、入力データに基づいてカスタムなメタデータ構造をコードで定義することが可能です。メジャー値を計算する際にレベルのメンバーを生成する場合、データ オブジェクトのデータ サブセットを指定できます。階層を定義し、階層に使用するレベルを指定できます。階層をディメンションにグループ化し、そのディメンションが属するキューブのプロパティを指定できます。
+
+#### 関連トピック:
+
+-   [**階層を定義してフラット データでメタデータを提供**](/data-sources/olap/flat/igolapflatdatasource-defining-metadata)
+
+### <a id="data-slice-generation"></a>データ スライス生成
+
+`igOlapFlatDataSource` コンポーネントはピボット テーブルの抽象を表します。行、列、フィルター、メジャー コレクションがあり、データ階層とメジャーを追加できます。項目をこれらのコレクションに追加した後、`igOlapFlatDataSource` は必要なデータ値を計算し、 result プロパティを介して取得できる [$ig.OlapResult](&#123;environment:jQueryApiUrl&#125;/ig.OlapResult) オブジェクトに書き込みます。このオブジェクトには、階層メンバーを含む行および列の軸、既存メジャーに基づいたメジャー値を含むデータ セル オブジェクトの配列があります。
+
+#### 関連トピック:
+
+-   [**ピボット グリッドの列、行、フィルターおよびメジャーを配置することによる結果セットの表ビューの構成 (igOlapFlatDataSource、igOlapXmlaDataSource、igPivotDataSelector、igPivotGrid、igPivotView)**](/data-sources/olap/flat/configuring-the-tabular-view)
+
+### <a id="integration-with-igniteui"></a>&#123;environment:ProductName&#125; コントロールとの統合
+
+`igOlapFlatDataSource` コンポーネントは、OLAP データを表示する &#123;environment:ProductName&#125; のデータ ビジュアライゼーション コントロールにデータを提供できます。サポートされるコントロールは `igPivotDataSelector`、`igPivotGrid`、および `igPivotView` です。
+
+#### 関連トピック:
+
+-   [**igPivotDataSelector の概要**](/controls/igpivotdataselector/overview)
+-   [**igPivotGrid の概要**](/controls/igpivotgrid/overview)
+-   [**igPivotView 概要**](/controls/igpivotview/overview)
+
+
+
+## <a id="related-content"></a>関連コンテンツ
+### <a id="topics"></a>トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [**igOlapFlatDataSource の追加**](/data-sources/olap/flat/adding/igolapflatdatasource-adding): このトピックのグループは、`igOlapFlatDataSource` を HTML ページおよび ASP.NET MVC ビュー の追加する方法について説明します。
+
+- [**メタデータの定義 (igOlapFlatDataSource)**](/data-sources/olap/flat/igolapflatdatasource-defining-metadata): このトピックは、フラットなデータが多次元 (OLAP) フォームを提示できるように `igOlapFlatDataSource` で使用されるデータに対してメタデータを定義する方法を説明します。
+
+- [**ピボット グリッドの列、行、フィルター、メジャーの配列による結果セットの表形式ビューを構成します (igOlapFlatDataSource、 igOlapXmlaDataSource、igPivotDataSelector、igPivotGrid, igPivotView)**](/data-sources/olap/flat/configuring-the-tabular-view): このトピックは、グリッドのインターフェイスまたはコードを使用し、ピボット グリッド列、行、フィルター、およびメジャーの階層を配置して設定される OLAP キューブ結果の表形式ビューを構成する方法を説明します。
+
+- [**igPivotDataSelector の概要**](/controls/igpivotdataselector/overview): このトピックは、主な機能、最小要件およびユーザー機能性など、`igPivotDataSelector` コントロールに関する概念的な情報を提供します。
+
+- [**igPivotGrid の概要**](/controls/igpivotgrid/overview): このトピックは、主要機能、最小要件およびユーザー機能性など、`igPivotGrid` コントロールに関する概念的な情報を提供します。
+
+- [**igPivotView 概要**](/controls/igpivotview/overview): このトピックでは、主要機能、最小要件、ユーザー機能性など、`igPivotView` コントロールに関する概念的な情報を提供します。
+
+
+
+### <a id="samples"></a>サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [igPivotGrid をフラット データ ソースにバインド](&#123;environment:SamplesUrl&#125;/pivot-grid/binding-to-flat-data-source): このサンプルでは、`igPivotGrid` を `igOlapFlatDataSource` にバインドし、データ選択のために `igPivotDataSelector` を使用します。
+
+- [ASP.NET MVC ヘルパーとフラット データ ソースの使用](&#123;environment:SamplesUrl&#125;/pivot-data-selector/using-the-asp-net-mvc-helper-with-flat-data-source): このサンプルでは、`igOlapXmlaDataSource` に ASP.NET MVC ヘルパーを使用し、このデータ ソースを `igPivotDataSelector` および `igPivotGrid` に使用する方法を紹介します。
+
+- [igPivotView をフラット データ ソースにバインド](&#123;environment:SamplesUrl&#125;/pivot-view/binding-to-flat-data-source): このサンプルでは、`igPivotView` を `igOlapFlatDataSource` にバインドする方法を紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

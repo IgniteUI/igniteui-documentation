@@ -1,0 +1,200 @@
+﻿---
+title: "ロード オン デマンドを構成する (igCombo)"
+slug: igcombo-load-on-demand
+---
+
+# ロード オン デマンドを構成する (igCombo)
+
+
+
+##トピックの概要
+
+
+### 目的
+
+このトピックでは、`igCombo`™ コントロールのロード オン デマンド機能を紹介し、コード例を示して、その構成および使用方法について説明します。
+
+### 前提条件
+
+
+**概念**
+
+-   ロード オン デマンド
+
+**トピック**
+
+
+-	[igCombo の概要](/controls/igcombo/overview): このトピックでは、`igCombo` コントロールに関係する概念、たとえば、機能、データ ソースへのバインド、要件、テンプレートといった概念について説明します。
+
+-	[igCombo の追加](/controls/igcombo/getting-started): このヘルプ トピックでは、基本的な `igCombo` コントロールを設定し、クライアントの JSON データおよびサーバーのビジネス オブジェクトのコレクションにバインドする方法を紹介します。jQuery 環境と ASP.NET MVC 環境の両方を対象にしています。
+
+-	[igCombo をデータにバインド](/controls/igcombo/binding/binding-to-data): このトピックでは、`igCombo` コントロールをデータにバインドする方法と、データ バインドに関する詳細について説明します。
+
+
+
+#### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [概要](#introduction)
+-   [ロード オン デマンドの有効化](#enabling-loadOnDemand)
+-   [ロード オン デマンドの構成](#configuring-LoadOnDemand)
+-   [コード例: ロード オン デマンド、ページングとヘッダーおよびフッター テンプレート](#code-example-load)
+   -   [説明](#description)
+   -   [フッター テンプレート変数](#footer-template)
+    -   [コード](#code)
+-   [関連コンテンツ](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+
+
+##<a id="introduction"></a>概要
+
+
+### ロード オン デマンド機能の概要
+
+`igCombo` コントロールは、ロード オン デマンド機能をサポートしています。ロード オン デマンドを有効にすると、サーバーとクライアントの両方で帯域幅と処理のオーバーヘッドが大幅に削減されます。
+
+ロード オン デマンドを有効にすると、まずドロップダウン コンテナーにスクロールバーが表示され、リスト項目の最初のページが表示されます。リストの最後にスクロールすると、非同期コールバックを通じて次の項目ページが取得され、リストの一番下に追加されます。
+
+
+
+##<a id="enabling-loadOnDemand"></a>ロード オン デマンドの有効化
+
+
+### ロード オン デマンドの有効化の概要
+
+デフォルトでは、ロード オン デマンドは無効になっています。この機能を有効にするには、`loadOnDemandSettings`.enabled オプションを true に設定する必要があります。
+
+**JavaScript の場合:**
+
+```js
+loadOnDemandSettings: { enabled: true }
+```
+
+または
+
+**ASPX の場合:**
+
+```csharp
+Html.Infragistics().Combo().LoadOnDemandSettings(load => load.Enabled(true))
+```
+
+データをデータ ソースから読み込む間、ドロップダウン リストに読み込みインジケーターが表示されます。データのロードとページ上の表示が完了すると、読み込みインジケーターは削除されます。
+
+
+
+##<a id="configuring-LoadOnDemand"></a>ロード オン デマンドの構成
+
+
+### ロード オン デマンドの構成の概要
+
+以下の表は、`igCombo` コントロールのロード オン デマンドに関する構成可能な項目と、関連するドロップダウン リストのページング機能の一覧を示します。
+
+
+| 構成可能な要素 | 詳細 | プロパティ |
+| --- | --- | --- |
+| ドロップダウン リストのページング | ドロップダウン リストのページ サイズを設定します。 | [loadOnDemandSettings.pageSize](environment:jQueryApiUrl/ui.igcombo#options:loadOnDemandSettings.pageSize) |
+| ドロップダウン リストのヘッダー | ヘッダー テンプレートを通じてドロップダウン リストの見出しラベルを設定します。 | [headerTemplate](environment:jQueryApiUrl/ui.igcombo#options:headerTemplate) |
+| ドロップダウン リストのフッター | ヘッダー テンプレートを通じてドロップダウン リストの見出しラベルを設定します。 | [footerTemplate](environment:jQueryApiUrl/ui.igcombo#options:footerTemplate) |
+
+
+
+##<a id="code-example-load"></a>コード例: ロード オン デマンド、ページングとヘッダーおよびフッター テンプレート
+
+
+###<a id="description"></a> 説明
+
+この例では、特定のページ サイズを使用してリモート OData データ ソースに対するロード オン デマンド機能を構成する方法を紹介します。
+ 
+コードでは、id が "combo" の作成済みの HTML 入力タグ上に `igCombo` コントロールのインスタンスを作成しています。このコードでは、ドロップダウン リストのページ サイズ初期値が 25 項目に設定されます (pageSize: 25)。`responseDataKey`、`responseTotalRecCountKey`、および `dataSource` オプションは、指定した URL にクエリを実行し、返された JSON オブジェクトの d.results.Results および d.results.Count メンバーを使用してドロップダウン リストを読み込むようコンボに指示する、割り当てられた値です。
+
+`headerTemplate` オプションには、HTML コードを表す文字列が割り当てられ、ドロップダウン リストの先頭に表示されます。通常これは、例のように `CSS` クラスで書式設定された単一のタグですが (class=”boxed”)、より複雑な HTML コードの場合もあります。
+
+`footerTemplate` オプションには、HTML コードを表す文字列が割り当てられ、いくつかの定義済みの変数を実行時に置換できます。これにより、テンプレートのように動作します。そのオプションに割り当てられた文字列が処理されて変数が置換され、ドロップダウン リストの一番下に表示されます。
+
+###<a id="footer-template"></a> フッター テンプレート変数
+
+以下の表に、使用可能なフッター テンプレート変数の一覧を示します。
+
+| 説明 | 短い名前 | 代替 ASP.NET MVC ヘルパー構文 |
+| --- | --- | --- |
+| igCombo (dataSource のビュー) 内のレコード数 | &#123;0&#125; | ComboModel.RECORDS_VIEW |
+| dataSource 内のレコードの数 | &#123;1&#125; | ComboModel.RECORDS_DATA |
+| サーバー上の (フィルター済み) レコードの数 | &#123;2&#125; | ComboModel.RECORDS_SERVER |
+| サーバー上のすべてのレコードの数 | &#123;3&#125; | ComboModel.RECORDS_SERVER_TOTAL |
+
+
+
+###<a id="code"></a> コード
+
+**JavaScript の場合:**
+
+```js
+$("#combo").igCombo({
+    loadOnDemandSettings: {
+        enabled: true,
+        pageSize: 25
+    },
+    responseDataKey: "d.results.Results",
+	responseTotalRecCountKey : "d.results.Count",
+    dataSource: 'http://igniteui.com/api/products?&callback=?',
+    textKey: "ProductName",
+    valueKey: "ID",
+	headerTemplate: '<div class="boxed">Available Products</div>',
+    footerTemplate: '<div class="boxed">Product Count: {0} of {3}</div>'
+});
+```
+
+**ASPX の場合:**
+
+```csharp
+<%=
+    Html.Infragistics().Combo()
+        .ID("combo")
+        .DataSource("http://igniteui.com/api/products?&callback=?")
+        .ResponseDataKey("d.results.Results")
+		.ResponseTotalRecCountKey("d.results.Count")
+        .TextKey("ProductName")
+        .ValueKey("ID")
+        .LoadOnDemandSettings(load => load.Enabled(true).PageSize(25))
+		.HeaderTemplate("<div class='boxed'>Available Movies</div>")
+        .FooterTemplate("<div class='boxed'>Movie Count: {0} of {3}</div>")
+        .Render()
+%>
+```
+
+
+
+##<a id="related-content"></a>関連コンテンツ
+
+
+###<a id="topics"></a> トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+
+-	[igCombo の構成](/controls/igcombo/configuring/configuring): このトピックでは、`igCombo` コントロールでの各種データ バインド方式について説明し、データ バインディングに関するその他の詳細情報を示します。
+
+
+
+###<a id="samples"></a> サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+-	[ロード オン デマンド](&#123;environment:SamplesUrl&#125;/combo/load-on-demand): このサンプルでは、OData データ ソースを使用して、コンボ ボックスのロード オン デマンド機能とページング機能を使用する方法を紹介します。
+
+-	[仮想化](&#123;environment:SamplesUrl&#125;/combo/virtualization): このサンプルでは、UI 仮想化を有効にすると、`igCombo` コントロールはコンボでデータの大量を効率的に描画する方法を紹介します。
+
+-	 [フィルタリング](&#123;environment:SamplesUrl&#125;/combo/filtering): このサンプルでは、`igCombo` コントロールのドロップダウン リストは入力値に基づいてフィルターする方法を紹介します。自動補完およびオート コンプリート機能もサポートされます。
+
+
+
+
+
+ 
+
+ 
+
+

@@ -1,0 +1,291 @@
+﻿---
+title: "カスタム レスポンス Web デザイン (RWD) プロファイルの作成 (igGrid)"
+slug: iggrid-responsive-web-design-mode-creating-custom-profile
+---
+
+# カスタム レスポンス Web デザイン (RWD) プロファイルの作成 (igGrid)
+
+## トピックの概要
+
+### 目的
+
+このトピックは、コード例を用いて、`igGrid`™ コントロールのカスタム レスポンス Web デザイン (RWD) モード プロファイルを作成する方法について説明します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念、トピック、および記事の一覧です。
+
+- 概念
+    - レスポンス Web デザイン
+    - レスポンシブ フレームワーク
+    - CSS メディア クエリ
+- トピック
+    - [レスポンス Web デザイン (RWD) モードの概要 (igGrid)](/controls/iggrid/features/responsive/responsive-web-design-mode-overview): このトピックは、`igGrid` コントロールの RWD モード機能およびこの機能が提供する機能性について概念的に説明します。
+    - [レスポンス Web デザイン (RWD) モード構成を有効にする (igGrid)](/controls/iggrid/features/responsive/enabling-responsive-web-design-mode): このトピックは、コード例を用いて、`igGrid` コントロールでレスポンス Web デザイン (RWD) モードを有効にする方法について説明します。
+	- [レスポンス Web デザイン (RWD) モード構成の概要 (igGrid)](/controls/iggrid/features/responsive/configure/configuring-responsive-web-design-mode-overview): このトピックは、列の非表示やテンプレートの構成など レスポンス Web デザイン (RWD) モードが構成される要素、およびこれらの要素が互いのどのように関係するのかを概念的に説明します。
+- 外部リソース
+    -   [A List Apart: レスポンシブ Web デザイン](http://alistapart.com/article/responsive-web-design)
+    -   [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
+    -   [Wikipedia: レスポンシブ Web デザイン](http://en.wikipedia.org/wiki/Responsive_web_design)
+    -   [CSS 3 メディア クエリ](http://www.w3.org/TR/css3-mediaqueries/)
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [**カスタム RWD モード プロファイル作成の概要**](#overview)
+    -   [カスタム RWD モード プロファイル作成の概要表](#summary-chart)
+-   [**カスタム RWD モード プロファイル インラインの作成**](#inline)
+	-   [概要](#inline-overview)
+    -   [プロパティ設定](#inline-property-settings)
+    -   [例](#inline-example)
+-   [**$.ig.ResponsiveMode クラスを拡張することにより、カスタム RWD モード構成を作成する**](#extending)
+    -   [概要](#extending-overview)
+    -   [プロパティ設定](#extending-property-settings)
+    -   [例](#extending-example)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+
+
+## <a id="overview"></a> カスタム RWD モード プロファイル作成の概要
+
+特定のデバイスをターゲットにしている場合、RWD モード プロファイルのデフォルト プロファイルは自分のニーズを満たさないかもしれません。その場合、カスタム RWD モード プロファイルを定義することになります。
+
+カスタム RWD モード プロファイルをインラインで構成する場合、モードのアクティブ化のために `$.ig.ResponsiveMode` クラスの実装を暗黙で使用します。この実装は、ブラウザのウィンドウの高さおよび幅 (`window.clientWidth` および `window.clientHeight`) に対してプロファイルがアクティブ化されているかどうかクラス (`minWidth`, `maxWidth`, `minHeight` および `maxHeight`) プロパティをチェックします。
+
+`$.ig.ResponsiveMode` クラスを拡張すると、`$.ig.ResponsiveMode.isActive` メソッドを実装し、プロファイルのアクティブ化のために各種ルールを設定できます。
+
+`$.ig.ResponsiveMode` クラスを拡張すると、以下のルールが適用されます。
+
+-   クラス名の慣例 - クラスは `$.ig.<custom_class_name>Mode` と名前をつけなければなりません。このとき *&lt;custom_class_name&gt;* はクラスの名前です。
+-   クラスを RWD モード プロファイルとして登録する - RWD モード機能の  `responsiveConfig` プロパティでカスタム モードを宣言します。以下のコードでは、`<custom_mode_name>` は、RWD モード プロファイルの実際の名前を表します。
+
+    **JavaScript の場合:**
+
+```js
+    responsiveConfig: {    <custom_mode_name>: “<custom_class_name>” }
+```
+
+    RWD モード機能は、`responsiveModes` プロパティの 2 つのタイプの間で異なります。オブジェクト プロパティと文字列プロパティです。
+
+    -   **オブジェクト プロパティ**は、「[カスタム RWD モード プロファイル インラインの作成](#inline)」で説明されるように、インラインの RWD カスタム プロファイルを定義します。
+    -   **文字列プロパティ**は、「[$.ig.ResponsiveMode クラスを拡張することにより、カスタム RWD モード構成を作成する](#extending)」で説明されるように、RWD モードのカスタム プロファイルを決定してアクティブ化するために使用されるクラスの名前を定義します。
+
+
+### <a id="summary-chart"></a> カスタム RWD モード プロファイル作成の概要表
+
+以下の表は、*カスタム RWD モードの作成*で使用可能なオルタナティブを簡単に説明したものです。このメソッドについては、表の下にある解説も参照してください。
+
+タスク|詳細|プロパティ
+-----|---------|-----------
+[カスタム RWD モード プロファイル インラインの作成](#inline)|インライン カスタム RWD モード プロファイルの作成では、`$.ig.ResponsiveMode` クラスの実装を使用します。|[responsiveModes](&#123;environment:jQueryApiUrl&#125;/ui.iggridresponsive#options:responsiveModes)<br />**responsiveModes.&lt;custom_name&gt;**
+[$.ig.ResponsiveMode クラスを拡張することにより、カスタム RWD モード構成を作成する](#extending)|`$.ig.ResponsiveMode` を拡張することにより、`$.ig.ResponsiveMode.isActive` 関数を実装します。これにより、モードのアクティブ化にルールを設定するための自由度が広がります。|[responsiveModes](&#123;environment:jQueryApiUrl&#125;/ui.iggridresponsive#options)<br />**responsiveModes.&lt;custom_name&gt;**
+
+
+
+
+
+## <a id="inline"></a> カスタム RWD モード プロファイル インラインの作成
+
+### <a id="inline-overview"></a> 概要
+
+インライン カスタム RWD モード プロファイルは、`responsiveModes` プロパティで直接定義されます。カスタム RWD モードのプロファイルのインライン構成には `responsiveModes` オブジェクトの新規プロパティを定義するプロファイルが含まれます。ここでプロパティ名は RWD モードのカスタム プロファイル名に使用され、プロパティ値はプロファイル オブジェクトとして使用されます。このオブジェクトは、以下のいずれかのプロパティを持ちます: `minWidth`、`maxWidth`、`minHeight` および `maxHeight` で、モードのアクティブ化のために幅と高さの境界を定義します。
+
+プロファイル オブジェクトは、その後 RWD モード機能によって使用され、正しい RWD モードのプロファイルを決定しアクティブ化する `$.ig.ResponsiveMode` クラスのインスタンスを作成します。
+
+`$.ig.ResponsiveMode` クラスには、モードのアクティブ化を確認するための RWD モード機能により呼び出される `isActive` メソッドがあります。`$.ig.ResponsiveMode.isActive` メソッド実装は `minWidth`、`maxWidth`、`minHeight` および `maxHeight` 設定を使用し、ブラウザの `window.innerWidth` プロパティおよび `window.innerHeight` プロパティに対してチェックします。
+
+### <a id="inline-property-settings"></a> プロパティ設定
+
+以下の表では、任意の構成をそれに関係するプロパティ設定にマップしています。
+
+目的:|使用するプロパティ:|設定の選択肢:
+-------------|--------------------|----------------
+カスタム RWD モード プロファイル インラインの作成|`responsiveModes.&lt;custom_name&gt;` |カスタム応答モードの名前として使用される識別子<br />例: `responsiveModes.galaxyNexusPhone`。このとき、`<custom_name>` = *galaxyNexusPhone*
+
+
+
+### <a id="inline-example"></a> 例
+
+以下のコードは、`customPhone` という名前のインライン カスタム RWD モード プロファイルの定義方法をデモします。`customPhone` 設定は、`minWidth` プロパティと `maxWidth` プロパティで幅の範囲を定義するオブジェクトで、画面の幅に基づいてモードをアクティブ化します (それぞれの高さの範囲のプロパティは `minHeight` および `maxHeight` で、高さのモード ベースの変更はこの例の範囲を超えているため、定義されません).`customPhone` で定義されるオプションは  `$.ig.ResponsiveMode` クラスを初期化するために使用されます。
+
+これらの設定で、Name 列は `customPhone` モードで非表示として構成されます。
+
+**JavaScript の場合:**
+
+<div class="embed-sample">
+   [レスポンス Web デザイン モード](&#123;environment:SamplesEmbedUrl&#125;/grid/responsive-web-design-mode)
+</div>
+
+**C# の場合:**
+
+```csharp
+@using Infragistics.Web.Mvc
+@model IQueryable<GridDataBinding.Models.Product>
+@(Html.Infragistics()
+	.Grid(Model)
+	.ID("grid1")
+	.AutoGenerateColumns(false)
+	.Columns(col =>
+	{
+	    col.For(c => c.ProductID).HeaderText("Product ID");
+	    col.For(c => c.Name).HeaderText("Product Name");
+	    col.For(c => c.ProductNumber).HeaderText("Product Number");
+	})
+	.Features(feature =>
+	{
+	    feature.Responsive().ResponsiveConfig(config => config.AddExplicitMode("customPhone", m => m.MinWidth(0).MaxHeight(767)))
+	    .ColumnSettings(cs =>
+	    {
+	        cs.ColumnSetting().ColumnKey("Name").Configuration(conf => {
+	            conf.AddColumnModeConfiguration("customPhone", c => c.Hidden(true));
+	        });
+	    });
+	})
+	.DataBind()
+	.Render())
+```
+
+
+
+## <a id="extending"></a> $.ig.ResponsiveMode クラスを拡張することにより、カスタム RWD モード構成を作成する
+
+### <a id="extending-overview"></a> 概要
+
+RWD モードのカスタム プロファイルのインライン定義がプロファイルの決定に適さない場合があります。これは、[Twitter Bootstrap](http://twitter.github.com/bootstrap/) CSS クラスがアクティブなプロファイルを決定するために使用される `$.ig.BootstrapMode` クラスの場合です。(Twitter Bootstrap は [CSS Media Queries](http://www.w3.org/TR/css3-mediaqueries/) を使用して、どのスタイルが RWD モードに関わる状況で要素に適用されるかを決定します).`$.ig.ResponsiveMode` クラスを拡張すると、カスタム ロジックを定義し、`$.ig.ResponsiveMode.isActive` メソッドを実装することによりプロファイルのアクティブ化を決定できます (たとえば、ブラウザ エージェント文字列はチェックできますが推奨されません)このメソッドはブール値を返します。プロファイルがアクティブである場合は *true* で、そうでない場合は  *false* です。
+
+カスタム プロファイルは、いくつかの手順で作成されます。
+
+1.  最初に、`$.ig.ResponsiveMode` クラスを展開します。このクラスは、 `minWidth`、 `maxWith`、 `minHeight`、 `maxHeight`  の設定を持ち、`isActive` と呼ばれる関数は、設定で定義されたモードが現在アクティブである場合は *true* を返し、そうでない場合は *false*  を返します。クラスは `$.ig.<custom_class_name>Mode` と名前をつけなければなりません。このとき `<custom_class_name>` はクラスの名前です。
+2.  機能の `responsiveConfig` プロパティでカスタム プロパティを宣言します。例:
+
+    **JavaScript の場合:**
+
+```js
+    responsiveConfig: {    <custom_mode_name>: “<custom_class_name>” }
+```
+    
+	`<custom_mode_name>` はプロファイルの名前であり、列の非表示やテンプレートに切り替えに使用します。
+
+3.  カスタムプロファイルを使用して、列の非表示やテンプレートの切り替えを構成します。
+
+	-   列の非表示を構成します。列に対して列の非表示を構成するには、`columnSettings.configuration.<custom_mode_name>` プロパティを使用します。
+	-   テンプレート切り替えを構成します。プロファイルの行テンプレートを構成するには、`columnSettings.configuration` を使用します。
+
+### <a id="extending-property-settings"></a> プロパティ設定
+
+以下の表では、目的のタスクをプロパティ設定にマップしています。
+
+目的:|使用するプロパティ:|設定の選択肢:
+-------------|--------------------|----------------
+`$.ig.ResponsiveMode` クラスを拡張することにより、カスタム RWD モード プロファイルを作成します。|`responsiveModes.\&lt;custom_name\&gt;`|$.ig.ResponsiveMode を拡張し名前のサフィックス Mode を持つ `$.ig` 名前空間におけるクラス名。
+
+
+### <a id="extending-example"></a> 例
+
+以下のコードは、`$.ig.ResponsiveMode` クラスを拡張するクラス `$.ig.CustomPhoneMode` を定義します。`minWidth` 値および `maxWidth` 値は、幅で RWD モード切り替えを構成するために設定されます。isActive 関数は、基本クラスの `isActive`、つまり `$.ig.ResponsiveMode.isActive` の実装を呼び出します (実環境では、基本実装を呼び出すのでなくいくつかのカスタム ロジックを置くことになります)。
+
+> **注:** このコードは、JavaScript および MVC 実装で共通です。
+
+**JavaScript の場合:**
+
+```js
+$.ig.loader(function () {
+    $.ig.CustomPhoneMode = $.ig.CustomPhoneMode || $.ig.ResponsiveMode.extend({
+        settings: {
+            minWidth: 0,
+            maxWidth: 767
+        },
+        init: function (options) {
+            this.settings = $.extend(true, {}, $.ig.CustomPhoneMode.prototype.settings, options);
+            this._super(this.settings);
+            return this;
+        },
+        isActive: function () {
+            return this._super();
+        }
+    });
+});
+```
+
+以下のコードは、`custom_phone` という名前で「CustomPhone」値を持つ `responsiveModes` オブジェクトの新しいプロパティを定義します。 RWD モード機能は、`$.ig.CustomPhoneMode` という名前のクラスを探します。これは、RWD モード プロファイルを識別しアクティブ化するために使用されます。
+
+これらの設定で、`Name` 列は `custom_phone` モードで非表示として構成されます。
+
+**JavaScript の場合:**
+
+```js
+$.ig.loader(function () {
+    $("#grid1").igGrid({
+        width: "100%",
+        columns: [
+            { headerText: "Product ID", key: "ProductID", dataType: "number"},
+            { headerText: "Product Name", key: "Name", dataType: "string" },
+            { headerText: "Product Number", key: "ProductNumber", dataType: "string" }
+        ],
+        autoGenerateColumns: false,
+        dataSource: adventureWorks,
+        responseDataKey: "Records",
+        features: [
+        {
+            name: "Responsive",
+            columnSettings: [
+                {
+                    columnKey: "Name",
+                    configuration: {
+                        custom_phone: {
+                            hidden: true
+                        }
+                    }
+                }
+            ],
+            responsiveModes: {
+                custom_phone: "CustomPhone"
+            }
+        }
+    ]
+    });
+});
+```
+
+**C# の場合:**
+
+```csharp
+@using Infragistics.Web.Mvc
+@model IQueryable<GridDataBinding.Models.Product>
+@(Html.Infragistics()
+	.Grid(Model)
+	.ID("grid1")
+	.AutoGenerateColumns(false)
+	.Columns(col =>
+	{
+	    col.For(c => c.ProductID).HeaderText("Product ID");
+	    col.For(c => c.Name).HeaderText("Product Name");
+	    col.For(c => c.ProductNumber).HeaderText("Product Number");
+	})
+	.Features(feature =>
+	{
+	    feature.Responsive().ResponsiveConfig(config => config.AddPredefinedMode("custom_phone", "CustomPhone"))
+	    .ColumnSettings(cs =>
+	    {
+	        cs.ColumnSetting().ColumnKey("Name").Configuration(conf => {
+	            conf.AddColumnModeConfiguration("custom_phone", c => c.Hidden(true));
+	        });
+	    });
+	})
+	.DataBind()
+	.Render())
+```
+
+
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [列非表示の構成 (igGrid、RWD モード)](/controls/iggrid/features/responsive/configure/responsive-web-design-mode-configuring-column-hiding): このトピックでは、コード例を用いて、レスポンス Web デザイン (RWD) モードで `igGrid` コントロール用に列を非表示にする方法について説明します。
+
+- [列テンプレートの構成 (igGrid、RWD モード)](/controls/iggrid/features/responsive/configure/responsive-web-design-mode-configuring-row-and-column-templates): このトピックは、コード例を用いて `igGrid` コントロールの各レスポンス Web デザイン (RWD) モード プロファイルに対して列テンプレートを定義する方法、およびアクティブな RWD モードの切り替え時のテンプレートの自動変更を構成する方法について説明します。
+
