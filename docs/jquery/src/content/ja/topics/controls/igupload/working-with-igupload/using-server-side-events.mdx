@@ -11,8 +11,8 @@ slug: igupload-using-server-side-events
 ## 前提条件
 以下の表は、このトピックを理解するための前提条件として必要な概念、トピック、および記事の一覧です。
 
--   [igUpload の概要](/controls/igupload/overview)
--   [HTTP ハンドラーおよびモジュールの使用 (igUpload)](/controls/igupload/working-with-igupload/using-http-handler-and-modules)
+-   [igUpload の概要](/igupload-overview)
+-   [HTTP ハンドラーおよびモジュールの使用 (igUpload)](/igupload-using-http-handler-and-modules)
 
 ## このトピックの内容
 
@@ -22,7 +22,7 @@ slug: igupload-using-server-side-events
 
 ## UploadProgressManager とサーバー イベント
 
-`igUpload` コントロールは、ASP.NET を使用してアップロードしたデータを処理して保存するために Infragistics.Web.Mvc.dll でサーバー側実装を含みます。アップロードしたデータを受け取るサーバー イベントを処理する HTTP モジュールと HTTP ハンドラーによって実装されます。[HTTP ハンドラーおよび Module の使用 (igUpload)](/controls/igupload/working-with-igupload/using-http-handler-and-modules) トピックでイベントの構成についての詳細および例があります。
+`igUpload` コントロールは、ASP.NET を使用してアップロードしたデータを処理して保存するために Infragistics.Web.Mvc.dll でサーバー側実装を含みます。アップロードしたデータを受け取るサーバー イベントを処理する HTTP モジュールと HTTP ハンドラーによって実装されます。[HTTP ハンドラーおよび Module の使用 (igUpload)](/igupload-using-http-handler-and-modules) トピックでイベントの構成についての詳細および例があります。
 
 [UploadProgressManager](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadProgressManager.html) は、ハンドラーとモジュールがプロキシ クラスを使用して通信するよう設計されたサーバー アーキテクチャです。このクラスは単一のオブジェクトとして実装されます。インスタンスは [UploadProgressManager.Instance](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadProgressManager~Instance.html) プロパティによってアクセスできます。このクラスは、サーバー イベントをアタッチし、トリガーする役割もします。これらのイベントでは、ファイル アップロード処理に対して、アップロード済みファイルの削除や移動、アップロードのキャンセル、状態情報の修正などの操作を実行できます。**表 1** は利用可能なサーバー側イベントをリストします:
 
@@ -32,7 +32,7 @@ slug: igupload-using-server-side-events
 | イベント | 説明 | 引数 | キャンセル可能 |
 | --- | --- | --- | --- |
 | UploadStarting | ファイルのアップロードが開始しているときにトリガーされます。この段階では、ファイルがアップロードされていません。要求ヘッダーからの情報は `UploadStartingEventArgs` 引数に利用可能です。この情報を使用した場合、検証ルールを実装しアップロードをキャンセルするかどうかを決定できます。 | object - イベントをトリガーした UploadProgressManager インスタンスを含みます。 [UploadStartingEventArgs](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadStartingEventArgs.html) - アップロードするファイルの情報を含みます。 | true |
-| FileUploading | ファイルの各部分がサーバーにアップロードされたときにトリガーされます。このイベントで、FileUploadingEventArgs.FileChunk プロパティから現在の部分を読み込み、ファイルを手動的に処理できます。 注: このイベントは[ファイルをストリームとして保存](/controls/igupload/working-with-igupload/saving-files-as-stream)シナリオで使用されます。このイベントは FileSaveType="memorystream" の場合のみにトリガーされます。 | object - イベントをトリガーした UploadProgressManager インスタンスを含みます。 [FileUploadingEventArgs](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FileUploadingEventArgs.html) - アップロードされているファイルの現在のデータ部分を含みます。 | true |
+| FileUploading | ファイルの各部分がサーバーにアップロードされたときにトリガーされます。このイベントで、FileUploadingEventArgs.FileChunk プロパティから現在の部分を読み込み、ファイルを手動的に処理できます。 注: このイベントは[ファイルをストリームとして保存](/igupload-saving-files-as-stream)シナリオで使用されます。このイベントは FileSaveType="memorystream" の場合のみにトリガーされます。 | object - イベントをトリガーした UploadProgressManager インスタンスを含みます。 [FileUploadingEventArgs](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FileUploadingEventArgs.html) - アップロードされているファイルの現在のデータ部分を含みます。 | true |
 | UploadFinishing | ファイルのアップロードが完了しているときにトリガーされます。この段階では、ファイルはすでにアップロードされていますが、一時的な名前のままです。`igUpload` はファイルをリリースしているので、自由に変更できます。 | object - イベントをトリガーした UploadProgressManager インスタンスを含みます。 [UploadFinishingEventArgs](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadFinishingEventArgs.html) - アップロードされたファイルの情報を含みます。 | true |
 | UploadFinished | ファイルのアップロードが完了したときにトリガーされます。この段階では、ファイルはアップロードされており、オリジナルの名前で変更されています。古いファイル名と同じ名前のファイルがある場合は上書きされ、最後のファイルのみが使用可能になります。 | object - イベントをトリガーした UploadProgressManager インスタンスを含みます。 [UploadFinishedEventArgs](Infragistics.Web.Mvc~Infragistics.Web.Mvc.UploadFinishedEventArgs.html) - アップロードされたファイルの情報を含みます。 | false |
 
@@ -131,7 +131,7 @@ public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.U
 この手順は、`igUpload` のカスタム検証をサーバー側で実装する方法を説明します。
 
 ###　要件
-この手順を実行する前に、[igUpload の概要](/controls/igupload/overview) トピックの手順を完了してください。
+この手順を実行する前に、[igUpload の概要](/igupload-overview) トピックの手順を完了してください。
 
 
 1.	jQuery アップロードの Web ページへの追加
@@ -206,7 +206,7 @@ $(function(){
 
 ## 関連リンク
 -   [&#123;environment:ProductName&#125; の概要](/igniteui-for-jquery-overview)
--   [&#123;environment:ProductName&#125; で JavaScript リソースを使用](/general-and-getting-started/deployment-guide-javascript-resources)
+-   [&#123;environment:ProductName&#125; で JavaScript リソースを使用](/deployment-guide-javascript-resources)
 
  
 

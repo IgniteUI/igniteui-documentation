@@ -148,8 +148,31 @@ function walkMdx(dir) {
 
 // ─── Build set of all existing slugs and a reverse-lookup map ─────────────────
 
-function buildSlugSet() {
-  const slugs = new Set();
+/** Read frontmatter slug from a file (returns null if not present). */
+function readFrontmatterSlug(filePath) {
+  try {
+    const raw = fs.readFileSync(filePath, 'utf-8');
+    // Strip BOM
+    const text = raw.charCodeAt(0) === 0xFEFF ? raw.slice(1) : raw;
+    if (!text.trimStart().startsWith('---')) return null;
+    const end = text.indexOf('---', 3);
+    if (end === -1) return null;
+    const fm = text.slice(3, end);
+    const m = fm.match(/^slug\s*:\s*(.+)$/m);
+    return m ? m[1].trim() : null;
+  } catch { return null; }
+}
+
+/**
+ * Build a map: file-path-slug (relative to TOPICS, no ext) → frontmatter slug.
+ * Also build existingSlugs as the set of frontmatter slugs (what Starlight routes at),
+ * and filePathSlugs as the set of file-path slugs (used by resolveBareName).
+ */
+function buildSlugMaps() {
+  const filePathToFrontmatterSlug = new Map(); // filePath-slug (lowercase) → frontmatter slug
+  const existingSlugs = new Set();             // frontmatter slugs (what Starlight routes at)
+  const filePathSlugs = new Set();             // file-path slugs (used for resolution)
+
   function walk(dir) {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
@@ -157,13 +180,22 @@ function buildSlugSet() {
         walk(full);
       } else if (entry.name.endsWith('.mdx') || entry.name.endsWith('.md')) {
         const rel = path.relative(TOPICS, full).replace(/\\/g, '/');
-        const slug = rel.replace(/\.(mdx|md)$/, '');
-        slugs.add(slug.toLowerCase());
+        const fileSlug = rel.replace(/\.(mdx|md)$/, '');
+        const fmSlug = readFrontmatterSlug(full);
+        // Use frontmatter slug if available; fall back to file path slug
+        const routeSlug = fmSlug ?? fileSlug;
+        filePathToFrontmatterSlug.set(fileSlug.toLowerCase(), routeSlug);
+        existingSlugs.add(routeSlug.toLowerCase());
+        filePathSlugs.add(fileSlug.toLowerCase());
       }
     }
   }
   walk(TOPICS);
-  return slugs;
+  return { filePathToFrontmatterSlug, existingSlugs, filePathSlugs };
+}
+
+function buildSlugSet() {
+  return buildSlugMaps().existingSlugs;
 }
 
 /**
@@ -285,7 +317,7 @@ const LINK_RE = /(\[[^\]]*\]\()([^)#?\s]+?)((?:#[^)]*)?)\)/g;
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
-const existingSlugs = buildSlugSet();
+const { filePathToFrontmatterSlug, existingSlugs, filePathSlugs } = buildSlugMaps();
 const reverseMap    = buildReverseMap();
 const files = walkMdx(TOPICS);
 
@@ -350,7 +382,7 @@ for (const file of files) {
         // (e.g. ./iggrid-columnmoving-propertyreference → /controls/iggrid/.../columnmoving-propertyreference)
         const bareName = transformed.replace(/^\.\//, '');
         if (!bareName.includes('/') || bareName.split('/').length <= 2) {
-          const resolved = resolveBareName(bareName, reverseMap, existingSlugs);
+          const resolved = resolveBareName(bareName, reverseMap, filePathSlugs);
           if (resolved) {
             newHref = '/' + resolved;
             totalResolved++;
@@ -358,13 +390,13 @@ for (const file of files) {
         } else {
           // Multi-segment path — check if it resolves as-is relative to TOPICS
           const candidate = transformed.replace(/^\.\//, '');
-          if (existingSlugs.has(candidate.toLowerCase())) {
+          if (filePathSlugs.has(candidate.toLowerCase())) {
             newHref = '/' + candidate;
             totalResolved++;
           } else {
             // Try the last segment as a bare name
             const lastSeg = candidate.split('/').pop();
-            const resolved = resolveBareName(lastSeg, reverseMap, existingSlugs);
+            const resolved = resolveBareName(lastSeg, reverseMap, filePathSlugs);
             if (resolved) {
               newHref = '/' + resolved;
               totalResolved++;
@@ -375,7 +407,7 @@ for (const file of files) {
     } else if (isAbsolute) {
       // Absolute path like /igdatachart-adding or /igdatachart-adding.mdx
       let bareName = decoded.replace(/^\//, '').replace(/\.(mdx|md)$/, '');
-      const resolved = resolveBareName(bareName, reverseMap, existingSlugs);
+      const resolved = resolveBareName(bareName, reverseMap, filePathSlugs);
       if (resolved) {
         newHref = '/' + resolved;
         totalResolved++;
@@ -386,7 +418,7 @@ for (const file of files) {
     } else if (isBare) {
       // Bare name like iglineargauge-overview or iglineargauge-overview.mdx
       let bareName = decoded.replace(/\.(mdx|md)$/, '');
-      const resolved = resolveBareName(bareName, reverseMap, existingSlugs);
+      const resolved = resolveBareName(bareName, reverseMap, filePathSlugs);
       if (resolved) {
         // Convert to absolute path
         newHref = '/' + resolved;
@@ -398,7 +430,7 @@ for (const file of files) {
       // ./name or ./path/name — try to resolve via reverse map
       let bareName = decoded.replace(/^\.\//, '').replace(/\.(mdx|md)$/, '');
       // If it contains /, try each segment through reverse map
-      const resolved = resolveBareName(bareName, reverseMap, existingSlugs);
+      const resolved = resolveBareName(bareName, reverseMap, filePathSlugs);
       if (resolved) {
         newHref = '/' + resolved;
         totalResolved++;
@@ -406,7 +438,7 @@ for (const file of files) {
         // Try resolving relative to current file directory
         const resolvedAbs = path.resolve(fileDir, decoded.replace(/\.(mdx|md)$/, ''));
         const resolvedRel = path.relative(TOPICS, resolvedAbs).replace(/\\/g, '/').toLowerCase();
-        if (existingSlugs.has(resolvedRel)) {
+        if (filePathSlugs.has(resolvedRel)) {
           newHref = '/' + resolvedRel;
           totalResolved++;
         } else {
@@ -416,6 +448,16 @@ for (const file of files) {
     } else if (hasMdxExt) {
       // Relative path with .mdx extension — just strip extension
       newHref = decoded.replace(/\.(mdx|md)$/, '');
+    }
+
+    // Remap file-path-based slugs to frontmatter slugs (what Starlight routes at).
+    // Must happen BEFORE the early-return check so that already-resolved file-path
+    // links (e.g. /general-and-getting-started/foo → /foo) are updated even when
+    // no other transformation occurred.
+    if (newHref.startsWith('/')) {
+      const fileSlug = newHref.slice(1).toLowerCase();
+      const fmSlug = filePathToFrontmatterSlug.get(fileSlug);
+      if (fmSlug && '/' + fmSlug.toLowerCase() !== fileSlug) newHref = '/' + fmSlug;
     }
 
     if (newHref === originalHref) return match;
