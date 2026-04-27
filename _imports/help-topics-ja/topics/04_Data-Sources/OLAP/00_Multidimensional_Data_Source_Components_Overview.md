@@ -1,0 +1,103 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "multidimensional-data-source-components-overview",
+    "controlName": "",
+    "tags": ["Data Binding","Getting Started"]
+}
+|metadata|
+-->
+
+# 多言語 (OLAP) データ ソース コンポーネント概要
+
+
+
+## トピックの概要
+
+### 目的
+
+このトピックは、%%ProductName%%® の多次元データ ソース コンポーネントの概要とその機能を示します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+- 外部リソース
+	-   [ピボット テーブル](https://ja.wikipedia.org/wiki/%E3%83%94%E3%83%9C%E3%83%83%E3%83%88%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB)
+	-   [オンライン解析処理 (OLAP)](https://ja.wikipedia.org/wiki/OLAP)
+	-   [Microsoft Analysis Services](http://en.wikipedia.org/wiki/Microsoft_Analysis_Services)
+
+
+
+## 多次元 (OLAP) データ ソース コンポーネント
+
+### コンポーネントの概要
+
+%%ProductName%% の 多次元データ ソース コンポーネント ([`igOlapFlatDataSource`](igOlapFlatDataSource.html)™ および [`igOlapXmlaDataSource`](igOlapXmlaDataSource.html)™) は、データ ([`igPivotView`](igPivotView.html)™、[`igPivotGrid`](igPivotGrid.html)™、[`igPivotDataSelector`](igPivotDataSelector.html)™ など) を表示するために実データ (OLAP キューブまたはフラット データ コレクション) およびビジュアル コントロール間の媒介として動作します。[`igOlapFlatDataSource`](igOlapFlatDataSource.html) および [`igOlapXmlaDataSource`](igOlapXmlaDataSource.html) の両方は、すべての要素 (行、列、フィルター、メジャー、フィルター メカニズムなど) でピボット テーブルの要約を提供し、これらの要素とのインタラクションによる結果のデータの取得に使用できます。
+
+### コンポーネントを介して実装される機能
+
+以下の表は、各多次元データ ソース コンポーネントによるデータの取得機能についての概要を示します。
+
+機能|コントロール
+--------------|--------
+Microsoft Analysis Services Server (MASS) のデータを使用します。|[igOlapXmlaDataSource](igOlapXmlaDataSource.html)
+フラット データ コレクションなどのピボット テーブル スタイルの解析を有効化|[igOlapFlatDataSource](igOlapFlatDataSource.html)
+
+
+
+各コントロールについは、[各コンポーネントの概要](#individual-components-summary)をご参照ください。
+
+### <a id="individual-components-summary"></a> 各コンポーネントの概要
+
+以下の表は、`igOlapXmlaDataSource` および `igOlapFlatDataSource` コンポーネントの機能の概要を示します。
+
+#### igOlapXmlaDataSource
+
+これは、MS SSAS サーバーからデータを取得する JavaScript クライアント サイド コンポーネントです。`igOlapXmlaDataSource` は、サーバーからデータをフェッチし、そのデータとの対話に基づいて必要な Multidimensional Expressions (MDX) クエリを生成します。この操作モードは、OLAP データの使用を有効にすることが可能です。検証 (XMLA) のための MDX、および XML や MS SSAS サーバーとのコミュニケーションに関するその他の詳細に関する知識は必要はありません。
+
+**関連トピック**
+
+-   [igOlapXmlaDataSource の概要](igOlapXmlaDataSource-Overview.html)
+
+#### igOlapFlatDataSource
+
+これは、フラット データ コレクションでデータ集計を作成するJavaScript クライアント サイド コンポーネントです。データをピボットテーブルスタイルで解析できます。`igOlapFlatDataSource` は、フラット データ コレクションまたは `igDataSource` のインスタンスです。入力データに基づいて、`igOlapFlatDataSource` は必要な集計を行い、データのピボット解析を有効にします。基本データ ソースに基づいて、ディメンション、階層、レベル、メジャーをカスタムに定義できます。
+
+**関連トピック**
+
+-   [igOlapFlatDataSource の概要](igOlapFlatDataSource-Overview.html)
+
+
+
+
+
+## 関連コンテンツ
+
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [igOlapXmlaDataSource](igOlapXmlaDataSource.html): これは、`igOlapXmlaDataSource` コントロールとその使用について説明します。
+
+- [igOlapFlatDataSource](igOlapFlatDataSource.html): これは、`igOlapFlatDataSource` コントロールとその使用について説明します。
+
+
+
+### サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [igPivotView を XMLA にバインドした KPI の表示](%%SamplesUrl%%/pivot-view/binding-to-xmla-data-source): このサンプルでは、`igPivotView` を `igOlapXmlaDataSource` にバインドする方法を紹介します。
+
+- [igPivotView をフラット データ ソースにバインド](%%SamplesUrl%%/pivot-view/binding-to-flat-data-source): このサンプルでは、`igPivotView` を `igOlapFlatDataSource` にバインドする方法を紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

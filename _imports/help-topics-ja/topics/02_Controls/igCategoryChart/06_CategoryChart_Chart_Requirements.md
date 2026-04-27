@@ -1,0 +1,183 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "categorychart-chart-requirements",
+    "controlName": "igCategoryChart",
+    "tags": ["API", "CategoryChart", "Axes"]
+}
+|metadata|
+-->
+
+# チャート要件
+
+## 概要
+
+`igCategoryChart` を使用中は、データ可視化を
+このコントロールは、割り当てられたデータを可視化するインテリジェントな機能があります。ただし、いくつかのルールがあります。
+
+このトピックは、チャートに前にデータを割り当てる前に適用する必要のあるルールについて説明します。
+
+## データ ソース要件
+
+チャートは提供された `data` をオブジェクトのコレクションとして処理しようとします。
+
+`igCategoryChart` 初期化コードの例
+```javascript
+$("#chart").igCategoryChart({
+    title: "Countries population",
+    subTitle: "1995 vs 2005",
+    xAxisTitle: "Countries",
+    yAxisTitle: "Population",
+    chartType: "auto",
+    dataSource: data
+});
+```
+
+### オブジェクトの配列
+
+`igCategoryChart` コントロールが認識し、オブジェクト配列と動作する最も一般的なデータソースはオブジェクト配列です。
+データ バインド ルーチン時にデータソースを分析する際に、チャートが以下の属性をデータから抽出を複数回試行して自動的にチャートに表示します。
+
+- シリーズ タイトル - 各オブジェクトの個別プロパティから抽出されます。データ オブジェクトに個別のプロパティがない場合、最初の文字列プロパティはシリーズ タイトルに割り当てられます。個別プロパティ タイプは以下の順序で分析されます。
+1. string
+2. date
+3. number
+ 
+- カテゴリ スケール - 数値プロパティがカテゴリに割り当てられ、Y 軸の最大値および最小値を選択するために使用されます。 
+
+例:
+```javascript
+var data = [
+    { "Label": "1995", "Brazil": 161, "Indonesia": 197, "United States": 266, "India": 920, "China": 1297 },
+    { "Label": "2005", "Brazil": 186, "Indonesia": 229, "United States": 295, "India": 1090, "China": 1216 },
+    { "Label": "2015", "Brazil": 204, "Indonesia": 256, "United States": 322, "India": 1251, "China": 1361 },
+    { "Label": "2025", "Brazil": 218, "Indonesia": 277, "United States": 351, "India": 1396, "China": 1394 }
+];
+```
+
+> **注:** チャートは `yAxisMinimumValue` に `0` 以外を割り当てる場合があります。このオプションを明示的に値に設定した場合、この動作を防止します。
+
+### 配列の配列
+
+`igCategoryChart` コントロールは、配列内の配列 (多次元データ) でオブジェクトを認識できます。
+上記のデータを検索する条件は、この場合にも当てはまります。
+
+例:
+```javascript
+var data = [
+    [
+        [
+            { "AmountSold": 2, "Item": "Hat" },
+            { "AmountSold": 5, "Item": "Jacket" },
+            { "AmountSold": 3, "Item": "Shoes" }
+        ]
+    ],
+    [
+        [
+            { "AmountSold": 5, "Item": "Hat" },
+            { "AmountSold": 2, "Item": "Jacket" },
+            { "AmountSold": 1.9, "Item": "Shoes" }
+        ]
+    ],
+    [
+        [
+            { "AmountSold": 4, "Item": "Hat" },
+            { "AmountSold": 7, "Item": "Jacket" },
+            { "AmountSold": 3, "Item": "Shoes" }
+        ]
+    ]
+];
+```
+
+### データの目的
+
+`igCategoryChart` によってデータ認識のロジックに影響を与えるには、`__dataIntents` というサブオブジェクトをデータ オブジェクトとそれらの役割の説明のプロパティに対応するメタデータのあるデータに割り当てることができます。
+
+例:
+```javascript
+var data = [
+    {
+        id:0,
+        title:"Shoes",
+        another_title: "Fancy shoes",
+        sold:5
+    },
+    {
+        id:1,
+        title:"Hats",
+        another_title: "Fancy hats",
+        sold:2
+    },
+    {
+        id:2,
+        title:"Gloves",
+        another_title: "Fancy gloves",
+        sold:3
+    }
+];
+data.__dataIntents = {
+    id: ["DontPlot"],
+    another_title: ["AxisLabelValue"]
+};
+```
+
+サポートされる全メタデータ値の一覧:
+
+メタデータ値|アプリケーション説明
+--|--
+PrimarySeriesValue|主なカテゴリ シリーズ値として使用する値を示します。
+SeriesX|散布 X 値に使用する値を示します。 
+SeriesY|散布 Y 値に使用する値を示します。  
+SeriesFill|バブル色値に使用する値を示します。
+SeriesLabel|バブル ラベル値に使用する値を示します。
+SeriesRadius|バブルの半径値に使用する値を示します。
+SeriesAngle|極座標の角度値に使用する値を示します。
+SeriesShape|図形の辺の値に使用する値を示します。
+SeriesValue|第二のシリーズ値に使用する値を示します。
+SeriesTitle|シリーズ タイトル値に使用する値を示します。
+OpenSeriesValue|シリーズ開始値に使用する値を示します。
+HighSeriesValue|シリーズ高値に使用する値を示します。
+LowSeriesValue|シリーズ安値に使用する値を示します。
+CloseSeriesValue|シリーズ終値に使用する値を示します。
+VolumeSeriesValue|出来高値に使用する値を示します。
+AxisLabelValue|軸ラベル値に使用する値を示します。
+AxisDateValue|軸データ値に使用する値を示します。
+DontPlot|データ シリーズをインファーするときに考慮しない値を示します。
+
+## 制限
+
+プレーン JSON オブジェクトおよび JSON サブオブジェクトのフォームのディクショナリは現在サポートされていません。　
+
+サポートされないデータの例:
+```javascript
+var data = {
+    "Shoes": 5,
+    "Hats": 2,
+    "Gloves": 1
+};
+```
+
+```javascript
+var data = {
+    "Shoes": {
+        "2014":5,
+        "2015":7,
+        "2016":9
+    },
+    "Hats": {
+        "2014":2,
+        "2015":1,
+        "2016":0
+    },
+    "Gloves": {
+        "2014":2,
+        "2015":4,
+        "2016":3
+    }
+};
+```
+値の配列 (すべてのディメンションで) も `igCategoryChart` で現在サポートされているデータソースの範囲外です。
+
+```javascript
+var data = [[100, 200], [200, 300], [300, 400], [400, 500], [50, 100]];
+```

@@ -1,0 +1,210 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igolapxmladatasource-adding-to-an-html-page",
+    "controlName": "igOlapXmlaDataSource",
+    "tags": ["Getting Started","How Do I"]
+}
+|metadata|
+-->
+
+#igOlapXmlaDataSource の HTML ページへの追加
+
+## トピックの概要
+### 目的
+
+このトピックでは、`igOlapXmlaDataSource`™ を HTML ページに追加し、Microsoft® SQL Server Analysis Services (SSAS) サーバーからデータを取得するように構成する方法を説明します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックと概念の一覧です。
+
+**概念**
+
+-   [](http://msdn.microsoft.com/ja-jp/library/ms175609%28v=sql.90%29.aspx)[SQL Server Analysis Services (SSAS)](http://msdn.microsoft.com/ja-jp/library/ms175609%28v=sql.90%29.aspx)
+-   [XML for Analysis (XMLA)](http://msdn.microsoft.com/ja-jp/library/ms187178%28v=SQL.90%29.aspx)
+-   [オンライン解析処理 (OLAP)](http://en.wikipedia.org/wiki/Online_analytical_processing)
+
+**トピック**
+
+- [igOlapXmlaDataSource の概要](igOlapXmlaDataSource-Overview.html): このトピックでは、データの取得に SSAS インスタンスを使用する `igOlapXmlaDataSource` コンポーネントの概要を説明します。
+
+- [クロスドメイン OLAP データの IIS の構成 (igOlapXmlaDataSource)](igOlapXmlaDataSource-Configuring-IIS-for-Cross-Domain-OLAP-Data.html): このトピックでは、インターネット インフォメーション サービス (IIS) のホスト HTTP データ プロバイダー (msmdpump.dll) を SQL Server Analysis Services (SSAS) のクロスドメイン アクセス (認証済みアクセスおよび認証されていないアクセス) のために構成する方法を紹介します。
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [**igOlapXmlaDataSource を HTML ページに追加 - 概要**](#conceptual-overview)
+    -   [igOlapXmlaDataSource を HTML ページに追加の概要](#summary)
+    -   [要件](#requirements)
+    -   [手順](#steps)
+-   [**igOlapXmlaDataSource を HTML ページに追加 - 手順**](#procedure)
+    -   [概要](#introduction)
+    -   [前提条件](#prerequisites)
+    -   [手順](#steps)
+    -   [コード](#code)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+## <a id="conceptual-overview"></a>igOlapXmlaDataSource を HTML ページに追加 - 概要
+### <a id="summary"></a>igOlapXmlaDataSource を HTML ページに追加の概要
+
+`igOlapXmlaDataSource` は、JavaScript クライアント環境で使用するために使用可能な SSAS サーバーから OLAP データを作成します。コンポーネントが正しく機能するためには、[serverUrl](%%jQueryApiUrl%%/ig.OlapXmlaDataSource#options) プロパティを指定しなければなりません。コンポーネントを使用する前には初期化も必要です。
+
+通常、このデータ ソース コンポーネントは、%%ProductName%% で使用可能な OLAP ピボット UI コントロールの 1 つで使用されます。
+
+### <a id="requirements"></a>要件
+
+以下は、MS SSAS サーバーで作業するために `igOlapXmlaDataSource` を構成するための一般的な要件です。
+
+-   msmdpump.dll HTTP データ プロバイダーで構成される SSAS サーバー (少なくとも 1 つのデータベース)
+-   必要な JavaScript ファイル:
+    -   jQuery UI ライブラリ
+    -   必要な %%ProductName%%™ JavaScript ファイル:
+
+### <a id="steps"></a>手順
+
+以下は、`igOlapXmlaDataSource` を HTML ページに追加し、MS SSAS サーバーと連携するために構成するための一般的な概念手順です。
+
+1. 必要な参照を JavaScript ファイルに追加します
+
+2. ` igOlapXmlaDataSource` を定義する
+
+3. `igOlapXmlaDataSource` を初期化します
+
+## <a id="procedure"></a>igOlapXmlaDataSource を HTML ページに追加 - 手順
+### <a id="introduction"></a>概要
+
+以下の手順は、Infragistics® サーバー上に配置されている Adventure Works サンプル データベースからデータを接続および取得する `igOlapXmlaDataSource` オブジェクトを定義および初期化します。
+
+手順の最初のステップは、必要な JavaScript ファイルを参照するために両方のオルタナティブ方法を提供します。Infragistics Loader を使用する場合と手動による場合です。
+
+### <a id="prerequisites"></a>前提条件
+
+この手順を実行するには、以下のリソースが必要です。
+
+-   必要な JavaScript ファイル (インフラジスティックス JavaScript ファイルは、デフォルトで %%ProductName%%™ インストール パス下の JavaScript モジュール フォルダーに配置されます)
+    -   Jquery-[versionNumber].js (query-1.9.0.js など) - jQuery ライブラリ (jQuery サイトで使用可能)
+    -   infragistics.util.js、infragistics.util.jquery.js - 一部の %%ProductName%%™ コンポーネントで使用される共有非 UI ロジックを含む JavaScript ファイル
+    -   `infragistics.olapxmladatasource.js` - igOlapXmlaDataSource コンポーネントを含む JavaScript ファイル
+    -   (条件付き - Infragistics ローダー が使用されます) `infragistics.loader.js` - コンポーネントにより必要なすべてのインフラジスティックス JavaScript および CSS のファイルを自動で読み込むために使用可能なインフラジスティックス ローダー コンポーネント
+-   Adventure Works DW 標準エディション データベース `msmdpump.dll` を介して HTTP アクセスで構成される SSAS サーバー インスタンスで配置されます。
+
+### <a id="steps"></a>手順
+
+1. 必要な参照を JavaScript ファイルに追加します
+
+	-   ***(推奨)*** **Infragistics Loader を使用する場合**
+	
+		Loader ファイルへの参照を追加します。(個別のファイルに参照を配置する必要はありません)
+	
+	    ```
+	    <script src="js/jquery-1.9.0.js" type="text/javascript"></script>
+	    <script src="js/infragistics.loader.js" type="text/javascript"></script>
+	    ```
+	
+	-   **ファイルを手動で参照する場合:**
+	
+		それぞれの必要ファイルへ個別の参照を追加します。
+	
+	    ```
+	    <script src="js/jquery-1.9.0.js" type="text/javascript"></script>
+	    <script src="js/infragistics.util.js" type="text/javascript"></script>
+		<script src="js/infragistics.util.jquery.js" type="text/javascript"></script>
+	    <script src="js/infragistics.olapxmladatasource.js" type="text/javascript"></script>
+	    ```
+	
+	>**注:** jQuery バージョン番号は変わる場合があります。コードにリストされるバージョン番号は、本書の執筆時点では最新です。
+
+2. ` igOlapXmlaDataSource` を定義する
+
+	コンストラクター関数を呼び出すことにより新しい `$.ig.OlapXmlaDataSource` オブジェクトを作成し、データ ソース オプションをプロパティとして含む JavaScript オブジェクトを渡します。最低限、`serverUrl` オプションと metadata オプションを指定します。
+
+3. `igOlapXmlaDataSource` を初期化します
+
+	ルート [MetadataTreeItem](%%jQueryApiUrl%%/ig.OlapMetadataTreeItem) (メタデータ ツリーのルート ノード) で解決される [promise](http://api.jquery.com/deferred.promise/) オブジェクトを返す `OlapXmlaDataSource` オブジェクトの `initialize ()` メソッドを呼び出すことによって、XMLA データ ソースを初期化します。これは、初期化は非同期プロセスであるためです (サーバーへのコールが行われる)。promise は、操作が完了または失敗 ([done](http://api.jquery.com/deferred.done/)、[fail](http://api.jquery.com/deferred.fail/) など) したときにコールバックを開始および実行できるメソッドを公開する、非同期の操作をカプセル化するオブジェクトです。
+
+	>**注:** jQuery バージョン番号は変わる場合があります。コードにリストされるバージョン番号は、本書の執筆時点では最新です。
+
+
+### <a id="code"></a>コード
+
+以下のコードは、`OlapXmlaDataSource` の新しいインスタンスの作成および初期化を示しています。
+
+このコード例では、`serverUrl` 設定は XMLA データ ソースのインフラジスティックス サーバーをポイントします。
+
+### Infragistics Loader を使用した OlapXmlaDataSource のインスタンス化 :
+
+**JavaScript の場合:**
+
+```js
+$.ig.loader({
+    scriptPath: '[path to js folder]',
+    cssPath: '[path to css folder]',
+    resources: 'igOlapXmlaDataSource'
+});
+$.ig.loader(function () {
+    var dataSource = new $.ig.OlapXmlaDataSource({
+        serverUrl: 'http://sampledata.infragistics.com/olap/msmdpump.dll',
+        catalog: 'Adventure Works DW 2008',
+        cube: 'Adventure Works',
+        measureGroup: "Internet Sales",
+        rows: "[Sales Territory].[Sales Territory]",
+        columns: "[Product].[Product Categories]",
+        measures: "[Measures].[Internet Order Count]"
+    });
+    var promise = dataSource.initialize();
+    promise.done(function (metadataTree) {
+            // do something when the data source is initialized
+        }).fail(function (error) {
+            throw error;
+        });
+});
+```
+
+### Infragistics Loader を使用しない OlapXmlaDataSource のインスタンス化 :
+
+**JavaScript の場合:**
+
+```js
+$(function() {
+    var dataSource = new $.ig.OlapXmlaDataSource({
+        serverUrl: 'http://sampledata.infragistics.com/olap/msmdpump.dll',
+        catalog: 'Adventure Works DW Standard Edition',
+        cube: 'Adventure Works'
+    });
+    var promise = dataSource.initialize();
+    promise.done(function (metadataTree) {
+            // do something when the data source is initialized
+        }).fail(function (error) {
+            throw error;
+        });
+});
+```
+
+## <a id="related-content"></a>関連コンテンツ
+### <a id="topics"></a>トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [igOlapXmlaDataSource の ASP.NET MVC アプリケーションへの追加](igOlapXmlaDataSource-Adding-to-an-ASPNETMVC-Application.html): このトピックは、 ASP.NET MVC ヘルパーを使用して ASP.NET MVC ビューへ `igOlapXmlaDataSource` コントロールを追加する方法について説明します。
+
+- [Mozilla Firefox ブラウザーの認証済みアクセスの構成 (igOlapXmlaDataSource)](igOlapXmlaDataSource-Configuring-Authenticated-Access-for-Firefox.html): このトピックでは、Mozilla® Firefox® ブラウザーでクロスドメイン認証済みアクセスに IIS を構成する回避策を提供します。
+
+- [igPivotView の HTML ページへの追加](igPivotView-Adding-to-HTML-Page.html): このトピックは、`igPivotView`™ を HTML ページへ追加する方法を示します。
+
+- [igPivotDataSelector の HTML ページへの追加](igPivotDataSelector-Adding-to-HTML-Page.html): このトピックは、`igPivotDataSelector`™ を HTML ページへ追加する方法を示します。
+
+- [igPivotGrid の HTML ページへの追加](igPivotGrid-Adding-to-an-HTML-Page.html): このトピックは、`igPivotGrid`™ を HTML ページへ追加する方法を示します。
+
+### <a id="samples"></a>サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [XMLA データ ソースにバインド](%%SamplesUrl%%/pivot-grid/binding-to-xmla-data-source): このサンプルでは、`igPivotGrid` を `igOlapXmlaDataSource` にバインドし、データ選択のために `igPivotDataSelector` を使用します。
+
+- [リモート XMLA プロバイダー](%%SamplesUrl%%/pivot-grid/remote-xmla-provider): このサンプルは、`igOlapXmlaDataSource` のネットワーク トラフィックのより少ないリモート プロバイダー機能を使用するメリットのいずれかを示します。すべての要求は、クロス ドメインの問題を防止するためにサーバー アプリケーションを介してプロキシーされます。また、応答のサイズを小さくなるために、データが JSON に変換されます。
+

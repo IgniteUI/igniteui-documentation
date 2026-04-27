@@ -1,0 +1,114 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "iggrid-multirowlayout",
+    "controlName": "igGrid",
+    "tags": ["Getting Started","Grids","Multi-Row Layout"]
+}
+|metadata|
+-->
+
+# グリッドの複数行レイアウト
+
+## このトピックの内容
+
+- [概要](#overview)
+- [初期化](#initialization)
+- [複数行レイアウトのグリッドの API](#api)
+- [サポートされる機能](#features)
+- [機能の統合](#features-integration)
+- [関連コンテンツ](#related-content)
+
+## <a id="overview"></a> 概要
+
+複数行レイアウトは %%ProductName%%™ グリッド (`igGrid`) の機能です。各レコードで繰り返し、セルを含む複数の列および行をまたがる複数の行がある複雑な構造の作成を許可します。この構造は、列が多くあるため水平スクロールバーが必要なグリッド、または表以外の表示の方が必要なグリッドのその他の描画オプションを提供します。
+
+**図 1: 複数行レイアウトのグリッドの例**
+
+![](images/igGrid_MultiRowLayout_01.png)
+
+> **注:** 複数行レイアウト機能は igGrid ウィジェットに実装されるため、標準の igGrid ライフサイクルに影響されます。
+
+## <a id="initialization"></a> 初期化
+
+複数行レイアウトの初期化は、igGrid の列コレクションにより実行できます。列の位置およびサイズを指定する 4 つの新しいプロパティが列定義に追加されました - [rowIndex](%%jQueryApiUrl%%/ui.igGrid#options:columns.rowIndex)、[columnIndex](%%jQueryApiUrl%%/ui.igGrid#options:columns.columnIndex)、[rowSpan](%%jQueryApiUrl%%/ui.igGrid#options:columns.rowSpan) および [colSpan](%%jQueryApiUrl%%/ui.igGrid#options:columns.colSpan)。HTML テーブルは、行および列により描画されます。複数行レイアウトグリッドのセルのサイズはまたがる行および列に基づいて設定されます。機能を有効にするには、列のコレクションのすべての列定義に `rowIndex` および `columnIndex` を設定する必要があります。`rowSpan` および `colSpan` プロパティが設定されない場合、値はデフォルト値 1 に設定されます。列定義は、空のスペースを含まなく、同じスペースに 2 つのセルがないセルの行列を作成します。その条件がない場合、問題を説明する初期化の例外が発生されます。
+
+複数行レイアウトのグリッドで幅を列の部分のみに定義できます。グリッドは、その他の列の幅に関係がある列の幅を計算して設定します。関係なしの列幅はブラウザーにより設定されます。
+
+図 1 の複数行レイアウトは以下のコード スニペットから生成されます。 
+
+**JavaScript の場合:**
+
+```js
+columns: [
+		{ headerText: "Company", key: "company", dataType: "string", rowIndex: 0, columnIndex: 0, colSpan: 2 },
+		{ headerText: "Lifetime Sales", key: "sales_lifetimeSales", dataType: "number", rowIndex: 0, columnIndex: 2, colSpan: 2, rowSpan: 2 },
+		{ headerText: "Market Potential", key: "sales_marketPotential", dataType: "number", rowIndex: 0, columnIndex: 4, rowSpan: 3, width: "10%" },
+		{ headerText: "Assets Cash", key: "assets_cash", dataType: "number", rowIndex: 0, columnIndex: 5, width: "10%" },
+		{ headerText: "Accounts Receivable", key: "assets_accRec", dataType: "number", rowIndex: 0, columnIndex: 6, width: "20%" },
+		{ headerText: "Country", key: "country", dataType: "string", rowIndex: 1, columnIndex: 0, width: "10%" },
+		{ headerText: "City", key: "city", dataType: "string", rowIndex: 1, columnIndex: 1, width: "10%" },
+		{ headerText: "Assets Books", key: "assets_books", dataType: "number", rowIndex: 1, columnIndex: 5, colSpan: 2, rowSpan: 2 },
+		{ headerText: "Address", key: "address", dataType: "string", rowIndex: 2, columnIndex: 0, colSpan: 2 },
+		{ headerText: "Quarterly", key: "sales_quarterlySales", dataType: "number", rowIndex: 2, columnIndex: 2, width: "10%" },
+		{ headerText: "Yearly", key: "sales_yearlySales", dataType: "number", rowIndex: 2, columnIndex: 3, width: "10%" }
+]
+```
+
+> **注:** 1 列にわたるセルの `colSpan` プロパティは設定されません。1 行にわたるセルの `rowSpan` プロパティも設定されません。幅は 2 列のみに定義されます。
+
+以下のサンプルは、複数行レイアウトを持つ igGrid を構成する方法を紹介します。
+<div class="embed-sample">
+   [igGrid 複数行レイアウト サンプル](%%SamplesEmbedUrl%%/grid/multi-row-layout)
+</div>
+
+## <a id="api"></a> 複数行レイアウトのグリッドの API
+
+複数行レイアウトがセルの行がを変更し、行に配置されるセルのインデックスおよびレイアウトの全般配置の関係を変更し、単一のレコードが単一の `TR` 要素に相対しないため、このようなグリッドの API 関数およびイベントも変更されました。
+
+* [rowById](%%jQueryApiUrl%%/ui.igGrid#methods:rowById)(rowId) - 指定した `rowId` を持つレコードに描画されるすべての `TR` 要素を返します。
+* [rowAt](%%jQueryApiUrl%%/ui.igGrid#methods:rowAt)(rowIndex) - 指定した `rowIndex` にある `TR` 要素を返します。
+* [cellAt](%%jQueryApiUrl%%/ui.igGrid#methods:cellAt)(columnIndex, rowIndex) - 複数行レイアウトの行列に基づいて指定した座標にある `TD` 要素を返します。返す要素の決定で行/列スパンを持つセルが計算されます。
+* [cellById](%%jQueryApiUrl%%/ui.igGrid#methods:cellById)(rowId, columnKey) - `rowId` および `columnKey` により指定された `TD` 要素を返します。
+* [getCellValue](%%jQueryApiUrl%%/ui.igGrid#methods:getCellValue)(rowId/recordIndex, columnKey) - `rowId` (プライマリ キーが指定される場合) または `recordIndex` (プライマリ キーが指定されない場合) および `columnKey` に関連付けられた値を返します。
+* [getCellText](%%jQueryApiUrl%%/ui.igGrid#methods:getCellText)(rowId/recordIndex, columnKey) - `rowId` (プライマリ キーが指定される場合) または `recordIndex` (プライマリ キーが指定されない場合) および `columnKey` に関連付けられたセルのテキストを返します。
+
+DOM 要素を取得し、グリッドのレイアウトのコンテキストで要素についての情報を返す関数が公開 API に追加されました。
+
+[getElementInfo](%%jQueryApiUrl%%/ui.iggrid#methods:getElementInfo) - DOM 要素を取得し、以下のプロパティを含むオブジェクトを返します:
+
+* rowId - プライマリ キーが指定されない場合に null 値
+* rowIndex - DOM に行のインデックス (要素または `TD`/`TH` の場合に親要素)  
+* recordIndex - データ ビューに要素が描画されるためのデータ レコードのインデックス
+* columnObject - パラメーターが `TD` または `TH` のみに適用可能 - そのセルの列コレクションにある列オブジェクト
+
+2 つの igGrid イベントから返される引数が複数行レイアウトのために更新されます。
+
+* [cellClick](%%jQueryApiUrl%%/ui.igGrid#events:cellClick)
+    * rowIndex - クリックされたセルの親 `TR` 要素の DOM インデックス
+    * colIndex - セルに属する `COLGROUP` にある `COL` 要素のインデックス
+* [cellRightClick](%%jQueryApiUrl%%/ui.igGrid#events:cellRightClick)
+    * rowIndex - クリックされたセルの親 `TR` 要素の DOM インデックス
+    * colIndex - セルに属する `COLGROUP` にある `COL` 要素のインデックス
+
+## <a id="features"></a> サポートされる機能
+
+igGrid が複数行レイアウト モードで描画される場合、並べ替え、フィルター、ページング、更新、`continuous` モードの仮想化の機能がサポートされます。igGrid のその他の機能の有効化は予期されていない動作または初期化例外が発生されます。サポートされる機能はこのモードに制限があります。以下のリストは制限を説明します。
+
+* フィルターは `advanced` モードのみにサポートされます。`simple` モードに使用する場合、初期化例外が発生されます。
+
+## <a id="features-integration"></a> 機能の統合
+
+以下の表で、Grid Multi-Row レイアウトと他の `igGrid` 機能との統合についてのまとめを提供します。
+
+機能 | 説明
+-------|-------------
+更新 | インライン編集 (`editMode` が `row` または `cell`) の場合、エディタのタブ オーダーを構成するために [`navigationIndex`](%%jQueryApiUrl%%/ui.iggrid#options:columns.navigationIndex) オプションを使用します。 編集モードにない場合、このオプションは無効になり、ブラウザーのデフォルトのタブ ナビゲーションが適用されます。
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+
+-   [igGrid の概要](igGrid-Overview.html)
+
+

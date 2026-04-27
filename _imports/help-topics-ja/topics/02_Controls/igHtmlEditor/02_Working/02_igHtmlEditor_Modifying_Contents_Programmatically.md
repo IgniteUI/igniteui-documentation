@@ -1,0 +1,320 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "ightmleditor-modifying-contents-programmatically",
+    "controlName": "igHtmlEditor",
+    "tags": ["API","How Do I"]
+}
+|metadata|
+-->
+
+# プログラムによるコンテンツの変更
+
+
+
+##トピックの概要
+
+### 目的
+
+このトピックでは、API を使用して `igHtmlEditor`™ のコンテンツを修正する方法について説明します。
+
+### 必要な背景
+
+-   CSS メディア タイプ
+-   ブラウザー、すなわち、`execCommand` メソッドでのリッチテキスト編集
+
+**トピック**
+
+-	[igHtmlEditor の概要](igHtmlEditor-Overview.html): このトピックでは、`igHtmlEditor` の機能について説明します。
+
+-	[igHtmlEditor の追加](igHtmlEditor-Adding-igHtmlEditor.html): このトピックでは、`igHtmlEditor` を Web ページに追加する方法について説明します。
+
+
+**外部リソース**
+
+-   CSS メディア タイプ
+-   Mozilla でのリッチテキスト編集
+-   Internet Explorer での execCommand メソッド
+-   execCommand の互換性に関する記事
+
+
+
+### このトピックの構成
+
+このトピックは、以下のセクションで構成されます。
+
+-   [igHtmlEditor の各種メソッド](#methods)
+-   [igHtmlEditor のコンテンツの取得](#get-the-contents)
+-   [igHtmlEditor のコンテンツの設定](#set-the-content)
+-   [igHtmlEditor のコンテンツへの書式設定の適用](#apply-formatting)
+-   [igHtmlEditor のコンテンツの印刷](#printing-the-content)
+-   [API およびイベント サンプル](#api-and-events-demo)
+-   [関連コンテンツ](#related-content)
+
+
+
+##<a id="methods"></a>igHtmlEditor の各種メソッド
+
+
+### igHtmlEditor の各種メソッドの概要
+
+次の表は、`igHtmlEditor` コントロールのメソッドをまとめたものです。
+
+プロパティ|戻り値の型|説明
+---|---|---
+getContent|string|HTML エディターのコンテンツを取得します。
+setContent|-|HTML エディターのコンテンツを設定します。
+executeAction|-|igHtmlEditor のコマンドを実行します。
+isDirty|boolean|エディターのコンテンツが変更されているかどうかについて true または false の値を返します。
+
+##<a id="get-the-contents"></a>igHtmlEditor のコンテンツの取得
+
+
+### 概要
+
+`igHtmlEditor` のコンテンツは、`getContent` メソッドを使用して取得できます。コンテンツは、テキストまたは HTML として取得できます。
+
+### 手順
+
+以下の手順は、`igHtmlEditor` のコンテンツを取得する方法を示したものです。
+
+
+1. コンテンツをテキストとして取得します。
+
+	`igHtmlEditor` のコンテンツをテキストとして取得するには、次のコードを使用します。
+
+	**JavaScript の場合:**
+
+	```js
+	var contentAsText = $("#htmlEditor").igHtmlEditor("getContent", "text");
+	```
+
+2. コンテンツを HTML として取得します。
+
+	`igHtmlEditor` のコンテンツを HTML として取得するには、次のコードを使用します。
+
+	**JavaScript の場合:**
+
+	```js
+	var contentAsHtml = $("#htmlEditor").igHtmlEditor("getContent", "html");
+	```
+
+
+##<a id="set-the-content"></a>igHtmlEditor のコンテンツの設定
+
+
+### 概要
+
+`igHtmlEditor` コンテナーに HTML がある場合、初期設定時には、その HTML がエディターの初期コンテンツとして表示されます。
+
+`igHtmlEditor` のコンテンツは、`getContent` メソッドを使用してランタイムに取得できます。コンテンツは、テキストの文字列または HTML の文字列として取得できます。
+
+### 手順
+
+以下の手順は、選択した `igHtmlEditor` コンテンツ範囲に異なる書式設定を適用する方法を示したものです。
+
+1. コンテンツをテキストとして設定します。
+
+	`igHtmlEditor` のコンテンツをテキストとして設定するには、次のコードを使用します。
+
+	**JavaScript の場合:**
+
+    ```js
+    $("#htmlEditor").igHtmlEditor("setContent", "This is text content.", "text");
+    ```
+
+2. コンテンツを HTML として設定します。
+
+	`igHtmlEditor` のコンテンツを HTML として設定するには、次のコードを使用します。
+
+	**JavaScript の場合:**
+
+    ```js
+    $("#htmlEditor").igHtmlEditor("setContent", "<p>This is html content.</p>", "html");
+    ```
+
+
+##<a id="apply-formatting"></a>igHtmlEditor のコンテンツへの書式設定の適用
+
+
+### 概要
+
+ここでは、`igHtmlEditor` で選択したテキスト範囲を初期設定する手順について説明します。
+
+選択したテキストに書式設定を適用するには、`executeAction` メソッドを使用します。このメソッドは、ドキュメント要素の `designMode` 属性を true に設定するとブラウザーで使用できるようになる `execCommand` メソッドに基づくものです。これは、実質的には `igHtmlEditor` が内部的に実行する機能です。
+
+### 手順
+
+エディターで選択したテキストに書式設定を適用する方法を以下に示します。
+
+1. 選択したコンテンツを太字に設定します。
+
+	`igHtmlEditor` で選択したコンテンツに太字の書式設定を適用するには、次のコードを使用します。
+
+	**JavaScript の場合:**
+
+    ```js
+    $("#htmlEditor").igHtmlEditor("executeAction", "bold");
+    ```
+
+2. 選択したコンテンツを斜体に設定します。
+
+	`igHtmlEditor` で選択したコンテンツに斜体の書式設定を適用するには、次のコードを使用します。
+
+	**JavaScript の場合:**
+
+    ```js
+    $("#htmlEditor").igHtmlEditor("executeAction", "italic");
+    ```
+
+3. 選択したコンテンツに下線を付けます。
+
+	igHtmlEditor で選択したコンテンツに下線の書式設定を適用するには、次のコードを使用します。
+
+	**JavaScript の場合:**
+
+    ```js
+    $("#htmlEditor").igHtmlEditor("executeAction", "underline");
+    ```
+
+4. 選択したコンテンツを左揃えとして設定します。
+
+	igHtmlEditor で選択したコンテンツに左揃えの書式設定を適用するには、次のコードを使用します。
+
+	**JavaScript の場合:**
+
+    ```js
+    $("#htmlEditor").igHtmlEditor("executeAction", "justifyLeft");
+    ```
+
+5. 選択したコンテンツを中央揃えとして設定します。
+
+	igHtmlEditor で選択したコンテンツに中央揃えの書式設定を適用するには、次のコードを使用します。
+
+	**JavaScript の場合:**
+
+    ```js
+    $("#htmlEditor").igHtmlEditor("executeAction", "justifyCenter");
+    ```
+
+6. 選択したコンテンツを右揃えとして設定します。
+
+	igHtmlEditor で選択したコンテンツに右揃えの書式設定を適用するには、次のコードを使用します。
+
+	**JavaScript の場合:**
+
+    ```js
+    $("#htmlEditor").igHtmlEditor("executeAction", "justifyRight");
+    ```
+
+7. 選択したテキストの色を設定します。
+
+	igHtmlEditor で選択したコンテンツにテキスト色を適用するには、次のコードを使用します。
+
+	**JavaScript の場合:**
+
+    ```js
+    $("#htmlEditor").igHtmlEditor("executeAction", "foreColor", "red");
+    ```
+
+8. 選択したテキストのフォント名を設定します。
+
+	igHtmlEditor で選択したコンテンツのフォントを設定するには、次のコードを使用します。
+
+	**JavaScript の場合:**
+
+    ```js
+    $("#htmlEditor").igHtmlEditor("executeAction", "fontName", "Arial");
+    ```
+
+
+##<a id="printing-the-content"></a>igHtmlEditor のコンテンツの印刷
+
+
+### 概要
+
+ここでは、`igHtmlEditor` のコンテンツを印刷する方法について説明します。`igHtmlEditor` は IFRAME として実装されているため、IFRAME コンテンツの印刷に伴う考慮事項がいくつかあります。一般的には、IFRAME の印刷機能を呼び出すという操作を行うことになりますが、Internet Explorer や Opera に固有な考慮事項もあります。Internet Explorer の場合は、最初に IFRAME にフォーカスを置いてから IFRAME の print を呼び出す必要があります。Opera ブラウザーは枠外の IFRAME を印刷できませんが、回避策がいくつかあります。そのうちの 1 つをここで説明します。
+
+### 手順
+
+ここでは、`igHtmlEditor` のコンテンツを印刷する手順を示します。
+
+1. IFRAME DOM 要素にフォーカスを置きます (Internet Explorer の場合にのみ必須)。
+
+	igHtmlEditor IFRAME には、igHtmlEditor ID の後ろに「_editor」を付けるという形で作成された ID が割り当てられています。次のコードでは、エディター ID が「htmlEditor」で、IFRAME ID が「htmlEditor_editor」になります。最初に IFRAME の `contentWindow` にフォーカス メソッドがあるかどうかを確認してから focus 関数を呼び出します。
+
+	**JavaScript の場合:**
+
+    ```js
+    if (typeof document.getElementById("htmlEditor_editor").contentWindow.focus === "function") {
+    	document.getElementById("htmlEditor_editor").contentWindow.focus();
+    }
+    ```       
+
+2. IFRAME DOM 要素に対して印刷を呼び出します。
+
+	IFRAME の `contentWindow` に印刷メソッドがあるかどうかを確認してから print 関数を呼び出します。
+
+	**JavaScript の場合:**
+
+	```js
+	if (typeof document.getElementById("htmlEditor_editor").contentWindow.print === "function") {
+		document.getElementById("htmlEditor_editor").contentWindow.print();
+	}
+	```
+
+3. Opera ブラウザーの @media CSS ルールを設定します。
+
+	Opera では、上記の手順を実行すると、`igHtmlEditor` のインスタンスが作成されているページ全体が印刷されます。`igHtmlEditor` のコンテンツのみを印刷するには、次のメソッドを使用してください。CSS @media ルールを使用して印刷に固有な CSS を定義するという方式もあります。このルールでは、印刷したくない要素を非表示にするクラスを定義します。次の例は、印刷出力に含めたくない要素に適用される「no-print」というクラスを定義します。
+
+	**CSS の場合:**
+
+	```css
+	@media print {
+        .no-print {
+            display: none;
+        }
+    }
+	```
+
+	**HTML の場合:**
+
+	```html
+	<body>
+          <header class="no-print">
+                     <h1>This header will not be printed</h1>
+          </header>
+           <!--igHtmlEditor target element-->
+          <div id="htmlEditor">
+          </div>
+          <footer class="no-print">
+               <h1>This footer will not be printed</h1>
+          </footer>
+          </div>
+    </body>
+	```
+
+	>**注:** この方法では、コンテンツに加え、`igHtmlEditor` コントロールが印刷されます。
+
+## <a id="api-and-events-demo"></a>API およびイベント サンプル
+以下のサンプルは、イベントを処理し、`igHtmlEditor` コントロールの API を使用する方法を紹介します。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/html-editor/api-and-events](%%SamplesEmbedUrl%%/html-editor/api-and-events)
+</div>
+
+
+##<a id="related-content"></a>関連コンテンツ
+
+
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+-	[ツールバーとボタンの構成](igHtmlEditor-Configuring-Toolbars-and-Buttons.html): このトピックでは、igHtmlEditor のツールバーとボタンを構成する方法について説明します。
+
+ 
+
+ 
+
+

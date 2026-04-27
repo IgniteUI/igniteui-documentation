@@ -1,0 +1,1 @@
+﻿# igFinancialChart を使用した作業の開始

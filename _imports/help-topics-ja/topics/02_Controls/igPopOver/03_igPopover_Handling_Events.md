@@ -1,0 +1,203 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igpopover-handling-events",
+    "controlName": "igPopover",
+    "tags": ["API","Events"]
+}
+|metadata|
+-->
+
+# イベントの処理 (igPopover)
+
+## トピックの概要
+### 目的
+
+このトピックでは、`igPopover`™ コントロールのイベントを説明し、イベント ハンドラーをアタッチするコード例を示します。
+
+### 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+- [%%ProductName%% でイベントの使用](Using-Events-in-IgniteUI-for-jQuery.html): このトピックは、%%ProductName%%® コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
+
+- [igPopover の概要](igPopover-Overview.html): このトピックでは、主要機能や機能性など、igPopover コントロールの概念的な情報を提供します。
+
+- [igPopover の追加](Adding-igPopover.html): このトピックでは、コード例を使用して、JavaScript または ASP.NET MVC で HTML ページに `igPopover` コントロールを追加する方法を説明します。
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [**イベントの処理 - 概要**](#overview)
+    -   [イベント処理の概要](#event-handling-summary)
+    -   [イベント処理ケースの概要表](#summary-chart)
+-   [**イベント リファレンス**](#event-reference)
+    -   [イベント リファレンス表](#event-reference-chart)
+-   [**コード例の概要**](#code-example)
+-   [**コード例: jQuery での初期化時の showing イベントの処理**](#jquery-handling)
+    -   [説明](#jquery-description)
+-   [**コード例: ASP.NET MVC での実行時の showing イベントの処理**](#mvc-handling)
+    -   [説明](#mvc-description)
+-   [**コード例: showing イベントのハンドラーでの igPopover コンテンツの変更**](#modify-content)
+    -   [説明](#modify-content-description)
+-   [**コード例:  イベントのハンドラーでの igPopover の配置の変更**](#re-positioning-igPopover)
+    -   [説明](#re-positioning-description)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+
+
+## <a id="overview"></a>イベントの処理 - 概要
+### <a id="event-handling-summary"></a>イベント処理の概要
+
+イベント ハンドラー関数の %%ProductName%% コントロールへのアタッチは、一般的にコントロールの初期化時に行われます。このイベントが発生すると、処理関数を呼び出します。
+
+jQuery はイベント ハンドラーの割り当てるための以下のメソッドをサポートします。
+
+-   [**bind()**](http://api.jquery.com/bind/)
+-   [**delegate()**](http://api.jquery.com/delegate/)
+-   [**live()**](http://api.jquery.com/live/)
+-   [**on()**](http://api.jquery.com/on/)
+
+以下のテーブルは、各関数の詳細を示します。
+
+関数|目的
+---|---
+[bind](http://api.jquery.com/bind/)|指定したセレクターに一致する既存の DOM 要素へイベント ハンドラーをアタッチします。
+[live](http://api.jquery.com/live/)|指定したセレクターに一致する既存または新しい DOM 要素へイベント ハンドラーをアタッチします。イベントハンドラーは、DOM ツリーまで伝達しません。
+[delegate](http://api.jquery.com/delegate/)|指定したセレクターに一致する既存または新しい DOM 要素へイベント ハンドラーをアタッチします。イベント ハンドラーは、DOM ツリーまで伝達します。
+[on](http://api.jquery.com/on/)|指定したセレクターに一致する既存または新しい DOM 要素へイベント ハンドラーをアタッチします。(delegate 関数は jQuery version 1.7 で廃止され、on 関数がイベント ハンドラー確立の優先方法になりました。)
+
+`bind()` を使用する場合、現在使用可能な要素にのみ指定されたハンドラーへアタッチすることに注意してください。つまり、動的に追加された項目 (DOM が読み込まれた後) は、イベント ハンドラーの割り当てに含まれません。
+
+この中では `delegate()` メソッドをお勧めします。これは、このメソッドがパフォーマンスに優れ、コントロール インスタンスが破棄されて、再作成しなければならない状況でもイベント ハンドラーを自動的に再アタッチできるためです。
+
+### <a id="summary-chart"></a>イベント処理ケースの概要表
+
+以下の表で、`igPopover` に関連するイベント処理ケースを簡単に説明します。詳細は、表の後に記載されています。
+
+イベント処理ケース|詳細
+---|---
+jQuery における初期化時のイベント処理|ウィジェット初期化時にイベントへバインドすると、以下の形式でオプションを使用してイベントをサブスクライブします。<br>`eventName: <handler>`<br>`eventName` オプションの有効な設定:<ul><li>showing</li><li>shown</li><li>hiding</li><li>hidden</li></ul>
+jQuery および ASP.NET MVC で実行時にイベントを処理|コントロール初期化の外側でハンドラーを実装するために、イベント ハンドラーを関数名に割り当てることができます。
+
+## <a id="event-reference"></a>イベント リファレンス
+### <a id="event-reference-chart"></a>イベント リファレンス表
+
+以下の表で、`igPopover` コントロールがサポートするイベントの目的と機能を簡単に説明します。
+
+イベント|説明
+---|---
+[showing](%%jQueryApiUrl%%/ui.igpopover#events:showing)|ポップオーバーを表示する前に発生します。
+[shown](%%jQueryApiUrl%%/ui.igpopover#events:shown)|ポップオーバーを表示した後に発生します。
+[hiding](%%jQueryApiUrl%%/ui.igpopover#events:hiding)|ポップオーバーを非表示にする前に発生します。
+[hidden](%%jQueryApiUrl%%/ui.igpopover#events:hidden)|ポップオーバーを非表示にした後に発生します。
+
+
+## <a id="code-example"></a>コード例の概要
+### コード例の概要表
+
+以下の表は、このトピックで使用したコード例をまとめたものです。
+
+例|説明
+---|---
+[jQuery における初期化時のイベント処理](#jquery-handling)|この例は、初期化時に [showing](%%jQueryApiUrl%%/ui.igpopover#events:showing) イベントにイベント処理関数を割り当てます。
+[ASP.NET MVC での実行時のイベント処理](#mvc-handling)|この例は、実行時に [showing](%%jQueryApiUrl%%/ui.igpopover#events:showing) イベントにイベント ハンドラーを割り当てます。
+[イベントのハンドラーでの igPopover のコンテンツの変更](#modify-content)|この例は、[showing](%%jQueryApiUrl%%/ui.igpopover#events:showing) イベントのハンドラーを使用して igPopover のコンテナーのコンテンツを変更する方法を紹介します。
+[イベントのハンドラーでの igPopover の配置の変更](#re-positioning-igPopover)|この例は、実行時に [shown](%%jQueryApiUrl%%/ui.igpopover#events:shown) イベントを使用して、ポップオーバー コンテナーの位置を変更する方法を紹介します。
+
+
+## <a id="jquery-handling"></a>コード例: jQuery での初期化時の showing イベントの処理
+### <a id="jquery-description"></a>説明
+
+この例は、初期化時に [showing](%%jQueryApiUrl%%/ui.igpopover#events:showing) イベントにイベント処理関数を割り当てます。
+
+**JavaScript の場合:**
+
+```js
+$(".selector").igPopover({
+    showing: function(evt, ui) { 
+          // Handle event
+    }
+});
+```
+
+
+
+## <a id="mvc-handling"></a>コード例: ASP.NET MVC での実行時の showing イベントの処理
+### <a id="mvc-description"></a>説明
+
+この例は、実行時に [showing](%%jQueryApiUrl%%/ui.igpopover#events:showing) イベントにイベント ハンドラーを割り当てます。
+
+**JavaScript の場合:**
+
+```js
+$(document).delegate(".selector", "igpopovershowing", function(evt, ui) { 
+   // Handle event
+});
+```
+## <a id="modify-content"></a>コード例: showing イベントのハンドラーでの igPopover コンテンツの変更
+### <a id="modify-content-description"></a>説明
+
+この例は、[showing](%%jQueryApiUrl%%/ui.igpopover#events:showing) イベントのハンドラーを使用して `igPopover` のコンテナーのコンテンツを変更する方法を紹介します。
+
+**JavaScript の場合:**
+
+```js
+$(document).delegate(".selector", "igpopovershowing", function(evt, ui) { 
+   // Handle event
+   ui.content = ui.content + “ Updated”;
+});
+```
+
+
+
+## <a id="re-positioning-igPopover"></a>コード例:  イベントのハンドラーでの igPopover の配置の変更
+### <a id="re-positioning-description"></a>説明
+
+この例は、実行時に [shown](%%jQueryApiUrl%%/ui.igpopover#events:shown) イベントを使用して、ポップオーバー コンテナーの位置を変更する方法を紹介します。
+
+**JavaScript の場合:**
+
+```js
+$(document).delegate(".selector", "igpopovershown", function(evt, ui) { 
+   // Handle event   
+    var position = { top: 300, left: 450 };
+    $("#img1").igPopover("setCoordinates", position);
+});
+```
+
+
+
+## <a id="related-content"></a>関連コンテンツ
+### <a id="topics"></a>トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [igPopover の構成](Configuring-igPopover.html): このトピックでは、`igPopover` コントロールのコンテンツの構成、アクティブ化、および配置する方法を説明します。
+
+- [アクセシビリティ準拠 (igPopover)](igPopover-Accessibility-Compliance.html): このトピックでは、`igPopover` コントロールのアクセシビリティ機能について説明し、コントロールを含むページに対するアクセシビリティの準拠を実現する方法を紹介します。
+
+- [既知の問題と制限事項 (igPopover)](igPopover-Known-Issues-And-Limitations.html): このトピックでは、`igPopover` コントロールの既知の問題と制限事項および回避策についての情報を提供します。
+
+- [jQuery と MVC API リンク (igPopover)](igPopover-ASP-NET-MVC-Helper-API.html): このトピックでは、`igPopover` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
+
+### <a id="samples"></a>サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [基本的な使用方法](%%SamplesUrl%%/popover/basic-popover): このサンプルは、ASP.NET MVC シナリオでの `igPopover` コントロールを紹介します。コントロールは、チェーン構文を使用して View で初期化されます。
+
+- [ASP.NET MVC の基本的な使用方法](%%SamplesUrl%%/popover/aspnet-mvc-helper): このサンプルは、JavaScript による `igPopover` の基本的な初期化シナリオ (単一のターゲット要素および複数のターゲット要素) を紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

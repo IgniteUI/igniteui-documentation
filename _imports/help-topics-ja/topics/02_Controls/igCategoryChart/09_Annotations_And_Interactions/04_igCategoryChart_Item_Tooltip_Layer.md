@@ -1,0 +1,40 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igcategorychart-item-tooltip-layer",
+    "controlName": "igCategoryChart",
+    "tags": ["API", "CategoryChart"]
+}
+|metadata|
+-->
+
+# 項目ツールチップ レイヤー
+
+項目ツールチップ レイヤーは、igCategoryChart でポインターがホバーしているカテゴリの各項目にツールチップを表示します。
+
+## 項目ツールチップ レイヤーの有効化
+
+項目ツールチップ レイヤーは、`toolTipType` オプションを item に設定して有効にできます。
+
+以下のコード スニペットは、`igCategoryChart` で項目ツールチップ レイヤーを有効にする方法を示します。
+
+*In HTML:*
+
+```html
+$(function () {
+     $("chart1").igCategoryChart({
+	     toolTipType: "item"
+     });
+});
+```
+
+以下のスクリーンショットは、項目ツールチップ レイヤー使用した igCategoryChart コントロールを示します。
+
+![](images/categorychart-item-tooltip-layer-01.png)
+
+
+## <a id="relatedtopics"/>関連トピック:
+
+- [カテゴリ ツールチップ レイヤー](igcategorychart-category-tooltip-layer.html)
+
+- [項目ハイライト レイヤー](igcategorychart-item-highlight-layer.html)

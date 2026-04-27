@@ -1,0 +1,114 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "documentengine-section-element",
+    "controlName": "Infragistics Document Library",
+    "tags": ["Layouts","Reporting"]
+}
+|metadata|
+-->
+
+# Section 要素
+
+Section 要素は、Report 要素に追加できる唯一のレイアウト要素です。このため、Section 要素は以下の点で独特なものとなっています。
+
+- Section 要素にはあらゆるレイアウト 要素を含むことができます（もうひとつの Section 要素を除く）。Section 要素によって個々のページをレポートに追加できます。
+
+- Section 要素には透かしやスタンプとして使用するための Stationery および Decoration 要素を含むことができます。その他の要素は、これら 2 つの要素を含むことはできません。
+
+- Section 要素によって、レポートにページ番号を追加することができます。
+
+- Section 要素のこのような独自の機能によって、レポート全体にいくつかの必要な設定を適用するだけでなく、高レベルでレポートを構成することができます。
+
+以下のコードは、[Report](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html) を定義し、単一の [ISection](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html) をそれに追加します。Section には、ヘッダー、フッター、ステーショナリ、デコレーションが含まれます。
+
+1.  **レポートとセクションを定義します。**
+
+	**C# の場合:**
+
+	```csharp
+	using Infragistics.Documents.Reports.Report;
+	.
+	.
+	.
+	Infragistics.Documents.Reports.Report.Report report = new Report();
+
+	// Create the main Section and add 50 pixels of padding on each edge.
+	Infragistics.Documents.Reports.Report.Section.ISection section1 = 
+	  report.AddSection();
+	section1.PagePaddings.Left = 50;
+	section1.PagePaddings.Right = 50;
+	```
+
+2.  **Header 要素を Section に追加します。**
+
+	**C# の場合:**
+
+	```csharp
+	Infragistics.Documents.Reports.Report.Section.ISectionHeader sectionHeader =   section1.AddHeader();
+	sectionHeader.Repeat = true;
+	sectionHeader.Height = 50;
+
+	Infragistics.Documents.Reports.Report.Text.IText sectionHeaderText =   sectionHeader.AddText(0, 0);
+	sectionHeaderText.Paddings.All = 10;
+	sectionHeaderText.Alignment = 
+	  new TextAlignment(Alignment.Left, Alignment.Middle);
+	sectionHeaderText.Height = new RelativeHeight(100);
+	sectionHeaderText.AddContent("Section Header");
+	```
+
+3.  **Stationery 要素を Section に追加します。**
+
+	**C# の場合:**
+
+	```csharp
+	// Add a stationery element to the report.
+	// This element will read "DRAFT" in large
+	// letters at an angle beneath the content
+	// of the report.
+	Infragistics.Documents.Reports.Report.Section.IStationery stationery =   section1.AddStationery();
+	stationery.Repeat = true;
+	Infragistics.Documents.Reports.Report.Text.IText stationeryText =   stationery.AddText(200, 400, -45);
+	stationeryText.Style = new Style(new Font("Verdana", 72), Brushes.Silver);
+	stationeryText.AddContent("DRAFT");
+	```
+
+4.  **Decoration 要素を Section に追加します。**
+
+	**C# の場合:**
+
+	```csharp
+	// Add a decoration element to the report.
+	// This element will serve as a stamp that
+	// will say "REJECTED" in large letters
+	// over the content of the report.
+	Infragistics.Documents.Reports.Report.Section.IDecoration decoration =   section1.AddDecoration();
+	decoration.MasterRange = MasterRange.All;
+	decoration.Rear = false;
+
+	Infragistics.Documents.Reports.Report.Text.IText decorationText =   decoration.AddText(350, 650, -15);
+	decorationText.Style = new Style(new Font("Verdana", 40), Brushes.Red);
+	decorationText.Width = new RelativeWidth(35);
+	decorationText.Borders = 
+	  new Borders(new Pen(Colors.Red, 3, DashStyle.Solid), 10);
+	decorationText.AddContent("REJECTED");
+	```
+
+5.  **Footer 要素を Section に追加します。**
+
+	**C# の場合:**
+
+	```csharp
+	Infragistics.Documents.Reports.Report.Section.ISectionFooter sectionFooter =   section1.AddFooter();
+	sectionFooter.Repeat = true;
+	sectionFooter.Height = 50;
+
+	Infragistics.Documents.Reports.Report.Text.IText sectionFooterText =   sectionFooter.AddText(0, 0);
+	sectionFooterText.Paddings.All = 10;
+	sectionFooterText.Alignment = 
+	  new TextAlignment(Alignment.Center, Alignment.Middle);
+	sectionFooterText.Height = new RelativeHeight(100);
+	sectionFooterText.Background = new Background(Brushes.Gainsboro);
+	sectionFooterText.AddContent("Copyright © 1996 - 2007 Infragistics, Inc." +
+	  " All rights reserved.");
+	```

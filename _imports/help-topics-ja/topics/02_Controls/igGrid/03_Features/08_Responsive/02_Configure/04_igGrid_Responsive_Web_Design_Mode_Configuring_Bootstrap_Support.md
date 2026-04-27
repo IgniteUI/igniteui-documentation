@@ -1,0 +1,96 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "iggrid-responsive-web-design-mode-configuring-bootstrap-support",
+    "controlName": "igGrid",
+    "tags": ["Grids","How Do I","Layouts"]
+}
+|metadata|
+-->
+
+# ブートストラップ サポートの構成 (igGrid、RWD モード)
+
+## トピックの概要
+
+### 目的
+
+このトピックは、Twitter Bootstrap の RWD クラスを用いて `igGrid`™ コントロールのレスポンス Web デザイン (RWD) モードを構成する方法について説明します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックと記事の一覧です。
+
+- 概念
+    - レスポンス Web デザイン
+    - レスポンシブ フレームワーク
+    - CSS メディア クエリ
+- トピック
+    - [レスポンス Web デザイン (RWD) モードの概要 (igGrid)](igGrid-Responsive-Web-Design-Mode-Overview.html): このトピックは、`igGrid` コントロールの RWD モード機能およびこの機能が提供する機能性について概念的に説明します。
+    - [レスポンス Web デザイン (RWD) モード構成を有効にする (igGrid)](igGrid-Enabling-Responsive-Web-Design-Mode.html): このトピックは、コード例を用いて、`igGrid` コントロールでレスポンス Web デザイン (RWD) モードを有効にする方法について説明します。
+	- [レスポンス Web デザイン (RWD) モード構成の概要 (igGrid)](igGrid-Configuring-Responsive-Web-Design-Mode-Overview.html): このトピックは、列の非表示やテンプレートの構成など レスポンス Web デザイン (RWD) モードが構成される要素、およびこれらの要素が互いのどのように関係するのかを概念的に説明します。
+- 外部リソース
+    -   [A List Apart: レスポンシブ Web デザイン](http://alistapart.com/article/responsive-web-design)
+    -   [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
+    -   [Wikipedia: レスポンシブ Web デザイン](http://en.wikipedia.org/wiki/Responsive_web_design)
+    -   [CSS 3 メディア クエリ](http://www.w3.org/TR/css3-mediaqueries/)
+
+
+## ブートストラップ サポートの構成
+
+RWD モードのプロファイルに使用される Twitter Bootstrap を構成できます。RWD モード機能 (*infragistics.ui.grid.responsive.js*) には、 Twitter-Bootstrap-framework-responsive CSS クラスをサポートするクラスがあります。このクラスは `$.ig.BootstrapMode` という名前で、 `responsiveModes` オプションでアクティブになります。
+
+> **注:** CSS クラス名を使用するには、Twitter Bootstrap CSS ファイルを含める必要があります。
+
+
+### 概要
+
+以下はプロセスの概念的概要です。
+
+1. プロファイルのアクティブ化に Bootstrap の JavaScript ユーティリティ クラスを使用するための RWD モード機能を構成する
+
+2. Twitter Bootstrap を使用することにより、RWD モードの列の非表示、行および列の テンプレートを構成する
+
+### 手順
+
+RWD モードのプロファイルで使用するための  Twitter Bootstrap を構成するには:
+
+1. プロファイルのアクティブ化にブートストラップの JavaScript ユーティリティ クラスを使用するための RWD モード機能を構成します。
+
+	ブートストラップ プロファイルのアクティブ化は RWD モードの [`responsiveModes`](%%jQueryApiUrl%%/ui.iggridresponsive#options:responsiveModes) オプションで構成されます。これは、プロパティを持つオブジェクトで、RWD モードのプロファイルの名前および値は、プロファイルのアクティブ化を実装するクラスの小文字名です (「Mode」のサフィックスは無し)。この場合、1 つのクラスがプロファイルのアクティブ化のすべてを担当するため値はすべてのモード (デスクトップ、タブレット、電話) において「bootstrap」となります。
+	
+	例:
+	
+	**JavaScript の場合:**
+	
+	```js
+	responsiveModes: {
+	    desktop: “bootstrap”,
+	    tablet: “bootstrap”,
+	    phone: “bootstrap”
+	}
+	```
+
+2. Twitter Bootstrap を使用することにより、RWD モードの列の非表示、行および列の テンプレートを構成します。
+
+	RWD モード プロファイルに使用する Twitter Bootstrap を構成したら、列の非表示、行および列のテンプレートの機能は Twitter ブートストラップ プロファイルのアクティブ化実装を使用します。
+	
+	> **注:** 列の非表示のためだけにブートストラップ定義 CSS クラスを使用する計画である場合は、RWD モードの認識をブートストラップのものに切り替える必要はありません。RWD モードの列の非表示において、Twitter Bootstrap CSS ファイルを参照した後、直接 `columnSettings.classes` プロパティと共に CSS クラスを使用できます。
+
+以下の表は、Twitter Bootstrap CSS クラスを RWD の各構成に一致させるものです。
+
+クラス|電話 (最大 767 px)|タブレット (768 ～ 979 px)|デスクトップ (980 px 以上)
+---|---|---|---
+`.visible-phone` | Visible | Hidden | Hidden
+`.visible-tablet` | Hidden | Visible | Hidden
+`.visible-desktop` | Hidden | Hidden | Visible
+`.hidden-phone` | Hidden | Visible | Visible
+`.hidden-tablet` | Visible | Hidden | Visible
+`.hidden-desktop` | Visible | Visible | Hidden
+
+### サンプル
+
+以下のサンプルは、レスポンシブ Web デザイン モード機能について紹介します。Twitter Bootstrap Framework ユーティリティ クラスを使用してプロファイルをアクティブにします。
+
+<div class="embed-sample">
+   [Twitter Bootstrap](%%SamplesEmbedUrl%%/grid/twitter-bootstrap)
+</div>

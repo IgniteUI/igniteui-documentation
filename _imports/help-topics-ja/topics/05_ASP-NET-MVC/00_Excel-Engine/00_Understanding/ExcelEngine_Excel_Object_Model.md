@@ -1,0 +1,40 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "excelengine-excel-object-model",
+    "controlName": "Infragistics Excel Library",
+    "tags": ["Exporting","Getting Started"]
+}
+|metadata|
+-->
+
+# Excel オブジェクト モデル
+
+## Workbook
+Infragistics.Documents.Excel アセンブリの基礎は [Workbook](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook.html) オブジェクトです。Workbook インスタンスがなければ、Microsoft® Excel® ファイルとしてその他の情報を書き出すことはできません。ワークブックはワークシートの集合で、各ワークシートはセルにデータのグリッドを保持します。さらに、ワークブックにはグローバル設定とカスタム ビュー、名前を指定した参照およびスタイルのコレクションが含まれます。ワークブックのグローバル設定は、ドキュメントの制作者やワークブックを Excel で開いた時にワークブックの子 MDI を最小化するかどうかなど、ワークブック全体に影響を与えるオプションです。これらのオプションには、Workbook オブジェクトで直接定義されたプリミティブなプロパティ、Workbook の [DocumentProperties](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~DocumentProperties.html) プロパティと [WindowOptions](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Workbook~WindowOptions.html) プロパティが含まれています。Workbook から公開されたほとんどのプリミティブ プロパティは、さまざまな数式計算オプションを制御します。
+
+## DocumentProperties
+ワークブックの DocumentProperties は、ワークブックの XLS ファイルを右クリックして、プロパティを表示することによって表示できるプロパティです。これらにはワークブックの作成者、タイトル、サブタイトルなどのワークブックのコンテンツを記述するさまざざまなタグが含まれています。この情報は、特定のバージョンの Excel で編集することも可能です。
+
+## WorkbookWindowOptions
+[WorkbookWindowOptions](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorkbookWindowOptions.html) クラスは、Excel で開いた時にワークブックの子 MDI ウィンドウのさまざまな特性だけでなく、ワークシート固有ではないさまざまな表示オプションを制御します。表示オプションは、どのスクロール バーが表示されるのか、ワークシート タブ バーを表示するかどうか、どのタブをタブ バーで最初に表示するかなど、異なるワークシートに切り替えても変わらない多くの視覚的要素を制御します。
+
+子ウィンドウを制御するオプションには、MDI の親にとっての子ウィンドウの境界と、開いたときにウィンドウを最小化するかしないかが含まれます。数式バーまたはステータスバーを表示するかどうか、またはワークブックの子ウィンドウを最大化するかどうかなど、特定のウィンドウ オプションは、WorkbookWindowOptions では制御できません。これらのプロパティはシステム全体にわたるもので、レジストリに Excel によって保存されるからです。ただし、これらのオプションは WorkbookWindowOptions に似た、[CustomView](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.CustomView.html) の WindowOptions プロパティによって制御できます。その他のオプションに加えて、WorkbookWindowOptions クラスはワークブック内の選択されたワークシートを示すプロパティを持ちます。
+
+## Worksheet
+ワークシートはワークブックを埋めます。ワークブックが一度に表示できるのは少なくとも 1 つのワークシートである必要があります。ワークシートにはワークブック内の実際のデータが含まれます。各ワークシートはセルのグリッドを保持し、各セルはデータの形式を保持することができるからです。Worksheet 上のコレクションと複雑なプロパティは別として、[Worksheet](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.Worksheet.html) オブジェクトにはデフォルトの行と列のサイズ、画像背景 (ワークシートにタイルされる) およびその名前を変更するためのプロパティが含まれます。
+
+## WorksheetRow
+ワークシートによって公開される最も重要なオブジェクトのひとつが WorksheetRow です。ワークシートの各行は、[WorksheetRow](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetRow.html) オブジェクトによって表されます。WorksheetRow インスタンスによって、ワークシートで対応する行を操作できます。さらに、行の各セルは WorksheetRow によって所有されるコレクションに含まれる [WorksheetCell](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetCell.html) インスタンスによって表されます。WorksheetCell にアクセスするためには、親の WorksheetRow を通過する必要があります。WorksheetCell インスタンスのコレクションは [WorksheetColumn](Infragistics.Web.Documents.Excel~Infragistics.Documents.Excel.WorksheetColumn.html) によって所有されません。親行のコレクションと親列のコレクション内の各 WorksheetCell インスタンスを保持するのは冗長であるということが唯一の理由です。各セルおよびデフォルトのセル書式に加えて、行の高さ、表示/非表示、アウトライン レベルも、WorksheetRow インスタンスでカスタマイズすることができます。
+
+## WorksheetColumn
+WorksheetRow と異なり、ワークシートの列がその下にセルを「含む」としても、WorksheetColumn はセルのコレクションを含みません。これは単にセルが属する WorksheetRow インスタンスからセルにアクセスできるからです。WorksheetColumn からセルをアクセス可能にすることも冗長です。WorksheetColumn インスタンスによって、列のデフォルトのセル書式、幅、表示できるかどうか、アウトライン レベルをカスタマイズできます。
+
+## WorksheetCell
+ワークシートはセルのグリッドです。各セルは WorksheetCell インスタンスによって表されます。WorksheetCell オブジェクトを使用して、セルの値と書式を設定できます。セルの値は、ワークブックを Excel で開いたときにセルに表示されるものです。その他のセルの値を計算するために、セルの値は数式によって使用することも可能です。
+
+ 
+
+ 
+
+

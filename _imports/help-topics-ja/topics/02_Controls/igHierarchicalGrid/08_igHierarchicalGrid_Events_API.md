@@ -1,0 +1,87 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "ighierarchicalgrid-events-api",
+    "controlName": "igHierarchicalGrid",
+    "tags": ["API","Events","Grids","Patterns and Practices"]
+}
+|metadata|
+-->
+
+# イベント リファレンス (igHierarchicalGrid)
+
+## トピックの概要
+
+### 目的
+このトピックでは、igHierarchicalGrid に固有のイベントを説明します。
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [イベントの概要](#events-overview)
+-   [jQuery および MVC でハンドラーをイベントに添付する](#attaching-handlers)
+-   [イベント参照チャート](#events-reference-chart)
+-   [関連トピック](#related-topics)
+
+## <a id="events-overview"></a> イベントの概要
+
+igHierarchicalGrid に固有のイベントがいくつかあります。(以下の「イベント参照チャート」ブロックを参照してください)。これらのイベントは、行を展開または縮小する場合にトリガーされます。さらに、子グリッドを事前に設定するイベントもあります。これらのイベントは、igHierarchicalGrid でロード オン デマンド機能が有効になっている場合にのみ発生します。
+
+`-ing` サフィックスがキャンセルできるすべてのイベント。イベントのキャンセルは、ハンドラーで false を返すよう設定されている場合に有効です。
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igHierarchicalGrid({
+    rowExpanding: function (e, args) {
+           return  false;
+    }
+}
+```
+
+引数のメソッドおよびプロパティのほとんどに、それらが属するグリッドだけでなく、行固有のデータが入っています。イベントの詳細については、以下の「イベント参照チャート」および API ヘルプを参照してください。
+
+## <a id="attaching-handlers"></a> jQuery および MVC でハンドラーをイベントに添付する
+
+イベントに添付するには、プロパティの定義と同じようにイベントのハンドラーを定義します。これでイベントをトリガーすると、ハンドラーが呼び出されます。
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igHierarchicalGrid({
+    rowExpanding: function (e, args) {
+           // Handle event  
+    }
+}
+```
+
+MVC でハンドラーを添付する場合、ハンドラーをウィジェット イベントに添付する jQuery User Interface (UI) パターンを使用します。つまり、jQuery の bind 関数または live 関数を使用して、イベントの名前をそれらに渡す必要があります。イベント名は、コントロールおよびイベントの名前を連結した小文字の文字列でなければなりません。jQuery ウィジェットでも同様のことができますが、コントロールを初期化するときにイベント ハンドラーを直接添付できるため、これは必要ありません。詳細は、jQuery ウィジェット ファクトリを参照してください。以下のコードは、MVC ソリューションを実装する場合にハンドラーを igHierarchicalGrid イベントに添付する方法を示しています。
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").live({ ighierarchicalgridrowexpanding: function (e, args) {
+     // Handle event  
+}
+});
+```
+
+> **注:** jQuery live 関数は、イベントをハンドラーに添付した後に一部の DOM 要素が追加される場合に使用されます。
+
+## <a id="events-reference-chart"></a> イベント参照チャート 
+
+イベント|説明|キャンセル可能|引数
+----- | ----------- | ---------- | ----------
+[rowExpanding](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events)|階層行が展開される直前に発生します。|True|`e` - イベント固有情報を保持するオブジェクト<br><br>`args` - 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.owner`, `args.parentrow`
+[rowExpanded](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events)|階層行が展開された後に発生します。|False|`e` - イベント固有情報を保持するオブジェクト<br><br>`args` - 親行の情報を含むオブジェクト。<br><br>プロパティは次のとおりです。`args.owner`, `args.parentrow`
+[rowCollapsing](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events) |階層行が縮小される直前に発生します。|True|`e` - イベント固有情報を保持するオブジェクト<br><br>`args` - 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.owner`, `args.parentrow`
+[rowCollapsed](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events) |階層行が縮小されたときに発生します。|False|`e` - イベント固有情報を保持するオブジェクト<br><br>`args` - 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.owner`, `args.parentrow`
+[childrenPopulating](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events) |子が事前に設定される直前に発生します。igHierarchicalGrid がロード オン デマンドを有効にする場合に呼び出されます。|True|`e` - イベント固有情報を保持するオブジェクト<br><br>`args` - 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.id`, `args.owner`, `args.parentrow`
+[childrenPopulated](%%jQueryApiUrl%%/ui.ighierarchicalgrid#events) |子が事前に設定された場合に発生します。igHierarchicalGrid がロード オン デマンドを有効にする場合に呼び出されます。|False|`e` - イベント固有情報を保持するオブジェクト<br><br>`args` - 親行の情報を含むオブジェクト。プロパティは次のとおりです。`args.id`, `args.owner`, `args.parentrow`
+
+## <a id="related-topics"></a> 関連トピック
+以下は、その他の役立つトピックです。
+- [igHierarchicalGrid の概要](igHierarchicalGrid-Overview.html)
+- [igHierarchicalGrid の初期化](igHierarchicalGrid-Initializing.html)
+- [igHierarchicalGrid プロパティ リファレンス](%%jQueryApiUrl%%/ui.ighierarchicalgrid#options)

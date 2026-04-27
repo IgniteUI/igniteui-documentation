@@ -1,0 +1,604 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igtreegrid-overview",
+    "controlName": ["igTreeGrid"],
+    "tags": ["Grids", "Data Binding", "Getting Started"]
+}
+|metadata|
+-->
+
+# 概要 (igTreeGrid)
+
+`igTreeGrid`™ は、ツリーおよび表形式データの原則を単一のコントロールに結合することにより、階層データを表示します。`igTreeGrid` 内部で、階層データは各行の同じ列を使用して描画され、ユーザーには子データを展開および縮小する方法が提供されます。
+
+![igTreeGrid](images/igtreegrid-overview.png "igTreeGrid")
+
+`igTreeGrid` は `igGrid` コントロールを継承しているため、同じ機能と機能性を多数使用できます。一部の機能は、階層データの最適なニーズに応じて機能と実装が異なります (フィルタリング、ページングなど)。
+
+柔軟性を維持するために、ツリー グリッドには構成可能な展開インジケーターが用意され、最初のデータ列またはスタンドアロン列にインラインで描画できます。展開インジケーターは、カスタムな視覚化を実現するために、別のルック アンド フィールにカスタマイズすることもできます ([ファイル エクスプローラーのサンプル](%%SamplesUrl%%/tree-grid/file-explorer "File Explorer Sample - File Explorer with Tree Grid Control - %%ProductName%%™") を参照)。
+
+### このトピックの内容
+
+- [**アーキテクチャの概要**](#architectural-overview)
+- [**サポートされるデータ ソース**](#supported-data-sources)
+	- [フラット データ ソース](#flat-data)
+	- [階層データ ソース](#hierarchical-data)
+- [**igGrid との機能の違い**](#feature-differences-iggrid)
+- [**igTreeGrid と igHierarchicalGrid の比較**](#tree-vs-hierarchical-grids)
+- [**パフォーマンス**](#performance)
+- [**はじめに**](#getting-started)
+	- [JavaScript で igTreeGrid の初期化](#jq-treegrid)
+	  - [サンプル](#full-page-sample)
+	- [%%ProductFamilyName%% CLI で igTreeGrid を初期化](#adding-using-CLI)
+	- [MVC igTreeGrid の初期化](#mvc-treegrid)
+	- [展開および縮小アイコンのカスタマイズ化](#customize-icon)
+-  [**キーボード ナビゲーション**](#keyboard-navigation)
+- [**%%ProductFamilyName%% CLI で igTreeGrid を Excel にエクスポート**](#exporting-with-CLI)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+### ボキャブラリ
+
+`igTreeGrid` をより活用するには、グリッドの [API](%%jQueryApiUrl%%/ui.igtreegrid) とドキュメントで特別な意味を持ついくつかの用語を十分に理解する必要があります。
+
+| 用語 | 定義 |
+| --- | --- |
+| レベル | 各階層のすべてのデータ項目/行および同じ数の親を適用します。 |
+| ルート レベル | 自身に親のない最上位の行。 |
+| リーフなしレベル | 少なくとも親と子が 1 づつある行。 |
+| リーフ　レベル | 親と子がない階層関係の最下位レベルの項目 |
+
+
+## <a id="architectural-overview"></a> アーキテクチャの概要
+
+`igTreeGrid` は [`igGrid`](igGrid-Overview.html "igGrid Overview") コントロールを継承しているため、同じ API とエンドユーザー操作の多くを共有しています。一部の領域 (フィルタリングやページングなど) では、ツリー グリッドの実装が `igGrid` の場合とは異なります。これは、表形式で描画される階層データをよりよく操作できるようにするためです。`igGrid` と `igTreeGrid` の機能の違いの詳細は、「[igTreeGrid とigGrid の機能の違い](#feature-differences-iggrid)」を参照してください。
+
+ファイル グリッド コントロールと同様に、`igTreeGrid` は DOM で構造の基礎として `TABLE` 要素または `DIV` 要素を使用します。データは親行の展開インジケーターをクリック/タップすることにより表示されます。そのため、子行の描画に必要な表の行とセルの要素はその場で作成されます。`igTreeGrid` のパフォーマンスに関する詳細は、[パフォーマンス セクション](#performance)を参照してください。
+
+ツリー グリッドは、他の %%ProductName%% グリッドと同様に、切り離されたアーキテクチャを使用できます。表面下で、`igTreeGrid` は `igTreeHierarchialDataSource` コンポーネントにより支えられています。このデータ ソース コンポーネントは、ツリー グリッドのソース データをユーザーに表示する前に、それに直接影響する機能のロジックを実装します。この特殊なデータ ソースの詳細は、[igTreeHierarchicalDataSource](%%jQueryApiUrl%%/ig.treehierarchicaldatasource) を参照してください。
+
+## <a id="supported-data-sources"></a> サポートされるデータ ソース
+
+`igTreeGrid` は、フラット データと階層データの 2 種類のデータ ソースをサポートします。
+
+> **注:** **すべてのデータ オブジェクトが一様なスキーマ**を持つことは、ツリー グリッドでのデータの描画における基本です。フラット データ ソース型と階層データ ソース型は、データの階層関係の維持にやや異なるアプローチを使用していますが、残りのデータ メンバーはオブジェクトで同一です。
+
+### <a id="flat-data"></a> フラット データ ソース
+
+フラット データ、すなわち自己参照データは、データのスキーマにプライマリ キー / 外部キーのリレーションシップが存在するシンプルなオブジェクト配列で構成されています。
+
+フラット データ ソースの例を以下に示します。
+
+```javascript
+var data = [
+  { id: 1, supervisorId: 0, firstName: "John", lastName: "Smith", title: "CEO" },
+  { id: 2, supervisorId: 1, firstName: "Mary", lastName: "Edwards", title: "Manager" },
+  { id: 3, supervisorId: 2, firstName: "Matthew", lastName: "Jones", title: "Clerk" }
+];
+```
+
+ここで、`supervisorId` は配列のデータの `id` 値とリレーションシップを持ちます。グリッドでリレーションシップを構成するには、[`primaryKey`](%%jQueryApiUrl%%/ui.igtreegrid#options:primaryKey) オプションと [`foreignKey`](%%jQueryApiUrl%%/ui.igtreegrid#options:foreignKey) オプションの両方に値を提供する必要があります。以下のコード スニペットは、フラット データ ソースでツリー グリッドを初期化する方法を示しています。
+
+```javascript
+$('#treegrid').igTreeGrid({
+  dataSource: data,
+  primaryKey: 'id',
+  foreignKey: 'supervisorId',
+  ...
+});
+```
+
+以下のツリー グリッドはフラット データ ソースにバインドされています。
+
+<div class="embed-sample">
+   [JSON のバインド](%%SamplesEmbedUrl%%/tree-grid/json-binding)
+</div>
+
+### <a id="hierarchical-data"></a> 階層データ ソース
+
+階層データ ソースは、親データ オブジェクトの配列メンバーとして子データが存在するネストされたリレーションシップを持ちます。以下に階層データ ソースの例を示します。
+
+```javscript
+var data = [{
+  id : 1,
+  firstName : "John",
+  lastName : "Smith",
+  title : "CEO",
+  employees : [{
+    id : 2,
+    firstName : "Mary",
+    lastName : "Edwards",
+    title : "Manager",
+    employees : [{
+      id : 3,
+      firstName : "Matthew",
+      lastName : "Jones",
+      title : "Clerk"
+    }]
+  }]
+}];
+```
+
+階層データのリレーションシップは、`employees` メンバーのオブジェクトの配列を使用してマネージされます。階層データでツリー グリッドを初期化するには、[`childDataKey`](%%jQueryApiUrl%%/ui.igtreegrid#options:childDataKey) オプションを使用してリレーションシップを確立する必要があります:
+
+```javascript
+$('#treegrid').igTreeGrid({
+  dataSource: data,
+  primaryKey: 'id',
+  childDataKey: 'employees',
+  ...
+});
+```
+
+以下のツリー グリッドは階層データ ソースにバインドされています。
+
+<div class="embed-sample">
+   [ファイル エクスプローラー](%%SamplesEmbedUrl%%/tree-grid/file-explorer)
+</div>
+
+## <a id="feature-differences-iggrid"></a> igGrid との機能の違い
+
+
+前述のように、`igTreeGrid` は `igGrid` を継承し、グリッドの一部機能に対してカスタム実装を提供しています。以下の表に、各グリッド機能の違いの一部を強調して示します。
+
+| 機能 | igTreeGrid | igGrid |
+| --- | --- | --- |
+| 並べ替え | 階層構造データで列によって行を再帰的に並べ替え | 列のすべてのデータで行を並べ替え |
+| ページング | ルート レコードのみ、またはすべてのデータに基づいてページを作成 | すべてのバインド データからページを作成 |
+| フィルタリング | 階層コンテキストでフィルター条件の一致を描画 | フィルター条件の完全一致を描画 |
+
+> **注:** igGrid と異なり、igTreeGrid は `foreignKey` に対して値が設定されている場合、フラット データ ソースを期待します。
+
+
+## <a id="tree-vs-hierarchical-grids"></a> igTreeGrid と igHierarchicalGrid の比較
+
+`igTreeGrid` と [`igHierarchicalGrid`](igHierarchicalGrid-Overview.html "igHierarchicalGrid Overview") は、いずれも階層データを表示するために作成されていますが、選択する際に注意が必要な違いがあります。2 つのグリッドの最も大きな違いは、`igTreeGrid` は同じ列に各行を表示しますが、`igHierarchicalGrid` は階層レベルごとに異なるスキーマでデータを描画できる点です。以下に、コントロールの違いを詳細にリストします。
+
+`igTreeGrid` の場合:
+- 既存の列の内部または固有の列に展開インジケーターを描画できる
+- 有効な機能をツリー グリッド全体に適用する
+- Column Fixing 機能をサポートする
+- Group By 機能はサポートしない (グループ化はツリー グリッドに固有)
+- DOM フットプリントは階層グリッドより軽量。ツリー グリッドは単一 `igGrid` インスタンスを使用して描画される
+
+`igHierarchicalGrid` の場合:
+- 階層データ ソースのみを描画できる。フラット データ ソースはサポートしない
+- 親と異なるデータ スキーマで子データをサポートする
+- 各子レイアウトとルート データに対して独立した `igGrid` インスタンス (その完全な DOM を使用して) を作成する
+- 各機能は各レイアウトで独立して動作する
+- Group By 機能をサポートする
+
+`igTreeGrid` と `igHierarchicalGrid` の間には多くの類似点がありますが、それぞれ独自の目的に使用します。
+
+## <a id="performance"></a> パフォーマンス
+
+ツリー グリッドのオーバーヘッドを最小にする設計だけでなく、大きなデータ セットでパフォーマンスを劇的に向上させる組み込み機能もあります。[仮想化](igGrid-Virtualization-Overview.html) は、実際に描画される行 (DOM 要素) の数をグリッド内で一定に保ちながら、新しいデータの描画のために動的に再使用させることにより、パフォーマンスを向上させます。
+
+> **注:** 現時点では `igTreeGrid` は仮想化の **連続**フレーバーのみをサポートするため、[`virtualizationMode`](%%jQueryApiUrl%%/ui.igtreegrid#options:virtualizationMode) を常に該当する値に設定する必要があります。
+
+```js
+$("#treegrid").igTreeGrid({
+	//...
+	rowVirtualization: true,
+	virtualizationMode: "continuous"
+});
+```
+
+パフォーマンスの向上に役立つその他の機能には、[ロード オン デマンド](igTreeGrid-Load-On-Demand.html)や、[リモート機能](%%SamplesUrl%%/tree-grid/remote-features)を使用してサーバーをローカルに操作する方法などがあります。
+
+> **注:** ここで説明したパフォーマンス強化は、ツリー グリッドで非常に大きなデータのセットを使用する場合に最高の効果を発揮します。
+
+**関連トピック:** [パフォーマンス ガイド (igGrid)](igGrid-Performance-Guide.html)
+
+## <a id="getting-started"></a> igTreeGrid を使用した作業の開始
+
+### <a id='jq-treegrid'></a> JavaScript で igTreeGrid の初期化
+
+`igTreeGrid` の初期化には、グリッドの特性を定義する [`options`](%%jQueryApiUrl%%/ui.igtreegrid#options) オブジェクトを渡す必要があります。以下のコード スニペットは、フィルタリング、並べ替え、ページングを含む、フラット データ ソースにバインドされたグリッドを作成する方法を示しています。
+
+```javascript
+$('#treegrid').igTreeGrid({
+  dataSource: employees,
+  width: '500px',
+  height: '375px',
+  primaryKey: 'employeeId',
+  foreignKey: 'supervisorId',
+  autoGenerateColumns: false,
+  columns: [
+      { headerText: 'ID', key: 'employeeId', width: '150px', dataType: 'number' },
+      { headerText: 'First', key: 'firstName', width: '150px', dataType: 'string' },
+      { headerText: 'Last', key: 'lastName', width: '150px', dataType: 'string' }
+    ],
+  features: [
+    {
+      name: 'Filtering',
+      displayMode: 'showWithAncestorsAndDescendants'
+      //displayMode: 'showWithAncestors'
+    },
+    {
+      name: 'Sorting'
+    },
+    {
+      name: 'Paging',
+      mode: 'allLevels',
+      //mode: 'rootLevelOnly',
+      pageSize: 5
+    }
+  ]
+});
+```
+この場合、データ レコード間のリレーションシップを確立するために、`primaryKey` と `foreignKey` の両方の値が存在することに注意してください。
+
+フィルタリング機能とページング機能は、これらの機能に対して使用できるオプション値をコメントとして含めるために示されています。並べ替え、フィルタリング、およびページングを特にツリー グリッドに対して実装する方法について詳細に知ることができます。
+
+#### <a id="full-page-sample"></a> 完全なページ サンプル
+
+```html
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8" />
+	<title>igTreeGrid</title>
+</head>
+<body>
+	<table id="treegrid"></table>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.loader.js"></script>
+	<script type="text/javascript">
+
+        $.ig.loader({
+			scriptPath: 'http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/',
+            cssPath: 'http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/css/',
+            resources: 'igTreeGrid.Filtering.Paging.Sorting',
+            ready: function () {
+
+                var employees = [
+                    { "employeeId": 0, "supervisorId": -1, "firstName": "Andrew", "lastName": "Fuller" },
+                    { "employeeId": 1, "supervisorId": -1, "firstName": "Jonathan", "lastName": "Smith" },
+                    { "employeeId": 2, "supervisorId": -1, "firstName": "Nancy", "lastName": "Davolio" },
+                    { "employeeId": 3, "supervisorId": -1, "firstName": "Steven", "lastName": "Buchanan" },
+
+                    // Andrew Fuller's direct reports
+                    { "employeeId": 4, "supervisorId": 0, "firstName": "Janet", "lastName": "Leverling" },
+                    { "employeeId": 5, "supervisorId": 0, "firstName": "Laura", "lastName": "Callahan" },
+                    { "employeeId": 6, "supervisorId": 0, "firstName": "Margaret", "lastName": "Peacock" },
+                    { "employeeId": 7, "supervisorId": 0, "firstName": "Michael", "lastName": "Suyama" },
+
+                    // Janet Leverling's direct reports
+                    { "employeeId": 8, "supervisorId": 4, "firstName": "Anne", "lastName": "Dodsworth" },
+                    { "employeeId": 9, "supervisorId": 4, "firstName": "Danielle", "lastName": "Davis" },
+                    { "employeeId": 10, "supervisorId": 4, "firstName": "Robert", "lastName": "King" },
+
+                    // Nancy Davolio's direct reports
+                    { "employeeId": 11, "supervisorId": 2, "firstName": "Peter", "lastName": "Lewis" },
+                    { "employeeId": 12, "supervisorId": 2, "firstName": "Ryder", "lastName": "Zenaida" },
+                    { "employeeId": 13, "supervisorId": 2, "firstName": "Wang", "lastName": "Mercedes" },
+
+                    // Steve Buchanan's direct reports
+                    { "employeeId": 14, "supervisorId": 3, "firstName": "Theodore", "lastName": "Zia" },
+                    { "employeeId": 15, "supervisorId": 3, "firstName": "Lacota", "lastName": "Mufutau" },
+
+                    // Lacota Mufutau's direct reports
+                    { "employeeId": 16, "supervisorId": 15, "firstName": "Jin", "lastName": "Elliott" },
+                    { "employeeId": 17, "supervisorId": 15, "firstName": "Armand", "lastName": "Ross" },
+                    { "employeeId": 18, "supervisorId": 15, "firstName": "Dane", "lastName": "Rodriquez" },
+
+                    // Dane Rodriquez's direct reports
+                    { "employeeId": 19, "supervisorId": 18, "firstName": "Declan", "lastName": "Lester" },
+                    { "employeeId": 20, "supervisorId": 18, "firstName": "Bernard", "lastName": "Jarvis" },
+
+                    // Bernard Jarvis' direct report
+                    { "employeeId": 21, "supervisorId": 20, "firstName": "Jeremy", "lastName": "Donaldson" }
+                ];
+
+                $('#treegrid').igTreeGrid({
+                    dataSource: employees,
+                    width: '500px',
+                    height: '375px',
+                    primaryKey: 'employeeId',
+                    foreignKey: 'supervisorId',
+                    autoGenerateColumns: false,
+                    columns: [
+                        { headerText: 'ID', key: 'employeeId', width: '150px', dataType: 'number' },
+                        { headerText: 'First', key: 'firstName', width: '150px', dataType: 'string' },
+                        { headerText: 'Last', key: 'lastName', width: '150px', dataType: 'string' }
+                    ],
+                    features: [
+					    {
+					        name: 'Filtering',
+					        displayMode: 'showWithAncestorsAndDescendants'
+					        //displayMode: 'showWithAncestors'
+					    },
+                        {
+                            name: 'Sorting'
+                        },
+                        {
+                            name: 'Paging',
+                            mode: 'allLevels',
+                            //mode: 'rootLevelOnly',
+                            pageSize: 5
+                        }
+                    ]
+                });
+
+            }
+        });
+	</script>
+</body>
+</html>
+```
+
+### <a id='adding-using-CLI'></a> %%ProductFamilyName%% CLI で igTreeGrid を初期化
+
+%%ProductFamilyName%% CLI で新しい igTreeGrid を簡単にアプリケーションに追加します。
+
+%%ProductFamilyName%% CLI のインストール:
+
+```
+npm install -g igniteui-cli
+```
+
+%%ProductFamilyName%% CLI インストール後、%%ProductName%% プロジェクトを生成し、新しい igTreeGrid コンポーネントを追加してプロジェクトをビルドおよび公開するには、以下のコマンドを使用します。
+
+```
+ig new <project name>
+cd <project name>
+ig add tree-grid newTreeGrid
+ig start
+```
+ 
+すべての利用可能なコマンドおよび詳細な情報については、[「%%ProductFamilyName%% CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
+
+### <a id='mvc-treegrid'></a> MVC igTreeGrid の初期化
+
+以下の手順は、MVC igTreeGrid の初期化を実行します。
+
+手順:
+
+1. 新しい MVC アプリケーションを作成します。
+2. Infragistics.Web.Mvc アセンブリへの参照を追加します。
+3. モデル クラスを作成します。
+
+```csharp
+    public class FileExplorer
+    {
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public DateTime DateModified { get; set; }
+        public string Type { get; set; }
+        public int Size { get; set; }
+        public List<FileExplorer> Files { get; set; }
+    }
+```
+
+4. データの List を生成し、View にデータを返す MVC Controller メソッドを作成します。
+
+```csharp
+public ActionResult AspMvcHelper()
+		{
+			var files = new List<FileExplorer>();
+			files.Add(new FileExplorer
+			{
+				ID = "1",
+				Name = "Documents",
+				DateModified = new DateTime(2013, 9, 12),
+				Type = "File Folder",
+				Size = 4480,
+				Files = new List<FileExplorer> { 
+                    new FileExplorer { ID = "4", Name = "To do list.txt", DateModified = new DateTime(2013,11,30), Type = "TXT File", Size = 4448 },
+                    new FileExplorer { ID = "5", Name = "To do list.txt", DateModified = new DateTime(11/30/2013), Type = "TXT File", Size = 4448 }
+                }
+			});
+			files.Add(new FileExplorer
+			{
+				ID = "2",
+				Name = "Music",
+				DateModified = new DateTime(2014, 6, 10),
+				Type = "File Folder",
+				Size = 5594,
+				Files = new List<FileExplorer> { 
+                new FileExplorer { ID = "6", Name = "AC/DC", DateModified =new DateTime(2014,6,10), Type = "File Folder", Size = 2726 , 
+                    Files = new List<FileExplorer> { 
+                        new FileExplorer { ID = "8", Name = "Stand Up.mp3", DateModified = new DateTime(2014,6,10), Type = "MP3 File", Size = 456 },
+                        new FileExplorer { ID = "9", Name = "T.N.T.mp3", DateModified = new DateTime(2014,6,10), Type = "MP3 File", Size = 1155 },
+                        new FileExplorer { ID = "10", Name = "The Jack.mp3", DateModified = new DateTime(2014,6,10), Type = "MP3 File", Size = 1115 }
+                    }
+                },
+                new FileExplorer { ID = "7", Name = "WhiteSnake", DateModified = new DateTime(2014,6,11), Type = "File Folder", Size = 2868, 
+                    Files = new List<FileExplorer> { 
+                        new FileExplorer { ID = "11", Name = "Trouble.mp3", DateModified =  new DateTime(2014,6,11), Type = "MP3 File", Size = 1234 },
+                        new FileExplorer { ID = "12", Name = "Bad Boys.mp3", DateModified =  new DateTime(2014,6,11), Type = "MP3 File", Size = 522 },
+                        new FileExplorer { ID = "13", Name = "Is This Love.mp3", DateModified =  new DateTime(2014,6,11), Type = "MP3 File", Size = 1112 }
+                    } 
+                }
+             }
+			});
+			files.Add(new FileExplorer
+			{
+				ID = "3",
+				Name = "Pictures",
+				DateModified = new DateTime(2014, 1, 20),
+				Type = "File Folder",
+				Size = 1825,
+				Files = new List<FileExplorer> { 
+                    new FileExplorer { ID = "14", Name = "Jack's Birthday", DateModified =  new DateTime(2014,6,21), Type = "File Folder", Size = 631, 
+                        Files = new List<FileExplorer> { 
+                            new FileExplorer { ID = "16", Name = "Picture1.png", DateModified = new DateTime(2014,6,21), Type = "PNG image", Size = 493 },
+                            new FileExplorer { ID = "17", Name = "Picture2.png", DateModified = new DateTime(2014,6,21), Type = "PNG image", Size = 88 },
+                            new FileExplorer { ID = "18", Name = "Picture3.gif", DateModified = new DateTime(2014,6,21), Type = "GIF File", Size = 50 }
+                        }  
+                    },
+                    new FileExplorer { ID = "15", Name = "Trip to London", DateModified = new DateTime(2014,3,11), Type = "File Folder", Size = 1194, 
+                        Files = new List<FileExplorer> { 
+                            new FileExplorer { ID = "19", Name = "Picture1.png", DateModified = new DateTime(2014,3,11), Type = "PNG image", Size = 974 },
+                            new FileExplorer { ID = "20", Name = "Picture2.png", DateModified = new DateTime(2014,3,11), Type = "PNG image", Size = 142 },
+                            new FileExplorer { ID = "21", Name = "Picture3.png", DateModified = new DateTime(2014,3,11), Type = "PNG image", Size = 41 },
+                            new FileExplorer { ID = "22", Name = "Picture4.png", DateModified = new DateTime(2014,3,11), Type = "PNG image", Size = 25 },
+                            new FileExplorer { ID = "23", Name = "Picture5.png", DateModified = new DateTime(2014,3,11), Type = "PNG image", Size = 12 }
+                        }  
+                    }
+                }
+			});
+
+			return View("aspnet-mvc-helper", files.AsQueryable());
+		}
+```
+
+5. "aspnet-mvc-helper" と呼ばれる View を作成します。
+
+Infragistics.Web.Mvc.dll アセンブリを参照し、View の Model を定義します。
+
+**C# の場合:**
+
+```csharp
+@using Infragistics.Web.Mvc
+@model IQueryable<FileExplorer>
+```
+
+jQuery、jQueryUI、および Ignite　UI スクリプトおよび css クラスへの参照を追加します。
+
+```html
+    <!-- %%ProductName%% Required Combined CSS Files -->
+    <link href="http://cdn-na.infragistics.com/igniteui/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+    <link href="http://cdn-na.infragistics.com/igniteui/latest/css/structure/infragistics.css" rel="stylesheet" />
+
+    <script src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+
+    <!-- %%ProductName%% Required Combined JavaScript Files -->
+    <script src="http://cdn-na.infragistics.com/igniteui/latest/js/infragistics.core.js"></script>
+    <script src="http://cdn-na.infragistics.com/igniteui/latest/js/infragistics.lob.js"></script>
+
+```
+
+6. View で igTreeGrid を定義します。
+
+**C# の場合:**
+
+```
+@(Html.Infragistics().TreeGrid(Model)
+        .ID("treegrid1")
+        .Width("100%")
+        .AutoGenerateColumns(false)
+        .PrimaryKey("ID")
+        .ChildDataKey("Files")
+        .RenderExpansionIndicatorColumn(true)
+        .InitialExpandDepth(1)
+        .Columns(column =>
+            {
+                column.For(x => x.ID).Hidden(true);
+                column.For(x => x.Name).HeaderText("Name").Width("30%");
+                column.For(x => x.DateModified).HeaderText("Date Modified").Width("20%");
+                column.For(x => x.Type).HeaderText("Type").Width("20%");
+                column.For(x => x.Size).HeaderText("Size in KB").Width("20%");
+            })
+        .DataBind()
+        .Render()
+    )
+```
+
+以下の画像は結果を示します。
+
+![igTreeGrid](images/igtreegrid-overview-mvc.png)
+
+### <a id='customize-icon'></a> 展開および縮小アイコンのカスタマイズ化
+
+展開および縮小アイコンは以下の CSS クラスによってカスタマイズできます。
+- 展開インジケーター - ui-icon ui-igtreegrid-expansion-indicator ui-icon-plus
+- 縮小インジケーター - ui-icon ui-igtreegrid-expansion-indicator ui-icon-minus
+
+以下の例は、カスタム画像を設定するためにデフォルト クラスをカスタマイズする方法を紹介します。
+
+```
+.ui-icon.ui-igtreegrid-expansion-indicator.ui-icon-minus {
+            background: url(../../images/samples/tree-grid/opened_folder.png) !important;
+            background-repeat: no-repeat;
+}
+.ui-icon.ui-igtreegrid-expansion-indicator.ui-icon-plus {
+            background: url(../../images/samples/tree-grid/folder.png) !important;
+            background-repeat: no-repeat;
+}
+.ui-icon-plus:before {
+		    content: '' !important;
+}
+.ui-icon-minus:before{
+		    content: '' !important;
+}
+```
+
+以下の画像は結果を示します。
+
+![igTreeGrid](images/igtreegrid-overview-css.png)
+
+## <a id="keyboard-navigation"></a> キーボード ナビゲーション 
+
+### 全般
+
+押下|条件|目的
+---|---|---
+<kbd>Space キー</kbd> / <kbd>Enter キー</kbd>|フォーカスが展開インジケーター セルにある|行を展開/縮小します。
+
+
+### 行選択が有効な場合
+
+押下|条件|目的
+---|---|---
+<kbd>上矢印</kbd> または <kbd>Shift + Tab</kbd> |行が選択される|上の行へ移動します。
+<kbd>下矢印</kbd> または <kbd>Tab</kbd>|行が選択される|下の行へ移動します。
+<kbd>右矢印</kbd> |行が選択される|行を展開します。
+<kbd>左矢印</kbd>|行が選択される|行を縮小します。
+<kbd>Home</kbd> または <kbd>Ctrl+Home</kbd> |行が選択される|一番上行へ移動します。
+<kbd>End</kbd> または <kbd>Ctrl+End</kbd>|行が選択される|一番下行へ移動します。
+<kbd>右矢印</kbd>|展開される行またはリーフ行が選択されます。|左へスクロールします。
+<kbd>左矢印</kbd>|展開される行またはリーフ行が選択されます。|右へスクロールします。
+
+### セル選択が有効な場合
+
+押下|条件|終了
+---|---|---
+<kbd>上矢印</kbd>|セルが選択される|上のセルへ移動します。
+<kbd>下矢印</kbd>|セルが選択される|下のセルへ移動します。
+<kbd>右矢印</kbd>|セルが選択される|右のセルへ移動します。
+<kbd>左矢印</kbd>|セルが選択される|左のセルへ移動します。
+<kbd>Alt + 下矢印</kbd> または <kbd>Enter キー</kbd>|展開インジケーター セルが選択される|行を展開します。
+<kbd>Alt + 下矢印</kbd> または <kbd>Enter キー</kbd>|展開インジケーター セルが選択される|行を縮小します。
+<kbd>Home</kbd>|セルが選択される|行に一番左のセルへ移動します。
+<kbd>End</kbd>|セルが選択される|行に一番右のセルへ移動します。
+<kbd>Ctrl+Home</kbd>|セルが選択される|グリッドの左上セルへ移動します。
+<kbd>Ctrl+End</kbd>|セルが選択される|グリッドの右下セルへ移動します。
+
+## <a id="exporting-with-CLI"></a> %%ProductFamilyName%% CLI で igTreeGrid を Excel にエクスポート
+
+%%ProductFamilyName%% CLI を使用して Excel エクスポートが構成された新しい igTreeGrid を簡単に追加できます。
+
+%%ProductFamilyName%% CLI のインストール:
+
+```
+npm install -g igniteui-cli
+```
+
+%%ProductFamilyName%% CLI インストール後、%%ProductName%% プロジェクトを生成し、Excel エクスポートが構成された新しい igTreeGrid コンポーネントを追加してプロジェクトをビルドおよび公開するには、以下のコマンドを使用します。
+
+```
+ig new <project name>
+cd <project name>
+ig add tree-grid-export newTreeGridExport
+ig start
+``` 
+
+すべての利用可能なコマンドおよび詳細な情報については、[「%%ProductFamilyName%% CLI の使用」](Using-Ignite-UI-CLI.html)のトピックを参照してください。
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+-   [機能の概要 (igTreeGrid)](igTreeGrid-Features-Overview.html): このトピックでは、`igTreeGrid` コントロールで使用可能なモジュラー機能の基本について説明します。
+-   [更新 (igTreeGrid)](igTreeGrid-Updating.html): このトピックでは、`igTreeGrid` コントロールに固有の更新機能の概要を説明します。
+-   [ロード オン デマンド (igTreeGrid)](igTreeGrid-Load-On-Demand.html): このトピックでは、`igTreeGrid` ロード オン デマンドのメリットと実装方法を説明します。
+
+### <a id="samples"></a> サンプル
+- [igTreeGrid の概要](%%SamplesUrl%%/tree-grid/overview)
+- [igTreeGrid のページング](%%SamplesUrl%%/tree-grid/paging)

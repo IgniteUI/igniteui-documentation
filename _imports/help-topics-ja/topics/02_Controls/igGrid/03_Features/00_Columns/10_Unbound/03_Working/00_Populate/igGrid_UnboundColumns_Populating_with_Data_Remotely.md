@@ -1,0 +1,610 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "iggrid-unboundcolumns-populating-with-data-remotely",
+    "controlName": "igGrid",
+    "tags": ["API","Grids","How Do I"]
+}
+|metadata|
+-->
+
+# 非バインド列をリモートに生成 (igGrid)
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、サーバー上で非バインド列の値を設定する方法をコード例を用いて示します。
+
+### 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+- [非バインド列の概要](igGrid-UnboundColumns-Overview.html): このトピックでは、`igGrid` の非バインド列機能の概要について説明します。
+
+- [列を非バインドとして設定 (igGrid)](igGrid-UnboundColumns-Setting-Column-as-Unbound.html): このトピックでは、クライアント側およびサーバー側で `igGrid` に非バインド列を設定する方法を示します。これには、JavaScript と ASP.NET のコード スニペットが含まれます。
+
+- [非バインド列の生成の概要 (igGrid)](igGrid-UnboundColumns-Populating-with-Data-Overview.html): このトピックは、非バインド列にデータを生成する方法の概念的な概要を示し、オプション (ローカル/リモート) を簡単に説明します。
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [**非バインド列にデータをリモートで追加 - 概要**](#overview)
+	-   [非バインド列にデータをリモートで追加するシナリオ](#scenarios)
+-   [**コード例**](#code-examples)
+-   [**UnboundValues メソッドを使用してビューの非バインド列にチェーンで追加する (コード例)**](#UnboundValues-pk)
+    -   [説明](#UnboundValues-description)
+    -   [コード](#UnboundValues-code)
+-   [**プライマリ キーを使用してコントローラーで非バインド列に追加 (コード例)**](#primary-key)
+    -   [説明](#primary-key-description)
+    -   [コード](#primary-key-code)
+-   [**プライマリ キーを使用せずにコントローラーで非バインド列に追加する (コード例)**](#without-primary-key)
+    -   [説明](#without-primary-key-description)
+    -   [コード](#without-primary-key-code)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+
+
+
+## <a id="overview"></a> 非バインド列にデータをリモートで追加 - 概要
+
+`igGrid` は、デフォルトで非バインド列をサポートしますが、設定が必要です。以下の表は、構成オプションをまとめたものです。
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+            <th colspan="2">
+非バインド列の値を設定するには
+			</th>
+
+            <th>
+以下を実行します。
+			</th>
+        </tr>
+	</thead>
+	<tbody>
+        <tr>
+            <td>
+ビューでチェーンを使用
+			</td>
+            <td>
+列定義の一部としてクライアント上に非バインド値をシリアル化します。
+			</td>
+            <td>
+クライアント側のプロパティ `unboundValues` と同等の `UnboundColumnWrapper.UnboundValues(List list)` メソッドを使用します。このメソッドは、列定義の一部としてクライアント上の `unboundValues` プロパティのオブジェクト リストをシリアル化します。
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+			</td>
+            <td>
+プライマリ キーにより非バインド列の値を設定します
+			</td>
+            <td>
+`Grid.SetUnboundValues(string key, Dictionary values)` メソッドを View で使用します。
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+			</td>
+            <td>
+プライマリ キーを使用せずに非バインド列値を設定します
+			</td>
+            <td>
+`Grid.SetUnboundValues(string key, List values)` メソッドを View で使用します。
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+コントローラーで `GridModel` クラスを使用
+			</td>
+            <td>
+列定義の一部としてクライアント上に非バインド値をシリアル化します。
+			</td>
+            <td>
+`UnboundColumn.UnboundValues` プロパティを使用します。
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+			</td>
+            <td>
+プライマリ キーを使用して非バインド列の値を設定します
+			</td>
+            <td>
+`GridModel.SetUnboundValues(string key, Dictionary values)` メソッドを使用します。
+			</td>
+        </tr>
+
+        <tr>
+            <td>
+			</td>
+            <td>
+プライマリ キーを使用せずに非バインド列の値を設定します
+			</td>
+            <td>
+`GridModel.SetUnboundValues(string key, List values)` メソッドを使用します。
+			</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+### <a id="scenarios"></a> 非バインド列にデータをリモートで追加するシナリオ
+
+以下の表は、`igGrid` リモートで非バインド列にデータを追加する場合にサポートされるシナリオをまとめたものです。
+
+#### 凡例:
+
+<table class="table">
+	<tbody>
+		<tr>
+			<td>
+![](images/positive.png)
+			</td>
+			<td>
+				回避策
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+![](images/negative.png)
+			</td>
+			<td>
+				既知の回避策はありません
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+![](images/plannedFix.png)
+			</td>
+			<td>
+				修正予定です
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+ | リモート データ (DataSourceUrl が設定されています) | MergeUnboundColumns オプション値 | ローカル機能 | リモート機能
+---|---|---|---|---
+View で `SetUnboundValues(` `string columnKey, List unboundValues)` の使用|いいえ|true|![](images/positive.png)|![](images/negative.png) リモート機能は、DataSourceUrl が設定されていないため適用できません。
+ |  | false |  | 
+ | はい - 非バインド列にデータは追加されません。ビューのグリッド構成が持続しないためです。これは、グリッド構成がすべての設定においてデフォルト値で復元され、MergeUnboundColumns はデフォルトで false であるということです。 | true | ![](images/negative.png) | ![](images/negative.png) igGrid は、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、非バインド列に対してリモート機能を無効にします。
+ |  | false |  | 
+View で `SetUnboundValues( string columnKey, Dictionary unboundValues)` の使用|いいえ|true|![](images/positive.png)|![](images/negative.png) リモート機能は、DataSourceUrl が設定されていないため適用できません。
+ |  | false |  | 
+ | はい - 非バインド列にデータは追加されません。ビューのグリッド構成が持続せず MergeUnboundColumns が false になるためです。 | true | ![](images/negative.png) | ![](images/negative.png) リモート機能は、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、非バインド列に対して無効です。 
+ |  | false |  | 
+Model で `SetUnboundValues(` `string columnKey, List unboundValues)` の使用|いいえ|true|![](images/positive.png)|![](images/negative.png) リモート機能は、DataSourceUrl が設定されていないため適用できません。
+ |  | false |  | 
+ | はい - 非バインド列にデータは設定しませんが、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、リモートのページングを有効にするとデータは各ページで同じになります。 | true | ![](images/positive.png) | ![](images/negative.png) リモート機能は、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、非バインド列に対して無効です。
+ |  | false |  | 
+Model で `SetUnboundValues(` `string columnKey, Dictionary unboundValues)` の使用|いいえ|true|![](images/positive.png)|![](images/negative.png) リモート機能は、DataSourceUrl が設定されていないため適用できません。
+ |  | false |  | 
+ | はい | true | ![](images/positive.png) | ![](images/negative.png) リモート機能は、「[既知の問題および制限](igGrid-Known-Issues.html)」トピックで説明されているように、非バインド列に対して無効です。 
+ |  | false |  | 
+
+
+
+
+## <a id="code-examples"></a> コード例
+
+以下の表は、このトピックで使用したコード例をまとめたものです。
+
+- [プライマリ キーを使用してビュー内に非バインド列をチェーンで追加する](#UnboundValues-pk): この例は、`Grid<T>.SetUnboundValues(string key, Dictionary<object, object> values)` オーバーロード メソッドを使用してビュー内の非バインド列に値を追加する操作を示します。
+
+- [プライマリ キーを使用せずにビュー内の非バインド列にチェーンで追加する](#UnboundValues-without-pk): この例は、`Grid<T>.SetUnboundValues(string key, List<object> values)`  オーバーロード メソッドを使用してコントローラー内の非バインド列に値を追加する操作を示します。
+
+- [プライマリ キーを使用してコントローラーの非バインド列に追加する](#primary-key): この例は、`GridModel.SetUnboundValues(string key, Dictionary<object, object> values)` オーバーロード メソッドを使用してコントローラー内の非バインド列に値を追加する操作を示します。
+
+- [プライマリ キーを使用せずにコントローラーの非バインド列に追加する](#without-primary-key): この例は、`GridModel.SetUnboundValues(string key, List<object> values)` オーバーロード メソッドを使用してコントローラー内の非バインド列に値を追加する操作を示します。
+
+
+
+
+## <a id="UnboundValues-pk"></a> プライマリ キーを使用してビューの非バインド列にチェーンで追加 (コード例)
+
+### <a id="UnboundValues-description"></a> 説明
+
+この例では、`Grid<T>.SetUnboundValues(string key, Dictionary<object, object> values)` メソッドを使用して非バインド列のデータを設定します。
+
+このオーバーロードは、2 つのパラメーターを受け付けます。「列キー」および `<PrimaryKey, Unbound Value>` ペアのディクショナリです。ディクショナリ内の `PrimaryKey` は `igGrid` 内の行のプライマリ キーを指し示し、「Unbound Value」は、キーが「列キー」に等しい非バインド列に設定される値です。
+
+> **注:** プライマリ キーを定義した後でのみ、このオーバーロードを使用します。
+
+`SetUnboundValues` と `MergeUnboundColumns` = TRUE を使用すると、ページング、並べ替え、フィルタリング等の操作を実施後に非バインド値がバインド データに追加されます。行識別子と非バインド値の間に明確に定義された相関関係があるためで、これはページング、並べ替え、フィルタリングがリモートである場合に追加の操作は必要ないということです。
+
+### <a id="UnboundValues-code"></a> コード
+
+モデル:
+
+**C# の場合:**
+
+```csharp
+namespace UnboundColumns.Models
+{
+    public class Product
+    {
+        public int ProductID { get; set; }
+        public string Name { get; set; }
+        public string ProductNumber { get; set; }
+        public DateTime ReleaseDate { get; set; }
+    }
+}
+```
+
+これは、4 つのフィールドを含む非常にシンプルな Product モデルです。
+
+ビュー:
+
+**C# の場合:**
+
+```csharp
+@using Infragistics.Web.Mvc
+@model IQueryable<UnboundColumns.Models.Product>
+@(Html.Infragistics()
+.Grid(Model)
+.ID("grid1")
+.PrimaryKey("ProductID")
+.AutoGenerateColumns(false)
+.Columns(col =>
+{
+    col.For(c => c.ProductID).HeaderText("Product ID");
+    col.Unbound("InStock")
+        .HeaderText("In Stock")
+        .DataType("bool");
+})
+.MergeUnboundColumns(true)
+.SetUnboundValues("InStock", (Dictionary<object, object>)ViewData["ProductsInStock"])
+.DataBind()
+.Render())
+```
+
+View は非常にシンプルです。厳密に型指定されたモデル `IQueryable<UnboundColumns.Models.Product>` があります。これは、データをバインドするため %%ProductNameMVC%% Grid により使用されるモデルです。グリッドは、キー `InStock` で 1 つの非バインド列に構成されます。このキーは `Grid<T>.SetUnboundValues(string columnKey, List<object> unboundValues)` への呼び出しによりデータへバインドされます。コードは、プライマリ キーによってグリッド データを持つ非バインド値とグリッド ラッパーが一致するように、プライマリ キーを定義します。
+
+コントローラー:
+
+**C# の場合:**
+
+```csharp
+public class HomeController : Controller
+{
+    public ActionResult Index()
+    {
+        Dictionary<object, object> productsInStock =
+        new Dictionary<object, object>();
+        productsInStock.Add(1, true);
+        productsInStock.Add(2, false);
+        productsInStock.Add(3, false);
+        ViewData["ProductsInStock"] = productsInStock;
+        return View(this.GetProducts().AsQueryable());
+    }
+    private List<Product> GetProducts()
+    {
+        List<Product> products = new List<Product>()
+        {
+            new Product() { ProductID = 1, Name = "Adjustable Race", ProductNumber = "AR-5381" },
+            new Product() { ProductID = 2, Name = "Bearing Ball", ProductNumber = "BA-8327" },
+            new Product() { ProductID = 3, Name = "BB Ball Bearing", ProductNumber = "BE-2349" }
+        };
+        return products;
+    }
+}
+```
+
+コントローラーには 2 つのメソッドがります。`GetProducts` は、製品のサンプル リストを返すプライベート メソッドです。`Index` アクション メソッドは `productsInStock` と呼ばれる非バインド値のディクショナリ インスタンスを構築し、`ViewData` 変数内にキー `ProductsInStock` で保存します。最終的に `GetProducts` の結果はビューに移されます。
+
+
+
+## <a id="UnboundValues-without-pk"></a> プライマリ キーを使用せずにビューの非バインド列にチェーンで追加 (コード例)
+
+### 説明
+
+このオーバーロードは、列キーおよび値のリストをパラメーターとして受け付けます。リストの値は、指定した「列キー」で列のセルに設定されます。指定されたキーで非バインド列の提供に失敗した場合、またはキーがバインド列のものである場合は、カスタム例外がスローされます。
+
+プライマリ キーが未定義の場合はこのメソッドを使用します。
+
+定義済みのプライマリ キーがある場合、オーバーロード `GridModel.SetUnboundValues(string key, Dictionary<object, object> values)` の使用をお勧めします。この場合、リストを使用するとパフォーマンスに悪影響を及ぼします。行識別子とリスト項目の間に相関関係を作るためデータ ソース全体がトラバースされるためです。値の非バインドリストで項目の順序に従ってリレーションシップを構築します。
+
+リストに含まれるのと同じ数の値を設定します。行数がリストの長さより長い場合、残りの行に値は設定されません。
+
+> **注:** `Grid<T>.SetUnboundValues (<Column key>, <List of values>)` オーバーロードを定義済みプライマリ キー無しで使用すると、プライマリ キー、その他の行識別子および非バインド値の間にマッピングは存在しません。リモートのフィルタリング、並べ替えまたはページングを使用する場合に、この点を検討してください。
+
+`SetUnboundValues` および `MergeUnboundColumns = “true”` を使用する場合、フィルタリング、並べ替え、ページング等の操作を実施後バインド データに非バインド値を追加します。
+
+### コード
+
+モデル:
+
+**C# の場合:**
+
+```csharp
+namespace UnboundColumns.Models
+{
+    public class Product
+    {
+        public int ProductID { get; set; }
+        public string Name { get; set; }
+        public string ProductNumber { get; set; }
+        public DateTime ReleaseDate { get; set; }
+    }
+}
+```
+
+これは、4 つのフィールドを含む非常にシンプルな Product モデルです。
+
+コントローラー:
+
+**C# の場合:**
+
+```csharp
+public class HomeController : Controller
+{
+    public ActionResult Index()
+    {
+        List<object> productsInStock =
+        new List<object>();
+        productsInStock.Add(true);
+        productsInStock.Add(false);
+        productsInStock.Add(false);
+        ViewData["InStock"] = productsInStock;
+        return View(this.GetProducts().AsQueryable());
+    } 
+    private List<Product> GetProducts()
+    {
+        List<Product> products = new List<Product>()
+        {
+            new Product() { ProductID = 1, Name = "Adjustable Race", ProductNumber = "AR-5381" },
+            new Product() { ProductID = 2, Name = "Bearing Ball", ProductNumber = "BA-8327" },
+            new Product() { ProductID = 3, Name = "BB Ball Bearing", ProductNumber = "BE-2349" }
+        };
+        return products;
+    }
+}
+```
+
+コントローラーには 2 つのメソッドがります。`GetProducts` は、製品のサンプル リストを返すプライベート メソッドであり、公開用 `Index` アクション メソッドは、非バインド列によって使用されるオブジェクトのリストを作成します。このリストは、`InStock` と呼ばれる `ViewData` 変数に保存されます。最終的に、`Index` アクション メソッドは製品のデータをビューに渡します。
+
+ビュー:
+
+**C# の場合:**
+
+```csharp
+@using Infragistics.Web.Mvc
+@model IQueryable<UnboundColumns.Models.Product>
+@(Html.Infragistics()
+.Grid(Model)
+.ID("grid1")
+.AutoGenerateColumns(false)
+.Columns(col =>
+{
+    col.Unbound("InStock")
+        .HeaderText("In Stock")
+        .DataType("bool");
+})
+.SetUnboundValues("InStock", (List<object>)ViewData["InStock"])
+.DataBind()
+.Render())
+```
+
+厳密に型指定されたビューにはモデル `IQueryable<UnboundColumns.Models.Product>` があります。%%ProductNameMVC%% Grid は、このモデルを使用してデータをバインドします。コードは、`UnboundColumnWrapper<T>.UnboundValues(List<object> list)` への呼び出しによりデータへバインドされたキー  `InStock` を持つ 1 つの非バインド列でグリッドを構成します。
+
+
+
+## <a id="primary-key"></a> プライマリ キーを使用してコントローラーで非バインド列に追加 (コード例)
+
+### <a id="primary-key-description"></a> 説明
+
+この例では、`GridModel.SetUnboundValues(string key, Dictionary<object, object> values)` メソッドを使用して非バインド列データを設定します。
+
+このオーバーロードは、2 つのパラメーターを受け付けます。「列キー」および `<PrimaryKey, Unbound Value>` ペアのディクショナリです。ディクショナリ内の PrimaryKey は `igGrid` 内の行のプライマリ キーをポイントし、「非バインド値」は「列キー」に等しいキーで非バインド列に設定されます。
+
+> **注:** プライマリ キーが定義される場合にのみ、このオーバーロードを使用します。
+
+`SetUnboundValues` と `MergeUnboundColumns = TRUE` を使用する場合、フィルタリング、並べ替え、ページング等の操作を実施後にバインド データに非バインド値を追加します。行識別子と非バインド値の間に明確に定義された相関関係があるためで、これは、リモートでページング、並べ替え、フィルタリングを行う場合に追加の操作は必要ないということを意味します。
+
+### <a id="primary-key-code"></a> コード
+
+モデル:
+
+**C# の場合:**
+
+```csharp
+namespace UnboundColumns.Models
+{
+    public class Product
+    {
+        public int ProductID { get; set; }
+        public string Name { get; set; }
+        public string ProductNumber { get; set; }
+        public DateTime ReleaseDate { get; set; }
+    }
+}
+```
+
+これは、4 つのフィールドを含む非常にシンプルな製品モデルです。
+
+ビュー:
+
+**C# の場合:**
+
+```csharp
+@using Infragistics.Web.Mvc
+@model GridModel
+@Html.Infragistics().Grid(Model)
+```
+
+ビューは、厳密に型指定された `GridModel` モデルでコントローラー内にグリッドを構成するために使用されており非常にシンプルです。
+
+コントローラー:
+
+**C# の場合:**
+
+```csharp
+public class HomeController : Controller
+{
+    public ActionResult Index()
+    {
+        GridModel gridModel = GetGridModel();
+        return View(gridModel);
+    }
+    private GridModel GetGridModel()
+    {
+        GridModel gridModel = new GridModel();
+        gridModel.DataSource = this.GetProducts().AsQueryable();
+        gridModel.PrimaryKey = "ProductID";
+        gridModel.AutoGenerateColumns = false;
+        gridModel.MergeUnboundColumns = true;
+        gridModel.Columns.Add(new GridColumn()
+        {
+            Key = "ProductID",
+            HeaderText = "Product ID"
+        });
+        gridModel.Columns.Add(new UnboundColumn()
+        {
+            Key = "InStock",
+            HeaderText = "In Stock"
+        });
+        Dictionary<object, object> productsInStock =
+        new Dictionary<object, object>();
+        productsInStock.Add(1, true);
+        productsInStock.Add(2, false);
+        productsInStock.Add(3, false);
+        gridModel.SetUnboundValues("InStock", productsInStock);
+        return gridModel;
+    }
+    private List<Product> GetProducts()
+    {
+        List<Product> products = new List<Product>()
+        {
+            new Product() { ProductID = 1, Name = "Adjustable Race", ProductNumber = "AR-5381" },
+            new Product() { ProductID = 2, Name = "Bearing Ball", ProductNumber = "BA-8327" },
+            new Product() { ProductID = 3, Name = "BB Ball Bearing", ProductNumber = "BE-2349" }
+        };
+        return products;
+    }
+}
+```
+
+コントローラーには 3 つのメソッドがります。`GetProducts` は、製品のサンプル リストを返すプライベート メソッドです。`Index` アクション メソッドは `GetGridModel` メソッドを呼び出し、その結果を ビューに渡します。`GetGridModel` メソッドは `GridModel` クラスを使用してグリッドを構成します。`PrimaryKey` プロパティが設定されている点にご注意ください。これは、この `SetUnboundValues` メソッドのオーバーロードを使用する場合は必須です。メソッドの終わりにおいて新しい `Dictionary<object, object>` が作成および設定され、`GridModel.SetUnboundValues` への呼び出しが行われます (通常、別のデータ ソースからの値を作成するかオンザフライで計算します)。
+
+
+
+## <a id="without-primary-key"></a> プライマリ キーを使用せずにコントローラーで非バインド列に追加 (コード例)
+
+### <a id="without-primary-key-description"></a> 説明
+
+このオーバーロードは、列キーおよび値のリストをパラメーターとして受け付けます。リストの値は指定した「列キー」で列のセルに設定されます。指定されたキーを持つ非バインド列がない場合、またはキーがバインド列のものである場合は、カスタム例外がスローされます。
+
+プライマリ キーが未定義であっても、このメソッドを使用します。
+
+定義済みのプライマリ キーがある場合、オーバーロード `GridModel.SetUnboundValues(string key, Dictionary<object, object> values)` の使用をお勧めします。この場合、リストを使用するとパフォーマンスに悪影響を及ぼします。行識別子とリスト項目の間に相関関係を作るためデータ ソース全体がトラバースされるためです。値の非バインドリストで項目の順序に従ってリレーションシップを構築します。
+
+リストに含まれるのと同じ数の値を設定します。
+行数がリストの長さより長い場合、残りの行に値は設定されません。
+
+> **注:** プライマリ キーを割り当てず `GridModel.SetUnboundValues (<Column key>, <List of values>)` オーバーロードを使用すると、オーバーロードは、プライマリ キー (またはその他の行識別子) と非バインド値の間にマッピングなしという結果になります。リモートのフィルタリング、並べ替え、ページングを使用する場合にこの点を考慮する必要があります。
+
+`SetUnboundValues` および `MergeUnboundColumns = “true”` を使用する場合、フィルタリング、並べ替え、ページング等の操作を実施後バインド データに非バインド値を追加します。
+
+### <a id="without-primary-key-code"></a> コード
+
+モデル:
+
+**C# の場合:**
+
+```csharp
+namespace UnboundColumns.Models
+{
+    public class Product
+    {
+        public int ProductID { get; set; }
+        public string Name { get; set; }
+        public string ProductNumber { get; set; }
+        public DateTime ReleaseDate { get; set; }
+    }
+}
+```
+
+これは、4 つのフィールドを含む非常にシンプルな Product モデルです。
+
+ビュー:
+
+**C# の場合:**
+
+```csharp
+@using Infragistics.Web.Mvc
+@model GridModel
+@Html.Infragistics().Grid(Model)
+```
+
+ビューは、厳密に型指定された `GridModel` モデルでコントローラー内にグリッドを構成するために使用されており非常にシンプルです。
+
+コントローラー:
+
+**C# の場合:**
+
+```csharp
+public class HomeController : Controller
+{
+    public ActionResult Index()
+    {
+        GridModel gridModel = GetGridModel();
+        return View(gridModel);
+    }
+    private GridModel GetGridModel()
+    {
+        GridModel gridModel = new GridModel();
+        gridModel.DataSource = this.GetProducts().AsQueryable();
+        gridModel.AutoGenerateColumns = false;
+        gridModel.MergeUnboundColumns = true;
+        gridModel.Columns.Add(new UnboundColumn()
+        {
+            Key = "InStock",
+            HeaderText = "In Stock"
+        });
+        List<object> productsInStock =
+        new List<object>();
+        productsInStock.Add(true);
+        productsInStock.Add(false);
+        productsInStock.Add(false);
+        gridModel.SetUnboundValues("InStock", productsInStock);
+        return gridModel;
+    }
+    private List<Product> GetProducts()
+    {
+        List<Product> products = new List<Product>()
+        {
+            new Product() { ProductID = 1, Name = "Adjustable Race", ProductNumber = "AR-5381" },
+            new Product() { ProductID = 2, Name = "Bearing Ball", ProductNumber = "BA-8327" },
+            new Product() { ProductID = 3, Name = "BB Ball Bearing", ProductNumber = "BE-2349" }
+        };
+        return products;
+    }
+}
+```
+
+コントローラーには 3 つのメソッドがります。`GetProducts` は、製品のサンプル リストを返すプライベート メソッドです。公開用の Index アクション メソッドは `GetGridModel` メソッドを呼び出し、その結果を ビューに渡します。`GetGridModel` メソッドは `GridModel` クラスを使用してグリッドを構成します。`PrimaryKey` プロパティが設定されていない点にご注意ください。メソッドの終わりにおいて新しい `List<object>` を作成および設定し、`GridModel.SetUnboundValues` を呼び出します (通常、別のデータ ソースからの値を作成するかオンザフライで計算します)。
+
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [非バインド列をローカルに生成 (igGrid)](igGrid-UnboundColumns-Populating-with-Data-Locally.html): このトピックでは、クライアント上で非バインド列の値を設定する方法をコード例を用いて示します。
+
+- [計算値の描画 (非バインド列、igGrid)](igGrid-UnboundColumns-Rendering-Calculated-Values.html): このトピックは、非バインド列の値を計算するために関数式を設定する方法をコード例を用いて示します。
+
+- [非バインド列の使用時にグリッドのパフォーマンスを最適化](igGrid-UnboundColumns-Optimize-Performance.html): このトピックでは、クライアントベースとサーバーベースの非バインド列の統合とそれぞれの最適化について説明します。また、統合が行われる場合に開発者がプログラム的に制御する方法を示します。
+

@@ -1,0 +1,51 @@
+<!--
+|metadata|
+{
+    "fileName": "whats-new-in-2022-volume1",
+    "controlName": [],
+    "tags": []
+}
+|metadata|
+-->
+
+# 2022 Volume 1 の新機能
+
+このトピックは、%%ProductFamilyName%%™ 2022 Volume 1 リリースの新機能について説明します。
+
+## データ凡例
+
+`igDataLegend` は `Legend` のように機能する新しいコンポーネントですが、シリーズの値の表示や、シリーズの行と値の列のフィルタリング、値のスタイルと書式を設定するための多くの構成プロパティを提供します。この凡例は、さまざまな Ignite UI チャート コントロールのプロット領域内でマウスを動かすと更新されます。
+
+`igDataLegend` についての完全なヘルプ トピックは、以下のリンクにあります。
+
+- [igCategoryChart データ凡例](categorychart-datalegend.html)
+- [igDataChart データ凡例](igdatachart-configuring-datalegend.html)
+- [igFinancialChart データ凡例](financial-chart-datalegend.html)
+
+## データ ツールチップ レイヤー
+
+`DataToolTipLayer` は、シリーズの値とタイトル、およびシリーズの凡例バッジをツールチップに表示する新しい注釈レイヤーです。さらに、シリーズの行と値の列をフィルタリングし、値をスタイル設定し、書式を設定するための XamDataLegend の多くの構成プロパティを提供します。ツールチップの値は、さまざまな Infragistics チャート コントロールのプロット領域内でマウスを動かすと更新されます。
+
+`DataToolTipLayer` は、各 Infragistics チャート コントロールのデフォルトのツールチップ タイプになりました。XamDataChart の `DataToolTipLayer` に存在する各プロパティは、`igCategoryChart`、`igFinancialChart`、および `igShapeChart` コントロールでも使用でき、`DataTooltip` がプレフィックスとして付けられます。
+
+`DataToolTipLayer` についての完全なヘルプ トピックは、以下のリンクにあります。
+
+- [igCategoryChart データ ツールチップ レイヤー](igcategorychart-datatooltip.html)
+- [igDataChart データ ツールチップ レイヤー](igdatachart-configuring-datatooltip.html)
+- [igFinancialChart データ ツールチップ レイヤー](financial-chart-datatooltip.html)
+
+## チャート機能
+=== データ チャート:
+ * 積層シリーズのアニメーションとトランジションインのサポートが追加されました。`IsTransitionInEnabled` プロパティを true に設定すると、アニメーションを有効にできます。そこから、`TransitionInDuration` プロパティを設定してアニメーションが完了するまでの時間を決定し、`TransitionInMode` でアニメーションのタイプを決定できます。
+=== カテゴリ チャー、財務チャート、データ チャート
+ * 追加された `AssigningCategoryStyle` イベントは、DataChart のすべてのシリーズで利用できるようになりました。このイベントは、背景色の `Fill` や強調表示など、シリーズ項目の外観を条件付きで構成する場合に処理されます。
+ * CalloutLayer の新しい `AllowedPositions` 列挙体。チャート内のどこにコールアウトを配置するかを制限するために使用されます。デフォルトでは、コールアウトは最適な場所に配置されますが、これは TopLeft、TopRight、BottomLeft、または BottomRight を強制するために使用されます。
+ * 注釈レイヤーに追加された新しいコーナー半径プロパティ。各コールアウトのコーナーを丸めるために使用されます。コーナー半径がデフォルトで追加されていることに注意してください。
+	- CalloutLayer の `CalloutCornerRadius`
+	- FinalValueLayer の `AxisAnnotationBackgroundCornerRadius`
+	- CrosshairLayer の `XAxisAnnotationBackgroundCornerRadius` と `YAxisAnnotationBackgroundCornerRadius`	
+ * さまざまな方法でスクロールバーを有効にするための新しい `HorizontalViewScrollbarMode` および `VerticalViewScrollbarMode` 列挙体。`IsVerticalZoomEnabled` または `IsHorizontalZoomEnabled` と組み合わせると、チャートをナビゲートするための軸に沿ったスクロールバーを、常設またはフェードインおよびフェードアウトすることができます。
+ * 新しい `FavorLabellingScaleEnd` は、軸がスケールの最後にラベルを表示することを優先するかどうかを決定します。数値軸 (NumericX、NumericY、PercentChangeY など) とのみ互換性があります。
+ * 新しい `IsSplineShapePartOfRange` は、軸に要求された軸範囲にスプライン形状を含めるかどうかを決定します。
+ * 新しい `XAxisMaximumGap` は、`XAxisGap` を使用するときにプロットされたシリーズの最大許容値を決定します。ギャップは、プロットされたシリーズの列またはバー間のスペースの量を決定します。
+ * 新しい `XAxisMinimumGapSize` は、XAxisGap を使用するときに、プロットされたシリーズの最小許容ピクセルベース値を決定し、各カテゴリ間に常にある程度の間隔があることを保証します。

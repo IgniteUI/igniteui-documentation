@@ -1,0 +1,243 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igqrcodebarcode-configuring-the-qr-code-specific-settings",
+    "controlName": "igBarcode",
+    "tags": ["Application Scenarios","How Do I"]
+}
+|metadata|
+-->
+
+# QR コード固有の設定の構成 (igQRCodeBarcode)
+
+
+
+## トピックの概要
+### 目的
+
+このトピックではコード例を使用して、エラー修正レベルやサイズ バージョン、FNC1 モード、アプリケーション インジケーターなど、QR (Quick Response) バーコードに特有の `igQRCodeBarcode`™ コントロール設定を構成する方法を説明します。
+
+### 前提条件
+
+このトピックをより理解するために、以下のトピックを参照することをお勧めします。
+
+- [igQRCodeBarcode の概要](igQRCodeBarcode-Overview.html): このトピックでは、主要機能、最小要件など、`igQRCodeBarcode` コントロールの概念的情報を提供します。
+
+- [igQRCodeBarcode の追加](igQRCodeBarcode-Adding.html): このトピック グループでは、`igQRCodeBarcode` コントロールを HTML ページと ASP.NET MVC アプリケーションに追加する方法を説明します。
+
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [QR コード固有の設定構成の概要](#config-summary)
+-   [エラー修正レベルの構成](#error-correction-level)
+    -   [概要](#error-overview)
+    -   [プロパティ設定](#error-setting)
+    -   [例](#error-overview)
+-   [サイズ バージョンの構成](#config-size-version)
+    -   [概要](#size-version-overview)
+    -   [プロパティ設定](#size-version--settings)
+    -   [例](#size-version--example)
+-   [FNC1 モード の構成](#config-FNC1-mode)
+    -   [概要](#fnc1-overview)
+    -   [プロパティ設定](#fnc1-settings)
+    -   [例](#fnc1-example)
+-   [アプリケーション インジケーターの構成](#config-application-indicator)
+    -   [概要](#app-overview)
+    -   [プロパティ設定](#app-property)
+-   [関連コンテンツ](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+
+
+## <a id="config-summary"></a>QR コード固有の設定構成の概要
+### QR コード固有の設定構成の概要表
+
+以下の表で、QR コード固有の `igQRCodeBarcode` コントロールの設定を簡単に説明し、構成に使用するプロパティにマップします。詳細は、表の後に記載されています。
+
+設定|詳細|プロパティ
+---|---|---
+[エラー修正レベル](#error-correction-level)|バーコードの損傷または汚れで読み取れなくなったエンコード データを復元するための、`igQRCodeBarcode` コントロールに組み込まれた機能|<ul><li>[errorCorrectionLevel](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)</li></ul>
+[サイズ バージョン](#config-size-version)|モジュール数のサイズ バージョン QR コード バーコード マトリックスを指定します。|<ul><li>[sizeVersion](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)</li></ul>
+[FNC1 モード](#config-FNC1-mode)|定義済みのデータ エンコード標準に従い、エンコード データの書式を指定します。|<ul><li>[fnc1Mode](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)</li></ul>
+[アプリケーション インジケーター](#config-application-indicator)|AIM Inc. の関連仕様を特定します。|<ul><li>[applicationIndicator](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)</li></ul>
+
+## <a id="error-correction-level"></a>エラー修正レベルの構成
+### <a id="error-overview"></a>概要
+
+エラー修正レベル機能は、`igQRCodeBarcode` コントロールに組み込まれた機能で、バーコードの損傷または汚れで読み取れなくなったエンコード データを復元します。`igQRCodeBarcode` コントロールには、損傷があった場合に復元できる記号のパーセンテージに応じて、いくつかの修正レベルがあります。QR コードのスキャンのために、高い修正レベルほど、より多くのストレージ容量がユーザーのデバイスで必要になりますのでご注意ください。既定では、15% の記号コードの復元ができるだけのエラー修正レベルに設定されています。
+
+### <a id="error-setting"></a>プロパティ設定
+
+以下の表では、任意の動作をプロパティ設定にマップします。
+
+データ復元レベルを損傷を受けた記号の割合で設定する方法:|使用するプロパティ:|設定の選択肢:
+---|---|---
+7%| [errorCorrectionLevel](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)|<ul><li>“low”</li></ul>
+15% (default)|errorCorrectionLevel| <ul><li>“medium”</li></ul>
+25%|errorCorrectionLevel|<ul><li>“quartil”</li></ul>
+30%|errorCorrectionLevel|<ul><li>“high”</li></ul>
+
+
+
+### <a id="error-overview"></a>例
+
+以下のスクリーンショットは、以下の設定の結果、`igQRCodeBarcode` コントロールの外観がどのようになるか示しています。
+
+プロパティ|値
+---|---
+[width](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options:width)|"200px"
+[height](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options:height)|"200px"
+[data](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options:data)|"http://www.infragistics.com"
+[errorCorrectionLevel](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options:errorCorrectionLevel)|“high”
+
+
+![](images/igQRCodeBarcode_Configuring_the_QR-Code-Specific_Settings_%28igQRCodeBarcode%29_1.png)
+
+以下のコードはこの例を実装します。
+
+**JavaScript の場合:**
+
+  ```js
+  $("#barcode").igQRCodeBarcode({
+        width: "200px",
+        height: "200px",
+        data: "http://www.infragistics.com",
+        errorCorrectionLevel:"high"
+  });
+  ```
+
+
+
+## <a id="config-size-version"></a>サイズ バージョンの構成
+### <a id="size-version-overview"></a>概要
+
+`igQRCodeBarcode` コントロールのサイズ バージョンの設定では、サイズ バージョン QR コード バーコード行列を指定します。サイズ バージョンは、行列をマークアップする黒および白のモジュールを参照します。21x21 のモジュール行列を生成するバージョン 1 から 177x177 モジュールの行列を持つバージョン 40 まで、40 のサイズ バージョンがサポートされています。サイズ バージョンが明示的に設定されていない場合は、使用するデータの格納に最小バージョンが使用されます。すべてのサイズ バージョンおよびそれが表すモジュール数の一覧については、「[igQRCodeBarcode jQuery API](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)」ページを参照してください。
+
+### <a id="size-version--settings"></a>プロパティ設定
+
+以下の表では、目的の動作をプロパティ設定にマップしています。
+
+モジュール行列のサイズを指定する方法:|使用するプロパティ:|設定の選択肢:
+---|---|---
+データを格納する最も小さいバージョン|[sizeVersion](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)|<ul><li>“undefined”</li></ul>
+21x21 モジュール行列|sizeVersion|<ul><li>“version1”</li></ul>
+
+
+
+### <a id="size-version--example"></a>例
+
+以下のスクリーンショットは、以下の設定の結果、`igQRCodeBarcode` コントロールの外観がどのようになるか示しています。
+
+プロパティ|値
+---|---
+[width](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)|"200px"
+[height](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)|"200px"
+[data](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)|"http://www.infragistics.com"
+[sizeVersion](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)|“version7”
+
+![](images/igQRCodeBarcode_Configuring_the_QR-Code-Specific_Settings_%28igQRCodeBarcode%29_2.png)
+
+以下のコードはこの例を実装します。
+
+**JavaScript の場合:**
+
+```js
+$("#barcode").igQRCodeBarcode({
+    width: "200px",
+    height: "200px",
+    data: "http://www.infragistics.com",
+    sizeVersion:"version7"
+});
+```
+
+
+
+## <a id="config-FNC1-mode"></a>FNC1 モード の構成
+###<a id="fnc1-overview"></a>概要
+
+`igQRCodeBarcode` コントロールの FNC1 モード設定は、定義済みのデータ エンコード標準に従いエンコード データの書式を指定します。FNC1 モード設定はバーコード全体に適用され、後続のモード インジケーターによる影響はありません。
+
+### <a id="fnc1-settings"></a>プロパティ設定
+
+以下の表では、目的の動作をプロパティ設定にマップしています。
+
+目的:|使用するプロパティ:|設定の選択肢:
+---|---|---
+定義済みの固有のエンコード仕様でデータがエンコード済みと識別されていないと指定する|[fnc1Mode](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)|<ul><li>"none"</li></ul>
+[GS1 General Specification](http://www.gs1.org/genspecs) でデータがエンコード済みであると指定する|fnc1Mode|<ul><li>“gs1”</li></ul>
+AIM Inc. によって合意された特定の産業アプリケーションでデータがエンコード済みであると指定する|fnc1Mode|<ul><li>“industry”</li></ul>
+
+### <a id="fnc1-example"></a>例
+
+以下のスクリーンショットは、以下の設定の結果、`igQRCodeBarcode` コントロールの外観がどのようになるか示しています。
+
+プロパティ|値
+---|---
+[width](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)|"200px"
+[height](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)|"200px"
+[data](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)|"(15)679356"
+[fnc1Mode](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options)|“gs1”
+
+
+![](images/igQRCodeBarcode_Configuring_the_QR-Code-Specific_Settings_%28igQRCodeBarcode%29_3.png)
+
+以下のコードはこの例を実装します。
+
+**JavaScript の場合:**
+
+```js
+$("#barcode").igQRCodeBarcode({
+    width: "200px",
+    height: "200px",
+    data: "(15)679356",
+    fnc1Mode:"gs1"
+});
+```
+
+
+
+## <a id="config-application-indicator"></a>アプリケーション インジケーターの構成
+### <a id="app-overview"></a>概要
+
+アプリケーション インジケーターは、AIM Inc. の関連仕様を識別します。`fnc1Mode` プロパティを industry に設定するなど、Industry FNC1 モードでのみ使用されます。
+
+### <a id="app-property"></a>プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+目的:|使用するプロパティ:|設定の選択肢:
+---|---|---
+アプリケーション インジケーターの設定|[applicationIndicator](%%jQueryApiUrl%%/ui.igQRCodeBarcode#options:applicationIndicator)|AIM Inc. 仕様のコードを表す文字列です。{a - z, A - Z} に含まれる記号や 2 桁の数字を表す記号、AIM Inc. 関連の仕様を意味する記号などを設定できます。
+
+
+## <a id="related-content"></a>関連コンテンツ
+### <a id="topics"></a>トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [QR バーコードのサイズの構成 (igQRCodeBarcode)](igQRCodeBarcode-Configuring-the-Dimensions.html): このトピックは、ストレッチや塗りつぶし、最小サイズ要素のサイズなど、igQRCodeBarcode コントロールのサイズや寸法に関わる要素の設定方法について示します。
+
+- [文字エンコードの構成 (igQRCodeBarcode)](igQRCodeBarcode-Configuring-the-Character-Encoding.html): このトピックは、`igQRCodeBarcode` コントロールで文字エンコードを任意に構成する方法を説明します。
+
+- [jQuery および MVC API リファレンス リンク (igQRCodeBarcode)](igQRCodeBarcode-API-Links.html): このトピックでは、`igQRCodeBarcode` コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+
+
+### <a id="samples"></a>サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [QR コード固有の設定の構成](%%SamplesUrl%%/barcode/configuring-the-qr-code-specific-settings): このサンプルでは、QR コード固有の設定の構成について紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

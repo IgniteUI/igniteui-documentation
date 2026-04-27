@@ -1,0 +1,58 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igscroll-known-issues",
+    "controlName": "igScroll",
+    "tags": ["Scroll","Known Issues","Tips and Tricks"]
+}
+|metadata|
+-->
+
+# 既知の問題と制限 (igScroll)
+
+
+以下の表に、igScroll™ コントロールの既知の問題点と制限事項を簡単に説明します。以下の表は、一部の問題の詳細な説明とその回避策を示します。
+
+**凡例:**
+<table class="table">
+	<tbody>
+		<tr>
+			<td>![](images/positive.png)</td>
+			<td>回避策</td>
+		</tr>
+		<tr>
+			<td>![](images/negative.png)</td>
+			<td>既知の回避策はありません</td>
+		</tr>
+		<tr>
+			<td>![](images/plannedFix.png)</td>
+			<td>既知の回避策はありません。修正予定です</td>
+		</tr>
+	</tbody>
+</table>
+
+## [igScroll – 全般](#scroll-general)
+
+問題|説明|状態
+------|-------------|-------
+[igScroll が最初に非表示になる要素で初期化すると、スクロールが動作しない。](#initially-hidden)|igScroll を非表示の要素で初期化すると、要素が表示された後にスクロールバーが表示されず、スクロールが動作しません。| ![](images/positive.png)
+igScroll でターゲット要素の `tabIndex` 属性を設定せず、フォーカスできない場合、キーボード インタラクションが動作しない。|igScroll 要素がフォーカスされている場合のみキーボード インタラクションが可能です。要素のフォーカスが有効でない (`tabIndex` 属性がない) 場合、キーボード インタラクションを起動できません。 | ![](images/negative.png)
+igScroll インスタンスを持つ 2 つの要素が同期化される場合、1 つの要素をスクロールすると、その他の要素にスクロールバーを表示しない。|2 つの要素が [`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH)/[`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) プロパティによって同期化され、両方の要素で igScroll インスタンスが初期化される場合、1 つの要素がスクロールされると、その他の要素にスクロールバーが表示されません。| ![](images/negative.png)
+
+## <a id="scroll-general"></a> igScroll – 全般
+
+### <a id="initially-hidden"></a> igScroll を初期設定で非表示の要素で初期化すると、スクロールが動作しない。
+
+ igScroll を初期設定で非表示の要素で初期化すると、要素が表示された後にスクロールバーが表示されず、スクロールが動作しません。
+ 
+> **回避方法** 
+> 
+> コンテナーが表示された後、[`scrollHeight`](%%jQueryApiUrl%%/ui.igscroll#options:scrollHeight)/[`scrollWidth`](%%jQueryApiUrl%%/ui.igscroll#options:scrollWidth) オプションを関連するコンテナーの高さおよび幅に設定します。
+
+## 関連コンテンツ
+
+### トピック
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+- [igScroll](igScroll.html) - このトピックのグループは、igScroll コントロールの機能について説明します。

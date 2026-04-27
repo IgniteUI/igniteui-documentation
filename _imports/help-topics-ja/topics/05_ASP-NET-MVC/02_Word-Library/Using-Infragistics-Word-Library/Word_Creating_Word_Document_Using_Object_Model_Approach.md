@@ -1,0 +1,263 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "word-creating-word-document-using-object-model-approach",
+    "controlName": "Infragistics Word Library",
+    "tags": ["Getting Started","How Do I"]
+}
+|metadata|
+-->
+
+# オブジェクト モデル アプローチで Word 文書を作成
+
+このトピックは、オブジェクト モデル アプローチを使用して Microsoft® Word® ドキュメントおよびレイアウト要素を作成する方法を説明します。
+
+## 概要
+トピックは以下のとおりです。
+
+-   [単純な Word 文書の作成](#CreateSimpleDoc)
+-   [ハイパーリンクの追加](#AddHyperlink)
+-   [ピクチャの追加](#AddPic)
+    -   [アンカー固定した画像の追加](#AddAnchPic)
+    -   [インライン画像の追加](#AddInlinePic)
+-   [ヘッダーとフッターの設定](#HeaderFooter)
+    -   [ヘッダーの追加と設定](#Header)
+    -   [フッターの追加と設定](#Footer)
+-   [コード例: 完全なコード例](#ExCode)
+-   [関連トピック](#RelatedTopics)
+
+## <a id="CreateSimpleDoc"></a> 単純な Word 文書の作成
+Word 文書全体は、[Document](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document.html) クラスでカプセル化されます。Document クラスはオブジェクト階層のルート レベルのエンティティで、この下にすべての他のオブジェクトがグループ化されています。段落およびテーブルなどのブロック レベルのコンテンツのコンテナーとして使用されます。ブロック レベルのコンテンツは、[ContentBlocks](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document~ContentBlocks.html) コレクション内に含まれます。
+
+ドキュメントの個々のパラグラフは、[Paragraph](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Paragraph.html) クラスでカプセル化されます。Paragraph クラスは、[ContentRuns](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Paragraph~ContentRuns.html) コレクションを公開します。これはコンテンツをパラグラフに追加する方法を提供します。
+
+Word 文書を生成するには、Document クラスのインスタンスを作成し、公開されているプロパティとメソッドを使用して作業し、そして [Save](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document~Save.html) メソッドを呼び出します。
+
+Author、Title、Subject などの Word 文書のさまざまなプロパティは、 [DocumentProperties](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Document~DocumentProperties.html) プロパティを使用して設定できます。Office ボタンをクリックして、[準備] > [プロパティ] セクションを指定することによって、Word 2007 でこれらの情報にアクセスできます。Word 2010 で同様に、[ファイル] タブをクリックすることによって、Backstage ビューの右側からドキュメント プロパティにアクセスできます。
+
+**C# の場合:**
+
+```csharp
+using Infragistics.Documents.Word;
+
+string documentName = @"C:TestWordDOMDoc.docx";
+Document doc = new Document();
+// Set the document properties, such as title, author, etc.
+doc.DocumentProperties.Title = "Sample Document";
+doc.DocumentProperties.Author = string.Format("Infragistics.{0}", SystemInformation.UserName);
+Infragistics.Documents.Word.Font font = doc.CreateFont();
+font.Bold = true;
+font.Size = 15;
+font.Underline = Underline.Double;
+// Add a Paragraph to the document
+Paragraph para1 = doc.ContentBlocks.AddParagraph();
+para1.ContentRuns.AddTextRun("Sample Word Document with Hyperlinks,Images,Headers and Footers", font);
+```
+
+## <a id="AddHyperlink"></a> ハイパーリンクを Word 文書に追加
+Infragistics Word ライブラリはハイパーリンクをサポートします。[AddHyperlink](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddHyperlink.html) メソッドは、TextHyperlink を関連付けられたパラグラフに追加します。
+
+**C# の場合:**
+
+```csharp
+using Infragistics.Documents.Word;
+
+// Add a Paragraph to the document
+Paragraph para2 = doc.ContentBlocks.AddParagraph();
+para2.ContentRuns.AddTextRun("Hyperlink:  ");
+// Add a Hyperlink
+para2.ContentRuns.AddHyperlink("http://www.infragistics.com", "Infragistics Inc.");
+```
+
+## <a id="AddPic"></a> ピクチャの追加
+### <a id="AddAnchPic"></a> アンカー固定した画像の追加
+[AnchoredPicture](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.AnchoredPicture.html) クラスは、ドキュメント内の固有の場所にアンカー固定される画像をカプセル化します。[AddAnchoredPicture](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.AnchorsCollection~AddAnchoredPicture.html) メソッドは、アンカー固定された画像を関連付けられたパラグラフに追加します。
+
+**C# の場合:**
+
+```csharp
+using Infragistics.Documents.Word;
+
+// Get Image
+Image img = Image.FromFile(@"....Ballon_New_Year.jpg");
+// Add a paragraph to the Document
+Paragraph para3 = doc.ContentBlocks.AddParagraph();
+para3.ContentRuns.AddTextRun("Anchored Picture: An Anchored picture or image is one that is anchored to a specific location within the document. Unlike an inline picture, which moves along with adjacent content, an Anchored Picture remains at a fixed location within the paragraph, with adjacent text flowing around it.");
+
+// Create an Anchored picture
+AnchoredPicture anchPic = doc.CreateAnchoredPicture(img);
+// Assign the picture outline properties for anchored image
+anchPic.AlternateTextDescription = "Word Image";
+anchPic.Outline.Color = Color.Brown;
+anchPic.Outline.Style = PictureOutlineStyle.Single;
+anchPic.Outline.LineWidth = 1;
+// Add the Anchored picture to anchor section of the paragraph
+para3.Anchors.AddAnchoredPicture(anchPic);
+```
+
+### <a id="AddInlinePic"></a> インライン画像の追加
+[InlinePicture](Infragistics.Web.Documents.IO~Infragistics.Documents.Word.InlinePicture.html) クラスは、画像をカプセル化し、ドキュメント内のテキスト コンテンツと共にインライン表示します。[AddInlinePicture](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddInlinePicture.html) メソッドは、インライン画像を関連付けられたパラグラフに追加します。
+
+**C# の場合:**
+
+```csharp
+using Infragistics.Documents.Word;
+
+// Get Image
+Image img = Image.FromFile(@"....Ballon_New_Year.jpg");
+
+// Add a Paragraph to the document
+Paragraph para4 = doc.ContentBlocks.AddParagraph();
+para4.ContentRuns.AddTextRun("Inline Picture: An inline picture moves with the adjacent content");
+
+// Create an Inline picture
+InlinePicture inlinePic = doc.CreateInlinePicture(img);
+inlinePic.AlternateTextDescription = "Word Image";
+// Add the Inline picture to a content section of the paragraph
+para4.ContentRuns.AddInlinePicture(inlinePic);
+```
+[Section](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.Section.html) クラスは、改ページ プロパティおよびドキュメント セクションのヘッダー/フッター コンテンツをカプセル化します。
+
+## <a id="HeaderFooter"></a> ヘッダーとフッターの設定
+### <a id="Header"></a> ヘッダーの追加と設定
+以下のコード例は、すべてのページのヘッダー セクションにテキストと画像を表示する方法を示します。
+
+**C# の場合:**
+
+```csharp
+using Infragistics.Documents.Word;
+
+// Add a paragraph to the Document
+Paragraph para5 = doc.ContentBlocks.AddParagraph();
+// Add text to Paragraph
+Section sec = doc.Sections.Add(para5);
+
+// Header
+Paragraph headerPara = sec.HeaderAllPages.ContentBlocks.AddParagraph();
+// The header text alignment is set to right
+headerPara.Properties.Alignment = ParagraphAlignment.Right;
+// Create an Anchored Image to display in the Header
+AnchoredPicture headeranchPic = doc.CreateAnchoredPicture(img);
+// Display Anchored Image in Header
+headerPara.Anchors.AddAnchoredPicture(headeranchPic);
+// Display Text in Header
+headerPara.ContentRuns.AddTextRun("This is a header");
+```
+
+### <a id="Footer"></a> フッターの追加と設定
+[AddPageNumberField](Infragistics.Web.Documents.Word~Infragistics.Documents.Word.ContentRunsCollection~AddPageNumberField.html) メソッドは、PageNumberField を関連付けられたパラグラフに追加します。
+
+**C# の場合:**
+
+```csharp
+using Infragistics.Documents.Word;
+
+// Add a paragraph to the Document
+Paragraph para5 = doc.ContentBlocks.AddParagraph();
+// Add section which defines pagination for specified paragraph
+Section sec = doc.Sections.Add(para5);
+
+//Footer
+Paragraph footerPara = sec.FooterAllPages.ContentBlocks.AddParagraph();
+// The footer text alignment is set to right
+footerPara.Properties.Alignment = ParagraphAlignment.Right;
+// Display Text in Footer
+footerPara.ContentRuns.AddTextRun("This is a footer");
+// Add Page numbers to the Footer
+footerPara.ContentRuns.AddPageNumberField(PageNumberFieldFormat.Ordinal);
+```
+
+## <a id="ExCode"></a> コード例: 完全なコード例
+以下は、このトピックの例で使用される完全なコードです。
+
+**C# の場合:**
+
+```csharp
+using Infragistics.Documents.Word;
+
+string documentName = @"C:TestWordDOMDoc.docx";
+Document doc = new Document();
+// Set the document properties, such as title, author, etc.
+doc.DocumentProperties.Title = "Sample Document";
+doc.DocumentProperties.Author = string.Format("Infragistics.{0}", SystemInformation.UserName);
+Infragistics.Documents.Word.Font font = doc.CreateFont();
+font.Bold = true;
+font.Size = 15;
+font.Underline = Underline.Double;
+// Add a Paragraph to the document
+Paragraph para1 = doc.ContentBlocks.AddParagraph();
+para1.ContentRuns.AddTextRun("Sample Word Document with Hyperlinks,Images,Headers and Footers", font);
+para1.ContentRuns.AddNewLine();
+Paragraph para2 = doc.ContentBlocks.AddParagraph();
+para2.ContentRuns.AddTextRun("Hyperlink:  ");
+
+// Add a Hyperlink
+para2.ContentRuns.AddHyperlink("http://www.infragistics.com", "Infragistics Inc.");
+para2.ContentRuns.AddNewLine();
+
+// Get Image
+Image img = Image.FromFile(@"....Ballon_New_Year.jpg");
+// Add a paragraph to the Document
+Paragraph para3 = doc.ContentBlocks.AddParagraph();
+para3.ContentRuns.AddTextRun("Anchored Picture: An Anchored picture or image is one that is anchored to a specific location within the document. Unlike an inline picture, which moves along with adjacent content, an Anchored Picture remains at a fixed location within the paragraph, with adjacent text flowing around it.");
+
+// Create an Anchored picture
+AnchoredPicture anchPic = doc.CreateAnchoredPicture(img);
+// Assign the picture outline properties for anchored image
+anchPic.AlternateTextDescription = "Word Image";
+anchPic.Outline.Color = Color.Brown;
+anchPic.Outline.Style = PictureOutlineStyle.Single;
+anchPic.Outline.LineWidth = 1;
+// Add the Anchored picture to anchor section of the paragraph
+para3.Anchors.AddAnchoredPicture(anchPic);
+
+// Add a Paragraph to the document
+Paragraph para4 = doc.ContentBlocks.AddParagraph();
+para4.ContentRuns.AddTextRun("Inline Picture: An inline picture moves with the adjacent content");
+
+// Create an Inline picture
+InlinePicture inlinePic = doc.CreateInlinePicture(img);
+inlinePic.AlternateTextDescription = "Word Image";
+// Add the Inline picture to a content section of the paragraph
+para4.ContentRuns.AddInlinePicture(inlinePic);
+
+// Add a paragraph to the Document
+Paragraph para5 = doc.ContentBlocks.AddParagraph();
+// Add text to Paragraph
+Section sec = doc.Sections.Add(para5);
+// Header
+Paragraph headerPara = sec.HeaderAllPages.ContentBlocks.AddParagraph();
+// The header text alignment is set to right
+headerPara.Properties.Alignment = ParagraphAlignment.Right;
+// Create an Anchored Image to display in the Header
+AnchoredPicture headeranchPic = doc.CreateAnchoredPicture(img);
+// Display Anchored Image in Header
+headerPara.Anchors.AddAnchoredPicture(headeranchPic);
+// Display Text in Header
+headerPara.ContentRuns.AddTextRun("This is a header");
+
+//Footer
+Paragraph footerPara = sec.FooterAllPages.ContentBlocks.AddParagraph();
+// The footer text alignment is set to right
+footerPara.Properties.Alignment = ParagraphAlignment.Right;
+// Display Text in Footer
+footerPara.ContentRuns.AddTextRun("This is a footer");
+// Add Page numbers to the Footer
+footerPara.ContentRuns.AddPageNumberField(PageNumberFieldFormat.Ordinal);
+
+doc.Save(documentName);
+```
+
+## <a id="RelatedTopics"></a> 関連トピック
+-   [Word 文書の作成](Word-Create-a-Word-Document.html)
+-   [書式設定を Word 文書に適用](Word-Apply-Formatting-to-Word-Document.html)
+-   [テーブルを Word 文書に追加](Word-Add-Table-to-Word-Document.html)
+-   [画像を Word 文書に追加](Word-Add-Images-to-Word-Document.html)
+-   [ヘッダー、フッター、ページ番号](Word-Headers-Footers-and-Page-Numbers.html)
+-   [Infragistics Word ライブラリの理解](Word-Understanding-Infragistics-Word-Library.html)
+
+ 
+
+ 
+
+

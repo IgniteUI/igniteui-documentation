@@ -1,0 +1,141 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igdateeditor-overview",
+    "controlName": "igEditors",
+    "tags": ["Editing","Getting Started"]
+}
+|metadata|
+-->
+
+# igDateEditor の概要
+
+
+%%ProductName%%™ 日付エディター、つまり `igDateEditor` は日付に書式設定されたデータを編集できる入力フィールドを描画するコントロールです。`igDateEditor` コントロールはローカライズおよび様々な地域オプションをサポートします。
+
+`igDateEditor` コントロールは、任意のサーバー技術を使用する作業を構成できる豊富なクライアント側 API を公開します。%%ProductName%%™ のコントロールはサーバー非依存ですが、Microsoft® ASP.NET MVC Framework 専用の %%ProductNameMVC%% の一部として含まれるコントロールでは、希望する .NET™ 言語を使用して構成できます。
+
+`igDateEditor` コントロールは、大幅にスタイル変更ができるため、デフォルトのスタイルとまったく異なるルック アンド フィールのコントロールを実現できます。スタイル設定オプションでは、独自のスタイルも jQuery UI の ThemeRoller のスタイルも使用できます。
+
+>**注:** 新しい日付エディターの大きな変更点の 1 つは、リストとドロップダウンのサポートが廃止されたことです。ドロップダウンやリストに関連するメソッドを使用しようとすると、メソッドが使用できないことを通知するメッセージが表示されます。 
+
+図 1: ユーザーに描画された `igDateEditor`
+
+![](images/igDateEditor.png)
+
+## 機能
+
+`igDateEditor` には次のような特徴があります。
+
+-   全体のテーマのサポート
+-   検証
+-   [カスタム入力フォーマットの定義](#date-time-formats)
+-   [カスタム表示形式の定義](#date-time-formats)
+-   最小値と最大値の設定
+-   ローカライズ
+-   JavaScript クライアント API
+-   ASP.NET MVC
+
+## igDateEditor の Web ページへの追加
+
+1.  最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
+2.  ご自分の HTML ページまたは ASP.NET MVC View で、必要な JavaScript ファイル、CSS ファイル、および ASP.NET MVC アセンブリを参照してください。
+
+    **HTML の場合:**
+
+    ```html
+    <link type="text/css" href="/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+    <link type="text/css" href="/css/structure/infragistics.css" rel="stylesheet" />
+    <script type="text/javascript" src="/Scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/Scripts/Samples/infragistics.core.js"></script>
+	<script type="text/javascript" src="/Scripts/Samples/infragistics.lob.js"></script>
+    ```
+
+    **Razor の場合:**
+
+    ```csharp
+    @using Infragistics.Web.Mvc;
+
+    <link type="text/css" href="@Url.Content("~/css/themes/infragistics/infragistics.theme.css")" rel="stylesheet" />
+    <link type="text/css" href="@Url.Content("~/css/structure/infragistics.css")" rel="stylesheet" />
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Samples/infragistics.core.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/Samples/infragistics.lob.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Samples/modules/i18n/regional/infragistics.ui.regional-en.js")"></script>
+    ```
+
+3.  jQuery の実装では、HTML 内のターゲット要素として INPUT、DIV、または SPAN を作成します。ASP.NET MVC の実装では、含める要素を %%ProductNameMVC%% が作成するため、この手順はオプションです。
+
+    **HTML の場合:**
+
+    ```html
+    <input id="dateEditor"/>
+    ```
+
+4. 上記の手順完了後、日付エディターを初期化します。
+
+    > **注:** ASP.NET MVC View では、その他のオプションをすべて設定した後で `Render` メソッドを呼び出す必要があります。
+
+    **JavaScript の場合:**
+
+    ```js
+    <script type="text/javascript">
+          $('#dateEditor').igDateEditor();
+    </script>
+    ```
+
+    **Razor の場合:**
+
+    ```csharp
+    @(Html.Infragistics().DateEditor()
+                 .ID("dateEditor")
+                 .Render())
+    ```
+
+5.  Web ページを実行し、`igDateEditor` コントロールの基本セットアップを表示します。
+
+## Value オプションの正しい設定
+
+このトピックのこのセクションでは、一般的に使用されるいくつかのシナリオや特定のシナリオで、`igDateEditor` が value オプションの設定をどのように処理するかを示します。
+
+value が空で編集モードの場合は、日のみなど日付の一部を入力します。日付の他の部分は日付オブジェクトによって生成されます。これは、日付オブジェクトが現在の日付を取得して、日付の足りない部分を補うことを意味します。 たとえば、現在の Date が 2017 年 1 月 1 日 で、[`dateInputFormat`](%%jQueryApiUrl%%/ui.igdateeditor#options:dateInputFormat) を "dd" に設定した場合、ユーザーが "25" を入力すると、年は 2017 年になり、月は 1 月になります。結果として 2017 年 1 月 25 日になります。
+
+すでに入力された値の一部の日を削除した場合、入力がぼかしになり、エディターが前回入力された日付から足りない部分を補います。たとえば、2015 年 2 月 28 日が入力されている場合に日を削除すると、入力がぼかしになった後で、日付は 2 月 28 日に戻ります。
+
+日付の単一フィールドを変更すると、エディターは新しく作成された日付が正しいかどうかを検証します。正しくない場合は再計算されます。たとえば、最初に入力された日付値が `2016/01/31` で、月を 2 月に変更します。2 月は 29 日迄のため、エディターは日フィールドを再計算します。日付は `2016/02/29` になります。また、日フィールドのみを変更した場合、たとえば、`2016/02/29` の日付を手動で `2016/02/30` に変更すると、エディターは日フィールドを 29 に戻します。存在しない日付の場合、存在する日付に変更されます。
+
+特定の月の最後の日に設定されるその他のケースもあります。たとえば編集モードで月のみを入力した場合、エディターは JavaScript Date オブジェクトを使用して日付を作成しようとします。つまり、最初に設定された値は `2016/01/31` です。エディターにフォーカスして、月フィールドに 2 を入力すると、編集モードの日付は `__/_2/__` になります。エディターは以前使用された年および日を使用しますが、2 月は 29 日迄です。この日付 (2016/02/31) は 2 月最終日の 2 日後ですので、JavaScript オブジェクトは `2016/02/29` に 2 日を追加し、日付は `2016/03/02` になります。
+
+注意が必要な最後のシナリオは、値に誤りがある場合です。たとえば、2015 年 2 月 29 日と入力すると、2015 年がうるう年ではないため、エディターは自動的に日付を修正します。表示される日付は、2015 年 2 月 28 日になります。
+
+`minValue`、`maxValue`、および `value` オプションで文字列値を使用する場合、エディターは JavaScript Date オブジェクトのコンストラクターを使用して日付オブジェクトを作成し、相対するオプションの値として使用します。
+>**注:** このプロパティは、日付を取得するために `dateInputFormat` 設定を使用しません。 
+
+## <a id="date-time-formats"></a> 日付と時刻書式設定
+
+[`dateInputFormat`](%%jQueryApiUrl%%/ui.igdateeditor#options:dateInputFormat) および [`dateDisplayFormat`](%%jQueryApiUrl%%/ui.igdateeditor#options:dateDisplayFormat) オプションは、コントロールが編集されている場合および値を表示している場合に日付の書式設定を制御します。表示書式設定が提供されていない場合、入力書式設定になります。
+
+サポートされる書式設定は[日付の書式設定](Formatting-Dates-Numbers-and-Strings.html)の一般パターンに基づきます。`"date"` (デフォルト) または `"dateTime"` などのプリセットは地域オプションに定義されるパターンにマップします。日付指定子の共有セットを使用して書式設定を定義できます。たとえば、`"dd/MM/yyyy HH:mm"` の書式設定が "25/01/2017 16:35" のような日付を表示します。`"MM"` は月の数を表示、`"MMM"` は月の短い名前を表示し、`"HH"` は時間を 24 時形式で表示し、`"mm"` は分数を表示します。日付部分以外の文字 (スペースまたは「.」) がリテラルとして使用され、リテラルになるためにフラグをエスケープできます。
+
+>**注:** [`dateInputFormat`](%%jQueryApiUrl%%/ui.igdateeditor#options:dateInputFormat) オプションはほとんどの短い数値指定子をサポートしません (先頭 0 なしの月数の `"M"` など)。値が編集中または入力されなかった場合は適用できません。この場合、エディターは月のために 2 つのプロンプトを提供し、編集モードで `"MM"` を結果的に使用しています。
+
+このサンプルでは、日付エディターに日付と時間を書式設定する構成を紹介します。
+
+<div class="embed-sample">
+[%%SamplesEmbedUrl%%/editors/date-and-time-formats](%%SamplesEmbedUrl%%/editors/date-and-time-formats)
+</div>
+
+## 関連リンク
+
+-   [日付エディター サンプル](%%SamplesUrl%%/editors/date-editor) 
+-   [%%ProductName%% の概要](IgniteUI-for-jQuery-Overview.html)
+-   [%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)
+
+ 
+
+ 
+
+

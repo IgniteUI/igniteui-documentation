@@ -1,0 +1,204 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "deployment-guide-infragistics-content-delivery-network(cdn)",
+    "controlName": [],
+    "tags": []
+}
+|metadata|
+-->
+
+# %%ProductName%% 対応 Infragistics コンテンツ配信ネットワーク (CDN)
+
+##トピックの概要
+
+
+#### 目的
+
+このトピックでは、コンテンツ配信ネットワーク (CDN) サポートを有効にし、 Infragistics® CDN に切り替える方法を示します。
+
+#### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+-  [Infragistics コンテンツ配信ネットワーク (CDN)](http://en.wikipedia.org/wiki/Content_delivery_network)
+
+
+- [%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、Web アプリケーションで %%ProductName%% JavaScript を操作して、必要なリソースを管理する方法について説明します。
+
+- [Infragistics Loader の使用](Using-Infragistics-Loader.html): このトピックでは、Infragistics Loader を使用して %%ProductName%% を使用して作業するために必要なリソースを管理する方法について説明します。
+
+
+#### このトピックの内容
+
+-   [CDN のサポートを有効にする](#enableCDNsupportSummary)
+-   [標準 HTML ページの CDN サポートを有効にする](#enableCDNsupport)
+   -   [標準 HTML ページの CDN サポートを有効にする - 概要](#SummaryCDNsupport)
+    -   [CDN ホスト JavaScript および CSS ファイルを静的に参照する](#CDNhostedjsAndCss)
+    -   [ローダーを使用して CDN ホスト JavaScript および CSS ファイルを参照する](#CDNhostedjsAndCssLoader)
+-   [ASP.NET MVC の CDN サポートを有効にする](#MVCenableCDN)
+   -   [ASP.NET MVC の CDN サポートを有効にする - 概要](#MVCenableCDNsummary)
+    -   [CDN ホスト JavaScript ファイルを静的に参照する](#JSCDNstatically)
+    -   [ローダーを使用して CDN ホスト JavaScript および CSS ファイルを参照する](#JS_loader_CDN)
+-   [Infragistics CDN](#_Infragistics_CDN)
+
+
+
+##CDN のサポートを有効にする - 概要
+
+
+####<a id="enableCDNsupportSummary"></a> CDN のサポートを有効にする - サマリー
+
+CDN サポートを有効にするには、必要なリソースの参照を、ローカル サーバーではなく CDN 上のそれらのリソースのインスタンスを指すようにする必要があります。CDN のファイルは、ローカル マシンと同じフォルダー構造で配置されます。参照オプションも同じです。つまり、リソースを静的に参照することも Infragistics Loader で参照することもできます。
+
+これらのリソースを参照するルート URL には、%%ProductName%% のボリューム番号とリソースのバージョン番号が含まれています。
+
+>**注:** %%ProductName%% 2012 Volume 2 で開始、CDN の新しい「latest」(最新バージョン) の URL があります。トライアル版の CDN リソースにアクセスするために、この URL はトピックおよびヘルプで使用されます。この URL は自動的に %%ProductName%% 製品の最新のサービス リリース バージョンに更新されます。ページでトライアル版ウォーターマークを表示します。製品版 (トライアル版にあるウォーターマークがありません) の URL を使用するには、Infragistics Web サイトの [キーとダウンロード](https://jp.infragistics.com/my-account/keys-and-downloads/) ページで選択した製品の*ソース コード* タブを参照してください。
+
+>**注:** 例は、非セキュア URL の使用のみ示します。セキュアな URL では、非セキュア プロトコル http の代わりに[セキュアなプロトコル https](http://ja.wikipedia.org/wiki/HTTPS) を使用する必要があります。
+
+>**注:** 13.1 リリースより、**GZip 圧縮**応答に対応するブラウザーのみ Infragistics CDN でサポートされます。
+
+
+
+##<a id="enableCDNsupport"></a>標準 HTML ページの CDN サポートを有効にする
+
+
+####<a id="SummaryCDNsupport"></a> 標準 HTML ページの CDN サポートを有効にする - 概要
+
+以下のブロックでは、標準 HTML ページのリソースの静的あるいは Infragistics Loader を使用した参照を示します。
+
+詳細については、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」のトピックを参照してください。
+
+####<a id="CDNhostedjsAndCss"></a>CDN ホスト JavaScript および CSS ファイルを静的に参照する
+
+以下のコードは、HTML ページで [Infragistics CDN](#infragistics-cdn) からトライアル版 JavaScript およびスタイル ファイルを参照する方法を示します。
+
+**HTML の場合:**
+
+```html
+<link href="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/css/themes/infragistics/infragistics.theme.css"rel="stylesheet" type="text/css" />
+<link href="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/css/structure/infragistics.css" rel="stylesheet" type="text/css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+<script src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.core.js" type="text/javascript"></script>
+<script src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.lob.js" type="text/javascript"></script>
+<script src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.dv.js" type="text/javascript"></script>
+```
+
+####<a id="CDNhostedjsAndCssLoader"></a> ローダーを使用して CDN ホスト JavaScript および CSS ファイルを参照する
+
+以下のコードは、Infragistics Loader を使用して HTML ページで [Infragistics CDN](#infragistics-cdn) から静的 JavaScript およびスタイル ファイルを参照する方法を示します。
+
+**HTML の場合:**
+
+```html
+<script src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.loader.js"></script>
+```
+
+**JavaScript の場合:**
+
+```js
+$.ig.loader({
+            scriptPath: "http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/",
+            cssPath: "http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/css/"
+        });
+```
+
+
+
+##<a id="MVCenableCDN"></a>ASP.NET MVC の CDN サポートを有効にする
+
+
+####<a id="MVCenableCDNsummary"></a> ASP.NET MVC の CDN サポートを有効にする - 概要
+
+以下のブロックでは、ASP.NET MVC のリソースを手動あるいは Infragistics Loader を使用して参照する方法を示します。この例は、圧縮 JavaScript ファイルおよび ASP.NET MVC ラッパーの参照を示します。
+
+詳細については、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」のトピックを参照してください。
+
+####<a id="JSCDNstatically"></a> CDN ホスト JavaScript ファイルを静的に参照する
+
+以下のコードは、ASP.NET MVC で [Infragistics CDN](#infragistics-cdn) から圧縮 JavaScript を静的に参照する方法を示します。
+
+**ASPX の場合:**
+
+```csharp
+<%@ Import Namespace="Infragistics.Web.Mvc" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+<link href="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" type="text/css" />
+<link href="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/css/structure/infragistics.css" rel="stylesheet" type="text/css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+<script src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.core.js" type="text/javascript"></script>
+<script src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.lob.js" type="text/javascript"></script>
+<script src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.dv.js" type="text/javascript"></script>
+</head>
+```
+
+####<a id="JS_loader_CDN"></a> ローダーを使用して CDN ホスト JavaScript および CSS ファイルを参照する
+
+以下のコードは、Infragistics Loader を使用して ASP.NET MVC で [Infragistics CDN](#infragistics-cdn) から JavaScript およびスタイル ファイルを参照する方法を示します。
+
+**ASPX の場合:**
+
+```csharp
+<script src="http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/infragistics.loader.js"></script>
+    <%= Html.Infragistics()
+        .Loader()
+        .ScriptPath("http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/js/")
+        .CssPath("http://cdn-na.infragistics.com/igniteui/%%ProductVersion%%/latest/css/")
+        .Render()
+    %>
+```
+
+
+
+##<a id="infragistics-cdn"></a>Infragistics CDN
+
+
+#### Infragistics CDN - 概要
+
+インフラジスティックスは、サード パーティの CDN Web サービス プロバイダーを通して CDN をサポートしています。以下の表は、Infragistics CDN 対応アプリケーションで使用している URL を示します。(URL およびサービス プロバイダーは変更される可能性があります。)
+
+
+**非セキュア**
+
+```
+http://cdn-na.infragistics.com/igniteui
+```
+
+**セキュア**
+
+
+```
+https://cdn-na.infragistics.com/igniteui
+```
+
+
+
+現在の CDN プロバイダーを変更するには、単に URL を置き換えます。
+
+現在の CDN プロバイダーへのダイレクトな URL ではなくこれらの URL を用いてすべての CDN 提供のコンテンツを事前に定義することによって、Infragistics は CDN に依存するアプリケーションにネガティブな影響を与えることなくプロバイダーを変更できます。
+
+>**注:** CDN 機能のパフォーマンスとアップタイムは Infragistics が使用している現在の CDN プロバイダーに依存します。
+
+
+
+## 関連コンテンツ
+#### リソース
+
+以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
+
+- [Google ライブラリ API](https://developers.google.com/api-client-library/javascript/start/start-js): Google ライブラリ API は、もっともポピュラーなオープン ソース JavaScript ライブラリのコンテンツ配信ネットワークおよびローディング アーキテクチャです。
+
+
+
+
+
+ 
+
+ 
+
+

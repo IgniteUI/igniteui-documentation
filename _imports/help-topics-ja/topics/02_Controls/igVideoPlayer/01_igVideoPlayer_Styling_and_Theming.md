@@ -1,0 +1,160 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igvideoplayer-styling-and-theming",
+    "controlName": "igVideoPlayer",
+    "tags": ["Styling","Templating"]
+}
+|metadata|
+-->
+
+# スタイル設定とテーマ設定 (igVideoPlayer)
+
+
+## 必要な CSS とテーマ
+Web アプリケーションで jQuery Video Player コントロールを使用するときに、アプリケーションのスタイルに応じて Video Player コントロールのルック アンド フィールを作ることがよく問題になります。これを実現するには、特にビデオ プレーヤーの、そしてより広範には、%%ProductName%%™ で使用可能なクライアント UI コントロールのスタイル設定とテーマ設定に関する以下の情報を使用します。
+
+`igVideoPlayer` コントロールは、ほかの jQuery ウィジェットのように、スタイリングに jQuery UI CSS Framework を使用します。%%ProductName%% には、「IG テーマ」と呼ばれるカスタム jQuery UI テーマが含まれています。このテーマは、すべての Infragistics ウィジェットおよび標準の jQuery UI ウィジェットにプロフェッショナルで魅力的なデザインを提供します。
+
+### 必要な CSS とテーマ
+
+%%ProductName%%™ ビデオ プレーヤーは、ほかの jQuery ウィジェットのように、スタイリングに jQuery UI CSS Framework を使用します。%%ProductName%% には、Infragistics および Metro と呼ばれるカスタム jQuery UI テーマが含まれています。これらのテーマによって、Infragistics ウィジェットおよび標準の jQuery UI ウィジェットが、プロフェッショナルで魅力的な外観になります。
+
+Infragistics および Metro テーマに加えて、Infragistics ウィジェットの基本 CSS レイアウトに必要な structure ディレクトリがあります。
+
+### 必要なテーマの Web サイトへの追加
+
+Infragistics および Metro テーマは、css フォルダー内のインストール ディレクトリに配置されています。テーマをアプリケーションに追加するには、css フォルダー全体 (structure および themes ディレクトリを含む) をサイトの場所にコピーします。
+
+**注:** Infragistics Loader の使用時は、フォルダー構造を保持する必要があります。このようにすると、ローダーは期待通りに機能します。使用されないテーマがある場合、それらは削除することができますが、その構造は変更してはいけません。
+
+**図 1: 製品インストール時に含まれるテーマ フォルダー**
+
+![](images/jQuery_Grid_Styling_and_Theming_2011.2_1.png)
+
+### Infragistics および Metro テーマ
+
+Infragistics テーマは、jQuery UI テーマに通常存在するすべてのスタイルを含むカスタム テーマです。このテーマは、別のテーマで置き換えることができますが、jQuery ウィジェットを正しく表示するには、`{IG Resources root}/css/structure/infragistics.css` ファイルへの参照が必要です。
+
+Metro テーマは、クリーン、モダンかつ高速な Metro デザイン言語の実装です。これには、Infragistics テーマと同様に、`{IG Resources ルート}/css/structure/infragistics.css` と同じ要件があります。
+
+Infragistics (あるいは Metro) テーマ以外のテーマを使う場合、ビデオプレーヤーは、完全なデザインのために必要なカスタマイゼーションのためのスタイリング ポイントをいくつかもっています。
+
+`igVideoPlayer` コントロールは、標準の jQuery UI テーマのスタイル シートへのリンクをもっている必要があります。IG テーマの場合、テーマのスタイルシートへの参照をページに含める必要があります。
+
+#### リスト 1: Infragistics テーマへの手動 CSS 参照
+
+**HTML の場合:**
+
+```html
+<link href="css/themes/infragistics/infragistics.theme.css" rel="stylesheet" type="text/css" />
+<link href="css/structure/modules/infragistics.ui.videoplayer.css" rel="stylesheet" type="text/css" />
+```
+
+#### リスト 2: ASP.NET MVC の Infragistics テーマへの CSS 参照
+
+**HTML の場合:**
+
+```html
+<%@ Import Namespace="Infragistics.Web.Mvc" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+<link href="<%= Url.Content("~/css/themes/infragistics/infragistics.theme.css") %>” rel="stylesheet" type="text/css" />
+<link href="<%= Url.Content("~/css/structure/modules/infragistics.ui.videoplayer.css") %>” rel="stylesheet" type="text/css" />
+```
+
+### Metro テーマ
+
+Metro テーマは、jQuery テーマの後に参照されます。`igVideoPlayer` コントロールを使用する場合には、次のスタイルシートが必要です。
+
+#### リスト 3: Metro テーマへの手動 CSS 参照
+
+**HTML の場合:**
+
+```html
+<link href="css/themes/metro/infragistics.theme.css " rel="stylesheet" type="text/css" />
+<link href="css/structure/modules/infragistics.ui.videoplayer.css" rel="stylesheet" type="text/css" />
+```
+
+#### リスト 4: ASP.NET MVC の Metro テーマへの CSS 参照
+
+**HTML の場合:**
+
+```html
+<%@ Import Namespace="Infragistics.Web.Mvc" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+<link href="<%= Url.Content("~/css/themes/metro/infragistics.theme.css ") %>” rel="stylesheet" type="text/css" />
+<link href="<%= Url.Content("~/css/structure/modules/infragistics.ui.videoplayer.css") %>” rel="stylesheet" type="text/css" />
+```
+
+## Video Player CSS クラス
+Video Player が使用する CSS クラスの完全なリストを以下に示します。最初の列にあるコントロールのプロパティを使用すると、独立した要素のクラスを取得または設定できます。
+
+プロパティ|使用する CSS クラス|説明
+---|---|---
+baseClasses|ui-widget ui-igplayer |ベース CSS クラス。
+controlsClass|ui-widget-header ui-igplayer-controls ui-igplayer-grid ui-igplayer-autohide |コントロール CSS クラス。
+controlsHideClass|ui-igplayer-controls-hide |コントロール非表示 CSS クラス。コントロールの自動的な非表示に適用します。
+videoClass|ui-igplayer-video |メイン ビデオ要素に適用するクラス。
+unsupportedBrowserClass|ui-igplayer-unsupported-browser-msg |SPAN 要素に適用します。プレーヤーが HTML5 非互換のブラウザーで開かれているときに表示します。
+activeVideoClass|ui-igplayer-active-video |コントロールをアクティブ化するときにメイン ビデオ要素に適用するクラス。
+playButtonClass|ui-igplayer-playbutton |再生コントロールの再生ボタンに適用します。
+progressBarClass|ui-igplayer-progressbar ui-corner-all |再生コントロールのスライダー ウィジェットに適用します。
+fullScreenClass|ui-igplayer-fullscreen-button |再生コントロールの全画面表示ボタンに適用するクラス。
+volumeControlClass|ui-igplayer-volumecontrol |再生コントロールの音量コントロール ボタンに適用するクラス。
+volumeSliderClass|ui-igplayer-volumeslider |再生コントロールの音量スライダーに適用します。
+progressLabelClass|ui-igplayer-progresslabel |再生コントロールの進行状況ラベルに適用します。
+bookmarkContainerClass|ui-widget ui-igplayer-bookmark-container |ブックマーク コンテナー DIV に適用するクラス。
+bookmarkContainerHeaderClass|ui-widget-header ui-igplayer-bookmark-header |ブックマーク ヘッダー コンテナーに適用します。
+bookmarkListClass|ui-widget-content ui-igplayer-bookmark-list |ブックマーク領域のブックマーク リストに適用します。
+bookmarkItemTimeClass|ui-igplayer-bookmark-item-time |ブックマーク領域に時間を表示するブックマーク リスト項目に適用するクラス。
+bookmarkItemTitleClass|ui-igplayer-bookmark-item-title |ブックマーク領域にタイトルを表示するブックマーク リスト項目に適用します。
+bookmarkActiveItemClass|ui-igplayer-bookmark-active-item |ブックマーク領域にアクティブなブックマーク項目を表示するクラス。
+relatedVideosContainerClass|ui-igplayer-related-video-container |関連するビデオ コンテナー クラスに適用します。
+relatedVideosOuterContainerClass|ui-igplayer-related-video-outer-container |関連するビデオの最も外側にあるコンテナーに適用するクラス。
+relatedVideoClass|ui-igplayer-related-video |関連するビデオ要素に適用します。
+relatedVideoHoverClass|ui-igplayer-related-video-hover |関連するビデオのホバーに適用するクラス。
+relatedVideoScrollLeftClass|ui-igplayer-related-scroller-left |左スクロール ボタンに適用します。
+relatedVideoScrollLeftIconClass|ui-icon-triangle-1-w |左スクロール ボタン アイコン CSS クラス。
+relatedVideoScrollRightClass|ui-igplayer-related-scroller-right |関連するビデオの右スクロール ボタンに適用するクラス。
+relatedVideoScrollRightIconClass|ui-icon-triangle-1-e |スクロール ボタンの右アイコンに適用します。
+relatedVideoScrollListClass|ui-igplayer-related-list |関連するビデオ リスト CSS クラス
+relatedVideosHeaderClass|ui-igplayer-related-video-header |関連するビデオのヘッダー領域に適用します。
+relatedVideoBarClass|ui-igplayer-related-video-bar |リプレイ ボタンおよび全画面表示ボタンを含む、関連するビデオの下部領域に適用します。
+relatedVideoReplayClass|ui-igplayer-related-video-replay |関連するビデオの領域にあるリプレイ ボタンに適用する CSS クラス。
+relatedVideoReplayIconClass|ui-icon-arrowrefresh-1-s |リプレイ ボタン アイコン CSS クラス。
+relatedVideoFullScreenClass|ui-igplayer-related-video-full-screen |関連するビデオの領域にある全画面表示ボタンに適用する CSS クラス。
+relatedVideoFullScreenIconClass|ui-icon-arrow-4-diag |全画面表示ボタン アイコンに適用するクラス。
+bannerContainerClass|ui-igplayer-banner ui-corner-all |バナー コンテナー div に適用します。
+bannerCloseClass|ui-igplayer-banner-close |バナーを閉じるボタンに適用するクラス。
+bannerCloseIconClass|ui-icon-close |バナーを閉じるアイコンに適用するクラス。
+adMsgContainerClass|ui-igplayer-ad-msg-container |ビデオ再開メッセージ コンテナーに適用します。
+adMsgClass|ui-igplayer-ad-msg |ビデオ再開メッセージ スパンに適用します。
+adMsgCloseClass|ui-igplayer-ad-msg-close |ビデオ再開メッセージ閉じるボタンに適用します。
+adMsgCloseIconClass|ui-icon-close |ビデオ再開メッセージ閉じるボタン アイコンに適用します。
+linkedBookmarkClass|ui-igplayer-linked-bookmark |リンク付きコマーシャル ブックマークに適用します。
+adBookmarkClass|ui-igplayer-ad-bookmark |埋め込みコマーシャル ブックマークに適用するクラス。
+unsupportedVideoSourceClass|ui-igplayer-not-supported-video-source |ビデオ ソースがサポートされていないときに表示するアンカー要素に適用します。
+unsupportedVideoSourceIconClass|ui-igplayer-not-supported-video-source-icon |サポートされていないビデオ ソースに表示するアンカー要素のアイコンに適用します。
+centerPlayButtonClass|ui-igplayer-centerplaybutton-play |中央の再生ボタンに適用します。
+centerPauseButtonClass|ui-igplayer-centerplaybutton-pause |中央の一時停止ボタンに適用するクラス。
+centerPlayButtonIconClass|ui-igplayer-centerplaybutton-icon |中央の再生ボタン アイコンに適用するクラス。
+waitingIndicatorClass|ui-igplayer-waiting |バッファリング インジケーター CSS クラス。
+waitingIndicatorIconClass|ui-igplayer-waiting-icon |バッファリング インジケーターに適用します。
+seekTooltipClass|ui-igplayer-seektooltip |シーク ツールチップに適用します。
+
+## 外部参照
+-   [jQuery UI](http://jqueryui.com/)
+-   [jQuery UI - はじめに](http://docs.jquery.com/UI/Getting_Started)
+-   [jQuery Themeroller](http://jqueryui.com/themeroller/)
+-   [jQuery UI のテーマ設定](http://docs.jquery.com/UI/Theming)
+-   [jQuery UI CSS Framework](http://docs.jquery.com/UI/Theming/API)
+
+ 
+
+ 
+
+

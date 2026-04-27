@@ -1,0 +1,113 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "documentengine-container-and-condition",
+    "controlName": "Infragistics Document Library",
+    "tags": ["Layouts","Reporting"]
+}
+|metadata|
+-->
+
+# コンテナーと条件
+
+Container 要素は以下の 2 つの目的のために設計された極めて重要で独自の要素です。
+
+-   Container 要素は XML によってレポート コンテンツを挿入できます。
+-   Container 要素は、Condition 要素と使用した場合、すべてのコンテンツがそのページに収まるかどうかに基づいて、条件付きでコンテンツを表示できます。
+
+## XML の挿入
+Container 要素によって、XML を使用してレポート コンテンツを挿入できます。[Report](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Save.html) オブジェクトの [Save](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report.html) メソッドを呼び出すことによって、レポート コンテンツを XML ファイルに出力できます。XML ファイルがある場合には、[IContainer](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.IContainer.html) インターフェイスの [Load](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.IContainer~Load.html) メソッドを使用して、コンテナーに XML をロードすることができます。ドキュメント オブジェクト モデル (DOM) を使用して作成しても、XML ファイルからロードしてもコンテンツの外観に違いはありません。Report.xml と呼ばれる XML ファイルからレポート コンテンツをロードしたい場合には、以下のようなコードを使用できます。
+
+**Visual Basic の場合:**
+
+```vb
+' Load the content of the XML file directly into the container.
+container.Load((Application.StartupPath + "..Report.xml"))
+```
+
+**C# の場合:**
+
+```csharp
+// Load the content of the XML file directly into the container.
+container.Load(Application.StartupPath + @"..Report.xml");
+```
+
+## 条件付きでコンテンツを表示
+Text 要素とその他のほとんどの[レイアウト要素](DocumentEngine-Report-Layout.html)を Container 要素に追加できます。Container 要素を独特な要素としているのは、この機能だけではありません。しかし Condition 要素とともに使用すると、1 ページにすべてを収めることができない場合にコンテンツを処理する方法を事前に決定できます。
+
+Condition 要素のコンストラクターは以下の 2 つのパラメーターを受け付けます。
+
+-   条件を適用するコンテナーの名前
+-   すべてのコンテンツが 1 ページに収まらない場合に Document Engine が実行すべきことを識別するブール値
+
+Container 要素を作成し、コンテンツを入れるというのが一般的なシナリオです。Container 要素が作成されたら、Condition 要素を作成し、コンテナー名を渡します。つまりテストの対象となる条件は 2 つあります（False: コンテナーのコンテンツが 1 ページに収まらない。True: コンテナーのコンテンツが 1 ページに収まる）。2 番目のパラメーターとして False を渡すことは、Container が収まらない場合に Document Engine はこの Condition 要素を示すことを意味します。したがって、テキストが収まらないことを述べるテキストまたはその他の代替えコンテンツを Condition 要素に追加したい場合があります。次に Condition 要素をもうひとつ追加する必要があります。これは 2 番目のパラメーターとして True を渡します。2 番目のパラメーターとして True を渡すと、Document Engine がコンテンツを 1 ページに収めることができたことを意味しますが、この Condition 要素のコンテンツも示します。Condition 要素を空のままにしておき単に Container 要素のコンテンツを表示する、または固有のカスタム コンテンツを Condition に追加することができます。
+
+以下のコードを使用して Container 要素を作成し、次にこの Container 要素に基づいて Condition 要素を作成します。コンテナーがページに収まらない場合に限り、最初の条件が表示します。コンテナーがページに収まる場合に限り、2 番目の条件が表示します。Container 要素内のコンテンツの量を増減するために、FOR ループが実行する繰り返しの回数を変更することができます。
+
+`Text` 要素のコンテンツに以下の文字列を使用します。
+
+> Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Donec imperdiet mattis sem.Nunc ornare elit at justo.In quam nulla, lobortis non, commodo eu, eleifend in, elit.Nulla eleifend.Nulla convallis.Sed eleifend auctor purus.Donec velit diam, congue quis, eleifend et, pretium id, tortor.Nulla semper condimentum justo.Etiam interdum odio ut ligula.Vivamus egestas scelerisque est. Donec accumsan.In est urna, vehicula non, nonummy sed, malesuada nec, purus.Vestibulum erat.Vivamus lacus enim, rhoncus nec, ornare sed, scelerisque varius, felis.Nam eu libero vel massa lobortis accumsan.Vivamus id orci.Sed sed lacus sit amet nibh pretium sollicitudin.Morbi urna.
+
+1.  **Container 要素を作成し、コンテンツをその中に入れます。**
+
+    **Visual Basic の場合:**
+
+    ```vb
+    Dim container As Infragistics.Documents.Reports.Report.IContainer = _  section1.AddContainer("Container1")
+
+    ' Define a Text element for the container.
+    Dim containerText As Infragistics.Documents.Reports.Report.Text.IText = _  container.AddText()
+
+    ' Add the same content 10 times. Lower this number to 5
+    ' or less in order to fit the content on one page.
+    For i As Integer = 0 To 9
+            containerText.AddContent("Lorem ipsum...")
+            containerText.AddLineBreak()
+            containerText.AddLineBreak()
+    Next i
+    ```
+
+    **C# の場合:**
+
+    ```csharp
+    // Define a Container element.
+    Infragistics.Documents.Reports.Report.IContainer container =   section1.AddContainer("Container1");
+
+    // Define a Text element for the container.
+    Infragistics.Documents.Reports.Report.Text.IText containerText =   container.AddText();
+
+    // Add the same content 10 times. Lower this number to 5
+    // or less in order to fit the content on one page.
+    for (int i = 0; i < 10; i++)
+    {
+            containerText.AddContent("Lorem ipsum...");
+            containerText.AddLineBreak();
+            containerText.AddLineBreak();
+    }
+    ```
+
+2.  **Condition 要素を作成します。**
+
+    **Visual Basic の場合:**
+
+    ```vb
+    ' If the content doesn't fit, use this condition.
+    Dim condition As Infragistics.Documents.Reports.Report.ICondition =   section1.AddCondition(container, False)
+    Dim conditionText As Infragistics.Documents.Reports.Report.Text.IText =   condition.AddText()
+    conditionText.AddContent("Container doesn't fit")
+
+    ' If the content fits, use this condition.
+    condition = section1.AddCondition(container, True)
+    ```
+
+    **C# の場合:**
+
+    ```csharp
+    // If the content doesn't fit, use this condition.
+    Infragistics.Documents.Reports.Report.ICondition condition =   section1.AddCondition(container, false);
+    Infragistics.Documents.Reports.Report.Text.IText conditionText =   condition.AddText();
+    conditionText.AddContent("Container doesn't fit");
+
+    // If the content fits, use this condition.
+    condition = section1.AddCondition(container, true);
+    ```

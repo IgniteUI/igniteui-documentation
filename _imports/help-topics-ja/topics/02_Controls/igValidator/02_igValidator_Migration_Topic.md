@@ -1,0 +1,125 @@
+<!--
+|metadata|
+{
+    "fileName": "igvalidator-migration-topic",
+    "controlName": ["igValidator"],
+    "tags": ["Migration","Getting Started"]
+}
+|metadata|
+-->
+
+# 新しい igValidator コントロールへの移行 
+
+%%ProductName%%™ の 15.2 リリースでは、作り直された新しい `igValidator` コントロールが導入されています。使いやすさを中心にデザインも刷新され、ユーザー エクスペリエンスも改善されています。このコントロールは新しい `igNotifier` コントロールを使用して、error メッセージを表示します。
+
+## トピックの概要
+このトピックは、古いバリデーターから新しいバリデーターへの移行のサポートを目的としています。
+
+### このトピックの内容
+このトピックは、以下のセクションで構成されます。
+
+1. [変更されたオプション](#options_changes)
+2. [新しいオプション](#new_options)
+3. [API メソッドの変更点](#methods_changes)
+4. [新しい API メソッド](#new_methods)
+5. [イベントの変更点](#event_changes)
+6. [新しいイベント](#new_events)
+7. [要件](#requirements)
+
+
+<a name='options_changes'></a>
+### 変更されたオプション
+
+オプション|旧|新
+---|---|---
+alignment|エラー ラベルの場所の決定に使用されます。|`igNotifier` `direction` プロパティを使用する必要があります。
+animationHide、animationShow |アニメーションの表示/非表示をミリ秒で設定します。|`igNotifier` `animationDuration` プロパティを使用する必要があります。
+bodyAsParent|エラー メッセージの親 / 場所を決定します。|`igNotifier` `appendTo`プロパティを使用する必要があります。
+checkboxesName|範囲を検証するために、チェックボックスの名前属性を使用します。|このオプションは削除されました。同じ名前のチェックボックスは、自動的に検出されます。
+element|html 要素への参照を取得または設定します。検証をトリガーするために、html 要素を使用して、mousedown イベントと mouseup イベントを処理します。|このオプションは削除されました。代わりに、API メソッドの `validate()` および `isValid()` を使用する必要があります。
+enableTargetErrorCss|error用の CSS をターゲット要素に適用できます。|相当する `allowCSSOnTarget` を` igNotifier` で使用します。
+errorLabel|検証メッセージを表示する innerHTML のカスタム jQuery 要素を取得または設定します。|このプロパティは、名前が `messageTarget` に変更されました。
+formSubmit|アプリケーションが form.submit() から呼び出されたときに検証をトリガーします。|このオプションは削除されました。
+keepFocus|検証に失敗すると、フォーカスをエディターに設定します。|このオプションは削除されました。
+locale|カスタム設定を含むオブジェクトを設定します。|このオプションは削除されました。デフォルト メッセージ用のローカライズ ファイルを使用できます。または個別の入力規則に error メッセージを割り当てることができます。
+max、maxLength |テキストの最大の長さ、または選択した項目の最大数の決定に使用されます。|このオプションは、`lengthRange` プロパティに置き換えられました。
+min、minLength |テキストの最小の長さ、または選択した項目の最小数の決定に使用されます。|このオプションは、`lengthRange` プロパティに置き換えられました。
+regExp|テキスト エディターで値の検証に使用する正規表現を取得または設定します。|このプロパティは、名前が pattern に変更されました。
+showIcon|error メッセージのアイコンの表示/非表示を決定します。|このオプションは、`igNotifier` オプションから設定できます。
+theme|CSS クラスのセレクターを設定します。|このオプションは削除されました。error メッセージの外観は、`igNotifier` のCSS クラスを使用してカスタマイズできます。
+
+<a name='new_options'></a>
+### 新しいオプション
+
+オプション|説明
+---|---
+number|値が数字であるかことを検証します。
+date|値が日付であることを検証します。
+email|値がメール アドレスであることを検証します。
+lengthRange|テキストの最小および最大の長さ、または選択されている項目の数を取得または設定します。
+valueRange|最小値と最大値を取得または設定します。
+successMessage|success メッセージのテキストを取得または設定します。
+threshold|検証の入力の最小長を決定します。
+equalTo|フィールドの値が、他の入力要素またはエディター コントロールと同じであることを要求します。
+custom|検証を実行するカスタム機能を取得または設定します。
+fields|検証オプションとセレクターを持つ各フィールドの説明が記載されたフィールド項目のリストを決定します。
+notificationOptions|error メッセージの表示に使用する `igNotifier` のオプションを設定します。
+requiredIndication|必須フィールドの隣にアスタリスクを表示します。
+optionalIndication|オプション フィールドの隣にオプションのラベルを表示します。
+
+-	[すべての igValidator オプションを参照してください。](%%jQueryApiUrl%%/ui.igvalidator#options)
+-	[すべての igNotifier オプションを参照してください。](%%jQueryApiUrl%%/ui.ignotifier#options)
+
+<a name='methods_changes'></a>
+### API メソッドの変更点
+
+メソッド|変更の説明
+---|---|---
+getLocaleOption|このメソッドは削除されました。デフォルト メッセージ用のローカライズ ファイルを使用できます。または個別の入力規則に error メッセージを割り当てることができます。
+hide|すべての使用可能なメッセージを非表示にします。また、オプション フィールド パラメーターを取得します。
+isMessageDisplayed|現在表示されているメッセージを確認します。オプション フィールドを取得します。
+isValidState|このオプションは、名前が `isValid` に変更されました。オプション フィールドを取得します。
+validate|このオプションはブール値のみを返し、オプション フィールドを取得します。
+
+
+<a name='new_methods'></a>
+### 新しい API メソッド
+
+メソッド|説明
+---|---
+getErrorMessages|無効なフィールドに対する現在の error メッセージをすべて取得します。
+notifier|`igValidator` または単一ファイルに対する通知を取得します。
+addField|新しい入力をフィールド コレクションに追加し、バリデーターで初期化します。
+removeField|入力をフィールド コレクションから削除します。
+updateField|バリデーター コレクション内のフィールドを更新します。コントロールがバリデーターの後に初期化された場合に、フィールドの再初期化、または新しいオプションを渡すために使用されます。
+
+[すべての API メソッドを参照](%%jQueryApiUrl%%/ui.igvalidatior#methods)
+
+
+<a name='event_changes'></a>
+### イベントの変更点
+
+イベント|変更内容
+---|---
+checkValue|このイベントは、機能を明確に表すために、`validating` という名前に変更されました。false を返し、イベントをキャンセルします。
+validation|このイベントは、機能を明確に表すために、`validating` という名前に変更されました。このイベントはキャンセルできません。
+
+> **注:** 両方のイベントは、デフォルト ビヘイビアと連係します。キャンセル可能なイベントに false を返すと、このアクションをそれ以上実行できなくなり、キャンセルできないイベントに対する影響を失います。検証の結果を変更するには、`カスタム`関数オプションを使用します。
+
+<a name='new_events'></a>
+### 新しいイベント
+
+イベント|説明
+---|---
+success|値の検証後、アクションが有効になる前に、無効なフィールドに発生するイベント。
+successShowing|success メッセージが表示される前に発生するイベント。
+successHiding|success メッセージが非表示になる前に発生するイベント。
+successShown|success メッセージが表示された後に発生するイベント。
+successHidden|success メッセージが非表示になった後に発生するイベント。
+formValidating|フォーム送信イベントを処理する前に、`igValidator` インスタンス レベルでトリガーされるイベント。
+formValidated|フォーム送信イベントを処理する直前に、igValidator インスタンス レベルでトリガーされるイベント。
+formError|フォームの送信後、エラーが発生した場合にトリガーされるイベント。
+formSuccess|フォームが正常に送信された場合にトリガーされるイベント。
+
+
+[すべてのイベントを参照](%%jQueryApiUrl%%/ui.igvalidator#events)

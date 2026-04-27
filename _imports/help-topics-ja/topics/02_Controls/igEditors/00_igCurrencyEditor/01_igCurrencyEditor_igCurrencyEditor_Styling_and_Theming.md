@@ -1,0 +1,54 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igcurrencyeditor-igcurrencyeditor-styling-and-theming",
+    "controlName": "igEditors",
+    "tags": ["Styling","Theming"]
+}
+|metadata|
+-->
+
+# igCurrencyEditor のスタイルおよびテーマ設定
+
+
+`igCurrencyEditor` の jQuery ウィジェットは、多くのスタイル設定オプションを公開します。通貨エディターのスタイルをカスタマイズするには、さまざまなテーマを使用する、またはカスタム CSS ルールをコントロールに直接適用する必要があります。 
+
+%%ProductName%% パッケージには、いくつかの jQuery UI や Bootstrap テーマが用意されています。また Bootstrap は、独自のブートストラップのテーマの生成やカスタマイズをサポートしています。詳細は、[スタイル設定とテーマ設定](Deployment-Guide-Styling-and-Theming.html)を参照してください。 
+エディターを含めたページ上のすべてのコントロールのスタイルは、どのテーマでも設定できます。
+
+## ThemeRoller の使用
+
+`igCurrencyEditor` コントロールは jQuery UI CSS フレームワークを使用するため、[jQuery UI ThemeRoller](http://jqueryui.com/themeroller/) を使用してすべてのスタイルを設定することもできます。これにより、独自に作成したテーマのカスタマイズや使用可能なギャラリーからのテーマの選択ができます。これらのテーマは、%%ProductName%% のデフォルトのテーマと置き換えられます。
+
+UI Darkness テーマを使用する通貨エディター: 
+
+![](images/igCurrencyEditor_ThemeRoller.png)
+
+## カスタム スタイル
+
+ご使用の CSS には、通貨エディターの多くの要素にスタイル オーバーライドが含まれている場合があります。使用可能なすべてのクラスについては、[API リファレンスのテーマ設定クラス](%%jQueryApiUrl%%/ui.igCurrencyEditor#theming)を参照してください。スタイルを適用するには、すべてのエディターに摘要されたグローバル クラスをオーバーライドする、または ID や他のセレクターで特定の要素をターゲットとして指定し、コントロールごとにカスタマイズできるようにします。
+
+`igCurrencyEditor` はデフォルトで、負の値を赤色で表示します。以下の例では、この色を変更する方法を示します。
+
+```html
+<style>
+.ui-igedit-negative
+{
+	color: #00aeef;
+}
+</style>
+```
+
+>**注:** 負のパターンを使用しない場合、負の値が前の画像と異なって表示されることがあります。これは地域の設定が原因です。
+
+![](images/igCurrencyEditor_Custom_style.png)
+
+
+## 関連トピック
+
+-   [igCurrencyEditor の概要](igCurrencyEditor-igCurrencyEditor-Overview.html)
+ 
+
+ 
+
+

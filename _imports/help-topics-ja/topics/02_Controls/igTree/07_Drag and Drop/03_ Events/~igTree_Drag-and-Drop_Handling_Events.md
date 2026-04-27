@@ -1,0 +1,34 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igtree-drag-and-drop-handling-events",
+    "controlName": "igTree",
+    "tags": ["Events","How Do I"]
+}
+|metadata|
+-->
+
+# ドラッグ アンド ドロップ イベントの処理 (igTree)
+
+## このグループのトピックについて
+### 概要
+
+このグループについては、`igTree`™ コントロールにおける [ドラッグ アンド ドロップ](igTree-Drag-and-Drop.html) イベントの処理関連の最も一般的なタスクの実行方法を説明します。
+
+### トピック
+
+ドラッグ アンド ドロップに関する詳細情報は、以下のトピックで解説します。
+
+- [jQuery における初期設定時のドラッグ アンド ドロップ イベントの処理 (igTree)](igTree-Drag-and-Drop-Handling-Events-Initialization.html): ここでは、コード例とともに、jQuery における初期設定時に `igTree` コントロールにイベント ハンドラーをアタッチする方法を説明します。
+
+- [実行時のドラッグ アンド ドロップ イベントの処理 (igTree)](igTree-Drag-and-Drop-Handling-Events-Run-Time.html): ここでは、コード例とともに、`igTree` コントロールでイベントをサブスクライブし、実行時にイベント ハンドラーをアタッチする方法について説明します。
+
+
+
+
+
+ 
+
+ 
+
+

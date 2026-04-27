@@ -1,0 +1,284 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igtemplating-overview",
+    "controlName": "igTemplating Engine",
+    "tags": ["Getting Started","Templating"]
+}
+|metadata|
+-->
+
+# テンプレート エンジンの概要
+
+## トピックの概要
+### 目的
+
+このトピックでは、テンプレート エンジンによって開発者に公開されているオプションと機能の概要について説明します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+- [**テンプレート エンジンの参照の追加**](Adding-igTemplating-References.html): このトピックでは、テンプレート エンジンを使い始めるために必要な最低限の JavaScript ファイルについて説明します。
+
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [主要機能](#main-feature)
+    -   [スカラー プロパティ出力 (置換)](#scalar-property)
+    -   [ネストされたプロパティ出力 (置換)](#nested-property)
+    -   [ブロック if タグ](#block-if-tag)
+    -   [ブロック if -else タグ](#block-if-else-tag)
+    -   [ブロック if-elseif-else タグ](#block-if-elseif-else-tag)
+    -   [ブロック each タグ](#block-each-tag)
+    -   [インデックス](#index)
+    -   [データ](#data)
+    -   [コメント](#comments)
+-   [関連コンテンツ](#related-content)
+
+
+
+## <a id="main-feature"></a>主要機能
+### 機能の概要
+
+以下の表は、テンプレート エンジンの主な機能についてまとめています。追加の詳細は、以下の概要表の下に示します。
+
+**凡例:**
+
+*条件 -* 条件付き (コンピューター プログラミング言語のステートメントまたは式)。true と false の 2 つの値を取ります。
+
+**機能**|**構文**|**説明**
+---|---|---
+スカラー プロパティ出力 (置換)|`${property }` |変数出力
+ネストされたプロパティ出力 (置換)|`${parent.property }` |ネストしたプロパティの編集出力
+ブロック **if** タグ|`{{if 条件 }}` <br>何らかの処理<br>`{{/if}}` |**then** 分岐がある条件。"何らかの処理" は、その場合に適用されるテンプレートです
+ブロック **if- else** タグ|`{{if 条件}}`<br>何らかの処理<br>`{{else}}` 何らかの処理 {{/if}} |**then** および **otherwise** 分岐がある条件。
+ブロック **if-elseif-else** タグ|`{{if 条件}}`<br>何らかの処理<br>`{{elseif 条件 }}`<br>別の処理<br>`{{else}}` <br>デフォルトの処理<br>`{{/if}}`|then および複数の　"**そうでない場合**" の分岐と、最後にデフォルトの分岐がある条件。
+ブロック **each** タグ|`{{each movies }} ${movies.name} {{/each}}` |ネストしたプロパティの繰り返しと出力です。
+インデックス|`$i` |データ メンバーに対する現在の繰り返しのインデックスにアクセスするための予約済みキーワードです。
+データ|`$data` |データ メンバーに対する現在の繰り返しのデータにアクセスするための予約済みキーワードです。
+コメント|#そのコメントは無視されます# `$i`|記号 **#** で始まり **#** で終わるコメントは、テンプレート エンジンで無視されます。
+
+
+**テンプレートを適用するとき、結果の型は String です。**
+
+>テンプレートをデータに適用するためにインフラジスティックス テンプレート エンジンを使用する場合には、結果の型が文字列であることに注意してください。つまり、以下のすべてのサンプルで、結果の変数は文字列です。
+
+**セキュリティに関する懸念がある場合**
+>テンプレート エンジンの入力式は、実行前にサニタイズ処理が行われます。
+
+### <a id="scalar-property"></a>スカラー プロパティ出力 (置換)
+
+テンプレート エンジンは、定義済みのプロパティ名を認識し、その値は、渡されたデータ内の対応するプロパティ値で置き換えられます。
+
+**例**:
+
+**JavaScript の場合:**
+
+```js
+data = [{prop: 'Value'}] 
+$.ig.tmpl('${prop}', data) 
+```
+
+結果**:** Value
+
+#### 関連トピック:
+
+-   [基本的な置換テンプレートの作成](Creating-Basic-Substitution-Template.html)
+
+### <a id="nested-property"></a>ネストされたプロパティ出力 (置換)
+
+テンプレート エンジンは、親プロパティの子プロパティを認識し、その値は、渡されたデータ内の対応するプロパティ値で置き換えられます。
+
+**例:**
+
+**JavaScript の場合:**
+
+```js
+var data = [{parent: {child1: 'Val', child2: 'Val2'}}];
+var result = $.ig.tmpl('${parent.child2}', data);
+```
+
+結果**:** Val2
+
+#### 関連トピック:
+
+-   [複合プロパティ置換テンプレートの作成](Creating-Complex-Property-Substitution-Template.html)
+
+### <a id="block-if-tag"></a>ブロック if タグ
+
+テンプレート エンジンは、テンプレート中で定義された、完全な条件付きブロックか、開いた条件付きブロックと閉じた条件付きブロックを認識します。構文は `{{if 条件}}` 何らかの処理 `{{/if}}` です。
+
+>**注:** ブロックのリストはサポートされていません。ブロックのリストはサポートされていないことに注意してください。つまり、次の "`{{if *条件 1* }}` 何らかの処理 `{{/if}} {{if *条件 2* }}` 別の処理 `{{/if}}`" は、正しく定義されたブロックではありません。
+
+**例:**
+
+**JavaScript の場合:**
+
+```js
+var data = [{ Value: 1, Text:"Value1"},{ Value: 2, Text:"Value2"}];
+var result = $.ig.tmpl('{{if ${Value} === 2}} ${Text} {{/if}}', data);
+```
+
+結果**:** Value2
+
+#### 関連トピック:
+
+-   [基本的な条件付きテンプレートの作成](Creating-Basic-Conditional-Template.html)
+
+### <a id="block-if-else-tag"></a>ブロック if -else タグ
+
+テンプレート エンジンは、テンプレート中でデフォルト ステートメントを使用して定義された、完全な条件付きブロックか、開いた条件付きブロックと閉じた条件付きブロックを認識します。構文は "`{{if 条件}}` 何らかの処理 `{{else}}` デフォルトの処理 `{{/if}}`" です。
+
+**例:**
+
+**JavaScript の場合:**
+
+```js
+var data = [{prop: 2}];
+var result = $.ig.tmpl('{{if ${prop} > 2}} ${prop}{{else}} "The minimum value is 2" {{/if}}', data);
+```
+
+**結果:** The minimum value is 2
+
+#### 関連トピック:
+
+-   [デフォルト ステートメントを含む条件付きテンプレートの作成](Creating-Conditional-Template-Containing-Default-Statement.html)
+
+### <a id="block-if-elseif-else-tag"></a>ブロック if-elseif-else タグ
+
+テンプレート エンジンは、テンプレート中で定義された elseif や else のような、条件の継続などの内側のブロック ステートメントを認識します。構文は、"`{{if 条件}}` 何らかの処理 `{{elseif}}` 別の処理 `{{else}}` デフォルトの処理 `{{/if}}`" です。
+
+**例:**
+
+**JavaScript の場合:**
+
+```js
+var data = [{value: 1}, {value: 2}, {value: 3},{value: 4}];
+var result = $.ig.tmpl('{{if ${value} == 1}} <b>${value}</b>{{elseif ${value} == 2 }} <i>${value}</i> {{else}} ${value} {{/if}}', data); 
+```
+
+**結果:** **1** *2* 3 4。1 は太字スタイル、2 は斜体スタイル、3 と 4 は標準を表します。
+
+#### 関連トピック:
+
+-   [デフォルト ステートメントを含む複数条件付きテンプレートの作成](Creating-Multi-Conditional-Template-Containing-Default-Statement.html)
+
+### <a id="block-each-tag"></a>ブロック each タグ
+
+テンプレート エンジンは、each ブロックを認識しサポートしています。ブロックは完了している必要があります。エンジンは、配列のメンバーを繰り返し処理し、`${member.prop}` 構文を使用してプロパティにアクセスできます。each ブロックの構文は "`{{each Member}}`  Member.Prop に関連する処理 `{{/each}}`" です。
+
+**例:**
+
+**JavaScript の場合:**
+
+```js
+var movies = [
+{
+      name: "movie1",
+      actors: [
+            {name: "name1", age: 35},
+            {name: "name2", age: 45}
+      ]
+}];
+var result = $.ig.tmpl('{{each ${actors} }} ${actors.name}, ${actors.age} <br /> {{/each}}', movies);
+```
+
+結果**:** name1, 35
+
+name2, 45
+
+#### 関連トピック:
+
+-   [ネスト ブロック テンプレートの作成](Creating-Nested-Blocks-Template.html)
+
+### <a id="index"></a>インデックス
+
+**JavaScript の場合:**
+
+```js
+var data =  [{value: 11}, {value: 22}];
+var result = $.ig.tmpl('$i: ${value} ', data);
+```
+
+**結果**: 0: 11 1: 22
+
+#### 関連トピック:
+
+-   [代替行表示テンプレートの作成](Creating-an-Alternating-Rows-Template-%28igTemplating%29.html)
+
+### <a id="data"></a>データ
+
+**JavaScript の場合:**
+
+```js
+var data = [{tagsList: ["Rock", "Alternative"]}, {tagsList: ["Pop", "Dance"]}]; var result = $.ig.tmpl('{{ each ${tagsList} }} $data {{/each}}', data);
+```
+
+**結果**: Rock Alternative Pop Dance
+
+### <a id="comments"></a>コメント
+
+テンプレート エンジンは、テンプレート中のコメントを認識し無視します。ハッシュ タグ (#) は、コメントの始まりを定義し、もう 1 つのハッシュタグがコメントの終わりを定義します。
+
+**例:**
+
+**JavaScript の場合:**
+
+```js
+var data =  [{value: 1}, {value: 2}];
+var result = $.ig.tmpl('#This comment will be ignored#<p>$i</p>', data);
+```
+
+**結果:** 
+
+```html
+<p>0</p><p>1</p>
+```
+
+
+## <a id="related-content"></a>関連コンテンツ
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [代替行表示テンプレートの作成](Creating-an-Alternating-Rows-Template-%28igTemplating%29.html): このトピックでは、テンプレート エンジンを使用して代替行表示テンプレートを作成する方法を紹介します。
+
+- [基本的な条件付きテンプレートの作成](Creating-Basic-Conditional-Template.html): このトピックでは、テンプレート エンジンを使用して基本的な条件付きテンプレートを作成する方法を紹介します。
+
+- [基本的な置換テンプレートの作成](Creating-Basic-Substitution-Template.html): このトピックでは、テンプレート エンジンを使用して基本的な置換テンプレートを作成する方法を紹介します。
+
+- [複合プロパティ置換テンプレートの作成](Creating-Complex-Property-Substitution-Template.html): このトピックでは、テンプレート エンジンを使用して複合プロパティ置換テンプレートを作成する方法を紹介します。
+
+- [デフォルト ステートメントを含む条件付きテンプレートの作成](Creating-Conditional-Template-Containing-Default-Statement.html): このトピックでは、テンプレート エンジンを使用して、デフォルト ステートメントを含む条件付きテンプレートを作成する方法を紹介します。
+
+- [デフォルト ステートメントを含む複数条件付きテンプレートの作成](Creating-Multi-Conditional-Template-Containing-Default-Statement.html): このトピックでは、コード例を示し、テンプレート エンジンを使用して、デフォルト ステートメントを含む複数条件付きテンプレートを作成する方法を紹介します。
+
+- [ネスト ブロック テンプレートの作成](Creating-Nested-Blocks-Template.html): このトピックでは、テンプレート エンジンを使用してネストブロック テンプレートを作成する方法を紹介します。
+
+### サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [基本的な使用方法](%%SamplesUrl%%/templating-engine/basic-usage): Infragistics テンプレート エンジンは、すべての %%ProductName%% コントロールの一貫性のあるテンプレート構文を提供します。このサンプルでは、`igCombo` コントロールのヘッダー、項目、およびフッターをカスタマイズするテンプレート化構文を紹介します。
+
+- [グリッドの列テンプレート](%%SamplesUrl%%/templating-engine/grid-column-template): このサンプルは、igGrid の列テンプレート機能を使用して列にボタンを挿入する方法を紹介します。各行の右の列にボタンがあります。ボタンを押すと、含まれる行を削除します。
+
+- [条件付きテンプレート](%%SamplesUrl%%/templating-engine/conditional-templates): このサンプルは、Infragistics テンプレート エンジンを使用して条件付きのセル テンプレートをグリッドで使用する方法を紹介します。「単位価格」列のセルは上矢印または下矢印の画像を含みます。「差分価格」列は動的に作成して非表示されます。上矢印または下矢印の画像は、非表示される列の値と「単位価格」列の値の比較に基づいて適用されます。Infragistics テンプレート エンジンは「デルタ価格」列と「単位価格」列の値を比較します。「差分価格」列の値が「単位価格」値より大きい場合、緑色の上矢印を描画します。そうでない場合、赤色の下矢印を描画します。
+
+- [ネスト テンプレート](%%SamplesUrl%%/templating-engine/nested-templates): このサンプルは、Infragistics テンプレート エンジンを使用してネストされたテンプレートを使用する方法を紹介します。以下のシナリオでは、Infragistics テンプレート エンジンの機能を使用して、データ ソースの映画コレクションを繰り返します。最後の列では、出力は非順序リストとして作成されます。
+
+- [ASP.NET MVC の使用方法](%%SamplesUrl%%/templating-engine/aspnet-mvc-usage): %%ProductNameMVC%% を使用すると、ASP.NET MVC ビューに Infragistics テンプレート エンジンを使用できます。JavaScript との使用方法は同じです。
+
+
+
+
+
+ 
+
+ 
+
+

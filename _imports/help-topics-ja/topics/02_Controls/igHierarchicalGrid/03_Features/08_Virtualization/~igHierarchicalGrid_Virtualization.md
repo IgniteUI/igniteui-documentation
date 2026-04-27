@@ -1,0 +1,31 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "ighierarchicalgrid-virtualization",
+    "controlName": "igHierarchicalGrid",
+    "tags": []
+}
+|metadata|
+-->
+
+# 仮想化 (igHierarchicalGrid)
+
+## 概要
+仮想化は、アクティブなイン メモリー DOM オブジェクトの数を減らす igHierarchicalGrid™ コントロールの機能です。仮想化は、仮想化されていないグリッドと比較してユーザーからは何も変わりません。
+
+## トピック
+
+仮想化に関する詳細情報は、以下のトピックで解説します。
+
+- [仮想化の概要](igHierarchicalGrid-Virtualization-Overview.html): このトピックでは、igHierarchicalGrid コントロールの仮想化機能について紹介します。
+- [仮想化を有効にし、構成する](igHierarchicalGrid-Enabling-and-Configuring-Virtualization.html): このトピックでは、コード例と共に、igHierarchicalGrid 内の仮想化機能を有効化し構成する方法について説明します。
+
+
+
+
+
+ 
+
+ 
+
+

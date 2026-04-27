@@ -1,0 +1,57 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igspreadsheet-visual-elements",
+    "controlName": "igSpreadsheet",
+    "tags": []
+}
+|metadata|
+-->
+
+# igSpreadsheet の視覚要素
+
+## トピックの概要
+### 目的
+このトピックでは、コントロールの視覚要素についての概要を紹介します。
+
+### 前提条件
+このトピックを理解するために [Infragistics JavaScript Excel Library](javascript-excel-library.html) の概念とトピックは前提条件です。
+
+## igSpreadsheet コントロールの視覚要素
+以下のスクリーンショットは、`igSpreadsheet` コントロールの視覚要素を示しています。設定可能な要素を図の後に示します。
+
+![](images/igSpreadsheet_visual_elements.png)
+
+1. 数式バー
+2. 名前ボックス
+3. 数式エディターの [無視] ボタンおよび [確認] ボタン
+4. 数式エディター
+5. 列ヘッダー
+6. 行ヘッダー
+7. スプレッドシートのデータ セル
+8. ワークシートのタブをスクロールするためのボタン
+9. 前のワークシートをアクティブ化するためのボタン
+10. 開いたワークブックで使用可能なワークシートのリスト (現在のワークシートは、別の色で表示されます)
+11. 次のワークシートをアクティブ化するためのボタン
+12. 開いたワークブックにワークシートを追加するためのボタン
+13. ワークシートのタブ バー領域と水平スクロールバーの間のスペースを分割するために使用するスプリッター
+14. 水平スクロールバー
+15. 垂直スクロールバー
+
+>**注**: 8 から 12 の行頭文字が、ワークシートのタブ バー領域になります。
+
+## 視覚要素と関連プロパティ
+
+以下の表は、`igSpreadsheet` コントロールの視覚要素とそれらを構成するプロパティにマップします。
+
+視覚要素|プロパティ
+---|---
+数式バー|[isFormulaBarVisible](%%jQueryApiUrl%%/ui.igspreadsheet#options:isFormulaBarVisible)
+列ヘッダーおよび行ヘッダー|[areHeadersVisible](%%jQueryApiUrl%%/ui.igspreadsheet#options:areHeadersVisible)
+スプレッドシートのデータ セル|[areGridlinesVisible](%%jQueryApiUrl%%/ui.igspreadsheet#options:areGridlinesVisible)
+
+## 関連リンク
+
+-	[igSpreadsheet の概要](igspreadsheet-overview.html)
+-   [igSpreadsheet の構成](configuring-igspreadsheet.html)
+-   [igSpreadsheet API](%%jQueryApiUrl%%/ui.igspreadsheet)

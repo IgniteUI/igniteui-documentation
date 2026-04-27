@@ -1,0 +1,237 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igdialog-css-classes-reference",
+    "controlName": "igDialog",
+    "tags": ["Styling"]
+}
+|metadata|
+-->
+
+# CSS クラス リファレンス (igDialog)
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、`igDialog`™ コントロールの CSS クラスを紹介します。
+
+#### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [概要](#intro)
+-   [CSS クラス リファレンス](#classes)
+-   [関連コンテンツ](#related-content)
+
+
+## <a id="intro"></a> Mobile CSS クラスの igDialog の紹介
+
+このセクションでは、`igDialog` CSS クラスを説明します。操作説明に従って、すべてのスタイルをオーバーライドして、カスタム `igDialog` コントロール レイアウトを作成できます。
+
+
+
+## <a id="classes"></a> CSS クラス リファレンス
+
+以下に、`igDialog` コントロールの特長である [CSS クラス](%%jQueryApiUrl%%/ui.igDialog#theming)の目的と機能をまとめました。
+
+**メイン/トップ要素**に適用するクラス。
+
+```
+ui-igdialog 
+ui-dialog 
+ui-widget 
+ui-widget-content
+ui-corner-all
+```
+
+**ヘッダー**に適用するクラス。
+
+```
+ui-igdialog-header
+ui-dialog-titlebar
+ui-widget-header
+ui-corner-top
+ui-helper-clearfix
+```
+
+**フォーカス状態のヘッダー**に適用するクラス。
+
+```
+ui-igdialog-header-focus
+ui-state-focus
+```
+
+**最小化状態のヘッダー**に適用するクラス。
+
+```
+ui-corner-bottom
+```
+
+**ヘッダー テキスト**に適用するクラス。
+
+```
+ui-igdialog-headertext
+ui-dialog-title 
+```
+
+"image" オプションを設定したときに**ヘッダーのイメージ**を表す SPAN に適用される追加のクラス。
+
+```
+ui-igdialog-headerimage
+```
+
+
+ダイアログが**最小化状態**のときに**ヘッダー テキスト**に適用するクラス。
+
+```
+ui-igdialog-headertext-minimized
+```
+
+ヘッダーにある**ボタン**に適用するクラス。
+
+```
+ui-igdialog-headerbutton
+ui-corner-all
+ui-state-default
+```
+
+**マウス ポインターを合わせた**ときにヘッダーの**ボタン**に適用するクラス。
+
+```
+ui-igdialog-headerbutton-hover
+ui-state-hover
+```
+
+ヘッダーの**閉じるボタン**に適用するクラス。
+
+```
+ui-igdialog-buttonclose
+```
+
+ヘッダーの**最小化ボタン**に適用するクラス。
+
+```
+ui-igdialog-buttonminimize
+```
+
+ヘッダーの**最大化ボタン**に適用するクラス。
+
+```
+ui-igdialog-buttonmaximize
+```
+
+ヘッダーの**ピン留めボタン**に適用するクラス。
+
+```
+ui-igdialog-buttonpin
+```
+
+**閉じる**ボタンのアイコンに適用するクラス。
+
+```
+ui-igdialog-close-icon 
+ui-icon ui-icon-close
+```
+
+**最小化**ボタンのアイコンに適用するクラス。
+
+```
+ui-igdialog-minimize-icon
+ui-icon
+ui-icon-minus
+```
+
+**最大化**ボタンのアイコンに適用するクラス。
+
+```
+ui-igdialog-maximize-icon
+ui-icon
+ui-icon-extlink
+```
+
+**元に戻す**ボタンのアイコンに適用するクラス。
+
+```
+ui-igdialog-restore-icon
+ui-icon
+ui-icon-copy
+```
+
+**ピン留め**ボタンのアイコンに適用するクラス。
+
+```
+ui-igdialog-pin-icon
+ui-icon
+ui-icon-pin-s
+```
+
+**ピン留め解除**ボタンのアイコンに適用するクラス。
+
+```
+ui-igdialog-unpin-icon
+ui-icon
+ui-icon-pin-w
+```
+
+**フッター**に適用するクラス。
+
+```
+ui-igdialog-footer
+ui-widget-header
+ui-corner-bottom
+ui-helper-clearfix
+```
+
+**サイズ変更時**にダイアログに適用するクラス。
+
+```
+ui-igdialog-resizing
+```
+
+**ドラッグ時**にダイアログに適用するクラス。
+
+```
+ui-igdialog-dragging
+```
+
+最大化やピン留めなどダイアログが**移動不可状態**のときに**ヘッダー**に適用するクラス。
+
+```
+ui-igdialog-unmovable
+```
+
+ダイアログが**モーダル状態**のときに**シェル要素**に適用するクラス。
+
+```
+ui-igdialog-overlay
+ui-widget-overlay
+```
+
+ダイアログの**コンテンツ領域**に適用するクラス。
+
+```
+ui-igdialog-content
+ui-widget-contentui-dialog-content
+```
+
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [プロパティ リファレンス (*igDialog*)](igDialog-Property-Reference.html): このトピックでは、`igDialog` コントロールのプロパティを紹介します。
+- [メソッドのリファレンス (*igDialog*)](igDialog-Method-Reference.html): このトピックでは `igDialog` コントロールのメソッドを紹介します。
+- [イベント リファレンス (*igDialog*)](igDialog-Event-Reference.html): このトピックでは、`igDialog` コントロールのイベントを紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

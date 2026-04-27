@@ -1,0 +1,115 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "ightmleditor-api-reference",
+    "controlName": "igHtmlEditor",
+    "tags": ["API"]
+}
+|metadata|
+-->
+
+# igHtmlEditor API リファレンス
+
+
+
+##トピックの概要
+
+
+### 目的
+
+このトピックでは、`igHtmlEditor`™ の JavaScript API について説明します。
+
+### このトピックの構成
+
+このトピックは、以下のセクションで構成されます。
+
+-   [igHtmlEditor オプション](#options)
+-   [igHtmlEditor メソッド](#methods)
+-   [igHtmlEditor イベント](#events)
+-   [関連コンテンツ](#related-content)
+
+
+
+##<a id="options"></a>igHtmlEditor オプション
+
+
+### igHtmlEditor オプションの要点
+
+以下の表では、`igHtmlEditor` コントロールのオプションについて説明し、デフォルト値と推奨値を紹介します。
+
+オプション|タイプ|説明|デフォルト値 
+---|---|---|---
+showFormattingToolbar|boolean|"フォーマッティング" ツールバーを表示/非表示にします。|true
+showTextToolbar|boolean|"テキスト" ツールバーを表示/非表示にします。|true
+showInsertObjectToolbar|boolean|"オブジェクト挿入" ツールバーを表示/非表示にします。|true
+showCopyPasteToolbar|boolean|"コピー貼り付け" ツールバーを表示/非表示にします。|true
+width|numeric|ウィジェットの幅を設定するか、取得します。|705
+height|numeric|ウィジェットの高さを設定するか、取得します。|350
+toolbarSettings|array|HTML エディター ツールバー リスト。|-
+customToolbars|array|HTML エディター カスタム ツールバー リスト。|-
+inputName|string|これは、エディター値がある入力要素の名前です。|“”
+
+##<a id="methods"></a>igHtmlEditor メソッド
+
+
+### igHtmlEditor の各種メソッドの概要
+
+次の表は、`igHtmlEditor` コントロールのメソッドをまとめたものです。
+
+プロパティ|戻り値の型|説明
+---|---|---
+getContent|string|HTML エディターのコンテンツを取得します。
+setContent|-|HTML エディターのコンテンツを設定します。
+destroy|-|ウィジェットを破棄します。
+executeAction|-|HTML エディター コマンドを実行します。
+isDirty|boolean|エディターのコンテンツを変更したかどうかで true/false を返します。
+
+##<a id="events"></a>igHtmlEditor イベント
+
+
+### igHtmlEditor イベントの要点
+
+以下の表では、`igHtmlEditor` コントロールのイベントを説明します。
+
+プロパティ|説明|キャンセル可能
+---|---|---
+rendered|ウィジェット全体のレンダリングが済むと発生するイベント。|false
+rendering|ウィジェット全体のレンダリングが済む前に発生するイベント。|true
+actionExecuting|エディター ツールバー項目のどれかをクリックする前に発生するイベント。|true
+actionExecuted|エディター ツールバー項目のどれかをクリックしたあとに発生するイベント。|false
+toolbarCollapsing|ツールバーのどれかを折り畳む前に発生するイベント。|true
+toolbarCollapsed|ツールバーのどれかを展開したあとに発生するイベント。|false
+toolbarExpanding|ツールバーのどれかを展開する前に発生するイベント。|true
+toolbarExpanded|ツールバーのどれかを展開したあとに発生するイベント。|false
+cut|キーボードの切り取りアクションで発生するイベント。|false
+copy|キーボードのコピー アクションで発生するイベント。|false
+paste|キーボードの貼り付けアクションで発生するイベント。|false
+undo|キーボードの取り消しアクションで発生するイベント。|false
+redo|キーボードのやり直しアクションで発生するイベント。|false
+
+##<a id="related-content"></a>関連コンテンツ
+
+
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+-	[igHtmlEditor の追加](igHtmlEditor-Adding-igHtmlEditor.html): このトピックでは、`igHtmlEditor` を Web ページに追加する方法について説明します。
+
+-	[igHtmlEditor の操作](igHtmlEditor-Working-with-igHtmlEditor.html): このページは `igHtmlEditor` の構成機能すべてのトピックのランディング ページです。
+
+
+
+### サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+-	[内容を編集する](%%SamplesUrl%%/html-editor/edit-content): このフォーラム投稿のサンプルでは、HTML エディターでコンテンツを提供します。
+
+-	[カスタム ツールバーおよびボタン](%%SamplesUrl%%/html-editor/custom-toolbars-and-buttons): このサンプルでは、HtmlEditor コントロールを電子メール クライアントとして実装します。署名をメッセージに追加するカスタム ツールバーがあります。
+
+-	[API およびイベント](ightmleditor-modifying-contents-programmatically#api-and-events-demo): このサンプルでは、HTML エディター コントロールのイベントを処理する方法を紹介し、API を使用する方法を紹介します。
+
+
+
+

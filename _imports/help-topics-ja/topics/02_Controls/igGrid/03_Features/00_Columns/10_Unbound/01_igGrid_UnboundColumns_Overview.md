@@ -1,0 +1,273 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "iggrid-unboundcolumns-overview",
+    "controlName": "igGrid",
+    "tags": ["Getting Started","Grids","How Do I"]
+}
+|metadata|
+-->
+
+# 非バインド列の概要 (igGrid)
+
+## トピックの概要
+
+### 目的
+
+このトピックは、`igGrid`™ コントロール の非バインド列機能およびこの機能が提供する機能性について概念的に説明します。
+
+### 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+トピック
+
+目的
+
+- [igGrid の概要](igGrid-Overview.html): このトピックでは、`igGrid` コントロールの概要を提供し、HTML ページへの追加方法をコードを説明します。
+
+- [igGrid アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html): このトピックでは、`igGrid` の内部機能および `igDataSource`™ コンポーネントとどのように対話して各種データ ソースへのバインディングを可能にしているかを説明します。
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [**概要**](#introduction)
+-   [**列を非バインドとして設定**](#set-unbound)
+-   [**非バインド列を構成する**](#configure)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+
+
+
+## <a id="introduction"></a> 概要
+
+`igGrid` コントロールの非バインド列機能により、基本のデータ ソースでフィールドに直接バインドされない列を定義できます。非バインド列は、項目の任意のリストまたは計算値を表示できます (通常、別の列の値に基づく)。これは、列に対して行ベース (追加設定なしのサマリーではなく) でサマリーを作成するために使用できます。その他の典型的な非バインド列の使用には、データ モデルが十分でなく制御不能である場合、または異なるソースからデータが必要な場合が含まれます。
+
+非バインド列には標準の列 (データ ソースにバインドされる) と同じプロパティがあります。非バインド列機能は、並べ替え、フィルタリングなどすべてのグリッド機能で機能します。これには、列テンプレートやフォーマッタなど標準の列機能拡張も含まれます。
+
+## <a id="set-unbound"></a> 列を非バインドとして設定
+
+列は、`igGrid` の [`unbound`](%%jQueryApiUrl%%/ui.iggrid#options:columns.unbound) 列プロパティを true に設定することにより非バインドとして構成されます。(このプロパティの設定により、バインド列と非バインド列を区別します: true = 非バインド列、false = バインドされる列)。このプロパティを true に設定すると、データ ソースへのバインディング時に特定の列が省略され、基本的にデータ モデルと関係のない空の列が得られます。
+
+標準の (バインド) 列と同様に、非バインド列は [`key`](%%jQueryApiUrl%%/ui.iggrid#options:columns.key) プロパティを設定することにより一意に識別される必要があります。
+
+非バインド列値はさまざまな方法で生成できます。列値が事前に定義されている場合、列の [`unboundValues`](%%jQueryApiUrl%%/ui.iggrid#options:columns.unboundValues) プロパティまたはグリッドの [`setUnboundValues`](%%jQueryApiUrl%%/ui.iggrid#methods:setUnboundValues) メソッドを使用します。列値が計算される場合、列の [`formula`](%%jQueryApiUrl%%/ui.iggrid#options:columns.formula) プロパティまたは [`template`](%%jQueryApiUrl%%/ui.iggrid#options:columns.template) プロパティを使用します。
+
+以下のサンプルは、`igGrid` コントロールの非バインド列の構成について説明します。
+
+<div class="embed-sample">
+   [非バインド列](%%SamplesEmbedUrl%%/grid/unbound-column)
+</div>
+
+## <a id="configure"></a> 非バインド列を構成する
+
+以下の表は `igGrid` 機能の非バインド列 の構成可能な要素を表示します。別個のトピック (表にリンクを表示) では詳細が得られます。
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+            <th colspan="2">
+構成可能な項目
+			</th>
+
+            <th>
+詳細
+			</th>
+
+            <th>
+プロパティ
+			</th>
+        </tr>
+	</thead>
+	<tbody>
+        
+
+        <tr>
+            <td>
+データで生成
+			</td>
+
+            <td>
+非バインド列に事前定義データを事前設定する
+			</td>
+
+            <td>
+非バインド列には、[`unboundValues`](%%jQueryApiUrl%%/ui.iggrid#options:columns.unboundValues) 配列プロパティを使用し任意の値 (事前定義データ セット) を事前設定します。 <br />
+
+関連トピック <br />
+
+[非バインド列へデータを生成 (igGrid)](igGrid-UnboundColumns-Populating-with-data-LandingPage.html)
+			</td>
+
+            <td>
+                <ul>
+                    <li>
+unbound
+					</li>
+
+                    <li>
+unboundValues
+					</li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+
+			</td>
+
+            <td>
+非バインド計算値を作成する
+			</td>
+
+            <td>
+非バインド列に計算値を事前設定するには、各セルの値を計算するコールバック関数を使用します。 <br />
+
+関連トピック <br />
+                
+[非バインド列へデータを生成 (igGrid)](igGrid-UnboundColumns-Populating-with-data-LandingPage.html)
+			</td>
+
+            <td>
+                <ul>
+                    <li>
+unbound
+					</li>
+
+                    <li>
+formula
+					</li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+
+			</td>
+
+            <td>
+テンプレートを使用して非バインド列値を作成する
+			</td>
+
+            <td>
+`unboundValues` プロパティまたは `formula` プロパティに加え、またはオルタナティブとしてテンプレートを使用できます。テンプレートには、別の列からのデータを非バインド列に事前設定できます。
+                    columns.
+			</td>
+
+            <td>
+                <ul>
+                    <li>
+unbound
+					</li>
+
+                    <li>
+template
+					</li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+書式設定
+			</td>
+
+            <td>
+定義済みの書式設定を使用した列の書式設定
+			</td>
+
+            <td>
+書式設定は、タイプに基づいて非バインド列に適用できます。
+			</td>
+
+            <td>
+                <ul>
+                    <li>
+unbound
+					</li>
+
+                    <li>
+format
+					</li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+
+			</td>
+
+            <td>
+フォーマッタ関数を使用した列の書式設定
+			</td>
+
+            <td>
+フォーマットは、フォーマッタ関数のコールバックを使用することにより非バインド列に適用できます。関数により新しい値が返されます。フォーマッタ関数は、データのプレゼンテーションのみに影響し、基本データ ソースは変更しません。
+			</td>
+
+            <td>
+                <ul>
+                    <li>
+unbound
+					</li>
+
+                    <li>
+formatter
+					</li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+
+			</td>
+
+            <td>
+テンプレートを使用した列の書式設定
+			</td>
+
+            <td>
+`unboundValues` プロパティまたは `formula` プロパティに加え、またはオルタナティブとしてテンプレートを使用できます。テンプレートは、非バインド列の値の書式を設定できます。
+			</td>
+
+            <td>
+                <ul>
+                    <li>
+unbound
+					</li>
+
+                    <li>
+template
+					</li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [列を非バインドとして設定 (igGrid)](igGrid-UnboundColumns-Setting-Column-as-Unbound.html): このトピックは、クライアントまたはサーバー上で非バインドとして列の値を設定する方法をコード例を用いて示します。
+
+- [非バインド列での作業 (igGrid)](igGrid-UnboundColumns-Working-with-LandingPage.html): このグループのトピックは、`igGrid` コントロールの非バインド列機能のデータの設定やグリッド パフォーマンスの最適化など非バインド列の使用に関した一部の共通タスクを説明します。
+
+- [既知の問題と制限事項 (igGrid、非バインド列)](igGrid-UnboundColumns-Known-Issues.html): このトピックでは、`igGrid` コントロールの非バインド列機能の既知の問題点および制限に関する情報を提供します。
+
+- [API リファレンス (igGrid,、非バインド列)](igGrid-UnboundColumns-API-Reference-LandingPage.html): このグループのトピックは、`igGrid` コントロールの非バインド列機能関連のプロパティおよびメソッドに関する参照情報を提供します。
+
+- [列集計 (igGrid)](igGrid-Column-Summaries.html): このグループのトピックは、`igGrid` で列サマリーを作成する方法を説明します。
+

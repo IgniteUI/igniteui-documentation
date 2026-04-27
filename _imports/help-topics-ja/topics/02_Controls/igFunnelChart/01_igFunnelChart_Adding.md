@@ -1,0 +1,617 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igfunnelchart-adding",
+    "controlName": "igFunnelChart",
+    "tags": ["Charting","Data Presentation"]
+}
+|metadata|
+-->
+
+# igFunnelChart の追加
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、`igFunnelChart` コントロールを HTML ページに追加しデータへバインドする方法を示します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+- 概念
+	-   jQuery、jQuery UI
+	-   ASP.NET MVC
+-   トピック
+	-   [%%ProductName%% で JavaScript リソースの使用](Deployment-Guide-JavaScript-Resources.html): このトピックでは、%%ProductName%% ライブラリからコントロールを使用するために必要な JavaScript リソースを追加する方法についての概要を説明します。
+	-   [*igFunnelChart* の概要](igFunnelChart-Overview.html): このトピックでは、主要機能、最小要件、ユーザー機能性など、`igFunnelChart` コントロールに関する概念的な情報を提供します。
+
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [***igFunnelChart* を HTML ページに追加 - 概要**](#overview)
+    -   [要件](#requirements)
+-   [**JavaScript を使用した *igFunnelChart* の HTML ページへの追加**](#javascript)
+    -   [概要](#javascript-introduction)
+    -   [プレビュー](#javascript-preview)
+    -   [概要](#javascript-overview)
+    -   [手順](#javascript-steps)
+-   [**ASP.NET MVC を使用した *igFunnelChart* の HTML ページへの追加**](#asp-net-mvc)
+    -   [概要](#asp-net-mvc-introduction)
+    -   [プレビュー](#asp-net-mvc-preview)
+    -   [要件](#asp-net-mvc-requirements)
+    -   [概要](#asp-net-mvc-overview)
+    -   [手順](#asp-net-mvc-steps)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+
+
+## <a id="overview"></a> *igFunnelChart* を HTML ページに追加 - 概要
+
+igFunnelChart を HTML ページに追加する場合、内部で作成できるように、事前に構成されたデータ ソース インスタンスを提供するか、必要なオプションを指定する必要があります。データ ソース候補の詳細については、「[**データへのバインド**](igFunnelChart-Binding-to-Data.html)」トピックを参照してください。
+
+データ ソースは、`igFunnelChart` の [`dataSource`](%%jQueryApiUrl%%/ui.igfunnelchart#options:dataSource) プロパティを介して指定されます。データ ソースと高さの設定は、igFunnelChart の初期化時に設定しなければならない唯一の必須オプションです。
+
+### <a id="requirements"></a> 要件
+
+igFunnelChart を HTML ページに追加すると、以下にリストされるリソースを参照する必要があります。これらのリソースは、JavaScript と ASP.NET MVC の両方が必要です。(JavaScript の固有要件および MVC 固有の要件は、「[**JavaScript を使用した igFunnelChart の HTML ページへの追加**](#javascript)」と「 [**ASP.NET MVC を使用した igFunnelChart の HTML ページへの追加**](#asp-net-mvc)」のそれぞれのセクションで一覧になっています。)
+
+<table class="table">
+	<tbody>
+		<tr>
+			<th>
+				要件
+			</th>
+
+			<th>
+				説明
+			</th>
+		</tr>
+
+		<tr>
+			<td>
+				HTML5 キャンバス API
+			</td>
+
+			<td>
+				チャート用ライブラリの機能は、HTML5 Canvas タグとそれに関する API に基づきます。これらをサポートする Web ブラウザーは、igFunnelChart コントロールにより生成されたチャートを描画および表示できます。その他の HTML5 機能は、igFunnelChart コントロールの操作に必要です。HTML5 Canvas API をサポートするもっとも人気のあるデスクトップおよび携帯電話の Web ブラウザーのバージョンに関する詳細は、「<a href="http://www.w3schools.com/html/html5_canvas.asp" target="_blank">キャンバス要素</a>」を参照してください。
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				jQuery および jQuery UI JavaScript リソース
+			</td>
+
+			<td>
+				%%ProductName%% は、これらのフレームワークの最上位にビルドされます。
+
+				<ul>
+					<li><a class="ig-topic-link" href="http://jquery.com/" target="_blank">jQuery</a></li>
+
+					<li><a class="ig-topic-link" href="http://jqueryui.com/" target="_blank">jQuery UI</a></li>
+				</ul>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				Modernizr
+			</td>
+
+			<td>
+				<a href="http://modernizr.com/" target="_blank">Modernizr</a> ライブラリは、ブラウザとデバイス機能を検出するために igFunnelChart で使用されます。これは必須ではなく、含まれていない場合、コントロールは HTML5 をサポートするブラウザーが動作する通常のデスクトップ環境であるように動作します。
+
+				<ul>
+					<li><a class="ig-topic-link" href="http://modernizr.com/" target="_blank">Modernizr</a></li>
+				</ul>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				JavaScript リソースのチャート表示
+			</td>
+
+			<td>
+				%%ProductName%% ライブラリのチャート表示機能は、シリーズ タイプに応じて複数のファイルに渡って配布されます。また、HTML または MVC のビューにリンクする必要のある別個のファンネル チャート JavaScript ファイルもあります。
+
+				手動でリソースを含めたい場合には、次の表に示された依存関係を使用する必要があります。
+
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>
+								JS リソース
+							</th>
+
+							<th>
+								説明
+							</th>
+						</tr>
+
+						<tr>
+							<td>
+								infragistics.util.js<br/>
+								infragistics.util.jquery.js
+							</td>
+
+							<td>
+								%%ProductName%% ユーティリティ
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								infragistics.datasource.js
+							</td>
+
+							<td>
+								`igDataSource` コントロール
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								infragistics.templating.js
+							</td>
+
+							<td>
+								%%ProductName%% テンプレート エンジン
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								infragistics.ui.widget.js
+                            </td>
+							<td>
+								すべての %%ProductName%% ウィジェットの基本 igWidget。
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								infragistics.ext_core.js,<br>
+								infragistics.ext_collections.js,<br>
+								infragistics.ext_ui.js,<br>
+								infragistics.dv_jquerydom.js,<br>
+								infragistics.dv_core.js,<br>
+								infragistics.dv_geometry.js
+							</td>
+
+							<td>
+								コア データ ビジュアライゼーション ロジック
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								infragistics.datachart_core.js
+							</td>
+
+							<td>
+								すべてのチャート ウィジェットのコア ビジュアライゼーション ロジック
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								infragistics.dvcommonwidget.js
+							</td>
+
+							<td>
+								データ ビジュアライゼーション ウィジェットの共有 UI コード
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								infragistics.dv_interactivity.js
+                            </td>
+							<td>
+								パンニング、ズーム、ドラッグなどのユーザー インタラクションのサポートを提供します。
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								infragistics.ui.basechart.js
+							</td>
+
+							<td>
+								チャート ウィジェット用の共通 UI コード
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								infragistics.funnelchart.js
+							</td>
+
+							<td>
+								ファンネル チャートのヘルパー コード
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								infragistics.ui.funnelchart.js
+							</td>
+
+							<td>
+								`igFunnelChart` コントロール
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								infragistics.legend.js
+							</td>
+
+							<td>
+								チャート凡例の視覚化の共有コード
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								infragistics.ui.chartlegend.js
+							</td>
+
+							<td>
+								%%ProductName%% においてすべてのチャート コントロールで使用される `igChartLegend` コントロール
+							</td>
+						</tr>
+					</tbody>
+				</table><br>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				IG テーマ
+			</td>
+
+			<td>
+				このテーマには、%%ProductName%% ライブラリ向けに作成されたカスタム ビジュアル スタイルが含まれます。これは次のファイルに含まれます。
+				*&lt;IG CSS ルート&gt;/themes/Infragistics/infragistics.theme.css*
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				チャート構造
+			</td>
+
+			<td>
+				この CSS リソースは、コントロールのさまざまな要素を描画するためにチャート コンポーネントによって使用されます。
+				*&lt;IG CSS root&gt;/structure/modules/infragistics.ui.chart.css*
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+> **注:** JavaScript と CSS リソースを読み込むためには igLoader コンポーネントを使うことを推奨します。その方法の詳細については、「[**Infragistics ローダーの使用**](Using-Infragistics-Loader.html)」トピックを参照してください。さらに、オンラインの %%ProductName%% [サンプル ブラウザー](%%SamplesUrl%%) では、`igFunnelChart` コンポーネントで `igLoader` を使用する方法について特有の例が示されています。
+
+
+
+## <a id="javascript"></a> JavaScript を使用した *igFunnelChart* の HTML ページへの追加
+
+### <a id="javascript-introduction"></a> 概要
+
+この手順は、基本的な機能を持つファンネル チャートを Web ページに追加する手順を示します。例は、実際の HTML/JavaScript の実装を示します。`igFunnelChart` コントロールによって必要とされるすべての %%ProductName%% リソースをロードするための適切な Loader 構成が含まれます。
+
+プロシージャにより、325x450 ピクセルのファンネル チャートをインスタンス化し構成します。並べ替え順序はデフォルト (一番高い値が一番上) で、加重スライスおよび利得曲線で会社の部門の予算を表します。データは JSON 配列の形式で `igFunnelChart` コントロールに供給されます (プロシージャでも構成されます)。基本的な調整に加え、パスおよび `igFunnelChart` ラベルのビジュアル ステートは、表示されるデータに関し記述的な情報を有するために構成されます。
+
+### <a id="javascript-preview"></a> プレビュー
+
+以下のスクリーンショットは結果のプレビューです。
+
+![](images/Adding_igFunnelChart_%28Walkthrough%29_1.png)
+
+### <a id="javascript-overview"></a> 概要
+
+以下はプロセスの概念的概要です。
+
+[1.Infragistics Loader の追加](#js-step-loader)
+
+[2.データ ソースの追加](#js-step-loader-data)
+
+[3.*igFunnelChart* のインスタンス化](#js-step-init)
+
+[4.(オプション) 結果の検証](#js-step-verify)
+
+### <a id="javascript-steps"></a> 手順
+
+以下のステップは、基本的なファンネル チャート コントロールを Web ページに追加する方法を示します。
+
+1. **Infragistics Loader を追加します。**  <a id="js-step-loader"></a>
+	1. * igLoader* スクリプト ファイルへの参照を追加します。
+
+		以下は、ページに `igLoader` スクリプトを読み込むためのサンプル `<script>` タグです。
+		
+		**HTML の場合:**
+		
+		```html
+		<script src="/Scripts/ig/js/infragistics.loader.js"></script>
+		```
+
+	2. *igFunnelChart* のための *igLoader* 構成を追加します 。
+		
+		以下のコードをページ上の `<script>` 要素に追加します。
+		
+		**JavaScript の場合:**
+		
+		```js
+		$.ig.loader({
+	        scriptPath: "/Script/ig/",
+	        cssPath: "/Content/ig/",
+	        resources: "igFunnelChart,igChartLegend"
+	    });
+		```
+
+2. **データ ソースを追加します。**  <a id="js-step-loader-data"></a>
+
+	データ ソースとして、ページ上の `<script>` 要素に JavaScript 配列を追加します。
+	
+	**JavaScript の場合:**
+	
+	```js
+	var data = [
+        { Budget: 30, Department: "Administration" },
+        { Budget: 50, Department: "Sales" },
+        { Budget: 60, Department: "IT" },
+        { Budget: 50, Department: "Marketing" },
+        { Budget: 100, Department: "Development" },
+        { Budget: 20, Department: "Support" }
+    ];
+	```
+
+3. ***igFunnelChart* をインスタンス化します。**  <a id="js-step-init"></a>
+
+	1. HTML 要素をファンネル チャートに追加する
+	
+		HTML ページ上にファンネル チャートをホストする HTML `<div>` 要素を追加します。
+		
+		**HTML の場合:**
+		
+		```html
+		<div id="funnel"></div>
+		```
+
+	2. * igFunnelChart* をインスタンス化します。
+		
+		以下の初期化コードをページ上の `<script>` 要素に追加します。
+		
+		**JavaScript の場合:**
+		
+		```js
+		$.ig.loader(function () {
+	        //  Create a basic funnel chart
+	        $("#funnel").igFunnelChart({
+	            width: "325px",
+	            height: "450px",
+	            dataSource: data,
+	            valueMemberPath: "Budget",
+	            innerLabelMemberPath: "Budget",
+	            innerLabelVisibility: "visible",
+	            outerLabelMemberPath: "Department",
+	            outerLabelVisibility: "visible"
+	        });
+	    });
+		```
+	
+		上記のコードは、以前に追加された `<div>` 要素でファンネル チャートを作成します。
+		
+		[`width`](%%jQueryApiUrl%%/ui.igfunnelchart#options:width) および [`height`](%%jQueryApiUrl%%/ui.igfunnelchart#options:height) のオプションは、ページ上のチャートのサイズとともに割り当てられ、その値は CSS で利用可能な単位で指定できます。
+		
+		チャートへデータを提供するオブジェクトを [`dataSource`](%%jQueryApiUrl%%/ui.igfunnelchart#options:dataSource) オプションに割り当てます。[`valueMemberPath`](%%jQueryApiUrl%%/ui.igfunnelchart#options:valueMemberPath) オプションは、ビジュアル化するデータを含むデータ ソース内のフィールド名で設定します。[`innerLabelMemberPath`](%%jQueryApiUrl%%/ui.igfunnelchart#options:innerLabelMemberPath) オプションおよび [`outerLabelMemberPath`](%%jQueryApiUrl%%/ui.igfunnelchart#options:outerLabelMemberPath) オプションは、スライスごとに表示されるラベルまたは名前を含むデータ ソース内のフィールド名で設定します。
+		
+		[`innerLabelVisibility`](%%jQueryApiUrl%%/ui.igfunnelchart#options:innerLabelVisibility) オプションおよび [`outerLabelVisibility`](%%jQueryApiUrl%%/ui.igfunnelchart#options:outerLabelVisibility) オプションは、インナー ラベルおよびアウター ラベルを表示するかどうかを決定します。インナー ラベルは、スライスの内側に表示されるテキストであり、ラベルはスライスの左側または右側に表示されるテキストです。
+
+4. **(オプション) 結果を確認します。**  <a id="js-step-verify"></a>
+
+	結果を検証するには、ページを保存し、Web ブラウザーで結果を確認します。手順を正しく実行した場合、マップは[プレビュー](#javascript-preview)のように表示されます。
+
+
+
+
+
+## <a id="asp-net-mvc"></a> ASP.NET MVC を使用した *igFunnelChart* の HTML ページへの追加
+
+### <a id="asp-net-mvc-introduction"></a> 概要
+
+この手順は、基本的な機能を備えたファンネル チャートを ASP.NET MVC ビューに追加する方法を示します。
+
+プロシージャにより、325x450 ピクセルのファンネル チャートをインスタンス化し構成します。並べ替え順序はデフォルト (一番高い値が一番上) で、加重スライスおよび利得曲線で会社の部門の予算を表します。データは JSON 配列の形式で `igFunnelChart` コントロールに供給されます (プロシージャでも構成されます)。基本的な調整に加え、パスおよび `igFunnelChart` ラベルのビジュアル ステートは、表示されるデータに関し記述的な情報を有するために構成されます。
+
+この例では、必要なローダー構成とともに ASP.NET MVC 構文を使用して、コントローラー アクション メソッドによって渡されたデータ モデル オブジェクトにバインドし、コントロールの操作でこれを実行するのに不可欠なオプションを設定しています。
+
+データを ASP.NET MVC ビュー に供給するには、適切なデータ モデル定義を使用してコントローラーを介します。モデルは、指定された Department の Budget 用に10 進数フィールドを持つ会社の予算からのエントリを表します。
+
+例では、ある仮想会社の予算のコンテキストで示します。
+
+### <a id="asp-net-mvc-preview"></a> プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。
+
+![](images/Adding_igFunnelChart_%28Walkthrough%29_1.png)
+
+### <a id="asp-net-mvc-requirements"></a> 要件
+
+以下は、`igFunnelChart` を ASP.NET MVC の HTML ページへ追加するための全般的な要件です。
+
+-   `igFunnelChart` 用に %%ProductNameMVC%% を含む %%ProductNameMVC%% のアセンブリ *Infragistics.Web.Mvc.dll*
+
+### <a id="asp-net-mvc-overview"></a> 概要
+
+以下はプロセスの概念的概要です。
+
+- [1.データ モデルを追加します。](#mvc-step-model)
+- [2.コントローラー アクション メソッドの追加](#mvc-step-action)
+- [3.厳密に型指定された ASP.NET MVC ビューの追加](#mvc-step-view)
+- [4.Infragistics Loader の追加](#mvc-step-loader)
+- [5.*igFunnelChart* のインスタンス化](#mvc-step-init)
+- [6.(オプション) 結果の検証](#mvc-step-verify)
+
+#### <a id="asp-net-mvc-steps"></a> 手順
+
+以下の手順は、基本的なファンネル チャート コントロールを ASP.NET MVC アプリケーションに追加する方法を示します。
+
+1. **データ モデルを追加します。**  <a id="mvc-step-model"></a>
+
+	以下のコードはデータ モデル部分を示します。
+	
+	1.  **ASP.NET MVC アプリケーションの *Models*  フォルダーへナビゲートします。**
+	2.  **新しい空のクラスを追加し、 `BudgetData` という名前をつけます。**
+	3.  **以下のコードを追加します。これは、指定された `Department` の `Budget` に対して10 進数フィールドを持つ会社の予算からのエントリを表します。**
+	
+	**C# の場合:**
+	
+		```csharp
+		public class BudgetData
+	    {
+
+	        public decimal Budget { get; set; }
+	        public string Department { get; set; }
+
+	    }
+		```
+
+2. **コントローラー アクション メソッドを追加します。**  <a id="mvc-step-action"></a>
+
+	**ASP.NET MVC アプリケーションの Controllers フォルダーに空のコントローラー クラスを追加します。**
+	
+	コントローラーのアクションにより、`BudgetData` オブジェクトのリストがアプリケーション内のデータベースまたは外部データ サービスにより提供されたデータで初期化されます。次に、コントローラーは、データを持つコントローラー用にデフォルトの ビュー を呼び出します。
+	
+	**C# の場合:**
+	
+	```csharp
+	public ActionResult Index()
+    {
+        var data = new List<BudgetData>()
+        {
+            new BudgetData { Budget = 30, Department = "Administration" },
+            new BudgetData { Budget = 50, Department = "Sales" },
+            new BudgetData { Budget = 60, Department = "IT" },
+            new BudgetData { Budget = 50, Department = "Marketing" },
+            new BudgetData { Budget = 100, Department = "Development" },
+            new BudgetData { Budget = 20, Department = "Support" }
+        };
+        return View(data.AsQueryable());
+    }
+	```
+
+3. **厳密に型指定された ASP.NET MVC ビューを追加します。**  <a id="mvc-step-view"></a>
+
+	ビュー を追加して構成するには
+	
+	1. コントローラーのアクション メソッドに対応する View を作成します。
+	
+	2. View を厳密に型指定し、上記のステップ 3.1 で作成されたデータ モデル クラスをポイントします。
+	
+	**ASPX の場合:**
+	
+	```csharp
+	@model IQueryable<MvcApp.Models.BudgetData>
+	```
+
+4. **Infragistics Loader を追加します。**  <a id="mvc-step-loader"></a>
+	1. ` igLoader` スクリプト ファイルへの参照を追加します。
+	
+		以下は、ページに igLoader スクリプトを読み込むためのサンプル `<script>` タグです。
+		
+		**HTML の場合:**
+		
+		```html
+		<script src="/Scripts/ig/js/infragistics.loader.js"></script>
+		```
+		
+	2. ` igFunnelChart` 用 `igLoader` の構成を追加します。
+	
+		ASP.NET MVC ビュー に追加された以下のコードは、`igLoader` のラッパーを %%ProductName%% リソースへのパスで構成します。
+		
+		**ASPX の場合:**
+		
+		```csharp
+		@(Html.Infragistics()
+	        .Loader()
+	        .ScriptPath("http://localhost/ig_ui/js/")
+	        .CssPath("http://localhost/ig_ui/css/")
+	        .Render()
+	    )
+		```
+
+5. ***igFunnelChart* をインスタンス化します。**  <a id="mvc-step-init"></a>
+	
+	以下のコードは、%%ProductNameMVC%% FunnelChart を構成して `<div>` 要素を `id` “funnel” で作成します。ファンネル チャートは [`ID(“funnel”)`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~ID.html) 呼び出しでホストされ、ビュー用に宣言されたデータ モデル オブジェクトを [`FunnelChart(Model)`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1.html) 呼び出しでコントロールに割り当てます。各スライスの値を提供するモデルのメンバーは、[`ValueMemberPath("Budget")`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~ValueMemberPath.html) 呼び出しで参照されます。
+	
+	**ASPX の場合:**
+	
+	```csharp
+	@(Html.Infragistics().FunnelChart(Model)
+		.ID("funnel")
+		.Height("450px")
+		.Width("325px")
+		.ValueMemberPath("Budget")
+		.InnerLabelMemberPath("Budget")
+		.OuterLabelMemberPath("Department")
+		.InnerLabelVisibility(Visibility.Visible)
+		.OuterLabelVisibility(Visibility.Visible)
+		.DataBind()
+		.Render()
+	)
+	```
+	
+	[`Width()`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~Width.html) および [`Height()`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~Height.html) 呼び出しはページ上のチャートのサイズを指定し、その値は CSS で利用可能な単位で指定できます。
+	
+	[`innerLabelMemberPath()`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~InnerLabelMemberPath.html) 呼び出しおよび [`outerLabelMemberPath()`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~OuterLabelMemberPath.html) 呼び出しは、スライスごとに表示されるラベルまたは名前を含むデータ ソース内のフィールド名を構成します。
+	
+	[`innerLabelVisibility()`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~InnerLabelVisibility.html) 呼び出しおよび [`outerLabelVisibility()`](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1~OuterLabelVisibility.html) 呼び出しは、インナー ラベルおよびアウター ラベルを描画するかどうかを決定します。インナー ラベルは、スライスの内側に表示されるテキストであり、ラベルはスライスの左側または右側に表示されるテキストです。
+
+6. **(オプション) 結果を検証します。**  <a id="mvc-step-verify"></a>
+
+	結果を検証するには、ページを保存し、Web ブラウザーで最終結果を確認します。手順を正しく実行した場合、マップは[プレビュー](#asp-net-mvc-preview)のように表示されます。
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [*igFunnelChart* の概要](igFunnelChart-Overview.html): このトピックでは、主要機能、最小要件、ユーザー機能性など、`igFunnelChart` コントロールに関する概念的な情報を提供します。
+
+- [*igFunnelChart* のデータへのバインディング](igFunnelChart-Binding-to-Data.html): このトピックでは、`igFunnelChart` コントロールを各種データ ソースへバインドする方法を説明します。
+
+- [*igFunnelChart* の構成](igFunnelChart-Configuring.html): このトピックは、`igFunnelChart` コントロールの異なる可視機能とビヘイビアーの構成方法を説明します。
+
+- [*igFunnelChart *のスタイル設定](igFunnelChart-Styling.html): このトピックでは、`igFunnelChart` コントロールのルックアンドフィールをカスタマイズする方法を説明します。
+
+- [アクセシビリティ準拠 (*igFunnelChart*)](igFunnelChart-Accessibility-Compliance.html): このトピックでは、`igFunnelChart` コントロールのユーザー補助機能について説明し、チャートを含むページのアクセシビリティの遵守を実現する方法に関してアドバイスを提供します。
+
+- [既知の問題と制限 (*igFunnelChart*)](igFunnelChart-Known-Issues-and-Limitations.html): このトピックでは、`igFunnelChart` コントロールに関連する既知の問題点に関する情報を提供します。 
+ 
+- [jQuery と MVC API リンク (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): このトピックでは、`igFunnelChart` コントロールと ASP.NET MVC ヘルパーのための API リファレンスのドキュメントへのリンクの一覧を示します。
+
+### <a id="samples"></a> サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [ファンネル チャート](%%SamplesUrl%%/funnel-chart/funnel-chart): このサンプルは、ファンネル チャート コントロールを使用して大きな値から小さな値までスライスの位置を反転する機能でスライスとしてデータを描画するコントロールの使用を説明します。
+
+
+
+
+ 
+
+ 
+
+

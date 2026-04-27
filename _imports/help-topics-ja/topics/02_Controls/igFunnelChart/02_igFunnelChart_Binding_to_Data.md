@@ -1,0 +1,349 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igfunnelchart-binding-to-data",
+    "controlName": "igFunnelChart",
+    "tags": ["Charting","Data Binding","Data Presentation"]
+}
+|metadata|
+-->
+
+# igFunnelChart のデータへのバインディング
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、`igFunnelChart`™ コントロールを異なるデータ ソースへバインドする方法を説明します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+- 概念
+	-   JavaScript 配列
+	-   JSON
+	-   ASP.NET MVC
+-   トピック
+	-   [*igDataSource* の概要](igDataSource-igDataSource-Overview.html): このトピックでは、`igDataSource`™ コンポーネントの概要を提供し、HTML ページへの追加方法をコードを説明します。
+	-   [*igFunnelChart* の概要](igFunnelChart-Overview.html): このトピックでは、主要機能、最小要件、ユーザー機能性など、`igFunnelChart` コントロールに関する概念的な情報を提供します。
+	-   [*igFunnelChart* の追加](igFunnelChart-Adding.html): このトピックでは、`igFunnelChart` コントロールを HTML ページに追加しデータへバインドする方法を説明します。
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [**データ ソースにバインド**](#data-sources)
+-   [**コード例の概要**](#examples-summary)
+-   [**コード例: *igFunnelChart* の JavaScript 配列へのバインド**](#javascript-array)
+-   [**コード例: *igFunnelChart* の XML データへのバインド**](#xml)
+	-   [**XML バインドを紹介するサンプル**](#full-sample)
+-   [**コード例: *igFunnelChart* の厳密に型指定された MVC ビューへのバインド**](#mvc-model)
+-   [**コード例: *igFunnelChart* のリモート サービスからの JSON へのバインド**](#remote-service-json)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+
+
+## <a id="data-sources"></a> データ ソースにバインド
+
+### データ ソースの要約
+
+その他のコントロールを %%ProductName%%® ライブラリへバインドするのと同じやり方で `igFunnelChart` へデータをバインドします。データのバインドは、dataSource オプションにデータ ソースを割り当てるという形で行い、Web または Windows Communication Foundation (WCF) サービスによって提供されるデータについては `dataSourceUrl` に URL を指定するという形で行います。`igFunnelChart` コントロールは `igDataSource` オブジェクトを作成および使用してデータを処理します。
+
+### サポートされるデータ ソースのリスト
+
+`igFunnelChart` コントロールは以下のデータ ソースをサポートしています。
+
+-   JavaScript 配列
+-   JSON
+-   XML
+-   IQueryable&lt;T&gt;
+-   [*igDataSource*](igDataSource-igDataSource.html)
+
+### 要件
+
+各データ ソースには、`igFunnelChart` コントロールへのデータ バインディングの異なる要件があります。以下の表に、各要件カテゴリを示します。
+
+<table class="table">
+	<tbody>
+		<tr>
+			<th>要件のカテゴリ</th>
+			<th>要件の一覧</th>
+		</tr>
+		<tr>
+			<td>データ構造</td>
+			<td>
+				<ul>
+					<li>JSON (Web または WCF サービスからの、または MVC コントローラー アクションからのクライアント側)</li>
+					<li>XML (クライアント側、あるいは Web または WCF サービスから)</li>
+					<li>JavaScript 配列</li>
+					<li>ASP.NET MVC での IQueryable&lt;T&gt;</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>データ型</td>
+			<td>
+				<ul>
+					<li>String: スライス ラベルの場合</li>
+					<li>Number: スライス値の場合</li>
+				</ul>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+## <a id="examples-summary"></a> コード例の概要
+
+以下の表は、このトピックで使用したコード例をまとめたものです。
+
+例|説明
+--- | ---
+[JavaScript 配列へのバインド](#javascript-array)|この例は、`igFunnelChart` コントロールを JavaScript データ配列にバインドする際の手順を示します。
+[*igFunnelChart* の XML データへのバインディング](#xml)|この例は、`igFunnelChart` コントロールを XML 構造にバインドする際の手順を示します。
+[*igFunnelChart* の厳密に型指定された MVC ビューへのバインド](#mvc-model)|この例は、厳密に型指定された ASP.NET MVC ビューでモデル オブジェクトに`igFunnelChart` コントロールをバインドする方法をデモします。
+[*igFunnelChart* のリモート サービスからの JSON へのバインド](#remote-service-json)|この例は、リモート データを要求して JSON 応答にバインドするために `igFunnelChart` コントロールを構成する方法をデモします。
+
+
+
+
+
+## <a id="javascript-array"></a> コード例: *igFunnelChart* の JavaScript 配列へのバインド
+
+### 説明
+
+もっとも一般的なデータ バインディング シナリオの 1 つは、Web ページ上でデータ オブジェクトの JavaScript 配列からデータを可視化することです。この例は、2 つのフィールドを持つオブジェクトのサンプル配列を定義し、データ ソースとして配列を使用するファンネル チャートを構成します。
+
+### コード
+
+以下のスニペットは、**JavaScript 配列を定義するものです。**ページにおいてスニペットをスクリプト ブロックに起きます。
+
+**JavaScript の場合:**
+
+```js
+var data = [
+    { Budget: 30, Department: "Administration" },
+    { Budget: 50, Department: "Sales" },
+    { Budget: 60, Department: "IT" },
+    { Budget: 50, Department: "Marketing" },
+    { Budget: 100, Department: "Development" },
+    { Budget: 20, Department: "Support" }
+];
+```
+
+以下のスニペットはファンネル チャートをインスタンス化し、上記に定義された配列にチャートを**バインドします**。この例は、その他のすべてのインスタンス化の詳細を省略する基本的なデータ バインディング コードを示すのみです。
+
+**JavaScript の場合:**
+
+```js
+$("#funnel").igFunnelChart({
+    . . .    
+    dataSource: data,
+    valueMemberPath: "Budget",
+    innerLabelMemberPath: "Budget",
+    outerLabelMemberPath: "Department"
+});
+```
+
+
+
+## <a id="xml"></a> コード例: *igFunnelChart* の XML データへのバインド
+
+### 説明
+
+`igFunnelChart` は、`igDataSource` コンポーネントの助けを得てデータ ソースとして XML 構造をサポートします。このコード例は、XML 構造を `igDataSource` オブジェクトに渡し、データ ソース オブジェクトをファンネル チャート コントロールにバインドする方法を示します。
+
+### コード
+
+以下のコード スニペットは、JavaScript 文字列で** XML 構造を定義します。**構造には、2 つのデータ属性を持つノードが含まれます。Department と Budget です。
+
+**JavaScript の場合:**
+
+```js
+var xmlDoc = 
+    '<CompanyBudget>' +
+        '<BudgetEntry Department="Development" Budget="100" />' +
+        '<BudgetEntry Department="IT" Budget="60" />' +
+        '<BudgetEntry Department="Sales" Budget="60" />' +
+        '<BudgetEntry Department="Marketing" Budget="50" />' +
+        '<BudgetEntry Department="Administration" Budget="30" />' +
+        '<BudgetEntry Department="Support" Budget="20" />' +
+    '</CompanyBudget>';
+```
+
+以下のコード スニペットは、**XML データ**の構造を `igDataSource` で認識可能な `igDataSchema` オブジェクトへ宣言する方法を示します。
+
+**JavaScript の場合:**
+
+```js
+var xmlSchema = new $.ig.DataSchema("xml",
+    {
+        searchField: "//BudgetEntry",
+        fields: [
+            { name: "Department", xpath: "./@Department" },
+            { name: "Budget", xpath: "./@Budget", type: "number" }
+        ]
+    }
+);
+```
+
+以下のコード スニペットは、**XML データとスキーマ オブジェクト**を使用して `igDataSource` をインスタンス化する方法を示します。
+
+**JavaScript の場合:**
+
+```js
+var ds = new $.ig.DataSource({
+    type: "xml",
+    dataSource: xmlDoc,
+    schema: xmlSchema
+});
+```
+
+以下のコード スニペットは、上記で作成された**データ ソースにバインドする** `igFunnelChart` コントロールのインスタンス化コードを示します。データ ソース オブジェクトは、データを XML 構造から処理し、適切なフォームでファンネル チャート コントロールに提供します。
+
+**JavaScript の場合:**
+
+```js
+$("#chartNormal").igFunnelChart({
+    . . .
+    dataSource: ds,
+    valueMemberPath: "Budget",
+    innerLabelMemberPath: "Budget",
+    outerLabelMemberPath: "Department"
+});
+```
+
+### <a id="full-sample"></a> XML バインドを紹介するサンプル
+  
+このサンプルは、`igFunnelChart` を XML 構造のデータにバインドする方法を紹介します。そのために、XML データはデータをファンネル チャートに提供する `igDataSource` に渡されます。
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/funnel-chart/xml-binding](%%SamplesEmbedUrl%%/funnel-chart/xml-binding)
+</div>
+
+## <a id="mvc-model"></a> コード例: *igFunnelChart* の厳密に型指定された MVC ビューへのバインド
+
+### 説明
+
+MVC アプリケーションでは、通常、厳密に型指定されたビューを持ち、アプリケーションのビジネス ロジック レイヤーからデータ オブジェクトを渡します。このサンプルは、サンプル データ クラスを定義し、モデル オブジェクトをファンネル チャートをインスタンス化する %%ProductNameMVC%% FunnelChart に渡す基本的なコードを提供します。データ モデル オブジェクトは、データ クラスの IQueryable である必要があります。
+
+### コード
+
+次のコード スニペットは、2 つのデータ フィールドから構成される**サンプル クラスを宣言します。**
+
+**C# の場合:**
+
+```csharp
+public class BudgetData
+{
+    public decimal Budget { get; set; }
+    public string Department { get; set; }
+}
+```
+
+以下のコード スニペットは、最初に厳密に型指定された MVC ビューを指定します。次に、**ビューのモデル オブジェクトにバインドするために** %%ProductNameMVC%% FunnelChart を使用する方法を示します。
+
+**ASPX の場合:**
+
+```csharp
+@model IQueryable<MvcApp.Models.BudgetData>
+. . .
+@(Html.Infragistics().FunnelChart(Model)
+    .ID("funnel")
+    . . .
+    .ValueMemberPath("Budget")
+    .InnerLabelMemberPath("Budget")
+    .OuterLabelMemberPath("Department")
+    .DataBind()
+    .Render()
+)
+```
+
+
+
+## <a id="remote-service-json"></a> コード例: *igFunnelChart* のリモート サービスからの JSON へのバインド
+
+### 説明
+
+このコード例は、要求からリモート サービス (この場合は MVC コントローラー アクション) への JSON データを `igFunnelChart` コントロールへバインドする方法を示します。
+
+### コード
+
+次のコード スニペットは、2 つのデータ フィールドから構成される**サンプル クラスを宣言します。**
+
+**C# の場合:**
+
+```csharp
+public class BudgetData
+{
+    public decimal Budget { get; set; }
+    public string Department { get; set; }
+}
+```
+
+以下のコード スニペットは、**リモート要求にサービスを提供する**コントローラー  アクション メソッドを定義します。このメソッドは `getData()` メソッドを使用して実際のデータ取得ロジックを実装し、ここには表示されません。
+
+**C# の場合:**
+
+```csharp
+[ActionName("getBudget")]
+public JsonResult GetBudget()
+{
+    var data = getData();
+    return new JsonResult 
+    { 
+        Data = data, 
+        JsonRequestBehavior = JsonRequestBehavior.AllowGet 
+    };
+}
+```
+
+以下のコード スニペットは、リモート データ サービスのための URL を構成する `igFunnelChart` コントロールに対して**インスタンス化コード**を含みます。コード スニペットは、その他のすべてのインスタンス化オプションを省略する基本的なデータ バインディング コードを示すのみです。
+
+**JavaScript の場合:**
+
+```js
+$("#chartRemote").igFunnelChart({
+    . . .
+    dataSourceUrl: "/businessLogic/getBudget",
+    valueMemberPath: "Budget",
+    innerLabelMemberPath: "Budget",
+    outerLabelMemberPath: "Department"
+});
+```
+
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [*igFunnelChart* の構成](igFunnelChart-Configuring.html): このトピックは、`igFunnelChart` コントロールの異なる可視機能とビヘイビアーの構成方法を説明します。
+
+- [*igFunnelChart *のスタイル設定](igFunnelChart-Styling.html): このトピックでは、`igFunnelChart` コントロールのルックアンドフィールをカスタマイズする方法を説明します。
+
+- [アクセシビリティ準拠 (*igFunnelChart*)](igFunnelChart-Accessibility-Compliance.html): このトピックでは、`igFunnelChart` コントロールのユーザー補助機能について説明し、チャートを含むページのアクセシビリティの遵守を実現する方法に関してアドバイスを提供します。
+
+- [既知の問題と制限 (*igFunnelChart*)](igFunnelChart-Known-Issues-and-Limitations.html): このトピックでは、`igFunnelChart` コントロールに関連する既知の問題点に関する情報を提供します。 
+ 
+- [jQuery と MVC API リンク (*igFunnelChart*)](igFunnelChart-jQuery-and-ASP.NET-MVC-Helper-API--Links.html): このトピックでは、`igFunnelChart` コントロールのための API リファレンスのドキュメントへのリンクの一覧を示します。
+
+
+### <a id="samples"></a> サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [ファンネル チャート](%%SamplesUrl%%/funnel-chart/funnel-chart): このサンプルは、ファンネル チャート コントロールを使用して大きな値から小さな値までスライスの位置を反転する機能でスライスとしてデータを描画するコントロールの使用を説明します。
+
+
+
+
+
+
+
+

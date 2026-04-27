@@ -1,0 +1,91 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "known-issues-and-limitations-2011-volume-1",
+    "controlName": "",
+    "tags": ["Known Issues"]
+}
+|metadata|
+-->
+
+# 2011 Volume 1 の既知の問題と制限
+
+
+## トピックの概要
+### 目的
+
+このトピックでは、%%ProductName%%™ ライブラリの 2011 Volume 1 リリースの既知の問題および制限について説明します。
+
+
+## 2011 Volume 1 の既知の問題と制限
+### 概要
+
+以下の表は %%ProductName%% の 2011 Volume 1 リリースの既知の問題と制限の概要を示します。各コントロールの既知の問題のトピックに、既知の問題および考えられる回避策の詳細が説明されています。
+
+### 凡例:
+
+<table class="table">
+    <tbody>
+        <tr>
+            <td><img src="images/positive.png" alt="" class="img-responsive"></td>
+            <td>回避策</td>
+        </tr>
+        <tr>
+            <td><img src="images/negative.png" alt="" class="img-responsive"></td>
+            <td>既知の回避策はありません</td>
+        </tr>
+        <tr>
+            <td><img src="images/plannedFix.png" alt="" class="img-responsive"></td>
+            <td>修正予定です</td>
+        </tr>
+    </tbody>
+</table>
+
+
+機能|説明|状態
+---|---|---
+[グリッドの列幅](#grid-column-widths)|一部の列の幅をパーセンテージで定義し、その他をピクセルで定義する (またはまったく定義しない) ことはできません。|![](images/positive.png)
+[Microsoft Internet Explorer® 7 におけるヘッダーおよびフッター要素のグリッド レイアウトの問題](#grid-layout-problem-ie7)|グリッド幅が指定されていないと、ヘッダーおよびフッター要素は、Microsoft Internet Explorer® 7 のグリッドよりも短く描画されます。|![](images/positive.png)
+[グリッド API コールが、DIV 要素と共に予想通りに機能しない](#grid-api-call-no-work)|グリッドが DIV 要素からインスタンス化されている場合、そのグリッドの機能に対する API コールは予想通りに機能しません。|![](images/positive.png)
+
+
+
+## <a id="grid-column-widths"></a>グリッドの列幅の問題 - 回避策
+
+一部の列の幅をパーセンテージで定義し、その他をピクセルで定義する (またはまったく定義しない) ことはできません。
+
+すべての列幅をひとつの測定単位 (パーセンテージまたはピクセル) で定義します。2 つを混在させてはいけません。
+
+## <a id="grid-layout-problem-ie7"></a>Microsoft Internet Explorer® 7 におけるヘッダーおよびフッター要素のグリッド レイアウトの問題
+
+グリッド コントロールに幅が定義されていない場合、そのヘッダーおよびフッター要素 (キャプション、ページャー、group-by 領域など) は、Microsoft Internet Explorer® 7 内のレコード テーブルよりも小さい幅で描画されます。
+
+この問題を解決するには、グリッドの幅を明示的に定義します。
+
+## <a id="grid-api-call-no-work"></a>グリッド API コールが、DIV 要素と共に予想通りに機能しない
+
+グリッドが DIV 要素からインスタンス化されている場合、そのグリッドの機能に対する API コールは予想通りに機能しません。
+
+グリッドの機能の API への呼び出しは、各機能が実際に関連付けられているテーブル ([*gridElementId*]_table) に依存します。グリッドが `id` 属性 「`grid1`」 の DIV にバインドされている場合、そのテーブルを参照する最も簡単な方法は、以下に示す、グリッドの `id()` または `widget()` API メソッドを使用することです。
+
+**JavaScript の場合:**
+
+```js
+$("#" + $("#grid1").igGrid("id")).igGridPaging("option", "pageSize", 2)
+```
+
+または
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igGrid("widget").igGridPaging("option", "pageSize", 10)
+```
+
+
+
+ 
+
+ 
+
+

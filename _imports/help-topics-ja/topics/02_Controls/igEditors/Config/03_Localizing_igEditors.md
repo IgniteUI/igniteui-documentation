@@ -1,0 +1,110 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "localizing-igeditors",
+    "controlName": "igEditors",
+    "tags": []
+}
+|metadata|
+-->
+
+# エディターをローカライズする方法
+
+以下の 2 種類のローカライズがあります。1 つ目は、コントロール内のローカライズ リソースです。2 つ目は、コントロール内の地域設定です。
+
+コントロールのローカライズ リソースは、ブルガリア語、ロシア語、日本語、ドイツ語、スペイン語、フランス語です。これらは、js/modules/i18n (js は、%%ProductName%% プログラムのインストール パス内の JavaScript ファイルのルート フォルダー) にあります。ローカライズ リソースの詳細については、[%%ProductName%% コントロールのローカライズのカスタマイズ](customizing-the-localization-of-igniteui-for-jquery-controls.html)をご覧ください。
+
+一方、地域設定では、特有の日付や数値の形式、同様に通貨記号、小数点記号、小数点などの形式を提供します。これらは ../js/modules/i18n/regional (js が %%ProductName%% プログラム インストール パスの JavaScript ファイルのルート フォルダー) にあります。
+
+## ユース ケース
+
+`regional` オプションは、特定の地理的地域をターゲットとする場合にユーザーに高度なユーザー エクスペリエンスを提供します。 
+
+`igDatePicker` および `igDateEditor` の 2 つのエディターがこの `regional` オプションによって最も影響を受けます。特定の地域のユーザーに期待されるコンテキストでエディターを表示したい場合、必要な地域値を設定することによりエディターはそのカルチャに適切な日付形式を表示します。これはローカライズされた月日の名前、またデフォルトの日時形式パターンが含まれます。 
+
+`igDatePicker` では、`regional` オプションがその言語のカレンダー月名と日の名前に設定します。更に「次へ」や「戻る」などの `igDatePicker` カレンダーのラベルを更新します。 
+
+`igNumericEditor`、`igCurrencyEditor`、または `igPercentEditor` で `regional` オプションを設定した場合、コンポーネントは指定したカルチャに適切な正しい負のパターン、小数点、 グループ区切りが使用されます。正しい通貨記号を表示し、ユーザーが期待するコンテキストを提供します。 
+
+`igDatePicker` コントロールをブルガリア地域設定で初期化します。
+```js
+$('#editor').igDatePicker({ regional: "bg" });
+```
+
+## エディターのオプションが地域設定に影響されます。
+
+以下は、`regional` 設定の一覧およびそれをエディターに適用する方法を示します。
+
+### 日付エディター & ピッカー
+
+オプション | 説明
+--- | --- |
+"monthNames"|カレンダーの月の完全な名前。|
+"monthNamesShort"|`dateFormat` オプションで要求される日付ピッカーの月ヘッダーに使用される省略された月名。|
+"dayNames"|`dateDisplayFormat` オプションで要求に応じて使用される長い名前。|
+"dayNamesShort"|`dateDisplayFormat` オプションで要求に応じて使用される省略名。|
+"datePattern"|`dateDisplayFormat: "date」` が設定されているときに表示される日付の書式。|
+"dateLongPattern"|`dateDisplayFormat: "dateLong」` が設定されているときに表示される日付の書式。|
+"dateTimePattern"|`dateDisplayFormat: "dateTime」` が設定されているときに表示される日付の書式。|
+"timePattern"|`dateDisplayFormat: "time」` が設定されているときに表示される日付の書式。|
+"timeLongPattern"|`dateDisplayFormat: "timeLong"` が設定されているときに表示される日付の書式。|
+
+### 日付ピッカー
+`regional`　オプションも各 jQuery UI datepicker ローカライズ属性を適用します。各地域ファイルはロケールの完全なセットを定義 (`$.datepicker.regional['fr']` など) します。以下のリストにカレンダーをカスタマイズするための `igDatePicker` に適切なロケールが含まれます。
+
+オプション | 説明 
+--- | --- |
+CloseText|`igDatePicker` カレンダーの `close` ボタンのテキスト。ボタンを表示するために `datepickerOptions` オプションの `showButtonPanel` オプションを有効にする必要があることに注意してください。|
+"prevText"|前の月へ移動するボタンのテキスト。|
+"nextText"|次の月へ移動するボタンのテキスト。|
+"currentText"|カレンダーの現在の日を選択するボタンのテキスト。ボタンを表示するために `datepickerOptions` オプションの `showButtonPanel` オプションを有効にする必要があることに注意してください。|
+"monthNamesShort"|datepicker で月ヘッダーとして使用される省略された月名。 |
+"dayNamesMin"|datepicker で列ヘッダーとして使用する最小化された日の名前。|
+"weekHeader"|年の週番号の列見出しで表示するテキスト。この列を表示するために `datepickerOptions` オプションの `showWeek` オプションを有効にする必要があることに注意してください。|
+"firstDay"|このオプションはカレンダーで週の始まりの曜日を設定します。|
+"isRTL"|現在の言語が右から左へ描画されるかどうか。|
+"showMonthAfterYear"|ヘッダーで年の後に月を表示するかどうか。|
+"yearSuffix"|月ヘッダーで年の後に表示するテキスト。|
+
+### 数値エディター
+
+オプション | 説明
+--- | --- |
+"numericNegativePattern"|負の値の表示に使用されるパターン。|
+"numericDecimalSeparator"|小数点記号として使用する文字。|
+"numericGroupSeparator"|グループ (千の位など) の区切りとして使用する文字。|
+"numericMaxDecimals"|表示モード (フォーカスなし) の場合に使用する小数点以下の最大桁数。|
+
+### 通貨エディター
+
+オプション | 説明
+--- | --- |
+"currencyPositivePattern"|正の値の表示に使用されるパターン。|
+"currencyNegativePattern"|負の値の表示に使用されるパターン。|
+"currencySymbol"|表示モードで示される通貨記号として使用される文字。|
+"currencyDecimalSeparator"|小数点記号として使用される文字。|
+"currencyGroupSeparator"|グループ (千の位など) の区切りとして使用する文字。|
+
+### パーセント エディター
+
+オプション | 説明
+--- | --- |
+"percentPositivePattern"|正の値の表示に使用されるパターン。|
+"percentNegativePattern"|負の値の表示に使用されるパターン。|
+"percentDecimalSeparator"|小数点記号として使用する文字。|
+"percentGroupSeparator"|グループ (千の位など) の区切りとして使用する文字。|
+
+>サポートされる全地域のリスト： "af", "ar", "az", "bg", "bs", "ca", "cs", "da", "de", "el", "en", "en-GB", "es", "es-419", "es-MX", "et", "fa", "fi", "fo", "fr", "fr-CH", "he", "hr", "hu", "hy", "id", "is", "it", "ja", "ko", "lt", "lv", "ms", "nl", "no", "pl", "pt-BR", "ro", "ru", "sk", "sl", "sq", "sr", "sr-SR", "sv", "ta", "th", "tr", "uk", "vi", "zh-CN", "zh-HK", "zh-TW。
+
+## 例
+
+このサンプルでは、日付、数値、通貨のデフォルト書式を変更するためにエディターの `regional` オプションにカルチャを設定する方法を示します。ここに 3 つの地域  (United States、Japan、Tamil India) が構成されています。infragistics.ui.regional-i18n.js ファイルから他の地域を選択できます。 
+
+<div class="embed-sample">
+   [%%SamplesEmbedUrl%%/editors/localizing-editors](%%SamplesEmbedUrl%%/editors/localizing-editors)
+</div>
+
+## <a id="_Related_Topics"></a>関連トピック
+
+-   [エディター ヘルプ概要](igeditors-landingpage.html)
+-   [%%ProductName%% コントロールのローカライズのカスタマイズ](customizing-the-localization-of-igniteui-for-jquery-controls.html)

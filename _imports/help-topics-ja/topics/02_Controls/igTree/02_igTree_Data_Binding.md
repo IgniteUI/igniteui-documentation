@@ -1,0 +1,297 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igtree-data-binding",
+    "controlName": "igTree",
+    "tags": ["Data Binding","Sample Data Source"]
+}
+|metadata|
+-->
+
+# igTree のデータ バインディング
+
+## トピックの概要
+### 目的
+このトピックでは、`igTree`™ コントロールでの各種データ バインド方式について説明し、データ バインディングに関するその他の詳細情報を示します。
+
+### このトピックの内容
+このトピックは、以下のセクションで構成されます。
+
+-   [データ ソースにバインド](#binding-to-data-sources)
+    -   [バインドの要件](#requirements-for-binding)
+    -   [サポートされるデータ ソース](#supported-data-sources)
+    -   [データ ソースへのバインドに関する概要](#binding-to-data-sources-overview)
+    -   [データ ソースへのバインドに関するクラス図](#class-diagram)
+-   [igTree データ バインディングの基本](#basic-data-binding)
+    -   [概要](#basic-data-binding-introduction)
+    -   [プレビュー](#basic-data-binding-preview)
+    -   [概要](#basic-data-binding-overview)
+    -   [手順](#basic-data-binding-steps)
+-   [関連トピック](#related-topics)
+
+### 前提条件
+まず以下のトピックを読む必要があります。
+
+-   [igTree の概要](igTree-Overview.html)
+-   [igTree を使用した作業の開始](igTree-Getting-Started.html)
+
+## <a id="binding-to-data-sources"></a>データ ソースにバインド 
+### <a id="requirements-for-binding"></a>バインドの要件 
+以下の表は、`igTree` コントロールを要件カテゴリ別にグループ化されたデータ ソースにバインドするための要件を示しています。
+
+要件のカテゴリ|要件の一覧
+---|---
+データ構造|以下のいずれかの形態を使用できます。<br>ローカルまたは Web サーバーから提供される適格な JSON または XML<br>入れ子になった UL HTML 要素<br>OData サービス<br>JSONP<br>ASP.NET MVC における IQueryable
+データ型|String<br>Number <br>Boolean<br>画像の URL
+
+## <a id="supported-data-sources"></a>サポートされるデータ ソース 
+次の表は、サポートされるデータ ソース、および各データ ソースのバインドに関する基本情報をまとめたものです。
+
+データ ソース|バインディング
+---|---
+[igDataSource](igDataSource-igDataSource-Overview.html)|`igDataSource` は、コントロールのデータ操作を管理するために `igTree` コントロールによって内部的に使用されます。このデータ ソースは、さまざまなタイプのローカル データやリモート データを受け入れます。
+入れ子になった HTML UL 要素|`igTree` は既存の非順序リスト (UL) または入れ子になった UL 要素でインスタンス化できます。
+[IQueryable](http://msdn.microsoft.com/ja-jp/library/bb351562%28v=VS.90%29.aspx)|ASP.NET MVC では、`igTree` コントロールのデータ ソースとして IQueryable を指定します。そのコレクションは、ブラウザーでの使用に合わせて JSON にシリアル化されて View と共に返されます。
+
+### <a id="binding-to-data-sources-overview"></a>データ ソースへのバインドに関する概要 
+ほとんどの場合、`igTree` コントロールの `dataSource` オプションまたは `dataSourceUrl` オプションを使用してデータのバインドを行うことになります。このオプションは、サポートされるさまざまなデータ形式を処理できる `igDataSource` コンポーネントへデータを提供します。ツリーが UL 要素を使用してインスタンス化されている場合は唯一例外で、このオプションは使用しません。この場合、ツリーはそのベース UL 要素のデータとオプションを継承します。
+
+ASP.NET MVC では、IQueryable オブジェクトのコレクションを %%ProductNameMVC%% ヘルパーに指定する必要があります。ヘルパーによりサーバーからデータを簡単にシリアル化し、View に渡すことができます。そのページがブラウザーで受信されると、`igTree` の `dataSource` オプションが設定され、クライアント側での操作に使用されます。
+
+### <a id="class-diagram"></a>データ ソースへのバインドに関するクラス図 
+以下のクラス ダイアグラムは、`igTree` コントロールでのデータ バインディングの動作を示します。
+
+![](images/igTree_Overview_04.png)
+
+## <a id="basic-data-binding"></a>igTree データ バインディングの基本 
+### <a id="basic-data-binding-introduction"></a>概要 
+以下の手順は基本オプションの構成方法と、jQuery および MVC の両方を使用したデータへのバインド方法を示しています。
+
+### <a id="basic-data-binding-preview"></a>プレビュー 
+以下は最終結果のプレビューで、`igTree` コントロールは階層データにバインドされています。
+
+![](images/igTree_Getting_Started_01.png)
+
+### <a id="basic-data-binding-overview"></a>概要 
+以下はプロセスの概念的概要です。
+
+1.  `igTree` をインスタンス化する
+2.  データ バインド
+3.  バインディングを構成する
+
+### <a id="basic-data-binding-steps"></a>手順 
+1.  `igTree` をインスタンス化します。
+    1.  ターゲット要素を設定します。
+
+        ページで、`igTree` コントロールのベース オブジェクトとしての役割を果たすターゲットの HTML 要素を定義し、その ID を設定します。これは ASP.NET MVC のオプション手順です。
+
+        **HTML の場合:**
+
+        ```html
+        <div id="JSONTree"></div>
+        ```
+
+    2.  `igTree` をインスタンス化します
+
+        jQuery では、document ready JavaScript イベントを使用して `igTree` コントロールをインスタンス化できます。ASP.NET MVC では、%%ProductNameMVC%% ヘルパーを使用して、IQueryable データ ソースにバインドします。
+
+        **HTML の場合:**
+
+        ```html
+        <script type="text/javascript">
+                $(function () {
+                    $("#JSONTree").igTree({
+
+                    });
+                });
+        </script>
+        ```
+
+        **ASPX の場合:**
+
+        ```csharp
+        <%= Html.
+            Infragistics().
+            Tree().
+            Render()  
+        %>
+        ```
+
+2.  データへバインドします。
+    1.  データを定義します。
+
+        この例では、入れ子になったオブジェクト配列で構築されている JSON 配列にバインドしています。オブジェクト スキーマは 2 種類あります。1 つは Label and Products プロパティを持つ製品カテゴリのスキーマ、もう 1 つは Name プロパティのある製品のスキーマです。このコード例では、Products プロパティに入れ子になったデータが入っています。この構造は、`igTree` の階層を形成しています。ASP.NET MVC では、入れ子になった IQueryable オブジェクトのコレクションは %%ProductNameMVC%% ヘルパーにより受け入れられます。Entity Data Model と適切な LINQ クエリにより、この構造を簡単に `igTree` コントロールに指定できます。以下の例では、オブジェクト コレクションにバインドするときに %%ProductNameMVC%% ヘルパーで必要なデータ構造を示しています。ProductCategory クラスは JSON 配列同様に、Label プロパティと Products プロパティで定義されます。GetProductNodes メソッドは %%ProductNameMVC%% へルパーのデータを返します。データはビューの Model として渡されていることがわかると思います。
+
+        **HTML の場合:**
+
+        ```html
+        var data = [
+            { Label: 'Food', Products: [
+                { Name: 'Tuna Sandwich' },  
+                { Name: 'Fish' },
+                { Name: 'Hamburger' }
+            ]},
+            { Label: 'Beverage', Products: [
+                { Name: 'Coke' },
+                { Name: 'Pepsi' }
+            ]}];
+        ```
+
+        **C# の場合:**
+
+        ```csharp
+        public class SamplesController : Controller
+        {
+            //This class defines the object to which the nodes are bound
+            public class ProductCategory
+            {
+                private string _label;
+                private List<Product> _products;
+         
+                public string Label { get { return _label; } }
+         
+                public IQueryable<Product> Products
+                {
+                    get
+                    {
+                        return _products.AsQueryable();
+                    }
+                }
+         
+                public ProductCategory(string label, List<Product> products)
+                {
+                    if (products == null)
+                        products = new List<Product>();
+                    this._products = products;
+                    this._label = label;
+                }
+         
+                public ProductCategory() { }
+            }
+         
+            public class Product
+            {
+                public string Name { get; set; }
+         
+                public Product(string name)
+                {
+                    this.Name = name;
+                }
+         
+                public Product() { }
+            }
+         
+            //This method creates the collection of data for binding
+            public IQueryable<ProductCategory> GetProductCategorys()
+            {
+                return new List<ProductCategory>()
+                {
+                    new ProductCategory("Food",
+                        new List<Product>{
+                            new Product("Tuna Sandwich"),                            
+                            new Product("Fish"),
+                            new Product("Hamburger")
+                        }),
+                    new ProductCategory("Beverage",
+                        new List<Product>{
+                            new Product("Coke"),
+                            new Product("Pepsi")
+                        })
+                }.AsQueryable();
+            }
+        ```
+
+    2.  データ ソースを設定します
+
+        dataSource オプションを使用してデータをツリーに提供します。ASP.NET MVC では Action Method を使用して、ビューとデータを返します。ヘルパーの DataSource メソッドを使用して、Model として渡されたデータへバインドし、DataBind() メソッドを呼び出します。
+
+        **HTML の場合:**
+
+        ```html
+        dataSourceType: 'json',
+        dataSource: data
+        ```
+
+        **ASPX の場合:**
+
+        ```csharp
+        DataSource(this.Model).
+        DataBind()
+        ```
+
+        **C# の場合:**
+
+        ```csharp
+        //Send the data with the View
+        public ActionResult Mvc()
+        {
+            return View("mvc", GetProductCategorys());
+        }
+        ```
+
+    3.  (ASP.NET MVC) Render() を呼び出します。
+
+        %%ProductNameMVC%% `igTree` コントロールをインスタンス化する場合、他のオプションをすべて構成し終わった後、最後に Render メソッドを呼び出します。Render メソッドは、クライアントで `igTree` コントロールをインスタンス化するのに必要な HTML および JavaScript を描画します。
+
+        **ASPX の場合:**
+
+        ```csharp
+        Render()
+        ```
+
+3.  バインディングを構成します。
+
+    バインドされたデータの各フィールドが階層でどのように機能するか `igTree` コントロールが判断できるようにするには、バインディング オブジェクトをツリーで表示する必要がある型ごとに構成する必要があります。このサンプルでは、ProductCategory オブジェクトと Product オブジェクトを表す 2 つのバインディング オブジェクトが定義されています。このサンプルにあるバインディング オブジェクトは、テキストの表示だけでなく、どのプロパティが子データを公開するかメモするよう構成されています。
+
+    **HTML の場合:**
+
+    ```html
+    <script type="text/javascript">
+            $(function () {
+                $("#JSONTree").igTree({
+                    dataSourceType: 'json',
+                    dataSource: data,
+                    bindings: {
+                        textKey: 'Label',
+                        childDataProperty: 'Products',
+                        bindings: {
+                            textKey: 'Name'
+                        }
+                    }
+                });
+            });
+    </script> 
+    ```
+
+    **ASPX の場合:**
+
+    ```csharp
+    <%= Html.
+        Infragistics().
+        Tree().
+        DataSource(this.Model).
+        DataBind().
+        Bindings( bindings => {
+            bindings.
+            TextKey("Label").      
+            ChildDataProperty("Products").
+            Bindings( bindings2 => {
+                bindings2.
+                TextKey("Name");
+            });
+        }).
+        Render()  
+    %>
+    ```
+
+## <a id="related-topics"></a>関連トピック 
+以下は、その他の役立つトピックです。
+
+-   [igTree のリモート ロード オン デマンドを構成する](igTree-Optimize-Performance.html)
+-   [igTree の既知の制約事項](igTree-Known-Limitations.html)
+
+ 
+
+ 
+
+

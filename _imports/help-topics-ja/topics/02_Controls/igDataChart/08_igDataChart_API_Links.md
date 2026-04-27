@@ -1,0 +1,57 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igdatachart-api-links",
+    "controlName": "igDataChart",
+    "tags": ["API","Charting"]
+}
+|metadata|
+-->
+
+# jQuery および MVC API リファレンス リンク (igDataChart)
+
+
+##トピックの概要
+### 目的
+
+このトピックは、`igDataChart`™ の jQuery および %%ProductNameMVC%% クラスのたえの API マニュアルへのリンクを提供します。
+
+### 必要な背景
+
+このトピックを理解するためには、以下のトピックを理解しておく必要があります。
+
+
+-	[](igDataChart-Overview.html)[igDataChart の概要](igDataChart-Overview.html): このトピックでは、igDataChart コントロールについての概念情報を提供します。これには、その主な機能、チャートとユーザー機能を使用するための最低要件が含まれます。
+
+-	[](igDataChart-Adding.html)[igDataChart の追加](igDataChart-Adding.html): このトピックでは、`igDataChart` をコントロールを作成して追加し、データにバインドする方法を紹介します。
+
+##igDataChart API のリファレンス
+
+### 概要
+
+`igDataChart` は、%%ProductNameMVC%% を含む jQuery UI ウィジェットとしてビルドされます。それぞれの API についての詳細は、以下に示された API マニュアルへのリンク先を参照してください。
+
+### API マニュアル参照の概要
+
+-	[igDataChart jQuery API](%%jQueryApiUrl%%/ui.igDataChart): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
+
+-	[igDataChart MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.DataChart`1.html) : このドキュメントは、DataChart クラスの説明およびその全メンバーのリストを含みます。
+
+##関連コンテンツ
+
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+
+-	[](igDataChart-DataBinding.html)[igDataChart をデータにバインド](igDataChart-DataBinding.html): このトピックは、`igDataChart` コントロールを各種のデータ ソース (JavaScript 配列、`IQueryable<T>`、Web サービス) にバインドする方法を説明します。
+
+
+
+
+
+ 
+
+ 
+
+

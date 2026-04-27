@@ -1,0 +1,125 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "documentengine-group",
+    "controlName": "Infragistics Document Library",
+    "tags": ["Grouping","Reporting"]
+}
+|metadata|
+-->
+
+# グループ
+
+Group 要素は、飾りが一切ないシンプルなコンテンツ セクションです。Group 要素は Band 要素によく似ています。2 つの要素の最大の違いは、Band 要素がヘッダー、デバイダ、フッターを含むのに対して、Group 要素は含まないことです。Group 要素を、複数のセクションを一緒にグループ化する単なるセクションとして考えることができます。一組の画像、ひとつのグリッド、表、またはリストとともにひとつまたは 2 つのバンドをひとつのグループ内に配置します。論理的なグループ化の中にその他のコンテンツ 要素を一緒にまとめることが要点です。
+
+Group 要素の作成は、ほとんどのコンテンツ要素と同様に簡単な作業です。Section 要素またはその他のレイアウト要素で AddGroup メソッドを呼び出すことでこのタスクを実行します。Group を追加できるレイアウト 要素の完全なリストについては、[「レイアウト 要素比較表」](DocumentEngine-Layout-Element-Comparison-Table.html)を参照してください。Group をインスタンス化したら、ほとんど任意の Infragistics Document Engine™ コンテンツを Group に追加できます。[`Background`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.IGroup~Background.html)、[`Borders`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.IGroup~Borders.html)、[`Paddings`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.IGroup~Paddings.html)、[`Margins`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.IGroup~Margins.html)、[`Height`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.IGroup~Height.html)、[`Width`](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.IGroup~Width.html) などカスタマイズ可能なその他の複数の標準的なプロパティもあります。
+
+------
+
+以下のコードは、Group 要素を Section 要素に追加して、次にテキスト、水平の罫線、画像をそのグループに追加します。
+
+以下のテキストを使用して、`string1` 変数を設定します。
+
+> Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Donec
+> imperdiet mattis sem.Nunc ornare elit at justo.In quam nulla,
+> lobortis non, commodo eu, eleifend in, elit.Nulla eleifend.Nulla
+> convallis.Sed eleifend auctor purus.Donec velit diam, congue quis,
+> eleifend et, pretium id, tortor.Nulla semper condimentum justo.Etiam
+> interdum odio ut ligula.Vivamus egestas scelerisque est. Donec
+> accumsan.In est urna, vehicula non, nonummy sed, malesuada nec,
+> purus.Vestibulum erat.Vivamus lacus enim, rhoncus nec, ornare sed,
+> scelerisque varius, felis.Nam eu libero vel massa lobortis accumsan.
+> Vivamus id orci.Sed sed lacus sit amet nibh pretium sollicitudin.
+> Morbi urna.
+
+**Visual Basic の場合:**
+
+```vb
+Imports Infragistics.Documents.Reports.Report
+Imports Infragistics.Documents.Reports.Graphics
+.
+.
+.
+' Add a Group element to the Section element named
+' section1 and assign it to group1. Set the Background
+' color of the group to light blue (so you can see the
+' bounds of the group).
+Dim group1 As Infragistics.Documents.Reports.Report.IGroup = section1.AddGroup()
+group1.Background = New Background(New Color(180, 199, 228))
+
+Dim groupHeading As IText = group1.AddText()
+groupHeading.Style = mainStyle2
+groupHeading.AddContent("Group")
+
+' Create two paragraphs of text. Put 10 pixels of padding
+' at all edges of the paragrph and separate the two 
+' paragraphs with line breaks.
+Dim string1 As String = "Lorem ipsum..."
+
+Dim groupText As Infragistics.Documents.Reports.Report.Text.IText = group1.AddText()
+groupText.Paddings.All = 10
+groupText.AddContent(string1)
+groupText.AddLineBreak()
+groupText.AddLineBreak()
+groupText.AddContent(string1)
+
+' Add a horizontal rule (solid line) after the paragraphs.
+' This rule will be black and have 20 pixels of space above
+' and below it.
+Dim groupRule As Infragistics.Documents.Reports.Report.IRule = group1.AddRule()
+groupRule.Pen = Pens.Black
+groupRule.Margins.All = 20
+
+' Define an Image element with black borders and 10 pixels
+' of padding on each edge. This code will use an image in
+' the project folder called "Coffee Bean." You can find this
+' image in the Windows folder. You can also use a string to 
+' point to any location on your machine.
+Dim groupImage As Infragistics.Documents.Reports.Report.IImage = _  group1.AddImage(New Image(Application.StartupPath + "..Coffee Bean.bmp"))
+groupImage.Borders.All = New Border(Pens.Black)
+groupImage.Margins.All = 10
+```
+
+**C# の場合:**
+
+```csharp
+using Infragistics.Documents.Reports.Report;
+using Infragistics.Documents.Reports.Graphics;
+.
+.
+.
+// Add a Group element to the Section element named
+// section1 and assign it to group1. Set the Background
+// color of the group to light blue (so you can see the
+// bounds of the group).
+Infragistics.Documents.Reports.Report.IGroup group1 = section1.AddGroup();
+group1.Background = new Background(new Color(180, 199, 228));
+
+// Create two paragraphs of text. Put 10 pixels of padding
+// at all edges of the paragrph and separate the two 
+// paragraphs with line breaks.
+string string1 = "Lorem ipsum...";
+
+Infragistics.Documents.Reports.Report.Text.IText groupText = group1.AddText();
+groupText.Paddings.All = 10;
+groupText.AddContent(string1);
+groupText.AddLineBreak();
+groupText.AddLineBreak();
+groupText.AddContent(string1);
+
+// Add a horizontal rule (solid line) after the paragraphs.
+// This rule will be black and have 20 pixels of space above
+// and below it.
+Infragistics.Documents.Reports.Report.IRule groupRule = group1.AddRule();
+groupRule.Pen = Pens.Black;
+groupRule.Margins.All = 20;
+
+// Define an Image element with black borders and 10 pixels
+// of padding on each edge. This code will use an image in
+// the project folder called "Coffee Bean". You can find this
+// image in the Windows folder. You can also use a string to 
+// point to any location on your machine.
+Infragistics.Documents.Reports.Report.IImage groupImage =   group1.AddImage(new Image(Application.StartupPath + @"..Coffee Bean.bmp"));
+groupImage.Borders.All = new Border(Pens.Black);
+groupImage.Margins.All = 10;
+```

@@ -1,0 +1,49 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igfunnelchart-jquery-and-asp.net-mvc-helper-api--links",
+    "controlName": "igFunnelChart",
+    "tags": ["API","Charting","Data Presentation"]
+}
+|metadata|
+-->
+
+# jQuery と MVC API リンク (igFunnelChart)
+
+## *igFunnelChart* API 参照ドキュメント
+
+以下は、`igFunnelChart`™ コントロールの API 参照ドキュメントのリンクの一覧です。(この参照コンテンツは、コントロールの開発者ガイドの他、[こちら](igFunnelChart-Overview.html)で使用できます。)
+
+- [igFunnelChart **jQuery** API](%%jQueryApiUrl%%/ui.igfunnelchart): これは、コントロールの概要の他、コード スニペットを伴うオプション、イベントおよびメソッドの完全なリストを含む一連のドキュメントです。
+
+- [*igFunnelChart* **%%ProductNameMVC%%** API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.FunnelChart`1.html): これは、`FunnelChart` クラスの説明およびすべてのメンバーのリストを含む一連のドキュメントです。
+
+
+## 関連コンテンツ
+
+#### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [**igFunnelChart**](igFunnelChart-igFunnelChart.html): これは、`igFunnelChart` 機能を説明するトピックのグループです。
+
+
+#### サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [**ファンネル チャート**](%%SamplesUrl%%/funnel-chart/funnel-chart): このサンプルは、`igFunnelChart` コントロールを使用して大きな値から小さな値までスライスの位置を反転する機能でスライスとしてデータを描画するコントロールの使用をデモします。
+
+- [**サーバー側のバインド**](%%SamplesUrl%%/funnel-chart/server-binding): このサンプルでは、`igFunnelChart` コントロールの Infragistics MVC ヘルパーを使用した ASP.NET MVC View でのファンネル チャートの作成をデモします。
+
+- [**スライスの選択**](%%SamplesUrl%%/funnel-chart/slice-selection): このサンプルは、スライス選択機能の有効化および `sliceClicked` イベントの処理を示します。
+
+
+
+
+
+ 
+
+ 
+
+

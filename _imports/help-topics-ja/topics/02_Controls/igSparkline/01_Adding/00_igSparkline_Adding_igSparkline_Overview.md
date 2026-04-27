@@ -1,0 +1,85 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igsparkline-adding-igsparkline-overview",
+    "controlName": "igSparkline",
+    "tags": ["Charting","Data Binding","Data Presentation"]
+}
+|metadata|
+-->
+
+# igSparkline の追加の概要
+
+## トピックの概要
+### 目的
+
+このトピックでは、[`igSparkline`](%%jQueryApiUrl%%/ui.igSparkline.html)™ をアプリケーションに追加する各種方法の概要について説明します。
+
+### 前提条件
+
+このトピックを理解するためには、以下のトピックを理解しておく必要があります:
+
+- [igSparkline の概要](igSparkline-Overview.html): このトピックは、`igSparkline` コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
+
+
+## igSparkline の追加 - 概念的概要
+### igSparkline 追加の概要
+
+根本的に、`igSparkline` は標準の HTML、JavaScript および CSS で構築される jQuery UI ウィジェットです。使用サーバーのフレームワークに関係なく標準の HTML ドキュメントに追加できます。
+
+`igSparkline` は、データにチャートをレンダリングするために 1 つの数値フィールドまたは日付フィールドが含まれる限り 1 次元のデータ ソースをサポートします。
+
+任意に、ASP.NET MVC ヘルパーを `igSparkline` と使用して、ビューのコントロールのために必要な HTML および JavaScript をレンダリングできます。JavaScript より .NET 言語に慣れている開発者用に .NET ベースの API を提供します。
+
+最終的に、`igSparkline` は迅速にデータを可視化するようグリッドに埋め込むための重要なツールです。これを実現するには、`igGrid` 列テンプレートを作成し、`igSparkline` をグリッドのデータ ソースにバインドします。
+
+### 要件
+
+以下は、`igSparkline` をアプリケーションへ追加するための全般的な要件です。
+
+-   jQuery JavaScript フレームワーク
+-   jQuery UI JavaScript UI フレームワーク
+-   タッチ操作をサポートするための Modernizr JavaScript ライブラリ
+-   Infragistics %%ProductName%% JavaScript および CSS リソース
+-   数値データまたは日付データを含む 1 次元データ ソース
+-   ASP.NET MVC ヘルパーを使用する場合、`Infragistics.Web.Mvc.dll` アセンブリも必要です。
+
+### igSparkline を追加するためのオプション
+
+以下の表は、`igSparkline` コントロールを追加できる方法を示しています。
+
+例|説明
+---|---
+[igSparkline を HTML ドキュメントに追加](igSparkline-Adding-igSparkline-to-an-HTML-Document.html)|JavaScript API を使用して `igSparkline` コントロールを HTML ドキュメントへ追加します。
+[igSparkline を ASP.NET MVC ビューに追加](igSparkline-Adding-igSparkline-to-an-ASPNET-MVC-View.html)|`igSparkline` ASP.NET MVC ヘルパーを使用して、`igSparkline` を ASP.NET MVC ビューにレンダリングします。
+`igSparkline` の igGrid 列への追加|`igSparkline` を `igGrid` 列テンプレートへ追加します。
+
+#### 関連サンプル
+
+[グリッドのスパークライン](%%SamplesUrl%%/sparkline/sparkline-in-grid)
+
+
+## 関連コンテンツ
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [igSparkline を HTML ドキュメントに追加](igSparkline-Adding-igSparkline-to-an-HTML-Document.html): このトピックでは、`igSparkline` を HTML ページに追加し JavaScript 配列へバインドする方法を説明します。
+
+- [igSparkline を ASP.NET MVC ビューに追加](igSparkline-Adding-igSparkline-to-an-ASPNET-MVC-View.html): このトピックでは、ASP.NET MVC ビューでの `igSparkline` インスタンス作成とオブジェクトの .NET コレクションへのバインドを見てみます。
+
+- [jQuery と MVC API リンク (igSparkline)](igSparkline-jQuery-and-ASPNET-MVC-API.html): このトピックでは、`igSparkline` コントロールのための jQuery と ASP.NET MVC ヘルパー クラスのAPIドキュメントへのリンクを提供します。
+
+### サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [JSON データにバインド](%%SamplesUrl%%/sparkline/bind-json): このサンプルは外部のスクリプト ファイルに含まれる JSON データにバインドします。また、ASP.NET MVC ヘルパーとのバインドについても示します。
+
+- [グリッドのスパークライン](%%SamplesUrl%%/sparkline/sparkline-in-grid): このサンプルは、`igSparkline` を `igGrid` 列テンプレートへ追加する方法を示します。
+
+ 
+
+ 
+
+

@@ -1,0 +1,34 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "documentengine-setting-pageorientation-when-publishing-a-report",
+    "controlName": "Infragistics Document Library",
+    "tags": ["Layouts","Reporting"]
+}
+|metadata|
+-->
+
+# レポートを公開するときの PageOrientation の設定
+
+PDF または XPS ドキュメントを公開するとき、ページの Orientation は、[PageOrientation](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection~PageOrientation.html) プロパティで設定できます。[Report.Publish()](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Publish.html) メソッドを使用するとき、Report に追加する各 Section の [ISection()](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html) に、PageOrientation を直接設定する必要があります。
+
+**C# の場合:**
+
+```csharp
+Infragistics.Documents.Reports.Report.Report r = new Report();
+
+//Adding a section to the Report
+Infragistics.Documents.Reports.Report.Section.ISection s = r.AddSection();
+
+ s.PageOrientation = PageOrientation.Portrait;
+
+ //Adding Text to the Section
+ Infragistics.Documents.Reports.Report.Text.IText t = s.AddText();
+
+ t.AddContent(”Test Text”);
+
+
+ string theFile = @”c:test.pdf”;
+
+ r.Publish(theFile, FileFormat.PDF);
+```

@@ -1,0 +1,386 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igscroll-overview",
+    "controlName": "igScroll",
+    "tags": ["Getting Started","igScroll"]
+}
+|metadata|
+-->
+
+# igScroll の概要
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+- [igScroll について](#about-igScroll)
+- [動作と可視化](#behavior-igScroll)
+- [DOM 構造](#structure-igScroll)
+- [igScroll を Web ページへ追加](#adding-igScroll)
+- [複数のコンテナーを一度にスクロール](#multi-scrolling)
+- [キーボード操作](#keyaboard-interactions)
+- [関連コンテンツ](#related)
+
+
+## <a id="about-igScroll"></a>  igScroll について
+igScroll は、デスクトップ、ハイブリッド、およびモバイル環境でカスタム スクロールバーを有効にするスタンドアロン jQuery UI ウィジェットです。
+すべてのデバイスですべてのスクロール コンテナーの間に一貫性があるスクロール エクスペリエンスを作成できます。 
+igScroll は、2 つの異なる表示タイプ (ネイティブとカスタム) を指定でき、ネイティブ スクロールバーまたはカスタムに作成するかによって選択できます。設定オプション。[`scrollbarType`](%%jQueryApiUrl%%/ui.igscroll#options:scrollbarType) オプション。
+
+カスタム スクロールバーには 3 つの状態があります。
+
+1. 非表示 - ユーザーがコンテナーやスクロールバーを操作していない場合、スクロールバーは非表示です。 
+
+	![](images/igScroll_Hidden.png)
+
+2. デフォルト (thin) スクロールバー - ユーザーがスクロール可能なコンテナーやタッチ インタラクション使用時など、スクロール可能なコンテンツ操作時にデフォルト (thin) スクロールバーが表示されます。水平または垂直の矢印はなく、マウスまたはタッチで操作できません。
+   
+	![](images/igScroll_Thin.png)
+
+3. デスクトップ (big) スクロールバー - ユーザーがスクロールバーをホバーしたときに表示されます。デフォルトのスクロールバーより大きく、矢印ボタンがありマウスを使用して操作できます。
+   
+	![](images/igScroll_Big.png)   
+	
+	ネイティブ スクロールバーが有効な場合、特定のブラウザーと環境でデフォルト スクロールバーが表示されます。
+	
+	![](images/igScroll_Native.png)
+		
+スクロールはこの場合も igScroll で手動で処理され、igScroll のオプションで設定できます。
+   
+	
+## <a id="behavior-igScroll"></a> 動作と可視化
+
+環境が違う場合、スクロールに異なる可視化およびメソッドを提供します。igScroll は、以下の環境をサポートします。
+
+1. デスクトップ - マウスでスクロールバーを移動、あるいはスクロールバーの矢印をクリックまたはマウス スクロールによってスクロールできます。
+
+2. モバイル - タッチ入力でのみスクロールできます (スマートフォン、タブレット)。
+
+3. ハイブリッド - マウス入力とタッチ入力の両方をサポート (タッチモニター サポート付きデスクトップおよびラップトップ、Surface など)。
+
+このセクションでは、igScroll の環境に固有な可視化と動作について説明します。
+
+### モバイルでの igScroll
+
+モバイル デバイスでは、スクロールバーの表示にデフォルト スクロールバーが使用されます。
+モバイルではタッチ操作でスクロールします。スワイプによってコンテンツがスクロールされ、スクロールバーがそれに応じて同期されます。 
+デフォルトで慣性が有効なため、最初はコンテンツを速くスクロールし、その後徐々にスピードが遅くなり、最後には停止します。この動作を [`inertiaDuration`](%%jQueryApiUrl%%/ui.igscroll#options:inertiaDuration) オプションで変更できます。
+
+スクロールバーは以下の場合に表示されます。
+- ページが初めて読み込まれるとき。 
+	ユーザーにスクロール可能な領域を知らせるためにスクロールバーが短い時間表示されます。その後ユーザーが操作しない限り非表示のままになります。
+- ユーザーがスクロール可能なコンテンツ領域をタッチまたはスワイプしたとき。
+	スクロールバーが表示されてユーザーがコンテンツを操作する間表示されたままになります。ユーザーが操作をやめると非表示になります。
+	
+	
+
+### igScroll デスクトップで使用
+
+デスクトップには、幅の細いスクロールバーと大きなサイズのスクロールバーを表示できます。 
+スクロール可能なコンテンツを操作 (マウス ホイールによるホバー、スクロール) する場合、幅の細いスクロールバーが表示されます。
+
+実際のスクロールバー領域をホバーすると詳細な操作が可能な大きなスクロールバーが表示されます。 
+
+大きなスクロールバーの操作可能な要素:
+
+- 矢印ボタン 
+
+	クリックして小さくスクロール、または長押しで継続的に同じ方向へスクロールできます。
+- トラック パッド (つまみと矢印ボタンの間の領域)。
+
+	トラック パッドをクリックして関連する方向へ大きくスクロールできます。
+- スクロールのつまみ要素
+
+	コンテンツをスクロールするためにつまみをドラッグアンドドロップできます。 
+
+大きなスクロールバーは、操作中は表示されたままになります。操作を停止すると非表示になり、幅の細いスクロールバーのみ表示されます。コンテンツ上をホバーしている間は幅の細いスクロールバーは表示されたままになります。
+スクロール可能な領域で操作またはホバーを停止した場合、すべてのスクロールバーが非表示になります。
+
+### ハイブリッドで igScroll を使用
+
+ハイブリッド デバイスではタッチとマウスの両方がサポートされるため、キーボード サポートも上記 2 セクションで説明されたすべての操作で有効です。
+
+## <a id="structure-igScroll"></a> DOM 構造
+
+igScroll はデフォルトで DOM 構造を変更し、その他の CSS クラスに適用してスクロールバーのスタイルを設定します。
+
+以下は DOM の初期構造です。
+
+**HTML の場合:**
+
+ ```html
+<body>
+	<div id='scrollContent' style='width:600px; height: 400px; overflow:hidden;'>
+		<h1> Some Title </h1>
+		<p> Paragraph </p>
+		<table> ... </table>
+		...
+	</div>
+</body>
+ ```
+ 
+ div 要素 ( $("#scrollContent").igScroll() ) で igScroll を初期化した後に DOM は以下のようになります。
+ 
+ ```html
+<body>
+	<div id="scrollContent" style="width:600px; height: 400px; overflow:hidden;" class="igscroll-scrollable">
+      <div id="scrollContent_container" class="igscroll-container" style="width: 600px; height: 400px;">
+          <div id="scrollContent_content" class="igscroll-content">
+              <h1> Some Title </h1>
+              <p> Paragraph </p>
+              <table>...</table>
+              ...
+          </div>
+      </div>
+    </div>
+</body>
+ ```
+
+ igScroll による DOM 操作は [`modifyDOM`](%%jQueryApiUrl%%/ui.igscroll#options:modifyDOM) プロパティを false に設定して無効にできます。 
+ その場合、igScroll を正しく動作させるために同様の DOM 階層を作成し、コンテンツ要素で初期化してください。
+
+**HTML の場合:**
+
+ ```html
+<body>
+<div>
+   <div id='containerWrapper' style="width:600px; height:400px; overflow:hidden; position:relative;">
+		<div id='scrContainer' style="width:600px; height:400px; overflow:hidden; position:absolute;">
+			<div id='scrollContent' style="position:absolute;">
+				  <h1> Some Title </h1>
+				  <p> Paragraph </p>
+				  <table>...</table>
+				  ...
+			</div>
+		</div>
+	</div>
+</body>
+ ```
+ 
+ 以下は igScroll を scrContainer 要素で初期化する例です。
+ 
+ **JavaScript の場合:**
+
+```js
+$(function () {
+    $("#scrContainer").igScroll({
+    modifyDOM: false
+    });
+});
+```
+
+## <a id="adding-igScroll"></a> igScroll を Web ページへ追加
+
+次のステップは、いずれかの jQuery クライアント コードを使用して、ウェブページで igScroll ウィジェットを実装する基本的な方法を示します。
+
+最初に、アプリケーションに必要なローカライズ済みのリソースを含めます。組み込むリソースの詳細は、「[%%ProductName%% で JavaScript リソースを使用](Deployment-Guide-JavaScript-Resources.html)」ヘルプ トピックをご覧ください。
+
+1.  HTML ページに**必要な JavaScript および CSS ファイルを参照**してください。
+
+	**HTML の場合:**
+
+	```html
+	<script src="scripts/jquery.js" type="text/javascript"></script>
+	<script src="scripts/jquery-ui.js" type="text/javascript"></script>
+	<script src="scripts/infragistics.core.js" type="text/javascript"></script>
+	<script src="scripts/infragistics.lob.js" type="text/javascript"></script>
+	<link href="css/themes/infragistics/infragistics.theme.css" rel="stylesheet" type="text/css" />
+	<link href="css/structure/infragistics.css" rel="stylesheet" type="text/css" />
+	```
+
+2. 次に簡単なスクロール可能なりょいきを作成します。この例では、スクロール可能な長いテキストを含む div DOM 要素を作成します。
+
+	**HTML の場合:**
+
+	```html
+	<div id="scrollableContent" style="height:200px; width: 600px; overflow: hidden;">
+		<div>
+			<p>
+			Lorem ipsum dolor sit amet, dicat maluisset urbanitas has id, consul admodum contentiones mel te. Nam paulo utinam qualisque         in, lorem definiebas theophrastus mea ex. <br/>
+			Scripta sanctus definitionem qui at. Erat fugit dicit at sea, ne quo alia illud viris. <br/>
+			Latine legendos ut eum. Usu purto nihil dolor ei, has et iriure scripta, ex antiopam electram duo. <br/>
+			</p>
+			Te ludus malorum periculis has, no veri dissentiet sea. <br/>
+			Probo lucilius an vel, his eu purto falli, populo graecis postulant has at. <br/>
+			Suas sale mediocritatem in vis. Has noster semper perpetua in. Sed ex nostrum temporibus, affert interpretaris no pro. <br/>
+			<p>
+			Cu eirmod omnesque offendit per, invidunt corrumpit intellegebat duo et. <br/>
+			Sed ne sonet apeirian. Cum at clita molestie democritum, diam expetenda ius ei. <br/>
+			In est sale tamquam reformidans, dolore ponderum ius et. Te sea mutat hendrerit, habeo noster vis ad. <br/>
+			Quem feugiat feugait usu id. His utinam apeirian in, repudiare accommodare ex mea, id qui modo mazim eleifend. <br/>
+			</p>
+			Cum elitr ludus ut. Eu mel aliquando conceptam adolescens. <br/>
+			Malis vitae labore vis ea, eam an error accumsan. <br/>
+			Ceteros sapientem assentior mel at, graeco ancillae moderatius ea eum. <br/>
+			Ei nam delenit admodum deterruisset. <br/>
+			<p>
+			Cum ad animal oblique, sensibus reprehendunt his te, quo ignota dictas no. <br/>
+			Eu congue lucilius mei, has ei invenire platonem. Cu nonumy tamquam moderatius cum. <br/>
+			At lucilius deterruisset vis, omnis minimum complectitur ea his. <br/>
+			</p>
+		</div>
+	</div>
+	```
+
+3. 上記を設定後にオプションを使用またはデフォルト設定し、スクロール可能な領域で igScroll ウィジェットを初期化できます。
+	
+	**JavaScript の場合:**
+
+	```js
+	$(function () {
+		$("#scrollableContent").igScroll();
+	});
+	```
+
+4. Web ページを実行します。igScroll が初期化されてカスタム スクロールバーを表示します。
+
+     ![](images/igScroll_Overview_01.png)
+
+## <a id="multi-scrolling"></a> 複数のコンテナーを一度にスクロール
+
+igScroll が複数コンテナーのリンクを許可し、1 つスクロールされた場合に他も合わせてスクロールされます。
+同期要素を指定する 2 つのオプションがあります。
+- [`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) - メイン コンテンツ コンテナーに垂直にリンクされる要素の設定を許可します。コンテンツが Y 軸でスクロールされる場合、それに応じてリンク要素が上下にスクロールします。
+ 
+- [`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH) - メイン コンテンツ コンテナーに水平にリンクされる要素の設定を許可します。コンテンツが X 軸でスクロールされる場合、それに応じてリンク要素が左右にスクロールします。
+
+以下の手順は、いずれかの jQuery クライアント コードを使用して、一度に複数のコンテナーをスクロール可能な igScroll ウィジェットを実装する基本的な方法を示します。
+
+手順:
+
+1. 上記の [igScroll を Web ページへ追加](#adding-igScroll)セクションを説明します。 
+
+2. スクロール可能なコンテナーの追加
+
+	最初のコンテナーを左に配置します。
+
+	**HTML の場合:**
+
+	```html
+	<div style="width: 50%; float:left; position: relative;">
+		<div id='scrContainerLeft' style="height:200px; overflow: hidden;">	
+			<div style="width:900px; height: 400px;">
+				<p>
+				Lorem ipsum dolor sit amet, dicat maluisset urbanitas has id, consul admodum contentiones mel te. Nam paulo utinam qualisque in, lorem definiebas theophrastus mea ex. <br/>
+				Scripta sanctus definitionem qui at. Erat fugit dicit at sea, ne quo alia illud viris. <br/>
+				Latine legendos ut eum. Usu purto nihil dolor ei, has et iriure scripta, ex antiopam electram duo. <br/>
+				</p>
+				Te ludus malorum periculis has, no veri dissentiet sea. <br/>
+				Probo lucilius an vel, his eu purto falli, populo graecis postulant has at. <br/>
+				Suas sale mediocritatem in vis. Has noster semper perpetua in. Sed ex nostrum temporibus, affert interpretaris no pro. <br/>
+				<p>
+				Cu eirmod omnesque offendit per, invidunt corrumpit intellegebat duo et. <br/>
+				Sed ne sonet apeirian. Cum at clita molestie democritum, diam expetenda ius ei. <br/>
+				In est sale tamquam reformidans, dolore ponderum ius et. Te sea mutat hendrerit, habeo noster vis ad. <br/>
+				Quem feugiat feugait usu id. His utinam apeirian in, repudiare accommodare ex mea, id qui modo mazim eleifend. <br/>
+				</p>
+				Cum elitr ludus ut. Eu mel aliquando conceptam adolescens. <br/>
+				Malis vitae labore vis ea, eam an error accumsan. <br/>
+				Ceteros sapientem assentior mel at, graeco ancillae moderatius ea eum. <br/>
+				Ei nam delenit admodum deterruisset. <br/>
+				<p>
+				Cum ad animal oblique, sensibus reprehendunt his te, quo ignota dictas no. <br/>
+				Eu congue lucilius mei, has ei invenire platonem. Cu nonumy tamquam moderatius cum. <br/>
+				At lucilius deterruisset vis, omnis minimum complectitur ea his. <br/>
+				</p>
+			</div>
+		</div>
+	</div>
+	```
+	2 つ目のコンテナーを右に配置します。
+
+	**HTML の場合:**
+
+	```html
+	<div style="width: 50%; float:right; position: relative;" >
+		<div id="scrContainerRight" style="height:200px;overflow: hidden;">
+		<table style="border: 1px solid #777777; width:900px;">
+			<thead>
+			<th>Product ID</th>
+			<th>Name</th>
+			<th>Product Number</th>
+			<th>Make</th>
+			<th>Finished Goods</th>
+			<th>Color</th>
+			<th>Safety Stock Level</th>
+			<th>Reorder Point</th>
+			<th>Standard Const</th>
+			<th>List Price</th>
+			<th>Days to Manufacture</th>
+			<th>Modified Date</th>
+			</thead>
+			<tbody>
+				<tr><td>1</td><td>Adjustable Race</td><td>AR-5381</td><td>false</td><td>false</td><td>&nbsp;</td><td>1000</td><td>750</td><td>0</td><td>0</td><td>0</td><td>3/11/2004</td></tr>
+				<tr><td>2</td><td>Bearing Ball</td><td>BA-8327</td><td>false</td><td>false</td><td>&nbsp;</td><td>1000</td><td>750</td><td>0</td><td>0</td><td>0</td><td>3/11/2004</td></tr>
+				<tr><td>3</td><td>BB Ball Bearing</td><td>BE-2349</td><td>true</td><td>false</td><td>&nbsp;</td><td>800</td><td>600</td><td>0</td><td>0</td><td>1</td><td>3/11/2004</td></tr>
+				<tr><td>4</td><td>Headset Ball Bearings</td><td>BE-2908</td><td>false</td><td>false</td><td>&nbsp;</td><td>800</td><td>600</td><td>0</td><td>0</td><td>0</td><td>3/11/2004</td></tr>
+				<tr><td>316</td><td>Blade</td><td>BL-2036</td><td>true</td><td>false</td><td>&nbsp;</td><td>800</td><td>600</td><td>0</td><td>0</td><td>1</td><td>3/11/2004</td></tr>
+				<tr><td>317</td><td>LL Crankarm</td><td>CA-5965</td><td>false</td><td>false</td><td>Black</td><td>500</td><td>375</td><td>0</td><td>0</td><td>0</td><td>3/11/2004</td></tr>
+				<tr><td>318</td><td>ML Crankarm</td><td>CA-6738</td><td>false</td><td>false</td><td>Black</td><td>500</td><td>375</td><td>0</td><td>0</td><td>0</td><td>3/11/2004</td></tr>
+				<tr><td>319</td><td>HL Crankarm</td><td>CA-7457</td><td>false</td><td>false</td><td>Black</td><td>500</td><td>375</td><td>0</td><td>0</td><td>0</td><td>3/11/2004</td></tr>
+				<tr><td>320</td><td>Chainring Bolts</td><td>CB-2903</td><td>false</td><td>false</td><td>Silver</td><td>1000</td><td>750</td><td>0</td><td>0</td><td>0</td><td>3/11/2004</td></tr>	
+				<tr><td>321</td><td>Chainring Nut</td><td>CN-6137</td><td>false</td><td>false</td><td>Silver</td><td>1000</td><td>750</td><td>0</td><td>0</td><td>0</td><td>3/11/2004</td></tr>
+				<tr><td>322</td><td>Chainring</td><td>CR-7833</td><td>false</td><td>false</td><td>Black</td><td>1000</td><td>750</td><td>0</td><td>0</td><td>0</td><td>3/11/2004</td></tr>
+				<tr><td>323</td><td>Crown Race</td><td>CR-9981</td><td>false</td><td>false</td><td>&nbsp;</td><td>1000</td><td>750</td><td>0</td><td>0</td><td>0</td><td>3/11/2004</td></tr>				
+			</tbody>
+		</table>
+		</div>
+	</div>
+	```
+
+3. 次に 2 つの igScrolls (各スクロール可能なコンテナー) を初期化し、[`syncedElemsV`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsV) および [`syncedElemsH`](%%jQueryApiUrl%%/ui.igscroll#options:syncedElemsH) プロパティを各スクロールに設定します。
+	
+	**JavaScript の場合:**
+
+	```js
+	$(function(){
+		$("#scrContainerRight").igScroll({
+			syncedElemsV: [$("#scrContainerLeft")],
+			syncedElemsH: [$("#scrContainerLeft")]
+		});
+		
+		$("#scrContainerLeft").igScroll({
+			syncedElemsV: [$("#scrContainerRight")],
+			syncedElemsH: [$("#scrContainerRight")]
+		});
+	});
+	```
+
+	両コンテナーで同期スクロールが有効になります。コンテナーの 1 つがスクロールされると他のコンテナーも同じ方向へ同じ量スクロールされます。
+
+4.  ブラウザーで結果を確認します。
+
+	 ![](images/igScroll_Multiple_Containers.png)
+     
+> **注**: [`modifyDOM`](%%jQueryApiUrl%%/ui.igscroll#options:modifyDOM) を false に設定して実装した場合、`syncedElemsV`/`syncedElemsH` オプションのターゲット要素は、コンテナーラッパー要素ではなくコンテナー要素である必要があります。このトピックの [DOM 構造](#structure-igScroll) セクションの `modifyDOM`:false の DOM 構造の例を参照してください。
+	
+## <a id="keyaboard-interactions"></a> キーボード操作
+
+> **注**: キーボード インタラクションを動作させるには、メイン ターゲット要素に `tabIndex` 属性を設定しフォーカス可能にする必要があります。
+
+スクロール要素にフォーカスがある場合: 
+
+- 上/下矢印: 上下のスクロール
+
+- 右/左矢印: 右左のスクロール 
+
+- 上/下矢印: 上下の継続スクロール
+
+- 右/左矢印: 左右の継続スクロール
+
+- スペース: 上方向へ大きくスクロール
+
+- SHIFT+スペース: 下方向へ大きくスクロール
+
+- PAGE UP/ PAGE DOWN: 上下方向へ大きくスクロール 
+
+## <a id="related"></a> 関連コンテンツ
+
+### トピック
+-   [igScroll の構成](Configuring-igScroll.html)
+
+### サンプル
+-   [基本的な使用方法](%%SamplesUrl%%/scroll/basic-usage)
+-   [構成オプション](%%SamplesUrl%%/scroll/configuration-options)
+-   [複数のコンテナーを一度にスクロール](%%SamplesUrl%%/scroll/scrolling-multiple-containers)

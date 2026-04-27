@@ -1,0 +1,161 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "creating-multi-conditional-template-containing-default-statement",
+    "controlName": "igTemplating Engine",
+    "tags": ["How Do I","Templating"]
+}
+|metadata|
+-->
+
+# デフォルト ステートメントを含む複数条件付きテンプレートの作成 (igTemplating)
+
+## トピックの概要
+### 目的
+
+このトピックでは、コード例を示し、テンプレート エンジンを使用して、デフォルト ステートメントがある複数条件付きテンプレートを作成する方法を紹介します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+- [テンプレート エンジンの参照の追加](Adding-igTemplating-References.html): このトピックでは、テンプレート エンジンを使い始めるために必要な最低限の JavaScript ファイルについて説明します。
+
+- [テンプレート エンジンの概要](igTemplating-Overview.html): このトピックには、テンプレート エンジンでサポートされている機能に関する情報が含まれています。
+
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [デフォルト ステートメントを使用した複数条件付きテンプレートの作成](#multi-conditional-template-default-statement)
+    -   [概要](#introduction)
+    -   [プレビュー](#preview)
+    -   [前提条件](#prerequisites)
+    -   [手順](#steps)
+-   [関連コンテンツ](#related-content)
+
+
+
+## <a id="multi-conditional-template-default-statement"></a>デフォルト ステートメントを含む複数条件付きテンプレートの作成
+### <a id="introduction"></a>概要
+
+この例では、デフォルトのステートメントがある複数条件付きテンプレートを作成し、結果を HTML テーブルに追加します。次の例では、年齢の値が 17 未満か、または 18 ～ 21 の間かを確認しています。その確認に基づき、2 つの異なるスタイルを適用しています。
+
+### <a id="preview"></a>プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。この例で、年齢の値が 17 未満の行は背景が赤くなっており、年連の値が 18 ～ 21 の行は背景が黄色になっており、それ以外のスタイルを適用しないデフォルト ステートメントがあります。
+
+![](images/%28Walkthrough%29Creating_Multi-Conditional_Template_With_Default_Statement_1.png)
+
+### <a id="prerequisites"></a>前提条件
+
+手順を完了するためには、以下のものが必要です。テンプレート エンジンで必要な最低限の js ファイルのセットを参照する空の HTML ページ。
+
+詳細については、「[igTemplating 参照の追加](Adding-igTemplating-References.html)」を参照してください。
+
+### <a id="steps"></a>手順
+
+次のステップは、複数条件テンプレートの作成方法を説明します。
+
+1.  テンプレート エンジンを使用した行テンプレートの追加と適用
+
+	1. アテンション行に対して CSS クラスを追加します。
+	
+		**JavaScript の場合:**
+		
+		```js
+		<style type="text/css">
+		      .rowCriticalAttention
+		      {
+		            background-color: #FF7283;
+		      }
+		      .rowAttention
+		      {
+		            background-color: #FFE96D;
+		      }
+		</style>
+		```
+	
+	2. サンプル データと行テンプレートをページに追加します。
+	
+		**JavaScript の場合:**
+		
+		```js
+		<script type="text/javascript">
+		var employees = [
+		{ firstName: "Joseph", lastName: "Sommers", age: 17 },
+		{  firstName: "Anna", lastName: "Paterson", age: 25}, 
+		{  firstName: "Mark", lastName: "Smith", age: 19}];
+		var template = '{{if ${age} < 18 }} <tr class="rowCriticalAttention">' +'<td><b>First Name: </b>${firstName}</td>' +'<td><b>Last Name: </b>${lastName}</td>' +'<td><b>Age: </b>${age}</td></tr>' +
+		'{{elseif ${age} >= 18 && ${age} < 21}}' +
+		'<tr class="rowAttention"><td><b>First Name: </b>${firstName}</td>' +'<td><b>Last Name: </b>${lastName}</td>' +'<td><b>Age: </b>${age}</td></tr>' +
+		'{{else}}' +
+		'<tr><td><b>First Name: </b>${firstName}</td>' +'<td><b>Last Name: </b>${lastName}</td>' +'<td><b>Age: </b>${age}</td></tr>' +
+		'{{/if}}';
+		</script>
+		```
+		
+		**HTML の場合:**
+		
+		```html
+		<body>
+		<table id="resultTable" style="border: 1px solid #000;"></table>
+		</body>
+		```
+	
+	3. テンプレートを適用し、結果を HTML テーブルに追加します
+	
+		**JavaScript の場合:**
+		
+		```js
+		<script type="text/javascript">
+		$(document).ready(function () {
+		      var result = $.ig.tmpl(template, employees);
+		      $('#resultTable').html(result);
+		});
+		</script>
+		```
+
+2.  (オプション) 結果を確認します。
+
+	ファイルを保存し、HTML ファイルをダブルクリックして結果をプレビューします。
+
+
+
+
+
+## <a id="related-content"></a>関連コンテンツ
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [代替行表示テンプレートの作成](Creating-an-Alternating-Rows-Template-%28igTemplating%29.html): このトピックでは、テンプレート エンジンを使用して代替行表示テンプレートを作成する方法を紹介します。
+
+- [基本的な条件付きテンプレートの作成](Creating-Basic-Conditional-Template.html): このトピックでは、テンプレート エンジンを使用して基本的な条件付きテンプレートを作成する方法を紹介します。
+
+- [基本的な置換テンプレートの作成](Creating-Basic-Substitution-Template.html): このトピックでは、テンプレート エンジンを使用して基本的な置換テンプレートを作成する方法を紹介します。
+
+- [複合プロパティ置換テンプレートの作成](Creating-Complex-Property-Substitution-Template.html): このトピックでは、テンプレート エンジンを使用して複合プロパティ置換テンプレートを作成する方法を紹介します。
+
+- [デフォルト ステートメントを含む条件付きテンプレートの作成](Creating-Conditional-Template-Containing-Default-Statement.html): このトピックでは、テンプレート エンジンを使用して、デフォルト ステートメントを含む条件付きテンプレートを作成する方法を紹介します。
+
+- [ネスト ブロック テンプレートの作成](Creating-Nested-Blocks-Template.html): このトピックでは、テンプレート エンジンを使用してネストブロック テンプレートを作成する方法を紹介します。
+
+
+### サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [条件付きテンプレート](%%SamplesUrl%%/templating-engine/conditional-templates):このサンプルは、Infragistics テンプレート エンジンを使用して条件付きのセル テンプレートをグリッドで使用する方法を紹介します。「単位価格」列のセルは上矢印または下矢印の画像を含みます。「差分価格」列は動的に作成して非表示されます。上矢印または下矢印の画像は、非表示される列の値と「単位価格」列の値の比較に基づいて適用されます。Infragistics テンプレート エンジンは「デルタ価格」列と「単位価格」列の値を比較します。「差分価格」列の値が「単位価格」値より大きい場合、緑色の上矢印を描画します。そうでない場合、赤色の下矢印を描画します。
+
+
+
+
+
+ 
+
+ 
+
+

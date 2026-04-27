@@ -1,0 +1,25 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igspreadsheet-known-issues",
+    "controlName": "igSpreadsheet",
+    "tags": []
+}
+|metadata|
+-->
+
+# igSpreadsheet の既知の問題
+
+## 既知の問題と制限
+
+-   `igSpreadsheet` の 17.1 バージョンはセルに編集モードの開始がサポートされていません。また、数式バーでセルの編集もサポートされていません。
+-	コンテンツの位置調整、テキストの方向 (左から右でないもの)、回転および垂直方向のテキストはサポートされません。
+
+## 関連リンク
+-   [igSpreadsheet の概要](igspreadsheet-overview.html)
+-   [igSpreadsheet の構成](configuring-igspreadsheet.html)
+ 
+
+ 
+
+

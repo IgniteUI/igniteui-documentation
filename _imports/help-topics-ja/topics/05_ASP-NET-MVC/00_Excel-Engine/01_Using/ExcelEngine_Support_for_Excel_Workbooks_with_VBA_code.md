@@ -1,0 +1,33 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "excelengine-support-for-excel-workbooks-with-vba-code",
+    "controlName": "Infragistics Excel Library",
+    "tags": ["FAQ","How Do I"]
+}
+|metadata|
+-->
+
+# VBA コードのある Excel ワークブックのサポート
+
+Infragistics Excel Engine™ を使用して、既存の VBA マクロ コードが組み込まれている Microsoft® Excel® ワークブックをロードおよび保存したい場合があります。保存し直す時に Excel97-2003 および Excel2007 両方のロードされたワークブックから VBA コードをラウンドトリップすることが可能になりました。これは、Excel Engine を使用して VBA マクロを含む Excel ファイルを開き、オブジェクト モデルで演算を実行し、ファイルを保存することが可能であるため、VBA マクロはそのまま影響されないことを意味します。
+
+マクロを持つ Excel97-2003 ワークブックはファイル拡張子 xls が付いて保存されますが、マクロを持つ Excel2007 ワークブックはマクロ対応のワークブックとして保存されるため、拡張子 `XLSX` ではなくファイル拡張子 `XLSM` が付いて保存される必要があります。
+
+以下の例のコードは、VBA マクロ ラウンドトリップのサポートを実装する方法を示します。
+
+**Visual Basic の場合:**
+
+
+```vb
+Dim workbook As New Infragistics.Documents.Excel.Workbook(WorkbookFormat.Excel2007MacroEnabled)
+```
+
+
+
+**C# の場合:**
+
+
+```csharp
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook (WorkbookFormat.Excel2007MacroEnabled);
+```

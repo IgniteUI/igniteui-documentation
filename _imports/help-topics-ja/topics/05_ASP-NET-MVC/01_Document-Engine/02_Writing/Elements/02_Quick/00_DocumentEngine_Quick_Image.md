@@ -1,0 +1,27 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "documentengine-quick-image",
+    "controlName": "Infragistics Document Library",
+    "tags": ["Reporting"]
+}
+|metadata|
+-->
+
+# クイック画像
+
+Quick Image 要素によって、わずかまたはまったく努力せずにほとんどのレイアウト 要素に画像を追加できます。画像をレポートに素早く追加するために必要なのは、画像を挿入する必要があるどのようなレイアウト要素でも AddQuickImage メソッドを呼び出すだけです。このメソッドのパラメーターは、[Infragistics.Documents.Reports.Graphics.Image](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Graphics.Image.html) の 1 つだけです。以前に作成した画像を渡す、または新しい画像をインスタンス化するのいずれかを実行できます。詳細については、「画像」を参照してください。
+
+以下のコードは、[ISection](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection~AddQuickImage.html) インターフェイスの [AddQuickImage](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Section.ISection.html) メソッドを呼び出して新しい画像を渡すことによって、Quick Image 要素を作成します。新しい画像は 2 番目のオーバーロードを使用して、画像のパスを識別するために文字列を使用します。このトピックは、Report 要素が定義済みで、この要素に少なくともひとつの Section 要素が追加されていることを前提としています。詳細は、[Report](DocumentEngine-Report.html) および[Section](DocumentEngine-Section.html) を参照してください。
+
+**C# の場合:**
+
+```csharp
+section1.AddQuickImage(new Image(Application.StartupPath + @"..Coffee Bean.bmp"));
+```
+
+ 
+
+ 
+
+

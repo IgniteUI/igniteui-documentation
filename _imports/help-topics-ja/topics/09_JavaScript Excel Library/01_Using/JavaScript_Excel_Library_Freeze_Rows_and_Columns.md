@@ -1,0 +1,31 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "javascript-excel-library-freeze-rows-and-columns",
+    "controlName": ["igExcel"],
+    "tags": ["How Do I"]
+}
+|metadata|
+-->
+
+# 行と列をフリーズ
+
+ワークシート上の特定のデータは常に表示されています（例: 列ヘッダーや行の主要なフィールド）。このデータでは、ワークシートの上部の行と左側の列をフリーズできます。ワークシートで行をフリーズすると、垂直方向にワークシートをスクロールしても、これらの行はワークシートの上部に固定された状態になります。同様に、水平方向のスクロールの位置にかかわらず、フリーズされた列はワークシートの左側に固定されます。フリーズされていない行と列は、ワークシートの右下のペインに存在します。このペインに最初に表示する行または列を指定することもできます。これにより、ワークシートの垂直および水平方向のスクロールの位置を設定します。
+
+以下のコードは、ワークシートで行と列をフリーズする方法を示します。
+
+**JavaScript の場合:**
+
+```js
+var workbook = new $.ig.excel.Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions().panesAreFrozen(true);
+
+// One row is frozen at the top of the worksheet
+worksheet.displayOptions().frozenPaneSettings().frozenRows(1);
+
+// Two columns are frozen at the left of the worksheet
+worksheet.displayOptions().frozenPaneSettings().frozenColumns(2);
+```
+

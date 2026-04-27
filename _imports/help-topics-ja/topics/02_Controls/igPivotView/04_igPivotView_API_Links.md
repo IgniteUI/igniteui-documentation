@@ -1,0 +1,40 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "igpivotview-api-links",
+    "controlName": "igPivotView",
+    "tags": ["API","Grids"]
+}
+|metadata|
+-->
+
+# jQuery と MVC API リンク (igPivotView)
+
+##igPivotView API 参照ドキュメント
+
+### igPivotView API 参照ドキュメントの概要表
+
+以下の表は、`igPivotView`™ コントロールの API 参照ドキュメントのリンクの一覧です。(この参照コンテンツは、コントロールの開発者ガイドの他、[こちら](igPivotView.html)で使用できます。)
+
+- [igPivotView jQuery API](%%jQueryApiUrl%%/ui.igPivotView): マニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
+
+- [igPivotView MVC API](Infragistics.Web.Mvc~Infragistics.Web.Mvc.PivotViewModel.html): マニュアルには、ピボット ビューのデータ選択ウィザードの ASP.NET MVC  ヘルパーの説明と、そのすべてのメンバーのリストが含まれます。
+
+
+##関連コンテンツ
+
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [igPivotView の追加](igPivotView-Adding.html): これは、`igPivotView`™ コントロールを HTML ページと ASP.NET MVC アプリケーションへ追加する方法を示すトピックのグループです。
+
+
+
+
+
+ 
+
+ 
+
+

@@ -1,0 +1,326 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "iggrid-configuring-knockout-support",
+    "controlName": "",
+    "tags": []
+}
+|metadata|
+-->
+
+# Knockout サポートの構成 (igGrid)
+
+## トピックの概要
+
+### 目的
+
+このトピックは、[Knockout ライブラリ](http://knockoutjs.com/) により管理される ビューモデル のオブジェクトをバインドするために `igGrid`™ コントロールを構成する方法について説明します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックと外部リソースの一覧です。
+
+- トピック
+	- [igGrid の概要](igGrid-Overview.html): このトピックでは、`igGrid` コントロールの概要を提供し、HTML ページへの追加方法をコードを説明します。
+	- [igGrid/igDataSource アーキテクチャの概要](igGrid-igDataSource-Architecture-Overview.html): このトピックでは、`igGrid` の内部機能および `igDataSource`™ コンポーネントとどのように対話して各種データ ソースへのバインディングを可能にしているかを説明します。
+- 外部リソース
+	- [Knockout インタラクティブ チュートリアル](http://learn.knockoutjs.com/)
+
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [**概要**](#introduction)
+-   [**Knockout サポートによる igGrid の構成**](#configuring)
+-   [**コード例**](#examples)
+-   [**コード例: Knockout ビューモデル オブジェクトにバインドされたグリッド**](#view-model-bound)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+    -   [リソース](#resources)
+
+
+
+## <a id="introduction"></a> 概要
+
+`igGrid` コントロールにおける Knockout ライブラリのサポートは、開発者が Knockout ライブラリとその宣言構文を使用して、グリッド コントロールのインスタンスを作成し構成するための簡単な方法を提供することを目的としています。
+
+Knockout のサポートは、Knockout バインディングがページに適用されるときに最初に呼び出されるKnockout 拡張機能として、ページの存続期間中 (ビューモデルへの外部更新が発生した場合) に実装されます。
+
+Knockout 管理データ構造にバインドされる `igGrid` のインスタンスを作成するには、`igGrid` 構成オプションを table 要素の data-bind 属性に指定する必要があります。これにより、JavaScript を使用してコントロールを作成する場合と同様に、指定された要素の位置にグリッドが描画されます。このオプションを構成する方法の詳細は、以下の [**Knockout を使用した igGrid の構成**](#configuring)のセクションを参照してください。また、data-bind 属性を使用して、ビジネス ケースに関連する他の `igGrid` オプションのいずれかを指定することもできます。
+
+`igGrid` コントロールの Knockout 機能拡張を使用すると、行の編集、追加、削除により `igGrid` データが変更されるたびに、機能拡張は監視可能に通知して、対応するすべてのビューを更新します。また、いくつかの外部ビューが更新されると、拡張機能の監視可能機能により `igGrid` データが更新されるようになります。(これは、その他のKnockout 拡張機能から予想されるビヘイビアーです)
+
+さらに、バインドされるデータ ソースの変更に対して `igGrid` が反応するように、`igGrid` の Knockout 機能拡張を構成できます。つまり、監視可能として構成されたデータ ソースで、行の追加、削除または更新を行うと、拡張機能は要素の追加および削除を追跡し、それに基づいてグリッドの行を更新できます。詳細は、[コード例: Knockout ビューモデル オブジェクトにバインドされるグリッド](#view-model-bound)を参照してください。
+
+
+
+## <a id="configuring"></a> Knockout サポートによる igGrid の構成
+
+以下の表は、これらのタスクを管理する各プロパティに対し Knockout 使用シナリオに関連する `igGrid` コントロールの構成タスクをマップします。実際の実装コード例を、表の下に示します。
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+            <th>
+構成タスク
+			</th>
+            <th>
+必須ですか？
+			</th>
+            <th>
+詳細
+			</th>
+            <th>
+プロパティ
+			</th>
+        </tr>
+	</thead>
+	<tbody>
+        <tr>
+            <td>
+ビューモデル オブジェクトのフィールドを、グリッドの列キーにバインド
+			</td>
+            <td>
+必須
+			</td>
+            <td>
+Knockout を使用してデータにバインドする場合、最小要件は、グリッドの列の `key` プロパティを構成することです。これにより、グリッドとビューモデルの間でデータを交換できます。
+			</td>
+            <td>
+                <ul>
+                    <li>
+[columns[i].key](%%jQueryApiUrl%%/ui.iggrid#options:columns.key)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+グリッドのデータ ソースの指定
+			</td>
+            <td>
+必須
+			</td>
+            <td>
+グリッドのデータ ソースを構成するためのプロパティは、`dataSource` です。
+			</td>
+            <td>
+                <ul>
+                    <li>
+[dataSource](%%jQueryApiUrl%%/ui.iggrid#options:dataSource)
+					</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+ビューモデル オブジェクトの更新
+			</td>
+            <td>
+オプション
+			</td>
+            <td>
+デフォルトでは、グリッドは KnockoutDataSource を介してビューモデルを更新します。更新の実行には、
+                <ul>
+                    <li>
+更新機能を有効にする必要があります。
+					</li>
+                    <li>
+変更を加えます。
+					</li>
+                </ul>
+ビューモデル オブジェクトの更新は、グリッド内で行の追加、削除または更新されるたびに実行する (`autoCommit` が有効な場合)、または `dataDirty` イベントが実行されたときに実行する (`autoCommit` が有効ではない場合) のいずれかを選択できます。
+            </td>
+            <td>
+                <ul>
+                    <li>
+[features[{name:”Updating”}]](%%jQueryApiUrl%%/ui.iggrid#options:features)
+					</li>
+                    <li>
+[autoCommit](%%jQueryApiUrl%%/ui.iggrid#options:autoCommit)
+					</li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+## <a id="examples"></a> コード例
+
+以下は、このトピックで使用したコード例を示しています。
+
+- [Knockout ビューモデル オブジェクトにバインドされたグリッド](#view-model-bound): この例は、Knockout で observable と定義された ビューモデル オブジェクトにバインドされる `igGrid` コントロールの基本構成を示します。
+
+
+## <a id="view-model-bound"></a> コード例: Knockout ビューモデル オブジェクトにバインドされたグリッド
+
+この手順では、Knockout 監視可能 ビューモデル オブジェクトにバインドされる `igGrid` コントロールの基本構成を示します。Knockout の宣言構文を使用して、`table` 要素の `data-bind` 属性からグリッドのインスタンスを作成し、ビューモデル監視可能プロパティにバインドします。
+
+### 前提条件
+
+この手順を実行するには、以下のリソースが必要です。
+
+1.  バージョン 13.1 以降に必要な %%ProductName%% の JavaScript ファイルと CSS ファイル
+2.  ページで参照される Knockout ライブラリ
+
+**JavaScript の場合:**
+
+```js
+<script src="{IG Resources root}/js/extensions/infragistics.datasource.knockoutjs.js"></script>
+    
+<script src="{IG Resources root}/js/extensions/infragistics.ui.grid.knockout-extensions.js"></script>
+```
+
+### 概要
+
+1.  ビューモデル オブジェクトの作成
+2.  宣言された Knockout バインディングをページに適用
+3.  ビュー内の `igGrid` のバインディング プロパティの宣言
+4.  サンプル
+
+### 手順
+
+`igGrid` を Knockout 監視可能ビューモデル オブジェクトにバインドするための一般的な手順を簡単に示すと、以下のようになります。
+
+1. **ビューモデル オブジェクトの作成**
+
+	以下のコードは、Knockout により管理される監視可能プロパティを宣言するビューモデル オブジェクトを示します。
+	
+	配列構造と各オブジェクト フィールドの両方が監視可能として宣言される点に注意してください。データ項目が追加、削除または変更される場合にビューを更新でき、ユーザーが編集を行う場合にビューモデルを変更できます。
+	
+	**JavaScript の場合:**
+	
+	```js
+	var itemsModel, db = nwCustomersWithOrders;
+    var Item = function (ID, ContactName, City, Country) {
+        var self = this;
+        this.ID = ko.observable(ID);
+        this.ContactName = ko.observable(ContactName);
+        this.City = ko.observable(City);
+        this.Country = ko.observable(Country);
+    }
+    function ItemsViewModel() {
+        var self = this;
+        self.data = ko.observableArray([]);
+        self.selectedItemID = ko.observable(0);
+        for (var i = 0; i < db.length; i++) {
+            self.data.push(new Item(db[i].ID, db[i].ContactName, db[i].City, db[i].Country));
+        }
+        self.selectionChanged = function (evt, ui) {
+            var rowdata = ui.row;             
+            var selectedItemInArray = 
+                ko.utils.arrayFirst(self.data(), function (item) {
+                return item.ID() === rowdata.id;
+            });                      
+            self.selectedItemID(parseInt(rowdata.index));
+        };           
+    }
+    itemsModel = new ItemsViewModel();
+	```
+
+2. **宣言された Knockout バインディングをページに適用**
+
+	以下のコード スニペットは、宣言されたKnockout バインディングをページに適用する方法を示します。
+	
+	`ko.applyBindings()` 呼び出しは、[Infragistics Loader](Using-Infragistics-Loader.html) の即時コールバック内で出される点に注意してください。これは、Knockout のグリッド拡張機能は、バインディングが適用される前にページに読み込む必要があるためです。
+	
+	**JavaScript の場合:**
+	
+	```js
+	$.ig.loader({
+	    scriptPath: "http://{IG Resources root}/ig_ui/js/",
+	    cssPath: "http://{IG Resources root}/ig_ui/css/",
+	    resources:  "igGrid.*,extensions/infragistics.datasource.knockoutjs.js,extensions/infragistics.ui.grid.knockout-extensions.js",
+	    ready: function () {
+	        ko.applyBindings(itemsModel);
+	    }
+	});
+	```
+
+3. **ビュー内の igGrid のバインディング プロパティの宣言**
+
+	以下のコードは、ビュー内に `igGrid` のバインディング プロパティを宣言する方法を示します。最も重要なのは、対応する `table` 要素の `data-bind` 属性におけるインスタンス化プロパティの宣言部分です。
+	
+	ビューモデル オブジェクトのすべての列の `key` プロパティと `datasource` プロパティが監視可能である点に注意してください。`key` プロパティの場合、ビューモデル オブジェクトは `igGrid` データを動的に更新でき、逆も同様です。`igGrid` はビューモデル オブジェクトを更新できるようになります。`dataSource` を監視可能な配列として構成すると、`igGrid` は要素の追加と削除を追跡し、それに基づいて行の一覧を更新できるようになります。これらのプロパティのいずれかを監視不可能として宣言できます。これは、対応する機能を失うということです。監視可能として定義されるビューモデル オブジェクトのプロパティがないと、`igGrid` に対する Knockout サポートはなく、宣言構文および Knockout バインディング拡張機能を使用することは意味をなしません。
+	
+	**HTML の場合:**
+	
+	```html
+	<table id="grid" data-bind="igGrid: {
+	            dataSource: data, 
+	            width: 700, 
+	            primaryKey: 'ID', 
+	            autoCommit: true, 
+	              features: [ 
+	                {
+	                 name: 'Updating', 
+	                    editMode: 'row',
+	                    columnSettings: [
+	                        {
+	                            columnKey : 'ID',
+	                            readOnly : true
+	                        }
+	                    ]
+	                    },
+	                {
+	                    name: 'Selection', 
+	                    mode: 'row', 
+	                    multipleSelection: true,
+	                    activation: true,
+	                    rowSelectionChanged:itemsModel.selectionChanged
+	                },
+	                {
+	                    name: 'Paging', 
+	                    type: 'local', 
+	                    pageSize: 5
+	                }
+	              ],
+	            autoGenerateColumns: false, 
+	            columns: [
+	                { headerText: 'Customer ID ', key: 'ID', dataType: 'string'},                  
+	                { headerText: 'Contact Name', key: 'ContactName', dataType: 'string' },  
+	                { headerText: 'City', key: 'City', dataType: 'string' },
+	                { headerText: 'Country', key: 'Country', dataType: 'string' }
+	            ]
+	    }">
+	</table>
+	```
+
+4. **サンプル**
+
+<div class="embed-sample">
+   [KnockoutJS の構成](%%SamplesEmbedUrl%%/grid/bind-grid-with-ko)
+</div>
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [Knockout サポートの構成 (igCombo)](igCombo-KnockoutJS-Support.html): このトピックは、Knockout ライブラリにより管理されるビューモデル オブジェクトをバインドするために `igCombo` コントロールを構成する方法について説明します。
+
+- [Knockout サポート (エディター)](Configuring-Knockout-Support-%28Editors%29.html): このトピックは、Knockout ライブラリにより管理されるビューモデル オブジェクトをバインドするために %%ProductName%% エディター コントロールを構成する方法について説明します。
+
+- [Knockout サポートの構成 (igTree)](igTree-KnockoutJS-Support.html): このトピックは、Knockout ライブラリにより管理される View-Model オブジェクトをバインドするために `igTree` コントロールを構成する方法について説明します。
+
+### <a id="resources"></a> リソース
+
+以下に、このトピックに関連する追加情報を示します (Infragistics のコンテンツ ファミリー以外でもご利用いただけます)。
+
+- [Knockout ホーム](http://knockoutjs.com/): すべてのドキュメント、サンプル、開発者フォーラムなどが含まれる Knockout ライブラリのホーム ページです。
+
+
+
+
+
+ 
+
+ 
+
+

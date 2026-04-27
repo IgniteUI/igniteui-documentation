@@ -1,0 +1,31 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "shapeseries-shape-series",
+    "controlName": "",
+    "tags": []
+}
+|metadata|
+-->
+
+# シェープ シリーズの構成 (igDataChart)
+
+## このグループのトピックについて
+
+### 概要
+
+このグループのトピックでは、多角形およびポリラインシリーズについて説明します。このシリーズを使用すると、igDataChart でカスタム図形を表示できます。X および Y 値を含むポイントのリストをシリーズに提供する必要があります。これらのポイントで図形が定義されます。
+
+図 1.散布多角形シリーズ
+
+![](images/jQuery_mini_scatter_polygon_01.png)
+
+図 2.散布ポリライン シリーズ
+
+![](images/jQuery_mini_scatter_polyline_01.png)
+
+### トピック
+
+- [散布多角形シリーズの構成 (igDataChart)](ShapeSeries-Polygon-Series.html): このトピックでは、多角形シリーズの情報を提供します。多角形シリーズのプロパティについて説明し、実装例を示します。
+
+- [散布ポリライン シリーズの構成 (igDataChart)](ShapeSeries-Polyline-Series.html): このトピックでは、ポリライン シリーズの情報を提供します。ポリライン シリーズのプロパティについて説明し、実装例を示します。

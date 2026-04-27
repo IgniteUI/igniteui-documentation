@@ -1,0 +1,40 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "aspnet-mvc-mobile-wrappers-known-issues",
+    "controlName": "",
+    "tags": []
+}
+|metadata|
+-->
+
+# Mobile ラッパーの既知の問題と制限 (%%ProductNameMVC%%)
+
+
+
+## 既知の問題点と制限の概要
+
+以下の表は、%%ProductNameMVC%% モバイル ラッパーの既知の問題と制限の概要を示します。
+
+凡例: | 
+--------|---------
+![](images/positive.png) | 回避策
+![](images/negative.png) | 既知の回避策はありません
+![](images/plannedFix.png) | 既知の回避策はありません。修正予定です。
+
+
+### %%ProductName%% ASP.NET MVC Mobile ラッパー (モバイル)
+
+問題|説明|状態
+------|-------------|--------
+モバイル コントロール ヘルパーの位置が変更された|2013.1 には、モバイル コントロール ヘルパーは *Infragistics.Web.MVC.dll* アセンブリの一部でした。2013.2 には、これらのヘルパーは *Infragistics.Web.MVC.Mobile* dll 内に常駐しています。 | ![](images/positive.png)
+
+
+
+
+
+ 
+
+ 
+
+

@@ -1,0 +1,39 @@
+﻿<!--
+|metadata|
+{
+    "fileName": "shapechart-api-reference",
+    "controlName": "igShapeChart",
+    "tags": ["API", "ShapeChart"]
+}
+|metadata|
+-->
+
+# jQuery API リファレンス リンク (igShapeChart)
+
+### 目的
+
+このトピックでは、igShapeChart コントロールのための jQuery の API ドキュメントへのリンクを提供します。
+
+### 前提条件
+
+このトピックを理解するためには、以下のトピックを理解しておく必要があります。
+
+- [igShapeChart の概要](shapechart-overview.html): このトピックは、主要機能、最小要件およびユーザー機能性など、igShapeChart コントロールの概念的な情報を提供します。
+
+- [igShapeChart を使用した作業の開始](shapechart-getting-started-with-shapechart.html): このトピックでは、igShapeChart をコントロールを作成して追加し、データにバインドする方法を紹介します。
+
+## igShapeChart API リファレンス
+
+### 概要
+
+igShapeChart は jQuery UI ウィジェットとして作成されています。igShapeChart API の詳細は、以下に示された API マニュアルへのリンク先を参照してください。
+
+### API マニュアル参照の概要
+
+[igShapeChart jQuery API](%%jQueryApiUrl%%/ui.igShapeChart): このマニュアルには、コントロールの概要、コードを含むオプション、イベント、メソッドの一覧が含まれています。
+
+## 関連コンテンツ
+
+以下のトピックでは、このトピックに関連する追加情報を提供しています。
+
+- [igShapeChart を使用した作業の開始](shapechart-getting-started-with-shapechart.html)
