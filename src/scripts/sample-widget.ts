@@ -202,6 +202,7 @@ function addFooter(
     explicitEditor: string | null,
     onStackblitz:   (() => void) | null,
     onCodeSandbox:  (() => void) | null,
+    onJsFiddle:     (() => void) | null = null
 ): void {
     const footer     = document.createElement('div');
     footer.className = 'editing-buttons-container';
@@ -226,6 +227,15 @@ function addFooter(
         btn.textContent      = 'CodeSandbox';
         btn.style.fontWeight = '500';
         btn.addEventListener('click', onCodeSandbox);
+        footer.appendChild(btn);
+    }
+
+    if ((!explicitEditor || explicitEditor === 'jsfiddle') && onJsFiddle) {
+        const btn            = document.createElement('button');
+        btn.className        = 'jsfiddle-btn';
+        btn.textContent      = 'JSFiddle';
+        btn.style.fontWeight = '500';
+        btn.addEventListener('click', onJsFiddle);
         footer.appendChild(btn);
     }
 
@@ -407,6 +417,148 @@ class XplatCodeService {
     }
 }
 
+// ─── jQuery Code Service ──────────────────────────────────────────────────────
+
+/**
+ * jQuery sample structure (hosted on GitHub Pages at igniteui.github.io/help-samples):
+ *   <demosBaseUrl>/<samplePath>/index.html   — live demo
+ *   <demosBaseUrl>/<samplePath>/.gh-embed.json — metadata with code-viewer file list
+ *   <demosBaseUrl>/<samplePath>/fiddle/demo.js|demo.html|demo.css — source files
+ *
+ * .gh-embed.json has:
+ *   { srcUrlPattern, embed: [{ label, path }, { label, path }, { type: "htmlpage", ... }] }
+ */
+
+interface GhEmbedEntry {
+    label: string;
+    path:  string;
+    type?: string;
+    url?:  string;
+}
+
+interface GhEmbedJson {
+    srcUrlPattern: string;
+    embed:         GhEmbedEntry[];
+}
+
+class JQueryCodeService {
+    async init(ctx: WidgetContext): Promise<void> {
+        const { widget, iframeSrc, demosBaseUrl, widgetIndex, navbar, container, activateTab } = ctx;
+        let samplePath = getSamplePath(iframeSrc, demosBaseUrl);
+        // Strip trailing filename (e.g. index.html) to get the directory path.
+        samplePath = samplePath.replace(/\/[^/]+\.[^/]+$/, '');
+
+        // GitHub Pages uses Jekyll which ignores dotfiles (.gh-embed.json → 404).
+        // Use raw.githubusercontent.com instead — it serves all files and sets
+        // Access-Control-Allow-Origin: *, so CORS is not an issue from localhost.
+        //
+        // demosBaseUrl example: https://igniteui.github.io/help-samples/25.1/EN/
+        // We need the version/lang prefix from the Pages path, e.g. "25.1/EN".
+        const pagesPath  = new URL(demosBaseUrl).pathname;          // /help-samples/25.1/EN/
+        const repoName   = pagesPath.split('/').filter(Boolean)[0]; // "help-samples"
+        const subPath    = pagesPath.split('/').filter(Boolean).slice(1).join('/').replace(/\/$/, ''); // "25.1/EN"
+        const rawBase    = `https://raw.githubusercontent.com/IgniteUI/${repoName}/master`;
+
+        try {
+            // Fetch the embed metadata from raw.githubusercontent.com.
+            const metaUrl = `${rawBase}/${subPath}/${samplePath}/.gh-embed.json`;
+            const metaRes = await fetch(metaUrl, { credentials: 'omit' });
+            if (!metaRes.ok) throw new Error(`.gh-embed.json ${metaRes.status}`);
+            const meta: GhEmbedJson = await metaRes.json();
+
+            // Filter out the "htmlpage" result entry — only keep code files.
+            const codeEntries = meta.embed.filter(e => e.type !== 'htmlpage' && e.path);
+
+            // Fetch all code files in parallel from raw.githubusercontent.com.
+            const fileContents = await Promise.all(
+                codeEntries.map(async (entry) => {
+                    // entry.path is relative to the repo root, e.g.
+                    // "25.1/EN/grid/cell-merging-custom/fiddle/demo.js"
+                    const url = `${rawBase}/${entry.path}`;
+                    try {
+                        const res = await fetch(url, { credentials: 'omit' });
+                        if (!res.ok) return null;
+                        const content = await res.text();
+                        return {
+                            label:   entry.label,
+                            ext:     entry.path.split('.').pop() || 'text',
+                            content,
+                        };
+                    } catch {
+                        return null;
+                    }
+                })
+            );
+
+            const files = fileContents.filter(Boolean) as { label: string; ext: string; content: string }[];
+
+            // Add code tabs for each file.
+            files.forEach((file, i) => {
+                addCodeTab(navbar, container, activateTab, widgetIndex, {
+                    fileExtension: file.ext,
+                    fileHeader:    file.label,
+                    content:       file.content,
+                    isMain:        true,
+                }, i);
+            });
+
+            // Build the "View on GitHub" source URL from srcUrlPattern.
+            // srcUrlPattern example: "/${owner}/${repo}-src/blob/25.1/HTMLSamples/grid/cell-merging-custom.html"
+            const sourceUrl = meta.srcUrlPattern
+                ? `https://github.com${meta.srcUrlPattern
+                    .replace('${owner}', 'IgniteUI')
+                    .replace('${repo}', 'help-samples')}`
+                : null;
+
+            // jsFiddle: post the fiddle files.
+            const jsFile   = files.find(f => f.ext === 'js');
+            const htmlFile = files.find(f => f.ext === 'html');
+            const cssFile  = files.find(f => f.ext === 'css');
+
+            const onJsFiddle = (jsFile || htmlFile)
+                ? () => this._openJsFiddle(
+                    htmlFile?.content ?? '',
+                    jsFile?.content ?? '',
+                    cssFile?.content ?? '',
+                )
+                : null;
+
+            addFooter(widget, 'jsfiddle', null, null, onJsFiddle);
+
+        } catch (err: any) {
+            console.warn('[sample-widget] Could not fetch jQuery sample files:', err.message);
+        }
+    }
+
+    /**
+     * Opens jsFiddle with the sample code via a POST form submission.
+     * See https://docs.jsfiddle.net/api/display-a-fiddle-from-post
+     */
+    private _openJsFiddle(html: string, js: string, css: string): void {
+        const form   = document.createElement('form');
+        form.method  = 'POST';
+        form.action  = 'https://jsfiddle.net/api/post/library/pure/';
+        form.target  = '_blank';
+
+        const addField = (name: string, value: string) => {
+            const input = document.createElement('input');
+            input.type  = 'hidden';
+            input.name  = name;
+            input.value = value;
+            form.appendChild(input);
+        };
+
+        addField('html', html);
+        addField('js',   js);
+        addField('css',  css);
+        addField('wrap', '1');  // Wrap JS in onLoad
+
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+    }
+}
+
 // ─── Entry Point ──────────────────────────────────────────────────────────────
 
 /**
@@ -440,6 +592,11 @@ export function initSampleWidgets(): void {
     }
 
     document.querySelectorAll<HTMLElement>('.code-view[data-platform]').forEach((widget, index) => {
+        // Guard against double-initialization (e.g. astro:page-load firing on
+        // back-navigation to a page whose widgets are still in the DOM).
+        if (widget.dataset.initialized) return;
+        widget.dataset.initialized = '1';
+
         const iframeSrc    = widget.dataset.iframeSrc    || '';
         const demosBaseUrl = widget.dataset.demosBaseUrl || '';
         const githubSrc    = widget.dataset.githubSrc    || '';
@@ -488,9 +645,11 @@ export function initSampleWidgets(): void {
 
         if (!demosBaseUrl) return;
 
-        const service = isXplatPlatform(platform)
-            ? new XplatCodeService(platform)
-            : new AngularCodeService();
+        const service = platform === 'jquery'
+            ? new JQueryCodeService()
+            : isXplatPlatform(platform)
+                ? new XplatCodeService(platform)
+                : new AngularCodeService();
 
         const ctx: WidgetContext = {
             widget, iframeSrc, demosBaseUrl, widgetIndex: index, navbar, container, activateTab, githubSrc,

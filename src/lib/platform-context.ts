@@ -9,7 +9,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor';
+export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor' | 'jQuery';
 
 export interface ApiPackageConfig {
     /** TypeDoc documentation root URL (no trailing slash). */
@@ -200,6 +200,26 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             repoSamples: 'https://github.com/IgniteUI/igniteui-blazor-examples/tree/master/samples',
         },
     },
+    jQuery: {
+        name: 'jQuery',
+        lower: 'jquery',
+        prefix: '',
+        productName: 'Ignite UI for jQuery',
+        productSpinal: 'ignite-ui-jquery',
+        apiPackages: {},
+        packages: {
+            common: 'igniteui',
+            charts: 'igniteui',
+            grids: 'igniteui',
+            gauges: 'igniteui',
+            maps: 'igniteui',
+        },
+        links: {
+            github: 'https://github.com/IgniteUI/ignite-ui',
+            forums: 'https://www.infragistics.com/community/forums/f/ignite-ui-for-jquery',
+            repoSamples: '',
+        },
+    },
 };
 
 let _ctx: PlatformContext | null = null;
@@ -207,7 +227,8 @@ let _env: Record<string, string> | null = null;
 
 /**
  * Returns the platform context for the current build.
- * Resolution order: PLATFORM env var → .platform.json → 'React' default.
+ * Resolution order: PLATFORM env var → DOCS_PLATFORM env var (lowercase key)
+ *                   → .platform.json → 'React' default.
  *
  * Result is cached for the build lifetime.
  */
@@ -220,15 +241,25 @@ export function getPlatformContext(): PlatformContext {
     if (envPlatform && PLATFORMS[envPlatform]) {
         name = envPlatform;
     } else {
-        try {
-            const cfgPath = path.resolve(process.cwd(), '.platform.json');
-            if (fs.existsSync(cfgPath)) {
-                const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf-8'));
-                if (cfg.platform && PLATFORMS[cfg.platform as PlatformName]) {
-                    name = cfg.platform as PlatformName;
+        // DOCS_PLATFORM is the lowercase key set by createDocsSite() (e.g. 'jquery').
+        // Resolve it by matching against each platform's `lower` field.
+        const docsPlatform = process.env.DOCS_PLATFORM;
+        const found = docsPlatform
+            ? (Object.values(PLATFORMS) as PlatformContext[]).find(p => p.lower === docsPlatform)
+            : undefined;
+        if (found) {
+            name = found.name;
+        } else {
+            try {
+                const cfgPath = path.resolve(process.cwd(), '.platform.json');
+                if (fs.existsSync(cfgPath)) {
+                    const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf-8'));
+                    if (cfg.platform && PLATFORMS[cfg.platform as PlatformName]) {
+                        name = cfg.platform as PlatformName;
+                    }
                 }
-            }
-        } catch { /* use default */ }
+            } catch { /* use default */ }
+        }
     }
 
     _ctx = PLATFORMS[name];
