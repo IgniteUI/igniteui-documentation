@@ -34,7 +34,29 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxButtonModule` in your **app.module.ts** file.
+### Standalone Directive 
+
+Since `16.0.0`, `IgxButtonDirective` is a standalone directive. Import it directly into your component's `imports` array.
+
+```typescript
+// home.component.ts
+
+import { IgxButtonDirective } from 'igniteui-angular/button';
+// import { IgxButtonDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<button igxButton="flat">Flat</button>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IgxButtonDirective]
+})
+export class HomeComponent {}
+```
+
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxButtonModule` in your **app.module.ts**:
 
 ```typescript
 // app.module.ts
@@ -50,24 +72,9 @@ import { IgxButtonModule } from 'igniteui-angular/button';
 export class AppModule {}
 ```
 
-Alternatively, as of `16.0.0` you can import the `IgxButtonDirective` as a standalone dependency.
-
-```typescript
-// home.component.ts
-
-...
-import { IgxButtonDirective } from 'igniteui-angular/button';
-// import { IgxButtonDirective } from '@infragistics/igniteui-angular'; for licensed package
-
-@Component({
-    selector: 'app-home',
-    template: '<button igxButton="flat">Flat</button>',
-    styleUrls: ['home.component.scss'],
-    standalone: true,
-    imports: [IgxButtonDirective]
-})
-export class HomeComponent {}
-```
+<Aside type="caution">
+`IgxButtonModule` is kept for backwards compatibility only. New projects should use the standalone `IgxButtonDirective` import instead.
+</Aside>
 
 Now that you have the Ignite UI for Angular Button module or directive imported, you can start using the `igxButton` directive on elements.
 
@@ -194,7 +201,22 @@ We can also use the `igxButton` directive to turn elements like `span` and `div`
 
 ## Size
 
-We can allow the user to choose the size of the `igxButton` by using the `--ig-size` custom CSS property. To do this, first we have to import the `IgxButtonGroupModule`, and then use the <ApiLink type="ButtonGroup" label="igxButtonGroup" /> component to display size values. This way whenever one gets selected, we will update the **--ig-size** CSS property.
+We can allow the user to choose the size of the `igxButton` by using the `--ig-size` custom CSS property. To do this, import `IGX_BUTTON_GROUP_DIRECTIVES` and use the <ApiLink type="ButtonGroup" label="igxButtonGroup" /> component to display size values. This way whenever one gets selected, we will update the **--ig-size** CSS property.
+
+```typescript
+import { IGX_BUTTON_GROUP_DIRECTIVES } from 'igniteui-angular/button-group';
+// import { IGX_BUTTON_GROUP_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IGX_BUTTON_GROUP_DIRECTIVES],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+Alternatively, for NgModule-based applications:_
 
 ```typescript
 // app.module.ts

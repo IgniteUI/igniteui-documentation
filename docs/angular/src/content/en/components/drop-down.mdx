@@ -32,24 +32,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxDropDownModule` in your **app.module.ts** file.
+### Standalone Component 
 
-```typescript
-// app.module.ts
-
-...
-import { IgxDropDownModule } from 'igniteui-angular/drop-down';
-// import { IgxDropDownModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxDropDownModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxDropDownComponent` as a standalone dependency, or use the [`IGX_DROP_DOWN_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/drop-down/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxDropDownComponent` is a standalone component. Import it directly or use the `IGX_DROP_DOWN_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -84,7 +69,29 @@ import { IgxButtonDirective } from 'igniteui-angular/directives';
 export class HomeComponent {}
 ```
 
-Now that you have the Ignite UI for Angular Drop Down module or directives imported, you can start using the `igx-drop-down` component.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxDropDownModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { IgxDropDownModule } from 'igniteui-angular/drop-down';
+// import { IgxDropDownModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxDropDownModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxDropDownModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_DROP_DOWN_DIRECTIVES` or `IgxDropDownComponent` import instead.
+</Aside>
+
+Now that you have the Ignite UI for Angular Drop Down directives imported, you can start using the `igx-drop-down` component.
 
 ## Using the Angular Drop Down
 
@@ -483,6 +490,39 @@ When the `allowItemsFocus` property is enabled, the drop down items gain tab ind
   <igx-drop-down-item *ngFor="let p of provinceData" [igxDropDownItemNavigation]="dropDown">
     {{ p }}
   </igx-drop-down-item>
+</igx-drop-down>
+```
+
+## Events
+
+The Drop Down component emits the following events:
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `opening` | Emitted before the dropdown opens. | Yes |
+| `opened` | Emitted after the dropdown finishes opening. | No |
+| `closing` | Emitted before the dropdown closes. | Yes |
+| `closed` | Emitted after the dropdown finishes closing. | No |
+| `selectionChanging` | Emitted before the selected item changes. Provides `oldSelection` and `newSelection`. | Yes |
+
+Use the cancelable `selectionChanging` event to prevent certain items from being selected:
+
+```typescript
+import { ISelectionEventArgs } from 'igniteui-angular/drop-down';
+// import { ISelectionEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onSelectionChanging(event: ISelectionEventArgs) {
+    if (event.newSelection?.disabled) {
+        event.cancel = true;
+    }
+}
+```
+
+```html
+<igx-drop-down (selectionChanging)="onSelectionChanging($event)">
+    <igx-drop-down-item *ngFor="let item of items" [disabled]="item.disabled">
+        {{ item.field }}
+    </igx-drop-down-item>
 </igx-drop-down>
 ```
 

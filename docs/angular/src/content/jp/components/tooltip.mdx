@@ -30,23 +30,9 @@ ng add igniteui-angular
 
 Ignite UI for Angular については、「[はじめに](general/getting-started.md)」トピックをご覧ください。
 
-次に、**app.module.ts** ファイルに `IgxTooltipModule` をインポートします。
+### スタンドアロン コンポーネント
 
-```typescript
-// app.module.ts
-
-...
-import { IgxTooltipModule } from 'igniteui-angular/tooltip';
-// import { IgxTooltipModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [IgxTooltipModule],
-})
-export class AppModule {}
-```
-
-あるいは、`16.0.0` 以降、`IgxTooltipDirective` をスタンドアロンの依存関係としてインポートすることも、[`IGX_TOOLTIP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/directives/src/directives/tooltip/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
+`16.0.0` 以降、`IgxTooltipComponent` はスタンドアロン コンポーネントです。直接インポートするか、コンポーネントとそのすべてのサポート コンポーネントおよびディレクティブを含む `IGX_TOOLTIP_DIRECTIVES` トークンを使用してください。
 
 ```typescript
 // home.component.ts
@@ -78,11 +64,49 @@ import { IgxAvatarComponent } from 'igniteui-angular/avatar';
 export class HomeComponent {}
 ```
 
+### NgModule (レガシー)
+
+NgModule を使用するアプリケーションの場合は、**app.module.ts** で `IgxTooltipModule` をインポートします:
+
+```typescript
+// app.module.ts
+
+...
+import { IgxTooltipModule } from 'igniteui-angular/tooltip';
+// import { IgxTooltipModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [IgxTooltipModule],
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxTooltipModule` は後方互換性のためにのみ保持されています。新しいプロジェクトでは、スタンドアロンの `IGX_TOOLTIP_DIRECTIVES` または `IgxTooltipComponent` のインポートを使用してください。
+</Aside>
+
 Ignite UI for Angular Tooltip モジュールまたはディレクティブをインポートしたので、`igxTooltip` ディレクティブの使用を開始できます。
 
 ## Angular Tooltip の使用
 
-上記のようにシンプルなテキスト ツールチップを作成します。`IgxAvatarModule` をインポートして要素として [`IgxAvatar`](avatar.md) を使用します。
+上記のようにシンプルなテキスト ツールチップを作成します。`IGX_TOOLTIP_DIRECTIVES` と `IgxAvatarComponent` をインポートします:
+
+```typescript
+import { IGX_TOOLTIP_DIRECTIVES } from 'igniteui-angular/directives';
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+// import { IGX_TOOLTIP_DIRECTIVES, IgxAvatarComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IGX_TOOLTIP_DIRECTIVES, IgxAvatarComponent],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+NgModule ベースのアプリケーションの場合:_
 
 ```typescript
 // app.module.ts
@@ -435,6 +459,33 @@ public overlaySettings: OverlaySettings = {
 </igx-icon>
 
 <div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James</div>
+```
+
+## イベント
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `tooltipShow` | ツールチップの表示が開始される前に発生します。`target`、`tooltip`、および `cancel` を含む `ITooltipShowEventArgs` を提供します。 | はい |
+| `tooltipHide` | ツールチップの非表示が開始される前に発生します。`target`、`tooltip`、および `cancel` を含む `ITooltipHideEventArgs` を提供します。 | はい |
+
+`tooltipShow` を使用してツールチップの表示を遅延させたり防止したりします。
+
+```typescript
+import { ITooltipShowEventArgs } from 'igniteui-angular/directives';
+// import { ITooltipShowEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onTooltipShow(args: ITooltipShowEventArgs) {
+    if (this.tooltipsDisabled) {
+        args.cancel = true;
+    }
+}
+```
+
+```html
+<igx-icon [igxTooltipTarget]="myTooltip" (tooltipShow)="onTooltipShow($event)">
+    info
+</igx-icon>
+<div #myTooltip="tooltip" igxTooltip>ツールチップのテキスト</div>
 ```
 
 ## スタイル設定

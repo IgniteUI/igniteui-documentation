@@ -36,31 +36,9 @@ ng add igniteui-angular
 
 Ignite UI for Angular については、「[はじめに](general/getting-started.md)」トピックをご覧ください。
 
-はじめに、**app.module** で **IgxAutocompleteModule** と **IgxDropDownModule** をインポートします。<ApiLink type="AutocompleteDisabled" suffix={false} label="igxAutocomplete" /> が <ApiLink type="InputDirective" suffix={false} label="igxInput" /> に適用される場合、**igxInputGroupModule** も必要です。
+### スタンドアロン コンポーネント
 
-```typescript
-// app.module.ts
-
-...
-import { IgxAutocompleteModule, IgxDropDownModule } from 'igniteui-angular/drop-down';
-import { IgxInputGroupModule } from 'igniteui-angular/input-group';
-// import { IgxAutocompleteModule, IgxDropDownModule, IgxInputGroupModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [
-        ..., 
-        IgxAutocompleteModule,
-        IgxDropDownModule,
-        IgxInputGroupModule,
-        ....
-    ],
-    ...
-})
-export class AppModule {}
-```
-
-あるいは、`16.0.0` 以降、`IgxAutocompleteDirective` をスタンドアロンのディレクティブとしてインポートできます。
+`16.0.0` 以降、`IgxAutocompleteDirective` はスタンドアロン ディレクティブです。`IgxAutocompleteDirective` をインポートするか、`IGX_DROP_DOWN_DIRECTIVES` および `IGX_INPUT_GROUP_DIRECTIVES` トークンを使用してください。
 
 ```typescript
 // home.component.ts
@@ -90,7 +68,37 @@ import { IGX_INPUT_GROUP_DIRECTIVES } from 'igniteui-angular/input-group';
 export class HomeComponent {}
 ```
 
-Ignite UI for Angular Action Strip モジュールまたはディレクティブをインポートしたので、`igxAutocomplete` コンポーネントの基本構成を開始できます。
+### NgModule (レガシー)
+
+NgModule を使用するアプリケーションの場合は、**app.module** で `IgxAutocompleteModule`、`IgxDropDownModule`、および `IgxInputGroupModule` をインポートします:
+
+```typescript
+// app.module.ts
+
+...
+import { IgxAutocompleteModule, IgxDropDownModule } from 'igniteui-angular/drop-down';
+import { IgxInputGroupModule } from 'igniteui-angular/input-group';
+// import { IgxAutocompleteModule, IgxDropDownModule, IgxInputGroupModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [
+        ..., 
+        IgxAutocompleteModule,
+        IgxDropDownModule,
+        IgxInputGroupModule,
+        ....
+    ],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxAutocompleteModule` は後方互換性のためにのみ保持されています。新しいプロジェクトでは、スタンドアロンの `IgxAutocompleteDirective` のインポートを使用してください。
+</Aside>
+
+Ignite UI for Angular Autocomplete モジュールまたはディレクティブをインポートしたので、`igxAutocomplete` コンポーネントの基本構成を開始できます。
 
 ## Angular Autocomplete の使用
 
@@ -220,6 +228,30 @@ export class AutocompleteComponent {
 すべて適切に設定できると、ブラウザーで以下が表示されます。
 
 <Sample src="/data-entries/movie" height={500} alt="" />
+
+## イベント
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `selectionChanging` | ドロップダウンからアイテムが選択される前に発生します。`value`、`cancel`、および `owner` を提供します。 | はい |
+
+`selectionChanging` を使用して選択された値をインターセプトまたは変換します。
+
+```typescript
+import { AutocompleteSelectionChangingEventArgs } from 'igniteui-angular/drop-down';
+// import { AutocompleteSelectionChangingEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onSelectionChanging(args: AutocompleteSelectionChangingEventArgs) {
+    if (args.value === 'Restricted City') {
+        args.cancel = true;
+    }
+}
+```
+
+```html
+<input igxInput [igxAutocomplete]="townsPanel" (selectionChanging)="onSelectionChanging($event)" />
+<igx-drop-down #townsPanel></igx-drop-down>
+```
 
 <hr/>
 

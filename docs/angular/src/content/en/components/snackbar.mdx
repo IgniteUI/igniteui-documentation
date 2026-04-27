@@ -32,24 +32,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxSnackbarModule` in your **app.module.ts** file.
+### Standalone Component 
 
-```typescript
-// app.module.ts
-
-...
-import { IgxSnackbarModule } from 'igniteui-angular/snackbar';
-// import { IgxSnackbarModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxSnackbarModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxSnackbarComponent` as a standalone dependency.
+Since `16.0.0`, `IgxSnackbarComponent` is a standalone component. Import it directly into your component's `imports` array.
 
 ```typescript
 // home.component.ts
@@ -73,6 +58,28 @@ import { IgxButtonDirective } from 'igniteui-angular/directives';
 })
 export class HomeComponent {}
 ```
+
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxSnackbarModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { IgxSnackbarModule } from 'igniteui-angular/snackbar';
+// import { IgxSnackbarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxSnackbarModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxSnackbarModule` is kept for backwards compatibility only. New projects should use the standalone `IgxSnackbarComponent` import instead.
+</Aside>
 
 Now that you have the Ignite UI for Angular Snackbar module or component imported, you can start using the `igx-snackbar` component.
 
@@ -281,6 +288,29 @@ public open(snackbar) {
     snackbar.open();
 }
 ...
+```
+
+## Events
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `clicked` | Emitted when the snackbar is clicked. Provides the `IgxSnackbarComponent` instance. | No |
+| `animationStarted` | Emitted when the show/hide animation begins. Provides `ToggleViewEventArgs`. | No |
+| `animationDone` | Emitted when the show/hide animation completes. Provides `ToggleViewEventArgs`. | No |
+
+Use `clicked` to add an action when the user interacts with the snackbar:
+
+```typescript
+public onSnackbarClicked(snackbar: IgxSnackbarComponent) {
+    console.log('Snackbar clicked, owner:', snackbar);
+    snackbar.close();
+}
+```
+
+```html
+<igx-snackbar #snackbar message="Item deleted" (clicked)="onSnackbarClicked(snackbar)">
+    UNDO
+</igx-snackbar>
 ```
 
 ## Styling

@@ -29,23 +29,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxTooltipModule` in your **app.module.ts** file.
+### Standalone Component 
 
-```typescript
-// app.module.ts
-
-...
-import { IgxTooltipModule } from 'igniteui-angular/tooltip';
-// import { IgxTooltipModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [IgxTooltipModule],
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxTooltipDirective` as a standalone dependency, or use the [`IGX_TOOLTIP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/directives/src/directives/tooltip/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxTooltipComponent` is a standalone component. Import it directly or use the `IGX_TOOLTIP_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -78,11 +64,48 @@ import { IgxAvatarComponent } from 'igniteui-angular/avatar';
 export class HomeComponent {}
 ```
 
-Now that you have the Ignite UI for Angular Tooltip module or directives imported, you can start using the `igxTooltip` directive.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxTooltipModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { IgxTooltipModule } from 'igniteui-angular/tooltip';
+// import { IgxTooltipModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [IgxTooltipModule],
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxTooltipModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_TOOLTIP_DIRECTIVES` or `IgxTooltipComponent` import instead.
+</Aside>
+
+Now that you have the Ignite UI for Angular Tooltip directives imported, you can start using the `igxTooltip` directive.
 
 ## Using the Angular Tooltip
 
-Let's say we want to create a simple text tooltip like the one above. In our case, we're using our awesome [`IgxAvatar`](/avatar) as the element, so we start by importing the `IgxAvatarModule` first.
+Let's say we want to create a simple text tooltip like the one above. In our case, we're using our awesome [`IgxAvatar`](/avatar) as the element, so we need to import `IGX_TOOLTIP_DIRECTIVES` and `IgxAvatarComponent`:
+
+```typescript
+import { IGX_TOOLTIP_DIRECTIVES } from 'igniteui-angular/directives';
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+// import { IGX_TOOLTIP_DIRECTIVES, IgxAvatarComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IGX_TOOLTIP_DIRECTIVES, IgxAvatarComponent],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+Alternatively, for NgModule-based applications:_
 
 ```typescript
 // app.module.ts
@@ -159,6 +182,23 @@ If everything went well, you should see the sample shown in the [Tooltip Demo](#
 The <ApiLink type="TooltipDirective" suffix={false} label="igxTooltip" /> content can be more than just simple text. Since the tooltip itself is a regular element in the markup, you can enhance its content by adding any elements you need and styling them accordingly.
 
 Let's expand on the use of the <ApiLink type="TooltipDirective" suffix={false} label="igxTooltip" /> and use it to provide more details for a specific location on a map! We'll use a simple div to represent our map, the [`IgxAvatar`](/avatar) for a logo in our tooltip and the [`IgxIcon`](/icon) for the location icon on our map. For this purpose, we will get their respective modules.
+
+```typescript
+import { IGX_TOOLTIP_DIRECTIVES } from 'igniteui-angular/directives';
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+import { IgxIconComponent } from 'igniteui-angular/icon';
+// import { IGX_TOOLTIP_DIRECTIVES, IgxAvatarComponent, IgxIconComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IGX_TOOLTIP_DIRECTIVES, IgxAvatarComponent, IgxIconComponent],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+Alternatively, for NgModule-based applications:_
 
 ```typescript
 // app.module.ts
@@ -453,6 +493,33 @@ public overlaySettings: OverlaySettings = {
 
 <div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
 </div>
+```
+
+## Events
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `tooltipShow` | Emitted before the tooltip starts showing. Provides `ITooltipShowEventArgs` with `target`, `tooltip`, and `cancel`. | Yes |
+| `tooltipHide` | Emitted before the tooltip starts hiding. Provides `ITooltipHideEventArgs` with `target`, `tooltip`, and `cancel`. | Yes |
+
+Use `tooltipShow` to delay or prevent a tooltip from appearing:
+
+```typescript
+import { ITooltipShowEventArgs } from 'igniteui-angular/directives';
+// import { ITooltipShowEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onTooltipShow(args: ITooltipShowEventArgs) {
+    if (this.tooltipsDisabled) {
+        args.cancel = true;
+    }
+}
+```
+
+```html
+<igx-icon [igxTooltipTarget]="myTooltip" (tooltipShow)="onTooltipShow($event)">
+    info
+</igx-icon>
+<div #myTooltip="tooltip" igxTooltip>Tooltip text</div>
 ```
 
 ## Styling

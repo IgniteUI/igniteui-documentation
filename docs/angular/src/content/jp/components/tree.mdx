@@ -37,24 +37,9 @@ ng add igniteui-angular
 
 Ignite UI for Angular については、「[はじめに](general/getting-started.md)」トピックをご覧ください。
 
-次に、app.module ファイルに `IgxTreeModule` をインポートします。
+### スタンドアロン コンポーネント
 
-```typescript
-// app.module.ts
-
-...
-import { IgxTreeModule } from 'igniteui-angular/tree';
-// import { IgxTreeModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxTreeModule],
-    ...
-})
-export class AppModule {}
-```
-
-あるいは、`16.0.0` 以降、`IgxTreeComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_TREE_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/tree/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
+`16.0.0` 以降、`IgxTreeComponent` はスタンドアロン コンポーネントです。直接インポートするか、コンポーネントとそのすべてのサポート コンポーネントおよびディレクティブを含む `IGX_TREE_DIRECTIVES` トークンを使用してください。
 
 ```typescript
 // home.component.ts
@@ -89,6 +74,29 @@ import { IGX_TREE_DIRECTIVES } from 'igniteui-angular/tree';
 })
 export class HomeComponent {}
 ```
+
+### NgModule (レガシー)
+
+NgModule を使用するアプリケーションの場合は、**app.module.ts** で `IgxTreeModule` をインポートします:
+
+```typescript
+// app.module.ts
+
+...
+import { IgxTreeModule } from 'igniteui-angular/tree';
+// import { IgxTreeModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxTreeModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxTreeModule` は後方互換性のためにのみ保持されています。新しいプロジェクトでは、スタンドアロンの `IGX_TREE_DIRECTIVES` または `IgxTreeComponent` のインポートを使用してください。
+</Aside>
 
 Ignite UI for Angular Tree モジュールまたはディレクティブをインポートしたので、`igx-tree` とそのパネルの基本構成を開始できます。
 
@@ -326,6 +334,38 @@ export class MyTreeViewComponent {
 Angular Tree コンポーネントは、チェックボックスの組み込みサポートを提供し、ユーザーが複数の項目を選択できるようにします。
 
 TreeView チェックボックスには、部分的に選択された親ノードにのみ適用可能な tri-state モードもあります。このモードでは、すべてではないが一部の子ノードがチェックされると、親ノードは不確定状態になります。
+
+## イベント
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `nodeSelection` | ノードの選択が変更されたときに発生します。`newSelection`、`oldSelection`、`added`、および `removed` を含む `ITreeNodeSelectionEvent` を提供します。 | はい |
+| `nodeExpanding` | ノードが展開される前に発生します。`node` を含む `ITreeNodeTogglingEventArgs` を提供します。 | はい |
+| `nodeExpanded` | ノードが展開し終わった後に発生します。 | いいえ |
+| `nodeCollapsing` | ノードが折りたたまれる前に発生します。`node` を含む `ITreeNodeTogglingEventArgs` を提供します。 | はい |
+| `nodeCollapsed` | ノードが折りたたまれ終わった後に発生します。 | いいえ |
+| `activeNodeChanged` | アクティブ (フォーカスされた) ノードが変更されたときに発生します。新しいアクティブな `IgxTreeNode` を提供します。 | いいえ |
+
+`nodeExpanding` を使用して特定のノードの展開を防ぐことができます。
+
+```typescript
+import { ITreeNodeTogglingEventArgs } from 'igniteui-angular/tree';
+// import { ITreeNodeTogglingEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onNodeExpanding(args: ITreeNodeTogglingEventArgs) {
+    if (args.node.data?.restricted) {
+        args.cancel = true;
+    }
+}
+```
+
+```html
+<igx-tree (nodeExpanding)="onNodeExpanding($event)" (nodeExpanded)="onNodeExpanded($event)">
+    <igx-tree-node *ngFor="let node of data" [data]="node">
+        {{ node.label }}
+    </igx-tree-node>
+</igx-tree>
+```
 
 ## キーボード ナビゲーション
 

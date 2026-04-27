@@ -38,28 +38,9 @@ ng add igniteui-angular
 
 Ignite UI for Angular については、「[はじめに](general/getting-started.md)」トピックをご覧ください。
 
-次に、**app.module.ts** ファイルに `IgxCarouselModule` をインポートします。
+### スタンドアロン コンポーネント
 
-<Aside type="note" title="注">
-このコンポーネントは、**オプションで** [`HammerModule`](https://angular.io/api/platform-browser/HammerModule) を利用できます。タッチ操作が正しく動作するために、アプリケーションのルート モジュールにインポートできます。
-</Aside>
-
-```typescript
-// app.module.ts
-
-import { HammerModule } from '@angular/platform-browser';
-import { IgxCarouselModule } from 'igniteui-angular/carousel';
-// import { IgxCarouselModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., HammerModule, IgxCarouselModule],
-    ...
-})
-export class AppModule {}
-```
-
-あるいは、`16.0.0` 以降、`IgxCarouselComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_CAROUSEL_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/carousel/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
+`16.0.0` 以降、`IgxCarouselComponent` はスタンドアロン コンポーネントです。直接インポートするか、コンポーネントとそのすべてのサポート コンポーネントおよびディレクティブを含む `IGX_CAROUSEL_DIRECTIVES` トークンを使用してください。
 
 ```typescript
 // home.component.ts
@@ -86,6 +67,33 @@ import { IGX_CAROUSEL_DIRECTIVES } from 'igniteui-angular/carousel';
 })
 export class HomeComponent {}
 ```
+
+### NgModule (レガシー)
+
+NgModule を使用するアプリケーションの場合は、**app.module.ts** で `IgxCarouselModule` をインポートします:
+
+<Aside type="note" title="注">
+このコンポーネントは、**オプションで** [`HammerModule`](https://angular.io/api/platform-browser/HammerModule) を利用できます。タッチ操作が正しく動作するために、アプリケーションのルート モジュールにインポートできます。
+</Aside>
+
+```typescript
+// app.module.ts
+
+import { HammerModule } from '@angular/platform-browser';
+import { IgxCarouselModule } from 'igniteui-angular/carousel';
+// import { IgxCarouselModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., HammerModule, IgxCarouselModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxCarouselModule` は後方互換性のためにのみ保持されています。新しいプロジェクトでは、スタンドアロンの `IGX_CAROUSEL_DIRECTIVES` または `IgxCarouselComponent` のインポートを使用してください。
+</Aside>
 
 Ignite UI for Angular Carousel モジュールまたはディレクティブをインポートしたので、`igx-carousel` コンポーネントの使用を開始できます。
 
@@ -1041,6 +1049,32 @@ The last step is to include the component's theme.
 - id - パターン `"panel-${this.index}"` に従います。
 - [aria-labelledby](https://www.w3.org/TR/wai-aria/#aria-labelledby) は、`"tab-${this.index}-${this.total}"` のパターンに従います。
 - [aria-selected](https://www.w3.org/TR/wai-aria-1.1/#aria-selected) は、**アクティブ** スライドを設定します。特定のスライド要素の現在の**選択された**状態を示します。
+
+
+## イベント
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `slideChanged` | 現在のスライドが変わった後に発生します。`carousel` と `slide` を含む `ISlideEventArgs` を提供します。 | いいえ |
+| `slideAdded` | 新しいスライドがカルーセルに追加されたときに発生します。 | いいえ |
+| `slideRemoved` | スライドがカルーセルから削除されたときに発生します。 | いいえ |
+| `carouselPaused` | カルーセルの自動再生が一時停止されたときに発生します。 | いいえ |
+| `carouselPlaying` | カルーセルの自動再生が再開されたときに発生します。 | いいえ |
+
+```typescript
+import { ISlideEventArgs } from 'igniteui-angular/carousel';
+// import { ISlideEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onSlideChanged(args: ISlideEventArgs) {
+    console.log('アクティブなスライドのインデックス:', args.slide.index);
+}
+```
+
+```html
+<igx-carousel (slideChanged)="onSlideChanged($event)">
+    <igx-slide *ngFor="let slide of slides" [image]="slide.src"></igx-slide>
+</igx-carousel>
+```
 
 ## API リファレンス
 

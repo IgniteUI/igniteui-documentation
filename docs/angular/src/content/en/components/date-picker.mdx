@@ -33,27 +33,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxDatePickerModule` in your **app.module.ts** file.
+### Standalone Component 
 
-<Aside type="note">
-As the picker uses the <ApiLink type="Calendar" label="**IgxCalendarComponent**" />, it is also dependent on the **BrowserAnimationsModule** and **optionally** on the **HammerModule** for touch interactions, so they need to be added to the module as well:
-</Aside>
-
-```typescript
-import { HammerModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IgxDatePickerModule } from 'igniteui-angular/date-picker';
-// import { IgxDatePickerModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxDatePickerModule, BrowserAnimationsModule, HammerModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxDatePickerComponent` as a standalone dependency, or use the [`IGX_DATE_PICKER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/date-picker/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxDatePickerComponent` is a standalone component. Import it directly or use the `IGX_DATE_PICKER_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -78,7 +60,29 @@ import { IGX_DATE_PICKER_DIRECTIVES } from 'igniteui-angular/date-picker';
 export class HomeComponent {}
 ```
 
-Now that you have the Ignite UI for Angular Date Picker module or directives imported, you can start using the `igx-date-picker` component.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxDatePickerModule` in your **app.module.ts**:
+
+```typescript
+import { HammerModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IgxDatePickerModule } from 'igniteui-angular/date-picker';
+// import { IgxDatePickerModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxDatePickerModule, BrowserAnimationsModule, HammerModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxDatePickerModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_DATE_PICKER_DIRECTIVES` or `IgxDatePickerComponent` import instead.
+</Aside>
+
+Now that you have the Ignite UI for Angular Date Picker directives imported, you can start using the `igx-date-picker` component.
 
 ## Using the Angular Date Picker Component
 
@@ -282,6 +286,85 @@ In reactive forms, we can handle the <ApiLink type="DatePicker" member="valueCha
 <Sample src="/scheduling/reactive-form" height={540} alt="" />
 
 <hr/>
+
+### Disabled and Special Dates
+
+Use the <ApiLink type="DatePicker" member="disabledDates" label="disabledDates" /> and <ApiLink type="DatePicker" member="specialDates" label="specialDates" /> inputs to mark specific days in the calendar. Both accept an array of `DateRangeDescriptor` objects, each with a `type` (`DateRangeType`) and an optional `dateRange` array.
+
+Disabling all weekends and a specific date:
+
+```typescript
+import { DateRangeDescriptor, DateRangeType } from 'igniteui-angular/core';
+// import { DateRangeDescriptor, DateRangeType } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({...})
+export class MyComponent {
+    public disabledDates: DateRangeDescriptor[] = [
+        { type: DateRangeType.Weekends },
+        { type: DateRangeType.Specific, dateRange: [new Date(2024, 11, 25)] }
+    ];
+}
+```
+
+```html
+<igx-date-picker [disabledDates]="disabledDates">
+    <label igxLabel>Select a date</label>
+</igx-date-picker>
+```
+
+Highlighting holidays as special dates:
+
+```typescript
+public specialDates: DateRangeDescriptor[] = [
+    {
+        type: DateRangeType.Specific,
+        dateRange: [
+            new Date(2024, 0, 1),  // New Year's Day
+            new Date(2024, 11, 25) // Christmas
+        ]
+    }
+];
+```
+
+```html
+<igx-date-picker [specialDates]="specialDates">
+    <label igxLabel>Select a date</label>
+</igx-date-picker>
+```
+
+Available `DateRangeType` values: `After`, `Before`, `Between`, `Specific`, `Weekdays`, `Weekends`.
+
+<Aside type="note">
+When `disabledDates` includes a range that the user types or selects, the picker emits `validationFailed` and the form control reports a `dateIsDisabled` error.
+</Aside>
+
+### Events
+
+| Event | Description |
+|-------|-------------|
+| `valueChange` | Emitted when the selected date changes. Provides the new `Date` value. |
+| `validationFailed` | Emitted when the user types an invalid date or a date that falls in `disabledDates`. Provides `prevValue` and `currentValue`. |
+
+```typescript
+import { IDatePickerValidationFailedEventArgs } from 'igniteui-angular/date-picker';
+// import { IDatePickerValidationFailedEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onValueChange(date: Date) {
+    console.log('Selected date:', date);
+}
+
+public onValidationFailed(event: IDatePickerValidationFailedEventArgs) {
+    console.warn('Invalid date entered. Previous value:', event.prevValue);
+}
+```
+
+```html
+<igx-date-picker
+    (valueChange)="onValueChange($event)"
+    (validationFailed)="onValidationFailed($event)">
+    <label igxLabel>Select a date</label>
+</igx-date-picker>
+```
 
 ### Calendar Specific settings
 

@@ -30,28 +30,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxListModule` in the **app.module.ts** file.
+### Standalone Component 
 
-<Aside type="note">
-**This component can utilize the [`HammerModule`](https://angular.io/api/platform-browser/HammerModule) **optionally**.It can be imported in the root module of the application in order for touch interactions to work as expected.**.
-</Aside>
-
-```typescript
-// app.module.ts
-
-import { HammerModule } from '@angular/platform-browser';
-import { IgxListModule } from 'igniteui-angular/list';
-// import { IgxListModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxListModule, HammerModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxListComponent` as a standalone dependency, or use the [`IGX_LIST_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/list/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxListComponent` is a standalone component. Import it directly or use the `IGX_LIST_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -78,7 +59,30 @@ import { IGX_LIST_DIRECTIVES } from 'igniteui-angular/list';
 export class HomeComponent {}
 ```
 
-Now that you have the Ignite UI for Angular List module or directives imported, you can start using the `igx-list` component.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxListModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { HammerModule } from '@angular/platform-browser';
+import { IgxListModule } from 'igniteui-angular/list';
+// import { IgxListModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxListModule, HammerModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxListModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_LIST_DIRECTIVES` or `IgxListComponent` import instead.
+</Aside>
+
+Now that you have the Ignite UI for Angular List directives imported, you can start using the `igx-list` component.
 
 ## Using the Angular List
 
@@ -213,7 +217,24 @@ After all that our Angular list should now look like that:
 
 ### Adding Avatar and Icons
 
-We can use some of our other components in conjunction with the <ApiLink type="List" suffix={false} /> component to enrich the experience and add some functionality. We can have a nice picture avatar to the left of the name and phone values. Additionally, we can add a star icon to the right of them to allow the user to favorite a contact. To do that let's grab the [**IgxAvatar**](/avatar) and [**IgxIcon**](/icon) modules and import them in our app.module.ts file.
+We can use some of our other components in conjunction with the <ApiLink type="List" suffix={false} /> component to enrich the experience and add some functionality. We can have a nice picture avatar to the left of the name and phone values. Additionally, we can add a star icon to the right of them to allow the user to favorite a contact. To do that let's import `IGX_LIST_DIRECTIVES`, `IgxAvatarComponent`, and `IgxIconComponent`:
+
+```typescript
+import { IGX_LIST_DIRECTIVES } from 'igniteui-angular/list';
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+import { IgxIconComponent } from 'igniteui-angular/icon';
+// import { IGX_LIST_DIRECTIVES, IgxAvatarComponent, IgxIconComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IGX_LIST_DIRECTIVES, IgxAvatarComponent, IgxIconComponent],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+Alternatively, for NgModule-based applications:_
 
 ```typescript
 // app.module.ts
@@ -300,7 +321,22 @@ toggleFavorite(item: IgxListItem) {
 }
 ```
 
-Let's also allow the user to choose the size of the list by using the `--ig-size` CSS custom property. We will do this by importing the `IgxButtonGroupModule` and using the [**IgxButtonGroup**](/button-group) to display all size values. This way whenever one gets selected, we will update the **size** of the list.
+Let's also allow the user to choose the size of the list by using the `--ig-size` CSS custom property. We will do this by importing `IGX_BUTTON_GROUP_DIRECTIVES` and using the [**IgxButtonGroup**](/button-group) to display all size values. This way whenever one gets selected, we will update the **size** of the list.
+
+```typescript
+import { IGX_BUTTON_GROUP_DIRECTIVES } from 'igniteui-angular/button-group';
+// import { IGX_BUTTON_GROUP_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IGX_BUTTON_GROUP_DIRECTIVES],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+Alternatively, for NgModule-based applications:_
 
 ```typescript
 // app.module.ts
@@ -492,7 +528,23 @@ Let's add an input field to the top in our Angular component template first and 
 </igx-input-group>
 ```
 
-It's time to import the `IgxFilterModule` and the `IgxInputGroupModule` in our app.module.ts file and <ApiLink type="FilterOptions" suffix={false} /> in our contacts component:
+It's time to import `IgxFilterDirective`, `IGX_INPUT_GROUP_DIRECTIVES`, and <ApiLink type="FilterOptions" suffix={false} /> in our contacts component:
+
+```typescript
+import { IgxFilterDirective } from 'igniteui-angular/directives';
+import { IGX_INPUT_GROUP_DIRECTIVES } from 'igniteui-angular/input-group';
+// import { IgxFilterDirective, IGX_INPUT_GROUP_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IgxFilterDirective, IGX_INPUT_GROUP_DIRECTIVES],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+Alternatively, for NgModule-based applications:_
 
 ```typescript
 // app.module.ts

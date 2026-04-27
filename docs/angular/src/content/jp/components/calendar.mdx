@@ -36,7 +36,32 @@ ng add igniteui-angular
 
 Ignite UI for Angular については、「[はじめに](general/getting-started.md)」トピックをご覧ください。
 
-次に、**app.module.ts** ファイルに `IgxCalendarModule` をインポートします。
+### スタンドアロン コンポーネント
+
+`16.0.0` 以降、`IgxCalendarComponent` はスタンドアロン コンポーネントです。直接インポートするか、コンポーネントとそのすべてのサポート コンポーネントおよびディレクティブを含む `IGX_CALENDAR_DIRECTIVES` トークンを使用してください。
+
+```typescript
+// home.component.ts
+
+import { HammerModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IGX_CALENDAR_DIRECTIVES } from 'igniteui-angular/calendar';
+// import { IGX_CALENDAR_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-calendar></igx-calendar>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [BrowserAnimationsModule, HammerModule, IGX_CALENDAR_DIRECTIVES]
+    /* or imports: [BrowserAnimationsModule, HammerModule, IgxCalendarComponent] */
+})
+export class HomeComponent {}
+```
+
+### NgModule (レガシー)
+
+NgModule を使用するアプリケーションの場合は、**app.module.ts** で `IgxCalendarModule` をインポートします:
 
 <Aside type="note" title="注">
 <ApiLink type="Calendar" label="**IgxCalendarComponent**" /> はタッチ操作の [`BrowserAnimationsModule`](https://angular.io/api/platform-browser/animations/BrowserAnimationsModule) と [`HammerModule`](https://angular.io/api/platform-browser/HammerModule) (**オプション**) に依存関係があり、これらも AppModule に追加する必要があります。
@@ -58,26 +83,9 @@ import { IgxCalendarModule } from 'igniteui-angular/calendar';
 export class AppModule {}
 ```
 
-あるいは、`16.0.0` 以降、`IgxCalendarComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_CALENDAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/calendar/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
-
-```typescript
-// home.component.ts
-
-import { HammerModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IGX_CALENDAR_DIRECTIVES } from 'igniteui-angular/calendar';
-// import { IGX_CALENDAR_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
-
-@Component({
-    selector: 'app-home',
-    template: '<igx-calendar></igx-calendar>',
-    styleUrls: ['home.component.scss'],
-    standalone: true,
-    imports: [BrowserAnimationsModule, HammerModule, IGX_CALENDAR_DIRECTIVES]
-    /* or imports: [BrowserAnimationsModule, HammerModule, IgxCalendarComponent] */
-})
-export class HomeComponent {}
-```
+<Aside type="caution">
+`IgxCalendarModule` は後方互換性のためにのみ保持されています。新しいプロジェクトでは、スタンドアロンの `IGX_CALENDAR_DIRECTIVES` または `IgxCalendarComponent` のインポートを使用してください。
+</Aside>
 
 Ignite UI for Angular Calendar モジュールまたはディレクティブをインポートしたので、`igx-calendar` コンポーネントの使用を開始できます。
 

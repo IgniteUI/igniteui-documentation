@@ -37,7 +37,33 @@ ng add igniteui-angular
 
 Ignite UI for Angular については、「[はじめに](general/getting-started.md)」トピックをご覧ください。
 
-次に、**app.module.ts** ファイルに `IgxTimePickerModule` をインポートします。
+### スタンドアロン コンポーネント
+
+`16.0.0` 以降、`IgxTimePickerComponent` はスタンドアロン コンポーネントです。直接インポートするか、コンポーネントとそのすべてのサポート コンポーネントおよびディレクティブを含む `IGX_TIME_PICKER_DIRECTIVES` トークンを使用してください。
+
+```typescript
+// home.component.ts
+
+import { FormsModule } from '@angular/forms';
+import { IGX_TIME_PICKER_DIRECTIVES } from 'igniteui-angular/time-picker';
+// import { IGX_TIME_PICKER_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-time-picker [(ngModel)]="time"></igx-time-picker>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_TIME_PICKER_DIRECTIVES, FormsModule]
+    /* or imports: [IgxTimePickerComponent, FormsModule] */
+})
+export class HomeComponent {
+    public time: Date;
+}
+```
+
+### NgModule (レガシー)
+
+NgModule を使用するアプリケーションの場合は、**app.module.ts** で `IgxTimePickerModule` をインポートします:
 
 <Aside type="note" title="注">
 IgxTimePicker は、タッチ操作において、**BrowserAnimationsModule** と **HammerModule** (オプション) に依存しています。これらも AppModule に追加する必要があります。
@@ -60,27 +86,9 @@ import { IgxTimePickerModule } from 'igniteui-angular/time-picker';
 export class AppModule {}
 ```
 
-あるいは、`16.0.0` 以降、`IgxTimePickerComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_TIME_PICKER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/time-picker/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
-
-```typescript
-// home.component.ts
-
-import { FormsModule } from '@angular/forms';
-import { IGX_TIME_PICKER_DIRECTIVES } from 'igniteui-angular/time-picker';
-// import { IGX_TIME_PICKER_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
-
-@Component({
-    selector: 'app-home',
-    template: '<igx-time-picker [(ngModel)]="time"></igx-time-picker>',
-    styleUrls: ['home.component.scss'],
-    standalone: true,
-    imports: [IGX_TIME_PICKER_DIRECTIVES, FormsModule]
-    /* or imports: [IgxTimePickerComponent, FormsModule] */
-})
-export class HomeComponent {
-    public time: Date;
-}
-```
+<Aside type="caution">
+`IgxTimePickerModule` は後方互換性のためにのみ保持されています。新しいプロジェクトでは、スタンドアロンの `IGX_TIME_PICKER_DIRECTIVES` または `IgxTimePickerComponent` のインポートを使用してください。
+</Aside>
 
 Ignite UI for Angular Time Picker モジュールまたはディレクティブをインポートしたので、`igx-time-picker` コンポーネントの使用を開始できます。
 
@@ -375,6 +383,32 @@ public onValidationFailed() {
 <Sample src="/scheduling/reactive-form" height={540} alt="" />
 
 <hr/>
+
+## イベント
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `selected` | ドロップダウン/ダイアログから時間値が選択されたときに発生します。 | いいえ |
+| `valueChange` | バインドされた値が変更されたときに発生します。双方向バインディングをサポートします。 | いいえ |
+| `validationFailed` | ユーザーが `minValue`/`maxValue` の範囲外の時間を入力したときに発生します。 | いいえ |
+
+`validationFailed` を使用して、ユーザーが範囲外の時間を入力したときに反応します。
+
+```typescript
+import { IgxTimePickerValidationFailedEventArgs } from 'igniteui-angular/time-picker';
+// import { IgxTimePickerValidationFailedEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onValidationFailed(args: IgxTimePickerValidationFailedEventArgs) {
+    console.warn('無効な時間が入力されました:', args.currentValue);
+    // args.owner — IgxTimePickerComponent インスタンス
+}
+```
+
+```html
+<igx-time-picker minValue="08:00" maxValue="20:00"
+    (validationFailed)="onValidationFailed($event)">
+</igx-time-picker>
+```
 
 ## スタイル設定
 

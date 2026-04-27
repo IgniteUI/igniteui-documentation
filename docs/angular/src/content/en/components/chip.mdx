@@ -28,23 +28,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the **IgxChipsModule** in the **app.module.ts** file:
+### Standalone Component 
 
-```typescript
-// app.module.ts
-
-import { IgxChipsModule } from 'igniteui-angular/chips';
-// import { IgxChipsModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxChipsModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxChipComponent` as a standalone dependency, or use the [`IGX_CHIPS_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/chips/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxChipComponent` is a standalone component. Import it directly or use the `IGX_CHIPS_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -74,7 +60,29 @@ export class HomeComponent {
 }
 ```
 
-Now that you have the Ignite UI for Angular Chips module or directives imported, you can start using the `igx-chip` component.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxChipsModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { IgxChipsModule } from 'igniteui-angular/chips';
+// import { IgxChipsModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxChipsModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxChipsModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_CHIPS_DIRECTIVES` or `IgxChipComponent` import instead.
+</Aside>
+
+Now that you have the Ignite UI for Angular Chips directives imported, you can start using the `igx-chip` component.
 
 ## Using the Angular Chip Component
 
@@ -132,6 +140,50 @@ Dragging can be enabled by setting the <ApiLink type="Chip" member="draggable" l
   <igx-icon igxPrefix>{{chip.icon}}</igx-icon>
   {{chip.text}}
 </igx-chip>
+```
+
+By default, the original chip element is hidden while dragging (`hideBaseOnDrag: true`) and returns to its position with an animation (`animateOnRelease: true`). Both behaviors can be controlled:
+
+```html
+<igx-chip [draggable]="true" [hideBaseOnDrag]="false" [animateOnRelease]="false">
+  Drag Me
+</igx-chip>
+```
+
+### Chip Variants
+
+The chip can be styled using the `variant` input to communicate semantic meaning. Accepted values are `primary`, `info`, `success`, `warning`, and `danger`.
+
+```html
+<igx-chip variant="primary">Primary</igx-chip>
+<igx-chip variant="success">Success</igx-chip>
+<igx-chip variant="warning">Warning</igx-chip>
+<igx-chip variant="danger">Danger</igx-chip>
+<igx-chip variant="info">Info</igx-chip>
+```
+
+### Disabled Chips
+
+Set `disabled` to prevent user interaction (clicking, selection, dragging):
+
+```html
+<igx-chip [disabled]="true">Disabled</igx-chip>
+```
+
+### Custom Background Color
+
+Use the `color` input to set an arbitrary background color:
+
+```html
+<igx-chip [color]="'#6a4cff'">Custom Color</igx-chip>
+```
+
+### Two-Way Binding for Selection
+
+The `selected` property supports two-way binding:
+
+```html
+<igx-chip [selectable]="true" [(selected)]="isSelected">Tag</igx-chip>
 ```
 
 <Aside type="note">
@@ -701,6 +753,39 @@ igx-chip {
 ```
 
 Learn more about it in the [Size](/display-density) article.
+
+## Events
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `chipClick` | Emitted when the chip is clicked. | Yes |
+| `selectedChanging` | Emitted before selection state changes. | Yes |
+| `selectedChanged` | Emitted after selection change animation completes. | No |
+| `remove` | Emitted when the remove button is clicked or Delete key is pressed. | No |
+| `keyDown` | Emitted on keyboard interaction. | Yes |
+| `moveStart` | Emitted when a drag begins. | No |
+| `moveEnd` | Emitted when a drag ends (after return animation). | No |
+| `dragEnter` | Emitted when a dragged chip enters this chip's drop zone. | No |
+| `dragLeave` | Emitted when a dragged chip leaves this chip's drop zone. | No |
+| `dragOver` | Emitted while a dragged chip is over this chip's drop zone. | No |
+| `dragDrop` | Emitted when a dragged chip is dropped onto this chip. | No |
+
+Cancelable events expose a `cancel` property. Set it to `true` to prevent the default action:
+
+```typescript
+import { IChipSelectEventArgs } from 'igniteui-angular/chips';
+// import { IChipSelectEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onSelectionChanging(event: IChipSelectEventArgs) {
+    if (event.owner.data?.locked) {
+        event.cancel = true;
+    }
+}
+```
+
+```html
+<igx-chip [selectable]="true" (selectedChanging)="onSelectionChanging($event)">Locked</igx-chip>
+```
 
 ## API
 

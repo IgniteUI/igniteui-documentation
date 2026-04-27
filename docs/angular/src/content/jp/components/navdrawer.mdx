@@ -33,29 +33,9 @@ ng add igniteui-angular
 
 Ignite UI for Angular については、「[はじめに](general/getting-started.md)」トピックをご覧ください。
 
-はじめに、**app.module.ts** ファイルに `IgxNavigationDrawerModule` をインポートします。
+### スタンドアロン コンポーネント
 
-<Aside type="note" title="注">
-<ApiLink type="NavigationDrawer" /> はタッチ操作の [`BrowserAnimationsModule`](https://angular.io/api/platform-browser/animations/BrowserAnimationsModule) と [`HammerModule`](https://angular.io/api/platform-browser/HammerModule) (**オプション**) に依存関係があり、これらも AppModule に追加する必要があります。
-</Aside>
-
-```typescript
-// app.module.ts
-...
-import { HammerModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IgxNavigationDrawerModule } from 'igniteui-angular/navigation-drawer';
-// import { IgxNavigationDrawerModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., BrowserAnimationsModule, HammerModule, IgxNavigationDrawerModule],
-    ...
-})
-export class AppModule {}
-```
-
-あるいは、`16.0.0` 以降、`IgxNavigationDrawerComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_NAVIGATION_DRAWER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/navigation-drawer/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
+`16.0.0` 以降、`IgxNavigationDrawerComponent` はスタンドアロン コンポーネントです。直接インポートするか、コンポーネントとそのすべてのサポート コンポーネントおよびディレクティブを含む `IGX_NAVIGATION_DRAWER_DIRECTIVES` トークンを使用してください。
 
 ```typescript
 // home.component.ts
@@ -103,6 +83,34 @@ export class HomeComponent {
   public navItems: Product[];
 }
 ```
+
+### NgModule (レガシー)
+
+NgModule を使用するアプリケーションの場合は、**app.module.ts** で `IgxNavigationDrawerModule` をインポートします:
+
+<Aside type="note" title="注">
+<ApiLink type="NavigationDrawer" /> はタッチ操作の [`BrowserAnimationsModule`](https://angular.io/api/platform-browser/animations/BrowserAnimationsModule) と [`HammerModule`](https://angular.io/api/platform-browser/HammerModule) (**オプション**) に依存関係があり、これらも AppModule に追加する必要があります。
+</Aside>
+
+```typescript
+// app.module.ts
+...
+import { HammerModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IgxNavigationDrawerModule } from 'igniteui-angular/navigation-drawer';
+// import { IgxNavigationDrawerModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., BrowserAnimationsModule, HammerModule, IgxNavigationDrawerModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxNavigationDrawerModule` は後方互換性のためにのみ保持されています。新しいプロジェクトでは、スタンドアロンの `IGX_NAVIGATION_DRAWER_DIRECTIVES` または `IgxNavigationDrawerComponent` のインポートを使用してください。
+</Aside>
 
 Ignite UI for Angular Navigation Drawer モジュールまたはディレクティブをインポートしたので、`igx-nav-drawer` コンポーネントの使用を開始できます。
 
@@ -447,6 +455,33 @@ export const menusRoutes: Routes = [
 <Sample src="/menus/navigation-drawer-hierarchical" height={400} alt="" />
 
 <hr/>
+
+## イベント
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `opening` | ドロワーが開く前に発生します。 | いいえ |
+| `opened` | ドロワーが開き終わった後に発生します。 | いいえ |
+| `closing` | ドロワーが閉じる前に発生します。 | いいえ |
+| `closed` | ドロワーが閉じ終わった後に発生します。 | いいえ |
+| `pinChange` | ピン状態が変更されたときに発生します。`pin` の双方向バインディングをサポートします。 | いいえ |
+
+```typescript
+public onDrawerOpened() {
+    console.log('ナビゲーション ドロワーが開きました');
+}
+
+public onDrawerClosed() {
+    console.log('ナビゲーション ドロワーが閉じました');
+}
+```
+
+```html
+<igx-nav-drawer
+    (opening)="onDrawerOpened()"
+    (closing)="onDrawerClosed()">
+</igx-nav-drawer>
+```
 
 ## スタイル設定
 

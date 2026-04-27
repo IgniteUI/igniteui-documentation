@@ -31,28 +31,9 @@ ng add igniteui-angular
 
 Ignite UI for Angular については、「[はじめに](../general/getting-started.md)」 トピックをご覧ください。
 
-次に、**app.module.ts** ファイルに `IgxSliderModule` をインポートします。
+### スタンドアロン コンポーネント
 
-<Aside type="caution" title="警告">
-このコンポーネントは、**オプションで** [`HammerModule`](https://angular.io/api/platform-browser/HammerModule) を利用できます。タッチ操作が正しく動作するために、アプリケーションのルート モジュールにインポートできます。
-</Aside>
-
-```typescript
-// app.module.ts
-
-import { HammerModule } from '@angular/platform-browser';
-import { IgxSliderModule } from 'igniteui-angular/slider';
-// import { IgxSliderModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxSliderModule, HammerModule],
-    ...
-})
-export class AppModule {}
-```
-
-あるいは、`16.0.0` 以降、`IgxSliderComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_SLIDER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/slider/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
+`16.0.0` 以降、`IgxSliderComponent` はスタンドアロン コンポーネントです。直接インポートするか、コンポーネントとそのすべてのサポート コンポーネントおよびディレクティブを含む `IGX_SLIDER_DIRECTIVES` トークンを使用してください。
 
 ```typescript
 // home.component.ts
@@ -91,6 +72,33 @@ export const appConfig: ApplicationConfig = {
   ],
 };
 ```
+
+### NgModule (レガシー)
+
+NgModule を使用するアプリケーションの場合は、**app.module.ts** で `IgxSliderModule` をインポートします:
+
+<Aside type="caution" title="警告">
+このコンポーネントは、**オプションで** [`HammerModule`](https://angular.io/api/platform-browser/HammerModule) を利用できます。タッチ操作が正しく動作するために、アプリケーションのルート モジュールにインポートできます。
+</Aside>
+
+```typescript
+// app.module.ts
+
+import { HammerModule } from '@angular/platform-browser';
+import { IgxSliderModule } from 'igniteui-angular/slider';
+// import { IgxSliderModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxSliderModule, HammerModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxSliderModule` は後方互換性のためにのみ保持されています。新しいプロジェクトでは、スタンドアロンの `IGX_SLIDER_DIRECTIVES` または `IgxSliderComponent` のインポートを使用してください。
+</Aside>
 
 Ignite UI for Angular Slider モジュールまたはディレクティブをインポートしたので、`igx-slider` コンポーネントの使用を開始できます。
 
@@ -461,6 +469,41 @@ Which means that it provides a reference to:
 In the **tickLabel** callback above, we are rounding the **value** of every **primary** tick.
 
 <Sample src="/interactions/slider-tick-labels-template" height={180} alt="" />
+
+## イベント
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `valueChange` | スライダーの値が変更されたときに発生します。`oldValue` と `value` を含む `ISliderValueChangeEventArgs` を提供します。 | いいえ |
+| `lowerValueChange` | 範囲スライダーで下側のつまみの値が変更されたときに発生します。新しい `number` 値を提供します。 | いいえ |
+| `upperValueChange` | 範囲スライダーで上側のつまみの値が変更されたときに発生します。新しい `number` 値を提供します。 | いいえ |
+| `dragFinished` | ユーザーがつまみのドラッグを終了したときに発生します。最終値 (`number` または `IRangeSliderValue`) を提供します。 | いいえ |
+
+`valueChange` を使用してスライダーの移動に応答します。
+
+```typescript
+import { ISliderValueChangeEventArgs } from 'igniteui-angular/slider';
+// import { ISliderValueChangeEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onValueChange(args: ISliderValueChangeEventArgs) {
+    console.log('以前の値:', args.oldValue, '新しい値:', args.value);
+}
+```
+
+```html
+<igx-slider [minValue]="0" [maxValue]="100" (valueChange)="onValueChange($event)">
+</igx-slider>
+```
+
+範囲スライダーでは、個々のつまみの動きを追跡するために `lowerValueChange` と `upperValueChange` を使用するか、ユーザーがリリースした時のみ処理するために `dragFinished` を使用します。
+
+```html
+<igx-slider type="range"
+    (lowerValueChange)="onLower($event)"
+    (upperValueChange)="onUpper($event)"
+    (dragFinished)="onDragFinished($event)">
+</igx-slider>
+```
 
 ## Styling
 

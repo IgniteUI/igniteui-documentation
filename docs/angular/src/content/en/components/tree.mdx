@@ -36,24 +36,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxTreeModule` in your app.module file.
+### Standalone Component 
 
-```typescript
-// app.module.ts
-
-...
-import { IgxTreeModule } from 'igniteui-angular/tree';
-// import { IgxTreeModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxTreeModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxTreeComponent` as a standalone dependency, or use the [`IGX_TREE_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/tree/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxTreeComponent` is a standalone component. Import it directly or use the `IGX_TREE_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -89,7 +74,29 @@ import { IGX_TREE_DIRECTIVES } from 'igniteui-angular/tree';
 export class HomeComponent {}
 ```
 
-Now that we have the Ignite UI for Angular Tree module or directives imported, let’s get started with a basic configuration of the `igx-tree` and its nodes.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxTreeModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { IgxTreeModule } from 'igniteui-angular/tree';
+// import { IgxTreeModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxTreeModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxTreeModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_TREE_DIRECTIVES` or `IgxTreeComponent` import instead.
+</Aside>
+
+Now that we have the Ignite UI for Angular Tree directives imported, let’s get started with a basic configuration of the `igx-tree` and its nodes.
 
 ## Using the Angular Tree
 
@@ -323,6 +330,38 @@ In this mode a parent's selection state entirely depends on the selection state 
 The Angular Tree component provides built-in support for checkboxes, allowing users to select more than one item.
 
 The TreeView checkboxes also have a tri-state mode, which is applicable only for partially selected parent nodes. In this mode, a parent node will go into the indeterminate state when some but not all of the child nodes are checked.
+
+## Events
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `nodeSelection` | Emitted when node selection changes. Provides `ITreeNodeSelectionEvent` with `newSelection`, `oldSelection`, `added`, and `removed`. | Yes |
+| `nodeExpanding` | Emitted before a node expands. Provides `ITreeNodeTogglingEventArgs` with `node`. | Yes |
+| `nodeExpanded` | Emitted after a node finishes expanding. | No |
+| `nodeCollapsing` | Emitted before a node collapses. Provides `ITreeNodeTogglingEventArgs` with `node`. | Yes |
+| `nodeCollapsed` | Emitted after a node finishes collapsing. | No |
+| `activeNodeChanged` | Emitted when the active (focused) node changes. Provides the new active `IgxTreeNode`. | No |
+
+Use `nodeExpanding` to prevent certain nodes from expanding:
+
+```typescript
+import { ITreeNodeTogglingEventArgs } from 'igniteui-angular/tree';
+// import { ITreeNodeTogglingEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onNodeExpanding(args: ITreeNodeTogglingEventArgs) {
+    if (args.node.data?.restricted) {
+        args.cancel = true;
+    }
+}
+```
+
+```html
+<igx-tree (nodeExpanding)="onNodeExpanding($event)" (nodeExpanded)="onNodeExpanded($event)">
+    <igx-tree-node *ngFor="let node of data" [data]="node">
+        {{ node.label }}
+    </igx-tree-node>
+</igx-tree>
+```
 
 ## Keyboard Navigation
 

@@ -30,24 +30,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxDialogModule` in your **app.module.ts** file.
+### Standalone Component 
 
-```typescript
-// app.module.ts
-
-...
-import { IgxDialogModule } from 'igniteui-angular/dialog';
-// import { IgxDialogModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxDialogModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxDialogComponent` as a standalone dependency, or use the [`IGX_DIALOG_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/dialog/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxDialogComponent` is a standalone component. Import it directly or use the `IGX_DIALOG_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -77,7 +62,29 @@ import { IgxRippleDirective } from 'igniteui-angular/directives';
 export class HomeComponent {}
 ```
 
-Now that you have the Ignite UI for Angular Dialog Window module or directives imported, you can start using the `igx-dialog` component.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxDialogModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { IgxDialogModule } from 'igniteui-angular/dialog';
+// import { IgxDialogModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxDialogModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxDialogModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_DIALOG_DIRECTIVES` or `IgxDialogComponent` import instead.
+</Aside>
+
+Now that you have the Ignite UI for Angular Dialog Window directives imported, you can start using the `igx-dialog` component.
 
 <hr/>
 
@@ -248,6 +255,78 @@ params: {
     startOpacity: 0,
     toPosition: 'translateY(0)'
 }
+```
+
+### Button Customization
+
+The left and right buttons support `type` (`flat`, `contained`, `fab`) and `ripple` color properties:
+
+```html
+<igx-dialog
+    leftButtonLabel="Cancel"
+    leftButtonType="flat"
+    rightButtonLabel="Confirm"
+    rightButtonType="contained"
+    rightButtonRipple="#4CAF50"
+    (leftButtonSelect)="dialog.close()"
+    (rightButtonSelect)="onConfirm($event)">
+</igx-dialog>
+```
+
+### Two-Way Binding for Open State
+
+The `isOpen` property supports two-way binding, letting you control dialog visibility from the component:
+
+```html
+<igx-dialog [(isOpen)]="isDialogOpen" title="Settings">
+    {/* content */}
+</igx-dialog>
+```
+
+```typescript
+public isDialogOpen = false;
+
+public openDialog() { this.isDialogOpen = true; }
+public closeDialog() { this.isDialogOpen = false; }
+```
+
+Use the `toggle()` method to flip the state without tracking it manually:
+
+```typescript
+@ViewChild('dialog') dialog: IgxDialogComponent;
+
+public toggleDialog() {
+    this.dialog.toggle();
+}
+```
+
+## Events
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `opening` | Emitted before the dialog opens. | Yes |
+| `opened` | Emitted after the dialog finishes opening. | No |
+| `closing` | Emitted before the dialog closes. | Yes |
+| `closed` | Emitted after the dialog finishes closing. | No |
+| `leftButtonSelect` | Emitted when the left button is clicked. | No |
+| `rightButtonSelect` | Emitted when the right button is clicked. | No |
+
+Use the cancelable `opening` and `closing` events to conditionally prevent the dialog from opening or closing:
+
+```typescript
+import { IDialogCancellableEventArgs } from 'igniteui-angular/dialog';
+// import { IDialogCancellableEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onClosing(event: IDialogCancellableEventArgs) {
+    if (this.hasUnsavedChanges) {
+        event.cancel = true;
+    }
+}
+```
+
+```html
+<igx-dialog (closing)="onClosing($event)" title="Edit" rightButtonLabel="Save">
+</igx-dialog>
 ```
 
 ### Trap focus inside dialog

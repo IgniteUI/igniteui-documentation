@@ -33,24 +33,9 @@ ng add igniteui-angular
 
 Ignite UI for Angular については、「[はじめに](general/getting-started.md)」トピックをご覧ください。
 
-次に、**app.module.ts** ファイルに `IgxSnackbarModule` をインポートします。
+### スタンドアロン コンポーネント
 
-```typescript
-// app.module.ts
-
-...
-import { IgxSnackbarModule } from 'igniteui-angular/snackbar';
-// import { IgxSnackbarModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxSnackbarModule],
-    ...
-})
-export class AppModule {}
-```
-
-あるいは、`16.0.0` 以降、`IgxSnackbarComponent` をスタンドアロンの依存関係としてインポートできます。
+`16.0.0` 以降、`IgxSnackbarComponent` はスタンドアロン コンポーネントです。直接インポートしてください。
 
 ```typescript
 // home.component.ts
@@ -73,6 +58,29 @@ import { IgxButtonDirective } from 'igniteui-angular/directives';
 })
 export class HomeComponent {}
 ```
+
+### NgModule (レガシー)
+
+NgModule を使用するアプリケーションの場合は、**app.module.ts** で `IgxSnackbarModule` をインポートします:
+
+```typescript
+// app.module.ts
+
+...
+import { IgxSnackbarModule } from 'igniteui-angular/snackbar';
+// import { IgxSnackbarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxSnackbarModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxSnackbarModule` は後方互換性のためにのみ保持されています。新しいプロジェクトでは、スタンドアロンの `IgxSnackbarComponent` のインポートを使用してください。
+</Aside>
 
 Ignite UI for Angular Snackbar モジュールまたはコンポーネントをインポートしたので、`igx-snackbar` コンポーネントの使用を開始できます。
 
@@ -275,6 +283,29 @@ public open(snackbar) {
     snackbar.open();
 }
 ...
+```
+
+## イベント
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `clicked` | スナックバーがクリックされたときに発生します。`IgxSnackbarComponent` インスタンスを提供します。 | いいえ |
+| `animationStarted` | 表示/非表示アニメーションが開始されたときに発生します。`ToggleViewEventArgs` を提供します。 | いいえ |
+| `animationDone` | 表示/非表示アニメーションが完了したときに発生します。`ToggleViewEventArgs` を提供します。 | いいえ |
+
+`clicked` を使用してユーザーがスナックバーを操作したときにアクションを追加します。
+
+```typescript
+public onSnackbarClicked(snackbar: IgxSnackbarComponent) {
+    console.log('スナックバーがクリックされました:', snackbar);
+    snackbar.close();
+}
+```
+
+```html
+<igx-snackbar #snackbar message="アイテムが削除されました" (clicked)="onSnackbarClicked(snackbar)">
+    元に戻す
+</igx-snackbar>
 ```
 
 ## スタイル設定

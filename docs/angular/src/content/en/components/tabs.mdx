@@ -38,24 +38,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxTabsModule` in your **app.module.ts** file.
+### Standalone Component 
 
-```typescript
-// app.module.ts
-
-...
-import { IgxTabsModule } from 'igniteui-angular/tabs';
-// import { IgxTabsModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxTabsModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxTabsComponent` as a standalone dependency, or use the [`IGX_TABS_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/tabs/tabs/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxTabsComponent` is a standalone component. Import it directly or use the `IGX_TABS_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -93,7 +78,29 @@ import { IGX_TABS_DIRECTIVES } from 'igniteui-angular/tabs';
 export class HomeComponent {}
 ```
 
-Now that you have the Ignite UI for Angular Tabs module or directives imported, you can start using the `igx-tabs` component.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxTabsModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { IgxTabsModule } from 'igniteui-angular/tabs';
+// import { IgxTabsModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxTabsModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxTabsModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_TABS_DIRECTIVES` or `IgxTabsComponent` import instead.
+</Aside>
+
+Now that you have the Ignite UI for Angular Tabs directives imported, you can start using the `igx-tabs` component.
 
 ## Using the Angular Tabs
 
@@ -368,6 +375,54 @@ The above code creates an `igx-tabs` component with three tab items. Each tab it
 <Aside type="note">
 Please note that the routerLink directive is set to the `igx-tab-header`, not directly to the `igx-tab-item`.
 </Aside>
+
+## Events
+
+The Tabs component emits the following events:
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `selectedIndexChanging` | Emitted before the selected tab index changes. Provides `oldIndex` and `newIndex`. | Yes |
+| `selectedItemChange` | Emitted after the selected tab changes. Provides `oldItem` and `newItem`. | No |
+| `selectedIndexChange` | Emitted to support two-way binding on `[(selectedIndex)]`. | No |
+
+Use `selectedIndexChanging` to guard tab navigation:
+
+```typescript
+import { ITabsSelectedIndexChangingEventArgs } from 'igniteui-angular/tabs';
+// import { ITabsSelectedIndexChangingEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onTabChanging(event: ITabsSelectedIndexChangingEventArgs) {
+    if (event.newIndex === 2 && !this.isUserAllowed) {
+        event.cancel = true;
+    }
+}
+```
+
+```html
+<igx-tabs (selectedIndexChanging)="onTabChanging($event)">
+    <igx-tab-item>...</igx-tab-item>
+    <igx-tab-item>...</igx-tab-item>
+    <igx-tab-item>...</igx-tab-item>
+</igx-tabs>
+```
+
+Use two-way binding on `selectedIndex` to track the active tab programmatically:
+
+```html
+<igx-tabs [(selectedIndex)]="activeTabIndex">
+    <igx-tab-item>...</igx-tab-item>
+    <igx-tab-item>...</igx-tab-item>
+</igx-tabs>
+```
+
+```typescript
+public activeTabIndex = 0;
+
+public goToSecondTab() {
+    this.activeTabIndex = 1;
+}
+```
 
 ## Styles
 

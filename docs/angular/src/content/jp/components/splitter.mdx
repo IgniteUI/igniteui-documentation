@@ -28,23 +28,9 @@ ng add igniteui-angular
 
 Ignite UI for Angular については、「[はじめに](general/getting-started.md)」トピックをご覧ください。
 
-次に、**app.module.ts** ファイルに `IgxSplitterModule` をインポートします。
+### スタンドアロン コンポーネント
 
-```typescript
-// app.module.ts
-...
-import { IgxSplitterModule } from 'igniteui-angular/splitter';
-// import { IgxSplitterModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxSplitterModule],
-    ...
-})
-export class AppModule {}
-```
-
-あるいは、`16.0.0` 以降、`IgxSplitterComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_SPLITTER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/splitter/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
+`16.0.0` 以降、`IgxSplitterComponent` はスタンドアロン コンポーネントです。直接インポートするか、コンポーネントとそのすべてのサポート コンポーネントおよびディレクティブを含む `IGX_SPLITTER_DIRECTIVES` トークンを使用してください。
 
 ```typescript
 // home.component.ts
@@ -71,6 +57,28 @@ import { IGX_SPLITTER_DIRECTIVES } from 'igniteui-angular/splitter';
 })
 export class HomeComponent {}
 ```
+
+### NgModule (レガシー)
+
+NgModule を使用するアプリケーションの場合は、**app.module.ts** で `IgxSplitterModule` をインポートします:
+
+```typescript
+// app.module.ts
+...
+import { IgxSplitterModule } from 'igniteui-angular/splitter';
+// import { IgxSplitterModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxSplitterModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxSplitterModule` は後方互換性のためにのみ保持されています。新しいプロジェクトでは、スタンドアロンの `IGX_SPLITTER_DIRECTIVES` または `IgxSplitterComponent` のインポートを使用してください。
+</Aside>
 
 Ignite UI for Angular Splitter モジュールまたはディレクティブをインポートしたので、`igx-splitter` コンポーネントの使用を開始できます。
 
@@ -209,6 +217,41 @@ public typeVertical = SplitterType.Vertical;
 - `Ctrl + 下矢印` - 垂直スプリッターでペインを展開/縮小
 - `Ctrl + 左矢印` - 水平スプリッターでペインを展開/縮小
 - `Ctrl + 右矢印` - 水平スプリッターでペインを展開/縮小
+
+## イベント
+
+<ApiLink type="Splitter" /> はペインのサイズ変更中に以下のイベントを発生します:
+
+| イベント | 説明 |
+|--------|------|
+| `resizeStart` | ユーザーがスプリッター バーのドラッグを開始したときに発生します。`pane` と `sibling` の参照を提供します。 |
+| `resizing` | ユーザーがスプリッター バーをドラッグしている間、継続的に発生します。`pane` と `sibling` の参照を提供します。 |
+| `resizeEnd` | ユーザーがスプリッター バーを離したときに発生します。`pane` と `sibling` の参照を提供します。 |
+
+これらのイベントを使用してペインのサイズ変更を追跡または応答します。
+
+```typescript
+import { ISplitterBarResizeEventArgs } from 'igniteui-angular/splitter';
+// import { ISplitterBarResizeEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onResizeStart(event: ISplitterBarResizeEventArgs) {
+    console.log('サイズ変更が開始されました。ペイン:', event.pane.id);
+}
+
+public onResizeEnd(event: ISplitterBarResizeEventArgs) {
+    console.log('ペインの新しいサイズ:', event.pane.size);
+    this.savePaneLayout();
+}
+```
+
+```html
+<igx-splitter
+    (resizeStart)="onResizeStart($event)"
+    (resizeEnd)="onResizeEnd($event)">
+    <igx-splitter-pane>左</igx-splitter-pane>
+    <igx-splitter-pane>右</igx-splitter-pane>
+</igx-splitter>
+```
 
 ## スタイル設定
 

@@ -36,30 +36,9 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxTimePickerModule` in your **app.module.ts** file.
+### Standalone Component 
 
-<Aside type="note">
-The IgxTimePicker is also dependent on both the **BrowserAnimationsModule** and **optionally** the **HammerModule** for touch interactions. They need to be added to the AppModule as well.
-</Aside>
-
-```typescript
-// app.module.ts
-
-...
-import { HammerModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IgxTimePickerModule } from 'igniteui-angular/time-picker';
-// import { IgxTimePickerModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., BrowserAnimationsModule, HammerModule, IgxTimePickerModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxTimePickerComponent` as a standalone dependency, or use the [`IGX_TIME_PICKER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/time-picker/public_api.ts) token to import the component and all of its supporting components and directives.
+Since `16.0.0`, `IgxTimePickerComponent` is a standalone component. Import it directly or use the `IGX_TIME_PICKER_DIRECTIVES` token, which includes the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -81,7 +60,31 @@ export class HomeComponent {
 }
 ```
 
-Now that you have the Ignite UI for Angular Time Picker module or directives imported, you can start using the `igx-time-picker` component.
+### NgModule (Legacy)
+
+For applications using NgModules (Angular versions prior to standalone support), import `IgxTimePickerModule` in your **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { HammerModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IgxTimePickerModule } from 'igniteui-angular/time-picker';
+// import { IgxTimePickerModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., BrowserAnimationsModule, HammerModule, IgxTimePickerModule],
+    ...
+})
+export class AppModule {}
+```
+
+<Aside type="caution">
+`IgxTimePickerModule` is kept for backwards compatibility only. New projects should use the standalone `IGX_TIME_PICKER_DIRECTIVES` or `IgxTimePickerComponent` import instead.
+</Aside>
+
+Now that you have the Ignite UI for Angular Time Picker directives imported, you can start using the `igx-time-picker` component.
 
 ## Using the Angular Time Picker
 
@@ -305,6 +308,22 @@ The min/max values should be a Date object or a time-only string in the `ISO 860
 </Aside>
 
 ```typescript
+import { IGX_TIME_PICKER_DIRECTIVES } from 'igniteui-angular/time-picker';
+import { IgxToastComponent } from 'igniteui-angular/toast';
+// import { IGX_TIME_PICKER_DIRECTIVES, IgxToastComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-example',
+    standalone: true,
+    imports: [IGX_TIME_PICKER_DIRECTIVES, IgxToastComponent],
+    /* ... */
+})
+export class ExampleComponent {}
+```
+
+Alternatively, for NgModule-based applications:_
+
+```typescript
 // app.module.ts
 
 ...
@@ -374,6 +393,32 @@ To achieve that in template driven forms, use the `ngModel` to bind both compone
 In reactive forms, we can handle the <ApiLink type="TimePicker component" suffix={false} member="valueChange" label="valueChange" /> event of each component and update the value of the other.
 
 <Sample src="/scheduling/reactive-form" height={540} alt="" />
+
+## Events
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `selected` | Emitted when a time value is selected from the drop-down/dialog. | No |
+| `valueChange` | Emitted when the bound value changes. Supports two-way binding. | No |
+| `validationFailed` | Emitted when the user enters a time that falls outside `minValue`/`maxValue`. | No |
+
+Use `validationFailed` to react when the user types an out-of-range time:
+
+```typescript
+import { IgxTimePickerValidationFailedEventArgs } from 'igniteui-angular/time-picker';
+// import { IgxTimePickerValidationFailedEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onValidationFailed(args: IgxTimePickerValidationFailedEventArgs) {
+    console.warn('Invalid time entered:', args.currentValue);
+    // args.owner — the IgxTimePickerComponent instance
+}
+```
+
+```html
+<igx-time-picker minValue="08:00" maxValue="20:00"
+    (validationFailed)="onValidationFailed($event)">
+</igx-time-picker>
+```
 
 <hr/>
 
