@@ -31,8 +31,8 @@ const site = mode === 'production' ? `${PROD_HOST}${base}`
 const docsDir = path.resolve('./src/content/en/topics');
 const tocPath  = path.resolve('./toc.json');
 
-// ── Pre-process: normalize legacy DocFX MDX files to Astro/Starlight format ──
-normalizeMdxDir(docsDir);
+// // ── Pre-process: normalize legacy DocFX MDX files to Astro/Starlight format ──
+// normalizeMdxDir(docsDir);
 
 // https://astro.build/config
 export default createDocsSite({
