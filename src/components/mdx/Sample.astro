@@ -68,8 +68,10 @@ const exampleTabId = `${widgetId}-example`;
 <div class="divider--half"></div>
 
 <script>
-  // Astro deduplicates module scripts — this runs exactly once per page even
-  // when multiple <Sample> components are present.
+  // Astro deduplicates module scripts — this runs exactly once per full page load.
+  // astro:page-load fires after every client-router navigation AND on the initial
+  // page load, so using it as the sole trigger handles both cases without
+  // double-initialization.
   import { initSampleWidgets } from '../../scripts/sample-widget';
-  initSampleWidgets();
+  document.addEventListener('astro:page-load', initSampleWidgets);
 </script>
