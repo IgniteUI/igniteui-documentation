@@ -2,6 +2,7 @@
 title: "igNumericEditor Known Issues"
 slug: ignumericeditor-known-issues
 ---
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
 
 # igNumericEditor Known Issues
 
@@ -10,10 +11,10 @@ slug: ignumericeditor-known-issues
 
 
 - Numeric editors do not support group, or thousand separators and symbols, in Edit mode.
-- When using &#123;environment:ProductNameMVC&#125; Numeric Editor and setting double number as an editor value, then it is rendered on the client-side as number, with decimal point, and the decimal separator that is used, is always the standard one used by the English format - point(.). When the editor formats the value that will be sent to the client, it ignores the server number formats settings and always uses point as decimal separator. The same format is used, when the client-side widget sends the value to the server - all the igNumericEditor options, available for formatting ([`decimalSeparator`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:decimalSeparator) and [`groupSeparator`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:groupSeparator)), are ignored and the values is transformed to use the point as decimal separator.
-- When you have [`spinWrapAround`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:spinWrapAround) set to true without setting  [`minValue`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:minValue) or [`maxValue`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:maxValue) options the spin may not be able to wrap around when reaching the default limit set by the data mode. This is in case the  [`dataMode`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:dataMode) option is set to any of the following values: float, long or double. 
+- When using &#123;environment:ProductNameMVC&#125; Numeric Editor and setting double number as an editor value, then it is rendered on the client-side as number, with decimal point, and the decimal separator that is used, is always the standard one used by the English format - point(.). When the editor formats the value that will be sent to the client, it ignores the server number formats settings and always uses point as decimal separator. The same format is used, when the client-side widget sends the value to the server - all the igNumericEditor options, available for formatting (<ApiLink type="ignumericeditor" member="decimalSeparator" section="options" label="decimalSeparator" /> and <ApiLink type="ignumericeditor" member="groupSeparator" section="options" label="groupSeparator" />), are ignored and the values is transformed to use the point as decimal separator.
+- When you have <ApiLink type="ignumericeditor" member="spinWrapAround" section="options" label="spinWrapAround" /> set to true without setting  <ApiLink type="ignumericeditor" member="minValue" section="options" label="minValue" /> or <ApiLink type="ignumericeditor" member="maxValue" section="options" label="maxValue" /> options the spin may not be able to wrap around when reaching the default limit set by the data mode. This is in case the  <ApiLink type="ignumericeditor" member="dataMode" section="options" label="dataMode" /> option is set to any of the following values: float, long or double. 
 The reason for this behavior is that the maximum values for those data modes are big numbers that are represented in scientific notation in JavaScript. 
-To bypass this limitation, you can set the [`maxValue`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:maxValue) and [`minValue`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:minValue) to a number that is not represented in scientific notation by JavaScript or you can enable the [`scientificFormat`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:scientificFormat) option in the Numeric, Percent and Currency editors.
+To bypass this limitation, you can set the <ApiLink type="ignumericeditor" member="maxValue" section="options" label="maxValue" /> and <ApiLink type="ignumericeditor" member="minValue" section="options" label="minValue" /> to a number that is not represented in scientific notation by JavaScript or you can enable the <ApiLink type="ignumericeditor" member="scientificFormat" section="options" label="scientificFormat" /> option in the Numeric, Percent and Currency editors.
 - When numeric editor is in edit mode, it is possible to enter multiple decimal points, when entering float/double values, and this happens when using Japanese IME keyboard and entering _fullwidth_ digits. The same issue is valid when using Japanese IME keyboard and entering _halfwidth_ digits, but only under Safari on Mac. In both cases, when the editor looses focus the new value is validated and only one decimal point is left. This problem is caused by the fact that the _keyPress_ event is not fired, when typing, using one of the methods above.
 
 ## Limitations on numeric values
@@ -26,7 +27,7 @@ For example the standard maximum `long` value of `9223372036854775807` which is 
 > 9223372036854775807
 9223372036854776000
 ```
-Note the rounding at the 17th digit. This can cause a value to be considered at the [`maxValue`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:maxValue) much sooner despite the obvious difference in the last 3 digits, because:
+Note the rounding at the 17th digit. This can cause a value to be considered at the <ApiLink type="ignumericeditor" member="maxValue" section="options" label="maxValue" /> much sooner despite the obvious difference in the last 3 digits, because:
 ```bash
 > 9223372036854775807 === 9223372036854775500
 true
@@ -38,11 +39,11 @@ With floating-point numbers the limited significant digits similarly cause round
 > 1234.5678912345678912345
 1234.567891234568
 ```
-With just the point changing position, the representation cuts off at relatively the same amount of digits. This is why options like [`minDecimals`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:minDecimals) and [`maxDecimals`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:maxDecimals) while limited to 15 cannot always guarantee such values as the limit applies to the whole significant part and digits before the radix point limit the precision of the decimal side.
+With just the point changing position, the representation cuts off at relatively the same amount of digits. This is why options like <ApiLink type="ignumericeditor" member="minDecimals" section="options" label="minDecimals" /> and <ApiLink type="ignumericeditor" member="maxDecimals" section="options" label="maxDecimals" /> while limited to 15 cannot always guarantee such values as the limit applies to the whole significant part and digits before the radix point limit the precision of the decimal side.
 Formatting for the minimum can still add to the set digits, but those would be an approximation rather than the actual value.
 
 Note that since all numbers are stored in the same format, same applies to scientific E-notation numbers regardless of the value of the exponent (if any). Furthermore, with JavaScript's `toFixed()` limited to 20 digits, values with higher exponent simply cannot be formatted to fixed-point notation (however impractical that may be).
-For example `1e+21` and larger can only be presented in scientific notation even if the [`scientificFormat`](&#123;environment:jQueryApiUrl&#125;/ui.ignumericeditor#options:scientificFormat) option has not been specifically set. Values with negative exponent (smaller than 1) do expand to fixed with rounding and are likely to evaluate to `0`, which is why `scientificFormat` should be set if support for such values is required.
+For example `1e+21` and larger can only be presented in scientific notation even if the <ApiLink type="ignumericeditor" member="scientificFormat" section="options" label="scientificFormat" /> option has not been specifically set. Values with negative exponent (smaller than 1) do expand to fixed with rounding and are likely to evaluate to `0`, which is why `scientificFormat` should be set if support for such values is required.
 
 
 ## Related Links
