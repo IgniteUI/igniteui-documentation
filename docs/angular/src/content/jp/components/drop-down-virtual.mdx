@@ -7,6 +7,7 @@ _language: ja
 ---
 import { Aside } from '@astrojs/starlight/components';
 import Sample from 'docs-template/components/mdx/Sample.astro';
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
 
 # 仮想ドロップダウン
 
@@ -41,7 +42,7 @@ export class AppModule {}
 
 ### テンプレートの構成
 
-次に、`*ngFor` の代わりに [`*igxFor`]({environment:angularApiUrl}/classes/igxforofdirective.html) を使用してデータをループ処理し、ドロップダウン コンポーネントのテンプレートを作成する必要があります。`*igxFor` ディレクティブは、すべての項目を正しく表示するために追加の構成が必要です。
+次に、`*ngFor` の代わりに <ApiLink type="ForOfDirective" suffix={false} label="*igxFor" /> を使用してデータをループ処理し、ドロップダウン コンポーネントのテンプレートを作成する必要があります。`*igxFor` ディレクティブは、すべての項目を正しく表示するために追加の構成が必要です。
 
 ```html
 <!-- drop-down-virtual.component.html -->
@@ -72,31 +73,22 @@ export class AppModule {}
 - `containerSize` - 仮想化コンテナーのサイズ (ピクセル単位)。これは、ラッピング `<div>` にも適用する必要があります。
 - `itemSize` - 表示される項目のサイズ (ピクセル単位)。
 
-項目の一意性を確保するために、[`value`]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#value) input の内の `item` および `igx-drop-down-item` の [`index`]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#index) 内の `index` を渡します。
+項目の一意性を確保するために、<ApiLink type="DropDownItem" suffix={false} member="value" label="value" /> input の内の `item` および `igx-drop-down-item` の <ApiLink type="DropDownItem" suffix={false} member="index" label="index" /> 内の `index` を渡します。
 スクロールしながら選択を維持するには、ドロップダウン 項目はそれがバインドされているデータ項目への参照を持つ必要があります。
 
 <Aside type="note" title="注">
-ドロップダウンが項目の仮想化リストで機能するためには、[`value`]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#value) および [`index`]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#index) の入力をすべての項目に渡す必要があります。
-</Aside>
-
-<Aside type="note" title="注">
+ドロップダウンが項目の仮想化リストで機能するためには、<ApiLink type="DropDownItem" suffix={false} member="value" label="value" /> および <ApiLink type="DropDownItem" suffix={false} member="index" label="index" /> の入力をすべての項目に渡す必要があります。
+[!NOTE]
 各項目に対して `[value]` 入力に渡される一意の値を持たない場合、予想外の結果 (誤った選択) となる場合があります。
-</Aside>
+[!NOTE]
+ドロップダウンが仮想化項目を使用する場合、<ApiLink type="DropDown" member="selectedItem" label="dropdown.selectedItem" /> の種類は `{ value: any, index: number }` になります。ここで、`value` はデータ項目への参照です。`[value]` input の内に渡され、`index` はデータセット内の項目のインデックスです。
 
-<Aside type="note" title="注">
-ドロップダウンが仮想化項目を使用する場合、[`dropdown.selectedItem`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selectedItem) の種類は `{ value: any, index: number }` になります。ここで、`value` はデータ項目への参照です。`[value]` input の内に渡され、`index` はデータセット内の項目のインデックスです。
-</Aside>
-
-<Aside type="note" title="注">
-For the drop-down to work with a virtualized list of items, [`value`]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#value) and [`index`]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#index) inputs **must** be passed to all items.
-</Aside>
-
-<Aside type="note" title="注">
+[!NOTE]
+For the drop-down to work with a virtualized list of items, <ApiLink type="DropDownItem" suffix={false} member="value" label="value" /> and <ApiLink type="DropDownItem" suffix={false} member="index" label="index" /> inputs **must** be passed to all items.
+[!NOTE]
 It is strongly advised for each item to have an unique value passed to the `[value]` input. Otherwise, it might lead to unexpected results (incorrect selection).
-</Aside>
-
-<Aside type="note" title="注">
-When the drop-down uses virtualized items, the type of [`dropdown.selectedItem`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selecteditem) becomes `{ value: any, index: number }`, where `value` is a reference to the data item passed inside of the `[value]` input and `index` is the item's index in the data set
+[!NOTE]
+When the drop-down uses virtualized items, the type of <ApiLink type="DropDown" member="selecteditem" label="dropdown.selectedItem" /> becomes `{ value: any, index: number }`, where `value` is a reference to the data item passed inside of the `[value]` input and `index` is the item's index in the data set
 </Aside>
 
 ### コンポーネント定義
@@ -260,7 +252,7 @@ export class DropDownRemoteComponent implements OnInit, OnDestroy {
 }
 ```
 
-`ngAfterViewInit` フックの内部で、初期状態のデータを取得し、`igxForOf` ディレクティブの [`chunkPreload`]({environment:angularApiUrl}/classes/igxforofdirective.html#chunkPreload) エミッターをサブスクライブするために呼び出します。このサブスクリプションは、ロードされたチャンクが変更されるたびにデータを取得します。コンポーネントの破棄時にエミッターから簡単にサブスクライブ解除できるように、`pipe(takeUntil(this.destroy$))` を使用します。
+`ngAfterViewInit` フックの内部で、初期状態のデータを取得し、`igxForOf` ディレクティブの <ApiLink type="ForOfDirective" suffix={false} member="chunkPreload" label="chunkPreload" /> エミッターをサブスクライブするために呼び出します。このサブスクリプションは、ロードされたチャンクが変更されるたびにデータを取得します。コンポーネントの破棄時にエミッターから簡単にサブスクライブ解除できるように、`pipe(takeUntil(this.destroy$))` を使用します。
 
 ### リモートの仮想化 - デモ
 
@@ -276,21 +268,20 @@ export class DropDownRemoteComponent implements OnInit, OnDestroy {
 - ループされているロップダウン項目は、次の css を持つラッピング要素 (`<div>` など) で渡す必要があります。`overflow: hidden` と `height` が `containerSize` に等しい (`px` で) 。
 - リストが仮想化されている場合、`<igx-drop-down-item-group>` を項目のグループ化に使用することはできません。代わりに `isHeader` プロパティを使用します。
 - `items` アクセサーは、現在仮想化ビューにあるヘッダー以外のロップダウン項目のリストのみを返します。
-- [`dropdown.selectedItem`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selectedItem) は、タイプ  `{ value: any, index: number }` です。
-- [`selection`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selection) によって発行されたオブジェクトは、`const emittedEvent: { newSelection: { value: any, index: number }, oldSelection: { value: any, index: number }, cancel: boolean, }` に変更されます。
+- <ApiLink type="DropDown" member="selectedItem" label="dropdown.selectedItem" /> は、タイプ  `{ value: any, index: number }` です。
+- <ApiLink type="DropDown" member="selection" label="selection" /> によって発行されたオブジェクトは、`const emittedEvent: { newSelection: { value: any, index: number }, oldSelection: { value: any, index: number }, cancel: boolean, }` に変更されます。
 - `dropdown.setSelectedItem` は、**データセット内の項目のインデックス**を使用して呼び出す必要があります。
 - ドロップダウン項目の `[selected]` 入力を設定しても、ドロップダウン選択内の項目はマークされません。
 
 - The drop-down items that are being looped need to be passed in a wrapping element (e.g. `<div>`) which has the following css: `overflow: hidden` and `height` equal to `containerSize` in `px`
 - `<igx-drop-down-item-group>` cannot be used for grouping items when the list is virtualized. Use the `isHeader` property instead
 - The `items` accessor will return only the list of non-header drop-down items that are currently in the virtualized view.
-- [`dropdown.selectedItem`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selectedItem) is of type `{ value: any, index: number }`
-- The object emitted by [`selection`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selection) changes to `const emittedEvent: { newSelection: { value: any, index: number }, oldSelection: { value: any, index: number }, cancel: boolean, }`
+- <ApiLink type="DropDown" member="selectedItem" label="dropdown.selectedItem" /> is of type `{ value: any, index: number }`
+- The object emitted by <ApiLink type="DropDown" member="selection" label="selection" /> changes to `const emittedEvent: { newSelection: { value: any, index: number }, oldSelection: { value: any, index: number }, cancel: boolean, }`
 - `dropdown.setSelectedItem` should be called with the **item's index in the data set**
 - setting the drop-down item's `[selected]` input will **not** mark the item in the drop-down selection
 
 ## API リファレンス
 
-- [IgxForOfDirective]({environment:angularApiUrl}/classes/igxforofdirective.html)
-- [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html)
-
+- <ApiLink type="ForOfDirective" suffix={false} />
+- <ApiLink type="DropDown" />

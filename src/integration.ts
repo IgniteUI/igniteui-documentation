@@ -438,7 +438,6 @@ export const productLinks = ${JSON.stringify(productLinks)};
             },
 
             'astro:server:setup'({ server }) {
-                console.log(docsDir ? '[docs-template] Serving markdown files from ' + docsDir : '[docs-template] No docsDir configured; skipping markdown serving middleware.');
                 if (!docsDir) return;
                 server.middlewares.use(async (req, res, next) => {
                     // Only handle requests ending in .md
@@ -823,8 +822,6 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 title,
                 sidebar: sidebar,
                 head: [
-                    // Force light theme as default — runs before page renders to avoid flash.
-                    { tag: 'script', content: "if(!localStorage.getItem('starlight-theme'))localStorage.setItem('starlight-theme','light');" },
                     ...platformHead, ...codeViewHead, ...head,
                 ],
                 // Consumer's extra options spread here — allows overriding title, head, etc.

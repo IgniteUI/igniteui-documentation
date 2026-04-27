@@ -163,6 +163,9 @@ function rewriteMdLink(url: string, filePath: string, docsDir: string): string {
   const relNoExt = rel.replace(/\.(mdx|md)$/i, '');
   const slug = resolveSlug(relNoExt, docsDir);
 
+  // Return a URL with the site base prepended so links remain correct when
+  // the site is mounted at a sub-path (e.g. /docs-react-new/).
+  // DOCS_BASE is set by createDocsSite() in integration.ts; it is empty in dev mode.
   return docsBase + '/' + slug + '/' + suffix;
 }
 

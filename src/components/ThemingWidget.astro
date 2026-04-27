@@ -22,10 +22,7 @@
  *   language – locale passed to the web component. Defaults to 'en'.
  */
 
-import {
-  themeApiUrl,
-  widgetScriptSrc,
-} from 'virtual:docs-template/nav-html';
+import { themeApiUrl } from 'virtual:docs-template/nav-html';
 import type { NavLang } from '../platform.ts';
 
 interface Props {
@@ -34,15 +31,12 @@ interface Props {
 
 const { language = 'en' } = Astro.props;
 
-// Only add the `language` attribute for non-English locales.
-const lang = language !== 'en' ? language : undefined;
+// Only add the `language` attribute for japanese, which the widget currently supports. For the other languages the widget falls back to english.
+const lang = language === 'jp' ? 'ja' : undefined;
 ---
 
 {themeApiUrl && (
   <>
-    {/* Load the custom-element bundle — preloaded from <head>, no render blocking. */}
-    <script is:inline src={widgetScriptSrc} async></script>
-
     {/*
       Widget container — always visible when themeApiUrl is set.
       The client script below wires up theme→iframe forwarding.
@@ -153,6 +147,6 @@ const lang = language !== 'en' ? language : undefined;
 
 <style>
   .theming-widget-container {
-    display: contents;
+    display: block;
   }
 </style>

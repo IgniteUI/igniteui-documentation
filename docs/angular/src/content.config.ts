@@ -15,5 +15,5 @@ try {
 const docsDir = path.join(root, 'src', 'content', lang, 'components');
 
 export const collections = {
-	docs: createDocsCollection(docsDir),
+	docs: createDocsCollection(docsDir, { exclude: ['**/*.md'] }),
 };

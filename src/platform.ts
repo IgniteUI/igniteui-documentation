@@ -221,25 +221,25 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     // Japanese
     AngularJP: {
         lang: 'jp', label: 'Angular', key: 'angular', devPort: 4341,
-        base: '/docs-angular-jp-new',
+        base: '/docs-angular-new',
         title: 'Ignite UI for Angular',
         description: 'Component documentation for Ignite UI for Angular.',
     },
     ReactJP: {
         lang: 'jp', label: 'React', key: 'react', devPort: 4342,
-        base: '/docs-react-jp-new',
+        base: '/docs-react-new',
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
     WebComponentsJP: {
         lang: 'jp', label: 'Web Components', key: 'web-components', devPort: 4343,
-        base: '/docs-wc-jp-new',
+        base: '/docs-wc-new',
         title: 'Ignite UI for Web Components',
         description: 'Component documentation for Ignite UI for Web Components.',
     },
     BlazorJP: {
         lang: 'jp', label: 'Blazor', key: 'blazor', devPort: 4344,
-        base: '/docs-blazor-jp-new',
+        base: '/docs-blazor-new',
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },

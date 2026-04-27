@@ -20,6 +20,50 @@
  *   - On clear, restore from the snapshot (safe: SidebarPersister has already restored
  *     its own state by this point, so the snapshot reflects the persisted state).
  */
+const STORAGE_KEY = 'sidebar-filter-value';
+const DETAILS_STORAGE_KEY = 'sidebar-details-states';
+
+// True only when Astro's ClientRouter is mid-navigation. Stays false on full
+// page loads (address bar, reload, new tab) because astro:before-preparation
+// never fires in those cases — the module is freshly evaluated each time.
+let _isClientSideNav = false;
+let _savedScrollTop = 0;
+document.addEventListener('astro:before-preparation', () => {
+  _isClientSideNav = true;
+  const sc = document.querySelector<HTMLElement>('.sidebar-scroll');
+  if (sc) _savedScrollTop = sc.scrollTop;
+
+  // Snapshot every open sidebar <details> label
+  const openKeys = [...document.querySelectorAll<HTMLDetailsElement>('details')]
+    .filter(d => d.open)
+    .map(d => {
+      const labelEl = d.querySelector<HTMLElement>('.group-label .large') ?? d.querySelector('summary');
+      return labelEl?.textContent?.trim() ?? '';
+    })
+    .filter(Boolean)
+    .join('\n');
+  sessionStorage.setItem(DETAILS_STORAGE_KEY, openKeys);
+});
+
+// Before the DOM swap, pre-apply the correct details open/close states
+document.addEventListener('astro:before-swap', (e) => {
+  const newDoc = ((e as any).newDocument as Document);
+
+  // Hide so the sidebar never paints at scroll=0 before we restore scrollTop.
+  const newSidebar = newDoc.querySelector('.sidebar-scroll') as HTMLElement | null;
+  if (newSidebar) newSidebar.style.visibility = 'hidden';
+
+  // Preapply open/close states so carets are correct from the first paint.
+  const raw = sessionStorage.getItem(DETAILS_STORAGE_KEY) ?? '';
+  const openGroups = new Set(raw ? raw.split('\n').filter(Boolean) : []);
+  newDoc.querySelectorAll<HTMLDetailsElement>('details').forEach(d => {
+    if (d.querySelector('a[aria-current="page"]')) return;
+    const labelEl = d.querySelector<HTMLElement>('.group-label .large') ?? d.querySelector('summary');
+    const key = labelEl?.textContent?.trim();
+    if (key) d.open = openGroups.has(key);
+  });
+});
+
 class SidebarFilter extends HTMLElement {
   private input!: HTMLInputElement;
   private clearBtn!: HTMLButtonElement;
@@ -38,19 +82,60 @@ class SidebarFilter extends HTMLElement {
     this.allItems   = [...this.querySelectorAll<HTMLLIElement>('li')];
     this.allDetails = [...this.querySelectorAll<HTMLDetailsElement>('details')];
 
-    this.input.addEventListener('input', () => this.filter(this.input.value));
+    this.input.addEventListener('input', () => {
+      sessionStorage.setItem(STORAGE_KEY, this.input.value);
+      this.filter(this.input.value);
+    });
 
     this.clearBtn.addEventListener('click', () => {
       this.input.value = '';
+      sessionStorage.removeItem(STORAGE_KEY);
       this.input.focus();
       this.filter('');
     });
 
     this.input.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { this.input.value = ''; this.filter(''); }
+      if (e.key === 'Escape') {
+        this.input.value = '';
+        sessionStorage.removeItem(STORAGE_KEY);
+        this.filter('');
+      }
     });
 
-    this.syncClearButton('');
+    // Restore the filter only after a client-side navigation.
+    // On a full page load (address bar, new tab, reload) the flag is false
+    // because astro:before-preparation never fired — clear any stale value.
+    const isClientNav = _isClientSideNav;
+    _isClientSideNav = false;
+
+    const saved = isClientNav ? (sessionStorage.getItem(STORAGE_KEY) ?? '') : '';
+    if (!isClientNav) sessionStorage.removeItem(STORAGE_KEY);
+
+    // Hide the scroll container before adjusting scroll position so the
+    // browser never renders the sidebar at position 0 before the correction.
+    const scrollContainer = this.querySelector<HTMLElement>('.sidebar-scroll');
+    if (scrollContainer) scrollContainer.style.visibility = 'hidden';
+
+    if (saved) {
+      this.input.value = saved;
+      this.filter(saved);
+    } else {
+      this.syncClearButton('');
+    }
+
+    if (isClientNav) {
+      // Details states were already applied in astro:before-swap
+      requestAnimationFrame(() => {
+        if (scrollContainer) scrollContainer.scrollTop = _savedScrollTop;
+        if (scrollContainer) scrollContainer.style.visibility = '';
+      });
+    } else {
+      // Full page load: no prior scroll position - scroll active link into view.
+      requestAnimationFrame(() => {
+        this.scrollToActivePage();
+        if (scrollContainer) scrollContainer.style.visibility = '';
+      });
+    }
   }
 
   private filter(rawQuery: string): void {
@@ -67,6 +152,7 @@ class SidebarFilter extends HTMLElement {
     if (!query) {
       this.showAll();
       this.restoreDetailsState();
+      this.ensureActivePageVisible();
       this.snapshotTaken = false;
       this.updateStatus(null);
       return;
@@ -168,6 +254,42 @@ class SidebarFilter extends HTMLElement {
   private restoreDetailsState(): void {
     if (!this.snapshotTaken) return;
     this.allDetails.forEach((d, i) => { d.open = this.detailsSnapshot[i] ?? d.open; });
+  }
+
+  /**
+   * Scroll the sidebar list container so the active page link is visible.
+   * Uses scrollIntoView with block:"nearest" to avoid unnecessary scrolling
+   * when the link is already in view.
+   */
+  private scrollToActivePage(): void {
+    const activeLink = this.querySelector<HTMLAnchorElement>('a[aria-current="page"]');
+    if (!activeLink || activeLink.closest('li[hidden]')) return;
+    const scrollContainer = this.querySelector<HTMLElement>('.sidebar-scroll');
+    if (!scrollContainer) { activeLink.scrollIntoView({ block: 'nearest' }); return; }
+
+    const linkRect      = activeLink.getBoundingClientRect();
+    const containerRect = scrollContainer.getBoundingClientRect();
+    if (linkRect.top < containerRect.top) {
+      scrollContainer.scrollTop += linkRect.top - containerRect.top;
+    } else if (linkRect.bottom > containerRect.bottom) {
+      scrollContainer.scrollTop += linkRect.bottom - containerRect.bottom;
+    }
+  }
+
+  /**
+   * After clearing the filter, ensure the currently active page's ancestor
+   * <details> elements are all open so the active link is always visible.
+   * This handles the case where the snapshot captured a collapsed state for
+   * the group containing the active page.
+   */
+  private ensureActivePageVisible(): void {
+    const activeLink = this.querySelector<HTMLAnchorElement>('a[aria-current="page"]');
+    if (!activeLink) return;
+    let node: Element | null = activeLink.parentElement;
+    while (node && node !== this) {
+      if (node instanceof HTMLDetailsElement) node.open = true;
+      node = node.parentElement;
+    }
   }
 
   private updateStatus(matchCount: number | null): void {
