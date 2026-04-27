@@ -245,6 +245,31 @@ You can force the component to select all of the input text on focus using <ApiL
 In order for the component to work properly, it is crucial to set <ApiLink type="igxTextSelection" suffix={false} /> after the <ApiLink type="DateTimeEditor directive" suffix={false} label="igxDateTimeEditor" /> directive. The reason for this is both directives operate on the input `focus` event so text selection should happen after the mask is set.
 </Aside>
 
+## Events
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `valueChange` | Emitted when the value changes. Provides the new `Date` or `string` value. | No |
+| `validationFailed` | Emitted when the entered value fails `minValue`/`maxValue` validation. Provides `IgxDateTimeEditorEventArgs` with `oldValue`, `newValue`, and `userInput`. | No |
+
+```typescript
+import { IgxDateTimeEditorEventArgs } from 'igniteui-angular/directives';
+// import { IgxDateTimeEditorEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onValidationFailed(args: IgxDateTimeEditorEventArgs) {
+    console.warn('Invalid value entered:', args.userInput, 'Previous:', args.oldValue);
+}
+```
+
+```html
+<igx-input-group>
+    <input igxInput
+        [igxDateTimeEditor]="'dd/MM/yyyy HH:mm'"
+        (valueChange)="onValueChange($event)"
+        (validationFailed)="onValidationFailed($event)" />
+</igx-input-group>
+```
+
 ## Styling
 
 For details check out the [`Input Group styling guide`](/input-group#styling).

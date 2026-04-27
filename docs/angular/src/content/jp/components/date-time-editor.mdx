@@ -246,6 +246,31 @@ Date Time Editor ディレクティブは、コア FormsModule [`NgModel`](https
 コンポーネントが正しく動作するためには、<ApiLink type="DateTimeEditor directive" suffix={false} label="igxDateTimeEditor" /> ディレクティブの後に <ApiLink type="igxTextSelection" suffix={false} /> を設定することが重要です。これは、両方のディレクティブが入力 `focus` イベントで動作するため、マスクが設定された後にテキスト選択が行われるからです。
 </Aside>
 
+## イベント
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `valueChange` | 値が変更されたときに発生します。新しい `Date` または `string` 値を提供します。 | いいえ |
+| `validationFailed` | 入力値が `minValue`/`maxValue` バリデーションに失敗したときに発生します。`oldValue`、`newValue`、および `userInput` を含む `IgxDateTimeEditorEventArgs` を提供します。 | いいえ |
+
+```typescript
+import { IgxDateTimeEditorEventArgs } from 'igniteui-angular/directives';
+// import { IgxDateTimeEditorEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onValidationFailed(args: IgxDateTimeEditorEventArgs) {
+    console.warn('無効な値が入力されました:', args.userInput, '以前の値:', args.oldValue);
+}
+```
+
+```html
+<igx-input-group>
+    <input igxInput
+        [igxDateTimeEditor]="'dd/MM/yyyy HH:mm'"
+        (valueChange)="onValueChange($event)"
+        (validationFailed)="onValidationFailed($event)" />
+</igx-input-group>
+```
+
 ## スタイル設定
 
 詳細については、[`Input Group スタイル ガイド`](input-group.md#スタイル設定)を参照してください。

@@ -258,6 +258,35 @@ Finally, we will add a `toast`, displaying a message about the WiFi state. The r
 
 <Sample src="/notifications/banner-advanced-sample" height={530} alt="" />
 
+## Events
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `opening` | Emitted before the banner starts opening. Provides `BannerCancelEventArgs` with `banner` and `cancel`. | Yes |
+| `opened` | Emitted after the banner finishes opening. | No |
+| `closing` | Emitted before the banner starts closing. Provides `BannerCancelEventArgs` with `banner` and `cancel`. | Yes |
+| `closed` | Emitted after the banner finishes closing. | No |
+
+Use `closing` to prevent the banner from being dismissed in specific scenarios:
+
+```typescript
+import { BannerCancelEventArgs } from 'igniteui-angular/banner';
+// import { BannerCancelEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onBannerClosing(args: BannerCancelEventArgs) {
+    if (this.requiresAcknowledgement) {
+        args.cancel = true;
+    }
+}
+```
+
+```html
+<igx-banner (closing)="onBannerClosing($event)" (closed)="onBannerClosed()">
+    <igx-icon>warning</igx-icon>
+    Please review the terms before continuing.
+</igx-banner>
+```
+
 ## Styling
 
 First, in order to use the functions exposed by the theme engine, we need to import the index file in our style file:

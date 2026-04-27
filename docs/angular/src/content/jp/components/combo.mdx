@@ -246,6 +246,39 @@ public singleSelection(event: IComboSelectionChangeEventArgs) {
 
 > 注: igxCombo を変更する代わりに、[igxSimpleCombo](simple-combo.md) を使用することをお勧めします (上記を参照)。
 
+## イベント
+
+ComboBox コンポーネントは以下のイベントを発生します:
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `opening` | ドロップダウンが開く前に発生します。 | はい |
+| `opened` | ドロップダウンが開き終わった後に発生します。 | いいえ |
+| `closing` | ドロップダウンが閉じる前に発生します。 | はい |
+| `closed` | ドロップダウンが閉じ終わった後に発生します。 | いいえ |
+| `selectionChanging` | 選択が変更される前に発生します。`oldValue`、`newValue`、`added`、および `removed` を提供します。 | はい |
+| `selectionChanged` | 選択が変更された後に発生します。`oldValue`、`newValue`、`added`、および `removed` を提供します。 | いいえ |
+
+キャンセル可能な `selectionChanging` イベントを使用して、特定のアイテムの選択を防ぐことができます。
+
+```typescript
+import { IComboSelectionChangingEventArgs } from 'igniteui-angular/combo';
+// import { IComboSelectionChangingEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onSelectionChanging(event: IComboSelectionChangingEventArgs) {
+    // 3 アイテム以上の選択を防止
+    if (event.newValue.length > 3) {
+        event.cancel = true;
+    }
+}
+```
+
+```html
+<igx-combo [data]="cities" displayKey="name" valueKey="id"
+           (selectionChanging)="onSelectionChanging($event)">
+</igx-combo>
+```
+
 <hr/>
 
 ## キーボード ナビゲーション

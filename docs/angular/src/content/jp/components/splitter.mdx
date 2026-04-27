@@ -218,6 +218,41 @@ public typeVertical = SplitterType.Vertical;
 - `Ctrl + 左矢印` - 水平スプリッターでペインを展開/縮小
 - `Ctrl + 右矢印` - 水平スプリッターでペインを展開/縮小
 
+## イベント
+
+<ApiLink type="Splitter" /> はペインのサイズ変更中に以下のイベントを発生します:
+
+| イベント | 説明 |
+|--------|------|
+| `resizeStart` | ユーザーがスプリッター バーのドラッグを開始したときに発生します。`pane` と `sibling` の参照を提供します。 |
+| `resizing` | ユーザーがスプリッター バーをドラッグしている間、継続的に発生します。`pane` と `sibling` の参照を提供します。 |
+| `resizeEnd` | ユーザーがスプリッター バーを離したときに発生します。`pane` と `sibling` の参照を提供します。 |
+
+これらのイベントを使用してペインのサイズ変更を追跡または応答します。
+
+```typescript
+import { ISplitterBarResizeEventArgs } from 'igniteui-angular/splitter';
+// import { ISplitterBarResizeEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onResizeStart(event: ISplitterBarResizeEventArgs) {
+    console.log('サイズ変更が開始されました。ペイン:', event.pane.id);
+}
+
+public onResizeEnd(event: ISplitterBarResizeEventArgs) {
+    console.log('ペインの新しいサイズ:', event.pane.size);
+    this.savePaneLayout();
+}
+```
+
+```html
+<igx-splitter
+    (resizeStart)="onResizeStart($event)"
+    (resizeEnd)="onResizeEnd($event)">
+    <igx-splitter-pane>左</igx-splitter-pane>
+    <igx-splitter-pane>右</igx-splitter-pane>
+</igx-splitter>
+```
+
 ## スタイル設定
 
 ### Splitter テーマのプロパティ マップ

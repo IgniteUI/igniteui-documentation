@@ -465,6 +465,41 @@ In the **tickLabel** callback above, we are rounding the **value** of every **pr
 
 <Sample src="/interactions/slider-tick-labels-template" height={180} alt="" />
 
+## Events
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `valueChange` | Emitted when the slider value changes. Provides `ISliderValueChangeEventArgs` with `oldValue` and `value`. | No |
+| `lowerValueChange` | Emitted when the lower thumb value changes on a range slider. Provides the new `number` value. | No |
+| `upperValueChange` | Emitted when the upper thumb value changes on a range slider. Provides the new `number` value. | No |
+| `dragFinished` | Emitted when the user finishes dragging a thumb. Provides the final value (`number` or `IRangeSliderValue`). | No |
+
+Use `valueChange` to respond to slider movement:
+
+```typescript
+import { ISliderValueChangeEventArgs } from 'igniteui-angular/slider';
+// import { ISliderValueChangeEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onValueChange(args: ISliderValueChangeEventArgs) {
+    console.log('Previous value:', args.oldValue, 'New value:', args.value);
+}
+```
+
+```html
+<igx-slider [minValue]="0" [maxValue]="100" (valueChange)="onValueChange($event)">
+</igx-slider>
+```
+
+For a range slider, use `lowerValueChange` and `upperValueChange` to track individual thumb movements, or use `dragFinished` to act only once the user releases:
+
+```html
+<igx-slider type="range"
+    (lowerValueChange)="onLower($event)"
+    (upperValueChange)="onUpper($event)"
+    (dragFinished)="onDragFinished($event)">
+</igx-slider>
+```
+
 ## Styling
 
 ### Slider Theme Property Map

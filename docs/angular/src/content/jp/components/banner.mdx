@@ -261,6 +261,35 @@ Google の [`マテリアル デザイン`](https://material.io/design/component
 
 <Sample src="/notifications/banner-advanced-sample" height={530} alt="" />
 
+## イベント
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `opening` | バナーが開く前に発生します。`banner` と `cancel` を含む `BannerCancelEventArgs` を提供します。 | はい |
+| `opened` | バナーが開き終わった後に発生します。 | いいえ |
+| `closing` | バナーが閉じる前に発生します。`banner` と `cancel` を含む `BannerCancelEventArgs` を提供します。 | はい |
+| `closed` | バナーが閉じ終わった後に発生します。 | いいえ |
+
+`closing` を使用して特定のシナリオでバナーが閉じるのを防ぎます。
+
+```typescript
+import { BannerCancelEventArgs } from 'igniteui-angular/banner';
+// import { BannerCancelEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onBannerClosing(args: BannerCancelEventArgs) {
+    if (this.requiresAcknowledgement) {
+        args.cancel = true;
+    }
+}
+```
+
+```html
+<igx-banner (closing)="onBannerClosing($event)" (closed)="onBannerClosed()">
+    <igx-icon>warning</igx-icon>
+    続行する前に利用規約をご確認ください。
+</igx-banner>
+```
+
 ## スタイル設定
 
 はじめに、テーマ エンジンによって公開されている関数を使用するために、スタイル ファイルに index ファイルをインポートする必要があります。

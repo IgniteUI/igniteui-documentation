@@ -470,6 +470,41 @@ In the **tickLabel** callback above, we are rounding the **value** of every **pr
 
 <Sample src="/interactions/slider-tick-labels-template" height={180} alt="" />
 
+## イベント
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `valueChange` | スライダーの値が変更されたときに発生します。`oldValue` と `value` を含む `ISliderValueChangeEventArgs` を提供します。 | いいえ |
+| `lowerValueChange` | 範囲スライダーで下側のつまみの値が変更されたときに発生します。新しい `number` 値を提供します。 | いいえ |
+| `upperValueChange` | 範囲スライダーで上側のつまみの値が変更されたときに発生します。新しい `number` 値を提供します。 | いいえ |
+| `dragFinished` | ユーザーがつまみのドラッグを終了したときに発生します。最終値 (`number` または `IRangeSliderValue`) を提供します。 | いいえ |
+
+`valueChange` を使用してスライダーの移動に応答します。
+
+```typescript
+import { ISliderValueChangeEventArgs } from 'igniteui-angular/slider';
+// import { ISliderValueChangeEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onValueChange(args: ISliderValueChangeEventArgs) {
+    console.log('以前の値:', args.oldValue, '新しい値:', args.value);
+}
+```
+
+```html
+<igx-slider [minValue]="0" [maxValue]="100" (valueChange)="onValueChange($event)">
+</igx-slider>
+```
+
+範囲スライダーでは、個々のつまみの動きを追跡するために `lowerValueChange` と `upperValueChange` を使用するか、ユーザーがリリースした時のみ処理するために `dragFinished` を使用します。
+
+```html
+<igx-slider type="range"
+    (lowerValueChange)="onLower($event)"
+    (upperValueChange)="onUpper($event)"
+    (dragFinished)="onDragFinished($event)">
+</igx-slider>
+```
+
 ## Styling
 
 ### Slider Theme Property Map

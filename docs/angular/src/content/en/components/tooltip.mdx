@@ -495,6 +495,33 @@ public overlaySettings: OverlaySettings = {
 </div>
 ```
 
+## Events
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `tooltipShow` | Emitted before the tooltip starts showing. Provides `ITooltipShowEventArgs` with `target`, `tooltip`, and `cancel`. | Yes |
+| `tooltipHide` | Emitted before the tooltip starts hiding. Provides `ITooltipHideEventArgs` with `target`, `tooltip`, and `cancel`. | Yes |
+
+Use `tooltipShow` to delay or prevent a tooltip from appearing:
+
+```typescript
+import { ITooltipShowEventArgs } from 'igniteui-angular/directives';
+// import { ITooltipShowEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onTooltipShow(args: ITooltipShowEventArgs) {
+    if (this.tooltipsDisabled) {
+        args.cancel = true;
+    }
+}
+```
+
+```html
+<igx-icon [igxTooltipTarget]="myTooltip" (tooltipShow)="onTooltipShow($event)">
+    info
+</igx-icon>
+<div #myTooltip="tooltip" igxTooltip>Tooltip text</div>
+```
+
 ## Styling
 
 To get started with styling the tooltip, we need to import the `index` file, where all the theme functions and component mixins live:

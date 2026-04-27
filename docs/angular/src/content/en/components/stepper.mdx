@@ -92,7 +92,6 @@ export class AppModule {}
 </Aside>
 
 Now that you have the Angular Stepper directives imported, you can start with a basic configuration of the `igx-stepper` and its steps.
-Now that you have the Angular Stepper module or directives imported, you can start with a basic configuration of the `igx-stepper` and its steps.
 
 ## Using the Angular Stepper
 
@@ -318,6 +317,53 @@ In **vertically orientated** layout, the animation type could be defined using t
 Setting `none` to the both animation type inputs disables stepper animations.
 
 <ApiLink type="Stepper" /> gives you the ability to configure the duration of the transition between the steps. This could be achieved through the <ApiLink type="Stepper" member="animationDuration" label="animationDuration" /> property, which takes a number as an argument and it is common to the both orientations.
+
+## Events
+
+The <ApiLink type="Stepper" /> emits the following events when navigating between steps:
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `activeStepChanging` | Emitted before the active step changes. Provides `newIndex`, `oldIndex`, and `owner`. | Yes |
+| `activeStepChanged` | Emitted after the active step has changed (after the transition animation completes). Provides `index` and `owner`. | No |
+
+Use the cancelable `activeStepChanging` event to prevent backward navigation or apply custom validation:
+
+```typescript
+import { IStepChangingEventArgs } from 'igniteui-angular/stepper';
+// import { IStepChangingEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onActiveStepChanging(event: IStepChangingEventArgs) {
+    // Prevent navigating backwards
+    if (event.newIndex < event.oldIndex) {
+        event.cancel = true;
+    }
+}
+```
+
+```html
+<igx-stepper (activeStepChanging)="onActiveStepChanging($event)">
+    ...
+</igx-stepper>
+```
+
+Use `activeStepChanged` to react after the navigation animation completes, for example to save progress:
+
+```typescript
+import { IStepChangedEventArgs } from 'igniteui-angular/stepper';
+// import { IStepChangedEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onActiveStepChanged(event: IStepChangedEventArgs) {
+    console.log(`Navigated to step ${event.index}`);
+    this.saveProgress(event.index);
+}
+```
+
+```html
+<igx-stepper (activeStepChanged)="onActiveStepChanged($event)">
+    ...
+</igx-stepper>
+```
 
 ## Keyboard Navigation
 

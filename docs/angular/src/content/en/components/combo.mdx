@@ -240,6 +240,39 @@ public singleSelection(event: IComboSelectionChangeEventArgs) {
 
 <hr/>
 
+## Events
+
+The ComboBox component emits the following events:
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `opening` | Emitted before the dropdown opens. | Yes |
+| `opened` | Emitted after the dropdown finishes opening. | No |
+| `closing` | Emitted before the dropdown closes. | Yes |
+| `closed` | Emitted after the dropdown finishes closing. | No |
+| `selectionChanging` | Emitted before the selection changes. Provides `oldValue`, `newValue`, `added`, and `removed`. | Yes |
+| `selectionChanged` | Emitted after the selection changes. Provides `oldValue`, `newValue`, `added`, and `removed`. | No |
+
+Use the cancelable `selectionChanging` event to prevent certain items from being selected:
+
+```typescript
+import { IComboSelectionChangingEventArgs } from 'igniteui-angular/combo';
+// import { IComboSelectionChangingEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onSelectionChanging(event: IComboSelectionChangingEventArgs) {
+    // Prevent selecting more than 3 items
+    if (event.newValue.length > 3) {
+        event.cancel = true;
+    }
+}
+```
+
+```html
+<igx-combo [data]="cities" displayKey="name" valueKey="id"
+           (selectionChanging)="onSelectionChanging($event)">
+</igx-combo>
+```
+
 ## Keyboard Navigation
 
 When combobox is closed and focused:

@@ -217,6 +217,41 @@ Keyboard navigation is available by default in the splitter component. When you 
 - `Ctrl + Arrow Left` - Expands/Collapses a pane in a horizontal splitter
 - `Ctrl + Arrow Right` - Expands/Collapses a pane in a horizontal splitter
 
+## Events
+
+The <ApiLink type="Splitter" /> emits the following events during pane resizing:
+
+| Event | Description |
+|-------|-------------|
+| `resizeStart` | Emitted when the user starts dragging a splitter bar. Provides `pane` and `sibling` references. |
+| `resizing` | Emitted continuously while the user is dragging a splitter bar. Provides `pane` and `sibling` references. |
+| `resizeEnd` | Emitted when the user releases the splitter bar. Provides `pane` and `sibling` references. |
+
+Use these events to track or respond to pane size changes:
+
+```typescript
+import { ISplitterBarResizeEventArgs } from 'igniteui-angular/splitter';
+// import { ISplitterBarResizeEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onResizeStart(event: ISplitterBarResizeEventArgs) {
+    console.log('Resizing started. Pane:', event.pane.id);
+}
+
+public onResizeEnd(event: ISplitterBarResizeEventArgs) {
+    console.log('Pane new size:', event.pane.size);
+    this.savePaneLayout();
+}
+```
+
+```html
+<igx-splitter
+    (resizeStart)="onResizeStart($event)"
+    (resizeEnd)="onResizeEnd($event)">
+    <igx-splitter-pane>Left</igx-splitter-pane>
+    <igx-splitter-pane>Right</igx-splitter-pane>
+</igx-splitter>
+```
+
 ## Styling
 
 ### Splitter Theme Property Map

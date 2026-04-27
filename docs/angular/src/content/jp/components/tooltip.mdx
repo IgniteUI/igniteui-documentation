@@ -461,6 +461,33 @@ public overlaySettings: OverlaySettings = {
 <div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James</div>
 ```
 
+## イベント
+
+| イベント | 説明 | キャンセル可能 |
+|--------|------|:----------:|
+| `tooltipShow` | ツールチップの表示が開始される前に発生します。`target`、`tooltip`、および `cancel` を含む `ITooltipShowEventArgs` を提供します。 | はい |
+| `tooltipHide` | ツールチップの非表示が開始される前に発生します。`target`、`tooltip`、および `cancel` を含む `ITooltipHideEventArgs` を提供します。 | はい |
+
+`tooltipShow` を使用してツールチップの表示を遅延させたり防止したりします。
+
+```typescript
+import { ITooltipShowEventArgs } from 'igniteui-angular/directives';
+// import { ITooltipShowEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onTooltipShow(args: ITooltipShowEventArgs) {
+    if (this.tooltipsDisabled) {
+        args.cancel = true;
+    }
+}
+```
+
+```html
+<igx-icon [igxTooltipTarget]="myTooltip" (tooltipShow)="onTooltipShow($event)">
+    info
+</igx-icon>
+<div #myTooltip="tooltip" igxTooltip>ツールチップのテキスト</div>
+```
+
 ## スタイル設定
 
 ツールチップのスタイル設定は、すべてのテーマ関数とコンポーネント ミックスインが存在する `index` ファイルをインポートする必要があります。

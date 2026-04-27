@@ -331,6 +331,38 @@ The Angular Tree component provides built-in support for checkboxes, allowing us
 
 The TreeView checkboxes also have a tri-state mode, which is applicable only for partially selected parent nodes. In this mode, a parent node will go into the indeterminate state when some but not all of the child nodes are checked.
 
+## Events
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `nodeSelection` | Emitted when node selection changes. Provides `ITreeNodeSelectionEvent` with `newSelection`, `oldSelection`, `added`, and `removed`. | Yes |
+| `nodeExpanding` | Emitted before a node expands. Provides `ITreeNodeTogglingEventArgs` with `node`. | Yes |
+| `nodeExpanded` | Emitted after a node finishes expanding. | No |
+| `nodeCollapsing` | Emitted before a node collapses. Provides `ITreeNodeTogglingEventArgs` with `node`. | Yes |
+| `nodeCollapsed` | Emitted after a node finishes collapsing. | No |
+| `activeNodeChanged` | Emitted when the active (focused) node changes. Provides the new active `IgxTreeNode`. | No |
+
+Use `nodeExpanding` to prevent certain nodes from expanding:
+
+```typescript
+import { ITreeNodeTogglingEventArgs } from 'igniteui-angular/tree';
+// import { ITreeNodeTogglingEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onNodeExpanding(args: ITreeNodeTogglingEventArgs) {
+    if (args.node.data?.restricted) {
+        args.cancel = true;
+    }
+}
+```
+
+```html
+<igx-tree (nodeExpanding)="onNodeExpanding($event)" (nodeExpanded)="onNodeExpanded($event)">
+    <igx-tree-node *ngFor="let node of data" [data]="node">
+        {{ node.label }}
+    </igx-tree-node>
+</igx-tree>
+```
+
 ## Keyboard Navigation
 
 Keyboard navigation in IgxTree provides a rich variety of keyboard interactions for the user. This functionality is enabled by default and allows users to navigate through the nodes.

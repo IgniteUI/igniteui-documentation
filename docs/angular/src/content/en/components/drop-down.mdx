@@ -493,6 +493,39 @@ When the `allowItemsFocus` property is enabled, the drop down items gain tab ind
 </igx-drop-down>
 ```
 
+## Events
+
+The Drop Down component emits the following events:
+
+| Event | Description | Cancelable |
+|-------|-------------|:----------:|
+| `opening` | Emitted before the dropdown opens. | Yes |
+| `opened` | Emitted after the dropdown finishes opening. | No |
+| `closing` | Emitted before the dropdown closes. | Yes |
+| `closed` | Emitted after the dropdown finishes closing. | No |
+| `selectionChanging` | Emitted before the selected item changes. Provides `oldSelection` and `newSelection`. | Yes |
+
+Use the cancelable `selectionChanging` event to prevent certain items from being selected:
+
+```typescript
+import { ISelectionEventArgs } from 'igniteui-angular/drop-down';
+// import { ISelectionEventArgs } from '@infragistics/igniteui-angular'; for licensed package
+
+public onSelectionChanging(event: ISelectionEventArgs) {
+    if (event.newSelection?.disabled) {
+        event.cancel = true;
+    }
+}
+```
+
+```html
+<igx-drop-down (selectionChanging)="onSelectionChanging($event)">
+    <igx-drop-down-item *ngFor="let item of items" [disabled]="item.disabled">
+        {{ item.field }}
+    </igx-drop-down-item>
+</igx-drop-down>
+```
+
 ## Styling
 
 ### Dropdown Theme Property Map
