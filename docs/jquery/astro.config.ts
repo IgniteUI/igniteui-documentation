@@ -21,8 +21,8 @@ if (docsEnv !== 'development' && docsEnv !== 'staging' && docsEnv !== 'productio
 const mode: DocsMode = docsEnv;
 
 // ── Site URL — varies by build mode ─────────────────────────────────────────
-const PROD_HOST = 'https://www.infragistics.com';
-const STAGING_HOST = 'https://staging.infragistics.com';
+const PROD_HOST = 'https://www.igniteui.com';
+const STAGING_HOST = 'https://staging.igniteui.com';
 
 // jp.infragistics.com is the JP domain; the base path is the same as en.
 const platformKey = docsLang === 'jp' ? 'jQueryJP' : 'jQuery';

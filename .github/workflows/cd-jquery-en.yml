@@ -1,4 +1,4 @@
-name: Build And Deploy Documentation EN
+name: Build And Deploy jQuery Documentation EN
 
 permissions:
   contents: read
@@ -9,6 +9,11 @@ on:
       - vnext
       - master
     paths-ignore:
+      - 'docs/angular/**'
+      - 'docs/xplat/**'
+      - 'docs/wpf/**'
+      - 'docs/winforms/**'
+      - 'docs/aspnet/**'
       - '**/jp/**'
       - '**/kr/**'
   workflow_dispatch:
@@ -23,6 +28,7 @@ jobs:
     uses: ./.github/workflows/_cd-deploy.yml
     with:
       locale: en
+      platform: jquery
       target_ref: ${{ github.event.inputs.branch && (startsWith(github.event.inputs.branch, 'refs/') && github.event.inputs.branch || format('refs/heads/{0}', github.event.inputs.branch)) || github.ref }}
     secrets:
       CLASSIC_PAT_GITHUB: ${{ secrets.CLASSIC_PAT_GITHUB }}
