@@ -592,10 +592,9 @@ export function initSampleWidgets(): void {
     }
 
     document.querySelectorAll<HTMLElement>('.code-view[data-platform]').forEach((widget, index) => {
-        // Guard against double-initialization (e.g. astro:page-load firing on
-        // back-navigation to a page whose widgets are still in the DOM).
-        if (widget.dataset.initialized) return;
-        widget.dataset.initialized = '1';
+        // Skip widgets already initialized (e.g. Astro client router restoring a cached page).
+        if (widget.dataset.widgetInitialized) return;
+        widget.dataset.widgetInitialized = 'true';
 
         const iframeSrc    = widget.dataset.iframeSrc    || '';
         const demosBaseUrl = widget.dataset.demosBaseUrl || '';
