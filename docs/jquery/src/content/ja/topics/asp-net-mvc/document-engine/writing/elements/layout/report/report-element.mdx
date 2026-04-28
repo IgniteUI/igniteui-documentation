@@ -1,0 +1,70 @@
+---
+title: "Report 要素"
+slug: documentengine-report-element
+---
+
+# Report 要素
+
+
+
+Report 要素は、レポート全体を定義する最上位オブジェクトです。すべてのコンテンツは、Section 要素を介してレポートに追加する必要があります。ほとんどのレイアウト 要素は追加のネストされたレイアウト 要素を作成するためのメソッドを使用します。これは、Report 要素でも同じですが、Report 要素に追加できる唯一のレイアウト 要素 タイプは Section 要素です。この概念をオブジェクト モデル図のように視覚化するとより分かりやすくなります。たとえば、レポートのレイアウトが以下のツリーと同じ位シンプルな場合があります。
+
+-   レポート
+    -   セクション
+        -   レイアウト要素 (タイトル ページのための Group 要素)
+    -   セクション
+        -   ナビゲーション ヘルパー (目次のための TOC 要素)
+    -   セクション
+        -   レイアウト要素 (レポート コンテンツのための Band 要素)
+            -   レイアウト要素 (複数の列の Flow 要素)
+    -   セクション
+        -   パターン コンテンツ (関連データを示す Table 要素)
+    -   セクション
+        -   ナビゲーション ヘルパー (Index)
+
+上記のツリーから、Section が Report 要素に追加可能な唯一のレイアウト 要素であることが分かります。Section 要素は別の Section 要素に加えて任意のコンテンツ 要素を含むことができます。論理的に、Report 要素に追加できるのが Section 要素のみの場合には、すべてを Section 要素に追加可能であることが必要となります。
+
+Report 要素にもレポートの記述に重要ないくつかのその他のプロパティとメソッドがあります。以下は頻繁に使用する可能性が高いレポート機能の簡潔なリストです。
+
+-   **ブックマーク** -- [Bookmarks](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Bookmarks.html) プロパティを使用して、ブックマークを PDF ドキュメントに追加します。
+-   **情報** -- Author、Company、Copyright、Title、Subject などのレポートに関する情報を追加できます。
+-   **XML の保存と読み込み** -- [Save](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Save.html) メソッドを使用して完全なレポートを XML ファイルとして保存できます。後で、[Load](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Load.html) メソッドを使用して、保存した XML ファイルからレポートのコンテンツをロードできます。
+-   **レポートのパブリッシュ** -- レポートを完成し、レポートから PDF ドキュメントを作成する準備が整ったら、[Publish](Infragistics.Web.Documents.Reports~Infragistics.Documents.Reports.Report.Report~Publish.html) メソッドを使用して PDF、XPS、またはプレーン テキスト ドキュメントを書き出します。Publish メソッドの詳細は、[「レポートをパブリッシュ」](/documentengine-publish-a-report)を参照してください。
+
+------
+
+以下のコードは、上記のツリーと同じ構造でレポートを作成します。この例はその他のプロパティを設定せずに、オブジェクトをインスタンス化するだけです。詳細を示す例のコードについては、個々の要素のヘルプ トピックを参照してください。
+
+**C# の場合:**
+
+```csharp
+using Infragistics.Documents.Reports.Report;
+using Infragistics.Documents.Reports.Report.Section;
+using Infragistics.Documents.Reports.Report.TOC;
+using Infragistics.Documents.Reports.Report.Index;
+using Infragistics.Documents.Reports.Report.Band;
+using Infragistics.Documents.Reports.Report.Flow;
+using Infragistics.Documents.Reports.Report.Table;
+.
+.
+.
+Report report = new Report();
+
+ISection section1 = report.AddSection();
+IGroup group1 = section1.AddGroup();
+
+ISection section2 = report.AddSection();
+ITOC tableOfContents = section2.AddTOC();
+
+ISection section3 = report.AddSection();
+IReportBand band1 = section3.AddBand();
+IFlow flow1 = band1.AddFlow();
+
+ISection section4 = report.AddSection();
+ITable table1 = section4.AddTable();
+
+ISection section5 = report.AddSection();
+IIndex index1 = section5.AddIndex();
+```
+
+ 

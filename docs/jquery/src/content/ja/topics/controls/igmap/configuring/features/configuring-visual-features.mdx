@@ -1,0 +1,448 @@
+---
+title: "ビジュアル機能の構成 (igMap)"
+slug: igmap-configuring-visual-features
+---
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# ビジュアル機能の構成 (igMap)
+
+##トピックの概要
+
+### 目的
+
+このトピックでは、十字形、ツールチップ テンプレート、マーカー テンプレートなど、`igMap`™ コントロールのビジュアル機能を構成する方法をコード例を示して説明します。
+
+### 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+-	[igMap の概要](/overview-igmap): このトピックは、`igMap` コントロールについて、その主要機能、最小要件、ユーザー インタラクションといった事項の概念的情報を提供します。
+
+-	[igMap の追加](/adding-igmap): このトピックは、基本的な機能を備えた簡易 `igMap` コントロールを Web ページに追加する方法を示すチュートリアルです。
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [概要](#introduction)
+-   [ビジュアル機能の構成の概要](#visual-features-config)
+-   [マーカー テンプレート オブジェクト参照](#marker-template-reference)
+    -   [マーカー テンプレート オブジェクト参照の概要](#marker-template-summary)
+    -   [マーカー テンプレート オブジェクト参照チャート](#marker-template-chart)
+-   [コールバック関数の参照](#callback-function)
+    -   [Measure コールバック関数の参照チャート](#measure-callback-function-chart)
+    -   [Render コールバック関数の参照チャート](#render-callback-function-chart)
+-   [コード例の概要](#code-example)
+    -   [ツールチップ テンプレートの構成](#config-tooltip-template)
+    -   [JavaScript でのマーカー テンプレートの構成](#config-marker-template-js)
+    -   [ASP.NET MVC でのマーカー テンプレートの構成](#config-marker-template-mvc)
+    -   [SimpleTextMarkerTemplate を使用したマーカー テンプレートの構成](#simple-text-marker-template)
+    -   [カスタム マーカー テンプレートの構成](#config-custom-marker-template)
+-   [関連コンテンツ](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+    -   [リソース](#resources)
+
+
+
+##<a id="introduction"></a>概要
+
+### ビジュアル機能の概要
+
+`igMap` コントロールは、Map シリーズに依存せず、さまざまな Map シリーズにより利用できる、いくつかのビジュアル機能を提供します。
+
+このコントロールによって、画面上での十字形の描画が可能になります。十字形は、マウス ポインターの場所で直角で交わる 2 本の直線です。この線はマップの高さと幅全体に広がるので、ユーザーはマウスの挿入キャレットの位置が簡単に分かります。オプションを用いて十字形を有効または無効にします。
+
+ツールチップは、ユーザーが、マウス ポインターをマーカーまたはマップ上の形状領域でホバー、あるいはタッチ対応デバイス上をタッチまたは押さえるとポップアップします。ツールチップは、カスタム HTML マークアップを描画し、マップの特定の領域にバインドされたデータにアクセスできるテンプレートに基づいています。`igTemplating` エンジンは、テンプレートの実際の描画を実行します（詳細は [Templating エンジンの概要](../../../../06_Infragistics-Templating-Engine/01_igTemplating Overview.mdx)のトピックを参照）。igMap コントロールは、ツールチップ テンプレートに、マップ上の特定のポイントまたは形状にバインドされた全データへのアクセスを与えます。
+
+`igMap` コントロールはマーカーを使用して、地理シンボル シリーズおよび地理図形シリーズのマップ上のポイントを指定します。シリーズ オブジェクト オプションを設定して、マーカーを有効および無効にします。標準のマーカーは、円、三角形、ピラミッド、四角形、ダイアモンド、五角形、六角形、四面体、星形五角形、および六線星形です。
+
+内蔵マーカーの形状および動作が十分でないことが分かった場合、カスタム マーカー描画関数を構成できます。このコントロールは、マップ上でマーカーを描くときは、常にマーカーを呼び出します。あらゆるカスタム マーカー関数は、キャンバス コンテキスト オブジェクト、マーカー領域の位置とサイズ、およびマーカーにバインドされたデータ項目と共にオブジェクトを受け取ります。
+
+マーカー競合の回避ロジックは、2 つ以上のマーカーが重複した場合に `igMap` コントロールが何を描画するかを決定します。競合回避ロジックに利用可能な代替物は、fade、fade と shift、omit、omit と shift、および do nothing（すべてのマーカーを描画）です。
+
+
+
+##<a id="visual-features-config"></a>ビジュアル機能の構成の概要
+
+### ビジュアル機能の構成の概要チャート
+
+次の表は、ナビゲーション機能に関して `igMap` コントロールで構成可能な項目をまとめたものです。
+
+構成可能な項目|詳細|プロパティ
+---|---|---
+十字形の表示または非表示|デフォルトでは、コントロールは十字形を描画しません。この設定を構成すると、コントロールに十字形が表示されます。|JavaScript の場合:<ul><li><ApiLink type="igMap" member="crosshairVisibility" section="options" label="crosshairVisibility" /></li></ul>ASP.NET MVC の場合:<ul><li>[CrosshairVisibility()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.SeriesViewer`3~CrosshairVisibility.html)</li></ul>
+ツールチップの表示/非表示|デフォルトでは、コントロールはツールチップを描画しません。この設定を構成すると、ツールチップが表示されます。|JavaScript の場合:<ul><li> <ApiLink type="igMap" member="series.showTooltip" section="options" label={'series["name"].showTooltip'} /></li></ul>ASP.NET MVC の場合:<ul><li>[Series.ShowTooltip()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Series`3~ShowTooltip.html)</li></ul>
+ツールチップのルック アンド フィール|ツールチップのルック アンド フィールはテンプレートを介して構成可能です。|JavaScript の場合:<ul><li><ApiLink type="igMap" member="series.tooltipTemplate" section="options" label={'series["name"].tooltipTemplate'} /></li></ul>ASP.NET MVC の場合:<ul><li>[Series.TooltipTemplate()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Series`3~TooltipTemplate.html)</li></ul>
+マーカー タイプ|マーカーのタイプは構成可能です。|JavaScript の場合:<ul><li><ApiLink type="igMap" member="series.markerType" section="options" label={'series["name"].markerType'} /></li></ul>ASP.NET MVC の場合:<ul><li>[Series.MarkerType()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1~MarkerType.html)</li></ul>
+カスタム マーカー|カスタム マーカー タイプはテンプレートを介して構成可能です。マップに使用される キャンバス 要素上でコンテンツを直接描画する callback 関数を持つオブジェクトを構成します。|JavaScript の場合:<ul><li> <ApiLink type="igMap" member="series.markerTemplate" section="options" label={'series["name"].markerTemplate'} /></li></ul>ASP.NET MVC の場合:<ul><li>[Series.MarkerTemplate()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1~MarkerTemplate.html)</li></ul>
+マーカーの競合回避|2つ以上のマーカーが重複した場合の、コントロールの動作に対する内蔵の競合回避ロジックがあります。デフォルトで、重複するマーカーは互いに重なって描画されますが、独自のロジックを構成することができます。|JavaScript の場合: <ul><li> <ApiLink type="igMap" member="series.markerCollisionAvoidance" section="options" label={'series ["name"].markerCollisionAvoidance'} /></li></ul>ASP.NET MVC の場合:<ul><li>[Series.MarkerCollisionAvoidance()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicSymbolSeries`1~MarkerCollisionAvoidance.html)</li></ul>
+
+
+##<a id="marker-template-reference"></a>マーカー テンプレート オブジェクト参照
+
+### <a id="marker-template-summary"></a>マーカー テンプレート オブジェクト参照の概要
+
+地理シンボル シリーズ および 図形シリーズによってサポートされているマーカーおよびカスタム マーカー領域。その他の Map シリーズは、その本質と視覚的表示特性によって、マーカーを描画しません。
+
+`igMap` コントロールは、キャンバス API を使用してマップによって作成された HTML5 キャンバス 要素上で描画するコールバック関数を呼び出すことによって、カスタム マーカーをサポートします。
+
+シリーズ オブジェクトの `markerTemplate` オプションに割り当てられたオブジェクトのプロパティに関数を割り当てることによって、コールバックを構成します。ここでは、カスタム マーカーを設定する必要があります。以下のサブセクションは、`markerTemplate` オブジェクトと、それがポイントするコールバック関数に関する詳細情報を提供しています。
+
+### <a id="marker-template-chart"></a>マーカー テンプレート オブジェクト参照チャート
+
+以下の表は、`markerTemplate` オプションに割り当てられたオブジェクトの必要なメンバーを示しています。
+
+プロパティ|説明
+---|---
+measure|このオプションのプロパティ設定は、カスタム マーカーの目的のサイズを計算するために使用されるコールバック関数をポイントします。
+render|キャンバス API を使用してコールバック関数をポイントし、カスタム マーカーを描画します。
+
+
+##<a id="callback-function"></a>コールバック関数の参照
+
+
+### <a id="measure-callback-function-chart"></a>Measure コールバック関数の参照チャート
+
+以下の表は、measure コールバック関数に渡される入力パラメーター `measureInfo` を説明しています。このパラメーターは、マーカーを描画する必要がある特定のポイントに関する情報をコールバックに提供します。関数の出力は、`measureInfo` パラメーターの width および height プロパティで求められるカスタム マーカーのサイズです。measure コールバックの提供はオプションです。
+
+プロパティ|説明
+---|---
+context|CanvasContext2D オブジェクト。
+width|値が存在する場合、利用可能な幅を指定します。コールバックはコンテンツの目的の幅に設定できます。
+height|値が存在する場合、利用可能な高さを指定します。コールバックはコンテンツの目的の高さに設定できます。
+isConstant|このテンプレートの幅と高さを常に同じにする場合は、コールバックを true に設定します。
+data|存在する場合、このテンプレートのコンテキスト データを表します。
+
+
+
+### <a id="render-callback-function-chart"></a>Render コールバック関数の参照チャート
+
+以下の表は、render コールバック関数に渡される入力パラメーター `renderInfo` を説明しています。このパラメーターは、マーカーを描画する必要がある特定のデータ ポイントに関する情報をコールバックに提供します。この関数の出力は、キャンバス 要素上で描かれたコンテンツです。
+
+プロパティ|説明
+---|---
+context|CanvasContext2D オブジェクト。
+xPosition|存在する場合、コンテンツを描画するための x 座標を指定します。
+yPosition|存在する場合、コンテンツを描画するための y 座標を指定します。
+availableWidth|存在する場合、コンテンツを描画するための利用可能な幅を指定します。
+availableHeight|存在する場合、コンテンツを描画するための利用可能な高さを指定します。
+data|存在する場合、現在のポイントまたは形状にバインドされたデータを指定します。
+isHitTestRender|true の場合、これはヒット テスト用の特別な描画パスであることを示し、この場合、データが提供するブラシを使用します。
+
+##<a id="code-example"></a>コード例の概要
+
+### コード例の概要表
+
+以下の表は、このトピックで使用したコード例をまとめたものです。
+
+例|説明
+---|---
+[ツールチップ テンプレートの構成](#config-tooltip-template)|このコード例は、地理シンボル シリーズのコンテキスト内でツールチップ テンプレートを構成する方法を示しています。
+[JavaScript でのマーカー テンプレートの構成](#config-marker-template-js)|このコード例は、JavaScript でカスタム マーカー テンプレートを構成する方法を示しています。
+[ASP.NET MVC でのマーカー テンプレートの構成](#config-marker-template-mvc)|このコード例は、ASP.NET MVC でカスタム マーカー テンプレートを構成する方法を示しています。
+[SimpleTextMarkerTemplate を使用したマーカー テンプレートの構成](#simple-text-marker-template)|このコード例は、&#123;environment:ProductName&#125; ライブラリからの `SimpleTextMarkerTemplate` ヘルパー クラスを使用して、カスタム マーカー テンプレートを構成する方法を示しています。
+[カスタム マーカー テンプレートの構成](#config-custom-marker-template)|このコード例は、地理シンボル シリーズのコンテキスト内でカスタム マーカー テンプレートを構成する方法を示しています。
+
+
+##<a id="config-tooltip-template"></a>コード例: ツールチップ テンプレートの構成
+
+### 説明
+
+このコード例は、地理シンボル シリーズのコンテキスト内でツールチップ テンプレートを構成する方法を示しています。
+
+テンプレートは、`type=”text/x-jquery-tmpl”` を含むスクリプト HTML 要素、またはシリーズ オブジェクトの tooltipTemplate オプションに渡された文字列にすることができます。`igTemplating` エンジンはテンプレートを描画し、その構文は jQuery templating 構文に従います。詳細については、[Templating エンジンの概要](../../../../06_Infragistics-Templating-Engine/01_igTemplating Overview.mdx)のトピックを参照してください。
+
+この特定の例では、その名前、国および地理座標を使って世界中のさまざまな都市を渡す方法を確認してください。テンプレートは、現在の都市の名前と国、およびその座標を表示しています。テンプレートにはまた、いくつかの基本的なスタイル設定が含まれています。
+
+### コード
+
+以下のコードは、いくつかの基本的なスタイル設定と共に、ツールチップ テンプレートを定義しています。ツールチップ スクリプト ブロックには `cityTemplate` という名前が付いており、これは後で、`igMap` コントロールの構成時に使用されます。これは、入力データが Name、Country、Latitude および Longitude の属性を持っていると想定します。`tooltipHeading` クラスを、ツールチップ テーブルの最初の行に明示的に割り当てます。tooltip クラスを、ツールチップに対してコントロールが作成した実際の div 要素に割り当てます。
+
+**HTML の場合:**
+
+```html
+<style>
+    .tooltip  
+    {
+        border: 1px solid Grey; 
+        background-color: White; 
+        opacity: 0.75; 
+    }
+    .tooltipHeading
+    {
+        font-weight: bold; 
+        border-bottom: 1px solid grey; 
+    }
+<style>
+<script id="cityTemplate" type="text/x-jquery-tmpl">
+    <table>
+        <tr><td class="tooltipHeading" colspan="2">${item.Name}, ${item.Country}</td>
+</tr>
+        <tr>
+            <td>Latitude:</td>
+            <td>${item.Latitude}</td>
+</tr>
+        <tr>
+            <td>Longitude:</td>
+            <td>${item.Longitude}</td>
+</tr>
+    </table>
+</script>
+```
+
+以下のコードは、データの Latitude および Longitude 属性に含まれる座標を使って 地理シンボル シリーズを定義しています。`cityTemplate` スクリプト名を Map シリーズ オブジェクトの `tooltipTemplate` オプションに割り当てます。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({
+    ...
+    series: [{
+            type: "geographicSymbol",
+            name: "worldCities",
+            latitudeMemberPath: "Latitude",
+            longitudeMemberPath: "Longitude",
+            markerType: "automatic",
+            // Enable tooltips
+            showTooltip: true,
+            // Configure tooltip template
+            tooltipTemplate: "cityTemplate"
+        }],
+    ...
+});
+```
+
+### <a id="map-tooltips-sample"></a>サンプル
+このサンプルでは、igMap コントロールでマップ ツールチップを設定し、ビュー モデルをコントロールにバインドする方法を紹介します。世界の都市の位置は、サーバー側にマップ コントロールの地理記号シリーズにバインドされるオブジェクトのリストで保存されます。都市名、国名、地理座標を表示するツールチップ テンプレートがシリーズに割り当てられ、マウス ポインターがマップで都市マーカーの上にホバーしたときに表示されます。データへズーム インするには、マウス スクロール ホイールを使用します。タッチ デバイスでは、縮小ジェスチャを使用します。
+
+<div class="embed-sample">
+   [&#123;environment:SamplesEmbedUrl&#125;/map/map-tooltips](&#123;environment:SamplesEmbedUrl&#125;/map/map-tooltips)
+</div>
+
+##<a id="config-marker-template-js"></a>コード例: JavaScript でのマーカー テンプレートの構成
+
+### 説明
+
+このコード例は、JavaScript でカスタム マーカー テンプレートを構成する方法を示しています。
+JavaScript.
+
+### コード
+
+**JavaScript の場合:**
+
+```js
+Code
+$("#map").igMap({
+    ...
+    series: [{
+        ...
+        markerTemplate: {
+            measure: function (measureInfo) {
+                // calculate and provide height and width of the custom marker
+            },
+            render: function (renderInfo) {
+                // perform canvas drawing here
+            }
+        }
+        ...
+    }]
+    ...
+});
+```
+
+
+
+##<a id="config-marker-template-mvc"></a>コード例: ASP.NET MVC でのマーカー テンプレートの構成
+
+### 説明
+
+このコード例は、ASP.NET MVC でカスタム マーカー テンプレートを構成する方法を示しています。
+ASP.NET MVC.
+
+文字列を、「customMarker」コンテンツと共に `MarkerTemplate()` メソッドに渡します。これによって、`customMarker` を `markerTemplate` オプションに割り当てる JavaScript コードが生成されます。`customMarker` 変数は、適切なマーカー テンプレート オブジェクトが割り当てられたページ内の、既存の変数である必要があります。
+
+### コード
+
+以下のコードは、JavaScript 変数に割り当てられたマーカー テンプレート オブジェクトの定義方法を示しています。
+
+**JavaScript の場合:**
+
+```js
+var customMarker = {
+    measure: function (measureInfo) {
+        // calculate and provide height and width of the custom marker
+    },
+    render: function (renderInfo) {
+        // perform canvas drawing here
+    }
+};
+```
+
+以下のコードは、customMarker 変数を、ASP.NET MVC のマップ コントロールに割り当てる方法を示しています。
+
+**ASPX の場合:**
+
+```csharp
+<%= Html.Infragistics().Map(Model)
+        .ID("map")
+        ...
+        .Series(series => {
+            series.
+                ...
+                .MarkerTemplate("customMarker")
+                ...
+        })
+        ...
+%>
+```
+
+
+
+##<a id="simple-text-marker-template"></a>コード例: SimpleTextMarkerTemplate を使用したマーカー テンプレートの構成
+
+
+### 説明
+
+このコード例は、地理シンボル シリーズのコンテキスト内でカスタム マーカー テンプレートを構成する方法を示しています。地理図形 シリーズのカスタム マーカーの構成は同様です。マーカーおよびカスタム マーカーを表示しない他の map シリーズ タイプは重要ではありません。
+
+この例では、単純化するためにカスタム マーカーを使用して作成された &#123;environment:ProductName&#125; からの、`SimpleTextMarkerTemplate` という名前のヘルパー ウィジェットを使用しています。このウィジェットには、ツールチップの外観を構成するためのいくつかのオプションがあります。
+
+### コード
+
+以下のコードは、`SimpleTextMarkerTemplate` オブジェクトのインスタンスを シリーズ オブジェクトの `markerTemplate` オプションに割り当てています。この例では、その使用方法を示すために、すべての `SimpleTextMarkerTemplate` オブジェクトのオプションを割り当てています。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({
+    ...
+    series: [{
+        ...
+        markerTemplate: new $.ig.SimpleTextMarkerTemplate({
+                    font: "12pt Arial",
+                    textColor: "black",
+                    backgroundColor: "rgba(250,250,250,.3)",
+                    borderColor: "grey",
+                    borderThickness: 3,
+                    padding: 10,
+                    getText: function (item) { 
+                        return item.fieldValues.NAME; 
+                    }
+                }),
+        ...
+    }],
+    ...
+});
+```
+
+`getText` オプションが、現在のポイントまたは形状の入力データを受け取る匿名関数に割り当てられ、描画のためにツールチップのテキストを返しています。この関数は、入力データを使用して、クライアント アプリケーションが必要なすべての処理を実行できます。
+
+
+
+##<a id="config-custom-marker-template"></a>コード例: カスタム マーカー テンプレートの構成
+
+
+### 説明
+
+このコード例は、地理シンボル シリーズのコンテキスト内でカスタム マーカー テンプレートを構成する方法を示しています。地理図形シリーズに対してカスタム マーカーを構成すると、地理シンボル シリーズと同じように動作します。他のマップ シリーズ タイプはマーカーを表示しないため、カスタム マーカーは重要ではありません。
+
+コード例は、以下の図で示されるように、その隣に場所の名前がある、正確な地理的ポイント上で青で塗りつぶされた円で構成されるマーカーを生成しています。
+
+&#123;/* image not found: Configuring_Visual_Features_%28igMap%29_1.png */&#125;
+
+### コード
+
+以下のコードは、HTML5 キャンバス API を使用して、measure および render 関数を実行する方法を示しています。.
+
+measure 関数は、渡されたコンテキスト オブジェクト、およびマーカーの高さと幅を計算し、そのデータをコントロールに返すために描画されるデータ項目を使用します。高さは、メソッドの最初に既に定義されたフォントの実際の高さであり、幅は、キャンバス API の `measureText()` メソッドが返すテキスト メトリクスを使用して計算されます。
+
+render 関数はもう少し複雑になります。ここでヒット テストを実行すると、`renderInfo.isHitTestRender` フラグで示されるように、この関数はマーカー サイズの赤い四角形を返します。または、通常の実行の場合、この関数は地理的ポイント `(var name = data.item()["Name"])` の名前を取得してから、キャンバス API の `fillText()` 関数を使って名前を描画し、円形マーカーのためにオフセット スペースを残します。最後に、この関数は青で塗りつぶされた黒い円を描いて、カスタム マーカーを完成します。
+
+**JavaScript の場合:**
+
+```js
+markerTemplate: {
+    measure: function (measureInfo) {
+        var context = measureInfo.context;
+        context.font = "12pt Verdana";
+        context.fillStyle = "rgba(250,250,250,0.3)";
+        var data = measureInfo.data;
+        var text = data.item()["Name"];
+        var height = 12;
+        var width = context.measureText(text).width;
+        measureInfo.width = width + 5 * 2.0;
+        measureInfo.height = height + 5 * 2.0;
+    },
+    render: function (renderInfo) {
+        var context = renderInfo.context;
+        var x = renderInfo.xPosition;
+        var y = renderInfo.yPosition;
+        if (renderInfo.isHitTestRender) {
+            //  This is called for tooltip hit test only
+            //  Rough marker rectangle size calculation
+            context.fillStyle = renderInfo.data.actualItemBrush().fill(); 
+            context.fillRect(x, y, renderInfo.availableWidth, renderInfo.availableHeight);
+        } else {
+            var data = renderInfo.data;
+            var name = data.item()["Name"];
+            //  Draw text
+            context.textBaseline = "top";
+            context.font = '12pt Verdana';
+            context.fillStyle = "black";
+            context.textBaseline = "middle";
+            context.fillText(name, x + 10, y);
+            //  Draw marker - black circle with blue fill
+            context.beginPath();
+            context.arc(x, y, 4, 0, 2 * Math.PI, false);
+            context.fillStyle = "#2372D1";
+            context.fill();
+            context.lineWidth = 1;
+            context.strokeStyle = "black";
+            context.stroke();
+        }
+    }
+}
+```
+
+
+
+##<a id="related-content"></a>関連コンテンツ
+
+
+### <a id="topics"></a>トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+-	[ナビゲーション機能の構成 (igMap)](/igmap-configuring-navigation-features): このトピックでは、コード例を使用して、`igMap` コントロールのナビゲーション機能の構成方法、およびその API を使用してマップの表示部分の位置とサイズを定義する方法を説明します。
+
+-	[マップ シリーズの構成 (igMap)](/igmap-creating-different-kinds-maps): このグループのトピックでは、`igMap`™ コントロールによってサポートされているすべてのマップ タイプ (マップ シリーズ) を構成し、各種のマップを生成する方法を説明します。
+
+### <a id="samples"></a>サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+-	[マーカー テンプレート](&#123;environment:SamplesUrl&#125;/map/marker-template): このサンプルでは、マップ コントロールでカスタム マーカー テンプレートを作成する方法を紹介します。
+
+
+### <a id="resources"></a>リソース
+
+以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
+
+-	[HTML5 キャンバス チュートリアル](http://www.html5canvastutorials.com/): このサイトは、キャンバス要素 API に関する詳細情報を提供します。
+
+-	[Canvas 要素](http://en.wikipedia.org/wiki/Canvas_element): これは、[Wikipedia](http://www.wikipedia.org/)® の HTML5 キャンバス 要素の簡単な説明です。
+
+-	[Canvas チュートリアル](https://developer.mozilla.org/en/Canvas_tutorial/): これは、[Mozilla® 開発者ネットワーク](https://developer.mozilla.org/)からの、HTML5 キャンバス 要素に関するチュートリアルです。
+
+-	[HTML5 キャンバス の基礎](http://dev.opera.com/articles/view/html-5-canvas-the-basics/): これは、[Dev.Opera](http://dev.opera.com/) からの、HTML5 キャンバス 要素に関するチュートリアルです。
+
+
+
+
+
+ 
+
+ 
+
+

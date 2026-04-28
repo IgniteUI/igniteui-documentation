@@ -1,0 +1,86 @@
+---
+title: "2017 Volume 1 の重大な変更"
+slug: breaking-changes-2017-volume-1
+---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# 2017 Volume 1 の重大な変更
+
+以下のトピックは、2017 Volume 1 新機能の概要を示します。
+
+## 全般
+
+### Infragistics Util ファイルの分割
+
+17.1 バージョン以後、`infragistics.util.js` ファイルが jQuery 以外のファイルおよび jQuery に関連するファイルに分割されます。新しい構造は以下のようになります。
+
+-   `infragistics.util.js` - jQuery フレームワークに依存関係なしのユーティリティ関数を含みます。
+-   `infragistics.util.jquery.js` - jQuery に依存関係あるユーティリティ関数を含みます。
+-   `infragistics.util.jquerydeferred.js` - カスタム CommonJS Promises。それに、$.Deferred をサポートしない 1.5 バージョン以前の jQuery バージョンの実装。
+
+&#123;environment:ProductName&#125; コントロールの依存関係を読み込むために igLoader を使用するアプリケーションでローダーが内部に処理されているため、変更の必要がありません。ファイルを手動的に読み込むアプリケーションで必要のないのユーティリティ参照を削除できます。
+
+&#123;environment:ProductName&#125; DV コンポーネントで明示的に必要な新しい jQuery に依存関係があるファイルを追加しました: `infragsitics.dv_jquerydom.js`。 `infragistics.dv_core.js` 依存ファイルの前に読み込む必要があります。
+
+```
+...
+<script src="js/modules/infragistics.dv_jquerydom.js"></script>
+<script src="js/modules/infragistics.dv_core.js"></script>
+...
+```
+
+#### 関連トピック
+-   [&#123;environment:ProductName&#125; の JavaScript ファイル](/deployment-guide-javascript-files)
+
+### 新しい Bootstrap テーマ構造
+
+デフォルトおよびテーマに基づいたすべての Bootstrap 3 は、共通 "/bootstrap3" フォルダーへ移動しました。以下は、&#123;environment:ProductName&#125; に含まれる現在の Bootstrap 3 テーマと製品ソース ルート ("~") に関連する `infragistics.theme.css` の場所です。
+
+テーマ | 以前のパス | 新しいパス
+-------|---------------|---------
+Bootstrap 3 (デフォルト) |  ~/css/themes/bootstrap/ | ~/css/themes/bootstrap3/
+Flatly | ~/css/themes/flatly/ | ~/css/themes/bootstrap3/flatly/
+Yeti | ~/css/themes/yeti/ | ~/css/themes/bootstrap3/yeti/
+Superhero | ~/css/themes/superhero/ | ~/css/themes/bootstrap3/superhero/
+
+現在の Yeti テーマを参照するページで新しいリンクは次のようになります。
+```html
+<link href="/css/themes/bootstrap3/yeti/infragistics.theme.css" rel="stylesheet" type="text/css" />
+```
+または <ApiLink pkg="ig" type="loaderClass" member="settings.theme" section="options" label="theme" /> オプションで Infragistics Loader を使用する場合: 
+
+```js
+$.ig.loader({
+    //...
+    theme: "bootstrap3/yeti"
+});
+```
+
+## igGrid
+
+### headerText オプションの動作変更
+headerText オプションがグリッドの columns 定義で設定されていない場合、列キーがヘッダー テキストとして使用されます。
+
+### igGrid Summaries のオプション変更
+igGrid 集計のメイン レベル オプションである [*isGridFormatter*](http://jp.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:isGridFormatter) および [*defaultDecimalDisplay*](http://jp.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:defaultDecimalDisplay) は削除されました。
+[columnSettings.summaryOperands](http://jp.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:columnSettings.summaryOperands) の [*isGridFormatter*](http://jp.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:columnSettings.summaryOperands.isGridFormatter) および [*decimalDisplay*](http://jp.igniteui.com/help/api/2016.2/ui.iggridsummaries#options:columnSettings.summaryOperands.decimalDisplay) オプションは削除されました。
+
+igGrid 集計の新しい <ApiLink type="iggridsummaries" member="columnSettings.summaryOperands.format" section="options" label="*format*" /> オプションは、<ApiLink type="iggrid" member="columns.format" section="options" label="*format*" /> および <ApiLink type="iggrid" member="autoFormat" section="options" label="*autoFormat*" /> オプションと組み合わせて使用して、集計の書式を設定できるようになりました。
+
+このオプションでは、削除された *decimalDisplay* と同様に浮動小数点の後に表示する桁数を設定できます。summaryOperand の <ApiLink type="iggridsummaries" member="columnSettings.summaryOperands.format" section="options" label="*format*" /> オプションが設定されていない場合、集計の書式は表示先の列に基づいて決定されます。つまり、列に <ApiLink type="iggrid" member="columns.format" section="options" label="*format*" /> が設定されている場合、その書式が使用されます。
+
+集計と現在の列に書式が設定されていない場合、列タイプの地域の設定が集計に適用されます。<ApiLink type="iggrid" member="autoFormat" section="options" label="*autoFormat*" /> が 'date' のデフォルトのため、地域の設定はその列タイプの集計のみに適用されます。その他の列タイプは書式設定が適用されません。集計と列に *format* オプションを設定せずに地域の設定を他の列タイプに適用する必要がある場合、<ApiLink type="iggrid" member="autoFormat" section="options" label="*autoFormat*" /> を設定します。地域自動書式設定の適用を集計がどの列にあるかに基づいて指定します。
+
+### 日付処理
+
+<ApiLink type="iggrid" member="enableUTCDates" section="options" label="enableUTCDates" /> オプションの動作を変更しました。日付のシリアル化のみに影響します。グリッド列の定義で新しい <ApiLink type="iggrid" member="columns.dateDisplayType" section="options" label="dateDisplayType" /> オプションを使用して日付のタイムゾーン表示を処理するために使用できます。
+既存のアプリケーションを変更する方法については、「[17.1 の enableUTCDates オプションの移動](/migrating-enableUTCDates-option-in-17-1)」トピックを参照してください。両方のオプションの詳細情報について、「[&#123;environment:ProductName&#125; コントロールを別のタイム ゾーンで使用](/Using-igniteui-controls-in-different-time-zones)」を参照してください。
+
+## igDateEditor/igDatePicker
+
+<ApiLink type="igdateeditor" member="enableUTCDates" section="options" label="enableUTCDates" /> オプションの動作を変更しました。指定したオフセットとエディターで時間を表示するには <ApiLink type="igdateeditor" member="displayTimeOffset" section="options" label="displayTimeOffset" /> を使用します。既存のアプリケーションを変更する方法について、「[17.1 で enableUTCDate オプションの移動](/igDateEditor-migrating-date-handling-in-17-1)」トピックを参照してください。両方のオプションの詳細情報について、「[&#123;environment:ProductName&#125; コントロールを別のタイム ゾーンで使用](/Using-igniteui-controls-in-different-time-zones)」を参照してください。
+
+## igNumericEditor
+
+製品の以前バージョンで、ユーザーが `maxDecimals` オプションで定義される数より大きい小数位がある値を数値エディターに入力すると、値が切り捨てられます。つまり、`maxDecimals` が `3` に設定されるエディターが `123.4567` の値を受け取ると、`123.456` に切り捨てられます。製品の 17.1 バージョンで新しい <ApiLink type="ignumericeditor" member="roundDecimals" section="options" label="roundDecimals" /> オプションを追加しました。デフォルトで有効で、JavaScript の `Math.round()` 関数を使用して数値を丸めます。`123.4567` の値は丸めて、エディターで `123.457` として表示されます。<ApiLink type="ignumericeditor" member="roundDecimals" section="options" label="roundDecimals" /> オプションが無効な場合、値を切り捨て、以前のバージョンと同じように `123.456` を表示します。

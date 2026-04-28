@@ -1,0 +1,287 @@
+---
+title: "ランタイム時の igEditors の構成"
+slug: configuring-igeditors-at-runtime
+---
+
+# ランタイム時の igEditors の構成
+
+
+
+##トピックの概要
+
+
+###目的
+
+
+このトピックでは、`igEditor` ベースのコントロールでイベントを処理する方法とオプションを設定する方法を紹介します。
+
+###このトピックの内容
+
+
+このトピックは、以下のセクションで構成されます。
+
+-   [イベントへのバインドとオプションの設定](#_Binding_to_events_and_setting_options)
+    -   [初期化でイベントへバインドする](#_Bind_events_on_initialization)
+    -   [初期化でオプションを設定](#_Set_options_on_initialization)
+    -   [初期化後にイベントへバインド](#_Bind_events_after_initialization)
+    -   [初期化後にオプションを設定](#_Set_options_after_initialization)
+-   [関連トピック](#_Related_Topics)
+
+###要件
+
+
+#### 全般的な要件
+
+-   jQuery 固有の要件
+-   &#123;environment:ProductName&#125; コントロールのインスタンスが作成された HTML Web ページ
+-   MVC 固有の要件
+-   Microsoft Visual Studio® での MVC プロジェクト
+-   Infragsitics.Web.Mvc dll (&#123;environment:ProductNameMVC&#125; を含む) への参照
+
+#### スクリプト要件
+
+-   jQuery および ASP.NET MVC に必要なスクリプトは、ヘルパーが jQuery ウィジットとして似たような JavaScript のを描画するため同じです。次が必要になります。
+
+	1.  jQuery コア ライブラリ スクリプト
+	2.  jQuery UI ライブラリ
+	3.  ページで使用するエディターに必要な &#123;environment:ProductName&#125; スクリプト ファイル
+
+##<a id="_Binding_to_events_and_setting_options"></a>イベントへのバインドとオプションの設定
+
+`igEditor` コントロールでイベントのバインドとオプションの設定方法には、コントロールの初期化とランタイム時の 2 通りの方法があります。
+
+###<a id="_Bind_events_on_initialization"></a>初期化でイベントへバインドする
+
+
+#### 概要
+
+ウィジットの初期化時にイベントにバインドする場合は、`eventName: <handler>` 形式のオプションを使用してイベントにサブスクライブします。以下の例では、イベント ハンドラー機能がインラインで実装されています。ただし、イベント ハンドラーを関数名に割り当ててハンドラーをコントロールの初期化以外で実装することも可能です。
+
+####コード例
+
+
+##### igCurrencyEditor
+
+
+以下は、イベント ハンドラーを `igCurrencyEditor` コントロールのイベントへアタッチした例です。
+
+
+
+**JavaScript の場合:**
+
+```js
+$("#currencyeditor").igCurrencyEditor({	
+    blur: function (evt, ui) {	
+        // Handle event
+    }
+});
+```
+
+###<a id="_Set_options_on_initialization"></a>初期化でオプションを設定
+
+
+#### 概要
+
+ウィジェットの初期化でオプションを設定する場合、標準 JSON 構文 (*`optionName: <value>`*) を使用します。他のオプションはコンマで区切ります。
+
+#### コード例
+
+##### igNumericEditor
+
+
+
+以下の例は、`igNumericEditor` コントロールを初期化し、JSON オブジェクトのオプションを使用してコントロールのデフォルト値と最大値を設定します。
+
+
+
+**JavaScript の場合:**
+
+```js
+$("#numericeditor").igNumericEditor({
+    value: 20,
+    maxValue: 100
+});
+```
+
+###<a id="_Bind_events_after_initialization"></a>初期化後にイベントへバインド
+
+
+#### 概要
+
+ jQuery は、多数のイベント処理方法をサポートしています。選択した状況によって、`bind()`、`live()`、`delegate()` または `on()` 関数を使用して、イベント ハンドラーをウィジェットのイベントにワイヤーできます。
+
+以下のリストは、各関数の詳細を示します。
+
+-	**bind**: 指定したセレクターに一致する既存の DOM 要素へイベント ハンドラーをアタッチします。
+
+-	**live**: 指定したセレクターに一致する既存または新しい DOM 要素へイベント ハンドラーをアタッチします。イベントハンドラーは、DOM ツリーまで伝達しません。
+
+-	**delegate**: 指定したセレクターに一致する既存または新しい DOM 要素へイベント ハンドラーをアタッチします。イベント ハンドラーは、DOM ツリーまで伝達します。
+
+-	**on**: 指定したセレクターに一致する既存または新しい DOM 要素へイベント ハンドラーをアタッチします。(delegate 関数は jQuery version 1.7 で廃止され、on 関数がイベント ハンドラー確立の優先方法になりました。)
+
+
+
+`bind()` を使用する場合、現在使用可能な要素にのみ指定されたハンドラーへアタッチすることに注意してください。つまり、動的に追加された項目 (DOM が読み込まれた後) は、イベント ハンドラーの割り当てに含まれません。`delegate()` 関数は `live()` 関数の新しいバージョンで、`live()` よりパフォーマンスが向上されました。
+
+>**注**: jQuery バージョン 1.7 で `on()` および `one()` 関数は、`delegate()` の代替として使用するのに適しています。
+
+既定の jQuery イベント wiring 関数のいずれかを使用する場合、jQuery UI イベントの命名規則に従ってください。たとえば、jQuery UI ウィジェット ファクトリは、ウィジェットの名前をイベント名のプレフィックスとして追加します。
+
+`igEditor` コントロール (`igNumericEditor`、`igCurrencyEditor` など) のコレクションは、`igEditor` ベース コントロールの定義済みインスタンスです。そのため、イベント名は、インスタンス化するコントロール タイプに固有な名前の代わりに “*igeditor*” プレフィックスを使用します。エディターのフォーカス イベントにサブスクライブする場合、"*igcurrencyeditorfocus*" (またはその他のコントロール名) ではなく “*igeditorfocus*” にサブスクライブする必要があります。
+
+“*iggridhiding*” ウィジェットの columnhiding イベントへアタッチする場合、イベント名は “`iggridhidingcolumnhiding`” となります。
+
+#### コード例
+
+##### igTextEditor
+
+
+
+以下は、HTML ヘルパーを使用して &#123;environment:ProductNameMVC&#125; `TextEditor` コントロールのインスタンスを作成し、コントロールが初期化されるとフォーカス イベントへサブスクライブする例です。
+ 
+
+
+
+エディターのインスタンスを作成します。
+
+**HTML の場合:**
+
+```html
+<%= Html.Infragistics().TextEditor()
+     .ID("texteditor")
+     .Width(200)
+     .Render()
+%>
+```
+
+次に、`bind()` を使用してフォーカス イベントへサブスクライブします。
+
+**JavaScript の場合:**
+
+```js
+$("#texteditor").bind('igeditorfocus', function (evt, ui) {
+    // Handle event
+});
+```
+
+##### igDateEditor
+
+
+
+以下は、HTML ヘルパーを使用して &#123;environment:ProductNameMVC&#125; `DateEditor` コントロールのインスタンスを作成し、初期化されるとフォーカス イベントへサブスクライブする例です。
+
+
+
+`igTextEditor` コントロールのインスタンスを作成します。
+
+**HTML の場合:**
+
+```html
+<%= Html.Infragistics().DateEditor()
+        .ID("dateeditor")
+        .Width(200)
+        .Render()
+%>
+```
+
+次に、`bind()` を使用してフォーカス イベントへサブスクライブします。
+
+**JavaScript の場合:**
+
+```js
+$("#dateeditor").bind('igeditorfocus', function (evt, ui) {
+    // Handle event
+});
+```
+
+###<a id="_Set_options_after_initialization"></a>初期化後にオプションを設定
+
+
+#### 概要
+
+初期化後にオプションを処理する場合、初期化で作成されたコントロールへアクセスし、オプション値を変更します。以下の構文でオプションを変更します。
+
+```
+$('#inputFieldID').igTextEditor ('option', <option name>,<option  value>);
+```
+
+&#123;environment:ProductNameMVC&#125; は、`igEditor` コントロールを内部で描画します。コードは次のようになります。
+
+```
+$('#inputFieldID').igEditor ('option', <option name>,<option value>);
+```
+
+ランタイムでクライアントでウィジェットを使用する場合、ウィジェットのメンバーへアクセスするには `igEditors` クライアント ウィジェットも使用してください。
+
+>**注**: `igEditor` 関数を使用したアクセス コントロールのアクセス方法は、すべてのエディター コントロールに適用できます。
+
+#### コード例
+
+##### igMaskEditor
+
+
+
+以下は、HTML ヘルパーを使用して &#123;environment:ProductNameMVC&#125; `MaskEditor` コントロールのインスタンスを作成し、初期化後にマスクを変更する例です。
+
+
+
+`igMaskEditor` コントロールのインスタンスを作成します。
+
+**HTML の場合:**
+
+```html
+<%= Html.Infragistics().MaskEditor()
+      .ID("maskeditor")
+      .Width(200)
+      .Render()
+%>
+```
+
+次に `igEditor` 関数を呼び出して `inputMask` オプションを設定します。
+
+**JavaScript の場合:**
+
+```js
+$("#maskeditor").igEditor('option', 'inputMask', 'CCCCCCCCCC');
+```
+
+##### igPercentEditor
+
+
+
+以下は、HTML ヘルパーを使用して &#123;environment:ProductNameMVC&#125; `PercentEditor` コントロールのインスタンスを作成し、初期化後に最大 10 進数を変更する例です。
+ 
+
+
+
+`igMaskEditor` コントロールのインスタンスを作成します。
+
+**HTML の場合:**
+
+```html
+<%= Html.Infragistics().PercentEditor()
+       .ID("percenteditor")
+       .Width(200)
+       .Render()
+%>
+```
+
+次に `igEditor` 関数を呼び出して `maxDecimals` オプションを設定します。
+
+**JavaScript の場合:**
+
+```js
+$("#percenteditor").igEditor('option', 'maxDecimals', 10);
+```
+
+##<a id="_Related_Topics"></a>関連トピック
+
+
+-   [&#123;environment:ProductName&#125; でイベントの使用](/using-events-in-igniteui-for-jquery)
+
+ 
+
+ 
+
+

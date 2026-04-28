@@ -1,0 +1,328 @@
+---
+title: "igHierarchicalGrid を DataSet にバインド"
+slug: ighierarchicalgrid-binding-to-dataset
+---
+
+# igHierarchicalGrid を DataSet にバインド
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、`igHierarchicalGrid`™ コントロールを構成して DataSet にバインドする方法を紹介します。
+
+### 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+- [igHierarchicalGrid の概要](/ighierarchicalgrid-overview): このトピックでは、`igHierarchicalGrid` を Web ページに追加する方法を説明します。
+- [igGrid を DataTable にバインディング](/iggrid-binding-to-datatable): このトピックでは、`igGrid` コントロールを `DataTable` データ ソースにバインドする方法を紹介します。
+- [ロードオンデマンド (igHierarchicalGrid)](/ighierarchicalgrid-load-on-demand): このトピックでは、オン デマンドでデータを一度に `igHierarchicalGrid` に読み込む方法を 2 通り紹介します。
+
+
+
+### このトピックの内容
+
+-   [概要](#introduction)
+    -   [DataSet とのバインディング](#binding)
+    -   [ロード オン デマンド](#load-on-demand)
+-   [既知の問題と制限](#known-issues)
+-   [関連コンテンツ](#related-content)
+
+
+
+## <a id="introduction"></a> 概要
+
+### <a id="binding"></a> DataSet とのバインディング
+
+バージョン 12.2 以降、`igHierarchicalGrid` は `DataSet` とのデータ バインディングをサポートします。バージョン 12.1 まで、`DataSource` プロパティは `IQueryable` のインスタンスのみを受け付けていました。
+
+`GridModel` では新しいプロパティ `DataMember` を導入しました。このプロパティを設定すると、グリッドは、`DataSet` から取得した `DataMember` 値と一致する `DataTable` の名前を検索して、それにグリッドをバインドします。`AutoGenerateLayouts` が false で、レイアウトを手動定義するとき、このプロパティが便利です。`AutoGenerateLayouts` と true に設定すると、この設定は無視されます。
+
+**C# の場合:**
+
+```csharp
+GridModel model = new GridModel();          
+DataSet ds = GetEmployDepartmentDataSet();
+model.DataSource = ds;
+model.AutoGenerateColumns = true;
+model.AutoGenerateLayouts = false;
+model.DataBind();
+// Setting as DataMember of the root grid the name of Departments DataTable 
+model.ColumnLayouts[0].DataMember = "Departments";
+// Setting as DataMember of the child grid the name of Employees DataTable
+model.ColumnLayouts[0].ColumnLayouts[0].DataMember = "Employees";
+```
+
+ボリューム 12.2 では、さらに `AutoGenerateLayouts` がデフォルトで `false` になるように変更しました。
+
+`DataSet` とのバインディングは、以下の方法のどれかで実行します。
+
+#### ビューでグリッドの *DataSourceURL* で参照したアクション メソッドから DataSet を返します。
+
+このシナリオでは、モデル タイプは `DataSet` ですが、これは dynamic タイプにも設定できます。
+
+**ASPX の場合:**
+
+```csharp
+<%=(Html.Infragistics().Grid<System.Data.DataSet>().ID("grid1").Height("500px")
+    .AutoGenerateColumns(true)
+    .AutoGenerateLayouts(true)     
+    .RenderCheckboxes(true)
+    .AutoCommit(false)       
+    .Features(features => {
+            features.Sorting().Type(OpType.Local).Mode(SortingMode.Single);
+            features.Paging().PageSize(5).Type(OpType.Remote);
+            features.Updating();
+            features.Filtering().Type(OpType.Local);
+            features.GroupBy().Type(OpType.Local);
+            features.Hiding();
+            features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
+            features.RowSelectors();
+            features.Resizing();
+            features.Tooltips().Visibility(TooltipsVisibility.Always);
+        })        
+    .GenerateCompactJSONResponse(false)
+    .DataSource(Model)
+    .DataSourceUrl(Url.Action("dataset-interactions"))
+    .UpdateUrl(Url.Action("EditingSaveChanges"))
+    .DataBind()
+    .Width("100%")
+    .Height("100%")
+    .Render()) %>
+```
+
+**C# の場合:**
+
+```csharp
+[GridDataSourceAction]
+[ActionName("dataset-interactions")]
+public ActionResult DataSetInteractions()
+{
+	DataSet ds = this.DepartmentsData;
+	return View("DataSetInteractions", ds);
+}
+```
+
+#### コントローラーに *GridModel* を構築し、ビューのモデルとして返します。
+
+**ASPX の場合:**
+
+```csharp
+@model  Infragistics.Web.Mvc.GridModel
+@(Html.Infragistics().Grid(Model))
+```
+
+**C# の場合:**
+
+```csharp
+GridModel model = new GridModel();
+DataSet ds = GetEmployDepartmentDataSet();
+model.DataSource = ds;
+model.AutoGenerateColumns = true;
+model.AutoGenerateLayouts = true;
+// defining the grid
+return View("BindToDataSet", model);
+```
+
+### <a id="load-on-demand"></a> ロード オン デマンド
+
+`igHierarchicalGrid` を `DataSet` にバインドするとき、`LoadOnDemand` をサポートします。
+
+`LoadOnDemand` を `igHierarchicalGrid` に使用するとき、`DataSource` と `DataSourceUrl` の両方を設定してください。
+
+**C# の場合:**
+
+```csharp
+GridModel grid = GridLoadOnDemandModel();            
+grid.DataSource = GetEmployDepartmentDataSet();
+grid.DataSourceUrl = this.Url.Action("NewBindParent");
+grid.ColumnLayouts[0].DataSourceUrl = this.Url.Action("NewBindChild");
+return View("NewLoadOnDemand", grid);
+
+public JsonResult NewBindChild(string path, string layout)
+{
+	GridModel model = GridLoadOnDemandModel();           
+	model.DataSource = GetEmployDepartmentDataSet();
+	model.DataMember = "Employees";
+	return model.GetData(path, layout);
+}
+```
+
+## <a id="known-issues"></a> 既知の問題と制限
+
+### DataMember を設定せず、AutogenerateLayouts の設定を false で DataSet にバインドすると、igHierarchicalGrid は DataSet テーブル コレクションの最初のテーブルにだけバインドされます。
+
+`DataMember` を設定せず、`AutoGenerateLayouts` の設定を false で DataSet にバインドすると、`igHierarchicalGrid` は DataSet テーブル コレクションの最初のテーブルにだけバインドされます。
+
+このグリッドは テーブル間で [DataRelations](http://msdn.microsoft.com/ja-jp/library/system.data.datarelation.aspx) を使用して、階層を構築します。
+
+1.  DataSet テーブル配列の最初のテーブルはルート テーブルとして使用します。
+2.  DataTables に DataRelations がない場合、グリッドはルート テーブルのみを表示します。
+
+つまり、反復はテーブル コレクションそのものではなく、DataTables の DataRelations で行います。
+
+### Filtering、GroupBy、Sorting 機能に設定できるタイプは、Local タイプのみです。Summaries 機能はサポートしていません。
+
+フィルタリング、並べ替え、グループ化の各機能が内部で使用する LINQ 式は、`DataTable` や `DataSet` では使用できません。
+
+GroupBy の Type が Local に設定しても ColumnSettings オプションによって初期化でグループ化された列を設定することはサポートされていません。GridModel は、クライアントに送信する前にデータを並べ替えます。
+
+リモート並べ替えとフィルタリングは、要求を手動処理し、`DataSet` のデータを処理し、 `JsonResult` として戻すことで実装します。
+
+さらに、グリッドのデータ ソースとして `DataSet` を使用するとき、集計機能はサポートしていません。
+
+**ASPX の場合:**
+
+```csharp
+<%=(Html.Infragistics().Grid<System.Data.DataSet>().ID("grid1").Height("500px")
+        .AutoGenerateColumns(true)       
+        .RenderCheckboxes(true)
+        .AutoCommit(false)       
+        .Features(features => {
+                features.Sorting().Type(OpType.Local).Mode(SortingMode.Single);
+                features.Filtering().Type(OpType.Local);
+                features.GroupBy().Type(OpType.Local);
+                features.Paging().PageSize(5).Type(OpType.Remote);
+                features.Updating();
+                features.Hiding();
+                features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
+                features.RowSelectors();
+                features.Resizing();
+                features.Tooltips().Visibility(TooltipsVisibility.Always);
+            })        
+        .GenerateCompactJSONResponse(false)
+        .DataSource(Model)
+        .DataSourceUrl(Url.Action("datatable-interactions"))
+        .UpdateUrl(Url.Action("EditingSaveChanges"))
+        .DataBind()
+        .Width("100%")
+        .Height("100%")
+        .Render()) %>
+```
+
+**C# の場合:**
+
+```csharp
+GridFiltering filtering = new GridFiltering();
+filtering.Type = OpType.Local;
+model.Features.Add(filtering);
+```
+
+以下の機能はグリッドではリモートで動作します。
+
+-   ページング
+-   更新 - `LoadTransactions` メソッドで機能するように変更してください。
+
+#### 更新時は、Dictionary&lt;string, string&gt; をサポートするシリアライザーを使用してください。
+
+Microsoft JSON シリアライザーはJSON からのディクショナリのシリアル化解除はサポートしていません。更新機能を使用するとき、`GridModel` で、`LoadTransactions` メソッドをオーバーライドしてください。これには、Json.NET シリアライザーで対応できます。このシリアライザーは以下のページでダウンロードできます。また ASP.NET MVC 4 にはデフォルトの JSON シリアライザーとして組み込まれています。
+
+[http://james.newtonking.com/projects/json-net.aspx](http://james.newtonking.com/projects/json-net.aspx)
+
+**C# の場合:**
+
+```csharp
+public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where T : class
+{
+    List<Transaction<T>> transactions = JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
+    return transactions;
+}
+```
+
+もう 1 つ、タイプを強化したモデルを作成する方法があります。これは、`DataSet` から取得した各 `DataTable` の構造に対応しています。カスタム タイプのフィールドは、それで表現する `DataTable` の `DataColumns` のタイプとキーを一致させてください。このモデルは、LoadTransactions メソッドで使用します。
+
+サンプル [DataSet の編集](&#123;environment:SamplesUrl&#125;/hierarchical-grid/editing-dataset) では、`DataSet` にバインドして、`LoadTransactions` メソッドのルート テーブルのレイアウトに基づいてモデルを渡すときの更新機能の使用方法を紹介します。
+
+### バインドした DataTables に primaryKeys を設定しない場合は、対応する GridModel オブジェクトと ColumnLayout オブジェクトに設定してください。
+
+*Updating* 機能を使用するときは、`DataTables` に `PrimaryKeys` を定義している場合、`igHierarchicalGrid` はそれを自動的に使用します。自動的に使用しない場合は、`ColumnLayouts` で手動設定してください。更新機能を有効にしたとき、以上の設定が必要です。
+
+**C# の場合:**
+
+```csharp
+GridModel grid = new GridModel();
+grid.PrimaryKey = "DepartmentID";
+```
+
+### &#123;environment:ProductNameMVC&#125; をビューで使用して igHierarchicalGrid に列を手動で作成
+
+`DataSet` にバインドして、手動でレイアウトを作成するとき、データセット テーブルのコレクションでは、各 `ColumnLayout` の `DataMember` がそれぞれ対応する `DataTable` の名前に設定されます。
+
+`igHierarchicalGrid` をビューに定義して、`DataSet` をグリッドのモデルとして使用すると、列は自動生成以外では生成できなくなります。列を手動で定義するときは、`DataTable` 構造に対応したモデルを定義し、それをグリッドのタイプとして設定してください。
+
+タイプを強化して `DataSet` から取得した各 `DataTable` の構造に対応させたモデルを作成してください。そうすれば、グリッドの &#123;environment:ProductNameMVC&#125; をビューで使用できます。
+
+注: カスタム タイプ Customer のフィールドでは、そのフィールドが表す DataTable の DataColumns のタイプとキーを一致させてください。
+
+**C# の場合:**
+
+```csharp
+DataTable dtCustomers = new DataTable("Customers");
+dtCustomers.Columns.Add("CustomerID", typeof(int));
+dtCustomers.Columns.Add("CustomerName ", typeof(string));
+DataTable dtData = new DataTable("Orders");
+dtData.Columns.Add("OrderID", typeof(int));
+dtData.Columns.Add("CustomerID ", typeof(int));
+dtData.Columns.Add("OrderQty", typeof(int));
+```
+
+**C# の場合:**
+
+```csharp
+public class Customer
+{
+    public int CustomerID { get; set; }
+    public string CustomerName { get; set; }      
+    public List<Order> Orders { get; set; }
+}
+
+public class Order
+{
+    public int OrderID { get; set; }
+    public int OrderQty { get; set; }      
+}
+```
+
+**ASPX の場合:**
+
+```csharp
+// class Customer copies the structure of the root DataTable 
+// additionally class Order is created
+// and has the same fields as table Orders columns 
+@(Html.Infragistics().Grid<Infragistics.Web.Mvc.Samples.Models.Customer>(Model)
+.ID("grid1").Height("550px").Width("100%"). PrimaryKey("CustomerID")
+        .Columns(column =>
+        {
+            column.For(x => x.CustomerID).HeaderText(“CustomerID”);
+        }).
+        ColumnLayouts(layouts => {
+            layouts.For(x => x.Orders).ResponseDataKey(String.Empty).Width("100%").ForeignKey("CustomerID").PrimaryKey("OrderID")
+.AutoGenerateColumns(false).AutoGenerateLayouts(false)
+.Columns(childcolumn =>
+                {
+                    childcolumn.For(x => x.OrderID).HeaderText(“OrderID”);
+                    
+                }).Features(features => features.Updating().EditMode(GridEditMode.Row).ColumnSettings(
+                    cs => cs.ColumnSetting().ColumnKey("OrderID").ReadOnly(true)
+                ));
+        })
+```
+
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### サンプル
+
+- [編集 - 編集ダイアログ](&#123;environment:SamplesUrl&#125;/hierarchical-grid/row-edit-dialog): このサンプルでは、編集ダイアログと更新機能の使用方法を紹介します。
+- [ロード オン デマンド](&#123;environment:SamplesUrl&#125;/hierarchical-grid/load-on-demand): このサンプルでは、ロード オン デマンド機能の使用方法を紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

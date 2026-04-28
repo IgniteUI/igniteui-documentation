@@ -206,18 +206,23 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
         prefix: '',
         productName: 'Ignite UI for jQuery',
         productSpinal: 'ignite-ui-jquery',
-        apiPackages: {},
+        // docRoot is resolved at build time from getEnvVars().jQueryApiUrl in ApiLink.astro.
+        // These entries are placeholders; pkg='ig' selects the ig. namespace.
+        apiPackages: {
+            core: { docRoot: '', packageId: '' },
+            ig:   { docRoot: '', packageId: '' },
+        },
         packages: {
-            common: 'igniteui',
-            charts: 'igniteui',
-            grids: 'igniteui',
-            gauges: 'igniteui',
-            maps: 'igniteui',
+            common: 'igniteui-jquery',
+            charts: 'igniteui-jquery',
+            grids:  'igniteui-jquery',
+            gauges: 'igniteui-jquery',
+            maps:   'igniteui-jquery',
         },
         links: {
-            github: 'https://github.com/IgniteUI/ignite-ui',
-            forums: 'https://www.infragistics.com/community/forums/f/ignite-ui-for-jquery',
-            repoSamples: '',
+            github:      'https://github.com/IgniteUI/ignite-ui',
+            forums:      'https://www.infragistics.com/community/forums/f/ignite-ui-for-jquery',
+            repoSamples: 'https://github.com/IgniteUI/ignite-ui',
         },
     },
 };
@@ -262,7 +267,22 @@ export function getPlatformContext(): PlatformContext {
         }
     }
 
-    _ctx = PLATFORMS[name];
+    const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
+    const isProduction = mode === 'production';
+    const apiHost = isProduction
+        ? 'https://www.infragistics.com'
+        : 'https://staging.infragistics.com';
+
+    const base = PLATFORMS[name];
+    _ctx = {
+        ...base,
+        apiPackages: Object.fromEntries(
+            Object.entries(base.apiPackages).map(([k, v]) => [
+                k,
+                { ...v, docRoot: v.docRoot.replace('https://staging.infragistics.com', apiHost) },
+            ])
+        ),
+    };
     return _ctx;
 }
 

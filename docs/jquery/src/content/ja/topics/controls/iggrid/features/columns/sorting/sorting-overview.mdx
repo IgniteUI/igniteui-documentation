@@ -1,0 +1,290 @@
+---
+title: "並べ替えの概要 (igGrid)"
+slug: iggrid-sorting-overview
+---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# 並べ替えの概要 (igGrid)
+
+## 概要
+igGrid コントロールの並べ替え機能では、1 つまたは複数の列を昇順または降順に並べ替えることができます。
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [並べ替えの永続化](#persistence)
+-   [並べ替えモード](#modes)
+-   [構成と検討事項](#considerations)
+-   [並べ替えを有効にする](#enable)
+-   [列の設定](#column-settings)
+-   [リモート並べ替え](#remote)
+-   [API の使用](#api)
+-   [クライアント側イベント](#client-side-events)
+-   [並べ替えオプション](#properties)
+-   [並べ替え CSS クラスのリスト](#css)
+-   [関連コンテンツ](#related-content)
+
+
+## <a id="persistence"></a> 並べ替えの永続化
+
+`igGrid` バインディングの間に並べ替えの永続化は 14.1 リリースの新機能です。以前のデフォルト動作を置き換えます。
+
+> **注:** 並べ替えの永続化はデフォルトで `true` です。これは重大な変更です。
+
+`igGridSorting` を有効する場合、<ApiLink type="iggridsorting" member="persist" section="options" label="persist" /> モードで使用されます。`dataBind()` への呼び出しの後、UI およびデータ ソース ビューで永続化が適用されます。並べ替えインジケーターおよび CSS クラスは適用し、データ ソースの並べ替えも残ります。
+
+並べ替えの永続化は `igHierarchicalGrid` にも実装されています。
+
+以下のサンプルは、並べ替え機能の永続化機能を紹介します。
+
+<div class="embed-sample">
+   [機能の永続化](&#123;environment:SamplesEmbedUrl&#125;/grid/feature-persistence)
+</div>
+
+ユーザーが `igGrid` を再バインドした後に並べ替えをクリアする以前の動作に戻るには、<ApiLink type="iggridsorting" member="persist" section="options" label="persist" /> オプションで機能を無効できます。以下はコード スニペットです。
+
+**JavaScript の場合:**
+
+```js
+features: [
+  { 
+     name: "Sorting", 
+     persist: false 
+  }
+] 
+```
+
+## <a id="modes"></a> 並べ替えモード
+並べ替えは、ローカルまたはリモートで操作するよう構成できます。ローカルの場合、並べ替えは、サーバー要求を行わなくても完全にクライアント側で行われます。リモート並べ替えの場合は、サーバーが並べ替える必要がある列の情報を取得できるよう、グリッドは必要な URL パラメーターをエンコードします。
+
+## <a id="considerations"></a> 構成と検討事項
+-   並べ替えは、1 つまたは複数の列を並べ替えるよう構成できます。並べ替えモードは、モード オプションを single または multiple に変更して管理します。
+-   複数並べ替えでは並べ替えを削除できます。
+-   並べ替えを解除したい `igGrid` 列のヘッダーを SHIFT キーを押しながらクリックすることにより列の並べ替えを解除できます。
+-   [複数並べ替えダイアログ](/iggrid-multiple-sorting-dialog)は、列の並べ替え順を示します。並べ替えダイアログ リストの先頭には、最後に並べ替えた列が表示され、以前並べ替えた列が下に移動します。これにより、行った並べ替えに履歴がリストに残ると同時に第 2、第 3 およびそれ以降の並べ替え順列も示します。並べ替えダイアログ固有プロパティおよびイベントの詳細は、「[複数並べ替えダイアログ](/iggrid-multiple-sorting-dialog)」のトピックを参照してください。
+-   `columnSettings` オブジェクトを変更して、列レベルで並べ替えを管理できます。たとえば、特定の列の並べ替えを無効にしたり、デフォルトで昇順に並べ替えるように指定できます。
+-   `caseSensitive` オプションを true に設定すると、並べ替えで大文字と小文字を区別することもできます。このオプションはローカルでの並べ替えのみで動作します。
+-   並べ替えウィジェットは、いったんインスタンス化されると、ソート インジケーターなど、アクティブ、フォーカス、ソートなど各種スタイルが適用できるようにするマークアップを注入することで、列ヘッダーを変更します。
+-   並べ替えは、任意の jQuery UI ウィジェットのライフサイクルに従う、jQuery UI ウィジェットとして実装されます。
+-   グリッド フレームワークは、並べ替えウィジェットの作成と破棄を行います。
+-   並べ替え可能なすべての列は並べ替えと、キーボードの TAB キーおよび Shift+TAB キーを使用してナビゲートが可能です。 
+	![](../../../../../images/images/igGrid_Single_and_Multiple_Column_Sorting_01.png)
+
+図 1: igGrid コントロール並べ替え UI
+
+## <a id="enable"></a> 並べ替えを有効にする
+
+以下のサンプルは、並べ替え機能を有効にする方法を示します。
+
+<div class="embed-sample">
+   [並べ替え](&#123;environment:SamplesEmbedUrl&#125;/grid/sorting-local)
+</div>
+
+以下のコード スニペットは、ASPX (MVC) で並べ替えを有効にする方法を示します。
+
+**ASPX (MVC) の場合:**
+
+```csharp
+<%= Html.Infragistics().Grid(Model).ID("grid1").Columns(column =>
+    {
+        column.For(x => x.EmployeeID).HeaderText("Employee ID").Width("15%");
+        column.For(x => x.FirstName).HeaderText("First Name").Width("20%");
+        column.For(x => x.LastName).HeaderText("Last Name").Width("20%");
+        column.For(x => x.BirthDate).HeaderText("Birth Date").Width("15%");
+        column.For(x => x.City).HeaderText("City").Width("15%");
+        column.For(x => x.PostalCode).HeaderText("Postal Code").Width("15%");
+    }).Features(features => {
+        features.Sorting().Type(OpType.Local).CaseSensitive(true);
+    })
+	.Height("500")
+	.DataSourceUrl(Url.Action("PagingGetData"))
+	.DataBind()
+	.Render()%>
+```
+
+カスタム ソート関数を提供する場合、`customSortFunction` オプションを参照してください。
+
+## <a id="column-settings"></a> 列の設定
+
+列はそれぞれ、表 1 に記載された columnSettings オプションで構成できます。
+
+**表 1**: columnSettings オブジェクト
+
+プロパティ名 (括弧内はデフォルト値)|説明
+---|---
+`columnKey`( string col name)|列のデータ キー。
+`allowSorting` (true)|この列が並べ替えに参加できるかどうかを指定します。
+`firstSortDirection` (undefined)|列を最初にクリックした場合の並べ替え方向。
+`currentSortDirection` (undefined)|最初の (デフォルトの) 並べ替え方向。実行時に起動されると、特定の列に現在の並べ替え方向が指定されます。
+
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igGrid({
+    columns: [
+        { headerText: "Product ID", key: "ProductID", dataType: "number" },
+        { headerText: "Product Name", key: "Name", dataType: "string" },
+        { headerText: "Product Number", key: "ProductNumber", dataType: "string" },
+    ],
+    width: '500px',
+    dataSource: products,
+    features: [
+        {
+            name: 'Sorting',
+            columnSettings: [
+                    {columnKey: 'ProductID', allowSorting: false}
+               ]   
+        }
+    ]
+});
+```
+
+## <a id="remote"></a> リモート並べ替え
+
+`sortUrlKey` オプションを設定して並べ替えを行うときに、URL のエンコード方法を管理できます。`sortUrlKey` のデフォルト値は null であるため、エンコードは次に記載された URI フォーマットの oData 規格に従っています。
+
+[**http://www.odata.org/documentation/odata-version-2-0/uri-conventions/**](http://www.odata.org/documentation/odata-version-2-0/uri-conventions/)
+
+## <a id="api"></a> API の使用
+
+列をプログラムで並べ替えるには、次の方法で行うことができます。
+
+リスト 5: プログラムによる列の並べ替え
+
+**JavaScript の場合:**
+
+```js
+$('#grid1').igGridSorting('sortColumn', 'ProductID', 'asc');
+```
+
+適用された並べ替え式はグリッドのデータ ソースから取得できます。コードで取得するには、以下のコードを使用します。
+
+リスト 6: 適用された並べ替え設定の取得
+
+**JavaScript の場合:**
+
+```js
+var expressions = $('#grid1').data('igGrid').dataSource.settings.sorting.expressions;
+```
+
+リスト 7: `columnSettings` オブジェクトの取得
+
+
+**JavaScript の場合:**
+
+```js
+var sorting = $('#grid1').data('igGridSorting');
+var settings = sorting.options.columnSettings; 
+```
+
+## <a id="client-side-events"></a> クライアント側イベント
+
+2 種類の方法で並べ替え機能へのクライアント側イベントにバインドできます。これはそれぞれ、リスト 8 とリスト 9 に記載します。
+
+リスト 8: アプリケーションの任意の場所からのクライアント側イベントへのバインド
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").bind("iggridsortingcolumnsorted", handler);
+```
+
+> **注:** リスト 8 に記載したアプローチでバインドを行い、並べ替えがまだインスタンス化されていない場合、バインドではなく jQuery `delegate` メソッドを使用する必要があります。
+
+リスト 9: 並べ替え機能を初期化する場合にイベント名をオプション指定した、クライアント側イベントへのバインド (大文字と小文字を区別)
+
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igGrid({
+    columns: [
+        { headerText: "Product ID", key: "ProductID", dataType: "number" },
+        { headerText: "Product Name", key: "Name", dataType: "string" },
+        { headerText: "Product Number", key: "ProductNumber", dataType: "string" },
+    ],
+    width: '500px',
+    dataSource: products,
+    features: [
+        {
+            name: 'Sorting',
+            columnSorted: handler
+        }
+    ]
+});
+
+//Handler code
+function handler(event, args) {
+
+}
+```
+
+> **注:** すべての「ing」イベントはキャンセルできます。「ing」イベントをキャンセルするには、その該当イベント ハンドラーは false を返す必要があります。
+
+グリッド並べ替え機能は、表 2 に示すクライアント側イベントを公開しています。
+
+> **注:** 次の表 2 では、複数並べ替えダイアログに固有のイベントは示しません。それらは、「[複数並べ替えダイアログ](/iggrid-multiple-sorting-dialog)」のトピックを参照してください。
+
+**表 2**: 並べ替え機能イベントの引数オブジェクト定義
+
+イベント名|引数
+---|---
+`columnSorting`|columnKey: 列キー。<br />owner: `igGridSorting` ウィジェットのインスタンスへの参照。<br />direction: 新しい並べ替えの方向。
+`columnSorted`|columnSorting と同じです。
+
+
+## <a id="properties"></a> 並べ替えオプション
+
+リスト 3 の表に、並べ替えウィジェットのインスタンス化に使用できるすべての並べ替えオプションをまとめています。
+
+> **注:** 次の表 3 では、複数並べ替えダイアログに固有のプロパティは示しません。それらは、「[複数並べ替えダイアログ](/iggrid-multiple-sorting-dialog)」のトピックを参照してください。
+
+**表 3**: 並べ替えウィジェット オプション
+
+
+| オプション名とデフォルト値 | 説明 |
+| --- | --- |
+| type ("remote") | データの発生元に関する並べ替えのタイプで、クライアントまたはサーバーです。この設定は、グリッドで使用される `igDataSource` インスタンスに直接デリゲートします。たとえば、ローカルで並べ替えることで、リモート サービスへバインドできます。 値はリモートまたはローカルです。 |
+| applySortedColumnCss (true) | false の場合、特殊な「ソート済み」スタイルはソート済み列のすべての TD セルに適用されるわけではありません。 |
+| caseSensitive (false) | 大文字と小文字を区別する並べ替えサポートを有効または無効にします。このオプションはローカルでの並べ替えのみで動作します。 |
+| sortUrlKey (null) | URL でエンコードするキーで、データ ソース コントロールにデリゲートします。URL が設定されていない場合、oData 規則が使用されます。 |
+| sortUrlKeyAscValue (null) | `igDataSource` コントロールにデリゲートし、「ascending」状態の URL 値がエンコードされる方法を示しています。 |
+| sortUrlKeyDescValue (null) | sortUrlKeyAscValue と同じです。 |
+| mode ("single") | 並べ替えを multiple または single (デフォルト値) に設定できます。single の場合、以前の並べ替え状態はすべて消去されます。 |
+| firstSortDirection ("ascending") | 初めて列をクリックし、今まで並べ替えられていない場合の方向で、asc または desc。 |
+| sortedColumnTooltip ('sorted $&#123;direction&#125;') | TH に適用されたツールチップ「title」属性のフォーマット |
+| unsortedColumnTooltip ('click to sort column') | unsortedColumnTooltip と同じですが、列が並べ替えれられていない場合に指定します。 |
+| columnSettings ([]) | 列固有の並べ替え設定のリストについては、表 4 を参照してください。 |
+| customSortFunction (null) | 次のようにパラメーターとして承認されているカスタム並べ替え関数。 1. 並べ替えるデータ配列。 2. 並べ替えキーに使用するフィールド定義の配列。 3. 並べ替え方向「asc」または「desc」。 ソート済みデータ配列を返す必要があります。 例: function myCustomSortFunction (data, [&#123;fieldName: “ProductID”,dir: “asc” &#125;], “asc”) &#123; // … return sortedData; &#125; 渡されたすべてのフィールド定義にすでに「dir」プロパティが含まれている場合、第 3 パラメーターはオプションです。 |
+
+
+## <a id="css"></a> 並べ替え CSS クラスのリスト
+
+表 4 は、並べ替え UI の各種パーツに適用されたすべての CSS クラスを指定します。`ui-state-default`、`ui-state-active`、`ui-state-hover`、`ui-state-focus` は jQuery UI CSS フレームワークにより定義されたクラスである点に注意してください。
+
+**表 4**: 並べ替え UI に適用された CSS クラス
+
+UI 領域|描画された UI 領域の概要|この領域に適用された CSS クラスのリスト
+---|---|---
+sortableColumnHeader|列の TH に適用されています。|ui-iggrid-sortableheader <br />ui-state-default
+sortableColumnHeaderActive |キーボード ナビゲーションでヘッダーから TAB し、ENTER キーまたは SPACE キーを使用するか、ヘッダーを単にマウスでクリックすると列の TH に適用されます。|ui-iggrid-sortableheaderactive <br />ui-state-active
+sortableColumnHeaderHover|マウス カーソル上の並べ替え可能な列の TH に適用されます。|ui-iggrid-sortableheaderhover <br />ui-state-hover
+sortableColumnHeaderFocus|ENTER キーまたは SPACE キーを押さずにキーボード ナビゲーションを使用 (ヘッダーから TAB するだけ) すると適用されます。つまり、ブラウザーのフォーカスと正確に一致しています。|ui-iggrid-sortableheaderfocus <br />ui-state-focus
+ascendingColumnHeader|列が昇順に並べ替えられているとき、他のクラスとともに列ヘッダー TH に適用されます。|ui-iggrid-colheaderasc
+descendingColumnHeader |列が降順に並べ替えられているとき、他のクラスとともにヘッダー TH に適用されます。|ui-iggrid-colheaderdesc
+ascendingColumn|列が昇順に並べ替えられているとき、すべての列 TD に適用されます。|ui-iggrid-colasc
+descendingColumn|列が降順に並べ替えられているとき、すべての列 TD に適用されます。|ui-iggrid-coldesc
+sortIndicator|インジケーター アイコン SPAN 要素に適用されます (背景画像と背景位置により、スプライトの正確な位置が決まります)。|ui-iggrid-colindicator
+sortIndicatorAscending|インジケーターが昇順の場合、アイコン SPAN に適用されます。このスパンは、TH の子要素で A タグで折り返されています。|ui-iggrid-colindicator-asc <br />ui-icon <br />ui-icon-arrowthick-1-n
+sortIndicatorDescending|sortIndicatorAscending と同じですが、降順の場合に指定します。|ui-iggrid-colindicator-desc <br />ui-icon <br />ui-icon-arrowthick-1-s
+
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="topics"></a> トピック
+
+-   [igGrid の概要](/iggrid-overview) 
+
