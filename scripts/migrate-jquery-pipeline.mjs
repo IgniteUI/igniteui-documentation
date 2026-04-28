@@ -18,7 +18,14 @@
  *   7. fix-all-mdx             – comprehensive MDX fixes (orphaned tags, anchors, escapes)
  *   8. fix-broken-images       – fix broken image paths (wrong depth, old numbered folders)
  *   9. fix-internal-links      – resolve old-style links, strip .mdx, fix // prefixes
- *  10. validate-mdx            – check MDX compilation
+ *  10. add-slugs-to-toc        – add slugs to toc.json from frontmatter
+ *  11. validate-mdx            – check MDX compilation
+ *
+ * Note: `{environment:Foo}` tokens in MDX are resolved at compile time by
+ * `src/plugins/remark-docfx.ts`, and the same tokens in `toc.json` are
+ * resolved at sidebar-build time by `src/sidebar.ts`. Do NOT statically
+ * rewrite these tokens — keep them dynamic so dev/staging/prod builds can
+ * each render their own values.
  *
  * Usage:
  *   node scripts/migrate-jquery-pipeline.mjs                              # dry-run (jQuery default)
@@ -112,6 +119,7 @@ if (APPLY) {
 } else {
   console.log('\n  [dry-run] Skipping add-slugs-to-toc (always writes, no dry-run mode)');
 }
+
 
 // Step 11: Validate MDX compilation
 run('Validate MDX', `node scripts/validate-mdx.mjs ${TOPICS}`);

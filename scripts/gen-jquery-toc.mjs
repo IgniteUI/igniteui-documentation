@@ -28,7 +28,7 @@ const IMAGE_EXTS = new Set(['.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.w
 function getH1(filepath) {
   try {
     const content = readFileSync(filepath, 'utf-8');
-    // 1. Try frontmatter `title:` first (present after normalize-mdx normalization).
+    // 1. Try frontmatter `title:` first.
     const fmMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
     if (fmMatch) {
       const titleMatch = fmMatch[1].match(/^title:\s*["']?(.+?)["']?\s*$/m);

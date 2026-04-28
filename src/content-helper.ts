@@ -32,6 +32,7 @@ import { glob } from 'astro/loaders';
 import { docsSchema } from '@astrojs/starlight/schema';
 import { z } from 'astro/zod';
 import { pathToFileURL } from 'node:url';
+import { loadEnvValues, resolveEnvTokens } from './env-tokens.ts';
 
 type ExtendSchema = NonNullable<Parameters<typeof docsSchema>[0]>['extend'];
 
@@ -71,7 +72,7 @@ function withTitleFilter(baseLoader: any): any {
  * missing one so the glob loader doesn't throw InvalidContentEntryDataError;
  * withTitleFilter removes those entries after loading.
  */
-function skippableDocsSchema(extend?: ExtendSchema) {
+function skippableDocsSchema(extend?: ExtendSchema, sourceDir?: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const base = docsSchema(extend ? { extend } : undefined) as any;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -81,6 +82,17 @@ function skippableDocsSchema(extend?: ExtendSchema) {
                 const d = data as Record<string, unknown>;
                 if (d['description'] === null) delete d['description'];
                 if (!d['title']) return { ...d, title: SKIP_TITLE };
+                // Resolve {environment:Foo} / &#123;environment:Foo&#125; tokens
+                // in human-visible frontmatter fields (title, description,
+                // keywords). Frontmatter is YAML — never visited by remark —
+                // so this is the only chance to keep these strings dynamic
+                // per build environment.
+                const envValues = sourceDir ? loadEnvValues(sourceDir) : {};
+                if (Object.keys(envValues).length > 0) {
+                    if (typeof d['title'] === 'string') d['title'] = resolveEnvTokens(d['title'], envValues);
+                    if (typeof d['description'] === 'string') d['description'] = resolveEnvTokens(d['description'] as string, envValues);
+                    if (typeof d['keywords'] === 'string') d['keywords'] = resolveEnvTokens(d['keywords'] as string, envValues);
+                }
             }
             return data;
         },
@@ -156,7 +168,7 @@ export function createDocsCollection(
         })),
         // use => schema: docsSchema({ extend }) as any, when skippableDocsSchema is no longer needed
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        schema: skippableDocsSchema(extendSEO) as any,
+        schema: skippableDocsSchema(extendSEO, dir) as any,
     });
 }
 

@@ -61,19 +61,23 @@ function fixProseChunk(prose) {
         (match, tag, attrs) => `<${tag}${attrs}/>`
     );
 
-    // 2. Escape bare `{` as &#123; — skip already-encoded entities and
-    //    {environment:...} which remark-docfx handles at render time.
+    // 2. Escape bare `{` as &#123; — skip already-encoded entities, MDX-escaped
+    //    `\{`, and `{environment:...}` which remark-docfx handles at render time.
     p = p.replace(/\{(?!environment:)/g, (m, offset, str) => {
         // Don't re-encode something that is already an HTML entity like &#123;
         const before = str.slice(Math.max(0, offset - 1), offset);
         if (before === '&') return m;
+        // Don't re-encode an already MDX-escaped `\{`
+        if (before === '\\') return m;
         return '&#123;';
     });
 
-    // 3. Escape bare `}` as &#125; — skip `}` that closes an HTML entity.
+    // 3. Escape bare `}` as &#125; — skip `}` that closes an HTML entity or is
+    //    MDX-escaped as `\}`.
     p = p.replace(/\}/g, (m, offset, str) => {
         const before = str.slice(Math.max(0, offset - 6), offset);
         if (/&#\d{2,3}$/.test(before)) return m;
+        if (before.endsWith('\\')) return m;
         return '&#125;';
     });
 
@@ -229,7 +233,7 @@ function fixFile(text) {
 
     // -------------------------------------------------------------------------
     // Pre-step: Extract the DocFX metadata block before ANY processing.
-    // normalizeMdxContent (step 7) needs it intact to extract the fileName slug.
+    // The DocFX metadata block is preserved here; the migration pipeline strips it later.
     // We re-attach it at the very end so it's untouched by brace escaping etc.
     // -------------------------------------------------------------------------
     const metaRe = /<!--\s*\|metadata\|[\s\S]*?\|metadata\|\s*-->\n?/;

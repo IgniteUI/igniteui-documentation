@@ -19,6 +19,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import * as yaml from 'js-yaml';
 import { slug as githubSlug } from 'github-slugger';
+import { loadEnvValues, resolveEnvTokens } from './env-tokens.ts';
 
 // ---------------------------------------------------------------------------
 // Starlight sidebar types
@@ -104,7 +105,7 @@ function hrefToSlug(href: string, docsDir?: string): string {
                     const slugMatch = fmMatch[1].match(/^slug:\s*(.+)$/m);
                     if (slugMatch) return slugMatch[1].trim();
                 }
-                // Check for DocFX metadata fileName (normalizeMdxContent will use it as slug)
+                // Check for DocFX metadata fileName as a slug fallback for legacy unmigrated content
                 const fnMatch = content.match(/"fileName"\s*:\s*"([^"]+)"/);
                 if (fnMatch) return fnMatch[1];
             } catch { /* fall through to path-based slug */ }
@@ -184,7 +185,14 @@ export interface BuildSidebarFromTocOptions {
 export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSidebarFromTocOptions): SidebarEntry[] {
     if (!tocPath || !fs.existsSync(tocPath)) return [];
     const tocRaw = fs.readFileSync(tocPath, 'utf-8');
-    const tocItems = tocPath.endsWith('.json') ? JSON.parse(tocRaw) : yaml.load(tocRaw) as TocItem[];
+    // Strip env tokens up-front so any string anywhere in the parsed structure
+    // (name, href, slug, badge text, …) is resolved consistently.  Tokens are
+    // resolved against environment.json for the active DOCS_ENV (or NODE_ENV).
+    const envValues = loadEnvValues(docsDir);
+    const tocResolved = Object.keys(envValues).length > 0
+        ? resolveEnvTokens(tocRaw, envValues)
+        : tocRaw;
+    const tocItems = tocPath.endsWith('.json') ? JSON.parse(tocResolved) : yaml.load(tocResolved) as TocItem[];
 
     const sidebar: SidebarEntry[] = [];
     let currentGroup: SidebarGroup | null = null;
