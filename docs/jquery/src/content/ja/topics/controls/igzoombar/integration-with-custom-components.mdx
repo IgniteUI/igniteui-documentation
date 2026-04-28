@@ -1,7 +1,9 @@
-﻿---
+---
 title: "igZoombar とカスタム コンポーネントの統合"
 slug: igzoombar-using-custom-providers
 ---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
 
 # igZoombar とカスタム コンポーネントの統合
 
@@ -36,7 +38,7 @@ igZoombar が、ズームをサポートするデータ ビジュアライゼー
 
 ## <a id="introduction"></a> 概要
 
-igZoombar は、ズーム オプションを提供する各 JavaScript コンポーネントと動作する機能があります。初期化と通信は、カスタム コントロールをサポートするために拡張可能なインターフェイスを介して処理されます。インターフェイスはクローン ウィジェット (ズームバー ウィジェット内に描画するズーム コンポーネントのより小さなコピー) を作成し、ズームアクションをアタッチされたコンポーネントへ送信します。次にズームがコンポーネント自身の UI または API を介して変更されるときに通知を受け取り UI を更新します。インターフェイスまたは基本 `$.ig.igZoombarProviderDefault` への拡張などがズームバーによって初期化、または [provider](&#123;environment:jQueryApiUrl&#125;/ui.igzoombar#options:provider) オプションを使用して直接インスタンスとして渡すことができます。
+igZoombar は、ズーム オプションを提供する各 JavaScript コンポーネントと動作する機能があります。初期化と通信は、カスタム コントロールをサポートするために拡張可能なインターフェイスを介して処理されます。インターフェイスはクローン ウィジェット (ズームバー ウィジェット内に描画するズーム コンポーネントのより小さなコピー) を作成し、ズームアクションをアタッチされたコンポーネントへ送信します。次にズームがコンポーネント自身の UI または API を介して変更されるときに通知を受け取り UI を更新します。インターフェイスまたは基本 `$.ig.igZoombarProviderDefault` への拡張などがズームバーによって初期化、または <ApiLink type="igzoombar" member="provider" section="options" label="provider" /> オプションを使用して直接インスタンスとして渡すことができます。
 
 ## <a id="provider-structure"></a> プロバイダーの構造
 
@@ -50,16 +52,16 @@ igZoombar は、ズーム オプションを提供する各 JavaScript コンポ
 - `cleanOptsForZoom` - 基本オプションを取得した後に igZoombar がこのメソッドの変更を前提として呼び出すことにより、ズーム UI 内のクローン コンポーネントを描画するために使用できます。変更の例としてグリッド線、軸、ラベル、ツールチップ、ズーム操作の削除があります。クローン コンポーネントがフィットするコンテナーの幅と高さは、オプションオブジェクトの最上位のプロパティとして igZoombar によって追加されます。
 - `createClone` - クローン コンポーネントを初期化して描画します。igZoombar は 2 つのパラメーターでそれを呼び出し、クローンを初期化するためのコンテナーと `getBaseOpts` および `cleanOptsForZoom` 関数を介して最初に渡されるオプション。   
 - `widgetName` - ターゲット コンポーネントの名前を返します。ほとんどの場合除外できます。
-- `targetWidth` - ターゲット コンポーネントの幅を返します。igZoombar オプション [width](&#123;environment:jQueryApiUrl&#125;/ui.igzoombar#options:width) が `auto` に設定された場合に呼び出され、igZoombar はコンポーネントがズームされた同じ幅で描画されます。
-- `syncMinWidth` - igZoombar の [zoomWindowMinWidth](&#123;environment:jQueryApiUrl&#125;/ui.igzoombar#options:zoomWindowMinWidth) プロパティに対応するターゲット コンポーネントのプロパティ(がある場合) を同期します。
+- `targetWidth` - ターゲット コンポーネントの幅を返します。igZoombar オプション <ApiLink type="igzoombar" member="width" section="options" label="width" /> が `auto` に設定された場合に呼び出され、igZoombar はコンポーネントがズームされた同じ幅で描画されます。
+- `syncMinWidth` - igZoombar の <ApiLink type="igzoombar" member="zoomWindowMinWidth" section="options" label="zoomWindowMinWidth" /> プロパティに対応するターゲット コンポーネントのプロパティ(がある場合) を同期します。
 - `setSize` - igZoombar はパラメーターの幅と高さと共にこれを呼び出し、初期化後にクローン コンポーネントのディメンションを変更します。その後、API 呼び出しまたはレスポンシブウェブ デザイン関連のサイズ変更のいずれかによるサイズ変更のたびに応答します。
-- `targetObject` - ターゲット コンポーネントのインスタンスを取得または設定します。igZoombar はインスタンス自身をカスタムプロバイダーに設定しません。プロバイダー インスタンス自身を作成する必要がある場合、プロバイダー [providerCreated](&#123;environment:jQueryApiUrl&#125;/ui.igzoombar#events:providerCreated)イベントを処理することによりそれ以降ターゲット インスタンスの設定に使用できます。
+- `targetObject` - ターゲット コンポーネントのインスタンスを取得または設定します。igZoombar はインスタンス自身をカスタムプロバイダーに設定しません。プロバイダー インスタンス自身を作成する必要がある場合、プロバイダー <ApiLink type="igzoombar" member="providerCreated" section="events" label="providerCreated" />イベントを処理することによりそれ以降ターゲット インスタンスの設定に使用できます。
 - `update` - 新しいズーム構成をターゲット コンポーネントに設定します。igZoombar は 2 つのパラメーター (ズームバーの合計幅の割合を表す新しいズーム範囲の右と左の 0 から 1 の数値) を渡します。
 
 ベース プロバイダーは設定オブジェクトに 2 つのプロパティがあり、コンストラクターによって割り当てられます。
 - `targetObject` - ターゲット コンポーネントのインスタンス。公式にサポートされるウィジェットでプロバイダーが自動的に決定される場合のみ igZoombar によって設定されます。
 - `zoomChangedCallback` - ズーム範囲がターゲットコンポーネント自身の UI または API によって変更されるときに実行されるコールバック。この設定は igZoombar で自動的に設定されます。コールバック関数は 2 つのパラメーターが必要です。
-  - `event` - igZoombar によって発生した [zoomChanging](&#123;environment:jQueryApiUrl&#125;/ui.igzoombar#events:zoomChanging)/[zoomChanged](&#123;environment:jQueryApiUrl&#125;/ui.igzoombar#events:zoomChanged) イベントのオリジナルとして渡すイベント。適用できない場合 `null`を渡します。
+  - `event` - igZoombar によって発生した <ApiLink type="igzoombar" member="zoomChanging" section="events" label="zoomChanging" />/<ApiLink type="igzoombar" member="zoomChanged" section="events" label="zoomChanged" /> イベントのオリジナルとして渡すイベント。適用できない場合 `null`を渡します。
   - `details` - 以下の構造のオブジェクト:
 
 ```js
@@ -73,7 +75,7 @@ igZoombar は、ズーム オプションを提供する各 JavaScript コンポ
   値はズームされたコンポーネントの全幅に対する割合を 0 から 1 の数値で表します。プレフィックス `new` のあるプロパティのみが必須です。残りは Zoombar イベント引数でのみ使用されます。
 
 ### <a id="assigning-a-provider"></a> プロバイダーの割当て
-カスタム プロバイダーの割り当ては、[provider](&#123;environment:jQueryApiUrl&#125;/ui.igzoombar#options:provider) オプションでのみ可能です。デフォルトで igZoombar は `$.ig.ZoombarProviderDataChart` のインスタンスを作成し、[target](&#123;environment:jQueryApiUrl&#125;/ui.igzoombar#options:target) オプションに渡された要素で初期化された igDataChart と連動します。カスタム プロバイダーを使用するには、参照を作成したインターフェイス クラスに渡します。igZoombar がそのインスタンスを作成する際に、ウィジェットがプロバイダーの使用を開始する前にユーザー固有のコードの実行を可能とするイベント引数の一部のインスタンスと共に [providerCreated](&#123;environment:jQueryApiUrl&#125;/ui.igzoombar#events:providerCreated) イベントを発生します。
+カスタム プロバイダーの割り当ては、<ApiLink type="igzoombar" member="provider" section="options" label="provider" /> オプションでのみ可能です。デフォルトで igZoombar は `$.ig.ZoombarProviderDataChart` のインスタンスを作成し、<ApiLink type="igzoombar" member="target" section="options" label="target" /> オプションに渡された要素で初期化された igDataChart と連動します。カスタム プロバイダーを使用するには、参照を作成したインターフェイス クラスに渡します。igZoombar がそのインスタンスを作成する際に、ウィジェットがプロバイダーの使用を開始する前にユーザー固有のコードの実行を可能とするイベント引数の一部のインスタンスと共に <ApiLink type="igzoombar" member="providerCreated" section="events" label="providerCreated" /> イベントを発生します。
 
 ## <a id="igzoombar-with-chartjs"></a> igZoombar と ChartJS
 

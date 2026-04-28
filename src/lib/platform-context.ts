@@ -9,7 +9,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor';
+export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor' | 'jQuery';
 
 export interface ApiPackageConfig {
     /** TypeDoc documentation root URL (no trailing slash). */
@@ -200,6 +200,31 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             repoSamples: 'https://github.com/IgniteUI/igniteui-blazor-examples/tree/master/samples',
         },
     },
+    jQuery: {
+        name: 'jQuery',
+        lower: 'jquery',
+        prefix: '',
+        productName: 'Ignite UI for jQuery',
+        productSpinal: 'ignite-ui-jquery',
+        // docRoot is resolved at build time from getEnvVars().jQueryApiUrl in ApiLink.astro.
+        // These entries are placeholders; pkg='ig' selects the ig. namespace.
+        apiPackages: {
+            core: { docRoot: '', packageId: '' },
+            ig:   { docRoot: '', packageId: '' },
+        },
+        packages: {
+            common: 'igniteui-jquery',
+            charts: 'igniteui-jquery',
+            grids:  'igniteui-jquery',
+            gauges: 'igniteui-jquery',
+            maps:   'igniteui-jquery',
+        },
+        links: {
+            github:      'https://github.com/IgniteUI/ignite-ui',
+            forums:      'https://www.infragistics.com/community/forums/f/ignite-ui-for-jquery',
+            repoSamples: 'https://github.com/IgniteUI/ignite-ui',
+        },
+    },
 };
 
 let _ctx: PlatformContext | null = null;
@@ -231,7 +256,22 @@ export function getPlatformContext(): PlatformContext {
         } catch { /* use default */ }
     }
 
-    _ctx = PLATFORMS[name];
+    const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
+    const isProduction = mode === 'production';
+    const apiHost = isProduction
+        ? 'https://www.infragistics.com'
+        : 'https://staging.infragistics.com';
+
+    const base = PLATFORMS[name];
+    _ctx = {
+        ...base,
+        apiPackages: Object.fromEntries(
+            Object.entries(base.apiPackages).map(([k, v]) => [
+                k,
+                { ...v, docRoot: v.docRoot.replace('https://staging.infragistics.com', apiHost) },
+            ])
+        ),
+    };
     return _ctx;
 }
 

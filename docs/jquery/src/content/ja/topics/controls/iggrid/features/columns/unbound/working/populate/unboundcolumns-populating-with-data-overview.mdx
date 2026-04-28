@@ -1,7 +1,9 @@
-﻿---
+---
 title: "非バインド列の生成の概要 (igGrid)"
 slug: iggrid-unboundcolumns-populating-with-data-overview
 ---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
 
 # 非バインド列の生成の概要 (igGrid)
 
@@ -49,7 +51,7 @@ slug: iggrid-unboundcolumns-populating-with-data-overview
 
 |  |  |  |
 | --- | --- | --- |
-| 非バインド列に事前定義データを事前設定する | 非バインド列には、[unboundValues](environment:jQueryApiUrl/ui.iggrid#options:columns.unboundValues) 配列プロパティを使用し任意の値 (事前定義データ セット) を事前設定します。, 配列内の項目のタイプは、非バインド列のタイプに一致しなければなりません。, 配列内の項目の数は、データ ソース内の項目数に等しくない可能性があります。, **配列内の値がデータ ソースより多い場合**、飛び抜けた値が破棄されます。 **配列内の値がデータ ソースより多い場合**、データ ソース値が null 値に設定されます。 **注:** `unboundValues` と `formula` のプロパティが設定されると、`unboundValues` プロパティは `formula` プロパティに優先し `formula` プロパティ (未使用) を破棄します。 | unbound unboundValues |
+| 非バインド列に事前定義データを事前設定する | 非バインド列には、<ApiLink type="iggrid" member="columns.unboundValues" section="options" label="unboundValues" /> 配列プロパティを使用し任意の値 (事前定義データ セット) を事前設定します。, 配列内の項目のタイプは、非バインド列のタイプに一致しなければなりません。, 配列内の項目の数は、データ ソース内の項目数に等しくない可能性があります。, **配列内の値がデータ ソースより多い場合**、飛び抜けた値が破棄されます。 **配列内の値がデータ ソースより多い場合**、データ ソース値が null 値に設定されます。 **注:** `unboundValues` と `formula` のプロパティが設定されると、`unboundValues` プロパティは `formula` プロパティに優先し `formula` プロパティ (未使用) を破棄します。 | unbound unboundValues |
 | 非バインド計算値を作成する | 非バインド列に計算値を事前設定するには、各セルの値を計算するコールバック関数を使用します。, `formula` プロパティは、パラメータが 2 つある関数を承諾します。 row - 現在のデータ行オブジェクト行オブジェクト フィールドは、`localSchemaTransform` が true か false かによります。`localSchemaTransform` が true の場合、グリッド列により使用されるフィールドのみが使用できます。`localSchemaTransform` が false の場合、データ ソースからのすべてのフィールドが使用できます。 grid - igGrid インスタンス **注:** `unboundValues` と `formula` のプロパティが設定されると、`unboundValues` プロパティは優先し `formula` プロパティは使用されません。 | unbound formula |
 | テンプレートを使用して非バインド列値を作成する | `unboundValues` プロパティまたは `formula` プロパティに加え、またはオルタナティブとしてテンプレートを使用します。テンプレートには、別の列からのデータを非バインド列に事前設定できます。 | unbound template |
 
@@ -58,9 +60,9 @@ slug: iggrid-unboundcolumns-populating-with-data-overview
 
 ### <a id="local-data"></a> 非バインド列でデータをローカルに生成 - 概要
 
-グリッド初期化コードの一部として非バインド列データを事前設定するには、 [`unboundValues`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:columns.unboundValues) プロパティ、[`formula`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:columns.formula) プロパティまたはグリッドの[`dataBound`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#events:dataBound) イベントを使用します。`unboundValues` は、値の配列を承諾し、非バインドデータを事前定義する必要があります。`dataBound` イベントおよび formula プロパティにより、グリッドのデータ ソースからデータを計算できます。`dataBound` イベントでは、[`$.ig.DataSource.data`](&#123;environment:jQueryApiUrl&#125;/ig.datasource#methods:data) メソッドを使用してグリッド データを取得し、非バインド列データを設定します。formula プロパティは、行 (処理する現在のデータ行) とグリッド インスタンス パラメータを承諾する関数コールバックです。
+グリッド初期化コードの一部として非バインド列データを事前設定するには、 <ApiLink type="iggrid" member="columns.unboundValues" section="options" label="unboundValues" /> プロパティ、<ApiLink type="iggrid" member="columns.formula" section="options" label="formula" /> プロパティまたはグリッドの<ApiLink type="iggrid" member="dataBound" section="events" label="dataBound" /> イベントを使用します。`unboundValues` は、値の配列を承諾し、非バインドデータを事前定義する必要があります。`dataBound` イベントおよび formula プロパティにより、グリッドのデータ ソースからデータを計算できます。`dataBound` イベントでは、<ApiLink pkg="ig" type="datasource" member="data" section="methods" label="$.ig.DataSource.data" /> メソッドを使用してグリッド データを取得し、非バインド列データを設定します。formula プロパティは、行 (処理する現在のデータ行) とグリッド インスタンス パラメータを承諾する関数コールバックです。
 
-実行時に非バインド列データを事前設定するには、[`igGrid.setUnboundValues`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#methods:setUnboundValues) または [`igGridUpdating.setCellValue`](&#123;environment:jQueryApiUrl&#125;/ui.iggridupdating#methods:setCellValue) を使用します。`setUnboundValues` は、列キーと値の配列をパラメータとして承諾し、複数の値を一度に事前設定します。`setCellValue` は、行 ID (プライマリ キーまたは行)、列キーおよび値パラメータを承諾し、一度に 1 つのセルのみを事前設定し更新機能を必要とします。
+実行時に非バインド列データを事前設定するには、<ApiLink type="iggrid" member="setUnboundValues" section="methods" label="igGrid.setUnboundValues" /> または <ApiLink type="iggridupdating" member="setCellValue" section="methods" label="igGridUpdating.setCellValue" /> を使用します。`setUnboundValues` は、列キーと値の配列をパラメータとして承諾し、複数の値を一度に事前設定します。`setCellValue` は、行 ID (プライマリ キーまたは行)、列キーおよび値パラメータを承諾し、一度に 1 つのセルのみを事前設定し更新機能を必要とします。
 
 **関連トピック**
 

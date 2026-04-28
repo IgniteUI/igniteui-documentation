@@ -37,26 +37,46 @@
  *   <!-- enum -->
  *   <ApiLink kind="enum" type="CalendarSelection" />
  *   → <a href="…/enums/igniteui-react.igrcalendarselection.html">…</a>
+ *
+ * jQuery usage (platform-context name === 'jQuery'):
+ *   <!-- ui. widget (default) -->
+ *   <ApiLink type="igCombo" label="igCombo" />
+ *   → <a href="…/api/js/ui.igCombo"><code>igCombo</code></a>
+ *
+ *   <!-- widget option -->
+ *   <ApiLink type="igCombo" member="itemTemplate" section="options" label="itemTemplate" />
+ *   → <a href="…/api/js/ui.igCombo#options:itemTemplate"><code>itemTemplate</code></a>
+ *
+ *   <!-- widget event -->
+ *   <ApiLink type="igCombo" member="activeItemChanged" section="events" label="activeItemChanged" />
+ *   → <a href="…/api/js/ui.igCombo#events:activeItemChanged"><code>activeItemChanged</code></a>
+ *
+ *   <!-- ig. namespace class -->
+ *   <ApiLink pkg="ig" type="OlapXmlaDataSource" label="OlapXmlaDataSource" />
+ *   → <a href="…/api/js/ig.OlapXmlaDataSource"><code>OlapXmlaDataSource</code></a>
  */
-import { getPlatformContext } from '../../lib/platform-context.ts';
+import { getPlatformContext, getEnvVars } from '../../lib/platform-context.ts';
 
 type ApiKind = 'class' | 'interface' | 'enum' | 'type' | 'variable' | 'function';
 
 interface Props {
-    /** Short type / symbol name without platform prefix, e.g. "Toast". */
+    /** Short type / symbol name without platform prefix, e.g. "Toast". For jQuery: the widget/class name, e.g. "igCombo". */
     type: string;
     /**
      * TypeDoc symbol kind. Determines the URL segment used.
      * @default "class"
      */
     kind?: ApiKind;
-    /** Optional member name (property / method), e.g. "show". Appended as #anchor. */
+    /** Optional member name (property / method / event), e.g. "show". Appended as #anchor. */
     member?: string;
     /**
      * Package key as defined in platform-context apiPackages.
      * Defaults to "core" (the main component package).
      * Use "charts", "grids", "gauges", "maps", "inputs", "layouts",
      * "excel", "spreadsheet", "datasources" for sub-packages.
+     *
+     * For jQuery: use "ig" for classes in the ig. namespace (e.g. ig.OlapXmlaDataSource).
+     * Defaults to "core" which uses the ui. namespace (e.g. ui.igCombo).
      */
     pkg?: string;
     /**
@@ -68,6 +88,7 @@ interface Props {
      * When true (default) the platform prefix (Igr/Igx/Igc/Igb) is
      * prepended to `type` automatically. Set to false when passing a
      * fully-qualified name or a non-prefixed symbol like a function name.
+     * Not applicable for jQuery (jQuery has no class prefix).
      */
     prefixed?: boolean;
     /**
@@ -77,6 +98,11 @@ interface Props {
      * @default true
      */
     suffix?: boolean;
+    /**
+     * jQuery only — API reference section for the member anchor.
+     * Produces a #{section}:{member} fragment in the URL.
+     */
+    section?: 'options' | 'events' | 'methods';
 }
 
 const KIND_SEGMENT: Record<ApiKind, string> = {
@@ -88,32 +114,41 @@ const KIND_SEGMENT: Record<ApiKind, string> = {
     function:  'functions',
 };
 
-const { type, kind = 'class', member, pkg = 'core', label, prefixed = true, suffix = true } = Astro.props;
-const { prefix, apiPackages } = getPlatformContext();
+const { type, kind = 'class', member, pkg = 'core', label, prefixed = true, suffix = true, section } = Astro.props;
+const ctx = getPlatformContext();
+const { prefix, apiPackages } = ctx;
+const baseType = prefixed ? `${prefix}${type}` : type;
+const segment  = KIND_SEGMENT[kind];
 
-const pkgConfig  = apiPackages[pkg] ?? apiPackages['core'];
-const baseType   = prefixed ? `${prefix}${type}` : type;
-const segment    = KIND_SEGMENT[kind];
 let url: string;
-if (kind === 'class') {
-    const fullType  = (suffix && pkgConfig.classSuffix) ? `${baseType}${pkgConfig.classSuffix}` : baseType;
-    const cased     = pkgConfig.preserveCase ? fullType : fullType.toLowerCase();
-    const classSlug = pkgConfig.noPackagePrefix
-        ? cased
-        : `${pkgConfig.packageId}.${cased}`;
-    const memberAnchor = member
-        ? `#${pkgConfig.pascalCaseMembers ? member.charAt(0).toUpperCase() + member.slice(1) : member}`
-        : '';
-    url = `${pkgConfig.docRoot}/classes/${classSlug}${memberAnchor}`;
+
+if (ctx.name === 'jQuery') {
+    const jQueryApiUrl = (getEnvVars().jQueryApiUrl ?? '').replace(/\/$/, '');
+    const ns   = pkg === 'ig' ? 'ig' : 'ui';
+    const frag = (member && section) ? `#${section}:${member}` : '';
+    url = `${jQueryApiUrl}/${ns}.${type}${frag}`;
 } else {
-    // Non-class kinds: preserve original casing, no classSuffix
-    const slug = pkgConfig.noPackagePrefix
-        ? baseType
-        : `${pkgConfig.packageId}.${baseType}`;
-    const memberAnchorNonClass = member
-        ? `#${pkgConfig.pascalCaseMembers ? member.charAt(0).toUpperCase() + member.slice(1) : member.toLowerCase()}`
-        : '';
-    url = `${pkgConfig.docRoot}/${segment}/${slug}${memberAnchorNonClass}`;
+    const pkgConfig = apiPackages[pkg] ?? apiPackages['core'];
+    if (kind === 'class') {
+        const fullType  = (suffix && pkgConfig.classSuffix) ? `${baseType}${pkgConfig.classSuffix}` : baseType;
+        const cased     = pkgConfig.preserveCase ? fullType : fullType.toLowerCase();
+        const classSlug = pkgConfig.noPackagePrefix
+            ? cased
+            : `${pkgConfig.packageId}.${cased}`;
+        const memberAnchor = member
+            ? `#${pkgConfig.pascalCaseMembers ? member.charAt(0).toUpperCase() + member.slice(1) : member}`
+            : '';
+        url = `${pkgConfig.docRoot}/classes/${classSlug}${memberAnchor}`;
+    } else {
+        // Non-class kinds: preserve original casing, no classSuffix
+        const slug = pkgConfig.noPackagePrefix
+            ? baseType
+            : `${pkgConfig.packageId}.${baseType}`;
+        const memberAnchorNonClass = member
+            ? `#${pkgConfig.pascalCaseMembers ? member.charAt(0).toUpperCase() + member.slice(1) : member.toLowerCase()}`
+            : '';
+        url = `${pkgConfig.docRoot}/${segment}/${slug}${memberAnchorNonClass}`;
+    }
 }
 
 const displayLabel = label ?? (member ? `${baseType}.${member}` : baseType);
