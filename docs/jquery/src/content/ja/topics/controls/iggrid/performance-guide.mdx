@@ -1,7 +1,9 @@
-﻿---
+---
 title: "パフォーマンス ガイド (igGrid)"
 slug: iggrid-performance-guide
 ---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
 
 # パフォーマンス ガイド (igGrid)
 
@@ -77,9 +79,9 @@ slug: iggrid-performance-guide
 
 仮想化は `igGrid` コントロールの特徴的な機能で、簡単に言うと、グリッドのうちユーザーに見える部分のみを描画する機能です。ユーザーがグリッドをスクロールすると、既存の DOM 要素を再利用します。グリッドがスクロールしてさらにデータを表示するとき、新しいデータがリアルタイムでグリッドに追加されます。ここでの「リアルタイム」とは、最初の描画時に表示されたデータだけでなくすべてのデータがクライアント上に待機しているため、サーバー側の要求が発生しないということを意味しています。
 
-この方法では、データ バインドされるレコード数に関係なく、描画による時間とメモリ使用率のオーバーヘッドが常に一定になります。ユーザー エクスペリエンスは、ユーザーがすべてのデータを一度に表示する場合と変わりません。[`virtualization`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:virtualization) を有効にすることで、処理速度、CPU 使用率、メモリの点でパフォーマンスが著しく向上します。
+この方法では、データ バインドされるレコード数に関係なく、描画による時間とメモリ使用率のオーバーヘッドが常に一定になります。ユーザー エクスペリエンスは、ユーザーがすべてのデータを一度に表示する場合と変わりません。<ApiLink type="iggrid" member="virtualization" section="options" label="virtualization" /> を有効にすることで、処理速度、CPU 使用率、メモリの点でパフォーマンスが著しく向上します。
 
-仮想化は UI の描画全体を制御するので、導入時または開発中に余分な手順が必要になる可能性があることに注意してください。場合によっては、行の平均の高さ ([`avgRowHeight`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:avgRowHeight)) を定義する必要があります。これは、グリッドの高さ設定に強く依存しています (グリッドに高さが設定されていないと [`virtualization`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:virtualization) は機能しません)。
+仮想化は UI の描画全体を制御するので、導入時または開発中に余分な手順が必要になる可能性があることに注意してください。場合によっては、行の平均の高さ (<ApiLink type="iggrid" member="avgRowHeight" section="options" label="avgRowHeight" />) を定義する必要があります。これは、グリッドの高さ設定に強く依存しています (グリッドに高さが設定されていないと <ApiLink type="iggrid" member="virtualization" section="options" label="virtualization" /> は機能しません)。
 
 通常、`avgRowHeight` には、グリッドに表示されるレコード数を定義します。例：
 
@@ -100,7 +102,7 @@ slug: iggrid-performance-guide
 
 columns.template を設定した場合 (デフォルトでは null 値)、Infragistics Templating Engine を使用してグリッドのコンテンツが描画されます。
 
-[`columns.template`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:columns.template) が無効の場合は、高パフォーマンスの手法を使用してデータを描画します。まず、データを構成する文字列と生成されたマークアップを配列に追加します。次に、配列の結合メソッドを呼び出して、最終的なグリッド マークアップを生成します。この方法は、テンプレート解析のオーバーヘッドがないため、Infragistics Templating Engine よりパフォーマンスが高くなります。Infragistics Templating Engine を使用しないと、グリッドに関しておよそ 25% から 50% パフォーマンスが向上します。
+<ApiLink type="iggrid" member="columns.template" section="options" label="columns.template" /> が無効の場合は、高パフォーマンスの手法を使用してデータを描画します。まず、データを構成する文字列と生成されたマークアップを配列に追加します。次に、配列の結合メソッドを呼び出して、最終的なグリッド マークアップを生成します。この方法は、テンプレート解析のオーバーヘッドがないため、Infragistics Templating Engine よりパフォーマンスが高くなります。Infragistics Templating Engine を使用しないと、グリッドに関しておよそ 25% から 50% パフォーマンスが向上します。
 
 > **注:** JavaScript の場合、JavaScript 配列の結合メソッドは、文字列の連結よりも高速に動作します。
 
@@ -108,11 +110,11 @@ columns.template を設定した場合 (デフォルトでは null 値)、Infrag
 
 ### <a id="options-auto-height"></a> autoAdjustHeight (デフォルト: True)
 
-[`autoAdjustHeight`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:autoAdjustHeight) が有効の場合 (デフォルト)、グリッド (ある場合) に設定している高さが最上位のグリッド コンテナー DIV に適用されます。さらに、ページングまたはフィルタリングなどの機能が有効の場合、その他のすべての内部コンテナーのサイズが計算され、すべてのデータ行を保持する要素のスクロール コンテナーの高さが計算されます。
+<ApiLink type="iggrid" member="autoAdjustHeight" section="options" label="autoAdjustHeight" /> が有効の場合 (デフォルト)、グリッド (ある場合) に設定している高さが最上位のグリッド コンテナー DIV に適用されます。さらに、ページングまたはフィルタリングなどの機能が有効の場合、その他のすべての内部コンテナーのサイズが計算され、すべてのデータ行を保持する要素のスクロール コンテナーの高さが計算されます。
 
 この計算により、ドキュメントの [reflow](http://code.google.com/speed/articles/reflow.html) が発生するので、これは最新のブラウザー (特に FireFox と Internet Explorer) にとって負荷の大きい操作です。DOM プロパティの `offsetHeight` は、アクセスするだけでリフローが発生します。そのため、`autoAdjustHeight` を False に設定すると、`igGrid` コントロールの初期描画時間が大幅に低下します。
 
-`autoAdjustHeight` を無効にすると、初期化中にオプションとして指定した高さがスクロール データ コンテナーに直接適用されます。高さの値が確定すると、その他のすべての要素が追加され、グリッドの最終的な高さが得られます。ページングまたはフィルタリングなどの機能が有効かどうか、[`fixedHeaders`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:fixedHeaders) が有効かどうかなどによって、グリッドの最終的な高さが実際の高さ設定よりも大きくなる場合があります。
+`autoAdjustHeight` を無効にすると、初期化中にオプションとして指定した高さがスクロール データ コンテナーに直接適用されます。高さの値が確定すると、その他のすべての要素が追加され、グリッドの最終的な高さが得られます。ページングまたはフィルタリングなどの機能が有効かどうか、<ApiLink type="iggrid" member="fixedHeaders" section="options" label="fixedHeaders" /> が有効かどうかなどによって、グリッドの最終的な高さが実際の高さ設定よりも大きくなる場合があります。
 
 図 1: `autoAdjustHeight` の描画
 
@@ -120,23 +122,23 @@ columns.template を設定した場合 (デフォルトでは null 値)、Infrag
 
 ### <a id="options-auto-format"></a> autoFormat (デフォルト: “date”)
 
-デフォルトで、日付の値は描画の前に自動的に書式設定されます。その他のオプションは [`autoFormat`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:autoFormat) オプションに応じて True または False になります。True に設定すると、グリッドは日付と数値の両方を書式設定します。False の場合は、データ値を一切書式設定しません。`autoFormat` を有効または無効にすることによるパフォーマンスのオーバーヘッドは比較的小さなものです。
+デフォルトで、日付の値は描画の前に自動的に書式設定されます。その他のオプションは <ApiLink type="iggrid" member="autoFormat" section="options" label="autoFormat" /> オプションに応じて True または False になります。True に設定すると、グリッドは日付と数値の両方を書式設定します。False の場合は、データ値を一切書式設定しません。`autoFormat` を有効または無効にすることによるパフォーマンスのオーバーヘッドは比較的小さなものです。
 
 ### <a id="options-alt-row"></a> alternateRowStyles (デフォルト: True)
 
-[`alternateRowStyles`](&#123;environment:jQueryApiUrl&#125;/ui.iggrid#options:alternateRowStyles) が有効の場合 (デフォルト)、すべての奇数行が偶数行と異なるスタイルになります。特定のクラス名をすべての奇数行に設定することでこれを実装できます。この機能を有効にすることによるパフォーマンスのオーバーヘッドは比較的小さなものです。
+<ApiLink type="iggrid" member="alternateRowStyles" section="options" label="alternateRowStyles" /> が有効の場合 (デフォルト)、すべての奇数行が偶数行と異なるスタイルになります。特定のクラス名をすべての奇数行に設定することでこれを実装できます。この機能を有効にすることによるパフォーマンスのオーバーヘッドは比較的小さなものです。
 
 ## <a id="features"></a> 機能特定のプロパティ
 
 ### <a id="filter-mode"></a> mode (フィルタリング) (デフォルト: simple)
 
-フィルタリングを有効にすると、フィルタリング [`mode`](&#123;environment:jQueryApiUrl&#125;/ui.iggridfiltering#options:mode) は simple に設定されます。フィルタリング機能は、グリッド ヘッダーの下にフィルター行を描画します。つまり、すべての列に専用のエディターが与えられます。列の数が多くなると、簡易モードに比べて、詳細モードを使用することによるパフォーマンス上のメリットが重要になってきます。
+フィルタリングを有効にすると、フィルタリング <ApiLink type="iggridfiltering" member="mode" section="options" label="mode" /> は simple に設定されます。フィルタリング機能は、グリッド ヘッダーの下にフィルター行を描画します。つまり、すべての列に専用のエディターが与えられます。列の数が多くなると、簡易モードに比べて、詳細モードを使用することによるパフォーマンス上のメリットが重要になってきます。
 
 advanced モードの場合、グリッド上にフィルター行が描画されず、すべてのフィルタリングが詳細フィルター ダイアログを介して実行されます。このダイアログを開くには、並べ替えインジケーターの隣の列ヘッダーに描画されるフィルター アイコンをクリックします。
 
 ### <a id="sorting-style"></a> applySortedColumnCss (並べ替え) (デフォルト: true)
 
-列を並べ替えると、デフォルトでは、その列内のすべてのセルが特定の CSS クラスを取得し、それが適用されて、並べ替えた列を示すスタイリングが有効になります。場合によっては、[`applySortedColumnCss`](&#123;environment:jQueryApiUrl&#125;/ui.iggridsorting#options:applySortedColumnCss) オプションを無効にすることで、グリッドのパフォーマンスが改善します。このオプションを有効にしたときのオーバーヘッドは通常非常に小さなものです。
+列を並べ替えると、デフォルトでは、その列内のすべてのセルが特定の CSS クラスを取得し、それが適用されて、並べ替えた列を示すスタイリングが有効になります。場合によっては、<ApiLink type="iggridsorting" member="applySortedColumnCss" section="options" label="applySortedColumnCss" /> オプションを無効にすることで、グリッドのパフォーマンスが改善します。このオプションを有効にしたときのオーバーヘッドは通常非常に小さなものです。
 
 ## <a id="best-practices"></a> ベスト プラクティス
 

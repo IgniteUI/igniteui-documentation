@@ -1,6 +1,6 @@
 ---
-name: xplat-docs-api-links
-description: "Reference guide for adding and fixing ApiLink and ApiRef components in xplat MDX documentation files. Covers pkg, type, kind, member, prefixed, suffix, and label props; platform prefix mapping (Igr/Igx/Igc/Igb); kind values from TypeDoc JSON; utility class suffix rules; excel library special rules (prefixed={false}, IgniteUI.Blazor.Documents.Excel); dock manager slot members; and MDX parse error from JSX in comments. Use when an agent needs to add, fix, or audit ApiLink/ApiRef calls in MDX files."
+name: api-link
+description: "Reference guide for adding and fixing ApiLink and ApiRef components in MDX documentation files. Covers all platforms: Angular, React, WebComponents, Blazor (TypeDoc URLs) and jQuery (jQueryApiUrl). Covers pkg, type, kind, member, section, prefixed, suffix, and label props; platform prefix mapping (Igr/Igx/Igc/Igb); kind values from TypeDoc JSON; utility class suffix rules; excel library special rules; dock manager slot members; jQuery widget/class URL patterns; and MDX parse error from JSX in comments. Use when an agent needs to add, fix, or audit ApiLink/ApiRef calls in MDX files."
 user-invocable: true
 ---
 
@@ -8,13 +8,18 @@ user-invocable: true
 
 ## Context
 
-The MDX files in this folder are shared across four platforms: **Angular, React, WebComponents, Blazor**. The `<ApiLink>` and `<ApiRef>` components resolve to the correct platform-specific URL at build time from a single MDX source.
+The `<ApiLink>` and `<ApiRef>` components resolve to the correct platform-specific API URL at build time.
 
-> **Key insight:** The `type=`, `member=`, `pkg=`, and `kind=` attributes are **identical for all platforms**. Fixing an ApiLink fixes it for all four platforms simultaneously. Only the generated URL differs per platform.
+- **Angular, React, WebComponents, Blazor** (`docs/angular`, `docs/xplat`) — TypeDoc URLs, resolved from hardcoded `docRoot` values in `platform-context.ts` (host swapped per environment: `staging.infragistics.com` for staging, `www.infragistics.com` for production). Steps 1–9 below apply to all four of these platforms.
+- **jQuery** (`docs/jquery`) — URL resolved from `jQueryApiUrl` in `environment.json` at build time. Different URL structure — see the **jQuery API Links** section below.
+
+**Shared MDX files** (`docs/xplat`) are built for all four TypeDoc platforms from a single source. Fixing an `<ApiLink>` there fixes it for Angular, React, WebComponents, and Blazor simultaneously.
+
+**Angular-specific MDX files** (`docs/angular`) are built only for Angular. The same `<ApiLink>` props, `pkg` keys, and `kind` rules from Steps 1–9 apply — the only difference is that there is no multi-platform concern.
 
 ---
 
-## Step 1 — Locate the API Source Data
+## Step 1 — Locate the API Source Data (xplat platforms)
 
 The `api-docs` project (sibling to this docs repository) contains TypeDoc JSON files that are the **authoritative source** for which class owns which member. Find the project by its folder name `api-docs` — the exact path on disk depends on the machine.
 Alternatively get the source from this github repository - https://github.com/IgniteUI/api-docs
@@ -60,7 +65,7 @@ Each JSON file is a TypeDoc reflection tree. Top-level `children` contains all e
 
 ---
 
-## Step 2 — Understand the MDX ApiLink Syntax
+## Step 2 — Understand the MDX ApiLink Syntax (xplat)
 
 ```mdx
 <ApiLink pkg="grids" type="TypeName" kind="class" member="memberName" prefixed={false} label="DisplayText" />
@@ -352,7 +357,96 @@ Fix: replace JSX numeric props with string values inside comments:
 
 ---
 
-## Step 8 — Fix Pattern
+## jQuery API Links
+
+jQuery docs live in `docs/jquery/` and use a completely different URL structure from the TypeDoc platforms.
+
+### How it works
+
+The jQuery build resolves `ApiLink` URLs from `jQueryApiUrl` in `docs/jquery/src/content/en/environment.json`:
+
+| Build mode | `jQueryApiUrl` |
+|---|---|
+| development | `https://www.infragistics.com/products/ignite-ui/docs/api/js` |
+| staging | `https://staging.infragistics.com/products/ignite-ui/docs/api/js` |
+| production | `https://www.infragistics.com/products/ignite-ui/docs/api/js` |
+
+Platform is identified via `docs/jquery/.platform.json` (`"platform": "jQuery"`). The build reads this file, resolves to the `jQuery` platform context, and `ApiLink.astro` uses `getEnvVars().jQueryApiUrl` as the base URL.
+
+### jQuery URL structure
+
+```
+{jQueryApiUrl}/{namespace}.{widgetName}[#{section}:{member}]
+```
+
+- **`namespace`**: `ui` for jQuery UI widgets (default), `ig` for standalone classes/datasources
+- **`widgetName`**: the widget or class name as-is (e.g. `igCombo`, `igGrid`, `igBulletGraph`, `OlapXmlaDataSource`)
+- **`section`**: `options`, `events`, or `methods` — only used when `member` is present
+- **`member`**: the specific option/event/method name
+
+### jQuery `<ApiLink>` props
+
+| Attribute | Notes |
+|---|---|
+| `type` | Widget or class name as it appears in the jQuery API URL (e.g. `"igCombo"`, `"igBulletGraph"`, `"OlapXmlaDataSource"`). No platform prefix — jQuery has none. |
+| `pkg` | `"core"` (default) → `ui.` namespace. `"ig"` → `ig.` namespace. |
+| `section` | `"options"` \| `"events"` \| `"methods"`. Required when `member` is set for the anchor to be appended. |
+| `member` | The option, event, or method name. Combined with `section` to produce `#section:member`. |
+| `label` | Override display text. Recommended — defaults to `type.member` which may not match the original link text. |
+| `kind`, `prefixed`, `suffix` | Not applicable for jQuery. Ignored. |
+
+### Examples
+
+```mdx
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+<!-- Link to a widget page -->
+<ApiLink type="igCombo" label="igCombo" />
+<!-- → https://www.infragistics.com/products/ignite-ui/docs/api/js/ui.igCombo -->
+
+<!-- Widget option -->
+<ApiLink type="igCombo" member="itemTemplate" section="options" label="itemTemplate" />
+<!-- → …/ui.igCombo#options:itemTemplate -->
+
+<!-- Widget event -->
+<ApiLink type="igCombo" member="activeItemChanged" section="events" label="activeItemChanged" />
+<!-- → …/ui.igCombo#events:activeItemChanged -->
+
+<!-- Widget method -->
+<ApiLink type="igGrid" member="dataBind" section="methods" label="dataBind" />
+<!-- → …/ui.igGrid#methods:dataBind -->
+
+<!-- ig. namespace class (datasource, non-widget) -->
+<ApiLink pkg="ig" type="OlapXmlaDataSource" label="OlapXmlaDataSource" />
+<!-- → …/ig.OlapXmlaDataSource -->
+```
+
+### Replacing `{environment:jQueryApiUrl}` tokens
+
+Old raw link in MDX:
+```mdx
+[`itemTemplate`]({environment:jQueryApiUrl}/ui.igcombo#options:itemTemplate)
+```
+
+Replacement with `<ApiLink>`:
+```mdx
+<ApiLink type="igCombo" member="itemTemplate" section="options" label="itemTemplate" />
+```
+
+Note: the old raw URLs often use all-lowercase widget names (e.g. `ui.igcombo`). The jQuery API site accepts both, but use the camelCase form in `ApiLink` `type=` for consistency (e.g. `"igCombo"` not `"igcombo"`).
+
+### Configuration files
+
+| File | Role |
+|---|---|
+| `docs/jquery/.platform.json` | Identifies the jQuery platform (`"platform": "jQuery"`) so `getPlatformContext()` returns the jQuery context |
+| `docs/jquery/src/content/en/environment.json` | Contains `jQueryApiUrl` per build mode (development / staging / production) |
+| `src/lib/platform-context.ts` | `jQuery` entry in `PLATFORMS` — `prefix: ''`, `apiPackages.core` (ui. namespace), `apiPackages.ig` (ig. namespace) |
+| `src/components/mdx/ApiLink.astro` | jQuery branch: reads `getEnvVars().jQueryApiUrl`, builds `{baseUrl}/{ns}.{type}[#{section}:{member}]` |
+
+---
+
+## Step 8 — Fix Pattern (xplat)
 
 ### Column-level fix
 
@@ -412,9 +506,11 @@ Rules:
 
 | File | Role |
 |---|---|
-| `src/components/mdx/ApiLink.astro` | ApiLink component — URL generation logic |
+| `src/components/mdx/ApiLink.astro` | ApiLink component — URL generation logic (xplat TypeDoc + jQuery) |
 | `src/components/mdx/ApiRef.astro` | ApiRef component |
-| `src/lib/platform-context.ts` | Platform config, `docRoot` URLs per platform, prefix mapping |
+| `src/lib/platform-context.ts` | Platform config, `docRoot` URLs per platform, prefix mapping, jQuery placeholder packages |
+| `docs/jquery/.platform.json` | jQuery platform identifier |
+| `docs/jquery/src/content/en/environment.json` | jQuery environment URLs including `jQueryApiUrl` |
 | `api-docs/src/data/react/igniteui-react-grids.json` | TypeDoc JSON — React grids (primary reference) |
 | `api-docs/src/data/react/igniteui-react.json` | TypeDoc JSON — React core |
 | `api-docs/src/data/angular/igniteui-angular-21.0.x.json` | TypeDoc JSON — Angular |

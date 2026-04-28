@@ -119,6 +119,7 @@ function fixProseChunk(prose: string): string {
     // 1. Escape bare pseudo-HTML tags not in the HTML allowlist.
     //    Extended to handle uppercase, dots, underscores in tag names.
     p = p.replace(/<\/?([a-zA-Z][a-zA-Z0-9._-]*)(\s|\/?>|>)/g, (match, tag, rest) => {
+        if (/^[A-Z]/.test(tag)) return match; // JSX/Astro components — preserve
         if (KNOWN_HTML_TAGS.has(tag.toLowerCase())) return match;
         const isClose = match.startsWith('</');
         return isClose
@@ -138,6 +139,14 @@ function fixProseChunk(prose: string): string {
         (_match, tag, attrs) => `<${tag}${attrs}/>`
     );
 
+    // 3 & 4. Escape bare `{` and `}` — but skip content inside JSX component tags
+    //        (PascalCase tags like <ApiLink ... />) which use {expr} for attribute values.
+    const jsxSlots: string[] = [];
+    p = p.replace(/<[A-Z][A-Za-z0-9._-]*(?:\s[^>]*)?\/?>/g, (match) => {
+        jsxSlots.push(match);
+        return `\x00JSXP${jsxSlots.length - 1}\x00`;
+    });
+
     // 3. Escape bare `{` as &#123; — skip already-encoded entities.
     //    remark-docfx handles &#123;environment:...&#125; at render time.
     p = p.replace(/\{/g, (m, offset, str) => {
@@ -152,6 +161,9 @@ function fixProseChunk(prose: string): string {
         if (/&#\d{2,3}$/.test(before)) return m;
         return '&#125;';
     });
+
+    // Restore JSX component tags.
+    p = p.replace(/\x00JSXP(\d+)\x00/g, (_, i) => jsxSlots[parseInt(i, 10)]);
 
     return p;
 }
@@ -333,6 +345,7 @@ function escapeHtmlInTableRow(line: string): string {
         if (idx === 0 || idx === cells.length - 1) return cell;
         // Escape non-safe HTML tags
         return cell.replace(/<(\/?)([\w.-]+)([^>]*?)>/g, (match, slash, tag, attrs) => {
+            if (/^[A-Z]/.test(tag)) return match; // JSX/Astro components — preserve
             const lower = tag.toLowerCase();
             if (MD_TABLE_SAFE_TAGS.has(lower)) return match;
             // Escape the tag
