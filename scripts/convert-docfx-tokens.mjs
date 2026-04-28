@@ -3,10 +3,12 @@
  * convert-docfx-tokens.mjs
  *
  * Converts legacy DocFX %%Token%% placeholders to {environment:Token} format
- * understood by the remark-docfx plugin at build time.
+ * in BOTH content (`.md` / `.mdx`) and `toc.json` "name" fields.
  *
- * Also replaces %%Token%% in toc.json *names* with their literal resolved values
- * (sidebar display text should not contain build-time tokens).
+ * Tokens are intentionally kept dynamic — the runtime resolves them per
+ * environment (development / staging / production):
+ *   - MDX:       src/plugins/remark-docfx.ts
+ *   - toc.json:  src/sidebar.ts (buildSidebarFromToc)
  *
  * Usage:
  *   node scripts/convert-docfx-tokens.mjs                      # dry-run
@@ -65,6 +67,10 @@ function walkMdx(dir) {
 }
 
 // ─── Convert content files: %%Token%% → {environment:Token} ─────────────────
+// Body uses backslash-escaped braces (`\{…\}`) so MDX won't parse `{` as JSX.
+// MDX strips the `\` and the runtime resolver in remark-docfx sees the literal
+// `{environment:Foo}`. Frontmatter is YAML — `{` is just a literal char there —
+// so we keep raw braces (`{environment:Foo}`) in frontmatter.
 function convertContentTokens() {
   const files = walkMdx(TOPICS_DIR);
   let totalReplacements = 0;
@@ -72,10 +78,20 @@ function convertContentTokens() {
 
   for (const file of files) {
     const original = fs.readFileSync(file, 'utf-8');
-    const converted = original.replace(TOKEN_RE, (_match, key) => `&#123;environment:${key}&#125;`);
+    const bom = original.charCodeAt(0) === 0xFEFF ? '\uFEFF' : '';
+    const text = bom ? original.slice(1) : original;
+
+    // Split frontmatter from body (frontmatter must start at byte 0 after BOM).
+    const fmMatch = text.match(/^(---[\s\S]*?\r?\n---\r?\n?)/);
+    const frontmatter = fmMatch ? fmMatch[1] : '';
+    const body = fmMatch ? text.slice(frontmatter.length) : text;
+
+    const newFm = frontmatter.replace(TOKEN_RE, (_m, key) => `{environment:${key}}`);
+    const newBody = body.replace(TOKEN_RE, (_m, key) => `\\{environment:${key}\\}`);
+    const converted = bom + newFm + newBody;
 
     if (converted !== original) {
-      const count = (original.match(TOKEN_RE) || []).length;
+      const count = ((frontmatter + body).match(TOKEN_RE) || []).length;
       totalReplacements += count;
       filesChanged++;
       const rel = path.relative(TOPICS_DIR, file);
@@ -91,22 +107,18 @@ function convertContentTokens() {
   console.log(`\nContent tokens: ${totalReplacements} replacements across ${filesChanged} files`);
 }
 
-// ─── Convert toc.json: resolve %%Token%% in "name" fields to literal values ─
+// ─── Convert toc.json: %%Token%% → {environment:Token} (kept dynamic) ────
 function convertTocTokens() {
   if (!fs.existsSync(TOC_JSON)) {
     console.log('  [skip] toc.json not found');
     return;
   }
 
-  const values = loadTokenValues();
   const original = fs.readFileSync(TOC_JSON, 'utf-8');
 
-  // Replace %%Token%% with resolved value (or leave as-is if unknown).
-  const converted = original.replace(TOKEN_RE, (_match, key) => {
-    if (values[key]) return values[key];
-    console.warn(`  [warn] Unknown token in toc.json: %%${key}%%`);
-    return _match;
-  });
+  // Convert %%Token%% → {environment:Token} so the value remains environment-
+  // aware (resolved at runtime by src/sidebar.ts via environment.json).
+  const converted = original.replace(TOKEN_RE, (_m, key) => `{environment:${key}}`);
 
   if (converted !== original) {
     const count = (original.match(TOKEN_RE) || []).length;
@@ -114,7 +126,7 @@ function convertTocTokens() {
       console.log(`  [dry-run] toc.json: ${count} token(s)`);
     } else {
       fs.writeFileSync(TOC_JSON, converted, 'utf-8');
-      console.log(`  ✓ toc.json: ${count} token(s) resolved`);
+      console.log(`  ✓ toc.json: ${count} token(s) converted`);
     }
   } else {
     console.log('  toc.json: no tokens found');
@@ -125,6 +137,6 @@ function convertTocTokens() {
 console.log(`\n=== convert-docfx-tokens [${APPLY ? 'APPLY' : 'DRY-RUN'}] ===\n`);
 console.log('Phase 1: Content files (%%Token%% → {environment:Token})');
 convertContentTokens();
-console.log('\nPhase 2: toc.json (%%Token%% → literal values)');
+console.log('\nPhase 2: toc.json (%%Token%% → {environment:Token})');
 convertTocTokens();
 console.log('\nDone.\n');

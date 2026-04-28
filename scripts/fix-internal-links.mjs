@@ -342,8 +342,8 @@ for (const file of files) {
     }
     // Skip image refs
     if (/\.(png|jpg|gif|svg|jpeg|webp)$/i.test(href)) return match;
-    // Skip {environment:...} refs
-    if (href.includes('{environment:') || href.includes('&#123;environment:')) return match;
+    // Skip {environment:...} refs (raw, backslash-escaped, or entity-encoded)
+    if (href.includes('{environment:') || href.includes('\\{environment:') || href.includes('&#123;environment:')) return match;
     // Skip .html links (external API refs)
     if (/\.html$/i.test(href)) return match;
 

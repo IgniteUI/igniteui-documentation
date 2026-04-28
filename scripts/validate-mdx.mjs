@@ -6,6 +6,7 @@
  * Default dir: docs/jquery/src/content/en/topics
  */
 import { compile } from '@mdx-js/mdx';
+import remarkFrontmatter from 'remark-frontmatter';
 import { readdirSync, readFileSync } from 'fs';
 import { resolve, join, relative } from 'path';
 
@@ -32,7 +33,7 @@ let ok = 0;
 for (const f of all) {
     const text = readFileSync(f, 'utf8');
     try {
-        await compile(text, { format: 'mdx' });
+        await compile(text, { format: 'mdx', remarkPlugins: [remarkFrontmatter] });
         ok++;
     } catch (e) {
         const msg = e.message ?? String(e);

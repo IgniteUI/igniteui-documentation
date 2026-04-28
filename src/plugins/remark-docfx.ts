@@ -63,7 +63,7 @@ function loadEnv(): Record<string, string> {
   return _ENV as Record<string, string>;
 }
 
-const ENV_PATTERN = /(?:\{|&#123;)environment:(\w+)(?:\}|&#125;)/g;
+const ENV_PATTERN = /(?:\\\{|\{|&#123;)environment:(\w+)(?:\\\}|\}|&#125;)/g;
 
 // ---------------------------------------------------------------------------
 // Slug resolution map — lazily built once per DOCS_SOURCE_PATH.
@@ -386,6 +386,35 @@ export function remarkDocfx() {
     const docsDir  = process.env.DOCS_SOURCE_PATH
       ? path.resolve(process.env.DOCS_SOURCE_PATH)
       : (filePath ? path.dirname(filePath) : '');
+
+    // 0. Pre-pass: stitch back env tokens that remark-directive (enabled by
+    //    Starlight) has split into text("…{environment") + textDirective(name)
+    //    + text("}…"). Without this our env-token regex never sees the token.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    visit(tree, (parent: any) => {
+      if (!parent || !Array.isArray(parent.children)) return;
+      const children = parent.children;
+      for (let i = 0; i < children.length - 2; i++) {
+        const a = children[i];
+        const b = children[i + 1];
+        const c = children[i + 2];
+        if (
+          a && a.type === 'text' && typeof a.value === 'string' &&
+          b && b.type === 'textDirective' && typeof b.name === 'string' &&
+          c && c.type === 'text' && typeof c.value === 'string'
+        ) {
+          const aMatch = /(.*)(\\?\{|&#123;)environment$/s.exec(a.value);
+          const cMatch = /^(\\?\}|&#125;)(.*)/s.exec(c.value);
+          if (aMatch && cMatch) {
+            const merged = `${aMatch[1]}{environment:${b.name}}${cMatch[2]}`;
+            children.splice(i, 3, { type: 'text', value: merged });
+            // re-check this index since we replaced 3 with 1
+            i--;
+          }
+        }
+      }
+    });
+
     // 1. Walk the AST and replace environment variables in text/links/html
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     visit(tree, (node: any) => {
@@ -429,6 +458,31 @@ export function remarkDocfx() {
         node.value = transformCodeView(node.value as string);
         node.value = transformDividers(node.value as string);
         node.value = (node.value as string).replace(/src="(\.\.\/)+images\//g, 'src="/images/');
+      }
+
+      // MDX JSX elements (e.g. <iframe data-src="{environment:demosBaseUrl}/…">)
+      // — string-literal attribute values are not visited as text nodes, so we
+      // resolve env tokens directly on the JSX attribute values here.
+      if (node.type === 'mdxJsxFlowElement' || node.type === 'mdxJsxTextElement') {
+        const attrs = (node as any).attributes;
+        if (Array.isArray(attrs)) {
+          for (const attr of attrs) {
+            // Plain attribute name="literal value"
+            if (attr && attr.type === 'mdxJsxAttribute' && typeof attr.value === 'string') {
+              attr.value = replaceEnvVars(attr.value);
+            }
+            // Expression-style attribute: name={`literal ${...}`} or name={"literal"}
+            // — only resolve inside the string literal content, leave JS expressions alone.
+            if (
+              attr && attr.type === 'mdxJsxAttribute' &&
+              attr.value && typeof attr.value === 'object' &&
+              attr.value.type === 'mdxJsxAttributeValueExpression' &&
+              typeof attr.value.value === 'string'
+            ) {
+              attr.value.value = replaceEnvVars(attr.value.value);
+            }
+          }
+        }
       }
     });
   };

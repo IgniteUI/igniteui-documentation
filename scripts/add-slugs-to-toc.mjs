@@ -8,7 +8,7 @@
  * integration.ts can resolve slugs without reading every source file.
  *
  * This script should run AFTER the migration pipeline (after rename, after
- * normalize-mdx has added frontmatter with slugs).
+ * frontmatter has `slug:` entries from the migration pipeline).
  *
  * Usage:
  *   node scripts/add-slugs-to-toc.mjs                                    # jQuery default

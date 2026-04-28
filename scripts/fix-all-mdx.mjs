@@ -1,23 +1,24 @@
-#!/usr/bin/env node
 /**
  * fix-all-mdx.mjs
  * 
  * Comprehensive MDX fixer that processes all failing files.
- * Applies normalization + targeted fixes, then writes the result.
+ * Applies targeted fixes, then writes the result.
  * 
- * Strategy: For each file, apply normalizeMdxContent, then additional fixes:
  * 1. Remove orphaned HTML table fragments (broken <table>/<tbody>/<tr> blocks)
  * 2. Strip inline <a name=""> anchors from markdown table cells
  * 3. Replace <li> used as bullet markers in markdown table cells
  * 4. Escape <div>, <T>, <script> in markdown table cells/paragraphs
- * 5. Escape remaining unescaped { } 
- * 6. Fix comma in tag names, quotes in attributes
- * 7. Fix orphaned </p>, </script>, </div> tags
+ * 5. Strip the duplicate body H1 (Starlight renders frontmatter `title` as the H1)
+ * 6. Backslash-escape remaining unescaped `{` / `}` outside code fences
+ * 7. Fix comma in tag names, quotes in attributes
+ * 8. Fix orphaned </p>, </script>, </div> tags
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { normalizeMdxContent } from '../src/normalize-mdx.ts';
 import { compile } from '@mdx-js/mdx';
+import remarkFrontmatter from 'remark-frontmatter';
+
+const MDX_OPTS = { jsx: true, remarkPlugins: [remarkFrontmatter] };
 
 const topicsArg = process.argv.find(a => a.startsWith('--topics='));
 const topicsDir = topicsArg
@@ -549,10 +550,18 @@ function closeUnclosedTables(content) {
 
 /**
  * Escape unescaped { } in prose text.
- * Now escapes ALL braces (including {environment:} since remark-docfx handles &#123;environment:).
+ * Skips YAML frontmatter (where `{` is a literal char and gets resolved
+ * dynamically by src/content-helper.ts), and converts bare `{environment:Foo}`
+ * tokens in body to MDX-escaped `\{environment:Foo\}` so they survive MDX
+ * parsing and remain dynamic via remark-docfx.
  */
 function escapeBracesInProse(content) {
-  const lines = content.split('\n');
+  // Split frontmatter from body so we never touch YAML braces.
+  const fmMatch = content.match(/^(---\r?\n[\s\S]*?\r?\n---\r?\n?)/);
+  const frontmatter = fmMatch ? fmMatch[1] : '';
+  const body = fmMatch ? content.slice(frontmatter.length) : content;
+
+  const lines = body.split('\n');
   let inCode = false;
   const result = [];
 
@@ -584,6 +593,21 @@ function escapeBracesInProse(content) {
           i++;
           continue;
         }
+        // Already MDX-escaped as `\{`
+        if (i >= 1 && line[i - 1] === '\\') {
+          out += line[i];
+          i++;
+          continue;
+        }
+        // Bare `{environment:Foo}` — convert to MDX-escaped form so the
+        // token survives the body-brace escape pass below and is still
+        // recognised by the runtime resolver in remark-docfx.
+        const envMatch = line.slice(i).match(/^\{environment:\w+\}/);
+        if (envMatch) {
+          out += '\\{' + envMatch[0].slice(1, -1) + '\\}';
+          i += envMatch[0].length;
+          continue;
+        }
         out += '&#123;';
         i++;
         continue;
@@ -591,6 +615,12 @@ function escapeBracesInProse(content) {
       if (line[i] === '}') {
         // Check if part of HTML entity &#NNN;
         if (/&#\d+$/.test(line.slice(Math.max(0, i - 6), i))) {
+          out += line[i];
+          i++;
+          continue;
+        }
+        // Already MDX-escaped as `\}`
+        if (i >= 1 && line[i - 1] === '\\') {
           out += line[i];
           i++;
           continue;
@@ -604,7 +634,7 @@ function escapeBracesInProse(content) {
     }
     result.push(out);
   }
-  return result.join('\n');
+  return frontmatter + result.join('\n');
 }
 
 /**
@@ -712,32 +742,17 @@ async function main() {
     const src = raw.charCodeAt(0) === 0xFEFF ? raw.slice(1) : raw;
     const rel = path.relative(topicsDir, file);
 
-    // Apply normalization
-    const normalized = normalizeMdxContent(src);
-    let content = normalized ?? src;
+    let content = src;
 
     // Test if it already compiles
     try {
-      await compile(content, { jsx: true });
-      // If normalization changed the file, write it even though it compiles
-      if (normalized !== null && normalized !== src) {
-        fixedCount++;
-        if (apply) {
-          const bom = raw.charCodeAt(0) === 0xFEFF ? '\uFEFF' : '';
-          fs.writeFileSync(file, bom + content, 'utf-8');
-          console.log(`  NORMALIZED: ${rel}`);
-        } else {
-          console.log(`  WOULD NORMALIZE: ${rel}`);
-        }
-      } else {
-        alreadyOk++;
-      }
+      await compile(content, MDX_OPTS);
+      alreadyOk++;
       continue;
     } catch {}
 
     // Apply fixes in order
-    // Note: compare against `src` (disk content) not `content` (post-normalization),
-    // so that normalization changes are written even when fixes are no-ops.
+    // Compare write-decision against `src` (original disk content).
     content = stripInlineAnchors(content);
     content = fixMiscSyntax(content);
     content = fixLiInTableCells(content);
@@ -757,7 +772,7 @@ async function main() {
     // Test if it compiles now
     let compiles = false;
     try {
-      await compile(content, { jsx: true });
+      await compile(content, MDX_OPTS);
       compiles = true;
     } catch (e) {
       const msg = (e.message || '').split('\n')[0];
