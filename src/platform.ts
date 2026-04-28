@@ -214,13 +214,13 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     },
     jQuery: {
         lang: 'en', label: 'jQuery', key: 'jquery', devPort: 4335,
-        base: '/docs-jquery',
+        base: '/docs-jquery-new',
         title: 'Ignite UI for jQuery',
         description: 'Component documentation for Ignite UI for jQuery.',
     },
     jQueryJP: {
         lang: 'jp', label: 'jQuery', key: 'jquery', devPort: 4345,
-        base: '/docs-jquery',
+        base: '/docs-jquery-new',
         title: 'Ignite UI for jQuery',
         description: 'Component documentation for Ignite UI for jQuery.',
     },
