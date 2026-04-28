@@ -1,0 +1,389 @@
+---
+title: "地理高密度散布シリーズの構成 (igMap)"
+slug: igmap-using-geographic-high-density-scatter-series
+---
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# 地理高密度散布シリーズの構成 (igMap)
+
+##トピックの概要
+
+### 目的
+
+このトピックは、`igMap`™ コントロールを使用して地理高密度散布シリーズを構成する方法を説明します。
+
+### 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+- [igMap の概要](/overview-igmap): このトピックは、`igMap` コントロールについて、その主要機能、最小要件、ユーザー インタラクションといった事項の概念的情報を提供します。
+
+- [igMap の追加](/adding-igmap): このトピックは、基本的な機能を備えた簡易 `igMap` コントロールを Web ページに追加する方法を示すチュートリアルです。
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [**概要**](#introduction)
+-   [**データ バインディング**](#data-binding)
+    -   [データ バインディングの概要](#data-binding-summary)
+    -   [データ バインディングの概要表](#data-binding-chart)
+-   [**地理高密度散布シリーズ構成の概要**](#geo-scatter-series-config)
+-   [**コード例の概要**](#code-example)
+    -   [JavaScript における地理高密度散布シリーズの構成](#config-series-js)
+    -   [ASP.NET MVC における地理高密度散布シリーズの構成](#config-series-mvc)
+-   [**熱色スケールの構成**](#config-heat-color-scale)
+-   [**解像度の構成**](#config-resolution)
+-   [**ローディング モードの構成**](#config-loading-mode)
+-   [**マウス オーバー ビヘイビアの構成**](#config-mouse-over-behavior)
+-   [**レンダリング モードの構成**](#config-rendering-mode)
+-   [**最小ポイントサイズの構成**](#config-min-points)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+
+
+##<a id="introduction"></a>概要
+
+### 地理高密度散布シリーズの概要
+
+`igMap` コントロールの `geographicHighDensityScatterSeries` シリーズを使用すると、数百から数百万のデータ ポイントから構成される散布図データを最短でバインドして表示できます。相当数のデータ ポイントがあるため、シリーズではフルサイズのマーカーに対して散布データを小さな点として表示し、領域にはデータ ポイントの集合を表す高い色密度を使用した大半のデータを表示します。
+
+以下のスクリーンショットは、`igMap` コントロールの `geographicHighDensityScatterSeries` シリーズのプレビューです。マップはオーストラリアの人口密度を表す数千のデータ ポイントにバインドされます。大量のデータ ポイントを含むマップのプロット領域は凝縮された赤色のピクセルによって表します。少量のデータ ポイントを含む領域は青色のピクセルによって表します。
+
+![](../../../../images/images/igMap_High_Density_Scatter_Series_01.png)
+
+
+
+##<a id="data-binding"></a>データ バインディング
+
+### <a id="data-binding-summary"></a>データ バインディングの概要
+
+`igMap` コントロールの散布シリーズの他のタイプと同様に、`geographicHighDensityScatterSeries` には、データ バインディングのための `itemsSource` プロパティがあります。このプロパティは、iEnumerable インターフェイスを実装するオブジェクトにバインドできます。また、項目ソースの各項目は、地理経度および緯度を表す 2 つのデータ列があります。`longitudeMemberPath` および `latitudeMemberPath` プロパティを使用してこのデータ列をマップします。
+
+### <a id="data-binding-chart"></a>データ バインディングの概要表
+
+以下の表で、データ バインドに使用される `geographicHighDensityScatterSeries` シリーズのプロパティを簡単に説明します。
+
+**プロパティ名**|**プロパティ タイプ**|**説明**
+---|---|---
+itemsSource|iEnumerable|項目ソースを取得または設定します。
+longitudeMemberPath|string|経度値が割り当てられた項目上の位置を決定するには `itemsSource` プロパティを使用します。
+latitudeMemberPath|string|緯度値が割り当てられた項目上の位置を決定するには `itemsSource` プロパティを使用します。
+
+
+##<a id="geo-scatter-series-config"></a>地理高密度散布シリーズ構成の概要
+
+### 地理高密度散布シリーズ構成の概要表
+
+以下の表は、`igMap` コントロールの地理高密度散布シリーズの構成可能な要素を示しています。
+
+
+|  |  |  |
+| --- | --- | --- |
+| 構成可能な項目 | 詳細 | プロパティ |
+| 地理高密度散布シリーズのセットアップ | これらの必須設定では、地理図形にマップ シリーズのタイプを構成し、シリーズの名前を設定します。 | JavaScript の場合: <ApiLink type="igMap" label="series.type" /> <ApiLink type="igMap" label="series.name" /> 値:, series.type: "geographicHighDensityScatterSeries"、, series.type: "seriesName", ASP.NET MVC の場合: [MapSeriesBuilder&lt;T&gt; クラス](Infragistics.Web.Mvc~Infragistics.Web.Mvc.MapSeriesBuilder`1.html) [GeographicHighDensityScatterSeries&lt;T&gt; クラス](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicHighDensityScatterSeries`1.html) 値:, series.GeographicHighDensityScatterSeries("seriesName") |
+| 地理高密度散布シリーズのデータ バインディング オプション | これらの必須設定では、図形とデータベース ファイルの URL、またはカスタム図形データ ソースを構成します。 | JavaScript の場合: <ApiLink type="igMap" label="series.itemsSource" /> <ApiLink type="igMap" label="series.longitudeMemberPath" /> <ApiLink type="igMap" label="series.latitudeMemberPath" /> ASP.NET MVC の場合: [GeographicHighDensityScatterSeries&lt;T&gt; クラス](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicHighDensityScatterSeries`1.html) [.ItemsSource()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicHighDensityScatterSeries`1.html) [.LongitudeMemberPath()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicHighDensityScatterSeries`1~LongitudeMemberPath.html) [.LatitudeMemberPath()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicHighDensityScatterSeriesModel~LatitudeMemberPath.html) |
+| ツールチップの表示/非表示 | ツールチップのレンダリングを有効に設定します。 デフォルトでは、ツールチップは無効になっています。 | JavaScript の場合: <ApiLink type="igMap" label="series.showTooltip" /> ASP.NET MVC の場合: [GeographicHighDensityScatterSeries&lt;T&gt; クラス](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicHighDensityScatterSeries`1.html) [.ShowTooltip()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Series`3~ShowTooltip.html) |
+| ツールチップ テンプレート | ツールチップのレンダリングに使用するテンプレートを指定するように構成します。 | JavaScript の場合: <ApiLink type="igMap" label="series.tooltipTemplate" /> ASP.NET MVC の場合: [GeographicHighDensityScatterSeries&lt;T&gt; クラス](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicHighDensityScatterSeries`1.html) [.TooltipTemplate()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.Series`3~TooltipTemplate.html) |
+| ヒートの最大色 | ヒートの最大色を構成します。 デフォルトは赤色です。 | JavaScript の場合: <ApiLink type="igMap" label="series.heatMaximumColor" /> ASP.NET MVC の場合: [GeographicHighDensityScatterSeries&lt;T&gt; クラス](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicHighDensityScatterSeries`1.html) .HeatMaximumColor() |
+| ヒートの最小色 | ヒートの最小色を構成します。 デフォルトは黒色です。 | JavaScript の場合: <ApiLink type="igMap" label="series.heatMinimumColor" /> ASP.NET MVC の場合: [GeographicHighDensityScatterSeries&lt;T&gt; クラス](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicHighDensityScatterSeries`1.html) .HeatMinimumColor() |
+
+
+
+##<a id="code-example"></a>コード例の概要
+
+### コード例の概要表
+
+以下の表は、このトピックで使用したコード例をまとめたものです。
+
+例|説明
+---|---
+[JavaScript における地理高密度散布シリーズの構成](#config-series-js)|このコード例は、`igMap` コントロールを構成して、地理高密度散布シリーズを JavaScript で表示する方法を示しています。
+[ASP.NET MVC における地理高密度散布シリーズの構成](#config-series-mvc)|このコード例は、igMap コントロールを構成して、地理高密度散布シリーズを ASP.NET MVC で表示する方法を示しています。
+[熱色スケールの構成](#config-heat-color-scale)|このコード例は、熱色スケールを構成する方法を説明します。
+[解像度の構成](#config-resolution)|このコード例は、解像度を構成する方法を説明します。
+[ローディング モードの構成](#config-loading-mode)|このコード例は、ローディング モードを構成する方法を説明します。
+[マウス オーバー ビヘイビアの構成 ](#config-mouse-over-behavior)|このコード例は、マウス オーバー ビヘイビアを構成する方法を説明します。
+[レンダリング モードの構成](#config-rendering-mode)|このコード例は、レンダリング モードを構成する方法を説明します。
+[最小ポイントサイズの構成](#config-min-points)|このコード例は、最小ポイントサイズを構成する方法を説明します。
+
+
+##<a id="config-series-js"></a>コード例: JavaScript における地理高密度散布シリーズの構成
+
+### 説明
+
+このコード例は、`igMap` コントロールを構成して、地理高密度散布シリーズを JavaScript で表示する方法を示しています。この例では、経度と緯度、ヒートの最大色と最小色を指定する方法を示します。
+
+### コード
+
+**JavaScript の場合:**
+
+```js
+Code
+$("#map").igMap({
+    ...
+    series: [{
+        type: "geographicHighDensityScatter",
+        name: "australiaMap",
+        dataSource: placeData,
+        latitudeMemberPath: "lat",
+        longitudeMemberPath: "lon",
+        heatMaximumColor: "orange",
+        heatMinimumColor: "black"
+    }],
+    ...
+});
+```
+
+
+##<a id="config-series-mvc"></a>コード例: ASP.NET MVC における地理高密度散布シリーズの構成
+
+
+### 説明
+
+このコード例は、`igMap` コントロールを構成して、地理高密度散布シリーズを ASP.NET MVC で表示する方法を示しています。この例では、経度と緯度、ヒートの最大色と最小色を指定する方法を示します。
+
+### コード
+
+**ASPX の場合:**
+
+```csharp
+Code
+<%= Html.Infragistics().Map()
+        ...
+        .Series(series => {
+            series.GeographicHighDensityScatter("seriesName")
+                .DataSource(placeData)
+                .LatitudeMemberPath("lat")
+                .LongitudeMemberPath("lon")
+                .HeatMaximumColor("orange")
+                .HeatMinimumColor("black");
+        })
+        ...
+        .DataBind()
+        .Render()
+%>
+```
+
+
+
+##<a id="config-heat-color-scale"></a>コード例: 熱色スケールの構成
+
+
+### 説明
+
+熱色スケールは、シリーズ内のカラー パターンを決定するオプションの機能です。以下の表は、カラー スケールを決定するために使用するプロパティをまとめたものです。
+
+**プロパティ名**|**プロパティ タイプ**|**説明**
+---|---|---
+heatMinimum|double|カラー スケールの最小端を表す double 値を定義します。
+heatMaximum|double|カラー スケールの最大端を表す double 値を定義します。
+heatMinimumColor|color|カラー スケールの下端で使用するポイント密度カラーを定義します。
+heatMaximumColor|color|カラー スケールの上端で使用するポイント密度カラーを定義します。
+ 
+
+### コード
+
+以下のコードは、`heatMinimumColor` プロパティと `heatMaximumColor` プロパティを設定する方法を示します。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({
+    ...
+    series: [{
+        type: "geographicHighDensityScatter",
+        name: "australiaMap",
+        dataSource: placeData,
+        latitudeMemberPath: "lat",
+        longitudeMemberPath: "lon",
+        heatMaximumColor: "orange",
+        heatMinimumColor: "black"
+    }],
+    ...
+});
+```
+
+
+
+##<a id="config-resolution"></a>コード例: 解像度の構成
+
+
+### 説明
+
+`geographicHighDensityScatterSeries` シリーズの resolution プロパティは、シリーズが積極的に表示データを統合する程度を決定します。値が大きい場合、より積極的にデータが統合され、シリーズのパフォーマンスが向上します。より低い値を使用している場合、表示解像度が強化され、それに応じてパフォーマンスも下がります。
+
+### コード
+
+以下のコードは、resolution プロパティを設定する方法を示します。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({
+    ...
+    series: [{
+        type: "geographicHighDensityScatter",
+        name: "australiaMap",
+        dataSource: placeData,
+        latitudeMemberPath: "lat",
+        longitudeMemberPath: "lon",
+        resolution: 10
+    }],
+    ...
+});
+```
+
+
+
+##<a id="config-loading-mode"></a>コード例: プログレッシブ ロードの構成
+
+
+### 説明
+
+`igMap` コントロールは、`igMap` をロードする間、継続して UI の応答性を保つようデータを分割して読み込む `geographichHighDensityScatterSeries` シリーズを段階的に描画します。デフォルトで、progressiveLoad プロパティは true に設定されています。`geographichHighDensityScatterSeries` シリーズは、`igMap` のレンダリング中に、ローディング状態を表示できる以下の 2 通りの方法を提供します。
+
+-   ローディング状態を表示できる progressiveLoadStatusChanged イベントをリッスンします。
+-   progressiveStatus プロパティは、値が 0 から 100 まで (完全なロードは 100) のプログレッシブ ロード シリーズの状態を表します。このプロパティは、プログレスバーなどのローディング状態を示すコントロールにバインドします。
+
+### コード
+
+以下のコードは、progressiveLoadStatusChanged イベントを呼び出す方法を示します。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({    ...
+    series: [{
+        type: "geographicHighDensityScatter",
+        name: "australiaMap",
+        dataSource: placeData,
+        latitudeMemberPath: "lat",
+        longitudeMemberPath: "lon",
+        progressiveLoadStatusChanged: function (evt, ui) {                }
+    }],
+    ...
+});
+```
+
+
+
+##<a id="config-mouse-over-behavior"></a>コード例: マウス オーバー ビヘイビアの構成
+
+### 説明
+
+`geographicHighDensityScatterSeries` シリーズの `mouseOverEnabled` プロパティは、`mouseOver` イベントの発生の有無を指定します。デフォルト値は false です。このシリーズのマウス オーバー サポートは、メモリとパフォーマンスに大きく影響する場合があります。この値を False に設定することの主なデメリットは、ツールチップを描画できないことです。
+
+### コード
+
+以下のコードは、`mouseOverEnabled` プロパティを true に設定する方法を示します。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({
+    ...
+    series: [{
+        type: "geographicHighDensityScatter",
+        name: "australiaMap",
+        dataSource: placeData,
+        latitudeMemberPath: "lat",
+        longitudeMemberPath: "lon",
+        mouseOverEnabled: "true"
+    }],
+    ...
+});
+```
+
+
+
+##<a id="config-rendering-mode"></a>コード例: レンダリング モードの構成
+
+### 説明
+
+`geographicHighDensityScatterSeries` シリーズの `useBruteForce` プロパティにより、シリーズの描画方法が決まります。True の場合、内部データ構造を構築する代わりに、毎度すべてのデータ ポイントを描画します。初期ロード時間が早く、メモリ使用率が低いですが、データのナビゲーションは遅くなります。
+
+### コード
+
+以下のコードは、`useBruteForce` プロパティを true に設定する方法を示します。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({
+    ...
+    series: [{
+        type: "geographicHighDensityScatter",
+        name: "australiaMap",
+        dataSource: placeData,
+        latitudeMemberPath: "lat",
+        longitudeMemberPath: "lon",
+        useBruteForce: "true"
+    }],
+    ...
+});
+```
+
+
+
+##<a id="config-min-points"></a>コード例: 最小ポイントサイズの構成
+
+### 説明
+
+`geographicHighDensityScatterSeries` シリーズの `pointExtent` プロパティは、高密度の散布シリーズのポイント描画に使用する最小ポイントサイズを大きくします。ポイントサイズは、シリーズのパフォーマンスに直接影響があります。`pointExtent` プロパティの値が大きいとパフォーマンスが低下します。
+
+### コード
+
+以下のコードは、`pointExtent` プロパティを 7 に設定する方法を示します。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({
+    ...
+    series: [{
+        type: "geographicHighDensityScatter",
+        name: "australiaMap",
+        dataSource: placeData,
+        latitudeMemberPath: "lat",
+        longitudeMemberPath: "lon",
+        pointExtent: 7 
+    }],
+    ...
+});
+```
+
+ 
+
+##<a id="related-content"></a>関連コンテンツ
+
+### <a id="topics"></a>トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+
+- [マップ シリーズの構成 (igMap)](/igmap-creating-different-kinds-maps): このトピックは、`igMap` コントロールでサポートされているすべてのマップ視覚エフェクトを構成し、さまざまな背景コンテンツ (マップ プロバイダー) を使用する方法を説明するトピックのリンクがあるランディング ページです。
+
+- [機能の構成 (igMap)](/igmap-configuring-features): このトピックは、`igMap` コントロールのさまざまな機能を構成する方法を説明するトピックのリンクがあるランディング ページです。
+
+- [データ バインディング (igMap)](/data-binding-igmap): このトピックは、視覚化されたマップ シリーズに応じて `igMap` コントロールをさまざまなデータ ソースにバインドする方法を説明します。
+
+- [マップのスタイル設定 (igMap)](/styling-igmap): このトピックは、ビジュアル スタイル設定に関連して igMap コントロールを構成する方法を説明しています。
+
+### <a id="samples"></a>サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [地理高密度散布シリーズ](&#123;environment:SamplesUrl&#125;/map/geo-high-density-scatter-series): このサンプルは、`igMap` コントロールの高密度散布シリーズが何百万ものデータ ポイントを表示する方法を紹介します。大量のデータ ポイントを含むマップのプロット領域は凝縮されたオレンジ色のピクセルで表示され、少量のデータ ポイントを含む領域は黒色のピクセルで表示されます。シリーズのヒートの最小値と最大値プロパティを変更し、ヒート カラーのマッピングを調整できます。
+
+
+
+
+
+ 
+
+ 
+

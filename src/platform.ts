@@ -38,7 +38,8 @@ export type PlatformKey =
     | 'blazor'
     | 'web-components'
     | 'slingshot'
-    | 'appbuilder';
+    | 'appbuilder'
+    | 'jquery';
 
 /** Locale code for nav/API requests and UI string lookups. */
 export type NavLang = 'en' | 'jp' | 'kr';
@@ -173,6 +174,7 @@ export const PLATFORM_DEFS: Record<PlatformKey, PlatformDef> = {
     blazor: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
     'web-components': { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
     slingshot: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
+    jquery: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
     appbuilder: { navType: 'appbuilder', styles: APPBUILDER_STYLES, scripts: APPBUILDER_SCRIPTS },
 };
 
@@ -209,6 +211,18 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
         base: '/docs-blazor-new',
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
+    },
+    jQuery: {
+        lang: 'en', label: 'jQuery', key: 'jquery', devPort: 4335,
+        base: '/docs-jquery',
+        title: 'Ignite UI for jQuery',
+        description: 'Component documentation for Ignite UI for jQuery.',
+    },
+    jQueryJP: {
+        lang: 'jp', label: 'jQuery', key: 'jquery', devPort: 4345,
+        base: '/docs-jquery',
+        title: 'Ignite UI for jQuery',
+        description: 'Component documentation for Ignite UI for jQuery.',
     },
     // Japanese
     AngularJP: {
@@ -274,6 +288,7 @@ export function getNavConfig(platform: string | null, lang = 'en'): NavConfig {
         case 'blazor':
         case 'web-components':
         case 'slingshot':
+        case 'jquery':
             return { navType: 'infragistics', navUrl: `${igBase}/navigation` };
         default:
             return { navType: 'none', navUrl: null };

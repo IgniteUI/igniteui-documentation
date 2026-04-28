@@ -1,0 +1,88 @@
+---
+title: "igGrid モーダル ダイアログの拡張"
+slug: extending-iggrid-modal-dialog
+---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# igGrid モーダル ダイアログの拡張
+
+## このトピックの内容
+
+- [概要](#overview)
+- [カスタム ダイアログの使用](#using-custom-dialogs)
+- [要件](#requirements)
+- [関連コンテンツ](#related-content)
+    -   [サンプル](#samples)
+    -   [トピック](#topics)
+
+## <a id="overview"></a> 概要
+`igGridModalDialog` は igGrid のスクリプトが含まれるウィジェットです。igGrid の機能のすべてのダイアログ ベースの UI をビルドします。igGridModalDialog のダイアログ編集モード、igGridFiltering の高度なフィルタリング ダイアログ、igGridHiding 列選択などが含まれます。ウィジェットの主な機能には、開いるときにコンテインメント オプションおよび可視設定によって制約されるドラッグ & サイズ変更する際にグリッドのユーザー操作をブロックする機能が含まれます。ウィジェットを使用した各グリッド機能は、特定のオプションを公開して初期化のダイアログへ渡されます。ただし、これらのオプションは最も有用である機能に制限され、特定の目的で使用しているダイアログ機能に影響しません。ダイアログの詳細なカスタマイズは拡張を機能で行うことができます。
+
+## <a id="using-custom-dialogs"></a> カスタム ダイアログの使用
+`igGridModalDialog` を使用する各機能は、`dialogWidget` オプションを公開します。以下のリストは API のオプションの説明へのリンクを含みます。
+
+- <ApiLink type="iggridcolumnmoving" member="dialogWidget" section="options" label="ColumnMoving" />
+- <ApiLink type="iggridfiltering" member="dialogWidget" section="options" label="Filtering" />
+- <ApiLink type="iggridgroupby" member="dialogWidget" section="options" label="GroupBy" />
+- <ApiLink type="iggridhiding" member="dialogWidget" section="options" label="Hiding" />
+- <ApiLink type="iggridsorting" member="dialogWidget" section="options" label="Sorting" />
+- <ApiLink type="iggridupdating" member="dialogWidget" section="options" label="Updating" />
+
+カスタム ダイアログは jQuery UI ウィジェットで名前をオプションの値として渡す必要があります。JavaScript では以下のようになります。
+
+```js
+$.widget("ui.CustomDialog", $.ui.igGridModalDialog, {
+	...
+});
+
+grid.igGrid({
+	autoGenerateColumns: true,
+	features: [
+		{
+			name: "Filtering",
+			mode: "advanced",
+			dialogWidget: "CustomDialog"
+		}
+	],
+	dataSource: data
+});
+```
+**注:** `igGridModalDialog` の拡張は必要ありませんが、igGrid に必要なすべての機能とオプションがすぐに使用できることを確認してください。以下のセクションは必要な API の詳細について説明します。
+
+## <a id="requirements"></a> 要件
+
+カスタム ダイアログ ウィジェットは特定の機能を含み、igGrid 機能がライフサイクルでサブスクライブした特定のイベントを発生します。すべての機能は、既存の `igGridModalDialog` を拡張して使用できます。ただし、このセクションにはカスタム ロジックを安全に使用する場合に便利な情報も含まれます。
+
+- 必須メソッド
+  - `openModalDialog` - ダイアログが開くときに呼び出されます。このメソッドに渡されるパラメターはありません。
+  - `closeModalDialog` - ユーザーが特定の機能を使用したとき、または その機能の API のメソッドが実行されたときにダイアログが閉まるときに呼び出されます。ダイアログ固有のユーザー インタラクションは個別に実装する必要があります。このメソッドは以下の 2 つのパラメーターを受け取ります。
+    1. `accepted` - この機能はダイアログの確定と拒否の状態を認識します。ユーザーがダイアログの UI で加えた変更を適用するかどうかを示すこのパラメーターを送信します。この 2 つを識別しない機能は、ユーザーのダイアログ操作として変更を適用します。この値は、このセクションの後半に説明のあるイベント引数で使用できます。
+    2. `fromUI` - エンドユーザーの操作に基づいてダイアログを閉じるロジックを含むダイアログに UI を追加します、このパラメーターは、そのような操作から閉じるの呼び出し、または機能 API からダイアログに通知するブール値フラグです。この値は、機能固有のイベントが発生するかどうかを決定するダイアログを閉じるための機能を処理をするイベント引数で使用できます。
+  - `getCaptionButtonContainer` - カスタム ダイアログのキャプションを表す要素を含む jQuery オブジェクトを返します。機能は、追加の閉じるボタンを配置するためにこのコンテナーを使用します。この関数は、このボタンの追加機能を防止するためにデタッチ要素返すことがあります。ただし、後で削除するためにキャッシュすることをお勧めします。メモリリークの可能性を軽減できます。
+  - `getContent` - 機能がメイン ダイアログ UI を描画するダイアログのコンテンツ領域を表す要素を含む jQuey オブジェクトを返します。機能は、通常既存の UI は使用せずにダイアログを開くたびに UI を描画します。
+- 必須イベント
+  - `modalDialogOpening`、`modalDialogOpened` - 両イベントは、API 呼び出しまたはエンドユーザー操作によってダイアログが開くかどうかに関係なく発生します。これは、プロセスが -ed イベントによる非同期がアニメーションが終了したあとに発生するため必要です。イベント引数オブジェクトは、ダイアログ インスタンスで割り当てられたプロパティ `owner` を含みます。
+  - `modalDialogClosing`、`modalDialogClosed` - 両イベントは、API 呼び出しまたはエンドユーザー操作によってダイアログが閉じるかどうかに関係なく発生します。開くときに発生するイベント同様、送信した閉じるの連続の呼び出しの結果、機能がコードを実行できない非同期固有のプロセスによるものです。両イベントはプロパティ `owner`、`accepted`、`raiseEvents` (最後の 2 つは `closeModalDialog` 呼び出しで利用できるパラメーターに基づきます) を含みます。
+  - `modalDialogMoving` - ダイアログがドラッグされるときに発生します (この機能が利用できる場合)。機能は、自身のイベントを介した伝達以外このイベントを使用しません。
+  - `modalDialogContentsRendering`、`modalDialogContentsRendered` - 前のイベントで機能による伝達のみで使用されるためダイアログ描画時に発生します。 
+  - `buttonOKClick`、`buttonCancelClick` - 各ボタンがクリックされたときにイベントが発生します。 イベント属性の `toClose` プロパティを含みます。機能は、ダイアログの状態がダイアログを閉じることを許可する場合、プロパティの値を `true` に変更します。そうでない場合、ダイアログは閉じません。
+
+**注:** jQuery は、ウィジェットの `options` プロパティで使用できないウィジェットの初期化を渡すオプション数に制限はありません。igGrid 機能によって渡される必須オプションはありません。カスタム ダイアログでもほとんど利用できません。機能がカスタム オプションを渡すためのメカニズムはありません。
+
+## <a id="related-content"></a> 関連コンテンツ
+
+### <a id="samples"></a>サンプル
+
+以下のサンプルは、カスタム ダイアログをグリッドの編集で使用しています。
+
+- [カスタム モーダル ダイアログ](&#123;environment:SamplesUrl&#125;/grid/customize-updating)
+
+### <a id="topics"></a> トピック
+
+-   [行編集ダイアログ (igGrid)](/iggrid-updating-roweditdialog-landingpage)
+-   [列チューザーの構成 (igGrid)](/iggrid-hiding-column-chooser)
+-   [グループ化ダイアログの概要 (igGrid)](/iggrid-group-by-dialog-overview)
+-   [列移動の概要 (igGrid)](/iggrid-columnmoving-overview)
+-   [フィルタリング (igGrid)](/iggrid-filtering)
+-   [複数並べ替えダイアログ (igGrid)](/iggrid-multiple-sorting-dialog)

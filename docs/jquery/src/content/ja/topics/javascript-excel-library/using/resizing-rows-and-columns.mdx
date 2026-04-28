@@ -1,0 +1,117 @@
+---
+title: "行と列のサイズを変更"
+slug: javascript-excel-library-resizing-rows-and-columns
+---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# 行と列のサイズを変更
+
+## 始める前に
+ワークシートでは、セルに大量のテキストが含まれている場合もありますし、セルに大きな画像を表示させたい場合もあります。デフォルトのセル サイズではセルのコンテンツが入りきらない場合は、行、列、またはワークシート全体にあるすべてのセルの高さと幅を簡単に増やすことができます。
+
+ただし、状況によっては、行の高さが自動的に増えるので、すべてのコンテンツが表示されます。たとえば、セル内のテキストを回転または折り返し、そのセルを含む行の高さが既定値の場合、すべてのコンテンツが表示されるように行の高さが自動的に増加します。列の幅は自動的に管理されないので、セルのコンテンツに関係なく常に一定のままです。
+
+個々の行と列のサイズを変更することに加えて、ワークシートの <ApiLink pkg="ig" type="excel.Worksheet" member="defaultRowHeight" section="methods" label="defaultRowHeight" /> プロパティと <ApiLink pkg="ig" type="excel.Worksheet" member="defaultColumnHeight" section="methods" label="defaultColumnWidth" /> プロパティを設定することによって、すべての行と列のサイズを変更できます。
+
+## 達成すること
+この詳細なガイドでは、行を自動サイズ設定する方法をいくつか示します。さらに、セルがそのコンテンツを完全に含むように行と列を手動でサイズ調整する方法も紹介します。
+
+## 次の手順を実行します
+1.  **ワークシートを使用してワークブックを作成します。**
+ 	1.  HTML ページを作成します。
+    2.  それにボタンを追加します。
+    3.  そのボタンのクリック イベントの機能を作成します。
+    4.  ひとつのワークシートを使用してワークブックを作成します。
+    5.  
+        **JavaScript の場合:**
+
+```js
+		var workbook = new $.ig.excel.Workbook();
+		var worksheet = workbook.worksheets().add( "Sheet1" );
+```
+
+2.  **行の高さを自動的に変更します。**
+    1.  行の高さがデフォルトのままのセル内のテキストを回転させます。行は、セルのコンテンツがちょうど収まるように自動サイズ設定されます。
+
+        **JavaScript の場合:**
+
+```js
+		worksheet.rows(0).cells(0).value("Rotated Text");
+		worksheet.rows(0).cells(0).cellFormat().rotation(70);
+```
+	![](../../images/images/ExcelEngine_Resizing_Rows_and_Columns_01.png)
+	2.  行の高さがデフォルトのままのセル内のテキストを折り返します。行は、セルのコンテンツがちょうど収まるように自動サイズ設定されます。
+	
+	    **JavaScript の場合:**
+	
+```js
+	   	worksheet.rows(1).cells(1).value("This text will be wrapped in the cell so all text is visible");
+		worksheet.rows(1).cells(1).cellFormat().wrapText(true);
+```
+	![](../../images/images/ExcelEngine_Resizing_Rows_and_Columns_02.png)
+
+3.  **テキストがセルの外側に出ないように列のサイズを変更します。**
+    1.  テキストがセルの境界線の外側に出ないようにセルに十分なテキストを配置します。
+
+        **JavaScript の場合:**
+
+```js
+		worksheet.rows(2).cells(2).value("This text will not be wrapped");
+```
+	![](../../images/images/ExcelEngine_Resizing_Rows_and_Columns_03.png)
+
+	2.  すべてのテキストが表示されますが、値をセル D3 に設定すると、長いテキストは切り落とされます。セルの幅を増やすには、Worksheet の columns コレクションからアクセス可能な WorksheetColumn の幅を増やします。
+	
+	    **JavaScript の場合:**
+	
+```js
+		worksheet.columns(2).width(6100);
+```
+		![](../../images/images/ExcelEngine_Resizing_Rows_and_Columns_04.png)
+
+4.  **セルに画像を配置して、画像が歪まないようにセルのサイズを変更します。**
+    1.  画像を作成して、セル全体に収まるようにします。
+
+        **JavaScript の場合:**
+
+```js
+        var shape = new $.ig.excel.RectangleShape();
+
+		shape.topLeftCornerCell(worksheet.rows(3).cells(3));
+		shape.bottomRightCornerCell(worksheet.rows(3).cells(3));
+		shape.bottomRightCornerPosition({ x: 100, y: 100 });
+		
+		worksheet.shapes().add(shape);
+```
+	![](../../images/images/ExcelEngine_Resizing_Rows_and_Columns_05.png)
+
+	2.  画像が歪まないようにセルの行と列の幅と高さを増やします。
+	
+	    **JavaScript の場合:**
+	
+```js
+		worksheet.rows(3).height(600);
+		worksheet.columns[3].width(10000);
+```
+	
+		![](../../images/images/ExcelEngine_Resizing_Rows_and_Columns_06.png)
+
+5.  **ワークブックを保存します。**
+
+    ワークブックをファイルに書き出します。
+
+    **JavaScript の場合:**
+
+```js
+	workbook.save(function(data) { 
+	  },
+	  function(error) {
+	  });
+```
+
+ 
+
+ 
+
+

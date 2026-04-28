@@ -1,0 +1,444 @@
+---
+title: "Infragistics Loader による必要なリソースを自動で追加する"
+slug: using-infragistics-loader
+---
+
+# Infragistics Loader による必要なリソースを自動で追加する
+
+## 概要
+アプリケーションは初期ページの読み込みですべての JavaScript および CSS ファイルを読み込みますが、初期化ですべてのリソースを読み込むことが最良の方法でない場合があります。スクリプトの読み込みを遅延するか、非同期の読み込み機能を提供するか、その両方をするには、スクリプト ローダーはページで JavaScript および CSS ファイルを読み込みます。
+
+Infragistics Loader コンポーネントは、JavaScript および CSS ファイルを非同期に読み込みます。コンポーネントが初期化され、要求したファイルが読み込まれた後、読み込まれたリソースに依存するコードの実行を許可するコールバックが実行されます。ローダーは、初期化の複数オプションを提供し、カスタム地域およびロケールのサポートを提供します。
+
+ページでローダーを使用するには、`infragistics.loader.js` ファイルへの参照を追加します。次に例を示します。
+
+```
+<script type="text/javascript" src="http://localhost/igniteui/infragistics.loader.js"></script>
+```
+
+## このトピックの内容
+- [初期化](#initialization)
+- [リソース式](#resource-expressions)
+- [&#123;environment:ProductNameMVC&#125; の使用](#working-with-mvc-helpers)
+- [ローカライズ](#localization)
+- [地域設定](#regional-settings)
+- [関連コンテンツ](#related-content)
+
+## <a id="initialization"></a> 初期化
+ページに基づいて、ローダーの初期化方法が異なります。ファイルが読み込まれる時の変更、読み込み通知から初期化の分割、読み込むファイルの定義などのオプションがあります。
+
+### 即時読み込みおよび通知
+即時にリソースを読み込み、読み込み通知を一度に処理するには、初期化手順で `ready` 関数を実装できます。以下のコードは、igGrid のリソースを読み込む方法を示しています。
+
+```
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igGrid',
+    ready: function () {
+        console.log('igGrid resources are loaded');
+    }
+});
+```
+
+`scriptPath` および `cssPath` は、JavaScript および CSS ファイルに配置されるサーバーのルート位置に設定されます。`resource` メンバーは、ローダーが読み込むファイルを定義する式を取得し、すべての要求したファイルが読み込まれた後に `ready` 関数は実行されます。
+
+### 即時読み込みおよび個別通知
+即時にファイルを読み込み、コードの異なる位置で読み込み通知を処理する必要がある場合があります。以下のコード ブロックは、読み込み操作と通知を分割する方法を紹介します。
+
+```
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igGrid'
+});
+
+$.ig.loader(function () {
+    console.log('igGrid resources are loaded');
+});
+```
+
+igGrid のリソースはまだ即時に読み込まれますが、ファイルが読み込まれた後の通知処理を詳細に制御できます。
+
+2016.2 バージョン以降で、ローダーは jQuery の $(document).ready までに利用可能なリソースの通知を遅延します。この変更では、jQuery の基準に従ってイベント フローの利便性を向上します。以下はこの新機能のコードスニペットです。
+
+```
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igCombo'
+});
+
+$(function () {
+    // Document is ready and igCombo resources are loaded
+    $("#combo").igCombo({
+        dataSource: data,         
+        valueKey: "ID",
+        textKey: "Name"
+    });
+});
+```
+> **注:** $(document).ready イベントの遅延が jQuery バージョン 1.6 で使用可能なため、&#123;environment:ProductName&#125; 2016.2 以降でライブラリのこのバージョン以上を使用する必要があります。
+
+
+### ロード オン デマンド
+ローダーの初期化でリソースを読み込む場合、すべてのファイルは即時にダウンロードされます。その代わり、スクリプトをオンデマンドで読み込むことができます。ロード オン デマンドは、必要な場合までファイルの読み込みを遅延すると、ページのパフォーマンスを向上できます。以下のコードは、即時にファイルを読み込まずにローダーを初期化する方法を示します。
+
+```
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+});
+```
+
+ローダーが初期化された後、ファイルをオンデマンドで読み込みます。
+
+```
+$.ig.loader('igGrid', function () {
+    console.log('igGrid resources are loaded');
+});
+```
+
+たとえば、ページで特定のボタンがクリックされたとき、リソースを読み込みます。
+
+```
+$('#show-grid-button').click(function (e) {
+    $.ig.loader('igGrid', function () {
+        console.log('Loaded igGrid resources');
+    });
+});
+```
+
+### チェーン
+または、別のリソース式を渡して呼び出しを load メソッドにチェーンできます。
+
+```
+$.ig.loader({
+        scriptPath: 'http://localhost/igniteui/js/',
+        cssPath: 'http://localhost/igniteui/css/',
+    })
+    .load('igGrid',
+        function () {
+            console.log('igGrid resources are loaded')
+        })
+    .load('igTree',
+        function () {
+            console.log('igTree resources are loaded')
+        });
+```
+
+この方法で、コードを集中し、各コントロールのリソースが読み込んだときに通知することができます。
+
+## <a id="resource-expressions"></a> リソース式
+このトピックの例は、コア igGrid または igTree リソースを読み込む簡易のリソース式を使用しますが、ページで読み込まれたファイルを制御するためにリソース式を構築できます。リソース式の書式設定に基づいて、コントロールの最小限のファイル、コントロールの特定の機能のファイル、コントロールのすべてのファイル、一度に複数のコントロール、またはファイルのリストを読み込むことができます。
+
+このセクションでは、書式設定する方法によって異なる結果となる式をレビューします。これらの方法は統合でき、相互に排他的ではありません。
+
+### 機能の読み込み
+igGrid、igHierarchicalGrid、igTreeGrid、または igDataChart などのコントロールはモジュラーで、コントロールのコア ファイル以外のコードをダウンロードする必要がある「機能」をサポートします。リソース式のドット (`.`) は、ルート コントロールに関連する機能を含むことを指定します。たとえば、ページで igGrid およびグリッドの並べ替え機能を読み込むには、以下のようなリソース式を使用します。
+
+```
+igGrid.Sorting
+```
+
+この式は、igGrid のコア ファイルおよび並べ替え機能をサポートするためのファイルを読み込みます。読み込む機能をすべて含むには、ドットを 1 回以上使用できます。並べ替え、フィルター、およびページング機能を読み込むには、以下のようなリソース式を使用します。
+
+```
+igGrid.Sorting.Filtering.Paging
+```
+
+以上のリソース式をコンテキストに含まれます。
+
+```
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igGrid.Sorting.Filtering.Paging',
+    ready: function () {
+        console.log('Loaded igGrid resources');
+    }
+});
+```
+
+機能およびモジュラー コントロールに利用可能なリテラル値の詳細については、[リソース式の機能リテラルのセクション](#resource-expression-feature-literals)を参照してください。
+
+### 複数リソースの読み込み
+式のコンマ (`,`) は、1 つ以上のコントロールのリソースを一度に読み込むことを許可します。たとえば、グリッド、ツリー、コンボのリソースを一度に読み込む場合、式は以下のようになります。
+
+```
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igGrid,igTree,igCombo',
+    ready: function () {
+        console.log('Loaded resources for igGrid, igTree and igCombo');
+    }
+});
+```
+
+> **注:** 式でコンマの隣にスペースを*含まない*必要があります。
+
+### すべてのリソース/機能の読み込み
+式でアステリスク (`*`) は、コントロールのすべてのファイルを読み込む意味があるワイルドカードです。つまり、コントロールのすべての機能のファイルは読み込まれます。以下のようにワイルドカード式を使用します。
+
+```
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igGrid.*',
+    ready: function () {
+        console.log('Loaded igGrid resources');
+    }
+});
+```
+
+> **注**: *リソース式でワイルドカードの使用に注意してください。*使用されていない機能の必要のないファイルをダウンロードするとページ サイズが増加します。
+
+### 明示的にリソースを読み込み
+カスタム ファイルまたは外部ファイルを読み込むために &#123;environment:ProductName&#125; リソースと共にローダーを使用した方がよい場合があります。リソースを明示的に読み込むには、リソースにパスを追加してください。以下の例は、igGrid コア リソースでカスタム JavaScript ファイルを読み込みます。
+
+```
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igGrid,../../custom.js',
+    ready: function () {
+        console.log('Loaded resources for igGrid and custom.js');
+    }
+});
+```
+
+ローダーは、リソース URL を解決する開始パスとして `scriptPath` および `cssPath` に定義された場所を使用します。`scriptPath` および `cssPath` で参照されるカスタム リソースがフォルダーの外にある場合、相対パスによって現在の URL に解決されます。
+
+### <a id="resource-expression-feature-literals"></a> リソース式機能リテラル
+リソース式をビルドするには、コントロールの名前を使用します。モジュラー機能を含むコントロールは、機能を参照するために使用するリテラルが必要です。以下のリストは、各コントロールとリテラル名を機能ごとにマッピングしています。
+
+#### igDataChart
+- Category
+- RangeCategory
+- VerticalCategory
+- Financial
+- ExtendedFinancial
+- Polar
+- Radial
+- Scatter
+- Stacked
+- Annotation
+
+次に例を示します。
+
+```
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igDataChart.RangeCategory.Scatter'
+});
+```
+
+#### igGrid
+- AppendRowsOnDemand
+- CellMerging
+- ColumnMoving
+- ColumnFixing
+- Filtering
+- GroupBy
+- Hiding
+- Paging
+- Resizing
+- Responsive
+- RowSelectors
+- Selection
+- Sorting
+- Summaries
+- MultiColumnHeaders
+- Tooltips
+- Updating
+
+次に例を示します。
+
+```
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igGrid.Sorting.Filtering.Paging'
+});
+```
+
+#### igHierarchicalGrid
+- ColumnMoving
+- Filtering
+- GroupBy
+- Hiding
+- CellMerging
+- Paging
+- Resizing
+- Responsive
+- RowSelectors
+- Selection
+- Sorting
+- Summaries
+- MultiColumnHeaders
+- Tooltips
+- Updating
+
+次に例を示します。
+
+```
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igHierarchicalGrid.ColumnMoving.RowSelectors.MultiColumnHeaders'
+});
+```
+
+#### igTreeGrid
+- Filtering
+- Hiding
+- Paging
+- Resizing
+- Selection
+- RowSelectors
+- Sorting
+- MultiColumnHeaders
+- Tooltips
+- Updating
+- ColumnFixing
+- ColumnMoving
+
+次に例を示します。
+
+```
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igTreeGrid.Paging.Sorting.Filtering'
+});
+```
+
+## <a id="working-with-mvc-helpers"></a> &#123;environment:ProductNameMVC&#125; の使用
+&#123;environment:ProductNameMVC&#125; によってコントロールを初期化すると、すべての依存リソースが自動的に読み込まれます。
+
+以下のコードは、&#123;environment:ProductNameMVC&#125; でローダーを使用する方法を示します。
+
+**Razor の場合:**
+
+```
+<script src="http://localhost/igniteui/js/infragistics.loader.js"></script>
+
+$(Html.Infragistics()
+    .Loader()
+    .ScriptPath("http://localhost/igniteui/js/")
+    .CssPath("http://localhost/igniteui/css/")
+    .Render()
+)
+```
+
+## <a id="localization"></a> ローカライズ
+ウィジェットのローカライズは、locale オプションによって制御されます。以下のロケールは、現在 &#123;environment:ProductName&#125; でサポートされます。
+
+- 英語(en)
+- 日本語(ja)
+- バルガリア語(bg)
+- ロシア語(ru)
+- スペイン語(es)
+- フランス語(fr)
+- ドイツ語(de)
+
+&#123;environment:ProductName&#125; の英語および日本語バージョンは、製品コードと結合された各リソースがあります。
+
+ローダーは、ブラウザーの言語設定を検出し、自動的にこのロケールに切り替えます。この動作は、`autoDetectLocale` オプションで制御され、デフォルトで `false` に設定されています。`autoDetectLocale` と `locale` が設定されていると、`locale` オプションが優先します。
+
+リストをコンマで区切ることにより複数の言語を読み込むことができます。
+
+**JavaScript の場合:**
+	
+```js
+    $.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igHierarchicalGrid.Updating',
+    locale: 'en, ja, bg, ru'
+    });
+```
+
+一部またはすべてのページのコンポーネントの言語をランタイムで変更し、関連する言語ファイルをページに読み込む場合に便利です。
+
+## <a id="regional-settings"></a> 地域設定
+地域設定は、数値及び通貨の値が地域に基づいて書式設定されるエディターなどの &#123;environment:ProductName&#125; コントロールの一部に関連します。ローダーは、locale オプションから推測するかブラウザー UI の自動検出により、自動的に地域設定を読み込みます。
+
+ローダーでカスタム地域設定を読み込ませるためには、ローダーの `regional` オプションを設定する必要があります。
+
+> **注:**: この地域設定は、地域設定の標準に準拠し 2 文字または 5 文字の長さが可能です。
+
+すべての地域ファイルは以下のフォルダーにあります。
+
+```javascript
+{&#123;environment:ProductName&#125; resources root}/js/modules/i18n/regional/
+```
+
+リストをコンマで区切ることにより複数の地域設定を読み込むこともできます。
+
+**JavaScript の場合:**
+	
+```js
+    $.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igHierarchicalGrid.Updating',
+    regional: 'en, ja, bg, ru'
+    });
+```
+
+一部またはすべてのページのコンポーネントの地域設定をランタイムで変更し、関連する言語ファイルをページに読み込む場合に便利です。
+
+次のコードは、イギリス英語を使用するブルガリア ロケールに更新機能 (&#123;environment:ProductName&#125; エディター コントロールを使用) が有効な階層グリッドを読み込みます。
+
+**JavaScript の場合:**
+
+```javascript
+$.ig.loader({
+    scriptPath: 'http://localhost/igniteui/js/',
+    cssPath: 'http://localhost/igniteui/css/',
+    resources: 'igHierarchicalGrid.Updating',
+    locale: 'bg',
+    regional : 'en-GB'
+});
+```
+
+### jQuery UI 日付の選択のための特別な配慮
+jQuery UI 日付ピッカー ウィジェットが &#123;environment:ProductName&#125; エディターで使用するために設定されている場合、ページで `jquery-ui-i18n.min.js` への参照を含み、地域設定を指定する必要があります。次に例を示します。
+
+```javascript
+$.datepicker.setDefaults($.datepicker.regional['ru']);
+```
+
+### &#123;environment:ProductName&#125; エディターのための特別な配慮
+エディターの地域設定を設定するとき、ページで以下のファイルを参照する必要があります。
+
+```javascript
+infragistics.ui.regional-i18n.js
+```
+
+認められた地域オプションの値は地域フォルダーのファイルの最後にあります。これらは jQuery がサポートする標準値と同じです。
+
+地域|地域|地域|地域 |
+--- | --- | --- | --- |
+af (南アフリカ)	            |fa (ペルシア、イラン)		|ko (韓国)	            |sr (キリル、セルビア)
+ar (アラブ)               |fi (フィンランド)           |lt (リトアニア)	        |sr-SR (ラテン、セルビア)
+az (アゼルバイジャン、ラテン)	|fo (フェロー)	            |lv (ラトビア)	            |sv (スウェーデン)
+bg (ブルガリア)	            |fr-CH (フランス語、スイス) 	|ms (マレーシア)	        |ta (タミル、インド)
+bs (ボスニア)	            |fr (フランス)	            |nl (オランダ語、オランダ)		|th (タイ)
+ca (カタロニア)	            |he (ヘブライ語、イスラエル)	|no (ノルウェー)	        |tr (トルコ)
+cs (チェコ)	            |hr (クロアチア)	        |pl (ポーランド)	        |uk (ウクライナ)
+da (デンマーク)	            |hu (ハンガリー)	        |pt-BR (ブラジル)	        |vi (ベトナム)
+de (ドイツ)	            |hy (アルメニア)	        |ro (ルーマニア)	        |zh-CN (PRC、中国)
+el (ギリシャ)	            |id (インドネシア)	        |ru (ロシア)	            |zh-HK (Hong Kong SAR PRC、中国)
+en-GB (英語、イギリス) 		|is (アイスランド)	        |sk (スロバキア)	        |zh-TW (台湾、中国)
+es (スペイン)				|it (イタリア)	        	|sl (スロバキア)           |
+et (エストニア)	            |ja (日本)				|sq (アルバニア)
+
+## <a id="related-content"></a> 関連コンテンツ
+- [&#123;environment:ProductName&#125; での JavaScript ファイル](/deployment-guide-javascript-files)
+- [&#123;environment:ProductName&#125; 対応 Infragistics コンテンツ配信ネットワーク (CDN)](/deployment-guide-infragistics-content-delivery-network(cdn)).mdx)
+- [必要なリソースを手動で追加](/adding-the-required-resources-for-igniteui-for-jquery)
+- [&#123;environment:ProductName&#125; で JavaScript リソースを使用](/deployment-guide-javascript-resources)

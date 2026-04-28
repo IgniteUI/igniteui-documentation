@@ -1,0 +1,99 @@
+---
+title: "Editing API (igSpreadsheet)"
+slug: igspreadsheet-editing
+---
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# Editing API (igSpreadsheet)
+
+## Topic Overview
+### Purpose
+This topic provides an overview of the control API related to the spreadsheet editing.
+
+### Required background
+To understand this topic you need to be familiar with the concept and topics related to the [Infragistics JavaScript Excel Library](../../../09_JavaScript Excel Library/~JavaScript_Excel_Library.mdx).
+
+### In this topic
+
+This topic contains the following sections:
+
+-   [Introduction](#introduction)
+-   [Events](#events)
+-   [Methods](#methods)
+-   [Options](#navigation)
+- 	[Related Links](#related_link)
+
+
+## <a id="introduction"></a>Introduction
+You can edit spreadsheet content "in-place" using an editor positioned over cell which is being edited or in the formula editor. The control exposes API, which can be used to extract information about the cell, format data that is entered, cancel editing, etc. The following screenshot shows an excel workbook, while one of its cell is in edit mode.
+
+![](../images/igSpreadsheet_editing.png)
+
+## <a id="events"></a>Events
+The following table presents the events related to the cell editing functionality. Below you can find some user scenarios that can take advantage of those events.
+
+| Event			| Description     																	|
+| ------------- 	|:-------------:																	|
+| <ApiLink type="igspreadsheet" member="editModeEntering" section="events" label="editModeEntering" />  | Invoked when the Spreadsheet is about to start in-place editing of the <ApiLink type="igspreadsheet" member="activeCell" section="options" label="activeCell" />.    |
+| <ApiLink type="igspreadsheet" member="editModeEntered" section="events" label="editModeEntered" />    | Invoked when the Spreadsheet has started in-place editing of the <ApiLink type="igspreadsheet" member="activeCell" section="options" label="activeCell" />. 	|
+| <ApiLink type="igspreadsheet" member="editModeExiting" section="events" label="editModeExiting" />    | Invoked when the Spreadsheet is about to end the in-place editing of the <ApiLink type="igspreadsheet" member="activeCell" section="options" label="activeCell" />. 	|
+| <ApiLink type="igspreadsheet" member="editModeExited" section="events" label="editModeExited" />      | Invoked when the Spreadsheet has ended the in-place editing of the <ApiLink type="igspreadsheet" member="activeCell" section="options" label="activeCell" />. 	|
+| <ApiLink type="igspreadsheet" member="editModeValidationError" section="events" label="editModeValidationError" />    |  Invoked when the Spreadsheet is exiting edit mode and the new value for the <ApiLink type="igspreadsheet" member="activeCell" section="options" label="activeCell" /> is not valid based on the criteria of that cell's <ApiLink pkg="ig" type="excel.DataValidationRule" label="ig.excel.DataValidationRule" />.	|
+
+If you want to cancel editing of all the cells, then you just need to cancel <ApiLink type="igspreadsheet" member="editModeEntering" section="events" label="editModeEntering" /> event:
+```
+$("#spreadsheet1").igSpreadsheet({
+    height: "600",
+    width: "100%",
+    editModeEntering: function(evt, ui) {
+        return false;
+    }
+});
+```
+
+If you want to show notification, when editing of a cell has finished and spreadsheet is updated, then you can use the <ApiLink type="igspreadsheet" member="editModeExited" section="events" label="editModeExited" /> event:
+```
+$("#spreadsheet1").igSpreadsheet({
+    height: "600",
+    width: "100%",
+    editModeExited: function(evt, ui) {
+        $("$notification").html("Cell " + ui.cell + " has been update");
+    }
+});
+```
+
+## <a id="methods"></a>Methods
+The following table shows the methods that the spreadsheet exposes, in order to get the current editing status of the spreadsheet.
+
+| Method			| Description     																	|
+| ------------- 	|:-------------:																	|
+| <ApiLink type="igspreadsheet" member="getIsInEditMode" section="methods" label="getIsInEditMode" />  | Indicates if the control is currently editing the value of the <ApiLink type="igspreadsheet" member="activeCell" section="options" label="activeCell" />.    |
+| <ApiLink type="igspreadsheet" member="getCellEditMode" section="methods" label="getCellEditMode" />    | Returns an enumeration used to indicate the current edit mode state. 	|
+
+
+## <a id="options"></a>Options
+Entering a lot of numbers, with decimal places, in the spreadsheet, can happen in a faster manner, if the options from the table below are used. This will allow the control to automatically format the entered number, with the defined decimal places.
+
+| Option			| Description     																	|
+| ------------- 	|:-------------:																	|
+| <ApiLink type="igspreadsheet" member="isFixedDecimalEnabled" section="options" label="isFixedDecimalEnabled" />  | Indicates whether a fixed decimal place is automatically added when a whole number is entered while in edit mode.   |
+| <ApiLink type="igspreadsheet" member="fixedDecimalPlaceCount" section="options" label="fixedDecimalPlaceCount" />    | Number of decimal places by which a whole number typed in during edit mode should be adjusted. 	|
+
+Enabling this feature, setting decimal places to 3 and entering the value of 123456 in a spreadshett cell, will result in 123.456, after the cell exits edit mode.
+
+```
+$("#spreadsheet1").igSpreadsheet({
+    height: "600",
+    width: "100%",
+    isFixedDecimalEnabled: true,
+    fixedDecimalPlaceCount: 3
+});
+```
+
+![](../images/igSpreadsheet_decimals.png)
+
+## <a id="related_link"></a>Related Links
+
+-	[igSpreadsheet Overview](/igspreadsheet-overview.mdx)
+-   [Configuring igSpreadsheet](configuring-igspreadsheet.html)
+-   <ApiLink type="igspreadsheet" label="igSpreadsheet API" />

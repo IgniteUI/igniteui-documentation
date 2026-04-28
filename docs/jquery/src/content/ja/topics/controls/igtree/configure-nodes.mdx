@@ -1,0 +1,181 @@
+---
+title: "igTree におけるノードの構成"
+slug: igtree-configure-nodes
+---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# igTree におけるノードの構成
+
+## トピックの概要
+### 目的
+このトピックでは、`igTree`™ コントロールでノードを構成する方法を紹介します。
+
+### このトピックの内容
+このトピックは、以下のセクションで構成されます。
+
+-   [igTree 構成の概要](#configuration-overview)
+    -   [コントロールの構成表](#control-configuration-chart)
+-   [ノードをプログラム的に展開および縮小する](#expanding-and-collapsing-nodes-programmatically)
+    -   [詳細を展開および縮小する](#expand-and-collapse-details)
+    -   [構成設定を展開および縮小する](#expand-and-collapse-configuration-settings)
+    -   [例: ビューにあるノードを展開する](#example-expand-node)
+    -   [例: ノードを縮小する](#example-collapse-node)
+    -   [例: 子ノードのすべての親ノードを展開する](#example-expand-all-nodes)
+    -   [設定参照を展開および縮小する](#expand-and-collapse-setting-reference)
+-   [展開イベントと縮小イベントを処理する](#handling-expand-and-collapse-events)
+    -   [イベント詳細を展開および縮小する](#expand-and-collapse-event-details)
+    -   [イベント構成設定を展開および縮小する](#expand-and-collapse-event-configuration)
+    -   [例: インスタンス化中に展開イベントを構成する](#example-configure-the-expansion-events)
+    -   [例: bind および live を使用して縮小イベントを構成する](#example-configure-the-collapse-events)
+-   [関連トピック](#related-topics)
+
+### 前提条件
+以下の表は、このトピックを理解するために必要な前提条件です。
+
+[「igTree を使用した作業の開始」](/igtree-getting-started)というトピックを最初にお読みください。
+
+**外部リソース**
+
+まず以下のセクションを読む必要があります。
+
+- [jQuery bind() API](http://api.jquery.com/bind/)
+
+- [jQuery live() API](http://api.jquery.com/live/)
+
+## <a id="configuration-overview"></a>igTree 構成の概要 
+### <a id="control-configuration-chart"></a>コントロールの構成表 
+以下の表は、`igTree` コントロールの構成可能な画面要素とビヘイビアーを示しています。
+
+構成可能な画面要素とビヘイビアー|構成の詳細|構成プロパティ
+---|---|---
+ノードをプログラム的に展開および縮小する|ノードをプログラム的に展開および縮小し、外部操作に応えます。|expand<br/>collapse<br/>expandToNode
+展開イベントと縮小イベントを処理する|展開中または縮小中のノードに対して、アプリケーションで他の操作を実行するようイベントを処理できます。|nodeCollapsing<br/>nodeCollapsed<br/>nodeExpanding<br/>nodeExpanded
+
+
+## <a id="expanding-and-collapsing-nodes-programmatically"></a>ノードをプログラム的に展開および縮小する 
+### <a id="expand-and-collapse-details"></a>詳細を展開および縮小する 
+アプリケーションで、ノードをプログラム的に展開または縮小しなければならないケースがあります。たとえば、ナビゲーションのツリーを使用している場合で、ユーザーがある一部のコンテンツに直接移動した場合、ユーザーが移動した場所がツリー ナビゲーションに反映されなければならない場合があります。以下の例は、`igTree` コントロールをプログラム的に動作させる方法を示しています。
+
+### <a id="expand-and-collapse-configuration-settings"></a>構成設定を展開および縮小する 
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。プロパティは、`igTree` コントロール メソッドからアクセスされます。
+
+目的|このメソッドを使用:|提供内容…
+---|---|---
+ビューにあるノードを展開する|expand|ノード
+ノードを縮小する|collapse |ノード
+子ノードのすべての親ノードを展開する|expandToNode|ノード
+
+>**注:** 各メソッドは、展開または縮小する `igTree` ノードのインスタンスを受け入れます。
+
+### <a id="example-expand-node"></a>例: ビューにあるノードを展開する 
+以下のコードは、現在展開された親ノードにあるノードを展開する方法を示しています。
+
+プロパティ|設定
+---|---
+expand|ノード
+
+**HTML と ASPX の場合:**
+
+```js
+$("#tree").igTree("expand", node);
+```
+
+### <a id="example-collapse-node"></a>例: ノードを縮小する 
+以下のコードは、ノードを縮小する方法を示しています。
+
+プロパティ|設定
+---|---
+collapse|ノード
+
+**HTML と ASPX の場合:**
+
+```js
+$("#tree").igTree("collapse", node);
+```
+
+### <a id="example-expand-all-nodes"></a>例: 子ノードのすべての親ノードを展開する 
+ノードを表示する必要があるとわかっていても、`igTree` コントロールの子レベル内に入れ子になっている場合。以下のコードは、ターゲット ノードのすべての親ノードを展開し、`expandToNode` ビューを使用してビューに入れる方法を示しています。
+
+プロパティ|設定
+---|---
+expandToNode|ノード
+
+**HTML と ASPX の場合:**
+
+```js
+$("#tree").igTree("expandToNode", node);
+```
+
+### <a id="expand-and-collapse-setting-reference"></a>設定参照を展開および縮小する 
+これらのメソッドの詳細情報は、プロパティ参照セクションのリストを参照してください。
+
+-   <ApiLink type="igtree" label="igTree オプション" />
+
+## <a id="handling-expand-and-collapse-events"></a>展開イベントと縮小イベントを処理する 
+### <a id="expand-and-collapse-event-details"></a>イベント詳細を展開および縮小する 
+ノードの展開または縮小後にカスタム ロジックを実行する場合、これらのイベントを使用できます。名前が -ing で終わるイベントは、ノードの展開中または縮小中の前に発生し、-ed で終わるイベントはノードの展開中または縮小中の後に発生します。
+
+### <a id="expand-and-collapse-event-configuration"></a>イベント構成設定を展開および縮小する 
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。プロパティは、`igTree` コントロール メソッドからアクセスされます。
+
+目的|このイベントの使用:|それを次に設定...
+---|---|---
+ノードが展開される前にイベントを処理する|nodeExpanding|function()
+ノードが展開された後にイベントを処理する|nodeExpanded|function()
+ノードが縮小される前にイベントを処理する|nodeCollapsing|function()
+ノードが縮小された後にイベントを処理する|nodeCollapsed|function()
+
+## <a id="example-configure-the-expansion-events"></a>例: インスタンス化中に展開イベントを構成する 
+`igTree` コントロール イベントは、コントロールをインスタンス化しているときに構成できます。イベントは、イベントのパラメーターと UI 引数を受け入れるハンドラー関数を設定することで構成されます。このタイプの構成は、クライアント上でコントロールを構成している場合のみ使用できます。以下のコードは、以下の設定を行った後の展開イベントを処理する方法を示しています。
+
+プロパティ|設定
+---|---
+nodeExpanding|function(evt, ui)
+nodeExpanded|function(evt, ui)
+
+**HTML の場合:**
+
+```html
+$(function () {
+    $("#tree").igTree({
+        nodeExpanding: function (evt, ui) {
+ 
+        },
+        nodeExpanded: function (evt, ui) {
+ 
+        }
+    });
+});
+```
+
+### <a id="example-configure-the-collapse-events"></a>例: bind および live を使用して縮小イベントを構成する 
+ツリーをインスタンス化した後に、イベント ハンドラーを `igTree` に添付しなければならない場合があります。初期化後のイベントのバインディングは、`igTree` コントロールが &#123;environment:ProductNameMVC&#125; ヘルパーを使用してインスタンス化されている場合にイベントを構成する主な方法です。コントロールをインスタンス化した後にイベント ハンドラーの添付を使用する場合、イベント型が必要です。イベント型は、ウィジェット名とイベント名を結合することで決まります。以下のコードは、jQuery bind および live メソッドを使用してイベントを構成する方法を示しています。
+
+メソッド|パラメーター
+---|---
+bind()|“igtreenodecollapsing” function(evt, ui) &#123; &#125;
+live()|“igtreenodecollapsed” function(evt, ui) &#123; &#125;
+
+**HTML と ASPX の場合:**
+
+```js
+$("#tree").bind("igtreenodecollapsing", function (evt, ui) {
+ 
+});
+ 
+$("#tree").live("igtreenodecollapsed", function (evt, ui) {
+ 
+});
+```
+
+## <a id="related-topics"></a>関連トピック 
+以下は、その他の役立つトピックです。
+
+-   [igTree でノード イメージを構成する](/igtree-configure-node-images)
+
+ 
+
+ 
+
+

@@ -93,12 +93,96 @@ export function collectSlugs(items: SidebarItem[]): string[] {
 }
 
 // ---------------------------------------------------------------------------
+// Shared docs-file walker — single walk, used by multiple consumers
+// ---------------------------------------------------------------------------
+
+export interface DocsFileEntry {
+    /** Resolved slug (from frontmatter, DocFX metadata, or relative path). */
+    slug: string;
+    /** Relative path from docsDir (forward-slashes, no extension). */
+    relPath: string;
+    /** Absolute filesystem path. */
+    absPath: string;
+}
+
+/**
+ * Walks docsDir recursively and yields one entry per `.md`/`.mdx` file.
+ * Each entry contains the resolved slug and both relative and absolute paths.
+ * Slug resolution: frontmatter `slug:` > DocFX `"fileName"` > relative path.
+ */
+export function walkDocsFiles(docsDir: string): DocsFileEntry[] {
+    const results: DocsFileEntry[] = [];
+    function walk(dir: string) {
+        let entries: import('node:fs').Dirent[];
+        try { entries = fs.readdirSync(dir, { withFileTypes: true }); }
+        catch { return; }
+        for (const entry of entries) {
+            const full = path.join(dir, entry.name);
+            if (entry.isDirectory()) { walk(full); continue; }
+            if (!/\.(mdx?|md)$/.test(entry.name)) continue;
+            try {
+                let raw = fs.readFileSync(full, 'utf-8');
+                // Strip UTF-8 BOM if present
+                if (raw.charCodeAt(0) === 0xFEFF) raw = raw.slice(1);
+                const relPath = path.relative(docsDir, full).replace(/\\/g, '/').replace(/\.(mdx?|md)$/, '');
+                let slug: string | undefined;
+                // 1. Frontmatter slug
+                const fmMatch = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+                if (fmMatch) {
+                    const slugMatch = fmMatch[1].match(/^slug:\s*(.+)$/m);
+                    if (slugMatch) slug = slugMatch[1].trim();
+                }
+                // 2. DocFX metadata fileName
+                if (!slug) {
+                    const fnMatch = raw.match(/"fileName"\s*:\s*"([^"]+)"/);
+                    if (fnMatch) slug = fnMatch[1];
+                }
+                results.push({ slug: slug ?? relPath, relPath, absPath: full });
+            } catch { /* skip unreadable files */ }
+        }
+    }
+    walk(docsDir);
+    return results;
+}
+
+// ---------------------------------------------------------------------------
+// Build a slug → source file path map by walking the docsDir
+// ---------------------------------------------------------------------------
+
+/**
+ * Builds a Map<slug, absoluteFilePath> from the docs directory.
+ * Used by integration.ts to find source files for any page slug,
+ * even when the slug differs from the filesystem path.
+ * For each .md/.mdx file, checks frontmatter `slug:` or DocFX metadata
+ * Builds a Map<slug, absoluteFilePath> from the docs directory.
+ * Used by integration.ts to find source files for any page slug,
+ * even when the slug differs from the filesystem path.
+ */
+export function buildSlugToFileMap(docsDir: string): Map<string, string> {
+    const map = new Map<string, string>();
+    for (const entry of walkDocsFiles(docsDir)) {
+        map.set(entry.slug, entry.absPath);
+    }
+    return map;
+}
+
+// ---------------------------------------------------------------------------
 // Build a slug → LlmsMeta map by reading source files
 // ---------------------------------------------------------------------------
 
-export function buildLlmsMetaMap(docsDir: string, items: SidebarItem[]): Map<string, LlmsMeta> {
+export function buildLlmsMetaMap(docsDir: string, items: SidebarItem[], slugFileMap?: Map<string, string>): Map<string, LlmsMeta> {
     const map = new Map<string, LlmsMeta>();
     for (const slug of collectSlugs(items)) {
+        // Use the slug→file map if available (handles custom slugs like jQuery's flat fileNames)
+        const mapped = slugFileMap?.get(slug);
+        if (mapped) {
+            try {
+                const raw = fs.readFileSync(mapped, 'utf-8');
+                const meta = extractLlmsMeta(raw);
+                if (meta.description || meta.keywords?.length) map.set(slug, meta);
+                continue;
+            } catch { /* fall through to path-based lookup */ }
+        }
         for (const ext of ['.md', '.mdx']) {
             try {
                 const raw = fs.readFileSync(path.join(docsDir, slug + ext), 'utf-8');

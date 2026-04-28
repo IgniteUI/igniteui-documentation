@@ -1,0 +1,278 @@
+---
+title: "Using JavaScript Resources in &#123;environment:ProductName&#125;"
+slug: deployment-guide-javascript-resources
+---
+
+# Using JavaScript Resources in &#123;environment:ProductName&#125;
+
+
+##Topic Overview
+
+#### Purpose
+
+This topic explains how to manage the required resources to work with &#123;environment:ProductName&#125;™ within a Web application.
+
+#### In this topic
+
+This topic contains the following sections:
+
+-   [Referencing Infragistics JavaScript Resources](#referencing_resources)
+    -   Referencing Infragistics JavaScript resources summary
+        -   Referencing Infragistics JavaScript from a custom download
+        -   Referencing JavaScript resources using the Infragistics Loader
+        -   Referencing the combined and minified JavaScript file
+-   [Referencing External JavaScript Resources](#referencing_external_libraries)
+      -   Referencing external resources summary
+        -   Referencing JavaScript libraries
+-   [Referencing Localization Resources](#referencing_localization_resources)
+      -   Referencing localization resources summary
+        -   Referencing English and Japanese localization
+        -   Code example: referencing localization resources using the Infragistics Loader
+        -   Code example: referencing localization resources manually
+-   [Infragistics Content Deliver Network](#infragistics_cdn)
+-   [Related Content](#related_content)
+
+
+##<a id="referencing_resources"></a>Referencing Infragistics JavaScript Resources
+
+
+### Referencing Infragistics JavaScript resources summary
+
+To work with &#123;environment:ProductName&#125;, you must reference the Infragistics resources in your Web application. You can reference these resources in four different ways.
+
+-	**Including a custom JavaScript file**: This is the recommended approach to reference &#123;environment:ProductName&#125; JavaScript files. You can [create a custom download](&#123;environment:SamplesUrl&#125;/download) of selected &#123;environment:ProductName&#125; controls and components.
+
+-	**Using Infragistics Loader**: The *Infragistics Loader* can be used to resolve all the Infragistics resources (styles and scripts).
+
+-	**Using the combined and minified JavaScript files**: You can use the combined files that contain all components and their dependencies.
+
+-	**Including individual JavaScript files** : You can manually reference all the required files.
+
+### Referencing Infragistics JavaScript from a custom download
+
+To create an &#123;environment:ProductName&#125; custom build, go to the [custom download page](&#123;environment:SamplesUrl&#125;/download). Custom builds have two main benefits. First, by choosing only the controls and features used in your application, the browser downloads and executes less total JavaScript. Second, the JavaScript is combined into one file reducing the amount of requests that the browser makes to the server. These benefits result in faster performance for your application.
+
+**In HTML:**
+
+```html
+<script src="../scripts/infragistics.js" type="text/javascript"></script>
+```
+
+**In Razor:**
+
+```csharp
+@using Infragistics.Web.Mvc;
+<!DOCTYPE html>
+<html>
+<head runat="server">
+..    
+<script src="@(Url.Content("~/scripts/infragistics.js"))" type="text/javascript"></script>
+```
+
+### Referencing JavaScript resources using the Infragistics Loader
+
+The *Infragistics Loader* resolves all the Infragistics resources (styles and scripts) for you. You just need to provide the path to required CSS and JavaScript files and declare which resources the loader will fetch for the page. You need to reference the *Infragistics Loader*:
+
+**In HTML:**
+
+```html
+<script src="Scripts/infragistics.loader.js" type="text/javascript"></script>
+```
+
+Inside another `<script>` element, you need to include the JavaScript code below to call the *Infragistics Loader* and declare the widget (feature).
+
+**In Javascript:**
+
+```js
+$.ig.loader({
+    scriptPath: '{IG Resources root}/js/',
+    cssPath: '{IG Resources root}/css/'
+});                     
+$.ig.loader('igGrid.Paging.Updating', 
+     function () {
+     // Create a couple of igGrids 
+        $("#grid1").igGrid({
+        virtualization: false,
+        autoGenerateColumns: true,
+        jQueryTemplating: false,
+…
+```
+
+### Referencing the combined and minified JavaScript file
+
+You need to manually reference several resources for &#123;environment:ProductName&#125; to work, including the base JavaScript files.
+
+The combined scripts for all Infragistics JavaScript files is the following:
+
+**In HTML:**
+
+```html
+<script src="../scripts/infragistics.core.js" type="text/javascript"></script>
+<script src="../scripts/infragistics.lob.js" type="text/javascript"></script>
+<script src="../scripts/infragistics.dv.js" type="text/javascript"></script>
+```
+
+**In Razor:**
+
+```csharp
+@using Infragistics.Web.Mvc;
+<!DOCTYPE html>
+<html>
+<head runat="server">
+..    
+<script src="@(Url.Content("~/scripts/infragistics.core.js"))" type="text/javascript"></script>
+<script src="@(Url.Content("~/scripts/infragistics.lob.js"))" type="text/javascript"></script>
+<script src="@(Url.Content("~/scripts/infragistics.dv.js"))" type="text/javascript"></script>
+```
+
+
+##<a id="referencing_external_libraries"></a>Referencing External JavaScript Resources
+
+
+### Referencing external JavaScript libraries summary
+
+The **Modernizr**, **JQuery**, and **JQuery UI** JavaScript libraries are always required in your projects including the &#123;environment:ProductName&#125;. The Modernizr library detects the current browser features, allowing the controls to identify a touch or non-touch environment.
+
+### Referencing JavaScript libraries
+
+References needed to include the libraries mentioned above:
+
+-   Modernizr library:
+
+**In HTML:**
+
+```html
+<script scr="../scripts/modernizr.js" type="text/javascript"></script>
+```
+
+-   JQuery library:
+
+**In HTML:**
+
+```html
+<script src="../scripts/jquery.js" type="text/javascript"></script>
+```
+
+-   JQuery UI library:
+
+**In HTML:**
+
+```html
+<script src="../scripts/jquery-ui.js" type="text/javascript"></script>
+```
+
+>**Note:** References must be included in the same order detailed above.
+
+
+##<a id="referencing_localization_resources"></a>Referencing Localization Resources
+
+
+### Referencing localization resources summary
+
+&#123;environment:ProductName&#125; ships with resources for English ([en]), Japanese ([ja]), Russian ([ru]), Bulgarian ([bg]), German ([de]), Spanish ([es]) and French ([fr]) languages.
+
+After adding Infragistics resources, the *scripts* folder of your Web application will have a *modules* folder. Under the modules folder localization resources for modular widgets (igGrid) need to be combined into one file.
+
+The *i18n* folder will be placed inside the *modules* folder, holding the JavaScript files to localize the widgets to the Japanese, Bulgarian, Russian, German, Spanish and French languages.
+
+JavaScript files provide localized formats including dates, numbers, and currency for the jQuery editors. These reside *in `../js/modules/i18n/regional`* (where js is the root folder for the JavaScript files in the npm package installation folder).
+
+>**Note:** The regional settings are not part of combined scripts file,therefore they must be referenced if the combined scripts file is used.
+
+>**Note**: In case that Infragistics Loader is **NOT** used, localization scripts must always be included before the actual JavaScript files. The same applies for regional scripts.
+
+>**Note:** In case that Infragistics Loader is **NOT** used and we want to configure any regional settings, the *infragistics.util* files must be included before any regional JavaScript files. This is because the regional JavaScript files are dependent of *infragistics.util* functionality and use it internally.
+
+There are two ways to reference localization resources:
+
+-   Using Infragistics Loader, which resolves the Infragistics resources (styles and scripts) and also the localization resources.
+-   Referencing the localization scripts manually.
+
+The examples below will demonstrate how to include Bulgarian localization resources, assuming you already have the JavaScript files mentioned above.
+
+### Code example: referencing localization resources using the Infragistics Loader
+
+The following code example will demonstrate how to include localization resources using the *Infragistics Loader*. The widgets localization is controlled by the locale option.
+
+**In Javascript:**
+
+```js
+$.ig.loader({
+            scriptPath: '{IG Resources root}/js/',
+            cssPath: '{IG Resources root}/css/',
+            resources: 'igHierarchicalGrid.*',
+            locale: “bg”,
+            regional :”en-GB”
+        });
+//Continue loading the widget
+```
+
+>**Note:** When the jQuery UI date picker widget is configured to be used with the Infragistics editors, it is necessary to do separate setting for the date picker’s regional settings.
+
+**The *jquery-ui-i18n.js* must be referenced on the page.**
+
+Regional setting needs to be specified as well: `$.datepicker.setDefaults($.datepicker.regional['ru']);`
+
+When setting regional settings the editors the following file must be referenced on the page:
+
+`infragistics.ui.regional-i18n.js`
+
+### Code example: referencing localization resources manually
+
+The following code example will demonstrate how to include localization resources manually. As mentioned above the localization resources must precede the other infragistics scripts.
+
+**In HTML:**
+
+
+```html
+
+
+<script scr="../scripts/modernizr.js" type="text/javascript"></script>
+
+<script src="../scripts/jquery.js" type="text/javascript"></script>
+
+<script src="../scripts/jquery-ui.js" type="text/javascript"></script>
+
+
+ <script src="../scripts/modules/js/i18n/infragistics-bg.js" type="text/javascript"></script> 
+
+    <script src="../scripts/modules/i18n/regional/infragistics.ui.regional-en-GB.js" type="text/javascript"></script> 
+```
+
+
+## <a id="infragistics_cdn"></a>Infragistics Content Deliver Network
+
+### Infragistics Content Deliver Network (CDN) summary
+
+The JavaScript files are also available in a hosted environment on the Infragistics CDN. For more information on the benefits of using a CDN, refer to the [Infragistics Content Delivery Network (CDN)](./05_Deployment_Guide_Infragistics_Content_Delivery_Network(CDN).mdx) topic.
+
+**In HTML:**
+
+```html
+<script src="http://cdn-na.infragistics.com/igniteui/&#123;environment:ProductVersion}/latest/js/infragistics.loader.js">
+</script>
+```
+
+
+##<a id="related_content"></a>Related Content
+
+
+### Topics
+
+The following topics provide additional information related to this topic.
+
+
+- [JavaScript Files in &#123;environment:ProductName&#125;](/deployment-guide-javascript-files.mdx): This topic is a reference to the JavaScript files required to work with the controls included in &#123;environment:ProductName&#125;™.
+
+- [Using Infragistics Loader](/using-infragistics-loader.mdx): This topic explains how to manage the required resources to work with the &#123;environment:ProductName&#125; using Infragistics Loader. 
+
+- [Styling and Theming &#123;environment:ProductName&#125;](/styling-and-theming/deployment-guide-styling-and-theming.mdx): Instructions on setting up your application for design time, options for using CSS in production and an overview on creating or customizing a theme.
+
+- [Infragistics Content Delivery Network (CDN) for &#123;environment:ProductName&#125;](./05_Deployment_Guide_Infragistics_Content_Delivery_Network(CDN).mdx): Instructions on using Infragistics Content Delivery Network (CDN) in &#123;environment:ProductName&#125;.
+
+
+ 
+
+ 
+
+

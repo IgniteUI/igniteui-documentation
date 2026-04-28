@@ -1,0 +1,360 @@
+---
+title: "Adding Controls to an MVC Project"
+slug: adding-igniteui-controls-to-an-mvc-project
+---
+
+# Adding Controls to an MVC Project
+
+## Topic Overview
+
+This topic explains how to get started with &#123;environment:ProductNameMVC&#125;™ components.
+
+### In this topic
+
+This topic contains the following sections:
+
+-   [Using &#123;environment:ProductNameMVC&#125;](#mvcHelper)
+-   [Methods for using &#123;environment:ProductNameMVC&#125; Controls](#methodsMVC)
+-   [Developing ASP.NET MVC application with igTree](#developingMVC)
+-   [Related Content](#related)
+
+## <a id="mvcHelper"></a> Using MVC helper
+
+### Using the MVC helper overview
+
+The &#123;environment:ProductNameMVC&#125; provides a server-side set of MVC Extensions that allows the &#123;environment:ProductName&#125; controls to be defined and used in the following way:
+
+**In Razor:**
+
+```csharp
+@(Html.Infragistics().CONTROL_NAME())
+```
+
+OR
+
+**In Razor:**
+
+```csharp
+@(Html.Infragistics().CONTROL_NAME(Model))
+```
+
+All controls have helper methods available off of the `Infragistics()` extension methods and can be seen using intellisense.
+
+**In Razor:**
+
+```csharp
+@(Html.Infragistics().Grid("grid1", Model.GridFiltering))
+```
+
+## MVC 4, MVC 5
+
+All the &#123;environment:ProductNameMVC&#125; functionality is contained in the `Infragistics.Web.Mvc` assembly, which comes compiled against all MVC4 and MVC5. For further details on the assembly location of the &#123;environment:ProductNameMVC&#125;, please read [Using JavaScript Resources in &#123;environment:ProductName&#125;](/deployment-guide-javascript-resources.mdx).
+
+> **Note**: You should set `Copy Local` property of the reference of the dll to be `true`.
+
+### Use the &#123;environment:ProductNameMVC&#125; loader
+
+The Infragistics loader is used to load dependent scripts and styles files required for the page. For further details on how to use the loader please refer to the topic: [Using JavaScript Resources in &#123;environment:ProductName&#125;](/deployment-guide-javascript-resources.mdx).
+
+The following code listing demonstrates how to initialize the &#123;environment:ProductNameMVC&#125; loader:
+
+**In Razor:**
+
+```csharp
+  <script src="{IG Resources root}/js/infragistics.loader.js"></script>
+    @(Html.Infragistics()
+        .Loader()
+        .ScriptPath("{IG Resources root}/js/")
+        .CssPath("{IG Resources root}/css/")
+        .Render()
+    )
+```
+
+
+The JavaScript files are also available in a hosted environment on the Infragistics CDN. The benefits of using a CDN are numerous so please refer to the [Infragistics Content Delivery Network (CDN)](./05_Deployment_Guide_Infragistics_Content_Delivery_Network(CDN).mdx) help topic for details.
+
+**In Razor:**
+
+```csharp
+<script src="http://cdn-na.infragistics.com/igniteui/&#123;environment:ProductVersion}/latest/js/infragistics.loader.js"></script>
+```
+
+**In Razor:**
+
+```csharp
+@(Html.Infragistics().Loader()
+    .ScriptPath(“http://cdn-na.infragistics.com/igniteui/&#123;environment:ProductVersion}/latest/js/”)
+    .CssPath(“http://cdn-na.infragistics.com/igniteui/&#123;environment:ProductVersion}/latest/css/”)
+	.Render())
+```
+
+### Calling Render() method
+
+When instantiating a &#123;environment:ProductNameMVC&#125; control, you must call the Render method last after all other options are configured. This is the method that renders the HTML and JavaScript necessary to instantiate the control on the client.
+
+## <a id="methodsMVC"></a> Methods for using &#123;environment:ProductNameMVC&#125; Controls
+
+### Methods for configuring the controls summary
+
+There are two different options available for declaring controls in an MVC application available. The following table lists the available methods for defining &#123;environment:ProductNameMVC&#125; controls depending on whether you define the control in a Model or in the View. Additional details are available after the summary table.
+
+
+| Method | Description |
+| --- | --- |
+| Defining controls in a Model | Defining the control by configuring a Model class and passing it as an argument in the grid extension method. |
+| Defining controls in a View | Defining the control in the View using chaining syntax. |
+
+
+### Configuring controls in a View
+
+Initializing the control with the chaining syntax moves all creation and configuration logic to the view, making the controller code extremely concise and clear. Defining the control in the view is achieved by exposing required properties and methods through helper’s methods that always return the same object that called them.
+
+The following code listing demonstrates how to initialize the `igTree` control using the chanining syntax.
+
+**In Razor:**
+
+```csharp
+@(Html.
+        Infragistics().
+        Tree().
+        ID("MVCBoundTree").
+        Bindings( bindings => {
+            bindings.
+            TextKey("Text").
+            ValueKey("Value").
+            ChildDataProperty("Child").
+            Bindings( b1 => {
+                b1.
+                TextKey("Text").
+                ValueKey("Value").
+                ImageUrlKey("ImageUrl").
+                NavigateUrlKey("NavigateUrl").
+                TargetKey("Target");
+            });
+        }).
+        DataSource(Model).
+        DataBind().
+        Render()  
+)
+```
+
+For complex objects [lambda expressions](http://msdn.microsoft.com/en-us/library/bb397687.aspx) are used in order to achieve the syntax. The following code listing demonstrates how to configure `ColumnLayouts` using lambda expressions.
+
+**In Razor:**
+
+```csharp
+.ColumnLayouts(layouts =>
+    {
+        layouts.For(x => x.CustomerAddresses)
+        .PrimaryKey("AddressID")
+        .ForeignKey("CustomerID")
+        .AutoGenerateColumns(false)
+        .Columns(childcols1 =>
+            {
+                childcols1.For(x => x.AddressTypeID).HeaderText("AddressTypeID");
+                childcols1.For(x => x.AddressID).HeaderText("AddressID");
+                childcols1.For(x => x.CustomerID).HeaderText("CustomerID");
+            })
+	})
+```
+
+### Configuring controls in a Model
+
+Using a model class relies on the controller to configure the control. This is useful in a scenario where after a request, you need to retrieve some of the settings or properties of the control which wouldn’t be otherwise available if you would have used chaining to configure everything in the View.
+
+> **Note**: The model class exists as a helper that can be used to help return data to the view. It is not required for any specific functionality in the controller but does make more complex remote operations easier to code.
+
+**In C#:**
+
+```csharp
+[ActionName("Filtering")]
+public ActionResult GridFiltering()
+{
+   GridFilteringModel model = new GridFilteringModel();
+   model.GridFiltering.DataSourceUrl = Url.Action("BindGridFiltering");
+   this.InitializeSortingGridOptions(model.GridFiltering);
+   return View(model);
+}
+
+private void InitializeSortingGridOptions(GridModel model)
+{
+   model.Height = "500px";
+   model.Columns.Add(new GridColumn("Product ID", "ProductID", "number", "100px"));
+   model.Columns.Add(new GridColumn("Product Name", "Name", "string", "300px"));
+   model.Columns.Add(new GridColumn("Product Number", "ProductNumber",        "string", "205px"));
+   model.Columns.Add(new GridColumn("Standard Cost", "StandardCost", "number", "110px"));
+   GridFiltering filtering = new GridFiltering();
+   model.Features.Add(filtering);
+}
+```
+
+
+## <a id="developingMVC"></a>Developing ASP.NET MVC application with igTree
+
+### Introduction
+
+The following procedure demonstrates how to add the required assemblies and resources (CSS and JavaScript files) to work with &#123;environment:ProductNameMVC&#125;.
+
+### Requirements
+
+To complete the procedure, you need the following:
+
+-   A project with any Web application
+-   &#123;environment:ProductName&#125; 20&#123;environment:ProductVersionShort&#125; installed
+-   [jQuery](http://jquery.com/) core library 1.4.4 version or above
+-   [jQuery UI](http://jqueryui.com/) library 1.8.17 or above
+-   [Modernizr](http://modernizr.com/) open-source JavaScript library 2.5.2 or above
+
+### Overview
+
+This topic takes you step-by-step toward developing an ASP.NET MVC application with the `igTree` control. The following is a conceptual overview of the process:
+
+1. Declaring the `igTree` in an MVC application using chaining
+
+2. Adding the controller’s code
+
+3. Bindings
+
+### Steps
+
+The following steps demonstrate how to develop ASP.NET MVC application with `igTree`.
+
+1. Adding required resource to the MVC application
+
+	- Add the &#123;environment:ProductName&#125; NuGet package to your application's list of dependencies.
+	- Add the &#123;environment:ProductNameMVC&#125; NuGet package (based on the MVC version you use) to your application's list of dependencies.
+
+2. Declare the igTree in an MVC application
+
+	 - Add the Infragistics loader
+	
+	This step adds the Infragistics loader to the header of the page
+	
+	**In Razor:**
+	
+```csharp
+	@(Html.Infragistics()
+	        .Loader()
+	        .ScriptPath("{IG Resources root}/js/")
+	        .CssPath("{IG Resources root}/css/")
+	        .Render()
+	)
+```
+	
+	 - Add the igTree control
+	
+	This step adds the `igTree` control to the MVC application.
+	
+	**In Razor:**
+	
+```csharp
+	@(Html.Infragistics()
+	        .Tree()
+	        .ID("XmlTree")
+	        .InitialExpandDepth(0)
+	        .DataSource(Model)
+	        .CheckboxMode(CheckboxMode.TriState)
+	        .DataBind()
+	        .Render()  
+	)
+```
+	
+	> **Note**: Notice the use of the Render method the code listing. All &#123;environment:ProductNameMVC&#125; require the Render method to be called as the last method in order to initiate server-side rendering for the control.
+
+3. Add the controller’s code
+
+	 - Add the action name
+	
+	This step adds the `ActionName` to the controller
+	
+	**In C#:**
+	
+```csharp
+	[ActionName("node-images")]
+	public ActionResult DataBindingUsingMVC()
+	{
+	    return View("NodeImages", this.GetData());
+	}
+```
+	
+	 - Add the `GetData()` helper method to the controller
+	
+	This step defines the helper method for creating the data source
+	
+	**In C#:**
+	
+```csharp
+	private IEnumerable<Folders> GetData()
+	{
+	   string phisicalFilePath = System.Web.HttpContext.Current.Server.MapPath(System.Web.HttpContext.GetGlobalResourceObject("Tree", "path_treeData").ToString());
+	   var ctx = XDocument.Load(phisicalFilePath);
+	   IEnumerable<Folders> data = from item in ctx.Root.Elements("Folder")
+	      select new Folders
+	      {
+	         Text = item.Attribute("Text").Value,
+	         Value = item.Attribute("Value").Value,
+	         ImageUrl = Url.Content(item.Attribute("ImageUrl").Value),
+	         Folder = from i1 in item.Elements("Folder")
+	    select new Folders
+	     {
+	       Text = i1.Attribute("Text").Value,
+	       Value = i1.Attribute("Value").Value,
+	       ImageUrl = Url.Content(i1.Attribute("ImageUrl").Value),
+	       Folder = from i2 in i1.Elements("Folder")
+	              select new Folders
+	              {
+	          Text = i2.Attribute("Text").Value,
+	          Value = i2.Attribute("Value").Value,
+	          ImageUrl = Url.Content(i2.Attribute("ImageUrl").Value),
+	          Folder = from i3 in i2.Elements("Folder")
+	                  select new Folders
+	                  {
+	                        Text = i3.Attribute("Text").Value,
+	                        Value = i3.Attribute("Value").Value,
+	                        ImageUrl = Url.Content(i3.Attribute("ImageUrl").Value)
+	                  }
+	               }
+	             }
+	         };
+	  return data;
+	}
+```
+
+4. Bindings
+
+	 - Add the tree bindings
+	
+	This step adds the bindings configuration to the igTree.
+	
+	> **Note**: In order for the igTree control to determine how each field of the bound data should function in the  hierarchy, a binding object must be configured for each type of object that needs to be displayed in the tree.
+	
+	**In C#:**
+	
+```csharp
+	.Bindings( bindings => {
+	            bindings.
+	            ValueKey("Value").
+	            TextKey("Text").
+	            ImageUrlKey("ImageUrl").
+	            ChildDataProperty("Folder");
+	        })
+```
+
+## Next Steps
+Now that you've had the opportunity to learn about working with &#123;environment:ProductNameMVC&#125;, make sure to check out 
+[Developing ASP.NET MVC Applications with igGrid](/controls/iggrid/developing-asp-net-mvc-applications-with-iggrid.mdx) for more detail on working specifically with ASP.NET MVC and the igGrid.
+
+## <a id="related"></a>Related Content
+
+### Topics
+
+The following topics provide additional information related to this topic.
+
+- [Developing ASP.NET MVC Applications with igGrid](/controls/iggrid/developing-asp-net-mvc-applications-with-iggrid.mdx)
+
+- [JavaScript Files in &#123;environment:ProductName&#125;](/deployment-guide-javascript-files.mdx)
+
+- [Using JavaScript Resources in &#123;environment:ProductName&#125;](/deployment-guide-javascript-resources.mdx)
+- [Styling and Theming &#123;environment:ProductName&#125;](/styling-and-theming/deployment-guide-styling-and-theming.mdx)
+
+- [Infragistics Content Delivery Network (CDN) for &#123;environment:ProductName&#125;](./05_Deployment_Guide_Infragistics_Content_Delivery_Network(CDN).mdx)

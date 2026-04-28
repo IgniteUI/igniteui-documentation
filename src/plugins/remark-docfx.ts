@@ -12,6 +12,7 @@
 import { visit } from 'unist-util-visit';
 import fs from 'node:fs';
 import path from 'node:path';
+import { walkDocsFiles } from '../llms.ts';
 
 // ENV is loaded lazily the first time replaceEnvVars() is called — NOT at
 // module load time.  Module-level code runs while the Astro config is being
@@ -62,11 +63,63 @@ function loadEnv(): Record<string, string> {
   return _ENV as Record<string, string>;
 }
 
-const ENV_PATTERN = /\{environment:(\w+)\}/g;
+const ENV_PATTERN = /(?:\{|&#123;)environment:(\w+)(?:\}|&#125;)/g;
+
+// ---------------------------------------------------------------------------
+// Slug resolution map — lazily built once per DOCS_SOURCE_PATH.
+// Maps various link forms to the canonical slug for each page.
+// ---------------------------------------------------------------------------
+let _slugMap: Map<string, string> | null = null;
+let _slugMapSourcePath: string | null = null;
+
+function getSlugMap(docsDir: string): Map<string, string> {
+  if (_slugMap !== null && docsDir === _slugMapSourcePath) return _slugMap;
+  _slugMapSourcePath = docsDir;
+  _slugMap = new Map();
+
+  for (const entry of walkDocsFiles(docsDir)) {
+    const relLower = entry.relPath.toLowerCase();
+    const basename = path.basename(relLower);
+
+    if (entry.slug !== entry.relPath) {
+      // Custom slug (from frontmatter or DocFX metadata)
+      _slugMap.set(relLower, entry.slug);
+      if (!_slugMap.has(basename)) _slugMap.set(basename, entry.slug);
+      _slugMap.set(entry.slug, entry.slug); // identity mapping
+    } else {
+      // No slug override — Astro uses the file path as the route
+      if (!_slugMap.has(basename)) _slugMap.set(basename, relLower);
+      _slugMap.set(relLower, relLower);
+    }
+  }
+
+  return _slugMap;
+}
 
 /**
- * Rewrite a relative .md link to a root-relative Astro URL.
- * Absolute, root-relative, fragment-only, and protocol links are left untouched.
+ * Resolve a link path to the correct slug using the slug map.
+ * Tries exact path match, then basename-only match.
+ */
+function resolveSlug(linkPath: string, docsDir: string): string {
+  const map = getSlugMap(docsDir);
+  const normalized = linkPath.toLowerCase();
+
+  // Try exact match (full path)
+  if (map.has(normalized)) return map.get(normalized)!;
+
+  // Try basename only (for flat fileName-based links)
+  const basename = normalized.split('/').pop() ?? normalized;
+  if (map.has(basename)) return map.get(basename)!;
+
+  // Try each suffix — the link might include partial directory paths
+  // e.g. "/adding/igbulletgraph-adding" when file is at "controls/igbulletgraph/adding/adding"
+  // In this case we can't match, just return the original
+  return normalized;
+}
+
+/**
+ * Rewrite a .md/.mdx link to a root-relative Astro URL.
+ * Handles both relative links and root-relative links.
  * @param url      - Raw link URL from the markdown AST.
  * @param filePath - Absolute path of the current .md file.
  * @param docsDir  - Absolute path to the docs root (DOCS_SOURCE_PATH).
@@ -75,31 +128,45 @@ function rewriteMdLink(url: string, filePath: string, docsDir: string): string {
   if (!url) return url;
   if (
     url.startsWith('http://') || url.startsWith('https://') ||
-    url.startsWith('/') || url.startsWith('#') || url.startsWith('mailto:')
+    url.startsWith('#') || url.startsWith('mailto:')
   ) return url;
 
+  // Normalize multiple slashes (e.g. //// → /)
+  const cleaned = url.replace(/\/{2,}/g, '/');
+
   // Separate path from fragment / query-string suffix.
-  const hashIdx = url.indexOf('#');
-  const qIdx    = url.indexOf('?');
+  const hashIdx = cleaned.indexOf('#');
+  const qIdx    = cleaned.indexOf('?');
   const splitAt = hashIdx !== -1 ? hashIdx : qIdx !== -1 ? qIdx : -1;
-  let mdPath = splitAt !== -1 ? url.slice(0, splitAt) : url;
-  const suffix = splitAt !== -1 ? url.slice(splitAt) : '';
+  let mdPath = splitAt !== -1 ? cleaned.slice(0, splitAt) : cleaned;
+  const suffix = splitAt !== -1 ? cleaned.slice(splitAt) : '';
 
-  if (!mdPath.endsWith('.md')) return url;
+  // Only handle .md and .mdx links
+  if (!mdPath.endsWith('.md') && !mdPath.endsWith('.mdx')) return cleaned;
 
-  // Resolve the link relative to the current file's directory.
+  const docsBase = (process.env.DOCS_BASE ?? '').replace(/\/$/, '');
+
+  // Root-relative links (start with /)
+  if (mdPath.startsWith('/')) {
+    // Strip leading / and extension
+    const linkPath = mdPath.slice(1).replace(/\.(mdx|md)$/i, '');
+    const slug = resolveSlug(linkPath, docsDir);
+    return docsBase + '/' + slug + '/' + suffix;
+  }
+
+  // Relative links
   const fileDir     = path.dirname(filePath);
   const resolved    = path.resolve(fileDir, mdPath);
 
-  // Compute the slug: path relative to docsDir, forward slashes, no .md extension.
-  const rel         = path.relative(docsDir, resolved).replace(/\\/g, '/');
-  const slug        = rel.endsWith('.md') ? rel.slice(0, -3) : rel;
+  // Compute the slug: path relative to docsDir, forward slashes, no extension.
+  const rel = path.relative(docsDir, resolved).replace(/\\/g, '/');
+  const relNoExt = rel.replace(/\.(mdx|md)$/i, '');
+  const slug = resolveSlug(relNoExt, docsDir);
 
   // Return a URL with the site base prepended so links remain correct when
   // the site is mounted at a sub-path (e.g. /docs-react-new/).
   // DOCS_BASE is set by createDocsSite() in integration.ts; it is empty in dev mode.
-  const docsBase = (process.env.DOCS_BASE ?? '').replace(/\/$/, '');
-  return docsBase + '/' + slug.toLowerCase() + '/' + suffix;
+  return docsBase + '/' + slug + '/' + suffix;
 }
 
 export function replaceEnvVars(str: string): string {

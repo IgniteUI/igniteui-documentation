@@ -1,0 +1,100 @@
+---
+title: "条件付き書式"
+slug: javascript-excel-library-conditional-formatting
+---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# 条件付き書式
+
+### 目的
+
+このトピックは、Infragistics Excel Library を使用してワークシートで条件付き書式を構成して設定する方法を説明します。
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+- [条件付き書式の構成の概要](#formattingsummary)
+- [条件付き書式の構成の概要表](#formattingsummarychart)
+- [コード例](#codeexample)
+- [関連コンテンツ](#relatedcontent)
+
+<a id="formattingsummary" />
+## 条件付き書式の構成の概要
+
+特定のワークシートの条件付き書式を構成するには、ワークシートの ConditionalFormats コレクションに公開される Add メソッドを使用できます。この Add メソッドの最初のパラメーターは条件付き書式に適用するワークシートの文字列領域です。
+
+Worksheet に追加可能な条件付き書式にその条件が true の場合にワークシート セル要素の外観を決定する `CellFormat` メソッドがあります。たとえば、Fill および Font などのこの `CellFormat` メソッドにアタッチされるメソッドを使用してセルの背景およびフォント設定を決定できます。
+
+条件付き書式が作成され、セルの書式設定が適用される場合、ワークシート セルにサポートされるプロパティのサブセットがあります。 現在サポートされる CellFormat メソッドのプロパティは Fill、Border プロパティ、FormatString、および Strikethrough、Underline、Italic、Bold、Color などの Font プロパティです。以下のコード スニペットに複数のプロパティが設定されます。
+
+ワークシート セルの可視化の動作が異なるため、`CellFormat` メソッドがない条件付き書式もあります。この条件付き書式は `DataBarConditionalFormat`、`ColorScaleConditionalFormat`、および `IconSetConditionalFormat` です。
+
+既存のワークブックを Excel から読み込む場合、ワークブック読み込み時に書式設定が保持されます。ワークブックを Excel ファイルに保存する場合も保持されます。
+
+<a id="formattingsummarychart" />
+## 条件付き書式の構成の概要表
+
+以下の表は、ワークシートでサポートされる条件付き書式を説明し、その要素の `ConditionalFormats` コレクションの追加するメソッドにマップします。
+
+
+| 条件付き書式 | メソッド | 説明 |
+| --- | --- | --- |
+| <ApiLink pkg="ig" type="excel.AverageConditionalFormat" label="AverageConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addAverageCondition" /> | セルの値が関連する範囲の平均または標準偏差の上下にあるかどうかに基づいてワークシート セルのビジュアル属性を制御するメソッドを公開します。 |
+| <ApiLink pkg="ig" type="excel.BlanksConditionalFormat" label="BlanksConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addBlanksCondition" /> | セルの値が設定されていないかどうかに基づいてワークシート セルのビジュアル属性を制御するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.ColorScaleConditionalFormat" label="ColorScaleConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addColorScaleCondition" /> | 最小値、中値、および最大値のしきい値に相対してセル値に基づいてワークシート セルの色設定を制御するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.DataBarConditionalFormat" label="DataBarConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addDataBarCondition" /> | 関連する値範囲に相対するセルの値に基づいてワークシート セルでデータ バーを表示するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.DateTimeConditionalFormat" label="DateTimeConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addDateTimeCondition" /> | セルの日付値が指定した範囲にあるかどうかに基づいてワークシート セルのビジュアル属性を制御するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.DuplicateConditionalFormat" label="DuplicateConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addDuplicateCondition" /> | セルの値が関連する範囲で一意または複製かどうかに基づいてワークシート セルのビジュアル属性を制御するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.ErrorsConditionalFormat" label="ErrorsConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addErrorsCondition" /> | セルの値が有効かどうかに基づいてワークシート セルのビジュアル属性を制御するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.FormulaConditionalFormat" label="FormulaConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addFormulaCondition" /> | セルの値が数式によって定義される条件に一致するかどうかに基づいてワークシート セルのビジュアル属性を制御するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.IconSetConditionalFormat" label="IconSetConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addIconSetCondition" /> | しきい値に相対するセルの値に基づいてワークシート セルでアイコンを表示するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.NoBlanksConditionalFormat" label="NoBlanksConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addNoBlanksCondition" /> | セルの値が設定されるかどうかに基づいてワークシート セルのビジュアル属性を制御するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.NoErrorsConditionalFormat" label="NoErrorsConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addNoErrorsCondition" /> | セルの値が有効かどうかに基づいてワークシート セルのビジュアル属性を制御するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.OperatorConditionalFormat" label="OperatorConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addOperatorCondition" /> | セルの値が論理演算子によって定義される条件に一致するかどうかに基づいてワークシート セルのビジュアル属性を制御するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.RankConditionalFormat" label="RankConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addRankCondition" /> | セルの値が関連する範囲の上位または下位にあるかどうかに基づいてワークシート セルのビジュアル属性を制御するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.TextOperatorConditionalFormat" label="TextOperatorConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addTextCondition" /> | セルのテキスト値が文字列によって定義される条件に一致するかどうかに基づいてワークシート セルのビジュアル属性を制御するプロパティを公開します。 |
+| <ApiLink pkg="ig" type="excel.UniqueConditionalFormat" label="UniqueConditionalFormat" /> | <ApiLink pkg="ig" type="excel.ConditionalFormatCollection" label="addUniqueCondition" /> | セルの値が関連する範囲で一意かどうかに基づいてワークシート セルのビジュアル属性を制御するプロパティを公開します。 |
+
+
+
+<a id="codeexample" />
+## コード例
+
+以下のコード例は上記の条件付き書式の使用を紹介します。
+
+
+**HTML の場合:**
+
+```html
+$(function () {
+
+        var workbook = new $.ig.excel.Workbook($.ig.excel.WorkbookFormat.excel2007);
+        var sheet = workbook.worksheets().add('Sheet1');
+        
+        var duplicateCondition = sheet.conditionalFormats().addDuplicateCondition("A2:A15");
+        duplicateCondition.cellFormat().font().colorInfo(new $.ig.excel.WorkbookColorInfo("red"));                               
+        var blanksCondition = sheet.conditionalFormats().addBlanksCondition("B2:B15");
+        blanksCondition.cellFormat().fill($.ig.excel.CellFill.createSolidFill("gray"));
+
+        var textCondition = sheet.conditionalFormats().addTextCondition("C2:C15", "Bev");
+        textCondition.cellFormat().font().colorInfo(new $.ig.excel.WorkbookColorInfo("blue"));                                 
+        var uniqueCondition = sheet.conditionalFormats().addUniqueCondition("D2:D15");      
+        uniqueCondition.cellFormat().font().colorInfo(new $.ig.excel.WorkbookColorInfo("orange"));
+        
+        var notBlankCondition = sheet.conditionalFormats().addNoBlanksCondition("E2:E15");
+        notBlankCondition.cellFormat().font().colorInfo(new $.ig.excel.WorkbookColorInfo("green"));
+                
+        sheet.conditionalFormats().addDataBarCondition("F2:F15");
+
+        var avgCondition = sheet.conditionalFormats().addAverageCondition("G2:G15");
+        avgCondition.cellFormat().font().colorInfo(new $.ig.excel.WorkbookColorInfo("red"));
+    });
+```
+
+<a id="relatedcontent" />
+### 関連コンテンツ
+
+-   [セルの結合](/javascript-excel-library-merge-cells)
+-   <ApiLink pkg="ig" type="excel.Worksheet" label="Worksheet API" />

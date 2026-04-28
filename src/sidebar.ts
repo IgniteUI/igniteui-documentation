@@ -18,6 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import * as yaml from 'js-yaml';
+import { slug as githubSlug } from 'github-slugger';
 
 // ---------------------------------------------------------------------------
 // Starlight sidebar types
@@ -52,6 +53,7 @@ type SidebarEntry = SidebarLink | SidebarGroup;
 interface TocItem {
     name?: string;
     href?: string;
+    slug?: string;
     header?: boolean;
     items?: TocItem[];
     new?: boolean;
@@ -77,14 +79,55 @@ function docExists(docsDir: string, href: string, exclude: RegExp[]): boolean {
     return alt !== null && fs.existsSync(path.join(docsDir, alt));
 }
 
-function hrefToSlug(href: string): string {
+function hrefToSlug(href: string, docsDir?: string): string {
     if (!href) return '';
-    let slug = href
+
+    // If docsDir is given, try to read a slug/fileName override from the file.
+    if (docsDir) {
+        const filePath = fs.existsSync(path.join(docsDir, href))
+            ? path.join(docsDir, href)
+            : href.endsWith('.mdx')
+                ? (fs.existsSync(path.join(docsDir, href.slice(0, -4) + '.md'))
+                    ? path.join(docsDir, href.slice(0, -4) + '.md') : null)
+                : href.endsWith('.md')
+                    ? (fs.existsSync(path.join(docsDir, href.slice(0, -3) + '.mdx'))
+                        ? path.join(docsDir, href.slice(0, -3) + '.mdx') : null)
+                    : null;
+        if (filePath) {
+            try {
+                let content = fs.readFileSync(filePath, 'utf-8');
+                // Strip UTF-8 BOM if present
+                if (content.charCodeAt(0) === 0xFEFF) content = content.slice(1);
+                // Check for frontmatter slug first
+                const fmMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+                if (fmMatch) {
+                    const slugMatch = fmMatch[1].match(/^slug:\s*(.+)$/m);
+                    if (slugMatch) return slugMatch[1].trim();
+                }
+                // Check for DocFX metadata fileName (normalizeMdxContent will use it as slug)
+                const fnMatch = content.match(/"fileName"\s*:\s*"([^"]+)"/);
+                if (fnMatch) return fnMatch[1];
+            } catch { /* fall through to path-based slug */ }
+        }
+    }
+
+    // Strip extension, normalise separators to /, lowercase.
+    const withoutExt = href
         .replace(/\\/g, '/')
         .replace(/\.(md|mdx)$/i, '')
         .toLowerCase();
-    slug = slug.replace(/\/index$/, '');
-    return slug === 'index' ? '' : slug;
+    const withoutIndex = withoutExt.replace(/\/index$/, '');
+    if (withoutIndex === 'index') return '';
+
+    // Apply the same per-segment github-slugger normalization that Astro uses
+    // when generating content collection entry IDs (see Astro content/utils.js).
+    // Use the stateless slug() function (not the GithubSlugger class) to avoid
+    // duplicate-counting across segments — e.g. 'controls/igbulletgraph/igbulletgraph'
+    // must stay as-is, not become 'controls/igbulletgraph/igbulletgraph-1'.
+    return withoutIndex
+        .split('/')
+        .map(segment => githubSlug(segment))
+        .join('/');
 }
 
 function convertTocItem(docsDir: string, item: TocItem, exclude: RegExp[]): SidebarEntry | null {
@@ -93,7 +136,7 @@ function convertTocItem(docsDir: string, item: TocItem, exclude: RegExp[]): Side
     if (item.items && item.items.length > 0) {
         const group: SidebarGroup = { label: item.name, items: [], collapsed: true };
         if (item.href && docExists(docsDir, item.href, exclude)) {
-            group.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
+            group.items.push({ label: 'Overview', slug: item.slug || hrefToSlug(item.href, docsDir) });
         }
         for (const child of item.items) {
             const entry = convertTocItem(docsDir, child, exclude);
@@ -104,7 +147,7 @@ function convertTocItem(docsDir: string, item: TocItem, exclude: RegExp[]): Side
 
     if (item.href) {
         if (!docExists(docsDir, item.href, exclude)) return null;
-        const entry: SidebarLink = { label: item.name, slug: hrefToSlug(item.href) };
+        const entry: SidebarLink = { label: item.name, slug: item.slug || hrefToSlug(item.href, docsDir) };
         // Status badge — only one slot available in Starlight, priority order:
         if (item.new) entry.badge = { text: 'New', variant: 'success' };
         else if (item.preview) entry.badge = { text: 'Preview', variant: 'caution' };
@@ -151,7 +194,7 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSid
             if (currentGroup) sidebar.push(currentGroup);
             currentGroup = { label: item.name!, items: [] };
             if (item.href && docExists(docsDir, item.href, exclude)) {
-                currentGroup.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
+                currentGroup.items.push({ label: 'Overview', slug: hrefToSlug(item.href, docsDir) });
             }
             continue;
         }

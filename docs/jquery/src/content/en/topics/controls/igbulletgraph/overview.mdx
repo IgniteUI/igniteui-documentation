@@ -1,0 +1,628 @@
+---
+title: "igBulletGraph Overview"
+slug: igbulletgraph-overview
+---
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# igBulletGraph Overview
+
+
+## Topic Overview
+
+#### Purpose
+
+This topic provides conceptual information about the `igBulletGraph`™ control including its main features, minimum requirements, and user functionality.
+
+#### Required background
+
+The following concept is required for understanding this topic.
+
+-   [Bullet graph](http://www.perceptualedge.com/articles/misc/Bullet_Graph_Design_Spec.pdf)
+
+#### In this topic
+
+This topic contains the following sections:
+
+-   [**Introduction**](#Introduction)
+    -   [igBulletGraph summary](#summary)
+-   [**Main Features**](#main-features)
+-   [**Logical areas and Configurable Visual Elements Summary**](#areas-elements)
+    -   [Logical areas](#logical-areas)
+    -   [Configurable visual elements](#configurable-visual-elements)
+-   [**Configurable Visual Elements and Related Properties**](#configurable-visual-elements-properties)
+    -   [Configurable visual elements and related properties summary](#configurable-visual-elements-properties-summary)
+    -   [Scale](#scale)
+    -   [Performance bar](#performance-bar)
+    -   [Comparative marker](#comparative-marker)
+    -   [Comparative ranges](#comparative-ranges)
+    -   [Background](#background)
+    -   [Tooltips](#tooltips)
+-   [**Default Configuration**](#default-configuration)
+-   [**Requirements**](#requirements)
+-   [**Related Content**](#related-countent)
+    -   [Topics](#related-topics)
+    -   [Samples](#related-samples)
+    -   [Resource](#related-resource)
+
+
+## <a id="Introduction"></a>Introduction
+
+
+#### <a id="summary"></a>igBulletGraph summary
+
+The `igBulletGraph` control is an **&#123;environment:ProductName&#125;**™ control which allows for visualizing data in the form of a bullet graph. Linear by design, it provides a simple and concise view of a primary measure or measures compared against a scale and, optionally, some other measure.
+
+![](images/igBulletGraph.png)
+
+The igBulletGraph control provides you with the ability to create attractive data presentations, replacing meters and gauges that are used on dashboards with simple yet straightforward and clear bar charts. A bullet graph is one of the most effective and efficient ways to present progress towards goals, good/better/best ranges, or compare multiple measurements in as little horizontal or vertical space as possible.
+
+
+## <a id="main-features"></a> Main Features
+
+The features of igBulletGraph include configurable orientation and direction, configurable visual elements and tooltips, and more. The control has also a built-in support for animated transitions.
+
+### Configurable orientation and direction
+
+The igBulletGraph control exposes an API for setting the state of its scale’s orientation and direction, so that the look of the graph can be largely customized. (For details, see the [Configuring the Orientation and Direction (*igBulletGraph*)](/configuring/igbulletgraph-configuring-the-orientation-and-direction.mdx) topic.)
+
+### Configurable visual elements
+
+Each of the [visual elements](./00_igBulletGraph_Overview.mdx#configurable-visual-elements-properties-summary) of the bullet graph can be configured in several aspects. (For details, see [Configurable Visual Elements of *igBulletGraph* and Related Properties](#configurable-visual-elements-properties).)
+
+### Animated transitions
+
+The igBulletGraph control provides built-in support for animation by its <ApiLink type="igBulletGraph" label="transitionDuration" /> property. The animation effect occurs on loading the control as well as when the value of any of its properties is changed. By default, animated transitions are disabled. Providing a value in milliseconds for the transitionDuration property of the control determines the timeframe for swiping the control into view by smoothly visualizing all its visual elements through a slide effect (from bottom-left to top-right). Setting the value to 0 disables the animated transition. For a sample, demonstrating the animation transition effect, see the [Animated Transitions](&#123;environment:SamplesUrl&#125;/bullet-graph/animated-transitions) sample.
+
+### Support for tooltips
+
+The built-in tooltips of the igBulletGraph control show the values used to create the performance bars, the target value or the values, corresponding to the different ranges respectively. They are initially styled in accordance with the default look of the control, but their look can be customized by templates. By default, tooltips are disabled. (For details, see [Configuring the Tooltips (*igBulletGraph*)](/configuring/elements/igbulletgraph-configuring-the-tooltips.mdx))
+
+
+## <a id="areas-elements"></a> Logical areas and Configurable Visual Elements Summary
+
+
+### <a id="logical-areas"></a> Logical areas
+
+The user-visible area of the igBulletGraph control is logically divided into a Graph area and a Reserved area.
+
+Horizontal orientation | Vertical orientation
+---------------------- | --------------------
+![](images/igBulletGraph_Overview_2.png) | ![](images/igBulletGraph_Overview_3.png)
+
+
+-   Reserved area (1) – This area spreads:
+    -   Along the scale – the Reserved area begins either at the edge of the control and ends at the edge of the control.
+    -   Across the scale:
+        -   In horizontal orientation: the Reserved area begins at the bottom edge of the control and spreads upward as much as the height of the numbering labels is (depending on the size and the other formatting of the font used in the labels)
+        -   In vertical orientation: the Reserved area begins at the left edge of the control and spreads to the right as much as the width of the numbering labels is (depending on how large the numbers of the measurements of the scale are and the size and the other formatting of the font used in the labels).
+
+The main purpose of the Reserved area is to provide enough space for the numbering labels of the scale at any orientation – horizontal or vertical (The Reserved area automatically re-sizes when the orientation changes in order to accommodate the specific space requirements for displaying the numbering labels in each of the orientations: in horizontal orientation, the area has to fit the labels’ height and in vertical orientation – their maximum width.) This doesn’t mean that you must necessarily place the numbering labels in the Reserved area: actually, you can position the label row anywhere across-the-scale within the [Graph area](./00_igBulletGraph_Overview.mdx#areas-elements). However, even if you place the label row outside Reserved area, this will have no bearing on the spread and location of the Reserved area itself – it remains where it is, automatically defined through the height/width (depending on the orientation) of the numbering labels.
+
+Another aspect in which the Reserved area is significant is the fact that its inner edge specifies the beginning edge of the [Graph area](./00_igBulletGraph_Overview.mdx#areas-elements) in the across-the-scale dimension. This is important, because this edge serves as a reference mark for the extent-related properties that position some [visual elements](./00_igBulletGraph_Overview.mdx#configurable-visual-elements-properties-summary) across the scale. (Positive values for these properties – the most common case – position the visual elements inside the [Graph area](./00_igBulletGraph_Overview.mdx#areas-elements) and negative values – inside the Reserved area.)
+
+-   Graph area (2) – The area for displaying the performance bars, the tick marks, the ranges, and, optionally, the numbering labels of the bullet graph. All extent-related properties for these visual elements (except for labels) are measured against its edges. The Graph area serves not as a placeholder but as a frame of reference for positioning the scale inside the control (More precisely, for positioning the [visual elements](./00_igBulletGraph_Overview.mdx#configurable-visual-elements-properties-summary) of the scale).
+
+Spread of the Graph area:
+
+-   Along the scale – the Graph area begins at the starting edge of the control (the left edge at horizontal orientation or bottom edge at vertical orientation) and ends at its ending edge (the right edge at horizontal orientation or top edge at vertical orientation). Both the starting and ending positions of the scale are measured against the starting edge of the Graph area.
+-   Across the scale – the Graph area begins at the edge of the [Reserved area](./00_igBulletGraph_Overview.mdx#areas-elements) (this is the bottom edge of the Graph area at horizontal orientation or its left edge at vertical orientation). The edge of the Graph area that borders with the Reserved area serves as reference point for the extent-related properties of some of the visual elements of the scale (for positioning these elements across the scale).
+
+### <a id="configurable-visual-elements"></a> Configurable visual elements
+
+The `igBulletGraph` control features the following visual elements (See the picture below.):
+
+-   Performance bar (3) – This is the primary measure displayed by the control and is visualized as a bar.
+-   Comparative marker (4) – A measure which the performance bar measure compares against. It is visualized as a marker that runs perpendicular to the orientation of the performance bar.
+-   Comparative range(s) (5) – The ranges are visual elements that highlight a specified range of values on a scale. Their purpose is to visually communicate the qualitative state of the performance bar measure, illustrating at the same times the degree to which it resides within that state.
+-   Tick marks (6) –The tick marks serve as a visual division of the scale into intervals in order to increase the readability of the bullet graph.
+    -   Major tick marks – The major tick marks are used as primary delimiters on the scale. The frequency they appear at, their extents and style can be controlled by setting the corresponding properties.
+    -   Minor tick marks – The minor tick marks represent helper tick marks, which might be used to additionally improve the readability of the scale and can be customized in a way similar to the major ones.
+-   Scale labels (7) – The labels indicate the measures on the scale.
+-   Border (8) – The line visually delimiting the dimensions of the control.
+-   Background (9) – The background on which visual elements is placed is configurable in terms of color.
+
+![](images/igBulletGraph_Overview_4.png)
+
+-   Tooltips – show the values used to create the performance bars, the target value or the values, corresponding to the different ranges  respectively.
+
+
+## <a id="configurable-visual-elements-properties"></a>Configurable Visual Elements and Related Properties
+
+### <a id="configurable-visual-elements-properties-summary"></a>Configurable visual elements and related properties summary
+
+There are several specific aspects in which each element can be configured.
+
+The following table provides an overview of the configurable aspects of the visual elements of the *igBulletGraph* control. Further details about the configurable aspects with illustrations and the properties that configure them are available, for each visual element, in the blocks that follow the table:
+
+
+| Visual element | Main configurable aspects |
+| --- | --- |
+| [Scale](#scale) | Position Tick marks Labels |
+| [Performance bar](#performance-bar) | Value indicated Width and position Look-and-feel |
+| [Comparative marker](#comparative-marker) | Value indicated Width Look-and-feel |
+| [Comparative ranges](#comparative-ranges) | Number (of ranges in the graph) Length, width, and position Look-and-feel |
+| [Background](#background) | Size and position Look-and-feel |
+| [Tooltips](#tooltips) | Display delay |
+
+
+### <a id="scale"></a>Scale
+
+The following pictures illustrate the scale-related extents, listed in the table below.
+
+Extent positioning the scale within the Graph area | Extents configuring the position of the labels
+---|---
+![](images/igBulletGraph_Overview_5.png) | ![](images/igBulletGraph_Overview_6.png)
+
+
+Extents configuring the major tick marks along the scale | Extents configuring the major tick marks across the scale
+-----------|--------------
+![](images/igBulletGraph_Overview_7.png) | ![](images/igBulletGraph_Overview_8.png)
+
+|Extents configuring the minor tick marks across the scale|
+|-------------|
+|![](images/igBulletGraph_Overview_9.png)|
+
+
+The following table maps the configurable aspects related to the scale of the bullet graph to the `igBulletGraph` properties that manage them.
+
+<table class="table table-bordered">
+	<tbody>
+		<tr>
+            <th colspan="4">Configurable aspects</th>
+            <th>Property</th>
+            <th>Default value</th>
+</tr>
+        <tr>
+            <th rowspan="2" colspan="4">\*\*Position\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="scaleStartExtent" section="options" label="scaleStartExtent" /></td>
+            <td>0.05</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="scaleEndExtent" section="options" label="scaleEndExtent" /></td>
+            <td>0.95</td>
+</tr>
+        <tr>
+            <th rowspan="2" colspan="2">\*\*Range and Values\*\*</th>
+            <th colspan="2">\*\*Max value\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="minimumValue" section="options" label="minimumValue" /></td>
+            <td>0</td>
+</tr>
+        <tr>
+            <th colspan="2">\*\*Min value\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="maximumValue" section="options" label="maximumValue" /></td>
+            <td>100</td>
+</tr>
+        <tr>
+            <th rowspan="12">\*\*Tick marks\*\*</th>
+            <th rowspan="7">\*\*Major tick marks\*\*</th>
+            <th rowspan="5" colspan="2">\*\*Position\*\* (within the scale)\*\*, spacing, and length\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="interval" section="options" label="interval" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="ticksPostInitial" section="options" label="ticksPostInitial" /></td>
+            <td>0</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="ticksPreTerminal" section="options" label="ticksPreTerminal" /></td>
+            <td>0</td>
+</tr>
+
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="tickStartExtent" section="options" label="tickStartExtent" /></td>
+            <td>0.02</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="tickEndExtent" section="options" label="tickEndExtent" /></td>
+            <td>0.2</td>
+</tr>
+        <tr>
+            <th rowspan="2">\*\*Look-and-feel\*\*</th>
+            <th>Color</th>
+            <td><ApiLink type="igBulletGraph" member="tickBrush" section="options" label="tickBrush" /></td>
+            <td>Defined in the default theme</td>
+</tr>
+        <tr>
+            <th>Width</th>
+            <td><ApiLink type="igBulletGraph" member="tickStrokeThickness" section="options" label="tickStrokeThickness" /></td>
+            <td>2.0</td>
+</tr>
+        <tr>
+            <th rowspan="5">\*\*Minor tick marks\*\*</th>
+            <th colspan="2">\*\*Number\*\* (between two adjacent major tick marks)</th>
+            <td><ApiLink type="igBulletGraph" member="minorTickCount" section="options" label="minorTickCount" /></td>
+            <td>3.0</td>
+</tr>
+        <tr>
+            <th rowspan="2" colspan="2">\*\*Position\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="minorTickStartExtent" section="options" label="minorTickStartExtent" /></td>
+            <td>0.06</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="minorTickEndExtent" section="options" label="minorTickEndExtent" /></td>
+            <td>0.2</td>
+</tr>
+        <tr>
+            <th rowspan="2">\*\*Look-and-feel\*\*</th>
+            <th>Color</th>
+            <td><ApiLink type="igBulletGraph" member="minorTickBrush" section="options" label="minorTickBrush" /></td>
+            <td>Defined in the default theme</td>
+</tr>
+
+        <tr>
+            <th>Width</th>
+            <td><ApiLink type="igBulletGraph" member="minorTickStrokeThickness" section="options" label="minorTickStrokeThickness" /></td>
+            <td>1.0</td>
+</tr>
+        <tr>
+            <th rowspan="7">\*\*Labels\*\*</th>
+            <th rowspan="4" colspan="3">\*\*Position and spacing\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="labelExtent" section="options" label="labelExtent" /></td>
+            <td>0</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="labelInterval" section="options" label="labelInterval" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="labelsPostInitial" section="options" label="labelsPostInitial" /></td>
+            <td>0</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="labelsPreTerminal" section="options" label="labelsPreTerminal" /></td>
+            <td>0</td>
+</tr>
+        <tr>
+            <th colspan="3">\*\*Number format\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="labelFormat" section="options" label="labelFormat" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <th rowspan="2" colspan="2">\*\*Look-and-feel\*\*</th>
+            <th>Color</th>
+            <td><ApiLink type="igBulletGraph" member="fontBrush" section="options" label="fontBrush" /></td>
+            <td>Defined in the default theme</td>
+</tr>
+        <tr>
+            <th>Font</th>
+            <td><ApiLink type="igBulletGraph" member="font" section="options" label="font" /></td>
+            <td>Defined in the default theme</td>
+</tr>
+    </tbody>
+</table>
+
+
+#### Related Topics
+
+-   [Configuring the Scale (*igBulletGraph*)](/configuring/elements/scale/igbulletgraph-configuring-the-scale.mdx)
+
+### <a id="performance-bar"></a>Performance bar
+
+The following picture illustrates the performance-bar-related extents, listed in the table below.
+
+![](images/igBulletGraph_Overview_88.png)
+
+The following table maps the configurable aspects related to the performance bar of the bullet graph to the `igBulletGraph` properties that manage them.
+
+<table class="table table-bordered">
+	<tbody>
+		<tr>
+            <th colspan="2">\*\*Configurable aspects\*\*</th>
+            <th>Property</th>
+            <th>Default value</th>
+</tr>
+        <tr>
+            <th colspan="2">\*\*Name\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="valueName" section="options" label="valueName" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <th colspan="2">\*\*Value to indicate\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="value" section="options" label="value" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <th rowspan="2" colspan="2">\*\*Breadth and position\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="valueInnerExtent" section="options" label="valueInnerExtent" /></td>
+            <td>\*0.5\*</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="valueOuterExtent" section="options" label="valueOuterExtent" /></td>
+            <td>\*0.65\*</td>
+</tr>
+        <tr>
+            <th rowspan="3">\*\*Look-and-feel\*\*</th>
+            <th>Fill color</th>
+            <td><ApiLink type="igBulletGraph" member="valueBrush" section="options" label="valueBrush" /></td>
+            <td>Defined in the default theme</td>
+</tr>
+        <tr>
+            <th>Border color</th>
+            <td><ApiLink type="igBulletGraph" member="valueOutline" section="options" label="valueOutline" /></td>
+            <td>Defined in the default theme</td>
+</tr>
+        <tr>
+            <th>Border thickness</th>
+            <td><ApiLink type="igBulletGraph" member="valueStrokeThickness" section="options" label="valueStrokeThickness" /></td>
+            <td>\*1.0\*</td>
+</tr>
+        <tr>
+            <th colspan="2">\*\*Tooltip\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="valueToolTip" section="options" label="valueToolTip" /></td>
+            <td>Depends on whether <ApiLink type="igBulletGraph" member="valueName" section="options" label="valueName" /> has been initialized</td>
+</tr>
+    </tbody>
+</table>
+
+
+#### Related Topics
+
+-   [Configuring the Performance Bar (*igBulletGraph*)](/configuring/elements/igbulletgraph-configuring-the-performance-bar.mdx)
+
+### <a id="comparative-marker"></a>Comparative marker
+
+The following picture illustrates the comparative-market-related extents, listed in the table below.
+
+![](images/igBulletGraph_Overview_10.png)
+
+The following table maps the configurable aspects related to the comparative marker of the bullet graph to the `igBulletGraph` properties that manage them.
+
+<table class="table table-bordered">
+    <tbody>
+		<tr>
+            <th colspan="2">Configurable aspects</th>
+            <th>Property</th>
+            <th>Default value</th>
+</tr>
+        <tr>
+            <th colspan="2">\*\*Value indicated\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="targetValue" section="options" label="targetValue" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <th colspan="2">\*\*Breadth\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="targetValueBreadth" section="options" label="targetValueBreadth" /></td>
+            <td>\*3.0\*</td>
+</tr>
+        <tr>
+            <th rowspan="3">\*\*Look-and-feel\*\*</th>
+            <th>Fill color</th>
+            <td><ApiLink type="igBulletGraph" member="targetValueBrush" section="options" label="targetValueBrush" /></td>
+            <td>Defined in the default theme</td>
+</tr>
+        <tr>
+            <th>Border color</th>
+            <td><ApiLink type="igBulletGraph" member="targetValueOutline" section="options" label="targetValueOutline" /></td>
+            <td>Defined in the default theme</td>
+</tr>
+        <tr>
+            <th>Border thickness</th>
+            <td><ApiLink type="igBulletGraph" member="targetValueStrokeThickness" section="options" label="targetValueStrokeThickness" /></td>
+            <td>\*1.0\*</td>
+</tr>
+    </tbody>
+</table>
+
+
+#### Related Topics
+
+-   [Configuring the Comparative Marker (*igBulletGraph*)](/configuring/elements/igbulletgraph-configuring-the-comparative-marker.mdx)
+
+### <a id="comparative-ranges"></a>Comparative ranges
+
+The following picture illustrates the comparative-ranges-related extents, listed in the table below.
+
+![](images/igBulletGraph_Overview_11.png)
+
+The following table maps the configurable aspects related to the comparative ranges of the bullet graph to the `igBulletGraph` properties that manage them.
+
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <th colspan="2">Configurable aspects</th>
+            <th>Property</th>
+            <th>Default value</th>
+</tr>
+        <tr>
+            <th colspan="2">\*\*Number\*\* (of ranges in the graph)</th>
+            <td><ApiLink type="igBulletGraph" member="ranges" section="options" label="ranges" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <th rowspan="6" colspan="2">\*\*Length, width, and position\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="startValue" section="options" label="startValue" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="endValue" section="options" label="endValue" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="innerStartExtent" section="options" label="innerStartExtent" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="innerEndExtent" section="options" label="innerEndExtent" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="outerStartExtent" section="options" label="outerStartExtent" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="outerEndExtent" section="options" label="outerEndExtent" /></td>
+            <td>Not set</td>
+</tr>
+        <tr>
+            <th rowspan="3">\*\*Look-and-feel\*\*</th>
+            <th>Fill color</th>
+            <td><ApiLink type="igBulletGraph" member="brush" section="options" label="brush" /></td>
+            <td>Defined in the default theme</td>
+</tr>
+        <tr>
+            <th>Border color</th>
+            <td><ApiLink type="igBulletGraph" member="outline" section="options" label="outline" /></td>
+            <td>Defined in the default theme</td>
+</tr>
+        <tr>
+            <th>Border thickness</th>
+            <td><ApiLink type="igBulletGraph" member="strokeThickness" section="options" label="strokeThickness" /></td>
+            <td>\*1.0\*</td>
+</tr>
+        <tr>
+            <th colspan="2">\*\*Tooltip\*\*</th>
+            <td><ApiLink type="igBulletGraph" member="rangeToolTip" section="options" label="rangeToolTip" /></td>
+            <td>The start and end values of the range separated by a hyphen (-).</td>
+</tr>
+    </tbody>
+</table>
+
+
+#### Related Topics
+
+-   [Configuring Comparative Ranges (*igBulletGraph*)](/configuring/elements/igbulletgraph-configuring-comparative-ranges.mdx)
+
+### <a id="background"></a>Background
+
+The following picture illustrates the background-related extents, listed in the table below.
+
+![](images/igBulletGraph_Overview_12.png)
+
+The following table maps the configurable aspects related to the background of the bullet graph to the `igBulletGraph` properties that manage them.
+
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <th colspan="2">Configurable aspects</th>
+            <th>Property</th>
+            <th>Default value</th>
+</tr>
+        <tr>
+            <th rowspan="2" colspan="2">\*\*Spread and position\*\* (across the scale)</th>
+            <td><ApiLink type="igBulletGraph" member="backingInnerExtent" section="options" label="backingInnerExtent" /></td>
+            <td>\*0\*</td>
+</tr>
+        <tr>
+            <td><ApiLink type="igBulletGraph" member="backingOuterExtent" section="options" label="backingOuterExtent" /></td>
+            <td>\*1.0\*</td>
+</tr>
+        <tr>
+            <th rowspan="3">\*\*Look-and-feel\*\*</th>
+            <th>Color</th>
+            <td><ApiLink type="igBulletGraph" member="backingBrush" section="options" label="backingBrush" /></td>
+            <td>Defined in the default theme</td>
+</tr>
+        <tr>
+            <th>Border color</th>
+            <td><ApiLink type="igBulletGraph" member="backingOutline" section="options" label="backingOutline" /></td>
+            <td>Defined in the default theme</td>
+</tr>
+        <tr>
+            <th>Border thickness</th>
+            <td><ApiLink type="igBulletGraph" member="backingStrokeThickness" section="options" label="backingStrokeThickness" /></td>
+            <td>\*2.0\*</td>
+</tr>
+    </tbody>
+</table>
+
+#### Related Topics
+
+-   [Configuring the Background (*igBulletGraph*)](/configuring/elements/igbulletgraph-configuring-the-background.mdx)
+
+### <a id="tooltips"></a>Tooltips
+
+The following table maps the configurable aspects of the `igBulletGraph` control related to tooltips to the properties that manage them.
+
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <th>Configurable aspect</th>
+            <th colspan="2">Details</th>
+            <th>Properties / Events</th>
+            <th>Default value</th>
+</tr>
+        <tr>
+            <th>Visibility</th>
+            <td colspan="2">You can enable/disable tooltips for the \*\*igBulletGraph\*\* control.</td>
+            <td><ApiLink type="igBulletGraph" member="showToolTip" section="options" label="showToolTip" /></td>
+            <td>\*False\*</td>
+</tr>
+        <tr>
+            <th>Delay</th>
+            <td colspan="2">The timeout before the tooltip appears upon the visual element at mouse hovering is configurable in milliseconds.</td>
+            <td><ApiLink type="igBulletGraph" member="showToolTipTimeout" section="options" label="showToolTipTimeout" /></td>
+            <td>\*500\*</td>
+</tr>
+        <tr>
+            <th rowspan="3">Value</th>
+            <td rowspan="3">You can provide a custom value for the respective tooltip property.</td>
+            <td>[\*\*Performance bar\*\*](./02_Configuring/01_Elements/05_igBulletGraph_Configuring_the_Tooltips.mdx#performance-bar)</td>
+            <td><ApiLink type="igBulletGraph" member="valueToolTip" section="options" label="valueToolTip" /></td>
+            <td>Depends on whether <ApiLink type="igBulletGraph" member="valueName" section="options" label="valueName" /> has been initialized (see [Configuring the Tooltips (\*igBulletGraph\*)](/configuring/elements/igbulletgraph-configuring-the-tooltips.mdx))</td>
+</tr>
+        <tr>
+            <td>[\*\*Comparative marker\*\*](./02_Configuring/01_Elements/05_igBulletGraph_Configuring_the_Tooltips.mdx#comparative-marker)</td>
+            <td><ApiLink type="igBulletGraph" member="targetValueToolTip" section="options" label="targetValueToolTip" /></td>
+            <td>The value indicated by the comparative marker</td>
+</tr>
+        <tr>
+            <td>[\*\*Comparative Range(s)\*\*](./02_Configuring/01_Elements/05_igBulletGraph_Configuring_the_Tooltips.mdx#comparative-ranges)</td>
+            <td><ApiLink type="igBulletGraph" member="rangeToolTip" section="options" label="rangeToolTip" /></td>
+            <td>The start and end values of the range separated by a hyphen.</td>
+</tr>
+    </tbody>
+</table>
+
+
+#### Related Topics
+
+-   [Configuring the Tooltips (*igBulletGraph*)](/configuring/elements/igbulletgraph-configuring-the-tooltips.mdx)
+
+
+## <a id="default-configuration"></a> Default Configuration
+By default, the `igBulletGraph` control is oriented horizontally. It displays with a scale starting at 0 and ending at 100. The major tick marks of the control are located at an interval of 10 and the count of minor tick marks between each pair of major tick marks is 3. There is no title/subtitle displayed, the background color is a variety of light grey. The border is 2 pixels thick colored in dark grey. No comparative marker or ranges are displayed. Animated transitions are disabled.
+
+The following picture demonstrates a `igBulletGraph` displayed with default settings.
+
+![](images/igBulletGraph_Overview_13.png)
+
+
+## <a id="requirements"></a>Requirements
+
+The `igBulletGraph` control is a jQuery UI widget and, therefore, depends on the jQuery and jQuery UI libraries. References to these resources are needed nevertheless, in spite of the use of pure jQuery or &#123;environment:ProductNameMVC&#125;. The *Infragistics.Web.Mvc* assembly is required when the control is used in the context of ASP.NET MVC.
+
+In order for the bullet graph to display the performance value(s), the <ApiLink type="igBulletGraph" member="targetValue" section="options" label="targetValue" /> property has to be set.
+
+For the full requirements listing, refer to the [Adding *igBulletGraph*](/adding/igbulletgraph-adding.mdx) topic.
+
+
+## <a id="related-countent"></a>Related Content
+
+### <a id="related-topics"></a>Topics
+
+The following topics provide additional information related to this topic.
+
+
+- [Adding *igBulletGraph*](/adding/igbulletgraph-adding.mdx): This is a group of topics demonstrating how to add the igBulletGraph control to an HTML page and to an ASP.NET MVC application.
+
+- [Configuring *igBulletGraph*](/configuring/igbulletgraph-configuring.mdx): This is a group of topics explaining how to configure the various aspects of the igBulletGraph control including its orientation and direction and visual elements.
+
+- [jQuery and MVC API Links (*igBulletGraph*)](/igbulletgraph-api-links.mdx): This topic provides links to the API reference documentation about the igBulletGraph control and its ASP.NET MVC Helper.
+
+- [Known Issues and Limitations (*igBulletGraph*)](/igbulletgraph-known-issues-and-limitations.mdx): This topic provides information about the known issues and limitations of the igBulletGraph control.
+
+
+### <a id="related-samples"></a>Samples
+
+The following samples provide additional information related to this topic.
+
+- [Basic Configuration](&#123;environment:SamplesUrl&#125;/bullet-graph/basic-configuration): This sample demonstrates a simple configuration of the igBulletGraph control.
+
+- [Animated Transitions](&#123;environment:SamplesUrl&#125;/bullet-graph/animated-transitions): This sample demonstrates animated transitions between different sets of settings in the igBulletGraph control.
+
+
+### <a id="related-resource"></a>Resource
+
+The following material (available outside the Infragistics family of content) provides additional information related to this topic.
+
+- [Bullet Graph Design Specification](http://www.perceptualedge.com/articles/misc/Bullet_Graph_Design_Spec.pdf): This is a PDF document explaining the bullet graph conceptually and providing design recommendations.

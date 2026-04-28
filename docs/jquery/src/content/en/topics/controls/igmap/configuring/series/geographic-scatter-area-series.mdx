@@ -1,0 +1,253 @@
+---
+title: "Configuring Geographic Scatter Area Series (igMap)"
+slug: igmap-configuring-geographic-scatter-area-series
+---
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# Configuring Geographic Scatter Area Series (igMap)
+
+
+##Topic Overview
+
+### Purpose
+
+This topic explains how to configure geographic scatter area series with the `igMap`™ control.
+
+### Required background
+
+The following topics are prerequisites to understanding this topic:
+
+-	[igMap Overview](//overview-igmap.mdx): This topic provides conceptual information about the `igMap` control including its main features, minimum requirements and user interaction capabilities.
+
+-	[Adding an igMap](//adding-igmap.mdx): This topic is a walkthrough for adding a simple `igMap` control with basic features to a web page.
+
+### In this topic
+
+This topic contains the following sections:
+
+-   [Introduction](#introduction)
+-   [Geographic Scatter Area Series Configuration Summary](#config-summary)
+-   [Code Examples](#code-example)
+    -   [Configuring Geographic Scatter Area Series in JavaScript](#config-series-js)
+    -   [Configuring Geographic Scatter Area Series in ASP.NET MVC](#config-series-mvc)
+    -   [Configuring Custom Triangulation Data Source](#config-custom-datasource)
+-   [Related Content](#related-content)
+    -   [Topics](#topics)
+    -   [Samples](#samples)
+    -   [External resources](#external-resources)
+
+
+##<a id="introduction"></a>Introduction
+
+### Geographic scatter area series summary
+
+The geographic scatter area series of the `igMap` control plots regions specified by triangular irregular networks (TINs) from triangulation ITF files or other custom data sources. The TINs are a way to describe mathematically geographic surfaces in three dimensions.
+
+Triangles from the source data are grouped in ranges with similar or close values and all triangles in these ranges are filled with specific color picked from a palette of colors configured with the map series object.
+
+The range of possible values is divided into sub ranges with a sub range for each color in the palette. Thus, distributing colors evenly in the range between the minimum and maximum value from the data that are also configurable parameters. For every particular triangle, the correct sub range is found and the corresponding color picked. The minimum and the maximum values are drawn using the first and last colors from the palette respectively.
+
+The geographic scatter area series are useful to represent terrain, weather information or any other data that describe a geospatial field. This could include, for example, the distribution of some value in space. This map series is compounded by the geographic contour line series that draws colored contour lines between areas to delineate them instead of filling entire ranges with color. On the picture, below you can see the geographic scatter area series used to depict precipitation data for an area in the United States.
+
+![](images/Configuring_Geographic_Scatter_Area_Series_1.png)
+
+You can control the palette color of polylines using CSS styles or options of the series object. Refer to the topic [Styling Maps (igMap)](//styling-igmap.mdx) for more information.
+
+>**Note:**It is recommended to use smaller triangulation data sets when targeting mobile devices. Rendering geospatial data requires more computing resources and most mobile devices offer lower performance compared to desktop and laptop computers.
+
+
+##<a id="config-summary"></a>Geographic Scatter Area Series Configuration Summary
+
+### Geographic scatter area series configuration summary chart
+
+The following table lists the configurable aspects of the `igMap` control regarding geographic scatter area series.
+
+
+|  |  |  |
+| --- | --- | --- |
+| Configurable aspect | Details | Properties |
+| Set up geographic scatter area series | These mandatory setting configures the type of the map series to geographic scatter area and sets the series’ name. | In JavaScript: <ApiLink type="igMap" label="series.type" /> <ApiLink type="igMap" label="series.name" />, Value:, **series.type: “geographicScatterArea”** **series.type: “seriesName”**, , In ASP.NET MVC:, [MapSeriesBuilder&lt;T&gt; Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.MapSeriesBuilder`1.html) [.GeographicScatterArea()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.MapSeriesBuilder`1~GeographicScatterArea.html), Value:, , **series.GeographicScatterArea(“seriesName”)** |
+| Bind to an ITF file | Use this setting to configure for triangulation file’s URL. | In JavaScript: <ApiLink type="igMap" member="series.triangulationDataSource" section="options" label="series.triangulationDataSource" /> In ASP.NET MVC: [GeographicScatterAreaSeries&lt;T&gt; Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicScatterAreaSeries`1.html) [.TriangulationDataSource()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicXYTriangulatingSeries`3~TriangulationDataSource.html) |
+| Bind to a custom triangles data source | Use These settings to configure an array of objects with geospatial data that describe a field of geographical points and their associated numeric values. | In JavaScript: <ApiLink type="igMap" member="series.dataSource" section="options" label="series.dataSource" /> <ApiLink type="igMap" member="series.longitudeMemberPath" section="options" label="series.longitudeMemberPath" /> <ApiLink type="igMap" member="series.latitudeMemberPath" section="options" label="series.latitudeMemberPath" /> <ApiLink type="igMap" member="series.colorMemberPath" section="options" label="series.colorMemberPath" /> Optional: <ApiLink type="igMap" member="series.triangleVertexMemberPath1" section="options" label="series.triangleVertexMemberPath1" /> <ApiLink type="igMap" member="series.triangleVertexMemberPath2" section="options" label="series.triangleVertexMemberPath2" /> <ApiLink type="igMap" member="series.triangleVertexMemberPath3" section="options" label="series.triangleVertexMemberPath3" /> In ASP.NET MVC: [GeographicScatterAreaSeries&lt;T&gt; Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicScatterAreaSeries`1.html) [.LongitudeMemberPath()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicXYTriangulatingSeries`3~LongitudeMemberPath.html) [.LatitudeMemberPath()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicXYTriangulatingSeries`3~LatitudeMemberPath.html) [.ColorMemberPath()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicScatterAreaSeries`1~ColorMemberPath.html) Optional: [GeographicScatterAreaSeries&lt;T&gt; Class](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicScatterAreaSeries`1.html) [.TriangleVertexMemberPath1()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicXYTriangulatingSeries`3~TriangleVertexMemberPath1.html) [.TriangleVertexMemberPath2()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicXYTriangulatingSeries`3~TriangleVertexMemberPath2.html) [.TriangleVertexMemberPath3()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.GeographicXYTriangulatingSeries`3~TriangleVertexMemberPath3.html) |
+| Color palette | Use this mandatory setting to configure the color palette for the triangles values. There is no default color palette value. | In JavaScript: <ApiLink type="igMap" member="series.colorScale.palette" section="options" label="series.colorScale.palette" /> In ASP.NET MVC: [CustomPalette.Palette()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.CustomPalette~Palette.html) |
+| Interpolation mode for values to colors mapping | Use this setting to configure the logic that maps values to colors. | In JavaScript: <ApiLink type="igMap" member="series.colorScale.interpolationMode" section="options" label="series.colorScale.interpolationMode" /> In ASP.NET MVC: [CustomPalette.InterpolationMode()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.CustomPalette~InterpolationMode.html) |
+| Minimum value for color palette | Use this setting to configure the minimum value for calculating value sub ranges. | In JavaScript: <ApiLink type="igMap" member="series.colorScale.minimumValue" section="options" label="series.colorScale.minimumValue" /> In ASP.NET MVC: [CustomPalette.MinimumValue()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.CustomPalette~MinimumValue.html) |
+| Maximum value for color palette | Use this setting to configure the maximum value for calculating value sub ranges. | In JavaScript: <ApiLink type="igMap" member="series.colorScale.maximumValue" section="options" label="series.colorScale.maximumValue" /> In ASP.NET MVC: [CustomPalette.MaximumValue()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.CustomPalette~MaximumValue.html) |
+
+
+##<a id="code-example"></a>Code Examples
+
+### Code examples summary
+
+The following table lists the code examples included in this topic.
+
+Example|Description
+---|---
+[Configuring Geographic Scatter Area Series in JavaScript](#config-series-js)|This code example shows how to configure an `igMap` control to display geographic scatter area series in JavaScript.
+[Configuring Geographic Scatter Area Series in ASP.NET MVC](#config-series-mvc)|This code example shows how to configure an `igMap` control to display geographic shape series in ASP.NET MVC.
+[Configuring Custom Triangulation Data Source](#config-custom-datasource)|This code example shows how to configure an `igMap` control to display geographic scatter area series with custom triangulation data source. 
+
+
+##<a id="config-series-js"></a>Code Example: Configuring Geographic Scatter Area Series in JavaScript
+
+### Description
+
+This code example shows how to configure an `igMap` control to display the geographic scatter area series in JavaScript. The example shows how to specify the URL for a triangulated file, and define the color palette, with interpolation mode and minimum value.
+
+### Code
+
+**In JavaScript:**
+
+```js
+Code
+$("#map").igMap({
+    ...
+    series: [{
+        type: "geographicScatterArea",
+        name: "seriesName",
+        colorScale: {
+            type: "customPalette",
+            interpolationMode: "interpolateRGB",
+            minimumValue: 0.15,
+            palette: ["#3300CC", "#4775FF", "#0099CC", "#00CC99", "#33CC00", 
+                "#99CC00", "#CC9900", "#FFC20A", "#CC3300"]
+        },
+        triangleVertexMemberPath1: "v1",
+        triangleVertexMemberPath2: "v2",
+        triangleVertexMemberPath3: "v3",
+        longitudeMemberPath: "pointX",
+        latitudeMemberPath: "pointY",
+        colorMemberPath: "value",
+        triangulationDataSource: "/Data/triangulation.itf"
+    }],
+    ...
+});
+```
+
+
+##<a id="config-series-mvc"></a>Code Example: Configuring Geographic Scatter Area Series in ASP.NET MVC
+
+
+### Description
+
+This code example shows how to configure an `igMap` control to display the geographic scatter area series in ASP.NET MVC. The example shows how to specify the URL for a triangulated file, and define the color palette with interpolation mode and minimum value.
+
+### Code
+
+**In ASPX:**
+
+```csharp
+Code
+<%= Html.Infragistics().Map()
+        .ID("map")
+        ...
+        .Series(series => {
+            series.GeographicScatterArea("seriesName")
+                .ColorScale(cs => 
+                    cs.CustomPalette()
+                    .InterpolationMode(InterpolationMode.InterpolateRGB)
+                    .MinimumValue(0.15)
+                    .Palette(new List<string>() { 
+                        "#3300CC", "#4775FF", "#0099CC", "#00CC99", "#33CC00", 
+                        "#99CC00", "#CC9900", "#FFC20A", "#CC3300" 
+                    })
+                )
+                .TriangleVertexMemberPath1("v1")
+                .TriangleVertexMemberPath2("v2")
+                .TriangleVertexMemberPath3("v3")
+                .LongitudeMemberPath("pointX")
+                .LatitudeMemberPath("pointY")
+                .ColorMemberPath("value")
+                .TriangulationDataSource(Url.Content("~/Data/triangulation.itf"));
+        })
+        ...
+        .DataBind()
+        .Render()
+%>
+```
+
+
+##<a id="config-custom-datasource"></a>Code Example: Configuring Custom Triangulation Data Source
+
+### Description
+
+This code example shows how to configure an `igMap` control to display the geographic scatter area series with a custom triangulation data source. The example shows the general structure of the data objects expected by the control. The example also explains how to configure the igMap control’s series object.
+
+### Code
+
+The following code snippet defines a JavaScript array containing information about geographic points and their associated numeric values. The array contains identical objects with three data members. The latitude and longitude data members of every object define the geographical coordinates of the corresponding point. The value data member contains a numeric value associated with the point.
+
+**In JavaScript:**
+
+```js
+var data = [
+    { longitude: 0, latitude: 0, value: 1 },
+    { longitude: 50, latitude: 0, value: 2 },
+    { longitude: 50, latitude: 50, value: 3 },
+    { longitude: 0, latitude: 50, value: 1 }
+];
+```
+
+The following code snippet configures the geographic contour line series with the custom data source specified in the previous example. The code explicitly sets the `latitudeMemberPath`, `longitudeMemberPath` and `valueMemberPath` options with the names of the corresponding data members from the data array.
+
+**In JavaScript:**
+
+```js
+$("#map").igMap({
+    ...
+    series: [{
+        type: "geographicScatterArea",
+        name: "seriesName",
+        dataSource: data,
+        latitudeMemberPath: "latitude",
+        longitudeMemberPath: "longitude",
+        colorMemberPath: "value",
+        colorScale: {
+            minimumValue: 1,
+            interpolationMode: "select",
+            palette: ["darkgreen", "green", 'limegreen', 'lightgreen']
+        }
+    }],
+    ...
+});
+```
+
+The data points defined in the data array need to be triangulated before rendering the control on the screen. This is done to help ensure the correct position and size of all colored areas to be found. You can find more information about the process of triangulation following the links given in the [Related Content: External resources](./03_igMap_Configuring_Geographic_Scatter_Area_Series.mdx#external-resources) section.
+
+
+##<a id="related-content"></a>Related Content
+
+### <a id="topics"></a>Topics
+
+The following topics provide additional information related to this topic.
+
+-	[Configuring the Map Series (igMap)](/igmap-creating-different-kinds-maps.mdx): This topic is a landing page linking to the topics explaining how to configure all supported map visualizations by the `igMap` control and how to use different background content (map providers).
+
+-	[Configuring Features (igMap)](/features/igmap-configuring-features.mdx): This topic is a landing page linking to the topics explaining how to configure various features of the `igMap` control.
+
+-	[Data Binding (igMap)](//data-binding-igmap.mdx): This topic explains how to bind the `igMap` control to different data sources depending on the map series visualized.
+
+-	[Styling Maps (igMap)](//styling-igmap.mdx): This topic explains how the `igMap` control can be configured with regard to visual styling.
+
+
+### <a id="samples"></a>Samples
+
+The following samples provide additional information related to this topic.
+
+-	[Geographic Scatter Area Series](&#123;environment:SamplesUrl&#125;/map/geo-scatter-area):This sample demonstrates how to bind pre-triangulated files (.ITF) to a map control with the help of the geographic scatter area series.
+
+
+### <a id="external-resources"></a>External resources
+
+The following material (available outside the Infragistics family of content) provides additional information related to this topic.
+
+-	[Triangulation (geometry)](http://en.wikipedia.org/wiki/Triangulation_%28geometry%29):This topic describes what the process of triangulation is from geometrical perspective.
+
+-	[Triangulation](http://en.wikipedia.org/wiki/Triangulation): This Wikipedia topic describes what the process of triangulation is and provides some additional references to the subject.
+
+
+ 
+
+ 
+
+
