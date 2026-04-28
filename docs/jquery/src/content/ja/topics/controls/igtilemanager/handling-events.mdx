@@ -1,0 +1,179 @@
+---
+title: "イベントの処理 (igTileManager)"
+slug: igtilemanager-handling-events
+---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# イベントの処理 (igTileManager)
+
+## トピックの概要
+### 目的
+
+このトピックではコード例を使用して、イベント ハンドラーを `igTileManager`™ コントロールに添付する方法を説明します。
+
+### 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+- [&#123;environment:ProductName&#125; でイベントの使用](/using-events-in-igniteui-for-jquery): このトピックは、&#123;environment:ProductName&#125;® コントロールが発生させるイベントの処理方法について説明します。また、初期化と初期化後のイベントのバインドの違いについても説明します。
+
+- [igTileManager の概要](/igtilemanager-overview): このトピックでは、主要機能、最小要件およびユーザー機能性など、`igTileManager` コントロールについて概念的な情報を提供します。
+
+- [igTileManager の追加](/igtilemanager-adding): このトピックでは、主要機能、最小要件およびユーザー機能性など、`igTileManager` コントロールについて概念的な情報を提供します。
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [**イベントの処理 - 概要**](#overview)
+    -   [イベント処理の概要](#summary)
+    -   [イベント処理ケースの概要表](#summary-chart)
+-   [**イベント リファレンス**](#event-reference)
+    -   [イベント リファレンス表](#event-reference-chart)
+-   [**コード例の概要**](#code-example)
+-   [コード例: jQuery での初期化時の Rendered イベントの処理](#init-jquery)
+    -   [説明](#jquery-description)
+    -   [コード](#jquery-code)
+-   [コード例: ASP.NET MVC での実行時の Rendered イベントの処理](#render-run-time-mvc)
+    -   [説明](#mvc-description)
+    -   [コード](#mvc-code)
+-   [**関連コンテンツ**](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+
+
+## <a id="overview"></a>イベントの処理 - 概要
+### <a id="summary"></a>イベント処理の概要
+
+イベント ハンドラー関数の `igTileManager` コントロールへのアタッチは、一般的にコントロールの初期化時に行われます。このイベントが発生すると、処理関数を呼び出します。
+
+HTML ヘルパー内ではイベント ハンドラーを定義できないので、&#123;environment:ProductNameMVC&#125; を使用するときは、実行時にイベント ハンドラーを割り当てる必要があります。
+
+jQuery はイベント ハンドラーの割り当てるための以下のメソッドをサポートします。
+
+-   [`bind()`](http://api.jquery.com/bind/)
+-   [`delegate()`](http://api.jquery.com/live/)
+-   [`live()`](http://api.jquery.com/delegate/)
+-   [`on()`](http://api.jquery.com/on/)
+
+以下のテーブルは、各関数の詳細を示します。
+
+関数|目的
+---|---
+[bind](http://api.jquery.com/bind/)|指定したセレクターに一致する既存の DOM 要素へイベント ハンドラーをアタッチします。
+[live](http://api.jquery.com/live/)|指定したセレクターに一致する既存または新しい DOM 要素へイベント ハンドラーをアタッチします。イベントハンドラーは、DOM ツリーまで伝達しません。
+[delegate](http://api.jquery.com/delegate/)|指定したセレクターに一致する既存または新しい DOM 要素へイベント ハンドラーをアタッチします。イベント ハンドラーは、DOM ツリーまで伝達します。
+[on](http://api.jquery.com/on/)|指定したセレクターに一致する既存または新しい DOM 要素へイベント ハンドラーをアタッチします。(delegate 関数は jQuery version 1.7 で廃止され、on 関数がイベント ハンドラー確立の優先方法になりました。)
+
+`bind()` を使用する場合、現在使用可能な要素にのみ指定されたハンドラーへアタッチすることに注意してください。つまり、動的に追加された項目 (DOM が読み込まれた後) は、イベント ハンドラーの割り当てに含まれません。
+
+この中では delegate() メソッドをお勧めします。これは、このメソッドがパフォーマンスに優れ、コントロール インスタンスが破棄されて、再作成しなければならない状況でもイベント ハンドラーを自動的に再アタッチできるためです。
+
+### <a id="summary-chart"></a>イベント処理ケースの概要表
+
+以下の表で、`igTileManager` に関係するイベント処理ケースを簡単に説明します。詳細は、表の後に記載されています。
+
+
+| イベント処理ケース | 詳細 |
+| --- | --- |
+| jQuery における初期化時のイベント処理 | ウィジェット初期化時にイベントへバインドすると、以下の形式でオプションを使用してイベントをサブスクライブします。 `eventName: ` `eventName` オプションの有効な設定 dataBinding dataBound rendered rendering tileMaximized tileMaximizing tileMinimized tileMinimizing tileRendered tileRendering |
+| jQuery および ASP.NET MVC で実行時にイベントを処理 | コントロール初期化の外側でハンドラーを実装するために、イベント ハンドラーを関数名に割り当てることができます。 |
+
+
+## <a id="event-reference"></a>イベント リファレンス
+### <a id="event-reference-chart"></a>イベント リファレンス表
+
+以下の表で、`igTileManager` コントロールがサポートするイベントの目的と機能を簡単に説明します。
+
+イベント|説明
+---|---
+<ApiLink type="igtilemanager" member="dataBinding" section="options" label="dataBinding" />|データのバインド前に発生します。
+<ApiLink type="igtilemanager" member="dataBound" section="options" label="dataBound" />|データのバインドが完了した後、描画がまだ開始されていないときに発生します。
+<ApiLink type="igtilemanager" member="rendered" section="options" label="rendered" />|ウィジェットが作成され、それが描画する DOM をすべてアタッチした後に発生します。
+<ApiLink type="igtilemanager" member="rendering" section="options" label="rendering" />|ウィジェットの描画を開始する前に発生します。項目説明が明示的に提供されず内部的に生成される場合、この時点で項目説明が存在していることが必要です。
+<ApiLink type="igtilemanager" member="tileMaximized" section="options" label="tileMaximized" />|アニメーションの最大化が完了した後に発生します。
+<ApiLink type="igtilemanager" member="tileMaximizing" section="options" label="tileMaximizing" />|最小化された状態から最大化された状態にタイルを移動する前に発生します。
+<ApiLink type="igtilemanager" member="tileMinimized" section="options" label="tileMinimized" />|アニメーションの最小化が完了した後に発生します。
+<ApiLink type="igtilemanager" member="tileMinimizing" section="options" label="tileMinimizing" />|最大化された状態から最小化された状態にタイルを移動する前に発生します。
+<ApiLink type="igtilemanager" member="tileRendered" section="options" label="tileRendered" />|タイルが描画された後に発生します。
+<ApiLink type="igtilemanager" member="tileRendering" section="options" label="tileRendering" />|タイルの描画を開始する前に発生します。
+
+## <a id="code-example"></a>コード例の概要
+### コード例の概要表
+
+以下の表は、このトピックで使用したコード例をまとめたものです。
+
+例|説明
+---|---
+[jQuery での初期化時の Rendered イベントの処理](#init-jquery)|この例は、初期化時に <ApiLink type="igtilemanager" member="Handling the Rendered Event Upon Initialization in jQuery" section="options" label="rendered" /> イベントにイベント処理関数を割り当てます。
+[ASP.NET MVC での実行時の Rendered イベントの処理](#render-run-time-mvc)|この例は、実行時に <ApiLink type="igtilemanager" member="Handling the Rendered Event at Run-Time in ASP.NET MVC" section="options" label="rendered" /> イベントにイベント ハンドラーを割り当てます。
+
+
+## <a id="init-jquery"></a>コード例: jQuery での初期化時の Rendered イベントの処理
+### <a id="jquery-description"></a>説明
+
+この例は、初期化時に <ApiLink type="igtilemanager" member="rendered" section="options" label="rendered" /> イベントにイベント処理関数を割り当てます。
+
+### <a id="jquery-code"></a>コード
+
+**JavaScript の場合:**
+
+```js
+$(".selector").igTileManager({
+    rendered: function(evt, ui) { 
+          // Handle event
+    }
+});
+```
+
+
+
+## <a id="render-run-time-mvc"></a>コード例: ASP.NET MVC での実行時の Rendered イベントの処理
+### <a id="mvc-description"></a>説明
+
+この例は、実行時に <ApiLink type="igtilemanager" member="rendered" section="options" label="rendered" /> イベントにイベント ハンドラーを割り当てます。
+
+### <a id="mvc-code"></a>コード
+
+**JavaScript の場合:**
+
+```js
+$(document).delegate(".selector", "igtilemanagerrendered", function(evt, ui) { 
+   // Handle event
+});
+```
+
+## <a id="related-content"></a>関連コンテンツ
+### <a id="topics"></a>トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [igTileManager とデータのバインド](/igtilemanager-binding): このトピックは、`igTileManager` コントロールをサポートされているデータ ソースにバインドする方法を説明します。
+
+- [igTileManager の構成](/igtilemanager-configuring): このトピックでは、`igTileManager` コントロールの機能およびビヘイビアーを構成する方法を説明します。
+
+- [アクセシビリティの遵守 (igTileManager)](/igtilemanager-accessibility-compliance): このトピックでは、`igTileManager` コントロールのアクセシビリティ機能を説明し、このコントロールを含むページのアクセシビリティ遵守を実現する方法を説明します。
+
+- [既知の問題と制限 (igTileManager)](/igtilemanager-known-issues-and-limitations): このトピックでは、`igTileManager` コントロールの既知の問題と制限、その回避策に関する情報を提供します。
+
+- [jQuery および MVC API リファレンス リンク (igTileManager)](/igtilemanager-jquery-and-asp.net-mvc-helper-api-links): このトピックでは、`igTileManager` コントロールの jQuery および ASP.NET MVC ヘルパー クラスの API 参照ドキュメントへのリンクを提供します。
+
+### <a id="samples"></a>サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [タイル マネージャーの JSON バインド](&#123;environment:SamplesUrl&#125;/tile-manager/bind-json): このサンプルでは、タイル マネージャー コントロールを JSON データ ソースにバインドする方法を紹介します。
+
+- [タイル マネージャーの項目構成](&#123;environment:SamplesUrl&#125;/tile-manager/item-configurations): このサンプルは、`igTileManager` 内部で各項目の位置およびサイズを構成する方法を紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

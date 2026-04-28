@@ -1,0 +1,132 @@
+---
+title: "チャートのデータ ツールチップ"
+---
+# チャートのデータ ツールチップ
+
+`igFinancialChart` のデータ ツールチップは、シリーズの値とタイトル、およびシリーズの凡例バッジをツールチップに表示します。さらに、シリーズの行と値の列をフィルタリングし、値をスタイル設定し、書式を設定するための `igDataLegend` の多くの構成プロパティを提供します。このツールチップ タイプは、`igFinancialChart` のプロット領域内でマウスを動かすと更新されます。
+
+## データ ツールチップの要素
+
+`igFinancialChart` のデータ ツールチップは、3 種類の行と 4 種類の列のセットを使用してコンテンツを表示します。
+
+### データ ツールチップの行
+
+データ ツールチップの行には、ヘッダー行、シリーズ行、および集計行が含まれます。
+
+ヘッダー行には、ホバーされたポイントの軸ラベルが表示され、`dataToolTipHeaderText` プロパティを使用して変更できます。
+
+シリーズ行は、実際には、チャートにプロットされた各シリーズに対応する行のセットにすることができます。これらの行には、凡例バッジ、シリーズ タイトル、シリーズの実際の値 / 省略値、および指定されている場合は省略記号と単位が表示されます。
+
+最後に、すべてのシリーズ値の合計を表示する集計行があります。デフォルトの集計タイトルは、シリーズの `dataToolTipSummaryTitleText` プロパティを使用して変更できます。また、`dataToolTipSummaryType` プロパティを使用して、シリーズ値の合計、最小、最大、または平均を集計行に表示するかどうかをカスタマイズできます。
+
+以下のコードス ニペットは、上記のプロパティを設定して、集計のカスタム タイトルとカスタム ヘッダーを持つ `Total` 集計タイプのデータ ツールチップを設定する方法を示しています。
+
+**JavaScript の場合:**
+
+```js
+$("#chart").igFinancialChart({
+    dataSource: data,    
+    toolTipType: "data",
+    dataToolTipHeaderText: "My Custom Data Tooltip Header",
+    dataToolTipSummaryType: "total",
+    dataToolTipSummaryTitleText: "Grand Total:"           
+});
+```
+
+### データ ツールチップの列
+
+データ ツールチップの列には、タイトル、ラベル、値、および単位の列が含まれます。チャートの各シリーズには、ツールチップ レイヤーの `includedColumns` または `excludedColumns` コレクションに応じて、ラベル、値、および単位の複数の列を含めることができます。
+
+タイトル列には、チャートにプロットされたさまざまなシリーズの `title` プロパティに由来する凡例バッジとシリーズ タイトルが表示されます。
+
+ラベルの列には、ツールチップ レイヤーの `includedColumns` または `excludedColumns` コレクション内のさまざまなプロパティパスの名前または省略形が表示されます。
+
+値の列には、一連の値が省略形のテキストとして表示されます。このテキストは、`dataToolTipValueFormatAbbreviation` プロパティを使用してフォーマットでき、このプロパティを `Auto` または `Shared` に設定することで、すべての数値に同じ省略形を適用できます。または、ユーザーは `Independent`、`Kilo`、`Million` などの他の省略形を選択できます。省略値の精度は、最小桁数と最大桁数にそれぞれ `dataToolTipValueFormatMinFractions` と `dataToolTipValueFormatMaxFractions` を使用して制御されます。
+
+単位の列には、省略記号や単位テキストが表示されます。これらは、`dataToolTipUnitsText` を設定することでツールチップに設定できます。
+    
+以下のコードスニペットは、`unitText` と `igFinancialChart` のデータ ツールチップに設定された最小/最大の端数を示しています。
+    
+**JavaScript の場合:**
+
+```js
+$("#chart").igFinancialChart({
+    dataSource: data,    
+    toolTipType: "data",
+    dataToolTipUnitsText: "K",
+    dataToolTipValueFormatMinFractions: 2,
+    dataToolTipValueFormatMaxFractions: 4 
+});
+```
+
+## データ ツールチップのスタイル設定
+
+`igFinancialChart` は、データ ツールチップの各タイプの列をスタイル設定するためのプロパティを提供します。これらの各プロパティ名は、Title、Label、Value、Units で始まり、テキストの色、フォント、およびマージンのスタイルを設定できます。たとえば、これらのそれぞれのテキストの色を設定する場合は、`dataToolTipTitleTextColor`、`dataToolTipLabelTextColor`、`dataToolTipValueTextColor`、および `dataToolTipUnitsTextColor` プロパティを設定します。
+
+以下のコード スニペットは、上記のスタイル設定プロパティを設定する方法を示しています。
+
+**JavaScript の場合:**
+
+```js
+$("#chart").igFinancialChart({
+    dataSource: data,       
+    toolTipType: "data",
+    dataToolTipTitleTextColor: "lightgray",
+    dataToolTipLabelTextColor: "lightgray",
+    dataToolTipValueTextColor: "green",
+    dataToolTipUnitsTextColor: "green",
+    dataToolTipUnitsText: "K"
+});
+```
+
+## データ ツールチップのグループ化と配置
+
+`dataToolTipGroupingMode` プロパティを `Grouped` または `Individual` に設定して、複数のシリーズのコンテンツを 1 つのツールチップにグループ化するか、各シリーズのコンテンツを複数のツールチップに分割することができます。`Grouped` モードでは、`dataToolTipGroupedPositionModeX` プロパティと `dataToolTipGroupedPositionModeY` プロパティを設定することにより、ツールチップが表示される場所をカスタマイズできます。これにより、ツールチップの水平方向と垂直方向の配置を、マウス位置に最も近いシリーズ ポイントに追従させるか、プロット領域の端に固定するかをカスタマイズできます。
+
+以下のコード スニペットは、スクロールすると `igFinancialChart` の左上にピン固定されるデータ ツールチップを示しています。
+
+**JavaScript の場合:**
+
+```js
+$("#chart").igFinancialChart({
+    dataSource: data,        
+    toolTipType: "data",
+    dataToolTipGroupingMode: "grouped",
+    dataToolTipGroupedPositionModeX: "pinLeft",
+    dataToolTipGroupedPositionModeY: "pinTop"
+});
+```
+
+## データ ツールチップ値の書式設定
+
+`igFinancialChart` は、その `dataToolTipValueFormatAbbreviation` プロパティを使用して、データ ツールチップに大きな数の自動省略形を提供します。これにより、単位の列に kilo、million、billion などの乗数が追加されます。`dataToolTipValueFormatMinFractions` および `dataToolTipValueFormatMaxFractions` を設定することにより、表示される小数桁数をカスタマイズできます。これにより、小数点以下に表示される最小桁数と最大桁数をそれぞれ決定できます。
+
+以下のコード スニペットは、`igFinancialChart` の データ ツールチップの最小部分と最大部分を設定する方法を示しています。
+
+**JavaScript の場合:**
+
+```js
+$("#chart").igFinancialChart({
+    dataSource: data,    
+    toolTipType: "data",
+    dataToolTipValueFormatMinFractions: 2,
+    dataToolTipValueFormatMaxFractions: 4 
+});
+```
+
+## データ ツールチップの値モード
+
+チャートの `dataToolTipValueFormatMode` プロパティを変更することにより、データ ツールチップ内の値のデフォルトの 10 進表示を通貨表示に変更できます。`igFinancialChart` は、`dataToolTipValueFormatCulture` プロパティを使用し、対応するカルチャ タグに設定することにより、ツールチップに表示されている通貨記号のカルチャを変更する機能も公開します。
+
+たとえば、以下のコード スニペットは、`dataToolTipValueFormatCulture` が "en-GB" に設定され、`dataToolTipValueFormatMode` が "Currency" に設定されたチャートを作成します。
+
+**JavaScript の場合:**
+
+```js
+$("#chart").igFinancialChart({
+    dataSource: data,    
+    toolTipType: "data",
+    dataToolTipValueFormatCulture: "en-GB",
+    dataToolTipValueFormatMode: "currency"
+});
+```

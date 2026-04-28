@@ -1,0 +1,324 @@
+---
+title: "リモート フィルタリングの構成 (igCombo)"
+slug: igcombo-configure-remote-filtering
+---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# リモート フィルタリングの構成 (igCombo)
+
+
+
+##トピックの概要
+
+
+このトピックでは、`igCombo`™ コントロールで自動補完および各種フィルタリング オプションを構成する方法を説明します。
+
+###このトピックの内容
+
+
+このトピックは、以下のセクションで構成されます。
+
+-   [igCombo 構成の概要](#overview)
+-   [OData リスト フィルタリングを構成する](#odata_filtering)
+    -   [OData リスト フィルタリング構成の詳細](#odata_details)
+    -   [OData リスト フィルタリング構成のプロパティ設定](#odata_settings)
+    -   [OData リスト フィルタリング構成の例](#odata_example)
+-   [ASP.NET MVC リスト フィルタリングを構成する](#asp_filtering)
+    -   [ASP.NET MVC リスト フィルタリング構成の詳細](#asp_details)
+    -   [ASP.NET MVC リスト フィルタリング構成のプロパティ設定](#asp_settings)
+    -   [ASP.NET MVC リスト フィルタリング構成の例](#asp_example)
+-   [関連トピック](#related_topics)
+
+###前提条件
+
+
+以下の表は、このトピックの情報を完全に理解するために前提条件を示しています。
+
+**概念**
+
+以下の概念を理解する必要があります。
+
+-   ASP.NET MVC のみ
+    -   [ASP.NET MVC ルーティング](http://www.asp.net/mvc/tutorials/asp-net-mvc-routing-overview-cs)
+-   OData のみ
+    -   [OData: JavaScript Object Notation (JSON) 形式](http://www.odata.org/documentation/odata-version-2-0/)
+    -   [OData: URI 規約](http://www.odata.org/documentation/odata-version-2-0/uri-conventions/)
+
+**トピック**
+
+まず以下のトピックを読む必要があります。
+
+-   [igCombo の概要](/igcombo-overview)
+-   [igCombo の追加](/igcombo-getting-started)
+-   [igCombo の構成](/igcombo-configuring)
+
+##<a id="overview"></a>igCombo 構成の概要
+
+
+###コントロールの構成表
+
+
+以下の表は、`igCombo` コントロールの構成可能なビヘイビアーを示しています。
+
+
+| 構成可能な動作 | ビヘイビアーの詳細 | 構成プロパティ |
+| --- | --- | --- |
+| OData によるリモート フィルタリング | OData は、データ ソースに大量のレコードがある場合にコンボをフィルター処理する方法を提供します。igCombo コントロールは、サービスのフィルター結果の適切な要求の送信を内部処理します。 | <ApiLink type="igCombo" member="filteringType" section="options" label="filteringType" /><ApiLink type="igCombo" member="responseDataKey" section="options" label="responseDataKey" /> |
+| ASP.NET MVC ヘルパーによるリモート フィルタリング | environment:ProductNameMVC Combo は、ビジネス オブジェクトのコレクションにバインドする場合にサーバー側フィルタリングを設定する API を提供します。 | <ApiLink type="igCombo" member="filteringType" section="options" label="filteringType" />comboDataSourceAction<ApiLink type="igCombo" member="filterExprUrlKey" section="options" label="filterExprUrlKey" /> |
+
+
+
+##<a id="odata_filtering"></a>OData リスト フィルタリングを構成する
+
+
+###<a id="odata_details"></a>OData リスト フィルタリング構成の詳細
+
+
+`igCombo` コントロールは OData サービスにバインドできます。OData プロトコルはフィルタリングをサポートしているため、`igCombo` は OData サービスからの自動補完のフィルタリング処理に必要な要求パラメーターを内部処理します。アプリケーションで多数のオプションから補完するコンボが必要な場合、OData でサーバー側フィルタリングを使用すると、ローカルにバインドする必要がある大量のデータをダウンロードする必要がなくなります。
+
+###<a id="odata_settings"></a>OData リスト フィルタリング構成のプロパティ設定 
+
+
+以下の表は、プロパティ設定の推奨構成をマップしています。プロパティは `igCombo` オプションからアクセスされます。
+
+
+| 目的 | 使用するプロパティ: | それを次に設定... |
+| --- | --- | --- |
+| OData でリモート フィルタリングを構成する | dataSource, filteringType, responseDataKey, valueKey, textKey | string - OData サービス URL, remote, d.results, string - リストの項目の一意のキー, string - リストに表示するフィールド |
+
+
+これらのプロパティの詳細情報は、プロパティ参照セクションのリストを参照してください。
+
+-   `igCombo` のオプション
+
+###<a id="odata_example"></a>OData リスト フィルタリング構成の例
+
+
+#### 概要
+
+この例は、JSONP 形式を使用した OData サービスでリモート フィルタリングの `igCombo` コントロールを構成する方法を示します。
+
+#### 要件
+
+この手順を実行するには、以下が必要です。
+
+-   OData サービスへのアクセス
+
+#### 概要
+
+以下はプロセスの概念的概要です。
+
+1.  リモート フィルタリングを有効にする
+2.  データ ソースの構成
+3.  応答データ キーの構成
+4.  値キーの構成
+5.  テキスト キーの構成
+
+#### 手順
+
+1.  リモート フィルタリングを有効にします。
+
+    `igCombo` コントロールにサーバーへフィルタリング パラメーターを送信するよう指示するため filteringType オプションを「remote」に設定します。
+
+    **HTML の場合:**
+
+```html
+    filteringType: "remote"
+```
+
+    **ASPX の場合:**
+
+```csharp
+    FilteringType(ComboFilteringType.Remote)
+```  
+
+2.  データ ソースの構成
+
+    OData サービスの URL に dataSource オプションを設定します。&#123;environment:ProductName&#125; OData サービスの場合、ブラウザーのクロスドメインの制限を回避するには JSONP を使用します。これは、OData 要求 URI でコールバック パラメーターを渡すことで要求される形式です。
+
+    **HTML の場合:**
+
+```html
+    dataSource: "http://igniteui.com/api/products?callback=?"
+```
+
+    **ASPX の場合:**
+
+```csharp
+    DataSource("http://igniteui.com/api/products?callback=?")
+```
+
+3.  応答データ キーの構成
+
+    データは特定のスキーマ内の OData から返されます。OData v1 サービスにアクセスしている場合、このキーは通常「d」です。&#123;environment:ProductName&#125; サービスは OData v2 で応答キーは「d.results」です。
+
+    **HTML の場合:**
+
+```html
+    responseDataKey: "d.results"
+```
+
+    **ASPX の場合:**
+
+```csharp
+    ResponseDataKey("d.results")
+```
+
+4.  値キーを構成します。
+
+	値キーを設定すると、`igCombo` コントロールはどのフィールドが各ドロップダウン項目の一意の値を提供するか指示されます。この値は変化し、`igCombo` コントロールがバインドされるデータのフィールドに依存しています。
+	
+    **HTML の場合:**
+
+```html
+    valueKey: "ID"
+```
+
+    **ASPX の場合:**
+
+```csharp
+    ValueKey("ID")
+```
+
+5.  テキスト キーを構成します。
+
+    テキスト キーを設定すると、`igCombo` コントロールはどのフィールドが各ドロップダウン項目のテキストを提供するか指示されます。この値は変化し、`igCombo` コントロールがバインドされるデータのフィールドに依存しています。
+
+    **HTML の場合:**
+
+```html
+    textKey: "ProductName"
+```
+
+    **ASPX の場合:**
+
+```csharp
+    TextKey("ProductName")
+```
+
+#### コード例
+
+以下のリストは、この例で OData でリスト フィルタリングの構成に使用するコード全体を示します。
+
+**HTML の場合:**
+
+```html
+$("#comboTarget").igCombo({
+    filteringType: "remote",
+    responseDataKey: "d.results",
+    valueKey: "ID",
+	textKey: "ProductName",
+    dataSource: "http://igniteui.com/api/products?callback=?"
+});
+```
+
+**ASPX の場合:**
+
+```csharp
+<%= Html.
+    Infragistics().
+    Combo().
+    ID("comboTarget").   
+    FilteringType(ComboFilteringType.Remote).  
+    DataSource("http://igniteui.com/api/products?callback=?").
+    ResponseDataKey("d.results").
+	ValueKey("ID").
+    TextKey("ProductName").
+    Render()
+%>
+```
+
+##<a id="asp_filtering"></a>ASP.NET MVC リスト フィルタリングを構成する
+
+
+###<a id="asp_details"></a>ASP.NET MVC リスト フィルタリング構成の詳細 
+
+
+&#123;environment:ProductNameMVC&#125; `Combo` は主に、C# または Visual Basic.NET でビヘイビアーを構成しながら、クライアント側で必要な jQuery および HTML を描画する機能を果たします。
+
+&#123;environment:ProductNameMVC&#125; の他の部分は、サーバーへのリモート操作を簡単に行う機能を果たします。これは `ActionResult` メソッドに `ComboDataSourceAction` 属性を修飾できる `igCombo` コントロールに当てはまり、ヘルパーはサーバー側によるデータ ソースのクエリを簡単に行い、適切なデータをクライアントに返すことができます。
+
+###<a id="asp_settings"></a>ASP.NET MVC リスト フィルタリング構成のプロパティ設定
+
+
+以下の表は、プロパティ設定の推奨構成をマップしています。プロパティは [プロパティへのパス] からアクセスされます。
+
+
+| 目的 | 使用するプロパティ: | それを次に設定... |
+| --- | --- | --- |
+| environment:ProductNameMVC でリモート フィルタリングを構成する | <ApiLink type="igCombo" member="dataSource" section="options" label="DataSource" />, <ApiLink type="igCombo" member="dataSourceUrl" section="options" label="DataSourceUrl" />, <ApiLink type="igCombo" member="filteringType" section="options" label="FilteringType" />, <ApiLink type="igCombo" member="filterExprUrlKey" section="options" label="FilterExprUrlKey" />, ComboDataSourceAction | IQueryable オブジェクト, ComboDataSourceAction への string URL, remote, filter, フィルター要求 ActionResult メソッドの修飾に使用する属性 |
+
+
+
+これらのプロパティの詳細情報は、プロパティ参照セクションのリストを参照してください。
+
+-   <ApiLink type="igcombo" label="igCombo のオプション" />
+-   <ApiLink type="igcombo" label="igCombo MVC API" />
+
+###<a id="asp_example"></a>ASP.NET MVC リスト フィルタリング構成の例 
+
+
+#### 概要
+
+この例は、&#123;environment:ProductNameMVC&#125; でリモート フィルタリングを有効にする方法を示しています。この構成では、データ フィルタリング操作のアクション メソッドが定義されています。`igCombo` コントロールはサーバーのデータにバインドされており、クライアントでフィルタリング操作が発生すると、フィルターされたデータの要求がアクション メソッドに送信されます。
+
+#### 要件
+
+この手順を実行するには、以下が必要です。
+
+-   ASP.NET MVC アプリケーション
+-   プロジェクトで参照されている `Infragistics.Web.Mvc.dll` アセンブリ
+-   &#123;environment:ProductNameMVC&#125; を通してデータにバインドされている `Combo` コントロール
+
+#### 概要
+
+以下はプロセスの概念的概要です。
+
+1.  コンボで内部処理するサーバー要求の構成
+2.  リモート フィルタリングの構成
+
+#### 手順
+
+1.  **コンボで内部処理するサーバー要求の構成**
+
+    サーバーからの要求を内部処理させるには、`ComboDataSource` を定義し、サーバーのコントローラーで構成する必要があります。`ComboDataSourceAction` は、コントローラーで構成された `ActionResult` に適用できる属性です。`ActionResult` に属性が構成され、`igCombo` がコントローラー アクションへの URL で提供されている場合、サーバーへの要求はコンボにより内部処理されます。`igCombo` は、サーバー上でこのアクションに送信されるクエリ パラメーターで URL を構築します。いったんアクションが要求を受信すると、IQueryable データ ソース オブジェクトをフィルター処理し、フィルターされた JSON 値をクライアントに返すよう `ComboDataSourceAction` によりロジックが追加で行われます。
+
+    **C# の場合:**
+
+```csharp
+    [ComboDataSourceAction]
+    public ActionResult ComboData()
+    {        
+        return View(this.GetColors());
+    }
+```
+
+    特別なフィルタリング ロジックを使用しなくても、データへ同じ呼び出しを行っていることがわかると思います。
+
+2.  **リモート フィルタリングを構成します。**
+
+    最後に、`ComboDataSourceAction` にプロパティをいくつか設定する必要があります。`DataSourceUrl` は `ActionResult` メソッド名をポイントします。また、`FilterExprUrlKey` を `ComboDataSourceAction` で必要な URL パラメーターである「filter」に設定する必要があります。この文字列は要求 URL でトークンとして渡され、サーバーへのフィルタリング式を識別します。ASP.NET MVC ヘルパーを使用する場合に `FilterExprUrlKey` を「filter」に設定する理由は、`ComboDataSourceAction` のロジックが特に要求 URL クエリ パラメーターの「filter」を検索し、フィルタリング式情報を抽出するためです。
+
+    **C# の場合:**
+
+```csharp
+    comboViewModel.DataSourceUrl = Url.Action("combodata");
+    comboViewModel.FilteringType = ComboFilteringType.Remote;
+    comboViewModel.FilterExprUrlKey = "filter";
+```
+
+##<a id="related_topics"></a>関連トピック 
+
+
+以下は、その他の役立つトピックです。
+
+-	[igCombo の構成](/igcombo-configuring)
+
+-	[jQuery および MVC API リファレンス リンク (igCombo)](/igcombo-jquery-and-asp-net-mvc-helper-api-links)
+
+ 
+
+ 
+
+

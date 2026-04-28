@@ -1,0 +1,288 @@
+---
+title: "igLinearGauge の ASP.NET MVC アプリケーションへの追加"
+slug: iglineargauge-adding-using-the-mvc-helper
+---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# igLinearGauge の ASP.NET MVC アプリケーションへの追加
+
+
+
+##トピックの概要
+
+
+### 目的
+
+このトピックではコード例を示して、ASP.NET MVC ヘルパーで ASP.NET MVC アプリケーションに `igLinearGauge`™ を追加する方法を説明します。
+
+### 前提条件
+
+以下は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+-   jQuery
+-   jQuery UI
+-   ASP.NET MVC
+-   ASP.NET MVC HTML ヘルパー
+
+**トピック**
+
+-	[コントロールを MVC プロジェクトに追加](../../../01_General-and-Getting-Started/00_Adding IgniteUI Controls to an MVC Project.mdx): このトピックでは、ASP.NET MVC アプリケーションで &#123;environment:ProductName&#125;™ コンポーネントを使用した作業の開始方法を説明します。
+
+-	[igLinearGauge の概要](/iglineargauge-overview): このトピックは、主要機能、最小要件およびユーザー機能性など、`igLinearGauge` コントロールの概念的な情報を提供します。
+
+
+### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [igLinearGauge の ASP.NET MVC アプリケーションへの追加 - 概要](#overview)
+    -   [igLinearGauge の追加の概要](#adding-igLeanearGauge)
+    -   [要件](#requirements)
+    -   [手順](#steps)
+-   [igLinearGauge の ASP.NET MVC アプリケーションへの追加 - 手順](#procedure)
+    -   [概要](#mvc-introduction)
+    -   [プレビュー](#mvc-preview)
+    -   [前提条件](#mvc-prerequisites)
+    -   [手順](#mvc-steps)
+    -   [全コード](#mvc-full-code)
+-   [関連コンテンツ](#related-content)
+    -   [トピック](#topics)
+    -   [サンプル](#samples)
+
+
+
+##<a id="overview"></a>igLinearGauge の ASP.NET MVC アプリケーションへの追加 - 概要
+
+### <a id="adding-igLeanearGauge"></a>igLinearGauge の追加の概要
+
+`igLinearGauge` コントロールは、ASP.NET MVC ヘルパーを使用して ASP.NET MVC View に追加できます。リニア ゲージを正しく表示するには、コントロールのディメンションを設定する必要があります。`igLinearGauge` コントロール のインスタンスを作成する場合、以下を含む基本的な描画に設定すべき複数のヘルパー メソッドがあります。
+
+ヘルパー メソッド|目的
+---|---
+[Width()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LinearGaugeModel_members.html)|igLinearGauge の幅を設定します。
+[Height()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LinearGaugeModel_members.html)|igLinearGauge の高さを設定します。
+[MinimumValue()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LinearGaugeModel_members.html)|スケール範囲の開始値を設定します。
+[MaximumValue()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LinearGaugeModel_members.html)|スケール範囲の終了値を設定します。
+[Value()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LinearGaugeModel_members.html)|針の位置を指定する値を設定します。
+[Ranges()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LinearGaugeModel_members.html)|igLinearGauge の範囲オブジェクトのインスタンスを作成します。<ApiLink type="igLinearGauge" label="startValue" /> や <ApiLink type="igLinearGauge" label="endValue" /> に加え、各範囲に <ApiLink type="igLinearGauge" label="name" /> を割り当てて範囲を指定する必要があります。
+
+
+
+### <a id="requirements"></a>要件
+
+この手順を実行するには、以下が必要です。
+
+-   ASP.NET MVC アプリケーション
+-   アプリケーション プロジェクトに追加される `Infragistics.Web.Mvc.dll` アセンブリに対する参照。詳細は、「[MVC プロジェクトへのコントロールの追加](../../../01_General-and-Getting-Started/00_Adding IgniteUI Controls to an MVC Project.mdx)」のトピックを参照してください。
+-   ビューの依存関係:
+
+    -   ASP.NET MVC ビューに追加される `Infragistics.Web.Mvc` 名前空間
+
+    **ASPX の場合:**
+
+```csharp
+    <%@ Import Namespace="Infragistics.Web.Mvc" %>
+```
+
+    -   すべてのデータ ビジュアライゼーション コントロール用の結合された Java Script ファイル、および ASP.NET MVC ビューの `<head>` タグに追加された必要な CSS ファイルへの参照
+
+    **ASPX の場合:**
+
+```csharp
+    <link href="<%=Url.Content("~/Scripts/css/themes/infragistics/infragistics.theme.css")%>" rel="stylesheet"></link>
+    <link href="<%=Url.Content("~/Scripts/css/structure/infragistics.css")%>" rel="stylesheet"></link>
+    <script src="<%=Url.Content("~/Scripts/jquery.min.js")%>" type="text/javascript"></script>
+    <script src="<%=Url.Content("~/Scripts/jquery-ui.min.js")%>" type="text/javascript"></script>
+    <script src="<%=Url.Content("~/Scripts/js/infragistics.core.js")%>" type="text/javascript"></script>
+    <script src="<%=Url.Content("~/Scripts/js/infragistics.dv.js")%>" type="text/javascript"></script>
+```
+
+    [HTML ページへの *igLinearGauge* の追加](/iglineargauge-adding-to-an-html-page)のトピックで説明するように、Infragistics Loader (コンポーネント) を使用すること、あるいはすべての igLinearGauge 関連のファイルを明示的に含めることも可能です。
+
+### <a id="steps"></a>手順
+
+1. ASP.NET MVC ヘルパーの追加
+
+2. 基本的な描画オプションを構成する `igLinearGauge` コントロールのインスタンス作成
+
+3. スケールの構成
+
+4. 針の追加
+
+5. 比較範囲の追加
+
+
+
+##<a id="procedure"></a>igLinearGauge の ASP.NET MVC アプリケーションへの追加 - 手順
+
+### <a id="mvc-introduction"></a>概要
+
+この手順では、コントロールの ASP.NET MVC ヘルパーを使用して `igLinearGauge` のインスタンスを ASP.NET MVC アプリケーションに追加し、width や height などの基本的なオプショを設定します。スケールの設定や針、および 3 つの比較範囲の追加も実行します。この手順は、`Infragistics.Web.Mvc.dll` アセンブリ参照がプロジェクトに追加され、コントロールがASP.NET MVC ヘルパーの `Render()` メソッドでビューに描画されることを前提とします。
+
+### <a id="mvc-preview"></a>プレビュー
+
+以下のスクリーンショットは結果のプレビューです。
+
+![](../../../images/images/igLinearGauge_Adding_to_an_HTML_Page_1.png)
+
+### <a id="mvc-prerequisites"></a>前提条件
+
+「`igLinearGauge` の ASP.NET MVC アプリケーションへの追加」の手順にある前提条件に定義されている、必要な JavaScript ファイル、CSS ファイルおよび ASP.NET MVC アセンブリで構成される ASP.NET MVC アプリケーション
+
+### <a id="mvc-steps"></a>手順
+
+この手順では、ASP.NET MVC ヘルパーを使用して ASP.NET MVC アプリケーションに `igLinearGauge` のインスタンスを作成する方法を示します。
+
+1. ASP.NET MVC ヘルパーの追加
+
+	ASP.NET MVC ヘルパーを ASP.NET ページの本文に追加します。
+
+	**ASPX の場合:**
+
+```csharp
+	<body>
+    <%=(Html.Infragistics().LinearGauge()
+    .Render())%>
+    </body>
+```
+
+2. 基本的な描画オプションを構成する `igLinearGauge` コントロールのインスタンスを作成します。 
+	igLinearGauge のインスタンスを作成します。すべての &#123;environment:ProductNameMVC&#125; コントロールと同様に、Render メソッドを呼び出して HTML と JavaScript をビューに描画します。
+
+	**ASPX の場合:**
+
+```csharp
+	<body>
+        <%= Html.Infragistics().LinearGauge()
+                        .Width("300px")
+                        .Height("70px").Render()%>
+    </body>
+```
+
+3. スケールを構成します。
+
+	スケールの値をカスタマイズするには、 [MinimumValue()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LinearGaugeModel_members.html) および [MaximumValue()](Infragistics.Web.Mvc~Infragistics.Web.Mvc.LinearGaugeModel_members.html) メソッドに値を渡す必要があります。この例では、スケールは 5 から開始され 55 で終了します。
+
+	**ASPX の場合:**
+
+```csharp
+    <%= Html.Infragistics().LinearGauge()
+        .Width("300px")
+        .Height("70px")
+        .MinimumValue(5)
+        .MaximumValue(55).Render()
+	%>
+```
+
+	変化したスケールを以下のスクリーンショットに示します。
+
+	![](../../../images/images/igLinearGauge_Adding_to_an_HTML_Page_2.png)
+
+4. 針の追加
+
+	`igLinearGauge` の `Value()` メソッドを設定して、針を追加します。この例では、値を 35 に設定しています。
+
+	**ASPX の場合:**
+
+```csharp
+    <%= Html.Infragistics().LinearGauge()
+		…
+        .Value(35)
+        .Render()
+	%>
+```
+
+	以下のスクリーンショットは、これまでの手順で `igLinearGauge` コントロールの外観がどのようになるか示しています。
+
+	![](../../../images/images/igLinearGauge_Adding_to_an_HTML_Page_3.png)
+
+5. 比較範囲を追加します。
+
+	`Ranges()` メソッドの中に、各比較範囲を定義します。開始値および終了値は、各範囲 (`StartValue()` や `EndValue()` のパラメーター) およびカラー (`Brush()`) で個別に設定できます。この例では、3 つの比較範囲を構成します。それぞれ異なる灰色のグラデーションで、スケール目盛の 0、15、30 から開始します。
+
+	**ASPX の場合:**
+
+```csharp
+    <%= Html.Infragistics().LinearGauge()
+		…
+    .Ranges(range =>
+        {
+            range.Range("range1").StartValue(0).EndValue(15).Brush("red");
+            range.Range("range2").StartValue(15).EndValue(30).Brush("yellow");
+            range.Range("range3").StartValue(30).EndValue(55).Brush("green");
+        })
+    .Render()%>
+```
+
+	グラフの最終的な外観を以下に示します。
+
+	![](../../../images/images/igLinearGauge_Adding_to_an_HTML_Page_1.png)
+
+
+
+### <a id="mvc-full-code"></a>全コード
+
+以下は、この手順の完全なコードです。
+
+**ASPX の場合:**
+
+```csharp
+<%@ Import Namespace="Infragistics.Web.Mvc" %>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Linear Gauge</title>
+<link href="<%=Url.Content("~/Scripts/css/themes/infragistics/infragistics.theme.css")%>" rel="stylesheet"></link>
+<link href="<%=Url.Content("~/Scripts/css/structure/infragistics.css")%>" rel="stylesheet"></link>
+<script src="<%=Url.Content("~/Scripts/jquery.min.js")%>" type="text/javascript"></script>
+<script src="<%=Url.Content("~/Scripts/jquery-ui.min.js")%>" type="text/javascript"></script>
+<script src="<%=Url.Content("~/Scripts/js/infragistics.core.js")%>" type="text/javascript"></script>
+<script src="<%=Url.Content("~/Scripts/js/infragistics.dv.js")%>" type="text/javascript"></script>
+</head>
+<body>
+    <%= Html.Infragistics().LinearGauge()
+        .Width("300px")
+        .Height("70px")
+        .MinimumValue(5)
+        .MaximumValue(55)
+        .Value(35)
+        .Ranges(range =>
+            {
+                range.Range("range1").StartValue(0).EndValue(15).Brush("red");
+                range.Range("range2").StartValue(15).EndValue(30).Brush("yellow");
+                range.Range("range3").StartValue(30).EndValue(55).Brush("green");
+            })
+        .Render()%>
+</body>
+</html>
+```
+
+
+
+##<a id="related-content"></a>関連コンテンツ
+
+### <a id="topics"></a>トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+-	[`igLinearGauge` の HTML ページへの追加](/iglineargauge-adding-to-an-html-page): このトピックではコード例を使用して、igLinearGauge コントロールを HTML ページに追加する方法を説明します。
+
+-	[jQuery および MVC API リファレンス リンク (igLinearGauge)](/iglineargauge-api-links): このトピックでは、`igLinearGauge`  コントロールと ASP.NET MVC ヘルパーに関する API 参照ドキュメントへのリンクを提供します。
+
+
+### <a id="samples"></a>サンプル
+
+以下のサンプルでは、このトピックに関連する情報を提供しています。
+
+-	[MVC の初期化](&#123;environment:SamplesUrl&#125;/linear-gauge/mvc-initialization): このサンプルでは、リニア ゲージの ASP.NET MVC ヘルパーを使用する方法を紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

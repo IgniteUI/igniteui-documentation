@@ -1,0 +1,182 @@
+---
+title: "行とセルのプログラムによる選択および選択解除 (igHierarchicalGrid)"
+slug: jquery-ighierarchical-grid-selecting-and-deselecting-rows-and-cell-programmatically-in-ighierarchicalgrid
+---
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# 行とセルのプログラムによる選択および選択解除 (igHierarchicalGrid)
+
+## 目的
+このトピックでは、igHierarchicalGrid™ の行とセルを選択および選択解除するための API の使用方法について説明します。
+
+## 前提条件
+
+このトピックを理解するためには、以下のトピックを理解しておく必要があります。
+
+- [igGrid 選択](/iggrid-selection-overview): このトピックでは、igGrid の選択機能について説明します。
+
+#### このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+-   [コントロールの構成の概要](#summary)
+-   [コード例](#code-examples)
+-   [コード例: 子グリッドのセルの選択](#selecting-cell)
+-   [コード例: 展開されたすべての子グリッド内のすべての行の選択](#selecting-all-rows)
+-   [コード例: 子グリッドのセルの選択解除](#deselecting-cell)
+-   [コード例: すべての子グリッドの選択のクリア](#clearing-selection)
+-   [関連コンテンツ](#related-content)
+
+## <a id="summary"></a> コントロールの構成の概要
+#### コントロールの構成の概要
+
+以下の表は、igHierarchicalGrid コントロールの構成可能な項目を示しています。
+
+
+| 構成可能な要素 | メソッド |
+| --- | --- |
+| セル選択 | <ApiLink type="iggridselection_hg" label="selectCell" /> <ApiLink type="iggridselection_hg" label="deselectCell" /> |
+| 行の選択 | <ApiLink type="iggridselection_hg" label="selectRow" /> <ApiLink type="iggridselection_hg" label="deselectRow" /> |
+| 選択のクリア | <ApiLink type="iggridselection_hg" label="clearSelection" /> <ApiLink type="iggridselection_hg" label="clearSelectionAll" /> <ApiLink type="iggridselection_hg" label="clearSelectionAllChildren" /> <ApiLink type="iggridselection_hg" label="clearSelectionAllOthers" /> |
+
+
+## <a id="code-examples"></a> コード例
+
+### <a id="selecting-cell"></a> コード例: 子グリッドのセルの選択
+この例は、外部キーのリレーションにより子グリッド内のセルを選択する方法を示します。
+
+`productId` パラメーターは、外部キーのリレーションを表します。Product Id 列は、階層の最上位の 2 番目の列であることを仮定しています。`rowIndex` パラメーターと `colIndex` パラメーターは、選択されるサブグリッド内のセルを定義します。関数は、選択が表示されるように、子グリッドを展開します。
+
+**JavaScript の場合:**
+
+```js
+function selectCellByProductId(productId, rowIndex, colIndex) {
+    // get the parent grid
+    var parentGrid = $("#grid1").igHierarchicalGrid("rootWidget");
+    // get all rows of the parent grid
+    var parentGridAllRows = parentGrid.allRows();
+    $(parentGridAllRows).each(function (index, row) {
+        // get the value of the product id column
+        // it is assumed that product id column is the second column
+        productIdCellVal = $(row.cells[1]).html();
+        // check to see if this is the searched product id
+        if (productIdCellVal === productId.toString())
+            // ... and expand it if it is
+            $("#grid1").igHierarchicalGrid("expand", row);
+    });
+    // get all expanded child grids
+    var childGrids = $("#grid1").igHierarchicalGrid("allChildren");
+    // select the cell by row and column indexes
+    $(childGrids).each(function(index, grid) {
+        $(grid).igGridSelection("selectCell", parseInt(rowIndex), parseInt(colIndex));
+    });
+}
+```
+
+### <a id="selecting-all-rows"></a> コード例: 展開されたすべての子グリッド内のすべての行の選択
+
+この例は、展開されているすべての子のすべての行を選択する方法を示します。
+
+> **注:** 複数選択が有効になっている必要があります。
+
+**JavaScript の場合:**
+
+```js
+function selectAllRowsOfExpandedChildren() {
+    // get all expanded child grids recursively
+    var childGrids = $("#grid1").igHierarchicalGrid("allChildren");
+    $(childGrids).each(function (index, grid) {
+        // get all rows of the child grid
+        var allRows = $(grid).igGrid("allRows");
+        $(allRows).each(function (index, row) {
+            // select each row
+            $(grid).igGridSelection("selectRow", index);
+        });
+    });
+}
+```
+
+### <a id="deselecting-cell"></a> コード例: 子グリッドのセルの選択解除
+
+この例は、外部キーのリレーションにより子グリッド内のセルを選択解除する方法を示します。
+
+> **注:** 複数選択が有効になっている必要があります。
+
+`productId` パラメーターは、外部キーのリレーションを表します。Product Id 列は、階層の最上位の 2 番目の列であることを仮定しています。`rowIndex` パラメーターと `colIndex` パラメーターは、選択されるサブグリッド内のセルを定義します。最上位のグリッド行の `productId` が検索されます。一致する場合には、その行から data-id 属性が抽出されます。子グリッド ID 属性が組み立てられ、組み立てられた ID を使用して、グリッドに対して `deselectCell` メソッドが実行されます。
+
+**JavaScript の場合:**
+
+```js
+function deselectCellByProductId(productId, rowIndex, colIndex) {
+    var data_id;
+    // get the parent grid
+    var parentGrid = $("#grid1").igHierarchicalGrid("rootWidget");
+    // get all rows of the parent grid
+    var parentGridAllRows = parentGrid.allRows();
+    $(parentGridAllRows).each(function (index, row) {
+        // get the value of the product id column
+        // it is assumed that product id column is the second column
+        productIdCellVal = $(row.cells[1]).html();
+        // check to see if this is the searched product id
+        if (productIdCellVal === productId.toString()) {
+            data_id = $(row).attr("data-id");
+        }
+    });
+    // get the child layout key
+    var childLayoutKey = $("#grid1").igHierarchicalGrid("option", "columnLayouts")[0].key;
+    // define the search id of the child grid
+    var childGridId = "#grid1_" + data_id + "_" + childLayoutKey + "_child";
+    // deselecting the cell
+    $(childGridId).igGridSelection("deselectCell", parseInt(rowIndex), parseInt(colIndex));
+}
+```
+
+
+
+### <a id="clearing-selection"></a> コード例: すべての子グリッドの選択のクリア
+
+この例では、第 2 レベルの子グリッドの選択を再帰的にクリアする方法を示します。
+
+以下の例は、最上位グリッドのすべての行を繰り返し処理し、行が展開されているかどうかを確認します。展開されている行について、`clearSelectionAllChildren` メソッドを呼び出します。最上位グリッドの選択と最初のレベルの展開されたグリッド選択は影響を受けません。
+
+**JavaScript の場合:**
+
+```js
+function clearSelectionOfSecondLevelChildrenRecursively() {
+    var expanded;
+    // get the parent grid
+    var parentGrid = $("#grid1").igHierarchicalGrid("rootWidget");
+    // get all rows of the parent grid
+    var parentGridAllRows = parentGrid.allRows();
+    $(parentGridAllRows).each(function (index, row) {
+        expanded = $("#grid1").igHierarchicalGrid("expanded", row);
+        // check to see if the row is expanded
+        if (expanded)
+            // ... and clear its child grids selection recursively
+            $(row).igGridSelection("clearSelectionAllChildren", false, true);
+    });
+}
+```
+## <a id="related-content"></a> 関連コンテンツ
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [igHierarchicalGrid の行のプログラムによる展開と縮小](/jquery-ighierarchical-grid-expanding-and-collapsing-rows-programmatically-in-ighierarchicalgrid): このトピックでは、igHierarchicalGrid のナビゲーションに関連する API について紹介します。
+- [igHierarchicalGrid の行セレクターの構成](/ighierarchicalgrid-configuring-rowselectors): このトピックでは、選択と行セレクターを組み合わせて使用する方法を紹介します。
+
+### サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [選択](&#123;environment:SamplesUrl&#125;/hierarchical-grid/selection-rowselectors): このサンプルでは、igHierarchicalGrid の選択機能の構成について紹介します。
+
+
+
+
+
+ 
+
+ 
+
+

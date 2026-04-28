@@ -1,0 +1,54 @@
+---
+title: "igNumericEditor の既知の問題"
+slug: ignumericeditor-known-issues
+---
+
+import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
+
+# igNumericEditor の既知の問題
+
+
+## 既知の制約事項
+
+- 数値エディターは編集モードでは、グループ、または 1000 のセパレーターおよび記号をサポートしません。
+- &#123;environment:ProductNameMVC&#125; 数値エディターを使用してエディター値として double 数値を設定する場合、クライアント側で小数点を持つ数値として描画されます。使用される小数点は常に英語形式で使用される小数点 (.) です。エディターがクライアントに送信される値を書式設定する場合、サーバーの数値書式設定を無視し、常にポイント (.) を小数点として使用します。クライアント側ウィジェットが値をサーバーに送信する場合にも同じ書式が使用されます。書式に関連するすべての igNumericEditor オプション (<ApiLink type="ignumericeditor" member="decimalSeparator" section="options" label="decimalSeparator" /> および <ApiLink type="ignumericeditor" member="groupSeparator" section="options" label="groupSeparator" />) が無視され、値がポイントを小数点として使用するために変換されます。
+- <ApiLink type="ignumericeditor" member="minValue" section="options" label="minValue" /> または <ApiLink type="ignumericeditor" member="maxValue" section="options" label="maxValue" /> オプションを設定せずに <ApiLink type="ignumericeditor" member="spinWrapAround" section="options" label="spinWrapAround" /> を true に設定した場合、データモードで設定したデフォルトの上限に達したときにスピンをラップできません。これは <ApiLink type="ignumericeditor" member="dataMode" section="options" label="dataMode" /> オプションを float、long、または double の値に設定した場合です。
+この動作の原因は、JavaScript でデータモードの最大値が指数表記で表される大きな数値であることです。
+この制限を回避するには、<ApiLink type="ignumericeditor" member="maxValue" section="options" label="maxValue" /> および <ApiLink type="ignumericeditor" member="minValue" section="options" label="minValue" /> を JavaScript の指数表記を使用しない数値に設定します。あるいは、数値エディター、パーセント エディター、または通貨エディターで <ApiLink type="ignumericeditor" member="scientificFormat" section="options" label="scientificFormat" /> オプションを有効にしてください。
+- 数値エディターが編集モードにある場合、日本語の IME キーボードで fullwidth 数字の float/double 値の入力で複数の小数点を入力できます。 日本語の IME キーボードで半角数字を入力する際に Mac 上の Safari ブラウザーでも同じ問題があります。いずれの場合もエディターがフォーカスを失うときに新しい値が検証され、単一の小数点が残ります。これは、IME 入力で `keyPress` イベントが発生されないためです。
+
+## 数値の制限
+数値エディターが値を JavaScript 数値として処理し、保存します。 ECMAScript 仕様は、数値を [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point#Basic_and_interchange_formats) 倍精度 [64-bit バイナリ形式](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)で定義します。15-17 有効数字を許可し、100% 正確ではない浮動小数点算術を使用します。
+エディターの特定の関数はプラットフォームの制限によって処理されます。
+
+大きい整数または高精度浮動小数点書式の表現を含みます。保存可能な有効数字の最大数によって制限されるため、通常演算で丸められて精度が失われます。
+たとえば、規格の `long` の最大値は `9223372036854775807` です。保存された桁数制限より大きいため、サポートされる桁に丸みを付けます。
+
+```bash
+> 9223372036854775807
+9223372036854776000
+```
+
+17 番目の数字の丸めに注意してください。最後の 3 桁が異なるため値が実際より先に <ApiLink type="ignumericeditor" member="maxValue" section="options" label="maxValue" /> になる可能性があります。
+
+```bash
+> 9223372036854775807 === 9223372036854775500
+true
+```
+
+浮動小数点数の場合、小数点の位置に関係なく制限された有効桁数で丸めが発生します。例:
+
+```bash
+> 1.2345678912345678912345
+1.234567891234568
+> 1234.5678912345678912345
+1234.567891234568
+```
+
+小数点の位置が異なる場合にも、表現が同じ数字の量で制限されます。<ApiLink type="ignumericeditor" member="minDecimals" section="options" label="minDecimals" /> および <ApiLink type="ignumericeditor" member="maxDecimals" section="options" label="maxDecimals" /> オプションが 15 数字に制限されますが、値が常に正しいことを確認できません。制限が有効数字全体に適用されるため、小数点の前の数字は 10 進数部分の精度を制限します。最小値の書式設定が設定された数値に追加できますが、実際値ではなく概算です。
+
+すべての数値が同じ書式で保存されるため、同じ制限が指数の値に関係なく指数表記の数値に適用されます。また、JavaScript の `toFixed()` が 20 桁に制限されるため、より高い指数を持つ値が固定小数点書式 (適切ではありませんが) で書式設定できません。
+たとえば、<ApiLink type="ignumericeditor" member="scientificFormat" section="options" label="scientificFormat" /> オプションを明示的に設定しない場合も、`1e+21` およびより大きい値が指数表記のみで表現できます。負の数 (1 より小さい) の指数を持つ値を丸めて固定小数点書式にできますが、`0` と判断される可能性が高いです。そのような値のサポートが必要な場合は、`scientificFormat` を設定してください。
+
+## 関連リンク
+- [igNumericEditor の概要](/ignumericeditor-overview)

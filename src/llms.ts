@@ -121,7 +121,9 @@ export function walkDocsFiles(docsDir: string): DocsFileEntry[] {
             if (entry.isDirectory()) { walk(full); continue; }
             if (!/\.(mdx?|md)$/.test(entry.name)) continue;
             try {
-                const raw = fs.readFileSync(full, 'utf-8');
+                let raw = fs.readFileSync(full, 'utf-8');
+                // Strip UTF-8 BOM if present
+                if (raw.charCodeAt(0) === 0xFEFF) raw = raw.slice(1);
                 const relPath = path.relative(docsDir, full).replace(/\\/g, '/').replace(/\.(mdx?|md)$/, '');
                 let slug: string | undefined;
                 // 1. Frontmatter slug

@@ -34,7 +34,9 @@ const TOC_PATH = tocArg
 
 function getSlugFromFile(filePath) {
   try {
-    const content = fs.readFileSync(filePath, 'utf-8');
+    let content = fs.readFileSync(filePath, 'utf-8');
+    // Strip BOM if present
+    if (content.charCodeAt(0) === 0xFEFF) content = content.slice(1);
     // Check frontmatter slug
     const fmMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
     if (fmMatch) {

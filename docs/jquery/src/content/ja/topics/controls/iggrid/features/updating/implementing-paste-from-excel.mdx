@@ -1,0 +1,141 @@
+---
+title: "igGrid で Excel からの貼り付けを実装する"
+slug: implementing-paste-from-excel
+---
+
+# igGrid で Excel からの貼り付けを実装する
+
+## 目的
+本トピックは、Excel スプレッドシートから igGrid へデータを貼り付けるための実装手順を説明します。
+
+## このトピックの内容
+
+- [コード例: Excel からの貼り付けの実装](#code-example)
+    - [概要](#overview)
+    - [手順](#steps)
+    - [結果](#result)
+- [関連コンテンツ](#related)
+
+
+## <a id='code-example'></a> コード例: Excel からの貼り付けの実装
+
+### <a id='overview'></a> 概要
+
+本トピックは、Excel スプレッドシートから igGrid へデータを貼り付けるための実装手順を説明します。
+以下はプロセスの概念的概要です。
+1. 更新および選択の機能を有効にした igGrid を構成します。
+2. グリッドの [`focusin`](https://www.w3.org/TR/DOM-Level-3-Events/#event-type-focusin) と [`keydown`](https://www.w3.org/TR/DOM-Level-3-Events/#keydown) イベントのイベント ハンドラーをアタッチして
+3. [`focusin`](https://www.w3.org/TR/DOM-Level-3-Events/#event-type-focusin) イベント ハンドラ―で非表示の `textarea` をページに添付します。新規に追加した `textarea` の [`paste`](https://www.w3.org/TR/clipboard-apis/#the-paste-action) イベントのイベント ハンドラーをアタッチして
+4. [`keydown`](https://www.w3.org/TR/DOM-Level-3-Events/#keydown) で、(Ctrl + V) の貼り付けをグリッドで実行する場合にイベントハンドラーはフォーカスを `textarea` へ移動します。
+5. `Textarea` の [`Paste`](https://www.w3.org/TR/clipboard-apis/#the-paste-action) イベント ハンドラーでは、貼り付けデータを処理して更新機能でグリッドを更新します。  
+
+### <a id='steps'></a> 手順
+
+1. 更新および選択の機能で igGrid を構成します。
+
+    以下のトピックは、関連機能の有効化について説明します。
+    - [更新を有効にする](/iggrid-updating#enable)
+    - [選択の有効化](/iggrid-selection-overview#enabling-selection)
+
+2. グリッドの `focusin` と `keydown` イベントのイベント ハンドラーをアタッチして
+
+    これらのイベントは、igGrid メイン要素に直接アタッチできます。以下は例です。
+
+```js
+    $("#grid").igGrid({ ... }).on('focusin', function (e) { ... }).on('keydown', function (evnt) { ... });
+```
+3. `focusin` イベント ハンドラ―で非表示の `textarea` をページに添付します。新規に追加した `textarea` の `paste` イベントのイベント ハンドラーをアタッチして
+
+    `textarea` の用途は、貼り付けデータへ安全にアクセスできる `paste` イベントの処理です。セキュリティ上の理由のため、すべてのブラウザーが関連イベント以外でクリップボードへ直接アクセスすることを許可するわけではありません。
+    `textarea` は、UI で干渉しないように非表示要素として DOM にアタッチされます。
+
+```js
+    .on('focusin', function (e) {
+		if ($("#pasteHelper").length > 0) {
+		    return;
+		}
+		var container = $(document.body);
+		var containerDiv = $("<div></div>")
+			.css({
+			    "position": "fixed",
+				"top": -10000,
+				"left": -10000
+			});
+		//create textarea for handling paste event. Text area will be transparent.
+		var textArea = $("<textarea id='pasteHelper'></textarea>")
+			.css({
+				"opacity": 0,
+				"overflow": "hidden"
+			})
+		.appendTo(containerDiv);
+		containerDiv.appendTo(container);
+
+		textArea.on("paste", pasteHandler);
+	})
+```
+
+4. `keydown` で、(Ctrl + V) の貼り付けをグリッドで実行する場合にイベントハンドラーはフォーカスを `textarea` へ移動します。
+
+    これによって `keydown` イベントが `textarea` へ渡されることを確実にし、貼り付けデータを持つ貼り付けイベントが発生します。
+
+```js
+    .on('keydown', function (evnt) {
+		//handle grid's keydown event
+		var ctrl = evnt.ctrlKey, key = evnt.keyCode;
+		if (ctrl && key == 86 || evnt.shiftKey && key == 45) // Ctrl-V || Shift-Ins
+		{
+			//on paste (Ctrl+V) move focus to textarea
+			$("#pasteHelper").focus();
+		}
+	});
+```
+
+5. `Textarea` の `Paste` イベント ハンドラーでは、貼り付けデータを処理してグリッド レコードを更新します。
+
+    データが処理されるとレコード (選択したセルから) の更新または新しいレコードとしてそれらを追加できます。
+    igGrid 更新機能の API で更新が完了します。
+
+```js
+    function pasteHandler(event) {
+	    var data;
+
+		//get clipboard data - from window.cliboardData for IE or from the original event's argumets.
+		if (window.clipboardData) {
+		    window.event.returnValue = false;
+		    data = window.clipboardData.getData("text");
+		} else {
+		    data = event.originalEvent.clipboardData.getData('text/plain');
+		}
+
+		//process the clipboard data
+		var processedData = ProcessData(data);
+
+		if (pasteMode === "Paste starting from active cell") {
+		//update starting from selected cell
+			UpdateRecords(processedData);
+		} else {
+		//add to the grid
+		    AddRecords(processedData)
+		}
+
+		$("#undo").igButton("option", "disabled", false);
+		$("#saveChanges").igButton("option", "disabled", false);
+	}
+```
+
+### <a id='result'></a> 結果
+
+以下のサンプルはコードの結果です。貼り付けが完了すると貼り付けモードを変更できる通知メッセージを表示します。
+2 つのモードがあります。 
+データを新しいレコードとして貼り付け - このモードの場合、貼り付けられたレコードがグリッドの新しい行として追加されます。 
+アクティブ セルから開始する貼り付け - このモードの場合、貼り付けられたレコードがアクティブなグリッド セルから開始してデータを置き換えます。
+
+これをテストするには、任意の Excel スプレッドシート (またはこのファイル) を開き、行をコピーした後にキーボードを使用してグリッドに貼り付けます。 
+
+<div class="embed-sample">
+   [Excel から貼り付け](&#123;environment:SamplesEmbedUrl&#125;/grid/paste-from-excel)
+</div>
+
+## <a id='related'></a> 関連コンテンツ
+
+- [概要の更新 (igGrid)](/iggrid-updating): このトピックでは、`igGrid`™ コントロールの更新機能の使用方法を説明します。

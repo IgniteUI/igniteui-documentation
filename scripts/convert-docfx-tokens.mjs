@@ -21,11 +21,18 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT      = path.resolve(__dirname, '..');
 
 const topicsArg = process.argv.find(a => a.startsWith('--topics='));
+const tocArg    = process.argv.find(a => a.startsWith('--toc='));
 const TOPICS_DIR = topicsArg
   ? path.resolve(ROOT, topicsArg.slice('--topics='.length))
   : path.join(ROOT, 'docs/jquery/src/content/en/topics');
-const TOC_JSON   = path.join(ROOT, 'docs/jquery/toc.json');
-const ENV_JSON   = path.join(ROOT, 'docs/jquery/src/content/en/environment.json');
+const TOC_JSON   = tocArg
+  ? path.resolve(ROOT, tocArg.slice('--toc='.length))
+  : path.join(ROOT, 'docs/jquery/toc.json');
+
+// Resolve environment.json from the topics directory (supports ja, en, etc.)
+const ENV_JSON   = fs.existsSync(path.join(TOPICS_DIR, 'environment.json'))
+  ? path.join(TOPICS_DIR, 'environment.json')
+  : path.join(ROOT, 'docs/jquery/src/content/en/environment.json');
 
 const APPLY = process.argv.includes('--apply');
 
