@@ -232,7 +232,8 @@ let _env: Record<string, string> | null = null;
 
 /**
  * Returns the platform context for the current build.
- * Resolution order: PLATFORM env var → .platform.json → 'React' default.
+ * Resolution order: PLATFORM env var → DOCS_PLATFORM env var (lowercase key)
+ *                   → .platform.json → 'React' default.
  *
  * Result is cached for the build lifetime.
  */
@@ -245,15 +246,25 @@ export function getPlatformContext(): PlatformContext {
     if (envPlatform && PLATFORMS[envPlatform]) {
         name = envPlatform;
     } else {
-        try {
-            const cfgPath = path.resolve(process.cwd(), '.platform.json');
-            if (fs.existsSync(cfgPath)) {
-                const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf-8'));
-                if (cfg.platform && PLATFORMS[cfg.platform as PlatformName]) {
-                    name = cfg.platform as PlatformName;
+        // DOCS_PLATFORM is the lowercase key set by createDocsSite() (e.g. 'jquery').
+        // Resolve it by matching against each platform's `lower` field.
+        const docsPlatform = process.env.DOCS_PLATFORM;
+        const found = docsPlatform
+            ? (Object.values(PLATFORMS) as PlatformContext[]).find(p => p.lower === docsPlatform)
+            : undefined;
+        if (found) {
+            name = found.name;
+        } else {
+            try {
+                const cfgPath = path.resolve(process.cwd(), '.platform.json');
+                if (fs.existsSync(cfgPath)) {
+                    const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf-8'));
+                    if (cfg.platform && PLATFORMS[cfg.platform as PlatformName]) {
+                        name = cfg.platform as PlatformName;
+                    }
                 }
-            }
-        } catch { /* use default */ }
+            } catch { /* use default */ }
+        }
     }
 
     const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
