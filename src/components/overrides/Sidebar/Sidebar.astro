@@ -19,6 +19,20 @@ const { sidebar } = Astro.locals.starlightRoute;
 
 <script src="./sidebar-filter"></script>
 
+<script>
+  function updateSidebarBottom() {
+    const footerContainer = document.querySelector('.page > *:last-child');
+    if (!footerContainer) return;
+    const visibleHeight = Math.max(0, window.innerHeight - footerContainer.getBoundingClientRect().top);
+    document.documentElement.style.setProperty('--sl-sidebar-bottom', `${visibleHeight}px`);
+  }
+
+  document.addEventListener('scroll', updateSidebarBottom, { passive: true });
+  window.addEventListener('resize', updateSidebarBottom);
+  document.addEventListener('astro:page-load', updateSidebarBottom);
+  updateSidebarBottom();
+</script>
+
 <style>
   @layer starlight.user {
     sidebar-filter {
