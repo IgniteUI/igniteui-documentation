@@ -1,0 +1,219 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+// ── Types ────────────────────────────────────────────────────────────────────
+
+interface TocItem {
+    depth: number;
+    slug: string;
+    text: string;
+    children: TocItem[];
+}
+
+type TocConfig =
+    | false
+    | { minHeadingLevel?: number; maxHeadingLevel?: number }
+    | undefined;
+
+// ── Tree builder ─────────────────────────────────────────────────────────────
+
+function injectChild(items: TocItem[], item: TocItem): void {
+    const last = items.at(-1);
+    if (!last || last.depth >= item.depth) { items.push(item); return; }
+    injectChild(last.children, item);
+}
+
+function buildToc(headings: MarkdownHeading[], config: TocConfig): TocItem[] {
+    if (config === false) return [];
+    const min = (typeof config === 'object' ? config.minHeadingLevel : undefined) ?? 2;
+    const max = (typeof config === 'object' ? config.maxHeadingLevel : undefined) ?? 3;
+    const toc: TocItem[] = [];
+    for (const h of headings.filter(({ depth }) => depth >= min && depth <= max)) {
+        injectChild(toc, { ...h, children: [] });
+    }
+    return toc;
+}
+
+// ── Props ─────────────────────────────────────────────────────────────────────
+// Root call:      <DocsToc headings={…} title={…} tocConfig={…} />
+// Recursive call: <Astro.self _items={…} depth={…} />
+
+interface Props {
+    headings?: MarkdownHeading[];
+    tocConfig?: TocConfig;
+    label?: string;
+    _items?: TocItem[];
+    depth?: number;
+}
+
+const { headings = [], tocConfig, label = 'On this page', _items, depth = 0 } = Astro.props;
+
+const items: TocItem[] = depth === 0 ? buildToc(headings, tocConfig) : (_items ?? []);
+---
+
+{depth === 0 ? (
+    items.length > 0 && (
+        <docs-toc>
+            <nav aria-labelledby="toc-heading">
+                <h2 id="toc-heading">{label}</h2>
+                <Astro.self _items={items} depth={1} />
+            </nav>
+        </docs-toc>
+    )
+) : (
+    <ul class:list={['toc-list', `depth-${depth - 1}`]}>
+        {items.map((item) => (
+            <li>
+                <a href={`#${item.slug}`}><span>{item.text}</span></a>
+                {item.children.length > 0 && (
+                    <Astro.self _items={item.children} depth={depth + 1} />
+                )}
+            </li>
+        ))}
+    </ul>
+)}
+
+<script>
+    class DocsToc extends HTMLElement {
+        private rafId: number | undefined;
+        private headings: HTMLElement[] = [];
+        private links: HTMLAnchorElement[] = [];
+        private currentLink: HTMLAnchorElement | undefined;
+        private removeScroll?: () => void;
+
+        connectedCallback() {
+            if (this.rafId !== undefined) cancelAnimationFrame(this.rafId);
+            this.removeScroll?.();
+            this.currentLink = undefined;
+
+            this.links = Array.from(this.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'));
+            this.headings = this.links
+                .map((link) => document.getElementById(decodeURIComponent(link.hash.slice(1))))
+                .filter((el): el is HTMLElement => el !== null);
+
+            if (this.headings.length === 0) return;
+
+            const onScroll = () => {
+                if (this.rafId !== undefined) return;
+                this.rafId = requestAnimationFrame(() => { this.rafId = undefined; this.update(); });
+            };
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            this.removeScroll = () => window.removeEventListener('scroll', onScroll);
+            this.update();
+        }
+
+        disconnectedCallback() {
+            this.removeScroll?.();
+            if (this.rafId !== undefined) cancelAnimationFrame(this.rafId);
+        }
+
+        private update() {
+            let activeIndex = 0;
+            for (let i = 0; i < this.headings.length; i++) {
+                if (this.headings[i].getBoundingClientRect().top <= 160) activeIndex = i;
+                else break;
+            }
+            const next = this.links[activeIndex];
+            if (!next || next === this.currentLink) return;
+            this.currentLink?.removeAttribute('aria-current');
+            next.setAttribute('aria-current', 'true');
+            this.currentLink = next;
+        }
+    }
+
+    if (!customElements.get('docs-toc')) customElements.define('docs-toc', DocsToc);
+</script>
+
+<style is:global>
+    :root {
+        --ig-toc-width: 24rem;
+    }
+
+    .toc-sidebar {
+        display: none;
+    }
+
+    /* Hide the aside entirely when DocsToc has nothing to render */
+    .toc-sidebar:not(:has(docs-toc)) {
+        display: none !important;
+    }
+
+    @media (min-width: 84rem) {
+        .toc-sidebar {
+            display: block;
+            position: fixed;
+            top: var(--sl-nav-height);
+            right: 0;
+            width: var(--ig-toc-width);
+            height: calc(100vh - var(--sl-nav-height));
+            overflow-y: auto;
+            padding: 1.5rem 1rem 1.5rem 1.25rem;
+            border-inline-start: 1px solid var(--sl-color-hairline-shade);
+        }
+
+        .main-frame {
+            padding-inline-end: var(--ig-toc-width);
+        }
+    }
+
+    docs-toc {
+        display: block;
+    }
+
+    docs-toc h2 {
+        margin: 0 0 0.75rem;
+        font-size: var(--sl-text-xs);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--sl-color-gray-3);
+    }
+
+    .toc-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .toc-list li {
+        margin: 0;
+    }
+
+    .toc-list .toc-list {
+        margin-block-start: 0.125rem;
+        padding-inline-start: 0.75rem;
+    }
+
+    .toc-list a {
+        display: block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: var(--sl-text-sm);
+        color: var(--sl-color-gray-4);
+        text-decoration: none;
+        line-height: 1.4;
+        transition: color 0.15s, background-color 0.15s;
+    }
+
+    .toc-list a:hover {
+        color: var(--sl-color-text);
+        background-color: var(--sl-color-gray-1);
+        text-decoration: none;
+    }
+
+    .toc-list a[aria-current='true'] {
+        color: var(--sl-color-accent-high);
+        font-weight: 600;
+        background-color: var(--sl-color-accent-low);
+    }
+
+    .toc-list.depth-0 > li > a {
+        font-weight: 600;
+        color: var(--sl-color-text);
+    }
+
+    .toc-list.depth-0 > li > a:hover {
+        color: var(--sl-color-text);
+    }
+</style>
