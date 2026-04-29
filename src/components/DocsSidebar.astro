@@ -1,114 +1,85 @@
 ---
+/**
+ * Composes the sidebar:
+ *   <sidebar-filter>
+ *     <SidebarFilterInput />            ← always visible (above the scroll)
+ *     <div data-sidebar-scroll>         ← only this scrolls
+ *       <SidebarTree />                 ← recursive, no string templating
+ *     </div>
+ *   </sidebar-filter>
+ *
+ * Filter visibility is CSS-driven by `[data-filtering]` on the host and
+ * `[data-filter-match]` on each <li>. No JS toggles `hidden` / classes.
+ */
 import { sidebar as sidebarData } from 'virtual:docs-template/site-meta';
+import SidebarFilterInput from './SidebarFilterInput.astro';
+import SidebarTree from './SidebarTree.astro';
+import type { SidebarEntry } from './sidebar-types';
 
 interface Props {
   currentSlug?: string;
 }
 
 const { currentSlug = '' } = Astro.props;
-const normalizedCurrent = currentSlug.replace(/^\/|\/$/g, '');
-
-// ── Types (mirrors sidebar.ts) ──────────────────────────────────────────────
-
-type SidebarBadge = { text: string; variant: string };
-type SidebarLink = {
-  label: string;
-  slug: string;
-  badge?: SidebarBadge;
-  attrs?: Record<string, string | number | boolean | undefined>;
-};
-type SidebarGroup = {
-  label: string;
-  items: SidebarEntry[];
-  collapsed?: boolean;
-};
-type SidebarEntry = SidebarLink | SidebarGroup;
-
-function isGroup(e: SidebarEntry): e is SidebarGroup {
-  return 'items' in e;
-}
-
-function isActive(slug: string): boolean {
-  return normalizedCurrent === slug.replace(/^\/|\/$/g, '');
-}
-
-function hasActive(items: SidebarEntry[]): boolean {
-  return items.some(item =>
-    isGroup(item) ? hasActive(item.items) : isActive(item.slug),
-  );
-}
-
-function esc(s: string): string {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-function badgeHtml(badge: SidebarBadge): string {
-  return `<span class="sl-badge ${esc(badge.variant)}">${esc(badge.text)}</span>`;
-}
-
-function extraAttrs(attrs?: SidebarLink['attrs']): string {
-  if (!attrs) return '';
-  return Object.entries(attrs)
-    .filter(([, v]) => v !== undefined && v !== false)
-    .map(([k, v]) => (v === true ? esc(k) : `${esc(k)}="${esc(String(v))}"`))
-    .join(' ');
-}
-
-function renderItem(item: SidebarEntry): string {
-  if (isGroup(item)) {
-    const open = !item.collapsed || hasActive(item.items);
-    const children = item.items.map(renderItem).join('');
-    return `
-<li class="sidebar-group">
-  <details${open ? ' open' : ''}>
-    <summary class="group-label"><span class="group-label-text">${esc(item.label)}</span></summary>
-    <ul class="sidebar-group-items">${children}</ul>
-  </details>
-</li>`;
-  }
-
-  const active = isActive(item.slug);
-  const badge = item.badge ? badgeHtml(item.badge) : '';
-  const extra = extraAttrs(item.attrs);
-  return `
-<li>
-  <a href="/${esc(item.slug)}/" aria-current="${active ? 'page' : 'false'}"${extra ? ' ' + extra : ''}>${esc(item.label)}${badge}</a>
-</li>`;
-}
-
-const html = (sidebarData as SidebarEntry[]).map(renderItem).join('');
+const items = sidebarData as SidebarEntry[];
 ---
 
-<div class="sidebar-filter" id="docs-sidebar">
-  <ul class="sidebar-list">
-    <Fragment set:html={html} />
-  </ul>
-</div>
+<sidebar-filter id="docs-sidebar" data-no-results="No topics match">
+  <SidebarFilterInput />
+  <div class="sidebar-scroll" data-sidebar-scroll>
+    <SidebarTree items={items} currentSlug={currentSlug} />
+  </div>
+</sidebar-filter>
+
+<script>
+  import './sidebar-filter';
+</script>
 
 <style>
-  .sidebar-list,
-  .sidebar-group-items {
+  /* ── Layout: filter pinned, only the items scroll ───────────────────── */
+  sidebar-filter {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .sidebar-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    /* Pull to the full pane width so the scrollbar sits flush with the edge */
+    margin-inline-end: calc(-1 * var(--sl-sidebar-pad-x, 1rem));
+    padding-inline-end: var(--sl-sidebar-pad-x, 1rem);
+  }
+
+  /* ── Lists ──────────────────────────────────────────────────────────── */
+  :global(.sidebar-list),
+  :global(.sidebar-group-items) {
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
-  .sidebar-group {
+  :global(.sidebar-group) {
     margin-block: 0.25rem;
   }
 
-  details summary {
+  :global(.sidebar-group-items) {
+    padding-inline-start: 0.75rem;
+    border-inline-start: 1px solid var(--sl-color-hairline, #e2e4e9);
+    margin-inline-start: 0.25rem;
+  }
+
+  /* ── Group summary + caret on the right ─────────────────────────────── */
+  :global(details summary) {
     cursor: pointer;
     list-style: none;
     padding: 0.25rem 0;
   }
-  details summary::-webkit-details-marker { display: none; }
+  :global(details summary::-webkit-details-marker) { display: none; }
 
-  .group-label {
+  :global(.group-label) {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -120,7 +91,7 @@ const html = (sidebarData as SidebarEntry[]).map(renderItem).join('');
     padding: 0.5rem 0 0.25rem;
   }
 
-  .group-label-text {
+  :global(.group-label-text) {
     flex: 1;
     min-width: 0;
     overflow: hidden;
@@ -128,13 +99,22 @@ const html = (sidebarData as SidebarEntry[]).map(renderItem).join('');
     white-space: nowrap;
   }
 
-  .sidebar-group-items {
-    padding-inline-start: 0.75rem;
-    border-inline-start: 1px solid var(--sl-color-hairline, #e2e4e9);
-    margin-inline-start: 0.25rem;
+  /* Caret sits at the end of the row (after the label) */
+  :global(.group-caret) {
+    flex-shrink: 0;
+    margin-inline-start: auto;
+    color: var(--sl-color-gray-3, #888);
+    transform: rotate(0deg);
+    transition: transform 120ms ease-out;
+  }
+  :global(details[open] > summary > .group-caret) {
+    transform: rotate(90deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.group-caret) { transition: none; }
   }
 
-  /* Links */
+  /* ── Links ──────────────────────────────────────────────────────────── */
   :global(.sidebar-list a),
   :global(.sidebar-group-items a) {
     display: flex;
@@ -162,7 +142,15 @@ const html = (sidebarData as SidebarEntry[]).map(renderItem).join('');
     font-weight: 600;
   }
 
-  /* Badges */
+  :global(.link-label) {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ── Badges ─────────────────────────────────────────────────────────── */
   :global(.sl-badge) {
     display: inline-flex;
     align-items: center;
@@ -182,4 +170,9 @@ const html = (sidebarData as SidebarEntry[]).map(renderItem).join('');
   :global(.sl-badge.success) { color: hsl(134, 70%, 38%); }
   :global(.sl-badge.caution) { color: hsl(40, 90%, 45%); }
   :global(.sl-badge.danger)  { color: hsl(0, 85%, 52%); }
+
+  /* ── Filter visibility (purely attribute-driven) ───────────────────── */
+  sidebar-filter[data-filtering] :global(li[data-path]:not([data-filter-match])) {
+    display: none;
+  }
 </style>

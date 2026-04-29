@@ -1,0 +1,56 @@
+---
+/**
+ * Renders a single sidebar entry — either a link or a recursive group.
+ * Pure SSR, no client-side state.
+ */
+import SidebarTree from './SidebarTree.astro';
+import type { SidebarEntry } from './sidebar-types';
+import { isActive, isGroup, hasActive, joinPath } from './sidebar-types';
+
+interface Props {
+  item: SidebarEntry;
+  ancestors?: string[];
+  currentSlug: string;
+}
+
+const { item, ancestors = [], currentSlug } = Astro.props;
+const path = joinPath(ancestors, item.label);
+---
+
+{isGroup(item) ? (
+  <li class="sidebar-group" data-label={item.label} data-path={path}>
+    <details data-group-key={path} open={hasActive(item.items, currentSlug)}>
+      <summary class="group-label">
+        <span class="group-label-text">{item.label}</span>
+        <svg
+          class="group-caret"
+          viewBox="0 0 16 16"
+          width="10"
+          height="10"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M4 2l8 6-8 6V2z" fill="currentColor" />
+        </svg>
+      </summary>
+      <SidebarTree
+        items={item.items}
+        ancestors={[...ancestors, item.label]}
+        currentSlug={currentSlug}
+      />
+    </details>
+  </li>
+) : (
+  <li data-label={item.label} data-slug={item.slug} data-path={path}>
+    <a
+      href={`/${item.slug}/`}
+      aria-current={isActive(item.slug, currentSlug) ? 'page' : 'false'}
+      {...item.attrs}
+    >
+      <span class="link-label">{item.label}</span>
+      {item.badge && (
+        <span class={`sl-badge ${item.badge.variant}`}>{item.badge.text}</span>
+      )}
+    </a>
+  </li>
+)}
