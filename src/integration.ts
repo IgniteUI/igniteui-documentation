@@ -54,6 +54,7 @@
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
+import { createIndex as pagefindCreateIndex } from 'pagefind';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import type { AstroIntegration } from 'astro';
@@ -514,6 +515,23 @@ export const headEntries = ${JSON.stringify(head ?? [])};
                         }
                     })
                 );
+
+                // Run pagefind to generate the search index from the built HTML.
+                // The index is written to <outDir>/pagefind/ and served statically.
+                console.log('[docs-template] Running pagefind…');
+                try {
+                    const { index, errors: initErrors } = await pagefindCreateIndex({});
+                    if (initErrors?.length) throw new Error(initErrors.join(', '));
+                    const { errors: addErrors } = await index!.addDirectory({ path: outDir });
+                    if (addErrors?.length) console.warn('[docs-template] pagefind addDirectory warnings:', addErrors);
+                    const { errors: writeErrors } = await index!.writeFiles({
+                        outputPath: path.join(outDir, 'pagefind'),
+                    });
+                    if (writeErrors?.length) console.warn('[docs-template] pagefind writeFiles warnings:', writeErrors);
+                    console.log('[docs-template] pagefind index written.');
+                } catch (err) {
+                    console.warn('[docs-template] pagefind failed — search index will be unavailable.', err);
+                }
             },
         },
     };
