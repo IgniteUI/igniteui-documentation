@@ -1,0 +1,38 @@
+---
+import { getCollection, render } from 'astro:content';
+import MainLayout from '../layouts/MainLayout.astro';
+import DocsSidebar from '../components/DocsSidebar.astro';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return docs.map((entry) => {
+    const slug = entry.id.replace(/\.(md|mdx)$/i, '');
+    return {
+      params: { slug },
+      props: { entry },
+    };
+  });
+}
+
+type Props = {
+  entry: Awaited<ReturnType<typeof getCollection<'docs'>>>[number];
+};
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+type EntryData = {
+  title: string;
+  description?: string | null;
+  keywords?: string | null;
+};
+const { title, description, keywords } = entry.data as EntryData;
+const currentSlug = entry.id.replace(/\.(md|mdx)$/i, '');
+---
+
+<MainLayout title={title} description={description} keywords={keywords}>
+  <DocsSidebar slot="sidebar" currentSlug={currentSlug} />
+  <div class="sl-markdown-content" data-pagefind-body>
+    <Content />
+  </div>
+</MainLayout>

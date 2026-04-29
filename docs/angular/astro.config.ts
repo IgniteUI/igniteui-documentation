@@ -1,5 +1,4 @@
 // @ts-check
-import mdx from '@astrojs/mdx';
 import path from 'node:path';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
@@ -64,7 +63,6 @@ export default createDocsSite({
 		// logo: { src: './public/favicon.svg' },
 	},
 	image: { service: { entrypoint: 'astro/assets/services/noop' } },
-	integrations: [mdx()],
 	// Expose @/ alias so MDX files can import Sample.astro and peer components.
 	vite: {
 		resolve: {

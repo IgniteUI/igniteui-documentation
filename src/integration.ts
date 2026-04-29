@@ -57,8 +57,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import type { AstroIntegration } from 'astro';
-import starlight from '@astrojs/starlight';
-import starlightLlmsTxt from 'starlight-llms-txt';
+import mdx from '@astrojs/mdx';
 import {
     buildLlmsTxt, buildLlmsMetaMap, getBroadSectionsForPlatform,
     type LlmsMeta, type LlmsSet, type SidebarItem,
@@ -207,10 +206,15 @@ export interface SiteMetaOptions {
     navLang?: NavLang;
     /** Build / deployment mode. Exposed via `process.env.DOCS_BUILD_MODE`. */
     mode?: DocsMode;
-    /** Named documentation subsets linked from llms.txt and passed to starlight-llms-txt. */
+    /** Named documentation subsets linked from llms.txt. */
     llmsSets?: LlmsSet[];
     /** Cross-product navigation links rendered in the DocsSubHeader. */
     productLinks?: ProductLink[];
+    /**
+     * Extra `<head>` entries injected via the `virtual:docs-template/site-meta`
+     * module and rendered by `MainLayout.astro`.
+     */
+    head?: HeadEntry[];
     /** @deprecated Use `platform` instead. */
     prefetchNav?: boolean;
     /** @deprecated Use `platform: 'appbuilder'` instead. */
@@ -256,6 +260,7 @@ export function siteMetaIntegration({
     mode = 'development',
     llmsSets = [],
     productLinks = [],
+    head = [],
     prefetchNav = false,
     prefetchAppBuilderNav = false,
 }: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
@@ -283,6 +288,7 @@ export function siteMetaIntegration({
     const moduleCode = `export const title = ${JSON.stringify(title)};
 export const sidebar = ${JSON.stringify(sidebar ?? [])};
 export const productLinks = ${JSON.stringify(productLinks)};
+export const headEntries = ${JSON.stringify(head ?? [])};
 `;
 
     // Captured from astro:config:done; used to generate llms.txt content.
@@ -300,6 +306,31 @@ export const productLinks = ${JSON.stringify(productLinks)};
                     entrypoint: fileURLToPath(new URL('./routes/sitemap.xml.ts', import.meta.url)),
                     prerender: true,
                 });
+
+                // Inject the dynamic doc-page route so consuming projects don't
+                // need their own [...slug].astro. Project pages take priority over
+                // injected routes, so the template's own src/pages/[...slug].astro
+                // still wins when the template is used standalone.
+                injectRoute({
+                    pattern: '/[...slug]',
+                    entrypoint: fileURLToPath(new URL('./routes/[...slug].astro', import.meta.url)),
+                    prerender: true,
+                });
+
+                // Vite alias: redirect @astrojs/starlight/components to our compat shim so
+                // MDX files that import Starlight UI components continue to build without the
+                // Starlight integration being active.
+                const compatIndex = fileURLToPath(new URL('./compat/starlight-components/index.ts', import.meta.url));
+                updateConfig({
+                    vite: {
+                        resolve: {
+                            alias: [
+                                { find: '@astrojs/starlight/components', replacement: compatIndex },
+                            ],
+                        },
+                    },
+                });
+
                 // Configure Sass loadPaths so bare `highlight.js/scss/vs2015`
                 // imports in the platform theme files resolve from node_modules.
                 updateConfig({
@@ -623,7 +654,7 @@ export interface CreateDocsSiteOptions {
     site: string;
     /** Base path, e.g. `'/docs'`. */
     base?: string;
-    /** Starlight site title. */
+    /** Site title shown in the browser tab and DocsSubHeader. */
     title: string;
     /** Short description for the llms.txt header. */
     description?: string;
@@ -643,7 +674,6 @@ export interface CreateDocsSiteOptions {
     navLang?: NavLang;
     /**
      * Extra `<head>` entries appended after the platform entries.
-     * Same format as Starlight's `head` option.
      */
     head?: HeadEntry[];
     /**
@@ -661,12 +691,15 @@ export interface CreateDocsSiteOptions {
      * `## Documentation sets` in `llms.txt`.
      */
     llmsSets?: LlmsSet[];
-    /** Extra Starlight options (logo, social, editLink, customCss, plugins, …). */
-    starlight?: Record<string, unknown>;
     /** Cross-product navigation links rendered in the DocsSubHeader. */
     productLinks?: ProductLink[];
     /** Extra Astro integrations appended after the built-in ones. */
     integrations?: AstroIntegration[];
+    /**
+     * @deprecated Starlight has been removed. This option is ignored.
+     * Use `head` for extra head entries and `integrations` for extra integrations.
+     */
+    starlight?: Record<string, unknown>;
     /** Any remaining keys are spread into `defineConfig` (markdown, image, build, …). */
     [key: string]: unknown;
 }
@@ -693,7 +726,6 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         productLinks = [],
         head = [],
         llmsSets = [] as LlmsSet[],
-        starlight: starlightExtra = {},
         integrations: extraIntegrations = [],
         ...astroExtra
     } = options;
@@ -721,30 +753,14 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // Platform CDN entries come first so site-specific `head` entries can override.
     const platformHead = platform ? getPlatformHead(platform, navLang) : [];
 
-    // Default component overrides shipped by this package.
-    // Consumers can override individual slots via starlight.components.
-    const pkgDir = new URL('.', import.meta.url);
-    const defaultComponents: Record<string, string> = {
-        PageFrame: fileURLToPath(new URL('./components/overrides/CustomPageFrame.astro', pkgDir)),
-        Head: fileURLToPath(new URL('./components/overrides/Head.astro', pkgDir)),
-        Header: fileURLToPath(new URL('./components/overrides/Header.astro', pkgDir)),
-        Footer: fileURLToPath(new URL('./components/overrides/Footer.astro', pkgDir)),
-        PageTitle: fileURLToPath(new URL('./components/overrides/PageTitle.astro', pkgDir)),
-        Sidebar: fileURLToPath(new URL('./components/overrides/Sidebar/Sidebar.astro', pkgDir)),
-        MobileTableOfContents: fileURLToPath(new URL('./components/overrides/MobileTableOfContents.astro', pkgDir)),
-        PageSidebar: fileURLToPath(new URL('./components/overrides/PageSidebar.astro', pkgDir)),
-    };
-
-    const scriptsBase = base ? base.replace(/\/$/, '') : '';
-    const codeViewHead = [
-        { tag: 'link' as const, attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
-        { tag: 'script' as const, attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
+    // highlight.js for code-tab syntax highlighting inside code-view widgets.
+    const codeViewHead: HeadEntry[] = [
+        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
+        { tag: 'script', attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
     ];
 
     // Auto-configure a Vite dev-server proxy so sample-widget.ts can fetch
-    // /code-viewer/*.json (and /assets/code-viewer/*.json) from the local demos
-    // server without hitting browser CORS restrictions.
-    // Only activated when dvDemosBaseUrl resolves to localhost / 127.0.0.1.
+    // /code-viewer/*.json from the local demos server without CORS issues.
     const devProxy: Record<string, object> = {};
     if (source.docsDir) {
         try {
@@ -802,35 +818,19 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
             ],
         },
         integrations: [
-            siteMetaIntegration({ title, description, docsDir: source.docsDir, sidebar, platform, navLang, mode, llmsSets, productLinks }),
-            starlight({
+            siteMetaIntegration({
                 title,
-                sidebar: sidebar,
-                head: [
-                    ...platformHead, ...codeViewHead, ...head,
-                ],
-                // Consumer's extra options spread here — allows overriding title, head, etc.
-                ...starlightExtra,
-                // These always come last so merging with defaults is applied correctly.
-                // The package CSS is always first so consumers can override via their own customCss entries.
-                customCss: [
-                    fileURLToPath(new URL('./styles/custom.css', pkgDir)),
-                    ...(starlightExtra.customCss as string[] ?? []),
-                ],
-                components: { ...defaultComponents, ...(starlightExtra.components as Record<string, string> ?? {}) },
-                // Default code theme is 'dark-plus'; consumer can override via starlight.expressiveCode.
-                expressiveCode: {
-                    themes: ['dark-plus'],
-                    ...(starlightExtra.expressiveCode as Record<string, unknown> ?? {}),
-                },
-                plugins: [
-                    // Generates /llms-full.txt and /llms-small.txt (full-content combined exports).
-                    // starlight-llms-txt also prerenders /llms.txt; siteMetaIntegration overwrites
-                    // it in astro:build:done (prod) and intercepts it in dev via middleware.
-                    starlightLlmsTxt({ projectName: title, description, customSets: llmsSets }),
-                    ...(starlightExtra.plugins as any[] ?? []),
-                ],
+                description,
+                docsDir: source.docsDir,
+                sidebar,
+                platform,
+                navLang,
+                mode,
+                llmsSets,
+                productLinks,
+                head: [...platformHead, ...codeViewHead, ...head],
             }),
+            mdx(),
             ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
             ...(base ? [createBasePrependIntegration(base)] : []),
             ...extraIntegrations,

@@ -1,0 +1,38 @@
+---
+// Simple tab container — renders slotted TabItem children.
+// Tab switching is driven by the inline <script> below.
+---
+<div class="sl-tabs" role="tablist">
+  <slot />
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.sl-tabs').forEach(tabs => {
+    const panels = tabs.querySelectorAll<HTMLElement>('[role="tabpanel"]');
+    const btns   = tabs.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+
+    function activate(idx: number) {
+      btns.forEach((b, i) => {
+        b.setAttribute('aria-selected', String(i === idx));
+        b.setAttribute('tabindex', i === idx ? '0' : '-1');
+      });
+      panels.forEach((p, i) => {
+        p.hidden = i !== idx;
+      });
+    }
+
+    btns.forEach((btn, i) => {
+      btn.addEventListener('click', () => activate(i));
+    });
+
+    activate(0);
+  });
+</script>
+
+<style>
+  .sl-tabs {
+    display: flex;
+    flex-direction: column;
+    margin: 1.5rem 0;
+  }
+</style>

@@ -29,15 +29,8 @@
 
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { docsSchema } from '@astrojs/starlight/schema';
 import { z } from 'astro/zod';
 import { pathToFileURL } from 'node:url';
-
-type ExtendSchema = NonNullable<Parameters<typeof docsSchema>[0]>['extend'];
-
-// SEO fields added to Starlight's base schema so `keywords` is preserved
-// through validation instead of being stripped as an unknown field.
-const EXTENDED_SEO_FIELDS = { keywords: z.string().optional() } as const;
 
 /** Sentinel value placed on entries that have no title so we can remove them after loading. */
 const SKIP_TITLE = '\x00skip';
@@ -45,10 +38,6 @@ const SKIP_TITLE = '\x00skip';
 /**
  * Wraps a loader so that after it populates the store, any entry whose
  * title equals the SKIP_TITLE sentinel is silently removed.
- *
- * Works in tandem with `skippableDocsSchema` which injects the sentinel
- * before Zod validation runs (preventing InvalidContentEntryDataError),
- * so the entry makes it into the store and can then be deleted here.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function withTitleFilter(baseLoader: any): any {
@@ -67,15 +56,22 @@ function withTitleFilter(baseLoader: any): any {
 }
 
 /**
- * Wraps docsSchema with a z.preprocess that injects a sentinel title for entries
- * missing one so the glob loader doesn't throw InvalidContentEntryDataError;
- * withTitleFilter removes those entries after loading.
+ * Base frontmatter schema for MDX/Markdown documentation files.
+ * Wraps with a z.preprocess that injects a sentinel title for entries
+ * missing one so the glob loader doesn't throw InvalidContentEntryDataError.
  */
-function skippableDocsSchema(extend?: ExtendSchema) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const base = docsSchema(extend ? { extend } : undefined) as any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (ctx: any) => z.preprocess(
+function makeDocsSchema(extend?: z.ZodObject<z.ZodRawShape>) {
+    const base = z.object({
+        title: z.string(),
+        description: z.string().optional().nullable(),
+        keywords: z.string().optional().nullable(),
+        draft: z.boolean().optional(),
+        license: z.string().optional(),
+    });
+
+    const schema = extend ? base.merge(extend) : base;
+
+    return z.preprocess(
         (data: unknown) => {
             if (typeof data === 'object' && data !== null) {
                 const d = data as Record<string, unknown>;
@@ -84,7 +80,7 @@ function skippableDocsSchema(extend?: ExtendSchema) {
             }
             return data;
         },
-        base(ctx),
+        schema,
     );
 }
 
@@ -96,27 +92,19 @@ interface CreateDocsCollectionOptions {
      */
     exclude?: string[];
     /**
-     * Additional Zod object fields merged into the Starlight doc schema.
+     * Additional Zod object fields merged into the docs schema.
      * Useful for repo-specific frontmatter fields.
      */
-    extendSchema?: ExtendSchema;
+    extendSchema?: z.ZodObject<z.ZodRawShape>;
 }
 
 /**
- * Creates an Astro content collection (`docs`) for a Starlight docs site,
+ * Creates an Astro content collection (`docs`) for a docs site,
  * using a glob loader against the given source directory.
- *
- * Call this from your project's `src/content.config.ts`:
- *
- *   export const collections = {
- *     docs: createDocsCollection(process.env.DOCS_SOURCE_PATH),
- *   };
  *
  * @param sourceDir - Absolute path to the directory containing the source
  *   `.md`/`.mdx` files. Defaults to `process.env.DOCS_SOURCE_PATH` if omitted.
  * @param options - Optional exclude patterns and schema extension.
- *
- * @throws When neither `sourceDir` nor `DOCS_SOURCE_PATH` env var is set.
  */
 export function createDocsCollection(
     sourceDir?: string,
@@ -130,13 +118,7 @@ export function createDocsCollection(
         );
     }
 
-    // Normalise exclude patterns — ensure each starts with '!'
     const excludePatterns = exclude.map(p => (p.startsWith('!') ? p : `!${p}`));
-
-    const extendSEO: ExtendSchema = (ctx) => {
-        const user = typeof extendSchema === 'function' ? extendSchema(ctx) : extendSchema;
-        return ((user ?? z.object({})) as z.ZodObject<z.ZodRawShape>).extend(EXTENDED_SEO_FIELDS);
-    };
 
     return defineCollection({
         loader: withTitleFilter(glob({
@@ -154,9 +136,8 @@ export function createDocsCollection(
                 ...excludePatterns,
             ],
         })),
-        // use => schema: docsSchema({ extend }) as any, when skippableDocsSchema is no longer needed
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        schema: skippableDocsSchema(extendSEO) as any,
+        schema: makeDocsSchema(extendSchema) as any,
     });
 }
 
@@ -168,16 +149,10 @@ export function createDocsCollection(
  * Ready-to-use `collections` object for the common case where
  * `createDocsSite` is used in `astro.config.ts`.
  *
- * The source directory is read from `process.env.DOCS_SOURCE_PATH`, which
- * `createDocsSite({ source: { docsDir } })` sets automatically.
- *
  * Usage — the entire `src/content.config.ts` in a consuming project:
  *
  *   import { collections } from 'docs-template/content';
  *   export { collections };
- *
- * If you need custom excludes or extra schema fields, use
- * `createDocsCollection` directly instead.
  */
 export const collections = {
     docs: createDocsCollection(process.env.DOCS_SOURCE_PATH),
