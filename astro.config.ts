@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import { buildSidebarFromToc, staticImagesIntegration, siteMetaIntegration } from './src/integration';
+import { buildSidebarFromToc, siteMetaIntegration } from './src/integration';
 import { getPlatformHead } from './src/platform';
 import path from 'node:path';
 import { loadEnv } from 'vite';
@@ -30,7 +30,6 @@ if (!process.env.DOCS_SOURCE_PATH) {
 
 const SOURCE_ROOT = path.resolve(process.env.DOCS_SOURCE_PATH);
 const COMPONENTS = path.join(SOURCE_ROOT, 'en/components');
-const IMAGES = path.join(SOURCE_ROOT, 'en/images');
 const TOC_PATH = path.join(SOURCE_ROOT, 'en/components/toc.yml');
 
 // Narrow DOCS_SOURCE_PATH to the components dir so content.config.ts uses
@@ -69,10 +68,6 @@ export default defineConfig({
         },
       },
     },
-  },
-  image: {
-    // Disable built-in image optimization — images are served statically
-    service: { entrypoint: 'astro/assets/services/noop' },
   },
   integrations: [
     starlight({
@@ -114,7 +109,6 @@ export default defineConfig({
         themes: ['dark-plus'],
       }
     }),
-    staticImagesIntegration(IMAGES),
     siteMetaIntegration({
       title: 'Ignite UI for Angular',
       platform: 'angular',

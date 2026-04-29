@@ -57,18 +57,20 @@ export default createDocsSite({
 	source: {
 		tocPath: `${componentsDocsDir}/toc.json`,
 		docsDir: componentsDocsDir,
-		imagesDir: path.join(docsDir, 'images'),
 	},
 	sidebar: { exclude: [/^internal\//] },
 	starlight: {
 		// logo: { src: './public/favicon.svg' },
 	},
-	image: { service: { entrypoint: 'astro/assets/services/noop' } },
 	integrations: [mdx()],
 	// Expose @/ alias so MDX files can import Sample.astro and peer components.
+	// @xplat-images resolves xplat-sourced MDX image imports to the angular images dir.
 	vite: {
 		resolve: {
-			alias: { '@': path.resolve('./src') },
+			alias: {
+				'@': path.resolve('./src'),
+				'@xplat-images': path.resolve(`./src/content/${docsLang}/images`),
+			},
 		},
 	},
 });

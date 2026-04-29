@@ -251,9 +251,6 @@ function vitePluginPlatformTokens() {
             // that was intentionally exported (those would already be resolved above).
             result = result.replace(/\{([A-Z][A-Za-z0-9]*[A-Z][A-Za-z0-9]*)\}/g, () => '');
 
-            // 5. Normalize relative image paths to absolute
-            result = result.replace(/(?:\.\.\/)+images\//g, '/images/');
-
             return result === code ? null : { code: result, map: null };
         },
     };
@@ -336,7 +333,13 @@ export default createDocsSite({
     starlight: {
         logo: { src: './public/favicon.svg' },
     },
-    image: { service: { entrypoint: 'astro/assets/services/noop' } },
     integrations: [mdx()],
-    vite: { plugins: [vitePluginPlatformTokens()] },
+    vite: {
+        plugins: [vitePluginPlatformTokens()],
+        resolve: {
+            alias: {
+                '@xplat-images': path.resolve(__dirname, 'src/assets/images'),
+            },
+        },
+    },
 });
