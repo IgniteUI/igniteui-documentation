@@ -14,9 +14,11 @@ export interface Props {
   description?: string | null;
   keywords?: string | null;
   hasSidebar?: boolean;
+  /** Slug of the current page; used to compute breadcrumbs in the subheader. */
+  currentSlug?: string;
 }
 
-const { title, description, keywords, hasSidebar = true } = Astro.props;
+const { title, description, keywords, hasSidebar = true, currentSlug = '' } = Astro.props;
 const navTheme = (virtualPlatform ?? import.meta.env.VITE_NAV_THEME ?? 'igniteui') as string;
 const showGlobalNav = navTheme !== 'none';
 const pageTitle = title ? `${title} | ${siteTitle}` : siteTitle;
@@ -76,7 +78,7 @@ type HeadEntry = { tag: string; attrs?: Record<string, string | boolean | undefi
 <body>
   {showGlobalNav && <GlobalNavBar />}
   <div style={`--docs-global-nav-height: ${showGlobalNav ? '86px' : '0px'}`}>
-    <DocsSubHeader pageTitle={title} />
+    <DocsSubHeader pageTitle={title} currentSlug={currentSlug} />
   </div>
   <div class="page">
     {hasSidebar && (
