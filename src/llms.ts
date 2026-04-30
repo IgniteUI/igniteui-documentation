@@ -253,7 +253,7 @@ function walkLlmsItems(
             const label = buildLabel(item.label ?? slug, ancestorPath, broadSections);
             const m = meta[slug];
             let line = `- [${label}](${base}/${slug}.md)`;
-            if (m?.description) line += ` \u2014 ${m.description}`;
+            if (m?.description) line += `: ${m.description}`;
             lines.push(line);
             if (m?.keywords?.length) lines.push(`  Tags: ${m.keywords.join(', ')}`);
             continue;
