@@ -317,19 +317,6 @@ export const headEntries = ${JSON.stringify(head ?? [])};
                     prerender: true,
                 });
 
-                // Vite alias: redirect @astrojs/starlight/components to our compat shim so
-                // MDX files that import Starlight UI components continue to build without the
-                // Starlight integration being active.
-                const compatIndex = fileURLToPath(new URL('./compat/starlight-components/index.ts', import.meta.url));
-                updateConfig({
-                    vite: {
-                        resolve: {
-                            alias: [
-                                { find: '@astrojs/starlight/components', replacement: compatIndex },
-                            ],
-                        },
-                    },
-                });
 
                 // Configure Sass loadPaths so bare `highlight.js/scss/vs2015`
                 // imports in the platform theme files resolve from node_modules.
