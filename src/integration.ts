@@ -54,12 +54,13 @@
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
+import { createIndex as pagefindCreateIndex } from 'pagefind';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import type { AstroIntegration } from 'astro';
 import mdx from '@astrojs/mdx';
 import {
-    buildLlmsTxt, buildLlmsMetaMap, getBroadSectionsForPlatform,
+    buildLlmsTxt, buildLlmsMetaMap, getBroadSectionsForPlatform, toUrlSlug,
     type LlmsMeta, type LlmsSet, type SidebarItem,
 } from './llms.ts';
 import { buildSidebarFromToc } from './sidebar';
@@ -514,6 +515,81 @@ export const headEntries = ${JSON.stringify(head ?? [])};
                         }
                     })
                 );
+
+                // ── llms-full.txt / llms-small.txt ──────────────────────────────────
+                // Read back the already-written per-page .md files and combine them.
+                const pageTexts = (
+                    await Promise.all(
+                        slugs.map(async (slug) => {
+                            try {
+                                return await fsp.readFile(path.join(outDir, slug + '.md'), 'utf-8');
+                            } catch { return ''; }
+                        })
+                    )
+                ).filter(Boolean);
+
+                const fullContent = pageTexts.join('\n\n---\n\n');
+                await fsp.writeFile(path.join(outDir, 'llms-full.txt'), fullContent, 'utf-8');
+
+                // Small variant: strip fenced code blocks and inline code.
+                const smallContent = fullContent
+                    .replace(/^```[\s\S]*?^```/gm, '')
+                    .replace(/`[^`\n]+`/g, '')
+                    .replace(/\n{3,}/g, '\n\n')
+                    .trim();
+                await fsp.writeFile(path.join(outDir, 'llms-small.txt'), smallContent, 'utf-8');
+
+                // ── /_llms-txt/{set-slug}.txt ────────────────────────────────────────
+                if (llmsSets.length > 0) {
+                    const llmsTxtDir = path.join(outDir, '_llms-txt');
+                    await fsp.mkdir(llmsTxtDir, { recursive: true });
+
+                    await Promise.all(
+                        llmsSets.map(async (set) => {
+                            const matchingSlugs = slugs.filter((slug) =>
+                                set.paths.some((pattern) => {
+                                    if (pattern.endsWith('*')) {
+                                        return slug.startsWith(pattern.slice(0, -1));
+                                    }
+                                    return slug === pattern || slug.startsWith(pattern + '/');
+                                })
+                            );
+
+                            const setText = (
+                                await Promise.all(
+                                    matchingSlugs.map(async (slug) => {
+                                        try {
+                                            return await fsp.readFile(path.join(outDir, slug + '.md'), 'utf-8');
+                                        } catch { return ''; }
+                                    })
+                                )
+                            ).filter(Boolean).join('\n\n---\n\n');
+
+                            await fsp.writeFile(
+                                path.join(llmsTxtDir, toUrlSlug(set.label) + '.txt'),
+                                setText,
+                                'utf-8',
+                            );
+                        })
+                    );
+                }
+
+                // Run pagefind to generate the search index from the built HTML.
+                // The index is written to <outDir>/pagefind/ and served statically.
+                console.log('[docs-template] Running pagefind…');
+                try {
+                    const { index, errors: initErrors } = await pagefindCreateIndex({});
+                    if (initErrors?.length) throw new Error(initErrors.join(', '));
+                    const { errors: addErrors } = await index!.addDirectory({ path: outDir });
+                    if (addErrors?.length) console.warn('[docs-template] pagefind addDirectory warnings:', addErrors);
+                    const { errors: writeErrors } = await index!.writeFiles({
+                        outputPath: path.join(outDir, 'pagefind'),
+                    });
+                    if (writeErrors?.length) console.warn('[docs-template] pagefind writeFiles warnings:', writeErrors);
+                    console.log('[docs-template] pagefind index written.');
+                } catch (err) {
+                    console.warn('[docs-template] pagefind failed — search index will be unavailable.', err);
+                }
             },
         },
     };
@@ -687,7 +763,7 @@ export interface CreateDocsSiteOptions {
     mode?: DocsMode;
     /**
      * Named documentation subsets. Each entry generates a dedicated
-     * `/_llms-txt/{slug}.txt` via starlight-llms-txt and adds a link under
+     * `/_llms-txt/{slug}.txt` and adds a link under
      * `## Documentation sets` in `llms.txt`.
      */
     llmsSets?: LlmsSet[];
