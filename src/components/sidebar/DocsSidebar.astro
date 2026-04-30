@@ -10,11 +10,15 @@
  *
  * Filter visibility is CSS-driven by `[data-filtering]` on the host and
  * `[data-filter-match]` on each <li>. No JS toggles `hidden` / classes.
+ *
+ * Initial expand/collapse comes from each group's `collapsed` flag (set by
+ * `buildSidebarFromToc` — root groups: `collapsed:false`, nested: `collapsed:true`)
+ * combined with active-path auto-open. See `lib/sidebar/helpers.ts#isInitiallyOpen`.
  */
 import { sidebar as sidebarData } from 'virtual:docs-template/site-meta';
 import SidebarFilterInput from './SidebarFilterInput.astro';
 import SidebarTree from './SidebarTree.astro';
-import type { SidebarEntry } from './sidebar-types';
+import type { SidebarEntry } from '../../lib/sidebar/types';
 
 interface Props {
   currentSlug?: string;
@@ -99,7 +103,7 @@ const items = sidebarData as SidebarEntry[];
     white-space: nowrap;
   }
 
-  /* Caret sits at the end of the row (after the label) */
+  /* Caret pinned to the trailing edge of the row */
   :global(.group-caret) {
     flex-shrink: 0;
     margin-inline-start: auto;

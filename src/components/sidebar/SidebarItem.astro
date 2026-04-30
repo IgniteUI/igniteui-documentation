@@ -1,11 +1,11 @@
 ---
 /**
  * Renders a single sidebar entry — either a link or a recursive group.
- * Pure SSR, no client-side state.
+ * SSR-only, no client state.
  */
 import SidebarTree from './SidebarTree.astro';
-import type { SidebarEntry } from './sidebar-types';
-import { isActive, isGroup, hasActive, joinPath } from './sidebar-types';
+import type { SidebarEntry } from '../../lib/sidebar/types';
+import { isActive, isGroup, isInitiallyOpen, joinPath } from '../../lib/sidebar/helpers';
 
 interface Props {
   item: SidebarEntry;
@@ -19,7 +19,7 @@ const path = joinPath(ancestors, item.label);
 
 {isGroup(item) ? (
   <li class="sidebar-group" data-label={item.label} data-path={path}>
-    <details data-group-key={path} open={hasActive(item.items, currentSlug)}>
+    <details data-group-key={path} open={isInitiallyOpen(item, currentSlug)}>
       <summary class="group-label">
         <span class="group-label-text">{item.label}</span>
         <svg

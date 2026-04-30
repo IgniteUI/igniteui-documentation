@@ -18,32 +18,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import * as yaml from 'js-yaml';
+import type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 
-// ---------------------------------------------------------------------------
-// Starlight sidebar types
-// ---------------------------------------------------------------------------
-
-type BadgeVariant = 'note' | 'danger' | 'success' | 'caution' | 'tip' | 'default';
-
-interface SidebarBadge {
-    text: string;
-    variant: BadgeVariant;
-}
-
-interface SidebarLink {
-    label: string;
-    slug: string;
-    badge?: SidebarBadge;
-    attrs?: Record<string, string | number | boolean | undefined>;
-}
-
-interface SidebarGroup {
-    label: string;
-    items: SidebarEntry[];
-    collapsed?: boolean;
-}
-
-type SidebarEntry = SidebarLink | SidebarGroup;
+// Re-export so consumers (astro.config.ts in child sites) can import the
+// canonical types from the same module they already use.
+export type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 
 // ---------------------------------------------------------------------------
 // Internal types
@@ -87,16 +66,34 @@ function hrefToSlug(href: string): string {
     return slug === 'index' ? '' : slug;
 }
 
-function convertTocItem(docsDir: string, item: TocItem, exclude: RegExp[]): SidebarEntry | null {
+/**
+ * Initial collapsed state by depth:
+ *   • depth 0 (root groups, incl. `header:true` sections) → `collapsed: false`
+ *   • depth ≥ 1 (nested groups) → `collapsed: true`
+ */
+function collapsedForDepth(depth: number): boolean {
+    return depth > 0;
+}
+
+function convertTocItem(
+    docsDir: string,
+    item: TocItem,
+    exclude: RegExp[],
+    depth: number,
+): SidebarEntry | null {
     if (!item.name) return null;
 
     if (item.items && item.items.length > 0) {
-        const group: SidebarGroup = { label: item.name, items: [], collapsed: true };
+        const group: SidebarGroup = {
+            label: item.name,
+            items: [],
+            collapsed: collapsedForDepth(depth),
+        };
         if (item.href && docExists(docsDir, item.href, exclude)) {
             group.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
         }
         for (const child of item.items) {
-            const entry = convertTocItem(docsDir, child, exclude);
+            const entry = convertTocItem(docsDir, child, exclude, depth + 1);
             if (entry) group.items.push(entry);
         }
         return group.items.length > 0 ? group : null;
@@ -149,13 +146,17 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSid
     for (const item of tocItems) {
         if (item.header) {
             if (currentGroup) sidebar.push(currentGroup);
-            currentGroup = { label: item.name!, items: [] };
+            // Root-level header section — open by default.
+            currentGroup = { label: item.name!, items: [], collapsed: collapsedForDepth(0) };
             if (item.href && docExists(docsDir, item.href, exclude)) {
                 currentGroup.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
             }
             continue;
         }
-        const entry = convertTocItem(docsDir, item, exclude);
+        // Items inside a header section are at depth 1 (nested);
+        // items outside any header section are at depth 0 (root).
+        const depth = currentGroup ? 1 : 0;
+        const entry = convertTocItem(docsDir, item, exclude, depth);
         if (!entry) continue;
         if (currentGroup) currentGroup.items.push(entry);
         else sidebar.push(entry);

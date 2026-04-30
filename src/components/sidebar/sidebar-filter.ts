@@ -4,13 +4,12 @@
  * Owns the filter input + persistence behavior for the docs sidebar.
  *
  * Architectural rules:
- *   • State lives in attributes / sessionStorage. Visual updates are
- *     CSS-driven via:
- *         [data-filtering] — set on root while a non-empty query is active
- *         [data-filter-match]  — set on every <li> that should remain visible
+ *   • State lives in attributes / sessionStorage. Visual updates are CSS-driven via:
+ *         [data-filtering]      — set on the host while a non-empty query is active
+ *         [data-filter-match]   — set on every <li> that should remain visible
  *     CSS hides items lacking `data-filter-match` while the host has
  *     `data-filtering`. We never toggle `.hidden`, classes, or inline styles
- *     for filtering visibility.
+ *     for filter visibility.
  *   • `<details open>` is the single source of truth for expand/collapse.
  *     The persisted set of open `data-group-key` values is applied to the
  *     *incoming* document in `astro:before-swap` so the first paint after
@@ -19,9 +18,9 @@
  *     alive across client-side navigations, so listeners are not duplicated.
  *
  * Persistence keys (sessionStorage):
- *   sidebar-filter-value   → current filter input value
- *   sidebar-details-states → newline-joined list of open group keys
- *   sidebar-scroll-top     → scrollTop of the items scroll container
+ *   sidebar-filter-value    → current filter input value
+ *   sidebar-details-states  → newline-joined list of open group keys
+ *   sidebar-scroll-top      → scrollTop of the items scroll container
  */
 
 const FILTER_KEY  = 'sidebar-filter-value';
@@ -58,6 +57,7 @@ const collectOpenKeys = (root: ParentNode): string[] => {
 
 const applyOpenState = (root: ParentNode, openKeys: Set<string>): void => {
   root.querySelectorAll<HTMLDetailsElement>(DETAILS_SELECTOR).forEach((d) => {
+    // Active-page ancestors always stay open.
     if (d.querySelector('a[aria-current="page"]')) { d.open = true; return; }
     const key = d.dataset.groupKey;
     if (key) d.open = openKeys.has(key);
@@ -75,7 +75,17 @@ document.addEventListener('astro:before-preparation', () => {
   _isClientSideNav = true;
   const sc = document.querySelector<HTMLElement>(SCROLL_SELECTOR);
   if (sc) safeSet(SCROLL_KEY, String(sc.scrollTop));
-  safeSet(DETAILS_KEY, collectOpenKeys(document).join('\n'));
+
+  // While the filter is active, the live DOM reflects the *filter's* open
+  // state, not the user's intent. The component keeps the user-intended state
+  // in `openSnapshot` (data-open-snapshot attribute) — persist that instead.
+  const host = document.querySelector<HTMLElement>('sidebar-filter[data-filtering]');
+  const intended = host?.dataset.openSnapshot;
+  if (intended !== undefined) {
+    safeSet(DETAILS_KEY, intended);
+  } else {
+    safeSet(DETAILS_KEY, collectOpenKeys(document).join('\n'));
+  }
 });
 
 document.addEventListener('astro:before-swap', (e) => {
@@ -97,8 +107,12 @@ class SidebarFilter extends HTMLElement {
   private scrollEl: HTMLElement | null = null;
   private items: HTMLLIElement[] = [];
   private details: HTMLDetailsElement[] = [];
-  /** Snapshot of open group keys before filtering started; restored on clear. */
+  /** Live user intent during filtering; mutated by toggles, persisted, source of truth for `<details>.open`. */
   private openSnapshot: Set<string> | null = null;
+  /** Snapshot taken when the user starts filtering on this page; restored on Esc/clear. */
+  private preFilterSnapshot: Set<string> | null = null;
+  /** Suppress `toggle` persistence while we're programmatically setting `open`. */
+  private suppressToggle = false;
 
   connectedCallback(): void {
     const input    = this.querySelector<HTMLInputElement>('[data-sidebar-filter-input]');
@@ -129,7 +143,7 @@ class SidebarFilter extends HTMLElement {
 
   private onFilterInput = (): void => {
     safeSet(FILTER_KEY, this.input.value);
-    this.applyFilter(this.input.value);
+    this.applyFilter(this.input.value, 'user');
   };
 
   private onFilterKeydown = (e: KeyboardEvent): void => {
@@ -143,9 +157,32 @@ class SidebarFilter extends HTMLElement {
   };
 
   private onDetailsToggle = (e: Event): void => {
-    if (!(e.target instanceof HTMLDetailsElement) || !e.target.dataset.groupKey) return;
+    if (this.suppressToggle) return;
+    const target = e.target;
+    if (!(target instanceof HTMLDetailsElement) || !target.dataset.groupKey) return;
+
+    if (this.openSnapshot) {
+      // Filtering is active. Update the user-intended snapshot — NOT the
+      // live DOM (which currently reflects the filter's open state). The
+      // snapshot is what gets restored when the filter is cleared, and
+      // it's what gets persisted across navigation.
+      const key = target.dataset.groupKey;
+      if (target.open) this.openSnapshot.add(key);
+      else this.openSnapshot.delete(key);
+      this.syncSnapshotAttr();
+      safeSet(DETAILS_KEY, [...this.openSnapshot].join('\n'));
+      return;
+    }
+
+    // Not filtering: live DOM is the source of truth.
     safeSet(DETAILS_KEY, collectOpenKeys(this).join('\n'));
   };
+
+  /** Mirror `openSnapshot` to a data attribute so the cross-nav hook can read it. */
+  private syncSnapshotAttr(): void {
+    if (this.openSnapshot) this.dataset.openSnapshot = [...this.openSnapshot].join('\n');
+    else delete this.dataset.openSnapshot;
+  }
 
   // ── Restore on connect / after navigation ───────────────────────────────
 
@@ -158,7 +195,11 @@ class SidebarFilter extends HTMLElement {
 
     if (saved) {
       this.input.value = saved;
-      this.applyFilter(saved);
+      // 'restore' — do NOT auto-open matching groups. The persisted intent
+      // (already pre-applied to <details> by `astro:before-swap`) is the
+      // source of truth, so a group the user collapsed while filtering
+      // stays collapsed after navigation.
+      this.applyFilter(saved, 'restore');
     } else {
       this.syncClearButton('');
     }
@@ -193,7 +234,18 @@ class SidebarFilter extends HTMLElement {
 
   // ── Filter (attribute-driven) ───────────────────────────────────────────
 
-  private applyFilter(rawQuery: string): void {
+  /**
+   * Apply (or clear) the filter.
+   *
+   * `source` distinguishes two call sites:
+   *   • 'user'    — typed in the input. Auto-opens matching groups so the
+   *                user immediately sees results.
+   *   • 'restore' — re-applied from sessionStorage after navigation. Trusts
+   *                the persisted user intent (already on <details>) and
+   *                does NOT auto-open. This is what makes "collapse a group
+   *                while filtering, navigate, group stays collapsed" work.
+   */
+  private applyFilter(rawQuery: string, source: 'user' | 'restore'): void {
     const trimmed = rawQuery.trim();
     this.syncClearButton(trimmed);
 
@@ -202,26 +254,75 @@ class SidebarFilter extends HTMLElement {
       return;
     }
 
+    // First entry into filter mode on this page — capture two snapshots:
+    //   preFilterSnapshot: in-memory only, restored on Esc/clear.
+    //   openSnapshot:      live user intent, mutated by toggles, persisted.
     if (!this.openSnapshot) {
-      this.openSnapshot = new Set(collectOpenKeys(this));
+      const current = new Set(collectOpenKeys(this));
+      this.openSnapshot = current;
+      // 'user' filter on this page → remember the pre-filter baseline so Esc
+      // restores it. 'restore' inherits intent from a previous page; there
+      // is no meaningful "pre-filter" baseline to restore on this page.
+      this.preFilterSnapshot = source === 'user' ? new Set(current) : null;
+      this.syncSnapshotAttr();
     }
 
     const matches = this.computeMatches(tokenize(trimmed));
     this.markMatches(matches);
     this.dataset.filtering = 'true';
-    this.openMatchingGroups(matches);
+
+    if (source === 'user') {
+      // Add matching group keys to the user-intent set so they expand.
+      for (const d of this.details) {
+        const li = d.parentElement as HTMLLIElement;
+        const key = d.dataset.groupKey;
+        if (key && matches.has(li)) this.openSnapshot.add(key);
+      }
+      this.syncSnapshotAttr();
+      safeSet(DETAILS_KEY, [...this.openSnapshot].join('\n'));
+    }
+
+    this.applyIntentToView();
     this.updateStatus(matches.size > 0 ? null : 'no-match');
+  }
+
+  /** Set every <details>.open from `openSnapshot`. Active-page ancestors stay open. */
+  private applyIntentToView(): void {
+    const intent = this.openSnapshot;
+    if (!intent) return;
+    this.withSuppressedToggle(() => {
+      for (const d of this.details) {
+        if (d.querySelector('a[aria-current="page"]')) { d.open = true; continue; }
+        const key = d.dataset.groupKey;
+        d.open = !!key && intent.has(key);
+      }
+    });
   }
 
   private exitFilterMode(): void {
     delete this.dataset.filtering;
     for (const li of this.items) delete li.dataset.filterMatch;
-    if (this.openSnapshot) {
-      applyOpenState(this, this.openSnapshot);
-      this.openSnapshot = null;
+
+    // Restore the pre-filter baseline if we have one (user cleared on the
+    // same page they started filtering). Otherwise keep current intent.
+    const restore = this.preFilterSnapshot ?? this.openSnapshot;
+    if (restore) {
+      this.withSuppressedToggle(() => applyOpenState(this, restore));
+      safeSet(DETAILS_KEY, [...restore].join('\n'));
     }
+    this.openSnapshot = null;
+    this.preFilterSnapshot = null;
+    this.syncSnapshotAttr();
     this.ensureActiveAncestorsOpen();
     this.updateStatus(null);
+  }
+
+  private withSuppressedToggle(fn: () => void): void {
+    this.suppressToggle = true;
+    try { fn(); } finally {
+      // `toggle` is async — release after the next microtask flushes.
+      queueMicrotask(() => { this.suppressToggle = false; });
+    }
   }
 
   /**
@@ -259,16 +360,10 @@ class SidebarFilter extends HTMLElement {
     }
   }
 
-  private openMatchingGroups(matches: Set<HTMLLIElement>): void {
-    for (const d of this.details) {
-      d.open = matches.has(d.parentElement as HTMLLIElement);
-    }
-  }
-
   private resetFilter(): void {
     this.input.value = '';
     safeRemove(FILTER_KEY);
-    this.applyFilter('');
+    this.exitFilterMode();
   }
 
   private ensureActiveAncestorsOpen(): void {
