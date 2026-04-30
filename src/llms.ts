@@ -25,7 +25,7 @@ export interface LlmsMeta {
     keywords?: string[];
 }
 
-/** A named documentation subset that generates its own combined .txt via starlight-llms-txt. */
+/** A named documentation subset that generates its own combined .txt file under /_llms-txt/. */
 export interface LlmsSet {
     /** Display label — also used to derive the URL slug (e.g. "React Grids" → /_llms-txt/react-grids.txt). */
     label: string;
@@ -253,7 +253,7 @@ function walkLlmsItems(
             const label = buildLabel(item.label ?? slug, ancestorPath, broadSections);
             const m = meta[slug];
             let line = `- [${label}](${base}/${slug}.md)`;
-            if (m?.description) line += ` \u2014 ${m.description}`;
+            if (m?.description) line += `: ${m.description}`;
             lines.push(line);
             if (m?.keywords?.length) lines.push(`  Tags: ${m.keywords.join(', ')}`);
             continue;
