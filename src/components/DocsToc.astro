@@ -19,12 +19,17 @@ type TocConfig =
 
 function injectChild(items: TocItem[], item: TocItem): void {
     const last = items.at(-1);
-    if (!last || last.depth >= item.depth) { items.push(item); return; }
+    if (!last || last.depth >= item.depth) {
+        items.push(item);
+        return;
+    }
     injectChild(last.children, item);
 }
 
 function buildToc(headings: MarkdownHeading[], config: TocConfig): TocItem[] {
-    if (config === false) return [];
+    if (config === false) {
+        return [];
+    }
     const min = (typeof config === 'object' ? config.minHeadingLevel : undefined) ?? 2;
     const max = (typeof config === 'object' ? config.maxHeadingLevel : undefined) ?? 3;
     const toc: TocItem[] = [];
@@ -82,7 +87,9 @@ const items: TocItem[] = depth === 0 ? buildToc(headings, tocConfig) : (_items ?
         private removeScroll?: () => void;
 
         connectedCallback() {
-            if (this.rafId !== undefined) cancelAnimationFrame(this.rafId);
+            if (this.rafId !== undefined) { 
+                cancelAnimationFrame(this.rafId);
+            }
             this.removeScroll?.();
             this.currentLink = undefined;
 
@@ -94,8 +101,13 @@ const items: TocItem[] = depth === 0 ? buildToc(headings, tocConfig) : (_items ?
             if (this.headings.length === 0) return;
 
             const onScroll = () => {
-                if (this.rafId !== undefined) return;
-                this.rafId = requestAnimationFrame(() => { this.rafId = undefined; this.update(); });
+                if (this.rafId !== undefined) {
+                    return;
+                }
+                this.rafId = requestAnimationFrame(() => {
+                    this.rafId = undefined;
+                    this.update();
+                });
             };
 
             window.addEventListener('scroll', onScroll, { passive: true });
@@ -111,8 +123,11 @@ const items: TocItem[] = depth === 0 ? buildToc(headings, tocConfig) : (_items ?
         private update() {
             let activeIndex = 0;
             for (let i = 0; i < this.headings.length; i++) {
-                if (this.headings[i].getBoundingClientRect().top <= 160) activeIndex = i;
-                else break;
+                if (this.headings[i].getBoundingClientRect().top <= 160) {
+                    activeIndex = i;
+                } else {
+                    break;
+                }
             }
             const next = this.links[activeIndex];
             if (!next || next === this.currentLink) return;
@@ -122,7 +137,9 @@ const items: TocItem[] = depth === 0 ? buildToc(headings, tocConfig) : (_items ?
         }
     }
 
-    if (!customElements.get('docs-toc')) customElements.define('docs-toc', DocsToc);
+    if (!customElements.get('docs-toc')) {
+        customElements.define('docs-toc', DocsToc);
+    }
 </script>
 
 <style is:global>
@@ -152,8 +169,8 @@ const items: TocItem[] = depth === 0 ? buildToc(headings, tocConfig) : (_items ?
             border-inline-start: 1px solid var(--sl-color-hairline-shade);
         }
 
-        .main-frame {
-            padding-inline-end: var(--ig-toc-width);
+        body:has(.toc-sidebar docs-toc) .main-frame {
+             padding-inline-end: var(--ig-toc-width);
         }
     }
 
