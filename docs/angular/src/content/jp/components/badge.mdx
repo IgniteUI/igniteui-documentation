@@ -6,21 +6,19 @@ license: MIT
 _language: ja
 ---
 
-import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
-import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
-import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
-
 # Angular Badge (バッジ) コンポーネントの概要
 
-<div class="highlight">
-Angular Badge is a component used in conjunction with avatars, navigation menus, or other components in an application when a visual notification is needed. Badges are usually  designed as icons with a predefined style to communicate information, success, warnings, or errors.
-</div>
+<p class="highlight">Angular Badge は、視覚的な通知が必要な場合にアプリケーションでアバター、ナビゲーション メニュー、またはその他のコンポーネントと共に使用されるコンポーネントです。バッジは情報、成功、警告、またはエラーを表示するために定義済みのスタイルを持つアイコンとしてデザインされます。</p>
+<div class="divider"></div>
 
 ## Angular Badge の例
 
-<Sample src="/data-display/badge-sample-2" height={100} alt="Angular Badge の例" />
+<code-view style="height:100px"
+           data-demos-base-url="{environment:demosBaseUrl}"
+           iframe-src="{environment:demosBaseUrl}/data-display/badge-sample-2/" alt="Angular Badge の例">
+</code-view>
 
-<hr/>
+<div class="divider--half"></div>
 
 ## Ignite UI for Angular Badge を使用した作業の開始
 
@@ -141,6 +139,31 @@ igx-badge {
 }
 ```
 
+### バッジの値とアイコン
+
+バッジ内にテキストまたは数値カウントを表示するには、`[value]` 入力を使用します。コンテンツを直接埋め込む方法よりも、この方法が推奨されます。
+
+```html
+<!-- 推奨 -->
+<igx-badge [value]="model.value"></igx-badge>
+
+<!-- 非推奨 -->
+<igx-badge>{{ model.value }}</igx-badge>
+```
+
+`[icon]` と `[value]` の両方が設定されている場合、バッジは両方を同時に表示します。
+
+```html
+<!-- アイコン "check" と値 "5" の両方が表示されます -->
+<igx-badge icon="check" value="5" type="success"></igx-badge>
+```
+
+アイコンなしで数値のみを表示するには、`[icon]` を設定しないようにしてください。
+
+```html
+<igx-badge [value]="unreadCount" type="info"></igx-badge>
+```
+
 ### バッジのアイコン
 
 `igx-badge` コンポーネントは、マテリアル アイコンに加えて[マテリアル アイコン拡張](../components/material-icons-extended.md)およびその他のカスタム アイコン セットの使用もサポートしています。マテリアル アイコン拡張セットからバッジ コンポーネントにアイコンを追加するには、まずそのアイコンを登録する必要があります。
@@ -161,17 +184,23 @@ export class BadgeIconComponent implements OnInit {
 <igx-badge icon="heart-monitor" iconSet="imx-icons"></igx-badge>
 ```
 
-<Sample src="/data-display/badge-icon" height={100} alt="" />
+<code-view style="height: 100px"
+           data-demos-base-url="{environment:demosBaseUrl}"
+           iframe-src="{environment:demosBaseUrl}/data-display/badge-icon/" >
+</code-view>
 
 ### ドット バッジ
 
 `igx-badge` コンポーネントは、`dot` プロパティを有効にすることで、通知用の最小限のドット インジケーターとして表示することもできます。ドット バッジはコンテンツをサポートしませんが、アウトライン表示が可能で、利用可能なすべてのドット タイプ (例: primary、success、info など) を使用できます。
 
-<Sample src="/data-display/badge-dot-sample" height={100} alt="" />
+<code-view style="height: 100px"
+           data-demos-base-url="{environment:demosBaseUrl}"
+           iframe-src="{environment:demosBaseUrl}/data-display/badge-dot-sample/" >
+</code-view>
 
 ### リストのバッジ
 
-チャット クライアントのような連絡先リストを作成します。連絡先の名前を表示し、アバターおよび連絡先の現在状態 (オンライン、オフライン、退席中) を表示します。これを達成するには、<ApiLink type="Badge" label="igx-badge" /> および <ApiLink type="Avatar" label="igx-avatar" /> コンポーネントを使用します。コンテナーの場合、<ApiLink type="List" label="igx-list" /> が使用されます。
+チャット クライアントのような連絡先リストを作成します。連絡先の名前を表示し、アバターおよび連絡先の現在状態 (オンライン、オフライン、退席中) を表示します。これを達成するには、[`igx-badge`]({environment:angularApiUrl}/classes/igxbadgecomponent.html) および [`igx-avatar`]({environment:angularApiUrl}/classes/igxavatarcomponent.html) コンポーネントを使用します。コンテナーの場合、[`igx-list`]({environment:angularApiUrl}/classes/igxlistcomponent.html) が使用されます。
 
 続行するには、必要なすべてのモジュールを含めて、**app.module.ts** ファイルにインポートします。
 
@@ -191,11 +220,10 @@ import { IgxBadgeModule } from 'igniteui-angular/badge';
 export class AppModule {}
 ```
 
-<DocsAside type="note" title="注">
-<ApiLink type="Badge" label="igx-badge" /> には、バッジの外観を構成するための <ApiLink type="Badge" member="icon" label="icon" /> および <ApiLink type="Badge" member="type" label="type" /> 入力があります。公式の[マテリアル アイコン セット](https://material.io/icons/)から名前を指定して、アイコンを設定できます。バッジタイプは、<ApiLink kind="enum" type="Type" prefixed={false} member="Default" />、<ApiLink kind="enum" type="Type" prefixed={false} member="Info" />、<ApiLink kind="enum" type="Type" prefixed={false} member="Success" />、<ApiLink kind="enum" type="Type" prefixed={false} member="Warning" />、または <ApiLink kind="enum" type="Type" prefixed={false} member="Error" /> のいずれかに設定できます。その型により、特定の背景の色が適用されます。
-</DocsAside>
+>[!NOTE]
+>[`igx-badge`]({environment:angularApiUrl}/classes/igxbadgecomponent.html) には、バッジの外観を構成するための [`icon`]({environment:angularApiUrl}/classes/igxbadgecomponent.html#icon)、[`value`]({environment:angularApiUrl}/classes/igxbadgecomponent.html#value)、および [`type`]({environment:angularApiUrl}/classes/igxbadgecomponent.html#type) 入力があります。公式の[マテリアル アイコン セット](https://material.io/icons/)から名前を指定して、アイコンを設定できます。バッジタイプは、[`default`]({environment:angularApiUrl}/enums/type.html#default)、[`info`]({environment:angularApiUrl}/enums/type.html#info)、[`success`]({environment:angularApiUrl}/enums/type.html#success)、[`warning`]({environment:angularApiUrl}/enums/type.html#warning)、または [`error`]({environment:angularApiUrl}/enums/type.html#error) のいずれかに設定できます。その型により、特定の背景の色が適用されます。
 
-サンプルでは、<ApiLink type="Badge" member="icon" label="icon" /> と <ApiLink type="Badge" member="type" label="type" /> が icon と type という名前のモデルプロパティにバインドされています。
+サンプルでは、[`icon`]({environment:angularApiUrl}/classes/igxbadgecomponent.html#icon) と [`type`]({environment:angularApiUrl}/classes/igxbadgecomponent.html#type) が icon と type という名前のモデルプロパティにバインドされています。
 
 次に、テンプレートに連絡先を追加します。
 
@@ -293,7 +321,10 @@ class Member {
 
 サンプルを正しく構成すると、アバターと、その状態を示すバッジとともにメンバーのリストが表示されます。
 
-<Sample src="/data-display/badge-sample-3" height={280} alt="" />
+<code-view style="height: 280px"
+           data-demos-base-url="{environment:demosBaseUrl}"
+           iframe-src="{environment:demosBaseUrl}/data-display/badge-sample-3/" >
+</code-view>
 
 ## スタイル設定
 
@@ -304,21 +335,21 @@ class Member {
 <table class="collapsible-table">
   <thead>
     <tr>
-      <th>Primary Property</th>
-      <th>Dependent Property</th>
-      <th>Description</th>
+      <th>プライマリ プロパティ</th>
+      <th>依存プロパティ</th>
+      <th>説明</th>
     </tr>
   </thead>
   <tbody class="group">
     <tr class="primary">
       <td><strong>$background-color</strong></td>
       <td>$icon-color</td>
-      <td>The color used for icons in the badge.</td>
+      <td>バッジ内のアイコンの色</td>
     </tr>
     <tr>
       <td></td>
       <td>$text-color</td>
-      <td>The color used for text in the badge.</td>
+      <td>バッジ内のテキストの色</td>
     </tr>
   </tbody>
 </table>
@@ -351,7 +382,11 @@ $custom-badge-theme: badge-theme(
 
 ### デモ
 
-<Sample src="/data-display/badge-styling-sample" height={340} alt="" />
+<code-view style="height:340px"
+           no-theming
+           data-demos-base-url="{environment:demosBaseUrl}"
+           iframe-src="{environment:demosBaseUrl}/data-display/badge-styling-sample/" >
+</code-view>
 
 ### Tailwind によるスタイル設定
 
@@ -381,24 +416,25 @@ class="!light-badge ![--background:#FF4E00] ![--border-radius:4px]">
 </igx-badge>
 ```
 
-<DocsAside type="note" title="注">
-ユーティリティ クラスが優先されるようにするには、感嘆符 (`!`) が必要です。Tailwind はスタイルをレイヤーに適用しますが、これらのスタイルを重要としてマークしないと、コンポーネントのデフォルトのテーマによってオーバーライドしてしまいます。
-</DocsAside>
+>[!NOTE]
+>ユーティリティ クラスが優先されるようにするには、感嘆符 (`!`) が必要です。Tailwind はスタイルをレイヤーに適用しますが、これらのスタイルを重要としてマークしないと、コンポーネントのデフォルトのテーマによってオーバーライドしてしまいます。
 
 最終的に、badge は次のようになります:
 
-<Sample src="/data-display/badge-tailwind-styling-sample" height={340} iframeOnly />
+<div class="sample-container loading" style="height:340px">
+    <iframe id="badge-tailwind-styling-iframe" data-src='{environment:demosBaseUrl}/data-display/badge-tailwind-styling-sample' width="100%" height="100%" seamless frameBorder="0" class="lazyload"></iframe>
+</div>
 
 ## API リファレンス
 
-<hr/>
+<div class="divider--half"></div>
 
-- <ApiLink type="Avatar" />
-- <ApiLink type="Badge" />
+- [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
+- [IgxBadgeComponent]({environment:angularApiUrl}/classes/igxbadgecomponent.html)
 - [IgxBadgeComponent スタイル]({environment:sassApiUrl}/themes#function-badge-theme)
-- <ApiLink type="List" />
-- <ApiLink type="ListItem" />
-- <ApiLink kind="type" type="BadgeType" />
+- [IgxListComponent]({environment:angularApiUrl}/classes/igxlistcomponent.html)
+- [IgxListItemComponent]({environment:angularApiUrl}/classes/igxlistitemcomponent.html)
+- [IgxBadgeType]({environment:angularApiUrl}/index.html#IgxBadgeType)
 
 ## テーマの依存関係
 
@@ -406,11 +442,8 @@ class="!light-badge ![--background:#FF4E00] ![--border-radius:4px]">
 
 ## その他のリソース
 
-<hr/>
+<div class="divider--half"></div>
 
 コミュニティに参加して新しいアイデアをご提案ください。
 - [Ignite UI for Angular **フォーラム** (英語)](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
 - [Ignite UI for Angular **GitHub** (英語)](https://github.com/IgniteUI/igniteui-angular)
-
-- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
