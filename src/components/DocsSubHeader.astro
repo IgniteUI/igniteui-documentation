@@ -9,17 +9,27 @@
  *   --docs-subheader-height    height of this bar (default 40px)
  */
 import { platform as virtualPlatform } from 'virtual:docs-template/nav-html';
-import { productLinks, title as siteTitle } from 'virtual:docs-template/site-meta';
+import { productLinks, sidebar as sidebarData, title as siteTitle } from 'virtual:docs-template/site-meta';
 import Search from './Search.astro';
+import type { SidebarEntry } from '../lib/sidebar/types';
+import { getBreadcrumb } from '../lib/sidebar/helpers';
 
 interface Props {
-  /** Current page title passed by the layout. */
+  /** Fallback title if the slug is not present in the sidebar tree. */
   pageTitle?: string | null;
+  /** Current page slug — used to derive the breadcrumb from the sidebar tree. */
+  currentSlug?: string;
 }
 
-const { pageTitle = '' } = Astro.props;
+const { pageTitle = '', currentSlug = '' } = Astro.props;
 const currentPlatform = virtualPlatform ?? null;
 const filteredLinks = productLinks.filter(l => l.platform !== currentPlatform);
+
+// Breadcrumb of sidebar labels for the current page (root group dropped),
+// ending with the active item's own sidebar label. Falls back to `pageTitle`
+// if the slug is not in the sidebar tree.
+const sidebarCrumbs = currentSlug ? getBreadcrumb(sidebarData as SidebarEntry[], currentSlug) : [];
+const crumbs = sidebarCrumbs.length > 0 ? sidebarCrumbs : (pageTitle ? [pageTitle] : []);
 ---
 
 <docs-subheader-menu>
@@ -28,7 +38,12 @@ const filteredLinks = productLinks.filter(l => l.platform !== currentPlatform);
         <!-- Left: title area, takes all free space -->
         <div class="subheader-context">
             {siteTitle && <span class="subheader-site-title">{siteTitle}</span>}
-            {pageTitle && <span class="subheader-page-title" title={pageTitle}>{pageTitle}</span>}
+            {crumbs.map((label, i) => (
+                <>
+                    <span class="subheader-sep" aria-hidden="true">{i === 0 ? '-' : '/'}</span>
+                    <span class="subheader-crumb" title={label}>{label}</span>
+                </>
+            ))}
         </div>
 
         <!-- Search -->
@@ -159,10 +174,21 @@ const filteredLinks = productLinks.filter(l => l.platform !== currentPlatform);
         text-overflow: ellipsis;
     }
 
-    .subheader-site-title + .subheader-page-title::before {
-        content: '/';
-        margin-inline-end: 0.375rem;
+    .subheader-crumb {
+        flex-shrink: 0;
+        font-size: 0.875rem;
+        color: var(--sl-color-gray-4);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 14rem;
+    }
+
+    .subheader-sep {
+        flex-shrink: 0;
         color: var(--sl-color-gray-3);
+        font-size: 0.875rem;
+        user-select: none;
     }
 
     /* ── Right side: links ──────────────────────────────────────────────────── */
