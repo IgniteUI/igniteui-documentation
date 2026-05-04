@@ -99,6 +99,18 @@ type HeadEntry = { tag: string; attrs?: Record<string, string | boolean | undefi
     </aside>
   </div>
   <GlobalFooter />
+  <script>
+    function updateSidebarBottom() {
+      const footer = document.querySelector<HTMLElement>('.page + *');
+      if (!footer) return;
+      const visible = Math.max(0, window.innerHeight - footer.getBoundingClientRect().top);
+      document.documentElement.style.setProperty('--sl-sidebar-bottom', `${visible}px`);
+    }
+    document.addEventListener('scroll', updateSidebarBottom, { passive: true });
+    window.addEventListener('resize', updateSidebarBottom);
+    document.addEventListener('astro:page-load', updateSidebarBottom);
+    updateSidebarBottom();
+  </script>
 </body>
 </html>
 
@@ -230,12 +242,14 @@ type HeadEntry = { tag: string; attrs?: Record<string, string | boolean | undefi
       background-color: var(--sl-color-bg-sidebar);
       border-inline-end: 1px solid var(--sl-color-hairline-shade);
       inset-block-start: var(--sl-nav-height);
+      inset-block-end: var(--sl-sidebar-bottom, 0px);
     }
   }
 
   /* ── Main frame ──────────────────────────────────────────────────────────── */
 
   .main-frame {
+    flex: 1;
     padding-block-start: var(--docs-mobile-toggle-height);
     padding-inline-start: var(--sl-content-inline-start, 0);
   }
