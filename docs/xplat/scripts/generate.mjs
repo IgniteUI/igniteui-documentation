@@ -480,9 +480,9 @@ function ensureMdxImports(content) {
     const needsApiLink = /<ApiLink\b/.test(content);
 
     const imports = [
-        needsSample  && "import Sample from 'docs-template/components/mdx/Sample.astro';",
-        needsApiRef  && "import ApiRef from 'docs-template/components/mdx/ApiRef.astro';",
-        needsApiLink && "import ApiLink from 'docs-template/components/mdx/ApiLink.astro';",
+        needsSample  && "import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';",
+        needsApiRef  && "import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';",
+        needsApiLink && "import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';",
     ].filter(Boolean);
 
     if (imports.length === 0) return content;
