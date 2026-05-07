@@ -4,7 +4,8 @@ import GlobalNavBar from 'igniteui-astro-components/components/GlobalNavBar.astr
 import GlobalFooter from 'igniteui-astro-components/components/GlobalFooter.astro';
 import DocsSubHeader from 'igniteui-astro-components/components/DocsSubHeader.astro';
 import MobileSidebarToggle from 'igniteui-astro-components/components/MobileSidebarToggle.astro';
-import { widgetScriptSrc, platform as virtualPlatform } from 'virtual:docs-template/nav-html';
+import ThemingWidget from '../components/ThemingWidget.astro';
+import { widgetScriptSrc, navLang, platform as virtualPlatform } from 'virtual:docs-template/nav-html';
 import { title as siteTitle, headEntries } from 'virtual:docs-template/site-meta';
 import '../styles/ig-theme.scss';
 import '../styles/custom.css';
@@ -22,6 +23,7 @@ const { title, description, keywords, hasSidebar = true, currentSlug = '' } = As
 const navTheme = (virtualPlatform ?? import.meta.env.VITE_NAV_THEME ?? 'igniteui') as string;
 const showGlobalNav = navTheme !== 'none';
 const pageTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+const widgetLang = navLang === 'jp' || navLang === 'kr' ? navLang : 'en';
 
 type HeadEntry = { tag: string; attrs?: Record<string, string | boolean | undefined>; content?: string };
 ---
@@ -95,6 +97,7 @@ type HeadEntry = { tag: string; attrs?: Record<string, string | boolean | undefi
       <slot />
     </div>
     <aside class="toc-sidebar print:hidden" aria-label="Table of contents">
+      <ThemingWidget language={widgetLang} />
       <slot name="toc" />
     </aside>
   </div>
