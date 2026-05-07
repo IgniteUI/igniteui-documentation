@@ -63,6 +63,7 @@ export default createDocsSite({
 	source: {
 		tocPath,
 		docsDir,
+		imagesDir: path.resolve(`./src/content/${contentLangDir}/topics/images`),
 	},
 	starlight: {},
 	image: { service: { entrypoint: 'astro/assets/services/noop' } },
