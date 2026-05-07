@@ -4,9 +4,9 @@ slug: conditional-and-advanced-templating-with-angularjs
 ---
 import ApiLink from 'docs-template/components/mdx/ApiLink.astro';
 
-#Conditional and Advanced Templating with AngularJS
+# Conditional and Advanced Templating with AngularJS
 
-##Topic Overview
+## Topic Overview
 
 This topic explains how to use conditional templates and use advanced templating methods to customize controls created with the &#123;environment:ProductName&#125; directives for AngularJS.
 
@@ -39,21 +39,21 @@ This topic contains the following sections:
     -   [Topics](#topics)
     -   [Samples](#samples)
 
-## <a id="introduction"></a>Introduction
+## Introduction
 
 As &#123;environment:ProductName&#125; controls use [Infragistics Templating Engine](../06_Infragistics-Templating-Engine/01_igTemplating Overview.mdx) by default to handle templating, there are a few characteristics that must be taken into account when creating &#123;environment:ProductName&#125; controls in an Angular app, more specifically when doing so declaratively. The templating engine supports both common substitution using a `${property}` notation, as well as **conditional and iterative operations** that using double curly braces (e.g. `{{condition / loop}}` ). The latter is however in direct conflict with Angular’s [expression](https://docs.angularjs.org/guide/expression) evaluation as it uses the same syntax for bindings and therefore would recognize such templates and attempt to parse them. That is usually not a desired effect as it is likely to cause exceptions due to syntax and context differences. Even without errors, it might change the template’s markup that is otherwise intended for evaluation at within a control’s rendering process. This topic provides a few alternatives for using complex templates declaratively as well as methods to customize the entire templating handling with different engines.
 
-### <a id="context-and-scope"></a>Context and Scope
+### Context and Scope
 
 Templates handled by the engine are also evaluated in the global `window` scope. Therefore, any global functions and objects such as `parseInt()` or `Math` can be used in addition to arithmetic operations within the condition clause. That, in turn, means `$scope` properties are not available for evaluation out of the box.
 
 Control templates are also often intended for a context different than the document or Angular’s scope. For example the `igGrid` column templates are to be evaluated in the context of the current data record being rendered and cannot be generally evaluated directly against the data source. Each control is responsible for matching data item with its intended template and passing them to the templating function.
 
-## <a id="declarative-templates"></a>Declarative Conditional and Iterative Templates
+## Declarative Conditional and Iterative Templates
 
 While using any templating syntax to initialize controls with scope-defined options is acceptable, that is not always the case with declaratively defined templates.
 
-### <a id="templates-within-directive"></a>Templates within the Directive
+### Templates within the Directive
 
 There are differences in regard to where the template property is defined in the directive. Template on many controls are a top level option, for example the <ApiLink type="igcombo" member="itemTemplate" section="options" label="itemTemplate" /> of the `igCombo`:
 
@@ -103,11 +103,11 @@ This configuration will cause Angular to try to parse the template and **throw a
 
 The templates works as expected because nested elements under the parent are removed in the directive templating phase during the [bootstrapping process](https://docs.angularjs.org/guide/bootstrap) and are safe to use.
 
-### <a id="external-templates"></a>External Templates
+### External Templates
 
 The easiest way to avoid conflicts would be to define templates outside the `ng-app` directive but that would mean the template can no longer be part of the &#123;environment:ProductName&#125; directive options. Nonetheless, an external template can often have a desired effect. For example you can increase readability of your code or share templates between controls. Either way, the directives need to be able to find that template for control initialization and to do that you use a scope method.
 
-### <a id="scope-method"></a>Using a Scope Method
+### Using a Scope Method
 
 A function defined in the angular scope can be used to provide the template value via option evaluation. It can perform both complex tasks for initialization or simply provide access to a template defined somewhere in the document. While some controls provide the choice to supply either the template itself or the id by which it can be found( e.g. the `igDataChart`), the &#123;environment:ProductName&#125; directives will register the `getHtml()` function in your scope for the rest:
 
@@ -143,7 +143,7 @@ Where the element with an ID of “colTemplate” is the container of the templa
       {{/if}}
 </script>
 ```
-### <a id="non-bindable-directive"></a>Non-Bindable Directive
+### Non-Bindable Directive
 
 When defining external templates that need to be within the Angular application scope, the option is to mark the template container with the [`ng-non-bindable`](https://docs.angularjs.org/api/ng/directive/ngNonBindable) directive, which instructs AngularJS to skip parsing and compiling the contents of the element:
 
@@ -158,12 +158,12 @@ Such templates can be again assigned to the options using the `getHtml()` functi
 
 **Related Sample:** [igGrid Sample](http://igniteui.github.io/igniteui-angularjs/samples/igGrid.html)
 
-## <a id="different-templating-engines"></a>Using Different Templating Engines
+## Using Different Templating Engines
 
 
 While the Infragistics Templating Engine is used by default, it is not by any means exclusive. The `igGrid` for example comes with built-in [jsRender](http://www.jsviews.com/) support and different engines can be plugged-in quite easily using a single function override.
 
-### <a id="jsrender-grid"></a>jsRender with igGrid
+### jsRender with igGrid
 
 [jsRender](http://www.jsviews.com/) is a powerful and fast templating engine that can handle complex templates and can be extended with custom tags and helper functions to produce highly customizable, advanced templates. The [jsRender Integration](/controls/iggrid/features/jsrender-integration.mdx) in the grid is controlled by the <ApiLink type="iggrid" member="templatingEngine" section="options" label="templatingEngine" /> option:
 
@@ -181,7 +181,7 @@ To use this feature jsRender script must be referenced on the page. Note that th
 
 **Related Sample:** [JsRender Integration](&#123;environment:NewSamplesUrl&#125;/grid/jsrender-integration)
 
-### <a id="overriding-templating"></a>Overriding the Templating Function
+### Overriding the Templating Function
 
 In advanced scenarios where other customization options are exhausted it is also possible to override the main templating function with your own. This is only possible in **&#123;environment:ProductName&#125; version 14.1 and later**. The `tmpl` is the main function of the Infragistics Templating Engine and is defined globally under the `$.ig` namespace object. This function is called by all relevant &#123;environment:ProductName&#125; controls and it receives both the template and data object:
 
@@ -201,16 +201,16 @@ If you want to use Angular’s syntax there are two options that handle evaluati
 
 >**Note:** Keep in mind that overriding the templating function applies to every active &#123;environment:ProductName&#125; control in the application, so if other controls have templates the new function should be able to handle those as well. Changing templating engines also usually means templates for all controls must change to match the new syntax.
 
-## <a id="related-content"></a>Related Content
+## Related Content
 
-### <a id="topics"></a>Topics
+### Topics
 
 The following topics provide additional information related to this topic.
 
 -   [Using different template engines with &#123;environment:ProductName&#125; controls](http://www.infragistics.com/community/blogs/marina_stoyanova/archive/2014/05/30/using-different-template-engines-with-ignite-ui-controls.aspx)
 -   [jsRender Integration](/controls/iggrid/features/jsrender-integration.mdx)
 
-### <a id="samples"></a>Samples
+### Samples
 
 The following samples provide additional information related to this topic.
 
