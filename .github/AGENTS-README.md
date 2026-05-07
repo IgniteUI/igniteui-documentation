@@ -8,7 +8,7 @@ This document describes the AI skills available in this repository, what each on
 
 The MDX files under `docs/xplat/src/content/en/` are **shared across four platforms**: Angular, React, WebComponents, and Blazor. A single source file is built once per platform to produce four separate documentation sites. Two recurring tasks require specific knowledge to do correctly:
 
-1. **ApiLink / ApiRef** — inline API hyperlinks that resolve to the correct platform-specific TypeDoc URL at build time.
+1. **ApiLink** — inline API hyperlinks that resolve to the correct platform-specific TypeDoc URL at build time.
 2. **PlatformBlock** — a wrapper component that shows content only for the specified platform(s).
 
 The skills below are the canonical reference for both.
@@ -19,7 +19,7 @@ The skills below are the canonical reference for both.
 
 | Skill | Use it for |
 |---|---|
-| [`xplat-docs-api-links`](./skills/xplat-docs-api-links/SKILL.md) | Adding, fixing, or auditing `<ApiLink>` and `<ApiRef>` calls in MDX files |
+| [`xplat-docs-api-links`](./skills/xplat-docs-api-links/SKILL.md) | Adding, fixing, or auditing `<ApiLink>` calls in MDX files |
 | [`xplat-docs-platform-block`](./skills/xplat-docs-platform-block/SKILL.md) | Adding, fixing, or auditing `<PlatformBlock>` usage in MDX files |
 
 ---
@@ -53,7 +53,7 @@ All MDX content is built for:
 | `WebComponents` | `Igc` | `igniteui-webcomponents-*` |
 | `Blazor` | `Igb` | `IgniteUI.Blazor` |
 
-### ApiLink / ApiRef rules in brief
+### ApiLink rules in brief
 
 - `type=` is always the **short unprefixed** name (e.g. `"Column"`, not `"IgrColumn"`).
 - `pkg=` selects the API doc root; the same key works for all platforms.
@@ -78,10 +78,9 @@ All MDX content is built for:
 docs/xplat/src/content/en/          MDX source files (one per topic, shared across platforms)
 docs/xplat/src/content/en/components/grids/_shared/   Shared grid topic files
 src/components/mdx/ApiLink.astro    ApiLink component implementation
-src/components/mdx/ApiRef.astro     ApiRef component implementation
 src/components/mdx/PlatformBlock.astro   PlatformBlock component implementation
 src/lib/platform-context.ts         Platform config — docRoot URLs, package IDs, prefixes
-docs/xplat/AI-AGENT-API-LINKS.md   Extended ApiLink/ApiRef reference (human-readable)
+docs/xplat/AI-AGENT-API-LINKS.md   Extended ApiLink reference (human-readable)
 docs/xplat/AI-AGENT-PLATFORM-BLOCK.md   Extended PlatformBlock reference (human-readable)
 ```
 
