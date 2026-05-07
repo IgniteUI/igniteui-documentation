@@ -2,7 +2,6 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import { buildSidebarFromToc, staticImagesIntegration, siteMetaIntegration } from './src/integration';
 import { getPlatformHead } from './src/platform';
-import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { loadEnv } from 'vite';
 
@@ -43,9 +42,6 @@ const sidebar = buildSidebarFromToc({
   ],
 });
 
-// Compat shim: redirect @astrojs/starlight/components to our replacements.
-const compatIndex = fileURLToPath(new URL('./src/compat/starlight-components/index.ts', import.meta.url));
-
 // https://astro.build/config
 export default defineConfig({
   site: 'localhost:4321',
@@ -54,11 +50,6 @@ export default defineConfig({
     assets: '_assets',
   },
   vite: {
-    resolve: {
-      alias: [
-        { find: '@astrojs/starlight/components', replacement: compatIndex },
-      ],
-    },
     css: {
       preprocessorOptions: {
         scss: {
