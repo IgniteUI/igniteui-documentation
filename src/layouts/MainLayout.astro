@@ -27,7 +27,7 @@ type HeadEntry = { tag: string; attrs?: Record<string, string | boolean | undefi
 ---
 
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" style={!showGlobalNav ? '--docs-global-nav-height: 0' : undefined}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -77,7 +77,7 @@ type HeadEntry = { tag: string; attrs?: Record<string, string | boolean | undefi
 </head>
 <body>
   {showGlobalNav && <GlobalNavBar />}
-  <div style={`--docs-global-nav-height: ${showGlobalNav ? '86px' : '0px'}`}>
+  <div style={`--docs-global-nav-height: ${showGlobalNav ? '4.7rem' : '0'}`} data-nav-height-wrapper>
     <DocsSubHeader pageTitle={title} currentSlug={currentSlug} />
   </div>
   <div class="page">
@@ -110,6 +110,27 @@ type HeadEntry = { tag: string; attrs?: Record<string, string | boolean | undefi
     window.addEventListener('resize', updateSidebarBottom);
     document.addEventListener('astro:page-load', updateSidebarBottom);
     updateSidebarBottom();
+
+    function updateNavHeight() {
+      // No GlobalNavBar rendered — keep the 0 fallback on both html and wrapper.
+      const navChild = document.querySelector<HTMLElement>(
+        '[data-astro-transition-persist="global-nav-bar"] > *:first-child'
+      );
+      if (!navChild) return;
+      const h = navChild.getBoundingClientRect().height;
+      if (h > 0) {
+        // html element → --sl-nav-height recalculates → MobileSidebarToggle repositions
+        document.documentElement.style.setProperty('--docs-global-nav-height', `${h}px`);
+        // wrapper div → DocsSubHeader repositions (wrapper overrides :root for its subtree)
+        document.querySelector<HTMLElement>('[data-nav-height-wrapper]')
+          ?.style.setProperty('--docs-global-nav-height', `${h}px`);
+      }
+    }
+    document.addEventListener('astro:page-load', updateNavHeight);
+    window.addEventListener('resize', updateNavHeight);
+    updateNavHeight();
+    const _navChild = document.querySelector('[data-astro-transition-persist="global-nav-bar"] > *:first-child');
+    if (_navChild) new ResizeObserver(updateNavHeight).observe(_navChild);
   </script>
 </body>
 </html>
