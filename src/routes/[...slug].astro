@@ -3,8 +3,6 @@ import { getCollection, render } from 'astro:content';
 import DocsLayout from 'igniteui-astro-components/layouts/DocsLayout.astro';
 import DocsSidebar from 'igniteui-astro-components/components/DocsSidebar/DocsSidebar.astro';
 import DocsToc from 'igniteui-astro-components/components/DocsToc.astro';
-import ThemingWidget from '../components/ThemingWidget.astro';
-import { navLang, platform } from 'virtual:docs-template/nav-html';
 
 export async function getStaticPaths() {
   const docs = await getCollection('docs');
@@ -30,13 +28,11 @@ type EntryData = {
 
 const { title, description, keywords, tableOfContents } = entry.data as EntryData;
 const currentSlug = entry.id.replace(/\.(md|mdx)$/i, '');
-const widgetLang = navLang === 'jp' || navLang === 'kr' ? navLang : 'en';
-const showWidget = platform === 'angular';
+---
 ---
 
 <DocsLayout title={title} description={description} keywords={keywords} currentSlug={currentSlug}>
   <DocsSidebar slot="sidebar" currentSlug={currentSlug} />
-  {showWidget && <ThemingWidget slot="toc" language={widgetLang} />}
   <DocsToc slot="toc" headings={headings} tocConfig={tableOfContents} offsetTarget=".docs-subheader" />
   <div id="_top" class="sl-markdown-content" data-pagefind-body>
     <Content />
