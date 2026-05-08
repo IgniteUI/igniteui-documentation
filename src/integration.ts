@@ -66,14 +66,10 @@ import {
 import { buildSidebarFromToc } from './sidebar';
 import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
-import { JSDOM } from 'jsdom';
 import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'development' | 'staging' | 'production';
-
-/** Module-level cache so the nav URL is fetched at most once per build. */
-let _navHtmlCache: string | null = null;
 
 /**
  * Read `themeApiUrl` and `themingWidgetVersion` from the project's
@@ -107,46 +103,10 @@ function readThemingEnv(sourcePath: string | undefined, envKey: string): {
     }
 }
 
-/**
- * Strip all <script> tags from an HTML string.
- * The nav HTML fetched from infragistics.com / appbuilder.dev may contain
- * inline or external scripts that don't belong in the docs page (e.g.
- * staging.appbuilder.dev references in the IG nav).  Platform-specific
- * scripts are already injected cleanly via getPlatformHead().
- */
-function stripScripts(html: string): string {
-    const dom = new JSDOM(html);
-    const { document } = dom.window;
+// ---------------------------------------------------------------------------
+// Helpers used by the AppBuilder nav prefetch
+// ---------------------------------------------------------------------------
 
-    document.querySelectorAll('script').forEach((el) => {
-        el.remove();
-    });
-
-    return document.body.innerHTML;
-}
-
-/**
- * Rewrite root-relative href/src/action attributes in nav HTML to absolute
- * URLs using the given base origin (e.g. 'https://www.infragistics.com').
- *
- * Without this, links like href="/products/ignite-ui" resolve against the
- * local dev-server origin and Astro's client-side router intercepts them,
- * logging 404 warnings for every nav-bar link the user hovers or clicks.
- */
-function absolutifyNavUrls(html: string, baseOrigin: string): string {
-    return html
-        .replace(/(href|src|action)="(\/)([^"]*)"/g, `$1="${baseOrigin}/$3"`)
-        .replace(/(href|src|action)='(\/)([^']*)'/g, `$1='${baseOrigin}/$3'`);
-}
-
-/**
- * Nesting-aware outer-HTML extractor.
- * Finds the first tag whose opening tag matches `openPattern` and returns
- * the complete element including its closing tag.
- *
- * @param html - Full HTML string to search.
- * @param openPattern - Regex source for the opening tag (no flags).
- */
 function extractOuterHtml(html: string, openPattern: string): string {
     const openRe = new RegExp(openPattern, 'i');
     const tagRe = /<\/?([a-z][a-z0-9]*)[^>]*>/gi;
@@ -294,6 +254,7 @@ export const headEntries = ${JSON.stringify(head ?? [])};
 
     // Captured from astro:config:done; used to generate llms.txt content.
     let configuredSite = '';
+    let _navModuleCache: string | null = null;
 
     return {
         name: 'docs-template:site-meta',
@@ -361,7 +322,7 @@ export const headEntries = ${JSON.stringify(head ?? [])};
                                 if (id !== navResolvedId) return;
 
                                 // Return cached module code — fetched at most once per build.
-                                if (_navHtmlCache) return _navHtmlCache;
+                                if (_navModuleCache) return _navModuleCache;
 
                                 // ── Theming env ──────────────────────────────────────────────
                                 const envKey = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'production';
@@ -369,35 +330,6 @@ export const headEntries = ${JSON.stringify(head ?? [])};
                                 const widgetScriptSrc = widgetVersion
                                     ? `https://cdn-na.infragistics.com/igniteui/theming-widget/${widgetVersion}/igniteui-theming-widget.js`
                                     : '';
-
-                                let headerHtml = '';
-                                let uiFooterHtml = '';
-                                let footerHtml = '';
-
-                                // ── IG nav prefetch ──────────────────────────────────────────
-                                if (navType === 'infragistics' && navUrl) {
-                                    try {
-                                        const res = await fetch(navUrl, {
-                                            credentials: 'omit',
-                                            signal: AbortSignal.timeout(15_000),
-                                        });
-                                        if (res.ok) {
-                                            const html = await res.text();
-                                            const igBase = navLang === 'jp' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
-                                            headerHtml = absolutifyNavUrls(stripScripts(extractOuterHtml(html, '<header[^>]+id="header"')), igBase);
-                                            uiFooterHtml = absolutifyNavUrls(stripScripts(extractOuterHtml(html, '<footer[^>]+class="[^"]*\\bui-footer\\b')), igBase);
-                                            footerHtml = absolutifyNavUrls(stripScripts(extractOuterHtml(html, '<footer[^>]+id="footer"')), igBase);
-                                            // Strip the hello-bar promotional strip
-                                            headerHtml = headerHtml.replace(
-                                                /<div[^>]+id="hello-bar"[\s\S]*?<\/div>\s*/i, ''
-                                            );
-                                        } else {
-                                            console.warn(`[docs-template] Navigation fetch returned ${res.status} — falling back to empty markup.`);
-                                        }
-                                    } catch (err: unknown) {
-                                        console.warn(`[docs-template] Could not fetch navigation HTML: ${(err as Error).message} — falling back to empty markup.`);
-                                    }
-                                }
 
                                 // ── AppBuilder nav prefetch ──────────────────────────────────
                                 let abHeaderHtml = '';
@@ -440,15 +372,11 @@ export const headEntries = ${JSON.stringify(head ?? [])};
                                     }
                                 }
 
-                                _navHtmlCache = [
+                                _navModuleCache = [
                                     `export const platform = ${JSON.stringify(effectivePlatform ?? null)};`,
                                     `export const navLang = ${JSON.stringify(navLang)};`,
                                     `export const themeApiUrl = ${JSON.stringify(themeApiUrl)};`,
                                     `export const widgetScriptSrc = ${JSON.stringify(widgetScriptSrc)};`,
-                                    `export const prefetched = ${JSON.stringify(!!headerHtml)};`,
-                                    `export const headerHtml = ${JSON.stringify(headerHtml)};`,
-                                    `export const uiFooterHtml = ${JSON.stringify(uiFooterHtml)};`,
-                                    `export const footerHtml = ${JSON.stringify(footerHtml)};`,
                                     `export const abPrefetched = ${JSON.stringify(!!abHeaderHtml)};`,
                                     `export const abHeaderHtml = ${JSON.stringify(abHeaderHtml)};`,
                                     `export const abFooterHtml = ${JSON.stringify(abFooterHtml)};`,
@@ -456,7 +384,7 @@ export const headEntries = ${JSON.stringify(head ?? [])};
                                     `export const abFooterCopyrightHtml = ${JSON.stringify(abFooterCopyrightHtml)};`,
                                     `export const abContactSalesHtml = ${JSON.stringify(abContactSalesHtml)};`,
                                 ].join('\n');
-                                return _navHtmlCache;
+                                return _navModuleCache;
                             },
                         }],
                     },

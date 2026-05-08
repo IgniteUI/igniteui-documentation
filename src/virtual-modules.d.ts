@@ -22,10 +22,6 @@ declare module 'virtual:docs-template/nav-html' {
   export const navLang: NavLang;
   export const themeApiUrl: string;
   export const widgetScriptSrc: string;
-  export const prefetched: boolean;
-  export const headerHtml: string;
-  export const uiFooterHtml: string;
-  export const footerHtml: string;
   export const abPrefetched: boolean;
   export const abHeaderHtml: string;
   export const abFooterHtml: string;
