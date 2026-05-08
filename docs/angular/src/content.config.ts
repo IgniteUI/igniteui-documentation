@@ -1,3 +1,4 @@
+import { z } from 'astro/zod';
 import { createDocsCollection } from 'docs-template/content';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -14,6 +15,18 @@ try {
 
 const docsDir = path.join(root, 'src', 'content', lang, 'components');
 
+const tableOfContentsSchema = z.object({
+        tableOfContents: z
+                .union([
+                        z.literal(false),
+                        z.object({
+                                minHeadingLevel: z.number().min(2).max(6).optional(),
+                                maxHeadingLevel: z.number().min(2).max(6).optional(),
+                        }),
+                ])
+                .optional(),
+});
+
 export const collections = {
-	docs: createDocsCollection(docsDir, { exclude: ['**/*.md'] }),
+        docs: createDocsCollection(docsDir, { exclude: ['**/*.md'], extendSchema: tableOfContentsSchema }),
 };
