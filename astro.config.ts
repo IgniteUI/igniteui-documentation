@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
-import { buildSidebarFromToc, staticImagesIntegration, siteMetaIntegration } from './src/integration';
+import { buildSidebarFromToc, siteMetaIntegration } from './src/integration';
 import { getPlatformHead } from './src/platform';
 import path from 'node:path';
 import { loadEnv } from 'vite';
@@ -26,7 +26,6 @@ if (!process.env.DOCS_SOURCE_PATH) {
 
 const SOURCE_ROOT = path.resolve(process.env.DOCS_SOURCE_PATH);
 const COMPONENTS = path.join(SOURCE_ROOT, 'en/components');
-const IMAGES = path.join(SOURCE_ROOT, 'en/images');
 const TOC_PATH = path.join(SOURCE_ROOT, 'en/components/toc.yml');
 
 process.env.DOCS_SOURCE_PATH = COMPONENTS;
@@ -59,10 +58,46 @@ export default defineConfig({
       },
     },
   },
-  image: {
-    service: { entrypoint: 'astro/assets/services/noop' },
-  },
   integrations: [
+    starlight({
+      title: 'Ignite UI for Angular',
+      logo: {
+        src: './public/favicon.svg',
+      },
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/IgniteUI/igniteui-angular' },
+      ],
+      sidebar,
+      // Prepend the packaged theme entry so consuming projects get the theme.
+      customCss: [
+        './src/styles/ig-theme.scss',
+        './src/styles/custom.css',
+      ],
+      head: [
+        // Platform CDN assets — driven by platform below
+        ...getPlatformHead('angular', 'en'),
+        // Angular-specific Ignite UI component bundle (repo-specific, not in shared registry)
+        // { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/products/ignite-ui-angular/angular/bundles/igniteui.f5cfb48022e69dd66658.css' } },
+        // highlight.js for code-tab syntax highlighting inside code-view widgets
+        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
+        { tag: 'script', attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
+      ],
+      editLink: {
+        baseUrl: 'https://github.com/IgniteUI/igniteui-docfx/edit/master/en/components/',
+      },
+      components: {
+        PageFrame: './src/components/overrides/CustomPageFrame.astro',
+        Head: './src/components/overrides/Head.astro',
+        Header: './src/components/overrides/Header.astro',
+        Footer: './src/components/overrides/Footer.astro',
+        MobileTableOfContents: './src/components/overrides/MobileTableOfContents.astro',
+        Sidebar: './src/components/overrides/Sidebar/Sidebar.astro',
+        PageSidebar: './src/components/overrides/PageSidebar.astro',
+      },
+      expressiveCode: {
+        themes: ['dark-plus'],
+      }
+    }),
     siteMetaIntegration({
       title: 'Ignite UI for Angular',
       platform: 'angular',
