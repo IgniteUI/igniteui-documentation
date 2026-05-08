@@ -18,7 +18,6 @@
  *     source: {
  *       tocPath:  './my-docs/toc.yml',
  *       docsDir:  './my-docs/en/components',
- *       imagesDir: './my-docs/en/images',   // omit to skip image serving
  *     },
  *     sidebar: { exclude: [/^internal\//] },   // optional TOC excludes
  *     head: [                                   // extra <head> entries after platform ones
@@ -34,7 +33,7 @@
  *
  * --- Option B: manual composition (for full control) ---
  *
- *   import { buildSidebarFromToc, staticImagesIntegration, siteMetaIntegration } from 'docs-template/integration';
+ *   import { buildSidebarFromToc, siteMetaIntegration } from 'docs-template/integration';
  *
  *   const sidebar = buildSidebarFromToc({ tocPath, docsDir });
  *
@@ -42,7 +41,6 @@
  *     integrations: [
  *       siteMetaIntegration({ title: 'My Library', description: 'Reference docs.' }),
  *       starlight({ sidebar }),
- *       staticImagesIntegration('/abs/path/to/my-docs/images'),
  *     ],
  *   });
  *
@@ -491,16 +489,6 @@ export const productLinks = ${JSON.stringify(productLinks)};
 export { buildSidebarFromToc };
 export type { LlmsMeta, LlmsSet } from './llms.ts';
 
-// ---------------------------------------------------------------------------
-// Static images integration
-// ---------------------------------------------------------------------------
-
-const MIME: Record<string, string> = {
-    png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg',
-    gif: 'image/gif', svg: 'image/svg+xml', webp: 'image/webp',
-    avif: 'image/avif', ico: 'image/x-icon',
-};
-
 function copyDirSync(src: string, dest: string): void {
     fs.mkdirSync(dest, { recursive: true });
     for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
@@ -511,60 +499,6 @@ function copyDirSync(src: string, dest: string): void {
     }
 }
 
-/**
- * Astro integration that serves a local images directory during development
- * (via Vite middleware) and copies it to the build output.
- *
- * @param imagesDir - Absolute path to the directory of images to serve.
- * @param options.urlPath - URL prefix under which images are served (default `'/images'`).
- */
-export function staticImagesIntegration(
-    imagesDir: string,
-    { urlPath = '/images' }: { urlPath?: string } = {},
-): AstroIntegration {
-    return {
-        name: 'static-images',
-        hooks: {
-            'astro:server:setup'({ server }) {
-                server.middlewares.use(urlPath, (req, res, next) => {
-                    // Extract path (no query string)
-                    const rawUrl = req.url || '/';
-                    const requestPath = rawUrl.split('?', 1)[0] || '/';
-                    // Decode URL component; reject malformed encodings
-                    let decodedPath: string;
-                    try {
-                        decodedPath = decodeURIComponent(requestPath);
-                    } catch {
-                        return next();
-                    }
-                    // Build absolute file path and ensure it stays within imagesDir
-                    const basePath = path.resolve(imagesDir);
-                    const relativePath = decodedPath.replace(/^\/+/, '');
-                    const filePath = path.resolve(path.join(basePath, relativePath));
-                    // Prevent path traversal outside of imagesDir
-                    if (filePath !== basePath && !filePath.startsWith(basePath + path.sep)) {
-                        return next();
-                    }
-                    try {
-                        if (fs.statSync(filePath).isFile()) {
-                            const ext = path.extname(filePath).slice(1).toLowerCase();
-                            res.setHeader('Content-Type', MIME[ext] || 'application/octet-stream');
-                            fs.createReadStream(filePath).pipe(res);
-                            return;
-                        }
-                    } catch {
-                        /* file not found — fall through */
-                    }
-                    next();
-                });
-            },
-            async 'astro:build:done'({ dir }) {
-                const destImages = path.join(fileURLToPath(dir), urlPath.replace(/^\//, ''));
-                copyDirSync(imagesDir, destImages);
-            },
-        },
-    };
-}
 
 /**
  * Astro integration that post-processes all built HTML files to prepend `base`
@@ -611,11 +545,6 @@ export interface DocsSiteSource {
     tocPath: string;
     /** Absolute path to the Markdown docs directory. */
     docsDir: string;
-    /**
-     * Absolute path to images directory.
-     * Omit to skip the images integration.
-     */
-    imagesDir?: string;
 }
 
 export interface CreateDocsSiteOptions {
@@ -674,9 +603,8 @@ export interface CreateDocsSiteOptions {
 /**
  * Creates a complete Astro config for a standard Starlight docs site.
  *
- * All individual helpers (`buildSidebarFromToc`, `staticImagesIntegration`,
- * `siteMetaIntegration`) remain independently importable for cases that
- * need finer control.
+ * All individual helpers (`buildSidebarFromToc`, `siteMetaIntegration`)
+ * remain independently importable for cases that need finer control.
  * @param options - Configuration options.
  */
 export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocsSiteOptions): ReturnType<typeof defineConfig> {
@@ -776,9 +704,6 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     return defineConfig({
         site,
         ...(base !== undefined ? { base } : {}),
-        // Docs sites serve images statically — disable Astro's image optimization
-        // so relative image paths in markdown don't cause build errors.
-        image: { service: { entrypoint: 'astro/assets/services/noop' }, ...(astroExtra as any).image },
         ...astroExtra,
         vite: {
             ...(astroExtra as any).vite,
@@ -831,7 +756,6 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                     ...(starlightExtra.plugins as any[] ?? []),
                 ],
             }),
-            ...(source.imagesDir ? [staticImagesIntegration(source.imagesDir)] : []),
             ...(base ? [createBasePrependIntegration(base)] : []),
             ...extraIntegrations,
         ],
