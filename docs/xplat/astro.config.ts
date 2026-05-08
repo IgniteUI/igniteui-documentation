@@ -12,6 +12,12 @@ import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// When --outDir=../../dist/* points outside docs/xplat/, Astro's getOutDirWithinCwd()
+// falls back to .astro/ as serverRoot, causing image generation to ENOENT.
+// Changing CWD to the repo root makes dist/* start with CWD, so serverRoot is correct.
+// Astro resolves --outDir against the project root (not CWD), so that path is unaffected.
+process.chdir(path.join(__dirname, '../..'));
+
 function resolveSetting(envKey: string, jsonKey: string, fallback: string): string {
     if (process.env[envKey]) return process.env[envKey]!;
     try {
