@@ -1,10 +1,10 @@
 // @ts-check
-import mdx from '@astrojs/mdx';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
 import { generateGridTopics } from './src/scripts/generate-grids.mjs';
+import mdx from '@astrojs/mdx';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from 'astro:content';
+import DocsLayout from 'igniteui-astro-components/layouts/DocsLayout.astro';
+import DocsSidebar from 'igniteui-astro-components/components/DocsSidebar/DocsSidebar.astro';
+import DocsToc from 'igniteui-astro-components/components/DocsToc.astro';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return docs.map((entry) => {
+    const slug = entry.id.replace(/\.(md|mdx)$/i, '');
+    return { params: { slug }, props: { entry } };
+  });
+}
+
+type Props = {
+  entry: Awaited<ReturnType<typeof getCollection<'docs'>>>[number];
+};
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+
+type EntryData = {
+  title: string;
+  description?: string | null;
+  keywords?: string | null;
+  tableOfContents?: false | { minHeadingLevel?: number; maxHeadingLevel?: number };
+};
+
+const { title, description, keywords, tableOfContents } = entry.data as EntryData;
+const currentSlug = entry.id.replace(/\.(md|mdx)$/i, '');
+---
+---
+
+<DocsLayout title={title} description={description} keywords={keywords}>
+  <DocsSidebar slot="sidebar" currentSlug={currentSlug} />
+  <DocsToc slot="toc" headings={headings} tocConfig={tableOfContents} offsetTarget=".docs-subheader" />
+  <div id="_top" class="sl-markdown-content" data-pagefind-body>
+    <Content />
+  </div>
+</DocsLayout>

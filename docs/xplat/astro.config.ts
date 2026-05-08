@@ -2,8 +2,8 @@ import path from 'node:path';
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
-import mdx from '@astrojs/mdx';
 import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
+import mdx from '@astrojs/mdx';
 
 // ---------------------------------------------------------------------------
 // Platform selection

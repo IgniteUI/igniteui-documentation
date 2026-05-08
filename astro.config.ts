@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import starlight from '@astrojs/starlight';
+import mdx from '@astrojs/mdx';
 import { buildSidebarFromToc, siteMetaIntegration } from './src/integration';
 import { getPlatformHead } from './src/platform';
 import path from 'node:path';
@@ -15,16 +15,12 @@ Object.assign(process.env, env);
 // For local development copy .env.example to .env and set an absolute path:
 //   DOCS_SOURCE_PATH=C:/Repos/docs/igniteui-docfx   (Windows)
 //   DOCS_SOURCE_PATH=/home/user/repos/igniteui-docfx  (macOS/Linux)
-// In CI/CD this is provided by the pipeline environment.
-// Consuming repos use createDocsSite({ source: { docsDir } }) which sets
-// the env var automatically — this manual config is the template's own demo.
 // ---------------------------------------------------------------------------
 
 if (!process.env.DOCS_SOURCE_PATH) {
   throw new Error(
     '[docs-template] DOCS_SOURCE_PATH env var is required. ' +
-    'Copy .env.example to .env and set an absolute path to the docs source repo root. ' +
-    'When using createDocsSite({ source: { docsDir } }), this is set automatically.'
+    'Copy .env.example to .env and set an absolute path to the docs source repo root.'
   );
 }
 
@@ -32,8 +28,6 @@ const SOURCE_ROOT = path.resolve(process.env.DOCS_SOURCE_PATH);
 const COMPONENTS = path.join(SOURCE_ROOT, 'en/components');
 const TOC_PATH = path.join(SOURCE_ROOT, 'en/components/toc.yml');
 
-// Narrow DOCS_SOURCE_PATH to the components dir so content.config.ts uses
-// it as the glob base (same as what createDocsSite does automatically).
 process.env.DOCS_SOURCE_PATH = COMPONENTS;
 
 const sidebar = buildSidebarFromToc({
@@ -47,23 +41,18 @@ const sidebar = buildSidebarFromToc({
   ],
 });
 
-
 // https://astro.build/config
 export default defineConfig({
   site: 'localhost:4321',
-  // base: '/docs-template', // Uncomment if deploying to a subpath
   compressHTML: true,
   build: {
     assets: '_assets',
   },
-  // Ensure Sass `@import 'highlight.js/…'` resolves from node_modules
   vite: {
     css: {
       preprocessorOptions: {
         scss: {
           loadPaths: [path.join(process.cwd(), 'node_modules')],
-          // The if-function deprecation originates inside igniteui-theming
-          // (vendor code in node_modules we cannot modify). Silence only that.
           silenceDeprecations: ['if-function'],
         },
       },
@@ -117,6 +106,11 @@ export default defineConfig({
         'UI component library including Data Grid, Charts, Gauges, Calendars, and more.',
       docsDir: COMPONENTS,
       sidebar,
+      head: [
+        ...getPlatformHead('angular', 'en'),
+        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
+        { tag: 'script', attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
+      ],
       productLinks: [
         { label: 'Angular',        href: '#', platform: 'angular' },
         { label: 'React',          href: '#', platform: 'react' },
@@ -124,6 +118,8 @@ export default defineConfig({
         { label: 'Web Components', href: '#', platform: 'web-components' },
       ],
     }),
+    mdx(),
+    staticImagesIntegration(IMAGES),
   ],
   markdown: {
     remarkPlugins: [
@@ -134,4 +130,3 @@ export default defineConfig({
     ],
   },
 });
-
