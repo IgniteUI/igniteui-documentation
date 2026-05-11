@@ -1,8 +1,18 @@
 // @ts-check
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
 import { generateGridTopics } from './src/scripts/generate-grids.mjs';
+import mdx from '@astrojs/mdx';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// When --outDir=../../dist/* points outside docs/angular/, Astro's getOutDirWithinCwd()
+// falls back to .astro/ as serverRoot, causing image generation to ENOENT.
+// Changing CWD to the repo root makes dist/* start with CWD, so serverRoot is correct.
+// Astro resolves --outDir against the project root (not CWD), so that path is unaffected.
+process.chdir(path.join(__dirname, '../..'));
 
 // ── Build mode and language ──────────────────────────────────────────────────
 // DOCS_ENV: 'development' | 'staging' | 'production'  (preferred, default: 'development')
@@ -30,7 +40,7 @@ const site = mode === 'production' ? `${PROD_HOST}${base}`
 	: 'http://localhost:4321';
 
 // ── Source paths ─────────────────────────────────────────────────────────────
-const docsDir = path.resolve(`./src/content/${docsLang}`);
+const docsDir = path.join(__dirname, 'src', 'content', docsLang);
 const componentsDocsDir = path.join(docsDir, 'components');
 const templatesDir = path.join(docsDir, 'grids_templates');
 
@@ -56,17 +66,20 @@ export default createDocsSite({
 	source: {
 		tocPath: `${componentsDocsDir}/toc.json`,
 		docsDir: componentsDocsDir,
-		imagesDir: path.join(docsDir, 'images'),
 	},
 	sidebar: { exclude: [/^internal\//] },
 	starlight: {
 		// logo: { src: './public/favicon.svg' },
 	},
-	image: { service: { entrypoint: 'astro/assets/services/noop' } },
+	integrations: [mdx()],
 	// Expose @/ alias so MDX files can import Sample.astro and peer components.
+	// @xplat-images resolves xplat-sourced MDX image imports to the angular images dir.
 	vite: {
 		resolve: {
-			alias: { '@': path.resolve('./src') },
+			alias: {
+				'@': path.join(__dirname, 'src'),
+				'@xplat-images': path.join(__dirname, 'src', 'content', docsLang, 'images'),
+			},
 		},
 	},
 });

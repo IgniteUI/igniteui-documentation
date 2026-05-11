@@ -3,6 +3,7 @@ import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
+import mdx from '@astrojs/mdx';
 
 // ---------------------------------------------------------------------------
 // Platform selection
@@ -10,6 +11,12 @@ import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
 // ---------------------------------------------------------------------------
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// When --outDir=../../dist/* points outside docs/xplat/, Astro's getOutDirWithinCwd()
+// falls back to .astro/ as serverRoot, causing image generation to ENOENT.
+// Changing CWD to the repo root makes dist/* start with CWD, so serverRoot is correct.
+// Astro resolves --outDir against the project root (not CWD), so that path is unaffected.
+process.chdir(path.join(__dirname, '../..'));
 
 function resolveSetting(envKey: string, jsonKey: string, fallback: string): string {
     if (process.env[envKey]) return process.env[envKey]!;
@@ -250,9 +257,6 @@ function vitePluginPlatformTokens() {
             // that was intentionally exported (those would already be resolved above).
             result = result.replace(/\{([A-Z][A-Za-z0-9]*[A-Z][A-Za-z0-9]*)\}/g, () => '');
 
-            // 5. Normalize relative image paths to absolute
-            result = result.replace(/(?:\.\.\/)+images\//g, '/images/');
-
             return result === code ? null : { code: result, map: null };
         },
     };
@@ -335,6 +339,13 @@ export default createDocsSite({
     starlight: {
         logo: { src: './public/favicon.svg' },
     },
-    image: { service: { entrypoint: 'astro/assets/services/noop' } },
-    vite: { plugins: [vitePluginPlatformTokens()] },
+    integrations: [mdx()],
+    vite: {
+        plugins: [vitePluginPlatformTokens()],
+        resolve: {
+            alias: {
+                '@xplat-images': path.resolve(__dirname, 'src/assets/images'),
+            },
+        },
+    },
 });
