@@ -188,50 +188,50 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     // English
     Angular: {
         lang: 'en', label: 'Angular', key: 'angular', devPort: 4331,
-        base: '/docs-angular-new',
+        base: '/angularsite',
         title: 'Ignite UI for Angular',
         description: 'Component documentation for Ignite UI for Angular.',
     },
     React: {
         lang: 'en', label: 'React', key: 'react', devPort: 4332,
-        base: '/docs-react-new',
+        base: '/reactsite',
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
     WebComponents: {
         lang: 'en', label: 'Web Components', key: 'web-components', devPort: 4333,
-        base: '/docs-wc-new',
+        base: '/webcomponentssite',
         title: 'Ignite UI for Web Components',
         description: 'Component documentation for Ignite UI for Web Components.',
     },
     Blazor: {
         lang: 'en', label: 'Blazor', key: 'blazor', devPort: 4334,
-        base: '/docs-blazor-new',
+        base: '/blazorsite',
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },
     // Japanese
     AngularJP: {
         lang: 'jp', label: 'Angular', key: 'angular', devPort: 4341,
-        base: '/docs-angular-new',
+        base: '/angularsite',
         title: 'Ignite UI for Angular',
         description: 'Component documentation for Ignite UI for Angular.',
     },
     ReactJP: {
         lang: 'jp', label: 'React', key: 'react', devPort: 4342,
-        base: '/docs-react-new',
+        base: '/reactsite',
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
     WebComponentsJP: {
         lang: 'jp', label: 'Web Components', key: 'web-components', devPort: 4343,
-        base: '/docs-wc-new',
+        base: '/webcomponentssite',
         title: 'Ignite UI for Web Components',
         description: 'Component documentation for Ignite UI for Web Components.',
     },
     BlazorJP: {
         lang: 'jp', label: 'Blazor', key: 'blazor', devPort: 4344,
-        base: '/docs-blazor-new',
+        base: '/blazorsite',
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },

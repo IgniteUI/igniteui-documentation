@@ -1,4 +1,4 @@
-name: Build And Deploy Documentation JP
+name: Build And Deploy Angular Documentation EN
 
 permissions:
   contents: read
@@ -9,7 +9,12 @@ on:
       - vnext
       - master
     paths-ignore:
-      - '**/en/**'
+      - 'docs/jquery/**'
+      - 'docs/xplat/**'
+      - 'docs/wpf/**'
+      - 'docs/winforms/**'
+      - 'docs/aspnet/**'
+      - '**/jp/**'
       - '**/kr/**'
   workflow_dispatch:
     inputs:
@@ -22,7 +27,8 @@ jobs:
   deploy:
     uses: ./.github/workflows/_cd-deploy.yml
     with:
-      locale: jp
+      locale: en
+      platform: angular
       target_ref: ${{ github.event.inputs.branch && (startsWith(github.event.inputs.branch, 'refs/') && github.event.inputs.branch || format('refs/heads/{0}', github.event.inputs.branch)) || github.ref }}
     secrets:
       CLASSIC_PAT_GITHUB: ${{ secrets.CLASSIC_PAT_GITHUB }}
