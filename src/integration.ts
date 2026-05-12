@@ -609,7 +609,7 @@ function createBasePrependIntegration(base: string): AstroIntegration {
 
             const original = fs.readFileSync(full, 'utf-8');
             const rewritten = original.replace(
-                /\bsrc="(\/[^"]*)"/g,
+                /(?<![a-zA-Z])src="(\/[^"]*)"/g,
                 (_: string, url: string) => {
                     if (url.startsWith(normalizedBase + '/')) return `src="${url}"`;
                     return `src="${normalizedBase}${url}"`;
