@@ -159,7 +159,7 @@ Check the `kind` field on the top-level symbol in the JSON:
 
 | JSON `kind` value | MDX `kind=` |
 |---|---|
-| `128` | `"class"` *(default — can be omitted)* |
+| `128` | `"class"` _(default — can be omitted)_ |
 | `256` | `"interface"` — **must set explicitly** |
 | `8` | `"enum"` — **must set explicitly** |
 | `4194304` | `"type"` — **must set explicitly** |
@@ -294,6 +294,7 @@ Excel library types (`Workbook`, `Worksheet`, `WorksheetTable`, `WorksheetCell`,
 The Blazor excel package is **not** the main `IgniteUI.Blazor` package — it is `IgniteUI.Blazor.Documents.Excel`. This is already configured in `platform-context.ts`. Do not change it to `IgniteUI.Blazor`.
 
 ### `platform-context.ts` excel entry (Blazor — correct)
+
 ```typescript
 excel: {
   docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor.Documents.Excel/25.1.x',
@@ -351,11 +352,13 @@ Fix: replace JSX numeric props with string values inside comments:
 ### Column-level fix
 
 Before:
+
 ```mdx
 <ApiLink pkg="grids" type="{ComponentName}" member="sortable" prefixed={false} />
 ```
 
 After:
+
 ```mdx
 <ApiLink pkg="grids" type="Column" member="sortable" />
 ```
@@ -363,11 +366,13 @@ After:
 ### Interface fix
 
 Before:
+
 ```mdx
 <ApiLink pkg="grids" type="{ComponentName}" member="enabled" prefixed={false} />
 ```
 
 After:
+
 ```mdx
 <ApiLink pkg="grids" type="ClipboardOptions" kind="interface" member="enabled" />
 ```
@@ -375,11 +380,13 @@ After:
 ### Wrong class fix
 
 Before:
+
 ```mdx
 <ApiLink pkg="grids" type="{ComponentName}" member="getState" prefixed={false} />
 ```
 
 After:
+
 ```mdx
 <ApiLink pkg="grids" type="GridState" member="getState" />
 ```

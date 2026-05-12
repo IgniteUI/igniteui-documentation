@@ -13,8 +13,8 @@ The Ignite UI for Angular Banner Component provides a way to easily display a pr
 ### Banner Demo
 
 
-<code-view style="height: 400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/notifications/banner-sample-4/" >
 </code-view>
 
@@ -40,6 +40,7 @@ import { IgxBannerModule } from 'igniteui-angular';
 })
 export class AppModule {}
 ```
+
 ### Basic banner
 
 In order to display the Banner component, use its [`open()`]({environment:angularApiUrl}/classes/igxbannercomponent.html#open) method and call it on a button click. To configure the banner message, simply pass some text inside of the banner content. The text will show up in the specified banner area and the banner will use its default template when displaying it
@@ -59,8 +60,8 @@ The banner appears relative to where the element was inserted in the page templa
 #### Basic Banner Demo
 
 
-<code-view style="height: 530px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 530px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/notifications/banner-sample-1/" >
 </code-view>
 
@@ -102,7 +103,7 @@ To pass an `igx-icon` to you banner, simply insert it in the `igx-banner`s conte
 
 #### Adding custom banner buttons
 
-The `IgxBannerModule` also exposes a directive for templating the banner buttons - [`IgxBannerActionsDirective`]({environment:angularApiUrl}/classes/igxbanneractionsdirective.html). Using this directive allows you to override the default banner button (`Dismiss`) and add user defined custom actions. As most (but not all) of the button interactions are suposed to close the banner, make sure to call the banner's `close()` method in their `click` handlers.
+The `IgxBannerModule` also exposes a directive for templating the banner buttons - [`IgxBannerActionsDirective`]({environment:angularApiUrl}/classes/igxbanneractionsdirective.html). Using this directive allows you to override the default banner button (`Dismiss`) and add user defined custom actions. As most (but not all) of the button interactions are supposed to close the banner, make sure to call the banner's `close()` method in their `click` handlers.
 
 > [!NOTE]
 > Per Google's [`Material Design` guidelines](https://material.io/design/components/banners.html#anatomy), a banner should have a maximum of 2 buttons present. The `IgxBannerComponent` **does not** explicitly limit developers from passing more than 2 elements under the `igx-banner-actions` tag, but it is strongly advised if you choose to adhere to the material design guidelines.
@@ -121,6 +122,7 @@ To further template the 'Connection' banner, we can pass custom action handles u
     </igx-banner>
     ...
 ```
+
 The dismiss option (`'Continue Offline'`) does not require any further logic, so it can just call `connectionBanner.close()`. The confirm action (`'Turn On Wifi'`) requires some additional logic, so we define it in the component. We create and subscribe to the `onNetworkStateChange` `Observable` and on each change we call the `refreshBanner` method, which toggles the banner depending on `wifiState`.
 
 ```typescript
@@ -161,6 +163,7 @@ export class MyBannerComponent implements OnInit, OnDestroy {
     }
 }
 ```
+
 As the subscription fires on any change to `wifiState`, the banner can now also be toggled using the WiFi icon in the demo navbar.
 
 The results of the templated banner can be seen in the below demo:
@@ -168,8 +171,8 @@ The results of the templated banner can be seen in the below demo:
 #### Templating Demo
 
 
-<code-view style="height: 530px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 530px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/notifications/banner-sample-2/" >
 </code-view>
 
@@ -205,14 +208,14 @@ export class MyBannerComponent {
 #### Animation Demo
 
 
-<code-view style="height: 530px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 530px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/notifications/banner-sample-3/" >
 </code-view>
 
 
 ### Binding to events
-The banner component emits events when changing its state - [`opening`]({environment:angularApiUrl}/classes/igxbannercomponent.html#opening) and [`opened`]({environment:angularApiUrl}/classes/igxbannercomponent.html#opened) are called when the banner is shown (before and after, resp.), while [`closing`]({environment:angularApiUrl}/classes/igxbannercomponent.html#closing) and [`closed`]({environment:angularApiUrl}/classes/igxbannercomponent.html#closed) are emitted when the banner is closed. The *ing* events (`opening`, `closing`) are cancelable - they use the `ICancelEventArgs` interface and the emitted object has a `cancel` property. If the `cancel` property is set to true, the corresponding end action and event will not be triggered - e.g. if we cancel `opening`, the banner's `open` method will not finish and the banner will not be shown.
+The banner component emits events when changing its state - [`opening`]({environment:angularApiUrl}/classes/igxbannercomponent.html#opening) and [`opened`]({environment:angularApiUrl}/classes/igxbannercomponent.html#opened) are called when the banner is shown (before and after, resp.), while [`closing`]({environment:angularApiUrl}/classes/igxbannercomponent.html#closing) and [`closed`]({environment:angularApiUrl}/classes/igxbannercomponent.html#closed) are emitted when the banner is closed. The _ing_ events (`opening`, `closing`) are cancelable - they use the `ICancelEventArgs` interface and the emitted object has a `cancel` property. If the `cancel` property is set to true, the corresponding end action and event will not be triggered - e.g. if we cancel `opening`, the banner's `open` method will not finish and the banner will not be shown.
 
 To cancel an event bind it to the emitted object and set its `cancel` property to `true`.
 
@@ -222,6 +225,7 @@ To cancel an event bind it to the emitted object and set its `cancel` property t
         ...
     </igx-banner>
 ```
+
 ```typescript
 // banner.component.ts
 ...
@@ -232,10 +236,11 @@ export class MyBannerComponent {
     }
 }
 ```
+
 > [!NOTE]
 > If the changes above are applied, the banner will never open, as the opening event is always cancelled.
 
 ## API Reference
 
-* [IgxBannerComponent]({environment:angularApiUrl}/classes/igxbannercomponent.html)
-* [IgxBannerComponent Theme]({environment:sassApiUrl}/themes#function-banner-theme)
+- [IgxBannerComponent]({environment:angularApiUrl}/classes/igxbannercomponent.html)
+- [IgxBannerComponent Theme]({environment:sassApiUrl}/themes#function-banner-theme)

@@ -27,11 +27,13 @@ Renders an inline `<a><code>…</code></a>` link to a specific type or member.
 ### URL Resolution
 
 For **classes** (default kind):
+
 ```
 {docRoot}/classes/{PrefixType}#{member}
 ```
 
 For **non-class kinds** (interface, enum, type, etc.):
+
 ```
 {docRoot}/{kind}s/{PrefixType}#{member}
 ```
@@ -130,7 +132,7 @@ This means `<ApiLink pkg="grids" type="Column" member="sortable" />` resolves to
 
 ## API Documentation Source Data
 
-Gitgub - https://github.com/IgniteUI/api-docs
+GitHub - https://github.com/IgniteUI/api-docs
 
 The canonical source for determining which class owns a member is the `api-docs` project TypeDoc JSON files. The project lives in a sibling folder to this docs repository. The data files are organized by platform:
 
@@ -176,6 +178,7 @@ The most common error is pointing `type="{ComponentName}"` to a property that be
 The `prefixed` prop (default `true`) controls whether the platform class prefix (`Igr`/`Igx`/`Igc`/`Igb`) is automatically prepended to `type`.
 
 **Keep default (`prefixed={true}`, or just omit it)** for all concrete short type names:
+
 ```mdx
 <ApiLink pkg="grids" type="Column" member="sortable" />
 <!-- resolves to IgrColumn (React), IgxColumn (Angular), etc. -->
@@ -234,7 +237,7 @@ Check the TypeDoc JSON for the symbol's `kind` field:
 
 | JSON `kind` value | MDX `kind=` attribute |
 |---|---|
-| `128` | `"class"` *(default, can be omitted)* |
+| `128` | `"class"` _(default, can be omitted)_ |
 | `256` | `"interface"` |
 | `8` | `"enum"` |
 | `4194304` | `"type"` |

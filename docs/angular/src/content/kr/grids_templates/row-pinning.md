@@ -2,21 +2,21 @@
 ---
 title: Angular Grid Row Pinning | Lock Row | Ignite UI for Angular | Infragistics
 description: Start to use the Pinning feature of the Ignite UI for Angular table in order to lock rows with rich and easy to use API
-keywords: lock row, ignite ui for angular, infragistics 
+keywords: lock row, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid Row Pinning | Lock Row | Ignite UI for Angular | Infragistics
 description: Start to use the Pinning feature of the Ignite UI for Angular table in order to lock rows with rich and easy to use API
-keywords: lock row, ignite ui for angular, infragistics 
+keywords: lock row, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid Row Pinning | Lock Row | Ignite UI for Angular | Infragistics
 description: Start to use the Pinning feature of the Ignite UI for Angular table in order to lock rows with rich and easy to use API
-keywords: lock row, ignite ui for angular, infragistics 
+keywords: lock row, ignite ui for angular, infragistics
 ---
 }
 
@@ -27,24 +27,24 @@ One or multiple rows can be pinned to the top or bottom of the Angular UI Grid. 
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-row-pinning/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/tree-grid-row-pinning/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-row-pinning/" >
 </code-view>
 
@@ -67,9 +67,11 @@ The built-in row pinning UI is enabled by adding an `igxActionStrip` component w
     </igx-action-strip>
 </igx-grid>
 ```
+
 }
 
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <igx-tree-grid #treeGrid [data]="data">
     <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
@@ -81,9 +83,11 @@ The built-in row pinning UI is enabled by adding an `igxActionStrip` component w
     </igx-action-strip>
 </igx-tree-grid>
 ```
+
 }
 
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid #hierarchicalGrid [data]="data">
     <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
@@ -95,6 +99,7 @@ The built-in row pinning UI is enabled by adding an `igxActionStrip` component w
     </igx-action-strip>
 </igx-hierarchical-grid>
 ```
+
 }
 
 
@@ -103,40 +108,52 @@ The built-in row pinning UI is enabled by adding an `igxActionStrip` component w
 Row pinning is controlled through the `pinned` input of the [`row`]({environment:angularApiUrl}/interfaces/rowtype.html). Pinned rows are rendered at the top of the @@igComponent by default and stay fixed through vertical scrolling of the unpinned rows in the @@igComponent body.
 
 @@if (igxName === 'IgxGrid') {
+
 ```typescript
 this.grid.getRowByIndex(0).pinned = true;
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```typescript
 this.treeGrid.getRowByIndex(0).pinned = true;
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```typescript
 this.hierarchicalGrid.getRowByIndex(0).pinned = true;
 ```
+
 }
 
 You may also use the @@igComponent's [`pinRow`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#pinrow) or [`unpinRow`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#unpinrow) methods of the [`@@igxNameComponent`]({environment:angularApiUrl}/classes/@@igTypeDoc.html) to pin or unpin records by their ID:
 
 @@if (igxName === 'IgxGrid') {
+
 ```typescript
 this.grid.pinRow("ALFKI");
 this.grid.unpinRow("ALFKI");
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```typescript
 this.treeGrid.pinRow("ALFKI");
 this.treeGrid.unpinRow("ALFKI");
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```typescript
 this.hierarchicalGrid.pinRow("ALFKI");
 this.hierarchicalGrid.unpinRow("ALFKI");
 ```
+
 }
 
 Note that the row ID is the primary key value, defined by the [`primaryKey`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#primarykey) of the grid, or the record instance itself. Both methods return a boolean value indicating whether their respective operation is successful or not. Usually the reason they fail is that the row is already in the desired state.
@@ -144,6 +161,7 @@ Note that the row ID is the primary key value, defined by the [`primaryKey`]({en
 A row is pinned below the last pinned row. Changing the order of the pinned rows can be done by subscribing to the [`rowPinning`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#rowPinning) event and changing the [`insertAtIndex`]({environment:angularApiUrl}/interfaces/ipinroweventargs.html#insertatindex) property of the event arguments to the desired position index.
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <igx-grid #grid1 [data]="data" [autoGenerate]="true" (rowPinning)="rowPinning($event)">
 </igx-grid>
@@ -154,8 +172,10 @@ public rowPinning(event) {
     event.insertAtIndex = 0;
 }
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="true" (rowPinning)="rowPinning($event)">
 </igx-tree-grid>
@@ -166,8 +186,10 @@ public rowPinning(event) {
     event.insertAtIndex = 0;
 }
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="true" (rowPinning)="rowPinning($event)">
 </igx-hierarchical-grid>
@@ -178,6 +200,7 @@ public rowPinning(event) {
     event.insertAtIndex = 0;
 }
 ```
+
 }
 
 ### Pinning Position
@@ -186,21 +209,27 @@ You can change the row pinning position via the [`pinning`]({environment:angular
 When set to Bottom pinned rows are rendered at the bottom of the grid, after the unpinned rows. Unpinned rows can be scrolled vertically, while the pinned rows remain fixed at the bottom.
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <igx-grid [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></igx-grid>
 ```
+
 }
 
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <igx-tree-grid [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></igx-tree-grid>
 ```
+
 }
 
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></igx-hierarchical-grid>
 ```
+
 }
 
 ```typescript
@@ -270,6 +299,7 @@ This can be done by adding an extra column with a cell template containing the c
     </igx-row-island>
 </igx-hierarchical-grid>
 ```
+
 }
 
 On click of the custom icon the pin state of the related row can be changed using the row's API methods.
@@ -289,24 +319,24 @@ public togglePinning(row: IgxGridRow, event) {
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-row-pinning-extra-column/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/tree-grid-row-pinning-extra-column/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-row-pinning-extra-column/" >
 </code-view>
 
@@ -364,8 +394,8 @@ This would allow reordering the rows and moving them between the pinned and unpi
 #### Demo
 
 
-<code-view style="height:510px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:510px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-row-pinning-drag/" >
 </code-view>
 
@@ -375,16 +405,16 @@ This would allow reordering the rows and moving them between the pinned and unpi
 
 ### Row Pinning Limitations
 
-* Only records that exist in the data source can be pinned.
-* The row pinning state is not exported to excel. The grid is exported as if no row pinning is applied.
-* Because of how pinned rows are stored internally so that they may appear both in the pinned and unpinned areas of the grid, row pinning is not supported when records in the grid are fetched from a remote endpoint on demand (remote virtualization).
-* The copies of pinned rows in the scrollable area of the grid are an integral part of how other grid features achieve their functionality in the presence of pinned rows and therefore their creation cannot be disabled nor can they be removed.
-* As Row Selection works entirely with row Ids, selecting pinned rows selects their copies as well (and vise versa). Additionally, range selection (e.g. using Shift + click) within the pinned area works the same way as selecting a range of rows within the scrollable area. The resulting selection includes all rows in between even if they are not currently pinned. Getting the selected rows through the API only returns a single instance of each selected record.
-* When the grid has no `primaryKey` set and remote data scenarios are enabled (when paging, sorting, filtering, scrolling trigger requests to a remote server to retrieve the data to be displayed in the grid), a row will lose the following state after a data request completes:
-    * Row Selection
-    * Row Expand/collapse
-    * Row Editing
-    * Row Pinning
+- Only records that exist in the data source can be pinned.
+- The row pinning state is not exported to excel. The grid is exported as if no row pinning is applied.
+- Because of how pinned rows are stored internally so that they may appear both in the pinned and unpinned areas of the grid, row pinning is not supported when records in the grid are fetched from a remote endpoint on demand (remote virtualization).
+- The copies of pinned rows in the scrollable area of the grid are an integral part of how other grid features achieve their functionality in the presence of pinned rows and therefore their creation cannot be disabled nor can they be removed.
+- As Row Selection works entirely with row Ids, selecting pinned rows selects their copies as well (and vise versa). Additionally, range selection (e.g. using Shift + click) within the pinned area works the same way as selecting a range of rows within the scrollable area. The resulting selection includes all rows in between even if they are not currently pinned. Getting the selected rows through the API only returns a single instance of each selected record.
+- When the grid has no `primaryKey` set and remote data scenarios are enabled (when paging, sorting, filtering, scrolling trigger requests to a remote server to retrieve the data to be displayed in the grid), a row will lose the following state after a data request completes:
+  - Row Selection
+  - Row Expand/collapse
+  - Row Editing
+  - Row Pinning
 
 <div class="divider--half"></div>
 
@@ -417,7 +447,7 @@ $custom-grid-theme: grid-theme(
 );
 ```
 
-#### Using CSS variables 
+#### Using CSS variables
 
 The last step is to pass the custom grid theme:
 
@@ -427,7 +457,7 @@ The last step is to pass the custom grid theme:
 
 #### Using mixins
 
-In order to style components for Internet Explorer 11, you have to use different approach, since it doesn't support CSS variables. 
+In order to style components for Internet Explorer 11, you have to use different approach, since it doesn't support CSS variables.
 
 If the component is using an [`Emulated`](themes/sass/component-themes.md#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep`. However, in order to prevent the custom theme to leak to other components, be sure to include the `:host` selector before `::ng-deep`:
 
@@ -444,55 +474,55 @@ If the component is using an [`Emulated`](themes/sass/component-themes.md#view-e
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:540px" 
+<code-view style="height:540px"
            no-theming
-           data-demos-base-url="{environment:demosBaseUrl}" 
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-row-pinning-styling/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:540px" 
+<code-view style="height:540px"
            no-theming
-           data-demos-base-url="{environment:demosBaseUrl}" 
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/tree-grid-row-pinning-styling/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
-<code-view style="height:540px" 
+<code-view style="height:540px"
            no-theming
-           data-demos-base-url="{environment:demosBaseUrl}" 
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-row-pinning-styling/" >
 </code-view>
 
 }
 
 ## API References
-* [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
-* [IgxGridRow]({environment:angularApiUrl}/classes/igxgridrow.html)
-* [IgxTreeGridRow]({environment:angularApiUrl}/classes/igxtreegridrow.html)
-* [IgxHierarchicalGridRow]({environment:angularApiUrl}/classes/igxhierarchicalgridrow.html)
-* [RowType]({environment:angularApiUrl}/interfaces/RowType.html)
-* [@@igxNameComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
+- [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
+- [IgxGridRow]({environment:angularApiUrl}/classes/igxgridrow.html)
+- [IgxTreeGridRow]({environment:angularApiUrl}/classes/igxtreegridrow.html)
+- [IgxHierarchicalGridRow]({environment:angularApiUrl}/classes/igxhierarchicalgridrow.html)
+- [RowType]({environment:angularApiUrl}/interfaces/RowType.html)
+- [@@igxNameComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ## Additional Resources
 <div class="divider--half"></div>
 
-* [@@igComponent overview](@@igMainTopic.md)
-* [Virtualization and Performance](virtualization.md)
-* [Paging](paging.md)
-* [Filtering](filtering.md)
-* [Sorting](sorting.md)
-* [Summaries](summaries.md)
-* [Column Moving](column-moving.md)
-* [Column Resizing](column-resizing.md)
-* [Selection](selection.md)
+- [@@igComponent overview](@@igMainTopic.md)
+- [Virtualization and Performance](virtualization.md)
+- [Paging](paging.md)
+- [Filtering](filtering.md)
+- [Sorting](sorting.md)
+- [Summaries](summaries.md)
+- [Column Moving](column-moving.md)
+- [Column Resizing](column-resizing.md)
+- [Selection](selection.md)
 
 <div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

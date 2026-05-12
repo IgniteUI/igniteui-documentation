@@ -74,12 +74,12 @@ Use selector `[igxComboItem]`:
 
 ```html
 <igx-combo>
-	<ng-template igxComboItem let-display let-key="valueKey">
-		<div class="item">
-			<span class="state">State: {{ display[key] }}</span>
-			<span class="region">Region: {{ display.region }}</span>
-		</div>
-	</ng-template>
+ <ng-template igxComboItem let-display let-key="valueKey">
+  <div class="item">
+   <span class="state">State: {{ display[key] }}</span>
+   <span class="region">Region: {{ display.region }}</span>
+  </div>
+ </ng-template>
 </igx-combo>
 ```
 
@@ -156,6 +156,7 @@ Use selector `[igxComboClearIcon]`:
 ### Templating combo input
 The above-mentioned selectors, `[igxComboClearIcon]` and `[igxComboToggleIcon]`, used with templates will change how the respective buttons appear in the combo input.
 Passing content inside of the `igx-combo` also allows templating of the combo input similar to the way an `igx-input-group` can be templated (using `igx-prefix`, `igx-suffix` and `[igxLabel]`). The code snippet below illustrates how to add an appropriate label and `igx-prefix` to the combo input, as well as changing the `clear` button icon:
+
 ```html
     <igx-combo [data]="myMusic">
         ...
@@ -171,13 +172,13 @@ Passing content inside of the `igx-combo` also allows templating of the combo in
 ## Additional Resources
 <div class="divider--half"></div>
 
-* [Combo Features](combo-features.md)
-* [Combo Remote Binding](combo-remote.md)
-* [Template Driven Forms Integration](input-group.md)
-* [Reactive Forms Integration](angular-reactive-form-validation.md)
-* [Single Select ComboBox](simple-combo.md)
+- [Combo Features](combo-features.md)
+- [Combo Remote Binding](combo-remote.md)
+- [Template Driven Forms Integration](input-group.md)
+- [Reactive Forms Integration](angular-reactive-form-validation.md)
+- [Single Select ComboBox](simple-combo.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -25,6 +25,7 @@ import { IgxSliderModule } from 'igniteui-angular';
 })
 export class AppModule {}
 ```
+
 #### Bottom Ticks
 Let’s start with something simple and enable slider **ticks** below the slider and show every **even** number within a particular sequence.
 
@@ -42,8 +43,8 @@ public type = SliderType.RANGE;
 ```
 
 
-<code-view style="height: 140px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 140px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/discrete-slider-ticks-bottom/" >
 </code-view>
 
@@ -52,8 +53,8 @@ Let’s look at the ticks below the slider. Firstly the whole feature is enabled
 
 
 
-#### Disable secondary ticks and rotate primary ones.
-In the next sample all **secondary labels** are disabled and all **primary labels** rotated. 
+#### Disable secondary ticks and rotate primary ones
+In the next sample all **secondary labels** are disabled and all **primary labels** rotated.
 
 ```html
 <igx-slider
@@ -69,6 +70,7 @@ In the next sample all **secondary labels** are disabled and all **primary label
 ```
 
 Just to make it more interesting the **value** has been two-way data-bound to two inputs.
+
 ```html
   <div class="wrapper">
       <igx-input-group>
@@ -82,6 +84,7 @@ Just to make it more interesting the **value** has been two-way data-bound to tw
   </div>
 
 ```
+
 ```typescript
 ... {
 public type = SliderType.RANGE:
@@ -97,8 +100,8 @@ export class PriceRange {
 ```
 
 
-<code-view style="height: 240px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 240px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/slider-ticks-bottomtotop-labels/" >
 </code-view>
 
@@ -125,20 +128,21 @@ Let’s move on and see how the orientation  of the **ticks** is changed as well
 </button>
 
 ```
-The two buttons above are used just to control/update slider's **value**, but let's focus on the **ticks** manipulation. 
+
+The two buttons above are used just to control/update slider's **value**, but let's focus on the **ticks** manipulation.
 
 ```typescript
   public ticksOrientation = TicksOrientation.Mirror;
 ```
 
 
-<code-view style="height: 140px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 140px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/slider-secondary-ticks-mirror/" >
 </code-view>
 
 
-The change of the orientation has come from [`ticksOrientation`]({environment:angularApiUrl}/classes/igxslidercomponent.html#ticksorientation) input, which was changed from **Bottom**(default) to **Mirror**. This mirrors the visualization of the **ticks** and duplicates them at the top as well. 
+The change of the orientation has come from [`ticksOrientation`]({environment:angularApiUrl}/classes/igxslidercomponent.html#ticksorientation) input, which was changed from **Bottom**(default) to **Mirror**. This mirrors the visualization of the **ticks** and duplicates them at the top as well.
 
 #### Top ticks with visible labels
 There is an edge case where **thumb label** is hidden intentionally, and it is when [`ticksOrientaion`]({environment:angularApiUrl}/classes/igxslidercomponent.html#ticksorientation) is set to **Top** or **Mirror** and there are any visible **tick labels**. This prevents a bad user experience and overlap between the two labels. To gain a better view over that scenario let’s see the example below.
@@ -151,13 +155,14 @@ There is an edge case where **thumb label** is hidden intentionally, and it is w
     [ticksOrientation]="ticksOreintation"
 ></igx-slider>
 ```
+
 ```typescript
 public ticksOrientation = TicksOrientation.Top;
 ```
 
 
-<code-view style="height: 140px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 140px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/slider-primary-ticks-top/" >
 </code-view>
 
@@ -174,14 +179,15 @@ The feature has been aligned with the **labels view** feature as well. Let's see
     [secondaryTicks]="3"
 ></igx-slider>
 ```
+
 ```typescript
   public type: SliderType = SliderType.RANGE;
   public labels = ["04:00", "08:00", "12:00", "16:00", "20:00", "00:00"];
 ```
 
 
-<code-view style="height: 140px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 140px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/slider-timeframe/" >
 </code-view>
 
@@ -201,16 +207,17 @@ Lastly, we will see how we can provide a custom template for the **tick labels**
         </ng-template>
     </igx-slider>
 ```
-Applying [`IgxTickLabelTemplateDirective`]({environment:angularApiUrl}/classes/igxticklabeltemplatedirective.html) to the `ng-template` gives as control over all **tick labels**. 
+
+Applying [`IgxTickLabelTemplateDirective`]({environment:angularApiUrl}/classes/igxticklabeltemplatedirective.html) to the `ng-template` gives as control over all **tick labels**.
 
 > [!NOTE]
 > The [`context`]({environment:angularApiUrl}/classes/igxtickscomponent.html#context) executes per each tick.
 
-Which means that it provides a reference to: 
-  * each corresponding tick **value**
-  * If that tick is **primary**.
-  * **tick** index.
-  * And the [`labels`]({environment:angularApiUrl}/classes/igxslidercomponent.html#labels) collection if we have such one. 
+Which means that it provides a reference to:
+- each corresponding tick **value**
+- If that tick is **primary**.
+- **tick** index.
+- And the [`labels`]({environment:angularApiUrl}/classes/igxslidercomponent.html#labels) collection if we have such one.
 
 ```typescript
   public tickLabel(value, primary, index) {
@@ -222,11 +229,11 @@ Which means that it provides a reference to:
   }
 ```
 
-From the **tackLabel** callback above, we can see that every **primary** tick **value** has been rounded. 
+From the **tackLabel** callback above, we can see that every **primary** tick **value** has been rounded.
 
 
-<code-view style="height: 140px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 140px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/slider-tick-labels-template/" >
 </code-view>
 
@@ -234,16 +241,16 @@ From the **tackLabel** callback above, we can see that every **primary** tick **
 ## API References
 <div class="divider--half"></div>
 
-* [IgxSliderComponent]({environment:angularApiUrl}/classes/igxslidercomponent.html)
-* [IgxSliderComponent Styles]({environment:sassApiUrl}/themes#function-slider-theme)
-* [IRangeSliderValue]({environment:angularApiUrl}/interfaces/irangeslidervalue.html)
-* [SliderType]({environment:angularApiUrl}/enums/slidertype.html)
-* [TicksOrientation]({environment:angularApiUrl}/enums/ticksorientation.html)
-* [TickLabelsOrientation]({environment:angularApiUrl}/enums/ticklablesorientation.html)
+- [IgxSliderComponent]({environment:angularApiUrl}/classes/igxslidercomponent.html)
+- [IgxSliderComponent Styles]({environment:sassApiUrl}/themes#function-slider-theme)
+- [IRangeSliderValue]({environment:angularApiUrl}/interfaces/irangeslidervalue.html)
+- [SliderType]({environment:angularApiUrl}/enums/slidertype.html)
+- [TicksOrientation]({environment:angularApiUrl}/enums/ticksorientation.html)
+- [TickLabelsOrientation]({environment:angularApiUrl}/enums/ticklablesorientation.html)
 
-###Additional Resources
+### Additional Resources
 
-* [Slider overview](slider.md)
+- [Slider overview](slider.md)
 
 <div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
