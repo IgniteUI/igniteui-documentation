@@ -15,7 +15,22 @@ const toc: TocItem[] = existsSync(tocPath)
     : [];
 
 function hrefToSlug(href: string): string {
-    return href.replace(/\\/g, '/').replace(/\.(md|mdx)$/i, '').toLowerCase().replace(/\/index$/, '');
+    if (!href) return '';
+    let slug = href
+        .replace(/\\/g, '/')
+        .replace(/\.(md|mdx)$/i, '')
+        .toLowerCase();
+    slug = slug.replace(/\/index$/, '');
+    return slug === 'index' ? '' : slug;
+}
+
+function normalizeSlugPrefix(slugPrefix?: string): string {
+    return slugPrefix ? slugPrefix.replace(/^\/+|\/+$/g, '') : '';
+}
+
+function joinSlugPrefix(slugPrefix: string, slug: string): string {
+    if (!slugPrefix) return slug;
+    return slug ? `${slugPrefix}/${slug}` : slugPrefix;
 }
 
 function findDefaultSlug(items: TocItem[]): string | null {
@@ -52,7 +67,8 @@ function slugExistsInSidebar(items: SidebarEntry[], target: string): boolean {
 
 const typedSidebar = sidebar as SidebarEntry[];
 const defaultSlug = findDefaultSlug(toc);
-const prefixedDefault = defaultSlug ? `components/${defaultSlug}` : null;
+const slugPrefix = normalizeSlugPrefix(process.env.DOCS_SLUG_PREFIX);
+const prefixedDefault = defaultSlug !== null ? joinSlugPrefix(slugPrefix, defaultSlug) : null;
 const slug = (prefixedDefault && slugExistsInSidebar(typedSidebar, prefixedDefault))
     ? prefixedDefault
     : firstSlug(typedSidebar);

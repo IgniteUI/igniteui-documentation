@@ -730,23 +730,27 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         ...astroExtra
     } = options;
 
+    const normalizedSlugPrefix = source.slugPrefix ? source.slugPrefix.replace(/^\/+|\/+$/g, '') : '';
+    const prefixSegments = normalizedSlugPrefix ? normalizedSlugPrefix.split('/').filter(Boolean) : [];
+
     const sidebar = buildSidebarFromToc({
         tocPath: source.tocPath!,
         docsDir: source.docsDir!,
         exclude: sidebarOptions.exclude ?? [],
-        slugPrefix: source.slugPrefix,
+        slugPrefix: normalizedSlugPrefix || undefined,
     });
 
     // When slugPrefix is set the content collection base is a parent of docsDir.
     // Compute the content root so llms.txt and dev-middleware resolve slugs correctly.
-    const contentRoot = source.slugPrefix
-        ? path.resolve(source.docsDir!, ...source.slugPrefix.split('/').map(() => '..'))
+    const contentRoot = prefixSegments.length > 0
+        ? path.resolve(source.docsDir!, ...prefixSegments.map(() => '..'))
         : source.docsDir;
 
     // Expose env vars so consuming content.config.ts and components can read them.
     if (source.docsDir) {
         process.env.DOCS_SOURCE_PATH = source.docsDir;
     }
+    process.env.DOCS_SLUG_PREFIX = normalizedSlugPrefix;
     process.env.DOCS_BUILD_MODE = mode;
     process.env.DOCS_BASE = base ? base.replace(/\/$/, '') : '';
     if (!process.env.DOCS_ENV) {

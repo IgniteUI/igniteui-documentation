@@ -66,6 +66,15 @@ function hrefToSlug(href: string): string {
     return slug === 'index' ? '' : slug;
 }
 
+function normalizeSlugPrefix(slugPrefix?: string): string {
+    return slugPrefix ? slugPrefix.replace(/^\/+|\/+$/g, '') : '';
+}
+
+function joinSlugPrefix(slugPrefix: string, slug: string): string {
+    if (!slugPrefix) return slug;
+    return slug ? `${slugPrefix}/${slug}` : slugPrefix;
+}
+
 /**
  * Initial collapsed state by depth:
  *   • depth 0 (root groups, incl. `header:true` sections) → `collapsed: false`
@@ -91,7 +100,7 @@ function convertTocItem(
             collapsed: collapsedForDepth(depth),
         };
         if (item.href && docExists(docsDir, item.href, exclude)) {
-            group.items.push({ label: 'Overview', slug: slugPrefix + hrefToSlug(item.href) });
+            group.items.push({ label: 'Overview', slug: joinSlugPrefix(slugPrefix, hrefToSlug(item.href)) });
         }
         for (const child of item.items) {
             const entry = convertTocItem(docsDir, child, exclude, depth + 1, slugPrefix);
@@ -102,7 +111,7 @@ function convertTocItem(
 
     if (item.href) {
         if (!docExists(docsDir, item.href, exclude)) return null;
-        const entry: SidebarLink = { label: item.name, slug: slugPrefix + hrefToSlug(item.href) };
+        const entry: SidebarLink = { label: item.name, slug: joinSlugPrefix(slugPrefix, hrefToSlug(item.href)) };
         // Status badge — only one slot available in Starlight, priority order:
         if (item.new) entry.badge = { text: 'New', variant: 'success' };
         else if (item.preview) entry.badge = { text: 'Preview', variant: 'caution' };
@@ -147,8 +156,7 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [], slugPrefix
     const tocRaw = fs.readFileSync(tocPath, 'utf-8');
     const tocItems = tocPath.endsWith('.json') ? JSON.parse(tocRaw) : yaml.load(tocRaw) as TocItem[];
 
-    // Normalise: ensure trailing slash when set so slug concatenation is clean.
-    const prefix = slugPrefix ? slugPrefix.replace(/\/$/, '') + '/' : '';
+    const prefix = normalizeSlugPrefix(slugPrefix);
 
     const sidebar: SidebarEntry[] = [];
     let currentGroup: SidebarGroup | null = null;
@@ -159,7 +167,7 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [], slugPrefix
             // Root-level header section — open by default.
             currentGroup = { label: item.name!, items: [], collapsed: collapsedForDepth(0) };
             if (item.href && docExists(docsDir, item.href, exclude)) {
-                currentGroup.items.push({ label: 'Overview', slug: prefix + hrefToSlug(item.href) });
+                currentGroup.items.push({ label: 'Overview', slug: joinSlugPrefix(prefix, hrefToSlug(item.href)) });
             }
             continue;
         }
