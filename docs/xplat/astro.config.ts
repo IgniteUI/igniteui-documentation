@@ -2,7 +2,7 @@ import path from 'node:path';
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
-import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
+import { IGDOCS_PLATFORMS, IGDOCS_HOSTS, type NavLang } from 'docs-template/platform';
 import mdx from '@astrojs/mdx';
 
 // ---------------------------------------------------------------------------
@@ -304,8 +304,9 @@ function buildFilteredToc(): string {
 const filteredTocPath = buildFilteredToc();
 
 console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}`);
-const PROD_HOST = 'https://www.infragistics.com';
-const STAGING_HOST = 'https://staging.infragistics.com';
+// Hosts source: legacy igniteui-docfx environment.json (per-language).
+const PROD_HOST    = IGDOCS_HOSTS[lang].production;
+const STAGING_HOST = IGDOCS_HOSTS[lang].staging;
 
 const platformLangKey = lang === 'jp' ? `${platform}JP` : platform;
 const p = PLATFORMS[platformLangKey] ?? PLATFORMS[platform];
@@ -325,6 +326,10 @@ export default createDocsSite({
     platform: p.key,
     navLang: lang,
     mode,
+    build: {
+        format: 'file'
+    },
+    trailingSlash: 'never',
     source: {
         tocPath: filteredTocPath,
         docsDir: path.join(XPLAT_ROOT, 'components'),

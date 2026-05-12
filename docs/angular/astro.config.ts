@@ -2,7 +2,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
-import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
+import { IGDOCS_PLATFORMS, IGDOCS_HOSTS, type NavLang } from 'docs-template/platform';
 import { generateGridTopics } from './src/scripts/generate-grids.mjs';
 import mdx from '@astrojs/mdx';
 
@@ -29,9 +29,10 @@ if (docsEnv !== 'development' && docsEnv !== 'staging' && docsEnv !== 'productio
 
 const mode: DocsMode = docsEnv;
 
-// ── Site URL — varies by build mode ─────────────────────────────────────────
-const PROD_HOST = 'https://www.infragistics.com';
-const STAGING_HOST = 'https://staging.infragistics.com';
+// ── Site URL — varies by build mode and language ────────────────────────────
+// Hosts source: legacy igniteui-docfx environment.json (per-language).
+const PROD_HOST    = IGDOCS_HOSTS[docsLang].production;
+const STAGING_HOST = IGDOCS_HOSTS[docsLang].staging;
 
 const platformKey = docsLang === 'jp' ? 'AngularJP' : 'Angular';
 const { base } = IGDOCS_PLATFORMS[platformKey];
@@ -59,6 +60,7 @@ export default createDocsSite({
 	build: {
 		format: 'file'
 	},
+	trailingSlash: 'never',
 	productLinks: Object.values(IGDOCS_PLATFORMS)
 		.filter(p => p.lang === docsLang)
 		.map(({ label, key, base: b }) => ({
