@@ -57,22 +57,27 @@ public date = new Date(2000, 0, 1);
 ```
 
 If a string is bound to the picker, it needs to be a date-only string in the `ISO 8601` format:
+
 ```html
 <igx-date-picker [value]="'2000-01-01'"></igx-date-picker>
 ```
+
 More information about this can be found in [DateTime Editor's ISO section](date-time-editor.md#iso).
 
 Two-way binding is possible through `ngModel`:
+
 ```html
 <igx-date-picker [(ngModel)]="date"></igx-date-picker>
 ```
 
 As well as through the `value` input:
+
 ```html
 <igx-date-picker [(value)]="date"></igx-date-picker>
 ```
 
 Additionally, `formControlName` can be set on the picker, to use it in a reactive form:
+
 ```html
 <form [formGroup]="form">
     <igx-date-picker formControlName="datePicker"></igx-date-picker>
@@ -102,6 +107,7 @@ The [`IgxDatePickerComponent`]({environment:angularApiUrl}/classes/igxdatepicker
     <igx-icon igxSuffix (click)="datePicker.open()">keyboard_arrow_down</igx-icon>
 </igx-date-picker>
 ```
+
 The above sample will add an additional toggle icon at the end of the input, right after the default clear icon. This will not remove the default toggle icon, though as prefixes and suffixes can be stacked one after the other.
 
 #### Customizing the toggle and clear icons
@@ -122,12 +128,14 @@ The [`IgxDatePickerComponent`]({environment:angularApiUrl}/classes/igxdatepicker
 #### Custom action buttons
 The picker's action buttons can be modified in two ways:
 - the button's text can be changed using the [`todayButtonLabel`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html#todaybuttonlabel)) and the [`cancelButtonLabel`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html#cancelbuttonlabel) input properties:
+
 ```html
 <igx-date-picker [todayButtonLabel]="'今日'" [cancelButtonLabel]="'キャンセル'"></igx-date-picker>
 ```
 
 - the whole buttons can be templated using the [`igxPickerActions`]({environment:angularApiUrl}/classes/igxpickeractionsdirective.html) directive:
 With it you gain access to the date picker's [`calendar`](calendar.md) and all of its members:
+
 ```html
 <igx-date-picker>
     <ng-template igxPickerActions let-calendar>
@@ -154,9 +162,11 @@ Since the [`IgxDatePickerComponent`]({environment:angularApiUrl}/classes/igxdate
 
 ### Dialog Mode
 The [`IgxDatePickerComponent`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html) also supports a `dialog` mode:
+
 ```html
 <igx-date-picker [mode]="'dropdown'"></igx-date-picker>
 ```
+
 <code-view style="height: 540px;"
            data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/datepicker-sample-2/" >
@@ -193,6 +203,7 @@ The [`IgxDatePickerComponent`]({environment:angularApiUrl}/classes/igxdatepicker
 ```
 
 It also has as a [`spinDelta`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html#spindelta) input property which can be used to increment or decrement a specific date part of the currently set date.
+
 ```html
 <igx-date-picker [spinDelta]="{date: 2, month: 3, year: 4}"></igx-date-picker>
 ```
@@ -230,6 +241,7 @@ The [`IgxDatePickerComponent`]({environment:angularApiUrl}/classes/igxdatepicker
 The localization of the [`IgxDatePickerComponent`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html) can be controlled through its [`locale`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html#locale) input. Additionally, using the `igxCalendarHeader` and the `igxCalendarSubheader` templates, provided by the [`IgxCalendarComponent`]({environment:angularApiUrl}/classes/igxcalendarcomponent.html), you can specify the look of your header and subheader. More information on how to use these templates can be found in the [**IgxCalendarComponent**](calendar.md) topic.
 
 Here is how a date picker with Japanese locale definition would look like:
+
 ```html
 <igx-date-picker locale="ja-JP" [value]="date">
   <ng-template igxCalendarHeader let-format>
@@ -304,30 +316,30 @@ If the component is using the [`Emulated`](themes/sass/component-themes.md#view-
 ## API References
 <div class="divider--half"></div>
 
-* [IgxDatePickerComponent]({environment:angularApiUrl}/classes/igxdatepickercomponent.html)
-* [IgxDateTimeEditorDirective]({environment:angularApiUrl}/classes/igxdatetimeeditordirective.html)
-* [IgxCalendarComponent]({environment:angularApiUrl}/classes/igxcalendarcomponent.html)
-* [IgxCalendarComponent Styles]({environment:sassApiUrl}/themes#function-igx-calendar-theme)
-* [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-igx-overlay-theme)
-* [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
+- [IgxDatePickerComponent]({environment:angularApiUrl}/classes/igxdatepickercomponent.html)
+- [IgxDateTimeEditorDirective]({environment:angularApiUrl}/classes/igxdatetimeeditordirective.html)
+- [IgxCalendarComponent]({environment:angularApiUrl}/classes/igxcalendarcomponent.html)
+- [IgxCalendarComponent Styles]({environment:sassApiUrl}/themes#function-igx-calendar-theme)
+- [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-igx-overlay-theme)
+- [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
 
 ## Theming Dependencies
 <div class="divider--half"></div>
 
-* [IgxCalendar Theme]({environment:sassApiUrl}/themes#function-igx-calendar-theme)
-* [IgxOverlay Theme]({environment:sassApiUrl}/themes#function-igx-overlay-theme)
-* [IgxIcon Theme]({environment:sassApiUrl}/themes#function-igx-icon-theme)
-* [IgxButton Theme]({environment:sassApiUrl}/themes#function-igx-button-theme)
-* [IgxInputGroup Theme]({environment:sassApiUrl}/themes#function-igx-input-group-theme)
-* [IgxDropDown Theme]({environment:sassApiUrl}/themes#function-igx-drop-down-theme)
+- [IgxCalendar Theme]({environment:sassApiUrl}/themes#function-igx-calendar-theme)
+- [IgxOverlay Theme]({environment:sassApiUrl}/themes#function-igx-overlay-theme)
+- [IgxIcon Theme]({environment:sassApiUrl}/themes#function-igx-icon-theme)
+- [IgxButton Theme]({environment:sassApiUrl}/themes#function-igx-button-theme)
+- [IgxInputGroup Theme]({environment:sassApiUrl}/themes#function-igx-input-group-theme)
+- [IgxDropDown Theme]({environment:sassApiUrl}/themes#function-igx-drop-down-theme)
 
 
 ## Additional Resources
-* [Time Picker](time-picker.md)
-* [Date Time Editor](date-time-editor.md)
-* [Date Range Picker](date-range-picker.md)
-* [Reactive Forms Integration](angular-reactive-form-validation.md)
+- [Time Picker](time-picker.md)
+- [Date Time Editor](date-time-editor.md)
+- [Date Range Picker](date-range-picker.md)
+- [Reactive Forms Integration](angular-reactive-form-validation.md)
 
 Our community is active and always welcoming to new ideas.
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -12,8 +12,8 @@ The Button directive within Ignite UI for Angular is intended to be used on any 
 ### Button Demo
 
 
-<code-view style="height: 436px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 436px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/buttons-sample-1/" >
 </code-view>
 
@@ -102,6 +102,7 @@ A floating action button and use an icon to display:
   <igx-icon fontSet="material">edit</igx-icon>
 </button>
 ```
+
 <div class="sample-container loading" style="height: 74px">
     <iframe seamless width="100%" height="100%" frameborder="0" data-src="{environment:demosBaseUrl}/data-entries/buttons-sample-6" class="lazyload">
 </iframe></div>
@@ -113,11 +114,13 @@ Or use icons as buttons:
   <igx-icon fontSet="material">search</igx-icon>
 </button>
 ```
+
 ```html
 <button igxButton="icon" igxRipple igxButtonColor="#E41C77" igxRippleCentered="true">
   <igx-icon fontSet="material">favorite</igx-icon>
 </button>
 ```
+
 Icon results:
 <div class="sample-container loading" style="height: 54px">
     <iframe seamless width="100%" height="100%" frameborder="0" data-src="{environment:demosBaseUrl}/data-entries/buttons-sample-7" class="lazyload">
@@ -126,6 +129,7 @@ Icon results:
 <div class="divider--half"></div>
 
 ### Button types
+
 | Name   | Description |
 |:----------|:-------------:|
 | `flat` | The default button type. Uses transparent background and the secondary theme color from the palette color for the text. |
@@ -138,7 +142,7 @@ Icon results:
 
 We can allow the user to choose the display density of the [`igxButton`]({environment:angularApiUrl}/classes/igxbuttondirective.html) by using its [`displayDensity`]({environment:angularApiUrl}/classes/igxbuttondirective.html#displaydensity) input. We will do this by importing the `IgxButtonGroupModule` and using the [**IgxButtonGroup**](button-group.md) to display all density values. This way whenever one gets selected, we will update our own **density** property that is bound to the [`displayDensity`]({environment:angularApiUrl}/classes/igxbuttondirective.html#displaydensity) of the button.
 
-> [!NOTE] 
+> [!NOTE]
 > The `icon` type button does not introduce visual changes for different display density values.
 
 ```typescript
@@ -176,8 +180,8 @@ public selectDensity(event) {
 
 And the final result:
 
-<code-view style="height: 300px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 300px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/buttons-display-density/" >
 </code-view>
 
@@ -186,14 +190,14 @@ And the final result:
 ## API References
 <div class="divider--half"></div>
 
-* [IgxButtonDirective]({environment:angularApiUrl}/classes/igxbuttondirective.html)
-* [IgxButton Styles]({environment:sassApiUrl}/themes#function-button-theme)
-* [IgxRippleDirective]({environment:angularApiUrl}/classes/igxrippledirective.html)
+- [IgxButtonDirective]({environment:angularApiUrl}/classes/igxbuttondirective.html)
+- [IgxButton Styles]({environment:sassApiUrl}/themes#function-button-theme)
+- [IgxRippleDirective]({environment:angularApiUrl}/classes/igxrippledirective.html)
 
 ## Additional Resources
 <div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

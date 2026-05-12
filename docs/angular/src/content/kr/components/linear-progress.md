@@ -5,14 +5,14 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-##Linear Progress
+## Linear Progress
 <p class="highlight">The Ignite UI for Angular Linear Progress Bar Indicator component provides a visual indicator of an application’s process as it changes. The indicator updates its appearance as its state changes. The indicator can be styled with a choice of colors in stripes or solids.</p>
 <div class="divider"></div>
 
 ### Linear Progress Demo
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/linear-progressbar-sample-1/" >
 </code-view>
 
@@ -20,6 +20,7 @@ _language: kr
 
 ### Usage
 To get started with the Ignite UI for Angular Linear Progress, we should first import the **IgxProgressBarModule** in the **app.module.ts** file:
+
 ```typescript
 // app.module.ts
 
@@ -59,6 +60,7 @@ that the speed of loading depends on the [`max`]({environment:angularApiUrl}/cla
 </div>
 ...
 ```
+
 ```typescript
   @ViewChildren(IgxLinearProgressBarComponent, { read: IgxLinearProgressBarComponent })
   public linearBars: QueryList<IgxLinearProgressBarComponent>;
@@ -85,10 +87,11 @@ that the speed of loading depends on the [`max`]({environment:angularApiUrl}/cla
       return Math.floor(Math.random() * (max - min + 1) + min);
   }
 ```
+
 If all went well, you should see something like the following in your browser:
 
-<code-view style="height:500px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:500px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/linear-progressbar/" >
 </code-view>
 
@@ -155,10 +158,11 @@ And now let's enhance our example and create different types of loading bars, th
       return Math.floor(Math.random() * (max - min + 1) + min);
   }
 ```
+
 So if we set up everything correctly, let's see what happened in the browser:
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/linear-progressbar-sample-1/" >
 </code-view>
 
@@ -166,6 +170,7 @@ So if we set up everything correctly, let's see what happened in the browser:
 
 Finally let's make our sample even more exciting and good as we set the following attributes: [`textAlign`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#textalign), [`textVisibility`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#textvisibility), [`textTop`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#texttop) and [`text`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#text).
 And now let's see how our code looks:
+
 ```html
 ...
 <section class="sample-content">
@@ -251,8 +256,8 @@ export class LinearProgressbarSample2Component implements OnInit {
 And now let's see it in the browser:
 
 
-<code-view style="height:700px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:700px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/linear-progressbar-sample-2/" >
 </code-view>
 
@@ -261,12 +266,12 @@ And now let's see it in the browser:
 > [!NOTE]
 > If the [`step`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#step) input value is not defined, the progress update is **1% of the [`max`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#max) value**. In case you want the progress to be faster, the [`step`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#step) value should be greater than (**[`max`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#max) * 1%**),  respectfully for slower progress the [`step`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#step) should be less than the default progress update.
 
-> If the [`step`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#step) value is defined greater than the [`value`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#value) input, there is only one update, which gets **the value that is passed for progress update**.   
+> If the [`step`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#step) value is defined greater than the [`value`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#value) input, there is only one update, which gets **the value that is passed for progress update**.
 <div class="divider--half"></div>
 
 ### API
 <div class="divider--half"></div>
 
-* [IgxLinearProgressBarComponent]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html)
-* [IgxLinearProgressBarComponent Styles]({environment:sassApiUrl}/themes#function-progress-linear-theme)
-* [IgxTextAlign]({environment:angularApiUrl}/enums/igxtextalign.html)
+- [IgxLinearProgressBarComponent]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html)
+- [IgxLinearProgressBarComponent Styles]({environment:sassApiUrl}/themes#function-progress-linear-theme)
+- [IgxTextAlign]({environment:angularApiUrl}/enums/igxtextalign.html)

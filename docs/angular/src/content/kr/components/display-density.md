@@ -9,12 +9,12 @@ _language: kr
 
 Display density configuration can significantly improve the visual representation of large amount of data. In Ignite UI for Angular, we provide a pre-defined set of options – comfortable, compact and cosy.
 
-Using the [DisplayDensityToken]({environment:angularApiUrl}/index.html#displaydensitytoken) injection token, you can configure the display density on an application and/or on a component level. 
+Using the [DisplayDensityToken]({environment:angularApiUrl}/index.html#displaydensitytoken) injection token, you can configure the display density on an application and/or on a component level.
 
 ### Display Density Demo
 
-<code-view style="height: 250px; width: 600px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 250px; width: 600px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/theming/density/" >
 </code-view>
 
@@ -48,15 +48,15 @@ To set the display density explicitly for a control, use the [`displayDensity`](
 ## API References
 <div class="divider"></div>
 
-* [DisplayDensity]({environment:angularApiUrl}/enums/displaydensity.html)
-* [DisplayDensityBase]({environment:angularApiUrl}/classes/displaydensitybase.html)
-* [IDisplayDensityOptions]({environment:angularApiUrl}/interfaces/idisplaydensityoptions.html)
-* [DisplayDensityToken]({environment:angularApiUrl}/index.html#displaydensitytoken)
+- [DisplayDensity]({environment:angularApiUrl}/enums/displaydensity.html)
+- [DisplayDensityBase]({environment:angularApiUrl}/classes/displaydensitybase.html)
+- [IDisplayDensityOptions]({environment:angularApiUrl}/interfaces/idisplaydensityoptions.html)
+- [DisplayDensityToken]({environment:angularApiUrl}/index.html#displaydensitytoken)
 
 ## Additional Resources
 <div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

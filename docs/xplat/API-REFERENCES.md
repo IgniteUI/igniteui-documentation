@@ -155,14 +155,14 @@ export interface ApiPackageConfig {
 
 | `pkg=` key | Content area | React package | Angular `classSuffix` |
 |------------|-------------|---------------|----------------------|
-| `"core"` *(default)* | Components, inputs, layouts (Toast, Badge, Accordion…) | `igniteui-react` | — |
+| `"core"` _(default)_ | Components, inputs, layouts (Toast, Badge, Accordion…) | `igniteui-react` | — |
 | `"charts"` | All chart types (CategoryChart, FinancialChart, XamDataChart…) | `igniteui-react-charts` | `Component` |
 | `"grids"` | Data grids, columns, grid events | `igniteui-react-grids` | — |
 | `"gauges"` | Radial/linear gauges, bullet graph | `igniteui-react-gauges` | `Component` |
 | `"maps"` | Geographic map and series | `igniteui-react-maps` | `Component` |
 | `"inputs"` | Input controls | `igniteui-react-inputs` | — |
 | `"layouts"` | Layout components | `igniteui-react-layouts` | — |
-| `"excel"` | Excel library (Workbook, Worksheet…) | `igniteui-react-excel` | — *(no suffix — utility classes)* |
+| `"excel"` | Excel library (Workbook, Worksheet…) | `igniteui-react-excel` | — _(no suffix — utility classes)_ |
 | `"spreadsheet"` | Spreadsheet component | `igniteui-react-spreadsheet` | `Component` |
 | `"datasources"` | Data source utilities | `igniteui-react-datasources` | — |
 
@@ -194,7 +194,7 @@ Use anywhere in prose to link a class, interface, enum, type alias, variable, or
 
 | `kind=` | TypeDoc URL segment | Casing |
 |---------|--------------------|----|
-| `"class"` *(default)* | `/classes/` | lowercased |
+| `"class"` _(default)_ | `/classes/` | lowercased |
 | `"interface"` | `/interfaces/` | preserved |
 | `"enum"` | `/enums/` | preserved |
 | `"type"` | `/types/` | preserved |
@@ -485,6 +485,7 @@ The MDX parser tries to evaluate them even inside comments. Fix by converting to
 When updating any MDX file to use `ApiLink` and `ApiRef`:
 
 1. **Add imports** immediately after the closing `---` of the frontmatter — never inside a code fence:
+
    ```mdx
    import ApiRef from '@/components/mdx/ApiRef.astro';
    import ApiLink from '@/components/mdx/ApiLink.astro';

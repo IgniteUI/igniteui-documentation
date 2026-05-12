@@ -5,20 +5,20 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-##Toggle
+## Toggle
 
 The [`igxToggle`]({environment:angularApiUrl}/classes/igxtoggledirective.html) directive allows the users to open, to interact with, to apply animations, and to close a toggle container. All toggle components implement the [`igxToggle`]({environment:angularApiUrl}/classes/igxtoggledirective.html) or [`igxToggleAction`]({environment:angularApiUrl}/classes/igxtoggleactiondirective.html) internally, and users can implement toggle-based components and views, like dropdowns, while the [`igxToggleAction`]({environment:angularApiUrl}/classes/igxtoggleactiondirective.html) directive controls other components until the toggle umbrella.
 
-###Toggle Demo
+### Toggle Demo
 
 
-<code-view style="height: 370px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 370px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/toggle/" >
 </code-view>
 
 
-##Usage
+## Usage
 The toggle allows you easily to wrap some content into a box which easily can be opened and closed.
 To get started with the IgniteUI for Angular Toggle, let's first import the **IgxToggleModule** in our **app.module.ts**. We are also planning to take advantage of [**igxButton**]({environment:angularApiUrl}/classes/igxbuttondirective.html) directive so we will have to import **IgxButtonModule** into the **app.module.ts** too.
 
@@ -35,6 +35,7 @@ import { IgxToggleModule, IgxButtonModule } from 'igniteui-angular'
 })
 export class AppModule {}
 ```
+
 Then in the template of our component we can apply the directive on the element we want to be togglable.
 
 ```html
@@ -77,13 +78,13 @@ export class Class {
 If all went well, you should see the following in your browser:
 
 
-<code-view style="height: 370px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 370px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/toggle-sample-1/" >
 </code-view>
 
 
-In the next sample we'll use different positioning strategy so the content is displayed below the button. 
+In the next sample we'll use different positioning strategy so the content is displayed below the button.
 
 ```typescript
 // app.module.ts
@@ -139,15 +140,15 @@ The [`igxToggle`]({environment:angularApiUrl}/classes/igxtoggledirective.html) u
 
 
 
-<code-view style="height: 370px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 370px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/toggle/" >
 </code-view>
 
 
 ### Automatic toggle actions
 
-In order to prevent the invocation of these methods there is a directive which has `onClick` handler and changes the state to the toggle we are referred to. So let's dive in. If we would like to take advantage of this functionality we will have to use [**IgxToggleActionDirective**]({environment:angularApiUrl}/classes/igxtoggleactiondirective.html) which is comming from the same [**IgxToggleModule**]({environment:angularApiUrl}/classes/igxtogglemodule.html).
+In order to prevent the invocation of these methods there is a directive which has `onClick` handler and changes the state to the toggle we are referred to. So let's dive in. If we would like to take advantage of this functionality we will have to use [**IgxToggleActionDirective**]({environment:angularApiUrl}/classes/igxtoggleactiondirective.html) which is coming from the same [**IgxToggleModule**]({environment:angularApiUrl}/classes/igxtogglemodule.html).
 
 ```typescript
 // app.module.ts
@@ -178,8 +179,8 @@ Then in the template we need to declare [**IgxToggleActionDirective**]({environm
 After these changes the toggle should work exactly in the same way.
 
 
-<code-view style="height: 370px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 370px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/toggle-sample-2/" >
 </code-view>
 
@@ -216,8 +217,8 @@ export class AppModule {}
 If all went well, it will look like this:
 
 
-<code-view style="height: 370px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 370px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/toggle-sample-3/" >
 </code-view>
 
@@ -232,6 +233,7 @@ Directive instance is exported as `overlay-outlet`, so it can be assigned within
 ```
 
 This allows to provide the `outlet` templates variable as a setting to the toggle action:
+
 ```html
 <button [igxToggleAction]="reference" [igxToggleOutlet]="outlet">Toggle</button>
 <custom-component #reference></custom-component>
@@ -242,20 +244,20 @@ This allows to provide the `outlet` templates variable as a setting to the toggl
 In this article we covered the details of how to use Toggle directive. We created a content which would possible to be hidden or shown by invoking programmatically methods which determine this behaviour.
 Furthermore we added another helping directive which controls automatically this same behaviour by giving it the appropriate toggle reference. In the end we have registered our [**igxToggle**]({environment:angularApiUrl}/classes/igxtoggledirective.html) directive in the **igxNavigationService** provider by giving it an ID, which we then provided to our helping **igxToggleAction** directive.
 
-###API References
+### API References
 <div class="divider"></div>
 
-* [IgxToggleDirective]({environment:angularApiUrl}/classes/igxtoggledirective.html)
-* [IgxToggleActionDirective]({environment:angularApiUrl}/classes/igxtoggleactiondirective.html)
-* [IgxOverlayOutletDirective]({environment:angularApiUrl}/classes/igxoverlayoutletdirective.html)
-* [IgxOverlayService]({environment:angularApiUrl}/classes/igxoverlayservice.html)
+- [IgxToggleDirective]({environment:angularApiUrl}/classes/igxtoggledirective.html)
+- [IgxToggleActionDirective]({environment:angularApiUrl}/classes/igxtoggleactiondirective.html)
+- [IgxOverlayOutletDirective]({environment:angularApiUrl}/classes/igxoverlayoutletdirective.html)
+- [IgxOverlayService]({environment:angularApiUrl}/classes/igxoverlayservice.html)
 
 <div class="divider"></div>
 
-###Additional Resources
+### Additional Resources
 
 <div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

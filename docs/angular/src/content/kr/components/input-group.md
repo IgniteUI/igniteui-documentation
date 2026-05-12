@@ -98,21 +98,21 @@ Our inputs could be styled differently by using the [`type`]({environment:angula
 
 
 ## API References
-* [IgxHintDirective]({environment:angularApiUrl}/classes/igxhintdirective.html)
-* [IgxInputDirective]({environment:angularApiUrl}/classes/igxinputdirective.html)
-* [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
-* [IgxInputGroupComponent Styles]({environment:sassApiUrl}/themes#function-input-group-theme)
+- [IgxHintDirective]({environment:angularApiUrl}/classes/igxhintdirective.html)
+- [IgxInputDirective]({environment:angularApiUrl}/classes/igxinputdirective.html)
+- [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
+- [IgxInputGroupComponent Styles]({environment:sassApiUrl}/themes#function-input-group-theme)
 
 ## Additional Resources
 Related topics:
 
-* [Reactive Forms Integration](angular-reactive-form-validation.md)
-* [Label & Input](label-input.md)
-* [Combo](combo.md)
-* [Select](select.md)
-* [Display Density](display-density.md)
+- [Reactive Forms Integration](angular-reactive-form-validation.md)
+- [Label & Input](label-input.md)
+- [Combo](combo.md)
+- [Select](select.md)
+- [Display Density](display-density.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

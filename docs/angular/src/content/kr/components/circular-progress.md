@@ -5,7 +5,7 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-##Circular Progress
+## Circular Progress
 <p class="highlight">The Ignite UI for Angular Circular Progress Indicator component provides a visual indicator of an application’s process as it changes. The circular indicator updates its appearance as its state changes.<p>
 <div class="divider"></div>
 
@@ -19,8 +19,8 @@ The following example specifies the animation duration set to 5 seconds.
 
 ### Circular Progress Demo
 
-<code-view style="height:400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/circular-progressbar/" >
 </code-view>
 
@@ -29,6 +29,7 @@ The following example specifies the animation duration set to 5 seconds.
 ### Usage
  Circular Progress Indicator can be used to show a user that he is in a process.
 To get started with the Ignite UI for Angular Circular Progress,  we should first import import the **IgxProgressBarModule** in the **app.module.ts** file:
+
 ```typescript
 // app.module.ts
 
@@ -42,6 +43,7 @@ import { IgxProgressBarModule } from 'igniteui-angular';
 })
 export class AppModule {}
 ```
+
 And now to have a better understanding how everything works, let's create a simple example, in which we will simulate a real process progress, that is
 triggered on button click. In order to make our example better we will need to import some additional modules in the **app.module.ts** file.
 
@@ -57,6 +59,7 @@ import {
 })
 export class AppModule {}
 ```
+
 Notice that the **igx-circular-bar** emits [`onProgressChanged`]({environment:angularApiUrl}/classes/igxcircularprogressbarcomponent.html#onprogresschanged) event that outputs an object that gives us `{currentValue: 65, previousValue: 64}` on each step.
 
 ```html
@@ -112,10 +115,10 @@ Notice that the **igx-circular-bar** emits [`onProgressChanged`]({environment:an
   }
 ```
 
-And now if we set up everything correctly we should have the folllowing displayed in our browser:
+And now if we set up everything correctly we should have the following displayed in our browser:
 
-<code-view style="height:400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/circular-progressbar/" >
 </code-view>
 
@@ -124,11 +127,11 @@ And now if we set up everything correctly we should have the folllowing displaye
 > [!NOTE]
 > The default progress update is **1% of the [`max`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#max) value**, this occurs when the [`step`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#step) value is not defined. For faster progress, the [`step`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#step) value should be defined greater than (**[`max`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#max) * 1%**),  for slower, it should be less than the default progress update.
 
-> When providing a value for the [`step`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#step) input, define this value greater than the [`value`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#value) input, otherwise there will be only one update, which gets **the value that is passed for progress update**.   
+> When providing a value for the [`step`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#step) input, define this value greater than the [`value`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#value) input, otherwise there will be only one update, which gets **the value that is passed for progress update**.
 <div class="divider--half"></div>
 
 ### API
 <div class="divider--half"></div>
 
-* [IgxCircularProgressBarComponent]({environment:angularApiUrl}/classes/igxcircularprogressbarcomponent.html)
-* [IgxCircularProgressBarComponent Styles]({environment:sassApiUrl}/themes#function-progress-circular-theme)
+- [IgxCircularProgressBarComponent]({environment:angularApiUrl}/classes/igxcircularprogressbarcomponent.html)
+- [IgxCircularProgressBarComponent Styles]({environment:sassApiUrl}/themes#function-progress-circular-theme)

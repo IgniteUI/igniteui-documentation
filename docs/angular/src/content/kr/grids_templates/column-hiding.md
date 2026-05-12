@@ -28,8 +28,8 @@ The Material UI Grid has a built-in column hiding UI, which can be used through 
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-column-hiding-toolbar-sample/" >
 </code-view>
 
@@ -37,8 +37,8 @@ The Material UI Grid has a built-in column hiding UI, which can be used through 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-column-hiding-toolbar/" >
 </code-view>
 
@@ -46,8 +46,8 @@ The Material UI Grid has a built-in column hiding UI, which can be used through 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
-<code-view style="height:570px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:570px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-hiding/" >
 </code-view>
 
@@ -59,6 +59,7 @@ The Material UI Grid has a built-in column hiding UI, which can be used through 
 @@igComponent를 작성하고 데이터를 바인딩하는 것으로 시작합니다. 또한, 열에서 필터링 및 정렬을 사용할 수 있습니다.
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <!--columnHiding.component.html-->
 
@@ -75,8 +76,10 @@ The Material UI Grid has a built-in column hiding UI, which can be used through 
     <igx-column [field]="'Phone'" dataType="string" [sortable]="true"></igx-column>
 </igx-grid>
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <!--columnHiding.component.html-->
 
@@ -95,8 +98,10 @@ The Material UI Grid has a built-in column hiding UI, which can be used through 
     <igx-column [field]="'Phone'" dataType="string" [sortable]="true"></igx-column>
 </igx-tree-grid>
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid class="hgrid" [data]="localdata"
         [height]="'560px'" [width]="'100%'" columnWidth="200px" [allowFiltering]="true" #hGrid>
@@ -134,6 +139,7 @@ The Material UI Grid has a built-in column hiding UI, which can be used through 
 
         </igx-hierarchical-grid>
 ```
+
 }
 
 ### 도구 모음의 열 숨기기 UI
@@ -142,6 +148,7 @@ The built-in Column Hiding UI is placed inside an [`IgxDropDownComponent`]({envi
 For this purpose all we have to do is set both the [`IgxGridToolbarActionsComponent`]({environment:angularApiUrl}/classes/igxgridtoolbaractionscomponent.html) and the [`IgxGridToolbarHidingComponent`]({environment:angularApiUrl}/classes/igxgridtoolbarhidingcomponent.html) inside of the @@igComponent. We will also add a title to our toolbar by using the [`IgxGridToolbarTitleComponent`]({environment:angularApiUrl}/classes/igxgridtoolbartitlecomponent.html) and a custom style for our @@igComponent's wrapper.
 
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <!--columnHiding.component.html-->
 <div class="hgrid-sample">
@@ -156,6 +163,7 @@ For this purpose all we have to do is set both the [`IgxGridToolbarActionsCompon
     </igx-hierarchical-grid>
 </div>
 ```
+
 ```css
 /* columnHiding.component.css */
 .photo {
@@ -166,9 +174,11 @@ For this purpose all we have to do is set both the [`IgxGridToolbarActionsCompon
     margin: 1px
 }
 ```
+
 }
 
 @@if (igxName === 'IgxGrid' || igxName === 'IgxTreeGrid') {
+
 ```html
 <!--columnHiding.component.html-->
 
@@ -192,6 +202,7 @@ For this purpose all we have to do is set both the [`IgxGridToolbarActionsCompon
     margin: 10px;
 }
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
@@ -235,6 +246,7 @@ export class AppModule {}
 [`IgxColumnHidingComponent`]({environment:angularApiUrl}/classes/igxcolumnhidingcomponent.html)를 작성합니다! 이 애플리케이션에서는 그리드 옆에 배치합니다(도구 모음의 열 숨기기 UI와 다르며, 컴포넌트는 디자인에 의해 드롭 다운 안에 있음). 또한, 컴포넌트의 [`columns`]({environment:angularApiUrl}/classes/igxcolumnhidingcomponent.html#columns) 속성을 @@igComponent의 열에 설정하고 일부 사용자 스타일을 추가하여 애플리케이션을 더욱 유용하게 합니다!
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <!--columnHiding.component.html-->
 
@@ -248,8 +260,10 @@ export class AppModule {}
     </@@igSelector>
 </div>
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <!--columnHiding.component.html-->
 
@@ -263,9 +277,11 @@ export class AppModule {}
     </@@igSelector>
 </div>
 ```
+
 }
 
 @@if (igxName === 'IgxGrid' || igxName === 'IgxTreeGrid') {
+
 ```css
 /* columnHiding.component.css */
 
@@ -303,6 +319,7 @@ export class AppModule {}
     margin-left: 30px;    
 }
 ```
+
 }
 
 #### 제목 및 필터 프롬프트 추가
@@ -368,6 +385,7 @@ export class AppModule {}
 단지 [`disableHiding`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#disablehiding) 속성을 true로 설정하면 사용자가 열 숨기기 UI를 통해 열을 숨길 수 없도록 방지할 수 있습니다.
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <!--columnHiding.component.html-->
 
@@ -380,8 +398,10 @@ export class AppModule {}
     </igx-grid>
 </div>
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <!--columnHiding.component.html-->
 
@@ -394,14 +414,15 @@ export class AppModule {}
     </igx-tree-grid>
 </div>
 ```
+
 }
 
 모든 것이 잘 진행되었다면 다음과 같이 열 숨기기 UI 컴포넌트가 표시됩니다:
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-column-hiding-sample/" >
 </code-view>
 
@@ -409,8 +430,8 @@ export class AppModule {}
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-column-hiding/" >
 </code-view>
 
@@ -428,45 +449,45 @@ export class AppModule {}
 
 열 숨기기 UI에는 아래에 나열된 몇 가지 API가 추가로 포함되어 있습니다.
 
-* [IgxColumnHidingComponent]({environment:angularApiUrl}/classes/igxcolumnhidingcomponent.html)
-* [IgxColumnHidingComponent 스타일]({environment:sassApiUrl}/themes#function-igx-column-hiding-theme)
+- [IgxColumnHidingComponent]({environment:angularApiUrl}/classes/igxcolumnhidingcomponent.html)
+- [IgxColumnHidingComponent 스타일]({environment:sassApiUrl}/themes#function-igx-column-hiding-theme)
 
 사용된 상대 API가 있는 추가 컴포넌트 및/또는 지시문:
 
 [`IgxColumnComponent`]({environment:angularApiUrl}/classes/igxcolumncomponent.html) 속성:
-* [disableHiding]({environment:angularApiUrl}/classes/igxcolumncomponent.html#disablehiding)
+- [disableHiding]({environment:angularApiUrl}/classes/igxcolumncomponent.html#disablehiding)
 
 [`IgxGridToolbarComponent`]({environment:angularApiUrl}/classes/igxgridtoolbarcomponent.html) 속성:
-* [showProgress]({environment:angularApiUrl}/classes/IgxGridToolbarComponent.html#showProgress)
+- [showProgress]({environment:angularApiUrl}/classes/IgxGridToolbarComponent.html#showProgress)
 
 [`IgxGridToolbarComponent`]({environment:angularApiUrl}/classes/igxgridtoolbarcomponent.html) 메소드:
 
 [`@@igxNameComponent`]({environment:angularApiUrl}/classes/@@igTypeDoc.html) 이벤트:
-* [columnVisibilityChanged]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnVisibilityChanged)
+- [columnVisibilityChanged]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnVisibilityChanged)
 
 [IgxRadioComponent]({environment:angularApiUrl}/classes/igxradiocomponent.html)
 
 스타일:
 
-* [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
-* [IgxRadioComponent 스타일]({environment:sassApiUrl}/themes#function-radio-theme)
+- [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [IgxRadioComponent 스타일]({environment:sassApiUrl}/themes#function-radio-theme)
 
 ### 추가 리소스
 <div class="divider--half"></div>
 
-* [@@igComponent 개요](@@igMainTopic.md)
-* [가상화 및 성능](virtualization.md)
-* [필터링](filtering.md)
-* [페이징](paging.md)
-* [정렬](sorting.md)
-* [요약](summaries.md)
-* [열 핀 고정](column_pinning.md)
-* [열 크기 조정](column-resizing.md)
-* [선택](selection.md)
+- [@@igComponent 개요](@@igMainTopic.md)
+- [가상화 및 성능](virtualization.md)
+- [필터링](filtering.md)
+- [페이징](paging.md)
+- [정렬](sorting.md)
+- [요약](summaries.md)
+- [열 핀 고정](column_pinning.md)
+- [열 크기 조정](column-resizing.md)
+- [선택](selection.md)
 @@if (igxName !== 'IgxHierarchicalGrid') {* [검색](search.md)}
 
 <div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -47,16 +47,16 @@ Typography is a separate module in our Sass theming framework, which is decouple
 
 Learn how to create themes:
 
-* [Global Themes](./global-theme.md)
-* [Component Themes](./component-themes.md)
+- [Global Themes](./global-theme.md)
+- [Component Themes](./component-themes.md)
 
 Learn how to create a component schema:
-* [Schemas](./schemas.md)
+- [Schemas](./schemas.md)
 
 Learn how to build color palettes:
-* [Palettes](./palette.md)
+- [Palettes](./palette.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

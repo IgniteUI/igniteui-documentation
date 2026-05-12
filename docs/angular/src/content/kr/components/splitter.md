@@ -10,8 +10,8 @@ The Ignite UI for Angular Splitter component provides the ability to create layo
 
 ### Demo
 
-<code-view style="height: 400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/splitter-horizontal-sample/" >
 </code-view>
 
@@ -21,6 +21,7 @@ The Ignite UI for Angular Splitter component provides the ability to create layo
 ### Usage
 
 To start using the **igxSplitter** component, you first need to import the **IgxSplitterModule** in your **app.module**:
+
 ```typescript
 // app.module.ts
 ...
@@ -35,6 +36,7 @@ export class AppModule {}
 ```
 
 After that you can add the markup for your component:
+
 ```html
 <!-- splitter.component.html -->
 <igx-splitter>
@@ -49,15 +51,18 @@ After that you can add the markup for your component:
     </igx-splitter-pane>
 </igx-splitter>
 ```
+
 **igxSplitter** is initialized with the **igx-splitter** tag. Multiple splitter panes can be defined under a single **igx-splitter** component. The content of the pane is templatable and will be rendered in its own resizable container.
 
 
 #### Orientation
 
 The splitter can be vertical or horizontal, which is defined by the [`type`]({environment:angularApiUrl}/classes/igxsplittercomponent.html#type) input. The default value is Vertical.
+
 ```typescript
 public type = SplitterType.Horizontal;
 ```
+
 ```html
 <igx-splitter [type]="type">
     <igx-splitter-pane>
@@ -72,6 +77,7 @@ public type = SplitterType.Horizontal;
 #### Configuring panes
 
 The **igxSplitterPane** component contains several input properties. You can set the initial pane size by using the [`size`]({environment:angularApiUrl}/classes/igxsplitterpanecomponent.html#size) input property. The [`minSize`]({environment:angularApiUrl}/classes/igxsplitterpanecomponent.html#minSize) and [`maxSize`]({environment:angularApiUrl}/classes/igxsplitterpanecomponent.html#maxSize) input properties can be used to set the minimum or maximum allowed size of the pane. Resizing beyond `minSize` and `maxSize` is not allowed.
+
 ```html
 <igx-splitter>
     <igx-splitter-pane size='300px' minSize='100px'>
@@ -82,7 +88,9 @@ The **igxSplitterPane** component contains several input properties. You can set
     </igx-splitter-pane>
 </igx-splitter>
 ```
+
 You can also forbid the resizing of a pane by setting its [`resizable`]({environment:angularApiUrl}/classes/igxsplitterpanecomponent.html#resizable) input property to **false**.
+
 ```html
 <igx-splitter>
     <igx-splitter-pane [resizable]='false'>
@@ -97,10 +105,12 @@ You can also forbid the resizing of a pane by setting its [`resizable`]({environ
 #### Nested panes
 
 You can nest splitter components to create a more complex layout inside a splitter pane.
+
 ```typescript
 public typeHorizontal = SplitterType.Horizontal;
 public typeVertical = SplitterType.Vertical;
 ```
+
 ```html
 <igx-splitter style='height: 30vh;' [type]='typeHorizontal' >
     <igx-splitter-pane>
@@ -128,8 +138,8 @@ public typeVertical = SplitterType.Vertical;
 
 #### Demo
 
-<code-view style="height: 400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/splitter-nested-sample/" >
 </code-view>
 
@@ -153,7 +163,7 @@ To get started with styling the **igxSplitter** component, you need to import th
 
 ```scss
 @import '~igniteui-angular/lib/core/styles/themes/index';
-``` 
+```
 
 You can change the default styles of the splitter by creating a new theme that extends the [`splitter-theme`]({environment:sassApiUrl}/themes#function-splitter-theme).
 
@@ -170,7 +180,7 @@ $splitter-theme: splitter-theme(
 );
 ```
 
-#### Using CSS Variables 
+#### Using CSS Variables
 
 The next step is to pass the custom splitter theme:
 
@@ -180,7 +190,7 @@ The next step is to pass the custom splitter theme:
 
 #### Using Theme Overrides
 
-In order to style components for Internet Explorer 11, we have to use different approach, since it doesn't support CSS variables. 
+In order to style components for Internet Explorer 11, we have to use different approach, since it doesn't support CSS variables.
 
 If the component is using an [`Emulated`](themes/sass/component-themes.md#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep`. On the other side, in order to prevent the custom theme to leak to other components, be sure to include the `:host` selector before `::ng-deep`:
 
@@ -197,8 +207,8 @@ If the component is using an [`Emulated`](themes/sass/component-themes.md#view-e
 This is the final result from applying your new theme.
 
 
-<code-view style="height: 400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/splitter-styling-sample/" >
 </code-view>
 
@@ -206,10 +216,10 @@ This is the final result from applying your new theme.
 ## API References
 <div class="divider--half"></div>
 
-* [IgxSplitterComponent]({environment:angularApiUrl}/classes/igxsplittercomponent.html)
-* [IgxSplitterPaneComponent]({environment:angularApiUrl}/classes/igxsplitterpanecomponent.html)
-* [SplitterType]({environment:angularApiUrl}/enums/splittertype.html)
-* [IgxSplitterComponent Styles]({environment:sassApiUrl}/themes#function-splitter-theme)
+- [IgxSplitterComponent]({environment:angularApiUrl}/classes/igxsplittercomponent.html)
+- [IgxSplitterPaneComponent]({environment:angularApiUrl}/classes/igxsplitterpanecomponent.html)
+- [SplitterType]({environment:angularApiUrl}/enums/splittertype.html)
+- [IgxSplitterComponent Styles]({environment:sassApiUrl}/themes#function-splitter-theme)
 
 <div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.

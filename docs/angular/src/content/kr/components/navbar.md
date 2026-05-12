@@ -14,8 +14,8 @@ The Ignite UI for Angular [`IgxNavbarComponent`]({environment:angularApiUrl}/cla
 
 ### Navbar Demo
 
-<code-view style="height: 530px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 530px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/menus/navbar/" >
 </code-view>
 
@@ -63,6 +63,7 @@ Good, we know which application we have opened. Now, let's see what capabilities
 #### Adding Icons
 
 Now that our app has its menu in place, we can make it a little more functional by adding options for searching, favorites and more. To do that let's grab the [**IgxIcon**](icon.md) module and import it in our **app.module.ts** file.
+
 ```typescript
 // app.module.ts
 
@@ -93,8 +94,8 @@ Next, we need to update our template with an icon for each of the options we wan
 
 If all went well, you should see the following in your browser:
 
-<code-view style="height: 330px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 330px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/menus/navbar-sample-1/" >
 </code-view>
 
@@ -134,36 +135,36 @@ We can easily achieve this by using the [`igx-action-icon`]({environment:angular
 Finally, this is how our navbar should look like with its custom action icon:
 
 
-<code-view style="height: 330px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 330px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/menus/navbar-sample-2/" >
 </code-view>
 
 <div class="divider--half"></div>
 
 > [!NOTE]
-> If [`igx-action-icon`]({environment:angularApiUrl}/classes/igxactionicondirective.html) is provided, the default [`actionButtonIcon`]({environment:angularApiUrl}/classes/igxnavbarcomponent.html#actionbuttonicon) will not be used. 
+> If [`igx-action-icon`]({environment:angularApiUrl}/classes/igxactionicondirective.html) is provided, the default [`actionButtonIcon`]({environment:angularApiUrl}/classes/igxnavbarcomponent.html#actionbuttonicon) will not be used.
 
 ## API References
 
 In this article we show a few scenarios where the navbar component may come in handy. The APIs, we used to achieve them, are listed in the links below.
 
-* [`IgxNavbarComponent`]({environment:angularApiUrl}/classes/igxnavbarcomponent.html)
-* [`IgxActionIconDirective`]({environment:angularApiUrl}/classes/igxactionicondirective.html)
+- [`IgxNavbarComponent`]({environment:angularApiUrl}/classes/igxnavbarcomponent.html)
+- [`IgxActionIconDirective`]({environment:angularApiUrl}/classes/igxactionicondirective.html)
 
 Additional components and/or directives with relative APIs that were used:
 
-* [`IgxIconComponent`]({environment:angularApiUrl}/classes/igxiconcomponent.html)
+- [`IgxIconComponent`]({environment:angularApiUrl}/classes/igxiconcomponent.html)
 
 Styles:
 
-* [`IgxNavbarComponent Styles`]({environment:sassApiUrl}/themes#function-navbar-theme)
-* [`IgxIconComponent Styles`]({environment:sassApiUrl}/themes#function-icon-theme)
+- [`IgxNavbarComponent Styles`]({environment:sassApiUrl}/themes#function-navbar-theme)
+- [`IgxIconComponent Styles`]({environment:sassApiUrl}/themes#function-icon-theme)
 
 ## Additional Resources
 
 <div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

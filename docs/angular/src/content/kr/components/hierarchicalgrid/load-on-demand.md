@@ -16,8 +16,8 @@ Ignite UI for Angular [`IgxHierarchicalGrid`]({environment:angularApiUrl}/classe
 #### 데모
 
 
-<code-view style="height:620px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:620px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-lod/" >
 </code-view>
 
@@ -161,9 +161,9 @@ export class RemoteLoDService {
 
 처음으로 행이 확장되면 새로운 하위 `IgxHierarchicalGrid`가 렌더링되며 새롭게 생성된 그리드에 대한 참조를 가져와 데이터를 설정해야 합니다. 그래서 각 [`IgxRowIsland`]({environment:angularApiUrl}/classes/igxrowislandcomponent.html) 컴포넌트는 특정 행 아일랜드에 대해 새로운 하위 그리드가 생성될 때 발생하는 [`gridCreated`]({environment:angularApiUrl}/classes/igxrowislandcomponent.html#gridCreated)  이벤트를 제공합니다. 이를 사용하여 새로운 그리드에 필요한 참조를 얻고 서비스에서 데이터를 요청하고 적용할 수 있습니다.
 
-루트 수준, 행 아일랜드의 키, 상위 행의 기본 키 및 고유 식별자인 경우에만 정보가 필요하도록 서비스를 구축했기 때문에 모든 행 아일랜드에 대해 하나의 메소드를 사용할 수 있습니다. 이 모든 정보는 이벤트 인수에서 직접 액세스하거나 이벤트를 트리거하는 행 아일랜드에서 액세스할 수 있습니다. 
+루트 수준, 행 아일랜드의 키, 상위 행의 기본 키 및 고유 식별자인 경우에만 정보가 필요하도록 서비스를 구축했기 때문에 모든 행 아일랜드에 대해 하나의 메소드를 사용할 수 있습니다. 이 모든 정보는 이벤트 인수에서 직접 액세스하거나 이벤트를 트리거하는 행 아일랜드에서 액세스할 수 있습니다.
 
-`gridCreated`를 사용하는 메소드의 이름을 지정합니다. [`gridCreated`]({environment:angularApiUrl}/classes/igxrowislandcomponent.html#gridCreated) 이벤트는 [`owner`]({environment:angularApiUrl}/interfaces/igridcreatedeventargs.html#owner) 및 새로운 하위 [`grid`]({environment:angularApiUrl}/interfaces/igridcreatedeventargs.html#grid)성으로 행 아일랜드에 대해 참조하는 [`parentID`]({environment:angularApiUrl}/interfaces/igridcreatedeventargs.html#parentid) 속성을 제공하므로 첫 번째 인수로 전달됩니다. 상위 행의 `primaryKey`에 대한 정보는 없지만 바인딩한 행 아일랜드에 따라 두 번째 인수로 간단하게 전달할 수 있습니다. 
+`gridCreated`를 사용하는 메소드의 이름을 지정합니다. [`gridCreated`]({environment:angularApiUrl}/classes/igxrowislandcomponent.html#gridCreated) 이벤트는 [`owner`]({environment:angularApiUrl}/interfaces/igridcreatedeventargs.html#owner) 및 새로운 하위 [`grid`]({environment:angularApiUrl}/interfaces/igridcreatedeventargs.html#grid)성으로 행 아일랜드에 대해 참조하는 [`parentID`]({environment:angularApiUrl}/interfaces/igridcreatedeventargs.html#parentid) 속성을 제공하므로 첫 번째 인수로 전달됩니다. 상위 행의 `primaryKey`에 대한 정보는 없지만 바인딩한 행 아일랜드에 따라 두 번째 인수로 간단하게 전달할 수 있습니다.
 
 `hierarchical-grid-lod.component.html`템플릿 파일은 다음과 같이 변경됩니다:
 
@@ -240,7 +240,7 @@ public gridCreated(event: IGridCreatedEventArgs, _parentKey: string) {
 }
 ````
 
-이것으로 어플리케이션의 설정이 거의 완료되었습니다. 마지막 단계는 사용자가 빈 그리드를 표시하는 대신에 사용자에게 데이터가 아직 로드 중임을 알려 사용자 환경을 개선하는 것을 목표로 합니다. [`IgxHierarchicalGrid`]({environment:angularApiUrl}/classes/igxhierarchicalgridcomponent.html)는 그리드가 비어 있는 동안 표시할 수 있는 로딩 인디케이터를 지원합니다. 새로운 데이터를 가져오면 로딩 인디케이터가 비표시되고 데이터가 렌더링됩니다. 
+이것으로 어플리케이션의 설정이 거의 완료되었습니다. 마지막 단계는 사용자가 빈 그리드를 표시하는 대신에 사용자에게 데이터가 아직 로드 중임을 알려 사용자 환경을 개선하는 것을 목표로 합니다. [`IgxHierarchicalGrid`]({environment:angularApiUrl}/classes/igxhierarchicalgridcomponent.html)는 그리드가 비어 있는 동안 표시할 수 있는 로딩 인디케이터를 지원합니다. 새로운 데이터를 가져오면 로딩 인디케이터가 비표시되고 데이터가 렌더링됩니다.
 
 #### 로딩 인디케이터 설정
 
@@ -299,17 +299,17 @@ export class HierarchicalGridLoDSampleComponent implements AfterViewInit {
 
 ### API 참조
 
-* [IgxHierarchicalGridComponent]({environment:angularApiUrl}/classes/igxhierarchicalgridcomponent.html)
-* [IgxRowIslandComponent]({environment:angularApiUrl}/classes/igxrowislandcomponent.html)
+- [IgxHierarchicalGridComponent]({environment:angularApiUrl}/classes/igxhierarchicalgridcomponent.html)
+- [IgxRowIslandComponent]({environment:angularApiUrl}/classes/igxrowislandcomponent.html)
 
 ### 추가 리소스
 
 <div class="divider--half"></div>
 
-* [계층 그리드 컴포넌트](hierarchical-grid.md)
+- [계층 그리드 컴포넌트](hierarchical-grid.md)
 
 <div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

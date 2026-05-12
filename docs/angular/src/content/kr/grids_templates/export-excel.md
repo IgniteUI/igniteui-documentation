@@ -33,22 +33,22 @@ The Excel Exporter service can export data to excel from the @@igxName. The data
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height: 300px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 300px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/services/export-excel-sample-1/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height: 350px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 350px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/services/export-excel-tree-grid-sample/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-    {/* TODO */}
+    {/_TODO_/}
 }
 
 <div class="divider--half"></div>
@@ -127,13 +127,13 @@ this.excelExportService.export(this.@@igObjectRef, new IgxExcelExporterOptions("
 
 Excel 내보내기 서비스에는 아래의 몇 가지 API가 추가로 포함되어 있습니다.
 
-* [IgxExcelExporterService API]({environment:angularApiUrl}/classes/igxexcelexporterservice.html)
-* [IgxExcelExporterOptions API]({environment:angularApiUrl}/classes/igxexcelexporteroptions.html)
+- [IgxExcelExporterService API]({environment:angularApiUrl}/classes/igxexcelexporterservice.html)
+- [IgxExcelExporterOptions API]({environment:angularApiUrl}/classes/igxexcelexporteroptions.html)
 
 사용된 추가 컴포넌트:
 
-* [@@igxNameComponent API]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
-* [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [@@igxNameComponent API]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
+- [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
 
 <div class="divider"></div>
 
@@ -142,5 +142,5 @@ Excel 내보내기 서비스에는 아래의 몇 가지 API가 추가로 포함�
 <div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

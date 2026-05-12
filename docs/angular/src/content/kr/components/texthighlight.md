@@ -11,8 +11,8 @@ The [`IgxTextHighlight`]({environment:angularApiUrl}/classes/igxtexthighlightdir
 
 ### TextHighlight Demo
 
-<code-view style="height: 260px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 260px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/text-highlight-1/" >
 </code-view>
 
@@ -83,6 +83,7 @@ Then, lets create a search box which we can use to highlight different parts of 
     </igx-input-group>
 </div>
 ```
+
 Then, we will add a paragraph with text and the IgxTextHighlight directive. Note that, since we need to bind the value input to the text in the paragraph, we will also use interpolation for the paragraph's text. The column, row and page inputs are useful when you have multiple containers and can be left at 0 for our example. Another noteworthy thing is that the search container (in our case the paragraph element) needs to be the only child in its parent container and because of this we need the surrounding div element.
 
 ```html
@@ -177,8 +178,8 @@ Then we need to add the following methods which will allow the user to apply the
 If the sample is configured properly, the final result should look like that:
 
 
-<code-view style="height: 260px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 260px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/text-highlight-1/" >
 </code-view>
 
@@ -206,6 +207,7 @@ The [`igxTextHighlight`]({environment:angularApiUrl}/classes/igxtexthighlightdir
         {{secondParagraph}}
     </div>
 ```
+
 Then in the .ts file we have the firstParagraph and secondParagraph fields, which are bound to the respective value inputs of the text highlight directives. Also we will now use ViewChildren instead of ViewChild to get all the highlights in our template.
 
 ```typescript
@@ -216,6 +218,7 @@ Then in the .ts file we have the firstParagraph and secondParagraph fields, whic
     @ViewChildren(IgxTextHighlightDirective)
     public highlights;
 ```
+
 All the rest of the code in the .ts file is identical to the single container example with the exception of the find method. Changes to this method are necessary since we now have multiple containers, but the code there can be used regardless of the number of TextHighlight directives you have on your page.
 
 ```typescript
@@ -262,8 +265,8 @@ All the rest of the code in the .ts file is identical to the single container ex
 ```
 
 
-<code-view style="height: 400px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/text-highlight-2/" >
 </code-view>
 
@@ -273,19 +276,19 @@ All the rest of the code in the .ts file is identical to the single container ex
 ### API and Style References
 
 For more detailed information regarding the TextHighlight directive's API, refer to the following link:
-* [`IgxTextHighlight API`]({environment:angularApiUrl}/classes/igxtexthighlightdirective.html)
+- [`IgxTextHighlight API`]({environment:angularApiUrl}/classes/igxtexthighlightdirective.html)
 
 Additional components that were used:
 
-* [`IgxInputGroupComponent`]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
-* [`IgxInputGroupComponent Styles`]({environment:sassApiUrl}/themes#function-input-group-theme)
+- [`IgxInputGroupComponent`]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
+- [`IgxInputGroupComponent Styles`]({environment:sassApiUrl}/themes#function-input-group-theme)
 <div class="divider"></div>
 
 ## Additional Resources
-* [Grid Search](grid/search.md)
+- [Grid Search](grid/search.md)
 
 <div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

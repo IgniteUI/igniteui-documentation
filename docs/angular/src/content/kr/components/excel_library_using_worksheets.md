@@ -185,16 +185,16 @@ worksheet.sortSettings.sortConditions().addItem(new RelativeIndex(0), new Ordere
 
 You can protect a worksheet by calling the `protect` method on the [`Worksheet`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/worksheet.html) object. This method exposes many nullable `bool` parameters that allow you to restrict or allow the following user operations:
 
--   Editing of cells.
--   Editing of objects such as shapes, comments, charts, or other controls.
--   Editing of scenarios.
--   Filtering of data.
--   Formatting of cells.
--   Inserting, deleting, and formatting of columns.
--   Inserting, deleting, and formatting of rows.
--   Inserting of hyperlinks.
--   Sorting of data.
--   Usage of pivot tables.
+- Editing of cells.
+- Editing of objects such as shapes, comments, charts, or other controls.
+- Editing of scenarios.
+- Filtering of data.
+- Formatting of cells.
+- Inserting, deleting, and formatting of columns.
+- Inserting, deleting, and formatting of rows.
+- Inserting of hyperlinks.
+- Sorting of data.
+- Usage of pivot tables.
 
 You can remove worksheet protection by calling the `unprotect` method on the [`Worksheet`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/worksheet.html) object.
 

@@ -34,8 +34,8 @@ _language: kr
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-row-editing/" >
 </code-view>
 
@@ -43,17 +43,17 @@ _language: kr
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:590px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:590px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-row-edit/" >
 </code-view>
 
 <div class="divider--half"></div>
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-   
-<code-view style="height:510px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+
+<code-view style="height:510px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-row-editing/" >
 </code-view>
 
@@ -83,6 +83,7 @@ export class AppModule {}
 
 그런 다음 바인딩된 데이터 소스 및 [`rowEditable`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#roweditable) 이 true로 설정된 @@igComponent를 정의합니다:
 @@if (igxName ==='IgxGrid') {
+
 ```html
 <div class="sample-wrapper">
     <igx-grid #gridRowEditTransaction [data]="data" [primaryKey]="'ProductID'" width="100%" height="500px"
@@ -100,8 +101,10 @@ export class AppModule {}
     </igx-grid>
 </div>
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <igx-tree-grid #treeGrid [data]="data" [primaryKey]="EmployeID" [foreignKey]="PID" width ="100%"
                height ="500px" [rowEditable]="true" [rowSelectable]="true" [columnHiding]="true" [moving]="true">
@@ -116,8 +119,10 @@ export class AppModule {}
     </igx-column>
 </igx-tree-grid>
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
         <igx-hierarchical-grid #hierarchicalGrid class="hgrid" [data]="localdata" [autoGenerate]="false"
         [height]="'600px'" [width]="'100%'">
@@ -150,6 +155,7 @@ export class AppModule {}
         </igx-row-island>
     </igx-hierarchical-grid>
 ```
+
 }
 
 > [!NOTE]
@@ -159,6 +165,7 @@ export class AppModule {}
 > 개별 열에 대해 편집할 필요가 없습니다. @@igComponent에서 [`rowEditable`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#roweditable) 속성을 사용하면 기본 필드를 제외한 모든 `field` 속성이 편집 가능함을 의미합니다. 특정 열에 대한 편집을 비활성화하려면 [`editable`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#editable) 열의 입력을 false로 설정합니다.
 
 @@if (igxName === 'IgxGrid') {
+
 ```typescript
 import { Component, ViewChild } from "@angular/core";
 import { data } from "./data";
@@ -179,9 +186,11 @@ export class GridRowEditSampleComponent {
     }
 }
 ```
+
 }
 
 @@if (igxName === 'IgxTreeGrid') {
+
 ```typescript
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { IgxTreeGridComponent } from "igniteui-angular";
@@ -211,8 +220,10 @@ export class TreeGridRowEditSampleComponent implements OnInit {
     }
 }
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```typescript
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { IgxRowIslandComponent, IgxHierarchicalGridComponent } from "igniteui-angular";
@@ -238,6 +249,7 @@ export class HGridRowEditingSampleComponent implements OnInit {
     }
 }
 ```
+
 }
 
 > [!NOTE]
@@ -263,9 +275,9 @@ export class HGridRowEditingSampleComponent implements OnInit {
 
 - 행이 편집 모드이고 행이 표시된 영역 밖으로 이동하도록 @@igComponent를 스크롤한 경우에도 행은 여전히 편집 모드에 있습니다. @@igComponent를 스크롤하여 행이 다시 표시되도록 하면 행은 여전히 편집 모드에 있습니다. @@igComponent 이외를 클릭하면 셀도 편집 모드로 유지됩니다.
 
-- *정렬*, *필터링*, *검색* 및 *숨기기* 조작을 실행하면 행의 모든 현재 변경 사항이 되돌아가고 행은 편집 모드를 종료합니다.
+- _정렬_, _필터링_, _검색_ 및 _숨기기_ 조작을 실행하면 행의 모든 현재 변경 사항이 되돌아가고 행은 편집 모드를 종료합니다.
 
-- *페이징*, *크기 조정*, *핀 고정* 및 *이동* 조작을 실행하면 편집 모드를 종료하고 최신 값을 제출합니다.
+- _페이징_, _크기 조정_, _핀 고정_ 및 _이동_ 조작을 실행하면 편집 모드를 종료하고 최신 값을 제출합니다.
 
 - 수정된 각 셀은 행 편집이 종료될 때까지 편집된 스타일을 가집니다. @@igComponent가 트랜잭션과 함께 제공되지 않는 경우의 비헤이비어입니다. 트랜잭션을 사용할 수 있는 경우, 모든 변경이 확정될 때까지 셀 편집 스타일이 적용됩니다.
 
@@ -298,7 +310,7 @@ export class HGridRowEditingSampleComponent implements OnInit {
 
 ```html
 <ng-template igxRowEditText let-rowChangesCount>
-	Changes: {{rowChangesCount}}
+ Changes: {{rowChangesCount}}
 </ng-template>
  ```
 
@@ -308,40 +320,40 @@ export class HGridRowEditingSampleComponent implements OnInit {
 
  ```html
  <ng-template igxRowEditActions let-endRowEdit>
-	<button igxButton igxRowEditTabStop (click)="endRowEdit(false)">Cancel</button>
-	<button igxButton igxRowEditTabStop (click)="endRowEdit(true)">Apply</button>
+ <button igxButton igxRowEditTabStop (click)="endRowEdit(false)">Cancel</button>
+ <button igxButton igxRowEditTabStop (click)="endRowEdit(true)">Apply</button>
 </ng-template>
  ```
 
- ## Known Issues and Limitations
+## Known Issues and Limitations
 
 - When the grid has no `primaryKey` set and remote data scenarios are enabled (when paging, sorting, filtering, scrolling trigger requests to a remote server to retrieve the data to be displayed in the grid), a row will lose the following state after a data request completes:
-    * Row Selection
-    * Row Expand/collapse
-    * Row Editing
-    * Row Pinning
+  - Row Selection
+  - Row Expand/collapse
+  - Row Editing
+  - Row Pinning
 
 ### API 참조
 
-* [rowEditable]({environment:angularApiUrl}/classes/@@igTypeDoc.html#roweditable)
-* [onRowEditEnter]({environment:angularApiUrl}/classes/@@igTypeDoc.html#onroweditenter)
-* [onRowEdit]({environment:angularApiUrl}/classes/@@igTypeDoc.html#onrowedit)
-* [onRowEditCancel]({environment:angularApiUrl}/classes/@@igTypeDoc.html#onroweditcancel)
-* [endEdit]({environment:angularApiUrl}/classes/@@igTypeDoc.html#endedit)
-* [field]({environment:angularApiUrl}/classes/igxcolumncomponent.html#field)
-* [editable]({environment:angularApiUrl}/classes/igxcolumncomponent.html#editable)
-* [primaryKey]({environment:angularApiUrl}/classes/@@igTypeDoc.html#primarykey)
-* [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
+- [rowEditable]({environment:angularApiUrl}/classes/@@igTypeDoc.html#roweditable)
+- [onRowEditEnter]({environment:angularApiUrl}/classes/@@igTypeDoc.html#onroweditenter)
+- [onRowEdit]({environment:angularApiUrl}/classes/@@igTypeDoc.html#onrowedit)
+- [onRowEditCancel]({environment:angularApiUrl}/classes/@@igTypeDoc.html#onroweditcancel)
+- [endEdit]({environment:angularApiUrl}/classes/@@igTypeDoc.html#endedit)
+- [field]({environment:angularApiUrl}/classes/igxcolumncomponent.html#field)
+- [editable]({environment:angularApiUrl}/classes/igxcolumncomponent.html#editable)
+- [primaryKey]({environment:angularApiUrl}/classes/@@igTypeDoc.html#primarykey)
+- [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
 
 ### 추가 리소스
 <div class="divider--half"></div>
 
-* [@@igComponent 개요](@@igMainTopic.md)
-* [@@igComponent 편집](editing.md)
-* [@@igComponent 트랜잭션](batch-editing.md)
+- [@@igComponent 개요](@@igMainTopic.md)
+- [@@igComponent 편집](editing.md)
+- [@@igComponent 트랜잭션](batch-editing.md)
 
 <div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

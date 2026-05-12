@@ -26,8 +26,9 @@ Ignite UI for Angular @@igComponent component provides the [`IgxGridState`]({env
 
 #### API
 
-[`getState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#getstate) - This method returns the grid state in a serialized JSON string, the easisest way to enable developers just take it and save it on any data storage (database, cloud, etc). Once the developer needs to restore this state, just pass it back to the [`setState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#setstate) method. The first optional method parameter is `serialize`, which determines whether [`getState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#getstate) will return the original objects, or the serialized JSOn string.
+[`getState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#getstate) - This method returns the grid state in a serialized JSON string, the easiest way to enable developers just take it and save it on any data storage (database, cloud, etc). Once the developer needs to restore this state, just pass it back to the [`setState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#setstate) method. The first optional method parameter is `serialize`, which determines whether [`getState`]({environment:angularApiUrl}/classes/igxgridstatedirective.html#getstate) will return the original objects, or the serialized JSOn string.
 The developer may choose to get only the state for a certain feature/features, by passing in the feature name, or an array with feature names as a second argument.
+
 ```typescript
 // get all features` state in a serialized JSON string
 const gridState = this.state.getState();
@@ -56,6 +57,7 @@ public restoreSortingFiltering(sortingFilteringStates: IGridState) {
 ```typescript
 public options =  { cellSelection: false; sorting: false; }
 ```
+
 ```html
 <igx-grid [IgxGridState]="options"></igx-grid>
 ```
@@ -85,14 +87,15 @@ The usefullnes of thеse simple to use single-point API's allows you to achieve 
       this.state.setState(state);
   }
 ```
+
 . Depending on the scenario, the state can be saved to the browser `localStorage` or `sessionStorage` object, or saved in a database, cloud, passed on to a service, etc.
 
 #### Demo
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:960px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:960px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-state/" >
 </code-view>
 
@@ -133,15 +136,15 @@ public initColumns(column: IgxColumnComponent) {
 
 ## API References
 
-* [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
-* [IgxGridStateDirective]({environment:angularApiUrl}/classes/igxgridstatedirective.html)
+- [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
+- [IgxGridStateDirective]({environment:angularApiUrl}/classes/igxgridstatedirective.html)
 
 
 ## Additional Resources
 <div class="divider--half"></div>
 
-* [@@igComponent overview](@@igMainTopic.md)
-* [Paging](paging.md)
-* [Filtering](filtering.md)
-* [Sorting](sorting.md)
-* [Selection](selection.md)
+- [@@igComponent overview](@@igMainTopic.md)
+- [Paging](paging.md)
+- [Filtering](filtering.md)
+- [Sorting](sorting.md)
+- [Selection](selection.md)
