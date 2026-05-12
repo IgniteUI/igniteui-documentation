@@ -13,7 +13,7 @@ try {
 	lang = cfg.lang ?? lang;
 } catch { /* use defaults */ }
 
-const docsDir = path.join(root, 'src', 'content', lang, 'components');
+const docsDir = path.join(root, 'src', 'content', lang);
 
 const tableOfContentsSchema = z.object({
         tableOfContents: z
@@ -28,5 +28,5 @@ const tableOfContentsSchema = z.object({
 });
 
 export const collections = {
-        docs: createDocsCollection(docsDir, { exclude: ['**/*.md'], extendSchema: tableOfContentsSchema }),
+        docs: createDocsCollection(docsDir, { exclude: ['**/*.md', 'grids_templates/**', 'images/**', 'index.mdx'], extendSchema: tableOfContentsSchema }),
 };
