@@ -3,6 +3,10 @@ name: _CD Deploy (reusable)
 on:
   workflow_call:
     inputs:
+      platform:
+        description: 'Platform to build (angular, react, wc, blazor, jquery)'
+        required: true
+        type: string
       locale:
         description: 'Locale to build (en or jp)'
         required: true
@@ -26,10 +30,6 @@ jobs:
     name: Build and Deploy
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        platform: ['angular', 'react', 'wc', 'blazor']
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -47,22 +47,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Documentation for ${{ matrix.platform }} (${{ inputs.locale }})
-        run: npm run build:${{ env.BUILD_TYPE }}:${{ matrix.platform }}:${{ inputs.locale }}
+      - name: Build Documentation for ${{ inputs.platform }} (${{ inputs.locale }})
+        run: npm run build:${{ env.BUILD_TYPE }}:${{ inputs.platform }}:${{ inputs.locale }}
 
       - name: Package build
         run: |
           LOCALE="${{ inputs.locale }}"
-          DIST_DIR="dist/${{ matrix.platform }}$([[ "$LOCALE" == 'en' ]] && echo '' || echo "-$LOCALE")"
+          DIST_DIR="dist/${{ inputs.platform }}$([[ "$LOCALE" == 'en' ]] && echo '' || echo "-$LOCALE")"
           cd "$DIST_DIR"
-          zip -r ../../${{ env.BUILD_TYPE }}_${{ matrix.platform }}_${{ inputs.locale }}.zip .
+          zip -r ../../${{ env.BUILD_TYPE }}_${{ inputs.platform }}_${{ inputs.locale }}.zip .
           cd ../..
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: igniteui-docs-${{ matrix.platform }}-${{ inputs.locale }}
-          path: ${{ env.BUILD_TYPE }}_${{ matrix.platform }}_${{ inputs.locale }}.zip
+          name: igniteui-docs-${{ inputs.platform }}-${{ inputs.locale }}
+          path: ${{ env.BUILD_TYPE }}_${{ inputs.platform }}_${{ inputs.locale }}.zip
           retention-days: 1
 
       - name: Trigger Deploy Workflow in IgniteUI Actions
@@ -77,9 +77,9 @@ jobs:
               client_payload: {
                 calling_branch: "${{ inputs.target_ref }}",
                 environment: "${{ env.BUILD_TYPE }}",
-                artifact_name: "igniteui-docs-${{ matrix.platform }}-${{ inputs.locale }}",
-                base_href: "docs-${{ matrix.platform }}-new",
-                platform: "${{ matrix.platform }}",
+                artifact_name: "igniteui-docs-${{ inputs.platform }}-${{ inputs.locale }}",
+                base_href: "${{ inputs.platform == 'wc' && 'webcomponents' || inputs.platform }}site",
+                platform: "${{ inputs.platform }}",
                 repository: "${{ github.repository }}",
                 run_id: "${{ github.run_id }}",
                 locale: "${{ inputs.locale }}"
