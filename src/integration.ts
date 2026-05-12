@@ -288,6 +288,7 @@ export function siteMetaIntegration({
 export const sidebar = ${JSON.stringify(sidebar ?? [])};
 export const productLinks = ${JSON.stringify(productLinks)};
 export const headEntries = ${JSON.stringify(head ?? [])};
+export const trailingSlash = ${JSON.stringify((options as any).trailingSlash ?? 'ignore')};
 `;
 
     // Captured from astro:config:done; used to generate llms.txt content.
@@ -638,16 +639,6 @@ export interface DocsSiteSource {
     tocPath: string;
     /** Absolute path to the Markdown docs directory. */
     docsDir: string;
-    /**
-     * Path prefix prepended to every sidebar slug.
-     * When set, the content collection base is assumed to be a parent of
-     * `docsDir` so that entry IDs (and therefore routes) include this prefix.
-     *
-     * Example: `slugPrefix: 'components'` makes sidebar slugs like
-     * `components/accordion` instead of `accordion`, matching a content
-     * collection whose glob base is one directory above `docsDir`.
-     */
-    slugPrefix?: string;
 }
 
 export interface CreateDocsSiteOptions {
@@ -730,20 +721,11 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         ...astroExtra
     } = options;
 
-    const prefixSegments = source.slugPrefix ? source.slugPrefix.split('/').filter(Boolean) : [];
-
     const sidebar = buildSidebarFromToc({
         tocPath: source.tocPath!,
         docsDir: source.docsDir!,
         exclude: sidebarOptions.exclude ?? [],
-        slugPrefix: source.slugPrefix,
     });
-
-    // When slugPrefix is set the content collection base is a parent of docsDir.
-    // Compute the content root so llms.txt and dev-middleware resolve slugs correctly.
-    const contentRoot = prefixSegments.length > 0
-        ? path.resolve(source.docsDir!, ...prefixSegments.map(() => '..'))
-        : source.docsDir;
 
     // Expose env vars so consuming content.config.ts and components can read them.
     if (source.docsDir) {
@@ -828,7 +810,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
             siteMetaIntegration({
                 title,
                 description,
-                docsDir: contentRoot,
+                docsDir: source.docsDir,
                 sidebar,
                 platform,
                 navLang,

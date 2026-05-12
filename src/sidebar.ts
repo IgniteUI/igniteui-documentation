@@ -66,12 +66,6 @@ function hrefToSlug(href: string): string {
     return slug === 'index' ? '' : slug;
 }
 
-
-function joinSlugPrefix(slugPrefix: string, slug: string): string {
-    if (!slugPrefix) return slug;
-    return slug ? `${slugPrefix}/${slug}` : slugPrefix;
-}
-
 /**
  * Initial collapsed state by depth:
  *   • depth 0 (root groups, incl. `header:true` sections) → `collapsed: false`
@@ -86,7 +80,6 @@ function convertTocItem(
     item: TocItem,
     exclude: RegExp[],
     depth: number,
-    slugPrefix: string,
 ): SidebarEntry | null {
     if (!item.name) return null;
 
@@ -97,10 +90,10 @@ function convertTocItem(
             collapsed: collapsedForDepth(depth),
         };
         if (item.href && docExists(docsDir, item.href, exclude)) {
-            group.items.push({ label: 'Overview', slug: joinSlugPrefix(slugPrefix, hrefToSlug(item.href)) });
+            group.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
         }
         for (const child of item.items) {
-            const entry = convertTocItem(docsDir, child, exclude, depth + 1, slugPrefix);
+            const entry = convertTocItem(docsDir, child, exclude, depth + 1);
             if (entry) group.items.push(entry);
         }
         return group.items.length > 0 ? group : null;
@@ -108,7 +101,7 @@ function convertTocItem(
 
     if (item.href) {
         if (!docExists(docsDir, item.href, exclude)) return null;
-        const entry: SidebarLink = { label: item.name, slug: joinSlugPrefix(slugPrefix, hrefToSlug(item.href)) };
+        const entry: SidebarLink = { label: item.name, slug: hrefToSlug(item.href) };
         // Status badge — only one slot available in Starlight, priority order:
         if (item.new) entry.badge = { text: 'New', variant: 'success' };
         else if (item.preview) entry.badge = { text: 'Preview', variant: 'caution' };
@@ -137,23 +130,16 @@ export interface BuildSidebarFromTocOptions {
     docsDir: string;
     /** Extra patterns to exclude (matched against the `href`). */
     exclude?: RegExp[];
-    /**
-     * Path prefix prepended to every generated slug.
-     * Use when the content collection base is a parent of `docsDir` so that
-     * slugs include the intermediate directory (e.g. `'components/'`).
-     */
-    slugPrefix?: string;
 }
 
 /**
  * Reads a YAML or JSON TOC file and converts it to a Starlight sidebar array.
  */
-export function buildSidebarFromToc({ tocPath, docsDir, exclude = [], slugPrefix }: BuildSidebarFromTocOptions): SidebarEntry[] {
+export function buildSidebarFromToc({ tocPath, docsDir, exclude = []}: BuildSidebarFromTocOptions): SidebarEntry[] {
     if (!tocPath || !fs.existsSync(tocPath)) return [];
     const tocRaw = fs.readFileSync(tocPath, 'utf-8');
     const tocItems = tocPath.endsWith('.json') ? JSON.parse(tocRaw) : yaml.load(tocRaw) as TocItem[];
 
-    const prefix = slugPrefix ?? '';
 
     const sidebar: SidebarEntry[] = [];
     let currentGroup: SidebarGroup | null = null;
@@ -164,14 +150,14 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [], slugPrefix
             // Root-level header section — open by default.
             currentGroup = { label: item.name!, items: [], collapsed: collapsedForDepth(0) };
             if (item.href && docExists(docsDir, item.href, exclude)) {
-                currentGroup.items.push({ label: 'Overview', slug: joinSlugPrefix(prefix, hrefToSlug(item.href)) });
+                currentGroup.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
             }
             continue;
         }
         // Items inside a header section are at depth 1 (nested);
         // items outside any header section are at depth 0 (root).
         const depth = currentGroup ? 1 : 0;
-        const entry = convertTocItem(docsDir, item, exclude, depth, prefix);
+        const entry = convertTocItem(docsDir, item, exclude, depth);
         if (!entry) continue;
         if (currentGroup) currentGroup.items.push(entry);
         else sidebar.push(entry);

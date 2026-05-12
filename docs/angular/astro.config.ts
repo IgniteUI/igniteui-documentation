@@ -59,6 +59,7 @@ export default createDocsSite({
 	build: {
 		format: 'file'
 	},
+	trailingSlash: 'never',
 	productLinks: Object.values(IGDOCS_PLATFORMS)
 		.filter(p => p.lang === docsLang)
 		.map(({ label, key, base: b }) => ({
@@ -68,8 +69,7 @@ export default createDocsSite({
 		})),
 	source: {
 		tocPath: `${componentsDocsDir}/toc.json`,
-		docsDir: componentsDocsDir,
-		slugPrefix: 'components',
+		docsDir: componentsDocsDir
 	},
 	sidebar: { exclude: [/^internal\//] },
 	starlight: {

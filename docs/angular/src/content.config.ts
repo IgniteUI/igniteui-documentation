@@ -28,5 +28,5 @@ const tableOfContentsSchema = z.object({
 });
 
 export const collections = {
-        docs: createDocsCollection(docsDir, { exclude: ['**/*.md', 'grids_templates/**', 'images/**', 'index.mdx'], extendSchema: tableOfContentsSchema }),
+        docs: createDocsCollection(docsDir, { exclude: ['**/*.md'], extendSchema: tableOfContentsSchema }),
 };
