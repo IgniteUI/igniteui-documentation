@@ -56,6 +56,10 @@ export default createDocsSite({
 	platform: 'angular',
 	navLang: docsLang,
 	mode,
+	build: {
+		format: 'file'
+	},
+	trailingSlash: 'never',
 	productLinks: Object.values(IGDOCS_PLATFORMS)
 		.filter(p => p.lang === docsLang)
 		.map(({ label, key, base: b }) => ({
