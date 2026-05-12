@@ -231,7 +231,20 @@ export function getPlatformContext(): PlatformContext {
         } catch { /* use default */ }
     }
 
-    _ctx = PLATFORMS[name];
+    const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
+    const apiHost = mode === 'production'
+        ? 'https://www.infragistics.com'
+        : 'https://staging.infragistics.com';
+    const base = PLATFORMS[name];
+    _ctx = {
+        ...base,
+        apiPackages: Object.fromEntries(
+            Object.entries(base.apiPackages).map(([key, pkg]) => [
+                key,
+                { ...pkg, docRoot: pkg.docRoot.replace('https://staging.infragistics.com', apiHost) },
+            ])
+        ),
+    };
     return _ctx;
 }
 

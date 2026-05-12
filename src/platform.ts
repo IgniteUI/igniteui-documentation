@@ -211,6 +211,7 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
         description: 'Component documentation for Ignite UI for Blazor.',
     },
     // Japanese
+    
     AngularJP: {
         lang: 'jp', label: 'Angular', key: 'angular', devPort: 4341,
         base: '/docs-angular-new',
