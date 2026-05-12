@@ -299,7 +299,12 @@ export const headEntries = ${JSON.stringify(head ?? [])};
             'astro:config:done'({ config }) {
                 configuredSite = (config.site?.toString() ?? '').replace(/\/$/, '');
             },
-            'astro:config:setup'({ updateConfig, injectRoute }) {
+            'astro:config:setup'({ updateConfig, injectRoute, addMiddleware }) {
+                addMiddleware({
+                    entrypoint: fileURLToPath(new URL('./middleware.ts', import.meta.url)),
+                    order: 'pre',
+                });
+
                 injectRoute({
                     pattern: '/sitemap.xml',
                     entrypoint: fileURLToPath(new URL('./routes/sitemap.xml.ts', import.meta.url)),

@@ -1,80 +1,15 @@
 /**
- * Typed platform configuration — replaces the per-platform `replacements`
- * array in docConfig.json with a first-class TypeScript object.
+ * Platform configuration implementation — the single source of truth for
+ * IgniteUI platform metadata used across Angular, React, WebComponents, and Blazor docs.
  *
- * Components and MDX files import `getPlatformContext()` directly instead of
- * relying on string-replacement tokens like {Platform} or {ProductName}.
+ * Types are defined in igniteui-astro-components/lib/types so components can
+ * remain agnostic (reading context from Astro.locals set by middleware).
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
-
-export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor';
-
-export interface ApiPackageConfig {
-    /** TypeDoc documentation root URL (no trailing slash). */
-    docRoot: string;
-    /**
-     * Package identifier as it appears in the TypeDoc URL path.
-     * Core packages use hyphens ("igniteui-react"),
-     * sub-packages use underscores ("igniteui_react_charts").
-     */
-    packageId: string;
-    /**
-     * When true the package prefix is omitted from the class URL, e.g.
-     * Angular docs use `/classes/IgxGridComponent.html` (no `packageId.` prefix).
-     */
-    noPackagePrefix?: boolean;
-    /**
-     * When true the class name casing is preserved as-is (no .toLowerCase()).
-     * New-style API sites (react-apis-new, wc-apis-new, blazor-apis-new) use PascalCase URLs.
-     */
-    preserveCase?: boolean;
-    /**
-     * Optional suffix appended to the class name before lowercasing, e.g.
-     * Angular DV packages append "Component" so `CategoryChart` resolves to
-     * `igniteui_angular_charts.igxcategorychartcomponent.html`.
-     * Only applied when `prefixed={true}`.
-     */
-    classSuffix?: string;
-    /**
-     * When true, member anchor names are PascalCase (first letter uppercased).
-     * Blazor TypeDoc uses PascalCase anchors, e.g. `#SingleExpand` instead of `#singleExpand`.
-     */
-    pascalCaseMembers?: boolean;
-}
-
-export interface PlatformContext {
-    name: PlatformName;
-    /** Lower-case slug used in URLs, e.g. "angular" */
-    lower: string;
-    /** Component class prefix, e.g. "Igx" / "Igr" / "Igc" / "Igb" */
-    prefix: string;
-    productName: string;
-    productSpinal: string;
-    /**
-     * Per-package API documentation config keyed by short name.
-     * "core" is always the main component package.
-     * Other keys match the logical package category: "charts", "grids",
-     * "gauges", "maps", "inputs", "layouts", "excel", "spreadsheet", etc.
-     *
-     * URL for a class:   {docRoot}/classes/{packageId}.{PrefixType}.html
-     * URL for a member:  {docRoot}/classes/{packageId}.{PrefixType}.html#{member}
-     */
-    apiPackages: Record<string, ApiPackageConfig>;
-    packages: {
-        common: string;
-        charts: string;
-        grids: string;
-        gauges: string;
-        maps: string;
-    };
-    links: {
-        github: string;
-        forums: string;
-        repoSamples: string;
-    };
-}
+export type { PlatformName, ApiPackageConfig, PlatformContext } from 'igniteui-astro-components/lib/types';
+import type { PlatformName, PlatformContext } from 'igniteui-astro-components/lib/types';
 
 const PLATFORMS: Record<PlatformName, PlatformContext> = {
     Angular: {
