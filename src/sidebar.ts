@@ -66,9 +66,6 @@ function hrefToSlug(href: string): string {
     return slug === 'index' ? '' : slug;
 }
 
-function normalizeSlugPrefix(slugPrefix?: string): string {
-    return slugPrefix ? slugPrefix.replace(/^\/+|\/+$/g, '') : '';
-}
 
 function joinSlugPrefix(slugPrefix: string, slug: string): string {
     if (!slugPrefix) return slug;
@@ -156,7 +153,7 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [], slugPrefix
     const tocRaw = fs.readFileSync(tocPath, 'utf-8');
     const tocItems = tocPath.endsWith('.json') ? JSON.parse(tocRaw) : yaml.load(tocRaw) as TocItem[];
 
-    const prefix = normalizeSlugPrefix(slugPrefix);
+    const prefix = slugPrefix ?? '';
 
     const sidebar: SidebarEntry[] = [];
     let currentGroup: SidebarGroup | null = null;

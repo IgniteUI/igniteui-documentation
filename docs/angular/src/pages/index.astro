@@ -24,9 +24,6 @@ function hrefToSlug(href: string): string {
     return slug === 'index' ? '' : slug;
 }
 
-function normalizeSlugPrefix(slugPrefix?: string): string {
-    return slugPrefix ? slugPrefix.replace(/^\/+|\/+$/g, '') : '';
-}
 
 function joinSlugPrefix(slugPrefix: string, slug: string): string {
     if (!slugPrefix) return slug;
@@ -67,7 +64,7 @@ function slugExistsInSidebar(items: SidebarEntry[], target: string): boolean {
 
 const typedSidebar = sidebar as SidebarEntry[];
 const defaultSlug = findDefaultSlug(toc);
-const slugPrefix = normalizeSlugPrefix(process.env.DOCS_SLUG_PREFIX);
+const slugPrefix = process.env.DOCS_SLUG_PREFIX ?? '';
 const prefixedDefault = defaultSlug !== null ? joinSlugPrefix(slugPrefix, defaultSlug) : null;
 const slug = (prefixedDefault && slugExistsInSidebar(typedSidebar, prefixedDefault))
     ? prefixedDefault

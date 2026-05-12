@@ -730,14 +730,13 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         ...astroExtra
     } = options;
 
-    const normalizedSlugPrefix = source.slugPrefix ? source.slugPrefix.replace(/^\/+|\/+$/g, '') : '';
-    const prefixSegments = normalizedSlugPrefix ? normalizedSlugPrefix.split('/').filter(Boolean) : [];
+    const prefixSegments = source.slugPrefix ? source.slugPrefix.split('/').filter(Boolean) : [];
 
     const sidebar = buildSidebarFromToc({
         tocPath: source.tocPath!,
         docsDir: source.docsDir!,
         exclude: sidebarOptions.exclude ?? [],
-        slugPrefix: normalizedSlugPrefix || undefined,
+        slugPrefix: source.slugPrefix,
     });
 
     // When slugPrefix is set the content collection base is a parent of docsDir.
@@ -750,7 +749,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     if (source.docsDir) {
         process.env.DOCS_SOURCE_PATH = source.docsDir;
     }
-    process.env.DOCS_SLUG_PREFIX = normalizedSlugPrefix;
+    process.env.DOCS_SLUG_PREFIX = source.slugPrefix ?? '';
     process.env.DOCS_BUILD_MODE = mode;
     process.env.DOCS_BASE = base ? base.replace(/\/$/, '') : '';
     if (!process.env.DOCS_ENV) {
