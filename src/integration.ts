@@ -731,7 +731,6 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     if (source.docsDir) {
         process.env.DOCS_SOURCE_PATH = source.docsDir;
     }
-    process.env.DOCS_SLUG_PREFIX = source.slugPrefix ?? '';
     process.env.DOCS_BUILD_MODE = mode;
     process.env.DOCS_BASE = base ? base.replace(/\/$/, '') : '';
     if (!process.env.DOCS_ENV) {

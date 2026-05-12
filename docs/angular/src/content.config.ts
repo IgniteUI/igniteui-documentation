@@ -13,7 +13,7 @@ try {
 	lang = cfg.lang ?? lang;
 } catch { /* use defaults */ }
 
-const docsDir = path.join(root, 'src', 'content', lang);
+const docsDir = path.join(root, 'src', 'content', lang, 'components');
 
 const tableOfContentsSchema = z.object({
         tableOfContents: z

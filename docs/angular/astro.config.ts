@@ -69,7 +69,7 @@ export default createDocsSite({
 		})),
 	source: {
 		tocPath: `${componentsDocsDir}/toc.json`,
-		docsDir: componentsDocsDir
+		docsDir: componentsDocsDir,
 	},
 	sidebar: { exclude: [/^internal\//] },
 	starlight: {
