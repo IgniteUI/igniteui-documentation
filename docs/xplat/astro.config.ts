@@ -325,6 +325,10 @@ export default createDocsSite({
     platform: p.key,
     navLang: lang,
     mode,
+    build: {
+        format: 'file'
+    },
+    trailingSlash: 'never',
     source: {
         tocPath: filteredTocPath,
         docsDir: path.join(XPLAT_ROOT, 'components'),
