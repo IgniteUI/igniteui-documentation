@@ -2,7 +2,7 @@
 
 This directory contains GitHub **agentic workflows** that automatically
 translate English documentation into Japanese when changes are pushed to
-`vnext`.
+`master`.
 
 ## Workflow files
 
@@ -13,7 +13,9 @@ translate English documentation into Japanese when changes are pushed to
 
 The `.md` files are the human-editable source. The `.lock.yml` files are
 auto-generated and are what GitHub Actions actually executes. **Do not edit
-`.lock.yml` files directly.**
+`.lock.yml` files directly.** The compiled `.lock.yml` files are not included
+in this PR and must be generated with `gh aw compile` before the workflows
+will execute (see steps below).
 
 ## How to update a workflow
 
@@ -37,7 +39,7 @@ auto-generated and are what GitHub Actions actually executes. **Do not edit
    `.github/aw/actions-lock.json` if action SHAs changed.
 3. Commit **both** the `.md` and the `.lock.yml` together (plus
    `actions-lock.json` if it changed).
-4. Push to `vnext`.
+4. Push to `master`.
 
 For more information: https://github.github.com/gh-aw/introduction/overview/
 

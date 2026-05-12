@@ -22,7 +22,6 @@ tools:
   bash:
     - "git diff --name-only *"
     - "git diff *"
-    - "git show *"
     - "git log *"
     - "ls *"
     - "cat *"
