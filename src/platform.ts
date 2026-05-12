@@ -184,57 +184,79 @@ export const PLATFORM_DEFS: Record<PlatformKey, PlatformDef> = {
  * Shared per-platform metadata for all Ignite UI docs sites.
  * Import this in `astro.config.ts` files instead of duplicating the data.
  */
+// Base paths that match the legacy DocFX URL shape served by IIS.
+// Same path is used regardless of language — language is encoded in the host
+// (see IGDOCS_HOSTS below). Source: legacy igniteui-docfx and igniteui-xplat-docs
+// global.json (_currentBaseUrl: /products/{ProductSpinal}/{PlatformLower}/).
+const ANGULAR_BASE        = '/products/ignite-ui-angular/angular';
+const REACT_BASE          = '/products/ignite-ui-react/react';
+const WEBCOMPONENTS_BASE  = '/products/ignite-ui-web-components/web-components';
+const BLAZOR_BASE         = '/products/ignite-ui-blazor/blazor';
+
 export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     // English
     Angular: {
         lang: 'en', label: 'Angular', key: 'angular', devPort: 4331,
-        base: '/angularsite',
+        base: ANGULAR_BASE,
         title: 'Ignite UI for Angular',
         description: 'Component documentation for Ignite UI for Angular.',
     },
     React: {
         lang: 'en', label: 'React', key: 'react', devPort: 4332,
-        base: '/reactsite',
+        base: REACT_BASE,
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
     WebComponents: {
         lang: 'en', label: 'Web Components', key: 'web-components', devPort: 4333,
-        base: '/webcomponentssite',
+        base: WEBCOMPONENTS_BASE,
         title: 'Ignite UI for Web Components',
         description: 'Component documentation for Ignite UI for Web Components.',
     },
     Blazor: {
         lang: 'en', label: 'Blazor', key: 'blazor', devPort: 4334,
-        base: '/blazorsite',
+        base: BLAZOR_BASE,
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },
     // Japanese
     AngularJP: {
         lang: 'jp', label: 'Angular', key: 'angular', devPort: 4341,
-        base: '/angularsite',
+        base: ANGULAR_BASE,
         title: 'Ignite UI for Angular',
         description: 'Component documentation for Ignite UI for Angular.',
     },
     ReactJP: {
         lang: 'jp', label: 'React', key: 'react', devPort: 4342,
-        base: '/reactsite',
+        base: REACT_BASE,
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
     WebComponentsJP: {
         lang: 'jp', label: 'Web Components', key: 'web-components', devPort: 4343,
-        base: '/webcomponentssite',
+        base: WEBCOMPONENTS_BASE,
         title: 'Ignite UI for Web Components',
         description: 'Component documentation for Ignite UI for Web Components.',
     },
     BlazorJP: {
         lang: 'jp', label: 'Blazor', key: 'blazor', devPort: 4344,
-        base: '/blazorsite',
+        base: BLAZOR_BASE,
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },
+};
+
+/**
+ * Per-language hostname for staging and production.
+ * Source: legacy igniteui-docfx environment.json files (one per locale).
+ *   en → www.infragistics.com    (staging: staging.infragistics.com)
+ *   jp → jp.infragistics.com     (staging: jp.staging.infragistics.com)
+ *   kr → www.infragistics.co.kr  (staging: staging.infragistics.co.kr)
+ */
+export const IGDOCS_HOSTS: Record<NavLang, { production: string; staging: string }> = {
+    en: { production: 'https://www.infragistics.com',     staging: 'https://staging.infragistics.com' },
+    jp: { production: 'https://jp.infragistics.com',      staging: 'https://jp.staging.infragistics.com' },
+    kr: { production: 'https://www.infragistics.co.kr',   staging: 'https://staging.infragistics.co.kr' },
 };
 
 /**
