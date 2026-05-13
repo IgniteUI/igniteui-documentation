@@ -1,7 +1,7 @@
 /**
  * integration.ts
  *
- * Shared configuration helpers for Astro + Starlight docs sites.
+ * Shared configuration helpers for Astro docs sites.
  * All functions are independently usable; `createDocsSite` is the
  * convenience wrapper that composes them all.
  *
@@ -23,10 +23,6 @@
  *     head: [                                   // extra <head> entries after platform ones
  *       { tag: 'link', attrs: { rel: 'stylesheet', href: '...' } },
  *     ],
- *     // Extra Starlight options (logo, social, editLink, customCss, …)
- *     starlight: {
- *       logo: { src: './public/favicon.svg' },
- *     },
  *     // Extra Astro options (markdown, image, build, …)
  *     markdown: { remarkPlugins: [] },
  *   });
@@ -40,7 +36,6 @@
  *   export default defineConfig({
  *     integrations: [
  *       siteMetaIntegration({ title: 'My Library', description: 'Reference docs.' }),
- *       starlight({ sidebar }),
  *     ],
  *   });
  *
@@ -65,7 +60,9 @@ import { buildSidebarFromToc } from './sidebar';
 import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
 import { JSDOM } from 'jsdom';
-import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
+import { remarkEnvVars } from './plugins/remark-env-vars';
+import { remarkMdLinks } from './plugins/remark-md-links';
+import { remarkHtmlTransforms } from './plugins/remark-html-transforms';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'development' | 'staging' | 'production';
@@ -75,8 +72,8 @@ let _navHtmlCache: string | null = null;
 
 /**
  * Read `themeApiUrl` and `themingWidgetVersion` from the project's
- * environment.json at build time. Mirrors the lookup order in remark-docfx.ts
- * so both always resolve from the same file.
+ * environment.json at build time. Uses the same lookup order as the
+ * remark plugin so both always resolve from the same file.
  */
 function readThemingEnv(sourcePath: string | undefined, envKey: string): {
     themeApiUrl: string;
@@ -692,17 +689,12 @@ export interface CreateDocsSiteOptions {
     productLinks?: ProductLink[];
     /** Extra Astro integrations appended after the built-in ones. */
     integrations?: AstroIntegration[];
-    /**
-     * @deprecated Starlight has been removed. This option is ignored.
-     * Use `head` for extra head entries and `integrations` for extra integrations.
-     */
-    starlight?: Record<string, unknown>;
     /** Any remaining keys are spread into `defineConfig` (markdown, image, build, …). */
     [key: string]: unknown;
 }
 
 /**
- * Creates a complete Astro config for a standard Starlight docs site.
+ * Creates a complete Astro config for a docs site.
  *
  * All individual helpers (`buildSidebarFromToc`, `siteMetaIntegration`)
  * remain independently importable for cases that need finer control.
@@ -741,7 +733,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     if (!process.env.DOCS_ENV) {
         process.env.DOCS_ENV = mode;
     }
-    // Expose the platform so remark-docfx can set data-platform on widgets it generates.
+    // Expose the platform so the remark plugin can set data-platform on widgets it generates.
     if (platform) {
         process.env.DOCS_PLATFORM = platform;
     }
@@ -802,11 +794,12 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         markdown: {
             ...(astroExtra as any).markdown,
             remarkPlugins: [
-                remarkDocfx,
+                remarkEnvVars,
+                remarkMdLinks,
+                remarkHtmlTransforms,
                 ...((astroExtra as any).markdown?.remarkPlugins ?? []),
             ],
             rehypePlugins: [
-                rehypeCodeView,
                 ...((astroExtra as any).markdown?.rehypePlugins ?? []),
             ],
         },

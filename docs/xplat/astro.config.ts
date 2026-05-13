@@ -342,9 +342,6 @@ export default createDocsSite({
             href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
             platform: key,
         })),
-    starlight: {
-        logo: { src: './public/favicon.svg' },
-    },
     integrations: [mdx()],
     vite: {
         plugins: [vitePluginPlatformTokens()],

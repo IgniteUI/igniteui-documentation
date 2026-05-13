@@ -1,7 +1,7 @@
 /**
  * sidebar.ts
  *
- * Builds an Astro Starlight sidebar from a YAML or JSON TOC file.
+ * Builds an Astro sidebar from a YAML or JSON TOC file.
  * Source-agnostic: consuming repos pass their own paths.
  *
  * Usage in a consuming repo's astro.config.ts:
@@ -102,7 +102,7 @@ function convertTocItem(
     if (item.href) {
         if (!docExists(docsDir, item.href, exclude)) return null;
         const entry: SidebarLink = { label: item.name, slug: hrefToSlug(item.href) };
-        // Status badge — only one slot available in Starlight, priority order:
+        // Status badge — only one slot available, priority order:
         if (item.new) entry.badge = { text: 'New', variant: 'success' };
         else if (item.preview) entry.badge = { text: 'Preview', variant: 'caution' };
         else if (item.updated) entry.badge = { text: 'Updated', variant: 'note' };
@@ -133,7 +133,7 @@ export interface BuildSidebarFromTocOptions {
 }
 
 /**
- * Reads a YAML or JSON TOC file and converts it to a Starlight sidebar array.
+ * Reads a YAML or JSON TOC file and converts it to a sidebar array.
  */
 export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSidebarFromTocOptions): SidebarEntry[] {
     if (!tocPath || !fs.existsSync(tocPath)) return [];
