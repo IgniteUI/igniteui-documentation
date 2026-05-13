@@ -8,6 +8,8 @@ import mdx from '@astrojs/mdx';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Preserve the project root before chdir so platform-context.ts can find docConfig.json.
+process.env.DOCS_PROJECT_ROOT = __dirname;
 // When --outDir=../../dist/* points outside docs/angular/, Astro's getOutDirWithinCwd()
 // falls back to .astro/ as serverRoot, causing image generation to ENOENT.
 // Changing CWD to the repo root makes dist/* start with CWD, so serverRoot is correct.
@@ -56,6 +58,10 @@ export default createDocsSite({
 	platform: 'angular',
 	navLang: docsLang,
 	mode,
+	build: {
+		format: 'file'
+	},
+	trailingSlash: 'never',
 	productLinks: Object.values(IGDOCS_PLATFORMS)
 		.filter(p => p.lang === docsLang)
 		.map(({ label, key, base: b }) => ({

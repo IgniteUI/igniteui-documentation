@@ -284,22 +284,23 @@ export function siteMetaIntegration({
 
     // Navigation buckets for this platform — stripped from ancestor paths during label generation.
     const broadSections = getBroadSectionsForPlatform(effectivePlatform);
-    const moduleCode = `export const title = ${JSON.stringify(title)};
-export const sidebar = ${JSON.stringify(sidebar ?? [])};
-export const productLinks = ${JSON.stringify(productLinks)};
-export const headEntries = ${JSON.stringify(head ?? [])};
-`;
-
     // Captured from astro:config:done; used to generate llms.txt content.
     let configuredSite = '';
+    let configuredTrailingSlash: string = 'ignore';
 
     return {
         name: 'docs-template:site-meta',
         hooks: {
             'astro:config:done'({ config }) {
                 configuredSite = (config.site?.toString() ?? '').replace(/\/$/, '');
+                configuredTrailingSlash = config.trailingSlash ?? 'ignore';
             },
-            'astro:config:setup'({ updateConfig, injectRoute }) {
+            'astro:config:setup'({ updateConfig, injectRoute, addMiddleware }) {
+                addMiddleware({
+                    entrypoint: fileURLToPath(new URL('./middleware.ts', import.meta.url)),
+                    order: 'pre',
+                });
+
                 injectRoute({
                     pattern: '/sitemap.xml',
                     entrypoint: fileURLToPath(new URL('./routes/sitemap.xml.ts', import.meta.url)),
@@ -341,7 +342,12 @@ export const headEntries = ${JSON.stringify(head ?? [])};
                                 if (id === navVirtualId) return navResolvedId;
                             },
                             async load(id: string) {
-                                if (id === resolvedId) return moduleCode;
+                                if (id === resolvedId) return `export const title = ${JSON.stringify(title)};
+export const sidebar = ${JSON.stringify(sidebar ?? [])};
+export const productLinks = ${JSON.stringify(productLinks)};
+export const headEntries = ${JSON.stringify(head ?? [])};
+export const trailingSlash = ${JSON.stringify(configuredTrailingSlash)};
+`;
                                 if (id !== navResolvedId) return;
 
                                 // Return cached module code — fetched at most once per build.
@@ -609,7 +615,7 @@ function createBasePrependIntegration(base: string): AstroIntegration {
 
             const original = fs.readFileSync(full, 'utf-8');
             const rewritten = original.replace(
-                /\bsrc="(\/[^"]*)"/g,
+                /(?<![a-zA-Z])src="(\/[^"]*)"/g,
                 (_: string, url: string) => {
                     if (url.startsWith(normalizedBase + '/')) return `src="${url}"`;
                     return `src="${normalizedBase}${url}"`;
