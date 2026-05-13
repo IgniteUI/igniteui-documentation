@@ -21,6 +21,13 @@ import path from 'node:path';
 let _ENV: Record<string, string> | null = null;
 let _envSourcePath: string | null = null; // tracks which DOCS_SOURCE_PATH was used
 
+const DOCCONFIG_PLATFORM_MAP: Record<string, string> = {
+  angular:          'Angular',
+  react:            'React',
+  'web-components': 'WebComponents',
+  blazor:           'Blazor',
+};
+
 function loadEnv(): Record<string, string> {
   const currentPath = process.env.DOCS_SOURCE_PATH ?? null;
   // Re-load if the source path changed (e.g. two projects built in the same process)
@@ -46,7 +53,27 @@ function loadEnv(): Record<string, string> {
   ];
 
   const envPath = candidates.find(c => fs.existsSync(c));
-  if (!envPath) { _ENV = {}; return _ENV; }
+  if (!envPath) {
+    // Fallback: read samplesBrowsers from docConfig.json (no generate step needed).
+    // Mirrors the same fallback in src/lib/platform-context.ts getEnvVars().
+    try {
+      const envKey = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'production';
+      const docConfigPlatform = DOCCONFIG_PLATFORM_MAP[process.env.DOCS_PLATFORM ?? ''] ?? '';
+      if (docConfigPlatform) {
+        const docConfig = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'docConfig.json'), 'utf-8'));
+        const demosUrl: string =
+          docConfig[docConfigPlatform]?.samplesBrowsers?.[envKey] ??
+          docConfig[docConfigPlatform]?.samplesBrowsers?.['development'] ??
+          '';
+        _ENV = { dvDemosBaseUrl: demosUrl, demosBaseUrl: demosUrl, infragisticsBaseUrl: 'https://www.infragistics.com' };
+      } else {
+        _ENV = {};
+      }
+    } catch {
+      _ENV = {};
+    }
+    return _ENV;
+  }
 
   try {
     const envData = JSON.parse(fs.readFileSync(envPath, 'utf-8'));

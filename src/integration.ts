@@ -295,7 +295,12 @@ export function siteMetaIntegration({
                 configuredSite = (config.site?.toString() ?? '').replace(/\/$/, '');
                 configuredTrailingSlash = config.trailingSlash ?? 'ignore';
             },
-            'astro:config:setup'({ updateConfig, injectRoute }) {
+            'astro:config:setup'({ updateConfig, injectRoute, addMiddleware }) {
+                addMiddleware({
+                    entrypoint: fileURLToPath(new URL('./middleware.ts', import.meta.url)),
+                    order: 'pre',
+                });
+
                 injectRoute({
                     pattern: '/sitemap.xml',
                     entrypoint: fileURLToPath(new URL('./routes/sitemap.xml.ts', import.meta.url)),
@@ -610,7 +615,7 @@ function createBasePrependIntegration(base: string): AstroIntegration {
 
             const original = fs.readFileSync(full, 'utf-8');
             const rewritten = original.replace(
-                /\bsrc="(\/[^"]*)"/g,
+                /(?<![a-zA-Z])src="(\/[^"]*)"/g,
                 (_: string, url: string) => {
                     if (url.startsWith(normalizedBase + '/')) return `src="${url}"`;
                     return `src="${normalizedBase}${url}"`;
