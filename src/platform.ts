@@ -8,9 +8,6 @@
  *   import { getPlatformHead } from './src/platform.ts';
  *   // inside createDocsSite({ head: getPlatformHead('angular', 'en') })
  *
- * Usage from integration.ts:
- *   import { getNavConfig } from './platform.ts';
- *   const { navType, navUrl } = getNavConfig(platform, navLang);
  */
 
 // ---------------------------------------------------------------------------

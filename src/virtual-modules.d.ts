@@ -17,21 +17,11 @@ declare module 'virtual:docs-template/site-meta' {
   export const trailingSlash: 'always' | 'never' | 'ignore';
 }
 
-import type { NavLang, NavTheme } from './platform.ts';
+import type { NavLang } from './platform.ts';
 
 declare module 'virtual:docs-template/nav-html' {
   export const platform: 'igniteui' | 'angular' | 'react' | 'blazor' | 'web-components' | 'slingshot' | 'appbuilder' | null;
   export const navLang: NavLang;
   export const themeApiUrl: string;
   export const widgetScriptSrc: string;
-  export const prefetched: boolean;
-  export const headerHtml: string;
-  export const uiFooterHtml: string;
-  export const footerHtml: string;
-  export const abPrefetched: boolean;
-  export const abHeaderHtml: string;
-  export const abFooterHtml: string;
-  export const abFooterUtilsHtml: string;
-  export const abFooterCopyrightHtml: string;
-  export const abContactSalesHtml: string;
 }
