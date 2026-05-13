@@ -39,7 +39,7 @@ function rewriteMdLink(url: string, filePath: string, docsDir: string): string {
   return docsBase + '/' + slug.toLowerCase() + '/' + suffix;
 }
 
-/** Remark plugin that rewrites relative .md links and prepends DOCS_BASE. */
+/** Remark plugin that rewrites relative .md links, prepends DOCS_BASE, and fixes relative image paths. */
 export function remarkMdLinks() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (tree: any, file: any) => {
@@ -49,18 +49,26 @@ export function remarkMdLinks() {
       : (filePath ? path.dirname(filePath) : '');
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    visit(tree, 'link', (node: any) => {
-      node.url = rewriteMdLink(node.url as string, filePath, docsDir);
+    visit(tree, (node: any) => {
+      if (node.type === 'link' && node.url) {
+        node.url = rewriteMdLink(node.url as string, filePath, docsDir);
 
-      // Prepend DOCS_BASE to root-relative internal links not already prefixed.
-      const docsBase = (process.env.DOCS_BASE ?? '').replace(/\/$/, '');
-      if (
-        docsBase &&
-        (node.url as string).startsWith('/') &&
-        !(node.url as string).startsWith('//') &&
-        !(node.url as string).startsWith(docsBase + '/')
-      ) {
-        node.url = docsBase + (node.url as string);
+        // Prepend DOCS_BASE to root-relative internal links not already prefixed.
+        const docsBase = (process.env.DOCS_BASE ?? '').replace(/\/$/, '');
+        if (
+          docsBase &&
+          (node.url as string).startsWith('/') &&
+          !(node.url as string).startsWith('//') &&
+          !(node.url as string).startsWith(docsBase + '/')
+        ) {
+          node.url = docsBase + (node.url as string);
+        }
+      }
+
+      // Rewrite relative `../images/` paths in markdown image nodes to root-relative `/images/`.
+      // Generated MDX files may contain relative image references that Vite cannot resolve.
+      if (node.type === 'image' && node.url) {
+        node.url = (node.url as string).replace(/^(\.\.\/)+images\//, '/images/');
       }
     });
   };
