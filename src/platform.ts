@@ -76,7 +76,7 @@ export interface NavConfig {
 const IG_STYLES: HeadEntry[] = [
     // Bootstrap is wrapped in a CSS cascade layer so its global resets do not
     // bleed into the Starlight theme. The layer priority order is declared at
-    // the top of custom.css: @layer bootstrap, starlight.core, starlight.overrides
+    // the top of ig-theme.scss via @layer bootstrap.
     // Note: @import layer() does not support the `integrity` SRI attribute.
     {
         tag: 'style',
@@ -116,7 +116,7 @@ const APPBUILDER_STYLES: HeadEntry[] = [
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/plugins/megamenu-pro/icons/genericons/genericons/genericons.css', media: 'all' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/plugins/megamenu-pro/icons/fontawesome6/css/all.min.css', media: 'all' } },
     // Bootstrap v4.4 partials — wrapped in a CSS cascade layer so they don't
-    // override the Starlight theme. See custom.css @layer declaration.
+    // override the Starlight theme. See @layer bootstrap in ig-theme.scss.
     {
         tag: 'style',
         content: [
