@@ -251,6 +251,7 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
 export const productLinks = ${JSON.stringify(productLinks)};
 export const headEntries = ${JSON.stringify(head ?? [])};
 export const trailingSlash = ${JSON.stringify(configuredTrailingSlash)};
+export const navLang = ${JSON.stringify(navLang)};
 `;
                                 if (id !== navResolvedId) return;
 
@@ -263,7 +264,6 @@ export const trailingSlash = ${JSON.stringify(configuredTrailingSlash)};
 
                                 return [
                                     `export const platform = ${JSON.stringify(platform ?? null)};`,
-                                    `export const navLang = ${JSON.stringify(navLang)};`,
                                     `export const themeApiUrl = ${JSON.stringify(themeApiUrl)};`,
                                     `export const widgetScriptSrc = ${JSON.stringify(widgetScriptSrc)};`,
                                 ].join('\n');
