@@ -27,7 +27,7 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             excel:       { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-excel/latest',       packageId: 'igniteui-angular-excel',       noPackagePrefix: true, preserveCase: true },
             spreadsheet: { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-spreadsheet/latest', packageId: 'igniteui-angular-spreadsheet', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
             inputs:      { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-inputs/latest',      packageId: 'igniteui-angular-inputs',      noPackagePrefix: true, preserveCase: true },
-            layouts:     { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-layouts/latest',     packageId: 'igniteui-angular-layouts',     noPackagePrefix: true, preserveCase: true },
+            layouts:     { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-layouts/latest',     packageId: 'igniteui-angular-layouts',     noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
         },
         packages: {
             common: 'igniteui-angular',
