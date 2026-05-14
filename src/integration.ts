@@ -66,6 +66,7 @@ import { getNavConfig, getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
 import { JSDOM } from 'jsdom';
 import { remarkDocfx, rehypeCodeView } from './plugins/remark-docfx';
+import { rehypeTableWrapper } from 'igniteui-astro-components/plugins/rehype-table-wrapper';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'development' | 'staging' | 'production';
@@ -807,6 +808,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
             ],
             rehypePlugins: [
                 rehypeCodeView,
+                rehypeTableWrapper,
                 ...((astroExtra as any).markdown?.rehypePlugins ?? []),
             ],
         },
