@@ -13,6 +13,8 @@ declare module 'virtual:docs-template/site-meta' {
     attrs?: Record<string, string | boolean | undefined>;
     content?: string;
   }>;
+  /** Astro trailingSlash config value: 'always' | 'never' | 'ignore'. */
+  export const trailingSlash: 'always' | 'never' | 'ignore';
 }
 
 import type { NavLang, NavTheme } from './platform.ts';
