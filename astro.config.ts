@@ -44,6 +44,7 @@ const sidebar = buildSidebarFromToc({
 // https://astro.build/config
 export default defineConfig({
   site: 'localhost:4321',
+  trailingSlash: 'never',
   compressHTML: true,
   build: {
     assets: '_assets',
@@ -71,7 +72,6 @@ export default defineConfig({
       // Prepend the packaged theme entry so consuming projects get the theme.
       customCss: [
         './src/styles/ig-theme.scss',
-        './src/styles/custom.css',
       ],
       head: [
         // Platform CDN assets — driven by platform below
