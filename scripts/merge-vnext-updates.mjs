@@ -2,6 +2,13 @@
 /**
  * 3-way merge of docfx vnext body-only updates into local .mdx files.
  *
+ * Usage:
+ *   node scripts/merge-vnext-updates.mjs [ancestor] [theirs]
+ *
+ * Defaults:
+ *   ancestor = the last sync point (update LAST_SYNC below after each sync)
+ *   theirs   = igniteui-docfx/vnext
+ *
  * Strategy: Merge only the BODY (content after frontmatter `---`), because
  * our frontmatter has been structurally transformed (underscore removal, field
  * deletion) and always conflicts with the docfx ancestor. Body content shares
@@ -16,6 +23,9 @@
  *
  * grids_templates/* files are expanded to all 4 grid subdirectories.
  * Images and toc.yml are skipped.
+ *
+ * After running this script, run convert-callouts.mjs to handle any new
+ * >[!NOTE] callouts or <!-- schema: --> comments introduced by the merge.
  */
 
 import { execSync, spawnSync } from 'node:child_process';
@@ -23,12 +33,20 @@ import { readFileSync, writeFileSync, mkdtempSync, rmSync, existsSync } from 'no
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 
-const ANCESTOR = 'c9c1248582';
-const THEIRS = 'igniteui-docfx/vnext';
+// ──────────────────────────────────────────────────────────────────────────────
+// UPDATE THIS after each successful sync to docfx vnext
+const LAST_SYNC = '9347b2861b';
+// ──────────────────────────────────────────────────────────────────────────────
+
+const ANCESTOR = process.argv[2] || LAST_SYNC;
+const THEIRS = process.argv[3] || 'igniteui-docfx/vnext';
 const CONTENT_DIR = 'docs/angular/src/content';
 const GRID_DIRS = ['grid', 'treegrid', 'hierarchicalgrid', 'pivotGrid'];
 
 // Get list of modified files
+console.log(`Ancestor: ${ANCESTOR}`);
+console.log(`Theirs:   ${THEIRS}\n`);
+
 const modifiedRaw = execSync(
   `git diff --diff-filter=M --name-only ${ANCESTOR}..${THEIRS} -- en/ jp/`,
   { encoding: 'utf8' }

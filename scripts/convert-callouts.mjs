@@ -3,6 +3,11 @@
  * Convert docfx-style callouts to MDX <DocsAside> in all .mdx files.
  * Also removes <!-- schema: ... --> comments and ensures DocsAside import exists.
  *
+ * Usage:
+ *   node scripts/convert-callouts.mjs [directory]
+ *
+ * Default directory: docs/angular/src/content/
+ *
  * Callout patterns:
  *   > [!NOTE]         or   >[!NOTE]
  *   > text line 1          >text line 1
@@ -20,11 +25,18 @@ import { execSync } from 'node:child_process';
 
 const DOCS_ASIDE_IMPORT = "import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';";
 
+const searchDir = process.argv[2] || 'docs/angular/src/content/';
+
 // Find all .mdx files with callouts or schema comments
-const filesRaw = execSync(
-  `grep -rl "\\[!NOTE\\]\\|\\[!TIP\\]\\|\\[!WARNING\\]\\|\\[!IMPORTANT\\]\\|\\[!CAUTION\\]\\|<!-- schema:" docs/angular/src/content/ --include="*.mdx"`,
-  { encoding: 'utf8' }
-).trim().split('\n').filter(Boolean);
+let filesRaw;
+try {
+  filesRaw = execSync(
+    `grep -rl "\\[!NOTE\\]\\|\\[!TIP\\]\\|\\[!WARNING\\]\\|\\[!IMPORTANT\\]\\|\\[!CAUTION\\]\\|<!-- schema:" ${searchDir} --include="*.mdx"`,
+    { encoding: 'utf8' }
+  ).trim().split('\n').filter(Boolean);
+} catch {
+  filesRaw = [];
+}
 
 console.log(`Found ${filesRaw.length} files with callouts/schema comments to process.\n`);
 
@@ -54,10 +66,16 @@ for (const filePath of filesRaw) {
   // Ensure DocsAside import exists if we have <DocsAside in the file
   if (content.includes('<DocsAside') && !content.includes(DOCS_ASIDE_IMPORT)) {
     // Insert after frontmatter (after second ---)
-    const fmEnd = content.indexOf('---', content.indexOf('---') + 3);
-    if (fmEnd !== -1) {
-      const insertPos = content.indexOf('\n', fmEnd) + 1;
+    const firstFm = content.indexOf('---');
+    const secondFm = firstFm !== -1 ? content.indexOf('---', firstFm + 3) : -1;
+    if (secondFm !== -1) {
+      // Has frontmatter — insert after closing ---
+      const insertPos = content.indexOf('\n', secondFm) + 1;
       content = content.slice(0, insertPos) + '\n' + DOCS_ASIDE_IMPORT + '\n' + content.slice(insertPos);
+      importsAdded++;
+    } else {
+      // No frontmatter — insert at the very top
+      content = DOCS_ASIDE_IMPORT + '\n\n' + content;
       importsAdded++;
     }
   }
