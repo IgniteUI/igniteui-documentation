@@ -22,7 +22,7 @@ export interface SidebarBadge {
 export interface SidebarLink {
   label: string;
   slug: string;
-  badge?: SidebarBadge;
+  badges?: SidebarBadge[];
   attrs?: Record<string, string | number | boolean | undefined>;
 }
 

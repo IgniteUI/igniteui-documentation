@@ -102,17 +102,15 @@ function convertTocItem(
     if (item.href) {
         if (!docExists(docsDir, item.href, exclude)) return null;
         const entry: SidebarLink = { label: item.name, slug: hrefToSlug(item.href) };
-        // Status badge — only one slot available in Starlight, priority order:
-        if (item.new)          entry.badge = { text: 'New',     variant: 'new'     };
-        else if (item.preview) entry.badge = { text: 'Preview', variant: 'preview' };
-        else if (item.updated) entry.badge = { text: 'Updated', variant: 'updated' };
-        // Premium is rendered via data-premium attr so it can coexist with a
-        // status badge (CSS ::after pseudo-element adds the star icon).
+        const badges: NonNullable<SidebarLink['badges']> = [];
+        if (item.new)          badges.push({ text: 'New',     variant: 'new'     });
+        else if (item.preview) badges.push({ text: 'Preview', variant: 'preview' });
+        else if (item.updated) badges.push({ text: 'Updated', variant: 'updated' });
         if (item.premium) {
             entry.attrs = { 'data-premium': 'true' };
-            // Only use the badge slot for premium when no status badge is shown.
-            if (!entry.badge) entry.badge = { text: 'Premium', variant: 'premium' };
+            badges.push({ text: 'Premium', variant: 'premium' });
         }
+        if (badges.length) entry.badges = badges;
         return entry;
     }
 
