@@ -1,8 +1,8 @@
-# AI Agent Guide — Updating ApiLink & ApiRef in MDX Files
+# AI Agent Guide — Updating ApiLink in MDX Files
 
 ## Context
 
-The MDX files in this folder are shared across four platforms: **Angular, React, WebComponents, Blazor**. The `<ApiLink>` and `<ApiRef>` components resolve to the correct platform-specific URL at build time from a single MDX source.
+The MDX files in this folder are shared across four platforms: **Angular, React, WebComponents, Blazor**. The `<ApiLink>` component resolves to the correct platform-specific URL at build time from a single MDX source.
 
 > **Key insight:** The `type=`, `member=`, `pkg=`, and `kind=` attributes are **identical for all platforms**. Fixing an ApiLink fixes it for all four platforms simultaneously. Only the generated URL differs per platform.
 
@@ -386,20 +386,21 @@ After:
 
 ---
 
-## Step 9 — Adding ApiRef Entries
+## Step 9 — Adding API Reference Entries
 
-If a page references a type not yet in `## API References`, add an `<ApiRef>`. Use one call per unique `kind` + `pkg` combination:
+If a page references a type not yet in `## API References`, add individual `<ApiLink>` tags — one per type:
 
 ```mdx
 ## API References
 
-<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
-<ApiRef pkg="grids" types={["Column", "ColumnGroup"]} />
-<ApiRef pkg="grids" kind="interface" types={["ClipboardOptions"]} />
+<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />
+<ApiLink pkg="grids" type="Column" />
+<ApiLink pkg="grids" type="ColumnGroup" />
+<ApiLink pkg="grids" kind="interface" type="ClipboardOptions" />
 ```
 
 Rules:
-- All `types` in one `<ApiRef>` call must share the same `pkg` and `kind`
+- One `<ApiLink>` per type — no arrays
 - Use `prefixed={false}` only for `{ComponentName}` or fully-qualified names
 
 ## Key Files
@@ -407,7 +408,6 @@ Rules:
 | File | Role |
 |---|---|
 | `src/components/mdx/ApiLink.astro` | ApiLink component — URL generation logic |
-| `src/components/mdx/ApiRef.astro` | ApiRef component |
 | `src/lib/platform-context.ts` | Platform config, `docRoot` URLs per platform, prefix mapping |
 | `api-docs/src/data/react/igniteui-react-grids.json` | TypeDoc JSON — React grids (primary reference) |
 | `api-docs/src/data/react/igniteui-react.json` | TypeDoc JSON — React core |
