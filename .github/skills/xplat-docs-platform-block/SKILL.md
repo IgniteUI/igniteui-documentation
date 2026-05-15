@@ -349,8 +349,8 @@ Typical full-coverage pattern:
 | File | Role |
 |---|---|
 | `src/components/mdx/PlatformBlock.astro` | PlatformBlock component — renders content conditionally per platform |
-| `src/lib/platform-context.ts` | Platform detection and config (used by ApiLink/ApiRef; same platforms) |
+| `src/lib/platform-context.ts` | Platform detection and config (used by ApiLink; same platforms) |
 
 ## Related Skills
 
-- [`xplat-docs-api-links`](../xplat-docs-api-links/SKILL.md) — ApiLink and ApiRef usage guide
+- [`xplat-docs-api-links`](../xplat-docs-api-links/SKILL.md) — ApiLink usage guide
