@@ -13,6 +13,7 @@
  *   7. <!-- schema: --> comments (should be removed)
  *   8. Lost <ApiLink> (compare count with master/base branch)
  *   9. Lost <Sample> (compare count with master/base branch)
+ *  10. Markdown images ![alt](path) outside code fences (should be <Image> components)
  *
  * Usage:
  *   node scripts/check-mdx-quality.mjs                     (check all modified .mdx vs master)
@@ -140,6 +141,14 @@ for (const file of files) {
     // Check 7: Schema comments
     if (line.match(/^<!-- schema:/)) {
       fileIssues.push({ line: lineNum, type: 'schema-comment', msg: '<!-- schema: --> should be removed' });
+    }
+
+    // Check 10: Markdown images outside code fences (should be <Image> from astro:assets)
+    const mdImages = line.match(/!\[[^\]]*\]\([^)]+\.(png|jpg|jpeg|gif|svg|webp)[^)]*\)/gi);
+    if (mdImages) {
+      for (const m of mdImages) {
+        fileIssues.push({ line: lineNum, type: 'markdown-image', msg: `Markdown image (should be <Image> from astro:assets): ${m.substring(0, 80)}` });
+      }
     }
   }
 
