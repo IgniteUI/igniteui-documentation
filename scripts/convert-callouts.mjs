@@ -52,16 +52,31 @@ for (const filePath of filesRaw) {
   content = content.replace(/^<!-- schema:.*-->\r?\n/gm, '');
   if (content !== original) schemasRemoved++;
 
-  // Convert callouts: > [!TYPE] or >[!TYPE] followed by > lines
-  const calloutRegex = /^[ \t]*>?\s*\[!(NOTE|TIP|WARNING|IMPORTANT|CAUTION)\]\s*\r?\n((?:[ \t]*>[^\n]*\r?\n?)*)/gm;
-
-  content = content.replace(calloutRegex, (match, type, body) => {
-    // Strip leading > and optional space from each body line
-    const lines = body.split(/\r?\n/).filter(l => l.trim() !== '');
-    const cleanLines = lines.map(l => l.replace(/^[ \t]*>\s?/, ''));
-    const typeLC = type.toLowerCase() === 'important' ? 'note' : type.toLowerCase();
-    return `<DocsAside type="${typeLC}">\n${cleanLines.join('\n')}\n</DocsAside>\n`;
-  });
+  // Convert callouts line-by-line, skipping content inside code fences
+  {
+    const inputLines = content.split('\n');
+    const outputLines = [];
+    let inFence = false;
+    for (let i = 0; i < inputLines.length; i++) {
+      const line = inputLines[i];
+      if (line.match(/^```/)) { inFence = !inFence; outputLines.push(line); continue; }
+      if (inFence) { outputLines.push(line); continue; }
+      const m = line.match(/^[ \t]*>\s*\[!(NOTE|TIP|WARNING|IMPORTANT|CAUTION)\]\s*\r?$/);
+      if (m) {
+        const type = m[1];
+        const bodyLines = [];
+        while (i + 1 < inputLines.length && inputLines[i + 1].match(/^[ \t]*>/)) {
+          i++;
+          bodyLines.push(inputLines[i].replace(/^[ \t]*>\s?/, '').replace(/\r$/, ''));
+        }
+        const typeLC = type.toLowerCase() === 'important' ? 'note' : type.toLowerCase();
+        outputLines.push(`<DocsAside type="${typeLC}">`, ...bodyLines, `</DocsAside>`);
+        continue;
+      }
+      outputLines.push(line);
+    }
+    content = outputLines.join('\n');
+  }
 
   // Ensure DocsAside import exists if we have <DocsAside in the file
   if (content.includes('<DocsAside') && !content.includes(DOCS_ASIDE_IMPORT)) {

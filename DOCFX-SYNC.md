@@ -169,6 +169,11 @@ After fixing, verify that new `<ApiLink>` additions don't conflict with the skil
 
 | File | Purpose |
 |---|---|
-| `scripts/check-mdx-quality.mjs` | Post-sync validation script |
+| `scripts/check-mdx-quality.mjs` | Post-sync validation — detects raw API links, .md extensions, lost `<ApiLink>`/`<Sample>`, callouts, schema comments, unclosed `<br>`, markdown images |
+| `scripts/merge-vnext-updates.mjs` | 3-way body-only merge of docfx vnext updates into local .mdx files; update `LAST_SYNC` after each sync |
+| `scripts/reimport-body.mjs` | Re-merge upstream body for files where initial "keep ours" resolution discarded substantive text; applies MDX transforms to resolved content |
+| `scripts/convert-callouts.mjs` | Convert `>[!NOTE/TIP/...]` callouts to `<DocsAside>` and remove `<!-- schema: -->` comments in-place |
+| `scripts/convert-img-tags.mjs` | Convert `<img class="responsive-img">` tags to `<Image>` components from `astro:assets` |
+| `scripts/migrate-vnext-new-files.mjs` | Apply full DocFX → MDX migration to newly-imported pages (frontmatter cleanup, callouts, code-view, images) |
 | `DOCFX-SYNC.md` | This guide |
 | `.github/skills/docfx-sync/SKILL.md` | AI agent skill for performing syncs |
