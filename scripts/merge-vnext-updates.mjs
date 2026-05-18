@@ -35,7 +35,7 @@ import { tmpdir } from 'node:os';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // UPDATE THIS after each successful sync to docfx vnext
-const LAST_SYNC = '9347b2861b';
+const LAST_SYNC = 'f8c877bc9e';
 // ──────────────────────────────────────────────────────────────────────────────
 
 const ANCESTOR = process.argv[2] || LAST_SYNC;
