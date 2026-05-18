@@ -21,6 +21,7 @@ The skills below are the canonical reference for both.
 |---|---|
 | [`xplat-docs-api-links`](./skills/xplat-docs-api-links/SKILL.md) | Adding, fixing, or auditing `<ApiLink>` calls in MDX files |
 | [`xplat-docs-platform-block`](./skills/xplat-docs-platform-block/SKILL.md) | Adding, fixing, or auditing `<PlatformBlock>` usage in MDX files |
+| [`docfx-sync`](./skills/docfx-sync/SKILL.md) | Merging upstream igniteui-docfx changes and fixing MDX regressions |
 
 ---
 
@@ -37,6 +38,10 @@ The skills below are the canonical reference for both.
 | Checking that a file has no bare platform-specific code blocks | `xplat-docs-platform-block` |
 | Investigating a PlatformBlock balance error (unmatched open/close tags) | `xplat-docs-platform-block` |
 | Fixing a self-closing `<PlatformBlock />` tag error | `xplat-docs-platform-block` |
+| Merging a docfx vnext sync PR into this repo | `docfx-sync` |
+| Fixing `{environment:angularApiUrl}` links after a sync | `docfx-sync` |
+| Fixing `.md` link extensions after a sync | `docfx-sync` |
+| Restoring lost `<ApiLink>` or `<Sample>` components after a sync | `docfx-sync` |
 
 ---
 
