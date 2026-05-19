@@ -1,102 +1,82 @@
 # docs-template
 
-A basic [Astro](https://astro.build) template for building documentation sites under IgniteUI.
+Shared [Astro](https://astro.build) documentation framework for IgniteUI library docs. Consumes [`igniteui-astro-components`](https://github.com/IgniteUI/astro-components) and provides per-platform builds for Angular, React, Web Components, and Blazor docs.
 
-## 🚀 Features
+## Prerequisites
 
-- ⚡ Astro static site generation
-- 📄 Content Collections for structured docs
-- 🎨 Base layout with slot support
-- 🟦 TypeScript support out of the box
-- 📦 Ready to extend with any UI framework
+- [Node.js](https://nodejs.org) v22.12.0 or higher
+- npm workspaces (both `docs/angular` and `docs/xplat` are workspace members)
 
-## 📋 Prerequisites
-
-- [Node.js](https://nodejs.org) v18.17.1 or higher
-- [npm](https://www.npmjs.com/) v9+ (or pnpm / yarn)
-
-## 🛠️ Getting Started
-
-### 1. Use this template
-
-Click **"Use this template"** on GitHub, or clone it directly:
-
-```bash
-git clone https://github.com/IgniteUI/docs-template.git my-docs
-cd my-docs
-```
-
-### 2. Install dependencies
+## Getting started
 
 ```bash
 npm install
 ```
 
-### 3. Start the dev server
+### Dev server
 
 ```bash
-npm run dev
+# Angular docs
+npm run angular:dev:en
+
+# xplat (pick a platform)
+npm run xplat:dev:angular
+npm run xplat:dev:react
+npm run xplat:dev:webcomponents
+npm run xplat:dev:blazor
 ```
 
-The site will be available at `http://localhost:4321`.
-
-## 📁 Project Structure
+## Project structure
 
 ```
 docs-template/
-├── public/                  # Static assets (images, fonts, etc.)
 ├── src/
-│   ├── content/
-│   │   ├── config.ts        # Content collections schema
-│   │   └── docs/            # Markdown/MDX documentation pages
-│   ├── layouts/
-│   │   └── BaseLayout.astro # Base page layout
-│   └── pages/
-│       └── index.astro      # Homepage
-├── astro.config.mjs         # Astro configuration
-├── tsconfig.json            # TypeScript configuration
+│   ├── integration.ts          # Core Astro integration (virtual modules, plugins, pagefind)
+│   ├── platform.ts             # Per-platform CDN assets (styles/scripts) + nav types
+│   ├── sidebar.ts              # TOC → sidebar tree converter
+│   ├── plugins/
+│   │   ├── remark-env-vars.ts  # {Environment.X} token substitution
+│   │   ├── remark-md-links.ts  # .md → slug rewriting + DOCS_BASE prepending
+│   │   └── remark-html-transforms.ts  # divider→<hr>, code lang normalization, img fixes
+│   └── components/
+│       └── ThemingWidget.astro
+├── docs/
+│   ├── angular/                # Angular-specific docs workspace
+│   └── xplat/                  # Cross-platform docs workspace (React, WC, Blazor)
 └── package.json
 ```
 
-## 📝 Adding Documentation Pages
+## Available scripts
 
-Add `.md` or `.mdx` files to `src/content/docs/`:
+| Command | Action |
+|---|---|
+| `npm run angular:dev:en` | Angular docs dev server (English) |
+| `npm run angular:build:en` | Build Angular docs (English) |
+| `npm run xplat:dev:react` | xplat React dev server |
+| `npm run xplat:build:react` | Build xplat React docs |
 
-```markdown
----
-title: My Page
-description: A short description.
----
+See `package.json` for the full list of per-platform build/preview commands.
 
-# My Page
+## Markdown plugins
 
-Content goes here.
-```
+Content is processed through three focused remark plugins (in `src/plugins/`):
 
-They will automatically be picked up by Astro's Content Collections.
+| Plugin | Purpose |
+|---|---|
+| `remark-env-vars` | Substitutes `{Environment.X}` tokens from `environment.json` |
+| `remark-md-links` | Rewrites `.md` hrefs to slugs; prepends `DOCS_BASE` |
+| `remark-html-transforms` | Converts `---` dividers to `<hr>`, normalises code lang aliases, fixes img `src` |
 
-## 🧞 Available Scripts
+## Virtual modules
 
-| Command           | Action                                       |
-|-------------------|----------------------------------------------|
-| `npm run dev`     | Start local dev server at `localhost:4321`   |
-| `npm run build`   | Build production site to `./dist/`           |
-| `npm run preview` | Preview the production build locally         |
-| `npm run astro`   | Run Astro CLI commands                       |
+`siteMetaIntegration` (via `createDocsSite`) exposes two virtual modules:
 
-## 🚢 Deployment
+- `virtual:docs-template/site-meta` — `title`, `sidebar`, `productLinks`, `headEntries`, `trailingSlash`, `navLang`
+- `virtual:docs-template/nav-html` — `platform`, `themeApiUrl`, `widgetScriptSrc`
 
-Run the build command and deploy the `dist/` directory to any static hosting provider:
+## Contributing
 
-```bash
-npm run build
-```
-
-Supports: GitHub Pages, Netlify, Vercel, Azure Static Web Apps, and more.
-
-## 🤝 Contributing
-
-This is an internal IgniteUI template. For changes, open a pull request and request a review from the docs team.
+Open a pull request and request a review from the docs team.
 
 ## 📄 License
 

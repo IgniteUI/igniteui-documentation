@@ -1,7 +1,7 @@
 /**
  * sidebar.ts
  *
- * Builds an Astro Starlight sidebar from a YAML or JSON TOC file.
+ * Builds an Astro sidebar from a JSON TOC file.
  * Source-agnostic: consuming repos pass their own paths.
  *
  * Usage in a consuming repo's astro.config.ts:
@@ -9,7 +9,7 @@
  *   import { buildSidebarFromToc } from 'docs-template/sidebar';
  *
  *   const sidebar = buildSidebarFromToc({
- *     tocPath: './node_modules/my-docs-source/toc.yml',   // YAML or JSON
+ *     tocPath: './node_modules/my-docs-source/toc.json',
  *     docsDir: './node_modules/my-docs-source/en/components',
  *     // exclude: [/^internal\//],   // optional extra exclude patterns
  *   });
@@ -17,7 +17,6 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import * as yaml from 'js-yaml';
 import type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 
 // Re-export so consumers (astro.config.ts in child sites) can import the
@@ -124,7 +123,7 @@ function convertTocItem(
 // ---------------------------------------------------------------------------
 
 export interface BuildSidebarFromTocOptions {
-    /** Absolute path to the TOC file (.yml or .json). */
+    /** Absolute path to the TOC file (.json). */
     tocPath: string;
     /** Absolute path to the Markdown docs directory. */
     docsDir: string;
@@ -133,12 +132,12 @@ export interface BuildSidebarFromTocOptions {
 }
 
 /**
- * Reads a YAML or JSON TOC file and converts it to a Starlight sidebar array.
+ * Reads a JSON TOC file and converts it to a sidebar array.
  */
 export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSidebarFromTocOptions): SidebarEntry[] {
     if (!tocPath || !fs.existsSync(tocPath)) return [];
     const tocRaw = fs.readFileSync(tocPath, 'utf-8');
-    const tocItems = tocPath.endsWith('.json') ? JSON.parse(tocRaw) : yaml.load(tocRaw) as TocItem[];
+    const tocItems: TocItem[] = JSON.parse(tocRaw);
 
     const sidebar: SidebarEntry[] = [];
     let currentGroup: SidebarGroup | null = null;

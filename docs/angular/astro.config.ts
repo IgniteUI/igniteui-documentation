@@ -74,9 +74,6 @@ export default createDocsSite({
 		docsDir: componentsDocsDir,
 	},
 	sidebar: { exclude: [/^internal\//] },
-	starlight: {
-		// logo: { src: './public/favicon.svg' },
-	},
 	integrations: [mdx()],
 	// Expose @/ alias so MDX files can import Sample.astro and peer components.
 	// @xplat-images resolves xplat-sourced MDX image imports to the angular images dir.
