@@ -1,83 +1,77 @@
-# docs-template
+# Ignite UI Documentation
 
-Shared [Astro](https://astro.build) documentation framework for IgniteUI library docs. Consumes [`igniteui-astro-components`](https://github.com/IgniteUI/astro-components) and provides per-platform builds for Angular, React, Web Components, and Blazor docs.
+This public repository contains the documentation source for the Ignite UI for Angular, Ignite UI for Blazor, Ignite UI for React, and Ignite UI for Web Components products. They are built and hosted using Astro.
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org) v22.12.0 or higher
-- npm workspaces (both `docs/angular` and `docs/xplat` are workspace members)
+- [npm](https://www.npmjs.com/)
 
-## Getting started
+## Getting Started
 
 ```bash
+git clone https://github.com/IgniteUI/igniteui-documentation.git
+cd igniteui-documentation
 npm install
 ```
 
-### Dev server
+## Project Structure
 
-```bash
-# Angular docs
-npm run angular:dev:en
-
-# xplat (pick a platform)
-npm run xplat:dev:angular
-npm run xplat:dev:react
-npm run xplat:dev:webcomponents
-npm run xplat:dev:blazor
-```
-
-## Project structure
-
-```
-docs-template/
-├── src/
-│   ├── integration.ts          # Core Astro integration (virtual modules, plugins, pagefind)
-│   ├── platform.ts             # Per-platform CDN assets (styles/scripts) + nav types
-│   ├── sidebar.ts              # TOC → sidebar tree converter
-│   ├── plugins/
-│   │   ├── remark-env-vars.ts  # {Environment.X} token substitution
-│   │   ├── remark-md-links.ts  # .md → slug rewriting + DOCS_BASE prepending
-│   │   └── remark-html-transforms.ts  # divider→<hr>, code lang normalization, img fixes
-│   └── components/
-│       └── ThemingWidget.astro
+```text
+igniteui-documentation/
 ├── docs/
-│   ├── angular/                # Angular-specific docs workspace
-│   └── xplat/                  # Cross-platform docs workspace (React, WC, Blazor)
-└── package.json
+│   ├── angular/          # Angular documentation package and generated Angular content
+│   │   ├── public/       # Angular-specific static assets
+│   │   ├── scripts/      # Angular sync and generation scripts
+│   │   └── src/          # Angular Astro pages, MDX content, and components
+│   └── xplat/            # Shared xplat source for Blazor, React, Web Components, and Angular-generated docs
+│       ├── public/       # xplat static assets
+│       ├── scripts/      # xplat generation scripts
+│       └── src/          # xplat Astro pages, MDX content, assets, and libraries
+├── public/               # Shared public assets
+├── scripts/              # Repository-level utility scripts
+├── src/                  # Shared Astro framework, routing, sidebar, content helpers, styles, and integrations
+├── package.json          # Root workspace and convenience scripts
+└── tsconfig.json         # Root TypeScript configuration
 ```
 
-## Available scripts
+## Running the Documentation Sites
 
-| Command | Action |
-|---|---|
-| `npm run angular:dev:en` | Angular docs dev server (English) |
-| `npm run angular:build:en` | Build Angular docs (English) |
-| `npm run xplat:dev:react` | xplat React dev server |
-| `npm run xplat:build:react` | Build xplat React docs |
+The old template-level run commands are obsolete for product documentation. Each documentation package owns its run, build, and preview commands in its own `package.json`.
 
-See `package.json` for the full list of per-platform build/preview commands.
+Use the platform-specific commands from the root workspace:
 
-## Markdown plugins
+| Product | Dev command
+| --- | --- |
+| Angular | `npm run angular:dev`
+| Angular English | `npm run angular:dev:en`
+| Angular Japanese | `npm run angular:dev:jp`
+| Angular Korean | `npm run angular:dev:kr`
+| React | `npm run xplat:dev:react`
+| React Japanese | `npm run xplat:dev:react:jp`
+| Web Components | `npm run xplat:dev:webcomponents`
+| Web Components Japanese | `npm run xplat:dev:webcomponents:jp`
+| Blazor | `npm run xplat:dev:blazor`
+| Blazor Japanese | `npm run xplat:dev:blazor:jp`
 
-Content is processed through three focused remark plugins (in `src/plugins/`):
 
-| Plugin | Purpose |
-|---|---|
-| `remark-env-vars` | Substitutes `{Environment.X}` tokens from `environment.json` |
-| `remark-md-links` | Rewrites `.md` hrefs to slugs; prepends `DOCS_BASE` |
-| `remark-html-transforms` | Converts `---` dividers to `<hr>`, normalises code lang aliases, fixes img `src` |
+## MDX Components
 
-## Virtual modules
+The MDX files currently use these documentation components from `igniteui-astro-components/components/mdx`:
 
-`siteMetaIntegration` (via `createDocsSite`) exposes two virtual modules:
+| Component | Purpose |
+| --- | --- |
+| `ApiLink` | Links to generated API reference entries. |
+| `DocsAside` | Adds callouts and aside content inside documentation pages. |
+| `PlatformBlock` | Shows content only for selected platforms. |
+| `Sample` | Embeds runnable or linked product samples. |
 
-- `virtual:docs-template/site-meta` — `title`, `sidebar`, `productLinks`, `headEntries`, `trailingSlash`, `navLang`
-- `virtual:docs-template/nav-html` — `platform`, `themeApiUrl`, `widgetScriptSrc`
+## Content Locations
+
+- Angular content lives under `docs/angular/src/content/<locale>/`.
+- Shared xplat content lives under `docs/xplat/src/content/<locale>/`.
+- Static images and assets are stored in the nearest product package when product-specific, or in the root `public/` directory when shared.
 
 ## Contributing
 
-Open a pull request and request a review from the docs team.
-
-## 📄 License
-
-Internal use only — © IgniteUI / Infragistics.
+Open a pull request against this repository and request review from the documentation team.
