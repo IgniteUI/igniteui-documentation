@@ -194,7 +194,7 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     },
     React: {
         lang: 'en', label: 'React', key: 'react', devPort: 4332,
-        base: '/products/ignite-ui-react/react',
+        base: '/products/ignite-ui-react/react/components',
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
