@@ -103,6 +103,11 @@ function gitContent(ref, path) {
   catch { return null; }
 }
 
+function isGitIgnored(path) {
+  const result = spawnSync('git', ['check-ignore', '-q', path]);
+  return result.status === 0;
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 console.log(`Ancestor: ${ANCESTOR}`);
@@ -152,6 +157,10 @@ try {
       if (ancestorBody === theirsBody) continue;
 
       for (const localPath of localPaths) {
+        if (isGitIgnored(localPath)) {
+          process.stdout.write(`  ⊘ ${localPath} (gitignored — skipped)\n`);
+          continue;
+        }
         const oursContent = readFileSync(localPath, 'utf8');
         const { head: oursHead, body: oursBody } = splitFrontmatter(oursContent);
 
