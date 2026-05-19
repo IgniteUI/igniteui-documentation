@@ -42,7 +42,7 @@ import { tmpdir } from 'node:os';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // UPDATE THIS to the tip commit after each successful sync
-const LAST_SYNC = 'cfef387355';
+const LAST_SYNC = '557f56e672';
 // ──────────────────────────────────────────────────────────────────────────────
 
 const ANCESTOR = process.argv[2] || LAST_SYNC;
