@@ -1,8 +1,6 @@
 # Ignite UI Documentation
 
-This public repository contains the documentation source for the Ignite UI for Angular, Ignite UI for Blazor, Ignite UI for React, and Ignite UI for Web Components products.
-
-It started as an Astro documentation template, but now fully replaces the old `igniteui-docfx` and `igniteui-xplat-docs` repositories as the source of truth for these product docs.
+This public repository contains the documentation source for the Ignite UI for Angular, Ignite UI for Blazor, Ignite UI for React, and Ignite UI for Web Components products. They are built and hosted using Astro.
 
 ## Prerequisites
 
@@ -43,20 +41,19 @@ The old template-level run commands are obsolete for product documentation. Each
 
 Use the platform-specific commands from the root workspace:
 
-| Product | Dev command | Package command source |
-| --- | --- | --- |
-| Angular | `npm run angular:dev` | `docs/angular/package.json` |
-| Angular English | `npm run angular:dev:en` | `docs/angular/package.json` |
-| Angular Japanese | `npm run angular:dev:jp` | `docs/angular/package.json` |
-| Angular Korean | `npm run angular:dev:kr` | `docs/angular/package.json` |
-| React | `npm run xplat:dev:react` | `docs/xplat/package.json` |
-| React Japanese | `npm run xplat:dev:react:jp` | `docs/xplat/package.json` |
-| Web Components | `npm run xplat:dev:webcomponents` | `docs/xplat/package.json` |
-| Web Components Japanese | `npm run xplat:dev:webcomponents:jp` | `docs/xplat/package.json` |
-| Blazor | `npm run xplat:dev:blazor` | `docs/xplat/package.json` |
-| Blazor Japanese | `npm run xplat:dev:blazor:jp` | `docs/xplat/package.json` |
+| Product | Dev command
+| --- | --- |
+| Angular | `npm run angular:dev`
+| Angular English | `npm run angular:dev:en`
+| Angular Japanese | `npm run angular:dev:jp`
+| Angular Korean | `npm run angular:dev:kr`
+| React | `npm run xplat:dev:react`
+| React Japanese | `npm run xplat:dev:react:jp`
+| Web Components | `npm run xplat:dev:webcomponents`
+| Web Components Japanese | `npm run xplat:dev:webcomponents:jp`
+| Blazor | `npm run xplat:dev:blazor`
+| Blazor Japanese | `npm run xplat:dev:blazor:jp`
 
-Build and preview commands follow the same pattern in the root `package.json`, `docs/angular/package.json`, and `docs/xplat/package.json`.
 
 ## MDX Components
 
