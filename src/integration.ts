@@ -141,8 +141,7 @@ export interface SiteMetaOptions {
  *
  * Removes:
  *  - `import … from '…'` lines at the top of the file
- *  - Self-closing JSX components: <Sample …/>, <ApiRef …/>, <ApiLink …/>
- *  - Block JSX components: <ApiRef …>…</ApiRef>
+ *  - Self-closing JSX components: <Sample …/>, <ApiLink …/>
  *  - Inline <style>{`…`}</style> blocks
  */
 function stripMdxForLlms(raw: string): string {
@@ -151,10 +150,10 @@ function stripMdxForLlms(raw: string): string {
         .replace(/^import\s+.+from\s+['"][^'"]+['"];?\r?\n/gm, '')
         // Remove <style>{`...`}</style> blocks (multiline)
         .replace(/<style>\{`[\s\S]*?`\}<\/style>\s*/g, '')
-        // Remove self-closing components: <Sample … />, <ApiRef … />, <ApiLink … />
-        .replace(/<(Sample|ApiRef|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*\/>\s*/g, '')
-        // Remove paired components: <ApiRef …>…</ApiRef>
-        .replace(/<(ApiRef|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*>[\s\S]*?<\/\1>\s*/g, '')
+        // Remove self-closing components: <Sample … />, <ApiLink … />
+        .replace(/<(Sample|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*\/>\s*/g, '')
+        // Remove paired components: <ApiLink …>…</ApiLink>
+        .replace(/<(ApiLink|ComponentBlock|PlatformBlock)\b[^>]*>[\s\S]*?<\/\1>\s*/g, '')
         // Collapse 3+ blank lines left behind into 2
         .replace(/\n{3,}/g, '\n\n')
         .trim() + '\n';

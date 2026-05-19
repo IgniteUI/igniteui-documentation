@@ -470,18 +470,16 @@ function getSharedComponentKeys(content) {
 }
 
 /**
- * Ensure required MDX imports (Sample, PlatformBlock, ApiRef, ApiLink) are present
+ * Ensure required MDX imports (Sample, PlatformBlock, ApiLink) are present
  * after the frontmatter block.
  */
 
 function ensureMdxImports(content) {
     const needsSample  = content.includes('<Sample ');
-    const needsApiRef  = /<ApiRef\b/.test(content);
     const needsApiLink = /<ApiLink\b/.test(content);
 
     const imports = [
         needsSample  && "import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';",
-        needsApiRef  && "import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';",
         needsApiLink && "import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';",
     ].filter(Boolean);
 
@@ -508,7 +506,7 @@ function ensureMdxImports(content) {
  *  - Applies component-specific token replacements to frontmatter
  *  - Adds _componentKey frontmatter so the Vite plugin resolves {Component*} tokens in body
  *  - Strips docfx-only frontmatter fields (mentionedTypes, sharedComponents, namespace)
- *  - Ensures required MDX imports are present (Sample, PlatformBlock, ApiRef)
+ *  - Ensures required MDX imports are present (Sample, PlatformBlock, ApiLink)
  *  - Writes as .mdx to the per-component output directory
  */
 function expandSharedFiles(sharedSrcDir, gridsOutDir) {

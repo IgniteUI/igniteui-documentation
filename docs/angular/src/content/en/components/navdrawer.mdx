@@ -55,7 +55,7 @@ import { IgxNavigationDrawerModule } from 'igniteui-angular/navigation-drawer';
 export class AppModule {}
 ```
 
-Alternatively, as of `16.0.0` you can import the `IgxNavigationDrawerComponent` as a standalone dependency, or use the [`IGX_NAVIGATION_DRAWER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/navigation-drawer/public_api.ts) token to import the component and all of its supporting components and directives.
+Alternatively, as of `16.0.0` you can import the `IgxNavigationDrawerComponent` as a standalone dependency, or use the [`IGX_NAVIGATION_DRAWER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/navigation-drawer/src/navigation-drawer/public_api.ts) token to import the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -75,7 +75,6 @@ import { IgxIconComponent } from 'igniteui-angular/icon';
 
       <igx-nav-drawer [isOpen]="true">
         <ng-template igxDrawer>
-          <nav>
             <span igxDrawerItem [isHeader]="true">Components</span>
             <span
               *ngFor="let item of navItems"
@@ -87,7 +86,6 @@ import { IgxIconComponent } from 'igniteui-angular/icon';
               <igx-icon fontSet="material">{{ item.name }}</igx-icon>
               <span>{{ item.text }}</span>
             </span>
-          </nav>
         </ng-template>
       </igx-nav-drawer>
       <main>
@@ -106,6 +104,10 @@ export class HomeComponent {
 }
 ```
 
+<DocsAside type="note">
+This component uses Material Icons. Add the following link to your `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
 Now that you have the Ignite UI for Angular Navigation Drawer module or directives imported, you can start using the `igx-nav-drawer` component.
 
 ## Using the Angular Navigation Drawer
@@ -119,7 +121,7 @@ With the dependencies imported, the Navigation Drawer can be defined in the app 
 ```
 
 The content for the drawer should be provided via `<ng-template>` decorated with `igxDrawer` directive.
-While any content can be provided in the template, the <ApiLink type="igxDrawerItem" suffix={false} /> directive (see [Item styling](#styling)) is available to apply out-of-the-box styling to items.
+While any content can be provided in the template, the <ApiLink type="NavDrawerItemDirective" suffix={false} /> directive (see [Item styling](#styling)) is available to apply out-of-the-box styling to items.
 The directive has two `@Input` properties:
 
 - `active` to style an item as selected.
@@ -133,13 +135,11 @@ The [`igxRipple`](/ripple) directive completes the look and feel:
 
   <igx-nav-drawer id="navigation" #drawer [isOpen]="true">
     <ng-template igxDrawer>
-      <nav>
         <span igxDrawerItem [isHeader]="true">Components</span>
         <span *ngFor="let item of navItems" igxDrawerItem [active]="item.text === selected" igxRipple (click)="navigate(item)">
           <igx-icon fontSet="material">{{ item.name }}</igx-icon>
           <span>{{ item.text }}</span>
         </span>
-      </nav>
     </ng-template>
   </igx-nav-drawer>
   <main>
@@ -189,7 +189,7 @@ There are various ways to open and close the drawer. Input properties can be bou
 <button (click)="drawer.toggle()">Menu</button>
 ```
 
-The Navigation Drawer also integrates with <ApiLink type="igxNavigationService" suffix={false} /> and can be targeted by id with an [`igxToggleAction`](/toggle#automatic-toggle-actions) directive.
+The Navigation Drawer also integrates with <ApiLink type="NavigationService" suffix={false} /> and can be targeted by id with an [`igxToggleAction`](/toggle#automatic-toggle-actions) directive.
 
 Let's replace the `<main>` in **app.component.html** with the following, adding [`igxIconButton`](/icon-button) and [Icon component](/icon) to style our toggle:
 
@@ -234,7 +234,7 @@ Unpinned (elevated above the content) mode is the normal behavior where the draw
 The drawer can be pinned to take advantage of larger screens, placing it within normal content flow with relative position. Depending on whether the app provides a way to toggle the drawer, the pinned mode can be used to achieve either [permanent or persistent behavior](https://material.io/guidelines/patterns/navigation-drawer.html#navigation-drawer-behavior).
 
 <DocsAside type="note">
-By default the Navigation Drawer is responsive, actively changing between unpinned and pinned mode based on screen size. This behavior is controlled by the <ApiLink type="NavigationDrawer" member="pinThreshold" label="pinThreshold" /> property and can be disabled by setting a falsy value (e.g. 0).
+By default the Navigation Drawer is responsive, actively changing between unpinned and pinned mode based on screen size. This behavior is controlled by the <ApiLink type="NavigationDrawer" member="pinThreshold" label="pinThreshold" suffix={false} /> property and can be disabled by setting a falsy value (e.g. 0).
 </DocsAside>
 
 ### Pinned (persistent) setup

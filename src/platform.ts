@@ -70,7 +70,7 @@ export interface NavConfig {
 const IG_STYLES: HeadEntry[] = [
     // Bootstrap is wrapped in a CSS cascade layer so its global resets do not
     // bleed into the site theme. The layer priority order is declared at
-    // the top of custom.css: @layer bootstrap
+    // the top of ig-theme.scss via @layer bootstrap.
     // Note: @import layer() does not support the `integrity` SRI attribute.
     {
         tag: 'style',
@@ -109,8 +109,8 @@ const APPBUILDER_STYLES: HeadEntry[] = [
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-includes/css/dashicons.min.css', media: 'all' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/plugins/megamenu-pro/icons/genericons/genericons/genericons.css', media: 'all' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/plugins/megamenu-pro/icons/fontawesome6/css/all.min.css', media: 'all' } },
-    // Bootstrap v4.4 partials — wrapped in a CSS cascade layer so they don't
-    // override the site theme. See custom.css @layer declaration.
+    // Bootstrap v4.4 partials are wrapped in a CSS cascade layer so they don't
+    // override the site theme. See @layer bootstrap in ig-theme.scss.
     {
         tag: 'style',
         content: [
@@ -188,7 +188,7 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     },
     React: {
         lang: 'en', label: 'React', key: 'react', devPort: 4332,
-        base: '/products/ignite-ui-react/react',
+        base: '/products/ignite-ui-react/react/components',
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
