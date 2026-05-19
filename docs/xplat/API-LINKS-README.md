@@ -1,8 +1,8 @@
-# ApiLink & ApiRef — How They Work and How to Update Them
+# ApiLink — How It Works and How to Update It
 
 ## Overview
 
-`<ApiLink>` and `<ApiRef>` are Astro MDX components that generate **platform-aware** hyperlinks to the TypeDoc API reference sites. They resolve the correct URL at build time based on the current platform (Angular, React, WebComponents, Blazor), so a **single MDX source file** produces correct links for all four documentation targets.
+`<ApiLink>` is an Astro MDX component that generates **platform-aware** hyperlinks to the TypeDoc API reference sites. It resolves the correct URL at build time based on the current platform (Angular, React, WebComponents, Blazor), so a **single MDX source file** produces correct links for all four documentation targets.
 
 > **Important:** The `type=`, `member=`, and `kind=` attributes are the same across all platforms — only the generated URL changes. When you fix an ApiLink, you are fixing it for all platforms at once.
 
@@ -61,37 +61,6 @@ The `docRoot` and URL format are resolved from `src/lib/platform-context.ts` bas
 
 <!-- Angular-only service (no platform prefix) -->
 <ApiLink pkg="grids" type="ExcelExporterService" prefixed={false} />
-```
-
----
-
-## `<ApiRef>` — API References Section
-
-Renders a bullet list of links for the **API References** section at the bottom of a page.
-
-### Props
-
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `types` | string[] | **required** | Array of short type names |
-| `pkg` | string | `"core"` | Package key |
-| `kind` | string | `"class"` | Symbol kind |
-| `prefixed` | boolean | `true` | Auto-prepend platform prefix |
-
-### Examples
-
-```mdx
-<!-- Grid component -->
-<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
-
-<!-- Column and ColumnGroup classes -->
-<ApiRef pkg="grids" types={["Column", "ColumnGroup"]} />
-
-<!-- An interface -->
-<ApiRef pkg="grids" kind="interface" types={["ClipboardOptions"]} />
-
-<!-- Multiple items from the same package -->
-<ApiRef pkg="grids" types={["GridState", "GridStateInfo"]} />
 ```
 
 ---
@@ -271,16 +240,17 @@ Check the TypeDoc JSON for the symbol's `kind` field:
 
 ---
 
-## How to Add a New ApiRef Entry
+## How to Add API Reference Entries
 
-If a page references a type that is not yet in the `## API References` section, add an `<ApiRef>` entry. Use one `<ApiRef>` per kind/package combination:
+If a page references a type that is not yet in the `## API References` section, add an `<ApiLink>` for it. Use one `<ApiLink>` per type:
 
 ```mdx
 ## API References
 
-<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
-<ApiRef pkg="grids" types={["Column", "ColumnGroup"]} />
-<ApiRef pkg="grids" kind="interface" types={["ClipboardOptions"]} />
+<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />
+<ApiLink pkg="grids" type="Column" />
+<ApiLink pkg="grids" type="ColumnGroup" />
+<ApiLink pkg="grids" kind="interface" type="ClipboardOptions" />
 ```
 
 ---
@@ -331,6 +301,5 @@ Fix: change numeric JSX attributes to strings inside comments, and ensure the cl
 ## Source Files
 
 - Component implementation: [`src/components/mdx/ApiLink.astro`](../../../../../../../src/components/mdx/ApiLink.astro)
-- Component implementation: [`src/components/mdx/ApiRef.astro`](../../../../../../../src/components/mdx/ApiRef.astro)
 - Platform configuration & URL resolution: [`src/lib/platform-context.ts`](../../../../../../../src/lib/platform-context.ts)
 - API type data: see `api-docs/src/data/` in the companion `api-docs` project

@@ -76,7 +76,7 @@ export interface NavConfig {
 const IG_STYLES: HeadEntry[] = [
     // Bootstrap is wrapped in a CSS cascade layer so its global resets do not
     // bleed into the Starlight theme. The layer priority order is declared at
-    // the top of custom.css: @layer bootstrap, starlight.core, starlight.overrides
+    // the top of ig-theme.scss via @layer bootstrap.
     // Note: @import layer() does not support the `integrity` SRI attribute.
     {
         tag: 'style',
@@ -116,7 +116,7 @@ const APPBUILDER_STYLES: HeadEntry[] = [
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/plugins/megamenu-pro/icons/genericons/genericons/genericons.css', media: 'all' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/plugins/megamenu-pro/icons/fontawesome6/css/all.min.css', media: 'all' } },
     // Bootstrap v4.4 partials — wrapped in a CSS cascade layer so they don't
-    // override the Starlight theme. See custom.css @layer declaration.
+    // override the Starlight theme. See @layer bootstrap in ig-theme.scss.
     {
         tag: 'style',
         content: [
@@ -188,50 +188,51 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     // English
     Angular: {
         lang: 'en', label: 'Angular', key: 'angular', devPort: 4331,
-        base: '/docs-angular-new',
+        base: '/products/ignite-ui-angular/angular/components',
         title: 'Ignite UI for Angular',
         description: 'Component documentation for Ignite UI for Angular.',
     },
     React: {
         lang: 'en', label: 'React', key: 'react', devPort: 4332,
-        base: '/docs-react-new',
+        base: '/products/ignite-ui-react/react',
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
     WebComponents: {
         lang: 'en', label: 'Web Components', key: 'web-components', devPort: 4333,
-        base: '/docs-wc-new',
+        base: '/products/ignite-ui-web-components/web-components/components',
         title: 'Ignite UI for Web Components',
         description: 'Component documentation for Ignite UI for Web Components.',
     },
     Blazor: {
         lang: 'en', label: 'Blazor', key: 'blazor', devPort: 4334,
-        base: '/docs-blazor-new',
+        base: '/products/ignite-ui-blazor/blazor/components',
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },
     // Japanese
+    
     AngularJP: {
         lang: 'jp', label: 'Angular', key: 'angular', devPort: 4341,
-        base: '/docs-angular-new',
+        base: '/products/ignite-ui-angular/angular/components',
         title: 'Ignite UI for Angular',
         description: 'Component documentation for Ignite UI for Angular.',
     },
     ReactJP: {
         lang: 'jp', label: 'React', key: 'react', devPort: 4342,
-        base: '/docs-react-new',
+        base: '/products/ignite-ui-react/react/components',
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
     WebComponentsJP: {
         lang: 'jp', label: 'Web Components', key: 'web-components', devPort: 4343,
-        base: '/docs-wc-new',
+        base: '/products/ignite-ui-web-components/web-components/components',
         title: 'Ignite UI for Web Components',
         description: 'Component documentation for Ignite UI for Web Components.',
     },
     BlazorJP: {
         lang: 'jp', label: 'Blazor', key: 'blazor', devPort: 4344,
-        base: '/docs-blazor-new',
+        base: '/products/ignite-ui-blazor/blazor/components',
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },

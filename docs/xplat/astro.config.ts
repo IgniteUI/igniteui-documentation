@@ -12,6 +12,8 @@ import mdx from '@astrojs/mdx';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Preserve the project root before chdir so platform-context.ts can find docConfig.json.
+process.env.DOCS_PROJECT_ROOT = __dirname;
 // When --outDir=../../dist/* points outside docs/xplat/, Astro's getOutDirWithinCwd()
 // falls back to .astro/ as serverRoot, causing image generation to ENOENT.
 // Changing CWD to the repo root makes dist/* start with CWD, so serverRoot is correct.
@@ -67,6 +69,18 @@ const PLATFORM_SITE: Record<string, string> = {
 
 const meta      = PLATFORM_META[platform] ?? PLATFORM_META['React'];
 const XPLAT_ROOT = path.join(__dirname, 'generated', platform, lang);
+
+// Resolved once at config time, used by vitePluginPlatformTokens to substitute
+// {environment:dvDemosBaseUrl} and {environment:demosBaseUrl} tokens correctly
+// for each platform (e.g. blazor-client for Blazor, react-demos for React).
+const demosBaseUrl = (() => {
+    try {
+        const docConfig = JSON.parse(readFileSync(path.join(__dirname, 'docConfig.json'), 'utf8'));
+        return docConfig[platform]?.samplesBrowsers?.[mode]
+            ?? docConfig[platform]?.samplesBrowsers?.['production']
+            ?? '';
+    } catch { return ''; }
+})();
 
 // ---------------------------------------------------------------------------
 // Vite plugin: resolve docConfig tokens in .mdx files before MDX compilation
@@ -235,8 +249,8 @@ function vitePluginPlatformTokens() {
                     WebComponentsApiUrl:  'https://www.infragistics.com/products/ignite-ui-web-components/docs/typescript/latest',
                     ReactApiUrl:          'https://www.infragistics.com/products/ignite-ui-react/docs/typescript/latest',
                     BlazorApiUrl:         'https://www.infragistics.com/products/ignite-ui-blazor/docs/typescript/latest',
-                    dvDemosBaseUrl:       'https://www.infragistics.com/angular-demos-lob',
-                    demosBaseUrl:         'https://www.infragistics.com/angular-demos-lob',
+                    dvDemosBaseUrl:       demosBaseUrl,
+                    demosBaseUrl:         demosBaseUrl,
                 };
                 return ENV_MAP[key] ?? '';
             });
@@ -325,6 +339,10 @@ export default createDocsSite({
     platform: p.key,
     navLang: lang,
     mode,
+    build: {
+        format: 'file'
+    },
+    trailingSlash: 'never',
     source: {
         tocPath: filteredTocPath,
         docsDir: path.join(XPLAT_ROOT, 'components'),

@@ -226,8 +226,7 @@ export interface SiteMetaOptions {
  *
  * Removes:
  *  - `import … from '…'` lines at the top of the file
- *  - Self-closing JSX components: <Sample …/>, <ApiRef …/>, <ApiLink …/>
- *  - Block JSX components: <ApiRef …>…</ApiRef>
+ *  - Self-closing JSX components: <Sample …/>, <ApiLink …/>
  *  - Inline <style>{`…`}</style> blocks
  */
 function stripMdxForLlms(raw: string): string {
@@ -236,10 +235,10 @@ function stripMdxForLlms(raw: string): string {
         .replace(/^import\s+.+from\s+['"][^'"]+['"];?\r?\n/gm, '')
         // Remove <style>{`...`}</style> blocks (multiline)
         .replace(/<style>\{`[\s\S]*?`\}<\/style>\s*/g, '')
-        // Remove self-closing components: <Sample … />, <ApiRef … />, <ApiLink … />
-        .replace(/<(Sample|ApiRef|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*\/>\s*/g, '')
-        // Remove paired components: <ApiRef …>…</ApiRef>
-        .replace(/<(ApiRef|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*>[\s\S]*?<\/\1>\s*/g, '')
+        // Remove self-closing components: <Sample … />, <ApiLink … />
+        .replace(/<(Sample|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*\/>\s*/g, '')
+        // Remove paired components: <ApiLink …>…</ApiLink>
+        .replace(/<(ApiLink|ComponentBlock|PlatformBlock)\b[^>]*>[\s\S]*?<\/\1>\s*/g, '')
         // Collapse 3+ blank lines left behind into 2
         .replace(/\n{3,}/g, '\n\n')
         .trim() + '\n';
@@ -284,22 +283,23 @@ export function siteMetaIntegration({
 
     // Navigation buckets for this platform — stripped from ancestor paths during label generation.
     const broadSections = getBroadSectionsForPlatform(effectivePlatform);
-    const moduleCode = `export const title = ${JSON.stringify(title)};
-export const sidebar = ${JSON.stringify(sidebar ?? [])};
-export const productLinks = ${JSON.stringify(productLinks)};
-export const headEntries = ${JSON.stringify(head ?? [])};
-`;
-
     // Captured from astro:config:done; used to generate llms.txt content.
     let configuredSite = '';
+    let configuredTrailingSlash: string = 'ignore';
 
     return {
         name: 'docs-template:site-meta',
         hooks: {
             'astro:config:done'({ config }) {
                 configuredSite = (config.site?.toString() ?? '').replace(/\/$/, '');
+                configuredTrailingSlash = config.trailingSlash ?? 'ignore';
             },
-            'astro:config:setup'({ updateConfig, injectRoute }) {
+            'astro:config:setup'({ updateConfig, injectRoute, addMiddleware }) {
+                addMiddleware({
+                    entrypoint: fileURLToPath(new URL('./middleware.ts', import.meta.url)),
+                    order: 'pre',
+                });
+
                 injectRoute({
                     pattern: '/sitemap.xml',
                     entrypoint: fileURLToPath(new URL('./routes/sitemap.xml.ts', import.meta.url)),
@@ -341,7 +341,12 @@ export const headEntries = ${JSON.stringify(head ?? [])};
                                 if (id === navVirtualId) return navResolvedId;
                             },
                             async load(id: string) {
-                                if (id === resolvedId) return moduleCode;
+                                if (id === resolvedId) return `export const title = ${JSON.stringify(title)};
+export const sidebar = ${JSON.stringify(sidebar ?? [])};
+export const productLinks = ${JSON.stringify(productLinks)};
+export const headEntries = ${JSON.stringify(head ?? [])};
+export const trailingSlash = ${JSON.stringify(configuredTrailingSlash)};
+`;
                                 if (id !== navResolvedId) return;
 
                                 // Return cached module code — fetched at most once per build.
@@ -609,7 +614,7 @@ function createBasePrependIntegration(base: string): AstroIntegration {
 
             const original = fs.readFileSync(full, 'utf-8');
             const rewritten = original.replace(
-                /\bsrc="(\/[^"]*)"/g,
+                /(?<![a-zA-Z])src="(\/[^"]*)"/g,
                 (_: string, url: string) => {
                     if (url.startsWith(normalizedBase + '/')) return `src="${url}"`;
                     return `src="${normalizedBase}${url}"`;

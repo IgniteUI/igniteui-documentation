@@ -3,6 +3,7 @@ declare module 'virtual:docs-template/site-meta' {
 	export const description: string;
 	export const sidebar: { label: string; slug?: string; items?: unknown[] }[];
 	export const mode: 'dev' | 'staging' | 'prod';
+	export const trailingSlash: 'always' | 'never' | 'ignore';
 }
 
 declare module 'virtual:docs-template/nav-html' {
