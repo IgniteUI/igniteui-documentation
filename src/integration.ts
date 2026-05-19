@@ -346,6 +346,7 @@ export const sidebar = ${JSON.stringify(sidebar ?? [])};
 export const productLinks = ${JSON.stringify(productLinks)};
 export const headEntries = ${JSON.stringify(head ?? [])};
 export const trailingSlash = ${JSON.stringify(configuredTrailingSlash)};
+export const navLang = ${JSON.stringify(navLang)};
 `;
                                 if (id !== navResolvedId) return;
 

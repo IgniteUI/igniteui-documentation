@@ -15,6 +15,8 @@ declare module 'virtual:docs-template/site-meta' {
   }>;
   /** Astro trailingSlash config value: 'always' | 'never' | 'ignore'. */
   export const trailingSlash: 'always' | 'never' | 'ignore';
+  /** Locale for the nav prefetch URL. Mirrors the value on `virtual:docs-template/nav-html`. */
+  export const navLang: NavLang;
 }
 
 import type { NavLang, NavTheme } from './platform.ts';
