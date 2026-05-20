@@ -62,6 +62,8 @@ import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
 import { remarkEnvVars } from './plugins/remark-env-vars';
 import { remarkMdLinks } from './plugins/remark-md-links';
 import { remarkHtmlTransforms } from './plugins/remark-html-transforms';
+import { rehypeTableWrapper } from 'igniteui-astro-components/plugins/rehype-table-wrapper';
+import { rehypeHeadingAnchors } from 'igniteui-astro-components/plugins/rehype-heading-anchors';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'development' | 'staging' | 'production';
@@ -621,6 +623,8 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 ...((astroExtra as any).markdown?.remarkPlugins ?? []),
             ],
             rehypePlugins: [
+                rehypeTableWrapper,
+                rehypeHeadingAnchors,
                 ...((astroExtra as any).markdown?.rehypePlugins ?? []),
             ],
         },
