@@ -51,7 +51,7 @@ import { IgxDropDownModule } from 'igniteui-angular/drop-down';
 export class AppModule {}
 ```
 
-あるいは、`16.0.0` 以降、`IgxDropDownComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_DROP_DOWN_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/drop-down/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
+あるいは、`16.0.0` 以降、`IgxDropDownComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_DROP_DOWN_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/drop-down/src/drop-down/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
 
 ```typescript
 // home.component.ts
@@ -92,7 +92,7 @@ Ignite UI for Angular Drop Down モジュールまたはディレクティブを
 
 ### ドロップダウンの追加
 
-選択可能な複数のオプション項目を提供するシンプルなドロップダウンを作成します。これを実現するには、<ApiLink type="DropDown" /> と <ApiLink type="ToggleAction" suffix={false} /> を使用してドロップダウンを開きます / 閉じます。
+選択可能な複数のオプション項目を提供するシンプルなドロップダウンを作成します。これを実現するには、<ApiLink type="DropDown" /> と <ApiLink type="ToggleActionDirective" suffix={false} /> を使用してドロップダウンを開きます / 閉じます。
 
 ```html
 <!-- dropdown.component.html -->
@@ -105,6 +105,10 @@ Ignite UI for Angular Drop Down モジュールまたはディレクティブを
   </igx-drop-down-item>
 </igx-drop-down>
 ```
+
+<DocsAside type="note">
+このコンポーネントはマテリアル アイコンを使用します。`index.html` に次のリンクを追加してください: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
 
 ```typescript
 // dropdown.component.ts
@@ -155,7 +159,7 @@ export class MyDropDownComponent {
 
 ### 項目のグループ化
 
-より有益な視覚情報を提供するには、<ApiLink type="DropDownItem" suffix={false} member="isHeader" label="isHeader" /> プロパティを使用して項目をセマンティックにグループ化するか、<ApiLink type="DropDownItem" suffix={false} member="disabled" label="disabled" /> プロパティを使用して項目を非インタラクティブとして表示します。<ApiLink type="DropDownItem" suffix={false} member="selected" label="selected" /> プロパティを特定の項目に設定して選択済の項目にできます。`igx-drop-down` 項目は、HTML 要素/他の Web コンポーネントに含める、または設定できる `igxPrefix`、`igxSuffix` および `igx-divider` ディレクティブをサポートしています。
+より有益な視覚情報を提供するには、<ApiLink type="DropDownItemComponent" suffix={false} member="isheader" label="isHeader" /> プロパティを使用して項目をセマンティックにグループ化するか、<ApiLink type="DropDownItemComponent" suffix={false} member="disabled" label="disabled" /> プロパティを使用して項目を非インタラクティブとして表示します。<ApiLink type="DropDownItemComponent" suffix={false} member="selected" label="selected" /> プロパティを特定の項目に設定して選択済の項目にできます。`igx-drop-down` 項目は、HTML 要素/他の Web コンポーネントに含める、または設定できる `igxPrefix`、`igxSuffix` および `igx-divider` ディレクティブをサポートしています。
 
 ```html
 <!-- dropdown.component.html -->
@@ -196,7 +200,7 @@ export class MyDropDownComponent {
 
 ### 階層データのグループ化
 
-`igx-drop-down` 項目は <ApiLink type="igx-drop-down-item-group" suffix={false} /> コンテナーによりグループ化して、ユーザーが個別のカテゴリを区別しやすくなります。`igx-drop-down-item-group` は、`igx-drop-down-item` 要素をコンテンツとして受け取り、グループ形式で描画します。
+`igx-drop-down` 項目は <ApiLink type="DropDownGroup" /> コンテナーによりグループ化して、ユーザーが個別のカテゴリを区別しやすくなります。`igx-drop-down-item-group` は、`igx-drop-down-item` 要素をコンテンツとして受け取り、グループ形式で描画します。
 
 ```typescript
 // dropdown.component.ts
@@ -334,7 +338,7 @@ export class MyMenuComponent {
 
 複数レベルのドロップダウン メニューの実装には、<ApiLink type="DropDown" /> と、以下で説明するカスタム ディレクティブとサービスを使用します。
 
-追加のドロップダウンを開くように <ApiLink type="DropDownItem" suffix={false} /> を構成するには、ネストされたドロップダウンの <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" label="overlay settings" /> を処理し、その `innerDropdown` プロパティを通じてその開閉状態を管理する `multiLevel` ディレクティブを追加します。
+追加のドロップダウンを開くように <ApiLink type="DropDownItemComponent" suffix={false} /> を構成するには、ネストされたドロップダウンの <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" label="overlay settings" /> を処理し、その `innerDropdown` プロパティを通じてその開閉状態を管理する `multiLevel` ディレクティブを追加します。
 
 ```html
 <igx-drop-down #dropdown1>
@@ -399,9 +403,9 @@ public ngAfterViewInit(): void {
 
 ### Navigation ディレクティブ
 
-<ApiLink type="igxDropDownItemNavigation" suffix={false} /> ディレクティブを使用して、`igxDropDown` コンポーネントのキーボード ナビゲーションを有効にします。ディレクティブがトリガーされたすべてのイベントを処理できるようにするには、アクティブな (フォーカスされる) 要素または親コンテナーに適用する必要があります。デフォルトでは、ドロップダウンまたはその項目はフォーカスを取得しないため、ディレクティブはドロップダウンを制御する `button` または `input` に配置できます。ナビゲーション ディレクティブの値は、<ApiLink type="DropDownBaseDirective" suffix={false} /> クラスのインスタンスまたは子孫であるコンポーネントを対象とする必要があります。
+<ApiLink type="DropDownItemNavigationDirective" suffix={false} /> ディレクティブを使用して、`igxDropDown` コンポーネントのキーボード ナビゲーションを有効にします。ディレクティブがトリガーされたすべてのイベントを処理できるようにするには、アクティブな (フォーカスされる) 要素または親コンテナーに適用する必要があります。デフォルトでは、ドロップダウンまたはその項目はフォーカスを取得しないため、ディレクティブはドロップダウンを制御する `button` または `input` に配置できます。ナビゲーション ディレクティブの値は、<ApiLink type="DropDownBaseDirective" suffix={false} /> クラスのインスタンスまたは子孫であるコンポーネントを対象とする必要があります。
 
-以下のサンプルでは、クリックで `igxDropDown` インスタンスを開閉できます。入力自体に <ApiLink type="igxDropDownItemNavigation" suffix={false} /> ディレクティブを適用すると、上下矢印キーを使用するキーボード ナビゲーションが有効になります。これは、<ApiLink type="DropDown" member="allowItemsFocus" label="allowItemsFocus" /> プロパティを `false` に設定し、入力でフォーカスを維持できるデフォルトのドロップダウン動作に依存します。
+以下のサンプルでは、クリックで `igxDropDown` インスタンスを開閉できます。入力自体に <ApiLink type="DropDownItemNavigationDirective" suffix={false} /> ディレクティブを適用すると、上下矢印キーを使用するキーボード ナビゲーションが有効になります。これは、<ApiLink type="DropDown" member="allowItemsFocus" label="allowItemsFocus" /> プロパティを `false` に設定し、入力でフォーカスを維持できるデフォルトのドロップダウン動作に依存します。
 
 ```html
 <!-- input-dropdown.component.html -->
