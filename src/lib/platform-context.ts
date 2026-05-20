@@ -55,14 +55,19 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             grids:       { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-grids/latest',       packageId: 'igniteui-react-grids',         noPackagePrefix: true, preserveCase: true },
             gauges:      { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-gauges/latest',      packageId: 'igniteui-react-gauges',        noPackagePrefix: true, preserveCase: true },
             maps:        { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-maps/latest',        packageId: 'igniteui-react-maps',          noPackagePrefix: true, preserveCase: true },
-            inputs:      { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-inputs/latest',      packageId: 'igniteui-react-inputs',        noPackagePrefix: true, preserveCase: true },
-            layouts:     { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-layouts/latest',     packageId: 'igniteui-react-layouts',       noPackagePrefix: true, preserveCase: true },
+            // React: "inputs" / "layouts" components are published under the main `igniteui-react`
+            // package (no standalone `igniteui-react-inputs` / `igniteui-react-layouts` TypeDoc).
+            // A handful of layout-only types (IgrDockManager, IgrSplitPane, IgrToolbar, IgrTool*)
+            // don't exist in the React TypeDoc at all — those will 404 regardless.
+            inputs:      { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react/latest',             packageId: 'igniteui-react',               noPackagePrefix: true, preserveCase: true },
+            layouts:     { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react/latest',             packageId: 'igniteui-react',               noPackagePrefix: true, preserveCase: true },
             excel:       { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-excel/latest',       packageId: 'igniteui-react-excel',         noPackagePrefix: true, preserveCase: true },
             spreadsheet: { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-spreadsheet/latest', packageId: 'igniteui-react-spreadsheet',   noPackagePrefix: true, preserveCase: true },
             datasources: { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-datasources/latest', packageId: 'igniteui-react-datasources',   noPackagePrefix: true, preserveCase: true },
             'grid-lite':  { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-grids/latest',       packageId: 'igniteui-react-grids',         noPackagePrefix: true, preserveCase: true },
             'geo-core':   { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-core/latest',        packageId: 'igniteui-react-core',          noPackagePrefix: true, preserveCase: true },
-            'data-grids': { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-data-grids/latest', packageId: 'igniteui-react-data-grids',    noPackagePrefix: true, preserveCase: true },
+            // No standalone `igniteui-react-data-grids` TypeDoc; data-grid types live in `igniteui-react-grids`.
+            'data-grids': { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-grids/latest',       packageId: 'igniteui-react-grids',         noPackagePrefix: true, preserveCase: true },
             dockmanager:  { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-dockmanager/latest', packageId: 'igniteui-react-dockmanager',   noPackagePrefix: true, preserveCase: true },
         },
         packages: {

@@ -39,7 +39,7 @@ For the Dock Manager pane contents we have used **iframe** elements which host d
 
 ### Drag and drop
 
-In order to support dragging panes outside the application window we have replaced the built-in drag/drop which creates in-application floating panes with a custom implementation based on the [HTML Drag and Drop API](https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API). We have subscribed to the <ApiLink pkg="dockmanager" type="DockManager" member="paneHeaderConnected" label="PaneHeaderConnected" /> and <ApiLink pkg="dockmanager" type="DockManager" member="tabHeaderConnected" label="TabHeaderConnected" /> events which are fired when a header element is connected to the DOM. When a header element is connected we reset the built-in `DragService` and attach `DragStart` and `DragEnd` event listeners.
+In order to support dragging panes outside the application window we have replaced the built-in drag/drop which creates in-application floating panes with a custom implementation based on the [HTML Drag and Drop API](https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API). We have subscribed to the `PaneHeaderConnected` and `TabHeaderConnected` events which are fired when a header element is connected to the DOM. When a header element is connected we reset the built-in <ApiLink pkg="inputs" type="PaneHeaderElement" member="dragService" label="DragService" /> and attach `DragStart` and `DragEnd` event listeners.
 
 <PlatformBlock for="WebComponents">
 
@@ -63,7 +63,7 @@ dockManager.addEventListener('paneHeaderConnected', paneHeaderConnected);
 </PlatformBlock>
 
 
-In the `PaneHeaderDragStart` function we set the <ApiLink pkg="dockmanager" type="DockManager" member="draggedPane" label="DraggedPane" /> property of the Dock Manager component which will notify it that a drag operation has been started.
+In the `PaneHeaderDragStart` function we set the `DraggedPane` property of the Dock Manager component which will notify it that a drag operation has been started.
 
 <PlatformBlock for="WebComponents">
 
@@ -77,7 +77,7 @@ const paneHeaderDragStart = async (pane: IgcContentPane, event: DragEvent) => {
 
 </PlatformBlock>
 
-We have subscribed to the `DragOver` and `drop` events of the `document` element. In the `DragOver` listener we notify the Dock Manager that the mouse is dragged over it by setting its <ApiLink pkg="dockmanager" type="DockManager" member="dropPosition" label="DropPosition" /> property. This forces the Dock Manager to display its docking indicators.
+We have subscribed to the `DragOver` and `drop` events of the `document` element. In the `DragOver` listener we notify the Dock Manager that the mouse is dragged over it by setting its `DropPosition` property. This forces the Dock Manager to display its docking indicators.
 
 ```ts
 const handleDocumentDragOver = (event: DragEvent) => {
@@ -108,7 +108,7 @@ const paneHeaderDragEnd = async (event: DragEvent) => {
 }
 ```
 
-When the pane header is dropped inside a document we call the <ApiLink pkg="dockmanager" type="DockManager" member="dropPane" label="DropPane" /> method which notifies the Dock Manager that the dragged pane was dropped. If the pane was dropped on a docking indicator the method returns **true**. If the pane was dropped in the same window it was dragged from, the pane will be docked to its new position automatically. However, if it was dropped in another window we call the `droppedInAnotherWindow` function which first removes the pane from the source Dock Manager and then adds it to the new one.
+When the pane header is dropped inside a document we call the `DropPane` method which notifies the Dock Manager that the dragged pane was dropped. If the pane was dropped on a docking indicator the method returns **true**. If the pane was dropped in the same window it was dragged from, the pane will be docked to its new position automatically. However, if it was dropped in another window we call the `droppedInAnotherWindow` function which first removes the pane from the source Dock Manager and then adds it to the new one.
 
 <PlatformBlock for="WebComponents">
 
@@ -131,7 +131,7 @@ const handleDocumentDrop = async (event: DragEvent) => {
 
 </PlatformBlock>
 
-When a pane is dropped out of its current window, we need to remove the <ApiLink pkg="dockmanager" type="DockManager" member="draggedPane" label="DraggedPane" /> from its Dock Manager component and update the layout.
+When a pane is dropped out of its current window, we need to remove the `DraggedPane` from its Dock Manager component and update the layout.
 
 <PlatformBlock for="WebComponents">
 
@@ -178,7 +178,7 @@ For the full source code please clone the [repository](https://github.com/Ignite
 
 ## API References
 
-<ApiLink type="DockManager" pkg="dockmanager" /><br />
-<ApiLink type="DocumentHost" pkg="dockmanager" kind="interface" suffix={false} /><br />
-<ApiLink type="DockManagerLayout" pkg="dockmanager" kind="interface" suffix={false} /><br />
-<ApiLink type="ContentPane" pkg="dockmanager" kind="interface" suffix={false} /><br />
+`IgrDockManager`<br />
+`IgrDocumentHost`<br />
+`IgrDockManagerLayout`<br />
+`IgrContentPane`<br />
