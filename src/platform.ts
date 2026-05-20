@@ -2,30 +2,24 @@
  * platform.ts
  *
  * Central registry of per-platform CDN assets (styles / scripts) and nav
- * endpoint configuration, ported from igniteui-docfx-template:
- *   - template/partials/head.tmpl.partial    (styles + AppBuilder init script)
- *   - template/partials/scripts.tmpl.partial (scripts per platform)
- *   - template/conceptual.html.primary.js   (platform flag derivation)
+ * endpoint configuration.
  *
  * Usage from astro.config.ts:
  *   import { getPlatformHead } from './src/platform.ts';
- *   // inside starlight({ head: getPlatformHead('angular', 'en') })
+ *   // inside createDocsSite({ head: getPlatformHead('angular', 'en') })
  *
- * Usage from integration.ts:
- *   import { getNavConfig } from './platform.ts';
- *   const { navType, navUrl } = getNavConfig(platform, navLang);
  */
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
-/** HTML tag names accepted by Starlight's `head` array. */
+/** HTML tag names accepted by the `head` array. */
 export type HeadTag =
     | 'title' | 'link' | 'style' | 'base'
     | 'meta' | 'script' | 'noscript' | 'template';
 
-/** Single entry in Starlight's `head` array — tag, attrs, optional content. */
+/** Single entry in the `head` array — tag, attrs, optional content. */
 export type HeadEntry = {
     tag: HeadTag;
     attrs?: Record<string, string | boolean | undefined>;
@@ -75,8 +69,8 @@ export interface NavConfig {
 // ---------------------------------------------------------------------------
 const IG_STYLES: HeadEntry[] = [
     // Bootstrap is wrapped in a CSS cascade layer so its global resets do not
-    // bleed into the Starlight theme. The layer priority order is declared at
-    // the top of custom.css: @layer bootstrap, starlight.core, starlight.overrides
+    // bleed into the site theme. The layer priority order is declared at
+    // the top of ig-theme.scss via @layer bootstrap.
     // Note: @import layer() does not support the `integrity` SRI attribute.
     {
         tag: 'style',
@@ -115,8 +109,8 @@ const APPBUILDER_STYLES: HeadEntry[] = [
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-includes/css/dashicons.min.css', media: 'all' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/plugins/megamenu-pro/icons/genericons/genericons/genericons.css', media: 'all' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://staging.appbuilder.dev/wp-content/plugins/megamenu-pro/icons/fontawesome6/css/all.min.css', media: 'all' } },
-    // Bootstrap v4.4 partials — wrapped in a CSS cascade layer so they don't
-    // override the Starlight theme. See custom.css @layer declaration.
+    // Bootstrap v4.4 partials are wrapped in a CSS cascade layer so they don't
+    // override the site theme. See @layer bootstrap in ig-theme.scss.
     {
         tag: 'style',
         content: [
@@ -188,58 +182,59 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     // English
     Angular: {
         lang: 'en', label: 'Angular', key: 'angular', devPort: 4331,
-        base: '/angularsite',
+        base: '/products/ignite-ui-angular/angular/components',
         title: 'Ignite UI for Angular',
         description: 'Component documentation for Ignite UI for Angular.',
     },
     React: {
         lang: 'en', label: 'React', key: 'react', devPort: 4332,
-        base: '/reactsite',
+        base: '/products/ignite-ui-react/react/components',
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
     WebComponents: {
         lang: 'en', label: 'Web Components', key: 'web-components', devPort: 4333,
-        base: '/webcomponentssite',
+        base: '/products/ignite-ui-web-components/web-components/components',
         title: 'Ignite UI for Web Components',
         description: 'Component documentation for Ignite UI for Web Components.',
     },
     Blazor: {
         lang: 'en', label: 'Blazor', key: 'blazor', devPort: 4334,
-        base: '/blazorsite',
+        base: '/products/ignite-ui-blazor/blazor/components',
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },
     // Japanese
+    
     AngularJP: {
         lang: 'jp', label: 'Angular', key: 'angular', devPort: 4341,
-        base: '/angularsite',
+        base: '/products/ignite-ui-angular/angular/components',
         title: 'Ignite UI for Angular',
         description: 'Component documentation for Ignite UI for Angular.',
     },
     ReactJP: {
         lang: 'jp', label: 'React', key: 'react', devPort: 4342,
-        base: '/reactsite',
+        base: '/products/ignite-ui-react/react/components',
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
     WebComponentsJP: {
         lang: 'jp', label: 'Web Components', key: 'web-components', devPort: 4343,
-        base: '/webcomponentssite',
+        base: '/products/ignite-ui-web-components/web-components/components',
         title: 'Ignite UI for Web Components',
         description: 'Component documentation for Ignite UI for Web Components.',
     },
     BlazorJP: {
         lang: 'jp', label: 'Blazor', key: 'blazor', devPort: 4344,
-        base: '/blazorsite',
+        base: '/products/ignite-ui-blazor/blazor/components',
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },
 };
 
 /**
- * Returns an array of Starlight `head` entries for the given platform.
- * Pass the result directly to `starlight({ head: getPlatformHead(...) })`.
+ * Returns an array of `head` entries for the given platform.
+ * Pass the result directly to `createDocsSite({ head: getPlatformHead(...) })`.
  *
  * @param platform - Platform identifier.
  * @param lang - Locale — not currently used but kept for API completeness.

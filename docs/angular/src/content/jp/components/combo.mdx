@@ -67,7 +67,7 @@ import { IgxComboModule } from 'igniteui-angular/combo';
 export class AppModule {}
 ```
 
-あるいは、`16.0.0` 以降、`IgxComboComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_COMBO_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/combo/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
+あるいは、`16.0.0` 以降、`IgxComboComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_COMBO_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/combo/src/combo/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
 
 ```typescript
 // home.component.ts
@@ -210,13 +210,44 @@ export class MyExampleCombo {
 ```typescript
 export class MyExampleCombo {
     ...
-    handleCityChange(event: IComboSelectionChangeEventArgs): void {
+    handleCityChange(event: IComboSelectionChangingEventArgs): void {
         for (const item of event.added) {
             this.addToVisualization(item);
         }
         for (const item of event.removed) {
             this.removeFromVisualization(item);
         }
+    }
+}
+```
+
+また、コンボボックスは、選択が確定されてコンポーネントの状態が更新された後に <ApiLink type="Combo" member="selectionChanged" /> イベントを発生させます。発行されたイベント引数 <ApiLink kind="interface" type="IComboSelectionChangedEventArgs" suffix={false} prefixed={false} /> には、以前の選択、現在の選択、および追加または削除されたアイテム に関する情報が含まれています。`selectionChanging` とは異なり、このイベントはキャンセル不可であり、最終的に確定した選択の状態を反映することが保証されています。コンボボックスが `ngModel` や Angular フォームとともに使用される場合、`selectionChanged` は値変更コールバックが呼び出された後に発行されます。
+
+イベントへのバインドは、`igx-combo` タグの適切な `@Output` プロパティを介して行うことができます。
+
+```html
+<igx-combo [data]="cities" displayKey="name" valueKey="id"
+           (selectionChanged)="handleCitySelectionChanged($event)">
+</igx-combo>
+```
+
+次の例では、選択が変更されると、ハンドラーが短い要約を更新し、追加および削除されたアイテムの数を追跡します。
+
+```typescript
+export class MyExampleCombo {
+    ...
+    handleCitySelectionChanged(event: IComboSelectionChangedEventArgs): void {
+        this.updateSelectionSummary(event.displayText, event.newSelection.length);
+
+        for (const item of event.added) {
+            this.highlightAddedCity(item);
+        }
+
+        for (const item of event.removed) {
+            this.dimRemovedCity(item);
+        }
+
+        this.logSelectionTransition(event.oldSelection, event.newSelection);
     }
 }
 ```
@@ -230,7 +261,7 @@ export class MyExampleCombo {
 ```
 
 ```typescript
-public singleSelection(event: IComboSelectionChangeEventArgs) {
+public singleSelection(event: IComboSelectionChangingEventArgs) {
     if (event.added.length) {
         event.newValue = event.added;
     }
@@ -371,7 +402,7 @@ $custom-combo-theme: combo-theme(
 );
 ```
 
-<ApiLink type="Combo" /> は、項目コンテナーとして <ApiLink type="DropDown" /> を内部使用します。<ApiLink type="InputGroup" suffix={false} /> および <ApiLink type="Checkbox" suffix={false} /> コンポーネントも含まれます。これらのコンポーネントのテーマを拡張する新しいテーマを作成し、それぞれのクラスの下にスコープすることで、コンボボックスのスタイル設定を変更できます。
+<ApiLink type="Combo" /> は、項目コンテナーとして <ApiLink type="DropDown" /> を内部使用します。<ApiLink type="InputGroup" /> および <ApiLink type="Checkbox" /> コンポーネントも含まれます。これらのコンポーネントのテーマを拡張する新しいテーマを作成し、それぞれのクラスの下にスコープすることで、コンボボックスのスタイル設定を変更できます。
 
 ```scss
 $custom-drop-down-theme: drop-down-theme(
@@ -396,7 +427,7 @@ $custom-checkbox-theme: checkbox-theme(
 ```
 
 <DocsAside type="note" title="注">
-<ApiLink type="Combo" suffix={false} /> は、[`IgxOverlay`](overlay.md) サービスを使用して、コンボボックス項目のリスト コンテナーを保持および表示します。スタイルを適切にスコープするには、<ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" member="outlet" /> を使用してください。詳細については、[`IgxOverlay スタイル ガイド`](overlay-styling.md)を確認してください。また、コンポーネントのスタイルを設定するときに `::ng-deep` を使用する必要があります。
+<ApiLink type="Combo" /> は、[`IgxOverlay`](overlay.md) サービスを使用して、コンボボックス項目のリスト コンテナーを保持および表示します。スタイルを適切にスコープするには、<ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" member="outlet" /> を使用してください。詳細については、[`IgxOverlay スタイル ガイド`](overlay-styling.md)を確認してください。また、コンポーネントのスタイルを設定するときに `::ng-deep` を使用する必要があります。
 </DocsAside>
 
 ### デモ
