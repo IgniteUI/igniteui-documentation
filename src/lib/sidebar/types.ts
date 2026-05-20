@@ -1,36 +1,15 @@
 /**
- * Sidebar data types — shared between the build-time TOC builder
- * (`src/sidebar.ts`) and the runtime sidebar components
- * (`src/components/sidebar/*`).
+ * Sidebar data types — re-exported from `igniteui-astro-components` so the
+ * producer (this repo's `buildSidebarFromToc`) and consumer (the package's
+ * `DocsSidebar` renderer) always agree on the shape.
  *
- * Single source of truth, no duplication.
+ * Do not duplicate these types locally; keep this file as a thin re-export.
  */
 
-export type SidebarBadgeVariant =
-  | 'note'
-  | 'danger'
-  | 'success'
-  | 'caution'
-  | 'tip'
-  | 'default';
-
-export interface SidebarBadge {
-  text: string;
-  variant: SidebarBadgeVariant;
-}
-
-export interface SidebarLink {
-  label: string;
-  slug: string;
-  badges?: SidebarBadge[];
-  attrs?: Record<string, string | number | boolean | undefined>;
-}
-
-export interface SidebarGroup {
-  label: string;
-  items: SidebarEntry[];
-  /** When `true`, the group is rendered closed by default. Defaults to open. */
-  collapsed?: boolean;
-}
-
-export type SidebarEntry = SidebarLink | SidebarGroup;
+export type {
+  SidebarEntry,
+  SidebarGroup,
+  SidebarLink,
+  SidebarBadge,
+  SidebarBadgeVariant,
+} from 'igniteui-astro-components/lib/sidebar/types';

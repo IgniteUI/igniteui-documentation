@@ -6,12 +6,10 @@ license: commercial
 ---
 
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
-
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import { Image } from 'astro:assets';
 import landingGridPage from '../../images/general/landing-grid-page.png';
-
 
 <style dangerouslySetInnerHTML={{__html: `.sample-content {
     display: flex;
@@ -98,7 +96,7 @@ import { IgxGridModule } from 'igniteui-angular/grids/grid';
 export class AppModule {}
 ```
 
-Alternatively, as of `16.0.0` you can import the `IgxGridComponent` as a standalone dependency, or use the [`IGX_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/grids/grid/public_api.ts) token to import the component and all of its supporting components and directives.
+Alternatively, as of `16.0.0` you can import the `IgxGridComponent` as a standalone dependency, or use the [`IGX_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/grid/src/grid.module.ts) token to import the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -129,7 +127,7 @@ Now that you have the Ignite UI for Angular Grid module or directives imported, 
 
 The **data** property binds the grid, in this case to local array of objects.
 
-The <ApiLink type="Grid" member="autoGenerate" /> property tells the `igx-grid` to auto generate the grid's <ApiLink type="ColumnComponent`s" /> based on the data source fields. It will also try to deduce the appropriate data type for the column if possible. Developers can also explicitly [define the columns](#angular-grid-column-configuration) and the mapping to the data source fields.
+The <ApiLink type="Grid" member="autoGenerate" /> property tells the `igx-grid` to auto generate the grid's <ApiLink type="Column" /> based on the data source fields. It will also try to deduce the appropriate data type for the column if possible. Developers can also explicitly [define the columns](#angular-grid-column-configuration) and the mapping to the data source fields.
 
 ## Angular Bootstrap Grid Definition
 
@@ -231,6 +229,10 @@ Whenever a header template is used along with grouping/moving functionality the 
     </ng-template>
 </igx-column>
 ```
+
+<DocsAside type="note">
+This component uses Material Icons. Add the following link to your `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
 
 As you can see, we are adding **draggable** attribute set to _false_.
 
@@ -695,7 +697,7 @@ And the result from this configuration is:
 
 ### Working with Flat data
 
-The flat data binding approach is similar to the one that we already described above, but instead of **cell value** we are going to use the <ApiLink type="GridRow" suffix={false} member="data" /> property of the <ApiLink type="GridRow" />.
+The flat data binding approach is similar to the one that we already described above, but instead of **cell value** we are going to use the <ApiLink type="GridRow" suffix={false} member="data" /> property of the <ApiLink type="GridRow" suffix={false} />.
 
 Since the Angular grid is a component for **rendering**, **manipulating** and **preserving** data records, having access to **every data record** gives you the opportunity to customize the approach of handling it. The <ApiLink type="GridRow" suffix={false} member="data" /> property provides you this opportunity.
 
@@ -811,15 +813,15 @@ Enabling it can affects other parts of an Angular application that the `IgxGridC
 
 ## Known Limitations
 
-|Limitation|Description|
-|--- |--- |
-|Column widths set in `percentage` and `px`|Currently we do not support mixing of column widths with `%` and `px`.|
-|When trying to filter a column of type `number`|If a value different than `number` is entered into the filtering input, `NaN` is returned due to an incorrect cast.|
+| Limitation                                                                                                                                                                           | Description                                                                                                                                                                                                                                                                                               |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Column widths set in `percentage` and `px`                                                                                                                                           | Currently we do not support mixing of column widths with `%` and `px`.                                                                                                                                                                                                                                    |
+| When trying to filter a column of type `number`                                                                                                                                      | If a value different than `number` is entered into the filtering input, `NaN` is returned due to an incorrect cast.                                                                                                                                                                                       |
 |Grid <ApiLink type="Grid" member="width" /> does not depend on the column widths | The <ApiLink type="Column" member="width" /> of all columns does not determine the spanning of the grid itself. It is determined by the parent container dimensions or the defined grid's <ApiLink type="Grid" member="width" />.|
 |Grid nested in parent container | When grid's <ApiLink type="Grid" member="width" /> is not set and it is placed in a parent container with defined dimensions, the grid spans to this container.|
-|Grid `OnPush` ChangeDetectionStrategy |The grid operates with `ChangeDetectionStrategy.OnPush` so whenever some customization appears make sure that the grid is notified about the changes that happens.|
-| Columns have a minimum allowed column width. Depending on the value of [`--ig-size`] CSS variable, they are as follows: <br/>"small": 56px <br/> "medium": 64px <br/> "large ": 80px | If width less than the minimum allowed is set it will not affect the rendered elements. They will render with the minimum allowed width for the corresponding [`--ig-size`]. This may lead to an unexpected behavior with horizontal virtualization and is therefore not supported.|
-| Row height is not affected by the height of cells that are not currently rendered in view. | Because of virtualization a column with a custom template (that changes the cell height) that is not in the view will not affect the row height. The row height will be affected only while the related column is scrolled in the view. |
+| Grid `OnPush` ChangeDetectionStrategy                                                                                                                                                | The grid operates with `ChangeDetectionStrategy.OnPush` so whenever some customization appears make sure that the grid is notified about the changes that happens.                                                                                                                                        |
+| Columns have a minimum allowed column width. Depending on the value of [`--ig-size`] CSS variable, they are as follows: <br/>"small": 56px <br/> "medium": 64px <br/> "large ": 80px | If width less than the minimum allowed is set it will not affect the rendered elements. They will render with the minimum allowed width for the corresponding [`--ig-size`]. This may lead to an unexpected behavior with horizontal virtualization and is therefore not supported.                       |
+| Row height is not affected by the height of cells that are not currently rendered in view.                                                                                           | Because of virtualization a column with a custom template (that changes the cell height) that is not in the view will not affect the row height. The row height will be affected only while the related column is scrolled in the view.                                                                   |
 
 <DocsAside type="note">
 `igxGrid` uses `igxForOf` directive internally hence all `igxForOf` limitations are valid for `igxGrid`. For more details see [igxForOf Known Issues](/for-of#known-limitations) section.
@@ -832,8 +834,8 @@ Enabling it can affects other parts of an Angular application that the `IgxGridC
 - <ApiLink type="Grid" />
 - [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
 - <ApiLink type="Column" />
-- <ApiLink type="GridRow" />
-- <ApiLink type="GridCell" />
+- <ApiLink type="GridRow" suffix={false} />
+- <ApiLink type="GridCell" suffix={false} />
 
 ## Theming Dependencies
 
