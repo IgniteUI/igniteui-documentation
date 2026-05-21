@@ -74,6 +74,9 @@ Each JSON file is a TypeDoc reflection tree. Top-level `children` contains all e
 | `member` | no | Property or method name for the anchor. |
 | `prefixed` | no | Default `true` — adds `Igr`/`Igx`/`Igc`/`Igb` automatically. Set `false` when `type` contains `{ComponentName}` or the name is already fully-qualified. **Always `false` for excel types.** |
 | `suffix` | no | Default `true` — appends `Component` suffix for Angular DV packages. Set `false` for utility classes (FilteringOperand, SortingStrategy, SummaryOperand, all excel types). |
+| `exclude` | no | Comma-separated platform list (`"Angular"`, `"Blazor"`, etc.). On listed platforms the symbol renders as inline code (backticks) instead of a link. Use when the type/member genuinely **does not exist** on those platforms. **Preferred over wrapping a single `<ApiLink/>` in a `<PlatformBlock for="...">`** for the sole purpose of platform-omission. |
+| `excludeSuffixFor` | no | Comma-separated platform list. On listed platforms the package `classSuffix` (e.g. `Component`) is **not** appended, overriding the per-package default. Use when the same type is a plain class on some platforms (e.g. `IgxChartSelection`) but a `Component`-suffixed class on others. **Generates a real link — combine with `exclude` if the type is also absent on other platforms.** |
+| `excludePrefixFor` | no | Comma-separated platform list. On listed platforms the platform prefix (`Igr`/`Igx`/`Igc`/`Igb`) is **not** prepended. Use when a type has no prefix on certain platforms. **Generates a real link — combine with `exclude` if needed.** |
 | `label` | no | Override display text. |
 
 ### Platform prefix mapping
@@ -252,6 +255,29 @@ Angular's `grids` package appends `Component` to all **UI component** class name
 <!-- Correct — resolves to IgxStringFilteringOperand -->
 <ApiLink pkg="grids" type="StringFilteringOperand" suffix={false} />
 ```
+
+### Use `excludeSuffixFor=` when only some platforms use the suffix
+
+When the suffix causes a 404 on **specific platforms only** (not globally), use `excludeSuffixFor` to remove it just for those platforms while keeping the link alive:
+
+```mdx
+<!-- ChartSelection has no "Component" suffix on Angular DV packages -->
+<ApiLink pkg="charts-core" type="ChartSelection" excludeSuffixFor="Angular" />
+```
+
+The `check-mdx-links.mjs` script automatically suggests this fix when it detects a broken link that resolves correctly after stripping the suffix — look for `→ FIX: excludeSuffixFor="..."` in the output.
+
+Similarly, `excludePrefixFor` removes the platform prefix (`Igr`/`Igx`/`Igc`/`Igb`) for the listed platforms only:
+
+```mdx
+<ApiLink pkg="core" type="SomeType" excludePrefixFor="Blazor" />
+```
+
+> **Decision guide**:
+> - Symbol **doesn't exist** on a platform → `exclude="Platform"`
+> - Symbol exists but URL has wrong suffix on those platforms → `excludeSuffixFor="Platform"`
+> - Symbol exists but URL has wrong prefix on those platforms → `excludePrefixFor="Platform"`
+> - `suffix={false}` / `prefixed={false}` → removes suffix/prefix globally (all platforms)
 
 ### Classes that NEED `suffix={false}`
 

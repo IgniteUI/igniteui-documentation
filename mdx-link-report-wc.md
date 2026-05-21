@@ -1,0 +1,4408 @@
+# API Link Check Report
+
+_Generated: 2026-05-21 17:44:50 UTC_
+
+## Summary
+
+| | |
+|---|---|
+| ✅ OK | 1539 |
+| ❌ Not found (type/member missing) | 344 |
+| ❌ HTTP error | 0 |
+| ❌ **Total broken** | **344** |
+
+## WebComponents — 344 broken links
+
+### By URL
+
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcChartSelectionComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/7.0.0/classes/IgcChartSelectionComponent`
+  - ✅ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcChartSelection`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/ChartSelectionComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/ChartSelection`
+  - **FIX**: `excludeSuffixFor="WebComponents"`
+  - in: `docs/xplat/src/content/en/components/charts/features/chart-data-selection.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/features/chart-data-selection.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcChartSelectionComponent#matcher`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/7.0.0/classes/IgcChartSelectionComponent`
+  - ✅ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcChartSelection#matcher`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/ChartSelectionComponent#matcher`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/ChartSelection#matcher`
+  - **FIX**: `excludeSuffixFor="WebComponents"`
+  - in: `docs/xplat/src/content/en/components/charts/features/chart-data-selection.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/features/chart-data-selection.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcPieSliceOthersContextComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/7.0.0/classes/IgcPieSliceOthersContextComponent`
+  - ✅ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcPieSliceOthersContext`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/PieSliceOthersContextComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/PieSliceOthersContext`
+  - **FIX**: `excludeSuffixFor="WebComponents"`
+  - in: `docs/xplat/src/content/en/components/charts/types/pie-chart.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/types/pie-chart.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcUserStripAnnotationComponent#annotationData`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/7.0.0/classes/IgcUserStripAnnotationComponent`
+  - ✅ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcUserStripAnnotation#annotationData`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/UserStripAnnotationComponent#annotationData`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/UserStripAnnotation#annotationData`
+  - **FIX**: `excludeSuffixFor="WebComponents"`
+  - in: `docs/xplat/src/content/en/components/charts/features/chart-user-annotations.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/features/chart-user-annotations.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcUserStripAnnotationComponent#label`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/7.0.0/classes/IgcUserStripAnnotationComponent`
+  - ✅ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcUserStripAnnotation#label`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/UserStripAnnotationComponent#label`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/UserStripAnnotation#label`
+  - **FIX**: `excludeSuffixFor="WebComponents"`
+  - in: `docs/xplat/src/content/en/components/charts/features/chart-user-annotations.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/features/chart-user-annotations.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-excel/latest/classes/SortSettings#caseSensitive`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-excel/7.0.0/classes/SortSettings`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/excel-library-using-tables.mdx`
+  - in: `docs/xplat/src/content/jp/components/excel-library-using-tables.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-excel/latest/classes/SortSettings#sortConditions`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-excel/7.0.0/classes/SortSettings`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/excel-library-using-tables.mdx`
+  - in: `docs/xplat/src/content/jp/components/excel-library-using-tables.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/HierarchicalTransactionServiceComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/HierarchicalTransactionServiceComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/HierarchicalTransactionService`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/batch-editing.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/HierarchicalTransactionServiceFactoryComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/HierarchicalTransactionServiceFactoryComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/HierarchicalTransactionServiceFactory`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/batch-editing.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcClipboardOptions`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcClipboardOptions`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/ClipboardOptions`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/clipboard-interactions.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcClipboardOptions#copyFormatters`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcClipboardOptions`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/ClipboardOptions#copyFormatters`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/clipboard-interactions.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcClipboardOptions#copyHeaders`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcClipboardOptions`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/ClipboardOptions#copyHeaders`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/clipboard-interactions.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcClipboardOptions#enabled`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcClipboardOptions`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/ClipboardOptions#enabled`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/clipboard-interactions.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcClipboardOptions#separator`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcClipboardOptions`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/ClipboardOptions#separator`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/clipboard-interactions.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcColumnWidthComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcColumnWidthComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcColumnWidth`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/ColumnWidthComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/ColumnWidth`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/virtualization.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcDataGridCellEventArgs#CellInfo`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcDataGridCellEventArgs`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/DataGridCellEventArgs#CellInfo`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcDataGridCellEventArgs#button`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcDataGridCellEventArgs`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/DataGridCellEventArgs#button`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcFilteringExpressionsTreeComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcFilteringExpressionsTreeComponent`
+  - ✅ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcFilteringExpressionsTree`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/FilteringExpressionsTreeComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/FilteringExpressionsTree`
+  - **FIX**: `excludeSuffixFor="WebComponents"`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcForOfStateComponent#startIndex`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcForOfStateComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcForOfState#startIndex`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/ForOfStateComponent#startIndex`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/ForOfState#startIndex`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/remote-data-operations.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcFilteringExpressionComponent#ignoreCase`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcFilteringExpressionComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcFilteringExpression#ignoreCase`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/FilteringExpressionComponent#ignoreCase`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/FilteringExpression#ignoreCase`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/_shared/filtering.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/filtering.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcForOfStateComponent#chunkSize`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcForOfStateComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcForOfState#chunkSize`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/ForOfStateComponent#chunkSize`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/ForOfState#chunkSize`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/remote-data-operations.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridCreatedEventArgsDetailComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcGridCreatedEventArgsDetailComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridCreatedEventArgsDetail`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/GridCreatedEventArgsDetailComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/GridCreatedEventArgsDetail`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridCreatedEventArgsDetailComponent#parentRowData`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcGridCreatedEventArgsDetailComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridCreatedEventArgsDetail#parentRowData`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/GridCreatedEventArgsDetailComponent#parentRowData`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/GridCreatedEventArgsDetail#parentRowData`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridEditDoneEventArgs`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcGridEditDoneEventArgs`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/GridEditDoneEventArgs`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/_shared/editing.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/editing.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridEditEventArgs`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcGridEditEventArgs`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/GridEditEventArgs`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/_shared/editing.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/editing.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridRowComponent#pinned`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcGridRowComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridRow#pinned`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/GridRowComponent#pinned`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/GridRow#pinned`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/row-pinning.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridRowComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcGridRowComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridRow`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/GridRowComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/GridRow`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/data-grid.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcMultiColumnComboBoxComponent#valueField`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcMultiColumnComboBoxComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcMultiColumnComboBox#valueField`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/MultiColumnComboBoxComponent#valueField`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/MultiColumnComboBox#valueField`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGroupingExpressionComponent#groupingComparer`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcGroupingExpressionComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGroupingExpression#groupingComparer`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/GroupingExpressionComponent#groupingComparer`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/GroupingExpression#groupingComparer`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/grid/groupby.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotDimensionComponent#horizontalSummary`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcPivotDimensionComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotDimension#horizontalSummary`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotDimensionComponent#horizontalSummary`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotDimension#horizontalSummary`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotDateDimensionComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcPivotDateDimensionComponent`
+  - ✅ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotDateDimension`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotDateDimensionComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotDateDimension`
+  - **FIX**: `excludeSuffixFor="WebComponents"`
+  - in: `docs/xplat/src/content/en/components/grids/pivot-grid/overview.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/pivot-grid/overview.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#children`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcPivotKeysComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeys#children`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotKeysComponent#children`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotKeys#children`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/pivot-grid/remote-operations.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/pivot-grid/remote-operations.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#aggregations`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcPivotKeysComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeys#aggregations`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotKeysComponent#aggregations`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotKeys#aggregations`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/pivot-grid/remote-operations.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/pivot-grid/remote-operations.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#columnDimensionSeparator`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcPivotKeysComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeys#columnDimensionSeparator`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotKeysComponent#columnDimensionSeparator`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotKeys#columnDimensionSeparator`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/pivot-grid/remote-operations.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/pivot-grid/remote-operations.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#records`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcPivotKeysComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeys#records`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotKeysComponent#records`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotKeys#records`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/pivot-grid/remote-operations.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/pivot-grid/remote-operations.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#rowDimensionSeparator`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcPivotKeysComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeys#rowDimensionSeparator`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotKeysComponent#rowDimensionSeparator`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotKeys#rowDimensionSeparator`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/pivot-grid/remote-operations.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/pivot-grid/remote-operations.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#level`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcPivotKeysComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeys#level`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotKeysComponent#level`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/PivotKeys#level`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/pivot-grid/remote-operations.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/pivot-grid/remote-operations.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcSummaryResultComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/IgcSummaryResultComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcSummaryResult`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/SummaryResultComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/SummaryResult`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/_shared/summaries.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/summaries.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EditModeClickAction`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/enums/EditModeClickAction`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/TransactionsComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/classes/TransactionsComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/Transactions`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/batch-editing.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviorAfterEdit`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/enums/EnterKeyBehaviorAfterEdit`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/DataGridSelectionMode`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/enums/DataGridSelectionMode`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EditModeClickAction#SingleClick`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/enums/EditModeClickAction`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviors`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/7.1.0/enums/EnterKeyBehaviors`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcActiveStepChangingEventArgs`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcActiveStepChangingEventArgs`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ActiveStepChangingEventArgs`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcActiveStepChangingEventArgs#detail`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcActiveStepChangingEventArgs`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ActiveStepChangingEventArgs#detail`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcAvatarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatar`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/AvatarComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Avatar`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/grids/list.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/list.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBannerComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcBannerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBanner`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/BannerComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Banner`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/notifications/banner.mdx`
+  - in: `docs/xplat/src/content/jp/components/notifications/banner.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent#shape`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcAvatarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatar#shape`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/AvatarComponent#shape`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Avatar#shape`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonGroupComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcButtonGroupComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonGroup`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ButtonGroupComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ButtonGroup`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcActiveStepChangedEventArgs`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcActiveStepChangedEventArgs`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ActiveStepChangedEventArgs`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#activeView`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#activeView`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#activeView`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#activeView`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBadgeComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcBadgeComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBadge`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/BadgeComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Badge`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcButtonComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButton`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ButtonComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Button`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/grids/list.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/list.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent#variant`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcButtonComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButton#variant`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ButtonComponent#variant`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Button#variant`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent#form`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcButtonComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButton#form`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ButtonComponent#form`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Button#form`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#showWeekNumbers`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#showWeekNumbers`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#showWeekNumbers`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#showWeekNumbers`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#specialDates`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#specialDates`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#specialDates`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#specialDates`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#activeDate`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#activeDate`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#activeDate`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#activeDate`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonGroupComponent#selectedItems`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcButtonGroupComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonGroup#selectedItems`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ButtonGroupComponent#selectedItems`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ButtonGroup#selectedItems`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#weekStart`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#weekStart`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#weekStart`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#weekStart`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/scheduling/calendar.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#headerOrientation`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#headerOrientation`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#headerOrientation`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#headerOrientation`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/scheduling/calendar.mdx`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#locale`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#locale`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#locale`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#locale`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#orientation`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#orientation`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#orientation`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#orientation`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCardComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCard`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CardComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Card`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#selection`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#selection`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#selection`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#selection`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCarouselComponent#interval`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCarouselComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCarousel#interval`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CarouselComponent#interval`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Carousel#interval`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/carousel.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/carousel.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardMediaComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCardMediaComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardMedia`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CardMediaComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CardMedia`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/card.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/card.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCarouselComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCarouselComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCarousel`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CarouselComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Carousel`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCarouselSlideComponent#active`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCarouselSlideComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCarouselSlide#active`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CarouselSlideComponent#active`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CarouselSlide#active`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/carousel.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/carousel.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#visibleMonths`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#visibleMonths`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#visibleMonths`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#visibleMonths`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardActionsComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCardActionsComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardActions`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CardActionsComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CardActions`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/layouts/card.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/card.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#hideOutsideDays`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#hideOutsideDays`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#hideOutsideDays`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#hideOutsideDays`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/scheduling/calendar.mdx`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent#click`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCheckboxComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckbox#click`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CheckboxComponent#click`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Checkbox#click`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/_shared/row-selection.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/row-selection.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent#checked`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCheckboxComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckbox#checked`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CheckboxComponent#checked`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Checkbox#checked`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/_shared/row-selection.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/row-selection.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardContentComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCardContentComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardContent`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CardContentComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CardContent`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/card.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/card.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcChipComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcChipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcChip`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ChipComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Chip`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardHeaderComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCardHeaderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardHeader`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CardHeaderComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CardHeader`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/card.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/card.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#disabledDates`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#disabledDates`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#disabledDates`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#disabledDates`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#checkValidity`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcComboComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCombo#checkValidity`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ComboComponent#checkValidity`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Combo#checkValidity`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/combo/overview.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/combo/overview.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCircularProgressComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCircularProgressComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCircularProgress`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CircularProgressComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CircularProgress`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/grids/tree.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/tree.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#displayKey`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcComboComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCombo#displayKey`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ComboComponent#displayKey`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Combo#displayKey`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/combo/overview.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/combo/overview.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#reportValidity`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcComboComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCombo#reportValidity`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ComboComponent#reportValidity`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Combo#reportValidity`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/combo/overview.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/combo/overview.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#groupKey`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcComboComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCombo#groupKey`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ComboComponent#groupKey`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Combo#groupKey`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/combo/features.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/combo/features.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCheckboxComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckbox`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CheckboxComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Checkbox`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/grids/_shared/row-selection.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/row-selection.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCircularProgressComponent#labelFormat`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCircularProgressComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCircularProgress#labelFormat`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CircularProgressComponent#labelFormat`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CircularProgress#labelFormat`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/circular-progress.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#allowDocking`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#allowDocking`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#allowDocking`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#allowDocking`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcComboComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCombo`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ComboComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Combo`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/combo/features.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/combo/overview.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/combo/features.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/combo/overview.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#disableFiltering`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcComboComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCombo#disableFiltering`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ComboComponent#disableFiltering`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Combo#disableFiltering`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#headerId`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#headerId`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#headerId`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#headerId`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#header`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#header`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#header`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#header`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#groupSorting`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcComboComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCombo#groupSorting`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ComboComponent#groupSorting`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Combo#groupSorting`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#singleSelect`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcComboComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCombo#singleSelect`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ComboComponent#singleSelect`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Combo#singleSelect`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/cascading-combos.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#valueKey`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcComboComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCombo#valueKey`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ComboComponent#valueKey`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Combo#valueKey`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/combo/overview.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/cascading-combos.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/combo/overview.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#tabHeaderId`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#tabHeaderId`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#tabHeaderId`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#tabHeaderId`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#isPinned`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#isPinned`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#isPinned`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#isPinned`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#allowClose`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#allowClose`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#allowClose`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#allowClose`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#allowFloating`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#allowFloating`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#allowFloating`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#allowFloating`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/scheduling/date-picker.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#allowPinning`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#allowPinning`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#allowPinning`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#allowPinning`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#contentId`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#contentId`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#contentId`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#contentId`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#disabled`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#disabled`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#disabled`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#disabled`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#documentOnly`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#documentOnly`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#documentOnly`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#documentOnly`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#hidden`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#hidden`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#hidden`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#hidden`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#disabledDates`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#disabledDates`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#disabledDates`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#disabledDates`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstDayOfWeek`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#firstDayOfWeek`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#firstDayOfWeek`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#firstDayOfWeek`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#displayFormat`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#displayFormat`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#displayFormat`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#displayFormat`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#inputFormat`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#inputFormat`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#inputFormat`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#inputFormat`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#unpinnedHeaderId`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#unpinnedHeaderId`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#unpinnedHeaderId`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#unpinnedHeaderId`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#hide`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#hide`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#hide`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#hide`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#unpinnedLocation`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcContentPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPane#unpinnedLocation`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPaneComponent#unpinnedLocation`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ContentPane#unpinnedLocation`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#dateFormat`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#dateFormat`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#dateFormat`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#dateFormat`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#locale`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#locale`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#locale`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#locale`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/_shared/column-types.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/_shared/column-types.mdx`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#disabled`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#disabled`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#disabled`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#disabled`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#max`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#max`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#max`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#max`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#min`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#min`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#min`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#min`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#formatString`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#formatString`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#formatString`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#formatString`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#readOnly`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#readOnly`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#readOnly`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#readOnly`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstWeekOfYear`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#firstWeekOfYear`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#firstWeekOfYear`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#firstWeekOfYear`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#open`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#open`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#open`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#open`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#placeholder`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#placeholder`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#placeholder`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#placeholder`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#select`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#select`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#select`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#select`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#label`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#label`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#label`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#label`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#show`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#show`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#show`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#show`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showTodayButton`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#showTodayButton`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#showTodayButton`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#showTodayButton`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showWeekNumbers`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#showWeekNumbers`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#showWeekNumbers`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#showWeekNumbers`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#stepDown`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#stepDown`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#stepDown`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#stepDown`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#stepUp`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#stepUp`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#stepUp`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#stepUp`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#maxDate`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#maxDate`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#maxDate`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#maxDate`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#minDate`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#minDate`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#minDate`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#minDate`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#value`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#value`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#value`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#value`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#name`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#name`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#name`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#name`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangeDescriptor#dateRange`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangeDescriptor`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangeDescriptor#dateRange`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/scheduling/calendar.mdx`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#customRanges`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#customRanges`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#customRanges`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#customRanges`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#specialDates`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#specialDates`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#specialDates`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#specialDates`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#toggle`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#toggle`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#toggle`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#toggle`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#label`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#label`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#label`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#label`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#formatOptions`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcCalendarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendar#formatOptions`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/CalendarComponent#formatOptions`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Calendar#formatOptions`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/calendar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#inputFormat`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#inputFormat`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#inputFormat`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#inputFormat`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#labelEnd`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#labelEnd`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#labelEnd`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#labelEnd`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#max`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#max`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#max`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#max`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#mode`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#mode`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#mode`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#mode`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#nonEditable`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#nonEditable`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#nonEditable`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#nonEditable`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#visibleMonths`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#visibleMonths`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#visibleMonths`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#visibleMonths`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#weekStart`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDatePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePicker#weekStart`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePickerComponent#weekStart`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DatePicker#weekStart`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#disabledDates`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#disabledDates`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#disabledDates`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#disabledDates`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/scheduling/date-range-picker.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#displayFormat`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#displayFormat`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#displayFormat`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#displayFormat`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#required`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#required`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#required`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#required`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#usePredefinedRanges`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#usePredefinedRanges`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#usePredefinedRanges`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#usePredefinedRanges`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#labelStart`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#labelStart`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#labelStart`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#labelStart`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#locale`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#locale`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#locale`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#locale`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#min`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#min`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#min`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#min`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#readOnly`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#readOnly`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#readOnly`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#readOnly`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#useTwoInputs`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#useTwoInputs`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#useTwoInputs`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#useTwoInputs`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDialogComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDialogComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDialog`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DialogComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Dialog`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateTimeInputComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateTimeInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateTimeInput`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateTimeInputComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateTimeInput`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDividerComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDividerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDivider`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DividerComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Divider`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#allowFloatingPanesResize`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDockManager`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DockManager#allowFloatingPanesResize`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#draggedPane`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDockManager`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DockManager#draggedPane`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager-electron.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager-electron.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#resourceStrings`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDockManager`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DockManager#resourceStrings`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#specialDates`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#specialDates`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#specialDates`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#specialDates`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManagerLayout#floatingPanes`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDockManagerLayout`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DockManagerLayout#floatingPanes`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDocumentHostComponent#rootPane`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDocumentHostComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDocumentHost#rootPane`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DocumentHostComponent#rootPane`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DocumentHost#rootPane`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDocumentHostComponent#size`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDocumentHostComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDocumentHost#size`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DocumentHostComponent#size`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DocumentHost#size`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateTimeInputComponent#inputFormat`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateTimeInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateTimeInput#inputFormat`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateTimeInputComponent#inputFormat`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateTimeInput#inputFormat`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/date-time-input.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/date-time-input.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDropdownComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdown`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DropdownComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Dropdown`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#hide`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDropdownComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdown#hide`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DropdownComponent#hide`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Dropdown#hide`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/dropdown.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/dropdown.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#flip`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDropdownComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdown#flip`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DropdownComponent#flip`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Dropdown#flip`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/dropdown.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/dropdown.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#activePane`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDockManager`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DockManager#activePane`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#scrollStrategy`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDropdownComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdown#scrollStrategy`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DropdownComponent#scrollStrategy`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Dropdown#scrollStrategy`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/dropdown.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/dropdown.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#select`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDropdownComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdown#select`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DropdownComponent#select`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Dropdown#select`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/dropdown.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/dropdown.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#dropPosition`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDockManager`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DockManager#dropPosition`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager-electron.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager-electron.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#selectedItem`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDropdownComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdown#selectedItem`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DropdownComponent#selectedItem`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Dropdown#selectedItem`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#layout`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDockManager`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DockManager#layout`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#toggleTarget`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDropdownComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdown#toggleTarget`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DropdownComponent#toggleTarget`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Dropdown#toggleTarget`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/dropdown.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/dropdown.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcExpansionPanelComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcExpansionPanelComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcExpansionPanel`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ExpansionPanelComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ExpansionPanel`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButtonComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcIconButtonComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButton`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IconButtonComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IconButton`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcIconComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIcon`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IconComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Icon`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/en/components/notifications/banner.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButtonComponent#variant`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcIconButtonComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButton#variant`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IconButtonComponent#variant`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IconButton#variant`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconComponent#setIconRef`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcIconComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIcon#setIconRef`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IconComponent#setIconRef`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Icon#setIconRef`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#value`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDateRangePickerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePicker#value`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePickerComponent#value`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DateRangePicker#value`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#sameWidth`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDropdownComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdown#sameWidth`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DropdownComponent#sameWidth`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Dropdown#sameWidth`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#inputMode`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#inputMode`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#inputMode`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#inputMode`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#disabled`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#disabled`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#disabled`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#disabled`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/file-input.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/file-input.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#showTarget`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcDropdownComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdown#showTarget`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/DropdownComponent#showTarget`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Dropdown#showTarget`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/dropdown.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/dropdown.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#label`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#label`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#label`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#label`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/file-input.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/file-input.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#maxLength`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#maxLength`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#maxLength`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#maxLength`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#pattern`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#pattern`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#pattern`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#pattern`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButtonComponent#form`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcIconButtonComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButton#form`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IconButtonComponent#form`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IconButton#form`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#required`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#required`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#required`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#required`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/file-input.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/file-input.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#reportValidity`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#reportValidity`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#reportValidity`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#reportValidity`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/file-input.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/file-input.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#select`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#select`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#select`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#select`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/select.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/select.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#setCustomValidity`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#setCustomValidity`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#setCustomValidity`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#setCustomValidity`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/file-input.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/file-input.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#validateOnly`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#validateOnly`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#validateOnly`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#validateOnly`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#autofocus`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#autofocus`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#autofocus`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#autofocus`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/file-input.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/file-input.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#invalid`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#invalid`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#invalid`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#invalid`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/file-input.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/file-input.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListItem`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcListItem`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ListItem`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#value`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#value`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#value`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#value`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/file-input.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/file-input.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#minLength`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#minLength`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#minLength`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#minLength`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcMaskInputComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcMaskInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcMaskInput`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/MaskInputComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/MaskInput`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListItem#selected`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcListItem`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ListItem#selected`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcMaskInputComponent#valueMode`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcMaskInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcMaskInput#valueMode`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/MaskInputComponent#valueMode`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/MaskInput#valueMode`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/mask-input.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/mask-input.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavDrawerComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcNavDrawerComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavDrawer`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/NavDrawerComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/NavDrawer`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/menus/navigation-drawer.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/menus/navigation-drawer.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#placeholder`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcInputComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInput#placeholder`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/InputComponent#placeholder`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Input#placeholder`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/file-input.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/file-input.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavbarComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcNavbarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavbar`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/NavbarComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Navbar`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/menus/navbar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcPaneHeaderElementComponent#dragService`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcPaneHeaderElementComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcPaneHeaderElement#dragService`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/PaneHeaderElementComponent#dragService`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/PaneHeaderElement#dragService`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager-electron.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager-electron.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcRadioComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadio`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/RadioComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Radio`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/radio.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/radio.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcLinearProgressComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcLinearProgressComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcLinearProgress`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/LinearProgressComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/LinearProgress`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcLinearProgressComponent#labelFormat`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcLinearProgressComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcLinearProgress#labelFormat`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/LinearProgressComponent#labelFormat`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/LinearProgress#labelFormat`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/linear-progress.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/linear-progress.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcListComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcList`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ListComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/List`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/grids/list.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/list.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent#thumbLabelUpper`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcRangeSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSlider#thumbLabelUpper`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/RangeSliderComponent#thumbLabelUpper`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/RangeSlider#thumbLabelUpper`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent#thumbLabelLower`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcRangeSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSlider#thumbLabelLower`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/RangeSliderComponent#thumbLabelLower`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/RangeSlider#thumbLabelLower`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioGroupComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcRadioGroupComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioGroup`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/RadioGroupComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/RadioGroup`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRatingComponent#allowReset`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcRatingComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRating#allowReset`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/RatingComponent#allowReset`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Rating#allowReset`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#max`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSlider#max`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderComponent#max`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Slider#max`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRippleComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcRippleComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRipple`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/RippleComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Ripple`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/ripple.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/ripple.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#discreteTrack`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSlider#discreteTrack`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderComponent#discreteTrack`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Slider#discreteTrack`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcRangeSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSlider`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/RangeSliderComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/RangeSlider`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRatingComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcRatingComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRating`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/RatingComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Rating`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/rating.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/rating.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#tickLabelRotation`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSlider#tickLabelRotation`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderComponent#tickLabelRotation`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Slider#tickLabelRotation`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#valueFormatOptions`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSlider#valueFormatOptions`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderComponent#valueFormatOptions`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Slider#valueFormatOptions`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#tickOrientation`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSlider#tickOrientation`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderComponent#tickOrientation`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Slider#tickOrientation`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#allowEmpty`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPane#allowEmpty`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPaneComponent#allowEmpty`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPane#allowEmpty`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#floatingHeight`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPane#floatingHeight`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPaneComponent#floatingHeight`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPane#floatingHeight`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSnackbarComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSnackbarComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSnackbar`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SnackbarComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Snackbar`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/notifications/snackbar.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/notifications/snackbar.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderLabelComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSliderLabelComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderLabel`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderLabelComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderLabel`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSelectComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSelectComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSelect`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SelectComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Select`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/chip.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/chip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSlider`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Slider`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#locale`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSlider#locale`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderComponent#locale`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Slider#locale`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#min`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSlider#min`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderComponent#min`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Slider#min`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#valueFormat`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSlider#valueFormat`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderComponent#valueFormat`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Slider#valueFormat`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#floatingResizable`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPane#floatingResizable`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPaneComponent#floatingResizable`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPane#floatingResizable`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#orientation`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPane#orientation`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPaneComponent#orientation`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPane#orientation`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#floatingWidth`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPane#floatingWidth`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPaneComponent#floatingWidth`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPane#floatingWidth`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#disableCollapse`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitter#disableCollapse`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitterComponent#disableCollapse`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Splitter#disableCollapse`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/splitter.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitter`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitterComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Splitter`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#endMinSize`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitter#endMinSize`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitterComponent#endMinSize`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Splitter#endMinSize`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/splitter.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#floatingLocation`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPane#floatingLocation`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPaneComponent#floatingLocation`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPane#floatingLocation`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#endMaxSize`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitter#endMaxSize`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitterComponent#endMaxSize`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Splitter#endMaxSize`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/splitter.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#endSize`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitter#endSize`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitterComponent#endSize`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Splitter#endSize`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/splitter.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#hideCollapseButtons`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitter#hideCollapseButtons`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitterComponent#hideCollapseButtons`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Splitter#hideCollapseButtons`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/splitter.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#orientation`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitter#orientation`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitterComponent#orientation`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Splitter#orientation`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/splitter.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#startMinSize`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitter#startMinSize`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitterComponent#startMinSize`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Splitter#startMinSize`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/splitter.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#step`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSlider#step`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderComponent#step`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Slider#step`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#secondaryTicks`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSliderComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSlider#secondaryTicks`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SliderComponent#secondaryTicks`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Slider#secondaryTicks`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/slider.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#panes`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitPaneComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPane#panes`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPaneComponent#panes`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitPane#panes`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/dock-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTabComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTab`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TabComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tab`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/select.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/select.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSwitchComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSwitchComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSwitch`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SwitchComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Switch`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/combo/features.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/switch.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/combo/features.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/switch.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStepperComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcStepperComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStepper`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/StepperComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Stepper`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/layouts/stepper.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/stepper.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#disableResize`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitter#disableResize`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitterComponent#disableResize`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Splitter#disableResize`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/splitter.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabComponent#disabled`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTabComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTab#disabled`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TabComponent#disabled`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tab#disabled`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/tabs.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/tabs.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent#activation`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTabsComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabs#activation`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TabsComponent#activation`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tabs#activation`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/tabs.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/tabs.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#hideDragHandle`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitter#hideDragHandle`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitterComponent#hideDragHandle`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Splitter#hideDragHandle`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/splitter.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTabsComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabs`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TabsComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tabs`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent#alignment`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTabsComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabs#alignment`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TabsComponent#alignment`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tabs#alignment`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/tabs.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/tabs.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent#selected`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTabsComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabs#selected`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TabsComponent#selected`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tabs#selected`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#startMaxSize`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitter#startMaxSize`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitterComponent#startMaxSize`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Splitter#startMaxSize`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/splitter.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTextareaComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTextareaComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTextarea`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TextareaComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Textarea`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTextareaComponent#autocapitalize`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTextareaComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTextarea#autocapitalize`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TextareaComponent#autocapitalize`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Textarea#autocapitalize`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTileComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTile`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TileComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tile`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/layouts/tile-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/tile-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#startSize`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcSplitterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitter#startSize`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/SplitterComponent#startSize`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Splitter#startSize`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/splitter.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStepComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcStepComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStep`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/StepComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Step`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/layouts/stepper.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabComponent#label`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTabComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTab#label`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TabComponent#label`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tab#label`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/layouts/tabs.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/tabs.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager#minColumnWidth`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTileManager`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TileManager#minColumnWidth`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager#gap`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTileManager`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TileManager#gap`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager#minRowHeight`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTileManager`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TileManager#minRowHeight`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcToastComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcToastComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcToast`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ToastComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Toast`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcToggleButtonComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcToggleButtonComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcToggleButton`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ToggleButtonComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/ToggleButton`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#anchor`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTooltipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltip#anchor`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TooltipComponent#anchor`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tooltip#anchor`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#disableArrow`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTooltipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltip#disableArrow`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TooltipComponent#disableArrow`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tooltip#disableArrow`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#hide`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTooltipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltip#hide`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TooltipComponent#hide`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tooltip#hide`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#message`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTooltipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltip#message`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TooltipComponent#message`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tooltip#message`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#placement`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTooltipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltip#placement`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TooltipComponent#placement`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tooltip#placement`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#open`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTooltipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltip#open`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TooltipComponent#open`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tooltip#open`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#show`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTooltipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltip#show`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TooltipComponent#show`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tooltip#show`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileComponent#rowStart`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTileComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTile#rowStart`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TileComponent#rowStart`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tile#rowStart`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileComponent#colStart`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTileComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTile#colStart`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TileComponent#colStart`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tile#colStart`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTileManager`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TileManager`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/layouts/tile-manager.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/layouts/tile-manager.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#withArrow`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTooltipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltip#withArrow`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TooltipComponent#withArrow`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tooltip#withArrow`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTreeComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTree`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TreeComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tree`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/grids/tree.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/tree.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent#selection`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTreeComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTree#selection`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TreeComponent#selection`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tree#selection`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/tree.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/tree.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent#toggleNodeOnClick`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTreeComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTree#toggleNodeOnClick`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TreeComponent#toggleNodeOnClick`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tree#toggleNodeOnClick`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/grids/tree.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/tree.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTooltipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltip`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TooltipComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tooltip`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent#singleBranchExpand`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTreeComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTree#singleBranchExpand`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TreeComponent#singleBranchExpand`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tree#singleBranchExpand`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/tree.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/tree.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTreeItem`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TreeItem`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/en/components/grids/tree.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/tree.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#offset`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTooltipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltip#offset`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TooltipComponent#offset`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tooltip#offset`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#active`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTreeItem`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TreeItem#active`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/tree.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/tree.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#disabled`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTreeItem`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TreeItem#disabled`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/tree.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/tree.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#expanded`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTreeItem`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TreeItem#expanded`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/tree.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/tree.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#label`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTreeItem`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TreeItem#label`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/tree.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/tree.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#sticky`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTooltipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltip#sticky`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TooltipComponent#sticky`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tooltip#sticky`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#toggle`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTooltipComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltip#toggle`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TooltipComponent#toggle`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/Tooltip#toggle`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/inputs/tooltip.mdx`
+  - in: `docs/xplat/src/content/jp/components/inputs/tooltip.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#selected`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTreeItem`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TreeItem#selected`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/tree.mdx`
+  - in: `docs/xplat/src/content/jp/components/grids/tree.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeSelectionEventArgs`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTreeSelectionEventArgs`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TreeSelectionEventArgs`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#value`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/7.0.0/classes/IgcTreeItem`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/TreeItem#value`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/grids/tree.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcArcGISOnlineMapImageryComponent#geographicMap`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/7.0.0/classes/IgcArcGISOnlineMapImageryComponent`
+  - ✅ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcArcGISOnlineMapImagery#geographicMap`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/ArcGISOnlineMapImageryComponent#geographicMap`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/ArcGISOnlineMapImagery#geographicMap`
+  - **FIX**: `excludeSuffixFor="WebComponents"`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-esri-imagery.mdx`
+  - in: `docs/xplat/src/content/jp/components/geo-map-resources-esri.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcAzureMapsImageryComponent#geographicMap`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/7.0.0/classes/IgcAzureMapsImageryComponent`
+  - ✅ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcAzureMapsImagery#geographicMap`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/AzureMapsImageryComponent#geographicMap`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/AzureMapsImagery#geographicMap`
+  - **FIX**: `excludeSuffixFor="WebComponents"`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-azure-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcAzureMapsImageryComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/7.0.0/classes/IgcAzureMapsImageryComponent`
+  - ✅ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcAzureMapsImagery`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/AzureMapsImageryComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/AzureMapsImagery`
+  - **FIX**: `excludeSuffixFor="WebComponents"`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcBingMapsMapImageryComponent#geographicMap`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/7.0.0/classes/IgcBingMapsMapImageryComponent`
+  - ✅ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcBingMapsMapImagery#geographicMap`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/BingMapsMapImageryComponent#geographicMap`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/BingMapsMapImagery#geographicMap`
+  - **FIX**: `excludeSuffixFor="WebComponents"`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-bing-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcTileGeneratorMapImageryComponent#tileGenerator`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/7.0.0/classes/IgcTileGeneratorMapImageryComponent`
+  - ✅ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcTileGeneratorMapImagery#tileGenerator`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/TileGeneratorMapImageryComponent#tileGenerator`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/TileGeneratorMapImagery#tileGenerator`
+  - **FIX**: `excludeSuffixFor="WebComponents"`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#activeSelection`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet#activeSelection`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#activeCell`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet#activeCell`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#areGridlinesVisible`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet#areGridlinesVisible`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#areHeadersVisible`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet#areHeadersVisible`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-hyperlinks.mdx`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-overview.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-conditional-formatting.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-hyperlinks.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-overview.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#selectionMode`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet#selectionMode`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#chartAdapter`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet#chartAdapter`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-chart-adapter.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#enterKeyNavigationDirection`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet#enterKeyNavigationDirection`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#workbook`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet#workbook`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-chart-adapter.mdx`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-overview.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-chart-adapter.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-overview.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#zoomLevel`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet#zoomLevel`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#isEnterKeyNavigationEnabled`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet#isEnterKeyNavigationEnabled`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#isFormulaBarVisible`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet#isFormulaBarVisible`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#isInEndMode`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/7.0.0/classes/IgcSpreadsheet`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/Spreadsheet#isInEndMode`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx`
+  - in: `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#ScaleColors`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator#ScaleColors`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent#ScaleColors`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator#ScaleColors`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#blurRadius`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator#blurRadius`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent#blurRadius`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator#blurRadius`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#maximumColor`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator#maximumColor`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent#maximumColor`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator#maximumColor`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#minimumColor`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator#minimumColor`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent#minimumColor`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator#minimumColor`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#useBlurRadiusAdjustedForZoom`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator#useBlurRadiusAdjustedForZoom`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent#useBlurRadiusAdjustedForZoom`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator#useBlurRadiusAdjustedForZoom`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#useLogarithmicScale`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator#useLogarithmicScale`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent#useLogarithmicScale`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator#useLogarithmicScale`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#useWebWorkers`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator#useWebWorkers`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent#useWebWorkers`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator#useWebWorkers`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#values`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator#values`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent#values`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator#values`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#xValues`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator#xValues`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent#xValues`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator#xValues`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#maxBlurRadius`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator#maxBlurRadius`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent#maxBlurRadius`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator#maxBlurRadius`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#yValues`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator#yValues`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent#yValues`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator#yValues`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#webWorkerInstance`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcHeatTileGeneratorComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGenerator#webWorkerInstance`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGeneratorComponent#webWorkerInstance`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/HeatTileGenerator#webWorkerInstance`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcShapefileConverterComponent#shapefileSource`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcShapefileConverterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcShapefileConverter#shapefileSource`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/ShapefileConverterComponent#shapefileSource`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/ShapefileConverter#shapefileSource`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-binding-shp-file.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcShapefileRecordComponent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcShapefileRecordComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcShapefileRecord`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/ShapefileRecordComponent`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/ShapefileRecord`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-binding-shp-file.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcShapefileConverterComponent#databaseSource`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/classes/IgcShapefileConverterComponent`
+  - ❌ no-suffix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcShapefileConverter#databaseSource`
+  - ❌ no-prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/ShapefileConverterComponent#databaseSource`
+  - ❌ no-suffix+prefix: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/ShapefileConverter#databaseSource`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/jp/components/geo-map-binding-shp-file.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataAbbreviationMode#Independent`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/enums/DataAbbreviationMode`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/charts/features/chart-data-legend.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/features/chart-data-legend.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataAbbreviationMode#Shared`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/enums/DataAbbreviationMode`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/charts/features/chart-data-legend.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/features/chart-data-legend.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataLegendSummaryType#Average`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/enums/DataLegendSummaryType`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/charts/features/chart-data-legend.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/features/chart-data-legend.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataAbbreviationMode#Kilo`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/enums/DataAbbreviationMode`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/charts/features/chart-data-legend.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/features/chart-data-legend.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataLegendSummaryType#Total`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/enums/DataLegendSummaryType`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/charts/features/chart-data-legend.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/features/chart-data-legend.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataAbbreviationMode#Million`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/enums/DataAbbreviationMode`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/charts/features/chart-data-legend.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/features/chart-data-legend.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/TrendLineType`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/enums/TrendLineType`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/charts/types/sparkline-chart.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/types/sparkline-chart.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataLegendSummaryType#Min`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/enums/DataLegendSummaryType`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/charts/features/chart-data-legend.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/features/chart-data-legend.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataSourceSectionHeaderDisplayMode`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/enums/DataSourceSectionHeaderDisplayMode`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataSourceSummaryOperand`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/enums/DataSourceSummaryOperand`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+  - in: `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataSourceSummaryScope`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/enums/DataSourceSummaryScope`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx`
+- ❌ `NOT FOUND — type/member missing`
+  - URL: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataLegendSummaryType#Max`
+  - Checked as: `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/7.1.0/enums/DataLegendSummaryType`
+  - **FIX**: `exclude="WebComponents" (no variant resolves — symbol absent)`
+  - in: `docs/xplat/src/content/en/components/charts/features/chart-data-legend.mdx`
+  - in: `docs/xplat/src/content/jp/components/charts/features/chart-data-legend.mdx`
+
+### By Page
+
+#### `docs/xplat/src/content/en/components/charts/features/chart-data-legend.mdx` — 8 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataAbbreviationMode#Independent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataAbbreviationMode#Shared`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataLegendSummaryType#Average`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataAbbreviationMode#Kilo`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataLegendSummaryType#Total`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataAbbreviationMode#Million`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataLegendSummaryType#Min`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataLegendSummaryType#Max`
+
+#### `docs/xplat/src/content/en/components/charts/features/chart-data-selection.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcChartSelectionComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcChartSelectionComponent#matcher`
+
+#### `docs/xplat/src/content/en/components/charts/features/chart-user-annotations.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcUserStripAnnotationComponent#annotationData`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcUserStripAnnotationComponent#label`
+
+#### `docs/xplat/src/content/en/components/charts/types/pie-chart.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcPieSliceOthersContextComponent`
+
+#### `docs/xplat/src/content/en/components/charts/types/sparkline-chart.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/TrendLineType`
+
+#### `docs/xplat/src/content/en/components/excel-library-using-tables.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-excel/latest/classes/SortSettings#caseSensitive`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-excel/latest/classes/SortSettings#sortConditions`
+
+#### `docs/xplat/src/content/en/components/general-changelog-dv-blazor.mdx` — 110 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcFilteringExpressionsTreeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridCreatedEventArgsDetailComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridCreatedEventArgsDetailComponent#parentRowData`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcMultiColumnComboBoxComponent#valueField`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotDimensionComponent#horizontalSummary`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EditModeClickAction`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviorAfterEdit`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/DataGridSelectionMode`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EditModeClickAction#SingleClick`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviors`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcActiveStepChangingEventArgs`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcActiveStepChangingEventArgs#detail`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent#shape`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonGroupComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcActiveStepChangedEventArgs`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBadgeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent#variant`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent#form`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCarouselComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardActionsComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcChipComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCircularProgressComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#displayKey`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#groupKey`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#valueKey`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#disabledDates`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstDayOfWeek`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#hide`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#dateFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#max`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#min`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#formatString`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#readOnly`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstWeekOfYear`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#open`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#placeholder`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#select`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#label`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#show`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showTodayButton`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showWeekNumbers`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#maxDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#minDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#value`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#name`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#specialDates`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#toggle`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#weekStart`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDialogComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateTimeInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDividerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#flip`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#selectedItem`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcExpansionPanelComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconComponent#setIconRef`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#sameWidth`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#inputMode`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#maxLength`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#pattern`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#validateOnly`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListItem`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#minLength`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcMaskInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavDrawerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcLinearProgressComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent#thumbLabelUpper`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent#thumbLabelLower`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioGroupComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRatingComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#tickLabelRotation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSnackbarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSwitchComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStepperComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent#selected`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTextareaComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTextareaComponent#autocapitalize`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStepComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager#minColumnWidth`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager#gap`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager#minRowHeight`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcToastComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#anchor`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#disableArrow`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#placement`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileComponent#rowStart`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileComponent#colStart`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#withArrow`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeSelectionEventArgs`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcAzureMapsImageryComponent`
+
+#### `docs/xplat/src/content/en/components/general-changelog-dv-react.mdx` — 69 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcDataGridCellEventArgs#CellInfo`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcDataGridCellEventArgs#button`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcMultiColumnComboBoxComponent#valueField`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviorAfterEdit`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/DataGridSelectionMode`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviors`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonGroupComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBadgeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcChipComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCircularProgressComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstDayOfWeek`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#dateFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#max`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#min`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#formatString`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#readOnly`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstWeekOfYear`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#open`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#placeholder`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#select`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#label`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showTodayButton`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showWeekNumbers`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#maxDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#minDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#value`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#name`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#weekStart`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDialogComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateTimeInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDividerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcExpansionPanelComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButtonComponent#variant`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#maxLength`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButtonComponent#form`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#validateOnly`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListItem`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#minLength`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcMaskInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListItem#selected`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavDrawerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcLinearProgressComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent#thumbLabelUpper`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent#thumbLabelLower`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioGroupComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRatingComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSnackbarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSwitchComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTextareaComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcToastComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataSourceSectionHeaderDisplayMode`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataSourceSummaryOperand`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataSourceSummaryScope`
+
+#### `docs/xplat/src/content/en/components/general-changelog-dv-wc.mdx` — 63 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcFilteringExpressionsTreeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcMultiColumnComboBoxComponent#valueField`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EditModeClickAction`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviorAfterEdit`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/DataGridSelectionMode`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EditModeClickAction#SingleClick`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviors`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent#shape`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonGroupComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBadgeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent#form`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonGroupComponent#selectedItems`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcChipComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#disableFiltering`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#groupSorting`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstDayOfWeek`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#inputFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#dateFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#disabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#formatString`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstWeekOfYear`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#placeholder`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#select`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#label`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showTodayButton`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showWeekNumbers`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#maxDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#minDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDialogComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateTimeInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcExpansionPanelComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#validateOnly`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcMaskInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavDrawerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavbarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcLinearProgressComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioGroupComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRatingComponent#allowReset`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRatingComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSnackbarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSwitchComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStepperComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTextareaComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcToastComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcToggleButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent#toggleNodeOnClick`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem`
+
+#### `docs/xplat/src/content/en/components/grids/_shared/column-types.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#locale`
+
+#### `docs/xplat/src/content/en/components/grids/_shared/editing.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridEditDoneEventArgs`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridEditEventArgs`
+
+#### `docs/xplat/src/content/en/components/grids/_shared/filtering.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcFilteringExpressionComponent#ignoreCase`
+
+#### `docs/xplat/src/content/en/components/grids/_shared/row-selection.mdx` — 3 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent#click`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent#checked`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent`
+
+#### `docs/xplat/src/content/en/components/grids/_shared/summaries.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcSummaryResultComponent`
+
+#### `docs/xplat/src/content/en/components/grids/list.mdx` — 3 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListComponent`
+
+#### `docs/xplat/src/content/en/components/grids/pivot-grid/overview.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotDateDimensionComponent`
+
+#### `docs/xplat/src/content/en/components/grids/pivot-grid/remote-operations.mdx` — 6 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#children`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#aggregations`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#columnDimensionSeparator`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#records`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#rowDimensionSeparator`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#level`
+
+#### `docs/xplat/src/content/en/components/grids/tree.mdx` — 12 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCircularProgressComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent#selection`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent#toggleNodeOnClick`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent#singleBranchExpand`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#active`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#disabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#expanded`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#label`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#selected`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#value`
+
+#### `docs/xplat/src/content/en/components/inputs/chip.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSelectComponent`
+
+#### `docs/xplat/src/content/en/components/inputs/circular-progress.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCircularProgressComponent#labelFormat`
+
+#### `docs/xplat/src/content/en/components/inputs/combo/features.mdx` — 3 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#groupKey`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSwitchComponent`
+
+#### `docs/xplat/src/content/en/components/inputs/combo/overview.mdx` — 5 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#checkValidity`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#displayKey`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#reportValidity`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#valueKey`
+
+#### `docs/xplat/src/content/en/components/inputs/date-time-input.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateTimeInputComponent#inputFormat`
+
+#### `docs/xplat/src/content/en/components/inputs/dropdown.mdx` — 6 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#hide`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#flip`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#scrollStrategy`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#select`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#toggleTarget`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#showTarget`
+
+#### `docs/xplat/src/content/en/components/inputs/file-input.mdx` — 9 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#disabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#label`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#required`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#reportValidity`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#setCustomValidity`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#autofocus`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#invalid`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#value`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#placeholder`
+
+#### `docs/xplat/src/content/en/components/inputs/linear-progress.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcLinearProgressComponent#labelFormat`
+
+#### `docs/xplat/src/content/en/components/inputs/mask-input.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcMaskInputComponent#valueMode`
+
+#### `docs/xplat/src/content/en/components/inputs/radio.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioComponent`
+
+#### `docs/xplat/src/content/en/components/inputs/rating.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRatingComponent`
+
+#### `docs/xplat/src/content/en/components/inputs/ripple.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRippleComponent`
+
+#### `docs/xplat/src/content/en/components/inputs/select.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#select`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabComponent`
+
+#### `docs/xplat/src/content/en/components/inputs/slider.mdx` — 13 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#max`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#discreteTrack`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#valueFormatOptions`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#tickOrientation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderLabelComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#locale`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#min`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#valueFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#step`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#secondaryTicks`
+
+#### `docs/xplat/src/content/en/components/inputs/switch.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSwitchComponent`
+
+#### `docs/xplat/src/content/en/components/inputs/tooltip.mdx` — 16 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBadgeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#anchor`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#hide`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#message`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#open`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#show`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#withArrow`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#offset`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#sticky`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#toggle`
+
+#### `docs/xplat/src/content/en/components/layouts/card.mdx` — 4 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardMediaComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardActionsComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardContentComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardHeaderComponent`
+
+#### `docs/xplat/src/content/en/components/layouts/carousel.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCarouselComponent#interval`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCarouselSlideComponent#active`
+
+#### `docs/xplat/src/content/en/components/layouts/dock-manager-electron.mdx` — 3 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#draggedPane`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#dropPosition`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcPaneHeaderElementComponent#dragService`
+
+#### `docs/xplat/src/content/en/components/layouts/dock-manager.mdx` — 28 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#allowDocking`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#headerId`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#header`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#tabHeaderId`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#isPinned`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#allowClose`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#allowFloating`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#allowPinning`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#contentId`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#disabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#documentOnly`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#hidden`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#unpinnedHeaderId`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#unpinnedLocation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#allowFloatingPanesResize`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#resourceStrings`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManagerLayout#floatingPanes`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDocumentHostComponent#rootPane`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDocumentHostComponent#size`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#activePane`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#layout`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#allowEmpty`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#floatingHeight`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#floatingResizable`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#orientation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#floatingWidth`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#floatingLocation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#panes`
+
+#### `docs/xplat/src/content/en/components/layouts/splitter.mdx` — 11 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#disableCollapse`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#endMinSize`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#endMaxSize`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#endSize`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#hideCollapseButtons`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#orientation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#startMinSize`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#disableResize`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#hideDragHandle`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#startMaxSize`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitterComponent#startSize`
+
+#### `docs/xplat/src/content/en/components/layouts/stepper.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStepperComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStepComponent`
+
+#### `docs/xplat/src/content/en/components/layouts/tabs.mdx` — 4 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabComponent#disabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent#activation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent#alignment`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabComponent#label`
+
+#### `docs/xplat/src/content/en/components/layouts/tile-manager.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager`
+
+#### `docs/xplat/src/content/en/components/menus/navigation-drawer.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavDrawerComponent`
+
+#### `docs/xplat/src/content/en/components/notifications/banner.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBannerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconComponent`
+
+#### `docs/xplat/src/content/en/components/notifications/snackbar.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSnackbarComponent`
+
+#### `docs/xplat/src/content/en/components/scheduling/calendar.mdx` — 4 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#headerOrientation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#hideOutsideDays`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangeDescriptor#dateRange`
+
+#### `docs/xplat/src/content/en/components/scheduling/date-picker.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent`
+
+#### `docs/xplat/src/content/en/components/scheduling/date-range-picker.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent`
+
+#### `docs/xplat/src/content/en/components/spreadsheet-chart-adapter.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#workbook`
+
+#### `docs/xplat/src/content/en/components/spreadsheet-configuring.mdx` — 12 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#activeSelection`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#activeCell`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#areGridlinesVisible`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#areHeadersVisible`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#selectionMode`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#enterKeyNavigationDirection`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#workbook`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#zoomLevel`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#isEnterKeyNavigationEnabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#isFormulaBarVisible`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#isInEndMode`
+
+#### `docs/xplat/src/content/en/components/spreadsheet-hyperlinks.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet`
+
+#### `docs/xplat/src/content/en/components/spreadsheet-overview.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#workbook`
+
+#### `docs/xplat/src/content/jp/components/charts/features/chart-data-legend.mdx` — 8 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataAbbreviationMode#Independent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataAbbreviationMode#Shared`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataLegendSummaryType#Average`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataAbbreviationMode#Kilo`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataLegendSummaryType#Total`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataAbbreviationMode#Million`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataLegendSummaryType#Min`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataLegendSummaryType#Max`
+
+#### `docs/xplat/src/content/jp/components/charts/features/chart-data-selection.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcChartSelectionComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcChartSelectionComponent#matcher`
+
+#### `docs/xplat/src/content/jp/components/charts/features/chart-user-annotations.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcUserStripAnnotationComponent#annotationData`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcUserStripAnnotationComponent#label`
+
+#### `docs/xplat/src/content/jp/components/charts/types/pie-chart.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest/classes/IgcPieSliceOthersContextComponent`
+
+#### `docs/xplat/src/content/jp/components/charts/types/sparkline-chart.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/TrendLineType`
+
+#### `docs/xplat/src/content/jp/components/excel-library-using-tables.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-excel/latest/classes/SortSettings#caseSensitive`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-excel/latest/classes/SortSettings#sortConditions`
+
+#### `docs/xplat/src/content/jp/components/general-changelog-dv-blazor.mdx` — 98 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcFilteringExpressionsTreeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcMultiColumnComboBoxComponent#valueField`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EditModeClickAction`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviorAfterEdit`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/DataGridSelectionMode`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EditModeClickAction#SingleClick`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviors`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcActiveStepChangingEventArgs`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcActiveStepChangingEventArgs#detail`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent#shape`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonGroupComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcActiveStepChangedEventArgs`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBadgeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent#variant`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent#form`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCarouselComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardActionsComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcChipComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCircularProgressComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#displayKey`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#groupKey`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#valueKey`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#disabledDates`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstDayOfWeek`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#dateFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#max`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#min`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#formatString`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#readOnly`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstWeekOfYear`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#open`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#placeholder`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#select`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#label`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showTodayButton`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showWeekNumbers`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#maxDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#minDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#value`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#specialDates`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#weekStart`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateTimeInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#flip`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#selectedItem`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#sameWidth`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#inputMode`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#maxLength`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#pattern`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#validateOnly`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListItem`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#minLength`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcMaskInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcLinearProgressComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent#thumbLabelUpper`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent#thumbLabelLower`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioGroupComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRatingComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#tickLabelRotation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSnackbarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSwitchComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStepperComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent#selected`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTextareaComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTextareaComponent#autocapitalize`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStepComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager#minColumnWidth`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager#gap`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager#minRowHeight`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcToastComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#anchor`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#disableArrow`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#placement`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileComponent#rowStart`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileComponent#colStart`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#withArrow`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeSelectionEventArgs`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcAzureMapsImageryComponent`
+
+#### `docs/xplat/src/content/jp/components/general-changelog-dv-react.mdx` — 47 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcDataGridCellEventArgs#button`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviorAfterEdit`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/DataGridSelectionMode`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviors`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonGroupComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstDayOfWeek`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#dateFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#formatString`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#readOnly`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstWeekOfYear`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#open`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#placeholder`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#select`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#label`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showTodayButton`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showWeekNumbers`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#maxDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#minDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#value`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#name`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDialogComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateTimeInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDividerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcExpansionPanelComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#maxLength`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListItem`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#minLength`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcMaskInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListItem#selected`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavDrawerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioGroupComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRatingComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSnackbarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSwitchComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTextareaComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcToastComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/enums/DataSourceSummaryOperand`
+
+#### `docs/xplat/src/content/jp/components/general-changelog-dv-wc.mdx` — 61 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcFilteringExpressionsTreeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EditModeClickAction`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviorAfterEdit`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/DataGridSelectionMode`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EditModeClickAction#SingleClick`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/enums/EnterKeyBehaviors`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent#shape`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonGroupComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBadgeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent#form`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcChipComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#disableFiltering`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#groupSorting`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstDayOfWeek`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#inputFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#dateFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#disabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#formatString`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#firstWeekOfYear`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#placeholder`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#select`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#label`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showTodayButton`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showWeekNumbers`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#maxDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#minDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDialogComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateTimeInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcExpansionPanelComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#validateOnly`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcMaskInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavDrawerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavbarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcLinearProgressComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioGroupComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRatingComponent#allowReset`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRatingComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSnackbarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSwitchComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStepperComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTextareaComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcToastComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcToggleButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent#toggleNodeOnClick`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem`
+
+#### `docs/xplat/src/content/jp/components/geo-map-binding-shp-file.mdx` — 3 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcShapefileConverterComponent#shapefileSource`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcShapefileRecordComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcShapefileConverterComponent#databaseSource`
+
+#### `docs/xplat/src/content/jp/components/geo-map-display-azure-imagery.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcAzureMapsImageryComponent#geographicMap`
+
+#### `docs/xplat/src/content/jp/components/geo-map-display-bing-imagery.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcBingMapsMapImageryComponent#geographicMap`
+
+#### `docs/xplat/src/content/jp/components/geo-map-display-esri-imagery.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcArcGISOnlineMapImageryComponent#geographicMap`
+
+#### `docs/xplat/src/content/jp/components/geo-map-display-heat-imagery.mdx` — 14 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcTileGeneratorMapImageryComponent#tileGenerator`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#ScaleColors`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#blurRadius`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#maximumColor`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#minimumColor`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#useBlurRadiusAdjustedForZoom`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#useLogarithmicScale`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#useWebWorkers`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#values`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#xValues`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#maxBlurRadius`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#yValues`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest/classes/IgcHeatTileGeneratorComponent#webWorkerInstance`
+
+#### `docs/xplat/src/content/jp/components/geo-map-resources-esri.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest/classes/IgcArcGISOnlineMapImageryComponent#geographicMap`
+
+#### `docs/xplat/src/content/jp/components/grids/_shared/batch-editing.mdx` — 3 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/HierarchicalTransactionServiceComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/HierarchicalTransactionServiceFactoryComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/TransactionsComponent`
+
+#### `docs/xplat/src/content/jp/components/grids/_shared/cascading-combos.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#singleSelect`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#valueKey`
+
+#### `docs/xplat/src/content/jp/components/grids/_shared/clipboard-interactions.mdx` — 5 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcClipboardOptions`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcClipboardOptions#copyFormatters`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcClipboardOptions#copyHeaders`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcClipboardOptions#enabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcClipboardOptions#separator`
+
+#### `docs/xplat/src/content/jp/components/grids/_shared/column-types.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#locale`
+
+#### `docs/xplat/src/content/jp/components/grids/_shared/editing.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridEditDoneEventArgs`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridEditEventArgs`
+
+#### `docs/xplat/src/content/jp/components/grids/_shared/filtering.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcFilteringExpressionComponent#ignoreCase`
+
+#### `docs/xplat/src/content/jp/components/grids/_shared/remote-data-operations.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcForOfStateComponent#startIndex`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcForOfStateComponent#chunkSize`
+
+#### `docs/xplat/src/content/jp/components/grids/_shared/row-pinning.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridRowComponent#pinned`
+
+#### `docs/xplat/src/content/jp/components/grids/_shared/row-selection.mdx` — 3 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent#click`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent#checked`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCheckboxComponent`
+
+#### `docs/xplat/src/content/jp/components/grids/_shared/summaries.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcSummaryResultComponent`
+
+#### `docs/xplat/src/content/jp/components/grids/_shared/virtualization.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcColumnWidthComponent`
+
+#### `docs/xplat/src/content/jp/components/grids/data-grid.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGridRowComponent`
+
+#### `docs/xplat/src/content/jp/components/grids/grid/groupby.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcGroupingExpressionComponent#groupingComparer`
+
+#### `docs/xplat/src/content/jp/components/grids/list.mdx` — 3 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListComponent`
+
+#### `docs/xplat/src/content/jp/components/grids/pivot-grid/overview.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotDateDimensionComponent`
+
+#### `docs/xplat/src/content/jp/components/grids/pivot-grid/remote-operations.mdx` — 6 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#children`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#aggregations`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#columnDimensionSeparator`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#records`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#rowDimensionSeparator`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest/classes/IgcPivotKeysComponent#level`
+
+#### `docs/xplat/src/content/jp/components/grids/tree.mdx` — 11 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCircularProgressComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent#selection`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent#toggleNodeOnClick`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeComponent#singleBranchExpand`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#active`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#disabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#expanded`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#label`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTreeItem#selected`
+
+#### `docs/xplat/src/content/jp/components/inputs/chip.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSelectComponent`
+
+#### `docs/xplat/src/content/jp/components/inputs/combo/features.mdx` — 3 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#groupKey`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSwitchComponent`
+
+#### `docs/xplat/src/content/jp/components/inputs/combo/overview.mdx` — 5 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#checkValidity`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#displayKey`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#reportValidity`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcComboComponent#valueKey`
+
+#### `docs/xplat/src/content/jp/components/inputs/date-time-input.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateTimeInputComponent#inputFormat`
+
+#### `docs/xplat/src/content/jp/components/inputs/dropdown.mdx` — 6 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#hide`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#flip`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#scrollStrategy`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#select`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#toggleTarget`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDropdownComponent#showTarget`
+
+#### `docs/xplat/src/content/jp/components/inputs/file-input.mdx` — 9 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#disabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#label`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#required`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#reportValidity`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#setCustomValidity`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#autofocus`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#invalid`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#value`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#placeholder`
+
+#### `docs/xplat/src/content/jp/components/inputs/linear-progress.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcLinearProgressComponent#labelFormat`
+
+#### `docs/xplat/src/content/jp/components/inputs/mask-input.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcMaskInputComponent#valueMode`
+
+#### `docs/xplat/src/content/jp/components/inputs/radio.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRadioComponent`
+
+#### `docs/xplat/src/content/jp/components/inputs/rating.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRatingComponent`
+
+#### `docs/xplat/src/content/jp/components/inputs/ripple.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRippleComponent`
+
+#### `docs/xplat/src/content/jp/components/inputs/select.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent#select`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabComponent`
+
+#### `docs/xplat/src/content/jp/components/inputs/slider.mdx` — 11 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcInputComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#max`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#discreteTrack`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcRangeSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#valueFormatOptions`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderLabelComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#locale`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#min`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#valueFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSliderComponent#step`
+
+#### `docs/xplat/src/content/jp/components/inputs/switch.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSwitchComponent`
+
+#### `docs/xplat/src/content/jp/components/inputs/tooltip.mdx` — 16 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcAvatarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBadgeComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcButtonComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcIconComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcListComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#anchor`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#hide`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#message`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#open`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#show`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#withArrow`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#offset`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#sticky`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTooltipComponent#toggle`
+
+#### `docs/xplat/src/content/jp/components/layouts/card.mdx` — 4 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardMediaComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardActionsComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardContentComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCardHeaderComponent`
+
+#### `docs/xplat/src/content/jp/components/layouts/carousel.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCarouselComponent#interval`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCarouselSlideComponent#active`
+
+#### `docs/xplat/src/content/jp/components/layouts/dock-manager-electron.mdx` — 3 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#draggedPane`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#dropPosition`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcPaneHeaderElementComponent#dragService`
+
+#### `docs/xplat/src/content/jp/components/layouts/dock-manager.mdx` — 28 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#allowDocking`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#headerId`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#header`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#tabHeaderId`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#isPinned`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#allowClose`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#allowFloating`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#allowPinning`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#contentId`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#disabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#documentOnly`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#hidden`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#unpinnedHeaderId`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcContentPaneComponent#unpinnedLocation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#allowFloatingPanesResize`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#resourceStrings`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManagerLayout#floatingPanes`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDocumentHostComponent#rootPane`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDocumentHostComponent#size`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#activePane`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDockManager#layout`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#allowEmpty`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#floatingHeight`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#floatingResizable`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#orientation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#floatingWidth`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#floatingLocation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSplitPaneComponent#panes`
+
+#### `docs/xplat/src/content/jp/components/layouts/stepper.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcStepperComponent`
+
+#### `docs/xplat/src/content/jp/components/layouts/tabs.mdx` — 4 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabComponent#disabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent#activation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabsComponent#alignment`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTabComponent#label`
+
+#### `docs/xplat/src/content/jp/components/layouts/tile-manager.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcTileManager`
+
+#### `docs/xplat/src/content/jp/components/menus/navbar.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavbarComponent`
+
+#### `docs/xplat/src/content/jp/components/menus/navigation-drawer.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcNavDrawerComponent`
+
+#### `docs/xplat/src/content/jp/components/notifications/banner.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcBannerComponent`
+
+#### `docs/xplat/src/content/jp/components/notifications/snackbar.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcSnackbarComponent`
+
+#### `docs/xplat/src/content/jp/components/scheduling/calendar.mdx` — 15 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#activeView`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#showWeekNumbers`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#specialDates`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#activeDate`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#weekStart`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#headerOrientation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#locale`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#orientation`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#selection`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#visibleMonths`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#hideOutsideDays`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#disabledDates`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangeDescriptor#dateRange`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcCalendarComponent#formatOptions`
+
+#### `docs/xplat/src/content/jp/components/scheduling/date-picker.mdx` — 11 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#displayFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#inputFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#locale`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#max`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#min`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#showWeekNumbers`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#stepDown`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#stepUp`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#visibleMonths`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDatePickerComponent#weekStart`
+
+#### `docs/xplat/src/content/jp/components/scheduling/date-range-picker.mdx` — 19 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#customRanges`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#label`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#inputFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#labelEnd`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#max`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#mode`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#nonEditable`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#disabledDates`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#displayFormat`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#required`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#usePredefinedRanges`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#labelStart`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#locale`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#min`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#readOnly`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#useTwoInputs`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#specialDates`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest/classes/IgcDateRangePickerComponent#value`
+
+#### `docs/xplat/src/content/jp/components/spreadsheet-chart-adapter.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#chartAdapter`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#workbook`
+
+#### `docs/xplat/src/content/jp/components/spreadsheet-conditional-formatting.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet`
+
+#### `docs/xplat/src/content/jp/components/spreadsheet-configuring.mdx` — 12 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#activeSelection`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#activeCell`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#areGridlinesVisible`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#areHeadersVisible`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#selectionMode`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#enterKeyNavigationDirection`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#workbook`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#zoomLevel`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#isEnterKeyNavigationEnabled`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#isFormulaBarVisible`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#isInEndMode`
+
+#### `docs/xplat/src/content/jp/components/spreadsheet-hyperlinks.mdx` — 1 broken link
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet`
+
+#### `docs/xplat/src/content/jp/components/spreadsheet-overview.mdx` — 2 broken links
+
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet`
+- `https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest/classes/IgcSpreadsheet#workbook`
