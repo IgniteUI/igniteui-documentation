@@ -1,0 +1,65 @@
+---
+/**
+ * Head.astro — JSON-LD structured data injection
+ *
+ * Renders two JSON-LD `<script type="application/ld+json">` blocks inside
+ * the document `<head>` for every documentation page:
+ *
+ *   • TechArticle  – headline, description, and canonical URL of the page.
+ *   • BreadcrumbList – breadcrumb trail derived from the sidebar tree.
+ *
+ * Usage: place this component inside the `head` slot of DocsLayout so the
+ * blocks are injected into `<head>` alongside the standard meta tags.
+ */
+import { Schema } from 'astro-seo-schema';
+import { sidebar as sidebarData, title as siteTitle } from 'virtual:docs-template/site-meta';
+import { getBreadcrumb } from 'igniteui-astro-components/lib/sidebar/helpers';
+import type { SidebarEntry } from 'igniteui-astro-components/lib/sidebar/types';
+
+export interface Props {
+  title?: string | null;
+  description?: string | null;
+  currentSlug?: string;
+}
+
+const { title, description, currentSlug = '' } = Astro.props;
+
+const pageUrl = Astro.url.href;
+const resolvedSidebar = sidebarData as SidebarEntry[];
+
+// Build breadcrumb labels: [siteTitle, ...crumb labels]
+const crumbLabels = currentSlug ? getBreadcrumb(resolvedSidebar, currentSlug) : [];
+const allCrumbs = [siteTitle, ...crumbLabels];
+
+// Compute the URL for each breadcrumb item.
+// The last item is the current page; all others use the site origin.
+const siteOrigin = Astro.url.origin;
+const breadcrumbItems = allCrumbs.map((name, index) => ({
+  '@type': 'ListItem' as const,
+  position: index + 1,
+  name,
+  item: index === allCrumbs.length - 1 ? pageUrl : siteOrigin,
+}));
+---
+
+{title && (
+  <Schema
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'TechArticle',
+      headline: title,
+      ...(description ? { description } : {}),
+      url: pageUrl,
+    }}
+  />
+)}
+
+{breadcrumbItems.length > 1 && (
+  <Schema
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbItems,
+    }}
+  />
+)}
