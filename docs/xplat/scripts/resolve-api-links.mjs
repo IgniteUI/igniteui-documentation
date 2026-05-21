@@ -241,6 +241,15 @@ function shortTypeName(originalName) {
  * or null if no match.
  */
 function resolveIdentifier(ident, mentionedTypes, mentionedPkgs) {
+    // 0. If ident exactly matches a type name listed in mentionedTypes, prefer
+    //    the type match over any coincidental member match on another type.
+    //    e.g. `Grid` listed in mentionedTypes should resolve to the Grid component,
+    //    not to DataGridCellEventArgs.grid member.
+    if (mentionedTypes.includes(ident)) {
+        const directType = findType(ident);
+        if (directType) return { kind: 'type', type: directType };
+    }
+
     // 1. Member match against each mentioned type's inheritance chain.
     //    (Member match wins over a coincidentally-matching unrelated type.)
     for (const mt of mentionedTypes) {

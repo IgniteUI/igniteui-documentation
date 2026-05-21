@@ -73,18 +73,39 @@ node scripts/check-api-links.mjs --platform=angular
 
 ## Workflow 2 — After Importing New Content from vNext
 
+**Critical rule: never demote an existing `<ApiLink/>` to backtick text.** If a URL is broken on some platforms, add `exclude="Platform"` — never remove the link. Backtick text is only acceptable when the type has no TypeDoc page on *any* platform and was never an ApiLink in the upstream content.
+
+**Correct pipeline order** — must run in this sequence:
+
 ```bash
-# 1. Convert any leftover backtick-style refs (`IgxGrid.sort`) into <ApiLink/>
-node scripts/resolve-api-links.mjs   # or the workspace-level equivalent
-# This walks docs/xplat/src/content for .mdx files, looks up each backtick
-# reference against the apiMap JSON files, and inserts <ApiLink/> when a
-# match is found in any of the four platforms.
+# 1. Strip Igr/Igx/Igc/Igb prefixes from backtick-wrapped prose refs.
+#    (Xplat content is platform-agnostic. `IgrToolbar` → `Toolbar`)
+#    Script skips code fences, JSX tags, and PlatformBlock-wrapped content
+#    (e.g. <PlatformBlock for="React">`IgrFoo`</PlatformBlock> is intentional).
+node scripts/fix-igr-backtick-prefix.mjs
 
-# 2. Migrate any <PlatformBlock for="..."><ApiLink/></PlatformBlock> wrappers
+# 2. Convert bare backtick refs (`Toolbar`, `DataChart`, etc.) into <ApiLink/>
+#    using the sibling igniteui-xplat-docs/apiMap JSON files.
+#    Reads mentionedTypes: frontmatter to scope the lookup per file.
+cd docs/xplat && node scripts/resolve-api-links.mjs
+
+# 3. Fix <ApiLink> attributes: strip CLR arity suffixes, add prefixed={false}
+#    for enums, reclassify class → interface for known mis-classified types.
+#    Does NOT demote ApiLinks to backtick text.
+node scripts/fix-api-link-attrs.mjs
+
+# 4. Migrate any <PlatformBlock for="..."><ApiLink/></PlatformBlock> wrappers
 #    that exist purely for platform-omission into exclude= props.
-node scripts/migrate-platformblock-to-exclude.mjs
+cd /c/Repos/docs/docs-template && node scripts/migrate-platformblock-to-exclude.mjs
 
-# 3. Run Workflow 1 (steps 2-4) to verify and auto-fix broken URLs.
+# 5. Run Workflow 1 (steps 2-4) to verify and auto-fix broken URLs.
+```
+
+**Angular content syncs automatically** — after fixing xplat, run:
+```bash
+cd docs/xplat && node scripts/generate.mjs --platform=Angular --lang=en
+cd /c/Repos/docs/docs-template && node docs/angular/scripts/sync-generated.mjs --lang=en
+# repeat for --lang=jp, --lang=kr if needed
 ```
 
 ---
@@ -165,6 +186,9 @@ When syncing `docs/xplat/docConfig.json` with the upstream `igniteui-xplat-docs/
 | Member casing mismatch (Blazor PascalCase vs MDX lowercase) | Blazor 0 tags updated even though report shows breaks | `apply-excludes.mjs` already handles this via lowercase key. If you customize, preserve the lowercase logic. |
 | Angular `Component` suffix only on certain packages | Some Angular URLs still broken after apply | Verify `apply-excludes.mjs` `baseVariants()` adds both with-suffix and without-suffix variants. |
 | `replace_string_in_file` silently failing on `apply-excludes.mjs` | Edits report success but file unchanged | Use a Node-based file patcher: `readFileSync` + `.replace()` + `writeFileSync`. Always grep to verify. |
+| Running resolve-api-links BEFORE fix-igr-backtick-prefix | Backtick refs with `Igr` prefix can't be resolved; new backtick `Toolbar` refs created after fix-igr go unconverted | Always run fix-igr **first**, then resolve-api-links, then fix-api-link-attrs. |
+| Adding types to a NONEXISTENT_TYPES demotion list in fix-api-link-attrs | ApiLinks removed from content; replaced with `IgrFoo` backtick text | **Never demote ApiLinks.** `fix-api-link-attrs.mjs` has NO demotion logic. Handle broken URLs with `exclude=` via `apply-excludes.mjs`. |
+| fix-igr-backtick-prefix stripping Igr prefix inside PlatformBlock | `<PlatformBlock for="React">`IgrFoo`</PlatformBlock>` → `Foo` (wrong) | The script already skips lines containing `<PlatformBlock`. Do not remove that guard. |
 
 ---
 

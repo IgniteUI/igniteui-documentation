@@ -30,50 +30,8 @@ function walk(dir, out = []) {
 
 const TAG_RE = /<ApiLink\b[^/>]*\/>/g;
 
-// Types whose React TypeDoc page genuinely does not exist (verified via
-// api-link-report-react.md + scripts/probe-classify.mjs). ApiLink references
-// to these are demoted to plain `<code>` backticks so the link checker stops
-// flagging them. List intentionally maintained by hand — re-derive after a
-// staging API publish by inspecting the report.
-const NONEXISTENT_TYPES_RAW = [
-    // Charts
-    'DataAbbreviationMode', 'DataLegendSummaryType', 'TrendLineType',
-    'DataSourceSummaryOperand', 'DataSourceSummaryScope', 'DataSourceSectionHeaderDisplayMode',
-    'RangeBarSeries',
-    // Grids — event args & misc not published in current TypeDoc
-    'GridContextMenuEventArgs', 'GridEditDoneEventArgs', 'GridEditEventArgs',
-    'GridToolbarExportEventArgs', 'PinRowEventArgs', 'RowDataCancelableEventArgs',
-    'DataGridCellEventArgs', 'DataGridColumn', 'ComboBoxColumn',
-    'DataGridSelectionMode', 'EnterKeyBehaviors', 'EnterKeyBehaviorAfterEdit',
-    'MultiColumnComboBox',
-    // Spreadsheet sub-types
-    'SpreadsheetSelection', 'SpreadsheetCell', 'SpreadsheetCellRange',
-    'SpreadsheetAction', 'SpreadsheetChartAdapter', 'SpreadsheetChartAdapterBase',
-    'SortSettings',
-    // DockManager layout types
-    'DockManager', 'DockManagerLayout', 'DocumentHost', 'ContentPane',
-    'SplitPane', 'TabGroupPane', 'Toolbar', 'ToolPanel', 'ToolAction',
-    'ToolActionButton', 'ToolActionCheckbox', 'ToolActionGroupHeader',
-    'ToolActionIconButton', 'ToolActionIconMenu', 'ToolActionLabel',
-    'ToolActionNumberInput', 'ToolActionRadio', 'ToolActionSubPanel',
-    // Inputs — event args without TypeDoc
-    'CheckboxChangeEventArgs', 'RadioChangeEventArgs',
-    'ComponentBoolValueChangedEventArgs', 'ComponentDataValueChangedEventArgs',
-    'ComponentValueChangedEventArgs',
-    'ColorEditor', 'DateRangeDescriptor',
-];
-const NONEXISTENT_TYPES = new Set([
-    ...NONEXISTENT_TYPES_RAW,
-    ...NONEXISTENT_TYPES_RAW.map(n => 'Igr' + n),
-    ...NONEXISTENT_TYPES_RAW.map(n => 'Igx' + n),
-    ...NONEXISTENT_TYPES_RAW.map(n => 'Igc' + n),
-]);
-
 // Types that the apiMap marks as "class" but TypeDoc actually publishes as
 // `interfaces/X`. Routing them through kind="interface" fixes the URL.
-// Verified via scripts/probe-classify.mjs against the React staging API.
-// Note: MDX may reference these with or without the platform prefix
-// (e.g. type="GridBaseDirective" → ApiLink prepends "Igr").
 const FORCE_INTERFACE_RAW = [
     // Excel
     'IWorksheetCellFormat',
@@ -100,28 +58,6 @@ const FORCE_INTERFACE = new Set([
 ]);
 
 function transformTag(tag) {
-    // 0. Demote ApiLink → plain backtick code for types whose TypeDoc page
-    //    genuinely does not exist (no auto-fix possible).
-    const typeAttr = tag.match(/\stype="([^"]+)"/);
-    if (typeAttr) {
-        const rawType = typeAttr[1].replace(/`\d+$/, '');
-        if (NONEXISTENT_TYPES.has(rawType)) {
-            const prefixed   = !/\sprefixed=\{false\}/.test(tag);
-            const memberAttr = tag.match(/\smember="([^"]+)"/);
-            const labelAttr  = tag.match(/\slabel="([^"]+)"/);
-            let text;
-            if (labelAttr) {
-                text = labelAttr[1];
-            } else if (memberAttr) {
-                const base = prefixed && !/^(Igr|Igx|Igc|Igb)/.test(rawType) ? 'Igr' + rawType : rawType;
-                text = `${base}.${memberAttr[1]}`;
-            } else {
-                text = prefixed && !/^(Igr|Igx|Igc|Igb)/.test(rawType) ? 'Igr' + rawType : rawType;
-            }
-            return { out: '`' + text + '`', changed: true };
-        }
-    }
-
     let out = tag;
     let changed = false;
 

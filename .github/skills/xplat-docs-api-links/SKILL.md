@@ -79,6 +79,8 @@ Each JSON file is a TypeDoc reflection tree. Top-level `children` contains all e
 | `excludePrefixFor` | no | Comma-separated platform list. On listed platforms the platform prefix (`Igr`/`Igx`/`Igc`/`Igb`) is **not** prepended. Use when a type has no prefix on certain platforms. **Generates a real link — combine with `exclude` if needed.** |
 | `label` | no | Override display text. |
 
+> **Critical rule:** NEVER replace an existing `<ApiLink/>` with backtick text. If a URL is broken on certain platforms, add `exclude="Platform"` to the tag. Only backtick text is acceptable when the type has no TypeDoc page on *any* platform AND has never been an ApiLink in the content history. When in doubt, keep the ApiLink — the broken link will be caught by `check-api-links.mjs` and fixed via `apply-excludes.mjs`.
+
 ### Platform prefix mapping
 
 | Platform | Prefix | Example (type="Column") |
