@@ -604,7 +604,7 @@ function processDir(srcDir, outDir, relBase = '') {
             }
             const raw = readFileSync(srcPath, 'utf8');
             if (/\.mdx$/.test(entry)) {
-                writeFileSync(path.join(outDir, entry), transformMdxFile(raw), 'utf8');
+                writeFileSync(path.join(outDir, entry), ensureMdxImports(transformMdxFile(raw)), 'utf8');
             } else {
                 writeFileSync(path.join(outDir, entry), transformRegularFile(raw), 'utf8');
             }
