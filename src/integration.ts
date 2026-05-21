@@ -615,6 +615,13 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
             },
         },
         markdown: {
+            shikiConfig: {
+                themes: {
+                    light: 'catppuccin-latte',
+                    dark: 'catppuccin-mocha',
+                },
+                wrap: true,
+            },
             ...(astroExtra as any).markdown,
             remarkPlugins: [
                 remarkEnvVars,
