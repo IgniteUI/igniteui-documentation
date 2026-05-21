@@ -73,6 +73,9 @@ export default createDocsSite({
 		tocPath: `${componentsDocsDir}/toc.json`,
 		docsDir: componentsDocsDir,
 	},
+	head: [
+		{ tag: 'link', attrs: { rel: 'icon', href: `${mode !== 'development' ? base : ''}/favicon.ico`, type: 'image/x-icon' } },
+	],
 	sidebar: { exclude: [/^internal\//] },
 	integrations: [mdx()],
 	// Expose @/ alias so MDX files can import Sample.astro and peer components.
