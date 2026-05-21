@@ -354,6 +354,9 @@ export default createDocsSite({
             href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
             platform: key,
         })),
+    head: [
+        { tag: 'link', attrs: { rel: 'icon', href: `${mode !== 'development' ? p.base : ''}/favicon.ico`, type: 'image/x-icon' } },
+    ],
     integrations: [mdx()],
     vite: {
         plugins: [vitePluginPlatformTokens()],

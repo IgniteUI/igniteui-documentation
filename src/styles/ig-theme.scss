@@ -30,3 +30,31 @@ $ig-palette: palette(
 
     @include palette($ig-palette-dark);
 }
+
+// Prevent theme overrides from changing the background of Shiki github-dark code blocks.
+.astro-code.github-dark {
+    background-color: #24292e !important;
+}
+
+.igd-main-content__markdown > pre.astro-code.github-dark {
+    background-color: #24292e !important;
+}
+
+// _code-blocks.scss targets pre.shiki but Astro now emits pre.astro-code.
+// Mirror the same dual-theme rules for .astro-code blocks.
+:root:not([data-theme='dark']) pre.astro-code code span {
+    background-color: transparent !important;
+}
+
+[data-theme='dark'] pre.astro-code {
+    background-color: var(--shiki-dark-bg) !important;
+}
+
+[data-theme='dark'] pre.astro-code code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg, transparent) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
