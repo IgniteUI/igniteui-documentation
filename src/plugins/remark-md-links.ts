@@ -2,10 +2,15 @@
  * Remark plugin: rewrite relative .md links to Astro-compatible URLs.
  *
  * Transforms `[label](./some-page.md)` or `[label](../folder/page.md#section)`
- * into root-relative URLs like `/products/.../some-page/` (with DOCS_BASE prepended).
+ * into root-relative URLs like `/products/.../some-page` (with DOCS_BASE prepended).
  *
  * Also prepends DOCS_BASE to bare root-relative internal links (e.g. `/grids/grid/...`)
  * that are already absolute but missing the site base path.
+ * 
+ * Respects trailing slash preference via DOCS_TRAILING_SLASH env var, which can be 'always', 'never', or 'ignore'.
+ * By default both Angular and Xplat astro docs use trailing slash 'never'.
+ *
+ * Non-relative links (starting with http://, https://, /, #, or mailto:) and non-.md links are left unchanged.
  */
 
 import { visit } from 'unist-util-visit';
