@@ -334,50 +334,59 @@ function walkMdx(dir) {
 // Version discovery
 const PKG_ROOT_RE = /^(https:\/\/staging\.infragistics\.com\/api\/[^/]+\/[^/]+\/)latest\//;
 
+/**
+ * Discovers the actual published version for each unique package root by
+ * following the /latest/ redirect independently per package.
+ * Each package (igniteui-react, igniteui-react-grids, igniteui-react-charts, …)
+ * may be at a different version, so we must NOT share a single resolved version
+ * across all packages.
+ */
 async function discoverVersions(urls) {
-    const roots = new Set();
+    // Map each root → first sample URL for that root
+    const rootSamples = new Map();
     for (const url of urls) {
         const m = url.match(PKG_ROOT_RE);
-        if (m) roots.add(m[1]);
+        if (m && !rootSamples.has(m[1])) rootSamples.set(m[1], url.split('#')[0]);
     }
-    if (roots.size === 0) return new Map();
+    if (rootSamples.size === 0) return new Map();
 
     const versionMap = new Map();
-    const sampleUrl = urls.find(u => PKG_ROOT_RE.test(u))?.split('#')[0];
-    if (!sampleUrl) return versionMap;
 
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-    try {
-        const res = await fetch(sampleUrl, {
-            method: 'GET',
-            signal: controller.signal,
-            headers: { 'User-Agent': 'docs-api-link-checker/1.0' },
-            redirect: 'follow',
-        });
-        clearTimeout(timer);
+    await Promise.all([...rootSamples.entries()].map(async ([root, sampleUrl]) => {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+        try {
+            const res = await fetch(sampleUrl, {
+                method: 'GET',
+                signal: controller.signal,
+                headers: { 'User-Agent': 'docs-api-link-checker/1.0' },
+                redirect: 'follow',
+            });
+            clearTimeout(timer);
 
-        const finalUrl = res.url ?? '';
-        const redirectMatch = finalUrl.match(/\/(\d+\.\d+\.\d+)\//);
-        if (redirectMatch) {
-            for (const root of roots) versionMap.set(root, redirectMatch[1]);
-            return versionMap;
-        }
+            // Primary: extract version from the redirect destination URL
+            const finalUrl = res.url ?? '';
+            const redirectMatch = finalUrl.match(/\/(\d+\.\d+\.\d+)\//);
+            if (redirectMatch) {
+                versionMap.set(root, redirectMatch[1]);
+                await res.body?.cancel();
+                return;
+            }
 
-        const body = await res.text();
-        const lvMatch = body.match(/const latestVersions\s*=\s*"((?:[^"\\]|\\.)*)"/);
-        if (lvMatch) {
-            const latestVersions = JSON.parse(lvMatch[1].replace(/\\"/g, '"'));
-            for (const root of roots) {
+            // Fallback: parse latestVersions from the page body
+            const body = await res.text();
+            const lvMatch = body.match(/const latestVersions\s*=\s*"((?:[^"\\]|\\.)*)"/);
+            if (lvMatch) {
+                const latestVersions = JSON.parse(lvMatch[1].replace(/\\"/g, '"'));
                 const pkgName = root.replace(/\/$/, '').split('/').pop();
                 if (pkgName && latestVersions[pkgName]) {
                     versionMap.set(root, latestVersions[pkgName]);
                 }
             }
+        } catch {
+            clearTimeout(timer);
         }
-    } catch {
-        clearTimeout(timer);
-    }
+    }));
 
     return versionMap;
 }
