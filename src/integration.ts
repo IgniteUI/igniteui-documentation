@@ -135,6 +135,17 @@ export interface SiteMetaOptions {
      * module and rendered by `MainLayout.astro`.
      */
     head?: HeadEntry[];
+    /**
+     * Items for the DocsSubHeader package/platform selector.
+     * The selector is hidden when there are no package options to render
+     * (for example, when `packages` is omitted or an empty array).
+     */
+    packages?: Array<string | { label: string; value?: string; href?: string }>;
+    /**
+     * Initially selected package value. Must match one of `packages`;
+     * ignored when no package options are available.
+     */
+    selectedPackage?: string;
 }
 
 /**
@@ -176,6 +187,8 @@ export function siteMetaIntegration({
     llmsSets = [],
     productLinks = [],
     head = [],
+    packages = [],
+    selectedPackage = '',
 }: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
     const llmsMetaMap = docsDir
         ? buildLlmsMetaMap(docsDir, sidebar ?? [])
@@ -253,6 +266,8 @@ export const productLinks = ${JSON.stringify(productLinks)};
 export const headEntries = ${JSON.stringify(head ?? [])};
 export const trailingSlash = ${JSON.stringify(configuredTrailingSlash)};
 export const navLang = ${JSON.stringify(navLang)};
+export const packages = ${JSON.stringify(packages)};
+export const selectedPackage = ${JSON.stringify(selectedPackage)};
 `;
                                 if (id !== navResolvedId) return;
 
@@ -510,6 +525,10 @@ export interface CreateDocsSiteOptions {
     llmsSets?: LlmsSet[];
     /** Cross-product navigation links rendered in the DocsSubHeader. */
     productLinks?: ProductLink[];
+    /** Items for the DocsSubHeader package/platform selector. When `packages` is empty, the selector is hidden. */
+    packages?: Array<string | { label: string; value?: string; href?: string }>;
+    /** Initially selected package value when `packages` is provided (must match one of `packages`). */
+    selectedPackage?: string;
     /** Extra Astro integrations appended after the built-in ones. */
     integrations?: AstroIntegration[];
     /** Any remaining keys are spread into `defineConfig` (markdown, image, build, …). */
@@ -535,6 +554,8 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         navLang = 'en',
         mode = 'development',
         productLinks = [],
+        packages = [],
+        selectedPackage = '',
         head = [],
         llmsSets = [] as LlmsSet[],
         integrations: extraIntegrations = [],
@@ -647,6 +668,8 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 mode,
                 llmsSets,
                 productLinks,
+                packages,
+                selectedPackage,
                 head: [...platformHead, ...codeViewHead, ...head],
             }),
             ...(base ? [createBasePrependIntegration(base)] : []),
