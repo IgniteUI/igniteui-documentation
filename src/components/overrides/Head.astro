@@ -2,17 +2,18 @@
 /**
  * Head.astro — JSON-LD structured data injection
  *
- * Renders two JSON-LD `<script type="application/ld+json">` blocks inside
- * the document `<head>` for every documentation page:
+ * Renders a single JSON-LD `<script type="application/ld+json">` block inside
+ * the document `<head>` for every documentation page using a `@graph` array:
  *
- *   • TechArticle  – headline, description, and canonical URL of the page.
+ *   • TechArticle    – headline, description, canonical URL, language,
+ *                       author and publisher of the page.
  *   • BreadcrumbList – breadcrumb trail derived from the sidebar tree.
  *
  * Usage: place this component inside the `head` slot of DocsLayout so the
- * blocks are injected into `<head>` alongside the standard meta tags.
+ * block is injected into `<head>` alongside the standard meta tags.
  */
 import { Schema } from 'astro-seo-schema';
-import { sidebar as sidebarData, title as siteTitle } from 'virtual:docs-template/site-meta';
+import { sidebar as sidebarData, title as siteTitle, navLang } from 'virtual:docs-template/site-meta';
 import { getBreadcrumb } from 'igniteui-astro-components/lib/sidebar/helpers';
 import type { SidebarEntry } from 'igniteui-astro-components/lib/sidebar/types';
 
@@ -27,6 +28,10 @@ const { title, description, currentSlug = '' } = Astro.props;
 const pageUrl = Astro.url.href;
 const resolvedSidebar = sidebarData as SidebarEntry[];
 
+// Map internal locale codes to BCP-47 language tags.
+const langMap: Record<string, string> = { en: 'en', jp: 'ja', kr: 'ko' };
+const inLanguage = langMap[navLang] ?? 'en';
+
 // Build breadcrumb labels: [siteTitle, ...crumb labels]
 const crumbLabels = currentSlug ? getBreadcrumb(resolvedSidebar, currentSlug) : [];
 const allCrumbs = [siteTitle, ...crumbLabels];
@@ -38,28 +43,51 @@ const breadcrumbItems = allCrumbs.map((name, index) => ({
   '@type': 'ListItem' as const,
   position: index + 1,
   name,
-  item: index === allCrumbs.length - 1 ? pageUrl : siteOrigin,
+  item: index === allCrumbs.length - 1
+    ? { '@type': 'WebPage' as const, '@id': pageUrl }
+    : { '@type': 'WebPage' as const, '@id': siteOrigin },
 }));
+
+const infragistics = {
+  '@type': 'Organization' as const,
+  name: 'Infragistics',
+  url: 'https://www.infragistics.com',
+};
+
+const graph: Record<string, unknown>[] = [];
+
+if (title) {
+  graph.push({
+    '@type': 'TechArticle',
+    '@id': pageUrl,
+    headline: title,
+    ...(description ? { description } : {}),
+    url: pageUrl,
+    inLanguage,
+    author: infragistics,
+    publisher: {
+      ...infragistics,
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.infragistics.com/assets/favicon/favicon.ico',
+      },
+    },
+  });
+}
+
+if (breadcrumbItems.length > 1) {
+  graph.push({
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbItems,
+  });
+}
 ---
 
-{title && (
+{graph.length > 0 && (
   <Schema
     item={{
       '@context': 'https://schema.org',
-      '@type': 'TechArticle',
-      headline: title,
-      ...(description ? { description } : {}),
-      url: pageUrl,
-    }}
-  />
-)}
-
-{breadcrumbItems.length > 1 && (
-  <Schema
-    item={{
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: breadcrumbItems,
+      '@graph': graph,
     }}
   />
 )}
