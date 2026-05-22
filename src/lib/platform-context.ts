@@ -42,6 +42,7 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             forums: 'https://www.infragistics.com/community/forums/f/ignite-ui-for-angular',
             repoSamples: 'https://github.com/IgniteUI/igniteui-angular-examples/tree/master/samples',
         },
+        sassApiUrl: 'https://www.infragistics.com/products/ignite-ui-angular/docs/sass/latest',
     },
     React: {
         name: 'React',
