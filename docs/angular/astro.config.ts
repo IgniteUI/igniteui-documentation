@@ -32,8 +32,8 @@ if (docsEnv !== 'development' && docsEnv !== 'staging' && docsEnv !== 'productio
 const mode: DocsMode = docsEnv;
 
 // ── Site URL — varies by build mode ─────────────────────────────────────────
-const PROD_HOST = 'https://www.infragistics.com';
-const STAGING_HOST = 'https://staging.infragistics.com';
+const PROD_HOST = docsLang === 'jp' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
+const STAGING_HOST = docsLang === 'jp' ? 'https://jp.staging.infragistics.com' : 'https://staging.infragistics.com';
 
 const platformKey = docsLang === 'jp' ? 'AngularJP' : 'Angular';
 const { base } = IGDOCS_PLATFORMS[platformKey];
@@ -69,6 +69,14 @@ export default createDocsSite({
 			href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
 			platform: key,
 		})),
+	packages: Object.values(IGDOCS_PLATFORMS)
+		.filter(p => p.lang === docsLang)
+		.map(({ label, key, base: b }) => ({
+			label,
+			value: key,
+			href: mode === 'production' ? `${PROD_HOST}${b}/` : `${STAGING_HOST}${b}/`,
+		})),
+	selectedPackage: 'angular',
 	source: {
 		tocPath: `${componentsDocsDir}/toc.json`,
 		docsDir: componentsDocsDir,
