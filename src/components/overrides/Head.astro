@@ -36,16 +36,15 @@ const inLanguage = langMap[navLang] ?? 'en';
 const crumbLabels = currentSlug ? getBreadcrumb(resolvedSidebar, currentSlug) : [];
 const allCrumbs = [siteTitle, ...crumbLabels];
 
-// Compute the URL for each breadcrumb item.
-// The last item is the current page; all others use the site origin.
-const siteOrigin = Astro.url.origin;
+// Only the last breadcrumb item (current page) has a resolvable URL.
+// Intermediate items omit `item` since getBreadcrumb returns labels only.
 const breadcrumbItems = allCrumbs.map((name, index) => ({
   '@type': 'ListItem' as const,
   position: index + 1,
   name,
-  item: index === allCrumbs.length - 1
-    ? { '@type': 'WebPage' as const, '@id': pageUrl }
-    : { '@type': 'WebPage' as const, '@id': siteOrigin },
+  ...(index === allCrumbs.length - 1
+    ? { item: { '@type': 'WebPage' as const, '@id': pageUrl } }
+    : {}),
 }));
 
 const infragistics = {
