@@ -135,9 +135,16 @@ export interface SiteMetaOptions {
      * module and rendered by `MainLayout.astro`.
      */
     head?: HeadEntry[];
-    /** Items for the DocsSubHeader package/platform selector. When omitted the selector is hidden. */
+    /**
+     * Items for the DocsSubHeader package/platform selector.
+     * The selector is hidden when there are no package options to render
+     * (for example, when `packages` is omitted or an empty array).
+     */
     packages?: Array<string | { label: string; value?: string; href?: string }>;
-    /** Initially selected package value (must match one of `packages`). */
+    /**
+     * Initially selected package value. Must match one of `packages`;
+     * ignored when no package options are available.
+     */
     selectedPackage?: string;
 }
 
