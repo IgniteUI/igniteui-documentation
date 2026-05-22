@@ -4,7 +4,8 @@
  *
  * Converts bare inline-code references (e.g. `Value`, `transitionDuration`)
  * in xplat MDX files into <ApiLink> components, using the same apiMap JSON
- * files that the original igniteui-xplat-docs gulpfile uses.
+ * files that the original igniteui-xplat-docs gulpfile uses
+ * (https://github.com/IgniteUI/igniteui-xplat-docs).
  *
  * For each MDX file with `mentionedTypes:` frontmatter, the script:
  *   1. Reads the mentionedTypes list.
@@ -31,9 +32,20 @@ import { fileURLToPath } from 'node:url';
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
 const XPLAT_ROOT = path.resolve(__dirname, '..');
 const REPO_ROOT  = path.resolve(XPLAT_ROOT, '..', '..');
-const API_MAP_ROOT = path.resolve(REPO_ROOT, '..', 'igniteui-xplat-docs', 'apiMap');
 const CONTENT_ROOT = path.join(XPLAT_ROOT, 'src', 'content');
-const ORIG_DOC_ROOT = path.resolve(REPO_ROOT, '..', 'igniteui-xplat-docs', 'doc');
+
+// Locate the igniteui-xplat-docs repo.
+// Resolution order:
+//   1. XPLAT_DOCS_ROOT env variable (set explicitly, e.g. in CI)
+//   2. Sibling directory next to this repo (standard local dev layout)
+//   3. Fetch from GitHub (https://github.com/IgniteUI/igniteui-xplat-docs) — no local clone needed
+const XPLAT_DOCS_ROOT_LOCAL = process.env.XPLAT_DOCS_ROOT
+    ?? path.resolve(REPO_ROOT, '..', 'igniteui-xplat-docs');
+const API_MAP_ROOT_LOCAL = path.join(XPLAT_DOCS_ROOT_LOCAL, 'apiMap');
+const USE_LOCAL = fs.existsSync(API_MAP_ROOT_LOCAL);
+
+const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/IgniteUI/igniteui-xplat-docs/master';
+const GITHUB_API_BASE = 'https://api.github.com/repos/IgniteUI/igniteui-xplat-docs';
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
@@ -46,12 +58,6 @@ const SINGLE_FILE = (() => {
     const i = args.indexOf('--file');
     return i >= 0 ? args[i + 1] : null;
 })();
-
-if (!fs.existsSync(API_MAP_ROOT)) {
-    console.error(`[resolve-api-links] apiMap not found at ${API_MAP_ROOT}`);
-    console.error(`    Expected sibling repo: igniteui-xplat-docs`);
-    process.exit(2);
-}
 
 // -----------------------------------------------------------------------------
 // 1. Load and merge apiMap JSON across all 4 platforms.
@@ -126,18 +132,65 @@ function mergeType(type) {
     }
 }
 
-let apiMapFileCount = 0;
-for (const platform of PLATFORMS) {
-    const dir = path.join(API_MAP_ROOT, platform);
-    if (!fs.existsSync(dir)) continue;
-    for (const file of fs.readdirSync(dir)) {
-        if (!file.endsWith('.apiMap.json')) continue;
+async function loadApiMaps() {
+    let apiMapFileCount = 0;
+
+    if (USE_LOCAL) {
+        for (const platform of PLATFORMS) {
+            const dir = path.join(API_MAP_ROOT_LOCAL, platform);
+            if (!fs.existsSync(dir)) continue;
+            for (const file of fs.readdirSync(dir)) {
+                if (!file.endsWith('.apiMap.json')) continue;
+                apiMapFileCount++;
+                const json = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
+                for (const t of (json.types || [])) mergeType(t);
+            }
+        }
+        console.log(`[resolve-api-links] loaded ${apiMapFileCount} apiMap JSON file(s) from local clone, ${typeMap.size} unique types`);
+        return;
+    }
+
+    // No local clone — fetch from GitHub.
+    console.log('[resolve-api-links] no local igniteui-xplat-docs clone found, fetching apiMap from GitHub...');
+    const headers = { 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
+    if (process.env.GITHUB_TOKEN) headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
+
+    // Get the full tree to enumerate all apiMap JSON paths.
+    const treeUrl = `${GITHUB_API_BASE}/git/trees/master?recursive=1`;
+    const treeResp = await fetch(treeUrl, { headers });
+    if (!treeResp.ok) {
+        console.error(`[resolve-api-links] GitHub tree fetch failed: ${treeResp.status} ${treeResp.statusText}`);
+        console.error(`    Tip: set GITHUB_TOKEN env variable to avoid rate limits.`);
+        process.exit(2);
+    }
+    const treeData = await treeResp.json();
+    const apiMapPaths = (treeData.tree || [])
+        .filter(e => e.type === 'blob' && e.path.startsWith('apiMap/') && e.path.endsWith('.apiMap.json'))
+        .map(e => e.path);
+
+    if (apiMapPaths.length === 0) {
+        console.error('[resolve-api-links] no apiMap JSON files found in GitHub tree');
+        process.exit(2);
+    }
+
+    // Fetch all files in parallel.
+    const results = await Promise.all(
+        apiMapPaths.map(async (filePath) => {
+            const url = `${GITHUB_RAW_BASE}/${filePath}`;
+            const resp = await fetch(url, { headers });
+            if (!resp.ok) throw new Error(`Failed to fetch ${url}: ${resp.status}`);
+            return resp.json();
+        })
+    );
+
+    for (const json of results) {
         apiMapFileCount++;
-        const json = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
         for (const t of (json.types || [])) mergeType(t);
     }
+    console.log(`[resolve-api-links] fetched ${apiMapFileCount} apiMap JSON file(s) from GitHub, ${typeMap.size} unique types`);
 }
-console.log(`[resolve-api-links] loaded ${apiMapFileCount} apiMap JSON file(s), ${typeMap.size} unique types`);
+
+await loadApiMaps();
 
 // -----------------------------------------------------------------------------
 // 2. Helpers — type / member resolution, pkg mapping.
@@ -499,7 +552,8 @@ function* walkMdx(dir) {
 
 /**
  * If the MDX file has no `mentionedTypes:`, fall back to reading the
- * corresponding original .md from the sibling igniteui-xplat-docs repo.
+ * corresponding original .md from the sibling igniteui-xplat-docs repo
+ * (https://github.com/IgniteUI/igniteui-xplat-docs).
  */
 function loadMentionedTypesFromOriginal(mdxPath) {
     const rel = path.relative(CONTENT_ROOT, mdxPath).replace(/\\/g, '/');
