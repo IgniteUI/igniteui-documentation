@@ -62,6 +62,8 @@ import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
 import { remarkEnvVars } from './plugins/remark-env-vars';
 import { remarkMdLinks } from './plugins/remark-md-links';
 import { remarkHtmlTransforms } from './plugins/remark-html-transforms';
+import { rehypeTableWrapper } from 'igniteui-astro-components/plugins/rehype-table-wrapper';
+import { rehypeHeadingAnchors } from 'igniteui-astro-components/plugins/rehype-heading-anchors';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'development' | 'staging' | 'production';
@@ -389,7 +391,7 @@ export const navLang = ${JSON.stringify(navLang)};
                 try {
                     const { index, errors: initErrors } = await pagefindCreateIndex({});
                     if (initErrors?.length) throw new Error(initErrors.join(', '));
-                    const { errors: addErrors } = await index!.addDirectory({ path: outDir });
+                    const { errors: addErrors } = await index!.addDirectory({ path: outDir, rootSelector: 'main' });
                     if (addErrors?.length) console.warn('[docs-template] pagefind addDirectory warnings:', addErrors);
                     const { errors: writeErrors } = await index!.writeFiles({
                         outputPath: path.join(outDir, 'pagefind'),
@@ -613,6 +615,13 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
             },
         },
         markdown: {
+            shikiConfig: {
+                themes: {
+                    light: 'catppuccin-latte',
+                    dark: 'catppuccin-mocha',
+                },
+                wrap: true,
+            },
             ...(astroExtra as any).markdown,
             remarkPlugins: [
                 remarkEnvVars,
@@ -621,6 +630,8 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 ...((astroExtra as any).markdown?.remarkPlugins ?? []),
             ],
             rehypePlugins: [
+                rehypeTableWrapper,
+                rehypeHeadingAnchors,
                 ...((astroExtra as any).markdown?.rehypePlugins ?? []),
             ],
         },

@@ -26,7 +26,7 @@ import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from 'no
 import { basename, join } from 'node:path';
 import { tmpdir } from 'node:os';
 
-const ANCESTOR = process.argv.find(a => a.startsWith('--ancestor='))?.split('=')[1] || 'c9c1248582';
+const ANCESTOR = process.argv.find(a => a.startsWith('--ancestor='))?.split('=')[1] || 'f8c877bc9e';
 const THEIRS = process.argv.find(a => a.startsWith('--theirs='))?.split('=')[1] || 'igniteui-docfx/vnext';
 const CONTENT_DIR = 'docs/angular/src/content';
 const GRID_DIRS = ['grid', 'treegrid', 'hierarchicalgrid', 'pivotGrid'];
@@ -202,15 +202,32 @@ function transformBody(body) {
   // Convert HTML comments to MDX comments (only outside code fences)
   body = convertHtmlComments(body);
 
-  // Convert callouts
-  const calloutRegex = /^([ \t]*)>\s*\[!(NOTE|TIP|WARNING|IMPORTANT|CAUTION)\]\s*\n((?:[ \t]*>[^\n]*\n?)*)/gm;
-  body = body.replace(calloutRegex, (match, indent, type, bodyText) => {
-    needsDocsAside = true;
-    const lines = bodyText.split(/\r?\n/).filter(l => l.trim() !== '');
-    const cleanLines = lines.map(l => l.replace(/^[ \t]*>\s?/, ''));
-    const typeLC = type.toLowerCase() === 'important' ? 'note' : type.toLowerCase();
-    return `<DocsAside type="${typeLC}">\n${cleanLines.join('\n')}\n</DocsAside>\n`;
-  });
+  // Convert callouts line-by-line, skipping content inside code fences
+  {
+    const inputLines = body.split('\n');
+    const outputLines = [];
+    let inFence = false;
+    for (let i = 0; i < inputLines.length; i++) {
+      const line = inputLines[i];
+      if (line.match(/^```/)) { inFence = !inFence; outputLines.push(line); continue; }
+      if (inFence) { outputLines.push(line); continue; }
+      const m = line.match(/^[ \t]*>\s*\[!(NOTE|TIP|WARNING|IMPORTANT|CAUTION)\]\s*\r?$/);
+      if (m) {
+        needsDocsAside = true;
+        const type = m[1];
+        const bodyLines = [];
+        while (i + 1 < inputLines.length && inputLines[i + 1].match(/^[ \t]*>/)) {
+          i++;
+          bodyLines.push(inputLines[i].replace(/^[ \t]*>\s?/, '').replace(/\r$/, ''));
+        }
+        const typeLC = type.toLowerCase() === 'important' ? 'note' : type.toLowerCase();
+        outputLines.push(`<DocsAside type="${typeLC}">`, ...bodyLines, `</DocsAside>`);
+        continue;
+      }
+      outputLines.push(line);
+    }
+    body = outputLines.join('\n');
+  }
 
   // Convert <code-view> to <Sample>
   const codeViewResult = convertCodeViews(body);
