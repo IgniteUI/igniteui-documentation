@@ -36,7 +36,9 @@ function rewriteMdLink(url: string, filePath: string, docsDir: string): string {
   const slug = rel.endsWith('.md') ? rel.slice(0, -3) : rel;
 
   const docsBase = (process.env.DOCS_BASE ?? '').replace(/\/$/, '');
-  return docsBase + '/' + slug.toLowerCase() + '/' + suffix;
+  const trailingSlash = process.env.DOCS_TRAILING_SLASH ?? 'ignore';
+  const trail = trailingSlash === 'never' ? '' : '/';
+  return docsBase + '/' + slug.toLowerCase() + trail + suffix;
 }
 
 /** Remark plugin that rewrites relative .md links, prepends DOCS_BASE, and fixes relative image paths. */
