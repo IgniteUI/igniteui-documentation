@@ -525,9 +525,9 @@ export interface CreateDocsSiteOptions {
     llmsSets?: LlmsSet[];
     /** Cross-product navigation links rendered in the DocsSubHeader. */
     productLinks?: ProductLink[];
-    /** Items for the DocsSubHeader package/platform selector. When omitted the selector is hidden. */
+    /** Items for the DocsSubHeader package/platform selector. When `packages` is empty, the selector is hidden. */
     packages?: Array<string | { label: string; value?: string; href?: string }>;
-    /** Initially selected package value (must match one of `packages`). */
+    /** Initially selected package value when `packages` is provided (must match one of `packages`). */
     selectedPackage?: string;
     /** Extra Astro integrations appended after the built-in ones. */
     integrations?: AstroIntegration[];
