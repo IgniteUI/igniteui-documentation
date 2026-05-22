@@ -391,7 +391,7 @@ export const navLang = ${JSON.stringify(navLang)};
                 try {
                     const { index, errors: initErrors } = await pagefindCreateIndex({});
                     if (initErrors?.length) throw new Error(initErrors.join(', '));
-                    const { errors: addErrors } = await index!.addDirectory({ path: outDir });
+                    const { errors: addErrors } = await index!.addDirectory({ path: outDir, rootSelector: 'main' });
                     if (addErrors?.length) console.warn('[docs-template] pagefind addDirectory warnings:', addErrors);
                     const { errors: writeErrors } = await index!.writeFiles({
                         outputPath: path.join(outDir, 'pagefind'),
@@ -615,6 +615,13 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
             },
         },
         markdown: {
+            shikiConfig: {
+                themes: {
+                    light: 'catppuccin-latte',
+                    dark: 'catppuccin-mocha',
+                },
+                wrap: true,
+            },
             ...(astroExtra as any).markdown,
             remarkPlugins: [
                 remarkEnvVars,
