@@ -31,6 +31,7 @@ interface TocItem {
     name?: string;
     href?: string;
     header?: boolean;
+    sortable?: boolean;
     items?: TocItem[];
     new?: boolean;
     preview?: boolean;
@@ -74,6 +75,26 @@ function collapsedForDepth(depth: number): boolean {
     return depth > 0;
 }
 
+function sortableLabel(label: string): string {
+    return label.replace(/[-:()[\]/&]+/g, ' ');
+}
+
+function sortSidebarEntries(entries: SidebarEntry[]): SidebarEntry[] {
+    return entries.sort((a, b) => sortableLabel(a.label).localeCompare(sortableLabel(b.label), undefined, {
+        sensitivity: 'base',
+        numeric: true,
+    }));
+}
+
+function sortGroupItems(group: SidebarGroup): void {
+    const [first, ...rest] = group.items;
+    if (first && 'slug' in first && first.label === 'Overview') {
+        group.items = [first, ...sortSidebarEntries(rest)];
+        return;
+    }
+    group.items = sortSidebarEntries(group.items);
+}
+
 function convertTocItem(
     docsDir: string,
     item: TocItem,
@@ -95,6 +116,7 @@ function convertTocItem(
             const entry = convertTocItem(docsDir, child, exclude, depth + 1);
             if (entry) group.items.push(entry);
         }
+        if (item.sortable) sortGroupItems(group);
         return group.items.length > 0 ? group : null;
     }
 
@@ -139,12 +161,17 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSid
 
     const sidebar: SidebarEntry[] = [];
     let currentGroup: SidebarGroup | null = null;
+    let currentGroupSortable = false;
 
     for (const item of tocItems) {
         if (item.header) {
-            if (currentGroup) sidebar.push(currentGroup);
+            if (currentGroup) {
+                if (currentGroupSortable) sortGroupItems(currentGroup);
+                sidebar.push(currentGroup);
+            }
             // Root-level header section — open by default.
             currentGroup = { label: item.name!, items: [], collapsed: collapsedForDepth(0) };
+            currentGroupSortable = item.sortable === true;
             if (item.href && docExists(docsDir, item.href, exclude)) {
                 currentGroup.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
             }
@@ -159,6 +186,9 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSid
         else sidebar.push(entry);
     }
 
-    if (currentGroup) sidebar.push(currentGroup);
+    if (currentGroup) {
+        if (currentGroupSortable) sortGroupItems(currentGroup);
+        sidebar.push(currentGroup);
+    }
     return sidebar;
 }
