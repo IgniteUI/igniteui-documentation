@@ -339,6 +339,8 @@ function transformMdxFile(content) {
     content = content.replace(/^import PlatformBlock from '[^']+';?\r?\n/m, '');
     // 3. Resolve all tokens ({Platform}, {ProductName}, etc.) in both frontmatter and body.
     content = applyReplacements(content);
+    // 4. Collapse excessive blank lines left by stripped PlatformBlocks
+    content = normalise(content);
     return content;
 }
 
@@ -355,7 +357,7 @@ function transformMdxFile(content) {
 // ---------------------------------------------------------------------------
 
 function normalise(content) {
-    return content.replace(/\n{3,}/g, '\n\n').trim() + '\n';
+    return content.replace(/(\r?\n){3,}/g, '\n\n').trim() + '\n';
 }
 
 /**
@@ -562,8 +564,9 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
                 return `${open}${fm}${close}`;
             });
 
-            // 5. Normalize image paths
+            // 5. Normalize image paths and collapse excessive blank lines
             content = normalizeImagePaths(content);
+            content = normalise(content);
 
             // 6. Check exclusion before writing
             const slug = `grids/${comp.outDir}/${entry.replace(/\.mdx?$/, '')}`;
