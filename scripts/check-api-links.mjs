@@ -115,59 +115,52 @@ function extractLinks(filePath) {
  * Returns a Map<packageRoot, resolvedVersion>.
  */
 async function discoverVersions(urls) {
-    // Collect unique package roots from /latest/ URLs
-    const roots = new Set();
+    // Map each root → first sample URL for that root
+    const rootSamples = new Map();
     for (const url of urls) {
         const m = url.match(PKG_ROOT_RE);
-        if (m) roots.add(m[1]);
+        if (m && !rootSamples.has(m[1])) rootSamples.set(m[1], url.split('#')[0]);
     }
-    if (roots.size === 0) return new Map();
-
+    if (rootSamples.size === 0) return new Map();
+ 
     const versionMap = new Map();
-
-    // Every /latest/ page embeds a `latestVersions` JS variable mapping
-    // package name → current version.  One fetch resolves all packages at once.
-    const sampleUrl = [...urls].find(u => PKG_ROOT_RE.test(u))?.split('#')[0];
-    if (!sampleUrl) return versionMap;
-
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-    try {
-        const res = await fetch(sampleUrl, {
-            method: 'GET',
-            signal: controller.signal,
-            headers: { 'User-Agent': 'docs-api-link-checker/1.0' },
-            redirect: 'follow',
-        });
-        clearTimeout(timer);
-
-        // Strategy 1: redirect happened — res.url has the versioned path
-        const finalUrl = res.url ?? '';
-        const redirectMatch = finalUrl.match(/\/(\d+\.\d+\.\d+)\//);
-        if (redirectMatch) {
-            for (const root of roots) versionMap.set(root, redirectMatch[1]);
-            return versionMap;
-        }
-
-        // Strategy 2: parse the embedded `latestVersions` JSON object.
-        // The page scripts contain:
-        //   const latestVersions = "{\"igniteui-angular\":\"21.2.0\",..."}"
-        const body = await res.text();
-        const lvMatch = body.match(/const latestVersions\s*=\s*"((?:[^"\\]|\\.)*)"/);
-        if (lvMatch) {
-            const latestVersions = JSON.parse(lvMatch[1].replace(/\\"/g, '"'));
-            for (const root of roots) {
-                // Package name is the last path segment of the root URL
+ 
+    await Promise.all([...rootSamples.entries()].map(async ([root, sampleUrl]) => {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+        try {
+            const res = await fetch(sampleUrl, {
+                method: 'GET',
+                signal: controller.signal,
+                headers: { 'User-Agent': 'docs-api-link-checker/1.0' },
+                redirect: 'follow',
+            });
+            clearTimeout(timer);
+ 
+            // Primary: extract version from the redirect destination URL
+            const finalUrl = res.url ?? '';
+            const redirectMatch = finalUrl.match(/\/(\d+\.\d+\.\d+)\//);
+            if (redirectMatch) {
+                versionMap.set(root, redirectMatch[1]);
+                await res.body?.cancel();
+                return;
+            }
+ 
+            // Fallback: parse latestVersions from the page body
+            const body = await res.text();
+            const lvMatch = body.match(/const latestVersions\s*=\s*"((?:[^"\\]|\\.)*)"/);
+            if (lvMatch) {
+                const latestVersions = JSON.parse(lvMatch[1].replace(/\\"/g, '"'));
                 const pkgName = root.replace(/\/$/, '').split('/').pop();
                 if (pkgName && latestVersions[pkgName]) {
                     versionMap.set(root, latestVersions[pkgName]);
                 }
             }
+        } catch {
+            clearTimeout(timer);
         }
-    } catch {
-        clearTimeout(timer);
-    }
-
+    }));
+ 
     return versionMap;
 }
 
