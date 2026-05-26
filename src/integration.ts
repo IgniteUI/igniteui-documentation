@@ -574,6 +574,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     }
     process.env.DOCS_BUILD_MODE = mode;
     process.env.DOCS_BASE = base ? base.replace(/\/$/, '') : '';
+    process.env.DOCS_TRAILING_SLASH = (astroExtra.trailingSlash as string) ?? 'ignore';
     if (!process.env.DOCS_ENV) {
         process.env.DOCS_ENV = mode;
     }
