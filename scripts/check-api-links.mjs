@@ -115,59 +115,52 @@ function extractLinks(filePath) {
  * Returns a Map<packageRoot, resolvedVersion>.
  */
 async function discoverVersions(urls) {
-    // Collect unique package roots from /latest/ URLs
-    const roots = new Set();
+    // Map each root → first sample URL for that root
+    const rootSamples = new Map();
     for (const url of urls) {
         const m = url.match(PKG_ROOT_RE);
-        if (m) roots.add(m[1]);
+        if (m && !rootSamples.has(m[1])) rootSamples.set(m[1], url.split('#')[0]);
     }
-    if (roots.size === 0) return new Map();
-
+    if (rootSamples.size === 0) return new Map();
+ 
     const versionMap = new Map();
-
-    // Every /latest/ page embeds a `latestVersions` JS variable mapping
-    // package name → current version.  One fetch resolves all packages at once.
-    const sampleUrl = [...urls].find(u => PKG_ROOT_RE.test(u))?.split('#')[0];
-    if (!sampleUrl) return versionMap;
-
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-    try {
-        const res = await fetch(sampleUrl, {
-            method: 'GET',
-            signal: controller.signal,
-            headers: { 'User-Agent': 'docs-api-link-checker/1.0' },
-            redirect: 'follow',
-        });
-        clearTimeout(timer);
-
-        // Strategy 1: redirect happened — res.url has the versioned path
-        const finalUrl = res.url ?? '';
-        const redirectMatch = finalUrl.match(/\/(\d+\.\d+\.\d+)\//);
-        if (redirectMatch) {
-            for (const root of roots) versionMap.set(root, redirectMatch[1]);
-            return versionMap;
-        }
-
-        // Strategy 2: parse the embedded `latestVersions` JSON object.
-        // The page scripts contain:
-        //   const latestVersions = "{\"igniteui-angular\":\"21.2.0\",..."}"
-        const body = await res.text();
-        const lvMatch = body.match(/const latestVersions\s*=\s*"((?:[^"\\]|\\.)*)"/);
-        if (lvMatch) {
-            const latestVersions = JSON.parse(lvMatch[1].replace(/\\"/g, '"'));
-            for (const root of roots) {
-                // Package name is the last path segment of the root URL
+ 
+    await Promise.all([...rootSamples.entries()].map(async ([root, sampleUrl]) => {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+        try {
+            const res = await fetch(sampleUrl, {
+                method: 'GET',
+                signal: controller.signal,
+                headers: { 'User-Agent': 'docs-api-link-checker/1.0' },
+                redirect: 'follow',
+            });
+            clearTimeout(timer);
+ 
+            // Primary: extract version from the redirect destination URL
+            const finalUrl = res.url ?? '';
+            const redirectMatch = finalUrl.match(/\/(\d+\.\d+\.\d+)\//);
+            if (redirectMatch) {
+                versionMap.set(root, redirectMatch[1]);
+                await res.body?.cancel();
+                return;
+            }
+ 
+            // Fallback: parse latestVersions from the page body
+            const body = await res.text();
+            const lvMatch = body.match(/const latestVersions\s*=\s*"((?:[^"\\]|\\.)*)"/);
+            if (lvMatch) {
+                const latestVersions = JSON.parse(lvMatch[1].replace(/\\"/g, '"'));
                 const pkgName = root.replace(/\/$/, '').split('/').pop();
                 if (pkgName && latestVersions[pkgName]) {
                     versionMap.set(root, latestVersions[pkgName]);
                 }
             }
+        } catch {
+            clearTimeout(timer);
         }
-    } catch {
-        clearTimeout(timer);
-    }
-
+    }));
+ 
     return versionMap;
 }
 
@@ -232,6 +225,48 @@ async function checkAll(urls, versionMap, concurrency, onProgress) {
     }
     await Promise.all(Array.from({ length: Math.min(concurrency, urls.length) }, worker));
     return results;
+}
+
+// Known framework class suffixes that may produce wrong URLs when kind="class" is wrong
+const COMMON_CLASS_SUFFIXES = ['Component', 'Module', 'Service', 'Directive', 'Pipe', 'Factory'];
+
+// Matches class-segment staging URLs
+const DIST_CLASS_URL_RE = /^(https:\/\/staging\.infragistics\.com\/api\/[^/]+\/[^/]+\/[^/]+\/)classes\/([^#]+?)(#.*)?$/;
+
+/**
+ * For a broken class URL, derives up to 3 alternative URLs:
+ *   noSuffix           — same class segment, suffix stripped
+ *   interfacesNoSuffix — interfaces segment, suffix stripped (kind was wrong)
+ *   interfaces         — interfaces segment, type name unchanged
+ */
+function resolveDistVariants(url) {
+    const variants = {};
+    const base_url = url.split('#')[0];
+    const m = base_url.match(DIST_CLASS_URL_RE);
+    if (!m) return variants;
+    const [, base, typeSlug] = m;
+    const frag = url.includes('#') ? url.slice(url.indexOf('#')) : '';
+    const dotIdx = typeSlug.lastIndexOf('.');
+    const typeName = dotIdx >= 0 ? typeSlug.slice(dotIdx + 1) : typeSlug;
+    const pkgPart  = dotIdx >= 0 ? typeSlug.slice(0, dotIdx + 1) : '';
+    for (const sfx of COMMON_CLASS_SUFFIXES) {
+        if (typeName.endsWith(sfx)) {
+            const stripped = typeName.slice(0, -sfx.length);
+            variants.noSuffix           = base + 'classes/'    + pkgPart + stripped + frag;
+            variants.interfacesNoSuffix = base + 'interfaces/' + pkgPart + stripped + frag;
+            variants.interfaces         = base + 'interfaces/' + pkgPart + typeName + frag;
+            break;
+        }
+    }
+    return variants;
+}
+
+/** Returns a prop-fix hint for the source ApiLink. */
+function suggestDistFix(variantOk) {
+    if (variantOk.interfacesNoSuffix) return 'In ApiLink: set kind="interface" (suffix removed automatically)';
+    if (variantOk.noSuffix)           return 'In ApiLink: add suffix={false} or excludeSuffixFor="Platform"';
+    if (variantOk.interfaces)         return 'In ApiLink: set kind="interface"';
+    return 'In ApiLink: verify type/member — may need exclude="Platform"';
 }
 
 // Main
@@ -303,6 +338,30 @@ process.stdout.write('\n');
 const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
 console.log(`  Completed in ${elapsed}s\n`);
 
+// 4b. Variant checking — probe alternative URLs for each broken link
+const distVariantSet = new Set();
+const distVariantMeta = [];
+for (const result of checkResults) {
+    if (result.ok) continue;
+    const variants = resolveDistVariants(result.url);
+    for (const vUrl of Object.values(variants)) distVariantSet.add(vUrl.split('#')[0]);
+    distVariantMeta.push({ url: result.url, variants });
+}
+const distVariantOkMap = new Map();
+if (distVariantSet.size > 0) {
+    process.stdout.write('  Probing ' + distVariantSet.size + ' variant URL(s) for fix hints...\n');
+    const vRes = await checkAll([...distVariantSet], versionMap, CONCURRENCY, () => {});
+    for (const r of vRes) distVariantOkMap.set(r.url.split('#')[0], r.ok);
+}
+const distSuggestionMap = new Map();
+for (const { url, variants } of distVariantMeta) {
+    const variantOk = {};
+    for (const [name, vUrl] of Object.entries(variants)) {
+        variantOk[name] = distVariantOkMap.get(vUrl.split('#')[0]) ?? false;
+    }
+    distSuggestionMap.set(url, { variants, variantOk, hint: suggestDistFix(variantOk) });
+}
+
 // 5. Organize results
 const okResults     = checkResults.filter(r => r.ok);
 const brokenResults = checkResults.filter(r => !r.ok);
@@ -352,6 +411,15 @@ if (brokenResults.length === 0) {
             if (item.fetchUrl !== item.url) {
                 console.log(`      checked as: ${item.fetchUrl}`);
             }
+            const sug = distSuggestionMap.get(item.url);
+            if (sug) {
+                for (const [name, vUrl] of Object.entries(sug.variants)) {
+                    const ok = sug.variantOk[name];
+                    const lbl = name === 'noSuffix' ? 'no-suffix' : name === 'interfacesNoSuffix' ? 'interfaces+no-suffix' : 'interfaces';
+                    console.log('      ' + (ok ? '\u2713' : '\u2717') + ' ' + lbl + ': ' + vUrl);
+                }
+                console.log('      \u2192 FIX: ' + sug.hint);
+            }
             const pages = item.pages.filter(p => p.startsWith(platform.toLowerCase().split(' ')[0]));
             const display = pages.length ? pages : item.pages;
             for (const page of display.slice(0, 3)) {
@@ -380,15 +448,19 @@ if (OUTPUT) {
         broken: brokenResults.length,
         brokenNotFound: softResults.length,
         brokenHttp: hardResults.length,
-        results: checkResults.map(r => ({
-            url: r.url,
-            fetchUrl: r.fetchUrl,
-            status: r.status ?? null,
-            error: r.error ?? null,
-            ok: r.ok,
-            pages: [...(urlIndex.get(r.url)?.pages ?? [])],
-            platforms: [...(urlIndex.get(r.url)?.platforms ?? [])],
-        })),
+        results: checkResults.map(r => {
+            const sug = r.ok ? undefined : distSuggestionMap.get(r.url);
+            return {
+                url: r.url,
+                fetchUrl: r.fetchUrl,
+                status: r.status ?? null,
+                error: r.error ?? null,
+                ok: r.ok,
+                pages: [...(urlIndex.get(r.url)?.pages ?? [])],
+                platforms: [...(urlIndex.get(r.url)?.platforms ?? [])],
+                ...(sug ? { hint: sug.hint, variantOk: sug.variantOk } : {}),
+            };
+        }),
     };
     writeFileSync(OUTPUT, JSON.stringify(report, null, 2));
     console.log(`\n  JSON report written to: ${OUTPUT}\n`);
@@ -433,6 +505,15 @@ if (MD_OUTPUT) {
             lines.push(`  - URL: \`${item.url}\``);
             if (item.fetchUrl !== item.url) {
                 lines.push(`  - Checked as: \`${item.fetchUrl}\``);
+            }
+            const mdSug = distSuggestionMap.get(item.url);
+            if (mdSug) {
+                for (const [name, vUrl] of Object.entries(mdSug.variants)) {
+                    const ok = mdSug.variantOk[name];
+                    const lbl = name === 'noSuffix' ? 'no-suffix' : name === 'interfacesNoSuffix' ? 'interfaces+no-suffix' : 'interfaces';
+                    lines.push('  - ' + (ok ? '\u2705' : '\u274c') + ' ' + lbl + ': `' + vUrl + '`');
+                }
+                lines.push('  - **FIX**: `' + mdSug.hint + '`');
             }
             const pages = item.pages.filter(p => p.startsWith(platformPrefix));
             const display = pages.length ? pages : item.pages;
