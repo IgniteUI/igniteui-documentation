@@ -318,8 +318,8 @@ function buildFilteredToc(): string {
 const filteredTocPath = buildFilteredToc();
 
 console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}`);
-const PROD_HOST = 'https://www.infragistics.com';
-const STAGING_HOST = 'https://staging.infragistics.com';
+const PROD_HOST = lang === 'jp' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
+const STAGING_HOST = lang === 'jp' ? 'https://jp.staging.infragistics.com' : 'https://staging.infragistics.com';
 
 const platformLangKey = lang === 'jp' ? `${platform}JP` : platform;
 const p = PLATFORMS[platformLangKey] ?? PLATFORMS[platform];
@@ -354,9 +354,17 @@ export default createDocsSite({
             href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
             platform: key,
         })),
-    starlight: {
-        logo: { src: './public/favicon.svg' },
-    },
+    packages: Object.values(PLATFORMS)
+        .filter(p => p.lang === lang)
+        .map(({ label, key, base: b }) => ({
+            label,
+            value: key,
+            href: mode === 'production' ? `${PROD_HOST}${b}/` : `${STAGING_HOST}${b}/`,
+        })),
+    selectedPackage: p.key,
+    head: [
+        { tag: 'link', attrs: { rel: 'icon', href: `${mode !== 'development' ? p.base : ''}/favicon.ico`, type: 'image/x-icon' } },
+    ],
     integrations: [mdx()],
     vite: {
         plugins: [vitePluginPlatformTokens()],

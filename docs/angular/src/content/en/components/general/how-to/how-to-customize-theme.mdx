@@ -3,6 +3,7 @@ title: Customizing Ignite UI Theming - Angular | Ignite UI for Angular
 description: The Ignite UI for Angular Theming engine allows for full application theming customization and styles size optimization.
 keywords: Ignite UI for Angular, Customizing Ignite UI Theming, Optimizing Ignite UI Theming, Angular Theming Engine, Angular Theming
 ---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import { Image } from 'astro:assets';
@@ -21,7 +22,7 @@ import optimizingAfterModuleLazyload from '../../../images/general/theming-walkt
 
 This article will walk you through the details of customizing Ignite UI for Angular application theming and optimizing the size of the produced stylesheet. The article shows details of how the Ignite UI for Angular theming engine works and presents advanced usage of it. The article is very useful for both making full customization of the component styles, such that your Angular application is tailored to match your desired look and feel, and for making your application optimal for deployment by reducing the style sizes down to only what is used by the app.
 
-<DocsAside type="note">
+<DocsAside type="info">
 This document describes the theming system in Ignite UI for Angular from version 15 forward. Examples include both using the Sass APIs provided by the theming engine and exposed CSS variables.
 </DocsAside>
 
@@ -93,7 +94,7 @@ $custom-palette: palette(
 );
 ```
 
-As you can see, the code generation changed from the specific `@include light-theme($light-material-palette);`, which is the [default theme](/themes/sass/presets/material) and [color palette](/themes/palettes), to a generic [`theme()`]({environment:sassApiUrl}/themes#mixin-theme) include, which provides as parameters our custom color palette and a [dark material schema](/themes/sass/schemas) for the theming structure. The running Angular app result looks like this now:
+As you can see, the code generation changed from the specific `@include light-theme($light-material-palette);`, which is the [default theme](/themes/sass/presets/material) and [color palette](/themes/palettes), to a generic <ApiLink kind="sass" module="themes" type="mixin-theme" label="theme()" code={true} /> include, which provides as parameters our custom color palette and a [dark material schema](/themes/sass/schemas) for the theming structure. The running Angular app result looks like this now:
 
 <Image src={gettingStartedDarkApp} alt="Getting Started Dark App" class="responsive-img" />
 
@@ -201,9 +202,9 @@ Then our theme definition will go in the general scope, which we will use for th
 }
 ```
 
-<DocsAside type="note">
-I have switched the `igx-grid-toolbar` theme override to overriding just two of its variables, instead of reincluding all of the theme variables using [`tokens`]({environment:sassApiUrl}/themes#mixin-tokens).
-All theme variables can be found in the [corresponding sass api doc]({environment:sassApiUrl}/themes#function-grid-toolbar-theme) and are equivalent to the sass variables, but prefixed with `--` instead of `$`.
+<DocsAside type="info">
+I have switched the `igx-grid-toolbar` theme override to overriding just two of its variables, instead of reincluding all of the theme variables using <ApiLink kind="sass" module="themes" type="mixin-tokens" label="tokens" code={true} />.
+All theme variables can be found in the <ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="corresponding sass api doc" /> and are equivalent to the sass variables, but prefixed with `--` instead of `$`.
 </DocsAside>
 
 And the result now looks like this with light OS theme:
@@ -214,7 +215,7 @@ And this is how it looks with dark OS theme:
 
 <Image src={customizingColorSchemaDark} alt="Customizing Color Schema Dark" class="responsive-img" />
 
-<DocsAside type="note">
+<DocsAside type="info">
 Full runtime switch, including Ignite UI theme schema preset switch is possible, only if two full themes are built. In the example above, we're switching the color palettes, but the theme schema remains $light-material-schema, so not all of the correct shades from the color palette are used when we switch to the dark color palette.
 </DocsAside>
 
@@ -228,7 +229,7 @@ Ignite UI theming abstracts multiple dimensions of theming and provides for very
 - [Typography](/themes/sass/typography) (fonts and font sizes)
 - [Size](/display-density) (the size of information that is fitted on the screen)
 
-<DocsAside type="note">
+<DocsAside type="info">
 If you really want a fully custom visual design, you will need to modify all of the supported theming dimensions and you will take full advantage of the Sass APIs.
 If you just need to change things like the fonts and а few colors, then you can just take a look at the section for palettes and typography. In most cases, all you will need is to change a few CSS variables and you won't need the full Sass APIs.
 We've made this as granular as possible, so modifications can be applied without unexpected side results on the visual design of your applications.
@@ -240,13 +241,13 @@ After making some customizations, we're going to build the application we genera
 
 <Image src={optimizingInitialBuild} alt="Optimizing Initial Build" class="responsive-img" />
 
-As you can see, the application theme is slightly over 400kb, which comes down to ~40kb when compressed and transferred over. This is not large, but can it be more optimal? The answer is yes, unless every single component from the Ignite UI for Angular suite is used. Calling `@include theme()` brings in all of the component themes, but we have a mechanism for telling the function what to exclude. There's an [`$exclude`]({environment:sassApiUrl}/themes#mixin-theme) parameter to the theming mixin, which takes component names as an array and excludes those from the theme at build time. Since it's not so easy to find and list all of the components available in the package, it's preferable if you can just list all of the components you use. We expose the full component list as a variable, which you have access to once you
+As you can see, the application theme is slightly over 400kb, which comes down to ~40kb when compressed and transferred over. This is not large, but can it be more optimal? The answer is yes, unless every single component from the Ignite UI for Angular suite is used. Calling `@include theme()` brings in all of the component themes, but we have a mechanism for telling the function what to exclude. There's an <ApiLink kind="sass" module="themes" type="mixin-theme" label="$exclude" code={true} /> parameter to the theming mixin, which takes component names as an array and excludes those from the theme at build time. Since it's not so easy to find and list all of the components available in the package, it's preferable if you can just list all of the components you use. We expose the full component list as a variable, which you have access to once you
 
 ```scss
 @use "@infragistics/igniteui-angular/theming" as *;
 ```
 
-The components array is found at `$components` and you can reduce [this list]({environment:sassApiUrl}/themes#variable-dark-material-schema) with the components you use and exclude all the rest, like in this example:
+The components array is found at `$components` and you can reduce <ApiLink kind="sass" module="themes" type="variable-dark-material-schema" label="this list" /> with the components you use and exclude all the rest, like in this example:
 
 ```scss
 $include: (
@@ -269,7 +270,7 @@ $include: (
 );
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 Some component themes depend on other component themes.  
 Even if you exclude certain themes, they will be retained by the build if you use a component theme, which depends on an excluded theme.
 </DocsAside>
@@ -412,7 +413,7 @@ $include: (
 );
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 You probably want to put all your variables, like color palette values in a separate `_variables.scss` file, which you can include from multiple components to reuse the variables.  
 </DocsAside>
 

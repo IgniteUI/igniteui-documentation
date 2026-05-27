@@ -21,7 +21,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 {Platform} {ComponentTitle} の {ProductName} データ ソート機能は列ごとのレベルで有効になっています。つまり、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> にはソート可能な列とソート不可能な列を混在させることができます。{Platform} でソートを実行すると、指定した条件に基づいてレコードの表示順序を変更できます。
 
 <PlatformBlock for="Angular">
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 これまで、グループ化 / ソートは互いに連携して機能していました。13.2 バージョンでは、gropuing を sorting から切り離す新しい動作が導入されています。たとえば、グループ化をクリアしても、グリッド内のソート式はクリアされません。その逆も同様です。それでも、列がソートおよびグループ化されている場合は、グループ化された式が優先されます。
 </DocsAside>
 
@@ -37,7 +37,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 <Sample src="/{ComponentSample}/column-sorting-options" height={550} alt="{Platform} {ComponentTitle} 列のソート オプション" />
 
 
-以下のように `Sortable` 入力を使用します。<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> のソートで、`SortingIgnoreCase` プロパティを設定して大文字と小文字を区別するソートができます。
+以下のように <ApiLink pkg="grids" type="Column" member="sortable" label="Sortable" /> 入力を使用します。<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> のソートで、<ApiLink pkg="grids" type="Column" member="sortingIgnoreCase" label="SortingIgnoreCase" /> プロパティを設定して大文字と小文字を区別するソートができます。
 
 <PlatformBlock for="Angular">
 ```html
@@ -285,8 +285,8 @@ hierarchicalGridRef.current.sort([
 </PlatformBlock>
 </ComponentBlock>
 
-<DocsAside type="note" title="注">
-Sorting は、<ApiLink pkg="grids" type="DefaultSortingStrategy" suffix={false} /> アルゴリズムを使用して実行されます。<ApiLink pkg="grids" type="Column" /> または `ISortingExpression` は、代替アルゴリズムとして `ISortingStrategy` のカスタム実装を使用できます。たとえば複雑なテンプレート列や画像列にユーザー定義のソートを定義する必要がある場合に便利です。
+<DocsAside type="info" title="情報">
+Sorting は、<ApiLink pkg="grids" type="GridSortingStrategy" kind="interface" suffix={false} exclude="Blazor" /><PlatformBlock for="Blazor"><ApiLink pkg="grids" type="GridSortingStrategy" kind="class" suffix={false} /></PlatformBlock> アルゴリズムを使用して実行されます。<ApiLink pkg="grids" type="Column" /> または `ISortingExpression` は、代替アルゴリズムとして `ISortingStrategy` のカスタム実装を使用できます。たとえば複雑なテンプレート列や画像列にユーザー定義のソートを定義する必要がある場合に便利です。
 </DocsAside>
 
 フィルター動作と同様に、ソート状態をクリアするには `ClearSort` メソッドを使用します。
@@ -393,11 +393,11 @@ hierarchicalGridRef.current.clearSort();
 </PlatformBlock>
 </ComponentBlock>
 
-<DocsAside type="note" title="注">
-<ApiLink pkg="grids" type="{ComponentName}" member="sortStrategy" prefixed={false} /> の `SortStrategy` は <ApiLink pkg="grids" type="Column" /> の `SortStrategy` と比較して異なるタイプです。異なるスコープで機能し、異なるパラメーターを公開するためです。
+<DocsAside type="info" title="情報">
+<ApiLink pkg="grids" type="{ComponentName}" member="sortStrategy" prefixed={false} /> の <ApiLink pkg="grids" type="Column" member="sortStrategy" label="SortStrategy" /> は <ApiLink pkg="grids" type="Column" /> の <ApiLink pkg="grids" type="Column" member="sortStrategy" label="SortStrategy" /> と比較して異なるタイプです。異なるスコープで機能し、異なるパラメーターを公開するためです。
 </DocsAside>
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 ソート操作で <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の基になるデータ ソースは**変更しません**。
 </DocsAside>
 
@@ -577,8 +577,8 @@ const sortingExpressions: IgrSortingExpression[] = [
 </PlatformBlock>
 </ComponentBlock>
 
-<DocsAside type="note" title="注">
-`string` 型の値が `DataType` `Date` の列で使用される場合、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> が値を `Date` オブジェクトに解析しないため <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> <ApiLink pkg="grids" type="{ComponentName}" member="sort" prefixed={false} label="Sorting" /> が正しく動作しません。`string` オブジェクトを使用する場合、値を `Date` オブジェクトに解析するためのロジックをアプリケーション レベルで実装する必要があります。
+<DocsAside type="info" title="情報">
+`string` 型の値が <ApiLink pkg="grids" type="Column" member="dataType" label="DataType" /> `Date` の列で使用される場合、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> が値を `Date` オブジェクトに解析しないため <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> <ApiLink pkg="grids" type="{ComponentName}" member="sort" prefixed={false} label="Sorting" /> が正しく動作しません。`string` オブジェクトを使用する場合、値を `Date` オブジェクトに解析するためのロジックをアプリケーション レベルで実装する必要があります。
 </DocsAside>
 
 <ComponentBlock for="Grid">
@@ -910,7 +910,7 @@ const sortAscendingHeaderIconTemplate = (ctx: IgrGridHeaderTemplateContext) => {
 ```
 </PlatformBlock>
 
-最も簡単な方法は、[grid-theme]({environment:sassApiUrl}/index.html#function-grid-theme) を拡張する新しいテーマを作成し、`$sorted-header-icon-color`、および `sortable-header-icon-hover-color` パラメーターを受け取る方法です。
+最も簡単な方法は、<ApiLink kind="sass" module="index.html" type="function-grid-theme" label="grid-theme" /> を拡張する新しいテーマを作成し、`$sorted-header-icon-color`、および `sortable-header-icon-hover-color` パラメーターを受け取る方法です。
 
 ```scss
 @use "igniteui-angular/theming" as *;
@@ -925,16 +925,10 @@ const sortAscendingHeaderIconTemplate = (ctx: IgrGridHeaderTemplateContext) => {
 
 </PlatformBlock>
 
-## デモ
-
-<ApiLink type="{ComponentName}" pkg="grids""]} prefixed={false} />
-<ApiLink type="SortingExpression" pkg="grids" kind="interface" />
-
 ## API リファレンス
 
-<ComponentBlock for="Grid">
-- `SortingExpression`
-</ComponentBlock>
+<ApiLink type="{ComponentName}" pkg="grids" prefixed={false} /><br />
+<ApiLink type="SortingExpression" pkg="grids" kind="interface" exclude="Blazor" /><PlatformBlock for="Blazor"><ApiLink type="SortingExpression" pkg="grids" kind="class" suffix={false} /></PlatformBlock><br />
 
 Our community is active and always welcoming to new ideas.
 

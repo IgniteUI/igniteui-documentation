@@ -18,11 +18,11 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 The {Platform} {ComponentTitle} Column Moving feature in {ProductName} allows quick and easy column reordering. This can be done through the Column Moving API or by dragging and dropping the headers to another position via mouse or touch gestures. In the {Platform} {ComponentTitle}, you can enable Column Moving for pinned and unpinned columns and for [Multi-Column Headers](multi-column-headers.md) as well.
 
-<DocsAside type="note">
+<DocsAside type="info">
 Reordering between columns and column groups is allowed only when they are at the same level in the hierarchy and both are in the same group. Moving is allowed between columns/column-groups, if they are top level columns.
 </DocsAside>
 
-<DocsAside type="note">
+<DocsAside type="info">
 If a column header is templated and the Column Moving is enabled or the corresponding column is groupable, then the templated elements need to have the **draggable** attribute set to **false**!
 </DocsAside>
 
@@ -31,7 +31,7 @@ This allows to attach handlers for any event emitted by the element, otherwise t
 </PlatformBlock>
 
 
-<DocsAside type="note">
+<DocsAside type="info">
 If the pinned area exceeds its maximum allowed width (80% of the total <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> width), a visual clue notifies the end user that the drop operation is forbidden and pinning is not possible. This means you won't be allowed to drop a column in the pinned area.
 </DocsAside>
 
@@ -152,7 +152,7 @@ const headerTemplate = (ctx: IgrCellTemplateContext) => {
 
 In addition to the drag and drop functionality, the Column Moving feature also provides API methods to allow moving a column/reordering columns programmatically:
 
-<ApiLink pkg="grids" kind='interface' type="GridBaseDirective" member="moveColumn" /> - Moves a column before or after another column (a target). The first parameter is the column to be moved, and the second parameter is the target column. Also accepts an optional third parameter `Position` (representing a <ApiLink pkg="grids" type="DropPosition" kind="enum" prefixed={false} /> value), which determines whether to place the column before or after the target column.
+<ApiLink pkg="grids" kind="interface" type="GridBaseDirective" member="moveColumn" exclude="Blazor" /><PlatformBlock for="Blazor"><ApiLink pkg="grids" kind="class" type="Grid" member="moveColumn" /></PlatformBlock> - Moves a column before or after another column (a target). The first parameter is the column to be moved, and the second parameter is the target column. Also accepts an optional third parameter `Position` (representing a <ApiLink pkg="grids" type="DropPosition" kind="enum" prefixed={false} /> value), which determines whether to place the column before or after the target column.
 
 
 <PlatformBlock for="React, Angular, WebComponents">
@@ -177,7 +177,7 @@ grid.moveColumn(idColumn, nameColumn, DropPosition.AfterDropTarget);
 </PlatformBlock>
 
 
-`Move` - Moves a column to a specified visible index. If the passed index parameter is invalid (is negative, or exceeds the number of columns), or if the column is not allowed to move to this index (if inside another group), no operation is performed.
+<ApiLink pkg="grids" type="Column" member="move" label="Move" /> - Moves a column to a specified visible index. If the passed index parameter is invalid (is negative, or exceeds the number of columns), or if the column is not allowed to move to this index (if inside another group), no operation is performed.
 
 <PlatformBlock for="WebComponents">
 ```typescript
@@ -197,13 +197,13 @@ idColumn.move(3);
 ```
 </PlatformBlock>
 
-Note that when using the column moving feature, the <ApiLink pkg="grids" type="GridComponentEventMap" kind="interface" member="columnMovingEnd"/> event will be emitted if the operation was successful. Also note that in comparison to the drag and drop functionality, using the column moving feature does not require setting the <ApiLink pkg="grids" type="{ComponentName}" member="moving" prefixed={false} /> property to true.
+Note that when using the column moving feature, the <PlatformBlock for="Angular,WebComponents"><ApiLink pkg="grids" type="GridComponentEventMap" kind="interface" member="columnMovingEnd" /></PlatformBlock><PlatformBlock for="React"><ApiLink pkg="grids" kind="class" type="Grid" member="onColumnMovingEnd" suffix={false} /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="grids" type="Grid" kind="class" member="columnMovingEnd"/></PlatformBlock> event will be emitted if the operation was successful. Also note that in comparison to the drag and drop functionality, using the column moving feature does not require setting the <ApiLink pkg="grids" type="{ComponentName}" member="moving" prefixed={false} /> property to true.
 
 ## Events
 
-There are several events related to the column moving to provide a means for tapping into the columns' drag and drop operations. These are <ApiLink pkg="grids" type="GridComponentEventMap" kind="interface" member="columnMovingStart" />, `ColumnMoving` and <ApiLink pkg="grids" type="GridComponentEventMap" kind="interface" member="columnMovingEnd" />.
+There are several events related to the column moving to provide a means for tapping into the columns' drag and drop operations. These are <PlatformBlock for="Angular,WebComponents"><ApiLink pkg="grids" type="GridComponentEventMap" kind="interface" member="columnMovingStart" /></PlatformBlock><PlatformBlock for="React"><ApiLink pkg="grids" kind="class" type="Grid" member="onColumnMovingStart" suffix={false} /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="grids" type="Grid" kind="class" member="columnMovingStart" /></PlatformBlock>, `ColumnMoving` and <PlatformBlock for="Angular,WebComponents"><ApiLink pkg="grids" type="GridComponentEventMap" kind="interface" member="columnMovingEnd" /></PlatformBlock><PlatformBlock for="React"><ApiLink pkg="grids" kind="class" type="Grid" member="onColumnMovingEnd" suffix={false} /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="grids" type="Grid" kind="class" member="columnMovingEnd" /></PlatformBlock>.
 
-You can subscribe to the <ApiLink pkg="grids" type="GridComponentEventMap" kind="interface" member="columnMovingEnd" /> event of the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> to implement some custom logic when a column is dropped to a new position. For example, you can cancel dropping the **Category** column after the **Change On Year(%)** column in the following code snippet.
+You can subscribe to the <PlatformBlock for="Angular,WebComponents"><ApiLink pkg="grids" type="GridComponentEventMap" kind="interface" member="columnMovingEnd" /></PlatformBlock><PlatformBlock for="React"><ApiLink pkg="grids" kind="class" type="Grid" member="onColumnMovingEnd" suffix={false} /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="grids" type="Grid" kind="class" member="columnMovingEnd" /></PlatformBlock> event of the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> to implement some custom logic when a column is dropped to a new position. For example, you can cancel dropping the **Category** column after the **Change On Year(%)** column in the following code snippet.
 
 <PlatformBlock for="Angular">
 ```html
@@ -291,7 +291,7 @@ To get started with styling the <ApiLink pkg="grids" type="{ComponentName}" pref
 // @import '~igniteui-{Platform}/lib/core/styles/themes/index';
 ```
 
-Following the simplest approach, we create a new theme that extends the [grid-theme]({environment:sassApiUrl}/index.html#function-grid-theme) and accepts the `$ghost-header-background`, `$ghost-header-text-color` and the `$ghost-header-icon-color` parameters.
+Following the simplest approach, we create a new theme that extends the <ApiLink kind="sass" module="index.html" type="function-grid-theme" label="grid-theme" /> and accepts the `$ghost-header-background`, `$ghost-header-text-color` and the `$ghost-header-icon-color` parameters.
 
 ```scss
 // Define dark theme for the column moving
@@ -308,7 +308,7 @@ The last step is to **include** the component mixins with its respective theme:
 @include grid($dark-grid-column-moving-theme);
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 Depending on the component [**View Encapsulation**](/components/themes/sass/component-themes.html#view-encapsulation) strategy, it may be necessary to `penetrate` this encapsulation using `::ng-deep`
 </DocsAside>
 
@@ -322,7 +322,7 @@ Depending on the component [**View Encapsulation**](/components/themes/sass/comp
 
 ### Defining a Color Palette
 
-Instead of hardcoding the color values like we just did, we can achieve greater flexibility in terms of colors by using the [igx-palette]({environment:sassApiUrl}/index.html#function-igx-palette) and [igx-color]({environment:sassApiUrl}/index.html#function-igx-color) functions.
+Instead of hardcoding the color values like we just did, we can achieve greater flexibility in terms of colors by using the <ApiLink kind="sass" module="index.html" type="function-igx-palette" label="igx-palette" /> and <ApiLink kind="sass" module="index.html" type="function-igx-color" label="igx-color" /> functions.
 
 
 **igx-palette** generates a color palette based on the primary and secondary colors that are passed:
@@ -334,7 +334,7 @@ $black-color: #575757;
 $dark-palette: palette($primary: $yellow-color, $secondary: $black-color);
 ```
 
-And then with [**igx-color**]({environment:sassApiUrl}/index.html#function-igx-color) we can easily retrieve color from the palette.
+And then with <ApiLink kind="sass" module="index.html" type="function-igx-color" label="**igx-color**" /> we can easily retrieve color from the palette.
 
 ```scss
 $dark-grid-column-moving-theme: grid-theme(
@@ -346,7 +346,7 @@ $dark-grid-column-moving-theme: grid-theme(
 ```
 
 
-<DocsAside type="note">
+<DocsAside type="info">
 The color and palette are powerful functions for generating and retrieving colors. Please refer to [Palettes](/components/themes/palettes.html) topic for detailed guidance on how to use them.
 </DocsAside>
 
@@ -354,7 +354,7 @@ The color and palette are powerful functions for generating and retrieving color
 
 Going further with the theming engine, you can build a robust and flexible structure that benefits from [schemas](/components/themes/sass/schemas.html). A **schema** is a recipe of a theme.
 
-Extend one of the two predefined schemas, that are provided for every component, in this case - [light-grid]({environment:sassApiUrl}/index.html#variable-_light-grid).
+Extend one of the two predefined schemas, that are provided for every component, in this case - <ApiLink kind="sass" module="index.html" type="variable-_light-grid" label="light-grid" />.
 
 ```scss
 // Extending the dark grid schema
@@ -373,7 +373,7 @@ $dark-grid-column-moving-schema: extend($_light-grid,
 );
 ```
 
-In order to apply our custom schema we have to **extend** one of the globals ([light]({environment:sassApiUrl}/index.html#variable-light-schema) or [dark]({environment:sassApiUrl}/index.html#variable-dark-schema)), which is basically pointing out the components with a custom schema, and after that add it to the respective component theme:
+In order to apply our custom schema we have to **extend** one of the globals (<ApiLink kind="sass" module="index.html" type="variable-light-schema" label="light" /> or <ApiLink kind="sass" module="index.html" type="variable-dark-schema" label="dark" />), which is basically pointing out the components with a custom schema, and after that add it to the respective component theme:
 
 ```scss
 // Extending the global dark-schema
@@ -397,7 +397,7 @@ Don't forget to include the theme in the same way as it was demonstrated above.
 
 
 
-<DocsAside type="note">
+<DocsAside type="info">
 The sample will not be affected by the selected global theme from **Change Theme**.
 </DocsAside>
 

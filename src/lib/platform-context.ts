@@ -26,8 +26,9 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             maps:        { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-maps/latest',        packageId: 'igniteui-angular-maps',        noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
             excel:       { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-excel/latest',       packageId: 'igniteui-angular-excel',       noPackagePrefix: true, preserveCase: true },
             spreadsheet: { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-spreadsheet/latest', packageId: 'igniteui-angular-spreadsheet', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            inputs:      { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-inputs/latest',      packageId: 'igniteui-angular-inputs',      noPackagePrefix: true, preserveCase: true },
+            inputs:      { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-inputs/latest',      packageId: 'igniteui-angular-inputs',      noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
             layouts:     { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-layouts/latest',     packageId: 'igniteui-angular-layouts',     noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
+            'geo-core':  { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-core/latest',        packageId: 'igniteui-angular-core',        noPackagePrefix: true, preserveCase: true },
         },
         packages: {
             common: 'igniteui-angular',
@@ -41,6 +42,7 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             forums: 'https://www.infragistics.com/community/forums/f/ignite-ui-for-angular',
             repoSamples: 'https://github.com/IgniteUI/igniteui-angular-examples/tree/master/samples',
         },
+        sassApiUrl: 'https://www.infragistics.com/products/ignite-ui-angular/docs/sass/latest',
     },
     React: {
         name: 'React',
@@ -50,16 +52,24 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
         productSpinal: 'ignite-ui-react',
         apiPackages: {
             core:        { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react/latest',        packageId: 'igniteui-react',               noPackagePrefix: true, preserveCase: true },
-            charts:      { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-charts/latest',      packageId: 'igniteui-react-charts',        noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
+            charts:      { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-charts/latest',      packageId: 'igniteui-react-charts',        noPackagePrefix: true, preserveCase: true },
             grids:       { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-grids/latest',       packageId: 'igniteui-react-grids',         noPackagePrefix: true, preserveCase: true },
-            gauges:      { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-gauges/latest',      packageId: 'igniteui-react-gauges',        noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            maps:        { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-maps/latest',        packageId: 'igniteui-react-maps',          noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            inputs:      { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-inputs/latest',      packageId: 'igniteui-react-inputs',        noPackagePrefix: true, preserveCase: true },
-            layouts:     { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-layouts/latest',     packageId: 'igniteui-react-layouts',       noPackagePrefix: true, preserveCase: true },
+            gauges:      { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-gauges/latest',      packageId: 'igniteui-react-gauges',        noPackagePrefix: true, preserveCase: true },
+            maps:        { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-maps/latest',        packageId: 'igniteui-react-maps',          noPackagePrefix: true, preserveCase: true },
+            // React: "inputs" / "layouts" components are published under the main `igniteui-react`
+            // package (no standalone `igniteui-react-inputs` / `igniteui-react-layouts` TypeDoc).
+            // A handful of layout-only types (IgrDockManager, IgrSplitPane, IgrToolbar, IgrTool*)
+            // don't exist in the React TypeDoc at all — those will 404 regardless.
+            inputs:      { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react/latest',             packageId: 'igniteui-react',               noPackagePrefix: true, preserveCase: true },
+            layouts:     { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react/latest',             packageId: 'igniteui-react',               noPackagePrefix: true, preserveCase: true },
             excel:       { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-excel/latest',       packageId: 'igniteui-react-excel',         noPackagePrefix: true, preserveCase: true },
-            spreadsheet: { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-spreadsheet/latest', packageId: 'igniteui-react-spreadsheet',   noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
+            spreadsheet: { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-spreadsheet/latest', packageId: 'igniteui-react-spreadsheet',   noPackagePrefix: true, preserveCase: true },
             datasources: { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-datasources/latest', packageId: 'igniteui-react-datasources',   noPackagePrefix: true, preserveCase: true },
-            'grid-lite': { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-grids/latest',       packageId: 'igniteui-react-grids',         noPackagePrefix: true, preserveCase: true },
+            'grid-lite':  { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-grids/latest',       packageId: 'igniteui-react-grids',         noPackagePrefix: true, preserveCase: true },
+            'geo-core':   { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-core/latest',        packageId: 'igniteui-react-core',          noPackagePrefix: true, preserveCase: true },
+            // No standalone `igniteui-react-data-grids` TypeDoc; data-grid types live in `igniteui-react-grids`.
+            'data-grids': { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-grids/latest',       packageId: 'igniteui-react-grids',         noPackagePrefix: true, preserveCase: true },
+            dockmanager:  { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-dockmanager/latest', packageId: 'igniteui-react-dockmanager',   noPackagePrefix: true, preserveCase: true },
         },
         packages: {
             common: '@infragistics/igniteui-react',
@@ -87,12 +97,15 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             grids:       { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest', packageId: 'igniteui-webcomponents-grids', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
             gauges:      { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-gauges/latest', packageId: 'igniteui-webcomponents-gauges', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
             maps:        { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest',        packageId: 'igniteui-webcomponents-maps',        noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            inputs:      { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest',      packageId: 'igniteui-webcomponents-inputs',      noPackagePrefix: true, preserveCase: true },
-            layouts:     { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-layouts/latest',     packageId: 'igniteui-webcomponents-layouts',     noPackagePrefix: true, preserveCase: true },
+            inputs:      { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest',      packageId: 'igniteui-webcomponents-inputs',      noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
+            layouts:     { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-layouts/latest',     packageId: 'igniteui-webcomponents-layouts',     noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
             excel:       { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-excel/latest',       packageId: 'igniteui-webcomponents-excel',       noPackagePrefix: true, preserveCase: true },
             spreadsheet: { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest', packageId: 'igniteui-webcomponents-spreadsheet', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            datasources: { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-datasources/latest', packageId: 'igniteui-webcomponents-datasources', noPackagePrefix: true, preserveCase: true },
-            'grid-lite': { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-grid-lite/latest',                packageId: 'igniteui-grid-lite',                noPackagePrefix: true, preserveCase: true },
+            datasources:  { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-datasources/latest', packageId: 'igniteui-webcomponents-datasources', noPackagePrefix: true, preserveCase: true },
+            'grid-lite':  { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-grid-lite/latest',                packageId: 'igniteui-grid-lite',                noPackagePrefix: true, preserveCase: true },
+            'geo-core':   { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-core/latest',       packageId: 'igniteui-webcomponents-core',       noPackagePrefix: true, preserveCase: true },
+            dockmanager:  { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-dockmanager/latest',              packageId: 'igniteui-dockmanager',              noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
+            'data-grids': { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-data-grids/latest',  packageId: 'igniteui-webcomponents-data-grids', noPackagePrefix: true, preserveCase: true },
         },
         packages: {
             common: 'igniteui-webcomponents',
@@ -121,7 +134,11 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             maps:        { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
             excel:       { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor.Documents.Excel/latest', packageId: 'IgniteUI.Blazor.Documents.Excel', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
             spreadsheet: { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest',         packageId: 'IgniteUI.Blazor',         noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            'grid-lite': { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor.GridLite/latest', packageId: 'IgniteUI.Blazor.GridLite', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
+            'grid-lite':  { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor.GridLite/latest', packageId: 'IgniteUI.Blazor.GridLite', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
+            'geo-core':   { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest',          packageId: 'IgniteUI.Blazor',          noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
+            'data-grids': { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest',          packageId: 'IgniteUI.Blazor',          noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
+            inputs:       { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest',          packageId: 'IgniteUI.Blazor',          noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
+            layouts:      { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest',          packageId: 'IgniteUI.Blazor',          noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
         },
         packages: {
             common: 'IgniteUI.Blazor',
