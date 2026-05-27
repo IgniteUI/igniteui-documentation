@@ -402,6 +402,67 @@ This works because the PlatformBlock tags and content are all on the **same line
 | `src/components/mdx/PlatformBlock.astro` | PlatformBlock component — renders content conditionally per platform |
 | `src/lib/platform-context.ts` | Platform detection and config (used by ApiLink; same platforms) |
 
+## ApiLink `exclude` prop — preferred for pure exclusion
+
+**Do NOT** use a `<PlatformBlock for="...">` whose only purpose is to **omit** an `<ApiLink/>` for a subset of platforms. Use the `exclude="..."` prop on `<ApiLink/>` instead.
+
+The `exclude` prop accepts a comma-separated list of platform names (same casing as `for`). On the listed platforms, the link renders as **inline code (backticks)** instead of a hyperlink — preserving the symbol name in prose without producing a broken URL.
+
+### Anti-pattern (DO NOT DO THIS)
+
+```mdx
+<!-- Wrong: PlatformBlock used purely to hide ApiLink from one platform -->
+<PlatformBlock for="Angular, React, WebComponents">
+<ApiLink pkg="grids" type="MyType" member="someMember" />
+</PlatformBlock>
+```
+
+### Correct pattern
+
+```mdx
+<ApiLink pkg="grids" type="MyType" member="someMember" exclude="Blazor" />
+```
+
+This renders a normal link on Angular/React/WebComponents and renders `MyType.someMember` in backticks on Blazor. No PlatformBlock needed.
+
+### When to use which
+
+| Situation | Use |
+|---|---|
+| The same `<ApiLink/>` references something missing on N platforms (broken URL) | `exclude="P1,P2"` on the ApiLink |
+| Different platforms need genuinely **different** ApiLinks (different `type`, `kind`, `member`, etc.) | One `<PlatformBlock>` per variant (each containing its own `<ApiLink/>`) |
+| Surrounding **prose or code** also differs per platform | `<PlatformBlock>` (regular usage) |
+
+### Migration script
+
+`scripts/migrate-platformblock-to-exclude.mjs` automatically rewrites the anti-pattern (a `<PlatformBlock for="...">` containing only a single `<ApiLink/>` whose `for=` covers exactly N-1 of the 4 platforms) into `<ApiLink ... exclude="MissingPlatform" />`.
+
+### Report-driven exclusion
+
+`scripts/apply-excludes.mjs` reads `api-link-report-{angular,react,wc,blazor}.md` (produced by `scripts/check-api-links.mjs`) and adds `exclude="..."` to every ApiLink whose generated URL is broken on a given platform. Run after every API package version bump:
+
+```bash
+# 1. Generate per-platform reports
+node scripts/check-api-links.mjs --platform=angular
+node scripts/check-api-links.mjs --platform=react
+node scripts/check-api-links.mjs --platform=wc
+node scripts/check-api-links.mjs --platform=blazor
+
+# 2. Auto-apply exclude= to broken-link tags (idempotent)
+node scripts/apply-excludes.mjs --dry-run   # preview
+node scripts/apply-excludes.mjs             # apply
+
+# 3. Re-run reports to verify near-zero broken count
+```
+
+The script:
+- Strips `Igx/Igr/Igc/Igb` prefix from URL type names.
+- Strips `Component/Module/Directive/Element` suffix (Angular adds these to certain class names).
+- Lowercases member fragments (Blazor PascalCases members in URLs).
+- Merges with any existing `exclude=` attribute (preserves manually-added platforms).
+
+---
+
 ## Related Skills
 
 - [`xplat-docs-api-links`](../xplat-docs-api-links/SKILL.md) — ApiLink usage guide
