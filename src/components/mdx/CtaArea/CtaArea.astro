@@ -1,0 +1,53 @@
+---
+import './CtaArea.scss';
+
+interface Props {
+    /** Section heading */
+    title: string;
+    /** Optional body text shown below the title */
+    description?: string;
+    /** Button label */
+    label: string;
+    /** Button href */
+    href: string;
+    /** Optional note shown below the button (e.g. "30 days free trial.") */
+    note?: string;
+    /**
+     * URL of a background image.
+     * Passed to CSS as --cta-bg-image so no inline style values leak into markup.
+     */
+    backgroundImage?: string;
+    /**
+     * Show a semi-transparent dark scrim over the background image to keep text
+     * legible. Has no effect when backgroundImage is not set.
+     * Accepts true (default dark scrim) or any CSS <color> string for a custom tint.
+     */
+    overlay?: boolean | string;
+}
+
+const { title, description, label, href, note, backgroundImage, overlay } = Astro.props;
+
+const hasImage   = !!backgroundImage;
+const hasOverlay = hasImage && !!overlay;
+const overlayColor = typeof overlay === 'string' ? overlay : undefined;
+---
+
+<div
+    class:list={[
+        'cta-area',
+        hasImage   && 'cta-area--has-image',
+        hasOverlay && 'cta-area--has-overlay',
+    ]}
+    style={[
+        backgroundImage && `--cta-bg-image: url('${backgroundImage}')`,
+        overlayColor    && `--cta-overlay-color: ${overlayColor}`,
+    ].filter(Boolean).join('; ') || undefined}
+>
+    <span class="cta-dotted-bg" aria-hidden="true"></span>
+    <div class="cta-area__content">
+        <h2 class="cta-area__title">{title}</h2>
+        {description && <p class="cta-area__description">{description}</p>}
+        <a class="cta-area__btn no-external-icon" href={href}>{label}</a>
+        {note && <p class="cta-area__note">{note}</p>}
+    </div>
+</div>

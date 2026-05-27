@@ -365,9 +365,21 @@ export default createDocsSite({
     head: [
         { tag: 'link', attrs: { rel: 'icon', href: `${mode !== 'development' ? p.base : ''}/favicon.ico`, type: 'image/x-icon' } },
     ],
-    integrations: [mdx()],
+    integrations: [
+        mdx(),
+        {
+            name: 'watch-docs-template',
+            hooks: {
+                'astro:server:setup': ({ server }) => {
+                    server.watcher.add(path.resolve(__dirname, '../../src'));
+                },
+            },
+        },
+    ],
     vite: {
-        plugins: [vitePluginPlatformTokens()],
+        plugins: [
+            vitePluginPlatformTokens(),
+        ],
         resolve: {
             alias: {
                 '@xplat-images': path.resolve(__dirname, 'src/assets/images'),
