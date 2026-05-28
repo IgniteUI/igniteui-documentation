@@ -24,7 +24,6 @@ this.scrollStrategy.initialize(document, overlayService, id);
 this.scrollStrategy.attach();
 this.scrollStrategy.detach();
 ```
-<div class="divider--half"></div>
 
 ### Getting Started
 The position strategy is passed as a property in the [`overlaySettings`] ({environment:angularApiUrl}/interfaces/overlaysettings.html) parameter when the [`overlay.show()`] ({environment:angularApiUrl}/classes/igxoverlayservice.html#show) method is called:
@@ -38,7 +37,7 @@ The position strategy is passed as a property in the [`overlaySettings`] ({envir
     }
     overlay.show(dummyElement, overlaySettings); 
 ``` 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 To change the scroll strategy used by the overlay, override the [`scrollStrategy`] ({environment:angularApiUrl}/interfaces/iscrollstrategy.html) property of the [`overlaySettings`] ({environment:angularApiUrl}/interfaces/overlaysettings.html) object passed to the overlay:
 ```typescript
@@ -50,7 +49,6 @@ To change the scroll strategy used by the overlay, override the [`scrollStrategy
     })
     overlay.show(dummyElement, newOverlaySettings); 
 ```
-<div class="divider--half"></div>
 
 ### Dependencies
 
@@ -71,7 +69,6 @@ The demo below illustrates the difference between the separate [`scrollStrategie
            iframe-src="{environment:demosBaseUrl}/interactions/overlay-scroll-sample-2/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Modal
 The [`overlaySettings`] ({environment:angularApiUrl}/interfaces/overlaysettings.html) object also allows a boolean property, [`modal`] ({environment:angularApiUrl}/interfaces/overlaysettings.html#modal), to be passed. This controls how the overlay will be display:
@@ -84,7 +81,6 @@ If the [`modal`] ({environment:angularApiUrl}/interfaces/overlaysettings.html#mo
            iframe-src="{environment:demosBaseUrl}/interactions/overlay-scroll-sample-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ## API References
 

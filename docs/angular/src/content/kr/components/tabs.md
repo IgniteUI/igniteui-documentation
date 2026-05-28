@@ -16,7 +16,6 @@ The [`igx-tabs`]({environment:angularApiUrl}/classes/igxtabscomponent.html) comp
            iframe-src="{environment:demosBaseUrl}/layouts/tabs-sample-3/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**installation**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation) topic.
@@ -60,7 +59,7 @@ If the sample is configured properly, the final result should look like that:
 </code-view>
 
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Tabs Types
 There are two types of tabs. Set the [`tabsType`]({environment:angularApiUrl}/classes/igxtabscomponent.html#tabstype) input to choose between [`fixed`]({environment:angularApiUrl}/enums/tabstype.html#fixed) and [`contentfit`]({environment:angularApiUrl}/enums/tabstype.html#contentfit) tabs.
@@ -103,7 +102,7 @@ Nevertheless what type of tabs you have chosen, the tab header width is limited 
 </code-view>
 
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Customizing Tabs
 
@@ -162,7 +161,6 @@ If the sample is configured properly, the tabs should look like the following ex
 </code-view>
 
 
-<div class="divider--half"></div>
 
 If changing the tabs' labels and icons is not enough, you can also create your own [`IgxTabItemTemplateDirective`]({environment:angularApiUrl}/classes/igxtabitemtemplatedirective.html) for each tab header.
 
@@ -385,7 +383,7 @@ const routes: Routes = [
 
 
 ## API References
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 * [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
 * [IgxCardComponent]({environment:angularApiUrl}/classes/igxcardcomponent.html)
@@ -397,7 +395,6 @@ const routes: Routes = [
 * [IgxTabItemComponent]({environment:angularApiUrl}/classes/igxtabitemcomponent.html)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 

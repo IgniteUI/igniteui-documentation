@@ -16,7 +16,8 @@
     padding: rem(48px) rem(32px);
     margin-block: rem(40px);
     text-align: center;
-	border: rem(1px) solid var(--ig-primary-100);
+	border: rem(1px) solid var(--ig-gray-100);
+	z-index: 0;
 
     // Default gradient background (used when no backgroundImage is provided)
     background: light-dark(
@@ -51,7 +52,7 @@
         background: var(--ig-secondary-300);
     }
 
-    // ── Background image modifier ──────────────────────────────────────────
+    // Background image modifier
     &--has-image {
         background-image: var(--cta-bg-image);
         background-size: cover;
@@ -65,7 +66,7 @@
         }
     }
 
-    // ── Overlay modifier (dark scrim over the background image) ───────────
+    // Overlay modifier (dark scrim over the background image)
     &--has-overlay {
         // The overlay sits between the bg image and the content
         &::before {
@@ -93,6 +94,54 @@
 .cta-area__content {
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(24px);
+}
+
+// Body: logo + title + description
+.cta-area__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+// Action: button + note
+.cta-area__action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(12px);
+}
+
+// Horizontal modifier — text on left, action on right
+.cta-area--horizontal {
+    text-align: start;
+
+    .cta-area__content {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: rem(32px);
+    }
+
+    .cta-area__body {
+        align-items: flex-start;
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .cta-area__action {
+        align-items: flex-end;
+        flex-shrink: 0;
+    }
+
+    .cta-area__title,
+    .cta-area__description {
+        text-align: start;
+        margin-inline: 0;
+    }
 }
 
 // ── Dotted pattern background ────────────────────────────────────────────────
@@ -128,15 +177,26 @@
     opacity: 0.1;
 }
 
-// ── Typography & interactive elements ────────────────────────────────────────
+// Typography & interactive elements
+.cta-area__logo {
+    display: block;
+    height: rem(48px);
+    width: auto;
+    margin-inline: auto;
+    margin-block-end: rem(20px);
+    object-fit: contain;
+}
+
 .cta-area__title {
-    @include type-style('h2');
+    @include type-style('h1');
     position: relative;
     justify-content: center;
     color: light-dark(var(--ig-gray-900), var(--ig-gray-100));
 }
 
 .cta-area__description {
+	@include type-style('body-1');
+	
     position: relative;
     max-width: rem(640px);
     margin-inline: auto;
@@ -171,7 +231,7 @@
 }
 
 .cta-area__note {
-    @include type-style('body-2');
+    @include type-style('detail-1', false);
     position: relative;
     margin-block: rem(12px) 0;
     color: light-dark(var(--ig-gray-800), var(--ig-gray-700));

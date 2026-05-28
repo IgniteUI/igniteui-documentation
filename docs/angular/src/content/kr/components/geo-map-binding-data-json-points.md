@@ -19,7 +19,6 @@ With [`IgxGeographicMapComponent`]({environment:dvApiBaseUrl}/products/ignite-ui
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Data Example
 

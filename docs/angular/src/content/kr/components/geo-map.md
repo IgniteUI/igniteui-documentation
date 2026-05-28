@@ -19,7 +19,6 @@ The Ignite UI for Angular map component allows you to display data that contains
 </code-view>
 
 
-<div class="divider--half"></div>
 
 The map component allows you to render geographic imagery from Bing Maps™, and Open Street Maps. The map provides plotting of tens of thousands of data points, and updates them every few milliseconds so that the control can handle your real-time feeds.
 
@@ -63,7 +62,6 @@ import { IgxMapModule } from "igniteui-angular-maps";
 export class AppModule {}
 ```
 
-<div class="divider--half"></div>
 
 ## Usage
 

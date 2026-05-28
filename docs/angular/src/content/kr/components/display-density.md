@@ -18,7 +18,6 @@ Using the [DisplayDensityToken]({environment:angularApiUrl}/index.html#displayde
            iframe-src="{environment:demosBaseUrl}/theming/density/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**installation**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation) topic.
@@ -46,7 +45,7 @@ To set the display density explicitly for a control, use the [`displayDensity`](
 ```
 
 ## API References
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 * [DisplayDensity]({environment:angularApiUrl}/enums/displaydensity.html)
 * [DisplayDensityBase]({environment:angularApiUrl}/classes/displaydensitybase.html)
@@ -54,7 +53,6 @@ To set the display density explicitly for a control, use the [`displayDensity`](
 * [DisplayDensityToken]({environment:angularApiUrl}/index.html#displaydensitytoken)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 

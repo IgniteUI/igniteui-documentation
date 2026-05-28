@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/type-scatter-series">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 분산 마커 시리즈의 유형
 

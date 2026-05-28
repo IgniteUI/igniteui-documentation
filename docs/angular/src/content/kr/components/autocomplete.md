@@ -13,7 +13,7 @@ By default, the first item is always highlighted, which provides an easy way to 
 
 The [`igx-autocomplete`]({environment:angularApiUrl}/classes/igxautocompletedirective.html) uses the [`igx-drop-down`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html) as a provider for the available options, which means the available capabilities of the drop-down component can be used, these include grouping, templates and disabling of items and groups.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Demo
 The following sample demonstrates simple use of the `igx-autocomplete` directive, applied on an `igx-input`. The directive is provided with an `igx-drop-down` which has a defined filtering pipe.
@@ -23,7 +23,6 @@ The following sample demonstrates simple use of the `igx-autocomplete` directive
            iframe-src="{environment:demosBaseUrl}/data-entries/autocomplete/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!WARNING]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**Getting Started**](general/getting-started.md) topic.
@@ -206,7 +205,6 @@ The following sample demonstrates an autocomplete, which allows selecting a cine
 </code-view>
 
 
-<div class="divider--half"></div>
 
 In order to use the `igxAutocomplete` with groups, like in the sample above, you need to define your data in the following manner:
 
@@ -235,17 +233,14 @@ For the purpose of the sample there is a delay in the data loading, in order to 
            iframe-src="{environment:demosBaseUrl}/data-entries/autocomplete-remote/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ## API References
-<div class="divider--half"></div>
 
 * [IgxAutocompleteDirective]({environment:angularApiUrl}/classes/igxautocompletedirective.html)
 * [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html)
 * [IgxInputGroup]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 * [IgxDropDownComponent](drop-down.md)
 * [IgxInputGroup](input-group.md)

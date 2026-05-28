@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/financial-chart/performance">
 </code-view>
 
-<div class="divider--half"></div>
 
 다음의 코드는 금융 차트를 대량의 데이터에 바인딩하는 방법을 보여줍니다.
 
@@ -128,11 +127,9 @@ Callout 주석(`calloutsVisible`) 또는 Final Value 주석(`finalValueAnnotatio
 -   `XAxisStrip`
 -   `YAxisStrip`
 
-<div class="divider--half"></div>
 
 ## 추가 리소스
 
-<div class="divider--half"></div>
 
 -   [대량의 데이터 바인딩](financial-chart-high-volume.md)
 -   [실시간 데이터 바인딩](financial-chart-high-frequency.md)

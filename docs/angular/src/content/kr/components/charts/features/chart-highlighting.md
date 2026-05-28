@@ -21,7 +21,6 @@ The following example demonstrates the different highlighting options that are a
 </code-view>
 
 
-<div class="divider--half"></div>
 
 # Angular Chart Highlighting Modes & Behaviors
 

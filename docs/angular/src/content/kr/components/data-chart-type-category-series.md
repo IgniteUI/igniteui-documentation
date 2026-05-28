@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/type-category-series">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 카테고리 시리즈의 유형
 

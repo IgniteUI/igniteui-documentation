@@ -8,7 +8,6 @@ _language: kr
 ## Schemas
 <p class="highlight">Schemas are a simple, declarative way to list all properties a component theme might use.</p>
 
-<div class="divider--half"></div>
 
 ### Overview
 Schemas are like recipes. They are simple Sass maps, similar to JSON that allow us to define all properties a theme might use. Those properties can be colors, shadows, margins, paddings, etc. Anything a theme consumes can be described as a `schema`, then passed to the global or component theme. A component schema can extend an existing component schema and override the properties of the former.
@@ -58,7 +57,7 @@ $_light-avatar: (
 ```
 The result of thecolor function call will be automatically passed as the first argument to the `hexrgba` function. Since the `hexrgba` accepts a second argument for the background color, we provide it as the value of the `hexrgba` key in the example above.
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Extending Schemas
 As you saw from the example above. Schemas are simple maps and as such can be extended by overriding some of their properties. You might want to extend the default avatar schema by only changing the icon-background property, without having to copy all other properties manually. This is easily done using the `extend` function we provide.
@@ -127,7 +126,6 @@ Another great feature of theme schemas is that you can have as many as you want 
 * [Avatar Theme]({environment:sassApiUrl}/themes#function-avatar-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 * [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

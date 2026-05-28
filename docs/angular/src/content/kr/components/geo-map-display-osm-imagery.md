@@ -20,7 +20,6 @@ By the default, the Ignite UI for Angular map component displays geographic imag
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Code Snippet
 

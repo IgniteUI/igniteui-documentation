@@ -7,7 +7,7 @@ _language: kr
 
 ## Navigation Drawer
 <p class="highlight">The Ignite UI for Angular Navigation Drawer component is a side navigation container. It can rest above content and slide in/out of view or be pinned to expand/collapse within content. A mini version provides quick access to navigation even when closed. The Navigation Drawer features responsive mode selection and touch gestures. Content is completely customizable and can make use of default menu item styling.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Navigation Drawer Demo
 
@@ -16,7 +16,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/menus/navigation-drawer/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Dependencies
 To started with all needed dependencies you can use the `IgxNavigationDrawerModule` and import it in your application IgxNavigationDrawerModule } from 'igniteui { IgxNavigationDrawerModule } from 'igniteui-angular/navigation-drawer';
@@ -33,7 +32,6 @@ export class AppModule {
 
 > Alternatively both barrels export the [`IgxNavigationDrawerComponent`]({environment:angularApiUrl}/classes/igxnavigationdrawercomponent.html) and additional directives, so those can be declared/referenced separately if needed.
 
-<div class="divider--half"></div>
 
 ### Usage
 
@@ -105,7 +103,6 @@ And the final result should look like this:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Modes
 
@@ -193,7 +190,6 @@ The mini variant is commonly used in a persistent setup, so we've set `pin` and 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Item Styling
 
@@ -212,7 +208,6 @@ The directive has two `@Input` properties:
 ```
 The directive is exported both from the main `IgxNavigationDrawerModule` and separately as `IgxNavDrawerItemDirective`.
 
-<div class="divider--half"></div>
 
 #### Example: Use default item styles with Angular Router
 To make use of the [`igxDrawerItem`]({environment:angularApiUrl}/classes/igxnavdraweritemdirective.html) directive to style items normally the `active` input should be set, however with routing that state is controlled externally.
@@ -262,7 +257,6 @@ This approach, of course, does not affect the actual directive active state and 
 <!-- ... -->
 ```
 
-<div class="divider--half"></div>
 
 ### API Reference
 * [IgxNavigationDrawerComponent]({environment:angularApiUrl}/classes/igxnavigationdrawercomponent.html)
