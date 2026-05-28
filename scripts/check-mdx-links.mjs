@@ -153,47 +153,74 @@ function resolveApiLinkUrl(props, platformName) {
 }
 
 /**
- * Given a BROKEN primary URL and its source props, returns up to 3 alternative
- * URLs to try (no-suffix, no-prefix, no-both). Only includes variants that differ
- * from the primary URL (i.e. where there is something to strip).
+ * Given a BROKEN primary URL and its source props, returns alternative
+ * URLs to try. Includes suffix/prefix variants AND kind variants.
  *
- * Used post-check to suggest the cheapest prop fix:
- *   noSuffix → excludeSuffixFor="Platform"
- *   noPrefix → excludePrefixFor="Platform"  (or prefixed={false} when global)
- *   noBoth   → both of the above
+ * Variant categories:
+ *   noSuffix       → suffix={false} or excludeSuffixFor="Platform"
+ *   noPrefix       → prefixed={false} or excludePrefixFor="Platform"
+ *   noBoth         → both of the above
+ *   kind:<value>   → kind="<value>" (different kind)
+ *   kind:<value>+noSuffix  → kind + suffix={false}
+ *   kind:<value>+noPrefix  → kind + prefixed={false}
+ *   kind:<value>+noBoth    → kind + both
  */
 function resolveVariantUrls(primaryUrl, props, platformName) {
     const variants = {};
-    // no-suffix: disable classSuffix for this platform
-    const noSuffixUrl = resolveApiLinkUrl(
-        { ...props, suffix: false, excludeSuffixFor: undefined }, platformName);
-    if (noSuffixUrl && noSuffixUrl !== primaryUrl)
-        variants.noSuffix = noSuffixUrl;
+    const seenUrls = new Set([primaryUrl]);
 
-    // no-prefix: disable platform prefix for this platform
-    const noPrefixUrl = resolveApiLinkUrl(
-        { ...props, prefixed: false, excludePrefixFor: undefined }, platformName);
-    if (noPrefixUrl && noPrefixUrl !== primaryUrl)
-        variants.noPrefix = noPrefixUrl;
+    function addVariant(name, variantProps) {
+        const url = resolveApiLinkUrl(variantProps, platformName);
+        if (url && !seenUrls.has(url)) {
+            seenUrls.add(url);
+            variants[name] = url;
+        }
+    }
 
-    // no-both: disable both
-    const noBothUrl = resolveApiLinkUrl(
-        { ...props, suffix: false, prefixed: false, excludeSuffixFor: undefined, excludePrefixFor: undefined },
-        platformName);
-    if (noBothUrl && noBothUrl !== primaryUrl
-            && noBothUrl !== variants.noSuffix && noBothUrl !== variants.noPrefix)
-        variants.noBoth = noBothUrl;
+    // Suffix/prefix variants (original logic)
+    addVariant('noSuffix', { ...props, suffix: false, excludeSuffixFor: undefined });
+    addVariant('noPrefix', { ...props, prefixed: false, excludePrefixFor: undefined });
+    addVariant('noBoth',   { ...props, suffix: false, prefixed: false, excludeSuffixFor: undefined, excludePrefixFor: undefined });
+
+    // Kind variants: try each kind that differs from current
+    const ALL_KINDS = ['class', 'interface', 'enum', 'type'];
+    const currentKind = props.kind || 'class';
+    for (const altKind of ALL_KINDS) {
+        if (altKind === currentKind) continue;
+        const kindProps = { ...props, kind: altKind, excludeSuffixFor: undefined, excludePrefixFor: undefined };
+        addVariant(`kind:${altKind}`, kindProps);
+        addVariant(`kind:${altKind}+noSuffix`, { ...kindProps, suffix: false });
+        addVariant(`kind:${altKind}+noPrefix`, { ...kindProps, prefixed: false });
+        addVariant(`kind:${altKind}+noBoth`,   { ...kindProps, suffix: false, prefixed: false });
+    }
 
     return variants;
 }
 
 /** Given which variant URLs work, returns a short prop-fix hint string. */
 function suggestFix(variantOk, platformName) {
+    // Prefer simplest fix: suffix/prefix-only changes first
     const { noSuffix, noPrefix, noBoth } = variantOk ?? {};
     if (noSuffix && !noPrefix) return `excludeSuffixFor="${platformName}"`;
-    if (!noSuffix && noPrefix) return `excludePrefixFor="${platformName}" (or prefixed={false} globally)`;
+    if (!noSuffix && noPrefix) return `excludePrefixFor="${platformName}"`;
     if (noSuffix && noPrefix)  return `excludeSuffixFor="${platformName}" -or- excludePrefixFor="${platformName}"`;
     if (noBoth)                return `excludeSuffixFor="${platformName}" + excludePrefixFor="${platformName}"`;
+
+    // Then try kind variants (prefer kind-only, then kind+suffix/prefix)
+    for (const [name, ok] of Object.entries(variantOk ?? {})) {
+        if (!ok) continue;
+        if (name.startsWith('kind:')) {
+            const kindMatch = name.match(/^kind:(\w+)$/);
+            if (kindMatch) return `kind="${kindMatch[1]}"`;
+            const kindSuffix = name.match(/^kind:(\w+)\+noSuffix$/);
+            if (kindSuffix) return `kind="${kindSuffix[1]}" + excludeSuffixFor="${platformName}"`;
+            const kindPrefix = name.match(/^kind:(\w+)\+noPrefix$/);
+            if (kindPrefix) return `kind="${kindPrefix[1]}" + excludePrefixFor="${platformName}"`;
+            const kindBoth = name.match(/^kind:(\w+)\+noBoth$/);
+            if (kindBoth) return `kind="${kindBoth[1]}" + excludeSuffixFor="${platformName}" + excludePrefixFor="${platformName}"`;
+        }
+    }
+
     return `exclude="${platformName}" (no variant resolves — symbol absent)`;
 }
 
@@ -460,11 +487,13 @@ const targetPlatforms = getPlatforms();
 // For Angular: sync generated MDX content into docs/angular before scanning
 if (PLATFORM === 'angular' && !NO_SYNC) {
     const syncScript = resolve('docs/angular/scripts/sync-generated.mjs');
-    console.log('\n  Syncing Angular generated content (sync-generated.mjs)...');
-    const r = spawnSync(process.execPath, [syncScript], { stdio: 'inherit' });
-    if (r.status !== 0) {
-        console.error('\n  sync-generated.mjs failed — aborting.');
-        process.exit(1);
+    for (const lang of ['en', 'jp']) {
+        console.log(`\n  Syncing Angular generated content (sync-generated.mjs --lang=${lang})...`);
+        const r = spawnSync(process.execPath, [syncScript, `--lang=${lang}`], { stdio: 'inherit' });
+        if (r.status !== 0) {
+            console.error(`\n  sync-generated.mjs --lang=${lang} failed — aborting.`);
+            process.exit(1);
+        }
     }
     console.log();
 }
@@ -559,8 +588,8 @@ for (const result of brokenResults) {
 }
 
 // ── Variant URL checking (post-primary-check) ──────────────────────────────
-// For every broken (url, platform) pair, compute up to 3 variant URLs and
-// batch-check them, then build a suggestion map used in the report.
+// For every broken (url, platform) pair, compute variant URLs (suffix/prefix
+// toggles + kind alternatives) and batch-check them for fix suggestions.
 
 const variantUrlSet = new Set();
 
@@ -628,14 +657,23 @@ if (brokenResults.length === 0) {
             if (item.fetchUrl !== item.url) {
                 console.log(`      checked as: ${item.fetchUrl}`);
             }
-            // Variant hints
+            // Variant hints — show only working variants to keep output readable
             const sug = suggestionMap.get(`${item.url}::${platform}`);
             if (sug) {
                 const TICK = '\u2713', CROSS = '\u2717';
-                for (const [name, vUrl] of Object.entries(sug.variants)) {
-                    const ok = sug.variantOk[name];
-                    const label = name === 'noSuffix' ? 'no-suffix' : name === 'noPrefix' ? 'no-prefix' : 'no-suffix+prefix';
-                    console.log(`      ${ok ? TICK : CROSS} ${label}: ${vUrl}`);
+                const workingVariants = Object.entries(sug.variants).filter(([n]) => sug.variantOk[n]);
+                const failedVariants = Object.entries(sug.variants).filter(([n]) => !sug.variantOk[n]);
+                for (const [name, vUrl] of workingVariants) {
+                    console.log(`      ${TICK} ${name}: ${vUrl}`);
+                }
+                if (failedVariants.length > 0 && workingVariants.length === 0) {
+                    // Only show failed if nothing works (brief)
+                    for (const [name, vUrl] of failedVariants.slice(0, 3)) {
+                        console.log(`      ${CROSS} ${name}: ${vUrl}`);
+                    }
+                    if (failedVariants.length > 3) {
+                        console.log(`      ${CROSS} ... and ${failedVariants.length - 3} more variants tried`);
+                    }
                 }
                 console.log(`      \u2192 FIX: ${sug.hint}`);
             }
@@ -730,10 +768,17 @@ if (MD_OUTPUT) {
             const mdSug = suggestionMap.get(`${item.url}::${platform}`);
             if (mdSug) {
                 const TICK = '\u2705', CROSS = '\u274c';
-                for (const [name, vUrl] of Object.entries(mdSug.variants)) {
-                    const ok = mdSug.variantOk[name];
-                    const label = name === 'noSuffix' ? 'no-suffix' : name === 'noPrefix' ? 'no-prefix' : 'no-suffix+prefix';
-                    lines.push(`  - ${ok ? TICK : CROSS} ${label}: \`${vUrl}\``);
+                const workingVariants = Object.entries(mdSug.variants).filter(([n]) => mdSug.variantOk[n]);
+                for (const [name, vUrl] of workingVariants) {
+                    lines.push(`  - ${TICK} ${name}: \`${vUrl}\``);
+                }
+                if (workingVariants.length === 0) {
+                    // Show a few failed ones for context
+                    const failed = Object.entries(mdSug.variants).filter(([n]) => !mdSug.variantOk[n]);
+                    for (const [name, vUrl] of failed.slice(0, 3)) {
+                        lines.push(`  - ${CROSS} ${name}: \`${vUrl}\``);
+                    }
+                    if (failed.length > 3) lines.push(`  - ${CROSS} ... and ${failed.length - 3} more variants tried`);
                 }
                 lines.push(`  - **FIX**: \`${mdSug.hint}\``);
             }

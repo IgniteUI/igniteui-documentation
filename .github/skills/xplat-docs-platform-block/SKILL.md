@@ -430,8 +430,26 @@ This renders a normal link on Angular/React/WebComponents and renders `MyType.so
 | Situation | Use |
 |---|---|
 | The same `<ApiLink/>` references something missing on N platforms (broken URL) | `exclude="P1,P2"` on the ApiLink |
+| Only `suffix` or `prefix` differs on some platforms | One `<PlatformBlock>` per ApiLink variant; use `suffix={false}` or `prefixed={false}` only in the affected platform block |
 | Different platforms need genuinely **different** ApiLinks (different `type`, `kind`, `member`, etc.) | One `<PlatformBlock>` per variant (each containing its own `<ApiLink/>`) |
 | Surrounding **prose or code** also differs per platform | `<PlatformBlock>` (regular usage) |
+
+### Critical anti-pattern: `exclude` + PlatformBlock for the same type
+
+**Never** combine `exclude="Platform"` on one ApiLink with a `<PlatformBlock for="Platform">` wrapping another ApiLink for the **same type**. The `exclude` prop does NOT hide the tag — it degrades it to inline code (backticks). This produces duplicate visible output on the excluded platform (inline code + a link).
+
+```mdx
+<!-- BUG: On Blazor renders BOTH backtick text AND a link -->
+<ApiLink type="PivotConfiguration" pkg="grids" kind="interface" exclude="Blazor" /><PlatformBlock for="Blazor"><ApiLink type="PivotConfiguration" pkg="grids" kind="class" suffix={false} /></PlatformBlock>
+```
+
+**Correct pattern** — wrap both variants in their own PlatformBlocks:
+
+```mdx
+<PlatformBlock for="Angular, React, WebComponents"><ApiLink type="PivotConfiguration" pkg="grids" kind="interface" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="PivotConfiguration" pkg="grids" kind="class" suffix={false} /></PlatformBlock>
+```
+
+This ensures each platform sees exactly one link.
 
 ### Migration script
 
