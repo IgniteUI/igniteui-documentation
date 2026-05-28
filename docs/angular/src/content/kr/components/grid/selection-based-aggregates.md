@@ -55,7 +55,7 @@ Change the selection to see summaries of the currently selected range.
 * [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)     
 
 ## Additional Resources
-<div class="divider--half"></div>    
+    
 
 * [Grid overview](grid.md)    
 * [Selection Service]({environment:angularApiUrl}/classes/igxgridselectionservice.html)
@@ -66,7 +66,6 @@ Change the selection to see summaries of the currently selected range.
 * [Summaries](summaries.md)    
 * [Paging](paging.md)    
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.    
 
 * [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)    

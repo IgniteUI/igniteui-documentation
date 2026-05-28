@@ -8,7 +8,7 @@ _language: kr
 ## Divider
 
 <p class="highlight">The divider component enables users to separate content both horizontally and vertically.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Demo
 
@@ -78,13 +78,11 @@ To inset the divider, set the `middle` attribute of the divider to `true` and pr
 If the value of the `middle` attribute is set to a falsy value, or if the attribute is omitted altoghether, the divider will set in only on the left.
 
 ## API References
-<div class="divider--half"></div>
 
 * [IgxDividerDirective]({environment:angularApiUrl}/classes/igxdividerdirective.html)
 * [IgxDividerDirective Styles]({environment:sassApiUrl}/themes#function-divider-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 * [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

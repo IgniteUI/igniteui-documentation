@@ -18,7 +18,6 @@ The sparkline control has several visual elements and corresponding features tha
            github-src="charts/sparkline/display-types">
 </code-view>
 
-<div class="divider--half"></div>
 
 <!-- Angular, React, WebComponents -->
 
@@ -71,7 +70,6 @@ If the `WinLoss` sparkline is bound to the same data as the other types such as 
     displayType="Area" />
 ```
 
-<div class="divider--half"></div>
 
 ## Markers
 
@@ -110,7 +108,6 @@ All of the markers mentioned above can be customized using the related marker ty
            github-src="charts/sparkline/markers">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Normal Range
 
@@ -141,7 +138,6 @@ You can also configure whether or not to show the normal range in front of or be
            github-src="charts/sparkline/normal-range">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Trendlines
 
@@ -184,7 +180,6 @@ The following code example shows how to enable a trendline in the Ignite UI for 
            github-src="charts/sparkline/trendlines">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Unknown Value Interpolation
 
@@ -203,4 +198,3 @@ In order to plot the unknown values, you can set the [`UnknownValuePlotting`]({e
            github-src="charts/sparkline/unknown-values">
 </code-view>
 
-<div class="divider--half"></div>

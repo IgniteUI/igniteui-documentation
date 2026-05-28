@@ -19,7 +19,6 @@ Navigation in the [`IgxGeographicMapComponent`]({environment:dvApiBaseUrl}/produ
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Geographic Coordinates
 

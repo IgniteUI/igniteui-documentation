@@ -19,7 +19,6 @@ The Angular Spreadsheet component allows displaying charts in your [`IgxSpreadsh
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Chart Adapter Overview
 

@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/financial-chart/high-frequency">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 코드 예제
 
@@ -39,11 +38,9 @@ private tick(): void {
 }
 ```
 
-<div class="divider--half"></div>
 
 ## 추가 리소스
 
-<div class="divider--half"></div>
 
 -   [차트 퍼포먼스](financial-chart-performance.md)
 -   [대량의 데이터 바인딩](financial-chart-high-volume.md)

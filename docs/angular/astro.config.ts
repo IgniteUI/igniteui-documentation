@@ -1,4 +1,4 @@
-// @ts-check
+﻿// @ts-check
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
@@ -85,7 +85,17 @@ export default createDocsSite({
 		{ tag: 'link', attrs: { rel: 'icon', href: `${mode !== 'development' ? base : ''}/favicon.ico`, type: 'image/x-icon' } },
 	],
 	sidebar: { exclude: [/^internal\//] },
-	integrations: [mdx()],
+	integrations: [
+		mdx(),
+		{
+			name: 'watch-docs-template',
+			hooks: {
+				'astro:server:setup': ({ server }) => {
+					server.watcher.add(path.resolve(__dirname, '../../src'));
+				},
+			},
+		},
+	],
 	// Expose @/ alias so MDX files can import Sample.astro and peer components.
 	// @xplat-images resolves xplat-sourced MDX image imports to the angular images dir.
 	vite: {
@@ -95,5 +105,6 @@ export default createDocsSite({
 				'@xplat-images': path.join(__dirname, 'src', 'content', docsLang, 'images'),
 			},
 		},
+		server: { fs: { strict: false } },
 	},
 });

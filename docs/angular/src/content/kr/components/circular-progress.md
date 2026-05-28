@@ -7,7 +7,7 @@ _language: kr
 
 ##Circular Progress
 <p class="highlight">The Ignite UI for Angular Circular Progress Indicator component provides a visual indicator of an application’s process as it changes. The circular indicator updates its appearance as its state changes.<p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 The [`animationDuration`]({environment:angularApiUrl}/classes/igxcircularprogressbarcomponent.html#animationDuration) input property is used to specify how long the animation cycle should take.
 
@@ -24,7 +24,6 @@ The following example specifies the animation duration set to 5 seconds.
            iframe-src="{environment:demosBaseUrl}/data-display/circular-progressbar/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Usage
  Circular Progress Indicator can be used to show a user that he is in a process.
@@ -119,16 +118,13 @@ And now if we set up everything correctly we should have the folllowing displaye
            iframe-src="{environment:demosBaseUrl}/data-display/circular-progressbar/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > The default progress update is **1% of the [`max`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#max) value**, this occurs when the [`step`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#step) value is not defined. For faster progress, the [`step`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#step) value should be defined greater than (**[`max`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#max) * 1%**),  for slower, it should be less than the default progress update.
 
 > When providing a value for the [`step`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#step) input, define this value greater than the [`value`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#value) input, otherwise there will be only one update, which gets **the value that is passed for progress update**.   
-<div class="divider--half"></div>
 
 ### API
-<div class="divider--half"></div>
 
 * [IgxCircularProgressBarComponent]({environment:angularApiUrl}/classes/igxcircularprogressbarcomponent.html)
 * [IgxCircularProgressBarComponent Styles]({environment:sassApiUrl}/themes#function-progress-circular-theme)

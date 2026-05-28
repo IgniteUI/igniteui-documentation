@@ -1,0 +1,67 @@
+---
+import './CtaArea.scss';
+import logoUrl from '../../../assets/ignite-ui-logo.svg?url';
+
+interface Props {
+    /** Section heading */
+    title: string;
+    /** Optional body text shown below the title */
+    description?: string;
+    /** Button label */
+    label: string;
+    /** Button href */
+    href: string;
+    /** Optional note shown below the button (e.g. "30 days free trial.") */
+    note?: string;
+    /** Logo above the title. `true` (default) shows the built-in Ignite UI logo; pass a URL string for a custom one; `false` hides it. */
+    logo?: boolean | string;
+    /** Layout variant. `"default"` stacks content centrally; `"horizontal"` puts text on the left and the action button on the right. */
+    variant?: 'default' | 'horizontal';
+    /**
+     * URL of a background image.
+     * Passed to CSS as --cta-bg-image so no inline style values leak into markup.
+     */
+    backgroundImage?: string;
+    /**
+     * Show a semi-transparent dark scrim over the background image to keep text
+     * legible. Has no effect when backgroundImage is not set.
+     * Accepts true (default dark scrim) or any CSS <color> string for a custom tint.
+     */
+    overlay?: boolean | string;
+}
+
+const { title, description, label, href, note, logo = true, variant = 'default', backgroundImage, overlay } = Astro.props;
+
+const resolvedLogo = logo === true ? logoUrl : (typeof logo === 'string' ? logo : null);
+const isHorizontal = variant === 'horizontal';
+
+const hasImage   = !!backgroundImage;
+const hasOverlay = hasImage && !!overlay;
+const overlayColor = typeof overlay === 'string' ? overlay : undefined;
+---
+
+<section
+    class:list={[
+        'cta-area',
+        isHorizontal && 'cta-area--horizontal',
+        hasImage     && 'cta-area--has-image',
+        hasOverlay   && 'cta-area--has-overlay',
+    ]}
+    style={[
+        backgroundImage && `--cta-bg-image: url('${backgroundImage}')`,
+        overlayColor    && `--cta-overlay-color: ${overlayColor}`,
+    ].filter(Boolean).join('; ') || undefined}
+>
+    <span class="cta-dotted-bg" aria-hidden="true"></span>
+    <div class="cta-area__content">
+        <div class="cta-area__body">
+            {resolvedLogo && <img class="cta-area__logo" src={resolvedLogo} alt="Ignite UI" aria-hidden="true" />}
+            <h2 class="cta-area__title">{title}</h2>
+            {description && <p class="cta-area__description">{description}</p>}
+        </div>
+        <div class="cta-area__action">
+            <a class="cta-area__btn no-external-icon" href={href}>{label}</a>
+            {note && <p class="cta-area__note">{note}</p>}
+        </div>
+    </div>
+</section>

@@ -19,7 +19,6 @@ The Ignite UI for Angular data chart component allows for placement of horizonta
            github-src="charts/data-chart/series-value-overlay">
 </code-view>
 
-<div class="divider--half"></div>
 
 Unlike other series types that use a `DataSource` for data binding, the value overlay uses a [`valueMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxanchoredcategoryseriescomponent.html#valuememberpath) property to bind a single numeric value. In addition, the value overlay requires you to define a single [`axis`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxvalueoverlaycomponent.html#axis) to use. If you use an X-axis, the value overlay will be a vertical line, and if you use a Y-axis, it will be a horizontal line.
 

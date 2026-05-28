@@ -23,7 +23,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Bar Chart Recommendations
 
@@ -73,7 +72,6 @@ These use cases are commonly used for the following scenarios:
 - The list must contain at least one data column (string or date time).
 - The list must contain at least one numeric data column.
 
-<div class="divider--half"></div>
 
 ## Angular Bar Chart with Single Series
 
@@ -86,7 +84,6 @@ Bar Chart belongs to a group of Category Series and it is rendered using a colle
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Bar Chart with Multiple Series
 
@@ -99,7 +96,6 @@ The Bar Chart is able to render multiple bars per category for comparison purpos
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Bar Chart Styling
 
@@ -112,7 +108,6 @@ The Bar Chart can be styled, and allows for the ability to use [annotation value
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked Bar Chart
 
@@ -129,7 +124,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked 100% Bar Chart
 
@@ -144,7 +138,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

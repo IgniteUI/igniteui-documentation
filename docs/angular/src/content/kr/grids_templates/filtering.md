@@ -51,7 +51,6 @@ Angular grid filtering enables you to display only the records which meet specif
 
 }
 
-<div class="divider--half"></div>
 
 ###상호 작용
 
@@ -193,13 +192,11 @@ this.@@igObjectRef.filteringLogic = FilteringLogic.OR;
 
 [`OR`]({environment:angularApiUrl}/enums/filteringlogic.html#or)로 설정하면 'ProductName' 셀 값에 'myproduct' 가 포함되거나 'Price' 셀 값이 55 보다 큰 경우에 행이 반환됩니다.
 
-<div class="divider--half"></div>
 
 @@if (igxName === 'IgxGrid') {
 #### 원격 필터링
 [`dataPreLoad`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#datapreload) 및 [`filteringDone`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#filteringDone) 출력에 서브스크라이브하여 @@igComponent의 원격 필터링을 제공할 수 있습니다. 사용 방법에 대한 자세한 정보는 `그리드 가상화 및 성능` [문서](virtualization.md#remote-sortingfiltering-virtualization)를 참조하십시오.
 
-<div class="divider--half"></div>
 }
 
 #### 사용자 필터링 오퍼랜드
@@ -371,17 +368,14 @@ export class BooleanFilteringOperand extends IgxBooleanFilteringOperand {
 * [`IgxColumnComponent`]({environment:angularApiUrl}/classes/igxcolumncomponent.html)는 [`IgxFilteringOperand`]({environment:angularApiUrl}/classes/igxfilteringoperand.html) 클래스 참조를 사용하는 [`filters`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#filters) 속성을 공개합니다.
 * 사용자 필터는 [`IFilteringOperation`]({environment:angularApiUrl}/interfaces/ifilteringoperation.html) 유형의 작업으로 [`IgxFilteringOperand`]({environment:angularApiUrl}/classes/igxfilteringoperand.html)의 [`operations`]({environment:angularApiUrl}/classes/igxfilteringoperand.html#operations) 속성을 생성하여 @@igComponent 열에 제공할 수 있습니다.
 }
-<div class="divider--half"></div>
 
 ### API 참조
-<div class="divider--half"></div>
 
 * [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
 * [@@igxNameComponent API]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
 * [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 * [@@igComponent 개요](@@igMainTopic.md)
 * [가상화 및 성능](virtualization.md)
@@ -393,7 +387,6 @@ export class BooleanFilteringOperand extends IgxBooleanFilteringOperand {
 * [열 크기 조정](column-resizing.md)
 * [선택](selection.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 * [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

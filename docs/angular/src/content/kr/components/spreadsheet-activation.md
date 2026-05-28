@@ -19,7 +19,6 @@ The [`IgxSpreadsheetComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-an
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Activation Overview
 

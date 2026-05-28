@@ -7,7 +7,7 @@ _language: kr
 
 ## Radio & Radio Group
 <p class="highlight">The Ignite UI for Angular Radio Button component allows the user to select a single option from an available set of options that are listed side by side.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Radio Button
 
@@ -18,7 +18,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/data-entries/radio-sample-2/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 #### Radio Button Usage
 
@@ -104,7 +103,7 @@ Try it! The final result would be something like that:
 
 The Ignite UI for Angular Radio Group directive provides a grouping container that allows better control over the child [`igxRadio`]({environment:angularApiUrl}/classes/igxradiocomponent.html) components and supports template-driven and reactive forms.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 #### Radio Group Demo
 
@@ -113,7 +112,6 @@ The Ignite UI for Angular Radio Group directive provides a grouping container th
            iframe-src="{environment:demosBaseUrl}/data-entries/radio-group-sample/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 #### Radio Group Usage
 
@@ -149,14 +147,12 @@ public fruits = ["Apple", "Mango", "Banana", "Orange"];
 ```
 
 ## API References
-<div class="divider--half"></div>
 
 * [IgxRadioComponent]({environment:angularApiUrl}/classes/igxradiocomponent.html)
 * [IgxRadioGroupDirective]({environment:angularApiUrl}/classes/igxradiogroupdirective.html)
 * [IgxRadioComponent Styles]({environment:sassApiUrl}/themes#function-radio-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 

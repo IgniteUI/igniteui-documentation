@@ -23,7 +23,6 @@ This example of an Angular Pie Chart includes a simple data set with 6 values. E
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Pie Chart Recommendations
 
@@ -81,7 +80,6 @@ Additionally you can use the [`legendItemTemplate`]({environment:dvApiBaseUrl}/p
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Pie Chart Others Category
 
@@ -98,7 +96,6 @@ If you set [`othersCategoryType`]({environment:dvApiBaseUrl}/products/ignite-ui-
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Pie Chart Explosion
 
@@ -111,7 +108,6 @@ The pie chart supports explosion of individual pie slices as well as a `SliceCli
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Pie Chart Selection
 
@@ -143,7 +139,6 @@ For scenarios where you click on the Others slice, the pie chart will return an 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Pie Chart Animation
 
@@ -158,7 +153,6 @@ In the code below, the radiusFactor is increasing the chart by 0.25% of the size
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Pie Chart Styling
 
@@ -171,7 +165,6 @@ Once our pie chart is created, we may want to make some further styling customiz
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Radial Pie Chart
 
@@ -184,7 +177,6 @@ The Radial Pie Chart belongs to a group of Radial Charts and uses belongs to a g
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

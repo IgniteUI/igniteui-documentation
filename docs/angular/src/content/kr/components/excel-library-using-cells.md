@@ -19,7 +19,6 @@ The [`WorksheetCell`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## References
 
