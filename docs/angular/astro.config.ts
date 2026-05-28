@@ -1,4 +1,4 @@
-// @ts-check
+﻿// @ts-check
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
@@ -105,5 +105,6 @@ export default createDocsSite({
 				'@xplat-images': path.join(__dirname, 'src', 'content', docsLang, 'images'),
 			},
 		},
+		server: { fs: { strict: false } },
 	},
 });

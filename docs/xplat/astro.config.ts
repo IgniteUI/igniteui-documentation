@@ -1,4 +1,4 @@
-import path from 'node:path';
+﻿import path from 'node:path';
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
@@ -385,5 +385,6 @@ export default createDocsSite({
                 '@xplat-images': path.resolve(__dirname, 'src/assets/images'),
             },
         },
+        server: { fs: { strict: false } },
     },
 });
