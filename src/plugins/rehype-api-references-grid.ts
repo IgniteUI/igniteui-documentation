@@ -7,7 +7,7 @@
  * catches the first paragraph.
  *
  * This plugin walks the HAST, finds every <h2> whose text is "API References",
- * collects all following siblings up to the next heading, strips <br> nodes,
+ * collects all following siblings up to the next heading, strips <br> nodes and blank text nodes,
  * and wraps the collected nodes in:
  *   <div class="api-references-grid">…</div>
  */
@@ -41,9 +41,15 @@ function isBlankText(node: HastNode): boolean {
     return node.type === 'text' && node.value.trim() === '';
 }
 
-/** Strip blank text nodes from a node list. */
+/** True if the node is a <br> in any form (HTML element or MDX JSX). */
+function isBr(node: HastNode): boolean {
+    return (node.type === 'element' && node.tagName === 'br') ||
+           ((node.type === 'mdxJsxFlowElement' || node.type === 'mdxJsxTextElement') && node.name === 'br');
+}
+
+/** Strip blank text nodes and <br> elements from a node list. */
 function stripBlanks(nodes: HastNode[]): HastNode[] {
-    return nodes.filter((n) => !isBlankText(n));
+    return nodes.filter((n) => !isBlankText(n) && !isBr(n));
 }
 
 export function rehypeApiReferencesGrid() {
