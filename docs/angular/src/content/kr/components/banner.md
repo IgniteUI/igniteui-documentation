@@ -8,7 +8,7 @@ _language: kr
 
 <p class="highlight">
 The Ignite UI for Angular Banner Component provides a way to easily display a prominent message to your application's users in a way that is less transient than a snackbar and less obtrusive than a dialog. The Banner can also be configured to display custom action buttons and an icon.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Banner Demo
 
@@ -18,7 +18,6 @@ The Ignite UI for Angular Banner Component provides a way to easily display a pr
            iframe-src="{environment:demosBaseUrl}/notifications/banner-sample-4/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**installation**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation) topic.

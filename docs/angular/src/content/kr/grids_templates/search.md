@@ -33,7 +33,6 @@ While browsers natively provide content search functionality, most of the time t
            iframe-src="{environment:demosBaseUrl}/grid/grid-search-sample/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 @@if (igxName === 'IgxTreeGrid') {
 
@@ -42,7 +41,6 @@ While browsers natively provide content search functionality, most of the time t
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-search/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 {/* TODO */}
@@ -382,7 +380,6 @@ public clearSearch() {
 * [IgxChipComponent 스타일]({environment:sassApiUrl}/themes#function-chip-theme)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 * [@@igComponent 개요](@@igMainTopic.md)
 * [가상화 및 성능](virtualization.md)
@@ -395,7 +392,6 @@ public clearSearch() {
 * [열 크기 조정](column-resizing.md)
 * [선택](selection.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 * [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

@@ -48,7 +48,6 @@ The Angular Bar Chart, or Bar Graph is among the most common category chart type
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Angular Pie Chart
 
@@ -61,7 +60,6 @@ The Angular Pie Chart, or Pie Graph, is a very common part-to-whole chart type. 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Angular Line Chart
 
@@ -74,7 +72,6 @@ The Angular Line Chart, or Line Graph is a type of category line graph shows the
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Angular Donut Chart
 
@@ -87,7 +84,6 @@ The Angular Donut Chart or Donut Graph, is a variant of a Pie Chart, proportiona
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Angular Area Chart
 
@@ -100,7 +96,6 @@ The Angular Area Chart is rendered using a collection of points connected by str
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Angular Sparkline Chart
 
@@ -113,7 +108,6 @@ The Angular Sparkline Chart, or Sparkline Graph is a type of category graph inte
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Angular Bubble Chart
 
@@ -126,7 +120,6 @@ The Angular Bubble Chart, or Bubble Graph, is used to show data comprising of th
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Angular Financial / Stock Chart
 
@@ -139,7 +132,6 @@ The Angular Financial or Stock Chart, is a composite visualization that renders 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Angular Column Chart
 
@@ -152,7 +144,6 @@ The Angular Column Chart, or Column Graph is among the most common category char
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Angular Composite Chart
 
@@ -165,7 +156,6 @@ The Angular Composite Chart, also called a Combo Chart, is visualization that co
 </code-view>
 
 
-<div class="divider--half"></div>
 
 <!-- ### Angular Gantt Chart
 
@@ -186,7 +176,6 @@ The Angular Polar Area Chart or Polar Graph belongs to a group of polar charts a
 </code-view>
 
 
-<div class="divider--half"></div>
 
 <!-- ### Angular Pyramid Chart
 
@@ -203,7 +192,6 @@ The Angular Scatter Chart, or Scatter Graph, is used to show the relationship be
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Angular Shape Chart
 
@@ -216,7 +204,6 @@ The Angular Shape Charts is a group of chart that take array of shapes (array or
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Angular Spline Chart
 
@@ -229,7 +216,6 @@ The Angular Spline Chart, or Spline Graph is a type of category line graph shows
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Angular Step Chart
 
@@ -242,7 +228,6 @@ The Angular Step Chart, or Step Graph, is a category charts that renders a colle
 </code-view>
 
 
-<div class="divider--half"></div>
 
 <!-- ### Angular Timeline / Time-Series Charts
 
@@ -259,7 +244,6 @@ The Ignite UI for Angular Treemap displays hierarchical (tree-structured) data a
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Charts Key Features
 

@@ -15,7 +15,6 @@ The **Ignite UI for Angular Theming** provides you the ability to customize them
            iframe-src="{environment:demosBaseUrl}/theme-chooser/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 
 ### Default Theme
@@ -41,7 +40,6 @@ The result from the above code snippet looks like this:
            iframe-src="{environment:demosBaseUrl}/default-theme-sample/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 In case you have other preferences for the appearance of the components or the *_Default theme_* doesn't match the interior of your application, you can use the  **Ignite UI for Angular Theming**, which is much easier, fun and efficient way for styling, than writing huge amount of CSS files.
 
@@ -56,7 +54,6 @@ For good code structure it will be helpful to place the **theme logic** in a sep
 @import '~igniteui-angular/lib/core/styles/themes/utilities';
 
 ```
-<div class="divider--half"></div>
 
 The next step is to import all the components, that you want to customize, and their corresponding themes.
 
@@ -101,7 +98,6 @@ $dark-theme-palette: palette($primary: $dark-color, $secondary: $orange-color);
 ```
 
 Done! We are ready to set the new styling of our app.
-<div class="divider--half"></div>
 
 ### Theme Setting
 
@@ -110,7 +106,6 @@ The **theme setting** is basically applying different shades of the primary and 
 Now lets define the **component themes** that we are going to apply:
 
 #### Defining Component Themes
-<div class="divider--half"></div>
 
 [**grid-theme**]({environment:sassApiUrl}/themes#function-grid-theme)
 
@@ -169,7 +164,6 @@ Bind the host element `class` with the **themes class**.
 @HostBinding("class")
 public themesClass = "dark-theme";
 ```
-<div class="divider--half"></div>
 
 After that, in a new SCSS file nest the **themes class**, that includes the components with their themes, in the host element.
 
@@ -205,7 +199,6 @@ And the result is:
            iframe-src="{environment:demosBaseUrl}/dark-theme-sample/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 Import the *utilities*, component mixins and the theme functions, define the colors, define the themes and apply them. These are the steps for styling your app with **Ignite UI for Angular Theming**.
 
@@ -244,7 +237,6 @@ This can be achieved in a few modifications:
   }
 ```
 
-<div class="divider--half"></div>
 
 - Set an event, which triggers the function that manipulates the `class` of the host element:
 
@@ -267,7 +259,6 @@ This can be achieved in a few modifications:
 </div>
 ```
 
-<div class="divider--half"></div>
 
 Add data that will represent the **themes classes** and a function to manipulate the `class` selector of the host element.
 
@@ -300,7 +291,6 @@ export class ThemeChooserSampleComponent implements OnInit {
     ...
 
 ```
-<div class="divider--half"></div>
 
 Now we can easily change our defined themes with only a `click` event:
 
@@ -310,7 +300,6 @@ Now we can easily change our defined themes with only a `click` event:
            iframe-src="{environment:demosBaseUrl}/theme-chooser/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### API
 
@@ -322,7 +311,6 @@ Now we can easily change our defined themes with only a `click` event:
 * [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 * [Global Theme](global-theme.md)
 * [Component Themes](component-themes.md)

@@ -27,7 +27,6 @@ It is highly recommended that you review the [Binding Shape Files with Geo-Spati
 </code-view>
 
 
-<div class="divider--half"></div>
 
 <!-- end: Angular, React -->
 

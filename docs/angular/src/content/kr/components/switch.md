@@ -7,7 +7,7 @@ _language: kr
 
 ##Switch
 <p class="highlight">The Ignite UI for Angular Switch component is a binary choice selection component that behaves similarly to the switch component in iOS.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Switch Demo
 
@@ -16,7 +16,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/data-entries/switch-sample-2/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Usage
 
@@ -81,13 +80,11 @@ The final result would be something like that:
 </div>
 
 ## API References
-<div class="divider--half"></div>
 
 * [IgxSwitchComponent]({environment:angularApiUrl}/classes/igxswitchcomponent.html)
 * [IgxSwitchComponent Styles]({environment:sassApiUrl}/themes#function-switch-theme)
 
 ###Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 

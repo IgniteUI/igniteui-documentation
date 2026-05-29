@@ -72,7 +72,6 @@ To use the icons in your component template:
 For more info and other types of usages, goo to our * [GitHub repo](https://github.com/IgniteUI/material-icons-extended).
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 [`IgxIconService`]({environment:angularApiUrl}/classes/igxiconservice.html)
 

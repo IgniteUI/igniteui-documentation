@@ -16,7 +16,6 @@ By applying [`igxMask`]({environment:angularApiUrl}/classes/igxmaskdirective.htm
            iframe-src="{environment:demosBaseUrl}/data-display/mask-sample-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**installation**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation) topic.
@@ -39,10 +38,8 @@ import { IgxMaskModule, IgxInputGroupModule } from 'igniteui-angular';
 export class AppModule {}
 ```
 
-<div class="divider--half"></div>
 
 #### Supported Built-in Mask Rules
-<div class="divider--half"></div>
 
 | Mask Character | Description |
 | :--- | :--- |
@@ -288,7 +285,6 @@ value = null;
 
 
 ## API References
-<div class="divider--half"></div>
 
 * [IgxInputDirective]({environment:angularApiUrl}/classes/igxinputdirective.html)
 * [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
@@ -296,7 +292,6 @@ value = null;
 * [IgxSnackbarComponent]({environment:angularApiUrl}/classes/igxsnackbarcomponent.html)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 * [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

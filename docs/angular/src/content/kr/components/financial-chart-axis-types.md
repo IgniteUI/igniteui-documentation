@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/financial-chart/axis-types">
 </code-view>
 
-<div class="divider--half"></div>
 
 기본적으로 레이블을 명시적으로 설정할 필요는 없습니다. 금융 차트는 제공한 데이터 내에서 최초의 적절한 속성을 사용하고 이를 레이블에 사용합니다.
 
@@ -39,7 +38,6 @@ _language: kr
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 축 레이블
 
@@ -63,7 +61,6 @@ _language: kr
 </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 축 모드
 
@@ -90,7 +87,6 @@ Y축의 경우 다음 모드 중에서 선택할 수 있습니다:
 </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 축 범위
 
@@ -108,7 +104,6 @@ Y축의 경우 다음 모드 중에서 선택할 수 있습니다:
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 축 축척
 
@@ -130,7 +125,6 @@ Y축의 경우 다음 모드 중에서 선택할 수 있습니다:
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 축 눈금
 
@@ -149,7 +143,6 @@ Y축의 경우 다음 모드 중에서 선택할 수 있습니다:
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 축 제목
 
@@ -172,4 +165,3 @@ Y축의 경우 다음 모드 중에서 선택할 수 있습니다:
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>

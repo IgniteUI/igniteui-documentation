@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/axis-types">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 지원되는 축
 

@@ -10,7 +10,7 @@ _language: kr
 
 The Ignite UI for Angular Carousel component is developed as a native [Angular component](https://angular.io/guide/architecture#components). Use it to browse or navigate through a collection of slides, including image galleries, cards, onboarding tutorials, or page-based interfaces.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Carousel Demo
 <div class="sample-container loading" style="height: 620px">
@@ -239,7 +239,6 @@ Given this configuration, the router matches that URL to the given route path **
 </div>
 
 ###API References
-<div class="divider--half"></div>
 
 * [IgxCarouselComponent]({environment:angularApiUrl}/classes/igxcarouselcomponent.html)
 * [IgxCarouselComponent Styles]({environment:sassApiUrl}/themes#function-carousel-theme)

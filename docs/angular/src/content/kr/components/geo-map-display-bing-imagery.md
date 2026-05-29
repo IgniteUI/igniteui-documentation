@@ -22,7 +22,6 @@ Bing Maps is Microsoft’s® licensed geographic imagery mapping service. This g
 
 <img src="/images/general/BingMapsImagery.png" alt="Angular Bing Maps Imagery"/>
 
-<div class="divider--half"></div>
 
 ## Code Snippet
 

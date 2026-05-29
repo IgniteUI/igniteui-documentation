@@ -37,7 +37,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/grid/grid-resizing-sample/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 @@if (igxName === 'IgxTreeGrid') {
 
@@ -46,7 +45,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-column-resizing/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
@@ -55,7 +53,6 @@ _language: kr
            iframe-src="{environment:lobDemosBaseUrl}/hierarchical-grid/hierarchical-grid-resizing/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 
 **열 크기 조정**은 열 단위 수준에서도 사용할 수 있는데 즉, [**@@igSelector**]({environment:angularApiUrl}/classes/@@igTypeDoc.html)에 크기를 조정 가능한 열 및 크기를 조정할 수 없는 열을 혼합하여 사용할 수 있습니다. 이는 [`igx-column`]({environment:angularApiUrl}/classes/igxcolumncomponent.html)의 [`resizable`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#resizable) 입력을 통해 제어할 수 있습니다.
@@ -244,14 +241,12 @@ column.autosize();
 }
 
 ### API 참조
-<div class="divider--half"></div>
 
 * [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
 * [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
 * [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 * [@@igComponent 개요](@@igMainTopic.md)
 * [가상화 및 성능](virtualization.md)
@@ -263,7 +258,6 @@ column.autosize();
 * [열 핀 고정](column_pinning.md)
 * [선택](selection.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 * [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
