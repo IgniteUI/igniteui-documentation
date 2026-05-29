@@ -341,6 +341,57 @@ Typical full-coverage pattern:
 | Wrong platform name (e.g. `"Webcomponents"`, `"blazor"`) | Content never shown (silently filtered out) | Use exact casing: `WebComponents`, `Blazor`, `Angular`, `React` |
 | CSS inside PlatformBlock when it applies to all platforms | CSS hidden from unlisted platforms | Move CSS outside the PlatformBlock |
 | JSX `{500}` inside `{/* */}` MDX comment | Parse error: `Cannot read properties of undefined (reading 'start')` | Change numeric JSX props to strings: `height="500"` |
+| **Inline PlatformBlock mid-sentence** with blank lines around content | Content renders as separate block-level paragraph, breaking sentence flow | Move the entire sentence into each PlatformBlock (duplicate shared text) |
+
+---
+
+## CRITICAL: Never Use PlatformBlock for Inline Text
+
+`<PlatformBlock>` is a **block-level** component. When its content has blank lines around it, MDX renders it as a separate paragraph. **Never** split a sentence across PlatformBlock boundaries.
+
+### Wrong — breaks sentence flow:
+
+```mdx
+The component gives flexibility through the {Platform} Button
+<PlatformBlock for="WebComponents, Blazor">
+
+OnClick event
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+clicked callback
+
+</PlatformBlock>
+, toggle the button, and more.
+```
+
+This renders "OnClick event" as a standalone paragraph, with `, toggle the button` orphaned below it.
+
+### Correct — duplicate shared text into each block:
+
+```mdx
+<PlatformBlock for="WebComponents, Blazor">
+
+The component gives flexibility through the {Platform} Button OnClick event, toggle the button, and more.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+The component gives flexibility through the {Platform} Button clicked callback, toggle the button, and more.
+
+</PlatformBlock>
+```
+
+### Also correct — inline on same line (no blank lines):
+
+```mdx
+The component uses <PlatformBlock for="WebComponents"><ApiLink type="Foo" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="Bar" /></PlatformBlock> for rendering.
+```
+
+This works because the PlatformBlock tags and content are all on the **same line** — MDX treats same-line components as inline elements.
 
 ---
 
@@ -379,8 +430,26 @@ This renders a normal link on Angular/React/WebComponents and renders `MyType.so
 | Situation | Use |
 |---|---|
 | The same `<ApiLink/>` references something missing on N platforms (broken URL) | `exclude="P1,P2"` on the ApiLink |
+| Only `suffix` or `prefix` differs on some platforms | One `<PlatformBlock>` per ApiLink variant; use `suffix={false}` or `prefixed={false}` only in the affected platform block |
 | Different platforms need genuinely **different** ApiLinks (different `type`, `kind`, `member`, etc.) | One `<PlatformBlock>` per variant (each containing its own `<ApiLink/>`) |
 | Surrounding **prose or code** also differs per platform | `<PlatformBlock>` (regular usage) |
+
+### Critical anti-pattern: `exclude` + PlatformBlock for the same type
+
+**Never** combine `exclude="Platform"` on one ApiLink with a `<PlatformBlock for="Platform">` wrapping another ApiLink for the **same type**. The `exclude` prop does NOT hide the tag — it degrades it to inline code (backticks). This produces duplicate visible output on the excluded platform (inline code + a link).
+
+```mdx
+<!-- BUG: On Blazor renders BOTH backtick text AND a link -->
+<ApiLink type="PivotConfiguration" pkg="grids" kind="interface" exclude="Blazor" /><PlatformBlock for="Blazor"><ApiLink type="PivotConfiguration" pkg="grids" kind="class" suffix={false} /></PlatformBlock>
+```
+
+**Correct pattern** — wrap both variants in their own PlatformBlocks:
+
+```mdx
+<PlatformBlock for="Angular, React, WebComponents"><ApiLink type="PivotConfiguration" pkg="grids" kind="interface" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="PivotConfiguration" pkg="grids" kind="class" suffix={false} /></PlatformBlock>
+```
+
+This ensures each platform sees exactly one link.
 
 ### Migration script
 
