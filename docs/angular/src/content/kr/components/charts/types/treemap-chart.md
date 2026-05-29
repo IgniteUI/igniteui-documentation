@@ -21,7 +21,6 @@ In the following example, the treemap demonstrates the 30 largest countries in t
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Treemap Recommendations
 
@@ -71,7 +70,6 @@ In the following example, the treemap demonstrates the ability of changing it's 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Layout Types
 
@@ -106,7 +104,6 @@ In the following example, the treemap demonstrates the ability of changing the l
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

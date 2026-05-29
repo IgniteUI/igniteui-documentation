@@ -11,7 +11,7 @@ license: commercial
 
 The Ignite UI for Angular PDF Exporter service provides powerful functionality to export data in PDF format from various sources, including raw data arrays and advanced grid components such as [**IgxGrid**](grid/grid.md), [**IgxTreeGrid**](treegrid/tree-grid.md), [**IgxHierarchicalGrid**](hierarchicalgrid/hierarchical-grid.md), and [**IgxPivotGrid**](pivotGrid/pivot-grid.md). The exporting functionality is encapsulated in the [`IgxPdfExporterService`]({environment:angularApiUrl}/classes/igxpdfexporterservice.html) class, which enables seamless data export to PDF format with comprehensive features including multi-page document support, automatic page breaks, and customizable formatting options.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ## Angular PDF Exporter Example
 
@@ -22,7 +22,6 @@ The Ignite UI for Angular PDF Exporter service provides powerful functionality t
            iframe-src="{environment:demosBaseUrl}/services/export-pdf/" alt="Angular PDF Exporter Example">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Usage
 
@@ -198,7 +197,6 @@ The following fonts provide excellent Unicode coverage:
            iframe-src="{environment:demosBaseUrl}/services/export-pdf-custom-font/" alt="Angular PDF Exporter Custom Font Example">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Known Limitations
 
@@ -218,11 +216,10 @@ Additional components that were used:
 - [IgxGridComponent API]({environment:angularApiUrl}/classes/igxgridcomponent.html)
 - [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ## Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

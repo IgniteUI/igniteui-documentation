@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/type-radial-series">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 레이디얼 시리즈의 유형
 

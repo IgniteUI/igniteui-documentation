@@ -8,7 +8,7 @@ _language: kr
 ## Bottom Navigation
 
 <p class="highlight">The Ignite UI for Angular Bottom Navigation component enables the user to navigate among a number of content panels displayed in a single view. The navigation through the panels is accomplished with the tab buttons located at bottom.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 > [!NOTE]
 > `igx-tab-bar` selector is deprecated. You could use [`igx-bottom-nav`]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html) instead. `IgxTabBarComponent` class is renamed to [`IgxBottomNavComponent`]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html). `IgxTabBarModule` is renamed to `IgxBottomNavModule`.
@@ -22,7 +22,6 @@ _language: kr
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Usage
 
@@ -60,7 +59,7 @@ If all went well, you should see the following in your browser:
 </code-view>
 
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 #### Customizing Tabs
 
@@ -161,7 +160,6 @@ After these modifications our Bottom Navigation should look similar to this:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 If changing the tabs' labels and tabs' icons is not enough, you can also create your own template for each tab.
 Here is an example:
@@ -181,7 +179,7 @@ Here is an example:
 </igx-bottom-nav>
 ```
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 #### Embedding Other Igx Controls
 
@@ -340,7 +338,6 @@ And don't forget to include the following CSS definitions in order for the appli
 You can see the result of the code above at the beginning of this article in the [Bottom Navigation Demo](#bottom-navigation-demo) section.
 
 ## API References
-<div class="divider--half"></div>
 
 * [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
 * [IgxBottomNavComponent]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html)
@@ -352,7 +349,6 @@ You can see the result of the code above at the beginning of this article in the
 * [IgxTabPanelComponent]({environment:angularApiUrl}/classes/igxtabpanelcomponent.html)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 

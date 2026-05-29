@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/financial-chart/overview">
 </code-view>
 
-<div class="divider--half"></div>
 
 사용자가 데이터를 바인딩하면 차트는 데이터를 시각화하고 해석할 수 있는 다양한 방법을 제공합니다. 가격, 수량, 금융지표를 위한 다양한 표시 모드가 있습니다. 또한, 차트는 레이블 서식 설정을 사용하여 데이터에 컨텍스트를 부여합니다.
 
@@ -67,7 +66,6 @@ import { IgxFinancialChartModule } from "igniteui-angular-charts";
 export class AppModule {}
 ```
 
-<div class="divider--half"></div>
 
 ## 사용 방법
 

@@ -31,7 +31,6 @@ To get started, you must install both NodeJS and Visual Studio Code on your mach
       </a>
     </div>
 </div>
-<div class="divider--half"></div>
 
 ## Installing Ignite UI for Angular
 
@@ -227,13 +226,11 @@ In this article we learned how to create our own Ignite UI for Angular applicati
 * [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 * [Ignite UI CLI](https://github.com/IgniteUI/igniteui-cli)
 * [Ignite UI CLI Commands](https://github.com/IgniteUI/igniteui-cli/wiki#available-commands)
 * [Grid overview](../grid/grid.md)
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 * [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

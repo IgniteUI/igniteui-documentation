@@ -19,7 +19,6 @@ This topic explains how to apply custom styling to the [`IgxGeographicShapeSerie
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Required Imports
 

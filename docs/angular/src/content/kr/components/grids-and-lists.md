@@ -16,7 +16,7 @@ _language: kr
   </div>
 </div>
 <hr />
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 <section class="feature__container">
   <div class="feature">

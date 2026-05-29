@@ -25,7 +25,6 @@ In High-Frequency scenario, the Angular Charts can render data items that are up
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Chart with High-Volume
 
@@ -38,7 +37,6 @@ In High-Volume scenario, the Angular Charts can render 1 million of data points 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## General Performance Guidelines
 

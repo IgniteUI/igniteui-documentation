@@ -325,7 +325,6 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
 
 ### References
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

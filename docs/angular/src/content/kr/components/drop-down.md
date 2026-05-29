@@ -7,7 +7,7 @@ _language: kr
 
 ## Drop Down
 <p class="highlight">The Ignite UI for Angular Drop Down displays a scrollable list of items which may be visually grouped and supports selection of a single item. Clicking or tapping an item selects it and closes the Drop Down</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Drop Down Demo
 
@@ -16,7 +16,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-sample-4/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**installation**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation) topic.
@@ -78,7 +77,6 @@ If the sample is configured properly, a dropdown with several options should be 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 #### Predefined selected item
 Let's say we want to have a predefined selected item. One way to do this, is by handling **igx-drop-down** [opening]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#opening) event of [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html).
@@ -115,7 +113,6 @@ export class MyDropDownComponent {
 </code-view>
 
 
-<div class="divider--half"></div>
 
 To provide more useful visual information, use [isHeader]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#isheader) to group items semantically or [disabled]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#disabled) to display an item as non-interactive. You can also set [selected]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#selected) to a particular item to make it the selected item.
 
@@ -361,7 +358,6 @@ export class InputDropDownComponent {
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-sample-4/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 Applying the directive will ensure the following actions are executed as a result from the keyboard navigation:
 
@@ -390,7 +386,6 @@ When [allowItemsFocus]({environment:angularApiUrl}/classes/igxdropdowncomponent.
 </igx-drop-down>
 ```
 
-<div class="divider--half"></div>
 
 ## API References
 * [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html) 
@@ -401,7 +396,6 @@ When [allowItemsFocus]({environment:angularApiUrl}/classes/igxdropdowncomponent.
 
 ## Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 * [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
 * [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

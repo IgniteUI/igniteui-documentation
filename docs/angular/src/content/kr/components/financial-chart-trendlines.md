@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/financial-chart/trendlines">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 탐색 구성
 

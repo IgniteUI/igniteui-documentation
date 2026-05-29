@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/axis-settings">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 축 레이블
 

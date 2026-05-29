@@ -20,7 +20,6 @@ namespace: Infragistics.Controls.Charts
            github-src="charts/data-chart/stacked-chart-types">
 </code-view>
 
-<div class="divider--half"></div>
 
 스택된 각 시리즈에는　[`IgxStackedFragmentSeriesComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxstackedfragmentseriescomponent.html) 요소를 배치할 수 있는 자체 [`IgxSeriesComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxseriescomponent.html) 컬렉션이 있습니다. 이러한 프라그먼트는 차트의 실제 렌더링을 구성하며 `ValueMemberPath`를 허용하는 요소입니다.
 

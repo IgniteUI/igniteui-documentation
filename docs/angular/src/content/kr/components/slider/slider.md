@@ -7,7 +7,7 @@ _language: kr
 
 ##Slider
 <p class="highlight">The Ignite UI for Angular Slider component allows selection in a given range by moving the thumb along the track. The track can be defined as continuous or stepped and you can choose between single and range slider types.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Slider Demo
 
@@ -16,7 +16,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/interactions/slider-sample-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**installation**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation) topic.
@@ -216,7 +215,7 @@ If the sample is configured properly, the final result should look like that:
 </code-view>
 
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 #### Labels mode
 We've seen only numbers in the thumbs so far, although there is another approach that you could use in order to present information - by using an array of primitive values. 
@@ -272,7 +271,6 @@ The [context]({environment:angularApiUrl}/classes/igxslidercomponent.html#contex
 ```
 
 ## API References
-<div class="divider--half"></div>
 
 * [IgxSliderComponent]({environment:angularApiUrl}/classes/igxslidercomponent.html)
 * [IgxSliderComponent Styles]({environment:sassApiUrl}/themes#function-slider-theme)
@@ -284,7 +282,6 @@ The [context]({environment:angularApiUrl}/classes/igxslidercomponent.html#contex
 * [Slider ticks](slider-ticks.md)
 
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 * [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
 * [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

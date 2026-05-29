@@ -23,7 +23,6 @@ Modify or customize all aspects of both the X-Axis and Y-Axis using the differen
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Annotations
 
@@ -36,7 +35,6 @@ These additional layers are on top of the chart which are mouse / touch dependen
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Animations
 
@@ -49,7 +47,6 @@ Animate your chart as it loads a new data source by enabling animations. These a
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Highlighting
 
@@ -62,7 +59,6 @@ Bring focus to visuals such as lines, columns, or markers by highlighting them a
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Markers
 
@@ -75,7 +71,6 @@ Identify data points quickly, even if the value falls between major gridlines wi
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Navigation
 
@@ -88,7 +83,6 @@ You can navigate the chart by zooming and panning with the mouse, keyboard, and 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Overlays
 
@@ -101,7 +95,6 @@ Overlays allows you to annotate important values and thresholds by plotting hori
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Performance
 
@@ -114,7 +107,6 @@ Angular charts are optimized for high performance of rendering millions of data 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Tooltips
 
@@ -127,7 +119,6 @@ Display all information relevant to the particular series type via Tooltips. The
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Trendlines
 
@@ -140,4 +131,3 @@ Use trendlines to identify a trend or find patterns in your data. There are many
 </code-view>
 
 
-<div class="divider--half"></div>

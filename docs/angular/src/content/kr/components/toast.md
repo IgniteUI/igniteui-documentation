@@ -7,7 +7,7 @@ _language: kr
 
 ##Toast
 <p class="highlight">The Ignite UI for Angular Toast component provides information and warning messages that are non-interactive and cannot be dismissed by the user. Notifications can be displayed at the bottom, the middle, or the top of the page.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Toast Demo
 
@@ -16,7 +16,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/notifications/toast-sample-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**installation**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation) topic.
@@ -122,7 +121,6 @@ public open(toast) {
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## API References
 In this article we learned how to use and configure the [`IgxToastComponent`]({environment:angularApiUrl}/classes/igxtoastcomponent.html). For more details in regards its API, take a look at the links below:
@@ -135,7 +133,6 @@ Styles:
 
 ###Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 * [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
 * [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

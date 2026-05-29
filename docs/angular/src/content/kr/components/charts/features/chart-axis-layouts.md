@@ -26,7 +26,6 @@ The following example shows the average maximum temperature in Celsius in New Yo
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Axis Overlap Example
 
@@ -41,7 +40,6 @@ The following example shows a comparison of the highest grossing worldwide film 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Axis Locations Example
 
@@ -79,7 +77,6 @@ The following example depicts a stock price and trade volume chart with a [Stock
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Axis Crossing Example
 
@@ -94,7 +91,6 @@ The following example shows a Sin and Cos wave represented by a [Scatter Spline 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

@@ -20,7 +20,6 @@ _language: kr
            github-src="charts/data-chart/type-shape-series">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 모양 시리즈의 유형
 
