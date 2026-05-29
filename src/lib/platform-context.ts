@@ -160,6 +160,24 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
 let _ctx: PlatformContext | null = null;
 let _env: Record<string, string> | null = null;
 
+const LOCAL_API_DOCS_VERSIONS: Record<PlatformName, string> = {
+    Angular:       '21.0.0',
+    React:         '19.6.0',
+    WebComponents: '7.1.0',
+    Blazor:        '25.2.83',
+};
+
+function getApiDocsBaseUrl(): string {
+    const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
+    const value = process.env.API_DOCS_BASE_URL
+        ?? (mode === 'production'
+            ? 'https://www.infragistics.com/api'
+            : 'https://staging.infragistics.com/api');
+
+    const trimmed = value.replace(/\/+$/, '');
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+}
+
 /**
  * Returns the platform context for the current build.
  * Resolution order: PLATFORM env var → .platform.json → 'React' default.
@@ -186,17 +204,23 @@ export function getPlatformContext(): PlatformContext {
         } catch { /* use default */ }
     }
 
-    const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
-    const apiHost = mode === 'production'
-        ? 'https://www.infragistics.com'
-        : 'https://staging.infragistics.com';
+    const apiDocsBaseUrl = getApiDocsBaseUrl();
+    const isLocal = apiDocsBaseUrl.includes('localhost');
+    const pinnedVersion = isLocal ? (process.env.API_DOCS_VERSION ?? LOCAL_API_DOCS_VERSIONS[name]) : null;
+
     const base = PLATFORMS[name];
     _ctx = {
         ...base,
+        apiLinkIndexRoot: `${apiDocsBaseUrl}/${base.lower}/api-link-index`,
         apiPackages: Object.fromEntries(
             Object.entries(base.apiPackages).map(([key, pkg]) => [
                 key,
-                { ...pkg, docRoot: pkg.docRoot.replace('https://staging.infragistics.com', apiHost) },
+                {
+                    ...pkg,
+                    docRoot: pkg.docRoot
+                        .replace('https://staging.infragistics.com/api', apiDocsBaseUrl)
+                        .replace(/\/latest$/, pinnedVersion ? `/${pinnedVersion}` : '/latest'),
+                },
             ])
         ),
     };

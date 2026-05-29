@@ -14,6 +14,8 @@ export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor';
 export interface ApiPackageConfig {
     /** TypeDoc documentation root URL (no trailing slash). */
     docRoot: string;
+    /** Optional direct URL to the compact ApiLink symbol index for this package/version. */
+    apiLinkIndexUrl?: string;
     /**
      * Package identifier as it appears in the TypeDoc URL path.
      * Core packages use hyphens ("igniteui-react"),
@@ -27,16 +29,27 @@ export interface ApiPackageConfig {
      */
     noPackagePrefix?: boolean;
     /**
-     * Optional suffix appended to the class name before lowercasing, e.g.
-     * Angular DV packages append "Component" so `CategoryChart` resolves to
-     * `igniteui_angular_charts.igxcategorychartcomponent.html`.
-     * Only applied when `prefixed={true}`.
+     * When true the class name casing is preserved as-is (no .toLowerCase()).
+     * New api-docs routes use PascalCase symbol names.
+     */
+    preserveCase?: boolean;
+    /**
+     * Preferred class-name suffix used by ApiLink. The generated registry tries
+     * both the suffixed and unsuffixed names, so this does not mean every API
+     * symbol is expected to have the suffix.
      */
     classSuffix?: string;
+    /**
+     * When true, member anchor names are PascalCase (first letter uppercased).
+     * Blazor API docs use PascalCase anchors.
+     */
+    pascalCaseMembers?: boolean;
 }
 
 export interface PlatformContext {
     name: PlatformName;
+    /** Optional root for compact ApiLink symbol index files. */
+    apiLinkIndexRoot?: string;
     /** Lower-case slug used in URLs, e.g. "angular" */
     lower: string;
     /** Component class prefix, e.g. "Igx" / "Igr" / "Igc" / "Igb" */
@@ -67,23 +80,70 @@ export interface PlatformContext {
     };
 }
 
+function getApiDocsBaseUrl(): string {
+    const value = process.env.API_DOCS_BASE_URL
+        ?? (process.env.DOCS_ENV === 'staging'
+            ? 'https://staging.infragistics.com/api'
+            : process.env.NODE_ENV === 'production'
+                ? 'https://www.infragistics.com/api'
+                : 'https://staging.infragistics.com/api');
+    const trimmed = value.replace(/\/+$/, '');
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+}
+
+const API_DOCS_BASE_URL = getApiDocsBaseUrl();
+const LOCAL_API_DOCS_VERSIONS: Record<PlatformName, string> = {
+    Angular: '21.0.0',
+    React: '19.6.0',
+    WebComponents: '7.1.0',
+    Blazor: '25.2.83',
+};
+
+function apiDocsPlatformPath(platform: PlatformName): string {
+    return platform === 'WebComponents' ? 'webcomponents' : platform.toLowerCase();
+}
+
+function apiDocsVersion(platform: PlatformName): string {
+    return process.env.API_DOCS_VERSION
+        ?? (API_DOCS_BASE_URL.includes('localhost') ? LOCAL_API_DOCS_VERSIONS[platform] : 'latest');
+}
+
+function apiLinkIndexRoot(platform: PlatformName): string {
+    return `${API_DOCS_BASE_URL}/${apiDocsPlatformPath(platform)}/api-link-index`;
+}
+
+function apiDocRoot(platform: PlatformName, packageId: string): string {
+    return `${API_DOCS_BASE_URL}/${apiDocsPlatformPath(platform)}/${packageId}/${apiDocsVersion(platform)}`;
+}
+
+function apiPackage(platform: PlatformName, packageId: string, options: Partial<ApiPackageConfig> = {}): ApiPackageConfig {
+    return {
+        docRoot: apiDocRoot(platform, packageId),
+        packageId,
+        noPackagePrefix: true,
+        preserveCase: true,
+        ...options,
+    };
+}
+
 const PLATFORMS: Record<PlatformName, PlatformContext> = {
     Angular: {
         name: 'Angular',
+        apiLinkIndexRoot: apiLinkIndexRoot('Angular'),
         lower: 'angular',
         prefix: 'Igx',
         productName: 'Ignite UI for Angular',
         productSpinal: 'ignite-ui-angular',
         apiPackages: {
-            core:        { docRoot: 'https://www.infragistics.com/products/ignite-ui-angular/docs/typescript/latest',     packageId: 'igniteui-angular',            noPackagePrefix: true },
-            charts:      { docRoot: 'https://www.infragistics.com/products/ignite-ui-angular/api/docs/typescript/latest', packageId: 'igniteui_angular_charts',      classSuffix: 'Component' },
-            grids:       { docRoot: 'https://www.infragistics.com/products/ignite-ui-angular/docs/typescript/latest',     packageId: 'igniteui-angular-grids',       noPackagePrefix: true },
-            gauges:      { docRoot: 'https://www.infragistics.com/products/ignite-ui-angular/api/docs/typescript/latest', packageId: 'igniteui_angular_gauges',      classSuffix: 'Component' },
-            maps:        { docRoot: 'https://www.infragistics.com/products/ignite-ui-angular/api/docs/typescript/latest', packageId: 'igniteui_angular_maps',        classSuffix: 'Component' },
-            excel:       { docRoot: 'https://www.infragistics.com/products/ignite-ui-angular/api/docs/typescript/latest', packageId: 'igniteui_angular_excel',       classSuffix: 'Component' },
-            spreadsheet: { docRoot: 'https://www.infragistics.com/products/ignite-ui-angular/api/docs/typescript/latest', packageId: 'igniteui_angular_spreadsheet', classSuffix: 'Component' },
-            inputs:      { docRoot: 'https://www.infragistics.com/products/ignite-ui-angular/docs/typescript/latest',     packageId: 'igniteui-angular',             noPackagePrefix: true },
-            layouts:     { docRoot: 'https://www.infragistics.com/products/ignite-ui-angular/docs/typescript/latest',     packageId: 'igniteui-angular',             noPackagePrefix: true },
+            core:        apiPackage('Angular', 'igniteui-angular', { classSuffix: 'Component' }),
+            charts:      apiPackage('Angular', 'igniteui-angular-charts', { classSuffix: 'Component' }),
+            grids:       apiPackage('Angular', 'igniteui-angular', { classSuffix: 'Component' }),
+            gauges:      apiPackage('Angular', 'igniteui-angular-gauges', { classSuffix: 'Component' }),
+            maps:        apiPackage('Angular', 'igniteui-angular-maps', { classSuffix: 'Component' }),
+            excel:       apiPackage('Angular', 'igniteui-angular-excel', { classSuffix: 'Component' }),
+            spreadsheet: apiPackage('Angular', 'igniteui-angular-spreadsheet', { classSuffix: 'Component' }),
+            inputs:      apiPackage('Angular', 'igniteui-angular', { classSuffix: 'Component' }),
+            layouts:     apiPackage('Angular', 'igniteui-angular', { classSuffix: 'Component' }),
         },
         packages: {
             common: 'igniteui-angular',
@@ -100,21 +160,23 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     },
     React: {
         name: 'React',
+        apiLinkIndexRoot: apiLinkIndexRoot('React'),
         lower: 'react',
         prefix: 'Igr',
         productName: 'Ignite UI for React',
         productSpinal: 'ignite-ui-react',
         apiPackages: {
-            core:        { docRoot: 'https://www.infragistics.com/products/ignite-ui-react/docs/typescript/latest',     packageId: 'igniteui-react' },
-            charts:      { docRoot: 'https://www.infragistics.com/products/ignite-ui-react/api/docs/typescript/latest', packageId: 'igniteui_react_charts' },
-            grids:       { docRoot: 'https://www.infragistics.com/products/ignite-ui-react/docs/typescript/latest',     packageId: 'igniteui-react-grids' },
-            gauges:      { docRoot: 'https://www.infragistics.com/products/ignite-ui-react/api/docs/typescript/latest', packageId: 'igniteui_react_gauges' },
-            maps:        { docRoot: 'https://www.infragistics.com/products/ignite-ui-react/api/docs/typescript/latest', packageId: 'igniteui_react_maps' },
-            inputs:      { docRoot: 'https://www.infragistics.com/products/ignite-ui-react/api/docs/typescript/latest', packageId: 'igniteui_react_inputs' },
-            layouts:     { docRoot: 'https://www.infragistics.com/products/ignite-ui-react/api/docs/typescript/latest', packageId: 'igniteui_react_layouts' },
-            excel:       { docRoot: 'https://www.infragistics.com/products/ignite-ui-react/api/docs/typescript/latest', packageId: 'igniteui_react_excel' },
-            spreadsheet: { docRoot: 'https://www.infragistics.com/products/ignite-ui-react/api/docs/typescript/latest', packageId: 'igniteui_react_spreadsheet' },
-            datasources: { docRoot: 'https://www.infragistics.com/products/ignite-ui-react/api/docs/typescript/latest', packageId: 'igniteui_react_datasources' },
+            core:        apiPackage('React', 'igniteui-react'),
+            charts:      apiPackage('React', 'igniteui-react-charts'),
+            grids:       apiPackage('React', 'igniteui-react-grids'),
+            gauges:      apiPackage('React', 'igniteui-react-gauges'),
+            maps:        apiPackage('React', 'igniteui-react-maps'),
+            inputs:      apiPackage('React', 'igniteui-react-inputs'),
+            layouts:     apiPackage('React', 'igniteui-react-layouts'),
+            excel:       apiPackage('React', 'igniteui-react-excel'),
+            spreadsheet: apiPackage('React', 'igniteui-react-spreadsheet'),
+            datasources: apiPackage('React', 'igniteui-react-datasources'),
+            dockmanager: apiPackage('React', 'igniteui-react-dockmanager'),
         },
         packages: {
             common: '@infragistics/igniteui-react',
@@ -131,21 +193,24 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     },
     WebComponents: {
         name: 'WebComponents',
+        apiLinkIndexRoot: apiLinkIndexRoot('WebComponents'),
         lower: 'webcomponents',
         prefix: 'Igc',
         productName: 'Ignite UI for Web Components',
         productSpinal: 'ignite-ui-web-components',
         apiPackages: {
-            core:        { docRoot: 'https://www.infragistics.com/products/ignite-ui-web-components/docs/typescript/latest',     packageId: 'igniteui-webcomponents' },
-            charts:      { docRoot: 'https://www.infragistics.com/products/ignite-ui-web-components/api/docs/typescript/latest', packageId: 'igniteui_webcomponents_charts' },
-            grids:       { docRoot: 'https://www.infragistics.com/products/ignite-ui-web-components/api/docs/typescript/latest', packageId: 'igniteui_webcomponents_data_grids' },
-            gauges:      { docRoot: 'https://www.infragistics.com/products/ignite-ui-web-components/api/docs/typescript/latest', packageId: 'igniteui_webcomponents_gauges' },
-            maps:        { docRoot: 'https://www.infragistics.com/products/ignite-ui-web-components/api/docs/typescript/latest', packageId: 'igniteui_webcomponents_maps' },
-            inputs:      { docRoot: 'https://www.infragistics.com/products/ignite-ui-web-components/api/docs/typescript/latest', packageId: 'igniteui_webcomponents_inputs' },
-            layouts:     { docRoot: 'https://www.infragistics.com/products/ignite-ui-web-components/api/docs/typescript/latest', packageId: 'igniteui_webcomponents_layouts' },
-            excel:       { docRoot: 'https://www.infragistics.com/products/ignite-ui-web-components/api/docs/typescript/latest', packageId: 'igniteui_webcomponents_excel' },
-            spreadsheet: { docRoot: 'https://www.infragistics.com/products/ignite-ui-web-components/api/docs/typescript/latest', packageId: 'igniteui_webcomponents_spreadsheet' },
-            datasources: { docRoot: 'https://www.infragistics.com/products/ignite-ui-web-components/api/docs/typescript/latest', packageId: 'igniteui_webcomponents_datasources' },
+            core:        apiPackage('WebComponents', 'igniteui-webcomponents', { classSuffix: 'Component' }),
+            charts:      apiPackage('WebComponents', 'igniteui-webcomponents-charts', { classSuffix: 'Component' }),
+            grids:       apiPackage('WebComponents', 'igniteui-webcomponents-grids', { classSuffix: 'Component' }),
+            gauges:      apiPackage('WebComponents', 'igniteui-webcomponents-gauges', { classSuffix: 'Component' }),
+            maps:        apiPackage('WebComponents', 'igniteui-webcomponents-maps', { classSuffix: 'Component' }),
+            inputs:      apiPackage('WebComponents', 'igniteui-webcomponents-inputs', { classSuffix: 'Component' }),
+            layouts:     apiPackage('WebComponents', 'igniteui-webcomponents-layouts', { classSuffix: 'Component' }),
+            excel:       apiPackage('WebComponents', 'igniteui-webcomponents-excel', { classSuffix: 'Component' }),
+            spreadsheet: apiPackage('WebComponents', 'igniteui-webcomponents-spreadsheet', { classSuffix: 'Component' }),
+            datasources: apiPackage('WebComponents', 'igniteui-webcomponents-datasources', { classSuffix: 'Component' }),
+            dockmanager: apiPackage('WebComponents', 'igniteui-dockmanager', { classSuffix: 'Component' }),
+            gridlite:    apiPackage('WebComponents', 'igniteui-grid-lite', { classSuffix: 'Component' }),
         },
         packages: {
             common: 'igniteui-webcomponents',
@@ -162,18 +227,22 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     },
     Blazor: {
         name: 'Blazor',
+        apiLinkIndexRoot: apiLinkIndexRoot('Blazor'),
         lower: 'blazor',
         prefix: 'Igb',
         productName: 'Ignite UI for Blazor',
         productSpinal: 'ignite-ui-blazor',
         apiPackages: {
-            core:        { docRoot: 'https://www.infragistics.com/products/ignite-ui-blazor/docs/typescript/latest',     packageId: 'igniteui-blazor' },
-            charts:      { docRoot: 'https://www.infragistics.com/products/ignite-ui-blazor/api/docs/typescript/latest', packageId: 'igniteui_blazor_charts' },
-            grids:       { docRoot: 'https://www.infragistics.com/products/ignite-ui-blazor/api/docs/typescript/latest', packageId: 'igniteui_blazor_data_grids' },
-            gauges:      { docRoot: 'https://www.infragistics.com/products/ignite-ui-blazor/api/docs/typescript/latest', packageId: 'igniteui_blazor_gauges' },
-            maps:        { docRoot: 'https://www.infragistics.com/products/ignite-ui-blazor/api/docs/typescript/latest', packageId: 'igniteui_blazor_maps' },
-            excel:       { docRoot: 'https://www.infragistics.com/products/ignite-ui-blazor/api/docs/typescript/latest', packageId: 'igniteui_blazor_excel' },
-            spreadsheet: { docRoot: 'https://www.infragistics.com/products/ignite-ui-blazor/api/docs/typescript/latest', packageId: 'igniteui_blazor_spreadsheet' },
+            core:          apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
+            charts:        apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
+            grids:         apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
+            gauges:        apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
+            maps:          apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
+            excel:         apiPackage('Blazor', 'IgniteUI.Blazor.Documents.Excel', { pascalCaseMembers: true }),
+            spreadsheet:   apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
+            documentsCore: apiPackage('Blazor', 'IgniteUI.Blazor.Documents.Core', { pascalCaseMembers: true }),
+            lite:          apiPackage('Blazor', 'IgniteUI.Blazor.Lite', { pascalCaseMembers: true }),
+            gridlite:      apiPackage('Blazor', 'IgniteUI.Blazor.GridLite', { pascalCaseMembers: true }),
         },
         packages: {
             common: 'IgniteUI.Blazor',
