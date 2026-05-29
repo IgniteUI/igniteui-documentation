@@ -1,0 +1,238 @@
+@use 'igniteui-theming' as *;
+
+// ---------------------------------------------------------------------------
+// CSS custom properties (set from Astro props when needed)
+// --cta-bg-image:      url(...) — background image URL
+// --cta-overlay-color: <color>  — custom overlay tint (optional)
+// ---------------------------------------------------------------------------
+
+.cta-area {
+    --cta-bg-image:      none;
+    --cta-overlay-color: rgba(0, 0, 0, 0.5);
+
+    position: relative;
+    overflow: hidden;
+    border-radius: rem(8px);
+    padding: rem(48px) rem(32px);
+    margin-block: rem(40px);
+    text-align: center;
+	border: rem(1px) solid var(--ig-gray-100);
+	z-index: 0;
+
+    // Default gradient background (used when no backgroundImage is provided)
+    background: light-dark(
+        linear-gradient(135deg, var(--ig-primary-100) 0%, var(--ig-surface-50) 60%, var(--ig-secondary-100) 100%),
+        linear-gradient(135deg, color-mix(in srgb, var(--ig-primary-900) 60%, transparent) 0%, var(--igd-app-bg) 60%, color-mix(in srgb, var(--ig-secondary-900) 60%, transparent) 100%)
+    );
+
+    // Decorative blurred orbs (top-left / bottom-right)
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(rem(60px));
+        pointer-events: none;
+        opacity: 0.4;
+    }
+
+    &::before {
+        width: rem(300px);
+        height: rem(300px);
+        top: rem(-80px);
+        left: rem(-80px);
+        background: var(--ig-primary-300);
+    }
+
+    &::after {
+        width: rem(200px);
+        height: rem(200px);
+        bottom: rem(-60px);
+        right: rem(-40px);
+        background: var(--ig-secondary-300);
+    }
+
+    // Background image modifier
+    &--has-image {
+        background-image: var(--cta-bg-image);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        // Hide the decorative orbs — they'd clash with a photo background
+        &::before,
+        &::after {
+            display: none;
+        }
+    }
+
+    // Overlay modifier (dark scrim over the background image)
+    &--has-overlay {
+        // The overlay sits between the bg image and the content
+        &::before {
+            display: block;
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: var(--cta-overlay-color);
+            filter: none;
+            opacity: 1;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        // Lighten text for readability on dark scrims
+        .cta-area__title       { color: #fff; }
+        .cta-area__description { color: rgba(255, 255, 255, 0.85); }
+        .cta-area__note        { color: rgba(255, 255, 255, 0.7); }
+    }
+}
+
+// ── Content wrapper ─────────────────────────────────────────────────────────
+// Sits above the dotted pattern and overlay pseudo-elements
+.cta-area__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(24px);
+}
+
+// Body: logo + title + description
+.cta-area__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+// Action: button + note
+.cta-area__action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(12px);
+}
+
+// Horizontal modifier — text on left, action on right
+.cta-area--horizontal {
+    text-align: start;
+
+    .cta-area__content {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: rem(32px);
+    }
+
+    .cta-area__body {
+        align-items: flex-start;
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .cta-area__action {
+        align-items: flex-end;
+        flex-shrink: 0;
+    }
+
+    .cta-area__title,
+    .cta-area__description {
+        text-align: start;
+        margin-inline: 0;
+    }
+}
+
+// ── Dotted pattern background ────────────────────────────────────────────────
+.cta-dotted-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+
+    $pitch: 35px;
+    $sq:     3px;
+    $pad:   15.5px;
+
+    background-color: light-dark(var(--ig-gray-500), var(--igd-accent));
+
+    mask-image:
+        repeating-linear-gradient(0deg,
+            transparent 0,              transparent #{$pad},
+            black       #{$pad},        black       #{$pad + $sq},
+            transparent #{$pad + $sq},  transparent #{$pitch}
+        ),
+        repeating-linear-gradient(90deg,
+            transparent 0,              transparent #{$pad},
+            black       #{$pad},        black       #{$pad + $sq},
+            transparent #{$pad + $sq},  transparent #{$pitch}
+        );
+
+    mask-size: #{$pitch} #{$pitch}, #{$pitch} #{$pitch};
+    mask-composite: intersect;
+    -webkit-mask-composite: source-in;
+
+    opacity: 0.1;
+}
+
+// Typography & interactive elements
+.cta-area__logo {
+    display: block;
+    height: rem(48px);
+    width: auto;
+    margin-inline: auto;
+    margin-block-end: rem(20px);
+    object-fit: contain;
+}
+
+.cta-area__title {
+    @include type-style('h1');
+    position: relative;
+    justify-content: center;
+    color: light-dark(var(--ig-gray-900), var(--ig-gray-100));
+}
+
+.cta-area__description {
+	@include type-style('body-1');
+	
+    position: relative;
+    max-width: rem(640px);
+    margin-inline: auto;
+    margin-block: 0 rem(24px);
+    color: light-dark(var(--ig-gray-700), var(--ig-gray-300));
+    line-height: 1.6;
+}
+
+.cta-area__btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: rem(13px);
+    letter-spacing: rem(0.5px);
+    padding: rem(10px) rem(24px);
+    border-radius: rem(4px);
+    background: var(--igd-accent);
+    color: #fff;
+    border: none;
+    transition: opacity 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 rem(2px) rem(8px) color-mix(in srgb, var(--ig-primary-500) 40%, transparent);
+
+    &:hover,
+    &:focus {
+        opacity: 0.88;
+        outline: none;
+        box-shadow: 0 rem(4px) rem(16px) color-mix(in srgb, var(--ig-primary-500) 50%, transparent);
+    }
+}
+
+.cta-area__note {
+    @include type-style('detail-1', false);
+    position: relative;
+    margin-block: rem(12px) 0;
+    color: light-dark(var(--ig-gray-800), var(--ig-gray-700));
+}

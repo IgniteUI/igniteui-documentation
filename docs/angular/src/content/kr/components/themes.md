@@ -58,7 +58,7 @@ With so many colors in each sub-palette you may be wondering, how on Earth will 
 
 Got it? Good! But how does one access any of the colors in the palette?
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 #### Getting Sub-Palette Colors
 
@@ -80,7 +80,7 @@ $my-warning-color: color($my-palette, "warn");
 }
 ```
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 #### Getting Contrast Text Colors
 
@@ -126,7 +126,7 @@ $my-color-palette: palette(
 
 That's it. Your application will now use the colors from your newly generated palette.
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Customizing Typography (WIP)
 

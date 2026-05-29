@@ -19,7 +19,6 @@ This topic explains to to configure and set the built-in data validation rules.
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Dependencies
 
@@ -47,7 +46,6 @@ import { TwoConstraintDataValidationOperator } from 'igniteui-react-excel';
 import { TwoConstraintDataValidationRule } from 'igniteui-react-excel';
 ```
 
-<div class="divider--half"></div>
 
 ## Usage
 

@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/type-range-series">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 범위 시리즈의 유형
 

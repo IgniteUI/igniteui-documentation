@@ -19,7 +19,6 @@ This topic explains how to perform clipboard operations.
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Dependencies
 
@@ -30,7 +29,6 @@ import { IgxSpreadsheetComponent } from 'igniteui-angular-spreadsheet';
 import { SpreadsheetAction } from 'igniteui-angular-spreadsheet';
 ```
 
-<div class="divider--half"></div>
 
 ## Usage
 

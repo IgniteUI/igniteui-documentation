@@ -13,7 +13,6 @@ The Angular Simple ComboBox component is a modification of [ComboBox component](
 
 In this Angular Simple ComboBox example, you can see how users can select the chart's trend line type. In addition, the Simple ComboBox expose keyboard navigation and custom styling capabilities.
 
-<div class="divider--half"></div>
 
 <code-view style="height: 400px;"
            data-demos-base-url="{environment:demosBaseUrl}"
@@ -164,7 +163,6 @@ Binding to the event can be done through the proper `@Output` property on the `i
 </igx-simple-combo>
 ```
 
-<div class="divider--half"></div>
 
 ## Keyboard Navigation
 
@@ -205,7 +203,6 @@ The following sample demonstrates a scenario where the [igx-simple-combo]({envir
            iframe-src="{environment:demosBaseUrl}/lists/simple-combo-cascading/" alt="Angular Cascading Scenario Example">
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Template Configuration
 The API of simle combobox is used to get the selected item from one component and load data source for the next one, as well clear the selection and data source when needed.
@@ -327,7 +324,6 @@ The last step is to include the component's theme.
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Known Issues
 
@@ -337,7 +333,6 @@ The last step is to include the component's theme.
 > The simple combobox uses `igxForOf` directive internally hence all `igxForOf` limitations are valid for the simple combobox. For more details see [igxForOf Known Issues](for-of.md#known-limitations) section.
 
 ## API References
-<div class="divider--half"></div>
 
 * [IgxSimpleComboComponent]({environment:angularApiUrl}/classes/igxsimplecombocomponent.html)
 * [IgxComboComponent Styles]({environment:sassApiUrl}/themes#function-combo-theme)
@@ -353,7 +348,6 @@ Additional components and/or directives with relative APIs that were used:
 * [IgxOverlay Theme]({environment:sassApiUrl}/themes#function-overlay-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 * [ComboBox Features](combo-features.md)
 * [ComboBox Remote Binding](combo-remote.md)

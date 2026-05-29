@@ -377,7 +377,6 @@ public toggleColumn(col: IgxColumnComponent) {
 
 *   열 너비를 백분율(%)로 명시적으로 설정한 경우, 핀 고정 열이 있으면 @@igComponent 자체 및 헤드 내용이 바르게 정렬되지 않습니다. 열 핀 고정 기능이 제대로 작동하려면 열 너비가 픽셀(px)로 설정하거나 @@igComponent에 의해 자동 할당되어야 합니다.
 
-<div class="divider--half"></div>
 
 ### 문제 해결
 
@@ -387,7 +386,6 @@ public toggleColumn(col: IgxColumnComponent) {
 
 * `@@igxName - 핀 고정 영역이 최대 핀 고정 폭을 초과합니다. 다음 열은 다른 문제를 방지하기 위해 핀 고정 해제되었습니다:... .` - 사용자가 처음에 너무 많은 핀 고정 열을 정의한 경우에 이 경고가 표시됩니다. 처음에 핀 고정된 열의 합계 너비는 @@igComponent 너비의 80%를 넘지 않아야 합니다. 그렇지 않으면 기본적으로 @@igComponent의 제한을 초과하지 않는 최초의 열(정의된 순서)을 취하고 나머지(경고에 나열된 열)는 핀 고정 해제됩니다. @@igComponent에서 핀 고정을 초기화하기 전에 [`columnInit`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnInit) 이벤트를 사용하여 초기화할 때 일부 열을 수동으로 핀 고정 해제할지 결정하기 위해 자체 논리를 실행할 수 있습니다. 각 열에 트리거됩니다.
 
-<div class="divider--half"></div>
 
 @@if (igxName === 'IgxGrid') {
 ### Styling   
@@ -505,7 +503,6 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
 * [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 * [@@igComponent 개요](@@igMainTopic.md)
 * [가상화 및 성능](virtualization.md)
@@ -517,7 +514,6 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
 * [열 크기 조정](column-resizing.md)
 * [선택](selection.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 * [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

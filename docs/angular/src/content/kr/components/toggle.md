@@ -243,18 +243,17 @@ In this article we covered the details of how to use Toggle directive. We create
 Furthermore we added another helping directive which controls automatically this same behaviour by giving it the appropriate toggle reference. In the end we have registered our [**igxToggle**]({environment:angularApiUrl}/classes/igxtoggledirective.html) directive in the **igxNavigationService** provider by giving it an ID, which we then provided to our helping **igxToggleAction** directive.
 
 ###API References
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 * [IgxToggleDirective]({environment:angularApiUrl}/classes/igxtoggledirective.html)
 * [IgxToggleActionDirective]({environment:angularApiUrl}/classes/igxtoggleactiondirective.html)
 * [IgxOverlayOutletDirective]({environment:angularApiUrl}/classes/igxoverlayoutletdirective.html)
 * [IgxOverlayService]({environment:angularApiUrl}/classes/igxoverlayservice.html)
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ###Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 * [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

@@ -10,7 +10,7 @@ _language: kr
 
 Custom templates for different areas of the [igx-combo]({environment:angularApiUrl}/classes/igxcombocomponent.html) component can be defined, including items, header, footer, empty list and adding button.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Demo
 
@@ -151,7 +151,6 @@ Use selector `[igxComboClearIcon]`:
 </igx-combo>
 ```
 
-<div class="divider--half"></div>
 
 ### Templating combo input
 The above-mentioned selectors, `[igxComboClearIcon]` and `[igxComboToggleIcon]`, used with templates will change how the respective buttons appear in the combo input.
@@ -169,7 +168,6 @@ Passing content inside of the `igx-combo` also allows templating of the combo in
 ```
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 * [Combo Features](combo-features.md)
 * [Combo Remote Binding](combo-remote.md)

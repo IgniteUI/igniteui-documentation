@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/category-chart/tooltip-types">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 도구 설명 유형
 

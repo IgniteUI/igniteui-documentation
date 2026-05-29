@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/series-trendlines">
 </code-view>
 
-<div class="divider--half"></div>
 
 [`IgxDataChartComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxdatachartcomponent.html) 제어의 추세선은 기본적으로 무효로 되어 있습니다. 이것을 설정하기 위해 추세선을 표시할 해당 시리즈에서 [`TrendLineType`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html) 속성을 설정할 수 있습니다. 브러시, 기간, 두께, 대시 배열과 같은 추세선의 여러 모양 속성을 수정할 수 있습니다.
 

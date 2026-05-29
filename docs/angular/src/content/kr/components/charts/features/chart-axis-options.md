@@ -21,7 +21,6 @@ The axis titles feature of the Angular charts, allows you to add contextual info
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Axis Labels
 
@@ -34,7 +33,6 @@ The Angular Charts allows you full control over configuring, formatting, and sty
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Axis Range
 
@@ -49,7 +47,6 @@ By default, the Angular charts will calculate the minimum and maximum values for
 </code-view>
 
 
-<div class="divider--half"></div>
 
 <!--
 ## Angular Axis Scale

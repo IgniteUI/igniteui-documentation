@@ -1,4 +1,4 @@
-import path from 'node:path';
+﻿import path from 'node:path';
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
@@ -365,13 +365,26 @@ export default createDocsSite({
     head: [
         { tag: 'link', attrs: { rel: 'icon', href: `${mode !== 'development' ? p.base : ''}/favicon.ico`, type: 'image/x-icon' } },
     ],
-    integrations: [mdx()],
+    integrations: [
+        mdx(),
+        {
+            name: 'watch-docs-template',
+            hooks: {
+                'astro:server:setup': ({ server }) => {
+                    server.watcher.add(path.resolve(__dirname, '../../src'));
+                },
+            },
+        },
+    ],
     vite: {
-        plugins: [vitePluginPlatformTokens()],
+        plugins: [
+            vitePluginPlatformTokens(),
+        ],
         resolve: {
             alias: {
                 '@xplat-images': path.resolve(__dirname, 'src/assets/images'),
             },
         },
+        server: { fs: { strict: false } },
     },
 });

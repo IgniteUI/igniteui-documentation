@@ -17,7 +17,6 @@ Ignite UI for Angular [`IgxTreeGrid`]({environment:angularApiUrl}/classes/igxtre
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-load-on-demand/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### 사용 방법
 
@@ -69,19 +68,16 @@ public loadChildren = (parentID: any, done: (children: any[]) => void) => {
 
 ### API 참조
 
-<div class="divider--half"></div>
 
 * [IgxTreeGridComponent]({environment:angularApiUrl}/classes/igxtreegridcomponent.html)
 * [IgxGridComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ### 추가 리소스
 
-<div class="divider--half"></div>
 
 * [트리 그리드 개요](tree-grid.md)
 * [트리 그리드 가상화 및 성능](virtualization.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 * [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

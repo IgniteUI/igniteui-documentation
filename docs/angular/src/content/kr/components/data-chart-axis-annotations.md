@@ -17,7 +17,6 @@ In the Ignite UI for Angular data chart component, you are able to add annotatio
            github-src="charts/data-chart/axis-annotations">
 </code-view>
 
-<div class="divider--half"></div>
 
 In the Ignite UI for Angular data chart, the following are the series and layers that support axis annotations:
 

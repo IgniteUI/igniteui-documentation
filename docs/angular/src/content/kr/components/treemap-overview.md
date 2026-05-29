@@ -20,7 +20,6 @@ Treemaps are not designed to convey numerical quantities; the intent is to show 
            github-src="charts/tree-map/overview">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Required Data
 
@@ -106,4 +105,3 @@ The following code demonstrates how to setup the Treemap.
 </igx-treemap>
 ```
 
-<div class="divider--half"></div>

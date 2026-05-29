@@ -23,7 +23,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Scatter Polyline Chart
 
@@ -38,7 +37,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

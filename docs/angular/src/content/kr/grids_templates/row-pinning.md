@@ -386,7 +386,6 @@ This would allow reordering the rows and moving them between the pinned and unpi
     * Row Editing
     * Row Pinning
 
-<div class="divider--half"></div>
 
 ### Styling
 
@@ -479,7 +478,6 @@ If the component is using an [`Emulated`](themes/sass/component-themes.md#view-e
 * [@@igxNameComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 * [@@igComponent overview](@@igMainTopic.md)
 * [Virtualization and Performance](virtualization.md)
@@ -491,7 +489,6 @@ If the component is using an [`Emulated`](themes/sass/component-themes.md#view-e
 * [Column Resizing](column-resizing.md)
 * [Selection](selection.md)
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 * [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

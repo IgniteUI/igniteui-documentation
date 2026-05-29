@@ -48,7 +48,6 @@ This can be achieved by setting the [`IgxColumnComponent`]({environment:angularA
 @@if (igxName === 'IgxHierarchicalGrid') {
 {/* TODO */}
 }
-<div class="divider--half"></div>
 
 #### 개요
 [`IgxColumnComponent`]({environment:angularApiUrl}/classes/igxcolumncomponent.html) [`cellClasses`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#cellclasses) 입력을 설정하고 사용자 규칙을 정의하여 @@igxName 셀의 조건부 스타일을 지정할 수 있습니다.
@@ -147,14 +146,12 @@ public priceClasses = {
 **::ng-deep** 또는 **`ViewEncapsulation.None`**을 사용하여 사용자 스타일을 현재 컴포넌트와 그 하위 요소를 통해 강제로 적용할 수 있습니다.
 
 ### API 참조
-<div class="divider--half"></div>
 
 * [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
 * [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
 * [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 * [@@igComponent 개요](@@igMainTopic.md)
 * [가상화 및 성능](virtualization.md)
@@ -173,7 +170,6 @@ public priceClasses = {
 * [복수 열 헤더](multi-column-headers.md)
 * [표시 밀도](display-density.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 * [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

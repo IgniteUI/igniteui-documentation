@@ -18,7 +18,6 @@ While most tooltips have a limited number of available positions, with the [`igx
            iframe-src="{environment:demosBaseUrl}/interactions/tooltip-simple/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Setup
 
@@ -313,7 +312,6 @@ If all went well, this is how our location and tooltip should look like:
            iframe-src="{environment:demosBaseUrl}/interactions/tooltip-rich/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Overlay configuration
 Both the [`igxTooltip`]({environment:angularApiUrl}/classes/igxtooltipdirective.html) and [`igxTooltipTarget`]({environment:angularApiUrl}/classes/igxtooltiptargetdirective.html) directives use the [`IgxOverlayService`](overlay.md) to open and close the respective tooltip element.
@@ -361,11 +359,10 @@ Styles:
 * [IgxSliderComponent Styles]({environment:sassApiUrl}/themes#function-slider-theme)
 * [IgxSwitchComponent Styles]({environment:sassApiUrl}/themes#function-switch-theme)
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ## Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 * [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

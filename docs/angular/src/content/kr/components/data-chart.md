@@ -19,7 +19,6 @@ _language: kr
            github-src="charts/data-chart/chart-overview">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 의존성
 
@@ -53,7 +52,6 @@ import { IgxValueBrushScale } from 'igniteui-angular-charts';
 export class AppModule { /* ... */ }
 ```
 
-<div class="divider--half"></div>
 
 ## 지원되는 시리즈
 
@@ -103,7 +101,6 @@ export class AppModule { /* ... */ }
  </igx-data-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 추가 리소스
 

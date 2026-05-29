@@ -51,7 +51,6 @@ In Ignite UI for Angular @@igComponent, data sorting is enabled on a per-column 
 
 }
 
-<div class="divider--half"></div>
 
 이것은 [`sortable`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#sortable) 입력을 통해 실행됩니다. @@igComponent 정렬을 사용하면 [`sortingIgnoreCase`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#sortingignorecase) 속성을 설정하여 대소문자 구분을 실행할 수도 있습니다:
 
@@ -108,13 +107,11 @@ public ngOnInit() {
 > [!NOTE]
 > `string` 유형의 값이 [`dataType`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#datatype) `Date` 열에서 사용되는 경우, @@igComponent는 `Date` 객체로 구문 분석하지 않으므로 @@igComponent를 사용하면 `sorting`이 예상대로 작동하지 않습니다. `string` 객체를 사용하려면 값을 `Date` 객체로 구문 분석하기 위해 애플리케이션 수준에서 추가 논리를 구현해야 합니다.
 
-<div class="divider--half"></div>
 
 @@if (igxName === 'IgxGrid') {
 #### 원격 정렬
 [`dataPreLoad`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#datapreload) 및 [`sortingDone`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#sortingDone) 출력에 서브스크라이브하여 @@igComponent의 원격 정렬을 제공할 수 있습니다. 사용 방법에 대한 자세한 정보는 `@@igComponent 가상화 및 성능` [문서](virtualization.md#remote-sortingfiltering-virtualization)를 참조하십시오.
 
-<div class="divider--half"></div>
 }
 
 ### API 참조
@@ -123,7 +120,6 @@ public ngOnInit() {
 * [ISortingExpression]({environment:angularApiUrl}/interfaces/isortingexpression.html)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 * [@@igComponent 개요](@@igMainTopic.md)
 * [가상화 및 성능](virtualization.md)
@@ -135,7 +131,6 @@ public ngOnInit() {
 * [열 크기 조정](column-resizing.md)
 * [선택](selection.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 * [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
