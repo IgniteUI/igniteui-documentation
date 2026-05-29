@@ -75,8 +75,6 @@ Each JSON file is a TypeDoc reflection tree. Top-level `children` contains all e
 | `prefixed` | no | Default `true` — adds `Igr`/`Igx`/`Igc`/`Igb` automatically. Set `false` when `type` contains `{ComponentName}` or the name is already fully-qualified. **Always `false` for excel types.** |
 | `suffix` | no | Default `true` — appends `Component` suffix for Angular DV packages. Set `false` for utility classes (FilteringOperand, SortingStrategy, SummaryOperand, all excel types). |
 | `exclude` | no | Comma-separated platform list (`"Angular"`, `"Blazor"`, etc.). On listed platforms the symbol renders as inline code (backticks) instead of a link. Use when the type/member genuinely **does not exist** on those platforms. **Preferred over wrapping a single `<ApiLink/>` in a `<PlatformBlock for="...">`** for the sole purpose of platform-omission. |
-| `excludeSuffixFor` | no | Comma-separated platform list. On listed platforms the package `classSuffix` (e.g. `Component`) is **not** appended, overriding the per-package default. Use when the same type is a plain class on some platforms (e.g. `IgxChartSelection`) but a `Component`-suffixed class on others. **Generates a real link — combine with `exclude` if the type is also absent on other platforms.** |
-| `excludePrefixFor` | no | Comma-separated platform list. On listed platforms the platform prefix (`Igr`/`Igx`/`Igc`/`Igb`) is **not** prepended. Use when a type has no prefix on certain platforms. **Generates a real link — combine with `exclude` if needed.** |
 | `label` | no | Override display text. |
 
 > **Critical rule:** NEVER replace an existing `<ApiLink/>` with backtick text. If a URL is broken on certain platforms, add `exclude="Platform"` to the tag. Only backtick text is acceptable when the type has no TypeDoc page on *any* platform AND has never been an ApiLink in the content history. When in doubt, keep the ApiLink — the broken link will be caught by `check-api-links.mjs` and fixed via `apply-excludes.mjs`.
@@ -258,28 +256,61 @@ Angular's `grids` package appends `Component` to all **UI component** class name
 <ApiLink pkg="grids" type="StringFilteringOperand" suffix={false} />
 ```
 
-### Use `excludeSuffixFor=` when only some platforms use the suffix
+### Use PlatformBlock when only some platforms use the suffix or prefix
 
-When the suffix causes a 404 on **specific platforms only** (not globally), use `excludeSuffixFor` to remove it just for those platforms while keeping the link alive:
+When `suffix={false}` or `prefixed={false}` is correct for **specific platforms only**, do **not** put that prop on a shared top-level ApiLink. Wrap each variant in a `PlatformBlock` so every platform gets exactly the ApiLink shape it needs:
 
 ```mdx
 <!-- ChartSelection has no "Component" suffix on Angular DV packages -->
-<ApiLink pkg="charts-core" type="ChartSelection" excludeSuffixFor="Angular" />
+<PlatformBlock for="Angular"><ApiLink pkg="charts-core" type="ChartSelection" suffix={false} /></PlatformBlock><PlatformBlock for="React, WebComponents, Blazor"><ApiLink pkg="charts-core" type="ChartSelection" /></PlatformBlock>
 ```
 
-The `check-mdx-links.mjs` script automatically suggests this fix when it detects a broken link that resolves correctly after stripping the suffix — look for `→ FIX: excludeSuffixFor="..."` in the output.
-
-Similarly, `excludePrefixFor` removes the platform prefix (`Igr`/`Igx`/`Igc`/`Igb`) for the listed platforms only:
+Use the same pattern when only some platforms need `prefixed={false}`:
 
 ```mdx
-<ApiLink pkg="core" type="SomeType" excludePrefixFor="Blazor" />
+<PlatformBlock for="Blazor"><ApiLink pkg="core" type="SomeType" prefixed={false} /></PlatformBlock><PlatformBlock for="Angular, React, WebComponents"><ApiLink pkg="core" type="SomeType" /></PlatformBlock>
 ```
+
+> **Do not use `excludeSuffixFor` or `excludePrefixFor` in MDX.** They should be migrated to explicit `PlatformBlock` variants.
 
 > **Decision guide**:
 > - Symbol **doesn't exist** on a platform → `exclude="Platform"`
-> - Symbol exists but URL has wrong suffix on those platforms → `excludeSuffixFor="Platform"`
-> - Symbol exists but URL has wrong prefix on those platforms → `excludePrefixFor="Platform"`
+> - Symbol exists but URL has wrong suffix on some platforms → `PlatformBlock` variants with `suffix={false}` only in the affected platform block
+> - Symbol exists but URL has wrong prefix on some platforms → `PlatformBlock` variants with `prefixed={false}` only in the affected platform block
 > - `suffix={false}` / `prefixed={false}` → removes suffix/prefix globally (all platforms)
+
+### When to use PlatformBlock for ApiLinks with different attributes
+
+When two platforms require **different attribute values** (including `suffix`, `prefixed`, `kind`, `pkg`, or `type` differences), wrap **both** ApiLinks in their own `<PlatformBlock>` blocks.
+
+#### Anti-pattern (BUG — produces duplicate output on Blazor)
+
+```mdx
+<!-- WRONG: On Blazor this renders BOTH an inline-code fallback AND a link -->
+<ApiLink type="PivotConfiguration" pkg="grids" kind="interface" exclude="Blazor" /><PlatformBlock for="Blazor"><ApiLink type="PivotConfiguration" pkg="grids" kind="class" suffix={false} /></PlatformBlock>
+```
+
+The `exclude="Blazor"` prop causes the first ApiLink to render as **backtick text** on Blazor (not hidden — just degraded to inline code). The PlatformBlock then renders the second ApiLink as a real link. Result: on Blazor the user sees both a broken inline-code snippet and a working link side by side.
+
+#### Correct pattern — both in PlatformBlocks
+
+```mdx
+<!-- CORRECT: Each platform gets exactly one ApiLink -->
+<PlatformBlock for="Angular, React, WebComponents"><ApiLink type="PivotConfiguration" pkg="grids" kind="interface" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="PivotConfiguration" pkg="grids" kind="class" suffix={false} /></PlatformBlock>
+```
+
+#### When to use which approach
+
+| Difference between platforms | Solution |
+|---|---|
+| Only `suffix` differs (e.g. one platform has no `Component` suffix) | Two `<PlatformBlock>`-wrapped `<ApiLink>` variants; put `suffix={false}` only in the affected block |
+| Only `prefix` differs | Two `<PlatformBlock>`-wrapped `<ApiLink>` variants; put `prefixed={false}` only in the affected block |
+| Type doesn't exist on a platform at all | Single `<ApiLink>` with `exclude="Platform"` |
+| `kind` differs (e.g. `interface` on Angular/React/WC, `class` on Blazor) | Two `<PlatformBlock>`-wrapped `<ApiLink>` tags |
+| `kind` AND `suffix` differ | Two `<PlatformBlock>`-wrapped `<ApiLink>` tags |
+| Any combination of multiple attribute differences | Two `<PlatformBlock>`-wrapped `<ApiLink>` tags |
+
+> **Rule:** Never combine `exclude="Platform"` on one ApiLink with a `<PlatformBlock for="Platform">` wrapping another ApiLink for the **same type**. The `exclude` prop does NOT hide the tag — it degrades it to inline code, producing duplicate visible output.
 
 ### Classes that NEED `suffix={false}`
 
