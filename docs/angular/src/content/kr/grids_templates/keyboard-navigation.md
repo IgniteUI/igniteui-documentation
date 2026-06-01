@@ -235,7 +235,6 @@ You can try the `actions below` in order to observe the custom keyboard navigati
 - [@@igxNameComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 - [@@igComponent overview](@@igMainTopic.md)
 - [Virtualization and Performance](virtualization.md)
@@ -247,7 +246,6 @@ You can try the `actions below` in order to observe the custom keyboard navigati
 - [Column Resizing](column-resizing.md)
 - [Selection](selection.md)
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

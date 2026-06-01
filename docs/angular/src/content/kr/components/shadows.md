@@ -236,10 +236,8 @@ Here is The result from the above code snippets:
            iframe-src="{environment:demosBaseUrl}/theming/shadows-sample/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 
-<div class="divider--half"></div>
 
 
 ### API 참조

@@ -7,7 +7,7 @@ _language: kr
 
 ## Angular Time Picker Overview
 <p class="highlight">In following the design and functionality of the Date Picker, Ignite UI for Angular Time Picker component allows the user to select time from a dialog with spinners, which is then mirrored in the input field. In addition, the user can edit the time value, using an editable masked input with a dropdown.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 <p>As one of the most commonly used UI components for today’s web applications, the Angular Time Picker, also known as Angular Time Picker, provides developers with a variety of features that provide with the ability to customize the component to create the best UX and UI experience for the users to interact with the component. There are different built-in templates for displaying a clock button, as well as features like validation, custom time formatting, and more. </p>
 
@@ -19,7 +19,6 @@ In general, users can enter a preferred time either through text input or by cho
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### How To Use Angular Time Picker Component With Ignite UI
 
@@ -40,8 +39,6 @@ import { IgxTimePickerModule } from 'igniteui-angular';
 export class AppModule {}
 ```
 
-<div class="divider--half"></div>
-
 #### Default
 
 To add the time picker, use the following code:
@@ -58,7 +55,6 @@ And here's our templated Ignite UI for Angular Time Picker:
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 #### Setting value
 
@@ -81,7 +77,6 @@ And there we have it:
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-2/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 To create a two-way data-binding, set `ngModel` like this:
 
@@ -112,7 +107,6 @@ The result is as follows:
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-8/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 #### Change delta and spin mode
 
@@ -129,7 +123,6 @@ And there we have it:
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-3/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 #### Validation
 
@@ -180,7 +173,6 @@ And there we have it:
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-4/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 #### Dropdown mode
 
@@ -221,7 +213,6 @@ And there we have it:
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-dropdown/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 #### Templating Input Group
 
@@ -345,10 +336,8 @@ The result is as follows:
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-7/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
 - [IgxInputDirective]({environment:angularApiUrl}/classes/igxinputdirective.html)
@@ -359,7 +348,6 @@ The result is as follows:
 - [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

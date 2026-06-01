@@ -18,7 +18,6 @@ Drag and drop icon to reposition it.
            iframe-src="{environment:demosBaseUrl}/interactions/icons-sample/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Drag Directive
 
@@ -116,7 +115,6 @@ public onAreaLeave() {
 
 ### References
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

@@ -207,15 +207,12 @@ keywords: column headers, ignite ui for angular, infragistics
 }
 
 ### API 참조
-<div class="divider--half"></div>
 
 - [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
 - [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
 - [IgxColumnGroupComponent]({environment:angularApiUrl}/classes/igxcolumngroupcomponent.html)
-<div class="divider--half"></div>
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 - [@@igComponent 개요](@@igMainTopic.md)
 - [가상화 및 성능](virtualization.md)
@@ -227,7 +224,6 @@ keywords: column headers, ignite ui for angular, infragistics
 - [선택](selection.md)
 @@if (igxName === 'IgxGrid') {* [Group by](groupby.md)}
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

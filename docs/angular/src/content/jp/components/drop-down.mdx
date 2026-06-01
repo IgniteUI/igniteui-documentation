@@ -51,7 +51,7 @@ import { IgxDropDownModule } from 'igniteui-angular/drop-down';
 export class AppModule {}
 ```
 
-あるいは、`16.0.0` 以降、`IgxDropDownComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_DROP_DOWN_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/drop-down/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
+あるいは、`16.0.0` 以降、`IgxDropDownComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_DROP_DOWN_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/drop-down/src/drop-down/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
 
 ```typescript
 // home.component.ts
@@ -92,7 +92,7 @@ Ignite UI for Angular Drop Down モジュールまたはディレクティブを
 
 ### ドロップダウンの追加
 
-選択可能な複数のオプション項目を提供するシンプルなドロップダウンを作成します。これを実現するには、<ApiLink type="DropDown" /> と <ApiLink type="ToggleAction" suffix={false} /> を使用してドロップダウンを開きます / 閉じます。
+選択可能な複数のオプション項目を提供するシンプルなドロップダウンを作成します。これを実現するには、<ApiLink type="DropDown" /> と <ApiLink type="ToggleActionDirective" suffix={false} /> を使用してドロップダウンを開きます / 閉じます。
 
 ```html
 <!-- dropdown.component.html -->
@@ -105,6 +105,10 @@ Ignite UI for Angular Drop Down モジュールまたはディレクティブを
   </igx-drop-down-item>
 </igx-drop-down>
 ```
+
+<DocsAside type="info">
+このコンポーネントはマテリアル アイコンを使用します。`index.html` に次のリンクを追加してください: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
 
 ```typescript
 // dropdown.component.ts
@@ -155,7 +159,7 @@ export class MyDropDownComponent {
 
 ### 項目のグループ化
 
-より有益な視覚情報を提供するには、<ApiLink type="DropDownItem" suffix={false} member="isHeader" label="isHeader" /> プロパティを使用して項目をセマンティックにグループ化するか、<ApiLink type="DropDownItem" suffix={false} member="disabled" label="disabled" /> プロパティを使用して項目を非インタラクティブとして表示します。<ApiLink type="DropDownItem" suffix={false} member="selected" label="selected" /> プロパティを特定の項目に設定して選択済の項目にできます。`igx-drop-down` 項目は、HTML 要素/他の Web コンポーネントに含める、または設定できる `igxPrefix`、`igxSuffix` および `igx-divider` ディレクティブをサポートしています。
+より有益な視覚情報を提供するには、<ApiLink type="DropDownItemComponent" suffix={false} member="isheader" label="isHeader" /> プロパティを使用して項目をセマンティックにグループ化するか、<ApiLink type="DropDownItemComponent" suffix={false} member="disabled" label="disabled" /> プロパティを使用して項目を非インタラクティブとして表示します。<ApiLink type="DropDownItemComponent" suffix={false} member="selected" label="selected" /> プロパティを特定の項目に設定して選択済の項目にできます。`igx-drop-down` 項目は、HTML 要素/他の Web コンポーネントに含める、または設定できる `igxPrefix`、`igxSuffix` および `igx-divider` ディレクティブをサポートしています。
 
 ```html
 <!-- dropdown.component.html -->
@@ -196,7 +200,7 @@ export class MyDropDownComponent {
 
 ### 階層データのグループ化
 
-`igx-drop-down` 項目は <ApiLink type="igx-drop-down-item-group" suffix={false} /> コンテナーによりグループ化して、ユーザーが個別のカテゴリを区別しやすくなります。`igx-drop-down-item-group` は、`igx-drop-down-item` 要素をコンテンツとして受け取り、グループ形式で描画します。
+`igx-drop-down` 項目は <ApiLink type="DropDownGroup" /> コンテナーによりグループ化して、ユーザーが個別のカテゴリを区別しやすくなります。`igx-drop-down-item-group` は、`igx-drop-down-item` 要素をコンテンツとして受け取り、グループ形式で描画します。
 
 ```typescript
 // dropdown.component.ts
@@ -334,7 +338,7 @@ export class MyMenuComponent {
 
 複数レベルのドロップダウン メニューの実装には、<ApiLink type="DropDown" /> と、以下で説明するカスタム ディレクティブとサービスを使用します。
 
-追加のドロップダウンを開くように <ApiLink type="DropDownItem" suffix={false} /> を構成するには、ネストされたドロップダウンの <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" label="overlay settings" /> を処理し、その `innerDropdown` プロパティを通じてその開閉状態を管理する `multiLevel` ディレクティブを追加します。
+追加のドロップダウンを開くように <ApiLink type="DropDownItemComponent" suffix={false} /> を構成するには、ネストされたドロップダウンの <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" label="overlay settings" /> を処理し、その `innerDropdown` プロパティを通じてその開閉状態を管理する `multiLevel` ディレクティブを追加します。
 
 ```html
 <igx-drop-down #dropdown1>
@@ -393,15 +397,15 @@ public ngAfterViewInit(): void {
 
 <Sample src="/data-entries/dropdown-multi-level-menu" height={400} alt="" />
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 最初に開いた Dropdown コンポーネントを表示するには、open メソッドを requestAnimationFrame メソッドのコールバックとして設定することをお勧めします。これにより、DOM ツリーが再描画され、すべての要素が正しく配置されるようになります。
 </DocsAside>
 
 ### Navigation ディレクティブ
 
-<ApiLink type="igxDropDownItemNavigation" suffix={false} /> ディレクティブを使用して、`igxDropDown` コンポーネントのキーボード ナビゲーションを有効にします。ディレクティブがトリガーされたすべてのイベントを処理できるようにするには、アクティブな (フォーカスされる) 要素または親コンテナーに適用する必要があります。デフォルトでは、ドロップダウンまたはその項目はフォーカスを取得しないため、ディレクティブはドロップダウンを制御する `button` または `input` に配置できます。ナビゲーション ディレクティブの値は、<ApiLink type="DropDownBaseDirective" suffix={false} /> クラスのインスタンスまたは子孫であるコンポーネントを対象とする必要があります。
+<ApiLink type="DropDownItemNavigationDirective" suffix={false} /> ディレクティブを使用して、`igxDropDown` コンポーネントのキーボード ナビゲーションを有効にします。ディレクティブがトリガーされたすべてのイベントを処理できるようにするには、アクティブな (フォーカスされる) 要素または親コンテナーに適用する必要があります。デフォルトでは、ドロップダウンまたはその項目はフォーカスを取得しないため、ディレクティブはドロップダウンを制御する `button` または `input` に配置できます。ナビゲーション ディレクティブの値は、<ApiLink type="DropDownBaseDirective" suffix={false} /> クラスのインスタンスまたは子孫であるコンポーネントを対象とする必要があります。
 
-以下のサンプルでは、クリックで `igxDropDown` インスタンスを開閉できます。入力自体に <ApiLink type="igxDropDownItemNavigation" suffix={false} /> ディレクティブを適用すると、上下矢印キーを使用するキーボード ナビゲーションが有効になります。これは、<ApiLink type="DropDown" member="allowItemsFocus" label="allowItemsFocus" /> プロパティを `false` に設定し、入力でフォーカスを維持できるデフォルトのドロップダウン動作に依存します。
+以下のサンプルでは、クリックで `igxDropDown` インスタンスを開閉できます。入力自体に <ApiLink type="DropDownItemNavigationDirective" suffix={false} /> ディレクティブを適用すると、上下矢印キーを使用するキーボード ナビゲーションが有効になります。これは、<ApiLink type="DropDown" member="allowItemsFocus" label="allowItemsFocus" /> プロパティを `false` に設定し、入力でフォーカスを維持できるデフォルトのドロップダウン動作に依存します。
 
 ```html
 <!-- input-dropdown.component.html -->
@@ -490,117 +494,26 @@ export class InputDropDownComponent {
 
 プライマリ プロパティを変更すると、関連するすべての依存プロパティが自動的に更新されます。
 
-<table class="collapsible-table">
-  <thead>
-    <tr>
-      <th>Primary Property</th>
-      <th>Dependent Property</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody class="group">
-    <tr class="primary">
-      <td>
-        <details><summary><strong>$background-color</strong></summary></details>
-      </td>
-      <td>$item-text-color</td>
-      <td>The drop-down item text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$hover-item-background</td>
-      <td>The drop-down hover item background color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$focused-item-background</td>
-      <td>The drop-down focused item background color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$focused-item-text-color</td>
-      <td>The drop-down focused item text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-item-background</td>
-      <td>The drop-down selected item background color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$disabled-item-text-color</td>
-      <td>The drop-down disabled item text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$header-text-color</td>
-      <td>The drop-down header text color.</td>
-    </tr>
-  </tbody>
-  <tbody class="group">
-    <tr class="primary">
-      <td>
-        <details><summary><strong>$item-text-color</strong></summary></details>
-      </td>
-      <td>$item-icon-color</td>
-      <td>The drop-down item icon color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$hover-item-text-color</td>
-      <td>The drop-down item hover text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$hover-item-icon-color</td>
-      <td>The drop-down item hover icon color.</td>
-    </tr>
-  </tbody>
-  <tbody class="group">
-    <tr class="primary">
-      <td>
-        <details><summary><strong>$selected-item-background</strong></summary></details>
-      </td>
-      <td>$selected-item-text-color</td>
-      <td>The drop-down selected item text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-item-icon-color</td>
-      <td>The drop-down selected item icon color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-hover-item-background</td>
-      <td>The drop-down selected item hover background color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-hover-item-text-color</td>
-      <td>The drop-down selected item hover text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-hover-item-icon-color</td>
-      <td>The drop-down selected item hover icon color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-focus-item-background</td>
-      <td>The drop-down selected item focus background color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-focus-item-text-color</td>
-      <td>The drop-down selected item focus text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$focused-item-border-color</td>
-      <td>The drop-down item focused border color.</td>
-    </tr>
-  </tbody>
-</table>
+| Primary Property | Dependent Property | Description |
+| --- | --- | --- |
+| **$background-color** | $item-text-color | The drop-down item text color. |
+|  | $hover-item-background | The drop-down hover item background color. |
+|  | $focused-item-background | The drop-down focused item background color. |
+|  | $focused-item-text-color | The drop-down focused item text color. |
+|  | $selected-item-background | The drop-down selected item background color. |
+|  | $disabled-item-text-color | The drop-down disabled item text color. |
+|  | $header-text-color | The drop-down header text color. |
+| **$item-text-color** | $item-icon-color | The drop-down item icon color. |
+|  | $hover-item-text-color | The drop-down item hover text color. |
+|  | $hover-item-icon-color | The drop-down item hover icon color. |
+| **$selected-item-background** | $selected-item-text-color | The drop-down selected item text color. |
+|  | $selected-item-icon-color | The drop-down selected item icon color. |
+|  | $selected-hover-item-background | The drop-down selected item hover background color. |
+|  | $selected-hover-item-text-color | The drop-down selected item hover text color. |
+|  | $selected-hover-item-icon-color | The drop-down selected item hover icon color. |
+|  | $selected-focus-item-background | The drop-down selected item focus background color. |
+|  | $selected-focus-item-text-color | The drop-down selected item focus text color. |
+|  | $focused-item-border-color | The drop-down item focused border color. |
 
 [Ignite UI for Angular テーマ](themes/index.md) を使用して、ドロップダウンの外観を変更できます。はじめに、テーマ エンジンによって公開されている関数を使用するために、スタイル ファイルに `index` ファイルをインポートする必要があります。
 
@@ -611,7 +524,7 @@ export class InputDropDownComponent {
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-最もシンプルな方法として、[`drop-down-theme`]({environment:sassApiUrl}/themes#function-drop-down-theme) を拡張し、既定のテーマ パラメーターの一部を指定することで、新しいテーマを作成します。背景の色を指定するだけで、インタラクション状態の色や適切な前景の色が自動的に計算されます。`$background` プロパティを設定すると、完全にスタイル設定されたドロップダウンが表示されます。
+最もシンプルな方法として、<ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="drop-down-theme" code={true} /> を拡張し、既定のテーマ パラメーターの一部を指定することで、新しいテーマを作成します。背景の色を指定するだけで、インタラクション状態の色や適切な前景の色が自動的に計算されます。`$background` プロパティを設定すると、完全にスタイル設定されたドロップダウンが表示されます。
 
 ```scss
 $custom-drop-down-theme: drop-down-theme(
@@ -639,16 +552,16 @@ $custom-drop-down-theme: drop-down-theme(
 ## API リファレンス
 
 - <ApiLink type="DropDown" />
-- [IgxDropDownComponent スタイル]({environment:sassApiUrl}/themes#function-drop-down-theme)
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="IgxDropDownComponent スタイル" />
 - <ApiLink type="DropDownItem" />
 - <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" />
-- [IgxOverlay スタイル]({environment:sassApiUrl}/themes#function-overlay-theme)
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay スタイル" />
 - <ApiLink type="DividerDirective" suffix={false} />
-- [IgxDividerDirective スタイル]({environment:sassApiUrl}/themes#function-divider-theme)
+- <ApiLink kind="sass" module="themes" type="function-divider-theme" label="IgxDividerDirective スタイル" />
 
 ## テーマの依存関係
 
-- [IgxOverlay テーマ]({environment:sassApiUrl}/themes#function-overlay-theme)
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay テーマ" />
 
 ## その他のリソース
 

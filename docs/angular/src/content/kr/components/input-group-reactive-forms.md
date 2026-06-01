@@ -9,7 +9,7 @@ _language: kr
 <p class="highlight">
 Ignite UI for Angular controls can be easily integrated in Reactive Forms.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Demo
 The following demo demonstrates [`igx-input-group`]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html), [`igx-select`]({environment:angularApiUrl}/classes/igxselectcomponent.html) and [`igx-combo`]({environment:angularApiUrl}/classes/igxcombocomponent.html) controls being part of the Reactive Form.
@@ -20,7 +20,6 @@ The following demo demonstrates [`igx-input-group`]({environment:angularApiUrl}/
            iframe-src="{environment:demosBaseUrl}/data-entries/reactive-forms/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Usage
 
@@ -96,7 +95,6 @@ export class ReactiveFormsSampleComponent {
 In that case the movie, full name, email and genres form's fields are required and the form won't be submitted, unless they have values.
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 - [Combo](combo.md)
 - [Select](select.md)

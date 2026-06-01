@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/type-financial-series">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 금융 시리즈의 유형
 

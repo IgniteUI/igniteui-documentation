@@ -7,7 +7,7 @@ _language: kr
 
 ## Ripple
 <p class="highlight">With the Ignite UI for Angular Ripple directive, you can create a ripple animation effect to give users feedback when they’re trying to click or touch regions that aren’t configured to receive that input. Set this directive to a relatively positioned element to create an animation in response to a touch or a mouse click.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Ripple Demo
 
@@ -16,7 +16,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/interactions/ripple-sample-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Dependencies
 
@@ -214,13 +213,11 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
 
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxRippleDirective]({environment:angularApiUrl}/classes/igxrippledirective.html)
 - [IgxRipple Styles]({environment:sassApiUrl}/themes#function-ripple-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 

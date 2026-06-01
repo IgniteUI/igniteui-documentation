@@ -15,7 +15,6 @@ _language: kr
            iframe-src="{environment:lobDemosBaseUrl}/hierarchical-grid/hierarchical-grid-resizing/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### 의존성
 계층 그리드는 `NgModule`로 내보내기 되므로 애플리케이션에서 `AppModule` 안에 IgxHierarchicalGridModule을 가져와야 합니다.
@@ -429,7 +428,6 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
 - [IgxGridCell]({environment:angularApiUrl}/classes/igxgridcell.html)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 - [Grid Sizing](sizing.md)
 - [가상화 및 성능](virtualization.md)
@@ -442,7 +440,6 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
 - [열 크기 조정](column-resizing.md)
 - [선택](selection.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

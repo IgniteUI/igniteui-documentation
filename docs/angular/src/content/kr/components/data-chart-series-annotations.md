@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/series-annotations">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 콜아웃 레이어
 

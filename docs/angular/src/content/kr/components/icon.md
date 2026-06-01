@@ -7,7 +7,7 @@ _language: kr
 
 ## Icon
 <p class="highlight">The Ignite UI for Angular Icon component unifies icon/font sets so developers can use them interchangeably and add material icons to markup. The component supports custom colors. Icons can be set as inactive.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Icon Demo
 
@@ -18,7 +18,6 @@ _language: kr
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Dependencies
 
@@ -219,13 +218,11 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
 - The [`IgxIconComponent`]({environment:angularApiUrl}/classes/igxiconcomponent.html) `iconName` property is deprecated. To set the icon name for 'material' icons, place the name of the icon between the opening and closing tags. For 'Font Awesome' and SVG icons, use the `name` property.
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
 - [IgxIconComponent Styles]({environment:sassApiUrl}/themes#function-icon-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 

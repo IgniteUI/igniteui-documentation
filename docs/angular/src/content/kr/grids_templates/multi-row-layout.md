@@ -253,16 +253,13 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
 
 
 ### API 참조
-<div class="divider--half"></div>
 
 - [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
 - [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
 - [IgxColumnLayoutComponent]({environment:angularApiUrl}/classes/igxcolumnlayoutcomponent.html)
 - [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
-<div class="divider--half"></div>
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 - [@@igComponent 개요](@@igMainTopic.md)
 - [가상화 및 성능](virtualization.md)
@@ -271,7 +268,6 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
 - [열 크기 조정](column-resizing.md)
 - [선택](selection.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

@@ -1,4 +1,4 @@
-import path from 'node:path';
+﻿import path from 'node:path';
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
@@ -12,6 +12,8 @@ import mdx from '@astrojs/mdx';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Preserve the project root before chdir so platform-context.ts can find docConfig.json.
+process.env.DOCS_PROJECT_ROOT = __dirname;
 // When --outDir=../../dist/* points outside docs/xplat/, Astro's getOutDirWithinCwd()
 // falls back to .astro/ as serverRoot, causing image generation to ENOENT.
 // Changing CWD to the repo root makes dist/* start with CWD, so serverRoot is correct.
@@ -67,6 +69,18 @@ const PLATFORM_SITE: Record<string, string> = {
 
 const meta      = PLATFORM_META[platform] ?? PLATFORM_META['React'];
 const XPLAT_ROOT = path.join(__dirname, 'generated', platform, lang);
+
+// Resolved once at config time, used by vitePluginPlatformTokens to substitute
+// {environment:dvDemosBaseUrl} and {environment:demosBaseUrl} tokens correctly
+// for each platform (e.g. blazor-client for Blazor, react-demos for React).
+const demosBaseUrl = (() => {
+    try {
+        const docConfig = JSON.parse(readFileSync(path.join(__dirname, 'docConfig.json'), 'utf8'));
+        return docConfig[platform]?.samplesBrowsers?.[mode]
+            ?? docConfig[platform]?.samplesBrowsers?.['production']
+            ?? '';
+    } catch { return ''; }
+})();
 
 // ---------------------------------------------------------------------------
 // Vite plugin: resolve docConfig tokens in .mdx files before MDX compilation
@@ -235,8 +249,8 @@ function vitePluginPlatformTokens() {
                     WebComponentsApiUrl:  'https://www.infragistics.com/products/ignite-ui-web-components/docs/typescript/latest',
                     ReactApiUrl:          'https://www.infragistics.com/products/ignite-ui-react/docs/typescript/latest',
                     BlazorApiUrl:         'https://www.infragistics.com/products/ignite-ui-blazor/docs/typescript/latest',
-                    dvDemosBaseUrl:       'https://www.infragistics.com/angular-demos-lob',
-                    demosBaseUrl:         'https://www.infragistics.com/angular-demos-lob',
+                    dvDemosBaseUrl:       demosBaseUrl,
+                    demosBaseUrl:         demosBaseUrl,
                 };
                 return ENV_MAP[key] ?? '';
             });
@@ -304,8 +318,8 @@ function buildFilteredToc(): string {
 const filteredTocPath = buildFilteredToc();
 
 console.log(`[astro.config] Platform: ${platform}  lang: ${lang}  mode: ${mode}`);
-const PROD_HOST = 'https://www.infragistics.com';
-const STAGING_HOST = 'https://staging.infragistics.com';
+const PROD_HOST = lang === 'jp' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
+const STAGING_HOST = lang === 'jp' ? 'https://jp.staging.infragistics.com' : 'https://staging.infragistics.com';
 
 const platformLangKey = lang === 'jp' ? `${platform}JP` : platform;
 const p = PLATFORMS[platformLangKey] ?? PLATFORMS[platform];
@@ -325,6 +339,10 @@ export default createDocsSite({
     platform: p.key,
     navLang: lang,
     mode,
+    build: {
+        format: 'file'
+    },
+    trailingSlash: 'never',
     source: {
         tocPath: filteredTocPath,
         docsDir: path.join(XPLAT_ROOT, 'components'),
@@ -336,16 +354,37 @@ export default createDocsSite({
             href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
             platform: key,
         })),
-    starlight: {
-        logo: { src: './public/favicon.svg' },
-    },
-    integrations: [mdx()],
+    packages: Object.values(PLATFORMS)
+        .filter(p => p.lang === lang)
+        .map(({ label, key, base: b }) => ({
+            label,
+            value: key,
+            href: mode === 'production' ? `${PROD_HOST}${b}/` : `${STAGING_HOST}${b}/`,
+        })),
+    selectedPackage: p.key,
+    head: [
+        { tag: 'link', attrs: { rel: 'icon', href: `${mode !== 'development' ? p.base : ''}/favicon.ico`, type: 'image/x-icon' } },
+    ],
+    integrations: [
+        mdx(),
+        {
+            name: 'watch-docs-template',
+            hooks: {
+                'astro:server:setup': ({ server }) => {
+                    server.watcher.add(path.resolve(__dirname, '../../src'));
+                },
+            },
+        },
+    ],
     vite: {
-        plugins: [vitePluginPlatformTokens()],
+        plugins: [
+            vitePluginPlatformTokens(),
+        ],
         resolve: {
             alias: {
                 '@xplat-images': path.resolve(__dirname, 'src/assets/images'),
             },
         },
+        server: { fs: { strict: false } },
     },
 });

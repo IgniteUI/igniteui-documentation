@@ -7,7 +7,7 @@ _language: kr
 
 ## Badge
 <p class="highlight">The Ignite UI for Angular Badge is an absolutely positioned element that is used to decorate avatars, navigation menus, or other components in the application when visual notification is needed. Badges usually are designed as icons with a predefined style to communicate information, success, warnings, or errors.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Badge Demo
 
@@ -16,7 +16,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/data-display/badge-sample-3/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**installation**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation) topic.
@@ -131,7 +130,6 @@ If the sample is configured properly, a list with members' name and status shoul
 </code-view>
 
 
-<div class="divider--half"></div>
 
 Let's add an avatar in front of every chat member. To do this, put another div element in the [`igx-list-item`]({environment:angularApiUrl}/classes/igxlistitemcomponent.html) containing the [`IgxAvatarComponent`]({environment:angularApiUrl}/classes/igxavatarcomponent.html). Modify the list item content as shown below.
 
@@ -163,7 +161,6 @@ Let's add an avatar in front of every chat member. To do this, put another div e
 </code-view>
 
 
-<div class="divider--half"></div>
 
 Having just a list with names doesn't provide much useful visual information. The last step is to add [`igx-badge`]({environment:angularApiUrl}/classes/igxbadgecomponent.html) to show the contact state notification. Modify the list items content as shown below adding a badge component inside the avatar component.
 
@@ -215,7 +212,6 @@ If the sample is configured properly, a list of members should be displayed and 
 
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
 - [IgxBadgeComponent]({environment:angularApiUrl}/classes/igxbadgecomponent.html)
@@ -225,7 +221,6 @@ If the sample is configured properly, a list of members should be displayed and 
 - [Type]({environment:angularApiUrl}/enums/type.html)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

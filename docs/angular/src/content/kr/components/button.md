@@ -17,7 +17,6 @@ The Button directive within Ignite UI for Angular is intended to be used on any 
            iframe-src="{environment:demosBaseUrl}/data-entries/buttons-sample-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Dependencies
 
@@ -126,7 +125,6 @@ Icon results:
     <iframe seamless width="100%" height="100%" frameborder="0" data-src="{environment:demosBaseUrl}/data-entries/buttons-sample-7" class="lazyload">
 </iframe></div>
 
-<div class="divider--half"></div>
 
 ### Button types
 
@@ -185,17 +183,14 @@ And the final result:
            iframe-src="{environment:demosBaseUrl}/data-entries/buttons-display-density/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxButtonDirective]({environment:angularApiUrl}/classes/igxbuttondirective.html)
 - [IgxButton Styles]({environment:sassApiUrl}/themes#function-button-theme)
 - [IgxRippleDirective]({environment:angularApiUrl}/classes/igxrippledirective.html)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 

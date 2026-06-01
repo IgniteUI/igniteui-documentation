@@ -18,7 +18,6 @@ Ignite UI for Angular 카테고리 차트 컴포넌트는 다음의 데모에서
            github-src="charts/category-chart/high-volume">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 퍼포먼스 최적화
 

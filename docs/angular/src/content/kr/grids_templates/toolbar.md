@@ -267,7 +267,7 @@ public toolbarExportingHandler(args) {
            iframe-src="{environment:demosBaseUrl}/grid/grid-toolbar-sample-3/" >
 </code-view>
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 }
 @@if (igxName === 'IgxTreeGrid') {
 
@@ -276,7 +276,7 @@ public toolbarExportingHandler(args) {
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-toolbar-2/" >
 </code-view>
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 }
 }
 #### 사용자 콘텐츠 템플릿
@@ -311,7 +311,7 @@ public toolbarExportingHandler(args) {
            iframe-src="{environment:demosBaseUrl}/grid/grid-toolbar-sample-4/" >
 </code-view>
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 }
 @@if (igxName === 'IgxTreeGrid') {
 
@@ -320,7 +320,7 @@ public toolbarExportingHandler(args) {
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-toolbar-3/" >
 </code-view>
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
@@ -329,7 +329,7 @@ public toolbarExportingHandler(args) {
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-toolbar-custom/" >
 </code-view>
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 }
 
 ### API 참조
@@ -356,7 +356,6 @@ public toolbarExportingHandler(args) {
 
 ### 추가 리소스
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

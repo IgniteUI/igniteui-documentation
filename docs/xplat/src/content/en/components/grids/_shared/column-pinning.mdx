@@ -11,7 +11,6 @@ _canonicalLink: "{CanonicalLinkToGridColumnPinning}"
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
-import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 
@@ -29,7 +28,7 @@ This example demonstrates how you can pin a column or multiple columns to the le
 
 ## Column Pinning API
 
-Column pinning is controlled through the <ApiLink pkg="grids" type="Column" member="pinned" /> property of the `Column`. Pinned columns are rendered on the left side of the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> by default and stay fixed through horizontal scrolling of the unpinned columns in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> body.
+Column pinning is controlled through the <ApiLink pkg="grids" type="Column" member="pinned" /> property of the <ApiLink pkg="grids" type="Column" />. Pinned columns are rendered on the left side of the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> by default and stay fixed through horizontal scrolling of the unpinned columns in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> body.
 
 <ComponentBlock for="Grid">
 <PlatformBlock for="Angular">
@@ -211,13 +210,18 @@ gridRef.current.unpinColumn('Debut');
 
 Both methods return a boolean value indicating whether their respective operation is successful or not. Usually the reason they fail is that the column is already in the desired state.
 
-<PlatformBlock for="Angular, React, WebComponents">
+<PlatformBlock for="Angular, WebComponents">
 A column is pinned to the right of the rightmost pinned column. Changing the order of the pinned columns can be done by subscribing to the <ApiLink pkg="grids" type="{ComponentName}" member="columnPin" prefixed={false} /> event and changing the <ApiLink pkg="grids" kind="interface" type="PinColumnEventArgs" member="insertAtIndex" /> property of the event arguments to the desired position index.
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+A column is pinned to the right of the rightmost pinned column. Changing the order of the pinned columns can be done by subscribing to the <ApiLink pkg="grids" type="{ComponentName}" member="columnPin" prefixed={false} /> event and changing the <ApiLink pkg="grids" kind="type" type="PinColumnEventArgs" label="insertAtIndex" /> property of the event arguments to the desired position index.
+
+</PlatformBlock>
+
 <PlatformBlock for="Blazor">
-A column is pinned to the right of the rightmost pinned column. Changing the order of the pinned columns can be done by subscribing to the `ColumnPinScript` event and providing a JavaScript function for changing the <ApiLink pkg="grids" kind="interface" type="PinColumnEventArgs" member="insertAtIndex" /> property of the event arguments to the desired position index.
+A column is pinned to the right of the rightmost pinned column. Changing the order of the pinned columns can be done by subscribing to the `ColumnPinScript` event and providing a JavaScript function for changing the <ApiLink pkg="grids" kind="class" type="PinColumnEventArgs" member="insertAtIndex" suffix={false} /> property of the event arguments to the desired position index.
 
 </PlatformBlock>
 
@@ -810,7 +814,7 @@ public toggleColumn(col: IgcColumnComponent) {
 <ComponentBlock for="Grid">
 ## Styling
 
-The <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> allows styling through the [{ProductName} Theme Library](../themes/styles.md). The grid's [theme]({environment:sassApiUrl}/index.html#function-grid-theme) exposes a wide variety of properties, which allow the customization of all the features of the grid.
+The <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> allows styling through the [{ProductName} Theme Library](../themes/styles.md). The grid's <ApiLink kind="sass" module="index.html" type="function-grid-theme" label="theme" /> exposes a wide variety of properties, which allow the customization of all the features of the grid.
 
 In the below steps, we are going through the steps of customizing the grid's Pinning styling.
 
@@ -825,7 +829,7 @@ To begin the customization of the Pinning feature, you need to import the `index
 ```
 
 ### Defining Custom Theme
-Next, create a new theme, that extends the [grid-theme]({environment:sassApiUrl}/index.html#function-grid-theme) and accepts the parameters, required to customize the Pinning feature as desired.
+Next, create a new theme, that extends the <ApiLink kind="sass" module="index.html" type="function-grid-theme" label="grid-theme" /> and accepts the parameters, required to customize the Pinning feature as desired.
 
 ```scss
 $custom-theme: grid-theme(
@@ -839,7 +843,7 @@ $custom-theme: grid-theme(
 ```
 
 ### Defining a Custom Color Palette
-In the approach, that was described above, the color values were hardcoded. Alternatively, you can achieve greater flexibility, using the [igx-palette]({environment:sassApiUrl}/index.html#function-igx-palette) and [igx-color]({environment:sassApiUrl}/index.html#function-igx-color) functions.
+In the approach, that was described above, the color values were hardcoded. Alternatively, you can achieve greater flexibility, using the <ApiLink kind="sass" module="index.html" type="function-igx-palette" label="igx-palette" /> and <ApiLink kind="sass" module="index.html" type="function-igx-color" label="igx-color" /> functions.
 `igx-palette` generates a color palette, based on provided primary and secondary colors.
 
  ```scss
@@ -903,11 +907,11 @@ The easiest way to apply your theme is with a `sass` `@include` statement in the
 In order for the custom theme to affect only specific component, you can move all of the styles you just defined from the global styles file to the custom component's style file (including the import of the `index` file).
 
 This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Component#encapsulation), your styles will be applied only to your custom component.
- <DocsAside type="note">
+ <DocsAside type="info">
  If the component is using an [Emulated](../themes/styles.md#view-encapsulation) ViewEncapsulation, it is necessary to penetrate this encapsulation using `::ng-deep` in order to style the grid.
  </DocsAside>
 
- <DocsAside type="note">
+ <DocsAside type="info">
  Wrap the statement inside of a `:host` selector to prevent your styles from affecting elements outside of our component:
  </DocsAside>
 
@@ -923,7 +927,7 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
 
 <Sample src="/{ComponentSample}/column-pinning-styles" height={506} alt="{Platform} {ComponentTitle} column pinning styles" />
 
-<DocsAside type="note">
+<DocsAside type="info">
 The sample will not be affected by the selected global theme from **Change Theme**.
 </DocsAside>
 
@@ -973,10 +977,8 @@ Then set the related CSS properties to this class:
 </PlatformBlock>
 
 ## API References
-
-<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
-<ApiRef pkg="grids" types={["Column"]} />
-
+<ApiLink type="{ComponentName}" pkg="grids" prefixed={false} />
+<ApiLink type="Column" pkg="grids" />
 ## Additional Resources
 <ComponentBlock for="Grid, HierarchicalGrid">
 - [Virtualization and Performance](virtualization.md)

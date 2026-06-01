@@ -18,7 +18,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-virtual/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Configuration
 
@@ -137,7 +136,6 @@ You can view the configured example below:
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-virtual/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Remote Data
 The `igx-drop-down` supports loading chunks of remote data using `igxFor` directive. The configuration is similar to the one using `igxFor` with local items and the main difference is handling the loading of different data chunks.
@@ -258,7 +256,6 @@ The result of the above configuration is a drop-down that dynamically loads the 
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-remote/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Notes and Limitations
 

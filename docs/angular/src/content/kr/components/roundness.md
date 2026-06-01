@@ -8,7 +8,6 @@ _language: kr
 ## Components roundness
 <p class="highlight">In Ignite UI for Angular we allows you to change the shape of components by changing their border-radius</p>
 
-<div class="divider--half"></div>
 
 ### Overview
 Border radius as any other property is set through the theme schema like it's shown in the example below.
@@ -56,7 +55,6 @@ The result from the above code snippets is:
            iframe-src="{environment:demosBaseUrl}/theming/shadows-sample/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 
 ### Baseline roundness values
@@ -86,7 +84,6 @@ The table shows the default border-radius for each component and its min and max
 | **Toast**              | Yes; Yes; Yes; Yes;        | 0 - 26px              | 26px                       |
 
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

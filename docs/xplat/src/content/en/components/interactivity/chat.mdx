@@ -8,13 +8,14 @@ license: MIT
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 
 # {Platform} Chat Overview
 
 The {ProductName} Chat component provides a complete solution for building conversational interfaces in your applications. Whether you are creating a customer support tool, a collaborative workspace, or a chatbot assistant, the Chat component gives you the building blocks you need: sending and receiving text messages, uploading file attachments, displaying quick reply suggestions, showing typing indicators when the other participant is writing a response.
 
-Unlike a static message list, the `Chat` component is interactive and designed for **real-time communication**. It manages input, rendering, and user interaction while giving you full control over how messages and attachments are displayed. It also exposes an extensive rendering API that lets you override any part of its layout or visuals.
+Unlike a static message list, the <ApiLink type="Chat" /> component is interactive and designed for **real-time communication**. It manages input, rendering, and user interaction while giving you full control over how messages and attachments are displayed. It also exposes an extensive rendering API that lets you override any part of its layout or visuals.
 
 <Sample src="/interactions/chat/overview" height={900} alt="{Platform} Chat Overview Example" />
 
@@ -171,9 +172,9 @@ The `Chat` component exposes several key properties that let you control its sta
 
 | Name              | Description                                                                                                                                                          |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `messages`        | Array of messages (`ChatMessage[]`) displayed in the chat. You can bind to this to control which messages are shown.                                                  |
+| `messages`        | Array of messages (<ApiLink type="ChatMessage" kind="interface" prefixed={true} suffix={false} />[]) displayed in the chat. You can bind to this to control which messages are shown.                                                  |
 | `draftMessage`    | The current unsent message, represented as an object containing `text` and optional `attachments`. This is useful for saving or restoring message drafts.            |
-| `options`         | Chat configuration (`ChatOptions`) such as current user ID, input placeholders, accepted file types, quick reply suggestions, typing delay, and custom renderers. |
+| `options`         | Chat configuration (<ApiLink type="ChatOptions" kind="type" suffix={false} />) such as current user ID, input placeholders, accepted file types, quick reply suggestions, typing delay, and custom renderers. |
 | `resourceStrings` | Localized resource strings for labels, headers, and system text. Use this property to adapt the component for different languages.                                   |
 
 These properties make it straightforward to synchronize the Chat’s UI with your application’s state and backend.
@@ -306,7 +307,7 @@ This feature is typically toggled programmatically, for example when receiving a
 
 ### Custom Renderers
 While the Chat component works out of the box with its default UI, many applications need to customize the look and feel. For example, you might want to add read receipts, display avatars, or replace the input area with a voice recording button.
-The `Chat` component addresses this need with a renderer system. A renderer is simply a function that returns a template for a given part of the UI. You can override as many or as few renderers as you like.
+The <ApiLink type="Chat" /> component addresses this need with a renderer system. A renderer is simply a function that returns a template for a given part of the UI. You can override as many or as few renderers as you like.
 
 #### ChatTemplateRenderer
 Every renderer follows the same function signature:
@@ -321,10 +322,10 @@ The ctx parameter provides different contextual data depending on what is being 
 
 | Context Type                | Provided Data                                                                                                          |
 | --------------------------- | -----------------------------------------------------------------------------------------------------------------------|
-| `ChatRenderContext`       | `instance` (the chat component instance).                                                |
-| `ChatInputRenderContext`      | Inherits `ChatRenderContext` and adds `attachments` (array of `ChatMessageAttachment`) and `value` (current input text). |
-| `ChatMessageRenderContext`    | Inherits `ChatRenderContext` and adds `ChatMessage` (the `ChatMessage` being rendered).                                      |
-| `ChatAttachmentRenderContext` | Inherits `ChatMessageRenderContext` and adds `attachment` (the `ChatMessageAttachment` being rendered).                      |
+| <ApiLink type="ChatRenderContext" prefixed={false} kind="interface" suffix={false} />       | `instance` (the chat component instance).                                                |
+| <ApiLink type="ChatInputRenderContext" prefixed={false} kind="interface" suffix={false} />      | Inherits <ApiLink type="ChatRenderContext" prefixed={false} kind="interface" suffix={false} /> and adds `attachments` (array of <ApiLink type="ChatMessageAttachment" prefixed={true} kind="interface" suffix={false} />) and `value` (current input text). |
+| <ApiLink type="ChatMessageRenderContext" prefixed={false} kind="interface" suffix={false} />    | Inherits <ApiLink type="ChatRenderContext" prefixed={false} kind="interface" suffix={false} /> and adds `ChatMessage` (the <ApiLink type="ChatMessage" prefixed={true} kind="interface" suffix={false} /> being rendered).                                      |
+| <ApiLink type="ChatAttachmentRenderContext" prefixed={false} kind="interface" suffix={false} /> | Inherits <ApiLink type="ChatMessageRenderContext" prefixed={false} kind="interface" suffix={false} /> and adds `attachment` (the <ApiLink type="ChatMessageAttachment" prefixed={true} kind="interface" suffix={false} /> being rendered).                      |
 
 #### Available Renderers
 
@@ -484,21 +485,20 @@ In this setup:
 This approach gives you full flexibility over the chat input bar, letting you add, remove, or reorder actions without rebuilding the input area from scratch.
 
 ### Markdown Rendering
-The Chat component includes built-in support for Markdown content through the `createMarkdownRenderer` helper, which is exported from the
+
 <PlatformBlock for="WebComponents">
 
- `igniteui-webcomponents/extras`
+The Chat component includes built-in support for Markdown content through the `createMarkdownRenderer` helper, which is exported from the `igniteui-webcomponents/extras` entry point of the main package. This allows you to display messages with formatted text, links, lists, and even syntax-highlighted code blocks, while ensuring that all rendered HTML is sanitized for security.
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
- `igniteui-react/extras`
+The Chat component includes built-in support for Markdown content through the `createMarkdownRenderer` helper, which is exported from the `igniteui-react/extras` entry point of the main package. This allows you to display messages with formatted text, links, lists, and even syntax-highlighted code blocks, while ensuring that all rendered HTML is sanitized for security.
 
 </PlatformBlock>
- entry point of the main package. This allows you to display messages with formatted text, links, lists, and even syntax-highlighted code blocks, while ensuring that all rendered HTML is sanitized for security.
 
-<DocsAside type="note">
+<DocsAside type="info">
 To use the Markdown renderer, you need to install the following peer dependencies in your project:
 </DocsAside>
 
@@ -717,40 +717,45 @@ However, it comes with trade-offs:
 
 We highly recommend using the standard Web Component styling approaches before resorting to this property:
 - CSS Variables and ::part API – Prefer customizing via exposed parts and variables.
-- "<link />" elements – For larger stylesheets, inject them inside the Shadow DOM.
+- `<link>` elements – For larger stylesheets, inject them inside the Shadow DOM.
 - Inline `<style>` tags – For small, scoped style overrides.
 
 #### Example
 
 ```css
 igc-chat::part(header) {
-  background: var(--ig-primary-100);
+  background-color: var(--ig-gray-800);
+  color: var(--ig-warn-400);
 }
 
 igc-chat::part(message-container) {
-  border-radius: 12px;
-  padding: 0.5rem;
+  background: var(--ig-warn-200);
+  color: var(--ig-warn-200-contrast);
 }
 
-igc-chat::part(empty-state) {
-  font-style: italic;
-  color: var(--ig-gray-500);
+igc-chat::part(message-sent) {
+  background: var(--ig-warn-500);
+  color: var(--ig-warn-500-contrast);
+}
+
+igc-chat::part(message-header) {
+  color: var(--ig-warn-A700); 
 }
 ```
 
 This allows you to style the `Chat` to match your brand without replacing its functionality.
 
-<Sample src="/interactions/chat/styling" height={900} alt="Web Components Chat Styling Example" />
+<Sample src="/interactions/chat/styling" height={900} alt="{Platform} Chat Styling Example" />
 
 
 ## API Reference
 
-- `Chat`
-- `ChatOptions`
-- `ChatMessage`
-- `ChatMessageAttachment`
-- `ChatRenderers`
-- `ChatTemplateRenderer`
+- <ApiLink type="Chat" />
+- <ApiLink type="ChatOptions" kind="type" suffix={false} />
+- <ApiLink type="ChatMessage" kind="interface" prefixed={true} suffix={false} />
+- <ApiLink type="ChatMessageAttachment" prefixed={true} kind="interface" suffix={false} />
+- <ApiLink type="ChatRenderers" kind="interface" prefixed={false} suffix={false} />
+- <ApiLink type="ChatTemplateRenderer" kind="type" prefixed={false} suffix={false} />
 - [Styling & Themes](../themes/overview.md)
 
 ## Additional Resources

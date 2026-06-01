@@ -59,7 +59,7 @@ import { IgxComboModule } from 'igniteui-angular/combo';
 export class AppModule {}
 ```
 
-Alternatively, as of `16.0.0` you can import the `IgxComboComponent` as a standalone dependency, or use the [`IGX_COMBO_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/combo/public_api.ts) token to import the component and all of its supporting components and directives.
+Alternatively, as of `16.0.0` you can import the `IgxComboComponent` as a standalone dependency, or use the [`IGX_COMBO_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/combo/src/combo/public_api.ts) token to import the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -116,7 +116,7 @@ In our case, we want the combobox to display the `name` of each city and the com
 <igx-combo [data]="cities" displayKey="name" valueKey="id"></igx-combo>
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 When the data source is an array of primitives (e.g. `string[]`, `number[]`), **do not** specify a `valueKey` and `displayKey`. Primitive values will be used for both value and text.
 </DocsAside>
 
@@ -202,13 +202,44 @@ In the following example, when a city is added or removed from the selection, a 
 ```typescript
 export class MyExampleCombo {
     ...
-    handleCityChange(event: IComboSelectionChangeEventArgs): void {
+    handleCityChange(event: IComboSelectionChangingEventArgs): void {
         for (const item of event.added) {
             this.addToVisualization(item);
         }
         for (const item of event.removed) {
             this.removeFromVisualization(item);
         }
+    }
+}
+```
+
+Additionally, the combobox fires a <ApiLink type="Combo" member="selectionChanged" /> event after the selection is committed and the component state has been updated. The emitted event arguments, <ApiLink kind="interface" type="IComboSelectionChangedEventArgs" suffix={false} prefixed={false} />, contain information about the previous selection, the current selection and the items that were added or removed. Unlike `selectionChanging`, this event is not cancellable and is guaranteed to reflect the final committed selection state. When the combobox is used with `ngModel` or Angular forms, `selectionChanged` is emitted after the value change callback is invoked.
+
+Binding to the event can be done through the proper `@Output` property on the `igx-combo` tag:
+
+```html
+<igx-combo [data]="cities" displayKey="name" valueKey="id"
+           (selectionChanged)="handleCitySelectionChanged($event)">
+</igx-combo>
+```
+
+In the following example, when the selection changes, the handler updates a short summary and tracks how many items were added and removed:
+
+```typescript
+export class MyExampleCombo {
+    ...
+    handleCitySelectionChanged(event: IComboSelectionChangedEventArgs): void {
+        this.updateSelectionSummary(event.displayText, event.newSelection.length);
+
+        for (const item of event.added) {
+            this.highlightAddedCity(item);
+        }
+
+        for (const item of event.removed) {
+            this.dimRemovedCity(item);
+        }
+
+        this.logSelectionTransition(event.oldSelection, event.newSelection);
     }
 }
 ```
@@ -222,7 +253,7 @@ By default, the combo control provides multiple selection. The snippet below dem
 ```
 
 ```typescript
-public singleSelection(event: IComboSelectionChangeEventArgs) {
+public singleSelection(event: IComboSelectionChangingEventArgs) {
     if (event.added.length) {
         event.newValue = event.added;
     }
@@ -255,7 +286,7 @@ When combobox is opened and search input is focused:
 
 - `ArrowDown` will move focus from the search input to the first list item. If the list is empty and custom values are enabled will move it to the Add new item button.
 
-<DocsAside type="note">
+<DocsAside type="info">
 Any other key stroke will be handled by the input.
 </DocsAside>
 
@@ -285,62 +316,17 @@ When combobox is opened, allow custom values are enabled and add item button is 
 
 When you modify a primary property, all related dependent properties are updated automatically:
 
-<table class="collapsible-table">
-    <thead>
-        <tr>
-            <th>Primary Property</th>
-            <th>Dependent Property</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody class="group">
-        <tr class="primary">
-            <td><strong>$empty-list-background</strong></td>
-            <td>$empty-list-placeholder-color</td>
-            <td>The combo placeholder text color.</td>
-        </tr>
-        <tr class="primary">
-            <td><details><summary><strong>$toggle-button-background</strong></summary></details></td>
-            <td>$toggle-button-foreground</td>
-            <td>The combo toggle button foreground color.</td>
-        </tr>
-        <tr class="dependent">
-            <td></td>
-            <td>$toggle-button-background-focus</td>
-            <td>The combo toggle button background color when focused.</td>
-        </tr>
-        <tr class="dependent">
-            <td></td>
-            <td>$toggle-button-background-focus--border</td>
-            <td>The combo toggle button background color when focused (border variant).</td>
-        </tr>
-        <tr class="dependent">
-            <td></td>
-            <td>$toggle-button-foreground-filled</td>
-            <td>The combo toggle button foreground color when filled.</td>
-        </tr>
-        <tr class="dependent">
-            <td></td>
-            <td>$toggle-button-background-disabled</td>
-            <td>The combo toggle button background color when disabled.</td>
-        </tr>
-        <tr class="dependent">
-            <td></td>
-            <td>$toggle-button-foreground-disabled</td>
-            <td>The combo toggle button foreground color when disabled.</td>
-        </tr>
-        <tr class="primary">
-            <td><strong>$toggle-button-background-focus</strong></td>
-            <td>$toggle-button-foreground-focus</td>
-            <td>The combo toggle button foreground color when focused.</td>
-        </tr>
-        <tr class="primary">
-            <td><strong>$clear-button-background-focus</strong></td>
-            <td>$clear-button-foreground-focus</td>
-            <td>The combo clear button foreground color when focused.</td>
-        </tr>
-    </tbody>
-</table>
+| Primary Property | Dependent Property | Description |
+| --- | --- | --- |
+| **$empty-list-background** | $empty-list-placeholder-color | The combo placeholder text color. |
+| **$toggle-button-background** | $toggle-button-foreground | The combo toggle button foreground color. |
+|  | $toggle-button-background-focus | The combo toggle button background color when focused. |
+|  | $toggle-button-background-focus--border | The combo toggle button background color when focused (border variant). |
+|  | $toggle-button-foreground-filled | The combo toggle button foreground color when filled. |
+|  | $toggle-button-background-disabled | The combo toggle button background color when disabled. |
+|  | $toggle-button-foreground-disabled | The combo toggle button foreground color when disabled. |
+| **$toggle-button-background-focus** | $toggle-button-foreground-focus | The combo toggle button foreground color when focused. |
+| **$clear-button-background-focus** | $clear-button-foreground-focus | The combo clear button foreground color when focused. |
 
 Using the [`Ignite UI for Angular Theming`](/themes), we can greatly alter the combobox appearance. First, in order for us to use the functions exposed by the theme engine, we need to import the `index` file in our style file:
 
@@ -351,7 +337,7 @@ Using the [`Ignite UI for Angular Theming`](/themes), we can greatly alter the c
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-Following the simplest approach, we create a new theme that extends the [`combo-theme`]({environment:sassApiUrl}/themes#function-combo-theme). By setting the `$toggle-button-background`, the theme automatically determines suitable state colors and contrast foregrounds for the button. You can also specify additional parameters, such as `$search-separator-border-color`:
+Following the simplest approach, we create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-combo-theme" label="combo-theme" code={true} />. By setting the `$toggle-button-background`, the theme automatically determines suitable state colors and contrast foregrounds for the button. You can also specify additional parameters, such as `$search-separator-border-color`:
 
 ```scss
 $custom-combo-theme: combo-theme(
@@ -360,7 +346,7 @@ $custom-combo-theme: combo-theme(
 );
 ```
 
-The <ApiLink type="Combo" /> uses the <ApiLink type="DropDown" /> internally as an item container. It also includes the <ApiLink type="InputGroup" suffix={false} /> and the <ApiLink type="Checkbox" suffix={false} /> components. Creating new themes, that extend these components' themes, and scoping them under the respective classes will let you change the combobox styles:
+The <ApiLink type="Combo" /> uses the <ApiLink type="DropDown" /> internally as an item container. It also includes the <ApiLink type="InputGroupComponent" suffix={false} /> and the <ApiLink type="CheckboxComponent" suffix={false} /> components. Creating new themes, that extend these components' themes, and scoping them under the respective classes will let you change the combobox styles:
 
 ```scss
 $custom-drop-down-theme: drop-down-theme(
@@ -384,8 +370,8 @@ The last step is to include the component's theme.
 }
 ```
 
-<DocsAside type="note">
-The <ApiLink type="Combo" suffix={false} /> component uses the [`IgxOverlay`](/overlay) service to hold and display the combobox items list container. To properly scope your styles you might have to use an <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" member="outlet" />. For more details check the [`IgxOverlay Styling Guide`](/overlay-styling). Also is necessary to use `::ng-deep` when we are styling the components.
+<DocsAside type="info">
+The <ApiLink type="ComboComponent" suffix={false} /> component uses the [`IgxOverlay`](/overlay) service to hold and display the combobox items list container. To properly scope your styles you might have to use an <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" member="outlet" />. For more details check the [`IgxOverlay Styling Guide`](/overlay-styling). Also is necessary to use `::ng-deep` when we are styling the components.
 [!Note]
 The default `type` of the `IgxCombo` is `box` unlike the [`IgxSelect`](/select) where it is `line`.
 </DocsAside>
@@ -416,7 +402,7 @@ The utility file includes both `light` and `dark` theme variants.
 
 Once applied, these classes enable dynamic theme calculations. From there, you can override the generated CSS variables using `arbitrary properties`. After the colon, provide any valid CSS color format (HEX, CSS variable, RGB, etc.).
 
-You can find the full list of properties in the [combo-theme]({environment:sassApiUrl}/themes#function-combo-theme). The syntax is as follows:
+You can find the full list of properties in the <ApiLink kind="sass" module="themes" type="function-combo-theme" label="combo-theme" />. The syntax is as follows:
 
 ```html
 <igx-combo
@@ -426,7 +412,7 @@ class="!light-combo
 ...></igx-combo>
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 The exclamation mark(`!`) is required to ensure the utility class takes precedence. Tailwind applies styles in layers, and without marking these styles as important, they will get overridden by the component’s default theme.
 </DocsAside>
 
@@ -440,29 +426,24 @@ At the end your combo should look like this:
 - When the combobox is bound to an array of primitive data which contains `undefined` (i.e. `[ undefined, ...]`), `undefined` is not displayed in the dropdown. When it is bound to an array of complex data (i.e. objects) and the value used for `valueKey` is `undefined`, the item will be displayed in the dropdown, but cannot be selected.
 - When the combobox is bound to a remote service and there is a predefined selection, its input will remain blank until the requested data is loaded.
 
-<DocsAside type="note">
+<DocsAside type="info">
 The combobox uses `igxForOf` directive internally hence all `igxForOf` limitations are valid for the combobox. For more details see [`igxForOf Known Issues`](/for-of#known-limitations) section.
 </DocsAside>
 
 ## API References
-
 <hr/>
-
 - <ApiLink type="Combo" />
-- [IgxComboComponent Styles]({environment:sassApiUrl}/themes#function-combo-theme)
-
+- <ApiLink kind="sass" module="themes" type="function-combo-theme" label="IgxComboComponent Styles" />
 Additional [angular components](https://www.infragistics.com/products/ignite-ui-angular) and/or directives with relative APIs that were used:
-
 - <ApiLink type="DropDown" />
 - <ApiLink type="InputGroup" />
 - <ApiLink type="Checkbox" />
-
 ## Theming Dependencies
 
-- [IgxDropDown Theme]({environment:sassApiUrl}/themes#function-drop-down-theme)
-- [IgxIcon Theme]({environment:sassApiUrl}/themes#function-icon-theme)
-- [IgxCheckbox Theme]({environment:sassApiUrl}/themes#function-checkbox-theme)
-- [IgxOverlay Theme]({environment:sassApiUrl}/themes#function-overlay-theme)
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="IgxDropDown Theme" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon Theme" />
+- <ApiLink kind="sass" module="themes" type="function-checkbox-theme" label="IgxCheckbox Theme" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay Theme" />
 
 ## Additional Resources
 

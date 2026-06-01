@@ -51,7 +51,6 @@ keywords: angular crud, ignite ui for angular, infragistics
            iframe-src="{environment:demosBaseUrl}/grid/grid-batch-editing/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 @@if (igxName === 'IgxTreeGrid') {
 다음 샘플은 트랜잭션을 통해 일괄 편집을 공급자로 설정하고 사용하는 방법을 보여주며 행 편집을 활성화합니다. 후자는 전체 행 편집이 확인된 후 트랜잭션이 추가됩니다. 이 샘플은 플랫 데이터 소스를 사용합니다.
@@ -62,7 +61,6 @@ keywords: angular crud, ignite ui for angular, infragistics
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-batchediting/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
@@ -71,7 +69,6 @@ keywords: angular crud, ignite ui for angular, infragistics
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-batch-editing/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 
 > [!NOTE]
@@ -399,7 +396,6 @@ export class HierarchicalGridBatchEditingSampleComponent {
 - [@@igComponent 행 편집](row-editing.md)
 - [@@igComponent Row Adding](row-adding.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

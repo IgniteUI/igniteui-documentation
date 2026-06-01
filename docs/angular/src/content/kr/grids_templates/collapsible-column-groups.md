@@ -18,7 +18,6 @@ Multi-column headers allow you to have multiple levels of nested columns and col
            iframe-src="{environment:demosBaseUrl}/grid/grid-collapsible-groups/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 
 @@if (igxName === 'IgxTreeGrid') {
@@ -28,7 +27,6 @@ Multi-column headers allow you to have multiple levels of nested columns and col
            iframe-src="{environment:demosBaseUrl}/tree-grid/tree-grid-collapsible-groups/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
@@ -37,7 +35,6 @@ Multi-column headers allow you to have multiple levels of nested columns and col
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-collapsible-column-groups/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 
 ### Setup
@@ -140,14 +137,12 @@ Another way to achieve this behavior is to use the igxCollapsibleIndicator direc
 
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
 - [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
 - [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 - [Grid overview](grid.md)
 - [Virtualization and Performance](virtualization.md)
@@ -159,7 +154,6 @@ Another way to achieve this behavior is to use the igxCollapsibleIndicator direc
 - [Column Pinning](column_pinning.md)
 - [Selection](selection.md)
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

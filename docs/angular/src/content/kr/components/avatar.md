@@ -8,7 +8,7 @@ _language: kr
 ## Avatar
 
 <p class="highlight">The Ignite UI for Angular Avatar component helps adding images, material icons, or initials to your application.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Avatar Demo
 
@@ -18,7 +18,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/layouts/avatar-sample-3/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Usage
 
@@ -108,13 +107,11 @@ Analogically, the avatar can display an icon via the [`icon`]({environment:angul
 ```
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
 - [IgxAvatarComponent Styles]({environment:sassApiUrl}/themes#function-avatar-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

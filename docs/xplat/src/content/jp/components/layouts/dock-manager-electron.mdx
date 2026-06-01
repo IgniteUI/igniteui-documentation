@@ -8,7 +8,6 @@ mentionedTypes: ["DockManager", "DocumentHost", "DockManagerLayout", "DockManage
 ---
 
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
-import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import { Image } from 'astro:assets';
 import dockmanagerElectronApp from '@xplat-images/dockmanager-electron-app.gif';
@@ -40,7 +39,7 @@ import dockmanagerElectronApp from '@xplat-images/dockmanager-electron-app.gif';
 
 ### ドラッグ アンド ドロップ
 
-ブラウザー/アプリケーション ウィンドウの外側でのペインのドラッグをサポートするために、ブラウザー内のフローティング ペインを作成する組み込みのドラッグアンドドロップを、[HTML ドラッグアンドドロップ API](https://developer.mozilla.org/ja/docs/Web/API/HTML_Drag_and_Drop_API) に基づくカスタム実装に置き換えました。ヘッダー要素が DOM に接続されたときに発生する <ApiLink type="DockManager" member="paneHeaderConnected" label="PaneHeaderConnected" /> イベントと <ApiLink type="DockManager" member="tabHeaderConnected" label="TabHeaderConnected" /> イベントにサブスクライブしました。ヘッダー要素が接続されると、組み込みの `DragService` をリセットし、`DragStart` および `DragEnd` イベント リスナーをアタッチします。
+ブラウザー/アプリケーション ウィンドウの外側でのペインのドラッグをサポートするために、ブラウザー内のフローティング ペインを作成する組み込みのドラッグアンドドロップを、[HTML ドラッグアンドドロップ API](https://developer.mozilla.org/ja/docs/Web/API/HTML_Drag_and_Drop_API) に基づくカスタム実装に置き換えました。ヘッダー要素が DOM に接続されたときに発生する `PaneHeaderConnected` イベントと `TabHeaderConnected` イベントにサブスクライブしました。ヘッダー要素が接続されると、組み込みの <ApiLink pkg="inputs" type="PaneHeaderElement" member="dragService" label="DragService" exclude="React,WebComponents" /> をリセットし、`DragStart` および `DragEnd` イベント リスナーをアタッチします。
 
 <PlatformBlock for="WebComponents">
 
@@ -63,7 +62,7 @@ dockManager.addEventListener('paneHeaderConnected', paneHeaderConnected);
 
 </PlatformBlock>
 
-`PaneHeaderDragStart` 関数で、ドック マネージャー コンポーネントの <ApiLink type="DockManager" member="draggedPane" label="DraggedPane" /> プロパティを設定し、ドラッグ操作が開始されたことを通知します。
+`PaneHeaderDragStart` 関数で、ドック マネージャー コンポーネントの <ApiLink pkg="inputs" type="DockManager" member="draggedPane" label="DraggedPane" suffix={false} exclude="React,WebComponents" /> プロパティを設定し、ドラッグ操作が開始されたことを通知します。
 
 <PlatformBlock for="WebComponents">
 
@@ -77,7 +76,7 @@ const paneHeaderDragStart = async (pane: IgcContentPane, event: DragEvent) => {
 
 </PlatformBlock>
 
-`document` 要素の `DragOver` と `drop` イベントにサブスクライブしました。`DragOver` リスナーでは、<ApiLink type="DockManager" member="dropPosition" label="DropPosition" />) プロパティを設定することにより、マウスがその上にドラッグされたことをドック マネージャーに通知します。これにより、ドック マネージャーはドッキング インジケーターを表示します。
+`document` 要素の `DragOver` と `drop` イベントにサブスクライブしました。`DragOver` リスナーでは、<ApiLink pkg="inputs" type="DockManager" member="dropPosition" label="DropPosition" suffix={false} exclude="React,WebComponents" />) プロパティを設定することにより、マウスがその上にドラッグされたことをドック マネージャーに通知します。これにより、ドック マネージャーはドッキング インジケーターを表示します。
 
 ```ts
 const handleDocumentDragOver = (event: DragEvent) => {
@@ -108,7 +107,7 @@ const paneHeaderDragEnd = async (event: DragEvent) => {
 }
 ```
 
-ペイン ヘッダーがドキュメント内にドロップされると、<ApiLink type="DockManager" member="dropPane" label="DropPane" /> メソッドが呼び出され、ドラッグされたペインがドロップされたことをドック マネージャーに通知します。ペインがドッキング インジケーターにドロップされた場合、メソッドは **true** を返します。ペインがドラッグ元と同じウィンドウにドロップされた場合、ペインは自動的に新しい位置にドッキングされます。ただし、別のウィンドウにドロップされた場合は、`droppedInAnotherWindow` 関数を呼び出します。この関数は、最初にソースのドック マネージャーからペインを削除してから、新しいペインに追加します。
+ペイン ヘッダーがドキュメント内にドロップされると、`DropPane` メソッドが呼び出され、ドラッグされたペインがドロップされたことをドック マネージャーに通知します。ペインがドッキング インジケーターにドロップされた場合、メソッドは **true** を返します。ペインがドラッグ元と同じウィンドウにドロップされた場合、ペインは自動的に新しい位置にドッキングされます。ただし、別のウィンドウにドロップされた場合は、`droppedInAnotherWindow` 関数を呼び出します。この関数は、最初にソースのドック マネージャーからペインを削除してから、新しいペインに追加します。
 
 <PlatformBlock for="WebComponents">
 
@@ -131,7 +130,7 @@ const handleDocumentDrop = async (event: DragEvent) => {
 
 </PlatformBlock>
 
-ペインが現在のウィンドウから削除されたら、<ApiLink type="DockManager" member="draggedPane" label="DraggedPane" /> をドック マネージャー コンポーネントから削除し、レイアウトを更新する必要があります。
+ペインが現在のウィンドウから削除されたら、<ApiLink pkg="inputs" type="DockManager" member="draggedPane" label="DraggedPane" suffix={false} exclude="React,WebComponents" /> をドック マネージャー コンポーネントから削除し、レイアウトを更新する必要があります。
 
 <PlatformBlock for="WebComponents">
 
@@ -177,4 +176,7 @@ mainWindow = new BrowserWindow({
 
 ## API リファレンス
 
-<ApiRef pkg="core" types={["DockManager","DocumentHost","DockManagerLayout","ContentPane"]} />
+<ApiLink pkg="inputs" type="DockManager" suffix={false} exclude="React,WebComponents" /><br />
+<ApiLink pkg="inputs" type="DocumentHost" exclude="React,WebComponents" /><br />
+<ApiLink pkg="inputs" type="DockManagerLayout" suffix={false} exclude="React,WebComponents" /><br />
+<ApiLink pkg="inputs" type="ContentPane" exclude="React,WebComponents" /><br />

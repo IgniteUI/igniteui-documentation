@@ -54,7 +54,7 @@ import { IgxTreeModule } from 'igniteui-angular/tree';
 export class AppModule {}
 ```
 
-Alternatively, as of `16.0.0` you can import the `IgxTreeComponent` as a standalone dependency, or use the [`IGX_TREE_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/tree/public_api.ts) token to import the component and all of its supporting components and directives.
+Alternatively, as of `16.0.0` you can import the `IgxTreeComponent` as a standalone dependency, or use the [`IGX_TREE_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/tree/src/tree/public_api.ts) token to import the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -90,13 +90,18 @@ import { IGX_TREE_DIRECTIVES } from 'igniteui-angular/tree';
 export class HomeComponent {}
 ```
 
+
+<DocsAside type="info">
+This component uses Material Icons. Add the following link to your `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
 Now that we have the Ignite UI for Angular Tree module or directives imported, let’s get started with a basic configuration of the `igx-tree` and its nodes.
 
 ## Using the Angular Tree
 
-<ApiLink type="TreeNodes" /> is the representation of every node that belongs to the <ApiLink type="Tree" />.  
+<ApiLink type="TreeNode" /> is the representation of every node that belongs to the <ApiLink type="Tree" />.  
 Nodes provide <ApiLink type="TreeNode" member="disabled" label="disabled" />, <ApiLink type="TreeNode" member="active" label="active" />, <ApiLink type="TreeNode" member="selected" label="selected" /> and <ApiLink type="TreeNode" member="expanded" label="expanded" /> properties, which give you opportunity to configure the states of the node as per your requirement.
-<ApiLink type="TreeNode" member="data" label="data" /> property can be used to add a reference to the data entry the node represents. Binding `[data]` is required for searching through nodes using <ApiLink type="TreeComponent.findNodes()" suffix={false} member="findNodes" label="IgxTreeComponent.findNodes()" />.
+<ApiLink type="TreeNode" member="data" label="data" /> property can be used to add a reference to the data entry the node represents. Binding `[data]` is required for searching through nodes using <ApiLink type="Tree" member="findNodes" label="IgxTreeComponent.findNodes()" />.
 
 ### Declaring a tree
 
@@ -369,56 +374,20 @@ After the user clicks the expand icon, it is replaced by a loading indicator. Wh
 
 When you modify a primary property, all related dependent properties are automatically updated to reflect the change:
 
-<table class="collapsible-table">
-  <thead>
-    <tr>
-      <th>Primary Property</th>
-      <th>Dependent Property</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody class="group">
-    <tr class="primary">
-      <td><details><summary><strong>$background</strong></summary></details></td>
-      <td>$foreground</td>
-      <td>The color used for the tree node content.</td>
-    </tr>
-    <tr class="dependent"><td></td><td>$background-selected</td><td>The background color used for the selected tree node.</td></tr>
-    <tr class="dependent"><td></td><td>$hover-color</td><td>The background color used for the tree node on hover.</td></tr>
-    <tr class="dependent"><td></td><td>$background-active</td><td>The background color used for the active tree node.</td></tr>
-    <tr class="dependent"><td></td><td>$background-disabled</td><td>The background color used for the tree node in disabled state.</td></tr>
-  </tbody>
-  <tbody class="group">
-    <tr class="primary">
-      <td><details><summary><strong>$background-selected</strong></summary></details></td>
-      <td>$foreground-selected</td>
-      <td>The color used for the content of the selected tree node.</td>
-    </tr>
-    <tr class="dependent"><td></td><td>$hover-selected-color</td><td>The background color used for the selected tree node on hover.</td></tr>
-  </tbody>
-  <tbody class="group">
-    <tr class="primary">
-      <td><details><summary><strong>$background-active</strong></summary></details></td>
-      <td>$foreground-active</td>
-      <td>The color used for the content of the active tree node.</td>
-    </tr>
-    <tr class="dependent"><td></td><td>$background-active-selected</td><td>The background color used for the active selected tree node.</td></tr>
-  </tbody>
-  <tbody class="group">
-    <tr class="primary">
-      <td><strong>$background-active-selected</strong></td>
-      <td>$foreground-active-selected</td>
-      <td>The color used for the content of the active selected tree node.</td>
-    </tr>
-  </tbody>
-  <tbody class="group">
-    <tr class="primary">
-      <td><strong>$background-disabled</strong></td>
-      <td>$foreground-disabled</td>
-      <td>The color used for the content of the disabled tree node.</td>
-    </tr>
-  </tbody>
-</table>
+
+| Primary Property | Dependent Property | Description |
+| --- | --- | --- |
+| **$background** | $foreground | The color used for the tree node content. |
+|  | $background-selected | The background color used for the selected tree node. |
+|  | $hover-color | The background color used for the tree node on hover. |
+|  | $background-active | The background color used for the active tree node. |
+|  | $background-disabled | The background color used for the tree node in disabled state. |
+| **$background-selected** | $foreground-selected | The color used for the content of the selected tree node. |
+|  | $hover-selected-color | The background color used for the selected tree node on hover. |
+| **$background-active** | $foreground-active | The color used for the content of the active tree node. |
+|  | $background-active-selected | The background color used for the active selected tree node. |
+| **$background-active-selected** | $foreground-active-selected | The color used for the content of the active selected tree node. |
+| **$background-disabled** | $foreground-disabled | The color used for the content of the disabled tree node. |
 
 Using the [Ignite UI for Angular Theming](/themes), we can greatly alter the tree appearance. First, in order for us to use the functions exposed by the theme engine, we need to import the `index` file in our style file:
 
@@ -429,7 +398,7 @@ Using the [Ignite UI for Angular Theming](/themes), we can greatly alter the tre
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-Following the simplest approach, we create a new theme that extends the [tree-theme]({environment:sassApiUrl}/themes#function-tree-theme) and provide just the `$background` parameter, the theme will automatically calculate all the other necessary colors, of course you can override any of the other properties:
+Following the simplest approach, we create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-tree-theme" label="tree-theme" /> and provide just the `$background` parameter, the theme will automatically calculate all the other necessary colors, of course you can override any of the other properties:
 
 ```scss
 $custom-tree-theme: tree-theme(
@@ -469,7 +438,7 @@ The utility file includes both `light` and `dark` theme variants.
 
 Once applied, these classes enable dynamic theme calculations. You can then override the generated CSS variables using `arbitrary properties`. After the colon, provide any valid CSS color format (HEX, CSS variable, RGB, etc.).
 
-You can find the full list of properties in the [IgxTree Theme]({environment:sassApiUrl}/themes#function-tree-theme). The syntax is as follows:
+You can find the full list of properties in the <ApiLink kind="sass" module="themes" type="function-tree-theme" label="IgxTree Theme" />. The syntax is as follows:
 
 ```html
 <igx-tree class="tree-root">
@@ -486,7 +455,7 @@ You can find the full list of properties in the [IgxTree Theme]({environment:sas
 </igx-tree>
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 The exclamation mark(`!`) is required to ensure the utility class takes precedence. Tailwind applies styles in layers, and without marking these styles as important, they will get overridden by the component’s default theme.
 </DocsAside>
 
@@ -503,12 +472,9 @@ At the end your tree should look like this:
 |Tab navigation in FireFox|Tabbing into the tree via keyboard navigation, when the tree has a scrollbar, will first focus the igx-tree-node element. This is the default behavior in FireFox, however it can be resolved by putting an explicit `tabIndex = -1` on the tree.|
 
 ## API References
-
-<div class="divider"></div>
-
+<igc-divider></igc-divider>
 - <ApiLink type="Tree" />
 - <ApiLink type="TreeNode" />
-
 ## Additional Resources
 
 <hr/>

@@ -404,10 +404,8 @@ When an year inside the decade view is focused, use:
 - Arrow keys to navigate through the years,
 - <kbd>Enter</kbd> key to select the currently focused year and close the view.
 
-<div class="divider--half"></div>
 
 ### API
-<div class="divider--half"></div>
 
 - [IgxCalendarComponent]({environment:angularApiUrl}/classes/igxcalendarcomponent.html)
 - [IgxCalendarComponent Styles]({environment:sassApiUrl}/themes#function-calendar-theme)

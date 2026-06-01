@@ -23,7 +23,6 @@ The following sample depicts a [`IgxFinancialChartComponent`]({environment:dvApi
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

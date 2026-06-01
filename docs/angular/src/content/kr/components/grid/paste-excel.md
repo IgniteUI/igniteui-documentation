@@ -28,7 +28,7 @@ Ignite UI for Angular [`IgxGrid`]({environment:angularApiUrl}/classes/igxgridcom
            iframe-src="{environment:demosBaseUrl}/grid/grid-paste/" >
 </code-view>
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 #### 사용 방법
 
@@ -133,8 +133,7 @@ Ignite UI for Angular [`IgxGrid`]({environment:angularApiUrl}/classes/igxgridcom
         }
     }
 ```
-
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 #### 붙여넣기 핸들러 지시문
 
@@ -223,11 +222,9 @@ export class PasteHandler {
 - [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 - [Excel 내보내기](export-excel.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

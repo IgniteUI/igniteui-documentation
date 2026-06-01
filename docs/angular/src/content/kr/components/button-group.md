@@ -15,7 +15,6 @@ The [**igx-buttongroup**]({environment:angularApiUrl}/classes/igxbuttongroupcomp
            iframe-src="{environment:demosBaseUrl}/data-entries/button-group-sample-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Dependencies
 The Button Group is exported as an `NgModule`, thus you will need to import the `IgxButtonGroupModule` inside your `AppModule`:
@@ -75,7 +74,6 @@ igx-buttongroup{
            iframe-src="{environment:demosBaseUrl}/data-entries/button-group-sample-2/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 #### Multiple selection
 Use the the [`multiSelection`]({environment:angularApiUrl}/classes/igxbuttongroupcomponent.html#multiselection) input to enable the multiple selection in the button group.
@@ -220,14 +218,12 @@ public ngOnInit() {
 
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxButtonDirective]({environment:angularApiUrl}/classes/igxbuttondirective.html)
 - [IgxButtonGroupComponent]({environment:angularApiUrl}/classes/igxbuttongroupcomponent.html)
 - [IgxButtonGroup Styles]({environment:sassApiUrl}/themes#function-button-group-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 

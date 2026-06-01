@@ -54,7 +54,6 @@ Ignite UI for Angular의 @@igComponent 컴포넌트는 Excel과 유사한 필터
 
 }
 
-<div class="divider--half"></div>
 
 ### 사용 방법
 
@@ -94,7 +93,6 @@ Excel 스타일 필터링을 켜려면 2개의 입력을 설정해야 합니다.
 다른 식으로 필터를 적용하려면 **Text 필터**를 클릭하고 특정 열에 사용 가능한 모든 필터 연산자의 하위 메뉴가 열립니다. 이들 중 하나를 선택하면 사용자 필터 대화상자가 열리며 다른 필터 및 논리 연산자를 사용하여 원하는 대로 식을 추가할 수 있습니다. 필터를 삭제할 수 있는 clear 버튼도 있습니다.
 
 
-<div class="divider--half"></div>
 
 ### 메뉴 기능 구성
 
@@ -117,7 +115,6 @@ Excel 스타일 필터링을 켜려면 2개의 입력을 설정해야 합니다.
 </igx-grid>
 ```
 
-<div class="divider--half"></div>
 
 아래 샘플에서 'Product Name' 및 'Discontinued' 열에서는 4가지 기능이 모두 활성화되어 있으며, 'Quantity Per Unit' 에서는 4 가지 모두 비활성화되어 있으며, 'Unit Price' 에서는 정렬 및 이동만 활성화되어 있으며, 'Order Date' 에서는 고정 및 숨기기만 활성화되어 있습니다.
 }
@@ -148,7 +145,6 @@ Excel 스타일 필터링을 켜려면 2개의 입력을 설정해야 합니다.
 </igx-tree-grid>
 ```
 
-<div class="divider--half"></div>
 
 아래 샘플에서 'Product Name' 및 'Discontinued' 열에서는 4가지 기능이 모두 활성화되어 있으며, 'Unit Price'에서는 모두 비활성화되어 있으며, 'Added Date'에서는 고정 및 숨기기만 활성화되어 있습니다.
 }
@@ -191,12 +187,10 @@ Excel 스타일 필터링을 켜려면 2개의 입력을 설정해야 합니다.
 </igx-hierarchical-grid>
 ```
 
-<div class="divider--half"></div>
 
 아래 샘플에서 'Artist' 열에서는 4가지 기능이 모두 활성화되어 있으며, 'Debut'에서는 4가지 기능이 모두 비활성화되어 있으며, 'Grammy Nominations'에서는 고정 및 숨기기만 활성화되어 있습니다.
 }
 
-<div class="divider--half"></div>
 
 @@if (igxName === 'IgxGrid') {
 
@@ -223,7 +217,6 @@ Excel 스타일 필터링을 켜려면 2개의 입력을 설정해야 합니다.
 
 }
 
-<div class="divider--half"></div>
 
 열의 정렬, 이동, 핀 고정 및 숨기기 기능을 유지하면서 Excel 스타일 필터 메뉴에서 항목을 제거하는 경우, 각 조작에 대해 그리드에 템플릿을 추가할 수 있습니다.
 
@@ -330,7 +323,6 @@ Excel 스타일 필터링을 켜려면 2개의 입력을 설정해야 합니다.
 
 }
 
-<div class="divider--half"></div>
 
 @@if (igxName === 'IgxGrid') {
 
@@ -357,17 +349,14 @@ Excel 스타일 필터링을 켜려면 2개의 입력을 설정해야 합니다.
 
 }
 
-<div class="divider--half"></div>
 
 ### API 참조
-<div class="divider--half"></div>
 
 - [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
 - [@@igxNameComponent API]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
 - [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 - [@@igComponent 개요](@@igMainTopic.md)
 - [가상화 및 성능](virtualization.md)
@@ -379,7 +368,6 @@ Excel 스타일 필터링을 켜려면 2개의 입력을 설정해야 합니다.
 - [열 크기 조정](column-resizing.md)
 - [선택](selection.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

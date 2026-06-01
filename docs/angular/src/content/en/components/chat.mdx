@@ -85,8 +85,8 @@ The Chat component exposes several key properties that let you control its state
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `messages`        | Array of messages (`IgcChatMessage[]`) displayed in the chat. You can bind to this to control which messages are shown.                                                  |
 | `draftMessage`    | The current unsent message, represented as an object containing `text` and optional `attachments`. This is useful for saving or restoring message drafts.            |
-| `options`         | Chat configuration (<ApiLink kind="type" type="ChatOptions" />) such as current user ID, input placeholders, accepted file types, quick reply suggestions and typing behavior. |
-| `templates` | Custom Angular templates (<ApiLink kind="type" type="ChatTemplates" />) for message content, input, attachments, and other parts of the chat UI.                                   |
+| `options`         | Chat configuration (<ApiLink type="ChatOptions" kind="type" suffix={false} />) such as current user ID, input placeholders, accepted file types, quick reply suggestions and typing behavior. |
+| `templates` | Custom Angular templates (<ApiLink type="ChatTemplates" kind="type" suffix={false} />) for message content, input, attachments, and other parts of the chat UI.                                   |
 
 These properties make it straightforward to synchronize the Chat’s UI with your application’s state and backend.
 
@@ -295,7 +295,7 @@ The Chat component exposes both **CSS parts** and **slots** for fine-grained cus
 ### CSS Parts
 
 | Part name                       | Description                                                                          |
-| ------------------------------- | ------------------------------------------------------------------------------------ |
+| :------------------------------ | :----------------------------------------------------------------------------------- |
 | `chat-container`                | Styles the main chat container.                                                      |
 | `header`                        | Styles the chat header container.                                                    |
 | `prefix`                        | Styles the element before the chat title (e.g., avatar).                             |
@@ -361,7 +361,7 @@ This allows you to style the `Chat` to match your brand without replacing its fu
 ### Slots
 
 | Slot name             | Description                                                              |
-| --------------------- | ------------------------------------------------------------------------ |
+| :-------------------- | :----------------------------------------------------------------------- |
 | `prefix`              | Slot for injecting content (e.g., avatar or icon) before the chat title. |
 | `title`               | Slot for overriding the chat title content.                              |
 | `actions`             | Slot for injecting header actions (e.g., buttons, menus).                |
@@ -385,8 +385,8 @@ These slots allow injecting custom UI into the header or suggestions area:
 
 The Chat component's options include a special flag for advanced styling scenarios:
 
-| Option            | Type      | Default | Description        |
-| ----------------- | --------- | ------- | ------------------ |
+| Option            | Type      | Default | Description                                                                                                                                                                                                                                    |
+| :---------------- | :-------- | :------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `adoptRootStyles` | `boolean` | false   | When `true`, the component allows content rendered inside its Shadow DOM (e.g., from custom renderers) to inherit styles from the document's root. This provides a quick workaround for styling but is **not recommended** for production use. |
 
 This property can be useful if you prefer not to deal with Shadow DOM encapsulation when applying global CSS to custom-rendered templates.
@@ -400,13 +400,44 @@ We highly recommend using the standard Web Component styling approaches before r
 - `<link>` elements – For larger stylesheets, inject them inside the Shadow DOM.
 - Inline `<style>` tags – For small, scoped style overrides.
 
+### Chat theme
+
+Apart from the **CSS parts** and **slots**, the Chat component also has a <ApiLink kind="sass" module="themes" type="function-chat-theme" label="chat-theme" code={true} /> function exposed by our theming engine.
+
+In order to style the Chat component using the theme function, first we need to import the theming module, where all the theme functions and component mixins live:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Then, we create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-chat-theme" label="chat-theme" code={true} /> and provide the `$header-background`, `$sent-message-background` and `$received-message-background` parameters. Based on these parameter values, the `$header-color`, `$sent-message-color` and `$received-message-color` are automatically set to black or white, depending on which provides better contrast with the background.
+
+```scss
+$custom-chat-theme: chat-theme(
+  $header-background: #4a4a4a,
+  $sent-message-background: #fb8500,
+  $received-message-background: #e2d8c9
+);
+```
+
+Finally, **include** the custom theme in your application:
+
+```scss
+:host {
+  @include tokens($custom-chat-theme);
+}
+```
+
 <Sample src="/interactions/chat-styling-sample" height={900} alt="Angular Chat Styling" />
 
 ## API Reference
 
 - <ApiLink type="Chat" />
-- <ApiLink kind="type" type="ChatOptions" />
-- <ApiLink kind="type" type="ChatTemplates" />
+- <ApiLink type="ChatOptions" kind="type" suffix={false} />
+- <ApiLink type="ChatTemplates" kind="type" suffix={false} />
 - <ApiLink type="ChatMessageContextDirective" suffix={false} />
 - <ApiLink type="ChatInputContextDirective" suffix={false} />
 - <ApiLink type="ChatAttachmentContextDirective" suffix={false} />

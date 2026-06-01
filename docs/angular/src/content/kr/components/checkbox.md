@@ -7,7 +7,7 @@ _language: kr
 
 ## Checkbox
 <p class="highlight">The Ignite UI for Angular Checkbox component is a selection control that allows users to make a binary choice for a certain condition. It behaves similarly to the native browser checkbox.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Checkbox Demo
 
@@ -16,7 +16,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/data-entries/checkbox-sample-2/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Usage
 At its core, the checkbox component allows for a choice between selected/unselected state. The default styling is done according to the selection controls specification as per the Material Design guidelines.
@@ -89,14 +88,12 @@ The final result would be something like that:
 </div>
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxCheckboxComponent]({environment:angularApiUrl}/classes/igxcheckboxcomponent.html)
 - [IgxCheckboxComponent Styles]({environment:sassApiUrl}/themes#function-checkbox-theme)
 - [LabelPosition]({environment:angularApiUrl}/enums/labelposition.html)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 

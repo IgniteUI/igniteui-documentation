@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/chart-navigation">
 </code-view>
 
-<div class="divider--half"></div>
 
 차트에서 탐색을 사용하려면 상호 작용 모듈을 가져와 등록해야 합니다. 다음 코드를 사용하여 이 작업을 실행할 수 있습니다:
 

@@ -50,7 +50,7 @@ import { IgxDropDownModule } from 'igniteui-angular/drop-down';
 export class AppModule {}
 ```
 
-Alternatively, as of `16.0.0` you can import the `IgxDropDownComponent` as a standalone dependency, or use the [`IGX_DROP_DOWN_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/drop-down/public_api.ts) token to import the component and all of its supporting components and directives.
+Alternatively, as of `16.0.0` you can import the `IgxDropDownComponent` as a standalone dependency, or use the [`IGX_DROP_DOWN_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/drop-down/src/drop-down/public_api.ts) token to import the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -85,13 +85,14 @@ import { IgxButtonDirective } from 'igniteui-angular/directives';
 export class HomeComponent {}
 ```
 
+
 Now that you have the Ignite UI for Angular Drop Down module or directives imported, you can start using the `igx-drop-down` component.
 
 ## Using the Angular Drop Down
 
 ### Add Drop Down
 
-Let's create a simple drop-down that provides several option items to choose from. To achieve this, we will use the <ApiLink type="DropDown" /> as well as the <ApiLink type="ToggleAction" suffix={false} /> to open/close the drop-down.
+Let's create a simple drop-down that provides several option items to choose from. To achieve this, we will use the <ApiLink type="DropDown" /> as well as the <ApiLink type="ToggleActionDirective" suffix={false} /> to open/close the drop-down.
 
 ```html
 {/* dropdown.component.html */}
@@ -154,7 +155,7 @@ export class MyDropDownComponent {
 
 ### Grouping items
 
-To provide a more useful visual information, use the <ApiLink type="DropDownItem" suffix={false} member="isheader" label="isHeader" /> property to group items semantically or the <ApiLink type="DropDownItem" suffix={false} member="disabled" label="disabled" /> property to display an item as a non-interactive. You can also set the <ApiLink type="DropDownItem" suffix={false} member="selected" label="selected" /> property on a particular item to make it the selected item. The `igx-drop-down` items have out-of-the-box support for `igxPrefix`, `igxSuffix`, and `igx-divider` directives that can contain or be set on HTML elements or other web components.
+To provide a more useful visual information, use the <ApiLink type="DropDownItemComponent" suffix={false} member="isheader" label="isHeader" /> property to group items semantically or the <ApiLink type="DropDownItemComponent" suffix={false} member="disabled" label="disabled" /> property to display an item as a non-interactive. You can also set the <ApiLink type="DropDownItemComponent" suffix={false} member="selected" label="selected" /> property on a particular item to make it the selected item. The `igx-drop-down` items have out-of-the-box support for `igxPrefix`, `igxSuffix`, and `igx-divider` directives that can contain or be set on HTML elements or other web components.
 
 ```html
 {/* dropdown.component.html */}
@@ -174,6 +175,10 @@ To provide a more useful visual information, use the <ApiLink type="DropDownItem
 </div>
 </igx-drop-down>
 ```
+
+<DocsAside type="info">
+This component uses Material Icons. Add the following link to your `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
 
 ```typescript
 // dropdown.component.ts
@@ -197,7 +202,7 @@ If the sample is configured properly, a list of countries should be displayed as
 
 ### Grouping hierarchical data
 
-The `igx-drop-down` items can also be grouped using the <ApiLink type="igx-drop-down-item-group" suffix={false} /> container, making it easier for users to differentiate separate categories. The `igx-drop-down-item-group` accepts `igx-drop-down-item` elements as its content and renders them in a grouped fashion.
+The `igx-drop-down` items can also be grouped using the <ApiLink type="DropDownGroup" /> container, making it easier for users to differentiate separate categories. The `igx-drop-down-item-group` accepts `igx-drop-down-item` elements as its content and renders them in a grouped fashion.
 
 ```typescript
 // dropdown.component.ts
@@ -337,7 +342,7 @@ The following sample demonstrates how to implement a multi-level drop down menu 
 
 For the implementation of the multi-level drop down menu we will use the <ApiLink type="DropDown" /> as well as a custom directive and service described below.
 
-In order to configure the <ApiLink type="DropDownItem" suffix={false} /> to open an additional drop down, add the `multiLevel` directive that would handle the <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" label="overlay settings" /> of the nested drop down and manages its opened/closed state through its `innerDropdown` property.
+In order to configure the <ApiLink type="DropDownItemComponent" suffix={false} /> to open an additional drop down, add the `multiLevel` directive that would handle the <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" label="overlay settings" /> of the nested drop down and manages its opened/closed state through its `innerDropdown` property.
 
 ```html
 <igx-drop-down #dropdown1>
@@ -396,15 +401,15 @@ The result from the above configurations could be seen in the below sample.
 
 <Sample src="/data-entries/dropdown-multi-level-menu" height={400} alt="" />
 
-<DocsAside type="note">
+<DocsAside type="info">
 To display the Dropdown component opened initially, it is recommended to set the open method as a callback of the requestAnimationFrame method. This will ensure that the DOM tree is repainted and all elements are correctly positioned.
 </DocsAside>
 
 ### Navigation directive
 
-Use the <ApiLink type="igxDropDownItemNavigation" suffix={false} /> directive to enable keyboard navigation for the `igxDropDown` component. In order to allow the directive to handle all triggered events, it should be applied to the active (focused) element or a parent container. By default, a drop-down or its items don't take focus, so the directive can be placed on a `button` or `input` that will control the drop-down. The navigation directive value should target a component that is an instance or a descendant of the <ApiLink type="DropDownBaseDirective" suffix={false} /> class.
+Use the <ApiLink type="DropDownItemNavigationDirective" suffix={false} /> directive to enable keyboard navigation for the `igxDropDown` component. In order to allow the directive to handle all triggered events, it should be applied to the active (focused) element or a parent container. By default, a drop-down or its items don't take focus, so the directive can be placed on a `button` or `input` that will control the drop-down. The navigation directive value should target a component that is an instance or a descendant of the <ApiLink type="DropDownBaseDirective" suffix={false} /> class.
 
-The following sample demonstrates an input that opens and closes the `igxDropDown` instance on click. Applying the <ApiLink type="igxDropDownItemNavigation" suffix={false} /> directive on the input itself will enable keyboard navigation when using the up and down arrow keys. This relies on the default drop-down behavior with the <ApiLink type="DropDown" member="allowItemsFocus" label="allowItemsFocus" /> property set to `false` to allow the input to maintain focus.
+The following sample demonstrates an input that opens and closes the `igxDropDown` instance on click. Applying the <ApiLink type="DropDownItemNavigationDirective" suffix={false} /> directive on the input itself will enable keyboard navigation when using the up and down arrow keys. This relies on the default drop-down behavior with the <ApiLink type="DropDown" member="allowItemsFocus" label="allowItemsFocus" /> property set to `false` to allow the input to maintain focus.
 
 ```html
 {/* input-dropdown.component.html */}
@@ -493,117 +498,26 @@ When the `allowItemsFocus` property is enabled, the drop down items gain tab ind
 
 When you modify a primary property, all related dependent properties are updated automatically:
 
-<table class="collapsible-table">
-  <thead>
-    <tr>
-      <th>Primary Property</th>
-      <th>Dependent Property</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody class="group">
-    <tr class="primary">
-      <td>
-        <details><summary><strong>$background-color</strong></summary></details>
-      </td>
-      <td>$item-text-color</td>
-      <td>The drop-down item text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$hover-item-background</td>
-      <td>The drop-down hover item background color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$focused-item-background</td>
-      <td>The drop-down focused item background color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$focused-item-text-color</td>
-      <td>The drop-down focused item text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-item-background</td>
-      <td>The drop-down selected item background color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$disabled-item-text-color</td>
-      <td>The drop-down disabled item text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$header-text-color</td>
-      <td>The drop-down header text color.</td>
-    </tr>
-  </tbody>
-  <tbody class="group">
-    <tr class="primary">
-      <td>
-        <details><summary><strong>$item-text-color</strong></summary></details>
-      </td>
-      <td>$item-icon-color</td>
-      <td>The drop-down item icon color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$hover-item-text-color</td>
-      <td>The drop-down item hover text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$hover-item-icon-color</td>
-      <td>The drop-down item hover icon color.</td>
-    </tr>
-  </tbody>
-  <tbody class="group">
-    <tr class="primary">
-      <td>
-        <details><summary><strong>$selected-item-background</strong></summary></details>
-      </td>
-      <td>$selected-item-text-color</td>
-      <td>The drop-down selected item text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-item-icon-color</td>
-      <td>The drop-down selected item icon color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-hover-item-background</td>
-      <td>The drop-down selected item hover background color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-hover-item-text-color</td>
-      <td>The drop-down selected item hover text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-hover-item-icon-color</td>
-      <td>The drop-down selected item hover icon color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-focus-item-background</td>
-      <td>The drop-down selected item focus background color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$selected-focus-item-text-color</td>
-      <td>The drop-down selected item focus text color.</td>
-    </tr>
-    <tr class="dependent">
-      <td></td>
-      <td>$focused-item-border-color</td>
-      <td>The drop-down item focused border color.</td>
-    </tr>
-  </tbody>
-</table>
+| Primary Property | Dependent Property | Description |
+| --- | --- | --- |
+| **$background-color** | $item-text-color | The drop-down item text color. |
+|  | $hover-item-background | The drop-down hover item background color. |
+|  | $focused-item-background | The drop-down focused item background color. |
+|  | $focused-item-text-color | The drop-down focused item text color. |
+|  | $selected-item-background | The drop-down selected item background color. |
+|  | $disabled-item-text-color | The drop-down disabled item text color. |
+|  | $header-text-color | The drop-down header text color. |
+| **$item-text-color** | $item-icon-color | The drop-down item icon color. |
+|  | $hover-item-text-color | The drop-down item hover text color. |
+|  | $hover-item-icon-color | The drop-down item hover icon color. |
+| **$selected-item-background** | $selected-item-text-color | The drop-down selected item text color. |
+|  | $selected-item-icon-color | The drop-down selected item icon color. |
+|  | $selected-hover-item-background | The drop-down selected item hover background color. |
+|  | $selected-hover-item-text-color | The drop-down selected item hover text color. |
+|  | $selected-hover-item-icon-color | The drop-down selected item hover icon color. |
+|  | $selected-focus-item-background | The drop-down selected item focus background color. |
+|  | $selected-focus-item-text-color | The drop-down selected item focus text color. |
+|  | $focused-item-border-color | The drop-down item focused border color. |
 
 Using the [Ignite UI for Angular Theming](/themes), we can greatly alter the drop-down appearance. First, in order for us to use the functions exposed by the theme engine, we need to import the `index` file in our style file:
 
@@ -614,7 +528,7 @@ Using the [Ignite UI for Angular Theming](/themes), we can greatly alter the dro
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-Following the simplest approach, we create a new theme that extends the [`drop-down-theme`]({environment:sassApiUrl}/themes#function-drop-down-theme) and accepts some of the default theme's parameters. When you provide a certain background color, the theme automatically calculates the state colors and appropriate contrasting foregrounds. By setting the `$background` property, you'll get a fully styled dropdown.
+Following the simplest approach, we create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="drop-down-theme" code={true} /> and accepts some of the default theme's parameters. When you provide a certain background color, the theme automatically calculates the state colors and appropriate contrasting foregrounds. By setting the `$background` property, you'll get a fully styled dropdown.
 
 ```scss
 $custom-drop-down-theme: drop-down-theme(
@@ -640,18 +554,16 @@ The last step is to pass the custom drop-down theme:
 <hr/>
 
 ## API References
-
 - <ApiLink type="DropDown" />
-- [IgxDropDownComponent Styles]({environment:sassApiUrl}/themes#function-drop-down-theme)
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="IgxDropDownComponent Styles" />
 - <ApiLink type="DropDownItem" />.
 - <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" />
-- [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay Styles" />
 - <ApiLink type="DividerDirective" suffix={false} />
-- [IgxDividerDirective Styles]({environment:sassApiUrl}/themes#function-divider-theme)
-
+- <ApiLink kind="sass" module="themes" type="function-divider-theme" label="IgxDividerDirective Styles" />
 ## Theming Dependencies
 
-- [IgxOverlay Theme]({environment:sassApiUrl}/themes#function-overlay-theme)
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay Theme" />
 
 ## Additional Resources
 

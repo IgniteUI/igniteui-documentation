@@ -16,7 +16,6 @@ The Infragistics Excel Engine's [`Worksheet`]({environment:dvApiBaseUrl}/product
            github-src="excel/excel-library/operations-on-worksheets">
 </code-view>
 
-<div class="divider--half"></div>
 
 The following code shows the imports needed to use the code-snippets below:
 

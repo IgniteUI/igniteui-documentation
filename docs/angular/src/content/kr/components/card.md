@@ -11,7 +11,7 @@ _language: kr
 
 The Ignite UI for Angular [`IgxCardComponent`]({environment:angularApiUrl}/classes/igxcardcomponent.html) displays text, images, icons, and buttons in a visually rich presentation that can serve as an entry point to more detailed information. Cards can be used to create a multimedia dashboard. The Card component supports pagination using the same component as the Ignite UI for Angular Grid, with some custom coding required.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Card Demo
 
@@ -20,7 +20,6 @@ The Ignite UI for Angular [`IgxCardComponent`]({environment:angularApiUrl}/class
            iframe-src="{environment:demosBaseUrl}/layouts/card/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Usage
 Cards allow you to easily display content composed of different types of objects or similar objects whose size and supported actions can vary.
@@ -182,7 +181,6 @@ Easy, right? Let's see how it turned out in the browser:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 #### Summary
 In this article we covered a lot of ground with the card component. First, we created a very simple card with text content only. Then added some images to make the card a bit more appealing. Finally, we used some additional Ignite UI for Angular components inside our card, like avatars, buttons and icons, to enrich the experience and add some functionality. The card component is capable of displaying more different layouts worth exploring in the Card Demo in the beginning of this article.
@@ -208,11 +206,10 @@ Styles:
 - [`IgxIconComponent Styles`]({environment:sassApiUrl}/themes#function-icon-theme)
 - [`IgxButtonDirective Styles`]({environment:sassApiUrl}/themes#function-button-theme)
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ## Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

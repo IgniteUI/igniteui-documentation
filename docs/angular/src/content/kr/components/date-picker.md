@@ -13,7 +13,6 @@ The Ignite UI for Angular Date Picker Component lets users pick a single date th
            data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/datepicker-sample-1/" alt="Angular Date Picker Example">
 </code-view>
-<div class="divider--half"></div>
 
 ## Usage
 
@@ -172,7 +171,6 @@ The [`IgxDatePickerComponent`]({environment:angularApiUrl}/classes/igxdatepicker
            iframe-src="{environment:demosBaseUrl}/scheduling/datepicker-sample-2/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Display and input format
 [`inputFormat`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html#inputformat) and [`displayFormat`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html#displayFormat) are properties which can be set to make the picker's editor follow a specified format. The [`inputFormat`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html#inputformat) property is used when the picker is in `dropdown` mode and it governs the input's editable mask, as well as its placeholder (if none is set). Additionally, the [`inputFormat`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html#inputformat) is locale based, so if none is provided, the picker will default to the one used by the browser.
@@ -188,7 +186,6 @@ More information about these can be found in the [`IgxDateTimeEditor`](date-time
            iframe-src="{environment:demosBaseUrl}/scheduling/datepicker-sample-3/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > Note:  The `IgxDatePicker` now supports IME input. When composition ends, the control converts the wide-character numbers to ASCII characters.
 
@@ -223,7 +220,6 @@ To achieve that in template driven forms, use the `ngModel` to bind both compone
            iframe-src="{environment:demosBaseUrl}/scheduling/template-driven-form/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 In reactive forms, we can handle the [`valueChange`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html#valuechange) event of each component and update the value of the other.
 
@@ -232,7 +228,6 @@ In reactive forms, we can handle the [`valueChange`]({environment:angularApiUrl}
            iframe-src="{environment:demosBaseUrl}/scheduling/reactive-form/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Calendar Specific settings
 The [`IgxDatePickerComponent`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html) uses the [`IgxCalendarComponent`](calendar.md) and you can modify some of its settings via the properties that the date picker exposes. Some of these include [`displayMonthsCount`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html#displaymonthscount) which allows more than one calendar to be displayed when the picker expands, [`weekStart`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html#weekstart) which determines the starting day of the week, [`showWeekNumbers`]({environment:angularApiUrl}/classes/igxdatepickercomponent.html#showweeknumbers) which shows the number for each week in the year and more.
@@ -314,7 +309,6 @@ If the component is using the [`Emulated`](themes/sass/component-themes.md#view-
 </code-view>
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxDatePickerComponent]({environment:angularApiUrl}/classes/igxdatepickercomponent.html)
 - [IgxDateTimeEditorDirective]({environment:angularApiUrl}/classes/igxdatetimeeditordirective.html)
@@ -324,7 +318,6 @@ If the component is using the [`Emulated`](themes/sass/component-themes.md#view-
 - [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
 
 ## Theming Dependencies
-<div class="divider--half"></div>
 
 - [IgxCalendar Theme]({environment:sassApiUrl}/themes#function-igx-calendar-theme)
 - [IgxOverlay Theme]({environment:sassApiUrl}/themes#function-igx-overlay-theme)

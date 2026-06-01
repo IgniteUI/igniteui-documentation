@@ -9,7 +9,7 @@ _language: kr
 <p class="highlight">
 The [igx-combo]({environment:angularApiUrl}/classes/igxcombocomponent.html) exposes API that allows to bind a combo to a remote service and retrieve data on demand.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Demo
 The sample below demonstrates remote binding using combo API - defining [valueKey]({environment:angularApiUrl}/classes/igxcombocomponent.html#valuekey) and [displayKey]({environment:angularApiUrl}/classes/igxcombocomponent.html#displaykey), and using [dataPreLoad]({environment:angularApiUrl}/classes/igxcombocomponent.html#datapreload) to load new chunk of remote data:
@@ -134,7 +134,6 @@ export class ComboRemoteComponent implements OnInit {
 > Note: Service needs to be included as a provider.
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 - [Combo Features](combo-features.md)
 - [Combo Templates](combo-templates.md)

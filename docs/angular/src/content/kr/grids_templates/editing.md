@@ -51,7 +51,6 @@ Ignite UI for Angular @@igComponent component provides a great data manipulation
 </code-view>
 
 }
-<div class="divider--half"></div>
 
 특정 셀에서 편집 모드에 들어가려면 먼저 열을 [`editable`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#editable)로 설정해야 합니다. 데이터 유형별 _편집 템플릿_을 사용하려면 열 [`dataType`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#datatype) 속성을 지정해야 합니다. 이제 각 유형의 기본 템플릿이 무엇인지 살펴 보겠습니다.
 
@@ -315,7 +314,6 @@ row.delete();
 <button igxButton igxRipple (click)="deleteRow($event)">Delete Row</button>
 ```
 
-<div class="divider--half"></div>
 
 ### API 참조
 
@@ -334,7 +332,6 @@ row.delete();
 
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 - [Build CRUD operations with igxGrid](../general/how-to/how-to-perform-crud.md)
 - [@@igComponent 개요](@@igMainTopic.md)

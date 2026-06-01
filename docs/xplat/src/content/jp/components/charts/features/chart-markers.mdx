@@ -1,9 +1,9 @@
 ---
 title: "{Platform} チャート マーカー | データ可視化 | インフラジスティックス"
 description: インフラジスティックスの {Platform} チャート マーカー
-keywords: "{Platform} Charts, Markers, Infragistics, {Platform} チャート, マーカー, インフラジスティックス"
+keywords: "{Platform} Charts, Markers, Marker Size, Infragistics, {Platform} チャート, マーカー, マーカー サイズ, インフラジスティックス"
 license: commercial
-mentionedTypes: ["CategoryChart", "CategoryChartType", "MarkerType"]
+mentionedTypes: ["CategoryChart", "CategoryChartType", "MarkerType", "MarkerSeries", "ScatterLineSeries", "ScatterSplineSeries", "ScatterSeries", "LineSeries", "SplineSeries", "MarkerAutomaticBehavior", "SeriesViewer"]
 namespace: Infragistics.Controls.Charts
 _language: ja
 _description: Infragistics' {Platform} Chart Markers
@@ -12,8 +12,9 @@ _license: commercial
 
 ---
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
-import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
 
 
 
@@ -23,25 +24,108 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ## {Platform} チャート マーカーの例
 
-次の例では、[折れチャート](../types/line-chart.md)は、2009 年から 2019 年までのヨーロッパ、中国、および米国の国々の再生可能エネルギーの発電量を比較しています。マーカーが <ApiLink pkg="charts" type="CategoryChart" member="markerType" label="MarkerType" /> プロパティを `Circle` 列挙値に設定して有効になっています。
+次の例では、[折れチャート](../types/line-chart.md)は、2009 年から 2019 年までのヨーロッパ、中国、および米国の国々の再生可能エネルギーの発電量を比較しています。マーカーが <ApiLink pkg="charts" type="CategoryChart" member="markerType" label="MarkerType" /> プロパティを <ApiLink pkg="charts" kind="enum" type="MarkerType" member="Circle" label="Circle" prefixed={false} /> 列挙値に設定して有効になっています。
 
 マーカーのカラーは、以下のサンプルの <ApiLink pkg="charts" type="CategoryChart" member="markerBrushes" label="MarkerBrushes" />プロパティと <ApiLink pkg="charts" type="CategoryChart" member="markerOutlines" label="MarkerOutlines" /> プロパティを設定することによっても管理されます。このサンプルでは、ドロップダウンを使用してマーカーと <ApiLink pkg="charts" type="CategoryChart" member="chartType" label="CategoryChart.ChartType" /> を構成できます。
 
 <Sample src="/charts/category-chart/marker-options" height={500} alt="{Platform} 構成オプションの例" />
 
 
-<div class="divider--half"></div>
+
+## {Platform} チャート マーカー サイズ
+
+<ApiLink pkg="charts" type="MarkerSeries" member="markerSize" label="MarkerSize" /> プロパティをマーカーをサポートするシリーズに設定することで、データ ポイント マーカーのデバイス非依存ピクセル寸法を正確に制御できます。これにより、マーカー テンプレートやスタイルに関係なく、マーカーが画面上に表示される大きさを正確に制御できます。
+
+デフォルトでは、マーカーのサイズはシリーズのマーカー テンプレートによって決まります。<ApiLink pkg="charts" type="MarkerSeries" member="markerSize" label="MarkerSize" /> に特定の数値を設定すると、そのシリーズのすべてのマーカーがその正確なデバイス非依存ピクセルの幅と高さでレンダリングされます。<ApiLink pkg="charts" type="MarkerSeries" member="markerSize" label="MarkerSize" /> を `NaN` に戻すと、デフォルトのテンプレート駆動のサイズ設定が復元されます。
+
+<ApiLink pkg="charts" type="MarkerSeries" member="markerSize" label="MarkerSize" /> プロパティは、<ApiLink pkg="charts" type="MarkerSeries" /> から派生するすべてのシリーズ タイプ (<ApiLink pkg="charts" type="LineSeries" />、<ApiLink pkg="charts" type="SplineSeries" />、<ApiLink pkg="charts" type="AreaSeries" />、<ApiLink pkg="charts" type="ColumnSeries" />、<ApiLink pkg="charts" type="ScatterSeries" />、<ApiLink pkg="charts" type="ScatterLineSeries" />、<ApiLink pkg="charts" type="ScatterSplineSeries" />、極座標/放射状シリーズ タイプなど) で使用できます。
+
+次のコード例は、<ApiLink pkg="charts" type="DataChart" /> コントロールの <ApiLink pkg="charts" type="ScatterLineSeries" /> で <ApiLink pkg="charts" type="MarkerSeries" member="markerSize" label="MarkerSize" /> を 30 デバイス非依存ピクセルに設定する方法を示しています。
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbDataChart>
+    <IgbScatterLineSeries
+        MarkerSize="30"
+        MarkerType="Circle"
+        XMemberPath="X"
+        YMemberPath="Y"
+        XAxisName="xAxis"
+        YAxisName="yAxis" />
+</IgbDataChart>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrDataChart>
+    <IgrScatterLineSeries
+        markerSize={30}
+        markerType="Circle"
+        xMemberPath="X"
+        yMemberPath="Y"
+        xAxisName="xAxis"
+        yAxisName="yAxis" />
+</IgrDataChart>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-data-chart>
+    <igc-scatter-line-series
+        marker-size="30"
+        marker-type="Circle"
+        x-member-path="X"
+        y-member-path="Y"
+        x-axis-name="xAxis"
+        y-axis-name="yAxis">
+    </igc-scatter-line-series>
+</igc-data-chart>
+```
+</PlatformBlock>
+
+マーカーをデフォルトのテンプレート駆動サイズにリセットするには、<ApiLink pkg="charts" type="MarkerSeries" member="markerSize" label="MarkerSize" /> を `NaN` に設定します (またはマークアップで属性を削除します)。
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbLineSeries MarkerSize="NaN" MarkerType="Circle" ... />
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrLineSeries markerSize={NaN} markerType="Circle" ... />
+```
+</PlatformBlock>
+
+次のサンプルは、インタラクティブなエディターを使用して散布図シリーズで <ApiLink pkg="charts" type="MarkerSeries" member="markerSize" label="MarkerSize" /> を示しています。
+
+<Sample src="/charts/data-chart/scatter-marker-options" height={500} alt="{Platform} チャート マーカー サイズの例" />
+
+<DocsAside type="info">
+<ApiLink pkg="charts" type="BubbleSeries" /> の場合、<ApiLink pkg="charts" type="MarkerSeries" member="markerSize" label="MarkerSize" /> プロパティはバブルの半径をオーバーライドしません。バブルの半径は、半径データ列と <ApiLink pkg="charts" type="BubbleSeries" member="radiusScale" label="RadiusScale" /> によって制御されます。バブルのサイズは、データとスケールの構成によって完全に決まります。
+</DocsAside>
+
+
+## {Platform} チャート チェックマーク マーカー タイプ
+
+{ProductName} チャートは、<ApiLink pkg="charts" type="MarkerSeries" member="markerType" label="MarkerType" /> 列挙型に `Checkmark` オプションを含んでいます。このマーカーは、チャートのデータ ポイントに円の中に V 字型のチェックマーク アイコンを描画します。
+
+`Checkmark` マーカー タイプを個々のシリーズに適用するには、シリーズの <ApiLink pkg="charts" type="MarkerSeries" member="markerType" label="MarkerType" /> プロパティを `MarkerType.Checkmark` に設定します。チャート内のすべてのシリーズに同時にチェックマーク形状を使用するには、チャートの <ApiLink pkg="charts" type="CategoryChart" member="markerAutomaticBehavior" label="MarkerAutomaticBehavior" /> プロパティを `MarkerAutomaticBehavior.Checkmark` に設定します。
+
+`SeriesViewer.CheckmarkMarkerTemplate` プロパティは、チェックマーク マーカー タイプを持つシリーズに使用されるマーカー テンプレートを定義し、チャート全体の外観をカスタマイズするために使用できます。
+
 
 ## {Platform} チャート マーカー テンプレート
 
-以下の例に示すように、マーカー プロパティに加えて、`CategoryChart` コントロールで描画されたシリーズの <ApiLink pkg="charts" type="CategoryChart" member="markerTemplate" label="MarkerTemplate" /> プロパティに関数を設定することで、独自のマーカーを実装できます。
+以下の例に示すように、マーカー プロパティに加えて、<ApiLink pkg="charts" type="CategoryChart" /> コントロールで描画されたシリーズの <ApiLink pkg="charts" type="CategoryChart" member="markerTemplate" label="MarkerTemplate" /> プロパティに関数を設定することで、独自のマーカーを実装できます。
 
 <Sample src="/charts/category-chart/marker-templates" height={600} alt="{Platform} チャート マーカーのテンプレート" />
 
 
 
 
-<div class="divider--half"></div>
 
 ## その他のリソース
 
@@ -53,4 +137,4 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ## API リファレンス
 
-<ApiRef pkg="charts" types={["CategoryChart"]} />
+<ApiLink type="CategoryChart" pkg="charts" /><br />

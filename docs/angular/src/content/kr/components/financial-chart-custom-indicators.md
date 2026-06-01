@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/financial-chart/custom-indicators">
 </code-view>
 
-<div class="divider--half"></div>
 
 [`IgxFinancialChartComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxfinancialchartcomponent.html)에서 사용자 금융지표를 사용하려면 `customIndicatorNames` 속성에 이름을 추가하고 `applyCustomIndicators` 이벤트에서 해당 값의 계산을 실행합니다.
 

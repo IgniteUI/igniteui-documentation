@@ -10,7 +10,6 @@ _language: kr
 The overlay service provides an easy and quick way to dynamically render content in the foreground of an app. The content to be rendered as well as the way it renders (e.g. placement, animations, scroll and click behaviors) are highly configurable and able to match all of the possible scenarios.
 The overlay service is fully integrated in the toggle directive.
 </p>
-<div class="divider--half"></div>
 
 ## Getting Started
 
@@ -89,16 +88,13 @@ export class MyOverlayComponent {
 }
 ```
 
-<div class="divider--half"></div>
-
 The overlay service [`show()`] ({environment:angularApiUrl}/classes/igxoverlayservice.html#show) method accepts 2 arguments, the first one being the content that should be rendered in the overlay. There are a couple of different scenarios how the content can be passed:
-- A component definition (illustrated in the sample above) - When passing a component in as the first argument, the overlay service creates a new instance of that component and dynamically attaches it to the `overlay` DOM.
-- An `ElementRef` to an existing DOM element - Any view that is already rendered on the page can be passed through the overlay service and be rendered in the overlay DOM. Using this approach will:
-  - Get the reference to the passed view from Angular
-  - Detach the view from the DOM and leave an anchor in its place
-  - Re-attach the view to the overlay, using the [`show()`] ({environment:angularApiUrl}/classes/igxoverlayservice.html#show) method settings or falling back to the default overlay settings
-  - On close, will re-attach the view back to the original location in the DOM
-<div class="divider--half"></div>
+  - A component definition (illustrated in the sample above) - When passing a component in as the first argument, the overlay service creates a new instance of that component and dynamically attaches it to the `overlay` DOM.
+  - An `ElementRef` to an existing DOM element - Any view that is already rendered on the page can be passed through the overlay service and be rendered in the overlay DOM. Using this approach will:
+    - Get the reference to the passed view from Angular 
+    - Detach the view from the DOM and leave an anchor in its place
+    - Re-attach the view to the overlay, using the [`show()`] ({environment:angularApiUrl}/classes/igxoverlayservice.html#show) method settings or falling back to the default overlay settings
+    - On close, will re-attach the view back to the original location in the DOM
 
 ### Demo - Dynamic attach - Component
 In the below demo, we can pass the [IgxCard](card.md#card-demo) through the overlay service [`show()`] ({environment:angularApiUrl}/classes/igxoverlayservice.html#show) method to dynamically attach it to the DOM in a modal container.
@@ -110,7 +106,6 @@ In the below demo, we can pass the [IgxCard](card.md#card-demo) through the over
            iframe-src="{environment:demosBaseUrl}/interactions/overlay-sample-main-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Configuring overlay settings
 
@@ -146,7 +141,6 @@ export class MyOverlayComponent {
 ```
 
 Clicking on the button will now show `MyDynamicComponent` positioned relative to the button.
-<div class="divider--half"></div>
 
 ### Hiding the overlay
 
@@ -201,7 +195,6 @@ Using the [`overlaySettings`] ({environment:angularApiUrl}/interfaces/overlayset
            iframe-src="{environment:demosBaseUrl}/interactions/overlay-sample-main-2/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 
 If _no_ [`overlaySettings`] ({environment:angularApiUrl}/interfaces/overlaysettings.html) are configured, the toggled element falls back to _default display settings_:
@@ -215,8 +208,6 @@ defaultOverlaySettings = {
         closeOnEscape: false
     };
 ```
-
-<div class="divider--half"></div>
 
 ### Integration with igxToggle
 The [`IgxToggleDirective`] ({environment:angularApiUrl}/classes/igxtoggledirective.html) is fully integrated with the [`IgxOverlayService`] ({environment:angularApiUrl}/classes/igxoverlayservice.html). As such, the toggle's [`toggle()`] ({environment:angularApiUrl}/classes/igxtoggledirective.html#toggle) method allows for custom overlay settings to be passed when toggling content.
@@ -258,8 +249,6 @@ export class ExampleComponent {
     }
 }
 ```
-
-<div class="divider--half"></div>
 
 ## API
 

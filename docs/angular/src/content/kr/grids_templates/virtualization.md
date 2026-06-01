@@ -44,7 +44,6 @@ Ignite UI for Angular에서 [@@igxName]({environment:angularApiUrl}/classes/@@ig
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-lod/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 
 ### 가상화 활성화
@@ -166,7 +165,6 @@ public processData() {
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-remote-filtering/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 원격 데이터를 요청할 때 필터링 작업은 대소문자를 구분합니다.
 }
@@ -181,7 +179,6 @@ public processData() {
 
 렌더링하기 전에 컨테이너 및 항목의 크기에 대한 정보가 없는 경우에 @@igComponent에 임의의 위치로 스크롤하면 스크롤바의 너비 또는 높이를 설정하거나 표시 항목을 결정하는데 오류가 발생합니다. 실제 규격에 대한 추측이 스크롤바의 오작동으로 이어지고 궁극적으로 사용자의 경험을 저하시킵니다. 가상화를 유효화시키기 위해서는 관련 규격을 설정해야 합니다.
 
-<div class="divider--half"></div>
 
 ### API 참조
 - [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
@@ -191,7 +188,6 @@ public processData() {
 - [IForOfState]({environment:angularApiUrl}/interfaces/iforofstate.html)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 - [@@igComponent 개요](@@igMainTopic.md)
 - [페이징](paging.md)
@@ -203,7 +199,6 @@ public processData() {
 - [열 크기 조정](column-resizing.md)
 - [선택](selection.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

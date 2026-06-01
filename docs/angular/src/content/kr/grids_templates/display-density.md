@@ -37,7 +37,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/grid/grid-displayDensity/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 @@if (igxName === 'IgxTreeGrid') {
 
@@ -46,7 +45,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-display-density/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
@@ -55,7 +53,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-density/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 
 ### 사용 방법
@@ -297,17 +294,13 @@ public selectDensity(event) {
  </@@igSelector>
  ```
 
-<div class="divider--half"></div>
-
 ### API 참조
 
-<div class="divider--half"></div>
 
 - [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
 - [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
 - [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
 
-<div class="divider--half"></div>
 
 ### 추가 리소스
 
@@ -323,7 +316,6 @@ public selectDensity(event) {
 - [선택](selection.md)
 @@if (igxName !== 'IgxHierarchicalGrid') {* [검색](search.md)}
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

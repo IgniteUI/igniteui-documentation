@@ -8,7 +8,7 @@ _language: kr
 
 ## Typography
 <p class="highlight">The Ignite UI for Angular Typography Sass module allows you to modify the typography for the entire application, specific typographic scale, or specific components.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 Ignite UI for Angular follows [The Type System](https://material.io/design/typography/the-type-system.html#) as described in the Material Design specification. The type system is a _**type scale**_ consisting of _**13 different category type styles**_ used across most components. All of the scale categories are completely reusable and adjustable by the end user.
 
@@ -30,7 +30,7 @@ Here's a list of all 13 category styles as defined in Ignite UI for Angular:
 | **caption** | Titillium Web | 400 | .75 rem | none | .025 rem | 1 rem |
 | **overline** | Titillium Web | 400 | .625 rem | uppercase | .09375 rem | 1 rem |
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 An application can define multiple `scales` that may share scale categories between one another. A `scale category` is a set of `type styles`, containing information about `font-family`, `font-size`, `font-weight`, `line-height`, `letter-spacing`, and `text-transform`.
 
@@ -206,11 +206,10 @@ Here's a list of all CSS classes we provide by default:
 - `igx-typography__caption`
 - `igx-typography__overline`
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

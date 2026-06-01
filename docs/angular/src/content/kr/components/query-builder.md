@@ -19,7 +19,6 @@ The [`IgxQueryBuilderComponent`]({environment:angularApiUrl}/classes/igxquerybui
            iframe-src="{environment:demosBaseUrl}/interactions/query-builder/query-builder-main/" alt="Angular Query Builder Example">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Interaction
 
@@ -366,17 +365,14 @@ Don't forget to include the themes in the same way as it was demonstrated above.
 
 >[!NOTE]
 >The sample will not be affected by the selected global theme from `Change Theme`.
-<div class="divider--half"></div>
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxQueryBuilderComponent API]({environment:angularApiUrl}/classes/igxquerybuildercomponent.html)
 - [IgxQueryBuilderComponent Styles]({environment:sassApiUrl}/themes#function-query-builder-theme)
 
 ## Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

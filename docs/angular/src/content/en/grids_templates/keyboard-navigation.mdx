@@ -48,12 +48,12 @@ Currently, the {ComponentName} introduces the following tab stops:
 - **Column summaries** (if enabled);
 - **{ComponentName} paginator** (if enabled);
 
-<DocsAside type="note">
+<DocsAside type="info">
 Due to this change, navigating between the cells with <kbd>tab</kbd> and <kbd>Shift + Tab</kbd> is no longer supported in the {ComponentName}.
 Pressing the <kbd>Tab</kbd> key now goes through the tab stops in the following order: **GroupBy** / **Toolbar** -> **Headers** -> **Body** -> **Summaries** -> **Footer / Paginator**.
 </DocsAside>
 
-<DocsAside type="note">
+<DocsAside type="info">
 Exposing any **focusable** element into the **{ComponentName}** body via template may introduce **side effects** in the keyboard navigation, since the default
 browser behavior is not prevented. It is the developer's responsibility to prevent or modify it appropriately.
 </DocsAside>
@@ -90,16 +90,14 @@ When the **{ComponentName}** body is focused, the following key combinations are
 
 ### Key Combination
 
-- <kbd>Arrow Up</kbd>- navigates one cell up
-<ComponentBlock for="HierarchicalGrid">
-, or one level up the grid hierarchy if necessary
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+- <kbd>Arrow Up</kbd>- navigates one cell up (no wrapping)
+- <kbd>Arrow Down</kbd> navigates one cell down (no wrapping)
 </ComponentBlock>
-(no wrapping)
-- <kbd>Arrow Down</kbd> navigates one cell down
 <ComponentBlock for="HierarchicalGrid">
-, or one level down the grid hierarchy if necessary
+- <kbd>Arrow Up</kbd>- navigates one cell up, or one level up the grid hierarchy if necessary
+- <kbd>Arrow Down</kbd> navigates one cell down, or one level down the grid hierarchy if necessary
 </ComponentBlock>
-(no wrapping)
 - <kbd>Arrow Left</kbd> navigates one cell left (no wrapping between lines)
 - <kbd>Arrow Right</kbd> - navigates one cell right (no wrapping between lines)
 - <kbd>Ctrl + Arrow Left</kbd> navigates to the leftmost cell in the row
@@ -118,34 +116,27 @@ When the **{ComponentName}** body is focused, the following key combinations are
 - <kbd>Tab</kbd> available only if there is a cell in edit mode; moves the focus to the next editable cell in the row; after reaching the last cell in the row, moves te focus to the first editable cell in the next row. When **Row Editing** is enabled, moves the focus from the right-most editable cell to the **CANCEL** and **DONE** buttons, and from **DONE** button to the left-most editable cell in the row
 - <kbd>Shift + Tab</kbd> - available only if there is a cell in edit mode; moves the focus to the previous editable cell in the row; after reaching the first cell in the row, moves the focus to the last editable cell in the previous row. When **Row Editing** is enabled, moves the focus from the right-most editable cell to **CANCEL** and **DONE** buttons, and from **DONE** button to the right-most editable cell in the row
 - <kbd>Space</kbd> - selects the row, if <kbd>Row Selection</kbd> is enabled
-- <kbd>Alt + Arrow Left</kbd> or <kbd>Alt + Arrow Up</kbd> -
-<ComponentBlock for="Grid">
-over Group Row - collapses the group
-</ComponentBlock>
- <ComponentBlock for="HierarchicalGrid">
-collapses the row island
-</ComponentBlock>
-<ComponentBlock for="TreeGrid">
-collapses the current node
-</ComponentBlock>
 
-- <kbd>Alt + Arrow Right</kbd> or <kbd>Alt + Arrow Down</kbd> -
 <ComponentBlock for="Grid">
-over Group Row - expands the group
-</ComponentBlock>
- <ComponentBlock for="HierarchicalGrid">
-expands the row island
-</ComponentBlock>
-<ComponentBlock for="TreeGrid">
-expands the current node
-</ComponentBlock>
 
- <ComponentBlock for="Grid">
+- <kbd>Alt + Arrow Left</kbd> or <kbd>Alt + Arrow Up</kbd> - over Group Row - collapses the group
+- <kbd>Alt + Arrow Right</kbd> or <kbd>Alt + Arrow Down</kbd> - over Group Row - expands the group
 - <kbd>Alt + Arrow Left</kbd> or <kbd>Alt + Arrow Up</kbd> - over Master Detail Row - collapses the details view
 - <kbd>Alt + Arrow Right</kbd> or <kbd>Alt + Arrow Down</kbd> - over Master Detail Row - expands the details view
-</ComponentBlock>
- <ComponentBlock for="Grid">
 - <kbd>Space</kbd> - over Group Row - selects all rows in the group, if <kbd>rowSelection</kbd> property is set to multiple
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+- <kbd>Alt + Arrow Left</kbd> or <kbd>Alt + Arrow Up</kbd> - collapses the row island
+- <kbd>Alt + Arrow Right</kbd> or <kbd>Alt + Arrow Down</kbd> - expands the row island
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+- <kbd>Alt + Arrow Left</kbd> or <kbd>Alt + Arrow Up</kbd> - collapses the current node
+- <kbd>Alt + Arrow Right</kbd> or <kbd>Alt + Arrow Down</kbd> - expands the current node
+
 </ComponentBlock>
 
 Practice all of the above mentioned actions in the demo sample below. Focus any navigable grid element and a list with some of the available actions for the element will be shown to guide you through.
@@ -156,19 +147,16 @@ Practice all of the above mentioned actions in the demo sample below. Focus any 
 
 <Sample src="/grid/grid-keyboardnav-guide" height={470} alt="" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 <ComponentBlock for="HierarchicalGrid">
 
 <Sample src="/hierarchical-grid/hgrid-keyboard-guide" height={600} alt="" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 <ComponentBlock for="TreeGrid">
 
 <Sample src="/tree-grid/tgrid-keyboardnav-guide" height={470} alt="" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 
 ## Custom keyboard navigation
@@ -211,7 +199,7 @@ Overriding the default behavior for a certain key or keys combination is one of 
 
  <ComponentBlock for="HierarchicalGrid">
 
-<DocsAside type="note">
+<DocsAside type="info">
 Both <ApiLink type="HierarchicalGrid" member="getNextCell" label="getNextCell" /> and <ApiLink type="HierarchicalGrid" member="getPreviousCell" label="getPreviousCell" /> are
 available for the current level and cannot access cells from upper or lower level.
 </DocsAside>
@@ -236,7 +224,7 @@ Let's try the API to demonstrate how to achieve common scenarios like user input
 </igx-hierarchical-grid>
 ```
 
-In order to add custom keyboard navigation to igxHierarchicalGrid child grids too, each child grid should subscribe to <ApiLink type="HierarchicalGrid" member="gridKeydown" label="gridKeydown" /> event. That's why in example above we have registered and event handler for for the <ApiLink type="gridCreated" suffix={false} member="gridCreated" label="gridCreated" /> event:
+In order to add custom keyboard navigation to igxHierarchicalGrid child grids too, each child grid should subscribe to <ApiLink type="HierarchicalGrid" member="gridKeydown" label="gridKeydown" /> event. That's why in example above we have registered and event handler for for the <ApiLink type="HierarchicalGrid" member="gridCreated" label="gridCreated" /> event:
 
 ```typescript
 public childGridCreated(event: IGridCreatedEventArgs) {
@@ -289,7 +277,7 @@ Based on the <ApiLink type="IGridKeydownEventArgs" kind="interface" suffix={fals
         });
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 Please refer to the sample code for full implementation details.
 </DocsAside>
 
@@ -318,7 +306,9 @@ Use the demo below to try out the custom scenarios that we just implemented:
         (obj) => { obj.target.nativeElement.focus(); });
 ```
 
-> Note: Please refer to the sample code for full implementation details.
+<DocsAside type="info">
+Please refer to the sample code for full implementation details.
+</DocsAside>
 
 Use the demo below to try out the custom scenarios that we just implemented:
 
@@ -345,7 +335,9 @@ Use the demo below to try out the custom scenarios that we just implemented:
         (obj) => { obj.target.nativeElement.focus(); });
 ```
 
-> Note: Please refer to the sample code for full implementation details.
+<DocsAside type="info">
+Please refer to the sample code for full implementation details.
+</DocsAside>
 
 Use the demo below to try out the custom scenarios that we just implemented:
 
@@ -364,13 +356,10 @@ Use the demo below to try out the custom scenarios that we just implemented:
 | Navigating inside а grid with scrollable parent container. | If the grid is positioned inside a scrollable parent container and the user navigates to a grid cell that is out of view, parent container will not be scrolled.|
 
 ## API References
-
 - <ApiLink type="{ComponentApiType}" />
-- [{ComponentName}Component Styles]({environment:sassApiUrl}/themes#function-grid-theme)
-
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="{ComponentName}Component Styles" />
 ## Additional Resources
 
-<div class="divider--half"></div>
 
 <ComponentBlock for="HierarchicalGrid">
 _[Grid Keyboard Navigation](/grid/keyboard-navigation)
@@ -401,7 +390,6 @@ _ [Tree Grid Keyboard Navigation](/treegrid/keyboard-navigation)
 - [Column Resizing](/{igPath}/column-resizing)
 - [Selection](/{igPath}/selection)
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

@@ -12,7 +12,7 @@ _language: kr
 The IgniteUI CSV Exporter service can export data in a Character Separated Values format from both raw data (array) or from an [**IgxGrid**](grid/grid.md).
 The exporting functionality is encapsulated in the [`IgxCsvExporterService`]({environment:angularApiUrl}/classes/igxcsvexporterservice.html) class.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### CSV Exporter Demo
 
@@ -22,7 +22,6 @@ The exporting functionality is encapsulated in the [`IgxCsvExporterService`]({en
            iframe-src="{environment:demosBaseUrl}/services/export-csv/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 To start using the IgniteUI CSV Exporter first import the [`IgxCsvExporterService`]({environment:angularApiUrl}/classes/igxcsvexporterservice.html) in the app.module.ts file and add the service to the `providers` array:
 
@@ -134,7 +133,6 @@ Different export formats have different file extensions and value delimiters. Th
 | [`CsvFileTypes.TAB`]({environment:angularApiUrl}/enums/csvfiletypes.html#tab) | .tab | Tab |
 | [`CsvFileTypes.TSV`]({environment:angularApiUrl}/enums/csvfiletypes.html#tsv) | .tsv | Tab |
 
-<div class="divider--half"></div>
 
 You can also specify a custom delimiter using the [`IgxCsvExporterOptions`]({environment:angularApiUrl}/classes/igxcsvexporteroptions.html) objects's [`valueDelimiter`]({environment:angularApiUrl}/classes/igxcsvexporteroptions.html#valuedelimiter) property.
 
@@ -169,11 +167,10 @@ Additional components that were used:
 - [IgxGridComponent API]({environment:angularApiUrl}/classes/igxgridcomponent.html)
 - [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ## Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

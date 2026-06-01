@@ -1,14 +1,14 @@
 ---
 name: xplat-docs-api-links
-description: "Reference guide for adding and fixing ApiLink and ApiRef components in xplat MDX documentation files. Covers pkg, type, kind, member, prefixed, suffix, and label props; platform prefix mapping (Igr/Igx/Igc/Igb); kind values from TypeDoc JSON; utility class suffix rules; excel library special rules (prefixed={false}, IgniteUI.Blazor.Documents.Excel); dock manager slot members; and MDX parse error from JSX in comments. Use when an agent needs to add, fix, or audit ApiLink/ApiRef calls in MDX files."
+description: "Reference guide for adding and fixing ApiLink components in xplat MDX documentation files. Covers pkg, type, kind, member, prefixed, suffix, and label props; platform prefix mapping (Igr/Igx/Igc/Igb); kind values from TypeDoc JSON; utility class suffix rules; excel library special rules (prefixed={false}, IgniteUI.Blazor.Documents.Excel); dock manager slot members; and MDX parse error from JSX in comments. Use when an agent needs to add, fix, or audit ApiLink calls in MDX files."
 user-invocable: true
 ---
 
-# AI Agent Guide — Updating ApiLink & ApiRef in MDX Files
+# AI Agent Guide — Updating ApiLink in MDX Files
 
 ## Context
 
-The MDX files in this folder are shared across four platforms: **Angular, React, WebComponents, Blazor**. The `<ApiLink>` and `<ApiRef>` components resolve to the correct platform-specific URL at build time from a single MDX source.
+The MDX files in this folder are shared across four platforms: **Angular, React, WebComponents, Blazor**. The `<ApiLink>` component resolves to the correct platform-specific URL at build time from a single MDX source.
 
 > **Key insight:** The `type=`, `member=`, `pkg=`, and `kind=` attributes are **identical for all platforms**. Fixing an ApiLink fixes it for all four platforms simultaneously. Only the generated URL differs per platform.
 
@@ -74,7 +74,10 @@ Each JSON file is a TypeDoc reflection tree. Top-level `children` contains all e
 | `member` | no | Property or method name for the anchor. |
 | `prefixed` | no | Default `true` — adds `Igr`/`Igx`/`Igc`/`Igb` automatically. Set `false` when `type` contains `{ComponentName}` or the name is already fully-qualified. **Always `false` for excel types.** |
 | `suffix` | no | Default `true` — appends `Component` suffix for Angular DV packages. Set `false` for utility classes (FilteringOperand, SortingStrategy, SummaryOperand, all excel types). |
+| `exclude` | no | Comma-separated platform list (`"Angular"`, `"Blazor"`, etc.). On listed platforms the symbol renders as inline code (backticks) instead of a link. Use when the type/member genuinely **does not exist** on those platforms. **Preferred over wrapping a single `<ApiLink/>` in a `<PlatformBlock for="...">`** for the sole purpose of platform-omission. |
 | `label` | no | Override display text. |
+
+> **Critical rule:** NEVER replace an existing `<ApiLink/>` with backtick text. If a URL is broken on certain platforms, add `exclude="Platform"` to the tag. Only backtick text is acceptable when the type has no TypeDoc page on *any* platform AND has never been an ApiLink in the content history. When in doubt, keep the ApiLink — the broken link will be caught by `check-api-links.mjs` and fixed via `apply-excludes.mjs`.
 
 ### Platform prefix mapping
 
@@ -253,6 +256,62 @@ Angular's `grids` package appends `Component` to all **UI component** class name
 <ApiLink pkg="grids" type="StringFilteringOperand" suffix={false} />
 ```
 
+### Use PlatformBlock when only some platforms use the suffix or prefix
+
+When `suffix={false}` or `prefixed={false}` is correct for **specific platforms only**, do **not** put that prop on a shared top-level ApiLink. Wrap each variant in a `PlatformBlock` so every platform gets exactly the ApiLink shape it needs:
+
+```mdx
+<!-- ChartSelection has no "Component" suffix on Angular DV packages -->
+<PlatformBlock for="Angular"><ApiLink pkg="charts-core" type="ChartSelection" suffix={false} /></PlatformBlock><PlatformBlock for="React, WebComponents, Blazor"><ApiLink pkg="charts-core" type="ChartSelection" /></PlatformBlock>
+```
+
+Use the same pattern when only some platforms need `prefixed={false}`:
+
+```mdx
+<PlatformBlock for="Blazor"><ApiLink pkg="core" type="SomeType" prefixed={false} /></PlatformBlock><PlatformBlock for="Angular, React, WebComponents"><ApiLink pkg="core" type="SomeType" /></PlatformBlock>
+```
+
+> **Do not use `excludeSuffixFor` or `excludePrefixFor` in MDX.** They should be migrated to explicit `PlatformBlock` variants.
+
+> **Decision guide**:
+> - Symbol **doesn't exist** on a platform → `exclude="Platform"`
+> - Symbol exists but URL has wrong suffix on some platforms → `PlatformBlock` variants with `suffix={false}` only in the affected platform block
+> - Symbol exists but URL has wrong prefix on some platforms → `PlatformBlock` variants with `prefixed={false}` only in the affected platform block
+> - `suffix={false}` / `prefixed={false}` → removes suffix/prefix globally (all platforms)
+
+### When to use PlatformBlock for ApiLinks with different attributes
+
+When two platforms require **different attribute values** (including `suffix`, `prefixed`, `kind`, `pkg`, or `type` differences), wrap **both** ApiLinks in their own `<PlatformBlock>` blocks.
+
+#### Anti-pattern (BUG — produces duplicate output on Blazor)
+
+```mdx
+<!-- WRONG: On Blazor this renders BOTH an inline-code fallback AND a link -->
+<ApiLink type="PivotConfiguration" pkg="grids" kind="interface" exclude="Blazor" /><PlatformBlock for="Blazor"><ApiLink type="PivotConfiguration" pkg="grids" kind="class" suffix={false} /></PlatformBlock>
+```
+
+The `exclude="Blazor"` prop causes the first ApiLink to render as **backtick text** on Blazor (not hidden — just degraded to inline code). The PlatformBlock then renders the second ApiLink as a real link. Result: on Blazor the user sees both a broken inline-code snippet and a working link side by side.
+
+#### Correct pattern — both in PlatformBlocks
+
+```mdx
+<!-- CORRECT: Each platform gets exactly one ApiLink -->
+<PlatformBlock for="Angular, React, WebComponents"><ApiLink type="PivotConfiguration" pkg="grids" kind="interface" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="PivotConfiguration" pkg="grids" kind="class" suffix={false} /></PlatformBlock>
+```
+
+#### When to use which approach
+
+| Difference between platforms | Solution |
+|---|---|
+| Only `suffix` differs (e.g. one platform has no `Component` suffix) | Two `<PlatformBlock>`-wrapped `<ApiLink>` variants; put `suffix={false}` only in the affected block |
+| Only `prefix` differs | Two `<PlatformBlock>`-wrapped `<ApiLink>` variants; put `prefixed={false}` only in the affected block |
+| Type doesn't exist on a platform at all | Single `<ApiLink>` with `exclude="Platform"` |
+| `kind` differs (e.g. `interface` on Angular/React/WC, `class` on Blazor) | Two `<PlatformBlock>`-wrapped `<ApiLink>` tags |
+| `kind` AND `suffix` differ | Two `<PlatformBlock>`-wrapped `<ApiLink>` tags |
+| Any combination of multiple attribute differences | Two `<PlatformBlock>`-wrapped `<ApiLink>` tags |
+
+> **Rule:** Never combine `exclude="Platform"` on one ApiLink with a `<PlatformBlock for="Platform">` wrapping another ApiLink for the **same type**. The `exclude` prop does NOT hide the tag — it degrades it to inline code, producing duplicate visible output.
+
 ### Classes that NEED `suffix={false}`
 
 - All `*FilteringOperand` classes: `BooleanFilteringOperand`, `NumberFilteringOperand`, `StringFilteringOperand`, `DateFilteringOperand`, `DateTimeFilteringOperand`, `TimeFilteringOperand`
@@ -392,20 +451,21 @@ After:
 
 ---
 
-## Step 9 — Adding ApiRef Entries
+## Step 9 — Adding API Reference Entries
 
-If a page references a type not yet in `## API References`, add an `<ApiRef>`. Use one call per unique `kind` + `pkg` combination:
+If a page references a type not yet in `## API References`, add individual `<ApiLink>` tags — one per type:
 
 ```mdx
 ## API References
 
-<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
-<ApiRef pkg="grids" types={["Column", "ColumnGroup"]} />
-<ApiRef pkg="grids" kind="interface" types={["ClipboardOptions"]} />
+<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />
+<ApiLink pkg="grids" type="Column" />
+<ApiLink pkg="grids" type="ColumnGroup" />
+<ApiLink pkg="grids" kind="interface" type="ClipboardOptions" />
 ```
 
 Rules:
-- All `types` in one `<ApiRef>` call must share the same `pkg` and `kind`
+- One `<ApiLink>` per type — no arrays
 - Use `prefixed={false}` only for `{ComponentName}` or fully-qualified names
 
 ## Key Files
@@ -413,7 +473,6 @@ Rules:
 | File | Role |
 |---|---|
 | `src/components/mdx/ApiLink.astro` | ApiLink component — URL generation logic |
-| `src/components/mdx/ApiRef.astro` | ApiRef component |
 | `src/lib/platform-context.ts` | Platform config, `docRoot` URLs per platform, prefix mapping |
 | `api-docs/src/data/react/igniteui-react-grids.json` | TypeDoc JSON — React grids (primary reference) |
 | `api-docs/src/data/react/igniteui-react.json` | TypeDoc JSON — React core |

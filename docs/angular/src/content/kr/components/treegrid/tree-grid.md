@@ -17,7 +17,6 @@ _language: kr
            iframe-src="{environment:lobDemosBaseUrl}/tree-grid/treegrid-childdatakey/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### 시작하기
 
@@ -223,7 +222,6 @@ export class MyComponent implements OnInit {
            iframe-src="{environment:lobDemosBaseUrl}/tree-grid/treegrid-primaryforeignkey/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### 지속성 및 통합성
 
@@ -235,7 +233,6 @@ export class MyComponent implements OnInit {
 - 내보내기를 한 Excel 워크시트는 트리 그리드 자체에 그룹화될 때 레코드를 그룹화하여 계층에 반영합니다. 모든 레코드의 전개 상태도 지속되고 반영됩니다.
 - CSV로 내보내기를 할 때 수준 및 전개 상태는 무시되며 모든 데이터는 플랫으로 내보내기가 됩니다.
 
-<div class="divider--half"></div>
 
 ### 키보드 탐색
 
@@ -267,7 +264,6 @@ export class MyComponent implements OnInit {
 - `Alt + 아래 화살표` 트리 그리드 행의 위 - 셀은 선택되고 포커스되어지며 선택된 셀 행에 하위가 있으면 행은 전개됩니다;
 - 마우스 `휠` -  포커스 요소를 흐리게 합니다;
 
-<div class="divider--half"></div>
 
 ### Sizing
 
@@ -283,11 +279,9 @@ See the [Grid Sizing](sizing.md) topic.
 > [!NOTE]
 > `igxTreeGrid` uses `igxForOf` directive internally hence all `igxForOf` limitations are valid for `igxTreeGrid`. For more details see [igxForOf Known Issues](../for-of.html#known-limitations) section.
 
-<div class="divider--half"></div>
 
 ## API 참조
 
-<div class="divider--half"></div>
 
 - [IgxTreeGridComponent]({environment:angularApiUrl}/classes/igxtreegridcomponent.html)
 - [IgxGridCell]({environment:angularApiUrl}/classes/igxgridcell.html)
@@ -300,13 +294,11 @@ See the [Grid Sizing](sizing.md) topic.
 
 ## 추가 리소스
 
-<div class="divider--half"></div>
 
 - [Grid Sizing](sizing.md)
 - [데이터 그리드](../grid/grid.md)
 - [행 편집](row-editing.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

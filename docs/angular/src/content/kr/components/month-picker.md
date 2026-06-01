@@ -159,16 +159,13 @@ Here is an example of localizing the month picker component:
   - <kbd>Tab</kbd> key to navigate through the months.
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxMonthPickerComponent]({environment:angularApiUrl}/classes/igxmonthpickercomponent.html)
 - [IgxCalendarComponent]({environment:angularApiUrl}/classes/igxcalendarcomponent.html)
 - [IgxCalendarComponent Styles]({environment:sassApiUrl}/themes#function-calendar-theme)
 
-<div class="divider--half"></div>
 
 ## Additional Resources
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

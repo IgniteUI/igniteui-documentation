@@ -1,19 +1,18 @@
 # API References System — xplat docs
 
-Complete reference for the `ApiLink` and `ApiRef` components used across all platform MDX pages.
+Complete reference for the `ApiLink` component used across all platform MDX pages.
 
 ---
 
 ## Overview
 
-Two Astro components generate correct, platform-aware hyperlinks to the TypeDoc API docs on infragistics.com.
+The `ApiLink` Astro component generates correct, platform-aware hyperlinks to the TypeDoc API docs on infragistics.com.
 
 | Component | Purpose |
 |-----------|---------|
-| `ApiLink` | Inline `<a><code>…</code></a>` in prose text — for class names and members |
-| `ApiRef` | "API References" `<h2>` section at the bottom of a page — for class names only |
+| `ApiLink` | Inline `<a><code>…</code></a>` in prose text and in "API References" sections — for class names and members |
 
-Both components read the current build platform from `platform-context.ts` at **build time**. The same MDX markup works for Angular, React, WebComponents, and Blazor — no per-platform conditionals needed.
+The component reads the current build platform from `platform-context.ts` at **build time**. The same MDX markup works for Angular, React, WebComponents, and Blazor — no per-platform conditionals needed.
 
 ---
 
@@ -22,8 +21,7 @@ Both components read the current build platform from `platform-context.ts` at **
 | File | Role |
 |------|------|
 | `src/lib/platform-context.ts` | Registry: `apiPackages` per platform — doc roots, package IDs, URL flags |
-| `src/components/mdx/ApiLink.astro` | Inline link component |
-| `src/components/mdx/ApiRef.astro` | API References section component |
+| `src/components/mdx/ApiLink.astro` | Link component — inline and API References sections |
 
 ---
 
@@ -275,73 +273,6 @@ Set the <ApiLink kind="enum" type="CalendarSelection" /> enum to control selecti
 
 ---
 
-## `ApiRef` Component
-
-**File:** `src/components/mdx/ApiRef.astro`
-
-Renders the standard "API References" `<h2>` section. Place near the bottom of the page, before "Additional Resources". Lists symbol names — **never properties or methods**.
-
-### Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `types` | `string[]` | **required** | Symbol names without platform prefix |
-| `kind` | `'class' \| 'interface' \| 'enum' \| 'type' \| 'variable' \| 'function'` | `"class"` | TypeDoc symbol kind — all entries in one call must be the same kind |
-| `pkg` | `string` | `"core"` | Package key. All entries in one call must be from the same package |
-| `prefixed` | `boolean` | `true` | Set `false` for fully-qualified names or `{ComponentName}` tokens. **Always `false` for excel library types.** |
-| `suffix` | `boolean` | `true` | Set `false` for utility classes without the `Component` suffix (excel types, FilteringOperand, SortingStrategy, etc.) |
-
-### Usage examples
-
-```mdx
-import ApiRef from '@/components/mdx/ApiRef.astro';
-
-<!-- Core package classes (default) -->
-<ApiRef types={["Toast"]} />
-
-<!-- Charts classes -->
-<ApiRef pkg="charts" types={["CategoryChart", "FinancialChart"]} />
-
-<!-- Grid page — always use pkg="grids" -->
-<ApiRef pkg="grids" types={["{ComponentName}", "Column"]} prefixed={false} />
-
-<!-- Mixed packages: separate ApiRef per package -->
-<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
-<ApiRef pkg="charts" types={["CategoryChart"]} />
-
-<!-- Mixed kinds on one page: separate ApiRef per kind -->
-<ApiRef types={["Toast"]} />
-<ApiRef kind="interface" types={["ComboTemplateProps"]} prefixed={false} />
-<ApiRef kind="enum" types={["CalendarSelection"]} />
-<ApiRef kind="function" types={["configureTheme"]} prefixed={false} />
-```
-
-### Rendered output
-
-```html
-<!-- <ApiRef pkg="charts" types={["CategoryChart", "FinancialChart"]} /> on React -->
-<h2>API References</h2>
-<ul>
-  <li><a href=".../igniteui_react_charts.igrcategorychart.html"><code>IgrCategoryChart</code></a></li>
-  <li><a href=".../igniteui_react_charts.igrfinancialchart.html"><code>IgrFinancialChart</code></a></li>
-</ul>
-
-<!-- Same on Angular — Component suffix in href only, not in label -->
-<h2>API References</h2>
-<ul>
-  <li><a href=".../igniteui_angular_charts.igxcategorychartcomponent.html"><code>IgxCategoryChart</code></a></li>
-  <li><a href=".../igniteui_angular_charts.igxfinancialchartcomponent.html"><code>IgxFinancialChart</code></a></li>
-</ul>
-
-<!-- <ApiRef kind="function" types={["configureTheme"]} prefixed={false} /> on React -->
-<h2>API References</h2>
-<ul>
-  <li><a href=".../ignite-ui-react/docs/typescript/latest/functions/igniteui-react.configureTheme.html"><code>configureTheme</code></a></li>
-</ul>
-```
-
----
-
 ## Rules
 
 | Situation | What to do |
@@ -353,14 +284,12 @@ import ApiRef from '@/components/mdx/ApiRef.astro';
 | Type alias | `<ApiLink kind="type" type="FooType" prefixed={false} />` |
 | Variable | `<ApiLink kind="variable" type="FooVar" prefixed={false} />` |
 | Function | `<ApiLink kind="function" type="fooFn" prefixed={false} />` |
-| Symbol in "API References" section | `<ApiRef types={["Foo"]} />` (add `kind=` for non-class) |
-| Property/method in "API References" section | **Never** — members go in `<ApiLink>` only |
+| Symbol in "API References" section | `<ApiLink type="Foo" />` — one per type (add `kind=` for non-class) |
+| Property/method in "API References" section | **Never** — members go in `<ApiLink>` inline only |
 | Chart class/member | Always `pkg="charts"` |
 | Grid class/member | Always `pkg="grids"` — never `pkg="core"` for grid types |
 | Gauge class/member | Always `pkg="gauges"` |
 | Map class/member | Always `pkg="maps"` |
-| Multiple packages on one page | Use separate `<ApiRef>` blocks, one per package |
-| Multiple kinds on one page | Use separate `<ApiRef>` blocks, one per kind |
 | Import placement | After frontmatter `---`, before first `#` heading — **never inside a code fence** |
 
 ---
@@ -374,7 +303,6 @@ import ApiRef from '@/components/mdx/ApiRef.astro';
 title: {Platform} Toast | {ProductName}
 ---
 import Sample from '@/components/mdx/Sample.astro';
-import ApiRef from '@/components/mdx/ApiRef.astro';
 import ApiLink from '@/components/mdx/ApiLink.astro';
 
 # {Platform} Toast
@@ -385,7 +313,7 @@ Call the <ApiLink type="Toast" member="show" label="Show" /> method to display i
 Set <ApiLink type="Toast" member="displayTime" label="DisplayTime" /> to control visibility duration.
 Use <ApiLink type="Toast" member="keepOpen" label="KeepOpen" /> to prevent auto-dismissal.
 
-<ApiRef types={["Toast"]} />
+<ApiLink type="Toast" />
 ```
 
 ### Charts page (animations)
@@ -395,7 +323,6 @@ Use <ApiLink type="Toast" member="keepOpen" label="KeepOpen" /> to prevent auto-
 title: {Platform} Chart Animations | {ProductName}
 ---
 import Sample from '@/components/mdx/Sample.astro';
-import ApiRef from '@/components/mdx/ApiRef.astro';
 import ApiLink from '@/components/mdx/ApiLink.astro';
 
 # {Platform} Chart Animations
@@ -404,7 +331,7 @@ Enable animations by setting <ApiLink pkg="charts" type="CategoryChart" member="
 Control duration with <ApiLink pkg="charts" type="CategoryChart" member="transitionInDuration" label="TransitionInDuration" />.
 Set <ApiLink pkg="charts" type="CategoryChart" member="transitionInMode" label="TransitionInMode" /> to choose the animation style.
 
-<ApiRef pkg="charts" types={["CategoryChart"]} />
+<ApiLink pkg="charts" type="CategoryChart" />
 ```
 
 ### Grid page (shared file, multi-platform)
@@ -413,7 +340,6 @@ Set <ApiLink pkg="charts" type="CategoryChart" member="transitionInMode" label="
 ---
 title: {Platform} {ComponentTitle} Row Selection | {ProductName}
 ---
-import ApiRef from '@/components/mdx/ApiRef.astro';
 import ApiLink from '@/components/mdx/ApiLink.astro';
 
 # {Platform} {ComponentTitle} Row Selection
@@ -421,7 +347,8 @@ import ApiLink from '@/components/mdx/ApiLink.astro';
 Set <ApiLink pkg="grids" type="{ComponentName}" member="rowSelection" prefixed={false} /> to enable selection.
 Use <ApiLink pkg="grids" type="{ComponentName}" member="selectedRows" prefixed={false} /> to access selected rows.
 
-<ApiRef pkg="grids" types={["{ComponentName}", "Column"]} prefixed={false} />
+<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />
+<ApiLink pkg="grids" type="Column" />
 ```
 
 ---
@@ -482,13 +409,11 @@ The MDX parser tries to evaluate them even inside comments. Fix by converting to
 
 ## For AI Agents — Checklist
 
-When updating any MDX file to use `ApiLink` and `ApiRef`:
+When updating any MDX file to use `ApiLink`:
 
-1. **Add imports** immediately after the closing `---` of the frontmatter — never inside a code fence:
-
+1. **Add import** immediately after the closing `---` of the frontmatter — never inside a code fence:
    ```mdx
-   import ApiRef from '@/components/mdx/ApiRef.astro';
-   import ApiLink from '@/components/mdx/ApiLink.astro';
+   import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
    ```
 
 2. **Determine the correct `pkg`** from the content area (see table above). Charts pages → `"charts"`. Grid pages → `"grids"`. Component pages → `"core"` (or omit).
@@ -500,14 +425,14 @@ When updating any MDX file to use `ApiLink` and `ApiRef`:
    - `` `TransitionInDuration` `` → `<ApiLink pkg="charts" type="CategoryChart" member="transitionInDuration" label="TransitionInDuration" />`
    - Use the **primary class of the page** as `type`. Use `camelCase` for `member`. Use the original display text for `label`.
 
-5. **Fix `<ApiRef>`** at the bottom — keep only **top-level symbols** (no members), add correct `pkg` and `kind`:
-   - Before: `<ApiRef types={["CategoryChart", "IsTransitionInEnabled", "TransitionInDuration"]} />`
-   - After: `<ApiRef pkg="charts" types={["CategoryChart"]} />`
-   - For interfaces/enums/types/functions/variables: `<ApiRef kind="interface" types={["FooProps"]} prefixed={false} />`
+5. **Fix API References** at the bottom — keep only **top-level symbols** (no members), add correct `pkg` and `kind`:
+   - Before (over-specified): `<ApiLink type="CategoryChart" />` `<ApiLink type="IsTransitionInEnabled" />` `<ApiLink type="TransitionInDuration" />`
+   - After (top-level only): `<ApiLink pkg="charts" type="CategoryChart" />`
+   - For interfaces/enums/types/functions/variables: `<ApiLink kind="interface" type="FooProps" prefixed={false} />`
 
-6. **Never mix packages** in one `<ApiRef>`. Use separate blocks per package.
+6. **Use one `<ApiLink>` per type** in the API References section. Group them by package.
 
-7. **Never mix kinds** in one `<ApiRef>`. Use separate blocks per kind (class, interface, enum, etc.).
+7. **Never mix kinds** — use the correct `kind=` for each type (class, interface, enum, etc.).
 
 8. **Never hardcode prefixes** (`Igr`, `Igx`, `Igc`, `Igb`) in the `type` prop — the component adds the prefix automatically. Use `prefixed={false}` for:
    - Fully-qualified names (`IgbToast`, `{ComponentName}`)

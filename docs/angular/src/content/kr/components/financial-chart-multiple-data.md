@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/financial-chart/multiple-data">
 </code-view>
 
-<div class="divider--half"></div>
 
 각 데이터 소스를 배열에 추가하여 금융 차트에서 복수의 데이터 소스를 작성할 수 있습니다. 다음의 코드 조작은 복수의 데이터 소스를 작성하는 방법을 보여줍니다.
 
@@ -51,11 +50,9 @@ let data: any = [ dataSource1, dataSource2 ]
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 추가 리소스
 
-<div class="divider--half"></div>
 
 - [차트 퍼포먼스](financial-chart-performance.md)
 - [실시간 데이터 바인딩](financial-chart-high-frequency.md)

@@ -17,7 +17,6 @@ _language: kr
            iframe-src="{environment:lobDemosBaseUrl}/grid/grid/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### 의존성
 
@@ -436,7 +435,6 @@ See the [Grid Sizing](sizing.md) topic.
 > [!NOTE]
 > `igxGrid` uses `igxForOf` directive internally hence all `igxForOf` limitations are valid for `igxGrid`. For more details see [igxForOf Known Issues](../for-of.html#known-limitations) section.
 
-<div class="divider--half"></div>
 
 ## API 참조
 - [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
@@ -451,7 +449,6 @@ Learn more about creating an Angular data grid in our short tutorial video:
 > [!Video https://www.youtube.com/embed/Xv_fQVQ8fmM]
 
 ## 추가 리소스
-<div class="divider--half"></div>
 
 - [Grid Sizing](sizing.md)
 - [가상화 및 성능](virtualization.md)
@@ -465,7 +462,6 @@ Learn more about creating an Angular data grid in our short tutorial video:
 - [선택](selection.md)
 - [Build CRUD operations with igxGrid](../general/how-to/how-to-perform-crud.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

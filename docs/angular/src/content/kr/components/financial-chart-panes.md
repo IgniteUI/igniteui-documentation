@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/financial-chart/panes">
 </code-view>
 
-<div class="divider--half"></div>
 
 다음 창은 금융 차트 컨트롤에서 사용할 수 있습니다:
 
@@ -96,10 +95,8 @@ _language: kr
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 추가 리소스
 
-<div class="divider--half"></div>
 
 - [차트 퍼포먼스](financial-chart-performance.md)

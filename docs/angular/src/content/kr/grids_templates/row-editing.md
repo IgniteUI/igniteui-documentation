@@ -39,7 +39,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/grid/grid-row-editing/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 @@if (igxName === 'IgxTreeGrid') {
 
@@ -48,7 +47,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-row-edit/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
@@ -57,7 +55,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-row-editing/" >
 </code-view>
 
-<div class="divider--half"></div>
 }
 
 > [!NOTE]
@@ -346,13 +343,11 @@ export class HGridRowEditingSampleComponent implements OnInit {
 - [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 - [@@igComponent 개요](@@igMainTopic.md)
 - [@@igComponent 편집](editing.md)
 - [@@igComponent 트랜잭션](batch-editing.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

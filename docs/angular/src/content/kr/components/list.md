@@ -8,7 +8,7 @@ _language: kr
 ## List View
 
 <p class="highlight">The Ignite UI for Angular List component displays rows of items and supports one or more header items as well as search and filtering of list items. Each list item is completely templatable and will support any valid HTML or Angular component. </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### List Demo
 
@@ -18,7 +18,6 @@ _language: kr
            iframe-src="{environment:demosBaseUrl}/lists/list-sample-4/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Usage
 At its core the list component allows you to easily display a vertical list of items. The default styling of the items is done according to the single-line list specification as per the Material Design [**guidelines**](https://material.io/guidelines/components/lists.html).
@@ -372,7 +371,6 @@ And here's the result of all that work:
            iframe-src="{environment:demosBaseUrl}/lists/list-sample-4/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 #### List Items Panning
 
@@ -519,7 +517,6 @@ Now try panning the list items for yourself:
            iframe-src="{environment:demosBaseUrl}/lists/list-sample-7/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Filtering
 
@@ -582,7 +579,7 @@ Finally, we need to apply the filtering pipe to our contacts data before we can 
 </igx-list-item>
 ```
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ## List Item Selection
 
@@ -626,7 +623,6 @@ public selectItem(item) {
 }
 ```
 
-<div class="divider--half"></div>
 
 ## API References
 
@@ -643,11 +639,10 @@ Additional components that were used:
 - [IgxIconComponent API]({environment:angularApiUrl}/classes/igxiconcomponent.html)
 - [IgxIconComponent Styles]({environment:sassApiUrl}/themes#function-icon-theme)
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ## Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

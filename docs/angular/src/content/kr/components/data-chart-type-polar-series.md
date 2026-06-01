@@ -20,7 +20,6 @@ _language: kr
            github-src="charts/data-chart/polar-chart-types">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 폴라 시리즈의 유형
 

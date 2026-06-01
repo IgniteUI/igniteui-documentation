@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/axis-locations">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 코드 예제
 

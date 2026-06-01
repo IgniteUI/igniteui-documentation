@@ -131,7 +131,6 @@ public initColumns(column: IgxColumnComponent) {
 </code-view>
 
 } -->
-<div class="divider--half"></div>
 
 
 ## API References
@@ -141,7 +140,6 @@ public initColumns(column: IgxColumnComponent) {
 
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 - [@@igComponent overview](@@igMainTopic.md)
 - [Paging](paging.md)

@@ -49,7 +49,7 @@ import { IgxDialogModule } from 'igniteui-angular/dialog';
 export class AppModule {}
 ```
 
-あるいは、`16.0.0` 以降、`IgxDialogComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_DIALOG_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/dialog/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
+あるいは、`16.0.0` 以降、`IgxDialogComponent` をスタンドアロンの依存関係としてインポートすることも、[`IGX_DIALOG_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/dialog/src/dialog/public_api.ts) トークンを使用してコンポーネントとそのすべてのサポート コンポーネントおよびディレクティブをインポートすることもできます。
 
 ```typescript
 // home.component.ts
@@ -78,6 +78,11 @@ import { IgxRippleDirective } from 'igniteui-angular/directives';
 })
 export class HomeComponent {}
 ```
+
+
+<DocsAside type="info">
+このコンポーネントはマテリアル アイコンを使用します。`index.html` に次のリンクを追加してください: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
 
 Ignite UI for Angular Dialog Window モジュールまたはディレクティブをインポートしたので、`igx-dialog` コンポーネントの使用を開始できます。
 
@@ -211,6 +216,7 @@ export class HomeComponent {
 
 ```typescript
 import { useAnimation } from '@angular/animations';
+import { slideInTop, slideOutBottom } from 'igniteui-angular/animations';
 import { PositionSettings, HorizontalAlignment, VerticalAlignment } from 'igniteui-angular/core';
 // import { PositionSettings, HorizontalAlignment, VerticalAlignment } from '@infragistics/igniteui-angular'; for licensed package
 
@@ -228,7 +234,7 @@ export class HomeComponent {
 }
 ```
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 同じアプローチをアニメーション設定に使用する必要があります。`openAnimation` と `closeAnimation` プロパティを使用して、期間などのアニメーション パラメーターを定義します。
 </DocsAside>
 
@@ -254,34 +260,11 @@ params: {
 
 `$background` プロパティを変更すると、次の依存プロパティが自動的に更新されます。
 
-<table class="collapsible-table">
-    <thead>
-        <tr>
-        <th>Primary Property</th>
-        <th>Dependent Property</th>
-        <th>Description</th>
-        </tr>
-    </thead>
-    <tbody class="group">
-        <tr class="primary">
-        <td>
-            <details><summary><strong>$background</strong></summary></details>
-        </td>
-        <td>$title-color</td>
-        <td>The dialog title text color.</td>
-        </tr>
-        <tr class="dependent">
-        <td></td>
-        <td>$message-color</td>
-        <td>The dialog message text color.</td>
-        </tr>
-        <tr class="dependent">
-        <td></td>
-        <td>$border-color</td>
-        <td>The border color used for dialog component.</td>
-        </tr>
-    </tbody>
-</table>
+| Primary Property | Dependent Property | Description |
+| --- | --- | --- |
+| **$background** | $title-color | The dialog title text color. |
+|  | $message-color | The dialog message text color. |
+|  | $border-color | The border color used for dialog component. |
 
 ダイアログ ウィンドウのスタイル設定は、すべてのテーマ関数とコンポーネントミックスインが存在する `index` ファイルをはじめにインポートする必要があります。
 
@@ -292,7 +275,7 @@ params: {
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-最もシンプルな方法として、[`dialog-theme`]({environment:sassApiUrl}/themes#function-dialog-theme) を拡張し、ダイアログをスタイリングするためのパラメーターを指定して新しいテーマを作成します。`$background` を設定するだけで、前景用のプロパティに対して適切なコントラストの色が自動的に選ばれます。必要に応じて手動で指定することも可能です。
+最もシンプルな方法として、<ApiLink kind="sass" module="themes" type="function-dialog-theme" label="dialog-theme" code={true} /> を拡張し、ダイアログをスタイリングするためのパラメーターを指定して新しいテーマを作成します。`$background` を設定するだけで、前景用のプロパティに対して適切なコントラストの色が自動的に選ばれます。必要に応じて手動で指定することも可能です。
 
 ```scss
 $my-dialog-theme: dialog-theme(
@@ -302,7 +285,7 @@ $my-dialog-theme: dialog-theme(
 );
 ```
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 ダイアログ ウィンドウのコンテンツの一部として使用される追加コンポーネント ([`IgxButton`](button.md) など) をスタイルするには、それぞれのコンポーネントに固有の追加テーマを作成し、ダイアログ ウィンドウのスコープ内のみに配置する必要があります (残りのアプリケーションの影響を受けません)。
 </DocsAside>
 
@@ -323,13 +306,13 @@ $custom-button: contained-button-theme(
 </div>
 ```
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 [`IgxOverlayService`](overlay.md) を使用して表示される要素にテーマを提供するためのさまざまなオプションの詳細については、[オーバーレイ スタイリングのトピック](overlay-styling.md)をご覧ください。
 </DocsAside>
 
 ### テーマを含む
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 最後にコンポーネントのテーマを**含めます**。
 
@@ -339,7 +322,7 @@ $custom-button: contained-button-theme(
 }
 ```
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 コンポーネントが [`Emulated`](themes/sass/component-themes.md#表示のカプセル化) ViewEncapsulation を使用している場合、スタイルを適用するには `::ng-deep` を使用してこのカプセル化を解除する必要があります。
 </DocsAside>
 
@@ -362,15 +345,15 @@ $custom-button: contained-button-theme(
 <hr/>
 
 - <ApiLink type="Dialog" />
-- [IgxDialogComponent スタイル]({environment:sassApiUrl}/themes#function-dialog-theme)
+- <ApiLink kind="sass" module="themes" type="function-dialog-theme" label="IgxDialogComponent スタイル" />
 - <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" />
-- [IgxOverlay スタイル]({environment:sassApiUrl}/themes#function-overlay-theme)
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay スタイル" />
 
 ## テーマの依存関係
 
-- [IgxButton テーマ]({environment:sassApiUrl}/themes#function-button-theme)
-- [IgxRipple テーマ]({environment:sassApiUrl}/themes#function-ripple-theme)
-- [IgxOverlay テーマ]({environment:sassApiUrl}/themes#function-overlay-theme)
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="IgxButton テーマ" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="IgxRipple テーマ" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay テーマ" />
 
 ## その他のリソース
 

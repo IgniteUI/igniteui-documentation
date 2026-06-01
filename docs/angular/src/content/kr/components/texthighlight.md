@@ -16,7 +16,6 @@ The [`IgxTextHighlight`]({environment:angularApiUrl}/classes/igxtexthighlightdir
            iframe-src="{environment:demosBaseUrl}/data-display/text-highlight-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**installation**](general/getting-started.md) topic.
@@ -184,7 +183,7 @@ If the sample is configured properly, the final result should look like that:
 </code-view>
 
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Search across multiple containers
 The [`igxTextHighlight`]({environment:angularApiUrl}/classes/igxtexthighlightdirective.html) allows you to search across multiple containers which all share one active highlight. This is done by having the same group value across multiple TextHighlight directives which have all separate containers. In order to setup the sample we will reuse the search box from the previous sample, but this time we will add two paragraphs. Again, note that they both are in their own containers, but this time the second one has a different row value.
@@ -271,7 +270,7 @@ All the rest of the code in the .ts file is identical to the single container ex
 </code-view>
 
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### API and Style References
 
@@ -280,14 +279,13 @@ For more detailed information regarding the TextHighlight directive's API, refer
 
 Additional components that were used:
 
-- [`IgxInputGroupComponent`]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
-- [`IgxInputGroupComponent Styles`]({environment:sassApiUrl}/themes#function-input-group-theme)
-<div class="divider"></div>
+* [`IgxInputGroupComponent`]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
+* [`IgxInputGroupComponent Styles`]({environment:sassApiUrl}/themes#function-input-group-theme)
+<igc-divider></igc-divider>
 
 ## Additional Resources
 - [Grid Search](grid/search.md)
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

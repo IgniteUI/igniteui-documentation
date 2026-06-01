@@ -16,7 +16,6 @@ The Ignite UI for Angular Splitter component provides the ability to create layo
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Usage
 
@@ -214,14 +213,12 @@ This is the final result from applying your new theme.
 
 
 ## API References
-<div class="divider--half"></div>
 
 - [IgxSplitterComponent]({environment:angularApiUrl}/classes/igxsplittercomponent.html)
 - [IgxSplitterPaneComponent]({environment:angularApiUrl}/classes/igxsplitterpanecomponent.html)
 - [SplitterType]({environment:angularApiUrl}/enums/splittertype.html)
 - [IgxSplitterComponent Styles]({environment:sassApiUrl}/themes#function-splitter-theme)
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 * [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
 * [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

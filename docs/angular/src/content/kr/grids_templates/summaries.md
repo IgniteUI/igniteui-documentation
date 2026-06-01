@@ -51,7 +51,6 @@ The Angular UI grid in Ignite UI for Angular has a **summaries** feature that fu
 
 }
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > 열 요약은 **모든 열 값의 함수**이지만 필터링이 적용된 경우에는 열 요약은 **필터링된 결과 값의 함수**가 됩니다
@@ -389,7 +388,6 @@ class MySummary extends IgxNumberSummaryOperand {
 </code-view>
 
 }
-<div class="divider--half"></div>
 
 #### 키보드 탐색
 
@@ -416,7 +414,6 @@ class MySummary extends IgxNumberSummaryOperand {
 - [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
 - [@@igComponent 개요](@@igMainTopic.md)
 - [가상화 및 성능](virtualization.md)
@@ -428,7 +425,6 @@ class MySummary extends IgxNumberSummaryOperand {
 - [열 크기 조정](column-resizing.md)
 - [선택](selection.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
 - [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

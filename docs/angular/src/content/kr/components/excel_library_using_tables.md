@@ -18,7 +18,6 @@ The Infragistics Excel Engine's [`WorksheetTable`]({environment:dvApiBaseUrl}/pr
 
 -->
 
-<div class="divider--half"></div>
 
 ## Adding a Table to a Worksheet
 

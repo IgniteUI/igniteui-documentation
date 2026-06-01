@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/category-chart/highlighting">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 강조 표시 레이어
 

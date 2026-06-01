@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/type-area-series">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 필요한 축
 
