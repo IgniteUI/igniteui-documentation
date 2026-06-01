@@ -71,17 +71,17 @@ Set the <ApiLink pkg="grids" type="Column" member="sortable" /> property to `tru
 
 The purpose of this section is to present what the structure of the topic should be and the arrangement of the main elements in it.
 
-### 1. The first title of the page should be with `<h1>` tag (`#` Page Title) and it wont appear on the submenu on the right.
+### 1. The first title of the page should be with `<h1>` tag (`#` Page Title) and it won't appear on the submenu on the right.
 
 ### 2. Every main title should be with `<h2>` tag (`##` Main Title).
 
 ### 3. Using nested titles.
 Minor titles related to the main titles can be used with `<h3>`(`###`) or `<h4>` (`####`).
-Note: when `<h4>` (`####`) is used the title wont appear on the submenu on the right.
+Note: when `<h4>` (`####`) is used the title won't appear on the submenu on the right.
 
 # <a name='#styling-section'>Writing a Styling section for article</a>
 
-The main purpose of the Styling section is to provide simple examples on how to style most common parts of the UI (lets say styling for alternate rows in the grid), copy/paste the code in any sample and see it working. In order to write content that fullfills the purpose, follow the steps below:
+The main purpose of the Styling section is to provide simple examples on how to style most common parts of the UI (let's say styling for alternate rows in the grid), copy/paste the code in any sample and see it working. In order to write content that fulfills the purpose, follow the steps below:
 
 ### 1.	Give the content an `<h3>` Section header, so that it appears on the submenu on the right.
 ### 2.	Start the content with the example of adding the theming index file.
@@ -100,7 +100,7 @@ $dark-grid-paginator: grid-paginator-theme(
 ### 6.	Provide the last step, which is to include the component mixin, along with two notes – the first one for scoping any mixin if needed, and the second note about penetrating the `ViewEncapsulation`, along with example on how to overcome the encapsulation.
 ### 7.	Add an iframe with an example, along with a Stackblitz button
 ### 8.	Examples on styling with `igx-color`, `palettes` and `schemas` are not necessary, but you may add a link to Theming engine topics as they are quite detailed.
-### 9. When adding a section for a certain grid feature, add it for the igxHierachicalGrid and igxTreeGrid as well.
+### 9. When adding a section for a certain grid feature, add it for the `igxHierarchicalGrid` and `igxTreeGrid` as well.
 
 
 # <a name='#workflow'>Workflow</a>
@@ -167,10 +167,10 @@ Ensure that whenever a change is made to the text content the appropriate status
 
 1.  Depending on where the bug/change/feature was found/is planned `the current version` or the `ongoing release version`, checkout a development branches from `vnext` or/and `master` branch. `vnext` is the version that is going to be used upon release (next version), and `master` is the branch with the current state (current version available on production). If the change/fix is applicable only to the ongoing release branch (`vnext`) there is no need to cherry-pick to `master` branch as the change/fix/feature will be pushed to `master` branch upon release.
 2. Run lint
-4. Pull request your changes and reference the issue. Use the enforced commit message format with applicable type, scope, etc.
-5. Don't forget to make the necessary status updates, as described in the workflow section.
+3. Pull request your changes and reference the issue. Use the enforced commit message format with applicable type, scope, etc.
+4. Don't forget to make the necessary status updates, as described in the workflow section.
 
-> Note: Cherry-pick to `master` branch only changes with **high priority**. There is no need to cherry-pick into `master` every bug fix/change from `vnext`> A regular mass merge PRs are going to be made from `vnext` into `master`.
+> Note: Cherry-pick to `master` branch only changes with **high priority**. There is no need to cherry-pick into `master` every bug fix/change from `vnext`. A regular mass merge PRs are going to be made from `vnext` into `master`.
 
 **Example workflow for a bug with high priority**
 The process will look like this:
