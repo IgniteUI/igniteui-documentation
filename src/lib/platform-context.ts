@@ -229,8 +229,7 @@ export function getPlatformContext(): PlatformContext {
                 {
                     ...pkg,
                     docRoot: pkg.docRoot
-                        .replace('https://staging.infragistics.com/api', apiDocsBaseUrl)
-                        .replace(/\/latest$/, '/latest'),
+                        .replace('https://staging.infragistics.com/api', apiDocsBaseUrl),
                 },
             ])
         ),
