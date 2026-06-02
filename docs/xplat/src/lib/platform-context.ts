@@ -14,8 +14,6 @@ export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor';
 export interface ApiPackageConfig {
     /** TypeDoc documentation root URL (no trailing slash). */
     docRoot: string;
-    /** Optional direct URL to the compact ApiLink symbol index for this package/version. */
-    apiLinkIndexUrl?: string;
     /**
      * Package identifier as it appears in the TypeDoc URL path.
      * Core packages use hyphens ("igniteui-react"),
@@ -48,8 +46,10 @@ export interface ApiPackageConfig {
 
 export interface PlatformContext {
     name: PlatformName;
-    /** Optional root for compact ApiLink symbol index files. */
-    apiLinkIndexRoot?: string;
+    /** Optional compact ApiLink symbol index loaded by the docs host at build time. */
+    apiLinkIndex?: {
+        symbols?: Record<string, unknown>;
+    };
     /** Lower-case slug used in URLs, e.g. "angular" */
     lower: string;
     /** Component class prefix, e.g. "Igx" / "Igr" / "Igc" / "Igb" */
@@ -80,11 +80,15 @@ export interface PlatformContext {
     };
 }
 
+function getBuildMode(): string {
+    return process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
+}
+
 function getApiDocsBaseUrl(): string {
     const value = process.env.API_DOCS_BASE_URL
-        ?? (process.env.DOCS_ENV === 'staging'
+        ?? (getBuildMode() === 'staging'
             ? 'https://staging.infragistics.com/api'
-            : process.env.NODE_ENV === 'production'
+            : getBuildMode() === 'production'
                 ? 'https://www.infragistics.com/api'
                 : 'https://staging.infragistics.com/api');
     const trimmed = value.replace(/\/+$/, '');
@@ -93,20 +97,17 @@ function getApiDocsBaseUrl(): string {
 
 const API_DOCS_BASE_URL = getApiDocsBaseUrl();
 
+function getApiLinkIndexName(): string {
+    return process.env.API_LINK_INDEX_VERSION
+        ?? (getBuildMode() === 'production' ? 'prod-latest' : 'staging-latest');
+}
+
 function apiDocsPlatformPath(platform: PlatformName): string {
     return platform === 'WebComponents' ? 'webcomponents' : platform.toLowerCase();
 }
 
-function apiDocsVersion(): string {
-    return process.env.API_DOCS_VERSION ?? 'latest';
-}
-
-function apiLinkIndexRoot(platform: PlatformName): string {
-    return `${API_DOCS_BASE_URL}/${apiDocsPlatformPath(platform)}/api-link-index`;
-}
-
 function apiDocRoot(platform: PlatformName, packageId: string): string {
-    return `${API_DOCS_BASE_URL}/${apiDocsPlatformPath(platform)}/${packageId}/${apiDocsVersion()}`;
+    return `${API_DOCS_BASE_URL}/${apiDocsPlatformPath(platform)}/${packageId}/latest`;
 }
 
 function apiPackage(platform: PlatformName, packageId: string, options: Partial<ApiPackageConfig> = {}): ApiPackageConfig {
@@ -119,10 +120,27 @@ function apiPackage(platform: PlatformName, packageId: string, options: Partial<
     };
 }
 
+function loadApiLinkIndex(platform: PlatformName): PlatformContext['apiLinkIndex'] {
+    try {
+        const file = path.resolve(
+            process.cwd(),
+            'src',
+            'data',
+            'api-link-index',
+            apiDocsPlatformPath(platform),
+            `${getApiLinkIndexName()}.json`
+        );
+        if (!fs.existsSync(file)) return undefined;
+        return JSON.parse(fs.readFileSync(file, 'utf-8'));
+    } catch {
+        return undefined;
+    }
+}
+
 const PLATFORMS: Record<PlatformName, PlatformContext> = {
     Angular: {
         name: 'Angular',
-        apiLinkIndexRoot: apiLinkIndexRoot('Angular'),
+        apiLinkIndex: loadApiLinkIndex('Angular'),
         lower: 'angular',
         prefix: 'Igx',
         productName: 'Ignite UI for Angular',
@@ -153,7 +171,7 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     },
     React: {
         name: 'React',
-        apiLinkIndexRoot: apiLinkIndexRoot('React'),
+        apiLinkIndex: loadApiLinkIndex('React'),
         lower: 'react',
         prefix: 'Igr',
         productName: 'Ignite UI for React',
@@ -186,7 +204,7 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     },
     WebComponents: {
         name: 'WebComponents',
-        apiLinkIndexRoot: apiLinkIndexRoot('WebComponents'),
+        apiLinkIndex: loadApiLinkIndex('WebComponents'),
         lower: 'webcomponents',
         prefix: 'Igc',
         productName: 'Ignite UI for Web Components',
@@ -220,7 +238,7 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     },
     Blazor: {
         name: 'Blazor',
-        apiLinkIndexRoot: apiLinkIndexRoot('Blazor'),
+        apiLinkIndex: loadApiLinkIndex('Blazor'),
         lower: 'blazor',
         prefix: 'Igb',
         productName: 'Ignite UI for Blazor',

@@ -161,8 +161,12 @@ let _ctx: PlatformContext | null = null;
 let _env: Record<string, string> | null = null;
 
 
+function getBuildMode(): string {
+    return process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
+}
+
 function getApiDocsBaseUrl(): string {
-    const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
+    const mode = getBuildMode();
     const value = process.env.API_DOCS_BASE_URL
         ?? (mode === 'production'
             ? 'https://www.infragistics.com/api'
@@ -170,6 +174,21 @@ function getApiDocsBaseUrl(): string {
 
     const trimmed = value.replace(/\/+$/, '');
     return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+}
+
+function getApiLinkIndexName(): string {
+    return process.env.API_LINK_INDEX_VERSION
+        ?? (getBuildMode() === 'production' ? 'prod-latest' : 'staging-latest');
+}
+
+function loadApiLinkIndex(platformSlug: string): PlatformContext['apiLinkIndex'] {
+    try {
+        const file = path.resolve(process.cwd(), 'src', 'data', 'api-link-index', platformSlug, `${getApiLinkIndexName()}.json`);
+        if (!fs.existsSync(file)) return undefined;
+        return JSON.parse(fs.readFileSync(file, 'utf-8'));
+    } catch {
+        return undefined;
+    }
 }
 
 /**
@@ -199,12 +218,11 @@ export function getPlatformContext(): PlatformContext {
     }
 
     const apiDocsBaseUrl = getApiDocsBaseUrl();
-    const pinnedVersion = process.env.API_DOCS_VERSION ?? null;
 
     const base = PLATFORMS[name];
     _ctx = {
         ...base,
-        apiLinkIndexRoot: `${apiDocsBaseUrl}/${base.lower}/api-link-index`,
+        apiLinkIndex: loadApiLinkIndex(base.lower),
         apiPackages: Object.fromEntries(
             Object.entries(base.apiPackages).map(([key, pkg]) => [
                 key,
@@ -212,7 +230,7 @@ export function getPlatformContext(): PlatformContext {
                     ...pkg,
                     docRoot: pkg.docRoot
                         .replace('https://staging.infragistics.com/api', apiDocsBaseUrl)
-                        .replace(/\/latest$/, pinnedVersion ? `/${pinnedVersion}` : '/latest'),
+                        .replace(/\/latest$/, '/latest'),
                 },
             ])
         ),
@@ -233,7 +251,7 @@ export function getEnvVars(): Record<string, string> {
 
     const { name } = getPlatformContext();
     const lang = process.env.LANG_CODE ?? 'en';
-    const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
+    const mode = getBuildMode();
 
     // Primary: generated/environment.json (written by generate.mjs when present)
     try {
