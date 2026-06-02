@@ -1,12 +1,12 @@
 # API Link Check Report
 
-_Generated: 2026-05-22 09:54:39 UTC_
+_Generated: 2026-06-02 13:46:14 UTC_
 
 ## Summary
 
 | | |
 |---|---|
-| ✅ OK | 2084 |
+| ✅ OK | 2105 |
 | ❌ Not found (type/member missing) | 0 |
 | ❌ HTTP error | 0 |
 | ❌ **Total broken** | **0** |
