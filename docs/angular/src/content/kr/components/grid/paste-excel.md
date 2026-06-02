@@ -133,6 +133,7 @@ Ignite UI for Angular [`IgxGrid`]({environment:angularApiUrl}/classes/igxgridcom
         }
     }
 ```
+
 <igc-divider></igc-divider>
 
 #### 붙여넣기 핸들러 지시문

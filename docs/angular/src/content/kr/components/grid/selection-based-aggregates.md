@@ -65,7 +65,7 @@ Change the selection to see summaries of the currently selected range.
 - [Summaries](summaries.md)
 - [Paging](paging.md)
 
-Our community is active and always welcoming to new ideas.    
+Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
 - [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

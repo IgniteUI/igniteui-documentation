@@ -310,7 +310,7 @@ The following sample demonstrates how to configure row reordering in the tree gr
            iframe-src="{environment:demosBaseUrl}/tree-grid/tree-grid-row-reordering/" >
 </code-view>
 
- 
+
 }
 
 @@if (igxName === 'IgxHierarchicalGrid') {
@@ -329,7 +329,7 @@ Notice that we also have row selection enabled and we preserve the selection whe
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-row-reorder/" >
 </code-view>
 
- 
+
 }
 
 ### 제한 사항

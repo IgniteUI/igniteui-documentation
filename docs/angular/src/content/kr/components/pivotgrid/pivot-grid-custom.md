@@ -131,8 +131,8 @@ public noopSortStrategy = NoopSortingStrategy.instance();
 
 
 ## Additional Resources
-* [Angular Pivot Grid Features](pivot-grid-features.md)
-* [Angular Pivot Grid Overview](pivot-grid.md)
+- [Angular Pivot Grid Features](pivot-grid-features.md)
+- [Angular Pivot Grid Overview](pivot-grid.md)
 
 Our community is active and always welcoming to new ideas.
 

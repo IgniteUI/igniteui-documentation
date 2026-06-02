@@ -43,7 +43,7 @@ While browsers natively provide content search functionality, most of the time t
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-{/* TODO */}
+{/*TODO*/}
 }
 
 ### 사용 방법

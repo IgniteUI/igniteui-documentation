@@ -13,6 +13,7 @@ Position strategies determine where to display the component in the provided Igx
     | horizontalDirection        | verticalDirection        |
     |:---------------------------|:-------------------------|
     | HorizontalAlignment.Center | VerticalAlignment.Middle |
+
 <igc-divider></igc-divider>
 
 1. **Connected** - Positions the element based on the directions and start point passed in through [`positionSettings`] ({environment:angularApiUrl}/interfaces/positionsettings.html). It is possible to either pass a start point (type [`Point`] ({environment:angularApiUrl}/classes/point.html)) or an `HTMLElement` as a positioning base. Defaults to:
@@ -20,6 +21,7 @@ Position strategies determine where to display the component in the provided Igx
     | target          | horizontalDirection       |  verticalDirection       | horizontalStartPoint     | verticalStartPoint       |
     |:----------------|:--------------------------|:-------------------------|:-------------------------|:-------------------------|
     | new Point(0, 0) | HorizontalAlignment.Right | VerticalAlignment.Bottom | HorizontalAlignment.Left | VerticalAlignment.Bottom |
+
 <igc-divider></igc-divider>
 
 1. **Auto** - **Auto** - Positions the element the same way as the **Connected** positioning strategy. It also calculates a different starting point in case the element goes partially out of the view port. The **Auto** strategy will initially try to show the element as the **Connected** strategy does. If the element goes out of the view port **Auto** will flip the starting point and the direction, i.e. if the direction is 'bottom', it will switch it to 'top' and so on. After the flipping, if the element is still out of the view port, **Auto** will use the initial directions and the starting point to push the element into the view port. For example - if the element goes out of the right side of the view port by 50px, **Auto** will push it with 50px to the left. Afterwards if the element is partially out of the view port, then its height or width were greater than the view port's, **Auto** will align the element's left/top edge with the view port's left/top edge. Defaults to:
@@ -27,6 +29,7 @@ Position strategies determine where to display the component in the provided Igx
     | target          | horizontalDirection       |  verticalDirection       | horizontalStartPoint     | verticalStartPoint       |
     |:----------------|:--------------------------|:-------------------------|:-------------------------|:-------------------------|
     | new Point(0, 0) | HorizontalAlignment.Right | VerticalAlignment.Bottom | HorizontalAlignment.Left | VerticalAlignment.Bottom |
+
 <igc-divider></igc-divider>
 
 1. **Elastic** - Positions the element as in **Connected** positioning strategy and re-sizes the element to fit inside of the view port (re-calculating width and/or height) in case the element is partially out of view. `minSize :{ width: number, height: number}` can be passed in `positionSettings` to prevent resizing if it would put the element dimensions below a certain threshold. Defaults to:
@@ -34,6 +37,7 @@ Position strategies determine where to display the component in the provided Igx
     | target          | horizontalDirection       |  verticalDirection       | horizontalStartPoint     | verticalStartPoint       | minSize               |
     |:----------------|:--------------------------|:-------------------------|:-------------------------|:-------------------------|-----------------------|
     | new Point(0, 0) | HorizontalAlignment.Right | VerticalAlignment.Bottom | HorizontalAlignment.Left | VerticalAlignment.Bottom |{ width: 0, height: 0 }|
+
 <igc-divider></igc-divider>
 
 > [!NOTE]
@@ -69,7 +73,8 @@ The position strategy is passed as a property in the [`overlaySettings`] ({envir
         closeOnOutsideClick: true
     }
     overlay.show(dummyElement, overlaySettings); 
-``` 
+```
+
 <igc-divider></igc-divider>
 
 To change the position strategy used by the overlay, override the [`positionStrategy`] ({environment:angularApiUrl}/interfaces/ipositionstrategy.html) property of the [`overlaySettings`] ({environment:angularApiUrl}/interfaces/overlaysettings.html) object passed to the overlay:
@@ -80,6 +85,7 @@ To change the position strategy used by the overlay, override the [`positionStra
     const positionStrategy = new AutoPositionStrategy();
     overlay.show(dummyElement, { positionStrategy }); 
 ```
+
 <igc-divider></igc-divider>
 
 To change the position settings an already existing strategy is using, override any of the settings of that strategy:

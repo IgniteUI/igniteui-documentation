@@ -89,12 +89,12 @@ export class MyOverlayComponent {
 ```
 
 The overlay service [`show()`] ({environment:angularApiUrl}/classes/igxoverlayservice.html#show) method accepts 2 arguments, the first one being the content that should be rendered in the overlay. There are a couple of different scenarios how the content can be passed:
-  - A component definition (illustrated in the sample above) - When passing a component in as the first argument, the overlay service creates a new instance of that component and dynamically attaches it to the `overlay` DOM.
-  - An `ElementRef` to an existing DOM element - Any view that is already rendered on the page can be passed through the overlay service and be rendered in the overlay DOM. Using this approach will:
-    - Get the reference to the passed view from Angular 
-    - Detach the view from the DOM and leave an anchor in its place
-    - Re-attach the view to the overlay, using the [`show()`] ({environment:angularApiUrl}/classes/igxoverlayservice.html#show) method settings or falling back to the default overlay settings
-    - On close, will re-attach the view back to the original location in the DOM
+- A component definition (illustrated in the sample above) - When passing a component in as the first argument, the overlay service creates a new instance of that component and dynamically attaches it to the `overlay` DOM.
+- An `ElementRef` to an existing DOM element - Any view that is already rendered on the page can be passed through the overlay service and be rendered in the overlay DOM. Using this approach will:
+  - Get the reference to the passed view from Angular
+  - Detach the view from the DOM and leave an anchor in its place
+  - Re-attach the view to the overlay, using the [`show()`] ({environment:angularApiUrl}/classes/igxoverlayservice.html#show) method settings or falling back to the default overlay settings
+  - On close, will re-attach the view back to the original location in the DOM
 
 ### Demo - Dynamic attach - Component
 In the below demo, we can pass the [IgxCard](card.md#card-demo) through the overlay service [`show()`] ({environment:angularApiUrl}/classes/igxoverlayservice.html#show) method to dynamically attach it to the DOM in a modal container.

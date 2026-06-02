@@ -37,7 +37,8 @@ The position strategy is passed as a property in the [`overlaySettings`] ({envir
         closeOnOutsideClick: true
     }
     overlay.show(dummyElement, overlaySettings); 
-``` 
+```
+
 <igc-divider></igc-divider>
 
 To change the scroll strategy used by the overlay, override the [`scrollStrategy`] ({environment:angularApiUrl}/interfaces/iscrollstrategy.html) property of the [`overlaySettings`] ({environment:angularApiUrl}/interfaces/overlaysettings.html) object passed to the overlay:

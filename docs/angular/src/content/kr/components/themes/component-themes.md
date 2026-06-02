@@ -95,6 +95,7 @@ In a component template:
     <igx-avatar icon="home"></igx-avatar>
 </div>
 ```
+
 <igc-divider></igc-divider>
 
 ### View Encapsulation
@@ -167,6 +168,7 @@ $badge-theme: badge-theme($background-color: white);
 @include css-vars($avatar-theme);
 @include css-vars($badge-theme);
 ```
+
 <igc-divider></igc-divider>
 
 #### Usage in encapsulated views
@@ -199,6 +201,7 @@ As a bonus, any Ignite UI for Angular theme built with the `$igx-legacy-support`
     --igx-avatar-initials-background: royalblue;
 }
 ```
+
 <igc-divider></igc-divider>
 
 ### API Overview

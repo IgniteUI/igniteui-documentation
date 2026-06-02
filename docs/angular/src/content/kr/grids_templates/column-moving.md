@@ -184,7 +184,7 @@ public onColumnMovingEnd(event) {
 }
 
 ### API 참조
- 
+
 - [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
 - [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
 - [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)

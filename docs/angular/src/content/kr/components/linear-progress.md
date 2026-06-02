@@ -95,6 +95,7 @@ If all went well, you should see something like the following in your browser:
 </code-view>
 
 And now let's enhance our example and create different types of loading bars, that can be striped or not.
+
 ```html
 ...
 <section class="sample-content">

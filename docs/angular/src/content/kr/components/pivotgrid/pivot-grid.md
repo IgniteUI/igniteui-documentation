@@ -239,8 +239,8 @@ Resulting in the following view, which groups the Product Categories unique colu
 
 
 ## Additional Resources
-* [Angular Pivot Grid Features](pivot-grid-features.md)
-* [Angular Pivot Grid Custom Aggregations](pivot-grid-custom.md)
+- [Angular Pivot Grid Features](pivot-grid-features.md)
+- [Angular Pivot Grid Custom Aggregations](pivot-grid-custom.md)
 
 Our community is active and always welcoming to new ideas.
 

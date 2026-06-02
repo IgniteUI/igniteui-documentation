@@ -412,6 +412,7 @@ The MDX parser tries to evaluate them even inside comments. Fix by converting to
 When updating any MDX file to use `ApiLink`:
 
 1. **Add import** immediately after the closing `---` of the frontmatter — never inside a code fence:
+
    ```mdx
    import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
    ```
