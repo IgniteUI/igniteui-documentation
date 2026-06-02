@@ -183,9 +183,9 @@ Localization is handled by an agentic workflow (AW) that triggers automatically 
 3. Pull request your changes and reference the issue. Use the enforced commit message format with applicable type, scope, etc.
 4. Don't forget to make the necessary status updates, as described in the workflow section.
 
-> Note: Cherry-pick to `master` branch only changes with **high priority**. There is no need to cherry-pick into `master` every bug fix/change from `vnext`. A regular mass merge PRs are going to be made from `vnext` into `master`.
+> Note: Cherry-pick to `master` branch only bug fixes with **high or critical severity**. There is no need to cherry-pick into `master` every bug fix/change from `vnext`. A regular mass merge PRs are going to be made from `vnext` into `master`.
 
-**Example workflow for a bug with high priority**
+**Example workflow for a bug with high or critical severity**
 The process will look like this:
 
 1.	Checkout new branch from `vnext`. For code example purposes let's say the new branch is called `fixing-bug-5423-vnext`.
@@ -351,7 +351,7 @@ If content originates from or must be synced with the upstream [`igniteui-xplat-
 
 # <a name='#adding-images'>Adding of images in the topic</a>
 
-Images in MDX topics use the Astro `<Image>` component for automatic optimization and lazy loading. Images must be placed in the `docs/xplat/public/images/` folder and imported at the top of the MDX file.
+Images in MDX topics use the Astro `<Image>` component for automatic optimization and lazy loading. Images must be placed in the `docs/xplat/public/images/` or `docs/angular/public/images` folder (depending on the platform) and imported at the top of the MDX file.
 
 Import pattern:
 
