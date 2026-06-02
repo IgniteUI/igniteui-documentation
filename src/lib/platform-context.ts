@@ -160,12 +160,6 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
 let _ctx: PlatformContext | null = null;
 let _env: Record<string, string> | null = null;
 
-const LOCAL_API_DOCS_VERSIONS: Record<PlatformName, string> = {
-    Angular:       '21.0.0',
-    React:         '19.6.0',
-    WebComponents: '7.1.0',
-    Blazor:        '25.2.83',
-};
 
 function getApiDocsBaseUrl(): string {
     const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
@@ -205,8 +199,7 @@ export function getPlatformContext(): PlatformContext {
     }
 
     const apiDocsBaseUrl = getApiDocsBaseUrl();
-    const isLocal = apiDocsBaseUrl.includes('localhost');
-    const pinnedVersion = isLocal ? (process.env.API_DOCS_VERSION ?? LOCAL_API_DOCS_VERSIONS[name]) : null;
+    const pinnedVersion = process.env.API_DOCS_VERSION ?? null;
 
     const base = PLATFORMS[name];
     _ctx = {

@@ -92,20 +92,13 @@ function getApiDocsBaseUrl(): string {
 }
 
 const API_DOCS_BASE_URL = getApiDocsBaseUrl();
-const LOCAL_API_DOCS_VERSIONS: Record<PlatformName, string> = {
-    Angular: '21.0.0',
-    React: '19.6.0',
-    WebComponents: '7.1.0',
-    Blazor: '25.2.83',
-};
 
 function apiDocsPlatformPath(platform: PlatformName): string {
     return platform === 'WebComponents' ? 'webcomponents' : platform.toLowerCase();
 }
 
-function apiDocsVersion(platform: PlatformName): string {
-    return process.env.API_DOCS_VERSION
-        ?? (API_DOCS_BASE_URL.includes('localhost') ? LOCAL_API_DOCS_VERSIONS[platform] : 'latest');
+function apiDocsVersion(): string {
+    return process.env.API_DOCS_VERSION ?? 'latest';
 }
 
 function apiLinkIndexRoot(platform: PlatformName): string {
@@ -113,7 +106,7 @@ function apiLinkIndexRoot(platform: PlatformName): string {
 }
 
 function apiDocRoot(platform: PlatformName, packageId: string): string {
-    return `${API_DOCS_BASE_URL}/${apiDocsPlatformPath(platform)}/${packageId}/${apiDocsVersion(platform)}`;
+    return `${API_DOCS_BASE_URL}/${apiDocsPlatformPath(platform)}/${packageId}/${apiDocsVersion()}`;
 }
 
 function apiPackage(platform: PlatformName, packageId: string, options: Partial<ApiPackageConfig> = {}): ApiPackageConfig {
