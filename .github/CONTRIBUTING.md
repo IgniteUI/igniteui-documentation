@@ -1,15 +1,33 @@
 ## In this topic
- ### 1. [Writing an article](#writing-an-article)
- ### 2. [Topic structure](#topic-structure)
- ### 3. [Writing a Styling section for article](#styling-section)
- ### 4. [Workflow](#workflow)
- ### 5. [Environment variables and template tokens](#environment-variables)
- ### 6. [Sample / Code View Configuration](#code-view-configuration)
- ### 7. [PlatformBlock usage](#platform-block)
- ### 8. [ApiLink usage](#api-link)
- ### 9. [Creating shared help topics](#creating-shared-help-topics)
- ### 10. [Updating of Data Visualization related topics](#updating-of-data-visualization-related-topics)
- ### 11. [Adding of images](#adding-of-images-in-the-topic)
+ ### 1. [Repository overview](#repository-overview)
+ ### 2. [Writing an article](#writing-an-article)
+ ### 3. [Topic structure](#topic-structure)
+ ### 4. [Writing a Styling section for article](#styling-section)
+ ### 5. [Workflow](#workflow)
+ ### 6. [Environment variables and template tokens](#environment-variables)
+ ### 7. [Sample / Code View Configuration](#code-view-configuration)
+ ### 8. [PlatformBlock usage](#platform-block)
+ ### 9. [ApiLink usage](#api-link)
+ ### 10. [Creating shared help topics](#creating-shared-help-topics)
+ ### 11. [Updating of Data Visualization related topics](#updating-of-data-visualization-related-topics)
+ ### 12. [Adding of images](#adding-of-images-in-the-topic)
+
+# <a name='#repository-overview'>Repository overview</a>
+
+This repository (`igniteui-documentation`) is the **Astro-based documentation site** for Ignite UI. It consumes reusable MDX components from a separate package:
+
+## igniteui-astro-components
+
+[`igniteui-astro-components`](https://github.com/IgniteUI/igniteui-astro-components) is the shared component library used by all MDX topic files in this repo. It provides the JSX/Astro components that are imported at the top of every MDX file.
+
+Key components and their import paths:
+
+| Component | Import path | Purpose |
+|---|---|---|
+| `<Sample>` | `igniteui-astro-components/components/mdx/Sample.astro` | Embeds a live interactive sample iframe |
+| `<ApiLink>` | `igniteui-astro-components/components/mdx/ApiLink.astro` | Platform-aware link to API documentation |
+| `<PlatformBlock>` | `igniteui-astro-components/components/mdx/PlatformBlock.astro` | Gates content to specific platforms |
+| `<Badge>` | `igniteui-astro-components/components/mdx/Badge.astro` | Inline badge (e.g. `preview`, `beta`) |
 
 # <a name='#writing-an-article'>Writing an article</a>
 
@@ -41,7 +59,7 @@ There are a few questions one can ask, when charting such plan.
 
 ### 7. Do we have a summary of the article and component APIs?
 
-    The MDX topics use the `<ApiLink>` JSX component in place of plain markdown links to API docs. Any component class, interface, or member mentioned in the article should be linked using `<ApiLink>`. At the end of the article, list the primary types via `<ApiLink>` under an `## API References` heading. The component's `mentionedTypes` frontmatter field should list all types referenced in the article — this drives the auto-generated API reference grid.
+    The MDX topics use the `<ApiLink>` JSX component in place of plain markdown links to API docs. Any component class, interface, or member mentioned in the article should be linked using `<ApiLink>`. At the end of the article, list the primary types via `<ApiLink>` under an `## API References` heading.
 
     Example frontmatter:
 ```yaml
@@ -105,7 +123,7 @@ $dark-grid-paginator: grid-paginator-theme(
 
 # <a name='#workflow'>Workflow</a>
 
-When working on an issue for the Ignite UI for Angular DocFX Site Builder, you need to be aware of and to follow a correct status workflow. We have created a number of status labels in order to communicate well what the current status of a single issue/pull request is. The statuses are as follows:
+When working on an issue for the Ignite UI Documentation, you need to be aware of and to follow a correct status workflow. We have created a number of status labels in order to communicate well what the current status of a single issue/pull request is. The statuses are as follows:
 
 ## Development - applicable to issues and pull requests
 1. `status: in-review` this is the initial status of an issue. If the label is not placed, go ahead and place it.
@@ -153,14 +171,9 @@ Example status workflows:
 > Note: Testing a PR from Angular Samples (when new sample is added) with combination of PR related to topic update (or when new topic is added).
 Open both repositories and perform `npm start`. This will start both projects and you will see the embed sample in your topic under `localhost`.
 
-## Localization - applicable to issues and pull requests
-Ensure that whenever a change is made to the text content the appropriate status is set:
-1. `status: pending-localization` this status tells that there are changes in the localization strings that need to be translated. When you make such changes, put this status badge without removing the other applicable ones and assign a person to do the translations.
+## Localization - applicable to pull requests
 
-> Note: This status should be set only when the PR is approved. This will indicate that no further changes will be applied.
-2. `status: localized` this status is for issues that were with a pending translation status and have already been localized. Place this status label once these translation changes have been included in the current pull request, or the changes are already pulled with a different pull request.
-
-> Note: Keep in mind that when you submit a change in the EN .md files, you don't need to make the same change in the JP/KR versions. This task will be handled by the Localization team.
+Localization is handled by an agentic workflow (AW) that triggers automatically after a PR is merged. A follow-up localization PR is opened and must be reviewed by native speakers or localization specialists. The original PR author is responsible for monitoring that PR and responding to any questions or requests for clarification from the localization reviewer.
 
 
 ## Fixing a bug  
@@ -232,13 +245,18 @@ Usage:
 <Sample src="/grids/grid/overview" height={600} alt="{Platform} Grid Overview Example" />
 ```
 
-| Attribute | Required | Notes |
-|---|---|---|
-| `src` | yes | Path to the sample relative to the platform samples base URL. |
-| `height` | yes | Height of the sample iframe in pixels (numeric JSX expression, e.g. `{600}`). |
-| `alt` | no | Accessible label for the iframe. Use `{Platform}` token so it resolves per-platform. |
+| Attribute | Required | Default | Notes |
+|---|---|---|---|
+| `src` | yes | — | Path to the sample, relative to the resolved base URL. DV paths (`charts/`, `gauges/`, `maps/`, `excel/`) automatically use `dvDemosBaseUrl`. |
+| `height` | no | `400` | Height of the sample widget in pixels (numeric JSX expression, e.g. `{600}`). |
+| `alt` | no | `""` | Accessible label for the iframe. Use the `{Platform}` token so it resolves per-platform. |
+| `lob` | no | `false` | Use `lobDemosBaseUrl` as the base URL (for LOB / grid-dynamic demos). |
+| `dv` | no | `false` | Force `dvDemosBaseUrl` for samples whose path does not start with a recognised DV prefix. |
+| `crm` | no | `false` | Use `crmDemoBaseUrl` (for CRM demo samples). |
+| `iframeOnly` | no | `false` | Render only the iframe — hides the navbar, code tabs, and live-edit footer. |
+| `fullscreenBtn` | no | `false` | When used together with `iframeOnly={true}`, adds an "Open in full screen" button below the iframe. |
 
-> Note: It is required to always set the `height` attribute so the sample area is properly sized.
+> Note: `height` defaults to `400px` when omitted. Always set it explicitly so the sample area is properly sized for the content.
 
 Example within a topic:
 
