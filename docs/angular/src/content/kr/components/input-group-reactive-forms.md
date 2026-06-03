@@ -15,8 +15,8 @@ Ignite UI for Angular controls can be easily integrated in Reactive Forms.
 The following demo demonstrates [`igx-input-group`]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html), [`igx-select`]({environment:angularApiUrl}/classes/igxselectcomponent.html) and [`igx-combo`]({environment:angularApiUrl}/classes/igxcombocomponent.html) controls being part of the Reactive Form.
 
 
-<code-view style="height: 800px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 800px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/reactive-forms/" >
 </code-view>
 
@@ -71,6 +71,7 @@ What you need to have Reactive form is to set model of the form, using the `form
     </igx-combo>
     ...
 ```
+
 The object set to the form's `formGroup` property is the form model and it needs to be of type `FormGroup`. Then, following Angular tutorial for Reactive Forms, in the demo's constructor we need the `FormBuilder` to define and configure different form's fields:
 
 ```typescript
@@ -95,11 +96,11 @@ In that case the movie, full name, email and genres form's fields are required a
 
 ## Additional Resources
 
-* [Combo](combo.md)
-* [Select](select.md)
-* [Template Driven Forms Integration](input-group.md)
+- [Combo](combo.md)
+- [Select](select.md)
+- [Template Driven Forms Integration](input-group.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

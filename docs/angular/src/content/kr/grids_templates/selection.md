@@ -34,7 +34,7 @@ _language: kr
 - `Shift 키`를 누른 상태에서 `화살표 키`를 사용하여 키보드로 다중 셀을 선택합니다. 다중 셀 선택 범위는 포커스된 셀을 기반으로 생성됩니다.
 - `Shift 키`를 누른 상태에서 `Ctrl + 화살표 키`와 `Ctrl + Home/End`를 사용하여 키보드로 다중 셀을 선택합니다. 다중 셀 선택 범위는 포커스된 셀을 기반으로 생성됩니다.
 - `Ctrl 키`를 누른 상태에서 `왼쪽 마우스 키`를 클릭하면 선택한 셀 컬렉션에 단일 셀 범위가 추가됩니다.
-- 마우스로 클릭하고 드래그하면 연속해 다중 셀 선택이 가능합니다. 
+- 마우스로 클릭하고 드래그하면 연속해 다중 셀 선택이 가능합니다.
 
 #### 데모
 
@@ -42,16 +42,16 @@ _language: kr
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:700px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:700px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-multi-cell-selection/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:700px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:700px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/tree-grid-multi-cell-selection/" >
 </code-view>
 
@@ -74,7 +74,7 @@ _language: kr
 - <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Home</kbd> - 포커스된 셀에서 그리드의 첫 번째 셀까지의 모든 셀을 선택합니다
 - <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>End</kbd> - 포커스된 셀에서 그리드의 마지막 셀까지의 모든 셀을 선택합니다.
 
-> [!NOTE] 
+> [!NOTE]
 > 그리드 보디에서만 연속 스크롤이 가능합니다.
 
 ### API 사용
@@ -82,7 +82,7 @@ _language: kr
 
 ##### 선택 범위
 
-[`selectRange(range)`]({environment:angularApiUrl}/classes/igxgridcomponent.html#selectrange) - API를 사용하여 셀 범위를 선택합니다. `rowStart` 및 `rowEnd`는 행 인덱스를 사용해야 하며, `columnStart` 및 `columnEnd`는 열 인덱스 또는 열 데이터 필드 값을 사용할 수 있습니다. 
+[`selectRange(range)`]({environment:angularApiUrl}/classes/igxgridcomponent.html#selectrange) - API를 사용하여 셀 범위를 선택합니다. `rowStart` 및 `rowEnd`는 행 인덱스를 사용해야 하며, `columnStart` 및 `columnEnd`는 열 인덱스 또는 열 데이터 필드 값을 사용할 수 있습니다.
 
 ```typescript
 const range = { rowStart: 2, rowEnd: 2, columnStart: 1, columnEnd: 1 };
@@ -94,7 +94,7 @@ this.grid1.selectRange(range);
 
 ```
 
-> [!NOTE] 
+> [!NOTE]
 > 선택 범위는 부가 연산입니다. 이전 선택을 삭제하지 않습니다.
 
 ##### 셀 선택 삭제
@@ -106,6 +106,7 @@ this.grid1.selectRange(range);
 [`getSelectedData()`]({environment:angularApiUrl}/classes/igxgridcomponent.html#getselecteddata)은 선택한 데이터의 배열을 선택 내용에 따라 형식으로 반환합니다. 이하 예:
 
 1. 3개의 다른 단일 셀을 선택한 경우:
+
 ```
 expectedData = [
     { CompanyName: "Infragistics" },
@@ -113,8 +114,9 @@ expectedData = [
     { ParentID: 147 }
 ];
 ```
-		
-2. 1열에서 3개 셀을 선택한 경우:
+  
+1. 1열에서 3개 셀을 선택한 경우:
+
 ```
 expectedData = [
     { Address: "Obere Str. 57"},
@@ -123,14 +125,16 @@ expectedData = [
 ];
 ```
 
-3. 1행 3열에서 마우스 드래그로 3개 셀을 선택한 경우:
+1. 1행 3열에서 마우스 드래그로 3개 셀을 선택한 경우:
+
 ```
 expectedData = [
     { Address: "Avda. de la Constitución 2222", City: "México D.F.", ContactTitle: "Owner" }
 ];
 ```
 
-4. 2행 3열에서 마우스 드래그로 3개 셀을 선택한 경우:
+1. 2행 3열에서 마우스 드래그로 3개 셀을 선택한 경우:
+
 ```
 expectedData = [
     { ContactTitle: "Sales Agent", Address: "Cerrito 333", City: "Buenos Aires"},
@@ -138,7 +142,8 @@ expectedData = [
 ];
 ```
 
-5. 2개의 다른 범위를 선택한 경우:
+1. 2개의 다른 범위를 선택한 경우:
+
 ```
 expectedData = [
     { ContactName: "Martín Sommer", ContactTitle: "Owner"},
@@ -148,7 +153,8 @@ expectedData = [
 ];
 ```
 
-6. 2개의 중복 범위가 선택되면 형식은 다음과 같이 됩니다:
+1. 2개의 중복 범위가 선택되면 형식은 다음과 같이 됩니다:
+
 ```
 expectedData = [
     { ContactName: "Diego Roel", ContactTitle: "Accounting Manager", Address: "C/ Moralzarzal, 86"},
@@ -158,7 +164,7 @@ expectedData = [
 ];
 ```
 
-> [!NOTE] 
+> [!NOTE]
 > [`selectedCells()`]({environment:angularApiUrl}/classes/igxgridcomponent.html#selectedcells) will DO return the correct result even if the cell is not visible in grids view port. [`getSelectedData()`]({environment:angularApiUrl}/classes/igxgridcomponent.html#getselecteddata) will also return the selected cell data.
 > [`getSelectedRanges(): GridSelectionRange[]`]({environment:angularApiUrl}/classes/igxgridcomponent.html#getselectedranges)는 키보드와 포인터 상호 작용으로 그리드에서 현재 선택된 범위를 반환합니다. 유형은 GridSelectionRange[]입니다.
 
@@ -184,24 +190,24 @@ Ignite UI for Angular에서 행 선택은 해당 행의 모든 열 앞에 체크
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:700px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:700px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-selection/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:700px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:700px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-selection/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
-<code-view style="height:710px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:710px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-selection/" >
 </code-view>
 
@@ -210,12 +216,12 @@ Ignite UI for Angular에서 행 선택은 해당 행의 모든 열 앞에 체크
 @@if (igxName === 'IgxGrid') {
 ### Selection Based Summaries
 
-This sample demonstrates the usage of multiple selection along with custom summary functions. 
+This sample demonstrates the usage of multiple selection along with custom summary functions.
 Change the selection to see summaries of the currently selected range.
 
 
-<code-view style="height: 560px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 560px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-selection-custom-summaries/" >
 </code-view>
 
@@ -228,6 +234,7 @@ Change the selection to see summaries of the currently selected range.
 @@igComponent의 단일 선택은 @@igComponent의 [`selected`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#selected) 이벤트를 사용하여 간단하게 설정할 수 있습니다. 이 이벤트는 셀 컴포넌트에 대한 참조를 내보냅니다. 셀 컴포넌트에는 포함되는 행 컴포넌트에 대한 참조가 있습니다. 행 컴포넌트 참조의 [`key`](https://www.infragistics.com/products/ignite-ui-angular/docs/typescript/classes/igxgridrow.html#key) 게터를 사용하여 행([`data[primaryKey]`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#primarykey) 또는 [`data`]({environment:angularApiUrl}/classes/igxgridrow.html#data) 객체 자체를 사용하여)의 고유 식별자를 선택의 적절한 목록에 전달합니다. 단일 행만 항상 선택되도록 하기 위해 선택 행 선택 목록을 미리 비웁니다([`selectRows`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#selectrows) 메소드 호출의 두 번째 인수):
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <!-- selectionExample.component.html -->
 
@@ -236,6 +243,7 @@ Change the selection to see summaries of the currently selected range.
         ...
 </igx-grid>
 ```
+
 ```typescript
 /* selectionExample.component.ts */
 
@@ -246,8 +254,10 @@ public handleRowSelection(args) {
     }
 }
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <!-- selectionExample.component.html -->
 
@@ -256,6 +266,7 @@ public handleRowSelection(args) {
     ...
 </igx-tree-grid>
 ```
+
 ```typescript
 /* selectionExample.component.ts */
 
@@ -267,8 +278,10 @@ public handleRowSelection(event) {
     }
 }
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false"
         [height]="'600px'" [width]="'100%'" [rowSelectable]="selection"
@@ -276,6 +289,7 @@ public handleRowSelection(event) {
     ...
 </igx-hierarchical-grid>
 ```
+
 ```typescript
 /* selectionExample.component.ts */
 
@@ -287,6 +301,7 @@ public handleRowSelection(event) {
         }
     }
 ```
+
 }
 
 #### 복수 선택
@@ -294,6 +309,7 @@ public handleRowSelection(event) {
 복수 행 선택을 사용하도록 하기 위해 [`@@igSelector`]({environment:angularApiUrl}/classes/@@igTypeDoc.html)의 [`rowSelectable`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#rowselectable) 속성을 사용합니다. [`rowSelectable`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#rowselectable)을 `true`로 설정하면 각 행 및 @@igComponent 헤더에서 체크 박스 필드를 선택할 수 있게 됩니다. 체크 박스를 사용하여 복수의 행을 선택할 수 있으며 스크롤, 페이징 및 정렬 및 필터링 등의 데이터 조작을 통해 선택이 유지됩니다.
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <!-- selectionExample.component.html -->
 
@@ -308,8 +324,10 @@ public handleRowSelection(event) {
 
 public selection = true;
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <!-- selectionExample.component.html -->
 
@@ -323,8 +341,10 @@ public selection = true;
 
 public selection = true;
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false"
         [height]="'600px'" [width]="'100%'" [rowSelectable]="selection"
@@ -332,18 +352,20 @@ public selection = true;
     ...
 </igx-hierarchical-grid>
 ```
+
 ```typescript
 /* selectionExample.component.ts */
 
 public selection = true;
 ```
+
 }
 
 @@if (igxName !== 'IgxTreeGrid') {
 **참고:** 적절한 행 선택 및 셀 선택을 위해 @@igComponent가 원격 가상화를 실행하는 동안 [`primaryKey`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#primarykey)를 제공해야 합니다.
 }
 
-**참고:** 필터링이 설정된 경우, [`selectAllRows()`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#selectallrows) 및 [`deselectAllRows()`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#deselectallrows)는 *필터링된* 모든 행을 선택/선택 취소합니다.
+**참고:** 필터링이 설정된 경우, [`selectAllRows()`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#selectallrows) 및 [`deselectAllRows()`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#deselectallrows)는 _필터링된_ 모든 행을 선택/선택 취소합니다.
 
 @@if (igxName !== 'IgxTreeGrid') {
 **참고:** @@igComponent에 원격 가상화가 설정된 경우, 헤더 체크 박스를 클릭하면 모든 레코드가 선택/선택 취소됩니다. 그러나, 헤더 체크 박스를 통해 모든 레코드가 선택된 후 가시적인 행이 선택 해제된 경우, 필요에 따라 새로운 데이터가 @@igComponent에 로딩되면 새롭게 로드된 행이 선택되지 않는 제한이 있습니다.
@@ -358,6 +380,7 @@ public selection = true;
 다음의 코드 예제를 사용하여 단일 또는 복수 행을 동시에 선택할 수 있습니다([`primaryKey`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#primarykey)를 사용하여):
 
 @@if (igxName === 'IgxGrid' || igxName === 'IgxTreeGrid') {
+
 ```html
 <!-- selectionExample.component.html -->
 
@@ -367,8 +390,10 @@ public selection = true;
 ...
 <button (click)="this.@@igObjectRef.selectRows([1,2,5])">Select 1,2 and 5</button>
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <!-- selectionExample.component.html -->
 
@@ -378,11 +403,13 @@ public selection = true;
 ...
 <button (click)="this.@@igObjectRef.selectRows([1,2,5])">Select 1,2 and 5</button>
 ```
+
 }
 
 이렇게 하면 ID 1, 2 및 5가 있는 데이터 항목에 해당하는 행을 @@igComponent 선택에 추가할 수 있습니다.
 
 #### 선택 이벤트 취소
+
 ```html
 <!-- selectionExample.component.html -->
 
@@ -390,6 +417,7 @@ public selection = true;
 ...
 </@@igSelector>
 ```
+
 ```typescript
 /* selectionExample.component.ts */
 
@@ -401,24 +429,24 @@ public handleRowSelectionChange(args) {
 
 ### API 참조
 
-* [@@igxNameComponent API]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
-@@if (igxName !== 'IgxTreeGrid') {* [IgxGridRow API]({environment:angularApiUrl}/classes/igxgridrow.html)}@@if (igxName === 'IgxTreeGrid') {* [IgxTreeGridRow API]({environment:angularApiUrl}/classes/igxtreegridrow.html)}
-* [IgxGridCell API]({environment:angularApiUrl}/classes/igxgridcell.html)
-* [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [@@igxNameComponent API]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
+@@if (igxName !== 'IgxTreeGrid') {_[IgxGridRow API]({environment:angularApiUrl}/classes/igxgridrow.html)}@@if (igxName === 'IgxTreeGrid') {_ [IgxTreeGridRow API]({environment:angularApiUrl}/classes/igxtreegridrow.html)}
+- [IgxGridCell API]({environment:angularApiUrl}/classes/igxgridcell.html)
+- [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ### 추가 리소스
 
-* [@@igComponent 개요](@@igMainTopic.md)
-* [페이징](paging.md)
-* [필터링](filtering.md)
-* [정렬](sorting.md)
-* [요약](summaries.md)
-* [열 이동](column-moving.md)
-* [열 핀 고정](column_pinning.md)
-* [열 크기 조정](column-resizing.md)
-* [가상화 및 성능](virtualization.md)
+- [@@igComponent 개요](@@igMainTopic.md)
+- [페이징](paging.md)
+- [필터링](filtering.md)
+- [정렬](sorting.md)
+- [요약](summaries.md)
+- [열 이동](column-moving.md)
+- [열 핀 고정](column_pinning.md)
+- [열 크기 조정](column-resizing.md)
+- [가상화 및 성능](virtualization.md)
 
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

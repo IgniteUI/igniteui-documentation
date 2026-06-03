@@ -11,7 +11,7 @@ _language: kr
 
 ### Overview
 
-Before we dig deep into how you can create component-level themes, let's take a few moments to talk about how Ignite UI for Angular approaches component theming. Because we want to be able to support older browsers, like IE11, we have two completely different approaches for theming components. 
+Before we dig deep into how you can create component-level themes, let's take a few moments to talk about how Ignite UI for Angular approaches component theming. Because we want to be able to support older browsers, like IE11, we have two completely different approaches for theming components.
 - The first approach is to create a new set of CSS rules that overwrite any previously declared CSS rules for a specific component. This approach is pretty straight-forward, and it is the only way we can provide support for older browser, albeit it is not ideal as it adds a lot of additional CSS rules to the generated CSS theme.  
 - The second approach is to style component instances using [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables). By using CSS variables we gain the ability to create component themes without replicating their styles over and over again. Also, this approach allows us to modify the value of the CSS variables at runtime.
 
@@ -23,10 +23,10 @@ We'll take a look at how these approaches work in practice, and how to use one i
 There are several parts to a component theme:
 
 - **The component theme function** - A Sass function that normalizes the passed arguments and produces a theme to be consumed by a component mixin.
-- **The component mixin** - A Sass mixin that consumes a component theme and produces *CSS rules* used to style a particular component.
-- **The CSS variable mixin** - A Sass mixin that consumes a component theme and produces *CSS variables* used to style a particular component.
+- **The component mixin** - A Sass mixin that consumes a component theme and produces _CSS rules_ used to style a particular component.
+- **The CSS variable mixin** - A Sass mixin that consumes a component theme and produces _CSS variables_ used to style a particular component.
 
-Say you want to create a new global avatar theme that has a different background color to the one we set in the avatar's default theme. As mentioned in the [**overview section**](#overview) there are 2 general approaches to creating a component theme. 
+Say you want to create a new global avatar theme that has a different background color to the one we set in the avatar's default theme. As mentioned in the [**overview section**](#overview) there are 2 general approaches to creating a component theme.
 There are even more ways you can organize and scope your component themes. The most straightforward way to do that is in the same file you defined your [**global theme**](./global-theme.md).
 
 Defining an avatar theme:
@@ -48,7 +48,7 @@ $new-avatar-theme: avatar-theme(
 The above code generates new CSS rules for the `igx-avatar` component. These new CSS rules overwrite the default avatar rules.
 Similarly, if you were to include `igx-avatar` mixin later down in the global `scss` file, the mixin will again overwrite any previously defined themes.
 
-For instance: 
+For instance:
 
 ```scss
 // ...
@@ -62,6 +62,7 @@ $another-avatar-theme: avatar-theme(
 
 @include avatar($another-avatar-theme);
 ```
+
 In the above code, the defacto global theme is now the `$another-avatar-theme` as it overwrites any previously included `igx-avatar` mixins.
 
 This brings me to my next point.
@@ -94,6 +95,7 @@ In a component template:
     <igx-avatar icon="home"></igx-avatar>
 </div>
 ```
+
 <igc-divider></igc-divider>
 
 ### View Encapsulation
@@ -166,9 +168,10 @@ $badge-theme: badge-theme($background-color: white);
 @include css-vars($avatar-theme);
 @include css-vars($badge-theme);
 ```
+
 <igc-divider></igc-divider>
 
-#### Usage in encapsulated views 
+#### Usage in encapsulated views
 
 The below sample uses the sample from the [View Encapsulation](#view-encapsulation) section as a starting point:
 
@@ -188,6 +191,7 @@ $avatar-theme: avatar-theme($initials-background: royalblue);
     @include css-vars($avatar-theme);
 }
 ```
+
 As a bonus, any Ignite UI for Angular theme built with the `$igx-legacy-support` set to `false` will allow styling of components without the need to use Sass in your project. For instance the above could be achieved by setting the value of `--igx-avatar-initials-background` CSS variable to the desired color:
 
 ```css
@@ -197,20 +201,21 @@ As a bonus, any Ignite UI for Angular theme built with the `$igx-legacy-support`
     --igx-avatar-initials-background: royalblue;
 }
 ```
+
 <igc-divider></igc-divider>
 
 ### API Overview
-* [Global Theme]({environment:sassApiUrl}/themes#mixin-theme)
-* [Avatar Theme]({environment:sassApiUrl}/themes#function-avatar-theme)
+- [Global Theme]({environment:sassApiUrl}/themes#mixin-theme)
+- [Avatar Theme]({environment:sassApiUrl}/themes#function-avatar-theme)
 
 
 ## Additional Resources
 
 Learn how to configure a global theme:
 
-* [Global Themes](./global-theme.md)
+- [Global Themes](./global-theme.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

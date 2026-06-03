@@ -13,8 +13,8 @@ The Ignite UI for Angular Calendar component is developed as a native [Angular c
 
 ### Calendar Demo
 
-<code-view style="height: 730px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 730px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/calendar-sample-5/" >
 </code-view>
 
@@ -34,6 +34,7 @@ import { IgxCalendarModule } from 'igniteui-angular';
 })
 export class AppModule {}
 ```
+
 You will usually also import the [`IgxCalendarComponent`]({environment:angularApiUrl}/classes/igxcalendarcomponent.html) in the AppComponent file (or your editor will auto-import them for you) when declaring types that are part of the calendar API:
 
 ```typescript
@@ -59,10 +60,11 @@ Instantiating the [`IgxCalendarComponent`]({environment:angularApiUrl}/classes/i
 <!-- Range selection mode -->
 <igx-calendar selection="range"></igx-calendar>
 ```
+
 Notice that the calendar header is not rendered when the selection is either `multi` or `range`:
 
-<code-view style="height: 730px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 730px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/calendar-sample-1/" >
 </code-view>
 
@@ -85,7 +87,8 @@ In the markup below we are also binding the [`formatOptions`]({environment:angul
 </igx-calendar>
 <select id="locations" (change)="changeLocale($event)">...</select>
 ```
-All property values are set in the AppCоmponent file:
+
+All property values are set in the AppComponent file:
 
 ```typescript
 // app.component.ts
@@ -112,8 +115,8 @@ public changeLocale(event) {
 Great, we should now have a calendar with customized dates display that also changes the locale representation based on the user location. Let's have a look at it:
 
 
-<code-view style="height: 570px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 570px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/calendar-sample-2/" >
 </code-view>
 
@@ -132,6 +135,7 @@ Let's explore the events emitted by the calendar:
     (activeViewChanged)="activeViewChanged($event)">
 </igx-calendar>
 ```
+
 The [`selected`]({environment:angularApiUrl}/classes/igxcalendarcomponent.html#selected) event is suitable to build input validation logic. Use the code from below to alert the user if selection exceeds 5 days, and then reset the selection:
 
 ```typescript
@@ -155,15 +159,15 @@ public onSelection(dates: Date[]) {
 
 Use the demo below to play around (change selection, navigate through months and years) and see the events logged real time:
 
-<code-view style="height: 460px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 460px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/calendar-sample-3/" >
 </code-view>
 
 
 #### Templating
 
-We have seen how to make use of the [`IgxCalendarComponent`]({environment:angularApiUrl}/classes/igxcalendarcomponent.html) API (properties, events, methods) so that we configure the calendar per our requirements and interact with it programatically. Now we want to go further and customize its look, benefiting from the header and subheader templating capabilities.
+We have seen how to make use of the [`IgxCalendarComponent`]({environment:angularApiUrl}/classes/igxcalendarcomponent.html) API (properties, events, methods) so that we configure the calendar per our requirements and interact with it programmatically. Now we want to go further and customize its look, benefiting from the header and subheader templating capabilities.
 
 To do that we need to decorate a ng-template inside the calendar with **igxCalendarHeader** or **igxCalendarSubheader** directive and use the context returned to customize the way the date is displayed.
 The template decorated with the **igxCalendarHeader** directive is rendered only when the calendar selection is set to single. The **igxCalendarSubheader** is available in all selection modes.
@@ -183,6 +187,7 @@ In our example we slightly modify the default template and will make the header 
     </ng-template>
 </igx-calendar>
 ```
+
 > [!NOTE]
 > Keep in mind that for Internet Explorer and Edge browsers the date parts will be empty strings, because neither implement the Intl API providing this functionality. (See [formatToParts](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat/formatToParts))
 
@@ -213,7 +218,8 @@ To support those browsers we are going to use alternative template using [ngIf](
     </ng-template>
 </igx-calendar>
 ```
-Note that **ngIf** evaluates the value of the **formatParts** expression to control which template to use. Let's have a look at the alernative **#parseTemplate** template: the expressions in the curly brackets invokes the **getDatePart** method that returns the evaluated value, in our case this is a formatted date part (year, weekday, month, etc.). The parameters passed to the **getDatePart** are necessary so that formatting is based on the [`IgxCalendarComponent`]({environment:angularApiUrl}/classes/igxcalendarcomponent.html) locale and format options:
+
+Note that **ngIf** evaluates the value of the **formatParts** expression to control which template to use. Let's have a look at the alternative **#parseTemplate** template: the expressions in the curly brackets invokes the **getDatePart** method that returns the evaluated value, in our case this is a formatted date part (year, weekday, month, etc.). The parameters passed to the **getDatePart** are necessary so that formatting is based on the [`IgxCalendarComponent`]({environment:angularApiUrl}/classes/igxcalendarcomponent.html) locale and format options:
 
 ```typescript
 // app.component.ts
@@ -237,14 +243,14 @@ public getDatePart(val: any, component: any, datePart: string) {
 Having implemented this conditional templating and date parsing we should get consistent formatting across all browsers, let's verify that:
 
 
-<code-view style="height: 570px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 570px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/calendar-sample-4/" >
 </code-view>
 
 
 #### Disabled dates
-This section demonstrates the usage of [`disabledDates`]({environment:angularApiUrl}/classes/igxcalendarcomponent.html#disableddates) functionallity. Different `single dates` or `range` elements could be added to Array, and passed to the [`disabledDates`]({environment:angularApiUrl}/classes/igxcalendarcomponent.html#disableddates) descriptor.
+This section demonstrates the usage of [`disabledDates`]({environment:angularApiUrl}/classes/igxcalendarcomponent.html#disableddates) functionality. Different `single dates` or `range` elements could be added to Array, and passed to the [`disabledDates`]({environment:angularApiUrl}/classes/igxcalendarcomponent.html#disableddates) descriptor.
 
 ```typescript
 this.calendar.disabledDates = [{ type: DateRangeType.Between, dateRange: [
@@ -279,8 +285,8 @@ export class CalendarSample6Component {
 This is the result.
 
 
-<code-view style="height: 480px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 480px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/calendar-sample-6/" >
 </code-view>
 
@@ -332,8 +338,8 @@ We are going to use the selected dates array to define `Special dates` descripto
 Result:
 
 
-<code-view style="height: 540px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 540px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/calendar-sample-7/" >
 </code-view>
 
@@ -345,8 +351,8 @@ Using the [`monthsViewNumber`]({environment:angularApiUrl}/classes/igxcalendarco
 Result:
 
 
-<code-view style="height: 540px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 540px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/multiview-calendar/" >
 </code-view>
 
@@ -358,8 +364,8 @@ There are separate views provided by the [`IgxCalendarModule`]({environment:angu
 - Years View - `igx-years-view`
 
 
-<code-view style="height: 540px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 540px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/calendar-views/" >
 </code-view>
 
@@ -401,8 +407,8 @@ When an year inside the decade view is focused, use:
 
 ### API
 
-* [IgxCalendarComponent]({environment:angularApiUrl}/classes/igxcalendarcomponent.html)
-* [IgxCalendarComponent Styles]({environment:sassApiUrl}/themes#function-calendar-theme)
-* [DateRangeType]({environment:angularApiUrl}/enums/daterangetype.html)
-* [DateRangeDescriptor]({environment:angularApiUrl}/interfaces/daterangedescriptor.html)
+- [IgxCalendarComponent]({environment:angularApiUrl}/classes/igxcalendarcomponent.html)
+- [IgxCalendarComponent Styles]({environment:sassApiUrl}/themes#function-calendar-theme)
+- [DateRangeType]({environment:angularApiUrl}/enums/daterangetype.html)
+- [DateRangeDescriptor]({environment:angularApiUrl}/interfaces/daterangedescriptor.html)
 

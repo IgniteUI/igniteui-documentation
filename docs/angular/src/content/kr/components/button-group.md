@@ -10,8 +10,8 @@ The [**igx-buttongroup**]({environment:angularApiUrl}/classes/igxbuttongroupcomp
 
 ### Button Group Demo
 
-<code-view style="height: 400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/button-group-sample-1/" >
 </code-view>
 
@@ -33,6 +33,7 @@ import { IgxButtonGroupModule } from 'igniteui-angular';
 })
 export class AppModule {}
 ```
+
 ### Usage
 Use [`igx-buttongroup`]({environment:angularApiUrl}/classes/igxbuttongroupcomponent.html) to organize buttons into an Angular styled button group.
 
@@ -68,8 +69,8 @@ igx-buttongroup{
 }
 ```
 
-<code-view style="height: 164px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 164px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/button-group-sample-2/" >
 </code-view>
 
@@ -93,8 +94,8 @@ Use the the [`multiSelection`]({environment:angularApiUrl}/classes/igxbuttongrou
 </igx-buttongroup>
 ```
 
-<code-view style="height: 60px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 60px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/button-group-sample-4/" >
 </code-view>
 
@@ -102,7 +103,7 @@ Use the the [`multiSelection`]({environment:angularApiUrl}/classes/igxbuttongrou
 #### Display Density
 Use the [`displayDensity`]({environment:angularApiUrl}/classes/igxbuttongroupcomponent.html#displaydensity) input to set the display density for the button group. This will set the style for the buttons in the group to cosy, compact or comfortable (default value) accordingly.
 
-> [!NOTE] 
+> [!NOTE]
 > The display density of a button within a button group is not changed if it is explicitly specified.
 
 ```typescript
@@ -136,8 +137,8 @@ public selectDensity(event) {
 </article>
 ```
 
-<code-view style="height: 60px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 60px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/button-group-sample-5/" >
 </code-view>
 
@@ -210,22 +211,22 @@ public ngOnInit() {
 ```
 
 
-<code-view style="height: 60px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 60px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/button-group-sample-3/" >
 </code-view>
 
 
 ## API References
 
-* [IgxButtonDirective]({environment:angularApiUrl}/classes/igxbuttondirective.html)
-* [IgxButtonGroupComponent]({environment:angularApiUrl}/classes/igxbuttongroupcomponent.html)
-* [IgxButtonGroup Styles]({environment:sassApiUrl}/themes#function-button-group-theme)
+- [IgxButtonDirective]({environment:angularApiUrl}/classes/igxbuttondirective.html)
+- [IgxButtonGroupComponent]({environment:angularApiUrl}/classes/igxbuttongroupcomponent.html)
+- [IgxButtonGroup Styles]({environment:sassApiUrl}/themes#function-button-group-theme)
 
 ## Additional Resources
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
 

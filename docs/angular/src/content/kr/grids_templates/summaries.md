@@ -1,21 +1,21 @@
 @@if (igxName === 'IgxGrid') {
 ---
 title: Angular Grid Summaries| Group Footer | Ignite UI for Angular | Infragistics
-description: Configure Аngular grid summaries in the group footer of the column and use the option to set custom angular template in the Ignite UI for Angular UI
+description: Configure Angular grid summaries in the group footer of the column and use the option to set custom angular template in the Ignite UI for Angular UI
 keywords: angular grid summaries, igniteui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid Summaries| Group Footer | Ignite UI for Angular | Infragistics
-description: Configure Аngular grid summaries in the group footer of the column and use the option to set custom angular template in the Ignite UI for Angular UI
+description: Configure Angular grid summaries in the group footer of the column and use the option to set custom angular template in the Ignite UI for Angular UI
 keywords: angular grid summaries, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid Summaries| Group Footer | Ignite UI for Angular | Infragistics
-description: Configure Аngular grid summaries in the group footer of the column and use the option to set custom angular template in the Ignite UI for Angular UI
+description: Configure Angular grid summaries in the group footer of the column and use the option to set custom angular template in the Ignite UI for Angular UI
 keywords: angular grid summaries, ignite ui for angular, infragistics
 ---
 }
@@ -28,24 +28,24 @@ The Angular UI grid in Ignite UI for Angular has a **summaries** feature that fu
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-summary/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:750px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:750px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-summary/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
   
-<code-view style="height:650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-summary/" >
 </code-view>
 
@@ -59,23 +59,24 @@ The Angular UI grid in Ignite UI for Angular has a **summaries** feature that fu
 
 
 `string` 및 `boolean` [`data types`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#datatype)의 경우 다음의 함수를 사용할 수 있습니다:
- - count
+- count
 
 `number` 데이터 유형의 경우 다음의 함수를 사용할 수 있습니다:
- - count
- - min
- - max
- - average
- - sum
+- count
+- min
+- max
+- average
+- sum
 
 `date` 데이터 유형의 경우 다음의 함수를 사용할 수 있습니다:
- - count
- - earliest
- - latest
+- count
+- earliest
+- latest
 
 **[`hasSummary`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#hassummary) 속성을 `true`로 설정하면 @@igComponent 요약**이 열 단위로 활성화됩니다. 또한, 각 열의 요약은 열 데이터 형식에 따라 해결되는 것에 유의하십시오. `@@igSelector`에서 기본 열 데이터 유형은 `string`이므로 `number` 또는 `date` 별 요약을 원하는 경우, [`dataType`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#datatype) 속성을 `number` 또는 `date`로 설정해야 합니다.
 
 @@if (igxName !== 'IgxHierarchicalGrid') {
+
 ```html
 <@@igSelector #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)">
     <igx-column field="ProductID" header="Product ID" width="200px"  [sortable]="true">
@@ -86,8 +87,10 @@ The Angular UI grid in Ignite UI for Angular has a **summaries** feature that fu
     </igx-column>
 </@@igSelector>
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false"
         [height]="'600px'" [width]="'100%'" #hierarchicalGrid>
@@ -106,10 +109,12 @@ The Angular UI grid in Ignite UI for Angular has a **summaries** feature that fu
     </igx-hierarchical-grid>
 
 ```
+
 }
 특정 열 또는 열 목록에서 요약을 활성화/비활성화하는 또 다른 방법은 **@@igSelector**의 공개 메소드 [`enableSummaries`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#enablesummaries)/[`disableSummaries`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#disablesummaries)를 사용하는 것입니다.
 
 @@if (igxName !== 'IgxHierarchicalGrid') {
+
 ```html
 <@@igSelector #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)" >
     <igx-column field="ProductID" header="Product ID" width="200px"  [sortable]="true">
@@ -122,6 +127,7 @@ The Angular UI grid in Ignite UI for Angular has a **summaries** feature that fu
 <button (click)="enableSummary()">Enable Summary</button>
 <button (click)="disableSummary()">Disable Summary </button>
 ```
+
 ```typescript
 public enableSummary() {
     this.grid1.enableSummaries([
@@ -133,8 +139,10 @@ public disableSummary() {
     this.grid1.disableSummaries("ProductName");
 }
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <@@igSelector #hierarchicalGrid [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)" >
   <igx-column field="Artist" [hasSummary]='true'></igx-column>
@@ -152,6 +160,7 @@ public disableSummary() {
 <button (click)="enableSummary()">Enable Summary</button>
 <button (click)="disableSummary()">Disable Summary </button>
 ```
+
 ```typescript
 public enableSummary() {
     this.hierarchicalGrid.enableSummaries([
@@ -163,10 +172,12 @@ public disableSummary() {
     this.hierarchicalGrid.disableSummaries("Photo");
 }
 ```
+
 }
 이러한 함수가 요구 사항을 충족시키지 못하면 특정 열에 대한 사용자 요약을 제공할 수 있습니다. 이를 실행하려면 열 데이터 유형 및 필요에 따라 기본 클래스인 [`IgxSummaryOperand`]({environment:angularApiUrl}/classes/igxsummaryoperand.html), [`IgxNumberSummaryOperand`]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html) 또는 [`IgxDateSummaryOperand`]({environment:angularApiUrl}/classes/igxdatesummaryoperand.html) 중에서 하나를 무효화해야 합니다. 이 방법으로 기존 함수를 다시 정의하거나 새로운 함수를 추가할 수 있습니다. [`IgxSummaryOperand`]({environment:angularApiUrl}/classes/igxsummaryoperand.html) 클래스는 [`count`]({environment:angularApiUrl}/classes/igxsummaryoperand.html#count) 메소드에 대해서만 기본 실행을 제공합니다. [`IgxNumberSummaryOperand`]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html)는 [`IgxSummaryOperand`]({environment:angularApiUrl}/classes/igxsummaryoperand.html)를 확장하고 [`min`]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html#min), [`max`]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html#max), [`sum`]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html#sum) 및 [`average`]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html#average)의 구현을 제공합니다. [`IgxDateSummaryOperand`]({environment:angularApiUrl}/classes/igxdatesummaryoperand.html)는 [`IgxSummaryOperand`]({environment:angularApiUrl}/classes/igxsummaryoperand.html)를 확장하며 [`earliest`]({environment:angularApiUrl}/classes/igxdatesummaryoperand.html#earliest) 및 [`latest`]({environment:angularApiUrl}/classes/igxdatesummaryoperand.html#latest)를 제공합니다.
 
 @@if (igxName !== 'IgxHierarchicalGrid') {
+
 ```typescript
 import { IgxSummaryResult, IgxSummaryOperand, IgxNumberSummaryOperand, IgxDateSummaryOperand } from 'igniteui-angular';
 
@@ -187,8 +198,10 @@ class MySummary extends IgxNumberSummaryOperand {
     }
 }
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```typescript
 import { IgxRowIslandComponent, IgxHierarchicalGridComponent, IgxNumberSummaryOperand, IgxSummaryResult } from "igniteui-angular";
 
@@ -209,8 +222,10 @@ class MySummary extends IgxNumberSummaryOperand {
     }
   }
 ```
+
 }
 위의 코드에서 메소드 [`operate`]({environment:angularApiUrl}/classes/igxsummaryoperand.html#operate)는 인터페이스인 [`IgxSummaryResult`]({environment:angularApiUrl}/interfaces/igxsummaryresult.html)의 목록을 반환하는 것을 볼 수 있습니다.
+
 ```typescript
 interface IgxSummaryResult {
     key: string;
@@ -223,6 +238,7 @@ interface IgxSummaryResult {
 > 요약 행 높이를 올바르게 계산하기 위해 @@igComponent의 [`operate`]({environment:angularApiUrl}/classes/igxsummaryoperand.html#operate) 메소드에서 데이터가 비어있는 경우에도 항상 적절한 길이의 [`IgxSummaryResult`]({environment:angularApiUrl}/interfaces/igxsummaryresult.html) 배열을 반환해야 합니다.
 @@if (igxName !== 'IgxHierarchicalGrid') {
 이제 `UnitsInStock` 열에 사용자 요약을 추가해 보겠습니다. [`summaries`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#summaries) 속성을 아래에서 작성하는 클래스로 설정하면 됩니다.
+
 ```html
 <@@igSelector #grid1 [data]="data" [autoGenerate]="false" height="800px" width="800px" (columnInit)="initColumn($event)" >
     <igx-column field="ProductID" width="200px"  [sortable]="true">
@@ -243,10 +259,12 @@ export class GridComponent implements OnInit {
     ....
 }
 ```
+
 }
 
 @@if (igxName === 'IgxHierarchicalGrid') {
 이제 `GramyNominations` 열에 사용자 요약을 추가해 보겠습니다. [`summaries`]({environment:angularApiUrl}/classes/igxcolumncomponent.html#summaries) 속성을 아래에서 작성하는 클래스로 설정하면 됩니다.
+
 ```html
  <igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false"
         [height]="'600px'" [width]="'100%'" #hierarchicalGrid>
@@ -272,6 +290,7 @@ export class HGridSummarySampleComponent implements OnInit {
     ....
 }
 ```
+
 }
 
 #### Custom summaries, which access all @@igComponent data
@@ -296,24 +315,24 @@ class MySummary extends IgxNumberSummaryOperand {
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-alldata-summaries/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/tree-grid-allData-summary/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
   
-<code-view style="height:650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-allData-summary/" >
 </code-view>
 
@@ -325,13 +344,13 @@ class MySummary extends IgxNumberSummaryOperand {
 열 단위로 그룹화하면 @@igComponent는 [`summaryCalculationMode`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#summarycalculationmode) 및 [`summaryPosition`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#summaryposition) 속성을 사용하여 요약 위치 및 계산 모드를 변경할 수 있습니다.
 
 [`summaryCalculationMode`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#summarycalculationmode) 속성의 사용 가능한 값은 다음과 같습니다:
- - rootLevelOnly - 요약은 루트 수준에 대해서만 계산됩니다.
- - childLevelsOnly - 요약은 하위 수준에 대해서만 계산됩니다.
- - rootAndChildLevels - 요약은 루트 및 하위 수준 모두에 대해 계산됩니다. 이것이 기본값입니다.
+- rootLevelOnly - 요약은 루트 수준에 대해서만 계산됩니다.
+- childLevelsOnly - 요약은 하위 수준에 대해서만 계산됩니다.
+- rootAndChildLevels - 요약은 루트 및 하위 수준 모두에 대해 계산됩니다. 이것이 기본값입니다.
 
 [`summaryPosition`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#summaryposition) 속성의 사용 가능한 값은 다음과 같습니다:
- - top - 요약 행은 그룹화 행의 하위 앞에 표시됩니다.
- - bottom - 요약 행은 그룹화 행의 하위 뒤에 표시됩니다. 이것이 기본값입니다.
+- top - 요약 행은 그룹화 행의 하위 앞에 표시됩니다.
+- bottom - 요약 행은 그룹화 행의 하위 뒤에 표시됩니다. 이것이 기본값입니다.
 
 > [!NOTE]
 > [`summaryPosition`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#summaryposition) 속성은 하위 수준 요약에만 적용됩니다. 루트 수준 요약은 @@igComponent의 아래에 항상 고정되어 표시됩니다.
@@ -339,8 +358,8 @@ class MySummary extends IgxNumberSummaryOperand {
 #### 데모
 
 
-<code-view style="height:720px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:720px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-groupby-summary/" >
 </code-view>
 
@@ -351,20 +370,20 @@ class MySummary extends IgxNumberSummaryOperand {
 @@igComponent는 루트 노드와 각 중첩된 하위 노드 수준에 대해 별도의 요약을 지원합니다. 표시된 요약은 [`summaryCalculationMode`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#summarycalculationmode) 속성을 사용하여 구성할 수 있습니다. 하위 수준 요약은 [`summaryPosition`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#summaryposition) 속성을 사용하여 하위 노드 전후에 표시할 수 있습니다.
 
 [`summaryCalculationMode`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#summarycalculationmode) 속성의 사용 가능한 값은 다음과 같습니다:
- - rootLevelOnly - 요약은 루트 수준 노드에 대해서만 계산됩니다.
- - childLevelsOnly - 요약은 하위 수준에 대해서만 계산됩니다.
- - rootAndChildLevels - 요약은 루트 및 하위 수준 모두에 대해 계산됩니다. 이것이 기본값입니다.
+- rootLevelOnly - 요약은 루트 수준 노드에 대해서만 계산됩니다.
+- childLevelsOnly - 요약은 하위 수준에 대해서만 계산됩니다.
+- rootAndChildLevels - 요약은 루트 및 하위 수준 모두에 대해 계산됩니다. 이것이 기본값입니다.
 
 [`summaryPosition`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#summaryposition) 속성의 사용 가능한 값은 다음과 같습니다:
- - top - 요약 행은 하위 행의 목록 앞에 나타납니다.
- - bottom - 요약 행은 하위 행의 목록 뒤에 나타납니다. 이것이 기본값입니다.
+- top - 요약 행은 하위 행의 목록 앞에 나타납니다.
+- bottom - 요약 행은 하위 행의 목록 뒤에 나타납니다. 이것이 기본값입니다.
 
 > [!NOTE]
 > [`summaryPosition`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#summaryposition) 속성은 하위 수준 요약에만 적용됩니다. 루트 수준 요약은 @@igComponent의 아래에 항상 고정되어 표시됩니다.
 
 
-<code-view style="height:720px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:720px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-summary2/" >
 </code-view>
 
@@ -385,28 +404,28 @@ class MySummary extends IgxNumberSummaryOperand {
 
 ### API 참조
 
-* [@@igxNameComponent API]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
-* [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
-* [@@igxNameSummaries 스타일]({environment:sassApiUrl}/themes#function-grid-summary-theme)
-* [IgxSummaryOperand]({environment:angularApiUrl}/classes/igxsummaryoperand.html)
-* [IgxNumberSummaryOperand]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html)
-* [IgxDateSummaryOperand]({environment:angularApiUrl}/classes/igxdatesummaryoperand.html)
-* [IgxColumnGroupComponent]({environment:angularApiUrl}/classes/igxcolumngroupcomponent.html)
-* [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
+- [@@igxNameComponent API]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
+- [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [@@igxNameSummaries 스타일]({environment:sassApiUrl}/themes#function-grid-summary-theme)
+- [IgxSummaryOperand]({environment:angularApiUrl}/classes/igxsummaryoperand.html)
+- [IgxNumberSummaryOperand]({environment:angularApiUrl}/classes/igxnumbersummaryoperand.html)
+- [IgxDateSummaryOperand]({environment:angularApiUrl}/classes/igxdatesummaryoperand.html)
+- [IgxColumnGroupComponent]({environment:angularApiUrl}/classes/igxcolumngroupcomponent.html)
+- [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
 
 ### 추가 리소스
 
-* [@@igComponent 개요](@@igMainTopic.md)
-* [가상화 및 성능](virtualization.md)
-* [페이징](paging.md)
-* [필터링](filtering.md)
-* [정렬](sorting.md)
-* [열 이동](column-moving.md)
-* [열 핀 고정](column_pinning.md)
-* [열 크기 조정](column-resizing.md)
-* [선택](selection.md)
+- [@@igComponent 개요](@@igMainTopic.md)
+- [가상화 및 성능](virtualization.md)
+- [페이징](paging.md)
+- [필터링](filtering.md)
+- [정렬](sorting.md)
+- [열 이동](column-moving.md)
+- [열 핀 고정](column_pinning.md)
+- [열 크기 조정](column-resizing.md)
+- [선택](selection.md)
 
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
