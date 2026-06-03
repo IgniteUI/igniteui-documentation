@@ -5,14 +5,14 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-##Checkbox
+## Checkbox
 <p class="highlight">The Ignite UI for Angular Checkbox component is a selection control that allows users to make a binary choice for a certain condition. It behaves similarly to the native browser checkbox.</p>
 <igc-divider></igc-divider>
 
 ### Checkbox Demo
 
-<code-view style="height: 200px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 200px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/checkbox-sample-2/" >
 </code-view>
 
@@ -70,6 +70,7 @@ statusChanged()
     // event handler logic
 }
 ```
+
 Enhance the component template by adding a checkbox for each task and then setting the corresponding property bindings:
 
 ```html
@@ -88,13 +89,13 @@ The final result would be something like that:
 
 ## API References
 
-* [IgxCheckboxComponent]({environment:angularApiUrl}/classes/igxcheckboxcomponent.html)
-* [IgxCheckboxComponent Styles]({environment:sassApiUrl}/themes#function-checkbox-theme)
-* [LabelPosition]({environment:angularApiUrl}/enums/labelposition.html)
+- [IgxCheckboxComponent]({environment:angularApiUrl}/classes/igxcheckboxcomponent.html)
+- [IgxCheckboxComponent Styles]({environment:sassApiUrl}/themes#function-checkbox-theme)
+- [LabelPosition]({environment:angularApiUrl}/enums/labelposition.html)
 
 ## Additional Resources
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

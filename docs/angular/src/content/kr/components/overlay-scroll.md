@@ -7,7 +7,7 @@ _language: kr
 ## Scroll strategies
 
 Scroll strategies determines how the scrolling will be handled in the provided IgxOverlayService. There are four scroll strategies:
-1. **NoOperation** - does nothing. 
+1. **NoOperation** - does nothing.
 2. **Block** - the component do not scroll with the window. The event is canceled. No scrolling happens.
 3. **Close** - uses a tolerance and closes an expanded component upon scrolling if the tolerance is exceeded.
 4. **Absolute** - scrolls everything.
@@ -15,9 +15,9 @@ Scroll strategies determines how the scrolling will be handled in the provided I
 ## Usage
 
 Every scroll strategy has the following method used to :
- - [`initialize`] ({environment:angularApiUrl}/interfaces/iscrollstrategy.html#initialize) - initializes the scroll strategy. It needs a reference to the document, overlay service and the id of the component rendered
- - [`attach`] ({environment:angularApiUrl}/interfaces/iscrollstrategy.html#attach) - attaches the scroll strategy to the specified element or to the document
- - [`detach`] ({environment:angularApiUrl}/interfaces/iscrollstrategy.html#detach) - detaches the scroll strategy
+- [`initialize`] ({environment:angularApiUrl}/interfaces/iscrollstrategy.html#initialize) - initializes the scroll strategy. It needs a reference to the document, overlay service and the id of the component rendered
+- [`attach`] ({environment:angularApiUrl}/interfaces/iscrollstrategy.html#attach) - attaches the scroll strategy to the specified element or to the document
+- [`detach`] ({environment:angularApiUrl}/interfaces/iscrollstrategy.html#detach) - detaches the scroll strategy
 
 ```typescript
 this.scrollStrategy.initialize(document, overlayService, id);
@@ -27,6 +27,7 @@ this.scrollStrategy.detach();
 
 ### Getting Started
 The position strategy is passed as a property in the [`overlaySettings`] ({environment:angularApiUrl}/interfaces/overlaysettings.html) parameter when the [`overlay.show()`] ({environment:angularApiUrl}/classes/igxoverlayservice.html#show) method is called:
+
 ```typescript
     // Initializing and using overlay settings
     const overlaySettings: OverlaySettings = {
@@ -36,10 +37,12 @@ The position strategy is passed as a property in the [`overlaySettings`] ({envir
         closeOnOutsideClick: true
     }
     overlay.show(dummyElement, overlaySettings); 
-``` 
+```
+
 <igc-divider></igc-divider>
 
 To change the scroll strategy used by the overlay, override the [`scrollStrategy`] ({environment:angularApiUrl}/interfaces/iscrollstrategy.html) property of the [`overlaySettings`] ({environment:angularApiUrl}/interfaces/overlaysettings.html) object passed to the overlay:
+
 ```typescript
     // overlaySettings is an existing object of type OverlaySettings
     // to override the scroll strategy
@@ -59,13 +62,13 @@ import { NoOpScrollStrategy } from "./scroll/NoOpScrollStrategy";
 ```
 
 
-## Demos 
+## Demos
 #### Scroll Strategies
 The scroll strategies can be passed through the [`overlaySettings`] ({environment:angularApiUrl}/interfaces/overlaysettings.html) object in order to determine how the overlay should handle scrolling.
 The demo below illustrates the difference between the separate [`scrollStrategies`] ({environment:angularApiUrl}/interfaces/iscrollstrategy.html):
 
-<code-view style="height: 400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/overlay-scroll-sample-2/" >
 </code-view>
 
@@ -76,12 +79,12 @@ If the [`modal`] ({environment:angularApiUrl}/interfaces/overlaysettings.html#mo
 If the [`modal`] ({environment:angularApiUrl}/interfaces/overlaysettings.html#modal) property is `true`, the element will be attached to the DOM foreground and an overlay blocked will wrap behind it, stopping propagation of all events:
 
 
-<code-view style="height: 400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/overlay-scroll-sample-1/" >
 </code-view>
 
 
 ## API References
 
-* [IScrollStrategy] ({environment:angularApiUrl}/interfaces/iscrollstrategy.html)
+- [IScrollStrategy] ({environment:angularApiUrl}/interfaces/iscrollstrategy.html)

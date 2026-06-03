@@ -13,7 +13,7 @@ _language: kr
 If you've included the _`igniteui-angular.css`_ file in your application project, now is a good time to remove it. We are going to use our own _`my-app-theme.scss`_ file to generate a global theme for all components in our application.
 
 **Ignite UI for Angular** uses a global theme by default to theme the entire suite of components. You can, however, create themes scoped to components you have in your app, depending on your use case. For now, we will be including all of our themes in a single file.
-To generate a global theme we're going to be including two mixins `core` and `theme`; `core` doesn't accept any arguments, `theme` accepts a few: 
+To generate a global theme we're going to be including two mixins `core` and `theme`; `core` doesn't accept any arguments, `theme` accepts a few:
 
 | Name              |  Type   | Default            | Description                                                                           |
 | :---------------: | :-----: | :---------------:  | :-----------------------------------------------------------------------------------: |
@@ -46,7 +46,7 @@ $my-color-palette: palette(
 @include theme($my-color-palette);
 ```
 
-Let's explain what the `core` and `theme` mixins do. The `core` mixin takes care of loading all essential parts like global elevations, global typography, etc. The `theme` will set the global variable `$default-palette` to the palette map you pass; it will also set the global variable `$igx-legacy-support` to the value of `$legacy-support`. The `theme` mixin also includes each individual component style that is not listed in the `$exclude` list of components. 
+Let's explain what the `core` and `theme` mixins do. The `core` mixin takes care of loading all essential parts like global elevations, global typography, etc. The `theme` will set the global variable `$default-palette` to the palette map you pass; it will also set the global variable `$igx-legacy-support` to the value of `$legacy-support`. The `theme` mixin also includes each individual component style that is not listed in the `$exclude` list of components.
 
 > [!IMPORTANT]
 > Including `core` before `theme` is essential. The `core` mixin provides all base definitions needed for `theme` to work.
@@ -66,7 +66,7 @@ Additionally, if you know your app will not be using some of our components, you
 
 ### Light and Dark Themes
 
-In addition to the more powerful `theme` mixin, we include two additional global theme mixins for fast bootstrapping of *__light__* and *__dark__* themes. Those mixins are `igx-light-theme` and `dark-theme`.
+In addition to the more powerful `theme` mixin, we include two additional global theme mixins for fast bootstrapping of _**light**_ and _**dark**_ themes. Those mixins are `igx-light-theme` and `dark-theme`.
 
 Here's a quick showcase of how you can create a light and dark theme for your application
 
@@ -82,6 +82,7 @@ Here's a quick showcase of how you can create a light and dark theme for your ap
     @include dark-theme($default-palette);
 }
 ```
+
 Ideally you would be applying `.light-theme` and `.dark-theme` CSS classes somewhere high in your application DOM tree. Your `app-root` element is a good candidate for that.
 
 ### Browser Support
@@ -91,17 +92,17 @@ The value of `$igx-legacy-support` is quite important as it determines how compo
 The general rule of thumb regarding what the value of `$legacy-support` should be is dictated by whether you will be including support for Internet Explorer 11 or not. If you want to include support for IE11 set the `$legacy-support` value to `true` (default), otherwise setting its value to `false` will force CSS variables for theming.
 
 ### API Overview
-* [Global Theme]({environment:sassApiUrl}/themes#mixin-theme)
-* [Palette]({environment:sassApiUrl}/palettes#function-palette)
+- [Global Theme]({environment:sassApiUrl}/themes#mixin-theme)
+- [Palette]({environment:sassApiUrl}/palettes#function-palette)
 
 
 ## Additional Resources
 
 Learn how to create individual component themes:
 
-* [Component Themes](./component-themes.md)
+- [Component Themes](./component-themes.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

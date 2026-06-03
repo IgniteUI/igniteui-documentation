@@ -24,8 +24,8 @@ _language: kr
 
 차트 패키지를 설치할 때 코어 패키지도 설치해야 합니다.
 
--   **npm install --save igniteui-angular-core**
--   **npm install --save igniteui-angular-charts**
+- **npm install --save igniteui-angular-core**
+- **npm install --save igniteui-angular-charts**
 
 ## 필요한 모듈
 
@@ -104,9 +104,9 @@ export class AppModule { /* ... */ }
 
 ## 추가 리소스
 
--   [축 유형](data-chart-axis-types.md)
--   [축 공유](data-chart-axis-sharing.md)
--   [축 설정](data-chart-axis-settings.md)
--   [차트 범례](data-chart-legends.md)
--   [시리즈 마커](data-chart-series-markers.md)
--   [시리즈 유형](data-chart-series-types.md)
+- [축 유형](data-chart-axis-types.md)
+- [축 공유](data-chart-axis-sharing.md)
+- [축 설정](data-chart-axis-settings.md)
+- [차트 범례](data-chart-legends.md)
+- [시리즈 마커](data-chart-series-markers.md)
+- [시리즈 유형](data-chart-series-types.md)
