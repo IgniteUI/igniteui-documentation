@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 /**
- * Crawls MDX source files and checks every <ApiLink> component's resolved URL
- * against the staging API server.
+ * Crawls MDX source files and checks every <ApiLink> component's resolved URL.
  *
- * Parses ApiLink props directly from MDX, resolves them into staging URLs using
- * the same logic as ApiLink.astro, then validates each URL is reachable.
+ * Parses ApiLink props directly from MDX, resolves them through the local
+ * api-link-index registry, then validates each URL is reachable.
  *
  * When --platform=angular the script first runs docs/angular/scripts/sync-generated.mjs
  * to pull in generated xplat content, then scans docs/angular/src/content.
@@ -23,7 +22,7 @@
  * Exit code: 0 = all OK, 1 = broken links found.
  */
 
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
@@ -42,9 +41,13 @@ const CONCURRENCY = parseInt(String(args.concurrency ?? '20'), 10);
 const TIMEOUT_MS  = parseInt(String(args.timeout     ?? '15000'), 10);
 const OUTPUT      = args.output ? String(args.output) : null;
 const MD_OUTPUT   = args.md     ? String(args.md)     : null;
+const UNRESOLVED_MD_OUTPUT = args['unresolved-md'] ? String(args['unresolved-md']) : null;
+const UNRESOLVED_REASON = args['unresolved-reason'] ? String(args['unresolved-reason']) : null;
 const NO_SYNC     = !!args['no-sync'];
+const RESOLVE_ONLY = !!args['resolve-only'];
 const DEFAULT_SRC = (PLATFORM === 'angular') ? 'docs/angular/src/content' : 'docs/xplat/src/content';
 const SRC_DIR     = String(args.src ?? DEFAULT_SRC);
+const API_LINK_INDEX_VERSION = String(args.index ?? process.env.API_LINK_INDEX_VERSION ?? (process.env.NODE_ENV === 'production' ? 'prod-latest' : 'staging-latest'));
 
 // Platform resolution
 const PLATFORM_MAP = {
@@ -52,6 +55,74 @@ const PLATFORM_MAP = {
     react:   'React',
     wc:      'WebComponents',
     blazor:  'Blazor',
+};
+
+const PLATFORM_CONFIGS = {
+    Angular:       { folder: 'angular',       prefix: 'Igx', classSuffix: 'Component' },
+    React:         { folder: 'react',         prefix: 'Igr' },
+    WebComponents: { folder: 'webcomponents', prefix: 'Igc', classSuffix: 'Component' },
+    Blazor:        { folder: 'blazor',        prefix: 'Igb', pascalCaseMembers: true },
+};
+
+const PACKAGE_IDS = {
+    Angular: {
+        core: 'igniteui-angular',
+        charts: 'igniteui-angular-charts',
+        grids: 'igniteui-angular',
+        gauges: 'igniteui-angular-gauges',
+        maps: 'igniteui-angular-maps',
+        inputs: 'igniteui-angular',
+        layouts: 'igniteui-angular',
+        excel: 'igniteui-angular-excel',
+        spreadsheet: 'igniteui-angular-spreadsheet',
+        datasources: 'igniteui-angular-datasources',
+        dashboards: 'igniteui-angular-dashboards',
+    },
+    React: {
+        core: 'igniteui-react',
+        charts: 'igniteui-react-charts',
+        grids: 'igniteui-react-grids',
+        gauges: 'igniteui-react-gauges',
+        maps: 'igniteui-react-maps',
+        inputs: 'igniteui-react-inputs',
+        layouts: 'igniteui-react-layouts',
+        excel: 'igniteui-react-excel',
+        spreadsheet: 'igniteui-react-spreadsheet',
+        datasources: 'igniteui-react-datasources',
+        dashboards: 'igniteui-react-dashboards',
+        dockmanager: 'igniteui-react-dockmanager',
+    },
+    WebComponents: {
+        core: 'igniteui-webcomponents',
+        charts: 'igniteui-webcomponents-charts',
+        grids: 'igniteui-webcomponents-grids',
+        gauges: 'igniteui-webcomponents-gauges',
+        maps: 'igniteui-webcomponents-maps',
+        inputs: 'igniteui-webcomponents-inputs',
+        layouts: 'igniteui-webcomponents-layouts',
+        excel: 'igniteui-webcomponents-excel',
+        spreadsheet: 'igniteui-webcomponents-spreadsheet',
+        datasources: 'igniteui-webcomponents-datasources',
+        dashboards: 'igniteui-webcomponents-dashboards',
+        dockmanager: 'igniteui-dockmanager',
+        gridlite: 'igniteui-grid-lite',
+        'grid-lite': 'igniteui-grid-lite',
+    },
+    Blazor: {
+        core: 'IgniteUI.Blazor',
+        charts: 'IgniteUI.Blazor',
+        grids: 'IgniteUI.Blazor',
+        gauges: 'IgniteUI.Blazor',
+        maps: 'IgniteUI.Blazor',
+        inputs: 'IgniteUI.Blazor',
+        layouts: 'IgniteUI.Blazor',
+        excel: 'IgniteUI.Blazor.Documents.Excel',
+        spreadsheet: 'IgniteUI.Blazor',
+        datasources: 'IgniteUI.Blazor',
+        dashboards: 'IgniteUI.Blazor',
+        gridlite: 'IgniteUI.Blazor.GridLite',
+        'grid-lite': 'IgniteUI.Blazor.GridLite',
+    },
 };
 
 function getPlatforms() {
@@ -66,162 +137,97 @@ function getPlatforms() {
     return Object.values(PLATFORM_MAP);
 }
 
-// Parse PLATFORMS from platform-context.ts directly
-function parsePlatformConfigs() {
-    const srcPath = resolve('src/lib/platform-context.ts');
-    const src = readFileSync(srcPath, 'utf-8');
-
-    const match = src.match(/const PLATFORMS[^=]*=\s*\{/);
-    if (!match) throw new Error('Cannot find PLATFORMS in platform-context.ts');
-
-    const startIdx = src.indexOf(match[0]) + match[0].length - 1;
-    let depth = 1;
-    let i = startIdx + 1;
-    while (i < src.length && depth > 0) {
-        if (src[i] === '{') depth++;
-        else if (src[i] === '}') depth--;
-        i++;
-    }
-    let objStr = src.slice(startIdx, i);
-
-    // Strip TypeScript syntax
-    objStr = objStr
-        .replace(/as\s+PlatformName(\s*\|[^,}\n]+)?/g, '')
-        .replace(/as\s+Record<[^>]+>/g, '')
-        .replace(/:\s*Record<PlatformName,\s*PlatformContext>/g, '');
-
-    const fn = new Function(`return (${objStr});`);
-    return fn();
-}
-
-const PLATFORMS = parsePlatformConfigs();
-
-// ApiLink URL resolution (mirrors ApiLink.astro logic)
-const KIND_SEGMENT = {
-    class:     'classes',
-    interface: 'interfaces',
-    enum:      'enums',
-    type:      'types',
-    variable:  'variables',
-    function:  'functions',
+const upperFirst = (value) => value ? value.charAt(0).toUpperCase() + value.slice(1) : value;
+const splitList = (value) => value ? String(value).split(',').map(item => item.trim()).filter(Boolean) : [];
+const addUnique = (values, value) => {
+    if (value && !values.includes(value)) values.push(value);
 };
 
+function getApiDocsBaseUrl() {
+    const value = process.env.API_DOCS_BASE_URL
+        ?? (process.env.NODE_ENV === 'production'
+            ? 'https://www.infragistics.com/api'
+            : 'https://staging.infragistics.com/api');
+    const trimmed = value.replace(/\/+$/, '');
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+}
+
+function loadApiLinkIndexes() {
+    return Object.fromEntries(Object.entries(PLATFORM_CONFIGS).map(([platformName, config]) => {
+        const file = resolve('src', 'data', 'api-link-index', config.folder, `${API_LINK_INDEX_VERSION}.json`);
+        if (!existsSync(file)) return [platformName, null];
+        return [platformName, JSON.parse(readFileSync(file, 'utf-8'))];
+    }));
+}
+
+const API_LINK_INDEXES = loadApiLinkIndexes();
+const API_DOCS_ORIGIN = new URL(getApiDocsBaseUrl()).origin;
+
+function candidateNames(props, platformName) {
+    const platform = PLATFORM_CONFIGS[platformName];
+    const explicitKind = props.kind;
+    const prefixed = props.prefixed !== false && !splitList(props.excludePrefixFor).includes(platformName);
+    const suffix = props.suffix !== false && !splitList(props.excludeSuffixFor).includes(platformName);
+    const bases = [];
+    if (prefixed) addUnique(bases, `${platform.prefix}${props.type}`);
+    addUnique(bases, props.type);
+
+    const names = [];
+    for (const base of bases) {
+        if ((!explicitKind || explicitKind === 'class') && suffix && platform.classSuffix) {
+            addUnique(names, `${base}${platform.classSuffix}`);
+        }
+        addUnique(names, base);
+    }
+    return names;
+}
+
+function resolveApiLink(props, platformName) {
+    const index = API_LINK_INDEXES[platformName];
+    if (!index?.symbols) return { status: 'unavailable' };
+    if (!props.type) return { status: 'missing-type' };
+    if (props.type.includes('{')) return { status: 'dynamic' };
+    if (props.kind === 'sass') return { status: 'sass' };
+    if (splitList(props.exclude).includes(platformName)) return { status: 'excluded' };
+
+    const explicitPkg = typeof props.pkg === 'string' && props.pkg.length > 0;
+    const packageId = explicitPkg ? PACKAGE_IDS[platformName]?.[props.pkg] : undefined;
+    if (explicitPkg && !packageId) return { status: 'unknown-package' };
+    const platform = PLATFORM_CONFIGS[platformName];
+    let matchedSymbol = false;
+
+    for (const name of candidateNames(props, platformName)) {
+        const value = index.symbols[name];
+        if (!value) continue;
+        const symbols = Array.isArray(value) ? value : [value];
+        for (const symbol of symbols) {
+            if (packageId && symbol.p && symbol.p !== packageId) continue;
+            if (props.kind && symbol.k && symbol.k !== props.kind) continue;
+            matchedSymbol = true;
+            const anchor = resolveMemberAnchor(symbol, props.member, platform);
+            if (anchor === null) continue;
+            const path = `${symbol.u}${anchor ? `#${anchor}` : ''}`;
+            return { status: 'resolved', url: path.startsWith('/') ? `${API_DOCS_ORIGIN}${path}` : path };
+        }
+    }
+    return { status: matchedSymbol ? 'member-missing' : 'missing' };
+}
+
 function resolveApiLinkUrl(props, platformName) {
-    const config = PLATFORMS[platformName];
-    if (!config) return null;
-
-    const {
-        type, kind = 'class', member, pkg = 'core',
-        prefixed = true, suffix = true,
-        excludeSuffixFor, excludePrefixFor,
-    } = props;
-    const prefix = config.prefix;
-    const pkgConfig = config.apiPackages[pkg] ?? config.apiPackages['core'];
-    if (!pkgConfig) return null;
-
-    const splitList = (v) => v ? String(v).split(',').map(s => s.trim()).filter(Boolean) : [];
-    const effectivePrefixed = prefixed && !splitList(excludePrefixFor).includes(platformName);
-    const effectiveSuffix   = suffix   && !splitList(excludeSuffixFor).includes(platformName);
-
-    const baseType = effectivePrefixed ? `${prefix}${type}` : type;
-    const segment = KIND_SEGMENT[kind];
-    if (!segment) return null;
-
-    let url;
-    if (kind === 'class') {
-        const fullType = (effectiveSuffix && pkgConfig.classSuffix) ? `${baseType}${pkgConfig.classSuffix}` : baseType;
-        const cased = pkgConfig.preserveCase ? fullType : fullType.toLowerCase();
-        const classSlug = pkgConfig.noPackagePrefix ? cased : `${pkgConfig.packageId}.${cased}`;
-        const memberAnchor = member
-            ? `#${pkgConfig.pascalCaseMembers ? member.charAt(0).toUpperCase() + member.slice(1) : member}`
-            : '';
-        url = `${pkgConfig.docRoot}/classes/${classSlug}${memberAnchor}`;
-    } else {
-        const slug = pkgConfig.noPackagePrefix ? baseType : `${pkgConfig.packageId}.${baseType}`;
-        const memberAnchorNonClass = member
-            ? `#${
-                kind === 'enum'
-                    ? member
-                    : pkgConfig.pascalCaseMembers
-                        ? member.charAt(0).toUpperCase() + member.slice(1)
-                        : member.toLowerCase()
-            }`
-            : '';
-        url = `${pkgConfig.docRoot}/${segment}/${slug}${memberAnchorNonClass}`;
-    }
-    return url;
+    const resolved = resolveApiLink(props, platformName);
+    return resolved.status === 'resolved' ? resolved.url : null;
 }
 
-/**
- * Given a BROKEN primary URL and its source props, returns alternative
- * URLs to try. Includes suffix/prefix variants AND kind variants.
- *
- * Variant categories:
- *   noSuffix       → suffix={false} or excludeSuffixFor="Platform"
- *   noPrefix       → prefixed={false} or excludePrefixFor="Platform"
- *   noBoth         → both of the above
- *   kind:<value>   → kind="<value>" (different kind)
- *   kind:<value>+noSuffix  → kind + suffix={false}
- *   kind:<value>+noPrefix  → kind + prefixed={false}
- *   kind:<value>+noBoth    → kind + both
- */
-function resolveVariantUrls(primaryUrl, props, platformName) {
-    const variants = {};
-    const seenUrls = new Set([primaryUrl]);
-
-    function addVariant(name, variantProps) {
-        const url = resolveApiLinkUrl(variantProps, platformName);
-        if (url && !seenUrls.has(url)) {
-            seenUrls.add(url);
-            variants[name] = url;
-        }
+function resolveMemberAnchor(symbol, member, platform) {
+    if (!member) return '';
+    const members = symbol.m ?? {};
+    const candidates = [member];
+    if (platform.pascalCaseMembers) candidates.push(upperFirst(member));
+    candidates.push(upperFirst(member), member.toLowerCase());
+    for (const candidate of [...new Set(candidates)]) {
+        if (members[candidate]) return members[candidate];
     }
-
-    // Suffix/prefix variants (original logic)
-    addVariant('noSuffix', { ...props, suffix: false, excludeSuffixFor: undefined });
-    addVariant('noPrefix', { ...props, prefixed: false, excludePrefixFor: undefined });
-    addVariant('noBoth',   { ...props, suffix: false, prefixed: false, excludeSuffixFor: undefined, excludePrefixFor: undefined });
-
-    // Kind variants: try each kind that differs from current
-    const ALL_KINDS = ['class', 'interface', 'enum', 'type'];
-    const currentKind = props.kind || 'class';
-    for (const altKind of ALL_KINDS) {
-        if (altKind === currentKind) continue;
-        const kindProps = { ...props, kind: altKind, excludeSuffixFor: undefined, excludePrefixFor: undefined };
-        addVariant(`kind:${altKind}`, kindProps);
-        addVariant(`kind:${altKind}+noSuffix`, { ...kindProps, suffix: false });
-        addVariant(`kind:${altKind}+noPrefix`, { ...kindProps, prefixed: false });
-        addVariant(`kind:${altKind}+noBoth`,   { ...kindProps, suffix: false, prefixed: false });
-    }
-
-    return variants;
-}
-
-/** Given which variant URLs work, returns a short prop-fix hint string. */
-function suggestFix(variantOk, platformName) {
-    // Prefer simplest fix: suffix/prefix-only changes first
-    const { noSuffix, noPrefix, noBoth } = variantOk ?? {};
-    if (noSuffix && !noPrefix) return `excludeSuffixFor="${platformName}"`;
-    if (!noSuffix && noPrefix) return `excludePrefixFor="${platformName}"`;
-    if (noSuffix && noPrefix)  return `excludeSuffixFor="${platformName}" -or- excludePrefixFor="${platformName}"`;
-    if (noBoth)                return `excludeSuffixFor="${platformName}" + excludePrefixFor="${platformName}"`;
-
-    // Then try kind variants (prefer kind-only, then kind+suffix/prefix)
-    for (const [name, ok] of Object.entries(variantOk ?? {})) {
-        if (!ok) continue;
-        if (name.startsWith('kind:')) {
-            const kindMatch = name.match(/^kind:(\w+)$/);
-            if (kindMatch) return `kind="${kindMatch[1]}"`;
-            const kindSuffix = name.match(/^kind:(\w+)\+noSuffix$/);
-            if (kindSuffix) return `kind="${kindSuffix[1]}" + excludeSuffixFor="${platformName}"`;
-            const kindPrefix = name.match(/^kind:(\w+)\+noPrefix$/);
-            if (kindPrefix) return `kind="${kindPrefix[1]}" + excludePrefixFor="${platformName}"`;
-            const kindBoth = name.match(/^kind:(\w+)\+noBoth$/);
-            if (kindBoth) return `kind="${kindBoth[1]}" + excludeSuffixFor="${platformName}" + excludePrefixFor="${platformName}"`;
-        }
-    }
-
-    return `exclude="${platformName}" (no variant resolves — symbol absent)`;
+    return null;
 }
 
 // MDX parsing
@@ -301,9 +307,6 @@ function extractApiLinks(content) {
         const props = parseProps(alMatch[1]);
         if (!props.type) continue;
 
-        // Skip template variables like {ComponentName} — resolved at build time
-        if (/\{.*\}/.test(props.type)) continue;
-
         // Intersection of ALL enclosing PlatformBlock scopes (handles nesting).
         let scopedPlatforms = null;
         for (const b of blockRanges) {
@@ -359,7 +362,7 @@ function walkMdx(dir) {
 }
 
 // Version discovery
-const PKG_ROOT_RE = /^(https:\/\/staging\.infragistics\.com\/api\/[^/]+\/[^/]+\/)latest\//;
+const PKG_ROOT_RE = /^(https?:\/\/[^/]+\/api\/[^/]+\/[^/]+\/)latest\//;
 
 /**
  * Discovers the actual published version for each unique package root by
@@ -509,7 +512,44 @@ if (mdxFiles.length === 0) {
 
 // Build URL index: url -> { pages, platforms, propsByPlatform }
 const urlIndex = new Map();
-let totalLinks = 0;
+let totalApiLinkRefs = 0;
+let totalResolvedLinks = 0;
+const resolutionStats = new Map(targetPlatforms.map(platform => [platform, {
+    resolved: 0,
+    unresolved: 0,
+    reasons: new Map(),
+    examples: new Map(),
+}]));
+const unresolvedDetails = [];
+
+function recordResolution(platformName, status, relPath, props) {
+    const stats = resolutionStats.get(platformName);
+    if (!stats) return;
+
+    if (status === 'resolved') {
+        stats.resolved++;
+        return;
+    }
+
+    stats.unresolved++;
+    stats.reasons.set(status, (stats.reasons.get(status) ?? 0) + 1);
+    if (!stats.examples.has(status)) {
+        const label = props.member ? `${props.type}.${props.member}` : props.type;
+        stats.examples.set(status, { file: relPath, label });
+    }
+    if (!UNRESOLVED_REASON || status === UNRESOLVED_REASON) {
+        unresolvedDetails.push({
+            platform: platformName,
+            status,
+            file: relPath,
+            type: props.type,
+            member: props.member ?? '',
+            kind: props.kind ?? '',
+            pkg: props.pkg ?? '',
+            label: props.member ? `${props.type}.${props.member}` : props.type,
+        });
+    }
+}
 
 for (const file of mdxFiles) {
     const relPath = relative(process.cwd(), file).replace(/\\/g, '/');
@@ -522,32 +562,102 @@ for (const file of mdxFiles) {
             : targetPlatforms;
 
         for (const platformName of applicablePlatforms) {
-            const url = resolveApiLinkUrl(props, platformName);
-            if (!url) continue;
+            totalApiLinkRefs++;
+            const resolved = resolveApiLink(props, platformName);
+            recordResolution(platformName, resolved.status, relPath, props);
+            if (resolved.status !== 'resolved') continue;
 
-            totalLinks++;
-            if (!urlIndex.has(url)) {
-                urlIndex.set(url, { pages: new Set(), platforms: new Set(), propsByPlatform: new Map() });
+            totalResolvedLinks++;
+            if (!urlIndex.has(resolved.url)) {
+                urlIndex.set(resolved.url, { pages: new Set(), platforms: new Set() });
             }
-            urlIndex.get(url).pages.add(relPath);
-            urlIndex.get(url).platforms.add(platformName);
-            // Store props once per platform so we can generate variant URLs later
-            if (!urlIndex.get(url).propsByPlatform.has(platformName)) {
-                urlIndex.get(url).propsByPlatform.set(platformName, props);
-            }
+            urlIndex.get(resolved.url).pages.add(relPath);
+            urlIndex.get(resolved.url).platforms.add(platformName);
         }
     }
 }
 
 const uniqueUrls = [...urlIndex.keys()].sort();
 console.log(`  MDX files scanned  : ${mdxFiles.length}`);
-console.log(`  Total ApiLink refs : ${totalLinks}`);
-console.log(`  Unique staging URLs: ${uniqueUrls.length}`);
+console.log(`  Total ApiLink refs : ${totalApiLinkRefs}`);
+console.log(`  Resolved refs      : ${totalResolvedLinks}`);
+console.log(`  Unique API URLs     : ${uniqueUrls.length}`);
 console.log(`  Concurrency        : ${CONCURRENCY}`);
 console.log(`  Timeout / request  : ${TIMEOUT_MS} ms\n`);
 
+for (const [platform, stats] of resolutionStats) {
+    if (stats.resolved === 0 && stats.unresolved === 0) continue;
+    const reasons = [...stats.reasons.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .map(([reason, count]) => `${reason}: ${count}`)
+        .join(', ');
+    console.log(`  ${platform} registry resolution: ${stats.resolved} resolved, ${stats.unresolved} not linked${reasons ? ` (${reasons})` : ''}`);
+    for (const [reason, example] of [...stats.examples.entries()].slice(0, 3)) {
+        console.log(`    example ${reason}: ${example.label} in ${example.file}`);
+    }
+}
+console.log();
+
+if (UNRESOLVED_MD_OUTPUT) {
+    const filtered = UNRESOLVED_REASON
+        ? unresolvedDetails.filter(item => item.status === UNRESOLVED_REASON)
+        : unresolvedDetails;
+    const grouped = new Map();
+    for (const item of filtered) {
+        const key = `${item.platform}|${item.status}|${item.label}|${item.pkg}|${item.kind}`;
+        if (!grouped.has(key)) {
+            grouped.set(key, { ...item, files: new Set() });
+        }
+        grouped.get(key).files.add(item.file);
+    }
+
+    const lines = [];
+    const reasonLabel = UNRESOLVED_REASON ? `: ${UNRESOLVED_REASON}` : '';
+    lines.push(`# ApiLink Unresolved Report${reasonLabel}`);
+    lines.push('');
+    lines.push(`| Platform | Status | ApiLink | pkg | kind | Files |`);
+    lines.push(`|---|---|---|---|---|---|`);
+    for (const item of [...grouped.values()].sort((a, b) =>
+        a.platform.localeCompare(b.platform)
+        || a.status.localeCompare(b.status)
+        || a.label.localeCompare(b.label)
+    )) {
+        const files = [...item.files].sort().map(file => `\`${file}\``).join('<br>');
+        lines.push(`| ${item.platform} | ${item.status} | \`${item.label}\` | ${item.pkg || ''} | ${item.kind || ''} | ${files} |`);
+    }
+    writeFileSync(UNRESOLVED_MD_OUTPUT, lines.join('\n'));
+    console.log(`  Unresolved report written to: ${UNRESOLVED_MD_OUTPUT}`);
+    console.log(`  Unresolved rows: ${filtered.length}, grouped rows: ${grouped.size}\n`);
+}
+
+if (RESOLVE_ONLY) {
+    if (OUTPUT) {
+        const report = {
+            generatedAt: new Date().toISOString(),
+            srcDir: SRC_DIR,
+            platforms: targetPlatforms,
+            totalFiles: mdxFiles.length,
+            totalLinks: totalApiLinkRefs,
+            resolvedLinks: totalResolvedLinks,
+            uniqueUrls: uniqueUrls.length,
+            registryResolution: Object.fromEntries([...resolutionStats.entries()].map(([platform, stats]) => [
+                platform,
+                {
+                    resolved: stats.resolved,
+                    unresolved: stats.unresolved,
+                    reasons: Object.fromEntries(stats.reasons),
+                    examples: Object.fromEntries(stats.examples),
+                },
+            ])),
+        };
+        writeFileSync(OUTPUT, JSON.stringify(report, null, 2));
+        console.log(`  JSON report written to: ${OUTPUT}\n`);
+    }
+    process.exit(0);
+}
+
 if (uniqueUrls.length === 0) {
-    console.log('No staging API links resolved. Nothing to check.');
+    console.log('No registry API links resolved. Nothing to check.');
     process.exit(0);
 }
 
@@ -587,48 +697,6 @@ for (const result of brokenResults) {
     }
 }
 
-// ── Variant URL checking (post-primary-check) ──────────────────────────────
-// For every broken (url, platform) pair, compute variant URLs (suffix/prefix
-// toggles + kind alternatives) and batch-check them for fix suggestions.
-
-const variantUrlSet = new Set();
-
-// Collect all variant base-URLs that we need to probe
-const brokenVariantMeta = [];  // { url, platformName, primaryFetchUrl, variants }
-for (const result of brokenResults) {
-    const meta = urlIndex.get(result.url);
-    for (const platformName of meta.platforms) {
-        if (!brokenByPlatform.has(platformName)) continue;
-        const props = meta.propsByPlatform.get(platformName);
-        if (!props) continue;
-        const variants = resolveVariantUrls(result.url, props, platformName);
-        for (const vUrl of Object.values(variants)) {
-            variantUrlSet.add(vUrl.split('#')[0]);
-        }
-        brokenVariantMeta.push({ url: result.url, platformName, variants });
-    }
-}
-
-// Probe all unique variant base-URLs
-const variantOkMap = new Map(); // base-url -> boolean
-if (variantUrlSet.size > 0) {
-    process.stdout.write(`  Probing ${variantUrlSet.size} variant URL(s) for fix hints...\n`);
-    const vRes = await checkAll([...variantUrlSet], versionMap, CONCURRENCY, () => {});
-    for (const r of vRes) variantOkMap.set(r.url.split('#')[0], r.ok);
-}
-
-// Build suggestion lookup: "${url}::${platform}" -> { variants, variantOk, hint }
-const suggestionMap = new Map();
-for (const { url, platformName, variants } of brokenVariantMeta) {
-    const variantOk = {};
-    for (const [name, vUrl] of Object.entries(variants)) {
-        variantOk[name] = variantOkMap.get(vUrl.split('#')[0]) ?? false;
-    }
-    const hint = suggestFix(variantOk, platformName);
-    suggestionMap.set(`${url}::${platformName}`, { variants, variantOk, hint });
-}
-// ─────────────────────────────────────────────────────────────────────────────
-
 // Print report
 const HR  = '\u2550'.repeat(72);
 const HR2 = '\u2500'.repeat(72);
@@ -642,7 +710,7 @@ console.log(`  \u2717  Total broken    : ${brokenResults.length}`);
 console.log(HR2);
 
 if (brokenResults.length === 0) {
-    console.log('\n  All staging API links are reachable.\n');
+    console.log('\n  All registry API links are reachable.\n');
 } else {
     for (const [platform, items] of brokenByPlatform) {
         if (items.length === 0) continue;
@@ -656,26 +724,6 @@ if (brokenResults.length === 0) {
             console.log(`      ${item.url}`);
             if (item.fetchUrl !== item.url) {
                 console.log(`      checked as: ${item.fetchUrl}`);
-            }
-            // Variant hints — show only working variants to keep output readable
-            const sug = suggestionMap.get(`${item.url}::${platform}`);
-            if (sug) {
-                const TICK = '\u2713', CROSS = '\u2717';
-                const workingVariants = Object.entries(sug.variants).filter(([n]) => sug.variantOk[n]);
-                const failedVariants = Object.entries(sug.variants).filter(([n]) => !sug.variantOk[n]);
-                for (const [name, vUrl] of workingVariants) {
-                    console.log(`      ${TICK} ${name}: ${vUrl}`);
-                }
-                if (failedVariants.length > 0 && workingVariants.length === 0) {
-                    // Only show failed if nothing works (brief)
-                    for (const [name, vUrl] of failedVariants.slice(0, 3)) {
-                        console.log(`      ${CROSS} ${name}: ${vUrl}`);
-                    }
-                    if (failedVariants.length > 3) {
-                        console.log(`      ${CROSS} ... and ${failedVariants.length - 3} more variants tried`);
-                    }
-                }
-                console.log(`      \u2192 FIX: ${sug.hint}`);
             }
             for (const page of item.pages.slice(0, 3)) {
                 console.log(`           in: ${page}`);
@@ -698,20 +746,24 @@ if (OUTPUT) {
         platforms: targetPlatforms,
         resolvedVersions: Object.fromEntries(versionMap),
         totalFiles: mdxFiles.length,
-        totalLinks,
+        totalLinks: totalApiLinkRefs,
+        resolvedLinks: totalResolvedLinks,
         uniqueUrls: uniqueUrls.length,
+        registryResolution: Object.fromEntries([...resolutionStats.entries()].map(([platform, stats]) => [
+            platform,
+            {
+                resolved: stats.resolved,
+                unresolved: stats.unresolved,
+                reasons: Object.fromEntries(stats.reasons),
+                examples: Object.fromEntries(stats.examples),
+            },
+        ])),
         ok: okResults.length,
         broken: brokenResults.length,
         brokenNotFound: softResults.length,
         brokenHttp: hardResults.length,
         results: checkResults.map(r => {
             const meta = urlIndex.get(r.url);
-            const suggestions = r.ok ? undefined : Object.fromEntries(
-                [...(meta?.platforms ?? [])].map(p => {
-                    const s = suggestionMap.get(`${r.url}::${p}`);
-                    return [p, s ? { hint: s.hint, variantOk: s.variantOk } : { hint: `exclude="${p}"` }];
-                })
-            );
             return {
                 url: r.url,
                 fetchUrl: r.fetchUrl,
@@ -720,7 +772,6 @@ if (OUTPUT) {
                 ok: r.ok,
                 pages: [...(meta?.pages ?? [])],
                 platforms: [...(meta?.platforms ?? [])],
-                ...(suggestions ? { suggestions } : {}),
             };
         }),
     };
@@ -737,10 +788,24 @@ if (MD_OUTPUT) {
     lines.push(`## Summary\n`);
     lines.push(`| | |`);
     lines.push(`|---|---|`);
+    lines.push(`| ApiLink refs | ${totalApiLinkRefs} |`);
+    lines.push(`| Resolved refs | ${totalResolvedLinks} |`);
+    lines.push(`| Unique URLs | ${uniqueUrls.length} |`);
     lines.push(`| \u2705 OK | ${okResults.length} |`);
     lines.push(`| \u274c Not found (type/member missing) | ${softResults.length} |`);
     lines.push(`| \u274c HTTP error | ${hardResults.length} |`);
     lines.push(`| \u274c **Total broken** | **${brokenResults.length}** |`);
+    lines.push(``);
+
+    lines.push(`## Registry Resolution\n`);
+    for (const [platform, stats] of resolutionStats) {
+        if (stats.resolved === 0 && stats.unresolved === 0) continue;
+        const reasons = [...stats.reasons.entries()]
+            .sort((a, b) => b[1] - a[1])
+            .map(([reason, count]) => `${reason}: ${count}`)
+            .join(', ');
+        lines.push(`- **${platform}**: ${stats.resolved} resolved, ${stats.unresolved} not linked${reasons ? ` (${reasons})` : ''}`);
+    }
     lines.push(``);
 
     for (const [platform, items] of brokenByPlatform) {
@@ -764,23 +829,6 @@ if (MD_OUTPUT) {
             lines.push(`  - URL: \`${item.url}\``);
             if (item.fetchUrl !== item.url) {
                 lines.push(`  - Checked as: \`${item.fetchUrl}\``);
-            }
-            const mdSug = suggestionMap.get(`${item.url}::${platform}`);
-            if (mdSug) {
-                const TICK = '\u2705', CROSS = '\u274c';
-                const workingVariants = Object.entries(mdSug.variants).filter(([n]) => mdSug.variantOk[n]);
-                for (const [name, vUrl] of workingVariants) {
-                    lines.push(`  - ${TICK} ${name}: \`${vUrl}\``);
-                }
-                if (workingVariants.length === 0) {
-                    // Show a few failed ones for context
-                    const failed = Object.entries(mdSug.variants).filter(([n]) => !mdSug.variantOk[n]);
-                    for (const [name, vUrl] of failed.slice(0, 3)) {
-                        lines.push(`  - ${CROSS} ${name}: \`${vUrl}\``);
-                    }
-                    if (failed.length > 3) lines.push(`  - ${CROSS} ... and ${failed.length - 3} more variants tried`);
-                }
-                lines.push(`  - **FIX**: \`${mdSug.hint}\``);
             }
             for (const page of item.pages) {
                 lines.push(`  - in: \`${page}\``);
