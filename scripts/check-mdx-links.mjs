@@ -18,6 +18,10 @@
  *   node --experimental-strip-types scripts/check-mdx-links.mjs --concurrency=20
  *   node --experimental-strip-types scripts/check-mdx-links.mjs --timeout=15000
  *   node --experimental-strip-types scripts/check-mdx-links.mjs --output=report.json
+ *   node --experimental-strip-types scripts/check-mdx-links.mjs --resolve-only --list-broken
+ *   node --experimental-strip-types scripts/check-mdx-links.mjs --resolve-only --list-broken --broken-limit=50
+ *   node --experimental-strip-types scripts/check-mdx-links.mjs --resolve-only --broken-md=mdx-broken-links.md
+ *   node --experimental-strip-types scripts/check-mdx-links.mjs --resolve-only --list-unresolved
  *
  * Exit code: 0 = all OK, 1 = broken links found.
  */
@@ -43,6 +47,10 @@ const OUTPUT      = args.output ? String(args.output) : null;
 const MD_OUTPUT   = args.md     ? String(args.md)     : null;
 const UNRESOLVED_MD_OUTPUT = args['unresolved-md'] ? String(args['unresolved-md']) : null;
 const UNRESOLVED_REASON = args['unresolved-reason'] ? String(args['unresolved-reason']) : null;
+const BROKEN_MD_OUTPUT = args['broken-md'] ? String(args['broken-md']) : null;
+const LIST_BROKEN = args['list-broken'] !== undefined;
+const LIST_UNRESOLVED = args['list-unresolved'] !== undefined;
+const BROKEN_LIMIT = parseListLimit(args['broken-limit'] ?? args['unresolved-limit'] ?? '100');
 const NO_SYNC     = !!args['no-sync'];
 const RESOLVE_ONLY = !!args['resolve-only'];
 const DEFAULT_SRC = (PLATFORM === 'angular') ? 'docs/angular/src/content' : 'docs/xplat/src/content';
@@ -142,6 +150,12 @@ const splitList = (value) => value ? String(value).split(',').map(item => item.t
 const addUnique = (values, value) => {
     if (value && !values.includes(value)) values.push(value);
 };
+
+function parseListLimit(value) {
+    if (value === true || value === 'all') return Infinity;
+    const parsed = parseInt(String(value), 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 100;
+}
 
 function getApiDocsBaseUrl() {
     const value = process.env.API_DOCS_BASE_URL
@@ -521,6 +535,7 @@ const resolutionStats = new Map(targetPlatforms.map(platform => [platform, {
     examples: new Map(),
 }]));
 const unresolvedDetails = [];
+const NON_BROKEN_UNRESOLVED_STATUSES = new Set(['dynamic', 'excluded', 'sass']);
 
 function recordResolution(platformName, status, relPath, props) {
     const stats = resolutionStats.get(platformName);
@@ -549,6 +564,75 @@ function recordResolution(platformName, status, relPath, props) {
             label: props.member ? `${props.type}.${props.member}` : props.type,
         });
     }
+}
+
+function filterUnresolvedDetails(details, { actionableOnly = false } = {}) {
+    return details.filter(item => {
+        if (UNRESOLVED_REASON && item.status !== UNRESOLVED_REASON) return false;
+        return !actionableOnly || !NON_BROKEN_UNRESOLVED_STATUSES.has(item.status);
+    });
+}
+
+function groupUnresolvedDetails(details) {
+    const grouped = new Map();
+    for (const item of details) {
+        const key = `${item.platform}|${item.status}|${item.label}|${item.pkg}|${item.kind}`;
+        if (!grouped.has(key)) {
+            grouped.set(key, { ...item, files: new Set() });
+        }
+        grouped.get(key).files.add(item.file);
+    }
+    return [...grouped.values()].sort((a, b) =>
+        a.platform.localeCompare(b.platform)
+        || a.status.localeCompare(b.status)
+        || a.label.localeCompare(b.label)
+    );
+}
+
+function printUnresolvedList(title, details, limit) {
+    const grouped = groupUnresolvedDetails(details);
+    console.log(`\n${title}`);
+    console.log('\u2500'.repeat(title.length));
+
+    if (grouped.length === 0) {
+        console.log('  None.\n');
+        return;
+    }
+
+    const visible = grouped.slice(0, limit);
+    for (const item of visible) {
+        const meta = [
+            item.pkg ? `pkg=${item.pkg}` : '',
+            item.kind ? `kind=${item.kind}` : '',
+        ].filter(Boolean).join(', ');
+        console.log(`  - ${item.platform} / ${item.status}: ${item.label}${meta ? ` (${meta})` : ''}`);
+        for (const file of [...item.files].sort().slice(0, 5)) {
+            console.log(`      ${file}`);
+        }
+        if (item.files.size > 5) {
+            console.log(`      ... and ${item.files.size - 5} more file(s)`);
+        }
+    }
+
+    if (grouped.length > visible.length) {
+        console.log(`  ... and ${grouped.length - visible.length} more grouped item(s). Use --broken-limit=all to print everything.`);
+    }
+    console.log('');
+}
+
+function writeUnresolvedMarkdownReport(filePath, title, details) {
+    const grouped = groupUnresolvedDetails(details);
+    const lines = [];
+    lines.push(`# ${title}`);
+    lines.push('');
+    lines.push(`| Platform | Status | ApiLink | pkg | kind | Files |`);
+    lines.push(`|---|---|---|---|---|---|`);
+    for (const item of grouped) {
+        const files = [...item.files].sort().map(file => `\`${file}\``).join('<br>');
+        lines.push(`| ${item.platform} | ${item.status} | \`${item.label}\` | ${item.pkg || ''} | ${item.kind || ''} | ${files} |`);
+    }
+    writeFileSync(filePath, lines.join('\n'));
+    return { rows: details.length, groupedRows: grouped.length };
 }
 
 for (const file of mdxFiles) {
@@ -598,36 +682,32 @@ for (const [platform, stats] of resolutionStats) {
 }
 console.log();
 
-if (UNRESOLVED_MD_OUTPUT) {
-    const filtered = UNRESOLVED_REASON
-        ? unresolvedDetails.filter(item => item.status === UNRESOLVED_REASON)
-        : unresolvedDetails;
-    const grouped = new Map();
-    for (const item of filtered) {
-        const key = `${item.platform}|${item.status}|${item.label}|${item.pkg}|${item.kind}`;
-        if (!grouped.has(key)) {
-            grouped.set(key, { ...item, files: new Set() });
-        }
-        grouped.get(key).files.add(item.file);
-    }
+if (LIST_BROKEN) {
+    const filtered = filterUnresolvedDetails(unresolvedDetails, { actionableOnly: true });
+    const reasonLabel = UNRESOLVED_REASON ? ` (${UNRESOLVED_REASON})` : '';
+    printUnresolvedList(`Broken ApiLinks${reasonLabel}`, filtered, BROKEN_LIMIT);
+}
 
-    const lines = [];
+if (LIST_UNRESOLVED) {
+    const filtered = filterUnresolvedDetails(unresolvedDetails);
+    const reasonLabel = UNRESOLVED_REASON ? ` (${UNRESOLVED_REASON})` : '';
+    printUnresolvedList(`Unresolved ApiLinks${reasonLabel}`, filtered, BROKEN_LIMIT);
+}
+
+if (BROKEN_MD_OUTPUT) {
+    const filtered = filterUnresolvedDetails(unresolvedDetails, { actionableOnly: true });
     const reasonLabel = UNRESOLVED_REASON ? `: ${UNRESOLVED_REASON}` : '';
-    lines.push(`# ApiLink Unresolved Report${reasonLabel}`);
-    lines.push('');
-    lines.push(`| Platform | Status | ApiLink | pkg | kind | Files |`);
-    lines.push(`|---|---|---|---|---|---|`);
-    for (const item of [...grouped.values()].sort((a, b) =>
-        a.platform.localeCompare(b.platform)
-        || a.status.localeCompare(b.status)
-        || a.label.localeCompare(b.label)
-    )) {
-        const files = [...item.files].sort().map(file => `\`${file}\``).join('<br>');
-        lines.push(`| ${item.platform} | ${item.status} | \`${item.label}\` | ${item.pkg || ''} | ${item.kind || ''} | ${files} |`);
-    }
-    writeFileSync(UNRESOLVED_MD_OUTPUT, lines.join('\n'));
+    const result = writeUnresolvedMarkdownReport(BROKEN_MD_OUTPUT, `ApiLink Broken Report${reasonLabel}`, filtered);
+    console.log(`  Broken ApiLink report written to: ${BROKEN_MD_OUTPUT}`);
+    console.log(`  Broken rows: ${result.rows}, grouped rows: ${result.groupedRows}\n`);
+}
+
+if (UNRESOLVED_MD_OUTPUT) {
+    const filtered = filterUnresolvedDetails(unresolvedDetails);
+    const reasonLabel = UNRESOLVED_REASON ? `: ${UNRESOLVED_REASON}` : '';
+    const result = writeUnresolvedMarkdownReport(UNRESOLVED_MD_OUTPUT, `ApiLink Unresolved Report${reasonLabel}`, filtered);
     console.log(`  Unresolved report written to: ${UNRESOLVED_MD_OUTPUT}`);
-    console.log(`  Unresolved rows: ${filtered.length}, grouped rows: ${grouped.size}\n`);
+    console.log(`  Unresolved rows: ${result.rows}, grouped rows: ${result.groupedRows}\n`);
 }
 
 if (RESOLVE_ONLY) {
