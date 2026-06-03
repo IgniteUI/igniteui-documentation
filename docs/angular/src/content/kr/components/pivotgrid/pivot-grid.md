@@ -41,6 +41,7 @@ Multiple sibling dimensions can be defined, which creates a more complex nested 
 The dimensions can be reordered or moved from one area to another via their corresponding chips using drag & drop.
 
 A dimension can also describe an expandable hierarchy via the `childLevel` property, for example:
+
 ```typescript
    {
             memberFunction: () => 'All',
@@ -54,6 +55,7 @@ A dimension can also describe an expandable hierarchy via the `childLevel` prope
     }
 
 ```
+
 In this case the dimension renders an expander in the related section of the grid (row or column) and allows the children to be expanded or collapsed as part of the hierarchy. By default the row dimensions are initially expanded. This behavior can be controlled with the `defaultExpandState` `@Input` of the pivot grid.
 
 ## Predefined dimensions
@@ -61,11 +63,11 @@ In this case the dimension renders an expander in the related section of the gri
 As part of the pivot grid some additional predefined dimensions are exposed for easier configuration:
 - `IgxPivotDateDimension`
     Can be used for date fields. Describes the following hierarchy by default:
-    - All Periods
-    - Years
-    - Quarters
-    - Months
-    - Full Date
+  - All Periods
+  - Years
+  - Quarters
+  - Months
+  - Full Date
 
 It can be set for rows or columns, for example:
 
@@ -144,6 +146,7 @@ public static totalMax: PivotAggregation = (members, data: any) => {
     return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.max(a,b));
 };
 ```
+
 The pivot value also provides a `displayName` property. It can be used to display a custom name for this value in the column header.
 
 ## Enable property
@@ -231,15 +234,15 @@ Resulting in the following view, which groups the Product Categories unique colu
 | Merging the dimension members is case sensitive| The pivot grid creates groups and merges the same (case sensitive) values. But the dimensions provide `memberFunction` and this can be changed there, the result of the `memberFunction` are compared and used as display value.|
 
 ## API References
-* [IgxPivotGridComponent]({environment:angularApiUrl}/classes/igxpivotgridcomponent.html)
-* [IgxPivotDataSelectorComponent]({environment:angularApiUrl}/classes/igxpivotdataselectorcomponent.html)
+- [IgxPivotGridComponent]({environment:angularApiUrl}/classes/igxpivotgridcomponent.html)
+- [IgxPivotDataSelectorComponent]({environment:angularApiUrl}/classes/igxpivotdataselectorcomponent.html)
 
 
 ## Additional Resources
-* [Angular Pivot Grid Features](pivot-grid-features.md)
-* [Angular Pivot Grid Custom Aggregations](pivot-grid-custom.md)
+- [Angular Pivot Grid Features](pivot-grid-features.md)
+- [Angular Pivot Grid Custom Aggregations](pivot-grid-custom.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

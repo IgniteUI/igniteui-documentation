@@ -46,24 +46,24 @@ The @@igComponent component in Ignite UI for Angular provides the **Column Movin
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-moving-sample/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-column-moving/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
-<code-view style="height:660px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:660px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-moving/" >
 </code-view>
 
@@ -75,26 +75,32 @@ The @@igComponent component in Ignite UI for Angular provides the **Column Movin
 
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <igx-grid [moving]="true"></igx-grid>
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <igx-tree-grid [moving]="true"></igx-tree-grid>
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid [moving]="true">
     ...
     <igx-row-island [moving]="true"></igx-row-island>
 </igx-hierarchical-grid>
 ```
+
 }
 
 #### API
-In addition to the drag and drop functionality, the Column Moving feature also provides two API methods to allow moving a column/reordering columns programmatically: 
+In addition to the drag and drop functionality, the Column Moving feature also provides two API methods to allow moving a column/reordering columns programmatically:
 
 [`moveColumn`]({environment:angularApiUrl}/classes/igxgridcomponent.html#movecolumn) - Moves a column before or after another column (a target). The first parameter is the column to be moved, and the second parameter is the target column. Also accepts an optional third parameter `position` (representing a `DropPosition`({environment:angularApiUrl}/enums/dropposition.html) value), which determines whether to place the column before or after the target column.
 
@@ -114,15 +120,16 @@ const idColumn = grid.getColumnByName("ID");
 idColumn.move(3);
 ```
 
-Note that when using the API, only the [`columnMovingEnd`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnMovingEnd) event will be emitted, if the operation was successful. Also note that in comparison to the drag and drop functionality, using the API does not require setting the `moving` property to true. 
+Note that when using the API, only the [`columnMovingEnd`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnMovingEnd) event will be emitted, if the operation was successful. Also note that in comparison to the drag and drop functionality, using the API does not require setting the `moving` property to true.
 
 
 #### 이벤트
 
-열의 드래그 앤드 드롭 조작을 설정하기 위해 열 이동과 관련된 복수의 이벤트가 제공됩니다. [`columnMovingStart`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnMovingStart), [`columnMoving`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnMoving) 및 [`columnMovingEnd`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnMovingEnd)가 있습니다. 
+열의 드래그 앤드 드롭 조작을 설정하기 위해 열 이동과 관련된 복수의 이벤트가 제공됩니다. [`columnMovingStart`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnMovingStart), [`columnMoving`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnMoving) 및 [`columnMovingEnd`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnMovingEnd)가 있습니다.
 [`@@igSelector`]({environment:angularApiUrl}/classes/@@igTypeDoc.html)의 [`columnMovingEnd`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnMovingEnd) 이벤트를 처리하고 열을 새로운 위치로 드롭할 때 일부 사용자 논리를 구현할 수 있습니다. 예를 들면, Change On Year(%) 열 뒤에 카테고리 드롭을 취소할 수 있습니다.
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <igx-grid #dataGrid [data]="data" [autoGenerate]="false" [moving]="true" (columnMovingEnd)="onColumnMovingEnd($event)">
     <igx-column [field]="'Category'"></igx-column>
@@ -137,8 +144,10 @@ public onColumnMovingEnd(event) {
     }
 }
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="false" [moving]="true" (columnMovingEnd)="onColumnMovingEnd($event)">
     <igx-column [field]="'Name'" dataType="string" width="250px"></igx-column>
@@ -153,8 +162,10 @@ public onColumnMovingEnd(event) {
     }
 }
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid #hierarchicalGrid [data]="data" [autoGenerate]="false" [moving]="true" (columnMovingEnd)="onColumnMovingEnd($event)">
     <igx-column [field]="'Country'"></igx-column>
@@ -169,28 +180,29 @@ public onColumnMovingEnd(event) {
     }
 }
 ```
+
 }
 
 ### API 참조
- 
-* [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
-* [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
-* [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+
+- [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
+- [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
+- [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ### 추가 리소스
 
-* [@@igComponent 개요](@@igMainTopic.md)
-* [가상화 및 성능](virtualization.md)
-* [페이징](paging.md)
-* [필터링](filtering.md)
-* [정렬](sorting.md)
-* [요약](summaries.md)
-* [열 핀 고정](column_pinning.md)
-* [열 크기 조정](column-resizing.md)
-* [선택](selection.md)
+- [@@igComponent 개요](@@igMainTopic.md)
+- [가상화 및 성능](virtualization.md)
+- [페이징](paging.md)
+- [필터링](filtering.md)
+- [정렬](sorting.md)
+- [요약](summaries.md)
+- [열 핀 고정](column_pinning.md)
+- [열 크기 조정](column-resizing.md)
+- [선택](selection.md)
 @@if (igxName !== 'IgxHierarchicalGrid') {* [검색](search.md)}
 
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

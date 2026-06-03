@@ -115,17 +115,18 @@ For instance, if you want to generate CSS classes that apply background color to
     $suffix: 'bg'
 );
 ```
+
 The above code will generate CSS classes for each color variant in the palette. For instance, the `500` color variant of the `primary` palette will be given the following class `.igx-primary-500-bg`;
 
 
 ### API Reference
-* [Palettes]({environment:sassApiUrl}/palettes#function-palette)
-* [Getting Palette Colors]({environment:sassApiUrl}/palettes#function-color)
-* [Getting Contrast Colors]({environment:sassApiUrl}/palettes#function-contrast-color)
-* [Generating Color Classes]({environment:sassApiUrl}/utilities#mixin-color-classes)
+- [Palettes]({environment:sassApiUrl}/palettes#function-palette)
+- [Getting Palette Colors]({environment:sassApiUrl}/palettes#function-color)
+- [Getting Contrast Colors]({environment:sassApiUrl}/palettes#function-contrast-color)
+- [Generating Color Classes]({environment:sassApiUrl}/utilities#mixin-color-classes)
 
 ## Additional Resources
 
 Our community is active and always welcoming to new ideas.
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

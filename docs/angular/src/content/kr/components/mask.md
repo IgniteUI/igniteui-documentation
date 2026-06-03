@@ -5,14 +5,14 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-##Mask
+## Mask
 
 By applying [`igxMask`]({environment:angularApiUrl}/classes/igxmaskdirective.html) directive on a **text input field**, the developer can control user input and format the visible value, based on configurable mask rules. It provides different input options and ease in use and configuration.
 
 ### Mask Demo
 
-<code-view style="height: 330px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 330px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/mask-sample-1/" >
 </code-view>
 
@@ -71,14 +71,14 @@ In the following example, we apply a phone number with an extension mask to an i
 If the sample is configured properly, an input with the applied formatting mask appears.
 
 
-<code-view style="height: 100px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 100px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/mask-sample-2/" >
 </code-view>
 
 
 #### Bind to Formatted/Raw Value
-Use the [`includeLiterals`]({environment:angularApiUrl}/classes/igxmaskdirective.html#includeliterals) input to configure which input value (formatted or raw) to bind in your form when a specific mask is applied. By default, [`includeLiterals`]({environment:angularApiUrl}/classes/igxmaskdirective.html#includeliterals) is set to *false* and the raw value is used.
+Use the [`includeLiterals`]({environment:angularApiUrl}/classes/igxmaskdirective.html#includeliterals) input to configure which input value (formatted or raw) to bind in your form when a specific mask is applied. By default, [`includeLiterals`]({environment:angularApiUrl}/classes/igxmaskdirective.html#includeliterals) is set to _false_ and the raw value is used.
 
 ```html
 <!--sample.component.html-->
@@ -113,8 +113,8 @@ public clear() {
 ```
 
 
-<code-view style="height: 160px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 160px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/mask-sample-3/" >
 </code-view>
 
@@ -212,6 +212,7 @@ export class Person {
 In addition to the default mask behavior, the user can implement his own custom pipes and take advantage of the [`focusedValuePipe`]({environment:angularApiUrl}/classes/igxmaskdirective.html#focusedvaluepipe) and [`displayValuePipe`]({environment:angularApiUrl}/classes/igxmaskdirective.html#displayvaluepipe) input properties, to transform the value to a desired output when the input gets or loses focus. This will not affect the underlying model value. Let's demonstrate how this can be achieved!
 
 Implement two pipes that will append/remove a '%' sign at the end of the displayed value:
+
 ```typescript
 @Pipe({ name: 'displayFormat' })
 export class DisplayFormatPipe implements PipeTransform {
@@ -243,6 +244,7 @@ value = 1230;
 displayFormat = new DisplayFormatPipe();
 inputFormat = new InputFormatPipe();
 ```
+
 ```html
 <igx-input-group>
     <label igxLabel for="email">Increase</label>
@@ -256,8 +258,8 @@ inputFormat = new InputFormatPipe();
 As a result, a '%' sign should be appended to the value on blur (i.e. when the user clicks outside the input) and will be removed once the input gets focus!
 
 
-<code-view style="height: 100px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 100px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/mask-sample-4/" >
 </code-view>
 
@@ -268,6 +270,7 @@ The user can also take advantage of the [`placeholder`]({environment:angularApiU
 ```typescript
 value = null;
 ```
+
 ```html
 <igx-input-group>
     <label igxLabel>Date</label>
@@ -278,21 +281,21 @@ value = null;
 ```
 
 
-<code-view style="height: 100px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 100px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/mask-sample-5/" >
 </code-view>
 
 
 ## API References
 
-* [IgxInputDirective]({environment:angularApiUrl}/classes/igxinputdirective.html)
-* [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
-* [IgxMaskDirective]({environment:angularApiUrl}/classes/igxmaskdirective.html)
-* [IgxSnackbarComponent]({environment:angularApiUrl}/classes/igxsnackbarcomponent.html)
+- [IgxInputDirective]({environment:angularApiUrl}/classes/igxinputdirective.html)
+- [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
+- [IgxMaskDirective]({environment:angularApiUrl}/classes/igxmaskdirective.html)
+- [IgxSnackbarComponent]({environment:angularApiUrl}/classes/igxsnackbarcomponent.html)
 
 ## Additional Resources
 
 Our community is active and always welcoming to new ideas.
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

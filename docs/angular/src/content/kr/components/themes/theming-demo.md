@@ -10,8 +10,8 @@ The **Ignite UI for Angular Theming** provides you the ability to customize them
 
 ### Demo
 
-<code-view style="height: 650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/theme-chooser/" >
 </code-view>
 
@@ -19,7 +19,7 @@ The **Ignite UI for Angular Theming** provides you the ability to customize them
 
 ### Default Theme
 
-There is a *_Default theme_* that styles all the components in the **Ignite UI for Angular controls** and the first thing that we are going to do is to set it in the `styles.scss` file:
+There is a **Default theme** that styles all the components in the **Ignite UI for Angular controls** and the first thing that we are going to do is to set it in the `styles.scss` file:
 
 ```scss
 // import first the IgniteUI themes library
@@ -35,17 +35,17 @@ There is a *_Default theme_* that styles all the components in the **Ignite UI f
 The result from the above code snippet looks like this:
 
 
-<code-view style="height: 650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/default-theme-sample/" >
 </code-view>
 
 
-In case you have other preferences for the appearance of the components or the *_Default theme_* doesn't match the interior of your application, you can use the  **Ignite UI for Angular Theming**, which is much easier, fun and efficient way for styling, than writing huge amount of CSS files.
+In case you have other preferences for the appearance of the components or the **Default theme** doesn't match the interior of your application, you can use the  **Ignite UI for Angular Theming**, which is much easier, fun and efficient way for styling, than writing huge amount of CSS files.
 
 ### Get Started
 
-To get started, you have to import the *theme utilities*, where the **SASS functions and mixins** are nested.
+To get started, you have to import the _theme utilities_, where the **SASS functions and mixins** are nested.
 For good code structure it will be helpful to place the **theme logic** in a separate directory:
 
 ```scss
@@ -70,6 +70,7 @@ Our app will have:
 @import '~igniteui-angular/lib/core/styles/components/grid-paginator/grid-paginator-theme';
 
 ```
+
 - [**Igx-Dialog**](../dialog.md) with embedded [**Igx-Input-Group**](../input-group.md):
 
 ```scss
@@ -191,16 +192,17 @@ After that, in a new SCSS file nest the **themes class**, that includes the comp
     }
 }
 ```
+
 And the result is:
 
 
-<code-view style="height: 650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/dark-theme-sample/" >
 </code-view>
 
 
-Import the *utilities*, component mixins and the theme functions, define the colors, define the themes and apply them. These are the steps for styling your app with **Ignite UI for Angular Theming**.
+Import the _utilities_, component mixins and the theme functions, define the colors, define the themes and apply them. These are the steps for styling your app with **Ignite UI for Angular Theming**.
 
 ### Theme Chooser
 In the above sample we set only one theme per component.
@@ -295,31 +297,31 @@ export class ThemeChooserSampleComponent implements OnInit {
 Now we can easily change our defined themes with only a `click` event:
 
 
-<code-view style="height: 650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/theme-chooser/" >
 </code-view>
 
 
 ### API
 
-* [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
-* [IgxGrid Filtering Styles]({environment:sassApiUrl}/themes#function-igx-grid-filtering-theme)
-* [IgxGrid Paginator Styles]({environment:sassApiUrl}/themes#function-igx-grid-paginator-theme)
-* [IgxDialogComponent Styles]({environment:sassApiUrl}/themes#function-dialog-theme)
-* [IgxInputGroupComponent Styles]({environment:sassApiUrl}/themes#function-input-group-theme) 
-* [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
+- [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
+- [IgxGrid Filtering Styles]({environment:sassApiUrl}/themes#function-igx-grid-filtering-theme)
+- [IgxGrid Paginator Styles]({environment:sassApiUrl}/themes#function-igx-grid-paginator-theme)
+- [IgxDialogComponent Styles]({environment:sassApiUrl}/themes#function-dialog-theme)
+- [IgxInputGroupComponent Styles]({environment:sassApiUrl}/themes#function-input-group-theme)
+- [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
 
 ## Additional Resources
 
-* [Global Theme](global-theme.md)
-* [Component Themes](component-themes.md)
-* [Color Palette](palette.md)
-* [Grid](../grid/grid.md)
-* [Grid Paging](../grid/paging.md)
-* [Grid Filtering](../grid/filtering.md)
-* [Dialog](../dialog.md)
-* [Input Group](../input-group.md)
-* [Snackbar](../snackbar.md)
-* [Button](../button.md)
-* [Button Group](../button-group.md)
+- [Global Theme](global-theme.md)
+- [Component Themes](component-themes.md)
+- [Color Palette](palette.md)
+- [Grid](../grid/grid.md)
+- [Grid Paging](../grid/paging.md)
+- [Grid Filtering](../grid/filtering.md)
+- [Dialog](../dialog.md)
+- [Input Group](../input-group.md)
+- [Snackbar](../snackbar.md)
+- [Button](../button.md)
+- [Button Group](../button-group.md)

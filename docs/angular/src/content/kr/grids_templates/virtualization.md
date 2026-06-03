@@ -1,22 +1,22 @@
 @@if (igxName === 'IgxGrid') {
 ---
-title: 가상화 지시문 - 네이티브 Angular | Ignite UI for Angular 
-description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed and performance of the grid when handling large data sets, since its virtual rendering mechanism allows the user to effortlessly scroll by its fixing of the number of DOM objects in memory. 
+title: 가상화 지시문 - 네이티브 Angular | Ignite UI for Angular
+description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed and performance of the grid when handling large data sets, since its virtual rendering mechanism allows the user to effortlessly scroll by its fixing of the number of DOM objects in memory.
 keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Angular Grid, Angular Table, Angular Data Grid component, Angular Data Table component, Angular Data Grid control, Angular Data Table control, Angular Grid component, Angular Table component, Angular Grid control, Angular Table control, Angular High Performance Grid, Angular High Performance Data Table, Angular Virtualization Directive, Angular Data Table Virtualization, Virtualization, Angular Data Table Performance, Data Table Performance
 _language: kr
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
-title: 가상화 지시문 - 네이티브 Angular | Ignite UI for Angular 
-description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed and performance of the tree grid when handling large data sets, since its virtual rendering mechanism allows the user to effortlessly scroll by its fixing of the number of DOM objects in memory. 
+title: 가상화 지시문 - 네이티브 Angular | Ignite UI for Angular
+description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed and performance of the tree grid when handling large data sets, since its virtual rendering mechanism allows the user to effortlessly scroll by its fixing of the number of DOM objects in memory.
 keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Angular Tree Grid, Angular Tree Table, Angular Tree Grid component, Angular Tree Table component, Angular Tree Grid control, Angular Tree Table control, Angular Tree Grid component, Angular Tree Table component, Angular Tree Grid control, Angular Tree Table control, Angular High Performance Tree Grid, Angular High Performance Tree Table, Angular Virtualization Directive, Angular Tree Table Virtualization, Virtualization, Angular Tree Table Performance, Tree Table Performance
 _language: kr
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
-title: 가상화 지시문 - 네이티브 Angular | Ignite UI for Angular 
+title: 가상화 지시문 - 네이티브 Angular | Ignite UI for Angular
 description: The Ignite UI for Angular Virtualization directive is the core mechanic behind the speed and performance of the hierarchical grid when handling large data sets, since its virtual rendering mechanism allows the user to effortlessly scroll by its fixing of the number of DOM objects in memory.
 keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Angular Hierarchical Grid, Angular Hierarchical Table, Angular Hierarchical Grid component, Angular Hierarchical Table component, Angular Hierarchical Grid control, Angular Hierarchical Table control, Angular High Performance Hierarchical Grid, Angular High Performance Hierarchical Table, Angular Virtualization Directive, Angular Hierarchical Table Virtualization, Virtualization, Angular Hierarchical Table Performance, Hierarchical Table Performance
 _language: kr
@@ -30,8 +30,8 @@ Ignite UI for Angular에서 [@@igxName]({environment:angularApiUrl}/classes/@@ig
 #### 데모
 
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-sample-2/" >
 </code-view>
 
@@ -39,8 +39,8 @@ Ignite UI for Angular에서 [@@igxName]({environment:angularApiUrl}/classes/@@ig
 @@if (igxName === 'IgxHierarchicalGrid') {
 #### 데모
 
-<code-view style="height:620px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:620px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-lod/" >
 </code-view>
 
@@ -52,8 +52,8 @@ Ignite UI for Angular에서 [@@igxName]({environment:angularApiUrl}/classes/@@ig
 
 데이터의 크기는 다음에 따라 결정됩니다:
 
-*   수직(행) 가상화의 행 높이입니다. 이것은 [`rowHeight`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#rowheight) 옵션에 의해 결정되며 기본적으로 50(px)입니다.
-*   수평(열) 가상화의 개별 열 너비(픽셀 단위)입니다. 각 열 컴포넌트에 대해 명시적으로 폭을 설정하거나 명시적으로 폭이 설정되지 않은 모든 열에 적용되는 @@igComponent의  [`columnWidth`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnwidth) 옵션을 설정할 수 있습니다.
+- 수직(행) 가상화의 행 높이입니다. 이것은 [`rowHeight`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#rowheight) 옵션에 의해 결정되며 기본적으로 50(px)입니다.
+- 수평(열) 가상화의 개별 열 너비(픽셀 단위)입니다. 각 열 컴포넌트에 대해 명시적으로 폭을 설정하거나 명시적으로 폭이 설정되지 않은 모든 열에 적용되는 @@igComponent의  [`columnWidth`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#columnwidth) 옵션을 설정할 수 있습니다.
 
 규격을 설정하지 않은 채로 그리드에 기본 동작을 적용하면 대부분의 경우 원하는 레이아웃이 생성됩니다. 열 너비의 경우에는 열 수, 너비가 설정된 열 및 @@igComponent 컨테이너의 계산된 너비에 따라 결정됩니다. 그리드는 할당하려는 폭이 136(px) 미만인 경우 이외에는 사용 가능한 공간 안에 모든 열을 맞추려고 합니다. 이 경우, 할당되지 않은 너비를 가진 열은 136(px)의 최소 너비로 설정되고 가로 스크롤바가 표시됩니다. 그리드는 가로 방향으로 가상화됩니다.
 
@@ -67,8 +67,8 @@ Ignite UI for Angular에서 [@@igxName]({environment:angularApiUrl}/classes/@@ig
 ### 원격 가상화 데모
 
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-sample-4/" >
 </code-view>
 
@@ -107,7 +107,7 @@ public processData() {
 
 데이터를 요청할 때는 [`startIndex`]({environment:angularApiUrl}/interfaces/iforofstate.html#startindex) 및 [`chunkSize`]({environment:angularApiUrl}/interfaces/iforofstate.html#chunksize) 속성을 제공하는 [`IForOfState`]({environment:angularApiUrl}/interfaces/iforofstate.html) 인터페이스를 사용해야 합니다.
 
-***참고:*** 첫 번째 [`chunkSize`]({environment:angularApiUrl}/interfaces/iforofstate.html#chunksize)는 항상 0이며 특정 애플리케이션애플리케이션 시나리오에 따라 결정해야 합니다.
+_**참고:**_ 첫 번째 [`chunkSize`]({environment:angularApiUrl}/interfaces/iforofstate.html#chunksize)는 항상 0이며 특정 애플리케이션애플리케이션 시나리오에 따라 결정해야 합니다.
 
 ### 원격 정렬/필터링 가상화
 원격 정렬 및 필터링을 제공하려면 [`dataPreLoad`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#datapreload), [`sortingDone`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#sortingDone), [`filteringDone`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#filteringDone) 출력에 서브스크라이브해야 하므로 받은 인수를 기반으로 적절한 요청을 하고 공개 [@@igxName]({environment:angularApiUrl}/classes/@@igTypeDoc.html) 속성 [`totalItemCount`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#totalitemcount)를 설정해야 합니다.
@@ -115,8 +115,8 @@ public processData() {
 원격 데이터를 요청할 때 필터링 작업은 대소문자를 구분합니다.
 
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-remote-filtering/" >
 </code-view>
 
@@ -160,8 +160,8 @@ public processData() {
 원격 필터링은 플랫 컬렉션에서 직접 실행해야 합니다. 상위가 필터링과 일치하는지 여부에 관계없이 필터링 조건과 일치하는 모든 레코드에 대해 모든 상위를 포함시켜야 합니다(계층 구조를 유지하기 위해 이 작업을 실행함). 결과는 다음과 같습니다:
 
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-remote-filtering/" >
 </code-view>
 
@@ -171,7 +171,7 @@ public processData() {
 
 ### 가상화 제한 사항
 
-*   Mac OS에서 "스크롤할 때 스크롤바 만 표시" 옵션이 true(기본값)로 설정되어 있으면 가로 스크롤바가 표시되지 않습니다. 이것은 @@igComponent의 행 컨테이너에 오버플로가 숨기기로 설정되어 있기 때문입니다. 옵션을 "항상"으로 변경하면 스크롤바가 표시됩니다.
+- Mac OS에서 "스크롤할 때 스크롤바 만 표시" 옵션이 true(기본값)로 설정되어 있으면 가로 스크롤바가 표시되지 않습니다. 이것은 @@igComponent의 행 컨테이너에 오버플로가 숨기기로 설정되어 있기 때문입니다. 옵션을 "항상"으로 변경하면 스크롤바가 표시됩니다.
 
 ### FAQ
 
@@ -181,25 +181,25 @@ public processData() {
 
 
 ### API 참조
-* [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
-* [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
-* [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
-* [IgxForOfDirective]({environment:angularApiUrl}/classes/igxforofdirective.html)
-* [IForOfState]({environment:angularApiUrl}/interfaces/iforofstate.html)
+- [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
+- [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
+- [IgxForOfDirective]({environment:angularApiUrl}/classes/igxforofdirective.html)
+- [IForOfState]({environment:angularApiUrl}/interfaces/iforofstate.html)
 
 ### 추가 리소스
 
-* [@@igComponent 개요](@@igMainTopic.md)
-* [페이징](paging.md)
-* [필터링](filtering.md)
-* [정렬](sorting.md)
-* [요약](summaries.md)
-* [열 이동](column-moving.md)
-* [열 핀 고정](column_pinning.md)
-* [열 크기 조정](column-resizing.md)
-* [선택](selection.md)
+- [@@igComponent 개요](@@igMainTopic.md)
+- [페이징](paging.md)
+- [필터링](filtering.md)
+- [정렬](sorting.md)
+- [요약](summaries.md)
+- [열 이동](column-moving.md)
+- [열 핀 고정](column_pinning.md)
+- [열 크기 조정](column-resizing.md)
+- [선택](selection.md)
 
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

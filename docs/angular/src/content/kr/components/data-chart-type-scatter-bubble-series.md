@@ -28,9 +28,9 @@ _language: kr
 
 [`IgxBubbleSeriesComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxbubbleseriescomponent.html)에는 다음과 같은 데이터 요구 사항이 있습니다:
 
--   데이터 소스는 배열 또는 데이터 항목 목록이어야 함
--   데이터 소스에는 하나 이상의 데이터 항목이 포함되어야 하며 그렇지 않을 경우에는 차트가 분산형 시리즈를 렌더링하지 않습니다.
--   모든 데이터 항목에는 `XMemberPath`, `YMemberPath` 및 [`radiusMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxbubbleseriescomponent.html#radiusmemberpath) 속성에 매핑되는 3개의 숫자 데이터 열이 있어야 합니다
+- 데이터 소스는 배열 또는 데이터 항목 목록이어야 함
+- 데이터 소스에는 하나 이상의 데이터 항목이 포함되어야 하며 그렇지 않을 경우에는 차트가 분산형 시리즈를 렌더링하지 않습니다.
+- 모든 데이터 항목에는 `XMemberPath`, `YMemberPath` 및 [`radiusMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxbubbleseriescomponent.html#radiusmemberpath) 속성에 매핑되는 3개의 숫자 데이터 열이 있어야 합니다
 
 [SampleScatterStats](data-chart-data-sources-stats.md)는 위의 데이터 요구 사항을 충족하는 데이터 소스로 사용할 수 있습니다.
 
@@ -114,15 +114,15 @@ export class AppModule { /* ... */ }
 
 `FillScale`은 단일 [`IgxBubbleSeriesComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxbubbleseriescomponent.html) 내의 컬러 패턴을 결정하는 옵션 기능입니다. 이 시리즈는 다음과 같은 채우기 비율을 지원합니다:
 
--   [`IgxValueBrushScaleComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxvaluebrushscalecomponent.html)은 `FillMemberPath` 속성에 매핑된 데이터 열의 값 집합을 사용하여 버블의 보간 브러시를 결정합니다. 또한, 사용자가 지정한 [`minimumValue`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxvaluebrushscalecomponent.html#minimumvalue) 및 [`maximumValue`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxvaluebrushscalecomponent.html#maximumvalue)를 가질 수 있습니다. 이 비율로 범위를 설정하면 범위 밖에 있는 값을 가진 버블은 `Brushes` 컬렉션으로부터 브러시를 얻지 못하고 컬러도 없습니다.
--   [`IgxCustomPaletteBrushScaleComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettebrushscalecomponent.html)은 버블 마커의 인덱스를 사용하여 `Brushes` 컬렉션으로부터 브러시를 선택합니다. [`brushSelectionMode`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettebrushscalecomponent.html#brushselectionmode) 속성을 `Select` enumerable 값으로 설정하면 버블이 순차적으로 색칠되어 `Interpolate`로 설정되고, 브러시는 버블의 인덱스와 컬렉션의 브러시 수에 따라 보간됩니다.
+- [`IgxValueBrushScaleComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxvaluebrushscalecomponent.html)은 `FillMemberPath` 속성에 매핑된 데이터 열의 값 집합을 사용하여 버블의 보간 브러시를 결정합니다. 또한, 사용자가 지정한 [`minimumValue`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxvaluebrushscalecomponent.html#minimumvalue) 및 [`maximumValue`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxvaluebrushscalecomponent.html#maximumvalue)를 가질 수 있습니다. 이 비율로 범위를 설정하면 범위 밖에 있는 값을 가진 버블은 `Brushes` 컬렉션으로부터 브러시를 얻지 못하고 컬러도 없습니다.
+- [`IgxCustomPaletteBrushScaleComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettebrushscalecomponent.html)은 버블 마커의 인덱스를 사용하여 `Brushes` 컬렉션으로부터 브러시를 선택합니다. [`brushSelectionMode`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettebrushscalecomponent.html#brushselectionmode) 속성을 `Select` enumerable 값으로 설정하면 버블이 순차적으로 색칠되어 `Interpolate`로 설정되고, 브러시는 버블의 인덱스와 컬렉션의 브러시 수에 따라 보간됩니다.
 
 ## 추가 리소스
 
--   [축 유형](data-chart-axis-types.md)
--   [축 공유](data-chart-axis-sharing.md)
--   [차트 범례](data-chart-legends.md)
--   [시리즈 마커](data-chart-series-markers.md)
--   [시리즈 도구 설명](data-chart-series-tooltips.md)
--   [시리즈 추세선](data-chart-series-trendlines.md)
--   [시리즈 유형](data-chart-series-types.md)
+- [축 유형](data-chart-axis-types.md)
+- [축 공유](data-chart-axis-sharing.md)
+- [차트 범례](data-chart-legends.md)
+- [시리즈 마커](data-chart-series-markers.md)
+- [시리즈 도구 설명](data-chart-series-tooltips.md)
+- [시리즈 추세선](data-chart-series-trendlines.md)
+- [시리즈 유형](data-chart-series-types.md)

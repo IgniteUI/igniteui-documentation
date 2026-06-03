@@ -12,10 +12,10 @@ _language: kr
 <p>As one of the most commonly used UI components for today’s web applications, the Angular Time Picker, also known as Angular Time Picker, provides developers with a variety of features that provide with the ability to customize the component to create the best UX and UI experience for the users to interact with the component. There are different built-in templates for displaying a clock button, as well as features like validation, custom time formatting, and more. </p>
 
 ### Time Picker Example
-In general, users can enter a preferred time either through text input or by choosing a time value from an Angular Time Picker dropdown. The basic Angular Time Picker example below shows how users can easily enter the value with the help of the dropdown or by using the keyboard. 
+In general, users can enter a preferred time either through text input or by choosing a time value from an Angular Time Picker dropdown. The basic Angular Time Picker example below shows how users can easily enter the value with the help of the dropdown or by using the keyboard.
 
-<code-view style="height: 600px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 600px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-1/" >
 </code-view>
 
@@ -50,8 +50,8 @@ To add the time picker, use the following code:
 
 And here's our templated Ignite UI for Angular Time Picker:
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-1/" >
 </code-view>
 
@@ -72,8 +72,8 @@ Then use the [`value`]({environment:angularApiUrl}/classes/igxtimepickercomponen
 
 And there we have it:
 
-<code-view style="height: 600px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 600px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-2/" >
 </code-view>
 
@@ -91,10 +91,10 @@ The table below lists valid time display formats:
 
 | Format | Description |
 |:-------:|:-----------|
-| `h` | Formats the hours field in 12-hours format without leading zero (1..12). | 
-| `hh` | Formats the hours field in 12-hours format with leading zero (01..12). | 
-| `H` | Formats the hours field in 24-hours format without leading zero (0..23). | 
-| `HH` | Formats the hours field in 24-hours format with leading zero (00..23). | 
+| `h` | Formats the hours field in 12-hours format without leading zero (1..12). |
+| `hh` | Formats the hours field in 12-hours format with leading zero (01..12). |
+| `H` | Formats the hours field in 24-hours format without leading zero (0..23). |
+| `HH` | Formats the hours field in 24-hours format with leading zero (00..23). |
 | `m` | Formats the minutes field without leading zero (0..59). |
 | `mm` | Formats the minutes field with leading zero (00..59). |
 | `tt` | Represents the AM/PM field. |
@@ -102,8 +102,8 @@ The table below lists valid time display formats:
 
 The result is as follows:
 
-<code-view style="height: 580px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 580px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-8/" >
 </code-view>
 
@@ -118,15 +118,15 @@ To change the delta of the items, set the [`itemsDelta`]({environment:angularApi
 
 And there we have it:
 
-<code-view style="height: 600px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 600px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-3/" >
 </code-view>
 
 
 #### Validation
 
-Set [`minValue`]({environment:angularApiUrl}/classes/igxtimepickercomponent.html#minvalue) and [`maxValue`]({environment:angularApiUrl}/classes/igxtimepickercomponent.html#maxvalue) to limit the user input. You can handle the [`onValidationFailed`]({environment:angularApiUrl}/classes/igxtimepickercomponent.html#onvalidationfailed) in order to notify the user if an invalid time is selected. 
+Set [`minValue`]({environment:angularApiUrl}/classes/igxtimepickercomponent.html#minvalue) and [`maxValue`]({environment:angularApiUrl}/classes/igxtimepickercomponent.html#maxvalue) to limit the user input. You can handle the [`onValidationFailed`]({environment:angularApiUrl}/classes/igxtimepickercomponent.html#onvalidationfailed) in order to notify the user if an invalid time is selected.
 
 >Note that the min/max values should follow the [`format`]({environment:angularApiUrl}/classes/igxtimepickercomponent.html#format):
 
@@ -168,8 +168,8 @@ public onValidationFailed(timepicker){
 
 And there we have it:
 
-<code-view style="height: 540px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 540px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-4/" >
 </code-view>
 
@@ -190,25 +190,26 @@ public mode = InteractionMode.DropDown;
 <!--timePickerDropdown.component.html-->
 <igx-time-picker [mode]="mode"></igx-time-picker>
 ```
-The user now will be able to type, edit or delete the time value in the input in both 12- and 24-hour formats. 
+
+The user now will be able to type, edit or delete the time value in the input in both 12- and 24-hour formats.
 
 **Dropdown Mode Keyboard Navigation**
 
-When the mouse caret is positioned at the hours, minutes or AM/PM placeholders and pressing the <kbd>Up</kbd> arrow key or using `Mouse Wheel Up`, the hours/minutes are increased. Pressing the <kbd>Down</kbd> arrow key or `Mouse Wheel Down` is used for the reversed operation. 
+When the mouse caret is positioned at the hours, minutes or AM/PM placeholders and pressing the <kbd>Up</kbd> arrow key or using `Mouse Wheel Up`, the hours/minutes are increased. Pressing the <kbd>Down</kbd> arrow key or `Mouse Wheel Down` is used for the reversed operation.
 
 Note that if the time picker's [`minValue`]({environment:angularApiUrl}/classes/igxtimepickercomponent.html#minvalue) or [`maxValue`]({environment:angularApiUrl}/classes/igxtimepickercomponent.html#maxvalue) are set and [`isSpinLoop`]({environment:angularApiUrl}/classes/igxtimepickercomponent.html#isspinloop) is false, the time scrolling will stop at the specified min/max hour/minute value.
 
 **Keyboard Operations:**
 
-* To `Open`the dropdown, there are the following options - click on the clock icon, press <kbd>Space</kbd> or combination of <kbd>Alt</kbd> + <kbd>Down</kbd> keys.
-* To `Accept` and `Close` the dropdown press <kbd>Escape</kbd> or <kbd>Enter</kbd> key.
-* Clicking with the mouse outside of the time picker will also `Accept` the value entered and `Close` the dropdown.
-* If the dropdown is not opened and a new value is typed, to `Accept` it - click outside of the time picker or press <kbd>Tab</kbd> to move the focus.
+- To `Open`the dropdown, there are the following options - click on the clock icon, press <kbd>Space</kbd> or combination of <kbd>Alt</kbd> + <kbd>Down</kbd> keys.
+- To `Accept` and `Close` the dropdown press <kbd>Escape</kbd> or <kbd>Enter</kbd> key.
+- Clicking with the mouse outside of the time picker will also `Accept` the value entered and `Close` the dropdown.
+- If the dropdown is not opened and a new value is typed, to `Accept` it - click outside of the time picker or press <kbd>Tab</kbd> to move the focus.
 
 And there we have it:
 
-<code-view style="height:540px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:540px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-dropdown/" >
 </code-view>
 
@@ -238,14 +239,15 @@ In the following example we modify the default label "Time" and add a second ico
     </ng-template>
 </igx-time-picker>
 ```
+
 ```typescript
 public date: Date = new Date(Date.now());
 ```
 
 And there we have it:
 
-<code-view style="height: 600px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 600px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-5/" >
 </code-view>
 
@@ -266,6 +268,7 @@ All the information mentioned in the <a href="#templating-input-group">Templatin
     </ng-template>
 </igx-time-picker>
 ```
+
 ```typescript
 public today: Date = new Date(Date.now());
 ```
@@ -291,8 +294,8 @@ public onBlur(inputValue: string, value: Date, picker: IgxTimePickerComponent) {
 
 And there we have it, a re-templated Ignite UI for Angular Time Picker with dropdown and two-way binding support:
 
-<code-view style="height: 600px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 600px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-6/" >
 </code-view>
 
@@ -328,24 +331,24 @@ public selectNow(timePicker: IgxTimePickerComponent) {
 
 The result is as follows:
 
-<code-view style="height: 580px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 580px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/timepicker-sample-7/" >
 </code-view>
 
 
 ## API References
 
-* [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
-* [IgxInputDirective]({environment:angularApiUrl}/classes/igxinputdirective.html)
-* [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
-* [IgxTimePickerComponent]({environment:angularApiUrl}/classes/igxtimepickercomponent.html)
-* [IgxTimePickerComponent Styles]({environment:sassApiUrl}/themes#function-time-picker-theme)
-* [IgxOverlayService]({environment:angularApiUrl}/classes/igxoverlayservice.html)
-* [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
+- [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
+- [IgxInputDirective]({environment:angularApiUrl}/classes/igxinputdirective.html)
+- [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
+- [IgxTimePickerComponent]({environment:angularApiUrl}/classes/igxtimepickercomponent.html)
+- [IgxTimePickerComponent Styles]({environment:sassApiUrl}/themes#function-time-picker-theme)
+- [IgxOverlayService]({environment:angularApiUrl}/classes/igxoverlayservice.html)
+- [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
 
 ## Additional Resources
 
 Our community is active and always welcoming to new ideas.
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -28,10 +28,10 @@ _language: kr
     width="700px"
     height="500px"
     chartType="waterfall"
-	brushes="blue, green"
-	negativeBrushes="red, yellow"
-	outlines="black"
-	thickness="5">
+ brushes="blue, green"
+ negativeBrushes="red, yellow"
+ outlines="black"
+ thickness="5">
 </igx-category-chart>
 ```
 

@@ -12,8 +12,8 @@ The Ignite UI for Angular Input and Label directives are used to create single-l
 
 ### Label & Input Demo
 
-<code-view style="height:100px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:100px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/input-group-sample-2/" >
 </code-view>
 
@@ -97,15 +97,15 @@ and in our markup:
 You can read about the Input Group component in a separate topic [here](input-group.md).
 
 ## API References
-* [IgxInputDirective]({environment:angularApiUrl}/classes/igxinputdirective.html)
-* [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
+- [IgxInputDirective]({environment:angularApiUrl}/classes/igxinputdirective.html)
+- [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
 
 ## Additional Resources
 Related topics:
 
-* [Input Group](input-group.md)
+- [Input Group](input-group.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
