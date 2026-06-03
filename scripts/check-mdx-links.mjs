@@ -41,6 +41,8 @@ const CONCURRENCY = parseInt(String(args.concurrency ?? '20'), 10);
 const TIMEOUT_MS  = parseInt(String(args.timeout     ?? '15000'), 10);
 const OUTPUT      = args.output ? String(args.output) : null;
 const MD_OUTPUT   = args.md     ? String(args.md)     : null;
+const UNRESOLVED_MD_OUTPUT = args['unresolved-md'] ? String(args['unresolved-md']) : null;
+const UNRESOLVED_REASON = args['unresolved-reason'] ? String(args['unresolved-reason']) : null;
 const NO_SYNC     = !!args['no-sync'];
 const RESOLVE_ONLY = !!args['resolve-only'];
 const DEFAULT_SRC = (PLATFORM === 'angular') ? 'docs/angular/src/content' : 'docs/xplat/src/content';
@@ -518,6 +520,7 @@ const resolutionStats = new Map(targetPlatforms.map(platform => [platform, {
     reasons: new Map(),
     examples: new Map(),
 }]));
+const unresolvedDetails = [];
 
 function recordResolution(platformName, status, relPath, props) {
     const stats = resolutionStats.get(platformName);
@@ -533,6 +536,18 @@ function recordResolution(platformName, status, relPath, props) {
     if (!stats.examples.has(status)) {
         const label = props.member ? `${props.type}.${props.member}` : props.type;
         stats.examples.set(status, { file: relPath, label });
+    }
+    if (!UNRESOLVED_REASON || status === UNRESOLVED_REASON) {
+        unresolvedDetails.push({
+            platform: platformName,
+            status,
+            file: relPath,
+            type: props.type,
+            member: props.member ?? '',
+            kind: props.kind ?? '',
+            pkg: props.pkg ?? '',
+            label: props.member ? `${props.type}.${props.member}` : props.type,
+        });
     }
 }
 
@@ -582,6 +597,38 @@ for (const [platform, stats] of resolutionStats) {
     }
 }
 console.log();
+
+if (UNRESOLVED_MD_OUTPUT) {
+    const filtered = UNRESOLVED_REASON
+        ? unresolvedDetails.filter(item => item.status === UNRESOLVED_REASON)
+        : unresolvedDetails;
+    const grouped = new Map();
+    for (const item of filtered) {
+        const key = `${item.platform}|${item.status}|${item.label}|${item.pkg}|${item.kind}`;
+        if (!grouped.has(key)) {
+            grouped.set(key, { ...item, files: new Set() });
+        }
+        grouped.get(key).files.add(item.file);
+    }
+
+    const lines = [];
+    const reasonLabel = UNRESOLVED_REASON ? `: ${UNRESOLVED_REASON}` : '';
+    lines.push(`# ApiLink Unresolved Report${reasonLabel}`);
+    lines.push('');
+    lines.push(`| Platform | Status | ApiLink | pkg | kind | Files |`);
+    lines.push(`|---|---|---|---|---|---|`);
+    for (const item of [...grouped.values()].sort((a, b) =>
+        a.platform.localeCompare(b.platform)
+        || a.status.localeCompare(b.status)
+        || a.label.localeCompare(b.label)
+    )) {
+        const files = [...item.files].sort().map(file => `\`${file}\``).join('<br>');
+        lines.push(`| ${item.platform} | ${item.status} | \`${item.label}\` | ${item.pkg || ''} | ${item.kind || ''} | ${files} |`);
+    }
+    writeFileSync(UNRESOLVED_MD_OUTPUT, lines.join('\n'));
+    console.log(`  Unresolved report written to: ${UNRESOLVED_MD_OUTPUT}`);
+    console.log(`  Unresolved rows: ${filtered.length}, grouped rows: ${grouped.size}\n`);
+}
 
 if (RESOLVE_ONLY) {
     if (OUTPUT) {
