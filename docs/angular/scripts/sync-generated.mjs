@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { cpSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
+import { cpSync, existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'fs';
+import { join, dirname, relative } from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -20,26 +20,88 @@ if (!existsSync(sourceDir)) {
   process.exit(1);
 }
 
+function shouldCopy(src) {
+  // Skip grids folder (Angular has its own)
+  if (src.includes('/grids/') || src.includes('\\grids\\')) {
+    return false;
+  }
+  // Skip changelog folder (Angular has its own)
+  if (src.includes('/changelog/') || src.includes('\\changelog\\')) {
+    return false;
+  }
+  // Skip TOC files (Angular manages its own)
+  if (src.endsWith('toc.json') || src.endsWith('toc.yml')) {
+    return false;
+  }
+  return true;
+}
+
+function normalizeMarkdownSpacing(content) {
+  const hasFinalNewline = /\r?\n$/.test(content);
+  const lines = content.replace(/\r\n/g, '\n').split('\n');
+  const result = [];
+  let blankCount = 0;
+
+  for (const line of lines) {
+    if (line.trim() === '') {
+      blankCount++;
+      if (blankCount <= 1) {
+        result.push('');
+      }
+      continue;
+    }
+
+    blankCount = 0;
+    result.push(line);
+  }
+
+  let normalized = result.join('\n').replace(/\n+$/, '');
+  if (hasFinalNewline) {
+    normalized += '\n';
+  }
+  return normalized;
+}
+
+function normalizeCopiedMarkdownFiles(srcDir, destDir) {
+  let normalizedCount = 0;
+
+  function visit(srcPath) {
+    if (!shouldCopy(srcPath)) return;
+
+    const stat = statSync(srcPath);
+    if (stat.isDirectory()) {
+      for (const entry of readdirSync(srcPath)) {
+        visit(join(srcPath, entry));
+      }
+      return;
+    }
+
+    if (!/\.(md|mdx)$/i.test(srcPath)) return;
+
+    const destPath = join(destDir, relative(srcDir, srcPath));
+    if (!existsSync(destPath)) return;
+
+    const original = readFileSync(destPath, 'utf8');
+    const normalized = normalizeMarkdownSpacing(original);
+    if (normalized !== original) {
+      writeFileSync(destPath, normalized);
+      normalizedCount++;
+    }
+  }
+
+  visit(srcDir);
+  return normalizedCount;
+}
+
 // Copy all generated content files from source to target
 console.log(`Copying from ${sourceDir} to ${targetDir}`);
-cpSync(sourceDir, targetDir, { 
+cpSync(sourceDir, targetDir, {
   recursive: true,
-  filter: (src) => {
-    // Skip grids folder (Angular has its own)
-    if (src.includes('/grids/') || src.includes('\\grids\\')) {
-      return false;
-    }
-    // Skip changelog folder (Angular has its own)
-    if (src.includes('/changelog/') || src.includes('\\changelog\\')) {
-      return false;
-    }
-    // Skip TOC files (Angular manages its own)
-    if (src.endsWith('toc.json') || src.endsWith('toc.yml')) {
-      return false;
-    }
-    return true;
-  }
+  filter: shouldCopy,
 });
+
+const normalizedFiles = normalizeCopiedMarkdownFiles(sourceDir, targetDir);
 
 console.log(' Generated content synced successfully');
 console.log(' Excluded: grids/, changelog/, toc files');
+console.log(` Normalized markdown spacing in ${normalizedFiles} file(s)`);
