@@ -11,8 +11,8 @@ _language: kr
 
 ### Drop Down Demo
 
-<code-view style="height:220px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:220px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-sample-4/" >
 </code-view>
 
@@ -71,8 +71,8 @@ export class MyDropDownComponent {
 If the sample is configured properly, a dropdown with several options should be displayed.
 
 
-<code-view style="height: 200px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 200px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-sample-1/" >
 </code-view>
 
@@ -107,8 +107,8 @@ export class MyDropDownComponent {
 ```
 
 
-<code-view style="height: 200px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 200px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-sample-2/" >
 </code-view>
 
@@ -152,8 +152,8 @@ export class MyDropDownComponent {
 If the sample is configured properly, a list  of countries should be displayed as a group under EU header, UK as a non-interactive item, and Bulgaria as selected item.
 
 
-<code-view style="height: 298px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 298px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-sample-3/" >
 </code-view>
 
@@ -162,6 +162,7 @@ If the sample is configured properly, a list  of countries should be displayed a
 
 Items in the `igx-drop-down` can also be grouped using the [`igx-drop-down-item-group`]({environment:angularApiUrl}/classes/igxdropdowngroupcomponent.html). The `igx-drop-down-item-group` accepts `igx-drop-down-item`s as its content and renders them in a grouped fashion.
 In the code snippets below, you can see how you can use the `igx-drop-down-item-group` to display the example `foods` array in a grouped fashion.
+
 ```typescript
 // dropdown.component.ts
 export class MyCustomDropDownComponent {
@@ -204,6 +205,7 @@ export class MyCustomDropDownComponent {
 }
 ...
 ```
+
 ```html
     <igx-drop-down>
         <igx-drop-down-item-group *ngFor="let foodGroup of foods" [label]="foodGroup.name">
@@ -224,20 +226,20 @@ The `igx-drop-down-item-group` displays all of the `igx-drop-down-item`s under i
             </igx-drop-down-item>
         </igx-drop-down-item-group>
     </igx-drop-down>
-``` 
+```
 
 This disables the `Meats` group, as well as all of the child items inside!
 
 You can see the results in the sample below:
 
-<code-view style="height: 298px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 298px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-sample-5/" >
 </code-view>
 
 
 #### Drop Down as menu
-You can configure the [`igxDropDown`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html) to behave as a menu. To do this, set the [`ISelectionEventArgs`]({environment:angularApiUrl}/interfaces/iselectioneventargs.html) [`cancel`]({environment:angularApiUrl}/interfaces/iselectioneventargs.html#cancel) member to *true* in the [`selecting`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selecting) event handler. Thus, the selected item is not preserved on menu opening and selection is invalidated. Still, you can get the clicked item through the [`ISelectionEventArgs`]({environment:angularApiUrl}/interfaces/iselectioneventargs.html) [`newSelection`]({environment:angularApiUrl}/interfaces/iselectioneventargs.html#newselection) member value.
+You can configure the [`igxDropDown`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html) to behave as a menu. To do this, set the [`ISelectionEventArgs`]({environment:angularApiUrl}/interfaces/iselectioneventargs.html) [`cancel`]({environment:angularApiUrl}/interfaces/iselectioneventargs.html#cancel) member to _true_ in the [`selecting`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selecting) event handler. Thus, the selected item is not preserved on menu opening and selection is invalidated. Still, you can get the clicked item through the [`ISelectionEventArgs`]({environment:angularApiUrl}/interfaces/iselectioneventargs.html) [`newSelection`]({environment:angularApiUrl}/interfaces/iselectioneventargs.html#newselection) member value.
 
 ```html
 <!-- dropdown.component.html -->
@@ -289,8 +291,8 @@ export class MyMenuComponent {
 ```
 
 
-<code-view style="height: 280px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 280px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-menu/" >
 </code-view>
 
@@ -353,8 +355,8 @@ export class InputDropDownComponent {
 ```
 
 
-<code-view style="height:220px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:220px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-sample-4/" >
 </code-view>
 
@@ -388,17 +390,17 @@ When [allowItemsFocus]({environment:angularApiUrl}/classes/igxdropdowncomponent.
 
 
 ## API References
-* [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html) 
-* [IgxDropDownComponent Styles]({environment:sassApiUrl}/themes#function-drop-down-theme)
-* [IgxDropDownItemComponent]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html).
-* [IgxOverlay]({environment:angularApiUrl}/interfaces/overlaysettings.html)
-* [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
+- [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html)
+- [IgxDropDownComponent Styles]({environment:sassApiUrl}/themes#function-drop-down-theme)
+- [IgxDropDownItemComponent]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html).
+- [IgxOverlay]({environment:angularApiUrl}/interfaces/overlaysettings.html)
+- [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
 
 ## Additional Resources
 
 Our community is active and always welcoming to new ideas.
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
 
 
 

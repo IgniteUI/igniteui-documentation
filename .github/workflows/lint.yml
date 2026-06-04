@@ -1,0 +1,91 @@
+name: Lint
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [master, vnext]
+    paths:
+      - 'docs/**/*.mdx'
+      - 'docs/**/*.md'
+      - '.markdownlint.json'
+      - 'cspell.json'
+
+jobs:
+  markdown-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Get changed markdown files
+        id: changed
+        run: |
+          FILES=$(git diff --name-only --diff-filter=ACMR origin/${{ github.base_ref }}...HEAD -- 'docs/**/*.mdx' 'docs/**/*.md' | tr '\n' ' ')
+          echo "files=$FILES" >> "$GITHUB_OUTPUT"
+          echo "Found changed files: $FILES"
+
+      - name: Markdownlint (changed files)
+        if: steps.changed.outputs.files != ''
+        run: npx markdownlint ${{ steps.changed.outputs.files }}
+
+      - name: Summary
+        if: always() && steps.changed.outputs.files != ''
+        run: |
+          echo "## Markdownlint Results" >> "$GITHUB_STEP_SUMMARY"
+          RESULT=$(npx markdownlint ${{ steps.changed.outputs.files }} 2>&1 || true)
+          ERRORS=$(echo "$RESULT" | grep -c "MD[0-9]" || echo "0")
+          FILES_WITH_ERRORS=$(echo "$RESULT" | grep "MD[0-9]" | cut -d: -f1 | sort -u | wc -l || echo "0")
+          echo "**$ERRORS errors** in **$FILES_WITH_ERRORS files**" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$ERRORS" -gt 0 ]; then
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            echo "$RESULT" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  spellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Get changed markdown files
+        id: changed
+        run: |
+          FILES=$(git diff --name-only --diff-filter=ACMR origin/${{ github.base_ref }}...HEAD -- 'docs/**/*.mdx' 'docs/**/*.md' | tr '\n' ' ')
+          echo "files=$FILES" >> "$GITHUB_OUTPUT"
+
+      - name: CSpell (changed files)
+        if: steps.changed.outputs.files != ''
+        run: npx cspell --no-progress ${{ steps.changed.outputs.files }}
+
+      - name: Summary
+        if: always() && steps.changed.outputs.files != ''
+        run: |
+          echo "## CSpell Results" >> "$GITHUB_STEP_SUMMARY"
+          RESULT=$(npx cspell --no-progress ${{ steps.changed.outputs.files }} 2>&1 || true)
+          ERRORS=$(echo "$RESULT" | grep -c "Unknown word" || echo "0")
+          FILES_WITH_ERRORS=$(echo "$RESULT" | grep "Unknown word" | cut -d: -f1 | sort -u | wc -l || echo "0")
+          echo "**$ERRORS errors** in **$FILES_WITH_ERRORS files**" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$ERRORS" -gt 0 ]; then
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            echo "$RESULT" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi

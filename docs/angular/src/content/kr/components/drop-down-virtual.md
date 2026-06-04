@@ -13,8 +13,8 @@ _language: kr
 </p>
 
 
-<code-view style="height:320px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:320px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-virtual/" >
 </code-view>
 
@@ -44,6 +44,7 @@ export class AppModule {}
 ### Template Configuration
 
 Next, we need to create the drop down component's template, looping through the data using [`*igxFor`]({environment:angularApiUrl}/classes/igxforofdirective.html) instead of `*ngFor`. The `*igxFor` needs some additional configuration in order to properly display all of the items:
+
 ```html
 <!-- drop-down-virtual.component.html -->
 <button igxButton [igxToggleAction]="dropdown" [igxDropDownItemNavigation]="dropdown">Item Series</button>
@@ -59,18 +60,19 @@ Next, we need to create the drop down component's template, looping through the 
 </igx-drop-down>
 <div class="selection">Selected Model: <span class="selection__name">{{ dropdown.selectedItem?.value.name }}</span></div>
 ```
+
 The additional parameters passed to the `*igxFor` directive are:
- - `index` - captures the index of the current item in the data set
- - `scrollOrientation` - should always be `'vertical'`
- - `containerSize` - the size of the virtualized container (in `px`). This needs to be enforced on the wrapping `<div>` as well
- - `itemSize` - the size of the items that will be displayed (in `px`)
+- `index` - captures the index of the current item in the data set
+- `scrollOrientation` - should always be `'vertical'`
+- `containerSize` - the size of the virtualized container (in `px`). This needs to be enforced on the wrapping `<div>` as well
+- `itemSize` - the size of the items that will be displayed (in `px`)
 
 In order to assure uniqueness of the items, pass `item` inside of the [`value`]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#value) input and `index` inside of the [`index`]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#index) input of the `igx-drop-down-item`.
 To preserve selection while scrolling, the drop down item needs to have a reference to the data items it is bound to.
 > [!NOTE]
 > For the drop down to work with a virtualized list of items, [`value`]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#value) and [`index`]({environment:angularApiUrl}/classes/igxdropdownitemcomponent.html#index) inputs **must** be passed to all items.
 > [!NOTE]
-> It is strongly advised for each item to have an unique value passed to the `[value]` input. Otherwise, it might lead to unexpected results (incorrect selection). 
+> It is strongly advised for each item to have an unique value passed to the `[value]` input. Otherwise, it might lead to unexpected results (incorrect selection).
 > [!NOTE]
 > When the drop down uses virtualized items, the type of [`dropdown.selectedItem`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selecteditem) becomes `{ value: any, index: number }`, where `value` is a reference to the data item passed inside of the `[value]` input and `index` is the item's index in the data set
 
@@ -129,8 +131,8 @@ Here, we can also pass the style for `height` (but we already did so in the temp
 You can view the configured example below:
 
 
-<code-view style="height:320px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:320px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-virtual/" >
 </code-view>
 
@@ -157,6 +159,7 @@ The drop-down template does not need to change much compared to the [previous ex
 As you can see, the template is almost identical to the one in the previous example. In this remote data scenario, the code behind will do most of the heavy lifting.
 
 First, we need to define a remote service for fetching data:
+
 ```typescript
 // remote.service.ts
 
@@ -241,14 +244,15 @@ export class DropDownRemoteComponent implements OnInit, OnDestroy {
     }
 }
 ```
-Inside of the `ngAfterViewInit` hook, we call to get data for the initial state and subscribe to the `igxForOf` directive's [`chunkPreload`]({environment:angularApiUrl}/classes/igxforofdirective.html#chunkPreload) emitter. This subscription will be responsible for fetching data everytime the loaded chunk changes. We use `pipe(takeUntil(this.destroy$))` so we can easily unsubscribe from the emitter on component destroy.
+
+Inside of the `ngAfterViewInit` hook, we call to get data for the initial state and subscribe to the `igxForOf` directive's [`chunkPreload`]({environment:angularApiUrl}/classes/igxforofdirective.html#chunkPreload) emitter. This subscription will be responsible for fetching data every time the loaded chunk changes. We use `pipe(takeUntil(this.destroy$))` so we can easily unsubscribe from the emitter on component destroy.
 
 ### Remote Virtualization - Demo
 The result of the above configuration is a drop-down that dynamically loads the data in should display, depending on the scrollbar's state. You can view the demo and play around with the configuration below:
 
 
-<code-view style="height:400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/dropdown-remote/" >
 </code-view>
 
@@ -256,11 +260,12 @@ The result of the above configuration is a drop-down that dynamically loads the 
 ## Notes and Limitations
 
 Using the drop down with a virtualized list of items enforce some limitations. Please be aware of the following when trying to set up a drop-down list using `*igxFor`:
- - The `<igx-drop-down-item>`s that are being looped need to be passed in a wrapping element (e.g. `<div>`) which has the following css: `overflow: hidden` and `height` equal to `containerSize` in `px`
- - `<igx-drop-down-item-group>`s cannot be used for grouping items when the list is virtualized. Use the `isHeader` propery instead
- - The `items` accessor will return only the list of non-header `igx-drop-down-item`s that are currently in the virtualized view.
- - [`dropdown.selectedItem`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selecteditem) is of type `{ value: any, index: number }`
- - The object emitted by [`selecting`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selecting) changes to 
+- The `<igx-drop-down-item>`s that are being looped need to be passed in a wrapping element (e.g. `<div>`) which has the following css: `overflow: hidden` and `height` equal to `containerSize` in `px`
+- `<igx-drop-down-item-group>`s cannot be used for grouping items when the list is virtualized. Use the `isHeader` property instead
+- The `items` accessor will return only the list of non-header `igx-drop-down-item`s that are currently in the virtualized view.
+- [`dropdown.selectedItem`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selecteditem) is of type `{ value: any, index: number }`
+- The object emitted by [`selecting`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html#selecting) changes to
+
  ```typescript
  const emittedEvent: {
      newSelection: { value: any, index: number },
@@ -268,14 +273,14 @@ Using the drop down with a virtualized list of items enforce some limitations. P
      cancel: boolean,
  }
  ```
- - `dropdown.setSelectedItem` should be called with the **item's index in the data set**
- - setting the drop-down item's `[selected]` input will **not** mark the item in the drop-down selection
+
+- `dropdown.setSelectedItem` should be called with the **item's index in the data set**
+- setting the drop-down item's `[selected]` input will **not** mark the item in the drop-down selection
 
 ## API References
 
-* [IgxForOfDirective]({environment:angularApiUrl}/classes/igxforofdirective.html)
-* [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html)
-
+- [IgxForOfDirective]({environment:angularApiUrl}/classes/igxforofdirective.html)
+- [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html)
 
 
 

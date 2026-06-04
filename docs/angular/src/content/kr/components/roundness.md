@@ -5,7 +5,7 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-## Components roundness 
+## Components roundness
 <p class="highlight">In Ignite UI for Angular we allows you to change the shape of components by changing their border-radius</p>
 
 
@@ -23,8 +23,8 @@ $_light-button: (
 
 As you can see from the example above, the component schema for [Button theme]({environment:sassApiUrl}/themes#function-button-theme) defines the default border-radius for all types of buttons.
 
-Let's look at how things work. 
-The default value for "flat-border-radius" is set to 0.2 which in the end will be resolved to 4px, it is actually a fraction between 0 and 20px where 0 is the minimum border-radius and 20px is the maximum. 
+Let's look at how things work.
+The default value for "flat-border-radius" is set to 0.2 which in the end will be resolved to 4px, it is actually a fraction between 0 and 20px where 0 is the minimum border-radius and 20px is the maximum.
 
 We decided to not limit you to fractions only. You can use whatever unit you want - pixels, relative units like em or rem, etc., allowing you to overwrite the implicit border radius limits.
 
@@ -50,8 +50,8 @@ $myButtons-theme: (
 The result from the above code snippets is:
 
 
-<code-view style="height: 350px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 350px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/theming/shadows-sample/" >
 </code-view>
 
@@ -86,5 +86,5 @@ The table shows the default border-radius for each component and its min and max
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

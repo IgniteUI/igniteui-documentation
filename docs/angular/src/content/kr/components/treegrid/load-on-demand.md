@@ -12,8 +12,8 @@ Ignite UI for Angular [`IgxTreeGrid`]({environment:angularApiUrl}/classes/igxtre
 #### 데모
 
 
-<code-view style="height:450px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:450px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-load-on-demand/" >
 </code-view>
 
@@ -32,7 +32,7 @@ Ignite UI for Angular [`IgxTreeGrid`]({environment:angularApiUrl}/classes/igxtre
 [`loadChildrenOnDemand`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#loadchildrenondemand) loadChildrenOnDemand 콜백은 두 개의 매개 변수를 제공합니다:
 
 - parentID - 확장 중인 상위 행의 ID입니다.
-- done - 서버에서 검색될 경우, 하위와 함께 호출해야 콜백입니다. 
+- done - 서버에서 검색될 경우, 하위와 함께 호출해야 콜백입니다.
 
 ```typescript
 public loadChildren = (parentID: any, done: (children: any[]) => void) => {
@@ -40,7 +40,7 @@ public loadChildren = (parentID: any, done: (children: any[]) => void) => {
 }
 ```
 
-사용자가 확장 아이콘을 클릭하면 로딩 인디케이터로 바뀝니다. `done` 콜백이 호출되면 로딩 인디케이터가 사라지고 하위가 로딩됩니다. 트리 그리드는 기본 데이터 소스에 하위를 추가하고 필요한 키를 자동으로 채웁니다. 
+사용자가 확장 아이콘을 클릭하면 로딩 인디케이터로 바뀝니다. `done` 콜백이 호출되면 로딩 인디케이터가 사라지고 하위가 로딩됩니다. 트리 그리드는 기본 데이터 소스에 하위를 추가하고 필요한 키를 자동으로 채웁니다.
 
 확장되기 전에 행에 하위가 있는지 정보를 제공하는 방법이 있는 경우, [`hasChildrenKey`]({environment:angularApiUrl}/classes/igxtreegridcomponent.html#haschildrenkey) 입력 속성을 사용할 수 있습니다. 이렇게 하면 확장 인디케이터를 표시할지를 나타내는 데이터 객체에서 불 속성을 제공할 수 있습니다.
 
@@ -69,16 +69,16 @@ public loadChildren = (parentID: any, done: (children: any[]) => void) => {
 ### API 참조
 
 
-* [IgxTreeGridComponent]({environment:angularApiUrl}/classes/igxtreegridcomponent.html)
-* [IgxGridComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [IgxTreeGridComponent]({environment:angularApiUrl}/classes/igxtreegridcomponent.html)
+- [IgxGridComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ### 추가 리소스
 
 
-* [트리 그리드 개요](tree-grid.md)
-* [트리 그리드 가상화 및 성능](virtualization.md)
+- [트리 그리드 개요](tree-grid.md)
+- [트리 그리드 가상화 및 성능](virtualization.md)
 
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
