@@ -26,10 +26,10 @@ _language: kr
 
 The @@igComponent in Ignite UI for Angular provides an [`IgxGridToolbarComponent`]({environment:angularApiUrl}/classes/igxgridtoolbarcomponent.html) which is essentially a container for **UI** operations. The Angular toolbar is located at the top of the Angular component, i.e the @@igComponent and it matches its horizontal size. The toolbar container can host predefined UI controls for the following @@igComponent's features:
 
- - Column Hiding
- - Column Pinning
- - Excel Exporting
- - Advanced Filtering
+- Column Hiding
+- Column Pinning
+- Excel Exporting
+- Advanced Filtering
 
 or just any other custom content. The toolbar and the predefined UI components support Angular events and expose API for developers.
 
@@ -37,24 +37,24 @@ or just any other custom content. The toolbar and the predefined UI components s
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:420px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:420px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-toolbar-sample-1/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:420px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:420px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-toolbar-4/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
-<code-view style="height:510px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:510px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-toolbar-title/" >
 </code-view>
 
@@ -63,6 +63,7 @@ or just any other custom content. The toolbar and the predefined UI components s
 The predefined `actions` and `title` UI components are added inside the `<igx-grid-toolbar>` and this is all needed to have a toolbar providing default interactions with the corresponding Grid features:
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
     <igx-grid-toolbar>
         <igx-grid-toolbar-title>Grid Toolbar</igx-grid-toolbar-title>
@@ -75,8 +76,10 @@ The predefined `actions` and `title` UI components are added inside the `<igx-gr
     </igx-grid-toolbar>
 </igx-grid>
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="true">
     <igx-grid-toolbar>
@@ -90,8 +93,10 @@ The predefined `actions` and `title` UI components are added inside the `<igx-gr
     </igx-grid-toolbar>
 </igx-tree-grid>
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid [data]="data">
     <igx-grid-toolbar>
@@ -105,6 +110,7 @@ The predefined `actions` and `title` UI components are added inside the `<igx-gr
     </igx-grid-toolbar>
 </igx-hierarchical-grid>
 ```
+
 }
 
 > Note: As seen in the code snippet above, the predefined `actions` UI components are wrapped in the [`<igx-grid-toolbar-actions>` container]({environment:angularApiUrl}/classes/igxgridtoolbaractionscomponent.html). This way, the toolbar title is aligned to the left of the toolbar and the actions are aligned to the right of the toolbar.
@@ -112,28 +118,34 @@ The predefined `actions` and `title` UI components are added inside the `<igx-gr
 Of course, each of these UIs can be added independently of each other, or may not be added at all. This way the toolbar container will be rendered empty:
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <igx-grid [data]="data" [autoGenerate]="true">
     <igx-grid-toolbar>
     </igx-grid-toolbar>
 </igx-grid>
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="true">
     <igx-grid-toolbar>
     </igx-grid-toolbar>
 </igx-tree-grid>
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid [data]="data">
     <igx-grid-toolbar>
     </igx-grid-toolbar>
 </igx-hierarchical-grid>
 ```
+
 }
 
 For a comprehensive look over each of the default UI components, continue reading the **Features** section
@@ -158,24 +170,24 @@ Listed below are the main features of the toolbar with example code for each of 
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:420px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:420px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-toolbar-sample-2/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:420px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:420px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-toolbar-1/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
-<code-view style="height:510px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:510px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-toolbar-options/" >
 </code-view>
 
@@ -196,6 +208,7 @@ import { IgxExcelExporterService, IgxCsvExporterService } from "igniteui-angular
 
 export class AppModule {}
 ```
+
 @@if (igxName !== 'IgxHierarchicalGrid') {
 #### 내보내기 사용자 정의
 
@@ -249,8 +262,8 @@ public toolbarExportingHandler(args) {
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:420px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:420px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-toolbar-sample-3/" >
 </code-view>
 
@@ -258,8 +271,8 @@ public toolbarExportingHandler(args) {
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:420px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:420px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-toolbar-2/" >
 </code-view>
 
@@ -293,8 +306,8 @@ public toolbarExportingHandler(args) {
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:420px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:420px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-toolbar-sample-4/" >
 </code-view>
 
@@ -302,8 +315,8 @@ public toolbarExportingHandler(args) {
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:420px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:420px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-toolbar-3/" >
 </code-view>
 
@@ -311,8 +324,8 @@ public toolbarExportingHandler(args) {
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
-<code-view style="height:510px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:510px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-toolbar-custom/" >
 </code-view>
 
@@ -326,24 +339,24 @@ public toolbarExportingHandler(args) {
 [`IgxGridToolbarComponent`]({environment:angularApiUrl}/classes/igxgridtoolbarcomponent.html)
 
 [`@@igxNameComponent`]({environment:angularApiUrl}/classes/@@igTypeDoc.html) 속성:
-* [`toolbar`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#toolbar)
-* [`showProgress`]({environment:angularApiUrl}/classes/IgxGridToolbarComponent.html#showProgress)
-* [`exportExcel`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#exportexcel)
-* [`exportCsv`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#exportcsv)
-* [`exportText`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#exporttext)
-* [`exportExcelText`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#exportexceltext)
-* [`exportCsvText`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#exportcsvtext)
+- [`toolbar`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#toolbar)
+- [`showProgress`]({environment:angularApiUrl}/classes/IgxGridToolbarComponent.html#showProgress)
+- [`exportExcel`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#exportexcel)
+- [`exportCsv`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#exportcsv)
+- [`exportText`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#exporttext)
+- [`exportExcelText`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#exportexceltext)
+- [`exportCsvText`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#exportcsvtext)
 
 [`@@igxNameComponent`]({environment:angularApiUrl}/classes/@@igTypeDoc.html) 이벤트:
-* [`toolbarExporting`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#toolbarExporting)
+- [`toolbarExporting`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#toolbarExporting)
 
 스타일:
 
-* [`@@igxNameComponent 스타일`]({environment:sassApiUrl}/themes#function-grid-theme)
+- [`@@igxNameComponent 스타일`]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ### 추가 리소스
 
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

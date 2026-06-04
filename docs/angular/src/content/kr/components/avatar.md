@@ -5,7 +5,7 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-##Avatar
+## Avatar
 
 <p class="highlight">The Ignite UI for Angular Avatar component helps adding images, material icons, or initials to your application.</p>
 <igc-divider></igc-divider>
@@ -13,8 +13,8 @@ _language: kr
 ### Avatar Demo
 
 
-<code-view style="height:200px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:200px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/avatar-sample-3/" >
 </code-view>
 
@@ -36,15 +36,17 @@ import { IgxAvatarModule } from 'igniteui-angular';
 })
 export class AppModule {}
 ```
+
 The Avatar can be either square or circular, with three size options (small, medium and large). It can be used for displaying initials, images or icons.
 
-####Avatar displaying initials
+#### Avatar displaying initials
 To get a simple avatar with [`initials`]({environment:angularApiUrl}/classes/igxavatarcomponent.html#initials) (i.e. JS  for  'Jack Sock'), add the following code inside the component template:
 
 ```html
 <igx-avatar initials="JS">
 </igx-avatar>
 ```
+
 Let's enhance our avatar by making it circular and bigger in size. We can also change the background through the [`bgColor`]({environment:angularApiUrl}/classes/igxavatarcomponent.html#bgcolor) property or set a color on the initials through the [`color`]({environment:angularApiUrl}/classes/igxavatarcomponent.html#color) property. All of these are input properties and can be bound to some component properties.
 
 ```html
@@ -55,6 +57,7 @@ Let's enhance our avatar by making it circular and bigger in size. We can also c
             [color]="color">
 </igx-avatar>
 ```
+
 ```typescript
 // avatar.component.ts
 ...
@@ -63,14 +66,15 @@ Let's enhance our avatar by making it circular and bigger in size. We can also c
   public isCircular = true;
 
 ```
+
 If all went well, you should see something like the following in the browser:
 
 <div class="sample-container loading" style="height:100px">
     <iframe id="avatar-sample-1-iframe" data-src='{environment:demosBaseUrl}/layouts/avatar-sample-1' width="100%" height="100%" seamless frameBorder="0" class="lazyload"></iframe>
 </div>
 
-####Avatar displaying image
-To get an avatar that dispalays an image, all you have to do is setting the image source via the [`src`]({environment:angularApiUrl}/classes/igxavatarcomponent.html#src) property.
+#### Avatar displaying image
+To get an avatar that displays an image, all you have to do is setting the image source via the [`src`]({environment:angularApiUrl}/classes/igxavatarcomponent.html#src) property.
 
 ```html
 <igx-avatar [src]="imgSource"
@@ -85,13 +89,14 @@ To get an avatar that dispalays an image, all you have to do is setting the imag
   public imgSource = "https://randomuser.me/api/portraits/men/1.jpg";
 
 ```
+
 If all went well, you should see something like the following in the browser:
 
 <div class="sample-container loading" style="height:100px">
     <iframe id="avatar-sample-2-iframe" data-src='{environment:demosBaseUrl}/layouts/avatar-sample-2' width="100%" height="100%" seamless frameBorder="0" class="lazyload"></iframe>
 </div>
 
-####Avatar displaying icon
+#### Avatar displaying icon
 Analogically, the avatar can display an icon via the [`icon`]({environment:angularApiUrl}/classes/igxavatarcomponent.html#icon) property. Currently all icons from the material icon set are supported.
 
 ```html
@@ -103,11 +108,11 @@ Analogically, the avatar can display an icon via the [`icon`]({environment:angul
 
 ## API References
 
-* [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
-* [IgxAvatarComponent Styles]({environment:sassApiUrl}/themes#function-avatar-theme)
+- [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
+- [IgxAvatarComponent Styles]({environment:sassApiUrl}/themes#function-avatar-theme)
 
 ## Additional Resources
 
 Our community is active and always welcoming to new ideas.
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

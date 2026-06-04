@@ -56,10 +56,10 @@ _language: kr
 
 카테고리 시리즈에는 다음과 같은 데이터 요구 사항이 있습니다:
 
--   데이터 소스는 배열 또는 데이터 항목 목록이어야 함
--   데이터 소스에는 하나 이상의 데이터 항목이 포함되어야 하며 그렇지 않을 경우에는 차트가 카테고리 시리즈를 렌더링하지 않습니다.
--   모든 데이터 항목에는 카테고리 축(예: [`IgxCategoryXAxisComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcategoryxaxiscomponent.html))의 [`IgxLabelComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxlabelcomponent.html) 속성에 매핑해야 하는 하나 이상의 데이터 열(문자열 또는 날짜 시간)이 포함되어 있어야 함
--   모든 데이터 항목에는 카테고리 시리즈(예: [`IgxLineSeriesComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxlineseriescomponent.html))의 `ValueMemberPath` 속성을 사용하여 매핑하는 숫자 데이터 열이 하나 이상 있어야 합니다
+- 데이터 소스는 배열 또는 데이터 항목 목록이어야 함
+- 데이터 소스에는 하나 이상의 데이터 항목이 포함되어야 하며 그렇지 않을 경우에는 차트가 카테고리 시리즈를 렌더링하지 않습니다.
+- 모든 데이터 항목에는 카테고리 축(예: [`IgxCategoryXAxisComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcategoryxaxiscomponent.html))의 [`IgxLabelComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxlabelcomponent.html) 속성에 매핑해야 하는 하나 이상의 데이터 열(문자열 또는 날짜 시간)이 포함되어 있어야 함
+- 모든 데이터 항목에는 카테고리 시리즈(예: [`IgxLineSeriesComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxlineseriescomponent.html))의 `ValueMemberPath` 속성을 사용하여 매핑하는 숫자 데이터 열이 하나 이상 있어야 합니다
 
 [SampleCategoryData](data-chart-data-sources-category.md)는 위의 데이터 요구 사항을 충족하는 데이터 소스로 사용할 수 있습니다.
 
@@ -145,12 +145,12 @@ import { IgxDataChartCategoryModule } from 'igniteui-angular-charts';
 
 ## 추가 리소스
 
--   [축 유형](data-chart-axis-types.md)
--   [축 공유](data-chart-axis-sharing.md)
--   [차트 범례](data-chart-legends.md)
--   [시리즈 주석](data-chart-series-annotations.md)
--   [시리즈 강조 표시](data-chart-series-highlighting.md)
--   [시리즈 마커](data-chart-series-markers.md)
--   [시리즈 도구 설명](data-chart-series-tooltips.md)
--   [시리즈 추세선](data-chart-series-trendlines.md)
--   [시리즈 유형](data-chart-series-types.md)
+- [축 유형](data-chart-axis-types.md)
+- [축 공유](data-chart-axis-sharing.md)
+- [차트 범례](data-chart-legends.md)
+- [시리즈 주석](data-chart-series-annotations.md)
+- [시리즈 강조 표시](data-chart-series-highlighting.md)
+- [시리즈 마커](data-chart-series-markers.md)
+- [시리즈 도구 설명](data-chart-series-tooltips.md)
+- [시리즈 추세선](data-chart-series-trendlines.md)
+- [시리즈 유형](data-chart-series-types.md)

@@ -9,20 +9,20 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 
 <p class="highlight">
 
-The [`IgxQueryBuilderComponent`]({environment:angularApiUrl}/classes/igxquerybuildercomponent.html) component provides a way to build complex queries through the UI. By specifying AND/OR operators, conditions and values the user creates an expression tree which describes the query. 
+The [`IgxQueryBuilderComponent`]({environment:angularApiUrl}/classes/igxquerybuildercomponent.html) component provides a way to build complex queries through the UI. By specifying AND/OR operators, conditions and values the user creates an expression tree which describes the query.
 </p>
 
 ## Angular Query Builder Example
 
-<code-view style="height:530px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:530px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/query-builder/query-builder-main/" alt="Angular Query Builder Example">
 </code-view>
 
 
 ## Interaction
 
-If no expression tree is initially set, you start with creating a group of conditions linked with [`AND`]({environment:angularApiUrl}/enums/filteringlogic.html#and) or [`OR`]({environment:angularApiUrl}/enums/filteringlogic.html#or). After that, conditions or sub-groups can be added. 
+If no expression tree is initially set, you start with creating a group of conditions linked with [`AND`]({environment:angularApiUrl}/enums/filteringlogic.html#and) or [`OR`]({environment:angularApiUrl}/enums/filteringlogic.html#or). After that, conditions or sub-groups can be added.
 
 In order to add a condition, a field, an operand based on the field dataType and a value if the operand is not unary. Once the condition is committed, a chip with the condition information appears. By hovering or clicking the chip, you have the options to modify it or add another condition or group right after it.
 
@@ -72,7 +72,7 @@ To get started with styling the Query Builder, we need to import the `index` fil
 
 // IMPORTANT: Prior to Ignite UI for Angular version 13 use:
 // @import '~igniteui-angular/lib/core/styles/themes/index';
-``` 
+```
 
 The Query Builder takes its background color from the its theme, using the `background` parameter. In order to change the background we need to create a custom theme:
 
@@ -210,7 +210,8 @@ $yellow-color: #FFCD0F;
 $black-color: #292826;
 $dark-palette: palette($primary: $yellow-color, $secondary: $black-color);
 ```
-And then with [`color`]({environment:sassApiUrl}/palettes#function-color) we can easily retrieve color from the palette. 
+
+And then with [`color`]({environment:sassApiUrl}/palettes#function-color) we can easily retrieve color from the palette.
 
 ```scss
 $custom-query-builder: query-builder-theme(
@@ -356,9 +357,9 @@ Don't forget to include the themes in the same way as it was demonstrated above.
 
 ### Demo
 
-<code-view style="height:530px" 
+<code-view style="height:530px"
            no-theming
-           data-demos-base-url="{environment:demosBaseUrl}" 
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/query-builder/query-builder-style/" >
 </code-view>
 
@@ -367,12 +368,12 @@ Don't forget to include the themes in the same way as it was demonstrated above.
 
 ## API References
 
-* [IgxQueryBuilderComponent API]({environment:angularApiUrl}/classes/igxquerybuildercomponent.html)
-* [IgxQueryBuilderComponent Styles]({environment:sassApiUrl}/themes#function-query-builder-theme)
+- [IgxQueryBuilderComponent API]({environment:angularApiUrl}/classes/igxquerybuildercomponent.html)
+- [IgxQueryBuilderComponent Styles]({environment:sassApiUrl}/themes#function-query-builder-theme)
 
 ## Additional Resources
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -84,6 +84,7 @@ Sometimes there may be a delay in your data loading. In this case you can set th
     </ng-template>
 </igx-list>
 ```
+
 ```css
 /* contacts.component.css */
 
@@ -477,6 +478,7 @@ igx-icon {
     align-items: center;
 }
 ```
+
 And finally here is the typescript code handling the panning events:
 
 ```typescript
@@ -626,16 +628,16 @@ public selectItem(item) {
 
 In this article we covered a lot of ground with the list component. We created a list of contact items. Used some additional Ignite UI for Angular components inside our list items, like avatars and icons. Created some custom item layout and styled it. Finally, we added list filtering. The list component has a few more APIs to explore, which are listed below.
 
-* [IgxListComponent API]({environment:angularApiUrl}/classes/igxlistcomponent.html)
-* [IgxListComponent Styles]({environment:sassApiUrl}/themes#function-list-theme)
-* [IgxListItemComponent API]({environment:angularApiUrl}/classes/igxlistitemcomponent.html)
+- [IgxListComponent API]({environment:angularApiUrl}/classes/igxlistcomponent.html)
+- [IgxListComponent Styles]({environment:sassApiUrl}/themes#function-list-theme)
+- [IgxListItemComponent API]({environment:angularApiUrl}/classes/igxlistitemcomponent.html)
 
 Additional components that were used:
 
-* [IgxAvatarComponent API]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
-* [IgxAvatarComponent Styles]({environment:sassApiUrl}/themes#function-avatar-theme)
-* [IgxIconComponent API]({environment:angularApiUrl}/classes/igxiconcomponent.html)
-* [IgxIconComponent Styles]({environment:sassApiUrl}/themes#function-icon-theme)
+- [IgxAvatarComponent API]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
+- [IgxAvatarComponent Styles]({environment:sassApiUrl}/themes#function-avatar-theme)
+- [IgxIconComponent API]({environment:angularApiUrl}/classes/igxiconcomponent.html)
+- [IgxIconComponent Styles]({environment:sassApiUrl}/themes#function-icon-theme)
 
 <igc-divider></igc-divider>
 
@@ -643,5 +645,5 @@ Additional components that were used:
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

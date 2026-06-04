@@ -40,6 +40,7 @@ export class AppModule {}
 ```
 
 The demo uses [igx-switch]({environment:angularApiUrl}/classes/igxswitchcomponent.html) component to toggle [igx-combo]({environment:angularApiUrl}/classes/igxcombocomponent.html) properties' values. Note that grouping is enabled/disabled by setting [groupKey]({environment:angularApiUrl}/classes/igxcombocomponent.html#groupkey) to corresponding data source entity or setting it to empty string.
+
 ```html
 <div class="combo-container">
     <igx-combo #combo [data]="lData" [displayKey]="'field'" [valueKey]="'field'"
@@ -146,19 +147,19 @@ Defining a combo's groupKey option will group the items, according to the provid
 
 ## API
 
-* IgxComboComponent [**API Reference**]({environment:angularApiUrl}/classes/igxcombocomponent.html) and
+- IgxComboComponent [**API Reference**]({environment:angularApiUrl}/classes/igxcombocomponent.html) and
 [**Themes Reference**]({environment:sassApiUrl}/themes#function-combo-theme).
 
 ## Additional Resources
 
-* [Combo Remote Binding](combo-remote.md)
-* [Combo Templates](combo-templates.md)
-* [Template Driven Forms Integration](input-group.md)
-* [Reactive Forms Integration](angular-reactive-form-validation.md)
-* [Single Select ComboBox](simple-combo.md)
-* [IgxSwitch](switch.md)
+- [Combo Remote Binding](combo-remote.md)
+- [Combo Templates](combo-templates.md)
+- [Template Driven Forms Integration](input-group.md)
+- [Reactive Forms Integration](angular-reactive-form-validation.md)
+- [Single Select ComboBox](simple-combo.md)
+- [IgxSwitch](switch.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
