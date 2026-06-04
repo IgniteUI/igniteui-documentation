@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { cpSync, existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'fs';
+import { closeSync, cpSync, existsSync, ftruncateSync, openSync, readFileSync, readdirSync, statSync, writeSync } from 'fs';
 import { join, dirname, relative } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -79,13 +79,25 @@ function normalizeCopiedMarkdownFiles(srcDir, destDir) {
     if (!/\.(md|mdx)$/i.test(srcPath)) return;
 
     const destPath = join(destDir, relative(srcDir, srcPath));
-    if (!existsSync(destPath)) return;
+    let fd;
 
-    const original = readFileSync(destPath, 'utf8');
-    const normalized = normalizeMarkdownSpacing(original);
-    if (normalized !== original) {
-      writeFileSync(destPath, normalized);
-      normalizedCount++;
+    try {
+      fd = openSync(destPath, 'r+');
+      const original = readFileSync(fd, 'utf8');
+      const normalized = normalizeMarkdownSpacing(original);
+
+      if (normalized !== original) {
+        ftruncateSync(fd, 0);
+        writeSync(fd, normalized, 0, 'utf8');
+        normalizedCount++;
+      }
+    } catch (error) {
+      if (error?.code === 'ENOENT') return;
+      throw error;
+    } finally {
+      if (fd !== undefined) {
+        closeSync(fd);
+      }
     }
   }
 
