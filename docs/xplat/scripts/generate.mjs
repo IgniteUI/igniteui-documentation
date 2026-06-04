@@ -130,6 +130,40 @@ const EXCLUDED_SLUGS = (() => {
 console.log(`[generate] Excluded pages for ${PLATFORM}: ${EXCLUDED_SLUGS.size}`);
 
 // ---------------------------------------------------------------------------
+// Markdown spacing
+// ---------------------------------------------------------------------------
+
+function normalizeMarkdownSpacing(content) {
+    const hasFinalNewline = /\r?\n$/.test(content);
+    const lines = content.replace(/\r\n/g, '\n').split('\n');
+    const result = [];
+    let blankCount = 0;
+
+    for (const line of lines) {
+        if (line.trim() === '') {
+            blankCount++;
+            if (blankCount <= 1) {
+                result.push('');
+            }
+            continue;
+        }
+
+        blankCount = 0;
+        result.push(line);
+    }
+
+    let normalized = result.join('\n').replace(/\n+$/, '');
+    if (hasFinalNewline) {
+        normalized += '\n';
+    }
+    return normalized;
+}
+
+function prepareMarkdownOutput(content) {
+    return normalizeMarkdownSpacing(content);
+}
+
+// ---------------------------------------------------------------------------
 // Sort longer names first to avoid partial-match problems
 // e.g. {PlatformLower} must match before {Platform}
 const replacements = platformConfig.replacements
@@ -576,7 +610,7 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
             content = ensureMdxImports(content);
 
             // 8. Write as .mdx
-            writeFileSync(path.join(outSubDir, entry), content, 'utf8');
+            writeFileSync(path.join(outSubDir, entry), prepareMarkdownOutput(content), 'utf8');
         }
 
         console.log(`[generate] _shared/${entry} → grid/, hierarchical-grid/, tree-grid/, pivot-grid/`);
@@ -604,9 +638,9 @@ function processDir(srcDir, outDir, relBase = '') {
             }
             const raw = readFileSync(srcPath, 'utf8');
             if (/\.mdx$/.test(entry)) {
-                writeFileSync(path.join(outDir, entry), ensureMdxImports(transformMdxFile(raw)), 'utf8');
+                writeFileSync(path.join(outDir, entry), prepareMarkdownOutput(ensureMdxImports(transformMdxFile(raw))), 'utf8');
             } else {
-                writeFileSync(path.join(outDir, entry), transformRegularFile(raw), 'utf8');
+                writeFileSync(path.join(outDir, entry), prepareMarkdownOutput(transformRegularFile(raw)), 'utf8');
             }
         } else if (entry.endsWith('.json') && entry !== 'toc.json') {
             const raw = readFileSync(srcPath, 'utf8');

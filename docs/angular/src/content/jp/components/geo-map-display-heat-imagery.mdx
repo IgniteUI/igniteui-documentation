@@ -9,10 +9,9 @@ _language: ja
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
-
 # Angular ヒート画像の表示
 
-Ignite UI for Angular マップ コントロールには、Shape ファイルをタイル シリーズにロードして地理空間データをロードすることにより、<ApiLink pkg="geo-core" type="ShapefileRecord" suffix={false} /> によって生成される `ShapeFileRecord` を使用して、ヒートマップ画像を表示する機能があります。
+Ignite UI for Angular マップ コントロールには、Shape ファイルをタイル シリーズにロードして地理空間データをロードすることにより、<ApiLink type="ShapefileRecord" /> によって生成される `ShapeFileRecord` を使用して、ヒートマップ画像を表示する機能があります。
 
 このトピックを読み進めるための前提条件として、[シェープ ファイルを地理的データにバインディング](geo-map-binding-shp-file.md)をお読みください。
 
@@ -20,27 +19,19 @@ Ignite UI for Angular マップ コントロールには、Shape ファイルを
 
 <Sample src="/maps/geo-map/display-heat-imagery" height={500} alt="Angular ヒート画像の表示の例" />
 
+<ApiLink type="ShapefileRecord" /> がそのシェイプ ファイルを読み込むと、そのデータを <ApiLink type="ShapefileRecord" /> オブジェクトに変換します。これらのオブジェクトは、<ApiLink type="ShapefileRecord" /> の `GetPointData()` メソッドから取得でき、
+<ApiLink type="TileGeneratorMapImagery" member="tileGenerator" label="TileGenerator" />
+プロパティに割り当てられた <ApiLink type="HeatTileGenerator" /> で <ApiLink type="TileGeneratorMapImagery" /> オブジェクトを使用してヒートマップを作成するために使用できます。この <ApiLink type="TileGeneratorMapImagery" /> は、<ApiLink type="GeographicTileSeries" member="tileImagery" label="TileImagery" /> ソースとして <ApiLink type="GeographicTileSeries" /> で使用できます。
 
+<ApiLink type="HeatTileGenerator" /> オブジェクトは、<ApiLink type="HeatTileGenerator" member="xValues" label="XValues" />、<ApiLink type="HeatTileGenerator" member="yValues" label="YValues" />、<ApiLink type="HeatTileGenerator" member="values" label="Values" /> の 3 つの値パスを持つように機能します。これらの使用方法の例として、人口に関する情報を持つ形状ファイルの場合、<ApiLink type="HeatTileGenerator" member="xValues" label="XValues" /> を経度、<ApiLink type="HeatTileGenerator" member="yValues" label="YValues" /> を緯度、<ApiLink type="HeatTileGenerator" member="values" label="Values" /> を人口データとみなすことができます。これらの各プロパティは、`number[]` を取得します。
 
+ヒートマップ機能を使用する際の地理的タイルシリーズの表示は、<ApiLink type="HeatTileGenerator" member="minimumColor" label="MinimumColor" /> プロパティと <ApiLink type="HeatTileGenerator" member="maximumColor" label="MaximumColor" /> プロパティを <ApiLink type="HeatTileGenerator" /> の <ApiLink type="HeatTileGenerator" member="values" label="Values" /> プロパティに割り当てるコレクションの最小値と最大値に対応する色を記述する「rgba」文字列に設定することでカスタマイズできます。これをさらにカスタマイズするには、ジェネレーターの <ApiLink type="HeatTileGenerator" member="scaleColors" label="ScaleColors" /> プロパティを設定して、色を説明する文字列のコレクションを含めます。これにより、<ApiLink type="HeatTileGenerator" /> に、マップに表示される値に使用する色がわかります。<ApiLink type="HeatTileGenerator" member="blurRadius" label="BlurRadius" />、<ApiLink type="HeatTileGenerator" member="maxBlurRadius" label="MaxBlurRadius" />、<ApiLink type="HeatTileGenerator" member="useBlurRadiusAdjustedForZoom" label="UseBlurRadiusAdjustedForZoom" /> プロパティを使用して、<ApiLink type="HeatTileGenerator" member="scaleColors" label="ScaleColors" /> コレクション内の色が一緒にぼやける方法をカスタマイズすることもできます。
 
-<ApiLink pkg="geo-core" type="ShapefileRecord" suffix={false} /> がそのシェイプ ファイルを読み込むと、そのデータを <ApiLink pkg="geo-core" type="ShapefileRecord" suffix={false} /> オブジェクトに変換します。これらのオブジェクトは、<ApiLink pkg="geo-core" type="ShapefileRecord" suffix={false} /> の `GetPointData()` メソッドから取得でき、
-
-  <ApiLink type="TileGeneratorMapImagery" pkg="maps" member="tileGenerator" label="TileGenerator" suffix={false} />
-
-
-プロパティに割り当てられた <ApiLink pkg="geo-core" type="HeatTileGenerator" suffix={false} exclude="Angular" /> で <ApiLink pkg="maps" type="TileGeneratorMapImagery" suffix={false} /> オブジェクトを使用してヒートマップを作成するために使用できます。この <ApiLink pkg="maps" type="TileGeneratorMapImagery" suffix={false} /> は、<ApiLink pkg="maps" type="GeographicTileSeries" member="tileImagery" label="TileImagery" /> ソースとして <ApiLink pkg="maps" type="GeographicTileSeries" /> で使用できます。
-
-<ApiLink pkg="geo-core" type="HeatTileGenerator" suffix={false} exclude="Angular" /> オブジェクトは、<ApiLink type="HeatTileGenerator" member="xValues" label="XValues" exclude="Angular,React,WebComponents" />、<ApiLink type="HeatTileGenerator" member="yValues" label="YValues" exclude="Angular,React,WebComponents" />、<ApiLink type="HeatTileGenerator" member="values" label="Values" exclude="Angular,React,WebComponents" /> の 3 つの値パスを持つように機能します。これらの使用方法の例として、人口に関する情報を持つ形状ファイルの場合、<ApiLink type="HeatTileGenerator" member="xValues" label="XValues" exclude="Angular,React,WebComponents" /> を経度、<ApiLink type="HeatTileGenerator" member="yValues" label="YValues" exclude="Angular,React,WebComponents" /> を緯度、<ApiLink type="HeatTileGenerator" member="values" label="Values" exclude="Angular,React,WebComponents" /> を人口データとみなすことができます。これらの各プロパティは、`number[]` を取得します。
-
-ヒートマップ機能を使用する際の地理的タイルシリーズの表示は、<ApiLink type="HeatTileGenerator" member="minimumColor" label="MinimumColor" exclude="Angular,React,WebComponents" /> プロパティと <ApiLink type="HeatTileGenerator" member="maximumColor" label="MaximumColor" exclude="Angular,React,WebComponents" /> プロパティを <ApiLink pkg="geo-core" type="HeatTileGenerator" suffix={false} exclude="Angular" /> の <ApiLink type="HeatTileGenerator" member="values" label="Values" exclude="Angular,React,WebComponents" /> プロパティに割り当てるコレクションの最小値と最大値に対応する色を記述する「rgba」文字列に設定することでカスタマイズできます。これをさらにカスタマイズするには、ジェネレーターの <ApiLink type="HeatTileGenerator" member="ScaleColors" label="ScaleColors" exclude="Angular,React,WebComponents" /> プロパティを設定して、色を説明する文字列のコレクションを含めます。これにより、<ApiLink pkg="geo-core" type="HeatTileGenerator" suffix={false} exclude="Angular" /> に、マップに表示される値に使用する色がわかります。<ApiLink type="HeatTileGenerator" member="blurRadius" label="BlurRadius" exclude="Angular,React,WebComponents" />、<ApiLink type="HeatTileGenerator" member="maxBlurRadius" label="MaxBlurRadius" exclude="Angular,React,WebComponents" />、<ApiLink type="HeatTileGenerator" member="useBlurRadiusAdjustedForZoom" label="UseBlurRadiusAdjustedForZoom" exclude="Angular,React,WebComponents" /> プロパティを使用して、<ApiLink type="HeatTileGenerator" member="ScaleColors" label="ScaleColors" exclude="Angular,React,WebComponents" /> コレクション内の色が一緒にぼやける方法をカスタマイズすることもできます。
-
-<ApiLink pkg="geo-core" type="HeatTileGenerator" suffix={false} exclude="Angular" /> は対数スケールも使用できます。これを使用する場合は、<ApiLink type="HeatTileGenerator" member="useLogarithmicScale" label="UseLogarithmicScale" exclude="Angular,React,WebComponents" /> プロパティを **true** に設定できます。
-
+<ApiLink type="HeatTileGenerator" /> は対数スケールも使用できます。これを使用する場合は、<ApiLink type="HeatTileGenerator" member="useLogarithmicScale" label="UseLogarithmicScale" /> プロパティを **true** に設定できます。
 
 ## Web Worker
 
-また、<ApiLink type="HeatTileGenerator" exclude="Angular,React,WebComponents" /> は、Web Worker が、別のスレッドでシェイプ ファイルからタイル イメージをロードする際の重いリフティングをサポートしています。これにより、ヒートマップ機能を使用する際に地理マップのパフォーマンスが大幅に向上します。ジェネレーターでWebワーカーを使用するには、<ApiLink type="HeatTileGenerator" member="useWebWorkers" label="UseWebWorkers" exclude="Angular,React,WebComponents" /> プロパティを **true** に設定し、<ApiLink type="HeatTileGenerator" member="webWorkerInstance" label="WebWorkerInstance" exclude="Angular,React,WebComponents" /> プロパティを Web Worker のインスタンスに設定できます。
-
+また、<ApiLink type="HeatTileGenerator" /> は、Web Worker が、別のスレッドでシェイプ ファイルからタイル イメージをロードする際の重いリフティングをサポートしています。これにより、ヒートマップ機能を使用する際に地理マップのパフォーマンスが大幅に向上します。ジェネレーターでWebワーカーを使用するには、<ApiLink type="HeatTileGenerator" member="useWebWorkers" label="UseWebWorkers" /> プロパティを **true** に設定し、<ApiLink type="HeatTileGenerator" member="webWorkerInstance" label="WebWorkerInstance" /> プロパティを Web Worker のインスタンスに設定できます。
 
 ```ts
 // heatworker.worker.ts
@@ -54,10 +45,8 @@ function heatWorkerPostMessage() {
 }
 HeatTileGeneratorWebWorker.start();
 export default {} as typeof Worker & (new () => Worker);
+
 ```
-
-
-
 
 ```ts
 import { IgxHeatTileGenerator } from 'igniteui-angular-core';
@@ -66,24 +55,15 @@ import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
 import { IgxTileGeneratorMapImagery } from 'igniteui-angular-maps';
 ```
 
-
-
-
 ## ヒートマップの作成
 
 以下のコード スニペットは、人口ベースのヒートマップを Ignite UI for Angular マップ コンポーネントに表示する方法を示しています。
-
-
-
 
 ```html
 <igx-geographic-map #map width="100%" height="calc(100% - 60px)">
     <igx-geographic-tile-series name="heatTiles" [tileImagery]="tileImagery"></igx-geographic-tile-series>
 </igx-geographic-map>
 ```
-
-
-
 
 ```ts
 @ViewChild("map", { static: true })
@@ -151,10 +131,8 @@ constructor() {
 
 ## API リファレンス
 
-<ApiLink type="GeographicTileSeries" pkg="maps" /><br />
-<ApiLink pkg="geo-core" type="HeatTileGenerator" suffix={false} exclude="Angular" /><br />
-<ApiLink pkg="geo-core" type="ShapefileRecord" suffix={false} /><br />
-<ApiLink pkg="geo-core" type="ShapefileRecord" suffix={false} /><br />
-<ApiLink type="TileGeneratorMapImagery" pkg="maps" suffix={false} /><br />
-
-
+<ApiLink type="GeographicTileSeries" /><br />
+<ApiLink type="HeatTileGenerator" /><br />
+<ApiLink type="ShapefileRecord" /><br />
+<ApiLink type="ShapefileRecord" /><br />
+<ApiLink type="TileGeneratorMapImagery" /><br />
