@@ -18,8 +18,8 @@ The pivot and flat grid component classes inherit from a common base and thus sh
 
 The Pivot Grid component has additional features and functionalities related to its dimensions as described below.
 
-<code-view style="height: 870px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 870px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/pivot-grid/pivot-grid-features/" alt="Angular Pivot Grid with Pivot Selector Example">
 </code-view>
 
@@ -140,16 +140,16 @@ Chips from these areas can not be moved to the `values` area and chips from the 
 >The chips from the Pivot Grid can not be moved to the Pivot Data Selector and items from the Pivot Data Selector can not be moved to the Pivot Grid.
 
 ## API References
-* [IgxPivotGridComponent]({environment:angularApiUrl}/classes/igxpivotgridcomponent.html)
-* [IgxPivotDataSelectorComponent]({environment:angularApiUrl}/classes/igxpivotdataselectorcomponent.html)
+- [IgxPivotGridComponent]({environment:angularApiUrl}/classes/igxpivotgridcomponent.html)
+- [IgxPivotDataSelectorComponent]({environment:angularApiUrl}/classes/igxpivotdataselectorcomponent.html)
 
 
 ## Additional Resources
-* [Angular Pivot Grid Overview](pivot-grid.md)
-* [Angular Pivot Grid Custom Aggregations](pivot-grid-custom.md)
+- [Angular Pivot Grid Overview](pivot-grid.md)
+- [Angular Pivot Grid Custom Aggregations](pivot-grid-custom.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
 

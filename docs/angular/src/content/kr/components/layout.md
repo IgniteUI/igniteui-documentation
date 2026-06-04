@@ -5,19 +5,19 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-##Layout Manager
+## Layout Manager
 <p class="highlight">The Ignite UI for Angular Layout Directive allows developers to specify a layout direction for any children of the container it is applied to. Layout can flow vertically or horizontally, with controls for wrapping, justification, and alignment.</p>
 <igc-divider></igc-divider>
 
 ### Layout Demo
 
-<code-view style="height: 2460px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 2460px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/layout/" >
 </code-view>
 
 
-###Usage
+### Usage
 Use the [**igxLayout**]({environment:angularApiUrl}/classes/igxlayoutdirective.html) directive on a container element to specify the layout
 direction for its children: horizontally with [`igxLayoutDir`]({environment:angularApiUrl}/classes/igxlayoutdirective.html#dir)`="row"` or vertically with
 [`igxLayoutDir`]({environment:angularApiUrl}/classes/igxlayoutdirective.html#dir)`="column"`.
@@ -31,5 +31,5 @@ Use the [`igxFlex`]({environment:angularApiUrl}/classes/igxflexdirective.html) d
 
 ## API References
 
-* [IgxLayoutDirective]({environment:angularApiUrl}/classes/igxlayoutdirective.html)
-* [IgxFlexDirective]({environment:angularApiUrl}/classes/igxflexdirective.html)
+- [IgxLayoutDirective]({environment:angularApiUrl}/classes/igxlayoutdirective.html)
+- [IgxFlexDirective]({environment:angularApiUrl}/classes/igxflexdirective.html)

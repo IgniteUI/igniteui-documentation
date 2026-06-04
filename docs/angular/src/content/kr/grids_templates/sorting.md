@@ -28,24 +28,24 @@ In Ignite UI for Angular @@igComponent, data sorting is enabled on a per-column 
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-sorting-sample/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-sorting/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
-<code-view style="height:510px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:510px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-sorting/" >
 </code-view>
 
@@ -115,23 +115,23 @@ public ngOnInit() {
 }
 
 ### API 참조
-* [@@igxNameComponent API]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
-* [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
-* [ISortingExpression]({environment:angularApiUrl}/interfaces/isortingexpression.html)
+- [@@igxNameComponent API]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
+- [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [ISortingExpression]({environment:angularApiUrl}/interfaces/isortingexpression.html)
 
 ### 추가 리소스
 
-* [@@igComponent 개요](@@igMainTopic.md)
-* [가상화 및 성능](virtualization.md)
-* [페이징](paging.md)
-* [필터링](filtering.md)
-* [요약](summaries.md)
-* [열 이동](column-moving.md)
-* [열 핀 고정](column_pinning.md)
-* [열 크기 조정](column-resizing.md)
-* [선택](selection.md)
+- [@@igComponent 개요](@@igMainTopic.md)
+- [가상화 및 성능](virtualization.md)
+- [페이징](paging.md)
+- [필터링](filtering.md)
+- [요약](summaries.md)
+- [열 이동](column-moving.md)
+- [열 핀 고정](column_pinning.md)
+- [열 크기 조정](column-resizing.md)
+- [선택](selection.md)
 
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

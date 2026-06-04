@@ -12,8 +12,8 @@ _language: kr
 ### 데모
 
 
-<code-view style="height:700px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:700px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:lobDemosBaseUrl}/grid/grid/" >
 </code-view>
 
@@ -63,7 +63,7 @@ public grid: IgxGridComponent;
 > [!NOTE]
 > [**IgxGridComponent**]({environment:angularApiUrl}/classes/igxgridcomponent.html)는 **프리픽스 없이는 IE에서 지원되지 않는** **css 그리드 레이아웃**을 사용하므로 결과적으로 제대로 렌더링되지 않습니다.
 
-[**Angular**](https://angular.io/)의 대부분의 스타일은 [Autoprefixer](https://www.npmjs.com/package/autoprefixer) 플러그인으로 인해 암시적으로 프리픽스가 됩니다. 
+[**Angular**](https://angular.io/)의 대부분의 스타일은 [Autoprefixer](https://www.npmjs.com/package/autoprefixer) 플러그인으로 인해 암시적으로 프리픽스가 됩니다.
 
 단, **그리드 레이아웃**의 프리픽스의 경우, [Autoprefixer](https://www.npmjs.com/package/autoprefixer) **그리드 속성**을 주석 `/* autoprefixer grid:on */`에서 활성화해야 합니다.
 
@@ -77,7 +77,7 @@ public grid: IgxGridComponent;
 
     /* autoprefixer grid:on */
  ...
- ``` 
+ ```
 
 ### 열 구성
 
@@ -209,7 +209,7 @@ public initColumns(column: IgxGridColumn) {
 
 ### 데이터 구조
 
-[IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)는 **플랫 데이터**만 가져옵니다. 렌더링에 특정 데이터 구조는 다음 형식으로 됩니다: 
+[IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)는 **플랫 데이터**만 가져옵니다. 렌더링에 특정 데이터 구조는 다음 형식으로 됩니다:
 
 ```typescript
 const OBJECT_ARRAY = [{
@@ -241,10 +241,11 @@ const OBJECT_ARRAY = [{
     }];
 
 ```
+
 >[!경고]
 >**키 값에는 배열이나 다른 객체가 없어야 합니다**.
 
->[autoGenerate]({environment:angularApiUrl}/classes/igxgridcomponent.html#autogenerate) 열을 사용하는 경우에는 **데이터 키가 동일해야 합니다.** 
+>[autoGenerate]({environment:angularApiUrl}/classes/igxgridcomponent.html#autogenerate) 열을 사용하는 경우에는 **데이터 키가 동일해야 합니다.**
 
 ### 데이터 바인딩
 
@@ -381,37 +382,37 @@ Achieving a state persistence framework is easier than ever by using the new bui
 ### 키보드 탐색
 키보드 탐색은 모든 그리드에서 기본적으로 사용할 수 있으며 최종 사용자를 위해 가능한 많은 기능과 시나리오를 포함하도록 하고 있습니다. 특정 셀에 초점을 맞추고 다음 키 조합 중 하나를 누른 경우 설명된 동작이 실행됩니다:
 
- - `위 화살표` - 한 셀 위로 이동(줄 바꿈 없음);
- - `아래 화살표` - 한 셀 아래로 이동(줄 바꿈 없음);
- - `왼쪽 화살표` - 한 셀 왼쪽으로 이동(라인 간에 줄 바꿈 없음);
- - `오른쪽 화살표` - 한 셀 오른쪽으로 이동(라인 간에 줄 바꿈 없음);
- - `Ctrl + 위 화살표` - 현재 열의 첫 번째 셀로 이동;
- - `Ctrl + 아래 화살표` - 현재 열의 마지막 셀로 이동;
- - `Ctrl + 왼쪽 화살표` -  행의 가장 왼쪽 셀로 이동;
- - `Home` - 행의 가장 왼쪽 셀로 이동;
- - `Ctrl + Home` - 그리드의 왼쪽 상단 셀로 이동;
- - `Ctrl + 오른쪽 화살표` -  행의 가장 오른쪽 셀로 이동;
- - `End` - 행의 가장 오른쪽 셀로 이동;
- - `Ctrl + End` - 그리드의 오른쪽 하단 셀로 이동;
- - `Page Up` - 한 페이지(뷰 포트) 위로 스크롤;
- - `Page Down` -  한 페이지(뷰 포트) 아래로 스크롤;
- - `Enter` - 편집 모드로 들어감;
- - `F2` - 편집 모드로 들어감;
- - `Esc` - 편집 모드를 종료함;
- - `Tab` - 순차적으로 포커스를 행의 다음 셀 위로 이동하고, 마지막 셀에 도달하면 다음 행으로 이동합니다; 다음 행이 그룹 행인 경우에는 전체 행이 포커스되고, 데이터 행인 경우에는 첫 번째 셀 위로 포커스를 이동합니다; 셀이 편집 모드인 경우에는 행의 다음 편집 가능한 셀로 이동하고, 편집 가능한 가장 오른쪽 셀에서 `CANCEL` 및 `DONE` 버튼으로 이동하고, `DONE` 버튼으로 현재 편집된 행 안의 편집 가능한 가장 왼쪽 셀로 이동합니다;
- - `Shift + Tab` - 순차적으로 행의 이전 셀로 포커스를 이동하고, 첫 번째 셀에 도달하면 포커스를 이전 행으로 이동합니다. 이전 행이 그룹 행인 경우에는 전체 행이 포커스되고, 데이터 행인 경우에는 행의 마지막 셀에 포커스됩니다; 셀이 편집 모드인 경우에는 행의 다음 편집 가능한 셀로 이동하고, 편집 가능한 가장 오른쪽 셀에서 `CANCEL` 및 `DONE` 버튼으로 이동하고, `DONE` 버튼으로 현재 편집된 행 안의 편집 가능한 가장 왼쪽 셀로 이동합니다;
- - `Space` -  행을 선택할 수 있는 경우에는 스페이스 키를 누르면 행 선택을 트리거합니다;
- - GroupRow 위에서 `Alt + 왼쪽 화살표` - 행이 아직 축소되지 않은 경우에는 그룹 행 콘텐츠를 축소합니다;
- - GroupRow 위에서 `Alt + 오른쪽 화살표` - 행이 아직 확장되지 않은 경우에는 그룹 행 콘텐츠를 확장합니다;
- - 마우스 `휠` -  포커스 요소를 흐리게 합니다;
+- `위 화살표` - 한 셀 위로 이동(줄 바꿈 없음);
+- `아래 화살표` - 한 셀 아래로 이동(줄 바꿈 없음);
+- `왼쪽 화살표` - 한 셀 왼쪽으로 이동(라인 간에 줄 바꿈 없음);
+- `오른쪽 화살표` - 한 셀 오른쪽으로 이동(라인 간에 줄 바꿈 없음);
+- `Ctrl + 위 화살표` - 현재 열의 첫 번째 셀로 이동;
+- `Ctrl + 아래 화살표` - 현재 열의 마지막 셀로 이동;
+- `Ctrl + 왼쪽 화살표` -  행의 가장 왼쪽 셀로 이동;
+- `Home` - 행의 가장 왼쪽 셀로 이동;
+- `Ctrl + Home` - 그리드의 왼쪽 상단 셀로 이동;
+- `Ctrl + 오른쪽 화살표` -  행의 가장 오른쪽 셀로 이동;
+- `End` - 행의 가장 오른쪽 셀로 이동;
+- `Ctrl + End` - 그리드의 오른쪽 하단 셀로 이동;
+- `Page Up` - 한 페이지(뷰 포트) 위로 스크롤;
+- `Page Down` -  한 페이지(뷰 포트) 아래로 스크롤;
+- `Enter` - 편집 모드로 들어감;
+- `F2` - 편집 모드로 들어감;
+- `Esc` - 편집 모드를 종료함;
+- `Tab` - 순차적으로 포커스를 행의 다음 셀 위로 이동하고, 마지막 셀에 도달하면 다음 행으로 이동합니다; 다음 행이 그룹 행인 경우에는 전체 행이 포커스되고, 데이터 행인 경우에는 첫 번째 셀 위로 포커스를 이동합니다; 셀이 편집 모드인 경우에는 행의 다음 편집 가능한 셀로 이동하고, 편집 가능한 가장 오른쪽 셀에서 `CANCEL` 및 `DONE` 버튼으로 이동하고, `DONE` 버튼으로 현재 편집된 행 안의 편집 가능한 가장 왼쪽 셀로 이동합니다;
+- `Shift + Tab` - 순차적으로 행의 이전 셀로 포커스를 이동하고, 첫 번째 셀에 도달하면 포커스를 이전 행으로 이동합니다. 이전 행이 그룹 행인 경우에는 전체 행이 포커스되고, 데이터 행인 경우에는 행의 마지막 셀에 포커스됩니다; 셀이 편집 모드인 경우에는 행의 다음 편집 가능한 셀로 이동하고, 편집 가능한 가장 오른쪽 셀에서 `CANCEL` 및 `DONE` 버튼으로 이동하고, `DONE` 버튼으로 현재 편집된 행 안의 편집 가능한 가장 왼쪽 셀로 이동합니다;
+- `Space` -  행을 선택할 수 있는 경우에는 스페이스 키를 누르면 행 선택을 트리거합니다;
+- GroupRow 위에서 `Alt + 왼쪽 화살표` - 행이 아직 축소되지 않은 경우에는 그룹 행 콘텐츠를 축소합니다;
+- GroupRow 위에서 `Alt + 오른쪽 화살표` - 행이 아직 확장되지 않은 경우에는 그룹 행 콘텐츠를 확장합니다;
+- 마우스 `휠` -  포커스 요소를 흐리게 합니다;
 
 ### 실시간 업데이트 데모
 
-이 샘플은 실시간 데이터에 바인딩된 `igxGrid`를 보여줍니다. 
+이 샘플은 실시간 데이터에 바인딩된 `igxGrid`를 보여줍니다.
 
 
-<code-view style="height:915px" 
-           data-demos-base-url="{environment:lobDemosBaseUrl}" 
+<code-view style="height:915px"
+           data-demos-base-url="{environment:lobDemosBaseUrl}"
            iframe-src="{environment:lobDemosBaseUrl}/grid-finjs/" >
 </code-view>
 
@@ -436,11 +437,11 @@ See the [Grid Sizing](sizing.md) topic.
 
 
 ## API 참조
-* [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
-* [IgxGridComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
-* [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
-* [IgxGridRow]({environment:angularApiUrl}/classes/igxgridrow.html)
-* [IgxGridCell]({environment:angularApiUrl}/classes/igxgridcell.html)
+- [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
+- [IgxGridComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
+- [IgxGridRow]({environment:angularApiUrl}/classes/igxgridrow.html)
+- [IgxGridCell]({environment:angularApiUrl}/classes/igxgridcell.html)
 
 ## Tutorial video
 Learn more about creating an Angular data grid in our short tutorial video:
@@ -449,19 +450,19 @@ Learn more about creating an Angular data grid in our short tutorial video:
 
 ## 추가 리소스
 
-* [Grid Sizing](sizing.md)
-* [가상화 및 성능](virtualization.md)
-* [페이징](paging.md)
-* [필터링](filtering.md)
-* [정렬](sorting.md)
-* [요약](summaries.md)
-* [열 이동](column-moving.md)
-* [열 핀 고정](column_pinning.md)
-* [열 크기 조정](column-resizing.md)
-* [선택](selection.md)
-* [Build CRUD operations with igxGrid](../general/how-to/how-to-perform-crud.md)
+- [Grid Sizing](sizing.md)
+- [가상화 및 성능](virtualization.md)
+- [페이징](paging.md)
+- [필터링](filtering.md)
+- [정렬](sorting.md)
+- [요약](summaries.md)
+- [열 이동](column-moving.md)
+- [열 핀 고정](column_pinning.md)
+- [열 크기 조정](column-resizing.md)
+- [선택](selection.md)
+- [Build CRUD operations with igxGrid](../general/how-to/how-to-perform-crud.md)
 
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -11,8 +11,8 @@ The [`igx-tabs`]({environment:angularApiUrl}/classes/igxtabscomponent.html) comp
 
 ### Tabs Demo
 
-<code-view style="height: 250px; width: 600px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 250px; width: 600px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/tabs-sample-3/" >
 </code-view>
 
@@ -53,8 +53,8 @@ Then, specify several tabs groups with [`label`]({environment:angularApiUrl}/cla
 If the sample is configured properly, the final result should look like that:
 
 
-<code-view style="height: 200px; width: 600px; border: 1px solid gray;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 200px; width: 600px; border: 1px solid gray;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/tabs-sample-1/" >
 </code-view>
 
@@ -64,7 +64,7 @@ If the sample is configured properly, the final result should look like that:
 ### Tabs Types
 There are two types of tabs. Set the [`tabsType`]({environment:angularApiUrl}/classes/igxtabscomponent.html#tabstype) input to choose between [`fixed`]({environment:angularApiUrl}/enums/tabstype.html#fixed) and [`contentfit`]({environment:angularApiUrl}/enums/tabstype.html#contentfit) tabs.
 - **Content-fit tabs** (default): the width of the tab header depends on the content (label, icon, both) and all tabs have equal padding.
-Nevertheless what type of tabs you have chosen, the tab header width is limited by the specified min and max width. 
+Nevertheless what type of tabs you have chosen, the tab header width is limited by the specified min and max width.
 - **Fixed tabs**: all tab headers are with equal width and fit in the tabs container. If the provided space is not enough for all items, scroll buttons are displayed.
 
 ```html
@@ -96,8 +96,8 @@ Nevertheless what type of tabs you have chosen, the tab header width is limited 
 ```
 
 
-<code-view style="height: 450px; width: 800px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 450px; width: 800px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/tabs-sample-2/" >
 </code-view>
 
@@ -155,8 +155,8 @@ First add the Material+Icons import in your 'styles.css' file in the main applic
 If the sample is configured properly, the tabs should look like the following example:
 
 
-<code-view style="height: 250px; width: 600px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 250px; width: 600px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/tabs-sample-3/" >
 </code-view>
 
@@ -179,11 +179,11 @@ If changing the tabs' labels and icons is not enough, you can also create your o
 
 ### Using Tabs and Routing
 
-The following examples demonstrate sample usage of the tabs component and basic routing scenarios. You can learn more about Angular Routing & Navigation <a href="https://angular.io/guide/router" target="_blank">here</a>. 
+The following examples demonstrate sample usage of the tabs component and basic routing scenarios. You can learn more about Angular Routing & Navigation <a href="https://angular.io/guide/router" target="_blank">here</a>.
 
 #### Using igxTab, routerLink Directives and Single router-outlet
 
-In order to implement basic routing with [`igx-tabs`]({environment:angularApiUrl}/classes/igxtabscomponent.html), you can re-template the igx-tabs item header using the [`igxTab`]({environment:angularApiUrl}/classes/igxtabitemtemplatedirective.html) directive and provide links via `routerLink` in `ng-template`. Views are switched and displayed after a single `router-outlet` placed outside the tabs component. Note that `ng-template` content overides the default tabs headers style.
+In order to implement basic routing with [`igx-tabs`]({environment:angularApiUrl}/classes/igxtabscomponent.html), you can re-template the igx-tabs item header using the [`igxTab`]({environment:angularApiUrl}/classes/igxtabitemtemplatedirective.html) directive and provide links via `routerLink` in `ng-template`. Views are switched and displayed after a single `router-outlet` placed outside the tabs component. Note that `ng-template` content overrides the default tabs headers style.
 
 ```html
 <!-- tabs-sample-1.component.html -->
@@ -221,6 +221,7 @@ this.routerLinks = [
   },
 ];
 ```
+
 Declare all needed route definitions that map URL path to a specific component. All available child components with their URL paths are listed in a separate routing module named tabs.routing.module.ts which is imported in the main routing module named app.routing.module.ts. Configure the router via the RouterModule.forChild method.
 
 ```typescript
@@ -243,6 +244,7 @@ const routes: Routes = [
 })
 export class TabsRoutingModule { }
 ```
+
 Configure the main router using RouterModule.forRoot method.
 
 ```typescript
@@ -285,8 +287,8 @@ public ngOnInit() {
 ```
 
 
-<code-view style 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/tabs-sample-4/" >
 </code-view>
 
@@ -351,6 +353,7 @@ public navigate(eventArgs) {
     }
   }
 ```
+
 Declare all needed route definitions that map URL path to a specific component:
 
 ```typescript
@@ -376,8 +379,8 @@ const routes: Routes = [
 ```
 
 
-<code-view style 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/tabs-sample-5/" >
 </code-view>
 
@@ -385,18 +388,18 @@ const routes: Routes = [
 ## API References
 <igc-divider></igc-divider>
 
-* [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
-* [IgxCardComponent]({environment:angularApiUrl}/classes/igxcardcomponent.html)
-* [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
-* [IgxNavbarComponent]({environment:angularApiUrl}/classes/igxnavbarcomponent.html)
-* [IgxTabsComponent]({environment:angularApiUrl}/classes/igxtabscomponent.html)
-* [IgxTabsComponent Styles]({environment:sassApiUrl}/themes#function-tabs-theme)
-* [IgxTabsGroupComponent]({environment:angularApiUrl}/classes/igxtabsgroupcomponent.html)
-* [IgxTabItemComponent]({environment:angularApiUrl}/classes/igxtabitemcomponent.html)
+- [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
+- [IgxCardComponent]({environment:angularApiUrl}/classes/igxcardcomponent.html)
+- [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
+- [IgxNavbarComponent]({environment:angularApiUrl}/classes/igxnavbarcomponent.html)
+- [IgxTabsComponent]({environment:angularApiUrl}/classes/igxtabscomponent.html)
+- [IgxTabsComponent Styles]({environment:sassApiUrl}/themes#function-tabs-theme)
+- [IgxTabsGroupComponent]({environment:angularApiUrl}/classes/igxtabsgroupcomponent.html)
+- [IgxTabItemComponent]({environment:angularApiUrl}/classes/igxtabitemcomponent.html)
 
 ## Additional Resources
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

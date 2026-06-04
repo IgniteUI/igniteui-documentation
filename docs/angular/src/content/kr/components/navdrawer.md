@@ -11,14 +11,15 @@ _language: kr
 
 ### Navigation Drawer Demo
 
-<code-view style="height: 600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/menus/navigation-drawer/" >
 </code-view>
 
 
 ### Dependencies
 To started with all needed dependencies you can use the `IgxNavigationDrawerModule` and import it in your application IgxNavigationDrawerModule } from 'igniteui { IgxNavigationDrawerModule } from 'igniteui-angular/navigation-drawer';
+
 ```
 @NgModule({
     imports: [
@@ -42,8 +43,10 @@ With the dependencies imported, the Navigation Drawer can be defined in the app 
     <!-- template(s) -->
 </igx-nav-drawer>
 ```
+
 The content for the drawer should be provided via `<ng-template>` decorated with `igxDrawer` directive.
 While any content can be provided in the template, the [`igxDrawerItem`]({environment:angularApiUrl}/classes/igxnavdraweritemdirective.html) directive (see [Item styling](#item-styling)) is available to apply out-of-the-box styling to items. The [`igxRipple`](ripple.md) directive completes the look and feel:
+
 ```html
 <!-- app.component.html -->
 <div class="content-wrap">
@@ -65,12 +68,14 @@ While any content can be provided in the template, the [`igxDrawerItem`]({enviro
   </main>
 </div>
 ```
+
 > An additional template decorated with `igxDrawerMini` directive can be provided for the alternative [Mini variant](#mini-variant) as closed state.
 
 > [!NOTE]
 > The Navigation Drawer can either sit above content or be pinned alongside it and by default will switch between those depending the view size. See [Modes](#modes) for more.
 
 To accommodate for the drawer switching modes, a simple flexible wrapper around the two content sections can be styled like so:
+
 ```css
 /* app.component.css */
 .content-wrap
@@ -80,13 +85,17 @@ To accommodate for the drawer switching modes, a simple flexible wrapper around 
     display: flex;
 }
 ```
-There are various ways to open and close the drawer. Input properties can be bound to app state, programatic access to the API in the component using a [`@ViewChild(IgxNavigationDrawerComponent)`](https://angular.io/api/core/ViewChild) reference or even in this case using the `#drawer` [template reference variable](https://angular.io/guide/template-syntax#ref-vars):
+
+There are various ways to open and close the drawer. Input properties can be bound to app state, programmatic access to the API in the component using a [`@ViewChild(IgxNavigationDrawerComponent)`](https://angular.io/api/core/ViewChild) reference or even in this case using the `#drawer` [template reference variable](https://angular.io/guide/template-syntax#ref-vars):
+
 ```html
 <button (click)="drawer.toggle()"> Menu </button>
 ```
+
 The Navigation Drawer also integrates with [`igxNavigationService`]({environment:angularApiUrl}/classes/igxnavigationservice.html) and can be targeted by id with an [`igxToggleAction`](toggle.md#automatic-toggle-actions) directive.
 
 Let's replace the `<main>` in **app.component.html** with the following, adding [`igxButton`](button.md) and [Icon component](icon.md) to style our toggle:
+
 ```html
 <main>
   <span igxButton="icon" igxToggleAction="navigation" [closeOnOutsideClick]="false">
@@ -97,8 +106,8 @@ Let's replace the `<main>` in **app.component.html** with the following, adding 
 
 And the final result should look like this:
 
-<code-view style="height: 500px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 500px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/menus/navigation-drawer-simple/" >
 </code-view>
 
@@ -106,7 +115,7 @@ And the final result should look like this:
 
 ### Modes
 
-Unpinned (elevated above content) mode is the normal behavior where the drawer sits above and applies a darkened overlay over all content. Generally used to provide a temporary navigation suitable for mobile devices. 
+Unpinned (elevated above content) mode is the normal behavior where the drawer sits above and applies a darkened overlay over all content. Generally used to provide a temporary navigation suitable for mobile devices.
 
 The drawer can be pinned to take advantage of larger screens, placing it within normal content flow with relative position. Depending on whether the app provides a way to toggle the drawer, the pinned mode can be used to achieve either [permanent or persistent behavior](https://material.io/guidelines/patterns/navigation-drawer.html#navigation-drawer-behavior).
 
@@ -117,7 +126,8 @@ The drawer can be pinned to take advantage of larger screens, placing it within 
 #### Pinned (persistent) setup
 Pin changes the position of the drawer from `fixed` to `relative` to put it on the same flow as content. Therefore, the app styling should account for such layout, especially if the drawer needs to be toggled in this mode. While there's more than one way to achieve such fluid layout (including programmatically), the easiest way is using [`igxLayout`]({environment:angularApiUrl}/classes/igxlayoutdirective.html) and [`igxFlex`]({environment:angularApiUrl}/classes/igxflexdirective.html) directives.
 
-Here's how that would would look applied to the previous example: 
+Here's how that would would look applied to the previous example:
+
 ```html
 <div class="content-wrap" igxLayout igxLayoutDir="row">
     <igx-nav-drawer id="navigation" #drawer [isOpen]="true">
@@ -128,6 +138,7 @@ Here's how that would would look applied to the previous example:
     </main>
 </div>
 ```
+
 ```css
 .content-wrap {
     width: 100%;
@@ -135,14 +146,15 @@ Here's how that would would look applied to the previous example:
 ```
 
 
-<code-view style="height: 500px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 500px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/menus/navigation-drawer-pin/" >
 </code-view>
 
 
 The drawer applies `flex-basis` on its host element, allowing the rest of the content to take up the remaining width.
 Alternatively, skipping using directives, manual styling can be applied similar to:
+
 ```css
 .main {
     position: absolute;
@@ -166,6 +178,7 @@ Most commonly used to maintain quick selection available on the side at all time
 This variant is enabled simply by the presence of an alternative mini template decorated with `igxDrawerMini` directive.
 
 The mini variant is commonly used in a persistent setup, so we've set `pin` and disabled the responsive threshold:
+
 ```html
 <igx-nav-drawer id="navigation" [pin]="true" [pinThreshold]="0">
   <ng-template igxDrawer>
@@ -184,8 +197,8 @@ The mini variant is commonly used in a persistent setup, so we've set `pin` and 
 ```
 
 
-<code-view style="height: 400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/menus/navigation-drawer-mini/" >
 </code-view>
 
@@ -206,12 +219,14 @@ The directive has two `@Input` properties:
     <span igxDrawerItem [active]="true"> Selected Item </span>
 <!-- ... -->
 ```
+
 The directive is exported both from the main `IgxNavigationDrawerModule` and separately as `IgxNavDrawerItemDirective`.
 
 
 #### Example: Use default item styles with Angular Router
 To make use of the [`igxDrawerItem`]({environment:angularApiUrl}/classes/igxnavdraweritemdirective.html) directive to style items normally the `active` input should be set, however with routing that state is controlled externally.
 Take the following items defined in `app`:
+
 ```typescript
 export class AppComponent {
     public componentLinks = [
@@ -227,6 +242,7 @@ export class AppComponent {
     ];
 }
 ```
+
 One way to tie in the active state is to directly use the [`routerLinkActive`](https://angular.io/api/router/RouterLinkActive) default functionality and pass the drawer items active class `igx-nav-drawer__item--active`, so the `<igx-nav-drawer>` template would look like:
 
 ```html
@@ -242,7 +258,9 @@ One way to tie in the active state is to directly use the [`routerLinkActive`](h
 </ng-template>
 <!-- ... -->
 ```
+
 This approach, of course, does not affect the actual directive active state and could be affected by styling changes. An alternative would be the more advanced use of `routerLinkActive` where it's assigned to a template variable and the `isActive` can be used for binding:
+
 ```html
 <!-- ... -->
 <ng-template igxDrawer>
@@ -259,4 +277,4 @@ This approach, of course, does not affect the actual directive active state and 
 
 
 ### API Reference
-* [IgxNavigationDrawerComponent]({environment:angularApiUrl}/classes/igxnavigationdrawercomponent.html)
+- [IgxNavigationDrawerComponent]({environment:angularApiUrl}/classes/igxnavigationdrawercomponent.html)

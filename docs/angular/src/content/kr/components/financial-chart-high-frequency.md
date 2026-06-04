@@ -42,6 +42,6 @@ private tick(): void {
 ## 추가 리소스
 
 
--   [차트 퍼포먼스](financial-chart-performance.md)
--   [대량의 데이터 바인딩](financial-chart-high-volume.md)
--   [복수 데이터 소스 바인딩](financial-chart-multiple-data.md)
+- [차트 퍼포먼스](financial-chart-performance.md)
+- [대량의 데이터 바인딩](financial-chart-high-volume.md)
+- [복수 데이터 소스 바인딩](financial-chart-multiple-data.md)
