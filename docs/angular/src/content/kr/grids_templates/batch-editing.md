@@ -46,8 +46,8 @@ keywords: angular crud, ignite ui for angular, infragistics
 다음 샘플은 그리드에 트랜잭션이 공급자로 있고 행 편집이 활성화된 경우를 보여줍니다. 후자는 전체 행 편집이 확인된 후 트랜잭션이 추가됩니다.
 
 
-<code-view style="height:650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-batch-editing/" >
 </code-view>
 
@@ -56,16 +56,16 @@ keywords: angular crud, ignite ui for angular, infragistics
 다음 샘플은 트랜잭션을 통해 일괄 편집을 공급자로 설정하고 사용하는 방법을 보여주며 행 편집을 활성화합니다. 후자는 전체 행 편집이 확인된 후 트랜잭션이 추가됩니다. 이 샘플은 플랫 데이터 소스를 사용합니다.
 
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-batchediting/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
-<code-view style="height:680px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:680px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-batch-editing/" >
 </code-view>
 
@@ -95,6 +95,7 @@ export class AppModule {}
 그런 다음 igxTransactionService를 @@igComponent 또는 상위 컴포넌트의 일부 공급자로 정의해야 합니다.
 
 @@if (igxName === 'IgxGrid') {
+
 ```typescript
 import { Component } from "@angular/core";
 import { IgxGridTransaction, IgxTransactionService } from "igniteui-angular";
@@ -107,8 +108,10 @@ import { IgxGridTransaction, IgxTransactionService } from "igniteui-angular";
 export class GridWithTransactionsComponent { }
 
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```typescript
 import { Component, ViewChild } from "@angular/core";
 import { IgxGridComponent, IgxGridTransaction, IgxToggleDirective,
@@ -123,8 +126,10 @@ import { IgxGridComponent, IgxGridTransaction, IgxToggleDirective,
 export class TreeGridBatchEditingSampleComponent { }
 
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```typescript
 import { Component } from "@angular/core";
 import { IgxHierarchicalTransactionServiceFactory } from "igniteui-angular";
@@ -135,6 +140,7 @@ import { IgxHierarchicalTransactionServiceFactory } from "igniteui-angular";
 })
 export class HierarchicalGridWithTransactionsComponent { }
 ```
+
 }
 > [!NOTE]
 > `IgxGridTransaction` 은 그리드에 의해 정의된 주입 토큰입니다.
@@ -142,6 +148,7 @@ export class HierarchicalGridWithTransactionsComponent { }
 그런 다음 바인딩된 데이터 소스 및 [`rowEditable`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#roweditable)이 true로 설정되고 바인딩된 @@igComponent를 정의합니다:
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <app-grid-with-transactions>
     <igx-grid #gridRowEditTransaction [data]="data" [primaryKey]="'ProductID'" width="100%" height="500px"
@@ -158,8 +165,10 @@ export class HierarchicalGridWithTransactionsComponent { }
 ...
 
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <igx-tree-grid #treeGrid [data]="data" primaryKey="employeeID" foreignKey="PID" width ="100%" height ="500px" rowEditable=true rowSelectable=true columnHiding=true>
     ...
@@ -171,8 +180,10 @@ export class HierarchicalGridWithTransactionsComponent { }
     <button igxButton [disabled]="!hasTransactions" (click)="openCommitDialog()">Commit</button>
 ...
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <app-hierarchical-grid-with-transactions>
     <igx-hierarchical-grid #parentGridProducts [data]="data" [primaryKey]="'ProductID'" width="100%" height="500px"
@@ -194,6 +205,7 @@ export class HierarchicalGridWithTransactionsComponent { }
 ...
 
 ```
+
 }
 
 @@if (igxName === 'IgxGrid') {
@@ -230,9 +242,11 @@ export class GridBatchEditingSampleComponent {
     }
 }
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
 다음 코드는 [`HierarchicalTransactionService`]({environment:angularApiUrl}/classes/igxhierarchicaltransactionservice.html) API의 취소, 재실행, 확정에 대한 사용 방법을 보여줍니다.
+
 ```typescript
 ...
 export class TreeGridBatchEditingSampleComponent {
@@ -303,6 +317,7 @@ export class TreeGridBatchEditingSampleComponent {
     }
 }
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 다음 코드는 [`transactions`]({environment:angularApiUrl}/classes/igxtransactionservice.html#) API의 취소, 재실행, 확정에 대한 사용 방법을 보여줍니다.
@@ -351,6 +366,7 @@ export class HierarchicalGridBatchEditingSampleComponent {
     }
 }
 ```
+
 }
 
 > [!NOTE]
@@ -359,28 +375,28 @@ export class HierarchicalGridBatchEditingSampleComponent {
 ### API 참조
 
 @@if (igxName === 'IgxGrid') {
-* [transactions]({environment:angularApiUrl}/classes/@@igTypeDoc.html#transactions)
-* [igxTransactionService]({environment:angularApiUrl}/classes/igxtransactionservice.html)
+- [transactions]({environment:angularApiUrl}/classes/@@igTypeDoc.html#transactions)
+- [igxTransactionService]({environment:angularApiUrl}/classes/igxtransactionservice.html)
 }
 @@if (igxName === 'IgxTreeGrid') {
-* [HierarchicalTransactionService]({environment:angularApiUrl}/classes/igxhierarchicaltransactionservice.html) 
-* [rowEditable]({environment:angularApiUrl}/classes/@@igTypeDoc.html#roweditable)
-* [IgxTreeGridComponent]({environment:angularApiUrl}/classes/igxtreegridcomponent.html)
-* [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
+- [HierarchicalTransactionService]({environment:angularApiUrl}/classes/igxhierarchicaltransactionservice.html)
+- [rowEditable]({environment:angularApiUrl}/classes/@@igTypeDoc.html#roweditable)
+- [IgxTreeGridComponent]({environment:angularApiUrl}/classes/igxtreegridcomponent.html)
+- [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-* [igxHierarchicalTransactionServiceFactory]({environment:angularApiUrl}/index.html#igxhierarchicaltransactionservicefactory)
+- [igxHierarchicalTransactionServiceFactory]({environment:angularApiUrl}/index.html#igxhierarchicaltransactionservicefactory)
 }
 
 ### 추가 리소스
 
-* [Build CRUD operations with igxGrid](../general/how-to/how-to-perform-crud.md)
-* [@@igComponent 개요](@@igMainTopic.md)
-* [@@igComponent 편집](editing.md)
-* [@@igComponent 행 편집](row-editing.md)
-* [@@igComponent Row Adding](row-adding.md)
+- [Build CRUD operations with igxGrid](../general/how-to/how-to-perform-crud.md)
+- [@@igComponent 개요](@@igMainTopic.md)
+- [@@igComponent 편집](editing.md)
+- [@@igComponent 행 편집](row-editing.md)
+- [@@igComponent Row Adding](row-adding.md)
 
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
