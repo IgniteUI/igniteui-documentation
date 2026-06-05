@@ -5,8 +5,8 @@
  * Parses ApiLink props directly from MDX, resolves them through the local
  * api-link-index registry, then validates each URL is reachable.
  *
- * When --platform=angular the script first runs docs/angular/scripts/sync-generated.mjs
- * to pull in generated xplat content, then scans docs/angular/src/content.
+ * When --platform=angular the script first runs the same xplat generation +
+ * sync npm scripts used by Angular builds, then scans docs/angular/src/content.
  * Pass --no-sync to skip the pre-sync step.
  *
  * Usage:
@@ -176,6 +176,7 @@ function loadApiLinkIndexes() {
 
 const API_LINK_INDEXES = loadApiLinkIndexes();
 const API_DOCS_ORIGIN = new URL(getApiDocsBaseUrl()).origin;
+const NPM_CLI = process.env.npm_execpath;
 
 function candidateNames(props, platformName) {
     const platform = PLATFORM_CONFIGS[platformName];
@@ -501,14 +502,31 @@ async function checkAll(urls, versionMap, concurrency, onProgress) {
 
 const targetPlatforms = getPlatforms();
 
-// For Angular: sync generated MDX content into docs/angular before scanning
+function runNpmScript(script, prefix) {
+    if (NPM_CLI) {
+        return spawnSync(process.execPath, [NPM_CLI, 'run', script, '--prefix', prefix], { stdio: 'inherit' });
+    }
+    return spawnSync(process.platform === 'win32' ? 'npm.cmd' : 'npm', ['run', script, '--prefix', prefix], {
+        stdio: 'inherit',
+        shell: process.platform === 'win32',
+    });
+}
+
+// For Angular: regenerate xplat Angular MDX and sync it into docs/angular before scanning
 if (PLATFORM === 'angular' && !NO_SYNC) {
-    const syncScript = resolve('docs/angular/scripts/sync-generated.mjs');
-    for (const lang of ['en', 'jp']) {
-        console.log(`\n  Syncing Angular generated content (sync-generated.mjs --lang=${lang})...`);
-        const r = spawnSync(process.execPath, [syncScript, `--lang=${lang}`], { stdio: 'inherit' });
+    const syncScripts = [
+        ['en', 'sync:generated-from-xplat'],
+        ['jp', 'sync:generated-from-xplat:jp'],
+    ];
+
+    for (const [lang, script] of syncScripts) {
+        console.log(`\n  Refreshing Angular generated content (${script}, lang=${lang})...`);
+        const r = runNpmScript(script, 'docs/angular');
+        if (r.error) {
+            console.error(`\n  Failed to start npm: ${r.error.message}`);
+        }
         if (r.status !== 0) {
-            console.error(`\n  sync-generated.mjs --lang=${lang} failed — aborting.`);
+            console.error(`\n  ${script} failed — aborting.`);
             process.exit(1);
         }
     }
