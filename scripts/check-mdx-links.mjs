@@ -219,10 +219,14 @@ function resolveApiLink(props, platformName) {
             if (packageId && symbol.p && symbol.p !== packageId) continue;
             if (props.kind && symbol.k && symbol.k !== props.kind) continue;
             matchedSymbol = true;
-            const anchor = resolveMemberAnchor(symbol, props.member, platform);
-            if (anchor === null) continue;
-            const path = `${symbol.u}${anchor ? `#${anchor}` : ''}`;
-            return { status: 'resolved', url: path.startsWith('/') ? `${API_DOCS_ORIGIN}${path}` : path };
+            const memberMatch = resolveMember(symbol, props.member, platform);
+            if (memberMatch === null) continue;
+            const path = `${symbol.u}${memberMatch.anchor ? `#${memberMatch.anchor}` : ''}`;
+            return {
+                status: 'resolved',
+                url: path.startsWith('/') ? `${API_DOCS_ORIGIN}${path}` : path,
+                member: memberMatch.member,
+            };
         }
     }
     return { status: matchedSymbol ? 'member-missing' : 'missing' };
@@ -233,14 +237,24 @@ function resolveApiLinkUrl(props, platformName) {
     return resolved.status === 'resolved' ? resolved.url : null;
 }
 
-function resolveMemberAnchor(symbol, member, platform) {
-    if (!member) return '';
+function resolveMember(symbol, member, platform) {
+    if (!member) return { member: '', anchor: '' };
     const members = symbol.m ?? {};
-    const candidates = [member];
-    if (platform.pascalCaseMembers) candidates.push(upperFirst(member));
-    candidates.push(upperFirst(member), member.toLowerCase());
-    for (const candidate of [...new Set(candidates)]) {
-        if (members[candidate]) return members[candidate];
+    const exactCandidates = [member];
+    if (platform.pascalCaseMembers) exactCandidates.push(upperFirst(member));
+    exactCandidates.push(upperFirst(member), member.toLowerCase());
+
+    for (const candidate of [...new Set(exactCandidates)]) {
+        if (Object.hasOwn(members, candidate)) {
+            return { member: candidate, anchor: members[candidate] };
+        }
+    }
+
+    const normalized = member.toLowerCase();
+    for (const [registryMember, anchor] of Object.entries(members)) {
+        if (registryMember.toLowerCase() === normalized) {
+            return { member: registryMember, anchor };
+        }
     }
     return null;
 }
