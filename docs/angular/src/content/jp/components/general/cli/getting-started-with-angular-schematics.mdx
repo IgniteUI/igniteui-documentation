@@ -7,57 +7,78 @@ last_updated: "2026-04-21"
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 
-## Ignite UI for Angular Schematics を使用した作業の開始
+# Ignite UI for Angular Schematics を使用した作業の開始
 
-はじめに [Ignite UI for Angular Schematics](https://github.com/IgniteUI/igniteui-cli/tree/master/packages/ng-schematics) をグローバルにインストールします。
+Ignite UI for Angular Schematics コレクションは、Ignite UI for Angular 用に事前設定された Angular プロジェクトとコンポーネント ビューをスキャフォールドするための Angular CLI schematics セットです。ネイティブの Angular CLI ワークフローに統合されており、プロジェクト作成には `ng new`、コンポーネント スキャフォールドには `ng g` を使用します。別のグローバル ツールをインストールする必要はありません。このコレクションは `@igniteui/angular-schematics` パッケージとして配布され、既存の Angular プロジェクトで `ng add igniteui-angular` を実行すると自動的に追加されます。
+
+Schematics コレクションは MCP サーバーを実行しません。MCP サーバー プロセスは Ignite UI CLI によって提供され、`npx -y igniteui-cli mcp` で起動します。`ai-config` schematic は、別の CLI インストールなしで MCP クライアント接続を設定し Agent Skills をコピーします。このコレクションは Angular 専用です。React、Web Components、Blazor の同等機能については、各フレームワークのドキュメントを参照してください。
+
+## Schematics コレクションのインストール
+
+npm を使用してグローバルにインストールします:
 
 ```cmd
 npm i -g @igniteui/angular-schematics
 ```
 
-上記のインストールにより、schematics が `ng new` コマンドのコレクション パラメーターを使用できるようになります。
-
-`yarn` パッケージ マネージャーを使用している場合:
+または、yarn を使用する場合:
 
 ```cmd
 yarn global add @igniteui/angular-schematics
 ```
 
-### ガイドの使用
-
-アプリケーションを最短でブートストラップする最も簡単な方法は、[Ignite UI for Angular Schematics を使用したステップ バイ ステップ ガイド](step-by-step-guide-using-angular-schematics.md)を使用する方法です。
-
-Ignite UI for Angular Schematics を使用してガイドをアクティブにするには、次のコマンドを実行します。
-
-```cmd
-ng new --collection="@igniteui/angular-schematics"
-```
-
-## 新しいプロジェクトを作成します。
-
-Ignite UI for Angular コントロールを使用するように設定されたアプリケーションを作成するには、コレクション オプションに `@igniteui/angular-schematics` を提供する `ng new` コマンドを実行します。
-
-```cmd
-ng new newAngularProject --collection="@igniteui/angular-schematics" --template=side-nav
-```
-
-さらに、`--type=igx-ts-legacy` のようにプロジェクトの `type` を設定することで、モジュール ベースのブートストラップを使用してプロジェクトを生成することを指定できます。これを指定しないと、デフォルトでスタンドアロン コンポーネントを使用するプロジェクトが使用されます。
-
-上記のように `@igniteui/angular-schematics` コレクションを提供せずに作成された Angular プロジェクトが既にある場合、以下のコマンドを使用して Ignite UI for Angular 製品を追加できます。
+グローバル インストール後、コレクションは `ng new` の `--collection` 引数として利用可能になります。新しいプロジェクトをスキャフォールドせずに既存の Angular プロジェクトに Ignite UI for Angular を追加する場合は、次のコマンドを使用します:
 
 ```cmd
 ng add igniteui-angular
 ```
 
-新しいアプリケーションが同じ名前でディレクトリに作成されます (`newAngularProject`)。Ignite UI for Angular アプリケーションを作成するときに選択できるいくつかのプロジェクト テンプレートがあります。
+これにより、`igniteui-angular` パッケージがインストールされ、`@igniteui/angular-schematics` コレクションが登録され、依存関係、スタイル、テーマのインポートが自動的に設定されます。
+
+## 新しいプロジェクトの作成
+
+Schematics コレクションにはプロジェクト作成のために 2 つのモードがあります: ガイド付きインタラクティブ ウィザードと引数を指定した直接 `ng new` コマンドです。
+
+### ガイドを使用する
+
+ガイド付きウィザードは新しいプロジェクトの出発点として推奨されています。次のコマンドでアクティブにします:
+
+```cmd
+ng new --collection="@igniteui/angular-schematics"
+```
+
+ウィザード オプションのステップ バイ ステップ ガイドについては、[Ignite UI for Angular Schematics を使用したステップ バイ ステップ ガイド](step-by-step-guide-using-angular-schematics.md)を参照してください。
+
+### 直接プロジェクトを作成する
+
+Angular プロジェクトを非インタラクティブに作成するには、コレクションとテンプレートの引数を `ng new` に指定します:
+
+```cmd
+ng new newAngularProject --collection="@igniteui/angular-schematics" --template=side-nav
+```
+
+デフォルトではスタンドアロン コンポーネントを使用します。NgModule ベースのブートストラップを使用するには、`--type=igx-ts-legacy` を追加します:
+
+```cmd
+ng new newAngularProject --collection="@igniteui/angular-schematics" --type=igx-ts-legacy
+```
+
+新しいアプリケーションがプロジェクト名のディレクトリに作成されます。利用できるベース プロジェクト テンプレートは以下のとおりです。
 
 | テンプレートの ID   | テンプレートの説明 |
 | ---           | ---                  |
-| empty         | ルーティングとホーム ページを備えたプロジェクト構造 |
-| side-nav      | サイド ナビゲーション ドロワーを備えたプロジェクト構造 |
-| side-nav-auth | ユーザー認証モジュールで拡張されたサイド ナビゲーション プロジェクト<br /> プロジェクト テンプレートの詳細は、[Angular 認証プロジェクト テンプレート](auth-template.md)トピックをご覧ください。 |
+| empty         | ルーティングとホーム ページを備えたプロジェクト構造。このテンプレートでは認証は利用できません。 |
+| side-nav      | サイド ナビゲーション ドロワーを備えたプロジェクト構造。認証のアドオンをサポートします (以下参照)。 |
+| side-nav-mini | コンパクトなサイド ナビゲーション ドロワーを備えたプロジェクト構造。認証のアドオンをサポートします (以下参照)。 |
 
-さらに、**引数**を指定してテーマを制御したり、パッケージのインストールをスキップしたりできます。
+インタラクティブ ウィザードで `side-nav` または `side-nav-mini` を選択すると、認証を追加するかどうかを確認するプロンプトが表示されます。次のテンプレート ID が生成され、非インタラクティブな作成用に `ng new` に直接渡すこともできます。これらの ID はウィザードのテンプレート リストには表示されません。
+
+| テンプレートの ID        | テンプレートの説明 |
+| :----------------- | --- |
+| side-nav-auth      | 認証モジュールで拡張されたサイド ナビゲーション プロジェクト。詳細は [Angular 認証プロジェクト テンプレート](auth-template.md)をご覧ください。 |
+| side-nav-mini-auth | 認証モジュールで拡張されたサイド ナビゲーション ミニ プロジェクト。詳細は [Angular 認証プロジェクト テンプレート](auth-template.md)をご覧ください。 |
+
+プロジェクトを作成する際に以下の**引数**を指定できます。
 
 <details>
   <summary><u>name</u></summary>
@@ -73,29 +94,14 @@ ng add igniteui-angular
 </details>
 
 <details>
-  <summary><u>framework</u><span align="right"><strong> (Ignite UI CLI only)</strong></span></summary>
-
-
-    <code>--framework</code> (alias: <code>-f</code>) <em>default value: "jquery"</em>
-
-
-
-
-    プロジェクトの対象フレームワーク。サポートされるフレームワークは jQuery、Angular、および React です。
-</details>
-
-
-
-<details>
-  <summary><u>type</u><span align="right"><strong> (Ignite UI CLI only)</strong></span></summary>
+  <summary><u>type</u></summary>
 
 
     <code>--type</code> (alias: <code>-t</code>)
 
 
 
-
-    使用可能なプロジェクト タイプは、選択したフレームワークによって異なります。
+    プロジェクトのブートストラップ タイプ。NgModule ベースのブートストラップには <code>igx-ts-legacy</code> を使用します。省略するとスタンドアロン コンポーネントがデフォルトになります。
 </details>
 
 
@@ -130,9 +136,7 @@ ng add igniteui-angular
 
 
 
-
-    特定のフレームワーク タイプに異なるプロジェクト テンプレートがある場合、このオプションを使用します。
-    現在、このオプションは、Angular igx-ts プロジェクトタイプの Ignite UI でのみ使用できます。
+    プロジェクト作成時の npm パッケージの初期インストールをスキップします。
 </details>
 
 
@@ -142,27 +146,21 @@ ng add igniteui-angular
 
     <code>--template</code>
 
-
-
-
-    Use this option if there are different project templates for a specific framework type.
-    Currently this option is available only for Ignite UI for Angular igx-ts project types.
+    プロジェクト テンプレートを指定します。現在、Ignite UI for Angular の <code>igx-ts</code> プロジェクト タイプで使用できます。
 
 </details>
 
-## テンプレートの追加
+## コンポーネント テンプレートの追加
 
-[利用可能な Ignite UI Angular テンプレート](component-templates.md)を追加するには、新しいコンポーネントのテンプレート ID と名前を指定するか、[ステップ バイ ステップ ガイド](step-by-step-guide-using-cli.md#add-view)を使用する必要があります。Angular Schematics、Ignite UI CLI で作成された既存のプロジェクト内、または Ignite UI for Angular が [`ng add` でインストールされている](../getting-started.md#ignite-ui-for-angular-のインストール)場合にのみサポートされます。
-
-Schematics には、Ignite UI for Angular コレクションと `component [template] [name]` の `ng generate` を使用します。
+[利用可能な Ignite UI Angular テンプレート](component-templates.md)を追加するには、Ignite UI for Angular コレクションと `component` schematic を使用して `ng generate` を実行し、テンプレート ID と新しいコンポーネントの名前を指定します:
 
 ```cmd
 ng g @igniteui/angular-schematics:component grid newGrid
 ```
 
-すべての[利用可能なテンプレート](component-templates.md)のリスト。
+テンプレートの追加は、Angular Schematics、Ignite UI CLI で作成されたプロジェクト、または `ng add` で Ignite UI for Angular が追加された Angular CLI プロジェクトでサポートされます。ガイド付きコンポーネント ウィザードについては、[Ignite UI for Angular Schematics を使用したステップ バイ ステップ ガイド](step-by-step-guide-using-angular-schematics.md#ビューの追加)を参照してください。
 
-また、コンポーネントを登録するモジュールを指定するか、アプリ ナビゲーション ルートの自動生成をスキップできます。
+テンプレートを追加する際に以下の**引数**を指定できます。
 
 <details>
   <summary><u>module</u></summary>
@@ -180,12 +178,7 @@ ng g @igniteui/angular-schematics:component grid newGrid
 
     新しいコンポーネントを登録するモジュールの、/src/app/ folder を基準とした module.ts ファイルのパス。
   <code>ng g @igniteui/angular-schematics:component combo newCombo --module=myModule/myModule.module.ts</code>
-  <br />
 </details>
-
-
-  <code>ng g @igniteui/angular-schematics:component combo newCombo --module=myModule/myModule.module.ts</code>
-  <br/>
 
 <details>
   <summary><u>skip-route</u></summary>
@@ -208,13 +201,131 @@ ng g @igniteui/angular-schematics:start
 
 ## AI アシスタント統合
 
-Ignite UI for Angular Schematics コレクションには、Ignite UI for Angular Agent Skills と Ignite UI MCP サーバーをプロジェクトに一括設定する `ai-config` schematic が含まれています。Ignite UI for Angular パッケージをインストールした後、プロジェクト ルートから以下のコマンドを実行してください。
+Ignite UI for Angular Schematics コレクションには、プロジェクトの AI コーディング アシスタント統合を設定する `ai-config` schematic が含まれています。1 つのコマンドで次のことを行います:
+
+- **MCP サーバーの設定** - 選択したコーディング アシスタント用の MCP 設定ファイルに Ignite UI および Angular CLI MCP サーバー エントリを書き込みます
+- **スキル ファイルのコピー** - Angular 固有のスキル ガイドをエージェント ディレクトリに追加します
+- **手順ファイルの設定** - 各エージェントの手順ファイルにプロジェクト固有のガイダンスを書き込みます
+
+Ignite UI for Angular パッケージをインストールした後、プロジェクト ルートから実行します:
 
 ```cmd
 ng generate @igniteui/angular-schematics:ai-config
 ```
 
-これにより、Ignite UI for Angular Agent Skills が `.claude/skills/` にコピーされ、`@angular/cli`、`igniteui mcp`、`igniteui-theming-mcp` の 3 つの MCP サーバー エントリが `.vscode/mcp.json` に書き込まれます。ファイルが既に存在していて最新の状態であれば、コマンドは何も行いません。
+### フラグ リファレンス
+
+| フラグ | 値 | デフォルト |
+|------|--------|---------|
+| `--assistants` | `generic`, `vscode`, `cursor`, `gemini`, `junie`, `none` | インタラクティブ モードでは対話形式; 非インタラクティブ モードでは `generic` |
+| `--agents` | `generic`, `claude`, `copilot`, `cursor`, `codex`, `windsurf`, `gemini`, `junie`, `none` | インタラクティブ モードでは対話形式; 非インタラクティブ モードでは `generic` + `claude` |
+
+### サポートされているコーディング アシスタント
+
+| コーディング アシスタント | 選択値 | 設定ファイル パス | ルート キー |
+|-----------------|--------------|-------------|----------|
+| Generic (Claude Code、VS Code など) | `generic` | `.mcp.json` | `mcpServers` |
+| VS Code (GitHub Copilot) | `vscode` | `.vscode/mcp.json` | `servers` |
+| Cursor | `cursor` | `.cursor/mcp.json` | `mcpServers` |
+| Gemini | `gemini` | `.gemini/settings.json` | `mcpServers` |
+| JetBrains Junie | `junie` | `.junie/mcp/mcp.json` | `mcpServers` |
+
+### サポートされている AI エージェント
+
+| エージェント | スキル ディレクトリ | 手順ファイル |
+|-------|------------------|------------------|
+| Generic | `.agents/skills` | `AGENTS.md` |
+| Claude | `.claude/skills` | `.claude/CLAUDE.md` |
+| Copilot | `.github/skills` | `.github/copilot-instructions.md` |
+| Cursor | `.cursor/skills` | `.cursor/rules/cursor.mdc` |
+| Codex | `.codex/skills` | `.codex/instructions.md` |
+| Windsurf | `.windsurf/skills` | `.windsurf/rules/guidelines.md` |
+| Gemini | `.gemini/skills` | `.gemini/GEMINI.md` |
+| Junie | `.junie/skills` | `.junie/guidelines.md` |
+
+### 使用例
+
+インタラクティブ - コーディング アシスタントとエージェントのプロンプトが表示されます:
+
+```bash
+ng generate @igniteui/angular-schematics:ai-config
+```
+
+非インタラクティブ - アシスタントとエージェントを直接指定:
+
+```bash
+ng generate @igniteui/angular-schematics:ai-config --assistants cursor --agents claude copilot
+```
+
+MCP 設定のみスキップ:
+
+```bash
+ng generate @igniteui/angular-schematics:ai-config --assistants none --agents claude generic
+```
+
+スキル ファイルと手順のみスキップ (MCP サーバーは設定されます):
+
+```bash
+ng generate @igniteui/angular-schematics:ai-config --assistants vscode --agents none
+```
+
+この schematic は `ng add igniteui-angular` の一部としてもデフォルト (エージェント `["claude", "generic"]`、アシスタント `["generic"]`) で自動実行されます。
+
+### MCP サーバー設定
+
+この schematic は選択したコーディング アシスタントの設定ファイルに書き込み (またはマージし) ます。既存のサードパーティ MCP サーバー エントリは常に保持されます。Angular schematic 経由で実行した場合、Ignite UI サーバーと並んで `angular-cli` MCP サーバー エントリが自動的に追加されます。
+
+**Generic、Cursor、Gemini、Junie** (`.mcp.json` およびその同等物、ルート キー `mcpServers`):
+
+```json
+{
+  "mcpServers": {
+    "angular-cli": {
+      "command": "npx",
+      "args": ["-y", "@angular/cli", "mcp"]
+    },
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+**VS Code / GitHub Copilot** (`.vscode/mcp.json`、ルート キー `servers`):
+
+```json
+{
+  "servers": {
+    "angular-cli": {
+      "command": "npx",
+      "args": ["-y", "@angular/cli", "mcp"]
+    },
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+### スキル ファイル
+
+スキル ファイルは各エージェントのスキル ディレクトリにコピーされる Angular 固有のガイドです。インストール済みの Ignite UI パッケージから取得され、schematic を実行するたびに同期されます。既存のファイルはコンテンツが変更された場合のみ更新されます。
+
+<DocsAside type="info">
+パッケージのインストール前 (`--skip-install` などの場合) に `ai-config` を実行すると、schematic は組み込みのテンプレートにフォールバックします。インストール後にコマンドを再実行すると、インストールされたバージョンのスキル ファイルが反映されます。
+</DocsAside>
+
+### 代わりに Ignite UI CLI を使用する
 
 Ignite UI CLI がグローバルにインストールされている場合、同等のコマンドは次のとおりです。
 
@@ -223,7 +334,7 @@ ig ai-config
 ```
 
 <DocsAside type="info">
-`ig ai-config` コマンドは `igniteui mcp` と `igniteui-theming-mcp` の 2 つの Ignite UI エントリのみを設定し、`@angular/cli` は登録しません。3 つのサーバーをすべて一括設定するには `ng generate @igniteui/angular-schematics:ai-config` を使用してください。
+`ig ai-config` コマンドは `igniteui-cli` と `igniteui-theming` の 2 つの Ignite UI エントリのみを設定し、`angular-cli` は登録しません。3 つのサーバーをすべて一括設定するには `ng generate @igniteui/angular-schematics:ai-config` を使用してください。
 </DocsAside>
 
 すべての AI クライアントおよび Agent Skills の設定手順の詳細については、[Ignite UI CLI MCP](../../ai/cli-mcp.md) を参照してください。
