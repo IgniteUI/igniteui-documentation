@@ -66,11 +66,35 @@ The MDX files currently use these documentation components from `igniteui-astro-
 | `PlatformBlock` | Shows content only for selected platforms. |
 | `Sample` | Embeds runnable or linked product samples. |
 
+## Checking MDX API Links
+
+Use the root `check-mdx-links` scripts to validate `ApiLink` references:
+
+| Scope | Command |
+|---|---|
+| All MDX sources | `npm run check-mdx-links` |
+| Angular docs | `npm run check-mdx-links:angular` |
+| React xplat docs | `npm run check-mdx-links:react` |
+| Web Components xplat docs | `npm run check-mdx-links:wc` |
+| Blazor xplat docs | `npm run check-mdx-links:blazor` |
+| Markdown reports | `npm run check-mdx-links:report:<platform>` |
+| Resolve-only broken-link reports | `npm run check-mdx-links:broken:<platform>` |
+
+These scripts also check for ambiguous `ApiLink` references. If a symbol exists in more than one registry package and the link does not specify enough information to choose safely, the script prints an `Ambiguous ApiLinks` section, writes an `api-link-ambiguity-report*.md` file under `reports/`, and exits with a failure.
+
+Fix ambiguous links by adding a specific `pkg` or `kind` prop. If the correct target differs by platform, wrap platform-specific links in `PlatformBlock`.
+
 ## Content Locations
 
 - Angular content lives under `docs/angular/src/content/<locale>/`.
 - Shared xplat content lives under `docs/xplat/src/content/<locale>/`.
 - Static images and assets are stored in the nearest product package when product-specific, or in the root `public/` directory when shared.
+
+## Collaboration Docs
+
+- [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md): day-to-day editing, generated-content behavior, and report expectations.
+- [API-LINK-WORKFLOW.md](API-LINK-WORKFLOW.md): API registry flow, `ApiLink` resolution, ambiguity handling, and checker commands.
+- [migration.md](migration.md): MDX migration rules and component examples.
 
 ## Contributing
 

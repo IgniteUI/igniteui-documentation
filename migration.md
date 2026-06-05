@@ -310,6 +310,41 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 <ApiLink type="IgxGridComponent" label="Data Grid" />
 ```
 
+`ApiLink` resolves through the generated API symbol registry. By default, it tries platform naming conventions first. For example, Angular `<ApiLink type="Calendar" />` resolves as `IgxCalendarComponent` before considering the duplicate raw `Calendar` registry key.
+
+Use `pkg` only when the registry has multiple valid symbols for the same requested API link and the intended package must be explicit:
+
+```mdx
+<!-- Choose the main product package instead of a Lite/core duplicate -->
+<ApiLink pkg="core" type="Calendar" />
+
+<!-- Choose the standalone inputs package -->
+<ApiLink pkg="inputs" type="CheckboxChangeEventArgs" />
+
+<!-- Choose the igniteui-*-core API package -->
+<ApiLink pkg="geo-core" type="NumberFormatSpecifier" />
+```
+
+Use `kind` when the same symbol name exists as different API kinds:
+
+```mdx
+<ApiLink kind="enum" type="TransactionType" />
+```
+
+If the correct package differs by platform, keep the link platform-specific:
+
+```mdx
+<PlatformBlock for="React">
+<ApiLink pkg="inputs" type="CheckboxChangeEventArgs" />
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ApiLink pkg="core" type="CheckboxChangeEventArgs" />
+</PlatformBlock>
+```
+
+Run `npm run check-mdx-links` or a platform-specific variant after editing API links. The checker prints an **Ambiguous ApiLinks** section, writes an `api-link-ambiguity-report*.md` file, and fails when a referenced `ApiLink` can resolve to more than one registry symbol. The report also lists all duplicate registry keys, even when no current docs reference them.
+
 The component replaces the old pattern of writing the raw API URL:
 ```markdown
 <!-- Old DocFX pattern -->

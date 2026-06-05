@@ -8,9 +8,11 @@
  ### 7. [Sample / Code View Configuration](#code-view-configuration)
  ### 8. [PlatformBlock usage](#platform-block)
  ### 9. [ApiLink usage](#api-link)
- ### 10. [Creating shared help topics](#creating-shared-help-topics)
- ### 11. [Updating of Data Visualization related topics](#updating-of-data-visualization-related-topics)
- ### 12. [Adding of images](#adding-of-images-in-the-topic)
+ ### 10. [Checking MDX API Links](#checking-api-links)
+ ### 11. [ApiLink registry workflow](#api-link-registry-workflow)
+ ### 12. [Creating shared help topics](#creating-shared-help-topics)
+ ### 13. [Updating of Data Visualization related topics](#updating-of-data-visualization-related-topics)
+ ### 14. [Adding of images](#adding-of-images-in-the-topic)
 
 # <a name='#repository-overview'>Repository overview</a>
 
@@ -251,7 +253,7 @@ Usage:
 | `height` | no | `400` | Height of the sample widget in pixels (numeric JSX expression, e.g. `{600}`). |
 | `alt` | no | `""` | Accessible label for the iframe. Use the `{Platform}` token so it resolves per-platform. |
 | `lob` | no | `false` | Use `lobDemosBaseUrl` as the base URL (for LOB / grid-dynamic demos). |
-| `dv` | no | `false` | Force `dvDemosBaseUrl` for samples whose path does not start with a recognised DV prefix. |
+| `dv` | no | `false` | Force `dvDemosBaseUrl` for samples whose path does not start with a recognized DV prefix. |
 | `crm` | no | `false` | Use `crmDemoBaseUrl` (for CRM demo samples). |
 | `iframeOnly` | no | `false` | Render only the iframe — hides the navbar, code tabs, and live-edit footer. |
 | `fullscreenBtn` | no | `false` | When used together with `iframeOnly={true}`, adds an "Open in full screen" button below the iframe. |
@@ -312,8 +314,8 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 Basic syntax:
 
 ```mdx
-<ApiLink pkg="grids" type="Grid" />
-<ApiLink pkg="grids" type="Column" member="sortable" />
+<ApiLink type="Grid" />
+<ApiLink type="Column" member="sortable" />
 <ApiLink pkg="gauges" type="BulletGraph" label="Bullet Graph" />
 ```
 
@@ -321,13 +323,38 @@ Key attributes:
 
 | Attribute | Required | Notes |
 |---|---|---|
-| `pkg` | yes | Package key: `"grids"`, `"core"`, `"charts"`, `"gauges"`, `"excel"`, etc. |
+| `pkg` | no | Package key such as `"core"`, `"grids"`, `"charts"`, `"inputs"`, `"excel"`, or `"geo-core"`. Add it only when the registry has multiple valid matches and the package must be explicit. |
 | `type` | yes | Short type name **without** platform prefix — e.g. `"Grid"`, not `"IgrGrid"`. |
-| `kind` | for non-classes | TypeDoc kind: omit for classes. Use `"enum"`, `"interface"`, or `"typeAlias"` otherwise. |
+| `kind` | for non-classes | API kind. Omit for classes. Use `"enum"`, `"interface"`, `"type"`, `"function"`, or `"variable"` when the registry symbol is not a class. |
 | `member` | no | Property or method name for anchor links. |
 | `prefixed` | no | Default `true` (adds `Igr`/`Igx`/`Igc`/`Igb`). Set `{false}` for excel types and when `type` already contains `{ComponentName}`. |
-| `exclude` | no | Comma-separated platforms to show as inline code instead of a link (e.g. `exclude="Blazor"`). Use when the type does not exist on those platforms. |
+| `suffix` | no | Default `true` for component-style symbols. Set `{false}` for utility classes, strategy classes, and excel types that do not have an Angular `Component` suffix. |
 | `label` | no | Override the display text. |
+
+`ApiLink` resolves through the generated API symbol registry. Keep links minimal when the registry can resolve a single target:
+
+```mdx
+<ApiLink type="Calendar" />
+<ApiLink type="Grid" member="filter" />
+```
+
+Add `pkg` only when the same symbol exists in more than one package:
+
+```mdx
+<ApiLink pkg="core" type="Calendar" />
+<ApiLink pkg="inputs" type="CheckboxChangeEventArgs" />
+<ApiLink pkg="geo-core" type="NumberFormatSpecifier" />
+```
+
+Add `kind` only when the intended symbol is not a class, or when the same name exists as multiple API kinds:
+
+```mdx
+<ApiLink kind="enum" type="TransactionType" />
+```
+
+If one `ApiLink` cannot be correct for all platforms, split the content with `PlatformBlock` instead of forcing one set of props to mean different targets.
+
+Member lookup is case-insensitive, but after a member is found the registry is the source of truth for the rendered member name and anchor.
 
 Also declare the types in the frontmatter so the auto-generated API reference grid works:
 
@@ -335,7 +362,83 @@ Also declare the types in the frontmatter so the auto-generated API reference gr
 mentionedTypes: ["Grid", "Column"]
 ```
 
-For a complete reference see [AI-AGENT-API-LINKS.md](../docs/xplat/AI-AGENT-API-LINKS.md).
+For a complete editing reference see [AI-AGENT-API-LINKS.md](../docs/xplat/AI-AGENT-API-LINKS.md). For the registry and checker flow, see [API-LINK-WORKFLOW.md](../API-LINK-WORKFLOW.md).
+
+# <a name='#checking-api-links'>Checking MDX API Links</a>
+
+Use the root `check-mdx-links` scripts to validate `ApiLink` references:
+
+| Scope | Command |
+|---|---|
+| All MDX sources | `npm run check-mdx-links` |
+| Angular docs | `npm run check-mdx-links:angular` |
+| React xplat docs | `npm run check-mdx-links:react` |
+| Web Components xplat docs | `npm run check-mdx-links:wc` |
+| Blazor xplat docs | `npm run check-mdx-links:blazor` |
+| Markdown reports | `npm run check-mdx-links:report:<platform>` |
+| Resolve-only broken-link reports | `npm run check-mdx-links:broken:<platform>` |
+
+These scripts also check for ambiguous `ApiLink` references. If a symbol exists in more than one registry package and the link does not specify enough information to choose safely, the script prints an **Ambiguous ApiLinks** section, writes a `reports/api-link-ambiguity-report*.md` file, and exits with a failure.
+
+Fix ambiguous links by adding a specific `pkg` or `kind` prop. If the correct target differs by platform, wrap platform-specific links in `PlatformBlock`.
+
+Angular checks run the same generated-content sync used by Angular builds before scanning `docs/angular/src/content`. React, Web Components, and Blazor checks generate the selected platform output first, then scan raw xplat MDX files filtered through each language `toc.json` platform exclusions. This keeps report paths pointed at raw xplat source files while avoiding topics excluded from that platform.
+
+Reports are written under `reports/`:
+
+| Report | Meaning |
+|---|---|
+| `api-link-ambiguity-report*.md` | Registry duplicate keys and currently referenced ambiguous `ApiLink`s. |
+| `mdx-broken-links*.md` | Resolve-only broken or unresolved `ApiLink`s. |
+| `mdx-link-report*.md` | Full URL check output when the non-broken report scripts are used. |
+
+Referenced ambiguities should be fixed before merging. Registry duplicate keys can remain in the report when no current MDX link references them.
+
+# <a name='#api-link-registry-workflow'>ApiLink registry workflow</a>
+
+The API registry flow is:
+
+```mermaid
+flowchart TD
+    A[api-docs] --> B[Generate API docs]
+    B --> C[Generate API registry JSON]
+    C --> D[Sync into igniteui-documentation]
+    D --> E[ApiLink resolves type/member from registry]
+    E --> F{Resolved?}
+
+    F -->|Yes| G[Render API link]
+    G --> H[Link checker crawls URL]
+    H --> I[Reported if unreachable / soft 404]
+
+    F -->|No| J[Render highlighted text only]
+    J --> K[Reported as unresolved]
+```
+
+The checker also detects duplicate registry matches:
+
+```mermaid
+flowchart TD
+    A[MDX ApiLink] --> B[Resolve candidate names]
+    B --> C[Apply platform prefix/suffix rules]
+    C --> D[Apply pkg and kind filters]
+    D --> E[Match type in registry]
+    E --> F[Match member case-insensitively]
+    F --> G{How many registry symbols match?}
+
+    G -->|0| H[Unresolved ApiLink]
+    G -->|1| I[Resolved ApiLink]
+    G -->|2 or more| J[Ambiguous ApiLink]
+
+    H --> K[Write broken report]
+    I --> L[Use canonical registry symbol and member]
+    J --> M[Write ambiguity report and fail when enabled]
+```
+
+Registry snapshots live under `src/data/api-link-index/<platform>/staging-latest.json`. The runtime `ApiLink` component and the checker both use these registries to choose the final URL.
+
+Only referenced ambiguities are blocking. Duplicate registry keys listed in the report are informational until an MDX file references them without enough props to choose the intended symbol.
+
+For the full workflow, package mappings, generated-content behavior, and practical fix loop, see [API-LINK-WORKFLOW.md](../API-LINK-WORKFLOW.md).
 
 # <a name='#creating-shared-help-topics'>Creating shared help topics</a>
 
