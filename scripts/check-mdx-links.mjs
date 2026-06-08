@@ -75,9 +75,9 @@ const PLATFORM_MAP = {
 };
 
 const PLATFORM_CONFIGS = {
-    Angular:       { folder: 'angular',       prefix: 'Igx', classSuffix: 'Component' },
+    Angular:       { folder: 'angular',       prefix: 'Igx' },
     React:         { folder: 'react',         prefix: 'Igr' },
-    WebComponents: { folder: 'webcomponents', prefix: 'Igc', classSuffix: 'Component' },
+    WebComponents: { folder: 'webcomponents', prefix: 'Igc' },
     Blazor:        { folder: 'blazor',        prefix: 'Igb', pascalCaseMembers: true },
 };
 
@@ -89,9 +89,10 @@ const PACKAGE_IDS = {
         gauges: 'igniteui-angular-gauges',
         maps: 'igniteui-angular-maps',
         inputs: 'igniteui-angular-inputs',
-        layouts: 'igniteui-angular',
+        layouts: 'igniteui-angular-layouts',
         'geo-core': 'igniteui-angular-core',
         excel: 'igniteui-angular-excel',
+        fdc3: 'igniteui-angular-fdc3',
         spreadsheet: 'igniteui-angular-spreadsheet',
         datasources: 'igniteui-angular-datasources',
         dashboards: 'igniteui-angular-dashboards',
@@ -102,14 +103,17 @@ const PACKAGE_IDS = {
         grids: 'igniteui-react-grids',
         gauges: 'igniteui-react-gauges',
         maps: 'igniteui-react-maps',
-        inputs: 'igniteui-react-inputs',
-        layouts: 'igniteui-react-layouts',
+        inputs: 'igniteui-react',
+        layouts: 'igniteui-react',
         'geo-core': 'igniteui-react-core',
         excel: 'igniteui-react-excel',
+        fdc3: 'igniteui-react-fdc3',
         spreadsheet: 'igniteui-react-spreadsheet',
         datasources: 'igniteui-react-datasources',
         dashboards: 'igniteui-react-dashboards',
         dockmanager: 'igniteui-react-dockmanager',
+        'data-grids': 'igniteui-react-grids',
+        'grid-lite': 'igniteui-react-grids',
     },
     WebComponents: {
         core: 'igniteui-webcomponents',
@@ -117,10 +121,11 @@ const PACKAGE_IDS = {
         grids: 'igniteui-webcomponents-grids',
         gauges: 'igniteui-webcomponents-gauges',
         maps: 'igniteui-webcomponents-maps',
-        inputs: 'igniteui-webcomponents-inputs',
-        layouts: 'igniteui-webcomponents-layouts',
+        inputs: 'igniteui-webcomponents',
+        layouts: 'igniteui-webcomponents',
         'geo-core': 'igniteui-webcomponents-core',
         excel: 'igniteui-webcomponents-excel',
+        fdc3: 'igniteui-webcomponents-fdc3',
         spreadsheet: 'igniteui-webcomponents-spreadsheet',
         datasources: 'igniteui-webcomponents-datasources',
         dashboards: 'igniteui-webcomponents-dashboards',
@@ -143,7 +148,47 @@ const PACKAGE_IDS = {
         dashboards: 'IgniteUI.Blazor',
         gridlite: 'IgniteUI.Blazor.GridLite',
         'grid-lite': 'IgniteUI.Blazor.GridLite',
+        documentsCore: 'IgniteUI.Blazor.Documents.Core',
+        lite: 'IgniteUI.Blazor.Lite',
     },
+};
+
+const PACKAGE_CLASS_SUFFIXES = {
+    Angular: {
+        core: 'Component',
+        charts: 'Component',
+        grids: 'Component',
+        gauges: 'Component',
+        maps: 'Component',
+        inputs: 'Component',
+        layouts: 'Component',
+        dashboards: 'Component',
+        fdc3: 'Component',
+        spreadsheet: 'Component',
+        excel: undefined,
+        'geo-core': undefined,
+    },
+    React: {},
+    WebComponents: {
+        core: 'Component',
+        charts: 'Component',
+        grids: 'Component',
+        gauges: 'Component',
+        maps: 'Component',
+        inputs: 'Component',
+        layouts: 'Component',
+        dashboards: 'Component',
+        fdc3: 'Component',
+        spreadsheet: 'Component',
+        dockmanager: 'Component',
+        excel: undefined,
+        datasources: undefined,
+        'data-grids': undefined,
+        'geo-core': undefined,
+        gridlite: undefined,
+        'grid-lite': undefined,
+    },
+    Blazor: {},
 };
 
 function getPlatforms() {
@@ -159,7 +204,6 @@ function getPlatforms() {
 }
 
 const upperFirst = (value) => value ? value.charAt(0).toUpperCase() + value.slice(1) : value;
-const splitList = (value) => value ? String(value).split(',').map(item => item.trim()).filter(Boolean) : [];
 const addUnique = (values, value) => {
     if (value && !values.includes(value)) values.push(value);
 };
@@ -191,21 +235,36 @@ const API_LINK_INDEXES = loadApiLinkIndexes();
 const API_DOCS_ORIGIN = new URL(getApiDocsBaseUrl()).origin;
 const NPM_CLI = process.env.npm_execpath;
 
-function candidateNames(props, platformName) {
+function getCandidateClassSuffixes(platformName, explicitPkgKey) {
+    const suffixesByPkg = PACKAGE_CLASS_SUFFIXES[platformName] ?? {};
+    if (explicitPkgKey) {
+        return [suffixesByPkg[explicitPkgKey]];
+    }
+
+    const suffixes = new Set(Object.values(suffixesByPkg));
+    if (suffixes.size === 0) suffixes.add(undefined);
+
+    // Match ApiLink: try suffixed candidates before bare candidates.
+    return [...suffixes].sort((a, b) => (a === undefined ? 1 : b === undefined ? -1 : 0));
+}
+
+function candidateNames(props, platformName, explicitPkgKey) {
     const platform = PLATFORM_CONFIGS[platformName];
     const explicitKind = props.kind;
-    const prefixed = props.prefixed !== false && !splitList(props.excludePrefixFor).includes(platformName);
-    const suffix = props.suffix !== false && !splitList(props.excludeSuffixFor).includes(platformName);
+    const prefixed = props.prefixed !== false;
+    const suffix = props.suffix !== false;
     const bases = [];
     if (prefixed) addUnique(bases, `${platform.prefix}${props.type}`);
     addUnique(bases, props.type);
 
     const names = [];
-    for (const base of bases) {
-        if ((!explicitKind || explicitKind === 'class') && suffix && platform.classSuffix) {
-            addUnique(names, `${base}${platform.classSuffix}`);
+    for (const classSuffix of getCandidateClassSuffixes(platformName, explicitPkgKey)) {
+        for (const base of bases) {
+            if ((!explicitKind || explicitKind === 'class') && suffix && classSuffix) {
+                addUnique(names, `${base}${classSuffix}`);
+            }
+            addUnique(names, base);
         }
-        addUnique(names, base);
     }
     return names;
 }
@@ -216,43 +275,44 @@ function resolveApiLink(props, platformName) {
     if (!props.type) return { status: 'missing-type' };
     if (props.type.includes('{')) return { status: 'dynamic' };
     if (props.kind === 'sass') return { status: 'sass' };
-    if (splitList(props.exclude).includes(platformName)) return { status: 'excluded' };
 
     const explicitPkg = typeof props.pkg === 'string' && props.pkg.length > 0;
     const packageId = explicitPkg ? PACKAGE_IDS[platformName]?.[props.pkg] : undefined;
     if (explicitPkg && !packageId) return { status: 'unknown-package' };
     const platform = PLATFORM_CONFIGS[platformName];
     let matchedSymbol = false;
+    let ambiguity = null;
 
-    for (const name of candidateNames(props, platformName)) {
+    for (const name of candidateNames(props, platformName, explicitPkg ? props.pkg : undefined)) {
         const value = index.symbols[name];
         if (!value) continue;
         const symbols = Array.isArray(value) ? value : [value];
-        const resolvedSymbols = [];
+        const resolvedSymbols = new Map();
         for (const symbol of symbols) {
-            if (packageId && symbol.p && symbol.p !== packageId) continue;
-            if (props.kind && symbol.k && symbol.k !== props.kind) continue;
+            if (packageId && symbol.p !== packageId) continue;
+            if (props.kind && symbol.k !== props.kind) continue;
             matchedSymbol = true;
             const memberMatch = resolveMember(symbol, props.member, platform);
             if (memberMatch === null) continue;
-            resolvedSymbols.push({ symbol, memberMatch });
+            resolvedSymbols.set(`${symbol.u}#${memberMatch.anchor}`, { symbol, memberMatch });
         }
-        if (resolvedSymbols.length > 0) {
-            const { symbol, memberMatch } = resolvedSymbols[0];
+        if (resolvedSymbols.size === 1) {
+            const { symbol, memberMatch } = resolvedSymbols.values().next().value;
             const path = `${symbol.u}${memberMatch.anchor ? `#${memberMatch.anchor}` : ''}`;
             return {
                 status: 'resolved',
                 url: path.startsWith('/') ? `${API_DOCS_ORIGIN}${path}` : path,
                 member: memberMatch.member,
-                ambiguity: resolvedSymbols.length > 1
-                    ? {
-                        candidate: name,
-                        symbols: resolvedSymbols.map(item => item.symbol),
-                    }
-                    : null,
+            };
+        }
+        if (resolvedSymbols.size > 1 && !ambiguity) {
+            ambiguity = {
+                candidate: name,
+                symbols: [...resolvedSymbols.values()].map(item => item.symbol),
             };
         }
     }
+    if (ambiguity) return { status: 'ambiguous', ambiguity };
     return { status: matchedSymbol ? 'member-missing' : 'missing' };
 }
 
@@ -291,7 +351,7 @@ const API_LINK_RE = /<ApiLink\s+([^>]*?)\/?>(?:<\/ApiLink>)?/g;
 /** Regex to match <PlatformBlock for="...">...</PlatformBlock> including nested content */
 const PLATFORM_BLOCK_RE = /<PlatformBlock\s+for="([^"]+)">([\s\S]*?)<\/PlatformBlock>/g;
 
-/** Parses JSX-style props from a string like `pkg="charts" type="CategoryChart" kind="enum" prefixed={false}` */
+/** Parses JSX-style props from a string like `pkg="charts" type="CategoryChart" kind="enum"` */
 function parseProps(propsStr) {
     const props = {};
     const PROP_RE = /(\w+)\s*=\s*(?:"([^"]*)"|'([^']*)'|{([^}]*)})/g;
@@ -370,17 +430,6 @@ function extractApiLinks(content) {
                 for (const p of [...scopedPlatforms]) {
                     if (!b.platforms.has(p)) scopedPlatforms.delete(p);
                 }
-            }
-        }
-        // Honor exclude="A,B" on the ApiLink itself: those platforms render a
-        // code-only fallback (no link) and must not be checked.
-        if (props.exclude) {
-            const excluded = new Set(props.exclude.split(',').map(s => s.trim()).filter(Boolean));
-            if (scopedPlatforms === null) {
-                scopedPlatforms = new Set(['Angular', 'React', 'WebComponents', 'Blazor']);
-            }
-            for (const p of [...scopedPlatforms]) {
-                if (excluded.has(p)) scopedPlatforms.delete(p);
             }
         }
         results.push({
@@ -693,7 +742,7 @@ const resolutionStats = new Map(targetPlatforms.map(platform => [platform, {
     examples: new Map(),
 }]));
 const unresolvedDetails = [];
-const NON_BROKEN_UNRESOLVED_STATUSES = new Set(['dynamic', 'excluded', 'sass']);
+const NON_BROKEN_UNRESOLVED_STATUSES = new Set(['dynamic', 'sass']);
 
 function recordResolution(platformName, status, relPath, props) {
     const stats = resolutionStats.get(platformName);
@@ -967,8 +1016,7 @@ for (const file of mdxFiles) {
             totalApiLinkRefs++;
             const resolved = resolveApiLink(props, platformName);
             recordResolution(platformName, resolved.status, relPath, props);
-            if (resolved.status !== 'resolved') continue;
-            if (resolved.ambiguity) {
+            if (resolved.status === 'ambiguous') {
                 ambiguityDetails.push({
                     platform: platformName,
                     file: relPath,
@@ -981,6 +1029,7 @@ for (const file of mdxFiles) {
                     symbols: resolved.ambiguity.symbols,
                 });
             }
+            if (resolved.status !== 'resolved') continue;
 
             totalResolvedLinks++;
             if (!urlIndex.has(resolved.url)) {

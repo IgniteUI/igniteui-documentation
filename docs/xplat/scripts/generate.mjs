@@ -138,8 +138,21 @@ function normalizeMarkdownSpacing(content) {
     const lines = content.replace(/\r\n/g, '\n').split('\n');
     const result = [];
     let blankCount = 0;
+    let inFence = false;
 
     for (const line of lines) {
+        if (/^\s*(```|~~~)/.test(line)) {
+            inFence = !inFence;
+            blankCount = 0;
+            result.push(line);
+            continue;
+        }
+
+        if (inFence) {
+            result.push(line);
+            continue;
+        }
+
         if (line.trim() === '') {
             blankCount++;
             if (blankCount <= 1) {

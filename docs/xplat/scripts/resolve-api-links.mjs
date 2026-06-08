@@ -221,46 +221,6 @@ function pkgForType(t) {
 }
 
 /**
- * Utility / non-component classes that should be rendered with suffix={false}
- * because Angular DV doesn't wrap them in a Component (no `Component` suffix
- * in the URL).
- *
- * Heuristic: any type whose name matches one of these suffix patterns.
- */
-const NON_COMPONENT_SUFFIXES = [
-    'Operand',          // SummaryOperand, NumberSummaryOperand
-    'Strategy',         // SortingStrategy
-    'Service',          // GridSelectionService
-    'EventArgs',
-    'Args',
-    'Descriptor',
-    'Description',
-    'Information',
-    'Settings',
-    'Options',
-    'Behavior',
-    'Provider',
-    'Manager',
-    'Factory',
-    'Mapping',
-    'Comparer',
-    'Resolver',
-    'Adapter',
-    'Item',
-    'Frame',
-    'Layout',
-];
-
-function needsSuffix(typeName, type) {
-    // Enums and interfaces never get a Component suffix.
-    if (type && (type.isEnum || type.isInterface)) return false;
-    for (const s of NON_COMPONENT_SUFFIXES) {
-        if (typeName.endsWith(s)) return false;
-    }
-    return true;
-}
-
-/**
  * Find a type by name. Falls back to the `Xam`-prefixed form because the
  * migration to MDX dropped the `Xam` prefix from `mentionedTypes` entries
  * (apiMap still uses originals like `XamBulletGraph`).
@@ -428,8 +388,6 @@ function parseFrontmatter(text) {
 function buildApiLink(match, originalText) {
     const t        = match.type;
     const pkg      = pkgForType(t);
-    const isExcel  = pkg === 'excel' || pkg === 'spreadsheet';
-    const suffix   = isExcel ? false : needsSuffix(t.originalName, t);
     const isEnum   = t.isEnum;
     const isIface  = t.isInterface;
     const kind     = isEnum ? 'enum' : (isIface ? 'interface' : 'class');
@@ -446,17 +404,6 @@ function buildApiLink(match, originalText) {
         props.push(`member="${jsMemberName(match.member)}"`);
         props.push(`label="${originalText}"`);
     }
-    // Cases where the platform Igr/Igx/Igc/Igb prefix must NOT be auto-added:
-    //   1. Excel / Spreadsheet types — DV docs don't prefix these.
-    //   2. Enums — TypeDoc-generated DV docs publish enums under bare names
-    //      (e.g. `enums/CategoryChartType`, never `enums/IgrCategoryChartType`).
-    //   3. Inline backticks that already contain the prefix (avoids "IgrIgrFoo").
-    const alreadyPrefixed = /^(Igr|Igx|Igc|Igb)/.test(originalText) && match.kind === 'type';
-    if (isExcel || isEnum || alreadyPrefixed) {
-        props.push(`prefixed={false}`);
-    }
-    if (!suffix && kind === 'class') props.push(`suffix={false}`);
-
     return `<ApiLink ${props.join(' ')} />`;
 }
 
