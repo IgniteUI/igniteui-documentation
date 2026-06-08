@@ -679,7 +679,10 @@ function symbolLabel(symbol) {
 }
 
 function escapeMdTable(value) {
-    return String(value ?? '').replace(/\|/g, '\\|').replace(/\r?\n/g, '<br>');
+    return String(value ?? '')
+        .replace(/\\/g, '\\\\')
+        .replace(/\|/g, '\\|')
+        .replace(/\r?\n/g, '<br>');
 }
 
 function groupUnresolvedDetails(details) {
