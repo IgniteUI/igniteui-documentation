@@ -33,6 +33,12 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import {
+    API_PLATFORM_CONFIGS,
+    PLATFORM_MAP,
+    getPackageClassSuffixes,
+    getPackageIds,
+} from '../src/lib/api-platform-config.ts';
 
 // CLI args
 const args = Object.fromEntries(
@@ -66,130 +72,13 @@ const DEFAULT_SRC = PLATFORM === 'angular'
 const SRC_DIR     = String(args.src ?? DEFAULT_SRC);
 const API_LINK_INDEX_VERSION = String(args.index ?? process.env.API_LINK_INDEX_VERSION ?? (process.env.NODE_ENV === 'production' ? 'prod-latest' : 'staging-latest'));
 
-// Platform resolution
-const PLATFORM_MAP = {
-    angular: 'Angular',
-    react:   'React',
-    wc:      'WebComponents',
-    blazor:  'Blazor',
-};
-
-const PLATFORM_CONFIGS = {
-    Angular:       { folder: 'angular',       prefix: 'Igx' },
-    React:         { folder: 'react',         prefix: 'Igr' },
-    WebComponents: { folder: 'webcomponents', prefix: 'Igc' },
-    Blazor:        { folder: 'blazor',        prefix: 'Igb', pascalCaseMembers: true },
-};
-
-const PACKAGE_IDS = {
-    Angular: {
-        core: 'igniteui-angular',
-        charts: 'igniteui-angular-charts',
-        grids: 'igniteui-angular',
-        gauges: 'igniteui-angular-gauges',
-        maps: 'igniteui-angular-maps',
-        inputs: 'igniteui-angular-inputs',
-        layouts: 'igniteui-angular-layouts',
-        'geo-core': 'igniteui-angular-core',
-        excel: 'igniteui-angular-excel',
-        fdc3: 'igniteui-angular-fdc3',
-        spreadsheet: 'igniteui-angular-spreadsheet',
-        datasources: 'igniteui-angular-datasources',
-        dashboards: 'igniteui-angular-dashboards',
-    },
-    React: {
-        core: 'igniteui-react',
-        charts: 'igniteui-react-charts',
-        grids: 'igniteui-react-grids',
-        gauges: 'igniteui-react-gauges',
-        maps: 'igniteui-react-maps',
-        inputs: 'igniteui-react',
-        layouts: 'igniteui-react',
-        'geo-core': 'igniteui-react-core',
-        excel: 'igniteui-react-excel',
-        fdc3: 'igniteui-react-fdc3',
-        spreadsheet: 'igniteui-react-spreadsheet',
-        datasources: 'igniteui-react-datasources',
-        dashboards: 'igniteui-react-dashboards',
-        dockmanager: 'igniteui-react-dockmanager',
-        'data-grids': 'igniteui-react-grids',
-        'grid-lite': 'igniteui-react-grids',
-    },
-    WebComponents: {
-        core: 'igniteui-webcomponents',
-        charts: 'igniteui-webcomponents-charts',
-        grids: 'igniteui-webcomponents-grids',
-        gauges: 'igniteui-webcomponents-gauges',
-        maps: 'igniteui-webcomponents-maps',
-        inputs: 'igniteui-webcomponents',
-        layouts: 'igniteui-webcomponents',
-        'geo-core': 'igniteui-webcomponents-core',
-        excel: 'igniteui-webcomponents-excel',
-        fdc3: 'igniteui-webcomponents-fdc3',
-        spreadsheet: 'igniteui-webcomponents-spreadsheet',
-        datasources: 'igniteui-webcomponents-datasources',
-        dashboards: 'igniteui-webcomponents-dashboards',
-        dockmanager: 'igniteui-dockmanager',
-        gridlite: 'igniteui-grid-lite',
-        'grid-lite': 'igniteui-grid-lite',
-    },
-    Blazor: {
-        core: 'IgniteUI.Blazor',
-        charts: 'IgniteUI.Blazor',
-        grids: 'IgniteUI.Blazor',
-        gauges: 'IgniteUI.Blazor',
-        maps: 'IgniteUI.Blazor',
-        inputs: 'IgniteUI.Blazor',
-        layouts: 'IgniteUI.Blazor',
-        'geo-core': 'IgniteUI.Blazor',
-        excel: 'IgniteUI.Blazor.Documents.Excel',
-        spreadsheet: 'IgniteUI.Blazor',
-        datasources: 'IgniteUI.Blazor',
-        dashboards: 'IgniteUI.Blazor',
-        gridlite: 'IgniteUI.Blazor.GridLite',
-        'grid-lite': 'IgniteUI.Blazor.GridLite',
-        documentsCore: 'IgniteUI.Blazor.Documents.Core',
-        lite: 'IgniteUI.Blazor.Lite',
-    },
-};
-
-const PACKAGE_CLASS_SUFFIXES = {
-    Angular: {
-        core: 'Component',
-        charts: 'Component',
-        grids: 'Component',
-        gauges: 'Component',
-        maps: 'Component',
-        inputs: 'Component',
-        layouts: 'Component',
-        dashboards: 'Component',
-        fdc3: 'Component',
-        spreadsheet: 'Component',
-        excel: undefined,
-        'geo-core': undefined,
-    },
-    React: {},
-    WebComponents: {
-        core: 'Component',
-        charts: 'Component',
-        grids: 'Component',
-        gauges: 'Component',
-        maps: 'Component',
-        inputs: 'Component',
-        layouts: 'Component',
-        dashboards: 'Component',
-        fdc3: 'Component',
-        spreadsheet: 'Component',
-        dockmanager: 'Component',
-        excel: undefined,
-        datasources: undefined,
-        'data-grids': undefined,
-        'geo-core': undefined,
-        gridlite: undefined,
-        'grid-lite': undefined,
-    },
-    Blazor: {},
-};
+const PLATFORM_CONFIGS = API_PLATFORM_CONFIGS;
+const PACKAGE_IDS = Object.fromEntries(
+    Object.keys(API_PLATFORM_CONFIGS).map(platformName => [platformName, getPackageIds(platformName)])
+);
+const PACKAGE_CLASS_SUFFIXES = Object.fromEntries(
+    Object.keys(API_PLATFORM_CONFIGS).map(platformName => [platformName, getPackageClassSuffixes(platformName)])
+);
 
 function getPlatforms() {
     if (PLATFORM) {

@@ -8,16 +8,19 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-
-export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor';
+import {
+    API_PLATFORM_CONFIGS,
+    apiDocsPlatformPath,
+    createApiPackages,
+    type PlatformName,
+} from '../../../../src/lib/api-platform-config.ts';
 
 export interface ApiPackageConfig {
     /** TypeDoc documentation root URL (no trailing slash). */
     docRoot: string;
     /**
-     * Package identifier as it appears in the TypeDoc URL path.
-     * Core packages use hyphens ("igniteui-react"),
-     * sub-packages use underscores ("igniteui_react_charts").
+     * Package identifier as it appears in the API docs registry and route,
+     * e.g. "igniteui-react" or "igniteui-react-charts".
      */
     packageId: string;
     /**
@@ -102,24 +105,6 @@ function getApiLinkIndexName(): string {
         ?? (getBuildMode() === 'production' ? 'prod-latest' : 'staging-latest');
 }
 
-function apiDocsPlatformPath(platform: PlatformName): string {
-    return platform === 'WebComponents' ? 'webcomponents' : platform.toLowerCase();
-}
-
-function apiDocRoot(platform: PlatformName, packageId: string): string {
-    return `${API_DOCS_BASE_URL}/${apiDocsPlatformPath(platform)}/${packageId}/latest`;
-}
-
-function apiPackage(platform: PlatformName, packageId: string, options: Partial<ApiPackageConfig> = {}): ApiPackageConfig {
-    return {
-        docRoot: apiDocRoot(platform, packageId),
-        packageId,
-        noPackagePrefix: true,
-        preserveCase: true,
-        ...options,
-    };
-}
-
 function loadApiLinkIndex(platform: PlatformName): PlatformContext['apiLinkIndex'] {
     try {
         const file = path.resolve(
@@ -141,24 +126,11 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     Angular: {
         name: 'Angular',
         apiLinkIndex: loadApiLinkIndex('Angular'),
-        lower: 'angular',
-        prefix: 'Igx',
+        lower: API_PLATFORM_CONFIGS.Angular.folder,
+        prefix: API_PLATFORM_CONFIGS.Angular.prefix,
         productName: 'Ignite UI for Angular',
         productSpinal: 'ignite-ui-angular',
-        apiPackages: {
-            core:        apiPackage('Angular', 'igniteui-angular', { classSuffix: 'Component' }),
-            charts:      apiPackage('Angular', 'igniteui-angular-charts', { classSuffix: 'Component' }),
-            grids:       apiPackage('Angular', 'igniteui-angular', { classSuffix: 'Component' }),
-            gauges:      apiPackage('Angular', 'igniteui-angular-gauges', { classSuffix: 'Component' }),
-            maps:        apiPackage('Angular', 'igniteui-angular-maps', { classSuffix: 'Component' }),
-            excel:       apiPackage('Angular', 'igniteui-angular-excel'),
-            fdc3:        apiPackage('Angular', 'igniteui-angular-fdc3', { classSuffix: 'Component' }),
-            dashboards:  apiPackage('Angular', 'igniteui-angular-dashboards', { classSuffix: 'Component' }),
-            spreadsheet: apiPackage('Angular', 'igniteui-angular-spreadsheet', { classSuffix: 'Component' }),
-            inputs:      apiPackage('Angular', 'igniteui-angular-inputs', { classSuffix: 'Component' }),
-            layouts:     apiPackage('Angular', 'igniteui-angular-layouts', { classSuffix: 'Component' }),
-            'geo-core':  apiPackage('Angular', 'igniteui-angular-core'),
-        },
+        apiPackages: createApiPackages(API_DOCS_BASE_URL, 'Angular'),
         packages: {
             common: 'igniteui-angular',
             charts: 'igniteui-angular-charts',
@@ -175,28 +147,11 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     React: {
         name: 'React',
         apiLinkIndex: loadApiLinkIndex('React'),
-        lower: 'react',
-        prefix: 'Igr',
+        lower: API_PLATFORM_CONFIGS.React.folder,
+        prefix: API_PLATFORM_CONFIGS.React.prefix,
         productName: 'Ignite UI for React',
         productSpinal: 'ignite-ui-react',
-        apiPackages: {
-            core:        apiPackage('React', 'igniteui-react'),
-            charts:      apiPackage('React', 'igniteui-react-charts'),
-            grids:       apiPackage('React', 'igniteui-react-grids'),
-            gauges:      apiPackage('React', 'igniteui-react-gauges'),
-            maps:        apiPackage('React', 'igniteui-react-maps'),
-            inputs:      apiPackage('React', 'igniteui-react'),
-            layouts:     apiPackage('React', 'igniteui-react'),
-            'geo-core':  apiPackage('React', 'igniteui-react-core'),
-            excel:       apiPackage('React', 'igniteui-react-excel'),
-            fdc3:        apiPackage('React', 'igniteui-react-fdc3'),
-            dashboards:  apiPackage('React', 'igniteui-react-dashboards'),
-            spreadsheet: apiPackage('React', 'igniteui-react-spreadsheet'),
-            datasources: apiPackage('React', 'igniteui-react-datasources'),
-            'grid-lite':  apiPackage('React', 'igniteui-react-grids'),
-            'data-grids': apiPackage('React', 'igniteui-react-grids'),
-            dockmanager: apiPackage('React', 'igniteui-react-dockmanager'),
-        },
+        apiPackages: createApiPackages(API_DOCS_BASE_URL, 'React'),
         packages: {
             common: '@infragistics/igniteui-react',
             charts: '@infragistics/igniteui-react-charts',
@@ -213,29 +168,11 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     WebComponents: {
         name: 'WebComponents',
         apiLinkIndex: loadApiLinkIndex('WebComponents'),
-        lower: 'webcomponents',
-        prefix: 'Igc',
+        lower: API_PLATFORM_CONFIGS.WebComponents.folder,
+        prefix: API_PLATFORM_CONFIGS.WebComponents.prefix,
         productName: 'Ignite UI for Web Components',
         productSpinal: 'ignite-ui-web-components',
-        apiPackages: {
-            core:        apiPackage('WebComponents', 'igniteui-webcomponents', { classSuffix: 'Component' }),
-            charts:      apiPackage('WebComponents', 'igniteui-webcomponents-charts', { classSuffix: 'Component' }),
-            grids:       apiPackage('WebComponents', 'igniteui-webcomponents-grids', { classSuffix: 'Component' }),
-            gauges:      apiPackage('WebComponents', 'igniteui-webcomponents-gauges', { classSuffix: 'Component' }),
-            maps:        apiPackage('WebComponents', 'igniteui-webcomponents-maps', { classSuffix: 'Component' }),
-            inputs:      apiPackage('WebComponents', 'igniteui-webcomponents', { classSuffix: 'Component' }),
-            layouts:     apiPackage('WebComponents', 'igniteui-webcomponents', { classSuffix: 'Component' }),
-            'geo-core':  apiPackage('WebComponents', 'igniteui-webcomponents-core'),
-            excel:       apiPackage('WebComponents', 'igniteui-webcomponents-excel'),
-            fdc3:        apiPackage('WebComponents', 'igniteui-webcomponents-fdc3', { classSuffix: 'Component' }),
-            dashboards:  apiPackage('WebComponents', 'igniteui-webcomponents-dashboards', { classSuffix: 'Component' }),
-            spreadsheet: apiPackage('WebComponents', 'igniteui-webcomponents-spreadsheet', { classSuffix: 'Component' }),
-            datasources: apiPackage('WebComponents', 'igniteui-webcomponents-datasources'),
-            dockmanager: apiPackage('WebComponents', 'igniteui-dockmanager', { classSuffix: 'Component' }),
-            gridlite:    apiPackage('WebComponents', 'igniteui-grid-lite'),
-            'grid-lite': apiPackage('WebComponents', 'igniteui-grid-lite'),
-            'data-grids': apiPackage('WebComponents', 'igniteui-webcomponents-data-grids'),
-        },
+        apiPackages: createApiPackages(API_DOCS_BASE_URL, 'WebComponents'),
         packages: {
             common: 'igniteui-webcomponents',
             charts: 'igniteui-webcomponents-charts',
@@ -252,28 +189,11 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     Blazor: {
         name: 'Blazor',
         apiLinkIndex: loadApiLinkIndex('Blazor'),
-        lower: 'blazor',
-        prefix: 'Igb',
+        lower: API_PLATFORM_CONFIGS.Blazor.folder,
+        prefix: API_PLATFORM_CONFIGS.Blazor.prefix,
         productName: 'Ignite UI for Blazor',
         productSpinal: 'ignite-ui-blazor',
-        apiPackages: {
-            core:          apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
-            charts:        apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
-            grids:         apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
-            gauges:        apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
-            maps:          apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
-            excel:         apiPackage('Blazor', 'IgniteUI.Blazor.Documents.Excel', { pascalCaseMembers: true }),
-            dashboards:    apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
-            spreadsheet:   apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
-            documentsCore: apiPackage('Blazor', 'IgniteUI.Blazor.Documents.Core', { pascalCaseMembers: true }),
-            lite:          apiPackage('Blazor', 'IgniteUI.Blazor.Lite', { pascalCaseMembers: true }),
-            gridlite:      apiPackage('Blazor', 'IgniteUI.Blazor.GridLite', { pascalCaseMembers: true }),
-            'grid-lite':   apiPackage('Blazor', 'IgniteUI.Blazor.GridLite', { pascalCaseMembers: true }),
-            'geo-core':    apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
-            'data-grids':  apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
-            inputs:        apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
-            layouts:       apiPackage('Blazor', 'IgniteUI.Blazor', { pascalCaseMembers: true }),
-        },
+        apiPackages: createApiPackages(API_DOCS_BASE_URL, 'Blazor'),
         packages: {
             common: 'IgniteUI.Blazor',
             charts: 'IgniteUI.Blazor',
