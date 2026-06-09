@@ -71,11 +71,11 @@ These look like:
 |---|---|
 | `.../classes/igx{foo}component.html` | `<ApiLink type="Foo" />` |
 | `.../classes/igx{foo}component.html#{member}` | `<ApiLink type="Foo" member="member" />` |
-| `.../classes/igx{foo}directive.html` | `<ApiLink type="FooDirective" suffix={false} />` |
-| `.../interfaces/i{foo}.html` | `<ApiLink kind="interface" type="IFoo" suffix={false} prefixed={false} />` |
+| `.../classes/igx{foo}directive.html` | `<ApiLink type="FooDirective" />` |
+| `.../interfaces/i{foo}.html` | `<ApiLink kind="interface" type="IFoo" />` |
 | `.../enums/igx{foo}.html` | `<ApiLink kind="enum" type="Foo" />` |
-| `.../enums/{foo}.html` (no igx) | `<ApiLink kind="enum" type="Foo" prefixed={false} />` |
-| `.../functions/{foo}.html` | `<ApiLink kind="function" type="foo" prefixed={false} />` |
+| `.../enums/{foo}.html` (no igx) | `<ApiLink kind="enum" type="Foo" />` |
+| `.../functions/{foo}.html` | `<ApiLink kind="function" type="foo" />` |
 
 **Prop reference:**
 
@@ -83,15 +83,12 @@ These look like:
 |---|---|---|
 | `type` | required | Short name, no `Igx` prefix — `"Grid"` not `"IgxGrid"` |
 | `kind` | `"class"` | Set `"interface"`, `"enum"`, `"type"`, `"function"`, `"variable"` as appropriate |
-| `suffix` | `true` | `false` for directives, utilities, interfaces (anything that isn't a `Component`) |
-| `prefixed` | `true` | `false` for interfaces (`IFoo`), enums/functions with no `Igx` prefix |
 | `member` | none | Property or method name from the URL anchor |
 | `label` | derived | Only when display text differs from the type name (e.g. `label="igx-grid"` for selector display) |
 | `pkg` | `"core"` | Angular docs **rarely** need this — use `pkg="charts"` for chart types, etc. |
 
-**Important — `suffix={false}` traps:**
-- `InputGroup`, `Checkbox`, `DropDown`, `Overlay`, `List`, `Avatar`, `Icon`, `Badge`, `Button`, `Card` — these commonly appear **without** `Component` suffix in prose. Restore the `suffix={false}` if master had it.
-- `Combo` in overlay note context → `suffix={false}` (the note refers to `IgxCombo` selector, not `IgxComboComponent`)
+The generated ApiLink registry resolves prefix/suffix differences. Do not add
+`prefixed={false}` or `suffix={false}` for new links.
 
 ---
 
@@ -134,7 +131,7 @@ JP content is at `docs/angular/src/content/jp/`. Apply the same fixes as EN. The
 
 1. **Do not add `pkg=` to angular-specific files** unless the type is from a sub-package (charts, gauges, maps, etc.). Angular docs default to `pkg="core"` which resolves to `igniteui-angular`.
 
-2. **Do not remove `suffix={false}` or `prefixed={false}`** from existing ApiLink components — these were added deliberately and are often required for the link to resolve correctly.
+2. **Do not add legacy prefix/suffix override props**. The registry should resolve the actual API symbol name.
 
 3. **Do not use `.md` extensions** in links — the remark plugin does not handle them and produces dead links at build time.
 
