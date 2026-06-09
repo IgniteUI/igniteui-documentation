@@ -15,7 +15,7 @@ This guide covers every change needed when moving a doc page from the old DocFX 
 7. [Images](#7-images)
 8. [Callout boxes (`>[!NOTE]` → `<DocsAside>`)](#8-callout-boxes)
 9. [Inline styles / `<p class="highlight">` → `<div>`](#9-inline-styles)
-10. [API links (`ApiLink` and `ApiRef`)](#10-api-links)
+10. [API links (`ApiLink`)](#10-api-links)
 11. [Platform-conditional content — Xplat only (`<!-- Platform -->` → `<PlatformBlock>`)](#11-platform-conditional-content--xplat-only)
 12. [Table of contents (`toc.yml` → `toc.json`)](#12-table-of-contents)
 13. [Environment variables (`{environment:…}`)](#13-environment-variables)
@@ -290,7 +290,7 @@ Prefer the template literal form — it is simpler and matches the pattern used 
 
 ## 10. API links
 
-Two components are available. **`ApiLink` is the preferred component going forward; `ApiRef` is considered deprecated and should not be used for new content.**
+Use **`ApiLink`** when documentation text mentions a public API symbol and should link to the generated API reference. This includes component classes, events, enums, interfaces, methods, and properties.
 
 ### `ApiLink` — inline link to a single API symbol
 
@@ -349,16 +349,6 @@ The component replaces the old pattern of writing the raw API URL:
 ```markdown
 <!-- Old DocFX pattern -->
 [`IgxCardComponent`]({environment:angularApiUrl}/classes/igxcardcomponent.html)
-```
-
-### `ApiRef` — end-of-page API reference section (deprecated)
-
-`ApiRef` renders a grouped list of API types at the bottom of a page. It still works but **should not be used for new pages**. Convert existing `ApiRef` usage to inline `ApiLink` calls instead.
-
-```mdx
-<!-- Deprecated – do not add to new pages -->
-import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';
-<ApiRef types={["BulletGraph", "LinearGraphRange"]} pkg="gauges" />
 ```
 
 ---
@@ -578,7 +568,7 @@ Use this checklist when creating a new MDX page in either `angular` or `xplat`.
 - [ ] **Sample**: use `<Sample src="…" height={…} alt="…" />` — no `<code-view>` or backtick macro
 - [ ] **Images**: import with ES `import`, use `<Image>` from `astro:assets`; filenames must be lowercase-extension
 - [ ] **Callouts**: use `<DocsAside type="note|tip|caution|danger">` — no `>[!NOTE]`
-- [ ] **API links**: use `<ApiLink type="…" />` inline — do not add new `<ApiRef>` blocks
+- [ ] **API links**: use `<ApiLink type="…" />` inline for API symbols
 - [ ] **Platform blocks** (xplat only): use `<PlatformBlock for="…">` — no HTML comment guards
 - [ ] **Internal links**: root-relative, no `.mdx` extension, no `.md` extension
 - [ ] **TOC**: add an entry to `toc.json` with `.mdx` extension in `href`
