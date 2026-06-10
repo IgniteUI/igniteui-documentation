@@ -20,7 +20,7 @@ The {Platform} {ComponentName} provides editing that has a built-in Validation m
 
 ### Configure via Template-Driven Configuration
 
-We extend some of the {Platform} Forms validator to directly work with the <ApiLink pkg="grids" type="Column" />. The same validators are available as attributes to be set declaratively in <ApiLink pkg="grids" type="Column" />. The following validators are supported out-of-the-box:
+We extend some of the {Platform} Forms validator to directly work with the <ApiLink type="Column" />. The same validators are available as attributes to be set declaratively in <ApiLink type="Column" />. The following validators are supported out-of-the-box:
 
 - Required
 - Min
@@ -51,7 +51,7 @@ The following sample demonstrates how to use the prebuilt `Required`, `Email` an
 
 ### Configure via Reactive Forms
 
-We expose the <PlatformBlock for="Angular"><ApiLink pkg="grids" kind="interface" type="IGridFormGroupCreatedEventArgs" prefixed={false} member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="grids" type="FormGroup" /></PlatformBlock> that will be used for validation when editing starts on a row/cell via a <ApiLink pkg="grids" type="{ComponentName}" member="formGroupCreated" prefixed={false} /> event. You can modify it by adding your own validators for the related fields:
+We expose the <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> that will be used for validation when editing starts on a row/cell via a <ApiLink type="{ComponentName}" member="formGroupCreated" /> event. You can modify it by adding your own validators for the related fields:
 
 <ComponentBlock for="Grid">
 ```html
@@ -104,14 +104,14 @@ You can decide to write your own validator function, or use one of the [built-in
 
 ## Validation Service API
 
-The grid exposes a validation service via the <ApiLink pkg="grids" type="{ComponentName}" member="validation" prefixed={false} /> property.
+The grid exposes a validation service via the <ApiLink type="{ComponentName}" member="validation" /> property.
 
 That service has the following public APIs:
 
 - `Valid` - returns if the grid validation state is valid.
 - `GetInvalid` - returns records with invalid states.
 - `Clear` - clears state for record by id or clears all state if no id is provided.
-- <ApiLink pkg="grids" type="{ComponentName}" member="markAsTouched" prefixed={false} /> - marks the related record/field as touched.
+- <ApiLink type="{ComponentName}" member="markAsTouched" /> - marks the related record/field as touched.
 
 Invalid states will persis until the validation errors in them are fixed according to the validation rule or they are cleared.
 
@@ -119,12 +119,12 @@ Invalid states will persis until the validation errors in them are fixed accordi
 
 Validation will be triggered in the following scenarios:
 
-- While editing via the cell editor based on the grid's <PlatformBlock for="Angular,React,WebComponents"><ApiLink pkg="grids" type="GridValidationTrigger" kind="type" suffix={false} prefixed={false} /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="grids" type="GridValidationTrigger" kind="enum" suffix={false} prefixed={false} /></PlatformBlock>. Either on `Change` while typing in the editor, or on `Blur` when the editor loses focus or closes.
-- When updating cells/rows via the API - <ApiLink pkg="grids" type="{ComponentName}" member="updateRow" prefixed={false} />, <ApiLink pkg="grids" type="{ComponentName}" member="updateCell" prefixed={false} />, etc.
+- While editing via the cell editor based on the grid's <ApiLink type="GridValidationTrigger" />. Either on `Change` while typing in the editor, or on `Blur` when the editor loses focus or closes.
+- When updating cells/rows via the API - <ApiLink type="{ComponentName}" member="updateRow" />, <ApiLink type="{ComponentName}" member="updateCell" />, etc.
 - When using batch editing and the `Undo`/`Redo` API of the transaction service.
 
 <DocsAside type="info">
-Validation will not trigger for records that have not been edited via user input or via the editing API. Visual indicators on the cell will only shown if the related input is considered touched - either via user interaction or via the <ApiLink pkg="grids" type="{ComponentName}" member="markAsTouched" prefixed={false} /> API of the validation service.
+Validation will not trigger for records that have not been edited via user input or via the editing API. Visual indicators on the cell will only shown if the related input is considered touched - either via user interaction or via the <ApiLink type="{ComponentName}" member="markAsTouched" /> API of the validation service.
 </DocsAside>
 
 <PlatformBlock for="Angular">
@@ -132,7 +132,7 @@ Validation will not trigger for records that have not been edited via user input
 
 ### Set a custom validator
 
-You can define your own validation directive to use on a <ApiLink pkg="grids" type="Column" /> in the template.
+You can define your own validation directive to use on a <ApiLink type="Column" /> in the template.
 
 ```ts
 @Directive({
@@ -174,7 +174,7 @@ You can define your own custom error template that will be displayed in the erro
 
 ### Prevent Exiting Edit Mode on Invalid State
 
-In some cases you may want to disallow submitting an invalid value in the data. In that scenario, you can use the <ApiLink pkg="grids" type="{ComponentName}" member="cellEdit" prefixed={false} /> or <ApiLink pkg="grids" type="{ComponentName}" member="rowEdit" prefixed={false} /> events and cancel the event in case the new value is invalid.
+In some cases you may want to disallow submitting an invalid value in the data. In that scenario, you can use the <ApiLink type="{ComponentName}" member="cellEdit" /> or <ApiLink type="{ComponentName}" member="rowEdit" /> events and cancel the event in case the new value is invalid.
 
 Both events' arguments have a `Valid` property and can be canceled accordingly.
 
@@ -204,7 +204,7 @@ The below example demonstrates the above-mentioned customization options.
 
 In some scenarios validation of one field may depend on the value of another field in the record.
 
-In that case a custom validator can be used to compare the values in the record via their shared <PlatformBlock for="Angular"><ApiLink pkg="grids" kind="interface" type="IGridFormGroupCreatedEventArgs" prefixed={false} member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="grids" type="FormGroup" /></PlatformBlock>.
+In that case a custom validator can be used to compare the values in the record via their shared <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock>.
 
 <ComponentBlock for="Grid">
 The below sample demonstrates a cross-field validation between different field of the same record. It checks the dates validity compared to the current date and between the active and created on date of the record as well as the deals won/lost ration for each employee. All errors are collected in a separate pinned column that shows that the record is invalid and displays the related errors.
@@ -260,7 +260,7 @@ public calculateDealsRatio(dealsWon, dealsLost) {
 ```
 </PlatformBlock>
 
-The cross-field validator can be added to the <PlatformBlock for="Angular"><ApiLink pkg="grids" kind="interface" type="IGridFormGroupCreatedEventArgs" prefixed={false} member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="grids" type="FormGroup" /></PlatformBlock> of the row from `FormGroupCreated` event, which returns the new <PlatformBlock for="Angular"><ApiLink pkg="grids" kind="interface" type="IGridFormGroupCreatedEventArgs" prefixed={false} member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="grids" type="FormGroup" /></PlatformBlock> for each row when entering edit mode:
+The cross-field validator can be added to the <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> of the row from `FormGroupCreated` event, which returns the new <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> for each row when entering edit mode:
 
 <PlatformBlock for="WebComponents">
 ```html
@@ -461,7 +461,7 @@ private rowValidator(): ValidatorFn {
 }
 ```
 
-The cross-field validator can be added to the <PlatformBlock for="Angular"><ApiLink pkg="grids" kind="interface" type="IGridFormGroupCreatedEventArgs" prefixed={false} member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="grids" type="FormGroup" /></PlatformBlock> of the row from `FormGroupCreated` event, which returns the new <PlatformBlock for="Angular"><ApiLink pkg="grids" kind="interface" type="IGridFormGroupCreatedEventArgs" prefixed={false} member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="grids" type="FormGroup" /></PlatformBlock> for each row when entering edit mode:
+The cross-field validator can be added to the <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> of the row from `FormGroupCreated` event, which returns the new <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> for each row when entering edit mode:
 
 ```html
 <igx-tree-grid igxPreventDocumentScroll #treeGrid [batchEditing]="true" [data]="data" primaryKey="ID"
@@ -664,8 +664,8 @@ public cellStyles = {
 </PlatformBlock>
 
 ## API References
-<ApiLink type="{ComponentName}" pkg="grids" prefixed={false} />
-<ApiLink type="Column" pkg="grids" />
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
 ## Additional Resources
 
 <PlatformBlock for="Angular">
