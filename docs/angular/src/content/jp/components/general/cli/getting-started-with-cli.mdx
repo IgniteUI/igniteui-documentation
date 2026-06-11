@@ -11,33 +11,47 @@ import { Image } from 'astro:assets';
 import play from '../../../images/general/play.svg';
 import buildCLIappGif from '../../../images/general/buildCLIapp.gif';
 
-## Ignite UI CLI を使用した作業の開始
+# Ignite UI CLI を使用した作業の開始
 
-新しい Angular アプリケーションを最初から作成する場合、ユーザー フレンドリな付きエクスペリエンスを提供するため、以下に説明する方法を使用することをお勧めします。このガイドでは、すべてのセットアップ オプションについて説明します。
+Ignite UI CLI はスタンドアロンのグローバル コマンドライン ツールで、Ignite UI コンポーネント用に事前設定された Angular、React、jQuery プロジェクトをスキャフォールドします。ガイド付きウィザードによる初回セットアップ、スクリプト ワークフロー用の非インタラクティブな `new` および `add` コマンド、開発サーバー、そして AI コーディング アシスタントをリアルタイムの Ignite UI ドキュメントに接続するための組み込み MCP サーバーを提供します。
 
-はじめに [Ignite UI CLI](https://github.com/IgniteUI/igniteui-cli) をグローバルにインストールします。
+Ignite UI CLI は Angular CLI の代替ではなく、並行して機能します。Ignite UI CLI で作成されたプロジェクトは標準の Angular ワークスペースであり、スキャフォールド後に `ng` コマンドと完全に互換性があります。
+
+## Ignite UI CLI のインストール
+
+npm を使用してグローバルにインストールします:
 
 ```cmd
 npm install -g igniteui-cli 
 ```
 
-`yarn` パッケージ マネージャーを使用している場合:
+または、yarn を使用する場合:
 
 ```cmd
 yarn global add igniteui-cli
 ```
 
-### ガイドの使用
+インストールを確認します:
 
-アプリケーションを最短でブートストラップする最も簡単な方法は、[Ignite UI CLI を使用したステップ バイ ステップ ガイド](step-by-step-guide-using-cli.md)を使用する方法です。
+```cmd
+ig version
+```
 
-Ignite UI for Angular CLI を使用してガイドをアクティブにするには、次のコマンドを実行します。
+## 新しいプロジェクトの作成
+
+Ignite UI CLI にはプロジェクト作成のために 2 つのモードがあります: ガイド付きインタラクティブ ウィザードと引数を指定した直接コマンドです。
+
+### ガイドを使用する
+
+ガイド付きウィザードは新しいプロジェクトの出発点として推奨されています。プロジェクト タイプ、名前、テンプレート、テーマの選択をガイドし、プロジェクトを自動的にスキャフォールドしてコミットします。
+
+ウィザードをアクティブにするには:
 
 ```cmd
 ig
 ```
 
-または
+または:
 
 ```cmd
 ig new
@@ -51,27 +65,54 @@ ig new
     <p style="text-align:center;">最初の Ignite UI CLI アプリを作成</p>
 </div>
 
-## 新しいプロジェクトを作成します。
+ウィザード オプションのステップ バイ ステップ ガイドについては、[Ignite UI CLI を使用したステップ バイ ステップ ガイド](step-by-step-guide-using-cli.md)を参照してください。
 
-[Ignite UI CLI](https://github.com/IgniteUI/igniteui-cli) を使用する場合、`angular` をフレームワークとして提供し、`igx-ts` を `new` コマンドのプロジェクト タイプ引数として提供する必要があります。
+### 直接プロジェクトを作成する
+
+Angular プロジェクトを非インタラクティブに作成するには、フレームワークとして `angular`、プロジェクト タイプとして `igx-ts` を指定します。
 
 ```cmd
-ig new newAngularProject --framework=angular --type=igx-ts --template=side-nav
+ig new my-app --framework=angular --type=igx-ts --template=side-nav
 ```
 
+プロジェクト作成時に AI アシスタントとエージェントの設定を指定することもできます。
+
+```cmd
+ig new my-app --framework=angular --type=igx-ts --template=side-nav --assistants generic --agents claude copilot
+```
+
+AI 設定を完全にスキップするには:
+
+```cmd
+ig new my-app --framework=angular --type=igx-ts --assistants none --agents none
+```
+
+**`ig new` 実行時の順序:**
+1. プロジェクト ファイルが生成されます
+2. AI 設定が新しいプロジェクト ディレクトリ内で実行されます (フラグが指定されていない場合はアシスタントとエージェントのプロンプトが表示されます)
+3. Git が初期化されます (`--skip-git` を指定しない場合)
+4. 依存関係がインストールされます (`--skip-install` を指定しない場合)
+
 <DocsAside type="info" title="情報">
-`v13.1.0` 以降、`igx-ts` プロジェクト タイプはデフォルトでスタンドアロン コンポーネントを使用するプロジェクトを生成します。代わりにモジュールベースのブートストラップを使用したい場合は、`type` を `igx-ts-legacy` に設定できます。
+Ignite UI CLI v13.1.0 以降、`igx-ts` プロジェクト タイプはデフォルトでスタンドアロン コンポーネントを使用するプロジェクトを生成します。代わりにモジュールベースのブートストラップを使用するには、`--type=igx-ts-legacy` を設定してください。
 </DocsAside>
 
-新しいアプリケーションが同じ名前でディレクトリに作成されます (`newAngularProject`)。Ignite UI for Angular アプリケーションを作成するときに選択できるいくつかのプロジェクト テンプレートがあります。
+新しいアプリケーションがプロジェクト名のディレクトリに作成されます (`newAngularProject`)。Ignite UI for Angular アプリケーションを作成するときに選択できるベース プロジェクト テンプレートは次のとおりです。
 
 | テンプレートの ID   | テンプレートの説明 |
 | ---           | ---                  |
-| empty         | ルーティングとホームページを備えたプロジェクト構造 |
-| side-nav      | サイド ナビゲーション ドロワーを備えたプロジェクト構造 |
-| side-nav-auth | ユーザー認証モジュールで拡張されたサイド ナビゲーション プロジェクト<br /> プロジェクト テンプレートの詳細は、[Angular 認証プロジェクト テンプレート](auth-template.md)トピックをご覧ください。 |
+| empty         | ルーティングとホームページを備えたプロジェクト構造。このテンプレートでは認証は利用できません。 |
+| side-nav      | サイド ナビゲーション ドロワーを備えたプロジェクト構造。認証のアドオンをサポートします (以下参照)。 |
+| side-nav-mini | コンパクトなサイド ナビゲーション ドロワーを備えたプロジェクト構造。認証のアドオンをサポートします (以下参照)。 |
 
-さらに、**引数**を指定してテーマを制御したり、パッケージのインストールをスキップしたりできます。
+インタラクティブ ウィザードで `side-nav` または `side-nav-mini` を選択すると、認証を追加するかどうかを確認するプロンプトが表示されます。次のテンプレート ID が生成され、非インタラクティブな作成用に `ig new` に直接渡すこともできます。これらの ID はウィザードのテンプレート リストには表示されません。
+
+| テンプレートの ID        | テンプレートの説明 |
+| :----------------- | --- |
+| side-nav-auth      | 認証モジュールで拡張されたサイド ナビゲーション プロジェクト。詳細は [Angular 認証プロジェクト テンプレート](auth-template.md)をご覧ください。 |
+| side-nav-mini-auth | 認証モジュールで拡張されたサイド ナビゲーション ミニ プロジェクト。詳細は [Angular 認証プロジェクト テンプレート](auth-template.md)をご覧ください。 |
+
+プロジェクトを作成する際に以下の**引数**を指定できます。
 
 <details>
   <summary><u>name</u></summary>
@@ -140,8 +181,7 @@ ig new newAngularProject --framework=angular --type=igx-ts --template=side-nav
 
 
 
-    特定のフレームワーク タイプに異なるプロジェクト テンプレートがある場合、このオプションを使用します。
-    現在、このオプションは、Angular igx-ts プロジェクトタイプの Ignite UI でのみ使用できます。
+    プロジェクト作成時の npm パッケージの初期インストールをスキップします。
 </details>
 
 
@@ -151,13 +191,12 @@ ig new newAngularProject --framework=angular --type=igx-ts --template=side-nav
 
     <code>--template</code>
 
-    Use this option if there are different project templates for a specific framework type.
-    Currently this option is available only for Ignite UI for Angular igx-ts project types.
+    特定のフレームワーク タイプに複数のプロジェクト テンプレートがある場合にプロジェクト テンプレートを指定します。現在、Ignite UI for Angular の <code>igx-ts</code> プロジェクト タイプで使用できます。
 </details>
 
-## テンプレートの追加
+## コンポーネント テンプレートの追加
 
-[利用可能な Ignite UI Angular テンプレート](component-templates.md)を追加するには、新しいコンポーネントのテンプレート ID と名前を指定するか、[ステップ バイ ステップ ガイド](step-by-step-guide-using-cli.md#add-view)を使用する必要があります。Angular Schematics、Ignite UI CLI で作成された既存のプロジェクト内、または Ignite UI for Angular が [`ng add` でインストールされている](../getting-started.md#ignite-ui-for-angular-のインストール)場合にのみサポートされます。
+[利用可能な Ignite UI Angular テンプレート](component-templates.md)を追加するには、新しいコンポーネントのテンプレート ID と名前を指定します。
 
 `ig add [template] [name]` コマンドを使用します。
 
@@ -167,7 +206,9 @@ ig add grid newGrid
 
 すべての[利用可能なテンプレート](component-templates.md)のリストを取得するには、プロジェクトディレクトリで [`ig list`](https://github.com/IgniteUI/igniteui-cli/wiki/list) コマンドを実行することもできます。
 
-また、コンポーネントを登録するモジュールを指定するか、アプリ ナビゲーション ルートの自動生成をスキップできます。
+テンプレートの追加は、Ignite UI CLI、Angular Schematics で作成されたプロジェクト、または `ng add` で Ignite UI for Angular が追加された Angular CLI プロジェクトでサポートされます。ガイド付きコンポーネント ウィザードについては、[Ignite UI CLI を使用したステップ バイ ステップ ガイド](step-by-step-guide-using-cli.md#add-view)を参照してください。
+
+テンプレートを追加する際に以下の**引数**を指定できます。
 
 <details>
   <summary><u>module</u></summary>
@@ -184,8 +225,6 @@ ig add grid newGrid
     新しいコンポーネントを登録するモジュールの、/src/app/ folder を基準とした module.ts ファイルのパス。
   <code>ig add combo newCombo --module=myModule/myModule.module.ts</code>
 </details>
-
-  <code>ig add combo newCombo --module=myModule/myModule.module.ts</code>
 
 <details>
   <summary><u>skip-route</u></summary>
@@ -210,11 +249,29 @@ ig start
 
 Ignite UI CLI には、AI コーディング アシスタント (GitHub Copilot、Claude、Cursor など) を最新の Ignite UI コンポーネント ドキュメントおよび API リファレンスに接続する組み込みの MCP (Model Context Protocol) サーバーが含まれています。設定後、AI アシスタントはコンポーネント API を照会したり、セットアップ ガイドを取得したり、コンテキストを切り替えずに正確な Ignite UI for Angular コードを生成したりできます。
 
-`ig new` でプロジェクトを作成した場合、スキャフォールディング時に VS Code MCP 設定が `.vscode/mcp.json` に生成され、Ignite UI for Angular Agent Skills が `.claude/skills/` にコピーされます。これらのファイルのいずれかまたは両方が欠けている既存のプロジェクトで作業している場合は、プロジェクト ルートから `ig ai-config` を実行して MCP 設定とスキルを一括セットアップしてください。
+`ig new` でプロジェクトを作成した場合、スキャフォールディング時に MCP 設定と Agent Skills が生成されます。既存のプロジェクトで作業している場合は、プロジェクト ルートから `ig ai-config` を実行して MCP サーバー、スキル ファイル、手順ファイルを一括セットアップしてください。
 
 ```cmd
 ig ai-config
 ```
+
+このコマンドは複数のコーディング アシスタントと AI エージェントをサポートしています。
+
+```cmd
+ig ai-config --assistants generic vscode --agents claude copilot
+```
+
+| フラグ | 値 | デフォルト |
+|------|--------|---------|
+| `--assistants` | `generic`, `vscode`, `cursor`, `gemini`, `junie`, `none` | インタラクティブ モードでは対話形式; 非インタラクティブ モードでは `generic` |
+| `--agents` | `generic`, `claude`, `copilot`, `cursor`, `codex`, `windsurf`, `gemini`, `junie`, `none` | インタラクティブ モードでは対話形式; 非インタラクティブ モードでは `generic` + `claude` |
+
+フラグを指定せずに実行すると、`ig ai-config` はインタラクティブ モードに入り、スペース キーで切り替え ENTER で確認しながらコーディング アシスタントとエージェントを選択するプロンプトを表示します。このプロンプトは `ig new` 実行時のウィザードのステップと同じです。
+
+1. **コーディング アシスタントの選択** - MCP サーバー設定の対象を 1 つ以上選択 (Generic、VS Code、Cursor、Gemini、Junie)、またはスキップするには None。
+2. **AI エージェントの選択** - スキル ファイルと手順ファイルのエージェントを 1 つ以上選択 (Generic、Claude、Copilot、Cursor、Codex、Windsurf、Gemini、Junie)、またはスキップするには None。
+
+インタラクティブ モードのデフォルトは、アシスタントは **Generic**、エージェントは **Generic + Claude** です。ウィザードのプロンプトの詳細については、[Ignite UI CLI を使用したステップ バイ ステップ ガイド - AI コーディング アシスタントの設定](step-by-step-guide-using-cli.md#ai-コーディング-アシスタントの設定)を参照してください。
 
 AI クライアントを手動で設定する場合、または VS Code 以外のクライアントを使用する場合は、以下のコマンドで MCP サーバーを直接起動してください。
 
@@ -233,7 +290,7 @@ ig mcp
 | [ig start](https://github.com/IgniteUI/igniteui-cli/wiki/start)  | | アプリケーションをビルドしてウェブ サーバーを開始、次にアプリケーションをデフォルト ブラウザーで開きます。
 | [ig build](https://github.com/IgniteUI/igniteui-cli/wiki/build) | | アプリケーションをアプトプット ディレクトリへビルドします。
 | [ig generate](https://github.com/IgniteUI/igniteui-cli/wiki/generate) | g | サポートされるフレームワークおよびプロジェクト タイプのための新しいカスタム テンプレートを生成します。
-| [ig help](https://github.com/IgniteUI/igniteui-cli/wiki/help) | -h | 使用可能なコマンドをリストして手順の簡単な説明を示います。
+| [ig help](https://github.com/IgniteUI/igniteui-cli/wiki/help) | -h | 使用可能なコマンドをリストして手順の簡単な説明を示します。
 | [ig config](https://github.com/IgniteUI/igniteui-cli/wiki/config) | | Ignite UI CLI 構成設定の読み取り / 書き込み操作を実行します。
 | [ig doc](https://github.com/IgniteUI/igniteui-cli/wiki/doc) | | 検索した用語についてインフラジスティックスのサポート情報を検索します。
 | [ig list](https://github.com/IgniteUI/igniteui-cli/wiki/list) | l |  指定したフレームワークとタイプのすべてのテンプレートをリストします。プロジェクト フォルダー内でコマンド実行時にプロジェクトのフレームワークとタイプのテンプレートをすべてリストします。
