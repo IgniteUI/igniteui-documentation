@@ -70,38 +70,6 @@ import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'development' | 'staging' | 'production';
 
-/**
- * Read `themeApiUrl` and `themingWidgetVersion` from the project's
- * environment.json at build time. Uses the same lookup order as the
- * remark plugin so both always resolve from the same file.
- */
-function readThemingEnv(sourcePath: string | undefined, envKey: string): {
-    themeApiUrl: string;
-    widgetVersion: string;
-} {
-    if (!sourcePath) return { themeApiUrl: '', widgetVersion: 'latest' };
-    const root = path.resolve(sourcePath);
-    const parent = path.dirname(root);
-    const candidates = [
-        path.join(root, 'en', 'environment.json'),
-        path.join(root, 'environment.json'),
-        path.join(parent, 'environment.json'),
-        path.join(parent, 'en', 'environment.json'),
-    ];
-    const envPath = candidates.find(c => fs.existsSync(c));
-    if (!envPath) return { themeApiUrl: '', widgetVersion: 'latest' };
-    try {
-        const data = JSON.parse(fs.readFileSync(envPath, 'utf-8'));
-        const env = data[envKey] ?? data.production ?? {};
-        return {
-            themeApiUrl: (env.themeApiUrl as string) ?? '',
-            widgetVersion: (env.themingWidgetVersion as string) ?? 'latest',
-        };
-    } catch {
-        return { themeApiUrl: '', widgetVersion: 'latest' };
-    }
-}
-
 // ---------------------------------------------------------------------------
 // Site meta virtual module
 // ---------------------------------------------------------------------------
@@ -273,17 +241,8 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
 `;
                                 if (id !== navResolvedId) return;
 
-                                // ── Theming env ──────────────────────────────────────────────
-                                const envKey = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'production';
-                                const { themeApiUrl, widgetVersion } = readThemingEnv(process.env.DOCS_SOURCE_PATH, envKey);
-                                const widgetScriptSrc = widgetVersion
-                                    ? `https://cdn-na.infragistics.com/igniteui/theming-widget/${widgetVersion}/igniteui-theming-widget.js`
-                                    : '';
-
                                 return [
                                     `export const platform = ${JSON.stringify(platform ?? null)};`,
-                                    `export const themeApiUrl = ${JSON.stringify(themeApiUrl)};`,
-                                    `export const widgetScriptSrc = ${JSON.stringify(widgetScriptSrc)};`,
                                 ].join('\n');
                             },
                         }],
