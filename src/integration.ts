@@ -64,6 +64,7 @@ import { remarkMdLinks } from './plugins/remark-md-links';
 import { remarkHtmlTransforms } from './plugins/remark-html-transforms';
 import { rehypeTableWrapper } from 'igniteui-astro-components/plugins/rehype-table-wrapper';
 import { rehypeHeadingAnchors } from 'igniteui-astro-components/plugins/rehype-heading-anchors';
+import { rehypePagefindIgnore } from 'igniteui-astro-components/plugins/rehype-pagefind-ignore';
 import { rehypeStripEmptyParagraphs } from './plugins/rehype-strip-empty-paragraphs';
 import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
 
@@ -614,6 +615,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 rehypeHeadingAnchors,
                 rehypeStripEmptyParagraphs,
                 rehypeApiReferencesGrid,
+                rehypePagefindIgnore,
                 ...((astroExtra as any).markdown?.rehypePlugins ?? []),
             ],
         },
