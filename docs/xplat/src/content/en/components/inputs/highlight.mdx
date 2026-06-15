@@ -18,15 +18,15 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 
 ## Usage
 
-To use the <ApiLink type="Highlight" /> component, all you need to do is wrap its tags around the content you want to search. The component searches the content of all nested elements within the <PlatformBlock for="WebComponents">`<igc-highlight>`</PlatformBlock><PlatformBlock for="React">`<IgrHighlight>`</PlatformBlock> tags, and highlights all matches of the specified string.
+To use the <ApiLink type="Highlight" /> component, all you need to do is wrap its tags around the content you want to search. The component searches the content of all nested elements within the <PlatformBlock for="WebComponents">`<igc-highlight>`</PlatformBlock><PlatformBlock for="React">`<IgrHighlight>`</PlatformBlock><PlatformBlock for="Blazor">`<IgbHighlight>`</PlatformBlock> tags, and highlights all matches of the specified string.
 
 <DocsAside type="note">
 The <ApiLink type="Highlight" /> component searches only DOM text nodes. It does not search input values or content set via the CSS `content` property.
 </DocsAside>
 
+<PlatformBlock for="WebComponents">
 First, you need to install the {ProductName} by running the following command:
 
-<PlatformBlock for="WebComponents">
 ```cmd
 npm install {PackageWebComponents}
 ```
@@ -43,6 +43,8 @@ defineComponents(IgcHighlightComponent);
 </PlatformBlock>
 
 <PlatformBlock for="React">
+First, you need to install the {ProductName} by running the following command:
+
 ```cmd
 npm install igniteui-react
 ```
@@ -52,6 +54,17 @@ You will then need to import the <ApiLink type="Highlight" /> and its necessary 
 ```tsx
 import { IgrHighlight } from 'igniteui-react';
 import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+Before using the <ApiLink pkg="core" type="Highlight" />, you need to register it as follows:
+
+```razor
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor(typeof(IgbHighlightModule));
 ```
 
 </PlatformBlock>
@@ -80,6 +93,16 @@ The `<igc-highlight>` tags wrap the content in which you want to highlight the s
 The `<IgrHighlight>` tags wrap the content in which you want to highlight the specific string.
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+```razor
+<IgbHighlight SearchText="dolor">
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+</IgbHighlight>
+```
+
+The `<IgbHighlight>` tags wrap the content in which you want to highlight the specific string.
+</PlatformBlock>
+
 The text to be highlighted is set via the <ApiLink type="BaseSearchInfo" member="searchText" label="search-text" /> attribute. In the example above, the word "dolor" will be highlighted.
 
 <Sample src="/inputs/highlight/overview" height={100} alt="{Platform} Highlight Overview Example" />
@@ -103,6 +126,14 @@ The following snippet:
 <IgrHighlight search-text='lorem' case-sensitive={true}>
     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
 </IgrHighlight>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbHighlight SearchText="dolor" CaseSensitive="true">
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+</IgbHighlight>
 ```
 </PlatformBlock>
 
@@ -173,6 +204,36 @@ const onInput = ({ detail }: CustomEvent<string>) => {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+First, you need to add the searchText property:
+
+```razor
+private string searchText = "";
+```
+
+Then, create a function that updates the search text every time the `igcInput` event fires:
+
+```razor
+private void OnValueChanging(string newValue)
+{
+    searchText = newValue;
+}
+```
+
+```razor
+<IgbInput Label="Search" ValueChanging="OnValueChanging"></IgbInput>
+<IgbHighlight SearchText="@searchText">
+    <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae doloribus
+        odit id excepturi ipsum provident eaque dignissimos beatae! Rerum vero
+        distinctio libero, quasi magni quod natus nesciunt doloremque temporibus
+        voluptate?
+    </p>
+</IgbHighlight>
+```
+
+</PlatformBlock>
+
 ### Methods
 
 The component also exposes two methods for navigating the search matches. The <ApiLink type="Highlight" member="next" label="next()" /> method moves to the next match, while the <ApiLink type="Highlight" member="previous" label="previous()" /> method moves to the previous one.
@@ -212,6 +273,25 @@ const next = () => {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+```razor
+private IgbHighlight HighlightRef { get; set; }
+
+private async Task Prev()
+{
+    if (HighlightRef != null)
+        await HighlightRef.PreviousAsync(new IgbHighlightNavigation());
+}
+
+private async Task Next()
+{
+    if (HighlightRef != null)
+        await HighlightRef.NextAsync(new IgbHighlightNavigation());
+}
+```
+
+</PlatformBlock>
+
 <PlatformBlock for="WebComponents">
 ```html
 <igc-input label="Search">
@@ -245,6 +325,15 @@ const next = () => {
 ```
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+```razor
+<IgbInput Label="Search" ValueChanging="OnValueChanging">
+    <IgbIconButton slot="suffix" Variant="IconButtonVariant.Flat" IconName="navigate_before" Collection="internal" @onclick="Prev"></IgbIconButton>
+    <IgbIconButton slot="suffix" Variant="IconButtonVariant.Flat" IconName="navigate_next" Collection="internal" @onclick="Next"></IgbIconButton>
+</IgbInput>
+```
+</PlatformBlock>
+
 <Sample src="/inputs/highlight/search" height={200} alt="{Platform} Highlight Search Example" />
 
 Both the <ApiLink type="Highlight" member="previous" label="previous()" /> and <ApiLink type="Highlight" member="next" label="next()" /> methods accept a <ApiLink type="Highlight" member="preventScroll" /> option that prevents the page from scrolling to the active match during navigation. By default, it is set to `false`.
@@ -275,15 +364,32 @@ const next = () => {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+```razor
+private async Task Prev()
+{
+    if (HighlightRef != null)
+        await HighlightRef.PreviousAsync(new IgbHighlightNavigation { PreventScroll = true });
+}
+
+private async Task Next()
+{
+    if (HighlightRef != null)
+        await HighlightRef.NextAsync(new IgbHighlightNavigation { PreventScroll = true });
+}
+```
+
+</PlatformBlock>
+
 ### Additional Features
 
+<PlatformBlock for="WebComponents">
 The component also exposes two read-only properties for tracking match state: <ApiLink type="Highlight" member="size" label="size" /> returns the total number of matches, and <ApiLink type="Highlight" member="current" label="current" /> returns the index of the active match.
 
 They are useful for building a search status indicator that shows the user which match they are on and how many matches exist in total.
 
 Here is a simple example of how to use those properties to create a search status:
 
-<PlatformBlock for="WebComponents">
 ```ts
 const highlight = document.querySelector('igc-highlight') as IgcHighlightComponent;
 const status = document.querySelector('#helper-text') as HTMLParagraphElement;
@@ -298,6 +404,12 @@ const updateStatus = () => {
 </PlatformBlock>
 
 <PlatformBlock for="React">
+The component also exposes two read-only properties for tracking match state: <ApiLink type="Highlight" member="size" label="size" /> returns the total number of matches, and <ApiLink type="Highlight" member="current" label="current" /> returns the index of the active match.
+
+They are useful for building a search status indicator that shows the user which match they are on and how many matches exist in total.
+
+Here is a simple example of how to use those properties to create a search status:
+
 ```tsx
 const highlightRef = useRef<IgrHighlight>(null);
 const statusRef = useRef<HTMLParagraphElement>(null);
@@ -314,9 +426,27 @@ const updateStatus = () => {
 
 </PlatformBlock>
 
-We can then call `updateStatus()` every time the input value changes or the user clicks the next or previous buttons:
+<PlatformBlock for="Blazor">
+The component also exposes two async methods for tracking match state: GetSizeAsync() returns the total number of matches, and GetCurrentAsync() returns the index of the active match.
+
+These methods are useful for building a search status indicator that shows the user which match they are on and how many matches exist in total.
+
+Here is a simple example of how to use these methods to create a search status:
+
+```razor
+private async Task UpdateStatus()
+{
+    var size = (int)await HighlightRef.GetSizeAsync();
+    var current = (int)await HighlightRef.GetCurrentAsync();
+    helperText = $"{current + 1} of {size} match{(size == 1 ? "" : "es")}";
+}
+```
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
+We can then call `updateStatus()` every time the input value changes or the user clicks the next or previous buttons:
+
 ```ts
 const onInput = ({ detail }: CustomEvent<string>) => {
     highlight.searchText = detail;
@@ -365,6 +495,8 @@ document.querySelector('#next-btn')?.addEventListener('click', next);
 </PlatformBlock>
 
 <PlatformBlock for="React">
+We can then call `updateStatus()` every time the input value changes or the user clicks the next or previous buttons:
+
 ```tsx
 const onInput = ({ detail }: CustomEvent<string>) => {
     highlightRef.current.searchText = detail;
@@ -391,6 +523,38 @@ const next = () => {
 </IgrInput>
 
 <IgrHighlight ref={highlightRef}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+We can then call `UpdateStatus()` every time the input value changes or the user clicks the next or previous buttons:
+
+```razor
+private async Task Prev()
+{
+    await HighlightRef.PreviousAsync(new IgbHighlightNavigation());
+    await UpdateStatus();
+    StateHasChanged();
+}
+
+private async Task Next()
+{
+    await HighlightRef.NextAsync(new IgbHighlightNavigation());
+    await UpdateStatus();
+    StateHasChanged();
+}
+
+```
+
+```razor
+<IgbInput Label="Search" ValueChanging="OnValueChanging">
+            <IgbIconButton slot="suffix" Variant="IconButtonVariant.Flat" IconName="navigate_before" Collection="internal" @onclick="Prev"></IgbIconButton>
+            <IgbIconButton slot="suffix" Variant="IconButtonVariant.Flat" IconName="navigate_next" Collection="internal" @onclick="Next"></IgbIconButton>
+            <p slot="helper-text">@helperText</p>
+</IgbInput>
+
+<IgbHighlight @ref="HighlightRef">
 ```
 
 </PlatformBlock>
