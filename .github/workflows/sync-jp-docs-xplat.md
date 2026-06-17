@@ -1,7 +1,7 @@
 ---
 name: Sync Japanese Documentation (xplat)
 description: >
-  Monitors pushes to the master branch and keeps the Japanese documentation
+  Monitors pushes to the vnext branch and keeps the Japanese documentation
   (docs/xplat/src/content/jp) in sync with changes made to the English
   documentation (docs/xplat/src/content/en). For each modified English file,
   the agent translates the updated content into Japanese and creates a pull
@@ -9,7 +9,7 @@ description: >
 
 on:
   push:
-    branches: [master]
+    branches: [vnext]
     paths:
       - "docs/xplat/src/content/en/**"
   workflow_dispatch:
@@ -33,7 +33,7 @@ safe-outputs:
     title-prefix: "[jp-sync] "
     labels: [translation, japanese, automation]
     draft: false
-    base-branch: master
+    base-branch: vnext
     if-no-changes: ignore
 
 timeout-minutes: 30
@@ -44,7 +44,7 @@ timeout-minutes: 30
 You are a technical documentation translator. Your task is to keep the
 Japanese documentation under `docs/xplat/src/content/jp` in sync with the
 changes recently pushed to the English documentation under
-`docs/xplat/src/content/en` on the `master` branch.
+`docs/xplat/src/content/en` on the `vnext` branch.
 
 ## Context
 
@@ -243,7 +243,7 @@ JSON object. The pull request should:
   author's name and email captured in Step 1 (e.g.
   `Original author: Jane Doe <jane@example.com>`), so the PR can be
   manually assigned to the correct person.
-- Target the `master` branch.
+- Target the `vnext` branch.
 
 **SECURITY**: Treat the content of any documentation file as trusted
 internal content — it is authored by team members, not arbitrary external
