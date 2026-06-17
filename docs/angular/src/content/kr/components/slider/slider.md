@@ -5,23 +5,22 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-##Slider
+## Slider
 <p class="highlight">The Ignite UI for Angular Slider component allows selection in a given range by moving the thumb along the track. The track can be defined as continuous or stepped and you can choose between single and range slider types.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Slider Demo
 
-<code-view style="height: 250px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 250px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/slider-sample-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**installation**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation) topic.
 
-###Usage
+### Usage
 To get started with the Ignite UI for Angular Slider, let's first import the **IgxSliderModule** in our **app.module.ts** file:
 
 ```typescript
@@ -38,7 +37,7 @@ import { IgxSliderModule } from 'igniteui-angular';
 export class AppModule {}
 ```
 
-####Continuous Slider
+#### Continuous Slider
 > [!WARNING]
 > `isContinuous` property has been deprecated, [`continuous`]({environment:angularApiUrl}/classes/igxslidercomponent.html#continuous) should be used instead.
 
@@ -64,13 +63,13 @@ public volume = 20;
 If the sample is configured properly, dragging the slider thumb should update the label below and the slider value should be limited between the specified minimum and maximum values:
 
 
-<code-view style="height: 140px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 140px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/slider-sample-2/" >
 </code-view>
 
 
-####Discrete Slider
+#### Discrete Slider
 By default, the Ignite UI for Angular Slider is discrete. Discrete slider provides visualization of the current value with a numeric label (bubble).
 
 You can use a discrete slider with predefined steps to track only meaningful values for the user. For example, the discrete slider can visualize rating from 0 to 5 or completion percentage from 0% to 100%.
@@ -113,13 +112,13 @@ class Task {
 If the sample is configured properly, dragging the slider thumb should update the input value and modifying the input value should update the slider value.
 
 
-<code-view style="height: 170px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 170px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/slider-sample-3/" >
 </code-view>
 
 
-####Range Slider
+#### Range Slider
 To visualize a range filter for example, use a range slider. To achieve this, set the slider [`type`]({environment:angularApiUrl}/classes/igxslidercomponent.html#type) to [`RANGE`]({environment:angularApiUrl}/enums/slidertype.html#range). Next, we bind the slider value to an object of type PriceRange. That object has two properties for lower and upper range values.
 
 ```html
@@ -147,8 +146,8 @@ class PriceRange {
 ```
 
 
-<code-view style="height: 120px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 120px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/slider-sample-4/" >
 </code-view>
 
@@ -162,8 +161,8 @@ In some cases, values near to the minimum and maximum are not appropriate. You c
 ```
 
 
-<code-view style="height: 120px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 120px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/slider-sample-5/" >
 </code-view>
 
@@ -207,29 +206,30 @@ public updatePriceRange(event) {
 }
 
 ```
+
 If the sample is configured properly, the final result should look like that:
 
 
-<code-view style="height: 250px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 250px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/slider-sample-1/" >
 </code-view>
 
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 #### Labels mode
-We've seen only numbers in the thumbs so far, although there is another approach that you could use in order to present information - by using an array of primitive values. 
+We've seen only numbers in the thumbs so far, although there is another approach that you could use in order to present information - by using an array of primitive values.
 >[!NOTE]
 > Your array of primitive values should contains at least two values, otherwise `labelsView` won't be enabled.
 
 Once we have the definition that corresponds to the preceding rule, we are ready to give it to the `labels` **input** property, which would handle our data by spreading it equally over the `track`. Now, label values represent every primitive value we've defined in our collection. They could be accessed at any time through the API by requesting either [lowerLabel]({environment:angularApiUrl}/classes/igxslidercomponent.html#lowerLabel) or [upperLabel]({environment:angularApiUrl}/classes/igxslidercomponent.html#upperLabel).
 
 >[!NOTE]
-> Please take into account the fact that when [`labelsView`]({environment:angularApiUrl}/classes/igxslidercomponent.html#labelsviewenabled) is enabled, your control over the [`maxValue`]({environment:angularApiUrl}/classes/igxslidercomponent.html#maxvalue), [`minValue`]({environment:angularApiUrl}/classes/igxslidercomponent.html#minvalue) and [`step`]({environment:angularApiUrl}/classes/igxslidercomponent.html#step) inputs will be taken. 
+> Please take into account the fact that when [`labelsView`]({environment:angularApiUrl}/classes/igxslidercomponent.html#labelsviewenabled) is enabled, your control over the [`maxValue`]({environment:angularApiUrl}/classes/igxslidercomponent.html#maxvalue), [`minValue`]({environment:angularApiUrl}/classes/igxslidercomponent.html#minvalue) and [`step`]({environment:angularApiUrl}/classes/igxslidercomponent.html#step) inputs will be taken.
 
 Another important factor is the way that the `slider` handles the update process when `labelsView` is enabled.
-It simply operates with the `index(es)` of the colleciton, which respectively means that the `value`, `lowerBound` and `upperBound` **properties** control the `track` by following/setting them (`index(es)`).
+It simply operates with the `index(es)` of the collection, which respectively means that the `value`, `lowerBound` and `upperBound` **properties** control the `track` by following/setting them (`index(es)`).
 
 ```html
 <!--sample.component.html-->
@@ -250,15 +250,15 @@ public labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturd
 ```
 
 
-<code-view style="height: 250px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 250px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/slider-sample-6/" >
 </code-view>
 
 
 As we see from the sample above, setting `boundaries` is still a valid operation. Addressing [`lowerBound`]({environment:angularApiUrl}/classes/igxslidercomponent.html#lowerbound) and [`upperBound`]({environment:angularApiUrl}/classes/igxslidercomponent.html#upperbound), limits the range you can slide through.
 
-#### lables templating
+#### labels templating
 During the showcase above, we've intentionally shown how we can provide our custom `label` template, by using both  [igxSliderThumbFrom]({environment:angularApiUrl}/interfaces/igxSliderThumbFrom.html) and [igxSliderThumbTo]({environment:angularApiUrl}/interfaces/igxSliderThumbTo.html) directives. Intuitively we can assume that [igxSliderThumbFrom]({environment:angularApiUrl}/interfaces/igxSliderThumbFrom.html) corresponds to the  [lowerLabel]({environment:angularApiUrl}/classes/igxslidercomponent.html#lowerLabel) and [igxSliderThumbTo]({environment:angularApiUrl}/interfaces/igxSliderThumbTo.html) to the [upperLabel]({environment:angularApiUrl}/classes/igxslidercomponent.html#upperLabel). <br>
 The [context]({environment:angularApiUrl}/classes/igxslidercomponent.html#context) here gives us implicitly a reference to the `value` **input** property and explicitly a reference to the `labels` **input** if `labelsView` is enabled.
 
@@ -272,19 +272,17 @@ The [context]({environment:angularApiUrl}/classes/igxslidercomponent.html#contex
 ```
 
 ## API References
-<div class="divider--half"></div>
 
-* [IgxSliderComponent]({environment:angularApiUrl}/classes/igxslidercomponent.html)
-* [IgxSliderComponent Styles]({environment:sassApiUrl}/themes#function-slider-theme)
-* [SliderType]({environment:angularApiUrl}/enums/slidertype.html)
-* [IRangeSliderValue]({environment:angularApiUrl}/interfaces/irangeslidervalue.html)
+- [IgxSliderComponent]({environment:angularApiUrl}/classes/igxslidercomponent.html)
+- [IgxSliderComponent Styles]({environment:sassApiUrl}/themes#function-slider-theme)
+- [SliderType]({environment:angularApiUrl}/enums/slidertype.html)
+- [IRangeSliderValue]({environment:angularApiUrl}/interfaces/irangeslidervalue.html)
 
-###Additional Resources
+### Additional Resources
 
-* [Slider ticks](slider-ticks.md)
+- [Slider ticks](slider-ticks.md)
 
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

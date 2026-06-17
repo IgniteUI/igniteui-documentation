@@ -11,13 +11,12 @@ _canonicalLink: "{CanonicalLinkToGridRowPinning}"
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
-import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 
 # {Platform} {ComponentTitle} Row Pinning
 
-The {ProductName} Row Pinning feature in {Platform} {ComponentTitle} allows you to  pin one or multiple rows to the top or bottom of grid. Row Pinning allows end-users to pin rows in a particular order, duplicating them in a special area that is always visible even when they scroll the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> vertically. The {Platform} {ComponentTitle} has a built-in row pinning UI, which is enabled by initializing an <ApiLink pkg="grids" type="ActionStrip" /> component in the context of {ComponentTitle}. In addition, you can define custom UI and change the pin state of the rows via the Row Pinning API.
+The {ProductName} Row Pinning feature in {Platform} {ComponentTitle} allows you to  pin one or multiple rows to the top or bottom of grid. Row Pinning allows end-users to pin rows in a particular order, duplicating them in a special area that is always visible even when they scroll the <ApiLink type="{ComponentName}" /> vertically. The {Platform} {ComponentTitle} has a built-in row pinning UI, which is enabled by initializing an <ApiLink type="ActionStrip" /> component in the context of {ComponentTitle}. In addition, you can define custom UI and change the pin state of the rows via the Row Pinning API.
 
 ## {Platform} {ComponentTitle} Row Pinning Example
 
@@ -25,7 +24,7 @@ The {ProductName} Row Pinning feature in {Platform} {ComponentTitle} allows you 
 
 ## Row Pinning UI
 
-The built-in row pinning UI is enabled by adding an <ApiLink pkg="grids" type="ActionStrip" /> component with the <ApiLink pkg="grids" type="GridPinningActions" /> component. The action strip is automatically shown when hovering a row and will display a pin or unpin button icon based on the state of the row it is shown for. An additional action allowing to scroll the copy of the pinned row into view is shown for each pinned row as well.
+The built-in row pinning UI is enabled by adding an <ApiLink type="ActionStrip" /> component with the <ApiLink type="GridPinningActions" /> component. The action strip is automatically shown when hovering a row and will display a pin or unpin button icon based on the state of the row it is shown for. An additional action allowing to scroll the copy of the pinned row into view is shown for each pinned row as well.
 
 <PlatformBlock for="Angular">
 ```html
@@ -97,7 +96,7 @@ The built-in row pinning UI is enabled by adding an <ApiLink pkg="grids" type="A
 
 ## Row Pinning API
 
-Row pinning is controlled through the <ApiLink pkg="grids" kind="interface" type="RowDirective" member="pinned" suffix="{false}"/> input of the `Row`. Pinned rows are rendered at the top of the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> by default and stay fixed through vertical scrolling of the unpinned rows in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> body.
+Row pinning is controlled through the <ApiLink type="RowDirective" member="pinned" /> input of the `Row`. Pinned rows are rendered at the top of the <ApiLink type="{ComponentName}" /> by default and stay fixed through vertical scrolling of the unpinned rows in the <ApiLink type="{ComponentName}" /> body.
 
 <PlatformBlock for="Angular, WebComponents">
 ```typescript
@@ -117,7 +116,7 @@ this.Grid.PinRowAsync("ALFKI", 0);
 ```
 </PlatformBlock>
 
-You may also use the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />'s <ApiLink pkg="grids" type="{ComponentName}" member="pinRow" label="PinRow" prefixed={false} /> or <ApiLink pkg="grids" type="{ComponentName}" member="unpinRow" label="UnpinRow" prefixed={false} /> methods of the to pin or unpin records by their ID:
+You may also use the <ApiLink type="{ComponentName}" />'s <ApiLink type="{ComponentName}" member="pinRow" label="PinRow" /> or <ApiLink type="{ComponentName}" member="unpinRow" label="UnpinRow" /> methods of the to pin or unpin records by their ID:
 
 <PlatformBlock for="Angular, WebComponents">
 ```typescript
@@ -132,8 +131,6 @@ gridRef.current.pinRow('ALFKI');
 gridRef.current.unpinRow('ALFKI');
 ```
 </PlatformBlock>
-
-
 <PlatformBlock for="Blazor">
 ```razor
 this.Grid.PinRowAsync("ALFKI", 0);
@@ -141,9 +138,9 @@ this.Grid.UnpinRowAsync("ALFKI");
 ```
 </PlatformBlock>
 
-Note that the row ID is the primary key value, defined by the <ApiLink pkg="grids" type="{ComponentName}" member="primaryKey" prefixed={false} /> of the grid, or the record instance itself. Both methods return a boolean value indicating whether their respective operation is successful or not. Usually the reason they fail is that the row is already in the desired state.
+Note that the row ID is the primary key value, defined by the <ApiLink type="{ComponentName}" member="primaryKey" /> of the grid, or the record instance itself. Both methods return a boolean value indicating whether their respective operation is successful or not. Usually the reason they fail is that the row is already in the desired state.
 
-A row is pinned below the last pinned row. Changing the order of the pinned rows can be done by subscribing to the <ApiLink pkg="grids" type="{ComponentName}" member="rowPinning" prefixed={false} /> event and changing the <ApiLink pkg="grids" kind="interface" type="PinRowEventArgsDetail" member="insertAtIndex" suffix="{false}"/> property of the event arguments to the desired position index.
+A row is pinned below the last pinned row. Changing the order of the pinned rows can be done by subscribing to the <ApiLink type="{ComponentName}" member="rowPinning" /> event and changing the <ApiLink type="PinRowEventArgs" /> property of the event arguments to the desired position index.
 
 <PlatformBlock for="Angular">
 ```html
@@ -169,6 +166,7 @@ public rowPinning(event) {
     event.detail.insertAtIndex = 0;
 }
 ```
+
 </PlatformBlock>
 
 <ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
@@ -180,6 +178,7 @@ const rowPinning = (event: IgrPinRowEventArgs) => {
 
 <{ComponentSelector} autoGenerate={true} onRowPinning={rowPinning}>
 </{ComponentSelector}>
+
 ```
 </PlatformBlock>
 </ComponentBlock>
@@ -195,6 +194,7 @@ const rowPinning = (event: IgrPinRowEventArgs) => {
              Data="northwindEmployees">
 </{ComponentSelector}>
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
@@ -206,12 +206,13 @@ function rowPinningHandler(event) {
 }
 
 igRegisterScript("rowPinningHandler", rowPinningHandler, false);
+
 ```
 </PlatformBlock>
 
 ## Pinning Position
 
-You can change the row pinning position via the <ApiLink pkg="grids" type="{ComponentName}" member="pinning" prefixed={false} /> configuration option. It allows you to set the pin area position to either Top or Bottom.
+You can change the row pinning position via the <ApiLink type="{ComponentName}" member="pinning" /> configuration option. It allows you to set the pin area position to either Top or Bottom.
 When set to Bottom pinned rows are rendered at the bottom of the grid, after the unpinned rows. Unpinned rows can be scrolled vertically, while the pinned rows remain fixed at the bottom.
 
 <PlatformBlock for="Angular">
@@ -222,6 +223,7 @@ When set to Bottom pinned rows are rendered at the bottom of the grid, after the
 ```typescript
 public pinningConfig: IPinningConfig = { rows: RowPinningPosition.Bottom };
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
@@ -233,6 +235,7 @@ public pinningConfig: IPinningConfig = { rows: RowPinningPosition.Bottom };
 var grid = document.getElementById('dataGrid') as {ComponentName}Component;
 grid.pinning = { rows: RowPinningPosition.Bottom };
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
@@ -267,6 +270,7 @@ const pinning: IgrPinningConfig = { rows : RowPinningPosition.Bottom };
 
 <{ComponentSelector} ref={gridRef} autoGenerate={true} pinning={pinning}>
 </{ComponentSelector}>
+
 ```
 </PlatformBlock>
 </ComponentBlock>
@@ -299,6 +303,7 @@ igRegisterScript("WebGridRowPinCellTemplate", (ctx) => {
 </div>`;
 }, false);
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
@@ -351,6 +356,7 @@ public pinCellTemplate = (ctx: IgcCellTemplateContext) => {
     return html`<span @pointerdown=${(e: any) => this.togglePinning(index)}>📌</span>`;
 }
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
@@ -368,6 +374,7 @@ const cellPinCellTemplate = (ctx: IgrCellTemplateContext) => {
     <IgrColumn width="70px" bodyTemplate={cellPinCellTemplate}>
     </IgrColumn>
 </{ComponentSelector}>
+
 ```
 </PlatformBlock>
 
@@ -391,6 +398,7 @@ igRegisterScript("WebHierarchicalGridRowPinCellTemplate", (ctx) => {
 </div>`;
 }, false);
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
@@ -447,6 +455,7 @@ public pinCellTemplate = (ctx: IgcCellTemplateContext) => {
     return html`<span @pointerdown=${(e: any) => this.togglePinning(row)}>📌</span>`;
 }
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
@@ -465,6 +474,7 @@ const cellPinCellTemplate = (ctx: IgrCellTemplateContext) => {
     </IgrColumn>
     <IgrRowIsland childDataKey="Orders" autoGenerate={true}></IgrRowIsland>
 </{ComponentSelector}>
+
 ```
 </PlatformBlock>
 </ComponentBlock>
@@ -479,6 +489,7 @@ public togglePinning(index: number) {
     grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
 }
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
@@ -579,7 +590,7 @@ This would allow reordering the rows and moving them between the pinned and unpi
 
 <PlatformBlock for="Angular">
 - Because of how pinned rows are stored internally so that they may appear both in the pinned and unpinned areas of the grid, row pinning is not supported when records in the grid are fetched from a remote endpoint on demand (remote virtualization).
-- When the grid has no <ApiLink pkg="grids" type="{ComponentName}" member="primaryKey" prefixed={false} /> set and remote data scenarios are enabled (when paging, sorting, filtering, scrolling trigger requests to a remote server to retrieve the data to be displayed in the grid), a row will lose the following state after a data request completes:
+- When the grid has no <ApiLink type="{ComponentName}" member="primaryKey" /> set and remote data scenarios are enabled (when paging, sorting, filtering, scrolling trigger requests to a remote server to retrieve the data to be displayed in the grid), a row will lose the following state after a data request completes:
   - Row Selection
   - Row Expand/collapse
   - Row Editing
@@ -632,7 +643,7 @@ Then set the related CSS properties for that class:
 <PlatformBlock for="Angular">
 ## Styling
 
-The <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> allows styling through the [{ProductName} Theme Library](../themes/styles.md). The {ComponentTitle}'s [theme]({environment:sassApiUrl}/index.html#function-grid-theme) exposes a wide variety of properties, which allow the customization of all the features of the {ComponentTitle}.
+The <ApiLink type="{ComponentName}" /> allows styling through the [{ProductName} Theme Library](../themes/styles.md). The {ComponentTitle}'s <ApiLink type="function-grid-theme" label="theme" kind="sass" module="index.html" /> exposes a wide variety of properties, which allow the customization of all the features of the {ComponentTitle}.
 
 Below, we are going through the steps of customizing the {ComponentTitle}'s row pinning styling.
 
@@ -649,7 +660,7 @@ To begin the customization of the row pinning feature, you need to import the `i
 
 ### Defining a Theme
 
-Next, create a new theme, that extends the [grid-theme]({environment:sassApiUrl}/index.html#function-grid-theme) and accepts the parameters, required to customize the row pinning feature as desired.
+Next, create a new theme, that extends the <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> and accepts the parameters, required to customize the row pinning feature as desired.
 
 ```scss
 $custom-grid-theme: grid-theme(
@@ -692,7 +703,7 @@ If the component is using an [Emulated](../themes/styles.md#view-encapsulation) 
 
 
 
-<DocsAside type="note">
+<DocsAside type="info">
 The sample will not be affected by the selected global theme from **Change Theme**.
 </DocsAside>
 
@@ -700,8 +711,14 @@ The sample will not be affected by the selected global theme from **Change Theme
 
 ## API References
 
-<ApiRef pkg="grids" types={["{ComponentName}","{ComponentName}Row"]} prefixed={false} />
-<ApiRef pkg="grids" types={["RowType"]} />
+<ApiLink type="{ComponentName}" /><br />
+<PlatformBlock for="Angular,React,WebComponents">
+  <ApiLink type="GridRowComponent" />
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+  <ApiLink type="GridRow" />
+</PlatformBlock><br />
+<ApiLink type="RowType" /><br />
 
 ## Additional Resources
 

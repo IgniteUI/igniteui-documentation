@@ -23,7 +23,6 @@ The following example shows all the different sparkline types available. The typ
 </code-view>
 
 
-<div class="divider--half"></div>
 
 Like this sample? Get access to our complete Angular toolkit and start building your own apps in minutes. <a href="{environment:infragisticsBaseUrl}/products/ignite-ui-angular/download">Download it for free.</a>
 
@@ -73,7 +72,6 @@ The Angular Sparkline supports the following types of sparklines by setting the 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Markers
 
@@ -97,7 +95,6 @@ All of the markers mentioned above can be customized using the related marker ty
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Normal Range
 
@@ -120,7 +117,6 @@ You can also configure whether to show the normal range in front of or behind th
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Trendlines
 
@@ -139,7 +135,6 @@ The sample below shows all the available trendlines via the dropdown:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Unknown Value Interpolation
 
@@ -154,7 +149,6 @@ To plot the unknown values, you can set the [`unknownValuePlotting`]({environm
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Sparkline in Data Grid
 

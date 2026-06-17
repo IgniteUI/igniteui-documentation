@@ -13,7 +13,6 @@ The Angular Simple ComboBox component is a modification of [ComboBox component](
 
 In this Angular Simple ComboBox example, you can see how users can select the chart's trend line type. In addition, the Simple ComboBox expose keyboard navigation and custom styling capabilities.
 
-<div class="divider--half"></div>
 
 <code-view style="height: 400px;"
            data-demos-base-url="{environment:demosBaseUrl}"
@@ -71,8 +70,8 @@ Our simple combobox is now bound to the array of cities.
 
 Since the simple combobox is bound to an array of complex data (i.e. objects), we need to specify a property that the control will use to handle the selected items. The control exposes two `@Input` properties - [valueKey]({environment:angularApiUrl}/classes/igxsimplecombocomponent.html#valuekey) and [displayKey]({environment:angularApiUrl}/classes/igxsimplecombocomponent.html#displaykey):
 
- - `valueKey` - *Optional, recommended for object arrays* - Specifies which property of the data entries will be stored for the simple combobox's selection. If `valueKey` is omitted, the simple combobox value will use references to the data entries (i.e. the selection will be an array of entries from `igxSimpleCombo.data`).
- - `displayKey` - *Required for object arrays* - Specifies which property will be used for the items' text. If no value is specified for `displayKey`, the simple combobox will use the specified `valueKey` (if any).
+- `valueKey` - _Optional, recommended for object arrays_ - Specifies which property of the data entries will be stored for the simple combobox's selection. If `valueKey` is omitted, the simple combobox value will use references to the data entries (i.e. the selection will be an array of entries from `igxSimpleCombo.data`).
+- `displayKey` - _Required for object arrays_ - Specifies which property will be used for the items' text. If no value is specified for `displayKey`, the simple combobox will use the specified `valueKey` (if any).
 
 In our case, we want the simple combobox to display the `name` of each city and the simple combobox value to store the `id` of each city. Therefore, we are providing these properties to the simple combobox's `displayKey` and `valueKey`, respectively:
 
@@ -164,7 +163,6 @@ Binding to the event can be done through the proper `@Output` property on the `i
 </igx-simple-combo>
 ```
 
-<div class="divider--half"></div>
 
 ## Keyboard Navigation
 
@@ -205,7 +203,6 @@ The following sample demonstrates a scenario where the [igx-simple-combo]({envir
            iframe-src="{environment:demosBaseUrl}/lists/simple-combo-cascading/" alt="Angular Cascading Scenario Example">
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Template Configuration
 The API of simle combobox is used to get the selected item from one component and load data source for the next one, as well clear the selection and data source when needed.
@@ -233,6 +230,7 @@ The API of simle combobox is used to get the selected item from one component an
 ```
 
 ### Component Definition
+
 ```typescript
 export class SimpleComboCascadingComponent implements core.OnInit {
     public selectedCountry: Country;
@@ -275,6 +273,7 @@ Using the [Ignite UI for Angular Theming](themes/index.md), we can greatly alter
 ```
 
 Following the simplest approach, we create a new theme that extends the [combo-theme]({environment:sassApiUrl}/themes#function-combo-theme) and accepts the `$search-separator-border-color` parameter:
+
 ```scss
 $custom-simple-combo-theme: combo-theme(
     $empty-list-background: #1a5214
@@ -327,7 +326,6 @@ The last step is to include the component's theme.
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Known Issues
 
@@ -337,31 +335,29 @@ The last step is to include the component's theme.
 > The simple combobox uses `igxForOf` directive internally hence all `igxForOf` limitations are valid for the simple combobox. For more details see [igxForOf Known Issues](for-of.md#known-limitations) section.
 
 ## API References
-<div class="divider--half"></div>
 
-* [IgxSimpleComboComponent]({environment:angularApiUrl}/classes/igxsimplecombocomponent.html)
-* [IgxComboComponent Styles]({environment:sassApiUrl}/themes#function-combo-theme)
+- [IgxSimpleComboComponent]({environment:angularApiUrl}/classes/igxsimplecombocomponent.html)
+- [IgxComboComponent Styles]({environment:sassApiUrl}/themes#function-combo-theme)
 
 Additional components and/or directives with relative APIs that were used:
 
-* [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html)
-* [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
+- [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html)
+- [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
 
 ## Theming Dependencies
-* [IgxDropDown Theme]({environment:sassApiUrl}/themes#function-drop-down-theme)
-* [IgxIcon Theme]({environment:sassApiUrl}/themes#function-icon-theme)
-* [IgxOverlay Theme]({environment:sassApiUrl}/themes#function-overlay-theme)
+- [IgxDropDown Theme]({environment:sassApiUrl}/themes#function-drop-down-theme)
+- [IgxIcon Theme]({environment:sassApiUrl}/themes#function-icon-theme)
+- [IgxOverlay Theme]({environment:sassApiUrl}/themes#function-overlay-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
-* [ComboBox Features](combo-features.md)
-* [ComboBox Remote Binding](combo-remote.md)
-* [ComboBox Templates](combo-templates.md)
-* [Template Driven Forms Integration](input-group.md)
-* [Reactive Forms Integration](angular-reactive-form-validation.md)
+- [ComboBox Features](combo-features.md)
+- [ComboBox Remote Binding](combo-remote.md)
+- [ComboBox Templates](combo-templates.md)
+- [Template Driven Forms Integration](input-group.md)
+- [Reactive Forms Integration](angular-reactive-form-validation.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

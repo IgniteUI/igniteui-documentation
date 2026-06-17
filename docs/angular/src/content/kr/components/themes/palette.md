@@ -7,7 +7,7 @@ _language: kr
 
 ## Palettes
 <p class="highlight">The Ignite UI for Angular theming engine provides several powerful functions and mixins for generating and retrieving colors.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Overview
 
@@ -35,7 +35,7 @@ With so many colors in each sub-palette you may be wondering, how on Earth will 
 
 Got it? Good! But how does one access any of the colors in the palette?
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### The Grayscale Palette
 
@@ -56,7 +56,7 @@ $my-color-palette: palette(
 );
 ```
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Sub-Palette Colors
 
@@ -78,7 +78,7 @@ $my-warning-color: color($my-palette, 'warn');
 }
 ```
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Contrast Text Colors
 
@@ -95,7 +95,7 @@ $my-primary-800-text:contrast-color($my-palette, 'primary', 600);
 }
 ```
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Color Classes
 
@@ -115,19 +115,18 @@ For instance, if you want to generate CSS classes that apply background color to
     $suffix: 'bg'
 );
 ```
+
 The above code will generate CSS classes for each color variant in the palette. For instance, the `500` color variant of the `primary` palette will be given the following class `.igx-primary-500-bg`;
 
-<div class="divider--half"></div>
 
 ### API Reference
-* [Palettes]({environment:sassApiUrl}/palettes#function-palette)
-* [Getting Palette Colors]({environment:sassApiUrl}/palettes#function-color)
-* [Getting Contrast Colors]({environment:sassApiUrl}/palettes#function-contrast-color)
-* [Generating Color Classes]({environment:sassApiUrl}/utilities#mixin-color-classes)
+- [Palettes]({environment:sassApiUrl}/palettes#function-palette)
+- [Getting Palette Colors]({environment:sassApiUrl}/palettes#function-color)
+- [Getting Contrast Colors]({environment:sassApiUrl}/palettes#function-contrast-color)
+- [Generating Color Classes]({environment:sassApiUrl}/utilities#mixin-color-classes)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

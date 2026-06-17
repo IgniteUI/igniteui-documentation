@@ -10,20 +10,19 @@ _language: kr
 
 The [`IgxExpansionPanel`]({environment:angularApiUrl}/classes/igxexpansionpanelcomponent.html) is a lightweight component which can be rendered in two states - collapsed or expanded. When collapsed, the panel displays a short summary of its content. The collapsed panel can be toggled using mouse click, or keyboard interactions to display the body completely, containing any additional necessary content.
 </p>
-<div class="divider--half"></div>
 
 ### Expansion Panel Demo
 
-<code-view style="height: 450px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 450px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/expansion-sample-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Usage
 ### Getting Started
 To use the [`IgxExpansionPanelComponent`]({environment:angularApiUrl}/classes/igxexpansionpanelcomponent.html) we need to import the **IgxExpansionPanelModule** in our **app.module**:
+
 ```typescript
 // app.module.ts
 
@@ -40,12 +39,13 @@ export class AppModule {}
 
 We can now start using `igx-expansion-panel` in the markup. The expansion panel has a simple structure, as you can see below:
 - `igx-expansion-panel` - the component host - stores header and body
-    - `igx-expansion-panel-header` - stores the component header. This is always visible. Stores title and description as well as any additional content
-        - `igx-expansion-panel-title` - stores the component title. Has default styling. The title will always appear first in the header content (after icon if `iconPosition === 'left'`). Used in aria labels.
-        - `igx-expansion-panel-description` - stores the component description. Can be used to provide a short summary. The description will always appear after the title (if title is set).
-    - `igx-expansion-panel-body` - stores the component body. This part of the component is only visible when the panel is expanded.
+  - `igx-expansion-panel-header` - stores the component header. This is always visible. Stores title and description as well as any additional content
+    - `igx-expansion-panel-title` - stores the component title. Has default styling. The title will always appear first in the header content (after icon if `iconPosition === 'left'`). Used in aria labels.
+    - `igx-expansion-panel-description` - stores the component description. Can be used to provide a short summary. The description will always appear after the title (if title is set).
+  - `igx-expansion-panel-body` - stores the component body. This part of the component is only visible when the panel is expanded.
 
 In the below example, we can create a small collapsible component that hold a bit of information about the hummingbird:
+
 ```html
 <!-- expansible-panel.component.html -->
 <igx-expansion-panel>
@@ -69,6 +69,7 @@ In the below example, we can create a small collapsible component that hold a bi
 </igx-expansion-panel>
 
 ```
+
 The [`IgxExpansionPanelComponent`]({environment:angularApiUrl}/classes/igxexpansionpanelcomponent.html) exposes the [`.igx-expansion-panel`]({environment:sassApiUrl}/themes#function-expansion-panel-theme) class which we can use to style the component:
 
 ```css
@@ -94,8 +95,8 @@ The css classes `.igx-expansion-panel__header` and `.igx-expansion-panel__body` 
 
 You can see the results below:
 
-<code-view style="height: 450px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 450px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/expansion-sample-1/" >
 </code-view>
 
@@ -116,6 +117,7 @@ export class ExpansionPanelComponent {
     public readMore: string = 'https://en.wikipedia.org/wiki/Hummingbird';
 }
 ```
+
 The following code sample will show the description only when the component is in collapsed state.
 
 ```html
@@ -130,6 +132,7 @@ The following code sample will show the description only when the component is i
 ```
 
 If we want to add more complex functionality depending on the component's state, we could also bind to the event emitters.
+
 ```typescript
 // in expansion-panel.component.ts
 
@@ -140,6 +143,7 @@ export class ExpansionPanelComponent {
     }
 }
 ```
+
 ```html
 <!-- in expansion-component.component.html -->
     <igx-expansion-panel (onExpanded)="handleExpansion($event)">
@@ -149,8 +153,8 @@ export class ExpansionPanelComponent {
 
 Below we have the results:
 
-<code-view style="height: 400px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/expansion-sample-2/" >
 </code-view>
 
@@ -159,7 +163,7 @@ Below we have the results:
 The [`IgxExpansionPanelComponent`]({environment:angularApiUrl}/classes/igxexpansionpanelcomponent.html) allows for easy customization of [the header]({environment:angularApiUrl}/classes/igxexpansionpanelheadercomponent.html).
 The default icon for the toggle state of the control can be templated. The position of this icon is also configurable - either the start or end of the header. It can also be hidden.
 
-Configuring the position of the header icon can be done through the [`iconPosition`]({environment:angularApiUrl}/classes/igxexpansionpanelheadercomponent.html#iconposition) input on the `igx-expansion-panel-header`. The posible options for the icon position are **left**, **right** and **none**. The next code sample demonstrates how to configure the component's button to go on the *right* side.
+Configuring the position of the header icon can be done through the [`iconPosition`]({environment:angularApiUrl}/classes/igxexpansionpanelheadercomponent.html#iconposition) input on the `igx-expansion-panel-header`. The possible options for the icon position are **left**, **right** and **none**. The next code sample demonstrates how to configure the component's button to go on the _right_ side.
 
 ```html
 <!-- in expansion-component.component.html -->
@@ -169,9 +173,11 @@ Configuring the position of the header icon can be done through the [`iconPositi
         </igx-expansion-panel-header>
     </igx-expansion-panel>
 ```
+
 > Note: The [`iconPosition`]({environment:angularApiUrl}/classes/igxexpansionpanelheadercomponent.html#iconposition) property works with `RTL` - e.g. an icon set to show up in **right** will show in the leftmost part of the header when RTL is on.
 
 We can also override the default icon that is used in the control by passing content in an `igx-expansion-panel-icon` tag:
+
 ```html
 <!-- in expansion-component.component.html -->
     <igx-expansion-panel>
@@ -185,6 +191,7 @@ We can also override the default icon that is used in the control by passing con
         </igx-expansion-panel-header>
     </igx-expansion-panel>
 ```
+
 ```css
 <!-- in expansion-component.component.scss -->
 .example-icon {
@@ -192,11 +199,13 @@ We can also override the default icon that is used in the control by passing con
     font-weight: 600px;
 }
 ```
+
 Our component will now render "Show More" when the panel is collapsed and "Collapse" once it's fully expanded.
 ### Adding content
 
 The [`igx-expansion-panel-body`]({environment:angularApiUrl}/classes/igxexpansionpanelbodycomponent.html) tag of the component accepts all kinds of markup and renders everything with the `ng-content` projection. We can use an [`IgxAvatar`](avatar.md) to freshen up our expansion panel's inner content:
 First, we need to import the `IgxAvatarModule` in our **app.module.ts**
+
 ```typescript
 // in app.module.ts
 import { IgxExpansionPanelModule, IgxAvatarModule } from 'igniteui-angular';
@@ -210,6 +219,7 @@ NgModule({
     ...
 })
 ```
+
 Once imported, we can use the avatar in the markup:
 
 ```html
@@ -231,7 +241,9 @@ Once imported, we can use the avatar in the markup:
 </igx-expansion-panel-body>
 ...
 ```
+
 We just need to add the image source to the component definition, so it can be easily changed
+
 ```typescript
 // in expansion-panel.component.html
 export class ExpansionPanelComponent {
@@ -239,11 +251,12 @@ export class ExpansionPanelComponent {
     public imgSource = 'https://upload.wikimedia.org/wikipedia/commons/4/46/Purple-throated_carib_hummingbird_feeding.jpg';
 }
 ```
+
 ### Summary
 After applying all of the changes to our initial component, here is the final result:
 
-<code-view style="height: 550px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 550px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/expansion-sample-3/" >
 </code-view>
 
@@ -293,6 +306,7 @@ export class ExpansionPanelComponent {
     }
 }
 ```
+
 As you can see, we are going to use [`slideInLeft`]({environment:sassApiUrl}/animations#mixin-slide-in-left) and [`slideOutRight`]({environment:sassApiUrl}/animations#mixin-slide-out-right) animations from our [**inbuilt suite of animations**]({environment:sassApiUrl}/animations) to make the component content appear more dramatically from the left side and disappear on the right when collapsing the content. In the process, we override some of the existing parameters with the specific ones we want to use.
 
 The sample shows some user information and the key point here is passing the animation settings to the component like:
@@ -339,8 +353,8 @@ The sample shows some user information and the key point here is passing the ani
 
 You can see the results below:
 
-<code-view style="height: 350px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 350px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/expansion-sample-6/" >
 </code-view>
 
@@ -514,10 +528,11 @@ export class ExpansionPanelComponent {
 </igx-expansion-panel>
 ...
 ```
+
 You can see the results below:
 
-<code-view style="height: 550px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 550px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/expansion-sample-5/" >
 </code-view>
 
@@ -618,14 +633,14 @@ export const data = {
 
 You can see the results below:
 
-<code-view style="height: 600px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 600px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/expansion-sample-7/" >
 </code-view>
 
 
 ## API Reference
-* [IgxExpansionPanel API]({environment:angularApiUrl}/classes/igxexpansionpanelcomponent.html)
-* [IgxExpansionPanelHeader API]({environment:angularApiUrl}/classes/igxexpansionpanelheadercomponent.html)
-* [IgxExpansionPanelBody API]({environment:angularApiUrl}/classes/igxexpansionpanelbodycomponent.html)
-* [IgxExpansionPanel Styles]({environment:sassApiUrl}/themes#function-expansion-panel-theme)
+- [IgxExpansionPanel API]({environment:angularApiUrl}/classes/igxexpansionpanelcomponent.html)
+- [IgxExpansionPanelHeader API]({environment:angularApiUrl}/classes/igxexpansionpanelheadercomponent.html)
+- [IgxExpansionPanelBody API]({environment:angularApiUrl}/classes/igxexpansionpanelbodycomponent.html)
+- [IgxExpansionPanel Styles]({environment:sassApiUrl}/themes#function-expansion-panel-theme)

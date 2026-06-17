@@ -11,21 +11,20 @@ _language: kr
 
 The Ignite UI for Angular [`IgxCardComponent`]({environment:angularApiUrl}/classes/igxcardcomponent.html) displays text, images, icons, and buttons in a visually rich presentation that can serve as an entry point to more detailed information. Cards can be used to create a multimedia dashboard. The Card component supports pagination using the same component as the Ignite UI for Angular Grid, with some custom coding required.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Card Demo
 
-<code-view style="height: 930px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 930px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/card/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Usage
 Cards allow you to easily display content composed of different types of objects or similar objects whose size and supported actions can vary.
 
-####Getting Started
+#### Getting Started
 To get started with the Ignite UI for Angular Card, let's first import the `IgxCardModule` inside our **app.module.ts** file:
 
 ```typescript
@@ -59,8 +58,8 @@ Then in the template of our info card component we can add the following code to
 
 If all went well, you should see the following card in your browser:
 
-<code-view style="height: 300px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 300px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/card-sample-1/" >
 </code-view>
 
@@ -68,6 +67,7 @@ If all went well, you should see the following card in your browser:
 #### Adding Avatar and Images
 
 Yes, Brad Stanley is popular, but maybe we want to make his card a bit more interesting. We can add a nice picture avatar to the left of his name and a larger Audi TT image. To do that let's grab the [**IgxAvatar**](avatar.md) module and import it in our **app.module.ts** file.
+
 ```typescript
 // app.module.ts
 
@@ -108,8 +108,8 @@ Next, we need to update the template for our card to show a round-shaped avatar 
 
 At this point the card should look similar to the following:
 
-<code-view style="height: 480px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 480px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/card-sample-2/" >
 </code-view>
 
@@ -175,13 +175,12 @@ public icons = ['add', 'star'];
 Easy, right? Let's see how it turned out in the browser:
 
 
-<code-view style="height: 400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/card-sample-3/" >
 </code-view>
 
 
-<div class="divider--half"></div>
 
 #### Summary
 In this article we covered a lot of ground with the card component. First, we created a very simple card with text content only. Then added some images to make the card a bit more appealing. Finally, we used some additional Ignite UI for Angular components inside our card, like avatars, buttons and icons, to enrich the experience and add some functionality. The card component is capable of displaying more different layouts worth exploring in the Card Demo in the beginning of this article.
@@ -189,30 +188,29 @@ In this article we covered a lot of ground with the card component. First, we cr
 ### API and Style References
 
 For more detailed information regarding the card's API, refer to the following links:
-* [`IgxCardComponent API`]({environment:angularApiUrl}/classes/igxcardcomponent.html)
+- [`IgxCardComponent API`]({environment:angularApiUrl}/classes/igxcardcomponent.html)
 
 The following built-in CSS styles helped us achieve this card layout:
 
-* [`IgxCardComponent Styles`]({environment:sassApiUrl}/themes#function-card-theme)
+- [`IgxCardComponent Styles`]({environment:sassApiUrl}/themes#function-card-theme)
 
 Additional components and/or directives that were used:
 
-* [`IgxAvatarComponent`]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
-* [`IgxIconComponent`]({environment:angularApiUrl}/classes/igxiconcomponent.html)
-* [`IgxButtonDirective`]({environment:angularApiUrl}/classes/igxbuttondirective.html)
+- [`IgxAvatarComponent`]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
+- [`IgxIconComponent`]({environment:angularApiUrl}/classes/igxiconcomponent.html)
+- [`IgxButtonDirective`]({environment:angularApiUrl}/classes/igxbuttondirective.html)
 
 Styles:
 
-* [`IgxAvatarComponent Styles`]({environment:sassApiUrl}/themes#function-avatar-theme)
-* [`IgxIconComponent Styles`]({environment:sassApiUrl}/themes#function-icon-theme)
-* [`IgxButtonDirective Styles`]({environment:sassApiUrl}/themes#function-button-theme)
+- [`IgxAvatarComponent Styles`]({environment:sassApiUrl}/themes#function-avatar-theme)
+- [`IgxIconComponent Styles`]({environment:sassApiUrl}/themes#function-icon-theme)
+- [`IgxButtonDirective Styles`]({environment:sassApiUrl}/themes#function-button-theme)
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ## Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

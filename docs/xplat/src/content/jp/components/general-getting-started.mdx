@@ -9,6 +9,9 @@ _language: ja
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DownloadCard from 'docs-template/components/mdx/DownloadCard.astro';
+import DownloadCardGroup from 'docs-template/components/mdx/DownloadCardGroup.astro';
 import { Image } from 'astro:assets';
 import nodejs from '@xplat-images/general/nodejs.svg';
 import vsCode from '@xplat-images/general/vs-code.svg';
@@ -37,22 +40,10 @@ import gettingStartedBlazorCard from '@xplat-images/general/getting-started-blaz
 1. NodeJS をインストールします。
 2. Visual Studio Code をインストールします。
 
-<div>
-    <div style="display:inline-block;width:45%;text-align:center;">
-      <Image src={nodejs} alt="nodejs" style="display:flex;max-height:100px;margin:auto auto 20px auto;" />
-      <a target="_blank" href="https://nodejs.org/en/download/" class="no-external-icon"
-         style="color:white;background-color:#09f;text-decoration:none;font-weight:700;font-size:16px;padding: 5px 15px 5px 15px;">
-        Node のダウンロード
-      </a>
-    </div>
-    <div style="display:inline-block;width:45%;text-align:center;">
-      <Image src={vsCode} alt="vs-code" style="display:flex;max-height:100px;margin:auto auto 20px auto;" />
-      <a target="_blank" href="https://code.visualstudio.com/download" class="no-external-icon"
-         style="color:white;background-color:#09f;text-decoration:none;font-weight:700;font-size:16px;padding: 5px 15px 5px 15px;">
-        VS Code のダウンロード
-      </a>
-    </div>
-</div>
+<DownloadCardGroup>
+  <DownloadCard src={nodejs} alt="nodejs" href="https://nodejs.org/en/download/" label="Node のダウンロード" />
+  <DownloadCard src={vsCode} alt="vs-code" href="https://code.visualstudio.com/download" label="VS Code のダウンロード" />
+</DownloadCardGroup>
 
 ## Ignite UI CLI の使用
 
@@ -68,14 +59,21 @@ npm install -g igniteui-cli
 ig
 ```
 
-次に、フレームワークとして `React` を選択し、プロジェクト タイプとして `Ignite UI for React TS` を選択します。`Default Top Navigation` プロジェクト テンプレートを選択するか、特定のコンポーネント/ビューを追加するか、`Complete & Run` を選択します。
-Ignite UI CLI の詳細については、[CLI の概要](general-cli-overview.md)を参照してください。
+次に、フレームワークとして `React` を選択し、プロジェクト タイプとして `Ignite UI for React TS` を選択します。ナビゲーション レイアウトで始めるには **Side Navigation** または **Side Navigation Mini** を選択します。これらのナビゲーション テンプレートを選択すると、認証を追加するかどうかを確認するプロンプトが表示されます。**Empty** テンプレートでは認証プロンプトは表示されません。その後、特定のコンポーネント/ビューを追加するか、`Complete & Run` を選択します。
+
+または、プロジェクトを直接作成することもできます。例:
+
+```cmd
+ig new <project-name> --framework=react --type=igr-ts --template=side-nav
+```
+
+ウィザードのウォークスルーと認証アドオン フローについては、[Ignite UI CLI を使用したステップ バイ ステップ ガイド](general-step-by-step-guide-using-cli.md)を参照してください。コマンド、テンプレート ID、直接認証テンプレートの全リファレンスについては、[CLI の概要](general-cli-overview.md)を参照してください。
 
 プロンプト中にグリッド コンポーネントを追加した場合、アプリケーションが実行されると、次のようなものが表示されます。
 
 <Image src={igCliGrid} alt="" />
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 デフォルトでは、Ignite UI CLI は [商用ライセンス](./general-open-source-vs-premium.md#全コンポーネントの比較表)の下にある Ignite UI for React の Grid コンポーネントの Trial バージョンをインストールすることに注意してください。
 </DocsAside>
 
@@ -180,8 +178,15 @@ npm install -g igniteui-cli
 ig
 ```
 
-次に、フレームワークとして Web Components を選択し、`Base` プロジェクト テンプレートを選択し、特定のコンポーネント / ビューを追加するか、`Complete & Run` を選択します。
-さらに、Ignite UI CLI の詳細については[こちら](general-cli-overview.md)を参照してください。
+次に、フレームワークとして Web Components を選択します。ナビゲーション レイアウトで始めるには **Side Navigation** または **Side Navigation Mini** を選択します。これらのナビゲーション テンプレートを選択すると、認証を追加するかどうかを確認するプロンプトが表示されます。**Empty** テンプレートでは認証プロンプトは表示されません。その後、特定のコンポーネント / ビューを追加するか、`Complete & Run` を選択します。
+
+または、プロジェクトを直接作成することもできます。例:
+
+```cmd
+ig new <project-name> --framework=webcomponents --type=igc-ts --template=side-nav
+```
+
+ウィザードのウォークスルーと認証アドオン フローについては、[Ignite UI CLI を使用したステップ バイ ステップ ガイド](general-step-by-step-guide-using-cli.md)を参照してください。コマンド、テンプレート ID、直接認証テンプレートの全リファレンスについては、[CLI の概要](general-cli-overview.md)を参照してください。
 
 ## ポリフィルのインストール
 
@@ -205,7 +210,7 @@ import '@webcomponents/custom-elements/src/native-shim.js';
 npm install igniteui-webcomponents
 ```
 
-次に、`index.ts` ファイルで使用するコンポーネントをインポートする必要があります。次のように `defineComponents` 関数を使用して 1 つ以上のコンポーネントをインポートできます:
+次に、`index.ts` ファイルで使用するコンポーネントをインポートする必要があります。次のように <ApiLink type="defineComponents" /> 関数を使用して 1 つ以上のコンポーネントをインポートできます:
 
 ```ts
 import { defineComponents, IgcAvatarComponent, IgcBadgeComponent } from 'igniteui-webcomponents';
@@ -213,7 +218,7 @@ import { defineComponents, IgcAvatarComponent, IgcBadgeComponent } from 'igniteu
 defineComponents(IgcAvatarComponent, IgcBadgeComponent);
 ```
 
-`defineAllComponents` 関数を使用して、すべてのコンポーネントをインポートすることもできます。
+<ApiLink type="defineAllComponents" /> 関数を使用して、すべてのコンポーネントをインポートすることもできます。
 
 ```ts
 import { defineAllComponents } from 'igniteui-webcomponents';
@@ -221,7 +226,7 @@ import { defineAllComponents } from 'igniteui-webcomponents';
 defineAllComponents();
 ```
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 すべてのコンポーネントをインポートすると、アプリケーションのバンドル サイズが大きくなります。そのため、実際に使用しているコンポーネントのみをインポートすることをお勧めします。
 </DocsAside>
 
@@ -266,7 +271,7 @@ npm init -y
 npm install webpack webpack-cli --save-dev
 ```
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 Webpack はモジュール バンドラーです。主な目的は、ブラウザーで使用するために JavaScript ファイルをバンドルすることですが、あらゆるリソースやアセットを変換、バンドル、またはパッケージ化することもできます。
 </DocsAside>
 
@@ -301,7 +306,7 @@ code .
   },
 ```
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 このスクリプトは webpack を使用して **index.js** ファイルを **index.bundle.js** と呼ばれる別のファイルにバンドルし、**dist** という名前のフォルダーに配置します。
 
 ビルド中に **JavaScript のメモリ不足** の問題が発生した場合、代わりに以下のビルド コマンドを使用してヒープ サイズを増やすことができます。
@@ -376,7 +381,7 @@ ModuleManager.register(
 npm run build
 ```
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 このコマンドは、前に作成したビルド スクリプトを実行します。ビルド スクリプトは、**dist** という名前のフォルダーに **index.bundle.js** という名前のファイルを生成します。
 </DocsAside>
 
@@ -395,7 +400,7 @@ npm run build
 
 
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 Live Server は Visual Studio Code の拡張機能で、静的および動的ページの自動更新機能を備えたローカル開発サーバーを起動できます。この拡張機能は、Visual Studio Code の [拡張機能] タブから、または [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) からダウンロードしてインストールできます。
 </DocsAside>
 

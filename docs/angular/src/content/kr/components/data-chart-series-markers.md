@@ -18,20 +18,19 @@ _language: kr
            github-src="charts/data-chart/series-markers">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 지원되는 시리즈
 
 대부분의 차트 시리즈는 다음과 같은 마커를 지원합니다:
 
--   모든 [카테고리 시리즈](data-chart-type-category-series.md)
--   모든 [폴라 시리즈](data-chart-type-polar-series.md)
--   모든 [레이디얼 시리즈](data-chart-type-radial-series.md)
--   분산 시리즈:
-    -   [분산 버블 시리즈](data-chart-type-scatter-bubble-series.md)
-    -   [분산점 시리즈](data-chart-type-scatter-point-series.md)
-    -   [분산 라인 시리즈](data-chart-type-scatter-point-series.md)
-    -   [분산 스플라인 시리즈](data-chart-type-scatter-point-series.md)
+- 모든 [카테고리 시리즈](data-chart-type-category-series.md)
+- 모든 [폴라 시리즈](data-chart-type-polar-series.md)
+- 모든 [레이디얼 시리즈](data-chart-type-radial-series.md)
+- 분산 시리즈:
+  - [분산 버블 시리즈](data-chart-type-scatter-bubble-series.md)
+  - [분산점 시리즈](data-chart-type-scatter-point-series.md)
+  - [분산 라인 시리즈](data-chart-type-scatter-point-series.md)
+  - [분산 스플라인 시리즈](data-chart-type-scatter-point-series.md)
 
 ## 마커 속성
 
@@ -74,6 +73,6 @@ This code snippet below demonstrate how to create custom  marker with values of 
 
 ## 추가 리소스
 
--   [축 유형](data-chart-axis-types.md)
--   [시리즈 유형](data-chart-series-types.md)
--   [시리즈 도구 설명](data-chart-series-tooltips.md)
+- [축 유형](data-chart-axis-types.md)
+- [시리즈 유형](data-chart-series-types.md)
+- [시리즈 도구 설명](data-chart-series-tooltips.md)

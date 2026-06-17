@@ -8,14 +8,18 @@ _language: ja
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import { Image } from 'astro:assets';
 import play from '../../../images/general/play.svg';
+import buildCLIappGif from '../../../images/general/buildCLIapp.gif';
 import igStepByStepProjectType from '../../../images/general/ig-step-by-step-project-type.png';
 import igStepByStepNewProjectName from '../../../images/general/ig-step-by-step-new-project-name.png';
-import igStepByStepNewProjectTemplate from '../../../images/general/ig-step-by-step-new-project-template.png';
-import igStepByStepNewProjectTheme from '../../../images/general/ig-step-by-step-new-project-theme.png';
+import igStepByStepNewProjectTemplate from '../../../images/general/igx-side-auth-steps.png';
+import igStepByStepNewProjectQuestion from '../../../images/general/igx-side-auth-question.png';
+import igStepByStepNewProjectTheme from '../../../images/general/igx-side-auth-theme.png';
 import igStepByStepNewProjectAction from '../../../images/general/ig-step-by-step-new-project-action.png';
 import igStepByStepTemplateGroup from '../../../images/general/ig-step-by-step-template-group.png';
 import igStepByStepComponentFeatures from '../../../images/general/ig-step-by-step-component-features.png';
 import igStepByStepScenarioTemplates from '../../../images/general/ig-step-by-step-scenario-templates.png';
+import igStepByStepAiConfigAssistants from '../../../images/general/ig-step-by-step-ai-config-assistants.png';
+import igStepByStepAiConfigAgents from '../../../images/general/ig-step-by-step-ai-config-agents.png';
 
 # Ignite UI for Angular Schematics を使用したステップ バイ ステップ ガイド
 
@@ -30,42 +34,65 @@ ng new --collection="@igniteui/angular-schematics"
 これにより、ステップバイステップ モードがアクティブになり、新しいプロジェクトの作成に役立つ一連の質問が表示されます。
 
 <div style="display:inline-block;">
-    <a style="background: url(/images/general/buildCLIapp.gif); display:flex; justify-content:center; width: 80vw; max-width:540px; min-height:315px;"
+    <a style={`background: url(${buildCLIappGif.src}); display:flex; justify-content:center; width: 80vw; max-width:540px; min-height:315px;`}
        href="https://youtu.be/QK_NsdtdA70" target="_blank">
         <Image src={play} style="vertical-align: middle;" alt="" />
     </a>
 </div>
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 ステップ バイ ステップ モードは `Inquirer.js` に依存しています。[サポートされている端末](https://github.com/SBoudrias/Inquirer.js#support-os-terminals)を参照してください。
 </DocsAside>
 
 
 ## 新しいプロジェクトの作成
 
-まず、アプリケーションをブートストラップする方法として、モジュールとスタンドアロン コンポーネントのどちらを使用するのかを選択するように求められます。
+ウィザードはプロジェクトをスキャフォールドする前に、以下の設定手順を案内します。テンプレートとして **Side Navigation** または **Side Navigation Mini** を選択した場合、認証に関する追加手順が表示されます。
 
-<Image src={igStepByStepProjectType} alt="Step by step project type" class="responsive-img" />
+### ステップ 1: ブートストラップ タイプの選択
 
-次に、アプリケーションの名前を入力します。
+最初のプロンプトでは、スタンドアロン コンポーネントまたは NgModule のどちらを使用してアプリケーションをブートストラップするかを選択します。
 
-<Image src={igStepByStepNewProjectName} alt="Step by step new project name" class="responsive-img" />
+<Image src={igStepByStepProjectType} alt="Step by step prompt: standalone components or NgModules" class="responsive-img" />
 
-次に、利用可能なプロジェクト テンプレートのいずれかを選択します。空のプロジェクト、サイド ナビゲーションのあるプロジェクト、または基本認証モジュールのある[認証プロジェクト](auth-template.md)を作成できます。矢印キーを使用して使用可能なオプションをナビゲートし、ENTER を押して選択を確認します。
+スタンドアロン コンポーネントは Angular 17+ のデフォルトであり、新しいプロジェクトに推奨されます。既存の NgModule ベースのコードベースと統合する場合のみ NgModule を選択してください。
 
-<Image src={igStepByStepNewProjectTemplate} alt="Step by step new project template" class="responsive-img" />
+### ステップ 2: プロジェクト名の入力
 
-次のステップでは、アプリケーションのテーマを選択します。デフォルトのオプションを選択すると、Ignite UI for Angular のデフォルト テーマの Ignite UI がプリコンパイルされた CSS ファイル (`igniteui-angular.css`) がプロジェクトの `angular.json` に含まれます。カスタムオプションは、`app/styles.scss` の [Theming API](../../themes.md) を使用して、カラーパレットとテーマのコードを生成します。
+新しいアプリケーションの名前を入力します。プロジェクトは同じ名前のディレクトリに作成されます。
 
-<Image src={igStepByStepNewProjectTheme} alt="Step by step new project theme" class="responsive-img" />
+<Image src={igStepByStepNewProjectName} alt="Step by step prompt: enter project name" class="responsive-img" />
 
-上記の手順を完了すると、アプリケーション構造が生成され、git リポジトリが初期化され、プロジェクトがコミットされます。次に、プロセスを完了するか、アプリケーションに新しいビューを追加するかのプロンプトが表示されます。
+### ステップ 3: プロジェクト テンプレートの選択
+
+矢印キーを使用して利用可能なプロジェクト テンプレートを移動し、ENTER を押して確認します。3 つのベース テンプレートが利用可能です。
+
+- **empty** - ルーティングとホームページを備えたプロジェクト構造。ナビゲーションは事前構築されていません。
+- **side-nav** - 事前構築されたサイド ナビゲーション ドロワーを備えたプロジェクト構造。
+- **side-nav-mini** - 事前構築されたコンパクトなサイド ナビゲーション ドロワーを備えたプロジェクト構造。
+
+<Image src={igStepByStepNewProjectTemplate} alt="Step by step prompt: choose project template" class="responsive-img" />
+
+**side-nav** または **side-nav-mini** を選択した場合、ウィザードはプロジェクトに[認証モジュール](auth-template.md)を追加するかどうかを確認するプロンプトを表示します。「はい」と回答すると、対応する認証バリアント (`side-nav-auth` または `side-nav-mini-auth`) が生成されます。**empty** を選択した場合、認証のプロンプトはスキップされます。
+
+<Image src={igStepByStepNewProjectQuestion} alt="Step by step prompt: auth question" class="responsive-img" />
+
+### ステップ 4: テーマの選択
+
+2 つのテーマ オプションが利用可能です。
+
+- **default** - `angular.json` に Ignite UI for Angular Material ベースのデフォルト テーマのプリコンパイル済み CSS ファイル (`igniteui-angular.css`) を含めます。
+- **custom** - `app/styles.scss` にカスタマイズ可能な [Theming API](../../themes.md) を使用したカラーパレットとテーマ設定を生成します。
+
+<Image src={igStepByStepNewProjectTheme} alt="Step by step prompt: choose default or custom theme" class="responsive-img" />
+
+上記の手順を完了すると、アプリケーション構造が生成されます。次に、ウィザードは [AI コーディング アシスタントの設定](#ai-アシスタント統合)を求めるプロンプトを表示します。AI の設定が完了すると、git リポジトリが初期化され、初期状態がコミットされます。次に、プロセスを完了するか、コンポーネント ビューを追加するかのプロンプトが表示されます。
 
 <Image src={igStepByStepNewProjectAction} alt="Step by step new project action" class="responsive-img" />
 
 ## ビューの追加
 
-Ignite UI CLI は、プロジェクトに追加できる複数のコンポーネント テンプレート、およびより詳細なシナリオ テンプレートをサポートしています。このモードは、プロジェクトの作成が完了した後、または以下のコマンドを使用して既存のプロジェクト内でアクティブにできます。
+Ignite UI for Angular Schematics コレクションは、プロジェクトに追加できる複数のコンポーネント テンプレート、およびより詳細なシナリオ テンプレートをサポートしています。このモードは、プロジェクトの作成が完了した後、または以下のコマンドを使用して既存のプロジェクト内でアクティブにできます。
 
 Schematics コレクションを使用してステップバイステップ モードをアクティブにするには、`component`(alias:`c`) schematic を実行します。
 
@@ -87,6 +114,55 @@ ng g @igniteui/angular-schematics:component
 
 <Image src={igStepByStepScenarioTemplates} alt="Scenario templates" class="responsive-img" />
 
-アプリケーションにテンプレートを追加した後、プロセスを完了するかコントロールの追加を続行するかどうかを選択します。プロセスの完了を選択すると、必要なパッケージが (プロジェクト作成時に) インストールされ、アプリケーションがデフォルトのブラウザーで開かれます。
+アプリケーションにテンプレートを追加した後、さらにビューを追加するかプロセスを完了するかを選択します。プロセスの完了を選択すると、残りのパッケージ依存関係がインストールされ、アプリケーションがデフォルトのブラウザーで開かれます。
 
-`ng g @igniteui/angular-schematics:c [template] [name]` コマンドを使用して、後からいつでも、Ignite UI for Angular ビューをアプリケーションに追加できます。
+ウィザードを使用せずに後から Ignite UI for Angular ビューをプロジェクトに追加するには、直接 schematic コマンドを使用します。
+
+```cmd
+ng g @igniteui/angular-schematics:c [template] [name]
+```
+
+## AI アシスタント統合
+
+ブートストラップ タイプ、プロジェクト名、テンプレート、テーマを選択した後、ウィザードは AI コーディング アシスタント統合の設定を求めるプロンプトを表示します。このステップは `ng generate @igniteui/angular-schematics:ai-config` と同じロジックを実行しますが、プロジェクト作成フローに組み込まれています。
+
+### コーディング アシスタントの選択
+
+MCP サーバーを設定するコーディング アシスタントを選択するように求められます。スペース キーで選択を切り替え、ENTER で確認します。
+
+<Image src={igStepByStepAiConfigAssistants} alt="Step by step prompt: choose coding assistants for MCP configuration" class="responsive-img" />
+
+- **Generic** (Claude Code、VS Code など) - `.mcp.json` に書き込み
+- **VS Code** (GitHub Copilot) - `.vscode/mcp.json` に書き込み
+- **Cursor** - `.cursor/mcp.json` に書き込み
+- **Gemini** - `.gemini/settings.json` に書き込み
+- **JetBrains Junie** - `.junie/mcp/mcp.json` に書き込み
+- **None** - MCP 設定をスキップ
+
+デフォルトの選択は **Generic** です。**None** を選択すると、MCP サーバーの設定が完全にスキップされます。
+
+### AI エージェントの選択
+
+次に、スキル ファイルと手順を設定する AI エージェントを選択するように求められます。
+
+<Image src={igStepByStepAiConfigAgents} alt="Step by step prompt: choose AI agents for skill files and instructions" class="responsive-img" />
+
+- **Generic** - `.agents/skills/` および `AGENTS.md`
+- **Claude** - `.claude/skills/` および `.claude/CLAUDE.md`
+- **Copilot** - `.github/skills/` および `.github/copilot-instructions.md`
+- **Cursor** - `.cursor/skills/` および `.cursor/rules/cursor.mdc`
+- **Codex** - `.codex/skills/` および `.codex/instructions.md`
+- **Windsurf** - `.windsurf/skills/` および `.windsurf/rules/guidelines.md`
+- **Gemini** - `.gemini/skills/` および `.gemini/GEMINI.md`
+- **Junie** - `.junie/skills/` および `.junie/guidelines.md`
+- **None** - スキル ファイルと手順をスキップ
+
+デフォルトの選択は **Generic** と **Claude** です。**None** を選択すると、エージェントの設定が完全にスキップされます。
+
+Angular schematic 経由で実行した場合、Ignite UI サーバーと並んで `angular-cli` MCP サーバー エントリが自動的に追加されます。
+
+<DocsAside type="info">
+非インタラクティブなプロジェクト作成時に AI 設定のプロンプトを完全にスキップするには、`ng new` に `--assistants none --agents none` を渡します。後で AI 設定を再実行するには、プロジェクト ルートから `ng generate @igniteui/angular-schematics:ai-config` を使用してください。
+</DocsAside>
+
+MCP クライアント設定と利用可能なツールの詳細については、[Ignite UI CLI MCP](../../ai/cli-mcp.md) を参照してください。

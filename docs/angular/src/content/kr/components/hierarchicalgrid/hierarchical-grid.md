@@ -10,12 +10,11 @@ _language: kr
 ### 데모
 
 
-<code-view style="height:520px" 
-           data-demos-base-url="{environment:lobDemosBaseUrl}" 
+<code-view style="height:520px"
+           data-demos-base-url="{environment:lobDemosBaseUrl}"
            iframe-src="{environment:lobDemosBaseUrl}/hierarchical-grid/hierarchical-grid-resizing/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### 의존성
 계층 그리드는 `NgModule`로 내보내기 되므로 애플리케이션에서 `AppModule` 안에 IgxHierarchicalGridModule을 가져와야 합니다.
@@ -45,7 +44,7 @@ public hgrid1: IgxHierarchicalGridComponent;
 ### 데이터 바인딩
 
 **igx-hierarchical-grid**는 **igx-grid**에서 파생되며 대부분의 기능을 공유합니다. 주된 차이점은 여러 수준의 계층을 정의할 수 있다는 것입니다. **igx-row-island**라고 하는 **igx-hierarchical-grid**의 정의 내에서 별도의 태그를 통해 구성됩니다. **igx-row-island** 컴포넌트는 특정 수준의 각 하위 그리드에 대한 구성을 정의합니다. 수준별로 여러 행 아일랜드도 지원합니다.
-계층 그리드는 2가지 방법으로 데이터에 바인딩할 수 있습니다. 
+계층 그리드는 2가지 방법으로 데이터에 바인딩할 수 있습니다.
 
 #### 1. 계층 데이터 사용
 
@@ -81,6 +80,7 @@ export const singers = [{
     }]
 }];
 ```
+
 각 **igx-row-island**는 하위 데이터를 보유하는 속성의 키를 지정해야 합니다.
 
 ```html
@@ -93,6 +93,7 @@ export const singers = [{
     </igx-row-island>
 </igx-hierarchical-grid>
 ```
+
 > [!NOTE]
 > `Data` 대신에 사용자는 데이터를 자동으로 설정하기 위해 **igx-hierarchical-grid**가 로딩해야 하는 `key`만 구성합니다.
 
@@ -180,9 +181,10 @@ export class RemoteLoDService {
     }
 }
 ```
+
 ### 기능
 
-그리드 기능은 **igx-row-island** 마크업을 통해 활성화 및 구성할 수 있으며 이 마크업은 생성된 모든 그리드에 적용됩니다. 행 아일랜드 인스턴스를 통해 런타임에 옵션을 변경하면 생성된 각 그리드의 옵션이 변경됩니다. 
+그리드 기능은 **igx-row-island** 마크업을 통해 활성화 및 구성할 수 있으며 이 마크업은 생성된 모든 그리드에 적용됩니다. 행 아일랜드 인스턴스를 통해 런타임에 옵션을 변경하면 생성된 각 그리드의 옵션이 변경됩니다.
 
 ```html
 <igx-hierarchical-grid [data]="localData" [displayDensity]="density" [autoGenerate]="false"
@@ -217,9 +219,9 @@ export class RemoteLoDService {
 - 요약
 - 검색
 
-선택 및 탐색 기능은 **igx-hierarchical-grid** 전체에서 글로벌하게 작동함 
+선택 및 탐색 기능은 **igx-hierarchical-grid** 전체에서 글로벌하게 작동함
 
-- 선택 
+- 선택
     선택한 셀이 2개의 다른 하위 그리드로 동시에 표시할 수 없습니다.
 - 탐색
     up/down으로 탐색할 때 next/prev 요소가 하위 그리드인 경우, 관련된 하위 그리드에서 탐색이 계속 진행되어 관련 셀이 선택되고 포커스된 것으로 표시됩니다. 하위 셀이 현재 표시된 뷰 포트 이외에 있는 경우, 뷰로 스크롤되어 선택한 셀이 항상 표시됩니다.
@@ -227,36 +229,36 @@ export class RemoteLoDService {
 ### 키보드 탐색
 키보드 탐색은 기본적으로 계층 그리드에서 지원됩니다. 셀에 초점을 맞추고 다음 키 조합 중 하나를 누른 경우 설명된 동작이 실행됩니다:
 
- - `위 화살표` - 한 셀 위로 이동, 필요에 따라 그리드 위 계층으로 이동(줄 바꿈 없음);
- - `아래 화살표` - 한 셀 아래로 이동, 필요에 따라 그리드 아래 계층으로 이동(줄 바꿈 없음);
- - `왼쪽 화살표` - 한 셀 왼쪽으로 이동(라인 간에 줄 바꿈 없음);
- - `오른쪽 화살표` - 한 셀 오른쪽으로 이동(라인 간에 줄 바꿈 없음);
- - `Ctrl + 위 화살표` - 현재 열의 첫 번째 셀로 이동;
- - `Ctrl + 아래 화살표` - 현재 열의 마지막 셀로 이동;
- - `Ctrl + 왼쪽 화살표` -  행의 가장 왼쪽 셀로 이동;
- - `Home` - 행의 가장 왼쪽 셀로 이동;
- - `Ctrl + Home` - 그리드의 왼쪽 상단 셀로 이동;
- - `Ctrl + 오른쪽 화살표` -  행의 가장 오른쪽 셀로 이동;
- - `End` - 행의 가장 오른쪽 셀로 이동;
- - `Ctrl + End` - 그리드의 오른쪽 하단 셀로 이동;
- - `Page Up` - 한 페이지(뷰 포트) 위로 스크롤;
- - `Page Down` -  한 페이지(뷰 포트) 아래로 스크롤;
- - `Enter` - 편집 모드로 들어감;
- - `F2` - 편집 모드로 들어감;
- - `Esc` - 편집 모드를 종료함;
- - `Tab` - 행의 다음 셀로 포커스를 순차적으로 이동하고 마지막 셀에 도달하면 다음 행으로 이동. 확장한 행의 마지막 셀에 포커스가 있는 경우에는 첫 번째 하위로 포커스를 이동하며, 셀이 편집 모드인 경우에는 행에서 다음 편집 가능한 셀로 포커스가 이동하며, 편집 가능한 가장 오른쪽 셀에서 `CANCEL` 및 `DONE` 버튼으로 이동하고, `DONE` 버튼으로 현재 편집된 행 안의 편집 가능한 가장 왼쪽 셀로 이동합니다;
- - `Shift + Tab` - 순차적으로 행의 이전 셀로 포커스를 이동하고, 첫 번째 셀에 도달하면 포커스를 이전 행으로 이동합니다. 확장한 하위 그리드의 첫 번째 셀에 포커스가 있는 경우에는 상위로 포커스를 이동하며, 셀이 편집 모드인 경우에는 행에서 다음 편집 가능한 셀로 포커스가 이동하며, 편집 가능한 가장 오른쪽 셀에서 `CANCEL` 및 `DONE` 버튼으로 이동하고, `DONE` 버튼으로 현재 편집된 행 안의 편집 가능한 가장 왼쪽 셀로 이동합니다;
- - `Space` -  행을 선택할 수 있는 경우에는 스페이스 키를 누르면 행 선택을 트리거합니다;
- - 상위 그리드 행에서 `Alt + Arrow Left` - 행이 아직 축소되지 않은 경우에는 상위 행 콘텐츠를 축소합니다;
- - 상위 그리드 행에서 `Alt + 위 화살표` - 행이 아직 축소되지 않은 경우에는 상위 행 콘텐츠를 축소합니다;
- - 상위 그리드 행에서 `Alt + 오른쪽 화살표` - 행이 아직 확장되지 않은 경우에는 상위 행 콘텐츠를 확장합니다;
- - 상위 그리드 행에서 `Alt + 아래 화살표` - 행이 아직 확장되지 않은 경우에는 상위 행 콘텐츠를 확장합니다;
- - 마우스 `휠` -  포커스 요소를 흐리게 합니다;
+- `위 화살표` - 한 셀 위로 이동, 필요에 따라 그리드 위 계층으로 이동(줄 바꿈 없음);
+- `아래 화살표` - 한 셀 아래로 이동, 필요에 따라 그리드 아래 계층으로 이동(줄 바꿈 없음);
+- `왼쪽 화살표` - 한 셀 왼쪽으로 이동(라인 간에 줄 바꿈 없음);
+- `오른쪽 화살표` - 한 셀 오른쪽으로 이동(라인 간에 줄 바꿈 없음);
+- `Ctrl + 위 화살표` - 현재 열의 첫 번째 셀로 이동;
+- `Ctrl + 아래 화살표` - 현재 열의 마지막 셀로 이동;
+- `Ctrl + 왼쪽 화살표` -  행의 가장 왼쪽 셀로 이동;
+- `Home` - 행의 가장 왼쪽 셀로 이동;
+- `Ctrl + Home` - 그리드의 왼쪽 상단 셀로 이동;
+- `Ctrl + 오른쪽 화살표` -  행의 가장 오른쪽 셀로 이동;
+- `End` - 행의 가장 오른쪽 셀로 이동;
+- `Ctrl + End` - 그리드의 오른쪽 하단 셀로 이동;
+- `Page Up` - 한 페이지(뷰 포트) 위로 스크롤;
+- `Page Down` -  한 페이지(뷰 포트) 아래로 스크롤;
+- `Enter` - 편집 모드로 들어감;
+- `F2` - 편집 모드로 들어감;
+- `Esc` - 편집 모드를 종료함;
+- `Tab` - 행의 다음 셀로 포커스를 순차적으로 이동하고 마지막 셀에 도달하면 다음 행으로 이동. 확장한 행의 마지막 셀에 포커스가 있는 경우에는 첫 번째 하위로 포커스를 이동하며, 셀이 편집 모드인 경우에는 행에서 다음 편집 가능한 셀로 포커스가 이동하며, 편집 가능한 가장 오른쪽 셀에서 `CANCEL` 및 `DONE` 버튼으로 이동하고, `DONE` 버튼으로 현재 편집된 행 안의 편집 가능한 가장 왼쪽 셀로 이동합니다;
+- `Shift + Tab` - 순차적으로 행의 이전 셀로 포커스를 이동하고, 첫 번째 셀에 도달하면 포커스를 이전 행으로 이동합니다. 확장한 하위 그리드의 첫 번째 셀에 포커스가 있는 경우에는 상위로 포커스를 이동하며, 셀이 편집 모드인 경우에는 행에서 다음 편집 가능한 셀로 포커스가 이동하며, 편집 가능한 가장 오른쪽 셀에서 `CANCEL` 및 `DONE` 버튼으로 이동하고, `DONE` 버튼으로 현재 편집된 행 안의 편집 가능한 가장 왼쪽 셀로 이동합니다;
+- `Space` -  행을 선택할 수 있는 경우에는 스페이스 키를 누르면 행 선택을 트리거합니다;
+- 상위 그리드 행에서 `Alt + Arrow Left` - 행이 아직 축소되지 않은 경우에는 상위 행 콘텐츠를 축소합니다;
+- 상위 그리드 행에서 `Alt + 위 화살표` - 행이 아직 축소되지 않은 경우에는 상위 행 콘텐츠를 축소합니다;
+- 상위 그리드 행에서 `Alt + 오른쪽 화살표` - 행이 아직 확장되지 않은 경우에는 상위 행 콘텐츠를 확장합니다;
+- 상위 그리드 행에서 `Alt + 아래 화살표` - 행이 아직 확장되지 않은 경우에는 상위 행 콘텐츠를 확장합니다;
+- 마우스 `휠` -  포커스 요소를 흐리게 합니다;
 
 
 #### "모두 축소" 버튼
 
-계층 그리드는 사용자가 왼쪽 상단 모서리에서 "모두 축소" 버튼을 눌러 현재 확장된 모든 행을 편리하게 축소할 수 있습니다. 또한, 다른 그리드를 포함하는 모든 하위 그리드와 계층 그리드에는 이러한 버튼이 있으며, 계층의 특정 그리드만 축소할 수 있습니다. 
+계층 그리드는 사용자가 왼쪽 상단 모서리에서 "모두 축소" 버튼을 눌러 현재 확장된 모든 행을 편리하게 축소할 수 있습니다. 또한, 다른 그리드를 포함하는 모든 하위 그리드와 계층 그리드에는 이러한 버튼이 있으며, 계층의 특정 그리드만 축소할 수 있습니다.
 
 <img class="responsive-img" src="/images/unfold_less_icon_screenshot.jpg" srcset="/images/unfold_less_icon_screenshoto@2x.jpg 2x" />
 
@@ -284,12 +286,12 @@ Check out the How-to [Build CRUD operations with igxGrid](../general/how-to/how-
 > `igxHierarchicalGrid` uses `igxForOf` directive internally hence all `igxForOf` limitations are valid for `igxHierarchicalGrid`. For more details see [igxForOf Known Issues](../for-of.html#known-limitations) section.
 
 ### Styling
-The igxHierarchicalGrid allows styling through the [Ignite UI for Angular Theme Library](../themes/sass/component-themes.md). The grid's [theme]({environment:sassApiUrl}/themes#function-grid-theme) exposes a wide variety of properties, which allow the customization of all the features of the grid. 
+The igxHierarchicalGrid allows styling through the [Ignite UI for Angular Theme Library](../themes/sass/component-themes.md). The grid's [theme]({environment:sassApiUrl}/themes#function-grid-theme) exposes a wide variety of properties, which allow the customization of all the features of the grid.
 
-In the below steps, we are going through the steps of customizing the igxHierarchicalGrid styling.     
+In the below steps, we are going through the steps of customizing the igxHierarchicalGrid styling.
 
-#### Importing global theme   
-To begin the customization of the hierarchical grid, you need to import the `index` file, where all styling functions and mixins are located. 
+#### Importing global theme
+To begin the customization of the hierarchical grid, you need to import the `index` file, where all styling functions and mixins are located.
 
 ```scss
 @import '~igniteui-angular/lib/core/styles/themes/index'
@@ -315,10 +317,10 @@ $custom-theme: grid-theme(
   $resize-line-color: #ffcd0f,
   $row-highlight: #ffcd0f
 );
-```   
+```
 
 #### Defining a custom color palette
-In the approach, that was described above, the color values were hardcoded. Alternatively, you can achieve greater flexibility, using the [`palette`]({environment:sassApiUrl}/palettes#function-palette) and [`color`]({environment:sassApiUrl}/palettes#function-color) functions.   
+In the approach, that was described above, the color values were hardcoded. Alternatively, you can achieve greater flexibility, using the [`palette`]({environment:sassApiUrl}/palettes#function-palette) and [`color`]({environment:sassApiUrl}/palettes#function-color) functions.
 `igx-palette` generates a color palette, based on provided primary and secondary colors.  
 
  ```scss
@@ -330,7 +332,9 @@ $custom-palette: palette(
   $secondary: $yellow-color
 );
 ```
-After a custom palette has been generated, the `igx-color` function can be used to obtain different varieties of the primary and the secondary colors.   
+
+After a custom palette has been generated, the `igx-color` function can be used to obtain different varieties of the primary and the secondary colors.
+
 ```scss
 $custom-theme: grid-theme(
     $cell-active-border-color: (igx-color($custom-palette, "secondary", 500)),
@@ -344,11 +348,12 @@ $custom-theme: grid-theme(
     $resize-line-color: (igx-color($custom-palette, "secondary", 500)),
     $row-highlight: (igx-color($custom-palette, "secondary", 500))
 );
-```   
+```
 
 #### Defining custom schemas
-You can go even further and build flexible structure that has all the benefits of a [**schema**](../themes/sass/schemas.md). The **schema** is the recipe of a theme.   
+You can go even further and build flexible structure that has all the benefits of a [**schema**](../themes/sass/schemas.md). The **schema** is the recipe of a theme.
 Extend one of the two predefined schemas, that are provided for every component. In our case, we will use `$_light_grid`.
+
 ```scss
 $custom-grid-schema: extend($_light-grid,(
     cell-active-border-color: (igx-color:('secondary', 500)),
@@ -363,7 +368,9 @@ $custom-grid-schema: extend($_light-grid,(
     row-highlight: (igx-color:('secondary', 500))
 ));
 ```
-In order for the custom schema to be applied, either `light`, or `dark` globals has to be extended. The whole process is actually supplying a component with a custom schema and adding it to the respective component theme afterwards.   
+
+In order for the custom schema to be applied, either `light`, or `dark` globals has to be extended. The whole process is actually supplying a component with a custom schema and adding it to the respective component theme afterwards.
+
 ```scss
 $my-custom-schema: extend($light-schema, ( 
     igx-grid: $custom-grid-schema
@@ -373,10 +380,10 @@ $custom-theme: grid-theme(
     $palette: $custom-palette,
     $schema: $my-custom-schema
 );
-```   
+```
 
 #### Applying the custom theme
-The easiest way to apply your theme is with a `sass` `@include` statement in the global styles file: 
+The easiest way to apply your theme is with a `sass` `@include` statement in the global styles file:
 
 ```scss
 @include grid($custom-theme);
@@ -391,7 +398,7 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
  >[!NOTE]
  >If the component is using an [`Emulated`](../themes/sass/component-themes.md#view-encapsulation) ViewEncapsulation, it is necessary to penetrate this encapsulation using `::ng-deep` in order to style the grid.
  >[!NOTE]
- >Wrap the statement inside of a `:host` selector to prevent your styles from affecting elements *outside of* our component:
+ >Wrap the statement inside of a `:host` selector to prevent your styles from affecting elements _outside of_ our component:
 
 ```scss
 :host {
@@ -399,43 +406,41 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
         @include grid($custom-theme);
     }
 }
-```   
+```
 
 #### Demo
 
-<code-view style="height:505px" 
+<code-view style="height:505px"
            no-theming
-           data-demos-base-url="{environment:demosBaseUrl}" 
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-styling/" >
 </code-view>
 
 
 ## API 참조
 
-* [IgxHierarchicalGridComponent]({environment:angularApiUrl}/classes/igxhierarchicalgridcomponent.html)
-* [IgxRowIslandComponent]({environment:angularApiUrl}/classes/igxrowislandcomponent.html)
-* [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
-* [IgxGridComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
-* [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
-* [IgxHierarchicalGridRow]({environment:angularApiUrl}/classes/igxhierarchicalgridrow.html)
-* [IgxGridCell]({environment:angularApiUrl}/classes/igxgridcell.html)
+- [IgxHierarchicalGridComponent]({environment:angularApiUrl}/classes/igxhierarchicalgridcomponent.html)
+- [IgxRowIslandComponent]({environment:angularApiUrl}/classes/igxrowislandcomponent.html)
+- [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
+- [IgxGridComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
+- [IgxHierarchicalGridRow]({environment:angularApiUrl}/classes/igxhierarchicalgridrow.html)
+- [IgxGridCell]({environment:angularApiUrl}/classes/igxgridcell.html)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
-* [Grid Sizing](sizing.md)
-* [가상화 및 성능](virtualization.md)
-* [페이징](paging.md)
-* [필터링](filtering.md)
-* [정렬](sorting.md)
-* [요약](summaries.md)
-* [열 이동](column-moving.md)
-* [열 핀 고정](column_pinning.md)
-* [열 크기 조정](column-resizing.md)
-* [선택](selection.md)
+- [Grid Sizing](sizing.md)
+- [가상화 및 성능](virtualization.md)
+- [페이징](paging.md)
+- [필터링](filtering.md)
+- [정렬](sorting.md)
+- [요약](summaries.md)
+- [열 이동](column-moving.md)
+- [열 핀 고정](column_pinning.md)
+- [열 크기 조정](column-resizing.md)
+- [선택](selection.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

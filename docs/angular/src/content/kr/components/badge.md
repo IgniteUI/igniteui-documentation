@@ -5,23 +5,22 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-##Badge
+## Badge
 <p class="highlight">The Ignite UI for Angular Badge is an absolutely positioned element that is used to decorate avatars, navigation menus, or other components in the application when visual notification is needed. Badges usually are designed as icons with a predefined style to communicate information, success, warnings, or errors.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Badge Demo
 
-<code-view style="height:280px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:280px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/badge-sample-3/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!NOTE]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**installation**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation) topic.
 
-###Usage
+### Usage
 To get started with the Ignite UI for Angular Badge, let's first import the `IgxBadgeModule` in the **app.module.ts** file:
 
 ```typescript
@@ -121,16 +120,16 @@ class Member {
     }
 }
 ```
+
 If the sample is configured properly, a list with members' name and status should be displayed.
 
 
-<code-view style="height: 280px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 280px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/badge-sample-1/" >
 </code-view>
 
 
-<div class="divider--half"></div>
 
 Let's add an avatar in front of every chat member. To do this, put another div element in the [`igx-list-item`]({environment:angularApiUrl}/classes/igxlistitemcomponent.html) containing the [`IgxAvatarComponent`]({environment:angularApiUrl}/classes/igxavatarcomponent.html). Modify the list item content as shown below.
 
@@ -156,21 +155,20 @@ Let's add an avatar in front of every chat member. To do this, put another div e
 ```
 
 
-<code-view style="height: 280px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 280px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/badge-sample-2/" >
 </code-view>
 
 
-<div class="divider--half"></div>
 
 Having just a list with names doesn't provide much useful visual information. The last step is to add [`igx-badge`]({environment:angularApiUrl}/classes/igxbadgecomponent.html) to show the contact state notification. Modify the list items content as shown below adding a badge component inside the avatar component.
 
 Notice that the [`igx-badge`]({environment:angularApiUrl}/classes/igxbadgecomponent.html) has [`icon`]({environment:angularApiUrl}/classes/igxbadgecomponent.html#icon) and [`type`]({environment:angularApiUrl}/classes/igxbadgecomponent.html#type) inputs to configure the badge look. You can set the icon by providing its name from the official [material icons set](https://material.io/icons/). The badge type can be set to either [`default`]({environment:angularApiUrl}/enums/type.html#default), [`info`]({environment:angularApiUrl}/enums/type.html#info), [`success`]({environment:angularApiUrl}/enums/type.html#success), [`warning`]({environment:angularApiUrl}/enums/type.html#warning), or [`error`]({environment:angularApiUrl}/enums/type.html#error). Depending on the type, a specific background color is applied.
 
-In our sample, [`icon`]({environment:angularApiUrl}/classes/igxbadgecomponent.html#icon) and [`type`]({environment:angularApiUrl}/classes/igxbadgecomponent.html#type) are bound to model properties named *icon* and *type*.
+In our sample, [`icon`]({environment:angularApiUrl}/classes/igxbadgecomponent.html#icon) and [`type`]({environment:angularApiUrl}/classes/igxbadgecomponent.html#type) are bound to model properties named _icon_ and _type_.
 
-In order to position the badge in its parent container, create a custom css class *badge-style* and define the top and right positions.
+In order to position the badge in its parent container, create a custom css class _badge-style_ and define the top and right positions.
 
 ```html
 <!-- contacts.component.html -->
@@ -207,28 +205,26 @@ In order to position the badge in its parent container, create a custom css clas
 If the sample is configured properly, a list of members should be displayed and every member has an avatar and a badge showing its current state.
 
 
-<code-view style="height: 280px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 280px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/badge-sample-3/" >
 </code-view>
 
 
 ## API References
-<div class="divider--half"></div>
 
-* [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
-* [IgxBadgeComponent]({environment:angularApiUrl}/classes/igxbadgecomponent.html)
-* [IgxBadgeComponent Styles]({environment:sassApiUrl}/themes#function-badge-theme)
-* [IgxListComponent]({environment:angularApiUrl}/classes/igxlistcomponent.html)
-* [IgxListItemComponent]({environment:angularApiUrl}/classes/igxlistitemcomponent.html)
-* [Type]({environment:angularApiUrl}/enums/type.html)
+- [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
+- [IgxBadgeComponent]({environment:angularApiUrl}/classes/igxbadgecomponent.html)
+- [IgxBadgeComponent Styles]({environment:sassApiUrl}/themes#function-badge-theme)
+- [IgxListComponent]({environment:angularApiUrl}/classes/igxlistcomponent.html)
+- [IgxListItemComponent]({environment:angularApiUrl}/classes/igxlistitemcomponent.html)
+- [Type]({environment:angularApiUrl}/enums/type.html)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
 
 
 

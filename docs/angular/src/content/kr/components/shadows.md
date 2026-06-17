@@ -174,6 +174,7 @@ $myCard: card-theme(
 As you can see the shadow is produced according to the material guidelines.
 
 To change the shadows colors use theelevations function to override the defaults:
+
  ```scss
 ...
 // Define the 3 elevation colors
@@ -209,6 +210,7 @@ $mySpecialCard: card-theme(
 ```
 
 You can also set box-shadow without taking advantage of theelevation function:
+
 ```scss
 $myboringCard: card-theme(
     $resting-shadow: 0 10px 10px 10px #666
@@ -229,20 +231,17 @@ $myboringCard: card-theme(
 Here is The result from the above code snippets:
 
 
-<code-view style="height: 350px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 350px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/theming/shadows-sample/" >
 </code-view>
 
-<div class="divider--half"></div>
 
-
-<div class="divider--half"></div>
 
 
 ### API 참조
 
-* [ELEVATION]({environment:sassApiUrl}/elevations#function-elevation)
-* [ELEVATIONS]({environment:sassApiUrl}/elevations#mixin-elevations)
+- [ELEVATION]({environment:sassApiUrl}/elevations#function-elevation)
+- [ELEVATIONS]({environment:sassApiUrl}/elevations#mixin-elevations)
 
 

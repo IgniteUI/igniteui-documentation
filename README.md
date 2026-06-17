@@ -1,103 +1,101 @@
-# docs-template
+# Ignite UI Documentation
 
-A basic [Astro](https://astro.build) template for building documentation sites under IgniteUI.
+This public repository contains the documentation source for the Ignite UI for Angular, Ignite UI for Blazor, Ignite UI for React, and Ignite UI for Web Components products. They are built and hosted using Astro.
 
-## 🚀 Features
+## Prerequisites
 
-- ⚡ Astro static site generation
-- 📄 Content Collections for structured docs
-- 🎨 Base layout with slot support
-- 🟦 TypeScript support out of the box
-- 📦 Ready to extend with any UI framework
+- [Node.js](https://nodejs.org) v22.12.0 or higher
+- [npm](https://www.npmjs.com/)
 
-## 📋 Prerequisites
-
-- [Node.js](https://nodejs.org) v18.17.1 or higher
-- [npm](https://www.npmjs.com/) v9+ (or pnpm / yarn)
-
-## 🛠️ Getting Started
-
-### 1. Use this template
-
-Click **"Use this template"** on GitHub, or clone it directly:
+## Getting Started
 
 ```bash
-git clone https://github.com/IgniteUI/docs-template.git my-docs
-cd my-docs
-```
-
-### 2. Install dependencies
-
-```bash
+git clone https://github.com/IgniteUI/igniteui-documentation.git
+cd igniteui-documentation
 npm install
 ```
 
-### 3. Start the dev server
+## Project Structure
 
-```bash
-npm run dev
+```text
+igniteui-documentation/
+├── docs/
+│   ├── angular/          # Angular documentation package and generated Angular content
+│   │   ├── public/       # Angular-specific static assets
+│   │   ├── scripts/      # Angular sync and generation scripts
+│   │   └── src/          # Angular Astro pages, MDX content, and components
+│   └── xplat/            # Shared xplat source for Blazor, React, Web Components, and Angular-generated docs
+│       ├── public/       # xplat static assets
+│       ├── scripts/      # xplat generation scripts
+│       └── src/          # xplat Astro pages, MDX content, assets, and libraries
+├── public/               # Shared public assets
+├── scripts/              # Repository-level utility scripts
+├── src/                  # Shared Astro framework, routing, sidebar, content helpers, styles, and integrations
+├── package.json          # Root workspace and convenience scripts
+└── tsconfig.json         # Root TypeScript configuration
 ```
 
-The site will be available at `http://localhost:4321`.
+## Running the Documentation Sites
 
-## 📁 Project Structure
+The old template-level run commands are obsolete for product documentation. Each documentation package owns its run, build, and preview commands in its own `package.json`.
 
-```
-docs-template/
-├── public/                  # Static assets (images, fonts, etc.)
-├── src/
-│   ├── content/
-│   │   ├── config.ts        # Content collections schema
-│   │   └── docs/            # Markdown/MDX documentation pages
-│   ├── layouts/
-│   │   └── BaseLayout.astro # Base page layout
-│   └── pages/
-│       └── index.astro      # Homepage
-├── astro.config.mjs         # Astro configuration
-├── tsconfig.json            # TypeScript configuration
-└── package.json
-```
+Use the platform-specific commands from the root workspace:
 
-## 📝 Adding Documentation Pages
+| Product | Dev command
+| --- | --- |
+| Angular | `npm run angular:dev`
+| Angular English | `npm run angular:dev:en`
+| Angular Japanese | `npm run angular:dev:jp`
+| Angular Korean | `npm run angular:dev:kr`
+| React | `npm run xplat:dev:react`
+| React Japanese | `npm run xplat:dev:react:jp`
+| Web Components | `npm run xplat:dev:webcomponents`
+| Web Components Japanese | `npm run xplat:dev:webcomponents:jp`
+| Blazor | `npm run xplat:dev:blazor`
+| Blazor Japanese | `npm run xplat:dev:blazor:jp`
 
-Add `.md` or `.mdx` files to `src/content/docs/`:
 
-```markdown
----
-title: My Page
-description: A short description.
----
+## MDX Components
 
-# My Page
+The MDX files currently use these documentation components from `igniteui-astro-components/components/mdx`:
 
-Content goes here.
-```
+| Component | Purpose |
+| --- | --- |
+| `ApiLink` | Links to generated API reference entries. |
+| `DocsAside` | Adds callouts and aside content inside documentation pages. |
+| `PlatformBlock` | Shows content only for selected platforms. |
+| `Sample` | Embeds runnable or linked product samples. |
 
-They will automatically be picked up by Astro's Content Collections.
+## Checking MDX API Links
 
-## 🧞 Available Scripts
+Use the root `check-mdx-links` scripts to validate `ApiLink` references:
 
-| Command           | Action                                       |
-|-------------------|----------------------------------------------|
-| `npm run dev`     | Start local dev server at `localhost:4321`   |
-| `npm run build`   | Build production site to `./dist/`           |
-| `npm run preview` | Preview the production build locally         |
-| `npm run astro`   | Run Astro CLI commands                       |
+| Scope | Command |
+|---|---|
+| All MDX sources | `npm run check-mdx-links` |
+| Angular docs | `npm run check-mdx-links:angular` |
+| React xplat docs | `npm run check-mdx-links:react` |
+| Web Components xplat docs | `npm run check-mdx-links:wc` |
+| Blazor xplat docs | `npm run check-mdx-links:blazor` |
+| Markdown reports | `npm run check-mdx-links:report:<platform>` |
+| Resolve-only broken-link reports | `npm run check-mdx-links:broken:<platform>` |
 
-## 🚢 Deployment
+These scripts also check for ambiguous `ApiLink` references. If a symbol exists in more than one registry package and the link does not specify enough information to choose safely, the script prints an `Ambiguous ApiLinks` section, writes an `api-link-ambiguity-report*.md` file under `reports/`, and exits with a failure.
 
-Run the build command and deploy the `dist/` directory to any static hosting provider:
+Fix ambiguous links by adding a specific `pkg` or `kind` prop. If the correct target differs by platform, wrap platform-specific links in `PlatformBlock`.
 
-```bash
-npm run build
-```
+## Content Locations
 
-Supports: GitHub Pages, Netlify, Vercel, Azure Static Web Apps, and more.
+- Angular content lives under `docs/angular/src/content/<locale>/`.
+- Shared xplat content lives under `docs/xplat/src/content/<locale>/`.
+- Static images and assets are stored in the nearest product package when product-specific, or in the root `public/` directory when shared.
 
-## 🤝 Contributing
+## Collaboration Docs
 
-This is an internal IgniteUI template. For changes, open a pull request and request a review from the docs team.
+- [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md): day-to-day editing, generated-content behavior, and report expectations.
+- [API-LINK-WORKFLOW.md](API-LINK-WORKFLOW.md): API registry flow, `ApiLink` resolution, ambiguity handling, and checker commands.
+- [migration.md](migration.md): MDX migration rules and component examples.
 
-## 📄 License
+## Contributing
 
-Internal use only — © IgniteUI / Infragistics.
+Open a pull request against this repository and request review from the documentation team.

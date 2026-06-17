@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/chart-titles">
 </code-view>
 
-<div class="divider--half"></div>
 
 차트의 제목과 부제의 텍스트 컬러, 스타일 및 여백의 스타일을 지정할 수 있는 속성이 제공됩니다. 다음 코드 조각은 차트의 제목을 설정하고 사용자 지정하는 방법을 보여 줍니다:
 

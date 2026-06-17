@@ -5,20 +5,19 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-##Icon
+## Icon
 <p class="highlight">The Ignite UI for Angular Icon component unifies icon/font sets so developers can use them interchangeably and add material icons to markup. The component supports custom colors. Icons can be set as inactive.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Icon Demo
 
 
-<code-view style="height: 384px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 384px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/icon-sample-1/" >
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Dependencies
 
@@ -38,6 +37,7 @@ import { IgxIconModule } from 'igniteui-angular';
 })
 export class AppModule {}
 ```
+
 ### Usage
 
 Using [`igx-icon`]({environment:angularApiUrl}/classes/igxiconcomponent.html) to set an [`active`]({environment:angularApiUrl}/classes/igxiconcomponent.html#active) home icon with magenta `style.color`.
@@ -47,6 +47,7 @@ Using [`igx-icon`]({environment:angularApiUrl}/classes/igxiconcomponent.html) to
 ```
 
 Setting an inactive icon.
+
 ```html
 <igx-icon [isActive]="false">volume_off</igx-icon>
 ```
@@ -57,7 +58,8 @@ Setting icon with content projection.
 <igx-icon [style.color]="'red'">bluetooth</igx-icon>
 ```
 
-You can set the icon's size through CSS. Create a custom CSS class and name it *custom-size*. The icon's size is changed by the **font-size** property. Additionally to center it, set the **width** and the **height** to the same value.
+You can set the icon's size through CSS. Create a custom CSS class and name it _custom-size_. The icon's size is changed by the **font-size** property. Additionally to center it, set the **width** and the **height** to the same value.
+
 ```html
 <igx-icon [style.color]="'#0375be'" class="custom-size">phone_iphone</igx-icon>
 ```
@@ -71,19 +73,20 @@ You can set the icon's size through CSS. Create a custom CSS class and name it *
     height: 56px;
 }
 ```
+
 <div class="sample-container loading" style="height: 80px; width: 300px">
     <iframe id="icon-sample2-iframe" seamless width="100%" height="100%" frameborder="0" data-src="{environment:demosBaseUrl}/data-display/icon-sample2" class="lazyload">
 </iframe></div>
 
 ### SVG Icons
 
-You can also use a SVG image as an icon. First, inject [`IgxIconService`]({environment:angularApiUrl}/classes/igxiconservice.html) dependency. In this example [`IgxIconService`]({environment:angularApiUrl}/classes/igxiconservice.html) dependency is injected in a component's constructor but you can use it wherever it is needed in your code. 
+You can also use a SVG image as an icon. First, inject [`IgxIconService`]({environment:angularApiUrl}/classes/igxiconservice.html) dependency. In this example [`IgxIconService`]({environment:angularApiUrl}/classes/igxiconservice.html) dependency is injected in a component's constructor but you can use it wherever it is needed in your code.
 
 Use the [`addSvgIcon`]({environment:angularApiUrl}/classes/igxiconservice.html#addsvgicon) method to import the SVG file in cache. When the SVG is cached, it can be used anywhere in the application. Icon name and file URL path are method's mandatory parameters; you can specify font-set as well. After that, you can use the SVG files in the HTML markup. Alternatively, you can use the `addSvgIconFromText` method to import the SVG file providing the SVG text content instead of the file URL.
 
-* Have in mind that if there are two icons with the same name and the same font-set - SVG icon will be displayed with priority.
-* It is better not to provide image width and height in the SVG file.
-* You may need additional polyfill scripts ("polyfills") for Internet Explorer.
+- Have in mind that if there are two icons with the same name and the same font-set - SVG icon will be displayed with priority.
+- It is better not to provide image width and height in the SVG file.
+- You may need additional polyfill scripts ("polyfills") for Internet Explorer.
 
 ```typescript
 // svg-icon-sample.ts
@@ -102,8 +105,8 @@ public ngOnInit() {
 <igx-icon name="contains" fontSet="filter-icons"></igx-icon>
 ```
 
-<code-view style="height: 50px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 50px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/svg-icon-sample/" >
 </code-view>
 
@@ -112,23 +115,24 @@ The igxIcon allows styling through the [Ignite UI for Angular Theme Library](../
 
 #### Importing global theme
 To begin styling of the predefined icon layout, you need to import the `index` file, where all styling functions and mixins are located.  
+
 ```scss
 @import '~igniteui-angular/lib/core/styles/themes/index'
-```   
+```
 
 #### Defining custom theme
-You can easily create a new theme, that extends the [`icon-theme`]({environment:sassApiUrl}/themes#function-icon-theme) and accepts the parameters, required to customize the icon as desired.   
-   
+You can easily create a new theme, that extends the [`icon-theme`]({environment:sassApiUrl}/themes#function-icon-theme) and accepts the parameters, required to customize the icon as desired.
+
 
 ```scss
 $custom-theme: icon-theme(
   $color: #ffcd0f,
   $disabled-color: #494949
 );
-```   
+```
 
 #### Defining a custom color palette
-In the approach, that was described above, the color values were hardcoded. Alternatively, you can achieve greater flexibility, using the [`palette`]({environment:sassApiUrl}/palettes#function-palette) and [`color`]({environment:sassApiUrl}/palettes#function-color) functions.   
+In the approach, that was described above, the color values were hardcoded. Alternatively, you can achieve greater flexibility, using the [`palette`]({environment:sassApiUrl}/palettes#function-palette) and [`color`]({environment:sassApiUrl}/palettes#function-color) functions.
 `igx-palette` generates a color palette, based on provided primary and secondary colors.  
 
 ```scss
@@ -139,9 +143,9 @@ $custom-palette: palette(
     $primary: $black-color,
     $secondary: $yellow-color
 );
-```   
+```
 
-After the custom palette has been generated, the `igx-color` function can be used to obtain different varieties of the primary and the secondary colors.   
+After the custom palette has been generated, the `igx-color` function can be used to obtain different varieties of the primary and the secondary colors.
 
 ```scss
 $custom-theme:icon-theme(
@@ -151,16 +155,17 @@ $custom-theme:icon-theme(
 ```
 
 #### Defining custom schemas
-You can go even further and build flexible structure that has all the benefits of a [**schema**](../themes/sass/schemas.md). The **schema** is the recipe of a theme.   
-Extend one of the two predefined schemas, that are provided for every component. In our case, we would use `$_dark_icon`.   
+You can go even further and build flexible structure that has all the benefits of a [**schema**](../themes/sass/schemas.md). The **schema** is the recipe of a theme.
+Extend one of the two predefined schemas, that are provided for every component. In our case, we would use `$_dark_icon`.
 
 ```scss
 $custom-icon-schema: extend($_dark-icon, (
     color: (igx-color("secondary", 500)),
     disabled-color: (igx-color("primary", 500))
 ));
-```   
-In order for the custom schema to be applied, either `light`, or `dark` globals has to be extended. The whole process is actually supplying a component with a custom schema and adding it to the respective component theme afterwards.   
+```
+
+In order for the custom schema to be applied, either `light`, or `dark` globals has to be extended. The whole process is actually supplying a component with a custom schema and adding it to the respective component theme afterwards.
 
 ```scss
 $my-custom-schema: extend($dark-schema, (
@@ -175,6 +180,7 @@ $custom-theme: icon-theme(
 
 #### Applying the custom theme
 The easiest way to apply your theme is with a `sass` `@include` statement in the global styles file:
+
 ```scss
 @include icon($custom-theme);
 ```
@@ -188,7 +194,7 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
  >[!NOTE]
  >If the component is using an [`Emulated`](../themes/sass/component-themes.md#view-encapsulation) ViewEncapsulation, it is necessary to penetrate this encapsulation using `::ng-deep` in order to style the grid.
  >[!NOTE]
- >Wrap the statement inside of a `:host` selector to prevent your styles from affecting elements *outside of* our component:
+ >Wrap the statement inside of a `:host` selector to prevent your styles from affecting elements _outside of_ our component:
 
 ```scss
 :host {
@@ -196,31 +202,29 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
         @include icon($custom-theme);
     }
 }
-```    
+```
 
 #### Demo
 
-<code-view style="height:320px" 
+<code-view style="height:320px"
            no-theming
-           data-demos-base-url="{environment:demosBaseUrl}" 
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/icon-styling/" >
 </code-view>
 
 
 ### Breaking Changes in 6.2.0
 
-* The [`IgxIconComponent`]({environment:angularApiUrl}/classes/igxiconcomponent.html) `iconName` property is deprecated. To set the icon name for 'material' icons, place the name of the icon between the opening and closing tags. For 'Font Awesome' and SVG icons, use the `name` property.
+- The [`IgxIconComponent`]({environment:angularApiUrl}/classes/igxiconcomponent.html) `iconName` property is deprecated. To set the icon name for 'material' icons, place the name of the icon between the opening and closing tags. For 'Font Awesome' and SVG icons, use the `name` property.
 
 ## API References
-<div class="divider--half"></div>
 
-* [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
-* [IgxIconComponent Styles]({environment:sassApiUrl}/themes#function-icon-theme)
+- [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
+- [IgxIconComponent Styles]({environment:sassApiUrl}/themes#function-icon-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

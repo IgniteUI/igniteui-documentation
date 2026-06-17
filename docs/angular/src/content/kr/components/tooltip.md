@@ -13,12 +13,11 @@ While most tooltips have a limited number of available positions, with the [`igx
 ### Angular Tooltip Example
 
 
-<code-view style="height:450px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:450px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/tooltip-simple/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Setup
 
@@ -128,6 +127,7 @@ What if we want to control the amount of time that should pass before showing an
 Now let's add a couple of [`IgxSlider`](slider.md) elements to control the [`showDelay`]({environment:angularApiUrl}/classes/igxtooltiptargetdirective.html#showdelay) and the [`hideDelay`]({environment:angularApiUrl}/classes/igxtooltiptargetdirective.html#hidedelay). In addition, we will also use the [`IgxSwitch`](switch.md) to enable/disable the user interaction over the tooltip target by using the [`tooltipDisabled`]({environment:angularApiUrl}/classes/igxtooltiptargetdirective.html#tooltipdisabled) property of the target.
 
 We will go ahead and get the `IgxSliderModule` and the `IgxSwitchModule`.
+
 ```typescript
 // app.module.ts
 
@@ -308,12 +308,11 @@ As a finishing touch, we will add a couple of button icons as card actions at th
 If all went well, this is how our location and tooltip should look like:
 
 
-<code-view style="height:400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/tooltip-rich/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Overlay configuration
 Both the [`igxTooltip`]({environment:angularApiUrl}/classes/igxtooltipdirective.html) and [`igxTooltipTarget`]({environment:angularApiUrl}/classes/igxtooltiptargetdirective.html) directives use the [`IgxOverlayService`](overlay.md) to open and close the respective tooltip element.
@@ -337,36 +336,35 @@ Extra care should be taken in the following scenarios:
 
 In this article we learned how to create, configure and style awesome tooltips for the elements on our page! We also used some additional Ignite UI for Angular components like icons, avatars and cards to improve on the design of our application! The respective APIs are listed below:
 
-* [IgxTooltipDirective]({environment:angularApiUrl}/classes/igxtooltipdirective.html)
-* [IgxTooltipTargetDirective]({environment:angularApiUrl}/classes/igxtooltiptargetdirective.html)
+- [IgxTooltipDirective]({environment:angularApiUrl}/classes/igxtooltipdirective.html)
+- [IgxTooltipTargetDirective]({environment:angularApiUrl}/classes/igxtooltiptargetdirective.html)
 
 Additional components and/or directives that were used:
 
-* [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
-* [IgxButtonDirective]({environment:angularApiUrl}/classes/igxbuttondirective.html)
-* [IgxCardComponent]({environment:angularApiUrl}/classes/igxcardcomponent.html)
-* [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
-* [IgxSliderComponent]({environment:angularApiUrl}/classes/igxslidercomponent.html)
-* [IgxSwitchComponent]({environment:angularApiUrl}/classes/igxswitchcomponent.html)
-* [IgxToggleDirective]({environment:angularApiUrl}/classes/igxtoggledirective.html)
-* [IgxToggleActionDirective]({environment:angularApiUrl}/classes/igxtoggleactiondirective.html)
+- [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
+- [IgxButtonDirective]({environment:angularApiUrl}/classes/igxbuttondirective.html)
+- [IgxCardComponent]({environment:angularApiUrl}/classes/igxcardcomponent.html)
+- [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
+- [IgxSliderComponent]({environment:angularApiUrl}/classes/igxslidercomponent.html)
+- [IgxSwitchComponent]({environment:angularApiUrl}/classes/igxswitchcomponent.html)
+- [IgxToggleDirective]({environment:angularApiUrl}/classes/igxtoggledirective.html)
+- [IgxToggleActionDirective]({environment:angularApiUrl}/classes/igxtoggleactiondirective.html)
 
 Styles:
 
-* [IgxTooltipDirective Styles]({environment:sassApiUrl}/themes#function-tooltip-theme)
-* [IgxAvatarComponent Styles]({environment:sassApiUrl}/themes#function-avatar-theme)
-* [IgxButtonDirective Styles]({environment:sassApiUrl}/themes#function-button-theme)
-* [IgxCardComponent Styles]({environment:sassApiUrl}/themes#function-card-theme)
-* [IgxIconComponent Styles]({environment:sassApiUrl}/themes#function-icon-theme)
-* [IgxSliderComponent Styles]({environment:sassApiUrl}/themes#function-slider-theme)
-* [IgxSwitchComponent Styles]({environment:sassApiUrl}/themes#function-switch-theme)
+- [IgxTooltipDirective Styles]({environment:sassApiUrl}/themes#function-tooltip-theme)
+- [IgxAvatarComponent Styles]({environment:sassApiUrl}/themes#function-avatar-theme)
+- [IgxButtonDirective Styles]({environment:sassApiUrl}/themes#function-button-theme)
+- [IgxCardComponent Styles]({environment:sassApiUrl}/themes#function-card-theme)
+- [IgxIconComponent Styles]({environment:sassApiUrl}/themes#function-icon-theme)
+- [IgxSliderComponent Styles]({environment:sassApiUrl}/themes#function-slider-theme)
+- [IgxSwitchComponent Styles]({environment:sassApiUrl}/themes#function-switch-theme)
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ## Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

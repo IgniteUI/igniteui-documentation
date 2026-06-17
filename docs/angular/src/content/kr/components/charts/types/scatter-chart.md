@@ -23,7 +23,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Scatter Line Chart
 
@@ -38,7 +37,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Scatter Spline Chart
 
@@ -53,7 +51,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Scatter High Density Chart
 
@@ -68,7 +65,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Scatter Area Chart
 
@@ -83,7 +79,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Scatter Contour Chart
 
@@ -98,7 +93,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

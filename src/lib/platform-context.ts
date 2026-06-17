@@ -1,99 +1,27 @@
 /**
- * Typed platform configuration — replaces the per-platform `replacements`
- * array in docConfig.json with a first-class TypeScript object.
+ * Platform configuration implementation — the single source of truth for
+ * IgniteUI platform metadata used across Angular, React, WebComponents, and Blazor docs.
  *
- * Components and MDX files import `getPlatformContext()` directly instead of
- * relying on string-replacement tokens like {Platform} or {ProductName}.
+ * Types are defined in igniteui-astro-components/lib/types so components can
+ * remain agnostic (reading context from Astro.locals set by middleware).
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
+export type { PlatformName, ApiPackageConfig, PlatformContext } from 'igniteui-astro-components/lib/types';
+import type { PlatformName, PlatformContext } from 'igniteui-astro-components/lib/types';
+import { API_PLATFORM_CONFIGS, createApiPackages } from './api-platform-config.ts';
 
-export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor';
-
-export interface ApiPackageConfig {
-    /** TypeDoc documentation root URL (no trailing slash). */
-    docRoot: string;
-    /**
-     * Package identifier as it appears in the TypeDoc URL path.
-     * Core packages use hyphens ("igniteui-react"),
-     * sub-packages use underscores ("igniteui_react_charts").
-     */
-    packageId: string;
-    /**
-     * When true the package prefix is omitted from the class URL, e.g.
-     * Angular docs use `/classes/IgxGridComponent.html` (no `packageId.` prefix).
-     */
-    noPackagePrefix?: boolean;
-    /**
-     * When true the class name casing is preserved as-is (no .toLowerCase()).
-     * New-style API sites (react-apis-new, wc-apis-new, blazor-apis-new) use PascalCase URLs.
-     */
-    preserveCase?: boolean;
-    /**
-     * Optional suffix appended to the class name before lowercasing, e.g.
-     * Angular DV packages append "Component" so `CategoryChart` resolves to
-     * `igniteui_angular_charts.igxcategorychartcomponent.html`.
-     * Only applied when `prefixed={true}`.
-     */
-    classSuffix?: string;
-    /**
-     * When true, member anchor names are PascalCase (first letter uppercased).
-     * Blazor TypeDoc uses PascalCase anchors, e.g. `#SingleExpand` instead of `#singleExpand`.
-     */
-    pascalCaseMembers?: boolean;
-}
-
-export interface PlatformContext {
-    name: PlatformName;
-    /** Lower-case slug used in URLs, e.g. "angular" */
-    lower: string;
-    /** Component class prefix, e.g. "Igx" / "Igr" / "Igc" / "Igb" */
-    prefix: string;
-    productName: string;
-    productSpinal: string;
-    /**
-     * Per-package API documentation config keyed by short name.
-     * "core" is always the main component package.
-     * Other keys match the logical package category: "charts", "grids",
-     * "gauges", "maps", "inputs", "layouts", "excel", "spreadsheet", etc.
-     *
-     * URL for a class:   {docRoot}/classes/{packageId}.{PrefixType}.html
-     * URL for a member:  {docRoot}/classes/{packageId}.{PrefixType}.html#{member}
-     */
-    apiPackages: Record<string, ApiPackageConfig>;
-    packages: {
-        common: string;
-        charts: string;
-        grids: string;
-        gauges: string;
-        maps: string;
-    };
-    links: {
-        github: string;
-        forums: string;
-        repoSamples: string;
-    };
-}
+const DEFAULT_API_DOCS_BASE_URL = 'https://staging.infragistics.com/api';
 
 const PLATFORMS: Record<PlatformName, PlatformContext> = {
     Angular: {
         name: 'Angular',
-        lower: 'angular',
-        prefix: 'Igx',
+        lower: API_PLATFORM_CONFIGS.Angular.folder,
+        prefix: API_PLATFORM_CONFIGS.Angular.prefix,
         productName: 'Ignite UI for Angular',
         productSpinal: 'ignite-ui-angular',
-        apiPackages: {
-            core:        { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular/latest', packageId: 'igniteui-angular', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            charts:      { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-charts/latest', packageId: 'igniteui-angular-charts', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            grids:       { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular/latest', packageId: 'igniteui-angular', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            gauges:      { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-gauges/latest', packageId: 'igniteui-angular-gauges', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            maps:        { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-maps/latest',        packageId: 'igniteui-angular-maps',        noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            excel:       { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-excel/latest',       packageId: 'igniteui-angular-excel',       noPackagePrefix: true, preserveCase: true },
-            spreadsheet: { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-spreadsheet/latest', packageId: 'igniteui-angular-spreadsheet', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            inputs:      { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-inputs/latest',      packageId: 'igniteui-angular-inputs',      noPackagePrefix: true, preserveCase: true },
-            layouts:     { docRoot: 'https://staging.infragistics.com/angular-apis-new/angular/igniteui-angular-layouts/latest',     packageId: 'igniteui-angular-layouts',     noPackagePrefix: true, preserveCase: true },
-        },
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'Angular'),
         packages: {
             common: 'igniteui-angular',
             charts: 'igniteui-angular-charts',
@@ -106,32 +34,22 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             forums: 'https://www.infragistics.com/community/forums/f/ignite-ui-for-angular',
             repoSamples: 'https://github.com/IgniteUI/igniteui-angular-examples/tree/master/samples',
         },
+        sassApiUrl: 'https://www.infragistics.com/products/ignite-ui-angular/docs/sass/latest',
     },
     React: {
         name: 'React',
-        lower: 'react',
-        prefix: 'Igr',
+        lower: API_PLATFORM_CONFIGS.React.folder,
+        prefix: API_PLATFORM_CONFIGS.React.prefix,
         productName: 'Ignite UI for React',
         productSpinal: 'ignite-ui-react',
-        apiPackages: {
-            core:        { docRoot: 'https://staging.infragistics.com/react-apis-new/react/igniteui-react/19.5.1', packageId: 'igniteui-react', noPackagePrefix: true, preserveCase: true },
-            charts:      { docRoot: 'https://staging.infragistics.com/react-apis-new/react/igniteui-react-charts/latest', packageId: 'igniteui-react-charts', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            grids:       { docRoot: 'https://staging.infragistics.com/react-apis-new/react/igniteui-react-grids/19.5.1', packageId: 'igniteui-react-grids', noPackagePrefix: true, preserveCase: true },
-            gauges:      { docRoot: 'https://staging.infragistics.com/react-apis-new/react/igniteui-react-gauges/latest', packageId: 'igniteui-react-gauges', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            maps:        { docRoot: 'https://staging.infragistics.com/react-apis-new/react/igniteui-react-maps/latest',        packageId: 'igniteui-react-maps',        noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            inputs:      { docRoot: 'https://staging.infragistics.com/react-apis-new/react/igniteui-react-inputs/latest',      packageId: 'igniteui-react-inputs',      noPackagePrefix: true, preserveCase: true },
-            layouts:     { docRoot: 'https://staging.infragistics.com/react-apis-new/react/igniteui-react-layouts/latest',     packageId: 'igniteui-react-layouts',     noPackagePrefix: true, preserveCase: true },
-            excel:       { docRoot: 'https://staging.infragistics.com/react-apis-new/react/igniteui-react-excel/latest',       packageId: 'igniteui-react-excel',       noPackagePrefix: true, preserveCase: true },
-            spreadsheet: { docRoot: 'https://staging.infragistics.com/react-apis-new/react/igniteui-react-spreadsheet/latest', packageId: 'igniteui-react-spreadsheet', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            datasources: { docRoot: 'https://staging.infragistics.com/react-apis-new/react/igniteui-react-datasources/latest', packageId: 'igniteui-react-datasources', noPackagePrefix: true, preserveCase: true },
-            'grid-lite': { docRoot: 'https://staging.infragistics.com/react-apis-new/react/igniteui-react-grids/19.5.1',       packageId: 'igniteui-react-grids',       noPackagePrefix: true, preserveCase: true },
-        },
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'React'),
         packages: {
             common: '@infragistics/igniteui-react',
             charts: '@infragistics/igniteui-react-charts',
             grids: '@infragistics/igniteui-react-grids',
             gauges: '@infragistics/igniteui-react-gauges',
             maps: '@infragistics/igniteui-react-maps',
+            
         },
         links: {
             github: 'https://github.com/IgniteUI/igniteui-react',
@@ -141,23 +59,11 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     },
     WebComponents: {
         name: 'WebComponents',
-        lower: 'webcomponents',
-        prefix: 'Igc',
+        lower: API_PLATFORM_CONFIGS.WebComponents.folder,
+        prefix: API_PLATFORM_CONFIGS.WebComponents.prefix,
         productName: 'Ignite UI for Web Components',
         productSpinal: 'ignite-ui-web-components',
-        apiPackages: {
-            core:        { docRoot: 'https://staging.infragistics.com/wc-apis-new/wc/igniteui-webcomponents/latest', packageId: 'igniteui-webcomponents', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            charts:      { docRoot: 'https://staging.infragistics.com/wc-apis-new/wc/igniteui-webcomponents-charts/latest', packageId: 'igniteui-webcomponents-charts', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            grids:       { docRoot: 'https://staging.infragistics.com/wc-apis-new/wc/igniteui-webcomponents-grids/latest', packageId: 'igniteui-webcomponents-grids', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            gauges:      { docRoot: 'https://staging.infragistics.com/wc-apis-new/wc/igniteui-webcomponents-gauges/latest', packageId: 'igniteui-webcomponents-gauges', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            maps:        { docRoot: 'https://staging.infragistics.com/wc-apis-new/wc/igniteui-webcomponents-maps/latest',        packageId: 'igniteui-webcomponents-maps',        noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            inputs:      { docRoot: 'https://staging.infragistics.com/wc-apis-new/wc/igniteui-webcomponents-inputs/latest',      packageId: 'igniteui-webcomponents-inputs',      noPackagePrefix: true, preserveCase: true },
-            layouts:     { docRoot: 'https://staging.infragistics.com/wc-apis-new/wc/igniteui-webcomponents-layouts/latest',     packageId: 'igniteui-webcomponents-layouts',     noPackagePrefix: true, preserveCase: true },
-            excel:       { docRoot: 'https://staging.infragistics.com/wc-apis-new/wc/igniteui-webcomponents-excel/latest',       packageId: 'igniteui-webcomponents-excel',       noPackagePrefix: true, preserveCase: true },
-            spreadsheet: { docRoot: 'https://staging.infragistics.com/wc-apis-new/wc/igniteui-webcomponents-spreadsheet/latest', packageId: 'igniteui-webcomponents-spreadsheet', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            datasources: { docRoot: 'https://staging.infragistics.com/wc-apis-new/wc/igniteui-webcomponents-datasources/latest', packageId: 'igniteui-webcomponents-datasources', noPackagePrefix: true, preserveCase: true },
-            'grid-lite': { docRoot: 'https://staging.infragistics.com/wc-apis-new/wc/igniteui-grid-lite/latest',                packageId: 'igniteui-grid-lite',                noPackagePrefix: true, preserveCase: true },
-        },
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'WebComponents'),
         packages: {
             common: 'igniteui-webcomponents',
             charts: 'igniteui-webcomponents-charts',
@@ -173,20 +79,11 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     },
     Blazor: {
         name: 'Blazor',
-        lower: 'blazor',
-        prefix: 'Igb',
+        lower: API_PLATFORM_CONFIGS.Blazor.folder,
+        prefix: API_PLATFORM_CONFIGS.Blazor.prefix,
         productName: 'Ignite UI for Blazor',
         productSpinal: 'ignite-ui-blazor',
-        apiPackages: {
-            core:        { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor/25.1.x', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            charts:      { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor/25.1.x', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            grids:       { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor/25.1.x', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            gauges:      { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor/25.1.x', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            maps:        { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor/25.1.x', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            excel:       { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor.Documents.Excel/25.1.x', packageId: 'IgniteUI.Blazor.Documents.Excel', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            spreadsheet: { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor/25.1.x',         packageId: 'IgniteUI.Blazor',         noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            'grid-lite': { docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor.GridLite/25.1.x', packageId: 'IgniteUI.Blazor.GridLite', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-        },
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'Blazor'),
         packages: {
             common: 'IgniteUI.Blazor',
             charts: 'IgniteUI.Blazor',
@@ -204,6 +101,37 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
 
 let _ctx: PlatformContext | null = null;
 let _env: Record<string, string> | null = null;
+
+
+function getBuildMode(): string {
+    return process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
+}
+
+function getApiDocsBaseUrl(): string {
+    const mode = getBuildMode();
+    const value = process.env.API_DOCS_BASE_URL
+        ?? (mode === 'production'
+            ? 'https://www.infragistics.com/api'
+            : 'https://staging.infragistics.com/api');
+
+    const trimmed = value.replace(/\/+$/, '');
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+}
+
+function getApiLinkIndexName(): string {
+    return process.env.API_LINK_INDEX_VERSION
+        ?? (getBuildMode() === 'production' ? 'prod-latest' : 'staging-latest');
+}
+
+function loadApiLinkIndex(platformSlug: string): PlatformContext['apiLinkIndex'] {
+    try {
+        const file = path.resolve(process.cwd(), 'src', 'data', 'api-link-index', platformSlug, `${getApiLinkIndexName()}.json`);
+        if (!fs.existsSync(file)) return undefined;
+        return JSON.parse(fs.readFileSync(file, 'utf-8'));
+    } catch {
+        return undefined;
+    }
+}
 
 /**
  * Returns the platform context for the current build.
@@ -231,7 +159,23 @@ export function getPlatformContext(): PlatformContext {
         } catch { /* use default */ }
     }
 
-    _ctx = PLATFORMS[name];
+    const apiDocsBaseUrl = getApiDocsBaseUrl();
+
+    const base = PLATFORMS[name];
+    _ctx = {
+        ...base,
+        apiLinkIndex: loadApiLinkIndex(base.lower),
+        apiPackages: Object.fromEntries(
+            Object.entries(base.apiPackages).map(([key, pkg]) => [
+                key,
+                {
+                    ...pkg,
+                    docRoot: pkg.docRoot
+                        .replace(DEFAULT_API_DOCS_BASE_URL, apiDocsBaseUrl),
+                },
+            ])
+        ),
+    };
     return _ctx;
 }
 
@@ -248,7 +192,7 @@ export function getEnvVars(): Record<string, string> {
 
     const { name } = getPlatformContext();
     const lang = process.env.LANG_CODE ?? 'en';
-    const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
+    const mode = getBuildMode();
 
     // Primary: generated/environment.json (written by generate.mjs when present)
     try {
@@ -288,7 +232,8 @@ export function getEnvVars(): Record<string, string> {
     // Fallback: read samplesBrowsers directly from docConfig.json — no generate step needed.
     // This is the only source needed in a full-MDX build where generate.mjs is not run.
     try {
-        const docConfig = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'docConfig.json'), 'utf-8'));
+        const projectRoot = process.env.DOCS_PROJECT_ROOT ?? process.cwd();
+        const docConfig = JSON.parse(fs.readFileSync(path.resolve(projectRoot, 'docConfig.json'), 'utf-8'));
         const demosUrl: string = docConfig[name]?.samplesBrowsers?.[mode]
             ?? docConfig[name]?.samplesBrowsers?.['development']
             ?? '';

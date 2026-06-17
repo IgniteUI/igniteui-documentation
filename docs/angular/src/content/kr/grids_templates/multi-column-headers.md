@@ -28,24 +28,24 @@ keywords: column headers, ignite ui for angular, infragistics
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/multi-column-headers/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-multi-column-headers/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/hierarchical-grid/hierarchical-grid-multi-column/" >
 </code-view>
 
@@ -54,6 +54,7 @@ keywords: column headers, ignite ui for angular, infragistics
 `Multi-column header`의 선언은 열 집합을 [`igx-column-group`]({environment:angularApiUrl}/classes/igxcolumngroupcomponent.html) 컴포넌트에 [`header`]({environment:angularApiUrl}/classes/igxcolumngroupcomponent.html#header) 제목을 전달하여 래핑합니다.
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <igx-grid [data]="data" height="600px" [allowFiltering]="true">
     <igx-column-group header="Contact Information">
@@ -63,8 +64,10 @@ keywords: column headers, ignite ui for angular, infragistics
     </igx-column-group>
 </igx-grid>
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID">
     <igx-column-group header="Contact Information">
@@ -74,8 +77,10 @@ keywords: column headers, ignite ui for angular, infragistics
     </igx-column-group>
 </igx-tree-grid>
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid #hierarchicalGrid [data]="localdata" [height]="'600px'" [width]="'100%'" displayDensity="compact" [allowFiltering]="true" [moving]="true">
     <igx-column field="CustomerID" sortable="true" resizable="true"></igx-column>
@@ -94,11 +99,13 @@ keywords: column headers, ignite ui for angular, infragistics
 ...
 </igx-hierarchical-grid>
 ```
+
 }
 
 중첩 헤더의 `n-th` 수준을 달성하려면 상기의 선언을 따라야 실행합니다. 즉, [`igx-column-group`]({environment:angularApiUrl}/classes/igxcolumngroupcomponent.html)을 중첩하면 원하는 결과를 얻을 수 있습니다.
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <igx-grid [data]="data" height="600px" [allowFiltering]="true" [moving]="true">
     <igx-column-group header="General Information">
@@ -110,8 +117,10 @@ keywords: column headers, ignite ui for angular, infragistics
     </igx-column-group>
 </igx-grid>
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" [moving]="true">
     <igx-column-group [pinned]="false" header="General Information">
@@ -124,8 +133,10 @@ keywords: column headers, ignite ui for angular, infragistics
     </igx-column-group>
 </igx-tree-grid>
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid #hierarchicalGrid [data]="localdata" [height]="'600px'" [width]="'100%'" displayDensity="compact" [allowFiltering]="true" [moving]="true">
     <igx-column field="CustomerID" sortable="true" resizable="true"></igx-column>
@@ -140,6 +151,7 @@ keywords: column headers, ignite ui for angular, infragistics
     ...
 </igx-hierarchical-grid>
 ```
+
 }
 
 모든 [`igx-column-group`]({environment:angularApiUrl}/classes/igxcolumngroupcomponent.html)은 [`moving`](column-moving.md), [`pinning`](column_pinning.md), [`hiding`](column_hiding.md)을 지원합니다.
@@ -149,6 +161,7 @@ keywords: column headers, ignite ui for angular, infragistics
 > `columns/column-groups`이 현재 `group`으로 래핑되어 있지 않은 즉, **최상위** `columns`인 경우 표시된 전체 열 사이에서 이동이 허용됩니다.
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <igx-grid [data]="data" height="600px" [allowFiltering]="true" [moving]="true">
     <igx-column-group [pinned]="true" header="General Information">
@@ -159,8 +172,10 @@ keywords: column headers, ignite ui for angular, infragistics
     <igx-column sortable="true" resizable="true" field="PostalCode"></igx-column>
 </igx-grid>
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" [moving]="true">
     <igx-column-group header="Contact Information">
@@ -171,8 +186,10 @@ keywords: column headers, ignite ui for angular, infragistics
     <igx-column field="Age" dataType="number" [sortable]="true" [resizable]="true"></igx-column>
 </igx-tree-grid>
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
+
 ```html
 <igx-hierarchical-grid #hierarchicalGrid [data]="localdata" [height]="'600px'" [width]="'100%'" displayDensity="compact" [allowFiltering]="true" [moving]="true">
     <igx-column field="CustomerID" sortable="true" resizable="true"></igx-column>
@@ -186,31 +203,28 @@ keywords: column headers, ignite ui for angular, infragistics
     ...
 </igx-hierarchical-grid>
 ```
+
 }
 
 ### API 참조
-<div class="divider--half"></div>
 
-* [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
-* [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
-* [IgxColumnGroupComponent]({environment:angularApiUrl}/classes/igxcolumngroupcomponent.html)
-<div class="divider--half"></div>
+- [@@igxNameComponent]({environment:angularApiUrl}/classes/@@igTypeDoc.html)
+- [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [IgxColumnGroupComponent]({environment:angularApiUrl}/classes/igxcolumngroupcomponent.html)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
-* [@@igComponent 개요](@@igMainTopic.md)
-* [가상화 및 성능](virtualization.md)
-* [페이징](paging.md)
-* [필터링](filtering.md)
-* [정렬](sorting.md)
-* [요약](summaries.md)
-* [열 크기 조정](column-resizing.md)
-* [선택](selection.md)
+- [@@igComponent 개요](@@igMainTopic.md)
+- [가상화 및 성능](virtualization.md)
+- [페이징](paging.md)
+- [필터링](filtering.md)
+- [정렬](sorting.md)
+- [요약](summaries.md)
+- [열 크기 조정](column-resizing.md)
+- [선택](selection.md)
 @@if (igxName === 'IgxGrid') {* [Group by](groupby.md)}
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

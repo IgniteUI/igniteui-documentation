@@ -5,18 +5,17 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-##Switch
+## Switch
 <p class="highlight">The Ignite UI for Angular Switch component is a binary choice selection component that behaves similarly to the switch component in iOS.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Switch Demo
 
-<code-view style="height:200px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:200px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/switch-sample-2/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Usage
 
@@ -65,6 +64,7 @@ Let's enhance the code above by binding the switch properties to some data. Say,
   ];
 
 ```
+
 Enhance the component template by adding a switch for each setting and then binding the corresponding property:
 
 ```html
@@ -74,6 +74,7 @@ Enhance the component template by adding a switch for each setting and then bind
     {{ setting.name }}
 </igx-switch>
 ```
+
 The final result would be something like that:
 
 <div class="sample-container loading" style="height: 200px">
@@ -81,15 +82,13 @@ The final result would be something like that:
 </div>
 
 ## API References
-<div class="divider--half"></div>
 
-* [IgxSwitchComponent]({environment:angularApiUrl}/classes/igxswitchcomponent.html)
-* [IgxSwitchComponent Styles]({environment:sassApiUrl}/themes#function-switch-theme)
+- [IgxSwitchComponent]({environment:angularApiUrl}/classes/igxswitchcomponent.html)
+- [IgxSwitchComponent Styles]({environment:sassApiUrl}/themes#function-switch-theme)
 
-###Additional Resources
-<div class="divider--half"></div>
+### Additional Resources
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

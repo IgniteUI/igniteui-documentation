@@ -5,18 +5,17 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 _language: kr
 ---
 
-##Dialog Window
+## Dialog Window
 <p class="highlight">Use the Ignite UI for Angular Dialog Window component to display messages or present forms for users to fill out. The component opens a dialog window centered on top of app content. You can also provide a standard alert message that users can cancel.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Dialog Demo
 
-<code-view style="height:300px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:300px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/dialog/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Usage
 
@@ -35,11 +34,10 @@ import { IgxDialogModule } from 'igniteui-angular';
 })
 export class AppModule {}
 ```
-<div class="divider--half"></div>
 
 #### Alert
 
-To add alert, in the template of our email component we can add the following code to get the notification dialog. We have to set the [`title`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#title), [`message`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#message), 
+To add alert, in the template of our email component we can add the following code to get the notification dialog. We have to set the [`title`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#title), [`message`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#message),
 [`leftButtonLabel`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#leftbuttonlabel) and handle [`leftButtonSelect`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#leftbuttonselect) event:
 
 ```html
@@ -54,16 +52,15 @@ To add alert, in the template of our email component we can add the following co
 ```
 
 
-<code-view style="height:250px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:250px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/dialog-sample-1/" >
 </code-view>
 
-<div class="divider--half"></div>
 
-####Standard Dialog
+#### Standard Dialog
 
-To add standard dialog, in the template of our file manager component we can add the following code to get the standard dialog. We have to set the [`title`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#title), [`message`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#message), 
+To add standard dialog, in the template of our file manager component we can add the following code to get the standard dialog. We have to set the [`title`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#title), [`message`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#message),
 [`leftButtonLabel`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#leftbuttonlabel), [`rightButtonLabel`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#rightbuttonlabel), and handle [`leftButtonSelect`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#leftbuttonselect) and [`rightButtonSelect`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#rightbuttonselect) events:
 
 ```html
@@ -79,14 +76,13 @@ To add standard dialog, in the template of our file manager component we can add
 ```
 
 
-<code-view style="height:250px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:250px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/dialog-sample-2/" >
 </code-view>
 
-<div class="divider--half"></div>
 
-####Custom Dialog
+#### Custom Dialog
 
 To add custom dialog, in the template of our sign in component we can add the following code to get the custom dialog. We have to set the [`title`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#title),[`leftButtonLabel`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#leftbuttonlabel), [`rightButtonLabel`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#rightbuttonlabel), [`closeOnOutsideSelect`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#closeonoutsideselect) and handle [`leftButtonSelect`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#leftbuttonselect) and [`rightButtonSelect`]({environment:angularApiUrl}/classes/igxdialogcomponent.html#rightbuttonselect) event.
 Also we can add two groups of label and input decorated with the [**igxLabel**](input-group.md) and [**igxInput**](input-group.md) directives.
@@ -120,12 +116,11 @@ Also we can add two groups of label and input decorated with the [**igxLabel**](
 ```
 
 
-<code-view style="height:300px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:300px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/dialog-sample-3/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 #### Customized Title and Actions
 
@@ -149,24 +144,21 @@ Dialog title area can be customized using `igxDialogTitle` directive or `igx-dia
 ```
 
 
-<code-view style="height:300px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:300px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/custom-dialog-sample/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ## API References
-<div class="divider--half"></div>
 
-* [IgxDialogComponent]({environment:angularApiUrl}/classes/igxdialogcomponent.html)
-* [IgxDialogComponent Styles]({environment:sassApiUrl}/themes#function-dialog-theme)
-* [IgxOverlay]({environment:angularApiUrl}/interfaces/overlaysettings.html)
-* [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
+- [IgxDialogComponent]({environment:angularApiUrl}/classes/igxdialogcomponent.html)
+- [IgxDialogComponent Styles]({environment:sassApiUrl}/themes#function-dialog-theme)
+- [IgxOverlay]({environment:angularApiUrl}/interfaces/overlaysettings.html)
+- [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
 
 ## Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

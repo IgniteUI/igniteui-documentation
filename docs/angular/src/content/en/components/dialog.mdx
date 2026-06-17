@@ -48,7 +48,7 @@ import { IgxDialogModule } from 'igniteui-angular/dialog';
 export class AppModule {}
 ```
 
-Alternatively, as of `16.0.0` you can import the `IgxDialogComponent` as a standalone dependency, or use the [`IGX_DIALOG_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/dialog/public_api.ts) token to import the component and all of its supporting components and directives.
+Alternatively, as of `16.0.0` you can import the `IgxDialogComponent` as a standalone dependency, or use the [`IGX_DIALOG_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/dialog/src/dialog/public_api.ts) token to import the component and all of its supporting components and directives.
 
 ```typescript
 // home.component.ts
@@ -77,6 +77,11 @@ import { IgxRippleDirective } from 'igniteui-angular/directives';
 })
 export class HomeComponent {}
 ```
+
+
+<DocsAside type="info">
+This component uses Material Icons. Add the following link to your `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
 
 Now that you have the Ignite UI for Angular Dialog Window module or directives imported, you can start using the `igx-dialog` component.
 
@@ -181,7 +186,7 @@ Sign In
 
 There are two ways to change the position at which the `igx-dialog` will be shown:
 
-- Using <ApiLink type="Dialog" member="open" label="open" /> method and pass a valid <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" />. Example:
+- Using <ApiLink type="Dialog" member="open" label="open" /> method and pass a valid <ApiLink kind="interface" type="OverlaySettings" />. Example:
 
 ```typescript
 import { PositionSettings, OverlaySettings, GlobalPositionStrategy, NoOpScrollStrategy, HorizontalAlignment, VerticalAlignment } from 'igniteui-angular/core';
@@ -217,6 +222,7 @@ export class HomeComponent {
 
 ```typescript
 import { useAnimation } from '@angular/animations';
+import { slideInTop, slideOutBottom } from 'igniteui-angular/animations';
 import { PositionSettings, HorizontalAlignment, VerticalAlignment } from 'igniteui-angular/core';
 // import { PositionSettings, HorizontalAlignment, VerticalAlignment } from '@infragistics/igniteui-angular'; for licensed package
 
@@ -234,7 +240,7 @@ export class HomeComponent {
 }
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 The same approach should be used for the animation settings, use the `openAnimation` and `closeAnimation` properties to define animation params like duration.
 </DocsAside>
 `params` object example:
@@ -261,34 +267,11 @@ By default when the dialog is opened the Tab key focus is trapped within it, i.e
 
 Changing the `$background` property automatically updates the following dependent properties:
 
-<table class="collapsible-table">
-    <thead>
-        <tr>
-        <th>Primary Property</th>
-        <th>Dependent Property</th>
-        <th>Description</th>
-        </tr>
-    </thead>
-    <tbody class="group">
-        <tr class="primary">
-        <td>
-            <details><summary><strong>$background</strong></summary></details>
-        </td>
-        <td>$title-color</td>
-        <td>The dialog title text color.</td>
-        </tr>
-        <tr class="dependent">
-        <td></td>
-        <td>$message-color</td>
-        <td>The dialog message text color.</td>
-        </tr>
-        <tr class="dependent">
-        <td></td>
-        <td>$border-color</td>
-        <td>The border color used for dialog component.</td>
-        </tr>
-    </tbody>
-</table>
+| Primary Property | Dependent Property | Description |
+| --- | --- | --- |
+| **$background** | $title-color | The dialog title text color. |
+|  | $message-color | The dialog message text color. |
+|  | $border-color | The border color used for dialog component. |
 
 To get started with styling the dialog window, we need to import the `index` file, where all the theme functions and component mixins live:
 
@@ -299,7 +282,7 @@ To get started with styling the dialog window, we need to import the `index` fil
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-Following the simplest approach, we create a new theme that extends the [`dialog-theme`]({environment:sassApiUrl}/themes#function-dialog-theme) and accepts parameters that style the dialog. By providing the `$background`, the theme automatically selects suitable contrast colors for the foreground properties. However, you can still manually define them if desired.
+Following the simplest approach, we create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-dialog-theme" label="dialog-theme" code={true} /> and accepts parameters that style the dialog. By providing the `$background`, the theme automatically selects suitable contrast colors for the foreground properties. However, you can still manually define them if desired.
 
 ```scss
 $my-dialog-theme: dialog-theme(
@@ -309,7 +292,7 @@ $my-dialog-theme: dialog-theme(
 );
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 In order to style any additional components that are used as part of the dialog window's content (such as the [`IgxButton`](/button)), an additional theme should be created that is specific to the respective component and is placed under the dialog window's scope only (so it does not affect the rest of the application).
 </DocsAside>
 
@@ -330,13 +313,13 @@ Since the dialog window uses the [`IgxOverlayService`](/overlay), in order for o
 </div>
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 In order to learn more about the various options for providing themes to elements that are shown by using the [`IgxOverlayService`](/overlay), you can take a look at the [Overlay styling topic](/overlay-styling).
 </DocsAside>
 
 ### Including Themes
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 The last step is to **include** the component theme in our application.
 
@@ -346,7 +329,7 @@ The last step is to **include** the component theme in our application.
 }
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 If the component is using an [`Emulated`](/themes/sass/component-themes#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep` to apply the styles.
 </DocsAside>
 
@@ -365,19 +348,16 @@ If the component is using an [`Emulated`](/themes/sass/component-themes#view-enc
 <hr/>
 
 ## API References
-
 <hr/>
-
 - <ApiLink type="Dialog" />
-- [IgxDialogComponent Styles]({environment:sassApiUrl}/themes#function-dialog-theme)
-- <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" />
-- [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
-
+- <ApiLink kind="sass" module="themes" type="function-dialog-theme" label="IgxDialogComponent Styles" />
+- <ApiLink kind="interface" type="OverlaySettings" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay Styles" />
 ## Theming Dependencies
 
-- [IgxButton Theme]({environment:sassApiUrl}/themes#function-button-theme)
-- [IgxRipple Theme]({environment:sassApiUrl}/themes#function-ripple-theme)
-- [IgxOverlay Theme]({environment:sassApiUrl}/themes#function-overlay-theme)
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="IgxButton Theme" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="IgxRipple Theme" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay Theme" />
 
 ## Additional Resources
 

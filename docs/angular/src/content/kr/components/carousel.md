@@ -10,7 +10,7 @@ _language: kr
 
 The Ignite UI for Angular Carousel component is developed as a native [Angular component](https://angular.io/guide/architecture#components). Use it to browse or navigate through a collection of slides, including image galleries, cards, onboarding tutorials, or page-based interfaces.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Carousel Demo
 <div class="sample-container loading" style="height: 620px">
@@ -20,6 +20,7 @@ The Ignite UI for Angular Carousel component is developed as a native [Angular c
 
 ### Usage
 The carousel can be used as a full-screen element or situated inside another component. Also, the slides may feature any valid html content inside, including other Angular components. To get started with the **Ignite UI for Angular Carousel**, let's first import the **IgxCarouselModule** in our **app.module.ts** file:
+
 ```typescript
 // app.module.ts
 ...
@@ -31,6 +32,7 @@ import { IgxCarouselModule } from 'igniteui-angular';
 })
 export class AppModule {}
 ```
+
 Then in the template of our carousel component we can add the following markup to add two slides and define their html content:
 
 ```html
@@ -49,8 +51,8 @@ Then in the template of our carousel component we can add the following markup t
 
 This is enough to have the carousel instantiated on our page, let's have a look at it:
 
-<code-view style="height: 230px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 230px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/carousel-sample-1/" >
 </code-view>
 
@@ -78,6 +80,7 @@ A real world scenario would include dynamically loading the slides and not decla
       );
   }
 ```
+
 And now we are ready to add the ngFor directive to the [`igx-slide`]({environment:angularApiUrl}/classes/igxslidecomponent.html) and provide our html inside as usual. We are also adding an image to each slide:
 
 ```html
@@ -107,8 +110,8 @@ a > igx-icon > span{
 Let's see what we have now, sure looks better with the arrows standing out clearly on both sides and all the content centered:
 
 
-<code-view style="height: 600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/carousel-sample-2/" >
 </code-view>
 
@@ -123,6 +126,7 @@ As mentioned navigation and transition are the most important carousel features.
 ...
 </igx-carousel>
 ```
+
 In the above snippet we are setting values to the [`loop`]({environment:angularApiUrl}/classes/igxcarouselcomponent.html#loop) and [`pause`]({environment:angularApiUrl}/classes/igxcarouselcomponent.html#pause) element properties using [property binding](https://angular.io/guide/template-syntax#property-binding). Another optional property to set is the [`interval`]({environment:angularApiUrl}/classes/igxcarouselcomponent.html#interval), which sets the amount of time in milliseconds between slides transition. We are skipping this as we do not want our carousel to transition the content by itself, but want it to be entirely controlled by the user. The component properties values are provided via code below. Notice that to disable the automatic playing we need to call the [`stop`]({environment:angularApiUrl}/classes/igxcarouselcomponent.html#stop) method exposed by the carousel:
 
 ```typescript
@@ -138,13 +142,15 @@ In the above snippet we are setting values to the [`loop`]({environment:angularA
      this.carousel.stop();
   }
 ```
-Having those configured this way, we empowered the user to have full control over the carousel. What we want to do now is customize the navigation further and replace the carousel indicators with a nice looking progress bar. Hooking up on the [`slideChanged`]({environment:angularApiUrl}/classes/igxcarouselcomponent.html#onslidechanged) event and using the [**IgxLinearProgressBar**]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html) component we will add adittional UI indicating the progress made. First we need to import the **IgxLinearProgressBar** module:
+
+Having those configured this way, we empowered the user to have full control over the carousel. What we want to do now is customize the navigation further and replace the carousel indicators with a nice looking progress bar. Hooking up on the [`slideChanged`]({environment:angularApiUrl}/classes/igxcarouselcomponent.html#onslidechanged) event and using the [**IgxLinearProgressBar**]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html) component we will add additional UI indicating the progress made. First we need to import the **IgxLinearProgressBar** module:
 
 ```typescript
 // app.component.ts
 import { Direction, IgxCarousel, IgxLinearProgressBar } from 'igniteui-angular';
 ```
-Once we have the module imported, we can continue with adding the [**IgxLinearProgressBar**]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html) in our template. Notice that we set the [`max`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#max) property to bind to the [`total`]({environment:angularApiUrl}/classes/igxcarouselcomponent.html#total) property value, which will be defined in the **app.component.ts** file. Also, we add a handler for the [`slideChanged`]({environment:angularApiUrl}/classes/igxcarouselcomponent.html#onslidechanged) event and an indicator text in adittion to the progress bar:
+
+Once we have the module imported, we can continue with adding the [**IgxLinearProgressBar**]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html) in our template. Notice that we set the [`max`]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html#max) property to bind to the [`total`]({environment:angularApiUrl}/classes/igxcarouselcomponent.html#total) property value, which will be defined in the **app.component.ts** file. Also, we add a handler for the [`slideChanged`]({environment:angularApiUrl}/classes/igxcarouselcomponent.html#onslidechanged) event and an indicator text in addition to the progress bar:
 
 ```html
 <!-- app.component.html -->
@@ -183,6 +189,7 @@ We update the [`total`]({environment:angularApiUrl}/classes/igxcarouselcomponent
     this.linearbar.value = carousel.current + 1;
   }
 ```
+
 Now we have a nice progress bar that is also showing its percent value which we don't need (because we added our custom indicating text "1 out of 3"). Let's hide this percent value and the carousel original indicators, which are still visible:
 
 ```css
@@ -195,11 +202,11 @@ ul.igx-carousel__indicators {
 }
 ```
 
-Following all the steps above brings us a nice and functional carousel that the user has full control over using the navigation arrows. The linear bar provides adittional UI that acts as an indicator of the user progress:
+Following all the steps above brings us a nice and functional carousel that the user has full control over using the navigation arrows. The linear bar provides additional UI that acts as an indicator of the user progress:
 
 
-<code-view style="height: 550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/carousel-sample-3/" >
 </code-view>
 
@@ -216,6 +223,7 @@ Our carousel now displays nicely the home page content. What it is missing is de
     ...
 </igx-slide>
 ```
+
 Don't forget to add the **IgxButtonModule** to the **app.component.ts**. The `goto()` function will use the [Angular router](https://angular.io/guide/router) to navigate to another view:
 
 ```typescript
@@ -232,19 +240,19 @@ Don't forget to add the **IgxButtonModule** to the **app.component.ts**. The `go
     this.router.navigate(["/details", index]);
   }
 ```
+
 Given this configuration, the router matches that URL to the given route path **/details:index** and displays the corresponding page:
 
 <div class="sample-container loading" style="height: 620px">
     <iframe data-src='{environment:demosBaseUrl}/layouts/carousel-sample-4' width="100%" height="100%" seamless frameBorder="0" class="lazyload"></iframe>
 </div>
 
-###API References
-<div class="divider--half"></div>
+### API References
 
-* [IgxCarouselComponent]({environment:angularApiUrl}/classes/igxcarouselcomponent.html)
-* [IgxCarouselComponent Styles]({environment:sassApiUrl}/themes#function-carousel-theme)
-* [IgxSlideComponent]({environment:angularApiUrl}/classes/igxslidecomponent.html)
-* [IgxLinearProgressBarComponent]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html)
-* [IgxLinearProgressBarComponent Styles]({environment:sassApiUrl}/themes#function-progress-linear-theme)
-* [IgxButtonDirective]({environment:angularApiUrl}/classes/igxbuttondirective.html)
-* [IgxButton Styles]({environment:sassApiUrl}/themes#function-button-theme)
+- [IgxCarouselComponent]({environment:angularApiUrl}/classes/igxcarouselcomponent.html)
+- [IgxCarouselComponent Styles]({environment:sassApiUrl}/themes#function-carousel-theme)
+- [IgxSlideComponent]({environment:angularApiUrl}/classes/igxslidecomponent.html)
+- [IgxLinearProgressBarComponent]({environment:angularApiUrl}/classes/igxlinearprogressbarcomponent.html)
+- [IgxLinearProgressBarComponent Styles]({environment:sassApiUrl}/themes#function-progress-linear-theme)
+- [IgxButtonDirective]({environment:angularApiUrl}/classes/igxbuttondirective.html)
+- [IgxButton Styles]({environment:sassApiUrl}/themes#function-button-theme)

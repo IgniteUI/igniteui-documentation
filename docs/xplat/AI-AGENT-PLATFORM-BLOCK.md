@@ -62,6 +62,7 @@ Each platform has a different template/markup syntax. Wrap each variant:
     <igx-column field="Name" [sortable]="true"></igx-column>
 </igx-grid>
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
@@ -105,6 +106,7 @@ Each platform has a different template/markup syntax. Wrap each variant:
 ```typescript
 this.grid.updateCell(newValue, rowID, 'Age');
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
@@ -140,6 +142,7 @@ When two or more platforms share the exact same content, use a comma-separated `
 ```typescript
 this.grid.sort({ fieldName: 'Name', dir: SortingDirection.Asc });
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
@@ -171,6 +174,7 @@ public updateCell() {
     this.hierarchicalGrid.updateCell(newValue, rowID, 'Age');
 }
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
@@ -254,6 +258,7 @@ Every `<PlatformBlock for="...">` must have exactly one `</PlatformBlock>` closi
 ```html
 <igc-grid id="grid"></igc-grid>
 ```
+
 </PlatformBlock>
 
 ```ts
@@ -270,6 +275,7 @@ var grid = document.getElementById('grid') as IgcGridComponent;
 ```ts
 var grid = document.getElementById('grid') as IgcGridComponent;
 ```
+
 </PlatformBlock>
 ```
 
@@ -300,6 +306,7 @@ Typical full-coverage pattern:
 ```html
 <!-- Angular markup -->
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
@@ -310,6 +317,7 @@ Typical full-coverage pattern:
 ```ts
 // WC-specific TypeScript initialization
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
@@ -330,9 +338,11 @@ Typical full-coverage pattern:
 ## Step-by-Step: Adding a PlatformBlock to an Existing File
 
 1. **Check for the import** at the top of the file:
+
    ```mdx
    import PlatformBlock from 'docs-template/components/mdx/PlatformBlock.astro';
    ```
+
    Add it if missing (after existing imports).
 
 2. **Identify the platform-specific content** — look for platform API tokens (see table above) in unprotected code blocks.
@@ -365,5 +375,5 @@ Typical full-coverage pattern:
 | File | Role |
 |---|---|
 | `src/components/mdx/PlatformBlock.astro` | PlatformBlock component — renders content conditionally per platform |
-| `src/lib/platform-context.ts` | Platform detection and config (used by ApiLink/ApiRef; same platforms) |
-| `docs/xplat/AI-AGENT-API-LINKS.md` | Companion guide for `ApiLink` and `ApiRef` usage |
+| `src/lib/platform-context.ts` | Platform detection and config (used by ApiLink; same platforms) |
+| `docs/xplat/AI-AGENT-API-LINKS.md` | Companion guide for `ApiLink` usage |

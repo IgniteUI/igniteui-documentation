@@ -1,4 +1,4 @@
-// @ts-check
+﻿// @ts-check
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
@@ -8,6 +8,8 @@ import mdx from '@astrojs/mdx';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Preserve the project root before chdir so platform-context.ts can find docConfig.json.
+process.env.DOCS_PROJECT_ROOT = __dirname;
 // When --outDir=../../dist/* points outside docs/angular/, Astro's getOutDirWithinCwd()
 // falls back to .astro/ as serverRoot, causing image generation to ENOENT.
 // Changing CWD to the repo root makes dist/* start with CWD, so serverRoot is correct.
@@ -30,8 +32,8 @@ if (docsEnv !== 'development' && docsEnv !== 'staging' && docsEnv !== 'productio
 const mode: DocsMode = docsEnv;
 
 // ── Site URL — varies by build mode ─────────────────────────────────────────
-const PROD_HOST = 'https://www.infragistics.com';
-const STAGING_HOST = 'https://staging.infragistics.com';
+const PROD_HOST = docsLang === 'jp' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
+const STAGING_HOST = docsLang === 'jp' ? 'https://jp.staging.infragistics.com' : 'https://staging.infragistics.com';
 
 const platformKey = docsLang === 'jp' ? 'AngularJP' : 'Angular';
 const { base } = IGDOCS_PLATFORMS[platformKey];
@@ -56,6 +58,10 @@ export default createDocsSite({
 	platform: 'angular',
 	navLang: docsLang,
 	mode,
+	build: {
+		format: 'file'
+	},
+	trailingSlash: 'never',
 	productLinks: Object.values(IGDOCS_PLATFORMS)
 		.filter(p => p.lang === docsLang)
 		.map(({ label, key, base: b }) => ({
@@ -63,15 +69,33 @@ export default createDocsSite({
 			href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
 			platform: key,
 		})),
+	packages: Object.values(IGDOCS_PLATFORMS)
+		.filter(p => p.lang === docsLang)
+		.map(({ label, key, base: b }) => ({
+			label,
+			value: key,
+			href: mode === 'production' ? `${PROD_HOST}${b}/` : `${STAGING_HOST}${b}/`,
+		})),
+	selectedPackage: 'angular',
 	source: {
 		tocPath: `${componentsDocsDir}/toc.json`,
 		docsDir: componentsDocsDir,
 	},
+	head: [
+		{ tag: 'link', attrs: { rel: 'icon', href: `${mode !== 'development' ? base : ''}/favicon.ico`, type: 'image/x-icon' } },
+	],
 	sidebar: { exclude: [/^internal\//] },
-	starlight: {
-		// logo: { src: './public/favicon.svg' },
-	},
-	integrations: [mdx()],
+	integrations: [
+		mdx(),
+		{
+			name: 'watch-docs-template',
+			hooks: {
+				'astro:server:setup': ({ server }) => {
+					server.watcher.add(path.resolve(__dirname, '../../src'));
+				},
+			},
+		},
+	],
 	// Expose @/ alias so MDX files can import Sample.astro and peer components.
 	// @xplat-images resolves xplat-sourced MDX image imports to the angular images dir.
 	vite: {
@@ -81,5 +105,6 @@ export default createDocsSite({
 				'@xplat-images': path.join(__dirname, 'src', 'content', docsLang, 'images'),
 			},
 		},
+		server: { fs: { strict: false } },
 	},
 });

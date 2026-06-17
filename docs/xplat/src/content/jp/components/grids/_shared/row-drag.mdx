@@ -12,12 +12,11 @@ _language: ja
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
-import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 # {Platform} {ComponentTitle} の行ドラッグ
 
-{Platform} {ComponentTitle} の {ProductName} 行ドラッグ機能は簡単に構成でき、マウスを使用して行を新しい位置にドラッグ アンド ドロップすることで、グリッド内の行を再配置するために使用されます。これはルートの <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> コンポーネントで初期化され、`RowDraggable` 入力を介して構成できます。
+{Platform} {ComponentTitle} の {ProductName} 行ドラッグ機能は簡単に構成でき、マウスを使用して行を新しい位置にドラッグ アンド ドロップすることで、グリッド内の行を再配置するために使用されます。これはルートの <ApiLink type="{ComponentName}" /> コンポーネントで初期化され、`RowDraggable` 入力を介して構成できます。
 
 ## {Platform} {ComponentTitle} 行ドラッグの例
 
@@ -25,7 +24,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ## 構成
 
-<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の行ドラッグを有効にするには、グリッドの `RowDraggable` を **true** に設定します。これが有効になると、行ドラッグ ハンドルが各行に表示されます。このハンドルは行ドラッグを開始するために使用できます。ドラッグ ハンドルをクリックしてボタンを押しながらカーソルを動かすと、グリッドの `RowDragStart` イベントが発生します。クリックをリリースすると、`RowDragEnd` イベントが発生します。
+<ApiLink type="{ComponentName}" /> の行ドラッグを有効にするには、グリッドの `RowDraggable` を **true** に設定します。これが有効になると、行ドラッグ ハンドルが各行に表示されます。このハンドルは行ドラッグを開始するために使用できます。ドラッグ ハンドルをクリックしてボタンを押しながらカーソルを動かすと、グリッドの `RowDragStart` イベントが発生します。クリックをリリースすると、`RowDragEnd` イベントが発生します。
 
 <PlatformBlock for="Angular">
 ```html
@@ -56,7 +55,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
-以下は、行ドラッグをサポートするための <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の設定方法と、ドロップイベントの適切な処理方法についてのチュートリアルです。
+以下は、行ドラッグをサポートするための <ApiLink type="{ComponentName}" /> の設定方法と、ドロップイベントの適切な処理方法についてのチュートリアルです。
 
 <ComponentBlock for="TreeGrid, HierarchicalGrid">
 In this example, we'll handle dragging a row from a grid to a designated area and, when dropping it, removing it from the grid.
@@ -82,6 +81,7 @@ import { ..., IgxDragDropModule } from 'igniteui-angular';
     imports: [..., IgxDragDropModule]
 })
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
@@ -110,6 +110,7 @@ export class {ComponentName}RowDragComponent {
     }
 }
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
@@ -173,6 +174,7 @@ public dragHereTemplate = (ctx: IgcGridEmptyTemplateContext) => {
     return html`Drop a row to add it to the grid`;
 }
 ```
+
 </ComponentBlock>
 </PlatformBlock>
 
@@ -209,12 +211,14 @@ enum DragIcon {
 The **changeGhostIcon** **private** method just changes the icon inside of the drag ghost. The logic in the method finds the element that contains the icon (using the **igx-grid__drag-indicator** class that is applied to the drag-indicator container), changing the element's inner text to the passed one.
 The icons themselves are from the [**material** font set](https://material.io/tools/icons/) and are defined in a separate **enum**:
 <ComponentBlock for="TreeGrid, HierarchicalGrid">
+
 ```typescript
 enum DragIcon {
     DEFAULT = 'drag_indicator',
     ALLOW = 'remove'
 }
 ```
+
 </ComponentBlock>
 <ComponentBlock for="Grid">
 ```typescript
@@ -227,6 +231,7 @@ enum DragIcon {
 
 Next, we have to define what should happen when the user actually drops the row inside of the drop-area.
 <ComponentBlock for="TreeGrid, HierarchicalGrid">
+
 ```typescript
 export class {ComponentName}RowDragComponent {
 
@@ -252,6 +257,7 @@ export class {ComponentName}RowDragComponent {
         this.sourceGrid.deleteRow(args.dragData.key);
     }
 }
+
 ```
 
 We define a reference to each of our grids via the **ViewChild** decorator and the handle the drop as follows:
@@ -276,12 +282,13 @@ export class {ComponentName}RowDragComponent {
     }
 }
 ```
+
 </ComponentBlock>
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 When using row data from the event arguments (**args.dragData.data**) or any other row property, note that the entire row is passed in the arguments as a reference, which means that you must clone the data you need, if you want to distinguish it from the one in the source grid.
 </DocsAside>
 
@@ -303,6 +310,7 @@ When using row data from the event arguments (**args.dragData.data**) or any oth
     </igx-row-island>
 </{ComponentSelector}>
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
@@ -319,12 +327,13 @@ constructor() {
 public rowDragGhostTemplate = (ctx: IgcGridRowDragGhostContext) => {
     return html`<igc-icon fontSet="material">arrow_right_alt</igc-icon>`;
 }
+
 ```
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
 
-The result of the configuration can be seem below in a <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> with row dragging and multiple selection enabled. The demo shows the count of the currently dragged rows:
+The result of the configuration can be seem below in a <ApiLink type="{ComponentName}" /> with row dragging and multiple selection enabled. The demo shows the count of the currently dragged rows:
 
 #### ドラッグ アイコンのテンプレート化
 
@@ -345,6 +354,7 @@ The drag ghost can be templated on every grid level, making it possible to have 
     </igx-row-island>
 </{ComponentSelector}>
 ```
+
 </ComponentBlock>
 
 <Sample src="/{ComponentSample}/multi-row-dragging" height={600} alt="{Platform} {ComponentTitle} 複数行のドラッグ" />
@@ -368,6 +378,7 @@ The drag ghost can be templated on every grid level, making it possible to have 
 
     <IgrHierarchicalGrid rowDraggable={true} dragIndicatorIconTemplate={dragIndicatorIconTemplate}>
     </IgrHierarchicalGrid>
+
 ```
 </PlatformBlock>
 <PlatformBlock for="Blazor">
@@ -382,6 +393,7 @@ private RenderFragment<IgbGridEmptyTemplateContext> dragIndicatorIconTemplate = 
     </div>;
 };
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
@@ -418,6 +430,7 @@ public dragIndicatorIconTemplate = (ctx: IgcGridEmptyTemplateContext) => {
 
     <IgrTreeGrid rowDraggable={true} dragIndicatorIconTemplate={dragIndicatorIconTemplate}>
     </IgrTreeGrid>
+
 ```
 </PlatformBlock>
 <PlatformBlock for="Blazor">
@@ -432,6 +445,7 @@ private RenderFragment<IgbGridEmptyTemplateContext> dragIndicatorIconTemplate = 
     </div>;
 };
 ```
+
 </PlatformBlock>
 
 </ComponentBlock>
@@ -458,6 +472,7 @@ private RenderFragment<IgbGridEmptyTemplateContext> dragIndicatorIconTemplate = 
     flex-flow: column;
     width: 100%;
 }
+
 ```
 </PlatformBlock>
 
@@ -476,6 +491,7 @@ const dragIndicatorIconTemplate = (ctx: IgrGridEmptyTemplateContext) => {
 <{ComponentSelector} rowDraggable={true} dragIndicatorIconTemplate={dragIndicatorIconTemplate}>
 </{ComponentSelector}>
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
@@ -489,6 +505,7 @@ private RenderFragment<IgbGridEmptyTemplateContext> dragIndicatorIconTemplate = 
         <IgbIcon IconName="drag_handle" Collection="material"></IgbIcon>
     </div>;
 };
+
 ```
 </PlatformBlock>
 </ComponentBlock>
@@ -501,6 +518,7 @@ enum DragIcon {
     DEFAULT = "drag_handle",
 }
 ```
+
 </PlatformBlock>
 
 <ComponentBlock for="TreeGrid, HierarchicalGrid">
@@ -560,7 +578,7 @@ Try to drag moons from the grid and drop them to their corresponding planets. Ro
 
 <Sample src="/{ComponentSample}/row-dragging" height={560} alt="{Platform} {ComponentTitle} Row Drag" />
 
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 The classes applied to the row drag ghost, used in the demo above, are using ::ng-deep modifier, because row drag is an internal grid feature and cannot be accessed on application level, due to the CSS encapsulation.
 </DocsAside>
 
@@ -580,10 +598,11 @@ The classes applied to the row drag ghost, used in the demo above, are using ::n
 <igx-grid #grid [data]="data" [rowDraggable]="true" [primaryKey]="'ID'" igxDrop (dropped)="onDropAllowed($event)">
 </igx-grid>
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents, Blazor, React">
-<DocsAside type="note" title="注">
+<DocsAside type="info" title="情報">
 上記のデモで使用されている行ドラッグ ゴーストに適用されるクラスは ::ng-deep 修飾子を使用しています。これは、行ドラッグが内部グリッド機能であり、CSS カプセル化のためにアプリケーション レベルでアクセスできないためです。
 </DocsAside>
 
@@ -600,6 +619,7 @@ constructor() {
     hGrid.addEventListener("rowDragEnd", this.webHierarchicalGridReorderRowHandler)
 }
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
@@ -617,7 +637,7 @@ constructor() {
 igRegisterScript("WebHierarchicalGridReorderRowHandler", (args) => {
     const ghostElement = args.detail.dragDirective.ghostElement;
     const dragElementPos = ghostElement.getBoundingClientRect();
-    const grid = document.getElementsByTagName("igc-hierarchical-grid")[0];
+    const grid = document.getElementsByTagName["igc-hierarchical-grid"](0);
     const rows = Array.prototype.slice.call(document.getElementsByTagName("igx-hierarchical-grid-row"));
     const currRowIndex = this.getCurrentRowIndex(rows,
     { x: dragElementPos.x, y: dragElementPos.y });
@@ -638,6 +658,7 @@ function getCurrentRowIndex(rowList, cursorPosition) {
     }
     return -1;
 }
+
 ```
 </PlatformBlock>
 
@@ -657,6 +678,7 @@ constructor() {
     tGrid.addEventListener("rowDragEnd", this.webTreeGridReorderRowHandler);
 }
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
@@ -687,6 +709,7 @@ constructor() {
     grid.addEventListener("rowDragEnd", this.webGridReorderRowHandler)
 }
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
@@ -705,7 +728,7 @@ constructor() {
 igRegisterScript("WebGridReorderRowHandler", (args) => {
     const ghostElement = args.detail.dragDirective.ghostElement;
     const dragElementPos = ghostElement.getBoundingClientRect();
-    const grid = document.getElementsByTagName("igc-grid")[0];
+    const grid = document.getElementsByTagName["igc-grid"](0);
     const rows = Array.prototype.slice.call(document.getElementsByTagName("igx-grid-row"));
     const currRowIndex = this.getCurrentRowIndex(rows,
     { x: dragElementPos.x, y: dragElementPos.y });
@@ -726,6 +749,7 @@ function getCurrentRowIndex(rowList, cursorPosition) {
     }
     return -1;
 }
+
 ```
 </PlatformBlock>
 
@@ -745,13 +769,14 @@ function getCurrentRowIndex(rowList, cursorPosition) {
     [rowDraggable]="true" (rowDragStart)="rowDragStart($event)" igxDrop (dropped)="rowDrop($event)">
 </igx-hierarchical-grid>
 ```
+
 </PlatformBlock>
 
-<DocsAside type="note" title="注">
-Make sure that there is a <ApiLink pkg="grids" type="{ComponentName}" member="primaryKey" prefixed={false} /> specified for the grid! The logic needs an unique identifier for the rows so they can be properly reordered.
+<DocsAside type="info" title="情報">
+Make sure that there is a <ApiLink type="{ComponentName}" member="primaryKey" /> specified for the grid! The logic needs an unique identifier for the rows so they can be properly reordered.
 </DocsAside>
 
-Once <ApiLink pkg="grids" type="{ComponentName}" member="rowDraggable" prefixed={false} /> is enabled and a drop zone has been defined, you need to implement a simple handler for the drop event. When a row is dragged, check the following:
+Once <ApiLink type="{ComponentName}" member="rowDraggable" /> is enabled and a drop zone has been defined, you need to implement a simple handler for the drop event. When a row is dragged, check the following:
 
 <ComponentBlock for="Grid">
 - Was the row dropped inside of the grid?
@@ -777,7 +802,7 @@ Below, you can see this implemented:
 public webGridReorderRowHandler(args: CustomEvent<IgcRowDragEndEventArgs>): void {
     const ghostElement = args.detail.dragDirective.ghostElement;
     const dragElementPos = ghostElement.getBoundingClientRect();
-    const grid = document.getElementsByTagName("igc-grid")[0] as any;
+    const grid = document.getElementsByTagName["igc-grid"](0) as any;
     const rows = Array.prototype.slice.call(document.getElementsByTagName("igx-grid-row"));
     const currRowIndex = this.getCurrentRowIndex(rows,
     { x: dragElementPos.x, y: dragElementPos.y });
@@ -798,6 +823,7 @@ public getCurrentRowIndex(rowList: any[], cursorPosition) {
     }
     return -1;
 }
+
 ```
 </PlatformBlock>
 
@@ -827,6 +853,7 @@ const getCurrentRowIndex = (rowList: any[], cursorPosition) => {
     return -1;
 }
 ```
+
 </PlatformBlock>
 
 </ComponentBlock>
@@ -897,6 +924,7 @@ export class TreeGridRowReorderComponent {
         return null;
     }
 }
+
 ```
 
 </ComponentBlock>
@@ -1014,6 +1042,7 @@ public webTreeGridReorderRowStartHandler(args: CustomEvent<IgcRowDragStartEventA
         }
         return -1;
     }
+
 ```
 
 </ComponentBlock>
@@ -1131,6 +1160,7 @@ export class HGridRowReorderComponent {
         }
     }
 }
+
 ```
 
 </PlatformBlock>
@@ -1162,6 +1192,7 @@ const getCurrentRowIndex = (rowList: any[], cursorPosition: any) => {
     return -1;
 }
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
@@ -1169,7 +1200,7 @@ const getCurrentRowIndex = (rowList: any[], cursorPosition: any) => {
 public webGridReorderRowHandler(args: CustomEvent<IgcRowDragEndEventArgs>): void {
     const ghostElement = args.detail.dragDirective.ghostElement;
     const dragElementPos = ghostElement.getBoundingClientRect();
-    const grid = document.getElementsByTagName("igc-hierarchical-grid")[0] as any;
+    const grid = document.getElementsByTagName["igc-hierarchical-grid"](0) as any;
     const rows = Array.prototype.slice.call(document.getElementsByTagName("igx-grid-row"));
     const currRowIndex = this.getCurrentRowIndex(rows,
     { x: dragElementPos.x, y: dragElementPos.y });
@@ -1200,7 +1231,7 @@ public getCurrentRowIndex(rowList: any[], cursorPosition) {
 igRegisterScript("WebGridReorderRowHandler", (args) => {
     const ghostElement = args.detail.dragDirective.ghostElement;
     const dragElementPos = ghostElement.getBoundingClientRect();
-    const grid = document.getElementsByTagName("igc-hierarchical-grid")[0];
+    const grid = document.getElementsByTagName["igc-hierarchical-grid"](0);
     const rows = Array.prototype.slice.call(document.getElementsByTagName("igx-hierarchical-grid-row"));
     const currRowIndex = this.getCurrentRowIndex(rows,
     { x: dragElementPos.x, y: dragElementPos.y });
@@ -1221,6 +1252,7 @@ function getCurrentRowIndex(rowList, cursorPosition) {
     }
     return -1;
 }
+
 ```
 </PlatformBlock>
 
@@ -1354,8 +1386,8 @@ In the demo in the next section you see how you can display an indicator of wher
 
 In order to track the position of the cursor, we bind to the `DragMove` event of the `DragDirective` when we start dragging a row.
 
-<DocsAside type="note" title="注">
-Make sure that there is a <ApiLink pkg="grids" type="{ComponentName}" member="primaryKey" prefixed={false} /> specified for the grid! The logic needs an unique identifier for the rows so they can be properly reordered
+<DocsAside type="info" title="情報">
+Make sure that there is a <ApiLink type="{ComponentName}" member="primaryKey" /> specified for the grid! The logic needs an unique identifier for the rows so they can be properly reordered
 </DocsAside>
 
 ```typescript
@@ -1504,9 +1536,9 @@ Following is the example of both scenarios described above - showing a drop indi
 
 グリッドの行ドラッグ イベントと `Drop` ディレクティブを使用して、ドラッグよる行の並べ替えるが可能なグリッドを作成できます。
 
-## 行ドラッグ シナリオでの UX の改善
+## API リファレンス
 
-<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
+<ApiLink type="{ComponentName}" /><br />
 
 ## カーソル位置に基づいてドラッグ ゴーストを変更する
 以下のスニペットでは、ドラッグ ゴースト内のテキストを変更して、ホバーされた行の名前を表示する方法を示しています。

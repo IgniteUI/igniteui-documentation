@@ -10,8 +10,8 @@ _language: kr
 With only a few lines of code, users can easily localize the strings in Ignite UI for Angular components.
 
 
-<code-view style="height:550px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:550px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/services/localization-sample-1/" >
 </code-view>
 
@@ -38,6 +38,7 @@ public ngOnInit(): void {
     ...
 }
 ```
+
 <div>
 <button data-localize="stackblitz" class="stackblitz-btn" data-sample-src="{environment:demosBaseUrl}/services/localization-sample-2"
     data-demos-base-url="{environment:demosBaseUrl}">view on stackblitz
@@ -55,7 +56,7 @@ currentRS.igx_grid_filter_row_close = '[Localized]Close';
 ```
 
 <div>
-    <button data-localize="stackblitz" class="stackblitz-btn" data-sample-src="{environment:demosBaseUrl}/services/localization-sample-3" 
+    <button data-localize="stackblitz" class="stackblitz-btn" data-sample-src="{environment:demosBaseUrl}/services/localization-sample-3"
         data-demos-base-url="{environment:demosBaseUrl}">view on stackblitz
     </button>
 </div>
@@ -102,10 +103,9 @@ public ngOnInit(): void {
 
 ## Additional Resources
 
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
-* [Ignite UI for Angular **ResourceStrings**](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **ResourceStrings**](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n)

@@ -11,17 +11,16 @@ _language: kr
 
 Ignite UI for Angular의 Excel 내보내기 서비스는 원시 데이터(배열) 또는 [**IgxGrid**](grid/grid.md) 에서 Microsoft® Excel® 형식으로 데이터를 내보내기할 수 있습니다. 내보내기 기능은 [`IgxExcelExporterService`]({environment:angularApiUrl}/classes/igxexcelexporterservice.html) 클래스에 캡슐화되며 데이터는 MS Excel 표 형식으로 내보내기가 됩니다. 이 형식은 필터링, 정렬 등과 같은 기능을 사용할 수 있습니다.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Excel 내보내기 데모
 
 
-<code-view style="height: 100px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 100px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/services/export-excel/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### 사용 방법
 
@@ -74,7 +73,7 @@ public exportButtonHandler() {
 
 ```
 
-모두 정상으로 진행되면 내보내기 버튼이 표시됩니다. 버튼을 누르면 내보내기 처리가 트리거되고 브라우저는 파일을 MS Excel 형식의 `localData` 배열 데이터가 포함된 “ExportedDataFile.xlsx” 파일을 다운로드합니다. 
+모두 정상으로 진행되면 내보내기 버튼이 표시됩니다. 버튼을 누르면 내보내기 처리가 트리거되고 브라우저는 파일을 MS Excel 형식의 `localData` 배열 데이터가 포함된 “ExportedDataFile.xlsx” 파일을 다운로드합니다.
 
 
 ### IgxGrid's 데이터 내보내기
@@ -113,8 +112,8 @@ public exportButtonHandler() {
 ```
 
 
-<code-view style="height: 300px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 300px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/services/export-excel-sample-1/" >
 </code-view>
 
@@ -144,20 +143,19 @@ this.excelExportService.export(this.igxGrid1, new IgxExcelExporterOptions("Expor
 
 Excel 내보내기 서비스에는 아래의 몇 가지 API가 추가로 포함되어 있습니다.
 
-* [`IgxExcelExporterService API`]({environment:angularApiUrl}/classes/igxexcelexporterservice.html)
-* [`IgxExcelExporterOptions API`]({environment:angularApiUrl}/classes/igxexcelexporteroptions.html)
+- [`IgxExcelExporterService API`]({environment:angularApiUrl}/classes/igxexcelexporterservice.html)
+- [`IgxExcelExporterOptions API`]({environment:angularApiUrl}/classes/igxexcelexporteroptions.html)
 
 사용된 추가 컴포넌트:
 
-* [IgxGridComponent API]({environment:angularApiUrl}/classes/igxgridcomponent.html)
-* [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
+- [IgxGridComponent API]({environment:angularApiUrl}/classes/igxgridcomponent.html)
+- [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### 추가 리소스
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -11,13 +11,12 @@ _canonicalLink: "{CanonicalLinkToGridRowActions}"
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
-import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 
 # Row Actions in {Platform} {ComponentTitle}
 
-The {ProductName} Row Actions feature in {Platform} {ComponentTitle} enables developers to use an <ApiLink pkg="grids" type="ActionStrip" /> and utilize CRUD for row/cell components and row pinning. There are several predefined UI controls for these operations that are applicable to a specific row in the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> – editing and pinning.
+The {ProductName} Row Actions feature in {Platform} {ComponentTitle} enables developers to use an <ApiLink type="ActionStrip" /> and utilize CRUD for row/cell components and row pinning. There are several predefined UI controls for these operations that are applicable to a specific row in the <ApiLink type="{ComponentName}" /> – editing and pinning.
 
 ## Usage
 
@@ -32,15 +31,16 @@ import { IgxActionStripModule } from 'igniteui-angular';
     imports: [..., IgxActionStripModule],
 })
 ```
+
 </PlatformBlock>
 
 The predefined actions UI components are:
 
-- <ApiLink pkg="grids" type="GridEditingActions" /> - includes functionality and UI specifically designed for the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> editing. It allows you to quickly toggle edit mode for cells or rows, depending on the <ApiLink pkg="grids" type="{ComponentName}" member="rowEditable" prefixed={false} /> option and row deletion of the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />.
+- <ApiLink type="GridEditingActions" /> - includes functionality and UI specifically designed for the <ApiLink type="{ComponentName}" /> editing. It allows you to quickly toggle edit mode for cells or rows, depending on the <ApiLink type="{ComponentName}" member="rowEditable" /> option and row deletion of the <ApiLink type="{ComponentName}" />.
 
-- <ApiLink pkg="grids" type="GridPinningActions" /> - includes functionality and UI specifically designed for the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> row pinning. It allows you to quickly pin rows and navigate between pinned rows and their disabled counterparts.
+- <ApiLink type="GridPinningActions" /> - includes functionality and UI specifically designed for the <ApiLink type="{ComponentName}" /> row pinning. It allows you to quickly pin rows and navigate between pinned rows and their disabled counterparts.
 
-They are added inside the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> and this is all needed to have an <ApiLink pkg="grids" type="ActionStrip" /> providing default interactions.
+They are added inside the <ApiLink type="{ComponentName}" /> and this is all needed to have an <ApiLink type="ActionStrip" /> providing default interactions.
 
 <PlatformBlock for="Angular">
 ```html
@@ -53,6 +53,7 @@ They are added inside the <ApiLink pkg="grids" type="{ComponentName}" prefixed={
         <igx-grid-editing-actions></igx-grid-editing-actions>
     </igx-action-strip>
 </{ComponentSelector}>
+
 ```
 </PlatformBlock>
 
@@ -70,6 +71,7 @@ They are added inside the <ApiLink pkg="grids" type="{ComponentName}" prefixed={
     </IgbActionStrip>
 </IgbGrid>
 ```
+
 </PlatformBlock>
 
 <ComponentBlock for="TreeGrid">
@@ -189,13 +191,13 @@ They are added inside the <ApiLink pkg="grids" type="{ComponentName}" prefixed={
 </PlatformBlock>
 
 
-<DocsAside type="note">
-When `ActionStripComponent` is a child component of the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />, hovering a row will automatically show the UI.
+<DocsAside type="info">
+When <ApiLink type="ActionStripComponent" /> is a child component of the <ApiLink type="{ComponentName}" />, hovering a row will automatically show the UI.
 </DocsAside>
 
 ## Custom Implementation
 
-These components expose templates giving flexibility for customization. For instance, if we would like to use the <ApiLink pkg="grids" type="ActionStrip" /> for a Gmail scenario with row actions such as **delete**, **edit** and etc. You can simply create button component with icon, add click event to it and insert it into the <ApiLink pkg="grids" type="ActionStrip" />.
+These components expose templates giving flexibility for customization. For instance, if we would like to use the <ApiLink type="ActionStrip" /> for a Gmail scenario with row actions such as **delete**, **edit** and etc. You can simply create button component with icon, add click event to it and insert it into the <ApiLink type="ActionStrip" />.
 
 
 <PlatformBlock for="Angular">
@@ -214,47 +216,20 @@ These components expose templates giving flexibility for customization. For inst
 ```
 </PlatformBlock>
 
-<ComponentBlock for="Grid, TreeGrid">
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
 <PlatformBlock for="Blazor">
 ```razor
 <div class="grid__wrapper">
     <{ComponentSelector} Data=northwindEmployees>
         <IgbActionStrip @ref=actionstrip>
             <IgbGridPinningActions></IgbGridPinningActions>
-            <IgbButton Title="Edit" @onclick="() => StartEdit(actionstrip.Context)">
-                <IgbIcon>edit</IgbIcon>
-            </IgbButton>
-            @if (!IsDeleted(actionstrip.Context))
-            {
-                <IgbButton Title="Delete" @onclick="() => Delete(actionstrip.Context)">
-                    <IgbIcon>delete</IgbIcon>
-                </IgbButton>
-            }
+            <IgbGridEditingActions
+                EditRow="true"
+                DeleteRow="true"
+                AddRow="true">
+            </IgbGridEditingActions>
         </IgbActionStrip>
     </{ComponentSelector}>
-</div>
-```
-</PlatformBlock>
-</ComponentBlock>
-
-<ComponentBlock for="HierarchicalGrid">
-<PlatformBlock for="Blazor">
-```razor
-<div class="grid__wrapper">
-    <IgbHierarchicalGrid Data=northwindEmployees>
-        <IgbActionStrip @ref=actionstrip>
-            <IgbGridPinningActions></IgbGridPinningActions>
-            <IgbButton Title="Edit" @onclick="() => StartEdit(actionstrip.Context)">
-                <IgbIcon>edit</IgbIcon>
-            </IgbButton>
-            @if (!IsDeleted(actionstrip.Context))
-            {
-                <IgbButton Title="Delete" @onclick="() => Delete(actionstrip.Context)">
-                    <IgbIcon>delete</IgbIcon>
-                </IgbButton>
-            }
-        </IgbActionStrip>
-    </IgbHierarchicalGrid>
 </div>
 ```
 </PlatformBlock>
@@ -312,13 +287,13 @@ These components expose templates giving flexibility for customization. For inst
 
 
 <PlatformBlock for="Angular">
-<DocsAside type="note">
-The predefined actions inherit `GridActionsBaseDirective` and when creating a custom grid action component, it should also inherit `GridActionsBaseDirective`.
+<DocsAside type="info">
+The predefined actions inherit <ApiLink type="GridActionsBaseDirective" /> and when creating a custom grid action component, it should also inherit <ApiLink type="GridActionsBaseDirective" />.
 </DocsAside>
 
 </PlatformBlock>
 
 ## API References
-
-<ApiRef pkg="grids" types={["{ComponentName}"]} prefixed={false} />
-<ApiRef pkg="grids" types={["GridPinningActions","GridEditingActions"]} />
+<ApiLink type="{ComponentName}" />
+<ApiLink type="GridPinningActions" />
+<ApiLink type="GridEditingActions" />

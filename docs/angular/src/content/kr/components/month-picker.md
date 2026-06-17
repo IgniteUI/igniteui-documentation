@@ -12,8 +12,8 @@ In general, the Angular Month Picker offers two basic ways for choosing a date -
 ### Angular Month Picker Example
 What you see here is a basic Angular Month Picker example with a the component's default view, enabling users to select the year and the month.  
 
-<code-view style="height: 620px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 620px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/monthpicker-sample-1/" >
 </code-view>
 
@@ -102,8 +102,8 @@ public numericFormatOptions = {
 
 Here is an example of modifying the default format options of the month picker:
 
-<code-view style="height: 600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/monthpicker-sample-2/" >
 </code-view>
 
@@ -130,46 +130,43 @@ public formatOptions = {
 
 Here is an example of localizing the month picker component:
 
-<code-view style="height: 620px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 620px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/scheduling/monthpicker-sample-3/" >
 </code-view>
 
 
 ### Keyboard navigation
 - When the **igxMonthPicker** component is focused, use
-    - <kbd>PageUp</kbd> key to move to the previous year,
-    - <kbd>PageDown</kbd> key to move to the next year,
-    - <kbd>Home</kbd> key to focus the first month of the current year,
-    - <kbd>End</kbd> key to focus the last month of the current year,
-    - <kbd>Tab</kbd> key to navigate through the sub-header buttons.
+  - <kbd>PageUp</kbd> key to move to the previous year,
+  - <kbd>PageDown</kbd> key to move to the next year,
+  - <kbd>Home</kbd> key to focus the first month of the current year,
+  - <kbd>End</kbd> key to focus the last month of the current year,
+  - <kbd>Tab</kbd> key to navigate through the sub-header buttons.
 
 - When `<` (previous) or `>` (next) year button (in the sub-header) is focused, use
-    - <kbd>Space</kbd> or <kbd>Enter</kbd> key to scroll into view the next or previous year.
+  - <kbd>Space</kbd> or <kbd>Enter</kbd> key to scroll into view the next or previous year.
 
-- When years button (in the sub-header) is focused, use 
-    - <kbd>Space</kbd> or <kbd>Enter</kbd> key to open the years view,
-    - <kbd>Right</kbd> or <kbd>Left</kbd> arrow key to scroll the previous/next year into view.
+- When years button (in the sub-header) is focused, use
+  - <kbd>Space</kbd> or <kbd>Enter</kbd> key to open the years view,
+  - <kbd>Right</kbd> or <kbd>Left</kbd> arrow key to scroll the previous/next year into view.
 
-- When a month inside the months view is focused, use 
-    - Arrow keys to navigate through the months,
-    - <kbd>Home</kbd> key to focus the first month inside the months view,
-    - <kbd>End</kbd> key to focus the last month inside the months view,
-    - <kbd>Enter</kbd> key to select the currently focused month and close the view,
-    - <kbd>Tab</kbd> key to navigate through the months.
+- When a month inside the months view is focused, use
+  - Arrow keys to navigate through the months,
+  - <kbd>Home</kbd> key to focus the first month inside the months view,
+  - <kbd>End</kbd> key to focus the last month inside the months view,
+  - <kbd>Enter</kbd> key to select the currently focused month and close the view,
+  - <kbd>Tab</kbd> key to navigate through the months.
 
 ## API References
-<div class="divider--half"></div>
 
-* [IgxMonthPickerComponent]({environment:angularApiUrl}/classes/igxmonthpickercomponent.html)
-* [IgxCalendarComponent]({environment:angularApiUrl}/classes/igxcalendarcomponent.html)
-* [IgxCalendarComponent Styles]({environment:sassApiUrl}/themes#function-calendar-theme)
+- [IgxMonthPickerComponent]({environment:angularApiUrl}/classes/igxmonthpickercomponent.html)
+- [IgxCalendarComponent]({environment:angularApiUrl}/classes/igxcalendarcomponent.html)
+- [IgxCalendarComponent Styles]({environment:sassApiUrl}/themes#function-calendar-theme)
 
-<div class="divider--half"></div>
 
 ## Additional Resources
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

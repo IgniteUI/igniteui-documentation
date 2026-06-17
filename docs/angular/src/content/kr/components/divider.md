@@ -8,15 +8,15 @@ _language: kr
 ## Divider
 
 <p class="highlight">The divider component enables users to separate content both horizontally and vertically.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Demo
 
 By default the divider is a solid horizontal line.
 
 
-<code-view style="height:207px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:207px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/divider-sample-1/" >
 </code-view>
 
@@ -34,8 +34,8 @@ By adding the `vertical` attribute and setting its value to `true`, you can chan
 <igx-divider [vertical]="true"></igx-divider>
 ```
 
-<code-view style="height:238px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:238px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/divider-sample-2/" >
 </code-view>
 
@@ -48,8 +48,8 @@ To change the default look simply use the `type` attribute of the divider and se
 <igx-divider type="dashed"></igx-divider>
 ```
 
-<code-view style="height:187px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:187px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/divider-sample-3/" >
 </code-view>
 
@@ -69,24 +69,22 @@ To inset the divider, set the `middle` attribute of the divider to `true` and pr
 
 ```
 
-<code-view style="height:311px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:311px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/divider-sample-4/" >
 </code-view>
 
 
-If the value of the `middle` attribute is set to a falsy value, or if the attribute is omitted altoghether, the divider will set in only on the left.
+If the value of the `middle` attribute is set to a falsy value, or if the attribute is omitted altogether, the divider will set in only on the left.
 
 ## API References
-<div class="divider--half"></div>
 
-* [IgxDividerDirective]({environment:angularApiUrl}/classes/igxdividerdirective.html)
-* [IgxDividerDirective Styles]({environment:sassApiUrl}/themes#function-divider-theme)
+- [IgxDividerDirective]({environment:angularApiUrl}/classes/igxdividerdirective.html)
+- [IgxDividerDirective Styles]({environment:sassApiUrl}/themes#function-divider-theme)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
 

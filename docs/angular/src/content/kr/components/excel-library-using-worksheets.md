@@ -19,7 +19,6 @@ The Infragistics Excel Engine's [`worksheet`]({environment:dvApiBaseUrl}/product
 </code-view>
 
 
-<div class="divider--half"></div>
 
 The following code shows the imports needed to use the code-snippets below:
 

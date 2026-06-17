@@ -13,8 +13,8 @@ _language: kr
 #### 데모
 
 
-<code-view style="height:605px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:605px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-groupby/" >
 </code-view>
 
@@ -82,7 +82,7 @@ export interface IGroupByExpandState {
     grid.toggleGroup(groupRow);
 ```
 
-그룹은 전개(***기본값***) 또는 축소된 상태로 작성할 수 있으며, 전개 상태에는 일반적으로 기본 동작과 반대되는 상태만 포함됩니다. [`groupsExpanded`]({environment:angularApiUrl}/classes/igxgridcomponent.html#groupsexpanded) 속성을 통해 그룹을 전개할지 여부를 제어할 수 있습니다.
+그룹은 전개(_**기본값**_) 또는 축소된 상태로 작성할 수 있으며, 전개 상태에는 일반적으로 기본 동작과 반대되는 상태만 포함됩니다. [`groupsExpanded`]({environment:angularApiUrl}/classes/igxgridcomponent.html#groupsexpanded) 속성을 통해 그룹을 전개할지 여부를 제어할 수 있습니다.
 
 #### 그룹 행 템플릿
 
@@ -115,8 +115,8 @@ Groups that span multiple pages are split between them. The group row is visible
 #### Demo
 
 
-<code-view style="height:605px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:605px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-groupby-paging/" >
 </code-view>
 
@@ -130,19 +130,19 @@ Integration between Group By and Summaries is described in the [Summaries](summa
 그룹화 UI는 다음과 같은 키보드 상호 작용을 지원합니다:
 
 - 그룹 행(행 또는 전개/축소 셀에 포커스)
-   - <kbd>ALT</kbd> + <kbd>RIGHT</kbd> - 그룹을 전개
-   - <kbd>ALT</kbd> + <kbd>LEFT</kbd> - 그룹을 축소
+  - <kbd>ALT</kbd> + <kbd>RIGHT</kbd> - 그룹을 전개
+  - <kbd>ALT</kbd> + <kbd>LEFT</kbd> - 그룹을 축소
 
 - 그룹 영역의 [`igxChip`]({environment:angularApiUrl}/classes/igxchipcomponent.html) 컴포넌트의 그룹화(칩에 포커스)
-   - <kbd>SHIFT</kbd> + <kbd>LEFT</kbd> - 포커스를 맞춘 칩의 왼쪽으로 이동하고 가능한 경우 그룹화 순서를 변경
-   - <kbd>SHIFT</kbd> + <kbd>RIGHT</kbd> - 포커스를 맞춘 칩의 오른쪽으로 이동하고 가능한 경우 그룹화 순서를 변경
-   - <kbd>SPACE</kbd> - 정렬 방향을 변경
-   - <kbd>DELETE</kbd> - 필드의 그룹을 해제
-   - 칩의 개별 요소를 포커스할 수 있으며 <kbd>ENTER</kbd> 키를 사용하여 상호 작용할 수 있습니다.
+  - <kbd>SHIFT</kbd> + <kbd>LEFT</kbd> - 포커스를 맞춘 칩의 왼쪽으로 이동하고 가능한 경우 그룹화 순서를 변경
+  - <kbd>SHIFT</kbd> + <kbd>RIGHT</kbd> - 포커스를 맞춘 칩의 오른쪽으로 이동하고 가능한 경우 그룹화 순서를 변경
+  - <kbd>SPACE</kbd> - 정렬 방향을 변경
+  - <kbd>DELETE</kbd> - 필드의 그룹을 해제
+  - 칩의 개별 요소를 포커스할 수 있으며 <kbd>ENTER</kbd> 키를 사용하여 상호 작용할 수 있습니다.
 
 ### Styling
 
-The igxGrid allows styling through the [Ignite UI for Angular Theme Library](../themes/sass/component-themes.md). The grid's [theme]({environment:sassApiUrl}/themes#function-grid-theme) exposes a wide variety of properties, which allow the customization of all the features of the grid. 
+The igxGrid allows styling through the [Ignite UI for Angular Theme Library](../themes/sass/component-themes.md). The grid's [theme]({environment:sassApiUrl}/themes#function-grid-theme) exposes a wide variety of properties, which allow the customization of all the features of the grid.
 
 In the below steps, we are going through the steps of customizing the grid's Group By styling.
 
@@ -188,7 +188,7 @@ $custom-chips-theme: chip-theme(
 
 #### Defining a custom color palette
 
-In the approach that we described above, the color values were hardcoded. Alternatively, you can achieve greater flexibility, using the [`palette`]({environment:sassApiUrl}/palettes#function-palette) and [`color`]({environment:sassApiUrl}/palettes#function-color) functions.   
+In the approach that we described above, the color values were hardcoded. Alternatively, you can achieve greater flexibility, using the [`palette`]({environment:sassApiUrl}/palettes#function-palette) and [`color`]({environment:sassApiUrl}/palettes#function-color) functions.
 `igx-palette` generates a color palette, based on provided primary and secondary colors.  
 
 ```scss
@@ -200,7 +200,8 @@ $custom-palette: palette(
   $secondary: $yellow-color
 );
 ```
-After a custom palette has been generated, the `igx-color` function can be used to obtain different varieties of the primary and the secondary colors. 
+
+After a custom palette has been generated, the `igx-color` function can be used to obtain different varieties of the primary and the secondary colors.
 
 ```scss
 $custom-theme: grid-theme(
@@ -222,9 +223,11 @@ $custom-chips-theme: chip-theme(
     $hover-text-color:contrast-color($custom-palette, "primary", 600)
 );
 ```
+
 #### Defining custom schemas
-You can go even further and build flexible structure that has all the benefits of a [**schema**](../themes/sass/schemas.md). The **schema** is the recipe of a theme. 
-Extend one of the two predefined schemas, that are provided for every component. In our case, we would use `$_light_grid`.   
+You can go even further and build flexible structure that has all the benefits of a [**schema**](../themes/sass/schemas.md). The **schema** is the recipe of a theme.
+Extend one of the two predefined schemas, that are provided for every component. In our case, we would use `$_light_grid`.
+
 ```scss
 $custom-grid-schema: extend($_light-grid,(
     group-row-background: (igx-color:('secondary', 100)),
@@ -238,7 +241,9 @@ $custom-grid-schema: extend($_light-grid,(
     expand-icon-hover-color: (igx-color:('primary', 400))
 ));
 ```
-In order for the custom schema to be applied, either `light`, or `dark` globals has to be extended. The whole process is actually supplying a component with a custom schema and adding it to the respective component theme afterwards.   
+
+In order for the custom schema to be applied, either `light`, or `dark` globals has to be extended. The whole process is actually supplying a component with a custom schema and adding it to the respective component theme afterwards.
+
 ```scss
 $my-custom-schema: extend($light-schema, ( 
     igx-grid: $custom-grid-schema
@@ -253,6 +258,7 @@ $custom-theme: grid-theme(
 #### Applying the custom theme
 
 The easiest way to apply your theme is with a `sass` `@include` statement in the global styles file:
+
 ```scss
 @include grid($custom-theme);
 @include chip($custom-chips-theme);
@@ -267,7 +273,7 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
  >[!NOTE]
  >If the component is using an [`Emulated`](../themes/sass/component-themes.md#view-encapsulation) ViewEncapsulation, it is necessary to penetrate this encapsulation using `::ng-deep` in order to style the grid.
  >[!NOTE]
- >Wrap the statement inside of a `:host` selector to prevent your styles from affecting elements *outside of* our component:
+ >Wrap the statement inside of a `:host` selector to prevent your styles from affecting elements _outside of_ our component:
 
 ```scss
 :host {
@@ -278,12 +284,12 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
 }
 ```
 
-#### Demo   
+#### Demo
 
 
-<code-view style="height:570px" 
+<code-view style="height:570px"
            no-theming
-           data-demos-base-url="{environment:demosBaseUrl}" 
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-groupby-styling/" >
 </code-view>
 
@@ -296,30 +302,28 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
 
 ### API 참조
 
-* [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
-* [IgxGroupByRow](({environment:angularApiUrl}/classes/igxgroupbyrow.html)
-* [IgxGridComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
-* [ISortingExpression]({environment:angularApiUrl}/interfaces/isortingexpression.html)
-* [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
-* [IGroupByExpandState]({environment:angularApiUrl}/interfaces/igroupbyexpandstate.html)
-* [IgxChipComponent]({environment:angularApiUrl}/classes/igxchipcomponent.html)
-* [IgxChipComponent 스타일]({environment:sassApiUrl}/themes#function-chip-theme)
+- [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
+- [IgxGroupByRow](({environment:angularApiUrl}/classes/igxgroupbyrow.html)
+- [IgxGridComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [ISortingExpression]({environment:angularApiUrl}/interfaces/isortingexpression.html)
+- [IgxColumnComponent]({environment:angularApiUrl}/classes/igxcolumncomponent.html)
+- [IGroupByExpandState]({environment:angularApiUrl}/interfaces/igroupbyexpandstate.html)
+- [IgxChipComponent]({environment:angularApiUrl}/classes/igxchipcomponent.html)
+- [IgxChipComponent 스타일]({environment:sassApiUrl}/themes#function-chip-theme)
 
 ### 추가 리소스
-<div class="divider--half"></div>
 
-* [그리드 개요](grid.md)
-* [가상화 및 성능](virtualization.md)
-* [페이징](paging.md)
-* [필터링](filtering.md)
-* [정렬](sorting.md)
-* [열 이동](column-moving.md)
-* [요약](summaries.md)
-* [열 크기 조정](column-resizing.md)
-* [선택](selection.md)
+- [그리드 개요](grid.md)
+- [가상화 및 성능](virtualization.md)
+- [페이징](paging.md)
+- [필터링](filtering.md)
+- [정렬](sorting.md)
+- [열 이동](column-moving.md)
+- [요약](summaries.md)
+- [열 크기 조정](column-resizing.md)
+- [선택](selection.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

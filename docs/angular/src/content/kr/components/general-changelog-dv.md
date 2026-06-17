@@ -17,17 +17,11 @@ All notable changes for each version of Ignite UI for Angular are documented on 
 
 <!-- end: Angular -->
 
-<div class="divider--half"></div>
 
 ## **Angular 13.1.0 (November 2021)**
 
-<div class="divider--half"></div>
 
-<div class="divider--half"></div>
 
-<div class="divider--half"></div>
-
-<div class="divider--half"></div>
 
 ### Charts & Maps
 
@@ -62,7 +56,6 @@ This release introduces a few improvements and simplifications to visual design 
 | -------------------- | ------------------- |
 | <span style="color:#8BDC5C">#8BDC5C</span> <br><span style="color:#8B5BB1">#8B5BB1</span> <br><span style="color:#6DB1FF">#6DB1FF</span> <br><span style="color:#F8A15F">#F8A15F</span> <br><span style="color:#EE5879">#EE5879</span> <br><span style="color:#735656">#735656</span> <br><span style="color:#F7D262">#F7D262</span> <br><span style="color:#8CE7D9">#8CE7D9</span> <br><span style="color:#E051A9">#E051A9</span> <br><span style="color:#A8A8B7">#A8A8B7</span> | <span style="color:#8BDC5C">#8BDC5C</span> <br><span style="color:#8961A9">#8961A9</span> <br><span style="color:#6DB1FF">#6DB1FF</span> <br><span style="color:#82E9D9">#82E9D9</span> <br><span style="color:#EA3C63">#EA3C63</span> <br><span style="color:#735656">#735656</span> <br><span style="color:#F8CE4F">#F8CE4F</span> <br><span style="color:#A8A8B7">#A8A8B7</span> <br><span style="color:#E051A9">#E051A9</span> <br><span style="color:#FF903B">#FF903B</span> <br> |
 
-<div class="divider--half"></div>
 
 ## **Angular 11.2.0 (April 2021)**
 
@@ -127,11 +120,8 @@ for example:
 - Added support for highlighting of the shape series
 - Added support for some annotation layers for the shape series
 
-<div class="divider--half"></div>
 
-<div class="divider--half"></div>
 
-<div class="divider--half"></div>
 
 <!-- Angular, React, WebComponents -->
 

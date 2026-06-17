@@ -21,7 +21,6 @@ The following example shows how to create Angular Spline Chart in the [`IgxCateg
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Spline Chart with Single Series
 
@@ -36,7 +35,6 @@ You can create this type of chart in the [`IgxCategoryChartComponent`]({environm
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Spline Chart with Multiple Series
 
@@ -51,7 +49,6 @@ You can create this type of chart in the [`IgxCategoryChartComponent`]({environm
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Spline Chart Styling
 
@@ -66,7 +63,6 @@ You can create this type of chart in the [`IgxCategoryChartComponent`]({environm
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Advanced Types of Spline Charts
 
@@ -85,7 +81,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked 100% Spline Chart
 
@@ -100,7 +95,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

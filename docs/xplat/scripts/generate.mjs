@@ -130,6 +130,53 @@ const EXCLUDED_SLUGS = (() => {
 console.log(`[generate] Excluded pages for ${PLATFORM}: ${EXCLUDED_SLUGS.size}`);
 
 // ---------------------------------------------------------------------------
+// Markdown spacing
+// ---------------------------------------------------------------------------
+
+function normalizeMarkdownSpacing(content) {
+    const hasFinalNewline = /\r?\n$/.test(content);
+    const lines = content.replace(/\r\n/g, '\n').split('\n');
+    const result = [];
+    let blankCount = 0;
+    let inFence = false;
+
+    for (const line of lines) {
+        if (/^\s*(```|~~~)/.test(line)) {
+            inFence = !inFence;
+            blankCount = 0;
+            result.push(line);
+            continue;
+        }
+
+        if (inFence) {
+            result.push(line);
+            continue;
+        }
+
+        if (line.trim() === '') {
+            blankCount++;
+            if (blankCount <= 1) {
+                result.push('');
+            }
+            continue;
+        }
+
+        blankCount = 0;
+        result.push(line);
+    }
+
+    let normalized = result.join('\n').replace(/\n+$/, '');
+    if (hasFinalNewline) {
+        normalized += '\n';
+    }
+    return normalized;
+}
+
+function prepareMarkdownOutput(content) {
+    return normalizeMarkdownSpacing(content);
+}
+
+// ---------------------------------------------------------------------------
 // Sort longer names first to avoid partial-match problems
 // e.g. {PlatformLower} must match before {Platform}
 const replacements = platformConfig.replacements
@@ -470,18 +517,16 @@ function getSharedComponentKeys(content) {
 }
 
 /**
- * Ensure required MDX imports (Sample, PlatformBlock, ApiRef, ApiLink) are present
+ * Ensure required MDX imports (Sample, PlatformBlock, ApiLink) are present
  * after the frontmatter block.
  */
 
 function ensureMdxImports(content) {
     const needsSample  = content.includes('<Sample ');
-    const needsApiRef  = /<ApiRef\b/.test(content);
     const needsApiLink = /<ApiLink\b/.test(content);
 
     const imports = [
         needsSample  && "import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';",
-        needsApiRef  && "import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';",
         needsApiLink && "import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';",
     ].filter(Boolean);
 
@@ -508,7 +553,7 @@ function ensureMdxImports(content) {
  *  - Applies component-specific token replacements to frontmatter
  *  - Adds _componentKey frontmatter so the Vite plugin resolves {Component*} tokens in body
  *  - Strips docfx-only frontmatter fields (mentionedTypes, sharedComponents, namespace)
- *  - Ensures required MDX imports are present (Sample, PlatformBlock, ApiRef)
+ *  - Ensures required MDX imports are present (Sample, PlatformBlock, ApiLink)
  *  - Writes as .mdx to the per-component output directory
  */
 function expandSharedFiles(sharedSrcDir, gridsOutDir) {
@@ -578,7 +623,7 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
             content = ensureMdxImports(content);
 
             // 8. Write as .mdx
-            writeFileSync(path.join(outSubDir, entry), content, 'utf8');
+            writeFileSync(path.join(outSubDir, entry), prepareMarkdownOutput(content), 'utf8');
         }
 
         console.log(`[generate] _shared/${entry} → grid/, hierarchical-grid/, tree-grid/, pivot-grid/`);
@@ -606,9 +651,9 @@ function processDir(srcDir, outDir, relBase = '') {
             }
             const raw = readFileSync(srcPath, 'utf8');
             if (/\.mdx$/.test(entry)) {
-                writeFileSync(path.join(outDir, entry), transformMdxFile(raw), 'utf8');
+                writeFileSync(path.join(outDir, entry), prepareMarkdownOutput(ensureMdxImports(transformMdxFile(raw))), 'utf8');
             } else {
-                writeFileSync(path.join(outDir, entry), transformRegularFile(raw), 'utf8');
+                writeFileSync(path.join(outDir, entry), prepareMarkdownOutput(transformRegularFile(raw)), 'utf8');
             }
         } else if (entry.endsWith('.json') && entry !== 'toc.json') {
             const raw = readFileSync(srcPath, 'utf8');

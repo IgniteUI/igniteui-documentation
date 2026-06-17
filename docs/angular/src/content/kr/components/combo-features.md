@@ -10,7 +10,7 @@ _language: kr
 
 Combo control exposes several features including data and value binding, **[custom values](combo-features.md#custom-values)**, **[filtering](combo-features.md#filtering)**, **[grouping](combo-features.md#grouping)**, etc.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Demo
 The following demo demonstrates some of the combo features that are enabled/disabled at runtime:
@@ -21,7 +21,6 @@ The following demo demonstrates some of the combo features that are enabled/disa
            iframe-src="{environment:demosBaseUrl}/lists/combo-features/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Usage
 To get started with the Ignite UI for Angular Combo import the `IgxComboModule` in the **app.module.ts** file. For the following sample the [igx-switch](switch.md) component is used and in addition we will need the `IgxSwitchModule` also:
@@ -41,6 +40,7 @@ export class AppModule {}
 ```
 
 The demo uses [igx-switch]({environment:angularApiUrl}/classes/igxswitchcomponent.html) component to toggle [igx-combo]({environment:angularApiUrl}/classes/igxcombocomponent.html) properties' values. Note that grouping is enabled/disabled by setting [groupKey]({environment:angularApiUrl}/classes/igxcombocomponent.html#groupkey) to corresponding data source entity or setting it to empty string.
+
 ```html
 <div class="combo-container">
     <igx-combo #combo [data]="lData" [displayKey]="'field'" [valueKey]="'field'"
@@ -111,7 +111,6 @@ export class MyExampleComponent {
 }
 ```
 
-<div class="divider--half"></div>
 
 ## Filtering
 By default filtering in the combo is enabled. It can be disabled using the following code:
@@ -120,9 +119,7 @@ By default filtering in the combo is enabled. It can be disabled using the follo
 <igx-combo [filterable]="false"></igx-combo>
 ```
 
-<div class="divider--half"></div>
 
-<div class="divider--half"></div>
 
 ## Custom Values
 If the custom values are enabled, the missing item could be added using the UI of the combo.
@@ -131,7 +128,6 @@ If the custom values are enabled, the missing item could be added using the UI o
 <igx-combo [allowCustomValues]="true"></igx-combo>
 ```
 
-<div class="divider--half"></div>
 
 ## Disabled
 You can disable combo using the following code:
@@ -140,7 +136,6 @@ You can disable combo using the following code:
 <igx-combo [disabled]="true"></igx-combo>
 ```
 
-<div class="divider--half"></div>
 
 ## Grouping
 Defining a combo's groupKey option will group the items, according to the provided key.
@@ -149,25 +144,22 @@ Defining a combo's groupKey option will group the items, according to the provid
 <igx-combo [groupKey]="'primaryKey'"></igx-combo>
 ```
 
-<div class="divider--half"></div>
 
 ## API
-<div class="divider--half"></div>
 
-* IgxComboComponent [**API Reference**]({environment:angularApiUrl}/classes/igxcombocomponent.html) and
+- IgxComboComponent [**API Reference**]({environment:angularApiUrl}/classes/igxcombocomponent.html) and
 [**Themes Reference**]({environment:sassApiUrl}/themes#function-combo-theme).
 
 ## Additional Resources
-<div class="divider--half"></div>
 
-* [Combo Remote Binding](combo-remote.md)
-* [Combo Templates](combo-templates.md)
-* [Template Driven Forms Integration](input-group.md)
-* [Reactive Forms Integration](angular-reactive-form-validation.md)
-* [Single Select ComboBox](simple-combo.md)
-* [IgxSwitch](switch.md)
+- [Combo Remote Binding](combo-remote.md)
+- [Combo Templates](combo-templates.md)
+- [Template Driven Forms Integration](input-group.md)
+- [Reactive Forms Integration](angular-reactive-form-validation.md)
+- [Single Select ComboBox](simple-combo.md)
+- [IgxSwitch](switch.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

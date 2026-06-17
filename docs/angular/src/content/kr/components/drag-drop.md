@@ -13,12 +13,11 @@ _language: kr
 Drag and drop icon to reposition it.
 
 
-<code-view style="height:325px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:325px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/icons-sample/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Drag Directive
 
@@ -43,6 +42,7 @@ The dragging can be canceled by setting the [`cancel`]({environment:angularApiUr
 After the user releases the mouse/touch the drag ghost element is removed from the DOM and if the [`hideBaseOnDrag`]({environment:angularApiUrl}/classes/igxdragdirective.html#hidebaseondrag) is enabled it will make the original element visible again and the [`dragEnd`]({environment:angularApiUrl}/classes/igxdragdirective.html#dragend) event will be emitted. If the [`animateOnRelease`]({environment:angularApiUrl}/classes/igxdragdirective.html#animateonrelease) input is set to `true` all this will execute after the default animation of the drag ghost is finished which consist of returning it from the last dragged position to the position of the original element. Then the drag ghost will be removed and the [`returnMoveEnd`]({environment:angularApiUrl}/classes/igxdragdirective.html#returnmoveend) event will be emitted.
 
 #### Usage
+
 ```html
 <div igxDrag [hideBaseOnDrag]="true" [animateOnRelease]="true" *ngFor="let elem of draggableElems" >
     <span [style.margin]="'auto'">{{elem.label}}</span>
@@ -54,7 +54,7 @@ After the user releases the mouse/touch the drag ghost element is removed from t
 When an element that is being dragged using the [`igxDrag`]({environment:angularApiUrl}/classes/igxdragdirective.html) directive needs to be placed in an area, the [`igxDrop`]({environment:angularApiUrl}/classes/igxdropdirective.html) can be used to achieve this behavior. It provides events that the user can use to determine if element is entering the drop area and if it is being released inside it.
 
 #### Basic Configuration
-The [`igxDrop`]({environment:angularApiUrl}/classes/igxdropdirective.html) directive can be applied to any DOM element just like the [`igxDrag`]({environment:angularApiUrl}/classes/igxdragdirective.html) directive. 
+The [`igxDrop`]({environment:angularApiUrl}/classes/igxdropdirective.html) directive can be applied to any DOM element just like the [`igxDrag`]({environment:angularApiUrl}/classes/igxdragdirective.html) directive.
 
 ````html
 <div igxDrop>Drop here</div>
@@ -87,6 +87,7 @@ public onElemDrop(event: IgxDropEventArgs) {
 One element can have both [`igxDrag`]({environment:angularApiUrl}/classes/igxdragdirective.html) and [`igxDrop`]({environment:angularApiUrl}/classes/igxdropdirective.html) directives applied, but then it is recommended to use custom logic when another element is being dropped on to it by canceling the [`onDrop`]({environment:angularApiUrl}/classes/igxdropdirective.html#ondrop) event of the [`igxDrop`]({environment:angularApiUrl}/classes/igxdropdirective.html) directive.
 
 #### Usage
+
 ````html
 <div class="dropArea" igxDrop (onEnter)="onAreaEnter()" (onLeave)="onAreaLeave()">
     <span *ngIf="!elementInsideArea">Drag here.</span>
@@ -109,12 +110,11 @@ public onAreaLeave() {
 
 
 ### API
-* [IgxDragDirective]({environment:angularApiUrl}/classes/igxdragdirective.html)
-* [IgxDropDirective]({environment:angularApiUrl}/classes/igxdropdirective.html)
+- [IgxDragDirective]({environment:angularApiUrl}/classes/igxdragdirective.html)
+- [IgxDropDirective]({environment:angularApiUrl}/classes/igxdropdirective.html)
 
 ### References
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

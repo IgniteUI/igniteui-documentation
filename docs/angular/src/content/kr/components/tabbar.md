@@ -8,7 +8,7 @@ _language: kr
 ## Bottom Navigation
 
 <p class="highlight">The Ignite UI for Angular Bottom Navigation component enables the user to navigate among a number of content panels displayed in a single view. The navigation through the panels is accomplished with the tab buttons located at bottom.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 > [!NOTE]
 > `igx-tab-bar` selector is deprecated. You could use [`igx-bottom-nav`]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html) instead. `IgxTabBarComponent` class is renamed to [`IgxBottomNavComponent`]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html). `IgxTabBarModule` is renamed to `IgxBottomNavModule`.
@@ -16,13 +16,12 @@ _language: kr
 ### Bottom Navigation Demo
 
 
-<code-view style="height: 600px; width: 400px; border: 1px solid gray;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 600px; width: 400px; border: 1px solid gray;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/tabbar/" >
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Usage
 
@@ -51,16 +50,17 @@ Then, modify the component's template to include the Bottom Navigation and add t
   <igx-tab-panel label="Tab 3">This is Tab 3 content.</igx-tab-panel>
 </igx-bottom-nav>
 ```
+
 If all went well, you should see the following in your browser:
 
 
-<code-view style="height: 200px; width: 300px; border: 1px solid gray;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 200px; width: 300px; border: 1px solid gray;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/tabbar-sample-1/" >
 </code-view>
 
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 #### Customizing Tabs
 
@@ -155,13 +155,12 @@ Finally add the CSS classes used by the DIV and SPAN elements of the template to
 After these modifications our Bottom Navigation should look similar to this:
 
 
-<code-view style="height: 350px; width: 300px; border: 1px solid gray;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 350px; width: 300px; border: 1px solid gray;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/layouts/tabbar-sample-2/" >
 </code-view>
 
 
-<div class="divider--half"></div>
 
 If changing the tabs' labels and tabs' icons is not enough, you can also create your own template for each tab.
 Here is an example:
@@ -181,7 +180,7 @@ Here is an example:
 </igx-bottom-nav>
 ```
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 #### Embedding Other Igx Controls
 
@@ -340,21 +339,19 @@ And don't forget to include the following CSS definitions in order for the appli
 You can see the result of the code above at the beginning of this article in the [Bottom Navigation Demo](#bottom-navigation-demo) section.
 
 ## API References
-<div class="divider--half"></div>
 
-* [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
-* [IgxBottomNavComponent]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html)
-* [IgxBottomNavComponent Styles]({environment:sassApiUrl}/themes#function-bottom-nav-theme)
-* [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
-* [IgxListComponent]({environment:angularApiUrl}/classes/igxlistcomponent.html)
-* [IgxListItemComponent]({environment:angularApiUrl}/classes/igxlistitemcomponent.html)
-* [IgxTabComponent]({environment:angularApiUrl}/classes/igxtabcomponent.html)
-* [IgxTabPanelComponent]({environment:angularApiUrl}/classes/igxtabpanelcomponent.html)
+- [IgxAvatarComponent]({environment:angularApiUrl}/classes/igxavatarcomponent.html)
+- [IgxBottomNavComponent]({environment:angularApiUrl}/classes/igxbottomnavcomponent.html)
+- [IgxBottomNavComponent Styles]({environment:sassApiUrl}/themes#function-bottom-nav-theme)
+- [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
+- [IgxListComponent]({environment:angularApiUrl}/classes/igxlistcomponent.html)
+- [IgxListItemComponent]({environment:angularApiUrl}/classes/igxlistitemcomponent.html)
+- [IgxTabComponent]({environment:angularApiUrl}/classes/igxtabcomponent.html)
+- [IgxTabPanelComponent]({environment:angularApiUrl}/classes/igxtabpanelcomponent.html)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

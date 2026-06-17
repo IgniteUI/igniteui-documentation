@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/category-chart/annotations">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 십자형 레이어
 
