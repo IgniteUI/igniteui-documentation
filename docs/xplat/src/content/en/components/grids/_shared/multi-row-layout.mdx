@@ -25,13 +25,13 @@ The Multi-row Layout in the {ProductName} extends the rendering capabilities of 
 
 
 
-The declaration of Multi-row Layout is achieved through <ApiLink pkg="grids" type="ColumnLayout" /> component. Each <ApiLink pkg="grids" type="ColumnLayout" /> component should be considered as a block, containing one or multiple <ApiLink pkg="grids" type="Column" /> components. Some of the grid features work on block level (those are listed in the "Feature Integration" section below). For example the virtualization will use the block to determine the virtual chunks, so for better performance split the columns into more <ApiLink pkg="grids" type="ColumnLayout" /> blocks if the layout allows it. There should be no columns outside of those blocks and no usage of <ApiLink pkg="grids" type="ColumnGroup" /> when configuring a multi-row layout. Multi-row Layout is implemented on top of the [grid layout](https://www.w3.org/TR/css-grid-1/) specification and should conform to its requirements.
+The declaration of Multi-row Layout is achieved through <ApiLink type="ColumnLayout" /> component. Each <ApiLink type="ColumnLayout" /> component should be considered as a block, containing one or multiple <ApiLink type="Column" /> components. Some of the grid features work on block level (those are listed in the "Feature Integration" section below). For example the virtualization will use the block to determine the virtual chunks, so for better performance split the columns into more <ApiLink type="ColumnLayout" /> blocks if the layout allows it. There should be no columns outside of those blocks and no usage of <ApiLink type="ColumnGroup" /> when configuring a multi-row layout. Multi-row Layout is implemented on top of the [grid layout](https://www.w3.org/TR/css-grid-1/) specification and should conform to its requirements.
 
-The <ApiLink pkg="grids" type="Column" /> component exposes four `Input` properties to determine the location and span of each cell:
-- <ApiLink pkg="grids" type="Column" member="colStart" /> - column index from which the field is starting. This property is **mandatory**.
-- <ApiLink pkg="grids" type="Column" member="rowStart" /> - row index from which the field is starting. This property is **mandatory**.
-- <ApiLink pkg="grids" type="Column" member="colEnd" /> - column index where the current field should end. The amount of columns between colStart and colEnd will determine the amount of spanning columns to that field. This property is **optional**. If not set defaults to **colStart + 1**.
-- <ApiLink pkg="grids" type="Column" member="rowEnd" /> - row index where the current field should end. The amount of rows between rowStart and rowEnd will determine the amount of spanning rows to that field. This property is **optional**. If not set defaults to **rowStart + 1**.
+The <ApiLink type="Column" /> component exposes four <ApiLink pkg="core" type="Input" /> properties to determine the location and span of each cell:
+- <ApiLink type="ColumnState" member="colStart" /> - column index from which the field is starting. This property is **mandatory**.
+- <ApiLink type="Column" member="rowStart" /> - row index from which the field is starting. This property is **mandatory**.
+- <ApiLink type="ColumnState" member="colEnd" /> - column index where the current field should end. The amount of columns between colStart and colEnd will determine the amount of spanning columns to that field. This property is **optional**. If not set defaults to **colStart + 1**.
+- <ApiLink type="Column" member="rowEnd" /> - row index where the current field should end. The amount of rows between rowStart and rowEnd will determine the amount of spanning rows to that field. This property is **optional**. If not set defaults to **rowStart + 1**.
 
 
 <PlatformBlock for="Angular">
@@ -135,16 +135,16 @@ The result of the above configuration can be seen on the screenshot below:
 <Image src={multiRowLayout1} alt="multi-row-layout" style="width: 100%" />
 
 <DocsAside type="info">
-<ApiLink pkg="grids" type="{ComponentName}" member="rowStart" prefixed={false} /> and <ApiLink pkg="grids" type="{ComponentName}" member="colStart" prefixed={false} /> properties must be set for each <ApiLink pkg="grids" type="Column" /> into a <ApiLink pkg="grids" type="ColumnLayout" />. The <ApiLink pkg="grids" type="ColumnLayout" /> component is not verifying if the layout is correct and not throwing errors or warnings about that. The developers must make sure that the declaration of their layout is correct and complete, otherwise they may end up in broken layout with misalignments, overlaps and browser inconsistencies.
+<ApiLink type="{ComponentName}" member="rowStart" /> and <ApiLink type="{ComponentName}" member="colStart" /> properties must be set for each <ApiLink type="Column" /> into a <ApiLink type="ColumnLayout" />. The <ApiLink type="ColumnLayout" /> component is not verifying if the layout is correct and not throwing errors or warnings about that. The developers must make sure that the declaration of their layout is correct and complete, otherwise they may end up in broken layout with misalignments, overlaps and browser inconsistencies.
 </DocsAside>
 
 ## Feature Integration
 
-Due to the completely different rendering approach of Multi-row Layout, some of the column features will work only on <ApiLink pkg="grids" type="ColumnLayout" /> component. Such features are Column Pinning and Column Hiding. Otherwise - Sorting and Grouping will work in the same way - on the <ApiLink pkg="grids" type="Column" /> component.
+Due to the completely different rendering approach of Multi-row Layout, some of the column features will work only on <ApiLink type="ColumnLayout" /> component. Such features are Column Pinning and Column Hiding. Otherwise - Sorting and Grouping will work in the same way - on the <ApiLink type="Column" /> component.
 
-- Filtering - only Excel Style Filtering is supported. Setting <ApiLink pkg="grids" type="{ComponentName}" member="filterMode" prefixed={false} /> explicitly to `FilterMode.quickFilter` has no effect.
+- Filtering - only Excel Style Filtering is supported. Setting <ApiLink type="{ComponentName}" member="filterMode" /> explicitly to <ApiLink type="FilterMode" member="quickFilter" label="FilterMode.quickFilter" /> has no effect.
 - Paging - works on records, not visual rows.
-- Group By - <ApiLink pkg="grids" type="{ComponentName}" member="hideGroupedColumns" prefixed={false} /> option has no effect in Multi-row Layout. The grouped columns are always visible.
+- Group By - <ApiLink type="{ComponentName}" member="hideGroupedColumns" /> option has no effect in Multi-row Layout. The grouped columns are always visible.
 
 The following features are currently **not** supported:
 
@@ -155,7 +155,7 @@ The following features are currently **not** supported:
 
 ## Keyboard Navigation
 
-<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> with Multi-Row Layouts provides build-in keyboard navigation.
+<ApiLink type="{ComponentName}" /> with Multi-Row Layouts provides build-in keyboard navigation.
 
 ### Horizontal Navigation
 
@@ -182,7 +182,7 @@ Selection and multi cell selection are working on layout, meaning that when a ce
 
 The grid allows customizing the default navigation behavior when a certain key is pressed. Actions like **going to the next cell** or **cell below** could be handled easily with the powerful keyboard navigation API:
 
-- <ApiLink pkg="grids" type="{ComponentName}" member="gridKeydown" prefixed={false} /> is exposed. The event will emit `IGridKeydownEventArgs`. This event is available only through the keyboard key combinations mentioned above, for all other key actions you can use `KeyDown` event.
+- <ApiLink type="{ComponentName}" member="gridKeydown" /> is exposed. The event will emit `IGridKeydownEventArgs`. This event is available only through the keyboard key combinations mentioned above, for all other key actions you can use `KeyDown` event.
 - `NavigateTo` - this method allows you to navigate to a position based on provided `RowIndex` and `VisibleColumnIndex`
 
 The demo below adds additional navigation down/up via the <kbd>ENTER</kbd> and <kbd>SHIFT</kbd> + <kbd>ENTER</kbd> keys, similar to the behavior observed in Excel.
@@ -197,7 +197,7 @@ The demo below adds additional navigation down/up via the <kbd>ENTER</kbd> and <
 <PlatformBlock for="Angular">
 ### Layout Configurator
 
-Sometimes when configuring a column layout it might be a challenge to calculate and set the proper <ApiLink pkg="grids" type="Column" member="colStart" /> and <ApiLink pkg="grids" type="Column" member="colEnd" /> or <ApiLink pkg="grids" type="Column" member="rowStart" /> and <ApiLink pkg="grids" type="Column" member="rowEnd" />. Especially when there are a lot of columns in a single layout. That is why we have created a small configurator, so you can easily do that and have a similar preview of how it would look inside the <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> when applied. You can do the following interactions with it:
+Sometimes when configuring a column layout it might be a challenge to calculate and set the proper <ApiLink type="ColumnState" member="colStart" /> and <ApiLink type="ColumnState" member="colEnd" /> or <ApiLink type="Column" member="rowStart" /> and <ApiLink type="Column" member="rowEnd" />. Especially when there are a lot of columns in a single layout. That is why we have created a small configurator, so you can easily do that and have a similar preview of how it would look inside the <ApiLink type="{ComponentName}" /> when applied. You can do the following interactions with it:
 
 - Set number of rows for the whole configuration. All layouts must have the same amount of rows.
 - Add/Remove column layouts by clicking the **Add Layout** chip or reordering them by dragging a layout chip left/right.
@@ -206,7 +206,7 @@ Sometimes when configuring a column layout it might be a challenge to calculate 
 - Set columns in the preview by dragging a column chip in the place your will want it to be.
 - Add/Remove new columns by using the **Add Column** chip.
 
-- Get template output of the whole configuration ready to by placed inside an <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> or the JSON representation that can also be used and parsed in your template using [NgForOf](https://angular.io/api/common/NgForOf) for example.
+- Get template output of the whole configuration ready to by placed inside an <ApiLink type="{ComponentName}" /> or the JSON representation that can also be used and parsed in your template using [NgForOf](https://angular.io/api/common/NgForOf) for example.
 
 </PlatformBlock>
 
@@ -223,13 +223,13 @@ By default we have set the same columns as our previous sample, but it can be cl
 <PlatformBlock for="Angular">
 ## Styling
 
-The <ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> allows styling through the [{ProductName} Theme Library](../themes/styles.md). The grid's `Theme` exposes a wide variety of properties, which allow the customization of all the features of the grid.
+The <ApiLink type="{ComponentName}" /> allows styling through the [{ProductName} Theme Library](../themes/styles.md). The grid's <ApiLink type="Theme" /> exposes a wide variety of properties, which allow the customization of all the features of the grid.
 
 In the below steps, we are going through the steps of customizing the grid's Multi-row Layout styling.
 
 ### Importing Global Theme
 
-To begin the customization of the Multi-row Layout feature, you need to import the <ApiLink pkg="grids" type="Column" member="index" label="Index" /> file, where all styling functions and mixins are located.
+To begin the customization of the Multi-row Layout feature, you need to import the <ApiLink type="Column" member="index" label="Index" /> file, where all styling functions and mixins are located.
 
 ```scss
 @use "igniteui-angular/theming" as *;
@@ -257,7 +257,7 @@ $custom-theme: grid-theme(
 
 ### Defining a Custom Color Palette
 
-In the approach, that was described above, the color values were hardcoded. Alternatively, you can achieve greater flexibility, using the `Palette` and `Color` functions.
+In the approach, that was described above, the color values were hardcoded. Alternatively, you can achieve greater flexibility, using the `Palette` and <ApiLink pkg="core" type="Color" /> functions.
 
 `Palette` generates a color palette, based on provided primary and secondary colors.
 
@@ -271,7 +271,7 @@ $custom-palette: palette(
 );
 ```
 
-After a custom palette has been generated, the `Color` function can be used to obtain different varieties of the primary and the secondary colors.
+After a custom palette has been generated, the <ApiLink pkg="core" type="Color" /> function can be used to obtain different varieties of the primary and the secondary colors.
 
 ```scss
 $custom-theme: grid-theme(
@@ -404,8 +404,8 @@ Then set the related CSS properties to this class:
 </PlatformBlock>
 
 ## API References
-<ApiLink type="{ComponentName}" pkg="grids" prefixed={false} />
-<ApiLink type="Column" pkg="grids" />
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
 ## Additional Resources
 
 <ComponentBlock for="Grid">

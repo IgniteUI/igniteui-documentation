@@ -26,6 +26,4 @@ declare module 'virtual:docs-template/site-meta' {
 
 declare module 'virtual:docs-template/nav-html' {
   export const platform: 'igniteui' | 'angular' | 'react' | 'blazor' | 'web-components' | 'slingshot' | 'appbuilder' | null;
-  export const themeApiUrl: string;
-  export const widgetScriptSrc: string;
 }
