@@ -67,6 +67,8 @@ import { rehypeHeadingAnchors } from 'igniteui-astro-components/plugins/rehype-h
 import { rehypePagefindIgnore } from 'igniteui-astro-components/plugins/rehype-pagefind-ignore';
 import { rehypeStripEmptyParagraphs } from './plugins/rehype-strip-empty-paragraphs';
 import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
+import type { PlatformContext } from 'igniteui-astro-components/lib/types';
+import { resolveApiLink, type ApiLinkProps } from 'igniteui-astro-components/components/mdx/ApiLink/api-link-index';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'development' | 'staging' | 'production';
@@ -117,6 +119,42 @@ export interface SiteMetaOptions {
      * ignored when no package options are available.
      */
     selectedPackage?: string;
+    /**
+     * Platform context used to resolve `<ApiLink>` components in generated `.md` files.
+     * When provided, ApiLinks are rendered as markdown links pointing to the correct API docs URL.
+     * When omitted, ApiLinks fall back to inline code (`` `TypeName.member` ``).
+     */
+    platformContext?: PlatformContext | null;
+}
+
+/** Parse a JSX/MDX attribute string into a plain key→value map. */
+function parseApiLinkAttrs(attrs: string): Record<string, string | boolean> {
+    const props: Record<string, string | boolean> = {};
+    for (const m of attrs.matchAll(/(\w+)="([^"]*)"/g)) props[m[1]] = m[2];
+    for (const m of attrs.matchAll(/(\w+)=\{(true|false)\}/g)) props[m[1]] = m[2] === 'true';
+    return props;
+}
+
+/**
+ * Convert an `<ApiLink>` JSX element to Markdown.
+ * Delegates all resolution + label logic to `resolveApiLink` in igniteui-astro-components
+ * so both the Astro component and this markdown generator stay in sync automatically.
+ */
+function apiLinkToMd(attrs: string, ctx: PlatformContext | null | undefined): string {
+    const props = parseApiLinkAttrs(attrs);
+
+    if (!ctx) {
+        // No platform context — best-effort label from raw props, no URL.
+        const type = String(props.type ?? '');
+        const member = props.member ? String(props.member) : undefined;
+        const lbl = String(props.label ?? props.module ?? (member ? `${type}.${member}` : type));
+        return lbl ? `\`${lbl}\`` : '';
+    }
+
+    const result = resolveApiLink(props as ApiLinkProps, ctx);
+    return result.renderLink
+        ? `[\`${result.label}\`](${result.url})`
+        : `\`${result.label}\``;
 }
 
 /**
@@ -125,19 +163,26 @@ export interface SiteMetaOptions {
  *
  * Removes:
  *  - `import … from '…'` lines at the top of the file
- *  - Self-closing JSX components: <Sample …/>, <ApiLink …/>
+ *  - Self-closing JSX components: <Sample …/>, <ComponentBlock …/>, <PlatformBlock …/>
  *  - Inline <style>{`…`}</style> blocks
+ *
+ * Converts:
+ *  - `<ApiLink …/>` → markdown link (when ctx resolves the symbol) or inline code
  */
-function stripMdxForLlms(raw: string): string {
+function stripMdxForLlms(raw: string, ctx?: PlatformContext | null): string {
     return raw
         // Remove all import lines
         .replace(/^import\s+.+from\s+['"][^'"]+['"];?\r?\n/gm, '')
         // Remove <style>{`...`}</style> blocks (multiline)
         .replace(/<style>\{`[\s\S]*?`\}<\/style>\s*/g, '')
-        // Remove self-closing components: <Sample … />, <ApiLink … />
-        .replace(/<(Sample|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*\/>\s*/g, '')
-        // Remove paired components: <ApiLink …>…</ApiLink>
-        .replace(/<(ApiLink|ComponentBlock|PlatformBlock)\b[^>]*>[\s\S]*?<\/\1>\s*/g, '')
+        // Convert self-closing <ApiLink … /> to markdown
+        .replace(/<ApiLink\b([^>]*?)\/>/g, (_, a) => apiLinkToMd(a, ctx))
+        // Convert paired <ApiLink …>…</ApiLink> (rare, treat label-only)
+        .replace(/<ApiLink\b([^>]*?)>[\s\S]*?<\/ApiLink>/g, (_, a) => apiLinkToMd(a, ctx))
+        // Remove other self-closing components: <Sample … />, <ComponentBlock … />, <PlatformBlock … />
+        .replace(/<(Sample|ComponentBlock|PlatformBlock)\b[^>]*\/>\s*/g, '')
+        // Remove paired <ComponentBlock …>…</ComponentBlock> and <PlatformBlock …>…</PlatformBlock>
+        .replace(/<(ComponentBlock|PlatformBlock)\b[^>]*>[\s\S]*?<\/\1>\s*/g, '')
         // Collapse 3+ blank lines left behind into 2
         .replace(/\n{3,}/g, '\n\n')
         .trim() + '\n';
@@ -160,6 +205,7 @@ export function siteMetaIntegration({
     head = [],
     packages = [],
     selectedPackage = '',
+    platformContext = null,
 }: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
     const llmsMetaMap = docsDir
         ? buildLlmsMetaMap(docsDir, sidebar ?? [])
@@ -297,7 +343,7 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
                                 const raw = await fsp.readFile(src, 'utf-8');
                                 const dest = path.join(outDir, slug + '.md');
                                 await fsp.mkdir(path.dirname(dest), { recursive: true });
-                                await fsp.writeFile(dest, stripMdxForLlms(raw), 'utf-8');
+                                await fsp.writeFile(dest, stripMdxForLlms(raw, platformContext), 'utf-8');
                                 break;
                             } catch { /* try next extension */ }
                         }
@@ -491,6 +537,12 @@ export interface CreateDocsSiteOptions {
     packages?: Array<string | { label: string; value?: string; href?: string }>;
     /** Initially selected package value when `packages` is provided (must match one of `packages`). */
     selectedPackage?: string;
+    /**
+     * Platform context used to resolve `<ApiLink>` components in generated `.md` files.
+     * When provided, ApiLinks are rendered as markdown links pointing to the correct API docs URL.
+     * When omitted, ApiLinks fall back to inline code (`` `TypeName.member` ``).
+     */
+    platformContext?: PlatformContext | null;
     /** Extra Astro integrations appended after the built-in ones. */
     integrations?: AstroIntegration[];
     /** Any remaining keys are spread into `defineConfig` (markdown, image, build, …). */
@@ -518,6 +570,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         productLinks = [],
         packages = [],
         selectedPackage = '',
+        platformContext = null,
         head = [],
         llmsSets = [] as LlmsSet[],
         integrations: extraIntegrations = [],
@@ -632,6 +685,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 productLinks,
                 packages,
                 selectedPackage,
+                platformContext,
                 head: [...platformHead, ...codeViewHead, ...head],
             }),
             ...(base ? [createBasePrependIntegration(base)] : []),
