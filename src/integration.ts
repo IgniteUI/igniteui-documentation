@@ -47,6 +47,7 @@
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
+import { buildHtmlToMdConverter, htmlPageToMd } from './html-to-md.ts';
 import { createIndex as pagefindCreateIndex } from 'pagefind';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
@@ -67,8 +68,6 @@ import { rehypeHeadingAnchors } from 'igniteui-astro-components/plugins/rehype-h
 import { rehypePagefindIgnore } from 'igniteui-astro-components/plugins/rehype-pagefind-ignore';
 import { rehypeStripEmptyParagraphs } from './plugins/rehype-strip-empty-paragraphs';
 import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
-import type { PlatformContext } from 'igniteui-astro-components/lib/types';
-import { resolveApiLink, type ApiLinkProps } from 'igniteui-astro-components/components/mdx/ApiLink/api-link-index';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'development' | 'staging' | 'production';
@@ -124,73 +123,8 @@ export interface SiteMetaOptions {
      * When provided, ApiLinks are rendered as markdown links pointing to the correct API docs URL.
      * When omitted, ApiLinks fall back to inline code (`` `TypeName.member` ``).
      */
-    platformContext?: PlatformContext | null;
 }
 
-/** Parse a JSX/MDX attribute string into a plain key→value map. */
-function parseApiLinkAttrs(attrs: string): Record<string, string | boolean> {
-    const props: Record<string, string | boolean> = {};
-    for (const m of attrs.matchAll(/(\w+)="([^"]*)"/g)) props[m[1]] = m[2];
-    for (const m of attrs.matchAll(/(\w+)=\{(true|false)\}/g)) props[m[1]] = m[2] === 'true';
-    return props;
-}
-
-/**
- * Convert an `<ApiLink>` JSX element to Markdown.
- * Delegates all resolution + label logic to `resolveApiLink` in igniteui-astro-components
- * so both the Astro component and this markdown generator stay in sync automatically.
- */
-function apiLinkToMd(attrs: string, ctx: PlatformContext | null | undefined): string {
-    const props = parseApiLinkAttrs(attrs);
-
-    if (!ctx) {
-        // No platform context — best-effort label from raw props, no URL.
-        const type = String(props.type ?? '');
-        const member = props.member ? String(props.member) : undefined;
-        const lbl = String(props.label ?? props.module ?? (member ? `${type}.${member}` : type));
-        return lbl ? `\`${lbl}\`` : '';
-    }
-
-    const result = resolveApiLink(props as ApiLinkProps, ctx);
-    return result.renderLink
-        ? `[\`${result.label}\`](${result.url})`
-        : `\`${result.label}\``;
-}
-
-/**
- * Strip MDX-specific syntax from a source file so the `.md` endpoint
- * served to LLM crawlers contains clean markdown instead of JSX.
- *
- * Removes:
- *  - `import … from '…'` lines at the top of the file
- *  - Self-closing JSX components: <Sample …/>, <ComponentBlock …/>, <PlatformBlock …/>
- *  - Inline <style>{`…`}</style> blocks
- *
- * Converts:
- *  - `<ApiLink …/>` → markdown link (when ctx resolves the symbol) or inline code
- *  - Root-relative links `[label](/path)` → absolute URLs using siteUrl
- */
-function stripMdxForLlms(raw: string, ctx?: PlatformContext | null, siteUrl?: string): string {
-    const site = siteUrl?.replace(/\/$/, '') ?? '';
-    return raw
-        // Remove all import lines
-        .replace(/^import\s+.+from\s+['"][^'"]+['"];?\r?\n/gm, '')
-        // Remove <style>{`...`}</style> blocks (multiline)
-        .replace(/<style>\{`[\s\S]*?`\}<\/style>\s*/g, '')
-        // Convert self-closing <ApiLink … /> to markdown
-        .replace(/<ApiLink\b([^>]*?)\/>/g, (_, a) => apiLinkToMd(a, ctx))
-        // Convert paired <ApiLink …>…</ApiLink> (rare, treat label-only)
-        .replace(/<ApiLink\b([^>]*?)>[\s\S]*?<\/ApiLink>/g, (_, a) => apiLinkToMd(a, ctx))
-        // Remove other self-closing components: <Sample … />, <ComponentBlock … />, <PlatformBlock … />
-        .replace(/<(Sample|ComponentBlock|PlatformBlock)\b[^>]*\/>\s*/g, '')
-        // Remove paired <ComponentBlock …>…</ComponentBlock> and <PlatformBlock …>…</PlatformBlock>
-        .replace(/<(ComponentBlock|PlatformBlock)\b[^>]*>[\s\S]*?<\/\1>\s*/g, '')
-        // Absolutize root-relative markdown links: [label](/path) → [label](https://site/path.md)
-        .replace(/\[([^\]]+)\]\((\/[^)]*)\)/g, (_, label, path) => site ? `[${label}](${site}${path}.md)` : `[${label}](${path}.md)`)
-        // Collapse 3+ blank lines left behind into 2
-        .replace(/\n{3,}/g, '\n\n')
-        .trim() + '\n';
-}
 
 /**
  * Astro integration that exposes site metadata as the virtual module
@@ -209,7 +143,6 @@ export function siteMetaIntegration({
     head = [],
     packages = [],
     selectedPackage = '',
-    platformContext = null,
 }: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
     const llmsMetaMap = docsDir
         ? buildLlmsMetaMap(docsDir, sidebar ?? [])
@@ -339,32 +272,48 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
                     .map(p => p.pathname.replace(/\/$/, ''))
                     .filter(s => s && s !== '404' && s !== 'index');
 
-                await Promise.all(
+                console.log(`[docs-template] Generating ${slugs.length} .md files…`);
+                const mdStart = Date.now();
+
+                // Build the converter once; reuse across all pages.
+                const td = buildHtmlToMdConverter();
+
+                let mdDone = 0;
+                const mdFiles = await Promise.all(
                     slugs.map(async (slug) => {
-                        for (const ext of ['.md', '.mdx']) {
-                            const src = path.join(docsDir, slug + ext);
-                            try {
-                                const raw = await fsp.readFile(src, 'utf-8');
-                                const dest = path.join(outDir, slug + '.md');
-                                await fsp.mkdir(path.dirname(dest), { recursive: true });
-                                await fsp.writeFile(dest, stripMdxForLlms(raw, platformContext, configuredSite), 'utf-8');
-                                break;
-                            } catch { /* try next extension */ }
+                        const htmlPath = path.join(outDir, slug + '.html');
+                        const dest = path.join(outDir, slug + '.md');
+                        const md = await htmlPageToMd(htmlPath, configuredSite, td);
+                        if (!md) { mdDone++; return ''; }
+                        await fsp.mkdir(path.dirname(dest), { recursive: true });
+                        await fsp.writeFile(dest, md, 'utf-8');
+                        mdDone++;
+                        if (mdDone % 50 === 0 || mdDone === slugs.length) {
+                            console.log(`[docs-template]   ${mdDone}/${slugs.length} pages converted`);
                         }
+                        return md;
                     })
                 );
 
+                const mdGenerated = mdFiles.filter(Boolean).length;
+                const mdElapsed = ((Date.now() - mdStart) / 1000).toFixed(1);
+                console.log(`[docs-template] .md generation complete — ${mdGenerated}/${slugs.length} pages written in ${mdElapsed}s`);
+
+                // Build-level selector guard: if we built more than a handful of pages
+                // but extracted zero fenced code blocks across all of them, the Shiki
+                // class names (pre.astro-code / data-language) likely changed and the
+                // extractor is silently broken — fail loud rather than ship codeless docs.
+                const totalFences = mdFiles.reduce((n, md) => n + (md.match(/^```/gm) ?? []).length, 0);
+                if (slugs.length > 5 && totalFences === 0) {
+                    console.error('[docs-template] Selector guard: 0 code blocks across all pages. Check that pre.astro-code and data-language still match the built HTML — a theme rename may have broken extraction.');
+                    process.exitCode = 1;
+                } else {
+                    console.log(`[docs-template] Selector guard OK — ${totalFences} code fences across corpus`);
+                }
+
                 // ── llms-full.txt / llms-small.txt ──────────────────────────────────
-                // Read back the already-written per-page .md files and combine them.
-                const pageTexts = (
-                    await Promise.all(
-                        slugs.map(async (slug) => {
-                            try {
-                                return await fsp.readFile(path.join(outDir, slug + '.md'), 'utf-8');
-                            } catch { return ''; }
-                        })
-                    )
-                ).filter(Boolean);
+                console.log('[docs-template] Writing llms-full.txt and llms-small.txt…');
+                const pageTexts = mdFiles.filter(Boolean);
 
                 const fullContent = pageTexts.join('\n\n---\n\n');
                 await fsp.writeFile(path.join(outDir, 'llms-full.txt'), fullContent, 'utf-8');
@@ -541,12 +490,6 @@ export interface CreateDocsSiteOptions {
     packages?: Array<string | { label: string; value?: string; href?: string }>;
     /** Initially selected package value when `packages` is provided (must match one of `packages`). */
     selectedPackage?: string;
-    /**
-     * Platform context used to resolve `<ApiLink>` components in generated `.md` files.
-     * When provided, ApiLinks are rendered as markdown links pointing to the correct API docs URL.
-     * When omitted, ApiLinks fall back to inline code (`` `TypeName.member` ``).
-     */
-    platformContext?: PlatformContext | null;
     /** Extra Astro integrations appended after the built-in ones. */
     integrations?: AstroIntegration[];
     /** Any remaining keys are spread into `defineConfig` (markdown, image, build, …). */
@@ -574,7 +517,6 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         productLinks = [],
         packages = [],
         selectedPackage = '',
-        platformContext = null,
         head = [],
         llmsSets = [] as LlmsSet[],
         integrations: extraIntegrations = [],
@@ -689,7 +631,6 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 productLinks,
                 packages,
                 selectedPackage,
-                platformContext,
                 head: [...platformHead, ...codeViewHead, ...head],
             }),
             ...(base ? [createBasePrependIntegration(base)] : []),

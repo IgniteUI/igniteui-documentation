@@ -3,7 +3,6 @@ import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
-import { getPlatformContext } from 'docs-template/lib/platform-context';
 import mdx from '@astrojs/mdx';
 
 // ---------------------------------------------------------------------------
@@ -340,7 +339,6 @@ export default createDocsSite({
     platform: p.key,
     navLang: lang,
     mode,
-    platformContext: getPlatformContext(),
     build: {
         format: 'file'
     },

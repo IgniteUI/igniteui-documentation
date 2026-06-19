@@ -3,7 +3,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
-import { getPlatformContext } from 'docs-template/lib/platform-context';
 import { generateGridTopics } from './src/scripts/generate-grids.mjs';
 import mdx from '@astrojs/mdx';
 
@@ -78,7 +77,6 @@ export default createDocsSite({
 			href: mode === 'production' ? `${PROD_HOST}${b}/` : `${STAGING_HOST}${b}/`,
 		})),
 	selectedPackage: 'angular',
-	platformContext: getPlatformContext('Angular'),
 	source: {
 		tocPath: `${componentsDocsDir}/toc.json`,
 		docsDir: componentsDocsDir,
