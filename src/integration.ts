@@ -168,8 +168,10 @@ function apiLinkToMd(attrs: string, ctx: PlatformContext | null | undefined): st
  *
  * Converts:
  *  - `<ApiLink …/>` → markdown link (when ctx resolves the symbol) or inline code
+ *  - Root-relative links `[label](/path)` → absolute URLs using siteUrl
  */
-function stripMdxForLlms(raw: string, ctx?: PlatformContext | null): string {
+function stripMdxForLlms(raw: string, ctx?: PlatformContext | null, siteUrl?: string): string {
+    const site = siteUrl?.replace(/\/$/, '') ?? '';
     return raw
         // Remove all import lines
         .replace(/^import\s+.+from\s+['"][^'"]+['"];?\r?\n/gm, '')
@@ -183,6 +185,8 @@ function stripMdxForLlms(raw: string, ctx?: PlatformContext | null): string {
         .replace(/<(Sample|ComponentBlock|PlatformBlock)\b[^>]*\/>\s*/g, '')
         // Remove paired <ComponentBlock …>…</ComponentBlock> and <PlatformBlock …>…</PlatformBlock>
         .replace(/<(ComponentBlock|PlatformBlock)\b[^>]*>[\s\S]*?<\/\1>\s*/g, '')
+        // Absolutize root-relative markdown links: [label](/path) → [label](https://site/path.md)
+        .replace(/\[([^\]]+)\]\((\/[^)]*)\)/g, (_, label, path) => site ? `[${label}](${site}${path}.md)` : `[${label}](${path}.md)`)
         // Collapse 3+ blank lines left behind into 2
         .replace(/\n{3,}/g, '\n\n')
         .trim() + '\n';
@@ -343,7 +347,7 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
                                 const raw = await fsp.readFile(src, 'utf-8');
                                 const dest = path.join(outDir, slug + '.md');
                                 await fsp.mkdir(path.dirname(dest), { recursive: true });
-                                await fsp.writeFile(dest, stripMdxForLlms(raw, platformContext), 'utf-8');
+                                await fsp.writeFile(dest, stripMdxForLlms(raw, platformContext, configuredSite), 'utf-8');
                                 break;
                             } catch { /* try next extension */ }
                         }
