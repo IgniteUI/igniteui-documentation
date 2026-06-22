@@ -1,17 +1,30 @@
 /**
- * llms.ts
+ * llms.ts  —  llms.txt manifest generation and metadata extraction
  *
- * All logic for generating llms.txt content:
- *   – LlmsMeta / LlmsSet types
- *   – Frontmatter extraction via gray-matter
- *   – Sidebar slug collection
- *   – Label disambiguation for AI readability
- *   – buildLlmsTxt() – the single function integration.ts calls
+ * Generates the llms.txt manifest that indexes every documentation page with
+ * its LLM-friendly .md URL, description, and keyword tags.
+ *
+ * Architecture note — two-phase LLM pipeline:
+ *   1. **Metadata phase** (this module): reads source MDX/MD frontmatter to
+ *      extract structured fields (`llms.description`, `llms.keywords`, etc.)
+ *      that are not present in the rendered HTML.  This metadata populates the
+ *      llms.txt manifest with per-page descriptions and tags.
+ *   2. **Content phase** (html-to-md.ts): converts rendered HTML pages to
+ *      clean Markdown for the actual `.md` files served to LLMs.
+ *
+ * Public API:
+ *   – LlmsMeta / LlmsSet — types
+ *   – extractLlmsMeta()  — parse frontmatter into LlmsMeta
+ *   – buildLlmsMetaMap()  — build slug → LlmsMeta map from source docs
+ *   – buildLlmsTxt()      — generate the complete llms.txt content string
+ *   – toUrlSlug()         — derive a URL-safe slug from a label
+ *   – getBroadSectionsForPlatform() — navigation bucket labels per platform
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
+import type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 
 // ---------------------------------------------------------------------------
 // Public types
@@ -35,16 +48,14 @@ export interface LlmsSet {
     description?: string;
 }
 
+// Re-export sidebar types so integration.ts doesn't need a second import path.
+export type { SidebarEntry } from './lib/sidebar/types';
+
 // ---------------------------------------------------------------------------
 // Internal types
 // ---------------------------------------------------------------------------
 
-export interface SidebarItem {
-    label?: string;
-    slug?: string;
-    items?: SidebarItem[];
-}
-
+/** Shape of the YAML frontmatter fields we care about in source MDX/MD files. */
 interface FrontmatterData {
     title?: string;
     description?: string;
@@ -85,27 +96,39 @@ export function extractLlmsMeta(raw: string): LlmsMeta {
 // Sidebar slug collection
 // ---------------------------------------------------------------------------
 
-export function collectSlugs(items: SidebarItem[]): string[] {
-    return items.flatMap(item => [
-        ...(typeof item.slug === 'string' ? [item.slug] : []),
-        ...(Array.isArray(item.items) ? collectSlugs(item.items) : []),
-    ]);
+/** Recursively collect all page slugs from a sidebar tree. */
+export function collectSlugs(items: SidebarEntry[]): string[] {
+    return items.flatMap(item =>
+        'slug' in item
+            ? [item.slug]
+            : collectSlugs(item.items),
+    );
 }
 
 // ---------------------------------------------------------------------------
 // Build a slug → LlmsMeta map by reading source files
 // ---------------------------------------------------------------------------
 
-export function buildLlmsMetaMap(docsDir: string, items: SidebarItem[]): Map<string, LlmsMeta> {
+/**
+ * Reads source MDX/MD files on disk to extract frontmatter metadata.
+ *
+ * This is the only place in the LLM pipeline that reads source files —
+ * it must happen before the build because the rendered HTML does not expose
+ * LLM-specific frontmatter fields like `llms.description` or `llms.keywords`.
+ */
+export function buildLlmsMetaMap(docsDir: string, items: SidebarEntry[]): Map<string, LlmsMeta> {
     const map = new Map<string, LlmsMeta>();
     for (const slug of collectSlugs(items)) {
-        for (const ext of ['.md', '.mdx']) {
+        const candidates = slug
+            ? [`${slug}.md`, `${slug}.mdx`, path.join(slug, 'index.md'), path.join(slug, 'index.mdx')]
+            : ['index.md', 'index.mdx'];
+        for (const candidate of candidates) {
             try {
-                const raw = fs.readFileSync(path.join(docsDir, slug + ext), 'utf-8');
+                const raw = fs.readFileSync(path.join(docsDir, candidate), 'utf-8');
                 const meta = extractLlmsMeta(raw);
                 if (meta.description || meta.keywords?.length) map.set(slug, meta);
                 break;
-            } catch { /* try next ext */ }
+            } catch { /* try next candidate */ }
         }
     }
     return map;
@@ -232,33 +255,41 @@ function buildLabel(label: string, ancestorPath: string[], broadSections: Readon
 // Sidebar walk + llms.txt line generation
 // ---------------------------------------------------------------------------
 
+/**
+ * Recursively walks the sidebar tree and appends llms.txt manifest lines.
+ *
+ * Leaf pages (SidebarLink) become `- [label](url.md): description` entries.
+ * Groups (SidebarGroup) become section headings up to 3 levels deep.
+ */
 function walkLlmsItems(
-    items: SidebarItem[],
+    items: SidebarEntry[],
     base: string,
     lines: string[],
-    meta: Record<string, LlmsMeta>,
+    meta: Map<string, LlmsMeta>,
     seen: Set<string>,
     ancestorPath: string[] = [],
     depth = 0,
     broadSections: ReadonlySet<string> = new Set(),
 ): void {
-    const groups: SidebarItem[] = [];
+    const groups: SidebarGroup[] = [];
 
     for (const item of items) {
-        if (item.slug !== undefined) {
+        if ('slug' in item) {
+            // Leaf page — emit a manifest line with optional description and tags.
             const slug = item.slug === '' ? 'index' : item.slug;
             if (seen.has(slug)) continue;
             seen.add(slug);
 
-            const label = buildLabel(item.label ?? slug, ancestorPath, broadSections);
-            const m = meta[slug];
+            const label = buildLabel(item.label, ancestorPath, broadSections);
+            const m = meta.get(slug);
             let line = `- [${label}](${base}/${slug}.md)`;
             if (m?.description) line += `: ${m.description}`;
             lines.push(line);
             if (m?.keywords?.length) lines.push(`  Tags: ${m.keywords.join(', ')}`);
-            continue;
+        } else if (item.items.length > 0) {
+            // Group — collect for heading emission after all leaf pages.
+            groups.push(item);
         }
-        if (Array.isArray(item.items) && item.items.length > 0) groups.push(item);
     }
 
     for (const group of groups) {
@@ -267,12 +298,12 @@ function walkLlmsItems(
             lines.push('', `${'#'.repeat(headingLevel)} ${group.label}`, '');
         }
         walkLlmsItems(
-            group.items!,
+            group.items,
             base,
             lines,
             meta,
             seen,
-            [...ancestorPath, group.label ?? ''],
+            [...ancestorPath, group.label],
             depth + 1,
             broadSections,
         );
@@ -283,11 +314,12 @@ function walkLlmsItems(
 // Public builder
 // ---------------------------------------------------------------------------
 
+/** Generate the complete llms.txt manifest content. */
 export function buildLlmsTxt(
     base: string,
     siteTitle: string,
     siteDescription: string,
-    sidebarItems: SidebarItem[],
+    sidebarItems: SidebarEntry[],
     metaMap: Map<string, LlmsMeta>,
     llmsSets: LlmsSet[] = [],
     broadSections: ReadonlySet<string> = new Set(),
@@ -310,6 +342,6 @@ export function buildLlmsTxt(
         lines.push(set.description ? `${link}: ${set.description}` : link);
     }
 
-    walkLlmsItems(sidebarItems, base, lines, Object.fromEntries(metaMap), new Set(), [], 0, broadSections);
+    walkLlmsItems(sidebarItems, base, lines, metaMap, new Set(), [], 0, broadSections);
     return lines.join('\n');
 }

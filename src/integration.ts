@@ -41,7 +41,7 @@
  *
  * Generated output:
  *   /llms.txt              — manifest listing every page with its .md URL
- *   /{slug}.md             — raw markdown for each page (env-vars substituted)
+ *   /{slug}.md             — Markdown for each page (converted from rendered HTML)
  */
 
 import fs from 'node:fs';
@@ -55,7 +55,7 @@ import type { AstroIntegration } from 'astro';
 import mdx from '@astrojs/mdx';
 import {
     buildLlmsTxt, buildLlmsMetaMap, getBroadSectionsForPlatform, toUrlSlug,
-    type LlmsMeta, type LlmsSet, type SidebarItem,
+    type LlmsMeta, type LlmsSet, type SidebarEntry,
 } from './llms.ts';
 import { buildSidebarFromToc } from './sidebar';
 import { getPlatformHead } from './platform';
@@ -71,6 +71,151 @@ import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'development' | 'staging' | 'production';
+
+// ---------------------------------------------------------------------------
+// LLM Markdown generation  (called from astro:build:done)
+// ---------------------------------------------------------------------------
+
+interface GenerateLlmsMdOptions {
+    /** Absolute path to the Astro build output directory. */
+    outDir: string;
+    /** Page slugs to convert (stripped of trailing slashes). */
+    slugs: string[];
+    /** Path to the source docs directory — used only for diagnostic warnings. */
+    docsDir: string;
+    /** Configured site URL. */
+    siteUrl: string;
+    /** Named documentation subsets to assemble into combined .txt files. */
+    llmsSets: LlmsSet[];
+}
+
+const UTF8_BOM = '\uFEFF';
+
+function withUtf8Bom(content: string): string {
+    return UTF8_BOM + content.replace(/^\uFEFF/, '');
+}
+
+/**
+ * Converts all built HTML pages to Markdown and writes the LLM bundle files.
+ *
+ * Produces:
+ *   /{slug}.md        — per-page Markdown converted from the rendered HTML
+ *   /llms-full.txt    — all pages concatenated into a single file
+ *   /llms-small.txt   — same as full, but with code blocks and inline code removed
+ *   /_llms-txt/*.txt  — topic-specific bundles defined by `llmsSets`
+ */
+async function generateLlmsMdFiles({ outDir, slugs, docsDir, siteUrl, llmsSets }: GenerateLlmsMdOptions): Promise<void> {
+    console.log(`[docs-template] Generating ${slugs.length} .md files…`);
+    const mdStart = Date.now();
+
+    // Build the TurndownService converter once; reuse across all pages.
+    const td = buildHtmlToMdConverter();
+
+    let mdDone = 0;
+    const skippedSlugs: string[] = [];
+    const mdFiles = await Promise.all(
+        slugs.map(async (slug) => {
+            const htmlPath = path.join(outDir, slug + '.html');
+            const dest = path.join(outDir, slug + '.md');
+
+            // Resolve the source MDX/MD path so warnings point developers at the
+            // file they need to edit, not the built HTML artifact.
+            const sourceRef = ['.mdx', '.md']
+                .map(ext => path.join(docsDir, slug + ext))
+                .find(f => fs.existsSync(f)) ?? path.join(docsDir, slug + '.mdx');
+
+            const md = await htmlPageToMd(htmlPath, siteUrl, td, sourceRef);
+            if (!md) { skippedSlugs.push(slug); mdDone++; return ''; }
+            await fsp.mkdir(path.dirname(dest), { recursive: true });
+            await fsp.writeFile(dest, withUtf8Bom(md), 'utf-8');
+            mdDone++;
+            if (mdDone % 50 === 0 || mdDone === slugs.length) {
+                console.log(`[docs-template]   ${mdDone}/${slugs.length} pages converted`);
+            }
+            return md;
+        })
+    );
+
+    const mdGenerated = mdFiles.filter(Boolean).length;
+    const mdElapsed = ((Date.now() - mdStart) / 1000).toFixed(1);
+    console.log(`[docs-template] .md generation complete — ${mdGenerated}/${slugs.length} pages written in ${mdElapsed}s`);
+
+    // Conversion-count guard: warn when a significant number of pages produced
+    // no Markdown — likely a layout change or missing HTML rather than pages
+    // that legitimately have no content.
+    if (skippedSlugs.length > 0) {
+        const pct = ((skippedSlugs.length / slugs.length) * 100).toFixed(1);
+        const level = skippedSlugs.length > slugs.length * 0.1 ? 'error' : 'warn';
+        const sample = skippedSlugs.slice(0, 10).join(', ');
+        const suffix = skippedSlugs.length > 10 ? `, … and ${skippedSlugs.length - 10} more` : '';
+        console[level](`[docs-template] ${skippedSlugs.length} of ${slugs.length} pages (${pct}%) produced no .md output: ${sample}${suffix}`);
+        if (level === 'error') process.exitCode = 1;
+    }
+
+    // Selector guard: if we built more than a handful of pages but extracted zero
+    // fenced code blocks, the Shiki class names likely changed and extraction is
+    // silently broken — fail loud rather than ship codeless docs.
+    // Count opening fence lines only (those followed by a language identifier or newline).
+    const totalBlocks = mdFiles.reduce((n, md) => n + (md.match(/^`{3,}[^`\n]*$/gm) ?? []).length, 0) / 2;
+    if (slugs.length > 5 && totalBlocks === 0) {
+        console.error('[docs-template] Selector guard: 0 code blocks across all pages. Check that pre.astro-code and data-language still match the built HTML.');
+        process.exitCode = 1;
+    } else {
+        console.log(`[docs-template] Selector guard OK — ~${Math.round(totalBlocks)} code blocks across corpus`);
+    }
+
+    // ── llms-full.txt / llms-small.txt ──────────────────────────────────────
+    console.log('[docs-template] Writing llms-full.txt and llms-small.txt…');
+    const pageTexts = mdFiles.filter(Boolean);
+
+    const fullContent = pageTexts.join('\n\n---\n\n');
+    await fsp.writeFile(path.join(outDir, 'llms-full.txt'), withUtf8Bom(fullContent), 'utf-8');
+
+    // Small variant: strip fenced code blocks and inline code to reduce token count.
+    // Backreference ensures a 4-backtick block isn't closed by a nested 3-backtick line.
+    const smallContent = fullContent
+        .replace(/^(`{3,})[^\n]*\n[\s\S]*?^\1[ \t]*$/gm, '')
+        .replace(/`[^`\n]+`/g, '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+    await fsp.writeFile(path.join(outDir, 'llms-small.txt'), withUtf8Bom(smallContent), 'utf-8');
+
+    // ── /_llms-txt/{set-slug}.txt ────────────────────────────────────────────
+    if (llmsSets.length > 0) {
+        const llmsTxtDir = path.join(outDir, '_llms-txt');
+        await fsp.mkdir(llmsTxtDir, { recursive: true });
+
+        await Promise.all(
+            llmsSets.map(async (set) => {
+                const matchingSlugs = slugs.filter((slug) =>
+                    set.paths.some((pattern) => {
+                        if (pattern.endsWith('*')) {
+                            return slug.startsWith(pattern.slice(0, -1));
+                        }
+                        return slug === pattern || slug.startsWith(pattern + '/');
+                    })
+                );
+
+                const setText = (
+                    await Promise.all(
+                        matchingSlugs.map(async (slug) => {
+                            try {
+                                const content = await fsp.readFile(path.join(outDir, slug + '.md'), 'utf-8');
+                                return content.replace(/^\uFEFF/, '');
+                            } catch { return ''; }
+                        })
+                    )
+                ).filter(Boolean).join('\n\n---\n\n');
+
+                await fsp.writeFile(
+                    path.join(llmsTxtDir, toUrlSlug(set.label) + '.txt'),
+                    withUtf8Bom(setText),
+                    'utf-8',
+                );
+            })
+        );
+    }
+}
 
 // ---------------------------------------------------------------------------
 // Site meta virtual module
@@ -93,7 +238,7 @@ export interface SiteMetaOptions {
     description?: string;
     /** Path to the source markdown files. */
     docsDir?: string;
-    sidebar?: SidebarItem[];
+    sidebar?: SidebarEntry[];
     platform?: PlatformKey | null;
     navLang?: NavLang;
     /** Build / deployment mode. Exposed via `process.env.DOCS_BUILD_MODE`. */
@@ -236,6 +381,10 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
 
             'astro:server:setup'({ server }) {
                 if (!docsDir) return;
+                // Dev-mode convenience: serve raw source MDX/MD files for /{slug}.md
+                // requests so LLM clients can fetch Markdown during local development
+                // without a full production build.  The HTML→MD pipeline only runs at
+                // build time, so dev mode falls back to source content.
                 server.middlewares.use(async (req, res, next) => {
                     // Only handle requests ending in .md
                     if (!req.url?.endsWith('.md')) return next();
@@ -261,108 +410,28 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
                 const pkgScripts = fileURLToPath(new URL('../public/scripts', import.meta.url));
                 if (fs.existsSync(pkgScripts)) copyDirSync(pkgScripts, path.join(outDir, 'scripts'));
 
-                // Write our custom llms.txt after all rendering — always wins over plugin output.
+                // ── LLM artifacts ────────────────────────────────────────────────
+                // Write llms.txt manifest (always — even without docsDir).
                 const llmsContent = buildLlmsTxt(configuredSite, title, description, sidebar ?? [], llmsMetaMap, llmsSets, broadSections);
-                await fsp.writeFile(path.join(outDir, 'llms.txt'), llmsContent, 'utf-8');
+                // English metadata can also contain Unicode punctuation and symbols.
+                // Include a UTF-8 signature because static preview servers may omit charset.
+                await fsp.writeFile(path.join(outDir, 'llms.txt'), withUtf8Bom(llmsContent), 'utf-8');
 
-                if (!docsDir) return;
+                if (docsDir) {
+                    const slugs = pages
+                        .map(p => p.pathname.replace(/\/$/, ''))
+                        .filter(s => s && s !== '404' && s !== 'index');
 
-                // pages[].pathname is like "accordion/" or "charts/chart-api/" — strip trailing slash.
-                const slugs = pages
-                    .map(p => p.pathname.replace(/\/$/, ''))
-                    .filter(s => s && s !== '404' && s !== 'index');
-
-                console.log(`[docs-template] Generating ${slugs.length} .md files…`);
-                const mdStart = Date.now();
-
-                // Build the converter once; reuse across all pages.
-                const td = buildHtmlToMdConverter();
-
-                let mdDone = 0;
-                const mdFiles = await Promise.all(
-                    slugs.map(async (slug) => {
-                        const htmlPath = path.join(outDir, slug + '.html');
-                        const dest = path.join(outDir, slug + '.md');
-                        const md = await htmlPageToMd(htmlPath, configuredSite, td);
-                        if (!md) { mdDone++; return ''; }
-                        await fsp.mkdir(path.dirname(dest), { recursive: true });
-                        await fsp.writeFile(dest, md, 'utf-8');
-                        mdDone++;
-                        if (mdDone % 50 === 0 || mdDone === slugs.length) {
-                            console.log(`[docs-template]   ${mdDone}/${slugs.length} pages converted`);
-                        }
-                        return md;
-                    })
-                );
-
-                const mdGenerated = mdFiles.filter(Boolean).length;
-                const mdElapsed = ((Date.now() - mdStart) / 1000).toFixed(1);
-                console.log(`[docs-template] .md generation complete — ${mdGenerated}/${slugs.length} pages written in ${mdElapsed}s`);
-
-                // Build-level selector guard: if we built more than a handful of pages
-                // but extracted zero fenced code blocks across all of them, the Shiki
-                // class names (pre.astro-code / data-language) likely changed and the
-                // extractor is silently broken — fail loud rather than ship codeless docs.
-                const totalFences = mdFiles.reduce((n, md) => n + (md.match(/^```/gm) ?? []).length, 0);
-                if (slugs.length > 5 && totalFences === 0) {
-                    console.error('[docs-template] Selector guard: 0 code blocks across all pages. Check that pre.astro-code and data-language still match the built HTML — a theme rename may have broken extraction.');
-                    process.exitCode = 1;
-                } else {
-                    console.log(`[docs-template] Selector guard OK — ${totalFences} code fences across corpus`);
+                    await generateLlmsMdFiles({
+                        outDir,
+                        slugs,
+                        docsDir,
+                        siteUrl: configuredSite,
+                        llmsSets,
+                    });
                 }
 
-                // ── llms-full.txt / llms-small.txt ──────────────────────────────────
-                console.log('[docs-template] Writing llms-full.txt and llms-small.txt…');
-                const pageTexts = mdFiles.filter(Boolean);
-
-                const fullContent = pageTexts.join('\n\n---\n\n');
-                await fsp.writeFile(path.join(outDir, 'llms-full.txt'), fullContent, 'utf-8');
-
-                // Small variant: strip fenced code blocks and inline code.
-                const smallContent = fullContent
-                    .replace(/^```[\s\S]*?^```/gm, '')
-                    .replace(/`[^`\n]+`/g, '')
-                    .replace(/\n{3,}/g, '\n\n')
-                    .trim();
-                await fsp.writeFile(path.join(outDir, 'llms-small.txt'), smallContent, 'utf-8');
-
-                // ── /_llms-txt/{set-slug}.txt ────────────────────────────────────────
-                if (llmsSets.length > 0) {
-                    const llmsTxtDir = path.join(outDir, '_llms-txt');
-                    await fsp.mkdir(llmsTxtDir, { recursive: true });
-
-                    await Promise.all(
-                        llmsSets.map(async (set) => {
-                            const matchingSlugs = slugs.filter((slug) =>
-                                set.paths.some((pattern) => {
-                                    if (pattern.endsWith('*')) {
-                                        return slug.startsWith(pattern.slice(0, -1));
-                                    }
-                                    return slug === pattern || slug.startsWith(pattern + '/');
-                                })
-                            );
-
-                            const setText = (
-                                await Promise.all(
-                                    matchingSlugs.map(async (slug) => {
-                                        try {
-                                            return await fsp.readFile(path.join(outDir, slug + '.md'), 'utf-8');
-                                        } catch { return ''; }
-                                    })
-                                )
-                            ).filter(Boolean).join('\n\n---\n\n');
-
-                            await fsp.writeFile(
-                                path.join(llmsTxtDir, toUrlSlug(set.label) + '.txt'),
-                                setText,
-                                'utf-8',
-                            );
-                        })
-                    );
-                }
-
-                // Run pagefind to generate the search index from the built HTML.
-                // The index is written to <outDir>/pagefind/ and served statically.
+                // ── Pagefind search index ────────────────────────────────────────
                 console.log('[docs-template] Running pagefind…');
                 try {
                     const { index, errors: initErrors } = await pagefindCreateIndex({});
