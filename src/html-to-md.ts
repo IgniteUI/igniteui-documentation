@@ -144,11 +144,9 @@ export async function htmlPageToMd(
     const htmlWithMarkers = html.replace(
         /<pre\b[^>]*class="[^"]*astro-code[^"]*"[^>]*data-language="([^"]*)"[^>]*>([\s\S]*?)<\/pre>/g,
         (_, lang, body) => {
-            const rawCode = body
-                .replace(/<[^>]+>/g, '')
-                .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')
-                .replace(/&quot;/g, '"').replace(/&#39;/g, "'")
-                .trim();
+            // Parse Shiki's structural markup and decode entities exactly once.
+            // Escaped code such as &lt;script&gt; remains inert text during parsing.
+            const rawCode = JSDOM.fragment(body).textContent?.trim() ?? '';
             const idx = codeBlocks.length;
             codeBlocks.push({ lang, code: rawCode });
             return `<p>SHIKIFENCE${idx}SHIKIEND</p>`;
