@@ -298,10 +298,13 @@ function buildFilteredToc(): string {
             .filter(n => !Array.isArray(n.exclude) || !n.exclude.includes(platform))
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .map(({ exclude, platforms, ...rest }) => {
-                // Apply platform-specific badge overrides, e.g.:
-                //   "platforms": { "Blazor": { "new": false, "preview": true } }
+                // Apply platform-specific badge overrides.
+                // `since` lives inside platforms[P] and is stripped here — it is
+                // consumed only by release-labels.mjs, never by the sidebar.
                 if (platforms && typeof platforms === 'object' && platforms[platform]) {
-                    Object.assign(rest, platforms[platform]);
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    const { since: _since, ...override } = platforms[platform];
+                    Object.assign(rest, override);
                 }
                 if (typeof rest.name === 'string') {
                     for (const [token, value] of Object.entries(tokens)) {

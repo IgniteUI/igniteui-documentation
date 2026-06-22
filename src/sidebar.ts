@@ -37,8 +37,14 @@ interface TocItem {
     preview?: boolean;
     updated?: boolean;
     premium?: boolean;
-    /** Per-platform badge overrides. Processed by buildFilteredToc() before this function sees the item. */
-    platforms?: Record<string, Partial<Pick<TocItem, 'new' | 'preview' | 'updated' | 'premium'>>>;
+    /**
+     * Per-platform badge overrides. Processed and stripped by buildFilteredToc()
+     * before this function sees the item.
+     * `since` inside each platform entry records the package version when the label
+     * was added (e.g. "7.0.0" for WC, "19.0.0" for React) and is used by
+     * release-labels.mjs to auto-clear expired labels at release time.
+     */
+    platforms?: Record<string, Partial<Pick<TocItem, 'new' | 'preview' | 'updated' | 'premium'>> & { since?: string }>;
 }
 
 // ---------------------------------------------------------------------------
