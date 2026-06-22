@@ -37,6 +37,8 @@ interface TocItem {
     preview?: boolean;
     updated?: boolean;
     premium?: boolean;
+    /** Per-platform badge overrides. Processed by buildFilteredToc() before this function sees the item. */
+    platforms?: Record<string, Partial<Pick<TocItem, 'new' | 'preview' | 'updated' | 'premium'>>>;
 }
 
 // ---------------------------------------------------------------------------

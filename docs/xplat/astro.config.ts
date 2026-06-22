@@ -297,7 +297,12 @@ function buildFilteredToc(): string {
         return nodes
             .filter(n => !Array.isArray(n.exclude) || !n.exclude.includes(platform))
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            .map(({ exclude, ...rest }) => {
+            .map(({ exclude, platforms, ...rest }) => {
+                // Apply platform-specific badge overrides, e.g.:
+                //   "platforms": { "Blazor": { "new": false, "preview": true } }
+                if (platforms && typeof platforms === 'object' && platforms[platform]) {
+                    Object.assign(rest, platforms[platform]);
+                }
                 if (typeof rest.name === 'string') {
                     for (const [token, value] of Object.entries(tokens)) {
                         rest.name = (rest.name as string).replaceAll(token, value);
