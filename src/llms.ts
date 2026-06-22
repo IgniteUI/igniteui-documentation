@@ -201,7 +201,11 @@ const GENERIC_WORDS = new Set([
 ]);
 
 function isGeneric(label: string): boolean {
-    return GENERIC_WORDS.has(label) || [...GENERIC_WORDS].some(w => label.startsWith(w + ' '));
+    if (GENERIC_WORDS.has(label)) return true;
+    // Labels with 5+ words already carry enough specificity on their own.
+    // e.g. "Getting Started with Ignite UI for Angular Schematics" should not inherit a parent prefix.
+    if (label.split(/\s+/).length > 4) return false;
+    return [...GENERIC_WORDS].some(w => label.startsWith(w + ' '));
 }
 
 /** Strips a leading `"<prefix> "` from label if present, avoiding "Editing Editing Overview". */
@@ -248,6 +252,12 @@ function buildLabel(label: string, ancestorPath: string[], broadSections: Readon
         return `${component} ${subsection} ${deduped}`;
     }
 
+    // Avoid "Data Grid Grid with Cascading Combos" when the label already starts
+    // with the last word of the component name.
+    const componentLastWord = component.split(/\s+/).pop() ?? '';
+    if (componentLastWord && label.toLowerCase().startsWith(componentLastWord.toLowerCase() + ' ')) {
+        return label;
+    }
     return `${component} ${label}`;
 }
 
