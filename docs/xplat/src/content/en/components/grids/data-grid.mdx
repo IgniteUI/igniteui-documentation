@@ -200,7 +200,7 @@ For more details on how to customize the appearance of the grid, you may have a 
 
 ### Component Modules
 
-The <ApiLink type="DataGrid" /> requires the following modules:
+The <ApiLink type="Grid" /> requires the following modules:
 
 <PlatformBlock for="Blazor">
 ```razor
@@ -370,7 +370,7 @@ constructor() {
 
 ```tsx
 <IgrGrid id="grid1" autoGenerate={false} allowFiltering={true} data={localData}>
-    <IgrColumn field="Name" sortable={true}></igc-column>
+    <IgrColumn field="Name" sortable={true}></IgrColumn>
     <IgrColumn field="AthleteNumber" header="Athlete number" filterable={false} sortable={true}></IgrColumn>
     <IgrColumn field="TrackProgress" header="Track progress" filterable={false}></IgrColumn>
 </IgrGrid>
@@ -533,7 +533,7 @@ public nameCellTemplate = (ctx: IgcCellTemplateContext) => {
 }
 
 public formatTitleCase(value: string) {
-    return value.toUpperCase();
+    return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }
 ```
 
@@ -552,7 +552,7 @@ igRegisterScript("NameCellTemplate", (ctx) => {
 }, false);
 
 function formatTitleCase(value) {
-    return value.toUpperCase();
+    return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }
 ```
 
@@ -562,7 +562,7 @@ function formatTitleCase(value) {
 
 ```tsx
 function formatTitleCase(value: string) {
-    return value.toUpperCase();
+    return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }
 
 function nameCellTemplate(ctx: IgrCellTemplateContext) {
@@ -643,7 +643,7 @@ public deleteRow(rowIndex: number) {
 }
 
 public formatTitleCase(value: string) {
-    return value.toUpperCase();
+    return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }
 ```
 
@@ -683,7 +683,7 @@ function deleteRow(rowID: any) {
 }
 
 function formatTitleCase(value: string) {
-    return value.toUpperCase();
+    return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }
 
 <IgrGrid id="grid" ref={grid} autoGenerate={false} data={data} primaryKey="Name">
@@ -706,7 +706,7 @@ function formatTitleCase(value: string) {
 igRegisterScript("NameCellTemplate", (ctx) => {
        var html = window.igTemplating.html;
     return html`
-        <span tabindex="0" @keyup=${(e) => this.deleteRow(e, ctx.cell.id.rowIndex)}> ${this.formatTitleCase(ctx.cell.value)}</span >
+        <span tabindex="0" @keyup=${(e) => this.deleteRow(e, ctx.cell.id.rowIndex)}> ${this.formatTitleCase(ctx.cell.value)}</span>
     `;
 }, false);
 
@@ -726,7 +726,7 @@ function deleteRow(e, rowIndex) {
 }
 
 function formatTitleCase(value) {
-    return value.toUpperCase();
+    return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }
 ```
 
@@ -872,12 +872,12 @@ Each of the column templates can be changed programmatically at any point throug
 </igx-grid>
 
 <ng-template #normalView let-value>
-    <div class="user-details">{{ val }}</div>
+    <div class="user-details">{{ value }}</div>
     <user-details-component></user-details-component>
 </ng-template>
 
 <ng-template #smallView let-value>
-    <div class="user-details-small">{{ val }}</div>
+    <div class="user-details-small">{{ value }}</div>
 </ng-template>
 ```
 
@@ -1158,11 +1158,11 @@ const columnPipeArgs: IgrColumnPipeArgs = {
 ```razor
 <IgbColumn Field="OrderDate"
            DataType=GridColumnDataType.Date
-           PipeArgs=@(new IgbColumnPipeArgs() { Timezone="UTC+0", DigitsInfo="1.2-2", Format = "longDate" }) />
+           PipeArgs=@(new IgbColumnPipeArgs() { Timezone="UTC+0", Format = "longDate" }) />
 
 <IgbColumn Field="UnitPrice"
-           DataType=GridColumnDataType.Date
-           PipeArgs=@(new IgbColumnPipeArgs() { Timezone="UTC+0", DigitsInfo="1.2-2", Format = "longDate" }) />
+           DataType=GridColumnDataType.Number
+           PipeArgs=@(new IgbColumnPipeArgs() { DigitsInfo="1.2-2" }) />
 ```
 
 </PlatformBlock>
@@ -2163,7 +2163,7 @@ Keep in mind that with the above defined template you will not be able to make e
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-column id="address" field="Address" data-type="number" width="25%" editable="true"></igc-column>
+<igc-column id="address" field="Address" data-type="string" width="25%" editable="true"></igc-column>
 ```
 
 </PlatformBlock>
@@ -2192,17 +2192,17 @@ public webGridCompositeAddressEditCellTemplate = (ctx: IgcCellTemplateContext) =
     return html`<div class="address-container--edit" style="display: inline-grid">
             <div>
                 <span><strong>Country:</strong></span>
-                <input id='Country' @keyup=${(e: any) => keyUpHandler(e, ctx)} value="${cell.row.data.Country}"></input>
+                <input id='Country' @keyup=${(e: any) => keyUpHandler(e, ctx)} value="${cell.row.data.Country}">
                 <br>
                 <span><strong>City:</strong></span>
-                <input id='City' @keyup=${(e: any) => keyUpHandler(e, ctx)} value="${cell.row.data.City}"></input>
+                <input id='City' @keyup=${(e: any) => keyUpHandler(e, ctx)} value="${cell.row.data.City}">
             </div>
             <div>
                 <span><strong>Postal Code:</strong></span>
-                <input id='PostalCode' @keyup=${(e: any) => keyUpHandler(e, ctx)} value="${cell.row.data.PostalCode}"></input>
+                <input id='PostalCode' @keyup=${(e: any) => keyUpHandler(e, ctx)} value="${cell.row.data.PostalCode}">
                 <br>
                 <span><strong>Selected:</strong></span>
-                <input id='Phone' @keyup=${(e: any) => keyUpHandler(e, ctx)} value="${cell.row.data.Phone}"></input>
+                <input id='Phone' @keyup=${(e: any) => keyUpHandler(e, ctx)} value="${cell.row.data.Phone}">
             </div>
             <br>
         </div>`;
@@ -2248,7 +2248,7 @@ function addressEditCellTemplate(ctx: IgrCellTemplateContext) {
     );
 }
 
-<IgrColumn field="Address" dataType="number" width="25%" editable={true} inlineEditorTemplate={addressEditCellTemplate}></IgrColumn>
+<IgrColumn field="Address" dataType="string" width="25%" editable={true} inlineEditorTemplate={addressEditCellTemplate}></IgrColumn>
 ```
 
 </PlatformBlock>
@@ -2270,17 +2270,17 @@ igRegisterScript("AddressEditCellTemplate", (ctx) => {
     return html`<div class="address-container--edit">
     <div>
         <span><strong>Country:</strong></span>
-        <input id='Country' onkeyup='keyUpHandler()' value="${ctx.cell.row.data.Country}"></input>
+        <input id='Country' onkeyup='keyUpHandler()' value="${ctx.cell.row.data.Country}">
         <br>
         <span><strong>City:</strong></span>
-        <input id='City' onkeyup='keyUpHandler()' value="${ctx.cell.row.data.City}"></input>
+        <input id='City' onkeyup='keyUpHandler()' value="${ctx.cell.row.data.City}">
     </div>
     <div>
         <span><strong>Postal Code:</strong></span>
-        <input id='PostalCode' onkeyup='keyUpHandler()' value="${ctx.cell.row.data.PostalCode}"></input>
+        <input id='PostalCode' onkeyup='keyUpHandler()' value="${ctx.cell.row.data.PostalCode}">
         <br>
         <span><strong>Selected:</strong></span>
-        <input id='Phone' onkeyup='keyUpHandler()' value="${ctx.cell.row.data.Phone}"></input>
+        <input id='Phone' onkeyup='keyUpHandler()' value="${ctx.cell.row.data.Phone}">
     </div>
     <br>
 </div>`;
@@ -2332,7 +2332,7 @@ Achieving a state persistence framework is easier than ever by using the new bui
 
 
 {/* The sizing topic is still not available thus the Sizing section is commented out. _/}
-{/_ ## Sizing
+{/* ## Sizing
 
 See the [Grid Sizing](sizing.md) topic. */}
 
