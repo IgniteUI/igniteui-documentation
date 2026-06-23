@@ -90,9 +90,49 @@ interface GenerateLlmsMdOptions {
 }
 
 const UTF8_BOM = '\uFEFF';
+const HTML_TO_MD_CONCURRENCY = 8;
 
 function withUtf8Bom(content: string): string {
     return UTF8_BOM + content.replace(/^\uFEFF/, '');
+}
+
+async function mapConcurrent<T, R>(
+    items: readonly T[],
+    concurrency: number,
+    worker: (item: T, index: number) => Promise<R>,
+): Promise<R[]> {
+    const results: R[] = new Array(items.length);
+    let nextIndex = 0;
+    const workerCount = Math.min(concurrency, items.length);
+
+    await Promise.all(Array.from({ length: workerCount }, async () => {
+        while (nextIndex < items.length) {
+            const index = nextIndex++;
+            results[index] = await worker(items[index], index);
+        }
+    }));
+
+    return results;
+}
+
+const API_DOCS_FOLDER_BY_PLATFORM: Partial<Record<PlatformKey, string>> = {
+    angular: 'angular',
+    react: 'react',
+    'web-components': 'webcomponents',
+    blazor: 'blazor',
+};
+
+function resolveApiDocsLlmsUrl(siteUrl: string, platform: PlatformKey | null): string | undefined {
+    if (!platform || !siteUrl) return undefined;
+
+    const folder = API_DOCS_FOLDER_BY_PLATFORM[platform];
+    if (!folder) return undefined;
+
+    try {
+        return `${new URL(siteUrl).origin}/api/${folder}/llms.txt`;
+    } catch {
+        return undefined;
+    }
 }
 
 /**
@@ -113,8 +153,10 @@ async function generateLlmsMdFiles({ outDir, slugs, docsDir, siteUrl, llmsSets }
 
     let mdDone = 0;
     const skippedSlugs: string[] = [];
-    const mdFiles = await Promise.all(
-        slugs.map(async (slug) => {
+    const mdFiles = await mapConcurrent(
+        slugs,
+        HTML_TO_MD_CONCURRENCY,
+        async (slug) => {
             const htmlPath = path.join(outDir, slug + '.html');
             const dest = path.join(outDir, slug + '.md');
 
@@ -133,7 +175,7 @@ async function generateLlmsMdFiles({ outDir, slugs, docsDir, siteUrl, llmsSets }
                 console.log(`[docs-template]   ${mdDone}/${slugs.length} pages converted`);
             }
             return md;
-        })
+        }
     );
 
     const mdGenerated = mdFiles.filter(Boolean).length;
@@ -416,7 +458,10 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
 
                 // ── LLM artifacts ────────────────────────────────────────────────
                 // Write llms.txt manifest (always — even without docsDir).
-                const llmsContent = buildLlmsTxt(configuredSite, title, description, sidebar ?? [], llmsMetaMap, llmsSets, broadSections, navLang, localizedDescription);
+                const apiDocsUrl = mode !== 'development'
+                    ? resolveApiDocsLlmsUrl(configuredSite, platform)
+                    : undefined;
+                const llmsContent = buildLlmsTxt(configuredSite, title, description, sidebar ?? [], llmsMetaMap, llmsSets, broadSections, navLang, localizedDescription, apiDocsUrl);
                 // English metadata can also contain Unicode punctuation and symbols.
                 // Include a UTF-8 signature because static preview servers may omit charset.
                 await fsp.writeFile(path.join(outDir, 'llms.txt'), withUtf8Bom(llmsContent), 'utf-8');
