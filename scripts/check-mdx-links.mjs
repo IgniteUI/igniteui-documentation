@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 /**
- * Crawls MDX source files and checks every <ApiLink> component's resolved URL
- * against the staging API server.
+ * Crawls MDX source files and checks every <ApiLink> component's resolved URL.
  *
- * Parses ApiLink props directly from MDX, resolves them into staging URLs using
- * the same logic as ApiLink.astro, then validates each URL is reachable.
+ * Parses ApiLink props directly from MDX, resolves them through the local
+ * api-link-index registry, then validates each URL is reachable.
  *
- * When --platform=angular the script first runs docs/angular/scripts/sync-generated.mjs
- * to pull in generated xplat content, then scans docs/angular/src/content.
- * Pass --no-sync to skip the pre-sync step.
+ * When --platform=angular the script first runs the same xplat generation +
+ * sync npm scripts used by Angular builds, then scans docs/angular/src/content.
+ * When --platform=react|wc|blazor the script first runs the matching xplat
+ * generation scripts, then scans raw docs/xplat/src/content filtered through
+ * the platform exclusions from each language toc.json.
+ * Pass --no-sync to skip the pre-scan generation/sync step.
  *
  * Usage:
  *   node --experimental-strip-types scripts/check-mdx-links.mjs
@@ -19,13 +21,24 @@
  *   node --experimental-strip-types scripts/check-mdx-links.mjs --concurrency=20
  *   node --experimental-strip-types scripts/check-mdx-links.mjs --timeout=15000
  *   node --experimental-strip-types scripts/check-mdx-links.mjs --output=report.json
+ *   node --experimental-strip-types scripts/check-mdx-links.mjs --resolve-only --list-broken
+ *   node --experimental-strip-types scripts/check-mdx-links.mjs --resolve-only --list-broken --broken-limit=50
+ *   node --experimental-strip-types scripts/check-mdx-links.mjs --resolve-only --broken-md=mdx-broken-links.md
+ *   node --experimental-strip-types scripts/check-mdx-links.mjs --resolve-only --list-unresolved
+ *   node --experimental-strip-types scripts/check-mdx-links.mjs --resolve-only --ambiguity-md=api-link-ambiguity-report.md --fail-on-ambiguity
  *
  * Exit code: 0 = all OK, 1 = broken links found.
  */
 
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import {
+    API_PLATFORM_CONFIGS,
+    PLATFORM_MAP,
+    getPackageClassSuffixes,
+    getPackageIds,
+} from '../src/lib/api-platform-config.ts';
 
 // CLI args
 const args = Object.fromEntries(
@@ -42,17 +55,30 @@ const CONCURRENCY = parseInt(String(args.concurrency ?? '20'), 10);
 const TIMEOUT_MS  = parseInt(String(args.timeout     ?? '15000'), 10);
 const OUTPUT      = args.output ? String(args.output) : null;
 const MD_OUTPUT   = args.md     ? String(args.md)     : null;
+const UNRESOLVED_MD_OUTPUT = args['unresolved-md'] ? String(args['unresolved-md']) : null;
+const AMBIGUITY_MD_OUTPUT = args['ambiguity-md'] ? String(args['ambiguity-md']) : null;
+const UNRESOLVED_REASON = args['unresolved-reason'] ? String(args['unresolved-reason']) : null;
+const BROKEN_MD_OUTPUT = args['broken-md'] ? String(args['broken-md']) : null;
+const LIST_BROKEN = args['list-broken'] !== undefined;
+const LIST_UNRESOLVED = args['list-unresolved'] !== undefined;
+const LIST_AMBIGUITIES = args['list-ambiguities'] !== undefined;
+const FAIL_ON_AMBIGUITY = args['fail-on-ambiguity'] !== undefined;
+const BROKEN_LIMIT = parseListLimit(args['broken-limit'] ?? args['unresolved-limit'] ?? '100');
 const NO_SYNC     = !!args['no-sync'];
-const DEFAULT_SRC = (PLATFORM === 'angular') ? 'docs/angular/src/content' : 'docs/xplat/src/content';
+const RESOLVE_ONLY = !!args['resolve-only'];
+const DEFAULT_SRC = PLATFORM === 'angular'
+    ? 'docs/angular/src/content'
+    : 'docs/xplat/src/content';
 const SRC_DIR     = String(args.src ?? DEFAULT_SRC);
+const API_LINK_INDEX_VERSION = String(args.index ?? process.env.API_LINK_INDEX_VERSION ?? (process.env.NODE_ENV === 'production' ? 'prod-latest' : 'staging-latest'));
 
-// Platform resolution
-const PLATFORM_MAP = {
-    angular: 'Angular',
-    react:   'React',
-    wc:      'WebComponents',
-    blazor:  'Blazor',
-};
+const PLATFORM_CONFIGS = API_PLATFORM_CONFIGS;
+const PACKAGE_IDS = Object.fromEntries(
+    Object.keys(API_PLATFORM_CONFIGS).map(platformName => [platformName, getPackageIds(platformName)])
+);
+const PACKAGE_CLASS_SUFFIXES = Object.fromEntries(
+    Object.keys(API_PLATFORM_CONFIGS).map(platformName => [platformName, getPackageClassSuffixes(platformName)])
+);
 
 function getPlatforms() {
     if (PLATFORM) {
@@ -66,162 +92,144 @@ function getPlatforms() {
     return Object.values(PLATFORM_MAP);
 }
 
-// Parse PLATFORMS from platform-context.ts directly
-function parsePlatformConfigs() {
-    const srcPath = resolve('src/lib/platform-context.ts');
-    const src = readFileSync(srcPath, 'utf-8');
-
-    const match = src.match(/const PLATFORMS[^=]*=\s*\{/);
-    if (!match) throw new Error('Cannot find PLATFORMS in platform-context.ts');
-
-    const startIdx = src.indexOf(match[0]) + match[0].length - 1;
-    let depth = 1;
-    let i = startIdx + 1;
-    while (i < src.length && depth > 0) {
-        if (src[i] === '{') depth++;
-        else if (src[i] === '}') depth--;
-        i++;
-    }
-    let objStr = src.slice(startIdx, i);
-
-    // Strip TypeScript syntax
-    objStr = objStr
-        .replace(/as\s+PlatformName(\s*\|[^,}\n]+)?/g, '')
-        .replace(/as\s+Record<[^>]+>/g, '')
-        .replace(/:\s*Record<PlatformName,\s*PlatformContext>/g, '');
-
-    const fn = new Function(`return (${objStr});`);
-    return fn();
-}
-
-const PLATFORMS = parsePlatformConfigs();
-
-// ApiLink URL resolution (mirrors ApiLink.astro logic)
-const KIND_SEGMENT = {
-    class:     'classes',
-    interface: 'interfaces',
-    enum:      'enums',
-    type:      'types',
-    variable:  'variables',
-    function:  'functions',
+const upperFirst = (value) => value ? value.charAt(0).toUpperCase() + value.slice(1) : value;
+const addUnique = (values, value) => {
+    if (value && !values.includes(value)) values.push(value);
 };
 
+function parseListLimit(value) {
+    if (value === true || value === 'all') return Infinity;
+    const parsed = parseInt(String(value), 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 100;
+}
+
+function getApiDocsBaseUrl() {
+    const value = process.env.API_DOCS_BASE_URL
+        ?? (process.env.NODE_ENV === 'production'
+            ? 'https://www.infragistics.com/api'
+            : 'https://staging.infragistics.com/api');
+    const trimmed = value.replace(/\/+$/, '');
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+}
+
+function loadApiLinkIndexes() {
+    return Object.fromEntries(Object.entries(PLATFORM_CONFIGS).map(([platformName, config]) => {
+        const file = resolve('src', 'data', 'api-link-index', config.folder, `${API_LINK_INDEX_VERSION}.json`);
+        if (!existsSync(file)) return [platformName, null];
+        return [platformName, JSON.parse(readFileSync(file, 'utf-8'))];
+    }));
+}
+
+const API_LINK_INDEXES = loadApiLinkIndexes();
+const API_DOCS_ORIGIN = new URL(getApiDocsBaseUrl()).origin;
+const NPM_CLI = process.env.npm_execpath;
+
+function getCandidateClassSuffixes(platformName, explicitPkgKey) {
+    const suffixesByPkg = PACKAGE_CLASS_SUFFIXES[platformName] ?? {};
+    if (explicitPkgKey) {
+        return [suffixesByPkg[explicitPkgKey]];
+    }
+
+    const suffixes = new Set(Object.values(suffixesByPkg));
+    if (suffixes.size === 0) suffixes.add(undefined);
+
+    // Match ApiLink: try suffixed candidates before bare candidates.
+    return [...suffixes].sort((a, b) => (a === undefined ? 1 : b === undefined ? -1 : 0));
+}
+
+function candidateNames(props, platformName, explicitPkgKey) {
+    const platform = PLATFORM_CONFIGS[platformName];
+    const explicitKind = props.kind;
+    const prefixed = props.prefixed !== false;
+    const suffix = props.suffix !== false;
+    const bases = [];
+    if (prefixed) addUnique(bases, `${platform.prefix}${props.type}`);
+    addUnique(bases, props.type);
+
+    const names = [];
+    for (const classSuffix of getCandidateClassSuffixes(platformName, explicitPkgKey)) {
+        for (const base of bases) {
+            if ((!explicitKind || explicitKind === 'class') && suffix && classSuffix) {
+                addUnique(names, `${base}${classSuffix}`);
+            }
+            addUnique(names, base);
+        }
+    }
+    return names;
+}
+
+function resolveApiLink(props, platformName) {
+    const index = API_LINK_INDEXES[platformName];
+    if (!index?.symbols) return { status: 'unavailable' };
+    if (!props.type) return { status: 'missing-type' };
+    if (props.type.includes('{')) return { status: 'dynamic' };
+    if (props.kind === 'sass') return { status: 'sass' };
+
+    const explicitPkg = typeof props.pkg === 'string' && props.pkg.length > 0;
+    const packageId = explicitPkg ? PACKAGE_IDS[platformName]?.[props.pkg] : undefined;
+    if (explicitPkg && !packageId) return { status: 'unknown-package' };
+    const platform = PLATFORM_CONFIGS[platformName];
+    let matchedSymbol = false;
+    let ambiguity = null;
+
+    for (const name of candidateNames(props, platformName, explicitPkg ? props.pkg : undefined)) {
+        const value = index.symbols[name];
+        if (!value) continue;
+        const symbols = Array.isArray(value) ? value : [value];
+        const resolvedSymbols = new Map();
+        for (const symbol of symbols) {
+            if (packageId && symbol.p !== packageId) continue;
+            if (props.kind && symbol.k !== props.kind) continue;
+            matchedSymbol = true;
+            const memberMatch = resolveMember(symbol, props.member, platform);
+            if (memberMatch === null) continue;
+            resolvedSymbols.set(`${symbol.u}#${memberMatch.anchor}`, { symbol, memberMatch });
+        }
+        if (resolvedSymbols.size === 1) {
+            const { symbol, memberMatch } = resolvedSymbols.values().next().value;
+            const path = `${symbol.u}${memberMatch.anchor ? `#${memberMatch.anchor}` : ''}`;
+            return {
+                status: 'resolved',
+                url: path.startsWith('/') ? `${API_DOCS_ORIGIN}${path}` : path,
+                member: memberMatch.member,
+            };
+        }
+        if (resolvedSymbols.size > 1 && !ambiguity) {
+            ambiguity = {
+                candidate: name,
+                symbols: [...resolvedSymbols.values()].map(item => item.symbol),
+            };
+        }
+    }
+    if (ambiguity) return { status: 'ambiguous', ambiguity };
+    return { status: matchedSymbol ? 'member-missing' : 'missing' };
+}
+
 function resolveApiLinkUrl(props, platformName) {
-    const config = PLATFORMS[platformName];
-    if (!config) return null;
-
-    const {
-        type, kind = 'class', member, pkg = 'core',
-        prefixed = true, suffix = true,
-        excludeSuffixFor, excludePrefixFor,
-    } = props;
-    const prefix = config.prefix;
-    const pkgConfig = config.apiPackages[pkg] ?? config.apiPackages['core'];
-    if (!pkgConfig) return null;
-
-    const splitList = (v) => v ? String(v).split(',').map(s => s.trim()).filter(Boolean) : [];
-    const effectivePrefixed = prefixed && !splitList(excludePrefixFor).includes(platformName);
-    const effectiveSuffix   = suffix   && !splitList(excludeSuffixFor).includes(platformName);
-
-    const baseType = effectivePrefixed ? `${prefix}${type}` : type;
-    const segment = KIND_SEGMENT[kind];
-    if (!segment) return null;
-
-    let url;
-    if (kind === 'class') {
-        const fullType = (effectiveSuffix && pkgConfig.classSuffix) ? `${baseType}${pkgConfig.classSuffix}` : baseType;
-        const cased = pkgConfig.preserveCase ? fullType : fullType.toLowerCase();
-        const classSlug = pkgConfig.noPackagePrefix ? cased : `${pkgConfig.packageId}.${cased}`;
-        const memberAnchor = member
-            ? `#${pkgConfig.pascalCaseMembers ? member.charAt(0).toUpperCase() + member.slice(1) : member}`
-            : '';
-        url = `${pkgConfig.docRoot}/classes/${classSlug}${memberAnchor}`;
-    } else {
-        const slug = pkgConfig.noPackagePrefix ? baseType : `${pkgConfig.packageId}.${baseType}`;
-        const memberAnchorNonClass = member
-            ? `#${
-                kind === 'enum'
-                    ? member
-                    : pkgConfig.pascalCaseMembers
-                        ? member.charAt(0).toUpperCase() + member.slice(1)
-                        : member.toLowerCase()
-            }`
-            : '';
-        url = `${pkgConfig.docRoot}/${segment}/${slug}${memberAnchorNonClass}`;
-    }
-    return url;
+    const resolved = resolveApiLink(props, platformName);
+    return resolved.status === 'resolved' ? resolved.url : null;
 }
 
-/**
- * Given a BROKEN primary URL and its source props, returns alternative
- * URLs to try. Includes suffix/prefix variants AND kind variants.
- *
- * Variant categories:
- *   noSuffix       → suffix={false} or excludeSuffixFor="Platform"
- *   noPrefix       → prefixed={false} or excludePrefixFor="Platform"
- *   noBoth         → both of the above
- *   kind:<value>   → kind="<value>" (different kind)
- *   kind:<value>+noSuffix  → kind + suffix={false}
- *   kind:<value>+noPrefix  → kind + prefixed={false}
- *   kind:<value>+noBoth    → kind + both
- */
-function resolveVariantUrls(primaryUrl, props, platformName) {
-    const variants = {};
-    const seenUrls = new Set([primaryUrl]);
+function resolveMember(symbol, member, platform) {
+    if (!member) return { member: '', anchor: '' };
+    const members = symbol.m ?? {};
+    const exactCandidates = [member];
+    if (platform.pascalCaseMembers) exactCandidates.push(upperFirst(member));
+    exactCandidates.push(upperFirst(member), member.toLowerCase());
 
-    function addVariant(name, variantProps) {
-        const url = resolveApiLinkUrl(variantProps, platformName);
-        if (url && !seenUrls.has(url)) {
-            seenUrls.add(url);
-            variants[name] = url;
+    for (const candidate of [...new Set(exactCandidates)]) {
+        if (Object.hasOwn(members, candidate)) {
+            return { member: candidate, anchor: members[candidate] };
         }
     }
 
-    // Suffix/prefix variants (original logic)
-    addVariant('noSuffix', { ...props, suffix: false, excludeSuffixFor: undefined });
-    addVariant('noPrefix', { ...props, prefixed: false, excludePrefixFor: undefined });
-    addVariant('noBoth',   { ...props, suffix: false, prefixed: false, excludeSuffixFor: undefined, excludePrefixFor: undefined });
-
-    // Kind variants: try each kind that differs from current
-    const ALL_KINDS = ['class', 'interface', 'enum', 'type'];
-    const currentKind = props.kind || 'class';
-    for (const altKind of ALL_KINDS) {
-        if (altKind === currentKind) continue;
-        const kindProps = { ...props, kind: altKind, excludeSuffixFor: undefined, excludePrefixFor: undefined };
-        addVariant(`kind:${altKind}`, kindProps);
-        addVariant(`kind:${altKind}+noSuffix`, { ...kindProps, suffix: false });
-        addVariant(`kind:${altKind}+noPrefix`, { ...kindProps, prefixed: false });
-        addVariant(`kind:${altKind}+noBoth`,   { ...kindProps, suffix: false, prefixed: false });
-    }
-
-    return variants;
-}
-
-/** Given which variant URLs work, returns a short prop-fix hint string. */
-function suggestFix(variantOk, platformName) {
-    // Prefer simplest fix: suffix/prefix-only changes first
-    const { noSuffix, noPrefix, noBoth } = variantOk ?? {};
-    if (noSuffix && !noPrefix) return `excludeSuffixFor="${platformName}"`;
-    if (!noSuffix && noPrefix) return `excludePrefixFor="${platformName}"`;
-    if (noSuffix && noPrefix)  return `excludeSuffixFor="${platformName}" -or- excludePrefixFor="${platformName}"`;
-    if (noBoth)                return `excludeSuffixFor="${platformName}" + excludePrefixFor="${platformName}"`;
-
-    // Then try kind variants (prefer kind-only, then kind+suffix/prefix)
-    for (const [name, ok] of Object.entries(variantOk ?? {})) {
-        if (!ok) continue;
-        if (name.startsWith('kind:')) {
-            const kindMatch = name.match(/^kind:(\w+)$/);
-            if (kindMatch) return `kind="${kindMatch[1]}"`;
-            const kindSuffix = name.match(/^kind:(\w+)\+noSuffix$/);
-            if (kindSuffix) return `kind="${kindSuffix[1]}" + excludeSuffixFor="${platformName}"`;
-            const kindPrefix = name.match(/^kind:(\w+)\+noPrefix$/);
-            if (kindPrefix) return `kind="${kindPrefix[1]}" + excludePrefixFor="${platformName}"`;
-            const kindBoth = name.match(/^kind:(\w+)\+noBoth$/);
-            if (kindBoth) return `kind="${kindBoth[1]}" + excludeSuffixFor="${platformName}" + excludePrefixFor="${platformName}"`;
+    const normalized = member.toLowerCase();
+    for (const [registryMember, anchor] of Object.entries(members)) {
+        if (registryMember.toLowerCase() === normalized) {
+            return { member: registryMember, anchor };
         }
     }
-
-    return `exclude="${platformName}" (no variant resolves — symbol absent)`;
+    return null;
 }
 
 // MDX parsing
@@ -232,7 +240,7 @@ const API_LINK_RE = /<ApiLink\s+([^>]*?)\/?>(?:<\/ApiLink>)?/g;
 /** Regex to match <PlatformBlock for="...">...</PlatformBlock> including nested content */
 const PLATFORM_BLOCK_RE = /<PlatformBlock\s+for="([^"]+)">([\s\S]*?)<\/PlatformBlock>/g;
 
-/** Parses JSX-style props from a string like `pkg="charts" type="CategoryChart" kind="enum" prefixed={false}` */
+/** Parses JSX-style props from a string like `pkg="charts" type="CategoryChart" kind="enum"` */
 function parseProps(propsStr) {
     const props = {};
     const PROP_RE = /(\w+)\s*=\s*(?:"([^"]*)"|'([^']*)'|{([^}]*)})/g;
@@ -301,9 +309,6 @@ function extractApiLinks(content) {
         const props = parseProps(alMatch[1]);
         if (!props.type) continue;
 
-        // Skip template variables like {ComponentName} — resolved at build time
-        if (/\{.*\}/.test(props.type)) continue;
-
         // Intersection of ALL enclosing PlatformBlock scopes (handles nesting).
         let scopedPlatforms = null;
         for (const b of blockRanges) {
@@ -314,17 +319,6 @@ function extractApiLinks(content) {
                 for (const p of [...scopedPlatforms]) {
                     if (!b.platforms.has(p)) scopedPlatforms.delete(p);
                 }
-            }
-        }
-        // Honor exclude="A,B" on the ApiLink itself: those platforms render a
-        // code-only fallback (no link) and must not be checked.
-        if (props.exclude) {
-            const excluded = new Set(props.exclude.split(',').map(s => s.trim()).filter(Boolean));
-            if (scopedPlatforms === null) {
-                scopedPlatforms = new Set(['Angular', 'React', 'WebComponents', 'Blazor']);
-            }
-            for (const p of [...scopedPlatforms]) {
-                if (excluded.has(p)) scopedPlatforms.delete(p);
             }
         }
         results.push({
@@ -358,8 +352,73 @@ function walkMdx(dir) {
     return results;
 }
 
+function normalizeTocHref(href) {
+    return String(href).replace(/\.(md|mdx)$/, '').replace(/\\/g, '/');
+}
+
+function collectAllTocSlugs(nodes, slugs) {
+    for (const node of nodes || []) {
+        if (node.href) slugs.add(normalizeTocHref(node.href));
+        if (Array.isArray(node.items)) collectAllTocSlugs(node.items, slugs);
+    }
+}
+
+function collectExcludedTocSlugs(nodes, platformName, excluded = new Set()) {
+    for (const node of nodes || []) {
+        const isExcluded = Array.isArray(node.exclude) && node.exclude.includes(platformName);
+        if (isExcluded && node.href) {
+            excluded.add(normalizeTocHref(node.href));
+        }
+        if (Array.isArray(node.items)) {
+            if (isExcluded) {
+                collectAllTocSlugs(node.items, excluded);
+            } else {
+                collectExcludedTocSlugs(node.items, platformName, excluded);
+            }
+        }
+    }
+    return excluded;
+}
+
+function collectIncludedTocSlugs(nodes, platformName, included = new Set()) {
+    for (const node of nodes || []) {
+        const isExcluded = Array.isArray(node.exclude) && node.exclude.includes(platformName);
+        if (!isExcluded && node.href) {
+            included.add(normalizeTocHref(node.href));
+        }
+        if (Array.isArray(node.items) && !isExcluded) {
+            collectIncludedTocSlugs(node.items, platformName, included);
+        }
+    }
+    return included;
+}
+
+const xplatExcludedSlugCache = new Map();
+
+function getXplatExcludedSlugs(lang, platformName) {
+    const cacheKey = `${lang}|${platformName}`;
+    if (xplatExcludedSlugCache.has(cacheKey)) return xplatExcludedSlugCache.get(cacheKey);
+
+    const tocPath = resolve('docs/xplat/src/content', lang, 'toc.json');
+    const excluded = new Set();
+    if (existsSync(tocPath)) {
+        const toc = JSON.parse(readFileSync(tocPath, 'utf-8'));
+        for (const slug of collectExcludedTocSlugs(toc, platformName)) excluded.add(slug);
+        for (const slug of collectIncludedTocSlugs(toc, platformName)) excluded.delete(slug);
+    }
+    xplatExcludedSlugCache.set(cacheKey, excluded);
+    return excluded;
+}
+
+function xplatRawContentSlug(file) {
+    const rel = relative(resolve('docs/xplat/src/content'), file).replace(/\\/g, '/');
+    const match = rel.match(/^([^/]+)\/components\/(.+)\.mdx$/);
+    if (!match) return null;
+    return { lang: match[1], slug: match[2] };
+}
+
 // Version discovery
-const PKG_ROOT_RE = /^(https:\/\/staging\.infragistics\.com\/api\/[^/]+\/[^/]+\/)latest\//;
+const PKG_ROOT_RE = /^(https?:\/\/[^/]+\/api\/[^/]+\/[^/]+\/)latest\//;
 
 /**
  * Discovers the actual published version for each unique package root by
@@ -483,17 +542,60 @@ async function checkAll(urls, versionMap, concurrency, onProgress) {
 // --- Main ---
 
 const targetPlatforms = getPlatforms();
+const XPLAT_GENERATE_SCRIPTS = {
+    react: [
+        ['en', 'generate:react'],
+        ['jp', 'generate:react:jp'],
+    ],
+    wc: [
+        ['en', 'generate:webcomponents'],
+        ['jp', 'generate:webcomponents:jp'],
+    ],
+    blazor: [
+        ['en', 'generate:blazor'],
+        ['jp', 'generate:blazor:jp'],
+    ],
+};
 
-// For Angular: sync generated MDX content into docs/angular before scanning
+function runNpmScript(script, prefix) {
+    if (NPM_CLI) {
+        return spawnSync(process.execPath, [NPM_CLI, 'run', script, '--prefix', prefix], { stdio: 'inherit' });
+    }
+    return spawnSync(process.platform === 'win32' ? 'npm.cmd' : 'npm', ['run', script, '--prefix', prefix], {
+        stdio: 'inherit',
+        shell: process.platform === 'win32',
+    });
+}
+
+function runRequiredNpmScript(script, prefix, description) {
+    console.log(`\n  ${description} (${script})...`);
+    const r = runNpmScript(script, prefix);
+    if (r.error) {
+        console.error(`\n  Failed to start npm: ${r.error.message}`);
+    }
+    if (r.status !== 0) {
+        console.error(`\n  ${script} failed — aborting.`);
+        process.exit(1);
+    }
+}
+
+// For Angular: regenerate xplat Angular MDX and sync it into docs/angular before scanning
 if (PLATFORM === 'angular' && !NO_SYNC) {
-    const syncScript = resolve('docs/angular/scripts/sync-generated.mjs');
-    for (const lang of ['en', 'jp']) {
-        console.log(`\n  Syncing Angular generated content (sync-generated.mjs --lang=${lang})...`);
-        const r = spawnSync(process.execPath, [syncScript, `--lang=${lang}`], { stdio: 'inherit' });
-        if (r.status !== 0) {
-            console.error(`\n  sync-generated.mjs --lang=${lang} failed — aborting.`);
-            process.exit(1);
-        }
+    const syncScripts = [
+        ['en', 'sync:generated-from-xplat'],
+        ['jp', 'sync:generated-from-xplat:jp'],
+    ];
+
+    for (const [lang, script] of syncScripts) {
+        runRequiredNpmScript(script, 'docs/angular', `Refreshing Angular generated content (lang=${lang})`);
+    }
+    console.log();
+}
+
+// For xplat platform checks: generate platform-filtered MDX before scanning
+if (XPLAT_GENERATE_SCRIPTS[PLATFORM] && !NO_SYNC && !args.src) {
+    for (const [lang, script] of XPLAT_GENERATE_SCRIPTS[PLATFORM]) {
+        runRequiredNpmScript(script, 'docs/xplat', `Generating xplat ${PLATFORM_MAP[PLATFORM]} MDX (lang=${lang})`);
     }
     console.log();
 }
@@ -501,7 +603,17 @@ if (PLATFORM === 'angular' && !NO_SYNC) {
 console.log(`\nScanning sources in "${SRC_DIR}"`);
 console.log(`Platforms: ${targetPlatforms.join(', ')}\n`);
 
-const mdxFiles = walkMdx(resolve(SRC_DIR));
+let mdxFiles = walkMdx(resolve(SRC_DIR));
+if (XPLAT_GENERATE_SCRIPTS[PLATFORM] && !args.src) {
+    const platformName = PLATFORM_MAP[PLATFORM];
+    const beforeFilter = mdxFiles.length;
+    mdxFiles = mdxFiles.filter(file => {
+        const source = xplatRawContentSlug(file);
+        if (!source) return true;
+        return !getXplatExcludedSlugs(source.lang, platformName).has(source.slug);
+    });
+    console.log(`  Platform TOC filter : ${beforeFilter - mdxFiles.length} excluded MDX file(s) skipped\n`);
+}
 if (mdxFiles.length === 0) {
     console.error(`No MDX files found in "${SRC_DIR}".`);
     process.exit(1);
@@ -509,7 +621,278 @@ if (mdxFiles.length === 0) {
 
 // Build URL index: url -> { pages, platforms, propsByPlatform }
 const urlIndex = new Map();
-let totalLinks = 0;
+let totalApiLinkRefs = 0;
+let totalResolvedLinks = 0;
+const ambiguityDetails = [];
+const resolutionStats = new Map(targetPlatforms.map(platform => [platform, {
+    resolved: 0,
+    unresolved: 0,
+    reasons: new Map(),
+    examples: new Map(),
+}]));
+const unresolvedDetails = [];
+const NON_BROKEN_UNRESOLVED_STATUSES = new Set(['dynamic', 'sass']);
+
+function recordResolution(platformName, status, relPath, props) {
+    const stats = resolutionStats.get(platformName);
+    if (!stats) return;
+
+    if (status === 'resolved') {
+        stats.resolved++;
+        return;
+    }
+
+    stats.unresolved++;
+    stats.reasons.set(status, (stats.reasons.get(status) ?? 0) + 1);
+    if (!stats.examples.has(status)) {
+        const label = props.member ? `${props.type}.${props.member}` : props.type;
+        stats.examples.set(status, { file: relPath, label });
+    }
+    if (!UNRESOLVED_REASON || status === UNRESOLVED_REASON) {
+        unresolvedDetails.push({
+            platform: platformName,
+            status,
+            file: relPath,
+            type: props.type,
+            member: props.member ?? '',
+            kind: props.kind ?? '',
+            pkg: props.pkg ?? '',
+            label: props.member ? `${props.type}.${props.member}` : props.type,
+        });
+    }
+}
+
+function filterUnresolvedDetails(details, { actionableOnly = false } = {}) {
+    return details.filter(item => {
+        if (UNRESOLVED_REASON && item.status !== UNRESOLVED_REASON) return false;
+        return !actionableOnly || !NON_BROKEN_UNRESOLVED_STATUSES.has(item.status);
+    });
+}
+
+function symbolLabel(symbol) {
+    return [
+        symbol.p ?? '',
+        symbol.k ?? '',
+        symbol.u ?? '',
+        `${Object.keys(symbol.m ?? {}).length} member(s)`,
+    ].join(' / ');
+}
+
+function escapeMdTable(value) {
+    return String(value ?? '')
+        .replace(/\\/g, '\\\\')
+        .replace(/\|/g, '\\|')
+        .replace(/\r?\n/g, '<br>');
+}
+
+function groupUnresolvedDetails(details) {
+    const grouped = new Map();
+    for (const item of details) {
+        const key = `${item.platform}|${item.status}|${item.label}|${item.pkg}|${item.kind}`;
+        if (!grouped.has(key)) {
+            grouped.set(key, { ...item, files: new Set() });
+        }
+        grouped.get(key).files.add(item.file);
+    }
+    return [...grouped.values()].sort((a, b) =>
+        a.platform.localeCompare(b.platform)
+        || a.status.localeCompare(b.status)
+        || a.label.localeCompare(b.label)
+    );
+}
+
+function groupAmbiguityDetails(details) {
+    const grouped = new Map();
+    for (const item of details) {
+        const symbolKey = item.symbols.map(symbolLabel).join('\n');
+        const key = `${item.platform}|${item.label}|${item.candidate}|${item.pkg}|${item.kind}|${symbolKey}`;
+        if (!grouped.has(key)) {
+            grouped.set(key, { ...item, files: new Set() });
+        }
+        grouped.get(key).files.add(item.file);
+    }
+    return [...grouped.values()].sort((a, b) =>
+        a.platform.localeCompare(b.platform)
+        || a.label.localeCompare(b.label)
+        || a.candidate.localeCompare(b.candidate)
+    );
+}
+
+function getRegistryDuplicateDetails() {
+    const details = [];
+    for (const platformName of targetPlatforms) {
+        const index = API_LINK_INDEXES[platformName];
+        if (!index?.symbols) continue;
+        for (const [candidate, value] of Object.entries(index.symbols)) {
+            if (!Array.isArray(value) || value.length < 2) continue;
+            details.push({
+                platform: platformName,
+                candidate,
+                symbols: value,
+            });
+        }
+    }
+    return details.sort((a, b) =>
+        a.platform.localeCompare(b.platform)
+        || a.candidate.localeCompare(b.candidate)
+    );
+}
+
+function printUnresolvedList(title, details, limit) {
+    const grouped = groupUnresolvedDetails(details);
+    console.log(`\n${title}`);
+    console.log('\u2500'.repeat(title.length));
+
+    if (grouped.length === 0) {
+        console.log('  None.\n');
+        return;
+    }
+
+    const visible = grouped.slice(0, limit);
+    for (const item of visible) {
+        const meta = [
+            item.pkg ? `pkg=${item.pkg}` : '',
+            item.kind ? `kind=${item.kind}` : '',
+        ].filter(Boolean).join(', ');
+        console.log(`  - ${item.platform} / ${item.status}: ${item.label}${meta ? ` (${meta})` : ''}`);
+        for (const file of [...item.files].sort().slice(0, 5)) {
+            console.log(`      ${file}`);
+        }
+        if (item.files.size > 5) {
+            console.log(`      ... and ${item.files.size - 5} more file(s)`);
+        }
+    }
+
+    if (grouped.length > visible.length) {
+        console.log(`  ... and ${grouped.length - visible.length} more grouped item(s). Use --broken-limit=all to print everything.`);
+    }
+    console.log('');
+}
+
+function printAmbiguityList(title, details, limit) {
+    const grouped = groupAmbiguityDetails(details);
+    console.log(`\n${title}`);
+    console.log('\u2500'.repeat(title.length));
+
+    if (grouped.length === 0) {
+        console.log('  None.\n');
+        return;
+    }
+
+    const visible = grouped.slice(0, limit);
+    for (const item of visible) {
+        const meta = [
+            item.pkg ? `pkg=${item.pkg}` : '',
+            item.kind ? `kind=${item.kind}` : '',
+        ].filter(Boolean).join(', ');
+        console.log(`  - ${item.platform}: ${item.label} -> ${item.candidate}${meta ? ` (${meta})` : ''}`);
+        for (const symbol of item.symbols) {
+            console.log(`      ${symbolLabel(symbol)}`);
+        }
+        for (const file of [...item.files].sort().slice(0, 5)) {
+            console.log(`      in: ${file}`);
+        }
+        if (item.files.size > 5) {
+            console.log(`      ... and ${item.files.size - 5} more file(s)`);
+        }
+    }
+
+    if (grouped.length > visible.length) {
+        console.log(`  ... and ${grouped.length - visible.length} more grouped item(s). Use --broken-limit=all to print everything.`);
+    }
+    console.log('');
+}
+
+function writeUnresolvedMarkdownReport(filePath, title, details) {
+    const grouped = groupUnresolvedDetails(details);
+    const lines = [];
+    lines.push(`# ${title}`);
+    lines.push('');
+    lines.push(`| Platform | Status | ApiLink | pkg | kind | Files |`);
+    lines.push(`|---|---|---|---|---|---|`);
+    for (const item of grouped) {
+        const files = [...item.files].sort().map(file => `\`${file}\``).join('<br>');
+        lines.push(`| ${item.platform} | ${item.status} | \`${item.label}\` | ${item.pkg || ''} | ${item.kind || ''} | ${files} |`);
+    }
+    writeFileSync(filePath, lines.join('\n'));
+    return { rows: details.length, groupedRows: grouped.length };
+}
+
+function writeAmbiguityMarkdownReport(filePath, details) {
+    const grouped = groupAmbiguityDetails(details);
+    const duplicateDetails = getRegistryDuplicateDetails();
+    const duplicateCounts = new Map(targetPlatforms.map(platform => [platform, 0]));
+    const referencedCounts = new Map(targetPlatforms.map(platform => [platform, 0]));
+    for (const item of duplicateDetails) {
+        duplicateCounts.set(item.platform, (duplicateCounts.get(item.platform) ?? 0) + 1);
+    }
+    for (const item of grouped) {
+        referencedCounts.set(item.platform, (referencedCounts.get(item.platform) ?? 0) + 1);
+    }
+
+    const lines = [];
+    lines.push('# ApiLink Registry Ambiguity Report');
+    lines.push('');
+    lines.push(`Generated from \`${API_LINK_INDEX_VERSION}\` registries and \`${SRC_DIR.replace(/\\/g, '/')}\`.`);
+    lines.push('');
+    lines.push('## Summary');
+    lines.push('');
+    lines.push('| Platform | Registry duplicate symbol keys | Referenced ambiguous ApiLinks |');
+    lines.push('|---|---:|---:|');
+    for (const platformName of targetPlatforms) {
+        lines.push(`| ${platformName} | ${duplicateCounts.get(platformName) ?? 0} | ${referencedCounts.get(platformName) ?? 0} |`);
+    }
+    lines.push('');
+    lines.push('## Referenced Ambiguous ApiLinks');
+    lines.push('');
+    lines.push('These ApiLink references resolve to more than one registry symbol after applying their current props. Add a disambiguating `pkg` or `kind`, or replace the link when it should not target product API docs.');
+    lines.push('');
+    for (const platformName of targetPlatforms) {
+        const platformItems = grouped.filter(item => item.platform === platformName);
+        lines.push(`### ${platformName}`);
+        lines.push('');
+        if (platformItems.length === 0) {
+            lines.push('No referenced ambiguities.');
+            lines.push('');
+            continue;
+        }
+        lines.push('| ApiLink | Candidate key | Current props | Registry symbols | Files |');
+        lines.push('|---|---|---|---|---|');
+        for (const item of platformItems) {
+            const props = [
+                item.pkg ? `pkg="${item.pkg}"` : '',
+                item.kind ? `kind="${item.kind}"` : '',
+            ].filter(Boolean).join('<br>');
+            const symbols = item.symbols.map(symbol => escapeMdTable(symbolLabel(symbol))).join('<br>');
+            const files = [...item.files].sort().map(file => `\`${file}\``).join('<br>');
+            lines.push(`| \`${escapeMdTable(item.label)}\` | \`${escapeMdTable(item.candidate)}\` | ${props} | ${symbols} | ${files} |`);
+        }
+        lines.push('');
+    }
+
+    lines.push('## All Registry Duplicate Symbol Keys');
+    lines.push('');
+    for (const platformName of targetPlatforms) {
+        const platformItems = duplicateDetails.filter(item => item.platform === platformName);
+        lines.push(`### ${platformName}`);
+        lines.push('');
+        if (platformItems.length === 0) {
+            lines.push('No duplicate symbol keys.');
+            lines.push('');
+            continue;
+        }
+        lines.push('| Candidate key | Registry symbols |');
+        lines.push('|---|---|');
+        for (const item of platformItems) {
+            const symbols = item.symbols.map(symbol => escapeMdTable(symbolLabel(symbol))).join('<br>');
+            lines.push(`| \`${escapeMdTable(item.candidate)}\` | ${symbols} |`);
+        }
+        lines.push('');
+    }
+
+    writeFileSync(filePath, lines.join('\n'));
+    return { rows: details.length, groupedRows: grouped.length, duplicateRows: duplicateDetails.length };
+}
 
 for (const file of mdxFiles) {
     const relPath = relative(process.cwd(), file).replace(/\\/g, '/');
@@ -522,32 +905,123 @@ for (const file of mdxFiles) {
             : targetPlatforms;
 
         for (const platformName of applicablePlatforms) {
-            const url = resolveApiLinkUrl(props, platformName);
-            if (!url) continue;
+            totalApiLinkRefs++;
+            const resolved = resolveApiLink(props, platformName);
+            recordResolution(platformName, resolved.status, relPath, props);
+            if (resolved.status === 'ambiguous') {
+                ambiguityDetails.push({
+                    platform: platformName,
+                    file: relPath,
+                    type: props.type,
+                    member: props.member ?? '',
+                    kind: props.kind ?? '',
+                    pkg: props.pkg ?? '',
+                    label: props.member ? `${props.type}.${props.member}` : props.type,
+                    candidate: resolved.ambiguity.candidate,
+                    symbols: resolved.ambiguity.symbols,
+                });
+            }
+            if (resolved.status !== 'resolved') continue;
 
-            totalLinks++;
-            if (!urlIndex.has(url)) {
-                urlIndex.set(url, { pages: new Set(), platforms: new Set(), propsByPlatform: new Map() });
+            totalResolvedLinks++;
+            if (!urlIndex.has(resolved.url)) {
+                urlIndex.set(resolved.url, { pages: new Set(), platforms: new Set() });
             }
-            urlIndex.get(url).pages.add(relPath);
-            urlIndex.get(url).platforms.add(platformName);
-            // Store props once per platform so we can generate variant URLs later
-            if (!urlIndex.get(url).propsByPlatform.has(platformName)) {
-                urlIndex.get(url).propsByPlatform.set(platformName, props);
-            }
+            urlIndex.get(resolved.url).pages.add(relPath);
+            urlIndex.get(resolved.url).platforms.add(platformName);
         }
     }
 }
 
 const uniqueUrls = [...urlIndex.keys()].sort();
 console.log(`  MDX files scanned  : ${mdxFiles.length}`);
-console.log(`  Total ApiLink refs : ${totalLinks}`);
-console.log(`  Unique staging URLs: ${uniqueUrls.length}`);
+console.log(`  Total ApiLink refs : ${totalApiLinkRefs}`);
+console.log(`  Resolved refs      : ${totalResolvedLinks}`);
+console.log(`  Ambiguous refs     : ${ambiguityDetails.length}`);
+console.log(`  Unique API URLs     : ${uniqueUrls.length}`);
 console.log(`  Concurrency        : ${CONCURRENCY}`);
 console.log(`  Timeout / request  : ${TIMEOUT_MS} ms\n`);
 
+for (const [platform, stats] of resolutionStats) {
+    if (stats.resolved === 0 && stats.unresolved === 0) continue;
+    const reasons = [...stats.reasons.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .map(([reason, count]) => `${reason}: ${count}`)
+        .join(', ');
+    console.log(`  ${platform} registry resolution: ${stats.resolved} resolved, ${stats.unresolved} not linked${reasons ? ` (${reasons})` : ''}`);
+    for (const [reason, example] of [...stats.examples.entries()].slice(0, 3)) {
+        console.log(`    example ${reason}: ${example.label} in ${example.file}`);
+    }
+}
+console.log();
+
+if (LIST_BROKEN) {
+    const filtered = filterUnresolvedDetails(unresolvedDetails, { actionableOnly: true });
+    const reasonLabel = UNRESOLVED_REASON ? ` (${UNRESOLVED_REASON})` : '';
+    printUnresolvedList(`Broken ApiLinks${reasonLabel}`, filtered, BROKEN_LIMIT);
+}
+
+if (LIST_UNRESOLVED) {
+    const filtered = filterUnresolvedDetails(unresolvedDetails);
+    const reasonLabel = UNRESOLVED_REASON ? ` (${UNRESOLVED_REASON})` : '';
+    printUnresolvedList(`Unresolved ApiLinks${reasonLabel}`, filtered, BROKEN_LIMIT);
+}
+
+if (LIST_AMBIGUITIES) {
+    printAmbiguityList('Ambiguous ApiLinks', ambiguityDetails, BROKEN_LIMIT);
+}
+
+if (BROKEN_MD_OUTPUT) {
+    const filtered = filterUnresolvedDetails(unresolvedDetails, { actionableOnly: true });
+    const reasonLabel = UNRESOLVED_REASON ? `: ${UNRESOLVED_REASON}` : '';
+    const result = writeUnresolvedMarkdownReport(BROKEN_MD_OUTPUT, `ApiLink Broken Report${reasonLabel}`, filtered);
+    console.log(`  Broken ApiLink report written to: ${BROKEN_MD_OUTPUT}`);
+    console.log(`  Broken rows: ${result.rows}, grouped rows: ${result.groupedRows}\n`);
+}
+
+if (AMBIGUITY_MD_OUTPUT) {
+    const result = writeAmbiguityMarkdownReport(AMBIGUITY_MD_OUTPUT, ambiguityDetails);
+    console.log(`  Ambiguity report written to: ${AMBIGUITY_MD_OUTPUT}`);
+    console.log(`  Ambiguous rows: ${result.rows}, grouped rows: ${result.groupedRows}, registry duplicate rows: ${result.duplicateRows}\n`);
+}
+
+if (UNRESOLVED_MD_OUTPUT) {
+    const filtered = filterUnresolvedDetails(unresolvedDetails);
+    const reasonLabel = UNRESOLVED_REASON ? `: ${UNRESOLVED_REASON}` : '';
+    const result = writeUnresolvedMarkdownReport(UNRESOLVED_MD_OUTPUT, `ApiLink Unresolved Report${reasonLabel}`, filtered);
+    console.log(`  Unresolved report written to: ${UNRESOLVED_MD_OUTPUT}`);
+    console.log(`  Unresolved rows: ${result.rows}, grouped rows: ${result.groupedRows}\n`);
+}
+
+if (RESOLVE_ONLY) {
+    if (OUTPUT) {
+        const report = {
+            generatedAt: new Date().toISOString(),
+            srcDir: SRC_DIR,
+            platforms: targetPlatforms,
+            totalFiles: mdxFiles.length,
+            totalLinks: totalApiLinkRefs,
+            resolvedLinks: totalResolvedLinks,
+            ambiguousLinks: ambiguityDetails.length,
+            uniqueUrls: uniqueUrls.length,
+            registryResolution: Object.fromEntries([...resolutionStats.entries()].map(([platform, stats]) => [
+                platform,
+                {
+                    resolved: stats.resolved,
+                    unresolved: stats.unresolved,
+                    reasons: Object.fromEntries(stats.reasons),
+                    examples: Object.fromEntries(stats.examples),
+                },
+            ])),
+        };
+        writeFileSync(OUTPUT, JSON.stringify(report, null, 2));
+        console.log(`  JSON report written to: ${OUTPUT}\n`);
+    }
+    process.exit(FAIL_ON_AMBIGUITY && ambiguityDetails.length > 0 ? 1 : 0);
+}
+
 if (uniqueUrls.length === 0) {
-    console.log('No staging API links resolved. Nothing to check.');
+    console.log('No registry API links resolved. Nothing to check.');
     process.exit(0);
 }
 
@@ -587,48 +1061,6 @@ for (const result of brokenResults) {
     }
 }
 
-// ── Variant URL checking (post-primary-check) ──────────────────────────────
-// For every broken (url, platform) pair, compute variant URLs (suffix/prefix
-// toggles + kind alternatives) and batch-check them for fix suggestions.
-
-const variantUrlSet = new Set();
-
-// Collect all variant base-URLs that we need to probe
-const brokenVariantMeta = [];  // { url, platformName, primaryFetchUrl, variants }
-for (const result of brokenResults) {
-    const meta = urlIndex.get(result.url);
-    for (const platformName of meta.platforms) {
-        if (!brokenByPlatform.has(platformName)) continue;
-        const props = meta.propsByPlatform.get(platformName);
-        if (!props) continue;
-        const variants = resolveVariantUrls(result.url, props, platformName);
-        for (const vUrl of Object.values(variants)) {
-            variantUrlSet.add(vUrl.split('#')[0]);
-        }
-        brokenVariantMeta.push({ url: result.url, platformName, variants });
-    }
-}
-
-// Probe all unique variant base-URLs
-const variantOkMap = new Map(); // base-url -> boolean
-if (variantUrlSet.size > 0) {
-    process.stdout.write(`  Probing ${variantUrlSet.size} variant URL(s) for fix hints...\n`);
-    const vRes = await checkAll([...variantUrlSet], versionMap, CONCURRENCY, () => {});
-    for (const r of vRes) variantOkMap.set(r.url.split('#')[0], r.ok);
-}
-
-// Build suggestion lookup: "${url}::${platform}" -> { variants, variantOk, hint }
-const suggestionMap = new Map();
-for (const { url, platformName, variants } of brokenVariantMeta) {
-    const variantOk = {};
-    for (const [name, vUrl] of Object.entries(variants)) {
-        variantOk[name] = variantOkMap.get(vUrl.split('#')[0]) ?? false;
-    }
-    const hint = suggestFix(variantOk, platformName);
-    suggestionMap.set(`${url}::${platformName}`, { variants, variantOk, hint });
-}
-// ─────────────────────────────────────────────────────────────────────────────
-
 // Print report
 const HR  = '\u2550'.repeat(72);
 const HR2 = '\u2500'.repeat(72);
@@ -642,7 +1074,7 @@ console.log(`  \u2717  Total broken    : ${brokenResults.length}`);
 console.log(HR2);
 
 if (brokenResults.length === 0) {
-    console.log('\n  All staging API links are reachable.\n');
+    console.log('\n  All registry API links are reachable.\n');
 } else {
     for (const [platform, items] of brokenByPlatform) {
         if (items.length === 0) continue;
@@ -656,26 +1088,6 @@ if (brokenResults.length === 0) {
             console.log(`      ${item.url}`);
             if (item.fetchUrl !== item.url) {
                 console.log(`      checked as: ${item.fetchUrl}`);
-            }
-            // Variant hints — show only working variants to keep output readable
-            const sug = suggestionMap.get(`${item.url}::${platform}`);
-            if (sug) {
-                const TICK = '\u2713', CROSS = '\u2717';
-                const workingVariants = Object.entries(sug.variants).filter(([n]) => sug.variantOk[n]);
-                const failedVariants = Object.entries(sug.variants).filter(([n]) => !sug.variantOk[n]);
-                for (const [name, vUrl] of workingVariants) {
-                    console.log(`      ${TICK} ${name}: ${vUrl}`);
-                }
-                if (failedVariants.length > 0 && workingVariants.length === 0) {
-                    // Only show failed if nothing works (brief)
-                    for (const [name, vUrl] of failedVariants.slice(0, 3)) {
-                        console.log(`      ${CROSS} ${name}: ${vUrl}`);
-                    }
-                    if (failedVariants.length > 3) {
-                        console.log(`      ${CROSS} ... and ${failedVariants.length - 3} more variants tried`);
-                    }
-                }
-                console.log(`      \u2192 FIX: ${sug.hint}`);
             }
             for (const page of item.pages.slice(0, 3)) {
                 console.log(`           in: ${page}`);
@@ -698,20 +1110,25 @@ if (OUTPUT) {
         platforms: targetPlatforms,
         resolvedVersions: Object.fromEntries(versionMap),
         totalFiles: mdxFiles.length,
-        totalLinks,
+        totalLinks: totalApiLinkRefs,
+        resolvedLinks: totalResolvedLinks,
+        ambiguousLinks: ambiguityDetails.length,
         uniqueUrls: uniqueUrls.length,
+        registryResolution: Object.fromEntries([...resolutionStats.entries()].map(([platform, stats]) => [
+            platform,
+            {
+                resolved: stats.resolved,
+                unresolved: stats.unresolved,
+                reasons: Object.fromEntries(stats.reasons),
+                examples: Object.fromEntries(stats.examples),
+            },
+        ])),
         ok: okResults.length,
         broken: brokenResults.length,
         brokenNotFound: softResults.length,
         brokenHttp: hardResults.length,
         results: checkResults.map(r => {
             const meta = urlIndex.get(r.url);
-            const suggestions = r.ok ? undefined : Object.fromEntries(
-                [...(meta?.platforms ?? [])].map(p => {
-                    const s = suggestionMap.get(`${r.url}::${p}`);
-                    return [p, s ? { hint: s.hint, variantOk: s.variantOk } : { hint: `exclude="${p}"` }];
-                })
-            );
             return {
                 url: r.url,
                 fetchUrl: r.fetchUrl,
@@ -720,7 +1137,6 @@ if (OUTPUT) {
                 ok: r.ok,
                 pages: [...(meta?.pages ?? [])],
                 platforms: [...(meta?.platforms ?? [])],
-                ...(suggestions ? { suggestions } : {}),
             };
         }),
     };
@@ -737,10 +1153,25 @@ if (MD_OUTPUT) {
     lines.push(`## Summary\n`);
     lines.push(`| | |`);
     lines.push(`|---|---|`);
+    lines.push(`| ApiLink refs | ${totalApiLinkRefs} |`);
+    lines.push(`| Resolved refs | ${totalResolvedLinks} |`);
+    lines.push(`| Ambiguous refs | ${ambiguityDetails.length} |`);
+    lines.push(`| Unique URLs | ${uniqueUrls.length} |`);
     lines.push(`| \u2705 OK | ${okResults.length} |`);
     lines.push(`| \u274c Not found (type/member missing) | ${softResults.length} |`);
     lines.push(`| \u274c HTTP error | ${hardResults.length} |`);
     lines.push(`| \u274c **Total broken** | **${brokenResults.length}** |`);
+    lines.push(``);
+
+    lines.push(`## Registry Resolution\n`);
+    for (const [platform, stats] of resolutionStats) {
+        if (stats.resolved === 0 && stats.unresolved === 0) continue;
+        const reasons = [...stats.reasons.entries()]
+            .sort((a, b) => b[1] - a[1])
+            .map(([reason, count]) => `${reason}: ${count}`)
+            .join(', ');
+        lines.push(`- **${platform}**: ${stats.resolved} resolved, ${stats.unresolved} not linked${reasons ? ` (${reasons})` : ''}`);
+    }
     lines.push(``);
 
     for (const [platform, items] of brokenByPlatform) {
@@ -765,23 +1196,6 @@ if (MD_OUTPUT) {
             if (item.fetchUrl !== item.url) {
                 lines.push(`  - Checked as: \`${item.fetchUrl}\``);
             }
-            const mdSug = suggestionMap.get(`${item.url}::${platform}`);
-            if (mdSug) {
-                const TICK = '\u2705', CROSS = '\u274c';
-                const workingVariants = Object.entries(mdSug.variants).filter(([n]) => mdSug.variantOk[n]);
-                for (const [name, vUrl] of workingVariants) {
-                    lines.push(`  - ${TICK} ${name}: \`${vUrl}\``);
-                }
-                if (workingVariants.length === 0) {
-                    // Show a few failed ones for context
-                    const failed = Object.entries(mdSug.variants).filter(([n]) => !mdSug.variantOk[n]);
-                    for (const [name, vUrl] of failed.slice(0, 3)) {
-                        lines.push(`  - ${CROSS} ${name}: \`${vUrl}\``);
-                    }
-                    if (failed.length > 3) lines.push(`  - ${CROSS} ... and ${failed.length - 3} more variants tried`);
-                }
-                lines.push(`  - **FIX**: \`${mdSug.hint}\``);
-            }
             for (const page of item.pages) {
                 lines.push(`  - in: \`${page}\``);
             }
@@ -803,4 +1217,4 @@ if (MD_OUTPUT) {
     console.log(`\n  Markdown report written to: ${MD_OUTPUT}\n`);
 }
 
-process.exit(brokenResults.length > 0 ? 1 : 0);
+process.exit(brokenResults.length > 0 || (FAIL_ON_AMBIGUITY && ambiguityDetails.length > 0) ? 1 : 0);

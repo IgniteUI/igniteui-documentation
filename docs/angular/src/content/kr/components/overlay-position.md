@@ -13,34 +13,41 @@ Position strategies determine where to display the component in the provided Igx
     | horizontalDirection        | verticalDirection        |
     |:---------------------------|:-------------------------|
     | HorizontalAlignment.Center | VerticalAlignment.Middle |
+
 <igc-divider></igc-divider>
 
-2. **Connected** - Positions the element based on the directions and start point passed in through [`positionSettings`] ({environment:angularApiUrl}/interfaces/positionsettings.html). It is possible to either pass a start point (type [`Point`] ({environment:angularApiUrl}/classes/point.html)) or an `HTMLElement` as a positioning base. Defaults to:
+1. **Connected** - Positions the element based on the directions and start point passed in through [`positionSettings`] ({environment:angularApiUrl}/interfaces/positionsettings.html). It is possible to either pass a start point (type [`Point`] ({environment:angularApiUrl}/classes/point.html)) or an `HTMLElement` as a positioning base. Defaults to:
 
     | target          | horizontalDirection       |  verticalDirection       | horizontalStartPoint     | verticalStartPoint       |
     |:----------------|:--------------------------|:-------------------------|:-------------------------|:-------------------------|
     | new Point(0, 0) | HorizontalAlignment.Right | VerticalAlignment.Bottom | HorizontalAlignment.Left | VerticalAlignment.Bottom |
+
 <igc-divider></igc-divider>
 
-3. **Auto** - **Auto** - Positions the element the same way as the **Connected** positioning strategy. It also calculates a different starting point in case the element goes partially out of the view port. The **Auto** strategy will initially try to show the element as the **Connected** strategy does. If the element goes out of the view port **Auto** will flip the starting point and the direction, i.e. if the direction is 'bottom', it will switch it to 'top' and so on. After the flipping, if the element is still out of the view port, **Auto** will use the initial directions and the starting point to push the element into the view port. For example - if the element goes out of the right side of the view port by 50px, **Auto** will push it with 50px to the left. Afterwards if the element is partially out of the view port, then its height or width were greater than the view port's, **Auto** will align the element's left/top edge with the view port's left/top edge. Defaults to:
+1. **Auto** - **Auto** - Positions the element the same way as the **Connected** positioning strategy. It also calculates a different starting point in case the element goes partially out of the view port. The **Auto** strategy will initially try to show the element as the **Connected** strategy does. If the element goes out of the view port **Auto** will flip the starting point and the direction, i.e. if the direction is 'bottom', it will switch it to 'top' and so on. After the flipping, if the element is still out of the view port, **Auto** will use the initial directions and the starting point to push the element into the view port. For example - if the element goes out of the right side of the view port by 50px, **Auto** will push it with 50px to the left. Afterwards if the element is partially out of the view port, then its height or width were greater than the view port's, **Auto** will align the element's left/top edge with the view port's left/top edge. Defaults to:
+
     | target          | horizontalDirection       |  verticalDirection       | horizontalStartPoint     | verticalStartPoint       |
     |:----------------|:--------------------------|:-------------------------|:-------------------------|:-------------------------|
     | new Point(0, 0) | HorizontalAlignment.Right | VerticalAlignment.Bottom | HorizontalAlignment.Left | VerticalAlignment.Bottom |
+
 <igc-divider></igc-divider>
 
-4. **Elastic** - Positions the element as in **Connected** positioning strategy and re-sizes the element to fit inside of the view port (re-calculating width and/or height) in case the element is partially out of view. `minSize :{ width: number, height: number}` can be passed in `positionSettings` to prevent resizing if it would put the element dimensions below a certain threshold. Defaults to:
+1. **Elastic** - Positions the element as in **Connected** positioning strategy and re-sizes the element to fit inside of the view port (re-calculating width and/or height) in case the element is partially out of view. `minSize :{ width: number, height: number}` can be passed in `positionSettings` to prevent resizing if it would put the element dimensions below a certain threshold. Defaults to:
+
     | target          | horizontalDirection       |  verticalDirection       | horizontalStartPoint     | verticalStartPoint       | minSize               |
     |:----------------|:--------------------------|:-------------------------|:-------------------------|:-------------------------|-----------------------|
     | new Point(0, 0) | HorizontalAlignment.Right | VerticalAlignment.Bottom | HorizontalAlignment.Left | VerticalAlignment.Bottom |{ width: 0, height: 0 }|
+
 <igc-divider></igc-divider>
 
 > [!NOTE]
 > Will not try to reposition the element if the strategy is using  HorizontalDirection = Center / VerticalDirection = Middle.
 > [!NOTE]
-> The overlay element **will be** resized, but the positioning strategy **does not** handle `overflow`. For example, if the element needs to have `overflow-y` when resized, incorporate the appropriate style to provide that. 
+> The overlay element **will be** resized, but the positioning strategy **does not** handle `overflow`. For example, if the element needs to have `overflow-y` when resized, incorporate the appropriate style to provide that.
 
 ## Usage
 Position an element based on an existing button as a target, so it's start point is the button's Bottom/Left corner.
+
 ```typescript
 const positionSettings: PositionSettings = {
     target: buttonElement.nativeElement,
@@ -56,6 +63,7 @@ strategy.position(contentWrapper, size);
 
 ### Getting Started
 The position strategy is passed as a property in the [`overlaySettings`] ({environment:angularApiUrl}/interfaces/overlaysettings.html) parameter when the [`overlay.show()`] ({environment:angularApiUrl}/classes/igxoverlayservice.html#show) method is called:
+
 ```typescript
     // Initializing and using overlay settings
     const overlaySettings: OverlaySettings = {
@@ -65,19 +73,23 @@ The position strategy is passed as a property in the [`overlaySettings`] ({envir
         closeOnOutsideClick: true
     }
     overlay.show(dummyElement, overlaySettings); 
-``` 
+```
+
 <igc-divider></igc-divider>
 
 To change the position strategy used by the overlay, override the [`positionStrategy`] ({environment:angularApiUrl}/interfaces/ipositionstrategy.html) property of the [`overlaySettings`] ({environment:angularApiUrl}/interfaces/overlaysettings.html) object passed to the overlay:
+
 ```typescript
     // overlaySettings is an existing object of type OverlaySettings
     // to override the position strategy
     const positionStrategy = new AutoPositionStrategy();
     overlay.show(dummyElement, { positionStrategy }); 
 ```
+
 <igc-divider></igc-divider>
 
 To change the position settings an already existing strategy is using, override any of the settings of that strategy:
+
 ```typescript
     // overlaySettings is an existing object of type OverlaySettings
     // overlaySettings.positionStrategy is an existing PositionStrategy with settings of type PositionSettings
@@ -99,14 +111,15 @@ Import the desired position strategy if needed like:
 ```typescript
 import {AutoPositionStrategy, GlobalPositionStrategy, ConnectedPositioningStrategy, ElasticPositionStrategy } from 'igniteui-angular';
 ```
-## Demos 
+
+## Demos
 
 ### Horizontal and Vertical Direction
 Changing the horizontal and/or vertical direction of the positioning settings determined where the content will align itself. Depending on the positioning strategy chosen, the content will either align relative to the target's container ([`AutoPositionStrategy`] ({environment:angularApiUrl}/classes/autopositionstrategy.html), [`ElasticPositionStrategy`] ({environment:angularApiUrl}/classes/elasticpositionstrategy.html) and [`ConnectedPositioningStrategy`] ({environment:angularApiUrl}/classes/connectedpositioningstrategy.html)) or the body of the document ([`GlobalPositioningStrategy`] ({environment:angularApiUrl}/classes/globalpositionstrategy.html))
 
 
-<code-view style="height: 500px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 500px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/overlay-position-sample-1/" >
 </code-view>
 
@@ -139,8 +152,8 @@ Changing the horizontal and/or vertical start point of the positioning settings 
 In the demo below, the overlay element will position itself starting from the target element depending on the start point chosen. Directions are always [`HorizontalAlignment.Right`] ({environment:angularApiUrl}/enums/horizontalalignment.html#right) and [`VerticalAlignment.Bottom`] ({environment:angularApiUrl}/enums/verticalalignment.html#bottom):
 
 
-<code-view style="height: 400px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/interactions/overlay-position-sample-2/" >
 </code-view>
 
@@ -149,4 +162,4 @@ In the demo below, the overlay element will position itself starting from the ta
 
 ## API References
 
-* [IPositionStrategy] ({environment:angularApiUrl}/interfaces/ipositionstrategy.html)
+- [IPositionStrategy] ({environment:angularApiUrl}/interfaces/ipositionstrategy.html)

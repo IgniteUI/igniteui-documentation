@@ -43,6 +43,20 @@ npm install igniteui-react
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```cmd
+Install-Package IgniteUI.Blazor
+```
+
+Or via .NET CLI:
+
+```cmd
+dotnet add package IgniteUI.Blazor
+```
+
+</PlatformBlock>
+
 Once installed, you can import the component in your project and register it so it becomes available as a custom element:
 
 <PlatformBlock for="WebComponents">
@@ -68,11 +82,27 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 </PlatformBlock>
 
-The CSS file includes one of our default themes. You can replace it with a different theme or create a custom one if you want the `Chat` to match your application’s branding.
+<PlatformBlock for="Blazor">
+
+```cs
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor(typeof(IgbChatModule));
+```
+
+You will also need to link an additional CSS file to apply the styling to the <ApiLink pkg="core" type="Chat" /> component.
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+The CSS file includes one of our default themes. You can replace it with a different theme or create a custom one if you want the <ApiLink type="Chat" /> to match your application’s branding.
 
 ## Usage
 
-The simplest way to use the `Chat` is to declare it as follows:
+The simplest way to use the <ApiLink type="Chat" /> is to declare it as follows:
 
 <PlatformBlock for="WebComponents">
 
@@ -106,6 +136,24 @@ const options: IgrChatOptions = {
 return (
   <IgrChat options={options} />
 );
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```cs
+ public IgbChatOptions Options = new IgbChatOptions()
+ {
+  CurrentUserId = "user",
+  HeaderText = "Support Chat"
+ };
+```
+
+```razor
+<IgbChat @ref="Chat" Options="Options">
+</IgbChat>
 ```
 
 </PlatformBlock>
@@ -165,19 +213,51 @@ const ChatExample = () => {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbChat @ref="Chat" Options="Options" Messages="Messages" MessageCreated="OnMessageCreated" Height="100%"></IgbChat>
+```
+
+```cs
+ public IgbChatMessage[] Messages = new IgbChatMessage[]
+ {
+     new IgbChatMessage()
+     {
+         Id = "1",
+         Text = "Hi, I have a question about my recent order, #7890.",
+         Sender = "user",
+         Timestamp = (DateTime.Now - TimeSpan.FromMilliseconds(3500000)).ToString()
+     }
+ }
+```
+
+You can then sync messages coming from the client, by hooking to the `messageCreated` event and adding the created messages to the collection:
+
+```cs
+public void OnMessageCreated(IgbChatMessageEventArgs e)
+{
+  Messages = Messages.Append(e.Detail).ToArray();
+}
+```
+
+</PlatformBlock>
+
 This approach makes it easy to plug the Chat into your own data source, such as a server endpoint, a chatbot engine, or a collaborative app backend.
 
 ### Properties
-The `Chat` component exposes several key properties that let you control its state and configuration:
+The <ApiLink type="Chat" /> component exposes several key properties that let you control its state and configuration:
 
 | Name              | Description                                                                                                                                                          |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `messages`        | Array of messages (<ApiLink type="ChatMessage" kind="interface" prefixed={true} suffix={false} />[]) displayed in the chat. You can bind to this to control which messages are shown.                                                  |
+| `messages`        | Array of messages (<ApiLink type="ChatMessage" />[]) displayed in the chat. You can bind to this to control which messages are shown.                                                  |
 | `draftMessage`    | The current unsent message, represented as an object containing `text` and optional `attachments`. This is useful for saving or restoring message drafts.            |
-| `options`         | Chat configuration (<ApiLink type="ChatOptions" kind="type" suffix={false} />) such as current user ID, input placeholders, accepted file types, quick reply suggestions, typing delay, and custom renderers. |
+| `options`         | Chat configuration (<ApiLink type="ChatOptions" />) such as current user ID, input placeholders, accepted file types, quick reply suggestions, typing delay, and custom renderers. |
 | `resourceStrings` | Localized resource strings for labels, headers, and system text. Use this property to adapt the component for different languages.                                   |
 
 These properties make it straightforward to synchronize the Chat’s UI with your application’s state and backend.
+
+<PlatformBlock for="WebComponents, React">
 
 ### Attachments
 Modern conversations are rarely limited to text alone. The Chat component includes built-in support for file attachments, allowing users to share images, documents, and other files.
@@ -233,6 +313,8 @@ const options: IgrChatOptions = {
 
 </PlatformBlock>
 
+</PlatformBlock>
+
 ### Suggestions
 Quick reply suggestions provide users with pre-defined responses they can tap to reply instantly. This feature is particularly useful in chatbots, customer service flows, or when guiding users through a structured process.
 You can provide suggestions by binding an array of strings to the suggestions property. The `suggestions-position` attribute lets you control where they are displayed: either below the input area or below the messages list.
@@ -274,6 +356,19 @@ return (
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+  CurrentUserId = "me",
+  Suggestions = new string[] { "Yes", "No", "Maybe later" },
+  SuggestionsPosition = ChatSuggestionsPosition.BelowInput
+};
+```
+
+</PlatformBlock>
+
 This approach helps streamline user interactions by reducing the need to type repetitive answers and improves the overall experience in guided conversations.
 
 ### Typing Indicator
@@ -303,6 +398,17 @@ const options: IgrChatOptions = {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+  IsTyping = true
+};
+```
+
+</PlatformBlock>
+
 This feature is typically toggled programmatically, for example when receiving a typing event from your backend service.
 
 ### Custom Renderers
@@ -312,9 +418,22 @@ The <ApiLink type="Chat" /> component addresses this need with a renderer system
 #### ChatTemplateRenderer
 Every renderer follows the same function signature:
 
+<PlatformBlock for="WebComponents, React">
+
 ```ts
 export type ChatTemplateRenderer<T> = (ctx: T) => unknown;
 ```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```js
+igRegisterScript("MyTemplate", (ctx) => {
+}, false);
+```
+
+</PlatformBlock>
 
 The ctx parameter provides different contextual data depending on what is being rendered.
 
@@ -322,10 +441,10 @@ The ctx parameter provides different contextual data depending on what is being 
 
 | Context Type                | Provided Data                                                                                                          |
 | --------------------------- | -----------------------------------------------------------------------------------------------------------------------|
-| <ApiLink type="ChatRenderContext" prefixed={false} kind="interface" suffix={false} />       | `instance` (the chat component instance).                                                |
-| <ApiLink type="ChatInputRenderContext" prefixed={false} kind="interface" suffix={false} />      | Inherits <ApiLink type="ChatRenderContext" prefixed={false} kind="interface" suffix={false} /> and adds `attachments` (array of <ApiLink type="ChatMessageAttachment" prefixed={true} kind="interface" suffix={false} />) and `value` (current input text). |
-| <ApiLink type="ChatMessageRenderContext" prefixed={false} kind="interface" suffix={false} />    | Inherits <ApiLink type="ChatRenderContext" prefixed={false} kind="interface" suffix={false} /> and adds `ChatMessage` (the <ApiLink type="ChatMessage" prefixed={true} kind="interface" suffix={false} /> being rendered).                                      |
-| <ApiLink type="ChatAttachmentRenderContext" prefixed={false} kind="interface" suffix={false} /> | Inherits <ApiLink type="ChatMessageRenderContext" prefixed={false} kind="interface" suffix={false} /> and adds `attachment` (the <ApiLink type="ChatMessageAttachment" prefixed={true} kind="interface" suffix={false} /> being rendered).                      |
+| <ApiLink type="ChatRenderContext" />       | `instance` (the chat component instance).                                                |
+| <ApiLink type="ChatInputRenderContext" />      | Inherits <ApiLink type="ChatRenderContext" /> and adds `attachments` (array of <ApiLink type="ChatMessageAttachment" />) and `value` (current input text). |
+| <ApiLink type="ChatMessageRenderContext" />    | Inherits <ApiLink type="ChatRenderContext" /> and adds <ApiLink type="ChatMessage" /> (the <ApiLink type="ChatMessage" /> being rendered).                                      |
+| <ApiLink type="ChatAttachmentRenderContext" /> | Inherits <ApiLink type="ChatMessageRenderContext" /> and adds `attachment` (the <ApiLink type="ChatMessageAttachment" /> being rendered).                      |
 
 #### Available Renderers
 
@@ -334,7 +453,6 @@ The following parts of the Chat can be customized:
 - Attachment-level: attachment, attachmentHeader, attachmentContent
 - Input-level: input, inputActions, inputActionsStart, inputActionsEnd, inputAttachments, fileUploadButton, sendButton
 - Suggestions: suggestionPrefix
-- Miscellaneous: typingIndicator
 
 This level of granularity means you can tweak just one part (for example, how attachments look) without rewriting the entire chat layout.
 
@@ -372,6 +490,28 @@ const options = {
     }
   }
 };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+    Renderers = new IgbChatRenderers()
+    {
+        MessageContentScript = "MessageContentScript"
+    }
+};
+```
+
+```js
+igRegisterScript("MessageContentScript", (ctx) => {
+    var html = window.igTemplating.html;
+    return  html`<div className="bubble custom">${ctx.message.text}</div>`;
+}, false);
+
 ```
 
 </PlatformBlock>
@@ -416,12 +556,35 @@ const options = {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+    Renderers = new IgbChatRenderers()
+    {
+        InputScript = "InputTemplate"
+    }
+};
+```
+
+
+```js
+igRegisterScript("InputTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<textarea placeholder=${ctx.instance?.options?.inputPlaceholder || 'Type here...'}>${ctx.value}</textarea>
+    <button @click=${() => alert('Voice input!')}>🎤</button>`;
+}, false);
+```
+
+</PlatformBlock>
+
 #### Example: Extending Input Actions
-The `Chat` component provides two renderers which are useful when you want to keep the default actions (upload and send) but extend them with additional controls:
+The <ApiLink type="Chat" /> component provides two renderers which are useful when you want to keep the default actions (upload and send) but extend them with additional controls:
 - `inputActionsStart` – allows you to inject custom content after the built-in upload button.
 - `inputActionsEnd` – allows you to inject custom content after the built-in send button.
 
-For example, you might want to add a voice recording button after the upload button, or a menu of extra options after the send button.
+For example, you might want to add a voice recording button before the other buttons, or a menu of extra options after the send button.
 In the following example, the default upload button is preserved, but we add a microphone button next to it. On the other end, we remove the default send button and replace it with a custom Ask button and a “more” menu:
 
 <PlatformBlock for="WebComponents">
@@ -477,12 +640,54 @@ const options = {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+  Renderers = new IgbChatRenderers()
+  {
+    InputActionsStartScript = "InputActionsStartTemplate",
+    InputActionsEndScript = "InputActionsEndTemplate",
+    SendButtonScript = "SendButtonTemplate"
+  }
+};
+```
+
+
+```js
+igRegisterScript("SendButtonTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html``;
+}, false);
+
+
+igRegisterScript("InputActionsStartTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<igc-icon-button variant="flat">🎤</igc-icon-button>`;
+}, false);
+
+igRegisterScript("InputActionsEndTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<div>
+    <igc-button @click=${() => handleCustomSendClick(ctx.instance)}>Ask</igc-button>
+    <igc-icon-button variant="flat" name="more_horiz"></igc-icon-button>
+  </div>`;
+}, false);
+```
+
+</PlatformBlock>
+
 In this setup:
+<PlatformBlock for="WebComponents, React">
 - The upload button remains in place.
+</PlatformBlock>
 - A microphone button is added after it (inputActionsStart).
 - The default send button is removed and replaced with a custom Ask button and a “more” icon (inputActionsEnd).
 
 This approach gives you full flexibility over the chat input bar, letting you add, remove, or reorder actions without rebuilding the input area from scratch.
+
+<PlatformBlock for="WebComponents, React">
 
 ### Markdown Rendering
 
@@ -572,6 +777,8 @@ This will enable highlighted code blocks for JavaScript, Python, and Go, styled 
 | `theme`         | An object specifying **Shiki** themes to apply. Supports separate values for `light` and `dark` mode (e.g., `{ light: 'github-light', dark: 'github-dark' }`). |
 | `sanitizer`     | A custom function to sanitize the final HTML. Defaults to `DOMPurify.sanitize`. |
 
+</PlatformBlock>
+
 ### Events
 To integrate with your application logic, the Chat component emits a set of events:
 
@@ -608,6 +815,17 @@ To integrate with your application logic, the Chat component emits a set of even
 
 </PlatformBlock>
 
+
+<PlatformBlock for="Blazor">
+
+- MessageCreated – when a new message is created.
+- MessageReact – when a message is reacted to.
+- TypingChange – when typing status changes.
+- InputFocus / onInputBlur – input focus events.
+- InputChange – when the input value changes.
+
+</PlatformBlock>
+
 You can listen for these events and sync them with your backend:
 
 <PlatformBlock for="WebComponents">
@@ -637,10 +855,25 @@ chatRef.current.addEventListener('onMessageCreated', (e) => {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 
+```razor
+<IgbChat MessageCreated="OnMessageCreated"></IgbChat>
+```
+
+```cs
+public void OnMessageCreated(IgbChatMessageEventArgs e)
+{
+  Console.WriteLine($"Message: {e.Detail.Text}");
+}
+```
+
+<Sample src="/interactions/chat/features" height={900} alt="{Platform} Chat Features" />
+
+</PlatformBlock>
 ## Styling
 
-The `Chat` component exposes both **CSS parts** and **slots** for fine-grained customization of its appearance and structure.
+The <ApiLink type="Chat" /> component exposes both **CSS parts** and **slots** for fine-grained customization of its appearance and structure.
 
 ### CSS Parts
 
@@ -743,7 +976,7 @@ igc-chat::part(message-header) {
 }
 ```
 
-This allows you to style the `Chat` to match your brand without replacing its functionality.
+This allows you to style the <ApiLink type="Chat" /> to match your brand without replacing its functionality.
 
 <Sample src="/interactions/chat/styling" height={900} alt="{Platform} Chat Styling Example" />
 
@@ -751,11 +984,11 @@ This allows you to style the `Chat` to match your brand without replacing its fu
 ## API Reference
 
 - <ApiLink type="Chat" />
-- <ApiLink type="ChatOptions" kind="type" suffix={false} />
-- <ApiLink type="ChatMessage" kind="interface" prefixed={true} suffix={false} />
-- <ApiLink type="ChatMessageAttachment" prefixed={true} kind="interface" suffix={false} />
-- <ApiLink type="ChatRenderers" kind="interface" prefixed={false} suffix={false} />
-- <ApiLink type="ChatTemplateRenderer" kind="type" prefixed={false} suffix={false} />
+- <ApiLink type="ChatOptions" />
+- <ApiLink type="ChatMessage" />
+- <ApiLink type="ChatMessageAttachment" />
+- <ApiLink type="ChatRenderers" />
+- <ApiLink type="ChatTemplateRenderer" />
 - [Styling & Themes](../themes/overview.md)
 
 ## Additional Resources

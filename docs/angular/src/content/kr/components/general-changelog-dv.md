@@ -23,7 +23,6 @@ All notable changes for each version of Ignite UI for Angular are documented on 
 
 
 
-
 ### Charts & Maps
 
 This release introduces a few improvements and simplifications to visual design and configuration options for the geographic map and all chart components.

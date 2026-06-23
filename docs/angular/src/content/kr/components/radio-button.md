@@ -13,8 +13,8 @@ _language: kr
 
 #### Radio Button Demo
 
-<code-view style="height: 384px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 384px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/radio-sample-2/" >
 </code-view>
 
@@ -39,6 +39,7 @@ export class AppModule {
     public selected: any;
 }
 ```
+
 To get a started with some radio buttons, add the following code inside the component template:
 
 ```html
@@ -107,8 +108,8 @@ The Ignite UI for Angular Radio Group directive provides a grouping container th
 
 #### Radio Group Demo
 
-<code-view style="height: 320px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 320px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/radio-group-sample/" >
 </code-view>
 
@@ -128,7 +129,8 @@ import { IgxRadioModule } from 'igniteui-angular';
     ...
 })
 ```
-To get a started, create an [**igxRadioGroup**]({environment:angularApiUrl}/classes/igxradiogroupdirective.html) and add several [**igxRadio**]({environment:angularApiUrl}/classes/igxradiocomponent.html) components. 
+
+To get a started, create an [**igxRadioGroup**]({environment:angularApiUrl}/classes/igxradiogroupdirective.html) and add several [**igxRadio**]({environment:angularApiUrl}/classes/igxradiocomponent.html) components.
 
 Note that, setting the [`igx-radio-group`]({environment:angularApiUrl}/classes/igxradiogroupdirective.html) [`name`]({environment:angularApiUrl}/classes/igxradiogroupdirective.html#name) property is **mandatory**.
 
@@ -148,13 +150,13 @@ public fruits = ["Apple", "Mango", "Banana", "Orange"];
 
 ## API References
 
-* [IgxRadioComponent]({environment:angularApiUrl}/classes/igxradiocomponent.html)
-* [IgxRadioGroupDirective]({environment:angularApiUrl}/classes/igxradiogroupdirective.html)
-* [IgxRadioComponent Styles]({environment:sassApiUrl}/themes#function-radio-theme)
+- [IgxRadioComponent]({environment:angularApiUrl}/classes/igxradiocomponent.html)
+- [IgxRadioGroupDirective]({environment:angularApiUrl}/classes/igxradiogroupdirective.html)
+- [IgxRadioComponent Styles]({environment:sassApiUrl}/themes#function-radio-theme)
 
 ## Additional Resources
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

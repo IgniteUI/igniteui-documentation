@@ -46,7 +46,7 @@ npm install -g igniteui-cli
 
 #### Using guided experience
 
-The shortest and easiest way to bootstrap an application is to use the Ignite UI CLI [`guided experience`](https://github.com/IgniteUI/igniteui-cli/wiki/step-by-step), which builds a configured app that the developer can get up and running with the ease of a single command. 
+The shortest and easiest way to bootstrap an application is to use the Ignite UI CLI [`guided experience`](https://github.com/IgniteUI/igniteui-cli/wiki/step-by-step), which builds a configured app that the developer can get up and running with the ease of a single command.
 
 ```cmd
 ig
@@ -222,16 +222,16 @@ The final result should look something like this:
 
 In this article we learned how to create our own Ignite UI for Angular application from scratch by taking advantage of the fully-automated process of Ignite UI for Angular projects creation in the Ignite UI CLI. We also learned and how to add Ignite UI for Angular to an existing application by using the Angular CLI. We designed our own page by including the [`IgxGridComponent`]({environment:angularApiUrl}/classes/igxgridcomponent.html) to it, which itself offers some awesome features, which you can take a look at by referring to the navigation menu.
 
-* [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
-* [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
+- [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
+- [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
 
 ## Additional Resources
 
-* [Ignite UI CLI](https://github.com/IgniteUI/igniteui-cli)
-* [Ignite UI CLI Commands](https://github.com/IgniteUI/igniteui-cli/wiki#available-commands)
-* [Grid overview](../grid/grid.md)
+- [Ignite UI CLI](https://github.com/IgniteUI/igniteui-cli)
+- [Ignite UI CLI Commands](https://github.com/IgniteUI/igniteui-cli/wiki#available-commands)
+- [Grid overview](../grid/grid.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

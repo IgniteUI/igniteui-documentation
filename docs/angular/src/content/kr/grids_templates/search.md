@@ -1,21 +1,21 @@
 @@if (igxName === 'IgxGrid') {
 ---
-title: Angular Grid search | search data | Ignite UI for Angular | Infragistics 
-description: Learn how to perform grid seach with the Ignite Angular table using rich API. It also allows instant content search in the virtualized data of the Grid
+title: Angular Grid search | search data | Ignite UI for Angular | Infragistics
+description: Learn how to perform grid search with the Ignite Angular table using rich API. It also allows instant content search in the virtualized data of the Grid
 keywords: Content search, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxTreeGrid') {
 ---
 title: Angular Tree Grid search | search data | Ignite UI for Angular | Infragistics
-description: Learn how to perform grid seach with the Ignite Angular table using rich API. It also allows instant content search in the virtualized data of the Grid
+description: Learn how to perform grid search with the Ignite Angular table using rich API. It also allows instant content search in the virtualized data of the Grid
 keywords: Content search, ignite ui for angular, infragistics
 ---
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
 ---
 title: Angular Hierarchical Grid search | search data | Ignite UI for Angular | Infragistics
-description: Learn how to perform grid seach with the Ignite Angular table using rich API. It also allows instant content search in the virtualized data of the Grid
+description: Learn how to perform grid search with the Ignite Angular table using rich API. It also allows instant content search in the virtualized data of the Grid
 keywords: Content search, ignite ui for angular, infragistics
 ---
 }
@@ -28,22 +28,22 @@ While browsers natively provide content search functionality, most of the time t
 
 @@if (igxName === 'IgxGrid') {
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-search-sample/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxTreeGrid') {
 
-<code-view style="height:600px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:600px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/tree-grid/treegrid-search/" >
 </code-view>
 
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-{/* TODO */}
+{/*TODO*/}
 }
 
 ### 사용 방법
@@ -52,6 +52,7 @@ While browsers natively provide content search functionality, most of the time t
 그리드를 작성하고 데이터를 바인딩하는 것으로 시작합니다. 사용할 컴포넌트에 사용자 스타일도 추가합니다!
 
 @@if (igxName === 'IgxGrid') {
+
 ```html
 <!--searchgrid.component.html-->
 
@@ -64,8 +65,10 @@ While browsers natively provide content search functionality, most of the time t
     <igx-column [field]="'Date'" dataType="date" [sortable]="true"></igx-column>
 </igx-grid>
 ```
+
 }
 @@if (igxName === 'IgxTreeGrid') {
+
 ```html
 <!--searchgrid.component.html-->
 
@@ -77,12 +80,14 @@ While browsers natively provide content search functionality, most of the time t
     <igx-column [field]="'HireDate'" dataType="date" [sortable]="true"></igx-column>
 </igx-tree-grid>
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-{/* TODO */}
+{/_TODO_/}
 }
 
 @@if (igxName === 'IgxGrid' || igxName === 'IgxTreeGrid') {
+
 ```css
 /* searchgrid.component.css */
 
@@ -106,9 +111,10 @@ While browsers natively provide content search functionality, most of the time t
     margin-left: 5px;
 }
 ```
+
 }
 @@if (igxName === 'IgxHierarchicalGrid') {
-{/* TODO */}
+{/_TODO_/}
 }
 
 이제 @@igComponent의 검색 API를 구성합니다! 현재 검색된 텍스트를 저장하고 검색에서 대/소문자를 구분할지 여부에 사용할 수 있는 몇 가지 속성을 작성할 수 있습니다.
@@ -302,6 +308,7 @@ public clearSearch() {
     </div>
     ...
 ```
+
 - **caseSensitive** 및 **exactMatch** 속성을 토글하는 두 개의 칩을 표시합니다. 이 속성을 기반으로 색상을 변경하는 두 개의 세련된 칩을 가진 체크 박스로 교체했습니다. 칩을 클릭할 때마다 클릭한 칩에 따라 해당 핸들러인 - **updateSearch** 또는 **updateExactSearch**가 호출됩니다.
 
 ```html
@@ -320,6 +327,7 @@ public clearSearch() {
     </div>
     ...
 ```
+
 - 검색 탐색 버튼의 경우 재료 아이콘을 사용해 입력을 리플 스타일 버튼으로 변환했습니다. 클릭 이벤트의 핸들러는 그대로 유지되며 [`findNext`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#findnext)/[`findPrev`]({environment:angularApiUrl}/classes/@@igTypeDoc.html#findprev) 메소드를 호출합니다.
 
 ```html
@@ -350,49 +358,49 @@ public clearSearch() {
 검색 결과의 탐색은 @@igComponent에 사용자 검색 줄 기능을 추가하여 구현했습니다. 또한 아이콘, 칩, 입력 등의 Ignite UI for Angular 컴포넌트를 추가로 사용했습니다. 검색 API는 다음과 같습니다.
 
 [`@@igxNameComponent`]({environment:angularApiUrl}/classes/@@igTypeDoc.html) 메소드:
--   [findNext]({environment:angularApiUrl}/classes/@@igTypeDoc.html#findnext)
--   [findPrev]({environment:angularApiUrl}/classes/@@igTypeDoc.html#findprev)
--   [clearSearch]({environment:angularApiUrl}/classes/@@igTypeDoc.html#clearsearch)
--   [refreshSearch]({environment:angularApiUrl}/classes/@@igTypeDoc.html#refreshsearch)
+- [findNext]({environment:angularApiUrl}/classes/@@igTypeDoc.html#findnext)
+- [findPrev]({environment:angularApiUrl}/classes/@@igTypeDoc.html#findprev)
+- [clearSearch]({environment:angularApiUrl}/classes/@@igTypeDoc.html#clearsearch)
+- [refreshSearch]({environment:angularApiUrl}/classes/@@igTypeDoc.html#refreshsearch)
 
 [`IgxGridCell`]({environment:angularApiUrl}/classes/igxgridcell.html) 메소드:
 
 [`IgxColumnComponent`]({environment:angularApiUrl}/classes/igxcolumncomponent.html) 속성:
--   [searchable]({environment:angularApiUrl}/classes/igxcolumncomponent.html#searchable)
+- [searchable]({environment:angularApiUrl}/classes/igxcolumncomponent.html#searchable)
 
 [ISearchInfo]({environment:angularApiUrl}/interfaces/isearchinfo.html)
 
 사용된 상대 API가 있는 추가 컴포넌트 및/또는 지시문:
 
-* [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
-* [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
-* [IgxRippleDirective]({environment:angularApiUrl}/classes/igxrippledirective.html)
-* [IgxButtonDirective]({environment:angularApiUrl}/classes/igxbuttondirective.html)
-* [IgxChipComponent]({environment:angularApiUrl}/classes/igxchipcomponent.html)
+- [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
+- [IgxIconComponent]({environment:angularApiUrl}/classes/igxiconcomponent.html)
+- [IgxRippleDirective]({environment:angularApiUrl}/classes/igxrippledirective.html)
+- [IgxButtonDirective]({environment:angularApiUrl}/classes/igxbuttondirective.html)
+- [IgxChipComponent]({environment:angularApiUrl}/classes/igxchipcomponent.html)
 
 스타일:
 
-* [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
-* [IgxInputGroupComponent 스타일]({environment:sassApiUrl}/themes#function-input-group-theme)
-* [IgxIconComponent 스타일]({environment:sassApiUrl}/themes#function-icon-theme)
-* [IgxRippleDirective 스타일]({environment:sassApiUrl}/themes#function-ripple-theme)
-* [IgxButtonDirective 스타일]({environment:sassApiUrl}/themes#function-button-theme)
-* [IgxChipComponent 스타일]({environment:sassApiUrl}/themes#function-chip-theme)
+- [@@igxNameComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [IgxInputGroupComponent 스타일]({environment:sassApiUrl}/themes#function-input-group-theme)
+- [IgxIconComponent 스타일]({environment:sassApiUrl}/themes#function-icon-theme)
+- [IgxRippleDirective 스타일]({environment:sassApiUrl}/themes#function-ripple-theme)
+- [IgxButtonDirective 스타일]({environment:sassApiUrl}/themes#function-button-theme)
+- [IgxChipComponent 스타일]({environment:sassApiUrl}/themes#function-chip-theme)
 
 ### 추가 리소스
 
-* [@@igComponent 개요](@@igMainTopic.md)
-* [가상화 및 성능](virtualization.md)
-* [필터링](filtering.md)
-* [페이징](paging.md)
-* [정렬](sorting.md)
-* [요약](summaries.md)
-* [열 이동](column-moving.md)
-* [열 핀 고정](column_pinning.md)
-* [열 크기 조정](column-resizing.md)
-* [선택](selection.md)
+- [@@igComponent 개요](@@igMainTopic.md)
+- [가상화 및 성능](virtualization.md)
+- [필터링](filtering.md)
+- [페이징](paging.md)
+- [정렬](sorting.md)
+- [요약](summaries.md)
+- [열 이동](column-moving.md)
+- [열 핀 고정](column_pinning.md)
+- [열 크기 조정](column-resizing.md)
+- [선택](selection.md)
 
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

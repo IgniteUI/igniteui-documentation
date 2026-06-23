@@ -339,7 +339,7 @@ belonging to their respective grid (the child grids will not be included in the 
 </ComponentBlock>
 
 As with the rest of the toolbar actions, exporting is provided through a <ApiLink type="GridToolbarExporter" label="Toolbar Exporter component" /> out of the box.
-The exporting component is using the respective service for the target data format (<ApiLink type="ExcelExporterService" suffix={false} label="Excel" />, <ApiLink type="CsvExporterService" suffix={false} label="CSV" />, <ApiLink type="PdfExporterService" suffix={false} label="PDF" />). That means if the respective service is not provided through the dependency injection chain, the component
+The exporting component is using the respective service for the target data format (<ApiLink type="ExcelExporterService" label="Excel" />, <ApiLink type="CsvExporterService" label="CSV" />, <ApiLink type="PdfExporterService" label="PDF" />). That means if the respective service is not provided through the dependency injection chain, the component
 won't be able to export anything.
 If you need a refresher on the DI in Angular, check the [official guide](https://angular.io/guide/dependency-injection). Here is a sample snippet showing how to enable
 all export services for your application.
@@ -537,49 +537,16 @@ To get started with styling the toolbar, we need to import the index file, where
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-First, let's create a new palette.
+Next, create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="grid-toolbar-theme" code={true} />.
 
 ```scss
-$my-dark-palette: palette(
-  $primary: #2466ff,
-  $secondary: #ffcd0f,
-  $surface: #2a2b2f,
-  $grays: #fff,
-);
+$accent: #ffcd0f;
 
-$my-dark-color: color($my-dark-palette, 'surface');
-```
-
-Now, create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="grid-toolbar-theme" code={true} /> and modify the `$background-color` and the `$title-text-color` parameters.
-
-```scss
-$dark-grid-toolbar-theme: grid-toolbar-theme(
-  $background-color: $my-dark-color,
-  $title-text-color: color($my-dark-palette, 'secondary'),
-  $dropdown-background: $my-dark-color,
-);
-```
-
-To theme the column actions menus of the toolbar, we have to change the theme of the <ApiLink kind="sass" module="themes" type="function-igx-column-actionsr-theme" label="column-actions-theme" code={true} /> component.
-
-```scss
-$dark-column-actions-theme: column-actions-theme(
-  $title-color: color($my-dark-palette, 'secondary'),
-  $background-color: color($my-dark-palette, 'surface')
-);
-```
-
-Since the column actions are using other components - `igx-button` and `igx-checkbox` we need to change their themes to match our new toolbar theme.
-
-```scss
-$dark-button-theme: outlined-button-theme(
-  $background: color($my-dark-palette, 'secondary'),
-  $hover-background: color($my-dark-palette, 'grays', 100),
-  $hover-foreground: color($my-dark-palette, 'secondary')
-);
-
-$dark-checkbox-theme: checkbox-theme(
-  $tick-color: $my-dark-color,
+$grid-toolbar-theme: grid-toolbar-theme(
+  $background: #170237,
+  $border-color: $accent,
+  $title-text-color: #f6d8d8,
+  $item-hover-background: rgb(246 216 216 / 0.3),
 );
 ```
 
@@ -587,10 +554,9 @@ The last step is to **include** the newly created themes.
 
 ```scss
 :host {
-    @include tokens($dark-grid-toolbar-theme);
-    @include tokens($dark-column-actions-theme);
-    @include tokens($dark-checkbox-theme);
-    @include tokens($dark-button-theme);
+  igx-grid-toolbar {
+    @include tokens($grid-toolbar-theme);
+  }
 }
 ```
 
@@ -599,13 +565,9 @@ If the component is using an [`Emulated`](/themes/sass/component-themes#view-enc
 </DocsAside>
 
 ```scss
-@include tokens($dark-grid-toolbar-theme);
-
-:host {
-  ::ng-deep {
-    @include tokens($dark-column-actions-theme);
-    @include tokens($dark-checkbox-theme);
-    @include tokens($dark-button-theme);
+:host ::ng-deep {
+  igx-grid-toolbar {
+    @include tokens($grid-toolbar-theme);
   }
 }
 ```
