@@ -55,6 +55,7 @@ export default createDocsSite({
 	base: mode !== 'development' ? base : undefined,
 	title: 'Ignite UI for Angular',
 	description: 'Component and API reference docs for Ignite UI for Angular.',
+	localizedDescription: docsLang === 'jp' ? 'Ignite UI for Angular のコンポーネントと API リファレンス ドキュメントです。' : undefined,
 	platform: 'angular',
 	navLang: docsLang,
 	mode,

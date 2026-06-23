@@ -152,6 +152,7 @@ export function toUrlSlug(label: string): string {
  * These labels are treated as organisational groupings, never as label prefixes.
  */
 export const IGDOCS_BROAD_SECTIONS = [
+    // English
     'AI-Assisted Development',
     'General',
     'Interactivity',
@@ -169,6 +170,26 @@ export const IGDOCS_BROAD_SECTIONS = [
     'Scheduling',
     'Styling & Themes',
     'Deprecated Components',
+    // Japanese equivalents — header nodes in JP toc.json that are visual
+    // navigation dividers, not meaningful label prefixes.
+    'AI 支援開発',
+    '概要',
+    'インタラクティビティ',
+    'グリッドとリスト',
+    'グリッド & リスト',
+    'ダッシュボード',
+    'チャート',
+    'マップ',
+    'フレームワーク',
+    'ゲージ',
+    'スタイルとテーマ',
+    'スタイル設定およびとテーマ',
+    'データ入力と表示',
+    'インタラクション',
+    'メニュー',
+    'レイアウト',
+    '通知',
+    'スケジュール',
 ] as const;
 
 /** Platforms that use the Ignite UI doc broad sections. */
@@ -324,6 +345,24 @@ function walkLlmsItems(
 // Public builder
 // ---------------------------------------------------------------------------
 
+const LLMS_TXT_STRINGS: Record<string, { docsSection: string; abridged: string; abridgedDesc: string; combined: string; combinedDesc: string }> = {
+    en: {
+        docsSection:  'Documentation sets',
+        abridged:     'Abridged documentation',
+        abridgedDesc: 'a compact version of the documentation, with non-essential content removed',
+        combined:     'Combined docs',
+        combinedDesc: 'Single-file Markdown export of all docs.',
+    },
+    jp: {
+        docsSection:  'ドキュメント セット',
+        abridged:     '要約ドキュメント',
+        abridgedDesc: '非必須コンテンツを除いたコンパクトなドキュメントです。',
+        combined:     '統合ドキュメント',
+        combinedDesc: '全ドキュメントを 1 つのファイルにまとめた Markdown エクスポートです。',
+    },
+
+};
+
 /** Generate the complete llms.txt manifest content. */
 export function buildLlmsTxt(
     base: string,
@@ -333,16 +372,22 @@ export function buildLlmsTxt(
     metaMap: Map<string, LlmsMeta>,
     llmsSets: LlmsSet[] = [],
     broadSections: ReadonlySet<string> = new Set(),
+    navLang: string = 'en',
+    /** Optional localized description that replaces `siteDescription` in the
+     *  manifest blockquote.  Pass a JP/KR translation from the site config;
+     *  when omitted the (often English-only) `siteDescription` is used as-is. */
+    localizedDescription?: string,
 ): string {
+    const s = LLMS_TXT_STRINGS[navLang] ?? LLMS_TXT_STRINGS['en'];
     const lines: string[] = [
         `# ${siteTitle}`,
         '',
-        `> ${siteDescription}`,
+        `> ${localizedDescription ?? siteDescription}`,
         '',
-        '## Documentation sets',
+        `## ${s.docsSection}`,
         '',
-        `- [Abridged documentation](${base}/llms-small.txt): a compact version of the documentation, with non-essential content removed`,
-        `- [Combined docs](${base}/llms-full.txt): Single-file Markdown export of all docs.`,
+        `- [${s.abridged}](${base}/llms-small.txt): ${s.abridgedDesc}`,
+        `- [${s.combined}](${base}/llms-full.txt): ${s.combinedDesc}`,
         ``
     ];
 

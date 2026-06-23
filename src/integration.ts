@@ -236,6 +236,9 @@ export interface ProductLink {
 export interface SiteMetaOptions {
     title: string;
     description?: string;
+    /** Localized site description for non-English builds. Used in the llms.txt
+     *  manifest blockquote instead of the (typically English) `description`. */
+    localizedDescription?: string;
     /** Path to the source markdown files. */
     docsDir?: string;
     sidebar?: SidebarEntry[];
@@ -278,6 +281,7 @@ export interface SiteMetaOptions {
 export function siteMetaIntegration({
     title,
     description = '',
+    localizedDescription,
     docsDir,
     sidebar,
     platform = null,
@@ -412,7 +416,7 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
 
                 // ── LLM artifacts ────────────────────────────────────────────────
                 // Write llms.txt manifest (always — even without docsDir).
-                const llmsContent = buildLlmsTxt(configuredSite, title, description, sidebar ?? [], llmsMetaMap, llmsSets, broadSections);
+                const llmsContent = buildLlmsTxt(configuredSite, title, description, sidebar ?? [], llmsMetaMap, llmsSets, broadSections, navLang, localizedDescription);
                 // English metadata can also contain Unicode punctuation and symbols.
                 // Include a UTF-8 signature because static preview servers may omit charset.
                 await fsp.writeFile(path.join(outDir, 'llms.txt'), withUtf8Bom(llmsContent), 'utf-8');
@@ -521,6 +525,9 @@ export interface CreateDocsSiteOptions {
     title: string;
     /** Short description for the llms.txt header. */
     description?: string;
+    /** Localized site description for non-English builds. Used in the llms.txt
+     *  manifest blockquote instead of the (typically English) `description`. */
+    localizedDescription?: string;
     /** Content source paths. */
     source: Partial<DocsSiteSource>;
     /** Sidebar builder options. */
@@ -578,6 +585,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         base,
         title,
         description = '',
+        localizedDescription,
         source = {},
         sidebar: sidebarOptions = {},
         platform = null,
@@ -691,6 +699,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
             siteMetaIntegration({
                 title,
                 description,
+                localizedDescription,
                 docsDir: source.docsDir,
                 sidebar,
                 platform,

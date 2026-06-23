@@ -56,6 +56,13 @@ const PLATFORM_META: Record<string, { title: string; description: string }> = {
     Blazor:        { title: 'Ignite UI for Blazor',        description: 'Reference docs for Ignite UI for Blazor.'        },
 };
 
+const PLATFORM_META_JP: Record<string, string> = {
+    Angular:       'Ignite UI for Angular のコンポーネントと API リファレンス ドキュメントです。',
+    React:         'Ignite UI for React のコンポーネントと API リファレンス ドキュメントです。',
+    WebComponents: 'Ignite UI for Web Components のコンポーネントと API リファレンス ドキュメントです。',
+    Blazor:        'Ignite UI for Blazor のコンポーネントと API リファレンス ドキュメントです。',
+};
+
 const PLATFORM_KEY: Record<string, string> = {
     Angular: 'angular', React: 'react', WebComponents: 'web-components', Blazor: 'blazor',
 };
@@ -336,6 +343,7 @@ export default createDocsSite({
     base: mode !== 'development' ? p.base : undefined,
     title: p.title,
     description: p.description,
+    localizedDescription: lang === 'jp' ? PLATFORM_META_JP[platform] : undefined,
     platform: p.key,
     navLang: lang,
     mode,
