@@ -3,6 +3,7 @@ import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
+import { SIDEBAR_BADGE_VARIANTS } from 'docs-template/sidebar';
 import mdx from '@astrojs/mdx';
 
 // ---------------------------------------------------------------------------
@@ -302,7 +303,7 @@ function buildFilteredToc(): string {
                 //   "platforms": { "Blazor": { "new": false, "preview": true } }
                 if (platforms && typeof platforms === 'object' && platforms[platform]) {
                     const override = platforms[platform];
-                    for (const key of ['new', 'preview', 'updated', 'premium'] as const) {
+                    for (const key of SIDEBAR_BADGE_VARIANTS) {
                         if (key in override) rest[key] = override[key];
                     }
                 }

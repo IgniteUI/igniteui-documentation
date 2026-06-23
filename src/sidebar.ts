@@ -21,6 +21,7 @@ import type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/type
 
 // Re-export so consumers (astro.config.ts in child sites) can import the
 // canonical types from the same module they already use.
+export { SIDEBAR_BADGE_VARIANTS } from './lib/sidebar/types';
 export type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 
 // ---------------------------------------------------------------------------
