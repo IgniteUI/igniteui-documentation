@@ -301,7 +301,10 @@ function buildFilteredToc(): string {
                 // Apply platform-specific badge overrides, e.g.:
                 //   "platforms": { "Blazor": { "new": false, "preview": true } }
                 if (platforms && typeof platforms === 'object' && platforms[platform]) {
-                    Object.assign(rest, platforms[platform]);
+                    const override = platforms[platform];
+                    for (const key of ['new', 'preview', 'updated', 'premium'] as const) {
+                        if (key in override) rest[key] = override[key];
+                    }
                 }
                 if (typeof rest.name === 'string') {
                     for (const [token, value] of Object.entries(tokens)) {
