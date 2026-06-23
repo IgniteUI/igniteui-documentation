@@ -27,15 +27,11 @@ The following {ProductName} Stepper Example below shows the component in action.
 
 <Sample src="/layouts/stepper/linear" height={430} alt="{Platform} Linear Stepper Example" />
 
-
 <div class="divider--half"></div>
 
 ## Getting Started with {Platform} Stepper
 
-
 <PlatformBlock for="WebComponents">
-
-
 
 First, you need to install the {ProductName} by running the following command:
 
@@ -53,14 +49,9 @@ defineComponents(IgcStepperComponent);
 
 For a complete introduction to the {ProductName}, read the [**Getting Started**](../general-getting-started.md) topic.
 
-
 </PlatformBlock>
 
-
-
 <PlatformBlock for="React">
-
-
 
 First, you need to the install the corresponding {ProductName} npm package by running the following command:
 
@@ -74,7 +65,6 @@ You will then need to import the <ApiLink pkg="core" type="Stepper" /> and its n
 import { IgrStepper, IgrStep } from 'igniteui-react';
 import 'igniteui-webcomponents/themes/light/bootstrap.css';
 ```
-
 
 </PlatformBlock>
 
@@ -90,10 +80,7 @@ builder.Services.AddIgniteUIBlazor(
 
 </PlatformBlock>
 
-
 <PlatformBlock for="Blazor">
-
-
 
 You will also need to link an additional CSS file to apply the styling to the <ApiLink pkg="core" type="Stepper" /> component. The following needs to be placed in the **wwwroot/index.html** file in a **Blazor Web Assembly** project or the **Pages/_Host.cshtml** file in a **Blazor Server** project:
 
@@ -101,9 +88,7 @@ You will also need to link an additional CSS file to apply the styling to the <A
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
 ```
 
-
 </PlatformBlock>
-
 
 Now you can start with a basic configuration of the {Platform} <ApiLink pkg="core" type="Stepper" /> and its steps.
 
@@ -111,67 +96,18 @@ Now you can start with a basic configuration of the {Platform} <ApiLink pkg="cor
 The <ApiLink pkg="core" type="Step" /> is the representation of every step that belongs to the <ApiLink pkg="core" type="Stepper" />. Steps provide <ApiLink pkg="core" type="Step" member="Invalid" label="Step.Invalid" />, <ApiLink pkg="core" type="Step" member="Active" label="Step.Active" />, <ApiLink pkg="core" type="Step" member="Optional" label="Step.Optional" />, <ApiLink pkg="core" type="Step" member="Disabled" label="Step.Disabled" /> and <ApiLink pkg="core" type="Step" member="Complete" label="Step.Complete" /> properties, which give you the ability to configure the step states according to your business requirement.
 
 ### Declaring {Platform} Stepper
-Steps can be declared using one of the following approaches.
-- Iterating through a data set
 
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-stepper>
-    ${stepsData.map((step) => html`
-    <igc-step .disabled=${step.disabled}>
-        <div slot="indicator">
-            <igc-icon .iconName=${step.indicator}></igc-icon>
-        </div>
-
-        <p slot="title">${step.title}</p>
-    </igc-step>
-    `
-</igc-stepper>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbStepper>
-    @foreach (var item in this.StepsData)
-    {
-        <IgbStep Disabled="@item.Disabled">
-          <p slot="title">@item.Title</p>
-        </IgbStep>
-    }
-</IgbStepper>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrStepper>
-    {this.StepsData.map(item =>
-        <IgrStep key={item.title} disabled={item.disabled}>
-            <p slot="title">{item.title}</p>
-        </IgrStep>
-    }
-</IgrStepper>
-```
-
-</PlatformBlock>
-
-- Creating static steps
+Steps can be declared the following way:
 
 <PlatformBlock for="WebComponents">
 
 ```html
 <igc-stepper>
     <igc-step>
-       <p slot="title">Step 1</p>
+       <span slot="title">Step 1</span>
     </igc-step>
     <igc-step>
-       <p slot="title">Step 2</p>
+       <span slot="title">Step 2</span>
     </igc-step>
 </igc-stepper>
 ```
@@ -183,10 +119,10 @@ Steps can be declared using one of the following approaches.
 ```razor
 <IgbStepper>
     <IgbStep>
-       <p slot="title">Step 1</p>
+       <span slot="title">Step 1</span>
     </IgbStep>
      <IgbStep>
-       <p slot="title">Step 2</p>
+       <span slot="title">Step 2</span>
     </IgbStep>
 </IgbStepper>
 ```
@@ -198,25 +134,24 @@ Steps can be declared using one of the following approaches.
 ```tsx
 <IgrStepper>
     <IgrStep>
-       <p slot="title">Step 1</p>
+       <span slot="title">Step 1</span>
     </IgrStep>
      <IgrStep>
-       <p slot="title">Step 2</p>
+       <span slot="title">Step 2</span>
     </IgrStep>
 </IgrStepper>
 ```
 
 </PlatformBlock>
 
-For each step the user has the ability to configure indicator, title and subtitle using the <ApiLink type="Step" member="indicator" label="Indicator" />, <ApiLink type="Step" member="title" label="Title" /> and <ApiLink type="Step" member="subtitle" label="Subtitle" /> slots as follows:
+For each step the user has the ability to configure the indicator, title and subtitle using the `indicator`, `title`, and `subtitle` slots.
 
+For the `title` and `subtitle` slots, we recommend using `<span>` elements rather than heading elements (`<h1>`–`<h6>`). Heading elements carry built-in styling (such as font size, line height, and margins) that can interfere with the component's intended typography and layout. Using a `<span>` gives you a neutral container that inherits the component's styles cleanly.
+
+For the `indicator` slot, we also recommend using a `<span>` element for symbol or emoji indicators, and an [`<igc-icon>`](../layouts/icon.md) component for icon indicators.
 
 <DocsAside type="info">
-The `Default` <ApiLink pkg="core" type="Step" /> slot renders the content of the step.
-</DocsAside>
-
-<DocsAside type="info">
-The `Default` <ApiLink pkg="core" type="Step" /> slot renders the content of the step.
+The `default` <ApiLink pkg="core" type="Step" /> slot renders the content of the step.
 </DocsAside>
 
 <PlatformBlock for="WebComponents">
@@ -225,8 +160,8 @@ The `Default` <ApiLink pkg="core" type="Step" /> slot renders the content of the
 <igc-stepper>
     <igc-step>
        <igc-icon slot="indicator" iconName="home"></igc-icon>
-       <p slot="title">Home</p>
-       <p slot="subtitle">Home Sub Title</p>
+       <span slot="title">Home</span>
+       <span slot="subtitle">Home Sub Title</span>
        <div>
           Step Content
        </div>
@@ -242,8 +177,8 @@ The `Default` <ApiLink pkg="core" type="Step" /> slot renders the content of the
 <IgbStepper>
     <IgbStep>
        <IgbIcon slot="indicator" IconName="home" Collection="material" />
-       <p slot="title">Home</p>
-       <p slot="subtitle">Home Sub Title</p>
+       <span slot="title">Home</span>
+       <span slot="subtitle">Home Sub Title</span>
        <div>
           Step Content
           ...
@@ -260,8 +195,8 @@ The `Default` <ApiLink pkg="core" type="Step" /> slot renders the content of the
 <IgrStepper>
     <IgrStep>
         <IgrIcon slot="indicator" name="home" collection="material" />
-        <p slot="title">Home</p>
-        <p slot="subtitle">Home Sub Title</p>
+        <span slot="title">Home</span>
+        <span slot="subtitle">Home Sub Title</span>
         <div>
             Step Content
             ...
@@ -275,11 +210,13 @@ The `Default` <ApiLink pkg="core" type="Step" /> slot renders the content of the
 <Image src={stepperStep} alt="stepper-step" class="responsive-img" style="margin-bottom:10px; -webkit-box-shadow: 4px 4px 4px 4px #ccc; -moz-box-shadow: 4px 4px 4px 4px #ccc; box-shadow: 4px 4px 4px 4px #ccc; max-width: 500px" />
 
 ### Orientation in {Platform} Stepper
-You can customize the stepper orientation through the exposed <ApiLink pkg="core" type="Stepper" member="orientation" label="Orientation" /> property. It could be set to **horizontal** **(default value)** or **vertical**.
+
+You can customize the stepper orientation through the exposed <ApiLink pkg="core" type="Stepper" member="orientation" label="Orientation" /> property. It could be set to **horizontal** or **vertical**.
 
 **Horizontal Stepper Orientation**
 
-**horizontal**is the default value for the <ApiLink pkg="core" type="Stepper" /> orientation property.
+**horizontal** is the default value for the <ApiLink pkg="core" type="Stepper" /> orientation property.
+
 When the {Platform} stepper is horizontally orientated you have the opportunity to determine whether the steps' content would be displayed above or below the steps' headers. This could be achieved by setting the <ApiLink pkg="core" type="Stepper" /> <ApiLink pkg="core" type="Stepper" member="contentTop" label="ContentTop" /> boolean property, which default value is **false**. In case it is enabled the steps' content would be displayed above the steps' headers.
 
 <Image src={stepperContenttop} alt="stepper-contentTop" class="responsive-img" style="margin-bottom:10px; -webkit-box-shadow: 4px 4px 4px 4px #ccc; -moz-box-shadow: 4px 4px 4px 4px #ccc; box-shadow: 4px 4px 4px 4px #ccc; max-width: 800px" />
@@ -291,9 +228,6 @@ You can easily switch from the horizontal to vertical layout. In order to change
 The sample below demonstrates how stepper orientation and titles position could be changed runtime.
 
 <Sample src="/layouts/stepper/orientation" height={528} alt="{Platform} Stepper Orientation Example" />
-
-
-
 
 <div class="divider--half"></div>
 
@@ -311,16 +245,15 @@ The sample below demonstrates how stepper orientation and titles position could 
 
 The {Platform} <ApiLink pkg="core" type="Stepper" /> gives you the opportunity to set its steps flow using the <ApiLink pkg="core" type="Stepper" member="linear" label="Linear" /> property. By default, linear is set to **false** and the user is enabled to select any non-disabled step in the <ApiLink pkg="core" type="Stepper" />.
 
-
 <PlatformBlock for="WebComponents">
 
 ```html
 <igc-stepper linear="true">
     <igc-step>
-       <p slot="title">Step 1</p>
+        <span slot="title">Step 1</span>
     </igc-step>
     <igc-step>
-       <p slot="title">Step 2</p>
+        <span slot="title">Step 2</span>
     </igc-step>
 </igc-stepper>
 ```
@@ -332,10 +265,10 @@ The {Platform} <ApiLink pkg="core" type="Stepper" /> gives you the opportunity t
 ```razor
 <IgbStepper Linear="true">
     <IgbStep>
-       <p slot="title">Step 1</p>
+        <span slot="title">Step 1</span>
     </IgbStep>
      <IgbStep>
-       <p slot="title">Step 2</p>
+        <span slot="title">Step 2</span>
     </IgbStep>
 </IgbStepper>
 ```
@@ -347,10 +280,10 @@ The {Platform} <ApiLink pkg="core" type="Stepper" /> gives you the opportunity t
 ```tsx
 <IgrStepper linear={true}>
     <IgrStep>
-       <p slot="title">Step 1</p>
+        <span slot="title">Step 1</span>
     </IgrStep>
      <IgrStep>
-       <p slot="title">Step 2</p>
+        <span slot="title">Step 2</span>
     </IgrStep>
 </IgrStepper>
 ```
@@ -454,7 +387,6 @@ The <ApiLink pkg="core" type="Stepper" /> component also gives you the ability t
 
 <Sample src="/layouts/stepper/animations" height={600} alt="{Platform} Stepper Animations Example" />
 
-
 <div class="divider--half"></div>
 
 ## Keyboard Navigation
@@ -513,30 +445,19 @@ igc-step::part(indicator) {
 }
 ```
 
-
 <PlatformBlock for="WebComponents">
-
 
 <Sample src="/layouts/stepper/styling" height={300} alt="{Platform} Stepper Styling Example" />
 
-
 </PlatformBlock>
-
-
 
 <PlatformBlock for="React,Blazor">
 
-
 <Sample src="/layouts/stepper/styling" height={600} alt="{Platform} Stepper Styling Example" />
-
 
 </PlatformBlock>
 
-
-
-
 <div class="divider--half"></div>
-
 
 ## API References
 
