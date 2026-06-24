@@ -612,6 +612,32 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
             // 5. Normalize image paths
             content = normalizeImagePaths(content);
 
+            // 5b. Rewrite ../_shared/X.mdx → ./X.mdx
+            //     After expansion, _shared files land as siblings in the output dir.
+            //     Markdown links: (../_shared/X.mdx) → (./X.mdx)
+            //     JSX href attrs:  href="../_shared/X.mdx" → href="./X.mdx"
+            content = content.replace(/\(\.\.\/_shared\/([^)]+)\)/g, '(./$1)');
+            content = content.replace(/href="\.\.\/_shared\/([^"]+)"/g, 'href="./$1"');
+
+            // 5c. Strip links to pages that are excluded for this platform/component.
+            //     When a _shared template is expanded to e.g. hierarchical-grid/,
+            //     some sibling links point to pages that are excluded (e.g. paging.mdx
+            //     is excluded for hierarchical-grid on all platforms).
+            //     - List items "- [text](target.mdx)" → remove entire line
+            //     - Inline links "[text](target.mdx)" → keep just the text
+            content = content.replace(/^- \[([^\]]+)\]\(([^)]+)\)\s*$/mg, (line, _text, href) => {
+                const base = href.split('#')[0].replace(/^\.\//, '').replace(/\.mdx?$/, '');
+                if (/^https?:|^\//.test(base)) return line;
+                const targetSlug = `grids/${comp.outDir}/${base}`;
+                return EXCLUDED_SLUGS.has(targetSlug) ? '' : line;
+            });
+            content = content.replace(/\[([^\]]+)\]\(([^)]+\.mdx[^)]*)\)/g, (match, text, href) => {
+                const base = href.split('#')[0].replace(/^\.\//, '').replace(/\.mdx?$/, '');
+                if (/^https?:|^\//.test(base)) return match;
+                const targetSlug = `grids/${comp.outDir}/${base}`;
+                return EXCLUDED_SLUGS.has(targetSlug) ? text : match;
+            });
+
             // 6. Check exclusion before writing
             const slug = `grids/${comp.outDir}/${entry.replace(/\.mdx?$/, '')}`;
             if (EXCLUDED_SLUGS.has(slug)) {
@@ -651,7 +677,22 @@ function processDir(srcDir, outDir, relBase = '') {
             }
             const raw = readFileSync(srcPath, 'utf8');
             if (/\.mdx$/.test(entry)) {
-                writeFileSync(path.join(outDir, entry), prepareMarkdownOutput(ensureMdxImports(transformMdxFile(raw))), 'utf8');
+                let content = prepareMarkdownOutput(ensureMdxImports(transformMdxFile(raw)));
+                // Rewrite _shared/ cross-references so generated files resolve correctly.
+                //   top-level (relBase=''):     ./grids/_shared/X.mdx → ./grids/grid/X.mdx
+                //   grids/ level (relBase='grids'):  ./_shared/X.mdx → ./grid/X.mdx
+                //   grid subdir (relBase='grids/grid' etc.): ../_shared/X.mdx → ./X.mdx
+                if (relBase === '') {
+                    content = content.replace(/\(\.\/grids\/_shared\/([^)]+)\)/g, '(./grids/grid/$1)');
+                    content = content.replace(/href="\.\/grids\/_shared\/([^"]+)"/g, 'href="./grids/grid/$1"');
+                } else if (relBase === 'grids') {
+                    content = content.replace(/\(\.\/_shared\/([^)]+)\)/g, '(./grid/$1)');
+                    content = content.replace(/href="\.\/\_shared\/([^"]+)"/g, 'href="./grid/$1"');
+                } else if (relBase.startsWith('grids/')) {
+                    content = content.replace(/\(\.\.\/_shared\/([^)]+)\)/g, '(./$1)');
+                    content = content.replace(/href="\.\.\/_shared\/([^"]+)"/g, 'href="./$1"');
+                }
+                writeFileSync(path.join(outDir, entry), content, 'utf8');
             } else {
                 writeFileSync(path.join(outDir, entry), prepareMarkdownOutput(transformRegularFile(raw)), 'utf8');
             }

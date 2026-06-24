@@ -47,10 +47,17 @@ function getSrcDirs() {
     if (args.src) return [String(args.src)];
     if (PLATFORM === 'angular') return ['docs/angular/src/content'];
     if (PLATFORM === 'xplat' || (PLATFORM && XPLAT_PLATFORMS.has(PLATFORM))) {
-        // Include generated output alongside source so _shared/-derived pages are validated.
-        // Run `npm run generate:react --prefix docs/xplat` (en + jp) before this check.
+        // Scan source for _shared/ template links, plus the React/WC/Blazor
+        // generated output (after generate.mjs has rewritten _shared/ paths).
+        // Angular is intentionally excluded: generated/Angular/ is an
+        // intermediate artifact that gets synced into docs/angular/src/content/
+        // and validated there by --platform=angular.
+        // Run the generate scripts before this check so generated/ is up to date.
         const dirs = ['docs/xplat/src/content'];
-        if (existsSync('docs/xplat/generated')) dirs.push('docs/xplat/generated');
+        for (const p of ['React', 'WebComponents', 'Blazor']) {
+            const d = `docs/xplat/generated/${p}`;
+            if (existsSync(d)) dirs.push(d);
+        }
         return dirs;
     }
     if (PLATFORM) {

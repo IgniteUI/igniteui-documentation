@@ -90,6 +90,8 @@ The Angular documentation is assembled from three sources before being checked:
 
 The check must run **after** both steps above, otherwise it scans stale or incomplete files and misses links that only exist in generated output.
 
+> **xplat:** The checker scans only `docs/xplat/src/content/` (source files). The `docs/xplat/generated/` tree is excluded — `_shared/` links are validated via the source, and generated output correctness is owned by the generate scripts.
+
 ### Commands
 
 The preferred command to replicate the exact CI pipeline locally:
@@ -103,10 +105,12 @@ This runs the full chain in order:
 2. Sync xplat → angular (jp)
 3. Generate angular grid pages (en)
 4. Generate angular grid pages (jp)
-5. Generate xplat React + WC + Blazor pages (en) — expands `_shared/` templates into `docs/xplat/generated/`
+5. Generate xplat React + WC + Blazor pages (en) — expands `_shared/` templates and rewrites `_shared/` paths in output
 6. Generate xplat React + WC + Blazor pages (jp)
-7. Check xplat links (source excluding `_shared/` + generated output)
+7. Check xplat links (source `docs/xplat/src/content/` + `docs/xplat/generated/`)
 8. Check angular links
+
+> **Note:** The generate scripts rewrite `../_shared/X.mdx` → `./X.mdx` (and `./_shared/X.mdx` → `./grid/X.mdx`) in the generated output so links in the expanded files resolve correctly.
 
 Other available commands:
 
