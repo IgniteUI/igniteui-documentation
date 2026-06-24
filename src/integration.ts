@@ -138,6 +138,9 @@ function stripMdxForLlms(raw: string): string {
         .replace(/<(Sample|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*\/>\s*/g, '')
         // Remove paired components: <ApiLink …>…</ApiLink>
         .replace(/<(ApiLink|ComponentBlock|PlatformBlock)\b[^>]*>[\s\S]*?<\/\1>\s*/g, '')
+        // Rewrite .mdx → .md in relative links — source files use .mdx for editor
+        // navigation; llms per-page .md files use .md so links are navigable on the server.
+        .replace(/(\[(?:[^\]\\]|\\.)*\]\()(\.\.?\/[^)#\s]*)\.mdx(#[^)]*)?\)/g, '$1$2.md$3)')
         // Collapse 3+ blank lines left behind into 2
         .replace(/\n{3,}/g, '\n\n')
         .trim() + '\n';
@@ -291,7 +294,7 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
 
                 await Promise.all(
                     slugs.map(async (slug) => {
-                        for (const ext of ['.md', '.mdx']) {
+                        for (const ext of ['.mdx', '.md']) {
                             const src = path.join(docsDir, slug + ext);
                             try {
                                 const raw = await fsp.readFile(src, 'utf-8');

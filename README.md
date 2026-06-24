@@ -66,6 +66,67 @@ The MDX files currently use these documentation components from `igniteui-astro-
 | `PlatformBlock` | Shows content only for selected platforms. |
 | `Sample` | Embeds runnable or linked product samples. |
 
+## Checking Relative Links
+
+Use the root `check-relative-links` scripts to validate that every relative cross-page link in the MDX source resolves to an existing file.
+
+### Link convention
+
+All relative cross-page links must carry the `.mdx` extension. Preferred forms:
+
+- `./page.mdx` — same-directory link (explicit relative)
+- `../folder/page.mdx` — parent-directory link (explicit relative)
+- `page.mdx` — bare same-directory link (also accepted by the checker)
+
+The `.mdx` extension enables editor Go-to-Definition (Ctrl+Click). The `remarkMdLinks` plugin strips the extension and makes the URL absolute at build time. The link checker validates that the target file exists and normalizes bare `page.mdx` links as same-directory relative.
+
+### Angular content pipeline
+
+The Angular documentation is assembled from three sources before being checked:
+
+1. **xplat sync** — `docs/xplat/src/content/` is generated into platform-specific output and then copied into `docs/angular/src/content/` by the sync scripts.
+2. **Grid generation** — `docs/angular/src/content/en/grids_templates/` and `jp/grids_templates/` are template files shared across all four grid types (Grid, TreeGrid, HierarchicalGrid, PivotGrid). `generate.mjs` expands them into the individual component pages under `docs/angular/src/content/en/components/grid/`, `treegrid/`, `hierarchicalgrid/`, and `pivotGrid/`. These template directories are excluded from link checking (same as xplat `_shared/`).
+3. **Link check** — the checker scans the fully assembled `docs/angular/src/content/` tree.
+
+The check must run **after** both steps above, otherwise it scans stale or incomplete files and misses links that only exist in generated output.
+
+### Commands
+
+The preferred command to replicate the exact CI pipeline locally:
+
+```bash
+npm run check-relative-links:ci
+```
+
+This runs the full chain in order:
+1. Sync xplat → angular (en)
+2. Sync xplat → angular (jp)
+3. Generate angular grid pages (en)
+4. Generate angular grid pages (jp)
+5. Generate xplat React + WC + Blazor pages (en) — expands `_shared/` templates into `docs/xplat/generated/`
+6. Generate xplat React + WC + Blazor pages (jp)
+7. Check xplat links (source excluding `_shared/` + generated output)
+8. Check angular links
+
+Other available commands:
+
+| Scope | Command |
+|---|---|
+| Full CI simulation (preferred) | `npm run check-relative-links:ci` |
+| Angular only (runs generate first) | `npm run check-relative-links:angular` |
+| xplat (generates all platforms, then checks source + generated) | `npm run check-relative-links:xplat` |
+| Both trees, no setup (skips generate steps) | `npm run check-relative-links` |
+| Angular report to file | `npm run check-relative-links:report:angular` |
+| xplat report to file | `npm run check-relative-links:report:xplat` |
+
+The checker exits with code 1 on any broken link and prints each failure with a reason code:
+
+| Reason | Meaning |
+|---|---|
+| `[not found]` | Target file does not exist |
+| `[add .mdx extension]` | Link is `./page` — has `./` prefix but is missing the `.mdx` extension |
+| `[use ./page.mdx instead]` | Link is `(page)` — bare path with no extension and no `./` prefix |
+
 ## Checking MDX API Links
 
 Use the root `check-mdx-links` scripts to validate `ApiLink` references:
@@ -94,7 +155,6 @@ Fix ambiguous links by adding a specific `pkg` or `kind` prop. If the correct ta
 
 - [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md): day-to-day editing, generated-content behavior, and report expectations.
 - [API-LINK-WORKFLOW.md](API-LINK-WORKFLOW.md): API registry flow, `ApiLink` resolution, ambiguity handling, and checker commands.
-- [migration.md](migration.md): MDX migration rules and component examples.
 
 ## Contributing
 

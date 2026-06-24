@@ -99,7 +99,7 @@ export function collectSlugs(items: SidebarItem[]): string[] {
 export function buildLlmsMetaMap(docsDir: string, items: SidebarItem[]): Map<string, LlmsMeta> {
     const map = new Map<string, LlmsMeta>();
     for (const slug of collectSlugs(items)) {
-        for (const ext of ['.md', '.mdx']) {
+        for (const ext of ['.mdx', '.md']) {
             try {
                 const raw = fs.readFileSync(path.join(docsDir, slug + ext), 'utf-8');
                 const meta = extractLlmsMeta(raw);

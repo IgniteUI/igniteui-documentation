@@ -68,7 +68,7 @@ if (!platformConfig) {
 // Build the set of hrefs excluded for the current platform from toc.json.
 //
 // toc.json entries look like:
-//   { "href": "general-changelog-dv-react.md", "exclude": ["Angular", "Blazor"] }
+//   { "href": "general-changelog-dv-react.mdx", "exclude": ["Angular", "Blazor"] }
 //
 // We normalise each href to a slug (no .md/.mdx extension, forward slashes)
 // and store it in a Set for O(1) lookup in processDir / expandSharedFiles.
