@@ -25,6 +25,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
+import type { NavLang } from './platform.ts';
 
 // ---------------------------------------------------------------------------
 // Public types
@@ -152,6 +153,7 @@ export function toUrlSlug(label: string): string {
  * These labels are treated as organisational groupings, never as label prefixes.
  */
 export const IGDOCS_BROAD_SECTIONS = [
+    // English
     'AI-Assisted Development',
     'General',
     'Interactivity',
@@ -169,6 +171,26 @@ export const IGDOCS_BROAD_SECTIONS = [
     'Scheduling',
     'Styling & Themes',
     'Deprecated Components',
+    // Japanese equivalents — header nodes in JP toc.json that are visual
+    // navigation dividers, not meaningful label prefixes.
+    'AI 支援開発',
+    '概要',
+    'インタラクティビティ',
+    'グリッドとリスト',
+    'グリッド & リスト',
+    'ダッシュボード',
+    'チャート',
+    'マップ',
+    'フレームワーク',
+    'ゲージ',
+    'スタイルとテーマ',
+    'スタイル設定およびとテーマ',
+    'データ入力と表示',
+    'インタラクション',
+    'メニュー',
+    'レイアウト',
+    '通知',
+    'スケジュール',
 ] as const;
 
 /** Platforms that use the Ignite UI doc broad sections. */
@@ -324,6 +346,46 @@ function walkLlmsItems(
 // Public builder
 // ---------------------------------------------------------------------------
 
+interface LlmsTxtStrings {
+    docsSection: string;
+    abridged: string;
+    abridgedDesc: string;
+    combined: string;
+    combinedDesc: string;
+    apiRef: string;
+    apiRefDesc: string;
+}
+
+const LLMS_TXT_STRINGS: Record<NavLang, LlmsTxtStrings> = {
+    en: {
+        docsSection:  'Documentation sets',
+        abridged:     'Abridged documentation',
+        abridgedDesc: 'a compact version of the documentation, with non-essential content removed',
+        combined:     'Combined docs',
+        combinedDesc: 'Single-file Markdown export of all docs.',
+        apiRef:       'API Reference',
+        apiRefDesc:   'Full TypeDoc/docfx API reference for all packages — classes, interfaces, enums, and members',
+    },
+    jp: {
+        docsSection:  'ドキュメント セット',
+        abridged:     '要約ドキュメント',
+        abridgedDesc: '非必須コンテンツを除いたコンパクトなドキュメントです。',
+        combined:     '統合ドキュメント',
+        combinedDesc: '全ドキュメントを 1 つのファイルにまとめた Markdown エクスポートです。',
+        apiRef:       'API リファレンス',
+        apiRefDesc:   '全パッケージの TypeDoc/docfx API リファレンスです。クラス、インターフェイス、列挙型、メンバーを含みます。',
+    },
+    kr: {
+        docsSection:  '문서 세트',
+        abridged:     '요약 문서',
+        abridgedDesc: '필수적이지 않은 콘텐츠를 제거한 간결한 문서입니다.',
+        combined:     '통합 문서',
+        combinedDesc: '모든 문서를 하나의 파일로 합친 Markdown 내보내기입니다.',
+        apiRef:       'API 참조',
+        apiRefDesc:   '모든 패키지의 TypeDoc/docfx API 참조입니다. 클래스, 인터페이스, 열거형 및 멤버를 포함합니다.',
+    },
+};
+
 /** Generate the complete llms.txt manifest content. */
 export function buildLlmsTxt(
     base: string,
@@ -333,18 +395,33 @@ export function buildLlmsTxt(
     metaMap: Map<string, LlmsMeta>,
     llmsSets: LlmsSet[] = [],
     broadSections: ReadonlySet<string> = new Set(),
+    navLang: NavLang = 'en',
+    /** Optional localized description that replaces `siteDescription` in the
+     *  manifest blockquote.  Pass a JP/KR translation from the site config;
+     *  when omitted the (often English-only) `siteDescription` is used as-is. */
+    localizedDescription?: string,
+    /** URL of the corresponding api-docs llms.txt (e.g. https://…/api/angular/llms.txt).
+     *  When provided, an "API Reference" link is added to the Documentation sets section
+     *  so LLMs can discover the full TypeDoc/docfx reference from this manifest. */
+    apiDocsUrl?: string,
 ): string {
+    const s = LLMS_TXT_STRINGS[navLang];
     const lines: string[] = [
         `# ${siteTitle}`,
         '',
-        `> ${siteDescription}`,
+        `> ${localizedDescription ?? siteDescription}`,
         '',
-        '## Documentation sets',
+        `## ${s.docsSection}`,
         '',
-        `- [Abridged documentation](${base}/llms-small.txt): a compact version of the documentation, with non-essential content removed`,
-        `- [Combined docs](${base}/llms-full.txt): Single-file Markdown export of all docs.`,
-        ``
+        `- [${s.abridged}](${base}/llms-small.txt): ${s.abridgedDesc}`,
+        `- [${s.combined}](${base}/llms-full.txt): ${s.combinedDesc}`,
     ];
+
+    if (apiDocsUrl) {
+        lines.push(`- [${s.apiRef}](${apiDocsUrl}): ${s.apiRefDesc}`);
+    }
+
+    lines.push('');
 
     for (const set of llmsSets) {
         const slug = toUrlSlug(set.label);
