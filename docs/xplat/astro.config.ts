@@ -393,6 +393,13 @@ export default createDocsSite({
                 '@xplat-images': path.resolve(__dirname, 'src/assets/images'),
             },
         },
-        server: { fs: { strict: false } },
+        server: {
+            fs: { strict: false },
+            ...(mode === 'development' && platform === 'Blazor' && demosBaseUrl ? {
+                proxy: {
+                    '/code-viewer': { target: demosBaseUrl, changeOrigin: true, secure: false },
+                },
+            } : {}),
+        },
     },
 });
