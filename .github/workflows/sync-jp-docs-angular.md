@@ -134,13 +134,29 @@ for (const t of tocs) {
   out.add(path.posix.join(root, t));
   walk(JSON.parse(fs.readFileSync(full, 'utf8')), path.posix.dirname(t));
 }
+// grids_templates/ files are the canonical source for grid pages.
+// generate-grids.mjs expands them into per-grid pages at build time for every
+// language (including JP). The generated per-grid pages are git-ignored, so
+// they never appear in the diff — only the templates do.
+const templatesDir = path.join(root, 'grids_templates');
+if (fs.existsSync(templatesDir)) {
+  fs.readdirSync(templatesDir)
+    .filter(f => f.endsWith('.mdx'))
+    .forEach(f => out.add(path.posix.join(root, 'grids_templates', f)));
+}
 console.log([...out].join('\n'));
 "
 ```
 
-This produces a newline-separated list that includes the TOC files themselves
-plus all `docs/angular/src/content/en/...` paths covered by the TOC (external
-`http(s)` links are excluded automatically).
+This produces a list that includes:
+- The TOC files themselves (`toc.json`, `components/toc.json`)
+- All TOC-referenced files
+- All `grids_templates/` source templates
+
+`grids_templates/` files are the canonical source for grid pages —
+`generate-grids.mjs` expands them at build time for every language including JP.
+The generated per-grid pages are git-ignored and never appear in the diff, so
+only the templates need to be translated here.
 
 ### Step 2 — Filter changed files to TOC-covered files and locate their Japanese counterparts
 
