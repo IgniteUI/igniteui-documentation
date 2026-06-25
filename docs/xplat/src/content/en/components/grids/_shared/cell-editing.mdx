@@ -236,10 +236,10 @@ If you want to provide a custom template which will be applied when a cell is in
 
 ```ts
 constructor() {
-    var class = this.class = document.getElementById('class') as IgcColumnComponent;
+    const classColumn = document.getElementById('class') as IgcColumnComponent;
 
     this._bind = () => {
-        class.inlineEditorTemplateRef = this.classEditTemplate;
+        classColumn.inlineEditorTemplateRef = this.classEditTemplate;
     }
     this._bind();
 }
@@ -563,7 +563,7 @@ useEffect(() => {
         gridRef.current.removeEventListener("keydown", handleKeyDown);
     };
 }, []);
-<IgrGrid ref={gridRef} autoGenerate={false} data={NwindData} primaryKey="ProductID">
+<IgrGrid ref={gridRef} autoGenerate={false} data={nwindData} primaryKey="ProductID">
 </IgrGrid>
 ```
 
@@ -1305,8 +1305,8 @@ igRegisterScript("WebGridEditingEventsCellEdit", (ev) => {
 <ComponentBlock for="HierarchicalGrid">
 ```tsx
 public handleCellEdit(event: IgrGridEditEventArgs): void {
-    const detail = args.detail;
-    if (detail.column != null && d.column.field == "UnitsOnOrder") {
+    const detail = event.detail;
+    if (detail.column != null && detail.column.field == "UnitsOnOrder") {
         if (detail.newValue > detail.rowData.UnitsInStock) {
             detail.cancel = true;
             alert("You cannot order more than the units in stock!");

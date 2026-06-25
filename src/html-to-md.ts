@@ -202,7 +202,7 @@ export async function htmlPageToMd(
     // Restore fenced code blocks (raw code from HTML, never transliterated).
     // Use a fence longer than any backtick run inside the code so nested
     // Markdown examples (which themselves contain ```) produce valid output.
-    md = md.replace(/SHIKIFENCE(\d+)SHIKIEND/g, (_, i) => {
+    md = md.replace(/^[ \t]*SHIKIFENCE(\d+)SHIKIEND[ \t]*$/gm, (_, i) => {
         const { lang, code } = codeBlocks[Number(i)];
         const longest = code.match(/`{3,}/g)?.reduce((a, b) => a.length >= b.length ? a : b, '') ?? '';
         const fence = '`'.repeat(Math.max(3, longest.length + 1));
