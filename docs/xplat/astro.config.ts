@@ -3,6 +3,7 @@ import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
+import { SIDEBAR_BADGE_VARIANTS } from 'docs-template/sidebar';
 import mdx from '@astrojs/mdx';
 
 // ---------------------------------------------------------------------------
@@ -297,7 +298,15 @@ function buildFilteredToc(): string {
         return nodes
             .filter(n => !Array.isArray(n.exclude) || !n.exclude.includes(platform))
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            .map(({ exclude, ...rest }) => {
+            .map(({ exclude, platforms, ...rest }) => {
+                // Apply platform-specific badge overrides, e.g.:
+                //   "platforms": { "Blazor": { "new": false, "preview": true } }
+                if (platforms && typeof platforms === 'object' && platforms[platform]) {
+                    const override = platforms[platform];
+                    for (const key of SIDEBAR_BADGE_VARIANTS) {
+                        if (key in override) rest[key] = override[key];
+                    }
+                }
                 if (typeof rest.name === 'string') {
                     for (const [token, value] of Object.entries(tokens)) {
                         rest.name = (rest.name as string).replaceAll(token, value);
@@ -385,6 +394,13 @@ export default createDocsSite({
                 '@xplat-images': path.resolve(__dirname, 'src/assets/images'),
             },
         },
-        server: { fs: { strict: false } },
+        server: {
+            fs: { strict: false },
+            ...(mode === 'development' && platform === 'Blazor' && demosBaseUrl ? {
+                proxy: {
+                    '/code-viewer': { target: demosBaseUrl, changeOrigin: true, secure: false },
+                },
+            } : {}),
+        },
     },
 });
