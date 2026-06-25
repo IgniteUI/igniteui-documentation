@@ -818,16 +818,68 @@ platformBrowserDynamic()
 `igxGrid` は内部で `igxForOf` ディレクティブを使用するため、すべての `igxForOf` の制限が `igxGrid` で有効です。詳細については、[igxForOf 既知の問題](../for-of.html#既知の問題と制限) のセクションを参照してください。
 </DocsAside>
 
+## テーマ設定
 
-## API リファレンス
+`igxGrid` をスタイル設定するための最も簡単で推奨される方法は、<ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> を使用して、`background`、`foreground`、`accent-color` の 3 つのメイン カラーを指定することです。
 
-- <ApiLink type="Grid" />
-- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent スタイル" />
-- <ApiLink type="Column" />
-- <ApiLink type="GridRow" />
-- <ApiLink type="GridCell" />
+これらはテーマの中核となるプロパティです。設定すると、すべてのグリッド パーツと内部コンポーネントがそれらの値からカラーを取得し、グリッド全体で一貫した外観になります。ボタン、アイコン、入力、ドロップダウン、チェックボックス、スクロールバー、チップ、その他のヘルパーコンポーネントなどのネストされたコンポーネントも、統一された外観のためにメインの <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> からスタイル トークンを取得します。
 
-## テーマの依存関係
+```scss
+$custom-grid: grid-theme(
+  $background: #292826,
+  $foreground: #eeece1,
+  $accent-color: #ffcd0f,
+);
+
+igx-grid {
+  @include tokens($custom-grid);
+}
+```
+
+より詳細なカスタマイズが必要な場合は、<ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> に追加のパラメーターがあります。
+
+### 追加のテーマ
+
+ネストされたコンポーネントをより細かく制御したい場合、グリッドには追加のテーマも用意されています。特定のネストされたコンポーネントをグリッド テーマの他の部分とは異なるスタイルにしたい場合に使用します。
+
+利用可能なスタンドアロン テーマ:
+
+- <ApiLink kind="sass" module="themes" type="function-excel-filtering-theme" label="excel-filtering-theme" code={true} /> Excel スタイル フィルタリング コンポーネント用
+- <ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="grid-toolbar-theme" code={true} /> グリッド ツールバー コンポーネント用
+- <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> ページネーター コンポーネント用
+- <ApiLink kind="sass" module="themes" type="function-column-actions-theme" label="column-actions-theme" code={true} /> 列操作 コンポーネント用
+- <ApiLink kind="sass" module="themes" type="function-query-builder-theme" label="query-builder-theme" code={true} /> 高度なフィルタリング ダイアログ用
+
+```scss
+$excel-filtering-theme: excel-filtering-theme(
+  $background: #3c6eda,
+  $foreground: #f5f5f5,
+  $accent-color: #8e11fb
+);
+
+$query-builder-theme: query-builder-theme(
+  $background: #f59906,
+  $foreground: #050505,
+  $accent-color: #443209
+);
+
+igx-grid-excel-style-filtering,
+.igx-excel-filter__secondary {
+  @include tokens($excel-filtering-theme);
+}
+
+igx-advanced-filtering-dialog {
+  @include tokens($query-builder-theme);
+}
+```
+
+3 つのメイン カラーを指定するだけで、コンポーネントのすべての部分に一貫したスタイルが適用されます。また、より詳細なカスタマイズが必要な場合は、これらのテーマで追加のパラメータも利用できます。
+
+### ネストされたコンポーネント テーマ
+
+グリッド内のボタン、アイコン、入力、チップなどの小さなネストされたコンポーネントのみをターゲットにする場合は、スタンドアロン テーマを直接適用できます。指定されたテーマが意図した要素にのみ影響するよう、セレクターのスコープを十分に絞り込んでください。
+
+コンポーネント テーマの一部:
 
 - <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon テーマ" />
 - <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="IgxInputGroup テーマ" />
@@ -839,6 +891,14 @@ platformBrowserDynamic()
 - <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="IgxCalendar テーマ" />
 - <ApiLink kind="sass" module="themes" type="function-snackbar-theme" label="IgxSnackBar テーマ" />
 - <ApiLink kind="sass" module="themes" type="function-badge-theme" label="IgxBadge テーマ" />
+
+## API リファレンス
+
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent スタイル" />
+- <ApiLink type="Column" />
+- <ApiLink type="GridRow" />
+- <ApiLink type="GridCell" />
 
 ## ビデオ チュートリアル
 
