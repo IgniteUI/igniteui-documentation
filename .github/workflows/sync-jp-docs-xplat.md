@@ -126,7 +126,70 @@ Note the author name/email — you will include it verbatim in the pull
 request body (Step 6) so the PR can be manually assigned to the right
 person.
 
+### Step 1b — Build the list of TOC-covered files
+
+Extract every file path referenced in the English TOC, so that only
+documentation pages that are part of the published table of contents are
+translated.
+
+```bash
+node -e "
+const fs = require('fs');
+const path = require('path');
+const root = 'docs/xplat/src/content/en';
+const tocs = ['toc.json'];
+const out = new Set();
+function walk(node, dir) {
+  if (Array.isArray(node)) { node.forEach(n => walk(n, dir)); return; }
+  if (node && typeof node === 'object') {
+    if (typeof node.href === 'string' && !/^https?:/.test(node.href)) {
+      const base = path.posix.join(root, dir, node.href).replace(/\.(md|mdx)$/, '');
+      out.add(base + '.md');
+      out.add(base + '.mdx');
+    }
+    if (Array.isArray(node.items)) node.items.forEach(n => walk(n, dir));
+    if (Array.isArray(node.children)) node.children.forEach(n => walk(n, dir));
+  }
+}
+for (const t of tocs) {
+  const full = path.join(root, t);
+  if (!fs.existsSync(full)) continue;
+  out.add(path.posix.join(root, t));
+  walk(JSON.parse(fs.readFileSync(full, 'utf8')), path.posix.dirname(t));
+}
+// Add _shared/ source files. The xplat generate.mjs script expands these into
+// per-component pages written to generated/{Platform}/{lang}/ (outside src/).
+// That output is NOT committed to git. Translating the JP _shared/ template is
+// what keeps the JP generated output correct; no per-component pages need to be
+// translated separately.
+const sharedDir = path.join(root, 'components/grids/_shared');
+if (fs.existsSync(sharedDir)) {
+  fs.readdirSync(sharedDir)
+    .filter(f => f.endsWith('.mdx'))
+    .forEach(f => out.add(path.posix.join(root, 'components/grids/_shared', f)));
+}
+console.log([...out].join('\n'));
+"
+```
+
+This produces a list that includes:
+- All TOC-referenced files (both `.md` and `.mdx` variants to handle extension
+  differences between the TOC file and actual content files)
+- All `components/grids/_shared/` source templates
+
+`_shared/` files are source templates expanded by `generate.mjs` into per-component
+pages written to `generated/{Platform}/{lang}/` (outside the git-tracked source).
+Translating the JP `_shared/` template is what keeps JP generated output correct.
+
+If a changed file is **not** in this list, discard it — do not translate it.
+If all changed files are discarded, emit a `noop` output explaining that there
+are no translatable documentation changes to sync.
+
 ### Step 2 — For each changed English file, locate its Japanese counterpart
+
+From the list of changed files identified in Step 1, keep only those whose path
+appears in the TOC list produced in Step 1b. Discard any changed file that is
+**not** in the TOC list — it should not be translated.
 
 Replace the path segment `docs/xplat/src/content/en/` with
 `docs/xplat/src/content/jp/` to find the counterpart, e.g.:
