@@ -40,6 +40,7 @@ const args = Object.fromEntries(
 
 const PLATFORM  = args.platform ? String(args.platform) : null;
 const MD_OUTPUT = args.md       ? String(args.md)       : null;
+const SUMMARY   = args.summary  === true;
 
 const XPLAT_PLATFORMS = new Set(['react', 'wc', 'blazor']);
 
@@ -72,7 +73,8 @@ function getSrcDirs() {
 /**
  * Directories that are excluded from scanning by default.
  *
- * grids_templates/ — angular source templates for generate-grids.mjs; links
+
+ *   grids_templates/ — angular source templates for generate-grids.mjs; links
  *   resolve from the generated output, not the template source.
  *
  * _shared/ — xplat source templates expanded by xplat/scripts/generate.mjs
@@ -200,7 +202,56 @@ const ASSET_EXTENSIONS = new Set([
     '.json', '.xml', '.yaml', '.yml',
     '.zip', '.tar', '.gz', '.pdf',
     '.woff', '.woff2', '.ttf', '.eot',
+    '.html', '.htm',
 ]);
+
+/**
+ * True when a URL is an absolute doc-internal link, e.g. /treegrid/tree-grid.
+ * Rejects external URLs, anchors-only, protocol-relative, and asset extensions.
+ */
+function isAbsoluteDocLink(url) {
+    if (!url.startsWith('/') || url.startsWith('//')) return false;
+    if (url.startsWith('/#')) return false; // anchor-only
+    const path = stripHash(url).slice(1); // strip leading '/'
+    if (!path) return false;
+    const dot = path.lastIndexOf('.');
+    const slash = path.lastIndexOf('/');
+    if (dot > slash) {
+        const ext = path.slice(dot).toLowerCase();
+        if (ASSET_EXTENSIONS.has(ext)) return false;
+    }
+    return true;
+}
+
+/**
+ * Given a file path, returns the language-specific content root
+ * e.g. 'docs/angular/src/content/en/' or null if not determinable.
+ */
+function getLangRoot(filePath) {
+    const normalized = filePath.replace(/\\/g, '/');
+    const m = normalized.match(/^(.*\/content\/(?:en|jp|kr))\//i);
+    return m ? m[1] + '/' : null;
+}
+
+/**
+ * Resolves an absolute doc link like /treegrid/tree-grid against the
+ * language content root. Tries components/{path}.mdx then {path}.mdx.
+ * Returns the resolved path string or null if not found.
+ */
+function resolveAbsoluteLink(langRoot, url) {
+    const path = stripHash(url).slice(1); // strip leading '/'
+    if (!path) return 'hash-only';
+    const candidates = [
+        resolve(langRoot, 'components', path),
+        resolve(langRoot, path),
+    ];
+    for (const base of candidates) {
+        if (existsSync(base)) return base;
+        if (existsSync(base + '.mdx')) return base + '.mdx';
+        if (existsSync(base + '.md')) return base + '.md';
+    }
+    return null;
+}
 
 /**
  * True when a URL is a relative file path to a doc page.
@@ -231,8 +282,8 @@ function isRelativeFilePath(url) {
 
 
 /**
- * Extracts every relative link from the MDX content of the given file.
- * Returns: Array<{ href: string, line: number }>
+ * Extracts every relative and absolute doc link from the MDX content of the given file.
+ * Returns: Array<{ href: string, line: number, kind: 'relative'|'absolute' }>
  */
 function extractRelativeLinks(content, filePath) {
     let stripped = stripComments(content);
@@ -259,7 +310,9 @@ function extractRelativeLinks(content, filePath) {
     while ((m = MD_LINK_RE.exec(stripped)) !== null) {
         const href = m[1];
         if (isRelativeFilePath(href)) {
-            links.push({ href, line: offsetToLine(m.index) });
+            links.push({ href, line: offsetToLine(m.index), kind: 'relative' });
+        } else if (isAbsoluteDocLink(href)) {
+            links.push({ href, line: offsetToLine(m.index), kind: 'absolute' });
         }
     }
 
@@ -268,7 +321,9 @@ function extractRelativeLinks(content, filePath) {
     while ((m = JSX_HREF_RE.exec(stripped)) !== null) {
         const href = m[1];
         if (isRelativeFilePath(href)) {
-            links.push({ href, line: offsetToLine(m.index) });
+            links.push({ href, line: offsetToLine(m.index), kind: 'relative' });
+        } else if (isAbsoluteDocLink(href)) {
+            links.push({ href, line: offsetToLine(m.index), kind: 'absolute' });
         }
     }
 
@@ -333,7 +388,18 @@ for (const file of filesToScan) {
     const fileDir = dirname(file);
     const relFile = relative(cwd, file).replace(/\\/g, '/');
 
-    for (const { href, line } of links) {
+    const langRoot = getLangRoot(file);
+
+    for (const { href, line, kind } of links) {
+        if (kind === 'absolute') {
+            if (langRoot) {
+                const resolved = resolveAbsoluteLink(langRoot, href);
+                if (resolved === null) {
+                    brokenLinks.push({ file: relFile, line, href, reason: 'not-found' });
+                }
+            }
+            continue;
+        }
         const { resolved, missingExt, bare } = resolveLink(fileDir, href);
         if (resolved === null) {
             brokenLinks.push({ file: relFile, line, href, reason: 'not-found' });
@@ -362,6 +428,22 @@ for (const file of filesToScan) {
 
 const HR  = '═'.repeat(72);
 const HR2 = '─'.repeat(72);
+
+// --summary mode: print one compact status line and exit (used by CI for the final combined summary)
+if (SUMMARY) {
+    const label  = PLATFORM ?? 'all';
+    const status = brokenLinks.length === 0 ? '✅' : '❌';
+    console.log(`  ${status}  ${label.padEnd(10)}  Broken links: ${brokenLinks.length}  (${totalFiles} files, ${totalLinks} links)`);
+    process.exit(brokenLinks.length > 0 ? 1 : 0);
+}
+
+// --summary mode: print one compact status line and exit (used by CI for the final combined summary)
+if (SUMMARY) {
+    const label  = PLATFORM ?? 'all';
+    const status = brokenLinks.length === 0 ? '✅' : '❌';
+    console.log(`  ${status}  ${label.padEnd(10)}  Broken links: ${brokenLinks.length}  (${totalFiles} files, ${totalLinks} links)`);
+    process.exit(brokenLinks.length > 0 ? 1 : 0);
+}
 
 console.log(`  MDX/MD files scanned : ${totalFiles}`);
 console.log(`  Relative links found : ${totalLinks}`);
