@@ -248,6 +248,8 @@ function resolveAbsoluteLink(langRoot, url) {
     const candidates = [
         resolve(langRoot, 'components', pathLower),
         resolve(langRoot, pathLower),
+        resolve(langRoot, 'components', path),
+        resolve(langRoot, path),
     ];
     for (const base of candidates) {
         if (existsSync(base)) return base;
