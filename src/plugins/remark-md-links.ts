@@ -42,7 +42,9 @@ function rewriteMdLink(url: string, filePath: string, docsDir: string): string {
   const fileDir = path.dirname(filePath);
   const resolved = path.resolve(fileDir, mdPath);
   const rel = path.relative(docsDir, resolved).replace(/\\/g, '/');
-  const slug = rel.slice(0, -4); // strip .mdx
+  let slug = rel.slice(0, -4); // strip .mdx
+  // index.mdx files generate the parent folder URL (e.g. themes/index.mdx → themes)
+  if (slug.endsWith('/index')) slug = slug.slice(0, -6);
 
   const docsBase = (process.env.DOCS_BASE ?? '').replace(/\/$/, '');
   const trailingSlash = process.env.DOCS_TRAILING_SLASH ?? 'ignore';

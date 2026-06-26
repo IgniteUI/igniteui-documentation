@@ -241,9 +241,13 @@ function getLangRoot(filePath) {
 function resolveAbsoluteLink(langRoot, url) {
     const path = stripHash(url).slice(1); // strip leading '/'
     if (!path) return 'hash-only';
+    // Astro lowercases all URL slugs at build time. Always resolve using the
+    // lowercased path so that camelCase links like /pivotGrid/... are flagged
+    // as broken (the built URL is /pivotgrid/...).
+    const pathLower = path.toLowerCase();
     const candidates = [
-        resolve(langRoot, 'components', path),
-        resolve(langRoot, path),
+        resolve(langRoot, 'components', pathLower),
+        resolve(langRoot, pathLower),
     ];
     for (const base of candidates) {
         if (existsSync(base)) return base;
