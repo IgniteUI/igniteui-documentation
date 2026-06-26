@@ -61,6 +61,24 @@ Unfortunately not all changes can be automatically updated. Changes below are sp
 
 For example: if you are updating from version 6.2.4 to 7.1.0 you'd start from the "From 6.x .." section apply those changes and work your way up:
 
+## From 21.1.x to 22.0.x
+
+Angular no longer ships the `HammerModule` for touch gestures. To keep touch interactions (pan, swipe, tap) working in Ignite UI for Angular components, load HammerJS as a global script via the `scripts` array in your `angular.json`:
+
+```json
+"architect": {
+  "build": {
+    "options": {
+      "scripts": [
+        "node_modules/hammerjs/hammer.min.js"
+      ]
+    }
+  }
+}
+```
+
+Once loaded globally, Ignite UI for Angular automatically detects `window.Hammer` and uses it to handle touch gestures — no additional imports or module registrations are required.
+
 ## From 21.0.x to 21.1.x
 
 Version 21.1.0 ships with a new `tokens` mixin that can be used in place of the now deprecated `css-vars` mixin of our Sass theming framework. On the surface, this is a cosmetic change, however, the new `tokens` mixin produces universal global component theme tokens that work across all of our Ignite UI frameworks. The `css-vars` mixin is now deprecated and will be removed in a future version, so we recommend switching to the new `tokens` mixin as soon as possible.
@@ -1342,8 +1360,7 @@ grid.getRowByIndex(0).expanded = false;
 
 ## From 8.x.x to 9.0.x
 
-Due to a breaking change in Angular 9 Hammer providers are no longer implicitly added
-[please, refer to the following document for details:](https://github.com/angular/angular/blob/master/CHANGELOG.md#breaking-changes-9 ) Because of this the following components require `HammerModule` to be imported in the root module of the application in order for **touch** interactions to work as expected:
+Due to a breaking change in Angular 9, Hammer providers are no longer implicitly added. Because of this the following components require `HammerModule` to be imported in the root module of the application in order for **touch** interactions to work as expected:
 
 - igxGrid
 - igxHierarchicalGrid
