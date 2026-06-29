@@ -1,4 +1,4 @@
----
+﻿---
 title: "{Platform} CLI - {ProductName}"
 description: "The {ProductName} CLI scaffolds {Platform} projects, adds pre-configured component views, and connects AI coding assistants via a built-in MCP server."
 keywords: "{Platform} cli, command line interface, {ProductName}, Infragistics"
@@ -68,16 +68,23 @@ For a step-by-step walkthrough of the wizard options, see [Step-by-Step Guide Us
 To create a React project non-interactively, provide `react` as the framework and `igr-ts` as the project type:
 
 ```cmd
-ig new <project-name> --framework=react --type=igr-ts --template=top-nav
+ig new <project-name> --framework=react --template=side-nav
 ```
 
-The following project templates are available for React:
+The following base project templates are available for React:
 
-| Template ID | Description                                        |
-| :---------- | :------------------------------------------------- |
-| empty       | Minimal project structure with no predefined views |
-| base        | Project structure with a home page                 |
-| top-nav     | Project structure with a top navigation bar        |
+| Template ID   | Description                                                                 |
+| :------------ | :-------------------------------------------------------------------------- |
+| empty         | Minimal project structure with no predefined views. Authentication is not available for this template. |
+| side-nav      | Project structure with a side navigation drawer. Supports authentication as an add-on (see below). |
+| side-nav-mini | Project structure with a compact side navigation drawer. Supports authentication as an add-on (see below). |
+
+When using the interactive wizard, selecting `side-nav` or `side-nav-mini` triggers an additional prompt asking whether to add authentication. Selecting `empty` skips the authentication prompt. The following template IDs are generated and can also be used directly with `ig new` for non-interactive creation - they are not shown in the wizard's template list:
+
+| Template ID        | Description                                      |
+| :----------------- | :----------------------------------------------- |
+| side-nav-auth      | Side navigation extended with authentication.    |
+| side-nav-mini-auth | Side navigation mini extended with authentication. |
 
 </PlatformBlock>
 
@@ -88,13 +95,67 @@ To create a Web Components project non-interactively, provide `webcomponents` as
 ig new <project-name> --framework=webcomponents --type=igc-ts --template=side-nav
 ```
 
-The following project templates are available for Web Components:
+The following base project templates are available for Web Components:
 
-| Template ID | Description                                        |
-| :---------- | :------------------------------------------------- |
-| empty       | Minimal project structure with no predefined views |
-| base        | Project structure with a home page                 |
-| side-nav    | Project structure with a side navigation drawer    |
+| Template ID   | Description                                                                 |
+| :------------ | :-------------------------------------------------------------------------- |
+| empty         | Minimal project structure with no predefined views. Authentication is not available for this template. |
+| side-nav      | Project structure with a side navigation drawer. Supports authentication as an add-on (see below). |
+| side-nav-mini | Project structure with a compact side navigation drawer. Supports authentication as an add-on (see below). |
+
+When using the interactive wizard, selecting `side-nav` or `side-nav-mini` triggers an additional prompt asking whether to add authentication. Selecting `empty` skips the authentication prompt. The following template IDs are generated and can also be used directly with `ig new` for non-interactive creation - they are not shown in the wizard's template list:
+
+| Template ID        | Description                                      |
+| :----------------- | :----------------------------------------------- |
+| side-nav-auth      | Side navigation extended with authentication.    |
+| side-nav-mini-auth | Side navigation mini extended with authentication. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Blazor projects are scaffolded through the **.NET CLI**, so a **.NET SDK 10.0 or newer** is required. On first use the CLI automatically installs the
+[`IgniteUI.Blazor.Templates`](https://www.nuget.org/packages/IgniteUI.Blazor.Templates) package if it isn't already present.
+
+To create a Blazor project non-interactively, provide `blazor` as the framework and choose a hosting model:
+
+```cmd
+ig new <project-name> --framework blazor --hosting Server
+```
+
+A more complete example that also sets the theme, the theme variant and skips package restore:
+
+```cmd
+ig new MyApp --framework blazor --hosting Auto --theme material --variant dark --skip-install
+```
+
+### Blazor options
+
+| Option            | Alias | Values                                          | Default     | Description                                                        |
+| :---------------- | :---- | :---------------------------------------------- | :---------- | :----------------------------------------------------------------- |
+| `--hosting`       |       | `Server`, `Wasm`, `Auto`                        | `Server`    | Blazor hosting model (Blazor only).                                |
+| `--theme`         | `-th` | `bootstrap`, `material`, `fluent`, `indigo`     | `bootstrap` | Ignite UI theme applied to the project.                            |
+| `--variant`       |       | `light`, `dark`                                 | `light`     | Theme color variant (Blazor only).                                |
+| `--skip-install`  | `-si` | —                                               | `false`     | Skip the package restore after scaffolding.                       |
+| `--skip-git`      | `-sg` | —                                               | `false`     | Do not initialize a git repository for the project.               |
+
+> [!NOTE]
+> `--hosting` and `--variant` are only valid for the Blazor framework and are ignored by other frameworks.
+
+### Base project templates
+
+The following base project templates are available for Blazor:
+
+| Template ID | Description                                                                      |
+| :---------- | :------------------------------------------------------------------------------- |
+| empty       | Minimal Blazor Web App scaffolded via the `IgniteUI.Blazor.Templates` package.   |
+
+Once the project is created, run it with the standard .NET tooling:
+
+```cmd
+cd <project-name>
+dotnet run
+```
 
 </PlatformBlock>
 
@@ -111,7 +172,7 @@ The following arguments are available when creating a project:
 | `--assistants`   |        | Configures MCP servers for the specified AI coding assistants. Values: `generic`, `vscode`, `cursor`, `gemini`, `junie`, `none`. |
 | `--agents`       |        | Copies Agent Skill files into the specified agents' skill directories. Values: `generic`, `claude`, `copilot`, `cursor`, `codex`, `windsurf`, `gemini`, `junie`, `none`. |
 
-<PlatformBlock for="React, WebComponents">
+<PlatformBlock for="React, WebComponents, Blazor">
 
 ### AI Configuration During Project Creation
 
@@ -144,13 +205,13 @@ Navigate through the options using the arrow keys, toggle selections with SPACE,
 To skip the AI configuration prompts entirely during project creation, pass `--assistants none --agents none`:
 
 ```cmd
-ig new my-app --framework=react --type=igr-ts --template=top-nav --assistants none --agents none
+ig new my-app --framework=react --template=side-nav --assistants none --agents none
 ```
 
 To auto-configure AI tools without prompting, specify the desired values:
 
 ```cmd
-ig new my-app --framework=react --type=igr-ts --template=top-nav --assistants vscode --agents copilot claude
+ig new my-app --framework=react --template=side-nav --assistants vscode --agents copilot claude
 ```
 
 </PlatformBlock>
@@ -274,7 +335,7 @@ Or, if you have Ignite UI CLI installed globally:
 ig mcp
 ```
 
-<PlatformBlock for="React, WebComponents">
+<PlatformBlock for="React, WebComponents, Blazor">
 
 ### Quick Setup with `ig ai-config`
 

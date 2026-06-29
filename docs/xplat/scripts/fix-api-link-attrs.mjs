@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 /**
  * Post-pass over MDX files to fix already-emitted <ApiLink> elements:
- *   1. For kind="enum": add prefixed={false} when missing.
- *      DV / TypeDoc-generated React/WC enum URLs use the bare name (e.g.
- *      .../enums/CategoryChartType), never with an Igr/Igx/Igc prefix.
- *   2. Strip CLR backtick-arity suffix in type="X`N" → type="X".
+ *   1. Strip CLR backtick-arity suffix in type="X`N" → type="X".
+ *   2. Reclassify known apiMap class entries that TypeDoc publishes as
+ *      interfaces.
  *
  * Idempotent — safe to re-run.
  *
@@ -67,25 +66,11 @@ function transformTag(tag) {
         return `${a}${name}${c}`;
     });
 
-    // 2. Add prefixed={false} to kind="enum" tags that don't already have it.
-    if (/\skind="enum"/.test(out) && !/\sprefixed=\{false\}/.test(out)) {
-        // Insert before the closing " />" or "/>"
-        out = out.replace(/\s*\/>$/, ' prefixed={false} />');
-        changed = true;
-    }
-
-    // 3. Reclassify class → interface for known mis-classified types.
+    // 2. Reclassify class → interface for known mis-classified types.
     const typeMatch = out.match(/\stype="([^"]+)"/);
     if (typeMatch && FORCE_INTERFACE.has(typeMatch[1]) && !/\skind="/.test(out)) {
         // No kind specified → defaults to class. Insert kind="interface" before type.
         out = out.replace(/(\stype=")/, ' kind="interface"$1');
-        changed = true;
-    }
-
-    // 4. Spreadsheet types DO carry the platform Igr/Igx/Igc prefix
-    //    (only excel types are unprefixed). Strip incorrect prefixed={false}.
-    if (/\spkg="spreadsheet"/.test(out) && /\sprefixed=\{false\}/.test(out)) {
-        out = out.replace(/\s+prefixed=\{false\}/, '');
         changed = true;
     }
 

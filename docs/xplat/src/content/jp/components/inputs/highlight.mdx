@@ -1,0 +1,603 @@
+---
+title: "{Platform} Highlight | インフラジスティックス"
+description: "インフラジスティックスの {Platform} Highlight コンポーネントを使用して、ページ内のテキスト検索と一致箇所のハイライト表示を実現する方法を紹介します。"
+keywords: "{ProductName}, {Platform}, Highlight, ハイライト, UI controls, web widgets, UI コンポーネント"
+license: MIT
+mentionedTypes: ["Highlight"]
+_language: ja
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# {Platform} Highlight の概要
+
+{ProductName} Highlight は、ページ内コンテンツの一部を強調表示して、ユーザーの目につきやすくするためのコンポーネントです。軽量で扱いやすく、他のコンポーネントと組み合わせることで、よりインタラクティブで魅力的な UI を構築できます。
+
+<div class="divider"></div>
+
+## 使用方法
+
+<ApiLink type="Highlight" /> コンポーネントを使用するには検索対象のコンテンツをこのタグで囲むだけです。コンポーネントは <PlatformBlock for="WebComponents">`<igc-highlight>`</PlatformBlock><PlatformBlock for="React">`<IgrHighlight>`</PlatformBlock><PlatformBlock for="Blazor">`<IgbHighlight>`</PlatformBlock> タグ内のすべての子要素のテキストを検索し、指定した文字列に一致する箇所をハイライト表示します。
+
+<DocsAside type="note">
+<ApiLink type="Highlight" /> コンポーネントは DOM のテキストノードのみを検索します。入力値やCSS の `content` プロパティで設定された内容は検索対象になりません。
+</DocsAside>
+
+まず次のコマンドで {ProductName} をインストールします。
+
+<PlatformBlock for="WebComponents">
+```cmd
+npm install {PackageWebComponents}
+```
+
+次に <ApiLink type="Highlight" /> コンポーネントと必要な CSS をインポートし、モジュールを登録します。
+
+```ts
+import { defineComponents, IgcHighlightComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcHighlightComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```cmd
+npm install igniteui-react
+```
+
+次に <ApiLink type="Highlight" /> と必要な CSS を以下のようにインポートします。
+
+```tsx
+import { IgrHighlight } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```cmd
+dotnet add package IgniteUI.Blazor --version {PackageVerLatest}
+```
+
+`Program.cs` で <ApiLink pkg="core" type="Highlight" /> モジュールを次のように登録します。
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor(typeof(IgbHighlightModule));
+```
+
+また、プロジェクト構成に応じて対応するスタイルを参照する必要があります。
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+{ProductName} の全体的な導入については、[**はじめに**](../general-getting-started.md) を参照してください。
+
+<ApiLink type="Highlight" /> コンポーネントを使い始める最もシンプルな例は次のとおりです。
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-highlight search-text='dolor'>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+</igc-highlight>
+```
+
+`<igc-highlight>` タグでハイライトしたい文字列を含むコンテンツを囲みます。
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrHighlight search-text='dolor'>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+</IgrHighlight>
+```
+
+`<IgrHighlight>` タグでハイライトしたい文字列を含むコンテンツを囲みます。
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbHighlight SearchText="dolor">
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+</IgbHighlight>
+```
+
+`<IgbHighlight>` タグでハイライトしたい文字列を含むコンテンツを囲みます。
+</PlatformBlock>
+
+ハイライト対象のテキストは <ApiLink type="BaseSearchInfo" member="searchText" label="search-text" /> 属性で指定します。上の例では "dolor" がハイライト表示されます。
+
+<Sample src="/inputs/highlight/overview" height={100} alt="{Platform} Highlight の概要サンプル" />
+
+### 大文字・小文字を区別した一致
+
+<ApiLink type="Highlight" /> コンポーネントは <ApiLink type="BaseSearchInfo" member="caseSensitive" label="case-sensitive" /> 属性も提供します。既定値は `false` で、大文字・小文字を区別しない検索になります。`true` を設定すると、大文字・小文字を区別した検索になります。
+
+次の例を見てください。
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-highlight search-text='lorem' case-sensitive='true'>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+</igc-highlight>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrHighlight search-text='lorem' case-sensitive={true}>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+</IgrHighlight>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbHighlight SearchText="lorem" CaseSensitive="true">
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+</IgbHighlight>
+```
+</PlatformBlock>
+
+この場合、検索文字列は小文字の "lorem" ですが、コンテンツ側は先頭が大文字の **Lorem** のため、一致件数は 0 になります。
+
+### 検索入力と Highlight の連携
+
+最も一般的な使い方は <ApiLink type="Highlight" /> を検索用の <ApiLink pkg="core" type="Input" /> コンポーネントに連携しユーザーの入力に応じて一致箇所をリアルタイムでハイライトする方法です。
+
+連携するには <ApiLink pkg="core" type="Input" /> コンポーネントの `igcInput` イベントを監視しイベント発生ごとに <ApiLink type="Highlight" /> コンポーネントの <ApiLink type="BaseSearchInfo" member="searchText" label="search-text" /> 属性へ入力値を設定します（標準の `input` イベントでも対応可能です）。
+
+<PlatformBlock for="WebComponents">
+まず <ApiLink type="Highlight" /> のプロパティを操作できるように参照を取得します。
+
+```ts
+const highlight = document.querySelector('igc-highlight') as IgcHighlightComponent;
+```
+
+続いて `igcInput` イベントのたびに検索文字列を更新する関数を作成します。
+
+```ts
+const onInput = ({ detail }: CustomEvent<string>) => {
+    highlight.searchText = detail;
+};
+
+document.querySelector('igc-input')?.addEventListener('igcInput', onInput);
+```
+
+```html
+<igc-input label="Search"></igc-input>
+<igc-highlight>
+    <p>
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae doloribus odit id excepturi ipsum provident eaque dignissimos beatae!
+    </p>
+</igc-highlight>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+まず <ApiLink type="Highlight" /> のプロパティを操作するために参照を取得します。最も簡単なのは ref を使う方法です。
+
+```tsx
+import { useRef } from 'react';
+```
+
+```tsx
+const highlightRef = useRef<IgrHighlight>(null);
+```
+
+```tsx
+<IgrHighlight ref={highlightRef}>
+    ...
+</IgrHighlight>
+```
+
+次に `igcInput` イベントのたびに呼び出される検索文字列更新関数を作成します。
+
+```tsx
+const onInput = ({ detail }: CustomEvent<string>) => {
+    highlightRef.current.searchText = detail;
+};
+```
+
+```tsx
+<IgrInput label="Search" onigcInput={onInput}></IgrInput>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+まず `searchText` プロパティを追加します。
+
+```razor
+private string searchText = "";
+```
+
+次に `igcInput` イベントのたびに検索文字列を更新する関数を作成します。
+
+```razor
+private void OnValueChanging(string newValue)
+{
+    searchText = newValue;
+}
+```
+
+```razor
+<IgbInput Label="Search" ValueChanging="OnValueChanging"></IgbInput>
+<IgbHighlight SearchText="@searchText">
+    <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae doloribus
+        odit id excepturi ipsum provident eaque dignissimos beatae! Rerum vero
+        distinctio libero, quasi magni quod natus nesciunt doloremque temporibus
+        voluptate?
+    </p>
+</IgbHighlight>
+```
+
+</PlatformBlock>
+
+### メソッド
+
+このコンポーネントは一致結果を移動するための 2 つのメソッドも提供します。<ApiLink type="Highlight" member="next" label="next()" /> は次の一致へ、<ApiLink type="Highlight" member="previous" label="previous()" /> は前の一致へ移動します。
+
+これらを使うことで前後移動ボタンを追加して検索体験をよりインタラクティブにできます。
+
+<PlatformBlock for="WebComponents">
+```ts
+const highlight = document.querySelector('igc-highlight') as IgcHighlightComponent;
+
+const prev = () => {
+    highlight.previous();
+};
+
+const next = () => {
+    highlight.next();
+};
+
+document.querySelector('#prev-btn')?.addEventListener('click', prev);
+document.querySelector('#next-btn')?.addEventListener('click', next);
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const highlightRef = useRef<IgrHighlight>(null);
+
+const prev = () => {
+    highlightRef.current?.previous();
+};
+
+const next = () => {
+    highlightRef.current?.next();
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+private IgbHighlight HighlightRef { get; set; }
+
+private async Task Prev()
+{
+    if (HighlightRef != null)
+        await HighlightRef.PreviousAsync(new IgbHighlightNavigation());
+}
+
+private async Task Next()
+{
+    if (HighlightRef != null)
+        await HighlightRef.NextAsync(new IgbHighlightNavigation());
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-input label="Search">
+    <igc-icon-button
+      id="prev-btn"
+      variant="flat"
+      name="navigate_before"
+      collection="internal"
+      slot="suffix"
+    ></igc-icon-button>
+    <igc-icon-button
+      id="next-btn"
+      variant="flat"
+      slot="suffix"
+      name="navigate_next"
+      collection="internal"
+    ></igc-icon-button>
+</igc-input>
+<igc-highlight>
+    ...
+</igc-highlight>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrInput label="Search">
+    <IgrIconButton onClick={prev} variant="flat" name="navigate_before" collection="internal" slot="suffix"></IgrIconButton>
+    <IgrIconButton onClick={next} variant="flat" name="navigate_next" collection="internal" slot="suffix"></IgrIconButton>
+</IgrInput>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbInput Label="Search" ValueChanging="OnValueChanging">
+    <IgbIconButton slot="suffix" Variant="IconButtonVariant.Flat" IconName="navigate_before" Collection="internal" @onclick="Prev"></IgbIconButton>
+    <IgbIconButton slot="suffix" Variant="IconButtonVariant.Flat" IconName="navigate_next" Collection="internal" @onclick="Next"></IgbIconButton>
+</IgbInput>
+```
+</PlatformBlock>
+
+<Sample src="/inputs/highlight/search" height={200} alt="{Platform} Highlight 検索サンプル" />
+
+<ApiLink type="Highlight" member="previous" label="previous()" /> と <ApiLink type="Highlight" member="next" label="next()" /> はどちらも <ApiLink type="Highlight" member="preventScroll" /> オプションを受け取れます。これを使うと移動時にアクティブな一致箇所へページが自動スクロールする動作を抑止できます。既定値は `false` です。
+
+<PlatformBlock for="WebComponents">
+```ts
+const prev = () => {
+    highlight.previous({ preventScroll: true });
+};
+
+const next = () => {
+    highlight.next({ preventScroll: true });
+};
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const prev = () => {
+    highlightRef.current?.previous({ preventScroll: true });
+};
+
+const next = () => {
+    highlightRef.current?.next({ preventScroll: true });
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+private async Task Prev()
+{
+    if (HighlightRef != null)
+        await HighlightRef.PreviousAsync(new IgbHighlightNavigation { PreventScroll = true });
+}
+
+private async Task Next()
+{
+    if (HighlightRef != null)
+        await HighlightRef.NextAsync(new IgbHighlightNavigation { PreventScroll = true });
+}
+
+```
+
+</PlatformBlock>
+
+### 追加機能
+
+<PlatformBlock for="WebComponents">
+このコンポーネントには一致状態を追跡するための読み取り専用プロパティもあります。<ApiLink type="Highlight" member="size" label="size" /> は一致件数の合計、<ApiLink type="Highlight" member="current" label="current" /> は現在アクティブな一致のインデックスを返します。
+
+これらを使うと現在位置と総件数を表示する検索ステータス表示を実装できます。
+
+以下はこれらのプロパティで検索ステータスを作成する簡単な例です。
+
+```ts
+const highlight = document.querySelector('igc-highlight') as IgcHighlightComponent;
+const status = document.querySelector('#helper-text') as HTMLParagraphElement;
+
+const updateStatus = () => {
+    status.textContent = highlight.size
+      ? `${highlight.current + 1} of ${highlight.size} match${highlight.size === 1 ? '' : 'es'}`
+      : '';
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+このコンポーネントには一致状態を追跡するための読み取り専用プロパティもあります。<ApiLink type="Highlight" member="size" label="size" /> は一致件数の合計、<ApiLink type="Highlight" member="current" label="current" /> は現在アクティブな一致のインデックスを返します。
+
+これらを使うと現在位置と総件数を表示する検索ステータス表示を実装できます。
+
+以下はこれらのプロパティで検索ステータスを作成する簡単な例です。
+
+```tsx
+const highlightRef = useRef<IgrHighlight>(null);
+const statusRef = useRef<HTMLParagraphElement>(null);
+
+const updateStatus = () => {
+    const highlight = highlightRef.current;
+    const status = statusRef.current;
+
+    status.textContent = highlight.size
+      ? `${highlight.current + 1} of ${highlight.size} match${highlight.size === 1 ? '' : 'es'}`
+      : '';
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+Blazor では一致状態を追跡するために 2 つの非同期メソッドを利用できます。GetSizeAsync() は一致件数の合計、GetCurrentAsync() は現在アクティブな一致のインデックスを返します。
+
+これらのメソッドを使うと、現在位置と総件数を表示する検索ステータス表示を実装できます。
+
+以下はこれらのメソッドで検索ステータスを作成する簡単な例です。
+
+```razor
+private async Task UpdateStatus()
+{
+    var size = (int)await HighlightRef.GetSizeAsync();
+    var current = (int)await HighlightRef.GetCurrentAsync();
+    helperText = $"{current + 1} of {size} match{(size == 1 ? "" : "es")}";
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+入力値が変わるたび、または次へ/前へボタンがクリックされるたびに `updateStatus()` を呼び出します。
+
+```ts
+const onInput = ({ detail }: CustomEvent<string>) => {
+    highlight.searchText = detail;
+    updateStatus();
+};
+
+const prev = () => {
+    highlight.previous();
+    updateStatus();
+};
+
+const next = () => {
+    highlight.next();
+    updateStatus();
+};
+
+document.querySelector('igc-input')?.addEventListener('igcInput', onInput);
+document.querySelector('#prev-btn')?.addEventListener('click', prev);
+document.querySelector('#next-btn')?.addEventListener('click', next);
+
+```
+
+```html
+<igc-input label="Search">
+    <igc-icon-button
+      id="prev-btn"
+      variant="flat"
+      name="navigate_before"
+      collection="internal"
+      slot="suffix"
+    ></igc-icon-button>
+    <igc-icon-button
+      id="next-btn"
+      variant="flat"
+      name="navigate_next"
+      collection="internal"
+      slot="suffix"
+    ></igc-icon-button>
+    <p id="helper-text" slot="helper-text"></p>
+</igc-input>
+<igc-highlight>
+  ...
+</igc-highlight>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+入力値が変わるたび、または次へ/前へボタンがクリックされるたびに `updateStatus()` を呼び出します。
+
+```tsx
+const onInput = ({ detail }: CustomEvent<string>) => {
+    highlightRef.current.searchText = detail;
+    updateStatus();
+};
+
+const prev = () => {
+    highlightRef.current?.previous();
+    updateStatus();
+};
+
+const next = () => {
+    highlightRef.current?.next();
+    updateStatus();
+};
+
+```
+
+```tsx
+<IgrInput label="Search" onigcInput={onInput}>
+    <IgrIconButton onClick={prev} variant="flat" name="navigate_before" collection="internal" slot="suffix" ></IgrIconButton>
+    <IgrIconButton onClick={next} variant="flat" name="navigate_next" collection="internal" slot="suffix" ></IgrIconButton>
+    <p ref={statusRef} slot="helper-text"></p>
+</IgrInput>
+
+<IgrHighlight ref={highlightRef}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+入力値が変わるたび、または次へ/前へボタンがクリックされるたびに `UpdateStatus()` を呼び出します。
+
+```razor
+private async Task Prev()
+{
+    await HighlightRef.PreviousAsync(new IgbHighlightNavigation());
+    await UpdateStatus();
+    StateHasChanged();
+}
+
+private async Task Next()
+{
+    await HighlightRef.NextAsync(new IgbHighlightNavigation());
+    await UpdateStatus();
+    StateHasChanged();
+}
+
+```
+
+```razor
+<IgbInput Label="Search" ValueChanging="OnValueChanging">
+            <IgbIconButton slot="suffix" Variant="IconButtonVariant.Flat" IconName="navigate_before" Collection="internal" @onclick="Prev"></IgbIconButton>
+            <IgbIconButton slot="suffix" Variant="IconButtonVariant.Flat" IconName="navigate_next" Collection="internal" @onclick="Next"></IgbIconButton>
+            <p slot="helper-text">@helperText</p>
+</IgbInput>
+
+<IgbHighlight @ref="HighlightRef">
+```
+
+</PlatformBlock>
+
+<Sample src="/inputs/highlight/helper-text" height={670} alt="{Platform} Highlight ヘルパーテキスト付き検索サンプル" />
+
+## スタイル設定
+
+<ApiLink type="Highlight" /> コンポーネントは全体の見た目を調整できる 4 つの CSS 変数を提供します。
+- `--foreground` ハイライト対象テキストの文字色
+- `--background` ハイライト対象テキストの背景色
+- `--foreground-active` アクティブなハイライト対象テキストの文字色
+- `--background-active` アクティブなハイライト対象テキストの背景色
+
+```css
+igc-highlight {
+    --background: var(--ig-gray-700);
+    --foreground: var(--ig-gray-700-contrast);
+    --background-active: var(--ig-warn-500);
+    --foreground-active: var(--ig-warn-500-contrast);
+}
+```
+
+<Sample src="/inputs/highlight/styling" height={200} alt="{Platform} Highlight スタイル設定サンプル" />
+
+## API リファレンス
+
+<ApiLink type="Highlight" />
+
+## 追加リソース
+
+- [{ProductName} **Forums**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

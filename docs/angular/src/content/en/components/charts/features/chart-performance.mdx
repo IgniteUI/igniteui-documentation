@@ -10,7 +10,6 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
-
 # Angular Chart Performance
 
 Angular charts are optimized for high performance of rendering millions of data points and updating them every few milliseconds. However, there are several chart features that affect performance of the chart and they should be considered when optimizing performance in your application. This topic will guide you to make Angular charts work as fast as possible in your application.
@@ -21,20 +20,15 @@ The following examples demonstrates two high performance scenarios of Angular ch
 
 ## Angular Chart with High-Frequency
 
-In High-Frequency scenario, the Angular Charts can render data items that are updating in real time or at specified milliseconds intervals. You will experience no lag, no screen-flicker, and no visual delays, even as you interact with the chart on a touch-device. The following sample demonstrates the <ApiLink pkg="charts" type="CategoryChart" /> in High-Frequency scenario.
+In High-Frequency scenario, the Angular Charts can render data items that are updating in real time or at specified milliseconds intervals. You will experience no lag, no screen-flicker, and no visual delays, even as you interact with the chart on a touch-device. The following sample demonstrates the <ApiLink type="CategoryChart" /> in High-Frequency scenario.
 
 <Sample src="/charts/category-chart/high-frequency" height={400} alt="Angular Chart with High Frequency" />
 
-
-
-
 ## Angular Chart with High-Volume
 
-In High-Volume scenario, the Angular Charts can render 1 million of data points while the chart keeps providing smooth performance when end-users tries zooming in/out or navigating chart content. The following sample demonstrates the <ApiLink pkg="charts" type="CategoryChart" /> in High-Volume scenario.
+In High-Volume scenario, the Angular Charts can render 1 million of data points while the chart keeps providing smooth performance when end-users tries zooming in/out or navigating chart content. The following sample demonstrates the <ApiLink type="CategoryChart" /> in High-Volume scenario.
 
 <Sample src="/charts/category-chart/high-volume" height={400} alt="Angular Chart with High Volume" />
-
-
 
 ## General Performance Guidelines
 
@@ -42,7 +36,7 @@ This section lists guidelines and chart features that add to the overhead and pr
 
 ### Data Size
 
-If you need to plot data sources with large number of data points (e.g. 10,000+), we recommend using Angular <ApiLink pkg="charts" type="DataChart" /> with one of the following type of series which where designed for specially for that purpose.
+If you need to plot data sources with large number of data points (e.g. 10,000+), we recommend using Angular <ApiLink type="DataChart" /> with one of the following type of series which where designed for specially for that purpose.
 
 - [Scatter HD Chart](../types/scatter-chart.md#angular-scatter-high-density-chart) instead of [Category Point Chart](../types/point-chart.md) or [Scatter Marker Chart](../types/scatter-chart.md#angular-scatter-marker-chart)
 - [Scatter Polyline Chart](../types/shape-chart.md#angular-scatter-polyline-chart) instead of [Category Line Chart](../types/line-chart.md#angular-line-chart-example) or [Scatter Line Chart](../types/scatter-chart.md#angular-scatter-line-chart)
@@ -50,10 +44,7 @@ If you need to plot data sources with large number of data points (e.g. 10,000+)
 
 ### Data Structure
 
-Although Angular charts support rendering of multiple data sources by binding array of arrays of data points to <ApiLink pkg="charts" type="DomainChart" member="DataSource" label="ItemsSource" /> property. It is much faster for charts if multiple data sources are flatten into single data source where each data item contains multiple data columns rather just one data column. For example:
-
-
-
+Although Angular charts support rendering of multiple data sources by binding array of arrays of data points to <ApiLink type="DomainChart" member="DataSource" label="ItemsSource" /> property. It is much faster for charts if multiple data sources are flatten into single data source where each data item contains multiple data columns rather just one data column. For example:
 
 ```ts
 this.CategoryChart.dataSource = FlattenDataSource.create();
@@ -82,27 +73,20 @@ export class MultiDataSources {
 }
 ```
 
-
-
 ### Data Filtering
 
-Angular <ApiLink pkg="charts" type="CategoryChart" /> and the <ApiLink pkg="charts" type="FinancialChart" /> controls have built-in data adapter that analyzes your data and generates chart series for you. However, it works faster if you use <ApiLink pkg="charts" type="DomainChart" member="includedProperties" label="IncludedProperties" /> and <ApiLink pkg="charts" type="DomainChart" member="excludedProperties" label="ExcludedProperties" /> to filter only those data columns that you actually want to render. For example,
-
-
-
+Angular <ApiLink type="CategoryChart" /> and the <ApiLink type="FinancialChart" /> controls have built-in data adapter that analyzes your data and generates chart series for you. However, it works faster if you use <ApiLink type="DomainChart" member="includedProperties" label="IncludedProperties" /> and <ApiLink type="DomainChart" member="excludedProperties" label="ExcludedProperties" /> to filter only those data columns that you actually want to render. For example,
 
 ```ts
 this.Chart.includedProperties = [ "Year", "USA", "RUS" ];
 this.Chart.excludedProperties = [ "CHN",  "FRN", "GER" ];
 ```
 
-
-
 ## Chart Performance Guidelines
 
 ### Chart Types
 
-Simpler chart types such as [Line Chart](../types/line-chart.md) have faster performance than using [Spline Chart](../types/spline-chart.md) because of the complex interpolation of spline lines between data points. Therefore, you should use `CategoryChart.ChartType` property of Angular <ApiLink pkg="charts" type="CategoryChart" /> or the <ApiLink pkg="charts" type="FinancialChart" /> control to select type of chart that renders faster. Alternatively, you can change a type of series to a faster series in Angular <ApiLink pkg="charts" type="DataChart" /> control.
+Simpler chart types such as [Line Chart](../types/line-chart.md) have faster performance than using [Spline Chart](../types/spline-chart.md) because of the complex interpolation of spline lines between data points. Therefore, you should use <ApiLink type="CategoryChart" member="chartType" label="CategoryChart.ChartType" /> property of Angular <ApiLink type="CategoryChart" /> or the <ApiLink type="FinancialChart" /> control to select type of chart that renders faster. Alternatively, you can change a type of series to a faster series in Angular <ApiLink type="DataChart" /> control.
 
 The following table lists chart types in order from the fastest performance to slower performance in each group of charts:
 
@@ -111,7 +95,7 @@ The following table lists chart types in order from the fastest performance to s
 | Pie Charts       | - [Pie Chart](../types/pie-chart.md) <br /> - [Donut Chart](../types/donut-chart.md) <br /> - [Radial Pie Chart](../types/radial-chart.md#angular-radial-pie-chart) |
 | Line Charts      | - [Category Line Chart](../types/line-chart.md#angular-line-chart-example) <br /> - [Category Spline Chart](../types/spline-chart.md#angular-spline-chart-example) <br /> - [Step Line Chart](../types/step-chart.md#angular-step-line-chart) <br /> - [Radial Line Chart](../types/radial-chart.md#angular-radial-line-chart) <br /> - [Polar Line Chart](../types/polar-chart.md#angular-polar-line-chart) <br /> - [Scatter Line Chart](../types/scatter-chart.md#angular-scatter-line-chart) <br /> - [Scatter Polyline Chart](../types/shape-chart.md#angular-scatter-polyline-chart) (\*)  <br /> - [Scatter Contour Chart](../types/scatter-chart.md#angular-scatter-contour-chart) <br /> - [Stacked Line Chart](../types/stacked-chart.md#angular-stacked-line-chart) <br /> - [Stacked 100% Line Chart](../types/stacked-chart.md#angular-stacked-100-line-chart) <br /> |
 | Area Charts      | - [Category Area Chart](../types/area-chart.md#angular-area-chart-example) <br /> - [Step Area Chart](../types/step-chart.md#angular-step-area-chart) <br /> - [Range Area Chart](../types/area-chart.md#angular-range-area-chart) <br /> - [Radial Area Chart](../types/radial-chart.md#angular-radial-area-chart) <br /> - [Polar Area Chart](../types/polar-chart.md#angular-polar-area-chart) <br /> - [Scatter Polygon Chart](../types/shape-chart.md#angular-scatter-polygon-chart) (\*) <br /> - [Scatter Area Chart](../types/scatter-chart.md#angular-scatter-area-chart) <br /> - [Stacked Area Chart](../types/stacked-chart.md#angular-stacked-area-chart) <br /> - [Stacked 100% Area Chart](../types/stacked-chart.md#angular-stacked-100-area-chart) <br /> |
-| Column Charts    | - [Column Chart](../types/column-chart.md#angular-column-chart-example) <br /> - [Bar Chart](../types/bar-chart.md#angular-bar-chart-example) <br /> - [Waterfall Chart](../types/column-chart.md#angular-waterfall-chart) <br /> - [Range Column Chart](../types/column-chart.md#angular-range-column-chart) <br /> - [Radial Column Chart](../types/radial-chart.md#angular-radial-column-chart) <br /> - [Stacked Column Chart](../types/stacked-chart.md#angular-stacked-column-chart) <br /> - [Stacked Bar Chart](../types/stacked-chart.md#angular-stacked-bar-chart) <br /> - [Stacked 100% Column Chart](../types/stacked-chart.md#angular-stacked-100-column-chart) <br /> - [Stacked 100% Bar Chart](../types/stacked-chart.md#angular-stacked-100-bar-chart) |
+| Column Charts    | - [Column Chart](../types/column-chart.md#angular-column-chart-example) <br /> - [Bar Chart](../types/bar-chart.md#angular-bar-chart-example) <br /> - [Waterfall Chart](../types/column-chart.md#angular-waterfall-chart) <br /> - [Range Column Chart](../types/column-chart.md#angular-range-column-chart) <br /> - [Range Bar Chart](../types/bar-chart.md#angular-range-bar-chart) <br /> - [Radial Column Chart](../types/radial-chart.md#angular-radial-column-chart) <br /> - [Stacked Column Chart](../types/stacked-chart.md#angular-stacked-column-chart) <br /> - [Stacked Bar Chart](../types/stacked-chart.md#angular-stacked-bar-chart) <br /> - [Stacked 100% Column Chart](../types/stacked-chart.md#angular-stacked-100-column-chart) <br /> - [Stacked 100% Bar Chart](../types/stacked-chart.md#angular-stacked-100-bar-chart) |
 | Spline Charts    | - [Category Spline Chart](../types/spline-chart.md#angular-spline-chart-example) <br /> - [Polar Spline Chart](../types/polar-chart.md#angular-polar-spline-chart) <br /> - [Scatter Spline Chart](../types/scatter-chart.md#angular-scatter-spline-chart) <br /> - [Stacked Spline Chart](../types/stacked-chart.md#angular-stacked-spline-chart) <br /> - [Stacked 100% Spline Chart](../types/stacked-chart.md#angular-stacked-100-spline-chart) <br /> |
 | Point Charts     | - [Category Point Chart](../types/point-chart.md) <br /> - [Scatter HD Chart](../types/scatter-chart.md#angular-scatter-high-density-chart)  <br /> - [Scatter Marker Chart](../types/scatter-chart.md#angular-scatter-marker-chart) <br /> - [Scatter Bubble Chart](../types/bubble-chart.md) <br /> - [Polar Marker Chart](../types/polar-chart.md#angular-polar-marker-chart) <br /> |
 | Financial Charts | - [Stock Chart in Line Mode](../types/stock-chart.md) <br /> - [Stock Chart in Column Mode](../types/stock-chart.md) <br /> - [Stock Chart in Bar Mode](../types/stock-chart.md) <br /> - [Stock Chart in Candle Mode](../types/stock-chart.md) <br /> - [Stock Chart with Overlays](../types/stock-chart.md) <br /> - [Stock Chart with Zoom Pane](../types/stock-chart.md) <br /> - [Stock Chart with Volume Pane](../types/stock-chart.md#volume-pane) <br /> - [Stock Chart with Indicator Pane](../types/stock-chart.md#indicator-pane) <br /> |
@@ -119,7 +103,6 @@ The following table lists chart types in order from the fastest performance to s
 | Radial Charts    | - [Radial Line Chart](../types/radial-chart.md#angular-radial-line-chart) <br /> - [Radial Area Chart](../types/radial-chart.md#angular-radial-area-chart) <br /> - [Radial Pie Chart](../types/radial-chart.md#angular-radial-pie-chart) <br /> - [Radial Column Chart](../types/radial-chart.md#angular-radial-column-chart) <br /> |
 | Polar Charts     | - [Polar Marker Chart](../types/polar-chart.md#angular-polar-marker-chart) <br /> - [Polar Line Chart](../types/polar-chart.md#angular-polar-line-chart) <br /> - [Polar Area Chart](../types/polar-chart.md#angular-polar-area-chart) <br /> - [Polar Spline Chart](../types/polar-chart.md#angular-polar-spline-chart) <br /> - [Polar Spline Area Chart](../types/polar-chart.md#angular-polar-spline-area-chart) <br /> |
 | Stacked Charts   | - [Stacked Line Chart](../types/stacked-chart.md#angular-stacked-line-chart) <br /> - [Stacked Area Chart](../types/stacked-chart.md#angular-stacked-area-chart) <br /> - [Stacked Column Chart](../types/stacked-chart.md#angular-stacked-column-chart) <br /> - [Stacked Bar Chart](../types/stacked-chart.md#angular-stacked-bar-chart) <br /> - [Stacked Spline Chart](../types/stacked-chart.md#angular-stacked-spline-chart) <br /> - [Stacked 100% Line Chart](../types/stacked-chart.md#angular-stacked-100-line-chart) <br /> - [Stacked 100% Area Chart](../types/stacked-chart.md#angular-stacked-100-area-chart) <br /> - [Stacked 100% Column Chart](../types/stacked-chart.md#angular-stacked-100-column-chart) <br /> - [Stacked 100% Bar Chart](../types/stacked-chart.md#angular-stacked-100-bar-chart) <br /> - [Stacked 100% Spline Chart](../types/stacked-chart.md#angular-stacked-100-spline-chart) <br /> |
-
 
 \* Note that the [Scatter Polygon Chart](../types/shape-chart.md) and [Scatter Polyline Chart](../types/shape-chart.md) have better performance than rest of charts if you have a lot of data sources bound to the chart. For more info, see [Series Collection](#series-collection) section. Otherwise, other chart types are faster.
 
@@ -145,9 +128,6 @@ In Angular charts, [Markers](chart-markers.md) are especially expensive when it 
 
 This code snippet shows how to remove markers from the Angular charts.
 
-
-
-
 ```ts
 // on CategoryChart or FinancialChart
 this.Chart.markerTypes.clear();
@@ -155,18 +135,14 @@ this.Chart.markerTypes.add(MarkerType.None);
 
 // on LineSeries of DataChart
 this.LineSeries.markerType = MarkerType.None;
+
 ```
-
-
 
 ### Chart Resolution
 
-Setting the <ApiLink pkg="charts" type="DomainChart" member="resolution" label="Resolution" /> property to a higher value will improve performance, but it will lower the graphical fidelity of lines of plotted series. As such, it can be increased up until the fidelity is unacceptable.
+Setting the <ApiLink type="DomainChart" member="resolution" label="Resolution" /> property to a higher value will improve performance, but it will lower the graphical fidelity of lines of plotted series. As such, it can be increased up until the fidelity is unacceptable.
 
 This code snippet shows how to decrease resolution in the Angular charts.
-
-
-
 
 ```ts
 // on CategoryChart or FinancialChart:
@@ -174,9 +150,8 @@ this.Chart.Resolution = 10;
 
 // on LineSeries of DataChart:
 this.LineSeries.Resolution = 10;
+
 ```
-
-
 
 ### Chart Overlays
 
@@ -191,13 +166,10 @@ Enabling [Chart Trendlines](chart-trendlines.md) will slightly decrease performa
 Usage of x-axis with DateTime support is not recommended if spaces between data points, based on the amount of time span between them, are not important. Instead, ordinal/category axis should be used because it is more efficient in the way it coalesces data. Also, ordinal/category axis doesn’t perform any sorting on the data like the time-based x-axis does.
 
 <DocsAside type="info">
-The <ApiLink pkg="charts" type="CategoryChart" /> already uses ordinal/category axis so there is no need to change its properties.
+The <ApiLink type="CategoryChart" /> already uses ordinal/category axis so there is no need to change its properties.
 </DocsAside>
 
-This code snippet shows how to ordinal/category x-axis in the <ApiLink pkg="charts" type="FinancialChart" /> and <ApiLink pkg="charts" type="DataChart" /> controls.
-
-
-
+This code snippet shows how to ordinal/category x-axis in the <ApiLink type="FinancialChart" /> and <ApiLink type="DataChart" /> controls.
 
 ```html
 <igx-financial-chart xAxisMode="Ordinal"></igx-financial-chart>
@@ -207,21 +179,15 @@ This code snippet shows how to ordinal/category x-axis in the <ApiLink pkg="char
 </igx-data-chart>
 ```
 
-
-
-
 ### Axis Intervals
 
-By default, Angular charts will automatically calculate <ApiLink pkg="charts" type="CategoryChart" member="yAxisInterval" label="YAxisInterval" /> based on range of your data. Therefore, you should avoid setting axis interval especially to a small value to prevent rendering of too many of axis gridlines and axis labels. Also, you might want to consider increasing <ApiLink pkg="charts" type="CategoryChart" member="yAxisInterval" label="YAxisInterval" /> property to a larger value than the automatically calculated axis interval if you do not need many axis gridlines or axis labels.
+By default, Angular charts will automatically calculate <ApiLink type="CategoryChart" member="yAxisInterval" label="YAxisInterval" /> based on range of your data. Therefore, you should avoid setting axis interval especially to a small value to prevent rendering of too many of axis gridlines and axis labels. Also, you might want to consider increasing <ApiLink type="CategoryChart" member="yAxisInterval" label="YAxisInterval" /> property to a larger value than the automatically calculated axis interval if you do not need many axis gridlines or axis labels.
 
 <DocsAside type="info">
 We do not recommend setting axis minor interval as it will decrease chart performance.
 </DocsAside>
 
 This code snippet shows how to set axis major interval in the Angular charts.
-
-
-
 
 ```html
 <igx-category-chart xAxisInterval="5" yAxisInterval="50"></igx-category-chart>
@@ -234,21 +200,15 @@ This code snippet shows how to set axis major interval in the Angular charts.
 </igx-data-chart>
 ```
 
-
-
-
 ### Axis Scale
 
-Setting the <ApiLink pkg="charts" type="CategoryChart" member="yAxisIsLogarithmic" label="YAxisIsLogarithmic" /> property to false is recommended for higher performance, as fewer operations are needed than calculating axis range and values of axis labels in logarithmic scale.
+Setting the <ApiLink type="CategoryChart" member="yAxisIsLogarithmic" label="YAxisIsLogarithmic" /> property to false is recommended for higher performance, as fewer operations are needed than calculating axis range and values of axis labels in logarithmic scale.
 
 ### Axis Labels Visibility
 
 In the same way as Markers, axis labels are also expensive because they use templates and bindings, and may have their data context changed often. If labels are not used, they should be hidden or their interval should be increased to decrease number of axis labels.
 
 This code snippet shows how to hide axis labels in the Angular charts.
-
-
-
 
 ```html
 <igx-category-chart xAxisLabelVisibility="Collapsed" yAxisLabelVisibility="Collapsed">
@@ -263,17 +223,11 @@ This code snippet shows how to hide axis labels in the Angular charts.
 </igx-data-chart>
 ```
 
-
-
-
 ### Axis Labels Abbreviation
 
-Although, the Angular charts support abbreviation of large numbers (e.g. 10,000+) displayed in axis labels when <ApiLink pkg="charts" type="CategoryChart" member="yAxisAbbreviateLargeNumbers" label="YAxisAbbreviateLargeNumbers" /> is set to true. We recommend, instead pre-processing large values in your data items by dividing them a common factor and then setting <ApiLink pkg="charts" type="CategoryChart" member="yAxisTitle" label="YAxisTitle" /> to a string that represents factor used used to abbreviate your data values.
+Although, the Angular charts support abbreviation of large numbers (e.g. 10,000+) displayed in axis labels when <ApiLink type="CategoryChart" member="yAxisAbbreviateLargeNumbers" label="YAxisAbbreviateLargeNumbers" /> is set to true. We recommend, instead pre-processing large values in your data items by dividing them a common factor and then setting <ApiLink type="CategoryChart" member="yAxisTitle" label="YAxisTitle" /> to a string that represents factor used used to abbreviate your data values.
 
 This code snippet shows how to set axis title in the Angular charts.
-
-
-
 
 ```html
 <igx-category-chart yAxisTitle="In millions of Dollars"></igx-category-chart>
@@ -285,17 +239,11 @@ This code snippet shows how to set axis title in the Angular charts.
 </igx-data-chart>
 ```
 
-
-
-
 ### Axis Labels Extent
 
 At runtime, the Angular charts adjust extent of labels on y-axis based on a label with longest value. This might decrease chart performance if range of data changes and labels need to be updated often. Therefore, it is recommended to set label extent at design time in order to improve chart performance.
 
 The following code snippet shows how to set a fixed extent for labels on y-axis in the Angular charts.
-
-
-
 
 ```html
 <igx-category-chart xAxisLabelExtent="50" yAxisLabelExtent="50"></igx-category-chart>
@@ -308,86 +256,81 @@ The following code snippet shows how to set a fixed extent for labels on y-axis 
 </igx-data-chart>
 ```
 
-
-
-
 ### Axis Other Visuals
 
 Enabling additional axis visuals (e.g. axis titles) or changing their default values might decrease performance in the Angular charts.
 
-For example, changing these properties on the <ApiLink pkg="charts" type="CategoryChart" /> or <ApiLink pkg="charts" type="FinancialChart" /> control:
+For example, changing these properties on the <ApiLink type="CategoryChart" /> or <ApiLink type="FinancialChart" /> control:
 
 | Axis Visual          | X-Axis Properties | Y-Axis Properties |
 | ---------------------|-------------------|------------------- |
-| All Axis Visual      | <ApiLink pkg="charts" type="CategoryChart" member="xAxisInterval" label="XAxisInterval" /><br />  <ApiLink pkg="charts" type="CategoryChart" member="xAxisMinorInterval" label="XAxisMinorInterval" /> | <ApiLink pkg="charts" type="CategoryChart" member="yAxisInterval" label="YAxisInterval" /><br />  <ApiLink pkg="charts" type="CategoryChart" member="yAxisMinorInterval" label="YAxisMinorInterval" /> |
-| Axis Tickmarks       | <ApiLink pkg="charts" type="CategoryChart" member="xAxisTickStroke" label="XAxisTickStroke" /> <br />  <ApiLink pkg="charts" type="CategoryChart" member="xAxisTickStrokeThickness" label="XAxisTickStrokeThickness" /><br />  <ApiLink pkg="charts" type="CategoryChart" member="xAxisTickLength" label="XAxisTickLength" /><br />  | <ApiLink pkg="charts" type="CategoryChart" member="yAxisTickStroke" label="YAxisTickStroke" /> <br />  <ApiLink pkg="charts" type="CategoryChart" member="yAxisTickStrokeThickness" label="YAxisTickStrokeThickness" /><br />  <ApiLink pkg="charts" type="CategoryChart" member="yAxisTickLength" label="YAxisTickLength" /><br /> |
-| Axis Major Gridlines | <ApiLink pkg="charts" type="CategoryChart" member="xAxisMajorStroke" label="XAxisMajorStroke" /><br />  <ApiLink pkg="charts" type="CategoryChart" member="xAxisMajorStrokeThickness" label="XAxisMajorStrokeThickness" /><br />   | <ApiLink pkg="charts" type="CategoryChart" member="yAxisMajorStroke" label="YAxisMajorStroke" /><br />  <ApiLink pkg="charts" type="CategoryChart" member="yAxisMajorStrokeThickness" label="YAxisMajorStrokeThickness" /><br /> |
-| Axis Minor Gridlines | <ApiLink pkg="charts" type="CategoryChart" member="xAxisMinorStroke" label="XAxisMinorStroke" /><br />  <ApiLink pkg="charts" type="CategoryChart" member="xAxisMinorStrokeThickness" label="XAxisMinorStrokeThickness" /><br />   | <ApiLink pkg="charts" type="CategoryChart" member="yAxisMinorStroke" label="YAxisMinorStroke" /><br />  <ApiLink pkg="charts" type="CategoryChart" member="yAxisMinorStrokeThickness" label="YAxisMinorStrokeThickness" /><br /> |
-| Axis Main Line       | <ApiLink pkg="charts" type="CategoryChart" member="xAxisStroke" label="XAxisStroke" /><br />  <ApiLink pkg="charts" type="CategoryChart" member="xAxisStrokeThickness" label="XAxisStrokeThickness" /><br />   | <ApiLink pkg="charts" type="CategoryChart" member="yAxisStroke" label="YAxisStroke" /><br />  <ApiLink pkg="charts" type="CategoryChart" member="yAxisStrokeThickness" label="YAxisStrokeThickness" /><br /> |
-| Axis Titles          | <ApiLink pkg="charts" type="CategoryChart" member="xAxisTitle" label="XAxisTitle" /><br />  <ApiLink pkg="charts" type="CategoryChart" member="xAxisTitleAngle" label="XAxisTitleAngle" /><br />    | <ApiLink pkg="charts" type="CategoryChart" member="yAxisTitle" label="YAxisTitle" /><br />  <ApiLink pkg="charts" type="CategoryChart" member="yAxisTitleAngle" label="YAxisTitleAngle" /><br /> |
-| Axis Strips          | <ApiLink pkg="charts" type="CategoryChart" member="xAxisStrip" label="XAxisStrip" /><br />   | <ApiLink pkg="charts" type="CategoryChart" member="yAxisStrip" label="YAxisStrip" /><br /> |
+| All Axis Visual      | <ApiLink type="CategoryChart" member="xAxisInterval" label="XAxisInterval" /><br />  <ApiLink type="CategoryChart" member="xAxisMinorInterval" label="XAxisMinorInterval" /> | <ApiLink type="CategoryChart" member="yAxisInterval" label="YAxisInterval" /><br />  <ApiLink type="CategoryChart" member="yAxisMinorInterval" label="YAxisMinorInterval" /> |
+| Axis Tickmarks       | <ApiLink type="CategoryChart" member="xAxisTickStroke" label="XAxisTickStroke" /> <br />  <ApiLink type="CategoryChart" member="xAxisTickStrokeThickness" label="XAxisTickStrokeThickness" /><br />  <ApiLink type="CategoryChart" member="xAxisTickLength" label="XAxisTickLength" /><br />  | <ApiLink type="CategoryChart" member="yAxisTickStroke" label="YAxisTickStroke" /> <br />  <ApiLink type="CategoryChart" member="yAxisTickStrokeThickness" label="YAxisTickStrokeThickness" /><br />  <ApiLink type="CategoryChart" member="yAxisTickLength" label="YAxisTickLength" /><br /> |
+| Axis Major Gridlines | <ApiLink type="CategoryChart" member="xAxisMajorStroke" label="XAxisMajorStroke" /><br />  <ApiLink type="CategoryChart" member="xAxisMajorStrokeThickness" label="XAxisMajorStrokeThickness" /><br />   | <ApiLink type="CategoryChart" member="yAxisMajorStroke" label="YAxisMajorStroke" /><br />  <ApiLink type="CategoryChart" member="yAxisMajorStrokeThickness" label="YAxisMajorStrokeThickness" /><br /> |
+| Axis Minor Gridlines | <ApiLink type="CategoryChart" member="xAxisMinorStroke" label="XAxisMinorStroke" /><br />  <ApiLink type="CategoryChart" member="xAxisMinorStrokeThickness" label="XAxisMinorStrokeThickness" /><br />   | <ApiLink type="CategoryChart" member="yAxisMinorStroke" label="YAxisMinorStroke" /><br />  <ApiLink type="CategoryChart" member="yAxisMinorStrokeThickness" label="YAxisMinorStrokeThickness" /><br /> |
+| Axis Main Line       | <ApiLink type="CategoryChart" member="xAxisStroke" label="XAxisStroke" /><br />  <ApiLink type="CategoryChart" member="xAxisStrokeThickness" label="XAxisStrokeThickness" /><br />   | <ApiLink type="CategoryChart" member="yAxisStroke" label="YAxisStroke" /><br />  <ApiLink type="CategoryChart" member="yAxisStrokeThickness" label="YAxisStrokeThickness" /><br /> |
+| Axis Titles          | <ApiLink type="CategoryChart" member="xAxisTitle" label="XAxisTitle" /><br />  <ApiLink type="CategoryChart" member="xAxisTitleAngle" label="XAxisTitleAngle" /><br />    | <ApiLink type="CategoryChart" member="yAxisTitle" label="YAxisTitle" /><br />  <ApiLink type="CategoryChart" member="yAxisTitleAngle" label="YAxisTitleAngle" /><br /> |
+| Axis Strips          | <ApiLink type="CategoryChart" member="xAxisStrip" label="XAxisStrip" /><br />   | <ApiLink type="CategoryChart" member="yAxisStrip" label="YAxisStrip" /><br /> |
 
-
-Or changing properties of an <ApiLink pkg="charts" type="Axis" /> in the <ApiLink pkg="charts" type="DataChart" /> control:
+Or changing properties of an <ApiLink type="Axis" /> in the <ApiLink type="DataChart" /> control:
 
 | Axis Visual          | Axis Properties |
 | ---------------------|------------------- |
 | All Axis Visuals     | `Interval`, `MinorInterval` |
-| Axis Tickmarks       | <ApiLink pkg="charts" type="Axis" member="tickStroke" label="TickStroke" /> , <ApiLink pkg="charts" type="Axis" member="tickStrokeThickness" label="TickStrokeThickness" />, <ApiLink pkg="charts" type="Axis" member="tickLength" label="TickLength" /> |
-| Axis Major Gridlines | <ApiLink pkg="charts" type="Axis" member="majorStroke" label="MajorStroke" />, <ApiLink pkg="charts" type="Axis" member="majorStrokeThickness" label="MajorStrokeThickness" /> |
-| Axis Minor Gridlines | <ApiLink pkg="charts" type="Axis" member="minorStroke" label="MinorStroke" />, <ApiLink pkg="charts" type="Axis" member="minorStrokeThickness" label="MinorStrokeThickness" /> |
-| Axis Main Line       | <ApiLink pkg="charts" type="Axis" member="stroke" label="Stroke" />, <ApiLink pkg="charts" type="Axis" member="strokeThickness" label="StrokeThickness" /> |
-| Axis Titles          | <ApiLink pkg="charts" type="DomainChart" member="chartTitle" label="Title" />, `TitleAngle` |
-| Axis Strips          | <ApiLink pkg="charts" type="Axis" member="strip" label="Strip" /> |
+| Axis Tickmarks       | <ApiLink type="Axis" member="tickStroke" label="TickStroke" /> , <ApiLink type="Axis" member="tickStrokeThickness" label="TickStrokeThickness" />, <ApiLink type="Axis" member="tickLength" label="TickLength" /> |
+| Axis Major Gridlines | <ApiLink type="Axis" member="majorStroke" label="MajorStroke" />, <ApiLink type="Axis" member="majorStrokeThickness" label="MajorStrokeThickness" /> |
+| Axis Minor Gridlines | <ApiLink type="Axis" member="minorStroke" label="MinorStroke" />, <ApiLink type="Axis" member="minorStrokeThickness" label="MinorStrokeThickness" /> |
+| Axis Main Line       | <ApiLink type="Axis" member="stroke" label="Stroke" />, <ApiLink type="Axis" member="strokeThickness" label="StrokeThickness" /> |
+| Axis Titles          | <ApiLink type="DomainChart" member="chartTitle" label="Title" />, `TitleAngle` |
+| Axis Strips          | <ApiLink type="Axis" member="strip" label="Strip" /> |
 
 ## Performance in Financial Chart
 
-In addition to above performance guidelines, the Angular <ApiLink pkg="charts" type="FinancialChart" /> control has the following unique features that affect performance.
+In addition to above performance guidelines, the Angular <ApiLink type="FinancialChart" /> control has the following unique features that affect performance.
 
 ### Y-Axis Mode
 
-Setting the <ApiLink pkg="charts" type="FinancialChart" member="yAxisMode" label="YAxisMode" /> option to `Numeric` is recommended for higher performance, as fewer operations are needed than using <ApiLink pkg="charts" type="LineSeries" member="percentChange" label="PercentChange" /> mode.
+Setting the <ApiLink type="FinancialChart" member="yAxisMode" label="YAxisMode" /> option to `Numeric` is recommended for higher performance, as fewer operations are needed than using <ApiLink type="LineSeries" member="percentChange" label="PercentChange" /> mode.
 
 ### Chart Panes
 
-Setting a lot of panes using <ApiLink pkg="charts" type="FinancialChart" member="indicatorTypes" label="IndicatorTypes" /> and <ApiLink pkg="charts" type="FinancialChart" member="overlayTypes" label="OverlayTypes" /> options, might decrease performance and it is recommended to use a few financial indicators and one financial overlay.
+Setting a lot of panes using <ApiLink type="FinancialChart" member="indicatorTypes" label="IndicatorTypes" /> and <ApiLink type="FinancialChart" member="overlayTypes" label="OverlayTypes" /> options, might decrease performance and it is recommended to use a few financial indicators and one financial overlay.
 
 ### Zoom Slider
 
-Setting the <ApiLink pkg="charts" type="FinancialChart" member="zoomSliderType" label="ZoomSliderType" /> option to <ApiLink pkg="charts" kind="enum" type="FinancialChartVolumeType" member="None" label="None" prefixed={false} /> will improve chart performance and enable more vertical space for other indicators and the volume pane.
+Setting the <ApiLink type="FinancialChart" member="zoomSliderType" label="ZoomSliderType" /> option to <ApiLink type="FinancialChartVolumeType" member="None" label="None" /> will improve chart performance and enable more vertical space for other indicators and the volume pane.
 
 ### Volume Type
 
-Setting the <ApiLink pkg="charts" type="FinancialChart" member="volumeType" label="VolumeType" /> property can have the following impact on chart performance:
+Setting the <ApiLink type="FinancialChart" member="volumeType" label="VolumeType" /> property can have the following impact on chart performance:
 
-- <ApiLink pkg="charts" kind="enum" type="FinancialChartVolumeType" member="None" label="None" prefixed={false} /> - is the least expensive since it does not display the volume pane.
-- <ApiLink pkg="charts" kind="enum" type="FinancialChartVolumeType" member="Line" label="Line" prefixed={false} /> - is more expensive volume type to render and it is recommended when rendering a lot of data points or when plotting a lot of data sources.
-- <ApiLink pkg="charts" kind="enum" type="FinancialChartVolumeType" member="Area" label="Area" prefixed={false} /> - is more expensive to render than the <ApiLink pkg="charts" kind="enum" type="FinancialChartVolumeType" member="Line" label="Line" prefixed={false} /> volume type.
-- <ApiLink pkg="charts" kind="enum" type="FinancialChartVolumeType" member="Column" label="Column" prefixed={false} /> - is more expensive to render than the <ApiLink pkg="charts" kind="enum" type="FinancialChartVolumeType" member="Area" label="Area" prefixed={false} /> volume type and it is recommended when rendering volume data of 1-3 stocks.
+- <ApiLink type="FinancialChartVolumeType" member="None" label="None" /> - is the least expensive since it does not display the volume pane.
+- <ApiLink type="FinancialChartVolumeType" member="Line" label="Line" /> - is more expensive volume type to render and it is recommended when rendering a lot of data points or when plotting a lot of data sources.
+- <ApiLink type="FinancialChartVolumeType" member="Area" label="Area" /> - is more expensive to render than the <ApiLink type="FinancialChartVolumeType" member="Line" label="Line" /> volume type.
+- <ApiLink type="FinancialChartVolumeType" member="Column" label="Column" /> - is more expensive to render than the <ApiLink type="FinancialChartVolumeType" member="Area" label="Area" /> volume type and it is recommended when rendering volume data of 1-3 stocks.
 
 ## Performance in Data Chart
 
-In addition to the general performance guidelines, the Angular <ApiLink pkg="charts" type="DataChart" /> control has the following unique features that affect performance.
+In addition to the general performance guidelines, the Angular <ApiLink type="DataChart" /> control has the following unique features that affect performance.
 
 ### Axes Collection
 
-Adding too many axis to the <ApiLink pkg="charts" type="DataChart" member="Axes" label="Axes" /> collection of the <ApiLink pkg="charts" type="DataChart" /> control will decrease chart performance and we recommend [Sharing Axes](chart-axis-layouts.md#axis-sharing-example) between series.
+Adding too many axis to the <ApiLink type="DataChart" member="Axes" label="Axes" /> collection of the <ApiLink type="DataChart" /> control will decrease chart performance and we recommend [Sharing Axes](chart-axis-layouts.md#axis-sharing-example) between series.
 
 ### Series Collection
 
-Also, adding a lot of series to the <ApiLink pkg="charts" type="DataChart" member="Series" label="Series" /> collection of the Angular <ApiLink pkg="charts" type="DataChart" /> control will add overhead to rendering because each series has its own rendering canvas. This is especially important if you have more than 10 series in the Data Chart. We recommend combining multiple data sources into flatten data source (see [Data Structure](#data-structure) section) and then using conditional styling feature of the following series:
+Also, adding a lot of series to the <ApiLink type="DataChart" member="Series" label="Series" /> collection of the Angular <ApiLink type="DataChart" /> control will add overhead to rendering because each series has its own rendering canvas. This is especially important if you have more than 10 series in the Data Chart. We recommend combining multiple data sources into flatten data source (see [Data Structure](#data-structure) section) and then using conditional styling feature of the following series:
 
 | Slower Performance Scenario | Faster Scenario with Conditional Styling |
 | ----------------------------|---------------------------------------- |
-| 10+ of <ApiLink pkg="charts" type="LineSeries" />         | Single <ApiLink pkg="charts" type="ScatterLineSeries" /> |
-| 20+ of <ApiLink pkg="charts" type="LineSeries" />         | Single <ApiLink pkg="charts" type="ScatterPolylineSeries" /> |
-| 10+ of <ApiLink pkg="charts" type="ScatterLineSeries" />  | Single <ApiLink pkg="charts" type="ScatterPolylineSeries" /> |
-| 10+ of <ApiLink pkg="charts" type="PointSeries" />        | Single <ApiLink pkg="charts" type="ScatterSeries" /> |
-| 20+ of <ApiLink pkg="charts" type="PointSeries" />        | Single <ApiLink pkg="charts" type="HighDensityScatterSeries" /> |
-| 20+ of <ApiLink pkg="charts" type="ScatterSeries" />      | Single <ApiLink pkg="charts" type="HighDensityScatterSeries" /> |
-| 10+ of <ApiLink pkg="charts" type="AreaSeries" />         | Single <ApiLink pkg="charts" type="ScatterPolygonSeries" /> |
-| 10+ of <ApiLink pkg="charts" type="ColumnSeries" />       | Single <ApiLink pkg="charts" type="ScatterPolygonSeries" /> |
-
+| 10+ of <ApiLink type="LineSeries" />         | Single <ApiLink type="ScatterLineSeries" /> |
+| 20+ of <ApiLink type="LineSeries" />         | Single <ApiLink type="ScatterPolylineSeries" /> |
+| 10+ of <ApiLink type="ScatterLineSeries" />  | Single <ApiLink type="ScatterPolylineSeries" /> |
+| 10+ of <ApiLink type="PointSeries" />        | Single <ApiLink type="ScatterSeries" /> |
+| 20+ of <ApiLink type="PointSeries" />        | Single <ApiLink type="HighDensityScatterSeries" /> |
+| 20+ of <ApiLink type="ScatterSeries" />      | Single <ApiLink type="HighDensityScatterSeries" /> |
+| 10+ of <ApiLink type="AreaSeries" />         | Single <ApiLink type="ScatterPolygonSeries" /> |
+| 10+ of <ApiLink type="ColumnSeries" />       | Single <ApiLink type="ScatterPolygonSeries" /> |
 
 ## Additional Resources
 
@@ -415,8 +358,7 @@ You can find more information about related chart types in these topics:
 - [Chart Overlays](chart-overlays.md)
 - [Chart Trendlines](chart-trendlines.md)
 
-
 ## API References
-<ApiLink type="CategoryChart" pkg="charts" />
-<ApiLink type="FinancialChart" pkg="charts" />
-<ApiLink type="DataChart" pkg="charts" />
+<ApiLink type="CategoryChart" />
+<ApiLink type="FinancialChart" />
+<ApiLink type="DataChart" />

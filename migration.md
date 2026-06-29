@@ -15,7 +15,7 @@ This guide covers every change needed when moving a doc page from the old DocFX 
 7. [Images](#7-images)
 8. [Callout boxes (`>[!NOTE]` → `<DocsAside>`)](#8-callout-boxes)
 9. [Inline styles / `<p class="highlight">` → `<div>`](#9-inline-styles)
-10. [API links (`ApiLink` and `ApiRef`)](#10-api-links)
+10. [API links (`ApiLink`)](#10-api-links)
 11. [Platform-conditional content — Xplat only (`<!-- Platform -->` → `<PlatformBlock>`)](#11-platform-conditional-content--xplat-only)
 12. [Table of contents (`toc.yml` → `toc.json`)](#12-table-of-contents)
 13. [Environment variables (`{environment:…}`)](#13-environment-variables)
@@ -290,7 +290,7 @@ Prefer the template literal form — it is simpler and matches the pattern used 
 
 ## 10. API links
 
-Two components are available. **`ApiLink` is the preferred component going forward; `ApiRef` is considered deprecated and should not be used for new content.**
+Use **`ApiLink`** when documentation text mentions a public API symbol and should link to the generated API reference. This includes component classes, events, enums, interfaces, methods, and properties.
 
 ### `ApiLink` — inline link to a single API symbol
 
@@ -310,20 +310,45 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 <ApiLink type="IgxGridComponent" label="Data Grid" />
 ```
 
+`ApiLink` resolves through the generated API symbol registry. By default, it tries platform naming conventions first. For example, Angular `<ApiLink type="Calendar" />` resolves as `IgxCalendarComponent` before considering the duplicate raw `Calendar` registry key.
+
+Use `pkg` only when the registry has multiple valid symbols for the same requested API link and the intended package must be explicit:
+
+```mdx
+<!-- Choose the main product package instead of a Lite/core duplicate -->
+<ApiLink pkg="core" type="Calendar" />
+
+<!-- Choose the standalone inputs package -->
+<ApiLink pkg="inputs" type="CheckboxChangeEventArgs" />
+
+<!-- Choose the igniteui-*-core API package -->
+<ApiLink pkg="geo-core" type="NumberFormatSpecifier" />
+```
+
+Use `kind` when the same symbol name exists as different API kinds:
+
+```mdx
+<ApiLink kind="enum" type="TransactionType" />
+```
+
+If the correct package differs by platform, keep the link platform-specific:
+
+```mdx
+<PlatformBlock for="React">
+<ApiLink pkg="inputs" type="CheckboxChangeEventArgs" />
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ApiLink pkg="core" type="CheckboxChangeEventArgs" />
+</PlatformBlock>
+```
+
+Run `npm run check-mdx-links` or a platform-specific variant after editing API links. The checker prints an **Ambiguous ApiLinks** section, writes an `api-link-ambiguity-report*.md` file, and fails when a referenced `ApiLink` can resolve to more than one registry symbol. The report also lists all duplicate registry keys, even when no current docs reference them.
+
 The component replaces the old pattern of writing the raw API URL:
 ```markdown
 <!-- Old DocFX pattern -->
 [`IgxCardComponent`]({environment:angularApiUrl}/classes/igxcardcomponent.html)
-```
-
-### `ApiRef` — end-of-page API reference section (deprecated)
-
-`ApiRef` renders a grouped list of API types at the bottom of a page. It still works but **should not be used for new pages**. Convert existing `ApiRef` usage to inline `ApiLink` calls instead.
-
-```mdx
-<!-- Deprecated – do not add to new pages -->
-import ApiRef from 'igniteui-astro-components/components/mdx/ApiRef.astro';
-<ApiRef types={["BulletGraph", "LinearGraphRange"]} pkg="gauges" />
 ```
 
 ---
@@ -543,7 +568,7 @@ Use this checklist when creating a new MDX page in either `angular` or `xplat`.
 - [ ] **Sample**: use `<Sample src="…" height={…} alt="…" />` — no `<code-view>` or backtick macro
 - [ ] **Images**: import with ES `import`, use `<Image>` from `astro:assets`; filenames must be lowercase-extension
 - [ ] **Callouts**: use `<DocsAside type="note|tip|caution|danger">` — no `>[!NOTE]`
-- [ ] **API links**: use `<ApiLink type="…" />` inline — do not add new `<ApiRef>` blocks
+- [ ] **API links**: use `<ApiLink type="…" />` inline for API symbols
 - [ ] **Platform blocks** (xplat only): use `<PlatformBlock for="…">` — no HTML comment guards
 - [ ] **Internal links**: root-relative, no `.mdx` extension, no `.md` extension
 - [ ] **TOC**: add an entry to `toc.json` with `.mdx` extension in `href`

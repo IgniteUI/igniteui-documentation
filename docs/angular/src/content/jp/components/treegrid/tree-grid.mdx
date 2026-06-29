@@ -75,10 +75,6 @@ Ignite UI for Angular Tree Grid モジュールまたはディレクティブを
 
 ## Angular Tree Grid の使用
 
-<DocsAside type="info" title="情報">
-このコンポーネントは、**オプションで** [`HammerModule`](https://angular.io/api/platform-browser/HammerModule) を利用できます。タッチ操作が正しく動作するために、アプリケーションのルート モジュールにインポートできます。
-</DocsAside>
-
 <ApiLink type="TreeGrid" /> は <ApiLink type="Grid" /> と多数の機能を共有しますが、データを階層で表示する機能も追加されています。
 <ApiLink type="TreeGrid" /> は、各データオブジェクトの[子コレクション](#子コレクション)または各データオブジェクトに[プライマリキーまたは外部キー](#プライマリと外部キー)を使用してデータ オブジェクト内の関係を定義できます。
 
@@ -86,8 +82,8 @@ Ignite UI for Angular Tree Grid モジュールまたはディレクティブを
 
 ツリー グリッド階層の構築に使用するオプション (子コレクションまたは主キーまたは外部キー) にかかわらず、ツリー グリッドの行は 2 タイプのセルで構成されます。
 
-- <ApiLink type="GridCell" suffix={false} /> - 値を含む標準セル。
-- <ApiLink type="GridCell" suffix={false} /> - セル行のレベルに基づいた値、インジケーターの展開/縮小、インデント div 要素を含むツリー セル。インナー <ApiLink type="TreeGridRow" suffix={false} member="treeRow" /> の <ApiLink kind="interface" prefixed={false} suffix={false} type="ITreeGridRecord" member="level" /> プロパティでアクセスできる行コンポーネント レベル。
+- <ApiLink type="GridCell" /> - 値を含む標準セル。
+- <ApiLink type="GridCell" /> - セル行のレベルに基づいた値、インジケーターの展開/縮小、インデント div 要素を含むツリー セル。インナー <ApiLink type="TreeGridRow" member="treeRow" /> の <ApiLink kind="interface" type="ITreeGridRecord" member="level" /> プロパティでアクセスできる行コンポーネント レベル。
 
 <DocsAside type="info" title="情報">
 各行にはツリー セルを 1 つのみ含むことができますが、標準セルは複数含むことが可能です。
@@ -296,24 +292,23 @@ Tree Grid は、[`Ignite UI for Angular テーマ ライブラリ`](/themes/sass
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-次に、<ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> を拡張し、必要に応じてツリー グリッドをカスタマイズするために必要なパラメーターを受け取る新しいテーマを作成します。
+次に、カスタム テーマを作成する必要があります。`igx-tree-grid` をスタイル設定するための最も簡単で推奨される方法は、<ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> を使用して、`background`、`foreground`、`accent-color` の 3 つのメイン カラーを指定することです。
 
 <DocsAside type="info" title="情報">
 `sass` 階層グリッド固有の機能はありません。
 </DocsAside>
 
+これらはテーマの中核となるプロパティです。設定すると、すべてのグリッド パーツと内部コンポーネントがそれらの値からカラーを取得し、グリッド全体で一貫した外観になります。ボタン、アイコン、入力、ドロップダウン、チェックボックス、スクロールバー、チップ、その他のヘルパーコンポーネントなどのネストされたコンポーネントも、統一された外観のためにメインの <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> からスタイル トークンを取得します。
+
 ```scss
-$custom-theme: grid-theme(
-  $cell-active-border-color: #ffcd0f,
-  $cell-selected-background: #6f6f6f,
-  $row-hover-background: #f8e495,
-  $row-selected-background: #8d8d8d,
-  $header-background: #494949,
-  $header-text-color: #fff,
-  $expand-icon-color: #ffcd0f,
-  $expand-icon-hover-color: #e0b710,
-  $resize-line-color: #ffcd0f,
-  $row-highlight: #ffcd0f
+$background: #292826;
+$foreground: #eeece1;
+$accent: #ffcd0f;
+
+$custom-grid: grid-theme(
+  $background: $background,
+  $foreground: $foreground,
+  $accent-color: $accent,
 );
 ```
 
@@ -325,7 +320,7 @@ $custom-theme: grid-theme(
 
 ```scss
 :host {
-  @include tokens($custom-theme);
+  @include tokens($custom-grid);
 }
 ```
 
@@ -333,10 +328,11 @@ $custom-theme: grid-theme(
 
 <Sample src="/tree-grid/treegrid-style" height={600} alt="Angular ツリー グリッド スタイル設定のデモ" />
 
+より詳細なカスタマイズが必要な場合は、<ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> に追加のパラメーターがあります。
+
 <DocsAside type="info" title="情報">
 このサンプルは、`Change Theme` (テーマの変更) から選択したグローバル テーマに影響を受けません。
 </DocsAside>
-
 
 ## パフォーマンス (試験中)
 
@@ -378,11 +374,11 @@ platformBrowserDynamic()
 
 
 - <ApiLink type="TreeGrid" />
-- <ApiLink type="GridCell" suffix={false} />
-- <ApiLink type="TreeGridRow" suffix={false} />
+- <ApiLink type="GridCell" />
+- <ApiLink type="TreeGridRow" />
 - <ApiLink type="Grid" />
 - <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent スタイル" />
-- <ApiLink type="BaseTransactionService" suffix={false} />
+- <ApiLink type="BaseTransactionService" />
 
 ## テーマの依存関係
 
