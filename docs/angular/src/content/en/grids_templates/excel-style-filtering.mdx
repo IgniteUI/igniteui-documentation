@@ -507,114 +507,49 @@ To get started with styling the Excel Style Filtering dialog, we need to import 
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-The Excel Style Filtering dialog takes its background color from the grid's theme, using the `filtering-row-background` parameter. Additionally, there are specific Excel Style Filtering parameters available for customizing the text color of elements within the dialog. To change the overall style of the dialog, you need to create a custom theme.
+There are a couple of ways to style the Excel Style Filtering dialog. It can be styled using the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />. The Excel Style Filtering dialog inherits the `$background`, `$foreground`, and `$accent-color` values defined in the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />. It also provides dedicated parameters for customizing the dialog’s text colors.
+
+Alternatively, you can use the dedicated <ApiLink kind="sass" module="themes" type="function-excel-filtering-theme" label="excel-filtering-theme" code={true} />, which allows you to fully style only the Excel Style Filtering dialog.
+
+The simplest approach is to use the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />:
 
 ```scss
+$background: #292826;
+$foreground: #eeece1;
+$accent: #ffcd0f;
+
 $custom-grid: grid-theme(
-  $filtering-row-background: #ffcd0f,
-  $excel-filtering-header-foreground: #292826,
-  $excel-filtering-subheader-foreground: #292826,
-  $excel-filtering-actions-foreground: #006400,
-  $excel-filtering-actions-hover-foreground: #ffcd0f,
-  $excel-filtering-actions-disabled-foreground: #9e9e9e
+  $background: $background,
+  $foreground: $foreground,
+  $accent-color: $accent,
 );
 ```
 
-We obviously have a lot more components inside the excel like filtering dialog, such as buttons, checkboxes, a list and even a drop-down. In order to style them, we need to create a separate theme for each one:
+The background and foreground colors of the Excel Style Filtering dialog are inherited from the grid theme. Additionally, all nested components, such as buttons and checkboxes, inherit the accent color from the grid theme.
 
-```scss
-$custom-button: contained-button-theme(
-  $background: #ffcd0f,
-  $foreground: #292826,
-  $hover-background: #292826,
-  $hover-foreground: #ffcd0f
-);
-
-$flat-custom-button: flat-button-theme(
-  $foreground: #ffcd0f,
-);
-
-$custom-checkbox: checkbox-theme(
-  $empty-color: #292826,
-  $fill-color: #292826,
-  $tick-color: #ffcd0f,
-  $label-color: #292826
-);
-
-$custom-drop-down: drop-down-theme(
-  $background-color: #ffcd0f,
-  $item-text-color: #292826,
-  $hover-item-background: #292826,
-  $hover-item-text-color: #ffcd0f
-);
-
-$custom-input-group: input-group-theme(
-  $box-background: #ffcd0f,
-  $idle-text-color: #292826,
-  $focused-text-color: #292826,
-  $filled-text-color: #292826
-);
-
-$custom-list: list-theme(
-  $background: #ffcd0f
-);
-
-```
-
-<DocsAside type="info">
-Instead of hardcoding the color values like we just did, we can achieve greater flexibility in terms of colors by using the <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> and <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} /> functions. Please refer to [`Palettes`](/themes/sass/palettes) topic for detailed guidance on how to use them.
-</DocsAside>
-
-In this example we only changed some of the parameters for the listed components, but the <ApiLink kind="sass" module="themes" type="function-button-theme" label="button-theme" code={true} />, <ApiLink kind="sass" module="themes" type="function-checkbox-theme" label="checkbox-theme" code={true} />, <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="drop-down-theme" code={true} />, <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="input-group-theme" code={true} />, <ApiLink kind="sass" module="themes" type="function-list-theme" label="list-theme" code={true} /> themes provide way more parameters to control their respective styling.
-
-The last step is to **include** each component’s custom theme. We will also set the color property for the input's placeholder.
+After that, we are ready to include our newly created grid theme. If we want to make additional style changes specific to the Excel Style Filtering dialog, we can target it directly:
 
 ```scss
 :host {
     @include tokens($custom-grid);
-    @include tokens($custom-drop-down);
 
-    .igx-excel-filter, 
-    .igx-excel-filter__secondary {
-        @include tokens($custom-button);
-        @include tokens($custom-checkbox);
-        @include tokens($custom-input-group);
-        @include tokens($custom-list);
-
-        .igx-input-group__input::placeholder {
-            color: #ffcd0f;
-        }
+    igx-grid-excel-style-filtering {
+        --ig-excel-filtering-background: #444;
     }
 }
 ```
-
-<DocsAside type="info">
-We scope most of the components' mixins within `.igx-excel-filter` and `.igx-excel-filter__secondary`, so that these custom themes will affect only components nested in the excel style filtering dialog and all of its sub-dialogs. Otherwise other buttons, checkboxes, input-groups and lists would be affected too.
-</DocsAside>
 
 <DocsAside type="info">
 If the component is using an [`Emulated`](/themes/sass/component-themes#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep`:
 </DocsAside>
 
 ```scss
-:host {
-  ::ng-deep {
+:host ::ng-deep {
     @include tokens($custom-grid);
-    @include tokens($custom-drop-down);
 
-    .igx-excel-filter,
-    .igx-excel-filter__secondary {
-      @include tokens($custom-button);
-      @include tokens($flat-custom-button);
-      @include tokens($custom-checkbox);
-      @include tokens($custom-input-group);
-      @include tokens($custom-list);
-      
-      .igx-input-group__input::placeholder {
-        color: #ffcd0f;
-      }
+    igx-grid-excel-style-filtering {
+        --ig-excel-filtering-background: #444;
     }
-  }
 }
 ```
 
@@ -645,6 +580,7 @@ The sample will not be affected by the selected global theme from `Change Theme`
 - <ApiLink type="Column" />
 - <ApiLink type="{ComponentApiType}" />
 - <ApiLink kind="sass" module="themes" type="function-grid-theme" label="{ComponentName}Component Styles" />
+- <ApiLink kind="sass" module="themes" type="function-excel-filtering-theme" label="Excel Filtering Theme"/>
 ## Additional Resources
 
 

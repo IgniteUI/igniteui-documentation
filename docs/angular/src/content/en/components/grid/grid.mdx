@@ -65,10 +65,6 @@ Boston Marathon 2021 – In this angular grid example, you can see how users can
 
 ## Getting Started with Ignite UI for Angular Data Grid
 
-<DocsAside type="info">
-**This component can utilize the [`HammerModule`](https://angular.io/api/platform-browser/HammerModule) **optionally**. It can be imported in the root module of the application in order for touch interactions to work as expected.**.
-</DocsAside>
-
 To get started with the Ignite UI for Angular Data Grid component, first you need to install Ignite UI for Angular. In an existing Angular application, type the following command:
 
 ```cmd
@@ -824,14 +820,68 @@ Enabling it can affects other parts of an Angular application that the `IgxGridC
 `igxGrid` uses `igxForOf` directive internally hence all `igxForOf` limitations are valid for `igxGrid`. For more details see [igxForOf Known Issues](/for-of#known-limitations) section.
 </DocsAside>
 
+## Theming
 
-## API References
-- <ApiLink type="Grid" />
-- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent Styles" />
-- <ApiLink type="Column" />
-- <ApiLink type="GridRow" />
-- <ApiLink type="GridCell" />
-## Theming Dependencies
+The easiest and recommended way to style the `igxGrid` is to use the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> and provide just the three main colors: `background`, `foreground`, and `accent-color`.
+
+These are the core theme properties. When you set them, all grid parts and internal components derive their colors from those values, resulting in a consistent appearance throughout the entire grid. Nested components such as buttons, icons, inputs, dropdowns, checkboxes, scrollbars, chips, and other helper components also derive their styling tokens from the main <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> for a unified look.
+
+```scss
+$custom-grid: grid-theme(
+  $background: #292826,
+  $foreground: #eeece1,
+  $accent-color: #ffcd0f,
+);
+
+igx-grid {
+  @include tokens($custom-grid);
+}
+```
+
+There are also additional parameters in the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> that you can use if you want more specific customizations.
+
+### Additional Themes
+
+If you want more control over nested components, the grid also provides additional themes. Use them when you want a specific nested component to have a different style from the rest of the grid theme.
+
+Available standalone themes include:
+
+- <ApiLink kind="sass" module="themes" type="function-excel-filtering-theme" label="excel-filtering-theme" code={true} /> for the Excel-style filtering component
+- <ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="grid-toolbar-theme" code={true} /> for the grid toolbar component
+- <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> for the paginator component
+- <ApiLink kind="sass" module="themes" type="function-column-actions-theme" label="column-actions-theme" code={true} /> for the column actions component
+- <ApiLink kind="sass" module="themes" type="function-query-builder-theme" label="query-builder-theme" code={true} /> for the advanced filtering dialog
+
+```scss
+$excel-filtering-theme: excel-filtering-theme(
+  $background: #3c6eda,
+  $foreground: #f5f5f5,
+  $accent-color: #8e11fb
+);
+
+$query-builder-theme: query-builder-theme(
+  $background: #f59906,
+  $foreground: #050505,
+  $accent-color: #443209
+);
+
+igx-grid-excel-style-filtering,
+.igx-excel-filter__secondary {
+  @include tokens($excel-filtering-theme);
+}
+
+igx-advanced-filtering-dialog {
+  @include tokens($query-builder-theme);
+}
+```
+
+By providing only the three main colors, all parts of the component are styled consistently. These themes also expose additional parameters if you need more detailed customization.
+
+### Nested Component Themes
+
+If you want to target only smaller nested components within the grid, such as buttons, icons, inputs, or chips, you can apply their standalone themes directly. Make sure your selector scope is specific enough so the provided theme affects only the intended element.
+
+Some of the component themes are:
 
 - <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon Theme" />
 - <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="IgxInputGroup Theme" />
@@ -843,6 +893,14 @@ Enabling it can affects other parts of an Angular application that the `IgxGridC
 - <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="IgxCalendar Theme" />
 - <ApiLink kind="sass" module="themes" type="function-snackbar-theme" label="IgxSnackBar Theme" />
 - <ApiLink kind="sass" module="themes" type="function-badge-theme" label="IgxBadge Theme" />
+
+## API References
+
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent Styles" />
+- <ApiLink type="Column" />
+- <ApiLink type="GridRow" />
+- <ApiLink type="GridCell" />
 
 ## Tutorial video
 
