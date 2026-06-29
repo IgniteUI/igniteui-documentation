@@ -197,7 +197,8 @@ async function generateLlmsMdFiles({ outDir, slugs, docsDir, siteUrl, llmsSets }
     // Selector guard: if we built more than a handful of pages but extracted zero
     // fenced code blocks, the Shiki class names likely changed and extraction is
     // silently broken — fail loud rather than ship codeless docs.
-    // Count opening fence lines only (those followed by a language identifier or newline).
+    // Counts all Markdown fence lines (opening and closing), then divides by 2
+    // to approximate the number of fenced code blocks.
     const totalBlocks = mdFiles.reduce((n, md) => n + (md.match(/^`{3,}[^`\n]*$/gm) ?? []).length, 0) / 2;
     if (slugs.length > 5 && totalBlocks === 0) {
         console.error('[docs-template] Selector guard: 0 code blocks across all pages. Check that pre.astro-code and data-language still match the built HTML.');
