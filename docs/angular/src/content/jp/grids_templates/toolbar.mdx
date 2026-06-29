@@ -523,49 +523,16 @@ configureExport(args: IGridToolbarExportEventArgs) {
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-まず、新しいパレットを作成します。
+まず、<ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="grid-toolbar-theme" code={true} /> を拡張する新しいテーマを作成します。
 
 ```scss
-$my-dark-palette: palette(
-  $primary: #2466ff,
-  $secondary: #ffcd0f,
-  $surface: #2a2b2f,
-  $grays: #fff,
-);
+$accent: #ffcd0f;
 
-$my-dark-color: color($my-dark-palette, 'surface');
-```
-
-<ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="grid-toolbar-theme" code={true} /> を拡張する新しいテーマを作成し、`$background-color` と `$title-text-color` パラメーターを変更します。
-
-```scss
-$dark-grid-toolbar-theme: grid-toolbar-theme(
-  $background-color: $my-dark-color,
-  $title-text-color: color($my-dark-palette, 'secondary'),
-  $dropdown-background: $my-dark-color,
-);
-```
-
-ツールバーの列操作メニューにテーマを設定するには、<ApiLink kind="sass" module="themes" type="function-column-actions-theme" label="column-actions-theme" code={true} /> コンポーネントのテーマを変更する必要があります。
-
-```scss
-$dark-column-actions-theme: column-actions-theme(
-  $title-color: color($my-dark-palette, 'secondary'),
-  $background-color: color($my-dark-palette, 'surface')
-);
-```
-
-列操作は他のコンポーネント (`igx-button`、`igx-checkbox`) を使用しているため、新しいツールバー テーマに一致するようにテーマを変更する必要があります。
-
-```scss
-$dark-button-theme: button-theme(
-  $outlined-background: color($my-dark-palette, 'secondary'),
-  $outlined-hover-background: color($my-dark-palette, 'grays', 100),
-  $outlined-hover-text-color: color($my-dark-palette, 'secondary')
-);
-
-$dark-checkbox-theme: checkbox-theme(
-  $tick-color: $my-dark-color,
+$grid-toolbar-theme: grid-toolbar-theme(
+  $background: #170237,
+  $border-color: $accent,
+  $title-text-color: #f6d8d8,
+  $item-hover-background: rgb(246 216 216 / 0.3),
 );
 ```
 
@@ -573,10 +540,9 @@ $dark-checkbox-theme: checkbox-theme(
 
 ```scss
 :host {
-    @include tokens($dark-grid-toolbar-theme);
-    @include tokens($dark-column-actions-theme);
-    @include tokens($dark-checkbox-theme);
-    @include tokens($dark-button-theme);
+  igx-grid-toolbar {
+    @include tokens($grid-toolbar-theme);
+  }
 }
 ```
 
@@ -585,13 +551,9 @@ $dark-checkbox-theme: checkbox-theme(
 </DocsAside>
 
 ```scss
-@include tokens($dark-grid-toolbar-theme);
-
-:host {
-  ::ng-deep {
-    @include tokens($dark-column-actions-theme);
-    @include tokens($dark-checkbox-theme);
-    @include tokens($dark-button-theme);
+:host ::ng-deep {
+  igx-grid-toolbar {
+    @include tokens($grid-toolbar-theme);
   }
 }
 ```
