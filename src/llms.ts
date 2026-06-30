@@ -1,17 +1,31 @@
 /**
- * llms.ts
+ * llms.ts  —  llms.txt manifest generation and metadata extraction
  *
- * All logic for generating llms.txt content:
- *   – LlmsMeta / LlmsSet types
- *   – Frontmatter extraction via gray-matter
- *   – Sidebar slug collection
- *   – Label disambiguation for AI readability
- *   – buildLlmsTxt() – the single function integration.ts calls
+ * Generates the llms.txt manifest that indexes every documentation page with
+ * its LLM-friendly .md URL, description, and keyword tags.
+ *
+ * Architecture note — two-phase LLM pipeline:
+ *   1. **Metadata phase** (this module): reads source MDX/MD frontmatter to
+ *      extract structured fields (`llms.description`, `llms.keywords`, etc.)
+ *      that are not present in the rendered HTML.  This metadata populates the
+ *      llms.txt manifest with per-page descriptions and tags.
+ *   2. **Content phase** (html-to-md.ts): converts rendered HTML pages to
+ *      clean Markdown for the actual `.md` files served to LLMs.
+ *
+ * Public API:
+ *   – LlmsMeta / LlmsSet — types
+ *   – extractLlmsMeta()  — parse frontmatter into LlmsMeta
+ *   – buildLlmsMetaMap()  — build slug → LlmsMeta map from source docs
+ *   – buildLlmsTxt()      — generate the complete llms.txt content string
+ *   – toUrlSlug()         — derive a URL-safe slug from a label
+ *   – getBroadSectionsForPlatform() — navigation bucket labels per platform
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
+import type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
+import type { NavLang } from './platform.ts';
 
 // ---------------------------------------------------------------------------
 // Public types
@@ -35,16 +49,14 @@ export interface LlmsSet {
     description?: string;
 }
 
+// Re-export sidebar types so integration.ts doesn't need a second import path.
+export type { SidebarEntry } from './lib/sidebar/types';
+
 // ---------------------------------------------------------------------------
 // Internal types
 // ---------------------------------------------------------------------------
 
-export interface SidebarItem {
-    label?: string;
-    slug?: string;
-    items?: SidebarItem[];
-}
-
+/** Shape of the YAML frontmatter fields we care about in source MDX/MD files. */
 interface FrontmatterData {
     title?: string;
     description?: string;
@@ -85,27 +97,39 @@ export function extractLlmsMeta(raw: string): LlmsMeta {
 // Sidebar slug collection
 // ---------------------------------------------------------------------------
 
-export function collectSlugs(items: SidebarItem[]): string[] {
-    return items.flatMap(item => [
-        ...(typeof item.slug === 'string' ? [item.slug] : []),
-        ...(Array.isArray(item.items) ? collectSlugs(item.items) : []),
-    ]);
+/** Recursively collect all page slugs from a sidebar tree. */
+export function collectSlugs(items: SidebarEntry[]): string[] {
+    return items.flatMap(item =>
+        'slug' in item
+            ? [item.slug]
+            : collectSlugs(item.items),
+    );
 }
 
 // ---------------------------------------------------------------------------
 // Build a slug → LlmsMeta map by reading source files
 // ---------------------------------------------------------------------------
 
-export function buildLlmsMetaMap(docsDir: string, items: SidebarItem[]): Map<string, LlmsMeta> {
+/**
+ * Reads source MDX/MD files on disk to extract frontmatter metadata.
+ *
+ * This is the only place in the LLM pipeline that reads source files —
+ * it must happen before the build because the rendered HTML does not expose
+ * LLM-specific frontmatter fields like `llms.description` or `llms.keywords`.
+ */
+export function buildLlmsMetaMap(docsDir: string, items: SidebarEntry[]): Map<string, LlmsMeta> {
     const map = new Map<string, LlmsMeta>();
     for (const slug of collectSlugs(items)) {
-        for (const ext of ['.md', '.mdx']) {
+        const candidates = slug
+            ? [`${slug}.md`, `${slug}.mdx`, path.join(slug, 'index.md'), path.join(slug, 'index.mdx')]
+            : ['index.md', 'index.mdx'];
+        for (const candidate of candidates) {
             try {
-                const raw = fs.readFileSync(path.join(docsDir, slug + ext), 'utf-8');
+                const raw = fs.readFileSync(path.join(docsDir, candidate), 'utf-8');
                 const meta = extractLlmsMeta(raw);
                 if (meta.description || meta.keywords?.length) map.set(slug, meta);
                 break;
-            } catch { /* try next ext */ }
+            } catch { /* try next candidate */ }
         }
     }
     return map;
@@ -129,6 +153,7 @@ export function toUrlSlug(label: string): string {
  * These labels are treated as organisational groupings, never as label prefixes.
  */
 export const IGDOCS_BROAD_SECTIONS = [
+    // English
     'AI-Assisted Development',
     'General',
     'Interactivity',
@@ -146,6 +171,26 @@ export const IGDOCS_BROAD_SECTIONS = [
     'Scheduling',
     'Styling & Themes',
     'Deprecated Components',
+    // Japanese equivalents — header nodes in JP toc.json that are visual
+    // navigation dividers, not meaningful label prefixes.
+    'AI 支援開発',
+    '概要',
+    'インタラクティビティ',
+    'グリッドとリスト',
+    'グリッド & リスト',
+    'ダッシュボード',
+    'チャート',
+    'マップ',
+    'フレームワーク',
+    'ゲージ',
+    'スタイルとテーマ',
+    'スタイル設定およびとテーマ',
+    'データ入力と表示',
+    'インタラクション',
+    'メニュー',
+    'レイアウト',
+    '通知',
+    'スケジュール',
 ] as const;
 
 /** Platforms that use the Ignite UI doc broad sections. */
@@ -178,7 +223,11 @@ const GENERIC_WORDS = new Set([
 ]);
 
 function isGeneric(label: string): boolean {
-    return GENERIC_WORDS.has(label) || [...GENERIC_WORDS].some(w => label.startsWith(w + ' '));
+    if (GENERIC_WORDS.has(label)) return true;
+    // Labels with 5+ words already carry enough specificity on their own.
+    // e.g. "Getting Started with Ignite UI for Angular Schematics" should not inherit a parent prefix.
+    if (label.split(/\s+/).length > 4) return false;
+    return [...GENERIC_WORDS].some(w => label.startsWith(w + ' '));
 }
 
 /** Strips a leading `"<prefix> "` from label if present, avoiding "Editing Editing Overview". */
@@ -225,6 +274,12 @@ function buildLabel(label: string, ancestorPath: string[], broadSections: Readon
         return `${component} ${subsection} ${deduped}`;
     }
 
+    // Avoid "Data Grid Grid with Cascading Combos" when the label already starts
+    // with the last word of the component name.
+    const componentLastWord = component.split(/\s+/).pop() ?? '';
+    if (componentLastWord && label.toLowerCase().startsWith(componentLastWord.toLowerCase() + ' ')) {
+        return label;
+    }
     return `${component} ${label}`;
 }
 
@@ -232,33 +287,41 @@ function buildLabel(label: string, ancestorPath: string[], broadSections: Readon
 // Sidebar walk + llms.txt line generation
 // ---------------------------------------------------------------------------
 
+/**
+ * Recursively walks the sidebar tree and appends llms.txt manifest lines.
+ *
+ * Leaf pages (SidebarLink) become `- [label](url.md): description` entries.
+ * Groups (SidebarGroup) become section headings up to 3 levels deep.
+ */
 function walkLlmsItems(
-    items: SidebarItem[],
+    items: SidebarEntry[],
     base: string,
     lines: string[],
-    meta: Record<string, LlmsMeta>,
+    meta: Map<string, LlmsMeta>,
     seen: Set<string>,
     ancestorPath: string[] = [],
     depth = 0,
     broadSections: ReadonlySet<string> = new Set(),
 ): void {
-    const groups: SidebarItem[] = [];
+    const groups: SidebarGroup[] = [];
 
     for (const item of items) {
-        if (item.slug !== undefined) {
+        if ('slug' in item) {
+            // Leaf page — emit a manifest line with optional description and tags.
             const slug = item.slug === '' ? 'index' : item.slug;
             if (seen.has(slug)) continue;
             seen.add(slug);
 
-            const label = buildLabel(item.label ?? slug, ancestorPath, broadSections);
-            const m = meta[slug];
+            const label = buildLabel(item.label, ancestorPath, broadSections);
+            const m = meta.get(slug);
             let line = `- [${label}](${base}/${slug}.md)`;
             if (m?.description) line += `: ${m.description}`;
             lines.push(line);
             if (m?.keywords?.length) lines.push(`  Tags: ${m.keywords.join(', ')}`);
-            continue;
+        } else if (item.items.length > 0) {
+            // Group — collect for heading emission after all leaf pages.
+            groups.push(item);
         }
-        if (Array.isArray(item.items) && item.items.length > 0) groups.push(item);
     }
 
     for (const group of groups) {
@@ -267,12 +330,12 @@ function walkLlmsItems(
             lines.push('', `${'#'.repeat(headingLevel)} ${group.label}`, '');
         }
         walkLlmsItems(
-            group.items!,
+            group.items,
             base,
             lines,
             meta,
             seen,
-            [...ancestorPath, group.label ?? ''],
+            [...ancestorPath, group.label],
             depth + 1,
             broadSections,
         );
@@ -283,26 +346,82 @@ function walkLlmsItems(
 // Public builder
 // ---------------------------------------------------------------------------
 
+interface LlmsTxtStrings {
+    docsSection: string;
+    abridged: string;
+    abridgedDesc: string;
+    combined: string;
+    combinedDesc: string;
+    apiRef: string;
+    apiRefDesc: string;
+}
+
+const LLMS_TXT_STRINGS: Record<NavLang, LlmsTxtStrings> = {
+    en: {
+        docsSection:  'Documentation sets',
+        abridged:     'Abridged documentation',
+        abridgedDesc: 'a compact version of the documentation, with non-essential content removed',
+        combined:     'Combined docs',
+        combinedDesc: 'Single-file Markdown export of all docs.',
+        apiRef:       'API Reference',
+        apiRefDesc:   'Full TypeDoc/docfx API reference for all packages — classes, interfaces, enums, and members',
+    },
+    jp: {
+        docsSection:  'ドキュメント セット',
+        abridged:     '要約ドキュメント',
+        abridgedDesc: '非必須コンテンツを除いたコンパクトなドキュメントです。',
+        combined:     '統合ドキュメント',
+        combinedDesc: '全ドキュメントを 1 つのファイルにまとめた Markdown エクスポートです。',
+        apiRef:       'API リファレンス',
+        apiRefDesc:   '全パッケージの TypeDoc/docfx API リファレンスです。クラス、インターフェイス、列挙型、メンバーを含みます。',
+    },
+    kr: {
+        docsSection:  '문서 세트',
+        abridged:     '요약 문서',
+        abridgedDesc: '필수적이지 않은 콘텐츠를 제거한 간결한 문서입니다.',
+        combined:     '통합 문서',
+        combinedDesc: '모든 문서를 하나의 파일로 합친 Markdown 내보내기입니다.',
+        apiRef:       'API 참조',
+        apiRefDesc:   '모든 패키지의 TypeDoc/docfx API 참조입니다. 클래스, 인터페이스, 열거형 및 멤버를 포함합니다.',
+    },
+};
+
+/** Generate the complete llms.txt manifest content. */
 export function buildLlmsTxt(
     base: string,
     siteTitle: string,
     siteDescription: string,
-    sidebarItems: SidebarItem[],
+    sidebarItems: SidebarEntry[],
     metaMap: Map<string, LlmsMeta>,
     llmsSets: LlmsSet[] = [],
     broadSections: ReadonlySet<string> = new Set(),
+    navLang: NavLang = 'en',
+    /** Optional localized description that replaces `siteDescription` in the
+     *  manifest blockquote.  Pass a JP/KR translation from the site config;
+     *  when omitted the (often English-only) `siteDescription` is used as-is. */
+    localizedDescription?: string,
+    /** URL of the corresponding api-docs llms.txt (e.g. https://…/api/angular/llms.txt).
+     *  When provided, an "API Reference" link is added to the Documentation sets section
+     *  so LLMs can discover the full TypeDoc/docfx reference from this manifest. */
+    apiDocsUrl?: string,
 ): string {
+    const s = LLMS_TXT_STRINGS[navLang];
     const lines: string[] = [
         `# ${siteTitle}`,
         '',
-        `> ${siteDescription}`,
+        `> ${localizedDescription ?? siteDescription}`,
         '',
-        '## Documentation sets',
+        `## ${s.docsSection}`,
         '',
-        `- [Abridged documentation](${base}/llms-small.txt): a compact version of the documentation, with non-essential content removed`,
-        `- [Combined docs](${base}/llms-full.txt): Single-file Markdown export of all docs.`,
-        ``
+        `- [${s.abridged}](${base}/llms-small.txt): ${s.abridgedDesc}`,
+        `- [${s.combined}](${base}/llms-full.txt): ${s.combinedDesc}`,
     ];
+
+    if (apiDocsUrl) {
+        lines.push(`- [${s.apiRef}](${apiDocsUrl}): ${s.apiRefDesc}`);
+    }
+
+    lines.push('');
 
     for (const set of llmsSets) {
         const slug = toUrlSlug(set.label);
@@ -310,6 +429,6 @@ export function buildLlmsTxt(
         lines.push(set.description ? `${link}: ${set.description}` : link);
     }
 
-    walkLlmsItems(sidebarItems, base, lines, Object.fromEntries(metaMap), new Set(), [], 0, broadSections);
+    walkLlmsItems(sidebarItems, base, lines, metaMap, new Set(), [], 0, broadSections);
     return lines.join('\n');
 }

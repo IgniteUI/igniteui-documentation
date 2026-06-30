@@ -2,17 +2,18 @@
  ### 1. [Repository overview](#repository-overview)
  ### 2. [Writing an article](#writing-an-article)
  ### 3. [Topic structure](#topic-structure)
- ### 4. [Writing a Styling section for article](#styling-section)
- ### 5. [Workflow](#workflow)
- ### 6. [Environment variables and template tokens](#environment-variables)
- ### 7. [Sample / Code View Configuration](#code-view-configuration)
- ### 8. [PlatformBlock usage](#platform-block)
- ### 9. [ApiLink usage](#api-link)
- ### 10. [Checking MDX API Links](#checking-api-links)
- ### 11. [ApiLink registry workflow](#api-link-registry-workflow)
- ### 12. [Creating shared help topics](#creating-shared-help-topics)
- ### 13. [Updating of Data Visualization related topics](#updating-of-data-visualization-related-topics)
- ### 14. [Adding of images](#adding-of-images-in-the-topic)
+ ### 4. [LLM metadata](#llm-metadata)
+ ### 5. [Writing a Styling section for article](#styling-section)
+ ### 6. [Workflow](#workflow)
+ ### 7. [Environment variables and template tokens](#environment-variables)
+ ### 8. [Sample / Code View Configuration](#code-view-configuration)
+ ### 9. [PlatformBlock usage](#platform-block)
+ ### 10. [ApiLink usage](#api-link)
+ ### 11. [Checking MDX API Links](#checking-api-links)
+ ### 12. [ApiLink registry workflow](#api-link-registry-workflow)
+ ### 13. [Creating shared help topics](#creating-shared-help-topics)
+ ### 14. [Updating of Data Visualization related topics](#updating-of-data-visualization-related-topics)
+ ### 15. [Adding of images](#adding-of-images-in-the-topic)
 
 # <a name='#repository-overview'>Repository overview</a>
 
@@ -99,6 +100,35 @@ The purpose of this section is to present what the structure of the topic should
 Minor titles related to the main titles can be used with `<h3>`(`###`) or `<h4>` (`####`).
 Note: when `<h4>` (`####`) is used the title won't appear on the submenu on the right.
 
+# <a name='#llm-metadata'>LLM metadata</a>
+
+Every English and Japanese topic frontmatter block must include an `llms.description`. The build uses this value for the page entry in `llms.txt`, where a model must decide which page to open without reading the full topic.
+
+```yaml
+description: Learn how to configure sorting in the Angular Grid.
+keywords: angular grid, sorting, multi-column sorting
+llms:
+  description: Configure single- and multi-column Grid sorting, sorting expressions, custom strategies, and runtime sort state in Ignite UI for Angular.
+```
+
+Keep `description` and `keywords` focused on reader-facing SEO. Write `llms.description` as a compact content summary that names the component or feature and the concrete tasks, concepts, or APIs covered by the page.
+
+- Use one meaningful sentence, between 40 and 300 characters for English or 20 and 300 characters for Japanese.
+- Describe the page's distinguishing content. Do not merely restate its title.
+- Prefer specific capabilities such as configuration, events, methods, data operations, styling, or troubleshooting.
+- Do not use calls to action such as "Try it now" or "Check out examples and demos".
+- Do not include HTML, Markdown links, or generic openings such as "This topic" and "In this example".
+- Shared xplat descriptions may use build tokens such as `{Platform}`, `{ProductName}`, and `{ComponentTitle}`.
+- When a file contains multiple conditional frontmatter blocks, add the metadata to every block.
+
+Run the read-only metadata validator before opening a pull request:
+
+```bash
+npm run check:llms-metadata
+```
+
+The validator checks English and Japanese author-owned sources for missing or empty values, length, mojibake, language mismatch, marketing boilerplate, markup, and common malformed text. It does not generate descriptions or replace editorial review for semantic accuracy.
+
 # <a name='#styling-section'>Writing a Styling section for article</a>
 
 The main purpose of the Styling section is to provide simple examples on how to style most common parts of the UI (let's say styling for alternate rows in the grid), copy/paste the code in any sample and see it working. In order to write content that fulfills the purpose, follow the steps below:
@@ -169,6 +199,7 @@ Example status workflows:
 4. Code views are working as well
 5. Each hyperlink is working properly.
 6. Table of content is correct.
+7. `npm run check:llms-metadata` passes and the `llms.description` accurately distinguishes the topic.
 
 > Note: Testing a PR from Angular Samples (when new sample is added) with combination of PR related to topic update (or when new topic is added).
 Open both repositories and perform `npm start`. This will start both projects and you will see the embed sample in your topic under `localhost`.
