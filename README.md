@@ -84,6 +84,16 @@ These scripts also check for ambiguous `ApiLink` references. If a symbol exists 
 
 Fix ambiguous links by adding a specific `pkg` or `kind` prop. If the correct target differs by platform, wrap platform-specific links in `PlatformBlock`.
 
+## Checking LLM Metadata
+
+English and Japanese topics use `llms.description` to provide concise page summaries in the generated `llms.txt` indexes. Validate all author-owned source topics with:
+
+```bash
+npm run check:llms-metadata
+```
+
+The check is read-only and reports the source file and line for missing or malformed metadata. See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md#llm-metadata) for the writing rules and [migration.md](migration.md#4-frontmatter) for migration guidance.
+
 ## Content Locations
 
 - Angular content lives under `docs/angular/src/content/<locale>/`.

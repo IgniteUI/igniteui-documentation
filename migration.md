@@ -88,6 +88,7 @@ Rename every file from `.md` to `.mdx`. The content stays mostly the same — MD
 | Description | `_description:` | `description:` |
 | Keywords | `_keywords:` | `keywords:` |
 | License | `_license:` | `license:` |
+| LLM summary | none or existing value | `llms.description:` |
 | Language | `_language: ja` | `_language: ja` *(unchanged)* |
 | Schema / `last_updated` | kept as-is | kept as-is |
 | `mentionedTypes` | kept as-is | kept as-is |
@@ -111,7 +112,17 @@ title: Angular Card Component
 description: With Angular Card…
 keywords: Angular Card component, …
 license: MIT
+llms:
+  description: Configure the Angular Card layout, media, actions, styling, and accessibility for application content.
 ---
+```
+
+`llms.description` is required for every English and Japanese topic. It supplies the page summary in `llms.txt`, so write a specific one-sentence account of the component or feature and the tasks covered. Do not copy marketing calls to action from `description`. For shared xplat topics, build tokens such as `{Platform}` and `{ComponentTitle}` are allowed.
+
+Validate migrated metadata with the read-only check:
+
+```bash
+npm run check:llms-metadata
 ```
 
 ---
@@ -564,6 +575,7 @@ Use this checklist when creating a new MDX page in either `angular` or `xplat`.
 
 - [ ] **File**: create `<name>.mdx` (not `.md`) in the correct `src/content/<lang>/components/` subfolder
 - [ ] **Frontmatter**: use `description:`, `keywords:`, `license:` (no leading underscore)
+- [ ] **LLM metadata**: add a specific `llms.description` to every English and Japanese frontmatter block
 - [ ] **Imports**: add all component imports immediately after the frontmatter closing `---`
 - [ ] **Sample**: use `<Sample src="…" height={…} alt="…" />` — no `<code-view>` or backtick macro
 - [ ] **Images**: import with ES `import`, use `<Image>` from `astro:assets`; filenames must be lowercase-extension
@@ -573,3 +585,4 @@ Use this checklist when creating a new MDX page in either `angular` or `xplat`.
 - [ ] **Internal links**: root-relative, no `.mdx` extension, no `.md` extension
 - [ ] **TOC**: add an entry to `toc.json` with `.mdx` extension in `href`
 - [ ] **`mentionedTypes`** (xplat): list at least one component class name in frontmatter
+- [ ] **Validation**: run `npm run check:llms-metadata`
