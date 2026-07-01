@@ -5,6 +5,8 @@ title: Angular Grid Paging | Angular Pagination Table | Infragistics
 description: Configure Angular pagination and create custom pages in the Angular table by Ignite UI, get data for the requested pages with variety of angular events.
 keywords: angular pagination, igniteui for angular, infragistics
 license: commercial
+llms:
+  description: "Pagination is used to split a large set of data into a sequence of pages that have similar content."
 ---
 
 </ComponentBlock>
@@ -16,6 +18,8 @@ description: Configure Angular pagination and create custom pages in the Angular
 keywords: angular pagination, igniteui for angular, infragistics
 license: commercial
 _canonicalLink: grid/paging
+llms:
+  description: "Pagination is used to split a large set of data into a sequence of pages that have similar content."
 ---
 
 </ComponentBlock>
@@ -200,62 +204,22 @@ To get started with styling the paginator, we need to import the `index` file, w
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-Following the simplest approach, we create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> and accepts the `$text-color`, `$background-color` and the `$border-color` parameters.
+Following the simplest approach, we create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> and accepts the `$foreground`, `$background`, `$border-color` and `$accent-color` parameters.
 
 ```scss
-$dark-paginator: paginator-theme(
-  $text-color: #d0ab23;,
-  $background-color: #231c2c,
-  $border-color: #d0ab23;
+$paginator-theme: paginator-theme(
+  $foreground: #ff570f,
+  $background: #130425FF,
+  $border-color: #ff570f,
+  $accent-color: #ff570f,
 );
 ```
 
-As seen, the `paginator-theme` only controls colors for the paging container, but does not affect the buttons in the pager UI. To style those buttons, let's create a new icon button theme:
+After that we can **include** the newly created theme.
 
 ```scss
-$dark-button: flat-icon-button-theme(
-  $foreground: #d0ab23,
-  $hover-foreground: #231c2c,
-  $hover-background: #d0ab23,
-  $focus-foreground: #231c2c,
-  $focus-background: #d0ab23,
-  $disabled-foreground: #9b7829
-);
-```
-
-<DocsAside type="info">
-Instead of hardcoding the color values like we just did, we can achieve greater flexibility in terms of colors by using the <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> and <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} /> functions. Please refer to [`Palettes`](/themes/sass/palettes) topic for detailed guidance on how to use them.
-</DocsAside>
-
-The last step is to **include** the component mixins, each with its respective theme:
-
-```scss
-:host {
-    @include tokens($dark-paginator);
-
-    .igx-grid-paginator__pager {
-        @include tokens($dark-button);
-    }
-}
-```
-
-<DocsAside type="info">
-We include the created **icon-button-theme** within `.igx-paginator__pager`, so that only the paginator buttons would be styled. Otherwise other icon buttons in the grid would be affected too.
-</DocsAside>
-
-<DocsAside type="info">
-If the component is using an [`Emulated`](/themes/sass/component-themes#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep` in order to style the components which are inside the paging container, like the button:
-</DocsAside>
-
-```scss
-:host {
-  @include tokens($dark-paginator);
-
-  igx-paginator {
-    ::ng-deep {
-      @include tokens($dark-button);
-    }
-  }
+igx-paginator {
+  @include tokens($paginator-theme);
 }
 ```
 

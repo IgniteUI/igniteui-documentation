@@ -2,6 +2,8 @@
 title: Update Guide | Ignite UI for Angular | Infragistics
 description: Check out this article on updating how to update to a newer version of the Ignite UI for Angular library.
 keywords: ignite ui for angular, update, npm package, material components
+llms:
+  description: "In the Ignite UI for Angular versioning the first number always matches the major version of Angular the code supports and the second is dedicated for major version releases."
 ---
 
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
@@ -60,6 +62,24 @@ If the `ng update` command fails because of package dependency mismatches, then 
 Unfortunately not all changes can be automatically updated. Changes below are split into sections as they occur in the versions, so if any updates are required you should start from your current version and apply further updates from bottom to top.
 
 For example: if you are updating from version 6.2.4 to 7.1.0 you'd start from the "From 6.x .." section apply those changes and work your way up:
+
+## From 21.1.x to 22.0.x
+
+Angular no longer ships the `HammerModule` for touch gestures. To keep touch interactions (pan, swipe, tap) working in Ignite UI for Angular components, load HammerJS as a global script via the `scripts` array in your `angular.json`:
+
+```json
+"architect": {
+  "build": {
+    "options": {
+      "scripts": [
+        "node_modules/hammerjs/hammer.min.js"
+      ]
+    }
+  }
+}
+```
+
+Once loaded globally, Ignite UI for Angular automatically detects `window.Hammer` and uses it to handle touch gestures — no additional imports or module registrations are required.
 
 ## From 21.0.x to 21.1.x
 
@@ -311,9 +331,9 @@ To enable paging in the grid, initialize the `IgxPaginatorComponent` in the grid
 
 ```html
 <igx-grid ...>
-    <igx-paginator #paginator [totalRecords]="totalRecords" [perPage]="25" (pageChange)="pageChange($event) (perPageChange)="perPageChange($event)">
+    <igx-paginator #paginator [totalRecords]="totalRecords" [perPage]="25" (pageChange)="pageChange($event)" (perPageChange)="perPageChange($event)">
     </igx-paginator>
-<igx-grid>
+</igx-grid>
 ```
 
 ```typescript
@@ -603,7 +623,7 @@ Here's how that will affect existing code:
 
     ```html
     <igx-grid-toolbar>
-        <span igxGridToolbarTitle>Title</span >
+        <span igxGridToolbarTitle>Title</span>
         <div igxGridToolbarActions>
             ...
         
@@ -1210,8 +1230,7 @@ The <ApiLink type="Tabs" label="**IgxTabsComponent**" /> was completely refactor
             </igx-tab-header>
             <igx-tab-content>
                 <h1>Tab 1 Content</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             </igx-tab-content>
         </igx-tab-item>
     ...
@@ -1342,8 +1361,7 @@ grid.getRowByIndex(0).expanded = false;
 
 ## From 8.x.x to 9.0.x
 
-Due to a breaking change in Angular 9 Hammer providers are no longer implicitly added
-[please, refer to the following document for details:](https://github.com/angular/angular/blob/master/CHANGELOG.md#breaking-changes-9 ) Because of this the following components require `HammerModule` to be imported in the root module of the application in order for **touch** interactions to work as expected:
+Due to a breaking change in Angular 9, Hammer providers are no longer implicitly added. Because of this the following components require `HammerModule` to be imported in the root module of the application in order for **touch** interactions to work as expected:
 
 - igxGrid
 - igxHierarchicalGrid

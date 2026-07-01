@@ -4,6 +4,8 @@ description: Use Infragistics' {Platform} to display imagery from Microsoft Azur
 keywords: "{Platform} map, azure maps, {ProductName}, Infragistics, imagery tile source, map background"
 license: commercial
 mentionedTypes: ["GeographicMap", "AzureMapsImagery", "GeographicTileSeries"]
+llms:
+  description: "The {Platform} AzureMapsImagery is geographic imagery mapping service provided by Microsoft®."
 ---
 
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
@@ -184,7 +186,7 @@ export class AppComponent implements AfterViewInit {
 
 <PlatformBlock for="React">
 
-```ts
+```tsx
 // App.tsx
 import React, { useEffect, useRef } from 'react';
 import {
@@ -199,23 +201,25 @@ export default function App() {
     const tileSeriesRef = useRef<IgrGeographicTileSeries>(null);
     const azureKey = "<YOUR_KEY_HERE>";
 
-    // Update TileSeries
-    const series = new IgrGeographicTileSeries({
-    name: "AzureTileSeries",
-    });
+    useEffect(() => {
+        // Update TileSeries
+        const overlay = new IgrAzureMapsImagery({});
+        overlay.apiKey = azureKey;
+        overlay.imageryStyle = AzureMapsImageryStyle.TrafficAbsoluteOverlay;
 
-    const overlay = new IgrAzureMapsImagery({});
-    overlay.apiKey = azureKey;
-    overlay.imageryStyle = AzureMapsImageryStyle.TrafficAbsoluteOverlay;
-    series.tileImagery = overlay;
+        if (tileSeriesRef.current) {
+            tileSeriesRef.current.tileImagery = overlay;
+        }
 
-    // Update Map Background
-    const background = new IgrAzureMapsImagery({});
-    background.apiKey = azureKey;
-    background.imageryStyle = AzureMapsImageryStyle.DarkGrey;
-    this.geoMap.backgroundContent = background;
+        // Update Map Background
+        const background = new IgrAzureMapsImagery({});
+        background.apiKey = azureKey;
+        background.imageryStyle = AzureMapsImageryStyle.DarkGrey;
 
-    this.geoMap.series.add(series);
+        if (mapRef.current) {
+            mapRef.current.backgroundContent = background;
+        }
+    }, []);
 
     return (
         <div style={{ height: "100vh" }}>
