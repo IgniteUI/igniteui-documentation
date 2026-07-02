@@ -105,6 +105,13 @@ export function remarkEnvVars() {
       if (node.type === 'html' && node.value) {
         node.value = replaceEnvVars(node.value);
       }
+      if ((node.type === 'mdxJsxTextElement' || node.type === 'mdxJsxFlowElement') && Array.isArray(node.attributes)) {
+        for (const attr of node.attributes) {
+          if (attr.type === 'mdxJsxAttribute' && typeof attr.value === 'string') {
+            attr.value = replaceEnvVars(attr.value);
+          }
+        }
+      }
     });
   };
 }
