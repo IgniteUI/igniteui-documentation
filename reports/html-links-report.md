@@ -1,12 +1,12 @@
 # HTML Link Crawl Report
 
-_Generated: 2026-06-26 06:43:34 UTC_
+_Generated: 2026-07-02 06:16:35 UTC_
 
 ## Summary
 
 | | |
 |---|---|
-| HTML files scanned | 2722 |
-| Internal links checked | 854087 |
-| ✅ OK | 854087 |
+| HTML files scanned | 2732 |
+| Internal links checked | 857713 |
+| ✅ OK | 857713 |
 | ❌ Broken (unique targets) | **0** |

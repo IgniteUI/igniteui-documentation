@@ -18,6 +18,7 @@ Closes #
  - [ ] check if sample is working and fully visible in the topic
  - [ ] check if sample is working and fully visible in the StackBlitz
  - [ ] check if code blocks match the code in StackBlitz demo
+ - [ ] add or update meaningful `llms.description` metadata and run `npm run check:llms-metadata`
 
 
 <br />

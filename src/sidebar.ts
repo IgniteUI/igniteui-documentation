@@ -109,7 +109,12 @@ function convertTocItem(
             collapsed: collapsedForDepth(depth),
         };
         if (item.href && docExists(docsDir, item.href, exclude)) {
-            group.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
+            const overviewEntry: SidebarLink = { label: 'Overview', slug: hrefToSlug(item.href) };
+            if (item.premium) {
+                overviewEntry.attrs = { 'data-premium': 'true' };
+                overviewEntry.badges = [{ text: 'Premium', variant: 'premium' }];
+            }
+            group.items.push(overviewEntry);
         }
         for (const child of item.items) {
             const entry = convertTocItem(docsDir, child, exclude, depth + 1);
@@ -172,7 +177,12 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSid
             currentGroup = { label: item.name!, items: [], collapsed: collapsedForDepth(0) };
             currentGroupSortable = item.sortable === true;
             if (item.href && docExists(docsDir, item.href, exclude)) {
-                currentGroup.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
+                const overviewEntry: SidebarLink = { label: 'Overview', slug: hrefToSlug(item.href) };
+                if (item.premium) {
+                    overviewEntry.attrs = { 'data-premium': 'true' };
+                    overviewEntry.badges = [{ text: 'Premium', variant: 'premium' }];
+                }
+                currentGroup.items.push(overviewEntry);
             }
             continue;
         }

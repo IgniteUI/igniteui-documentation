@@ -139,30 +139,10 @@ function loadApiLinkIndex(platformSlug: string): PlatformContext['apiLinkIndex']
  *
  * Result is cached for the build lifetime.
  */
-export function getPlatformContext(): PlatformContext {
-    if (_ctx) return _ctx;
-
-    let name: PlatformName = 'React';
-
-    const envPlatform = process.env.PLATFORM as PlatformName | undefined;
-    if (envPlatform && PLATFORMS[envPlatform]) {
-        name = envPlatform;
-    } else {
-        try {
-            const cfgPath = path.resolve(process.cwd(), '.platform.json');
-            if (fs.existsSync(cfgPath)) {
-                const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf-8'));
-                if (cfg.platform && PLATFORMS[cfg.platform as PlatformName]) {
-                    name = cfg.platform as PlatformName;
-                }
-            }
-        } catch { /* use default */ }
-    }
-
+function buildContext(name: PlatformName): PlatformContext {
     const apiDocsBaseUrl = getApiDocsBaseUrl();
-
     const base = PLATFORMS[name];
-    _ctx = {
+    return {
         ...base,
         apiLinkIndex: loadApiLinkIndex(base.lower),
         apiPackages: Object.fromEntries(
@@ -176,6 +156,40 @@ export function getPlatformContext(): PlatformContext {
             ])
         ),
     };
+}
+
+/**
+ * Returns the platform context for the current build.
+ *
+ * When `name` is provided it is used directly.
+ * Otherwise resolution order: PLATFORM env var → .platform.json → 'React' default.
+ *
+ * Passing an explicit name bypasses caching so each call with a different name
+ * returns the correct context. The no-arg form is cached for the build lifetime.
+ */
+export function getPlatformContext(name?: PlatformName): PlatformContext {
+    if (name) return buildContext(name);
+
+    if (_ctx) return _ctx;
+
+    let resolved: PlatformName = 'React';
+
+    const envPlatform = process.env.PLATFORM as PlatformName | undefined;
+    if (envPlatform && PLATFORMS[envPlatform]) {
+        resolved = envPlatform;
+    } else {
+        try {
+            const cfgPath = path.resolve(process.cwd(), '.platform.json');
+            if (fs.existsSync(cfgPath)) {
+                const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf-8'));
+                if (cfg.platform && PLATFORMS[cfg.platform as PlatformName]) {
+                    resolved = cfg.platform as PlatformName;
+                }
+            }
+        } catch { /* use default */ }
+    }
+
+    _ctx = buildContext(resolved);
     return _ctx;
 }
 

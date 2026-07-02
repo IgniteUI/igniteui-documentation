@@ -3,6 +3,8 @@ title: 一括編集 | トランザクション サービス | Ignite UI for Angu
 description: コンポーネントで Angular CRUD 操作を実行するときに一括編集を実装できるトランザクション サービスクラスの階層について学びます。
 keywords: batch editing, igniteui for angular, infragistics, 一括編集,
 _language: ja
+llms:
+  description: "トランザクションは、トランザクション サービス の主要な構成要素です。"
 ---
 
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
@@ -37,7 +39,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ## igxTransactionService および igxHierarchicalTransactionService に関する一般情報
 
-<ApiLink type="TransactionService" /> と <ApiLink type="HierarchicalTransactionService" kind="interface" /> は、<ApiLink kind="interface" type="TransactionService" label="Transaction Service" />インターフェイスを実装する注入可能なミドルウェアです。コンポーネントはこれらを使用して、基になるデータに影響を与えることなく変更を蓄積できます。プロバイダーは、_access_、_manipulate_ (元に戻すとやり直し)、およびデータへの 1 つまたはすべての変更を_破棄またはコミット_するための API を公開します。
+<ApiLink type="TransactionService" /> と <ApiLink type="HierarchicalTransactionFactory" /> は、<ApiLink kind="interface" type="TransactionService" label="Transaction Service" />インターフェイスを実装する注入可能なミドルウェアです。コンポーネントはこれらを使用して、基になるデータに影響を与えることなく変更を蓄積できます。プロバイダーは、_access_、_manipulate_ (元に戻すとやり直し)、およびデータへの 1 つまたはすべての変更を_破棄またはコミット_するための API を公開します。
 
 より具体的な例では、<ApiLink type="TransactionService" /> と <ApiLink type="HierarchicalTransactionService" kind="interface" /> は、[`IgxGrid`](grid/grid.mdx) のセル編集と行編集の両方で機能します。セルが編集モードを終了すると、セル編集のトランザクションが追加されます。行の編集が開始されると、グリッドは <ApiLink kind="interface" type="TransactionService" member="startPending" /> を呼び出してトランザクション サービスを保留状態に設定します。編集された各セルは、保留中のトランザクション ログに追加されますが、メイン トランザクション ログには追加されません。行が編集モードを終了すると、すべての変更がメイン トランザクション ログと undo ログに単一のトランザクションとして追加されます。
 
@@ -57,9 +59,9 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ## igxHierarchicalTransactionService の使用
 
-<ApiLink type="HierarchicalTransactionService" kind="interface" /> は、<ApiLink type="TransactionService" /> を拡張します。
+<ApiLink type="HierarchicalTransactionFactory" /> は、<ApiLink type="TransactionService" /> を拡張します。
 
-<ApiLink type="HierarchicalTransactionService" kind="interface" /> は、親と子の間の関係を処理するように設計されています。(たとえば、<ApiLink type="TreeGrid" label="igxTreeGrid" /> のように、階層データ構造がある場合にこれを使用します)。
+<ApiLink type="HierarchicalTransactionFactory" /> は、親と子の間の関係を処理するように設計されています。(たとえば、<ApiLink type="TreeGrid" label="igxTreeGrid" /> のように、階層データ構造がある場合にこれを使用します)。
 このサービスは、`ADD` トランザクションを追加するときに期待する場所に新しいレコードが追加されることを保証します。親レコードを削除すると、その子は、実装に応じて、上位レベルの階層に昇格するか、親とともに削除されます。具体的な例として、ツリーグリッドの <ApiLink type="TreeGrid" member="cascadeOnDelete" label="cascadeOnDelete" /> プロパティを確認できます。値に応じて、親レコードを削除すると、その子に異なる影響があります。
 
 アプリケーションでは、ユーザーが既に削除された親レコードに子レコードを追加しようとし、トランザクションがコミットされるのを待っている状態を処理することができます。トランザクションサービスでは、削除する親にレコードを追加することはできず、コンソールにエラーメッセージが表示されます。ただし、親を削除するかどうかを確認し、以下のコードを使用してユーザーに独自のアラートを実装できます。

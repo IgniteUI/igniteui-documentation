@@ -11,8 +11,22 @@ on:
       - 'docs/**/*.md'
       - '.markdownlint.json'
       - 'cspell.json'
+      - 'scripts/check-llms-metadata.mjs'
+      - 'package.json'
 
 jobs:
+  llms-metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Validate llms.txt metadata
+        run: npm run check:llms-metadata
+
   markdown-lint:
     runs-on: ubuntu-latest
     steps:
@@ -22,7 +36,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: 'npm'
 
       - run: npm ci
@@ -61,7 +75,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: 'npm'
 
       - run: npm ci

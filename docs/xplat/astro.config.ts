@@ -49,26 +49,11 @@ if (docsEnv !== 'development' && docsEnv !== 'staging' && docsEnv !== 'productio
 const mode: DocsMode = docsEnv;
 
 const PLATFORMS = IGDOCS_PLATFORMS;
-
-const PLATFORM_META: Record<string, { title: string; description: string }> = {
-    Angular:       { title: 'Ignite UI for Angular',       description: 'Reference docs for Ignite UI for Angular.'       },
-    React:         { title: 'Ignite UI for React',         description: 'Reference docs for Ignite UI for React.'         },
-    WebComponents: { title: 'Ignite UI for Web Components', description: 'Reference docs for Ignite UI for Web Components.' },
-    Blazor:        { title: 'Ignite UI for Blazor',        description: 'Reference docs for Ignite UI for Blazor.'        },
+const localizedDescriptionSuffix: Partial<Record<NavLang, string>> = {
+    jp: 'のコンポーネントと API リファレンス ドキュメントです。',
+    kr: ' 컴포넌트 및 API 참조 문서입니다.',
 };
 
-const PLATFORM_KEY: Record<string, string> = {
-    Angular: 'angular', React: 'react', WebComponents: 'web-components', Blazor: 'blazor',
-};
-
-const PLATFORM_SITE: Record<string, string> = {
-    Angular:       'https://www.infragistics.com/products/ignite-ui-angular/angular/components',
-    React:         'https://www.infragistics.com/products/ignite-ui-react/react/components',
-    WebComponents: 'https://www.infragistics.com/products/ignite-ui-web-components/web-components/components',
-    Blazor:        'https://www.infragistics.com/products/ignite-ui-blazor/blazor/components',
-};
-
-const meta      = PLATFORM_META[platform] ?? PLATFORM_META['React'];
 const XPLAT_ROOT = path.join(__dirname, 'generated', platform, lang);
 
 // Resolved once at config time, used by vitePluginPlatformTokens to substitute
@@ -345,6 +330,7 @@ export default createDocsSite({
     base: mode !== 'development' ? p.base : undefined,
     title: p.title,
     description: p.description,
+    localizedDescription: localizedDescriptionSuffix[lang] ? `${p.title}${localizedDescriptionSuffix[lang]}` : undefined,
     platform: p.key,
     navLang: lang,
     mode,
