@@ -17,26 +17,26 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
+import { SIDEBAR_BADGE_VARIANTS } from './lib/sidebar/types';
+import type { SidebarBadgeVariant, SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 
 // Re-export so consumers (astro.config.ts in child sites) can import the
 // canonical types from the same module they already use.
-export type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
+export { SIDEBAR_BADGE_VARIANTS } from './lib/sidebar/types';
+export type { SidebarBadgeVariant, SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 
 // ---------------------------------------------------------------------------
 // Internal types
 // ---------------------------------------------------------------------------
 
-interface TocItem {
+interface TocItem extends Partial<Record<SidebarBadgeVariant, boolean>> {
     name?: string;
     href?: string;
     header?: boolean;
     sortable?: boolean;
     items?: TocItem[];
-    new?: boolean;
-    preview?: boolean;
-    updated?: boolean;
-    premium?: boolean;
+    /** Per-platform badge overrides. Stripped during TOC generation. */
+    platforms?: Record<string, Partial<Pick<TocItem, SidebarBadgeVariant>>>;
 }
 
 // ---------------------------------------------------------------------------
@@ -110,7 +110,12 @@ function convertTocItem(
             collapsed: collapsedForDepth(depth),
         };
         if (item.href && docExists(docsDir, item.href, exclude)) {
-            group.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
+            const overviewEntry: SidebarLink = { label: 'Overview', slug: hrefToSlug(item.href) };
+            if (item.premium) {
+                overviewEntry.attrs = { 'data-premium': 'true' };
+                overviewEntry.badges = [{ text: 'Premium', variant: 'premium' }];
+            }
+            group.items.push(overviewEntry);
         }
         for (const child of item.items) {
             const entry = convertTocItem(docsDir, child, exclude, depth + 1);
@@ -124,12 +129,12 @@ function convertTocItem(
         if (!docExists(docsDir, item.href, exclude)) return null;
         const entry: SidebarLink = { label: item.name, slug: hrefToSlug(item.href) };
         const badges: NonNullable<SidebarLink['badges']> = [];
-        if (item.new)          badges.push({ text: 'New',     variant: 'new'     });
-        else if (item.preview) badges.push({ text: 'Preview', variant: 'preview' });
-        else if (item.updated) badges.push({ text: 'Updated', variant: 'updated' });
-        if (item.premium) {
-            entry.attrs = { 'data-premium': 'true' };
-            badges.push({ text: 'Premium', variant: 'premium' });
+        for (const variant of SIDEBAR_BADGE_VARIANTS) {
+            if (!item[variant]) continue;
+            if (variant === 'premium') {
+                entry.attrs = { 'data-premium': 'true' };
+            }
+            badges.push({ text: variant.charAt(0).toUpperCase() + variant.slice(1), variant });
         }
         if (badges.length) entry.badges = badges;
         return entry;
@@ -173,7 +178,12 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSid
             currentGroup = { label: item.name!, items: [], collapsed: collapsedForDepth(0) };
             currentGroupSortable = item.sortable === true;
             if (item.href && docExists(docsDir, item.href, exclude)) {
-                currentGroup.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
+                const overviewEntry: SidebarLink = { label: 'Overview', slug: hrefToSlug(item.href) };
+                if (item.premium) {
+                    overviewEntry.attrs = { 'data-premium': 'true' };
+                    overviewEntry.badges = [{ text: 'Premium', variant: 'premium' }];
+                }
+                currentGroup.items.push(overviewEntry);
             }
             continue;
         }

@@ -3,6 +3,8 @@ title: アップデート ガイド | Ignite UI for Angular | インフラジス
 description: 新しいバージョンの Ignite UI for Angular ライブラリにアップデートする方法については、この記事を参照してください。
 keywords: ignite ui for angular, アップデート, npm パッケージ, マテリアル コンポーネント
 _language: ja
+llms:
+  description: "Ignite UI for Angular バージョニングは、最初の数字がコードでサポートされる Angular のメジャー バージョンで、2 番目の数字はメジャー バージョン リリースの数字です。"
 ---
 
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
@@ -61,6 +63,24 @@ ng update @angular/cli
 自動的にアップデートできない変更もあります。以下の変更はバージョンごとにセクションが分かれています。アッププデートが必要な場合は、現在のバージョンから開始してそれ以降のアップデートを適用しjます。
 
 例: 6.2.4 から 7.1.0 にアップデートする場合、[6.x .. から] セクションから始めて変更を適用していきます。
+
+## 21.1.x から 22.0.x の場合
+
+Angular はタッチ ジェスチャー用の `HammerModule` の提供を終了しました。Ignite UI for Angular コンポーネントでタッチ操作（パン、スワイプ、タップ）を引き続き使用するには、`angular.json` の `scripts` 配列で HammerJS をグローバル スクリプトとして読み込みます。
+
+```json
+"architect": {
+  "build": {
+    "options": {
+      "scripts": [
+        "node_modules/hammerjs/hammer.min.js"
+      ]
+    }
+  }
+}
+```
+
+グローバルに読み込まれると、Ignite UI for Angular は `window.Hammer` を自動検出してタッチ ジェスチャーの処理に使用します。追加のインポートやモジュール登録は不要です。
 
 ## 21.0.x から 21.1.x の場合
 
@@ -1426,8 +1446,7 @@ The `ng update` process will update all enumeration names, like `AvatarType`, `T
 
 ## 8.x.x から 9.0.x の場合
 
-Angular 9 の重大な変更により、Hammer プロバイダー は暗黙的に追加されていません。
-[詳細は](https://github.com/angular/angular/blob/master/CHANGELOG.md#breaking-changes-9 )を参照してください。このため、以下のコンポネントの**タッチ**操作が正しく動作するには、アプリケーションのルート モジュールに `HammerModule` をインポートする必要があります。
+Angular 9 の重大な変更により、Hammer プロバイダーは暗黙的に追加されなくなりました。このため、以下のコンポーネントの**タッチ**操作を正しく動作させには、アプリケーションのルート モジュールに `HammerModule` をインポートする必要があります。
 
 - igxGrid
 - igxHierarchicalGrid

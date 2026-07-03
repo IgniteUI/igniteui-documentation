@@ -20,6 +20,7 @@ Common regressions introduced by the upstream sync:
 | `<!-- schema: -->` | Remove entirely |
 | `suffix={false}` missing on non-Component classes | Restore from master |
 | `prefixed={false}` missing on interface/enum/type types | Restore from master |
+| Missing or overwritten `llms.description` | Add or preserve a specific summary for the generated `llms.txt` index |
 
 ---
 
@@ -87,6 +88,14 @@ Check all files (not just changed ones):
 node scripts/check-mdx-quality.mjs --all
 ```
 
+Validate English and Japanese LLM metadata after importing or resolving files:
+
+```bash
+npm run check:llms-metadata
+```
+
+This check does not modify content. Fix each reported source frontmatter block manually and preserve existing `llms.description` values when resolving sync conflicts.
+
 ### 4. Fix raw angularApiUrl links
 
 For each file reported with raw `{environment:angularApiUrl}` links:
@@ -152,6 +161,8 @@ Angular docs use `<ApiLink>` **without** a `pkg=` prop for most types (defaults 
 ## JP files
 
 Japanese content mirrors English structure under `docs/angular/src/content/jp/`. Apply the same fixes. The text is Japanese but the `<ApiLink>` components are identical to EN — use the EN file as the reference for what components should exist.
+
+Japanese `llms.description` values must be written in Japanese. They should summarize the actual page content rather than translate English marketing boilerplate.
 
 ---
 
