@@ -7,6 +7,8 @@ mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
 _canonicalLink: "{CanonicalLinkToGridCellEditing}"
+llms:
+  description: "The {ProductName} Cell Editing in {Platform} {ComponentTitle} provides a great data manipulation capability of the content of individual cells within the {Platform} {ComponentTitle} component and comes with powerful API for React CRUD operations."
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
@@ -72,7 +74,7 @@ public updateCell() {
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
-```razor
+```csharp
 this.grid.UpdateCell(newValue, rowID, 'ReorderLevel')
 ```
 </PlatformBlock>
@@ -234,10 +236,10 @@ If you want to provide a custom template which will be applied when a cell is in
 
 ```ts
 constructor() {
-    var class = this.class = document.getElementById('class') as IgcColumnComponent;
+    const classColumn = document.getElementById('class') as IgcColumnComponent;
 
     this._bind = () => {
-        class.inlineEditorTemplateRef = this.classEditTemplate;
+        classColumn.inlineEditorTemplateRef = this.classEditTemplate;
     }
     this._bind();
 }
@@ -316,8 +318,7 @@ If you want to provide a custom template which will be applied to a cell, you ca
 
 and pass the template:
 
-```razor
-// In JavaScript
+```javascript
 
 igRegisterScript("WebGridCellEditCellTemplate", (ctx) => {
     let cellValues = [];
@@ -561,7 +562,7 @@ useEffect(() => {
         gridRef.current.removeEventListener("keydown", handleKeyDown);
     };
 }, []);
-<IgrGrid ref={gridRef} autoGenerate={false} data={NwindData} primaryKey="ProductID">
+<IgrGrid ref={gridRef} autoGenerate={false} data={nwindData} primaryKey="ProductID">
 </IgrGrid>
 ```
 
@@ -1165,7 +1166,8 @@ function handleCellEdit(args: IgrGridEditEventArgs): void {
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
-```razor
+
+```javascript
 // In JavaScript
 igRegisterScript("HandleCellEdit", (ev) => {
     var d = ev.detail;
@@ -1177,6 +1179,7 @@ igRegisterScript("HandleCellEdit", (ev) => {
     }
 }, false);
 ```
+
 </PlatformBlock>
 
 If the value entered in a cell under the **Units On Order** column is larger than the available amount (the value under **Units in Stock**), the editing will be cancelled and the user will be alerted to the cancellation.
@@ -1206,7 +1209,8 @@ public webTreeGridCellEdit(event: CustomEvent<IgcGridEditEventArgs>): void {
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
-```razor
+
+```javascript
 // In JavaScript
 igRegisterScript("HandleCellEdit", (ev) => {
     const column = event.detail.column;
@@ -1280,7 +1284,8 @@ Here, we are validating two columns. If the user tries to set an invalid value f
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
-```razor
+
+```javascript
 // In JavaScript
 igRegisterScript("WebGridEditingEventsCellEdit", (ev) => {
     var d = ev.detail;
@@ -1294,6 +1299,7 @@ igRegisterScript("WebGridEditingEventsCellEdit", (ev) => {
 }, false);
 
 ```
+
 </PlatformBlock>
 
 
@@ -1303,8 +1309,8 @@ igRegisterScript("WebGridEditingEventsCellEdit", (ev) => {
 <ComponentBlock for="HierarchicalGrid">
 ```tsx
 public handleCellEdit(event: IgrGridEditEventArgs): void {
-    const detail = args.detail;
-    if (detail.column != null && d.column.field == "UnitsOnOrder") {
+    const detail = event.detail;
+    if (detail.column != null && detail.column.field == "UnitsOnOrder") {
         if (detail.newValue > detail.rowData.UnitsInStock) {
             detail.cancel = true;
             alert("You cannot order more than the units in stock!");

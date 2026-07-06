@@ -45,6 +45,10 @@ const site = mode === 'production' ? `${PROD_HOST}${base}`
 const docsDir = path.join(__dirname, 'src', 'content', docsLang);
 const componentsDocsDir = path.join(docsDir, 'components');
 const templatesDir = path.join(docsDir, 'grids_templates');
+const localizedDescription: Partial<Record<NavLang, string>> = {
+	jp: 'Ignite UI for Angular のコンポーネントと API リファレンス ドキュメントです。',
+	kr: 'Ignite UI for Angular 컴포넌트 및 API 참조 문서입니다.',
+};
 
 // ── Pre-build steps (run before Astro starts) ────────────────────────────────
 generateGridTopics(templatesDir, componentsDocsDir);
@@ -55,6 +59,7 @@ export default createDocsSite({
 	base: mode !== 'development' ? base : undefined,
 	title: 'Ignite UI for Angular',
 	description: 'Component and API reference docs for Ignite UI for Angular.',
+	localizedDescription: localizedDescription[docsLang],
 	platform: 'angular',
 	navLang: docsLang,
 	mode,
