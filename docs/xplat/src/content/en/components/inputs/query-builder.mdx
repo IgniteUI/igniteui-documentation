@@ -200,7 +200,7 @@ igRegisterScript("WebQueryBuilderExpressionTreeChange", (evtArgs) => {
 
 
 ```tsx
-const queryBuilderRef = useRef<IgrQueryBuilderComponent>(null);
+const queryBuilderRef = useRef<IgrQueryBuilder>(null);
 const [expressionTree, setExpressionTree] = useState<IgrFilteringExpressionsTree | null>(null);
 
 const ordersFields: Field[] = [
@@ -220,6 +220,7 @@ const onExpressionTreeChange = (newTree: IgrFilteringExpressionsTree) => {
 
 const handleExpressionTreeChange = (event: CustomEvent<IgrFilteringExpressionsTree>) => {
   setExpressionTree(event.detail);
+  onExpressionTreeChange(event.detail);
 };
 
 useEffect(() => {
@@ -852,6 +853,13 @@ For the Region Select example:
 { field: 'Region', dataType: 'string' }
 
 // Template
+const regionOptions = [
+  { text: 'North America', value: 'NA' },
+  { text: 'South America', value: 'SA' },
+  { text: 'Europe', value: 'EU' },
+  { text: 'Asia', value: 'AS' }
+];
+
 const buildRegionSelect = (ctx: QueryBuilderSearchValueContext) => {
   const currentValue = ctx?.implicit?.value?.value ?? '';
   const key = `region-select-${currentValue}`;
@@ -888,6 +896,12 @@ For the Status Radio Group example:
 { field: 'OrderStatus', dataType: 'number' }
 
 // Template
+const statusOptions = [
+  { text: 'Open', value: 1 },
+  { text: 'In Progress', value: 2 },
+  { text: 'Done', value: 3 }
+];
+
 const buildStatusRadios = (ctx: QueryBuilderSearchValueContext) => {
   const implicitValue = ctx.implicit?.value;
   const currentValue = implicitValue === null ? '' : implicitValue.toString();
@@ -966,6 +980,14 @@ For the Time Input example:
 { field: 'RequiredTime', dataType: 'time' }
 
 // Template
+const normalizeTimeValue = (value: unknown): Date | null => {
+  if (value == null) {
+    return null;
+  }
+
+  return value instanceof Date ? value : new Date(value as string);
+};
+
 const buildTimeInput = (ctx: QueryBuilderSearchValueContext) => {
   const currentValue = normalizeTimeValue(ctx.implicit?.value);
   const allowedConditions = ['at', 'not_at', 'at_before', 'at_after', 'before', 'after'];
@@ -1047,7 +1069,7 @@ const buildDefaultInput = (ctx: QueryBuilderSearchValueContext, matchesEqualityC
 In order to change the appearance of the search value in the chip displayed when a condition is not in edit mode, you can set a formatter function to the fields array. The search value can be accessed through the value argument as follows:
 
 
-<PlatformBlock for="React, WebComponents">
+<PlatformBlock for="React">
 
 
 ```tsx
@@ -1061,6 +1083,32 @@ const ordersFields = [
       month: 'short', 
       day: 'numeric', 
       year: 'numeric' 
+    })
+  },
+  {
+    field: 'Region',
+    dataType: 'string',
+    formatter: (value: any) => value?.text ?? value?.value ?? value
+  }
+];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const ordersFields = [
+  { field: 'OrderID', dataType: 'number' },
+  { field: 'ShipCountry', dataType: 'string' },
+  {
+    field: 'OrderDate',
+    dataType: 'date',
+    formatter: (value: any) => value.toLocaleDateString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
     })
   },
   {
