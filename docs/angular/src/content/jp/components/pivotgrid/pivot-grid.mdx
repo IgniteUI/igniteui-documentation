@@ -336,6 +336,63 @@ public data = [
 
 この機能により、開発者はディメンションと値を手動で指定することなく、ピボット ビューをすばやく作成できます。ピボット グリッドの横にあるピボット セレクターを使用すると、ユーザーは必要に応じてディメンションと値を有効にしたり並べ替えたりできます。
 
+## スタイル設定
+
+ピボット グリッドは、[`Ignite UI for Angular テーマ ライブラリ`](/themes/sass/component-themes)を使用してスタイルを設定できます。グリッドの <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> は、ピボット グリッドのすべての機能のカスタマイズを可能にする多くのプロパティを公開しています。
+
+### グローバル テーマのインポート
+
+ピボット グリッドのスタイル設定を開始するには、まずすべてのテーマ関数とコンポーネント ミックスインが含まれている `index` ファイルをインポートする必要があります:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// 重要: Ignite UI for Angular バージョン 13 より前の場合は以下を使用します:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### カスタム テーマの定義
+
+次に、カスタム テーマを作成する必要があります。`igx-pivot-grid` をスタイルする最も簡単で推奨される方法は、<ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> を使用して、3 つの主要な色 (`background`、`foreground`、`accent-color`) のみを提供することです。
+
+<DocsAside type="info">
+特定の `sass` ピボット グリッド関数はありません。
+</DocsAside>
+
+これらはコアのテーマ プロパティです。これらを設定すると、グリッドのすべての部分と内部コンポーネントがそれらの値から色を導出し、グリッド全体で一貫した外観が実現されます。ボタン、アイコン、入力、ドロップダウン、チェックボックス、スクロールバー、チップ、その他のヘルパー コンポーネントなどのネストされたコンポーネントも、統一された外観のためにメインの <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> からスタイリング トークンを導出します。
+
+```scss
+$background: #292826;
+$foreground: #eeece1;
+$accent: #ffcd0f;
+
+$custom-grid: grid-theme(
+  $background: $background,
+  $foreground: $foreground,
+  $accent-color: $accent,
+);
+```
+
+<DocsAside type="info">
+先ほどのようにカラー値をハードコーディングする代わりに、[`palette`]({environment:sassApiUrl}/palettes#function-palette) および [`color`]({environment:sassApiUrl}/palettes#function-color) 関数を使用することで、色に関してより高い柔軟性を実現できます。これらの使用方法の詳細については、[`パレット`](/themes/sass/palettes) トピックを参照してください。
+</DocsAside>
+
+### カスタム テーマの適用
+
+最後のステップは、アプリケーションにコンポーネント テーマを **include** することです。
+
+```scss
+igx-pivot-grid {
+  @include tokens($custom-grid);
+}
+```
+
+### デモ
+
+<Sample src="/pivot-grid/pivot-grid-styling" height={530} alt="Angular ピボット グリッド スタイリング デモ" />
+
+<ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> には、より具体的なカスタマイズを行う場合に使用できる追加のパラメーターもあります。
+
 ## 既知の問題と制限
 
 |制限|説明|
@@ -349,6 +406,7 @@ public data = [
 
 - <ApiLink type="PivotGrid" />
 - <ApiLink type="PivotDataSelector" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" />
 
 
 ## その他のリソース
