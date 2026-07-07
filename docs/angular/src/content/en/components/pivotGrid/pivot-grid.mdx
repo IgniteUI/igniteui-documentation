@@ -49,11 +49,11 @@ import { IgxPivotGridModule } from 'igniteui-angular/grids/pivot-grid';
 // import { IgxPivotGridModule } from '@infragistics/igniteui-angular'; for licensed package
 
 @NgModule({
-    imports: [
-        ...
-        IgxPivotGridModule,
-        ...
-    ]
+  imports: [
+    ...
+    IgxPivotGridModule,
+    ...
+  ]
 })
 export class AppModule {}
 ```
@@ -67,18 +67,18 @@ import { IGX_PIVOT_GRID_DIRECTIVES } from 'igniteui-angular/grids/pivot-grid';
 // import { IGX_PIVOT_GRID_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
 
 @Component({
-    selector: 'app-home',
-    template: `
-    <igx-pivot-grid [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
-    </igx-pivot-grid>
-    `,
-    styleUrls: ['home.component.scss'],
-    standalone: true,
-    imports: [IGX_PIVOT_GRID_DIRECTIVES]
-    /* or imports: [IgxPivotGridComponent] */
+  selector: 'app-home',
+  template: `
+  <igx-pivot-grid [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+  </igx-pivot-grid>
+  `,
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [IGX_PIVOT_GRID_DIRECTIVES]
+  /* or imports: [IgxPivotGridComponent] */
 })
 export class HomeComponent {
-    public data: Transaction [];
+  public data: Transaction [];
 }
 ```
 
@@ -112,17 +112,16 @@ The dimensions can be reordered or moved from one area to another via their corr
 A dimension can also describe an expandable hierarchy via the `childLevel` property, for example:
 
 ```typescript
-   {
-            memberFunction: () => 'All',
-            memberName: 'AllProducts',
-            enabled: true,
-            childLevel: {
-                memberFunction: (data) => data.ProductCategory,
-                memberName: 'ProductCategory',
-                enabled: true
-            }
-    }
-
+{
+  memberFunction: () => 'All',
+  memberName: 'AllProducts',
+  enabled: true,
+  childLevel: {
+    memberFunction: (data) => data.ProductCategory,
+    memberName: 'ProductCategory',
+    enabled: true
+  }
+}
 ```
 
 In this case the dimension renders an expander in the related section of the grid (row or column) and allows the children to be expanded or collapsed as part of the hierarchy. By default the row dimensions are initially expanded. This behavior can be controlled with the `defaultExpandState` `@Input` of the pivot grid.
@@ -131,36 +130,35 @@ In this case the dimension renders an expander in the related section of the gri
 
 As part of the pivot grid some additional predefined dimensions are exposed for easier configuration:
 
-- `IgxPivotDateDimension`
-    Can be used for date fields. Describes the following hierarchy by default:
-  - All Periods
-  - Years
-  - Quarters
-  - Months
-  - Full Date
+`IgxPivotDateDimension` can be used for date fields. Describes the following hierarchy by default:
+
+- All Periods
+- Years
+- Quarters
+- Months
+- Full Date
 
 It can be set for rows or columns, for example:
 
 ```typescript
 public pivotConfigHierarchy: IPivotConfiguration = {
-    rows: [
-        new IgxPivotDateDimension({ memberName: 'Date', enabled: true });
-    ]
+  rows: [
+    new IgxPivotDateDimension({ memberName: 'Date', enabled: true });
+  ]
 }
 ```
 
 It also allows for further customization via the second option parameter in order to enable or disable a particular part of the hierarchy, for example:
 
 ```typescript
- new IgxPivotDateDimension({ memberName: 'Date', enabled: true }, {
-    total: true,
-    years: true,
-    months: true,
-    fullDate: true,
-    quarters: false
+new IgxPivotDateDimension({ memberName: 'Date', enabled: true }, {
+  total: true,
+  years: true,
+  months: true,
+  fullDate: true,
+  quarters: false
 });
 ```
-
 
 ### Values configuration
 
@@ -173,53 +171,53 @@ The `member` needs to be unique. In case you need different value aggregations f
  Out of the box, there are 4 predefined aggregations that can be used depending on the data type of the data field:
 
 - `IgxPivotNumericAggregate` - for numeric fields.
-    Contains the following aggregation functions: `SUM`, `AVG`, `MIN`, `MAX`, `COUNT`.
+  Contains the following aggregation functions: `SUM`, `AVG`, `MIN`, `MAX`, `COUNT`.
 - `IgxPivotDateAggregate` - for date fields.
-    Contains the following aggregation functions: `LATEST`, `EARLIEST`, `COUNT`.
+  Contains the following aggregation functions: `LATEST`, `EARLIEST`, `COUNT`.
 - `IgxPivotTimeAggregate` - for time fields.
-    Contains the following aggregation functions: `LATEST`, `EARLIEST`, `COUNT`.
+  Contains the following aggregation functions: `LATEST`, `EARLIEST`, `COUNT`.
 - `IgxPivotAggregate` - for any other data types. This is the base aggregation.
-    Contains the following aggregation functions: `COUNT`.
+  Contains the following aggregation functions: `COUNT`.
 
 The current aggregation function can be changed at runtime using the value chip's drop-down. By default, it displays a list of available aggregations based on the field's data type. A custom list of aggregations can also be set via the `aggregateList` property, for example:
 
 ```typescript
 public pivotConfigHierarchy: IPivotConfiguration = {
-    values: [
-        {
-            member: 'AmountOfSale',
-            displayName: 'Amount of Sale',
-            aggregate: {
-                key: 'SUM',
-                aggregator: IgxTotalSaleAggregate.totalSale,
-                label: 'Sum of Sale'
-            },
-            aggregateList: [{
-                key: 'SUM',
-                aggregator: IgxTotalSaleAggregate.totalSale,
-                label: 'Sum of Sale'
-            }, {
-                key: 'MIN',
-                aggregator: IgxTotalSaleAggregate.totalMin,
-                label: 'Minimum of Sale'
-            }, {
-                key: 'MAX',
-                aggregator: IgxTotalSaleAggregate.totalMax,
-                label: 'Maximum of Sale'
-            }]
-        }
-    ]
+  values: [
+    {
+      member: 'AmountOfSale',
+      displayName: 'Amount of Sale',
+      aggregate: {
+        key: 'SUM',
+        aggregator: IgxTotalSaleAggregate.totalSale,
+        label: 'Sum of Sale'
+      },
+      aggregateList: [{
+        key: 'SUM',
+        aggregator: IgxTotalSaleAggregate.totalSale,
+        label: 'Sum of Sale'
+      }, {
+        key: 'MIN',
+        aggregator: IgxTotalSaleAggregate.totalMin,
+        label: 'Minimum of Sale'
+      }, {
+        key: 'MAX',
+        aggregator: IgxTotalSaleAggregate.totalMax,
+        label: 'Maximum of Sale'
+      }]
+    }
+  ]
 }
 
 public static totalSale: PivotAggregation = (members, data: any) =>
-    data.reduce((accumulator, value) => accumulator + value.UnitPrice * value.UnitsSold, 0);
+  data.reduce((accumulator, value) => accumulator + value.UnitPrice * value.UnitsSold, 0);
 
 public static totalMin: PivotAggregation = (members, data: any) => {
-    return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.min(a, b));
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.min(a, b));
 };
 
 public static totalMax: PivotAggregation = (members, data: any) => {
-    return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.max(a,b));
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.max(a,b));
 };
 ```
 
@@ -239,44 +237,42 @@ The `enable` property controls if a given `IPivotDimension` or `IPivotValue` is 
 Let's take a look at a basic pivot configuration:
 
 ```typescript
-      public pivotConfigHierarchy: IPivotConfiguration = {
-        columns: [
-            {
-
-                memberName: 'Product',
-                memberFunction: (data) => data.Product.Name,
-                enabled: true
-            }
-
-        ],
-        rows: [
-            {
-                memberName: 'Seller',
-                memberFunction: (data) => data.Seller.Name,
-                enabled: true,
-            }
-        ],
-        values: [
-            {
-                member: 'NumberOfUnits',
-                aggregate: {
-                    aggregator: IgxPivotNumericAggregate.sum,
-                    key: 'sum',
-                    label: 'Sum'
-                },
-                enabled: true
-            },
-            {
-                member: 'AmountOfSale',
-                aggregate: {
-                    aggregatorName: 'SUM',
-                    key: 'sum',
-                    label: 'Sum'
-                },
-                enabled: true
-            }
-        ]
-    };
+public pivotConfigHierarchy: IPivotConfiguration = {
+  columns: [
+    {
+      memberName: 'Product',
+      memberFunction: (data) => data.Product.Name,
+      enabled: true
+    }
+  ],
+  rows: [
+    {
+      memberName: 'Seller',
+      memberFunction: (data) => data.Seller.Name,
+      enabled: true,
+    }
+  ],
+  values: [
+    {
+      member: 'NumberOfUnits',
+      aggregate: {
+        aggregator: IgxPivotNumericAggregate.sum,
+        key: 'sum',
+        label: 'Sum'
+      },
+      enabled: true
+    },
+    {
+      member: 'AmountOfSale',
+      aggregate: {
+        aggregatorName: 'SUM',
+        key: 'sum',
+        label: 'Sum'
+      },
+      enabled: true
+    }
+  ]
+};
 ```
 
 This configuration defines 1 row, 1 column and 1 aggregation that sums the values of each dimension groups.
@@ -285,24 +281,22 @@ The members match fields available in the provided data source:
 ```typescript
 public data = [
 [
-    {
-        Product: {
-            Name: 'Clothing',
-            UnitPrice: '12.814860936633712'
-        },
-        Seller: {
-            Name: 'Stanley Brooker',
-            City: 'Seattle'
-        },
-        Date: '2007-01-01T00:00:00',
-        Value: '94.2652032683907',
-        NumberOfUnits: '282'
+  {
+    Product: {
+      Name: 'Clothing',
+      UnitPrice: '12.814860936633712'
     },
-    //...
+    Seller: {
+      Name: 'Stanley Brooker',
+      City: 'Seattle'
+    },
+    Date: '2007-01-01T00:00:00',
+    Value: '94.2652032683907',
+    NumberOfUnits: '282'
+  },
+  //...
 ];
-
 ```
-
 
 Resulting in the following view, which groups the Product Categories unique columns, Sellers Names in unique rows and displays the related aggregations for the number of units in the related cells:
 
@@ -330,6 +324,63 @@ The `autoGenerateConfig` property automatically generates dimensions and values 
 
 This feature allows developers to quickly create a pivot view without manually specifying dimensions and values. With a pivot selector next to the pivot grid, users can enable and reorder dimensions and values as needed.
 
+## Styling
+
+The Pivot Grid can be styled through the [`Ignite UI for Angular Theme Library`](/themes/sass/component-themes). The grid's <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> exposes a wide variety of properties, which allows the customization of all the pivot grid's features.
+
+### Importing global theme
+
+To get started with styling the Pivot Grid, you first need to import the `index` file, where all the theme functions and component mixins are located:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### Defining custom theme
+
+Next you need to create a custom theme, the easiest and recommended way to style the `igx-pivot-grid` is to use the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> and provide just the three main colors: `background`, `foreground`, and `accent-color`.
+
+<DocsAside type="info">
+There is no specific `sass` pivot grid function.
+</DocsAside>
+
+These are the core theme properties. When you set them, all grid parts and internal components derive their colors from those values, resulting in a consistent appearance throughout the entire grid. Nested components such as buttons, icons, inputs, dropdowns, checkboxes, scrollbars, chips, and other helper components also derive their styling tokens from the main <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> for a unified look.
+
+```scss
+$background: #292826;
+$foreground: #eeece1;
+$accent: #ffcd0f;
+
+$custom-grid: grid-theme(
+  $background: $background,
+  $foreground: $foreground,
+  $accent-color: $accent,
+);
+```
+
+<DocsAside type="info">
+Instead of hardcoding the color values like we just did, we can achieve greater flexibility in terms of colors by using the [`palette`]({environment:sassApiUrl}/palettes#function-palette) and [`color`]({environment:sassApiUrl}/palettes#function-color) functions. Please refer to [`Palettes`](/themes/sass/palettes) topic for detailed guidance on how to use them.
+</DocsAside>
+
+### Applying the custom theme
+
+The last step is to **include** the component theme in our application.
+
+```scss
+igx-pivot-grid {
+  @include tokens($custom-grid);
+}
+```
+
+### Demo
+
+<Sample src="/pivot-grid/pivot-grid-styling" height={530} alt="Angular pivot grid styling demo" />
+
+There are also additional parameters in the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> that you can use if you want more specific customizations.
+
 ## Known Issues and Limitations
 
 | Limitation                                                                        | Description                                                                                                                                                                                                                      |
@@ -342,6 +393,7 @@ This feature allows developers to quickly create a pivot view without manually s
 ## API References
 - <ApiLink type="PivotGrid" />
 - <ApiLink type="PivotDataSelector" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" />
 ## Additional Resources
 
 
