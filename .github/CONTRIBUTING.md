@@ -483,6 +483,12 @@ The cross-platform (xplat) documentation MDX source files live in this repositor
 
 If content originates from or must be synced with the upstream [`igniteui-xplat-docs`](https://github.com/IgniteUI/igniteui-xplat-docs) repository, use the merge scripts in `scripts/` (e.g. `merge-vnext-updates.mjs`, `migrate-vnext-new-files.mjs`) to pull in updates rather than editing generated files directly.
 
+## These topics are generated into the Angular tree — don't edit or commit them there
+
+For **Angular**, the xplat output is compiled and copied over the Angular content tree on every build by `docs/angular/scripts/sync-generated.mjs` (run via `sync:generated-from-xplat` before every `angular:dev`/`angular:build`). It overwrites everything under `docs/angular/src/content/{en,jp}/components/` **except** `grids/`, `changelog/`, and `toc.json`, which stay Angular-owned.
+
+As a result these Angular copies (charts, geo-map, gauges, spreadsheet, excel-library, `general-changelog-dv`, etc.) are **not committed** — editing them under `docs/angular/` has no effect, so edit the xplat source instead. They are kept out of git by the `xplat-generated topics` block at the bottom of `docs/angular/src/content/en/.gitignore` and `docs/angular/src/content/jp/.gitignore`. If you add a **new** cross-platform topic group under `docs/xplat/src/content/`, add a matching pattern to those two `.gitignore` blocks so the generated Angular copy is not accidentally committed.
+
 # <a name='#adding-images'>Adding of images in the topic</a>
 
 Images in MDX topics use the Astro `<Image>` component for automatic optimization and lazy loading. Images must be placed in the `docs/xplat/public/images/` or `docs/angular/public/images` folder (depending on the platform) and imported at the top of the MDX file.
