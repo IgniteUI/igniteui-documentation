@@ -201,7 +201,6 @@ igRegisterScript("WebQueryBuilderExpressionTreeChange", (evtArgs) => {
 
 ```tsx
 const queryBuilderRef = useRef<IgrQueryBuilder>(null);
-const [expressionTree, setExpressionTree] = useState<IgrFilteringExpressionsTree | null>(null);
 
 const ordersFields: Field[] = [
   { field: 'orderId', dataType: 'number' },
@@ -219,7 +218,6 @@ const onExpressionTreeChange = (newTree: IgrFilteringExpressionsTree) => {
 };
 
 const handleExpressionTreeChange = (event: CustomEvent<IgrFilteringExpressionsTree>) => {
-  setExpressionTree(event.detail);
   onExpressionTreeChange(event.detail);
 };
 
@@ -227,8 +225,6 @@ useEffect(() => {
   const tree = new IgrFilteringExpressionsTree();
   tree.operator = FilteringLogic.And;
   tree.entity = 'Orders';
-
-  setExpressionTree(tree);
 
   if (queryBuilderRef.current) {
     const queryBuilder = queryBuilderRef.current;
@@ -251,11 +247,10 @@ return (
 );
 ```
 
-The <ApiLink type="ExpressionTree" /> is stored in component state which means you can subscribe to the `ExpressionTreeChange` event to receive notifications when the end-user changes the UI by creating, editing or removing conditions. The event listener is attached in `useEffect` and cleaned up in the returned teardown function.
+The <ApiLink type="ExpressionTree" /> is a bindable property which means you can subscribe to the `ExpressionTreeChange` event to receive notifications when the end-user changes the UI by creating, editing or removing conditions. The event listener is attached in `useEffect` and cleaned up in the returned teardown function.
 
 ```tsx
 const handleExpressionTreeChange = (event: CustomEvent<IgrFilteringExpressionsTree>) => {
-  setExpressionTree(event.detail);
   onExpressionTreeChange(event.detail);
 };
 ```
