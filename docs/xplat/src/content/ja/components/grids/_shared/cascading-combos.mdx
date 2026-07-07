@@ -1,70 +1,69 @@
 ---
-title: "{Platform} {ComponentTitle} Cascading combos - {ProductName}"
-description: Perform updating via cascading combos in {ComponentTitle}, using {Platform} {ComponentTitle}. See demos & examples!
+title: "{Platform} {ComponentTitle} カスケード コンボ - {ProductName}"
+description: "{ComponentTitle} で、{Platform} {ComponentTitle} を使用してカスケード コンボによる更新を実行します。デモとサンプルをご覧ください!"
 keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
 license: commercial
 _language: en
 sharedComponents: ["Grid"]
 namespace: Infragistics.Controls
 llms:
-  description: "The {ComponentTitle}'s Editing functionality provides with the opportunity to use Cascading Combobox components."
+  description: "{ComponentTitle} の編集機能では、カスケード コンボボックス コンポーネントを使用できます。"
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
+# カスケード コンボを使用した {Platform} {ComponentTitle}
 
-# {Platform} {ComponentTitle} with Cascading Combos
+{ComponentTitle} の編集機能では、カスケード コンボボックス コンポーネントを使用できます。先行する任意の <ApiLink type="Combo" /> で値を選択すると、ユーザーは次の {Platform} コンボボックス コンポーネント内で、その選択に関連するデータのみを受け取ります。
 
-The {ComponentTitle}'s Editing functionality provides with the opportunity to use Cascading Combobox components. By selecting the value in any preceding <ApiLink type="Combo" />, the users will receive only the data that is relevant to their selection within the next {Platform} Combobox component.
+## カスケード コンボを使用した {Platform} {ComponentTitle} のサンプル概要
 
-## {Platform} {ComponentTitle} with Cascading Combos Sample Overview
+以下のサンプルでは、<ApiLink type="{ComponentName}" /> がネストされたカスケード <ApiLink type="Combo" /> コンポーネントとどのように連携するかを示します。
 
-The sample below demonstrates how <ApiLink type="{ComponentName}" /> works with nested Cascading <ApiLink type="Combo" /> components.
+<ComponentBlock for="Grid"><Sample src="/{ComponentSample}/cascading-combo" height={500} alt="{Platform} {ComponentTitle} Cascading Combos Example" /></ComponentBlock>
 
+## セットアップ
 
+列編集を有効にするには、<ApiLink type="Column" member="editable" /> プロパティが `true` に設定されていることを確認してください。
 
-
-<ComponentBlock for="Grid">
-<Sample src="/{ComponentSample}/cascading-combo" height={500} alt="{Platform} {ComponentTitle} Cascading Combos Example" />
-</ComponentBlock>
-
-## Setup
-
-In order enable column editing, make sure <ApiLink type="Column" member="editable" /> property is set to `true`.
-
-Once the column editing is enabled, you can start by adding your <ApiLink type="Combo" />. Please note that here in order to have only one single selection available, you will need to use set the <ApiLink type="Combo" member="singleSelect" /> property.
-
+列編集が有効になったら、<ApiLink type="Combo" /> の追加から開始できます。ここでは単一選択のみを使用できるようにするため、<ApiLink type="Combo" member="singleSelect" /> プロパティを設定する必要があることに注意してください。
 
 <PlatformBlock for="WebComponents, Blazor, React">
-To get started with the <ApiLink type="Combo" />, first you need to import it:
 
+<ApiLink type="Combo" /> の使用を開始するには、まずそれをインポートする必要があります。
 
 <PlatformBlock for="WebComponents">
+
 ```ts
 import { IgcComboComponent, defineAllComponents } from 'igniteui-webcomponents';
 defineAllComponents();
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
+
 ```csharp
 builder.Services.AddIgniteUIBlazor(
     typeof(IgbGridModule),
     typeof(IgbComboModule)
 );
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
+
 ```tsx
 import { IgrCombo } from 'igniteui-react';
 ```
+
 </PlatformBlock>
 
-Then you should define the column template with the combo:
-
+次に、コンボを使用した列テンプレートを定義する必要があります。
 
 <PlatformBlock for="React">
+
 ```tsx
    <IgrColumn
     field="Country"
@@ -72,9 +71,11 @@ Then you should define the column template with the combo:
     bodyTemplate={webGridCountryDropDownTemplate}>
     </IgrColumn>
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
+
 ```tsx
     const webGridCountryDropDownTemplate = (ctx: IgrCellTemplateContext) => {
         const rowId = ctx.cell?.id.rowID;
@@ -98,9 +99,11 @@ Then you should define the column template with the combo:
     }
 
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
+
 ```razor
 <IgbColumn Field="Country" Header="Country" BodyTemplate="WebGridCountryDropDownTemplate"></IgbColumn>
 
@@ -117,6 +120,7 @@ Then you should define the column template with the combo:
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
+
 ```ts
 public webGridCountryDropDownTemplate: IgcRenderFunction<IgcCellTemplateContext> = (ctx: IgcCellTemplateContext) => {
     const id = ctx.cell.id.rowID;
@@ -124,11 +128,12 @@ public webGridCountryDropDownTemplate: IgcRenderFunction<IgcCellTemplateContext>
     return html`<igc-combo placeholder="Choose Country..." value-key="Country" display-key="Country" id="${comboId}" single-select></igc-combo>`
 }
 ```
+
 </PlatformBlock>
 
-- <ApiLink type="Combo" member="displayKey" /> - Required for object arrays - Specifies which property will be used for the items' text. If no value is specified for <ApiLink type="Combo" member="displayKey" />, the  combo will use the specified <ApiLink type="Combo" member="valueKey" /> (if any).
+- <ApiLink type="Combo" member="displayKey" /> - オブジェクト配列には必須 - 項目のテキストに使用されるプロパティを指定します。<ApiLink type="Combo" member="displayKey" /> に値が指定されていない場合、コンボは指定された <ApiLink type="Combo" member="valueKey" /> (存在する場合) を使用します。
 
-In order to handle the selection change, we need the change event. The emitted event arguments contain information about the selection prior to the change, the current selection and the items that were added or removed. Therefore, it will filter the values based on the selection of the previous combo.
+選択の変更を処理するには、変更イベントが必要です。発行されたイベント引数には、変更前の選択、現在の選択、および追加または削除された項目に関する情報が含まれます。そのため、前のコンボの選択に基づいて値がフィルターされます。
 
 <PlatformBlock for="Blazor">
 
@@ -157,6 +162,7 @@ igRegisterScript("CountryChange", (ctx) => {
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
+
 ```ts
  public countries = [...this.worldCitiesAbove500K].filter(x => this.countryNames.indexOf(x.Country) !== -1).filter((value, index, array) => array.findIndex(x => x.Country === value.Country) === index);
 public bindEventsCountryCombo(rowId: any, cell: any) {
@@ -190,9 +196,11 @@ public bindEventsCountryCombo(rowId: any, cell: any) {
     }
 
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
+
 ```tsx
     const onCountryChange = (rowId: string, event: CustomEvent) => {
         const regionCombo = getComboRef(`region_${rowId}`).current;
@@ -224,7 +232,8 @@ public bindEventsCountryCombo(rowId: any, cell: any) {
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
-To get started with the `SimpleComboBox` component, first you need to import the `IgxSimpleComboModule` in your `app.module.ts` file:
+
+`SimpleComboBox` コンポーネントの使用を開始するには、まず `app.module.ts` ファイルで `IgxSimpleComboModule` をインポートする必要があります。
 
 ```typescript
 import { IgxSimpleComboModule } from 'igniteui-angular';
@@ -239,9 +248,9 @@ import { IgxSimpleComboModule } from 'igniteui-angular';
 export class AppModule {}
 ```
 
-Then, in the template, you should bind the combos `SimpleCombo` to some data.
+次に、テンプレートで、コンボの `SimpleCombo` をいくつかのデータにバインドする必要があります。
 
-- `displayKey` - Required for object arrays - Specifies which property will be used for the items' text. If no value is specified for `displayKey`, the simple combobox will use the specified `valueKey` (if any).
+- `displayKey` - オブジェクト配列には必須 - 項目のテキストに使用されるプロパティを指定します。`displayKey` に値が指定されていない場合、シンプルなコンボボックスは指定された `valueKey` (存在する場合) を使用します。
 
 ```typescript
 export class MySimpleComboComponent implements OnInit {
@@ -259,7 +268,7 @@ export class MySimpleComboComponent implements OnInit {
 }
 ```
 
-In order to handle the selection change, we need `selectionChanging`. The emitted event arguments, `IComboSelectionChangingEventArgs`, contain information about the selection prior to the change, the current selection and the items that were added or removed. Therefore, it will filter the values based on the selection of the previous combo.
+選択の変更を処理するには、`selectionChanging` が必要です。発行されたイベント引数 `IComboSelectionChangingEventArgs` には、変更前の選択、現在の選択、および追加または削除された項目に関する情報が含まれます。そのため、前のコンボの選択に基づいて値がフィルターされます。
 
 ```html
 <igx-combo [data]="countriesData" (selectionChanging)="countryChanging($event)"></igx-combo>
@@ -273,8 +282,8 @@ public countryChanging(event: IComboSelectionChangeEventArgs) {
 }
 ```
 
-And lastly, adding the <ApiLink pkg="core" type="LinearProgress" />, which is required while loading the list of data.
-The `id` is necessary to set the value of `id` attribute.
+最後に、データのリストを読み込む際に必要な <ApiLink pkg="core" type="LinearProgress" /> を追加します。
+`id` は、`id` 属性の値を設定するために必要です。
 
 ```html
  <igx-linear-bar
@@ -287,8 +296,9 @@ The `id` is necessary to set the value of `id` attribute.
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
-And lastly, adding the <ApiLink pkg="core" type="LinearProgress" />, which is required while loading the list of data.
-The `id` is necessary to set the value of `id` attribute.
+
+最後に、データのリストを読み込む際に必要な <ApiLink pkg="core" type="LinearProgress" /> を追加します。
+`id` は、`id` 属性の値を設定するために必要です。
 
 ```ts
     public webGridRegionDropDownTemplate: IgcRenderFunction<IgcCellTemplateContext> = (ctx: IgcCellTemplateContext) => {
@@ -300,14 +310,11 @@ The `id` is necessary to set the value of `id` attribute.
     }
 ```
 
-
 </PlatformBlock>
 
-
 <PlatformBlock for="Blazor">
-And lastly, adding the <ApiLink pkg="core" type="LinearProgress" />, which is required while loading the list of data.
 
-
+最後に、データのリストを読み込む際に必要な <ApiLink pkg="core" type="LinearProgress" /> を追加します。
 
 ```csharp
     public static RenderFragment<IgbCellTemplateContext> WebGridRegionDropDownTemplate = (context) =>
@@ -319,15 +326,18 @@ And lastly, adding the <ApiLink pkg="core" type="LinearProgress" />, which is re
 
 </PlatformBlock>
 
-## Known Issues and Limitations
+## 既知の問題と制限事項
 
-|Limitation|Description|
-|--- |--- |
-| Combo drop-down list may hide behind other UI elements. | Due to the stacking order of elements in the grid the combo drop-down may hide behind other elements like header, footers etc. |
+| 制限事項                                              | 説明                                                                                                                    |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| コンボのドロップダウン リストが他の UI 要素の背後に隠れる場合があります。 | グリッド内の要素の重なり順により、コンボのドロップダウンがヘッダーやフッターなどの他の要素の背後に隠れる場合があります。 |
 
+## API リファレンス
 
-## API References
 <ApiLink type="{ComponentName}" />
+
 <ApiLink type="Column" />
+
 <ApiLink type="Combo" />
+
 <ApiLink pkg="core" type="LinearProgress" />

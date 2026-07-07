@@ -1,70 +1,69 @@
 ---
-title: "{Platform} {ComponentTitle} Cascading combos - {ProductName}"
-description: Perform updating via cascading combos in {ComponentTitle}, using {Platform} {ComponentTitle}. See demos & examples!
+title: "{Platform} {ComponentTitle} Combos en cascada - {ProductName}"
+description: Realice actualizaciones mediante combos en cascada en {ComponentTitle}, usando {Platform} {ComponentTitle}. ¡Vea demostraciones y ejemplos!
 keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
 license: commercial
 _language: en
 sharedComponents: ["Grid"]
 namespace: Infragistics.Controls
 llms:
-  description: "The {ComponentTitle}'s Editing functionality provides with the opportunity to use Cascading Combobox components."
+  description: La funcionalidad de edición de {ComponentTitle} ofrece la oportunidad de usar componentes de combo en cascada.
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
+# {Platform} {ComponentTitle} con combos en cascada
 
-# {Platform} {ComponentTitle} with Cascading Combos
+La funcionalidad de edición de {ComponentTitle} ofrece la oportunidad de usar componentes Combobox en cascada. Al seleccionar el valor en cualquier <ApiLink type="Combo" /> anterior, los usuarios recibirán solo los datos que sean relevantes para su selección dentro del siguiente componente Combobox {Platform}.
 
-The {ComponentTitle}'s Editing functionality provides with the opportunity to use Cascading Combobox components. By selecting the value in any preceding <ApiLink type="Combo" />, the users will receive only the data that is relevant to their selection within the next {Platform} Combobox component.
+## Descripción general del ejemplo de {Platform} {ComponentTitle} con combos en cascada
 
-## {Platform} {ComponentTitle} with Cascading Combos Sample Overview
+El ejemplo siguiente demuestra cómo <ApiLink type="{ComponentName}" /> funciona con componentes <ApiLink type="Combo" /> en cascada anidados.
 
-The sample below demonstrates how <ApiLink type="{ComponentName}" /> works with nested Cascading <ApiLink type="Combo" /> components.
+<ComponentBlock for="Grid"><Sample src="/{ComponentSample}/cascading-combo" height={500} alt="{Platform} {ComponentTitle} Cascading Combos Example" /></ComponentBlock>
 
+## Configuración
 
+Para habilitar la edición de columnas, asegúrese de que la propiedad <ApiLink type="Column" member="editable" /> esté establecida en `true`.
 
-
-<ComponentBlock for="Grid">
-<Sample src="/{ComponentSample}/cascading-combo" height={500} alt="{Platform} {ComponentTitle} Cascading Combos Example" />
-</ComponentBlock>
-
-## Setup
-
-In order enable column editing, make sure <ApiLink type="Column" member="editable" /> property is set to `true`.
-
-Once the column editing is enabled, you can start by adding your <ApiLink type="Combo" />. Please note that here in order to have only one single selection available, you will need to use set the <ApiLink type="Combo" member="singleSelect" /> property.
-
+Una vez habilitada la edición de columnas, puede empezar agregando su <ApiLink type="Combo" />. Tenga en cuenta que aquí, para tener disponible una única selección, deberá establecer la propiedad <ApiLink type="Combo" member="singleSelect" />.
 
 <PlatformBlock for="WebComponents, Blazor, React">
-To get started with the <ApiLink type="Combo" />, first you need to import it:
 
+Para empezar con <ApiLink type="Combo" />, primero debe importarlo:
 
 <PlatformBlock for="WebComponents">
+
 ```ts
 import { IgcComboComponent, defineAllComponents } from 'igniteui-webcomponents';
 defineAllComponents();
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
+
 ```csharp
 builder.Services.AddIgniteUIBlazor(
     typeof(IgbGridModule),
     typeof(IgbComboModule)
 );
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
+
 ```tsx
 import { IgrCombo } from 'igniteui-react';
 ```
+
 </PlatformBlock>
 
-Then you should define the column template with the combo:
-
+A continuación, debe definir la plantilla de columna con el combo:
 
 <PlatformBlock for="React">
+
 ```tsx
    <IgrColumn
     field="Country"
@@ -72,9 +71,11 @@ Then you should define the column template with the combo:
     bodyTemplate={webGridCountryDropDownTemplate}>
     </IgrColumn>
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
+
 ```tsx
     const webGridCountryDropDownTemplate = (ctx: IgrCellTemplateContext) => {
         const rowId = ctx.cell?.id.rowID;
@@ -98,9 +99,11 @@ Then you should define the column template with the combo:
     }
 
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
+
 ```razor
 <IgbColumn Field="Country" Header="Country" BodyTemplate="WebGridCountryDropDownTemplate"></IgbColumn>
 
@@ -117,6 +120,7 @@ Then you should define the column template with the combo:
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
+
 ```ts
 public webGridCountryDropDownTemplate: IgcRenderFunction<IgcCellTemplateContext> = (ctx: IgcCellTemplateContext) => {
     const id = ctx.cell.id.rowID;
@@ -124,11 +128,12 @@ public webGridCountryDropDownTemplate: IgcRenderFunction<IgcCellTemplateContext>
     return html`<igc-combo placeholder="Choose Country..." value-key="Country" display-key="Country" id="${comboId}" single-select></igc-combo>`
 }
 ```
+
 </PlatformBlock>
 
-- <ApiLink type="Combo" member="displayKey" /> - Required for object arrays - Specifies which property will be used for the items' text. If no value is specified for <ApiLink type="Combo" member="displayKey" />, the  combo will use the specified <ApiLink type="Combo" member="valueKey" /> (if any).
+- <ApiLink type="Combo" member="displayKey" /> - Obligatorio para matrices de objetos - Especifica qué propiedad se utilizará para el texto de los elementos. Si no se especifica ningún valor para <ApiLink type="Combo" member="displayKey" />, el combo usará el <ApiLink type="Combo" member="valueKey" /> especificado (si lo hay).
 
-In order to handle the selection change, we need the change event. The emitted event arguments contain information about the selection prior to the change, the current selection and the items that were added or removed. Therefore, it will filter the values based on the selection of the previous combo.
+Para controlar el cambio de selección, necesitamos el evento de cambio. Los argumentos del evento emitido contienen información sobre la selección anterior al cambio, la selección actual y los elementos que se agregaron o eliminaron. Por lo tanto, filtrará los valores en función de la selección del combo anterior.
 
 <PlatformBlock for="Blazor">
 
@@ -157,6 +162,7 @@ igRegisterScript("CountryChange", (ctx) => {
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
+
 ```ts
  public countries = [...this.worldCitiesAbove500K].filter(x => this.countryNames.indexOf(x.Country) !== -1).filter((value, index, array) => array.findIndex(x => x.Country === value.Country) === index);
 public bindEventsCountryCombo(rowId: any, cell: any) {
@@ -190,9 +196,11 @@ public bindEventsCountryCombo(rowId: any, cell: any) {
     }
 
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
+
 ```tsx
     const onCountryChange = (rowId: string, event: CustomEvent) => {
         const regionCombo = getComboRef(`region_${rowId}`).current;
@@ -224,7 +232,8 @@ public bindEventsCountryCombo(rowId: any, cell: any) {
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
-To get started with the `SimpleComboBox` component, first you need to import the `IgxSimpleComboModule` in your `app.module.ts` file:
+
+Para empezar con el componente `SimpleComboBox`, primero debe importar `IgxSimpleComboModule` en su archivo `app.module.ts`:
 
 ```typescript
 import { IgxSimpleComboModule } from 'igniteui-angular';
@@ -239,9 +248,9 @@ import { IgxSimpleComboModule } from 'igniteui-angular';
 export class AppModule {}
 ```
 
-Then, in the template, you should bind the combos `SimpleCombo` to some data.
+Después, en la plantilla, debe vincular el `SimpleCombo` de los combos a algunos datos.
 
-- `displayKey` - Required for object arrays - Specifies which property will be used for the items' text. If no value is specified for `displayKey`, the simple combobox will use the specified `valueKey` (if any).
+- `displayKey` - Obligatorio para matrices de objetos - Especifica qué propiedad se utilizará para el texto de los elementos. Si no se especifica ningún valor para `displayKey`, el combobox simple usará el `valueKey` especificado (si lo hay).
 
 ```typescript
 export class MySimpleComboComponent implements OnInit {
@@ -259,7 +268,7 @@ export class MySimpleComboComponent implements OnInit {
 }
 ```
 
-In order to handle the selection change, we need `selectionChanging`. The emitted event arguments, `IComboSelectionChangingEventArgs`, contain information about the selection prior to the change, the current selection and the items that were added or removed. Therefore, it will filter the values based on the selection of the previous combo.
+Para controlar el cambio de selección, necesitamos `selectionChanging`. Los argumentos del evento emitido, `IComboSelectionChangingEventArgs`, contienen información sobre la selección anterior al cambio, la selección actual y los elementos que se agregaron o eliminaron. Por lo tanto, filtrará los valores en función de la selección del combo anterior.
 
 ```html
 <igx-combo [data]="countriesData" (selectionChanging)="countryChanging($event)"></igx-combo>
@@ -273,8 +282,8 @@ public countryChanging(event: IComboSelectionChangeEventArgs) {
 }
 ```
 
-And lastly, adding the <ApiLink pkg="core" type="LinearProgress" />, which is required while loading the list of data.
-The `id` is necessary to set the value of `id` attribute.
+Y por último, se agrega <ApiLink pkg="core" type="LinearProgress" />, que es necesario al cargar la lista de datos.
+El `id` es necesario para establecer el valor del atributo `id`.
 
 ```html
  <igx-linear-bar
@@ -287,8 +296,9 @@ The `id` is necessary to set the value of `id` attribute.
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
-And lastly, adding the <ApiLink pkg="core" type="LinearProgress" />, which is required while loading the list of data.
-The `id` is necessary to set the value of `id` attribute.
+
+Y por último, se agrega <ApiLink pkg="core" type="LinearProgress" />, que es necesario al cargar la lista de datos.
+El `id` es necesario para establecer el valor del atributo `id`.
 
 ```ts
     public webGridRegionDropDownTemplate: IgcRenderFunction<IgcCellTemplateContext> = (ctx: IgcCellTemplateContext) => {
@@ -300,14 +310,11 @@ The `id` is necessary to set the value of `id` attribute.
     }
 ```
 
-
 </PlatformBlock>
 
-
 <PlatformBlock for="Blazor">
-And lastly, adding the <ApiLink pkg="core" type="LinearProgress" />, which is required while loading the list of data.
 
-
+Y por último, se agrega <ApiLink pkg="core" type="LinearProgress" />, que es necesario al cargar la lista de datos.
 
 ```csharp
     public static RenderFragment<IgbCellTemplateContext> WebGridRegionDropDownTemplate = (context) =>
@@ -319,15 +326,18 @@ And lastly, adding the <ApiLink pkg="core" type="LinearProgress" />, which is re
 
 </PlatformBlock>
 
-## Known Issues and Limitations
+## Problemas conocidos y limitaciones
 
-|Limitation|Description|
-|--- |--- |
-| Combo drop-down list may hide behind other UI elements. | Due to the stacking order of elements in the grid the combo drop-down may hide behind other elements like header, footers etc. |
+| Limitación                                              | Descripción                                                                                                                    |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| La lista desplegable del combo puede ocultarse detrás de otros elementos de la UI. | Debido al orden de apilamiento de los elementos en la cuadrícula, la lista desplegable del combo puede ocultarse detrás de otros elementos como encabezados, pies de página, etc. |
 
+## Referencias de API
 
-## API References
 <ApiLink type="{ComponentName}" />
+
 <ApiLink type="Column" />
+
 <ApiLink type="Combo" />
+
 <ApiLink pkg="core" type="LinearProgress" />

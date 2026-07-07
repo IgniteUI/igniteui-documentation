@@ -1,36 +1,36 @@
 ---
-title: "{Platform} Grid Selection-Based Data Aggregation- {ProductName}"
-description: Learn how to aggregate selected data in a grid with Ignite UI. Get instant content aggregations in the virtualized data and rich API for your next project.
-keywords: Data aggregation, selection, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics {Platform}, infragistics
+title: "{Platform} グリッドの選択に基づくデータ集計- {ProductName}"
+description: Ignite UI を使用して、グリッド内の選択されたデータを集計する方法について説明します。次のプロジェクト向けに、仮想化データでの即時コンテンツ集計と豊富な API を利用できます。
+keywords: データ集計, 選択, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics {Platform}, infragistics
 license: commercial
 mentionedTypes: ["Infragistics.Controls.Grid"]
 llms:
-  description: "With the sample, illustrated beyond, you may see how multiple selection is being used, alongside with custom summary functions, to display aggregates based on the selected values in the grid footer."
+  description: 以下に示すサンプルでは、カスタム サマリー関数と併用して複数選択を使用し、グリッド フッターに選択された値に基づく集計結果を表示する方法を確認できます。
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
+# {Platform} グリッドの選択ベースのデータ集計
 
-# {Platform} Grid Selection-Based Data Aggregation
+以下に示すサンプルでは、複数選択をカスタム集計関数と組み合わせて使用し、グリッドのフッターに選択された値に基づく集計を表示する方法を確認できます。
 
-With the sample, illustrated beyond, you may see how multiple selection is being used, alongside with custom summary functions, to display aggregates based on the selected values in the grid footer.
+## トピックの概要
 
-## Topic Overview
+選択ベースの集計機能を実現するには、`Grid Selection` 機能を `Grid Summaries` と組み合わせて使用できます。
+集計では、列のデータ型と要件に応じて、基本クラスのいずれかである <ApiLink type="SummaryOperand" />、<ApiLink type="NumberSummaryOperand" />.html)、または <ApiLink type="DateSummaryOperand" /> を拡張することで、基本的な集計機能をカスタマイズできます。
 
-To achieve the selection-based aggregates functionality, you can use our `Grid Selection` feature, together with the `Grid Summaries`.
-The Summaries are allowing for customization of the basic Summary feature functionality through extending one of the base classes, <ApiLink type="SummaryOperand" />, <ApiLink type="NumberSummaryOperand" />.html) or <ApiLink type="DateSummaryOperand" />, depending on the column data type and your needs.
+## 選択
 
-## Selection
-To start working with the data in the selected grid range, you will have to subscribe to events that are notifying of changes in the grid selection. That can be done by subscribing to the `selected` event and to the `rangeSelected` event. You need to bind to both of them because the Selection feature differentiates between selecting a single cell and selecting a range of cells.
+選択されたグリッド範囲のデータの操作を開始するには、グリッドの選択変更を通知するイベントをサブスクライブする必要があります。これは、`selected` イベントと `rangeSelected` イベントをサブスクライブすることで実行できます。選択機能は単一セルの選択とセル範囲の選択を区別するため、両方にバインドする必要があります。
 
-In the events subscription logic, you can extract the selected data using the grid's `getSelectedData`.html#getSelectedData) function and pass the selected data to the custom summary operand.
+イベントのサブスクリプション ロジックでは、グリッドの `getSelectedData`.html#getSelectedData) 関数を使用して選択されたデータを抽出し、その選択データをカスタム集計オペランドに渡すことができます。
 
+## 集計
 
-## Summary
-Within the custom summary class, you'd have to be differentiating the types of data in the grid. For instance, in the scenario below, there are four different columns, whose type of data is suitable for custom summaries. These are the Unit Price, the Units in Stock, Discontinued status and the Order Date.
-The `operate` method of the derived class of the <ApiLink type="SummaryOperand" />, is where you will process the data, starting by casing it in different categories based on the data types:
+カスタム集計クラス内では、グリッド内のデータ型を区別する必要があります。たとえば、以下のシナリオでは、カスタム集計に適したデータ型を持つ列が 4 つあります。これらは、単価、在庫数、廃止ステータス、注文日です。
+<ApiLink type="SummaryOperand" /> の派生クラスの `operate` メソッドでは、データ型に基づいてデータをさまざまなカテゴリに分類することから開始して、データを処理します。
 
 ```typescript
 const numberData = data.filter(rec => typeof rec === "number");
@@ -39,49 +39,43 @@ const dates = data.filter(rec => isDate(rec));
 ```
 
 <DocsAside type="info">
-Bear in mind, that `isDate` is a custom function.
+
+なお、`isDate` はカスタム関数であることに注意してください。
+
 </DocsAside>
 
-After having the data types grouped accordingly, you can proceed to the aggregation itself. For that reason, you could use the already exposed methods of the <ApiLink type="NumberSummaryOperand" /> and <ApiLink type="DateSummaryOperand" />.
-After that, you'd have to put the aggregated data in the same array, which would be returned to the template.
-For the visualization of the data, you might want to use the grid footer, which in a combination with the `custom-summaries` class will give the natural look of the Summary.
-
+データ型を適切にグループ化した後は、集計自体に進むことができます。そのために、<ApiLink type="NumberSummaryOperand" /> と <ApiLink type="DateSummaryOperand" /> のすでに公開されているメソッドを使用できます。
+その後、集計されたデータを同じ配列に入れる必要があり、その配列がテンプレートに返されます。
+データの視覚化にはグリッドのフッターを使用するとよいでしょう。`custom-summaries` クラスと組み合わせることで、集計の自然な外観を得られます。
 
 <PlatformBlock for="Angular">
 
+### デモ
 
-
-### Demo
-Change the selection to see summaries of the currently selected range.
+選択を変更すると、現在選択されている範囲の集計を確認できます。
 
 {/*NOTE this sample is differed*/}
 
 <Sample src="/{GridSample}/data-summary-custom-selection" height={560} alt="{Platform} {GridTitle} data summary custom selection" />
 
-
-
-
 </PlatformBlock>
 
+## API リファレンス
 
-## API References
+<ApiLink type="Grid" /><br /> <ApiLink type="CellType" /><br />
 
+## その他のリソース
 
-<ApiLink type="Grid" /><br />
-<ApiLink type="CellType" /><br />
-
-## Additional Resources
-
-- [Grid overview](../data-grid.md)
-- [Selection Service]({environment:{Platform}ApiUrl}/classes/gridselectionservice.html)
-- [Row Selection](row-selection.md)
-- [Cell Selection](cell-selection.md)
+- [グリッドの概要](../data-grid.md)
+- [選択サービス]({environment:{Platform}ApiUrl}/classes/gridselectionservice.html)
+- [行選択](row-selection.md)
+- [セル選択](cell-selection.md)
 - [NumberSummaryOperand]({environment:{Platform}ApiUrl}/classes/numbersummaryoperand.html)
 - [DateSummaryOperand]({environment:{Platform}ApiUrl}/classes/datesummaryoperand.html)
-- [Summaries](summaries.md)
-- [Paging](paging.md)
+- [集計](summaries.md)
+- [ページング](paging.md)
 
-Our community is active and always welcoming to new ideas.
+私たちのコミュニティは活発で、新しいアイデアを常に歓迎しています。
 
-- [{ProductName} **Forums**]({ForumsLink})
+- [{ProductName} **フォーラム**]({ForumsLink})
 - [{ProductName} **GitHub**]({GithubLink})

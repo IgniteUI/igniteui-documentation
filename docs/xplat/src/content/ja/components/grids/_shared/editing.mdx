@@ -1,119 +1,129 @@
 ---
-title: "{Platform} {ComponentTitle} Editing - {ProductName}"
-description: Get a powerful public API and an easy way to perform data manipulations like creating, updating, or deleting records. See the {Platform} {ComponentTitle} editing options!
-keywords: data manipulation, {Platform}, {ProductName}, Infragistics
+title: "{Platform} {ComponentTitle} 編集 - {ProductName}"
+description: 強力なパブリック API と、レコードの作成、更新、削除などのデータ操作を実行する簡単な方法を利用できます。{Platform} {ComponentTitle} の編集オプションをご覧ください。
+keywords: データ操作, {Platform}, {ProductName}, Infragistics
 license: commercial
-mentionedTypes: [{ComponentApiMembers}]
+mentionedTypes:
+  - ComponentApiMembers: null
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
 _canonicalLink: "{CanonicalLinkToGridEditing}"
 llms:
-  description: "The {ProductName} Cell Editing feature in {Platform} {ComponentTitle} provides an easy way to perform data manipulation operations like creating, updating, and deleting records."
+  description: "{Platform} {ComponentTitle} の {ProductName} セル編集機能は、レコードの作成、更新、削除などのデータ操作を実行する簡単な方法を提供します。"
 ---
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
+# {Platform} {ComponentTitle} 編集
 
-# {Platform} {ComponentTitle} Editing
+{Platform} {ComponentTitle} の {ProductName} セル編集機能は、レコードの作成、更新、削除などのデータ操作を簡単に実行する方法を提供します。<ApiLink type="{ComponentName}" /> は、これらの操作の実行方法をカスタマイズできる強力なパブリック API を提供します。データ操作のフェーズは次のとおりです。
 
-The {ProductName} Cell Editing feature in {Platform} {ComponentTitle} provides an easy way to perform data manipulation operations like creating, updating, and deleting records. The <ApiLink type="{ComponentName}" /> provides you with a powerful public API which allows you to customize the way these operations are performed. The data manipulation phases are:
-- [Cell Editing](cell-editing.md)
-- [Row Editing](row-editing.md)
-- Batch Editing (Coming Soon)
+- [セル編集](cell-editing.md)
+- [行編集](row-editing.md)
+- バッチ編集 (近日公開)
 
 <PlatformBlock for="Angular">
-Additionally, **Cell editing** exposes several default editors based on the column data type, that could be easily customized via [CellEditor directive](cell-editing.md#cell-editing-templates) or [Row directives](row-editing.md#customizing-row-editing-overlay).
+
+さらに、**セル編集** では、列のデータ型に基づくいくつかの既定エディターが公開されており、[CellEditor ディレクティブ](cell-editing.md#cell-editing-templates) または [Row ディレクティブ](row-editing.md#customizing-row-editing-overlay) を使用して簡単にカスタマイズできます。
 
 </PlatformBlock>
 
-## Setup
+## セットアップ
 
-In order to specify which edit mode should be enabled, the <ApiLink type="{ComponentName}" /> exposes the following boolean properties - <ApiLink type="Column" member="editable" /> and <ApiLink type="{ComponentName}" member="rowEditable" />.
+有効にする編集モードを指定するために、<ApiLink type="{ComponentName}" /> は次のブール型プロパティ (<ApiLink type="Column" member="editable" /> と <ApiLink type="{ComponentName}" member="rowEditable" />) を公開しています。
 
-The <ApiLink type="Column" member="editable" /> property enables you to specify the following options:
+<ApiLink type="Column" member="editable" /> プロパティでは、次のオプションを指定できます。
 
-- **false** - the editing for the corresponding column will be disabled. This is the default value.
-- **true** - the editing for the corresponding column will be enabled.
+- **false** - 対応する列の編集は無効になります。これは既定値です。
+- **true** - 対応する列の編集は有効になります。
 
->Keep in mind that if the column is not editable, you can still modify its value through the public API exposed by the <ApiLink type="{ComponentName}" />.
+> 列が編集可能でない場合でも、<ApiLink type="{ComponentName}" /> によって公開されるパブリック API を使用してその値を変更できることに注意してください。
 
-The <ApiLink type="{ComponentName}" member="rowEditable" /> property enables you to specify the following options:
+<ApiLink type="{ComponentName}" member="rowEditable" /> プロパティでは、次のオプションを指定できます。
 
-- **false** - the row editing in the corresponding grid will be disabled. This is the default value.
-- **true** - the row editing in the corresponding grid will be enabled.
+- **false** - 対応するグリッドの行編集は無効になります。これは既定値です。
+- **true** - 対応するグリッドの行編集は有効になります。
 
-In the <ApiLink type="{ComponentName}" />, if you set <ApiLink type="{ComponentName}" member="rowEditable" /> property to true, and the <ApiLink type="Column" member="editable" /> property is not explicitly defined for any column, the editing will be enabled for all the columns except the **primary key**.
+<ApiLink type="{ComponentName}" /> で <ApiLink type="{ComponentName}" member="rowEditable" /> プロパティを true に設定し、どの列にも <ApiLink type="Column" member="editable" /> プロパティが明示的に定義されていない場合、**主キー** を除くすべての列で編集が有効になります。
 
-[Batch editing](batch-editing.md) in the grid can be enabled for both [cell editing](cell-editing.md) and [row editing](row-editing.md) modes. In order to set up batch editing it is necessary to provide to the grid a  **TransactionService**.
+グリッドの [バッチ編集](batch-editing.md) は、[セル編集](cell-editing.md) モードと [行編集](row-editing.md) モードの両方で有効にできます。バッチ編集を設定するには、グリッドに **TransactionService** を提供する必要があります。
 
+- **セルおよびバッチ編集** - このシナリオでは、各セルのすべての変更が個別に保持され、セル レベルで元に戻す/やり直し操作を使用できます。
+- **行およびバッチ編集** - このシナリオでは、変更は行レベルで保持されるため、元に戻す/やり直し操作は、変更された各セルに対してではなく、各行のセルのまとまりに対して機能します。
 
-- **Cell and Batch Editing** - in this scenario every singe modification of each cell is preserved separately and undo/ redo operations are available on cell level;
-- **Row and Batch Editing** - in this scenario the modifications are preserved on row level so undo/ redo operations will not be working for each cell that is modified but for the bunch of cell from each row.
+### 編集テンプレート
 
-### Editing Templates
+データ型固有の編集テンプレートを使用する場合は、列の <ApiLink type="Column" member="dataType" /> プロパティを指定する必要があります。それでは、各型の既定テンプレートを見てみましょう。
 
- If you want to use a data type specific edit templates, you should specify the column's <ApiLink type="Column" member="dataType" /> property. So let's now see what are the default templates for each type:
+- `string` データ型の場合、既定テンプレートは <ApiLink pkg="core" type="Input" /> を使用します。
+- `number` データ型の場合、既定テンプレートは <ApiLink pkg="core" type="Input" /> type="number" を使用します。そのため、数値として解析できない値にセルを更新しようとすると、その変更は破棄され、セルの値は 0 に設定されます。
+- `date` データ型の場合、既定テンプレートは <ApiLink pkg="core" type="DatePicker" /> を使用します。
+- `dateTime` データ型の場合、既定テンプレートは <ApiLink pkg="core" type="DatePicker" /> を使用します。このエディターは、DateTime オブジェクトの入力要素部分に対するマスク指示を提供します。
+- `time` - データ型の場合、既定テンプレートは <ApiLink pkg="core" type="DateTimeInput" /> を使用します。
+- `boolean` データ型の場合、既定テンプレートは <ApiLink pkg="core" type="Checkbox" /> を使用します。
+- `currency` データ型の場合、既定テンプレートは、アプリケーションまたはグリッドのロケール設定に基づくプレフィックス/サフィックス構成を持つ <ApiLink pkg="core" type="Input" /> を使用します。
+- `percent` データ型の場合、既定テンプレートは、編集された値のプレビューをパーセントで表示するサフィックス要素を持つ <ApiLink pkg="core" type="Input" /> を使用します。
 
-- For `string` data type, default template is using <ApiLink pkg="core" type="Input" />.
-- For `number` data type, default template is using <ApiLink pkg="core" type="Input" /> type="number", so if you try to update cell to a value which can not be parsed to a number your change is going to be discarded, and the value in the cell will be set to 0.
-- For `date` data type, default template is using <ApiLink pkg="core" type="DatePicker" />
-- For `dateTime` data type, default template is using <ApiLink pkg="core" type="DatePicker" />. This editor will give you a mask directions for the input elements part of the DateTime object.
-- For `time` - data type, default template is using <ApiLink pkg="core" type="DateTimeInput" />.
-- For `boolean` data type, default template is using <ApiLink pkg="core" type="Checkbox" />.
-- For `currency` data type, default template is using <ApiLink pkg="core" type="Input" /> with prefix/suffix configuration based on application or grid locale settings.
-- For `percent` data type, default template is using <ApiLink pkg="core" type="Input" /> with suffix element that shows a preview of the edited value in percents.
 <ComponentBlock for="Grid">
-- For custom templates you can see [Cell Editing topic](cell-editing.md#{PlatformLower}-grid-cell-editing-and-edit-templates-example)
+
+- カスタム テンプレートについては、[セル編集トピック](cell-editing.md#{PlatformLower}-grid-cell-editing-and-edit-templates-example) を参照してください。
+
 </ComponentBlock>
 
 <ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
-All available column data types could be found in the official [Column types topic](column-types.md#default-template).
+
+使用可能なすべての列データ型は、公式の [列の型トピック](column-types.md#default-template) で確認できます。
+
 </ComponentBlock>
 
-### Event Arguments and Sequence
+### イベント引数とシーケンス
+
 <ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
-The grid exposes a wide array of events that provide greater control over the editing experience. These events are fired during the [**Row Editing**](row-editing.md) and [**Cell Editing**](cell-editing.md) lifecycle - when starting, committing or canceling the editing action.
+
+グリッドは、編集エクスペリエンスをより詳細に制御できる幅広いイベントを公開しています。これらのイベントは、[**行編集**](row-editing.md) および [**セル編集**](cell-editing.md) のライフサイクル中、つまり編集操作の開始、コミット、キャンセル時に発生します。
+
 </ComponentBlock>
 
- | Event           | Description                                                                                                                                               | Arguments                  | Cancellable |
- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ----------- |
- | <ApiLink type="{ComponentName}" member="rowEditEnter" />  | If `RowEditing` is enabled, fires when a row enters edit mode                                                                                             | <ApiLink type="GridEditEventArgs" />    | **true**    |
- | <ApiLink type="{ComponentName}" member="cellEditEnter" /> | Fires when a cell **enters edit mode** (after <ApiLink type="{ComponentName}" member="rowEditEnter" />)                                                                                             | <ApiLink type="GridEditEventArgs" />     | **true**    |
- | <ApiLink type="{ComponentName}" member="cellEdit" />      | If value is changed, fires just **before** a cell's value is **committed** (e.g. by pressing <kbd>ENTER</kbd>)                                                     | <ApiLink type="GridEditEventArgs" />     | **true**    |
- | <ApiLink type="{ComponentName}" member="cellEditDone" />  | If value is changed, fires **after** a cell has been edited and cell's value is **committed**                                                             | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
- | <ApiLink type="{ComponentName}" member="cellEditExit" />  | Fires when a cell **exits edit mode**                                                                                                                     | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
- | <ApiLink type="{ComponentName}" member="rowEdit" />       | If `RowEditing` is enabled, fires just before a row in edit mode's value is **committed** (e.g. by clicking the `Done` button on the Row Editing Overlay) | <ApiLink type="GridEditEventArgs" />     | **true**    |
- | <ApiLink type="{ComponentName}" member="rowEditDone" />   | If `RowEditing` is enabled, fires **after** a row has been edited and new row's value has been **committed**.                                             | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
- | <ApiLink type="{ComponentName}" member="rowEditExit" />   | If `RowEditing` is enabled, fires when a row **exits edit mode**                                                                                          | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
+| イベント        | 説明                                                                                                                                                         | 引数    | キャンセル可能 |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ----------- |
+| <ApiLink type="{ComponentName}" member="rowEditEnter" /> | `RowEditing` が有効な場合、行が編集モードに入ると発生します                                                                                                     | <ApiLink type="GridEditEventArgs" /> | **true**    |
+| <ApiLink type="{ComponentName}" member="cellEditEnter" /> | セルが **編集モードに入る** と発生します (<ApiLink type="{ComponentName}" member="rowEditEnter" /> の後)                                                                                                         | <ApiLink type="GridEditEventArgs" /> | **true**    |
+| <ApiLink type="{ComponentName}" member="cellEdit" /> | 値が変更された場合、セルの値が **コミット** される **直前** に発生します (例: <kbd>入力</kbd> を押した場合)                                                          | <ApiLink type="GridEditEventArgs" /> | **true**    |
+| <ApiLink type="{ComponentName}" member="cellEditDone" /> | 値が変更された場合、セルが編集され、セルの値が **コミット** された **後** に発生します                                                                       | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
+| <ApiLink type="{ComponentName}" member="cellEditExit" /> | セルが **編集モードを終了** すると発生します                                                                                                                               | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
+| <ApiLink type="{ComponentName}" member="rowEdit" /> | `RowEditing` が有効な場合、編集モードの行の値が **コミット** される直前に発生します (例: 行編集オーバーレイの `Done` ボタンをクリックした場合) | <ApiLink type="GridEditEventArgs" /> | **true**    |
+| <ApiLink type="{ComponentName}" member="rowEditDone" /> | `RowEditing` が有効な場合、行が編集され、新しい行の値が **コミット** された **後** に発生します。                                                     | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
+| <ApiLink type="{ComponentName}" member="rowEditExit" /> | `RowEditing` が有効な場合、行が **編集モードを終了** すると発生します                                                                                                  | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
 
-### Event Cancellation
+### イベントのキャンセル
 
-- <ApiLink type="{ComponentName}" member="rowEditEnter" /> - Neither `Row` nor `Cell` will enter edit mode.
-- <ApiLink type="{ComponentName}" member="cellEditEnter" /> - Prevents entering cell edit. If <ApiLink type="{ComponentName}" member="rowEditable" /> is enabled, row edit will be triggered, although cell edit will remain forbidden.
-- <ApiLink type="{ComponentName}" member="cellEdit" /> - Allowed `Cell` and/or `Row` edit, hitting **Done** button or **Enter** won't commit the value or row transaction. Cell editing and Row editing won't be closed until **Cancel** button is clicked.
-- <ApiLink type="{ComponentName}" member="rowEdit" /> - Committing cell is possible, but not the whole row. The row will stay in edit mode and the row transaction will be considered open. Hitting **Done** does not commit or close the row. **Cancel** button closes the editing process and the transaction without committing the changes.
+- <ApiLink type="{ComponentName}" member="rowEditEnter" /> - `Row` と `Cell` のどちらも編集モードに入りません。
+- <ApiLink type="{ComponentName}" member="cellEditEnter" /> - セル編集に入ることを防ぎます。<ApiLink type="{ComponentName}" member="rowEditable" /> が有効な場合、行編集はトリガーされますが、セル編集は禁止されたままです。
+- <ApiLink type="{ComponentName}" member="cellEdit" /> - `Cell` および/または `Row` の編集は許可されますが、**完了** ボタンまたは **Enter** を押しても値または行トランザクションはコミットされません。**キャンセル** ボタンがクリックされるまで、セル編集と行編集は閉じられません。
+- <ApiLink type="{ComponentName}" member="rowEdit" /> - セルのコミットは可能ですが、行全体のコミットはできません。行は編集モードのままとなり、行トランザクションは開いた状態と見なされます。**完了** を押しても行はコミットまたは閉じられません。**キャンセル** ボタンは、変更をコミットせずに編集プロセスとトランザクションを閉じます。
 
-The following sample demonstrates the editing execution sequence in action:
+次のサンプルは、編集実行シーケンスの動作を示しています。
 
 <Sample src="/{ComponentSample}/editing-lifecycle" height={620} alt="{Platform} {ComponentTitle} editing lifecycle" />
 
+### 機能の統合
 
-### Features integration
-While a cell/row is in edit mode, a user may interact with the grid in many ways. The following table specifies how a certain interaction affects the current editing:
+セル/行が編集モードの間、ユーザーはさまざまな方法でグリッドを操作できます。次の表は、特定の操作が現在の編集にどのように影響するかを示しています。
 
-| {ComponentTitle} | Filtering | Sorting | Paging | Moving | Pinning | Hiding | GroupBy | Resizing | Escape | Enter |  F2   |  Tab  | Cell Click | Add new row/Delete/Edit |
-| ---------------- | :-------: | :-----: | :----: | :----: | :-----: | :----: | :-----: | :------: | :----: | :---: | :---: | :---: | :--------: | :---------------------: |
-| Keep edit mode   |           |         |        |        |         |        |         |    ✔     |        |       |       |       |            |                         |
-| Exit edit mode   |     ✔     |    ✔    |   ✔    |   ✔    |    ✔    |   ✔    |    ✔    |          |   ✔    |   ✔   |   ✔   |   ✔   |     ✔      |            ✔            |
-| Commit           |           |         |        |        |         |        |         |          |        |   ✔   |   ✔   |   ✔   |     ✔      |            ✔            |
-| Discard          |     ✔     |    ✔    |   ✔    |   ✔    |    ✔    |   ✔    |    ✔    |          |   ✔    |       |       |       |            |                         |
+| {ComponentTitle} | フィルタリング | 並べ替え | ページング | 移動 | ピン固定 | 非表示 | GroupBy | サイズ変更 | Escape | Enter |  F2 | Tab | セル クリック | 新しい行の追加/削除/編集 |
+| ---------------- | :-------: | :-----: | :----: | :----: | :-----: | :----: | :-----: | :------: | :----: | :---: | :-: | :-: | :--------: | :---------------------: |
+| 編集モードを維持   |           |         |        |        |         |        |         |     ✔    |        |       |     |     |            |                         |
+| 編集モードを終了   |     ✔     |    ✔    |    ✔   |    ✔   |    ✔    |    ✔   |    ✔    |          |    ✔   |   ✔   |  ✔  |  ✔  |      ✔     |            ✔            |
+| コミット           |           |         |        |        |         |        |         |          |        |   ✔   |  ✔  |  ✔  |      ✔     |            ✔            |
+| 破棄          |     ✔     |    ✔    |    ✔   |    ✔   |    ✔    |    ✔   |    ✔    |          |    ✔   |       |     |     |            |                         |
 
-As seen from the table, all interactions, except resizing a column, will end the editing and will discard the new values. Should the new value be committed, this can be done by the developer in the corresponding feature "-ing" event.
+表に示すように、列のサイズ変更を除くすべての操作は編集を終了し、新しい値を破棄します。新しい値をコミットする必要がある場合は、対応する機能の「-ing」イベントで開発者が実行できます。
 
-Example how to commit new values, if user tries to sort the column while a cell/row is in edit mode:
+セル/行が編集モードの間にユーザーが列を並べ替えようとした場合に、新しい値をコミットする例:
 
 <PlatformBlock for="Angular">
+
 ```html
 <{ComponentSelector} #grid [data]="localData" [primaryKey]="'ProductID'" (sorting)="onSorting($event)">
 </{ComponentSelector}>
@@ -128,6 +138,7 @@ public onSorting(event: ISortingEventArgs) {
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
+
 ```html
 <{ComponentSelector} id="grid" primary-key="ProductID" >
 </{ComponentSelector}>
@@ -149,6 +160,7 @@ public onSorting(event: IgcSortingEventArgs) {
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
+
 ```razor
 <{ComponentSelector}
     Id="grid"
@@ -169,6 +181,7 @@ igRegisterScript("SortingHandler", SortingHandler, false);
 </PlatformBlock>
 
 <PlatformBlock for="React">
+
 ```tsx
 function onSorting(args: IgrSortingEventArgs) {
     const grid = args.target as {ComponentSelector};
@@ -182,45 +195,55 @@ function onSorting(args: IgrSortingEventArgs) {
 
 </PlatformBlock>
 
-## API References
+## API リファレンス
+
 <ApiLink type="{ComponentName}" />
+
 <ApiLink type="Column" />
-## Additional Resources
+
+## その他のリソース
 
 <PlatformBlock for="Angular, WebComponents, React">
-- [Column Data Types](column-types.md#default-template)
-- [Virtualization and Performance](virtualization.md)
-- [Paging](paging.md)
-- [Filtering](filtering.md)
-- [Sorting](sorting.md)
-- [Summaries](summaries.md)
-- [Column Pinning](column-pinning.md)
-- [Column Resizing](column-resizing.md)
-- [Selection](selection.md)
+
+- [列データ型](column-types.md#default-template)
+- [仮想化とパフォーマンス](virtualization.md)
+- [ページング](paging.md)
+- [フィルタリング](filtering.md)
+- [並べ替え](sorting.md)
+- [集計](summaries.md)
+- [列のピン固定](column-pinning.md)
+- [列のサイズ変更](column-resizing.md)
+- [選択](selection.md)
 
 <ComponentBlock for="HierarchicalGrid">
-[Searching](search.md)
+
+[検索](search.md)
+
 </ComponentBlock>
 
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
+
 <ComponentBlock for="Grid">
-- [Column Data Types](column-types.md#default-template)
-- [Virtualization and Performance](virtualization.md)
-- [Paging](paging.md)
-- [Filtering](filtering.md)
-- [Sorting](sorting.md)
-- [Summaries](summaries.md)
-- [Column Pinning](column-pinning.md)
-- [Column Resizing](column-resizing.md)
-- [Selection](selection.md)
-- [Searching](search.md)
+
+- [列データ型](column-types.md#default-template)
+- [仮想化とパフォーマンス](virtualization.md)
+- [ページング](paging.md)
+- [フィルタリング](filtering.md)
+- [並べ替え](sorting.md)
+- [集計](summaries.md)
+- [列のピン固定](column-pinning.md)
+- [列のサイズ変更](column-resizing.md)
+- [選択](selection.md)
+- [検索](search.md)
 
 </ComponentBlock>
 
 <ComponentBlock for="HierarchicalGrid">
-[Searching](search.md)
+
+[検索](search.md)
+
 </ComponentBlock>
 
 </PlatformBlock>
