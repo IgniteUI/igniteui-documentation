@@ -1,0 +1,238 @@
+---
+title: "MAKER フレームワーク | Ignite UI AI オーケストレーション"
+description: "MAKER フレームワークは、Infragistics の多エージェント AI オーケストレーション MCP サーバーです。OpenAI、Anthropic、Google AI プロバイダー間のコンセンサスベースの投票を使用して、複雑なタスクを検証済みのステップ プランに分解します。"
+keywords: "{Platform}, {ProductName}, Infragistics, MAKER, 多エージェント, AI オーケストレーション, MCP, Model Context Protocol, コンセンサス投票, プランと実行, タスク分解"
+license: MIT
+_canonicalLink: "{environment:dvUrl}/components/ai/maker-framework"
+mentionedTypes: []
+_language: ja
+llms:
+  description: "MAKER フレームワーク (@igniteui/maker-mcp) は、Infragistics の多エージェント AI オーケストレーション MCP サーバーです。複数の AI エージェント間のコンセンサスベースの投票アルゴリズムを使用して、複雑なタスクを検証済みの実行可能なステップ プランに分解します。"
+---
+
+# MAKER フレームワーク
+
+MAKER フレームワーク (`@igniteui/maker-mcp`) は、Infragistics の多エージェント AI オーケストレーション MCP サーバーです。複数の AI エージェント間のコンセンサスベースの投票アルゴリズムを使用して、複雑なタスクを検証済みの実行可能なステップ プランに分解します。MAKER は、Maximal Agentic decomposition、first-to-ahead-by-K Error correction、および Red-flagging の略称です。このフレームワークは、Cognizant AI Lab による研究論文 _Solving a million-step LLM task with zero errors_ に基づいています。`@igniteui` GitHub Packages レジストリから `npx` 経由で MCP サーバーとして実行され、STDIO トランスポートを通じて MCP 対応の AI クライアントに接続します。接続後、AI アシスタントは `plan`、`execute`、`plan_and_execute` の 3 つのツールを呼び出して、自動エラー検出および修正機能を備えた長期タスクを実行できます。
+
+MAKER フレームワークは Ignite UI コンポーネント スキャフォールディング ツールではありません。Ignite UI プロジェクトの作成、コンポーネントの生成、およびドキュメント クエリには、[CLI MCP サーバー](cli-mcp.md) を使用してください。MAKER はフレームワーク非依存です。Angular、React、Blazor、Web Components を特定のターゲットとするものではなく、プロジェクト ソース ファイルを自動的に読み取ったり変更したりすることはありません。少なくとも 1 つの AI プロバイダー API キー (OpenAI、Anthropic、または Google AI) と、`@igniteui` レジストリの `read:packages` スコープを持つ GitHub Personal Access Token が必要です。
+
+## MAKER の仕組み
+
+MAKER フレームワークは、計画フェーズと実行フェーズの 2 つの連続したフェーズで動作します。各フェーズは専用の内部 AI クライアント セットを使用し、進行前に出力を検証するために同じコンセンサスベースの投票メカニズムを適用します。
+
+**計画フェーズ**では、計画クライアントがステップのバッチを提案します (設定可能なバッチ サイズ、デフォルトは 3)。別の計画投票クライアントが「first-to-ahead-by-K」投票を実行します。複数の AI エージェントが提案されたステップに対して「Yes」、「No」、または「End」に投票します。一方の結果がもう一方を K 票上回ったとき、提案が承認されます。却下された提案には次の再試行で却下理由が含まれ、計画が完了するか再試行制限に達するまで継続的な改善が促されます。
+
+**実行フェーズ**では、フレームワークが設定可能なバッチで検証済みのステップ プランを処理します。実行クライアントが各バッチを実行し、更新された状態を生成します。実行投票クライアントが前の状態と元のタスクに対して新しい状態を検証し、同じ K マージン投票アルゴリズムを使用します。却下された実行はフィードバックと共に再試行されます。最終的に蓄積された状態がタスクの結果となります。
+
+レッドフラグ検証レイヤーは両方のフェーズを通じて動作します。すべての AI クライアント リクエストは、投票システムに入る前に設定可能なバリデーターを応答に対して実行するガード付きコールでラップされます。不正な形式や短すぎる応答は、失敗メッセージをプロンプトに追加して再試行されます。`IAIRedFlagValidator` を実装することでカスタム バリデーターを追加できます。
+
+## MAKER MCP サーバーのインストール
+
+MAKER は `@igniteui` スコープで GitHub Packages に公開されており、一度だけレジストリ設定が必要です。マシンで次のコマンドを一度実行してください:
+
+```bash
+npm config set @igniteui:registry https://npm.pkg.github.com
+```
+
+次に `~/.npmrc` (Windows: `%USERPROFILE%\.npmrc`) を開き、`read:packages` スコープを持つ GitHub Personal Access Token を追加します:
+
+```ini
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT
+```
+
+レジストリが設定された後、MCP サーバーは別途グローバルインストールなしに `npx` 経由で実行されます。ネイティブ バイナリ (~50 MB) は初回実行時にダウンロードされキャッシュされます。以降の起動は即時です。
+
+## AI クライアントへの接続
+
+AI クライアントの MCP 設定ファイルに `maker` サーバー エントリを追加します。`env` ブロックは AI プロバイダー キーを渡します。使用するプロバイダーのキーのみを設定してください。
+
+### VS Code (GitHub Copilot)
+
+ワークスペースの `.vscode/mcp.json` に追加してください:
+
+```json
+{
+  "servers": {
+    "maker": {
+      "command": "npx",
+      "args": ["-y", "@igniteui/maker-mcp", "--stdio"],
+      "env": {
+        "Executor__AIProviderKeys__OpenAI": "<your-openai-key>"
+      }
+    }
+  }
+}
+```
+
+Copilot Chat をエージェント モードに切り替え、`plan`、`execute`、`plan_and_execute` がツール リストに表示されることを確認してください。
+
+### Claude Desktop
+
+1. Claude Desktop の設定ファイルを開きます:
+    - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+    - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+2. `mcpServers` ブロックに `maker` エントリを追加します:
+
+    ```json
+    {
+      "mcpServers": {
+        "maker": {
+          "command": "npx",
+          "args": ["-y", "@igniteui/maker-mcp", "--stdio"],
+          "env": {
+            "Executor__AIProviderKeys__Anthropic": "<your-anthropic-key>"
+          }
+        }
+      }
+    }
+    ```
+
+3. Claude Desktop を再起動します。最初の起動でネイティブ バイナリがダウンロードされます (一般的な接続で約 30 秒)。
+
+### Cursor、Claude Code、JetBrains、その他の MCP クライアント
+
+STDIO トランスポートで MCP をサポートするクライアントはすべて同じ `mcpServers` ブロックを使用します:
+
+```json
+{
+  "mcpServers": {
+    "maker": {
+      "command": "npx",
+      "args": ["-y", "@igniteui/maker-mcp", "--stdio"],
+      "env": {
+        "Executor__AIProviderKeys__OpenAI": "<your-openai-key>"
+      }
+    }
+  }
+}
+```
+
+## MAKER MCP サーバーの設定
+
+すべての MAKER 設定は環境変数を通じて提供されます。命名規則では二重アンダースコア (`__`) をセクション区切りとして使用します。MCP クライアント設定の `env` ブロックで変数を渡してください。
+
+### AI プロバイダー キー
+
+少なくとも 1 つのプロバイダー キーを設定してください。複数のプロバイダーのキーを同時に設定し、異なるプロバイダーを異なる内部クライアントに割り当てることもできます。
+
+| 環境変数                              | 説明              |
+| ------------------------------------- | ----------------- |
+| `Executor__AIProviderKeys__OpenAI`    | OpenAI API キー   |
+| `Executor__AIProviderKeys__Anthropic` | Anthropic API キー |
+| `Executor__AIProviderKeys__Google`    | Google AI API キー |
+
+### 内部クライアントごとのモデル選択
+
+MAKER は 4 つの内部 AI クライアントを使用します: `Planning`、`PlanVoting`、`Execution`、`ExecutionVoting`。各クライアントは異なるプロバイダーとモデルをターゲットにできます。デフォルトでは 4 つすべてのクライアントで OpenAI の `gpt-5.1` を使用します。
+
+コストと品質のバランスのためにプロバイダーを混在させるには、クライアントごとに `Provider` と `Model` 変数を設定します:
+
+```json
+"env": {
+  "Executor__AIProviderKeys__OpenAI":             "<openai-key>",
+  "Executor__AIProviderKeys__Anthropic":          "<anthropic-key>",
+  "Executor__Clients__Planning__Provider":        "Anthropic",
+  "Executor__Clients__Planning__Model":           "claude-opus-4-5",
+  "Executor__Clients__PlanVoting__Provider":      "OpenAI",
+  "Executor__Clients__PlanVoting__Model":         "gpt-4.1-mini",
+  "Executor__Clients__Execution__Provider":       "Anthropic",
+  "Executor__Clients__Execution__Model":          "claude-opus-4-5",
+  "Executor__Clients__ExecutionVoting__Provider": "OpenAI",
+  "Executor__Clients__ExecutionVoting__Model":    "gpt-4.1-mini"
+}
+```
+
+有効な `Provider` の値: `OpenAI`、`Anthropic`、`Google`。
+
+### 外部 MCP サーバーへの接続
+
+MAKER はツール プロバイダーとして外部 MCP サーバーに接続でき、それらのツールを実行クライアントで利用可能にします。インデックス付き環境変数を使用して、各サーバーに名前、説明、URL、およびオプションの API キーを設定します:
+
+```json
+"env": {
+  "Executor__McpServers__0__Name":        "igniteui-cli",
+  "Executor__McpServers__0__Description": "Ignite UI CLI scaffolding and documentation tools",
+  "Executor__McpServers__0__Url":         "https://mcp.example.com/igniteui-cli"
+}
+```
+
+追加のサーバーを登録するにはインデックスをインクリメントします (`0`、`1`、`2`、...)。
+
+### バッチ サイズと投票しきい値の調整
+
+各 MCP ツール コールは自然言語で `batchSize` と `k` パラメーターを受け付けます。ツールを呼び出す際にプロンプトで設定してください。
+
+| パラメーター | デフォルト | 説明                                                                                                            |
+| ------------ | ---------- | -------------------------------------------------------------------------------------------------------------- |
+| `batchSize`  | `3`        | 投票ラウンドごとに提案または実行されるステップ数。低い値はより詳細な制御を提供し、高い値はスループットを向上させます。 |
+| `k`          | `10`       | コンセンサス マージン しきい値。高い値は、結果が承認される前により強い合意が必要です。                           |
+
+高速で探索的なタスクには低い `k` (3-5) を使用します。正確さがトークン コストより重要な重要なタスクには `k` を上げます (15-20)。
+
+## 利用可能なツール
+
+MAKER MCP サーバーは接続された AI エージェントに 3 つのツールを公開します。
+
+| ツール             | 説明                                                               |
+| ------------------ | ------------------------------------------------------------------ |
+| `plan`             | タスクを実行せずに検証済みの順序付けされたステップ リストに分解する |
+| `execute`          | `plan` が生成したステップ リストをバッチごとにコンセンサス投票で実行する |
+| `plan_and_execute` | フェーズ間のライブ進行イベントを使用して 1 回の呼び出しで計画と実行を行う |
+
+実行前にステップ プランを検査および検証したい場合は `plan` の後に `execute` を使用します。検査が不要な自動実行には `plan_and_execute` を使用します。
+
+## 一般的なワークフロー
+
+### ワンショット タスク
+
+デフォルト設定で `plan_and_execute` を直接呼び出します:
+
+> 「plan_and_execute を使用して、技術ブログ記事用に REST と GraphQL の詳細な比較を作成して」
+
+### 実行前にプランを検査する
+
+`plan` でステップを確認してから `execute` に渡します:
+
+> 1. 「plan を使用して、PostgreSQL スキーマをマルチテナント設計に移行するプランを作成して」
+> 2. 「その手順を見せて」
+> 3. 「execute でそれらの手順を使用して、移行スクリプトを実行して」
+
+### 重要なタスクの高信頼度実行
+
+より強いコンセンサスを要求するために `k` を上げます:
+
+> 「batchSize=3、k=15 の plan_and_execute を使用して、このスマート コントラクトのセキュリティ脆弱性をレビューして」
+
+### 低コストの探索的タスク
+
+トークン使用量を最小化するために両方のパラメーターを下げます:
+
+> 「batchSize=3、k=3 の plan_and_execute を使用して、Node.js CLI ツールのプロジェクト README のドラフトを作成して」
+
+## サポートされているプラットフォーム
+
+ネイティブ バイナリは 4 つのプラットフォーム向けに配布されます。初回実行時に正しいバイナリが自動的に選択されキャッシュされます。
+
+| プラットフォーム | アーキテクチャ          | RID         |
+| -------------- | ----------------------- | ----------- |
+| Windows        | x64                     | `win-x64`   |
+| macOS          | x64 (Intel)             | `osx-x64`   |
+| macOS          | arm64 (Apple Silicon)   | `osx-arm64` |
+| Linux          | x64                     | `linux-x64` |
+
+ARM Linux は現在パッケージ化されていません。追加のプラットフォーム サポートをリクエストするには、[github.com/IgniteUI/MAKER](https://github.com/IgniteUI/MAKER) で Issue を開いてください。
+
+バイナリ キャッシュの場所は `MAKER_MCP_CACHE` 環境変数で上書きできます。デフォルトのキャッシュ パスは Windows では `%LOCALAPPDATA%\maker-mcp\{version}\{rid}\`、macOS および Linux では `~/.cache/maker-mcp/{version}/{rid}/` です。
+
+## その他のリソース
+
+- [AI 支援開発の概要](ai-assisted-development-overview.md)
+- [エージェント スキル](./skills.md)
+- [Ignite UI CLI MCP](./cli-mcp.md)
+- [Ignite UI Theming MCP](./theming-mcp.md)
+
+
+コミュニティに参加して新しいアイデアをご提案ください。
+
+- [{ProductName} **フォーラム (英語)**]({ForumsLink})
+- [{ProductName} **GitHub (英語)**]({GithubLink})
