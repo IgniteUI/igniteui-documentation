@@ -9,11 +9,12 @@ _language: ja
 llms:
   description: "デフォルトでは、グリッドは列のフィールドを使用してセル内の値を文字列としてレンダリングします。"
 ---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
-# 列セル テンプレート
+# 列のセル テンプレート
 
 デフォルトでは、グリッドは列のフィールドを使用してセル内の値を文字列としてレンダリングします。これは基本的なシナリオでは問題ありませんが、レンダリングされる出力をカスタマイズしたい場合や、最終的な出力が異なるデータ フィールドの組み合わせである場合は、セル テンプレートをカスタマイズできます。
 
@@ -33,9 +34,23 @@ column.cellTemplate = (params: IgcCellContext<T, K>) => { return html`<!-- templ
 </PlatformBlock>
 <PlatformBlock for="React">
 
-```razor
-<!-- Templates TBD in Blazor -->
-<IgbGridLiteColumn Field="Price"></IgbGridLiteColumn>
+```tsx
+// cellTemplate 関数を定義します
+const currencyCellTemplate = (ctx: IgrCellContext) => (
+  {/* Template contents */}
+);
+
+// cellTemplate プロパティを設定します
+return (
+  <IgrGridLite data={data} id="grid-lite">
+    <IgrGridLiteColumn
+      field="price"
+      header="Price"
+      dataType="number"
+      cellTemplate={currencyCellTemplate}
+    ></IgrGridLiteColumn>
+  </IgrGridLite>
+);
 ```
 
 </PlatformBlock>
@@ -61,12 +76,28 @@ const { format: asCurrency } = new Intl.NumberFormat('en-150', { style: 'currenc
 // 列要素への参照を取得します
 const column = document.querySelector('igc-grid-lite-column');
 
-// 値 `value = 123456.789` に対してカスタム通貨形式を返します。
+// カスタム通貨形式の値を返します
 column.cellTemplate = (params) => asCurrency(params.value); // => "€123,456.79"
 ```
 
 </PlatformBlock>
 <PlatformBlock for="React">
+
+```tsx
+const formatCurrency = new Intl.NumberFormat("en-150", {
+  style: "currency",
+  currency: "EUR",
+});
+
+// カスタム通貨形式の値を返します
+const currencyCellTemplate = (ctx: IgrCellContext) => (
+  <span>{formatCurrency(ctx.value)}</span>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
 
 ```razor
 <!-- Templates TBD in Blazor -->
@@ -75,7 +106,11 @@ column.cellTemplate = (params) => asCurrency(params.value); // => "€123,456.79
 
 </PlatformBlock>
 
-<PlatformBlock for="Blazor">
+データ ソースの異なるフィールドの値を組み合わせることもできます。
+{/*TODO:
+Refer to the API documentation for `GridLiteCellContext` for more information.*/}
+
+<PlatformBlock for="WebComponents">
 
 ```typescript
 const { format: asCurrency } = new Intl.NumberFormat('en-150', { style: 'currency', currency: 'EUR' });
@@ -83,19 +118,8 @@ const { format: asCurrency } = new Intl.NumberFormat('en-150', { style: 'currenc
 // 列要素への参照を取得します
 const column = document.querySelector('igc-grid-lite-column');
 
-// 価格が 99.99 の品目 10 個の注文に対してカスタム通貨形式を返します
-column.cellTemplate = ({value, row}) => asCurrency(value * row.data.count); // => "€999.90"
-```
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="WebComponents">
-
-```razor
-<!-- Templates TBD in Blazor -->
-<IgbGridLiteColumn Field="Price"></IgbGridLiteColumn>
+// カスタム通貨形式の値を返します
+column.cellTemplate = ({value, row}) => asCurrency(value * row.data.count);
 ```
 
 </PlatformBlock>
@@ -107,7 +131,7 @@ const { format: asCurrency } = new Intl.NumberFormat("en-150", {
   currency: "EUR",
 });
 
-// Return the custom currency formatted value
+// カスタム通貨形式の値を返します
 const totalCellTemplate = (ctx: IgrCellContext) => (
   <span>{asCurrency(ctx.value * ctx.row.data.count)}</span>
 );
@@ -126,12 +150,15 @@ const totalCellTemplate = (ctx: IgrCellContext) => (
 
 ## カスタム DOM テンプレート
 
-`cellTemplate` プロパティを値フォーマッタとして使用する以外に、独自の DOM テンプレートを作成することもできます。これはセルコンテナー内にレンダリングされます。
+`cellTemplate` プロパティを値フォーマッタとして使用する以外に、独自の DOM テンプレートを作成することもできます。これはセル コンテナー内にレンダリングされます。
 
 <PlatformBlock for="WebComponents">
-標準の DOM 要素だけでなく、他のライブラリの Web コンポーネントもテンプレート化できます。
+宣言的な DOM フラグメントを構築するために、<a href="https://lit.dev/" target="_blank">Lit</a> とその<a href="https://lit.dev/docs/templates/expressions/" target="_blank">タグ付きテンプレート構文</a>が提供する機能を再利用しています。
 
 </PlatformBlock>
+
+
+標準の DOM 要素だけでなく、他のライブラリの Web コンポーネントもテンプレート化できます。
 
 
 
@@ -154,9 +181,18 @@ column.cellTemplate = ({ value }) => html`<igc-rating readonly value=${value}></
 <PlatformBlock for="React">
 
 
-```razor
-<!-- Templates TBD in Blazor -->
-<IgbGridLiteColumn Field="Rating"></IgbGridLiteColumn>
+```tsx
+// defineComponents と、rating コンポーネントなどの igniteui-webcomponents コンポーネントをインポートします。
+import { defineComponents, IgcRatingComponent } from "igniteui-webcomponents";
+
+defineComponents(IgcRatingComponent);
+
+// React のセル テンプレート内で、Web コンポーネントを通常どおりに使用します
+const satisfactionCellTemplate = (ctx: IgrCellContext) => (
+  <span>
+    <igc-rating readonly value={ctx.value}></igc-rating>
+  </span>
+);
 ```
 
 </PlatformBlock>
@@ -172,11 +208,13 @@ column.cellTemplate = ({ value }) => html`<igc-rating readonly value=${value}></
 
 </PlatformBlock>
 
-
+<DocsAside type="info" title="情報">
+テンプレートが複雑で込み入ったものになるほど、パフォーマンス コストが大きくなることに注意してください。パフォーマンスが重要な場合は、複雑な DOM 構造は避けてください。
+</DocsAside>
 
 ## セル コンテキスト オブジェクト
 
-カスタム セル レンダラーには `GridLiteCellContext` オブジェクトがパラメータｖとして渡され、以下のプロパティを持ちます。
+カスタム セル レンダラーには `GridLiteCellContext` オブジェクトがパラメータとして渡され、以下のプロパティを持ちます。
 
 <PlatformBlock for="React, WebComponents">
 ```typescript
@@ -228,11 +266,11 @@ export interface GridLiteCellContext<
 
 ## その他のリソース
 
-- [Column Configuration](column-configuration.md)
-- [Sorting](sorting.md)
-- [Filtering](filtering.md)
-- [Theming & Styling](theming.md)
+- [列の構成](column-configuration.md)
+- [ソート](sorting.md)
+- [フィルタリング](filtering.md)
+- [テーマ設定とスタイル設定](theming.md)
 
-Our community is active and always welcoming to new ideas.
+コミュニティに参加して新しいアイデアをご提案ください。
 
 - [{GridLiteTitle} **GitHub**]({GithubLinkLite})

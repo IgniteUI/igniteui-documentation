@@ -24,22 +24,22 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 <PlatformBlock for="Blazor">
 
-データの変換 (ソートやフィルターなど) を適用する場合、グリッドは元のデータ参照を変更しません。つまり、データ変換は元のソースには反映されません。グリッドはデータ配列内のオブジェクトの変更を追跡しないため、データ オブジェクトを直接変更しても反映されません。
+{GridLiteTitle} は、データ ソースとして `List<T>` を受け入れます。`T` はモデルを表します。各グリッド行は配列内のデータ レコードをレンダリングしたもので、行のセルは列の設定に基づいて制御されます。
 
 </PlatformBlock>
 
-When applying data transformations, such as sorting and filtering, the grid does not modify the original data reference. That is to say, data transformations will not be reflected in the original source. The grid does not track changes to the objects inside the data array, so direct modification of the data objects will not be reflected.
+データの変換 (ソートやフィルターなど) を適用する場合、グリッドは元のデータ参照を変更しません。つまり、データ変換は元のソースには反映されません。グリッドはデータ配列内のオブジェクトの変更を追跡しないため、データ オブジェクトを直接変更しても反映されません。
 
 ## 実行時にデータ ソースを変更する
 
-コンポーネントは実行時にデータ ソースの変更をサポートします。新しいソースが前のものと異なる「形状」を持つ場合、列の設定も更新する必要があります。
+コンポーネントは実行時にデータ ソースの変更をサポートします。新しいソースのデータ構造 (フィールド構成) が以前のものと異なる場合は、列の構成も必ず更新してください。
 
 <PlatformBlock for="WebComponents">
 
 
 ```typescript
 grid.data = [...{
-  /** レコードが続きます*/
+  /** ここにレコードを記述します */
 }];
 ```
 
@@ -55,15 +55,22 @@ grid.data = [...{
 <PlatformBlock for="React">
 
 ```tsx
-this.gridRef.current.data = [...{
-  /** レコードが続きます*/
-}];
+/* 最初に初期データを設定します */
+const [data, setData] = React.useState([/* 初期データ */]);
+
+/* 次に、イベント ハンドラーまたは useEffect 内で setData を使用してデータを更新します */
+const updateData = () => {
+  setData([]);
+};
 
 return (
-    <igc-grid-lite data={data}>
-        {/* 新しいデータを表すために、必要に応じて列の構成を更新し、列を追加または削除します。 */}
-        <igc-grid-lite-column field="id"></igc-grid-lite-column>
-    </igc-grid-lite>
+    <>
+        <IgrButton onClick={updateData}>Update Data</IgrButton>
+        <IgrGridLite data={data}>
+            {/* 新しいデータを表すために、必要に応じて列の構成を更新し、列を追加または削除します。 */}
+            <IgrGridLiteColumn field="id"></IgrGridLiteColumn>
+        </IgrGridLite>
+    </>
 );
 ```
 
@@ -80,7 +87,7 @@ return (
 @code {
     this.data = new List<T>
     {
-        // レコードが続きます
+        // ここにレコードを記述します
     };
 }
 ```
@@ -89,13 +96,13 @@ return (
 
 <PlatformBlock for="React, WebComponents">
 
-グリッドで `autoGenerate` が有効になっている場合、データが変更されると新しい列の構成が自動的に「推測されます」。
+グリッドで `autoGenerate` が有効になっている場合、データが変更されると新しい列の構成が自動的に推論されます。
 
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
 
-グリッドで `AutoGenerate` が有効になっている場合、データが変更されると新しい列の構成が自動的に「推測されます」。
+グリッドで `AutoGenerate` が有効になっている場合、データが変更されると新しい列の構成が自動的に推論されます。
 
 </PlatformBlock>
 
@@ -114,6 +121,28 @@ grid.data = [];
 <PlatformBlock for="React">
 
 
+```tsx
+const [data, setData] = React.useState([/* 初期データ */]);
+
+
+/** 新しいバインディング後、グリッドはバインドされたデータから列コレクションを推論します。 */
+const updateData = () => {
+  setData([/* 新しいデータ */]);
+};
+
+return (
+    <>
+        <IgrButton onClick={updateData}>Update Data</IgrButton>
+        <IgrGridLite id="grid-lite" data={data} autoGenerate={true} />
+    </>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
 ```razor
 <IgbGridLite Data="data" AutoGenerate="true" />
 
@@ -125,26 +154,12 @@ grid.data = [];
 
 </PlatformBlock>
 
-<PlatformBlock for="Blazor">
-
-
-```razor
-<IgbGridLite Data="data" AutoGenerate="true" />
-
-@code {
-    // After the new binding the grid will infer the column collection from the bound data.
-    this.data = new List<T>();
-}
-```
-
-</PlatformBlock>
-
 <PlatformBlock for="React, WebComponents">
 
 <DocsAside type="info" title="情報">
 {GridLiteTitle} のソート/フィルター状態は、この方法でデータ ソースを変更しても保持されます。
 </DocsAside>
-通常は `clearSort()` または `clearFilter()` を呼び出してリセットすることをお勧めします。
+通常は `clearSort()` または `clearFilter()` を呼び出して、これらの状態をリセットすることをお勧めします。
 
 </PlatformBlock>
 
@@ -153,7 +168,7 @@ grid.data = [];
 <DocsAside type="info" title="情報">
 {GridLiteTitle} のソート/フィルター状態は、この方法でデータ ソースを変更しても保持されます。
 </DocsAside>
-通常は `ClearSort()` または `ClearFilter()` を呼び出してリセットすることをお勧めします。
+通常は `ClearSort()` または `ClearFilter()` を呼び出して、これらの状態をリセットすることをお勧めします。
 
 </PlatformBlock>
 
