@@ -90,7 +90,7 @@ The Angular documentation is assembled from three sources before being checked:
 
 The check must run **after** both steps above, otherwise it scans stale or incomplete files and misses links that only exist in generated output.
 
-> **xplat:** The checker scans only `docs/xplat/src/content/` (source files). The `docs/xplat/generated/` tree is excluded — `_shared/` links are validated via the source, and generated output correctness is owned by the generate scripts.
+> **xplat:** The checker scans both `docs/xplat/src/content/` (source) and the `docs/xplat/generated/React|WebComponents|Blazor` trees, so a broken link usually surfaces once per source file plus once per generated platform copy. `docs/xplat/generated/` is gitignored build output, fix the link in the source file and regenerate; never edit the generated copies.
 
 ### Commands
 
@@ -117,11 +117,17 @@ Other available commands:
 | Scope | Command |
 |---|---|
 | Full CI simulation (preferred) | `npm run check-relative-links:ci` |
-| Angular only (runs generate first) | `npm run check-relative-links:angular` |
-| xplat (generates all platforms, then checks source + generated) | `npm run check-relative-links:xplat` |
-| Both trees, no setup (skips generate steps) | `npm run check-relative-links` |
-| Angular report to file | `npm run check-relative-links:report:angular` |
-| xplat report to file | `npm run check-relative-links:report:xplat` |
+| Both trees, no setup (skips the generate steps) | `npm run check-relative-links` |
+| Full pipeline, combined report to file | `npm run check-relative-links:report` |
+
+To check a single tree without running the generate steps, call the script directly with `--platform` (`angular`, `xplat`, `react`, `wc`, or `blazor`):
+
+```bash
+node scripts/check-relative-links.mjs --platform=angular
+node scripts/check-relative-links.mjs --platform=xplat --md=reports/relative-links-report.md
+```
+
+Note that this skips generation, so it scans whatever is currently on disk. Use `check-relative-links:ci` when the generated output may be stale.
 
 The checker exits with code 1 on any broken link and prints each failure with a reason code:
 
@@ -130,6 +136,21 @@ The checker exits with code 1 on any broken link and prints each failure with a 
 | `[not found]` | Target file does not exist |
 | `[add .mdx extension]` | Link is `./page` — has `./` prefix but is missing the `.mdx` extension |
 | `[use ./page.mdx instead]` | Link is `(page)` — bare path with no extension and no `./` prefix |
+
+## Checking HTML Links
+
+The relative-link checker works on MDX source. To validate the links in a **built** site instead, use the `check-html-links` scripts. They crawl every `.html` file under `dist/`, extract the internal doc links, and verify each target page exists in the same `dist` tree. This catches breakage introduced by the build itself, so it requires a completed build.
+
+| Scope | Command |
+|---|---|
+| Crawl `dist/` | `npm run check-html-links` |
+| Crawl `dist/`, report to file | `npm run check-html-links:report` |
+
+Pass `--dist=` to scope the crawl to one built site:
+
+```bash
+node scripts/check-html-links.mjs --dist=dist/angular
+```
 
 ## Checking MDX API Links
 
