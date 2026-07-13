@@ -98,6 +98,7 @@ The check is read-only and reports the source file and line for missing or malfo
 
 - Angular content lives under `docs/angular/src/content/<locale>/`.
 - Shared xplat content lives under `docs/xplat/src/content/<locale>/`.
+- Cross-platform topics are also generated into the Angular tree at build time (by `docs/angular/scripts/sync-generated.mjs`) and are therefore **not committed** under `docs/angular/` — they are gitignored, and editing those Angular copies has no effect. Edit the xplat source instead. See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md#updating-of-data-visualization-related-topics).
 - Static images and assets are stored in the nearest product package when product-specific, or in the root `public/` directory when shared.
 
 ## Collaboration Docs
