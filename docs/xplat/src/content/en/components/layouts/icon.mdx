@@ -1,66 +1,53 @@
 ---
-title: "{Platform} Icon Component | {ProductName}"
-description: See how you can easily get started with {Platform} Icon Component. Choose icons and select from different styling options to customize them further.
-keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Icon components, {Platform} Icon controls"
+title: "{Platform} Icon Component | Layouts | Infragistics"
+description: "{Platform} Icon is a display component for rendering registered SVG icons with configurable size, styling, and RTL mirroring."
+keywords: "{Platform} Icon, icon component, SVG icons, {ProductName}, Infragistics"
 license: MIT
 mentionedTypes: ["Icon"]
 llms:
-  description: "The {Platform} Icon component allows you to easily display font or choose from a large set of predefined SVG icons, but it also gives you the ability to create custom font icons for your project."
+  description: "The {ProductName} Icon is a display component for rendering registered SVG icons with configurable size, styling, and RTL mirroring."
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
+# Icon Component
 
-# {Platform} Icon Overview
+The {ProductName} Icon is a display component for rendering registered SVG icons with configurable size, styling, and RTL mirroring.
 
-The {Platform} Icon component allows you to easily display font or choose from a large set of predefined SVG icons, but it also gives you the ability to create custom font icons for your project. Benefiting from a number of attributes, you can define or change the size of the icon in use or apply different styles to it.
+## Overview
 
-## {Platform} Icon Example
+The icon component renders SVG icons from registered collections and gives you a lightweight way to control size, color, and direction-sensitive presentation.
 
-<Sample src="/layouts/icon/sizing" height={60} alt="{Platform} Icon Example" />
+### When to Use
 
-## Usage
+Use the icon component when you need reusable visual symbols for actions, navigation, status, or compact labels across your UI.
+
+### When Not to Use
+
+Do not use the icon component as the only source of meaning when users also need readable text, labels, or instructions to understand an action.
+
+<Sample src="/layouts/icon/sizing" height={60} alt="{Platform} Icon overview example" />
+
+## Getting Started
+
+Before you add the icon component, complete the shared {ProductName} setup in the [Getting Started](../general-getting-started.md) topic.
 
 <PlatformBlock for="WebComponents">
 
-First, you need to install the {ProductName} by running the following command:
-
-```cmd
-npm install {PackageWebComponents}
-```
+Register the icon component before you use it.
 
 ```ts
-import { defineComponents, IgcIconComponent } from "igniteui-webcomponents";
+import { defineComponents, IgcIconComponent } from 'igniteui-webcomponents';
 
 defineComponents(IgcIconComponent);
-```
-
-For a complete introduction to the {ProductName}, read the [**Getting Started**](../general-getting-started.md) topic.
-
-</PlatformBlock>
-
-Before using the <ApiLink pkg="core" type="Icon" />, you need to register it as follows:
-
-<PlatformBlock for="Blazor">
-
-```csharp
-// in Program.cs file
-
-builder.Services.AddIgniteUIBlazor(typeof(IgbIconModule));
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
-First, you need to the install the corresponding {ProductName} npm package by running the following command:
-
-```cmd
-npm install igniteui-react
-```
-
-You will then need to import the <ApiLink pkg="core" type="Icon" />, its necessary CSS, and register its module, like so:
+Import the icon wrapper and the theme stylesheet before you render the component.
 
 ```tsx
 import { IgrIcon } from 'igniteui-react';
@@ -71,7 +58,13 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 <PlatformBlock for="Blazor">
 
-You will also need to link an additional CSS file to apply the styling to the <ApiLink pkg="core" type="Icon" /> component. The following needs to be placed in the **wwwroot/index.html** file in a **Blazor Web Assembly** project or the **Pages/_Host.cshtml** file in a **Blazor Server** project:
+Register the icon module in `Program.cs`.
+
+```csharp
+builder.Services.AddIgniteUIBlazor(typeof(IgbIconModule));
+```
+
+Add the theme stylesheet to your host page.
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
@@ -79,38 +72,47 @@ You will also need to link an additional CSS file to apply the styling to the <A
 
 </PlatformBlock>
 
-The <ApiLink pkg="core" type="Icon" /> doesn't contain any icons on its own. It's a conduit for displaying any _registered_ SVG images.
+## Usage
 
-### Adding Icons
+Register icons first, then render them by name and collection through the <ApiLink pkg="core" type="Icon" /> component.
+
+### Register Icons from a File
+
+Use the icon registration helpers when you want to load an SVG from an external file into a named collection.
 
 <PlatformBlock for="WebComponents">
 
-To register an image as an icon, all you have to do is import one of the 2 utility functions from the icons registry service that allows you to add icons to an icon collection.
-
 ```ts
-import {
-  registerIcon,
-  registerIconFromText,
-} from "igniteui-webcomponents";
-```
+import { registerIcon, registerIconFromText } from 'igniteui-webcomponents';
 
-The <ApiLink type="registerIcon" /> function allows you to register an SVG image as an icon from an external file:
-
-```ts
 registerIcon(
-  "search",
-  "https://unpkg.com/material-design-icons@3.0.1/action/svg/production/ic_build_24px.svg",
-  "material"
+  'search',
+  'https://unpkg.com/material-design-icons@3.0.1/action/svg/production/ic_build_24px.svg',
+  'material'
 );
 ```
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+```tsx
+import { registerIcon } from 'igniteui-webcomponents';
+
+constructor() {
+  registerIcon(
+    'search',
+    'https://unpkg.com/material-design-icons@3.0.1/action/svg/production/ic_build_24px.svg',
+    'material'
+  );
+}
+
+<IgrIcon name="search" collection="material" />
+```
+
+</PlatformBlock>
+
 <PlatformBlock for="Blazor">
-
-To register an image as an icon, all you need to do is call one of the 2 "register" methods on a single <ApiLink pkg="core" type="Icon" /> element that allow you to add icons to an icon collection on your page.
-
-The <ApiLink pkg="core" type="Icon" member="registerIcon" label="RegisterIcon" /> method allows you to register an SVG image as an icon from an external file:
 
 ```razor
 <IgbIcon @ref="@IconRef" />
@@ -120,26 +122,45 @@ The <ApiLink pkg="core" type="Icon" member="registerIcon" label="RegisterIcon" /
 
   protected override void OnAfterRender(bool firstRender)
   {
-     base.OnAfterRender(firstRender);
-     if (this.IconRef != null && firstRender)
-     {
-       this.IconRef.RegisterIcon("search", "https://unpkg.com/material-design-icons@3.0.1/action/svg/production/ic_build_24px.svg", "material");
-     }
+    base.OnAfterRender(firstRender);
+    if (this.IconRef != null && firstRender)
+    {
+      this.IconRef.RegisterIcon(
+        "search",
+        "https://unpkg.com/material-design-icons@3.0.1/action/svg/production/ic_build_24px.svg",
+        "material");
+    }
   }
 }
 ```
 
 </PlatformBlock>
 
+### Register Icons from SVG Text
+
+Use the text-based registration method when the SVG markup is available directly in your application.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const searchIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>';
+
+registerIconFromText('search', searchIcon, 'material');
+```
+
+</PlatformBlock>
+
 <PlatformBlock for="React">
 
-To register an image as an icon, all you need to do is call one of the 2 "register" methods on a single <ApiLink pkg="core" type="Icon" /> element that allow you to add icons to an icon collection on your page.
-
-The <ApiLink pkg="core" type="Icon" member="registerIcon" label="RegisterIcon" /> method allows you to register an SVG image as an icon from an external file:
-
 ```tsx
+import { registerIconFromText } from 'igniteui-webcomponents';
+
+const searchIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>';
+
 constructor() {
-    registerIconFromText("search", "https://unpkg.com/material-design-icons@3.0.1/action/svg/production/ic_build_24px.svg", "material");
+  registerIconFromText('search', searchIcon, 'material');
 }
 
 <IgrIcon name="search" collection="material" />
@@ -147,14 +168,44 @@ constructor() {
 
 </PlatformBlock>
 
-The method above will add an icon named `search` to a cached collection named `material`.
+<PlatformBlock for="Blazor">
 
-In order to use the newly registered icon, all you have to do is to pass the name and collection to the <ApiLink pkg="core" type="Icon" /> element:
+```razor
+<IgbIcon @ref="@IconRef" />
+
+@code {
+  private IgbIcon IconRef { get; set; }
+
+  protected override void OnAfterRender(bool firstRender)
+  {
+    base.OnAfterRender(firstRender);
+    if (this.IconRef != null && firstRender)
+    {
+      const string searchIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/></svg>";
+      this.IconRef.RegisterIconFromText("search", searchIcon, "material");
+    }
+  }
+}
+```
+
+</PlatformBlock>
+
+### Render a Registered Icon
+
+Pass the icon name and collection to the icon component after the icon is registered.
 
 <PlatformBlock for="WebComponents">
 
 ```html
 <igc-icon name="search" collection="material"></igc-icon>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrIcon name="search" collection="material" />
 ```
 
 </PlatformBlock>
@@ -167,80 +218,17 @@ In order to use the newly registered icon, all you have to do is to pass the nam
 
 </PlatformBlock>
 
-<PlatformBlock for="React">
+### Change the Size
 
-```tsx
-<IgrIcon name="search" collection="material" />
-```
-
-</PlatformBlock>
-
-The second method for registering icons is by passing an SVG string to the <ApiLink type="Toolbar" member="registerIconFromText" label="RegisterIconFromText" /> method:
-
-<PlatformBlock for="Blazor, WebComponents">
+Use the sizing CSS variables when you need the icon to match the surrounding layout scale.
 
 <PlatformBlock for="WebComponents">
-```ts
-const searchIcon =
-  '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>';
 
-registerIconFromText("search", searchIcon, "material");
-
-```
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-```razor
-<IgbIcon @ref="@IconRef" />
-
-@code {
-  private IgbIcon IconRef { get; set; }
-
-  protected override void OnAfterRender(bool firstRender)
-  {
-     base.OnAfterRender(firstRender);
-     if (this.IconRef != null && firstRender)
-     {
-       const string searchIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/></svg>";
-       this.IconRef.RegisterIconFromText("search", searchIcon, "material");
-     }
-  }
-}
-```
-
-</PlatformBlock>
-</PlatformBlock>
-
-<PlatformBlock for="React">
-```tsx
-const searchIcon =
-  '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>';
-
-constructor() {
-    registerIconFromText("search", searchIcon, "material");
-}
-
-<IgrIcon name="search" collection="material" />
-```
-</PlatformBlock>
-
-Then you'd use it in the same way as described in the component sample above.
-
-### Size
-The icon component supports three icon sizes - `small`, `medium`(default), and `large`. In order to change the size of the icon, you can utilize the `--ig-size` CSS variable as follows:
-
-<PlatformBlock for="Blazor, WebComponents">
 ```css
 igc-icon {
   --ig-size: var(--ig-size-large);
 }
 ```
-
-<PlatformBlock for="Blazor">
-```razor
-<IgbIcon Size="@SizableComponentSize.Large">
-```
-</PlatformBlock>
 
 </PlatformBlock>
 
@@ -254,38 +242,16 @@ igc-icon {
 
 ```css
 .size-small {
-    --ig-size: var(--ig-size-small);
+  --ig-size: var(--ig-size-small);
 }
 
 .size-medium {
-    --ig-size: var(--ig-size-medium);
+  --ig-size: var(--ig-size-medium);
 }
 
 .size-large {
-    --ig-size: var(--ig-size-large);
+  --ig-size: var(--ig-size-large);
 }
-```
-
-</PlatformBlock>
-
-<Sample src="/layouts/icon/sizing" height={60} alt="{Platform} Icon Sizing" />
-
-You can also set a custom size for the icon component. The best way to do this is by using the `--size` CSS variable.
-
-```css
-igc-icon {
-  --size: 32px;
-}
-```
-
-### Mirrored
-
-Some icons need to look a little different when used in Right-to-Left(RTL) mode. For that reason we provide a `mirrored` attribute that, when set, flips the icon horizontally.
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-icon name="search" mirrored></igc-icon>
 ```
 
 </PlatformBlock>
@@ -293,7 +259,29 @@ Some icons need to look a little different when used in Right-to-Left(RTL) mode.
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbIcon IconName="search" Collection="material" Mirrored="true" />
+<IgbIcon Size="@SizableComponentSize.Large" />
+```
+
+</PlatformBlock>
+
+<Sample src="/layouts/icon/sizing" height={60} alt="{Platform} Icon sizing example" />
+
+Set `--size` when you need a custom pixel size instead of the shared size tokens.
+
+```css
+igc-icon {
+  --size: 32px;
+}
+```
+
+### Mirror Icons for RTL
+
+Set the `mirrored` attribute when the icon should flip horizontally in right-to-left layouts.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-icon name="search" mirrored></igc-icon>
 ```
 
 </PlatformBlock>
@@ -306,9 +294,53 @@ Some icons need to look a little different when used in Right-to-Left(RTL) mode.
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbIcon IconName="search" Collection="material" Mirrored="true" />
+```
+
+</PlatformBlock>
+
+## Best Practices
+
+Use icons to reinforce meaning and save space, not to replace necessary text or labels.
+
+- Pair icons with accessible labels when the action or state is not obvious from context alone.
+- Keep icon collections consistent across the product so the same symbol means the same thing everywhere.
+- Use mirrored icons only for direction-sensitive symbols in RTL layouts.
+- Avoid relying on icon color alone to communicate status or urgency.
+
+## Properties
+
+Use the generated API reference for the full surface; the rows below mark the core options covered on this page.
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| `collection` | build-generated | build-generated | Build injects verified core icon properties here from the typed API source. |
+| `mirrored` | build-generated | build-generated | Build injects verified core icon properties here from the typed API source. |
+| `name` | build-generated | build-generated | Build injects verified core icon properties here from the typed API source. |
+| `size` | build-generated | build-generated | Build injects verified core icon properties here from the typed API source. |
+
+## Methods
+
+Use the icon registration methods when you need to load SVGs into a named collection at runtime.
+
+| Name | Description |
+| -- | -- |
+| `registerIcon()` / `RegisterIcon()` | Registers an SVG icon from an external file into a collection. |
+| `registerIconFromText()` / `RegisterIconFromText()` | Registers an SVG icon from inline SVG text into a collection. |
+
 ## Styling
 
-The icon component can be styled by applying styles directly to the <ApiLink pkg="core" type="Icon" /> element;
+Style the icon directly through the host element and sizing variables.
+
+<Sample src="/layouts/icon/styling" height={70} alt="{Platform} Icon styling example" />
+
+| Variable | What it changes |
+| -- | -- |
+| `--ig-size` | Applies one of the shared component size tokens to the icon. |
+| `--size` | Sets a custom explicit icon size. |
 
 ```css
 igc-icon {
@@ -317,10 +349,41 @@ igc-icon {
 }
 ```
 
-<Sample src="/layouts/icon/styling" height={70} alt="{Platform} Icon Sizing" />
+## Accessibility
+
+Icons are visual symbols, so their accessibility depends on the surrounding label, role, and text context provided by your app.
+
+### Keyboard Interaction
+
+The icon component does not define component-specific keyboard shortcuts.
+
+| Key | Action |
+| -- | -- |
+| n/a | The icon is not an interactive control by itself. |
+
+### Screen Readers / ARIA
+
+[VERIFY: screen reader behavior and aria requirements for the icon component]
+
+### Accessibility Compliance
+
+[VERIFY: official accessibility conformance target for the icon component]
+
+| Criterion | How the component complies |
+| -- | -- |
+| [1.1.1 Non-text Content](https://www.w3.org/WAI/WCAG22/Understanding/non-text-content) | [VERIFY: how decorative versus meaningful icon usage is exposed and what authors must provide] |
+| [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships) | Icons can support visual structure, but semantic meaning still depends on the surrounding accessible content. |
+
+Your responsibilities:
+
+- Provide an accessible name or adjacent text when an icon conveys an action or state.
+- Hide purely decorative icons from assistive technologies when appropriate.
+- Ensure icon color and size choices remain understandable in your overall UI.
 
 ## API References
+
 <ApiLink pkg="core" type="Icon" />
+
 ## Additional Resources
 
 - [{ProductName} **Forums**]({ForumsLink})

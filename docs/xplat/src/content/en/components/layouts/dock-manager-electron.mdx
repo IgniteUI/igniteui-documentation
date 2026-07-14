@@ -1,11 +1,12 @@
 ---
-title: "{Platform} Dock Manager | Desktop Integration | Infragistics"
-description: Use Infragistics' {Platform} dock manager component to manage the layout of multi-window Electron desktop application. Check out {ProductName} dock manager tutorials!
-keywords: dock manager, layout, {ProductName}, Infragistics
+title: "{Platform} Dock Manager Component | Desktop Integration | Infragistics"
+description: "The Infragistics {Platform} Dock Manager can be integrated into a multi-window Electron application to move panes across windows and manage each window layout."
+keywords: "dock manager, layout, electron, {ProductName}, Infragistics"
 license: commercial
 mentionedTypes: ["DockManager", "DocumentHost", "DockManagerLayout", "DockManagerPaneType", "ContentPane", "SplitPane", "TabGroupPane", "PinnedLocation", "PaneHeaderElement"]
 llms:
-  description: "The Infragistics {Platform} Dock Manager component can be used in a multi-window Electron desktop application to manage the layout of each window, drag panes outside of a window in order to create a new window and drag/drop panes from one window to another."
+  description: "The Infragistics {Platform} Dock Manager can be integrated into a multi-window Electron application to move panes across windows and manage each window layout."
+relatedComponents: ["Splitter", "Tabs"]
 ---
 
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
@@ -13,35 +14,71 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import { Image } from 'astro:assets';
 import dockmanagerElectronApp from '@xplat-images/dockmanager-electron-app.gif';
 
+# Dock Manager Component
 
-# {Platform} Dock Manager Desktop Integration
+The Infragistics {Platform} Dock Manager can be integrated into a multi-window Electron application to move panes across windows and manage each window layout.
 
-The Infragistics {Platform} Dock Manager component can be used in a multi-window [Electron](https://www.electronjs.org/) desktop application to manage the layout of each window, drag panes outside of a window in order to create a new window and drag/drop panes from one window to another. You could find a sample implementation of such application in the following repository https://github.com/IgniteUI/dock-manager-electron-app.
+## Overview
 
-{/*TODO: Add a gif of the application and a link to download the exe*/}
+This topic shows how to extend Dock Manager beyond a single browser window so panes can be dragged out into new Electron windows and dropped back into other dock manager instances.
+
+### When to Use
+
+Use this integration pattern when your desktop app needs detachable tool windows, cross-window pane movement, and a separate dock manager layout per Electron window.
+
+### When Not to Use
+
+Do not use Electron-specific window integration when the app only needs in-window floating panes or simple layout resizing. For single-window layouts, use the base [Dock Manager](./dock-manager.md) behavior, and for simpler pane sizing use the [Splitter](./splitter.md) component.
+
+[VERIFY: live Electron Dock Manager demo sample path]
+
+## Anatomy
+
+The Electron integration combines one Dock Manager instance per renderer window with custom drag-and-drop coordination and window management logic in the Electron main and renderer processes.
+
 <Image src={dockmanagerElectronApp} alt="{Platform} Dock Manager desktop integration" class="responsive-img" />
-
-## Implementation
-
-Let's go through the most important parts of the implementation of this application.
 
 ### Project Structure
 
-We have used the [Electron Forge](https://www.electronforge.io/) CLI tool and its [Typescript + Webpack](https://www.electronforge.io/templates/typescript-+-webpack-template) template to create an Electron application. Electron has two types of processes: Main and Renderer.
-- The Main process creates web pages by creating **BrowserWindow** instances. Each **BrowserWindow** instance runs the web page in its Renderer process.
-- The Renderer process manages only the corresponding web page.
+The referenced implementation uses [Electron Forge](https://www.electronforge.io/) with the [TypeScript + Webpack](https://www.electronforge.io/templates/typescript-+-webpack-template) template.
 
-The **index.ts** script specifies the entry point of the Electron application that will run the Main process. Most of the code of our application is inside the **renderer.ts** file which runs in the Renderer process. The **index.html** represents the content of the web page. The styles of the web page are hosted in the **index.css** file.
+- The main process creates `BrowserWindow` instances.
+- Each `BrowserWindow` hosts a renderer process.
+- `index.ts` is the Electron main-process entry point.
+- `renderer.ts` hosts most of the Dock Manager integration logic.
+- `index.html` and `index.css` define the page markup and styles for each renderer window.
 
-### Dock Manager Setup
+## Getting Started
 
-After installing the Dock Manager package, we have registered the Dock Manager component using the **defineCustomElements()** in the **renderer.ts** file. This allows to add the **`<igc-dockmanager>`** in the **index.html** file.
+Before you build the Electron integration, complete the base Dock Manager setup in the [Dock Manager](./dock-manager.md) topic and add the Electron application shell that will host your dock manager instances.
 
-For the Dock Manager pane contents we have used **iframe** elements which host different urls. In our case these urls point to [Ignite UI for Angular](https://www.infragistics.com/products/ignite-ui-angular) samples. Since the **iframe** elements are self-contained, moving them from one window to another is easily accomplished.
+<PlatformBlock for="WebComponents">
 
-### Drag and drop
+Register the Dock Manager component in the renderer process before you render `<igc-dockmanager>`.
 
-In order to support dragging panes outside the application window we have replaced the built-in drag/drop which creates in-application floating panes with a custom implementation based on the [HTML Drag and Drop API](https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API). We have subscribed to the `PaneHeaderConnected` and `TabHeaderConnected` events which are fired when a header element is connected to the DOM. When a header element is connected we reset the built-in <ApiLink type="PaneHeaderElement" member="dragService" label="DragService" /> and attach `DragStart` and `DragEnd` event listeners.
+```ts
+import { defineCustomElements } from 'igniteui-dockmanager';
+
+defineCustomElements();
+```
+
+</PlatformBlock>
+
+## Usage
+
+Set up a Dock Manager instance in each renderer window, replace the built-in pane drag flow where needed, and coordinate pane transfer between windows through Electron window management APIs.
+
+### Set Up the Renderer Content
+
+Render an `<igc-dockmanager>` inside the Electron renderer page and use `iframe` elements as pane contents when the content should remain self-contained while moving between windows.
+
+The existing implementation uses `iframe` elements that host external URLs so those content nodes can be transferred between windows with minimal coupling.
+
+### Replace the Built-in Pane Drag Flow
+
+Use custom drag handling when panes should be dragged outside the current application window instead of being limited to in-window floating panes.
+
+The existing integration subscribes to the `paneHeaderConnected` and `tabHeaderConnected` events, clears the built-in <ApiLink type="PaneHeaderElement" member="dragService" label="DragService" /> instance, and wires native drag event handlers to the connected header element.
 
 <PlatformBlock for="WebComponents">
 
@@ -64,8 +101,9 @@ dockManager.addEventListener('paneHeaderConnected', paneHeaderConnected);
 
 </PlatformBlock>
 
+### Notify Dock Manager About Drag Start
 
-In the `PaneHeaderDragStart` function we set the <ApiLink type="DockManager" member="draggedPane" label="DraggedPane" /> property of the Dock Manager component which will notify it that a drag operation has been started.
+Set the <ApiLink type="DockManager" member="draggedPane" label="DraggedPane" /> property when the native drag operation starts so Dock Manager can track which pane is being moved.
 
 <PlatformBlock for="WebComponents">
 
@@ -79,7 +117,9 @@ const paneHeaderDragStart = async (pane: IgcContentPane, event: DragEvent) => {
 
 </PlatformBlock>
 
-We have subscribed to the `DragOver` and `drop` events of the `document` element. In the `DragOver` listener we notify the Dock Manager that the mouse is dragged over it by setting its <ApiLink type="DockManager" member="dropPosition" label="DropPosition" /> property. This forces the Dock Manager to display its docking indicators.
+### Show Docking Indicators During Document Drag
+
+Handle `dragover` on the document and update <ApiLink type="DockManager" member="dropPosition" label="DropPosition" /> so the target Dock Manager can display docking indicators during the native drag operation.
 
 ```ts
 const handleDocumentDragOver = (event: DragEvent) => {
@@ -95,14 +135,17 @@ document.addEventListener('dragover', handleDocumentDragOver);
 document.addEventListener('drop', handleDocumentDrop);
 ```
 
-In the `paneHeaderDragEnd` function we detect if the pane was dropped outside the application window and we call the `droppedOutOfWindow` function.
+### Handle Drops Outside the Current Window
+
+Detect when a drag ends outside the current application window and branch into your out-of-window pane transfer logic.
+
+<PlatformBlock for="WebComponents">
 
 ```ts
 const paneHeaderDragEnd = async (event: DragEvent) => {
     event.preventDefault();
     // ...
 
-    // dropped outside of the application
     if (event.dataTransfer.dropEffect === 'none') {
         await droppedOutOfWindow(event);
     }
@@ -110,7 +153,11 @@ const paneHeaderDragEnd = async (event: DragEvent) => {
 }
 ```
 
-When the pane header is dropped inside a document we call the `DropPane` method which notifies the Dock Manager that the dragged pane was dropped. If the pane was dropped on a docking indicator the method returns **true**. If the pane was dropped in the same window it was dragged from, the pane will be docked to its new position automatically. However, if it was dropped in another window we call the `droppedInAnotherWindow` function which first removes the pane from the source Dock Manager and then adds it to the new one.
+</PlatformBlock>
+
+### Dock Panes Into the Target Window
+
+Call the Dock Manager drop API when a pane is dropped over a document and then check whether the content belongs to the current dock manager or needs to be transferred in from another window.
 
 <PlatformBlock for="WebComponents">
 
@@ -123,7 +170,6 @@ const handleDocumentDrop = async (event: DragEvent) => {
     if (docked) {
         const contentElement = dockManager.querySelector('[slot=' + contentId + ']');
 
-        // if the content element is missing from the current dock manager it means it comes from another window
         if (!contentElement) {
             await droppedInAnotherWindow();
         }
@@ -133,7 +179,11 @@ const handleDocumentDrop = async (event: DragEvent) => {
 
 </PlatformBlock>
 
-When a pane is dropped out of its current window, we need to remove the <ApiLink type="DockManager" member="draggedPane" label="DraggedPane" /> from its Dock Manager component and update the layout.
+If the pane is dropped in the same window it was dragged from, Dock Manager re-docks it in place. If it is dropped in another window, the implementation removes the pane from the source Dock Manager and adds it to the target one.
+
+### Remove the Pane From the Source Layout
+
+Remove the <ApiLink type="DockManager" member="draggedPane" label="DraggedPane" /> from the source Dock Manager and reassign the layout so the source window reflects the updated pane tree.
 
 <PlatformBlock for="WebComponents">
 
@@ -145,7 +195,9 @@ dockManager.layout = { ...dockManager.layout };
 
 </PlatformBlock>
 
-Next, we need to move the pane content element to its new window. For this purpose, we use the [document.adoptNode()](https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode) method, which allows us to transfer the content element node to the new document and finally, append it as a child of the new Dock Manager component.
+### Move Pane Content to the New Window
+
+Use `document.adoptNode()` to transfer the pane content node into the target window document and append it to the target Dock Manager instance.
 
 <PlatformBlock for="WebComponents">
 
@@ -159,9 +211,9 @@ newDockManager.appendChild(adoptedNode);
 
 </PlatformBlock>
 
-### Window Management
+### Configure Electron Window Management
 
-We are using the native [window.open()](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) method to open a new window in the Renderer process. We set the `nativeWindowOpen` option to **true** when creating the `BrowserWindow` in the **index.ts**. This gives us direct access to the child `Window` object and its `document`. You could read more about opening windows from the Renderer process in this Electron [topic](https://www.electronjs.org/docs/api/window-open). Please note that the `nativeWindowOpen` option is still experimental.
+Open child windows from the renderer process with `window.open()` and enable `nativeWindowOpen` on the Electron `BrowserWindow` so the renderer receives direct access to the child `Window` object and its `document`.
 
 ```ts
 mainWindow = new BrowserWindow({
@@ -173,14 +225,88 @@ mainWindow = new BrowserWindow({
 });
 ```
 
-In this application we have implemented an `IDockManagerWindow` type which could be either a main window (`IMainDockManagerWindow`) or a child window (`IChildDockManagerWindow`). The main window is the one created when the application starts. It contains references to all its child windows. A child window is created when a pane is dropped out of a window and has a reference to the main window of the application.
+The referenced implementation models windows through an `IDockManagerWindow` abstraction with separate main-window and child-window variants so each child window can resolve back to the main application window.
 
-For the full source code please clone the [repository](https://github.com/IgniteUI/dock-manager-electron-app).
+## Best Practices
 
+Use Electron integration only when the app truly benefits from multi-window pane movement and window-specific layouts.
+
+- Keep pane content self-contained so moving it between windows does not break shared state unexpectedly.
+- Reassign the Dock Manager layout after pane removal so the source window stays in sync with the transferred content.
+- Restrict cross-window drag logic to the pane headers or tabs that should actually support window detachment.
+- Centralize window bookkeeping so child windows can always resolve the owning main window and active dock manager instance.
+- Test out-of-window drag, cross-window drop, and window-close recovery together because the integration depends on both Dock Manager state and Electron window lifecycle state.
+
+## Properties
+
+Use the generated API reference for the full surface; the rows below mark the core Dock Manager properties used by the Electron integration.
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| `draggedPane` | build-generated | build-generated | Build injects verified dock manager drag-state properties here from the typed API source. |
+| `dropPosition` | build-generated | build-generated | Build injects verified dock manager drag-state properties here from the typed API source. |
+| `layout` | build-generated | build-generated | Build injects verified dock manager layout properties here from the typed API source. |
+
+## Methods
+
+Use dock manager methods when you need to complete pane transfer and docking during Electron drag-and-drop flows.
+
+| Name | Description |
+| -- | -- |
+| `dropPane` | Notifies Dock Manager that the dragged pane has been dropped. |
+| `removePane` | Removes a pane from the current dock manager layout. |
+
+## Events
+
+Use dock manager events when you need to attach custom drag behavior to pane or tab headers.
+
+| Name | Description |
+| -- | -- |
+| `paneHeaderConnected` | Fires when a pane header element is connected to the DOM. |
+| `tabHeaderConnected` | Fires when a tab header element is connected to the DOM. |
+
+## Accessibility
+
+Electron integration changes how panes move across windows, so accessibility validation should include cross-window focus movement and drag alternatives in addition to the base Dock Manager behavior.
+
+### Keyboard Interaction
+
+[VERIFY: keyboard support and non-pointer alternatives for Electron window detaching and cross-window pane transfer]
+
+### Screen Readers / ARIA
+
+[VERIFY: screen reader behavior for moving panes across windows and adopting pane content into another document]
+
+### Accessibility Compliance
+
+[VERIFY: official accessibility conformance target for Dock Manager Electron integration scenarios]
+
+| Criterion | How the component complies |
+| -- | -- |
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG22/Understanding/keyboard) | [VERIFY: keyboard operability of the Electron-specific pane transfer workflow] |
+| [2.4.3 Focus Order](https://www.w3.org/WAI/WCAG22/Understanding/focus-order) | [VERIFY: predictable focus behavior after panes move into another window] |
+| [2.5.7 Dragging Movements](https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements) | [VERIFY: non-drag alternatives or documented limitations for cross-window pane movement] |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value) | [VERIFY: semantic exposure after pane content is rehosted in another window document] |
+
+Your responsibilities:
+
+- Preserve clear pane headers so users can identify panes before and after they move between windows.
+- Validate focus restoration when a pane is dropped into a new Electron window.
+- Provide accessible alternatives if your Electron integration depends on pointer-only drag gestures.
 
 ## API References
 
-<ApiLink type="DockManager" /><br />
-<ApiLink type="DocumentHost" /><br />
-<ApiLink type="DockManagerLayout" /><br />
-<ApiLink type="ContentPane" /><br />
+<ApiLink type="DockManager" />
+<ApiLink type="DocumentHost" />
+<ApiLink type="DockManagerLayout" />
+<ApiLink type="ContentPane" />
+
+## Dependencies
+
+This integration depends on the base Dock Manager setup plus an Electron application shell with renderer and main processes. The referenced implementation uses Electron Forge and Electron `BrowserWindow` configuration.
+
+## Additional Resources
+
+- [Dock Manager](./dock-manager.md)
+- [dock-manager-electron-app](https://github.com/IgniteUI/dock-manager-electron-app)
+- [{ProductName} **GitHub**]({GithubLink})

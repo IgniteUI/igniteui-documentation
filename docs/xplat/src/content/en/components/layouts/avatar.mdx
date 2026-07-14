@@ -1,92 +1,60 @@
 ---
-title: "{Platform} Avatar | Layout Controls | Infragistics"
-description: Use Infragistics' {Platform} avatar component to display an image, icon, or initials.
-keywords: avatar, layout, {ProductName}, Infragistics
+title: "{Platform} Avatar Component | Layouts | Infragistics"
+description: "{Platform} Avatar represents a user, entity, or object with an image, initials, or custom content."
+keywords: "{Platform} Avatar, avatar component, profile image, initials, {ProductName}, Infragistics"
 license: MIT
-mentionedTypes: ["Avatar"]
+mentionedTypes: ["Avatar", "Badge", "Icon"]
+relatedComponents: ["Badge"]
 llms:
-  description: "The {ProductName} Avatar helps to display initials, images, or icons in your application."
+  description: "The {ProductName} Avatar represents a user, entity, or object with an image, initials, or custom content."
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
+# Avatar Component
 
-# {Platform} Avatar
+The {ProductName} Avatar represents a user, entity, or object with an image, initials, or custom content.
 
-The {ProductName} Avatar helps to display initials, images, or icons in your application.
+## Overview
 
-## {Platform} Icon Avatar Example
+Use the avatar to provide a compact visual identity in lists, cards, profile menus, and activity feeds.
 
-<Sample src="/layouts/avatar/icon" height={80} alt="{Platform} Avatar Example" />
+### When to Use
 
+Use the avatar when a UI needs a small representation of a person, organization, object, or account, such as a profile image, initials, or an icon.
 
+### When Not to Use
 
-## Usage
+Use the [Badge](../inputs/badge.md) component when you need to show a count, status, or notification indicator instead of representing an entity. Badges can also decorate avatars when both identity and status need to appear together.
 
+<Sample fitContent position="center" spacing="lg" src="/layouts/avatar/icon" alt="{Platform} Avatar icon example" />
+
+## Anatomy
+
+The avatar is a single host element that renders an image, initials, or the default slot.
+
+{/*TODO: Add an avatar anatomy image when a component-parts visual is available.*/}
+
+```html
+<igc-avatar role="image">
+  <div part="base">
+    <span part="initials">AZ</span>
+    <!-- or -->
+    <img part="image" alt="A photo of Ana Zane" src="..." />
+    <!-- or -->
+    <slot></slot>
+  </div>
+</igc-avatar>
+```
+
+## Getting Started
+
+Before you add the avatar, complete the shared {ProductName} setup in the [Getting Started](../general-getting-started.md) topic.
 
 <PlatformBlock for="WebComponents">
 
-
-First, you need to install the {ProductName} npm package by running the following command:
-
-```cmd
-npm install {PackageWebComponents}
-```
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="React">
-
-
-
-First, you need to the install the corresponding {ProductName} npm package by running the following command:
-
-```cmd
-npm install igniteui-react
-```
-
-You will then need to import the <ApiLink pkg="core" type="Avatar" /> and its necessary CSS, like so:
-
-```tsx
-import { IgrAvatar } from 'igniteui-react';
-import 'igniteui-webcomponents/themes/light/bootstrap.css';
-```
-
-
-</PlatformBlock>
-
-
-Before using the <ApiLink pkg="core" type="Avatar" />, you need to register it as follows:
-
-
-<PlatformBlock for="Blazor">
-
-```csharp
-// in Program.cs file
-
-builder.Services.AddIgniteUIBlazor(typeof(IgbAvatarModule));
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-
-
-You will also need to link an additional CSS file to apply the styling to the <ApiLink pkg="core" type="Avatar" /> component. The following needs to be placed in the **wwwroot/index.html** file in a **Blazor Web Assembly** project or the **Pages/_Host.cshtml** file in a **Blazor Server** project:
-
-```razor
-<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
-```
-
-
-</PlatformBlock>
-
-
-<PlatformBlock for="WebComponents">
+Register the avatar component before you use it.
 
 ```ts
 import { defineComponents, IgcAvatarComponent } from 'igniteui-webcomponents';
@@ -96,9 +64,40 @@ defineComponents(IgcAvatarComponent);
 
 </PlatformBlock>
 
-For a complete introduction to the {ProductName}, read the [**Getting Started**](../general-getting-started.md) topic.
+<PlatformBlock for="React">
 
-The <ApiLink pkg="core" type="Avatar" /> is capable of displaying images, initials, or any other content, including icons. Declaring an <ApiLink pkg="core" type="Avatar" /> is as simple as:
+Import the React wrapper and theme stylesheet before you render the avatar.
+
+```tsx
+import { IgrAvatar } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Register the avatar module in `Program.cs`.
+
+```csharp
+builder.Services.AddIgniteUIBlazor(typeof(IgbAvatarModule));
+```
+
+Add the theme stylesheet to your host page.
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+## Usage
+
+Render an avatar with an image source, initials, or custom content in the default slot.
+
+### Basic Declaration
+
+Add an avatar with no attributes when you need an empty avatar container to style or populate later.
 
 <PlatformBlock for="WebComponents">
 
@@ -124,11 +123,20 @@ The <ApiLink pkg="core" type="Avatar" /> is capable of displaying images, initia
 
 </PlatformBlock>
 
-The avatar has several attributes that allow rendering different content based on the context. The most basic way to display content in the boundaries of the avatar is to provide content between the opening and closing tags.
+### Content
+
+Set only the content source you intend to show; the avatar renders an image when <ApiLink pkg="core" type="Avatar" member="src" label="Src" /> is available, otherwise it renders <ApiLink pkg="core" type="Avatar" member="initials" label="Initials" /> or default slot content.
 
 <PlatformBlock for="WebComponents">
 
 ```html
+<igc-avatar initials="AZ"></igc-avatar>
+
+<igc-avatar
+  src="https://static.infragistics.com/xplatform/images/people/men/1.jpg"
+  alt="A photo of Ana Zane">
+</igc-avatar>
+
 <igc-avatar>
   <igc-icon name="home"></igc-icon>
 </igc-avatar>
@@ -139,8 +147,15 @@ The avatar has several attributes that allow rendering different content based o
 <PlatformBlock for="React">
 
 ```tsx
+<IgrAvatar initials="AZ" />
+
+<IgrAvatar
+  src="https://static.infragistics.com/xplatform/images/people/men/1.jpg"
+  alt="A photo of Ana Zane"
+/>
+
 <IgrAvatar>
-    <IgrIcon name="home" />
+  <IgrIcon name="home" />
 </IgrAvatar>
 ```
 
@@ -149,6 +164,12 @@ The avatar has several attributes that allow rendering different content based o
 <PlatformBlock for="Blazor">
 
 ```razor
+<IgbAvatar Initials="AZ" />
+
+<IgbAvatar
+  Src="https://static.infragistics.com/xplatform/images/people/GUY01.png"
+  Alt="A photo of Ana Zane" />
+
 <IgbAvatar>
   <IgbIcon Name="home" />
 </IgbAvatar>
@@ -156,107 +177,43 @@ The avatar has several attributes that allow rendering different content based o
 
 </PlatformBlock>
 
-### Initials
+<Sample fitContent iframeOnly position="center" src="/layouts/avatar/initials" alt="{Platform} Avatar initials example" />
 
-If the <ApiLink pkg="core" type="Avatar" member="initials" label="Initials" /> attribute is set all children elements of the avatar will be ignored and the string passed to this attribute will be displayed.
-
-<PlatformBlock for="WebComponents">
-
-```html
-<!-- Initials("AZ") will be displayed instead of the icon. -->
-
-<igc-avatar initials="AZ">
-  <igc-icon name="home"></igc-icon>
-</igc-avatar>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrAvatar initials="AZ">
-    <IgrIcon name="home" />
-</IgrAvatar>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<!-- Initials("AZ") will be displayed instead of the icon. -->
-
-<IgbAvatar Initials="AZ">
-  <IgbIcon Name="home" />
-</IgbAvatar>
-```
-
-</PlatformBlock>
-
-<Sample src="/layouts/avatar/initials" height={80} alt="{Platform} Avatar Example" />
-
-
-
-
-### Image
-
-The avatar can also display an image when the <ApiLink pkg="core" type="Avatar" member="src" label="Src" /> attribute is assigned a valid URL to a static asset. In that case the <ApiLink pkg="core" type="Avatar" member="initials" label="Initials" /> value will be ignored and children elements will not be rendered.
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-avatar
-  initials="AZ"
-  src="https://www.infragistics.com/angular-demos/assets/images/men/1.jpg"
-  alt="A photo of a man.">
-  <igc-icon name="home"></igc-icon>
-</igc-avatar>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrAvatar initials="AZ"
-           src="https://static.infragistics.com/xplatform/images/people/men/1.jpg"
-           alt="A photo of a man.">
-    <IgrIcon name="home" />
-</IgrAvatar>
-```
-
-</PlatformBlock>
-
-
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbAvatar Initials="AZ"
-           Src="https://static.infragistics.com/xplatform/images/people/GUY01.png"
-           Alt="A photo of a man.">
-  <IgbIcon Name="home" />
-</IgbAvatar>
-```
-
-</PlatformBlock>
-
-<Sample src="/layouts/avatar/image" height={80} alt="{Platform} Avatar Example" />
-
-
+<Sample fitContent iframeOnly position="center" src="/layouts/avatar/image" alt="{Platform} Avatar image example" />
 
 ### Shape
 
-The avatar supports three shapes - `circle`, `rounded`, and `square`. The default shape of the avatar is `square` and it can be changed via the `shape` attribute.
+Set <ApiLink pkg="core" type="Avatar" member="shape" label="Shape" /> to `square`, `rounded`, or `circle`.
 
-<Sample src="/layouts/avatar/shape" height={80} alt="{Platform} Avatar Example" />
+<PlatformBlock for="WebComponents">
 
+```html
+<igc-avatar initials="AZ" shape="circle"></igc-avatar>
+```
 
+</PlatformBlock>
 
+<PlatformBlock for="React">
+
+```tsx
+<IgrAvatar initials="AZ" shape="circle" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbAvatar Initials="AZ" Shape="@AvatarShape.Circle" />
+```
+
+</PlatformBlock>
+
+<Sample fitContent iframeOnly position="center" src="/layouts/avatar/shape" alt="{Platform} Avatar shape example" />
 
 ### Size
 
-Apart from the shape, the size of the avatar can also be changed by utilizing the `--ig-size` CSS variable. The supported sizes are `small` (default), `medium`, and `large`. The following code snippet shows how to use a different component size:
+Set `--ig-size` to one of the shared size tokens when you need a preset avatar size.
 
 ```css
 igc-avatar {
@@ -264,41 +221,130 @@ igc-avatar {
 }
 ```
 
-<Sample src="/layouts/avatar/size" height={130} alt="{Platform} Avatar Example" />
+<Sample fitContent iframeOnly position="center" src="/layouts/avatar/size" alt="{Platform} Avatar size example" />
 
+## Best Practices
 
+Use a consistent avatar strategy within the same UI region so repeated identities are easy to scan.
 
+| Do | Do Not |
+| -- | -- |
+| Use one content pattern per list or card group, such as all images or all initials. | Mix images, initials, and icons in the same repeated list without a clear reason. |
+| Provide `alt` text when an image avatar identifies a specific person or entity. | Leave meaningful image avatars with only the default accessible label. |
+| Use initials for predictable fallback identity when a profile image is unavailable. | Use initials to encode counts, status, or notification state. |
+| Decorate an avatar with a badge for status or notification indicators. | Replace an identity avatar with a badge when both identity and status matter. |
 
-### Styling
+## Properties
 
-The <ApiLink pkg="core" type="Avatar" /> component exposes several CSS parts, giving you full control over its style:
+The avatar exposes a small set of inputs for its content and shape.
 
-|Name|Description|
-|--|--|
-| `base` | The base wrapper of the avatar. |
-| `initials` | The initials wrapper of the avatar. |
-| `image` | The image wrapper of the avatar. |
-| `icon` | The icon wrapper of the avatar. |
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| `alt` | `string` | n/a | Sets alternative text for the image avatar. |
+| `initials` | `string` | n/a | Sets text initials rendered when no image is displayed. |
+| `shape` | `"square" \| "rounded" \| "circle"` | `"square"` | Sets the avatar shape. |
+| `src` | `string` | n/a | Sets the image source URL. |
+
+## Styling
+
+<Sample fitContent iframeOnly position="center" src="/layouts/avatar/styling" alt="{Platform} styled Avatar example" />
+
+The avatar appearance is controlled through theme variables and CSS parts.
+
+| Variable | What it changes |
+| -- | -- |
+| `--ig-avatar-background` | Avatar background color. |
+| `--ig-avatar-color` | Text and initials color. |
+| `--ig-avatar-icon-color` | Slotted icon color. |
+| `--ig-avatar-border-radius` | Border radius used by rounded avatars. |
+| `--ig-avatar-size` | Avatar width and height. |
+| `--ig-size` | Shared component size token used to derive preset avatar sizes. |
+
+| CSS Part | Description |
+| -- | -- |
+| `base` | The avatar wrapper. |
+| `initials` | The initials wrapper. |
+| `image` | The image element. |
+
+### Sass Theming
+
+Use the <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="avatar-theme" code={true} /> function when your application customizes Ignite UI themes through Sass.
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$custom-avatar-theme: avatar-theme(
+  $background: #72da67,
+  $border-radius: 16px,
+  $size: 3rem
+);
+
+:root {
+  @include tokens($custom-avatar-theme);
+}
+```
+
+### CSS Variables
+
+Set component CSS variables directly when you need local styling without a Sass build step.
 
 ```css
 igc-avatar {
   --ig-avatar-background: var(--ig-success-500);
+  --ig-avatar-color: var(--ig-success-500-contrast);
+  --ig-avatar-border-radius: 20px;
 }
 
 igc-avatar::part(base) {
-  --size: 60px;
-  color: var(--ig-success-500-contrast);
-  border-radius: 20px;
+  border: 2px solid var(--ig-success-700);
 }
 ```
 
-<Sample src="/layouts/avatar/styling" height={150} alt="{Platform} Avatar Example" />
+## Accessibility
 
+The avatar is a non-interactive identity visual with accessible image semantics.
 
+### Keyboard Interaction
 
+The avatar does not receive focus and has no keyboard interaction.
+
+| Key | Action |
+| -- | -- |
+| n/a | The avatar is not keyboard interactive. |
+
+### Screen Readers / ARIA
+
+The avatar initializes with image semantics and a default accessible label of `avatar`.
+
+- Set `alt` when a `src` image represents a specific person, entity, or object.
+- Add an explicit `aria-label` when projected custom content needs a different accessible name.
+- Treat decorative avatars as redundant when adjacent text already identifies the same entity.
+
+### Accessibility Compliance
+
+[VERIFY: official accessibility conformance target for the avatar component]
+
+| Criterion | How the component complies |
+| -- | -- |
+| [1.1.1 Non-text Content](https://www.w3.org/WAI/WCAG22/Understanding/non-text-content) | The avatar has an accessible label, and image avatars can receive specific alternative text through `alt`. |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value) | The component initializes with image semantics and exposes content-related ARIA information. |
+
+Your responsibilities:
+
+- Provide a descriptive label or `alt` text when the avatar conveys identity.
+- Keep sufficient contrast between the avatar background and text or icon color when overriding styles.
+- Avoid duplicating the same identity announcement when adjacent text already names the person or entity.
 
 ## API References
+
 <ApiLink pkg="core" type="Avatar" />
+<ApiLink pkg="core" type="Icon" />
+<ApiLink pkg="core" type="Badge" />
+
+## Dependencies
+
+The avatar uses the shared theme stylesheet for its default appearance in React and Blazor. Slotted icons require the <ApiLink pkg="core" type="Icon" /> component to be registered or imported.
+
 ## Additional Resources
 
 - [{ProductName} **Forums**]({ForumsLink})

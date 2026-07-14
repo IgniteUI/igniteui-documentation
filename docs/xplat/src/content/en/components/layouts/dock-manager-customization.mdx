@@ -1,85 +1,112 @@
 ---
-title: "{Platform} Dock Manager | Customization | Infragistics"
-description: Use Infragistics' {Platform} dock manager component to manage the layout through panes, with the ability to customize it. Check out {ProductName} dock manager tutorials!
-keywords: dock manager, layout, customization, {ProductName}
+title: "{Platform} Dock Manager Component Customization | Layouts | Infragistics"
+description: "The Infragistics {Platform} Dock Manager provides customization options for docking, pane focus, pane headers, dragging, and fixed-size split layouts."
+keywords: "{Platform}, dock manager, layout, customization, {ProductName}"
 license: commercial
 mentionedTypes: ["DockManager", "ContentPane"]
 llms:
-  description: "The Infragistics {Platform} Dock Manager component provides you with the properties needed to further customize the layout to suit your specific application requirements."
+  description: "The Infragistics {Platform} Dock Manager provides customization options for docking, pane focus, pane headers, dragging, and fixed-size split layouts."
+relatedComponents: ["Splitter", "Tabs"]
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
+# Dock Manager Component
 
-## Customizing {Platform} Dock Manager
+The Infragistics {Platform} Dock Manager provides customization options for docking, pane focus, pane headers, dragging, and fixed-size split layouts.
 
-The Infragistics {Platform} Dock Manager component provides you with the properties needed to further customize the layout to suit your specific application requirements.
-Let's dive in and explore how {Platform} DockManager empowers you to create exceptional user interfaces and enhance the productivity of your applications!
+## Overview
 
-<div class="divider--half"></div>
+This topic focuses on the runtime customization features that let you tune how Dock Manager behaves for dragging, docking, pane visibility, and pane sizing.
 
-## Proximity Dock
+### When to Use
 
-In this mode the joystick indicators are hidden and docking can be accomplished by dragging a pane close to the border of another pane. While dragging a pane, when the mouse cursor reaches the area corresponding to the dock position, a dock preview is shown. On mouse up the dragged pane is docked in the previewed location. To enable proximity docking, simply set the `proximityDock` property to **true**.
+Use these customization options when the default dock manager behavior is close to your needs but the workspace still requires tighter control over docking precision, pane movement, pane header visibility, or programmatic pane activation.
+
+### When Not to Use
+
+Do not use Dock Manager customization APIs for simple two-pane resizing or basic tab switching. For straightforward pane sizing, use the [Splitter](./splitter.md) component, and for simple view switching, use the [Tabs](./tabs.md) component.
+
+<Sample src="/layouts/dock-manager/proximity-dock" height={600} alt="{Platform} Dock Manager customization overview example" />
+
+## Getting Started
+
+Before you customize Dock Manager, complete the shared setup and base component registration described in the [Dock Manager](./dock-manager.md) topic.
+
+<PlatformBlock for="WebComponents">
+
+Use an `IgcDockManagerComponent` instance when you need to toggle runtime customization properties from code.
+
+```ts
+import { IgcDockManagerComponent } from 'igniteui-dockmanager';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Use an `IgrDockManager` instance when you need to toggle runtime customization properties from code.
+
+```tsx
+import { IgrDockManager } from 'igniteui-react-dockmanager';
+```
+
+</PlatformBlock>
+
+## Usage
+
+Set the dock manager customization properties that match your workspace behavior, then combine them with samples or layout updates for the user scenarios your app supports.
+
+### Enable Proximity Dock
+
+Set the `proximityDock` property when panes should dock by pointer proximity instead of relying on joystick indicators.
 
 ```ts
 this.dockManager.proximityDock = true;
 ```
 
-### Inner Docking
+In proximity dock mode, dragging near a pane border shows a docking preview and dropping the pane completes the dock operation.
 
-In order to right dock a dragged pane 1 in pane 2, the cursor should be in the area defined by the right border of pane 2 and the right border offset to left. The offset distance is specified as a proximity dock threshold and is set to a value of 50px. In cases where there is a splitter, docking can be performed from both sides of the splitter.
+#### Inner Docking
 
-### Outer Docking
-To perform outer dock, you must first meet specific criteria. In Dock Manager, outer docking is only allowed within a document host, meaning you will be docking the target pane to the outer regions of the document host.
+Inner docking is triggered near the interior borders of the target pane. The existing topic documents a 50px proximity threshold for these docking targets.
 
-In order to perform an outer top dock for example, must fall within the region defined by the top border of the document host and stay within the top border offset. The offset distance is specified as a proximity dock outer threshold and is explicitly set to a value of 25px. The proximity dock threshold's value of 50px remains unchanged which essentially means that in this scenario, only a 25px area is available for inner docking. In cases where there is a splitter inside the document host, outer dock can be performed from both sides of the splitter.
+#### Outer Docking
 
-> NOTE: When proximity dock is enabled, users would not be able to perform an outer dock for both left and right and top and bottom positions from a single pane. For example in a scenario where two split panes are present with a splitter between them, users will be able to perform only an outer left dock when the dragged pane is over the left split pane and vice versa.
+Outer docking is available inside a document host and uses a smaller outer threshold region near the document host borders. The existing topic documents a 25px outer threshold and notes that, with proximity dock enabled, a single hovered pane cannot expose both opposing outer dock directions at the same time.
 
-Try it for yourself in the sample below:
+<Sample src="/layouts/dock-manager/proximity-dock" height={600} alt="{Platform} Dock Manager proximity dock example" />
 
-<Sample src="/layouts/dock-manager/proximity-dock" height={600} alt="{Platform} Dock Manager Proximity Dock Example" />
+### Focus Panes Programmatically
 
-
-## Focus Panes Programmatically
-
-The `focusPane` method allows developers to dynamically and programmatically focus a specific pane within the layout by providing the `contentId` of the desired pane.
+Use the `focusPane` method to activate a specific pane by its `contentId`.
 
 ```ts
 this.dockManager.focusPane('content1');
 ```
 
-When using the `focusPane` method, the behavior varies depending on the state of the targeted pane. Here's how it works:
+The current topic verifies these behaviors:
 
-1. **Floating Panes**: If the pane is floating, invoking `focusPane` will bring it into focus, set it as the activePane and ensure it appears on top of any other floating panes.
+- Floating panes are brought to the front and focused.
+- Unpinned panes are flown out into their open state.
+- Regular pinned panes become the active pane.
 
-2. **Unpinned Panes**: When the targeted pane is unpinned, `focusPane` will flyout the pane to its open state.
+<Sample src="/layouts/dock-manager/focus-panes" height={600} alt="{Platform} Dock Manager focus panes example" />
 
-3. **Regular Pinned Panes**: For regular pinned panes, `focusPane` will set the pane as the `activePane`.
+### Auto-hide Pane Headers
 
+Set the `showPaneHeaders` property when pane headers should be always visible or appear only on hover.
 
-By utilizing this method, developers can effortlessly control the visibility and positioning of panes based on user interaction or application events.
+The existing topic verifies `always` as the default behavior and `onHoverOnly` as the mode that hides pane headers until the pointer reaches the top edge of a content pane.
 
-Try it for yourself in the sample below:
+<Sample src="/layouts/dock-manager/hide-pane-headers" height={600} alt="{Platform} Dock Manager auto-hide pane headers example" />
 
-<Sample src="/layouts/dock-manager/focus-panes" height={600} alt="{Platform} Focus panes programmatically in Dock Manager Example" />
+### Control Inner Docking
 
+Use `allowInnerDock` and `acceptsInnerDock` to decide whether panes can be grouped inside each other as tabs.
 
-
-## Auto-hide Pane Headers
-
-With the `showPaneHeaders` property of the DockManager, developers now have the flexibility to control the visibility of pane headers within the `layout`. By default, `showPaneHeaders` is set to `always` ensuring that pane headers are always visible. When set to `onHoverOnly`, all pane headers will be hidden until you hover your mouse over the top edge of a content pane. The corresponding pane header will appear and it will smoothly hide once your mouse moves away. Take a look at the example below:
-
-<Sample src="/layouts/dock-manager/hide-pane-headers" height={600} alt="{Platform} Auto-hide pane headers in Dock Manager Example" />
-
-
-## Control Inner Docking
-By default, the Dock Manager allows users to effortlessly drag and dock panes inside each other, creating tabs. To provide more control over this functionality, we've introduced two properties - `allowInnerDock` and `acceptsInnerDock`.
-
-By setting the `acceptsInnerDock` property of an <ApiLink type="IgcContentPane" />, developers can control docking inside specific content panes. When this property is set to false, users will be restricted from performing inner docking in the specified pane.
-
+Set `acceptsInnerDock` on a specific content pane when that target should reject inner docking:
 
 <PlatformBlock for="WebComponents">
 
@@ -94,35 +121,25 @@ By setting the `acceptsInnerDock` property of an <ApiLink type="IgcContentPane" 
 
 </PlatformBlock>
 
-If you wish to disable inner docking throughout the DockManager, simply set `allowInnerDock` to **false**. This property determines whether the end user is permitted to inner dock panes at all.
-
+Set `allowInnerDock` on the dock manager when inner docking should be disabled entirely:
 
 ```ts
 this.dockManager.allowInnerDock = false;
 ```
 
-<Sample src="/layouts/dock-manager/toggle-inner-dock" height={600} alt="{Platform} Dock Manager Toggle Inner Dock Example" />
+<Sample src="/layouts/dock-manager/toggle-inner-dock" height={600} alt="{Platform} Dock Manager toggle inner dock example" />
 
+### Keep Floating Panes Within Boundaries
 
-## Control Pane Dragging
+Set `containedInBoundaries` when floating panes should stop at the dock manager edges instead of moving beyond the visible workspace.
 
-With the `containedInBoundaries` property, developers can control whether the sides of floating panes are always contained within the DockManager. When set to **true**, pane dragging will stop once any of the sides attempt to move beyond the DockManager boundaries.
+The current topic verifies that, when this property is `true`, pane dragging stops once any pane side attempts to move outside the dock manager boundaries.
 
+<Sample src="/layouts/dock-manager/contained-in-boundaries" height={600} alt="{Platform} Dock Manager contained in boundaries example" />
 
-Try it in the example below:
+### Highlight Resizing Panes
 
-<Sample src="/layouts/dock-manager/contained-in-boundaries" height={600} alt="{Platform} Dock Manager Contained in Boundaries Example" />
-
-
-## Highlight Resizing Panes
-
-When users resize panes by dragging a splitter, it is not always obvious which panes are affected, especially in more complex layouts. To make this interaction clearer, the Dock Manager can draw a border around the panes that are currently being resized. This visual cue helps users immediately understand which parts of the layout will grow or shrink as they move the splitter.
-
-You can enable and style this behavior by configuring the following CSS custom properties on the Dock Manager host element (or a parent element):
-
-- `--igc-resize-target-border-color` – controls the color of the resize target border.
-- `--igc-resize-target-border-width` – controls the thickness of the border (for example, `2px`).
-- `--igc-resize-target-border-style` – controls the border style (for example, `solid`, `dashed`).
+Set resize-target styling variables when users need stronger visual feedback about which panes are affected during splitter resizing.
 
 ```css
 igc-dockmanager {
@@ -132,21 +149,13 @@ igc-dockmanager {
 }
 ```
 
-Once these variables are set, any pane that is impacted by a splitter drag will be wrapped with the configured border for the duration of the resize operation, giving users clear, immediate feedback about which panes are being adjusted.
+The configured border is applied for the duration of the resize interaction to the panes affected by the active splitter drag.
 
-## Split Panes Fixed Size Mode
+### Use Fixed-size Split Panes
 
-By default, each pane in a split layout receives a relative size compared to its siblings and that size defaults to 100. For example, if you have two sibling panes where the first pane has its size set to 400 and the second one to 200, the first will be twice the size of the second and together they will fill all the available space.
+Set `useFixedSize` on a parent split pane when child `size` values should be interpreted as pixels instead of relative sizing weights.
 
-If, for certain panes, you want explicit pixel-based sizing instead of relative sizing, you can turn on fixed size mode by setting the `useFixedSize` property of the parent split pane to **true**. When this property is enabled, all children are sized in pixels based on their `size` property. In the previous example, the first pane will span 400 pixels and the second pane 200 pixels. Resizing via the splitter changes only the size of the pane you are interacting with, without redistributing space across its siblings.
-
-As soon as the sum of the child panes' sizes exceeds the available size of the parent, the split pane becomes scrollable. The dock manager now also provides built-in autoscrolling to keep the user focused on their content:
-
-- When users **drag panes toward the edges** of a fixed-size root pane, the container scrolls in the direction of the drag so they can easily reach off-screen areas.
-- When users **resize panes via the splitter**, the container scrolls as needed to reveal newly expanded content.
-
-For a **horizontal** split pane, autoscrolling happens to the **left** or **right**; for a **vertical** split pane, it happens to the **top** or **bottom**, depending on the direction of the drag or resize.
-
+By default, split-pane sizes are relative to sibling panes. When `useFixedSize` is `true`, child pane sizes are treated as explicit pixel values, and resizing changes only the interacted pane instead of redistributing space proportionally across siblings.
 
 <PlatformBlock for="WebComponents">
 
@@ -159,13 +168,13 @@ const splitPaneRelativeSize: IgcSplitPane = {
             type: IgcDockManagerPaneType.contentPane,
             contentId: 'content1',
             header: 'Pane 1',
-            size: 400 // Size will be relative to siblings
+            size: 400
         },
         {
             type: IgcDockManagerPaneType.contentPane,
             contentId: 'content2',
             header: 'Pane 2',
-            size: 200 // Size will be relative to siblings
+            size: 200
         }
     ]
 }
@@ -179,13 +188,13 @@ const splitPaneFixedSize: IgcSplitPane = {
             type: IgcDockManagerPaneType.contentPane,
             contentId: 'content3',
             header: 'Pane 3',
-            size: 400 // Size will be applied in pixels
+            size: 400
         },
         {
             type: IgcDockManagerPaneType.contentPane,
             contentId: 'content4',
             header: 'Pane 4',
-            size: 200 // Size will be applied in pixels
+            size: 200
         }
     ]
 }
@@ -193,15 +202,99 @@ const splitPaneFixedSize: IgcSplitPane = {
 
 </PlatformBlock>
 
-Please note that when you dock a pane inside a split pane that has `useFixedSize` set to **true** the docked pane will then have the same width/height (depending on the split pane orientation) as the floating pane.
+When the sum of child pane sizes exceeds the parent size, the split pane becomes scrollable. The existing topic also documents built-in autoscrolling during drag and resize interactions for fixed-size root panes.
 
-Try it for yourself in the sample below:
+<Sample src="/layouts/dock-manager/split-pane-fixed-size" height={600} alt="{Platform} Dock Manager split pane fixed size example" />
 
-<Sample src="/layouts/dock-manager/split-pane-fixed-size" height={600} alt="{Platform} Dock Manager Split Pane Fixed Size Example" />
+## Best Practices
 
+Use Dock Manager customization options to reduce friction in real workspace tasks, not to expose every possible movement or docking mode by default.
+
+- Enable proximity docking only when it improves speed without making dock targets ambiguous for users.
+- Use `focusPane` for deliberate app flows such as opening tools, surfacing validation results, or restoring saved workspace context.
+- Hide pane headers on hover only when users can still discover pane actions reliably.
+- Disable inner docking for panes that should remain structurally separate from tabbed content groups.
+- Use fixed-size split panes for deliberate pixel-based layouts, not for layouts that should naturally rebalance with available space.
+
+## Properties
+
+Use the generated API reference for the full surface; the rows below mark the core customization options covered on this page.
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| `proximityDock` | build-generated | build-generated | Build injects verified dock manager customization properties here from the typed API source. |
+| `showPaneHeaders` | build-generated | build-generated | Build injects verified dock manager customization properties here from the typed API source. |
+| `allowInnerDock` | build-generated | build-generated | Build injects verified dock manager customization properties here from the typed API source. |
+| `containedInBoundaries` | build-generated | build-generated | Build injects verified dock manager customization properties here from the typed API source. |
+| `acceptsInnerDock` | build-generated | build-generated | Build injects verified content pane customization properties here from the typed API source. |
+| `useFixedSize` | build-generated | build-generated | Build injects verified split pane customization properties here from the typed API source. |
+| `size` | build-generated | build-generated | Build injects verified split pane sizing properties here from the typed API source. |
+
+## Methods
+
+Use dock manager methods when you need to change pane focus programmatically.
+
+| Name | Description |
+| -- | -- |
+| `focusPane` | Focuses a pane by `contentId`. |
+
+## Styling
+
+Use CSS variables to customize the visual feedback for resize-target highlighting during splitter operations.
+
+| Variable | What it changes |
+| -- | -- |
+| `--igc-resize-target-border-color` | The color of the border drawn around panes affected by a splitter resize. |
+| `--igc-resize-target-border-width` | The thickness of the resize-target border. |
+| `--igc-resize-target-border-style` | The line style of the resize-target border. |
+
+```css
+igc-dockmanager {
+    --igc-resize-target-border-color: #0078d4;
+    --igc-resize-target-border-width: 2px;
+    --igc-resize-target-border-style: solid;
+}
+```
+
+## Accessibility
+
+Dock Manager customization changes how panes appear, move, and reveal actions, so accessibility review should cover both the base component behavior and the customization choices you enable.
+
+### Keyboard Interaction
+
+[VERIFY: keyboard impact of proximity dock, auto-hidden pane headers, fixed-size split-pane customization, and programmatic focus changes]
+
+### Screen Readers / ARIA
+
+[VERIFY: screen reader impact of pane-header visibility changes, focusPane behavior, and resize-target highlighting]
+
+### Accessibility Compliance
+
+[VERIFY: official accessibility conformance target for Dock Manager customization scenarios]
+
+| Criterion | How the component complies |
+| -- | -- |
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG22/Understanding/keyboard) | [VERIFY: keyboard operability with the customization options covered on this page] |
+| [2.4.3 Focus Order](https://www.w3.org/WAI/WCAG22/Understanding/focus-order) | Programmatic pane focusing and customized pane visibility should preserve a predictable focus sequence. |
+| [2.5.7 Dragging Movements](https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements) | [VERIFY: non-drag alternatives or constraints for the customization features on this page] |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value) | [VERIFY: semantic exposure after customization of pane headers and docking behavior] |
+
+Your responsibilities:
+
+- Verify that hidden-on-hover pane headers remain discoverable and operable for keyboard and assistive technology users.
+- Preserve clear pane names when using `focusPane` or changing docking behavior programmatically.
+- Validate contrast and visibility for resize-target highlighting after overriding its CSS variables.
 
 ## API References
 
+<ApiLink type="DockManager" />
+<ApiLink type="ContentPane" />
 
-<ApiLink type="DockManager" /><br />
-<ApiLink type="ContentPane" /><br />
+## Dependencies
+
+This topic depends on the base Dock Manager component setup and layout model described in the main [Dock Manager](./dock-manager.md) topic.
+
+## Additional Resources
+
+- [Dock Manager](./dock-manager.md)
+- [{ProductName} **GitHub**]({GithubLink})
