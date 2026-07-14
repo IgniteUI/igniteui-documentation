@@ -10,9 +10,9 @@ export const collections = {
   docs: createDocsCollection(process.env.DOCS_SOURCE_PATH, {
     exclude: [
       'grids_templates/**',
-      'style-guide.md',
+      'style-guide.mdx',
       'themes/sass/presets/**',
-      'themes.md',
+      'themes.mdx',
     ],
     extendSchema: z.object({
       tableOfContents: z

@@ -38,7 +38,7 @@ export const GRID_CONFIGS = {
         ComponentSelector: 'igx-hierarchical-grid',
     },
     pivotGrid: {
-        igPath: 'pivotGrid',
+        igPath: 'pivotgrid',
         componentKey: 'PivotGrid',
         ComponentApiType: 'PivotGrid',
         ComponentMainTopic: 'pivot-grid',
