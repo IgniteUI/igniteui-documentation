@@ -477,6 +477,16 @@ The xplat documentation uses a single MDX source file shared across all four pla
 
 When creating a shared topic that covers multiple grid types (e.g. Grid, TreeGrid, HierarchicalGrid), use the `{ComponentName}` token in prose and code examples so the same file can be referenced from each grid's navigation entry with a different `{ComponentName}` value injected. Each generated output file gets its own resolved content without duplicating the MDX source.
 
+### Grid template files (`_shared/`)
+
+Files under `docs/xplat/src/content/*/components/grids/_shared/` are template sources expanded by `docs/xplat/scripts/generate.mjs` into per-grid-type output under `docs/xplat/generated/`. They are **excluded** from the direct relative-link check; their links are validated via the generated output after the generate step runs.
+
+Cross-references from a `_shared/` file to grid-specific topics must use relative paths that resolve from the **generated** location, e.g. `../grid/groupby.mdx` (not `./groupby.mdx`, which would resolve from the `_shared/` directory itself).
+
+### Relative link convention
+
+All cross-page links must carry the `.mdx` extension. Both explicit (`./page.mdx`, `../dir/page.mdx`) and bare (`page.mdx`) forms are accepted by the checker and by the `remarkMdLinks` build plugin. Run `npm run check-relative-links:ci` to validate all links after making changes.
+
 # <a name='#updating-of-data-visualization-related-topics'>Updating of Data Visualization related topics</a>
 
 The cross-platform (xplat) documentation MDX source files live in this repository under `docs/xplat/src/content/`. Edit them directly here. The generated per-platform output is produced by the build scripts under `docs/xplat/scripts/`.
