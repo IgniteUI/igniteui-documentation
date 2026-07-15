@@ -354,7 +354,7 @@ export default createDocsSite({
         .map(({ label, key, base: b }) => ({
             label,
             value: key,
-            href: mode === 'production' ? `${PROD_HOST}${b}/` : `${STAGING_HOST}${b}/`,
+            href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
         })),
     selectedPackage: p.key,
     head: [
