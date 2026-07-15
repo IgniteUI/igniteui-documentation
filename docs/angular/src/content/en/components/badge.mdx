@@ -1,31 +1,55 @@
 ---
 title: Angular Badge Component – Ignite UI for Angular | Infragistics | MIT license
-description: Display an active count or icon in a predefined style to decorate other components anywhere in an application with Ignite UI for Angular Badge control.
+description: Use the Ignite UI for Angular Badge component to display status indicators — counts, icons, or dot notifications — on top of avatars, icons, and navigation items.
 keywords: Angular Badge component, Angular Badge control, Ignite UI for Angular, Angular UI Components
 license: MIT 
 llms:
-  description: "Angular Badge is a component used in conjunction with avatars, navigation menus, or other components in an application when a visual notification is needed."
+  description: "Use the Angular Badge component to display notification counts, status labels, or dot indicators on avatars, icons, and navigation items."
 ---
 
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
-# Angular Badge Component Overview
+# Badge Component
 
-<div class="highlight">
-Angular Badge is a component used in conjunction with avatars, navigation menus, or other components in an application when a visual notification is needed. Badges are usually  designed as icons with a predefined style to communicate information, success, warnings, or errors.
-</div>
+Angular Badge is a component used in conjunction with avatars, navigation menus, or other components in an application when a visual notification is needed. Badges are usually designed as icons with a predefined style to communicate information, success, warnings, or errors.
 
-## Angular Badge Example
+## Overview
+
+### When to Use
+
+- Add a count or status indicator to an icon, avatar, or navigation item (e.g. unread messages, cart quantity).
+- Show a contextual label — `success`, `warning`, `error`, or `default` — on a list item or card.
+- Signal new activity with a minimal dot when the exact count is not relevant.
+
+### When Not to Use
+
+- When the indicator must be interactive (clickable or dismissible) — use an <ApiLink type="Chip" /> instead.
+- When you need a standalone label with its own layout — use a chip or tag component.
+
+## Live Demo
 
 <Sample src="/data-display/badge-sample-2" height={100} alt="Angular Badge Example" />
 
-<hr/>
+## Anatomy
 
-## Getting Started with Ignite UI for Angular Badge
+{/* TODO: add an annotated screenshot or GIF of the badge showing its icon, value, and host element. */}
 
-To get started with the Ignite UI for Angular Badge component, first you need to install Ignite UI for Angular. In an existing Angular application, type the following command:
+The badge is a single host element that can show an icon, a value, or projected content. Place it inside a relatively positioned host when it decorates another component, such as an avatar or icon.
+
+```
+Relative-positioned host element
+├── Decorated element                 // e.g. igx-avatar or an icon button
+└── igx-badge                         // badge host; position it over the decorated element
+    ├── icon (optional)               // set with the `icon` input
+    ├── value (optional)              // set with the `value` input
+    └── projected content (optional)  // custom icon, text, or other template content
+```
+
+## Getting Started
+
+To get started with the Ignite UI for Angular Badge component, first install Ignite UI for Angular. In an existing Angular application, run:
 
 ```cmd
 ng add igniteui-angular
@@ -33,29 +57,11 @@ ng add igniteui-angular
 
 For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-The next step is to import the `IgxBadgeModule` in your **app.module.ts** file.
-
-```typescript
-// app.module.ts
-
-...
-import { IgxBadgeModule } from 'igniteui-angular/badge';
-// import { IgxBadgeModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxBadgeModule],
-    ...
-})
-export class AppModule {}
-```
-
-Alternatively, as of `16.0.0` you can import the `IgxBadgeComponent` as a standalone dependency.
+Import `IgxBadgeComponent` as a standalone dependency:
 
 ```typescript
 // home.component.ts
 
-...
 import { IgxBadgeComponent } from 'igniteui-angular/badge';
 // import { IgxBadgeComponent } from '@infragistics/igniteui-angular'; for licensed package
 
@@ -63,7 +69,6 @@ import { IgxBadgeComponent } from 'igniteui-angular/badge';
     selector: 'app-home',
     template: '<igx-badge icon="check" type="success" shape="square"></igx-badge>',
     styleUrls: ['home.component.scss'],
-    standalone: true,
     imports: [IgxBadgeComponent]
 })
 export class HomeComponent {}
@@ -73,31 +78,17 @@ export class HomeComponent {}
 This component uses Material Icons. Add the following link to your `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
 </DocsAside>
 
-Now that you have the Ignite UI for Angular Badge module or component imported, you can start with a basic configuration of the `igx-badge` component.
+## Usage
 
-## Using the Angular Badge Component
-
-Let's see how the demo sample is done. It's a simple success badge on an avatar. To build that, we need to import the `IgxAvatarModule`, along with the `IgxBadgeModule`:
+The following example shows a success badge overlaid on an avatar. Import `IgxAvatarComponent` alongside `IgxBadgeComponent`:
 
 ```typescript
-// app.module.ts
-...
-import { IgxBadgeModule } from 'igniteui-angular/badge';
-import { IgxAvatarModule } from 'igniteui-angular/avatar';
-// import {  IgxBadgeModule, IgxAvatarModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-  ...
-  imports: [..., IgxBadgeModule, IgxAvatarModule],
-  ...
-})
-
-export class AppModule {}
+import { IgxBadgeComponent } from 'igniteui-angular/badge';
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+// import { IgxBadgeComponent, IgxAvatarComponent } from '@infragistics/igniteui-angular'; for licensed package
 ```
 
-_Alternatively, as of `16.0.0` you can import the `IgxBadgeComponent` and `IgxAvatarComponent` as standalone dependencies._
-
-Next, we will add those components to our template:
+Add the components to the template:
 
 ```html
 <div class="wrapper">
@@ -107,7 +98,7 @@ Next, we will add those components to our template:
 </div>
 ```
 
-Using the wrapper, we will position the badge absolutely, covering a little bit of the avatar:
+Position the badge absolutely over the avatar:
 
 ```scss
 .wrapper {
@@ -122,17 +113,15 @@ igx-badge {
 }
 ```
 
-### Badge Shape
+### Shape
 
-We can change the badge shape through the `shape` attribute setting its value to `square`. By default, the shape of the badge is `rounded`.
+Change the badge shape through the `shape` attribute. By default, the shape is `rounded`; set it to `square` for a square badge:
 
 ```html
 <igx-badge icon="check" type="success" shape="square"></igx-badge>
 ```
 
-If everything's done right, you should see the demo sample shown above in your browser.
-
-### Badge Size
+### Size
 
 The size of the badge can be controlled using the `--size` variable. It will make sure that the badge sizes proportionally in both directions. Keep in mind, however, that badges containing text values use the `caption` typography style for its font-size and line-height. For that reason, when setting the `--size` of a badge containing text to values below 16px, you will also need to modify its typography.
 
@@ -147,7 +136,7 @@ igx-badge {
 }
 ```
 
-### Badge Value and Icon
+### Value and Icon
 
 Use the `[value]` input to display text or a numeric count inside the badge:
 
@@ -180,9 +169,9 @@ Or you can project content directly:
   </igx-badge>
 ```
 
-### Badge Icon
+### Icon
 
-In addition to material icons, the `igx-badge` component also supports usage of [Material Icons Extended](/material-icons-extended) and any other custom icon set. To add an icon from the material icons extended set inside your badge component, first you have to register it:
+In addition to material icons, the `igx-badge` component also supports usage of [Material Icons Extended](/material-icons-extended) and any other custom icon set. To add an icon from the Material Icons Extended set, register it first:
 
 ```ts
 export class BadgeIconComponent implements OnInit { 
@@ -200,43 +189,19 @@ Then, just specify the icon name and family as follows:
 <igx-badge icon="heart-monitor" iconSet="imx-icons"></igx-badge>
 ```
 
-<Sample src="/data-display/badge-icon" height={100} alt="" />
+<Sample src="/data-display/badge-icon" height={100} alt="Badge with custom icon from Material Icons Extended" />
 
-### Dot Badge
+### Dot
 
 The `igx-badge` component can also render as a minimal dot indicator for notifications by enabling its `dot` property. Dot badges do not support content, but they can be outlined and can use any of the available dot types (e.g., primary, success, info, etc.).
 
-<Sample src="/data-display/badge-dot-sample" height={100} alt="" />
+<Sample src="/data-display/badge-dot-sample" height={100} alt="Badge dot variant example" />
 
-### Badge in List
+### In a List
 
-Let's extend the previous sample and create a list with contacts, similar to those in chat clients. In addition to the contact name, we want to display an avatar and the current state of the contact (online, offline or away). To achieve this, we're using the <ApiLink type="Badge" label="igx-badge" /> and <ApiLink type="Avatar" label="igx-avatar" /> components. For a container, <ApiLink type="List" label="igx-list" /> is used.
+The following example shows a contacts list where each item uses a badge to display the contact's online/away/offline status. It combines <ApiLink type="Badge" label="igx-badge" />, <ApiLink type="Avatar" label="igx-avatar" />, and <ApiLink type="List" label="igx-list" />.
 
-To continue, include all needed modules and import them in the **app.module.ts** file.
-
-```typescript
-// app.module.ts
-
-...
-import { IgxListModule } from 'igniteui-angular/list';
-import { IgxAvatarModule } from 'igniteui-angular/avatar';
-import { IgxBadgeModule } from 'igniteui-angular/badge';
-// import { IgxListModule, IgxAvatarModule, IgxBadgeModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    ...
-    imports: [..., IgxListModule, IgxAvatarModule, IgxBadgeModule],
-})
-export class AppModule {}
-```
-
-<DocsAside type="info">
-The <ApiLink type="Badge" label="igx-badge" /> has <ApiLink type="Badge" member="icon" label="icon" /> and <ApiLink type="Badge" member="type" label="type" /> inputs to configure the badge look. You can set the icon by providing its name from the official [material icons set](https://material.io/icons/). The badge type can be set to either `Default`, `Info`, `Success`, `Warning`, or `Error`. Depending on the type, a specific background color is applied.
-</DocsAside>
-
-In our sample, <ApiLink type="Badge" member="icon" label="icon" /> and <ApiLink type="Badge" member="type" label="type" /> are bound to model properties named _icon_ and _type_.
-
-Next, we're adding the contacts in our template:
+Import the standalone components:
 
 ```html
 {/* contacts.component.html */}
@@ -264,7 +229,7 @@ Next, we're adding the contacts in our template:
 </igx-list>
 ```
 
-We're going to create our members in the typescript file like this:
+Define the members model:
 
 ```typescript
 // contacts.component.ts
@@ -309,7 +274,7 @@ class Member {
 }
 ```
 
-Position the badge in its parent container:
+Position the badge in the parent container:
 
 ```css
 /* contacts.component.css */
@@ -337,7 +302,35 @@ Position the badge in its parent container:
 
 If the sample is configured properly, a list of members should be displayed and every member has an avatar and a badge, showing its current state.
 
-<Sample src="/data-display/badge-sample-3" height={280} alt="" />
+<Sample src="/data-display/badge-sample-3" height={280} alt="Badge used in a contacts list showing online/away/offline status" />
+
+## Best Practices
+
+Follow these guidelines to use the Badge component effectively.
+
+**Do:**
+- Position the badge on the top-right corner of its host element using absolute/relative positioning.
+- Use the `dot` variant when only presence of a notification matters and count is irrelevant.
+- Use semantic types (`success`, `warning`, `error`, `info`) to communicate status at a glance.
+- Pair the badge with an accessible label on its host element so screen readers announce the count or status.
+
+**Don't:**
+- Don't use a badge as the only means of conveying critical information — always provide a text alternative.
+- Don't stack multiple badges on a single element; simplify to one indicator.
+- Don't use a badge for interactive actions — use a Chip or Button instead.
+
+## Properties
+
+Use these core inputs to configure the <ApiLink type="Badge" /> component. See the generated API reference for the complete type and default-value details.
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| <ApiLink type="Badge" member="icon" label="icon" /> | See API reference | See API reference | Displays a Material or registered custom icon in the badge. |
+| <ApiLink type="Badge" member="iconSet" label="iconSet" /> | See API reference | See API reference | Sets the icon family used to resolve a custom icon. |
+| <ApiLink type="Badge" member="value" label="value" /> | See API reference | See API reference | Displays text or a numeric count in the badge. |
+| <ApiLink type="Badge" member="type" label="type" /> | See API reference | See API reference | Applies a semantic badge style, such as success, warning, or error. |
+| <ApiLink type="Badge" member="shape" label="shape" /> | See API reference | See API reference | Controls whether the badge uses the rounded or square shape. |
+| <ApiLink type="Badge" member="dot" label="dot" /> | See API reference | See API reference | Renders the badge as a minimal notification dot without content. |
 
 ## Styling
 
@@ -350,7 +343,7 @@ Changing the `$background-color` property automatically updates the following de
 | **$background-color** | $icon-color | The color used for icons in the badge. |
 |  | $text-color | The color used for text in the badge. |
 
-To get started with styling the badges, we need to import the `index` file, where all the theme functions and component mixins live:
+To get started with styling the badge, import the `index` file, where all the theme functions and component mixins live:
 
 ```scss
 @use "igniteui-angular/theming" as *;
@@ -359,7 +352,7 @@ To get started with styling the badges, we need to import the `index` file, wher
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-Following the simplest approach, we create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-badge-theme" label="badge-theme" code={true} /> and accepts some parameters that style the badge's items. When you set the `$background-color`, the `$icon-color` and `$text-color` are automatically assigned based on which offers better contrast—black or white. Note that the `$border-radius` property only takes effect when the badge's `shape` is set to `square`.
+Create a new theme extending the <ApiLink kind="sass" module="themes" type="function-badge-theme" label="badge-theme" code={true} /> and accepts some parameters that style the badge's items. When you set the `$background-color`, the `$icon-color` and `$text-color` are automatically assigned based on which offers better contrast—black or white. Note that the `$border-radius` property only takes effect when the badge's `shape` is set to `square`.
 
 ```scss
 $custom-badge-theme: badge-theme(
@@ -416,8 +409,63 @@ At the end your badges should look like this:
 
 <Sample src="/data-display/badge-tailwind-styling-sample" height={340} iframeOnly />
 
+## Accessibility
+
+The Angular Badge exposes status information to assistive technologies. Keep the badge text concise and ensure the surrounding interface still communicates the meaning of a status or count.
+
+### Keyboard Interaction
+
+The Badge is non-interactive and does not provide keyboard commands or receive focus. Keyboard interaction belongs to the element it decorates, such as a button, link, or list item.
+
+| Key | Action |
+| --- | --- |
+| Tab | The Badge is not included in the tab order. Focus moves to the interactive host element, when one exists. |
+
+### Screen Readers / ARIA
+
+The component renders with the `status` role by default. Its default `aria-label` is `badge`, and it provides an `aria-roledescription` that identifies the badge type and its icon or value. The component updates this description when its `type`, `icon`, or `value` changes.
+
+Set a meaningful accessible label when the default label does not describe the notification in its surrounding context. For example, a badge showing an unread-message count should have a label that identifies the count and what it represents.
+
+| Attribute | Component behavior |
+| --- | --- |
+| `role` | Defaults to `status`. |
+| `aria-label` | Defaults to `badge`; set the component `label` property to provide a contextual label. |
+| `aria-roledescription` | Describes the badge type and its icon or value. |
+
+### Accessibility Compliance
+
+The component source verifies its exposed role, label, and role description, but those implementation details are not a product-level accessibility-conformance claim. No Badge-specific WCAG or VPAT evidence is cited on this page.
+
+When using a Badge, ensure the surrounding UI communicates the same status without relying only on color, retains a logical focus order, and preserves sufficient contrast when you customize its theme.
+
+## Troubleshooting
+
+### Why is my badge empty?
+
+**Cause:** The Badge has neither an `icon` nor a `value`. When both inputs are unset, the component does not render badge content.
+
+**Fix:** Set the `icon` or `value` input, or project custom content into the `igx-badge` element.
+
+```html
+<igx-badge value="11" type="success"></igx-badge>
+```
+
+### How do I use the Badge in an NgModule-based application?
+
+**Cause:** The current setup uses standalone component imports. Applications that still use NgModules must import `IgxBadgeModule` instead.
+
+**Fix:** Import `IgxBadgeModule` in the NgModule that declares the template using `igx-badge`.
+
+```typescript
+import { IgxBadgeModule } from 'igniteui-angular/badge';
+// import { IgxBadgeModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({ imports: [IgxBadgeModule] })
+export class AppModule {}
+```
+
 ## API References
-<hr/>
 - <ApiLink type="Avatar" />
 - <ApiLink type="Badge" />
 - <ApiLink kind="sass" module="themes" type="function-badge-theme" label="IgxBadgeComponent Styles" />
@@ -429,8 +477,6 @@ At the end your badges should look like this:
 - <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon Theme" />
 
 ## Additional Resources
-
-<hr/>
 
 Our community is active and always welcoming to new ideas.
 
