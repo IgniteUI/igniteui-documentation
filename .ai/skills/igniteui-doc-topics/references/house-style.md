@@ -102,6 +102,30 @@ name that a reader copies is worse than an obvious gap.
   members through the concrete component instead (`type="Button" member="href"`), and list only the concrete
   component under **API References**.
 
+## Verification workflow
+
+Use this checklist when creating technical content or auditing an existing topic. Audit mode reports
+verification gaps; it does not edit the topic. Existing topic prose and snippets are evidence to check,
+not a source of truth.
+
+1. **Identify the target platform.** Angular/native `igx`, Web Components `igc`, React, or Blazor.
+2. **Verify public API facts through MCP first.** Use the Ignite UI/API docs MCP source for component
+   types, properties, methods, events, and API-link targets.
+3. **If MCP is unavailable, use the official platform API docs.**
+   - React: `https://www.infragistics.com/api/react/`
+   - Web Components: `https://www.infragistics.com/api/webcomponents/`
+   - Blazor: `https://www.infragistics.com/api/blazor`
+4. **Use typed source only for details the API docs do not expose.** Examples: rendered DOM, slots,
+   parts, key handlers, theme `.scss` `@param` comments, precedence rules, and deprecation markers.
+5. **Use official framework docs for framework behavior.** Examples: Angular standalone defaults,
+   control-flow syntax, React conventions, and Blazor conventions.
+6. **Mark unresolved facts visibly.** Use `‹VERIFY: exact fact/source needed›` or flag the issue in the
+   audit report; never replace uncertainty with a plausible claim.
+
+Authored fenced code snippets follow the same verification order. Live `<Sample>` embeds are separate:
+verify `src`, `alt`, and display props in the topic, but report sample-code problems as upstream sample
+project work.
+
 ## Component topic — canonical section order
 
 Required = every component topic, always this order. Conditional = only when relevant, but always in
@@ -113,7 +137,7 @@ under **Usage**, never a new top-level section.
 | 1 | *Title + one-line definition* (`#` + lead ¶) | required | orient / reference | H1 is **`‹Component› Component`** — **no** framework prefix, **no** "Overview" suffix (the framework lives in the SEO `title`). Follow with one plain sentence: what it is, what problem it solves. Mirror `llms.description`. |
 | 2 | **Overview** | required | **explanation** | Introduces the component: its primary purpose, when to reach for it, and the problems it solves, in two sub-headings — **When to Use** and **When Not to Use** (when `relatedComponents` is non-empty, name the better-fit sibling by name and link it; otherwise state the boundary generically). No install steps or API detail here. |
 | 3 | *Live Demo* | required | demonstration (action) | `<Sample>` of the simplest useful state, **before** any further prose. |
-| 4 | **Anatomy** | conditional (recommended) | orientation (reference) | Opens with a screenshot/GIF of the component's parts or the behavior being shown, then the **DOM tree / skeleton** (rendered elements, parts, slots). If the visual asset doesn't exist yet, leave a `{/* TODO */}` marker rather than a broken image. |
+| 4 | **Anatomy** | required for component topics | orientation (reference) | Opens with a screenshot/GIF of the component's parts or the behavior being shown, then the **DOM tree / skeleton** (rendered elements, parts, slots). If the visual asset doesn't exist yet, leave a `{/* TODO */}` marker rather than a broken image, but still include the section and verified skeleton. |
 | 5 | **Getting Started** | required | how-to | **Lead with the component-specific import/registration** — the page-unique, high-value part. Compress the generic library install to a **single prerequisite line linking the general getting-started topic** (an inline `ng add igniteui-angular` as a parenthetical is fine); **don't** repeat the multi-sentence install boilerplate that is identical on every component page. Show the **current** registration (standalone import) first; put legacy NgModule **after**, marked as legacy. |
 | 6 | **Usage** | required | how-to | Smallest working snippet per common task; feature specifics are sub-headings here. Sub-headings name the **feature, not the component** (`Shape`, not `Avatar Shape`). Cover **every** public input; state behavioral relationships once (e.g. content-type priority) instead of repeating per option. Styling content belongs in **Styling**, not here. |
 | 7 | **Best Practices** | required | **explanation** | Practical design recommendations, illustrated with correct-vs-incorrect usage (do/don't pairs). Promotes consistency, usability, and accessibility, and calls out common mistakes. Guidance and examples only — no install steps, no property tables, no accessibility-conformance detail (those stay in their own sections). |
@@ -323,7 +347,9 @@ Write instructions the same way across every topic so readers (and assistants) g
 
 The zero-risk rule is not limited to identifiers — **every statement of fact must be verified against the actual component before it ships or is recommended as an edit.** This includes defaults, value ranges, precedence/fallback behavior, version support ("since vX"), deprecations, emitted events, and rendered DOM.
 
-- **Source of truth, in order:** the component's typed source (inputs, `@HostBinding`, template, theme `.scss` `@param` comments) → the official generated API docs → an existing verified topic → the user. For framework-version behavior (e.g. Angular standalone defaults), check the **official framework docs**, not memory.
+- **Source of truth:** follow the **Verification workflow** above. Public API facts come from MCP
+  first, then the official platform API docs. Typed source is for implementation details the API docs
+  do not expose. Existing docs and snippets are never sufficient proof by themselves.
 - **When recommending edits, verify first.** Never "correct" prose into a plausible-sounding claim you haven't checked — a confident wrong statement is worse than the original.
 - **If you can't verify it, don't assert it.** Write `‹VERIFY: …›` or leave the existing text and flag it — never guess a default, a version, or a behavior.
 - Behavioral claims that read fine but contradict the source (e.g. "the image falls back to initials on load error" when the code only sets precedence) are exactly what this rule catches.

@@ -13,7 +13,7 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
 ## Checks
 
 ### A. Structure & order
-- A1 (Error) A required section is missing (Overview, Live Demo, Getting Started, Usage,
+- A1 (Error) A required section is missing (Overview, Live Demo, Anatomy, Getting Started, Usage,
   Best Practices, Properties, Accessibility, API References, Additional Resources on a component
   topic).
 - A2 (Warning) Sections are present but out of the canonical order.
@@ -26,8 +26,8 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
 - A7 (Warning) **When to Use / When Not to Use** are not `###` sub-headings under the `## Overview`
   section — e.g. they appear as top-level `##`, or are still nested under **Anatomy** (the
   pre-revision slot).
-- A8 (Suggestion) **Anatomy** is missing its opening screenshot/GIF (or a `{/* TODO */}` marker for a
-  not-yet-available asset), or is missing the DOM tree / skeleton.
+- A8 (Warning) **Anatomy** is incomplete: missing its opening screenshot/GIF (or a `{/* TODO */}`
+  marker for a not-yet-available asset), or missing the verified DOM tree / skeleton.
 - A9 (Warning) **Accessibility** is missing one of its three required `###` sub-sections —
   **Keyboard Interaction**, **Screen Readers / ARIA**, **Accessibility Compliance** — or has them out
   of order.
@@ -75,11 +75,17 @@ Run the compass on each section; flag content that has drifted out of the sectio
   framework-specific content not wrapped in `<PlatformBlock>`.
 - D8 (Error) An API identifier (tag, class, package, property, method, event, CSS part, theming
   variable) appears to be fabricated/unverifiable, or an unresolved `‹VERIFY:…›` placeholder was left
-  in. Reference values must trace to the typed API source.
+  in. Public API values must trace to the Ignite UI/API docs MCP source, or to the official platform
+  API docs when MCP is unavailable.
 - D9 (Error) A **claim** contradicts or isn't verifiable against the component — a wrong default,
   value range, precedence/fallback behavior, version-support statement, deprecation, or DOM
-  description. Verify against the typed source / official API (and official framework docs for
-  version behavior); if unverifiable, don't assert it.
+  description. For public API facts, verify against the Ignite UI/API docs MCP source first; if MCP is
+  unavailable, use the official Infragistics API docs for the target platform (React
+  `https://www.infragistics.com/api/react/`, Web Components
+  `https://www.infragistics.com/api/webcomponents/`, Blazor
+  `https://www.infragistics.com/api/blazor`). Use typed source for implementation details not exposed
+  by API docs, and official framework docs for framework/version behavior; if unverifiable, don't
+  assert it. Existing topic snippets/prose are not sufficient proof.
 - D10 (Warning) **Voice/tone drift** — prose isn't imperative/second-person present tense, mixes
   first-person-plural narration ("we create") with how-to, or carries filler ("simply", "just") or
   marketing inside instructional prose.
