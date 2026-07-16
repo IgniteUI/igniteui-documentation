@@ -10,7 +10,7 @@ description: >-
 
 # Ignite UI doc topics adapter
 
-This is a Claude adapter for the canonical repo-local skill.
+This is a Codex adapter for the canonical repo-local skill.
 
 Before doing any task actions, read and follow the canonical skill at:
 
