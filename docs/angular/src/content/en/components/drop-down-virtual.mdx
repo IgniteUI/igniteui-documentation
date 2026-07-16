@@ -5,21 +5,47 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 license: MIT
 llms:
   description: "The Ignite UI for Angular Drop Down component can fully integrate with the IgxForOf directive in order to display a very large list of items for its selection."
+relatedComponents: [Drop Down]
 ---
 
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
-# Virtual Drop Down
+# Virtual Drop Down Component
 
 The Ignite UI for Angular Drop Down component can fully integrate with the [`IgxForOf`](/for-of) directive in order to display a very large list of items for its selection.
 
-## Angular Virtual Drop Down Example
+## Overview
+
+### When to Use
+
+Use a virtual Drop Down when a selectable list is large enough that rendering every item at once would affect performance.
+
+### When Not to Use
+
+For a small list, use the standard <ApiLink type="DropDown" label="Drop Down" /> without virtualization; it is simpler to configure and maintain.
+
+## Live Demo
 
 <Sample src="/data-entries/dropdown-virtual" height={320} alt="Angular Virtual Drop Down Example" />
 
-<hr/>
+## Anatomy
+
+{/* TODO: add an annotated screenshot of the virtual container, visible items, and scrollbar. */}
+
+The virtual Drop Down renders a fixed-size viewport and reuses item views as the user scrolls through the collection.
+
+```text
+Virtual Drop Down
+├── fixed-size viewport
+├── virtualized item collection
+└── visible drop-down items
+```
+
+## Getting Started
+
+Use the standard Drop Down setup, then import and configure the <ApiLink type="ForOfDirective" label="IgxForOf" /> directive for the item collection.
 
 ## Usage
 
@@ -136,7 +162,7 @@ The last part of the configuration is to set `overflow: hidden` to the wrapping 
 }
 ```
 
-## Remote Data
+### Remote Data
 
 The `igx-drop-down` supports loading chunks of remote data using the `*igxFor` structural directive. The configuration is similar to the one with local items, the main difference being how data chunks are loaded.
 
@@ -262,6 +288,48 @@ The result of the above configuration is a drop-down that dynamically loads the 
 <Sample src="/data-entries/dropdown-remote" height={400} alt="" />
 
 <hr/>
+
+## Best Practices
+
+- Provide both a stable item `value` and its data-set `index` to every virtualized item.
+- Keep `containerSize` and `itemSize` accurate so scrolling and item reuse remain aligned.
+- Use unique item values and use `isHeader` instead of item groups when the list is virtualized.
+
+## Properties
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| See generated API reference | See generated API reference | See generated API reference | The complete property table is generated from the typed API source. |
+
+## Events
+
+| Name | Payload | Description |
+| --- | --- | --- |
+| <ApiLink type="ForOfDirective" member="chunkPreload" label="chunkPreload" /> | See API reference | Emitted when another virtualized data chunk must be loaded. |
+
+## Styling
+
+Set `overflow: hidden` on the virtualized wrapper to prevent a second scrollbar from appearing.
+
+## Accessibility
+
+### Keyboard Interaction
+
+Use the Drop Down keyboard navigation to move through visible options while the virtual viewport loads items as needed.
+
+### Screen Readers / ARIA
+
+Ensure every virtualized item has a meaningful label and stable value. Do not rely on the visible position alone to identify an option.
+
+### Accessibility Compliance
+
+Verify focus management, announced selection, and contrast in the application; this topic does not make a product-level WCAG conformance claim.
+
+## Troubleshooting
+
+### Why do items lose their selection while scrolling?
+
+Pass a unique `value` and the data-set `index` to every `igx-drop-down-item`, and use the data-set index when calling `setSelectedItem`.
 
 ## Notes and Limitations
 
