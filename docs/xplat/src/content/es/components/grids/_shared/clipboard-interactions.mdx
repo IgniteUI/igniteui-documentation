@@ -1,0 +1,107 @@
+---
+title: "{Platform} {ComponentTitle} Interacciones con el portapapeles - {ProductName}"
+description: La funcionalidad de portapapeles de {Platform} {ComponentTitle} proporciona una forma rápida, sencilla y personalizable de copiar, pegar y exportar datos a Excel u otros programas. ¡Pruébela ahora!
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes:
+  - ComponentApiMembers: null
+sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridClipboardInteractions}"
+llms:
+  description: Las operaciones de copiar al portapapeles ahora están disponibles en {ComponentName}.
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} Descripción general del portapapeles
+
+Las operaciones de copia al portapapeles ahora están disponibles en <ApiLink type="{ComponentName}" />. Esta funcionalidad proporciona una forma rápida, sencilla y personalizable de copiar datos de {Platform} <ApiLink type="{ComponentName}" /> mediante la selección actual de datos de varias celdas. El comportamiento del portapapeles del sistema ofrece al usuario la capacidad de copiar datos de <ApiLink type="{ComponentName}" /> a Excel u otros programas externos.
+
+## {Platform} {ComponentTitle} Ejemplo de portapapeles
+
+<Sample src="/{ComponentSample}/clipboard-operations" height={635} alt="{Platform} {ComponentTitle} Clipboard Interactions Example" />
+
+## Funcionalidad
+
+El comportamiento de copia funciona con la interacción predeterminada definida por el navegador y el sistema operativo. Por lo tanto, para los comportamientos de copiar y pegar, estos son:
+
+- Basados en Windows/Unix
+  - <kbd>CTRL</kbd> + <kbd>C</kbd> / <kbd>CTRL</kbd> + <kbd>Ins</kbd> como método abreviado de teclado
+  - <kbd>CTRL</kbd> + <kbd>V</kbd> / <kbd>MAYÚS</kbd> + <kbd>Ins</kbd> como método abreviado de teclado
+  - Acción de copia a través del menú del navegador
+- macOS
+  - <kbd>CMD</kbd> + <kbd>C</kbd> como método abreviado de teclado
+  - <kbd>CMD</kbd> + <kbd>V</kbd> como método abreviado de teclado
+  - Acción de copia a través del menú del navegador
+
+## Limitaciones
+
+- Los eventos **cortar** y **copiar** no son compatibles de forma nativa en Internet Explorer. La excepción es el
+
+evento **pegar** (IE 11), que se emite pero no expone la propiedad <PlatformBlock for="Angular"><ApiLink type="IClipboardOptions" label="ClipboardData" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="ClipboardOptions" label="ClipboardData" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ClipboardOptions" label="ClipboardData" /></PlatformBlock> en el evento.
+
+<DocsAside type="info">
+
+Para **copiar** celdas en IE 11, puede usar la selección con el teclado. Mantenga presionada la tecla <kbd>MAYÚS</kbd> para realizar una selección de varias celdas; presione <kbd>CTRL</kbd> + <kbd>C</kbd> para copiar.
+
+</DocsAside>
+
+- El comportamiento de copia se deshabilita mientras la cuadrícula está en modo de edición.
+- La versión actual de esta característica cubre solo el comportamiento de **copiar** desde la cuadrícula. Más adelante, planeamos exponer `paste` dentro del comportamiento de la cuadrícula.
+
+<PlatformBlock for="Angular">
+
+<ComponentBlock for="Grid">
+
+Puede usar un controlador de pegado personalizado para configurar el comportamiento de **pegar**; consulte nuestro [tema Pegar desde Excel](paste-excel.md).
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+## Uso de API
+
+Exponemos la propiedad <ApiLink type="{ComponentName}" member="clipboardOptions" />, que controla las siguientes opciones:
+
+- <PlatformBlock for="Angular"><ApiLink type="IClipboardOptions" member="enabled" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="ClipboardOptions" member="enabled" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ClipboardOptions" member="enabled" /></PlatformBlock> Habilita/deshabilita la copia de las celdas seleccionadas.
+- <PlatformBlock for="Angular"><ApiLink type="IClipboardOptions" member="copyHeaders" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="ClipboardOptions" member="copyHeaders" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ClipboardOptions" member="copyHeaders" /></PlatformBlock> Incluye los encabezados asociados al copiar.
+- <PlatformBlock for="Angular"><ApiLink type="IClipboardOptions" member="copyFormatters" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="ClipboardOptions" member="copyFormatters" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ClipboardOptions" member="copyFormatters" /></PlatformBlock> Aplica cualquier formateador de columna existente a los datos copiados.
+- <PlatformBlock for="Angular"><ApiLink type="IClipboardOptions" member="separator" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="ClipboardOptions" member="separator" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ClipboardOptions" member="separator" /></PlatformBlock> El separador de cadena que se debe usar para formatear los datos en el portapapeles. El valor predeterminado es `/t`
+
+<DocsAside type="info">
+
+Excel puede detectar automáticamente texto que está separado por tabulaciones (delimitado por tabulaciones `/t`) y pegar correctamente los datos en columnas separadas. Cuando el formato de pegado no funciona y todo lo que se pega aparece en una sola columna, entonces el delimitador de Excel está configurado en otro carácter, o el texto usa espacios en lugar de tabulaciones.
+
+</DocsAside>
+
+- <PlatformBlock for="WebComponents"><ApiLink type="GridComponentEventMap" member="gridCopy" label="gridCopy" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="Grid" member="onGridCopy" label="gridCopy" /></PlatformBlock><PlatformBlock for="Angular"><ApiLink type="Grid" member="gridCopy" label="gridCopy" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="gridCopy" label="gridCopy" /></PlatformBlock> Se emite cuando se ejecuta una operación de copia. Se desencadena solo si el comportamiento de copia está habilitado mediante <ApiLink type="{ComponentName}" member="clipboardOptions" />.
+
+## Referencias de API
+
+<ApiLink type="{ComponentName}" />
+
+<PlatformBlock for="Angular"><ApiLink type="IClipboardOptions" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="ClipboardOptions" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ClipboardOptions" /></PlatformBlock>
+
+## Recursos adicionales
+
+<ComponentBlock for="Grid">
+
+- [Paginación](paging.md)
+- [Filtrado](filtering.md)
+- [Ordenación](sorting.md)
+- [Resúmenes](summaries.md)
+- [Resúmenes](summaries.md)
+- [Fijación de columnas](column-pinning.md)
+- [Selección](selection.md)
+- [Virtualización y rendimiento](virtualization.md)
+- [Encabezados multicolumna](multi-column-headers.md)
+
+</ComponentBlock>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

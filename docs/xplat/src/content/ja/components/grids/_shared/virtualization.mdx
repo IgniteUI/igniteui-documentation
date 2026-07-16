@@ -1,0 +1,125 @@
+---
+title: "{Platform} {ComponentTitle} 仮想化とパフォーマンス - {ProductName}"
+description: "{ProductName} の仮想化は、大規模なデータセットを処理する際のグリッドの速度とパフォーマンスを支える中核的な仕組みです。無料でお試しください。"
+keywords: "{Platform} {ComponentTitle}、{ComponentTitle} パフォーマンス、データ テーブルの仮想化、{ProductName}"
+license: commercial
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridVirtualization}"
+llms:
+  description: "{ProductName} では、{ComponentName} コントロールがコンテンツを垂直方向と水平方向の両方で仮想化します。"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} 仮想化とパフォーマンス
+
+{ProductName} では、<ApiLink type="{ComponentName}" /> コントロールがコンテンツを垂直方向と水平方向の両方で仮想化します。
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+
+## {Platform} {ComponentTitle} 仮想化とパフォーマンスの例
+
+<Sample src="/{ComponentSample}/data-performance-virtualization" height={550} alt="{Platform} {ComponentTitle} Virtualization and Performance Example" />
+
+</ComponentBlock>
+
+## 仮想化の有効化
+
+<ApiLink type="{ComponentName}" /> は、現在ビュー ポートに表示されている内容のみをレンダリングし、ユーザーがデータを水平方向/垂直方向にスクロールしている間に表示データを差し替えることで、DOM レンダリングとメモリ消費を最適化するようになりました。<ApiLink type="{ComponentName}" /> の <ApiLink type="{ComponentName}" member="width" /> と <ApiLink type="{ComponentName}" member="height" /> の既定値は `100%` であり、表示されるコンテンツが利用可能なスペース内に収まらず、垂直方向または水平方向のスクロールバーが必要な場合に仮想化が有効になります。
+
+ただし、<ApiLink type="{ComponentName}" /> の <ApiLink type="{ComponentName}" member="width" /> および/または <ApiLink type="{ComponentName}" member="height" /> を明示的に `null` に設定することもできます。これは、関連する次元が内部の項目の合計サイズによって決定されることを意味します。その場合、スクロールバーは表示されず、対応する次元に沿ってすべての項目がレンダリングされます (<ApiLink type="{ComponentName}" member="width" /> が `null` の場合は列、<ApiLink type="{ComponentName}" member="height" /> が `null` の場合は行)。
+
+データ チャンクのサイズは次によって決定されます。
+
+- 垂直方向 (行) の仮想化では行の高さ。これは <ApiLink type="{ComponentName}" member="rowHeight" /> オプションによって決定され、既定では 50(px) です。
+- 水平方向 (列) の仮想化では、各列の幅 (ピクセル単位)。これらは、各列コンポーネントに明示的な幅を設定するか、<ApiLink type="{ComponentName}" /> の <ApiLink type="{ComponentName}" member="columnWidth" /> オプションを設定することで決定できます。このオプションは、明示的な幅が設定されていないすべての列に適用されます。
+
+ほとんどの場合、寸法を未設定のままにしてグリッドに既定の動作を適用させることで、目的のレイアウトが得られます。列幅については、列数、幅が設定されている列、および <ApiLink type="{ComponentName}" /> のコンテナーの計算された幅によって決まります。グリッドは、割り当てようとする幅が 136(px) を下回らない限り、利用可能なスペース内にすべての列を収めようとします。このような場合、幅が未割り当ての列には最小幅の 136(px) が設定され、水平スクロールバーが表示されます。グリッドは水平方向に仮想化されます。
+
+列幅をパーセンテージ (%) で明示的に設定すると、ほとんどの場合、水平スクロールバーがないため、水平方向に仮想化されていないグリッドが作成されます。
+
+<PlatformBlock for="Angular">
+
+## リモート仮想化
+
+<ApiLink type="{ComponentName}" /> はリモート仮想化をサポートしており、これは [リモート データ操作](remote-data-operations.md) トピックで示されています。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+## テンプレート化
+
+グリッド内の既存テンプレートのいずれかをカスタマイズする必要がある場合、Blazor ではテンプレートを定義する方法が 2 つ用意されています。
+
+- 関連するコンポーネント プロパティ (つまり <ApiLink type="Column" member="bodyTemplate" label="BodyTemplate" /> プロパティ) を使用するサーバー側テンプレート、またはテンプレート名を使用した宣言的な方法。例:
+
+```razor
+<IgbColumn>
+    <BodyTemplate>
+        Template content here
+    </BodyTemplate>
+</IgbColumn>
+```
+
+これにより、まずサーバーにテンプレートを要求して解決した後に、そのテンプレートがレンダリングされます。
+
+- プロパティに相当する `Script` (つまり `BodyTemplateScript`) を使用して、クライアント側の関数ハンドラー名に設定するクライアント テンプレート。例:
+
+```razor
+<IgbColumn BodyTemplateScript="CellTemplate">
+</IgbColumn>
+```
+
+```javascript
+igRegisterScript("CellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`Template content here`;
+}, false);
+
+```
+
+その後、ハンドラーは必要に応じて、提供された lit テンプレートを DOM に直接レンダリングします。
+
+<DocsAside type="info">
+
+どちらのアプローチも有効ですが、サーバー側テンプレートでは、クライアントでレンダリングする前にカスタム テンプレートを取得して解決するために、サーバーへの往復リクエストが必要です。そのため、クライアント テンプレートのアプローチはより最適化されており、推奨されます。特に、頻繁な更新が必要なテンプレートが多数あるシナリオでは、関連するユーザー操作とテンプレート更新の間に目に見える遅延が発生する可能性があります。
+
+</DocsAside>
+
+</PlatformBlock>
+
+## 仮想化の制限事項
+
+Mac OS では、「Show scrollbars only when scrolling」システム オプションが true に設定されている場合 (これが既定値です)、水平スクロールバーは表示されません。これは、<ApiLink type="{ComponentName}" /> の行コンテナーの overflow が hidden に設定されているためです。このオプションを「Always」に変更すると、スクロールバーが表示されます。
+
+## FAQ
+
+### 仮想化が機能するために {ComponentTitle} に寸法が必要なのはなぜですか?
+
+コンテナーと項目のサイズに関する情報が、それらをレンダリングする前にない場合、スクロールバーの幅または高さを設定したり、<ApiLink type="{ComponentName}" /> 内の任意の場所にスクロールしたときにどの項目がビュー内にあるべきかを判断したりすることは誤りになります。実際の寸法がどの程度であるかについての仮定は、スクロールバーの不自然な動作につながり、最終的にはエンド ユーザーにとって最適ではない体験を招く可能性があります。そのため、仮想化を有効にするには、関連する寸法の設定が強制されます。
+
+## API リファレンス
+
+<ApiLink type="{ComponentName}" />
+
+<ApiLink type="Column" />
+
+## その他のリソース
+
+- [ページング](paging.md)
+- [フィルタリング](filtering.md)
+- [並べ替え](sorting.md)
+- [集計](summaries.md)
+- [列の移動](column-moving.md)
+- [列のピン固定](column-pinning.md)
+- [列のサイズ変更](column-resizing.md)
+- [選択](selection.md)
+
+私たちのコミュニティは活発で、常に新しいアイデアを歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

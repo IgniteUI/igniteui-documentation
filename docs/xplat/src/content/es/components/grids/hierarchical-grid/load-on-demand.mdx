@@ -1,0 +1,977 @@
+---
+title: "{Platform} Cuadrícula jerárquica | Tabla jerárquica {Platform} más rápida | Infragistics"
+description: La cuadrícula jerárquica {ProductName} proporciona las herramientas necesarias para cargar datos a petición para cada cuadrícula secundaria que se expanda. De ese modo, el volumen de datos se reduciría considerablemente y puede recuperarse solo cuando el usuario lo necesite.
+keywords: cuadrícula jerárquica {Platform}, igniteui for {Platform}, infragistics
+license: commercial
+mentionedTypes: ["HierarchicalGrid", "RowIsland"]
+namespace: Infragistics.Controls
+llms:
+  description: Ignite UI for {Platform} HierarchicalGrid permite una representación rápida al solicitar que se recupere del servidor la cantidad mínima de datos, de modo que el usuario pueda ver el resultado en la vista e interactuar con los datos visibles lo antes posible.
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import hgridDatabase from '@xplat-images/hgrid-database.jpg';
+
+# Carga bajo demanda de la cuadrícula jerárquica
+
+La <ApiLink type="HierarchicalGrid" /> de Ignite UI for {Platform} permite una representación rápida al solicitar la cantidad mínima de datos que se debe recuperar del servidor para que el usuario pueda ver el resultado en la vista e interactuar con los datos visibles lo antes posible. Inicialmente solo se recuperan y se representan los datos de la cuadrícula raíz; solo después de que el usuario expande una fila que contiene una cuadrícula secundaria, recibirá los datos de esa cuadrícula secundaria concreta. Este mecanismo, también conocido como carga bajo demanda, se puede configurar fácilmente para funcionar con cualquier dato remoto.
+
+En este tema se muestra cómo configurar la carga bajo demanda creando un proveedor de servicio remoto que se comunica con un servicio remoto ya disponible. Aquí está la demostración funcional y más adelante la revisaremos paso a paso y describiremos el proceso de creación.
+
+## Ejemplo de carga bajo demanda de la cuadrícula jerárquica de {Platform}
+
+<Sample src="/{HierarchicalGridSample}/data-performance-virtualization" height={700} alt="{Platform} Hierarchical Grid Load On Demand Example" />
+
+## Proveedor de servicio remoto
+
+Primero prepararemos nuestro proveedor de servicio para estar listos para obtener los datos que necesitaríamos para la cuadrícula jerárquica.
+
+### Obtención de datos básicos
+
+<PlatformBlock for="Angular">
+
+Nos comunicaremos con nuestro servicio backend mediante el protocolo HTTP utilizando la interfaz XMLHttpRequest que proporcionan los navegadores. Para lograrlo más fácilmente, usaremos el módulo [`HttpClient`](https://angular.io/api/common/http/HttpClient) de Angular, que ofrece una API HTTP de cliente simplificada. De esta manera, para obtener nuestros datos necesitaremos este método sencillo en nuestro servicio:
+
+```typescript
+public getData(dataState): Observable<any[]> {
+    return this.http.get(this.buildUrl(dataState)).pipe(
+        map(response => response),
+    );
+}
+```
+
+Como puede ver, `this.http` será una referencia a nuestro módulo `HttpCLient`, y `buildUrl()` será el método que generará nuestra URL en función de los datos que hemos recibido. Asignamos nuestra respuesta y devolvemos un Observable, ya que esto se ejecuta de forma asíncrona. De esta manera, más adelante podemos suscribirnos a él, procesarlo más en nuestra aplicación y pasarlo a nuestra cuadrícula.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+
+Nos comunicaremos con nuestro servicio backend mediante el protocolo HTTP utilizando la función global [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/fetch) que proporcionan los navegadores. De esta manera, para obtener nuestros datos necesitaremos este método sencillo en nuestro servicio:
+
+```ts
+export async function getData(dataState: any): Promise<any> {
+    const response = await fetch(buildUrl(dataState));
+    const data = await response.json();
+    return data;
+}
+```
+
+Como puede ver, `buildUrl()` será el método que generará nuestra URL en función de los datos que hemos recibido. Devolvemos una Promise, ya que esto se ejecuta de forma asíncrona. De esta manera, más adelante podemos suscribirnos a ella, procesarla más en nuestra aplicación y pasarla a nuestra cuadrícula.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Nos comunicaremos con nuestro servicio backend mediante el protocolo HTTP utilizando la función global [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/fetch) que proporcionan los navegadores. De esta manera, para obtener nuestros datos necesitaremos este método sencillo en nuestro servicio:
+
+```javascript
+function getData(dataState) {
+    return fetch(buildUrl(dataState))
+        .then((result) => result.json());
+}
+```
+
+Como puede ver, `buildUrl()` será el método que generará nuestra URL en función de los datos que hemos recibido. Devolvemos una Promise, ya que esto se ejecuta de forma asíncrona. De esta manera, más adelante podemos suscribirnos a ella, procesarla más en nuestra aplicación y pasarla a nuestra cuadrícula.
+
+</PlatformBlock>
+
+### Construcción de nuestra URL de solicitud
+
+A continuación definiremos cómo debemos construir nuestra URL para la solicitud GET. Aquí es donde podremos obtener los datos para nuestra cuadrícula principal, pero también para cualquier cuadrícula secundaria dentro de ella. Usaremos los datos `Customers` de este [tema](https://data-northwind.indigo.design/swagger/index.html) para nuestro nivel raíz y usaremos `Orders` y `Details` para los niveles inferiores. El modelo diferirá según la aplicación, pero usaremos el siguiente:
+
+<Image src={hgridDatabase} alt="hgrid-database" class="responsive-img" />
+
+Lo primero que necesitamos es el `key` de nuestra tabla para determinar de dónde obtener los datos para la cuadrícula deseada, la clave principal de la fila primaria y su ID único.
+
+<PlatformBlock for="Angular">
+
+Definiremos todo esto en una interfaz llamada `IDataState`. Un ejemplo:
+
+```typescript
+export interface IDataState {
+    key: string;
+    parentID: any;
+    parentKey: string;
+    rootLevel: boolean;
+}
+
+//...
+public buildUrl(dataState: IDataState): string {
+    let qS = "";
+    if (dataState) {
+        if (dataState.rootLevel) {
+            qS += `${dataState.key}`;
+        } else {
+            qS += `${dataState.parentKey}/${dataState.parentID}/${dataState.key}`;
+        }
+    }
+    return `${this.url}${qS}`;
+}
+//...
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+
+Definiremos todo esto en el objeto `dataState`. Un ejemplo:
+
+```ts
+const dataState: {
+    key: string;
+    parentID: any;
+    parentKey: string;
+    rootLevel: boolean;
+} = {
+    //...
+};
+
+function buildUrl(dataState: any) {
+    let qS = "";
+    if (dataState) {
+        if (dataState.rootLevel) {
+            qS += `${dataState.key}`;
+        } else {
+            qS += `${dataState.parentKey}/${dataState.parentID}/${dataState.key}`;
+        }
+    }
+    return `${URL}${qS}`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Definiremos todo esto en el objeto `dataState`. Un ejemplo:
+
+```javascript
+const dataState: {
+    key: string;
+    parentID: any;
+    parentKey: string;
+    rootLevel: boolean;
+} = {
+    //...
+};
+
+function buildUrl(dataState) {
+    let qS = "";
+    if (dataState) {
+        if (dataState.rootLevel) {
+            qS += `${dataState.key}`;
+        } else {
+            qS += `${dataState.parentKey}/${dataState.parentID}/${dataState.key}`;
+        }
+    }
+    return `${DATA_URL}${qS}`;
+}
+```
+
+</PlatformBlock>
+
+### Resultado
+
+<PlatformBlock for="Angular">
+
+Finalmente, así se vería nuestro `remote-lod.service.ts`:
+
+```typescript
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+export interface IDataState {
+    key: string;
+    parentID: any;
+    parentKey: string;
+    rootLevel: boolean;
+}
+
+@Injectable()
+export class RemoteLoDService {
+    public url = `https://data-northwind.indigo.design/`;
+
+    constructor(private http: HttpClient) { }
+
+    public getData(dataState: IDataState): Observable<any[]> {
+        return this.http.get(this.buildUrl(dataState)).pipe(
+            map((response) => response)
+        );
+    }
+
+    public buildUrl(dataState: IDataState): string {
+        let qS = "";
+        if (dataState) {
+            if (dataState.rootLevel) {
+                qS += `${dataState.key}`;
+            } else {
+                qS += `${dataState.parentKey}/${dataState.parentID}/${dataState.key}`;
+            }
+        }
+        return `${this.url}${qS}`;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+
+Finalmente, así se vería nuestro servicio remoto:
+
+```ts
+const URL = `https://data-northwind.indigo.design/`;
+
+export async function getData(dataState: any): Promise<any> {
+    const response = await fetch(buildUrl(dataState));
+    const data = await response.json();
+    return data;
+}
+
+function buildUrl(dataState: any) {
+    let qS = "";
+    if (dataState) {
+        if (dataState.rootLevel) {
+            qS += `${dataState.key}`;
+        } else {
+            qS += `${dataState.parentKey}/${dataState.parentID}/${dataState.key}`;
+        }
+    }
+    return `${URL}${qS}`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Finalmente, así se vería nuestro servicio remoto:
+
+```javascript
+const DATA_URL = `https://data-northwind.indigo.design/`;
+
+function getData(dataState) {
+    return fetch(buildUrl(dataState))
+        .then((result) => result.json());
+}
+
+function buildUrl(dataState) {
+    let qS = "";
+    if (dataState) {
+        if (dataState.rootLevel) {
+            qS += `${dataState.key}`;
+        } else {
+            qS += `${dataState.parentKey}/${dataState.parentID}/${dataState.key}`;
+        }
+    }
+    return `${DATA_URL}${qS}`;
+}
+```
+
+</PlatformBlock>
+
+## Configuración de la cuadrícula jerárquica
+
+A continuación configuraremos nuestra cuadrícula jerárquica y la conectaremos a nuestro proveedor de servicio remoto.
+
+### Definición de la plantilla
+
+Primero definiremos nuestra plantilla de cuadrícula jerárquica con los niveles de jerarquía que esperamos tener. Sabemos que el <ApiLink type="HierarchicalGrid" member="primaryKey" label="PrimaryKey" /> de nuestra cuadrícula raíz para los clientes es su `customerId`, para sus pedidos en el primer nivel: `orderId` y, respectivamente, para los detalles de pedido: `productId`. Conocer cada tabla de base de datos y sus claves nos permite definir nuestra plantilla inicial:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-hierarchical-grid #hGrid [primaryKey]="'customerId'" [autoGenerate]="false" [height]="'600px'" [width]="'100%'">
+    <igx-column field="customerId" [hidden]="true"></igx-column>
+    <igx-column field="companyName" header="Company Name"></igx-column>
+    <igx-column field="contactName" header="Contact Name"></igx-column>
+    <igx-column field="contactTitle" header="Contact Title"></igx-column>
+    <igx-column field="address.country" header="Country"></igx-column>
+    <igx-column field="address.phone" header="Phone"></igx-column>
+    <igx-row-island [key]="'Orders'" [primaryKey]="'orderId'" [autoGenerate]="false" >
+        <igx-column field="orderId" [hidden]="true"></igx-column>
+        <igx-column field="shipAddress.country" header="Ship Country"></igx-column>
+        <igx-column field="shipAddress.city" header="Ship City"></igx-column>
+        <igx-column field="shipAddress.street" header="Ship Address"></igx-column>
+        <igx-column field="orderDate" header="Order Date"></igx-column>
+        <igx-row-island [key]="'Details'" [primaryKey]="'productId'" [autoGenerate]="false" >
+            <igx-column field="ProductID" [hidden]="true"></igx-column>
+            <igx-column field="quantity" header="Quantity"></igx-column>
+            <igx-column field="unitPrice" header="UnitPrice"></igx-column>
+            <igx-column field="discount" header="Discount"></igx-column>
+        </igx-row-island>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-hierarchical-grid id="hGrid" primary-key="customerId" height="600px">
+    <igc-column field="customerId" hidden="true"></igc-column>
+    <igc-column field="companyName" header="Company Name"></igc-column>
+    <igc-column field="contactName" header="Contact Name"></igc-column>
+    <igc-column field="contactTitle" header="Contact Title"></igc-column>
+    <igc-column field="address.country" header="Country"></igc-column>
+    <igc-column field="address.phone" header="Phone"></igc-column>
+    <igc-row-island child-data-key="Orders" primary-key="orderId">
+        <igc-column field="orderId" hidden="true"></igc-column>
+        <igc-column field="shipAddress.country" header="Ship Country"></igc-column>
+        <igc-column field="shipAddress.city" header="Ship City"></igc-column>
+        <igc-column field="shipAddress.street" header="Ship Address"></igc-column>
+        <igc-column field="orderDate" header="Order Date" data-type="date"></igc-column>
+        <igc-row-island child-data-key="Details" primary-key="productId">
+            <igc-column field="productId" hidden="true"></igc-column>
+            <igc-column field="quantity" header="Quantity"></igc-column>
+            <igc-column field="unitPrice" header="Unit Price"></igc-column>
+            <igc-column field="discount" header="Discount"></igc-column>
+        </igc-row-island>
+    </igc-row-island>
+</igc-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrHierarchicalGrid ref={hierarchicalGrid} primaryKey="customerId" height="600px">
+    <IgrColumn field="customerId" hidden={true}></IgrColumn>
+    <IgrColumn field="companyName" header="Company Name"></IgrColumn>
+    <IgrColumn field="contactName" header="Contact Name"></IgrColumn>
+    <IgrColumn field="contactTitle" header="Contact Title"></IgrColumn>
+    <IgrColumn field="address.country" header="Country"></IgrColumn>
+    <IgrColumn field="address.phone" header="Phone"></IgrColumn>
+    <IgrRowIsland childDataKey="Orders" primaryKey="orderId">
+        <IgrColumn field="orderId" hidden={true}></IgrColumn>
+        <IgrColumn field="shipAddress.country" header="Ship Country"></IgrColumn>
+        <IgrColumn field="shipAddress.city" header="Ship City"></IgrColumn>
+        <IgrColumn field="shipAddress.street" header="Ship Address"></IgrColumn>
+        <IgrColumn field="orderDate" header="Order Date" dataType="date"></IgrColumn>
+        <IgrRowIsland childDataKey="Details" primaryKey="productId">
+            <IgrColumn field="productId" hidden={true}></IgrColumn>
+            <IgrColumn field="quantity" header="Quantity"></IgrColumn>
+            <IgrColumn field="unitPrice" header="Unit Price"></IgrColumn>
+            <IgrColumn field="discount" header="Discount"></IgrColumn>
+        </IgrRowIsland>
+    </IgrRowIsland>
+</IgrHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbHierarchicalGrid Id="hGrid" PrimaryKey="customerId" Height="600px">
+    <IgbColumn Field="customerId" Hidden="true"></IgbColumn>
+    <IgbColumn Field="companyName" Header="Company Name"></IgbColumn>
+    <IgbColumn Field="contactName" Header="Contact Name"></IgbColumn>
+    <IgbColumn Field="contactTitle" Header="Contact Title"></IgbColumn>
+    <IgbColumn Field="address.country" Header="Country"></IgbColumn>
+    <IgbColumn Field="address.phone" Header="Phone"></IgbColumn>
+    <IgbRowIsland ChildDataKey="Orders" PrimaryKey="orderId">
+        <IgbColumn Field="orderId" Hidden="true"></IgbColumn>
+        <IgbColumn Field="shipAddress.country" Header="Ship Country"></IgbColumn>
+        <IgbColumn Field="shipAddress.city" Header="Ship City"></IgbColumn>
+        <IgbColumn Field="shipAddress.street" Header="Ship Address"></IgbColumn>
+        <IgbColumn Field="orderDate" Header="Order Date" DataType="GridColumnDataType.Date"></IgbColumn>
+        <IgbRowIsland ChildDataKey="Details" PrimaryKey="productId">
+            <IgbColumn Field="productId" Hidden="true"></IgbColumn>
+            <IgbColumn Field="quantity" Header="Quantity"></IgbColumn>
+            <IgbColumn Field="unitPrice" Header="Unit Price"></IgbColumn>
+            <IgbColumn Field="discount" Header="Discount"></IgbColumn>
+        </IgbRowIsland>
+    </IgbRowIsland>
+</IgbHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+Sin embargo, falta una cosa en nuestra plantilla, y son los datos para nuestra cuadrícula jerárquica de nivel raíz y, finalmente, sus elementos secundarios.
+
+<PlatformBlock for="Angular">
+
+Estableceremos fácilmente los datos de la cuadrícula raíz después de obtener sus datos del servicio en nuestro código más adelante, ya que podemos usar la referencia `#hGrid`.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Estableceremos fácilmente los datos de la cuadrícula raíz después de obtener sus datos del servicio en nuestro código más adelante, ya que podemos usar la referencia `id="hGrid"`.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Estableceremos fácilmente los datos de la cuadrícula raíz después de obtener sus datos del servicio en nuestro código más adelante, ya que podemos usar la referencia `ref={hierarchicalGrid}`.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Estableceremos fácilmente los datos de la cuadrícula raíz después de obtener sus datos del servicio en nuestro código más adelante, ya que podemos usar la referencia `Id="hGrid"`.
+
+</PlatformBlock>
+
+Establecer los datos para cualquier elemento secundario que se haya expandido es un poco diferente. Cuando una fila se expande por primera vez, se representa un nuevo <ApiLink type="HierarchicalGrid" /> secundario para ella y necesitamos obtener la referencia de la cuadrícula recién creada para establecer sus datos. Por eso cada componente <ApiLink type="RowIsland" /> proporciona el evento `GridCreated` que se desencadena cuando se crea una nueva cuadrícula secundaria para esa isla de filas específica. Podemos usarlo para obtener la referencia que necesitamos para la nueva cuadrícula, solicitar sus datos al servicio y aplicarlos.
+
+Podemos usar un solo método para todas las islas de filas, ya que construimos nuestro servicio de modo que solo necesite información sobre si es el nivel raíz, la clave de la isla de filas, la clave principal de la fila primaria y su identificador único. Toda esta información se puede acceder directamente desde los argumentos del evento o desde la isla de filas responsable de desencadenar el evento.
+
+<PlatformBlock for="Angular, WebComponents, React">
+
+Llamemos `gridCreated` al método que usaremos.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Llamemos `OnGridCreated` al método que usaremos.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents">
+
+Dado que el evento `GridCreated` proporciona la propiedad `parentID`, una referencia a la isla de filas como `owner` y la nueva propiedad secundaria `grid`, se pasará como primer argumento. Solo nos falta información sobre el `primaryKey` de la fila primaria, pero podemos pasarla fácilmente como segundo argumento, dependiendo de qué isla de filas enlacemos.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Dado que el evento `GridCreated` proporciona una referencia a la isla de filas, la propiedad `parentID` y la nueva propiedad secundaria `grid`, esto se pasará como primer y segundo argumentos. Solo nos falta información sobre el `primaryKey` de la fila primaria, pero podemos pasarla fácilmente como tercer argumento, dependiendo de qué isla de filas enlacemos.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Dado que el evento `GridCreated` proporciona la propiedad `parentID`, una referencia a la isla de filas como `owner` y la nueva propiedad secundaria `grid`, se pasará como primer argumento. Solo nos falta información sobre el `primaryKey` de la fila primaria, pero podemos determinarla fácilmente en función del <ApiLink type="RowIsland" member="childDataKey" label="ChildDataKey" /> de la isla de filas.
+
+</PlatformBlock>
+
+El archivo de plantilla, con estos cambios agregados, se vería así:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-hierarchical-grid #hGrid [primaryKey]="'customerId'" [autoGenerate]="false" [height]="'600px'" [width]="'100%'">
+    <igx-column field="customerId" [hidden]="true"></igx-column>
+    <igx-column field="companyName" header="Company Name"></igx-column>
+    <igx-column field="contactName" header="Contact Name"></igx-column>
+    <igx-column field="contactTitle" header="Contact Title"></igx-column>
+    <igx-column field="address.country" header="Country"></igx-column>
+    <igx-column field="address.phone" header="Phone"></igx-column>
+    <igx-row-island [key]="'Orders'" [primaryKey]="'orderId'" [autoGenerate]="false" (gridCreated)="gridCreated($event, 'Customers')">
+        <igx-column field="orderId" [hidden]="true"></igx-column>
+        <igx-column field="shipAddress.country" header="Ship Country"></igx-column>
+        <igx-column field="shipAddress.city" header="Ship City"></igx-column>
+        <igx-column field="shipAddress.street" header="Ship Address"></igx-column>
+        <igx-column field="orderDate" header="Order Date"></igx-column>
+        <igx-row-island [key]="'Details'" [primaryKey]="'productId'" [autoGenerate]="false" (gridCreated)="gridCreated($event, 'Orders')">
+            <igx-column field="ProductID" [hidden]="true"></igx-column>
+            <igx-column field="quantity" header="Quantity"></igx-column>
+            <igx-column field="unitPrice" header="UnitPrice"></igx-column>
+            <igx-column field="discount" header="Discount"></igx-column>
+        </igx-row-island>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-hierarchical-grid id="hGrid" primary-key="customerId" height="600px">
+    <igc-column field="customerId" hidden="true"></igc-column>
+    <igc-column field="companyName" header="Company Name"></igc-column>
+    <igc-column field="contactName" header="Contact Name"></igc-column>
+    <igc-column field="contactTitle" header="Contact Title"></igc-column>
+    <igc-column field="address.country" header="Country"></igc-column>
+    <igc-column field="address.phone" header="Phone"></igc-column>
+    <igc-row-island id="ordersRowIsland" child-data-key="Orders" primary-key="orderId">
+        <igc-column field="orderId" hidden="true"></igc-column>
+        <igc-column field="shipAddress.country" header="Ship Country"></igc-column>
+        <igc-column field="shipAddress.city" header="Ship City"></igc-column>
+        <igc-column field="shipAddress.street" header="Ship Address"></igc-column>
+        <igc-column field="orderDate" header="Order Date" data-type="date"></igc-column>
+        <igc-row-island id="orderDetailsRowIsland" child-data-key="Details" primary-key="productId">
+            <igc-column field="productId" hidden="true"></igc-column>
+            <igc-column field="quantity" header="Quantity"></igc-column>
+            <igc-column field="unitPrice" header="Unit Price"></igc-column>
+            <igc-column field="discount" header="Discount"></igc-column>
+        </igc-row-island>
+    </igc-row-island>
+</igc-hierarchical-grid>
+```
+
+```ts
+constructor() {
+    const ordersRowIsland = document.getElementById("ordersRowIsland");
+    const orderDetailsRowIsland = document.getElementById("orderDetailsRowIsland");
+
+    ordersRowIsland.addEventListener("gridCreated", (event: any) => {
+        this.gridCreated(event, "Customers");
+    });
+
+    orderDetailsRowIsland.addEventListener("gridCreated", (event: any) => {
+        this.gridCreated(event, "Orders");
+    });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrHierarchicalGrid ref={hierarchicalGrid} primaryKey="customerId" height="600px">
+    <IgrColumn field="customerId" hidden={true}></IgrColumn>
+    <IgrColumn field="companyName" header="Company Name"></IgrColumn>
+    <IgrColumn field="contactName" header="Contact Name"></IgrColumn>
+    <IgrColumn field="contactTitle" header="Contact Title"></IgrColumn>
+    <IgrColumn field="address.country" header="Country"></IgrColumn>
+    <IgrColumn field="address.phone" header="Phone"></IgrColumn>
+    <IgrRowIsland childDataKey="Orders" primaryKey="orderId" onGridCreated={(e: IgrGridCreatedEventArgs) => gridCreated(e, "Customers")}>
+        <IgrColumn field="orderId" hidden={true}></IgrColumn>
+        <IgrColumn field="shipAddress.country" header="Ship Country"></IgrColumn>
+        <IgrColumn field="shipAddress.city" header="Ship City"></IgrColumn>
+        <IgrColumn field="shipAddress.street" header="Ship Address"></IgrColumn>
+        <IgrColumn field="orderDate" header="Order Date" dataType="date"></IgrColumn>
+        <IgrRowIsland childDataKey="Details" primaryKey="productId" onGridCreated={(e: IgrGridCreatedEventArgs) => gridCreated(e, "Orders")}>
+            <IgrColumn field="productId" hidden={true}></IgrColumn>
+            <IgrColumn field="quantity" header="Quantity"></IgrColumn>
+            <IgrColumn field="unitPrice" header="Unit Price"></IgrColumn>
+            <IgrColumn field="discount" header="Discount"></IgrColumn>
+        </IgrRowIsland>
+    </IgrRowIsland>
+</IgrHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbHierarchicalGrid Id="hGrid" PrimaryKey="customerId" Height="600px">
+    <IgbColumn Field="customerId" Hidden="true"></IgbColumn>
+    <IgbColumn Field="companyName" Header="Company Name"></IgbColumn>
+    <IgbColumn Field="contactName" Header="Contact Name"></IgbColumn>
+    <IgbColumn Field="contactTitle" Header="Contact Title"></IgbColumn>
+    <IgbColumn Field="address.country" Header="Country"></IgbColumn>
+    <IgbColumn Field="address.phone" Header="Phone"></IgbColumn>
+    <IgbRowIsland ChildDataKey="Orders" PrimaryKey="orderId" GridCreatedScript="OnGridCreated">
+        <IgbColumn Field="orderId" Hidden="true"></IgbColumn>
+        <IgbColumn Field="shipAddress.country" Header="Ship Country"></IgbColumn>
+        <IgbColumn Field="shipAddress.city" Header="Ship City"></IgbColumn>
+        <IgbColumn Field="shipAddress.street" Header="Ship Address"></IgbColumn>
+        <IgbColumn Field="orderDate" Header="Order Date" DataType="GridColumnDataType.Date"></IgbColumn>
+        <IgbRowIsland ChildDataKey="Details" PrimaryKey="productId" GridCreatedScript="OnGridCreated">
+            <IgbColumn Field="productId" Hidden="true"></IgbColumn>
+            <IgbColumn Field="quantity" Header="Quantity"></IgbColumn>
+            <IgbColumn Field="unitPrice" Header="Unit Price"></IgbColumn>
+            <IgbColumn Field="discount" Header="Discount"></IgbColumn>
+        </IgbRowIsland>
+    </IgbRowIsland>
+</IgbHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+### Conexión de nuestro servicio
+
+Uno de nuestros pasos finales ahora será conectar nuestro servicio creado previamente a nuestra cuadrícula jerárquica.
+
+<PlatformBlock for="Angular">
+
+Dado que lo definimos como un `Injectable`, podemos pasarlo como proveedor a nuestra aplicación. También obtendremos una referencia a nuestra cuadrícula raíz, usando la consulta `ViewChild` para establecer sus datos:
+
+```typescript
+@Component({
+    providers: [RemoteLoDService],
+    selector: "app-hierarchical-grid-lod",
+    styleUrls: ["./hierarchical-grid-lod.component.scss"],
+    templateUrl: "./hierarchical-grid-lod.component.html"
+})
+export class HierarchicalGridLoDSampleComponent {
+    @ViewChild("hGrid")
+    public hGrid: IgxHierarchicalGridComponent;
+
+    constructor(private remoteService: RemoteLoDService) { }
+}
+```
+
+Para asegurarnos de que nuestra cuadrícula se represente antes de solicitar sus datos al servicio y asignarlos, usaremos el hook de ciclo de vida `AfterViewInit`. Como no tiene ningún elemento primario, solo podemos pasar que `rootLevel` es **true**, y la clave correspondiente, al `getData` de nuestro servicio. Como devuelve un observable, necesitaremos suscribirnos a él:
+
+```typescript
+public ngAfterViewInit() {
+    this.remoteService.getData({ parentID: null, rootLevel: true, key: "Customers" }).subscribe((data) => {
+        this.hGrid.data = data;
+        this.hGrid.cdr.detectChanges();
+    });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Obtendremos una referencia a nuestra cuadrícula raíz para establecer sus datos. Como no tiene ningún elemento primario, solo podemos pasar que `rootLevel` es **true**, y la clave correspondiente, al `getData` de nuestro servicio. Como devuelve una Promise, necesitaremos suscribirnos a ella:
+
+```ts
+constructor() {
+    const hierarchicalGrid = document.getElementById("hGrid") as IgcHierarchicalGridComponent;
+
+    getData({ parentID: null, rootLevel: true, key: "Customers" }).then((data: any) => {
+        hierarchicalGrid.data = data;
+        hierarchicalGrid.markForCheck();
+    });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Obtendremos una referencia a nuestra cuadrícula raíz mediante el hook de React `useRef` para establecer sus datos:
+
+```tsx
+const hierarchicalGrid = useRef<IgrHierarchicalGrid>(null);
+```
+
+Para asegurarnos de que nuestra cuadrícula se represente antes de solicitar sus datos al servicio y asignarlos, usaremos el hook de React `useEffect`. Como no tiene ningún elemento primario, solo podemos pasar que `rootLevel` es **true**, y la clave correspondiente, al `getData` de nuestro servicio. Como devuelve una Promise, necesitaremos suscribirnos a ella:
+
+```tsx
+useEffect(() => {
+    getData({ parentID: null, rootLevel: true, key: "Customers" }).then(
+      (data: any) => {
+        hierarchicalGrid.current.data = data;
+        hierarchicalGrid.current.markForCheck();
+      }
+    );
+}, []);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Obtendremos una referencia a nuestra cuadrícula raíz para establecer sus datos. Para asegurarnos de que nuestra cuadrícula se represente antes de solicitar sus datos al servicio y asignarlos, usaremos el evento `Rendered`. Como no tiene ningún elemento primario, solo podemos pasar que `rootLevel` es **true**, y la clave correspondiente, al `getData` de nuestro servicio. Como devuelve una Promise, necesitaremos suscribirnos a ella:
+
+```javascript
+igRegisterScript("OnGridRendered", () => {
+    const grid = document.getElementById("hGrid");
+
+    getData({ parentID: null, rootLevel: true, key: "Customers" }).then(
+        (data) => {
+            grid.data = data;
+            grid.markForCheck();
+        });
+}, false)
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents, React">
+
+A continuación, solo necesitamos crear nuestro método `gridCreated`, que solicitará datos para cualquier nueva cuadrícula secundaria creada.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+A continuación, solo necesitamos crear nuestro método `OnGridCreated`, que solicitará datos para cualquier nueva cuadrícula secundaria creada.
+
+</PlatformBlock>
+
+Será similar a obtener los datos de la cuadrícula de nivel raíz, solo que esta vez necesitaremos pasar más información, como `parentID` y `parentKey`. `rootLevel` será **false** para cualquier elemento secundario:
+
+<PlatformBlock for="Angular">
+
+```typescript
+public gridCreated(event: IGridCreatedEventArgs, _parentKey: string) {
+    const dataState = {
+        key: event.owner.key,
+        parentID: event.parentID,
+        parentKey: _parentKey,
+        rootLevel: false
+    };
+    this.remoteService.getData(dataState).subscribe(
+        (data) => {
+            event.grid.data = data;
+            event.grid.cdr.detectChanges();
+        }
+    );
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public gridCreated(event: CustomEvent<IgcGridCreatedEventArgs>, _parentKey: string) {
+    const context = event.detail;
+    const dataState = {
+        key: context.owner.childDataKey,
+        parentID: context.parentID,
+        parentKey: _parentKey,
+        rootLevel: false
+    };
+
+    getData(dataState).then((data: any[]) => {
+        context.grid.data = data;
+        context.grid.markForCheck();
+    });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function gridCreated(event: IgrGridCreatedEventArgs, _parentKey: string) {
+    const context = event.detail;
+    const rowIsland = context.owner;
+    const dataState = {
+        key: rowIsland.childDataKey,
+        parentID: context.parentID,
+        parentKey: _parentKey,
+        rootLevel: false,
+    };
+
+    getData(dataState).then((data: any[]) => {
+        context.grid.data = data;
+        context.grid.markForCheck();
+    });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+igRegisterScript("OnGridCreated", (args) => {
+    const context = args.detail;
+    const _parentKey = context.owner.childDataKey === "Orders" ? "Customers" : "Orders";
+    const dataState = {
+        key: context.owner.childDataKey,
+        parentID: context.parentID,
+        parentKey: _parentKey,
+        rootLevel: false,
+    };
+
+    getData(dataState).then((data) => {
+        context.grid.data = data;
+        context.grid.markForCheck();
+    });
+}, false)
+```
+
+</PlatformBlock>
+
+Con esto, la configuración de nuestra aplicación está casi terminada. Este último paso tiene como objetivo mejorar la experiencia del usuario informándole de que los datos aún se están cargando, para que no tenga que mirar una cuadrícula vacía mientras tanto. Por eso <ApiLink type="HierarchicalGrid" /> admite un indicador de carga que puede mostrarse mientras la cuadrícula está vacía. Si se reciben nuevos datos, el indicador de carga se ocultará y los datos se representarán.
+
+### Configuración de la indicación de carga
+
+<ApiLink type="HierarchicalGrid" /> puede mostrar un indicador de carga estableciendo la propiedad <ApiLink type="GridBaseDirective" member="isLoading" label="IsLoading" /> en **true** mientras no haya datos. Necesitamos establecerla inicialmente para la cuadrícula raíz y también al crear nuevas cuadrículas secundarias, hasta que se carguen sus datos. Siempre podríamos establecerla en **true** en nuestra plantilla, pero queremos ocultarla y mostrar que la cuadrícula no tiene datos si el servicio devuelve un array vacío estableciéndola en **false**.
+
+En este caso, la versión final de nuestra configuración se vería así:
+
+<PlatformBlock for="Angular">
+
+```typescript
+import { AfterViewInit, Component, ViewChild } from "@angular/core";
+import {
+    IGridCreatedEventArgs,
+    IgxHierarchicalGridComponent,
+    IgxRowIslandComponent
+} from "igniteui-angular";
+import { RemoteLoDService } from "../services/remote-lod.service";
+
+@Component({
+    providers: [RemoteLoDService],
+    selector: "app-hierarchical-grid-lod",
+    styleUrls: ["./hierarchical-grid-lod.component.scss"],
+    templateUrl: "./hierarchical-grid-lod.component.html"
+})
+export class HierarchicalGridLoDSampleComponent implements AfterViewInit {
+    @ViewChild("hGrid")
+    public hGrid: IgxHierarchicalGridComponent;
+
+    constructor(private remoteService: RemoteLoDService) { }
+
+    public ngAfterViewInit() {
+        this.hGrid.isLoading = true;
+        this.remoteService.getData({ parentID: null, rootLevel: true, key: "Customers" }).subscribe((data) => {
+            this.hGrid.isLoading = false;
+            this.hGrid.data = data;
+            this.hGrid.cdr.detectChanges();
+        });
+    }
+
+    public gridCreated(event: IGridCreatedEventArgs, _parentKey: string) {
+        const dataState = {
+            key: event.owner.key,
+            parentID: event.parentID,
+            parentKey: _parentKey,
+            rootLevel: false
+        };
+        event.grid.isLoading = true;
+        this.remoteService.getData(dataState).subscribe(
+            (data) => {
+                event.grid.isLoading = false;
+                event.grid.data = data;
+                event.grid.cdr.detectChanges();
+            }
+        );
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+constructor() {
+    const hierarchicalGrid = document.getElementById("hGrid") as IgcHierarchicalGridComponent;
+    const ordersRowIsland = document.getElementById("ordersRowIsland");
+    const orderDetailsRowIsland = document.getElementById("orderDetailsRowIsland");
+
+    ordersRowIsland.addEventListener("gridCreated", (event: any) => {
+        this.gridCreated(event, "Customers");
+    });
+
+    orderDetailsRowIsland.addEventListener("gridCreated", (event: any) => {
+        this.gridCreated(event, "Orders");
+    });
+
+    hierarchicalGrid.isLoading = true;
+
+    getData({ parentID: null, rootLevel: true, key: "Customers" }).then((data: any) => {
+        hierarchicalGrid.isLoading = false;
+        hierarchicalGrid.data = data;
+        hierarchicalGrid.markForCheck();
+    });
+}
+
+public gridCreated(event: CustomEvent<IgcGridCreatedEventArgs>, _parentKey: string) {
+    const context = event.detail;
+    const dataState = {
+        key: context.owner.childDataKey,
+        parentID: context.parentID,
+        parentKey: _parentKey,
+        rootLevel: false
+    };
+
+    context.grid.isLoading = true;
+
+    getData(dataState).then((data: any[]) => {
+        context.grid.isLoading = false;
+        context.grid.data = data;
+        context.grid.markForCheck();
+    });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const hierarchicalGrid = useRef<IgrHierarchicalGrid>(null);
+
+useEffect(() => {
+    hierarchicalGrid.current.isLoading = true;
+
+    getData({ parentID: null, rootLevel: true, key: "Customers" }).then(
+      (data: any) => {
+        hierarchicalGrid.current.isLoading = false;
+        hierarchicalGrid.current.data = data;
+        hierarchicalGrid.current.markForCheck();
+    }
+  );
+}, []);
+
+function gridCreated(event: IgrGridCreatedEventArgs, _parentKey: string) {
+    const context = event.detail;
+    const rowIsland = context.owner;
+    const dataState = {
+        key: rowIsland.childDataKey,
+        parentID: context.parentID,
+        parentKey: _parentKey,
+        rootLevel: false,
+    };
+
+    context.grid.isLoading = true;
+
+    getData(dataState).then((data: any[]) => {
+        context.grid.isLoading = false;
+        context.grid.data = data;
+        context.grid.markForCheck();
+    });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+igRegisterScript("OnGridRendered", () => {
+    const grid = document.getElementById("hGrid");
+
+    grid.isLoading = true;
+
+    getData({ parentID: null, rootLevel: true, key: "Customers" }).then(
+        (data) => {
+            grid.isLoading = false;
+            grid.data = data;
+            grid.markForCheck();
+        });
+}, false)
+
+igRegisterScript("OnGridCreated", (args) => {
+    const context = args.detail;
+    const _parentKey = context.owner.childDataKey === "Orders" ? "Customers" : "Orders";
+    const dataState = {
+        key: context.owner.childDataKey,
+        parentID: context.parentID,
+        parentKey: _parentKey,
+        rootLevel: false,
+    };
+
+    context.grid.isLoading = true;
+
+    getData(dataState).then((data) => {
+        context.grid.isLoading = false;
+        context.grid.data = data;
+        context.grid.markForCheck();
+    });
+}, false)
+```
+
+</PlatformBlock>
+
+## Referencias de API
+
+<ApiLink type="HierarchicalGrid" />
+
+<ApiLink type="RowIsland" />
+
+## Recursos adicionales
+
+- [Componente de cuadrícula jerárquica](overview.md)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

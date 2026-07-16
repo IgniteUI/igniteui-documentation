@@ -1,0 +1,125 @@
+---
+title: "{Platform} {ComponentTitle} Virtualización y rendimiento - {ProductName}"
+description: La virtualización de {ProductName} es el mecanismo principal detrás de la velocidad y el rendimiento de la cuadrícula al gestionar grandes conjuntos de datos. ¡Pruébelo gratis!
+keywords: "{Platform} {ComponentTitle}, rendimiento de {ComponentTitle}, virtualización de tablas de datos, {ProductName}"
+license: commercial
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridVirtualization}"
+llms:
+  description: En {ProductName}, el control {ComponentName} virtualiza su contenido tanto vertical como horizontalmente.
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} Virtualización y rendimiento
+
+En {ProductName}, el control <ApiLink type="{ComponentName}" /> virtualiza su contenido tanto vertical como horizontalmente.
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+
+## {Platform} {ComponentTitle} Ejemplo de virtualización y rendimiento
+
+<Sample src="/{ComponentSample}/data-performance-virtualization" height={550} alt="{Platform} {ComponentTitle} Virtualization and Performance Example" />
+
+</ComponentBlock>
+
+## Habilitación de la virtualización
+
+<ApiLink type="{ComponentName}" /> ahora optimiza la representación del DOM y el consumo de memoria al representar solo lo que está actualmente visible en el área de visualización e intercambiar los datos mostrados mientras el usuario desplaza los datos horizontal o verticalmente. Las opciones <ApiLink type="{ComponentName}" /> y <ApiLink type="{ComponentName}" member="width" /> de <ApiLink type="{ComponentName}" member="height" /> tienen el valor predeterminado `100%`, lo que habilitará la virtualización si el contenido mostrado no puede caber dentro del espacio disponible y se requieren barras de desplazamiento vertical u horizontalmente.
+
+Sin embargo, también es posible establecer explícitamente las opciones <ApiLink type="{ComponentName}" /> y/o <ApiLink type="{ComponentName}" member="width" /> de <ApiLink type="{ComponentName}" member="height" /> en `null`, lo que significa que la dimensión relacionada se determinará por el tamaño total de los elementos internos. Entonces no se mostrará ninguna barra de desplazamiento y todos los elementos se representarán a lo largo de la dimensión correspondiente (columnas si <ApiLink type="{ComponentName}" member="width" /> es `null` y filas si <ApiLink type="{ComponentName}" member="height" /> es `null`).
+
+El tamaño de los fragmentos de datos se determina por:
+
+- La altura de fila para la virtualización vertical (de filas). Esto se determina mediante la opción <ApiLink type="{ComponentName}" member="rowHeight" /> y es 50(px) de forma predeterminada.
+- Los anchos de columna individuales en píxeles para la virtualización horizontal (de columnas). Pueden determinarse estableciendo un ancho explícito para cada componente de columna o estableciendo la opción <ApiLink type="{ComponentName}" /> de <ApiLink type="{ComponentName}" member="columnWidth" />, que se aplicará a todas las columnas que no tengan un ancho explícito establecido.
+
+En la mayoría de los casos, permitir que la cuadrícula aplique su comportamiento predeterminado dejando las dimensiones sin establecer producirá el diseño deseado. Para los anchos de columna, esto se determina por el número de columnas, las columnas con ancho establecido y el ancho calculado del contenedor de <ApiLink type="{ComponentName}" />. La cuadrícula intentará ajustar todas las columnas dentro del espacio disponible siempre que el ancho que intenta asignar no sea inferior a 136(px). En esos casos, las columnas con ancho no asignado recibirán el ancho mínimo de 136(px) y se mostrará una barra de desplazamiento horizontal. La cuadrícula se virtualizará horizontalmente.
+
+Establecer explícitamente los anchos de columna en porcentajes (%) creará, en la mayoría de los casos, una cuadrícula que no se virtualiza horizontalmente, ya que no tendrá una barra de desplazamiento horizontal.
+
+<PlatformBlock for="Angular">
+
+## Virtualización remota
+
+<ApiLink type="{ComponentName}" /> admite virtualización remota, que se muestra en el tema [Operaciones de datos remotas](remote-data-operations.md).
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+## Plantillas
+
+Cuando se necesita personalizar una de las plantillas existentes en la cuadrícula, Blazor proporciona dos formas posibles de definir una plantilla:
+
+- mediante una plantilla del lado del servidor, utilizando la propiedad del componente relacionada (es decir, la propiedad <ApiLink type="Column" member="bodyTemplate" label="BodyTemplate" />) o de forma declarativa con el nombre de la plantilla. Por ejemplo:
+
+```razor
+<IgbColumn>
+    <BodyTemplate>
+        Template content here
+    </BodyTemplate>
+</IgbColumn>
+```
+
+Esto representará la plantilla después de solicitarla y resolverla primero desde el servidor.
+
+- mediante una plantilla de cliente utilizando el equivalente `Script` de la propiedad (es decir, `BodyTemplateScript`) para establecerlo en el nombre del controlador de función del lado del cliente, por ejemplo:
+
+```razor
+<IgbColumn BodyTemplateScript="CellTemplate">
+</IgbColumn>
+```
+
+```javascript
+igRegisterScript("CellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`Template content here`;
+}, false);
+
+```
+
+Luego, el controlador representa la plantilla lit proporcionada directamente en el DOM según sea necesario.
+
+<DocsAside type="info">
+
+Aunque ambos enfoques son válidos, las plantillas del lado del servidor sí requieren una solicitud de ida y vuelta al servidor para recuperar y resolver la plantilla personalizada antes de representarla en el cliente. Por lo tanto, el enfoque de plantilla de cliente está más optimizado y se recomienda, especialmente en escenarios con muchas plantillas que necesitan actualizaciones frecuentes, ya que puede haber un retraso perceptible entre la interacción del usuario relacionada y las actualizaciones de la plantilla.
+
+</DocsAside>
+
+</PlatformBlock>
+
+## Limitaciones de la virtualización
+
+En Mac OS, la barra de desplazamiento horizontal no es visible cuando la opción del sistema "Show scrollbars only when scrolling" está establecida en true (que es el valor predeterminado). Esto se debe a que el contenedor de filas de <ApiLink type="{ComponentName}" /> tiene un desbordamiento establecido en oculto. Cambie la opción a "Always" y aparecerá la barra de desplazamiento.
+
+## Preguntas frecuentes
+
+### ¿Por qué es necesario tener dimensiones en {ComponentTitle} para que funcione la virtualización?
+
+Sin información sobre los tamaños del contenedor y los elementos antes de representarlos, establecer el ancho o la altura de una barra de desplazamiento o determinar cuáles de los elementos deberían estar en la vista cuando se desplaza a una ubicación aleatoria en <ApiLink type="{ComponentName}" /> es erróneo. Cualquier suposición sobre cuáles podrían ser las dimensiones reales podría provocar un comportamiento poco natural de la barra de desplazamiento y, en última instancia, una experiencia subóptima para el usuario final. Por eso se exige establecer las dimensiones relacionadas para que la virtualización surta efecto.
+
+## Referencias de API
+
+<ApiLink type="{ComponentName}" />
+
+<ApiLink type="Column" />
+
+## Recursos adicionales
+
+- [Paginación](paging.md)
+- [Filtrado](filtering.md)
+- [Ordenación](sorting.md)
+- [Resúmenes](summaries.md)
+- [Movimiento de columnas](column-moving.md)
+- [Fijación de columnas](column-pinning.md)
+- [Cambio de tamaño de columnas](column-resizing.md)
+- [Selección](selection.md)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

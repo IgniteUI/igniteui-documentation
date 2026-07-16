@@ -1,0 +1,339 @@
+---
+title: Ignite UI による AI 支援開発 - {ProductName}
+description: Angular、React、Blazor、または Web Components プロジェクトで、1 つのコマンド - npx igniteui-cli@latest ai-config を使用して、エージェント スキル、Ignite UI MCP サーバー、およびテーマ設定 MCP サーバーを構成します。GitHub Copilot、Cursor、Claude Desktop、Claude Code、および JetBrains AI Assistant が、正しい Ignite UI API に基づいて動作できるようにします。
+keywords: "{Platform}, {ProductName}, Infragistics, MCP, Model Context Protocol, Ignite UI MCP サーバー, Ignite UI テーマ設定 MCP, エージェント スキル, AI, エージェント, Copilot, Cursor, Claude Code, ai-config"
+license: MIT
+_canonicalLink: "{environment:dvUrl}/components/ai-assisted-development-overview"
+last_updated: "2026-05-03"
+mentionedTypes: []
+llms:
+  description: "{ProductName} は、AI コーディング アシスタントが正しいコンポーネント API、インポート パス、およびデザイン トークンに基づいて動作できるようにする、エージェント スキル、Ignite UI CLI MCP サーバー、Ignite UI テーマ設定 MCP サーバー、および MAKER MCP サーバーで構成される完全な AI ツールチェーンを提供します。"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+
+# Ignite UI による AI 支援開発
+
+{ProductName} は、Agent Skills、Ignite UI CLI MCP server、Ignite UI Theming MCP server、MAKER MCP server からなる完全な AI ツールチェーンを提供し、AI コーディング アシスタントが正しいコンポーネント API、インポート パス、デザイン トークンに基づいて動作できるようにします。Agent Skills は、特定のプロジェクトで AI エージェントが Ignite UI をどのように使用するかを定義する、開発者所有の指示パッケージです。CLI MCP server (`igniteui-cli`) は、Model Context Protocol を介して、アクティブな AI エージェント セッションに Ignite UI CLI のスキャフォールディング、コンポーネント管理、ドキュメント ツールを公開します。Theming MCP server (`igniteui-theming`) は、Ignite UI Theming Engine をクエリ可能なエージェント コンテキストとして公開します。MAKER MCP (`@igniteui/maker-mcp`) は、Infragistics が提供するマルチエージェント AI オーケストレーション MCP server で、複雑なタスクを、複数の AI エージェント間のコンセンサス ベースの投票アルゴリズムを使用して検証済みの実行可能なステップ計画に分解します。Skills、CLI MCP、Theming MCP の 3 つはすべて、単一のコマンド `npx igniteui-cli ai-config` で構成されます。
+
+MCP servers と Agent Skills は、目的が異なり、前提条件も異なります。
+
+| コンポーネント       | 提供する内容                                                   | Ignite UI のインストールが必要ですか? |
+| -------------------- | -------------------------------------------------------------- | ----------------------------- |
+| Ignite UI MCP server | ドキュメント クエリ、API リファレンス、スキャフォールディング ツール | いいえ                        |
+| Theming MCP server   | デザイン トークン、パレット ツール、WCAG コントラスト検証       | いいえ                        |
+| Agent Skills         | 正しいコンポーネント使用のためのプロジェクト レベルの指示パッケージ | はい                          |
+
+MCP servers のみで Ignite UI AI 支援の評価を開始できます。プロジェクトに Ignite UI をインストールする必要はありません。Agent Skills は、Ignite UI パッケージをインストールすると使用可能になります。
+
+CLI MCP server には STDIO トランスポートが必要です。HTTP ベースの MCP クライアントはサポートされていません。Agent Skills と CLI MCP server は、プロジェクト ファイルを自律的に変更しません。アクティブな AI エージェントにツールと指示を公開し、そのエージェントが開発者のプロンプトに基づいて動作します。
+
+## AI ツールチェーンの構成
+
+既存の Angular、React、Blazor、または Web Components プロジェクトのルートからこのコマンドを実行します。これにより、MCP servers が構成され、フレームワーク固有の Skill ファイルが各エージェントの skills ディレクトリにコピーされ、指示ファイルが設定されます。`--assistants` を使用して MCP 構成を受け取るコーディング アシスタントを選択し、`--agents` を使用して Skill ファイルを受け取るエージェントを選択します。パラメーターが指定されていない場合、コマンドは対話モードに入り、アシスタントとエージェントの選択を求めます。既存のファイルは、内容が変更された場合にのみ更新されます。
+
+```bash
+npx igniteui-cli ai-config
+```
+
+<DocsAside type="warning" title="Important">
+バージョンを固定しない場合、`npx` が `ai-config` サブコマンドを認識しない古い CLI バージョンを取得し、代わりに対話式のプロジェクト作成プロンプトを起動して、既存のプロジェクト内に新しいプロジェクトをスキャフォールディングする可能性があります。CLI バージョン 16.x がインストールされていることを確認してください。
+</DocsAside>
+
+<PlatformBlock for="Blazor">
+<DocsAside type="info">
+Blazor の場合、`ai-config` は `.csproj` または `.sln` ファイルを探してプロジェクトを検出します。`IgniteUI.Blazor` NuGet パッケージをインストールする必要はありません。
+</DocsAside>
+</PlatformBlock>
+
+`ai-config` がプロジェクト ファイルからフレームワークを検出できない場合は、フレームワークの選択を求めるプロンプトが表示されます。そのため、Ignite UI パッケージがまだインストールされていないプロジェクトからでもコマンドを使用できます。
+
+コマンドが完了したら、AI クライアントで MCP servers を起動します。サーバーは構成済みですが、まだ実行されていません。ツールをエージェントで使用できるようにするには、クライアントが各サーバーを起動する必要があります。
+
+### 期待される結果
+
+プロジェクトに Ignite UI が **インストールされていない** 場合:
+
+<PlatformBlock for="Angular, React, WebComponents">
+<DocsAside type="info">
+選択したクライアント用に構成された Ignite UI MCP サーバー<br />
+AI スキル ファイルが見つかりません。パッケージがインストールされていること (`npm install`) と、Ignite UI パッケージが最新であることを確認してください。
+</DocsAside>
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<DocsAside type="info">
+選択したクライアント用に構成された Ignite UI MCP サーバー
+</DocsAside>
+</PlatformBlock>
+
+MCP servers は使用できる状態です。Ignite UI をインストールした後に次回 `ai-config` を実行すると、Skills が自動的に追加されます。
+
+プロジェクトに Ignite UI が **インストールされている** 場合:
+
+<DocsAside type="info">
+選択したクライアント用に構成された Ignite UI MCP サーバー<br />
+エージェント スキルが、選択したエージェントのスキル ディレクトリにコピーされました
+</DocsAside>
+
+MCP servers と Skills の両方が構成されます。
+
+### サーバーの起動
+
+**GitHub Copilot を使用した VS Code:**
+
+`.vscode/mcp.json` を開きます。VS Code は各サーバー エントリの上にインラインの **開始** ボタンを表示します。`igniteui` と `igniteui-theming` の両方で **開始** をクリックします。起動後、VS Code は各サーバーの横に使用可能なツール数を表示します (例: *"13 tools | 1 prompt"*)。または、Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) から **MCP: サーバーの一覧表示** を実行し、各サーバーを選択して **開始** を選びます。
+
+**Cursor:**
+
+**設定 → MCP** を開き、`igniteui` と `igniteui-theming` のエントリを見つけて、それぞれをオンに切り替えます。Cursor は各サーバーをすぐに起動し、そのツール数を表示します。
+
+**Claude Code:**
+
+`claude mcp list` を実行して、両方のサーバーが登録されていることを確認します。Claude Code は、ツールが初めて呼び出されたときに MCP servers を自動的に起動します。手動の起動手順は不要です。
+
+**JetBrains AI Assistant:**
+
+**設定 → ツール → AI Assistant → Model Context Protocol (MCP)** を開きます。各サーバー エントリの横にある再生アイコンをクリックして起動します。
+
+**Claude Desktop:**
+
+Claude Desktop を終了して再起動します。サーバーは起動時に自動的に開始されます。
+
+### 後から Ignite UI をインストールして Skills を追加する
+
+Ignite UI がインストールされていない状態で `ai-config` を実行し、Skills を追加したい場合は、使用しているフレームワーク用の Ignite UI パッケージをインストールしてコマンドを再実行します。
+
+<PlatformBlock for="Angular">
+
+```bash
+npm install igniteui-angular
+npx igniteui-cli@latest ai-config
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```bash
+npm install igniteui-react
+npx igniteui-cli@latest ai-config
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```bash
+npm install igniteui-webcomponents
+npx igniteui-cli@latest ai-config
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```bash
+npx igniteui-cli@latest ai-config
+```
+
+</PlatformBlock>
+
+コマンドは Skills が使用可能になったことを検出し、それらをコピーします。選択したクライアント用の MCP 構成ファイルは変更されません (すでに最新です)。
+
+## AI ツールチェーンの概要
+
+Ignite UI の AI ツールチェーンは、独立して使用できる 3 つのレイヤーで構成されています。各レイヤーは個別に有効化できますが、連携して動作するように設計されています。
+
+| レイヤー                            | 提供する内容                                                                                              | 所有者       | フレームワーク                         |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------ | -------------------------------------- |
+| Agent Skills                        | 開発者所有の指示パッケージ: インポート パス、コンポーネント パターン、意思決定フロー、プロジェクト規約 | 開発者       | Angular, React, Web Components, Blazor |
+| CLI MCP server (`igniteui-cli`)     | MCP 経由のプロジェクト スキャフォールディング、コンポーネント管理、ドキュメントおよび API クエリ         | Infragistics | Angular, React, Web Components, Blazor |
+| Theming MCP server (`igniteui-theming`) | デザイン トークン、パレット定義、CSS カスタム プロパティ生成、WCAG AA コントラスト検証                   | Infragistics | Angular, React, Web Components, Blazor |
+
+CLI MCP server と Theming MCP server はどちらも `npx` を通じて起動され、STDIO トランスポートを介して任意の MCP 互換クライアントに接続します。Agent Skills は、AI クライアントがディスクから読み取る、プロジェクト内に配置されるローカル ファイルです。
+
+## Agent Skills
+
+Agent Skills は、特定のフレームワークで Ignite UI を正確に使用する方法を AI コーディング アシスタントに伝える、構造化された開発者所有のパッケージです。Skill パッケージには、コンポーネント パターン、インポート パス、意思決定フローを含む `SKILL.md` 指示ファイル、信頼できる Ignite UI ドキュメントへの参照、スキーマ ファイルや図などのアセットを含めることができます。AI クライアントで Skill がアクティブな場合、エージェントは一般的なトレーニング データに依存するのではなく、その Skill に従います。一般的なトレーニング データには、古い API シグネチャやインポート パスが含まれている可能性があります。
+
+Ignite UI には、Angular、React、Web Components、Blazor 用の専用 Skill パッケージが付属しています。Skill パッケージは開発者所有です。チームの規約に合わせて `SKILL.md` を編集し、プロジェクト固有のパターンを追加し、内部デザイン システムを参照し、コードベースとともにパッケージをバージョン管理できます。
+
+完全なセットアップ手順と IDE 連携については、[Agent Skills](skills.md) を参照してください。
+
+## CLI MCP Server
+
+Ignite UI CLI MCP server (`igniteui-cli`) は、Infragistics が保守する MCP server で、Ignite UI CLI のスキャフォールディングおよびドキュメント ツールをアクティブな AI エージェント セッションに公開します。接続後、AI アシスタントは Angular、React、Blazor、または Web Components プロジェクトを作成し、Ignite UI コンポーネントを追加および変更し、ドキュメントや API に関する質問に回答できます。これらはすべて、チャット セッション内の自然言語プロンプトを通じて行われます。
+
+CLI MCP server は、グローバル インストールなしで `npx` 経由で実行されます。
+
+```bash
+npx -y igniteui-cli mcp
+```
+
+`ai-config` を使用して、AI クライアント用の MCP 構成を自動的に書き込みます。サーバーは、GitHub Copilot を使用した VS Code、Cursor、Claude Desktop、Claude Code、JetBrains AI Assistant、および STDIO トランスポートをサポートするその他の MCP 互換クライアントに接続します。正確な構成形式はクライアントによって異なります。完全なセットアップ ガイドについては、[CLI MCP](cli-mcp.md) を参照してください。
+
+これは自律的にコードを生成するものではありません。AI エージェントにツールを公開し、開発者のプロンプトに応じてエージェントがそれらを呼び出します。
+
+## Theming MCP Server
+
+Ignite UI Theming MCP server (`igniteui-theming`) は、Ignite UI Theming Engine をクエリ可能なエージェント コンテキストとして公開する、独立した MCP server です。デザイン トークンへのアクセス、パレット定義、CSS カスタム プロパティ生成、WCAG AA コントラスト検証を対象とします。CLI MCP server とはアーキテクチャ的に分離されています。プロジェクト スキャフォールディング ツールを公開せずに、AI エージェントにテーマ設定ツールへのアクセスを提供するため、独立して接続できます。
+
+Theming MCP server は `npx` 経由で起動します。
+
+```bash
+npx -y igniteui-theming igniteui-theming-mcp
+```
+
+Theming MCP server は Angular、React、Web Components、Blazor をサポートします。Ignite UI の各リリースで更新されるため、エージェントは常に現在のトークン サーフェスに基づいて動作します。
+
+構成の詳細については、[Theming MCP](theming-mcp.md) を参照してください。
+
+## サポートされている AI クライアント
+
+CLI MCP server と Theming MCP server は、STDIO トランスポートによる MCP をサポートする任意のエディターまたは AI クライアントで動作します。
+
+| クライアント                | 構成方法                                                |
+| --------------------------- | ------------------------------------------------------- |
+| GitHub Copilot を使用した VS Code | `.vscode/mcp.json`                                          |
+| Cursor                      | `.cursor/mcp.json`                                          |
+| Claude Desktop (macOS)      | `~/Library/Application Support/Claude/claude_desktop_config.json`                                          |
+| Claude Desktop (Windows)    | `%APPDATA%\Claude\claude_desktop_config.json`                                          |
+| Claude Code                 | `.mcp.json` または Claude Code MCP CLI コマンド       |
+| JetBrains AI Assistant      | **ツール → AI Assistant → Model Context Protocol (MCP)** |
+
+Agent Skills は、`.github/copilot-instructions.md` 経由の GitHub Copilot、`.cursorrules` または `.cursor/rules/` 経由の Cursor、`.windsurfrules` 経由の Windsurf、プロジェクト レベルのプロンプト設定経由の JetBrains AI Assistant と互換性があります。
+
+### クイック セットアップ
+
+`ai-config` コマンドは、MCP servers を構成し、フレームワーク固有の Skill ファイルを各エージェントの skills ディレクトリにコピーし、指示ファイルを設定します。`--assistants` を使用して MCP 構成を受け取るコーディング アシスタントを選択し、`--agents` を使用して Skill ファイルを受け取るエージェントを選択します。パラメーターが指定されていない場合、コマンドは対話モードに入り、アシスタントとエージェントの選択を求めます。
+
+<PlatformBlock for="Angular">
+**Angular Schematics の使用:**
+
+```bash
+ng generate @igniteui/angular-schematics:ai-config
+```
+
+これにより、選択したクライアントに対して、Ignite UI サーバーと並んで `@angular/cli` MCP server も登録されます。</PlatformBlock>
+
+**Ignite UI CLI の使用:**
+
+```bash
+npx igniteui-cli ai-config
+```
+
+Ignite UI CLI をグローバルにインストールしている場合は、短い形式を使用します。
+
+```bash
+ig ai-config
+```
+
+<PlatformBlock for="Angular">
+<DocsAside type="info">
+`npx igniteui-cli` および `ig` 形式では、`@angular/cli` MCP サーバーは登録されません。3 つすべてのサーバーを 1 つの手順で構成したい場合は、上記の Angular Schematics コマンドを使用してください。
+</DocsAside>
+</PlatformBlock>
+
+<PlatformBlock for="Angular, React, WebComponents">
+<DocsAside type="info">
+このコマンドを使用するには、プロジェクトに Ignite UI パッケージがインストールされている必要があります (`npm install`)。スキル ファイルが見つからない場合は、パッケージが最新であることを確認してください。
+</DocsAside>
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<DocsAside type="info">
+Blazor の場合、`ai-config` は `.csproj` または `.sln` を介してプロジェクトを検出します。プロジェクト ファイルが見つからない場合、コマンドはフレームワークを選択するように求めます。
+</DocsAside>
+</PlatformBlock>
+
+### ステップ 1 - Agent Skills を読み込む
+
+使用しているフレームワーク用の Ignite UI Skill パッケージを、プロジェクトのエージェント検出パスにコピーします。
+
+<PlatformBlock for="Angular, React, WebComponents">
+Skill パッケージは、`node_modules/igniteui-{framework}/skills/` のライブラリに同梱されています。
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+Blazor の Skill パッケージは、`ai-config` がプロジェクト ルートで `.csproj` または `.sln` ファイルを検出すると自動的にコピーされます。
+</PlatformBlock>
+
+クライアント用の永続的なセットアップを使用して IDE に接続します。
+
+完全なセットアップについては、[Agent Skills](skills.md) を参照してください。
+
+### ステップ 2 - CLI MCP Server に接続する
+
+`igniteui-cli` MCP server エントリを、AI クライアントの構成ファイルに追加します。クライアントに一致する JSON 構造を使用します。
+
+**VS Code (`.vscode/mcp.json`):**
+
+```json
+{
+  "servers": {
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    }
+  }
+}
+```
+
+**Cursor、Claude Desktop、Claude Code、JetBrains、およびその他の MCP クライアント:**
+
+```json
+{
+  "mcpServers": {
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    }
+  }
+}
+```
+
+VS Code、GitHub、Cursor、Claude Desktop、Claude Code、JetBrains、およびその他の MCP 互換クライアントを含む完全なセットアップ ガイドについては、[CLI MCP](cli-mcp.md) を参照してください。
+
+### ステップ 3 - Theming MCP Server に接続する (任意)
+
+`igniteui-cli` と並べて、同じ MCP 構成ファイルに `igniteui-theming` エントリを追加します。
+
+**VS Code (`.vscode/mcp.json`):**
+
+```json
+{
+  "servers": {
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+**Cursor、Claude Desktop、Claude Code、JetBrains、およびその他の MCP クライアント:**
+
+```json
+{
+  "mcpServers": {
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+構成の詳細とテーマ設定ワークフローについては、[Theming MCP](theming-mcp.md) を参照してください。
+
+## その他のリソース
+
+- [Agent Skills](./skills.md)
+- [Ignite UI CLI MCP](./cli-mcp.md)
+- [Ignite UI Theming MCP](./theming-mcp.md)
+
+私たちのコミュニティは活発で、新しいアイデアをいつでも歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

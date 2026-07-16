@@ -1,0 +1,449 @@
+---
+title: "{Platform} {ComponentTitle} Diseño de varias filas - {ProductName}"
+description: Coloque y dimensione columnas de una forma más potente, utilizando la funcionalidad de diseño de varias filas en la cuadrícula de datos {ProductName}. ¡Consulte ejemplos y demostraciones!
+keywords: Diseño de varias filas, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: commercial
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+llms:
+  description: El diseño de varias filas en {ProductName} amplía las capacidades de representación de {Platform} {ComponentTitle}.
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import multiRowLayout1 from '@xplat-images/multi-row-layout-1.png';
+
+# {Platform} {ComponentTitle} Diseño de varias filas
+
+El diseño de varias filas en {ProductName} amplía las capacidades de representación de {Platform} {ComponentTitle}. La funcionalidad permite dividir un único registro de datos en varias filas visibles.
+
+## Ejemplo de diseño de varias filas de {Platform}
+
+<Sample src="/{ComponentSample}/multi-row-layout-options" height={755} alt="{Platform} {ComponentTitle} Multi Row Layout Overview Example" />
+
+La declaración del diseño de varias filas se logra mediante el componente <ApiLink type="ColumnLayout" />. Cada componente <ApiLink type="ColumnLayout" /> debe considerarse como un bloque, que contiene uno o varios componentes <ApiLink type="Column" />. Algunas de las funcionalidades de la cuadrícula funcionan a nivel de bloque (se enumeran en la sección "Integración de funcionalidades" a continuación). Por ejemplo, la virtualización usará el bloque para determinar los fragmentos virtuales, por lo que, para un mejor rendimiento, divida las columnas en más bloques <ApiLink type="ColumnLayout" /> si el diseño lo permite. No debe haber columnas fuera de esos bloques ni uso de <ApiLink type="ColumnGroup" /> al configurar un diseño de varias filas. El diseño de varias filas se implementa sobre la especificación de [diseño de cuadrícula](https://www.w3.org/TR/css-grid-1/) y debe cumplir sus requisitos.
+
+El componente <ApiLink type="Column" /> expone cuatro propiedades <ApiLink pkg="core" type="Input" /> para determinar la ubicación y la extensión de cada celda:
+
+- <ApiLink type="ColumnState" member="colStart" /> - índice de columna desde el que comienza el campo. Esta propiedad es **obligatoria**.
+- <ApiLink type="Column" member="rowStart" /> - índice de fila desde el que comienza el campo. Esta propiedad es **obligatoria**.
+- <ApiLink type="ColumnState" member="colEnd" /> - índice de columna donde debe finalizar el campo actual. La cantidad de columnas entre colStart y colEnd determinará la cantidad de columnas que abarcará ese campo. Esta propiedad es **opcional**. Si no se establece, el valor predeterminado es **colStart + 1**.
+- <ApiLink type="Column" member="rowEnd" /> - índice de fila donde debe finalizar el campo actual. La cantidad de filas entre rowStart y rowEnd determinará la cantidad de filas que abarcará ese campo. Esta propiedad es **opcional**. Si no se establece, el valor predeterminado es **rowStart + 1**.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-column-layout>
+    <igx-column [rowStart]="1" [colStart]="1" [rowEnd]="3" field="ID"></igx-column>
+</igx-column-layout>
+<igx-column-layout>
+    <igx-column [rowStart]="1" [colStart]="1" [colEnd]="3" field="CompanyName"></igx-column>
+    <igx-column [rowStart]="2" [colStart]="1" [colEnd]="2" field="ContactName"></igx-column>
+    <igx-column [rowStart]="2" [colStart]="2" [colEnd]="3" field="ContactTitle"></igx-column>
+</igx-column-layout>
+<igx-column-layout>
+    <igx-column [rowStart]="1" [colStart]="1" [colEnd]="3" field="Country"></igx-column>
+    <igx-column [rowStart]="1" [colStart]="3" [colEnd]="5" field="Region"></igx-column>
+    <igx-column [rowStart]="1" [colStart]="5" [colEnd]="7" field="PostalCode"></igx-column>
+    <igx-column [rowStart]="2" [colStart]="1" [colEnd]="4" field="City"></igx-column>
+    <igx-column [rowStart]="2" [colStart]="4" [colEnd]="7" field="Address"></igx-column>
+</igx-column-layout>
+<igx-column-layout>
+    <igx-column [rowStart]="1" [colStart]="1" field="Phone"></igx-column>
+    <igx-column [rowStart]="2" [colStart]="1" field="Fax"></igx-column>
+</igx-column-layout>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColumnLayout>
+    <IgbColumn RowStart="1" RowEnd="3" ColStart="1" Field="ID"></IgbColumn>
+</IgbColumnLayout>
+<IgbColumnLayout>
+    <IgbColumn RowStart="1" ColStart="1" ColEnd="3" Field="CompanyName"></IgbColumn>
+    <IgbColumn RowStart="2" ColStart="1" ColEnd="2" Field="ContactName"></IgbColumn>
+    <IgbColumn RowStart="2" ColStart="2" ColEnd="3" Field="ContactTitle"></IgbColumn>
+</IgbColumnLayout>
+<IgbColumnLayout>
+    <IgbColumn RowStart="1" ColStart="1" ColEnd="3" Field="Country"></IgbColumn>
+    <IgbColumn RowStart="1" ColStart="3" ColEnd="5" Field="Region"></IgbColumn>
+    <IgbColumn RowStart="1" ColStart="5" ColEnd="7" Field="PostalCode"></IgbColumn>
+    <IgbColumn RowStart="2" ColStart="1" ColEnd="4" Field="City"></IgbColumn>
+    <IgbColumn RowStart="2" ColStart="4" ColEnd="7" Field="Address"></IgbColumn>
+</IgbColumnLayout>
+<IgbColumnLayout>
+    <IgbColumn RowStart="1" ColStart="1" Field="Phone"></IgbColumn>
+    <IgbColumn RowStart="2" ColStart="1" Field="Fax"></IgbColumn>
+</IgbColumnLayout>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-column-layout>
+    <igc-column row-start="1" col-start="1" row-end="3" field="ID"></igc-column>
+</igc-column-layout>
+<igc-column-layout>
+    <igc-column row-start="1" col-start="1" col-end="3" field="CompanyName"></igc-column>
+    <igc-column row-start="2" col-start="1" col-end="2" field="ContactName"></igc-column>
+    <igc-column row-start="2" col-start="2" col-end="3" field="ContactTitle"></igc-column>
+</igc-column-layout>
+<igc-column-layout>
+    <igc-column row-start="1" col-start="1" col-end="3" field="Country"></igc-column>
+    <igc-column row-start="1" col-start="3" col-end="5" field="Region"></igc-column>
+    <igc-column row-start="1" col-start="5" col-end="7" field="PostalCode"></igc-column>
+    <igc-column row-start="2" col-start="1" col-end="4" field="City"></igc-column>
+    <igc-column row-start="2" col-start="4" col-end="7" field="Address"></igc-column>
+</igc-column-layout>
+<igc-column-layout>
+    <igc-column row-start="1" col-start="1" field="Phone"></igc-column>
+    <igc-column row-start="2" col-start="1" field="Fax"></igc-column>
+</igc-column-layout>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColumnLayout>
+    <IgrColumn rowStart={1} colStart={1} rowEnd={3} field="ID"></IgrColumn>
+</IgrColumnLayout>
+<IgrColumnLayout>
+    <IgrColumn rowStart={1} colStart={1} colEnd={3} field="CompanyName"></IgrColumn>
+    <IgrColumn rowStart={2} colStart={1} colEnd={2} field="ContactName"></IgrColumn>
+    <IgrColumn rowStart={2} colStart={2} colEnd={3} field="ContactTitle"></IgrColumn>
+</IgrColumnLayout>
+<IgrColumnLayout>
+    <IgrColumn rowStart={1} colStart={1} colEnd={3} field="Country"></IgrColumn>
+    <IgrColumn rowStart={1} colStart={3} colEnd={5} field="Region"></IgrColumn>
+    <IgrColumn rowStart={1} colStart={5} colEnd={7} field="PostalCode"></IgrColumn>
+    <IgrColumn rowStart={2} colStart={1} colEnd={4} field="City"></IgrColumn>
+    <IgrColumn rowStart={2} colStart={4} colEnd={7} field="Address"></IgrColumn>
+</IgrColumnLayout>
+<IgrColumnLayout>
+    <IgrColumn rowStart={1} colStart={1} field="Phone"></IgrColumn>
+    <IgrColumn rowStart={2} colStart={1} field="Fax"></IgrColumn>
+</IgrColumnLayout>
+```
+
+</PlatformBlock>
+
+El resultado de la configuración anterior puede verse en la captura de pantalla siguiente:
+
+<Image src={multiRowLayout1} alt="multi-row-layout" style="width: 100%" />
+
+<DocsAside type="info">
+
+Las propiedades <ApiLink type="{ComponentName}" member="rowStart" /> y <ApiLink type="{ComponentName}" member="colStart" /> deben establecerse para cada <ApiLink type="Column" /> dentro de un <ApiLink type="ColumnLayout" />. El componente <ApiLink type="ColumnLayout" /> no verifica si el diseño es correcto y no genera errores ni advertencias al respecto. Los desarrolladores deben asegurarse de que la declaración de su diseño sea correcta y completa; de lo contrario, pueden terminar con un diseño dañado, con desalineaciones, solapamientos e inconsistencias del navegador.
+
+</DocsAside>
+
+## Integración de funcionalidades
+
+Debido al enfoque de representación completamente diferente del diseño de varias filas, algunas de las funcionalidades de columna funcionarán solo en el componente <ApiLink type="ColumnLayout" />. Estas funcionalidades son la fijación de columnas y la ocultación de columnas. Por lo demás, la ordenación y la agrupación funcionarán de la misma manera: en el componente <ApiLink type="Column" />.
+
+- Filtrado: solo se admite el filtrado de estilo Excel. Establecer <ApiLink type="{ComponentName}" member="filterMode" /> explícitamente en <ApiLink type="FilterMode" member="quickFilter" label="FilterMode.quickFilter" /> no tiene ningún efecto.
+- Paginación: funciona sobre registros, no sobre filas visuales.
+- Agrupar por: la opción <ApiLink type="{ComponentName}" member="hideGroupedColumns" /> no tiene ningún efecto en el diseño de varias filas. Las columnas agrupadas siempre están visibles.
+
+Actualmente, las siguientes funcionalidades **no** son compatibles:
+
+- Movimiento de columnas
+- Encabezados de varias columnas
+- Exportación a Excel
+- Resúmenes
+
+## Navegación con teclado
+
+<ApiLink type="{ComponentName}" /> con diseños de varias filas proporciona navegación con teclado integrada.
+
+### Navegación horizontal
+
+- <kbd>←</kbd> o <kbd>→</kbd> - se desplaza a la celda adyacente a la izquierda/derecha dentro de la fila actual sin verse afectado por los diseños de columna definidos. Si la celda actual abarca más de una fila, <kbd>←</kbd> y <kbd>→</kbd> deben navegar a la primera celda a la izquierda y a la derecha con el mismo `rowStart`, a menos que se haya navegado antes a alguna otra celda adyacente. La navegación almacena la celda de navegación inicial y navega a las celdas con el mismo `rowStart` si es posible.
+- <kbd>CTRL</kbd> + <kbd>←</kbd> (<kbd>INICIO</kbd>) o <kbd>CTRL</kbd> + <kbd>→</kbd> (<kbd>FIN</kbd>) - navega al inicio o al final de la fila y selecciona la celda de acuerdo con la celda de navegación inicial.
+
+### Navegación vertical
+
+- <kbd>↑</kbd> o <kbd>↓</kbd> - se desplaza a la celda superior/inferior en relación con una posición inicial y no se ve afectado por las filas. Si la celda actual abarca más de una columna, la siguiente celda activa se seleccionará de acuerdo con la celda de navegación inicial.
+- <kbd>CTRL</kbd> + <kbd>↑</kbd> o <kbd>CTRL</kbd> + <kbd>Abajo</kbd> - navega y aplica el foco en la misma columna en la primera o en la última fila.
+- <kbd>CTRL</kbd> + <kbd>INICIO</kbd> o <kbd>CTRL</kbd> + <kbd>FIN</kbd> - navega a la primera fila y enfoca la primera celda, o navega a la última fila y enfoca la última celda.
+
+<DocsAside type="info">
+
+La navegación por celdas que abarcan varias filas o columnas se realiza de acuerdo con la celda de navegación inicial y permitirá volver a la celda inicial usando la tecla de la dirección opuesta. Se usa el mismo enfoque al navegar por filas de grupo.
+
+</DocsAside>
+
+<DocsAside type="info">
+
+La selección y la selección de varias celdas funcionan sobre el diseño, lo que significa que, cuando una celda está activa, se seleccionará su diseño. Además, todas las funcionalidades de selección múltiple, como la selección por arrastre, son aplicables y funcionarán por diseño, no por celda.
+
+</DocsAside>
+
+### Navegación de teclado personalizada
+
+La cuadrícula permite personalizar el comportamiento de navegación predeterminado cuando se pulsa una tecla determinada. Acciones como **ir a la siguiente celda** o a la **celda inferior** se pueden gestionar fácilmente con la potente API de navegación con teclado:
+
+- Se expone <ApiLink type="{ComponentName}" member="gridKeydown" />. El evento emitirá `IGridKeydownEventArgs`. Este evento está disponible solo mediante las combinaciones de teclas de teclado mencionadas anteriormente; para todas las demás acciones de teclas, puede usar el evento `KeyDown`.
+- `NavigateTo` - este método permite navegar a una posición basada en `RowIndex` y `VisibleColumnIndex` proporcionados.
+
+La demostración siguiente agrega navegación adicional hacia abajo/arriba mediante las teclas <kbd>ENTRAR</kbd> y <kbd>MAYÚS</kbd> + <kbd>ENTRAR</kbd>, similar al comportamiento observado en Excel.
+
+### Demostración
+
+<Sample src="/{ComponentSample}/keyboard-mrl-navigation" height={605} alt="{Platform} {ComponentTitle} Multi Row Layout Navigation Example" />
+
+<PlatformBlock for="Angular">
+
+### Configurador de diseño
+
+A veces, al configurar un diseño de columna, puede ser un desafío calcular y establecer los valores adecuados de <ApiLink type="ColumnState" member="colStart" /> y <ApiLink type="ColumnState" member="colEnd" /> o <ApiLink type="Column" member="rowStart" /> y <ApiLink type="Column" member="rowEnd" />. Especialmente cuando hay muchas columnas en un único diseño. Por eso hemos creado un pequeño configurador, para que pueda hacerlo fácilmente y tenga una vista previa similar de cómo se vería dentro de <ApiLink type="{ComponentName}" /> cuando se aplique. Puede realizar las siguientes interacciones con él:
+
+- Establecer el número de filas para toda la configuración. Todos los diseños deben tener la misma cantidad de filas.
+
+- Agregar o quitar diseños de columna haciendo clic en el chip **Agregar diseño** o reordenarlos arrastrando un chip de diseño a la izquierda/derecha.
+
+- Establecer configuraciones específicas para cada diseño, como el número de columnas y el ancho que tendrán. La configuración hace referencia al diseño seleccionado actualmente.
+
+- Cambiar el tamaño de las celdas de columna en la vista previa del diseño para que puedan abarcar más columnas/filas, o borrarlas usando el botón `Delete`.
+
+- Establecer columnas en la vista previa arrastrando un chip de columna al lugar donde quiera que esté.
+
+- Agregar o quitar nuevas columnas usando el chip **Agregar columna**.
+
+- Obtener la salida de plantilla de toda la configuración lista para colocarse dentro de un <ApiLink type="{ComponentName}" /> o la representación JSON, que también se puede usar y analizar en su plantilla usando [NgForOf](https://angular.io/api/common/NgForOf), por ejemplo.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+De forma predeterminada, hemos establecido las mismas columnas que en nuestro ejemplo anterior, pero se puede borrar y configurar para que coincida con la configuración deseada.
+
+<Sample src="/{ComponentSample}/multi-row-layout-configuration" height={500} alt="{Platform} {ComponentTitle} Multi Row Layout Configuration Example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## Personalización de estilos
+
+<ApiLink type="{ComponentName}" /> permite la personalización de estilos mediante la [Biblioteca de temas de {ProductName}](../themes/styles.md). El <ApiLink type="Theme" /> de la cuadrícula expone una amplia variedad de propiedades, que permiten la personalización de todas las funcionalidades de la cuadrícula.
+
+En los pasos siguientes, se explica cómo personalizar los estilos del diseño de varias filas de la cuadrícula.
+
+### Importación del tema global
+
+Para comenzar la personalización de la funcionalidad de diseño de varias filas, debe importar el archivo <ApiLink type="Column" member="index" label="Index" />, donde se encuentran todas las funciones y mixins de estilo.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### Definición de un tema personalizado
+
+A continuación, cree un tema nuevo que extienda `GridTheme` y acepte los parámetros necesarios para personalizar el diseño de la funcionalidad según se desee.
+
+```scss
+$custom-theme: grid-theme(
+    $cell-active-border-color: #ffcd0f,
+    $cell-selected-background: #6f6f6f,
+    $row-hover-background: #fde069,
+    $row-selected-background: #8d8d8d,
+    $header-background: #494949,
+    $header-text-color: #fff,
+    $sorted-header-icon-color: #ffcd0f,
+    $sortable-header-icon-hover-color: #e9bd0d
+);
+```
+
+### Definición de una paleta de colores personalizada
+
+En el enfoque descrito anteriormente, los valores de color estaban codificados de forma fija. Como alternativa, puede lograr una mayor flexibilidad usando las funciones `Palette` y <ApiLink pkg="core" type="Color" />.
+
+`Palette` genera una paleta de colores basada en los colores primario y secundario proporcionados.
+
+```scss
+$black-color: #494949;
+$yellow-color: #FFCD0F;
+
+$custom-palette: palette(
+ $primary: $black-color,
+ $secondary: $yellow-color
+);
+```
+
+Después de generar una paleta personalizada, se puede usar la función <ApiLink pkg="core" type="Color" /> para obtener diferentes variedades de los colores primario y secundario.
+
+```scss
+$custom-theme: grid-theme(
+    $cell-active-border-color: color($custom-palette, "secondary", 500),
+    $cell-selected-background: color($custom-palette, "primary", 300),
+    $row-hover-background: color($custom-palette, "secondary", 300),
+    $row-selected-background: color($custom-palette, "primary", 100),
+    $header-background: color($custom-palette, "primary", 500),
+    $header-text-color:contrast-color($custom-palette, "primary", 500),
+    $sorted-header-icon-color: color($custom-palette, "secondary", 500),
+    $sortable-header-icon-hover-color: color($custom-palette, "secondary", 600)
+);
+```
+
+### Definición de esquemas personalizados
+
+Puede ir aún más allá y crear una estructura flexible que tenga todos los beneficios de un [**esquema**](../themes/sass/schemas.md). El **esquema** es la receta de un tema.
+
+Extienda uno de los dos esquemas predefinidos que se proporcionan para cada componente. En nuestro caso, usaríamos `$_light_grid`.
+
+```scss
+$custom-grid-schema: extend($_light-grid,(
+    cell-active-border-color: (igx-color:('secondary', 500)),
+    cell-selected-background: (igx-color:('primary', 300)),
+    row-hover-background: (igx-color:('secondary', 300)),
+    row-selected-background: (igx-color:('primary', 100)),
+    header-background: (igx-color:('primary', 500)),
+    header-text-color: (igx-contrast-color:('primary', 500)),
+    sorted-header-icon-color: (igx-color:('secondary', 500)),
+    sortable-header-icon-hover-color: (igx-color:('secondary', 600))
+));
+```
+
+Para que se aplique el esquema personalizado, se debe extender `Light` o los globales `Dark`. En realidad, todo el proceso consiste en proporcionar a un componente un esquema personalizado y agregarlo después al tema del componente correspondiente.
+
+```scss
+$my-custom-schema: extend($light-schema, (
+    igx-grid: $custom-grid-schema
+));
+ $custom-theme: grid-theme(
+    $palette: $custom-palette,
+    $schema: $my-custom-schema
+);
+```
+
+### Aplicación del tema personalizado
+
+La forma más sencilla de aplicar su tema es con una instrucción `sass` `@include` en el archivo de estilos globales:
+
+```scss
+@include grid($custom-theme);
+```
+
+### Tema de componente con ámbito
+
+Para que el tema personalizado afecte solo a un componente específico, puede mover todos los estilos que acaba de definir desde el archivo de estilos globales al archivo de estilos del componente personalizado (incluida la importación del archivo `index`).
+
+De este modo, gracias a [ViewEncapsulation](https://angular.io/api/core/Component#encapsulation) de {Platform}, sus estilos se aplicarán solo a su componente personalizado.
+
+ <DocsAside type="info">
+
+Si el componente usa un ViewEncapsulation [Emulated](../themes/styles.md#view-encapsulation), es necesario atravesar esta encapsulación usando `::ng-deep` para aplicar estilos a la cuadrícula.
+
+ </DocsAside>
+
+ <DocsAside type="info">
+
+Envuelva la instrucción dentro de un selector `:host` para evitar que sus estilos afecten a elementos fuera de nuestro componente:
+
+ </DocsAside>
+
+```scss
+:host {
+    ::ng-deep {
+        @include grid($custom-theme);
+    }
+}
+```
+
+### Demostración
+
+<Sample src="/{ComponentSample}/multi-row-layout-styling" height={755} alt="{Platform} {ComponentTitle} Multi Row Layout Styling Example" />
+
+<DocsAside type="info">
+
+El ejemplo no se verá afectado por el tema global seleccionado desde **Cambiar tema**.
+
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+
+## Personalización de estilos
+
+Además de los temas predefinidos, la cuadrícula se podría personalizar aún más estableciendo algunas de las [propiedades CSS](../theming-grid.md) disponibles.
+En caso de que quiera cambiar algunos de los colores, primero debe establecer una clase para la cuadrícula:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-grid class="grid"></igc-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid class="grid"></IgbGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid className="grid"></IgrGrid>
+```
+
+</PlatformBlock>
+
+Luego, establezca las propiedades CSS relacionadas para esta clase:
+
+```css
+.grid {
+    --ig-grid-cell-active-border-color: #ffcd0f;
+    --ig-grid-cell-selected-background: #6f6f6f;
+    --ig-grid-row-hover-background: #fde069;
+    --ig-grid-row-selected-background: #8d8d8d;
+    --ig-grid-header-background: #494949;
+    --ig-grid-header-text-color: #fff;
+}
+```
+
+### Demostración
+
+<Sample src="/{ComponentSample}/multi-row-layout-style" height={755} alt="{Platform} {ComponentTitle} Multi Row Layout Styling Example" />
+
+</PlatformBlock>
+
+## Referencias de API
+
+<ApiLink type="{ComponentName}" />
+
+<ApiLink type="Column" />
+
+## Recursos adicionales
+
+<ComponentBlock for="Grid">
+
+- [Virtualización y rendimiento](virtualization.md)
+- [Paginación](paging.md)
+- [Ordenación](sorting.md)
+- [Cambio de tamaño de columnas](column-resizing.md)
+- [Selección](selection.md)
+
+</ComponentBlock>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

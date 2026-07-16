@@ -1,0 +1,139 @@
+---
+title: "{Platform} ツリー グリッド | 最速の {Platform} ツリー テーブル | Infragistics"
+description: "{ProductName} ツリー グリッドは、親行が展開されたときにオンデマンドで子データを読み込むために必要なツールを提供します。これにより、データ量が大幅に削減され、ユーザーが必要とする場合にのみ取得できます。"
+keywords: "{Platform} ツリー グリッド, igniteui for {Platform}, infragistics"
+license: commercial
+mentionedTypes: ["TreeGrid"]
+namespace: Infragistics.Controls
+llms:
+  description: Ignite UI for {Platform} ツリー グリッドは、ユーザーができるだけ速く表示できるように、サーバーから取得するデータ量を最小限に抑える方法でレンダリングできます。
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# ツリー グリッドのオンデマンド読み込み
+
+Ignite UI for {Platform} ツリー グリッドは、サーバーから取得するデータ量を最小限に抑え、ユーザーができるだけ早く表示できるようにレンダリングできます。その後、ユーザーが行を展開した場合にのみ、その特定の親行の子が読み込まれます。この仕組みはオンデマンド読み込みとも呼ばれ、任意のリモート データで動作するように簡単に構成できます。
+
+## {Platform} ツリー グリッドのオンデマンド読み込みの例
+
+<Sample src="/{TreeGridSample}/load-on-demand" height={700} alt="{Platform} Tree Grid Load On Demand Example" />
+
+## 使用方法
+
+オンデマンド読み込み機能は、ツリー グリッドの両方の種類のデータ ソース (プライマリ キーと外部キー、または子コレクション) と互換性があります。ツリー グリッドではルート レベルのデータのみを読み込み、いずれかのデータ ソース タイプに必要なキーを指定するだけです。ユーザーが行を展開したときに子行を読み込むために、ツリー グリッドはコールバック入力プロパティ <ApiLink type="TreeGrid" member="loadChildrenOnDemand" label="LoadChildrenOnDemand" /> を提供します。
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+        [loadChildrenOnDemand]="loadChildren">
+</igx-tree-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tree-grid id="treeGrid"></igc-tree-grid>
+```
+
+```ts
+constructor() {
+    var treeGrid = document.getElementById("treeGrid") as IgcTreeGridComponent;
+    treeGrid.data = this.employeesFlatData;
+    treeGrid.loadChildrenOnDemand = (parentID: any, done: (children: any[]) => void) => {
+    this.getData(parentID, (children) => done(children));
+    };
+}
+```
+
+LoadChildrenOnDemand コールバックは 2 つのパラメーターを提供します。
+
+- parentID - 展開されている親行の ID。
+- done - 子がサーバーから取得されたときに、その子を指定して呼び出す必要があるコールバック。
+
+```typescript
+public loadChildren = (parentID: any, done: (children: any[]) => void) => {
+    this.getData(parentID, (children) => done(children));
+}
+```
+
+</PlatformBlock>
+
+ユーザーが展開アイコンをクリックすると、読み込みインジケーターに置き換えられます。done コールバックが呼び出されると、読み込みインジケーターが消え、子が読み込まれます。ツリー グリッドは子を基になるデータ ソースに追加し、必要なキーを自動的に入力します。
+
+### 展開インジケーターの表示
+
+行を展開する前に、その行に子があるかどうかの情報を提供する方法がある場合は、<ApiLink type="HierarchicalGridBaseDirective" member="hasChildrenKey" label="HasChildrenKey" /> 入力プロパティを使用できます。この方法で、展開インジケーターを表示するかどうかを示すブール値プロパティをデータ オブジェクトから提供できます。
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+        [loadChildrenOnDemand]="loadChildren" hasChildrenKey="hasEmployees">
+        ...
+</igx-tree-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tree-grid id="treeGrid" primary-key="ID" foreign-key="ParentID" has-children-key="hasEmployees"></igc-tree-grid>
+```
+
+</PlatformBlock>
+
+<ApiLink type="HierarchicalGridBaseDirective" member="hasChildrenKey" label="HasChildrenKey" /> プロパティの設定は必須ではないことに注意してください。指定しない場合、各行に展開インジケーターが表示されます。子を持たない行を展開した後も、undefined または空の配列を指定して done コールバックを呼び出す必要があります。この場合、読み込みインジケーターが消えた後、展開インジケーターは表示されなくなります。
+
+### カスタム読み込みインジケーター
+
+<PlatformBlock for="WebComponents">
+
+独自のカスタム読み込みインジケーターを提供する場合は、<ApiLink type="TreeGrid" member="rowLoadingIndicatorTemplate" label="RowLoadingIndicatorTemplate" /> オプションを使用してカスタム テンプレートを設定できます。次のコード スニペットは、その設定方法を示しています。
+
+```ts
+constructor() {
+    var treeGrid = document.getElementById("treeGrid") as IgcTreeGridComponent;
+    treeGrid.data = this.employeesFlatData;
+    treeGrid.rowLoadingIndicatorTemplate = this.rowLoadingTemplate;
+    treeGrid.loadChildrenOnDemand = (parentID: any, done: (children: any[]) => void) => {
+               this.getData(parentID, (children) => done(children));
+    };
+
+}
+public rowLoadingTemplate() {
+    return html`<igc-icon name="loop" collection="material"></igc-icon>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+独自のカスタム読み込みインジケーターを提供する場合は、ng-template を作成し、RowLoadingIndicator ディレクティブでマークできます。次のコード スニペットは、そのようなカスタム テンプレートを定義する方法を示しています。
+
+```html
+<igx-tree-grid>
+    <ng-template igxRowLoadingIndicator>
+        <igx-icon fontSet="material">loop</igx-icon>
+    </ng-template>
+</igx-tree-grid>
+```
+
+</PlatformBlock>
+
+## API リファレンス
+
+<ApiLink type="TreeGrid" />
+
+## その他のリソース
+
+コミュニティは活発で、新しいアイデアを常に歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

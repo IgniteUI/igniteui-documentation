@@ -1,0 +1,107 @@
+---
+title: "{Platform} {ComponentTitle} クリップボード操作 - {ProductName}"
+description: "{Platform} {ComponentTitle} のクリップボード機能は、データを Excel やその他のプログラムにコピー、貼り付け、エクスポートするための高速で簡単かつカスタマイズ可能な方法を提供します。今すぐお試しください。"
+keywords: "{Platform}、{ComponentKeywords}、{ProductName}、Infragistics"
+license: commercial
+mentionedTypes:
+  - ComponentApiMembers: null
+sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridClipboardInteractions}"
+llms:
+  description: クリップボードへのコピー操作が {ComponentName} で利用できるようになりました。
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} クリップボードの概要
+
+クリップボードへのコピー操作は、<ApiLink type="{ComponentName}" /> で利用できるようになりました。この機能は、現在の複数セル データ選択を通じて {Platform} <ApiLink type="{ComponentName}" /> のデータをコピーするための、高速で簡単かつカスタマイズ可能な方法を提供します。システム クリップボードの動作により、ユーザーは <ApiLink type="{ComponentName}" /> から Excel またはその他の外部プログラムへデータをコピーできます。
+
+## {Platform} {ComponentTitle} クリップボードの例
+
+<Sample src="/{ComponentSample}/clipboard-operations" height={635} alt="{Platform} {ComponentTitle} Clipboard Interactions Example" />
+
+## 機能
+
+コピー動作は、ブラウザーとオペレーティング システムで定義されている既定の操作で機能します。したがって、コピーと貼り付けの動作は次のとおりです。
+
+- Windows/Unix ベース
+  - キーボード ショートカットとして <kbd>CTRL</kbd> + <kbd>C</kbd> / <kbd>CTRL</kbd> + <kbd>Ins</kbd>
+  - キーボード ショートカットとして <kbd>CTRL</kbd> + <kbd>V</kbd> / <kbd>SHIFT</kbd> + <kbd>Ins</kbd>
+  - ブラウザー メニューからのコピー操作
+- macOS
+  - キーボード ショートカットとして <kbd>CMD</kbd> + <kbd>C</kbd>
+  - キーボード ショートカットとして <kbd>CMD</kbd> + <kbd>V</kbd>
+  - ブラウザー メニューからのコピー操作
+
+## 制限事項
+
+- **切り取り** イベントと **コピー** イベントはどちらも Internet Explorer ではネイティブにサポートされていません。例外は
+
+**貼り付け** イベント (IE 11) で、これは発生しますが、イベント内で <PlatformBlock for="Angular"><ApiLink type="IClipboardOptions" label="ClipboardData" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="ClipboardOptions" label="ClipboardData" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ClipboardOptions" label="ClipboardData" /></PlatformBlock> プロパティを公開しません。
+
+<DocsAside type="info">
+
+IE 11 でセルを **コピー** するには、キーボード選択を使用できます。複数セルを選択するには <kbd>SHIFT</kbd> キーを押したままにし、コピーするには <kbd>CTRL</kbd> + <kbd>C</kbd> を押します。
+
+</DocsAside>
+
+- グリッドが編集モードの場合、コピー動作は無効になります。
+- この機能の現在のバージョンでは、グリッドからの **コピー** 動作のみを対象としています。今後、グリッドの動作内で `paste` を公開する予定です。
+
+<PlatformBlock for="Angular">
+
+<ComponentBlock for="Grid">
+
+**貼り付け** 動作を構成するには、カスタム貼り付けハンドラーを使用できます。詳細については、[Excel からの貼り付けトピック](paste-excel.md)を参照してください。
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+## API の使用方法
+
+次のオプションを処理する <ApiLink type="{ComponentName}" member="clipboardOptions" /> プロパティを公開しています。
+
+- <PlatformBlock for="Angular"><ApiLink type="IClipboardOptions" member="enabled" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="ClipboardOptions" member="enabled" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ClipboardOptions" member="enabled" /></PlatformBlock> 選択したセルのコピーを有効/無効にします。
+- <PlatformBlock for="Angular"><ApiLink type="IClipboardOptions" member="copyHeaders" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="ClipboardOptions" member="copyHeaders" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ClipboardOptions" member="copyHeaders" /></PlatformBlock> コピー時に関連付けられたヘッダーを含めます。
+- <PlatformBlock for="Angular"><ApiLink type="IClipboardOptions" member="copyFormatters" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="ClipboardOptions" member="copyFormatters" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ClipboardOptions" member="copyFormatters" /></PlatformBlock> 既存の列フォーマッターをコピーされたデータに適用します。
+- <PlatformBlock for="Angular"><ApiLink type="IClipboardOptions" member="separator" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="ClipboardOptions" member="separator" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ClipboardOptions" member="separator" /></PlatformBlock> クリップボード内のデータをフォーマットするために使用する文字列区切り文字です。既定値は `/t` です。
+
+<DocsAside type="info">
+
+Excel は、タブで区切られたテキスト (タブ区切り `/t`) を自動的に検出し、データを別々の列に正しく貼り付けることができます。貼り付け形式が機能せず、貼り付けた内容がすべて 1 つの列に表示される場合は、Excel の区切り文字が別の文字に設定されているか、テキストでタブではなくスペースが使用されています。
+
+</DocsAside>
+
+- <PlatformBlock for="WebComponents"><ApiLink type="GridComponentEventMap" member="gridCopy" label="gridCopy" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="Grid" member="onGridCopy" label="gridCopy" /></PlatformBlock><PlatformBlock for="Angular"><ApiLink type="Grid" member="gridCopy" label="gridCopy" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="gridCopy" label="gridCopy" /></PlatformBlock> コピー操作が実行されたときに発生します。コピー動作が <ApiLink type="{ComponentName}" member="clipboardOptions" /> によって有効にされている場合にのみ発生します。
+
+## API リファレンス
+
+<ApiLink type="{ComponentName}" />
+
+<PlatformBlock for="Angular"><ApiLink type="IClipboardOptions" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="ClipboardOptions" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ClipboardOptions" /></PlatformBlock>
+
+## その他のリソース
+
+<ComponentBlock for="Grid">
+
+- [ページング](paging.md)
+- [フィルタリング](filtering.md)
+- [並べ替え](sorting.md)
+- [集計](summaries.md)
+- [集計](summaries.md)
+- [列の固定](column-pinning.md)
+- [選択](selection.md)
+- [仮想化とパフォーマンス](virtualization.md)
+- [複数列ヘッダー](multi-column-headers.md)
+
+</ComponentBlock>
+
+私たちのコミュニティは活発で、新しいアイデアを常に歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

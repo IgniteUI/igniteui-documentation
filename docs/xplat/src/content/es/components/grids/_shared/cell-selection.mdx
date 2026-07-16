@@ -1,0 +1,535 @@
+---
+title: "{Platform} {ComponentTitle} Selección de celdas - {ProductName}"
+description: Compruebe lo fácil que es usar la selección de datos de celdas mediante una variedad de eventos, una API enriquecida o interacciones con el mouse. {ComponentTitle} admite 3 modos para la selección de celdas. ¡Pruébelo ahora!
+keywords: selección de datos, igniteui for {Platform}, infragistics
+license: commercial
+mentionedTypes:
+  - ComponentApiMembers: null
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridCellSelection}"
+llms:
+  description: La selección de celdas de {ProductName} en {Platform} {ComponentTitle} permite funcionalidades enriquecidas de selección de datos y ofrece una API potente en el componente {ComponentName}.
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} Selección de celdas
+
+La selección de celdas {ProductName} en {Platform} {ComponentTitle} habilita amplias capacidades de selección de datos y ofrece una API potente en el componente <ApiLink type="{ComponentName}" />. {Platform} {ComponentTitle} admite tres modos de selección:
+
+- {ComponentTitle} Selección múltiple de celdas
+- {ComponentTitle} Selección única
+- {ComponentTitle} Sin selección
+
+<ComponentBlock for="HierarchicalGrid">
+
+En <ApiLink type="{ComponentName}" /> puede especificar el modo de selección de celdas a nivel de cuadrícula. Así, por ejemplo, en la cuadrícula principal se puede habilitar la selección de varias celdas, pero en las cuadrículas secundarias el modo de selección de celdas puede ser único o estar deshabilitado.
+
+</ComponentBlock>
+
+Profundicemos en cada una de estas opciones.
+
+## Ejemplo de selección de celdas {Platform} {ComponentTitle}
+
+El ejemplo siguiente demuestra los tres tipos de comportamiento de **selección de celdas** de <ApiLink type="{ComponentName}" />. Use los botones siguientes para habilitar cada uno de los modos de selección disponibles. Se proporcionará una breve descripción en cada interacción con un botón mediante un cuadro de mensaje snackbar.
+
+<Sample src="/{ComponentSample}/cell-selection-mode" height={750} alt="{Platform} {ComponentTitle} Cell Selection Example" />
+
+## Tipos de selección
+
+### {ComponentTitle} Selección de varias celdas
+
+<ComponentBlock for="HierarchicalGrid">
+
+Este es el modo de selección de celdas predeterminado tanto en las cuadrículas principales como en las secundarias. Tenga en cuenta que puede realizar la selección de celdas en una cuadrícula a la vez, y no puede realizar una selección de rango entre cuadrículas ni tener celdas seleccionadas en varias cuadrículas. Cada combinación de teclas relacionada con la selección de rangos y la funcionalidad de arrastre con el mouse solo se puede usar en la misma cuadrícula.
+
+</ComponentBlock>
+
+Cómo seleccionar celdas:
+
+- Mediante **arrastre con el mouse**: se realizará una selección rectangular de datos de celdas.
+- Mediante la pulsación de la tecla <kbd>CTRL</kbd> + **arrastre con el mouse**: se realizarán varias selecciones de rangos. Cualquier otra selección de celdas existente se conservará.
+- Selección instantánea de varias celdas usando la tecla <kbd>MAYÚS</kbd>. Seleccione una sola celda y seleccione otra celda individual manteniendo pulsada la tecla <kbd>MAYÚS</kbd>. Se seleccionará el rango de celdas entre las dos celdas. Tenga en cuenta que, si se selecciona otra segunda celda manteniendo pulsada la tecla <kbd>MAYÚS</kbd>, el rango de selección de celdas se actualizará según la posición de la primera celda seleccionada (punto de inicio).
+- Selección de varias celdas con el teclado usando las teclas <kbd>Flecha</kbd> mientras se mantiene pulsada la tecla <kbd>MAYÚS</kbd>. El rango de selección de varias celdas se creará según la celda enfocada.
+- Selección de varias celdas con el teclado usando las teclas <kbd>CTRL</kbd> + <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> y <kbd>CTRL</kbd> + <kbd>INICIO</kbd>/<kbd>FIN</kbd> mientras se mantiene pulsada la tecla <kbd>MAYÚS</kbd>. El rango de selección de varias celdas se creará según la celda enfocada.
+- Hacer clic con el botón **izquierdo del mouse** mientras se mantiene pulsada la tecla <kbd>CTRL</kbd> añadirá rangos de una sola celda a la colección de celdas seleccionadas.
+- La selección continua de varias celdas está disponible haciendo clic con el mouse y arrastrando.
+
+<ComponentBlock for="Grid, TreeGrid">
+
+#### Demostración
+
+<PlatformBlock for="TODO sample does not load any data in Blazor"><Sample src="/{ComponentSample}/multi-cell-selection-mode" height={700} alt="{Platform} {ComponentTitle} Multi Cell Selection Example" /></PlatformBlock>
+
+</ComponentBlock>
+
+### {ComponentTitle} Selección única
+
+Cuando establece <ApiLink type="{ComponentName}" member="cellSelection" /> en **single**, esto le permite tener solo una celda seleccionada en la cuadrícula a la vez. Además, el modo **arrastre con el mouse** no funcionará y, en lugar de seleccionar una celda, realizará la selección de texto predeterminada.
+
+> Cuando se selecciona una sola celda, se emite el evento <ApiLink type="Column" member="selected" />, sin importar si el **modo de selección** es **single** o **multiple**. En el modo de selección de varias celdas, cuando selecciona un rango de celdas, se emite el evento <ApiLink type="{ComponentName}" member="rangeSelected" />.
+
+### {ComponentTitle} Sin selección
+
+Si desea deshabilitar la selección de celdas, simplemente puede establecer <ApiLink type="{ComponentName}" member="cellSelection" /> en **none**. En este modo, cuando hace clic sobre la celda o intenta navegar con el teclado, la celda **no se selecciona**, solo se aplica el **estilo de activación** y este se perderá cuando se desplace o haga clic sobre otro elemento de la página. La única forma de definir la selección es usando los métodos de API que se describen a continuación.
+
+## Interacciones de navegación con el teclado
+
+### Mientras la tecla Shift está pulsada
+
+- <kbd>MAYÚS</kbd> + <kbd>↑</kbd> para añadir la celda de arriba a la selección actual.
+- <kbd>MAYÚS</kbd> + <kbd>↓</kbd> para añadir la celda de abajo a la selección actual.
+- <kbd>MAYÚS</kbd> + <kbd>←</kbd> para añadir la celda de la izquierda a la selección actual.
+- <kbd>MAYÚS</kbd> + <kbd>→</kbd> para añadir la celda de la derecha a la selección actual.
+
+### Mientras las teclas Ctrl + Shift están pulsadas
+
+- <kbd>CTRL</kbd> + <kbd>MAYÚS</kbd> + <kbd>↑</kbd> para seleccionar todas las celdas por encima de la celda enfocada en la columna.
+- <kbd>CTRL</kbd> + <kbd>MAYÚS</kbd> + <kbd>↓</kbd> para seleccionar todas las celdas por debajo de la celda enfocada en la columna.
+- <kbd>CTRL</kbd> + <kbd>MAYÚS</kbd> + <kbd>←</kbd> para seleccionar todas las celdas hasta el inicio de la fila.
+- <kbd>CTRL</kbd> + <kbd>MAYÚS</kbd> + <kbd>→</kbd> para seleccionar todas las celdas hasta el final de la fila.
+- <kbd>CTRL</kbd> + <kbd>MAYÚS</kbd> + <kbd>INICIO</kbd> para seleccionar todas las celdas desde la celda enfocada hasta la primera celda de la cuadrícula
+- <kbd>CTRL</kbd> + <kbd>MAYÚS</kbd> + <kbd>FIN</kbd> para seleccionar todas las celdas desde la celda enfocada hasta la última celda de la cuadrícula
+
+<DocsAside type="info">
+
+El desplazamiento continuo solo es posible dentro del cuerpo de la cuadrícula.
+
+</DocsAside>
+
+## Uso de API
+
+A continuación se muestran los métodos que puede usar para seleccionar rangos, borrar la selección u obtener datos de las celdas seleccionadas.
+
+<PlatformBlock for="Angular, WebComponents, React, Blazor">
+
+### Seleccionar rango
+
+<ApiLink type="{ComponentName}" member="selectRange" />: seleccione un rango de celdas con la API. rowStart y rowEnd deben usar índices de fila, y columnStart y columnEnd pueden usar el índice de columna o el valor del campo de datos de la columna.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const range = { rowStart: 2, rowEnd: 2, columnStart: 1, columnEnd: 1 };
+this.grid.selectRange(range);
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+<PlatformBlock for="React">
+
+```tsx
+const range: IgrGridSelectionRange[] = [{ rowStart: 2, rowEnd: 2, columnStart: "ProductName", columnEnd: "UnitsInStock" }];
+gridRef.current.selectRange(range)
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+```razor
+<{ComponentSelector} @ref=grid  CellSelection="GridSelectionMode.Multiple" AutoGenerate=true></<{ComponentSelector}>
+
+@code {
+    private {ComponentSelector} grid;
+
+    private async void SetSelection()
+    {
+        IgbGridSelectionRange selectionRange = new IgbGridSelectionRange();
+        selectionRange.ColumnStart = 1;
+        selectionRange.ColumnEnd = 1;
+        selectionRange.RowStart = 2;
+        selectionRange.RowEnd = 2;
+
+        this.grid.SelectRange(new IgbGridSelectionRange[] {});
+    }
+}
+
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+### Borrar selección de celdas
+
+<ApiLink type="{ComponentName}" member="clearCellSelection" /> borrará la selección de celdas actual.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+this.grid.clearCellSelection();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+gridRef.current.clearCellSelection();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    private async void ClearSelection()
+    {
+        await this.grid.ClearCellSelectionAsync();
+    }
+}
+```
+
+</PlatformBlock>
+
+### Obtener datos seleccionados
+
+<PlatformBlock for="Blazor">
+
+<ApiLink type="{ComponentName}" member="getSelectedData" /> devolverá un arreglo de los datos seleccionados en formato de diccionario. Ejemplos a continuación:
+
+```razor
+<{ComponentSelector} @ref=grid  CellSelection="GridSelectionMode.Multiple" AutoGenerate=true></<{ComponentSelector}>
+
+@code {
+    private {ComponentSelector} grid;
+
+    private async void GetSelectedData()
+    {
+        object[] data = await this.grid.GetSelectedDataAsync(true, true);
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents, React">
+
+<ApiLink type="{ComponentName}" member="getSelectedData" /> devolverá un arreglo de los datos seleccionados en un formato que depende de la selección. Ejemplos a continuación:
+
+- Si se seleccionan tres celdas individuales diferentes:
+
+```typescript
+expectedData = [
+    { CompanyName: 'Infragistics' },
+    { Name: 'Michael Langdon' },
+    { ParentID: 147 }
+];
+```
+
+- Si se seleccionan tres celdas de una columna:
+
+```typescript
+expectedData = [
+    { Address: 'Obere Str. 57'},
+    { Address: 'Avda. de la Constitución 2222'},
+    { Address: 'Mataderos 2312'}
+];
+```
+
+- Si se seleccionan tres celdas con arrastre del mouse desde una fila y tres columnas:
+
+```typescript
+expectedData = [
+    { Address: 'Avda. de la Constitución 2222', City: 'México D.F.', ContactTitle: 'Owner' }
+];
+```
+
+- Si se seleccionan tres celdas con arrastre del mouse desde dos filas y tres columnas:
+
+```typescript
+expectedData = [
+    { ContactTitle: 'Sales Agent', Address: 'Cerrito 333', City: 'Buenos Aires'},
+    { ContactTitle: 'Marketing Manager', Address: 'Sierras de Granada 9993', City: 'México D.F.'}
+];
+```
+
+- Si se seleccionan dos rangos diferentes:
+
+```typescript
+expectedData = [
+    { ContactName: 'Martín Sommer', ContactTitle: 'Owner'},
+    { ContactName: 'Laurence Lebihan', ContactTitle: 'Owner'},
+    { Address: '23 Tsawassen Blvd.', City: 'Tsawassen'},
+    { Address: 'Fauntleroy Circus', City: 'London'}
+];
+```
+
+- Si se seleccionan dos rangos superpuestos, el formato sería:
+
+```typescript
+expectedData = [
+    { ContactName: 'Diego Roel', ContactTitle: 'Accounting Manager', Address: 'C/ Moralzarzal, 86'},
+    { ContactName: 'Martine Rancé', ContactTitle: 'Assistant Sales Agent', Address: '184, chaussée de Tournai', City: 'Lille'},
+    { ContactName: 'Maria Larsson', ContactTitle: 'Owner', Address: 'Åkergatan 24', City: 'Bräcke'},
+    { ContactTitle: 'Marketing Manager', Address: 'Berliner Platz 43', City: 'München'}
+];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<DocsAside type="info">
+
+`SelectedCells` devolverá el resultado correcto incluso si la celda no es visible en el área de visualización de las cuadrículas. `GetSelectedData` también devolverá los datos de la celda seleccionada.
+`GetSelectedRanges` devolverá los rangos seleccionados actuales en la cuadrícula a partir de interacciones tanto del teclado como del puntero. El tipo es **GridSelectionRange\[]**.
+
+</DocsAside>
+
+</PlatformBlock>
+
+## Integración de características
+
+La selección de varias celdas se basa en índices (selección de elementos DOM).
+
+- <ApiLink type="{ComponentName}" member="sortingExpressions" label="Sorting" />: cuando se realiza la ordenación, la selección no se borrará. Mantendrá las celdas seleccionadas actualmente iguales mientras se ordena de forma ascendente o descendente.
+- <ApiLink type="{ComponentName}" member="pagingMode" label="Paging" />: al paginar, las celdas seleccionadas se borrarán. La selección no se conservará entre páginas.
+- <ApiLink type="{ComponentName}" member="allowFiltering" label="Filtering" />: cuando se realiza el filtrado, la selección no se borrará. Si se borra el filtrado, devolverá las celdas seleccionadas inicialmente.
+- <ApiLink type="Column" member="resizable" label="Resizing" />: al cambiar el tamaño de las columnas, las celdas seleccionadas no se borrarán.
+- <ApiLink type="Column" member="hidden" label="Hiding" />: no borrará las celdas seleccionadas. Si la columna está oculta, se seleccionarán las celdas de la siguiente columna visible.
+- <ApiLink type="{ComponentName}" member="pinning" />: la celda seleccionada no se borrará. Igual que al ocultar.
+- <ApiLink type="{ComponentName}" member="groupingExpressions" label="GroupBy" />: al agrupar columnas, las celdas seleccionadas no se borrarán.
+
+<PlatformBlock for="WebComponents, Blazor, React">
+
+## Estilo
+
+Además de los temas predefinidos, la cuadrícula se puede personalizar aún más configurando algunas de las [propiedades CSS](../theming-grid.md) disponibles.
+En caso de que desee cambiar algunos de los colores, primero debe establecer una clase para la cuadrícula:
+
+<ComponentBlock for="Grid">
+
+<PlatformBlock for="WebComponents">
+
+```ts
+<igc-grid class="grid">
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid className="grid"></IgrGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid Class="grid"></IgbGrid>
+```
+
+</PlatformBlock>
+
+A continuación, establezca las propiedades CSS relacionadas para esa clase:
+
+```css
+.grid {
+    --ig-grid-cell-selected-text-color: #FFFFFF;
+    --ig-grid-cell-active-border-color: #f2c43c;
+    --ig-grid-cell-selected-background: #0062A3;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<PlatformBlock for="WebComponents">
+
+```ts
+<igc-tree-grid class="treeGrid"></igc-tree-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTreeGrid Class="treeGrid"></IgbTreeGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTreeGrid className="treeGrid"></IgrTreeGrid>
+```
+
+</PlatformBlock>
+
+A continuación, establezca las propiedades CSS relacionadas para esa clase:
+
+```css
+.treeGrid {
+    --ig-grid-cell-selected-text-color: #fff;
+    --ig-grid-cell-active-border-color: #f2c43c;
+    --ig-grid-cell-selected-background: #0062a3;
+    --ig-grid-cell-editing-background: #0062a3;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<PlatformBlock for="WebComponents">
+
+```ts
+<igc-hierarchical-grid class="hGrid"></igc-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrHierarchicalGrid className="hGrid"></IgrHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbHierarchicalGrid Class="hGrid"></IgbHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+A continuación, establezca las propiedades CSS relacionadas para esa clase:
+
+```css
+.hGrid {
+    --ig-grid-cell-selected-text-color: #fff;
+    --ig-grid-cell-active-border-color: #f2c43c;
+    --ig-grid-cell-selected-background: #0062a3;
+    --ig-grid-cell-editing-background: #0062a3;
+}
+```
+
+</ComponentBlock>
+
+### Demostración
+
+<Sample src="/{ComponentSample}/cell-selection-style" height={620} alt="{Platform} {ComponentTitle} Cell Selection Styling Example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## Directrices de estilo
+
+El motor de temas expone propiedades que nos permiten aplicar estilo al **rango de celdas seleccionadas**.
+
+### Importar tema
+
+Para comenzar a aplicar estilo a la selección, necesitamos importar el archivo `index`, donde se encuentran todas las funciones de tema y los mixins de componentes:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### Definir colores
+
+Una vez hecho esto, podemos usar las funciones <ApiLink type="function-igx-contrast-color" label="igx-contrast-color" kind="sass" module="index.html" /> y <ApiLink type="function-igx-color" label="igx-color" kind="sass" module="index.html" />. Con ellas, definimos los colores que queremos usar para nuestro rango de selección:
+
+```scss
+    $text-color:contrast-color($default-palette, 'primary', 900);
+    $background-color: color($default-palette, "primary", 900);
+    $border-yellow: #f2c43c;
+```
+
+### Crear tema personalizado
+
+A continuación, creamos un nuevo tema que extiende <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> pasando nuestras variables `text-color`, `background-color` y `border-yellow` como `$cell-selected-text-color`, `$cell-selected-background` y `$cell-active-border-color`, respectivamente:
+
+```scss
+$custom-grid-theme: grid-theme(
+    $cell-selected-text-color: $text-color,
+    $cell-active-border-color: $border-yellow,
+    $cell-selected-background: $background-color
+);
+```
+
+### Aplicar tema
+
+Después, todo lo que tenemos que hacer es incluir el mixin en el estilo de nuestro componente (también podría estar en los estilos de la aplicación), para que nuestro @@igSelector use el tema recién creado en lugar del predeterminado:
+
+```scss
+    @include grid($custom-grid-theme);
+```
+
+ <DocsAside type="info">
+
+Si el componente está usando una [ViewEncapsulation emulada](../themes/styles.md#view-encapsulation), es necesario penetrar esta encapsulación usando `::ng-deep`.
+Delimitamos el estilo bajo el selector `:host` para no afectar a ninguna otra cuadrícula que podamos tener en nuestra aplicación.
+
+ </DocsAside>
+
+```scss
+   :host {
+       ::ng-deep {
+           @include grid($custom-grid-theme);
+       }
+   }
+```
+
+Con el tema personalizado aplicado, las celdas seleccionadas de la cuadrícula se resaltan con nuestros colores seleccionados:
+
+### Demostración
+
+<Sample src="/{ComponentSample}/multi-cell-selection-style" height={620} alt="{Platform} {ComponentTitle} Multi Cell Selection Example" />
+
+<DocsAside type="info">
+
+El ejemplo no se verá afectado por el tema global seleccionado desde **Change Theme**.
+
+</DocsAside>
+
+</PlatformBlock>
+
+## Referencias de API
+
+<ApiLink type="{ComponentName}" />
+
+## Recursos adicionales
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+
+- [Selección](selection.md)
+- [Selección de filas](row-selection.md)
+- [Filtrado](filtering.md)
+- [Ordenación](sorting.md)
+- [Resúmenes](summaries.md)
+- [Movimiento de columnas](column-moving.md)
+- [Anclaje de columnas](column-pinning.md)
+- [Cambio de tamaño de columnas](column-resizing.md)
+- [Virtualización y rendimiento](virtualization.md)
+
+</ComponentBlock>
+
+Nuestra comunidad es activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

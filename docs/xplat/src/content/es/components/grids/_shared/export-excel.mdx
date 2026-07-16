@@ -1,0 +1,359 @@
+---
+title: "{Platform} {ComponentTitle} Exportación - {ProductName}"
+description: Con la exportación de {ProductName} {ComponentTitle}, puede exportar datos de la cuadrícula a formatos Excel, CSV y PDF, conservando características como el filtrado, la ordenación y el estado actual de la cuadrícula.
+keywords: "{Platform}, {ComponentTitle}, {ComponentTitle}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes:
+  - ComponentApiMembers: null
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridExportExcel}"
+llms:
+  description: El {ProductName} {ComponentTitle} proporciona funcionalidad de exportación de datos mediante el componente Exportador de la barra de herramientas de la cuadrícula.
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Exportación de {Platform} {ComponentTitle}
+
+<PlatformBlock for="Blazor, React, WebComponents">
+
+La {ProductName} {ComponentTitle} proporciona funcionalidad de exportación de datos mediante el componente Exportador de la barra de herramientas de la cuadrícula. Puede exportar los datos mostrados a formatos Excel, CSV o PDF. Las exportaciones a Excel usan el formato de tabla de MS Excel, que admite características como filtrado y ordenación. Para habilitar la exportación, coloque <ApiLink type="GridToolbarExporter" /> dentro de la barra de herramientas de la cuadrícula. De forma predeterminada, todos los formatos de exportación están habilitados.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Los servicios de exportación de {ProductName} en {Platform} {ComponentTitle} pueden exportar datos a formatos Excel y PDF. La funcionalidad de exportación está encapsulada en las clases <ApiLink type="ExcelExporterService" /> y <ApiLink type="PdfExporterService" />. Las exportaciones a Excel usan el formato de tabla de MS Excel, que admite características como filtrado y ordenación, mientras que las exportaciones a PDF capturan el estado actual de la cuadrícula. Para iniciar una exportación, invoque el método `Export` de <ApiLink type="ExcelExporterService" /> o <ApiLink type="PdfExporterService" /> y pase el componente <ApiLink type="{ComponentName}" /> como primer argumento.
+
+</PlatformBlock>
+
+## Ejemplo de exportación de {Platform}
+
+<Sample src="/{ComponentSample}/excel-exporting" height={750} alt="{Platform} {ComponentTitle} Exporting Example" />
+
+<PlatformBlock for="Angular">
+
+## Exportación de datos de {ComponentTitle}
+
+Para comenzar a usar los exportadores de IgniteUI para Excel y PDF, primero importe <ApiLink type="ExcelExporterService" /> y/o <ApiLink type="PdfExporterService" /> en el archivo app.module.ts y agregue los servicios al arreglo `providers`:
+
+```ts
+// app.module.ts
+import { ExcelExporterService, PdfExporterService } from 'igniteui-{Platform}';
+
+@NgModule({
+  providers: [ ExcelExporterService, PdfExporterService ]
+})
+
+export class AppModule {}
+```
+
+<DocsAside type="info">
+
+En v12.2.1 y versiones posteriores, los servicios de exportador se proporcionan en la raíz, lo que significa que ya no necesita declararlos en los proveedores de AppModule.
+
+</DocsAside>
+
+Para iniciar una exportación, puede usar el controlador de un botón en la plantilla de su componente.
+
+```html
+<{ComponentTitle} #{ComponentTitle} [data]="localData" [autoGenerate]="true"></{ComponentTitle}>
+<button (click)="exportButtonHandler()">Export {ComponentTitle} to Excel</button>
+<button (click)="exportPdfButtonHandler()">Export {ComponentTitle} to PDF</button>
+```
+
+Puede acceder a los servicios de exportador definiendo argumentos de constructor de tipo <ApiLink type="ExcelExporterService" /> o <ApiLink type="PdfExporterService" />, y el framework {Platform} proporcionará instancias de los servicios. Para exportar datos a Excel o PDF, invoque el método `Export` y pase el componente {ComponentTitle} como primer argumento.
+
+El siguiente código ejecuta los procesos de exportación en el archivo del componente:
+
+```ts
+// component.ts
+import { ExcelExporterService, ExcelExporterOptions, PdfExporterService, PdfExporterOptions } from 'igniteui-{Platform}';
+import { {ComponentName} } from 'igniteui-{Platform}';
+
+@ViewChild('{ComponentName}') public {ComponentName}: {ComponentName};
+
+constructor(private excelExportService: ExcelExporterService, private pdfExportService: PdfExporterService) {
+}
+
+public exportButtonHandler() {
+  this.excelExportService.export(this.{ComponentName}, new ExcelExporterOptions('ExportedDataFile'));
+}
+
+public exportPdfButtonHandler() {
+  this.pdfExportService.export(this.{ComponentName}, new PdfExporterOptions('ExportedDataFile'));
+}
+```
+
+Si todo ha ido bien, debería ver el componente {ComponentTitle} y los dos botones de exportación. Cuando presiona el botón correspondiente, se desencadena el proceso de exportación y el navegador descarga un archivo llamado "ExportedDataFile.xlsx" o "ExportedDataFile.pdf" que contiene los datos del componente <ApiLink type="{ComponentName}" /> en formato Excel o PDF.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+## Exportación de datos de {ComponentTitle}
+
+Para iniciar una exportación, puede usar el controlador de un botón en la plantilla de su componente.
+
+```Razor
+<IgbGrid data="localData"/>
+<button @onclick="exportButtonHandler">Export to Excel</button>
+<button @onclick="exportPdfButtonHandler">Export to PDF</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## Exportar todos los datos
+
+Cuando usa operaciones remotas como **paginación**, la cuadrícula podría no tener acceso al conjunto de datos completo de una sola vez. En estos casos, recomendamos usar el [servicio de exportación de Excel](../exporter-excel.md) y pasar toda la colección de datos, si está disponible. Ejemplo:
+
+```ts
+public exportButtonHandler() {
+  this.excelExportService.exportData(this.localData, new ExcelExporterOptions('ExportedDataFile'));
+}
+```
+
+Al ofrecer descargas en PDF para datos remotos, considere obtener primero el conjunto de datos completo y luego llamar a `export` para que el documento refleje lo que los usuarios esperan ver.
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+
+## Exportar datos agrupados
+
+Para exportar datos agrupados, agrupe <ApiLink type="{ComponentName}" /> por una o más columnas. El navegador descargará un archivo llamado "ExportedDataFile.xlsx" que contiene los datos del componente <ApiLink type="{ComponentName}" /> en formato Excel, agrupados por las columnas seleccionadas. Puede encontrar un ejemplo al principio del tema.
+
+<PlatformBlock for="Angular"><Sample src="/{ComponentSample}/excel-exporting" height={750} alt="{Platform} {ComponentTitle} Grouped Data Excel Exporter Example" /></PlatformBlock>
+
+</ComponentBlock>
+
+## Exportar cuadrícula con encabezados de varias columnas
+
+Puede exportar <ApiLink type="{ComponentName}" /> con [encabezados de varias columnas](multi-column-headers.md) definidos. Todos los encabezados se reflejan en el archivo de Excel exportado tal como se muestran en <ApiLink type="{ComponentName}" />. Si desea excluir los encabezados de varias columnas definidos de los datos exportados, establezca `ExporterOption` <PlatformBlock for="Angular"><ApiLink type="IGridToolbarExportEventArgs" member="ignoreMultiColumnHeaders" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="ExporterOptionsBase" member="ignoreMultiColumnHeaders" /></PlatformBlock><PlatformBlock for="WebComponents"><ApiLink type="ExporterOptionsBase" member="ignoreMultiColumnHeaders" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridToolbarExportEventArgs" member="ignoreMultiColumnHeaders" /></PlatformBlock> en `true`.
+
+<DocsAside type="info">
+
+El `{ComponentName}` exportado no tendrá formato de tabla, ya que las tablas de Excel no admiten varios encabezados de columna.
+
+</DocsAside>
+
+<DocsAside type="info">
+
+El <ApiLink type="{ComponentName}" /> exportado no tendrá formato de tabla, ya que las tablas de Excel no admiten varios encabezados de columna.
+
+</DocsAside>
+
+<DocsAside type="info">
+
+<ApiLink type="GridToolbarExporter" /> también está configurado para demostrar cómo puede controlar qué formatos de exportación están disponibles para los usuarios finales. Use las opciones del exportador de la barra de herramientas para alternar los botones de Excel, CSV o PDF:
+
+- `export-excel`, `export-csv`, `export-pdf`
+- `exportExcel`, `exportCsv`, `exportPdf`
+- <ApiLink type="GridToolbarExporter" member="exportExcel" label="ExportExcel" />, `ExportCsv`, `ExportPdf`
+
+</DocsAside>
+
+<Sample src="/{ComponentSample}/multi-column-headers-export" height={750} alt="{Platform} {ComponentTitle} Multi Column Headers Export" />
+
+## Exportar cuadrícula con encabezados de columna inmovilizados
+
+De forma predeterminada, el servicio Excel Exporter exporta la cuadrícula con encabezados de columna desplazables (no inmovilizados). En muchos escenarios, es posible que desee inmovilizar todos los encabezados en la parte superior del archivo de Excel exportado para que siempre permanezcan a la vista mientras el usuario se desplaza por los registros. Para lograrlo, establezca `ExporterOption` <PlatformBlock for="Angular"><ApiLink type="IGridToolbarExportEventArgs" member="freezeHeaders" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="ExporterOptionsBase" member="freezeHeaders" /></PlatformBlock><PlatformBlock for="WebComponents"><ApiLink type="ExporterOptionsBase" member="freezeHeaders" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridToolbarExportEventArgs" member="freezeHeaders" /></PlatformBlock> en `true`.
+
+<DocsAside type="info">
+
+Las exportaciones a PDF incluyen automáticamente la fila de encabezado de columna en la parte superior del documento, de modo que los lectores conserven el mismo contexto cuando abran o impriman el archivo.
+
+</DocsAside>
+
+<PlatformBlock for="Angular">
+
+```ts
+public exportButtonHandler() {
+    const exporterOptions = new ExcelExporterOptions('ExportedDataFile');
+    exporterOptions.freezeHeaders = true;
+    this.excelExportService.export(this.grid, exporterOptions);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+<ComponentBlock for="Grid, TreeGrid">
+
+```ts
+constructor() {
+  var gridToolbarExporter1 = document.getElementById('gridToolbarExporter1') as IgcGridToolbarExporterComponent;
+  gridToolbarExporter1.addEventListener("exportStarted", this.webGridExportEventFreezeHeaders);
+}
+
+public webGridExportEventFreezeHeaders(args: any): void {
+  args.detail.options.freezeHeaders = true;
+}
+
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+<ComponentBlock for="HierarchicalGrid">
+
+```ts
+constructor() {
+  var hGridToolbarExporter = document.getElementById('hGridToolbarExporter') as IgcGridToolbarExporterComponent;
+  hGridToolbarExporter.addEventListener("exportStarted", this.webGridExportEventFreezeHeaders);
+}
+
+public webGridExportEventFreezeHeaders(args: CustomEvent<IgcExporterEvent>): void {
+  args.detail.options.freezeHeaders = true;
+}
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+```tsx
+function exportEventFreezeHeaders(args: IgrExporterEventArgs) {
+    args.detail.options.freezeHeaders = true;
+  }
+
+<IgrGridToolbar>
+  <IgrGridToolbarActions>
+    <IgrGridToolbarExporter onExportStarted={exportEventFreezeHeaders}></IgrGridToolbarExporter>
+  </IgrGridToolbarActions>
+</IgrGridToolbar>
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid, TreeGrid">
+
+<PlatformBlock for="Blazor">
+
+```razor
+ <{ComponentSelector}>
+    <IgbGridToolbar>
+      <IgbGridToolbarActions>
+        <IgbGridToolbarExporter
+          ExportExcel="true" ExportStartedScript="WebGridExportEventFreezeHeaders">
+        </IgbGridToolbarExporter>
+      </IgbGridToolbarActions>
+    </IgbGridToolbar>
+ </{ComponentSelector}>
+
+igRegisterScript("WebGridExportEventFreezeHeaders", (ev) => {
+    ev.detail.options.freezeHeaders = false;
+}, false);
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+
+<ComponentBlock for="HierarchicalGrid">
+
+```razor
+ <{ComponentSelector}>
+    <IgbGridToolbar>
+      <IgbGridToolbarActions>
+        <IgbGridToolbarExporter
+          ExportExcel="true" ExportStartedScript="WebHierarchicalGridExportEventFreezeHeaders">
+        </IgbGridToolbarExporter>
+      </IgbGridToolbarActions>
+    </IgbGridToolbar>
+ </{ComponentSelector}>
+
+igRegisterScript("WebHierarchicalGridExportEventFreezeHeaders", (ev) => {
+    ev.detail.options.freezeHeaders = false;
+}, false);
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## Personalización del contenido exportado
+
+En los ejemplos anteriores, el servicio Excel Exporter exporta todos los datos disponibles. Hay situaciones en las que es posible que desee omitir la exportación de una fila o incluso de una columna completa. Para lograrlo, suscríbase a los eventos <ApiLink type="{ComponentName}" member="columnExporting" /> y/o <ApiLink type="{ComponentName}" member="rowExporting" />, que se desencadenan para cada columna y cada fila respectivamente, y cancele el evento estableciendo la propiedad `cancel` del objeto de argumento del evento en `true`.
+
+El siguiente ejemplo excluirá una columna de la exportación si su encabezado es "Age" y si su índice es 1:
+
+```ts
+// component.ts
+
+this.excelExportService.columnExporting.subscribe((args: IColumnExportingEventArgs) => {
+  if (args.header == 'Age' && args.columnIndex == 1) {
+      args.cancel = true;
+  }
+});
+this.excelExportService.export(this.{ComponentTitle}, new ExcelExporterOptions('ExportedDataFile'));
+```
+
+Cuando exporta datos desde el componente <ApiLink type="{ComponentName}" />, el proceso de exportación tiene en cuenta características como el filtrado de filas y la ocultación de columnas, y exporta solo los datos visibles en <ApiLink type="{ComponentName}" />. Puede configurar el servicio de exportador para incluir filas filtradas o columnas ocultas estableciendo propiedades en el objeto <ApiLink type="ExcelExporterOptions" /> o <ApiLink type="PdfExporterOptions" />.
+
+</PlatformBlock>
+
+## Limitaciones conocidas
+
+<ComponentBlock for="Grid">
+
+| Limitación         | Descripción                                                                                                                                                            |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tamaño máximo de hoja de cálculo | El tamaño máximo de hoja de cálculo admitido por Excel es de 1,048,576 filas por 16,384 columnas.                                                                                     |
+| Estilo de celda       | El servicio de exportador de Excel no admite la exportación de un estilo personalizado aplicado a un componente de celda. En estos escenarios, recomendamos usar la [biblioteca de Excel](../../excel-library.md). |
+| Diseños PDF anchos   | Las cuadrículas muy anchas pueden obligar a las columnas de PDF a reducirse para ajustarse a la página. Aplique anchos de columna u oculte campos de baja prioridad antes de exportar para mantener el documento legible.        |
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+| Limitación         | Descripción                                                                                                                                                            |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Niveles de jerarquía   | El servicio de exportador de Excel puede crear hasta 8 niveles de jerarquía.                                                                                                     |
+| Tamaño máximo de hoja de cálculo | El tamaño máximo de hoja de cálculo admitido por Excel es de 1,048,576 filas por 16,384 columnas.                                                                                     |
+| Estilo de celda       | El servicio de exportador de Excel no admite la exportación de un estilo personalizado aplicado a un componente de celda. En estos escenarios, recomendamos usar la [biblioteca de Excel](../../excel-library.md). |
+| Diseños PDF anchos   | Las cuadrículas muy anchas pueden obligar a las columnas de PDF a reducirse para ajustarse a la página. Aplique anchos de columna u oculte campos de baja prioridad antes de exportar para mantener el documento legible.        |
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+| Limitación               | Descripción                                                                                                                                                     |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Niveles de jerarquía         | El servicio de exportador de Excel puede crear hasta 8 niveles de jerarquía.                                                                                              |
+| Tamaño máximo de hoja de cálculo       | El tamaño máximo de hoja de cálculo admitido por Excel es de 1,048,576 filas por 16,384 columnas.                                                                              |
+| Exportación de columnas ancladas | En el archivo de Excel exportado, las columnas ancladas no se inmovilizarán, pero se mostrarán en el mismo orden en que aparecen en la cuadrícula.                           |
+| Diseños PDF anchos         | Las cuadrículas muy anchas pueden obligar a las columnas de PDF a reducirse para ajustarse a la página. Aplique anchos de columna u oculte campos de baja prioridad antes de exportar para mantener el documento legible. |
+
+</ComponentBlock>
+
+## Referencias de API
+
+<ApiLink type="{ComponentName}" />
+
+## Recursos adicionales
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

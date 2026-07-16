@@ -1,0 +1,835 @@
+---
+title: "{Platform} {ComponentTitle} Fijación de filas en - {ProductName}"
+description: Utilice la característica de fijación de filas de {Platform} para bloquear filas con una API completa y fácil de usar. Permita que los usuarios fijen filas en un orden determinado o las dupliquen en un área especial.
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes:
+  - ComponentApiMembers: null
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridRowPinning}"
+llms:
+  description: La característica de fijación de filas de {ProductName} en {Platform} {ComponentTitle} permite fijar una o varias filas en la parte superior o inferior de la cuadrícula.
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} Anclaje de filas
+
+La característica de anclaje de filas de {ProductName} en {Platform} {ComponentTitle} permite anclar una o varias filas en la parte superior o inferior de la cuadrícula. El anclaje de filas permite a los usuarios finales anclar filas en un orden determinado, duplicándolas en un área especial que siempre está visible incluso cuando desplazan el <ApiLink type="{ComponentName}" /> verticalmente. {Platform} {ComponentTitle} tiene una UI de anclaje de filas integrada, que se habilita inicializando un componente <ApiLink type="ActionStrip" /> en el contexto de {ComponentTitle}. Además, puede definir una UI personalizada y cambiar el estado de anclaje de las filas mediante la API de anclaje de filas.
+
+## Ejemplo de anclaje de filas de {Platform} {ComponentTitle}
+
+<Sample src="/{ComponentSample}/row-pinning-options" height={600} alt="{Platform} {ComponentTitle} Row Pinning Example" />
+
+## UI de anclaje de filas
+
+La UI de anclaje de filas integrada se habilita agregando un componente <ApiLink type="ActionStrip" /> con el componente <ApiLink type="GridPinningActions" />. La banda de acciones se muestra automáticamente al pasar el cursor sobre una fila y mostrará un icono de botón para anclar o desanclar según el estado de la fila para la que se muestra. También se muestra una acción adicional para desplazar la copia de la fila anclada hasta hacerla visible para cada fila anclada.
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} [data]="data" [autoGenerate]="false">
+    <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
+    </igx-column>
+    <igx-action-strip #actionStrip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <igx-grid-editing-actions></igx-grid-editing-actions>
+    </igx-action-strip>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <{ComponentSelector} Width="100%"  
+             Height="100%"
+             PrimaryKey="Key"
+             AutoGenerate=true
+             Data=northwindEmployees
+             RowEditable=true>
+        <IgbColumn Field="ID" Editable=false></IgbColumn>
+        <IgbColumn Field="ContactName"></IgbColumn>
+        <IgbColumn Field="ContactTitle"></IgbColumn>
+        <IgbColumn Field="City" Sortable=true></IgbColumn>
+        <IgbColumn Field="CompanyName" Sortable=true></IgbColumn>
+        <IgbColumn Field="Fax" Sortable=true></IgbColumn>
+        <IgbColumn Field="Address" Sortable=true></IgbColumn>
+        <IgbColumn Field="PostalCode" Sortable=true></IgbColumn>
+        <IgbColumn Field="Country" Sortable=true></IgbColumn>
+        <IgbColumn Field="Phone" Sortable=true></IgbColumn>
+        <IgbActionStrip>
+            <IgbGridPinningActions></IgbGridPinningActions>
+            <IgbGridEditingActions></IgbGridEditingActions>
+        </IgbActionStrip>
+    </{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<PlatformBlock for="WebComponents">
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+
+```html
+<{ComponentSelector} auto-generate="false">
+    <igc-column field="Name" header="Full Name"></igc-column>
+    <igc-action-strip>
+        <igc-grid-pinning-actions></igc-grid-pinning-actions>
+        <igc-grid-editing-actions></igc-grid-editing-actions>
+    </igc-action-strip>
+</{ComponentSelector}>
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+
+<PlatformBlock for="React">
+
+```tsx
+<{ComponentSelector}>
+    <IgrColumn field="Country" header="Country"> </IgrColumn>
+    <IgrActionStrip>
+        <IgrGridPinningActions></IgrGridPinningActions>
+        <IgrGridEditingActions></IgrGridEditingActions>
+    </IgrActionStrip>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+## API de anclaje de filas
+
+El anclaje de filas se controla mediante la entrada <ApiLink type="RowDirective" member="pinned" /> de `Row`. Las filas ancladas se representan en la parte superior de <ApiLink type="{ComponentName}" /> de forma predeterminada y permanecen fijas durante el desplazamiento vertical de las filas no ancladas en el cuerpo de <ApiLink type="{ComponentName}" />.
+
+<PlatformBlock for="Angular, WebComponents">
+
+```typescript
+this.grid.getRowByIndex(0).pinned = true;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+gridRef.current.getRowByIndex(0).pinned = true;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+this.Grid.PinRowAsync("ALFKI", 0);
+```
+
+</PlatformBlock>
+
+También puede usar los métodos <ApiLink type="{ComponentName}" /> o <ApiLink type="{ComponentName}" member="pinRow" label="PinRow" /> de <ApiLink type="{ComponentName}" member="unpinRow" label="UnpinRow" /> para anclar o desanclar registros por su ID:
+
+<PlatformBlock for="Angular, WebComponents">
+
+```typescript
+this.grid.pinRow('ALFKI');
+this.grid.unpinRow('ALFKI');
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+gridRef.current.pinRow('ALFKI');
+gridRef.current.unpinRow('ALFKI');
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+this.Grid.PinRowAsync("ALFKI", 0);
+this.Grid.UnpinRowAsync("ALFKI");
+```
+
+</PlatformBlock>
+
+Tenga en cuenta que el ID de fila es el valor de la clave principal, definido por <ApiLink type="{ComponentName}" member="primaryKey" /> de la cuadrícula, o la propia instancia del registro. Ambos métodos devuelven un valor booleano que indica si su operación correspondiente se ha realizado correctamente o no. Normalmente, el motivo por el que fallan es que la fila ya se encuentra en el estado deseado.
+
+Una fila se ancla debajo de la última fila anclada. El orden de las filas ancladas se puede cambiar suscribiéndose al evento <ApiLink type="{ComponentName}" member="rowPinning" /> y cambiando la propiedad <ApiLink type="PinRowEventArgs" /> de los argumentos del evento al índice de posición deseado.
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} #grid1 [data]="data" [autoGenerate]="true" (rowPinning)="rowPinning($event)">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} id="grid" auto-generate="true">
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid1 = document.getElementById('grid1') as {ComponentName}Component;
+    grid1.data = this.data;
+    grid1.addEventListener("rowPinning", this.rowPinning);
+}
+
+public rowPinning(event) {
+    event.detail.insertAtIndex = 0;
+}
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+
+<PlatformBlock for="React">
+
+```tsx
+const rowPinning = (event: IgrPinRowEventArgs) => {
+    event.detail.insertAtIndex = 0;
+}
+
+<{ComponentSelector} autoGenerate={true} onRowPinning={rowPinning}>
+</{ComponentSelector}>
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{ComponentSelector} Width="100%"
+             Id="grid"
+             RowPinningScript="rowPinningHandler"
+             Height="100%"
+             PrimaryKey="Key"
+             AutoGenerate="true"
+             Data="northwindEmployees">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+function rowPinningHandler(event) {
+    event.detail.insertAtIndex = 0;
+}
+
+igRegisterScript("rowPinningHandler", rowPinningHandler, false);
+
+```
+
+</PlatformBlock>
+
+## Posición de anclaje
+
+Puede cambiar la posición de anclaje de filas mediante la opción de configuración <ApiLink type="{ComponentName}" member="pinning" />. Le permite establecer la posición del área de anclaje en Superior o Inferior.
+Cuando se establece en Inferior, las filas ancladas se representan en la parte inferior de la cuadrícula, después de las filas no ancladas. Las filas no ancladas se pueden desplazar verticalmente, mientras que las filas ancladas permanecen fijas en la parte inferior.
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></{ComponentSelector}>
+```
+
+```typescript
+public pinningConfig: IPinningConfig = { rows: RowPinningPosition.Bottom };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} id="dataGrid" auto-generate="true"></{ComponentSelector}>
+```
+
+```typescript
+var grid = document.getElementById('dataGrid') as {ComponentName}Component;
+grid.pinning = { rows: RowPinningPosition.Bottom };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <{ComponentSelector} Id="grid"
+            Width="100%"
+            Height="100%"
+            Pinning=PinningConfig
+            PrimaryKey="Key"
+            AutoGenerate=true
+            Data=northwindEmployees>
+    </{ComponentSelector}>
+    @code {
+        public string Key = "ID";
+        private Northwind.EmployeesType[] northwindEmployees = Array.Empty<Northwind.EmployeesType>();
+        public IgbPinningConfig PinningConfig = new IgbPinningConfig()
+        {
+            Rows = RowPinningPosition.Bottom
+        };
+        protected override async Task OnInitializedAsync()
+        {
+            northwindEmployees = await this.northwindService.GetEmployees() ?? northwindEmployees;
+        }
+    }
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+<PlatformBlock for="React">
+
+```tsx
+const pinning: IgrPinningConfig = { rows : RowPinningPosition.Bottom };
+
+<{ComponentSelector} ref={gridRef} autoGenerate={true} pinning={pinning}>
+</{ComponentSelector}>
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+## UI personalizada de anclaje de filas
+
+Puede definir su UI personalizada y cambiar el estado de anclaje de las filas mediante la API relacionada.
+
+### Mediante una columna adicional con icono
+
+Supongamos que, en lugar de una banda de acciones, desea mostrar un icono de anclaje en cada fila, lo que permite al usuario final hacer clic y cambiar el estado de anclaje de una fila determinada.
+Esto se puede hacer agregando una columna adicional con una plantilla de celda que contenga el icono personalizado.
+
+<ComponentBlock for="Grid, TreeGrid">
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColumn Width="70px" BodyTemplateScript="WebGridRowPinCellTemplate"/>
+
+```
+
+```javascript
+// In Javascript
+
+igRegisterScript("WebGridRowPinCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    window.toggleRowPin = function toggleRowPin(index) {
+        var grid = document.getElementsByTagName("igc-grid")[0];
+        grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
+    }
+    const index = ctx.cell.id.rowIndex;
+    return html`<div>
+    <span onpointerdown='toggleRowPin("${index}")'>📌</span>
+</div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ID'" [autoGenerate]="false">
+    <igx-column width="70px">
+        <ng-template igxCell let-cell="cell" let-val>
+            <igx-icon class="pin-icon" (mousedown)="togglePinning(cell.row, $event)">
+                {{cell.row.pinned ? 'lock' : 'lock_open'}}
+            </igx-icon>
+        </ng-template>
+    </igx-column>
+    <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
+    </igx-column>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```typescript
+public togglePinning(row: IgxGridRow, event) {
+    event.preventDefault();
+    if (row.pinned) {
+        row.unpin();
+    } else {
+        row.pin();
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} id="grid" primary-key="ID" auto-generate="false">
+    <igc-column id="column1" name="column1"></igc-column>
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid = document.getElementById('grid') as {ComponentName}Component;
+    var column = document.getElementById('column1') as IgcColumnComponent;
+
+    grid.data = this.data;
+    column.bodyTemplate = this.pinCellTemplate;
+}
+
+public pinCellTemplate = (ctx: IgcCellTemplateContext) => {
+   const index = ctx.cell.id.rowIndex;
+    return html`<span @pointerdown=${(e: any) => this.togglePinning(index)}>📌</span>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const cellPinCellTemplate = (ctx: IgrCellTemplateContext) => {
+    const index = ctx.cell.row.index;
+    return (
+        <>
+            <span onPointerDown={(e: any) => toggleRowPin(index)}>📌</span>
+        </>
+    );
+}
+
+<{ComponentSelector} primaryKey="ID" autoGenerate={false}>
+    <IgrColumn width="70px" bodyTemplate={cellPinCellTemplate}>
+    </IgrColumn>
+</{ComponentSelector}>
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColumn Width="70px" BodyTemplateScript="WebHierarchicalGridRowPinCellTemplate"/>
+
+```
+
+```javascript
+// In Javascript
+
+igRegisterScript("WebHierarchicalGridRowPinCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    window.toggleRowPin = function toggleRowPin(row) {
+        row.pinned = !row.pinned;
+    }
+    const row = ctx.cell.row;
+    return html`<div>
+    <span onpointerdown='toggleRowPin("${row}")'>📌</span>
+</div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ID'" [autoGenerate]="false">
+    <igx-column width="70px">
+        <ng-template igxCell let-cell="cell" let-val>
+            <igx-icon class="pin-icon" (mousedown)="togglePinning(cell.row, $event)">
+                {{cell.row.pinned ? 'lock' : 'lock_open'}}
+            </igx-icon>
+        </ng-template>
+    </igx-column>
+    <igx-column *ngFor="let c of columns" [field]="c.field" [header]="c.field">
+    </igx-column>
+    <igx-row-island [key]="'Orders'" [autoGenerate]="true">
+    </igx-row-island>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```typescript
+public togglePinning(row: IgxGridRow, event) {
+    event.preventDefault();
+    if (row.pinned) {
+        row.unpin();
+    } else {
+        row.pin();
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} id="grid" primary-key="ID" auto-generate="false">
+    <igc-column id="column1" name="column1"></igc-column>
+     <igc-row-island child-data-key="Orders" auto-generate="true">
+    </igc-row-island>
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid = document.getElementById('grid') as {ComponentName}Component;
+    var column = document.getElementById('column1') as IgcColumnComponent;
+
+    grid.data = this.data;
+    column.bodyTemplate = this.pinCellTemplate;
+}
+
+public pinCellTemplate = (ctx: IgcCellTemplateContext) => {
+   const row = ctx.cell.row;
+    return html`<span @pointerdown=${(e: any) => this.togglePinning(row)}>📌</span>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const cellPinCellTemplate = (ctx: IgrCellTemplateContext) => {
+    const row = ctx.cell.row;
+    return (
+        <>
+            <span onPointerDown={(e: any) => toggleRowPin(row)}>📌</span>
+        </>
+    );
+}
+
+<{ComponentSelector} primaryKey="ID" autoGenerate={false}>
+    <IgrColumn width="70px" bodyTemplate={cellPinCellTemplate}>
+    </IgrColumn>
+    <IgrRowIsland childDataKey="Orders" autoGenerate={true}></IgrRowIsland>
+</{ComponentSelector}>
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid, TreeGrid">
+
+Al hacer clic en el icono personalizado, el estado de anclaje de la fila relacionada se puede cambiar usando los métodos de API de la fila.
+
+<PlatformBlock for="Angular, WebComponents">
+
+```typescript
+public togglePinning(index: number) {
+    var grid = document.getElementsByTagName("{ComponentSelector}")[0] as {ComponentName}Component;
+    grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const toggleRowPin = (index: number) => {
+  const grid = grid1Ref.current;
+  grid.getRowByIndex(index).pinned = !grid.getRowByIndex(index).pinned;
+}
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+Al hacer clic en el icono personalizado, el estado de anclaje de la fila relacionada se puede cambiar usando los métodos de API de la fila.
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+public togglePinning(row: IgcRowType) {
+    row.pinned = !row.pinned;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const toggleRowPin = (row: IgrRowType) => {
+  row.pinned = !row.pinned;
+}
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+#### Demostración
+
+<Sample src="/{ComponentSample}/row-pinning-extra-column" height={600} alt="{Platform} {ComponentTitle} Row Pinning Extra Column Example" />
+
+<ComponentBlock for="Grid">
+
+<PlatformBlock for="Angular">
+
+### Mediante arrastre de filas
+
+Supongamos que desea poder arrastrar y soltar directamente una fila entre las filas ancladas y no ancladas para cambiar su estado de anclaje.
+Esto se puede lograr habilitando la característica de arrastre de filas y anclando/desanclando las filas mediante la API al soltar.
+
+Primero, la cuadrícula debe marcarse como área de colocación usando la directiva `igxDrop` y la funcionalidad de arrastre de filas debe habilitarse mediante la opción `rowDraggable`.
+
+```html
+<igx-grid [data]="data" [autoGenerate]="true" [rowDraggable]="true"
+    [primaryKey]="'ID'" igxDrop (dropped)="onDropAllowed($event)">
+</igx-grid>
+```
+
+Luego, el evento `dropped` se puede usar para controlar la lógica de reordenación y anclaje/desanclaje.
+
+```typescript
+public onDropAllowed(args) {
+    const event = args.originalEvent;
+    let currRowPinnedIndex;
+    const currRowIndex = this.getCurrentRowIndex(this.grid.rowList.toArray(),
+        { x: event.clientX, y: event.clientY });
+    if (currRowIndex === -1) { return; }
+
+    const currRowID = this.getCurrentRowID(this.grid.rowList.toArray(),
+        { x: event.clientX, y: event.clientY });
+
+    const currentRow = this.grid.rowList.toArray().find((r) => r.rowID === currRowID);
+    if (currentRow.pinned) {
+        currRowPinnedIndex = this.grid.pinnedRows.indexOf(this.grid.pinnedRows.find((r) => r.rowID === currRowID));
+    }
+    // remove the row that was dragged and place it onto its new location
+    this.grid.deleteRow(args.dragData.key);
+    this.data.splice(currRowIndex, 0, args.dragData.data);
+    if (currentRow.pinned && !args.dragData.pinned) {
+        this.grid.pinRow(args.dragData.key, currRowPinnedIndex);
+    } else if (!currentRow.pinned && args.dragData.pinned) {
+        this.grid.unpinRow(args.dragData.key);
+    } else if (currentRow.pinned && args.dragData.pinned) {
+        this.grid.unpinRow(args.dragData.key);
+        this.grid.pinRow(args.dragData.key, currRowPinnedIndex);
+    }
+}
+```
+
+Esto permitiría reordenar las filas y moverlas entre las colecciones de filas ancladas y no ancladas.
+
+#### Demostración
+
+<Sample src="/{ComponentSample}/row-pinning-drag" height={510} alt="{Platform} {ComponentTitle} Row Pinning Drag Example" />
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+## Limitaciones del anclaje de filas
+
+- Solo se pueden anclar los registros que existen en el origen de datos.
+- El estado de anclaje de filas no se exporta a Excel. La cuadrícula se exporta como si no se hubiera aplicado ningún anclaje de filas.
+- Las copias de las filas ancladas en el área desplazable de la cuadrícula son una parte integral de cómo otras características de la cuadrícula logran su funcionalidad en presencia de filas ancladas y, por lo tanto, no se puede deshabilitar su creación ni se pueden eliminar.
+- Dado que la selección de filas funciona completamente con los ID de fila, al seleccionar filas ancladas también se seleccionan sus copias (y viceversa). Además, la selección de rango (por ejemplo, usando <kbd>MAYÚS</kbd> + clic) dentro del área anclada funciona de la misma manera que seleccionar un rango de filas dentro del área desplazable. La selección resultante incluye todas las filas intermedias, incluso si no están ancladas actualmente. Obtener las filas seleccionadas mediante la API solo devuelve una única instancia de cada registro seleccionado.
+
+<PlatformBlock for="Angular">
+
+- Debido a cómo se almacenan internamente las filas ancladas para que puedan aparecer tanto en las áreas ancladas como no ancladas de la cuadrícula, el anclaje de filas no se admite cuando los registros de la cuadrícula se recuperan desde un endpoint remoto bajo demanda (virtualización remota).
+- Cuando la cuadrícula no tiene establecido ningún <ApiLink type="{ComponentName}" member="primaryKey" /> y los escenarios de datos remotos están habilitados (cuando la paginación, la ordenación, el filtrado o el desplazamiento desencadenan solicitudes a un servidor remoto para recuperar los datos que se mostrarán en la cuadrícula), una fila perderá el siguiente estado después de que se complete una solicitud de datos:
+  - Selección de filas
+  - Expansión/contracción de filas
+  - Edición de filas
+  - Anclaje de filas
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+
+## Estilo
+
+Además de los temas predefinidos, la cuadrícula podría personalizarse aún más estableciendo algunas de las [propiedades CSS](../theming-grid.md) disponibles.
+En caso de que desee cambiar algunos de los colores, primero debe establecer una clase para la cuadrícula:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<{ComponentSelector} className="grid"></{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+Luego establezca las propiedades CSS relacionadas para esa clase:
+
+```css
+.grid {
+    --ig-grid-pinned-border-width: 5px;
+    --ig-grid-pinned-border-style: double;
+    --ig-grid-pinned-border-color: #FFCD0F;
+    --ig-grid-cell-active-border-color: #FFCD0F;
+}
+```
+
+### Demostración
+
+<Sample src="/{ComponentSample}/row-pinning-style" height={540} alt="{Platform} {ComponentTitle} Row Pinning Styling Example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## Estilo
+
+<ApiLink type="{ComponentName}" /> permite aplicar estilos mediante la [biblioteca de temas {ProductName}](../themes/styles.md). <ApiLink type="function-grid-theme" label="theme" kind="sass" module="index.html" /> de {ComponentTitle} expone una amplia variedad de propiedades, que permiten personalizar todas las características de {ComponentTitle}.
+
+A continuación, repasaremos los pasos para personalizar el estilo del anclaje de filas de {ComponentTitle}.
+
+### Importación de la biblioteca de estilos
+
+Para comenzar la personalización de la característica de anclaje de filas, debe importar el archivo `index`, donde se encuentran todas las funciones y mixins de estilo.
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+### Definición de un tema
+
+A continuación, cree un nuevo tema que extienda <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> y acepte los parámetros necesarios para personalizar la característica de anclaje de filas según se desee.
+
+```scss
+$custom-grid-theme: grid-theme(
+    /* Pinning properties that affect styling */
+    $pinned-border-width: 5px,
+    $pinned-border-style: double,
+    $pinned-border-color: #FFCD0F,
+    $cell-active-border-color: #FFCD0F
+    /* add other features properties here... */
+);
+```
+
+### Uso de variables CSS
+
+El último paso es pasar el tema personalizado de la cuadrícula:
+
+```scss
+@include css-vars($custom-grid-theme);
+```
+
+### Uso de mixins
+
+Para aplicar estilos a componentes para Internet Explorer 11, debe usar un enfoque diferente, ya que no admite variables CSS.
+
+Si el componente usa una ViewEncapsulation [Emulada](../themes/styles.md#view-encapsulation), es necesario `penetrate` esta encapsulación usando `::ng-deep`. Sin embargo, para evitar que el tema personalizado se filtre a otros componentes, asegúrese de incluir el selector `:host` antes de `::ng-deep`:
+
+```scss
+:host {
+    ::ng-deep {
+        // Pass the custom grid theme to the `igx-grid` mixin
+        @include grid($custom-grid-theme);
+    }
+}
+```
+
+### Demostración
+
+<Sample src="/{ComponentSample}/row-pinning-style" height={540} alt="{Platform} {ComponentTitle} Row Pinning Styling Example" />
+
+<DocsAside type="info">
+
+El ejemplo no se verá afectado por el tema global seleccionado desde **Cambiar tema**.
+
+</DocsAside>
+
+</PlatformBlock>
+
+## Referencias de API
+
+<ApiLink type="{ComponentName}" /><br />
+
+<PlatformBlock for="Angular,React,WebComponents">  <ApiLink type="GridRowComponent" /></PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+  <ApiLink type="GridRow" />
+
+</PlatformBlock><br /> <ApiLink type="RowType" /><br />
+
+## Recursos adicionales
+
+<ComponentBlock for="Grid">
+
+- [Virtualización y rendimiento](virtualization.md)
+- [Paginación](paging.md)
+- [Filtrado](filtering.md)
+- [Ordenación](sorting.md)
+- [Resúmenes](summaries.md)
+- [Movimiento de columnas](column-moving.md)
+- [Cambio de tamaño de columnas](column-resizing.md)
+- [Selección](selection.md)
+
+</ComponentBlock>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

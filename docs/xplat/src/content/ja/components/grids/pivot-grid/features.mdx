@@ -1,0 +1,300 @@
+---
+title: "{Platform} {PivotGridTitle} 機能 | ピボット テーブル | Infragistics"
+description: "{ProductName} を使用して、高速でレスポンシブな {Platform} {PivotGridTitle} とテーブルを作成し、ピボット データを通じて複雑なデータ分析を実行します。"
+keywords: "{Platform}、{PivotGridTitle}、マテリアル ピボット テーブル、{ProductName}、グリッド機能、ピボット機能"
+license: commercial
+mentionedTypes: ["Infragistics.Controls.Grid"]
+namespace: Infragistics.Controls
+llms:
+  description: ピボットおよびフラット グリッド コンポーネントは共通のベースから継承しているため、一部の機能を共有しています。
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {PivotGridTitle} の機能
+
+ピボットおよびフラット グリッド コンポーネントは共通のベースから継承されるため、一部の機能を共有します。
+
+<DocsAside type="info">
+
+一部の機能はピボット テーブルのコンテキストでは意味のある動作を持たないため、<ApiLink type="PivotGrid" /> では有効にできません。これらには次が含まれます。
+
+- CRUD 操作
+- グループ化
+- 行/列のピン固定
+- 集計
+- ページング
+
+</DocsAside>
+
+{PivotGridTitle} コンポーネントには、以下で説明するように、そのディメンションに関連する追加の機能があります。
+
+<Sample src="/{PivotGridSample}/features" height={700} alt="{Platform} {PivotGridTitle} with Pivot Selector Example" />
+
+<PlatformBlock for="Angular">
+
+## ディメンションのフィルタリング
+
+すべてのディメンション (フィルター、行、列) は、チップ UI または API を介してフィルタリングできます。この機能は組み込まれており、既定で有効になっています。
+
+<DocsAside type="info">
+
+フィルター ディメンションを使用して、ピボット ビューの一部ではないデータ値を除外できます。
+
+</DocsAside>
+
+フィルタリング UI はディメンション チップのフィルター アイコンから開くことができ、一意のディメンション値に対して Excel 形式のフィルタリングを行えます。
+
+<DocsAside type="info">
+
+すべてのフィルタリング チップを表示するのに十分なスペースがない場合、{PivotGridTitle} は表示しきれなかったものをドロップダウンに表示します。エンドユーザーはそこでそれらにアクセスして操作できます。
+
+</DocsAside>
+
+ディメンションは、<ApiLink type="PivotGrid" member="pivotConfiguration" label="PivotConfiguration" /> 内のディメンション構成で、ディメンションの `filter` プロパティを使用して初期状態でフィルタリングすることもできます。
+たとえば、関連するフィルター条件を持つ新しい <ApiLink type="GridBaseDirective" member="filteringExpressionsTree" label="FilteringExpressionsTree" /> に設定できます。
+
+```typescript
+public filterExpTree = new FilteringExpressionsTree(FilteringLogic.And);
+
+constructor() {
+    this.filterExpTree.filteringOperands = [
+        {
+            condition: IgxStringFilteringOperand.instance().condition('equals'),
+            fieldName: 'SellerName',
+            searchVal: 'Stanley'
+        }
+    ];
+}
+
+public pivotConfigHierarchy: IPivotConfiguration = {
+    filters: [
+        {
+            memberName: 'SellerName',
+            enabled: true,
+            filter: this.filterExpTree
+        }
+    ]
+}
+```
+
+</PlatformBlock>
+
+## ディメンションのソート
+
+`rows` または `columns` のディメンション値は、関連するチップまたは API を介してソートできます。この機能は組み込まれており、既定で有効になっています。
+
+関連するチップをクリックするとディメンションがソートされ、その結果、ディメンション値は昇順/降順にソートされます。
+
+ソートは、ディメンション定義の `sortDirection` プロパティを介して初期状態で適用することもできます。
+
+<PlatformBlock for="Angular, WebComponents">
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'SellerName',
+            enabled: true,
+            sortDirection: SortingDirection.Asc
+        }
+    ]
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+    var pivotConfiguration = new IgbPivotConfiguration();
+    var rowDimension = new IgbPivotDimension() {
+        MemberName = "SellerName",
+        Enabled = true,
+        SortDirection = SortingDirection.Asc
+    };
+    pivotConfiguration.Rows.Add(rowDimension);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const dimension: IgrPivotDimension = {
+    memberName: "SellerName",
+    enabled: true,
+    sortDirection: SortingDirection.Asc
+};
+```
+
+</PlatformBlock>
+
+## ディメンションのサイズ変更
+
+行ディメンションは、列のサイズ変更と同様に、セルの右端にあるサイズ変更インジケーターを介してサイズ変更できます。
+また、サイズ変更インジケーターをダブルクリックするか、関連する API - <ApiLink type="PivotGrid" member="autoSizeRowDimension" label="AutoSizeRowDimension" /> を使用して、自動サイズ調整することもできます。
+
+ディメンション定義で使用可能な <ApiLink type="PivotGrid" member="width" label="Width" /> プロパティを使用して、別のサイズを初期状態で設定することもできます。
+
+<PlatformBlock for="Angular, WebComponents">
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'Country',
+            enabled: true,
+            width: '400px'
+        }
+    ]
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+    var pivotConfiguration = new IgbPivotConfiguration();
+    var rowDimension = new IgbPivotDimension() {
+        MemberName = "SellerName",
+        Enabled = true,
+        Width = "400px"
+    };
+    pivotConfiguration.Rows.Add(rowDimension);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const igrPivotDimension2: IgrPivotDimension = {
+    memberName: "SellerName",
+    enabled: true,
+    width = "400px"
+};
+```
+
+</PlatformBlock>
+
+## ディメンションの選択
+
+{PivotGridTitle} は、ベース グリッドと同じように有効化される単一選択をサポートしています。例:
+
+<PlatformBlock for="Angular">
+
+```html
+<{PivotGridSelector} #grid1 [rowSelection]="'single'" [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+</{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{PivotGridSelector} id="grid" row-selection="single">
+</{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{PivotGridSelector} PivotConfiguration="PivotConfiguration"
+        Data="PivotSalesData"
+        Name="grid"
+        RowSelection=GridSelectionMode.Single
+        @ref="grid">
+</{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrPivotGrid data={pivotData} pivotConfiguration={pivotConfiguration} rowSelection="single">
+</IgrPivotGrid>
+```
+
+</PlatformBlock>
+
+複数の行または列ディメンションがあり、複数の行/列にまたがるグループが作成される場合、選択は選択されたグループに属するすべてのセルに適用されます。
+
+## スーパー コンパクト モード
+
+<ApiLink type="PivotGrid" /> コンポーネントは <ApiLink type="PivotGrid" member="superCompactMode" label="SuperCompactMode" /> 入力を提供します。これは、一度に多くのセルを画面上に表示する必要がある場合に適しています。このオプションを有効にすると、{PivotGridTitle} の `--ig-size` CSS 変数は無視されます。<ApiLink type="PivotGrid" member="superCompactMode" label="SuperCompactMode" /> を有効にすると、--ig-size オプションを持たない各子コンポーネント (small など) に対して `<ApiLink pkg="core" type="Chip" />` も `<ApiLink type="PivotGrid" member="superCompactMode" label="SuperCompactMode" />` に設定されます。
+
+<PlatformBlock for="Angular">
+
+```html
+<{PivotGridSelector} [superCompactMode]="true"></{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{PivotGridSelector} super-compact-mode="true"></{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{PivotGridSelector} SuperCompactMode=true></{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrPivotGrid data={pivotData} pivotConfiguration={pivotConfiguration} superCompactMode={true}>
+</IgrPivotGrid>
+```
+
+</PlatformBlock>
+
+## 追加の集計列
+
+`column` ディメンションで階層が定義されている場合、{PivotGridTitle} は追加の集計/合計列を描画し、グループ内のすべての列の集計を累積します。グループが折りたたまれている場合は、集計列のみが残ります。また、グループが展開されている場合、追加の集計列はグループの末尾に表示されます。
+
+## 操作
+
+### キーボード ナビゲーション
+
+`{PivotGridSelector}` のキーボード ナビゲーションは、`{GridSelector}` のものと同様に動作します。{PivotGridTitle} は、`rows`、`columns`、`values` の 3 つの領域に分かれています。`rows` と `columns` の領域はナビゲーションの目的ではヘッダーと見なされ、`values` の領域は本文です。
+キーボードの矢印キーでは、現在の領域内のアクティブ要素のみを移動できます。
+
+### ディメンションのドラッグ アンド ドロップ
+
+ディメンションはチップで表され、ドラッグ アンド ドロップできます。
+すべてのチップは、ドラッグ アンド ドロップによって領域内で順序を変更できます。
+`rows`、`column`、`filter` (ディメンション チップ) のチップは、これらのいずれの領域からでも他の任意の領域の任意の場所に移動できます。
+これらの領域のチップは `values` 領域に移動できず、`values` 領域のチップはいずれのディメンション領域にも移動できません。
+
+<DocsAside type="info">
+
+{PivotGridTitle} のチップは Pivot Data Selector に移動できず、Pivot Data Selector の項目は {PivotGridTitle} に移動できません。
+
+</DocsAside>
+
+## API リファレンス
+
+<ApiLink type="PivotGrid" />
+
+<ApiLink type="PivotDataSelector" />
+
+## その他のリソース
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

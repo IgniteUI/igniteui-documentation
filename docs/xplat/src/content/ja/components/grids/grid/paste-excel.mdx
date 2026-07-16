@@ -1,0 +1,680 @@
+---
+title: "{Platform} Excel 風 {ComponentTitle} - Infragistics"
+description: "{Platform} グリッドを構成して、少ないコードで高機能かつ高パフォーマンスな API を使用して Excel からデータを貼り付け、充実した API を使用して選択したグリッド データを簡単にエクスポートできます。"
+keywords: 選択項目のエクスポート, {Platform} 用 Ignite UI, {ComponentKeywords}, {ProductName}, Infragistics
+license: commercial
+mentionedTypes: ["Infragistics.Controls.Grid"]
+llms:
+  description: "{ProductName} グリッドは、クリップボードにコピーされた Excel データを読み取ることができます。"
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} グリッドでの Excel からの貼り付け
+
+{ProductName} <ApiLink type="Grid" /> は、クリップボードにコピーされた Excel データを読み取ることができます。このセクションでは、いくつかのカスタム コードを使用してこれを行う方法を示します。
+
+## {Platform} Excel からの貼り付けの例
+
+このサンプルでは、Excel から <ApiLink type="Grid" /> Material UI テーブルに貼り付ける方法を示します。
+サンプルを操作するには、任意の Excel スプレッドシートを開き、いくつかの行をコピーして、キーボード (<kbd>CTRL</kbd> + <kbd>V</kbd>, <kbd>SHIFT</kbd> + <kbd>INSERT</kbd>,<kbd>CMD</kbd> + <kbd>V</kbd>) を使用してグリッドに貼り付けます。
+
+上部には、2 つのオプションを持つドロップダウン ボタンがあります:
+
+<ol>
+<li>「データを新しい行として貼り付け」 – このモードでは、Excel からコピーされたデータは新しい行としてグリッドに追加されます</li>
+<li>「アクティブ セルから貼り付け」 – このモードでは、グリッド内のデータが上書きされます。</li>
+</ol>
+
+貼り付け後の新しいデータはイタリック体で装飾されます。
+
+<Sample src="/{GridSample}/paste" height={570} alt="{Platform} Paste from Excel Example" />
+
+<PlatformBlock for="WebComponents, Blazor, React">
+
+## 使用方法
+
+まず、グリッドの `rendered` イベントにバインドして、テキスト エリア要素を作成および管理する必要があります:
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid autoGenerate={false} data={this.invoicesData} onRendered={this.webGridPasteFromExcel} ref={this.gridRef} id="grid" primaryKey="OrderID">
+    <IgrGridToolbar>
+        <IgrGridToolbarActions>
+            <IgrGridToolbarExporter exportExcel={true} exportCSV={false}>
+            </IgrGridToolbarExporter>
+        </IgrGridToolbarActions>
+    </IgrGridToolbar>
+    <IgrColumn field="OrderID" hidden={true}></IgrColumn>
+    <IgrColumn field="Salesperson" header="Name" width="200px"></IgrColumn>
+    <IgrColumn field="ShipName" header="Ship Name" width="200px"></IgrColumn>
+    <IgrColumn field="Country" header="Country" width="200px"></IgrColumn>
+    <IgrColumn field="ShipCity" header="Ship City" width="200px"></IgrColumn>
+    <IgrColumn field="PostalCode" header="Postal Code" width="200px"> </IgrColumn>
+</IgrGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-grid auto-generate="false" name="grid" id="grid" primary-key="OrderID">
+    <igc-grid-toolbar>
+        <igc-grid-toolbar-actions >
+            <igc-grid-toolbar-exporter export-excel="true" export-csv="false"> </igc-grid-toolbar-exporter>
+        </igc-grid-toolbar-actions>
+    </igc-grid-toolbar>
+    <igc-column field="OrderID" hidden="true"></igc-column>
+    <igc-column field="Salesperson" header="Name" width="200px"></igc-column>
+    <igc-column field="ShipName" header="Ship Name" width="200px"></igc-column>
+    <igc-column field="Country" header="Country" width="200px"></igc-column>
+    <igc-column field="ShipCity" header="Ship City" width="200px"></igc-column>
+    <igc-column field="PostalCode" header="Postal Code" width="200px"> </igc-column>
+</igc-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public webGridPasteFromExcel(e: CustomEvent<any>) {
+    const grid = e.target as IgcGridComponent;
+    this.onKeyDown = this.onKeyDown.bind(this);
+    grid.addEventListener("keydown", this.onKeyDown);
+}
+public onKeyDown(eventArgs: any): void {
+    const ctrl = eventArgs.ctrlKey;
+    const key = eventArgs.keyCode;
+    // Ctrl-V || Shift-Ins || Cmd-V
+    if ((ctrl || eventArgs.metaKey) && key === 86 || eventArgs.shiftKey && key === 45) {
+        this.textArea.focus();
+    }
+}
+
+private txtArea: any;
+
+public get textArea() {
+    if(!this.txtArea) {
+            const div = document.createElement("div");
+            const divStyle = div.style;
+            divStyle.position = "fixed";
+            document.body.appendChild(div);
+            this.txtArea = document.createElement("textarea");
+            const style = this.txtArea.style;
+            style.opacity = "0";
+            style.height = "0px";
+            style.width = "0px";
+            style.overflow = "hidden";
+            div.appendChild(this.txtArea);
+
+            this.txtArea.addEventListener("paste", (eventArgs: any) => { this.onPaste(eventArgs); });
+        }
+        return this.txtArea;
+    }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```ts
+public webGridPasteFromExcel(e: CustomEvent<any>) {
+    const grid = e.target as IgrGrid;
+    this.onKeyDown = this.onKeyDown.bind(this);
+    grid.addEventListener("keydown", this.onKeyDown);
+}
+public onKeyDown(eventArgs: any): void {
+    const ctrl = eventArgs.ctrlKey;
+    const key = eventArgs.keyCode;
+    // Ctrl-V || Shift-Ins || Cmd-V
+    if ((ctrl || eventArgs.metaKey) && key === 86 || eventArgs.shiftKey && key === 45) {
+        this.textArea.focus();
+    }
+}
+
+private txtArea: any;
+
+public get textArea() {
+    if(!this.txtArea) {
+            const div = document.createElement("div");
+            const divStyle = div.style;
+            divStyle.position = "fixed";
+            document.body.appendChild(div);
+            this.txtArea = document.createElement("textarea");
+            const style = this.txtArea.style;
+            style.opacity = "0";
+            style.height = "0px";
+            style.width = "0px";
+            style.overflow = "hidden";
+            div.appendChild(this.txtArea);
+
+            this.txtArea.addEventListener("paste", (eventArgs: any) => { this.onPaste(eventArgs); });
+        }
+        return this.txtArea;
+    }
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid  AutoGenerate="false" Data="InvoicesData" RenderedScript="WebGridPasteFromExcel" @ref="grid" Id="grid" PrimaryKey="OrderID">
+    <IgbGridToolbar>
+        <IgbGridToolbarActions>
+            <IgbGridToolbarExporter ExportExcel="true" ExportCSV="false"> </IgbGridToolbarExporter>
+        </IgbGridToolbarActions>
+    </IgbGridToolbar>
+
+    <IgbColumn Field="OrderID" Hidden="true"></IgbColumn>
+    <IgbColumn Field="Salesperson" Header="Name" Width="200px"></IgbColumn>
+    <IgbColumn Field="ShipName" Header="Ship Name" Width="200px"></IgbColumn>
+    <IgbColumn Field="Country" Header="Country" Width="200px"></IgbColumn>
+     <IgbColumn Field="ShipCity" Header="Ship City" Width="200px"></IgbColumn>
+    <IgbColumn Field="PostalCode" Header="Postal Code" Width="200px"></IgbColumn>
+</IgbGrid>
+```
+
+```javascript
+// In JavaScript
+igRegisterScript("WebGridPasteFromExcel", (evtArgs) => {
+    const grid = document.getElementById("grid");
+    grid.addEventListener("keydown", onWebGridPasteFromExcelKeyDown);
+}, false);
+
+function onWebGridPasteFromExcelKeyDown(eventArgs) {
+    const ctrl = eventArgs.ctrlKey;
+    const key = eventArgs.keyCode;
+    // Ctrl-V || Shift-Ins || Cmd-V
+    if ((ctrl || eventArgs.metaKey) && key === 86 || eventArgs.shiftKey && key === 45) {
+        textArea.focus();
+    }
+}
+
+var txtArea;
+var textArea = getTextArea();
+function getTextArea() {
+    if(!txtArea) {
+        const div = document.createElement("div");
+        const divStyle = div.style;
+        divStyle.position = "fixed";
+        document.body.appendChild(div);
+        txtArea = document.createElement("textarea");
+        const style = txtArea.style;
+        style.opacity = "0";
+        style.height = "0px";
+        style.width = "0px";
+        style.overflow = "hidden";
+        div.appendChild(txtArea);
+
+        txtArea.addEventListener("paste", (eventArgs) => { onPaste(eventArgs); });
+    }
+    return txtArea;
+}
+
+```
+
+</PlatformBlock>
+
+このコードは、クリップボードから貼り付けられたデータを受け取るために使用される DOM textarea 要素を作成します。データが textarea に貼り付けられると、コードはそれを配列に解析します。
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public onPaste(eventArgs: any) {
+    let data;
+    const clData: any = "clipboardData";
+
+    // get clipboard data - from window.cliboardData for IE or from the original event's arguments.
+    if (window[clData]  as any) {
+        (window.event as any).returnValue = false;
+            data = (window[clData]  as any).getData("text");
+        } else {
+            data = eventArgs[clData].getData("text/plain");
+        }
+
+        // process the clipboard data
+    const processedData = this.processData(data);
+    if (this.pasteMode === "Paste data as new records") {
+        this.addRecords(processedData);
+    } else {
+        this.updateRecords(processedData);
+    }
+}
+
+public processData(data: any) {
+    const pasteData = data.split("\n");
+    for (let i = 0; i < pasteData.length; i++) {
+        pasteData[i] = pasteData[i].split("\t");
+        // Check if last row is a dummy row
+        if (pasteData[pasteData.length - 1].length === 1 && pasteData[pasteData.length - 1][0] === "") {
+            pasteData.pop();
+        }
+        // remove empty data
+        if (pasteData.length === 1 &&
+            pasteData[0].length === 1 &&
+            (pasteData[0][0] === "" || pasteData[0][0] === "\r")) {
+            pasteData.pop();
+        }
+    }
+    return pasteData;
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+function onPaste(eventArgs) {
+    let data;
+    const clData = "clipboardData";
+
+    // get clipboard data - from window.cliboardData for IE or from the original event's arguments.
+    if (window[clData]) {
+        window.event.returnValue = false;
+        data = window[clData].getData("text");
+    } else {
+        data = eventArgs[clData].getData("text/plain");
+    }
+
+    // process the clipboard data
+    const processedData = processData(data);
+        if (pasteMode === "Paste data as new records") {
+            addRecords(processedData);
+        } else {
+            updateRecords(processedData);
+        }
+}
+function processData(data) {
+    const pasteData = data.split("\n");
+    for (let i = 0; i < pasteData.length; i++) {
+        pasteData[i] = pasteData[i].split("\t");
+        // Check if last row is a dummy row
+        if (pasteData[pasteData.length - 1].length === 1 && pasteData[pasteData.length - 1][0] === "") {
+            pasteData.pop();
+        }
+        // remove empty data
+        if (pasteData.length === 1 &&
+            pasteData[0].length === 1 &&
+            (pasteData[0][0] === "" || pasteData[0][0] === "\r")) {
+                pasteData.pop();
+        }
+    }
+    return pasteData;
+}
+```
+
+</PlatformBlock>
+
+貼り付けられたデータは、ユーザーの選択に基づいて、新しいレコードとして追加したり、既存のレコードを更新するために使用したりできます。
+参考として、addRecords メソッドと updateRecords メソッドを参照してください。
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public addRecords(processedData: any[]) {
+    const grid = this.grid as any;
+    const columns = grid.visibleColumns;
+    const pk = grid.primaryKey;
+    const addedData: any[] = [];
+    for (const curentDataRow of processedData) {
+        const rowData = {} as any;
+        for (const col of columns) {
+            const index = columns.indexOf(col);
+            rowData[col.field] = curentDataRow[index];
+        }
+        // generate PK
+        rowData[pk] = grid.data.length + 1;
+        grid.addRow(rowData);
+        addedData.push(rowData);
+    }
+    // scroll to last added row
+    grid.navigateTo(grid.data.length - 1, 0, () => {
+        this.clearStyles();
+        for (const data of addedData) {
+            const row = grid.getRowByKey(data[pk]);
+            if (row) {
+                const rowNative = this.getNative(row) as any;
+                if (rowNative) {
+                rowNative.style["font-style"] = "italic";
+                rowNative.style.color = "gray";
+                }
+            }
+        }
+    });
+}
+
+public updateRecords(processedData: any[]) {
+    const grid = this.grid as any;
+    const cell = grid.selectedCells[0];
+    const pk = grid.primaryKey;
+    if (!cell) { return; }
+    const rowIndex = cell.row.index;
+    const columns = grid.visibleColumns;
+    const cellIndex = grid.visibleColumns.indexOf(cell.column);
+    let index = 0;
+    const updatedRecsPK: any[] = [];
+    for (const curentDataRow of processedData) {
+        const rowData = {} as any;
+        const dataRec = grid.data[rowIndex + index];
+        const rowPkValue = dataRec ? dataRec[pk] : grid.data.length + 1;
+        rowData[pk] = rowPkValue;
+        for (let j = 0; j < columns.length; j++) {
+            let currentCell;
+            if (j >= cellIndex) {
+                currentCell = curentDataRow.shift();
+            }
+            const colKey = columns[j].field;
+            rowData[colKey] = currentCell || (dataRec ? dataRec[colKey] : null);
+        }
+        if (!dataRec) {
+            // no rec to update, add instead
+            rowData[pk] = rowPkValue;
+            grid.addRow(rowData);
+            continue;
+        }
+        grid.updateRow(rowData, rowPkValue);
+        updatedRecsPK.push(rowPkValue);
+        index++;
+    }
+
+    this.clearStyles();
+    for (const pkVal of updatedRecsPK) {
+        const row = grid.getRowByKey(pkVal);
+        if (row) {
+            const rowNative = this.getNative(row) as any;
+            if (rowNative) {
+                rowNative.style["font-style"] = "italic";
+                rowNative.style.color = "gray";
+            }
+        }
+    }
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+function addRecords(processedData) {
+    const grid = document.getElementById("grid");
+    const columns = grid.visibleColumns;
+    const pk = grid.primaryKey;
+    const addedData = [];
+    for (const curentDataRow of processedData) {
+        const rowData = {};
+        for (const col of columns) {
+            const index = columns.indexOf(col);
+            rowData[col.field] = curentDataRow[index];
+        }
+        // generate PK
+        rowData[pk] = grid.data.length + 1;
+        grid.addRow(rowData);
+        addedData.push(rowData);
+    }
+    // scroll to last added row
+    grid.navigateTo(grid.data.length - 1, 0, () => {
+        clearStyles();
+        for (const data of addedData) {
+            const row = grid.getRowByKey(data[pk]);
+            if (row) {
+                const rowNative = getNative(row);
+                if (rowNative) {
+                    rowNative.style["font-style"] = "italic";
+                    rowNative.style.color = "gray";
+                }
+            }
+    }
+    });
+}
+
+function updateRecords(processedData) {
+    const grid = document.getElementById("grid");
+    const cell = grid.selectedCells[0];
+    const pk = grid.primaryKey;
+    if (!cell) { return; }
+    const rowIndex = cell.row.index;
+    const columns = grid.visibleColumns;
+    const cellIndex = grid.visibleColumns.indexOf(cell.column);
+    let index = 0;
+    const updatedRecsPK = [];
+    for (const curentDataRow of processedData) {
+        const rowData = {};
+        const dataRec = grid.data[rowIndex + index];
+        const rowPkValue = dataRec ? dataRec[pk] : grid.data.length + 1;
+        rowData[pk] = rowPkValue;
+        for (let j = 0; j < columns.length; j++) {
+            let currentCell;
+            if (j >= cellIndex) {
+                currentCell = curentDataRow.shift();
+            }
+            const colKey = columns[j].field;
+            rowData[colKey] = currentCell || (dataRec ? dataRec[colKey] : null);
+        }
+        if (!dataRec) {
+            // no rec to update, add instead
+            rowData[pk] = rowPkValue;
+            grid.addRow(rowData);
+            continue;
+        }
+        grid.updateRow(rowData, rowPkValue);
+        updatedRecsPK.push(rowPkValue);
+        index++;
+    }
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## 使用方法
+
+`paste-handler` ディレクティブ (そのコードは次のセクションにあります) を <ApiLink type="Grid" /> に追加し、その `onDataProcessed` イベントを処理する必要があります。`onDataProcessed` イベントには、Excel データに配列形式でアクセスできる 1 つのパラメーターがあります。参考として、`addRecords` メソッドと `updateRecords` メソッドを参照してください。
+
+```html
+<igx-grid #grid1 [data]="data" [width]="'100%'" [height]="'505px'" [autoGenerate]="false" paste-handler (onDataProcessed)="dataPasted($event)" [primaryKey]="'ID'">
+    <igx-column [field]="'Name'"></igx-column>
+    <igx-column [field]="'Title'"></igx-column>
+    <igx-column [field]="'Phone'"></igx-column>
+    <igx-column [field]="'Country'"></igx-column>
+</igx-grid>
+```
+
+```typescript
+    public dataPasted(processedData) {
+        if (this.pasteMode === "Paste data as new records") {
+            this.addRecords(processedData);
+        } else {
+            this.updateRecords(processedData);
+        }
+    }
+
+    public addRecords(processedData: any[]) {
+        const columns = this.grid1.visibleColumns;
+        const pk = this.grid1.primaryKey;
+        const addedData = [];
+        for (const curentDataRow of processedData) {
+            const rowData = {};
+            for (const col of columns) {
+                rowData[col.field] = curentDataRow[col.visibleIndex];
+            }
+            // generate PK
+            rowData[pk] = this.grid1.data.length + 1;
+            this.grid1.addRow(rowData);
+            addedData.push(rowData);
+            this.grid1.cdr.detectChanges();
+        }
+        // scroll to last added row
+        this.grid1.verticalScrollContainer.scrollTo(this.grid1.data.length);
+
+        this.grid1.verticalScrollContainer.chunkLoad.pipe(take(1)).subscribe(() => {
+            this.clearStyles();
+            for (const data of addedData) {
+                const row = this.grid1.getRowByKey(data[pk]);
+                if (row) {
+                    row.nativeElement.style["font-style"] = "italic";
+                    row.nativeElement.style.color = "gray";
+                }
+            }
+        });
+    }
+    public updateRecords(processedData: any[]) {
+        const cell = this.grid1.selectedCells[0];
+        const pk = this.grid1.primaryKey;
+        if (!cell) { return; }
+        const rowIndex = cell.row.index;
+        // const rowPkValue = cell.row.data[pk];
+        const cellIndex = cell.column.visibleIndex;
+        const columns = this.grid1.visibleColumns;
+        let index = 0;
+        const updatedRecsPK = [];
+        for (const curentDataRow of processedData) {
+            const rowData = {};
+            const dataRec = this.grid1.data[rowIndex + index];
+            const rowPkValue = dataRec ? dataRec[pk] : this.grid1.data.length + 1;
+            rowData[pk] = rowPkValue;
+            for (let j = 0; j < columns.length; j++) {
+                let currentCell;
+                if (j >= cellIndex) {
+                    currentCell = curentDataRow.shift();
+                }
+                const colKey = columns[j].field;
+                rowData[colKey] = currentCell || (!!dataRec ? dataRec[colKey] : null);
+            }
+            if (!dataRec) {
+                // no rec to update, add instead
+                rowData[pk] = rowPkValue;
+                this.grid1.addRow(rowData);
+                continue;
+            }
+            this.grid1.updateRow(rowData, rowPkValue);
+            this.grid1.cdr.detectChanges();
+            updatedRecsPK.push(rowPkValue);
+            index++;
+        }
+
+        this.clearStyles();
+        for (const pkVal of updatedRecsPK) {
+            const row = this.grid1.getRowByKey(pkVal);
+            if (row) {
+            row.nativeElement.style["font-style"] = "italic";
+            row.nativeElement.style.color = "gray";
+            }
+        }
+    }
+
+    protected clearStyles() {
+        for (const row of this.grid1.rowList.toArray()) {
+            row.nativeElement.style["font-style"] = "";
+            row.nativeElement.style.color = "";
+        }
+    }
+```
+
+## 貼り付けハンドラー ディレクティブ
+
+これは `paste-handler` の実装です。このコードは、クリップボードから貼り付けられたデータを受け取るために使用される DOM `textarea` 要素を作成します。データが `textarea` に貼り付けられると、ディレクティブはそれを配列に解析し、解析されたデータを渡すカスタム イベント `onDataProcessed` を発行します。
+
+```typescript
+import { Directive, EventEmitter, HostListener, Output} from "@{Platform}/core";
+
+@Directive({ selector: "[paste-handler]" })
+export class PasteHandler {
+    public textArea;
+
+    @Output()
+    public onDataProcessed = new EventEmitter<any>();
+
+    public ngOnInit(): void {
+        const div = document.createElement("div");
+        const divStyle = div.style;
+        divStyle.position = "fixed";
+        document.body.appendChild(div);
+        this.textArea = document.createElement("textarea");
+        const style = this.textArea.style;
+        style.opacity = "0";
+        style.height = "0px";
+        style.width = "0px";
+        style.overflow = "hidden";
+        div.appendChild(this.textArea);
+
+        this.textArea.addEventListener("paste", (eventArgs) => { this.onPaste(eventArgs); });
+    }
+
+    @HostListener("focusin", ["$event"])
+    public focusIn(eventArgs) {
+    }
+
+    @HostListener("keydown", ["$event"])
+    public ControlV(eventArgs) {
+        const ctrl = eventArgs.ctrlKey;
+        const key = eventArgs.keyCode;
+        // Ctrl-V || Shift-Ins || Cmd-V
+        if ((ctrl || eventArgs.metaKey) && key === 86 || eventArgs.shiftKey && key === 45) {
+            this.textArea.focus();
+        }
+    }
+
+    public onPaste(eventArgs) {
+    let data;
+    const clData = "clipboardData";
+
+    // get clipboard data - from window.cliboardData for IE or from the original event's arguments.
+    if (window[clData]) {
+        window.event.returnValue = false;
+        data = window[clData].getData("text");
+    } else {
+        data = eventArgs[clData].getData("text/plain");
+    }
+
+    // process the clipboard data
+    const processedData = this.processData(data);
+
+    this.onDataProcessed.emit(processedData);
+    }
+
+    public processData(data) {
+        const pasteData = data.split("\n");
+        for (let i = 0; i < pasteData.length; i++) {
+            pasteData[i] = pasteData[i].split("\t");
+            // Check if last row is a dummy row
+            if (pasteData[pasteData.length - 1].length === 1 && pasteData[pasteData.length - 1][0] === "") {
+                pasteData.pop();
+            }
+            // remove empty data
+            if (pasteData.length === 1 &&
+                 pasteData[0].length === 1 &&
+                  (pasteData[0][0] === "" || pasteData[0][0] === "\r")) {
+                    pasteData.pop();
+            }
+        }
+        return pasteData;
+    }
+}
+```
+
+</PlatformBlock>
+
+## API リファレンス
+
+<ApiLink type="Grid" />
+
+## その他のリソース
+
+- [Excel Exporter](export-excel.md) - Excel Exporter サービスを使用して、Grid から Excel にデータをエクスポートします。また、Grid から選択したデータのみをエクスポートするオプションも提供します。エクスポート機能は ExcelExporterService クラスにカプセル化されており、データは MS Excel テーブル形式でエクスポートされます。この形式では、フィルタリング、並べ替えなどの機能を使用できます。これを行うには、ExcelExporterService の export メソッドを呼び出し、Grid コンポーネントを最初の引数として渡す必要があります。
+
+私たちのコミュニティは活発で、新しいアイデアを常に歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

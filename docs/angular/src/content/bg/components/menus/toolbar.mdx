@@ -1,0 +1,234 @@
+---
+title: "Angular Toolbar Component | Ignite UI for Angular"
+description: See how you can easily get started with Angular Toolbar Component. Compatible with the Data Chart. Extend your .
+keywords: "Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Toolbar components, Angular Toolbar controls"
+license: commercial
+mentionedTypes: ["Toolbar", "ToolAction", "DomainChart", "CategoryChart", "DataChart", "TrendLineType"]
+llms:
+  description: "The Angular Toolbar component is a companion container for UI operations to be used primarily with our charting components."
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Toolbar Overview
+
+The Angular Toolbar component is a companion container for UI operations to be used primarily with our charting components. The toolbar will dynamically update with a preset of properties and tool items when linked to our <ApiLink type="DataChart" /> or <ApiLink type="CategoryChart" /> components. You'll be able to create custom tools for your project allowing end users to provide changes, offering an endless amount of customization.
+
+## Angular Toolbar Example
+
+<Sample src="/charts/toolbar/actions-built-in-category-chart" height={600} alt="Angular Toolbar Example" />
+
+## Dependencies
+
+Install the Ignite UI for Angular layouts, inputs, charts and core packages:
+
+```cmd
+npm install igniteui-angular-layouts
+npm install igniteui-angular-inputs
+npm install igniteui-angular-charts
+npm install igniteui-angular-core
+```
+
+The following modules are required when using the <ApiLink type="Toolbar" /> with the <ApiLink type="DataChart" /> component and it's features.
+
+```ts
+import { IgxToolbarModule } from 'igniteui-angular-layouts';
+import { IgxDataChartToolbarModule, IgxDataChartCoreModule, IgxDataChartCategoryModule, IgxDataChartAnnotationModule, IgxDataChartInteractivityModule, IgxDataChartCategoryTrendLineModule  } from 'igniteui-angular-charts';
+
+@NgModule({
+    imports: [
+        // ...
+        IgxToolbarModule,
+        IgxDataChartToolbarModule,
+        IgxDataChartCoreModule,
+        IgxDataChartCategoryModule,
+        IgxDataChartAnnotationModule,
+        IgxDataChartInteractivityModule,
+        IgxDataChartCategoryTrendLineModule
+        // ...
+    ]
+})
+export class AppModule {}
+```
+
+## Usage
+
+### Tool Actions
+
+The following is a list of the different <ApiLink type="ToolAction" /> items that you can add to the Toolbar.
+
+- <ApiLink type="ToolActionButton" />
+- <ApiLink type="ToolActionCheckbox" />
+- <ApiLink type="ToolActionIconButton" />
+- <ApiLink type="ToolActionIconMenu" />
+- <ApiLink type="ToolActionLabel" />
+- <ApiLink type="ToolActionNumberInput" />
+- <ApiLink type="ToolActionRadio" />
+- <ApiLink type="ToolActionSubPanel" />
+
+Each of these tools exposes an `OnCommand` event that is triggered by mouse click. Note, the <ApiLink type="ToolActionIconMenu" /> is a wrapper for other tools that can also be wrapped inside a <ApiLink type="ToolActionIconMenu" />.
+
+New and existing tools can be repositioned and marked hidden using the <ApiLink type="ToolAction" member="overlayId" label="OverlayId" />, <ApiLink type="ToolAction" member="beforeId" label="BeforeId" /> and <ApiLink type="ToolAction" member="afterId" label="AfterId" /> properties on the <ApiLink type="ToolAction" /> object. ToolActions also expose a <ApiLink type="ToolAction" member="visibility" label="Visibility" /> property.
+
+The following example demonstrates a couple of features. First you can group tools together in the <ApiLink type="ToolActionSubPanel" /> including hiding built in tools such as the **ZoomReset** and **AnalyzeMenu** menu tool actions. In this example a new instance of the **ZoomReset** tool action within the **ZoomMenu** by using the the <ApiLink type="ToolAction" member="afterId" label="AfterId" /> property and assigning that to **ZoomOut** to be precise with it's placement. It is also highlighted via the <ApiLink type="ToolAction" member="isHighlighted" label="IsHighlighted" /> property on the tool.
+
+<Sample src="/charts/toolbar/layout-actions-for-data-chart" height={600} alt="Angular Toolbar Example" />
+
+### Angular Data Chart Integration
+
+The Angular Toolbar contains a <ApiLink type="Toolbar" member="Target" label="Target" /> property. This is used to link a component, such as the <ApiLink type="DataChart" /> as shown in the code below:
+
+```html
+  <div class="legend">
+    <igx-toolbar
+      name="toolbar"
+      [target]="chart"
+      #toolbar>
+    </igx-toolbar>
+  </div>
+  <div class="container fill">
+    <igx-data-chart
+    name="chart"
+    #chart>
+  </igx-data-chart>
+```
+
+Several pre-existing <ApiLink type="ToolAction" /> items and menus become available when the <ApiLink type="DataChart" /> is linked with the Toolbar. Here is a list of the built-in Angular <ApiLink type="DataChart" /> Tool Actions and their associated <ApiLink type="ToolAction" member="overlayId" label="OverlayId" />:
+
+Zooming Actions
+
+- `ZoomMenu`: A <ApiLink type="ToolActionIconMenu" /> that exposes three <ApiLink type="ToolActionLabel" /> items to invoke the <ApiLink type="DomainChart" member="zoomIn" label="ZoomIn" /> and <ApiLink type="DomainChart" member="zoomOut" label="ZoomOut" /> methods on the chart for increasing/decreasing the chart's zoom level including `ZoomReset`, a <ApiLink type="ToolActionLabel" /> that invokes the <ApiLink type="DomainChart" member="resetZoom" label="ResetZoom" /> method on the chart to reset the zoom level to it's default position.
+
+Trend Actions
+
+- `AnalyzeMenu`: A <ApiLink type="ToolActionIconMenu" /> that contains several options for configuring different options of the chart.
+- `AnalyzeHeader`: A sub section header.
+  - `LinesMenu`: A sub menu containing various tools for showing different dashed horizontal lines on the chart.
+  - `LinesHeader`: A sub menu section header for the following three tools:
+    - `MaxValue`: A <ApiLink type="ToolActionCheckbox" /> that displays a dashed horizontal line along the yAxis at the maximum value of the series.
+    - `MinValue`: A <ApiLink type="ToolActionCheckbox" /> that displays a dashed horizontal line along the yAxis at the minimum value of the series.
+    - <ApiLink type="ValueLayerValueMode" member="Average" label="Average" />:  A <ApiLink type="ToolActionCheckbox" /> that displays a dashed horizontal line along the yAxis at the average value of the series.
+  - `TrendsMenu`: A sub menu containing tools for applying various trendlines to the <ApiLink type="DataChart" /> plot area.
+  - `TrendsHeader`: A sub menu section header for the following three tools:
+    - **Exponential**: A <ApiLink type="ToolActionRadio" /> that sets the <ApiLink type="DomainChart" member="trendLineType" label="TrendLineType" /> on each series in the chart to **ExponentialFit**.
+    - **Linear**: A <ApiLink type="ToolActionRadio" /> that sets the <ApiLink type="DomainChart" member="trendLineType" label="TrendLineType" /> on each series in the chart to **LinearFit**.
+    - **Logarithmic**: A <ApiLink type="ToolActionRadio" /> that sets the <ApiLink type="DomainChart" member="trendLineType" label="TrendLineType" /> on each series in the the chart to **LogarithmicFit**.
+- `HelpersHeader`: A sub section header.
+  - `SeriesAvg`: A <ApiLink type="ToolActionCheckbox" /> that adds or removes a <ApiLink type="ValueLayer" /> to the chart's series collection using the <ApiLink type="ValueLayerValueMode" /> of type <ApiLink type="ValueLayerValueMode" member="Average" label="Average" />.
+  - `ValueLabelsMenu`: A sub menu containing various tools for showing different annotations on the <ApiLink type="DataChart" />'s plot area.
+  - `ValueLabelsHeader`: A sub menu section header for the following tools:
+    - `ShowValueLabels`: A <ApiLink type="ToolActionCheckbox" /> that toggles data point values by using a <ApiLink type="CalloutLayer" />.
+    - `ShowLastValueLabel`: A <ApiLink type="ToolActionCheckbox" /> that toggles final value axis annotations by using a <ApiLink type="FinalValueLayer" />.
+- `ShowCrosshairs`: A <ApiLink type="ToolActionCheckbox" /> that toggles mouse-over crosshair annotations via the chart's <ApiLink type="DomainChart" member="crosshairsDisplayMode" label="CrosshairsDisplayMode" /> property.
+- `ShowGridlines`: A <ApiLink type="ToolActionCheckbox" /> that toggles extra gridlines by applying a `MajorStroke` to the X-Axis.
+
+Save to Image Action
+
+- `CopyAsImage`: A <ApiLink type="ToolActionLabel" /> that exposes an option to copy the chart to the clipboard.
+- `CopyHeader`: A sub section header.
+
+### SVG Icons
+
+When adding tools manually, icons can be assigned using the `RenderIconFromText` method. There are three parameters to pass in this method. The first is the icon collection name defined on the tool eg. <ApiLink type="ToolAction" member="iconCollectionName" label="IconCollectionName" />. The second is the name of the icon defined on the tool eg. <ApiLink type="ToolAction" member="iconName" label="IconName" />, followed by adding the SVG string.
+
+### Data URL Icons
+
+Similarly to adding svg, you can also add an Icon image from a URL via the <ApiLink type="Toolbar" member="registerIconFromDataURL" label="RegisterIconFromDataURL" />. The method's third parameter would be used to enter a string URL.
+
+The following snippet shows both methods of adding an Icon.
+
+```html
+<igx-tool-action-label
+    title="Custom Icon"
+    iconName="CustomIcon"
+    iconCollectionName="CustomCollection">
+</igx-tool-action-label>
+```
+
+```ts
+public toolbarCustomIconOnViewInit(): void {
+
+  const icon = '<svg width="28px" height="28px" stroke="none" viewBox="0 0 3.5 3.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--gis" preserveAspectRatio="xMidYMid meet"><path d="M0.436 0.178a0.073 0.073 0 0 0 -0.062 0.036L0.01 0.846a0.073 0.073 0 0 0 0.063 0.109h0.729a0.073 0.073 0 0 0 0.063 -0.109L0.501 0.214a0.073 0.073 0 0 0 -0.064 -0.036zm0.001 0.219 0.238 0.413H0.199zM1.4 0.507v0.245h0.525v-0.245zm0.77 0v0.245h1.33v-0.245zM0.073 1.388A0.073 0.073 0 0 0 0 1.461v0.583a0.073 0.073 0 0 0 0.073 0.073h0.729A0.073 0.073 0 0 0 0.875 2.045V1.461a0.073 0.073 0 0 0 -0.073 -0.073zm0.073 0.146h0.583v0.438H0.146zM1.4 1.674v0.245h0.945v-0.245zm1.19 0v0.245h0.91v-0.245zM0.438 2.447c-0.241 0 -0.438 0.197 -0.438 0.438 0 0.241 0.197 0.438 0.438 0.438s0.438 -0.197 0.438 -0.438c0 -0.241 -0.197 -0.438 -0.438 -0.438zm0 0.146a0.291 0.291 0 0 1 0.292 0.292 0.291 0.291 0 0 1 -0.292 0.292 0.291 0.291 0 0 1 -0.292 -0.292A0.291 0.291 0 0 1 0.438 2.593zM1.4 2.842v0.245h0.525v-0.245zm0.77 0v0.245h1.33v-0.245z" fill="#000000" fill-rule="evenodd"/></svg>';
+
+  this.toolbar.registerIconFromText("CustomCollection", "CustomIcon", icon);
+}
+```
+
+```ts
+public toolbarCustomIconOnViewInit(): void {
+
+  toolbar.registerIconFromDataURL("CustomCollection", "CustomIcon", "https://www.svgrepo.com/show/678/calculator.svg");
+
+}
+```
+
+```ts
+public toolbarCustomIconOnViewInit(): void {
+
+  const icon = '<svg width="28px" height="28px" stroke="none" viewBox="0 0 3.5 3.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--gis" preserveAspectRatio="xMidYMid meet"><path d="M0.436 0.178a0.073 0.073 0 0 0 -0.062 0.036L0.01 0.846a0.073 0.073 0 0 0 0.063 0.109h0.729a0.073 0.073 0 0 0 0.063 -0.109L0.501 0.214a0.073 0.073 0 0 0 -0.064 -0.036zm0.001 0.219 0.238 0.413H0.199zM1.4 0.507v0.245h0.525v-0.245zm0.77 0v0.245h1.33v-0.245zM0.073 1.388A0.073 0.073 0 0 0 0 1.461v0.583a0.073 0.073 0 0 0 0.073 0.073h0.729A0.073 0.073 0 0 0 0.875 2.045V1.461a0.073 0.073 0 0 0 -0.073 -0.073zm0.073 0.146h0.583v0.438H0.146zM1.4 1.674v0.245h0.945v-0.245zm1.19 0v0.245h0.91v-0.245zM0.438 2.447c-0.241 0 -0.438 0.197 -0.438 0.438 0 0.241 0.197 0.438 0.438 0.438s0.438 -0.197 0.438 -0.438c0 -0.241 -0.197 -0.438 -0.438 -0.438zm0 0.146a0.291 0.291 0 0 1 0.292 0.292 0.291 0.291 0 0 1 -0.292 0.292 0.291 0.291 0 0 1 -0.292 -0.292A0.291 0.291 0 0 1 0.438 2.593zM1.4 2.842v0.245h0.525v-0.245zm0.77 0v0.245h1.33v-0.245z" fill="#000000" fill-rule="evenodd"/></svg>';
+
+  this.toolbar.registerIconFromText("CustomCollection", "CustomIcon", icon);
+
+}
+```
+
+```ts
+public toolbarCustomIconOnViewInit(): void {
+
+  toolbar.registerIconFromDataURL("CustomCollection", "CustomIcon", "https://www.svgrepo.com/show/678/calculator.svg");
+
+}
+```
+
+### Vertical Orientation
+
+By default the Angular Toolbar is shown horizontally, but it also has the ability to shown vertically by setting the <ApiLink type="Toolbar" member="orientation" label="Orientation" /> property.
+
+```html
+<igx-toolbar orientation="Vertical" />
+```
+
+The following example demonstrates the vertical orientation of the Angular Toolbar.
+
+<Sample src="/charts/toolbar/layout-in-vertical-orientation" height={600} alt="Angular Vertical Orientation" />
+
+### Color Editor
+
+You can add a custom color editor tool to the the Angular Toolbar, which will also work with the Command event to perform custom styling to your application.
+
+```html
+<igx-toolbar
+  name="toolbar"
+  #toolbar>
+      <igx-tool-action-color-editor
+      title="Series Brush"
+      name="colorEditorTool"
+      #colorEditorTool>
+      </igx-tool-action-color-editor>
+</igx-toolbar>
+```
+
+The following example demonstrates styling the Angular Data Chart series brush with the Color Editor tool.
+<Sample src="/charts/toolbar/color-editor-support" height={600} alt="Angular Color Editor Support" />
+
+{/* ## Styling/Theming
+
+The icon component can be styled by using it's <ApiLink type="Toolbar" member="baseTheme" label="BaseTheme" /> property directly to the <ApiLink type="Toolbar" />.
+
+```html
+<igx-toolbar baseTheme="SlingshotDark" />
+```
+
+{/*The following example demonstrates the various theme options that can be applied.
+<Sample src="/charts/toolbar/theming" height={600} alt="Angular Toolbar Styling/Theming" />
+ */}
+
+## API References
+
+<ApiLink type="Toolbar" /><br />
+<ApiLink type="DataChart" /><br />
+
+## Additional Resources
+
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

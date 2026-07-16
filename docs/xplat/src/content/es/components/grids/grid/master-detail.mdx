@@ -1,0 +1,181 @@
+---
+title: "{Platform} Cuadrícula maestro-detalle - Infragistics"
+description: Defina una plantilla de vista de detalle expandible para los datos de las filas con la cuadrícula {Platform} de Ignite UI. Es útil para mostrar datos de estilo maestro-detalle en una estructura jerárquica.
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, maestro-detalle, Infragistics"
+license: commercial
+mentionedTypes: ["Infragistics.Controls.Grid"]
+llms:
+  description: El componente de cuadrícula admite especificar una plantilla de detalle que muestra detalles adicionales para una fila concreta al expandir/contraer su contenido.
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Cuadrícula maestro-detalle
+
+El componente <ApiLink type="Grid" /> admite especificar una plantilla de detalles que muestra detalles adicionales para una fila concreta al expandir/contraer su contenido. Cuando se especifica, cada registro actúa como maestro, que al expandirse muestra una plantilla de detalles personalizable con datos contextuales para el registro actual.
+
+Este modo resulta útil cuando necesita mostrar datos de estilo maestro-detalle en una estructura jerárquica.
+
+## {Platform} Ejemplo de cuadrícula maestro-detalle
+
+<Sample src="/{GridSample}/master-detail" height={600} alt="{Platform} {ComponentTitle} Master Detail Example" />
+
+## Configuración
+
+Para configurar <ApiLink type="Grid" /> para que se muestre en modo maestro-detalle, debe especificar una plantilla para la cuadrícula:
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector}>
+         <ng-template GridDetail let-dataItem>
+              <!-- Custom detail template content here -->
+        </ng-template>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+constructor() {
+  var grid = this.grid = document.getElementById('grid') as IgcGridComponent;
+  this._bind = () => {
+    grid.data = this.customersData;
+    grid.detailTemplate = this.masterDetailTemplate;
+  }
+  this._bind();
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <IgbGrid DetailTemplateScript="DetailTemplate"  AutoGenerate=true  Data=northwindEmployees></IgbGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid detailTemplate={masterDetailTemplate} autoGenerate={false} data={nwindData}></IgrGrid>
+```
+
+</PlatformBlock>
+
+El contexto de la plantilla son los datos del registro maestro, de modo que los valores del registro maestro pueden mostrarse en la plantilla de detalles. Por ejemplo:
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector}>
+         <ng-template GridDetail let-dataItem>
+            <div *ngIf="dataItem.Category">
+                <header>{{dataItem.Category.CategoryName}}</header>
+                <span>{{dataItem.Category.Description}}</span>
+            </div>
+        </ng-template>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+    public masterDetailTemplate = (ctx: IgcGridMasterDetailContext) => {
+        var data = ctx.implicit;
+        return html` <div class="contact-container">
+        <span><strong>Name:</strong> ${data.ContactName}</span> <br/>
+        <span><strong>Title:</strong> ${data.ContactTitle}</span> <br/>
+        <span><strong>Company:</strong> ${data.CompanyName}</span> <br/>
+    </div>`;
+    }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+igRegisterScript("DetailTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    var data = ctx.implicit;
+    return html` <div class="contact-container">
+        <span><strong>Name:</strong> ${data.ContactName}</span> <br/>
+        <span><strong>Title:</strong> ${data.ContactTitle}</span> <br/>
+        <span><strong>Company:</strong> ${data.CompanyName}</span> <br/>
+    </div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const masterDetailTemplate = (args: IgrGridMasterDetailContext) => {
+    const data = args.implicit;
+    return (
+        <div className="contact-container">
+            <span><strong>Name:</strong> {data.ContactName}</span> <br/>
+            <span><strong>Title:</strong> {data.ContactTitle}</span> <br/>
+            <span><strong>Company:</strong> {data.CompanyName}</span> <br/>
+        </div>
+    );
+}
+```
+
+</PlatformBlock>
+
+## API
+
+<PlatformBlock for="Angular">
+
+Los estados de expansión pueden controlarse mediante la entrada <ApiLink type="GridBaseDirective" member="expansionStates" label="ExpansionStates" /> de <ApiLink type="Grid" />. Los estados se almacenan en pares clave-valor \[identificador de fila, estado de expansión]. La propiedad obtiene/establece los estados de expansión actuales y admite enlace bidireccional:
+
+```html
+  <{ComponentSelector} [(expansionStates)]='expansionState' >
+  </{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+También se exponen métodos de API adicionales para controlar los estados de expansión:
+
+- <ApiLink type="GridBaseDirective" member="expandAll" label="ExpandAll" />
+- <ApiLink type="GridBaseDirective" member="collapseAll" label="CollapseAll" />
+- <ApiLink type="GridBaseDirective" member="toggleRow" label="ToggleRow" />
+- <ApiLink type="GridBaseDirective" member="expandRow" label="ExpandRow" />
+- <ApiLink type="GridBaseDirective" member="collapseRow" label="CollapseRow" />
+
+## Navegación con teclado
+
+- Cuando el foco está en una fila de detalles:
+
+  - <kbd>🡑</kbd> - navega una fila hacia arriba y enfoca una celda de la fila anterior.
+  - <kbd>🡓</kbd> - navega una fila hacia abajo y enfoca una celda de la fila siguiente.
+  - <kbd>PESTAÑA</kbd> - Permite que el foco se desplace al siguiente elemento enfocable dentro de la plantilla si hay elementos enfocables; de lo contrario, se desplaza a la siguiente fila de la cuadrícula.
+  - <kbd>MAYÚS</kbd> + <kbd>PESTAÑA</kbd> - mueve el foco a la fila anterior.
+
+- Cuando el foco está en una fila de datos con expansor:
+  - <kbd>ALT</kbd> + <kbd>🡒</kbd> o <kbd>ALT</kbd> + <kbd>🡓</kbd> - expande la fila.
+  - <kbd>ALT</kbd> + <kbd>🡐</kbd> o <kbd>ALT</kbd> + <kbd>🡑</kbd> - contrae la fila.
+
+## Problemas conocidos y limitaciones
+
+| Limitaciones conocidas                                                                                                                                                  | Descripción                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| La navegación con Tab dentro de la plantilla de detalles personalizada puede no actualizar la posición de desplazamiento de la cuadrícula maestra en caso de que el siguiente elemento enfocado esté fuera del área visible. | La navegación con Tab dentro de la plantilla de detalles personalizada queda a cargo del navegador.                          |
+| La plantilla de detalles no se exportará a Excel.                                                                                                                    | Dado que la plantilla de detalles puede contener cualquier tipo de contenido, no podemos exportarla a Excel de forma predeterminada. |
+| La función de búsqueda no resaltará elementos de la plantilla de detalles.                                                                                          |                                                                                                      |
+
+## Referencias de API
+
+<ApiLink type="Grid" /><br /> <ApiLink type="Column" /><br /> <PlatformBlock for="Angular,React,WebComponents"><ApiLink type="GridRowComponent" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridRow" /></PlatformBlock><br />

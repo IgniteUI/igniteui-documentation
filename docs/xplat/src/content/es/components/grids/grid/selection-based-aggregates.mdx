@@ -1,0 +1,81 @@
+---
+title: "{Platform} Agregación de datos basada en la selección de la cuadrícula- {ProductName}"
+description: Aprenda a agregar datos seleccionados en una cuadrícula con Ignite UI. Obtenga agregaciones instantáneas de contenido en los datos virtualizados y una API enriquecida para su próximo proyecto.
+keywords: Agregación de datos, selección, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics {Platform}, infragistics
+license: commercial
+mentionedTypes: ["Infragistics.Controls.Grid"]
+llms:
+  description: Con el ejemplo que se muestra a continuación, puede ver cómo se utiliza la selección múltiple, junto con funciones de resumen personalizadas, para mostrar agregados basados en los valores seleccionados en el pie de página de la cuadrícula.
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Agregación de datos basada en selección de la cuadrícula
+
+Con el ejemplo que se muestra a continuación, puede ver cómo se usa la selección múltiple, junto con funciones de resumen personalizadas, para mostrar agregados basados en los valores seleccionados en el pie de la cuadrícula.
+
+## Descripción general del tema
+
+Para lograr la funcionalidad de agregados basados en selección, puede usar nuestra característica `Grid Selection`, junto con `Grid Summaries`.
+Los resúmenes permiten personalizar la funcionalidad básica de la característica de resumen mediante la extensión de una de las clases base, <ApiLink type="SummaryOperand" />, <ApiLink type="NumberSummaryOperand" />.html) o <ApiLink type="DateSummaryOperand" />, según el tipo de datos de la columna y sus necesidades.
+
+## Selección
+
+Para comenzar a trabajar con los datos del rango seleccionado de la cuadrícula, deberá suscribirse a eventos que notifican cambios en la selección de la cuadrícula. Esto puede hacerse suscribiéndose al evento `selected` y al evento `rangeSelected`. Debe enlazarse a ambos porque la característica de selección diferencia entre seleccionar una sola celda y seleccionar un rango de celdas.
+
+En la lógica de suscripción a eventos, puede extraer los datos seleccionados mediante la función `getSelectedData`.html#getSelectedData) de la cuadrícula y pasar los datos seleccionados al operando de resumen personalizado.
+
+## Resumen
+
+Dentro de la clase de resumen personalizada, tendría que diferenciar los tipos de datos de la cuadrícula. Por ejemplo, en el escenario siguiente, hay cuatro columnas diferentes cuyo tipo de datos es adecuado para resúmenes personalizados. Estas son Unit Price, Units in Stock, el estado Discontinued y Order Date.
+El método `operate` de la clase derivada de <ApiLink type="SummaryOperand" /> es donde procesará los datos, comenzando por clasificarlos en distintas categorías según los tipos de datos:
+
+```typescript
+const numberData = data.filter(rec => typeof rec === "number");
+const boolData = data.filter(rec => typeof rec === "boolean");
+const dates = data.filter(rec => isDate(rec));
+```
+
+<DocsAside type="info">
+
+Tenga en cuenta que `isDate` es una función personalizada.
+
+</DocsAside>
+
+Después de agrupar los tipos de datos según corresponda, puede proceder con la agregación en sí. Por ese motivo, podría usar los métodos ya expuestos de <ApiLink type="NumberSummaryOperand" /> y <ApiLink type="DateSummaryOperand" />.
+Después de eso, tendría que colocar los datos agregados en el mismo arreglo, que se devolvería a la plantilla.
+Para la visualización de los datos, puede que quiera usar el pie de la cuadrícula, que en combinación con la clase `custom-summaries` dará el aspecto natural del resumen.
+
+<PlatformBlock for="Angular">
+
+### Demostración
+
+Cambie la selección para ver los resúmenes del rango seleccionado actualmente.
+
+{/*NOTE this sample is differed*/}
+
+<Sample src="/{GridSample}/data-summary-custom-selection" height={560} alt="{Platform} {GridTitle} data summary custom selection" />
+
+</PlatformBlock>
+
+## Referencias de API
+
+<ApiLink type="Grid" /><br /> <ApiLink type="CellType" /><br />
+
+## Recursos adicionales
+
+- [Descripción general de la cuadrícula](../data-grid.md)
+- [Servicio de selección]({environment:{Platform}ApiUrl}/classes/gridselectionservice.html)
+- [Selección de filas](row-selection.md)
+- [Selección de celdas](cell-selection.md)
+- [NumberSummaryOperand]({environment:{Platform}ApiUrl}/classes/numbersummaryoperand.html)
+- [DateSummaryOperand]({environment:{Platform}ApiUrl}/classes/datesummaryoperand.html)
+- [Resúmenes](summaries.md)
+- [Paginación](paging.md)
+
+Nuestra comunidad es activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
