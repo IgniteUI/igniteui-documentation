@@ -1,19 +1,20 @@
 # API Link Check Report
 
-_Generated: 2026-06-05 08:21:18 UTC_
+_Generated: 2026-06-30 08:12:08 UTC_
 
 ## Summary
 
 | | |
 |---|---|
-| ApiLink refs | 13213 |
-| Resolved refs | 11452 |
-| Unique URLs | 1704 |
-| ✅ OK | 1704 |
+| ApiLink refs | 10449 |
+| Resolved refs | 9173 |
+| Ambiguous refs | 0 |
+| Unique URLs | 1628 |
+| ✅ OK | 1628 |
 | ❌ Not found (type/member missing) | 0 |
 | ❌ HTTP error | 0 |
 | ❌ **Total broken** | **0** |
 
 ## Registry Resolution
 
-- **React**: 11452 resolved, 1761 not linked (dynamic: 805, missing: 565, member-missing: 387, sass: 4)
+- **React**: 9173 resolved, 1276 not linked (dynamic: 812, member-missing: 319, missing: 141, sass: 4)

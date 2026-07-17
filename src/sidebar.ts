@@ -46,9 +46,8 @@ interface TocItem extends Partial<Record<SidebarBadgeVariant, boolean>> {
 function docExists(docsDir: string, href: string, exclude: RegExp[]): boolean {
     if (!href) return false;
     if (exclude?.some((p) => p.test(href))) return false;
-    // Check the href as-is, then also with .md ↔ .mdx swapped so that toc.json
-    // entries like "charts/chart-features.md" resolve even when the file on disk
-    // is "charts/chart-features.mdx" (and vice-versa).
+    // Check the href as-is, then also with .md ↔ .mdx swapped as a safety net
+    // (toc.json uses .mdx, but this guards against any stale .md hrefs).
     if (fs.existsSync(path.join(docsDir, href))) return true;
     const alt = href.endsWith('.mdx')
         ? href.slice(0, -4) + '.md'

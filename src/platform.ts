@@ -48,6 +48,7 @@ export interface PlatformMeta {
     title: string; description: string;
     key: PlatformKey; devPort: number;
     base: string; label: string;
+    root: string;
     lang: NavLang;
 }
 
@@ -183,24 +184,28 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     Angular: {
         lang: 'en', label: 'Angular', key: 'angular', devPort: 4331,
         base: '/products/ignite-ui-angular/angular/components',
+        root: '/general/getting-started',
         title: 'Ignite UI for Angular',
         description: 'Component documentation for Ignite UI for Angular.',
     },
     React: {
         lang: 'en', label: 'React', key: 'react', devPort: 4332,
         base: '/products/ignite-ui-react/react/components',
+        root: '/general-getting-started',
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
     WebComponents: {
         lang: 'en', label: 'Web Components', key: 'web-components', devPort: 4333,
         base: '/products/ignite-ui-web-components/web-components/components',
+        root: '/general-getting-started',
         title: 'Ignite UI for Web Components',
         description: 'Component documentation for Ignite UI for Web Components.',
     },
     Blazor: {
         lang: 'en', label: 'Blazor', key: 'blazor', devPort: 4334,
         base: '/products/ignite-ui-blazor/blazor/components',
+        root: '/general-getting-started',
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },
@@ -209,24 +214,28 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     AngularJP: {
         lang: 'jp', label: 'Angular', key: 'angular', devPort: 4341,
         base: '/products/ignite-ui-angular/angular/components',
+        root: '/general/getting-started',
         title: 'Ignite UI for Angular',
         description: 'Component documentation for Ignite UI for Angular.',
     },
     ReactJP: {
         lang: 'jp', label: 'React', key: 'react', devPort: 4342,
         base: '/products/ignite-ui-react/react/components',
+        root: '/general-getting-started',
         title: 'Ignite UI for React',
         description: 'Component documentation for Ignite UI for React.',
     },
     WebComponentsJP: {
         lang: 'jp', label: 'Web Components', key: 'web-components', devPort: 4343,
         base: '/products/ignite-ui-web-components/web-components/components',
+        root: '/general-getting-started',
         title: 'Ignite UI for Web Components',
         description: 'Component documentation for Ignite UI for Web Components.',
     },
     BlazorJP: {
         lang: 'jp', label: 'Blazor', key: 'blazor', devPort: 4344,
         base: '/products/ignite-ui-blazor/blazor/components',
+        root: '/general-getting-started',
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },
