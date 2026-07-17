@@ -1,214 +1,215 @@
 ---
 title: Angular Avatar Component – Ignite UI for Angular | Infragistics | MIT license
-description: The Ignite UI for Angular Avatar is a compact UI element that represents a user or entity with a profile image, an igx-icon, or their initials.
+description: Ignite UI for Angular Avatar control enables users to add images, material icons or initials within any application for instances such as a profile button.
 keywords: Angular Avatar component, Angular Avatar control, Ignite UI for Angular, Angular UI components
 license: MIT
 llms:
-  description: "The Angular Avatar is a compact UI element that represents a user, entity, or object by displaying their profile image, an igx-icon, or their initials."
-relatedComponents: [Badge]
+  description: "Angular Avatar component helps adding initials, images, or material icons to your application."
 ---
 
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
-# Avatar Component
+# Angular Avatar Component Overview
 
 <div class="highlight">
-The Angular Avatar is a compact UI element that represents a user, entity, or object by displaying their profile image, an `igx-icon`, or their initials.
+Angular Avatar component helps adding initials, images, or material icons to your application.
 </div>
+<igc-divider></igc-divider>
 
-## Overview
+## Angular Avatar Example
 
-### When to Use
+<Sample src="/layouts/avatar-sample-3" height={200} alt="Angular Avatar Example" />
 
-Use the avatar to represent a user, entity, or object with a compact image, icon, or set of initials — for example a profile button, a comment author, or a list item's leading visual.
+<hr/>
 
-### When Not to Use
+## Getting Started with Ignite UI for Angular Avatar
 
-To display a count, status, or notification indicator rather than represent an entity, use the <ApiLink type="Badge" label="Badge" /> component, which is designed to decorate other elements (including avatars) with a small count or status icon.
+To get started with the Ignite UI for Angular Avatar component, first you need to install Ignite UI for Angular. In an existing Angular application, type the following command:
 
-<Sample fitContent position="center" spacing="lg" src="/layouts/avatar-sample-3" alt="Angular Avatar Example" />
-
-## Anatomy
-
-{/*TODO: add an anatomy diagram (screenshot or GIF) labeling the avatar's parts.*/}
-
-The avatar is a single host element that renders one content template, chosen by [content priority](#content). Its rendered DOM is:
-
-```
-igx-avatar[role="img"]          // host — shape & size set via attributes / CSS vars
-└─ one of, by priority:
-   ├─ div.igx-avatar__image     // `src` set — image painted as a background
-   ├─ igx-icon                  // `icon` set
-   ├─ span                      // `initials` set — first two characters
-   └─ <ng-content>              // custom projected content
+```cmd
+ng add igniteui-angular
 ```
 
-## Getting Started
+For a complete introduction to the Ignite UI for Angular, read the [_getting started_](/general/getting-started) topic.
 
-Install Ignite UI for Angular first (`ng add igniteui-angular`) — see [Getting Started](/general/getting-started) for the full walkthrough.
+The next step is to import the `IgxAvatarModule` in your **app.module.ts** file.
 
-Import the standalone `IgxAvatarComponent` and add it to your component's `imports` array, then use the `<igx-avatar>` tag in that component's template.
+```typescript
+// app.module.ts
+
+...
+import { IgxAvatarModule } from 'igniteui-angular/avatar';
+// import { IgxAvatarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxAvatarModule],
+    ...
+})
+export class AppModule {}
+```
+
+Alternatively, as of `16.0.0` you can import the `IgxAvatarComponent` as a standalone dependency.
 
 ```typescript
 // home.component.ts
-import { Component } from '@angular/core';
+
+...
 import { IgxAvatarComponent } from 'igniteui-angular/avatar';
-// Licensed package: import from '@infragistics/igniteui-angular' instead
+// import { IgxAvatarComponent } from '@infragistics/igniteui-angular'; for licensed package
 
 @Component({
     selector: 'app-home',
-    imports: [IgxAvatarComponent], // makes <igx-avatar> available in this template
-    template: '<igx-avatar shape="circle" initials="JS"></igx-avatar>'
+    template: '<igx-avatar shape="circle"></igx-avatar>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IgxAvatarComponent]
 })
 export class HomeComponent {}
 ```
 
-## Usage
+Now that you have the Ignite UI for Angular Avatar module or component imported, you can start with a basic configuration of the `igx-avatar` component.
 
-The avatar renders initials, an image, or an [`igx-icon`](/icon), in one of three shapes and three preset sizes.
+## Using the Angular Avatar Component
 
-### Shape
+The Ignite UI for Angular Avatar component comes in three shapes (square, rounded, and circle) and three size options (small, medium, and large). It can be used for displaying initials, images or icons.
 
-Set the `shape` attribute to `square`, `rounded`, or `circle`. The default is `square`.
+### Avatar Shape
+
+We can change the avatar shape through the <ApiLink type="Avatar" member="shape" label="shape" /> attribute setting its value to `square`, `rounded` or `circle`. By default, the shape of the avatar is `square`.
 
 ```html
 <igx-avatar shape="circle"></igx-avatar>
 ```
 
-### Size
+### Avatar displaying initials
 
-Set the `size` attribute to a preset value — `small`, `medium`, or `large` (default `small`). For arbitrary sizes, use the CSS variables described under [Custom sizing](#custom-sizing).
-
-```html
-<igx-avatar size="medium" shape="circle"></igx-avatar>
-```
-
-### Content
-
-An avatar displays a single kind of content, chosen by **priority**: <ApiLink type="Avatar" member="src" label="src" /> (image) wins over <ApiLink type="Avatar" member="icon" label="icon" />, which wins over <ApiLink type="Avatar" member="initials" label="initials" />. Set the one you need — a higher-priority value hides the others (this is a precedence rule, not an image load-failure fallback). If none is set, the avatar renders its projected content.
-
-**Initials** — the first two characters of `initials` are shown (e.g. `JS` for "Jack Sock"):
+To get a simple avatar with <ApiLink type="Avatar" member="initials" label="initials" /> (i.e. JS  for  'Jack Sock'), add the following code inside the component template:
 
 ```html
 <igx-avatar initials="JS" shape="circle"></igx-avatar>
 ```
 
-<Sample fitContent iframeOnly  src="/layouts/avatar-sample-1" position="center" alt="Angular Avatar displaying initials" />
-
-**Image** — set the image URL via `src`:
+Let's enhance our avatar by making it circular and bigger in size.
 
 ```html
-<igx-avatar src="https://randomuser.me/api/portraits/men/1.jpg" shape="rounded" size="large"></igx-avatar>
+<igx-avatar size="medium" initials="JS" shape="circle"></igx-avatar>
 ```
 
-<Sample fitContent iframeOnly position="center" src="/layouts/avatar-sample-2"  alt="Angular Avatar displaying an image" />
+We can also change the background using the `--ig-avatar-background` CSS variable or set a color on the initials through the `color` property.
 
-**Icon** — render an [`igx-icon`](/icon) by setting its name via `icon`:
+```scss
+// avatar.component.scss
+
+igx-avatar {
+  --ig-avatar-background: #e41c77;
+  color: #000000;
+}
+
+```
+
+<DocsAside type="warning">
+The `roundShape` property of the `igx-avatar` component have been deprecated. The <ApiLink type="Avatar" member="shape" label="shape" /> attribute should be used instead.
+</DocsAside>
+
+If all went well, you should see something like the following in the browser:
+
+<Sample src="/layouts/avatar-sample-1" height={100} iframeOnly />
+
+### Avatar displaying image
+
+To get an avatar that displays an image, all you have to do is set the image source via the <ApiLink type="Avatar" member="src" label="src" /> property.
 
 ```html
-<igx-avatar icon="person" shape="rounded" size="small"></igx-avatar>
+<igx-avatar src="https://randomuser.me/api/portraits/men/1.jpg"
+            shape="rounded"
+            size="large">
+</igx-avatar>
+```
+
+
+If all went well, you should see something like the following in the browser:
+
+<Sample src="/layouts/avatar-sample-2" height={100} iframeOnly />
+
+### Avatar displaying icon
+
+Analogically, the avatar can display an icon via the <ApiLink type="Avatar" member="icon" label="icon" /> property. Currently all icons from the material icon set are supported.
+
+```html
+<igx-avatar icon="person"
+            shape="rounded"
+            size="small">
+</igx-avatar>
 ```
 
 <DocsAside type="info">
-The avatar renders icons with the [`igx-icon`](/icon) component. To use Google's Material Icons font, add the following to your `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+This component uses Material Icons. Add the following link to your `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
 </DocsAside>
 
-<Sample fitContent iframeOnly position="center" src="/layouts/avatar-sample-4"  alt="Angular Avatar displaying an icon" />
+You should see something like this:
 
-## Best Practices
-
-- Pick one content strategy per context and use it consistently — mixing images, icons, and initials in the same list of avatars reads as inconsistent.
-- Set only the content you intend to show. `src`, `icon`, and `initials` follow a fixed precedence rather than falling back automatically on failure, so an unreachable image URL won't be replaced by initials — verify the URL if you need a reliable result.
-- Set a descriptive `aria-label` whenever the avatar identifies a specific person or entity, not just when it's convenient.
-- Don't use the avatar to show a count, status, or notification badge — decorate it with <ApiLink type="Badge" label="Badge" /> instead of encoding that information into the initials or icon.
-
-## Properties
-
-The core inputs used to configure the avatar are listed below. For the complete, always-current API surface, see the [API References](#api-references) section.
-
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| `shape` | `"square" \| "rounded" \| "circle"` | `"square"` | Sets the shape of the avatar. |
-| `size` | `"small" \| "medium" \| "large"` | `"small"` | Sets the size of the avatar. |
-| `initials` | `string` | — | Text initials rendered when no image or icon is set. |
-| `icon` | `string` | — | Icon name to render via [`igx-icon`](/icon). |
-| `src` | `string` | — | Image source URL to render. |
-| `id` | `string` | `"igx-avatar-{n}"` | The unique identifier of the avatar. |
+<Sample src="/layouts/avatar-sample-4" height={100} iframeOnly />
 
 ## Styling
 
-<Sample fitContent iframeOnly position="center"  src="/layouts/avatar-styling" alt="Styled Angular Avatar with a custom theme" />
+### Avatar Theme Property Map
 
-The avatar's appearance is controlled through the <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="avatar-theme" code={true} /> parameters below. Set `$background`, and the contrast-dependent colors (`$color` and `$icon-color`) are derived automatically.
+Changing the `$background` property automatically updates the following dependent properties:
 
-| Variable | Description |
-| --- | --- |
-| `$background` | The avatar background color. Primary token — derives `$color` and `$icon-color`. |
-| `$color` | The text/initials color. Auto-derived from `$background` for contrast when not set. |
-| `$icon-color` | The icon color. Auto-derived from `$background` for contrast when not set. |
-| `$border-radius` | The border radius. Only takes effect when `shape` is `rounded`. |
-| `$size` | The size of the avatar. |
+| Primary Property | Dependent Property | Description |
+| --- | --- | --- |
+| **$background** | $color | The text color used for the avatar. |
+|  | $icon-color | The icon color used for the avatar. |
 
-### Sass Theming
-
-#### Using SCSS
-
-To get started with styling the avatar, import the theme entry point where all the theme functions and component mixins live:
+To get started with styling the avatar, we need to import the `index` file, where all the theme functions and component mixins live:
 
 ```scss
 @use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-Create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="avatar-theme" code={true} />, providing values for the `$background` and `$border-radius` parameters. The `$color` (or `$icon-color`) is automatically set to either black or white, depending on which offers better contrast with the specified background. Note that `$border-radius` only takes effect when the avatar's `shape` is set to `rounded`.
+Following the simplest approach, we create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="avatar-theme" code={true} /> providing values for the `$background` and `$border-radius` parameters. The `$color` (or `$icon-color`) is automatically set to either black or white, depending on which offers better contrast with the specified background. Note that the `$border-radius` property only takes effect when the avatar's <ApiLink type="Avatar" member="shape" label="shape" /> is set to `rounded`.
 
 Given the following markup:
 
 ```html
-<div class="my-container">
-    <igx-avatar initials="JS" shape="rounded" size="medium"></igx-avatar>
+<div class="avatar-sample initials">
+
+  <igx-avatar initials="JS" shape="rounded" size="medium"></igx-avatar>
 </div>
 ```
 
-Create the theme:
+We create the following avatar theme:
 
 ```scss
 $custom-avatar-theme: avatar-theme(
-    $background: #72da67,
-    $border-radius: 16px
+  $background: #72da67,
+  $border-radius: 16px
 );
 ```
 
-Then apply it to your markup:
+The last step is to pass the custom avatar theme:
 
 ```scss
-.my-container:has(igx-avatar[initials]) {
-    @include tokens($custom-avatar-theme);
+.initials {
+  @include tokens($custom-avatar-theme);
 }
 ```
 
-#### Using pure CSS
+If all went well, you should see something like the following in the browser:
 
-Prefer not to use SCSS? Override the component's CSS variables directly:
+<Sample src="/layouts/avatar-styling" height={120} alt="" />
 
-```css
-/* overrides all avatars */
-:root {
-    --ig-avatar-background: #e41c77;
-}
+### Styling with Tailwind
 
-/* overrides only the avatar with class .special */
-igx-avatar.special {
-    --background: #e41c77;
-}
-```
+You can style the `avatar` using our custom Tailwind utility classes. Make sure to [set up Tailwind](/themes/misc/tailwind-classes) first.
 
-### Tailwind
-
-You can style the avatar using our Tailwind utility classes. Make sure to [set up Tailwind](/themes/misc/tailwind-classes) first.
-
-With the Tailwind import in your global stylesheet, apply the theme utilities:
+Along with the tailwind import in your global stylesheet, you can apply the desired theme utilities as follows:
 
 ```scss
 @import "tailwindcss";
@@ -222,23 +223,25 @@ The utility file includes both `light` and `dark` theme variants.
 - Use `dark-*` classes for the dark theme.
 - Append the component name after the prefix, e.g., `light-avatar`, `dark-avatar`.
 
-Once applied, these classes enable dynamic theme calculations. From there, override the generated CSS variables using Tailwind's arbitrary-property syntax — for example `[--background:#FF4E00]` — with any valid CSS color format (HEX, CSS variable, RGB, etc.).
+Once applied, these classes enable dynamic theme calculations. From there, you can override the generated CSS variables using `arbitrary properties`. After the colon, provide any valid CSS color format (HEX, CSS variable, RGB, etc.).
 
-See the <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="avatar-theme" /> for the full list of parameters. For example:
+You can find the full list of properties in the <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="avatar-theme" />. The syntax is as follows:
 
 ```html
 <igx-avatar
-    class="!light-avatar ![--background:#FF4E00]"
-    initials="DY"
-    shape="rounded">
+class="!light-avatar ![--background:#FF4E00]"
+initials="DY"
+shape="rounded">
 </igx-avatar>
 ```
 
 <DocsAside type="info">
-The exclamation mark(`!`) is required to ensure the utility class takes precedence. Tailwind applies styles in layers, and without marking these styles as important, they will get overridden by the component's default theme.
+The exclamation mark(`!`) is required to ensure the utility class takes precedence. Tailwind applies styles in layers, and without marking these styles as important, they will get overridden by the component’s default theme.
 </DocsAside>
 
-<Sample fitContent iframeOnly src="/layouts/avatar-tailwind-styling" alt="Angular Avatar styled with Tailwind utility classes" />
+At the end your avatar should look like this:
+
+<Sample src="/layouts/avatar-tailwind-styling" height={100} iframeOnly />
 
 ### Custom sizing
 
@@ -254,6 +257,7 @@ Or you can use the universal `--ig-avatar-size` variable to target all instances
 
 ```html
 <div class="my-app">
+
   <igx-avatar></igx-avatar>
 </div>
 ```
@@ -264,7 +268,7 @@ Or you can use the universal `--ig-avatar-size` variable to target all instances
 }
 ```
 
-You can also use one of the predefined sizes by assigning it to the `--ig-size` variable, if no `size` attribute is set. The available values for `--ig-size` are `--ig-size-small`, `--ig-size-medium`, and `--ig-size-large`:
+You can also use one of the predefined sizes, assigning it to the `--ig-size` variable, if theres no size attribute applied. The available values for `--ig-size` are `--ig-size-small`, `--ig-size-medium`, and `--ig-size-large`:
 
 ```scss
 igx-avatar {
@@ -272,79 +276,21 @@ igx-avatar {
 }
 ```
 
-Learn more in the [Size](/display-density) article.
+Learn more about it in the [Size](/display-density) article.
 
-## Accessibility
-
-### Keyboard Interaction
-
-The avatar is a non-interactive, presentational element — it doesn't receive focus and has no keyboard interaction to document.
-
-### Screen Readers / ARIA
-
-The avatar renders with `role="img"` and a default `aria-label` of `avatar`, and it automatically sets `aria-roledescription` to reflect its content — `image avatar`, `icon avatar`, `initials avatar`, or `custom avatar` for projected content.
-
-When the avatar carries meaning — such as identifying a specific person — set a descriptive `aria-label` so screen-reader users get the same information sighted users get from the image, icon, or initials:
-
-```html
-<igx-avatar src="images/john-doe.jpg" aria-label="John Doe"></igx-avatar>
-```
-
-If the avatar is purely decorative and its meaning is already conveyed by adjacent text (for example, a name shown next to it), keep the label minimal so the same information isn't announced twice.
-
-### Accessibility Compliance
-
-Infragistics evaluates Ignite UI for Angular components against Section 508 and WCAG guidelines — see the [Accessibility Compliance](/interactivity/accessibility-compliance) topic for the full component-by-component matrix.
-
-| Criterion | How the Avatar complies |
-| --- | --- |
-| [1.1.1 Non-text Content](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html) | The default `aria-label="avatar"` gives every avatar an accessible name; set your own `aria-label` when the image, icon, or initials convey specific meaning (e.g. a person's identity). |
-| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html) | The host element exposes `role="img"` and an `aria-roledescription` (`image avatar`, `icon avatar`, `initials avatar`, or `custom avatar`) reflecting its current content. |
-
-**Your responsibilities**
-
-- Provide a descriptive `aria-label` whenever the avatar identifies a specific person or entity.
-- Keep sufficient color contrast between the avatar's background and its text/icon color when customizing the theme — see [Styling](#styling).
-
-## Troubleshooting
-
-### Why doesn't the `roundShape` property work anymore?
-
-`roundShape` was replaced by `shape` in `15.1.0`. Run `ng update` to migrate existing usages automatically, or update them by hand — `shape="circle"` replaces `roundShape="true"`, and `shape="square"` (the default) replaces `roundShape="false"`.
-
-### How do I use the avatar in a module-based (NgModule) app?
-
-Standalone is the default in modern Angular, and Ignite UI for Angular components support it since `16.0.0`. In an older, module-based application, import `IgxAvatarModule` and add it to your `@NgModule` `imports` array instead of importing the component directly:
-
-```typescript
-// app.module.ts
-import { IgxAvatarModule } from 'igniteui-angular/avatar';
-// import { IgxAvatarModule } from '@infragistics/igniteui-angular'; for licensed package
-
-@NgModule({
-    imports: [IgxAvatarModule],
-})
-export class AppModule {}
-```
-
-### Why does my theme import fail on older versions?
-
-The `@use "igniteui-angular/theming" as *;` entry point was introduced in v13. On earlier versions, import the themes index instead:
-
-```scss
-@import '~igniteui-angular/lib/core/styles/themes/index';
-```
+<hr/>
 
 ## API References
-
+<hr/>
 - <ApiLink type="Avatar" />
-
-## Dependencies
+## Theming Dependencies
 
 - <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="IgxAvatar Theme" />
 - <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon Theme" />
 
 ## Additional Resources
+
+<hr/>
 
 Our community is active and always welcoming to new ideas.
 
