@@ -117,8 +117,9 @@ reference/navigation map, not a composite component page. Its structure is:
 1. `#` title followed by a one-line definition.
 2. `## Key Features` immediately after the title and definition. Open with a short sentence, then present
    the category's capabilities in a compact table with `Feature`, `Description`, and `Benefits`
-   columns when the content is naturally scannable. Use `### Types` or `### Members` as a subsection when the
-   category maps component types. Make `Types` the parent navigation subsection and make each
+   columns when the content is naturally scannable. Use `## Types` or `## Members` as a top-level
+   navigation section when the category maps component types. Make `Types` the parent navigation
+   section and make each
    concrete type, such as `{Platform} Data Grid`, `{Platform} List`, or `{Platform} Tree Grid`, a
    separate navigable `###` subsection beneath it. Include a verified `<Sample>` for every type
    entry, together with a concise definition and verified link. Additional

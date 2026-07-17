@@ -256,7 +256,7 @@ accordion for FAQ content when a compact question-and-answer block is useful.
 
 **5b. Category / index overview** (Diátaxis: *reference/navigation* — a map) — e.g. "Charts overview":
 The page uses **Key Features** immediately after the title and definition (open with a short intro and a compact `Feature` / `Description` /
-`Benefits` table) → **Types / Members** as a parent subsection when the category maps component
+`Benefits` table) → top-level **Types / Members** section when the category maps component
 types. Each concrete type/member, such as `{Platform} Data Grid`, `{Platform} List`, or
 `{Platform} Tree Grid`, is its own navigable `###` child subsection with a concise definition,
 verified link, and a verified `<Sample>` for every entry) → additional feature

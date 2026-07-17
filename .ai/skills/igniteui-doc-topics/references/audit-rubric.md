@@ -17,7 +17,7 @@ Classify the topic before applying the checks below. A category/index page is ev
 category blueprint in `house-style.md`, not the component-topic checklist. Do not report missing
 component sections such as `Live Demo`, `Getting Started`, `Usage`, or `Accessibility`
 when the page follows `Key Features` (with a short intro and a `Feature` / `Description` /
-`Benefits` table) → parent `Types/Members` subsection with each concrete type as its own
+`Benefits` table) → top-level `Types/Members` section with each concrete type as its own
 navigable `###` child subsection and a verified sample → `Next Steps` → `API References`
 → `Additional Resources`. Report component-topic sections in the category introduction as
 information-architecture drift instead. Browser support, support options, licensing, and FAQ may be
