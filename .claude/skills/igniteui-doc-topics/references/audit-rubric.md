@@ -12,6 +12,14 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
 
 ## Checks
 
+### Category/index exception
+Classify the topic before applying the checks below. A category/index page is evaluated against the
+category blueprint in `house-style.md`, not the component-topic checklist. Do not report missing
+component sections such as `Overview`, `Live Demo`, `Getting Started`, `Usage`, or `Accessibility`
+when the page is correctly structured as `Types/Members` → optional `Key Features` → `Next Steps` /
+`API References` / `Additional Resources`. Report a component section appearing in the category
+introduction as information-architecture drift instead.
+
 ### A. Structure & order
 - A1 (Error) A required section is missing (Overview, Live Demo, Getting Started, Usage,
   Best Practices, Properties, Accessibility, API References, Additional Resources on a component

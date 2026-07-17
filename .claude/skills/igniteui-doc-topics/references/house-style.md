@@ -225,8 +225,15 @@ Title + intro → **What You'll Learn** (roadmap) → Concept sections → *Key 
 *When to Use / When Not to Use* (cond.) → **Next Steps** → **API References / Additional Resources**.
 
 **5b. Category / index overview** (Diátaxis: *reference/navigation* — a map) — e.g. "Charts overview":
-Title + intro → **Types / Members** (identical micro-structure per entry: one-line def + link + small
-`<Sample>`) → *Key Features* (cond.) → **Next Steps / API References / Additional Resources**.
+Title + one-line definition → **Types / Members** (identical micro-structure per entry: one-line
+definition + link + small verified `<Sample>` when available) → *Key Features* (cond.) →
+**Next Steps / API References / Additional Resources**.
+
+Category pages do **not** use the component-topic sections `Overview`, `When to Use`, `When Not to
+Use`, `Live Demo`, `Getting Started`, `Usage`, `Best Practices`, `Properties`, `Accessibility`, or
+`Troubleshooting` as an introductory sequence. Those sections describe one component and create the
+wrong information architecture for a category map. Selection guidance belongs in the category
+definition or in the relevant type/member entry; a demo belongs inside the entry it demonstrates.
 
 Guardrails: cap each section at ~3 short paragraphs (else add sub-sections); isolate marketing copy in
 a single "Why {ProductName}" section — never thread it through instructional content.

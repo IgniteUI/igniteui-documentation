@@ -104,6 +104,17 @@ cheat-sheet's "two classic confusions" section explains the reasoning.
 6. **Self-check against the rubric** before presenting — especially mode-bleed (C-checks) and
    metadata (D-checks). Fix, then deliver the `.mdx`.
 
+### Category/index topics are a separate blueprint
+
+Do not apply the component-topic blueprint to a category or index page. A category page is a
+reference/navigation map, not a composite component page. Its opening should be a short title and
+definition, followed directly by **Types** or **Members**. Do **not** add the component-only
+`Overview`, `### When to Use`, `### When Not to Use`, `Live Demo`, `Getting Started`, `Usage`,
+`Best Practices`, `Properties`, `Accessibility`, or `Troubleshooting` sections to the category
+introduction. Put selection guidance in the one-line definition or in the relevant type/member
+entry, and put a verified sample inside that entry when one exists. Finish with `Next Steps`,
+`API References`, and `Additional Resources` as applicable.
+
 ## Audit workflow
 
 1. **Classify** the topic and identify its doc set (Angular vs xplat) and type.
