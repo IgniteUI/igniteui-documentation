@@ -33,7 +33,7 @@ license: MIT
 mentionedTypes: ["Rating"] # xplat: API types referenced on the page
 llms:
   description: "…"         # AI-facing one-liner; the exact text an assistant uses to summarize
-relatedComponents: [Toast, Banner]   # TARGET field — drives the Do/Don't trigger (see below)
+relatedComponents: [Toast, Banner]   # TARGET field — drives the Usage Do/Don't trigger (see below)
 ---
 ```
 
@@ -41,7 +41,7 @@ relatedComponents: [Toast, Banner]   # TARGET field — drives the Do/Don't trig
   self-contained answer sentence. It is *not* optional filler.
 - **`relatedComponents`** is the revision-2 trigger and is **not yet in the repo**. When authoring to
   target, set it. When auditing, treat a missing-but-warranted value as a finding, and a set value
-  with no **Do/Don't** section and **When Not to Use** sub-section as a hard error.
+  with no **Usage** → **Do/Don't** guidance as a hard error.
 
 ### MDX imports (declare what you use)
 
@@ -138,22 +138,22 @@ under **Usage**, never a new top-level section.
 | 2 | *Live Demo* | required | demonstration (action) | `<Sample>` of the simplest useful state near the top of the page, before **Anatomy**. |
 | 3 | **Anatomy** | required for component topics | orientation (reference) | Opens with a screenshot/GIF of the component's parts or the behavior being shown, then the **DOM tree / skeleton** (rendered elements, parts, slots). If the visual asset doesn't exist yet, leave a `{/* TODO */}` marker rather than a broken image, but still include the section and verified skeleton. |
 | 4 | **Getting Started** | required | how-to | **Lead with the component-specific import/registration** — the page-unique, high-value part. Compress the generic library install to a **single prerequisite line linking the general getting-started topic** (an inline `ng add igniteui-angular` as a parenthetical is fine); **don't** repeat the multi-sentence install boilerplate that is identical on every component page. Show the **current** registration (standalone import) first; put legacy NgModule **after**, marked as legacy. |
-| 5 | **Usage** | required | how-to | Start with `### Basic Declaration`, showing the smallest valid component markup for each platform. Then add property-focused sub-sections that showcase every public input with a minimal snippet and, when a verified demo exists and adds visual value, a `<Sample>`. Give standalone properties their own sub-section (`Shape`, not `Avatar Shape`); group only tightly coupled properties that form one behavior (for example, content-source priority such as `src`, `alt`, `initials`, and default slot content). State behavioral relationships once instead of repeating per option. Styling content belongs in **Styling**, not here. |
-| 6 | **Do/Don't** | required | **explanation** | Guidance section with **When to Use** and **When Not to Use** sub-sections. Promotes consistency, usability, and accessibility, and calls out better-fit alternatives. Guidance only — no install steps, no code snippets, no property tables, no accessibility-conformance detail (those stay in their own sections). |
-| 7 | **Properties** | required | reference | Table: name · type · default · description. (Replaces "Configuration".) |
-| 8 | **Methods** | conditional | reference | Table of callable actions. |
-| 9 | **Events** | conditional | reference | Table of emitted events. |
-| 10 | **Styling** | required when applicable | how-to + reference | **Open with a `<Sample>` of the styled result** + one intro line, then the **Styling Variables table** (**one table** — variable · what it changes; **no default-value column, no per-theme tabs**) and styleable-parts table. Subsections cover each approach — **first `### Sass Theming`** (the primary Sass theme workflow), then others (e.g. `### Tailwind`, `### Custom sizing`). All styling content lives here, not under Usage. |
-| 11 | **Accessibility** | required | reference | Three sub-sections, in order: **Keyboard Interaction** (key→action table), **Screen Readers / ARIA**, **Accessibility Compliance** (conformance evidence — see the sub-structure spec below). |
-| 12 | **Troubleshooting** | conditional (required when version-migration or legacy-setup notes exist) | how-to | Gotchas phrased as the reader's real question; answer as cause → fix. **Collect version-migration notes, deprecations, and legacy/alternative approaches here** — not buried in code-fence comments or scattered asides. |
-| 13 | **API References** | required | reference | `<ApiLink>` out to the full generated reference; don't duplicate it. |
-| 14 | **Dependencies** | conditional | reference | Themes, styles, or supporting components the component relies on to render or function — modules to import (Angular) or supporting components/themes (xplat). (Currently "Theming Dependencies".) |
-| 15 | **Additional Resources** | required | navigation | Forums, GitHub, related topics. |
+| 5 | **Usage** | required | how-to + explanation | Start with `### Basic Declaration`, showing the smallest valid component markup for each platform. Then add property-focused sub-sections that showcase every public input with a minimal snippet and, when a verified demo exists and adds visual value, a `<Sample>`. Give standalone properties their own sub-section (`Shape`, not `Avatar Shape`); group only tightly coupled properties that form one behavior (for example, content-source priority such as `src`, `alt`, `initials`, and default slot content). The final Usage subsection must be `### Do/Don't`; it uses inline **When to use:** and **When not to use:** labels, not nested headings. Styling content belongs in **Styling**, not here. |
+| 6 | **Properties** | required | reference | Table: name · type · default · description. (Replaces "Configuration".) |
+| 7 | **Methods** | conditional | reference | Table of callable actions. |
+| 8 | **Events** | conditional | reference | Table of emitted events. |
+| 9 | **Styling** | required when applicable | how-to + reference | **Open with a `<Sample>` of the styled result** + one intro line, then the **Styling Variables table** (**one table** — variable · what it changes; **no default-value column, no per-theme tabs**) and styleable-parts table. Subsections cover each approach — **first `### Sass Theming`** (the primary Sass theme workflow), then others (e.g. `### Tailwind`, `### Custom sizing`). All styling content lives here, not under Usage. |
+| 10 | **Accessibility** | required | reference | Three sub-sections, in order: **Keyboard Interaction** (key→action table), **Screen Readers / ARIA**, **Accessibility Compliance** (conformance evidence — see the sub-structure spec below). |
+| 11 | **Troubleshooting** | conditional (required when version-migration or legacy-setup notes exist) | how-to | Gotchas phrased as the reader's real question; answer as cause → fix. **Collect version-migration notes, deprecations, and legacy/alternative approaches here** — not buried in code-fence comments or scattered asides. |
+| 12 | **API References** | required | reference | `<ApiLink>` out to the full generated reference; don't duplicate it. |
+| 13 | **Dependencies** | conditional | reference | Themes, styles, or supporting components the component relies on to render or function — modules to import (Angular) or supporting components/themes (xplat). (Currently "Theming Dependencies".) |
+| 14 | **Additional Resources** | required | navigation | Forums, GitHub, related topics. |
 
-**When Not to Use trigger:** every component topic carries **Do/Don't** with **When to Use / When
-Not to Use** sub-headings. When `relatedComponents` is non-empty, **When Not to Use** must name the
-specific better-fit sibling(s) by name and link them; when it's empty (standalone primitives like
-Badge/Divider), **When Not to Use** states the boundary without inventing a sibling.
+**When Not to Use trigger:** every component topic ends **Usage** with `### Do/Don't`. This subsection
+must include inline **When to use:** and **When not to use:** labels, not nested headings. When
+`relatedComponents` is non-empty, **When not to use:** must name the specific better-fit sibling(s)
+by name and link them; when it's empty (standalone primitives like Badge/Divider), **When not to
+use:** states the boundary without inventing a sibling.
 
 **Reference-table contract:** Properties / Methods / Events tables are **generated from the same typed
 API source** as the full reference — not hand-typed. Inline tables = the core knobs for fast scanning;
@@ -270,12 +270,12 @@ a single "Why {ProductName}" section — never thread it through instructional c
 | Code Snippet; Examples; "Using the … Component"; "{Platform} X Example"; "Angular X Example" | **Usage** |
 | "Avatar Shape"; "‹Component› ‹Feature›" (Usage sub-heading) | **`‹Feature›`** (drop the component name) |
 | Configuration | **Properties** |
-| "X vs Y"; "Choosing Between X and Y"; Behavior; Feature Integration | **When to Use** (as `###` under **Do/Don't**) |
-| top-level `## When to Use` / `## When Not to Use`; **When to Use / When Not to Use nested under `## Anatomy`** | **`### When to Use` / `### When Not to Use`** nested under **`## Do/Don't`** |
+| "X vs Y"; "Choosing Between X and Y"; Behavior; Feature Integration | **Do/Don't** (as the final `###` under **Usage**) |
+| top-level `## When to Use` / `## When Not to Use`; `### When to Use` / `### When Not to Use`; **When to Use / When Not to Use nested under `## Anatomy`** | Inline **When to use:** / **When not to use:** labels inside the final **Usage** subsection, `### Do/Don't` |
 | Summary (as lead-in) | intro ¶ or **Overview** |
 | Keyboard Navigation | **Accessibility** |
 | WAI-ARIA Support; Compliance; Section 508; Accessibility Statement | **`### Accessibility Compliance`** (under **Accessibility**) |
-| Best Practices; Do's and Don'ts; Guidelines; Recommendations | **Do/Don't** |
+| Best Practices; Do's and Don'ts; Guidelines; Recommendations | **Do/Don't** (as the final `###` under **Usage**) |
 | Theming (H2) | **Styling** (H2); the Sass approach becomes `### Sass Theming` under it |
 | Known Limitations; Known Issues and Limitations; Limitations | **Troubleshooting** |
 | API; API Reference (singular) | **API References** |

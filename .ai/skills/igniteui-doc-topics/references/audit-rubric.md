@@ -14,23 +14,24 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
 
 ### A. Structure & order
 - A1 (Error) A required section is missing (Live Demo, Anatomy, Getting Started, Usage,
-  Do/Don't, Properties, Accessibility, API References, Additional Resources on a component
+  Properties, Accessibility, API References, Additional Resources on a component
   topic).
 - A2 (Warning) Sections are present but out of the canonical order.
 - A3 (Warning) A conditional section sits in the wrong slot.
-- A4 (Error) A feature-specific top-level `##` exists that should be a sub-heading under **Usage**.
+- A4 (Error) A feature-specific top-level `##` exists that should be a sub-heading under **Usage**,
+  including a top-level `## Do/Don't`.
 - A5 (Error) **Live Demo** is missing near the top of the topic or appears after **Anatomy**.
 - A6 (Suggestion) >10 live samples on one page (soft cap) — consider splitting. Up to 10 is fine;
   only flag when a page clearly sprawls past that.
-- A7 (Warning) **When to Use / When Not to Use** are not `###` sub-headings under the `## Do/Don't`
-  section — e.g. they appear as top-level `##`, under **Anatomy**, or under a legacy **Overview** section.
+- A7 (Warning) **Usage** does not end with `### Do/Don't`, or **When to use:** / **When not to use:**
+  are written as nested headings instead of inline labels inside that subsection.
 - A8 (Warning) **Anatomy** is incomplete: missing its opening screenshot/GIF (or a `{/* TODO */}`
   marker for a not-yet-available asset), or missing the verified DOM tree / skeleton.
 - A9 (Warning) **Accessibility** is missing one of its three required `###` sub-sections —
   **Keyboard Interaction**, **Screen Readers / ARIA**, **Accessibility Compliance** — or has them out
   of order.
-- A10 (Warning) **Do/Don't** contains install steps, code snippets, a property table, or other
-  reference/how-to content that belongs in Usage, Properties, or Accessibility instead of do/don't
+- A10 (Warning) **Usage**'s **Do/Don't** subsection contains install steps, code snippets, a property table, or other
+  reference/how-to content that belongs in Getting Started, another Usage subsection, Properties, or Accessibility instead of do/don't
   guidance.
 
 ### B. Naming
@@ -44,12 +45,12 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
 
 ### C. Diátaxis mode integrity (mode-bleed)
 Run the compass on each section; flag content that has drifted out of the section's assigned mode.
-- C1 (Warning) **Explanation inside Usage/Getting Started** ("The reason this works is…") — move to
-  When to Use / a concept topic and link.
+- C1 (Warning) **Explanation inside Usage/Getting Started** outside the final **Do/Don't** subsection
+  ("The reason this works is…") — move to **Do/Don't** or a concept topic and link.
 - C2 (Warning) **Instruction inside a reference section** (Properties/Methods/Events telling the
   reader *how to* build something) — move to Usage; keep the table descriptive.
 - C3 (Warning) **Reference dumped into Usage** (exhaustive option lists in prose) — move to the table.
-- C4 (Warning) **Do/Don't** only says when to *use* the component, never when *not* to — the
+- C4 (Warning) **Usage**'s **Do/Don't** only says when to *use* the component, never when *not* to — the
   When-Not-to-Use redirect is the high-value half.
 - C5 (Suggestion) Tutorial-style hand-holding in a how-to (or vice-versa) — match the audience.
 - C6 (Warning) **Styling content inside Usage** (CSS-var overrides, `color`/background
@@ -58,12 +59,12 @@ Run the compass on each section; flag content that has drifted out of the sectio
   minimal snippet, omits `### Basic Declaration`, or documents each option in isolation instead of
   grouping tightly coupled properties and stating the behavioral relationship once (e.g. the
   content-type priority).
-- C8 (Warning) **Do/Don't drifts into another mode** — install/code steps (belongs in Getting
+- C8 (Warning) **Usage**'s **Do/Don't** drifts into another mode — install/code steps (belongs in Getting
   Started/Usage), an exhaustive option table (belongs in Properties), or conformance claims (belongs
   in Accessibility) instead of do/don't guidance.
 
 ### D. Metadata & AI-readiness
-- D1 (Warning) `relatedComponents` is set but **Do/Don't**'s **When Not to Use** doesn't name the
+- D1 (Warning) `relatedComponents` is set but **Usage**'s **Do/Don't** guidance doesn't name the
   specific sibling(s) by name and link them — or vice-versa, it names a sibling that isn't listed in
   `relatedComponents`.
 - D2 (Warning) Missing/weak `description` or `llms.description` (not answer-shaped, or >~160 chars).

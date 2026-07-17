@@ -59,8 +59,9 @@ line, before proceeding.
 
 Pure Diátaxis says keep the four modes in **separate** documents. Ignite UI **component topics
 deliberately don't** — one page carries a live demo, a how-to (Getting Started/Usage),
-decision guidance (Do/Don't), and reference tables (Properties/Methods/Events). That is fine
-**because each *section* owns exactly one mode.** The rule that makes it work:
+decision guidance in Usage's final Do/Don't subsection, and reference tables
+(Properties/Methods/Events). That is fine **because each *section* owns exactly one mode.** The rule
+that makes it work:
 
 > **One section, one mode. No mode-bleed.** Each section stays in its assigned Diátaxis mode; when a
 > second mode wants in, move it to the section that owns it and cross-link.
@@ -72,14 +73,14 @@ Section → mode map (full contents in `house-style.md`):
 | Live Demo | demonstration (action) | prose/explanation |
 | Anatomy: visual + DOM tree / skeleton | orientation (reference) | opinion, install steps |
 | Getting Started, Usage | **how-to** | *why* explanations, exhaustive option lists |
-| Do/Don't: When to Use / When Not to Use | **explanation** | install steps, code, API detail |
+| Usage → Do/Don't | **explanation** | install steps, code, API detail |
 | Properties / Methods / Events | **reference** | instructions, opinion |
 | Styling (`### Sass Theming`, `### Tailwind`, …) | how-to (steps) + reference (tables) | conceptual essays |
 | Accessibility | reference (keyboard/ARIA/compliance tables) | tutorials, marketing, unverified conformance claims |
 | Troubleshooting | how-to (cause → fix) | background theory |
 | API References / Dependencies / Additional Resources | reference / navigation | new teaching |
 
-Concrete mode-bleed to catch: a *why* paragraph inside **Usage** (→ move to When to Use or a concept
+Concrete mode-bleed to catch: a *why* paragraph inside **Usage** (→ move to Do/Don't or a concept
 topic, link back); "how to build X" prose inside **Properties** (→ move to Usage; keep the table
 descriptive); an exhaustive option list written out in **Usage** prose (→ move to the table). The
 cheat-sheet's "two classic confusions" section explains the reasoning.
@@ -94,16 +95,17 @@ cheat-sheet's "two classic confusions" section explains the reasoning.
    Existing snippets and old prose are clues, not authority.
 4. **Write frontmatter first** — `title`, `description` (answer-shaped, ≤~160 chars), `keywords`,
    `license`, `llms.description`, `mentionedTypes` (xplat), and `relatedComponents` if the component
-   has close siblings (this lets **Do/Don't**'s **When Not to Use** sub-heading name the specific
+   has close siblings (this lets **Usage**'s final **Do/Don't** subsection name the specific
    sibling instead of speaking generically).
 5. **Lay out the canonical sections** in order for that topic type, required ones always present.
    Feature-specific content goes as sub-headings under **Usage**, never as new top-level sections.
 6. **Fill each section in its mode.** Lead every section with one plain, specific sentence. Put
    reference in tables. In **Usage**, start with a basic declaration and then add property-focused
    sub-sections so every public input is shown with a minimal snippet; group only tightly coupled
-   properties that form one behavior. Embed exactly one top `<Sample>`, then Usage samples only for
-   distinct tasks (soft max 5/page). Phrase **Do/Don't** and Troubleshooting as the reader's real
-   questions.
+   properties that form one behavior. End **Usage** with `### Do/Don't`, using inline **When to use:**
+   and **When not to use:** labels rather than nested headings. Embed exactly one top `<Sample>`, then
+   Usage samples only for distinct tasks (soft max 5/page). Phrase Do/Don't and Troubleshooting as
+   the reader's real questions.
 7. **Self-check against the rubric** before presenting — especially mode-bleed (C-checks) and
    metadata (D-checks). Fix, then deliver the `.mdx`.
 
