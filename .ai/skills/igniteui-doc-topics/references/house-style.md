@@ -33,7 +33,7 @@ license: MIT
 mentionedTypes: ["Rating"] # xplat: API types referenced on the page
 llms:
   description: "…"         # AI-facing one-liner; the exact text an assistant uses to summarize
-relatedComponents: [Toast, Banner]   # TARGET field — drives the When to Use trigger (see below)
+relatedComponents: [Toast, Banner]   # TARGET field — drives the Do/Don't trigger (see below)
 ---
 ```
 
@@ -41,7 +41,7 @@ relatedComponents: [Toast, Banner]   # TARGET field — drives the When to Use t
   self-contained answer sentence. It is *not* optional filler.
 - **`relatedComponents`** is the revision-2 trigger and is **not yet in the repo**. When authoring to
   target, set it. When auditing, treat a missing-but-warranted value as a finding, and a set value
-  with no **When to Use** section as a hard error.
+  with no **Do/Don't** section and **When Not to Use** sub-section as a hard error.
 
 ### MDX imports (declare what you use)
 
@@ -135,28 +135,25 @@ under **Usage**, never a new top-level section.
 | # | Section (`##`) | Required? | Diátaxis mode | Contents |
 |---|---|---|---|---|
 | 1 | *Title + one-line definition* (`#` + lead ¶) | required | orient / reference | H1 is **`‹Component› Component`** — **no** framework prefix, **no** "Overview" suffix (the framework lives in the SEO `title`). Follow with one plain sentence: what it is, what problem it solves. Mirror `llms.description`. |
-| 2 | **Overview** | required | **explanation** | Introduces the component: its primary purpose, when to reach for it, and the problems it solves, in two sub-headings — **When to Use** and **When Not to Use** (when `relatedComponents` is non-empty, name the better-fit sibling by name and link it; otherwise state the boundary generically). No install steps or API detail here. |
-| 3 | *Live Demo* | required | demonstration (action) | `<Sample>` of the simplest useful state, **before** any further prose. |
-| 4 | **Anatomy** | required for component topics | orientation (reference) | Opens with a screenshot/GIF of the component's parts or the behavior being shown, then the **DOM tree / skeleton** (rendered elements, parts, slots). If the visual asset doesn't exist yet, leave a `{/* TODO */}` marker rather than a broken image, but still include the section and verified skeleton. |
-| 5 | **Getting Started** | required | how-to | **Lead with the component-specific import/registration** — the page-unique, high-value part. Compress the generic library install to a **single prerequisite line linking the general getting-started topic** (an inline `ng add igniteui-angular` as a parenthetical is fine); **don't** repeat the multi-sentence install boilerplate that is identical on every component page. Show the **current** registration (standalone import) first; put legacy NgModule **after**, marked as legacy. |
-| 6 | **Usage** | required | how-to | Smallest working snippet per common task; feature specifics are sub-headings here. Sub-headings name the **feature, not the component** (`Shape`, not `Avatar Shape`). Cover **every** public input; state behavioral relationships once (e.g. content-type priority) instead of repeating per option. Styling content belongs in **Styling**, not here. |
-| 7 | **Best Practices** | required | **explanation** | Practical design recommendations, illustrated with correct-vs-incorrect usage (do/don't pairs). Promotes consistency, usability, and accessibility, and calls out common mistakes. Guidance and examples only — no install steps, no property tables, no accessibility-conformance detail (those stay in their own sections). |
-| 8 | **Properties** | required | reference | Table: name · type · default · description. (Replaces "Configuration".) |
-| 9 | **Methods** | conditional | reference | Table of callable actions. |
-| 10 | **Events** | conditional | reference | Table of emitted events. |
-| 11 | **Styling** | required when applicable | how-to + reference | **Open with a `<Sample>` of the styled result** + one intro line, then the **Styling Variables table** (**one table** — variable · what it changes; **no default-value column, no per-theme tabs**) and styleable-parts table. Subsections cover each approach — **first `### Sass Theming`** (the primary Sass theme workflow), then others (e.g. `### Tailwind`, `### Custom sizing`). All styling content lives here, not under Usage. |
-| 12 | **Accessibility** | required | reference | Three sub-sections, in order: **Keyboard Interaction** (key→action table), **Screen Readers / ARIA**, **Accessibility Compliance** (conformance evidence — see the sub-structure spec below). |
-| 13 | **Troubleshooting** | conditional (required when version-migration or legacy-setup notes exist) | how-to | Gotchas phrased as the reader's real question; answer as cause → fix. **Collect version-migration notes, deprecations, and legacy/alternative approaches here** — not buried in code-fence comments or scattered asides. |
-| 14 | **API References** | required | reference | `<ApiLink>` out to the full generated reference; don't duplicate it. |
-| 15 | **Dependencies** | conditional | reference | Themes, styles, or supporting components the component relies on to render or function — modules to import (Angular) or supporting components/themes (xplat). (Currently "Theming Dependencies".) |
-| 16 | **Additional Resources** | required | navigation | Forums, GitHub, related topics. |
+| 2 | *Live Demo* | required | demonstration (action) | `<Sample>` of the simplest useful state near the top of the page, before **Anatomy**. |
+| 3 | **Anatomy** | required for component topics | orientation (reference) | Opens with a screenshot/GIF of the component's parts or the behavior being shown, then the **DOM tree / skeleton** (rendered elements, parts, slots). If the visual asset doesn't exist yet, leave a `{/* TODO */}` marker rather than a broken image, but still include the section and verified skeleton. |
+| 4 | **Getting Started** | required | how-to | **Lead with the component-specific import/registration** — the page-unique, high-value part. Compress the generic library install to a **single prerequisite line linking the general getting-started topic** (an inline `ng add igniteui-angular` as a parenthetical is fine); **don't** repeat the multi-sentence install boilerplate that is identical on every component page. Show the **current** registration (standalone import) first; put legacy NgModule **after**, marked as legacy. |
+| 5 | **Usage** | required | how-to | Start with `### Basic Declaration`, showing the smallest valid component markup for each platform. Then add property-focused sub-sections that showcase every public input with a minimal snippet and, when a verified demo exists and adds visual value, a `<Sample>`. Give standalone properties their own sub-section (`Shape`, not `Avatar Shape`); group only tightly coupled properties that form one behavior (for example, content-source priority such as `src`, `alt`, `initials`, and default slot content). State behavioral relationships once instead of repeating per option. Styling content belongs in **Styling**, not here. |
+| 6 | **Do/Don't** | required | **explanation** | Guidance section with **When to Use** and **When Not to Use** sub-sections. Promotes consistency, usability, and accessibility, and calls out better-fit alternatives. Guidance only — no install steps, no code snippets, no property tables, no accessibility-conformance detail (those stay in their own sections). |
+| 7 | **Properties** | required | reference | Table: name · type · default · description. (Replaces "Configuration".) |
+| 8 | **Methods** | conditional | reference | Table of callable actions. |
+| 9 | **Events** | conditional | reference | Table of emitted events. |
+| 10 | **Styling** | required when applicable | how-to + reference | **Open with a `<Sample>` of the styled result** + one intro line, then the **Styling Variables table** (**one table** — variable · what it changes; **no default-value column, no per-theme tabs**) and styleable-parts table. Subsections cover each approach — **first `### Sass Theming`** (the primary Sass theme workflow), then others (e.g. `### Tailwind`, `### Custom sizing`). All styling content lives here, not under Usage. |
+| 11 | **Accessibility** | required | reference | Three sub-sections, in order: **Keyboard Interaction** (key→action table), **Screen Readers / ARIA**, **Accessibility Compliance** (conformance evidence — see the sub-structure spec below). |
+| 12 | **Troubleshooting** | conditional (required when version-migration or legacy-setup notes exist) | how-to | Gotchas phrased as the reader's real question; answer as cause → fix. **Collect version-migration notes, deprecations, and legacy/alternative approaches here** — not buried in code-fence comments or scattered asides. |
+| 13 | **API References** | required | reference | `<ApiLink>` out to the full generated reference; don't duplicate it. |
+| 14 | **Dependencies** | conditional | reference | Themes, styles, or supporting components the component relies on to render or function — modules to import (Angular) or supporting components/themes (xplat). (Currently "Theming Dependencies".) |
+| 15 | **Additional Resources** | required | navigation | Forums, GitHub, related topics. |
 
-**When Not to Use trigger:** every component topic carries **Overview** with its **When to Use / When
+**When Not to Use trigger:** every component topic carries **Do/Don't** with **When to Use / When
 Not to Use** sub-headings. When `relatedComponents` is non-empty, **When Not to Use** must name the
 specific better-fit sibling(s) by name and link them; when it's empty (standalone primitives like
-Badge/Divider), **When Not to Use** states the boundary without inventing a sibling. (The H2 section
-named **Overview** is distinct from the banned "Overview" *suffix* on the H1 title — keep the section,
-drop the suffix.)
+Badge/Divider), **When Not to Use** states the boundary without inventing a sibling.
 
 **Reference-table contract:** Properties / Methods / Events tables are **generated from the same typed
 API source** as the full reference — not hand-typed. Inline tables = the core knobs for fast scanning;
@@ -165,9 +162,17 @@ hand-write or invent rows:** emit the fixed column headers (`name · type · def
 single build-injection note, and leave the row values to the generator. Inventing a plausible property
 or event name is exactly the failure this contract exists to prevent.
 
-**Live-sample contract:** exactly one top preview; add Usage samples only for distinct, user-facing
-tasks (selection, editing, sorting, validation, templating, styling). Soft max **10 samples/page**;
-up to 10 is fine, and only clear sprawl past that warrants splitting into focused topics.
+**Usage coverage contract:** begin with `### Basic Declaration`, then use property-focused
+sub-sections to demonstrate every public input. Prefer one sub-section per standalone property; group
+properties only when they are inseparable in real use or define a shared precedence/behavior. Each
+sub-section should include a minimal, copyable snippet for every platform it affects. Add a
+`<Sample>` only when the demo path is verified and the visual result teaches something the snippet
+alone does not.
+
+**Live-sample contract:** exactly one top preview; add Usage samples only for distinct,
+user-facing tasks or property-focused behaviors (selection, editing, sorting, validation,
+templating, styling, shape, content, sizing). Soft max **10 samples/page**; up to 10 is fine, and
+only clear sprawl past that warrants splitting into focused topics.
 
 ### `<Sample>` configuration — pick the props deliberately
 
@@ -245,12 +250,13 @@ mode: statements of fact in tables and short lists — no steps, no marketing.
 ## Overview topics
 
 **5a. Concept / guide overview** (Diátaxis: *explanation*) — e.g. "Theming concepts":
-Title + intro → **What You'll Learn** (roadmap) → Concept sections → *Key Capabilities* (cond.) →
-*When to Use / When Not to Use* (cond.) → **Next Steps** → **API References / Additional Resources**.
+Title + intro → **Overview** → **Before You Start** → **Next Steps** → **Available Tools** →
+**Common Workflows** → **Troubleshooting** → **Additional Resources** → optional **FAQ**. Use an
+accordion for FAQ content when a compact question-and-answer block is useful.
 
 **5b. Category / index overview** (Diátaxis: *reference/navigation* — a map) — e.g. "Charts overview":
-Title + intro → **Types / Members** (identical micro-structure per entry: one-line def + link + small
-`<Sample>`) → *Key Features* (cond.) → **Next Steps / API References / Additional Resources**.
+Title + intro → **Key Features** → **Types** (identical micro-structure per entry: one-line def + link + small
+`<Sample>`) → **Next Steps** → **API References / Additional Resources**.
 
 Guardrails: cap each section at ~3 short paragraphs (else add sub-sections); isolate marketing copy in
 a single "Why {ProductName}" section — never thread it through instructional content.
@@ -264,12 +270,12 @@ a single "Why {ProductName}" section — never thread it through instructional c
 | Code Snippet; Examples; "Using the … Component"; "{Platform} X Example"; "Angular X Example" | **Usage** |
 | "Avatar Shape"; "‹Component› ‹Feature›" (Usage sub-heading) | **`‹Feature›`** (drop the component name) |
 | Configuration | **Properties** |
-| "X vs Y"; "Choosing Between X and Y"; Behavior; Feature Integration | **When to Use** (as `###` under **Overview**) |
-| top-level `## When to Use` / `## When Not to Use`; **When to Use / When Not to Use nested under `## Anatomy`** | **`### When to Use` / `### When Not to Use`** nested under **`## Overview`** (first section, before Live Demo) |
-| Summary (as lead-in) | intro ¶ or **What You'll Learn** |
+| "X vs Y"; "Choosing Between X and Y"; Behavior; Feature Integration | **When to Use** (as `###` under **Do/Don't**) |
+| top-level `## When to Use` / `## When Not to Use`; **When to Use / When Not to Use nested under `## Anatomy`** | **`### When to Use` / `### When Not to Use`** nested under **`## Do/Don't`** |
+| Summary (as lead-in) | intro ¶ or **Overview** |
 | Keyboard Navigation | **Accessibility** |
 | WAI-ARIA Support; Compliance; Section 508; Accessibility Statement | **`### Accessibility Compliance`** (under **Accessibility**) |
-| Do's and Don'ts; Guidelines; Recommendations | **Best Practices** |
+| Best Practices; Do's and Don'ts; Guidelines; Recommendations | **Do/Don't** |
 | Theming (H2) | **Styling** (H2); the Sass approach becomes `### Sass Theming` under it |
 | Known Limitations; Known Issues and Limitations; Limitations | **Troubleshooting** |
 | API; API Reference (singular) | **API References** |
