@@ -11,7 +11,7 @@ import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBloc
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import { Image } from 'astro:assets';
-import badgeAnatomy from '@xplat-images/badge-anatomy.png';
+import badgeAnatomy from '@xplat-images/badge-anatomy-schema.png';
 
 # Badge Component
 
@@ -19,7 +19,17 @@ The {ProductName} Badge is a component used in conjunction with avatars, navigat
 
 ## Live Demo
 
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/badge-sample-2" height={100} alt="Angular Badge example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
 <Sample src="/inputs/badge/overview" fitContent position="center" alt="{Platform} Badge example" />
+
+</PlatformBlock>
 
 ## Anatomy
 
@@ -27,10 +37,10 @@ The Badge presents a compact label or dot indicator that decorates another inter
 
 <Image src={badgeAnatomy} alt="Badge anatomy" class="responsive-img" style="margin: 50px 0;" />
 
-- **Dot indicator:** A small badge dot used to show a status or a new update.
-- **Icon:** Represents the type of status or action.
-- **Container:** The badge shape that holds and styles the icon or label.
-- **Label:** Text or a number displayed inside the badge.
+**1. Dot indicator:** A small badge dot used to show a status or a new update.<br />
+**2. Icon:** Represents the type of status or action.<br />
+**3. Container:** The badge shape that holds and styles the icon or label.<br />
+**4. Label:** Text or a number displayed inside the badge.
 
 The component renders its content inside the `base` CSS part. Use the component's default slot for text or other inline content; when `dot` is enabled, the badge renders as an indicator without content.
 
@@ -149,19 +159,118 @@ The simplest way to start using the <ApiLink pkg="core" type="Badge" /> is as fo
 
 Use the Badge to display a short status, category, count, or notification indicator alongside another component.
 
-### Variants
-
 <PlatformBlock for="Angular">
 
-The Angular Badge supports several pre-defined stylistic types. Set the <ApiLink pkg="core" type="Badge" member="type" label="type" /> attribute to `success`, `info`, `warning`, or `error`.
+Let's see how the demo sample is done. It's a simple success badge on an avatar. To build that, import the `IgxAvatarModule` together with the `IgxBadgeModule`:
+
+```typescript
+import { IgxBadgeModule } from 'igniteui-angular/badge';
+import { IgxAvatarModule } from 'igniteui-angular/avatar';
+```
+
+Add both modules to the component `imports` collection, or import the standalone components. Then add the components to your template:
+
+```html
+<div class="wrapper">
+  <igx-avatar icon="person" shape="circle" size="small"></igx-avatar>
+  <igx-badge icon="check" type="success"></igx-badge>
+</div>
+```
+
+Use a relatively positioned wrapper to place the Badge over the avatar:
+
+```scss
+.wrapper {
+  position: relative;
+  margin-top: 15px;
+}
+
+igx-badge {
+  position: absolute;
+  bottom: 0;
+  left: 28px;
+}
+```
+
+### Variants
+
+The Angular Badge supports the `default`, `info`, `success`, `warning`, and `error` types. Set the <ApiLink pkg="core" type="Badge" member="type" label="type" /> attribute to select a type.
 
 ```html
 <igx-badge type="success"></igx-badge>
 ```
 
+<Sample src="/data-display/badge-sample-2" height={100} alt="Angular Badge example" />
+
+### Shape
+
+The Badge shape can be set to `rounded` (the default) or `square` with the <ApiLink pkg="core" type="Badge" member="shape" label="shape" /> attribute.
+
+```html
+<igx-badge icon="check" type="success" shape="square"></igx-badge>
+```
+
+### Size
+
+Control the Badge size with the `--size` CSS variable. For text badges smaller than `16px`, also adjust the font size and line height:
+
+```scss
+igx-badge {
+  --size: 12px;
+
+  font-size: calc(var(--size) / 2);
+  line-height: normal;
+}
+```
+
+### Value and Icon
+
+Use the `[value]` input to display text or a numeric count inside the Badge:
+
+```html
+<igx-badge [value]="model.value"></igx-badge>
+```
+
+Use the `[icon]` input to display an icon inside the Badge:
+
+```html
+<igx-badge icon="check" type="success"></igx-badge>
+```
+
+When both `[icon]` and `[value]` are set, the Badge displays both simultaneously:
+
+```html
+<igx-badge icon="check" value="5" type="success"></igx-badge>
+```
+
+You can also project content directly. When projecting both an icon and text, wrap the text to keep the correct padding:
+
+```html
+<igx-badge>
+  <igx-icon>bluetooth</igx-icon>
+  <span>Bluetooth</span>
+</igx-badge>
+```
+
+### Icon
+
+In addition to Material Icons, the Angular Badge supports Material Icons Extended and other custom icon sets. Register the custom icon with `IgxIconService`, then specify its name and icon set:
+
+```ts
+this._iconService.addSvgIconFromText(heartMonitor.name, heartMonitor.value, 'imx-icons');
+```
+
+```html
+<igx-badge icon="heart-monitor" iconSet="imx-icons"></igx-badge>
+```
+
+<Sample src="/data-display/badge-icon" height={100} alt="Angular Badge icon example" />
+
 </PlatformBlock>
 
 <PlatformBlock for="React,WebComponents,Blazor">
+
+### Variants
 
 The {ProductName} Badge supports several pre-defined stylistic variants. Assign one of the supported values - `primary`, `info`, `success`, `warning`, or `danger` - to the <ApiLink pkg="core" type="Badge" member="variant" label="variant" /> attribute.
 
@@ -191,17 +300,15 @@ The {ProductName} Badge supports several pre-defined stylistic variants. Assign 
 
 </PlatformBlock>
 
-<PlatformBlock for="Angular">
-
-```html
-<igx-badge type="success"></igx-badge>
-```
-
-</PlatformBlock>
+<PlatformBlock for="React,WebComponents,Blazor">
 
 <Sample src="/inputs/badge/variants" height={60} alt="{Platform} Badge Example" />
 
 Even if a custom background color is set for the badge using the `--background-color` CSS variable, the variant color always takes precedence and is applied to the badge.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
 
 ### Shape
 
@@ -231,17 +338,15 @@ The badge component supports `rounded`(default) and `square` shapes. These value
 
 </PlatformBlock>
 
-<PlatformBlock for="Angular">
-
-```html
-<igx-badge shape="square"></igx-badge>
-```
-
 </PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
 
 <Sample src="/inputs/badge/shape" height={60} alt="{Platform} Badge Example" />
 
 When the badge has a `square` shape, it can be further customized by setting a custom border radius using the `--border-radius` CSS variable.
+
+</PlatformBlock>
 
 ### Outlined
 
@@ -279,9 +384,19 @@ The badge can also have a subtle border around it when the <ApiLink pkg="core" t
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/badge-outlined-sample" height={100} alt="Angular Badge outlined example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
 <Sample src="/inputs/badge/outlined" height={60} alt="{Platform} Badge Example" />
 
 The border color of the outlined badge can also be customized using the `--border-color` CSS variable.
+
+</PlatformBlock>
 
 ### Dot
 
@@ -319,7 +434,50 @@ The {ProductName} badge component can also render as a minimal dot indicator for
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/badge-dot-sample" height={100} alt="Angular Badge dot example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
 <Sample src="/inputs/badge/dot" height={60} alt="{Platform} Badge Example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Badge in List
+
+Use a Badge with an Avatar and List to show the current state of contacts in a list. Import the `IgxListModule`, `IgxAvatarModule`, and `IgxBadgeModule`, then bind the Badge `icon` and `type` inputs to the contact state.
+
+```html
+<igx-list>
+  <igx-list-item *ngFor="let member of members">
+    <div class="wrapper">
+      <igx-avatar icon="person" shape="circle" size="small"></igx-avatar>
+      <igx-badge [icon]="member.icon" [type]="member.type" class="badge-style"></igx-badge>
+      <span class="contact-name">{{ member.name }}</span>
+    </div>
+  </igx-list-item>
+</igx-list>
+```
+
+```typescript
+public members: Member[] = [
+  new Member('Terrance Orta', 'online'),
+  new Member('Donna Price', 'online'),
+  new Member('Lisa Landers', 'away'),
+  new Member('Dorothy H. Spencer', 'offline'),
+];
+```
+
+Configure each member's Badge type and icon according to the current state, then position the Badge within its parent container.
+
+<Sample src="/data-display/badge-sample-3" height={280} alt="Angular Badge in list example" />
+
+</PlatformBlock>
 
 ### Do/Don't
 
@@ -385,8 +543,6 @@ The Blazor Badge exposes the following properties.
 
 ## Styling
 
-<Sample src="/inputs/badge/styling" fitContent position="center" alt="{Platform} Badge styling example" />
-
 Use the <ApiLink pkg="core" type="Badge" /> component's `base` CSS part and documented styling variables to customize its appearance.
 
 ### Sass Theming
@@ -413,6 +569,41 @@ igc-badge::part(base) {
 | part | what it styles |
 | --- | --- |
 | `base` | The Badge root element. |
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/badge-styling-sample" height={340} alt="Angular Badge styling example" />
+
+### Styling with Tailwind
+
+You can style the Badge using custom Tailwind utility classes. Make sure to [set up Tailwind](/themes/misc/tailwind-classes) first.
+
+Along with the Tailwind import in your global stylesheet, include the utility file:
+
+```scss
+@import "tailwindcss";
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+Use `light-badge` and `dark-badge` for the light and dark theme variants. You can override the generated CSS variables with arbitrary properties:
+
+```html
+<igx-badge
+  class="!light-badge ![--background:#FF4E00] ![--border-radius:4px]">
+</igx-badge>
+```
+
+The exclamation mark (`!`) ensures that the utility class takes precedence over the component's default theme.
+
+<Sample src="/data-display/badge-tailwind-styling-sample" height={340} iframeOnly />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/badge/styling" fitContent position="center" alt="{Platform} Badge styling example" />
+
+</PlatformBlock>
 
 ## Accessibility
 
