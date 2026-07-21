@@ -11,11 +11,15 @@ import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBloc
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import { Image } from 'astro:assets';
-import badgeAnatomy from '@xplat-images/badge-anatomy-schema.png';
+import badgeAnatomy from '@xplat-images/badge/badge-anatomy-schema.png';
+import badgeDo from '@xplat-images/badge/badge-do.png';
+import badgeDoNot from '@xplat-images/badge/badge-do-nоt.png';
 
 # Badge Component
 
-The {ProductName} Badge is a component used in conjunction with avatars, navigation menus, or other components in an application when a visual notification is needed. Badges are usually designed with predefined styles to communicate information, success, warnings, or errors.
+The {Platform} Badge component is provided by the platform-specific {ProductName} package and is used in conjunction with avatars, navigation menus, or other components in an application when a visual notification is needed. Badges are usually designed with predefined styles to communicate information, success, warnings, or errors.
+
+**Last updated:** July 21, 2026
 
 ## Live Demo
 
@@ -55,15 +59,19 @@ The component renders its content inside the `base` CSS part. Use the component'
 
 Before you begin, follow the [{ProductName} Getting Started](../general-getting-started.mdx) topic for the basic project setup.
 
+### Prerequisites and Version Compatibility
+
+Use a supported version of the {ProductName} package for your target framework. Keep the framework package, the Badge package, and the theme package on the same release version. The examples below identify the framework and package used by each code block so that the snippets remain self-contained when read without the surrounding page context.
+
 <PlatformBlock for="WebComponents">
 
-Install the {ProductName} package:
+For Web Components using the **{PackageWebComponents}** package, install the package:
 
 ```cmd
 npm install {PackageWebComponents}
 ```
 
-You will then need to import the <ApiLink pkg="core" type="Badge" />, its necessary CSS, and register its module, like so:
+You will then need to import the <ApiLink pkg="core" type="Badge" />, its theme CSS, and register the component, like so:
 
 ```ts
 import { defineComponents, IgcBadgeComponent } from "igniteui-webcomponents";
@@ -76,13 +84,13 @@ defineComponents(IgcBadgeComponent);
 
 <PlatformBlock for="React">
 
-First, you need to the install the corresponding {ProductName} npm package by running the following command:
+For React using the **igniteui-react** package, install the package:
 
 ```cmd
 npm install igniteui-react
 ```
 
-You will then need to import the <ApiLink pkg="core" type="Badge" /> and its necessary CSS like so:
+You will then need to import the Badge wrapper and its theme CSS, like so:
 
 ```tsx
 import { IgrBadge } from 'igniteui-react';
@@ -93,7 +101,7 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 <PlatformBlock for="Blazor">
 
-Before using the <ApiLink pkg="core" type="Badge" />, you need to register it as follows:
+For Blazor using the **IgniteUI.Blazor** package, register the Badge module as follows:
 
 ```csharp
 // in Program.cs file
@@ -111,7 +119,13 @@ You will also need to link an additional CSS file to apply the styling to the <A
 
 <PlatformBlock for="Angular">
 
-Import the Badge component into your Angular application:
+For Angular using the **igniteui-angular** package, install the package:
+
+```cmd
+npm install igniteui-angular
+```
+
+Then import the Badge component:
 
 ```ts
 import { IgxBadgeComponent } from 'igniteui-angular/badge';
@@ -119,11 +133,17 @@ import { IgxBadgeComponent } from 'igniteui-angular/badge';
 
 Add `IgxBadgeComponent` to the component `imports` collection, then use the `igx-badge` element in your template.
 
-</PlatformBlock>
-
 The simplest way to start using the <ApiLink pkg="core" type="Badge" /> is as follows:
 
+```html
+<igx-badge></igx-badge>
+```
+
+</PlatformBlock>
+
 <PlatformBlock for="WebComponents">
+
+The simplest way to start using the <ApiLink pkg="core" type="Badge" /> is as follows:
 
 ```html
 <igc-badge></igc-badge>
@@ -143,14 +163,6 @@ The simplest way to start using the <ApiLink pkg="core" type="Badge" /> is as fo
 
 ```razor
 <IgbBadge />
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```html
-<igx-badge></igx-badge>
 ```
 
 </PlatformBlock>
@@ -192,40 +204,9 @@ igx-badge {
 }
 ```
 
-### Variants
+### Type
 
-The Angular Badge supports the `default`, `info`, `success`, `warning`, and `error` types. Set the <ApiLink pkg="core" type="Badge" member="type" label="type" /> attribute to select a type.
-
-```html
-<igx-badge type="success"></igx-badge>
-```
-
-<Sample src="/data-display/badge-variants" height={100} alt="Angular Badge variants example" />
-
-### Shape
-
-The Badge shape can be set to `rounded` (the default) or `square` with the <ApiLink pkg="core" type="Badge" member="shape" label="shape" /> attribute.
-
-```html
-<igx-badge icon="check" type="success" shape="square"></igx-badge>
-```
-
-<Sample src="/data-display/badge-shape" height={100} alt="Angular Badge shape example" />
-
-### Size
-
-Control the Badge size with the `--size` CSS variable. For text badges smaller than `16px`, also adjust the font size and line height:
-
-```scss
-igx-badge {
-  --size: 12px;
-
-  font-size: calc(var(--size) / 2);
-  line-height: normal;
-}
-```
-
-### Value and Icon
+The Badge can carry different types of content such as a number or an icon.
 
 Use the `[value]` input to display text or a numeric count inside the Badge:
 
@@ -254,8 +235,7 @@ You can also project content directly. When projecting both an icon and text, wr
 </igx-badge>
 ```
 
-### Icon
-
+#### Icon
 In addition to Material Icons, the Angular Badge supports Material Icons Extended and other custom icon sets. Register the custom icon with `IgxIconService`, then specify its name and icon set:
 
 ```ts
@@ -268,18 +248,139 @@ this._iconService.addSvgIconFromText(heartMonitor.name, heartMonitor.value, 'imx
 
 <Sample src="/data-display/badge-icon" height={100} alt="Angular Badge icon example" />
 
+#### Dot
+
+The Ignite UI for Angular Badge can also render as a minimal dot indicator for notifications by setting its <ApiLink pkg="core" type="Badge" member="dot" label="dot" /> attribute. Dot badges do not support content, but they can be outlined and can use any of the available dot types (for example, `primary`, `success`, or `info`).
+
+Set the <ApiLink pkg="core" type="Badge" member="dot" label="dot" /> attribute to render a minimal notification indicator without content:
+
+```html
+<igx-badge dot></igx-badge>
+```
+
+<Sample src="/data-display/badge-dot" height={100} alt="Angular Badge dot example" />
+
+### Size
+
+Control the Badge size with the `--size` CSS variable. For text badges smaller than `16px`, also adjust the font size and line height:
+
+```scss
+igx-badge {
+  --size: 12px;
+
+  font-size: calc(var(--size) / 2);
+  line-height: normal;
+}
+```
+
+### Shape
+
+The Badge shape can be set to `rounded` (the default) or `square` with the <ApiLink pkg="core" type="Badge" member="shape" label="shape" /> attribute.
+
+```html
+<igx-badge icon="check" type="success" shape="square"></igx-badge>
+```
+
+<Sample src="/data-display/badge-shape" height={100} alt="Angular Badge shape example" />
+
+When the Badge has a `square` shape, it can be further customized by setting a custom border radius using the `--border-radius` CSS variable.
+
+### Variants
+
+The Angular Badge supports the Primary, Info, Success, Warn, and Error types. Set the <ApiLink pkg="core" type="Badge" member="type" label="type" /> attribute to select a type.
+
+```html
+<igx-badge type="success"></igx-badge>
+```
+
+<Sample src="/data-display/badge-variants" height={100} alt="Angular Badge variants example" />
+
 </PlatformBlock>
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-### Variants
-
-The {ProductName} Badge supports several pre-defined stylistic variants. Assign one of the supported values — `primary`, `info`, `success`, `warning`, or `danger` — to the <ApiLink pkg="core" type="Badge" member="variant" label="variant" /> attribute.
+The following example shows a success Badge displayed on an Avatar. Import the Badge and Avatar components from the platform-specific package, then place the Badge inside a relatively positioned wrapper.
 
 <PlatformBlock for="React">
 
 ```tsx
-<IgrBadge variant="success" ></IgrBadge>
+import { IgrAvatar, IgrBadge } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+Add the components to your JSX:
+
+```tsx
+<div className="wrapper">
+  <IgrAvatar icon="person" shape="circle" size="small"></IgrAvatar>
+  <IgrBadge icon="check" variant="success"></IgrBadge>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+import { defineComponents, IgcAvatarComponent, IgcBadgeComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcAvatarComponent, IgcBadgeComponent);
+```
+
+Add the components to your HTML:
+
+```html
+<div class="wrapper">
+  <igc-avatar icon="person" shape="circle" size="small"></igc-avatar>
+  <igc-badge icon="check" variant="success"></igc-badge>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Register the Avatar and Badge modules in `Program.cs`:
+
+```csharp
+builder.Services.AddIgniteUIBlazor(typeof(IgbAvatarModule), typeof(IgbBadgeModule));
+```
+
+Add the components to your Razor markup:
+
+```razor
+<div class="wrapper">
+  <IgbAvatar Icon="person" Shape="AvatarShape.Circle" Size="AvatarSize.Small" />
+  <IgbBadge Icon="check" Variant="@StyleVariant.Success" />
+</div>
+```
+
+</PlatformBlock>
+
+Use a relatively positioned wrapper to place the Badge over the Avatar:
+
+```css
+.wrapper {
+  position: relative;
+  margin-top: 15px;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### Type
+
+The {ProductName} Badge can carry different types of content, such as a number or an icon.
+
+Use the <ApiLink pkg="core" type="Badge" member="value" label="value" /> property to display text or a numeric count inside the Badge:
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBadge value="5"></IgrBadge>
 ```
 
 </PlatformBlock>
@@ -287,7 +388,7 @@ The {ProductName} Badge supports several pre-defined stylistic variants. Assign 
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-badge variant="success"></igc-badge>
+<igc-badge value="5"></igc-badge>
 ```
 
 </PlatformBlock>
@@ -295,12 +396,142 @@ The {ProductName} Badge supports several pre-defined stylistic variants. Assign 
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbBadge Variant="@StyleVariant.Success" />
+<IgbBadge Value="5" />
 ```
 
 </PlatformBlock>
 
-<Sample src="/inputs/badge/variants" height={60} alt="{Platform} Badge variants example" />
+Use the <ApiLink pkg="core" type="Badge" member="icon" label="icon" /> property to display an icon inside the Badge:
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBadge icon="check" variant="success"></IgrBadge>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-badge icon="check" variant="success"></igc-badge>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBadge Icon="check" Variant="@StyleVariant.Success" />
+```
+
+</PlatformBlock>
+
+When both the icon and value are set, the Badge displays both simultaneously:
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBadge icon="check" value="5" variant="success"></IgrBadge>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-badge icon="check" value="5" variant="success"></igc-badge>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBadge Icon="check" Value="5" Variant="@StyleVariant.Success" />
+```
+
+</PlatformBlock>
+
+You can also project content directly. When projecting both an icon and text, wrap the text to keep the correct padding.
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBadge>
+  <IgrIcon name="bluetooth" />
+  <span>Bluetooth</span>
+</IgrBadge>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-badge>
+  <igc-icon name="bluetooth"></igc-icon>
+  <span>Bluetooth</span>
+</igc-badge>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBadge>
+  <IgbIcon Name="bluetooth" />
+  <span>Bluetooth</span>
+</IgbBadge>
+```
+
+</PlatformBlock>
+
+#### Dot
+
+The {ProductName} Badge can also render as a minimal dot indicator for notifications by setting its <ApiLink pkg="core" type="Badge" member="dot" label="dot" /> attribute. Dot badges do not support content, but they can be outlined and can use any of the available dot types (for example, `primary`, `success`, or `info`).
+
+Set the <ApiLink pkg="core" type="Badge" member="dot" label="dot" /> attribute to render a minimal notification indicator without content:
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBadge dot={true} ></IgrBadge>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-badge dot></igc-badge>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBadge Dot="true" />
+```
+
+</PlatformBlock>
+
+<Sample src="/inputs/badge/dot" height={60} alt="{Platform} Badge dot example" />
+
+### Size
+
+Control the Badge size with the `--size` CSS variable. For text badges smaller than `16px`, also adjust the font size and line height:
+
+```css
+igc-badge {
+  --size: 12px;
+
+  font-size: calc(var(--size) / 2);
+  line-height: normal;
+}
+```
 
 ### Shape
 
@@ -330,13 +561,43 @@ The badge component supports `rounded` (default) and `square` shapes. These valu
 
 </PlatformBlock>
 
-</PlatformBlock>
-
 <PlatformBlock for="React,WebComponents,Blazor">
 
 <Sample src="/inputs/badge/shape" height={60} alt="{Platform} Badge Example" />
 
 When the badge has a `square` shape, it can be further customized by setting a custom border radius using the `--border-radius` CSS variable.
+
+</PlatformBlock>
+
+### Variants
+
+The {ProductName} Badge supports several pre-defined stylistic variants (Primary, Info, Success, Warn, and Error). Assign one of the supported values — `primary`, `info`, `success`, `warning`, or `danger` — to the <ApiLink pkg="core" type="Badge" member="variant" label="variant" /> attribute.
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBadge variant="success" ></IgrBadge>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-badge variant="success"></igc-badge>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBadge Variant="@StyleVariant.Success" />
+```
+
+</PlatformBlock>
+
+<Sample src="/inputs/badge/variants" height={60} alt="{Platform} Badge variants example" />
 
 </PlatformBlock>
 
@@ -390,92 +651,28 @@ The border color of the outlined badge can also be customized using the `--borde
 
 </PlatformBlock>
 
-### Dot
-
-The {ProductName} badge component can also render as a minimal dot indicator for notifications by setting its <ApiLink pkg="core" type="Badge" member="dot" label="dot" /> attribute. Dot badges do not support content, but they can be outlined and can use any of the available dot types (e.g., primary, success, info, etc.).
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrBadge dot={true} ></IgrBadge>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-badge dot></igc-badge>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbBadge Dot="true" />
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```html
-<igx-badge dot></igx-badge>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-<Sample src="/data-display/badge-dot" height={100} alt="Angular Badge dot example" />
-
-</PlatformBlock>
-
-<PlatformBlock for="React,WebComponents,Blazor">
-
-<Sample src="/inputs/badge/dot" height={60} alt="{Platform} Badge Example" />
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-### Badge in List
-
-Use a Badge with an Avatar and List to show the current state of contacts in a list. Import the `IgxListModule`, `IgxAvatarModule`, and `IgxBadgeModule`, then bind the Badge `icon` and `type` inputs to the contact state.
-
-```html
-<igx-list>
-  <igx-list-item *ngFor="let member of members">
-    <div class="wrapper">
-      <igx-avatar icon="person" shape="circle" size="small"></igx-avatar>
-      <igx-badge [icon]="member.icon" [type]="member.type" class="badge-style"></igx-badge>
-      <span class="contact-name">{{ member.name }}</span>
-    </div>
-  </igx-list-item>
-</igx-list>
-```
-
-```typescript
-public members: Member[] = [
-  new Member('Terrance Orta', 'online'),
-  new Member('Donna Price', 'online'),
-  new Member('Lisa Landers', 'away'),
-  new Member('Dorothy H. Spencer', 'offline'),
-];
-```
-
-Configure each member's Badge type and icon according to the current state, then position the Badge within its parent container.
-
-<Sample src="/data-display/badge-list" height={280} alt="Angular Badge in list example" />
-
-</PlatformBlock>
-
 ### Do/Don't
 
 **When to use:** Use a Badge to communicate a short status, category, count, or notification state alongside another component. Use `dot` when the indicator does not need visible text.
 
 **When not to use:** Do not use a Badge as the primary control for an action, as a replacement for a form validation message, or when the status cannot be understood from the badge content, surrounding context, or accessible labeling.
+
+<div class="table-responsive">
+<table class="table" style="width: 100%; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin-bottom: 24px;">
+<thead>
+<tr>
+<th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Do</th>
+<th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Don't</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={badgeDo} alt="Badge used with an Avatar and a text label" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={badgeDoNot} alt="Badge examples used without a surrounding interface element" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+</tr>
+</tbody>
+</table>
+</div>
 
 ## Properties
 
@@ -621,6 +818,12 @@ The selected `variant` takes precedence over the `--background-color` CSS variab
 
 The `dot` property renders the Badge as a minimal indicator and does not support content. Use a regular Badge when you need to display text or other inline content.
 
+## Known Limitations
+
+- A dot Badge is an indicator only and cannot display text or an icon.
+- Badge styling and variant/type names differ between Angular and the other supported frameworks. Use the platform-specific examples and API links on this page rather than copying an attribute between frameworks.
+- The Badge is a visual status indicator and does not provide keyboard interaction of its own.
+
 ## API References
 <ApiLink pkg="core" type="Badge" />
 
@@ -632,3 +835,22 @@ The Badge requires a theme stylesheet to apply its visual styling. See the frame
 
 - [{ProductName} **Forums**]({ForumsLink})
 - [{ProductName} **GitHub**]({GithubLink})
+
+## Related Components
+
+- [Avatar](../layouts/avatar.mdx) — combine an Avatar with a Badge to show a status indicator.
+- [List](../grids/list.mdx) — place Badges in list items to communicate item state.
+
+## FAQ
+
+### Can a Badge display both an icon and text?
+
+Yes. Use the platform-specific value and icon APIs shown in **Usage**. When projecting content directly, keep the icon and text in the component's default content area.
+
+### How do I display a notification dot without content?
+
+Set the platform-specific `dot` property or attribute. A dot Badge intentionally renders without text or other content.
+
+### Which package should I install for Badge?
+
+Use `igniteui-angular` for Angular, `igniteui-react` for React, `igniteui-webcomponents` for Web Components, and `IgniteUI.Blazor` for Blazor. Keep related Ignite UI packages on the same release version.
