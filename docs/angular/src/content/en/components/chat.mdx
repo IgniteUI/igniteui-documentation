@@ -85,12 +85,26 @@ The Chat component exposes several key properties that let you control its state
 
 | Name              | Description                                                                                                                                                          |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `messages`        | Array of messages (`IgcChatMessage[]`) displayed in the chat. You can bind to this to control which messages are shown.                                                  |
+| `messages`        | Bidirectional array of messages (`IgcChatMessage[]`) displayed in the chat. The Chat updates the supplied collection when the user sends a message.                     |
 | `draftMessage`    | The current unsent message, represented as an object containing `text` and optional `attachments`. This is useful for saving or restoring message drafts.            |
 | `options`         | Chat configuration (<ApiLink type="ChatOptions" />) such as current user ID, input placeholders, accepted file types, quick reply suggestions and typing behavior. |
 | `templates` | Custom Angular templates (<ApiLink type="ChatTemplates" />) for message content, input, attachments, and other parts of the chat UI.                                   |
 
 These properties make it straightforward to synchronize the Chat’s UI with your application’s state and backend.
+
+#### Bidirectional Messages Collection
+
+The `messages` collection is bidirectional: the application provides the messages to display, and the Chat updates the original collection as the conversation continues. After the user sends a message, code holding a reference to the collection can access the newly created message. This is an in-place update to the collection rather than Angular two-way binding with `[(messages)]`.
+
+The `messageCreated` event is a notification for persistence or other side effects. Do not append the created message to the collection again.
+
+If the original collection must remain unchanged, pass the Chat a shallow copy:
+
+```ts
+public messages = [...this.originalMessages];
+```
+
+Existing message objects are still shared. Create a new instance of each message when building the copied collection if those objects must also remain independent.
 
 ### Attachments
 Modern conversations are rarely limited to text alone. The Chat component includes built-in support for file attachments, allowing users to share images, documents, and other files.
