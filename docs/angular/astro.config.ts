@@ -76,10 +76,10 @@ export default createDocsSite({
 		})),
 	packages: Object.values(IGDOCS_PLATFORMS)
 		.filter(p => p.lang === docsLang)
-		.map(({ label, key, base: b }) => ({
+		.map(({ label, key, base, root }) => ({
 			label,
 			value: key,
-			href: mode === 'production' ? `${PROD_HOST}${b}/` : `${STAGING_HOST}${b}/`,
+			href: mode === 'production' ? `${PROD_HOST}${base}${root}` : `${STAGING_HOST}${base}${root}`,
 		})),
 	selectedPackage: 'angular',
 	source: {
