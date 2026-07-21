@@ -92,7 +92,10 @@ cheat-sheet's "two classic confusions" section explains the reasoning.
    for React/WC/Blazor using `{Platform}`/`{ProductName}` tokens and `<PlatformBlock for="…">`. Load
    the relevant details from `house-style.md`.
 3. **Follow the verification workflow** in `house-style.md` before writing technical content.
-   Existing snippets and old prose are clues, not authority.
+   Existing snippets and old prose are clues, not authority. For component topics, also inspect the
+   matching Indigo.Design component documentation under
+   `https://www.infragistics.com/products/indigo-design/help/components/` and use its component
+   structure as input for Usage subsection suggestions.
 4. **Write frontmatter first** — `title`, `description` (answer-shaped, ≤~160 chars), `keywords`,
    `license`, `llms.description`, `mentionedTypes` (xplat), and `relatedComponents` if the component
    has close siblings (this lets **Usage**'s final **Do/Don't** subsection name the specific
@@ -100,12 +103,16 @@ cheat-sheet's "two classic confusions" section explains the reasoning.
 5. **Lay out the canonical sections** in order for that topic type, required ones always present.
    Feature-specific content goes as sub-headings under **Usage**, never as new top-level sections.
 6. **Fill each section in its mode.** Lead every section with one plain, specific sentence. Put
-   reference in tables. In **Usage**, start with a basic declaration and then add property-focused
-   sub-sections so every public input is shown with a minimal snippet; group only tightly coupled
-   properties that form one behavior. End **Usage** with `### Do/Don't`, using inline **When to use:**
-   and **When not to use:** labels rather than nested headings. Embed exactly one top `<Sample>`, then
-   Usage samples only for distinct tasks (soft max 5/page). Phrase Do/Don't and Troubleshooting as
-   the reader's real questions.
+   reference in tables. In **Usage**, add property-focused sub-sections so every public input is
+   shown with a minimal snippet; group only tightly coupled properties that form one behavior. Keep
+   existing useful subsections, then compare against Indigo.Design's component sections by meaning,
+   not by exact heading name, to suggest or add any missing runtime-relevant Usage subsections.
+   End **Usage** with `### Do/Don't`, using inline **When to use:**
+   and **When not to use:** labels rather than nested headings, plus the matching guidance image
+   from the Indigo.Design documentation or a `{/* TODO */}` marker when the asset is not available.
+   Add a required `## Live Demo` section
+   with exactly one top `<Sample>`, then Usage samples only for distinct tasks (soft max 5/page).
+   Phrase Do/Don't and Troubleshooting as the reader's real questions.
 7. **Self-check against the rubric** before presenting — especially mode-bleed (C-checks) and
    metadata (D-checks). Fix, then deliver the `.mdx`.
 
@@ -113,7 +120,9 @@ cheat-sheet's "two classic confusions" section explains the reasoning.
 
 1. **Classify** the topic and identify its doc set (Angular vs xplat) and type.
 2. **Follow the verification workflow** in `house-style.md` before judging technical content.
-   Old snippets/prose are never the source of truth by themselves.
+   Old snippets/prose are never the source of truth by themselves. For component topics, inspect the
+   matching Indigo.Design component documentation and compare its structure to the topic's Usage
+   subsections by semantic content, not heading text, before making Usage-coverage suggestions.
 3. **Run every check** in `references/audit-rubric.md` — structure/order (A), naming (B), Diátaxis
    mode integrity (C), metadata/AI-readiness and correctness (D), samples/links (E), formatting and
    snippet currency (F). For mode integrity, run the compass on each section and flag drift.
