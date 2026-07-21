@@ -126,6 +126,9 @@ cheat-sheet's "two classic confusions" section explains the reasoning.
 3. **Run every check** in `references/audit-rubric.md` — structure/order (A), naming (B), Diátaxis
    mode integrity (C), metadata/AI-readiness and correctness (D), samples/links (E), formatting and
    snippet currency (F). For mode integrity, run the compass on each section and flag drift.
+   For detailed frontmatter-only audits or normalization, use the companion
+   `igniteui-topic-frontmatter` skill; for full topic audits, apply only the basic metadata checks
+   here unless the user asks for frontmatter suggestions.
 4. **Report** in the rubric's exact format: Verdict → Summary → Findings (each with Where / Issue /
    Principle / Fix) → Quick wins. Order findings Error → Warning → Suggestion.
 5. Keep every **Fix** concrete and applyable (the corrected heading, the sentence to move, the table
