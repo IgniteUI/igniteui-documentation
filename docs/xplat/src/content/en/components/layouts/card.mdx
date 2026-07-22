@@ -1,74 +1,111 @@
 ---
-title: Card Component
-description: Present users with dashboards and engaging text, images, icons or buttons as an entry point for detailed information with Ignite UI for Web Card component.
-keywords: "{ProductName}, UI controls, Web widgets, web widgets, UI widgets, Native Web Components Suite, Native Web Controls, Native Web Components Library, Web Card component, Web Card controls"
+title: "{Platform} Card Component | Layouts | Infragistics"
+description: "{Platform} Card organizes related media, text, and actions in one flexible content container."
+keywords: "{Platform} Card, card component, content container, media card, {ProductName}, Infragistics"
 license: MIT
 mentionedTypes: ["Card", "CardActions", "CardContent", "CardHeader", "CardMedia", "Avatar", "Button", "Icon", "IconButton", "Ripple"]
+relatedComponents: ["Grid", "List"]
 llms:
-  description: "The {ProductName} Card displays text, images, icons, and buttons in a visually rich presentation that can serve as an entry point to more detailed information."
+  description: "The {ProductName} Card organizes related media, text, and actions in one flexible content container."
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
+# Card Component
 
-# {Platform} Card Overview
+The {ProductName} Card organizes related media, text, and actions in one flexible content container.
 
-The {ProductName} Card displays text, images, icons, and buttons in a visually rich presentation that can serve as an entry point to more detailed information. Cards can be used to create a multimedia dashboard.
+Use the card to group content about a single subject, such as a product, article, contact, location, or dashboard item.
 
+<Sample src="/layouts/card/overview" height={640} alt="{Platform} Card overview example" />
 
-## {Platform} Card Example
+## Anatomy
 
-<Sample src="/layouts/card/overview" height={640} alt="{Platform} Card Example" />
+The card is a container whose standard building blocks are header, media, content, and actions.
 
-## Usage
+{/* TODO: Add a card anatomy image when a component-parts visual is available. */}
 
-Cards allow you to easily display content composed of different types of objects or similar objects whose size and supported actions can vary.
+```text
+igc-card                         // host - groups related content
+├─ igc-card-media                 // optional media region
+│  └─ default slot                // image, video, or other media content
+├─ igc-card-header                // optional header region
+│  ├─ [slot="thumbnail"]          // optional avatar, icon, or small image
+│  ├─ [slot="title"]              // card title
+│  ├─ [slot="subtitle"]           // optional card subtitle
+│  └─ default slot                // optional additional header content
+├─ igc-card-content               // optional body region
+│  └─ default slot                // text, lists, or custom content
+└─ igc-card-actions               // optional action region
+   ├─ [slot="start"]              // leading actions
+   ├─ default slot                // centered actions
+   └─ [slot="end"]                // trailing actions
+```
 
-### Getting Started
+## Getting Started
+
+Before you add the card, complete the shared {ProductName} setup in the [Getting Started](../general-getting-started.mdx) topic.
 
 <PlatformBlock for="WebComponents">
 
-First, you need to install the {ProductName} by running the following command:
+Register the card component before you use it. The card registration includes the card header, media, content, and actions sub-components.
 
-```cmd
-npm install {PackageWebComponents}
+```ts
+import {
+  defineComponents,
+  IgcAvatarComponent,
+  IgcButtonComponent,
+  IgcCardComponent,
+  IgcIconButtonComponent,
+} from 'igniteui-webcomponents';
+
+defineComponents(IgcCardComponent, IgcAvatarComponent, IgcButtonComponent, IgcIconButtonComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```ts
+import { IGX_CARD_DIRECTIVES } from 'igniteui-angular/card';
+import { IgxButtonDirective, IgxIconButtonDirective, IgxIconComponent, IgxRippleDirective } from 'igniteui-angular';
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
-First, you need to the install the corresponding {ProductName} npm package by running the following command:
-
-```cmd
-npm install igniteui-react
-```
-
-You will then need to import the <ApiLink pkg="core" type="Card" /> and its necessary CSS, like so:
+Import the React wrappers and theme stylesheet before you render the card.
 
 ```tsx
-import { IgrCard, IgrCardHeader, IgrCardContent, IgrCardMedia, IgrCardActions } from 'igniteui-react';
+import {
+  IgrAvatar,
+  IgrButton,
+  IgrCard,
+  IgrCardActions,
+  IgrCardContent,
+  IgrCardHeader,
+  IgrCardMedia,
+  IgrIconButton,
+} from 'igniteui-react';
 import 'igniteui-webcomponents/themes/light/bootstrap.css';
 ```
 
 </PlatformBlock>
 
-Before using the <ApiLink pkg="core" type="Card" />, you need to register it as follows:
-
 <PlatformBlock for="Blazor">
+
+Register the card module in `Program.cs`.
 
 ```csharp
-// in Program.cs file
-
 builder.Services.AddIgniteUIBlazor(typeof(IgbCardModule));
+builder.Services.AddIgniteUIBlazor(typeof(IgbAvatarModule));
+builder.Services.AddIgniteUIBlazor(typeof(IgbButtonModule));
+builder.Services.AddIgniteUIBlazor(typeof(IgbIconButtonModule));
 ```
 
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-You will also need to link an additional CSS file to apply the styling to the <ApiLink pkg="core" type="Card" /> component. The following needs to be placed in the **wwwroot/index.html** file in a **Blazor Web Assembly** project or the **Pages/_Host.cshtml** file in a **Blazor Server** project:
+Add the theme stylesheet to your host page.
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
@@ -76,49 +113,54 @@ You will also need to link an additional CSS file to apply the styling to the <A
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+## Usage
 
-```ts
-import { defineComponents, IgcCardComponent } from 'igniteui-webcomponents';
+Compose a card from the card container and whichever sub-components your content needs.
 
-defineComponents(IgcCardComponent );
-```
+### Basic Declaration
 
-</PlatformBlock>
-
-For a complete introduction to the {ProductName}, read the [**Getting Started**](../general-getting-started.mdx) topic.
-
-Then, to represent the demo card template, we can add the following code:
+Place media, title, subtitle, body text, and actions in the corresponding card sub-components.
 
 <PlatformBlock for="WebComponents">
 
 ```html
 <igc-card>
-    <igc-card-media>
-        <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50">
-    </igc-card-media>
-    <igc-card-header>
-        <span slot="title">New York</span>
-        <span slot="subtitle">City in New York</span>
-    </igc-card-header>
-    <igc-card-content>
-        <p>New York City comprises 5 boroughs sitting where the Hudson River meets the Atlantic Ocean. At its core is Manhattan, a densely populated borough that’s among the world’s major commercial, financial and cultural centers.</p>
-    </igc-card-content>
-    <igc-card-actions>
-        <igc-button slot="start">
-            <igc-ripple></igc-ripple>
-            Read more
-        </igc-button>
-        <div slot="end">
-            <igc-icon-button name="twitter" style="margin-right: 10px;">
-                <igc-ripple></igc-ripple>
-            </igc-icon-button>
-            <igc-icon-button name="facebook">
-                <igc-ripple></igc-ripple>
-            </igc-icon-button>
-        </div>
-    </igc-card-actions>
+  <igc-card-media>
+    <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" alt="New York city skyline" />
+  </igc-card-media>
+  <igc-card-header>
+    <span slot="title">New York</span>
+    <span slot="subtitle">City in New York</span>
+  </igc-card-header>
+  <igc-card-content>
+    <p>New York City comprises five boroughs where the Hudson River meets the Atlantic Ocean.</p>
+  </igc-card-content>
+  <igc-card-actions>
+    <igc-button slot="start">Read more</igc-button>
+  </igc-card-actions>
 </igc-card>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card>
+  <igx-card-media height="196px">
+    <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" alt="New York city skyline" />
+  </igx-card-media>
+  <igx-card-header>
+    <h3 igxCardHeaderTitle>New York</h3>
+    <h5 igxCardHeaderSubtitle>City in New York</h5>
+  </igx-card-header>
+  <igx-card-content>
+    <p>New York City comprises five boroughs where the Hudson River meets the Atlantic Ocean.</p>
+  </igx-card-content>
+  <igx-card-actions>
+    <button igxButton igxRipple>Read more</button>
+  </igx-card-actions>
+</igx-card>
 ```
 
 </PlatformBlock>
@@ -127,33 +169,19 @@ Then, to represent the demo card template, we can add the following code:
 
 ```tsx
 <IgrCard>
-    <IgrCardMedia>
-        <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" />
-    </IgrCardMedia>
-    <IgrCardHeader>
-        <span slot="title">New York City</span>
-        <span slot="subtitle">City in New York</span>
-    </IgrCardHeader>
-    <IgrCardContent>
-        <p>New York City comprises 5 boroughs sitting where the
-            Hudson River meets the Atlantic Ocean. At its core is Manhattan,
-            a densely populated borough that’s among the world’s major commercial,
-            financial and cultural centers.</p>
-    </IgrCardContent>
-    <IgrCardActions>
-        <IgrButton>
-            <span>Read more</span>
-            <IgrRipple />
-        </IgrButton>
-        <div slot="end">
-            <IgrIconButton name="twitter" collection="material">
-                <IgrRipple />
-            </IgrIconButton>
-            <IgrIconButton name="facebook" collection="material">
-                <IgrRipple />
-            </IgrIconButton>
-        </div>
-    </IgrCardActions>
+  <IgrCardMedia>
+    <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" alt="New York city skyline" />
+  </IgrCardMedia>
+  <IgrCardHeader>
+    <span slot="title">New York</span>
+    <span slot="subtitle">City in New York</span>
+  </IgrCardHeader>
+  <IgrCardContent>
+    <p>New York City comprises five boroughs where the Hudson River meets the Atlantic Ocean.</p>
+  </IgrCardContent>
+  <IgrCardActions>
+    <IgrButton slot="start">Read more</IgrButton>
+  </IgrCardActions>
 </IgrCard>
 ```
 
@@ -163,60 +191,94 @@ Then, to represent the demo card template, we can add the following code:
 
 ```razor
 <IgbCard>
-    <IgbCardMedia>
-        <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50">
-    </IgbCardMedia>
-    <IgbCardHeader>
-        <span slot="title">New York City</span>
-        <span slot="subtitle">City in New York</span>
-    </IgbCardHeader>
-    <IgbCardContent>
-       <p>New York City comprises 5 boroughs sitting where the
-           Hudson River meets the Atlantic Ocean. At its core is Manhattan,
-           a densely populated borough that's among the world's major commercial,
-           financial and cultural centers.</p>
-    </IgbCardContent>
-    <IgbCardActions>
-        <IgbButton slot="start">
-            <IgbRipple />
-            Read more
-        </IgbButton>
-        <div slot="end">
-            <IgbIconButton name="twitter" >
-                <IgbRipple />
-            </IgbIconButton>
-            <IgbIconButton name="facebook" >
-                <IgbRipple />
-            </IgbIconButton>
-        </div>
-    </IgbCardActions>
+  <IgbCardMedia>
+    <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" alt="New York city skyline" />
+  </IgbCardMedia>
+  <IgbCardHeader>
+    <span slot="title">New York</span>
+    <span slot="subtitle">City in New York</span>
+  </IgbCardHeader>
+  <IgbCardContent>
+    <p>New York City comprises five boroughs where the Hudson River meets the Atlantic Ocean.</p>
+  </IgbCardContent>
+  <IgbCardActions>
+    <IgbButton slot="start">Read more</IgbButton>
+  </IgbCardActions>
 </IgbCard>
 ```
 
 </PlatformBlock>
 
-You will notice a few things above. First, to _tag_ an element as a header title, we need to place it between the <ApiLink pkg="core" type="CardHeader" /> tags and set its slot name to `title`. Conversely, to define a subtitle, we need to set the slot name to `subtitle`. When slotting content into the `title` and `subtitle` slots, we recommend using `<span>` rather than heading elements (`<h1>`–`<h6>`). Heading elements carry built-in styling (such as font size, line height, and margins) that can interfere with the component's intended typography and layout. A `<span>` provides a neutral container that inherits the component’s styles cleanly.
+### Media
 
-Any image or video we want to show in the card, we wrap inside the <ApiLink pkg="core" type="CardMedia" /> tags. The <ApiLink pkg="core" type="CardMedia" /> allows us to size the content placed inside so that it maintains its aspect ratio while filling the element’s entire content box. If the object's aspect ratio does not match the aspect ratio of its box, then the object will be clipped to fit.
+Use <ApiLink pkg="core" type="CardMedia" /> to place images, video, or other media content in the card.
 
-You can place anything inside the <ApiLink pkg="core" type="CardContent" /> tags. Usually text goes there.
+<PlatformBlock for="WebComponents">
 
-Finally, the <ApiLink pkg="core" type="CardActions" /> is where you'd place any actionable items, like buttons.
+```html
+<igc-card-media>
+  <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" alt="New York city skyline" />
+</igc-card-media>
+```
 
-### Media, Thumbs, and Avatars
+</PlatformBlock>
 
-If you want to display an image or icon in the card header next to the title and subtitle, assign the element's slot attribute to `thumbnail`. For the best results, we recommend using an [`igc-avatar`](../layouts/avatar.mdx) component for the `thumbnail` slot, as it integrates seamlessly with the card header's layout and styling.
+<PlatformBlock for="Angular">
 
-Taking the card above as an example, we can edit the contents of the <ApiLink pkg="core" type="CardHeader" /> and add an avatar with `slot="thumbnail"`:
+```html
+<igx-card-media height="196px">
+  <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" alt="New York city skyline" />
+</igx-card-media>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCardMedia>
+  <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" alt="New York city skyline" />
+</IgrCardMedia>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCardMedia>
+  <img src="https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=50" alt="New York city skyline" />
+</IgbCardMedia>
+```
+
+</PlatformBlock>
+
+### Header Slots
+
+Use the header slots to define thumbnail, title, subtitle, and additional header content.
 
 <PlatformBlock for="WebComponents">
 
 ```html
 <igc-card-header>
-    <igc-avatar slot="thumbnail" src="path/to/image" initials="TS"></igc-avatar>
-    <span slot="title">Title</span>
-    <span slot="subtitle">Subtitle</span>
+  <igc-avatar slot="thumbnail" initials="TS"></igc-avatar>
+  <span slot="title">Title</span>
+  <span slot="subtitle">Subtitle</span>
 </igc-card-header>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card-header>
+  <div igxCardThumbnail>
+    <igx-icon>place</igx-icon>
+  </div>
+  <h3 igxCardHeaderTitle>Title</h3>
+  <h5 igxCardHeaderSubtitle>Subtitle</h5>
+</igx-card-header>
 ```
 
 </PlatformBlock>
@@ -225,9 +287,9 @@ Taking the card above as an example, we can edit the contents of the <ApiLink pk
 
 ```tsx
 <IgrCardHeader>
-    <IgrAvatar slot="thumbnail" src="path/to/image" initials="TS" />
-    <span slot="title">Title</span>
-    <span slot="subtitle">Subtitle</span>
+  <IgrAvatar slot="thumbnail" initials="TS" />
+  <span slot="title">Title</span>
+  <span slot="subtitle">Subtitle</span>
 </IgrCardHeader>
 ```
 
@@ -237,77 +299,36 @@ Taking the card above as an example, we can edit the contents of the <ApiLink pk
 
 ```razor
 <IgbCardHeader>
-    <IgbAvatar slot="thumbnail" Src="path/to/image" Initials="TS" />
-    <span slot="title">Title</span>
-    <span slot="subtitle">Subtitle</span>
+  <IgbAvatar slot="thumbnail" Initials="TS" />
+  <span slot="title">Title</span>
+  <span slot="subtitle">Subtitle</span>
 </IgbCardHeader>
 ```
 
 </PlatformBlock>
 
-The above example will show the avatar alongside the title and subtitle in the card header.
+Use neutral inline elements such as `<span>` for `title` and `subtitle` when you want to inherit the card typography without browser heading margins.
 
-### Outlined cards
-The card has an `outlined` attribute which, if set, removes any shadows from the card, replacing them with a thin border to separate the card from the background.
+### Content
 
-### Horizontal Layout
-
-By default all sections of the card (header, content, media, actions) are laid out vertically. This is nice when we have a lot of vertical space. Say we wanted to lay out the sections in the card horizontally. We can achieve such a layout with some simple CSS.
-
-Here's an example of an outlined horizontal card:
+Use <ApiLink pkg="core" type="CardContent" /> for the card body text, lists, or custom content.
 
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-card outlined>
-    <div class="card-horizontal">
-        <div>
-            <igc-card-header>
-                <img src="ROZES-Under-the-Grave.jpg" slot="thumbnail">
-                <span slot="title">Rozes</span>
-                <span slot="subtitle">Under the Grave (2016)</span>
-            </igc-card-header>
-            <igc-card-content>
-                <p>As I have always said: I write what’s real and what’s true,
-                    even if it means throwing myself under the bus.</p>
-            </igc-card-content>
-        </div>
-        <div class="divider"></div>
-        <igc-card-actions>
-            <igc-icon-button name="previous"></igc-icon-button>
-            <igc-icon-button name="play"></igc-icon-button>
-            <igc-icon-button name="next"></igc-icon-button>
-        </igc-card-actions>
-    </div>
-</igc-card>
+<igc-card-content>
+  <p>New York City comprises five boroughs where the Hudson River meets the Atlantic Ocean.</p>
+</igc-card-content>
 ```
 
 </PlatformBlock>
 
-<PlatformBlock for="Blazor">
+<PlatformBlock for="Angular">
 
-```razor
-<IgbCard>
-    <div class="card-horizontal">
-        <div>
-            <IgbCardHeader>
-                <img slot="thumbnail" src="ROZES-Under-the-Grave.jpg" alt="ROZES-Under-the-Grave" />
-                <span slot="title">Rozes</span>
-                <span slot="subtitle">Under the Grave (2016)</span>
-            </IgbCardHeader>
-            <IgbCardContent>
-                <p>As I have always said: I write what's real and what's true,
-                    even if it means throwing myself under the bus.</p>
-            </IgbCardContent>
-        </div>
-        <div class="divider"></div>
-        <IgbCardActions>
-            <IgbIconButton Name="previous" />
-            <IgbIconButton Name="play" />
-            <IgbIconButton Name="next" />
-        </IgbCardActions>
-    </div>
-</IgbCard>
+```html
+<igx-card-content>
+  <p>New York City comprises five boroughs where the Hudson River meets the Atlantic Ocean.</p>
+</igx-card-content>
 ```
 
 </PlatformBlock>
@@ -315,87 +336,9 @@ Here's an example of an outlined horizontal card:
 <PlatformBlock for="React">
 
 ```tsx
-<IgrCard>
-    <div className="card-horizontal">
-        <div>
-            <IgrCardHeader>
-                <img src="https://static.infragistics.com/xplatform/images/music/rozes.jpg" slot="thumbnail" />
-                <span slot="title">Rozes</span>
-                <span slot="subtitle">Under the Grave (2016)</span>
-            </IgrCardHeader>
-            <IgrCardContent>
-                <p>As I have always said: I write what’s real and what’s true,
-                    even if it means throwing myself under the bus.</p>
-            </IgrCardContent>
-        </div>
-        <div className="divider"></div>
-        <IgrCardActions>
-            <span className="material-icons">skip_previous</span>
-            <span className="material-icons">play_arrow</span>
-            <span className="material-icons">skip_next</span>
-        </IgrCardActions>
-    </div>
-</IgrCard>
-```
-
-</PlatformBlock>
-
-We are using an additional `div` element to bundle the <ApiLink pkg="core" type="CardHeader" /> and <ApiLink pkg="core" type="CardContent" /> together, keeping them aligned vertically, and applying the `.card-horizontal` class to the wrapping `div` element to align the two sections of the card horizontally.
-
-The styles that `.card-horizontal` class applies are:
-
-```css
-.card-horizontal {
-    display: flex;
-    flex-direction: row;
-    flex: 1 1 0%;
-}
-
-.card-horizontal img {
-    width: 64px;
-    height: 64px;
-}
-
-.card-horizontal igc-card-actions {
-    justify-content: center;
-}
-```
-
-If everything went well, our card should look like this:
-
-<Sample src="/layouts/card/horizontal" height={270} alt="{Platform} Card Example" />
-
-### Alternative layouts
-
-You can get even more creative with the layout of the <ApiLink pkg="core" type="Card" />.
-
-Below is an example showing how you can create a semi-horizontal card, where we have every section of the card laid out vertically, while the <ApiLink pkg="core" type="CardMedia" /> appears alongside the vertical sections.
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-card>
-    <div class="semi-horizontal">
-        <div>
-            <igc-card-header>
-                <igc-avatar src="mellow_d.jpg" slot="thumbnail">MD</igc-avatar>
-                <span slot="title">HERE</span>
-                <span slot="subtitle">by Mellow D</span>
-            </igc-card-header>
-            <igc-card-content>
-                <p>Far far away, behind the word mountains,
-                    far from the countries Vokalia and Consonantia,
-                    there live the blind texts.</p>
-            </igc-card-content>
-            <igc-card-actions>
-                <igc-button>play album</igc-button>
-            </igc-card-actions>
-        </div>
-        <igc-card-media class="card-media">
-            <img src="here_media.jpg">
-        </igc-card-media>
-    </div>
-</igc-card>
+<IgrCardContent>
+  <p>New York City comprises five boroughs where the Hudson River meets the Atlantic Ocean.</p>
+</IgrCardContent>
 ```
 
 </PlatformBlock>
@@ -403,28 +346,33 @@ Below is an example showing how you can create a semi-horizontal card, where we 
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCard>
-    <div class="semi-horizontal">
-        <div>
-            <IgbCardHeader>
-                <IgbAvatar slot="thumbnail" src/>
-                <span slot="title">HERE</span>
-                <span slot="subtitle">by Mellow D</span>
-            </IgbCardHeader>
-            <IgbCardContent>
-                <p>Far far away, behind the word mountains,
-                far from the countries Vokalia and Consonantia,
-                there live the blind texts.</p>
-            </IgbCardContent>
-            <IgbCardActions>
-                <IgbButton>Play Album</IgbButton>
-            </IgbCardActions>
-        </div>
-        <IgbCardMedia class="card-media">
-            <img src="here_media.jpg" alt="here_media" />
-        </IgbCardMedia>
-    </div>
-</IgbCard>
+<IgbCardContent>
+  <p>New York City comprises five boroughs where the Hudson River meets the Atlantic Ocean.</p>
+</IgbCardContent>
+```
+
+</PlatformBlock>
+
+### Elevated
+
+Set <ApiLink pkg="core" type="Card" member="elevated" label="elevated" /> when the card should use the elevated visual treatment.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-card elevated>
+  ...
+</igc-card>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card elevated>
+  ...
+</igx-card>
 ```
 
 </PlatformBlock>
@@ -432,91 +380,49 @@ Below is an example showing how you can create a semi-horizontal card, where we 
 <PlatformBlock for="React">
 
 ```tsx
-<IgrCard>
-    <div className="semi-horizontal">
-        <div>
-            <IgrCardHeader>
-                <IgrAvatar src="https://static.infragistics.com/xplatform/images/music/singer_with_mic.jpg" slot="thumbnail" />
-                <span slot="title">HERE</span>
-                <span slot="subtitle">by Mellow D</span>
-            </IgrCardHeader>
-            <IgrCardContent>
-                <p>Far far away, behind the word mountains,
-                    far from the countries Vokalia and Consonantia,
-                    there live the blind texts.</p>
-            </IgrCardContent>
-            <IgrCardActions>
-                <IgrButton><span>Play Album</span></IgrButton>
-            </IgrCardActions>
-        </div>
-
-        <IgrCardMedia className='card-media'>
-            <img src="https://static.infragistics.com/xplatform/images/music/singer_female.jpg" />
-        </IgrCardMedia>
-    </div>
+<IgrCard elevated={true}>
+  ...
 </IgrCard>
 ```
 
 </PlatformBlock>
 
-```css
-.semi-horizontal {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-}
+<PlatformBlock for="Blazor">
 
-.card-media {
-    width: 96px;
-    min-width: 96px;
-}
+```razor
+<IgbCard Elevated=true>
+  ...
+</IgbCard>
 ```
 
-<Sample src="/layouts/card/semi-horizontal" height={340} alt="{Platform} Semi Horizontal Card Example" />
+</PlatformBlock>
 
-### Card Actions
+### Actions Slots
 
-The card actions area allows additional configuration to what we have already mentioned.
-The area is intended to hold actionable items, like buttons. There are two slots available that can be used to position content: `start` and `end`. We can assign these slots to any element placed inside the <ApiLink pkg="inputs" type="CardActions" />, and it will be positioned accordingly, either at the `start` or the `end` of the area. These slots can be used with any type of content, but we highly recommend sticking to actionable elements, or wrappers of actionable elements, as shown in the example below:
+Use the actions slots to place leading, centered, and trailing actions in <ApiLink pkg="core" type="CardActions" />.
 
 <PlatformBlock for="WebComponents">
 
 ```html
 <igc-card-actions>
-    <igc-button slot="end">
-        <igc-ripple></igc-ripple>
-        Read more
-    </igc-button>
-    <div slot="start">
-        <igc-icon-button name="twitter">
-            <igc-ripple></igc-ripple>
-        </igc-icon-button>
-        <igc-icon-button name="facebook">
-            <igc-ripple></igc-ripple>
-        </igc-icon-button>
-    </div>
+  <igc-button slot="start">Like</igc-button>
+  <igc-button>Comment</igc-button>
+  <igc-icon-button slot="end" name="more_vert"></igc-icon-button>
 </igc-card-actions>
 ```
 
 </PlatformBlock>
 
-<PlatformBlock for="Blazor">
+<PlatformBlock for="Angular">
 
-```razor
-<IgbCardActions>
-    <IgbButton slot="end">
-        <IgbRipple />
-        Read more
-    </IgbButton>
-    <div slot="start">
-        <IgbIconButton name="twitter">
-            <IgbRipple />
-        </IgbIconButton>
-        <IgbIconButton name="facebook" >
-            <IgbRipple />
-        </IgbIconButton>
-    </div>
-</IgbCardActions>
+```html
+<igx-card-actions>
+  <button igxButton igxStart>Like</button>
+  <button igxButton>Comment</button>
+  <button igxIconButton="flat" igxEnd>
+    <igx-icon>more_vert</igx-icon>
+  </button>
+</igx-card-actions>
 ```
 
 </PlatformBlock>
@@ -525,67 +431,295 @@ The area is intended to hold actionable items, like buttons. There are two slots
 
 ```tsx
 <IgrCardActions>
-    <IgrButton slot="end">
-        <span>Read more</span>
-        <IgrRipple />
-    </IgrButton>
-    <div slot="start">
-        <IgrIconButton className="marginIcon" name="twitter" collection="material">
-            <IgrRipple />
-        </IgrIconButton>
-        <IgrIconButton name="facebook" collection="material">
-            <IgrRipple />
-        </IgrIconButton>
-    </div>
+  <IgrButton slot="start">Like</IgrButton>
+  <IgrButton>Comment</IgrButton>
+  <IgrIconButton slot="end" name="more_vert" />
 </IgrCardActions>
 ```
 
 </PlatformBlock>
 
-You can also add more content in-between by simply omitting the slot property and let the elements go to the default slot.
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCardActions>
+  <IgbButton slot="start">Like</IgbButton>
+  <IgbButton>Comment</IgbButton>
+  <IgbIconButton slot="end" Name="more_vert" />
+</IgbCardActions>
+```
+
+</PlatformBlock>
+
+### Actions Orientation
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Use the <ApiLink pkg="core" type="CardActions" member="orientation" label="orientation" /> property to arrange <ApiLink pkg="core" type="CardActions" /> content horizontally or vertically.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Set `vertical` on `igx-card-actions` when the actions should be arranged vertically.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-card-actions orientation="horizontal">
+  <igc-button slot="start">Like</igc-button>
+  <igc-button slot="start">Share</igc-button>
+  <igc-icon-button slot="end" name="more_vert"></igc-icon-button>
+</igc-card-actions>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-card-actions [vertical]="true">
+  <button igxButton>Like</button>
+  <button igxButton>Share</button>
+  <button igxIconButton="flat">
+    <igx-icon>more_vert</igx-icon>
+  </button>
+</igx-card-actions>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCardActions orientation="horizontal">
+  <IgrButton slot="start">Like</IgrButton>
+  <IgrButton slot="start">Share</IgrButton>
+  <IgrIconButton slot="end" name="more_vert" />
+</IgrCardActions>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCardActions Orientation="@ContentOrientation.Horizontal">
+  <IgbButton slot="start">Like</IgbButton>
+  <IgbButton slot="start">Share</IgbButton>
+  <IgbIconButton slot="end" Name="more_vert" />
+</IgbCardActions>
+```
+
+</PlatformBlock>
+
+### Do/Don't
+
+**When to use:** Use the card when related information benefits from a shared container with optional header, media, body content, and actions. Keep each card focused on one subject or decision, put primary information in the header or content area, and use consistent card structure across repeated cards.
+
+**When not to use:** Avoid cards for dense tabular data, long-form reading, or workflows where the container adds visual noise without making content easier to scan. Use the [Grid](../grids/data-grid.mdx) for dense tabular data, the [List](../grids/list.mdx) for repeated compact rows, or the underlying layout pattern that best matches the content instead.
+
+## Properties
+
+The card API exposes container appearance and action-layout controls.
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="Card" member="elevated" label="elevated" /> | `boolean` | `false` | Sets the card to use an elevated appearance with shadow. |
+| <ApiLink pkg="core" type="CardActions" member="orientation" label="orientation" /> | `"horizontal" \| "vertical"` | `"horizontal"` | Sets the layout orientation of <ApiLink pkg="core" type="CardActions" />. |
 
 ## Styling
 
-Since the card is a container that wraps different elements, styling is done by styling its building blocks - the <ApiLink pkg="core" type="CardHeader" />, <ApiLink pkg="core" type="CardContent" />, <ApiLink pkg="core" type="CardMedia" /> and <ApiLink pkg="core" type="CardActions" /> sub-components.
+<Sample src="/layouts/card/styling" height={640} alt="{Platform} Card styling example" />
 
-```css
-igc-card {
-  background-color: var(--ig-secondary-900);
-}
+The card appearance is controlled through theme variables and CSS parts on the card header.
 
-igc-card-content,
-igc-card-header::part(title) {
-  color: var(--ig-primary-500-contrast);
-}
+| Variable | What it changes |
+| -- | -- |
+| `--ig-card-background` | Card background color. |
+| `--ig-card-outline-color` | Card outline color. |
+| `--ig-card-header-text-color` | Card title text color. |
+| `--ig-card-subtitle-text-color` | Card subtitle text color. |
+| `--ig-card-content-text-color` | Card content text color. |
+| `--ig-card-actions-text-color` | Card actions text color. |
+| `--ig-card-resting-shadow` | Card shadow in its resting state. |
+| `--ig-card-hover-shadow` | Card shadow in its hover state. |
+| `--ig-card-border-radius` | Card border radius. |
 
-igc-card-header > *[slot="subtitle"] {
-  color: var(--ig-warn-500);
-  opacity: 0.9;
-}
+| CSS Part | Description |
+| -- | -- |
+| `header` | Card header text container. |
+| `title` | Title slot wrapper. |
+| `subtitle` | Subtitle slot wrapper. |
 
-igc-icon-button::part(base) {
-  background-color: var(--ig-primary-300);
+### Sass Theming
+
+Use the <ApiLink kind="sass" module="themes" type="function-card-theme" label="card-theme" code={true} /> function when your application customizes Ignite UI themes through Sass.
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$custom-card-theme: card-theme(
+  $background: #1f2937,
+  $border-radius: 12px,
+  $header-text-color: #ffffff,
+  $content-text-color: #e5e7eb
+);
+
+:root {
+  @include tokens($custom-card-theme);
 }
 ```
 
-<Sample src="/layouts/card/styling" height={640} alt="{Platform} Card Styling Example" />
+### CSS Variables
 
-### Summary
-In this article we covered a lot of ground with the card component. We created a simple card and added some images to make it a bit more appealing. We used some additional {Platform} inside our card, like avatars, buttons and icons, to enrich the experience and add some functionality. And finally, we changed the card's appearance by changing the major colors of the building blocks.
+Set component CSS variables directly when you need local styling without a Sass build step.
 
-<igc-divider></igc-divider>
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```css
+igc-card {
+  --ig-card-background: var(--ig-secondary-900);
+  --ig-card-header-text-color: var(--ig-secondary-900-contrast);
+  --ig-card-content-text-color: var(--ig-secondary-900-contrast);
+}
+
+igc-card-header::part(subtitle) {
+  color: var(--ig-warn-500);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```css
+igx-card {
+  --background: var(--ig-secondary-900);
+  --header-text-color: var(--ig-secondary-900-contrast);
+  --content-text-color: var(--ig-secondary-900-contrast);
+}
+
+igx-card-header {
+  --subtitle-text-color: var(--ig-warn-500);
+}
+```
+
+</PlatformBlock>
+
+### Custom Layouts
+
+Wrap card sections in your own layout containers when you need horizontal or split card compositions.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```css
+.card-horizontal {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 0%;
+}
+
+.card-horizontal igc-card-actions {
+  justify-content: center;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```css
+.card-horizontal {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 0%;
+}
+
+.card-horizontal igx-card-actions {
+  justify-content: center;
+}
+```
+
+</PlatformBlock>
+
+<Sample src="/layouts/card/horizontal" height={270} alt="{Platform} horizontal Card example" />
+
+<Sample src="/layouts/card/semi-horizontal" height={340} alt="{Platform} semi-horizontal Card example" />
+
+## Accessibility
+
+The card itself is a non-interactive container; keyboard and ARIA behavior come from the semantic content and interactive controls placed inside it.
+
+### Keyboard Interaction
+
+The card does not receive focus unless you add focusable content inside it.
+
+| Key | Action |
+| -- | -- |
+| <kbd>Tab</kbd> | Moves focus through interactive elements inside the card, such as buttons or links. |
+
+### Screen Readers / ARIA
+
+The card renders slotted content and does not add a landmark role by default.
+
+- Use semantic headings, links, buttons, images, and lists inside the card content.
+- Provide `alt` text for meaningful media.
+- Add an accessible name to icon-only buttons in the actions area.
+- Add a role or label to the card container only when your application needs one for its information architecture.
+
+### Accessibility Compliance
+
+Infragistics documents {ProductName} accessibility support for Section 508 and WCAG 2.1 guideline areas in the [Accessibility Compliance](../interactivity/accessibility-compliance.mdx) topic. The card's compliance evidence comes from the semantic content and interactive controls that you place inside the card.
+
+| Criterion | How the component complies |
+| -- | -- |
+| [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships) | The card preserves the semantic structure of slotted headings, text, media, and controls. |
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG22/Understanding/keyboard) | Interactive card content remains reachable by keyboard when authors use keyboard-operable controls. |
+
+Your responsibilities:
+
+- Use semantic elements for titles, body content, media, and actions.
+- Provide accessible names for icon-only buttons and meaningful images.
+- Preserve logical focus order when building custom horizontal or split card layouts.
+- Keep sufficient contrast when overriding card colors.
 
 ## API References
 
-<ApiLink pkg="core" type="Avatar" /><br />
-<ApiLink pkg="core" type="Button" /><br />
-<ApiLink pkg="core" type="CardActions" /><br />
-<ApiLink pkg="core" type="CardContent" /><br />
-<ApiLink pkg="core" type="CardHeader" /><br />
-<ApiLink pkg="core" type="CardMedia" /><br />
-<ApiLink pkg="core" type="Card" /><br />
-<ApiLink pkg="core" type="IconButton" /><br />
-<ApiLink pkg="core" type="Icon" /><br />
+<ApiLink pkg="core" type="Card" />
+<ApiLink pkg="core" type="CardActions" />
+<ApiLink pkg="core" type="CardContent" />
+<ApiLink pkg="core" type="CardHeader" />
+<ApiLink pkg="core" type="CardMedia" />
+<ApiLink pkg="core" type="Avatar" />
+<ApiLink pkg="core" type="Button" />
+<ApiLink pkg="core" type="IconButton" />
+<ApiLink pkg="core" type="Icon" />
+<ApiLink pkg="core" type="Ripple" />
+
+## Dependencies
+
+The card uses its own header, media, content, and actions sub-components. Cards that include thumbnails, actions, icons, or ripples also depend on the corresponding <ApiLink pkg="core" type="Avatar" />, <ApiLink pkg="core" type="Button" />, <ApiLink pkg="core" type="IconButton" />, <ApiLink pkg="core" type="Icon" />, and <ApiLink pkg="core" type="Ripple" /> components.
+
+<PlatformBlock for="WebComponents">
+
+Register the card component and any supporting components that your card content uses.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Import the card wrappers and any supporting wrappers that your card content uses. Include a {ProductName} theme stylesheet once in your application.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Register the card module and any supporting modules that your card content uses. Include a {ProductName} theme stylesheet once in your application.
+
+</PlatformBlock>
 
 ## Additional Resources
 
