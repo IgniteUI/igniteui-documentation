@@ -1,0 +1,305 @@
+---
+title: "Angular Accordion Component | Layouts | Infragistics"
+description: "Angular Accordion is a layout component for organizing expandable and collapsible content panels in a vertical container."
+keywords: "Angular Accordion, accordion component, expandable panels, Ignite UI for Angular, Infragistics"
+license: MIT
+mentionedTypes: ["Accordion", "ExpansionPanel"]
+namespace: Infragistics.Controls
+relatedComponents: ["ExpansionPanel"]
+llms:
+  description: "The Ignite UI for Angular Accordion helps developers group related content into expandable and collapsible panels inside a vertical layout."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import accordionAnatomy from '@xplat-images/anatomy-frame-light/Accordion-lt.png';
+import accordionDo from '@xplat-images/accordion/accordion_do1.png';
+import accordionDoNot from '@xplat-images/accordion/accordion_do_not1.png';
+
+# Accordion Component
+
+The Ignite UI for Angular Accordion is a layout component for organizing expandable content panels in a single vertical container.
+
+## Live Demo
+
+<Sample src="/layouts/accordion-sample-1" height={460} alt="Angular Accordion overview example" />
+
+## Anatomy
+
+The accordion structure consists of an accordion container with one or more expansion panel children.
+
+<Image src={accordionAnatomy} alt="Angular Accordion anatomy" class="responsive-img" />
+
+```text
+igx-accordion                         // host - manages a set of expansion panels
+└─ igx-expansion-panel                 // child panel
+   ├─ igx-expansion-panel-header       // panel header container
+   │  ├─ igx-expansion-panel-title     // panel header title
+   │  ├─ igx-expansion-panel-description // optional header description
+   │  └─ igx-expansion-panel-icon      // optional custom expand/collapse icon
+   └─ igx-expansion-panel-body         // expandable panel content
+```
+
+## Getting Started
+
+Import the standalone accordion directives before you use the component. If you have not set up Ignite UI for Angular yet, complete the shared [Getting Started](../general/getting-started.mdx) topic first.
+
+```ts
+import { Component } from '@angular/core';
+import { IGX_ACCORDION_DIRECTIVES } from 'igniteui-angular/accordion';
+
+@Component({
+  selector: 'app-accordion',
+  imports: [IGX_ACCORDION_DIRECTIVES],
+  templateUrl: './accordion.component.html',
+})
+export class AccordionComponent {}
+```
+
+## Usage
+
+Build the accordion by placing one or more <ApiLink pkg="core" type="ExpansionPanel" /> components inside an <ApiLink pkg="core" type="Accordion" /> container.
+
+### Single Expansion
+
+Set <ApiLink type="Accordion" member="singleBranchExpand" label="singleBranchExpand" /> to switch between one-open-panel behavior and multiple-open-panel behavior.
+
+```html
+<igx-accordion [singleBranchExpand]="true">
+  <igx-expansion-panel>
+    <igx-expansion-panel-header>
+      <igx-expansion-panel-title>Title Panel 1</igx-expansion-panel-title>
+    </igx-expansion-panel-header>
+    <igx-expansion-panel-body>
+      <p>Content Panel 1</p>
+    </igx-expansion-panel-body>
+  </igx-expansion-panel>
+  <igx-expansion-panel>
+    <igx-expansion-panel-header>
+      <igx-expansion-panel-title>Title Panel 2</igx-expansion-panel-title>
+    </igx-expansion-panel-header>
+    <igx-expansion-panel-body>
+      <p>Content Panel 2</p>
+    </igx-expansion-panel-body>
+  </igx-expansion-panel>
+</igx-accordion>
+```
+
+### Programmatic Expansion
+
+Use <ApiLink type="Accordion" member="collapseAll" label="collapseAll()" /> and <ApiLink type="Accordion" member="expandAll" label="expandAll()" /> to collapse or expand the accordion panels programmatically.
+
+<DocsAside type="info">
+Calling <ApiLink type="Accordion" member="expandAll" label="expandAll()" /> expands only the last enabled panel when <ApiLink type="Accordion" member="singleBranchExpand" label="singleBranchExpand" /> is `true`.
+</DocsAside>
+
+```html
+<button type="button" (click)="accordion.expandAll()">Show All</button>
+<button type="button" (click)="accordion.collapseAll()">Hide All</button>
+
+<igx-accordion #accordion>
+  <igx-expansion-panel>
+    <igx-expansion-panel-header>
+      <igx-expansion-panel-title>Title Panel 1</igx-expansion-panel-title>
+    </igx-expansion-panel-header>
+    <igx-expansion-panel-body>
+      <p>Content Panel 1</p>
+    </igx-expansion-panel-body>
+  </igx-expansion-panel>
+  <igx-expansion-panel>
+    <igx-expansion-panel-header>
+      <igx-expansion-panel-title>Title Panel 2</igx-expansion-panel-title>
+    </igx-expansion-panel-header>
+    <igx-expansion-panel-body>
+      <p>Content Panel 2</p>
+    </igx-expansion-panel-body>
+  </igx-expansion-panel>
+</igx-accordion>
+```
+
+<Sample src="/layouts/accordion-programmatic-expansion" height={460} alt="Angular Accordion programmatic expansion example" />
+
+### Customize Panel Content
+
+Customize panel headers with title and description elements, and place expandable content inside the panel body.
+
+```html
+<igx-accordion>
+  <igx-expansion-panel>
+    <igx-expansion-panel-header>
+      <igx-expansion-panel-title>Billing</igx-expansion-panel-title>
+      <igx-expansion-panel-description>Payment and invoice settings</igx-expansion-panel-description>
+    </igx-expansion-panel-header>
+    <igx-expansion-panel-body>
+      <p>Update payment methods, billing contacts, and invoice delivery options.</p>
+    </igx-expansion-panel-body>
+  </igx-expansion-panel>
+</igx-accordion>
+```
+
+<Sample src="/layouts/accordion-sample-3" height={550} alt="Angular Accordion customization example" />
+
+### Nest Accordions
+
+Nest an accordion inside an expansion panel body when you need a second level of grouped disclosure.
+
+```html
+<igx-accordion>
+  <igx-expansion-panel>
+    <igx-expansion-panel-header>
+      <igx-expansion-panel-title>Account Settings</igx-expansion-panel-title>
+    </igx-expansion-panel-header>
+    <igx-expansion-panel-body>
+      <igx-accordion>
+        <igx-expansion-panel>
+          <igx-expansion-panel-header>
+            <igx-expansion-panel-title>Notifications</igx-expansion-panel-title>
+          </igx-expansion-panel-header>
+          <igx-expansion-panel-body>
+            <p>Configure email and product notification preferences.</p>
+          </igx-expansion-panel-body>
+        </igx-expansion-panel>
+      </igx-accordion>
+    </igx-expansion-panel-body>
+  </igx-expansion-panel>
+</igx-accordion>
+```
+
+<Sample src="/layouts/accordion-sample-2" height={550} alt="Angular nested accordion example" />
+
+### Do/Don't
+
+**When to use:** Use the accordion when you need to organize secondary content, FAQ entries, settings groups, or other related vertical sections that users expand on demand. Keep panel titles short and descriptive, and enable single-expansion behavior when users should focus on one section at a time.
+
+**When not to use:** Use the [Expansion Panel](../expansion-panel.mdx) when you need a single standalone expandable section instead of a coordinated container that manages multiple panels together. Do not use an accordion to hide essential primary content or to group unrelated sections.
+
+<div class="table-responsive">
+  <table class="table" style="width: 100%; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin-bottom: 24px;">
+    <thead>
+      <tr>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Do</th>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Don't</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={accordionDo} alt="Angular Accordion do guidance" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={accordionDoNot} alt="Angular Accordion don't guidance" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Properties
+
+The accordion exposes container-level controls; panel-specific state is configured on each <ApiLink type="ExpansionPanel" />.
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| <ApiLink type="Accordion" member="singleBranchExpand" label="singleBranchExpand" /> | `boolean` | `false` | Controls whether one or multiple panels can stay expanded at the same time. |
+| <ApiLink type="Accordion" member="panels" label="panels" /> | `QueryList<IgxExpansionPanelComponent>` | n/a | Returns the collection of child expansion panels in the accordion. |
+
+## Methods
+
+Use the accordion methods when you need to change panel state from your code.
+
+| Name | Description |
+| -- | -- |
+| <ApiLink type="Accordion" member="expandAll" label="expandAll" /> | Expands the available panels. |
+| <ApiLink type="Accordion" member="collapseAll" label="collapseAll" /> | Collapses the available panels. |
+
+## Styling
+
+Style the accordion by customizing the appearance of its child <ApiLink type="ExpansionPanel" /> components.
+
+<Sample src="/layouts/accordion-style" height={550} alt="Angular Accordion styling example" />
+
+### Sass Theming
+
+Use the <ApiLink kind="sass" module="themes" type="function-expansion-panel-theme" label="expansion-panel-theme" code={true} /> function to create a custom expansion panel theme, then include the generated tokens in the component stylesheet.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-panel-theme: expansion-panel-theme(
+  $header-background: #011627,
+  $body-background: #f0ece7,
+  $expanded-margin: 10px
+);
+
+:host {
+  @include tokens($custom-panel-theme);
+}
+```
+
+### Styling Variables
+
+| Variable | What it changes |
+| -- | -- |
+| `$header-background` | The panel header background color. |
+| `$header-focus-background` | The panel header background color when focused. |
+| `$header-title-color` | The panel header title text color. |
+| `$header-description-color` | The panel header description text color. |
+| `$header-icon-color` | The panel header icon color. |
+| `$body-background` | The panel body background color. |
+| `$body-color` | The panel body text color. |
+| `$expanded-margin` | The margin applied to expanded panels when they are placed inside an accordion. |
+| `$border-radius` | The expansion panel border radius. |
+
+## Accessibility
+
+The accordion supports keyboard interaction for moving focus between panels and changing their expanded state.
+
+### Keyboard Interaction
+
+Use the keyboard shortcuts below to move through the accordion and open or close panels.
+
+| Key | Action |
+| -- | -- |
+| <kbd>Down Arrow</kbd> | Moves focus to the panel below. |
+| <kbd>Up Arrow</kbd> | Moves focus to the panel above. |
+| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Opens the focused panel. |
+| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd> | Closes the focused panel. |
+| <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Opens all enabled panels. If <ApiLink type="Accordion" member="singleBranchExpand" label="singleBranchExpand" /> is `true`, opens the last enabled panel. |
+| <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Up Arrow</kbd> | Closes all enabled panels. |
+| <kbd>Home</kbd> | Moves focus to the first enabled panel. |
+| <kbd>End</kbd> | Moves focus to the last enabled panel. |
+
+### Screen Readers / ARIA
+
+The accordion's accessibility semantics are provided through its child expansion panels and their headers.
+
+- Each panel header exposes `role="button"`, `aria-expanded`, and `aria-controls`.
+- Each panel body exposes `role="region"` and a label through `aria-labelledby` or `aria-label`.
+- Use clear title text for each panel so assistive technologies can announce a meaningful label.
+- Keep interactive content inside panel bodies in a logical tab order.
+
+### Accessibility Compliance
+
+Infragistics documents Ignite UI for Angular accessibility support for Section 508 and WCAG 2.1 guideline areas in the [Accessibility Compliance](../interactivity/accessibility-compliance.mdx) topic. The accordion's compliance evidence comes from the child <ApiLink type="ExpansionPanel" /> components that provide the interactive headers and regions.
+
+| Criterion | How the component complies |
+| -- | -- |
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG22/Understanding/keyboard) | The accordion supports keyboard commands for moving focus and opening or closing panels. |
+| [2.4.3 Focus Order](https://www.w3.org/WAI/WCAG22/Understanding/focus-order) | Focus moves through enabled panels in sequence, with shortcuts for jumping to the first and last panel. |
+
+Your responsibilities:
+
+- Provide panel titles that describe the content behind each disclosure area.
+- Preserve a logical focus order in the surrounding page layout.
+- Validate any custom styling against your application's contrast and focus-indicator requirements.
+
+## API References
+
+<ApiLink pkg="core" type="Accordion" />
+<ApiLink pkg="core" type="ExpansionPanel" />
+
+## Dependencies
+
+The accordion depends on <ApiLink pkg="core" type="ExpansionPanel" /> for its visible sections.
+
+## Additional Resources
+
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
