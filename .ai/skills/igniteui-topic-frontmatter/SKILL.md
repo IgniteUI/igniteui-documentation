@@ -84,10 +84,12 @@ pattern warrants them.
 
 ### Required quality checks
 
-- **Title:** present, concise, and topic-specific. Prefer a consistent task-neutral pattern over
-  marketing copy. For component topics, use a clear component/page title that matches the documented
-  component and doc set. Avoid "complete guide", "ultimate guide", "try for free", and other
-  marketing phrases.
+- **Title:** present, concise, and topic-specific. Prefer the pattern
+  `{Component} | Ignite UI for {Framework}` for component topics, using `{ProductName}` where that
+  token resolves to the framework-specific product name. Do not duplicate the framework/platform in
+  both the component phrase and product phrase (for example, prefer `Avatar | Ignite UI for React`
+  over `React Avatar | Ignite UI for React`). Avoid "complete guide", "ultimate guide",
+  "try for free", and other marketing phrases.
 - **Description:** present, about 140-160 characters when practical, answer-first, and specific
   enough to stand alone in search results and generated schema. Avoid marketing calls to action.
 - **`llms.description`:** present and more answer-shaped than the meta description. It should be a
