@@ -47,10 +47,10 @@ relatedComponents: [Toast, Banner]   # TARGET field — drives the Usage Do/Don'
 
 ```mdx
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
-import { Image } from 'astro:assets';  # when embedding repo-owned images
+import { Image } from 'astro:assets';  // when embedding repo-owned images
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
-import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';  # xplat only
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';  // xplat only
 ```
 
 ## Per-framework mechanics
@@ -191,7 +191,7 @@ intro and before **Anatomy**. It contains exactly one top preview `<Sample>` of 
 state so the page table of contents exposes the demo as a navigable section. Do not leave the top
 sample as a bare block between the intro and Anatomy. Add Usage samples only for distinct,
 user-facing tasks or property-focused behaviors (selection, editing, sorting, validation,
-templating, styling, shape, content, sizing). Soft max **10 samples/page**; up to 10 is fine, and only
+templating, styling, shape, content, sizing). Soft max **5 samples/page**; up to 5 is fine, and only
 clear sprawl past that warrants splitting into focused topics.
 
 ### `<Sample>` configuration — pick the props deliberately

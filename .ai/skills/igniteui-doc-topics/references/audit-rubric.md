@@ -22,7 +22,7 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
   including a top-level `## Do/Don't`.
 - A5 (Error) `## Live Demo` is missing near the top of the topic, appears after **Anatomy**, or the
   top preview `<Sample>` is left as a bare block instead of living inside the `## Live Demo` section.
-- A6 (Suggestion) >10 live samples on one page (soft cap) — consider splitting. Up to 10 is fine;
+- A6 (Suggestion) >5 live samples on one page (soft cap) — consider splitting. Up to 5 is fine;
   only flag when a page clearly sprawls past that.
 - A7 (Warning) **Usage** does not end with `### Do/Don't`, **Do/Don't** is missing the
   Indigo.Design guidance image or a `{/* TODO */}` marker for the not-yet-available asset, or
