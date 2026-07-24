@@ -116,6 +116,32 @@ cheat-sheet's "two classic confusions" section explains the reasoning.
 7. **Self-check against the rubric** before presenting — especially mode-bleed (C-checks) and
    metadata (D-checks). Fix, then deliver the `.mdx`.
 
+### Category/index topics use a separate structure
+
+Do not apply the component-topic blueprint to a category or index page. A category overview is a
+reference/navigation map, not a composite component page. Its structure is:
+
+1. `#` title followed by a one-line definition.
+2. `## Key Features` immediately after the title and definition. Open with a short sentence, then present
+   the category's capabilities in a compact table with `Feature`, `Description`, and `Benefits`
+   columns when the content is naturally scannable. Use `## Types` or `## Members` as a top-level
+   navigation section when the category maps component types. Make `Types` the parent navigation
+   section and make each
+   concrete type, such as `{Platform} Data Grid`, `{Platform} List`, or `{Platform} Tree Grid`, a
+   separate navigable `###` subsection beneath it. Include a verified `<Sample>` for every type
+   entry, together with a concise definition and verified link. Additional
+   feature groups can follow as subsections inside `Key Features`.
+3. `## Next Steps`.
+4. `## API References`.
+5. `## Additional Resources`.
+
+Do not add component-only `When to Use`, `When Not to Use`, `Live Demo`, `Getting
+Started`, `Usage`, `Properties`, `Accessibility`, or `Troubleshooting` sections
+to the category introduction. Put selection guidance in the category definition or the relevant
+type/member entry, and put each demo inside the entry it demonstrates. Supporting content such as
+browser support, support options, licensing, and FAQ belongs after the navigation sections as
+subsections of the page's main structure, not as additional top-level category sections.
+
 ## Audit workflow
 
 1. **Classify** the topic and identify its doc set (Angular vs xplat) and type.

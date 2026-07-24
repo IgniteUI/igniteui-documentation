@@ -278,8 +278,19 @@ Title + intro → **Overview** → **Before You Start** → **Next Steps** → *
 accordion for FAQ content when a compact question-and-answer block is useful.
 
 **5b. Category / index overview** (Diátaxis: *reference/navigation* — a map) — e.g. "Charts overview":
-Title + intro → **Key Features** → **Types** (identical micro-structure per entry: one-line def + link + small
-`<Sample>`) → **Next Steps** → **API References / Additional Resources**.
+The page uses **Key Features** immediately after the title and definition (open with a short intro and a compact `Feature` / `Description` /
+`Benefits` table) → top-level **Types / Members** section when the category maps component
+types. Each concrete type/member, such as `{Platform} Data Grid`, `{Platform} List`, or
+`{Platform} Tree Grid`, is its own navigable `###` child subsection with a concise definition,
+verified link, and a verified `<Sample>` for every entry) → additional feature
+subsections as needed → **Next Steps** → **API References** → **Additional Resources**.
+
+The category introduction must not use the component-topic sequence `When to Use`,
+`When Not to Use`, `Live Demo`, `Getting Started`, `Usage`, `Properties`,
+`Accessibility`, or `Troubleshooting`. Selection guidance belongs in the category definition or in
+the relevant type/member entry, and a demo belongs inside the entry it demonstrates. Supporting
+content such as browser support, support options, licensing, and FAQ follows the navigation sections
+as subsections of the page's main structure; do not make each one a new top-level category section.
 
 Guardrails: cap each section at ~3 short paragraphs (else add sub-sections); isolate marketing copy in
 a single "Why {ProductName}" section — never thread it through instructional content.
