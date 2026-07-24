@@ -50,6 +50,12 @@ those selected suggestions.
 Keep valid platform tokens in xplat frontmatter. Do not replace them with a single concrete
 framework name unless the topic itself is framework-specific.
 
+For xplat component metadata, avoid repeating the framework identity in the same field. The xplat
+site layout already appends the resolved product name to the HTML title, so use
+`title: "{ComponentTitle}"` and do not add `| {ProductName}` in topic frontmatter. Use `{ProductName}` in
+`description` and `llms.description` when the resolved product name identifies the platform, and use
+`{Platform}` in `keywords` or when the field genuinely needs the shorter platform label.
+
 ## Expected fields
 
 Common fields:
@@ -85,10 +91,10 @@ pattern warrants them.
 ### Required quality checks
 
 - **Title:** present, concise, and topic-specific. Prefer the pattern
-  `{Component} | Ignite UI for {Framework}` for component topics, using `{ProductName}` where that
-  token resolves to the framework-specific product name. Do not duplicate the framework/platform in
-  both the component phrase and product phrase (for example, prefer `Avatar | Ignite UI for React`
-  over `React Avatar | Ignite UI for React`). Avoid "complete guide", "ultimate guide",
+  `{ComponentTitle} | {ProductName}` for xplat component topics, or the resolved concrete equivalent
+  for framework-specific topics. Do not duplicate the framework/platform in both the component phrase
+  and product phrase (for example, prefer `Avatar | Ignite UI for React` over `React Avatar | Ignite UI
+  for React`). Avoid "complete guide", "ultimate guide",
   "try for free", and other marketing phrases.
 - **Description:** present, about 140-160 characters when practical, answer-first, and specific
   enough to stand alone in search results and generated schema. Avoid marketing calls to action.

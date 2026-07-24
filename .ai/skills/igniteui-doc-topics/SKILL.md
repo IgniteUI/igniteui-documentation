@@ -73,12 +73,14 @@ Section → mode map (full contents in `house-style.md`):
 | Live Demo | demonstration (action) | prose/explanation |
 | Anatomy: visual + DOM tree / skeleton | orientation (reference) | opinion, install steps |
 | Getting Started, Usage | **how-to** | *why* explanations, exhaustive option lists |
+| Getting Started → Prerequisites and Version Compatibility | reference / how-to | unverified support claims, migration history |
 | Usage → Do/Don't | **explanation** | install steps, code, API detail |
 | Properties / Methods / Events | **reference** | instructions, opinion |
 | Styling (`### Sass Theming`, `### Tailwind`, …) | how-to (steps) + reference (tables) | conceptual essays |
 | Accessibility | reference (keyboard/ARIA/compliance tables) | tutorials, marketing, unverified conformance claims |
 | Troubleshooting | how-to (cause → fix) | background theory |
-| API References / Dependencies / Additional Resources | reference / navigation | new teaching |
+| Known Limitations | **reference** | troubleshooting fixes, tutorials, unverified claims |
+| API References / Dependencies / Additional Resources / Related Components / FAQ | reference / navigation | new teaching |
 
 Concrete mode-bleed to catch: a *why* paragraph inside **Usage** (→ move to Do/Don't or a concept
 topic, link back); "how to build X" prose inside **Properties** (→ move to Usage; keep the table
@@ -112,7 +114,10 @@ cheat-sheet's "two classic confusions" section explains the reasoning.
    from the Indigo.Design documentation or a `{/* TODO */}` marker when the asset is not available.
    Add a required `## Live Demo` section
    with exactly one top `<Sample>`, then Usage samples only for distinct tasks (soft max 5/page).
-   Phrase Do/Don't and Troubleshooting as the reader's real questions.
+   Phrase Do/Don't and Troubleshooting as the reader's real questions. Include the required
+   `### Prerequisites and Version Compatibility` subsection under **Getting Started**, and the
+   required **Known Limitations**, **Related Components**, and **FAQ** sections in their canonical
+   positions.
 7. **Self-check against the rubric** before presenting — especially mode-bleed (C-checks) and
    metadata (D-checks). Fix, then deliver the `.mdx`.
 
