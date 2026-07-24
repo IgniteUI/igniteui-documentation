@@ -13,13 +13,15 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
 ## Checks
 
 ### A. Structure & order
-- A1 (Error) A required section is missing (`## Live Demo`, Anatomy, Getting Started, Usage,
-  Properties, Accessibility, API References, Additional Resources on a component
-  topic).
+- A1 (Error) A required section or subsection is missing (`## Live Demo`, Anatomy, Getting Started
+  with `### Prerequisites and Version Compatibility`, Usage, Properties, Accessibility,
+  Troubleshooting, Known Limitations, API References, Dependencies, Additional Resources,
+  Related Components, and FAQ on a component topic).
 - A2 (Warning) Sections are present but out of the canonical order.
 - A3 (Warning) A conditional section sits in the wrong slot.
 - A4 (Error) A feature-specific top-level `##` exists that should be a sub-heading under **Usage**,
-  including a top-level `## Do/Don't`.
+  including a top-level `## Do/Don't`; or a required canonical section has been omitted or replaced
+  by a non-standard heading.
 - A5 (Error) `## Live Demo` is missing near the top of the topic, appears after **Anatomy**, or the
   top preview `<Sample>` is left as a bare block instead of living inside the `## Live Demo` section.
 - A6 (Suggestion) >5 live samples on one page (soft cap) — consider splitting. Up to 5 is fine;

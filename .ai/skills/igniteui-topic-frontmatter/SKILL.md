@@ -50,6 +50,12 @@ those selected suggestions.
 Keep valid platform tokens in xplat frontmatter. Do not replace them with a single concrete
 framework name unless the topic itself is framework-specific.
 
+For xplat component metadata, avoid repeating the framework identity in the same field. The xplat
+site layout already appends the resolved product name to the HTML title, so use
+`title: "{Component}"` and do not add `| {ProductName}` in topic frontmatter. Use `{ProductName}` in
+`description` and `llms.description` when the resolved product name identifies the platform, and use
+`{Platform}` in `keywords` or when the field genuinely needs the shorter platform label.
+
 ## Expected fields
 
 Common fields:
