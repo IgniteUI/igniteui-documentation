@@ -79,7 +79,7 @@ Section → mode map (full contents in `house-style.md`):
 | Styling (`### Sass Theming`, `### Tailwind`, …) | how-to (steps) + reference (tables) | conceptual essays |
 | Accessibility | reference (keyboard/ARIA/compliance tables) | tutorials, marketing, unverified conformance claims |
 | Troubleshooting | how-to (cause → fix) | background theory |
-| Troubleshooting / Known Limitations | how-to (cause → fix) / reference | new feature teaching |
+| Known Limitations | **reference** | troubleshooting fixes, tutorials, unverified claims |
 | API References / Dependencies / Additional Resources / Related Components / FAQ | reference / navigation | new teaching |
 
 Concrete mode-bleed to catch: a *why* paragraph inside **Usage** (→ move to Do/Don't or a concept

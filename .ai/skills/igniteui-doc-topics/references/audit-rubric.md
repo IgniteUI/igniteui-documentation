@@ -15,8 +15,9 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
 ### A. Structure & order
 - A1 (Error) A required section or subsection is missing (`## Live Demo`, Anatomy, Getting Started
   with `### Prerequisites and Version Compatibility`, Usage, Properties, Accessibility,
-  Troubleshooting, Known Limitations, API References, Dependencies, Additional Resources,
-  Related Components, and FAQ on a component topic).
+  Known Limitations, API References, Dependencies, Additional Resources, Related Components, and
+  FAQ on a component topic. **Troubleshooting** is conditional and is required only when the topic
+  contains version-migration, deprecation, or legacy-setup notes.)
 - A2 (Warning) Sections are present but out of the canonical order.
 - A3 (Warning) A conditional section sits in the wrong slot.
 - A4 (Error) A feature-specific top-level `##` exists that should be a sub-heading under **Usage**,

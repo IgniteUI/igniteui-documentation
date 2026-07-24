@@ -26,7 +26,7 @@ Topics are **Astro `.mdx`**. Frontmatter is YAML. Observed + target fields:
 
 ```yaml
 ---
-title: "Star Rating | Ignite UI for Angular"   # SEO title: {Component} | Ignite UI for {Framework}
+title: "Star Rating | Ignite UI for Angular"   # SEO title: {ComponentTitle} | {ProductName} for xplat; resolved equivalent for framework-specific topics
 description: "…"           # <=~160 chars, shaped as an answer ("X is a … that …")
 keywords: "…"              # comma-separated
 license: MIT
@@ -39,7 +39,8 @@ relatedComponents: [Toast, Banner]   # TARGET field — drives the Usage Do/Don'
 
 - **`llms.description`** already exists in both sets and is high-value — write it as a crisp,
   self-contained answer sentence. It is *not* optional filler.
-- **`title`** uses the SEO pattern `{Component} | Ignite UI for {Framework}`. Avoid duplicating the
+- **`title`** uses the SEO pattern `{ComponentTitle} | {ProductName}` for xplat topics, or the
+  resolved equivalent for framework-specific topics. Avoid duplicating the
   framework in the component phrase when the product phrase already names it (`Avatar | Ignite UI for
   React`, not `React Avatar | Ignite UI for React`).
 - **`relatedComponents`** is the revision-2 trigger and is **not yet in the repo**. When authoring to
