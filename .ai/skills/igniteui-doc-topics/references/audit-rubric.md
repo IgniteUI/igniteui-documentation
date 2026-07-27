@@ -39,6 +39,9 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
 - A10 (Warning) **Usage**'s **Do/Don't** subsection contains install steps, code snippets, a property table, or other
   reference/how-to content that belongs in Getting Started, another Usage subsection, Properties, or Accessibility instead of do/don't
   guidance.
+- A11 (Warning) **FAQ** uses plain question headings or hand-written accordion markup instead of
+  the shared Astro `<Faq>` / `<FaqItem>` components, or does not keep each answer concise and
+  component-specific.
 
 ### B. Naming
 - B1 (Warning) A heading uses a drifted name with a standard equivalent (see reconciliation table).
