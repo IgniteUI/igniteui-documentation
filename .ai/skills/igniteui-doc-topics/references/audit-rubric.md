@@ -42,6 +42,8 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
 - A11 (Warning) **FAQ** uses plain question headings or hand-written accordion markup instead of
   the shared Astro `<Faq>` / `<FaqItem>` components, or does not keep each answer concise and
   component-specific.
+- A12 (Warning) A slot-mode FAQ does not set `indicatorPosition="end"` on every `<FaqItem>`;
+  setting it only on `<Faq>` does not affect slotted children.
 
 ### B. Naming
 - B1 (Warning) A heading uses a drifted name with a standard equivalent (see reconciliation table).

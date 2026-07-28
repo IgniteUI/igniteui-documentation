@@ -118,9 +118,10 @@ cheat-sheet's "two classic confusions" section explains the reasoning.
    `### Prerequisites and Version Compatibility` subsection under **Getting Started**, and the
    required **Known Limitations**, **Related Components**, and **FAQ** sections in their canonical
    positions.
-   For FAQ content, import and use the shared Astro `Faq` and `FaqItem` components; when auditing,
-   flag plain FAQ headings or custom accordion markup and convert each question/answer pair to an
-   `FaqItem` while keeping the answer concise and component-specific.
+   For FAQ content, import and use the shared Astro `Faq` and `FaqItem` components. In slot mode,
+   set `indicatorPosition="end"` on every `FaqItem`, because the value on `Faq` does not flow into
+   slotted children. When auditing, flag plain FAQ headings or custom accordion markup and convert
+   each question/answer pair to an `FaqItem` while keeping the answer concise and component-specific.
 7. **Self-check against the rubric** before presenting — especially mode-bleed (C-checks) and
    metadata (D-checks). Fix, then deliver the `.mdx`.
 

@@ -164,9 +164,11 @@ under **Usage**, never a new top-level section.
 When authoring or updating a component topic, use the Astro FAQ components instead of plain FAQ
 headings or hand-written accordion markup. Import `Faq` and `FaqItem` from
 `igniteui-astro-components/components/mdx/`, wrap the questions in `<Faq>`, and put each answer in a
-`<FaqItem question="…">`. Prefer slot mode so answers can contain normal MDX, links, code blocks,
-and other components. Keep the FAQ questions component-specific and concise; do not move
-troubleshooting content into the FAQ merely to populate it.
+`<FaqItem question="…" indicatorPosition="end">`. In slot mode, set
+`indicatorPosition="end"` on every `FaqItem`; the value on `Faq` does not flow into slotted
+children. Prefer slot mode so answers can contain normal MDX, links, code blocks, and other
+components. Keep the FAQ questions component-specific and concise; do not move troubleshooting
+content into the FAQ merely to populate it.
 **When Not to Use trigger:** every component topic ends **Usage** with `### Do/Don't`. This subsection
 must include the matching guidance image from the Indigo.Design documentation before the guidance
 text. Use a repo-owned image import with `<Image>`; if the visual asset does not exist yet, leave a
