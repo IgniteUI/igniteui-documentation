@@ -66,6 +66,7 @@ title: "..."
 description: "..."
 keywords: "..."
 license: MIT
+last_updated: "YYYY-MM-DD"
 llms:
   description: "..."
 ---
@@ -77,24 +78,22 @@ Additional fields when relevant:
 mentionedTypes: ["ComponentType"]
 relatedComponents: [SiblingComponent]
 _canonicalLink: "{environment:dvUrl}/components/..."
-last_updated: "YYYY-MM-DD"
 tableOfContents:
   minHeadingLevel: 2
   maxHeadingLevel: 3
 ```
 
-Do not require optional fields globally. Recommend them only when the topic type or existing repo
-pattern warrants them.
+The xplat component topic standard requires `last_updated`. Other optional fields should be
+recommended only when the topic type or existing repo pattern warrants them.
 
 ## Audit rules
 
 ### Required quality checks
 
-- **Title:** present, concise, and topic-specific. Prefer the pattern
-  `{ComponentTitle} | {ProductName}` for xplat component topics, or the resolved concrete equivalent
-  for framework-specific topics. Do not duplicate the framework/platform in both the component phrase
-  and product phrase (for example, prefer `Avatar | Ignite UI for React` over `React Avatar | Ignite UI
-  for React`). Avoid "complete guide", "ultimate guide",
+- **Title:** present, concise, and topic-specific. All component topics use
+  `title: "{ComponentTitle}"` because the xplat site layout appends the resolved product name to the
+  HTML title. Do not add a framework-specific product suffix or duplicate the framework/platform in
+  the component phrase. Avoid "complete guide", "ultimate guide",
   "try for free", and other marketing phrases.
 - **Description:** present, about 140-160 characters when practical, answer-first, and specific
   enough to stand alone in search results and generated schema. Avoid marketing calls to action.
@@ -114,8 +113,8 @@ pattern warrants them.
   remove it only when the user asks or a repo-level policy exists.
 - **`_canonicalLink`:** do not invent. Flag inconsistent or suspicious canonical links, but require
   an explicit canonical policy or nearby precedent before suggesting a replacement.
-- **`last_updated`:** do not add to component topics by default. Recommend it only for topic families
-  that already use it or when the value is generated/maintained by a clear source of truth.
+- **`last_updated`:** required for component topics. Use the `YYYY-MM-DD` format and keep the value
+  maintained by the topic workflow or another clear source of truth.
 
 ### Severity
 

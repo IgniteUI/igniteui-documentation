@@ -103,10 +103,11 @@ Run the compass on each section; flag content that has drifted out of the sectio
   `https://www.infragistics.com/api/blazor`). Use typed source for implementation details not exposed
   by API docs, and official framework docs for framework/version behavior; if unverifiable, don't
   assert it. Existing topic snippets/prose are not sufficient proof.
-- D10 (Error) A topic is missing the required visible
-  `**Last updated:** Month D, YYYY` line immediately after the lead paragraph, uses a different
-  placement or format, or duplicates the date elsewhere in the body. The value must come from the
-  topic's `last_updated` metadata and must not be manually hard-coded in the body.
+- D10 (Error) A component topic is missing the required `last_updated` metadata, or is missing the
+  corresponding visible `**Last updated:** Month D, YYYY` line immediately after the lead paragraph,
+  uses a different placement or format, or duplicates the date elsewhere in the body. The visible
+  value must be generated from or match the `last_updated` metadata and must not be manually hard-coded
+  independently in the body.
 - D11 (Warning) **Voice/tone drift** — prose isn't imperative/second-person present tense, mixes
   first-person-plural narration ("we create") with how-to, or carries filler ("simply", "just") or
   marketing inside instructional prose.
