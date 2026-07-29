@@ -20,7 +20,7 @@ on:
         required: true
 
 permissions:
-  contents: read
+  contents: write
 
 env:
   BUILD_TYPE: ${{ (inputs.target_ref == 'master' || inputs.target_ref == 'refs/heads/master') && 'production' || 'staging' }}
@@ -64,6 +64,61 @@ jobs:
           name: igniteui-docs-${{ inputs.platform }}-${{ inputs.locale }}
           path: ${{ env.BUILD_TYPE }}_${{ inputs.platform }}_${{ inputs.locale }}.zip
           retention-days: 1
+
+      - name: Export LLM files to repository
+        run: |
+          set -euo pipefail
+
+          LOCALE="${{ inputs.locale }}"
+          PLATFORM="${{ inputs.platform }}"
+          DIST_DIR="dist/${PLATFORM}$([[ "$LOCALE" == 'en' ]] && echo '' || echo "-${LOCALE}")"
+          OUTPUT_DIR="llms-output/${PLATFORM}/${LOCALE}"
+
+          mkdir -p "$OUTPUT_DIR"
+
+          for f in llms.txt llms-full.txt llms-small.txt; do
+            if [ -f "${DIST_DIR}/${f}" ]; then
+              cp "${DIST_DIR}/${f}" "${OUTPUT_DIR}/${f}"
+            fi
+          done
+
+          if [ -d "${DIST_DIR}/_llms-txt" ]; then
+            mkdir -p "${OUTPUT_DIR}/sets"
+            find "${DIST_DIR}/_llms-txt" -name "*.txt" -exec cp {} "${OUTPUT_DIR}/sets/" \;
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # -A ensures deleted files (e.g. removed named sets) are also staged.
+          git add -A "${OUTPUT_DIR}"
+
+          if git diff --cached --quiet; then
+            echo "LLM files unchanged, nothing to commit."
+            exit 0
+          fi
+
+          TARGET_REF="${{ inputs.target_ref }}"
+          BRANCH="${TARGET_REF#refs/heads/}"
+
+          git commit -m "chore: update LLM files for ${PLATFORM}/${LOCALE} [skip ci]"
+
+          # Use PAT instead of default GITHUB_TOKEN so the push can bypass branch protection rules on vnext/master.
+          git remote set-url origin "https://x-access-token:${{ secrets.CLASSIC_PAT_GITHUB }}@github.com/${{ github.repository }}.git"
+
+          MAX_ATTEMPTS=5
+          for attempt in $(seq 1 $MAX_ATTEMPTS); do
+            if git push origin "$BRANCH"; then
+              echo "LLM files pushed (attempt ${attempt}/${MAX_ATTEMPTS})"
+              break
+            fi
+            if [ "$attempt" -eq "$MAX_ATTEMPTS" ]; then
+              echo "All ${MAX_ATTEMPTS} push attempts failed."
+              exit 1
+            fi
+            echo "Push failed (attempt ${attempt}/${MAX_ATTEMPTS}), rebasing in $((attempt * 3))s..."
+            sleep $((attempt * 3))
+            git pull --rebase origin "$BRANCH"
+          done
 
       - name: Trigger Deploy Workflow in IgniteUI Actions
         uses: actions/github-script@v8
