@@ -73,12 +73,14 @@ Section → mode map (full contents in `house-style.md`):
 | Live Demo | demonstration (action) | prose/explanation |
 | Anatomy: visual + DOM tree / skeleton | orientation (reference) | opinion, install steps |
 | Getting Started, Usage | **how-to** | *why* explanations, exhaustive option lists |
+| Getting Started → Prerequisites and Version Compatibility | reference / how-to | unverified support claims, migration history |
 | Usage → Do/Don't | **explanation** | install steps, code, API detail |
 | Properties / Methods / Events | **reference** | instructions, opinion |
 | Styling (`### Sass Theming`, `### Tailwind`, …) | how-to (steps) + reference (tables) | conceptual essays |
 | Accessibility | reference (keyboard/ARIA/compliance tables) | tutorials, marketing, unverified conformance claims |
 | Troubleshooting | how-to (cause → fix) | background theory |
-| API References / Dependencies / Additional Resources | reference / navigation | new teaching |
+| Known Limitations | **reference** | troubleshooting fixes, tutorials, unverified claims |
+| API References / Dependencies / Additional Resources / Related Components / FAQ | reference / navigation | new teaching |
 
 Concrete mode-bleed to catch: a *why* paragraph inside **Usage** (→ move to Do/Don't or a concept
 topic, link back); "how to build X" prose inside **Properties** (→ move to Usage; keep the table
@@ -92,7 +94,10 @@ cheat-sheet's "two classic confusions" section explains the reasoning.
    for React/WC/Blazor using `{Platform}`/`{ProductName}` tokens and `<PlatformBlock for="…">`. Load
    the relevant details from `house-style.md`.
 3. **Follow the verification workflow** in `house-style.md` before writing technical content.
-   Existing snippets and old prose are clues, not authority.
+   Existing snippets and old prose are clues, not authority. For component topics, also inspect the
+   matching Indigo.Design component documentation under
+   `https://www.infragistics.com/products/indigo-design/help/components/` and use its component
+   structure as input for Usage subsection suggestions.
 4. **Write frontmatter first** — `title`, `description` (answer-shaped, ≤~160 chars), `keywords`,
    `license`, `llms.description`, `mentionedTypes` (xplat), and `relatedComponents` if the component
    has close siblings (this lets **Usage**'s final **Do/Don't** subsection name the specific
@@ -100,12 +105,23 @@ cheat-sheet's "two classic confusions" section explains the reasoning.
 5. **Lay out the canonical sections** in order for that topic type, required ones always present.
    Feature-specific content goes as sub-headings under **Usage**, never as new top-level sections.
 6. **Fill each section in its mode.** Lead every section with one plain, specific sentence. Put
-   reference in tables. In **Usage**, start with a basic declaration and then add property-focused
-   sub-sections so every public input is shown with a minimal snippet; group only tightly coupled
-   properties that form one behavior. End **Usage** with `### Do/Don't`, using inline **When to use:**
-   and **When not to use:** labels rather than nested headings. Embed exactly one top `<Sample>`, then
-   Usage samples only for distinct tasks (soft max 5/page). Phrase Do/Don't and Troubleshooting as
-   the reader's real questions.
+   reference in tables. In **Usage**, add property-focused sub-sections so every public input is
+   shown with a minimal snippet; group only tightly coupled properties that form one behavior. Keep
+   existing useful subsections, then compare against Indigo.Design's component sections by meaning,
+   not by exact heading name, to suggest or add any missing runtime-relevant Usage subsections.
+   End **Usage** with `### Do/Don't`, using inline **When to use:**
+   and **When not to use:** labels rather than nested headings, plus the matching guidance image
+   from the Indigo.Design documentation or a `{/* TODO */}` marker when the asset is not available.
+   Add a required `## Live Demo` section
+   with exactly one top `<Sample>`, then Usage samples only for distinct tasks (soft max 5/page).
+   Phrase Do/Don't and Troubleshooting as the reader's real questions. Include the required
+   `### Prerequisites and Version Compatibility` subsection under **Getting Started**, and the
+   required **Known Limitations**, **Related Components**, and **FAQ** sections in their canonical
+   positions.
+   For FAQ content, import and use the shared Astro `Faq` and `FaqItem` components. In slot mode,
+   set `indicatorPosition="end"` on every `FaqItem`, because the value on `Faq` does not flow into
+   slotted children. When auditing, flag plain FAQ headings or custom accordion markup and convert
+   each question/answer pair to an `FaqItem` while keeping the answer concise and component-specific.
 7. **Self-check against the rubric** before presenting — especially mode-bleed (C-checks) and
    metadata (D-checks). Fix, then deliver the `.mdx`.
 
@@ -113,10 +129,15 @@ cheat-sheet's "two classic confusions" section explains the reasoning.
 
 1. **Classify** the topic and identify its doc set (Angular vs xplat) and type.
 2. **Follow the verification workflow** in `house-style.md` before judging technical content.
-   Old snippets/prose are never the source of truth by themselves.
+   Old snippets/prose are never the source of truth by themselves. For component topics, inspect the
+   matching Indigo.Design component documentation and compare its structure to the topic's Usage
+   subsections by semantic content, not heading text, before making Usage-coverage suggestions.
 3. **Run every check** in `references/audit-rubric.md` — structure/order (A), naming (B), Diátaxis
    mode integrity (C), metadata/AI-readiness and correctness (D), samples/links (E), formatting and
    snippet currency (F). For mode integrity, run the compass on each section and flag drift.
+   For detailed frontmatter-only audits or normalization, use the companion
+   `igniteui-topic-frontmatter` skill; for full topic audits, apply only the basic metadata checks
+   here unless the user asks for frontmatter suggestions.
 4. **Report** in the rubric's exact format: Verdict → Summary → Findings (each with Where / Issue /
    Principle / Fix) → Quick wins. Order findings Error → Warning → Suggestion.
 5. Keep every **Fix** concrete and applyable (the corrected heading, the sentence to move, the table
