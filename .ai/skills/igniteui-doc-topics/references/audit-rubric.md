@@ -13,18 +13,24 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
 ## Checks
 
 ### A. Structure & order
-- A1 (Error) A required section is missing (Live Demo, Anatomy, Getting Started, Usage,
-  Properties, Accessibility, API References, Additional Resources on a component
-  topic).
+- A1 (Error) A required section or subsection is missing (`## Live Demo`, Anatomy, Getting Started
+  with `### Prerequisites and Version Compatibility`, Usage, Properties, Accessibility,
+  Known Limitations, API References, Dependencies, Additional Resources, Related Components, and
+  FAQ on a component topic. **Troubleshooting** is conditional and is required only when the topic
+  contains version-migration, deprecation, or legacy-setup notes.)
 - A2 (Warning) Sections are present but out of the canonical order.
 - A3 (Warning) A conditional section sits in the wrong slot.
 - A4 (Error) A feature-specific top-level `##` exists that should be a sub-heading under **Usage**,
-  including a top-level `## Do/Don't`.
-- A5 (Error) **Live Demo** is missing near the top of the topic or appears after **Anatomy**.
-- A6 (Suggestion) >10 live samples on one page (soft cap) — consider splitting. Up to 10 is fine;
+  including a top-level `## Do/Don't`; or a required canonical section has been omitted or replaced
+  by a non-standard heading.
+- A5 (Error) `## Live Demo` is missing near the top of the topic, appears after **Anatomy**, or the
+  top preview `<Sample>` is left as a bare block instead of living inside the `## Live Demo` section.
+- A6 (Suggestion) >5 live samples on one page (soft cap) — consider splitting. Up to 5 is fine;
   only flag when a page clearly sprawls past that.
-- A7 (Warning) **Usage** does not end with `### Do/Don't`, or **When to use:** / **When not to use:**
-  are written as nested headings instead of inline labels inside that subsection.
+- A7 (Warning) **Usage** does not end with `### Do/Don't`, **Do/Don't** is missing the
+  Indigo.Design guidance image or a `{/* TODO */}` marker for the not-yet-available asset, or
+  **When to use:** / **When not to use:** are written as nested headings instead of inline labels
+  inside that subsection.
 - A8 (Warning) **Anatomy** is incomplete: missing its opening screenshot/GIF (or a `{/* TODO */}`
   marker for a not-yet-available asset), or missing the verified DOM tree / skeleton.
 - A9 (Warning) **Accessibility** is missing one of its three required `###` sub-sections —
@@ -33,6 +39,11 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
 - A10 (Warning) **Usage**'s **Do/Don't** subsection contains install steps, code snippets, a property table, or other
   reference/how-to content that belongs in Getting Started, another Usage subsection, Properties, or Accessibility instead of do/don't
   guidance.
+- A11 (Warning) **FAQ** uses plain question headings or hand-written accordion markup instead of
+  the shared Astro `<Faq>` / `<FaqItem>` components, or does not keep each answer concise and
+  component-specific.
+- A12 (Warning) A slot-mode FAQ does not set `indicatorPosition="end"` on every `<FaqItem>`;
+  setting it only on `<Faq>` does not affect slotted children.
 
 ### B. Naming
 - B1 (Warning) A heading uses a drifted name with a standard equivalent (see reconciliation table).
@@ -56,12 +67,17 @@ Run the compass on each section; flag content that has drifted out of the sectio
 - C6 (Warning) **Styling content inside Usage** (CSS-var overrides, `color`/background
   snippets) — move to the **Styling** section; Styling should also open with a `<Sample>` of the result.
 - C7 (Warning) **Usage doesn't cover every public input** with a property-focused sub-section and
-  minimal snippet, omits `### Basic Declaration`, or documents each option in isolation instead of
+  minimal snippet, or documents each option in isolation instead of
   grouping tightly coupled properties and stating the behavioral relationship once (e.g. the
   content-type priority).
 - C8 (Warning) **Usage**'s **Do/Don't** drifts into another mode — install/code steps (belongs in Getting
   Started/Usage), an exhaustive option table (belongs in Properties), or conformance claims (belongs
   in Accessibility) instead of do/don't guidance.
+- C9 (Suggestion) **Usage subsection opportunities from Indigo.Design** — the matching
+  Indigo.Design component topic has a section whose meaning maps to a real Ignite UI API, slot,
+  state, layout pattern, or verified sample, but the topic does not cover it. Compare by semantic
+  content rather than heading text, and do not flag Figma-only structure that belongs in Anatomy or
+  Styling instead of Usage.
 
 ### D. Metadata & AI-readiness
 - D1 (Warning) `relatedComponents` is set but **Usage**'s **Do/Don't** guidance doesn't name the
@@ -87,10 +103,15 @@ Run the compass on each section; flag content that has drifted out of the sectio
   `https://www.infragistics.com/api/blazor`). Use typed source for implementation details not exposed
   by API docs, and official framework docs for framework/version behavior; if unverifiable, don't
   assert it. Existing topic snippets/prose are not sufficient proof.
-- D10 (Warning) **Voice/tone drift** — prose isn't imperative/second-person present tense, mixes
+- D10 (Error) A component topic is missing the required `last_updated` metadata, or is missing the
+  corresponding visible `**Last updated:** Month D, YYYY` line immediately after the lead paragraph,
+  uses a different placement or format, or duplicates the date elsewhere in the body. The visible
+  value must be generated from or match the `last_updated` metadata and must not be manually hard-coded
+  independently in the body.
+- D11 (Warning) **Voice/tone drift** — prose isn't imperative/second-person present tense, mixes
   first-person-plural narration ("we create") with how-to, or carries filler ("simply", "just") or
   marketing inside instructional prose.
-- D11 (Error) **Blanket or unverified accessibility-conformance claim** — "fully accessible" /
+- D12 (Error) **Blanket or unverified accessibility-conformance claim** — "fully accessible" /
   "WCAG compliant" prose, a conformance target (WCAG level, Section 508, EN 301 549) with no official
   source, a conformance-table row not traceable to behavior verified on the page or in source, an
   "N/A" filler row for an irrelevant criterion, or an invented testing/AT matrix or VPAT link.

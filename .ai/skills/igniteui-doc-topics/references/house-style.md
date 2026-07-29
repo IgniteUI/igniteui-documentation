@@ -26,7 +26,7 @@ Topics are **Astro `.mdx`**. Frontmatter is YAML. Observed + target fields:
 
 ```yaml
 ---
-title: "Angular Star Rating Component – Ignite UI for Angular - MIT license"   # SEO title
+title: "{ComponentTitle}"   # xplat component title; the layout appends the resolved product name
 description: "…"           # <=~160 chars, shaped as an answer ("X is a … that …")
 keywords: "…"              # comma-separated
 license: MIT
@@ -39,6 +39,9 @@ relatedComponents: [Toast, Banner]   # TARGET field — drives the Usage Do/Don'
 
 - **`llms.description`** already exists in both sets and is high-value — write it as a crisp,
   self-contained answer sentence. It is *not* optional filler.
+- **`title`** uses `"{ComponentTitle}"` for xplat topics because the layout appends the resolved
+  product name to the HTML title. Do not add a framework-specific suffix or duplicate the framework in
+  the component phrase.
 - **`relatedComponents`** is the revision-2 trigger and is **not yet in the repo**. When authoring to
   target, set it. When auditing, treat a missing-but-warranted value as a finding, and a set value
   with no **Usage** → **Do/Don't** guidance as a hard error.
@@ -47,9 +50,12 @@ relatedComponents: [Toast, Banner]   # TARGET field — drives the Usage Do/Don'
 
 ```mdx
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import { Image } from 'astro:assets';  // when embedding repo-owned images
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
-import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';  # xplat only
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';  // xplat only
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
 ```
 
 ## Per-framework mechanics
@@ -134,26 +140,42 @@ under **Usage**, never a new top-level section.
 
 | # | Section (`##`) | Required? | Diátaxis mode | Contents |
 |---|---|---|---|---|
-| 1 | *Title + one-line definition* (`#` + lead ¶) | required | orient / reference | H1 is **`‹Component› Component`** — **no** framework prefix, **no** "Overview" suffix (the framework lives in the SEO `title`). Follow with one plain sentence: what it is, what problem it solves. Mirror `llms.description`. |
-| 2 | *Live Demo* | required | demonstration (action) | `<Sample>` of the simplest useful state near the top of the page, before **Anatomy**. |
+| 1 | *Title + one-line definition* (`#` + lead ¶) | required | orient / reference | H1 is **`‹Component› Component`** — **no** framework prefix, **no** "Overview" suffix (the framework lives in the SEO `title`). Follow with one plain sentence: what it is, what problem it solves. Mirror `llms.description`. Every topic must render the visible `**Last updated:** Month D, YYYY` line immediately after the lead paragraph; do not place it in the H1 or duplicate it elsewhere in the body. |
+| 2 | **Live Demo** | required | demonstration (action) | A `## Live Demo` section containing exactly one `<Sample>` of the simplest useful state, before **Anatomy**. Keep this section sample-only unless a one-sentence setup is truly needed. |
 | 3 | **Anatomy** | required for component topics | orientation (reference) | Opens with a screenshot/GIF of the component's parts or the behavior being shown, then the **DOM tree / skeleton** (rendered elements, parts, slots). If the visual asset doesn't exist yet, leave a `{/* TODO */}` marker rather than a broken image, but still include the section and verified skeleton. |
-| 4 | **Getting Started** | required | how-to | **Lead with the component-specific import/registration** — the page-unique, high-value part. Compress the generic library install to a **single prerequisite line linking the general getting-started topic** (an inline `ng add igniteui-angular` as a parenthetical is fine); **don't** repeat the multi-sentence install boilerplate that is identical on every component page. Show the **current** registration (standalone import) first; put legacy NgModule **after**, marked as legacy. |
-| 5 | **Usage** | required | how-to + explanation | Start with `### Basic Declaration`, showing the smallest valid component markup for each platform. Then add property-focused sub-sections that showcase every public input with a minimal snippet and, when a verified demo exists and adds visual value, a `<Sample>`. Give standalone properties their own sub-section (`Shape`, not `Avatar Shape`); group only tightly coupled properties that form one behavior (for example, content-source priority such as `src`, `alt`, `initials`, and default slot content). The final Usage subsection must be `### Do/Don't`; it uses inline **When to use:** and **When not to use:** labels, not nested headings. Styling content belongs in **Styling**, not here. |
+| 4 | **Getting Started** | required | how-to | **Lead with the component-specific import/registration** and include the required `### Prerequisites and Version Compatibility` subsection for verified package, framework, and version guidance. Compress the generic library install to a **single prerequisite line linking the general getting-started topic**; **don't** repeat identical install boilerplate. Show the **current** registration first; put legacy setup after, marked as legacy. |
+| 5 | **Usage** | required | how-to + explanation | Add property-focused sub-sections that showcase every public input with a minimal snippet and, when a verified demo exists and adds visual value, a `<Sample>`. Give standalone properties their own sub-section (`Shape`, not `Avatar Shape`); group only tightly coupled properties that form one behavior (for example, content-source priority such as `src`, `alt`, `initials`, and default slot content). The final Usage subsection must be `### Do/Don't`; it uses inline **When to use:** and **When not to use:** labels, not nested headings, and includes the matching guidance image from the Indigo.Design documentation or a `{/* TODO */}` marker when the asset is not available. Styling content belongs in **Styling**, not here. |
 | 6 | **Properties** | required | reference | Table: name · type · default · description. (Replaces "Configuration".) |
 | 7 | **Methods** | conditional | reference | Table of callable actions. |
 | 8 | **Events** | conditional | reference | Table of emitted events. |
 | 9 | **Styling** | required when applicable | how-to + reference | **Open with a `<Sample>` of the styled result** + one intro line, then the **Styling Variables table** (**one table** — variable · what it changes; **no default-value column, no per-theme tabs**) and styleable-parts table. Subsections cover each approach — **first `### Sass Theming`** (the primary Sass theme workflow), then others (e.g. `### Tailwind`, `### Custom sizing`). All styling content lives here, not under Usage. |
 | 10 | **Accessibility** | required | reference | Three sub-sections, in order: **Keyboard Interaction** (key→action table), **Screen Readers / ARIA**, **Accessibility Compliance** (conformance evidence — see the sub-structure spec below). |
 | 11 | **Troubleshooting** | conditional (required when version-migration or legacy-setup notes exist) | how-to | Gotchas phrased as the reader's real question; answer as cause → fix. **Collect version-migration notes, deprecations, and legacy/alternative approaches here** — not buried in code-fence comments or scattered asides. |
-| 12 | **API References** | required | reference | `<ApiLink>` out to the full generated reference; don't duplicate it. |
-| 13 | **Dependencies** | conditional | reference | Themes, styles, or supporting components the component relies on to render or function — modules to import (Angular) or supporting components/themes (xplat). (Currently "Theming Dependencies".) |
-| 14 | **Additional Resources** | required | navigation | Forums, GitHub, related topics. |
+| 12 | **Known Limitations** | required | reference | Verified platform-independent limitations and boundaries of the component. Do not use this section for troubleshooting fixes or unsupported claims. |
+| 13 | **API References** | required | reference | `<ApiLink>` out to the full generated reference; don't duplicate it. |
+| 14 | **Dependencies** | required | reference | Themes, styles, or supporting components the component relies on to render or function — modules to import (Angular) or supporting components/themes (xplat). |
+| 15 | **Additional Resources** | required | navigation | Forums, GitHub, related topics. |
+| 16 | **Related Components** | required | navigation / decision support | Verified sibling components and concise links explaining when they are a better fit. |
+| 17 | **FAQ** | required | reference / how-to | Frequently asked, component-specific questions; render them with `Faq` and `FaqItem`, keep answers concise, and move troubleshooting diagnosis to **Troubleshooting**. |
 
+### FAQ component
+
+When authoring or updating a component topic, use the Astro FAQ components instead of plain FAQ
+headings or hand-written accordion markup. Import `Faq` and `FaqItem` from
+`igniteui-astro-components/components/mdx/`, wrap the questions in `<Faq>`, and put each answer in a
+`<FaqItem question="…" indicatorPosition="end">`. In slot mode, set
+`indicatorPosition="end"` on every `FaqItem`; the value on `Faq` does not flow into slotted
+children. Prefer slot mode so answers can contain normal MDX, links, code blocks, and other
+components. Keep the FAQ questions component-specific and concise; do not move troubleshooting
+content into the FAQ merely to populate it.
 **When Not to Use trigger:** every component topic ends **Usage** with `### Do/Don't`. This subsection
-must include inline **When to use:** and **When not to use:** labels, not nested headings. When
-`relatedComponents` is non-empty, **When not to use:** must name the specific better-fit sibling(s)
-by name and link them; when it's empty (standalone primitives like Badge/Divider), **When not to
-use:** states the boundary without inventing a sibling.
+must include the matching guidance image from the Indigo.Design documentation before the guidance
+text. Use a repo-owned image import with `<Image>`; if the visual asset does not exist yet, leave a
+`{/* TODO */}` marker rather than a broken image. The subsection must also include inline **When to
+use:** and **When not to use:** labels, not nested headings. When `relatedComponents` is non-empty,
+**When not to use:** must name the specific better-fit sibling(s) by name and link them; when it's
+empty (standalone primitives like Badge/Divider), **When not to use:** states the boundary without
+inventing a sibling.
 
 **Reference-table contract:** Properties / Methods / Events tables are **generated from the same typed
 API source** as the full reference — not hand-typed. Inline tables = the core knobs for fast scanning;
@@ -162,17 +184,33 @@ hand-write or invent rows:** emit the fixed column headers (`name · type · def
 single build-injection note, and leave the row values to the generator. Inventing a plausible property
 or event name is exactly the failure this contract exists to prevent.
 
-**Usage coverage contract:** begin with `### Basic Declaration`, then use property-focused
-sub-sections to demonstrate every public input. Prefer one sub-section per standalone property; group
+**Usage coverage contract:** use property-focused sub-sections to demonstrate every public input.
+Prefer one sub-section per standalone property; group
 properties only when they are inseparable in real use or define a shared precedence/behavior. Each
 sub-section should include a minimal, copyable snippet for every platform it affects. Add a
 `<Sample>` only when the demo path is verified and the visual result teaches something the snippet
 alone does not.
 
-**Live-sample contract:** exactly one top preview; add Usage samples only for distinct,
+**Indigo.Design Usage suggestions:** for every component topic, inspect the matching Indigo.Design
+component documentation under `https://www.infragistics.com/products/indigo-design/help/components/`
+before finalizing or auditing the **Usage** structure. Extract the Indigo.Design component outline
+(typically the H2/H3 sections after the demo) and map it to Ignite UI by **meaning**, not by exact
+heading text. A section named `Image` may become `Media`; `Card Layout` may become `Layout`;
+`Item Content Template` may become `Content`; and a Figma-only `Areas` section may belong in
+**Anatomy** instead of **Usage**. Keep useful existing Usage subsections, then suggest or add missing
+subsections only when the Indigo.Design section corresponds to a real Ignite UI API, slot, state,
+layout pattern, or verified sample. Do not copy Figma-only implementation details into runtime docs;
+translate them into the closest verified Ignite UI behavior, or leave them as suggestion-level notes.
+If the Indigo.Design topic or asset cannot be reached, state that limitation and continue from the
+verified Ignite UI API/source.
+
+**Live Demo contract:** every component topic has a `## Live Demo` section immediately after the
+intro and before **Anatomy**. It contains exactly one top preview `<Sample>` of the simplest useful
+state so the page table of contents exposes the demo as a navigable section. Do not leave the top
+sample as a bare block between the intro and Anatomy. Add Usage samples only for distinct,
 user-facing tasks or property-focused behaviors (selection, editing, sorting, validation,
-templating, styling, shape, content, sizing). Soft max **10 samples/page**; up to 10 is fine, and
-only clear sprawl past that warrants splitting into focused topics.
+templating, styling, shape, content, sizing). Soft max **5 samples/page**; up to 5 is fine, and only
+clear sprawl past that warrants splitting into focused topics.
 
 ### `<Sample>` configuration — pick the props deliberately
 
@@ -199,7 +237,7 @@ Choose the display config from **what the sample is showing**, not by habit:
 | `lob` / `dv` / `crm` | default base | The demo lives in the LOB, Data-Viz, or CRM demos app rather than the default — **verify before setting**. |
 
 Defaults are right for most Usage samples: `<Sample src="…" height={…} alt="…" />`. Reach for the extra props
-only when the component type calls for it — the top preview and standard task demos keep the code tabs (no
+only when the component type calls for it — the `## Live Demo` preview and standard task demos keep the code tabs (no
 `iframeOnly`); the **Styling** section still opens with a styled-result `<Sample>`, using `iframeOnly` only
 when its styling isn't shown as copyable code.
 
