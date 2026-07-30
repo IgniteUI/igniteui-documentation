@@ -3,6 +3,7 @@ title: "{Platform} Card Component | Layouts | Infragistics"
 description: "{Platform} Card organizes related media, text, and actions in one flexible content container."
 keywords: "{Platform} Card, card component, content container, media card, {ProductName}, Infragistics"
 license: MIT
+last_updated: "2026-07-30"
 mentionedTypes: ["Card", "CardActions", "CardContent", "CardHeader", "CardMedia", "Avatar", "Button", "Icon", "IconButton", "Ripple"]
 relatedComponents: ["Grid", "List"]
 llms:
@@ -11,6 +12,19 @@ llms:
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import cardAnatomy from '@xplat-images/anatomy-frame-light/Card-lt.png';
+import cardDo1 from '@xplat-images/card/card_do1.png';
+import cardDo1_2x from '@xplat-images/card/card_do1@2x.png';
+import cardDo2 from '@xplat-images/card/card_do2.png';
+import cardDo2_2x from '@xplat-images/card/card_do2@2x.png';
+import cardDoNot1 from '@xplat-images/card/card_do_not1.png';
+import cardDoNot1_2x from '@xplat-images/card/card_do_not1@2x.png';
+import cardDoNot2 from '@xplat-images/card/card_do_not2.png';
+import cardDoNot2_2x from '@xplat-images/card/card_do_not2@2x.png';
 
 # Card Component
 
@@ -18,13 +32,88 @@ The {ProductName} Card organizes related media, text, and actions in one flexibl
 
 Use the card to group content about a single subject, such as a product, article, contact, location, or dashboard item.
 
+## Live Demo
+
 <Sample src="/layouts/card/overview" height={640} alt="{Platform} Card overview example" />
 
 ## Anatomy
 
 The card is a container whose standard building blocks are header, media, content, and actions.
 
-{/* TODO: Add a card anatomy image when a component-parts visual is available. */}
+<Anatomy
+  class="card-anatomy"
+  name="{Platform} Card anatomy"
+  description="The card anatomy labels the header, media, content, and actions regions."
+  src={cardAnatomy.src}
+  alt="{Platform} Card anatomy: header, media, content, and actions regions"
+/>
+
+<div class="card-anatomy-legend ig-typography__body-2">
+  <div>
+    <strong>A - Media Container</strong>
+    <span>1. Image (optional)</span>
+  </div>
+  <div>
+    <strong>B - Card Header</strong>
+    <span>2. Title</span>
+    <span>3. Avatar (optional)</span>
+    <span>4. Subtitle</span>
+  </div>
+  <div>
+    <strong>C - Content area</strong>
+    <span>5. Paragraph</span>
+  </div>
+  <div>
+    <strong>D - Card Footer</strong>
+    <span>6. Action Buttons, Icon Buttons</span>
+  </div>
+</div>
+
+<style>{`
+  .card-anatomy {
+    --igd-anatomy-padding: 8px;
+  }
+
+  .card-anatomy .igd-anatomy__image {
+    max-width: 800px;
+  }
+
+  .card-anatomy-legend {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 48px;
+    margin-bottom: 24px;
+  }
+
+  .card-anatomy-legend div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card-anatomy-legend strong {
+    margin-bottom: 12px;
+  }
+
+  .card-anatomy-legend span {
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .card-anatomy-legend {
+      grid-template-columns: 1fr 1fr;
+      row-gap: 24px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card-anatomy-legend {
+      grid-template-columns: 1fr;
+    }
+  }
+`}</style>
+
+<PlatformBlock for="WebComponents, React, Blazor">
 
 ```text
 igc-card                         // host - groups related content
@@ -43,7 +132,30 @@ igc-card                         // host - groups related content
    └─ [slot="end"]                // trailing actions
 ```
 
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```text
+igx-card                         // host - groups related content
+|- igx-card-media                 // optional media region
+|  `- default content             // image, video, or other media content
+|- igx-card-header                // optional header region
+|  |- [igxCardThumbnail]          // optional avatar, icon, or small image
+|  |- [igxCardHeaderTitle]        // card title
+|  `- [igxCardHeaderSubtitle]     // optional card subtitle
+|- igx-card-content               // optional body region
+|  `- default content             // text, lists, or custom content
+`- igx-card-actions               // optional action region
+   |- [igxStart]                  // leading actions
+   `- [igxEnd]                    // trailing actions
+```
+
+</PlatformBlock>
+
 ## Getting Started
+
+### Prerequisites and Version Compatibility
 
 Before you add the card, complete the shared {ProductName} setup in the [Getting Started](../general-getting-started.mdx) topic.
 
@@ -66,6 +178,8 @@ defineComponents(IgcCardComponent, IgcAvatarComponent, IgcButtonComponent, IgcIc
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
+
+Import the standalone card directives and any supporting directives your card content uses.
 
 ```ts
 import { IGX_CARD_DIRECTIVES } from 'igniteui-angular/card';
@@ -521,6 +635,27 @@ Set `vertical` on `igx-card-actions` when the actions should be arranged vertica
 
 **When not to use:** Avoid cards for dense tabular data, long-form reading, or workflows where the container adds visual noise without making content easier to scan. Use the [Grid](../grids/data-grid.mdx) for dense tabular data, the [List](../grids/list.mdx) for repeated compact rows, or the underlying layout pattern that best matches the content instead.
 
+<div class="table-responsive">
+  <table class="table" style="width: 100%; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin-bottom: 24px;">
+    <thead>
+      <tr>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Do</th>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Don't</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={cardDo1} srcset={`${cardDo1.src} 1x, ${cardDo1_2x.src} 2x`} alt="{Platform} Card do guidance: focused card content" class="responsive-img" style="display: block; width: 82%; max-width: 100%; height: auto; margin: 0 auto;" /></td>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={cardDoNot1} srcset={`${cardDoNot1.src} 1x, ${cardDoNot1_2x.src} 2x`} alt="{Platform} Card don't guidance: unfocused card content" class="responsive-img" style="display: block; width: 82%; max-width: 100%; height: auto; margin: 0 auto;" /></td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={cardDo2} srcset={`${cardDo2.src} 1x, ${cardDo2_2x.src} 2x`} alt="{Platform} Card do guidance: clear card actions" class="responsive-img" style="display: block; width: 82%; max-width: 100%; height: auto; margin: 0 auto;" /></td>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={cardDoNot2} srcset={`${cardDoNot2.src} 1x, ${cardDoNot2_2x.src} 2x`} alt="{Platform} Card don't guidance: unclear card actions" class="responsive-img" style="display: block; width: 82%; max-width: 100%; height: auto; margin: 0 auto;" /></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 ## Properties
 
 The card API exposes container appearance and action-layout controls.
@@ -686,7 +821,17 @@ Your responsibilities:
 - Preserve logical focus order when building custom horizontal or split card layouts.
 - Keep sufficient contrast when overriding card colors.
 
+## Troubleshooting
+
+Use these notes to handle common card layout and composition questions.
+
+### Known Limitations
+
+No additional platform-independent limitations are documented for the card. Accessibility behavior depends on the semantic content and interactive controls that you place inside the card.
+
 ## API References
+
+Use these API references for the complete card, card section, and supporting component APIs.
 
 <ApiLink pkg="core" type="Card" />
 <ApiLink pkg="core" type="CardActions" />
@@ -723,5 +868,25 @@ Register the card module and any supporting modules that your card content uses.
 
 ## Additional Resources
 
+Use these resources to continue with {ProductName} Card support, source, and related layout guidance.
+
 - [{ProductName} **Forums**]({ForumsLink})
 - [{ProductName} **GitHub**]({GithubLink})
+
+## Related Components
+
+Use the [Grid](../grids/data-grid.mdx) when users need dense tabular data with sorting, filtering, and column-level interaction. Use the [List](../grids/list.mdx) when repeated items should remain compact and primarily vertical.
+
+## FAQ
+
+<Faq>
+  <FaqItem question="When should I use a card?" indicatorPosition="end">
+    Use a card when related media, text, and actions describe one subject and benefit from a shared visual container.
+  </FaqItem>
+  <FaqItem question="Can a card contain interactive controls?" indicatorPosition="end">
+    Yes. Place buttons, links, menus, or other controls in the card content or actions area, and keep their tab order logical.
+  </FaqItem>
+  <FaqItem question="When should I use Grid or List instead of Card?" indicatorPosition="end">
+    Use Grid for dense tabular data and List for compact repeated rows. Use Card when each item needs richer media, content, or actions.
+  </FaqItem>
+</Faq>
