@@ -234,12 +234,12 @@ const ChatExample = () => {
  }
 ```
 
-You can then sync messages coming from the client, by hooking to the `messageCreated` event and adding the created messages to the collection:
+The `Messages` collection is updated automatically when the user sends a message. You can handle the `MessageCreated` event to persist the message or perform other side effects; do not append the event detail to `Messages` again:
 
 ```cs
 public void OnMessageCreated(IgbChatMessageEventArgs e)
 {
-  Messages = Messages.Append(e.Detail).ToArray();
+  Console.WriteLine($"Message created: {e.Detail.Text}");
 }
 ```
 
@@ -250,14 +250,56 @@ This approach makes it easy to plug the Chat into your own data source, such as 
 ### Properties
 The <ApiLink type="Chat" /> component exposes several key properties that let you control its state and configuration:
 
-| Name              | Description                                                                                                                                                          |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `messages`        | Array of messages (<ApiLink type="ChatMessage" />[]) displayed in the chat. You can bind to this to control which messages are shown.                                                  |
-| `draftMessage`    | The current unsent message, represented as an object containing `text` and optional `attachments`. This is useful for saving or restoring message drafts.            |
-| `options`         | Chat configuration (<ApiLink type="ChatOptions" />) such as current user ID, input placeholders, accepted file types, quick reply suggestions, typing delay, and custom renderers. |
-| `resourceStrings` | Localized resource strings for labels, headers, and system text. Use this property to adapt the component for different languages.                                   |
+| Name                                                                                                                                    | Description                                                                                                                                                                        |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <PlatformBlock for="Blazor">`Messages`</PlatformBlock><PlatformBlock for="WebComponents,React">`messages`</PlatformBlock>               | Bidirectional array of messages (<ApiLink type="ChatMessage" />[]) displayed in the chat. The Chat updates the supplied collection when the user sends a message.                  |
+| <PlatformBlock for="Blazor">`DraftMessage`</PlatformBlock><PlatformBlock for="WebComponents,React">`draftMessage`</PlatformBlock>       | The current unsent message, represented as an object containing `text` and optional `attachments`. This is useful for saving or restoring message drafts.                          |
+| <PlatformBlock for="Blazor">`Options`</PlatformBlock><PlatformBlock for="WebComponents,React">`options`</PlatformBlock>                 | Chat configuration (<ApiLink type="ChatOptions" />) such as current user ID, input placeholders, accepted file types, quick reply suggestions, typing delay, and custom renderers. |
+| <PlatformBlock for="Blazor">`ResourceStrings`</PlatformBlock><PlatformBlock for="WebComponents,React">`resourceStrings`</PlatformBlock> | Localized resource strings for labels, headers, and system text. Use this property to adapt the component for different languages.                                                 |
 
 These properties make it straightforward to synchronize the Chat’s UI with your application’s state and backend.
+
+#### Bidirectional Messages Collection
+
+The <PlatformBlock for="WebComponents,React">`messages`</PlatformBlock><PlatformBlock for="Blazor">`Messages`</PlatformBlock> collection is bidirectional: the application provides the messages to display, and the Chat updates the original collection as the conversation continues. After the user sends a message, code holding a reference to the collection can access the newly created message.
+
+The <PlatformBlock for="WebComponents">`igcMessageCreated`</PlatformBlock><PlatformBlock for="React">`onMessageCreated`</PlatformBlock><PlatformBlock for="Blazor">`MessageCreated`</PlatformBlock> event is a notification for persistence or other side effects. Do not append the created message to the collection again.
+
+If the original collection must remain unchanged, pass the Chat a shallow copy. Existing message objects are still shared; create a new instance of each message when building the copied collection if those objects must also remain independent.
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const chatMessages = [...originalMessages];
+chat.messages = chatMessages;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+
+```tsx
+const chatMessages = [...originalMessages];
+
+return <IgrChat messages={chatMessages} options={options} />;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```cs
+IgbChatMessage[] chatMessages = originalMessages.ToArray();
+```
+
+```razor
+<IgbChat Messages="chatMessages" Options="Options"></IgbChat>
+```
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents, React">
 
