@@ -16,9 +16,6 @@ import gettingStartedDarkApp from '../../../images/general/theming-walkthrough/g
 import customizingUpdatedToolbar from '../../../images/general/theming-walkthrough/customizing-updated-toolbar.png';
 import customizingColorSchemaLight from '../../../images/general/theming-walkthrough/customizing-color-schema-light.png';
 import customizingColorSchemaDark from '../../../images/general/theming-walkthrough/customizing-color-schema-dark.png';
-import optimizingInitialBuild from '../../../images/general/theming-walkthrough/optimizing-initial-build.png';
-import optimizingAfterExclude from '../../../images/general/theming-walkthrough/optimizing-after-exclude.png';
-import optimizingAfterModuleLazyload from '../../../images/general/theming-walkthrough/optimizing-after-module-lazyload.png';
 
 # Customizing Ignite UI for Angular Theming
 
@@ -124,7 +121,7 @@ $custom-palette: palette(
 /* Grid Toolbar */
 /* All grid toolbars will have custom background and elevations */
 $toolbar-theme: grid-toolbar-theme(
-  $background-color: $primary
+  $background: $primary
 );
 
 :host {
@@ -181,7 +178,7 @@ Then our theme definition will go in the general scope, which we will use for th
 @media (prefers-color-scheme: light) {
   /* Grid Toolbar override for light color scheme */
   igx-grid-toolbar {
-    --background-color: #{$primary-light};
+    --background: #{$primary-light};
     --title-text-color: #{text-contrast($primary-light)};
   }
   /* END Grid Toolbar */
@@ -197,7 +194,7 @@ Then our theme definition will go in the general scope, which we will use for th
 
   /* Grid Toolbar override for dark color scheme */
   igx-grid-toolbar {
-    --background-color: #{$primary-dark};
+    --background: #{$primary-dark};
     --title-text-color: #{text-contrast($primary-dark)};
   }
   /* END Grid Toolbar */
@@ -239,11 +236,13 @@ We've made this as granular as possible, so modifications can be applied without
 
 ## Theme Optimization
 
-After making some customizations, we're going to build the application we generated and modified to see what our application theme looks like in terms of size.
+<DocsAside type="info">
+Starting with Ignite UI for Angular 22.1.0, component structural styles ship inside each component's own bundle instead of a single, all-or-nothing global stylesheet. Your build tool (webpack, esbuild, etc.) includes structural CSS only for the components your application actually imports, automatically, without any additional configuration on your part.
+</DocsAside>
 
-<Image src={optimizingInitialBuild} alt="Optimizing Initial Build" class="responsive-img" />
+Calling `@include theme()` (together with `core()` and `typography()`) generates the shared design **tokens** — the `--ig-*` CSS custom properties consumed by every component — for your global stylesheet. Since structural styles no longer live here, this output is already much smaller than a stylesheet that used to bundle every component's structural CSS regardless of whether it was used.
 
-As you can see, the application theme is slightly over 400kb, which comes down to ~40kb when compressed and transferred over. This is not large, but can it be more optimal? The answer is yes, unless every single component from the Ignite UI for Angular suite is used. Calling `@include theme()` brings in all of the component themes, but we have a mechanism for telling the function what to exclude. There's an <ApiLink kind="sass" module="themes" type="mixin-theme" label="$exclude" code={true} /> parameter to the theming mixin, which takes component names as an array and excludes those from the theme at build time. Since it's not so easy to find and list all of the components available in the package, it's preferable if you can just list all of the components you use. We expose the full component list as a variable, which you have access to once you
+You can trim the token output further with the <ApiLink kind="sass" module="themes" type="mixin-theme" label="$exclude" code={true} /> parameter, which removes a listed component's tokens from the global preset. This is useful when you know your application will never use a given component and don't want to ship tokens for it. Since it's not so easy to find and list all of the components available in the package, it's preferable if you can just list all of the components you use. We expose the full component list as a variable, which you have access to once you
 
 ```scss
 @use "@infragistics/igniteui-angular/theming" as *;
@@ -277,11 +276,9 @@ Some component themes depend on other component themes.
 Even if you exclude certain themes, they will be retained by the build if you use a component theme, which depends on an excluded theme.
 </DocsAside>
 
-What does our build look like after we've excluded certain themes?
+### Scoping a feature's custom theme to its lazy-loaded route
 
-<Image src={optimizingAfterExclude} alt="Optimizing After Exclude" class="responsive-img" />
-
-As you can see, our styles size is reduced to almost half it's original size. This looks pretty good at the moment, but can we reduce this even further? In fact, we can. Most of the styles size is taken by the largest components in the suite, in this case the `IgxTreeGridComponent` that we have in one of our views. However, we don't use this component in any other view. We can make the view with the `igx-tree-grid` a lazy-loaded route and we can include the theme for the grids only for that route, hence making our top-level css even smaller. How is this done?
+Even with automatic tree-shaking, you'll often still want to keep **custom token overrides** for a component close to the one feature that uses them, instead of adding them to your global stylesheet where every view has to carry them. Say your `IgxTreeGridComponent` and `IgxComboComponent` instances, richly customized to match a specific design, are only used inside one "Employees" view and nowhere else in your app. Rather than defining their custom colors in the app-wide `styles.scss`, you can colocate those overrides with the feature itself by lazy-loading that view as its own route.
 
 We will start by creating a new module and a new routing module in the folder with the employees component in our app.
 
@@ -353,15 +350,15 @@ export class AppRoutingModule {
 }
 ```
 
-Now we remove the `IgxTreeGridModule` and `IgxComboModule` imports, as well as the `EmployeesComponent` from our `app.module.ts` because we don't use the imports in any other views and we can have only one component declaration in all modules.  
+Now we remove the `IgxTreeGridModule` and `IgxComboModule` imports, as well as the `EmployeesComponent` declaration, from our `app.module.ts` because we don't use them in any other views and a component can only be declared in one module.
 
-Then we will proceed by removing the `igx-grid`, `igx-grid-toolbar` and `igx-combo` from our theme includes, and we will include them on the `employees.component.scss` level.
+Then we move the custom `igx-grid`, `igx-grid-toolbar`, and `igx-combo` token overrides out of the global stylesheet and colocate them with the component that uses them, in `employees.component.scss`. Because these are just CSS custom properties, there's no need for `::ng-deep` to reach past `ViewEncapsulation`:
 
 ```scss
 /* employees.component.scss */
 @use "@infragistics/igniteui-angular/theming" as *;
 
-:host ::ng-deep {
+:host {
   height: 100%;
   display: flex;
   justify-content: flex-start;
@@ -369,18 +366,27 @@ Then we will proceed by removing the `igx-grid`, `igx-grid-toolbar` and `igx-com
   align-content: flex-start;
 
   $primary: #1028c7;
-  @include core();
 
-  @include grid(grid-theme());
+  @include tokens(grid-theme(
+    $schema: $dark-material-schema,
+    $background: #1a1a1a,
+    $foreground: #fff,
+    $accent-color: $primary
+  ));
 
-  @include combo(combo-theme());
+  @include tokens(combo-theme(
+    $schema: $dark-material-schema,
+    $toggle-button-background: $primary
+  ));
 
-  @include grid-toolbar(
-    grid-toolbar-theme(
-        $background-color: $primary, 
-    );
+  @include tokens(grid-toolbar-theme(
+    $schema: $dark-material-schema,
+    $background: $primary
+  ));
 }
 ```
+
+With those overrides moved out, the top-level stylesheet no longer needs to exclude `igx-grid`, `igx-combo`, and `igx-grid-toolbar` from its token output — it can generate tokens for them using the shared app-wide palette and schema like any other component, while the Employees view supplies its own richer overrides on top:
 
 ```scss
 /* Updated styles.scss */
@@ -411,7 +417,7 @@ $include: (
 @include theme(
   $palette: $custom-palette,
   $schema: $dark-material-schema,
-  $exclude: map.keys(map.remove($components, $include...),)
+  $exclude: map.keys(map.remove($components, $include...))
 );
 ```
 
@@ -419,11 +425,7 @@ $include: (
 You probably want to put all your variables, like color palette values in a separate `_variables.scss` file, which you can include from multiple components to reuse the variables.  
 </DocsAside>
 
-The result in terms of build is the following:
-
-<Image src={optimizingAfterModuleLazyload} alt="Optimizing After Module Lazy Load" class="responsive-img" />
-
-As you can see, our top-level `styles.css` came down to a little over 70kb, which is a little less than 6kb when compressed. We started at ~428kb, ~40kb compressed and managed to bring this down about 7 times in terms of compressed size. The rest is being delivered only when the view containing the `igx-tree-grid` and `igx-combo` components is being loaded.
+The result: the global stylesheet no longer carries color overrides that only matter for the Employees view, and since `IgxTreeGridComponent` and `IgxComboComponent` are now only imported by the lazy-loaded `EmployeesModule`, their structural styles are fetched together with that module's chunk — only when a user actually navigates to the Employees view, rather than on every page load.
 
 ## Additional Resources
 

@@ -6,6 +6,7 @@ llms:
   description: "Component themes allow you to change the styles of specific component instances by overriding the globally defined theme."
 ---
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 
 # Component Themes
 
@@ -157,6 +158,16 @@ In a component template:
 ```
 
 <igc-divider></igc-divider>
+
+## Cascade Layers
+
+<hr/>
+
+Structural styles, typography, design-system overrides, and derived/contextual tokens are now split across each component's own bundle and the global preset. To keep precedence between them deterministic regardless of import order, Ignite UI for Angular declares its CSS in the following [cascade layers](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer): `ig.base` → `ig.typography` → `ig.material` (or the equivalent design-system layer) → `ig.derived`. Styles declared later in this list win over earlier ones, regardless of selector specificity or the order the component bundles happen to load in.
+
+<DocsAside type="warning">
+Any CSS you author outside of an `@layer` block is treated by the browser as unlayered, and unlayered styles always take precedence over layered styles, no matter their specificity. This means plain, unlayered overrides in your application stylesheet (including ones added via `::ng-deep`) will continue to beat Ignite UI's own layered styles, so you generally don't need extra specificity tricks to override component styles with your own CSS rules.
+</DocsAside>
 
 ## View Encapsulation
 
