@@ -33,6 +33,49 @@ All notable changes for each version of {ProductName} are documented on this pag
 
 ## **{PackageVerLatest}**
 
+### Enhancements
+
+#### {PackageCharts}
+
+- Added axis visibility properties to `Axis` and all `XYChart`-derived charts, allowing individual axis elements to be toggled without style overrides:
+  - `AreLabelsVisible` - hides the tick label text while the label panel keeps its layout slot.
+  - `AreTickMarksVisible` - hides the tickmark strokes.
+  - `AreAnnotationsVisible` - hides axis annotations (e.g. `FinalValueLayer` badges).
+  - `IsLabelPanelVisible` - collapses the entire label panel to zero extent.
+  - The corresponding chart-level forwarding properties `XAxisAreLabelsVisible`, `XAxisAreTickMarksVisible`, `XAxisAreAnnotationsVisible`, `XAxisIsLabelPanelVisible`, `YAxisAreLabelsVisible`, `YAxisAreTickMarksVisible`, `YAxisAreAnnotationsVisible` and `YAxisIsLabelPanelVisible` were added on `IgbCategoryChart`, `IgbFinancialChart` and other `XYChart`-derived charts.
+
+- Added `LabelFormat` / `LabelFormatSpecifiers` property pairs to `TimeAxisLabelFormat`, bringing `IgbTimeXAxis` label formatting in line with the `Axis.LabelFormat` / `Axis.LabelFormatSpecifiers` pattern. New pairs are available for the primary format and for each repetition level:
+  - `LabelFormat` / `LabelFormatSpecifiers`
+  - `RepeatedYearLabelFormat` / `RepeatedYearLabelFormatSpecifiers`
+  - `RepeatedMonthLabelFormat` / `RepeatedMonthLabelFormatSpecifiers`
+  - `RepeatedDayLabelFormat` / `RepeatedDayLabelFormatSpecifiers`
+  - The legacy `Format`, `RepeatedYearFormat`, `RepeatedMonthFormat` and `RepeatedDayFormat` properties are now marked obsolete but continue to work for backward compatibility.
+
+- Added `LegendItemBadgeMarkerSizeScaling` to series, which controls how legend badges scale with the series `MarkerSize`. Supported values are `Auto` (default, interpolates the badge between 1x and 2x), `None` (badge keeps its default size) and `Linear` (badge scales directly with `MarkerSize`). The resolved sizes are exposed through the read-only `ActualLegendItemBadgeMarkerWidth` and `ActualLegendItemBadgeMarkerHeight` properties.
+
+- Added `StartInset` and `EndInset` to `IgbLinearGraphRange` (used by `IgbLinearGauge` and `IgbBulletGraph`) and to `IgbRadialGaugeRange`. The properties trim a range's start and end edges inward by a distance measured in device-independent pixels, producing a consistent gap between adjacent ranges regardless of the gauge's size or value range. Both default to `0`, so ranges continue to meet flush unless an inset is set.
+
+#### {PackageGrids} (Grids)
+
+- Updated the internal Ignite UI for Angular reference from 21.2 to 22.0, refreshing the generated models for `IgbGrid`, `IgbTreeGrid`, `IgbHierarchicalGrid` and `IgbRowIsland`, including the new `GridBase`, `HierarchicalGridBase` and `RowIslandBase` shared surfaces.
+
+### Bug Fixes
+
+| Bug Number | Control | Description |
+|------------|---------|-------------|
+| 3817 | IgbInput and other web inputs | Components were not registered on load; `defineAllComponents` registration was restored. |
+| 3743 | IgbGrid | Filtering event detail payload now uses `FilteringExpressionsTree` instead of the previous incorrect type. |
+| 2129 | Web inputs | `ReportValidity` and `CheckValidity` returned the wrong type on `IgbCheckbox`, `IgbCombo`, `IgbDatePicker`, `IgbDateRangePicker`, `IgbInput`, `IgbRating`, `IgbSelect`, `IgbSlider` and `IgbTextarea`. |
+| 2123 | Web inputs | Focus options were not marshalled correctly; they are now treated as a plain object. |
+| 3684 | IgbChat and other web components | Enum-typed properties were not serialized correctly when passed through the renderer element. |
+| 3777 | IgbRadialGauge, IgbLinearGauge, IgbBulletGraph | Null reference exception could occur in the gauges. |
+| 3534 | IgbSpreadsheet | Horizontal lines were not displayed correctly, and SVG shapes shifted position as line thickness changed. |
+| 3821 | IgbDataPieChart | `SeriesPointerEnter` did not reach handlers on hover, and aggregated-away buckets were incorrectly measured in the angular range. |
+| 3322 | IgbDataPieChart | Slice layers showed the wrong image when a requested image changed before a prior image finished loading. |
+| 3688 | IgbDataChart | Chart was not disposed correctly on destroy. |
+
+## **{PackageVerChanges-25-2-MAY}**
+
 ### IgbDockManager
 
 - Updated internal reference to the latest 2.1 version of the Web Component including various bug fixes and performance improvements.
