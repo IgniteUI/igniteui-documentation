@@ -268,7 +268,9 @@ function peeredSample(text, group) {
         .map(m => m[1]);
 
     const distinct = [...new Set(inSection)];
-    return distinct.length === 1 ? distinct[0] : null;
+    if (distinct.length === 1) return distinct[0];
+    unpairedReasons.push(distinct.length === 0 ? 'no sample in section' : `${distinct.length} samples in section`);
+    return null;
 }
 
 // ---------------------------------------------------------------------------
@@ -285,6 +287,8 @@ function walk(dir, out = []) {
 let collapsible = 0, blocked = 0, noSample = 0, outOfScope = 0;
 const blockedGroups = [];
 const collapsePlan = [];
+const unpairedReasons = [];
+const missingSamples = [];
 
 for (const file of walk(CONTENT_DIR)) {
     if (ONLY_FILE && !file.endsWith(ONLY_FILE)) continue;
@@ -302,7 +306,11 @@ for (const file of walk(CONTENT_DIR)) {
 
         const src = peeredSample(text, group);
         const sample = src ? loadSample(src) : null;
-        if (!sample) { noSample++; continue; }
+        if (!sample) {
+            noSample++;
+            if (src) missingSamples.push(src);
+            continue;
+        }
 
         // Per platform: does everything this block states match the sample?
         const perPlatform = read.map(block => {
@@ -341,6 +349,13 @@ for (const file of walk(CONTENT_DIR)) {
     }
 }
 
+if (args.includes('--why-unpaired')) {
+    console.log(`  ${String(missingSamples.length).padStart(4)}  paired but the sample file was not found`);
+    for (const s of [...new Set(missingSamples)].slice(0, 6)) console.log(`          ${s}`);
+    const counts = new Map();
+    for (const r of unpairedReasons) counts.set(r, (counts.get(r) || 0) + 1);
+    for (const [r, n] of [...counts].sort((a,b)=>b[1]-a[1])) console.log(`  ${String(n).padStart(4)}  ${r}`);
+}
 console.log(`collapsible: ${collapsible}   needs a decision: ${blocked}   no peered sample: ${noSample}` +
     `   out of scope: ${outOfScope}`);
 
