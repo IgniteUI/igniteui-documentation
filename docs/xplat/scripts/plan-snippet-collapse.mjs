@@ -41,6 +41,7 @@ const argOf = (name, dflt) => {
 const LANG = argOf('lang', 'en');
 const ONLY_FILE = argOf('file', null);
 const SHOW_BLOCKED = args.includes('--show-blocked');
+const SHOW_PLAN = args.includes('--plan');
 
 const CONTENT_DIR = path.join(ROOT, 'src', 'content', LANG, 'components');
 const EXAMPLES = process.env.XPLAT_EXAMPLES;
@@ -244,32 +245,30 @@ function findGroups(text) {
 }
 
 /**
- * The sample a group is illustrating: the one immediately before it, with no other snippet group
- * in between.
+ * The sample a group is illustrating: the one in the same section of the topic.
  *
- * The topics put the sample first and the snippet under it. Taking whichever sample is nearest by
- * distance instead pairs a group with the sample of the section before or after, and then every
- * property looks like a disagreement.
+ * Direction is not the rule. A topic's opening sample sits above its first snippet, while a
+ * section further down writes the snippets and shows the sample under them — both orders occur,
+ * so looking only forwards or only backwards mispairs half of them. What holds is that a section
+ * is about one thing: its heading, its prose, its snippets and its sample.
+ *
+ * A section with more than one sample is left unpaired rather than guessed at, since a wrong
+ * pairing reports every property of the group as a disagreement.
  */
-function peeredSample(text, group, allGroups) {
-    const sampleRe = /<Sample\s+src="([^"]+)"/g;
-    const samples = [];
-    let m;
-    while ((m = sampleRe.exec(text)) !== null) samples.push({ src: m[1], at: m.index });
-    if (samples.length === 0) return null;
-
+function peeredSample(text, group) {
+    const headings = [...text.matchAll(/^#{2,}\s+.+$/gm)].map(m => m.index);
     const start = group[0].start;
-    const previousGroupEnd = allGroups
-        .filter(g => g[g.length - 1].end <= start)
-        .reduce((acc, g) => Math.max(acc, g[g.length - 1].end), 0);
+    const end = group[group.length - 1].end;
 
-    let best = null;
-    for (const s of samples) {
-        if (s.at < start && s.at >= previousGroupEnd) {
-            if (!best || s.at > best.at) best = s;
-        }
-    }
-    return best ? best.src : null;
+    const sectionStart = headings.filter(h => h <= start).reduce((a, h) => Math.max(a, h), 0);
+    const sectionEnd = headings.filter(h => h > end).reduce((a, h) => Math.min(a, h), text.length);
+
+    const inSection = [...text.matchAll(/<Sample\s+src="([^"]+)"/g)]
+        .filter(m => m.index >= sectionStart && m.index < sectionEnd)
+        .map(m => m[1]);
+
+    const distinct = [...new Set(inSection)];
+    return distinct.length === 1 ? distinct[0] : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -285,6 +284,7 @@ function walk(dir, out = []) {
 
 let collapsible = 0, blocked = 0, noSample = 0, outOfScope = 0;
 const blockedGroups = [];
+const collapsePlan = [];
 
 for (const file of walk(CONTENT_DIR)) {
     if (ONLY_FILE && !file.endsWith(ONLY_FILE)) continue;
@@ -300,34 +300,61 @@ for (const file of walk(CONTENT_DIR)) {
 
         if (!isInScope(read[0].parsed.tag)) { outOfScope++; continue; }
 
-        const src = peeredSample(text, group, groups);
+        const src = peeredSample(text, group);
         const sample = src ? loadSample(src) : null;
         if (!sample) { noSample++; continue; }
 
-        const mismatches = [];
-        const union = new Set();
-        for (const block of read) {
+        // Per platform: does everything this block states match the sample?
+        const perPlatform = read.map(block => {
+            const wrong = [];
             for (const [name, value] of block.parsed.stated) {
-                union.add(name);
                 if (!sameValue(value, sample.get(name.toLowerCase()))) {
-                    mismatches.push({ platforms: block.platforms, name, stated: value,
-                                      sample: sample.get(name.toLowerCase()) === undefined ? '(not on sample)' : sample.get(name.toLowerCase()) });
+                    wrong.push({ name, stated: value,
+                                 sample: sample.get(name.toLowerCase()) === undefined
+                                     ? '(not on sample)' : sample.get(name.toLowerCase()) });
                 }
             }
-        }
+            return { platforms: block.platforms, body: block.body,
+                     stated: [...block.parsed.stated.keys()], wrong };
+        });
 
-        if (mismatches.length === 0) {
+        const agreeing = perPlatform.filter(b => b.wrong.length === 0 && b.stated.length > 0);
+
+        if (agreeing.length > 0) {
+            // At least one platform states the sample's own values, which settles that the sample
+            // is the scenario the section is about. The others have drifted from it, so the whole
+            // group collapses to the sample and they come back into line.
             collapsible++;
+            const include = new Set();
+            for (const b of agreeing) for (const name of b.stated) include.add(name);
+            collapsePlan.push({ file: path.relative(CONTENT_DIR, file), src,
+                                agreeing: agreeing.map(b => b.platforms),
+                                drifted: perPlatform.filter(b => b.wrong.length > 0)
+                                    .map(b => ({ platforms: b.platforms, wrong: b.wrong })),
+                                include: [...include] });
         } else {
             blocked++;
-            blockedGroups.push({ file: path.relative(CONTENT_DIR, file), src, read, mismatches,
-                                 include: [...union] });
+            blockedGroups.push({ file: path.relative(CONTENT_DIR, file), src,
+                                 read: perPlatform, mismatches: perPlatform.flatMap(b =>
+                                     b.wrong.map(w => ({ platforms: b.platforms, ...w }))) });
         }
     }
 }
 
 console.log(`collapsible: ${collapsible}   needs a decision: ${blocked}   no peered sample: ${noSample}` +
     `   out of scope: ${outOfScope}`);
+
+if (SHOW_PLAN) {
+    for (const g of collapsePlan) {
+        console.log(`\n${g.file}\n  collapse to ${g.src}`);
+        console.log(`  agrees with the sample already: ${g.agreeing.join(', ')}`);
+        console.log(`  illustrating: ${g.include.join(', ')}`);
+        for (const d of g.drifted) {
+            console.log(`  ${d.platforms} changes:`);
+            for (const w of d.wrong) console.log(`      ${w.name}: ${w.stated} -> ${w.sample}`);
+        }
+    }
+}
 
 if (SHOW_BLOCKED) {
     for (const g of blockedGroups) {
