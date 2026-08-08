@@ -95,6 +95,8 @@ const API_MAP_DIR = path.join(ROOT, '..', '..', 'src', 'data', 'api-map');
 
 const canonicalMemberNames = (() => {
     const map = new Map();
+    const canonicalNames = new Set();
+    const ambiguous = new Set();
     let dirs = [];
     try {
         dirs = readdirSync(API_MAP_DIR).filter(d => statSync(path.join(API_MAP_DIR, d)).isDirectory());
@@ -111,15 +113,25 @@ const canonicalMemberNames = (() => {
                 for (const member of type.members || []) {
                     const original = member.originalName;
                     if (!original || original.includes('.') || original.startsWith('this[')) continue;
+                    canonicalNames.add(original.replace(/[-_]/g, '').toLowerCase());
                     for (const n of member.names || []) {
                         if (!n.mappedName) continue;
                         const from = n.mappedName.replace(/[-_]/g, '').toLowerCase();
                         const to = original.replace(/[-_]/g, '').toLowerCase();
-                        if (from !== to) map.set(from, to);
+                        if (from === to) continue;
+                        // Ambiguous: this platform name maps to more than one canonical name, so
+                        // it cannot be resolved without knowing the type. Left alone.
+                        if (map.has(from) && map.get(from) !== to) { ambiguous.add(from); continue; }
+                        map.set(from, to);
                     }
                 }
             }
         }
+    }
+    // A rename is only safe when the platform's name is not itself a canonical name somewhere.
+    // One type renaming IconName to `name` must not turn every `name` in the docs into an icon.
+    for (const from of [...map.keys()]) {
+        if (canonicalNames.has(from) || ambiguous.has(from)) map.delete(from);
     }
     return map;
 })();
@@ -146,6 +158,7 @@ function canonicalValue(raw) {
     // the *same* thing, so the reference is reduced to the name itself.
     const binding = /^\{\s*Binding\s+([\w.]+)\s*\}$/.exec(v);
     if (binding) return binding[1].toLowerCase();
+    if (/^@[A-Za-z_][\w.]*$/.test(v)) return v.slice(1).toLowerCase();   // razor: @SalesData
     if (/^(this\.)?(state\.)?[\w.]+$/.test(v) && /[a-zA-Z]/.test(v)) {
         const stripped = v.replace(/^this\./, '').replace(/^state\./, '');
         // Only treat it as a reference when it looks like one rather than a literal value.
@@ -197,6 +210,7 @@ function isReferenceValue(raw) {
     if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
         v = v.slice(1, -1).trim();
     }
+    if (/^@[A-Za-z_]/.test(v)) return true;                      // razor: @SalesData
     return /^(this\.|state\.)/.test(v);                          // this.state.salesData
 }
 
@@ -217,10 +231,12 @@ function readElements(body) {
         const attrRe = /([\w:.-]+)\s*=\s*("[^"]*"|'[^']*'|\{[^}]*\})/g;
         let a;
         while ((a = attrRe.exec(m[2])) !== null) {
+            // Checked on the name as written, before any rename: these are platform plumbing,
+            // not content — React writes ref, Angular a template variable, and a generated sample
+            // invents a name where a doc writes none.
+            const written = a[1].replace(/^[\w]+:/, '').replace(/[-_]/g, '').toLowerCase();
+            if (written === 'name' || written === 'id' || written === 'ref' || written === 'key') continue;
             const name = canonicalAttr(a[1]);
-            // Names and refs are platform plumbing, not content: React writes ref, Angular writes
-            // a template variable, and a generated sample invents a name where a doc writes none.
-            if (name === 'name' || name === 'id' || name === 'ref') continue;
             // Dimensions are presentation, and they legitimately differ: a web block sizes the
             // sample for the page it sits on, and the XAML platforms omit them entirely because
             // the hosting panel decides. Emission handles that with a style option, so a
@@ -291,70 +307,80 @@ function compareGroup(group) {
     const usable = parsed.filter(p => p.elements.length > 0);
     if (usable.length < 2) return null;
 
-    // Blocks whose first component disagrees are almost certainly not variants of one sample —
-    // consecutive PlatformBlocks in a topic are not always a group, and pairing a React button
-    // with a Blazor grid produces noise rather than a finding. Skipped rather than reported,
-    // because what this tool is for is differences within a sample, not proving what a group is.
-    const firstTags = new Set(usable.map(p => p.elements[0].tag));
-    if (firstTags.size > 1) return null;
-
     const issues = [];
 
-    const counts = new Set(usable.map(p => p.elements.length));
-    if (counts.size > 1) {
-        issues.push({
-            kind: 'element count',
-            detail: usable.map(p => `${p.platforms}: ${p.elements.length}`).join(', '),
-        });
+    // Compared per component rather than by position. A platform legitimately carries an element
+    // the others do not — XAML declares the axes a CategoryChart infers, Angular groups columns in
+    // a layout — and lining up by position makes one such element throw every later comparison off,
+    // reporting the whole rest of the snippet as different when only one thing is.
+    const byTag = usable.map(p => {
+        const m = new Map();
+        for (const el of p.elements) {
+            if (!m.has(el.tag)) m.set(el.tag, []);
+            m.get(el.tag).push(el);
+        }
+        return { platforms: p.platforms, tags: m };
+    });
+
+    const allTags = new Set();
+    for (const p of byTag) for (const tag of p.tags.keys()) allTags.add(tag);
+
+    for (const tag of allTags) {
+        const counts = byTag.map(p => [p.platforms, (p.tags.get(tag) || []).length]);
+        const nonZero = counts.filter(c => c[1] > 0).map(c => c[1]);
+        const distinctCounts = new Set(nonZero);
+        const detail = counts.map(([pl, n]) => `${pl}: ${n}`).join(', ');
+
+        // A platform showing none of a component is showing a smaller piece of the sample — the
+        // topics do that deliberately, illustrating a feature rather than repeating the whole
+        // thing. Reported apart from the platforms that show it and disagree about how many, which
+        // is the one that says something is wrong.
+        if (distinctCounts.size > 1) {
+            issues.push({ kind: `how many ${tag}`, detail });
+        } else if (counts.some(c => c[1] === 0)) {
+            issues.push({ kind: `${tag} shown only on some platforms`, detail, scope: true });
+        }
+
+        const withTag = byTag.filter(p => (p.tags.get(tag) || []).length > 0);
+        if (withTag.length < 2) continue;
+        const common = Math.min(...withTag.map(p => p.tags.get(tag).length));
+
+        for (let i = 0; i < common; i++) {
+            const names = new Set();
+            for (const p of withTag) for (const k of Object.keys(p.tags.get(tag)[i].attrs)) names.add(k);
+
+            for (const name of names) {
+                const values = withTag.map(p => [p.platforms, p.tags.get(tag)[i].attrs[name]]);
+                const present = values.filter(v => v[1] !== undefined);
+                const distinct = new Set(present.map(v => v[1]));
+                const where = common > 1 ? `${tag} ${i + 1}` : tag;
+                const detail = values.map(([pl, v]) => `${pl}: ${v === undefined ? '(absent)' : v}`).join(', ');
+
+                // A colour chosen differently is a cosmetic choice, not a claim about the
+                // component, and picking one when collapsing changes nothing a reader relies on.
+                if (present.length > 0 && present.every(v => isColorValue(v[1]))) continue;
+                // Numbers likewise: a minimum, maximum or extent is an illustrative figure that
+                // the topics pick freely.
+                if (present.length > 0 && present.every(v => isNumericValue(v[1]))) continue;
+
+                if (distinct.size > 1) {
+                    issues.push({ kind: `${where} ${name}`, detail });
+                    continue;
+                }
+                if (present.length === values.length) continue;
+
+                // Absent on some platform. Explained only when the platforms that do write it are
+                // binding to something the page supplies, since a platform may bind the same thing
+                // in code instead. A missing literal is not explained and is still reported.
+                const boundWherePresent = withTag.every(p =>
+                    p.tags.get(tag)[i].attrs[name] === undefined || p.tags.get(tag)[i].bindings.has(name));
+                if (!boundWherePresent) {
+                    issues.push({ kind: `${where} ${name}`, detail });
+                }
+            }
+        }
     }
 
-    const shortest = Math.min(...usable.map(p => p.elements.length));
-    for (let i = 0; i < shortest; i++) {
-        const tags = new Set(usable.map(p => p.elements[i].tag));
-        if (tags.size > 1) {
-            issues.push({
-                kind: `element ${i + 1} is a different component`,
-                detail: usable.map(p => `${p.platforms}: ${p.elements[i].tag}`).join(', '),
-            });
-            continue;
-        }
-        const names = new Set();
-        for (const p of usable) for (const k of Object.keys(p.elements[i].attrs)) names.add(k);
-        for (const name of names) {
-            const values = usable.map(p => [p.platforms, p.elements[i].attrs[name]]);
-            const present = values.filter(v => v[1] !== undefined);
-            const distinct = new Set(present.map(v => v[1]));
-            const detail = values.map(([pl, v]) => `${pl}: ${v === undefined ? '(absent)' : v}`).join(', ');
-
-            // A colour chosen differently on one platform is a cosmetic choice, not a claim about
-            // the component, and picking one when collapsing changes nothing a reader relies on.
-            // Only skipped when every value is a colour — a colour against a non-colour is
-            // something else and stays reported.
-            if (present.length > 0 && present.every(v => isColorValue(v[1]))) continue;
-
-            // Numbers likewise: a sample's minimum, maximum or extent is an illustrative figure
-            // rather than a fact about the component, and the topics pick them freely. What is left
-            // after colours and numbers are set aside is the content that actually says something —
-            // a field name, a data type, an icon, a class.
-            if (present.length > 0 && present.every(v => isNumericValue(v[1]))) continue;
-
-            if (distinct.size > 1) {
-                // Two platforms naming different values contradict each other, whatever the kind.
-                issues.push({ kind: `element ${i + 1} ${name}`, detail });
-                continue;
-            }
-            if (present.length === values.length) continue;
-
-            // Absent on some platform. Explained only when the platforms that do write it are
-            // binding to something the page supplies, since a platform may bind the same thing in
-            // code instead. A missing literal is not explained and is still reported.
-            const boundEverywherePresent = usable.every(p =>
-                p.elements[i].attrs[name] === undefined || p.elements[i].bindings.has(name));
-            if (!boundEverywherePresent) {
-                issues.push({ kind: `element ${i + 1} ${name}`, detail });
-            }
-        }
-    }
     return issues.length ? { platforms: usable.map(p => p.platforms), issues } : null;
 }
 
