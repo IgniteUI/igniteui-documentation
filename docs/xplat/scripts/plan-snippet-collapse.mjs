@@ -261,55 +261,45 @@ function samplesForType(typeName) {
 }
 
 /**
- * A sample that says everything one of the platforms says, found by content rather than position.
+ * A sample the group is probably illustrating, chosen by how well it covers what the snippet says.
  *
- * Where a group cannot be tied to a sample by where it sits — the topic discusses the scenario
- * away from the sample, or shows several — a sample of the same component that is a superset of
- * some platform's properties is almost certainly the one being illustrated. Requiring a superset
- * rather than a loose overlap keeps it from matching whichever sample of that type came first.
+ * Many snippets appear to be written from scratch rather than narrowed from a sample: for one
+ * gauge topic, twenty samples of that component existed and none set even the same properties. So
+ * an exact match is the wrong test. What is wanted is the sample that best covers the properties
+ * the snippet sets, preferring one the topic already references, since a topic's own samples are
+ * what it is discussing.
+ *
+ * Values are deliberately not compared. They are what has drifted, and re-anchoring the snippet to
+ * the sample's values is the point of finding it.
  */
-function sampleByContent(read) {
+function sampleByContent(read, referencedInTopic) {
     const type = descriptionTypeFor(read[0].parsed.tag);
     const candidates = samplesForType(type);
-    if (process.env.DEBUG_CONTENT) {
-        console.log(`  [content] ${type}: ${candidates.length} candidate samples, ` +
-            `blocks state ${read.map(b => b.parsed.stated.size).join('/')} properties`);
-    }
     if (candidates.length === 0) return null;
 
-    const matches = [];
-    for (const candidate of candidates) {
-        const indexed = new Map();
-        for (const [name, value] of Object.entries(candidate.content)) indexed.set(name.toLowerCase(), value);
-
-        for (const block of read) {
-            if (block.parsed.stated.size === 0) continue;
-            let all = true;
-            // On which properties are set, not what they are set to. Values are exactly what has
-            // drifted — a topic states value=70 beside a sample running value=80 — so matching on
-            // them finds nothing. What identifies the sample is the configuration being shown: a
-            // snippet about the needle sets the needle properties, whatever numbers it uses.
-            for (const [name] of block.parsed.stated) {
-                if (!indexed.has(name.toLowerCase())) { all = false; break; }
-            }
-            if (all) { matches.push(candidate.src); break; }
-        }
+    // The properties the snippet sets, across whichever platform states the most.
+    const stated = new Set();
+    for (const block of read) {
+        for (const [name] of block.parsed.stated) stated.add(name.toLowerCase());
     }
+    if (stated.size === 0) return null;
 
-    const distinct = [...new Set(matches)];
-    if (distinct.length === 0) return null;
-    if (distinct.length === 1) return distinct[0];
+    let best = null;
+    for (const candidate of candidates) {
+        const has = new Set(Object.keys(candidate.content).map(n => n.toLowerCase()));
+        let covered = 0;
+        for (const name of stated) if (has.has(name)) covered++;
+        const coverage = covered / stated.size;
+        if (coverage < 0.75) continue;
 
-    // Several samples of this component cover the properties. The one that covers them most
-    // closely — fewest properties of its own beyond what the snippet shows — is the one the topic
-    // is illustrating; a sample twice the size merely contains it.
-    const stated = new Set([...read[0].parsed.stated.keys()].map(n => n.toLowerCase()));
-    const scored = distinct.map(src => {
-        const candidate = candidates.find(c => c.src === src);
-        const extra = Object.keys(candidate.content).length - stated.size;
-        return { src, extra };
-    }).sort((a, b) => a.extra - b.extra);
-    return scored[0].extra * 2 < scored[1].extra ? scored[0].src : null;
+        // A sample the topic already shows beats one merely of the same component, and among
+        // equals the tighter one — a sample twice the size merely contains the snippet.
+        const score = coverage
+            + (referencedInTopic.has(candidate.src) ? 1 : 0)
+            - Math.min(0.4, Math.max(0, has.size - stated.size) / 200);
+        if (!best || score > best.score) best = { src: candidate.src, score, coverage };
+    }
+    return best ? best.src : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -434,8 +424,15 @@ for (const file of walk(CONTENT_DIR)) {
         // Where it sits decides first; what it says decides when that cannot.
         let src = peeredSample(text, group, groups);
         if (!src || !loadSample(src)) {
-            const byContent = sampleByContent(read);
-            if (byContent) { src = byContent; matchedByContent++; }
+            const referencedInTopic = new Set(
+                [...text.matchAll(/<Sample\s+src="([^"]+)"/g)].map(m => m[1]));
+            const byContent = sampleByContent(read, referencedInTopic);
+            if (byContent) {
+                src = byContent; matchedByContent++;
+                if (process.env.DEBUG_CONTENT) {
+                    console.log(`  [content] ${path.relative(CONTENT_DIR, file)} -> ${byContent}`);
+                }
+            }
         }
         const sample = src ? loadSample(src) : null;
         if (!sample) {
